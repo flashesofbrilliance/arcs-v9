@@ -3,3 +3,146 @@
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
+
+@WORLD.md
+@CLAUDE.md
+
+---
+
+# ARCS v9 — Agent & DevOps Handbook
+
+> Read WORLD.md first. It is not documentation — it is the physics of the world you're building in.
+
+---
+
+## What this repo is
+
+**`github.com/flashesofbrilliance/arcs-v9`** — canonical ARCS v9 decision intelligence app.
+Stack: Next.js 16 · Prisma 7 + SQLite (dev) / Supabase (prod) · Auth.js v5 · Anthropic SDK.
+No Tailwind. No CSS files. Inline styles only (per WORLD.md).
+
+---
+
+## Environment variables
+
+| Var | Purpose |
+|---|---|
+| `ANTHROPIC_API_KEY` | Claude Sonnet 4.6 — powers compass route |
+| `AUTH_SECRET` | Auth.js v5 session signing |
+| `AUTH_RESEND_KEY` | Magic link emails via Resend |
+| `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |
+
+---
+
+## Routes & handlers
+
+| Route | File | Purpose |
+|---|---|---|
+| `POST /api/compass` | `src/app/api/compass/route.ts` | **Core.** L0–L5 Claude pipeline → DEWY receipt + Y-gate |
+| `POST /api/prep` | `src/app/api/prep/route.ts` | Create PrepSession (stakes/horizon/protecting/confidence) |
+| `GET /api/brief/[id]` | `src/app/api/brief/[receiptId]/route.ts` | Cartography brief generation |
+| `GET /api/guide/[id]` | `src/app/api/guide/[receiptId]/route.ts` | Step-by-step guide surface |
+| `GET /api/history` | `src/app/api/history/route.ts` | Receipt history for user |
+| Auth | `src/app/api/auth/[...nextauth]/route.ts` | Auth.js v5 magic link |
+
+---
+
+## Core lib
+
+| File | Purpose |
+|---|---|
+| `src/lib/ygate.ts` | Y-gate 12D manifold → polarity × conviction × stability → state |
+| `src/lib/db.ts` | Prisma client singleton |
+| `src/lib/auth.ts` | Auth.js v5 config (magic link, Resend) |
+| `src/lib/env.ts` | Env validation — throws on missing required vars |
+
+---
+
+## DEWY pipeline (compass)
+
+```
+question + prep context
+  → Claude Sonnet 4.6 (L0–L5 system prompt)
+  → JSON: { true_north, why, tributaries[3], nci_score, reasoning, ... }
+  → computeYGate(parsed, prep, parent, sessionVersion)
+  → prisma.receipt.create({ ...DEWY fields, ...yGate })
+  → return receipt_id + full parsed output
+```
+
+**Tributaries** — EXACTLY 3, already implemented:
+- `[0]` meta: deeper question beneath the stated one
+- `[1]` challenge: uncomfortable truth / overlooked constraint
+- `[2]` adjacent: cross-domain reframe
+
+**Y-gate states → render resolution:**
+`GREEN=SHARP · YELLOW/FORK=DEGRADED · SCRATCH/DELTA/DRIFT=GRAIN · PARADOX=MOIRE · RED=GRAIN`
+
+---
+
+## Prisma / DB
+
+```bash
+npx prisma migrate dev --name <description>   # create + apply migration
+npx prisma studio                              # inspect data
+npx prisma db push                             # push schema, no migration file (dev only)
+```
+
+JSON arrays stored as `TEXT` (SQLite compat). Do NOT use `Json` Prisma type until datasource is Postgres.
+
+---
+
+## Dev commands
+
+```bash
+npm run dev       # start (port 3000)
+npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS5090 false positive)
+```
+
+---
+
+## Agents & workers map
+
+### Live (built)
+| Agent / Worker | Type | File | Notes |
+|---|---|---|---|
+| Compass | Route Handler | `src/app/api/compass/route.ts` | Full Claude L0–L5 + Y-gate + persistence |
+| Prep | Route Handler | `src/app/api/prep/route.ts` | PrepSession CRUD |
+| Brief | Route Handler | `src/app/api/brief/[receiptId]/route.ts` | |
+| Guide | Route Handler | `src/app/api/guide/[receiptId]/route.ts` | |
+| History | Route Handler | `src/app/api/history/route.ts` | |
+| Auth | Auth.js Handler | `src/app/api/auth/[...nextauth]/route.ts` | Magic link, not end-to-end validated yet |
+| Y-gate | Pure function | `src/lib/ygate.ts` | Called inline by compass |
+
+### Backlog (not built)
+| Agent / Worker | Type | Priority | Notes |
+|---|---|---|---|
+| Outcome handler | `PATCH /api/receipts/[id]` | P1 | Closes receipt loop, fires `receipt_outcome_matched` |
+| Receipt save prompt | Middleware / UI | P1 | Biggest PLG gap — soft auth nudge |
+| GIGI substrate client | Lib | P2 | `src/lib/gigi.ts` — seam point in compass/route.ts |
+| Stripe billing gate | Middleware | P3 | Gates COURT/DEEP mode |
+| Kairos detection | Background job | P4 | Requires Observatory first |
+| Observatory / replay | Worker | P4 | Receipt replay + history analysis |
+
+---
+
+## Gotchas
+
+1. **No new dependencies without asking.**
+2. **Inline styles only** — no className, no Tailwind, no CSS modules.
+3. **JSON arrays are TEXT strings** — always `JSON.stringify()` before write, `JSON.parse()` after read.
+4. **`npx next build`** for typecheck, not `tsc --noEmit` (TS5090 false positives on baseUrl).
+5. **SQLite in dev, Postgres in prod** — don't use Prisma `Json` type until datasource is Postgres.
+6. **`git worktree list`** before any git operation — active worktree changes between sessions.
+7. **Commit style:** `type(scope): imperative [NCI:XX]` + `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
+
+---
+
+## Connected systems
+
+| System | Repo | Role |
+|---|---|---|
+| Perplexity MCP | `flashesofbrilliance/perplexity-mcp` | Claude Code search tool (search/reason/chat) |
+| arcs.care | `flashesofbrilliance/arcs-care` | Live public site — separate Vercel project |
+| GIGI substrate | `flashesofbrilliance/gigi` | Local-first fiber-bundle DB — seam at compass/route.ts (TBD P3) |
+| arcs-canon | `flashesofbrilliance/arcs-canon` | Dewey YAML knowledge library |
+| arcs-hq | `flashesofbrilliance/arcs-hq` | TS skills runtime — being archived (P1) |
