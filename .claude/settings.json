@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run type-check:*)",
+      "Bash(npm run db\\:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx prisma db push:*)",
+      "Bash(npx prisma studio:*)",
+      "Bash(npx prisma migrate reset:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git diff:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run verify:*)",
+      "Bash(agent-browser:*)",
+      "Bash(~/.npm-global/bin/agent-browser:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "file=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c \"import sys,json; d=json.load(sys.stdin); print(d.get('file_path',''))\" 2>/dev/null); if [[ \"$file\" == *schema.prisma ]]; then echo \"[prisma] Schema changed — run: npm run db:push (dev) or npm run db:migrate (named migration)\"; fi; if [[ \"$file\" == *.tsx || \"$file\" == *.ts ]]; then cd /Users/zharris/arcs && errors=$(npx tsc --noEmit 2>&1 | grep 'error TS' | head -5); if [ -n \"$errors\" ]; then echo \"[tsc] $errors\"; fi; fi"
+          }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
+}

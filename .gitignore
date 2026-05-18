@@ -42,3 +42,15 @@ next-env.d.ts
 
 /src/generated/prisma
 .env.local
+.env
+
+# local db
+dev.db
+dev.db-journal
+
+# empty npm placeholder files
+arcs@0.1.0
+next
+
+# claude code local settings (keep settings.json, not settings.local.json)
+.claude/settings.local.json

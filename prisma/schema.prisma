@@ -3,45 +3,24 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
 }
 
-enum Tier {
-  FREE
-  PRO
-  TEAM
-}
-
-enum Horizon {
-  TODAY
-  THIS_WEEK
-  THIS_QUARTER
-  ONE_TO_THREE_YEARS
-}
-
-enum Stakes {
-  LOW
-  MEDIUM
-  HIGH
-}
-
-enum DecisionMode {
-  QUICKMOVE
-  PLAN
-  COURT
-}
-
-enum ReceiptStatus {
-  OPEN
-  LOGGED
-  EXPIRED
-}
+// ─── DEWY Pipeline Schema ─────────────────────────────────────────────────────
+// D · Decision   — sharpened question, compass output, NCI, FATED, paths
+// E · Entity     — named party/context; populates brief stakeholder rows
+// W · Window     — temporal mode; gates compass behavior and Court threshold
+// Y · Yellow     — computed gate state: GREEN|YELLOW|RED|FORK|MERGE|DRIFT
+//
+// All JSON arrays stored as TEXT for SQLite compatibility.
+// Enums stored as plain strings (SQLite has no native enum type).
+// ─────────────────────────────────────────────────────────────────────────────
 
 model User {
   id        String    @id @default(cuid())
   email     String?   @unique
   name      String?
-  tier      Tier      @default(FREE)
+  tier      String    @default("FREE")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   receipts  Receipt[]
@@ -49,27 +28,134 @@ model User {
   accounts  Account[]
 }
 
+model PrepSession {
+  id               String    @id @default(cuid())
+  stakes           String?   // LOW | MEDIUM | HIGH
+  horizon          String?   // TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
+  protecting       String    @default("[]") // JSON: ["cash","time","reputation",...]
+  confidence       Int?      // 1–5 (1=lost, 5=just need confirmation)
+  entity           String?   // named party — populates brief stakeholder rows
+  adversarialInput String?   // "Strongest case against your instinct"
+  createdAt        DateTime  @default(now())
+  receipts         Receipt[]
+}
+
 model Receipt {
-  id              String        @id @default(cuid())
-  userId          String?
-  user            User?         @relation(fields: [userId], references: [id])
-  question        String
-  horizon         Horizon
-  stakes          Stakes
-  mode            DecisionMode
-  trueNorth       String
-  whyBullets      String[]
-  altitude        Int
-  irreversibility Float
-  nciGrade        String?
-  driftState      String?
-  outcome         Outcome?
-  createdAt       DateTime      @default(now())
-  reviewDate      DateTime?
-  status          ReceiptStatus @default(OPEN)
+  id             String   @id @default(cuid())
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id])
+
+  // ── D · Decision ──────────────────────────────────────────────────────────
+  decision       String           // sharpened question (seed content)
+  trueNorth      String           // compass True North output
+  whyBullets     String           // JSON: string[]
+  nciScore       Int              // 0–100 coherence score
+  coherencePct   Int?             // 0–100 question coherence (how well-formed the input is)
+  isSatoshi      Boolean          @default(false) // category-defining / rare move flag
+  clarityMode    String           @default("SIMPLE") // SIMPLE | RICH | DEEP
+  fated          String?          // JSON: {facts,assumptions,tradeoffs,emotions,direction}
+  paths          String?          // JSON: [{id,title,detail,tag,status}]
+  court          String?          // JSON: [{name,verdict,detail}] — null unless ruin detected
+  courtVerdict   String?          // one-sentence court ruling
+  mode           String           // QUICKMOVE | PLAN | COURT (computed)
+  doorClass      String?          // ONE_WAY | TWO_WAY
+  macroTags      String           @default("[]") // JSON: string[]
+  rawResponse    String?          // full Claude JSON for deep reasoning
+
+  // ── E · Entity ────────────────────────────────────────────────────────────
+  entity         String?          // named party (from prep or extracted from decision)
+  stakeholders   String?          // JSON — populated by brief generation
+
+  // ── W · Window ────────────────────────────────────────────────────────────
+  window         String           // TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
+  stakes         String?          // LOW | MEDIUM | HIGH
+  protecting     String           @default("[]") // JSON: string[] (from prep chips)
+  horizonLocked  Boolean          @default(false)
+
+  // ── Y · Yellow Gate — Conviction Trajectory Layer ────────────────────────
+  // Y is a 3-vector: polarity × conviction × stability → computed summary state
+  //
+  // Polarity:   BINARY | NONBINARY | ENTANGLED | PARADOX
+  // Conviction: HIGH | CONTESTED | LOW | EPHEMERAL | COLLAPSED
+  // Stability:  LOCKED | DRIFTING | VOLATILE
+  // State:      GREEN | YELLOW | RED | FORK | MERGE | DRIFT |
+  //             SCRATCH | PARADOX | DELTA
+  //
+  // SCRATCH  → scratchpad, hidden from session history, feeds pattern layer
+  // PARADOX  → options non-separable, Curator auto-invoked
+  // DELTA    → conviction collapsed, tracks the inflection point
+  yPolarity         String           @default("BINARY")
+  yConviction       String           @default("HIGH")
+  yStability        String           @default("LOCKED")
+  yState            String           @default("GREEN")
+  yConvictionPrev   String?          // prior conviction state (null if seed)
+  yDeltaTrigger     String?          // what caused conviction to move
+  yConditions       String           @default("[]") // JSON: [{dim,label,severity}]
+  yOverride         Boolean          @default(false)
+  yOverrideAt       DateTime?
+  yOverrideNote     String?
+  promotedTo        String?          // if SCRATCH: id of Receipt it was promoted into
+
+  // ── Kinematic / Manifold ──────────────────────────────────────────────────
+  // Derived from the gradient field at this Receipt's position on the decision manifold.
+  // |∇C| = coherence gain rate (0–1). Topology describes flow line character.
+  // Curvature describes local surface shape. renderResolution drives silkscreen treatment.
+  gradientMagnitude  Float   @default(0.5) // |∇C(x)| — 0=flat, 1=steep ascent
+  gradientDirection  String  @default("{}") // JSON: unit vector across DEWY dims
+  flowTopology       String  @default("CONVERGENT") // CONVERGENT|DIVERGENT|LOOPING|CLIFF
+  manifoldCurvature  String  @default("MODERATE")   // STEEP|MODERATE|FLAT|INVERTED
+  renderResolution   String  @default("SHARP")      // SHARP|DEGRADED|GRAIN|MOIRE
+
+  // ── Lineage ───────────────────────────────────────────────────────────────
+  sessionId      String           // groups full decision thread
+  parentId       String?          // null = seed receipt
+  version        Int              @default(0)
+  forkPath       String?          // which path was chosen if parent was FORK state
+  mergedFrom     String           @default("[]") // JSON: string[] receipt ids
+
+  // ── Relations ─────────────────────────────────────────────────────────────
+  prepId         String?
+  prep           PrepSession?     @relation(fields: [prepId], references: [id])
+  parent         Receipt?         @relation("lineage", fields: [parentId], references: [id])
+  children       Receipt[]        @relation("lineage")
+  outcome        Outcome?
+  brief          Brief?
+  guide          PrepGuide?
+
+  createdAt      DateTime         @default(now())
+  reviewDate     DateTime?
+  status         String           @default("OPEN") // OPEN | LOGGED | EXPIRED
 
   @@index([userId])
+  @@index([sessionId])
+  @@index([parentId])
   @@index([createdAt])
+}
+
+model Brief {
+  id               String   @id @default(cuid())
+  receiptId        String   @unique
+  receipt          Receipt  @relation(fields: [receiptId], references: [id])
+  situationFraming String   // generated prose, stored once
+  entityAnalysis   String?  // JSON: {role,leverage_theirs,leverage_yours,alignment,alignment_read,signal_to_watch,risk_surface}
+  generatedAt      DateTime @default(now())
+}
+
+model PrepGuide {
+  id                String   @id @default(cuid())
+  receiptId         String   @unique
+  receipt           Receipt  @relation(fields: [receiptId], references: [id])
+  mode              String   // RECON | ACTIVE | LEAD
+  guideTitle        String   @default("")
+  betLabel          String   @default("")
+  totalPrepHours    String   @default("")
+  stages            String   // JSON: StageData[]
+  stageLog          String   @default("[]") // JSON: {stageId,completedAt,verdict,vibe}[]
+  outcomeStatement  String   @default("") // "By end of T1, Marcus has confirmed we're in the final shortlist"
+  leadingIndicator  String   @default("") // signal that appears BEFORE outcome is confirmed
+  kpiLabel          String   @default("") // measurable proxy: "Offer received / Intro to team / Budget mentioned"
+  failureSignal     String   @default("") // early warning the effort is going wrong
+  generatedAt       DateTime @default(now())
 }
 
 model Outcome {

@@ -1,0 +1,188 @@
+# ARCS FIELD OS — WORLD BUILDER v1.0
+> "Render through the fog to earned clarity."
+> Read this before touching a route, a schema, or a component.
+> It is not documentation. It is the world.
+
+---
+
+## THE WORLD YOU ARE BUILDING IN
+
+You are not building a SaaS dashboard.
+
+You are building **a navigable world** — a place a person enters when they are stuck, pressurized, or standing at a fork in the terrain with fog on all sides and a decision that won't wait.
+
+**Myst**: you arrive in a world with no tutorial. The world itself teaches you how to read it. When you solve something, you don't feel clever — you feel like you finally *understood* what was already there. That's the feeling ARCS produces. Not "the AI told me what to do." But: *"I can finally see the terrain."*
+
+**Hitchhiker's Guide to the Galaxy**: the parser doesn't tell you what to type. The Guide has an answer for almost everything, and it's almost never what you expected — but it's always *useful*. ARCS is the Guide. The compass is the parser. The brief is the entry you just unlocked.
+
+**Leisure Suit Larry**: the world has memory. What you did three rooms ago matters now. ARCS has the same mechanic — your receipt history is the world's memory. The terrain you've already navigated doesn't fog over again. Your past choices are *cartography*.
+
+---
+
+## THE PHYSICS
+
+Decisions are positions on a manifold under pressure.
+
+You enter in fog. Your position is defined by the DEWY state vector:
+
+- **D** — the sharpened question. What you are actually deciding.
+- **E** — the entity. Who or what else is in the terrain with you.
+- **W** — the window. Today, this week, this quarter, years out.
+- **Y** — the yellow gate. The conviction gradient. Solid, shifting, flat, or entangled?
+
+### The Four Zones
+
+```
+OUTER FOG LAYER       →  Dense, low visibility, coarse grain.
+                          Y: SCRATCH / PARADOX
+                          Navigate: orient only. Don't commit.
+                          Visual: barely legible, maximum grain.
+
+PRESSURE BAND         →  Turbulent, phase-change territory.
+                          Y: YELLOW / FORK / DELTA
+                          Navigate: careful movement. Y gate active.
+                          Visual: coarse grain, contested terrain.
+
+CLARITY RIDGE         →  High ground. True North visible.
+                          Y: GREEN / HIGH conviction
+                          Navigate: move confidently. Lock what you've earned.
+                          Visual: sharp, full contrast, fine grain.
+
+SUPERIONIC NUCLEUS    →  Crystalline. Frictionless. Luminous.
+                          Y: LOCKED / post-Court resolved
+                          Navigate: flow state — decisions arrive before questions.
+                          Visual: crystal-sharp, hard edges, maximum resolution.
+```
+
+### Phase States (Matter Metaphor)
+
+| Phase | Decision quality | Visual |
+|-------|-----------------|--------|
+| Gas | SCATTER — no coherence | Fog particles, no structure |
+| Liquid | FLOWING but unstable | Fluid grid, shifting terrain |
+| Solid | LOCKED but brittle | Hard blocks, sharp shadows |
+| **Superionic** | **Structure + flow fused** | **Luminous crystal, light through fixed form** |
+
+---
+
+## THE ARTIFACTS
+
+**The Receipt** — a state vector frozen in time. A coordinate. A seed. Not a document — a position on the manifold with full DEWY decomposition.
+
+**The Brief** — the cartography output. Renders when clarity is earned. Silkscreen fidelity: honest to the data. In dense fog, coarse-grained. At the clarity ridge, sharp and fully populated. The brief never lies about how certain it is.
+
+**The Compass** — the parser. Takes a question, runs L0–L5, returns a bearing + Y gate state. Does not tell you what to decide. Tells you *where you are and which direction is uphill*.
+
+**The PrepSession** — the calibration instrument. Five fields. Two minutes. Stakes, window, what you're protecting, how certain you already are, strongest argument against your instinct. Optional — but when used, the compass runs with richer context and the terrain sharpens.
+
+**The Observatory** — instant replay theater. Every session recorded as a kinematic trajectory. Scrub backward to any Receipt. Watch conviction gradient peak and collapse. See where you overrode a YELLOW. Overlay two sessions. Annotate inflection points.
+
+---
+
+## THE TERRAIN METAPHOR (Backcountry Avalanche)
+
+Think backcountry avalanche terrain, not a marked resort trail.
+
+- **Fresh snow** = apparent optionality. Many lines look open; most hide unknown layers.
+- **Hidden weak layers** = unseen constraints and ruin risks (legal, reputational, liquidity, relationships).
+- **Avalanche forecast + snowpit** = prep + Court — deliberate probing before committing to a line.
+- **Skintrack choice** = path selection at a FORK — once you traverse onto a slab, some options disappear.
+- **Safe travel protocols** = Y gate + BAR — assume hidden failure modes and move in ways that survive being wrong.
+
+ARCS is the avalanche education + beacon + map + trip report system for decisions. You don't ride because the bowl looks good. You check layers, pick a line with survivable failure, and log what you saw so the next tour (future you) isn't guessing under fresh snow again.
+
+---
+
+## THE BAR EDGE (Free Solo)
+
+Free solo is the BAR/Ruin edge in its purest form: one hidden constraint, one missed hold = total loss.
+
+In ARCS terms:
+- Stakes = existential, reversibility = zero → `mode = COURT`, Y = **RED**
+- The system's job is to surface: *"You're free-soloing this decision. Any slip is unrecoverable. Are you sure you want this topology?"*
+- ARCS strongly biases toward **adding protection or changing the climb**: partners, belay, smaller bet, simulation first.
+
+If the underlying reality is "0% margin of error," the correct ARCS behavior treats it as a **design bug, not a personality quirk.** Redesign the decision so that a single mistake is survivable. Do not optimize grip strength on a no-rope route.
+
+The Y gate's RED state is the system saying: "This is a free-solo topology. The Court has reviewed the route. You are exposed."
+
+---
+
+## THE ENEMY
+
+No boss. No villain. The terrain is not hostile.
+
+The enemy is **entropy masquerading as motion.** Spin cycles. The feeling of navigating while actually looping.
+
+The Drift Sentinel detects this. After 5 turns without a new artifact: *"You've been in this zone for a while. Do you want to land the plane, or keep exploring?"*
+
+---
+
+## THE PROGRESSION
+
+Receipts earned → fog retreats → terrain readable → nucleus approaches.
+
+Early: heavy fog, coarse briefs, Y gates firing yellow often.
+Mid: patterns surface in Observatory, compass gets faster, NCI climbing.
+Late: navigating from clarity ridge. Receipt history becomes a personal atlas.
+Superionic: structure of clarity + fluidity of instinct. Decisions move through you like charge through crystal — fast, directional, lossless.
+
+---
+
+## THE TONAL REGISTER
+
+For every build decision, ask: **Does this feel like Myst or does it feel like SaaS onboarding?**
+
+Myst trusted you. It gave you a world and let you navigate it. It didn't celebrate with confetti. It rendered at full fidelity and expected you to rise to it.
+
+**Calm. Precise. Serious play. Tools that feel like instruments in skilled hands.**
+
+Copy that doesn't explain what you already understand. Visual fidelity that is *earned*, not assumed.
+
+---
+
+## BRAND IDENTITY
+
+**Name:** ARCS  
+**Tagline:** *Navigate to clarity. Survive the pressure. Find the flow.*  
+**Visual world:** 2.5D isometric decision observatory — mission control + geological survey + instant replay theater
+
+**Tagline system:**
+- Primary: *Navigate to clarity.*
+- Secondary: *Render through the fog.*
+- Mechanic: *Survive the pressure. Find the flow.*
+- Observatory: *Every decision, recorded. Every path, replayable.*
+- Nucleus: *Superionic: where structure meets flow.*
+
+---
+
+## THE RENDER SCALE
+
+The brief and all UI sections render at **earned fidelity** — never at higher resolution than the data deserves.
+
+| Y State | Fog density | renderResolution | Visual treatment |
+|---------|-------------|-----------------|-----------------|
+| SCRATCH / EPHEMERAL | Pea soup | GRAIN | opacity: 0.70, weight: 300, tracking: +0.02em |
+| PARADOX | Dense fog | MOIRE | opacity: 0.60, weight: 300, tracking: +0.03em + CSS ::after |
+| YELLOW / CONTESTED | Clearing | DEGRADED | opacity: 0.85, weight: 400, tracking: +0.01em |
+| GREEN / HIGH | Clear | SHARP | opacity: 1.0, weight: 500, tracking: normal |
+| LOCKED / Nucleus | Crystal | SHARP + hard edges | opacity: 1.0, weight: 600, tracking: -0.01em |
+
+---
+
+## THE FIRST THING TO BUILD
+
+One isometric terrain tile. Four fog densities. A glowing navigator node. A True North bearing arrow.
+
+Drop the navigator into the outermost fog tile. Watch the terrain clarify as the compass runs. The brief renders as the silkscreen sharpens beneath the navigator's feet.
+
+That single animation is the product demo, the brand story, the onboarding sequence, and the investor deck simultaneously.
+
+Everything else is navigation.
+
+```
+// END WORLD BUILDER BRIEF v1.0
+// Situational awareness loaded.
+// The world is live.
+// Begin.
+```
