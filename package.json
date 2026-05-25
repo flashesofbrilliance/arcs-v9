@@ -11,6 +11,7 @@
     "db:push": "npx prisma db push",
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
+    "postinstall": "prisma generate",
     "db:generate": "npx prisma generate",
     "db:reset": "npx prisma migrate reset --force",
     "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close"
