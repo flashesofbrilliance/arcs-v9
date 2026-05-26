@@ -5,6 +5,54 @@
 
 ---
 
+## [v0.3.0] 2026-05-26 — Issues #2 + #3 complete; Y-gate enum alignment; staleness audit
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: Claude Code (`arcs-v9` main)
+- Session goal: close Issues #2 and #3, run full staleness audit, align implementation to canonical DEWY schema
+
+### Artifacts landed this session
+
+| Commit SHA | File | What it is |
+|---|---|---|
+| `38aa0f6` | `runtime/specs/dewy-receipt-schema-v1.md` | Human-readable DEWY receipt schema companion (Issue #2) |
+| `38aa0f6` | `prisma/schema.prisma` | 15+ canonical DEWY fields added; legacy fields preserved with mapping comments (Issue #2) |
+| `ac4af35` | `runtime/specs/time-quality-attribution-rom.json` | Time Quality Attribution ROM — W-field inference, DRIFT Sentinel, Kairos Lock, macro triggers (Issue #3) |
+| `9d2909a` | `.claude/commands/handoff.md` + `handoff-pickup.md` | Slash commands added by Zach |
+| `22cac6e` | `SKILL.md` v0.3.0 | Domain #7 (Session Commands) registered; priority queue updated |
+| `61095c5` | `src/lib/ygate.ts` | Y-gate rewritten to canonical enums (polarity×conviction×stability); driftState + yGateScore added |
+| `61095c5` | `src/app/dashboard/page.tsx` + `brief/page.tsx` + `history/page.tsx` | Stale enum labels replaced with canonical values |
+| `61095c5` | `.claude/arcs-canon.md` | Y-gate table corrected to canonical polarity enum |
+
+### Staleness audit findings (all resolved)
+
+| Item | Status |
+|---|---|
+| `ygate.ts` polarity/conviction/stability enums | ✅ Fixed — canonical schema enums |
+| `dashboard.tsx` + `brief/page.tsx` + `history/page.tsx` stale labels | ✅ Fixed |
+| Root scan artifacts (6 files + `arcs@0.1.0`) | ✅ Deleted (were gitignored, now gone from tree) |
+| `arcs-canon.md` EPHEMERAL/RED in Y-gate table | ✅ Fixed |
+| `CLAUDE.md` + `MEMORY.md` stale sprint status | ✅ Updated (this entry) |
+| `globals.css` Tailwind import | 🟡 OPEN — font vars may be load-bearing; Zach to decide purge vs. keep |
+| `.env.example` FastAPI/Railway stale refs | 🟡 LOW — cosmetic; `ARCS_API_URL`/`ARCS_API_KEY` not wired to anything |
+
+### Open gaps
+
+```
+runtime/flows/question-compass-to-dewy.md   🔴 CREATE — Issue #4 (NEXT, unblocked)
+canon/book-ii-time-firmware-modes.md        🔴 CREATE — Issue #5 (blocked on #4)
+arcs-field-os/specs/hold-reject-gate.md     🔴 NOT YET WRITTEN — orient-prd.md §2.2 authoritative
+globals.css                                 🟡 DECISION NEEDED — Tailwind import vs. WORLD.md rule
+```
+
+### Next move for next session
+1. Read `CLAUDE.md` → Handoff v0.3.0 (active pickup point)
+2. Start Issue #4: `runtime/flows/question-compass-to-dewy.md`
+3. Governing spec: `arcs-field-os/specs/orient-prd.md` §3 L0–L5 pipeline
+
+---
+
 ## [v0.2.0] 2026-05-26 — Perplexity session: Orient PRD, DEWY schema, handoff v0.2.0 + post-handoff Claude Code commits
 
 ### Session context

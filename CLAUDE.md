@@ -193,3 +193,48 @@ Both repos must stay in sync. When you push to arcs-v9, check if arcs-field-os n
 `618022004033d72bb56e23420658b6074fe4adeb` — arcs-field-os — Orient PRD v0.1.0, Kairos Lock
 `35d32da60cd0a32ef348b8f42554c27a7374199a` — arcs-v9 — MEMORY.md + SKILL.md initial push
 `55009d62be52f25281648f9c34be1709f77c3540` — arcs-v9 — CLAUDE.md Handoff v0.1.0 appended
+
+---
+
+# Handoff — v0.3.0 (2026-05-26)
+
+> **For Claude Code:** active pickup point. v0.2.0 above is preserved for history.
+
+## What changed since v0.2.0
+
+- **Issue #2 COMPLETE** — `runtime/specs/dewy-receipt-schema-v1.md` written; `prisma/schema.prisma` Receipt model aligned to JSON schema (15+ canonical DEWY fields added, legacy fields preserved with mapping comments)
+- **Issue #3 COMPLETE** — `runtime/specs/time-quality-attribution-rom.json` written; W-field inference rules, DRIFT Sentinel, Kairos Lock, cadence NCI modifiers, macro trigger conditions (LAB/BAR/KKL/ATG) all ROM-pinned
+- **Y-gate enum alignment** — `src/lib/ygate.ts` rewritten to canonical polarity×conviction×stability enums; `driftState` and `yGateScore` JSON added; `yState` kept as mirror of `yPolarity` for backward compat
+- **UI consumers updated** — dashboard, brief, history pages: stale EPHEMERAL/COLLAPSED/VOLATILE/RED/DRIFT labels replaced with canonical values
+- **Slash commands registered** — `/handoff` + `/handoff-pickup` in `.claude/commands/`; `SKILL.md` Domain #7 added
+- **Stale root artifacts removed** — 6 scan output files + `arcs@0.1.0` deleted from root
+- **`arcs-canon.md` corrected** — Y-gate table aligned to canonical polarity enum
+
+## File status
+
+```
+runtime/specs/dewy-receipt-schema-v1.json   ✅ EXISTS (Kairos Locked)
+runtime/specs/dewy-receipt-schema-v1.md     ✅ EXISTS
+runtime/specs/time-quality-attribution-rom.json  ✅ EXISTS
+runtime/flows/question-compass-to-dewy.md   🔴 CREATE — Issue #4 (NEXT, unblocked)
+canon/book-ii-time-firmware-modes.md        🔴 CREATE — Issue #5 (blocked on #4)
+```
+
+## Open sprint — revised
+
+```
+Issue #4 (NEXT)  Compass → DEWY Flow   runtime/flows/question-compass-to-dewy.md
+  └─ Issue #5    Book II Canon          canon/book-ii-time-firmware-modes.md
+```
+
+## Last confirmed commits (arcs-v9)
+
+```
+61095c5 — refactor(ygate): align Y-gate enums to canonical DEWY schema [NCI:82]
+22cac6e — chore(skill): register /handoff + /handoff-pickup, update sprint status [NCI:79]
+38aa0f6 — feat(spec): Time Quality Attribution ROM v0.1.0 [NCI:84]
+```
+
+## Blocking question
+
+NONE — Issue #4 is fully unblocked. Start with `runtime/flows/question-compass-to-dewy.md`.
