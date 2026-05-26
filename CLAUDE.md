@@ -8,7 +8,7 @@
 
 ## Routes
 | Path | File | Purpose |
-|------|------|---------|
+|------|------|---------| 
 | `/` | `src/app/page.tsx` | Home / entry |
 | `/dashboard` | `src/app/dashboard/page.tsx` | **Main compass UI** — question input, prep form, result |
 | `/compass` | `src/app/compass/page.tsx` | Magic-link login form |
@@ -16,7 +16,7 @@
 
 ## API Routes
 | Endpoint | File | Purpose |
-|----------|------|---------|
+|----------|------|---------| 
 | `POST /api/compass` | `src/app/api/compass/route.ts` | L0–L5 Claude pipeline → Receipt |
 | `POST /api/prep` | `src/app/api/prep/route.ts` | Create PrepSession |
 | `GET /api/brief/[receiptId]` | `src/app/api/brief/[receiptId]/route.ts` | Generate/fetch Brief |
@@ -65,3 +65,42 @@ ATG · Kairos detection · Observatory/replay · Blockchain registry · L6–L7 
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
 - Inline styles only — no CSS files, no Tailwind, no className.
 - No new dependencies without asking.
+
+# Handoff — v0.1.0 (2026-05-26)
+
+> **For Claude Code:** this section is your pickup point. Read in order below.
+
+## Orientation chain
+1. `MEMORY.md` — versioned context log; what happened before you arrived
+2. `SKILL.md` — your contract: what you can do, what you must not do, priority queue
+3. `WORLD.md` — physics spec; governing law (already referenced above)
+4. `AGENTS.md` — agents/workers map, DEWY pipeline, Y-gate states
+
+## Open sprint (Issue #1 — P0 Backlog Sprint 1)
+All four sub-issues are unblocked and ready to start. Dependency order:
+
+```
+#2 DEWY Receipt Schema
+  └─ #3 Time ROM (embed into #2)
+       └─ #4 Compass → DEWY flow
+            └─ #5 Book II Canon chapter
+```
+
+## File targets to create
+```
+runtime/specs/dewy-receipt-schema-v1.md     ← Issue #2
+runtime/specs/dewy_receipt.schema.json      ← Issue #2 (machine-readable companion)
+runtime/specs/time-quality-attribution-rom.json ← Issue #3
+runtime/flows/question-compass-to-dewy.md   ← Issue #4
+canon/book-ii-time-firmware-modes.md        ← Issue #5
+```
+
+## Versioning policy (enforced)
+- `MEMORY.md` — append-only; new entries at top; never delete prior versions
+- `SKILL.md` — update in place; increment version header; keep changelog
+- `CLAUDE.md` — append new `## Handoff — vX.Y.Z` sections only; never overwrite
+- Spec files — use front-matter `version` field; `*-v2.md` only on breaking schema change
+- Python scripts — never overwrite; create `*_v2.py` for breaking changes
+
+## Last confirmed commit
+`e66d4de` — 2026-05-26 16:15 — `arcs_cli.py` 5-verb pipeline + apex spine DEWY receipt [NCI:81]
