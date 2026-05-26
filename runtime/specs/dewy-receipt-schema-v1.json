@@ -1,0 +1,268 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/flashesofbrilliance/arcs-v9/runtime/specs/dewy-receipt-schema-v1.json",
+  "title": "DEWY Receipt",
+  "description": "Canonical receipt schema for the ARCS Orient surface (L5 output). Governing authority: arcs-field-os/specs/orient-prd.md v0.1.0. All implementation in arcs-v9 must conform to this schema. Breaking changes require a new file: dewy-receipt-schema-v2.json.",
+  "version": "0.1.0",
+  "type": "object",
+  "required": [
+    "receipt_id",
+    "surface",
+    "version",
+    "sharp_question",
+    "dewy_vector",
+    "y_gate_score",
+    "nci_score",
+    "true_north",
+    "why",
+    "loki",
+    "bar",
+    "render_resolution",
+    "validation_state",
+    "session_ts"
+  ],
+  "properties": {
+    "receipt_id": {
+      "type": "string",
+      "description": "Unique receipt identifier. Format: ARCS-ORIENT-[ISO8601 timestamp]-[8-char hash]",
+      "pattern": "^ARCS-ORIENT-[0-9T:\\-Z\\.]+-.{8}$",
+      "examples": ["ARCS-ORIENT-2026-05-26T13:01:00Z-a3f9c21b"]
+    },
+    "surface": {
+      "type": "string",
+      "enum": ["ORIENT", "CALIBRATE", "CHART_COURSE", "DETECT"],
+      "description": "Which ARCS surface produced this receipt. For this schema: always ORIENT."
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version this receipt conforms to.",
+      "enum": ["0.1.0"]
+    },
+    "sharp_question": {
+      "type": "string",
+      "maxLength": 280,
+      "description": "The atomic decision question produced by L0 Question Sharpener. Single sentence, ≤280 characters. Confirmed by user before L1 fires."
+    },
+    "dewy_vector": {
+      "type": "object",
+      "description": "DEWY state vector — the ARCS coordinate for this decision. Populated by L1 Decomposition.",
+      "required": ["D", "E", "W", "Y"],
+      "properties": {
+        "D": {
+          "type": "string",
+          "description": "Decision — the atomic question in action form, extracted from sharp_question."
+        },
+        "E": {
+          "type": "object",
+          "description": "Entity — who or what else is in the terrain.",
+          "required": ["self"],
+          "properties": {
+            "self": { "type": "string", "description": "The deciding agent." },
+            "other": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Other entities in the decision terrain. Compressed to primary + secondary if >10 named."
+            },
+            "entity_overflow": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Entities compressed out of the primary E-field due to OM (exhaustive list). Present only when overflow occurred."
+            }
+          }
+        },
+        "W": {
+          "type": "object",
+          "description": "Window — time horizon. When does this decision lock?",
+          "required": ["horizon"],
+          "properties": {
+            "horizon": {
+              "type": "string",
+              "enum": ["TODAY", "WEEK", "QUARTER", "YEAR", "YEARS"],
+              "description": "Canonical time horizon. Inferred from question or PrepSession window field."
+            },
+            "lock_date": {
+              "type": "string",
+              "format": "date",
+              "description": "Hard lock date if stated or inferable (ISO 8601 date). Absent if unknown."
+            },
+            "inferred": {
+              "type": "boolean",
+              "description": "True if horizon was auto-inferred (not explicitly provided). Logged when W-field inference ran."
+            }
+          }
+        },
+        "Y": {
+          "type": "object",
+          "description": "Yellow Gate — conviction gradient. Where is the user on the decision manifold?",
+          "required": ["polarity", "conviction", "stability"],
+          "properties": {
+            "polarity": {
+              "type": "string",
+              "enum": ["SCRATCH", "YELLOW", "PARADOX", "FORK", "DELTA", "GREEN", "LOCKED"],
+              "description": "Y-gate polarity state. See orient-prd.md §3 L2 for full definitions."
+            },
+            "conviction": {
+              "type": "string",
+              "enum": ["LOW", "MEDIUM", "HIGH"],
+              "description": "Conviction level within the polarity state."
+            },
+            "stability": {
+              "type": "string",
+              "enum": ["SHIFTING", "CONTESTED", "STABLE"],
+              "description": "Stability mode — how rapidly is the conviction gradient changing?"
+            }
+          }
+        }
+      }
+    },
+    "y_gate_score": {
+      "type": "object",
+      "description": "Y-gate scoring output from L2. Mirror of dewy_vector.Y plus render artifacts.",
+      "required": ["polarity", "conviction", "stability", "render_resolution"],
+      "properties": {
+        "polarity": { "type": "string", "enum": ["SCRATCH", "YELLOW", "PARADOX", "FORK", "DELTA", "GREEN", "LOCKED"] },
+        "conviction": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "stability": { "type": "string", "enum": ["SHIFTING", "CONTESTED", "STABLE"] },
+        "render_resolution": {
+          "type": "string",
+          "enum": ["GRAIN", "MOIRE", "DEGRADED", "SHARP"],
+          "description": "Render resolution emitted by L2 based on Y state. Maps to visual treatment in WORLD.md Render Scale."
+        },
+        "visual_treatment": {
+          "type": "object",
+          "description": "CSS visual treatment for the Brief at this render resolution.",
+          "properties": {
+            "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+            "font_weight": { "type": "integer", "enum": [300, 400, 500, 600] },
+            "tracking": { "type": "string" }
+          }
+        }
+      }
+    },
+    "nci_score": {
+      "type": "object",
+      "description": "Network Coherence Index from L3. Five-lens scoring (0-100 composite).",
+      "required": ["composite", "grade", "by_lens"],
+      "properties": {
+        "composite": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Sum of all five lens scores. <40 = HOLD. 40-59 = proceed with warning. 60-79 = DEGRADED render. 80-100 = SHARP render."
+        },
+        "grade": {
+          "type": "string",
+          "description": "Human-readable grade string with weakest lens called out. E.g. 'B+ — Conviction is the weak lens.'"
+        },
+        "by_lens": {
+          "type": "object",
+          "description": "Per-lens breakdown. Each lens scores 0-20.",
+          "required": ["clarity", "conviction", "coherence", "consequence", "cadence"],
+          "properties": {
+            "clarity": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "conviction": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "coherence": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "consequence": { "type": "integer", "minimum": 0, "maximum": 20 },
+            "cadence": { "type": "integer", "minimum": 0, "maximum": 20 }
+          }
+        }
+      }
+    },
+    "true_north": {
+      "type": "string",
+      "description": "Single directional sentence produced by L4. The bearing. E.g. 'Take the Company X offer.'"
+    },
+    "why": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": { "type": "string" },
+      "description": "Supporting bullets for true_north. 1-5 items. Each is a distinct factual or structural reason."
+    },
+    "loki": {
+      "type": "string",
+      "description": "L (Loki) branch of the LAB macro. The strongest argument that true_north is wrong. Always present — synthesized internally even if PrepSession contra field was absent."
+    },
+    "bar": {
+      "type": "object",
+      "description": "BAR macro output from L4: Baseline ruin risk / Asymmetry / Reversibility.",
+      "required": ["ruin_risk", "asymmetry", "reversibility"],
+      "properties": {
+        "ruin_risk": { "type": "string", "description": "Worst-case outcome if true_north is wrong. Prefixed with risk level: LOW / MEDIUM / HIGH / EXISTENTIAL." },
+        "asymmetry": { "type": "string", "description": "Is the upside/downside asymmetric? In which direction?" },
+        "reversibility": { "type": "string", "description": "Can this decision be unwound? At what cost and in what window?" }
+      }
+    },
+    "render_resolution": {
+      "type": "string",
+      "enum": ["GRAIN", "MOIRE", "DEGRADED", "SHARP"],
+      "description": "Top-level render resolution for the Brief. Driven by y_gate_score.render_resolution. Determines visual treatment and fidelity header."
+    },
+    "fidelity_header": {
+      "type": "string",
+      "description": "Optional. Present when render_resolution != SHARP. Human-readable fidelity caveat shown at top of Brief. E.g. 'This brief renders at 85% fidelity — conviction gradient is still SHIFTING.'"
+    },
+    "inferred_fields": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Fields that were auto-inferred (not explicitly provided). Logged for transparency. E.g. ['stakes', 'W.horizon', 'Y']"
+    },
+    "collision_fields": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Fields where two or more valid parses existed and a collision was detected. Logged when HOLD was triggered and resolved."
+    },
+    "validation_state": {
+      "type": "string",
+      "enum": ["PASS", "HOLD", "REJECT"],
+      "description": "Final HOLD/REJECT gate state. Only PASS receipts reach L5. HOLD and REJECT are logged but do not produce a full receipt."
+    },
+    "horizon": {
+      "type": "string",
+      "enum": ["TODAY", "WEEK", "QUARTER", "YEAR", "YEARS"],
+      "description": "Top-level convenience field mirroring dewy_vector.W.horizon. For indexing and filtering."
+    },
+    "stakes": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH", "EXISTENTIAL"],
+      "description": "Stakes level from PrepSession or auto-inferred."
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["QUICKMOVE", "PLAN", "COURT"],
+      "description": "Evaluation mode. QUICKMOVE = fast, low-stakes. PLAN = structured. COURT = adversarial, high-stakes."
+    },
+    "clarity_mode": {
+      "type": "string",
+      "enum": ["SIMPLE", "RICH", "DEEP"],
+      "description": "Output verbosity mode. SIMPLE = 1 True North + ≤3 bullets. RICH = Simple + visual. DEEP = full work shown."
+    },
+    "macros_run": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["LAB", "BAR", "KKL", "ATG"]
+      },
+      "description": "Which macros fired during this session."
+    },
+    "session_ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this receipt was generated (L5 freeze time)."
+    },
+    "drift_state": {
+      "type": "string",
+      "enum": ["ON_TRACK", "DRIFTING", "LOCKED", "LANDED"],
+      "description": "Drift Sentinel state at time of receipt. LOCKED = Kairos Lock active. LANDED = artifact produced and session closed."
+    },
+    "prep_session_id": {
+      "type": "string",
+      "description": "Optional. ID of the PrepSession that seeded this receipt, if one was used."
+    },
+    "parent_receipt_id": {
+      "type": "string",
+      "description": "Optional. If this receipt is a re-run or refinement of a prior session, links to the parent."
+    }
+  },
+  "additionalProperties": false
+}

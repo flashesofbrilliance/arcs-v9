@@ -104,3 +104,92 @@ canon/book-ii-time-firmware-modes.md        ← Issue #5
 
 ## Last confirmed commit
 `e66d4de` — 2026-05-26 16:15 — `arcs_cli.py` 5-verb pipeline + apex spine DEWY receipt [NCI:81]
+
+---
+
+# Handoff — v0.2.0 (2026-05-26)
+
+> **For Claude Code:** this is the active handoff. v0.1.0 above is preserved for history. Read from here.
+
+## What changed since v0.1.0
+
+- `arcs-field-os/specs/orient-prd.md` v0.1.0 is now live — **Kairos Lock active**
+  This is the governing authority for Issues #2, #3, #4. Read it before touching any of them.
+  URL: https://github.com/flashesofbrilliance/arcs-field-os/blob/main/specs/orient-prd.md
+
+- `arcs-field-os/jtbd/jtbd-master-map.md` v0.1.0 is live — canonical four-surface architecture (Calibrate → Orient → Chart Course → Detect)
+  URL: https://github.com/flashesofbrilliance/arcs-field-os/blob/main/jtbd/jtbd-master-map.md
+
+- `arcs-field-os/specs/index.md` is live — spec registry with authoring priority queue
+  URL: https://github.com/flashesofbrilliance/arcs-field-os/blob/main/specs/index.md
+
+- `MEMORY.md`, `SKILL.md` pushed to this repo (arcs-v9) — read before starting
+
+- `runtime/specs/dewy-receipt-schema-v1.json` is now live in this repo
+  Machine-readable JSON Schema (Draft 07). Full field coverage from orient-prd.md §3 L5.
+  This is the source of truth for the Receipt model. Prisma schema must conform to it.
+
+## Orientation chain (updated)
+1. `MEMORY.md` — versioned context log; full audit of what landed and what didn't
+2. `SKILL.md` — your contract, priority queue, ROM primitives
+3. `WORLD.md` — physics spec; governing law
+4. `AGENTS.md` — pipeline map
+5. `arcs-field-os/specs/orient-prd.md` — governing authority for Issues #2–4 (**NEW — read this**)
+
+## Open sprint — revised priority queue
+
+```
+#2 DEWY Receipt Schema  ← SCHEMA FILE NOW EXISTS (dewy-receipt-schema-v1.json)
+   └─ Your job: wire it into Prisma (prisma/schema.prisma) and validate
+      the existing Receipt model conforms. If fields are missing or
+      mistyped, add a migration. Do NOT rename existing fields.
+   └─ Then: write runtime/specs/dewy-receipt-schema-v1.md (human-readable
+      companion doc — see orient-prd.md §3 L5 for field descriptions)
+
+  └─ #3 Time Quality Attribution ROM
+       Your job: write runtime/specs/time-quality-attribution-rom.json
+       Governing spec: orient-prd.md §3 L2 (W-field inference rules)
+       and §3 L1 (UNDEFINED W-field HOLD behavior)
+       ROM defines: how window inference confidence degrades over time,
+       what triggers a W-field HOLD vs. default, and the cadence NCI lens score.
+
+       └─ #4 Compass → DEWY Flow
+            Your job: write runtime/flows/question-compass-to-dewy.md
+            Governing spec: orient-prd.md §3 L0–L5 full pipeline
+            This is a flow doc — trace the full state transformation
+            from raw question string → DEWY receipt, with decision points
+            and HOLD/REJECT branches annotated.
+
+            └─ #5 Book II Canon — Time Firmware Modes
+                 Your job: write canon/book-ii-time-firmware-modes.md
+                 Depends on: #3 Time ROM must exist first
+                 This is the canonical prose chapter — not a spec, a world document.
+                 Tone: WORLD.md register (Myst / Hitchhiker's Guide). Not documentation.
+```
+
+## File status (updated)
+```
+runtime/specs/dewy-receipt-schema-v1.json   ✅ EXISTS — wire into Prisma (Issue #2)
+runtime/specs/dewy-receipt-schema-v1.md     🔴 CREATE — human-readable companion (Issue #2)
+runtime/specs/time-quality-attribution-rom.json  🔴 CREATE (Issue #3)
+runtime/flows/question-compass-to-dewy.md   🔴 CREATE (Issue #4)
+canon/book-ii-time-firmware-modes.md        🔴 CREATE — after #3 (Issue #5)
+```
+
+## Cross-repo dependency
+Both repos must stay in sync. When you push to arcs-v9, check if arcs-field-os needs a corresponding update:
+- arcs-v9 Prisma schema changes → may require orient-prd.md amendment (open PR, do not push directly)
+- arcs-v9 new ROM files → SKILL.md changelog entry required
+- arcs-field-os spec changes → MEMORY.md entry required in arcs-v9
+
+## Versioning policy (unchanged)
+- `MEMORY.md` — append-only; new entries at top; never delete prior versions
+- `SKILL.md` — update in place; increment version header; keep changelog
+- `CLAUDE.md` — append new `## Handoff — vX.Y.Z` sections only; never overwrite prior
+- Spec files — version field in front-matter; `*-v2.json` only on breaking schema change
+- Python scripts — never overwrite; create `*_v2.py` for breaking changes
+
+## Last confirmed commit (as of this handoff)
+`618022004033d72bb56e23420658b6074fe4adeb` — arcs-field-os — Orient PRD v0.1.0, Kairos Lock
+`35d32da60cd0a32ef348b8f42554c27a7374199a` — arcs-v9 — MEMORY.md + SKILL.md initial push
+`55009d62be52f25281648f9c34be1709f77c3540` — arcs-v9 — CLAUDE.md Handoff v0.1.0 appended
