@@ -645,3 +645,326 @@ def render_receipt(results: List[GauntletResult],
             lines.append(f"- `{rule.name}` discount={rule.discount:.0%}: {rule.explanation or rule.name}")
 
     return "\n".join(lines)
+
+
+# ─────────────────────────────────────────────────────────────
+# PASS 2 — DEWY UNDEFINED SUB-CLASSIFICATION
+# ─────────────────────────────────────────────────────────────
+#
+# UNDEFINED is not a garbage bin. It contains multitudes.
+# Each UNDEFINED entry fails on a specific DEWY axis:
+#
+#   UNDEFINED-D  What is unclear — role/intent/domain opaque
+#   UNDEFINED-E  Who is unclear  — entity identity unverifiable
+#   UNDEFINED-W  When is unclear — temporal signal stale/missing
+#   UNDEFINED-Y  Why is unclear  — conviction/resonance genuinely ambiguous
+#
+# Folksonomist operator: bottom-up emergent tagging across the
+# UNDEFINED population — finds archetypes within the undefined,
+# not imposed from above.
+# ─────────────────────────────────────────────────────────────
+
+@dataclass
+class UndefinedReceipt:
+    """Sub-classification receipt for a single UNDEFINED entry."""
+    dewy_codes:           List[str]    # e.g. ["UNDEFINED-W", "UNDEFINED-E"]
+    primary_code:         str          # dominant failure axis
+    reactivation:         str          # one thing that would move this entry to OM
+    dark_signal:          bool         # True = was/would be OM if not for staleness
+    folksonomist_tags:    List[str]    # emergent bottom-up tags (populated by cluster pass)
+    confidence:           float        # 0.0–1.0 confidence in the sub-classification
+
+
+# ── DEWY failure detectors ────────────────────────────────────
+
+def _fails_w(entry: GauntletEntry, strand_b: float, fired_rules: List[str]) -> bool:
+    """UNDEFINED-W: temporal layer stale or missing."""
+    if not entry.year:
+        return True
+    if entry.year < 2020 and strand_b > 0.08:
+        return True
+    if any("STALE" in r for r in fired_rules):
+        return True
+    return False
+
+
+def _fails_e(entry: GauntletEntry, fired_rules: List[str]) -> bool:
+    """UNDEFINED-E: entity identity unverifiable."""
+    has_url     = bool(entry.extra.get("url") or entry.extra.get("linkedin_url"))
+    has_company = bool(entry.company and entry.company not in {"", "Unknown", "N/A", "n/a"})
+    has_name    = bool(entry.name and len(entry.name.split()) >= 2)
+    # No URL AND either no company or no full name
+    if not has_url and (not has_company or not has_name):
+        return True
+    if any("UNKNOWN CO" in r for r in fired_rules):
+        return True
+    return False
+
+
+def _fails_d(entry: GauntletEntry, arch_ranked: List[Tuple[str, float]]) -> bool:
+    """UNDEFINED-D: what is unclear — role/intent/domain opaque."""
+    position = entry.position.strip()
+    # Very short title
+    if len(position) < 8:
+        return True
+    # Default archetype fallback with zero score = no keyword match
+    if arch_ranked and arch_ranked[0][0] == "Focused Executor" and arch_ranked[0][1] <= 0.1:
+        return True
+    # Generic title words with nothing else
+    opaque = {"partner","associate","consultant","advisor","manager","director",
+               "executive","principal","lead","head","officer","specialist"}
+    words = set(position.lower().split())
+    if words.issubset(opaque | {"the","of","a","an","and","or","at","for","in"}):
+        return True
+    return False
+
+
+def _fails_y(nci: float, hci: float, pci: float, composite: int) -> bool:
+    """UNDEFINED-Y: conviction/resonance genuinely ambiguous."""
+    if nci < 0.35:
+        return True
+    if hci < 0.4 and pci < 0.4:
+        return True
+    # Composite is just above NULL threshold but well below OM — genuine grey zone
+    if UNDEF_COMPOSITE_MIN <= composite < UNDEF_COMPOSITE_MIN + 30:
+        return True
+    return False
+
+
+def classify_undefined_dewy(
+    entry: GauntletEntry,
+    result: "GauntletResult",
+) -> UndefinedReceipt:
+    """Sub-classify a single UNDEFINED GauntletResult on the DEWY axes.
+
+    Only call this on entries where result.triune == "UNDEFINED".
+    Returns an UndefinedReceipt with failure codes and a reactivation condition.
+    """
+    codes: List[str] = []
+
+    w = _fails_w(entry, result.strand_b, result.fired_rules)
+    e = _fails_e(entry, result.fired_rules)
+    d = _fails_d(entry, result.arch_ranked)
+    y = _fails_y(result.nci, result.hci, result.pci, result.composite)
+
+    if w: codes.append("UNDEFINED-W")
+    if e: codes.append("UNDEFINED-E")
+    if d: codes.append("UNDEFINED-D")
+    if y: codes.append("UNDEFINED-Y")
+
+    if not codes:
+        # Borderline — just below OM composite; no specific axis failure
+        codes = ["UNDEFINED-Y"]
+
+    # Primary code: first detected (W > E > D > Y by priority)
+    primary = codes[0]
+
+    # Dark signal: would be OM if temporal layer were refreshed
+    dark_signal = (
+        w and not e and not d
+        and result.strand_a >= 120
+        and result.strand_b <= 0.40
+    )
+
+    # Reactivation condition — the one thing
+    reactivation_map = {
+        "UNDEFINED-W": (
+            f"Re-connect or verify current role at {entry.company} — "
+            f"signal is {NOW - (entry.year or NOW)}yr stale"
+        ),
+        "UNDEFINED-E": (
+            f"Find LinkedIn URL for {entry.name} — "
+            "identity layer cannot be verified without it"
+        ),
+        "UNDEFINED-D": (
+            f"Clarify role intent for '{entry.position}' — "
+            "title is too opaque to classify archetype or TX type"
+        ),
+        "UNDEFINED-Y": (
+            f"One warm interaction would resolve conviction — "
+            f"NCI {result.nci:.3f} is borderline, not zero"
+        ),
+    }
+    reactivation = reactivation_map.get(primary, "Gather more signal")
+
+    # Confidence: how certain we are in the sub-classification
+    # More codes fired = more certain something is wrong, but less certain *what*
+    confidence = round(1.0 - (len(codes) - 1) * 0.15, 2)
+    confidence = max(0.25, min(confidence, 1.0))
+
+    return UndefinedReceipt(
+        dewy_codes=codes,
+        primary_code=primary,
+        reactivation=reactivation,
+        dark_signal=dark_signal,
+        folksonomist_tags=[],   # populated by folksonomist_cluster()
+        confidence=confidence,
+    )
+
+
+# ── FOLKSONOMIST — bottom-up emergent cluster tagging ─────────
+
+@dataclass
+class FolksonomistTag:
+    """An emergent tag discovered bottom-up across UNDEFINED population."""
+    tag:         str          # the emergent label
+    count:       int          # how many UNDEFINED entries carry it
+    pct:         float        # % of total UNDEFINED population
+    entries:     List[str]    # entry names (top 5)
+    description: str          # what this cluster means
+    reactivation_pattern: str # shared reactivation path for this cluster
+
+
+def folksonomist_cluster(
+    undefined_results: List["GauntletResult"],
+    undefined_receipts: List[UndefinedReceipt],
+) -> List[FolksonomistTag]:
+    """Observe patterns across the UNDEFINED population and emit emergent tags.
+
+    Does NOT impose a taxonomy. Discovers structure from signal co-occurrence.
+    Runs after all UNDEFINED entries have been sub-classified.
+    """
+    if not undefined_results:
+        return []
+
+    total = len(undefined_results)
+    tags: List[FolksonomistTag] = []
+
+    # ── DARK_SIGNAL_FROZEN: high strand_a, stale, low loki (not inflated) ──
+    dark = [(r, rcpt) for r, rcpt in zip(undefined_results, undefined_receipts)
+            if rcpt.dark_signal]
+    if len(dark) >= 3:
+        names = [r.entry.name for r, _ in dark[:5]]
+        year_range = sorted(set(r.entry.year for r, _ in dark if r.entry.year))
+        yr_str = f"{min(year_range)}–{max(year_range)}" if len(year_range) >= 2 else str(year_range[0]) if year_range else "unknown"
+        tags.append(FolksonomistTag(
+            tag="DARK_SIGNAL_FROZEN",
+            count=len(dark),
+            pct=round(len(dark) / total * 100, 1),
+            entries=names,
+            description=(
+                f"High Strand A score ({sum(r.strand_a for r,_ in dark)//len(dark)} avg), "
+                f"minimal Loki discount, but temporally frozen ({yr_str}). "
+                "These would be OM if re-connected today."
+            ),
+            reactivation_pattern="Re-connect on LinkedIn with a warm note referencing the original context",
+        ))
+
+    # ── TITLE_GHOST: strong company, opaque title ─────────────
+    ghost = [(r, rcpt) for r, rcpt in zip(undefined_results, undefined_receipts)
+             if "UNDEFINED-D" in rcpt.dewy_codes and "UNDEFINED-W" not in rcpt.dewy_codes]
+    if len(ghost) >= 3:
+        tags.append(FolksonomistTag(
+            tag="TITLE_GHOST",
+            count=len(ghost),
+            pct=round(len(ghost) / total * 100, 1),
+            entries=[r.entry.name for r, _ in ghost[:5]],
+            description=(
+                "Company signal is present but title is too opaque to classify. "
+                "These contacts exist in your network but their role intent is invisible."
+            ),
+            reactivation_pattern="One LinkedIn profile visit or mutual connection intro resolves the D axis",
+        ))
+
+    # ── SOLO_SIGNAL: self-employed / fractional with real seniority ──
+    solo = [(r, rcpt) for r, rcpt in zip(undefined_results, undefined_receipts)
+            if any("NOISE" in rule for rule in r.fired_rules)
+            and r.strand_a >= 80]
+    if len(solo) >= 3:
+        tags.append(FolksonomistTag(
+            tag="SOLO_SIGNAL",
+            count=len(solo),
+            pct=round(len(solo) / total * 100, 1),
+            entries=[r.entry.name for r, _ in solo[:5]],
+            description=(
+                "Self-employed / fractional operators with genuine senior signal. "
+                "Loki discounted for solo structure, not for lack of capability. "
+                "These are potential advisors, collaborators, or bridge connectors."
+            ),
+            reactivation_pattern="Verify active client base or recent work — solo + active = ADVISOR TX type",
+        ))
+
+    # ── BORDERLINE_Y: close to OM threshold, genuine grey zone ──
+    border = [(r, rcpt) for r, rcpt in zip(undefined_results, undefined_receipts)
+              if rcpt.primary_code == "UNDEFINED-Y"
+              and r.composite >= OM_COMPOSITE_MIN - 30]
+    if len(border) >= 3:
+        avg_composite = sum(r.composite for r, _ in border) // len(border)
+        tags.append(FolksonomistTag(
+            tag="BORDERLINE_Y",
+            count=len(border),
+            pct=round(len(border) / total * 100, 1),
+            entries=[r.entry.name for r, _ in border[:5]],
+            description=(
+                f"Composite {avg_composite} avg — within 30pts of OM threshold. "
+                "Conviction is the only missing ingredient. "
+                "One warm interaction or context signal tips these over."
+            ),
+            reactivation_pattern="Low-friction outreach: comment on their content, share relevant article",
+        ))
+
+    # ── ENTITY_SHADOW: exists in network, can't be verified ──
+    shadow = [(r, rcpt) for r, rcpt in zip(undefined_results, undefined_receipts)
+              if "UNDEFINED-E" in rcpt.dewy_codes and r.strand_a >= 60]
+    if len(shadow) >= 3:
+        tags.append(FolksonomistTag(
+            tag="ENTITY_SHADOW",
+            count=len(shadow),
+            pct=round(len(shadow) / total * 100, 1),
+            entries=[r.entry.name for r, _ in shadow[:5]],
+            description=(
+                "Meaningful signal present but entity cannot be verified — "
+                "no URL, ambiguous identity, or dissolved company. "
+                "These are real people; they just need a lookup."
+            ),
+            reactivation_pattern="LinkedIn URL lookup → if active and role confirmed → re-run gauntlet",
+        ))
+
+    # Sort by count descending
+    tags.sort(key=lambda t: -t.count)
+
+    # Write folksonomist tags back onto receipts
+    tag_lookup: Dict[str, List[str]] = {}
+    for ft in tags:
+        for name in ft.entries:
+            tag_lookup.setdefault(name, []).append(ft.tag)
+    for r, rcpt in zip(undefined_results, undefined_receipts):
+        rcpt.folksonomist_tags = tag_lookup.get(r.entry.name, [])
+
+    return tags
+
+
+def run_gauntlet_with_dewy(
+    entries: List[GauntletEntry],
+    config: "DomainConfig",
+    company_registry: Optional[Dict[str, int]] = None,
+    top_n: int = 20,
+) -> Tuple[List[GauntletResult], List[UndefinedReceipt], List[FolksonomistTag], Dict]:
+    """Full gauntlet + DEWY sub-classification + folksonomist clustering.
+
+    Extends run_gauntlet() with the Pass 2 UNDEFINED intelligence layer.
+    Returns (results, undefined_receipts, folksonomist_tags, stats).
+    """
+    results, stats = run_gauntlet(entries, config, company_registry, top_n)
+
+    # Sub-classify UNDEFINED entries
+    undefined_results  = [r for r in results if r.triune == "UNDEFINED"]
+    undefined_receipts = [classify_undefined_dewy(r.entry, r) for r in undefined_results]
+
+    # Folksonomist clustering
+    folk_tags = folksonomist_cluster(undefined_results, undefined_receipts)
+
+    # Enrich stats with DEWY breakdown
+    code_counts: Dict[str, int] = {}
+    dark_count = 0
+    for rcpt in undefined_receipts:
+        for code in rcpt.dewy_codes:
+            code_counts[code] = code_counts.get(code, 0) + 1
+        if rcpt.dark_signal:
+            dark_count += 1
+
+    stats["undefined_dewy"] = code_counts
+    stats["dark_signal_count"] = dark_count
+    stats["folksonomist_tags"] = [t.tag for t in folk_tags]
+
+    return results, undefined_receipts, folk_tags, stats
