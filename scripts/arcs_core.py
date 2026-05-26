@@ -161,6 +161,7 @@ class DomainConfig:
     strand_b_rules:  List[LokiRule]                          = field(default_factory=list)
     receipt_labels:  Dict[str, str]                          = field(default_factory=dict)
     strand_a_fn:     Optional[Callable]                      = field(default=None)
+    om_composite_min: Optional[int]                          = field(default=None)  # overrides global 160
 
     def label(self, key: str, default: str) -> str:
         return self.receipt_labels.get(key, default)
@@ -476,8 +477,9 @@ def l2_bayesian(entry: GauntletEntry,
 # TRIUNE CLASSIFICATION
 # ─────────────────────────────────────────────────────────────
 
-def triune_classify(composite: int, loki: float, hci: float, pci: float) -> str:
-    if composite >= OM_COMPOSITE_MIN and loki <= OM_LOKI_MAX and hci >= 0.6 and pci >= 0.6:
+def triune_classify(composite: int, loki: float, hci: float, pci: float,
+                    om_composite_min: int = OM_COMPOSITE_MIN) -> str:
+    if composite >= om_composite_min and loki <= OM_LOKI_MAX and hci >= 0.6 and pci >= 0.6:
         return "OM"
     if composite >= UNDEF_COMPOSITE_MIN:
         return "UNDEFINED"
@@ -569,8 +571,9 @@ def run_gauntlet(entries: List[GauntletEntry],
         nci    = compute_nci(ranked, config.subject_weights)
         hci, pci = l2_bayesian(entry, nci, sb, composite, fired)
 
-        # Triune
-        status = triune_classify(composite, sb, hci, pci)
+        # Triune — use domain-specific composite floor if set
+        om_floor = config.om_composite_min if config.om_composite_min is not None else OM_COMPOSITE_MIN
+        status = triune_classify(composite, sb, hci, pci, om_composite_min=om_floor)
         stats[status.lower()] += 1
 
         # L5 (OM only — saves compute for large datasets)

@@ -50,8 +50,86 @@ from arcs_core import (
 # CALENDAR-DOMAIN CONFIG
 # ─────────────────────────────────────────────────────────────
 
+def _calendar_strand_a(entry, config) -> tuple:
+    """Strand A for calendar domain.
+
+    Scores on intent + external signal rather than professional archetype keywords.
+    Works for person-to-person Gmail calendars as well as institutional organizers.
+    """
+    score   = 0
+    signals = []
+    summary = entry.position.lower()   # event title
+    org     = entry.company.lower()    # organizer domain
+    year    = entry.year or 2024
+    dur     = entry.extra.get("duration_min", 60)
+    recur   = entry.extra.get("recurrence_count", 0)
+
+    # ── Intent classification (up to 80pts) ──────────────────
+    FOCUS_KW    = ["deep work","focus","writing","thinking","blocked","no meetings",
+                   "strategy","planning","research","build","create","architect","draft",
+                   "book reading","meditation","yoga","journal","reading","exercise",
+                   "morning routine","evening routine","workout","run","walk","swim"]
+    EXTERNAL_KW = ["investor","board","client","customer","partner","demo","pitch",
+                   "interview","advisory","keynote","conference","summit","panel",
+                   "workshop","offsite","intro","introduction","call with","meet with",
+                   "catch-up","catch up","coffee with","lunch with"]
+    BUILDER_KW  = ["arcs","product","launch","roadmap","spec","prototype","mvp",
+                   "fundraise","deck","investor deck","website","branding","woof",
+                   "wormhole","fractional","ita ","venture","startup",
+                   # 4HWW / Atomic Habits / flow architecture vocabulary
+                   "deep work","mit ","most important","big 3","power hour",
+                   "maker time","maker block","maker day","manager day",
+                   "theme day","themed","batch","batching","gsd","get shit done",
+                   "flow","flow state","no meeting","protected","anchor",
+                   "habit","routine block","weekly review","monthly review",
+                   "quarterly review","annual review","shutdown","shutdown ritual"]
+
+    is_focus    = any(k in summary for k in FOCUS_KW)
+    is_external = any(k in summary for k in EXTERNAL_KW)
+    is_builder  = any(k in summary for k in BUILDER_KW)
+
+    if is_focus:
+        pts = 80; signals.append(f"Focus block → +80")
+    elif is_external and is_builder:
+        pts = 80; signals.append(f"External Builder meeting → +80")
+    elif is_external:
+        pts = 65; signals.append(f"External meeting → +65")
+    elif is_builder:
+        pts = 55; signals.append(f"Builder work block → +55")
+    else:
+        pts = 20; signals.append(f"Unclassified event → +20")
+    score += pts
+
+    # ── External organizer domain (non-gmail = institutional signal) (+30) ──
+    personal_domains = {"gmail.com","googlemail.com","icloud.com","yahoo.com",
+                        "hotmail.com","outlook.com","me.com","mac.com",""}
+    is_external_org = org not in personal_domains and org != ""
+    if is_external_org:
+        score += 30; signals.append(f"External organizer {org} → +30")
+
+    # ── Tier-1 org in organizer domain (+30) ──
+    if any(t in org for t in config.tier1_contexts):
+        score += 30; signals.append(f"Tier-1 org → +30")
+
+    # ── Recurrence = relationship depth (+15) ──
+    if 2 <= recur <= 8:
+        score += 15; signals.append(f"Recurring relationship ({recur}×) → +15")
+
+    # ── Duration signal — substantive blocks (+15) ──
+    if dur >= 60:
+        score += 15; signals.append(f"Substantive block {dur}min → +15")
+
+    # ── Recency ──
+    rec = 30 if year >= 2025 else 18 if year >= 2023 else 5
+    score += rec; signals.append(f"Recency {year} → +{rec}")
+
+    return score, signals
+
+
 CALENDAR_DOMAIN_CONFIG = DomainConfig(
     domain_name="Calendar",
+    strand_a_fn=_calendar_strand_a,
+    om_composite_min=130,   # personal/self-employed calendar — 130 is OM, not 160
     tier1_contexts={
         "external partner", "board", "investor", "customer", "client",
         "advisory", "advisor", "keynote", "panel", "conference", "summit",
@@ -67,8 +145,9 @@ CALENDAR_DOMAIN_CONFIG = DomainConfig(
         LokiRule(
             name="back_to_back",
             discount=0.10,
-            condition_fn=lambda e: e.extra.get("same_day_count", 0) >= 3,
-            explanation="3+ events same day — context-switch cost; deep work impossible",
+            condition_fn=lambda e: (e.extra.get("same_day_count", 0) >= 3
+                                    and e.extra.get("duration_min", 60) < 30),
+            explanation="3+ short events same day — context-switch cost; only penalises short blocks",
         ),
         LokiRule(
             name="short_recurring",
