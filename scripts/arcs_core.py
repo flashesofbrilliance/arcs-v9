@@ -148,6 +148,10 @@ class DomainConfig:
     subject_weights: list of (archetype_name, weight) tuples — the subject's stack
     strand_b_rules:  list of LokiRule applied after built-in Loki audit
     receipt_labels:  override default section headers in the Markdown receipt
+    strand_a_fn:     optional callable (entry, config) → (int, List[str]) that completely
+                     replaces the default professional-archetype Strand A formula.
+                     Use for non-professional domains (listening, reading) where archetype
+                     keyword scoring would produce meaningless results.
     """
     domain_name:     str
     tier1_contexts:  set                                     = field(default_factory=set)
@@ -156,6 +160,7 @@ class DomainConfig:
     ])
     strand_b_rules:  List[LokiRule]                          = field(default_factory=list)
     receipt_labels:  Dict[str, str]                          = field(default_factory=dict)
+    strand_a_fn:     Optional[Callable]                      = field(default=None)
 
     def label(self, key: str, default: str) -> str:
         return self.receipt_labels.get(key, default)
@@ -258,6 +263,10 @@ def strand_a_score(entry: GauntletEntry,
     Returns (score, signals_list).
     company_registry maps company → connection count (optional; used for hub bonus).
     """
+    # Domain override — non-professional scanners inject their own formula
+    if config.strand_a_fn is not None:
+        return config.strand_a_fn(entry, config)
+
     pos  = entry.position.lower()
     co   = entry.company.lower()
     year = entry.year

@@ -47,8 +47,53 @@ from arcs_core import (
 # LISTENING-DOMAIN CONFIG
 # ─────────────────────────────────────────────────────────────
 
+def _listening_strand_a(entry, config) -> tuple:
+    """Strand A for listening domain.
+    Score is based on engagement depth (hours listened, track diversity, intent signals)
+    rather than professional archetype keywords.
+    """
+    score = 0
+    signals = []
+    hrs   = entry.extra.get("hrs_total", 0)
+    plays = entry.extra.get("track_count", 0)
+    skip  = entry.extra.get("skip_rate", 1.0)
+    year  = entry.year or 2020
+
+    # Engagement depth (hours → up to 80pts)
+    if hrs >= 10:
+        pts = 80; signals.append(f"Deep listen {hrs:.1f}h → +80")
+    elif hrs >= 3:
+        pts = int(hrs / 10 * 80); signals.append(f"Active listen {hrs:.1f}h → +{pts}")
+    elif hrs >= 0.5:
+        pts = int(hrs / 10 * 80); signals.append(f"Casual listen {hrs:.1f}h → +{pts}")
+    else:
+        pts = 0
+    score += pts
+
+    # Low skip rate = intentional listening (up to +40)
+    intent_pts = int((1.0 - skip) * 40)
+    score += intent_pts
+    signals.append(f"Intent rate {1-skip:.0%} → +{intent_pts}")
+
+    # Track diversity (>3 distinct tracks = not single-track loop) +15
+    if plays >= 3:
+        score += 15; signals.append(f"Diversity {plays} tracks → +15")
+
+    # Tier-1 / canonical-signal artist +30
+    name_lo = entry.name.lower()
+    if any(t in name_lo for t in config.tier1_contexts):
+        score += 30; signals.append(f"Canonical signal artist → +30")
+
+    # Recency
+    rec = 30 if year >= 2023 else 18 if year >= 2020 else 5
+    score += rec; signals.append(f"Recency {year} → +{rec}")
+
+    return score, signals
+
+
 LISTENING_DOMAIN_CONFIG = DomainConfig(
     domain_name="Listening",
+    strand_a_fn=_listening_strand_a,
     tier1_contexts={
         # Artists with elevated cultural signal (expands with domain resonance)
         "radiohead","nine inch nails","boards of canada","aphex twin","burial",
@@ -157,11 +202,20 @@ def load_spotify(path: str) -> List[Dict]:
         if ts_raw:
             try:
                 from datetime import datetime
-                dt = datetime.strptime(ts_raw[:19], "%Y-%m-%dT%H:%M:%S")
-                year  = dt.year
-                hour  = dt.hour
-                month = dt.month
-            except ValueError:
+                # New format: "2024-01-15T09:12:34"
+                # Old format: "2024-01-15 09:12"
+                for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M", "%Y-%m-%d"):
+                    try:
+                        dt = datetime.strptime(ts_raw[:len(fmt)+2].strip(), fmt)
+                        year  = dt.year
+                        hour  = dt.hour
+                        month = dt.month
+                        break
+                    except ValueError:
+                        continue
+                else:
+                    year = parse_year(ts_raw)
+            except Exception:
                 year = parse_year(ts_raw)
 
         parsed.append({
