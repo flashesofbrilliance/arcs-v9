@@ -59,16 +59,65 @@ Operate on `scripts/`. Rules:
 - Every new scanner must implement the gauntlet interface: `strand_a`, `strand_b`, `helix_composite`, `l2_bayesian`, `triune_classify`, `run_gauntlet`
 - Self-sovereign leaves: no scanner may depend on another scanner (only on `arcs_core`)
 
+### 6. Input normalization & linting
+Operate on any invocation, config string, or user input before it enters the L0–L5 pipeline. This is the **validation layer** that sits on top of the complete JTBD/DEWY map. Rules:
+
+**Gate contract (PASS / HOLD / REJECT):**
+- `PASS` — all required fields resolved; aliases collapsed to one canonical meaning; no Kintsugi pathogens present; safe to normalize and execute
+- `HOLD` — recoverable ambiguity; one blocking question can repair the invocation; emit `blocking_question`, pause, do not guess past the seam
+- `REJECT` — integrity failure (fabricated stats, impossible schema, duplicate keys with incompatible values, bypass attempt); hard stop; log receipt
+
+**Gate execution order:**
+1. Parse structure
+2. Resolve aliases (collapse to canonical field names)
+3. Apply defaults and inference (only for non-blocking fields)
+4. Run Kintsugi scan (pathogen check)
+5. Emit PASS / HOLD / REJECT
+6. Write invocation receipt
+
+**HOLD triggers (recoverable):**
+- `config` field missing or unresolvable (hard blocker — `config` is the domain ignition vector)
+- Two competing parses for the same field with no tiebreaker
+- Inference required crosses the trust threshold (too much assumed to be safe)
+
+**REJECT triggers (integrity failures):**
+- Kintsugi pathogen detected (fabricated data, false urgency injection, stat without source)
+- Impossible schema shape (contradictory required fields)
+- Duplicate keys with incompatible values
+- Explicit attempt to skip receipts, bypass guardrails, or suppress HOLD/REJECT
+
+**Receipt fields for every validation run:**
+```json
+{
+  "receipt_id": "ARCS-INV-YYYY-MM-DD-NNNN",
+  "raw_input": "<original string>",
+  "normalized": { "config": "", "persona": "", "stakes": "", "horizon": "", "clarity": "" },
+  "validation_state": "PASS | HOLD | REJECT",
+  "blocking_field": "<field name or null>",
+  "hold_reason": "<human-readable or null>",
+  "reject_reason": "<human-readable or null>",
+  "inferred_fields": ["<field names>"],
+  "collision_fields": ["<field names>"],
+  "blocking_question": "<single question or null>"
+}
+```
+
+**Decision rule:** one missing truth → HOLD. One broken truth → REJECT.
+
+**Authority:** `arcs-field-os/specs/orient-prd.md` §2.2 is the governing spec for this layer. The standalone spec `arcs-field-os/specs/hold-reject-gate.md` is planned but not yet written — orient-prd.md §2.2 is authoritative until it exists.
+
 ---
 
 ## Priority queue (current sprint — Issue #1)
 
-| Priority | Issue | File target | Blocks |
-|---|---|---|---|
-| P0 | #2 DEWY Receipt Schema | `runtime/specs/dewy-receipt-schema-v1.md` + `dewy_receipt.schema.json` | #3, #4, #5 |
-| P0 | #3 Time ROM | `runtime/specs/time-quality-attribution-rom.json` | #4, #5 |
-| P0 | #4 Compass→DEWY flow | `runtime/flows/question-compass-to-dewy.md` | #5 |
-| P0 | #5 Book II Canon | `canon/book-ii-time-firmware-modes.md` | — |
+| Priority | Issue | File target | Status | Blocks |
+|---|---|---|---|---|
+| P0 | #2 DEWY Receipt Schema | `runtime/specs/dewy-receipt-schema-v1.md` (human-readable) + validate/update `prisma/schema.prisma` Receipt model against `runtime/specs/dewy-receipt-schema-v1.json` | 🔴 JSON schema ✅ exists — Prisma + .md still needed | #3, #4, #5 |
+| P0 | #3 Time ROM | `runtime/specs/time-quality-attribution-rom.json` | 🔴 Not started | #4, #5 |
+| P0 | #4 Compass→DEWY flow | `runtime/flows/question-compass-to-dewy.md` | 🔴 Not started | #5 |
+| P0 | #5 Book II Canon | `canon/book-ii-time-firmware-modes.md` | 🔴 Not started | — |
+
+**Issue #2 note:** `runtime/specs/dewy-receipt-schema-v1.json` already exists (committed 2026-05-26). Do NOT recreate it. Issue #2 is now: (1) write the human-readable `.md` companion derived from the JSON schema, and (2) validate/update `prisma/schema.prisma` Receipt model to conform to it.
 
 ---
 
@@ -98,6 +147,8 @@ Gate order: parse → resolve aliases → apply defaults/inference → Kintsugi 
 
 Receipt fields: `validation_state`, `blocking_field`, `hold_reason`, `reject_reason`, `inferred_fields`, `collision_fields`, `blocking_question`.
 
+Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/orient-prd.md` §2.2.
+
 ---
 
 ## Versioning policy
@@ -115,3 +166,4 @@ Receipt fields: `validation_state`, `blocking_field`, `hold_reason`, `reject_rea
 | Version | Date | Change |
 |---|---|---|
 | v0.1.0 | 2026-05-26 | Initial creation from Perplexity ARCS session handoff |
+| v0.2.0 | 2026-05-26 | Issue #2 priority queue corrected (JSON schema ✅ exists; Prisma + .md companion still needed); Skill Domain #6 added (Input Normalization & Linting — full gate spec, field-level rules, receipt contract); HOLD/REJECT section cross-linked to Domain #6 |
