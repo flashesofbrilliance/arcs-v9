@@ -28,17 +28,20 @@ The DEWY vector is a coordinate, not a form. It positions the operator on the de
 
 ## Y-Gate States
 
-| State | Meaning | Navigate |
+Canonical polarity enum: `SCRATCH | YELLOW | PARADOX | FORK | DELTA | GREEN | LOCKED`  
+Conviction: `LOW | MEDIUM | HIGH` — Stability: `SHIFTING | CONTESTED | STABLE`
+
+| Polarity | Meaning | Navigate |
 |---|---|---|
 | `SCRATCH` | No coherent position yet | Orient only — do not commit |
-| `EPHEMERAL` | Weak, dissolving signal | High noise — probe before moving |
-| `PARADOX` | Two equally weighted pulls | Court required before resolving |
-| `YELLOW` | Contested — real uncertainty | Y gate active — careful movement |
-| `FORK` | Path-split moment | Skintrack choice — some options disappear after |
-| `DELTA` | Position shifting under pressure | Watch for phase change |
-| `GREEN` | High conviction | Move confidently — lock what you've earned |
-| `LOCKED` | Post-Court resolved | Superionic — structure + flow fused |
-| `RED` | Existential / zero reversibility | Free-solo topology — redesign before proceeding |
+| `YELLOW` | Contested — real uncertainty, conviction active | Y gate active — careful movement |
+| `PARADOX` | Options non-separable | Court auto-invoked; receipt deferred until resolved |
+| `FORK` | Two live paths with significant separation | Skintrack choice — some options disappear after |
+| `DELTA` | Conviction collapsed — inflection point tracked | Watch for phase change |
+| `GREEN` | High conviction — clear directional signal | Move confidently — lock what you've earned |
+| `LOCKED` | Post-Court resolved — Kairos Lock active | Superionic — structure + flow fused |
+
+Authority: `runtime/specs/dewy-receipt-schema-v1.json` — `dewy_vector.Y.polarity`
 
 ---
 

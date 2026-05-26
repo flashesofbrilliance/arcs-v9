@@ -134,17 +134,15 @@ const HORIZON_LABELS: Record<string, string> = {
 }
 
 const CONVICTION_LABELS: Record<string, string> = {
-  HIGH:       "Strong — clear lean",
-  CONTESTED:  "Split — could go either way",
-  LOW:        "Weak — no real lean yet",
-  EPHEMERAL:  "Fading — conviction is slipping",
-  COLLAPSED:  "Gone — back to zero",
+  HIGH:   "Strong — clear lean",
+  MEDIUM: "Split — could go either way",
+  LOW:    "Weak — no real lean yet",
 }
 
 const STABILITY_LABELS: Record<string, string> = {
-  LOCKED:    "Holding steady",
-  DRIFTING:  "Slowly shifting",
-  VOLATILE:  "Unstable — changing fast",
+  STABLE:    "Holding steady",
+  CONTESTED: "Slowly shifting",
+  SHIFTING:  "Unstable — changing fast",
 }
 
 const MODE_LABELS: Record<string, string> = {

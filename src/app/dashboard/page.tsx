@@ -40,14 +40,13 @@ interface CompassResult {
 const PROTECTION_CHIPS = ["Cash", "Time", "Reputation", "Relationship", "Health", "Optionality"]
 
 const Y_WEATHER: Record<string, { label: string; icon: string; color: string }> = {
-  GREEN:   { label: "CLARITY RIDGE",          icon: "▲", color: "#00FF9D" },
-  YELLOW:  { label: "PRESSURE BAND",          icon: "◈", color: "#FFD700" },
-  RED:     { label: "CLIFF EDGE · COURT",     icon: "✕", color: "#FF4D6D" },
-  FORK:    { label: "FORK · PATH SELECTION",  icon: "⊕", color: "#00F0FF" },
-  SCRATCH: { label: "FOG LAYER · ORIENT",     icon: "~", color: "#475569" },
-  DELTA:   { label: "CONVICTION SHIFT",       icon: "△", color: "#A78BFA" },
-  DRIFT:   { label: "DRIFT · LAND THE PLANE", icon: "⟳", color: "#FB923C" },
-  PARADOX: { label: "PARADOX · CURATOR",      icon: "∞", color: "#E879F9" },
+  GREEN:   { label: "CLARITY RIDGE",         icon: "▲", color: "#00FF9D" },
+  YELLOW:  { label: "PRESSURE BAND",         icon: "◈", color: "#FFD700" },
+  FORK:    { label: "FORK · PATH SELECTION", icon: "⊕", color: "#00F0FF" },
+  SCRATCH: { label: "FOG LAYER · ORIENT",    icon: "~", color: "#475569" },
+  DELTA:   { label: "CONVICTION SHIFT",      icon: "△", color: "#A78BFA" },
+  PARADOX: { label: "PARADOX · CURATOR",     icon: "∞", color: "#E879F9" },
+  LOCKED:  { label: "KAIROS LOCK · LOCKED",  icon: "◆", color: "#00F0FF" },
 }
 
 const RESOLUTION_STYLES: Record<string, { opacity: number; fontWeight: number; letterSpacing: string }> = {
