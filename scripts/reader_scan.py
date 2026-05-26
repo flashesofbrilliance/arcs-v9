@@ -52,8 +52,54 @@ from arcs_core import (
 # READER-DOMAIN CONFIG
 # ─────────────────────────────────────────────────────────────
 
+def _reader_strand_a(entry, config) -> tuple:
+    """Strand A for reading domain.
+    Score based on highlight density, concept diversity, and book canonical signal.
+    """
+    score = 0
+    signals = []
+    count    = entry.extra.get("highlight_count", 0)
+    domains  = entry.extra.get("domain_count", 0)
+    avg_wc   = entry.extra.get("avg_word_count", 0)
+    year     = entry.year or 2020
+
+    # Highlight density (up to 80pts — more highlights = deeper engagement)
+    if count >= 10:
+        pts = 80; signals.append(f"Deep reading {count} highlights → +80")
+    elif count >= 5:
+        pts = int(count / 10 * 80); signals.append(f"Active reading {count} highlights → +{pts}")
+    elif count >= 2:
+        pts = int(count / 10 * 80); signals.append(f"Light reading {count} highlights → +{pts}")
+    else:
+        pts = 10
+    score += pts
+
+    # Concept domain diversity (up to +40 — broad concept coverage)
+    div_pts = min(domains * 12, 40)
+    score += div_pts
+    signals.append(f"Concept domains {domains} → +{div_pts}")
+
+    # Substantive highlights (avg word count > 15 = thoughtful capture) +20
+    if avg_wc >= 15:
+        score += 20; signals.append(f"Substantive avg {avg_wc:.0f} words → +20")
+    elif avg_wc >= 8:
+        score += 10; signals.append(f"Mid-length avg {avg_wc:.0f} words → +10")
+
+    # Canonical / Tier-1 book +30
+    title_lo = entry.company.lower()  # company = book title in reader domain
+    if any(t in title_lo for t in config.tier1_contexts):
+        score += 30; signals.append(f"Canonical work → +30")
+
+    # Recency
+    rec = 30 if year >= 2023 else 18 if year >= 2020 else 5
+    score += rec; signals.append(f"Recency {year} → +{rec}")
+
+    return score, signals
+
+
 READER_DOMAIN_CONFIG = DomainConfig(
     domain_name="Reader",
+    strand_a_fn=_reader_strand_a,
     tier1_contexts={
         # Canonical works in high-signal intellectual domains
         "thinking fast and slow","antifragile","the hard thing about hard things",
