@@ -54,3 +54,18 @@ next
 
 # claude code local settings (keep settings.json, not settings.local.json)
 .claude/settings.local.json
+
+# ARCS scan outputs — personal data, generated locally, not source
+exports/network/
+exports/calendar/
+exports/listening/
+exports/reader/
+exports/receipts/
+exports/cal_test/
+forensic_scan.json
+forensic_scan.md
+network_archetype.json
+network_archetype.md
+network_archetype_viz.html
+network_scan.json
+network_scan.md
