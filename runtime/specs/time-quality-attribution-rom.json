@@ -1,0 +1,280 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/flashesofbrilliance/arcs-v9/runtime/specs/time-quality-attribution-rom.json",
+  "title": "Time Quality Attribution ROM",
+  "description": "Read-Only Memory primitives for W-field (Window) inference, time-quality degradation, and cadence NCI lens scoring. Governing authority: arcs-field-os/specs/orient-prd.md v0.1.0. Constitutional — never override at runtime.",
+  "version": "0.1.0",
+  "status": "ROM",
+  "governs": [
+    "dewy_vector.W",
+    "nci_score.by_lens.cadence",
+    "dewy_vector.Y.stability",
+    "receipt.inferred_fields"
+  ],
+
+  "w_inference": {
+    "_comment": "Rules for inferring dewy_vector.W.horizon when the user does not explicitly supply a window.",
+    "signals": [
+      {
+        "id": "W-SIG-01",
+        "signal": "explicit_deadline",
+        "description": "A specific date, day, or deadline is named in the question or PrepSession.",
+        "examples": ["by Friday", "before June 30", "this quarter's close"],
+        "inferred": false,
+        "horizon_mapping": {
+          "within_1_day": "TODAY",
+          "within_7_days": "WEEK",
+          "within_90_days": "QUARTER",
+          "within_365_days": "YEAR",
+          "beyond_365_days": "YEARS"
+        }
+      },
+      {
+        "id": "W-SIG-02",
+        "signal": "relative_urgency_phrase",
+        "description": "Urgency language present but no specific date (e.g. 'soon', 'need to decide', 'right now').",
+        "examples": ["I need to decide soon", "this is urgent", "I can't wait much longer"],
+        "inferred": true,
+        "default_horizon": "WEEK",
+        "confidence": "MEDIUM",
+        "log_to_inferred_fields": true
+      },
+      {
+        "id": "W-SIG-03",
+        "signal": "strategic_framing",
+        "description": "Question is framed as strategic, long-range, or multi-year.",
+        "examples": ["in the next few years", "long-term", "5-year plan", "career direction"],
+        "inferred": true,
+        "default_horizon": "YEARS",
+        "confidence": "MEDIUM",
+        "log_to_inferred_fields": true
+      },
+      {
+        "id": "W-SIG-04",
+        "signal": "no_temporal_signal",
+        "description": "No temporal signal detected. Horizon cannot be inferred from question alone.",
+        "inferred": true,
+        "default_horizon": "QUARTER",
+        "confidence": "LOW",
+        "log_to_inferred_fields": true,
+        "hold_trigger": false,
+        "note": "LOW confidence inferred horizon still proceeds — cadence lens score is penalized (see cadence_scoring below)."
+      }
+    ],
+
+    "prep_session_override": {
+      "description": "PrepSession.horizon field always overrides W-SIG inference. When present, inferred = false regardless of how the PrepSession was populated.",
+      "priority": "ABSOLUTE",
+      "field": "prep_session.horizon"
+    },
+
+    "hold_conditions": [
+      {
+        "id": "W-HOLD-01",
+        "condition": "horizon_collision",
+        "description": "Two or more W-SIG signals fire with conflicting horizon mappings and no PrepSession override is present.",
+        "example": "Question says 'long-term career move' (YEARS) but also 'I need to decide by Friday' (WEEK).",
+        "behavior": "HOLD — surface collision to user; log to collision_fields; do not proceed to L1 until resolved."
+      },
+      {
+        "id": "W-HOLD-02",
+        "condition": "lock_date_past",
+        "description": "An explicit lock_date is detected but the date is in the past relative to session_ts.",
+        "behavior": "HOLD — flag expired window; surface: 'The deadline you named has passed. Are you revisiting or has the window shifted?'"
+      }
+    ]
+  },
+
+  "time_quality_degradation": {
+    "_comment": "Rules for how decision quality (and cadence NCI score) degrades based on proximity to lock date and Y-stability.",
+
+    "cadence_scoring": {
+      "description": "cadence lens (0–20) measures whether the timing of this decision is appropriate. Scores degrade when the window is too early (no pressure, underdetermined), too late (forced, survival), or collides.",
+      "baseline": 14,
+      "modifiers": [
+        {
+          "id": "TQA-MOD-01",
+          "condition": "explicit_deadline_present_and_future",
+          "delta": 3,
+          "description": "Hard lock date known and still in the future — timing is calibrated."
+        },
+        {
+          "id": "TQA-MOD-02",
+          "condition": "horizon_inferred_low_confidence",
+          "delta": -4,
+          "description": "No temporal signal — horizon is a guess. Cadence cannot be confirmed."
+        },
+        {
+          "id": "TQA-MOD-03",
+          "condition": "horizon_inferred_medium_confidence",
+          "delta": -2,
+          "description": "Relative urgency phrase detected but no hard date."
+        },
+        {
+          "id": "TQA-MOD-04",
+          "condition": "lock_date_within_24h",
+          "delta": -3,
+          "description": "Decision is imminent — forced timing. Court mode strongly recommended."
+        },
+        {
+          "id": "TQA-MOD-05",
+          "condition": "horizon_years_no_urgency_signal",
+          "delta": -2,
+          "description": "Long horizon with no urgency signal — possibly premature. Consider whether this is the right moment to commit."
+        },
+        {
+          "id": "TQA-MOD-06",
+          "condition": "y_stability_shifting",
+          "delta": -3,
+          "description": "Conviction gradient is actively shifting — timing quality degraded regardless of window."
+        },
+        {
+          "id": "TQA-MOD-07",
+          "condition": "y_stability_stable_and_horizon_explicit",
+          "delta": 2,
+          "description": "Stable conviction + explicit deadline — strong timing signal."
+        }
+      ],
+      "floor": 0,
+      "ceiling": 20,
+      "hold_threshold": 6,
+      "hold_behavior": "When cadence score ≤ 6, surface fidelity_header warning but do NOT auto-HOLD unless composite NCI < 40. Cadence alone is not a blocker — it is a signal."
+    },
+
+    "receipt_age_decay": {
+      "description": "When a receipt is recalled for replay or comparison, its time-quality degrades as real time passes relative to its session_ts.",
+      "horizon_half_life": {
+        "TODAY": { "decay_starts_hours": 12, "fully_stale_hours": 36 },
+        "WEEK": { "decay_starts_hours": 72, "fully_stale_hours": 168 },
+        "QUARTER": { "decay_starts_days": 30, "fully_stale_days": 90 },
+        "YEAR": { "decay_starts_days": 90, "fully_stale_days": 365 },
+        "YEARS": { "decay_starts_days": 180, "fully_stale_days": 730 }
+      },
+      "stale_behavior": "Render resolution of a stale recalled receipt degrades one step: SHARP→DEGRADED, DEGRADED→GRAIN. Observatory must annotate with staleness signal.",
+      "note": "This governs Observatory replay rendering only — it does NOT affect the stored receipt or its original render_resolution."
+    }
+  },
+
+  "drift_sentinel": {
+    "_comment": "DRIFT Sentinel detects entropy masquerading as motion. These are the ROM rules — constants, not heuristics.",
+
+    "states": {
+      "ON_TRACK": "Active session, artifacts being produced, conviction gradient moving directionally.",
+      "DRIFTING": "Session has exceeded turn threshold without a new artifact. Y-stability is SHIFTING and no HOLD/PASS gate has fired.",
+      "LOCKED": "Kairos Lock active — a high-conviction receipt has been sealed with GREEN/STABLE Y gate.",
+      "LANDED": "Session closed: a PASS receipt was produced and acknowledged by user."
+    },
+
+    "drift_detection": {
+      "turn_threshold": 5,
+      "description": "After 5 turns in a session without a new artifact (receipt, HOLD gate, or user-acknowledged anchor), DRIFT Sentinel fires.",
+      "artifact_types_that_reset_counter": ["receipt_pass", "receipt_hold", "prep_session_created", "user_anchor_acknowledged"],
+      "drift_prompt": "You've been in this zone for a while. Do you want to land the plane, or keep exploring?",
+      "drift_prompt_mode": "non_blocking",
+      "auto_escalation": {
+        "turns_after_first_drift_prompt": 3,
+        "escalation_behavior": "Repeat drift prompt with higher urgency: 'This session is spinning. One question: what would it take to make a call right now?'"
+      }
+    },
+
+    "kairos_lock": {
+      "description": "Kairos Lock activates when a PASS receipt is produced with Y.polarity=GREEN AND Y.conviction=HIGH AND Y.stability=STABLE.",
+      "trigger_conditions": {
+        "y_polarity": "GREEN",
+        "y_conviction": "HIGH",
+        "y_stability": "STABLE",
+        "validation_state": "PASS"
+      },
+      "lock_behavior": "Set drift_state=LOCKED on receipt. Future sessions in the same sessionId inherit LOCKED state until user explicitly re-opens the question.",
+      "lock_override": "User can break a Kairos Lock explicitly. Requires acknowledgment prompt: 'This was locked at HIGH conviction. Are you revisiting because something changed in the terrain?'"
+    },
+
+    "landing": {
+      "trigger": "User acknowledges the PASS receipt (reads Brief, logs outcome, or explicitly closes session).",
+      "behavior": "Set drift_state=LANDED. Session is complete. Observatory records terminal state."
+    }
+  },
+
+  "macro_trigger_conditions": {
+    "_comment": "ROM rules for when each macro fires automatically vs. optionally.",
+
+    "LAB": {
+      "description": "Loki Adversarial Branch — always fires on PASS receipts. Synthesizes the strongest case against true_north.",
+      "trigger": "ALWAYS on validation_state=PASS",
+      "optional_on_hold": false,
+      "output_field": "loki",
+      "note": "LAB is not a macro in the user-facing sense — it is a structural requirement of every PASS receipt. It fires silently as part of L4."
+    },
+
+    "BAR": {
+      "description": "Baseline ruin / Asymmetry / Reversibility. Fires when stakes or ruin risk is detectable.",
+      "auto_trigger_conditions": [
+        "stakes IN [HIGH, EXISTENTIAL]",
+        "y_polarity IN [FORK, PARADOX]",
+        "mode = COURT"
+      ],
+      "optional_trigger": "User may invoke BAR explicitly in any mode.",
+      "output_field": "bar",
+      "hold_on_existential": "When ruin_risk prefix = EXISTENTIAL and mode != COURT, surface: 'This is existential-stakes terrain. Court mode is strongly recommended before committing.'"
+    },
+
+    "KKL": {
+      "description": "Kairos / Kinematic Lock — detects whether the present moment is the right moment to commit.",
+      "auto_trigger_conditions": [
+        "y_polarity = GREEN AND y_stability = STABLE AND lock_date present and within 7 days",
+        "drift_state = DRIFTING AND y_conviction = HIGH"
+      ],
+      "optional_trigger": "User may invoke KKL to check timing quality explicitly.",
+      "output": "Returns one of: COMMIT_NOW | WAIT_FOR_SIGNAL | WRONG_MOMENT | KAIROS_LOCKED",
+      "note": "KKL output is surfaced in the Brief, not stored as a separate field. Kairos Lock sets drift_state=LOCKED (see drift_sentinel above)."
+    },
+
+    "ATG": {
+      "description": "Adjacent Terrain Generator — surfaces cross-domain reframes and the deeper question beneath the stated one.",
+      "auto_trigger_conditions": [
+        "y_polarity IN [PARADOX, FORK]",
+        "nci_score.by_lens.coherence < 12"
+      ],
+      "optional_trigger": "User may invoke ATG in any mode.",
+      "output": "2–4 tributaries: meta-question | need-to-hear branch | unnamed adjacent primitive | (optional 4th: cross-domain isomorphism)",
+      "note": "ATG is the ARCS name for the Orthogonal Echo Detector primitive. Not yet fully implemented in the compass pipeline."
+    }
+  },
+
+  "w_field_hold_resolution": {
+    "_comment": "When a W-HOLD fires, these are the prompts and resolution paths.",
+    "W-HOLD-01_resolution": {
+      "prompt": "I'm reading two different windows here: [{horizon_a}] and [{horizon_b}]. Which one governs this decision?",
+      "options": ["Use the earlier deadline", "Use the longer horizon", "They're different decisions — help me separate them"],
+      "on_selection": "Write PrepSession.horizon with resolved value; clear collision_fields; retry L1."
+    },
+    "W-HOLD-02_resolution": {
+      "prompt": "The deadline you named ({lock_date}) has already passed. Are you revisiting a past decision, or has the window shifted?",
+      "options": ["Revisiting — show me what the terrain looked like then", "Window shifted — here's the new deadline", "No deadline — proceed with inferred horizon"],
+      "on_selection": {
+        "revisiting": "Set mode=REPLAY (Observatory surface). Do not create new receipt.",
+        "shifted": "Update lock_date; set inferred=false; retry L1.",
+        "no_deadline": "Remove lock_date; set W-SIG-04 rules; retry L1."
+      }
+    }
+  },
+
+  "constants": {
+    "nci_hold_threshold": 40,
+    "nci_warning_band": [40, 59],
+    "nci_degraded_band": [60, 79],
+    "nci_sharp_band": [80, 100],
+    "cadence_hold_threshold": 6,
+    "drift_turn_threshold": 5,
+    "kairos_lock_conditions": {
+      "polarity": "GREEN",
+      "conviction": "HIGH",
+      "stability": "STABLE"
+    },
+    "entity_overflow_threshold": 10,
+    "why_min_items": 1,
+    "why_max_items": 5,
+    "sharp_question_max_length": 280,
+    "receipt_id_pattern": "^ARCS-ORIENT-[0-9T:\\-Z\\.]+-.{8}$"
+  }
+}
