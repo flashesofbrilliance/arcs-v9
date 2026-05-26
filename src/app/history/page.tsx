@@ -10,19 +10,17 @@ const s = {
 }
 
 const Y_WEATHER: Record<string, { label: string; icon: string; color: string }> = {
-  GREEN:   { label: "Clarity Ridge",       icon: "▲", color: "#00FF9D" },
-  YELLOW:  { label: "Pressure Band",       icon: "◈", color: "#FFD700" },
-  RED:     { label: "Cliff Edge",          icon: "✕", color: "#FF4D6D" },
-  FORK:    { label: "Fork",                icon: "⊕", color: "#00F0FF" },
-  SCRATCH: { label: "Fog Layer",           icon: "~", color: "#475569" },
-  DELTA:   { label: "Conviction Shift",    icon: "△", color: "#A78BFA" },
-  DRIFT:   { label: "Drifting",            icon: "⟳", color: "#FB923C" },
-  PARADOX: { label: "Paradox",             icon: "∞", color: "#E879F9" },
+  GREEN:   { label: "Clarity Ridge",    icon: "▲", color: "#00FF9D" },
+  YELLOW:  { label: "Pressure Band",    icon: "◈", color: "#FFD700" },
+  FORK:    { label: "Fork",             icon: "⊕", color: "#00F0FF" },
+  SCRATCH: { label: "Fog Layer",        icon: "~", color: "#475569" },
+  DELTA:   { label: "Conviction Shift", icon: "△", color: "#A78BFA" },
+  PARADOX: { label: "Paradox",          icon: "∞", color: "#E879F9" },
+  LOCKED:  { label: "Kairos Lock",      icon: "◆", color: "#00F0FF" },
 }
 
 const CONVICTION_LABELS: Record<string, string> = {
-  HIGH: "Strong lean", CONTESTED: "Split", LOW: "No lean yet",
-  EPHEMERAL: "Fading", COLLAPSED: "Gone",
+  HIGH: "Strong lean", MEDIUM: "Split", LOW: "No lean yet",
 }
 
 const MODE_LABELS: Record<string, string> = {
