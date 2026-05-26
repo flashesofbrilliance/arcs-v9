@@ -3,7 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ─── DEWY Pipeline Schema ─────────────────────────────────────────────────────
@@ -12,8 +14,8 @@ datasource db {
 // W · Window     — temporal mode; gates compass behavior and Court threshold
 // Y · Yellow     — computed gate state: GREEN|YELLOW|RED|FORK|MERGE|DRIFT
 //
-// All JSON arrays stored as TEXT for SQLite compatibility.
-// Enums stored as plain strings (SQLite has no native enum type).
+// All JSON arrays stored as TEXT (compatible with both SQLite and Postgres).
+// Enums stored as plain strings.
 // ─────────────────────────────────────────────────────────────────────────────
 
 model User {
@@ -45,49 +47,84 @@ model Receipt {
   userId         String?
   user           User?    @relation(fields: [userId], references: [id])
 
+  // ── DEWY Schema identity (dewy-receipt-schema-v1.json) ────────────────────
+  // receiptId: formatted ID = ARCS-ORIENT-[ISO8601]-[8-char hash]. Null on
+  //   records predating this migration; set at L5 freeze going forward.
+  // schemaVersion: pins which JSON schema version this record conforms to.
+  //   Separate from the lineage `version` counter below.
+  // surface: which ARCS surface produced this receipt (always ORIENT for now).
+  // validationState: HOLD/REJECT gate result. Only PASS records carry full decomposition.
+  // sessionTs: L5 freeze time. Distinct from createdAt (DB write time).
+  receiptId        String?  @unique   // ARCS-ORIENT-[ISO8601]-[8-char hash]
+  schemaVersion    String   @default("0.1.0") // dewy-receipt-schema-v1.json version
+  surface          String   @default("ORIENT") // ORIENT | CALIBRATE | CHART_COURSE | DETECT
+  validationState  String   @default("PASS")   // PASS | HOLD | REJECT
+  sessionTs        DateTime? // L5 freeze time (set explicitly; not DB write time)
+
   // ── D · Decision ──────────────────────────────────────────────────────────
-  decision       String           // sharpened question (seed content)
+  // decision: legacy field (pre-schema). Maps to schema `sharp_question`.
+  // sharpQuestion: canonical schema field name. Prefer this for new writes.
+  // dewyVector: full DEWY {D,E,W,Y} JSON object (TEXT). Set by L1.
+  decision       String           // legacy: sharpened question (maps to sharp_question)
+  sharpQuestion  String?          // schema canonical: atomic question from L0 (≤280 chars)
+  dewyVector     String?          // JSON: {D, E:{self,other,entity_overflow}, W:{horizon,lock_date,inferred}, Y:{polarity,conviction,stability}}
   trueNorth      String           // compass True North output
-  whyBullets     String           // JSON: string[]
-  nciScore       Int              // 0–100 coherence score
+  // whyBullets: legacy field. Maps to schema `why` (string[]).
+  whyBullets     String           // JSON: string[] — maps to schema `why`
+  loki           String?          // strongest counter-argument to true_north (schema: loki)
+  bar            String?          // JSON: {ruin_risk, asymmetry, reversibility} (schema: bar)
+  nciScore       Int              // 0–100 composite coherence score (schema: nci_score.composite)
+  nciGrade       String?          // human-readable grade, e.g. "B+ — Conviction is weak lens"
+  nciByLens      String?          // JSON: {clarity,conviction,coherence,consequence,cadence} — 0-20 each
   coherencePct   Int?             // 0–100 question coherence (how well-formed the input is)
   isSatoshi      Boolean          @default(false) // category-defining / rare move flag
-  clarityMode    String           @default("SIMPLE") // SIMPLE | RICH | DEEP
+  clarityMode    String           @default("SIMPLE") // SIMPLE | RICH | DEEP (schema: clarity_mode)
+  fidelityHeader String?          // shown at top of Brief when render_resolution != SHARP
   fated          String?          // JSON: {facts,assumptions,tradeoffs,emotions,direction}
   paths          String?          // JSON: [{id,title,detail,tag,status}]
   court          String?          // JSON: [{name,verdict,detail}] — null unless ruin detected
   courtVerdict   String?          // one-sentence court ruling
-  mode           String           // QUICKMOVE | PLAN | COURT (computed)
+  mode           String           // QUICKMOVE | PLAN | COURT (schema: mode)
   doorClass      String?          // ONE_WAY | TWO_WAY
-  macroTags      String           @default("[]") // JSON: string[]
+  // macroTags: legacy field. Maps to schema `macros_run` (LAB|BAR|KKL|ATG).
+  macroTags      String           @default("[]") // JSON: string[] — maps to schema `macros_run`
   rawResponse    String?          // full Claude JSON for deep reasoning
+  inferredFields String           @default("[]") // JSON: string[] — auto-inferred fields (schema: inferred_fields)
+  collisionFields String          @default("[]") // JSON: string[] — collision-resolved fields (schema: collision_fields)
 
   // ── E · Entity ────────────────────────────────────────────────────────────
   entity         String?          // named party (from prep or extracted from decision)
   stakeholders   String?          // JSON — populated by brief generation
 
   // ── W · Window ────────────────────────────────────────────────────────────
-  window         String           // TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
-  stakes         String?          // LOW | MEDIUM | HIGH
+  // window: legacy field (pre-schema enum values: THIS_WEEK etc.).
+  // horizon: canonical schema field (TODAY|WEEK|QUARTER|YEAR|YEARS).
+  window         String           // legacy: TODAY | THIS_WEEK | THIS_QUARTER | ONE_TO_THREE_YEARS
+  horizon        String?          // schema canonical: TODAY | WEEK | QUARTER | YEAR | YEARS
+  stakes         String?          // LOW | MEDIUM | HIGH | EXISTENTIAL (schema: stakes)
   protecting     String           @default("[]") // JSON: string[] (from prep chips)
   horizonLocked  Boolean          @default(false)
+  driftState     String?          // ON_TRACK | DRIFTING | LOCKED | LANDED (schema: drift_state)
 
   // ── Y · Yellow Gate — Conviction Trajectory Layer ────────────────────────
   // Y is a 3-vector: polarity × conviction × stability → computed summary state
   //
-  // Polarity:   BINARY | NONBINARY | ENTANGLED | PARADOX
-  // Conviction: HIGH | CONTESTED | LOW | EPHEMERAL | COLLAPSED
-  // Stability:  LOCKED | DRIFTING | VOLATILE
-  // State:      GREEN | YELLOW | RED | FORK | MERGE | DRIFT |
-  //             SCRATCH | PARADOX | DELTA
+  // Polarity (schema):   SCRATCH | YELLOW | PARADOX | FORK | DELTA | GREEN | LOCKED
+  // Conviction (schema): LOW | MEDIUM | HIGH
+  // Stability (schema):  SHIFTING | CONTESTED | STABLE
+  //
+  // yGateScore: full Y-gate score JSON including render_resolution + visual_treatment.
+  //   Canonical schema form. Individual yPolarity/yConviction/yStability fields
+  //   remain for indexed queries and backward compat.
   //
   // SCRATCH  → scratchpad, hidden from session history, feeds pattern layer
   // PARADOX  → options non-separable, Curator auto-invoked
   // DELTA    → conviction collapsed, tracks the inflection point
-  yPolarity         String           @default("BINARY")
-  yConviction       String           @default("HIGH")
-  yStability        String           @default("LOCKED")
-  yState            String           @default("GREEN")
+  yPolarity         String           @default("SCRATCH") // schema: dewy_vector.Y.polarity
+  yConviction       String           @default("LOW")     // schema: dewy_vector.Y.conviction — LOW|MEDIUM|HIGH
+  yStability        String           @default("SHIFTING") // schema: dewy_vector.Y.stability — SHIFTING|CONTESTED|STABLE
+  yState            String           @default("SCRATCH") // computed summary state
+  yGateScore        String?          // JSON: {polarity,conviction,stability,render_resolution,visual_treatment} (schema: y_gate_score)
   yConvictionPrev   String?          // prior conviction state (null if seed)
   yDeltaTrigger     String?          // what caused conviction to move
   yConditions       String           @default("[]") // JSON: [{dim,label,severity}]
@@ -97,24 +134,21 @@ model Receipt {
   promotedTo        String?          // if SCRATCH: id of Receipt it was promoted into
 
   // ── Kinematic / Manifold ──────────────────────────────────────────────────
-  // Derived from the gradient field at this Receipt's position on the decision manifold.
-  // |∇C| = coherence gain rate (0–1). Topology describes flow line character.
-  // Curvature describes local surface shape. renderResolution drives silkscreen treatment.
   gradientMagnitude  Float   @default(0.5) // |∇C(x)| — 0=flat, 1=steep ascent
   gradientDirection  String  @default("{}") // JSON: unit vector across DEWY dims
   flowTopology       String  @default("CONVERGENT") // CONVERGENT|DIVERGENT|LOOPING|CLIFF
   manifoldCurvature  String  @default("MODERATE")   // STEEP|MODERATE|FLAT|INVERTED
-  renderResolution   String  @default("SHARP")      // SHARP|DEGRADED|GRAIN|MOIRE
+  renderResolution   String  @default("SHARP")      // SHARP|DEGRADED|GRAIN|MOIRE (schema: render_resolution)
 
   // ── Lineage ───────────────────────────────────────────────────────────────
   sessionId      String           // groups full decision thread
-  parentId       String?          // null = seed receipt
-  version        Int              @default(0)
+  parentId       String?          // null = seed receipt (schema: parent_receipt_id → parentId)
+  version        Int              @default(0) // lineage counter (not schema version — see schemaVersion)
   forkPath       String?          // which path was chosen if parent was FORK state
   mergedFrom     String           @default("[]") // JSON: string[] receipt ids
 
   // ── Relations ─────────────────────────────────────────────────────────────
-  prepId         String?
+  prepId         String?          // schema: prep_session_id → prepId
   prep           PrepSession?     @relation(fields: [prepId], references: [id])
   parent         Receipt?         @relation("lineage", fields: [parentId], references: [id])
   children       Receipt[]        @relation("lineage")
@@ -130,6 +164,9 @@ model Receipt {
   @@index([sessionId])
   @@index([parentId])
   @@index([createdAt])
+  @@index([receiptId])
+  @@index([validationState])
+  @@index([horizon])
 }
 
 model Brief {
