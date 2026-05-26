@@ -45,6 +45,7 @@ if str(_here) not in sys.path:
 from arcs_core import (
     DomainConfig, GauntletEntry, GauntletResult, LokiRule,
     run_gauntlet_with_dewy, render_receipt, parse_year,
+    versioned_out_dir,
     RECENT, ACTIVE, NOW,
 )
 
@@ -495,7 +496,7 @@ def main():
     config = READER_DOMAIN_CONFIG
     config.subject_weights = parse_subject_weights(args.subject)
 
-    out_dir  = args.out or os.path.dirname(os.path.abspath(args.clippings))
+    out_dir  = args.out or versioned_out_dir("reader")
     os.makedirs(out_dir, exist_ok=True)
     basename = os.path.splitext(os.path.basename(args.clippings))[0]
 

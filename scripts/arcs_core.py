@@ -205,6 +205,40 @@ class GauntletResult:
     arch_ranked:  List[Tuple[str, float]]
 
 # ─────────────────────────────────────────────────────────────
+# VERSIONED OUTPUT PATH
+# ─────────────────────────────────────────────────────────────
+
+import os as _os
+from datetime import date as _date
+
+def versioned_out_dir(domain: str, repo_root: Optional[str] = None) -> str:
+    """Return exports/{domain}/{YYYY-MM-DD}/ relative to repo_root.
+
+    domain   — lowercase domain name: "network", "calendar", "listening", "reader"
+    repo_root — absolute path to repo; defaults to the directory two levels above
+                this file (scripts/ → repo root).
+
+    Used by all scanners as their default --out when the user doesn't specify one.
+    """
+    if repo_root is None:
+        # arcs_core.py lives in scripts/ → go up one level to repo root
+        repo_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+    today = _date.today().isoformat()          # "2026-05-26"
+    path  = _os.path.join(repo_root, "exports", domain, today)
+    _os.makedirs(path, exist_ok=True)
+    return path
+
+
+def receipts_dir(repo_root: Optional[str] = None) -> str:
+    """Return exports/receipts/ — where arcs_cli.py run writes apex receipts."""
+    if repo_root is None:
+        repo_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+    path = _os.path.join(repo_root, "exports", "receipts")
+    _os.makedirs(path, exist_ok=True)
+    return path
+
+
+# ─────────────────────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────────────────────
 
