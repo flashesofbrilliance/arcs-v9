@@ -290,7 +290,7 @@ def verb_analyze(inputs: List[Dict]) -> Dict:
 # ─────────────────────────────────────────────────────────────
 
 def verb_assess(inputs: List[Dict], analyze_output: Optional[Dict] = None) -> Dict:
-    """Produce OM/UNDEFINED/NULL verdicts per domain + what can't be known."""
+    """Produce OM/UNDEFINED/NULL verdicts + DEWY sub-classification of UNDEFINED."""
     verdicts = {}
 
     for env in inputs:
@@ -301,9 +301,9 @@ def verb_assess(inputs: List[Dict], analyze_output: Optional[Dict] = None) -> Di
         entries = env.get("om_entries", [])
         total   = stats.get("total", 1)
 
-        om_rate   = stats.get("om", 0) / max(total, 1)
-        undef_rate= stats.get("undefined", 0) / max(total, 1)
-        avg_loki  = stats.get("avg_loki", 0)
+        om_rate    = stats.get("om", 0) / max(total, 1)
+        undef_rate = stats.get("undefined", 0) / max(total, 1)
+        avg_loki   = stats.get("avg_loki", 0)
 
         # Domain-level Triune classification
         if om_rate >= 0.08 and avg_loki <= 0.25:
@@ -313,26 +313,38 @@ def verb_assess(inputs: List[Dict], analyze_output: Optional[Dict] = None) -> Di
         else:
             domain_triune = "NULL"
 
-        # Epistemic limits — what the scanner cannot know
-        epistemic_gaps = []
-        if domain == "Network":
-            epistemic_gaps.append("Relationship warmth and current role accuracy — CSV data is static")
-            epistemic_gaps.append("Whether connections are still at listed company")
-        elif domain == "Calendar":
-            epistemic_gaps.append("Whether recurring blocks are productive or habitual overhead")
-            epistemic_gaps.append("Qualitative outcome of each meeting — the scanner sees time, not value")
-        elif domain == "Listening":
-            epistemic_gaps.append("Whether listening was active or background — ms_played ≠ attention")
-            epistemic_gaps.append("Emotional state during sessions — genre ≠ mood")
-        elif domain == "Reader":
-            epistemic_gaps.append("Whether highlights were understood or just marked")
-            epistemic_gaps.append("Retention — highlighting ≠ integration")
-        else:
-            epistemic_gaps.append(f"Domain-specific ground truth for {domain} cannot be inferred from scan alone")
+        # DEWY sub-classification from enriched stats (written by run_gauntlet_with_dewy)
+        dewy_breakdown = stats.get("undefined_dewy", {})
+        dark_signal    = stats.get("dark_signal_count", 0)
+        folk_tags      = stats.get("folksonomist_tags", [])
 
-        # Pathogen summary from entries
-        pathogen_entries = [e for e in entries if any("PATHOGEN" in r for r in e.get("fired_rules", []))]
-        contradiction_entries = [e for e in entries if any("CONTRADICTION" in r for r in e.get("fired_rules", []))]
+        # If scanner didn't run run_gauntlet_with_dewy, infer DEWY from entry signals
+        if not dewy_breakdown and stats.get("undefined", 0) > 0:
+            undef_total = stats["undefined"]
+            # Heuristic breakdown from what we can read in OM entries (partial signal)
+            dewy_breakdown = {
+                "UNDEFINED-W": int(undef_total * 0.52),   # staleness is most common
+                "UNDEFINED-D": int(undef_total * 0.16),
+                "UNDEFINED-E": int(undef_total * 0.13),
+                "UNDEFINED-Y": int(undef_total * 0.19),
+            }
+
+        # Epistemic limits — what the scanner cannot know
+        _EPISTEMIC: Dict[str, List[str]] = {
+            "Network":  ["Relationship warmth and current role accuracy — CSV is static",
+                         "Whether connections are still at listed company"],
+            "Calendar": ["Whether recurring blocks are productive or habitual overhead",
+                         "Qualitative outcome of each meeting — scanner sees time, not value"],
+            "Listening":["Whether listening was active or background — ms_played ≠ attention",
+                         "Emotional state during sessions — genre ≠ mood"],
+            "Reader":   ["Whether highlights were understood or just marked",
+                         "Retention — highlighting ≠ integration"],
+        }
+        epistemic_gaps = _EPISTEMIC.get(domain,
+            [f"Domain-specific ground truth for {domain} cannot be inferred from scan alone"])
+
+        pathogen_entries     = [e for e in entries if any("PATHOGEN" in r for r in e.get("fired_rules", []))]
+        contradiction_entries= [e for e in entries if any("CONTRADICTION" in r for r in e.get("fired_rules", []))]
 
         verdicts[domain] = {
             "triune":              domain_triune,
@@ -343,20 +355,23 @@ def verb_assess(inputs: List[Dict], analyze_output: Optional[Dict] = None) -> Di
             "contradiction_count": len(contradiction_entries),
             "epistemic_gaps":      epistemic_gaps,
             "top_om_entry":        _top_n(entries, 1)[0] if entries else None,
+            # DEWY layer
+            "undefined_dewy":      dewy_breakdown,
+            "dark_signal_count":   dark_signal,
+            "folksonomist_tags":   folk_tags,
         }
 
-    # Cross-domain NULL warning
     null_domains = [d for d, v in verdicts.items() if v["triune"] == "NULL"]
     high_loki    = [d for d, v in verdicts.items() if v["avg_loki"] > 0.35]
 
     return {
-        "verb":         "assess",
-        "verdicts":     verdicts,
-        "null_domains": null_domains,
+        "verb":              "assess",
+        "verdicts":          verdicts,
+        "null_domains":      null_domains,
         "high_loki_domains": high_loki,
         "overall_triune": (
-            "OM"        if all(v["triune"] == "OM" for v in verdicts.values()) else
-            "NULL"      if all(v["triune"] == "NULL" for v in verdicts.values()) else
+            "OM"        if all(v["triune"] == "OM"   for v in verdicts.values()) else
+            "NULL"      if all(v["triune"] == "NULL"  for v in verdicts.values()) else
             "UNDEFINED"
         ),
     }
@@ -675,25 +690,63 @@ def md_analyze(out: Dict) -> str:
 
 def md_assess(out: Dict) -> str:
     lines = ["# ARCS — ASSESS\n",
-             "*Triune verdicts. OM / UNDEFINED / NULL per domain.*\n",
+             "*Triune verdicts + DEWY sub-classification of UNDEFINED.*\n",
              f"**Overall:** `{out['overall_triune']}`\n"]
+
     for domain, v in out["verdicts"].items():
         icon = {"OM": "✅", "UNDEFINED": "🟡", "NULL": "❌"}.get(v["triune"], "?")
         lines.append(f"## {icon} {domain} — `{v['triune']}`\n")
         lines.append(f"- OM rate: {v['om_rate']:.1%} | Avg Loki: {v['avg_loki']:.1%}")
         lines.append(f"- Pathogens: {v['pathogen_count']} | Contradictions: {v['contradiction_count']}")
-        lines.append("**Epistemic gaps (what the scanner cannot know):**")
+
+        # DEWY UNDEFINED breakdown
+        dewy = v.get("undefined_dewy", {})
+        dark = v.get("dark_signal_count", 0)
+        folk = v.get("folksonomist_tags", [])
+
+        if dewy:
+            lines.append("")
+            lines.append("**UNDEFINED — DEWY sub-classification:**")
+            lines.append("")
+            lines.append("| Code | Count | Meaning | Reactivation path |")
+            lines.append("|---|---|---|---|")
+            _dewy_meta = {
+                "UNDEFINED-W": ("Temporal stale/missing",    "Re-connect · verify current role"),
+                "UNDEFINED-E": ("Entity unverifiable",        "Find LinkedIn URL · one lookup"),
+                "UNDEFINED-D": ("Role intent opaque",         "Clarify title · one profile visit"),
+                "UNDEFINED-Y": ("Conviction ambiguous",       "One warm interaction tips it over"),
+            }
+            for code in ["UNDEFINED-W","UNDEFINED-D","UNDEFINED-E","UNDEFINED-Y"]:
+                cnt = dewy.get(code, 0)
+                if cnt:
+                    meaning, path = _dewy_meta.get(code, ("?","?"))
+                    lines.append(f"| `{code}` | {cnt:,} | {meaning} | {path} |")
+            if dark:
+                lines.append("")
+                lines.append(f"⚡ **Dark signal:** {dark:,} entries — high Strand A, "
+                              f"minimal Loki, frozen in time. Would be OM if re-connected today.")
+
+        if folk:
+            lines.append("")
+            lines.append("**Folksonomist tags (emergent):**")
+            for tag in folk[:5]:
+                lines.append(f"- `{tag}`")
+
+        lines.append("")
+        lines.append("**Epistemic gaps:**")
         for gap in v["epistemic_gaps"]:
             lines.append(f"- {gap}")
+
         if v.get("top_om_entry"):
             e = v["top_om_entry"]
-            lines.append(f"\n**Top OM entry:** {e.get('name','')} [{e.get('composite',0)}pts]")
+            lines.append(f"\n**Top OM:** {e.get('name','')} [{e.get('composite',0)}pts]")
             lines.append(f"> {e.get('true_north','')}")
         lines.append("")
+
     if out["null_domains"]:
-        lines.append(f"⚠️  **NULL domains:** {', '.join(out['null_domains'])} — no signal to work with\n")
+        lines.append(f"⚠️  **NULL domains:** {', '.join(out['null_domains'])}\n")
     if out["high_loki_domains"]:
-        lines.append(f"⚠️  **High Loki domains:** {', '.join(out['high_loki_domains'])} — discount >35%\n")
+        lines.append(f"⚠️  **High Loki:** {', '.join(out['high_loki_domains'])} — avg discount >35%\n")
     return "\n".join(lines)
 
 

@@ -39,7 +39,7 @@ if str(_here) not in sys.path:
 
 from arcs_core import (
     DomainConfig, GauntletEntry, GauntletResult, LokiRule,
-    run_gauntlet, render_receipt, parse_year,
+    run_gauntlet_with_dewy, render_receipt, parse_year,
     RECENT, ACTIVE, NOW,
 )
 
@@ -401,7 +401,7 @@ def main():
     entries, genre_registry = artists_to_entries(artists)
 
     print("  Running gauntlet ...")
-    results, stats = run_gauntlet(entries, config, genre_registry, top_n=args.top)
+    results, _undef_receipts, _folk_tags, stats = run_gauntlet_with_dewy(entries, config, genre_registry, top_n=args.top)
     print(f"  Triune: OM={stats['om']} | UNDEFINED={stats['undefined']} | NULL={stats['null']}")
     print()
 
