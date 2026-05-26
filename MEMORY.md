@@ -5,6 +5,62 @@
 
 ---
 
+## [v0.2.0] 2026-05-26 — Perplexity session: Orient PRD, DEWY schema, handoff v0.2.0 + post-handoff Claude Code commits
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: Perplexity ARCS Space (v8.5 Field OS)
+- Session goal: push Orient PRD (Kairos Lock), DEWY receipt JSON schema, updated handoff file, MEMORY v0.2.0
+- Kairos Lock declared on `arcs-field-os/specs/orient-prd.md` — breaking changes require v0.2.0 + PR
+
+### Artifacts pushed this session
+
+#### arcs-field-os
+| Commit SHA | File | What it is |
+|---|---|---|
+| `618022004033d72b` | `specs/orient-prd.md` v0.1.0 | Governing authority for Orient surface. Kairos Lock active. L0–L5 pipeline fully specced with worked examples. NULL/OM/UNDEFINED coverage at every stage gate. |
+| `79b7261` (prior) | `jtbd/jtbd-master-map.md` v0.1.0 | Canonical four-surface architecture (Calibrate → Orient → Chart Course → Detect) |
+| (prior) | `specs/index.md` | Spec registry with authoring priority queue |
+
+#### arcs-v9
+| Commit SHA | File | What it is |
+|---|---|---|
+| `20916740` | `runtime/specs/dewy-receipt-schema-v1.json` | Machine-readable JSON Schema Draft 07. Full field coverage from orient-prd.md §3 L5. Source of truth for Receipt model. Prisma schema must conform. |
+| `20916740` | `CLAUDE.md` (appended) | Handoff v0.2.0 section appended. v0.1.0 preserved verbatim above it. |
+| `35d32da6` (prior) | `MEMORY.md` v0.1.0 | Initial memory log — baseline audit |
+| `35d32da6` (prior) | `SKILL.md` v0.1.0 | Skill contract, priority queue, ROM primitives |
+| `55009d62` (prior) | `CLAUDE.md` (appended) | Handoff v0.1.0 section appended |
+
+### Post-handoff Claude Code commits (landed after our last push)
+| Commit SHA | Date | What it does |
+|---|---|---|
+| [`a38d7f2`](https://github.com/flashesofbrilliance/arcs-v9/commit/a38d7f2acf29133732a2eae4a266eb8e06059631) | 2026-05-26 17:11 | Versioned output tree — `exports/{domain}/YYYY-MM-DD/` + `exports/receipts/` auto-write on `arcs_cli.py run`. `arcs_core.py` gains `versioned_out_dir(domain)` + `receipts_dir()` helpers. [NCI:75] |
+| [`fa8c54d`](https://github.com/flashesofbrilliance/arcs-v9/commit/fa8c54df9d1676bfd27155dbc1adae916bba103a) | 2026-05-26 17:32 | `.gitignore` updated — `exports/` and local scan outputs excluded (personal data, not source) |
+
+### Cross-repo dependency state
+- `arcs-field-os/specs/orient-prd.md` is the governing authority for arcs-v9 Issues #2, #3, #4
+- `arcs-v9/runtime/specs/dewy-receipt-schema-v1.json` is the source of truth for the Receipt Prisma model
+- Any Prisma schema changes to `Receipt` must be validated against the JSON schema before commit
+- `arcs-field-os` spec changes require a `MEMORY.md` entry in arcs-v9
+
+### Open gaps (updated status)
+```
+runtime/specs/dewy-receipt-schema-v1.json   ✅ EXISTS — wire into Prisma (Issue #2 active)
+runtime/specs/dewy-receipt-schema-v1.md     🔴 CREATE — human-readable companion (Issue #2)
+runtime/specs/time-quality-attribution-rom.json  🔴 CREATE (Issue #3)
+runtime/flows/question-compass-to-dewy.md   🔴 CREATE (Issue #4)
+canon/book-ii-time-firmware-modes.md        🔴 CREATE — after #3 (Issue #5)
+arcs-field-os/specs/hold-reject-gate.md     🔴 NOT YET WRITTEN — HOLD/REJECT logic lives in orient-prd.md §2.2 for now
+```
+
+### Next move for next session
+1. Read `CLAUDE.md` → Handoff v0.2.0 section (active pickup point)
+2. Read `arcs-field-os/specs/orient-prd.md` before touching Issues #2–4
+3. Start Issue #2: validate `prisma/schema.prisma` Receipt model against `runtime/specs/dewy-receipt-schema-v1.json`
+4. Note: `exports/` directory now exists locally (gitignored) — do not recreate or commit scan output files
+
+---
+
 ## [v0.1.0] 2026-05-26 — Perplexity ARCS session baseline
 
 ### Session context
