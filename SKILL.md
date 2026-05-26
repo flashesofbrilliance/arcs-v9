@@ -59,6 +59,24 @@ Operate on `scripts/`. Rules:
 - Every new scanner must implement the gauntlet interface: `strand_a`, `strand_b`, `helix_composite`, `l2_bayesian`, `triune_classify`, `run_gauntlet`
 - Self-sovereign leaves: no scanner may depend on another scanner (only on `arcs_core`)
 
+### 7. Session commands (slash commands)
+
+Two slash commands live in `.claude/commands/`. They fire inside Claude Code (SUBSCRIPTION billing — no Agent SDK credit consumed).
+
+| Command | File | When to run |
+|---|---|---|
+| `/handoff` | `.claude/commands/handoff.md` | END of every session. Updates MEMORY.md, SKILL.md changelog, CLAUDE.md handoff block, and `arcs-session-state.md`. Outputs a HANDOFF RECEIPT. |
+| `/handoff-pickup` | `.claude/commands/handoff-pickup.md` | START of a new session. Reads `arcs-session-state.md` + last CLAUDE.md handoff block only. Produces ORIENTATION BRIEF. |
+
+**Token budget contract:**
+- `/handoff` reads at most 5 files + `git log --oneline -10`
+- `/handoff-pickup` reads at most 3 files
+- Neither command reads `MEMORY.md` history, `WORLD.md`, or the full repo
+
+**Session state file:** `.claude/arcs-session-state.md` — overwritten by `/handoff` each session. Single cheapest entry point for pickup. Do not manually edit mid-session.
+
+---
+
 ### 6. Input normalization & linting
 Operate on any invocation, config string, or user input before it enters the L0–L5 pipeline. This is the **validation layer** that sits on top of the complete JTBD/DEWY map. Rules:
 
@@ -112,12 +130,10 @@ Operate on any invocation, config string, or user input before it enters the L0�
 
 | Priority | Issue | File target | Status | Blocks |
 |---|---|---|---|---|
-| P0 | #2 DEWY Receipt Schema | `runtime/specs/dewy-receipt-schema-v1.md` (human-readable) + validate/update `prisma/schema.prisma` Receipt model against `runtime/specs/dewy-receipt-schema-v1.json` | 🔴 JSON schema ✅ exists — Prisma + .md still needed | #3, #4, #5 |
-| P0 | #3 Time ROM | `runtime/specs/time-quality-attribution-rom.json` | 🔴 Not started | #4, #5 |
-| P0 | #4 Compass→DEWY flow | `runtime/flows/question-compass-to-dewy.md` | 🔴 Not started | #5 |
-| P0 | #5 Book II Canon | `canon/book-ii-time-firmware-modes.md` | 🔴 Not started | — |
-
-**Issue #2 note:** `runtime/specs/dewy-receipt-schema-v1.json` already exists (committed 2026-05-26). Do NOT recreate it. Issue #2 is now: (1) write the human-readable `.md` companion derived from the JSON schema, and (2) validate/update `prisma/schema.prisma` Receipt model to conform to it.
+| P0 | #2 DEWY Receipt Schema | `runtime/specs/dewy-receipt-schema-v1.md` + `prisma/schema.prisma` | ✅ Done — committed 2026-05-26 | — |
+| P0 | #3 Time ROM | `runtime/specs/time-quality-attribution-rom.json` | ✅ Done — committed 2026-05-26 | — |
+| P0 | #4 Compass→DEWY flow | `runtime/flows/question-compass-to-dewy.md` | 🔴 Next — unblocked | #5 |
+| P0 | #5 Book II Canon | `canon/book-ii-time-firmware-modes.md` | 🔴 Blocked on #4 | — |
 
 ---
 
@@ -167,3 +183,4 @@ Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/ori
 |---|---|---|
 | v0.1.0 | 2026-05-26 | Initial creation from Perplexity ARCS session handoff |
 | v0.2.0 | 2026-05-26 | Issue #2 priority queue corrected (JSON schema ✅ exists; Prisma + .md companion still needed); Skill Domain #6 added (Input Normalization & Linting — full gate spec, field-level rules, receipt contract); HOLD/REJECT section cross-linked to Domain #6 |
+| v0.3.0 | 2026-05-26 | Issues #2 and #3 complete; priority queue updated to reflect ✅ status; Skill Domain #7 added (Session Commands — /handoff + /handoff-pickup, token budget contract, arcs-session-state.md ownership) |
