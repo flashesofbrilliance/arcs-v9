@@ -870,7 +870,12 @@ Archetype options (pick 1–3, in order of dominance):
     subject_weights  = parse_subject_stack(args.subject)
     subject_stack_str = " → ".join(a for a, _ in subject_weights)
 
-    out_dir = args.out or os.path.dirname(os.path.abspath(args.csv))
+    if args.out:
+        out_dir = args.out
+    else:
+        today   = datetime.today().strftime("%Y-%m-%d")
+        _root   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        out_dir = os.path.join(_root, "exports", "network", today)
     os.makedirs(out_dir, exist_ok=True)
     base = os.path.splitext(os.path.basename(args.csv))[0]
     out_md   = os.path.join(out_dir, f"{base}_arcs_scan.md")

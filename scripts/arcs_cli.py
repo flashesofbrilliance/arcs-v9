@@ -88,7 +88,15 @@ import argparse
 import json
 import os
 import sys
+from datetime import date as _date
 from typing import Any, Dict, List, Optional, Tuple
+
+def _receipts_dir() -> str:
+    """exports/receipts/ relative to this file's repo root."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    path = os.path.join(root, "exports", "receipts")
+    os.makedirs(path, exist_ok=True)
+    return path
 
 # ─────────────────────────────────────────────────────────────
 # ENVELOPE LOADING
@@ -1201,18 +1209,17 @@ Examples:
         sy_out = verb_synthesize(inputs)
         re_out = verb_recapitulate(inputs, stack, a_out, as_out, ev_out, sy_out)
 
-        if args.out:
-            # Write full 5-section Markdown
-            parts = [md_analyze(a_out), md_assess(as_out),
-                     md_evaluate(ev_out), md_synthesize(sy_out),
-                     md_recapitulate(re_out)]
-            with open(args.out, "w", encoding="utf-8") as f:
-                f.write("\n\n---\n\n".join(parts))
-            print(f"Wrote: {args.out}", file=sys.stderr)
-            # Also print apex spine to terminal
-            no_color = not sys.stdout.isatty()
-            print(render_apex_spine(re_out, no_color=no_color))
-        elif args.md:
+        # Always write full 5-section Markdown to versioned receipts dir
+        today    = _date.today().isoformat()
+        out_path = args.out or os.path.join(_receipts_dir(), f"{today}_apex_receipt.md")
+        parts    = [md_analyze(a_out), md_assess(as_out),
+                    md_evaluate(ev_out), md_synthesize(sy_out),
+                    md_recapitulate(re_out)]
+        with open(out_path, "w", encoding="utf-8") as f:
+            f.write("\n\n---\n\n".join(parts))
+        print(f"Wrote: {out_path}", file=sys.stderr)
+
+        if args.md:
             print(md_recapitulate(re_out))
         else:
             # Default: apex spine to terminal
