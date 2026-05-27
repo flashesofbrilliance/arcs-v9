@@ -5,6 +5,137 @@
 
 ---
 
+## [v0.7.0] 2026-05-27 — Book II Parts V & VI promoted to CANONICAL; Issue #5 COMPLETE; dual-bar-raiser skill registered
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: Claude Code (`arcs-v9` main) — drift detection / memory repair session
+- Session goal: Reconcile MEMORY.md drift (v0.5.0 → v0.7.0); close Issue #5
+
+### Artifacts landed (not previously logged)
+
+| Commit SHA | File | What it is |
+|---|---|---|
+| `087ef22` | `_CANON/book-ii/part-v-the-accumulation-protocol.md` | CONDITIONAL CLEAR applied — 10 upstream audit findings addressed (§5.1–§5.6); three-state receipt taxonomy, constitutional range formally defined, mandatory debrief scoped to lineage-citing sessions |
+| `087ef22` | `_CANON/book-ii/part-vi-the-shared-court.md` | CONDITIONAL CLEAR applied — 9 findings addressed (§6.1–§6.5); L5 presence rule for co-signing, gate-refusal→HOLD→Arbitration routing, formal declaration mechanism |
+| `b6e59e4` | Both Part V + VI | **Promoted to CANONICAL v1.0.0** — Architect ratification received 2026-05-26; no further structural changes required |
+| `05312cb` | `.claude/arcs-dual-bar-raiser.md` | Dual-bar-raiser skill — two-agent workflow (Claude Code owns edits/commits; Architect/Bar-Raiser owns canon structure + upstream audits) |
+
+### Sprint closure
+
+| Issue | Status |
+|---|---|
+| #2 DEWY Receipt Schema | ✅ DONE |
+| #3 Time ROM | ✅ DONE |
+| #4 Compass → DEWY Flow | ✅ DONE |
+| #5 Book II Canon | ✅ DONE — All 6 Parts CANONICAL |
+
+**Issue #1 (P0 Backlog Sprint 1) — COMPLETE.** All sub-issues resolved.
+
+### Book II canon final status
+
+| Part | Title | Status |
+|---|---|---|
+| I | From Firehose to Compass | ✅ CANONICAL |
+| II | Core ROM Axioms | ✅ CANONICAL |
+| III | Constitutional Court & Agency | ✅ CANONICAL |
+| IV | (held — see v0.4.0) | ✅ CONDITIONAL CLEAR → CANONICAL |
+| V | The Accumulation Protocol | ✅ CANONICAL v1.0.0 |
+| VI | The Shared Court | ✅ CANONICAL v1.0.0 |
+
+### Open gaps (carry forward)
+
+```
+globals.css                     🟡 DECISION NEEDED — Tailwind import vs. WORLD.md inline-styles-only rule
+.env.example                    🟡 LOW — stale FastAPI/Railway refs (ARCS_API_URL, ARCS_API_KEY)
+P4: arcs-v9 → Vercel preview    🟡 IN PROGRESS — blocked on DATABASE_URL + Supabase keys
+NCI progressive grading         📋 BACKLOG — cross-session tracking not yet implemented
+```
+
+### Next move for next session
+1. Decide next sprint: P4 Vercel deploy unblock OR new canon/feature sprint
+2. If deploy: Supabase dashboard → Settings → Database → Connection strings → set on Vercel → `prisma db push` → `vercel deploy`
+3. If canon: new sprint scoping needed (Book III? Observatory? ATG?)
+
+---
+
+## [v0.6.0] 2026-05-26 — Book II Part VI drafted (The Shared Court); dual-bar-raiser workflow established
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: Claude Code (`arcs-v9` main)
+- Session goal: Draft Book II Part VI; establish two-agent workflow protocol
+
+### Artifacts landed this session
+
+| Commit SHA | File | What it is |
+|---|---|---|
+| `6fece14` | `_CANON/book-ii/part-vi-the-shared-court.md` | Part VI v0.1.0 DRAFT — §6.0–§6.6, The Shared Court |
+| `05312cb` | `.claude/arcs-dual-bar-raiser.md` | Two-agent workflow skill (INFRA) |
+| `94f04b6` | `.claude/arcs-session-state.md` | Session handoff v0.6.0 |
+
+### Part VI architecture decisions (locked before drafting)
+- Witness = receipt annotation only; two standing roles: Initiator + Respondent
+- Quorum = unanimity of being bound (not agreement)
+- Refusal to accept bound dissent → HOLD or Arbitration Session
+- §6.3 quorum paragraph ratified verbatim
+
+### Part VI section summary
+- §6.0: single-agent ceiling — structural gap, not edge case
+- §6.1: Initiator / Respondent standing (binary); witnesses as annotation
+- §6.2: Dissent Record as first-class receipt field; bound dissent requires name + scope + acknowledgment
+- §6.3: deliberation protocol — L1 framing, L3 stakes, L4 dissent acknowledgment; quorum rule
+- §6.4: co-signed delta gates — same quorum; no veto on gate values, only bound dissent; L5 presence rule
+- §6.5: Arbitration Session — 3 preconditions; narrow jurisdiction; no retroactive lineage alteration
+- §6.6: hard boundaries — power asymmetry (scope limit), bad-faith (auditable only), scope capture (party discipline)
+
+### Upstream audit status at handoff
+Parts V and VI DRAFT held — pending upstream ARCS audit (audit subsequently completed; see v0.7.0).
+
+---
+
+## [v0.5.0] 2026-05-26 — Book II Part V drafted (The Accumulation Protocol); §5.7 Calibrate/HOLD cross-link; not yet committed
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: Claude Code (`arcs-v9` main) — canon drafting session
+- Session goal: Draft Book II Part V; integrate JTBD D / Calibrate connection into §5.7
+
+### Artifacts landed this session
+
+| File | Status | Notes |
+|---|---|---|
+| `_CANON/book-ii/part-v-the-accumulation-protocol.md` | 🟡 Written, not committed | §5.0–§5.7, v0.1.0, DRAFT held |
+
+### Key decisions
+
+- **Part V scope locked:** The Accumulation Protocol — the signal layer that prevents the Frozen Court Problem
+- **Three primitive chain:** delta gates → kairos detection → accumulation loop (5-step, 3 modes)
+- **Two guard layers:** drift detection (CLEAR/WATCH/DRIFT → Part III escalation) + debrief session (first-class session type, calibration receipt)
+- **Boundary section (§5.7):** Three failure modes accumulation cannot fix: value drift, scope creep, malformed original question
+- **§5.7 Calibrate note:** Malformed-question failure mode linked to JTBD D / Calibrate surface / HOLD gate / anticipatory probing — Part V handles what survives the HOLD check; was never designed to substitute for it
+- **`signal layer` casing:** lowercase throughout §5.2–§5.7; standardize before v0.2.0 (copyedit only)
+
+### Cross-repo connection confirmed
+
+Part V §5.7 → `arcs-field-os/jtbd/jtbd-master-map.md` (JTBD D→A→C→B = Calibrate→Orient→Chart→Detect loop). Part V is architecturally downstream of the Calibrate surface.
+
+### Upstream audit status
+
+Part V is DRAFT held pending upstream ARCS audit. Same protocol as Parts I–IV. When packet returns, translate to section-keyed annotations (§5.x sentence-anchored).
+
+### Next session first action
+
+```bash
+git add _CANON/book-ii/part-v-the-accumulation-protocol.md
+git commit -m "feat(canon): Book II Part V — The Accumulation Protocol v0.1.0 [NCI:DRAFT]"
+```
+
+Then submit for upstream audit.
+
+
+---
+
 ## [v0.4.0] 2026-05-26 — Book II Parts I–III canonical; Issue #4 flow doc; upstream audit protocol updated; Part IV draft held
 
 ### Session context
