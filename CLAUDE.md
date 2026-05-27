@@ -391,3 +391,51 @@ NONE — next sprint unscoped. Candidates: P4 Vercel deploy / Book III / product
 ## Blocking question
 
 NONE.
+
+---
+
+# Handoff — v0.9.1 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v0.9.0 above is preserved for history.
+
+## What changed since v0.9.0
+
+- **ARCS Data Science Suite COMPLETE** — all scripts committed and pushed:
+  - `scripts/arcs_core.py` — kernel with DEWY, Folksonomist, `DomainConfig.strand_a_fn` hook, versioned output tree
+  - `scripts/calendar_scan.py` — intent-based Strand A, `om_composite_min=130`, 750 real events tested
+  - `scripts/listening_scan.py` — listening-domain Strand A, multi-format timestamp parser
+  - `scripts/reader_scan.py` — reader-domain Strand A, 12-domain concept taxonomy
+  - `scripts/arcs_cli.py` — 5-verb pipeline (scan/assess/cluster/spine/run), apex receipt auto-write
+- **Google Calendar restructured via MCP** — 5 recurring anchor blocks live from 2026-06-01:
+  - 🔴 Deep Work: Mon–Fri 06:00–09:00 | 🟢 Morning Stack: Daily 05:30–06:00
+  - 🟠 Revenue Block: Tue+Thu 10:00–12:00 | 🟡 Weekly Review: Fri 16:00–17:00
+  - 🔴 Shutdown Ritual: Mon–Fri 17:30–17:45
+- **Calendar audit findings:** 2.3% revenue/external, 0% recurring pre-restructure, peak maker window 06:00–09:00 ET
+- **Spotify:** No real data in repo — user must request extended history at spotify.com/account/privacy
+
+## Data science scan state
+
+```
+exports/calendar/2026-05-26/   ✅ Real (750 events via MCP)
+exports/listening/2026-05-26/  🟡 Synthetic — awaiting Spotify extended export
+exports/reader/2026-05-26/     🟡 Synthetic — awaiting Kindle My Clippings.txt
+exports/receipts/              ✅ Apex receipt written
+```
+
+## Open gaps
+
+```
+P4 Vercel deploy     🟡 IN PROGRESS — blocked on Supabase DATABASE_URL + DIRECT_URL + SERVICE_ROLE_KEY
+Spotify export       📋 WAITING — request at spotify.com/account/privacy (extended history, up to 30 days)
+Kindle clippings     📋 WAITING — USB connect Kindle or check ~/Library for Kindle Mac app
+Calendar Phase 2     📋 OPEN — find/rename existing morning routine event (avoid duplicate with 🟢 Morning Stack)
+```
+
+## Last confirmed commits (arcs-v9)
+
+`04c57cb` — chore(housekeeping): stale draft deleted, exports/ gitignored
+`b0ddeb1` — chore(handoff): session handoff v0.7.0 (pushed this session)
+
+## Blocking question
+
+NONE — pick next sprint: P4 deploy / Spotify+Kindle data / Calendar Phase 2 / new canon.
