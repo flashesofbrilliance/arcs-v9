@@ -5,6 +5,61 @@
 
 ---
 
+## [v0.9.0] 2026-05-27 — ADR framework, _QUEUE bus, GitHub Action, COCD weave, deployment audit
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: FleetView / Claude Code
+- Session goals: Build Perplexity↔Claude Code decision bus; run meta-prompt (sync + critique + COCD weave)
+
+### Artifacts landed
+
+| Action | Detail |
+|---|---|
+| Created | `_DECISIONS/` — ADR framework with DEWY-native template |
+| Created | `_DECISIONS/ADR-001` — Auth gate: app-level only, no Supabase RLS |
+| Created | `_DECISIONS/ADR-002` — DB split: SQLite dev / Supabase prod + P4 unblock checklist |
+| Created | `_DECISIONS/ADR-003` — arcs.care COCD weave: NCI 52/100 audit, 3 pathogens, COCD as hero frame |
+| Created | `_DECISIONS/ADR-004` — mcp.arcs.care DNS fix: domain not wired to perplexity-mcp (404) |
+| Created | `_QUEUE/` — implementation queue (PENDING.md + per-ADR pickup notes) |
+| Created | `.github/workflows/adr-queue.yml` — GitHub Action: auto-processes new ADRs → _QUEUE/ on push |
+| Created | `~/.claude/commands/arcs-research.md` — `/arcs-research` slash command (Perplexity → ADR → commit) |
+| Updated | `arcs-rom-manifest.md` — Tier 2 table: arcs-care READY + deployment ID, perplexity-mcp updated, mcp.arcs.care 404 flagged, arcs-v9 registered |
+
+### Deployment audit findings (2026-05-27)
+
+| Surface | Status | Deployment ID |
+|---------|--------|---------------|
+| arcs.care | ✅ READY | `dpl_4TBqvWxUbuXZ6cNT53TiqJyxaCRE` |
+| perplexity-mcp-kohl.vercel.app | ✅ READY | `dpl_6JUGdNvCEhDPvz9pDmXYBcQnW62b` |
+| mcp.arcs.care | ❌ 404 | DNS not wired — ADR-004 is the fix |
+| arcs-rcs | ❌ ERROR | Root cause unknown — needs triage |
+
+### arcs.care design critique (NCI: 52/100)
+
+- **Top pathogen 1:** "10x lighter" — unverifiable, AI-noise, no receipt grounding
+- **Top pathogen 2:** Unsequenced dual CTA (Compass vs. Lab compete without flow logic)
+- **Top pathogen 3:** No ARCS-native vocabulary above the fold — site reads as generic AI decision tool
+- **True North:** Replace hero with COCD frame. Sequence CTAs as phases 1+2 (Calibrate/Orient) and 3+4 (Chart/Detect).
+
+### COCD mapping (translation layer, not new doctrine)
+
+| Phase | L-stack | ARCS artifact |
+|-------|---------|---------------|
+| Calibrate | L0–L1 | PrepSession |
+| Orient | L2–L3 | Receipt + Y-gate |
+| Chart | L4 | Decision Receipt + Brief |
+| Detect | L5 + Drift Sentinel | Outcome + Observatory (not yet built) |
+
+### Open items
+
+- ADR-004: wire `mcp.arcs.care` DNS (10-min Vercel dashboard task)
+- ADR-003: implement COCD weave in `arcs-care` repo (P1, this quarter)
+- ADR-002: P4 deploy still blocked on Supabase creds
+- ADR-001: userId filter audit on all API routes (READY, no blocker)
+
+---
+
 ## [v0.8.0] 2026-05-27 — Housekeeping: stale Part IV draft deleted, exports/ gitignored, GitHub Projects board created
 
 ### Session context
@@ -372,3 +427,40 @@ arcs-field-os/specs/hold-reject-gate.md     🔴 NOT YET WRITTEN — HOLD/REJECT
 2. Read `CLAUDE.md` → `WORLD.md` → `AGENTS.md` in that order
 3. Start with Issue #2 (`[SPEC] DEWY Receipt Schema`) as the dependency unblock
 4. Do not create `runtime/specs/` or `canon/` directories without first checking `WORLD.md` for naming conventions
+
+---
+
+## [v0.9.0] 2026-05-27 — ADR-001/002 reviewed, committed, pushed; repo fully synced
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: FleetView / Claude Code
+- Session goal: Audit uncommitted work, review ADRs, push clean state to GitHub
+
+### Artifacts landed
+
+| Commit SHA | What |
+|---|---|
+| `abe1989` | `_DECISIONS/ADR-001-auth-gate-strategy.md` — App-level auth gating chosen over Supabase RLS; GREEN/HIGH/STABLE |
+| `abe1989` | `_DECISIONS/ADR-002-database-split.md` — SQLite dev / Supabase prod split confirmed; P4 unblock checklist documented |
+| `abe1989` | `_DECISIONS/_TEMPLATE.md` — ADR template |
+| `abe1989` | Pushed to `origin/main` — repo fully synced |
+
+### Key decisions logged
+
+- **ADR-001:** Auth gating stays app-level (not Supabase RLS) for v1. Revisit if multi-tenant or public API is scoped.
+- **ADR-002:** SQLite dev / Supabase prod confirmed. `prisma db push` is the gate before every deploy. P4 unblock checklist is the authoritative sequence.
+- **ADR-003 (forward ref):** Referenced in ADR-002 but not yet written — covers P4 Vercel deploy sequence in detail.
+
+### Open gaps (unchanged from v0.8.0)
+
+```
+P4 Vercel deploy     🟡 BLOCKED — need DATABASE_URL + DIRECT_URL + SUPABASE_SERVICE_ROLE_KEY from Supabase dashboard
+ADR-003              📋 NOT STARTED — P4 deploy sequence; forward-referenced from ADR-002
+Spotify export       📋 WAITING — request at spotify.com/account/privacy
+Kindle clippings     📋 WAITING — USB connect Kindle or check ~/Library
+Calendar Phase 2     📋 OPEN — find/rename existing morning routine event
+```
+
+### No blocking question
+

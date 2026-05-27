@@ -439,3 +439,81 @@ Calendar Phase 2     📋 OPEN — find/rename existing morning routine event (a
 ## Blocking question
 
 NONE — pick next sprint: P4 deploy / Spotify+Kindle data / Calendar Phase 2 / new canon.
+
+---
+
+# Handoff — v0.10.0 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v0.9.x above is preserved for history.
+
+## What changed since v0.9.1
+
+- **ADR-001 + ADR-002 reviewed and pushed** — `_DECISIONS/` directory is now live on GitHub (`abe1989`)
+  - ADR-001: App-level auth gating (not Supabase RLS) — GREEN/HIGH/STABLE
+  - ADR-002: SQLite dev / Supabase prod split — P4 unblock checklist is the authoritative deploy sequence
+- **Repo fully synced** — `origin/main` is at `abe1989`; working tree clean
+
+## File status
+
+```
+_DECISIONS/ADR-001-auth-gate-strategy.md   ✅ COMMITTED — auth model locked for v1
+_DECISIONS/ADR-002-database-split.md       ✅ COMMITTED — db strategy + P4 checklist
+_DECISIONS/ADR-003-*.md                    🔴 NOT WRITTEN — P4 deploy sequence (forward ref from ADR-002)
+_CANON/book-ii/parts-i-vi                  ✅ ALL CANONICAL
+```
+
+## Open sprint
+
+```
+Next options (no blocker on any):
+  A. ADR-003 — write the P4 Vercel deploy sequence as a formal decision receipt
+  B. P4 deploy — get DATABASE_URL + DIRECT_URL + SUPABASE_SERVICE_ROLE_KEY from Supabase, then deploy
+  C. New Book II canon (Part VII or Book III)
+  D. Spotify/Kindle data science pipeline
+```
+
+## P4 unblock (from ADR-002)
+
+```
+1. Supabase dashboard → Settings → Database → Connection Strings
+   - Pooler URL (port 6543) = DATABASE_URL
+   - Direct URL (port 5432) = DIRECT_URL
+2. Supabase dashboard → Settings → API → service_role key = SUPABASE_SERVICE_ROLE_KEY
+3. Set all three on Vercel (production + preview)
+4. npx prisma db push
+5. vercel deploy
+```
+
+## Blocking question
+
+NONE.
+
+---
+
+# Handoff — v1.0.0 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v0.10.0 above is preserved for history.
+
+## What changed since v0.10.0
+
+- **ADR-003 + ADR-004 written** — arcs.care COCD weave + mcp.arcs.care DNS fix
+- **_QUEUE/ bus live** — PENDING.md + per-ADR pickup notes + GitHub Action (`adr-queue.yml`)
+- **arcs.care design audit complete** — NCI 52/100, 3 pathogens identified, COCD as hero frame decided
+- **Deployment state confirmed:**
+  - `arcs.care` → READY (`dpl_4TBqvWxUbuXZ6cNT53TiqJyxaCRE`)
+  - `perplexity-mcp` → READY (`dpl_6JUGdNvCEhDPvz9pDmXYBcQnW62b`)
+  - `mcp.arcs.care` → ❌ 404 — DNS not wired (ADR-004, 10-min manual fix)
+- **arcs-rom-manifest.md updated** — arcs-v9 registered, arcs-care + perplexity-mcp deployment IDs filled in
+
+## Implementation queue (from _QUEUE/PENDING.md)
+
+| ADR | Action | Status |
+|-----|--------|--------|
+| 004 | Wire `mcp.arcs.care` DNS in Vercel dashboard | READY — 10 min manual |
+| 001 | Audit userId filter on all `/api/` routes | READY |
+| 003 | COCD weave in arcs-care repo | BLOCKED on ADR-004 for API docs |
+| 002 | P4 Vercel deploy (needs Supabase creds) | BLOCKED |
+
+## Next session starts at
+
+ADR-004 DNS fix (manual, Vercel dashboard) → then ADR-001 auth audit or ADR-003 COCD build.

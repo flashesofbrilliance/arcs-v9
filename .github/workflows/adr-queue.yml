@@ -1,0 +1,117 @@
+name: ADR → Queue
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '_DECISIONS/ADR-*.md'
+
+jobs:
+  process-adr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # need parent commit to diff
+
+      - name: Detect new ADRs
+        id: detect
+        run: |
+          # Find ADR files added or modified in this push
+          NEW_ADRS=$(git diff --name-only HEAD~1 HEAD -- '_DECISIONS/ADR-*.md' | grep -v '_TEMPLATE')
+          echo "new_adrs=$NEW_ADRS" >> $GITHUB_OUTPUT
+          echo "Found: $NEW_ADRS"
+
+      - name: Generate pickup notes + update PENDING.md
+        if: steps.detect.outputs.new_adrs != ''
+        run: |
+          set -e
+          DATE=$(date -u +"%Y-%m-%d %H:%M UTC")
+
+          for ADR_FILE in ${{ steps.detect.outputs.new_adrs }}; do
+            echo "Processing $ADR_FILE"
+
+            # Extract fields from ADR
+            ADR_NUM=$(echo "$ADR_FILE" | grep -oP 'ADR-\K\d+')
+            ADR_SLUG=$(basename "$ADR_FILE" .md | sed 's/ADR-[0-9]*-//')
+            TITLE=$(grep '^# ADR' "$ADR_FILE" | sed 's/# ADR-[0-9]* — //')
+            STATUS=$(grep '^> \*\*Status:\*\*' "$ADR_FILE" | grep -oP 'DRAFT|DECIDED|SUPERSEDED' | head -1)
+            HORIZON=$(grep '^\*\*Horizon:\*\*' "$ADR_FILE" | grep -oP 'TODAY|WEEK|QUARTER|YEAR|YEARS' | head -1)
+            CONVICTION=$(grep '^\*\*Conviction:\*\*' "$ADR_FILE" | grep -oP 'LOW|MEDIUM|HIGH' | head -1)
+            POINTER=$(grep '^\*\*Implementation pointer:\*\*' "$ADR_FILE" | sed 's/\*\*Implementation pointer:\*\* //')
+
+            # Default queue status
+            if [ "$STATUS" = "DECIDED" ]; then
+              QUEUE_STATUS="READY"
+            else
+              QUEUE_STATUS="DRAFT"
+            fi
+
+            # Check for explicit BLOCKED signal in ADR
+            if grep -q 'BLOCKED' "$ADR_FILE"; then
+              QUEUE_STATUS="BLOCKED"
+            fi
+
+            # Generate pickup note if it doesn't exist
+            PICKUP_FILE="_QUEUE/ADR-${ADR_NUM}-pickup.md"
+            if [ ! -f "$PICKUP_FILE" ]; then
+              cat > "$PICKUP_FILE" << EOF
+          # Claude Code Pickup — ADR-${ADR_NUM}: ${TITLE}
+
+          > **Status:** ${QUEUE_STATUS}
+          > **Generated from:** \`${ADR_FILE}\`
+          > **Horizon:** ${HORIZON:-UNSET} | **Conviction:** ${CONVICTION:-UNSET}
+          > **Auto-generated:** ${DATE}
+
+          ---
+
+          ## What was decided
+
+          $(grep -A 20 '## Decision' "$ADR_FILE" | tail -n +3 | head -10)
+
+          ## Implementation pointer
+
+          ${POINTER:-See ADR for details.}
+
+          ## Full ADR
+
+          See \`${ADR_FILE}\` for complete context, options considered, and rationale.
+
+          ## Done when
+
+          \`_QUEUE/PENDING.md\` ADR-${ADR_NUM} row updated to \`DONE\` + commit.
+          EOF
+              echo "Generated $PICKUP_FILE"
+            else
+              echo "$PICKUP_FILE already exists — skipping generation"
+            fi
+
+            # Update PENDING.md — add row if not already present
+            ROW="| ${ADR_NUM} | ${TITLE} | ${POINTER:-see ADR} | ${QUEUE_STATUS} | ${HORIZON:-?} | ${CONVICTION:-?} |"
+            if ! grep -q "| ${ADR_NUM} |" "_QUEUE/PENDING.md"; then
+              # Insert before the last --- line
+              sed -i "s|^---$|${ROW}\n---|" "_QUEUE/PENDING.md"
+              echo "Added row to PENDING.md"
+            else
+              echo "ADR-${ADR_NUM} already in PENDING.md — skipping"
+            fi
+          done
+
+          # Update timestamp in PENDING.md
+          sed -i "s|^\*Last updated:.*|\*Last updated: ${DATE} (auto-generated)\*|" "_QUEUE/PENDING.md"
+
+      - name: Commit queue updates
+        if: steps.detect.outputs.new_adrs != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add _QUEUE/
+          if git diff --staged --quiet; then
+            echo "No queue changes to commit"
+          else
+            git commit -m "chore(queue): auto-process $(echo '${{ steps.detect.outputs.new_adrs }}' | wc -w | tr -d ' ') new ADR(s) → _QUEUE/ [NCI:SKIP]"
+            git push
+          fi
