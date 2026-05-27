@@ -5,6 +5,58 @@
 
 ---
 
+## [v0.4.0] 2026-05-26 — Book II Parts I–III canonical; Issue #4 flow doc; upstream audit protocol updated; Part IV draft held
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: Claude Code (`arcs-v9` main) + arcs-intel-protocol
+- Session goal: Run upstream audit protocol review, close Issue #4, complete Book II Parts I–III canon sprint
+
+### Artifacts landed this session
+
+**arcs-v9:**
+
+| Commit SHA | File | What it is |
+|---|---|---|
+| `f722c05` | `runtime/flows/question-compass-to-dewy.md` | Issue #4 — L0–L5 spec-vs-impl flow doc with HOLD/REJECT branch map and 9-item implementation debt register |
+| `4db431a` | `_CANON/book-ii/part-i-firehose-to-compass.md` | Book II Part I — CANONICAL (2 upstream patches: PARADOX definition, DELTA rate-of-change framing) |
+| `ff72993` | `_CANON/book-ii/part-ii-rom-axioms.md` | Book II Part II — CANONICAL (3 upstream patches: NOTOMATION verbatim, genome table L4 scoped, RC-II-003 EMPIRICAL) |
+| `24c2ad3` | `_CANON/book-ii/part-iii-constitutional-court.md` | Book II Part III — CANONICAL (4 upstream patches: H/H/W stubbing rule, relief heuristic observational, causal chains on cost receipt) |
+
+**arcs-intel-protocol (remote):**
+
+| Commit SHA | File | What it is |
+|---|---|---|
+| `a461d60` | `prompts/arcs-upstream-audit-v1.md` | Updated to reference MEMORY.md v4.0 (was v3); Stage 2E boot sim updated to §9 |
+| `f82195e` | `CHANGELOG.md` | v3 retired; two-gate pipeline documented; open gaps listed |
+
+### Open gaps
+
+```
+_CANON/book-ii/part-iv-sessions-api.md      🟡 DRAFT — held for upstream audit (untracked, not committed)
+_CANON/book-ii/part-v-pilots-receipts.md    🔴 NOT STARTED — depends on Part IV commit
+prompts/debrief-session-invocation.md       🔴 NOT EXISTS — referenced this session, create next time arcs-intel-protocol in scope
+prompts/one-shot-claude-code-cold-start.md  🔴 NOT CREATED (arcs-intel-protocol)
+_MARKETING/arcs-positioning.md              🔴 NOT CREATED (arcs-intel-protocol)
+globals.css Tailwind import                 🟡 DECISION NEEDED
+NCI <40 HOLD gate (compass/route.ts)        🔴 CRITICAL impl debt (Issue #4)
+W-field HOLD gate (compass/route.ts)        🔴 CRITICAL impl debt (Issue #4)
+```
+
+### Protocol decisions this session
+
+- MEMORY.md v4.0 = canonical cold-start seed; v3 retired (never committed, superseded)
+- Two-gate pipeline (Perplexity/Comet → Claude Code) = canonical Book II authoring protocol
+- Issue #4 two-column SPEC/IMPL format = canonical pattern for all `runtime/flows/` docs
+
+### Next move
+1. Read `SESSION-HANDOFF-2026-05-26.md` (cold-start seed for this session's work)
+2. Run upstream ARCS audit on `_CANON/book-ii/part-iv-sessions-api.md`
+3. Apply patches → update status to CANONICAL → commit Part IV
+4. Draft Part V — Pilots and Receipts
+
+---
+
 ## [v0.3.0] 2026-05-26 — Issues #2 + #3 complete; Y-gate enum alignment; staleness audit
 
 ### Session context
