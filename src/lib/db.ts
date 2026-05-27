@@ -4,7 +4,12 @@ import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3"
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient }
 
 function createPrismaClient() {
-  const url = process.env.DATABASE_URL || "file:./dev.db"
+  const url = process.env.DATABASE_URL ?? "file:./dev.db"
+  if (url.startsWith("postgresql://") || url.startsWith("postgres://")) {
+    // Production: Postgres (Supabase) — no adapter, Prisma uses native driver
+    return new PrismaClient()
+  }
+  // Local dev: SQLite via better-sqlite3 driver adapter
   const adapter = new PrismaBetterSqlite3({ url })
   return new PrismaClient({ adapter })
 }
