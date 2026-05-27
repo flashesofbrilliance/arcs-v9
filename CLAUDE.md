@@ -318,3 +318,40 @@ Same annotation format as Part IV CONDITIONAL CLEAR: section-keyed, sentence-anc
 ## Blocking question
 
 NONE — submit Parts V and VI for upstream audit.
+
+---
+
+# Handoff — v0.7.0 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v0.6.0 above is preserved for history.
+
+## What changed since v0.6.0
+
+- **Book II Parts V & VI promoted to CANONICAL** — both at v1.0.0, commit `b6e59e4`
+- **Upstream audit completed** — 21 findings across Parts V & VI; all must-fix + high-value precision applied at `087ef22`; Architect ratification received same session
+- **Key architectural decisions locked:**
+  - Constitutional range = governance-configured per-axis intervals grounded in ROM axioms; CLEAR/WATCH/DRIFT are positional categories relative to those intervals, not numeric values in Part V
+  - Standing is non-transferable in v1.0.0; absent Respondent → HOLD or rescope
+- **Dual-bar-raiser skill wired** — `arcs/.claude/arcs-dual-bar-raiser.md` + `~/.claude/commands/dual-bar-raiser.md`; `/handoff-pickup` now surfaces the two-agent protocol reminder
+
+## File status
+
+```
+_CANON/book-ii/part-i-from-firehose-to-compass.md      ✅ CANONICAL
+_CANON/book-ii/part-ii-core-rom-axioms.md               ✅ CANONICAL
+_CANON/book-ii/part-iii-constitutional-court-agency.md  ✅ CANONICAL
+_CANON/book-ii/part-iv-*.md                             ✅ CANONICAL (CONDITIONAL CLEAR applied)
+_CANON/book-ii/part-v-the-accumulation-protocol.md      ✅ CANONICAL v1.0.0 (b6e59e4)
+_CANON/book-ii/part-vi-the-shared-court.md              ✅ CANONICAL v1.0.0 (b6e59e4)
+```
+
+## Open sprint
+
+```
+Book II Parts I–VI: CANONICAL — Book II is complete.
+Next: decide whether to begin Part VII, start a new Book, or pivot to product work (P4 deploy).
+```
+
+## Blocking question
+
+NONE.
