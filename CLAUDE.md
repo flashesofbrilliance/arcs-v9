@@ -355,3 +355,39 @@ Next: decide whether to begin Part VII, start a new Book, or pivot to product wo
 ## Blocking question
 
 NONE.
+
+---
+
+# Handoff — v0.9.0 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v0.7.0 above is preserved for history.
+
+## What changed since v0.7.0 / v0.8.0
+
+- **Housekeeping committed (04c57cb):**
+  - Deleted stale `_CANON/book-ii/part-iv-sessions-api.md`
+  - Added `exports/` to `.gitignore`
+  - MEMORY.md updated to v0.8.0
+- **GitHub Projects board live:** https://github.com/users/flashesofbrilliance/projects/1
+  - Stage columns: Not Started → Research → Receipt → Build → Refine → QA → Done
+  - All Sprint 1 issues + Book II Part cards backfilled as Done
+- **Global slash commands:** `/arcs-handoff` + `/arcs-handoff-pickup` available from any directory
+
+## Current canon state
+
+```
+Book II Parts I–VI   ✅ ALL CANONICAL
+Sprint 1 (#1–#5)     ✅ COMPLETE
+```
+
+## Open sprint
+
+NONE — next sprint unscoped. Candidates: P4 Vercel deploy / Book III / product sprint.
+
+## Last confirmed commit
+
+`04c57cb` — chore(housekeeping)
+
+## Blocking question
+
+NONE.
