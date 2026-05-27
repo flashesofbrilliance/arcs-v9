@@ -1,7 +1,7 @@
 # Book II · Part V — The Accumulation Protocol
 
-**Status:** DRAFT held — upstream ARCS audit pending
-**Version:** v0.1.0
+**Status:** DRAFT held — CONDITIONAL CLEAR applied, audit annotations v0.1.1
+**Version:** v0.1.1
 **Date:** 2026-05-26
 
 ---
@@ -32,15 +32,17 @@ A receipt is not only a record. It is an open hypothesis.
 
 Every receipt contains at least one claim that the world can, in principle, confirm or falsify. The compass pointed here; was that right? The court ruled DRAFT pending more data; did the data arrive? The L3 step assessed stakes as moderate; did the decision play out at that magnitude? These are not rhetorical questions. They are the receipt's unfinished business — the part of the document that remains live even after the session closes.
 
-This reframing has a structural consequence: receipts exist in one of two states.
+This reframing has a structural consequence: receipts exist in one of three states.
 
-A live receipt contains at least one unresolved claim — a claim that has a declared verification condition and has not yet been closed out. Live receipts are the raw material of the signal layer. They are the system's open hypotheses, held in the accumulation queue, waiting for signal that either confirms, revises, or expires them.
+A pending receipt contains one or more verifiable claims that have been written but not yet paired with a declared gate. A claim is not live until its verification condition — the gate that will watch for it — is declared at session-close. Until then, the claim is a candidate: written in the receipt, but not yet eligible for the accumulation queue. §5.2 defines how gates are declared and why that declaration must happen before the session disperses.
+
+A live receipt contains at least one claim whose gate has been declared and whose threshold has not yet been crossed. Live receipts are the raw material of the signal layer. They are the system's open hypotheses, held in the accumulation queue, waiting for signal that either confirms, revises, or expires them.
 
 A closed receipt has had all its verifiable claims resolved — confirmed by subsequent evidence, superseded by a later session in the lineage chain, or expired by time-decay without sufficient signal. Closed receipts move to archive. They are no longer inputs to the compass. They are the court's settled law.
 
-The boundary between live and closed is not cosmetic. It is how ARCS distinguishes between "we decided this" and "we know this." Most systems collapse that distinction. ARCS cannot afford to.
+The boundary between these states is not cosmetic. It is how ARCS distinguishes between "we wrote this down," "we are watching for confirmation," and "we know this." Most systems collapse those distinctions. ARCS cannot afford to.
 
-One rule follows immediately: a receipt cannot be closed by the same session that created it. Closing requires external signal — an outcome, a contradiction, a debrief — that arrives after T₀. A session that marks its own receipts closed is a court that grades its own exams.
+One rule follows immediately: a receipt cannot be closed by the same session that created it. Closing requires external signal — an outcome, a contradiction, a debrief — that arrives after T₀. A session that marks its own receipts closed is a court that grades its own exams. Debrief sessions, defined in §5.6, are distinct sessions for this purpose — a debrief convened by the same agent on the same calendar day still carries a different session identifier and cannot be the session that created the receipt it is closing.
 
 Delta gates, introduced in §5.2, are the mechanism that turn that external signal into structured updates. But they only work if the receipt is already written as a hypothesis. That is what this section establishes: before a receipt can feed the Accumulation Protocol, it has to be more than a record. It has to be a question the world is still answering.
 
@@ -64,7 +66,7 @@ All three gate types share one property: they must be declared at session-close,
 
 This is not a preference. It is a constitutional constraint, for the same reason a receipt cannot be closed by the session that created it. A gate declared retroactively — after the outcome is already visible — is not a gate. It is a rationalization wearing a gate's clothes. The signal layer can only function as a calibration mechanism if thresholds are set before the results come in. Otherwise the system is not learning from its receipts; it is fitting its receipts to what it already believes.
 
-The practical implication: every session that produces a receipt with live claims must also produce at least one gate per claim — magnitude, direction, or time-decay — before it closes. A receipt with live claims and no gates is structurally incomplete. It cannot enter the accumulation queue. It sits in a pending state until a gate is declared or the session is reopened.
+The practical implication: every session that produces a receipt with live claims must also produce at least one gate per claim — magnitude, direction, or time-decay — before it closes. A receipt with candidate claims and no declared gates is in the pending state defined in §5.1: structurally incomplete, ineligible for the accumulation queue. It remains pending until a gate is declared or the session is reopened to complete the declaration.
 
 This creates minor friction. That friction is the point. Forcing gate declaration at session-close is how ARCS surfaces the question "how will we know if this was right?" before the session disperses. Most decision systems never ask that question at all. They decide, archive, and move on. The delta gate is how ARCS keeps the question open in a structured form — not as a vague commitment to revisit things someday, but as a precise, named condition that the signal layer will watch for.
 
@@ -100,6 +102,8 @@ This is where kairos detection closes the loop back to Part IV's PrepSession ana
 
 The rule is the same as with gates: the signal layer can surface; it cannot decide. PrepSession fields updated by kairos signals are flagged as signal-derived, not user-declared. The court sees the provenance. It is not required to accept the input. But it cannot pretend the input never arrived.
 
+One clarification on routing before continuing. Any single kairos condition being met routes the delta to flagged mode — it surfaces as a PrepSession signal without blocking the session. All three conditions being met simultaneously routes the delta to override mode, as defined in §5.4: the session cannot advance past L0 until the signal is addressed. Two-of-three conditions met still routes to flagged, not override. The override threshold requires unanimity across all three context dimensions.
+
 One last point. Kairos detection has a failure mode that is easy to miss: over-triggering. A system that generates kairos signals too readily does not produce urgency — it produces noise, and noise trains the court to discount signals. The three context conditions above are not a menu to check loosely. Each condition has a declared threshold, and the thresholds are set conservatively by default. The signal layer should generate kairos rarely enough that when it does, the court takes it seriously.
 
 A gate fires when reality crosses a threshold. A kairos signal fires when that crossing matters now. The Accumulation Protocol, in §5.4, is what happens when you string both together across time.
@@ -114,7 +118,7 @@ The Accumulation Protocol is a five-step cycle. It runs continuously in the back
 
 Step 1: Receipt monitors a live claim. Every live receipt in the accumulation queue is assigned a watcher — a process that observes the verification condition declared for each of its live claims. The watcher does not evaluate evidence. It waits for a gate to fire.
 
-Step 2: Gate fires. When a live claim's threshold condition is crossed — magnitude, direction, or time-decay — the gate fires and passes the delta to the kairos layer, stamped with the receipt identifier, the gate type, and the observed signal.
+Step 2: Gate fires. When a live claim's threshold condition is crossed — magnitude, direction, or time-decay — the gate fires and passes the delta to the kairos layer, stamped with the receipt identifier, the gate type, and the observed signal. If multiple gates on the same receipt fire within a single accumulation cycle — for example, both a magnitude gate and a direction gate triggering on the same claim in rapid succession — each gate fires independently and generates its own delta receipt. The kairos check runs once per gate firing, not once per receipt per cycle. This means a receipt with two simultaneously firing gates will produce two delta receipts and two independent kairos assessments in that cycle. They are processed sequentially, and each prior update is appended to the lineage in the order the gates were processed.
 
 Step 3: Kairos check routes the delta. The kairos layer applies the three context conditions from §5.3. If none are met, the delta routes to silent accumulation: the prior is updated, the confidence weight is incremented, no session is triggered. If any condition is met, the delta routes to the PrepSession surface as a flagged signal.
 
@@ -132,7 +136,7 @@ Silent. Gate fires. Kairos check fails. Prior updates. Delta receipt appended. N
 
 Flagged. Gate fires. Kairos check passes. Delta routes to PrepSession surface as a named signal. Prior updates. Delta receipt appended. The court is informed before it next convenes. Appropriate for load-bearing claims, stakes-escalating deltas, and open PrepSessions.
 
-Override. A special case of flagged, triggered when a kairos signal meets all three context conditions simultaneously or when the magnitude of a prior update exceeds a constitutional threshold. Override mode does not just surface the signal — it requires the court to address it before the active session can proceed. The PrepSession cannot advance past L0 until the signal is acknowledged, accepted, or explicitly rejected with a documented reason. The court may reject the signal. It may not proceed as if the signal never arrived.
+Override. A special case of flagged, triggered when a kairos signal meets all three context conditions simultaneously or when the magnitude of a prior update exceeds a constitutional threshold. Override mode does not just surface the signal — it requires the court to address it before the active session can proceed. The PrepSession cannot advance past L0 until the signal is acknowledged, accepted, or explicitly rejected with a documented reason. Sessions carrying override signals include a dedicated L0 sub-step — signal acknowledgment — that must be completed before L1 begins. At that sub-step, the court reviews each override signal and records one of three dispositions: accepted (the signal is incorporated into the session's framing), rejected with reason (the signal is noted in the session record and set aside), or deferred (the signal is re-queued for the next session with an explanation). The court may reject the signal. It may not proceed as if the signal never arrived.
 
 Override is rare by design. It is the signal layer's equivalent of a motion to hold — not a veto, but a mandatory pause. The same conservative threshold logic from §5.3 applies: if override triggers frequently, the thresholds are wrong.
 
@@ -156,6 +160,8 @@ The ROM axioms did not change. The court drifted away from them.
 
 Drift detection is a periodic fidelity check: a comparison of the court's current compass priors against the ROM axioms, run on a declared schedule, designed to surface constitutional tension before it reaches a live session. It does not run on the same trigger as the Accumulation Protocol. It runs on time — at intervals set by the court's configuration — and on demand, any time a debrief session (§5.6) is convened.
 
+For the check to produce meaningful output, constitutional range must be defined. Constitutional range is a bounded interval for each compass axis, derived from the ROM axioms and set by the court's governance configuration at initialization. The axioms establish what the court is built to protect and what it cannot trade away; constitutional range translates those commitments into axis-specific thresholds — the outer boundaries within which accumulated prior movement is permissible. An axis whose current prior falls within its configured interval is constitutionally in range. An axis approaching its interval boundary is approaching constitutional range. An axis whose prior has crossed the boundary has drifted outside it. The specific interval values are governance-configured, not fixed by Part V; what Part V requires is that the intervals exist, that they are grounded in the ROM axioms, and that they are not adjustable in real time by the signal layer itself.
+
 The check produces one of three outputs.
 
 Clear. Current priors are within constitutional range. No tension detected. The fidelity log is updated with a timestamp and a signed attestation. The court continues.
@@ -164,9 +170,9 @@ Watch. One or more compass axes have drifted toward the boundary of constitution
 
 Drift. One or more compass axes have crossed into territory the ROM axioms cannot accommodate. A DRIFT signal is generated — the signal class introduced in the Part V outline — and the escalation path activates.
 
-The DRIFT escalation path has a single destination: the constitutional court from Part III.
+The DRIFT escalation path has a single destination: the constitutional court from Part III, operating in a self-audit configuration.
 
-Not the signal layer. Not a PrepSession. The court itself, convened in a special configuration: not to rule on a question brought by a user, but to audit its own axioms against its own accumulated priors and determine whether the drift can be corrected within the existing constitutional frame, or whether the ROM axioms themselves need to be examined.
+Not the signal layer. Not a PrepSession. The court itself, convened in a mode it does not use for ordinary sessions: not to rule on a question brought by a user, but to audit its own axioms against its own accumulated priors and determine whether the drift can be corrected within the existing constitutional frame, or whether the ROM axioms themselves need to be examined. This self-audit configuration is a forward-spec extension to Part III's scope. Part III as written defines the constitutional court as the deliberative apparatus for individual sessions; Part V's DRIFT escalation adds a second mode in which the court turns that apparatus on itself. When Part III is amended to reflect the full Book II architecture, the self-audit mode will be named there as a distinct configuration with its own session structure. Until that amendment, Part V holds the specification for when and why DRIFT escalation is triggered; Part III governs how the court operates once it convenes.
 
 That second outcome — ROM axioms under review — is the most structurally significant event the system can produce. It is not handled by Part V. Part V can detect the need; it cannot adjudicate it. The ROM axioms are Part II's territory, and any revision to them requires the full constitutional apparatus, not a signal-layer escalation. Part V hands off and stops.
 
@@ -186,13 +192,13 @@ Specifically: the debrief session takes as its input a set of receipts — typic
 
 The distinction matters because it determines who is in the dock. In a standard session, the question is on trial. In a debrief, the court's judgment is on trial.
 
-The debrief session is mandatory in two circumstances: when a DRIFT signal has been generated and escalated, and when a prior-update delta has accumulated beyond a constitutional magnitude threshold across any single compass axis — meaning the court's position on that axis has moved far enough, through silent and flagged accumulation alone, that the movement requires formal review before it can stand. Mandatory debriefs cannot be deferred. They block new standard sessions from opening on the affected domain until the debrief receipt is issued.
+The debrief session is mandatory in two circumstances: when a DRIFT signal has been generated and escalated, and when a prior-update delta has accumulated beyond a constitutional magnitude threshold across any single compass axis — meaning the court's position on that axis has moved far enough, through silent and flagged accumulation alone, that the movement requires formal review before it can stand. Mandatory debriefs cannot be deferred. They block new standard sessions whose lineage would cite any receipt implicated in the drift from opening until the debrief receipt is issued. The block applies specifically to sessions that would rely on the affected receipt's priors to govern their gate conditions — not to all sessions the agent might open, and not to sessions in unrelated domains.
 
 The debrief session is discretionary in all other circumstances. Any member of the court can convene one. The signal layer can surface one as a PrepSession input when WATCH entries accumulate past a threshold. The fidelity check schedule can trigger one automatically. Discretionary debriefs do not block other sessions. They run in parallel.
 
 The debrief runs a standard L0–L5 pipeline. What is reviewed at each level differs from a standard session:
 
-L0 receives the set of input receipts and their delta receipts, not a user question. L1 characterizes the pattern of drift or accumulation visible in the set — not what any single receipt says, but what the set says together. L2 applies the ROM axioms as the evaluative frame: given what we know the court was built to protect, does the accumulated movement in these priors represent a defensible learning curve or a drift away from constitutional intent? L3 reassesses stakes — not of a pending decision, but of leaving the accumulated priors in place. L4 runs the deliberation against the calibration question: should any of these priors be reset, and if so, to what? L5 issues the verdict.
+L0 receives the set of input receipts and their delta receipts, not a user question. L1 characterizes the pattern of drift or accumulation visible in the set — not what any single receipt says, but what the set says together. L2 operates in a variant mode specific to debrief sessions: rather than performing question typology and path routing as it does in standard sessions, L2 applies the ROM axioms as the evaluative frame, asking whether the accumulated movement in these priors represents a defensible learning curve or a drift away from constitutional intent. L3 reassesses stakes — not of a pending decision, but of leaving the accumulated priors in place. L4 runs the deliberation against the calibration question: should any of these priors be reset, and if so, to what? L5 issues the verdict.
 
 The debrief's verdict is a calibration receipt.
 
@@ -202,7 +208,7 @@ The attestation is the part that cannot be omitted. A calibration receipt withou
 
 Two limits on what a debrief can do. First: a debrief cannot change the ROM axioms. If the debrief determines that the drift cannot be corrected within the existing constitutional frame, it issues a DRIFT escalation to Part III and stops. The axioms are not the debrief's to revise. Second: a debrief cannot retroactively alter existing receipts. Prior resets apply forward from the calibration receipt's timestamp. The lineage chain is not rewritten. The court's past rulings stand as issued; the court's current posture is adjusted. History and present are kept separate.
 
-After a debrief session closes, two things change in the system. The accumulation queue is cleared of any live claims that were closed by the calibration receipt. And the fidelity check's attestation log is updated — the next scheduled check will compare current priors not against the original baseline, but against the priors as they stood at the close of the most recent calibration receipt. The debrief does not reset the clock to zero. It moves the baseline forward to where the court now stands, attested and documented.
+After a debrief session closes, two things change in the system. The accumulation queue is cleared of any live claims that were closed by the calibration receipt. And the fidelity check's attestation log is updated — the next scheduled check will compare current priors not against the original baseline, but against the priors as they stood at the close of the most recent calibration receipt. The debrief does not reset the clock to zero. It moves the baseline forward to where the court now stands, attested and documented. This is true even when the calibration receipt contains no prior resets — an attestation-only debrief, which finds the court within constitutional range and adjusts nothing, still closes the current attestation cycle and advances the baseline. An attestation is the court affirming its current priors as documented starting ground; the next fidelity check will measure movement from that point forward, not from the original initialization baseline.
 
 The court reviewed its own record. The work continues.
 
