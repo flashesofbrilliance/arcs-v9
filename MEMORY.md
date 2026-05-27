@@ -5,6 +5,32 @@
 
 ---
 
+## [v0.8.0] 2026-05-27 — Housekeeping: stale Part IV draft deleted, exports/ gitignored, GitHub Projects board created
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Working environment: FleetView / Claude Code
+- Session goal: Clean repo state, scaffold GitHub Projects board
+
+### Artifacts landed
+
+| Action | Detail |
+|---|---|
+| Deleted | `_CANON/book-ii/part-iv-sessions-api.md` — stale DO NOT COMMIT draft; canonical Part IV already exists |
+| Updated | `.gitignore` — added `exports/` to suppress scan output files |
+| Created | GitHub Projects board — `https://github.com/users/flashesofbrilliance/projects/1` |
+
+### GitHub Projects board structure
+- **Title:** ARCS v9 — Canon & Product
+- **Stage field:** Not Started → Research → Receipt → Build → Refine → QA → Done
+- **Issues linked:** #1–#5 (all Done)
+- **Book II Part cards:** Parts I–VI (all Done)
+- **Use:** Add new sprint issues/cards and move them forward as work progresses; `/handoff` can update card stages
+
+### No blocking question
+
+---
+
 ## [v0.7.0] 2026-05-27 — Book II Parts V & VI promoted to CANONICAL; Issue #5 COMPLETE; dual-bar-raiser skill registered
 
 ### Session context
