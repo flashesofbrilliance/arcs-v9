@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
+import { auth } from "@/lib/auth"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -44,6 +45,12 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ receiptId: string }> }
 ) {
+  const session = await auth()
+  const userId = session?.user?.id ?? null
+  if (!userId && process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   const { receiptId } = await params
 
   // Serve from store if already generated
