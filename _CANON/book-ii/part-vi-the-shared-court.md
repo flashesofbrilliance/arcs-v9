@@ -1,8 +1,8 @@
 # Book II — Part VI: The Shared Court
 ## *How ARCS operates when more than one agent is bound by the receipt*
 
-**Status:** DRAFT held — CONDITIONAL CLEAR applied, audit annotations v0.1.1  
-**Version:** v0.1.1 / 2026-05-26  
+**Status:** CANONICAL  
+**Version:** v1.0.0 / 2026-05-26  
 **Layer:** Multi-party extension; forward spec only — no implementation dependencies  
 **Structural parallel:** Parts III (constitutional court) + V (accumulation/gates)
 
