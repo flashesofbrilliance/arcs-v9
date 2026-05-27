@@ -1,7 +1,7 @@
 # Book II · Part V — The Accumulation Protocol
 
-**Status:** DRAFT held — CONDITIONAL CLEAR applied, audit annotations v0.1.1
-**Version:** v0.1.1
+**Status:** CANONICAL
+**Version:** v1.0.0
 **Date:** 2026-05-26
 
 ---
