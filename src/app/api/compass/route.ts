@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
+import { auth } from "@/lib/auth"
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -102,12 +103,17 @@ OUTPUT SHAPE (strict JSON, no markdown fences):
 }`
 
 export async function POST(req: NextRequest) {
+  const session = await auth()
+  const userId = session?.user?.id ?? null
+  if (!userId && process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
   const body = await req.json()
   const {
     question,
     horizon = "THIS_WEEK",
     stakes = "MEDIUM",
-    userId,
     prepId,
     parentReceiptId,
     sessionId,
