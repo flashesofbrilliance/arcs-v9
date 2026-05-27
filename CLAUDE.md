@@ -238,3 +238,83 @@ Issue #4 (NEXT)  Compass → DEWY Flow   runtime/flows/question-compass-to-dewy.
 ## Blocking question
 
 NONE — Issue #4 is fully unblocked. Start with `runtime/flows/question-compass-to-dewy.md`.
+
+---
+
+# Handoff — v0.5.0 (2026-05-26)
+
+> **For Claude Code:** active pickup point. v0.4.0 above is preserved for history.
+
+## What changed since v0.4.0
+
+- **Book II Part V drafted** — `_CANON/book-ii/part-v-the-accumulation-protocol.md` (§5.0–§5.7, v0.1.0, DRAFT held). File exists locally, **not yet committed**.
+- **Part V content:** The Accumulation Protocol — delta gates, kairos detection, the 5-step accumulation loop (silent/flagged/override modes), drift detection (CLEAR/WATCH/DRIFT), debrief session as first-class session type, boundary section (value drift / scope creep / malformed question).
+- **§5.7 Calibrate connection:** Malformed-question failure mode explicitly linked to JTBD D / Calibrate surface / HOLD gate / anticipatory probing from arcs-field-os JTBD architecture.
+- **Cross-repo link confirmed:** Part V is architecturally downstream of the Calibrate surface. Canonical JTBD sequence D→A→C→B (Calibrate→Orient→Chart→Detect) documented in `arcs-field-os/jtbd/jtbd-master-map.md`.
+
+## File status
+
+```
+_CANON/book-ii/part-v-the-accumulation-protocol.md   🟡 WRITTEN — commit pending
+runtime/flows/question-compass-to-dewy.md             ✅ EXISTS (v0.4.0)
+runtime/specs/dewy-receipt-schema-v1.md               ✅ EXISTS
+runtime/specs/time-quality-attribution-rom.json       ✅ EXISTS
+```
+
+## Open sprint — revised
+
+```
+Issue #5  Book II Canon — Part V written, needs commit + upstream audit
+```
+
+## Immediate next action
+
+```bash
+git add _CANON/book-ii/part-v-the-accumulation-protocol.md
+git commit -m "feat(canon): Book II Part V — The Accumulation Protocol v0.1.0 [NCI:DRAFT]"
+```
+
+Then submit Part V for upstream ARCS audit. When packet returns, translate to section-keyed annotations same as Part IV CONDITIONAL CLEAR.
+
+## Blocking question
+
+NONE.
+
+---
+
+# Handoff — v0.6.0 (2026-05-26)
+
+> **For Claude Code:** active pickup point. v0.5.0 above is preserved for history.
+
+## What changed since v0.5.0
+
+- **Book II Part VI drafted and committed** — `_CANON/book-ii/part-vi-the-shared-court.md` (§6.0–§6.6, v0.1.0, DRAFT held, 6fece14)
+- **Part VI architecture decisions locked before drafting:**
+  - Witness = receipt annotation only (not a protocol role); two standing roles: Initiator and Respondent
+  - Quorum rule = unanimity of being bound (not agreement); refusal → HOLD or Arbitration
+  - §6.3 quorum paragraph ratified verbatim before any drafting began
+- **Part VI content:** The Shared Court — extends constitutional court to multi-party sessions. New primitives: Initiator/Respondent standing, witnesses annotation, Dissent Record (first-class receipt field), deliberation protocol (3 pipeline modifications at L1/L3/L4), co-signed delta gates, Arbitration Session (3 preconditions, narrow jurisdiction, no retroactive lineage alteration). Three hard boundaries: power asymmetry, bad-faith participation, scope capture.
+
+## File status
+
+```
+_CANON/book-ii/part-i-from-firehose-to-compass.md      ✅ CANONICAL
+_CANON/book-ii/part-ii-core-rom-axioms.md               ✅ CANONICAL
+_CANON/book-ii/part-iii-constitutional-court-agency.md  ✅ CANONICAL
+_CANON/book-ii/part-iv-*.md                             ✅ DRAFT held — CONDITIONAL CLEAR pending
+_CANON/book-ii/part-v-the-accumulation-protocol.md      ✅ DRAFT held — audit pending (60c048c)
+_CANON/book-ii/part-vi-the-shared-court.md              ✅ DRAFT held — audit pending (6fece14)
+```
+
+## Audit protocol reminder
+
+Parts V and VI are forward spec only. Weight: CONSISTENCY + CANON_COLLISION > IMPL_GAP.
+Same annotation format as Part IV CONDITIONAL CLEAR: section-keyed, sentence-anchored.
+
+## Last confirmed commit (arcs-v9)
+
+`6fece14` — feat(canon): Book II Part VI — The Shared Court v0.1.0 [NCI:DRAFT]
+
+## Blocking question
+
+NONE — submit Parts V and VI for upstream audit.
