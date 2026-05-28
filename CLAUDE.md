@@ -619,3 +619,39 @@ NONE for deploy. Two human actions recommended:
 ### Next session starts at
 
 `/arcs-handoff-pickup` → P3 arcs-care Phase 1 (compass model swap + Lab offer card) or RLS policy design
+
+---
+
+# Handoff — v1.4.0 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v1.3.0 above is preserved for history.
+
+## What changed since v1.3.0
+
+- **RLS DONE** — all 9 Supabase tables have RLS enabled + deny-all policies for `anon`/`authenticated`
+  - Applied via Supabase MCP `apply_migration` (registered in Supabase migration history)
+  - `scripts/rls-policies.sql` committed as human-readable reference
+  - ADR-008 documents the architectural reason `auth.uid()` policies are wrong here
+- **MEMORY.md updated** to v1.4.0
+
+## Why no `auth.uid()` row policies (locked in ADR-008)
+
+Prisma connects as `postgres` superuser → bypasses RLS. Auth.js v5 ≠ Supabase Auth → `auth.uid()` always NULL. User isolation = ADR-001 (app layer). Future: if Supabase Auth replaces Auth.js, migrate to row-level policies then.
+
+## P-track status
+
+| Track | Status |
+|---|---|
+| P0: arcs-v9 → GitHub | ✅ Done |
+| P2: Perplexity MCP | ✅ Done |
+| P4: arcs-v9 → Vercel | ✅ Done |
+| RLS gate | ✅ Done |
+| P3: arcs-care PLG funnel | 🟡 Phase 1 not started |
+
+## Last confirmed commit
+
+`9970c3f` — feat(security): RLS deny-all policies for all 9 Supabase tables [NCI:88]
+
+## Next session starts at
+
+`/arcs-handoff-pickup` → P3 arcs-care Phase 1 (compass model swap + Lab offer card)

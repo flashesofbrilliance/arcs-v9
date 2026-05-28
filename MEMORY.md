@@ -5,6 +5,38 @@
 
 ---
 
+## [v1.4.0] 2026-05-27 — RLS live on all 9 Supabase tables; ADR-008
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Session goal: Enable RLS on Supabase before first external user
+
+### Artifacts landed
+
+| Action | Detail |
+|---|---|
+| Applied | RLS enabled on all 9 tables via Supabase MCP `apply_migration` |
+| Created | `scripts/rls-policies.sql` — deny-all for `anon` + `authenticated` roles |
+| Created | `_DECISIONS/ADR-008` — documents why `auth.uid()` policies are wrong for Auth.js v5 + Prisma superuser architecture |
+| Committed | `9970c3f` |
+
+### Key architectural decision (ADR-008)
+- Prisma connects as `postgres` superuser → bypasses RLS unconditionally
+- `auth.uid()` is always NULL (Auth.js v5 ≠ Supabase Auth JWT)
+- Correct pattern: deny-all for `anon`/`authenticated`; user isolation stays at app layer (ADR-001)
+- Future migration path documented: switch to Supabase Auth → then row-level policies become viable
+
+### P-track status
+| Track | Status |
+|---|---|
+| P0: arcs-v9 → GitHub | ✅ Done |
+| P2: Perplexity MCP | ✅ Done |
+| P4: arcs-v9 → Vercel | ✅ Done — READY deploy live |
+| RLS gate | ✅ Done — this session |
+| P3: arcs-care PLG funnel | 🟡 Specced, Phase 1 not started |
+
+---
+
 ## [v0.9.0] 2026-05-27 — ADR framework, _QUEUE bus, GitHub Action, COCD weave, deployment audit
 
 ### Session context
