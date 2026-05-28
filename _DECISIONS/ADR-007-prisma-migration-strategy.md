@@ -1,7 +1,8 @@
 # ADR-007 — Prisma Migration Strategy: db push vs migrate deploy
 
-> **Status:** DECIDED  
+> **Status:** DECIDED — BOOTSTRAP COMPLETE (see Amendment below)
 > **Date:** 2026-05-27  
+> **Amended:** 2026-05-28
 > **Commit:** (set at merge)
 
 ---
@@ -17,7 +18,7 @@
 - `prisma/schema.prisma` — DDL source of truth
 - Supabase ARCS database (`owdiiyvphyifukygvxhg`)
 - Vercel build step (`vercel.json` or `package.json` build command)
-- `prisma/migrations/` — does not yet exist
+- `prisma/migrations/0_init/migration.sql` — baseline migration, committed 2026-05-28
 
 ---
 
@@ -85,17 +86,14 @@ This generates the baseline migration file. Mark it applied: `npx prisma migrate
 
 ## Consequences
 
-**Step 1 (today):** Once `DATABASE_URL` is set on Vercel (ADR-005):
-```bash
-npx prisma db push
-```
-Pushes v9 schema to Supabase, drops/alters stale tables (all empty — safe).
+**Step 1 (DONE — 2026-05-28):** Schema bootstrapped. Actual path deviated from Option A:
+- `prisma db push` failed — direct Supabase connection auth failing from local machine (ENOTFOUND on pooler; P1000 on direct host). Root cause unresolved.
+- Fallback: schema applied via **Supabase MCP `apply_migration`** (Option C was used for bootstrap, not ongoing management).
+- All stale tables dropped (all empty). All 9 v9 DEWY schema tables created clean.
+- `prisma/migrations/0_init/migration.sql` generated via `prisma migrate diff --from-empty --to-schema` and committed.
+- `_prisma_migrations` table created; `0_init` registered as applied via Supabase MCP `execute_sql`.
 
-**Step 2 (same session):** Generate and mark baseline migration:
-```bash
-npx prisma migrate diff --from-schema-datasource --to-schema-datamodel --script > prisma/migrations/0_init.sql
-npx prisma migrate resolve --applied 0_init
-```
+**Step 2 (DONE — 2026-05-28):** Baseline complete. `migrate deploy` will not re-run `0_init`.
 
 **Step 3 (before first post-launch schema change):** Switch Vercel build command to:
 ```
