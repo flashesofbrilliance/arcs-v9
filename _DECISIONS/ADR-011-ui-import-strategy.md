@@ -88,7 +88,7 @@ localized — not a hidden cost.
 ## Y — Conviction
 
 **Polarity:** GREEN
-**Conviction:** HIGH
+**Conviction:** MEDIUM
 **Stability:** REVISIT
 
 **Loki test:** Turbopack in Next.js 16 may already handle barrel tree-shaking
