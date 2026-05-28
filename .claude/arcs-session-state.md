@@ -1,50 +1,50 @@
 # ARCS Session State
 
-**Last updated:** 2026-05-28 (v1.5.0)
-**Last commit (arcs-v9):** 924fd10 — tokens.ts + Badge component
+**Last updated:** 2026-05-28 (v1.7.0)
+**Last commit (arcs-v9):** b995a63 — handoff v1.6.0 (design system Phase 1, ADRs 009-012)
+**Last commit (A.R.C.S.):** af3c303 — ADR-010 Loki fix (rename notice in arcs_dewy_log.py)
+**Last commit (arcs-care):** 94a0ab8 — hw-button-orange flat fill fix
 
 ## Status
 
-- Book II Parts I–III+VI: CANONICAL ✅ | Part IV: DRAFT | Part V: NOT STARTED
-- _DECISIONS/: ADR-001 through ADR-009 committed; ADR-010 UNTRACKED (needs commit)
 - arcs-v9 Vercel: ✅ LIVE — `arcs-zachharris-3439s-projects.vercel.app`
-- Supabase: ✅ 9 tables, RLS enabled (deny-all), `_prisma_migrations` seeded
-- arcs-care: ✅ LIVE — COCD hero, loop diagram, Compass + /helpful
+- arcs-care: ✅ LIVE — PLG Phase 1 shipped (Lab Offer Card, model chain, lens readings)
+- Supabase (owdiiyvphyifukygvxhg): 9 tables, RLS policies WRITTEN not yet APPLIED
+- ADRs: 001–012 committed in arcs-v9; ADR-008 status = ACCEPTED (not APPLIED)
+- A.R.C.S. receipt book: 01×3, 02×3, 03×3, 04×2, 05×4, 06×3 — P1+P2 pass done
+- arcs_dewy naming collision: ✅ RESOLVED (ADR-010) — `_HAS_DEWY = True`
+- All repos pushed to GitHub ✅
 
 ## P-track status
 
 | Track | Status | Gate |
 |---|---|---|
 | P0: arcs-v9 → GitHub | ✅ Done | — |
-| P1: arcs-hq archive | ⏳ Not started | No blocker |
 | P2: Perplexity MCP | ✅ Done | Live at `perplexity-mcp-kohl.vercel.app` |
-| P3: Home dir cleanup | 🔒 Hard gate | Audit 51 ahead-of-origin commits first |
 | P4: arcs-v9 → Vercel | ✅ Done | First READY deploy 2026-05-28 |
-| P5: arcs-care PLG Phase 1 | 🟡 Specced | Compass model swap + Lab offer card |
+| P5: arcs-care PLG Phase 1 | ✅ Done | Lab Offer Card + model chain live |
 
-## Open uncommitted items
+## Requires human dashboard action (no code blocker)
 
-1. `src/app/dashboard/page.tsx` — Badge smoke test (marked "remove after visual confirmation")
-2. `_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md` — drafted, untracked
+1. **Apply RLS** — paste `arcs/scripts/rls-policies.sql` into Supabase SQL Editor (project `owdiiyvphyifukygvxhg`), then edit `_DECISIONS/ADR-008-rls-policy-design.md`: `status: ACCEPTED` → `status: APPLIED`, commit
+2. **Vercel Preview env** — Settings → Environment Variables → add `DATABASE_URL` (Preview, all branches) + `AUTH_SECRET` (Preview) via dashboard (CLI v53 bug blocks CLI add)
+3. **Calendar reminder** — monthly check on DATABASE_URL rotation risk (Option B manual, ADR-005)
 
-## Post-P4 cleanup (still open)
+## Phase 7 open code items (priority order)
 
-1. **Preview DATABASE_URL** — add via Vercel dashboard (all branches)
-2. **RLS policies** — deny-all is live; need real user-scoped policies before launch
-3. **DATABASE_URL rotation risk** — manually set, see ADR-005 amendment
-4. **Supabase local connection broken** — db push / migrate fail locally; use MCP for DDL
+1. **receipt-core schema** — unifies BriefReceipt/GuideReceipt/DecisionReceipt; blocks CLUE, NGI, CLI
+2. **Receipt Book P3** — quality_score pass on 11 unsealed receipts (`arcs_dewy/helpers/quality_scorer.py`)
+3. **CLUE integration** — receipt lifecycle events; blocked on receipt-core
+4. **NGI linking** — `receipt_id` on no-go entries; blocked on receipt-core
+5. **CLI commands** — `arcs receipt log/inspect/export`
 
-## P5 arcs-care Phase 1 next steps
+## Known structural notes
 
-```
-1. app/api/compass/route.ts — remove retired model from fallback chain
-2. app/compass/page.tsx — add Lab Offer Card post-result (receipt_id in CTA link)
-3. components/lab-offer.tsx — accept receiptId prop, link to /call?receipt=
-4. Verify: POST /api/compass → receipt_id in response; Lab CTA renders
-```
+- Supabase direct connection (port 5432) still failing from local — all DDL via Supabase MCP
+- DATABASE_URL = pooler port 6543 (Prisma 7 + PrismaPg adapter)
+- A.R.C.S. has no GitHub remote (local-only runtime, expected)
+- `arcs_dewy_log.py` (DEWYLog/DEWYEntry) has zero callers — deferred consolidation into package
 
 ## Blocking
 
-NONE. Two recommended human actions:
-1. Vercel dashboard → add DATABASE_URL to Preview (all branches)
-2. Calendar reminder: check DATABASE_URL monthly (rotation risk per ADR-005)
+NONE. All code items unblocked. Human dashboard actions (A1–A3) are the only open gates.
