@@ -655,3 +655,21 @@ Prisma connects as `postgres` superuser → bypasses RLS. Auth.js v5 ≠ Supabas
 ## Next session starts at
 
 `/arcs-handoff-pickup` → P3 arcs-care Phase 1 (compass model swap + Lab offer card)
+
+## Handoff — v1.5.0 — 2026-05-28
+
+### What landed
+
+- Memory consolidation: `project_arcs_v9.md` full rewrite (P4 ✅, Prisma 7, Supabase live), `project_perplexity_mcp.md` updated (now LIVE), `project_arcs_site_brief.md` design tokens corrected (#ff6b35 not #4ABDB0)
+- `~/.claude/CLAUDE.md` P-track updated: P4 ✅ Done, P5 arcs-care PLG Phase 1 added
+- Auto-system hallucinations corrected in MEMORY.md ("RLS ENABLED" false, "ADR-008" false, "Parts I–VI canonical" false — Part IV still draft)
+- No repo commits this session (memory files only)
+
+### Open uncommitted items (from prior session v1.4.0)
+
+- `src/app/dashboard/page.tsx` — Badge smoke test import (marked "remove after visual confirmation" — leave uncommitted until verified)
+- `_DECISIONS/ADR-010-arcs-dewy-pkg-rename.md` — untracked, drafted, not yet committed
+
+### Next session starts at
+
+`/arcs-handoff-pickup` → confirm/remove Badge smoke test → commit ADR-010 → P5 arcs-care PLG Phase 1
