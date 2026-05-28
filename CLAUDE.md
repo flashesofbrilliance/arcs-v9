@@ -673,3 +673,66 @@ Prisma connects as `postgres` superuser → bypasses RLS. Auth.js v5 ≠ Supabas
 ### Next session starts at
 
 `/arcs-handoff-pickup` → confirm/remove Badge smoke test → commit ADR-010 → P5 arcs-care PLG Phase 1
+
+---
+
+# Handoff — v1.6.0 — 2026-05-28
+
+> **For Claude Code:** active pickup point. v1.5.0 above is preserved for history.
+
+## What landed this session
+
+### Design system sprint — Phase 1 COMPLETE
+
+```
+src/ui/tokens.ts      ✅ committed 924fd10 — palette matching arcs-v9's actual colors
+src/ui/Badge.tsx      ✅ committed 924fd10 — 3 registers: cockpit/governance/light
+src/ui/Button.tsx     ✅ committed 80530b8 — primary/ghost/danger, sm/md/lg
+src/ui/Card.tsx       ✅ committed d597708 — accent, 3 padding modes; CardHeader + CardDivider
+```
+
+**Import rule (ADR-011):** `@/ui/Badge` not `@/ui` (no barrel). Trigger to revisit: ≥8 components.
+
+**Token palette:** `#020408` bg · `#0d1117` surface · `#1e293b` border · `#00F0FF` cyan · `#00FF9D` green · `#FFD700` gold · `#FF4D6D` red
+
+### ADRs authored/updated
+
+| ADR | Action |
+|-----|--------|
+| ADR-002 | CLOSED — P4 trigger fired; execution divergence logged (`dfce59d`) |
+| ADR-009 | Design system canonicalization — GREEN/HIGH/REVISIT (`f73d0fb`) |
+| ADR-010 | arcs_dewy naming collision (committed this session) |
+| ADR-011 | UI import strategy — no barrel (`a737c56`) |
+| ADR-012 | PLG Phase 1 — specced not built (`6ae6582`) |
+
+### New slash commands
+
+- `~/.claude/commands/dewy-stub.md` — lightweight ADR scaffolder (numbers stub, infers E from git, does NOT commit)
+- `~/.claude/commands/receipt-book-curator.md` — decision book state audit; read-only
+
+### arcs.care button fix
+
+```
+arcs-care commit: 94a0ab8
+File: app/globals.css → .hw-button-orange
+```
+Flat fill (#ff6b35), `border-radius: 0`, explicit `padding: 0.875rem 1.75rem`, `font-size: 0.875rem`, `font-weight: 700`, `color: #000`. Vercel toolbar thread `oyCxRi39YsjX` replied + resolved.
+
+## Open items
+
+1. **Second toolbar thread `YyvHp8_-4jXX`** — API investigation ("Is the API working? Busted? Missing deps?") — NOT resolved
+2. **ADR-009 Stability fix** — should be REVISIT not STABLE (cosmetic, from ultrareview)
+3. **Panel component** — next in design system sprint (after Badge/Button/Card)
+4. **Chip component** — after Panel
+5. **P5: arcs-care PLG Phase 1** — ADR-012 specced: compass model swap + Lab offer card
+
+## Last confirmed commits
+
+```
+arcs-v9:   6ae6582 — docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided
+arcs-care: 94a0ab8 — fix(ui): hw-button-orange conforms to GCR design system
+```
+
+## Next session starts at
+
+`/arcs-handoff-pickup` → either resolve toolbar thread `YyvHp8_-4jXX` OR start Panel component OR kick off P5 PLG Phase 1
