@@ -572,3 +572,50 @@ perplexity-mcp: 87d8725 — gitignore supabase/
 ## Next session starts at
 
 `/arcs-handoff-pickup` → confirm Vercel integration prefix fixed → run P4 unblock sequence (5 steps in session-state.md)
+
+## Handoff — v1.3.0 — 2026-05-28
+
+### What landed
+
+- **P4 DONE — first READY Vercel deployment** (`arcs-zachharris-3439s-projects.vercel.app`)
+- Prisma 7 breaking change resolved: `url` removed from `schema.prisma`; `PrismaPg` adapter wired in `db.ts`; `prisma.config.ts` loads `.env.local` without `override`
+- DEWY schema bootstrapped to Supabase via MCP `apply_migration` (all 9 tables clean, 0 rows)
+- Baseline migration `0_init` committed to `prisma/migrations/`; `_prisma_migrations` table created; `0_init` registered as applied via Supabase MCP
+- ADR-005 amended: actual execution used Option B (manual `vercel env add`), not Option A (integration). Rotation drift risk is live — see ADR-005 amendment for mitigation steps.
+- ADR-007 amended: bootstrap used Option C (MCP), not Option A (db push). Steps 1 and 2 marked DONE.
+- `/ultrareview` run on session commits + ADRs — all items addressed
+- `/dual-bar-raiser` classification: session was pure Implementer work, no Architect routing needed
+
+### Commits this session
+
+```
+2aa6904 docs(adr): amend ADR-005/007 — reflect actual execution divergence
+5262c1a chore(migrations): baseline migration 0_init — DEWY schema applied to Supabase
+11ba2fc fix(db): Prisma 7 adapter pattern — url via PrismaPg, not schema.prisma
+```
+
+### P-track status
+
+| Track | Status |
+|---|---|
+| P0: arcs-v9 → GitHub | ✅ Done |
+| P2: Perplexity MCP | ✅ Done |
+| P4: arcs-v9 → Vercel | ✅ DONE — first READY deploy |
+| P3: arcs-care PLG funnel | 🟡 Specced, Phase 1 not started |
+
+### Open before P4 is truly clean
+
+1. **Preview DATABASE_URL missing** — CLI couldn't add to "all preview branches" (v53 bug). Add via Vercel dashboard: Settings → Environment Variables → `DATABASE_URL` → Preview → All branches
+2. **RLS disabled** on all 9 tables — enable before first external user; requires writing policies first (ADR needed)
+3. **DATABASE_URL rotation risk** — manually set, not integration-managed. Calendar reminder needed.
+4. **Supabase direct connection auth failing locally** — `prisma db push` / `migrate resolve` can't connect. Workaround: use Supabase MCP for all DDL ops. Root cause unknown.
+
+### Blocking
+
+NONE for deploy. Two human actions recommended:
+1. Add `DATABASE_URL` to Preview in Vercel dashboard
+2. Set rotation reminder for Supabase password (see ADR-005 amendment)
+
+### Next session starts at
+
+`/arcs-handoff-pickup` → P3 arcs-care Phase 1 (compass model swap + Lab offer card) or RLS policy design
