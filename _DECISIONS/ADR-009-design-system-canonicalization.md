@@ -113,3 +113,7 @@ current screen count is small, and the horizon is QUARTER — revisit trigger is
 
 **Implementation pointer:** Recover from arcs-app git log — find pre-stub-revert commit for Badge.
 Start there: Badge is the canonical Register-pattern example.
+
+**Failure path:** If the arcs-app pre-stub-revert commit is unreachable (squashed, force-pushed, or
+history pruned), reconstruct Badge/Button/Card from first principles using WORLD.md token spec
+(render scale table + Y-gate color system) as the source of truth for Register variants.
