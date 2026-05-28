@@ -21,6 +21,8 @@ gate: GREEN
 - `arcs_primitives_bridge.py` — imports `from arcs_dewy.schema.receipt import ReceiptObject`; currently falls back to dict (`_HAS_DEWY = False`) because flat file wins
 - Any future code importing `ReceiptObject` or `OnPurposeLabel` from `arcs_dewy`
 
+> **Cross-repo note:** This ADR is tracked in `arcs-v9/_DECISIONS/` but the change executes entirely in `/Users/zharris/A.R.C.S./`. No arcs-v9 files are modified.
+
 ---
 
 ## W — Window
@@ -87,7 +89,7 @@ This means:
 **Conviction:** HIGH  
 **Stability:** STABLE
 
-**Loki test:** If `arcs_dewy.py` contains logic that multiple files import and we delete it without migrating, we break those callers silently. Mitigation: audit `arcs_dewy.py` content and grep all `.py` files for `import arcs_dewy` / `from arcs_dewy` before deleting.
+**Loki test:** (Pre-execution risk, now mitigated) If `arcs_dewy.py` had callers outside the file, deleting it would break them silently — confirmed zero via grep. Residual risk: a future contributor importing `arcs_dewy` may expect `DEWYLog` (the old flat file) and get `ReceiptObject` instead. Mitigation: `arcs_dewy_log.py` header carries a rename notice; any new code importing `arcs_dewy` will correctly get the package.
 
 ---
 
@@ -97,7 +99,7 @@ This means:
 - Schema validation is enforced on all bridge-produced receipts
 - `arcs_primitives_bridge.py` needs no import changes (Option B)
 - Phase 7 receipt-core work unblocked
-- ADR required before executing rename (this ADR)
+- `arcs_dewy_log.py` has zero callers; may be promoted into `arcs_dewy/crystallization.py` in a future DEWY consolidation pass (no urgency — DEWYLog is not on the Phase 7 critical path)
 
 **Implementation steps (audit complete — safe to execute):**
 1. `mv arcs_dewy.py arcs_dewy_log.py` — rename flat file, preserve DEWYLog/DEWYEntry
