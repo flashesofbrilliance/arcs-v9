@@ -517,3 +517,58 @@ NONE.
 ## Next session starts at
 
 ADR-004 DNS fix (manual, Vercel dashboard) → then ADR-001 auth audit or ADR-003 COCD build.
+
+---
+
+# Handoff — v1.1.0 (2026-05-27)
+
+> **For Claude Code:** active pickup point. v1.0.0 above is preserved for history.
+
+## What changed since v1.0.0
+
+- **ADR-001 DONE** — all 5 API routes have soft auth guards; prod enforces session, dev passes through (`25e76e8`)
+- **ADR-003 DONE** — arcs.care COCD hero rewrite complete:
+  - `components/hero.tsx` — new copy ("You're not stuck. You just haven't mapped it yet."), COCD framing, CTA sequence flipped (Compass first, Lab second)
+  - `components/loop-diagram.tsx` — new inline SVG COCD loop diagram (Calibrate→Orient→Chart→Detect)
+  - Committed `0240f18`, pushed to `flashesofbrilliance/arcs-care`
+- **ADR-004 DONE** — mcp.arcs.care DNS live, 308 redirect confirmed
+- **ADR-005/006/007 written + committed** — Supabase env injection, branching strategy, prisma migration strategy (`252e0b3`)
+- **db.ts + schema.prisma fixed** — conditional adapter removed; schema wires `DATABASE_URL`; both committed (`bf4205a`, `1afe828`)
+- **PENDING.md updated** — ADR-002/003 → IN_PROGRESS, ADR-005/006/007 added (`7869e26`)
+- **perplexity-mcp** — `supabase/` gitignored, remote rebased + pushed (`87d8725`)
+- **`/ultrareview` command created** — `~/.claude/commands/ultrareview.md` — DEWY-native ADR quality gate with DEWY receipt format for commits + PRs
+
+## Single blocking action (human required)
+
+```
+Vercel dashboard → Integrations → Supabase → ARCS project
+→ Custom Environment Variable Prefix: DATABASE
+→ Save Changes
+```
+
+Once saved, Claude Code handles the rest: `vercel env pull` → `prisma db push` → baseline migration → deploy.
+
+## File status
+
+```
+src/lib/db.ts                          ✅ Fixed — native PrismaClient, no SQLite adapter
+prisma/schema.prisma                   ✅ Fixed — url = env("DATABASE_URL")
+prisma/migrations/                     🔴 NOT YET — create after prisma db push (ADR-007 step 2)
+_DECISIONS/ADR-001 through ADR-007    ✅ ALL COMMITTED
+_QUEUE/PENDING.md                     ✅ Current
+components/hero.tsx (arcs-care)       ✅ COCD rewrite committed
+components/loop-diagram.tsx (arcs-care) ✅ New — committed
+~/.claude/commands/ultrareview.md     ✅ New command registered
+```
+
+## Last confirmed commits
+
+```
+arcs-v9:        7869e26 — PENDING.md update
+arcs-care:      0240f18 — COCD hero + loop diagram
+perplexity-mcp: 87d8725 — gitignore supabase/
+```
+
+## Next session starts at
+
+`/arcs-handoff-pickup` → confirm Vercel integration prefix fixed → run P4 unblock sequence (5 steps in session-state.md)
