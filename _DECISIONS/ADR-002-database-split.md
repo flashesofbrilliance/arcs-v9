@@ -101,3 +101,21 @@ Prisma supports SQLite in dev and Postgres in prod via the env fallback. The pro
 
 - ADR-001 — Auth Gate Strategy (upstream; auth model affects userId FK in Receipt)
 - ADR-003 — P4 Vercel deploy sequence (downstream; this ADR defines the unblock checklist)
+
+---
+
+## Amendment — 2026-05-28 — Trigger Fired / Decision Closed
+
+**Revisit trigger fired:** P4 deploy landed (`arcs-zachharris-3439s-projects.vercel.app`, commit `11ba2fc`).
+Supabase is now the live production datasource. This ADR's unblock checklist is complete.
+
+**Actual execution divergence (from ADR-005/007 amendments):**
+- `DATABASE_URL` was set manually via `vercel env add` (not Supabase integration — ADR-005 Option B)
+- Schema bootstrap used Supabase MCP `apply_migration` (not `prisma db push` — ADR-007 Option C)
+- Steps 4 and 5 of the P4 checklist were fulfilled by equivalent means
+
+**Status update:** DECIDED → CLOSED. Decision was correct; trade-offs accepted held.
+SQLite/Postgres behavioral gap did not produce any issues during bootstrap.
+
+**Residual open item:** DATABASE_URL rotation risk (manually set, not integration-managed).
+Calendar reminder recommended. See ADR-005 amendment for mitigation steps.
