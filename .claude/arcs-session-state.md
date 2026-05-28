@@ -1,17 +1,16 @@
 # ARCS Session State
 
-**Last updated:** 2026-05-27b
-**Last commit (arcs):** 11ba2fc — Prisma 7 adapter pattern
-**Last commit (A.R.C.S.):** 6812334 — drift sentinel fixes
-**Last commit (arcs-care):** 0240f18 — hero redesign + LoopDiagram
+**Last updated:** 2026-05-28
+**Last commit (arcs-v9):** 2aa6904 — ADR-005/007 amendments; P4 READY
 
 ## Status
 
 - Book II Parts I–VI: ALL CANONICAL ✅
-- _DECISIONS/: ADR-001 through ADR-007 live on GitHub ✅
-- A.R.C.S. working tree: CLEAN ✅ (151 untracked → 0 this session)
+- _DECISIONS/: ADR-001 through ADR-007 live on GitHub ✅ (ADR-005/007 amended with actual execution)
+- arcs-v9 Vercel: ✅ FIRST READY DEPLOY — `arcs-zachharris-3439s-projects.vercel.app`
 - arcs-care working tree: CLEAN ✅
-- arcs working tree: CLEAN ✅
+- arcs-v9 working tree: CLEAN ✅
+- Supabase schema: ✅ 9 tables, 0 rows, `_prisma_migrations` seeded with `0_init`
 
 ## P-track status
 
@@ -19,35 +18,18 @@
 |---|---|---|
 | P0: arcs-v9 → GitHub | ✅ Done | — |
 | P2: Perplexity MCP deploy | ✅ Done | Live at `perplexity-mcp-kohl.vercel.app` |
-| P3: arcs-care PLG funnel | 🟡 Specced | Phase 1 next: model swap + Lab CTA in compass |
-| P4: arcs-v9 → Vercel preview | 🔴 BLOCKED | Fix Vercel Supabase integration prefix → `DATABASE` |
+| P4: arcs-v9 → Vercel | ✅ DONE | First READY deploy confirmed |
+| P3: arcs-care PLG funnel | 🟡 Specced | Phase 1 next: compass model swap + Lab CTA |
 
-## P4 exact next steps (unchanged from last session)
+## What's still open (post-P4 cleanup)
 
-```
-1. Vercel dashboard → Integrations → Supabase → ARCS project
-   → set Custom Environment Variable Prefix to: DATABASE
-   → Save Changes
+1. **Preview DATABASE_URL missing** — add via Vercel dashboard: Settings → Environment Variables → `DATABASE_URL` → Preview → All branches (CLI v53 bug prevents CLI add)
+2. **RLS disabled** on all 9 Supabase tables — enable before first external user; requires RLS policies first
+3. **DATABASE_URL rotation risk** — Option B (manual) is live, not Option A (integration). See ADR-005 amendment. Set calendar reminder.
+4. **Supabase direct connection failing locally** — `db push` / `migrate resolve` can't connect from local machine. All DDL must go through Supabase MCP until resolved.
+5. **AUTH_SECRET missing from Preview env** — verify magic link auth works on the live production deploy
 
-2. vercel env pull .env.local --yes
-   → verify DATABASE_URL appears + check region string contains "us-east-2"
-
-3. npx prisma db push
-   → pushes v9 schema to Supabase (all tables empty — safe)
-
-4. npx prisma migrate diff \
-     --from-schema-datasource prisma/schema.prisma \
-     --to-schema-datamodel prisma/schema.prisma \
-     --script > prisma/migrations/0_init.sql
-   npx prisma migrate resolve --applied 0_init
-   → baseline migration (ADR-007 step 2)
-
-5. git add prisma/migrations/ && git commit + push
-
-6. vercel deploy (or push triggers auto-deploy)
-```
-
-## P3 arcs-care next steps (Phase 1)
+## P3 arcs-care Phase 1 next steps
 
 ```
 1. app/api/compass/route.ts — remove retired model from fallback chain
@@ -61,21 +43,16 @@
 | ADR | Status |
 |---|---|
 | 001 | DONE |
-| 002 | IN_PROGRESS — code fixed, waiting on Vercel integration |
-| 003 | DONE |
-| 004 | DONE |
-| 005 | READY — manual dashboard action (fix prefix) |
+| 002 | DONE (Prisma 7 / Supabase live) |
+| 003 | DONE (COCD hero + loop diagram) |
+| 004 | DONE (mcp.arcs.care live) |
+| 005 | DONE — amended: Option B live, rotation risk documented |
 | 006 | BLOCKED — gate: first external user or schema PR |
-| 007 | BLOCKED — needs ADR-005 first |
-| TBD | NEEDED — arcs_dewy.py naming collision → arcs_dewy_pkg rename |
-
-## Known open issues
-
-1. **arcs_dewy.py shadows arcs-dewy/ package** — bridge `_HAS_DEWY` always False until renamed; ADR required
-2. **Prisma 7 fix unvalidated** — NCI 79, SOFT PAUSE — run /fated before marking P4 clear
-3. **arcs-care Phase 1 not started** — spec approved, no code written yet
+| 007 | DONE — amended: bootstrap via MCP, baseline registered |
+| TBD | NEEDED — RLS policy design (pre-first-user gate) |
 
 ## Blocking
 
-**ONE human action required for P4:** Vercel dashboard → Supabase integration → set prefix to `DATABASE`.
-Everything else can be done by Claude Code once that fires.
+NO human blockers for current deploy. Two recommended actions:
+1. Vercel dashboard → add `DATABASE_URL` to Preview environment (all branches)
+2. Set calendar reminder: check `vercel env ls production | grep DATABASE_URL` monthly (rotation risk)
