@@ -1,5 +1,23 @@
-// Auth disabled for local dev — re-enable when ready for multi-user
-export const auth = async (): Promise<{ user: { id: string; email?: string | null } } | null> => null
-export const signIn = async () => {}
-export const signOut = async () => {}
-export const handlers = { GET: () => new Response("auth disabled"), POST: () => new Response("auth disabled") }
+import NextAuth from "next-auth"
+import Resend from "next-auth/providers/resend"
+import { PrismaAdapter } from "@auth/prisma-adapter"
+import { prisma } from "@/lib/db"
+
+export const { auth, handlers, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma),
+  providers: [
+    Resend({
+      apiKey: process.env.AUTH_RESEND_KEY,
+      from: "ARCS <noreply@arcs.care>",
+    }),
+  ],
+  pages: {
+    signIn: "/compass",
+  },
+  callbacks: {
+    session({ session, user }) {
+      session.user.id = user.id
+      return session
+    },
+  },
+})
