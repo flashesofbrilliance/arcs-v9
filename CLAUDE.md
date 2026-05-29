@@ -850,3 +850,54 @@ Resolve ADR-015: confirm whether a founding client outcome is shareable (even an
 ## Next session starts at
 
 `/arcs-handoff-pickup` → resolve ADR-015 → build Week 1 items 2+3 (compass email capture + spots badge) → verify DMARC → add `compass_receipt_id` column to Supabase waitlist table
+
+---
+
+# Handoff — v2.0.0 — 2026-05-28
+
+> **For Claude Code:** active pickup point. v1.9.0 above is preserved for history.
+
+## What landed this session
+
+### ADR quality chain: /dewy-stub → /receipt-book-curator → /ultrareview
+
+- **ADR-012 written + decided** (`6ae6582`) — arcs.care PLG Phase 1 locked:
+  - Decision: Option B conviction-gated Lab card (NCI ≥ 65)
+  - Model swap: `claude-sonnet-4-6` (inline micro-decision)
+  - Y: YELLOW/MEDIUM/REVISIT — revisit after 50 gated exposures
+- **ADR-009 patched** — Consequences failure path added (arcs-app commit unreachable → reconstruct from WORLD.md)
+- **ADR-011 patched** — Y conviction corrected to MEDIUM/REVISIT (Turbopack tree-shaking unconfirmed)
+- **`/receipt-book-curator`** audit run — 12 ADRs scanned, 3 housekeeping items, 1 live risk (ADR-005 rotation)
+- **`/ultrareview`** run — ADRs 009/010/011: READY; ADR-012: HOLD → resolved inline
+
+### arcs-care P5 Phase 1 implementation
+
+Commit `a54e5dd` — `feat(plg): P5 model swap + conviction-gated Lab card [NCI:74]`:
+- `app/api/compass/route.ts` — `claude-haiku-4-5` → `claude-sonnet-4-6`
+- `app/compass/page.tsx` — Lab card wrapped in `{result.nci >= 65 && (...)}`; href updated from hardcoded Google Calendar URL → `/call?receipt=${result.receipt_id}`
+- Build clean. Gate logic verified in source.
+
+### ANTHROPIC_API_KEY rotation
+
+- Old key in arcs-care `.env.local` was from a stale/revoked workspace (prefix `KCjY...`)
+- New key confirmed from dashboard (`QhFmFd...` — active, $54.96 balance, auto-reload on)
+- Synced to all 3 Vercel environments: Production ✅ · Preview ✅ · Development ✅
+
+## Commits this session
+
+```
+arcs-v9:    6ae6582 — docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided
+arcs-care:  a54e5dd — feat(plg): P5 model swap + conviction-gated Lab card [NCI:74]
+```
+
+## Human actions before next session
+
+1. **Verify production** — hit arcs.care/compass, submit a real question → confirm Lab card appears at NCI ≥ 65 with correct `/call?receipt=` href
+2. **DMARC check** — `dig TXT _dmarc.arcs.care` → if not `p=reject`, emails landing in spam
+3. **Supabase** — add `compass_receipt_id` column to `waitlist` table
+4. **Vercel Preview env (arcs-v9)** — add DATABASE_URL via dashboard (CLI v53 bug)
+
+## Next session starts at
+
+`/handoff-pickup` → verify arcs.care/compass end-to-end → Panel/Chip design system OR DMARC fix OR Supabase column
+
