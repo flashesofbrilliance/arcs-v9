@@ -1,6 +1,6 @@
 # ADR-015 — arcs.care Week 1 Build Gate: Case Study Content Dependency
 
-> **Status:** DRAFT
+> **Status:** DECIDED
 > **Date:** 2026-05-28
 > **Commit:** (set at merge)
 
@@ -82,25 +82,29 @@ The answer changes the build sequence and what ships first.
 
 ## Decision
 
-**Chosen:** [FILL IN]
-**Rationale:** [FILL IN]
-**Trade-offs accepted:** [FILL IN]
+**Chosen:** Option A — items 2 (email capture) and 3 (spots badge) proceed immediately; item 1 (case study) waits for content.
+**Rationale:** Items 2 and 3 have no dependency on item 1 and deliver independent value. Email capture starts accumulating real signals the moment it ships. Spots badge is a 2-hour CSS/JSX change with no risk. Blocking them on a content dependency that may take days or weeks is artificial sequencing that costs real capture opportunities at zero benefit.
+**Trade-offs accepted:** The Lab offer section will launch without a case study anchor for some period. Users who opt into email capture before the case study ships will receive a T+0 note without social proof context — acceptable because the T+0 note is compass-bearing-scoped, not Lab-offer-scoped. Content deadline: 14 days from 2026-05-28. If case study content is not confirmed by 2026-06-11, item 1 ships with a placeholder quote and no attribution, to be swapped when content arrives.
 
 ---
 
 ## Y — Conviction
 
-**Polarity:** [SCRATCH | YELLOW | GREEN | LOCKED]
-**Conviction:** [LOW | MEDIUM | HIGH]
-**Stability:** [SHIFTING | CONTESTED | STABLE | REVISIT]
+**Polarity:** YELLOW
+**Conviction:** HIGH
+**Stability:** STABLE
 
-**Loki test:** [FILL IN — strongest case against chosen option]
+**Loki test:** Shipping email capture before the case study means users who opt in during the gap receive a T+0 email with no social proof context from the Lab offer section — reducing the email's downstream conversion effectiveness if it references the Lab. Counter: the T+0 email is keyed to the compass bearing, not the Lab offer. Lab conversion happens on return visit or via direct follow-up, not from the T+0 email alone. The risk is real but manageable.
 
 ---
 
 ## Consequences
 
-[FILL IN — what ships, in what order, and what the content gate deadline is]
+- Item 3 (spots badge) ships first — 2026-05-28, same session, 2h
+- Item 2 (email capture on compass result) ships next — 2026-05-28 or 2026-05-29
+- Item 1 (case study excerpt) ships when content is confirmed, hard deadline 2026-06-11
+- If no content by 2026-06-11: ship with placeholder quote, swap on content arrival
+- `NEXT_PUBLIC_CASE_STUDY_APPROVED` env var remains `false` (Vercel production) until content confirmed + approved
 
 **Implementation pointer:** ADR-013 § Week 1 build sequence · `lab-offer.tsx` · `compass-widget.tsx` · `hero.tsx`
 
