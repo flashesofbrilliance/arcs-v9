@@ -5,6 +5,11 @@ import { prisma } from "@/lib/db"
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  logger: {
+    error(code, ...message) {
+      console.error("[auth:full-error]", code, JSON.stringify(message, null, 2))
+    },
+  },
   providers: [
     Resend({
       apiKey: process.env.AUTH_RESEND_KEY,
