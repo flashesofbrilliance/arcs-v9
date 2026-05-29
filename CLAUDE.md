@@ -901,3 +901,63 @@ arcs-care:  a54e5dd — feat(plg): P5 model swap + conviction-gated Lab card [NC
 
 `/handoff-pickup` → verify arcs.care/compass end-to-end → Panel/Chip design system OR DMARC fix OR Supabase column
 
+---
+
+# Handoff — v2.1.0 — 2026-05-29
+
+> **For Claude Code:** active pickup point. v2.0.0 above is preserved for history.
+
+## What landed this session
+
+### arcs-care — Week 1 ADR-013 conversion builds: ALL SHIPPED
+
+**Item 2 — Email capture on compass result** (`8746ece`)
+- `components/compass-widget.tsx` — optional email field below result panel
+- Copy: "Want Zach to send a note on this? One message, no list."
+- `POST /api/waitlist` with `source: 'compass-result'`
+- On success: "Got it — Zach will send a note."
+
+**Item 3 — Spots badge elevation** — already live in `hero.tsx` (no change needed)
+
+**Item 1 — Case study receipt excerpt** (`a5dcffc`, `3ffe6b1`)
+- `components/lab-offer.tsx` — Dan Pascone / Tailored Wealth case study wired
+- Content: hiring system built in one session, sorting function insight, Dan's quote
+- **Dark until `NEXT_PUBLIC_CASE_STUDY_APPROVED=true` set in Vercel (Production only)**
+- GitHub issue #7 tracks the approval gate
+
+### arcs-care — email authentication: FULLY CONFIGURED
+
+- `arcs.care` domain added to Resend (us-east-1) via REST API
+- DKIM record added to Vercel DNS → **verified**
+- SPF MX + TXT records added → **verified**
+- DMARC `p=quarantine` record added → **live** (`_dmarc.arcs.care`)
+- Temp API key created and deleted (clean)
+
+### arcs-care — infrastructure upgrades
+
+- `compass_receipt_id uuid` column added to Supabase `waitlist` table (SQL Editor)
+- `app/api/waitlist/route.ts` — writes `compass_receipt_id` on compass-result captures
+- `components/compass-widget.tsx` — threads `result.receipt_id` into waitlist POST
+- Supabase MCP wired: `.mcp.json` + agent skills installed in arcs-care-local
+- `app/api/cron/t7-emails/route.ts` — upgraded from loop to `resend.batch.send()`
+- Resend plugin installed (`resend@claude-plugins-official`)
+
+## arcs-care commits this session
+
+```
+136add1 perf(cron): batch T+7 emails via resend.batch.send
+acf3282 chore(infra): Supabase MCP server + agent skills
+dde487d feat(compass): thread receipt_id into waitlist capture
+93c9953 feat(waitlist): write compass_receipt_id on compass-result captures
+a5dcffc feat(lab): case study receipt excerpt — Dan Pascone — env-flagged
+8746ece feat(compass): optional email capture on result panel
+```
+
+## One human action before next session
+
+Message Dan Pascone → confirm OK to publish case study on arcs.care → set `NEXT_PUBLIC_CASE_STUDY_APPROVED=true` in Vercel (Production only) → redeploy → close issue #7. The 30-day Lab inquiry clock (ADR-013) starts on that redeploy.
+
+## Next session starts at
+
+`/arcs-handoff-pickup` → flip case study env var (if Dan confirmed) → arcs-v9 Panel/Chip design system components → ADR-006 branching strategy (gate: first external user)
+
