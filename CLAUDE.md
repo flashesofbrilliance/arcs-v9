@@ -736,3 +736,117 @@ arcs-care: 94a0ab8 — fix(ui): hw-button-orange conforms to GCR design system
 ## Next session starts at
 
 `/arcs-handoff-pickup` → either resolve toolbar thread `YyvHp8_-4jXX` OR start Panel component OR kick off P5 PLG Phase 1
+
+---
+
+# Handoff — v1.8.0 — 2026-05-28
+
+> **For Claude Code:** active pickup point. v1.7.0 above is preserved for history.
+
+## What landed this session
+
+### arcs-care P5 Phase 1 — COMPLETE
+
+**5-lens compass (per-tab generated content):**
+- `app/api/compass/route.ts` — system prompt expanded; 9-field JSON output: `true_north`, `why`, `nci`, `mode`, `tributaries`, `risk_reading`, `timing_reading`, `somatic_reading`, `drift_reading`
+- `app/compass/page.tsx` — `LensPanel` lookup map wired; each tab renders distinct Claude output
+
+**Lab Offer Card:**
+- `app/compass/page.tsx` — ARCS LAB card below ReceiptSavePrompt; conviction-gated (Option B per ADR-012); Google Calendar booking link
+
+**Vercel Toolbar:**
+- `@vercel/toolbar` installed; `<VercelToolbar />` in `app/layout.tsx`
+- `~/.claude/commands/fix-toolbar-comments.md` — global skill: fetch threads → fix → build → commit → deploy → resolve
+
+### arcs-care CI/CD pipeline — COMPLETE (NOTOMATION-compliant)
+
+Circuit breaker model (ADR-014):
+- `eslint.config.mjs` — flat config with `eslint-config-next/core-web-vitals` (Next.js 16 removed `next lint`)
+- `.github/workflows/ci.yml` — lint + build on push/PR; gates merge; never deploys
+- `.github/workflows/promote.yml` — `workflow_dispatch` ONLY; SIGNAL_PROMOTE_GATE assertion; human prod gate
+- `.github/workflows/vercel-ai-fix.yml` — Claude Code auto-repair; authority ceiling = preview; posts Decision Receipt to GitHub Issues
+- `scripts/smoke.sh` — exit 0=SIGNAL_GREEN / 1=SIGNAL_FAIL / 2=SIGNAL_SCHEMA_DRIFT
+
+Named trip signals: SIGNAL_PROMOTE_GATE · SIGNAL_SURFACE_BREACH · SIGNAL_SCHEMA_DRIFT · SIGNAL_ENV_DRIFT · SIGNAL_FIX_LOOP
+
+Key fix: `curl -s` not `curl -sf` in smoke — `-f` exits non-zero on expected 400s, kills script under `set -euo pipefail`.
+
+### Memory + ADRs
+
+- Memory: `project_arcs_v9.md` updated (ADR-012 DONE, CI/CD session block added); MEMORY.md index fixed (stale canon/RLS references)
+- ADR-014 written to `_DECISIONS/ADR-014-arcs-care-ci-cd-governance.md` — **NOT YET COMMITTED**
+
+## arcs-care commits this session
+
+```
+a3f08f1 fix(smoke): remove -f flag from curl [NCI:SKIP]
+5f8529d feat(ci): NOTOMATION circuit breakers [NCI:SKIP]
+519adb1 feat(ci): lint + CI workflow + smoke tests [NCI:SKIP]
+94a0ab8 fix(ui): hw-button-orange [NCI:75]
+4039a9e feat(toolbar): Vercel Toolbar [NCI:SKIP]
+555e2ec feat(compass): 5 lens readings [NCI:74]
+b689f59 feat(plg): Lab Offer Card + model chain [NCI:72]
+```
+
+## One human action before next session
+
+```bash
+cd /Users/zharris/arcs
+git add _DECISIONS/ADR-014-arcs-care-ci-cd-governance.md
+git commit -m "docs(adr): ADR-014 CI/CD governance circuit breaker model [NCI:SKIP]
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>"
+```
+
+## Next session starts at
+
+`/arcs-handoff-pickup` → commit ADR-014 → ADR-013 case study page OR Panel/Chip design system components
+
+---
+
+# Handoff — v1.9.0 — 2026-05-28
+
+> **For Claude Code:** active pickup point. v1.8.0 above is preserved for history.
+
+## What landed this session
+
+### ADRs committed (arcs-v9/_DECISIONS/)
+
+- **ADR-013** (`4932cdd`) — arcs.care conversion architecture (Kintsugi build sequence). Y: YELLOW/MEDIUM/REVISIT. Week 1 builds: (1) case study receipt excerpt, (2) compass email capture, (3) spots badge. 30-day signal threshold: 1 Lab inquiry after case study ships.
+- **ADR-014** (`b72f95f`, then `c8b2eb5`) — arcs-care CI/CD governance, NOTOMATION circuit breaker model. GREEN/HIGH/STABLE. Prod promote = workflow_dispatch only. 5 named trip signals.
+- **ADR-015** (`c8b2eb5`) — DRAFT stub. Content gate question: do items 2+3 proceed independently while item 1 waits for case study? Decision field: FILL IN. Option A (proceed independently) is the correct choice.
+
+### Design work
+
+- `arcs-care-local/wireframe-hybrid.html` — interactive wireframe of hybrid redesign. Two-column hero, compass at fold, fog atmosphere CSS, chip selectors, result state toggle. Screenshotted both states via agent-browser.
+- `/arcs-research` run on ADR-013 interrelated tasks: surfaced 6 blindspots not caught by dual-bar-raiser or ultrareview.
+
+### Critical blindspots from arcs-research (unactioned — HIGH priority)
+
+1. **DMARC enforcement** — T+0/T+7 emails may be landing in spam if arcs.care DNS is DMARC monitor-only. 2026 research: 22-34% spam rate. Verify immediately: `dig TXT _dmarc.arcs.care`. Fix: `p=quarantine` → `p=reject`.
+2. **`compass_receipt_id` column** — Supabase `waitlist` table needs this column at compass-result insert time for future Auth.js soft-auth reconciliation. Not yet added.
+3. **T+0 email template context** — existing `T0ReceiptEmail` is copy-for-waitlist signups, not compass results. Need distinct copy: "Here's your compass bearing — [true_north summary]."
+4. **Signal threshold definition** — "1 Lab inquiry within 30 days" — what counts? DM, email to Zach, form submit? Define before case study ships.
+5. **Calendar reminder** — no watchdog set for Option C promotion trigger. Set 30-day reminder from case study ship date.
+6. **Spots badge dynamic count** — `lab-offer.tsx` hardcodes `SPOTS_REMAINING: number = 10`. Implement Supabase counter or just update manually; don't let badge rot.
+
+### Anti-sycophancy correction this session
+
+Current arcs.care hero font is **loud/poster**, not instrument register. Wireframe grid aesthetic is closer to WORLD.md spec. Session corrected a prior soft-pedaling on this.
+
+## arcs-v9 commits this session
+
+```
+c8b2eb5 — docs(adr): ADR-014 + ADR-015 case study content gate stub [NCI:SKIP]
+b72f95f — docs(adr): ADR-014 CI/CD governance circuit breaker model [NCI:SKIP]
+4932cdd — feat(adr): ADR-013 arcs.care conversion architecture locked [NCI:SKIP]
+b995a63 — chore(handoff): session handoff v1.6.0 [NCI:SKIP]
+```
+
+## One human action before next session
+
+Resolve ADR-015: confirm whether a founding client outcome is shareable (even anonymized). If yes → build item 1 (case study). If no → skip to items 2 and 3 (both unblocked). Items 2 and 3 are Implementer work, can start immediately regardless.
+
+## Next session starts at
+
+`/arcs-handoff-pickup` → resolve ADR-015 → build Week 1 items 2+3 (compass email capture + spots badge) → verify DMARC → add `compass_receipt_id` column to Supabase waitlist table

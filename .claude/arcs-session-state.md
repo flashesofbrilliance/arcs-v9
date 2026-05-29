@@ -1,18 +1,19 @@
 # ARCS Session State
 
-**Last updated:** 2026-05-28 (v1.7.0)
-**Last commit (arcs-v9):** b995a63 — handoff v1.6.0 (design system Phase 1, ADRs 009-012)
-**Last commit (A.R.C.S.):** af3c303 — ADR-010 Loki fix (rename notice in arcs_dewy_log.py)
-**Last commit (arcs-care):** 94a0ab8 — hw-button-orange flat fill fix
+**Last updated:** 2026-05-28 (v1.9.0)
+**Last commit (arcs-v9):** c8b2eb5 — ADR-014 + ADR-015 committed
+**Last commit (arcs-care):** a3f08f1 — fix: smoke curl -f flag
 
 ## Status
 
 - arcs-v9 Vercel: ✅ LIVE — `arcs-zachharris-3439s-projects.vercel.app`
-- arcs-care: ✅ LIVE — PLG Phase 1 shipped (Lab Offer Card, model chain, lens readings)
-- Supabase (owdiiyvphyifukygvxhg): 9 tables, RLS policies WRITTEN not yet APPLIED
-- ADRs: 001–012 committed in arcs-v9; ADR-008 status = ACCEPTED (not APPLIED)
-- A.R.C.S. receipt book: 01×3, 02×3, 03×3, 04×2, 05×4, 06×3 — P1+P2 pass done
-- arcs_dewy naming collision: ✅ RESOLVED (ADR-010) — `_HAS_DEWY = True`
+- arcs-care: ✅ LIVE — arcs.care
+  - PLG Phase 1: ✅ SHIPPED (5-lens compass, Lab Offer Card)
+  - CI/CD pipeline: ✅ SHIPPED (ESLint, GitHub Actions, smoke tests, NOTOMATION circuit breakers)
+  - Vercel Toolbar: ✅ INSTALLED
+  - ADR-013 Week 1 builds: 🔴 NOT STARTED (item 1 content-blocked; items 2+3 unblocked)
+- Supabase (owdiiyvphyifukygvxhg): 9 tables, RLS ✅ APPLIED (2026-05-27)
+- ADRs: 001–015 in arcs-v9/_DECISIONS/; ADR-015 is DRAFT (decision field: FILL IN)
 - All repos pushed to GitHub ✅
 
 ## P-track status
@@ -22,29 +23,57 @@
 | P0: arcs-v9 → GitHub | ✅ Done | — |
 | P2: Perplexity MCP | ✅ Done | Live at `perplexity-mcp-kohl.vercel.app` |
 | P4: arcs-v9 → Vercel | ✅ Done | First READY deploy 2026-05-28 |
-| P5: arcs-care PLG Phase 1 | ✅ Done | Lab Offer Card + model chain live |
+| P5: arcs-care PLG Phase 1 | ✅ Done | Lab Offer Card + 5-lens compass live |
+| P5-ci: arcs-care CI/CD | ✅ Done | NOTOMATION circuit breakers live |
+| P5-conversion: ADR-013 | 🟡 Specced | Week 1 builds 2+3 unblocked; item 1 content-gated |
 
-## Requires human dashboard action (no code blocker)
+## Requires human action (priority order)
 
-1. **Apply RLS** — paste `arcs/scripts/rls-policies.sql` into Supabase SQL Editor (project `owdiiyvphyifukygvxhg`), then edit `_DECISIONS/ADR-008-rls-policy-design.md`: `status: ACCEPTED` → `status: APPLIED`, commit
-2. **Vercel Preview env** — Settings → Environment Variables → add `DATABASE_URL` (Preview, all branches) + `AUTH_SECRET` (Preview) via dashboard (CLI v53 bug blocks CLI add)
-3. **Calendar reminder** — monthly check on DATABASE_URL rotation risk (Option B manual, ADR-005)
+1. **Resolve ADR-015** — confirm: is a founding client outcome shareable? If no → skip to items 2+3
+2. **Verify DMARC** — `dig TXT _dmarc.arcs.care` — if monitor-only, emails are in spam. CRITICAL.
+3. **Add `compass_receipt_id` column** to Supabase `waitlist` table (for soft-auth reconciliation)
+4. **Define "Lab inquiry"** — what counts for the 30-day signal? DM, email, form submit?
+5. **Set 30-day calendar reminder** from case study ship date (Option C promotion watchdog)
+6. **Vercel Preview env (arcs-v9)** — add DATABASE_URL to Preview via dashboard (CLI v53 bug)
 
-## Phase 7 open code items (priority order)
+## arcs-care CI/CD topology (for next session orientation)
 
-1. **receipt-core schema** — unifies BriefReceipt/GuideReceipt/DecisionReceipt; blocks CLUE, NGI, CLI
-2. **Receipt Book P3** — quality_score pass on 11 unsealed receipts (`arcs_dewy/helpers/quality_scorer.py`)
-3. **CLUE integration** — receipt lifecycle events; blocked on receipt-core
-4. **NGI linking** — `receipt_id` on no-go entries; blocked on receipt-core
-5. **CLI commands** — `arcs receipt log/inspect/export`
+```
+push/PR → ci.yml (lint + build) → gate merge
+              ↓ (on Vercel build fail)
+         vercel-ai-fix.yml → Claude Code diagnoses + fixes → preview deploy → smoke → Decision Receipt
+              ↓ (human reviews receipt)
+         promote.yml (workflow_dispatch ONLY) → SIGNAL_PROMOTE_GATE → prod promote → smoke
+```
 
-## Known structural notes
+Named circuit signals:
+- SIGNAL_PROMOTE_GATE — prod promote requires workflow_dispatch
+- SIGNAL_SURFACE_BREACH — fix >3 files / >50 lines / auth/compass touch → human review
+- SIGNAL_SCHEMA_DRIFT — compass API contract broken on valid payload
+- SIGNAL_ENV_DRIFT — smoke fails post-promote → human diagnoses
+- SIGNAL_FIX_LOOP — same failure auto-fixed >2× → escalate
 
-- Supabase direct connection (port 5432) still failing from local — all DDL via Supabase MCP
-- DATABASE_URL = pooler port 6543 (Prisma 7 + PrismaPg adapter)
-- A.R.C.S. has no GitHub remote (local-only runtime, expected)
-- `arcs_dewy_log.py` (DEWYLog/DEWYEntry) has zero callers — deferred consolidation into package
+## ADR-013 Week 1 build queue (next session)
 
-## Blocking
+```
+Item 2 — Email capture on compass result        UNBLOCKED — start now
+  compass-widget.tsx: optional field below result panel
+  Copy: "Want Zach to send a note on this? One message, no list."
+  Reuse /api/waitlist with source: 'compass-result'
+  Remove "No email required" from result state only (keep on form state)
+  Tag with compass_receipt_id (if column added)
 
-NONE. All code items unblocked. Human dashboard actions (A1–A3) are the only open gates.
+Item 3 — Spots badge elevation in hero          UNBLOCKED — 2h CSS/JSX
+  hero.tsx: move "6 of 10 founding spots remaining"
+  From: microcopy → To: badge with pulsing dot, above CTA buttons
+
+Item 1 — Case study receipt excerpt             BLOCKED on content
+  lab-offer.tsx: above Lab CTA
+  Gate: founding client decision + outcome + permission to share
+```
+
+## arcs-v9 design system debt (non-urgent)
+
+- Panel component — next after Badge/Button/Card
+- Chip component — after Panel
+- Barrel trigger fires at 8 components (ADR-011); currently at 3
