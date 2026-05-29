@@ -17,15 +17,17 @@ datasource db {
 // ─────────────────────────────────────────────────────────────────────────────
 
 model User {
-  id        String    @id @default(cuid())
-  email     String?   @unique
-  name      String?
-  tier      String    @default("FREE")
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  receipts  Receipt[]
-  sessions  Session[]
-  accounts  Account[]
+  id            String    @id @default(cuid())
+  email         String?   @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  tier          String    @default("FREE")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  receipts      Receipt[]
+  sessions      Session[]
+  accounts      Account[]
 }
 
 model PrepSession {
