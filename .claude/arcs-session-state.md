@@ -1,8 +1,8 @@
 # ARCS Session State
 
-**Last updated:** 2026-05-28 (v2.0.0)
-**Last commit (arcs-v9):** 6ae6582 — ADR-009/011/012 ultrareview patches + PLG Phase 1 decided
-**Last commit (arcs-care):** a54e5dd — P5 model swap + conviction-gated Lab card
+**Last updated:** 2026-05-28 (v2.1.0)
+**Last commit (arcs-v9):** 44f40b2 — docs(adr): seal ADR-015/016/017; stub ADR-018 as HELD
+**Last commit (arcs-care):** a5dcffc — feat(lab): case study receipt excerpt env-flagged
 
 ## Status
 
@@ -44,12 +44,13 @@
 
 ## Requires human action (priority order)
 
-1. **Verify end-to-end on production** — hit arcs.care/compass with real question; confirm NCI≥65 Lab card renders + href correct
+1. **ADR-016 implementation** — unblocked: wire `src/lib/auth.ts` (Auth.js v5 Resend EmailProvider) + remove compass 401 gate + add `/api/receipts/claim` endpoint
 2. **DMARC enforcement** — `dig TXT _dmarc.arcs.care` — if monitor-only, emails are in spam. Fix: `p=quarantine` → `p=reject`
-3. **Add `compass_receipt_id` column** to Supabase `waitlist` table (soft-auth reconciliation)
-4. **Preview DATABASE_URL (arcs-v9)** — add via Vercel dashboard (all branches; CLI v53 bug)
-5. **30-day signal watchdog** — calendar reminder from case study ship date (ADR-013 Option C trigger)
+3. **30-day calendar reminder** — 2026-06-27 (ADR-013 conversion trigger watchdog; case study shipped 2026-05-28)
+4. **Add `compass_receipt_id` column** to Supabase `waitlist` table (soft-auth reconciliation)
+5. **Preview DATABASE_URL (arcs-v9)** — add via Vercel dashboard (all branches; CLI v53 bug)
 6. **Define "Lab inquiry"** — what counts? DM / email / form submit
+7. **ADR-018 Architect packet** — paste Architect prompt (in session transcript) into Perplexity Space ARCS; bring packet back to unblock /helpful rebuild
 
 ## Design system debt (arcs-v9)
 
