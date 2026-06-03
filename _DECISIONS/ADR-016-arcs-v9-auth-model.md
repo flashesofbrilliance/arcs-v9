@@ -137,7 +137,7 @@ mode: user never gets to first value.
 - DB: `xbbpiryokswwvcrcutge` pooler, `arcs_app` role, RLS + BYPASSRLS
 - Anonymous `Receipt` writes: working (verified 3 rows, `userId=null`)
 - Auth flow: working (VerificationToken written, User created, Session established)
-- `AUTH_RESEND_KEY`: valid (`re_T6zSFsRF_*`, `arcs.care` verified, us-east-1)
+- `AUTH_RESEND_KEY`: valid (rotated 2026-06-03, `arcs.care` verified, us-east-1)
 
 ## Consequences
 

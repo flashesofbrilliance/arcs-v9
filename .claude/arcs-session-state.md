@@ -33,9 +33,7 @@
 
 ## Requires human action (URGENT)
 
-1. **⚠️ Rotate credentials exposed in session transcript:**
-   - `***REDACTED-RESEND-KEY-ROTATED-2026-06-03***` — Resend API key → regenerate at resend.com/api-keys
-   - `***REDACTED-DB-PASSWORD-ROTATED-2026-06-03***` — arcs_app DB password → reset at Supabase dashboard → update DATABASE_URL in Vercel
+1. ✅ **Credentials rotated** — AUTH_RESEND_KEY + DATABASE_URL (arcs_app password) both rotated 2026-06-03
 2. **Vercel Preview env** — add AUTH_SECRET + AUTH_RESEND_KEY to Preview environment
 3. **arcs-care case study** — flip NEXT_PUBLIC_CASE_STUDY_APPROVED=true when Dan Pascone confirms
 

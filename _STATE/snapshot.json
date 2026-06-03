@@ -26,6 +26,6 @@
   },
   "open_adrs": ["ADR-022 DONE (0_init patched, no further action)"],
   "session_summary": "ADR-016 fully sealed (anonymous compass, magic-link auth, app.arcs.care domain); PrismaPg SSL fix; state sync layer (_STATE/snapshot.json + enhanced /handoff + /handoff-pickup bridging Architect/Implementor surfaces); Vercel CLI upgraded 53→54",
-  "next_action": "Rotate credentials exposed in session transcript: AUTH_RESEND_KEY re_T6zSFsRF_* and arcs_app DB password ***REDACTED-DB-PASSWORD-ROTATED-2026-06-03*** — then pick next sprint (Panel/Chip design system or ADR-017 backlog)",
-  "blocking": "Credential rotation recommended before next external user (re_T6zSFsRF_* Resend key + ***REDACTED-DB-PASSWORD-ROTATED-2026-06-03*** DB password were visible in session)"
+  "next_action": "Credentials rotated ✓ — pick next sprint: Panel/Chip design system (ADR-009) or ADR-006 branching strategy",
+  "blocking": "NONE"
 }
