@@ -5,9 +5,7 @@ import { auth } from "@/lib/auth"
 export async function POST(req: NextRequest) {
   const session = await auth()
   const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  // ADR-016 Option C: prep open to anonymous users
 
   const body = await req.json()
   const { stakes, horizon, protecting = [], confidence, entity, adversarialInput } = body

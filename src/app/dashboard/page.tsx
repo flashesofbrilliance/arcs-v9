@@ -89,6 +89,25 @@ function DashboardInner() {
   const [tributaryMode,   setTributaryMode]   = useState(false) // true = follow-up run
   useEffect(() => { setSessionId(crypto.randomUUID()) }, [])
 
+  // ADR-016: on mount, if user is authenticated, claim any pre-auth anonymous receipts
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    const storedSessionId = localStorage.getItem("arcs_session_id")
+    if (!storedSessionId) return
+    fetch("/api/auth/session")
+      .then(r => r.json())
+      .then(s => {
+        if (!s?.user?.id) return
+        return fetch("/api/receipts/claim", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: storedSessionId }),
+        })
+      })
+      .then(r => { if (r?.ok) localStorage.removeItem("arcs_session_id") })
+      .catch(() => { /* silent — claim is best-effort */ })
+  }, [])
+
   // Prep state
   const [prepOpen,    setPrepOpen]    = useState(false)
   const [prepStakes,  setPrepStakes]  = useState<string>("")
@@ -131,6 +150,10 @@ function DashboardInner() {
       setSessionId(data.session_id)
       setParentReceiptId(data.receipt_id)
       setTributaryMode(false)
+      // ADR-016: store session_id for pre-auth → post-auth receipt claim
+      if (typeof window !== "undefined") {
+        localStorage.setItem("arcs_session_id", data.session_id)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong")
     } finally {

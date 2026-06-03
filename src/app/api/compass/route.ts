@@ -105,9 +105,7 @@ OUTPUT SHAPE (strict JSON, no markdown fences):
 export async function POST(req: NextRequest) {
   const session = await auth()
   const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
+  // ADR-016 Option C: compass open to anonymous users; userId written as null
 
   const body = await req.json()
   const {
