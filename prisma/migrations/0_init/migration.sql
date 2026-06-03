@@ -6,6 +6,8 @@
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT,
+    "emailVerified" TIMESTAMP(3),
+    "image" TEXT,
     "name" TEXT,
     "tier" TEXT NOT NULL DEFAULT 'FREE',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

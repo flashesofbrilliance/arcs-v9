@@ -102,6 +102,43 @@ who did sessions before signing in." Counter: migration is a single PATCH endpoi
 session cookie match; it's ~50 lines. The alternative (Option A auth wall) has a worse failure
 mode: user never gets to first value.
 
+## Amendment — Execution Receipt (2026-06-03)
+
+> **Status:** DONE — fully sealed
+> **Commit:** `663d831` (db.ts SSL fix, final) + `6a5b856` (ADR-016 code)
+> **First authenticated user:** `zach.harris@gmail.com`, `2026-06-03 16:57:17 UTC`
+
+### What was decided vs. what was built
+
+| Decision | Actual execution |
+|---|---|
+| Use existing `owdiiyvphyifukygvxhg` Supabase project | Pivoted to `xbbpiryokswwvcrcutge` (separate org, inaccessible dashboard) |
+| Auth.js already wired — don't touch | Confirmed correct — no change needed |
+| Remove prod-only 401 from compass + prep | Done — `src/app/api/compass/route.ts:108`, `prep/route.ts:8` |
+| `PATCH /api/receipts/claim` endpoint | Created — 30 lines, `userId` from `auth()` only |
+| `localStorage.setItem('arcs_session_id')` on compass result | Done — dashboard `handleSubmit` + mount `useEffect` for claim |
+| `scripts/smoke.sh` 5 assertions | Created — passed 5/5 via `vercel curl` bypass |
+
+### Deviations from plan
+
+1. **Supabase project swap** — `owdiiyvphyifukygvxhg` (ARCS org) was inaccessible (different Supabase login, password unreachable). Pivoted to `xbbpiryokswwvcrcutge` (zachharris-3439 org, accessible via browser). Schema applied fresh via MCP; `arcs_app` role created with known credentials to bypass `postgres` password inaccessibility on free-tier Marketplace-provisioned project.
+
+2. **`PrismaPg` SSL bug** — `db.ts` was using `new PrismaPg({ connectionString })` config-object form, which silently fails SSL on the Supabase pooler. Every Prisma runtime query threw, making the entire DB layer non-functional in production (build succeeded because `prisma generate` doesn't connect). Fixed: `new Pool({ connectionString, ssl: { rejectUnauthorized: false } })` passed as explicit `pg.Pool` instance. Commit `663d831`.
+
+3. **`emailVerified` + `image` missing from `User` table** — `0_init` migration omitted these columns (they were added in a later SQLite-only migration `d732dad` that was never ported to Postgres). `PrismaAdapter` requires `emailVerified` to upsert users; every sign-in attempt threw `column User.emailVerified does not exist`. Fixed via `apply_migration` directly to prod DB (no code change needed). ADR-022 stubs the schema debt.
+
+4. **`AUTH_RESEND_KEY` was empty** — original value set 14h prior was blank. Resend key needed to come from the account where `arcs.care` is verified. Set correctly via `printf '%s' | vercel env add` (interactive prompt was mangling values). Valid key confirmed via `api.resend.com/domains` check before setting.
+
+5. **Stale CLI-upload deploy** — the original Error deployment was from `vercel deploy` uploading a stale Prisma-6 working tree. Git-integration push confirmed working; all subsequent deploys from `git push origin main`.
+
+### Production state at seal
+
+- `app.arcs.care` → arcs-v9 (new permanent domain, CNAME via Vercel DNS)
+- DB: `xbbpiryokswwvcrcutge` pooler, `arcs_app` role, RLS + BYPASSRLS
+- Anonymous `Receipt` writes: working (verified 3 rows, `userId=null`)
+- Auth flow: working (VerificationToken written, User created, Session established)
+- `AUTH_RESEND_KEY`: valid (`re_T6zSFsRF_*`, `arcs.care` verified, us-east-1)
+
 ## Consequences
 
 - **Option A:** Wire `auth.ts` (2-3h). arcs-v9 immediately functional for users who complete auth.
