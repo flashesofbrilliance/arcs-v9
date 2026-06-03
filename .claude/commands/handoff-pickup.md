@@ -24,9 +24,11 @@ vercel ls arcs-v9 2>&1 | head -3
 
 **If running in arcs-decision-receipts (Architect / cloud):**
 ```bash
-# Fetch live snapshot from arcs-v9 on GitHub
-curl -s "https://raw.githubusercontent.com/flashesofbrilliance/arcs-v9/main/_STATE/snapshot.json"
+# Snapshot is pre-fetched at session boot via Setup script → $ARCS_SNAPSHOT_PATH
+cat "${ARCS_SNAPSHOT_PATH:-/tmp/arcs-snapshot.json}" 2>/dev/null \
+  || curl -s "https://raw.githubusercontent.com/flashesofbrilliance/arcs-v9/main/_STATE/snapshot.json"
 ```
+*(Falls back to curl if setup script didn't run — e.g. resumed session)*
 
 Compare `snapshot.git.head_sha` to the SHA in the fetched JSON.
 Compare `snapshot.vercel.latest_deploy_status` — flag if Error.
