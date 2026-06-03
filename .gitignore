@@ -71,3 +71,5 @@ network_scan.json
 network_scan.md
 exports/
 .env*.local
+.mcp.json
+supabase/
