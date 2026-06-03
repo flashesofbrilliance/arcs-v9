@@ -15,14 +15,23 @@
 
 ## Step 0 — Load snapshot (run FIRST)
 
+**If running in arcs-v9 (Implementor / local):**
 ```bash
 cat _STATE/snapshot.json 2>/dev/null || echo "NO SNAPSHOT — run /handoff first"
 git log --oneline -1
 vercel ls arcs-v9 2>&1 | head -3
 ```
 
-Compare `snapshot.git.head_sha` to live `git log`. If they differ, note the drift.
-Compare `snapshot.vercel.latest_deploy_status` to live `vercel ls`. Flag if Error.
+**If running in arcs-decision-receipts (Architect / cloud):**
+```bash
+# Fetch live snapshot from arcs-v9 on GitHub
+curl -s "https://raw.githubusercontent.com/flashesofbrilliance/arcs-v9/main/_STATE/snapshot.json"
+```
+
+Compare `snapshot.git.head_sha` to the SHA in the fetched JSON.
+Compare `snapshot.vercel.latest_deploy_status` — flag if Error.
+Compare `snapshot.next_action` — this is what the Implementor surface flagged as the next task.
+Surface `snapshot.blocking` — if not NONE, this is the open question between surfaces.
 
 ## Token budget
 
