@@ -1,18 +1,18 @@
 {
-  "captured_at": "2026-06-03T17:30:00Z",
+  "captured_at": "2026-06-03T18:15:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f04a589",
-    "head_message": "docs(adr): ADR-016 execution receipt + ADR-022 schema debt + activation-check.sql [NCI:SKIP]",
+    "head_sha": "84d7537",
+    "head_message": "fix(sync): handoff-pickup fetches arcs-v9 snapshot via GitHub when running from Architect surface [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": [
-      "M package.json",
-      "M package-lock.json"
+      "M package-lock.json",
+      "M package.json"
     ]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-7cfkbx9ig-zachharris-3439s-projects.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-r74vcyeww-zachharris-3439s-projects.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
@@ -22,10 +22,10 @@
     "role": "arcs_app",
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
-    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken","VerificationToken"]
+    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
   },
-  "open_adrs": ["ADR-022 (schema debt — 0_init patch committed, no further action needed)"],
-  "session_summary": "ADR-016 Option C fully sealed: anonymous compass live, Auth.js magic link working, first authenticated user in prod, app.arcs.care domain wired, PrismaPg SSL bug fixed, emailVerified schema gap patched",
-  "next_action": "Rotate credentials exposed in session transcript (AUTH_RESEND_KEY re_T6zSFsRF_*, arcs_app DB password ***REDACTED-DB-PASSWORD-ROTATED-2026-06-03***), then pick next sprint from backlog",
-  "blocking": "NONE — but credential rotation is recommended before next external user"
+  "open_adrs": ["ADR-022 DONE (0_init patched, no further action)"],
+  "session_summary": "ADR-016 fully sealed (anonymous compass, magic-link auth, app.arcs.care domain); PrismaPg SSL fix; state sync layer (_STATE/snapshot.json + enhanced /handoff + /handoff-pickup bridging Architect/Implementor surfaces); Vercel CLI upgraded 53→54",
+  "next_action": "Rotate credentials exposed in session transcript: AUTH_RESEND_KEY re_T6zSFsRF_* and arcs_app DB password ***REDACTED-DB-PASSWORD-ROTATED-2026-06-03*** — then pick next sprint (Panel/Chip design system or ADR-017 backlog)",
+  "blocking": "Credential rotation recommended before next external user (re_T6zSFsRF_* Resend key + ***REDACTED-DB-PASSWORD-ROTATED-2026-06-03*** DB password were visible in session)"
 }
