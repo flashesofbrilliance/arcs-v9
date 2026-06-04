@@ -47,9 +47,6 @@ export async function GET(
 ) {
   const session = await auth()
   const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
 
   const { receiptId } = await params
 
