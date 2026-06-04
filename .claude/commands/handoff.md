@@ -60,6 +60,18 @@ Write `_STATE/snapshot.json` with this schema:
 
 Then `git add _STATE/snapshot.json` and include it in the session commit.
 
+### Redaction rule (MANDATORY)
+
+NEVER write a raw credential value into `_STATE/snapshot.json`, `MEMORY.md`, `CLAUDE.md`,
+or any handoff prose — not even a rotated/dead one, and not even when *describing* a purge.
+Mask to `prefix****` form and label what it was:
+- Resend key → `re_***` ("Resend key")
+- DB password → `ArcsApp****` ("arcs_app DB password")
+- API keys / tokens → first 4 chars + `****`
+
+A dead secret quoted in a handoff note becomes the cleanest-surviving copy of that token in
+git history. Mask first, write second. If a prior note already spells one out, mask it in passing.
+
 ## Step 1 — Prose handoff (existing protocol)
 
 See: `.claude/arcs-handoff-agent.md`
