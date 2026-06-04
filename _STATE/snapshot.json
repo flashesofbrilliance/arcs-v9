@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-06-03T18:15:00Z",
+  "captured_at": "2026-06-04T02:05:49Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "84d7537",
-    "head_message": "fix(sync): handoff-pickup fetches arcs-v9 snapshot via GitHub when running from Architect surface [NCI:SKIP]",
+    "head_sha": "b90f949",
+    "head_message": "chore(security): redact rotated credentials from committed files [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": [
       "M package-lock.json",
@@ -12,7 +12,7 @@
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-r74vcyeww-zachharris-3439s-projects.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-rdxt7nxh5-zachharris-3439s-projects.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
@@ -24,8 +24,9 @@
     "port": 6543,
     "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
   },
-  "open_adrs": ["ADR-022 DONE (0_init patched, no further action)"],
-  "session_summary": "ADR-016 fully sealed (anonymous compass, magic-link auth, app.arcs.care domain); PrismaPg SSL fix; state sync layer (_STATE/snapshot.json + enhanced /handoff + /handoff-pickup bridging Architect/Implementor surfaces); Vercel CLI upgraded 53→54",
-  "next_action": "Credentials rotated ✓ — pick next sprint: Panel/Chip design system (ADR-009) or ADR-006 branching strategy",
-  "blocking": "NONE"
+  "open_adrs": ["ADR-005 READY (Vercel Supabase env prefix)", "ADR-009 READY (Panel/Chip design system)"],
+  "session_summary": "Snapshot refresh — re-captured live state at HEAD b90f949 after security-redaction + two-surface protocol commits landed past prior snapshot (84d7537).",
+  "next_action": "Pick next sprint: Panel/Chip design system (ADR-009) OR finish history scrub #3 (leaked strings still in historical commits 84d7537/a2e56b6 despite forward redaction in b90f949).",
+  "blocking": "NONE",
+  "open_security_item": "History scrub #3 not done — rotation neutralized exposure, but git filter-repo purge of historical commits is still pending. Hygiene, not emergency."
 }
