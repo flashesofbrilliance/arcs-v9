@@ -2,9 +2,10 @@
   "captured_at": "2026-06-04T02:05:49Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b90f949",
-    "head_message": "chore(security): redact rotated credentials from committed files [NCI:SKIP]",
+    "head_sha": "fa75bda",
+    "head_message": "history rewritten via git filter-repo — leaked secrets purged from all 105 commits [NCI:SKIP]",
     "in_sync_with_origin": true,
+    "history_rewritten_2026_06_04": "git filter-repo --replace-text purged re_T6zSFsRF_* and ArcsApp2026 from all history; force-pushed; all SHAs prior to this changed. Any stale clone must re-clone, not pull.",
     "dirty_files": [
       "M package-lock.json",
       "M package.json"
@@ -26,7 +27,7 @@
   },
   "open_adrs": ["ADR-005 READY (Vercel Supabase env prefix)", "ADR-009 READY (Panel/Chip design system)"],
   "session_summary": "Snapshot refresh — re-captured live state at HEAD b90f949 after security-redaction + two-surface protocol commits landed past prior snapshot (84d7537).",
-  "next_action": "Pick next sprint: Panel/Chip design system (ADR-009) OR finish history scrub #3 (leaked strings still in historical commits 84d7537/a2e56b6 despite forward redaction in b90f949).",
+  "next_action": "Pick next sprint: Panel/Chip design system (ADR-009) or ADR-005 Vercel env prefix.",
   "blocking": "NONE",
-  "open_security_item": "History scrub #3 not done — rotation neutralized exposure, but git filter-repo purge of historical commits is still pending. Hygiene, not emergency."
+  "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo. Residual risk: GitHub may serve cached blobs of old SHAs for a window, and any pre-existing fork/clone retains them — but keys are dead, so exposure is neutralized."
 }
