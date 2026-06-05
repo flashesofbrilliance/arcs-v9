@@ -42,7 +42,7 @@ const EVENTS = [
     "peak": true,
     "label": "chore(adr): ADR-009 design system canonicalization \u2014 inline-style component library in arcs-v9",
     "sha": "f73d0fb",
-    "desc": "chore(adr): ADR-009 design system canonicalization \u2014 inline-style component library in arcs-v9 \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+    "desc": "chore(adr): ADR-009 design system canonicalization \u2014 inline-style component library in arcs-v9",
     "conf": 90
   },
   {
@@ -53,7 +53,7 @@ const EVENTS = [
     "peak": true,
     "label": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap",
     "sha": "924fd10",
-    "desc": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+    "desc": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap",
     "conf": 90
   },
   {
@@ -63,7 +63,7 @@ const EVENTS = [
     "type": "feat",
     "label": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes",
     "sha": "80530b8",
-    "desc": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+    "desc": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes",
     "conf": 90
   },
   {
@@ -74,7 +74,7 @@ const EVENTS = [
     "peak": true,
     "label": "chore(adr): ADR-010 arcs_dewy naming collision \u2014 rename to resolve",
     "sha": "8bde699",
-    "desc": "chore(adr): ADR-010 arcs_dewy naming collision \u2014 rename to resolve \u2014 Pre-audited: DEWYLog/DEWYEntry have zero callers outside arcs_dewy.py.",
+    "desc": "chore(adr): ADR-010 arcs_dewy naming collision \u2014 rename to resolve",
     "conf": 94
   },
   {
@@ -85,7 +85,7 @@ const EVENTS = [
     "peak": true,
     "label": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct imports, revisit at 8+ components",
     "sha": "a737c56",
-    "desc": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct imports, revisit at 8+ components \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+    "desc": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct imports, revisit at 8+ components",
     "conf": 94
   },
   {
@@ -96,7 +96,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided",
     "sha": "6ae6582",
-    "desc": "docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided \u2014 D: Lock session ADR ledger \u2014 ultrareview revisions to 009/011, new ADR-012 decided",
+    "desc": "docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided",
     "conf": 94
   },
   {
@@ -107,7 +107,7 @@ const EVENTS = [
     "peak": true,
     "label": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi build sequence locked",
     "sha": "4932cdd",
-    "desc": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi build sequence locked \u2014 D: What is the correct build sequence for founding-10 conversion gap?",
+    "desc": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi build sequence locked",
     "conf": 94
   },
   {
@@ -118,7 +118,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(adr): ADR-014 CI/CD governance circuit breaker model",
     "sha": "b72f95f",
-    "desc": "docs(adr): ADR-014 CI/CD governance circuit breaker model \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+    "desc": "docs(adr): ADR-014 CI/CD governance circuit breaker model",
     "conf": 94
   },
   {
@@ -129,7 +129,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(adr): ADR-014 CI/CD governance circuit breakers + ADR-015 case study content gate stub",
     "sha": "c8b2eb5",
-    "desc": "docs(adr): ADR-014 CI/CD governance circuit breakers + ADR-015 case study content gate stub \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+    "desc": "docs(adr): ADR-014 CI/CD governance circuit breakers + ADR-015 case study content gate stub",
     "conf": 94
   },
   {
@@ -140,7 +140,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(adr): seal ADR-015/016/017; stub ADR-018 as HELD",
     "sha": "44f40b2",
-    "desc": "docs(adr): seal ADR-015/016/017; stub ADR-018 as HELD \u2014 ADR-015: DECIDED \u2014 Option A. Items 2+3 proceed; item 1 content-gated.",
+    "desc": "docs(adr): seal ADR-015/016/017; stub ADR-018 as HELD",
     "conf": 94
   },
   {
@@ -151,7 +151,7 @@ const EVENTS = [
     "peak": true,
     "label": "chore(adr): ADR-019 receipt-core Python boundary \u2014 ReceiptObject as wire/storage ACL",
     "sha": "695afb3",
-    "desc": "chore(adr): ADR-019 receipt-core Python boundary \u2014 ReceiptObject as wire/storage ACL \u2014 Option B: ReceiptObject at wire/storage boundary only; CoherenceReceipt/DecisionReceipt",
+    "desc": "chore(adr): ADR-019 receipt-core Python boundary \u2014 ReceiptObject as wire/storage ACL",
     "conf": 94
   },
   {
@@ -162,7 +162,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(adr): seal ADR-020 \u2014 Tribune Intelligence Layer (Anterior/Proactive/Posterior)",
     "sha": "4f4b3ee",
-    "desc": "docs(adr): seal ADR-020 \u2014 Tribune Intelligence Layer (Anterior/Proactive/Posterior) \u2014 Three-phase decision scaffolding wrapping the receipt core. Proactive phase",
+    "desc": "docs(adr): seal ADR-020 \u2014 Tribune Intelligence Layer (Anterior/Proactive/Posterior)",
     "conf": 94
   },
   {
@@ -173,7 +173,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(spec): compass atomic design spec v1 \u2014 atoms 1\u201311, gates, cross-atom rules",
     "sha": "e3f29ff",
-    "desc": "docs(spec): compass atomic design spec v1 \u2014 atoms 1\u201311, gates, cross-atom rules \u2014 11 atoms fully specced from Architect packet (canon-derived, Kairos Recall active).",
+    "desc": "docs(spec): compass atomic design spec v1 \u2014 atoms 1\u201311, gates, cross-atom rules",
     "conf": 94
   },
   {
@@ -183,7 +183,7 @@ const EVENTS = [
     "type": "security",
     "label": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + PrismaAdapter",
     "sha": "935759f",
-    "desc": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + PrismaAdapter \u2014 Replaces null stub with live Auth.js v5 config. Resend EmailProvider reads",
+    "desc": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + PrismaAdapter",
     "conf": 94
   },
   {
@@ -193,7 +193,7 @@ const EVENTS = [
     "type": "security",
     "label": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim endpoint",
     "sha": "6a5b856",
-    "desc": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim endpoint \u2014 - Remove prod-only 401 guard from /api/compass and /api/prep",
+    "desc": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim endpoint",
     "conf": 94
   },
   {
@@ -203,7 +203,7 @@ const EVENTS = [
     "type": "fix",
     "label": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config object form silently breaks Supabase pooler",
     "sha": "663d831",
-    "desc": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config object form silently breaks Supabase pooler \u2014 PrismaPg({ connectionString }) creates the adapter but the underlying pool",
+    "desc": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config object form silently breaks Supabase pooler",
     "conf": 90
   },
   {
@@ -214,7 +214,7 @@ const EVENTS = [
     "peak": true,
     "label": "docs(adr): ADR-016 execution receipt + ADR-022 schema debt + activation-check.sql",
     "sha": "f04a589",
-    "desc": "docs(adr): ADR-016 execution receipt + ADR-022 schema debt + activation-check.sql \u2014 - ADR-016 amended: full execution receipt (deviations, prod state, seal confirmation)",
+    "desc": "docs(adr): ADR-016 execution receipt + ADR-022 schema debt + activation-check.sql",
     "conf": 94
   },
   {
@@ -225,7 +225,7 @@ const EVENTS = [
     "peak": true,
     "label": "chore(security): close history-scrub gap \u2014 secrets purged from all history",
     "sha": "11a0fe7",
-    "desc": "chore(security): close history-scrub gap \u2014 secrets purged from all history \u2014 git filter-repo --replace-text removed re_T6zSFsRF_* (Resend key) and",
+    "desc": "chore(security): close history-scrub gap \u2014 secrets purged from all history",
     "conf": 94
   },
   {
@@ -236,7 +236,7 @@ const EVENTS = [
     "peak": true,
     "label": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM",
     "sha": "9f669fa",
-    "desc": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM \u2014 Observability layer modeled as an inferred folksonomy DAG over receipts,",
+    "desc": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM",
     "conf": 94
   },
   {
@@ -246,7 +246,17 @@ const EVENTS = [
     "type": "feat",
     "label": "feat(observatory): wire Observatory UI kit to real repo data",
     "sha": "27ee318",
-    "desc": "feat(observatory): wire Observatory UI kit to real repo data \u2014 Implements the Claude Design \"ARCS OS\" Observatory handoff: a forensic,",
+    "desc": "feat(observatory): wire Observatory UI kit to real repo data",
+    "conf": 90
+  },
+  {
+    "id": "ev-7fec720",
+    "date": "2026-06-05",
+    "alt": "L4",
+    "type": "feat",
+    "label": "feat(observatory): --attribution show|hide flag for Co-Authored-By trailers",
+    "sha": "7fec720",
+    "desc": "feat(observatory): --attribution show|hide flag for Co-Authored-By trailers",
     "conf": 90
   }
 ];
