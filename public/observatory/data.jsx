@@ -238,6 +238,16 @@ const EVENTS = [
     "sha": "9f669fa",
     "desc": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM \u2014 Observability layer modeled as an inferred folksonomy DAG over receipts,",
     "conf": 94
+  },
+  {
+    "id": "ev-27ee318",
+    "date": "2026-06-05",
+    "alt": "L3",
+    "type": "feat",
+    "label": "feat(observatory): wire Observatory UI kit to real repo data",
+    "sha": "27ee318",
+    "desc": "feat(observatory): wire Observatory UI kit to real repo data \u2014 Implements the Claude Design \"ARCS OS\" Observatory handoff: a forensic,",
+    "conf": 90
   }
 ];
 
