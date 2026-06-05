@@ -20,10 +20,11 @@ from datetime import date, datetime
 
 REPO_SLUG = "flashesofbrilliance/arcs-v9"
 OUT = "public/observatory/data.jsx"
+REPO_PATH = "."  # where `git` runs; override with --repo-path to build a tailored instance
 
 
 def sh(args: list[str]) -> str:
-    return subprocess.run(args, capture_output=True, text=True).stdout
+    return subprocess.run(args, capture_output=True, text=True, cwd=REPO_PATH).stdout
 
 
 def commits() -> list[dict]:
@@ -319,6 +320,15 @@ Object.assign(window, { C, REPO, ALT, GRADE, SEV, STATUS, TYPE_COLOR, EVENTS, RI
 
 
 def main():
+    import argparse
+    global REPO_SLUG, OUT, REPO_PATH
+    ap = argparse.ArgumentParser(description="Generate an Observatory data.jsx from a repo's real history.")
+    ap.add_argument("--repo-path", default=REPO_PATH, help="dir to run git in (default: cwd)")
+    ap.add_argument("--slug", default=REPO_SLUG, help="owner/repo for commit links")
+    ap.add_argument("--out", default=OUT, help="output data.jsx path (use a distinct path per tailored instance)")
+    args = ap.parse_args()
+    REPO_PATH, REPO_SLUG, OUT = args.repo_path, args.slug, args.out
+
     cs = commits()
     events = build_events(cs)
     risks, redacted = build_risks(cs)
