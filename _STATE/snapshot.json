@@ -1,21 +1,16 @@
 {
-  "captured_at": "2026-06-04T16:32:22Z",
+  "captured_at": "2026-06-05T18:45:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "fa75bda",
-    "head_message": "history rewritten via git filter-repo — leaked secrets purged from all 105 commits [NCI:SKIP]",
+    "head_sha": "51a57f8",
+    "head_message": "chore(state): mask dead credential literals in snapshot + add /handoff redaction rule [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "history_rewritten_2026_06_04": "git filter-repo --replace-text purged the leaked Resend key (re_***) and arcs_app DB password (ArcsApp****) from all history; force-pushed; all SHAs prior to this changed. Any stale clone must re-clone, not pull.",
-    "dirty_files": [
-      "M package-lock.json",
-      "M package.json"
-    ]
+    "dirty_files": ["package-lock.json", "package.json", ".claude/launch.json"]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-rdxt7nxh5-zachharris-3439s-projects.vercel.app",
     "latest_deploy_status": "Ready",
-    "production_alias": "https://app.arcs.care",
+    "production_alias": "https://arcs-zachharris-3439s-projects.vercel.app",
     "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
   },
   "database": {
@@ -25,9 +20,8 @@
     "port": 6543,
     "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
   },
-  "open_adrs": ["ADR-005 READY (Vercel Supabase env prefix)", "ADR-009 READY (Panel/Chip design system)"],
-  "session_summary": "Verified history-scrub claim by reading lines (not counting matches): no live secrets in history — residual git log -S hits are masked forms, redaction markers, and self-referential purge descriptions. Masked the one dead-credential literal in this snapshot's own note; added MANDATORY redaction rule to /handoff. Security thread CLOSED.",
-  "next_action": "Pick next sprint: Panel/Chip design system (ADR-009) or ADR-005 Vercel env prefix.",
-  "blocking": "NONE",
-  "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo. Residual risk: GitHub may serve cached blobs of old SHAs for a window, and any pre-existing fork/clone retains them — but keys are dead, so exposure is neutralized."
+  "open_adrs": ["ADR-016 (auth.ts wiring — compass non-functional in prod)"],
+  "session_summary": "Resume + recruiter prep session: diamond-cut resume and call prep for Figma DS role (Hayden Ozawa), full VCE2 gauntlet audit, ARCS design system scoped for Figma-native resume build, plus dev server launch.json config.",
+  "next_action": "Use Figma MCP to build ARCS design-system-powered resume file for both Figma DS and Pinterest LCP applications, then handoff prep artifacts.",
+  "blocking": "NONE"
 }
