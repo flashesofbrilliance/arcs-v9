@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/flashesofbrilliance/arcs-v9/runtime/specs/lattice-pressure-rom.json",
+  "title": "Lattice Pressure ROM",
+  "description": "Read-Only Memory primitives governing the goal lattice's phase band — the pressure constants that hold an inferred folksonomy DAG over receipts in the 'superionic' regime (crystalline structure, fluid under pressure). Governing decision: _DECISIONS/ADR-023-observability-goal-lattice.md. Constitutional — these are L7 meta-governance constants, NEVER system-tunable at runtime. A system that sets its own decay rate can overrule revealed preference by choosing how fast it forgets — a NOTOMATION breach.",
+  "version": "0.1.0",
+  "status": "ROM",
+  "gated": "L6 — not active until 100+ real receipts exist (same gate as ADR-020). This ROM defines the constants; the goal_edges overlay table is a future schema ADR.",
+  "governs": [
+    "goal_lattice.edge_weight",
+    "goal_lattice.phase_state",
+    "goal_lattice.calcification_guard",
+    "drift_sentinel.lattice_phase_reading"
+  ],
+  "references": {
+    "drift_sentinel": "runtime/specs/time-quality-attribution-rom.json#/drift_sentinel — phase monitor; this ROM does not redefine it",
+    "w_field_decay": "runtime/specs/time-quality-attribution-rom.json — edge decay reuses the W-field decay curve; do not redefine",
+    "folksonomist": "scripts/arcs_core.py:708 — folksonomist_cluster() is the bottom-up edge-growth operator",
+    "challenge_tributary": "ATG[1] — the contrarian-pressure source"
+  },
+
+  "_constitutional_note": "These constants are set by L7 governance. The lattice MUST NOT adjust them from its own dynamics. Self-tuning the decay rate, the contrarian cadence, or the calcification cap is a NOTOMATION violation and is forbidden.",
+
+  "counter_forces": {
+    "_comment": "Three load-bearing external members (flying buttresses) that hold the lattice in the superionic band. Each carries thrust at a different level of the L0-L7 stack. They are NOT alternatives — they are a per-level defense. The drift-toward-calcification they counter is backed by preferential-attachment / loss-of-plasticity dynamics, NOT by any monotone-complexity theorem (see _adversarial_grounding).",
+
+    "edge_decay": {
+      "id": "LP-DECAY-01",
+      "guards_level": "L2",
+      "guards": "path survivability — an edge holds structure only if it keeps being re-earned",
+      "rule": "Edge weight decays with age via the W-field decay curve in time-quality-attribution-rom.json. An edge not reinforced within its decay window loses weight and eventually drops below the lattice floor.",
+      "rationale": "Keeps the proton layer fluid. Without decay the lattice freezes solid (calcified hierarchy). Decay is the only mechanism by which descriptive complexity can DECREASE — a closed system never sheds structure on its own.",
+      "constant_source": "L7 governance — reuses W-field half-life; not independently tunable by the lattice",
+      "self_tuning": "FORBIDDEN"
+    },
+
+    "contrarian_injection": {
+      "id": "LP-CONTRA-01",
+      "guards_level": "L4",
+      "guards": "cross-domain — forces the orthogonal edge so the lattice cannot simply thicken its strongest path",
+      "rule": "On the governed cadence, the challenge tributary (ATG[1]) injects an orthogonal candidate edge against the current high-weight attractor. This is the 'sufficient pressure' that keeps the lattice in the high-energy superionic phase rather than relaxing to ordinary ice.",
+      "discriminator": "Contrarian injection is the test that separates a SYSTEMATIC winner (a real attractor that survives orthogonal challenge and re-earns across varied opponents — may solidify) from a CONTINGENT winner (an edge that holds weight only because nothing pushed back — must be allowed to decay).",
+      "falsifiability_requirement": "The challenge class MUST be pre-registered and scoring done on HELD-OUT members. Otherwise 'this edge found a pocket of reducibility' is unfalsifiable post-hoc (reducibility pockets always exist). Pre-registration + out-of-sample survival is what supplies the rigor; this test is NOT inherited from Wolfram's prose, which lacks it.",
+      "honesty_constraint": "When a superordinate attractor precipitates, attempt reduction (describe the mechanism) and report the result. Permit 'attractor present; mechanism reduction attempted, none found' or 'not yet checked'. FORBID confabulating a clean rationale — a fabricated 'why' overrules revealed preference with a story (NOTOMATION).",
+      "constant_source": "L7 governance",
+      "self_tuning": "FORBIDDEN"
+    },
+
+    "calcification_guard": {
+      "id": "LP-CALC-01",
+      "guards_level": "L3",
+      "guards": "cascade — preferential attachment ('rich get richer') is itself a cascade",
+      "rule": "A weight-concentration ceiling (Gini-style) over the lattice. When weight concentrates past the cap without a corresponding new attractor forming, flag a calcification cascade for the Drift Sentinel.",
+      "rationale": "Calcification is the danger mode of any positive-feedback reinforcement network. The cap is the explicit anti-'rich-get-richer' constant.",
+      "constant_source": "L7 governance",
+      "self_tuning": "FORBIDDEN"
+    }
+  },
+
+  "phase_band": {
+    "_comment": "The phase the Drift Sentinel reads, measured by the descriptive complexity of the lattice's reachable goal-states (regular-language / minimal-automaton size of the reachable set is a defined scalar per Wolfram 1984; Nordahl 1989). Used as a POSITIONAL reading only. CRITICAL direction: calcification is the LOW-complexity pole, NOT high complexity. Rising regular-language complexity is ENRICHMENT, not freezing. This ROM does NOT assert the lattice drifts in any direction 'by theorem' — drift-toward-calcification is a preferential-attachment dynamic, not a CA-complexity theorem.",
+    "states": {
+      "SOLID": {
+        "reading": "complexity collapses to a low bounded plateau — few effective states, one dominant hub",
+        "meaning": "CALCIFIED. The folksonomy has frozen into a de-facto rigid taxonomy. Counter-forces have failed or been removed.",
+        "drift_state": "maps toward DRIFTING/LOCKED in drift_sentinel"
+      },
+      "SUPERIONIC": {
+        "reading": "complexity grows steadily and coherently — structure accumulating, attractors forming, but compressible",
+        "meaning": "TARGET BAND. Crystalline frame at L5-L6, fluid protons at L0-L1. Structure and flow fused.",
+        "drift_state": "CLEAR"
+      },
+      "GAS": {
+        "reading": "complexity grows unbounded with no plateau, or escapes regularity entirely",
+        "meaning": "SPIN / CHURN. Edges thickening with no attractor forming — entropy masquerading as motion.",
+        "drift_state": "maps toward DRIFTING in drift_sentinel"
+      }
+    }
+  },
+
+  "_adversarial_grounding": {
+    "_comment": "This ROM was pressure-tested by a 5-agent deep-research pass (2026-06-05) against Wolfram's competition essay, NKS 6.7, and the CA regular-language-complexity literature. Four over-claims were corrected. Recorded here so the corrections are not re-litigated.",
+    "corrections": [
+      "Irreducibility does NOT prove the tree cannot be declared (static DAG is reducible; irreducibility concerns prediction, not declaration). 'Inferred-not-declared' rests on NOTOMATION + folksonomy bias.",
+      "There is NO monotone-complexity theorem. Wolfram's CA result is 'usually non-decreasing' (empirical), with Class-1/2, surjective/reversible, and Hurd limit-set exceptions.",
+      "Rising regular-language complexity is enrichment, not calcification — the directional reading in phase_band reflects this correction.",
+      "The DAG is well-motivated by scaling/persistence/shared-structure, NOT computationally required (bounded-depth nesting is regular)."
+    ],
+    "backing_for_calcification": "preferential-attachment / rich-get-richer dynamics; loss-of-plasticity in continual learning — NOT the CA-complexity result.",
+    "source_caveat": "Primary Wolfram pages 403-gated in the research environment; quotes are stable search-index reconstructions, not byte-verified."
+  }
+}
