@@ -27,6 +27,11 @@ def sh(args: list[str]) -> str:
     return subprocess.run(args, capture_output=True, text=True, cwd=REPO_PATH).stdout
 
 
+def rp(path: str) -> str:
+    """Resolve a repo-relative path against the target repo, not the cwd."""
+    return os.path.join(REPO_PATH, path)
+
+
 def commits() -> list[dict]:
     raw = sh(["git", "log", "--reverse", "--date=short",
               "--format=%H%x1f%h%x1f%ad%x1f%s%x1f%b%x1e"])
@@ -45,7 +50,7 @@ def commits() -> list[dict]:
 
 def loc(path: str) -> int:
     try:
-        with open(path, encoding="utf-8") as f:
+        with open(rp(path), encoding="utf-8") as f:
             return sum(1 for _ in f)
     except OSError:
         return 0
@@ -192,9 +197,34 @@ def build_risks(cs: list[dict]) -> tuple[list[dict], int]:
     return public, redacted
 
 
-# ── LAYERS — 5-altitude scored deck from real file metrics ───────────────────────
+# ── LAYERS — 5-altitude scored deck ──────────────────────────────────────────────
+def generic_layers(cs: list[dict]) -> list[dict]:
+    """Scaffold deck for a non-arcs repo. L1/L2 carry real generic signals;
+    L3–L5 are author-me placeholders — the altitude assessment is editorial, not
+    auto-derivable from an arbitrary tree. Hand-author per instance."""
+    n_commits = len(cs)
+    n_human = len({l.split("\t")[1] for l in sh(["git", "shortlog", "-sne"]).splitlines() if "\t" in l})
+    has_tests = bool(sh(["bash", "-c", "find . -path ./node_modules -prune -o \\( -name '*.test.*' -o -name '*_test.py' -o -name '*.spec.*' \\) -print 2>/dev/null | grep -v node_modules | head -1"]).strip())
+    F = lambda i, lab, g, c, rk, k, d, p: {"id": i, "lab": lab, "grade": g, "conf": c, "risk": rk, "kind": k, "desc": d, "prov": p}
+    SC = "scaffold — author per instance"
+    return [
+        {"id": "L5", "findings": [F("g-L5-0", "Product thesis", "B", 60, "MED", "CLASS", "Author the one-line product thesis for this instance.", [["author me", "—", SC, "P00"]])]},
+        {"id": "L4", "findings": [F("g-L4-0", "Governance posture", "B", 60, "MED", "INSTANCE", "Author the architecture / governance posture.", [["author me", "—", SC, "P00"]])]},
+        {"id": "L3", "findings": [F("g-L3-0", "Core request path", "B", 60, "MED", "CLASS", "Author the core request / data path.", [["author me", "—", SC, "P00"]])]},
+        {"id": "L2", "findings": [F("g-L2-0", "%d commits" % n_commits, "A", 90, "LOW", "INSTANCE", "%d commits by %d author(s) over the tracked span." % (n_commits, n_human), [["git history", "git shortlog -sne", "%d commits" % n_commits, "P04"]])]},
+        {"id": "L1", "findings": [F("g-L1-0", "Tests %s" % ("present" if has_tests else "absent"), "A" if has_tests else "C", 90 if has_tests else 55, "LOW" if has_tests else "MED", "INSTANCE", "Automated tests %s in tree." % ("found" if has_tests else "not found"), [["test scan", "find", "tests" if has_tests else "none", "P28"]])]},
+    ]
+
+
 def build_layers(cs: list[dict]) -> list[dict]:
-    n_adr = len([f for f in os.listdir("_DECISIONS") if re.match(r"ADR-\d+", f)])
+    # The curated deck below is editorial arcs-v9 content; a foreign repo gets a
+    # scaffold (real generic signals + author-me slots), never arcs-v9 prose.
+    if not os.path.exists(rp("WORLD.md")):
+        return generic_layers(cs)
+    try:
+        n_adr = len([f for f in os.listdir(rp("_DECISIONS")) if re.match(r"ADR-\d+", f)])
+    except OSError:
+        n_adr = 0
     loc_compass = loc("src/app/api/compass/route.ts")
     loc_ygate = loc("src/lib/ygate.ts")
     loc_sim = loc("scripts/lattice_sim.py")
