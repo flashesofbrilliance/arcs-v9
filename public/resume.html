@@ -278,19 +278,32 @@ function Bar({ value=0, color=T.cyan, height=5, style }) {
   );
 }
 
-// ── Role tab bar — reverse chronological, all tabs active ────────────────────
-function RoleTabs({ selectedNode, onSelect }) {
-  const [hovered, setHovered] = useState(null);
+// ── Role tab bar — 4 main tabs + consulting dropdown pseudo-tab ───────────────
+function RoleTabs({ selectedNode, onSelect, selectedClient, onSelectClient }) {
+  const [hovered,    setHovered]    = useState(null);
+  const [dropOpen,   setDropOpen]   = useState(false);
+  const client = CONSULTING_CLIENTS.find(c => c.id === selectedClient);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    if (!dropOpen) return;
+    const close = () => setDropOpen(false);
+    setTimeout(() => document.addEventListener('click', close), 0);
+    return () => document.removeEventListener('click', close);
+  }, [dropOpen]);
+
   return (
-    <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
+    <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}`, position:'relative' }}>
+
+      {/* Main role tabs */}
       {TRAJ.map(n => {
-        const role   = ROLES.find(r => r.id === n.roleId);
-        const color  = role?.color || T.steel;
+        const role  = ROLES.find(r => r.id === n.roleId);
+        const color = role?.color || T.steel;
         const active = selectedNode === n.id;
         const hot    = hovered === n.id;
         return (
           <button key={n.id} type="button"
-            onClick={() => onSelect(active ? null : n.id)}
+            onClick={() => { onSelectClient(null); onSelect(active ? null : n.id); }}
             onMouseEnter={() => setHovered(n.id)}
             onMouseLeave={() => setHovered(null)}
             style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
@@ -309,6 +322,63 @@ function RoleTabs({ selectedNode, onSelect }) {
           </button>
         );
       })}
+
+      {/* Consulting dropdown pseudo-tab */}
+      <div style={{ position:'relative', display:'flex', alignItems:'stretch' }}>
+        <button type="button"
+          onClick={e => { e.stopPropagation(); onSelect(null); setDropOpen(!dropOpen); }}
+          style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-end',
+            padding:'10px 10px 7px', background:'transparent', border:'none',
+            borderBottom: client ? `2px solid ${T.steel}44` : dropOpen ? `2px dashed ${T.fg4}66` : '2px dashed transparent',
+            borderBottomStyle: 'dashed',
+            marginBottom:-1, cursor:'pointer', transition:'all .15s', minWidth:90,
+            opacity: client || dropOpen ? 0.9 : 0.4 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:4 }}>
+            <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
+              color: client || dropOpen ? T.fg2 : T.fg4, transition:'color .15s', whiteSpace:'nowrap' }}>
+              {client ? client.label.toUpperCase().split(' ')[0] : 'CONSULTING'}
+            </span>
+            <span style={{ fontFamily:T.mono, fontSize:9, color: dropOpen ? T.fg2 : T.fg4,
+              transition:'transform .15s', display:'inline-block',
+              transform: dropOpen ? 'rotate(180deg)' : 'none' }}>▾</span>
+          </div>
+          <span style={{ fontFamily:T.mono, fontSize:7.5, color:T.fg4, letterSpacing:'0.04em', marginTop:3 }}>
+            {client ? client.dates : '2019–24'}
+          </span>
+        </button>
+
+        {/* Dropdown panel */}
+        {dropOpen && (
+          <div onClick={e => e.stopPropagation()}
+            style={{ position:'absolute', top:'calc(100% + 6px)', right:0, zIndex:20, minWidth:200,
+              borderRadius:10, overflow:'hidden', border:`1px solid ${T.border}`,
+              background:'linear-gradient(160deg,rgba(255,255,255,.06),rgba(0,0,0,.2)), linear-gradient(165deg,#111827,#0d1117)',
+              boxShadow:`0 8px 24px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.07)`,
+              animation:'slideDown .15s ease both' }}>
+            {CONSULTING_CLIENTS.map(c => (
+              <button key={c.id} type="button"
+                onClick={() => { onSelectClient(c.id === selectedClient ? null : c.id); setDropOpen(false); }}
+                style={{ width:'100%', padding:'9px 14px', textAlign:'left', background:'transparent',
+                  border:'none', borderBottom:`1px solid ${T.border}22`, cursor:'pointer',
+                  display:'flex', justifyContent:'space-between', alignItems:'center', gap:8,
+                  opacity: c.id === selectedClient ? 1 : 0.7,
+                  transition:'opacity .1s, background .1s' }}
+                onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,.04)'}
+                onMouseLeave={e => e.currentTarget.style.background='transparent'}>
+                <div>
+                  <div style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, color:T.fg2,
+                    letterSpacing:'0.06em' }}>{c.label}</div>
+                  <div style={{ fontFamily:T.mono, fontSize:8, color:T.fg4,
+                    letterSpacing:'0.04em', marginTop:2 }}>{c.domain} · {c.dates}</div>
+                </div>
+                {c.id === selectedClient && (
+                  <span style={{ color:T.cyan, fontSize:10 }}>◈</span>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -372,26 +442,54 @@ const ROLES = [
       { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units', v:['all','ds'] },
       { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and growth instrumentation', v:['all','ds'] },
     ] },
-  { id:'consulting', glyph:'◻', label:'Select Consulting + Squat New York', color:T.steel,
-    dates:'2019–2024', role:'Embedded Product & Solution Lead',
-    summary:'Embedded across regulated and high-complexity environments — Behavioral Health, GovTech, HealthTech, Consumer Tech, and Moonshot Strategy. Operated as sole tech partner from discovery through delivery.',
-    metric:'7-FIG', metricLabel:'SQUAT NY ENGAGEMENT VALUE',
-    bullets:[
-      { t:'Squat New York (2019–2020): Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition — headless CMS retooling, full CX overhaul, discovery through QA and handoff', v:['all','ds'] },
-      { t:'Axon Enterprises — GovTech (Jun–Dec 2023): Product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP', v:['all','ds'] },
-      { t:'Twill Health — HealthTech (Jan 2021–May 2023): Validated 3 AI-enabled digital health product lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
-      { t:'GoPro — Consumer Tech (Aug 2020–Dec 2021): Analytics framework for EMEA/APAC international growth; GDPR data sovereignty for consumer data activation', v:['all','ds'] },
-      { t:'Verizon Media (Jan–Dec 2021): Quantitative opportunity assessments for 5 5G innovation product ventures; data-informed go/no-go investment recommendations', v:['all','ds'] },
-    ] },
 ];
 
-// ── Trajectory nodes — reverse chronological, no ghost tab ───────────────────
+// ── Main tab trajectory — ARCS → Grayscale → CTF → WTA (reverse chron) ───────
 const TRAJ = [
-  { id:'arcs',       label:'ARCS',       years:'2025→',   roleId:'arcs'      },
-  { id:'grayscale',  label:'GRAYSCALE',  years:'2024–25', roleId:'grayscale' },
-  { id:'consulting', label:'CONSULTING', years:'2019–24', roleId:'consulting'},
-  { id:'ctf',        label:'CTF',        years:'2018–19', roleId:'ctf'       },
-  { id:'wta',        label:'WTA',        years:'2016–18', roleId:'wta'       },
+  { id:'arcs',      label:'ARCS',      years:'2025→',   roleId:'arcs'      },
+  { id:'grayscale', label:'GRAYSCALE', years:'2024–25', roleId:'grayscale' },
+  { id:'ctf',       label:'CTF',       years:'2018–19', roleId:'ctf'       },
+  { id:'wta',       label:'WTA',       years:'2016–18', roleId:'wta'       },
+];
+
+// ── Consulting clients — shown via dropdown picker on the 5th pseudo-tab ─────
+const CONSULTING_CLIENTS = [
+  { id:'squat',   label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
+    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition — sole tech partner from discovery through QA and handoff.',
+    metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
+    bullets:[
+      { t:'Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul', v:['all','ds'] },
+      { t:'Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI', v:['all','ds'] },
+      { t:'Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule', v:['all'] },
+    ] },
+  { id:'axon',    label:'Axon Enterprises',  dates:'Jun–Dec 2023', domain:'GovTech',
+    summary:'New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.',
+    metric:'MVP', metricLabel:'SECURE OTT PLATFORM',
+    bullets:[
+      { t:'Led discovery and business model validation for First Responder OTT network', v:['all'] },
+      { t:'Defined MVP features, instrumentation requirements, and success metrics for secure, video-first content platform', v:['all','ds'] },
+    ] },
+  { id:'twill',   label:'Twill Health',      dates:'Jan 2021–May 2023', domain:'HealthTech',
+    summary:'Market viability testing for 3 AI-enabled digital health product lines across a HIPAA-regulated environment.',
+    metric:'3', metricLabel:'AI HEALTH PRODUCT LINES VALIDATED',
+    bullets:[
+      { t:'Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
+      { t:'Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context', v:['all','ds'] },
+    ] },
+  { id:'gopro',   label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
+    summary:'Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.',
+    metric:'EMEA/APAC', metricLabel:'INTERNATIONAL GROWTH STRATEGY',
+    bullets:[
+      { t:'Designed analytics framework for EMEA/APAC international growth initiatives', v:['all','ds'] },
+      { t:'Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution', v:['all','ds'] },
+    ] },
+  { id:'verizon', label:'Verizon Media',      dates:'Jan–Dec 2021', domain:'Moonshot Strategy',
+    summary:'Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.',
+    metric:'5', metricLabel:'5G INNOVATION VENTURES ASSESSED',
+    bullets:[
+      { t:'Quantitative opportunity assessments for 5 5G innovation products; market sizing and competitive analysis', v:['all','ds'] },
+      { t:'Analyzed market trends to recommend go/no-go decisions on venture investments', v:['all','ds'] },
+    ] },
 ];
 
 // ── True North content per focus view ────────────────────────────────────────
@@ -539,7 +637,7 @@ function GrainResume() {
 // ─────────────────────────────────────────────────────────────────────────────
 // SHARP — full interactive resume
 // ─────────────────────────────────────────────────────────────────────────────
-function SharpResume({ selectedNode, onSelectNode }) {
+function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClient }) {
   const [manualExpanded, setManualExpanded] = useState(null);
   const expanded = selectedNode
     ? (TRAJ.find(n=>n.id===selectedNode)?.roleId || null)
@@ -551,14 +649,16 @@ function SharpResume({ selectedNode, onSelectNode }) {
       setManualExpanded(e => e===id ? null : id);
     }
   };
+  const client = CONSULTING_CLIENTS.find(c => c.id === selectedClient);
 
   return (
     <div style={{ animation:'fadeUp .3s ease both' }}>
 
 
-      {/* Role tab bar */}
+      {/* Role tab bar + consulting dropdown */}
       <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
-      <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode} />
+      <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode}
+        selectedClient={selectedClient} onSelectClient={onSelectClient} />
       <div style={{ marginBottom:8 }} />
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:10 }}>
         {ROLES.map(r => (
@@ -587,6 +687,32 @@ function SharpResume({ selectedNode, onSelectNode }) {
         ))}
       </div>
 
+      {/* Consulting client card — shown when a client is selected from dropdown */}
+      {client && (
+        <div style={{ marginBottom:8, animation:'fadeUp .2s ease both' }}>
+          <TribTile label={client.label.toUpperCase()} glyph="◻" color={T.steel}
+            meta={`${client.domain} · ${client.dates}`}
+            expanded={
+              <div style={{ animation:'slideDown .18s ease both' }}>
+                <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:14 }}>
+                  <span style={{ fontFamily:T.sans, fontSize:'1.7rem', fontWeight:700,
+                    color:T.steel, lineHeight:1, textShadow:`0 0 12px ${T.steel}44` }}>{client.metric}</span>
+                  <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.1em',
+                    textTransform:'uppercase' }}>{client.metricLabel}</span>
+                </div>
+                {client.bullets.map((b,i) => (
+                  <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                    <span style={{ color:T.steel, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
+                    <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
+                  </div>
+                ))}
+              </div>
+            }
+            onClick={() => onSelectClient(null)}>
+            {client.summary}
+          </TribTile>
+        </div>
+      )}
 
       {/* Skills */}
       <SectionLabel index="03" style={{ marginBottom:10 }}>Skills</SectionLabel>
@@ -795,10 +921,10 @@ function DeepScan() {
 // ROOT
 // ─────────────────────────────────────────────────────────────────────────────
 function Resume() {
-  const [depth,        setDepth]        = useState('sharp');
-  const [focusView,    setFocusView]    = useState('all');
-  const [selectedNode, setSelectedNode] = useState(null);
-  const [nciReady,     setNciReady]     = useState(false);
+  const [depth,          setDepth]          = useState('sharp');
+  const [selectedNode,   setSelectedNode]   = useState(null);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [nciReady,       setNciReady]       = useState(false);
 
   useEffect(() => { const t = setTimeout(() => setNciReady(true), 300); return () => clearTimeout(t); }, []);
 
@@ -849,7 +975,8 @@ function Resume() {
 
       {/* ── Content layers ───────────────────────────────────────────── */}
       {showSimple && <GrainResume />}
-      {showRich   && <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode} />}
+      {showRich   && <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
+                       selectedClient={selectedClient} onSelectClient={setSelectedClient} />}
       {showDeep   && <DeepScan />}
 
       {/* ── Contact — always visible ──────────────────────────────────── */}
