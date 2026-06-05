@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/resume",
+      "destination": "/resume.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/resume.html",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
+  ]
+}
