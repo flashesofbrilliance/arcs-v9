@@ -16,15 +16,10 @@
     button { cursor: pointer; }
     a { color: inherit; text-decoration: none; }
 
-    @keyframes arcs-spin    { to { transform: rotate(360deg); } }
-    @keyframes arcs-pulse   { 0%,100%{opacity:.65} 50%{opacity:1} }
     @keyframes arcs-shimmer { 0%{transform:translateX(-100%)} 60%,100%{transform:translateX(220%)} }
     @keyframes fadeUp       { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
     @keyframes slideDown    { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
-    @keyframes nciCount     { from{opacity:0;transform:scale(.8)} to{opacity:1;transform:scale(1)} }
-    @keyframes scanPulse    { 0%,100%{box-shadow:0 0 0 0 rgba(0,240,255,.2)} 50%{box-shadow:0 0 0 6px rgba(0,240,255,0)} }
 
-    [data-pulse] { animation: arcs-pulse 1.1s ease-in-out infinite; }
     [data-shimmer]{ animation: arcs-shimmer 1.6s ease-in-out infinite; }
 
     .page { max-width: 860px; margin: 0 auto; padding: 36px 24px 100px; }
@@ -34,19 +29,10 @@
 
     /* ── Print / PDF export ───────────────────────────────────────── */
     @media print {
-      html, body { background: #fff !important; color: #111 !important; }
-      .page { max-width: 100%; padding: 0.5in 0.6in; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
       .no-print { display: none !important; }
-      .print-only { display: block !important; }
-      a { color: inherit !important; text-decoration: none !important; }
-      /* Force sketch view to render in print-safe colors */
-      .sketch-name   { color: #111 !important; }
-      .sketch-rule   { background: #007A8A !important; }
-      .sketch-mono   { color: #4A5568 !important; }
-      .sketch-body   { color: #222 !important; }
-      .sketch-muted  { color: #666 !important; }
-      .sketch-accent { color: #007A8A !important; }
-      .sketch-rule-h { background: #CBD5E0 !important; }
+      .page { max-width: 100%; padding: 0.5in 0.6in; }
+      a { text-decoration: none !important; }
     }
   </style>
 </head>
@@ -69,7 +55,7 @@ const T = {
 const DEPTHS = [
   { value:'grain',      label:'SKETCH',        accent:'steel',  desc:'ATS-ready · printable · essential signal only' },
   { value:'sharp',      label:'WIREFRAME',     accent:'cyan',   desc:'Full interactive resume · expandable roles · live skills filter' },
-  { value:'superionic', label:'PIXEL PERFECT', accent:'green',  desc:'Resume + ARCS profile scan · zones of genius · JTBD diagnostic' },
+  { value:'superionic', label:'PIXEL PERFECT', accent:'green',  desc:'Resume + deep profile · strengths · role fit' },
 ];
 
 const FOCUS_VIEWS = [
@@ -285,7 +271,7 @@ function Steps({ labels, current }) {
       <div style={{ display:'flex', gap:4 }}>
         {labels.map((_,i) => {
           const done=i<current, now=i===current;
-          return <div key={i} data-pulse={now?'':undefined} style={{ flex:1, height:4, borderRadius:3,
+          return <div key={i}  style={{ flex:1, height:4, borderRadius:3,
             background: done?`linear-gradient(90deg,#1ec3d4,${T.cyan})`:now?`linear-gradient(90deg,#0a4a52,${T.cyan})`:'linear-gradient(180deg,#0a0f15,#0d141c)',
             boxShadow: done?`0 0 7px -2px ${T.cyan}`:'inset 0 1px 2px rgba(0,0,0,.6)', transition:'background .3s' }} />;
         })}
@@ -513,11 +499,11 @@ const CONSULTING_CLIENTS = [
 
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
-  all:   { heading:'CAREER BEARING — FIGMA DS',
+  all:   { heading:'OVERVIEW',
     text:'Decade-plus at the intersection of product analytics and developer tooling. Currently building production systems on Figma MCP + Code Connect daily. The data I\'d be analyzing is the product I\'m already using — which means day-one questions aren\'t "what does this product do?" but "why does this engagement pattern look like this, and is it instrumentation or real signal?"' },
-  figma: { heading:'FIGMA PRACTITIONER BEARING',
+  figma: { heading:'WHY FIGMA',
     text:'Not studying Dev Mode from the outside — building production systems on top of it. arcs-v9 uses Figma Dev Mode, Code Connect, and MCP server as production infrastructure for AI-native development workflows. Day-one analytical questions come from inside the product, not from the docs.' },
-  ds:    { heading:'ANALYTICAL BUILDER BEARING',
+  ds:    { heading:'ANALYTICAL DEPTH',
     text:'10+ years owning the full analytical lifecycle: instrumentation architecture → experiment design → forecasting → decision observability. Builds the measurement layer from scratch — WTA at <120ms, Grayscale CDP/event taxonomy, ARCS decision observability at 60% noise reduction. SQL · Python · Snowflake · Redshift. The quantitative rigor is in the record.' },
 };
 
@@ -760,8 +746,6 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
         ))}
       </div>
 
-      {/* Conviction */}
-      <WeatherBar icon="▲" label="APPLICATION Y-GATE: GREEN · HIGH CONVICTION" color={T.green} right="RENDER: SHARP · NCI 87" />
     </div>
   );
 }
@@ -778,8 +762,8 @@ function DeepScan() {
       {/* Scan header */}
       <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16, paddingTop:20, borderTop:`1px solid ${T.border}` }}>
         <div style={{ width:8, height:8, borderRadius:'50%', background:T.cyan, boxShadow:`0 0 8px ${T.cyan}` }} />
-        <SectionLabel style={{ margin:0 }}>ARCS PROFILE SCAN — DIAGNOSTIC RECEIPT</SectionLabel>
-        <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:9, color:T.fg4 }}>L0–L5 · JUNE 2026</span>
+        <SectionLabel style={{ margin:0 }}>DEEP PROFILE</SectionLabel>
+        
       </div>
 
       {/* Scan pipeline */}
@@ -787,12 +771,12 @@ function DeepScan() {
       <div style={{ marginBottom:20 }} />
 
       {/* Zone of Genius */}
-      <TrueNorthPanel heading="ZONE OF GENIUS — TRUE NORTH" color={T.cyan} style={{ marginBottom:12 }}>
+      <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:12 }}>
         Builds measurement systems for things that don't have categories yet — then becomes the first and most demanding analyst of what he built. The practitioner-analyst fusion: he can't analyze well what he hasn't built, and can't build right without the analytical feedback loop. This combination is rare and difficult to hire for because most job descriptions separate the two.
       </TrueNorthPanel>
 
       {/* Energizers / Drainers */}
-      <SectionLabel style={{ marginBottom:10 }}>SIGNAL MAP — ENERGY GRADIENT</SectionLabel>
+      <SectionLabel style={{ marginBottom:10 }}>ENERGY PROFILE</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
         <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
           <WeatherBar icon="▲" label="ENERGIZERS" color={T.green} right="HIGH SIGNAL" />
@@ -828,7 +812,7 @@ function DeepScan() {
       </div>
 
       {/* Constructive Interference */}
-      <SectionLabel style={{ marginBottom:10 }}>CONSTRUCTIVE INTERFERENCE — COMPOUND PATTERNS</SectionLabel>
+      <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
           { id:'ci1', glyph:'⊗', color:T.cyan, label:'Studio Art × Data Architecture',
@@ -874,7 +858,7 @@ function DeepScan() {
       </div>
 
       {/* Productive Discord */}
-      <SectionLabel style={{ marginBottom:10 }}>PRODUCTIVE DISCORD — CREATIVE TENSIONS</SectionLabel>
+      <SectionLabel style={{ marginBottom:10 }}>PRODUCTIVE TENSIONS</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8, marginBottom:20 }}>
         {[
           { color:T.violet, label:'Builder ↔ Analyst', desc:'Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.' },
@@ -891,7 +875,7 @@ function DeepScan() {
       </div>
 
       {/* JTBD Fit */}
-      <SectionLabel style={{ marginBottom:10 }}>JTBD FIT MAP — OPTIMAL USE CASES</SectionLabel>
+      <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
         {[
           { id:'A', color:T.cyan,  match:true,  label:'Make the invisible legible',
@@ -925,13 +909,11 @@ function DeepScan() {
       </div>
 
       {/* Orthogonal signal */}
-      <TrueNorthPanel heading="ORTHOGONAL ECHO — THE UNFAIR ADVANTAGE" color={T.green} style={{ marginBottom:16 }}>
+      <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.green} style={{ marginBottom:16 }}>
         Every other DS candidate for this role will have studied Dev Mode, Code Connect, and the MCP server from the outside. He's been building production systems on top of them for over a year. The practitioner-analyst combination is the rarest signal in DS hiring — and it's verifiable, not claimed. The day-one questions aren't "what does this product do?" — they're "why does this specific engagement drop-off pattern look like this, and is it instrumentation or real signal?" That's a different starting point, and a different quality of output.
       </TrueNorthPanel>
 
       {/* Y-gate deep */}
-      <WeatherBar icon="◈" label="Y-GATE: SUPERIONIC · CRYSTAL CLARITY" color={T.cyan}
-        right="RENDER RESOLUTION: MAXIMUM · NCI 87 · W: JUNE 2026" />
     </div>
   );
 }
@@ -941,15 +923,16 @@ function DeepScan() {
 // ─────────────────────────────────────────────────────────────────────────────
 function Resume() {
   const [depth,          setDepth]          = useState('sharp');
-  const [selectedNode,   setSelectedNode]   = useState(null);
+  const [selectedNode,   setSelectedNode]   = useState('arcs'); // default ARCS open
   const [selectedClient, setSelectedClient] = useState(null);
   const [nciReady,       setNciReady]       = useState(false);
 
   useEffect(() => { const t = setTimeout(() => setNciReady(true), 300); return () => clearTimeout(t); }, []);
 
   const showRich  = depth === 'sharp' || depth === 'superionic';
-  const showDeep  = depth === 'superionic';
+  const showDeep   = depth === 'superionic';
   const showSimple = depth === 'grain';
+  const [resumeCollapsed, setResumeCollapsed] = useState(false);
 
   return (
     <div className="page">
@@ -968,17 +951,6 @@ function Resume() {
               Product Intelligence Leader  ·  Analytical Builder  ·  <span style={{ color:T.cyan }}>Figma Practitioner</span>
             </div>
           </div>
-          {/* NCI — only in sharp/deep */}
-          {showRich && (
-            <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:5, minWidth:110, animation:'nciCount .5s ease both' }}>
-              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.1em', textTransform:'uppercase' }}>NCI SCORE</span>
-              <span style={{ fontFamily:T.sans, fontSize:'2.3rem', fontWeight:700, color:T.cyan, lineHeight:1, textShadow:`0 0 18px ${T.cyan}55` }}>
-                {nciReady ? <NCICount target={87} /> : '—'}
-              </span>
-              <Bar value={nciReady?87:0} color={T.cyan} style={{ width:110 }} />
-              <span style={{ fontFamily:T.mono, fontSize:8, color:T.fg4 }}>GRADE A · FIGMA DS FIT</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -994,9 +966,29 @@ function Resume() {
 
       {/* ── Content layers ───────────────────────────────────────────── */}
       {showSimple && <GrainResume />}
-      {showRich   && <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
-                       selectedClient={selectedClient} onSelectClient={setSelectedClient} />}
-      {showDeep   && <DeepScan />}
+
+      {/* WIREFRAME — collapsible when PIXEL PERFECT is active */}
+      {showRich && (
+        <div>
+          {showDeep && (
+            <button type="button" onClick={() => setResumeCollapsed(r => !r)}
+              style={{ display:'flex', alignItems:'center', gap:8, width:'100%', padding:'8px 0',
+                background:'transparent', border:'none', borderBottom:`1px solid ${T.border}`,
+                marginBottom:16, cursor:'pointer' }}>
+              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.12em',
+                color:T.fg3, textTransform:'uppercase' }}>RESUME</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4,
+                marginLeft:'auto' }}>{resumeCollapsed ? '▼ expand' : '▲ collapse'}</span>
+            </button>
+          )}
+          {!resumeCollapsed && (
+            <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
+              selectedClient={selectedClient} onSelectClient={setSelectedClient} />
+          )}
+        </div>
+      )}
+
+      {showDeep && <DeepScan />}
 
       {/* ── Contact — always visible ──────────────────────────────────── */}
       <div style={{ marginTop:28, padding:'14px 16px', borderRadius:10, border:`1px solid ${T.border}`,
@@ -1109,8 +1101,8 @@ ${roles.map(r => `<div class="role">
 
       {/* Footer */}
       <div style={{ marginTop:20, display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:`1px solid ${T.border}` }}>
-        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.1em' }}>ARCS FIELD OS · DECISION RECEIPT · ZACHARY HARRIS</span>
-        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>W: JUNE 2026 · Y: GREEN · NCI: 87 · RENDER: {depth.toUpperCase()}</span>
+        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em' }}>ZACHARY HARRIS · resume.arcs.care</span>
+        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>2026</span>
       </div>
 
     </div>
