@@ -261,14 +261,12 @@ function Bar({ value=0, color=T.cyan, height=5, style }) {
   );
 }
 
-// ── Role tab bar — company names as tabs, active tab expands its role ─────────
+// ── Role tab bar — reverse chronological, all tabs active ────────────────────
 function RoleTabs({ selectedNode, onSelect }) {
   const [hovered, setHovered] = useState(null);
-  const roleNodes = TRAJ.filter(n => n.id !== 'figma');
-
   return (
     <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
-      {roleNodes.map(n => {
+      {TRAJ.map(n => {
         const role   = ROLES.find(r => r.id === n.roleId);
         const color  = role?.color || T.steel;
         const active = selectedNode === n.id;
@@ -294,13 +292,6 @@ function RoleTabs({ selectedNode, onSelect }) {
           </button>
         );
       })}
-      {/* FIGMA↗ ghost — destination, not clickable */}
-      <div style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
-        padding:'10px 4px 7px', borderBottom:'2px solid transparent', marginBottom:-1, opacity:0.25 }}>
-        <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
-          color:T.cyan, whiteSpace:'nowrap' }}>FIGMA↗</span>
-        <span style={{ fontFamily:T.mono, fontSize:7.5, color:T.fg4, letterSpacing:'0.04em', marginTop:3 }}>NEXT</span>
-      </div>
     </div>
   );
 }
@@ -364,16 +355,26 @@ const ROLES = [
       { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units', v:['all','ds'] },
       { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and growth instrumentation', v:['all','ds'] },
     ] },
+  { id:'consulting', glyph:'◻', label:'Select Consulting + Squat New York', color:T.steel,
+    dates:'2019–2024', role:'Embedded Product & Solution Lead',
+    summary:'Embedded across regulated and high-complexity environments — Behavioral Health, GovTech, HealthTech, Consumer Tech, and Moonshot Strategy. Operated as sole tech partner from discovery through delivery.',
+    metric:'7-FIG', metricLabel:'SQUAT NY ENGAGEMENT VALUE',
+    bullets:[
+      { t:'Squat New York (2019–2020): Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition — headless CMS retooling, full CX overhaul, discovery through QA and handoff', v:['all','ds'] },
+      { t:'Axon Enterprises — GovTech (Jun–Dec 2023): Product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP', v:['all','ds'] },
+      { t:'Twill Health — HealthTech (Jan 2021–May 2023): Validated 3 AI-enabled digital health product lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
+      { t:'GoPro — Consumer Tech (Aug 2020–Dec 2021): Analytics framework for EMEA/APAC international growth; GDPR data sovereignty for consumer data activation', v:['all','ds'] },
+      { t:'Verizon Media (Jan–Dec 2021): Quantitative opportunity assessments for 5 5G innovation product ventures; data-informed go/no-go investment recommendations', v:['all','ds'] },
+    ] },
 ];
 
-// ── Trajectory nodes (career timeline) ───────────────────────────────────────
+// ── Trajectory nodes — reverse chronological, no ghost tab ───────────────────
 const TRAJ = [
-  { id:'wta',        label:'WTA',        years:'2016–18', roleId:'wta'       },
-  { id:'ctf',        label:'CTF',        years:'2018–19', roleId:'ctf'       },
-  { id:'consulting', label:'CONSULTING', years:'2020–24', roleId:'consulting'},
-  { id:'grayscale',  label:'GRAYSCALE',  years:'2024–25', roleId:'grayscale' },
   { id:'arcs',       label:'ARCS',       years:'2025→',   roleId:'arcs'      },
-  { id:'figma',      label:'FIGMA↗',     years:'NEXT',    roleId:null        },
+  { id:'grayscale',  label:'GRAYSCALE',  years:'2024–25', roleId:'grayscale' },
+  { id:'consulting', label:'CONSULTING', years:'2019–24', roleId:'consulting'},
+  { id:'ctf',        label:'CTF',        years:'2018–19', roleId:'ctf'       },
+  { id:'wta',        label:'WTA',        years:'2016–18', roleId:'wta'       },
 ];
 
 // ── True North content per focus view ────────────────────────────────────────
@@ -549,28 +550,6 @@ function SharpResume({ focusView, selectedNode, onSelectNode }) {
         ))}
       </div>
 
-      {/* Consulting */}
-      <div style={{ borderRadius:8, overflow:'hidden', border:`1px solid ${T.border}`, marginBottom:24 }}>
-        <div style={{ padding:'12px 14px', background:'linear-gradient(180deg,#0b1117,#0d1420)' }}>
-          <SectionLabel style={{ marginBottom:10 }}>Select Consulting — 2020–2024</SectionLabel>
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 20px' }}>
-            {[
-              { co:'Axon Enterprises', dt:'Jun–Dec 2023', note:'Product instrumentation framework and KPI taxonomy for secure first-responder OTT platform MVP.' },
-              { co:'Twill Health',     dt:'Jan 2021–May 2023', note:'Validated 3 AI-enabled digital health product lines; KPI frameworks informed go-forward decisions on 2 of 3.' },
-              { co:'GoPro',            dt:'2020–2021', note:'Analytics framework for EMEA/APAC growth; GDPR data sovereignty for international consumer data activation.' },
-              { co:'Verizon Media',    dt:'2020–2021', note:'Quantitative opportunity assessments for 5 5G innovation ventures; data-informed go/no-go investment recommendations.' },
-            ].map((c,i) => (
-              <div key={i}>
-                <div style={{ display:'flex', gap:8, alignItems:'center', marginBottom:2 }}>
-                  <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, color:T.fg2, letterSpacing:'0.05em' }}>{c.co}</span>
-                  <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>{c.dt}</span>
-                </div>
-                <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg3, lineHeight:1.5 }}>{c.note}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* Skills */}
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:10 }}>
