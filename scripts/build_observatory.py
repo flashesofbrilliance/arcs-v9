@@ -61,18 +61,15 @@ def clean(subject: str) -> str:
     return re.sub(r"\s*\[NCI:[^\]]*\]\s*$", "", subject).strip()
 
 
-# Trailer lines stripped from event desc when --attribution hide is set. The flag
-# gates VISIBILITY only — the data is fully recoverable by regenerating with show.
-_ATTR_RE = re.compile(r"(?im)^\s*(?:co-authored-by|signed-off-by|co-developed-by)\s*:.*$"
-                      r"|^.*🤖.*$|^generated with .*$|https?://claude\.ai/\S*")
-
-
 def desc_of(c: dict) -> str:
-    body = c["body"].strip()
-    if HIDE_ATTRIBUTION:
-        body = _ATTR_RE.sub("", body).strip()
-    first = body.split(chr(10))[0].strip() if body else ""
+    # --attribution hide strips desc to the commit subject line; the body (where
+    # Co-Authored-By / tool trailers / noise live) is dropped. Flag gates VISIBILITY
+    # only — the body is recoverable by regenerating with show.
     base = clean(c["subject"])
+    if HIDE_ATTRIBUTION:
+        return base
+    body = c["body"].strip()
+    first = body.split(chr(10))[0].strip() if body else ""
     return base + ((" — " + first) if first else "")
 
 
