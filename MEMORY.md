@@ -5,6 +5,47 @@
 
 ---
 
+## [v2.5.0] 2026-06-05 — ADR-023 superionic goal lattice + Observatory wired (branch: observability-milestone-mapping)
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Environment: Claude Code on the web (cloud) — model `claude-opus-4-8` (undercover; configured id)
+- Branch: `claude/observability-milestone-mapping-345ho` — **NOT merged to main**
+- Session goal: crystallize the goal-lattice observability model as a decision record; ship a clean Observatory demo
+
+### Artifacts landed (10 commits ahead of main, `9f669fa..bbeb8a8`)
+
+| Action | Detail |
+|---|---|
+| Created | `_DECISIONS/ADR-023-observability-goal-lattice.md` — DECIDED. Observability = inferred weighted folksonomy DAG over receipts, held in a "superionic" phase band by three governed counter-forces. Includes FMEA + Conductor-loop forward arch. |
+| Created | `runtime/specs/lattice-pressure-rom.json` — ROM v0.1.0. Pins edge-decay (L2) / contrarian-injection (L4) / calcification-guard (L3) + phase_band; L7-governed constants, self-tuning FORBIDDEN. |
+| Created | `scripts/lattice_sim.py` — structural load-test harness (anterior + posterior modes). |
+| Created | `public/observatory/*` + `scripts/build_observatory.py` — repo-agnostic timeline generator; `--attribution show|hide` (hide = strip-to-subject, drops bodies where Co-Authored-By / session URLs live). Deployed `data.jsx` regenerated clean for Deloitte-facing demo. |
+| Fixed | `next.config.ts` turbopack.root pin; absolute asset paths (actual blank-page render fix). |
+
+### Key architectural decisions (ADR-023)
+- **Lattice over tree, folksonomy over taxonomy** — multi-parent goals = DAG; inferred from receipt trail, never declared (declaring = NOTOMATION breach).
+- **Observation moves nodes→edges** — watch edge-weight tightening, not node-state; the superordinate goal *precipitates* out of the high-weight attractor.
+- **Three counter-forces = one phase-control loop**, each guarding a different L-level. Calcification (preferential attachment) is the failure mode; the buttresses bracket it.
+- **Adversarial grounding (5-agent deep research, 2026-06-05):** 4 over-claims corrected — irreducibility does NOT bar declaration; no monotone-complexity theorem; rising regular-language complexity = enrichment not calcification (LOW-complexity is the calcified pole); DAG is well-motivated, not computationally required. Calcification backing = preferential-attachment dynamics, NOT the CA-complexity result.
+- **PR/build gate:** L6 — blocked until real-corpus Zipf baseline measurable at 100+ receipts (same gate as ADR-020). ADR records the model; build is deferred.
+
+### Crosswalk / sync state (the reason this consolidation matters)
+- The cloud setup script fetches `_STATE/snapshot.json` **from main**. This branch's snapshot will not reach the next cloud session until merge → **sync gap recorded in snapshot `_sync_gap_warning`.**
+- This branch touched ZERO infra: no Vercel/env/DB/migration changes. Deploy + DB facts carried forward unchanged.
+- `/arcs-handoff` (local slash command) does not exist in cloud; `/handoff` skill is the equivalent.
+
+### P-track / next
+| Track | Status |
+|---|---|
+| ADR-023 model | ✅ DECIDED — build gated at 100+ receipts |
+| Observatory demo | ✅ Clean `data.jsx` deployed (attribution hidden) |
+| Merge to main | 🔴 OPEN — closes the cloud snapshot sync gap |
+| Panel/Chip (ADR-009) | 🟡 READY |
+| ADR-006 branching | 🟡 READY (first-external-user gate triggered) |
+
+---
+
 ## [v1.4.0] 2026-05-27 — RLS live on all 9 Supabase tables; ADR-008
 
 ### Session context
