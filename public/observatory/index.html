@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>ARCS Observatory — UI Kit</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<style>
+  html, body { margin: 0; background: radial-gradient(1200px 820px at 70% -8%, #0a1622 0%, var(--bg) 62%); color: var(--fg1);
+    font-family: var(--font-mono); min-height: 100%; }
+  html { overflow-y: scroll; }
+  * { box-sizing: border-box; }
+  ::selection { background: rgba(0,240,255,0.22); }
+  #top { position: sticky; top: 0; z-index: 40; background: linear-gradient(180deg, rgba(2,4,8,.96) 70%, rgba(2,4,8,0)); padding-bottom: 8px; }
+  #stage { padding: 18px 0 80px; }
+  #wrap { width: min(880px, 100%); margin: 0 auto; padding: 0 16px; display: flex; flex-direction: column; gap: 20px; }
+  .obs-col { width: min(880px, 100%); margin: 0 auto; padding: 0 16px; box-sizing: border-box; }
+  @keyframes obs-pulse { 0%,100% { box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 0 5px -1px var(--red), 0 4px 11px rgba(0,0,0,.4); } 50% { box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 0 14px -2px var(--red), 0 4px 11px rgba(0,0,0,.4); } }
+  @media (prefers-reduced-motion: reduce) { [data-pulse] { animation: none !important; } }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="timeline.jsx"></script>
+<script type="text/babel" src="deck.jsx"></script>
+<script type="text/babel" src="views.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  // ── Tweaks: three expressive controls that reshape the whole instrument's feel ──
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "atmosphere": "phosphor",
+    "vividness": 51,
+    "texture": "scanlines"
+  }/*EDITMODE-END*/;
+  // vividness → global saturate/contrast/brightness: matte readout ↔ neon cockpit bloom
+  const VIVID = (v) => { const f = Math.max(0, Math.min(100, v)) / 100; return `saturate(${(0.55 + f * 0.95).toFixed(2)}) contrast(${(0.96 + f * 0.16).toFixed(2)}) brightness(${(0.96 + f * 0.1).toFixed(2)})`; };
+  const ATM = {
+    deepspace: "radial-gradient(1200px 820px at 70% -8%, #0a1622 0%, #020408 62%)",
+    blueprint: "radial-gradient(1200px 820px at 70% -8%, #0c1a33 0%, #05091a 60%)",
+    phosphor:  "radial-gradient(1200px 820px at 70% -8%, #0a1a10 0%, #04080a 62%)",
+  };
+  const TEXTURE = {
+    clean: null,
+    scanlines: { backgroundImage: "repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px)", opacity: .7 },
+    grain: { backgroundImage: "radial-gradient(rgba(255,255,255,.07) .5px, transparent .7px)", backgroundSize: "3px 3px", opacity: .5 },
+  };
+
+  function App() {
+    const [mode, setMode] = useState("glance");
+    const [focus, setFocus] = useState("all");
+    const [view, setView] = useState("week");
+    const [replay, setReplay] = useState("all");
+    const [legendOpen, setLegendOpen] = useState(true);
+    const [sheet, setSheet] = useState(null);
+    const [query, setQuery] = useState("");
+    const [face, setFace] = useState("trajectory"); // front: 8-week map · back: by-altitude
+    const [riskSel, setRiskSel] = useState(0);       // selected risk (date order) in risk view
+    const [sevFocus, setSevFocus] = useState("all"); // risk-view Focus slot (severity lane)
+    const [riskWin, setRiskWin] = useState(14);      // risk-view Period slot (window length, days)
+    const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+    React.useEffect(() => { document.body.style.background = ATM[t.atmosphere] || ATM.deepspace; }, [t.atmosphere]);
+
+    const replayRef = React.useRef(replay); replayRef.current = replay;
+    const sheetRef = React.useRef(sheet); sheetRef.current = sheet;
+    const modeRef = React.useRef(mode); modeRef.current = mode;
+    const focusRef = React.useRef(focus); focusRef.current = focus;
+    const riskSelRef = React.useRef(riskSel); riskSelRef.current = riskSel;
+    // keyboard: ←/→ step milestones · ↑/↓ focus altitude · Space legend · Enter open/close card · Esc close
+    React.useEffect(() => {
+      const FOCUS_SEQ = ["all", "L5", "L4", "L3", "L2", "L1"];
+      const RKS = [...RISKS].sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+      const SEVO = ["RUIN", "HIGH", "MED"];
+      const eventIdxs = LEDGER.map((x, i) => x.kind === "event" ? i : -1).filter(i => i >= 0);
+      const onKey = (e) => {
+        const t = e.target;
+        if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+        // global
+        if (e.key === " " || e.code === "Space") { e.preventDefault(); setLegendOpen(v => !v); return; }
+        if (e.key === "Escape") { if (sheetRef.current) setSheet(null); return; }
+        // ── Risk view: ←→ step risks by date · ↑↓ jump severity lane · Enter card ──
+        if (modeRef.current === "risk") {
+          if (e.key === "ArrowRight") { e.preventDefault(); const ni = Math.min(RKS.length - 1, riskSelRef.current + 1); setRiskSel(ni); if (sheetRef.current) setSheet(RKS[ni]); }
+          else if (e.key === "ArrowLeft") { e.preventDefault(); const ni = Math.max(0, riskSelRef.current - 1); setRiskSel(ni); if (sheetRef.current) setSheet(RKS[ni]); }
+          else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+            e.preventDefault();
+            const SEQ = ["all", "RUIN", "HIGH", "MED"];
+            const d = e.key === "ArrowDown" ? 1 : -1;
+            setSevFocus(s => SEQ[Math.max(0, Math.min(SEQ.length - 1, SEQ.indexOf(s) + d))]);
+          } else if (e.key === "Enter") { e.preventDefault(); if (sheetRef.current) setSheet(null); else setSheet(RKS[riskSelRef.current]); }
+          return;
+        }
+        // ── Chain of events: ←→ step events (build order) · ↑↓ focus altitude · Enter card ──
+        if (modeRef.current === "chain") {
+          if (e.key === "ArrowRight") { e.preventDefault(); const cur = replayRef.current; const pos = cur === "all" ? -1 : eventIdxs.indexOf(cur); const next = eventIdxs[Math.min(eventIdxs.length - 1, pos + 1)]; setReplay(next); if (sheetRef.current) setSheet(LEDGER[next]); }
+          else if (e.key === "ArrowLeft") { e.preventDefault(); const cur = replayRef.current; const pos = cur === "all" ? -1 : eventIdxs.indexOf(cur); const next = eventIdxs[Math.max(0, (pos < 0 ? 0 : pos) - 1)]; setReplay(next); if (sheetRef.current) setSheet(LEDGER[next]); }
+          else if (e.key === "ArrowDown") { e.preventDefault(); setFocus(f => FOCUS_SEQ[Math.min(FOCUS_SEQ.length - 1, FOCUS_SEQ.indexOf(f) + 1)]); }
+          else if (e.key === "ArrowUp") { e.preventDefault(); setFocus(f => FOCUS_SEQ[Math.max(0, FOCUS_SEQ.indexOf(f) - 1)]); }
+          else if (e.key === "Enter") { e.preventDefault(); if (sheetRef.current) setSheet(null); else { const cur = replayRef.current; setSheet(LEDGER[cur === "all" ? eventIdxs[0] : cur]); } }
+          return;
+        }
+        // ── Glance / Chain: ←→ step milestones (scoped to Focus altitude) · ↑↓ focus altitude · Enter card ──
+        if (e.key === "ArrowRight") {
+          e.preventDefault();
+          const steps = stepIndices(focusRef.current);
+          const cur = replayRef.current;
+          const p = cur === "all" ? -1 : steps.indexOf(cur);
+          const next = steps[Math.min(steps.length - 1, p + 1)];
+          setReplay(next);
+          if (sheetRef.current) setSheet(LEDGER[next]);
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          const steps = stepIndices(focusRef.current);
+          const cur = replayRef.current;
+          if (cur === "all") return;
+          const p = steps.indexOf(cur);
+          if (p <= 0) { setReplay("all"); if (sheetRef.current) setSheet(null); }
+          else { const next = steps[p - 1]; setReplay(next); if (sheetRef.current) setSheet(LEDGER[next]); }
+        } else if (e.key === "ArrowDown") {
+          e.preventDefault();
+          setFocus(f => FOCUS_SEQ[Math.min(FOCUS_SEQ.length - 1, FOCUS_SEQ.indexOf(f) + 1)]);
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          setFocus(f => FOCUS_SEQ[Math.max(0, FOCUS_SEQ.indexOf(f) - 1)]);
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          if (sheetRef.current) setSheet(null);
+          else { const cur = replayRef.current; setSheet(LEDGER[cur === "all" ? stepIndices(focusRef.current)[0] : cur]); }
+        }
+      };
+      window.addEventListener("keydown", onKey);
+      return () => window.removeEventListener("keydown", onKey);
+    }, []);
+
+    return (
+      <div>
+        <div id="top">
+          <div className="obs-col">
+            <ObsHeader />
+            <ControlBar mode={mode} setMode={setMode} focus={focus} setFocus={setFocus} sevFocus={sevFocus} setSevFocus={setSevFocus} view={view} setView={setView} riskWin={riskWin} setRiskWin={setRiskWin} legendOpen={legendOpen} setLegendOpen={setLegendOpen} query={query} setQuery={setQuery} face={face} setFace={setFace} />
+            <Legend open={legendOpen} />
+          </div>
+        </div>
+        <div id="stage" style={{ filter: VIVID(t.vividness), transition: "filter .3s" }}>
+          <div id="wrap">
+            {mode === "glance" && <>
+              <Timeline replay={replay} setReplay={setReplay} view={view} query={query} face={face} focus={focus} onOpen={setSheet} />
+              <Deck focus={focus} iso={false} query={query} onOpen={setSheet} />
+            </>}
+            {mode === "chain" && (face === "altitude"
+              ? <FocusedAltitudeStrip focus={focus} visibleCount={LEDGER.length} query={query} onOpen={setSheet} />
+              : <ChainOfEvents focus={focus} query={query} current={replay} setCurrent={setReplay} onOpen={setSheet} />)}
+            {mode === "risk" && (face === "altitude"
+              ? <RiskByLane sevFocus={sevFocus} query={query} onOpen={setSheet} />
+              : <RiskLanes query={query} sel={riskSel} setSel={setRiskSel} sevFocus={sevFocus} win={riskWin} onOpen={setSheet} />)}
+          </div>
+        </div>
+        <Sheet item={sheet} onClose={() => setSheet(null)} />
+        {TEXTURE[t.texture] && <div style={{ position: "fixed", inset: 0, zIndex: 45, pointerEvents: "none", mixBlendMode: "overlay", ...TEXTURE[t.texture] }} />}
+        <TweaksPanel>
+          <TweakSection label="Atmosphere" />
+          <TweakRadio label="Environment" value={t.atmosphere} options={["deepspace", "blueprint", "phosphor"]} onChange={(v) => setTweak('atmosphere', v)} />
+          <TweakSection label="Signal" />
+          <TweakSlider label="Vividness" value={t.vividness} min={0} max={100} onChange={(v) => setTweak('vividness', v)} />
+          <TweakSection label="Instrument texture" />
+          <TweakRadio label="Surface" value={t.texture} options={["clean", "scanlines", "grain"]} onChange={(v) => setTweak('texture', v)} />
+        </TweaksPanel>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+<!-- honesty footer: data is real (generated from arcs-v9 git history); OPEN risks redacted for public view -->
+<script type="text/babel">
+  const _f = document.createElement("div");
+  _f.style.cssText = "max-width:880px;margin:0 auto;padding:10px 16px 32px;color:var(--fg3,#64748b);font:11px/1.5 var(--font-mono,monospace);text-align:center;opacity:.8";
+  const _n = (typeof REDACTED_OPEN_RISKS !== "undefined") ? REDACTED_OPEN_RISKS : 0;
+  _f.textContent = "Forensic observability over real arcs-v9 git history · generated by scripts/build_observatory.py"
+    + (_n > 0 ? ` · ${_n} standing OPEN risk item(s) redacted from this public view` : "");
+  document.body.appendChild(_f);
+</script>
+</body>
+</html>
