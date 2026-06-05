@@ -206,6 +206,95 @@ future `goal_edges` schema ADR (build); gated at 100+ receipts.
 
 ---
 
+## Structural Integrity (pre-PR load analysis)
+
+The counter-forces are structural members carrying thrust, so promotion is gated on a
+structural load analysis, not a vibe check. **The thrust** has two sources: reinforcement
+inflow (co-occurring receipts pumping edge weight) and preferential attachment (the
+rich-get-richer lateral force concentrating weight on one hub). **Failure** = leaving the
+SUPERIONIC band: SOLID collapse (compression) or GAS blowout (tension).
+
+### FMEA — failure modes to mind
+
+| # | Mode | Mechanism | Buttress that fails | Trigger | Detection |
+|---|------|-----------|---------------------|---------|-----------|
+| F1 | SOLID collapse (calcification) | Preferential attachment freezes lattice to rigid taxonomy | decay too slow (λ) / cap too high (g) | R ≫ λ | Gini→1, attractors→1 |
+| F2 | GAS blowout (churn) | Over-correction; nothing solidifies, no attractor | decay too fast / contrarian too hot | λ or c too aggressive | complexity unbounded, 0 stable attractors |
+| F3 | Oscillation (resonance) | Decay↔reinforcement loop never settles | undamped loop, gain too high | c near decay timescale | high phase variance, no rest state |
+| F4 | Premature lock (cold calcification) | Early edge locks before flow can challenge it | contrarian can't fire (no alternatives) | N below minimum | **NOTOMATION breach — must HOLD, not infer** |
+| F5 | Sensor blindness | Phase proxy diverges from true minimal-DFA complexity | the gauge (not a buttress) | any | proxy-vs-ground-truth validation only |
+| F6 | Governance drift (foundation) | L7 constants mis-set or self-tuned; envelope shifts | all three at once | single point of failure | audit only |
+
+F4 and F5 are load-bearing-critical: F4 *is* the NOTOMATION breach the model exists to
+prevent; F5 makes every other reading a lie. (Deep research flagged F5 — minimal-DFA size
+is the true measure and is heavy; any cheap proxy can diverge, and complexity direction is
+counterintuitive.)
+
+### Load-bearing calculations (capacity inequalities the test must verify)
+
+1. **Decay capacity (vs F1):** net edge accumulation = `R·gain − λ·weight`; stable only if
+   `λ` clears weight faster than `R` drives it past the cap. Margin = `λ_required / λ_set`.
+2. **Contrarian capacity (vs F1/F4):** `t_cap(R)` (time for a contingent winner to cross g)
+   must exceed `t_challenge(c)` (time to first challenge). The buttress must arrive *before*
+   the collapse, not after.
+3. **Cap headroom (vs false-positive F2):** real goal/topic co-occurrence is **Zipfian**, so
+   `g` must sit *above* the corpus baseline skew: `g > Gini_baseline(corpus)`. That baseline
+   is a **measured** quantity — the reason synthetic data cannot finalize the constants.
+
+### The threshold = the stable envelope
+
+Not a single number: the region of `(λ, c, g)` where phase stays SUPERIONIC across load
+`(R, burstiness, skew)`. The boundary is the failure surface; proposed constants must sit
+inside it with margin. Deliverable: envelope is non-empty, per-mode failure load, margin at
+the operating point.
+
+### Pre-PR gate (what a synthetic load test may and may not certify)
+
+A synthetic run (`scripts/lattice_sim.py`, follow-on commit) may certify: (1) machinery runs
+and each buttress has its predicted directional effect; (2) a non-empty stable envelope
+exists on parametrized synthetic load; (3) F1–F6 are reproducible and detected. It may **NOT**
+certify the production constant values — those need the real Zipf baseline (calc #3).
+
+**PR GATE (DECIDED): PR is BLOCKED until the real-corpus Zipf baseline can be measured
+(100+ receipts, the L6 gate).** Synthetic thresholds are not sufficient to promote — signing
+off on assumed loads instead of measured ones is the structural sin this gate exists to
+prevent. The harness demonstrates the structure *can* bear load and characterizes the failure
+surface; it does not set the operating point.
+
+---
+
+## Forward architecture — the Conductor loop (gated, recorded not built)
+
+The Observatory runs the lattice as a **progressively tightening loop**, not a one-shot.
+The image is a golden orb-weaver: each pass lays silk (reinforces co-occurrence edges),
+prunes (decay), challenges (contrarian), and tightens a **reticulated lattice of abductive
+inference** toward its best-explanation attractor.
+
+- **Conductor + ballet of operators.** A single orchestrator steps the operators in a fixed
+  choreography each tick: `folksonomist (grow edges) → reinforce → decay → contrarian
+  injection → calcification guard → Drift Sentinel (phase read)`. Operators are choreographed,
+  not ad hoc.
+- **Abductive precisification.** Lattice edges are abductive inferences (inference to the best
+  explanation): co-occurrence → inferred goal connection → the high-weight attractor is the
+  current best explanation of the decision pattern. The systematic-vs-contingent discriminator
+  (LP-CONTRA-01) is an *abductive-quality test* — the systematic winner is the explanation that
+  survives orthogonal challenge. This ties directly to Wolfram's "pocket of reducibility" win.
+- **Anterior / proactive / posterior phases** (lattice-scale Tribune, ADR-020): **anterior** =
+  forward-simulate under load to predict calcification *before* it happens (this is the load
+  test); **proactive** = the live during-loop, silent below threshold; **posterior** = replay a
+  finished trajectory + recoil analysis (where did a YELLOW get overridden, where did an edge
+  calcify). The harness (`scripts/lattice_sim.py`) runs anterior + posterior modes.
+- **The watcher / cron deployment.** In production the loop is a scheduled watcher. Precedent in
+  this repo: `.github/workflows/adr-queue.yml` (GitHub Action trigger); arcs-care's cron-route
+  pattern is the alternative. **Gated (L6) — not built until the 100+-receipt corpus exists and
+  the PR gate clears.** An `analytics/` home for the watcher does not yet exist; create it with
+  the production loop, not before.
+
+This subsection is a recorded decision about *shape*, not a build authorization. The PR gate
+above (real-corpus calibration) still governs.
+
+---
+
 ## Linked receipts / ADRs
 
 - ADR-017 / ADR-019 — Receipt core schema, sealed ReceiptObject (relates to / respects)
