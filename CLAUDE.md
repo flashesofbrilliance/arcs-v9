@@ -961,3 +961,75 @@ Message Dan Pascone → confirm OK to publish case study on arcs.care → set `N
 
 `/arcs-handoff-pickup` → flip case study env var (if Dan confirmed) → arcs-v9 Panel/Chip design system components → ADR-006 branching strategy (gate: first external user)
 
+---
+
+# Handoff — v2.5.0 — 2026-06-05
+
+> **For Claude Code:** active pickup point. v2.1.0 above is preserved for history.
+> Environment: Claude Code on the web (cloud). This work is on branch
+> `claude/observability-milestone-mapping-345ho`, **not yet merged to main.**
+
+## ⚠️ Cloud snapshot sync gap (read first)
+
+The cloud setup script fetches `_STATE/snapshot.json` from the **main** branch raw URL.
+This session's snapshot was written on a feature branch. **Until this branch merges, the
+next cloud session loads the stale main-branch snapshot.** A local `/handoff-pickup` reads
+the working-tree file and is unaffected. To close the gap: merge to main. See the
+`_sync_gap_warning` field in `_STATE/snapshot.json`.
+
+## What landed this session
+
+### ADR-023 — Observability as a Superionic Goal Lattice (DECIDED)
+
+- `_DECISIONS/ADR-023-observability-goal-lattice.md` (`9f669fa`, `48b1e6f`) — observability =
+  inferred weighted folksonomy **DAG over receipts** (not a declared milestone tree), held in
+  a "superionic" phase band. Watch **edge-weight tightening**, not node-state; the superordinate
+  goal precipitates from the high-weight attractor. Includes FMEA + Conductor-loop forward arch.
+- `runtime/specs/lattice-pressure-rom.json` (`9f669fa`) — ROM v0.1.0. Pins the three counter-forces:
+  edge-decay (L2) / contrarian-injection (L4) / calcification-guard (L3) + phase_band. **L7-governed
+  constants; self-tuning FORBIDDEN** (a system that sets its own decay rate overrules revealed
+  preference = NOTOMATION breach).
+- `scripts/lattice_sim.py` (`7bc512c`) — structural load-test harness.
+- **Adversarial pass (5-agent deep research):** 4 over-claims corrected — no monotone-complexity
+  theorem; rising regular-language complexity = *enrichment* not calcification; DAG well-motivated,
+  not required; irreducibility doesn't bar declaration. Calcification backing = preferential
+  attachment, NOT the CA result.
+- **PR/build GATE:** L6 — blocked until real-corpus Zipf baseline measurable at 100+ receipts
+  (same gate as ADR-020). The ADR records the model; the `goal_edges` overlay table is a future
+  schema ADR. Single-parent `parentId` lineage preserved unchanged.
+
+### Observatory demo wired clean
+
+- `public/observatory/*` + `scripts/build_observatory.py` (`27ee318`→`bbeb8a8`) — repo-agnostic
+  timeline generator. `--attribution hide` = strip-to-subject (drops bodies where Co-Authored-By
+  / session URLs live); deployed `data.jsx` regenerated clean for a Deloitte-facing demo.
+- `next.config.ts` — turbopack.root pin + absolute asset paths (the actual blank-page render fix).
+
+## Infra / DB
+
+Zero changes this session. No Vercel/env/DB/migration touched. Deploy + DB facts carried forward
+in `_STATE/snapshot.json`. `app.arcs.care` ● Ready; DB `xbbpiryokswwvcrcutge` / `arcs_app` / 7 tables.
+
+## Open sprint
+
+```
+1. Merge claude/observability-milestone-mapping-345ho → main   (closes cloud snapshot sync gap)
+2. Panel/Chip design system components (ADR-009)               READY
+3. ADR-006 branching strategy (first-external-user gate)       READY
+4. arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED (if Dan confirmed)
+```
+
+ADR-023 implementation stays gated at 100+ receipts — not next-session work.
+
+## Last confirmed commit (arcs-v9)
+
+`bbeb8a8` — feat(observatory): hide=strip-to-subject; regen deployed data clean
+
+## Blocking question
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → confirm branch merge state → merge to main OR Panel/Chip (ADR-009) OR ADR-006
+
