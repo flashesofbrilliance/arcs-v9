@@ -21,6 +21,7 @@ from datetime import date, datetime
 REPO_SLUG = "flashesofbrilliance/arcs-v9"
 OUT = "public/observatory/data.jsx"
 REPO_PATH = "."  # where `git` runs; override with --repo-path to build a tailored instance
+HIDE_ATTRIBUTION = False  # --attribution hide scrubs Co-Authored-By / tool trailers from desc
 
 
 def sh(args: list[str]) -> str:
@@ -58,6 +59,21 @@ def loc(path: str) -> int:
 
 def clean(subject: str) -> str:
     return re.sub(r"\s*\[NCI:[^\]]*\]\s*$", "", subject).strip()
+
+
+# Trailer lines stripped from event desc when --attribution hide is set. The flag
+# gates VISIBILITY only — the data is fully recoverable by regenerating with show.
+_ATTR_RE = re.compile(r"(?im)^\s*(?:co-authored-by|signed-off-by|co-developed-by)\s*:.*$"
+                      r"|^.*🤖.*$|^generated with .*$|https?://claude\.ai/\S*")
+
+
+def desc_of(c: dict) -> str:
+    body = c["body"].strip()
+    if HIDE_ATTRIBUTION:
+        body = _ATTR_RE.sub("", body).strip()
+    first = body.split(chr(10))[0].strip() if body else ""
+    base = clean(c["subject"])
+    return base + ((" — " + first) if first else "")
 
 
 # ── EVENTS — classify each commit into the kit's type/altitude grammar ───────────
@@ -121,7 +137,7 @@ def classify(c: dict, first: bool) -> dict | None:
     return {"id": f"ev-{c['sha']}", "date": c["date"], "alt": alt, "type": typ,
             **({"peak": True} if peak else {}),
             "label": clean(c["subject"]), "sha": c["sha"],
-            "desc": clean(c["subject"]) + ((" — " + c["body"].strip().split(chr(10))[0]) if c["body"].strip() else ""),
+            "desc": desc_of(c),
             "conf": conf}
 
 
@@ -351,13 +367,16 @@ Object.assign(window, { C, REPO, ALT, GRADE, SEV, STATUS, TYPE_COLOR, EVENTS, RI
 
 def main():
     import argparse
-    global REPO_SLUG, OUT, REPO_PATH
+    global REPO_SLUG, OUT, REPO_PATH, HIDE_ATTRIBUTION
     ap = argparse.ArgumentParser(description="Generate an Observatory data.jsx from a repo's real history.")
     ap.add_argument("--repo-path", default=REPO_PATH, help="dir to run git in (default: cwd)")
     ap.add_argument("--slug", default=REPO_SLUG, help="owner/repo for commit links")
     ap.add_argument("--out", default=OUT, help="output data.jsx path (use a distinct path per tailored instance)")
+    ap.add_argument("--attribution", choices=["show", "hide"], default="show",
+                    help="show (default) keeps Co-Authored-By/tool trailers in event desc; hide scrubs them")
     args = ap.parse_args()
     REPO_PATH, REPO_SLUG, OUT = args.repo_path, args.slug, args.out
+    HIDE_ATTRIBUTION = args.attribution == "hide"
 
     cs = commits()
     events = build_events(cs)
