@@ -933,6 +933,8 @@ function Resume() {
   const showDeep   = depth === 'superionic';
   const showSimple = depth === 'grain';
   const [resumeCollapsed, setResumeCollapsed] = useState(false);
+  // Reset collapsed state when leaving PIXEL PERFECT
+  useEffect(() => { if (depth !== 'superionic') setResumeCollapsed(false); }, [depth]);
 
   return (
     <div className="page">
