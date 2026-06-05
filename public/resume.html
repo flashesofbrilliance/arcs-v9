@@ -31,6 +31,23 @@
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #0d1117; }
     ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+    /* ── Print / PDF export ───────────────────────────────────────── */
+    @media print {
+      html, body { background: #fff !important; color: #111 !important; }
+      .page { max-width: 100%; padding: 0.5in 0.6in; }
+      .no-print { display: none !important; }
+      .print-only { display: block !important; }
+      a { color: inherit !important; text-decoration: none !important; }
+      /* Force sketch view to render in print-safe colors */
+      .sketch-name   { color: #111 !important; }
+      .sketch-rule   { background: #007A8A !important; }
+      .sketch-mono   { color: #4A5568 !important; }
+      .sketch-body   { color: #222 !important; }
+      .sketch-muted  { color: #666 !important; }
+      .sketch-accent { color: #007A8A !important; }
+      .sketch-rule-h { background: #CBD5E0 !important; }
+    }
   </style>
 </head>
 <body>
@@ -409,64 +426,111 @@ const SKILLS = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// GRAIN — simple, ATS-ready
+// SKETCH — minimal, distilled, typographically considered
+// Dark ground. Single cyan rule. Pure hierarchy. Nothing decorative.
 // ─────────────────────────────────────────────────────────────────────────────
 function GrainResume() {
+  const roles = [
+    { co:'ARCS — Decision Science Platform', role:'Founder & Product Partner', dates:'2025–Present',
+      metrics:'60% noise reduction  ·  2.5× decision confidence  ·  3–5× time-to-insight',
+      bullets:['Reduced decision noise by 60% through structured evidence taxonomy; 3–5× time-to-insight acceleration',
+               'Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — practitioner of the exact developer tooling',
+               'Experimentation frameworks; 40% reduction in wasted planning cycles'] },
+    { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
+      metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
+      bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
+               'Behavioral event taxonomy and instrumentation layer for investor portal; 35% release cycle reduction'] },
+    { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
+      metrics:'Seven-figure engagement  ·  $350M ARR client  ·  5 verticals',
+      bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition',
+               'Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
+    { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
+      metrics:'20% revenue lift  ·  CDP + CRM architecture  ·  Salesforce modernization',
+      bullets:['Enterprise CDP and CRM strategy end-to-end; segmentation engine across marketing, fundraising, and clinical ops',
+               '20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
+    { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018',
+      metrics:'<120ms latency  ·  $850K year-one revenue  ·  global consumer platform',
+      bullets:['Real-time fan behavior forecasting infrastructure at <120ms latency; CDP selection for global sports platform',
+               '$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook)'] },
+  ];
+
   return (
     <div style={{ animation:'fadeUp .3s ease both' }}>
       {/* Summary */}
-      <div style={{ padding:'14px 16px', borderRadius:8, border:`1px solid ${T.border}`,
-        background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.1))', marginBottom:20 }}>
-        <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg1, lineHeight:1.7 }}>
-          Product intelligence leader and analytical builder with 10+ years owning the full analytical lifecycle —
-          from instrumentation design and behavioral event modeling to experiment frameworks, forecasting, and
-          decision observability. Embedded across adtech, regulated finance, and global consumer platforms.
-          Builds the measurement layer; doesn't just run queries on someone else's. Currently building arcs-v9
-          on Figma Dev Mode, Code Connect, and MCP server as production infrastructure. Oberlin Studio Art
-          background gives native design intuition at a design tool company.
-        </p>
-      </div>
+      <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
+        maxWidth:680, marginBottom:24 }}>
+        Product intelligence leader and analytical builder with 10+ years owning the full analytical
+        lifecycle — instrumentation design, behavioral event modeling, experiment frameworks, and decision
+        observability. Builds the measurement layer. Currently building arcs-v9 on Figma Dev Mode,
+        Code Connect, and MCP server as production infrastructure.
+      </p>
+
+      {/* Thin cyan gradient rule — the one graphic element */}
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.cyan},${T.cyan}00)`,
+        marginBottom:28, width:'55%' }} />
 
       {/* Experience */}
-      <SectionLabel style={{ marginBottom:10 }}>Experience</SectionLabel>
-      <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:20 }}>
-        {[
-          { co:'ARCS — Decision Science Platform', role:'Founder & Product Partner', dates:'2025–Present', bullets:['Reduced decision noise by 60% through structured evidence taxonomy and analytical gate design; 3–5× time-to-insight acceleration', 'Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — daily practitioner of the exact developer tooling this team instruments', 'Experimentation frameworks improving decision confidence by 2.5× with 40% reduction in wasted planning cycles'] },
-          { co:'Grayscale Investments (DCG)', role:'Product Lead, Site', dates:'2024–2025', bullets:['Architected CDP and personalization data model for $7B AUM across 10 regulated investment products', 'Behavioral event taxonomy and instrumentation layer for investor portal; 35% release cycle reduction through automated QA'] },
-          { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018', bullets:['Real-time fan behavior forecasting at <120ms latency; CDP selection and data architecture for global consumer platform', '$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook); behavioral data flows and attribution models'] },
-          { co:"Children's Tumor Foundation", role:'Sr. Director of Data & CRM Strategy', dates:'2018–2019', bullets:['Enterprise CDP/CRM strategy: segmentation engine, Salesforce modernization; 20% revenue growth through data-driven personalization'] },
-          { co:'Select Consulting', role:'Product Analytics & Management', dates:'2020–2024', bullets:['Axon Enterprises (OTT MVP instrumentation) · Twill Health (3 AI health product lines) · GoPro (EMEA/APAC analytics + GDPR) · Verizon Media (5G opportunity assessments)'] },
-        ].map((r,i) => (
-          <div key={i} style={{ paddingBottom:12, borderBottom:`1px solid ${T.border}` }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:3 }}>
-              <span style={{ fontFamily:T.sans, fontSize:13, fontWeight:600, color:T.fg1 }}>{r.co}</span>
-              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4 }}>{r.dates}</span>
+      <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
+        textTransform:'uppercase', color:T.fg4, marginBottom:18 }}>Experience</div>
+
+      <div style={{ display:'flex', flexDirection:'column' }}>
+        {roles.map((r,i) => (
+          <div key={i} style={{ paddingBottom:20, marginBottom:20,
+            borderBottom: i < roles.length-1 ? `1px solid ${T.border}22` : 'none' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:2 }}>
+              <span style={{ fontFamily:T.sans, fontSize:13.5, fontWeight:600, color:T.fg1,
+                letterSpacing:'-0.01em' }}>{r.co}</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.06em',
+                flexShrink:0, marginLeft:16 }}>{r.dates}</span>
             </div>
-            <div style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg3, marginBottom:7 }}>{r.role}</div>
+            <div style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg3, marginBottom:6,
+              letterSpacing:'0.01em' }}>{r.role}</div>
+            <div style={{ fontFamily:T.mono, fontSize:9, color:`${T.cyan}88`,
+              letterSpacing:'0.07em', marginBottom:10 }}>{r.metrics}</div>
             {r.bullets.map((b,j) => (
-              <div key={j} style={{ display:'flex', gap:8, marginBottom:4 }}>
-                <span style={{ color:T.fg4, fontSize:10, marginTop:2 }}>·</span>
-                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{b}</span>
+              <div key={j} style={{ display:'flex', gap:10, marginBottom:4 }}>
+                <span style={{ color:`${T.cyan}44`, fontSize:11, marginTop:1, flexShrink:0 }}>—</span>
+                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6 }}>{b}</span>
               </div>
             ))}
           </div>
         ))}
       </div>
 
-      {/* Skills flat */}
-      <SectionLabel style={{ marginBottom:8 }}>Technical Proficiency</SectionLabel>
-      <p style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.8, marginBottom:16 }}>
-        <strong style={{ color:T.fg1 }}>Analytics:</strong> SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling · cohort analysis<br/>
-        <strong style={{ color:T.fg1 }}>Data Systems:</strong> Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems<br/>
-        <strong style={{ color:T.fg1 }}>Developer Tools:</strong> Figma Dev Mode · Code Connect · MCP Server · Claude Code · GitHub · Agentic AI workflows<br/>
-        <strong style={{ color:T.fg1 }}>Instrumentation:</strong> Event taxonomy · behavioral tracking · product telemetry · data quality · data governance · decision observability
-      </p>
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.border},transparent)`,
+        margin:'8px 0 20px' }} />
+
+      {/* Skills */}
+      <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
+        textTransform:'uppercase', color:T.fg4, marginBottom:14 }}>Technical Proficiency</div>
+      <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
+        {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
+          ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
+          ['Developer Tools',   'Figma Dev Mode · Code Connect · MCP Server · Claude Code · GitHub · Agentic AI workflows'],
+          ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
+        ].map(([label,val],i) => (
+          <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
+            <span style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, color:T.fg4,
+              letterSpacing:'0.08em', flexShrink:0, minWidth:116,
+              textTransform:'uppercase' }}>{label}</span>
+            <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{val}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.border},transparent)`,
+        margin:'18px 0 16px' }} />
 
       {/* Education */}
-      <SectionLabel style={{ marginBottom:8 }}>Education</SectionLabel>
-      <div style={{ display:'flex', gap:20, fontFamily:T.sans, fontSize:12, color:T.fg2 }}>
-        <span><strong style={{ color:T.fg1 }}>Oberlin College</strong> — BA, Honors Studio Art (2002–2006)</span>
-        <span><strong style={{ color:T.fg1 }}>MIT xPRO</strong> — AI: Business Strategy (Certificate)</span>
+      <div style={{ display:'flex', gap:36, flexWrap:'wrap' }}>
+        {[['Oberlin College','BA, Honors Studio Art','2002–2006'],
+          ['MIT xPRO','AI: Business Strategy','Certificate']].map(([inst,deg,yr],i) => (
+          <div key={i}>
+            <span style={{ fontFamily:T.sans, fontSize:12.5, fontWeight:600, color:T.fg1 }}>{inst}</span>
+            <span style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg3 }}> — {deg}</span>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, marginLeft:10 }}>{yr}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -475,41 +539,22 @@ function GrainResume() {
 // ─────────────────────────────────────────────────────────────────────────────
 // SHARP — full interactive resume
 // ─────────────────────────────────────────────────────────────────────────────
-function SharpResume({ focusView, selectedNode, onSelectNode }) {
-  // selectedNode from trajectory controls which role is expanded
+function SharpResume({ selectedNode, onSelectNode }) {
   const [manualExpanded, setManualExpanded] = useState(null);
-
-  // Trajectory selection auto-expands the matching role
   const expanded = selectedNode
     ? (TRAJ.find(n=>n.id===selectedNode)?.roleId || null)
     : manualExpanded;
-
   const toggle = id => {
     if (selectedNode && TRAJ.find(n=>n.id===selectedNode)?.roleId === id) {
-      onSelectNode(null); // deselect node when collapsing its tile
+      onSelectNode(null);
     } else {
       setManualExpanded(e => e===id ? null : id);
     }
   };
 
-  // Focus-view bullet rendering
-  const fv = focusView; // 'all' | 'figma' | 'ds'
-  const bulletColor = fv === 'figma' ? T.cyan : T.green;
-
-  const isActive = s => s.views.includes(fv);
-
-  // True North for current view
-  const tn = TRUE_NORTH[fv] || TRUE_NORTH.all;
-
   return (
     <div style={{ animation:'fadeUp .3s ease both' }}>
 
-      {/* Focus-aware True North */}
-      {fv !== 'all' && (
-        <TrueNorthPanel heading={tn.heading} color={fv==='figma'?T.cyan:T.green} style={{ marginBottom:20, animation:'fadeUp .2s ease both' }}>
-          {tn.text}
-        </TrueNorthPanel>
-      )}
 
       {/* Role tab bar */}
       <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
@@ -527,21 +572,13 @@ function SharpResume({ focusView, selectedNode, onSelectNode }) {
                   <span style={{ fontFamily:T.sans, fontSize:'1.7rem', fontWeight:700, color:r.color, lineHeight:1, textShadow:`0 0 12px ${r.color}44` }}>{r.metric}</span>
                   <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.1em', textTransform:'uppercase' }}>{r.metricLabel}</span>
                 </div>
-                {/* Bullets — highlighted/dimmed by focus view */}
-                {r.bullets.map((b,i) => {
-                  const bulletActive = fv === 'all' || b.v.includes(fv);
-                  const highlightColor = b.v.includes('figma') && fv==='figma' ? T.cyan
-                    : b.v.includes('ds') && fv==='ds' ? T.green : r.color;
-                  return (
-                    <div key={i} style={{ display:'flex', gap:8, marginBottom:6,
-                      opacity: bulletActive ? 1 : 0.3, transition:'opacity .2s' }}>
-                      <span style={{ color: bulletActive ? highlightColor : T.fg4, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
-                      <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6,
-                        color: bulletActive ? (fv!=='all' ? T.fg1 : T.fg1) : T.fg3,
-                        fontWeight: bulletActive && fv!=='all' ? 500 : 400 }}>{b.t}</span>
-                    </div>
-                  );
-                })}
+                {/* Bullets */}
+                {r.bullets.map((b,i) => (
+                  <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                    <span style={{ color:r.color, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
+                    <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
+                  </div>
+                ))}
               </div>
             ) : null}
             onClick={() => toggle(r.id)}>
@@ -552,18 +589,10 @@ function SharpResume({ focusView, selectedNode, onSelectNode }) {
 
 
       {/* Skills */}
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:10 }}>
-        <SectionLabel index="03">Skills</SectionLabel>
-        {fv !== 'all' && (
-          <span style={{ fontFamily:T.mono, fontSize:8.5, color: fv==='figma'?T.cyan:T.green, letterSpacing:'0.06em' }}>
-            {fv==='figma' ? '▲ FIGMA STACK HIGHLIGHTED' : '▲ DS STACK HIGHLIGHTED'}
-          </span>
-        )}
-      </div>
+      <SectionLabel index="03" style={{ marginBottom:10 }}>Skills</SectionLabel>
       <div style={{ display:'flex', flexWrap:'wrap', gap:5, marginBottom:24 }}>
         {SKILLS.map(s => (
-          <Chip key={s.id} label={s.label} accent={s.accent}
-            selected={isActive(s)} dim={!isActive(s) && fv!=='all'} />
+          <Chip key={s.id} label={s.label} accent={s.accent} selected={true} />
         ))}
       </div>
 
@@ -813,21 +842,14 @@ function Resume() {
         {TRUE_NORTH.all.text}
       </TrueNorthPanel>
 
-      {/* ── Depth wheel — always visible ─────────────────────────────── */}
-      <DepthWheel value={depth} onChange={setDepth} />
-      <div style={{ marginBottom:20 }} />
-
-      {/* ── Focus filter — sharp + deep only ─────────────────────────── */}
-      {showRich && (
-        <div style={{ animation:'fadeUp .25s ease both', marginBottom:24 }}>
-          <SectionLabel style={{ marginBottom:8 }}>Focus View</SectionLabel>
-          <SegSlider options={FOCUS_VIEWS} value={focusView} onChange={setFocusView} />
-        </div>
-      )}
+      {/* ── Depth selector — SegSlider with the actual design system component ── */}
+      <div className="no-print" style={{ marginBottom:20 }}>
+        <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
+      </div>
 
       {/* ── Content layers ───────────────────────────────────────────── */}
       {showSimple && <GrainResume />}
-      {showRich   && <SharpResume focusView={focusView} selectedNode={selectedNode} onSelectNode={setSelectedNode} />}
+      {showRich   && <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode} />}
       {showDeep   && <DeepScan />}
 
       {/* ── Contact — always visible ──────────────────────────────────── */}
@@ -848,8 +870,22 @@ function Resume() {
         </a>
       </div>
 
+      {/* PDF download */}
+      <div className="no-print" style={{ marginTop:32, display:'flex', justifyContent:'center' }}>
+        <button type="button"
+          onClick={() => { setDepth('grain'); setTimeout(() => window.print(), 200); }}
+          style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 20px',
+            borderRadius:7, border:`1px solid ${T.border}`, background:'transparent',
+            fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.08em',
+            color:T.fg3, cursor:'pointer', transition:'all .15s' }}
+          onMouseEnter={e => { e.target.style.borderColor=T.cyan; e.target.style.color=T.cyan; }}
+          onMouseLeave={e => { e.target.style.borderColor=T.border; e.target.style.color=T.fg3; }}>
+          ↓ ATS RESUME (PDF)
+        </button>
+      </div>
+
       {/* Footer */}
-      <div style={{ marginTop:28, display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:`1px solid ${T.border}` }}>
+      <div style={{ marginTop:20, display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:`1px solid ${T.border}` }}>
         <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.1em' }}>ARCS FIELD OS · DECISION RECEIPT · ZACHARY HARRIS</span>
         <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>W: JUNE 2026 · Y: GREEN · NCI: 87 · RENDER: {depth.toUpperCase()}</span>
       </div>
