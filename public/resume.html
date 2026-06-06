@@ -159,25 +159,27 @@ function SegSlider({ options, value, onChange, style }) {
   );
 }
 
-// ── Chip ──────────────────────────────────────────────────────────────────────
+// ── Chip — governance tag shape: full pill, mono, no glyph ───────────────────
 function Chip({ label, selected, accent=T.green, dim=false }) {
   const [h,setH] = useState(false);
   return (
-    <button type="button" onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
-      style={{ display:'inline-flex', alignItems:'center', gap:5, overflow:'hidden',
-        padding:'6px 12px', fontSize:11, borderRadius:7, lineHeight:1,
-        fontFamily:T.mono, fontWeight:600, letterSpacing:'0.04em',
-        opacity: dim ? 0.3 : 1,
-        color: selected ? '#e8fcf5' : h ? T.fg1 : T.fg3,
-        border:`1px solid ${selected ? accent+'55' : h ? '#34435a' : '#1c2a38'}`,
-        background: selected ? 'linear-gradient(180deg,#0b1318,#0c1620)' : 'linear-gradient(180deg,#0c121a,#0e151e)',
+    <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+      style={{ display:'inline-flex', alignItems:'center',
+        padding:'4px 11px', borderRadius:999, lineHeight:1,
+        fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.07em',
+        textTransform:'uppercase', cursor:'default',
+        opacity: dim ? 0.28 : 1,
+        color: selected ? accent : h ? T.fg2 : T.fg4,
+        border:`1px solid ${selected ? `${accent}55` : h ? `${accent}28` : 'rgba(255,255,255,.09)'}`,
+        background: selected
+          ? `linear-gradient(180deg,${accent}0e,transparent), linear-gradient(180deg,#0d141c,#0a1016)`
+          : 'linear-gradient(180deg,#0c121a,#0a0f16)',
         boxShadow: selected
-          ? `inset 0 2px 5px rgba(0,0,0,.55), inset 0 -8px 12px -7px ${accent}40`
-          : `inset 0 2px 4px rgba(0,0,0,.5)`,
+          ? `inset 0 1px 0 rgba(255,255,255,.09), 0 0 8px ${accent}1e`
+          : `inset 0 1px 0 rgba(255,255,255,.06)`,
         transition:'all .15s' }}>
-      {selected && <span style={{ color:accent, lineHeight:1, fontSize:'0.9em' }}>▲</span>}
       {label}
-    </button>
+    </div>
   );
 }
 
@@ -222,7 +224,7 @@ function TribTile({ label, glyph, color=T.cyan, meta, children, expanded, onClic
       border:`1px solid ${on ? `${color}44` : h ? `${color}30` : `${color}1e`}`,
       // Emboss collapsed → signal underlight expanded
       boxShadow: on
-        ? `inset 0 1px 0 rgba(255,255,255,.12), inset 0 -10px 16px -10px ${color}44, 0 0 16px ${color}18, 0 6px 20px rgba(0,0,0,.55)`
+        ? `inset 0 1px 0 rgba(255,255,255,.12), inset 0 -10px 16px -10px ${color}44, 0 0 10px ${color}18, 0 6px 20px rgba(0,0,0,.55)`
         : h
         ? `inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 1px rgba(0,0,0,.45), 0 4px 10px rgba(0,0,0,.45)`
         : `inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 1px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.45)`,
