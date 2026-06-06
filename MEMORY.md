@@ -35,6 +35,11 @@
 - This branch touched ZERO infra: no Vercel/env/DB/migration changes. Deploy + DB facts carried forward unchanged.
 - `/arcs-handoff` (local slash command) does not exist in cloud; `/handoff` skill is the equivalent.
 
+### Cross-repo serialization decision (2026-06-06) — DO NOT RE-IMPLEMENT HERE
+- The branch-serialization / "deep write lock" protocol is **canonically owned by the Perplexity-space ARCS instance.** A parallel implementation was started in arcs-v9 this session (protocol doc + `write-lock.json` + `arcs_write_lock.py`) and **discarded before commit** — building a second copy is the exact cross-instance drift the protocol exists to prevent (dual-bar-raiser: Architect-routed, forking flag raised, user routed DISCARD).
+- **Chosen design = per-branch state files:** each branch owns `_STATE/branch-<slug>.json`, never overwrites the shared snapshot/session-state; `main` reconciles on merge (conflict-free by construction). arcs-v9 ADOPTS this convention for `/handoff`; it does NOT host the lock-manager. Future sessions: do not rebuild the engine here — pull from the Perplexity instance if arcs-v9 ever needs it.
+- `/dual-bar-raiser` has no cloud-skill equivalent; applied manually this session.
+
 ### P-track / next
 | Track | Status |
 |---|---|
