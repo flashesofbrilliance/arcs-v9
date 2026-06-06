@@ -318,14 +318,13 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient }) {
   );
 }
 
-// ── 02 Select Consulting Work — accordion section ─────────────────────────────
+// ── 02 Select Consulting Work — nested TribTile pattern, mirrors 01 ───────────
 function ConsultingSection({ selectedClient, onSelectClient }) {
   const [open, setOpen] = useState(false);
-  const client = CONSULTING_CLIENTS.find(c => c.id === selectedClient);
 
   return (
     <div style={{ marginTop:8 }}>
-      {/* Section header — matches 01 EXPERIENCE pattern */}
+      {/* Section header — same pattern as 01 EXPERIENCE */}
       <button type="button" onClick={() => setOpen(o => !o)}
         style={{ display:'flex', alignItems:'center', width:'100%', padding:'10px 0 8px',
           background:'transparent', border:'none', borderTop:`1px solid ${T.border}`,
@@ -335,56 +334,33 @@ function ConsultingSection({ selectedClient, onSelectClient }) {
           letterSpacing:'0.06em' }}>{open ? '▲ collapse' : '▼ expand'}</span>
       </button>
 
-      {/* Client picker — visible when open */}
-      {open && !client && (
-        <div style={{ display:'flex', flexDirection:'column', gap:3, paddingTop:8, animation:'slideDown .15s ease both' }}>
+      {/* All 5 clients as TribTiles — same expand/collapse as FT roles above */}
+      {open && (
+        <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:6,
+          animation:'slideDown .15s ease both' }}>
           {CONSULTING_CLIENTS.map(c => (
-            <button key={c.id} type="button"
-              onClick={() => onSelectClient(c.id)}
-              style={{ display:'flex', alignItems:'center', gap:12, padding:'8px 14px',
-                background:'transparent', border:`1px solid ${T.border}22`, borderRadius:7,
-                cursor:'pointer', textAlign:'left', transition:'all .12s' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor=`${T.steel}44`; e.currentTarget.style.opacity='1'; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor=`${T.border}22`; e.currentTarget.style.opacity='0.75'; }}
-              style2={{ opacity:0.75 }}>
-              <div style={{ flex:1 }}>
-                <div style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, color:T.fg2, letterSpacing:'0.06em' }}>{c.label}</div>
-                <div style={{ fontFamily:T.mono, fontSize:8, color:T.fg4, marginTop:2 }}>{c.domain} · {c.dates}</div>
-              </div>
-              <span style={{ fontFamily:T.mono, fontSize:8, color:T.fg4 }}>▶</span>
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Selected client detail — always visible when client chosen */}
-      {client && (
-        <div style={{ paddingTop:8, animation:'fadeUp .18s ease both' }}>
-          {/* Back link */}
-          <button type="button" onClick={() => { onSelectClient(null); setOpen(true); }}
-            style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, background:'none', border:'none',
-              cursor:'pointer', letterSpacing:'0.06em', paddingBottom:8, display:'block' }}>
-            ← ALL CONSULTING
-          </button>
-          <TribTile label={client.label.toUpperCase()} glyph="◻" color={T.steel}
-            meta={`${client.domain} · ${client.dates}`}
-            expanded={
-              <div style={{ animation:'slideDown .18s ease both' }}>
-                <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:14 }}>
-                  <span style={{ fontFamily:T.sans, fontSize:'1.7rem', fontWeight:700, color:T.steel, lineHeight:1 }}>{client.metric}</span>
-                  <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.1em', textTransform:'uppercase' }}>{client.metricLabel}</span>
-                </div>
-                {client.bullets.map((b,i) => (
-                  <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
-                    <span style={{ color:T.steel, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
-                    <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
+            <TribTile key={c.id} label={c.label.toUpperCase()} glyph="◻" color={T.steel}
+              meta={`${c.domain} · ${c.dates}`}
+              expanded={selectedClient === c.id ? (
+                <div style={{ animation:'slideDown .18s ease both' }}>
+                  <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:14 }}>
+                    <span style={{ fontFamily:T.sans, fontSize:'1.7rem', fontWeight:700,
+                      color:T.steel, lineHeight:1 }}>{c.metric}</span>
+                    <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4,
+                      letterSpacing:'0.1em', textTransform:'uppercase' }}>{c.metricLabel}</span>
                   </div>
-                ))}
-              </div>
-            }
-            onClick={() => {}}>
-            {client.summary}
-          </TribTile>
+                  {c.bullets.map((b,i) => (
+                    <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                      <span style={{ color:T.steel, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
+                      <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              onClick={() => onSelectClient(selectedClient === c.id ? null : c.id)}>
+              {c.summary}
+            </TribTile>
+          ))}
         </div>
       )}
     </div>
