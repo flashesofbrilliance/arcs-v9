@@ -428,6 +428,15 @@ const ROLES = [
       { t:'Data pipeline infrastructure at SEC/FINRA compliance thresholds; reduced release cycle time by 35% through automated QA instrumentation', v:['all','ds'] },
       { t:'Translated regulatory constraints into data governance requirements covering collection, storage, and usage across all investor surfaces', v:['all','ds'] },
     ] },
+  { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
+    dates:'2018–2019', role:'Sr. Director of Data & CRM Strategy',
+    summary:'Enterprise CDP and CRM strategy: primary data architecture owner. Segmentation engine across marketing, fundraising, and clinical operations. 20% revenue growth through data-driven personalization.',
+    metric:'20%', metricLabel:'REVENUE LIFT VIA DATA PERSONALIZATION',
+    bullets:[
+      { t:'Led enterprise-wide CDP and CRM strategy end-to-end: process mapping, vendor evaluation, Salesforce Lightning modernization', v:['all','ds'] },
+      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units', v:['all','ds'] },
+      { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and growth instrumentation', v:['all','ds'] },
+    ] },
   { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
     dates:'2016–2018', role:'Product & Partnerships Lead',
     summary:'Real-time fan behavior forecasting at <120ms latency. CDP evaluation and selection for a global consumer sports platform. $850K+ in year-one revenue from social distribution partnerships.',
@@ -437,15 +446,6 @@ const ROLES = [
       { t:'Built predictive fan behavior forecasting and real-time scoring infrastructure enabling personalized offers at <120ms latency', v:['all','ds'] },
       { t:'Designed first social distribution partnerships with Twitter and Facebook — behavioral data flows, attribution models; $850K+ year-one revenue', v:['all','ds'] },
       { t:'Platform stress-testing and load simulations to surface OVP bottlenecks; data-informed reliability engineering for Women\'s Finals', v:['all','ds'] },
-    ] },
-  { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
-    dates:'2018–2019', role:'Sr. Director of Data & CRM Strategy',
-    summary:'Enterprise CDP and CRM strategy: primary data architecture owner. Segmentation engine across marketing, fundraising, and clinical operations. 20% revenue growth through data-driven personalization.',
-    metric:'20%', metricLabel:'REVENUE LIFT VIA DATA PERSONALIZATION',
-    bullets:[
-      { t:'Led enterprise-wide CDP and CRM strategy end-to-end: process mapping, vendor evaluation, Salesforce Lightning modernization', v:['all','ds'] },
-      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units', v:['all','ds'] },
-      { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and growth instrumentation', v:['all','ds'] },
     ] },
 ];
 
@@ -759,11 +759,9 @@ function DeepScan() {
 
   return (
     <div style={{ marginTop:28, animation:'fadeUp .4s ease both' }}>
-      {/* Scan header */}
-      <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16, paddingTop:20, borderTop:`1px solid ${T.border}` }}>
-        <div style={{ width:8, height:8, borderRadius:'50%', background:T.cyan, boxShadow:`0 0 8px ${T.cyan}` }} />
-        <SectionLabel style={{ margin:0 }}>DEEP PROFILE</SectionLabel>
-        
+      {/* Scan header — matches 01 EXPERIENCE pattern */}
+      <div style={{ paddingTop:20, borderTop:`1px solid ${T.border}`, marginBottom:16 }}>
+        <SectionLabel index="02">Deep Profile</SectionLabel>
       </div>
 
       {/* Scan pipeline */}
@@ -939,31 +937,30 @@ function Resume() {
   return (
     <div className="page">
 
-      {/* ── Header — always visible ───────────────────────────────────── */}
-      <div style={{ display:'flex', flexDirection:'column', gap:5, marginBottom:20 }}>
-        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
-          <div>
-            <h1 style={{ fontFamily:T.sans, fontSize:'2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
-              ZACHARY HARRIS
-            </h1>
-            <div style={{ fontFamily:T.mono, fontSize:10, color:T.fg3, marginTop:7, letterSpacing:'0.06em' }}>
-              Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
-            </div>
-            <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, marginTop:5 }}>
-              Product Intelligence Leader  ·  Analytical Builder  ·  <span style={{ color:T.cyan }}>Figma Practitioner</span>
-            </div>
+      {/* ── Sticky above-fold block — always visible ──────────────────── */}
+      <div style={{ position:'sticky', top:0, zIndex:50,
+        background:`linear-gradient(180deg, ${T.bg} 85%, transparent)`,
+        paddingTop:24, paddingBottom:16, marginBottom:4 }}>
+        {/* Name / contact */}
+        <div style={{ marginBottom:16 }}>
+          <h1 style={{ fontFamily:T.sans, fontSize:'2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
+            ZACHARY HARRIS
+          </h1>
+          <div style={{ fontFamily:T.mono, fontSize:10, color:T.fg3, marginTop:7, letterSpacing:'0.06em' }}>
+            Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
+          </div>
+          <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, marginTop:5 }}>
+            Product Intelligence Leader  ·  Analytical Builder  ·  <span style={{ color:T.cyan }}>Figma Practitioner</span>
           </div>
         </div>
-      </div>
-
-      {/* ── True North — always visible; sharp/deep override replaces inline ── */}
-      <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom:20 }}>
-        {TRUE_NORTH.all.text}
-      </TrueNorthPanel>
-
-      {/* ── Depth selector — SegSlider with the actual design system component ── */}
-      <div className="no-print" style={{ marginBottom:20 }}>
-        <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
+        {/* True North */}
+        <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom:14 }}>
+          {TRUE_NORTH.all.text}
+        </TrueNorthPanel>
+        {/* Depth selector */}
+        <div className="no-print">
+          <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
+        </div>
       </div>
 
       {/* ── Content layers ───────────────────────────────────────────── */}
