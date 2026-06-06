@@ -319,13 +319,12 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient }) {
 }
 
 // ── 02 Select Consulting Work — nested TribTile pattern, mirrors 01 ───────────
-function ConsultingSection({ selectedClient, onSelectClient }) {
-  const [open, setOpen] = useState(false);
+function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
 
   return (
     <div style={{ marginTop:8 }}>
       {/* Section header — same pattern as 01 EXPERIENCE */}
-      <button type="button" onClick={() => setOpen(o => !o)}
+      <button type="button" onClick={onToggle}
         style={{ display:'flex', alignItems:'center', width:'100%', padding:'10px 0 8px',
           background:'transparent', border:'none', borderTop:`1px solid ${T.border}`,
           cursor:'pointer', gap:8 }}>
@@ -622,10 +621,13 @@ function GrainResume() {
 // SHARP — full interactive resume
 // ─────────────────────────────────────────────────────────────────────────────
 function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClient }) {
-  const [manualExpanded, setManualExpanded] = useState(null);
+  const [manualExpanded,   setManualExpanded]   = useState(null);
+  const [consultingOpen,   setConsultingOpen]   = useState(false);
+
   const expanded = selectedNode
     ? (TRAJ.find(n=>n.id===selectedNode)?.roleId || null)
     : manualExpanded;
+
   const toggle = id => {
     if (selectedNode && TRAJ.find(n=>n.id===selectedNode)?.roleId === id) {
       onSelectNode(null);
@@ -633,6 +635,13 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
       setManualExpanded(e => e===id ? null : id);
     }
   };
+
+  // When consulting opens, clear any expanded FT role
+  const toggleConsulting = () => {
+    setConsultingOpen(o => !o);
+    if (!consultingOpen) { onSelectNode(null); setManualExpanded(null); }
+  };
+
   const client = CONSULTING_CLIENTS.find(c => c.id === selectedClient);
 
   return (
@@ -643,13 +652,13 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
       <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
       <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode} onSelectClient={onSelectClient} />
       <div style={{ marginBottom:8 }} />
-      {/* When a consulting client is active: FT roles collapse to spine labels */}
-      <div style={{ display:'flex', flexDirection:'column', gap: client ? 3 : 6, marginBottom:10 }}>
+      {/* When consulting is open: FT roles collapse to spine labels */}
+      <div style={{ display:'flex', flexDirection:'column', gap: consultingOpen ? 3 : 6, marginBottom:10 }}>
         {ROLES.map(r => {
-          // CATALOGUE MODE — consulting selected: ultra-compressed spine card
-          if (client) return (
+          // CATALOGUE MODE — consulting open: ultra-compressed spine card
+          if (consultingOpen) return (
             <div key={r.id}
-              onClick={() => { onSelectClient(null); toggle(r.id); }}
+              onClick={() => { setConsultingOpen(false); toggle(r.id); }}
               style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 14px',
                 borderRadius:7, cursor:'pointer', transition:'all .15s',
                 border:`1px solid ${r.color}22`,
@@ -691,7 +700,8 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
       </div>
 
       {/* 02 — Select Consulting Work */}
-      <ConsultingSection selectedClient={selectedClient} onSelectClient={onSelectClient} />
+      <ConsultingSection selectedClient={selectedClient} onSelectClient={onSelectClient}
+        open={consultingOpen} onToggle={toggleConsulting} />
 
       {/* 03 — Skills */}
       <SectionLabel index="03" style={{ marginBottom:10, marginTop:20 }}>Skills</SectionLabel>
