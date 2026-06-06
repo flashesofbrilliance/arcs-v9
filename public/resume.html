@@ -905,15 +905,25 @@ function Resume() {
   const [depth,          setDepth]          = useState('sharp');
   const [selectedNode,   setSelectedNode]   = useState('arcs');
   const [selectedClient, setSelectedClient] = useState(null);
-  const [headerH,        setHeaderH]        = useState(0);
+  const [headerH,  setHeaderH]  = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const headerRef = useRef(null);
 
-  // Measure header height dynamically so content padding stays accurate
+  // Measure header height for spacer
   useEffect(() => {
     if (!headerRef.current) return;
     const obs = new ResizeObserver(entries => setHeaderH(entries[0].contentRect.height));
     obs.observe(headerRef.current);
     return () => obs.disconnect();
+  }, []);
+
+  // Disable fixed header on mobile portrait
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = e => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
   const showRich   = depth === 'sharp' || depth === 'superionic';
@@ -925,12 +935,16 @@ function Resume() {
   return (
     <div className="page">
 
-      {/* ── Fixed header — truly pinned, never moves ──────────────────── */}
+      {/* ── Header — fixed on desktop, scrolls on mobile ─────────────── */}
       <div ref={headerRef} style={{
-        position:'fixed', top:0, left:0, right:0, zIndex:50,
+        position: isMobile ? 'relative' : 'fixed',
+        top: isMobile ? 'auto' : 0,
+        left: isMobile ? 'auto' : 0,
+        right: isMobile ? 'auto' : 0,
+        zIndex: 50,
         background: T.bg,
         borderBottom: `1px solid ${T.border}`,
-        padding:'20px 0 14px',
+        padding: isMobile ? '24px 0 14px' : '20px 0 14px',
       }}>
         <div style={{ maxWidth:860, margin:'0 auto', padding:'0 24px' }}>
           {/* Name / contact */}
@@ -953,8 +967,8 @@ function Resume() {
         </div>
       </div>
 
-      {/* ── Spacer — exact height of fixed header, keeps content clear ── */}
-      <div style={{ height: headerH + 20 }} />
+      {/* Spacer — only needed when header is fixed (desktop) */}
+      {!isMobile && <div style={{ height: headerH + 20 }} />}
 
       {/* ── Scrollable content ───────────────────────────────────────────── */}
       {showSimple && <GrainResume />}
