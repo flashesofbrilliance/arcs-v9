@@ -919,49 +919,57 @@ function DeepScan() {
 // ─────────────────────────────────────────────────────────────────────────────
 function Resume() {
   const [depth,          setDepth]          = useState('sharp');
-  const [selectedNode,   setSelectedNode]   = useState('arcs'); // default ARCS open
+  const [selectedNode,   setSelectedNode]   = useState('arcs');
   const [selectedClient, setSelectedClient] = useState(null);
-  const [nciReady,       setNciReady]       = useState(false);
+  const [headerH,        setHeaderH]        = useState(0);
+  const headerRef = useRef(null);
 
-  useEffect(() => { const t = setTimeout(() => setNciReady(true), 300); return () => clearTimeout(t); }, []);
+  // Measure header height dynamically so content padding stays accurate
+  useEffect(() => {
+    if (!headerRef.current) return;
+    const obs = new ResizeObserver(entries => setHeaderH(entries[0].contentRect.height));
+    obs.observe(headerRef.current);
+    return () => obs.disconnect();
+  }, []);
 
-  const showRich  = depth === 'sharp' || depth === 'superionic';
+  const showRich   = depth === 'sharp' || depth === 'superionic';
   const showDeep   = depth === 'superionic';
   const showSimple = depth === 'grain';
   const [resumeCollapsed, setResumeCollapsed] = useState(false);
-  // Reset collapsed state when leaving PIXEL PERFECT
   useEffect(() => { if (depth !== 'superionic') setResumeCollapsed(false); }, [depth]);
 
   return (
-    <div className="page">
+    <div className="page" style={{ paddingTop: headerH + 16 }}>
 
-      {/* ── Sticky above-fold block — always visible ──────────────────── */}
-      <div style={{ position:'sticky', top:0, zIndex:50,
-        background:`linear-gradient(180deg, ${T.bg} 85%, transparent)`,
-        paddingTop:24, paddingBottom:16, marginBottom:4 }}>
-        {/* Name / contact */}
-        <div style={{ marginBottom:16 }}>
-          <h1 style={{ fontFamily:T.sans, fontSize:'2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
-            Zach Harris
-          </h1>
-          <div style={{ fontFamily:T.mono, fontSize:10, color:T.fg3, marginTop:7, letterSpacing:'0.06em' }}>
-            Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
+      {/* ── Fixed header — truly pinned, never moves ──────────────────── */}
+      <div ref={headerRef} style={{
+        position:'fixed', top:0, left:0, right:0, zIndex:50,
+        background: T.bg,
+        borderBottom: `1px solid ${T.border}`,
+        padding:'20px 0 14px',
+      }}>
+        <div style={{ maxWidth:860, margin:'0 auto', padding:'0 24px' }}>
+          {/* Name / contact */}
+          <div style={{ marginBottom:14 }}>
+            <h1 style={{ fontFamily:T.sans, fontSize:'2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
+              Zach Harris
+            </h1>
+            <div style={{ fontFamily:T.mono, fontSize:10, color:T.fg3, marginTop:7, letterSpacing:'0.06em' }}>
+              Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
+            </div>
           </div>
-          <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, marginTop:5 }}>
-            Product Intelligence Leader  ·  Analytical Builder  ·  <span style={{ color:T.cyan }}>Figma Practitioner</span>
+          {/* True North */}
+          <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom:12 }}>
+            {TRUE_NORTH.all.text}
+          </TrueNorthPanel>
+          {/* Depth selector */}
+          <div className="no-print">
+            <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
           </div>
-        </div>
-        {/* True North */}
-        <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom:14 }}>
-          {TRUE_NORTH.all.text}
-        </TrueNorthPanel>
-        {/* Depth selector */}
-        <div className="no-print">
-          <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
         </div>
       </div>
 
-      {/* ── Content layers ───────────────────────────────────────────── */}
+      {/* ── Scrollable content ───────────────────────────────────────────── */}
       {showSimple && <GrainResume />}
 
       {/* WIREFRAME — collapsible when PIXEL PERFECT is active */}
