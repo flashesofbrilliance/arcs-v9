@@ -925,7 +925,7 @@ function Resume() {
   useEffect(() => { if (depth !== 'superionic') setResumeCollapsed(false); }, [depth]);
 
   return (
-    <div className="page" style={{ paddingTop: headerH + 16 }}>
+    <div className="page">
 
       {/* ── Fixed header — truly pinned, never moves ──────────────────── */}
       <div ref={headerRef} style={{
@@ -954,6 +954,9 @@ function Resume() {
           </div>
         </div>
       </div>
+
+      {/* ── Spacer — exact height of fixed header, keeps content clear ── */}
+      <div style={{ height: headerH + 20 }} />
 
       {/* ── Scrollable content ───────────────────────────────────────────── */}
       {showSimple && <GrainResume />}
