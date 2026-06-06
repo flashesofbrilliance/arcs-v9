@@ -283,11 +283,12 @@ function Steps({ labels, current }) {
   );
 }
 
-// ── Role tab bar — FT roles only (ARCS / GRAYSCALE / CTF / WTA) ──────────────
-function RoleTabs({ selectedNode, onSelect, onSelectClient }) {
+// ── Role tab bar — ARCS / GRAYSCALE / CTF / WTA / CONSULTING ─────────────────
+function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onConsultingToggle }) {
   const [hovered, setHovered] = useState(null);
   return (
     <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
+      {/* FT role tabs */}
       {TRAJ.map(n => {
         const role  = ROLES.find(r => r.id === n.roleId);
         const color = role?.color || T.steel;
@@ -295,7 +296,7 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient }) {
         const hot    = hovered === n.id;
         return (
           <button key={n.id} type="button"
-            onClick={() => { onSelectClient(null); onSelect(active ? null : n.id); }}
+            onClick={() => { onSelectClient(null); onSelect(active ? null : n.id); if (consultingOpen) onConsultingToggle(); }}
             onMouseEnter={() => setHovered(n.id)}
             onMouseLeave={() => setHovered(null)}
             style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
@@ -314,6 +315,26 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient }) {
           </button>
         );
       })}
+      {/* CONSULTING tab — same mechanics, toggles section 02 */}
+      <button type="button"
+        onClick={() => { onSelect(null); onSelectClient(null); onConsultingToggle(); }}
+        onMouseEnter={() => setHovered('consulting')}
+        onMouseLeave={() => setHovered(null)}
+        style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
+          padding:'10px 4px 7px', background:'transparent', border:'none',
+          borderBottom: consultingOpen ? `2px solid ${T.steel}` : '2px solid transparent',
+          marginBottom:-1, cursor:'pointer', transition:'all .15s',
+          opacity: consultingOpen ? 1 : hovered==='consulting' ? 0.75 : 0.45 }}>
+        <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
+          color: consultingOpen ? T.steel : hovered==='consulting' ? T.fg1 : T.fg3,
+          transition:'color .15s', whiteSpace:'nowrap' }}>
+          CONSULTING
+        </span>
+        <span style={{ fontFamily:T.mono, fontSize:7.5, color: consultingOpen ? T.steel : T.fg4,
+          letterSpacing:'0.04em', marginTop:3, opacity: consultingOpen ? 0.75 : 0.5 }}>
+          2019–24
+        </span>
+      </button>
     </div>
   );
 }
@@ -323,15 +344,11 @@ function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
 
   return (
     <div style={{ marginTop:8 }}>
-      {/* Section header — same pattern as 01 EXPERIENCE */}
-      <button type="button" onClick={onToggle}
-        style={{ display:'flex', alignItems:'center', width:'100%', padding:'10px 0 8px',
-          background:'transparent', border:'none', borderTop:`1px solid ${T.border}`,
-          cursor:'pointer', gap:8 }}>
+      {/* Section label — tab above controls open/close */}
+      <div style={{ display:'flex', alignItems:'center', padding:'10px 0 8px',
+        borderTop:`1px solid ${T.border}` }}>
         <SectionLabel index="02">Select Consulting Work</SectionLabel>
-        <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:9, color:T.fg4,
-          letterSpacing:'0.06em' }}>{open ? '▲ collapse' : '▼ expand'}</span>
-      </button>
+      </div>
 
       {/* All 5 clients as TribTiles — same expand/collapse as FT roles above */}
       {open && (
@@ -650,7 +667,8 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
 
       {/* 01 — FT Experience */}
       <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
-      <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode} onSelectClient={onSelectClient} />
+      <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode} onSelectClient={onSelectClient}
+        consultingOpen={consultingOpen} onConsultingToggle={toggleConsulting} />
       <div style={{ marginBottom:8 }} />
       {/* When consulting is open: FT roles collapse to spine labels */}
       <div style={{ display:'flex', flexDirection:'column', gap: consultingOpen ? 3 : 6, marginBottom:10 }}>
