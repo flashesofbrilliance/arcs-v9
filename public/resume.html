@@ -797,6 +797,15 @@ function DeepScan() {
   const [open, setOpen] = useState(null);
   const tog = id => setOpen(o => o===id ? null : id);
 
+  // Glass card — premium hardware container from design system
+  const glass = (extra={}) => ({
+    borderRadius:10,
+    border:'1px solid rgba(255,255,255,.08)',
+    background:'linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)), #0d1117',
+    boxShadow:'inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 1px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.45)',
+    ...extra
+  });
+
   return (
     <div style={{ marginTop:28, animation:'fadeUp .4s ease both' }}>
       {/* Scan header — matches 01 EXPERIENCE pattern */}
@@ -806,86 +815,87 @@ function DeepScan() {
 
       <div style={{ height:1, background:`linear-gradient(90deg,${T.cyan}44,${T.border}22)`, marginBottom:20 }} />
 
-      {/* Zone of Genius */}
-      <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:12 }}>
-        Builds measurement systems for things that don't have categories yet — then becomes the first and most demanding analyst of what he built. The practitioner-analyst fusion: he can't analyze well what he hasn't built, and can't build right without the analytical feedback loop. This combination is rare and difficult to hire for because most job descriptions separate the two.
+      {/* Core Strengths — TrueNorthPanel, cyan is the only signal in this section */}
+      <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:16 }}>
+        Builds measurement systems for things that don't have categories yet — then becomes the first and most demanding analyst of what he built. The practitioner-analyst fusion: can't analyze well what he hasn't built, can't build right without the analytical feedback loop. This combination is rare because most job descriptions separate the two.
       </TrueNorthPanel>
 
-      {/* Energizers / Drainers */}
+      {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
       <SectionLabel style={{ marginBottom:10 }}>ENERGY PROFILE</SectionLabel>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
-        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-          <WeatherBar icon="▲" label="ENERGIZERS" color={T.green} right="HIGH SIGNAL" />
-          {[
-            'First instrumentation layer — no playbook, invent the taxonomy',
-            'Cross-domain synthesis — connecting what specialists keep separate',
-            'High-stakes contexts where measurement actually matters',
-            'Fog-to-clarity arc — entering ambiguous terrain and earning structure',
-            'The moment instrumentation reveals what the team didn\'t know to ask',
-            'Building the thing, then becoming the analyst of what you built',
-          ].map((e,i) => (
-            <div key={i} style={{ display:'flex', gap:8, paddingLeft:8 }}>
-              <span style={{ color:T.green, fontSize:10, marginTop:2, flexShrink:0 }}>▲</span>
-              <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg1, lineHeight:1.55 }}>{e}</span>
-            </div>
-          ))}
-        </div>
-        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-          <WeatherBar icon="▼" label="DRAINERS" color={T.red} right="WATCH" />
-          {[
-            'Pure optimization of existing systems once built and proven — attention depletes',
-            'Statistical / ML work disconnected from product decisions (no "so what")',
-            'Heavily siloed work where cross-domain synthesis isn\'t valued',
-            'Work that lives permanently in presentation layer, never reaches production',
-            'Bureaucratic multi-stakeholder consensus without clear decision authority',
-          ].map((e,i) => (
-            <div key={i} style={{ display:'flex', gap:8, paddingLeft:8 }}>
-              <span style={{ color:`${T.red}88`, fontSize:10, marginTop:2, flexShrink:0 }}>▼</span>
-              <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
-            </div>
-          ))}
+      <div style={{ ...glass({ padding:'16px 18px', marginBottom:20 }) }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:0 }}>
+          <div style={{ paddingRight:20 }}>
+            <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
+              color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Activates</div>
+            {['First instrumentation layer — no playbook, invent the taxonomy',
+              'Cross-domain synthesis — connecting what specialists keep separate',
+              'High-stakes contexts where measurement actually matters',
+              'The moment instrumentation reveals what the team didn't know to ask',
+              'Building the thing, then becoming its first analyst',
+            ].map((e,i) => (
+              <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                <span style={{ color:T.fg4, fontSize:9, marginTop:2, flexShrink:0 }}>—</span>
+                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ paddingLeft:20, borderLeft:'1px solid rgba(255,255,255,.06)' }}>
+            <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
+              color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Depletes</div>
+            {['Pure optimization once built and proven — attention drops',
+              'ML / stat work disconnected from product decisions (no "so what")',
+              'Siloed contexts where cross-domain synthesis isn't valued',
+              'Work that lives permanently in presentations, never ships',
+              'Bureaucratic consensus without clear decision authority',
+            ].map((e,i) => (
+              <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                <span style={{ color:T.fg4, fontSize:9, marginTop:2, flexShrink:0 }}>—</span>
+                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Constructive Interference */}
+      {/* Compound Advantages — TribTile, all steel (no rainbow) */}
       <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
-          { id:'ci1', glyph:'⊗', color:T.cyan, label:'Studio Art × Data Architecture',
+          { id:'ci1', glyph:'⊗', label:'Studio Art × Data Architecture',
             meta:'Oberlin 2006 × 10yr career',
-            summary:'Aesthetic intelligence applied to analytical infrastructure — data products that get used because they\'re designed to be understood, not just accurate.',
+            summary:'Aesthetic intelligence applied to analytical infrastructure — data products that get used because they're designed to be understood, not just accurate.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                The Oberlin Studio Art degree isn't a liability in a DS role at a design company — it's the compound advantage. Most data scientists build dashboards that are technically correct and behaviorally unused. The aesthetic judgment ("this visualization is ugly therefore ignored") fires before the data confirms low engagement.
+                The Oberlin Studio Art degree isn't a liability in a DS role at a design company — it's the compound advantage. Most data scientists build dashboards that are technically correct and behaviorally unused. The aesthetic judgment fires before the data confirms low engagement.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                For Figma specifically: the company builds tools for designers. An analyst who understands <em>why</em> a design feels right — not just what the usage data says — can ask better product questions.
+                For Figma: the company builds tools for designers. An analyst who understands <em>why</em> a design feels right — not just what the usage data says — asks better product questions.
               </p>
             </> },
-          { id:'ci2', glyph:'⊗', color:T.green, label:'WTA Fan Behavior (2016) × Figma Developer Workflow (2026)',
-            meta:'10-year isomorphism — verified Tier 1',
-            summary:'WTA fan modeling at <120ms and Figma Dev Mode analytics are the same instrumentation class: a user in flow state, a product that needs to surface the right action at the right moment without breaking the flow.',
+          { id:'ci2', glyph:'⊗', label:'WTA Fan Behavior (2016) × Figma Developer Workflow (2026)',
+            meta:'10-year isomorphism — Tier 1 verified',
+            summary:'WTA fan modeling at <120ms and Figma Dev Mode are the same instrumentation class: user in flow state, product needs to surface the right action without breaking the flow.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                At WTA (2016–2018): fan in a live event → personalized offer delivered at <strong style={{ color:T.fg1 }}>{"<"}120ms latency</strong>. The constraint was: instrument the flow, detect intent, deliver without friction, measure what converted vs. what interrupted. The architecture had to be real-time because a delayed offer during a break was worthless.
+                At WTA (2016–2018): fan in a live event → personalized offer at {"<"}120ms. Instrument the flow, detect intent, deliver without friction. The architecture had to be real-time because a delayed offer was worthless.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                2026 Figma Dev Mode: developer in a design-to-code flow → the product needs to surface the right component at the right moment. The instrumentation class is identical — flow state, intent signal, friction measurement, conversion. The WTA architecture was the same problem, 10 years earlier. That's not a coincidence. It's the analytical pattern.
+                2026 Figma Dev Mode: developer in design-to-code flow. Same problem — flow state, intent signal, friction measurement. The WTA architecture was the same problem, 10 years earlier.
               </p>
             </> },
-          { id:'ci3', glyph:'⊗', color:T.gold, label:'Regulated Finance (Grayscale) × Consumer Analytics (WTA/CTF)',
+          { id:'ci3', glyph:'⊗', label:'Regulated Finance (Grayscale) × Consumer Analytics (WTA/CTF)',
             meta:'Compliance × growth compound',
-            summary:'Knows what CAN\'T be tracked (regulatory) and what SHOULD be tracked (product growth). Creates data products that are both legally defensible and analytically useful — rare at companies navigating regulatory complexity.',
+            summary:'Knows what CAN'T be tracked (regulatory) and what SHOULD be tracked (product growth). Data products that are legally defensible and analytically useful.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                SEC/FINRA constraints at Grayscale taught a discipline most consumer DS never face: <strong style={{ color:T.fg1 }}>when data collection itself is a liability</strong>, the instrumentation decisions have to be architecturally sound, not just analytically interesting.
+                SEC/FINRA constraints at Grayscale taught a discipline most consumer DS never face: when data collection is a liability, instrumentation decisions have to be architecturally sound, not just analytically interesting.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
-                Paired with WTA consumer analytics (fan behavior at scale, real-time offers, conversion modeling), the compound is: growth instrumentation that survives scrutiny. Relevant for Figma as it scales into enterprise.
+                Paired with WTA consumer analytics, the compound is growth instrumentation that survives legal scrutiny. Relevant for Figma as it scales into enterprise.
               </p>
             </> },
         ].map(t => (
-          <TribTile key={t.id} glyph={t.glyph} label={t.label} color={t.color} meta={t.meta}
+          <TribTile key={t.id} glyph={t.glyph} label={t.label} color={T.steel} meta={t.meta}
             expanded={open===t.id ? t.detail : null}
             onClick={() => tog(t.id)}>
             {t.summary}
@@ -893,63 +903,69 @@ function DeepScan() {
         ))}
       </div>
 
-      {/* Productive Discord */}
+      {/* Productive Tensions — instrument gauge cards, uniform steel palette */}
       <SectionLabel style={{ marginBottom:10 }}>PRODUCTIVE TENSIONS</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8, marginBottom:20 }}>
         {[
-          { color:T.violet, label:'Builder ↔ Analyst', desc:'Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.' },
-          { color:T.cyan,   label:'Aesthetic ↔ Rigor', desc:'"This metric is ugly therefore unused" fires before statistical validation confirms it. The aesthetic judgment accelerates the analytical loop.' },
-          { color:T.green,  label:'Pioneer ↔ Production', desc:'Drawn to new territory (ARCS, shoppable video, crypto) but has the regulated-environment discipline to ship in high-stakes contexts. Valuable exactly where new products need to be production-grade from day one.' },
+          { label:'Builder ↔ Analyst',
+            desc:'Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.' },
+          { label:'Aesthetic ↔ Rigor',
+            desc:'"This metric is ugly therefore unused" fires before statistical validation confirms it. Aesthetic judgment accelerates the analytical loop.' },
+          { label:'Pioneer ↔ Production',
+            desc:'Drawn to new territory but has the regulated-environment discipline to ship in high-stakes contexts. Valuable where new products need to be production-grade from day one.' },
         ].map((d,i) => (
-          <div key={i} style={{ padding:'12px 14px', borderRadius:8,
-            border:`1px solid ${d.color}2a`,
-            background:`linear-gradient(160deg,rgba(255,255,255,.04),rgba(0,0,0,.15)), linear-gradient(165deg,${d.color}0c,#0a1118)` }}>
-            <div style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, color:d.color, letterSpacing:'0.06em', marginBottom:8 }}>{d.label}</div>
+          <div key={i} style={{ ...glass({ padding:'14px 16px' }) }}>
+            <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.1em',
+              textTransform:'uppercase', color:T.fg3, marginBottom:8,
+              paddingBottom:8, borderBottom:'1px solid rgba(255,255,255,.06)' }}>{d.label}</div>
             <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6 }}>{d.desc}</div>
           </div>
         ))}
       </div>
 
-      {/* JTBD Fit */}
+      {/* Role Fit — glass cards, ID badge in steel, only FIGMA tag gets cyan */}
       <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
         {[
-          { id:'A', color:T.cyan,  match:true,  label:'Make the invisible legible',
-            desc:'First instrumentation layer for a product area with no measurement framework yet. Greenfield analytics where the taxonomy has to be invented.',
-            figma:'Dev Mode / Code Connect are relatively new — the instrumentation layer IS greenfield. This is JTBD A.' },
-          { id:'B', color:T.green, match:true,  label:'Find the pattern before the category exists',
-            desc:'Product analytics at the frontier of an emerging product type. Where signals are ambiguous and the framework has to be built, not applied.',
-            figma:'Shoppable video analytics in 2009 before the category had a name. Same pattern recognition for developer workflow analytics in 2026.' },
-          { id:'C', color:T.gold,  match:true,  label:'Bridge worlds specialists can\'t cross',
-            desc:'Any context where aesthetic intelligence and analytical rigor need to coexist. Design tools, creative platforms, products where the experience IS the data.',
-            figma:'Figma is exactly this — design tool + developer tool + analytics. The Oberlin/data compound is the bridge.' },
-          { id:'D', color:T.violet,match:true,  label:'Turn the builder into the analyst',
-            desc:'Embedded DS role where practitioner depth is the asset. Where knowing what the product does from the inside changes the quality of every question.',
-            figma:'Builds on Figma MCP daily. Day-one questions: not "what does Dev Mode do?" but "why does this engagement pattern look like this?"' },
+          { id:'A', label:'Make the invisible legible',
+            desc:'First instrumentation layer where no measurement framework exists. Greenfield analytics — invent the taxonomy.',
+            figma:'Dev Mode / Code Connect are relatively new — the instrumentation layer IS greenfield.' },
+          { id:'B', label:'Find the pattern before the category exists',
+            desc:'Analytics at the frontier of an emerging product type. Signals are ambiguous, the framework has to be built, not applied.',
+            figma:'Same pattern recognition that applied to developer workflow analytics applies here.' },
+          { id:'C', label:'Bridge worlds specialists can't cross',
+            desc:'Aesthetic intelligence and analytical rigor coexisting. Design tools, creative platforms — where the experience IS the data.',
+            figma:'Figma is exactly this. The Oberlin/data compound is the bridge.' },
+          { id:'D', label:'Turn the builder into the analyst',
+            desc:'Practitioner depth as the analytical asset. Knowing the product from the inside changes the quality of every question.',
+            figma:'Builds on Figma MCP daily. "Why does this pattern look like this?" not "what does Dev Mode do?"' },
         ].map(j => (
-          <div key={j.id} style={{ padding:'14px 16px', borderRadius:8, border:`1px solid ${j.color}35`,
-            background:`linear-gradient(160deg,rgba(255,255,255,.04),rgba(0,0,0,.15)), linear-gradient(165deg,${j.color}10,#0a1118)` }}>
-            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:8 }}>
-              <span style={{ fontFamily:T.mono, fontSize:11, fontWeight:700, color:j.color, lineHeight:1,
-                width:22, height:22, borderRadius:'50%', border:`1.5px solid ${j.color}66`,
+          <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
+            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+              <span style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, color:T.fg3,
+                width:20, height:20, borderRadius:'50%', border:'1.5px solid rgba(255,255,255,.15)',
                 display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>{j.id}</span>
-              <span style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, color:j.color, letterSpacing:'0.05em' }}>{j.label}</span>
+              <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, color:T.fg2,
+                letterSpacing:'0.05em' }}>{j.label}</span>
             </div>
-            <p style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6, marginBottom:10 }}>{j.desc}</p>
-            <div style={{ padding:'8px 10px', borderRadius:6, background:`${j.color}0d`, border:`1px solid ${j.color}22` }}>
-              <span style={{ fontFamily:T.mono, fontSize:8.5, color:j.color, letterSpacing:'0.06em', textTransform:'uppercase', marginRight:6 }}>FIGMA MATCH ▲</span>
+            <p style={{ fontFamily:T.sans, fontSize:12, color:T.fg3, lineHeight:1.6, marginBottom:10 }}>{j.desc}</p>
+            <div style={{ padding:'8px 10px', borderRadius:7,
+              background:'linear-gradient(180deg,#090d12,#0c1219)',
+              boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)',
+              border:'1px solid rgba(255,255,255,.06)' }}>
+              <span style={{ fontFamily:T.mono, fontSize:8, color:T.cyan, letterSpacing:'0.08em',
+                textTransform:'uppercase', marginRight:6 }}>FIGMA ▲</span>
               <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.figma}</span>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Orthogonal signal */}
-      <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.green} style={{ marginBottom:16 }}>
-        Every other DS candidate for this role will have studied Dev Mode, Code Connect, and the MCP server from the outside. He's been building production systems on top of them for over a year. The practitioner-analyst combination is the rarest signal in DS hiring — and it's verifiable, not claimed. The day-one questions aren't "what does this product do?" — they're "why does this specific engagement drop-off pattern look like this, and is it instrumentation or real signal?" That's a different starting point, and a different quality of output.
+      {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
+      <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
+        Every other DS candidate for this role will have studied Dev Mode, Code Connect, and MCP from the outside. He's been building production systems on top of them for over a year. The practitioner-analyst combination is the rarest signal in DS hiring — verifiable, not claimed. Day-one questions: not "what does this product do?" but "why does this engagement drop-off pattern look like this, and is it instrumentation or real signal?"
       </TrueNorthPanel>
 
-      {/* Y-gate deep */}
     </div>
   );
 }
