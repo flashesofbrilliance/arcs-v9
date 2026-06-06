@@ -339,18 +339,44 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onCo
   );
 }
 
-// ── 02 Select Consulting Work — nested TribTile pattern, mirrors 01 ───────────
+// ── 02 Select Consulting Work ─────────────────────────────────────────────────
+// Closed: ultra-compressed spine cards (mirrors FT catalogue mode)
+// Open:   full TribTiles with expand/collapse
 function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
-
   return (
     <div style={{ marginTop:8 }}>
-      {/* Section label — tab above controls open/close */}
       <div style={{ display:'flex', alignItems:'center', padding:'10px 0 8px',
         borderTop:`1px solid ${T.border}` }}>
         <SectionLabel index="02">Select Consulting Work</SectionLabel>
       </div>
 
-      {/* All 5 clients as TribTiles — same expand/collapse as FT roles above */}
+      {/* CLOSED — spine cards, symmetrical with FT catalogue mode */}
+      {!open && (
+        <div style={{ display:'flex', flexDirection:'column', gap:3 }}>
+          {CONSULTING_CLIENTS.map(c => (
+            <div key={c.id}
+              onClick={() => { onToggle(); onSelectClient(c.id); }}
+              style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 14px',
+                borderRadius:7, cursor:'pointer', transition:'opacity .15s',
+                border:`1px solid ${T.steel}22`,
+                background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
+                opacity:0.6 }}
+              onMouseEnter={e => e.currentTarget.style.opacity='1'}
+              onMouseLeave={e => e.currentTarget.style.opacity='0.6'}>
+              <span style={{ color:T.steel, fontSize:11 }}>◻</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700,
+                letterSpacing:'0.08em', color:T.steel, textTransform:'uppercase' }}>
+                {c.label}
+              </span>
+              <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:8, color:T.fg4 }}>
+                {c.domain} · {c.dates}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* OPEN — full TribTiles */}
       {open && (
         <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:6,
           animation:'slideDown .15s ease both' }}>
