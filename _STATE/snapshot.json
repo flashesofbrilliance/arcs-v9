@@ -35,5 +35,11 @@
   "session_summary": "ADR-023 'Observability as a Superionic Goal Lattice' + companion lattice-pressure-rom.json sealed (DAG-over-receipts folksonomy held in phase by edge-decay/contrarian-pressure/Drift-Sentinel; 5-agent adversarial pass corrected 4 over-claims). Observatory UI wired to real repo data with repo-agnostic generator and --attribution hide (strip-to-subject) for a clean Deloitte-facing demo.",
   "next_action": "Merge this branch to main to close the cloud snapshot sync gap; then Panel/Chip (ADR-009) or ADR-006 branching. ADR-023 implementation stays gated at 100+ receipts.",
   "blocking": "NONE",
-  "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session)."
+  "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
+  "serialization_protocol": {
+    "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here; a parallel build was started this session and discarded to avoid forking the protocol)",
+    "design": "per-branch state files — each branch owns _STATE/branch-<slug>.json and never overwrites the shared snapshot/session-state; main reconciles on merge. Conflict-free by construction (disjoint paths).",
+    "arcs_v9_stance": "ADOPT the per-branch-file convention for /handoff on feature branches; do NOT host the lock-manager implementation. The cloud sync gap (snapshot read from main) is the motivating problem this protocol closes.",
+    "decided": "2026-06-06"
+  }
 }
