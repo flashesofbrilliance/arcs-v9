@@ -41,6 +41,19 @@
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
 
+// ── useMobile hook — shared across all components ─────────────────────────────
+function useMobile(bp=768) {
+  const [m, setM] = useState(() => typeof window !== 'undefined' && window.innerWidth <= bp);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width:${bp}px)`);
+    setM(mq.matches);
+    const h = e => setM(e.matches);
+    mq.addEventListener('change', h);
+    return () => mq.removeEventListener('change', h);
+  }, [bp]);
+  return m;
+}
+
 // ── Tokens ───────────────────────────────────────────────────────────────────
 const T = {
   bg:'#020408', surface:'#0d1117', elev:'#111827', border:'#1e293b',
@@ -203,14 +216,15 @@ function WeatherBar({ icon, label, color, right, style }) {
 
 // ── TrueNorthPanel ────────────────────────────────────────────────────────────
 function TrueNorthPanel({ heading, children, color=T.cyan, style }) {
+  const m = useMobile();
   return (
-    <div style={{ position:'relative', overflow:'hidden', padding:'1.1rem 1.4rem', borderRadius:12,
+    <div style={{ position:'relative', overflow:'hidden', padding: m ? '0.75rem 1rem' : '1.1rem 1.4rem', borderRadius:12,
       border:`1px solid ${color}3a`,
       background:`linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)), linear-gradient(165deg,${color}14,#0a1620)`,
       boxShadow:`inset 0 1px 0 ${color}44, inset 0 -11px 17px -11px ${color}30, 0 0 10px ${color}14, 0 4px 14px rgba(0,0,0,.5)`, ...style }}>
       <div style={{ position:'absolute', inset:'0 0 auto 0', height:'42%', background:'linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,0))', pointerEvents:'none' }} />
       <div style={{ position:'relative', fontFamily:T.mono, fontSize:9, color, letterSpacing:'0.12em', textTransform:'uppercase', marginBottom:8, fontWeight:700 }}>{heading}</div>
-      <div style={{ position:'relative', fontFamily:T.sans, fontSize:'0.9rem', lineHeight:1.65, color:'#ddf4ff', fontWeight:500 }}>{children}</div>
+      <div style={{ position:'relative', fontFamily:T.sans, fontSize: m ? '0.78rem' : '0.9rem', lineHeight:1.6, color:'#ddf4ff', fontWeight:500 }}>{children}</div>
     </div>
   );
 }
@@ -796,6 +810,7 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
 // DEEP — ARCS profile scan (zones of genius, constructive interference, JTBD)
 // ─────────────────────────────────────────────────────────────────────────────
 function DeepScan() {
+  const m = useMobile();
   const [open, setOpen] = useState(null);
   const tog = id => setOpen(o => o===id ? null : id);
 
@@ -825,8 +840,8 @@ function DeepScan() {
       {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
       <SectionLabel style={{ marginBottom:10 }}>ENERGY PROFILE</SectionLabel>
       <div style={{ ...glass({ padding:'16px 18px', marginBottom:20 }) }}>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:0 }}>
-          <div style={{ paddingRight:20 }}>
+        <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? 16 : 0 }}>
+          <div style={{ paddingRight: m ? 0 : 20 }}>
             <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
               color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Activates</div>
             {['First instrumentation layer — no playbook, invent the taxonomy',
@@ -841,7 +856,7 @@ function DeepScan() {
               </div>
             ))}
           </div>
-          <div style={{ paddingLeft:20, borderLeft:'1px solid rgba(255,255,255,.06)' }}>
+          <div style={{ paddingLeft: m ? 0 : 20, borderLeft: m ? 'none' : '1px solid rgba(255,255,255,.06)', borderTop: m ? '1px solid rgba(255,255,255,.06)' : 'none', paddingTop: m ? 16 : 0 }}>
             <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
               color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Depletes</div>
             {['Pure optimization once built and proven — attention drops',
@@ -907,7 +922,7 @@ function DeepScan() {
 
       {/* Productive Tensions — instrument gauge cards, uniform steel palette */}
       <SectionLabel style={{ marginBottom:10 }}>PRODUCTIVE TENSIONS</SectionLabel>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8, marginBottom:20 }}>
+      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr 1fr', gap:8, marginBottom:20 }}>
         {[
           { label:'Builder ↔ Analyst',
             desc:'Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.' },
@@ -927,7 +942,7 @@ function DeepScan() {
 
       {/* Role Fit — glass cards, ID badge in steel, only FIGMA tag gets cyan */}
       <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
+      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap:8, marginBottom:20 }}>
         {[
           { id:'A', label:'Make the invisible legible',
             desc:'First instrumentation layer where no measurement framework exists. Greenfield analytics — invent the taxonomy.',
@@ -1023,10 +1038,10 @@ function Resume() {
         <div style={{ maxWidth:860, margin:'0 auto', padding:'0 24px' }}>
           {/* Name / contact */}
           <div style={{ marginBottom:14 }}>
-            <h1 style={{ fontFamily:T.sans, fontSize:'2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
+            <h1 style={{ fontFamily:T.sans, fontSize: isMobile ? '1.55rem' : '2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
               Zach Harris
             </h1>
-            <div style={{ fontFamily:T.mono, fontSize:10, color:T.fg3, marginTop:7, letterSpacing:'0.06em' }}>
+            <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 7, letterSpacing:'0.06em', lineHeight:1.7 }}>
               Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
             </div>
           </div>
