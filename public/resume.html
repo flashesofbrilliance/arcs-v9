@@ -1033,20 +1033,19 @@ function Resume() {
         zIndex: 50,
         background: T.bg,
         borderBottom: `1px solid ${T.border}`,
-        padding: isMobile ? '24px 0 14px' : '20px 0 14px',
       }}>
-        <div style={{ maxWidth:860, margin:'0 auto', padding:'0 24px' }}>
+        <div style={{ maxWidth:860, margin:'0 auto', padding: isMobile ? '20px 24px 16px' : '24px 24px 18px' }}>
           {/* Name / contact */}
-          <div style={{ marginBottom:14 }}>
+          <div style={{ marginBottom: isMobile ? 12 : 16 }}>
             <h1 style={{ fontFamily:T.sans, fontSize: isMobile ? '1.55rem' : '2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
               Zach Harris
             </h1>
-            <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 7, letterSpacing:'0.06em', lineHeight:1.7 }}>
+            <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
               Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
             </div>
           </div>
           {/* True North */}
-          <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom:12 }}>
+          <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom: isMobile ? 10 : 14 }}>
             {TRUE_NORTH.all.text}
           </TrueNorthPanel>
           {/* Depth selector */}
