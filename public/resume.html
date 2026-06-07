@@ -391,7 +391,7 @@ function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
                 opacity:0.75 }}
               onMouseEnter={e => e.currentTarget.style.opacity='1'}
               onMouseLeave={e => e.currentTarget.style.opacity='0.75'}>
-              <span style={{ color:T.steel, fontSize:11 }}>◻</span>
+              <span style={{ color:T.steel, fontSize:11 }}>{c.glyph}</span>
               <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700,
                 letterSpacing:'0.08em', color:T.steel, textTransform:'uppercase' }}>
                 {c.label}
@@ -409,7 +409,7 @@ function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
         <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:6,
           animation:'slideDown .15s ease both' }}>
           {CONSULTING_CLIENTS.map(c => (
-            <TribTile key={c.id} label={c.label.toUpperCase()} glyph="◻" color={T.steel}
+            <TribTile key={c.id} label={c.label.toUpperCase()} glyph={c.glyph} color={T.steel}
               meta={`${c.domain} · ${c.dates}`}
               expanded={selectedClient === c.id ? (
                 <div style={{ animation:'slideDown .18s ease both' }}>
@@ -508,7 +508,7 @@ const TRAJ = [
 
 // ── Consulting clients — shown via dropdown picker on the 5th pseudo-tab ─────
 const CONSULTING_CLIENTS = [
-  { id:'squat',   label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
+  { id:'squat',   glyph:'◉', label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
     summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition — sole tech partner from discovery through QA and handoff.',
     metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
     bullets:[
@@ -516,28 +516,28 @@ const CONSULTING_CLIENTS = [
       { t:'Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI', v:['all','ds'] },
       { t:'Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule', v:['all'] },
     ] },
-  { id:'axon',    label:'Axon Enterprises',  dates:'Jun–Dec 2023', domain:'GovTech',
+  { id:'axon',    glyph:'⬡', label:'Axon Enterprises',  dates:'Jun–Dec 2023', domain:'GovTech',
     summary:'New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.',
     metric:'MVP', metricLabel:'SECURE OTT PLATFORM',
     bullets:[
       { t:'Led discovery and business model validation for First Responder OTT network', v:['all'] },
       { t:'Defined MVP features, instrumentation requirements, and success metrics for secure, video-first content platform', v:['all','ds'] },
     ] },
-  { id:'twill',   label:'Twill Health',      dates:'Jan 2021–May 2023', domain:'HealthTech',
+  { id:'twill',   glyph:'◑', label:'Twill Health',      dates:'Jan 2021–May 2023', domain:'HealthTech',
     summary:'Market viability testing for 3 AI-enabled digital health product lines across a HIPAA-regulated environment.',
     metric:'3', metricLabel:'AI HEALTH PRODUCT LINES VALIDATED',
     bullets:[
       { t:'Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
       { t:'Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context', v:['all','ds'] },
     ] },
-  { id:'gopro',   label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
+  { id:'gopro',   glyph:'◬', label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
     summary:'Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.',
     metric:'EMEA/APAC', metricLabel:'INTERNATIONAL GROWTH STRATEGY',
     bullets:[
       { t:'Designed analytics framework for EMEA/APAC international growth initiatives', v:['all','ds'] },
       { t:'Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution', v:['all','ds'] },
     ] },
-  { id:'verizon', label:'Verizon Media',      dates:'Jan–Dec 2021', domain:'Moonshot Strategy',
+  { id:'verizon', glyph:'⊕', label:'Verizon Media',      dates:'Jan–Dec 2021', domain:'Moonshot Strategy',
     summary:'Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.',
     metric:'5', metricLabel:'5G INNOVATION VENTURES ASSESSED',
     bullets:[
