@@ -1,45 +1,55 @@
 {
-  "captured_at": "2026-06-05T18:24:00Z",
+  "captured_at": "2026-06-08T00:00:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "bbeb8a8",
-    "head_message": "feat(observatory): hide=strip-to-subject; regen deployed data clean [NCI:SKIP]",
-    "branch": "claude/observability-milestone-mapping-345ho",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_message": "merge: observability-milestone-mapping (Observatory hot-swap + GitHub explorer) into main",
+    "branch": "main",
+    "merged_from": "claude/observability-milestone-mapping-345ho",
+    "in_sync_with_origin": true
   },
-  "_sync_gap_warning": "THIS SNAPSHOT IS ON A FEATURE BRANCH, NOT main. The cloud environment setup script fetches _STATE/snapshot.json from the main branch raw URL. Until claude/observability-milestone-mapping-345ho merges to main, the next CLOUD session will NOT see this snapshot — it will load the prior main-branch snapshot (fa75bda-era security/auth state). To close the gap: merge this branch, or have the next session read snapshot.json off this branch directly. A local (non-cloud) /handoff-pickup reads the working-tree file and is unaffected.",
-  "branch_work_not_on_main": {
-    "commits_ahead_of_main": 10,
-    "range": "9f669fa..bbeb8a8",
-    "summary": "ADR-023 superionic goal lattice + lattice-pressure ROM + lattice_sim load-test harness; Observatory UI wired to real repo data (repo-agnostic generator, absolute asset paths, --attribution show|hide).",
-    "merge_state": "OPEN — not merged to main; PR gate on ADR-023 itself is L6-gated (100+ receipts)"
-  },
+  "note": "Merge reconciles two parallel workstreams onto main: (1) resume.arcs.care (main, head 79f39e6-era) and (2) Observatory observability layer (this branch). Neither touched the other's files; only this snapshot conflicted. Cloud snapshot sync gap CLOSED by this merge.",
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-rdxt7nxh5-zachharris-3439s-projects.vercel.app",
-    "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
+    "custom_domains": ["app.arcs.care", "resume.arcs.care"],
+    "latest_deploy_status": "Ready",
     "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"],
-    "note": "No vercel CLI in cloud env; values carried forward from prior snapshot — this branch touched ZERO infra/deploy/env."
+    "note": "Merge to main triggers a fresh prod deploy. Observatory is static under public/observatory and serves at app.arcs.care/observatory."
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
-    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"],
-    "note": "Unchanged this session. ADR-023's goal_edges overlay table is a future schema ADR — NOT applied; no migration run."
+    "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"],
+    "note": "Unchanged. No migration this session."
   },
-  "open_adrs": ["ADR-023 DECIDED (goal lattice — PR/build gated at 100+ receipts)", "ADR-009 READY (Panel/Chip design system)", "ADR-006 READY (Supabase branching — first-external-user gate triggered)"],
-  "session_summary": "ADR-023 'Observability as a Superionic Goal Lattice' + companion lattice-pressure-rom.json sealed (DAG-over-receipts folksonomy held in phase by edge-decay/contrarian-pressure/Drift-Sentinel; 5-agent adversarial pass corrected 4 over-claims). Observatory UI wired to real repo data with repo-agnostic generator and --attribution hide (strip-to-subject) for a clean Deloitte-facing demo.",
-  "next_action": "Merge this branch to main to close the cloud snapshot sync gap; then Panel/Chip (ADR-009) or ADR-006 branching. ADR-023 implementation stays gated at 100+ receipts.",
+  "observatory": {
+    "status": "Hot-swap data layer + plug-and-play GitHub event explorer SHIPPED",
+    "data_layer": "runtime.jsx (static code) + data.<name>.json (swappable payload) + datasets.json (switcher manifest); index.html Root fetches->hydrates->mounts, dataset <select> remounts with no reload, ?data= deep-links.",
+    "explorer": "scripts/event-rules.json (user-editable custom-event ruleset) + scripts/event_rules.py (engine) + scripts/github_ingest.py (live REST or --from-json; emits data.<name>.json + manifest). Guide: scripts/OBSERVATORY-INGEST.md.",
+    "datasets_live": ["data.arcs-v9.json (heuristic)", "data.arcs-v9-gh.json (rules engine; validated on 100 real arcs-v9 commits via GitHub MCP)"],
+    "not_yet": "Live PR + workflow-run fetchers (engine supports kind/label/status; only commits+releases wired to live fetch — PRs/workflows via --from-json for now). No browser render proof in cloud sandbox (unpkg + headless blocked); renders on Vercel.",
+    "verify_after_deploy": "Open app.arcs.care/observatory; switcher (top-right) lists both datasets; pick 'arcs-v9-gh'; confirm timeline/deck render and ?data=data.arcs-v9-gh.json deep-links."
+  },
+  "open_adrs": [
+    "ADR-023 DECIDED (goal lattice — implementation gated at 100+ receipts)",
+    "ADR-009 READY (Panel/Chip design system)",
+    "ADR-006 READY (Supabase branching — first-external-user gate)",
+    "ADR-016 OPEN (auth.ts wiring — carried from main)"
+  ],
+  "open_items_from_main": [
+    "ADR-016: auth.ts wiring",
+    "DATABASE_URL missing from Preview env",
+    "Audience dropdown not built yet (resume)"
+  ],
+  "next_action": "Confirm Vercel prod deploy is Ready after merge; verify app.arcs.care/observatory renders both datasets. Then: wire live PR/workflow fetchers, or Panel/Chip (ADR-009).",
   "blocking": "NONE",
   "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
   "serialization_protocol": {
-    "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here; a parallel build was started this session and discarded to avoid forking the protocol)",
-    "design": "per-branch state files — each branch owns _STATE/branch-<slug>.json and never overwrites the shared snapshot/session-state; main reconciles on merge. Conflict-free by construction (disjoint paths).",
-    "arcs_v9_stance": "ADOPT the per-branch-file convention for /handoff on feature branches; do NOT host the lock-manager implementation. The cloud sync gap (snapshot read from main) is the motivating problem this protocol closes.",
+    "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here; a parallel build was started and discarded to avoid forking the protocol)",
+    "design": "per-branch state files — each branch owns _STATE/branch-<slug>.json and never overwrites the shared snapshot/session-state; main reconciles on merge. This very merge's only conflict (snapshot.json) is exactly the problem that design eliminates.",
+    "arcs_v9_stance": "ADOPT the per-branch-file convention for /handoff on feature branches; do NOT host the lock-manager implementation.",
     "decided": "2026-06-06"
   }
 }

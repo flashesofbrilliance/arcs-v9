@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zach Harris — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #020408; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+    body { min-height: 100vh; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+
+    @keyframes arcs-shimmer { 0%{transform:translateX(-100%)} 60%,100%{transform:translateX(220%)} }
+    @keyframes fadeUp       { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    @keyframes slideDown    { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:none} }
+
+    [data-shimmer]{ animation: arcs-shimmer 1.6s ease-in-out infinite; }
+
+    .page { max-width: 860px; margin: 0 auto; padding: 36px 24px 100px; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0d1117; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+
+    /* ── Print / PDF export ───────────────────────────────────────── */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .no-print { display: none !important; }
+      .page { max-width: 100%; padding: 0.5in 0.6in; }
+      a { text-decoration: none !important; }
+    }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ── useMobile hook — shared across all components ─────────────────────────────
+function useMobile(bp=768) {
+  const [m, setM] = useState(() => typeof window !== 'undefined' && window.innerWidth <= bp);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width:${bp}px)`);
+    setM(mq.matches);
+    const h = e => setM(e.matches);
+    mq.addEventListener('change', h);
+    return () => mq.removeEventListener('change', h);
+  }, [bp]);
+  return m;
+}
+
+// ── Tokens ───────────────────────────────────────────────────────────────────
+const T = {
+  bg:'#020408', surface:'#0d1117', elev:'#111827', border:'#1e293b',
+  fg1:'#e2e8f0', fg2:'#94a3b8', fg3:'#8593a6', fg4:'#707e92',
+  cyan:'#00F0FF', green:'#00FF9D', gold:'#FFD700', red:'#FF4D6D',
+  violet:'#A78BFA', steel:'#94a3b8',
+  sans:"'Inter',system-ui,sans-serif", mono:"'JetBrains Mono','IBM Plex Mono',monospace",
+};
+
+// ── Depth config ─────────────────────────────────────────────────────────────
+// GRAIN = Simple / SHARP = Rich / SUPERIONIC = Deep
+const DEPTHS = [
+  { value:'grain',      label:'SKETCH',        accent:'steel',  desc:'ATS-ready · printable · essential signal only' },
+  { value:'sharp',      label:'WIREFRAME',     accent:'cyan',   desc:'Full interactive resume · expandable roles · live skills filter' },
+  { value:'superionic', label:'PIXEL PERFECT', accent:'green',  desc:'Resume + deep profile · strengths · role fit' },
+];
+
+const FOCUS_VIEWS = [
+  { value:'all',   label:'FULL',        accent:'cyan' },
+  { value:'figma', label:'FIGMA DS',    accent:'green' },
+  { value:'ds',    label:'DATA',        accent:'gold' },
+];
+
+// ── Atoms ────────────────────────────────────────────────────────────────────
+function SectionLabel({ index, children, color=T.fg4, style }) {
+  return (
+    <div style={{ display:'flex', alignItems:'baseline', gap:10, ...style }}>
+      {index && <span style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, color:T.cyan, letterSpacing:'0.1em' }}>{index}</span>}
+      <span style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color }}>{children}</span>
+    </div>
+  );
+}
+function Rule({ color=T.border, style }) { return <div style={{ height:1, background:color, ...style }} />; }
+
+// ── Depth selector (the volume wheel) ────────────────────────────────────────
+function DepthWheel({ value, onChange }) {
+  const idx = DEPTHS.findIndex(d => d.value === value);
+  const current = DEPTHS[idx];
+  const accentMap = { steel:T.steel, cyan:T.cyan, green:T.green };
+  const accent = accentMap[current.accent];
+
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:8, padding:'16px 18px', borderRadius:14,
+      border:`1px solid ${accent}30`,
+      background:`linear-gradient(160deg,rgba(255,255,255,.04),rgba(0,0,0,.18)), linear-gradient(165deg,${accent}0c,#080c10)`,
+      boxShadow:`inset 0 1px 0 ${accent}22, 0 4px 14px rgba(0,0,0,.5)` }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+        <div style={{ display:'flex', gap:6, alignItems:'center' }}>
+          <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.12em', textTransform:'uppercase' }}>RENDER DEPTH</span>
+          <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, color:accent, letterSpacing:'0.08em', textShadow:`0 0 8px ${accent}66` }}>{current.label}</span>
+        </div>
+        <span style={{ fontFamily:T.sans, fontSize:11, color:T.fg3 }}>{current.desc}</span>
+      </div>
+      {/* Track */}
+      <div style={{ position:'relative', display:'flex', alignItems:'center', gap:0 }}>
+        {/* Track line */}
+        <div style={{ position:'absolute', left:12, right:12, height:2, borderRadius:1,
+          background:`linear-gradient(90deg, ${T.steel}44, ${T.cyan}44, ${T.green}44)` }} />
+        {/* Progress fill */}
+        <div style={{ position:'absolute', left:12, height:2, borderRadius:1,
+          width:`calc(${idx * 50}% - ${idx===0?0:0}px)`,
+          background:`linear-gradient(90deg, ${T.steel}, ${accent})`,
+          boxShadow:`0 0 6px ${accent}`, transition:'width .3s ease' }} />
+        {/* Nodes */}
+        {DEPTHS.map((d,i) => {
+          const ac = accentMap[d.accent];
+          const active = i <= idx;
+          return (
+            <div key={d.value} onClick={() => onChange(d.value)}
+              style={{ position:'relative', zIndex:2, flex:1, display:'flex', flexDirection:'column', alignItems: i===0?'flex-start':i===2?'flex-end':'center', gap:8, cursor:'pointer' }}>
+              <div style={{ width:20, height:20, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center',
+                border:`2px solid ${active ? ac : T.border}`,
+                background: active ? `${ac}22` : T.surface,
+                boxShadow: i===idx ? `0 0 12px ${ac}66, inset 0 0 6px ${ac}22` : 'none',
+                transition:'all .2s', animation: i===idx ? 'scanPulse 2s ease-in-out infinite' : 'none' }}>
+                <div style={{ width:6, height:6, borderRadius:'50%', background: active ? ac : T.border, transition:'background .2s' }} />
+              </div>
+              <span style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.1em',
+                color: active ? ac : T.fg4, transition:'color .2s' }}>{d.label}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ── Segmented slider ──────────────────────────────────────────────────────────
+const SEG_A = {
+  steel:{ bd:`${T.steel}55`, bloom2:`${T.steel}22`, ink:T.fg2 },
+  cyan: { bd:`${T.cyan}55`,  bloom2:`${T.cyan}2b`,  ink:'#b9e8f4' },
+  green:{ bd:`${T.green}55`, bloom2:`${T.green}33`, ink:'#bdf2dc' },
+  gold: { bd:`${T.gold}55`,  bloom2:`${T.gold}2b`,  ink:'#f0e4ba' },
+};
+function SegSlider({ options, value, onChange, style }) {
+  const idx = Math.max(0, options.findIndex(o => o.value === value));
+  const a = SEG_A[options[idx]?.accent] || SEG_A.cyan;
+  return (
+    <div style={{ position:'relative', display:'grid', gridTemplateColumns:`repeat(${options.length},1fr)`,
+      padding:5, borderRadius:10,
+      background:'linear-gradient(180deg,#090d12,#0c1219)',
+      boxShadow:'inset 0 2px 6px rgba(0,0,0,.7), inset 0 -1px 0 rgba(255,255,255,.04)', ...style }}>
+      <div style={{ position:'absolute', top:5, bottom:5, left:5, width:`calc((100% - 10px) / ${options.length})`,
+        borderRadius:7, transform:`translateX(${idx*100}%)`, transition:'transform .22s cubic-bezier(.4,0,.2,1)',
+        border:`1px solid ${a.bd}`, background:'linear-gradient(180deg,#0d141c,#0f1822)',
+        boxShadow:`inset 0 2px 4px rgba(0,0,0,.5), inset 0 -7px 11px -7px ${a.bloom2}` }} />
+      {options.map((o,i) => (
+        <button key={o.value} type="button" onClick={() => onChange(o.value)}
+          style={{ position:'relative', zIndex:1, background:'transparent', border:'none', padding:'8px 0',
+            fontFamily:T.mono, fontWeight:700, fontSize:10, letterSpacing:'0.05em',
+            color: i===idx ? a.ink : T.fg4, transition:'color .18s' }}>
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ── Chip — governance tag shape: full pill, mono, no glyph ───────────────────
+function Chip({ label, selected, accent=T.green, dim=false }) {
+  const [h,setH] = useState(false);
+  return (
+    <div onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+      style={{ display:'inline-flex', alignItems:'center',
+        padding:'4px 11px', borderRadius:999, lineHeight:1,
+        fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.07em',
+        textTransform:'uppercase', cursor:'default',
+        opacity: dim ? 0.28 : 1,
+        color: selected ? accent : h ? T.fg2 : T.fg4,
+        border:`1px solid ${selected ? `${accent}55` : h ? `${accent}28` : 'rgba(255,255,255,.09)'}`,
+        background: selected
+          ? `linear-gradient(180deg,${accent}0e,transparent), linear-gradient(180deg,#0d141c,#0a1016)`
+          : 'linear-gradient(180deg,#0c121a,#0a0f16)',
+        boxShadow: selected
+          ? `inset 0 1px 0 rgba(255,255,255,.09), 0 0 8px ${accent}1e`
+          : `inset 0 1px 0 rgba(255,255,255,.06)`,
+        transition:'all .15s' }}>
+      {label}
+    </div>
+  );
+}
+
+// ── WeatherBar ────────────────────────────────────────────────────────────────
+function WeatherBar({ icon, label, color, right, style }) {
+  return (
+    <div style={{ position:'relative', overflow:'hidden', display:'flex', alignItems:'center',
+      justifyContent:'space-between', padding:'10px 16px', borderRadius:10,
+      border:`1px solid ${color}3d`,
+      background:`linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)), linear-gradient(165deg,${color}1a,#0a1418)`,
+      boxShadow:`inset 0 1px 0 ${color}55, inset 0 -9px 14px -9px ${color}35, 0 0 10px ${color}18`, ...style }}>
+      <div style={{ position:'absolute', inset:'0 0 auto 0', height:'46%', background:'linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,0))', pointerEvents:'none' }} />
+      <div style={{ position:'relative', display:'flex', alignItems:'center', gap:10 }}>
+        <span style={{ color, fontWeight:700, fontSize:14, textShadow:`0 0 7px ${color}aa` }}>{icon}</span>
+        <span style={{ fontFamily:T.mono, fontSize:10, letterSpacing:'0.1em', color, textTransform:'uppercase', fontWeight:700 }}>{label}</span>
+      </div>
+      {right && <div style={{ position:'relative', fontFamily:T.mono, fontSize:9, color:T.fg3, letterSpacing:'0.06em' }}>{right}</div>}
+    </div>
+  );
+}
+
+// ── TrueNorthPanel ────────────────────────────────────────────────────────────
+function TrueNorthPanel({ heading, children, color=T.cyan, style }) {
+  const m = useMobile();
+  return (
+    <div style={{ position:'relative', overflow:'hidden', padding: m ? '0.75rem 1rem' : '1.1rem 1.4rem', borderRadius:12,
+      border:`1px solid ${color}3a`,
+      background:`linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)), linear-gradient(165deg,${color}14,#0a1620)`,
+      boxShadow:`inset 0 1px 0 ${color}44, inset 0 -11px 17px -11px ${color}30, 0 0 10px ${color}14, 0 4px 14px rgba(0,0,0,.5)`, ...style }}>
+      <div style={{ position:'absolute', inset:'0 0 auto 0', height:'42%', background:'linear-gradient(rgba(255,255,255,.06),rgba(255,255,255,0))', pointerEvents:'none' }} />
+      <div style={{ position:'relative', fontFamily:T.mono, fontSize:9, color, letterSpacing:'0.12em', textTransform:'uppercase', marginBottom:8, fontWeight:700 }}>{heading}</div>
+      <div style={{ position:'relative', fontFamily:T.sans, fontSize: m ? '0.78rem' : '0.9rem', lineHeight:1.6, color:'#ddf4ff', fontWeight:500 }}>{children}</div>
+    </div>
+  );
+}
+
+// ── TribTile — glassmorphism: emboss collapsed, signal float + deboss expanded ──
+function TribTile({ label, glyph, color=T.cyan, meta, children, expanded, onClick, style }) {
+  const [h,setH] = useState(false);
+  const on = !!expanded;
+  return (
+    <div style={{ borderRadius:10, overflow:'hidden',
+      border:`1px solid ${on ? `${color}44` : h ? `${color}30` : `${color}1e`}`,
+      // Emboss collapsed → signal underlight expanded
+      boxShadow: on
+        ? `inset 0 1px 0 rgba(255,255,255,.12), inset 0 -10px 16px -10px ${color}44, 0 0 10px ${color}18, 0 6px 20px rgba(0,0,0,.55)`
+        : h
+        ? `inset 0 1px 0 rgba(255,255,255,.10), inset 0 -1px 1px rgba(0,0,0,.45), 0 4px 10px rgba(0,0,0,.45)`
+        : `inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 1px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.45)`,
+      transition:'border-color .2s, box-shadow .2s', ...style }}>
+      {/* Glass header */}
+      <button onClick={onClick} onMouseEnter={()=>setH(true)} onMouseLeave={()=>setH(false)}
+        style={{ position:'relative', width:'100%', padding:'12px 14px', textAlign:'left',
+          display:'flex', flexDirection:'column', gap:5, border:'none',
+          borderBottom: on ? `1px solid ${color}20` : 'none',
+          background:`linear-gradient(160deg, rgba(255,255,255,${on?.08:.05}), rgba(255,255,255,.01) 38%, rgba(0,0,0,.20)), linear-gradient(165deg, #131b23, #0b1117)`,
+          transition:'background .2s' }}>
+        {/* Bevel highlight — top edge shimmer */}
+        <div style={{ position:'absolute', top:0, left:0, right:0, height:1, pointerEvents:'none',
+          background:`linear-gradient(90deg, transparent 5%, rgba(255,255,255,${on?.14:.09}) 30%, rgba(255,255,255,${on?.14:.09}) 70%, transparent 95%)` }} />
+        <div style={{ position:'relative', display:'flex', alignItems:'center', gap:8 }}>
+          <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.1em', color, textTransform:'uppercase' }}>
+            {glyph && <span style={{ marginRight:5 }}>{glyph}</span>}{label}
+          </span>
+          <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:8.5, color: on ? `${color}99` : T.fg4 }}>{meta}</span>
+          <span style={{ color: on ? color : T.fg4, fontSize:8, transition:'color .15s',
+            textShadow: on ? `0 0 6px ${color}88` : 'none' }}>{on?'▲':'▼'}</span>
+        </div>
+        <div style={{ position:'relative', fontFamily:T.sans, fontSize:12.5,
+          color: on ? T.fg1 : T.fg2, lineHeight:1.55, transition:'color .15s' }}>{children}</div>
+      </button>
+      {/* Expanded panel — deboss: pressed into the glass surface */}
+      {on && (
+        <div style={{ padding:'16px 16px 14px',
+          background:'linear-gradient(180deg, #090d13, #0b1119)',
+          boxShadow:'inset 0 2px 5px rgba(0,0,0,.65), inset 0 -1px 0 rgba(255,255,255,.04)',
+          animation:'slideDown .18s ease both' }}>
+          {expanded}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Progress bar ──────────────────────────────────────────────────────────────
+function Bar({ value=0, color=T.cyan, height=5, style }) {
+  return (
+    <div style={{ width:'100%', height, borderRadius:999, overflow:'hidden',
+      background:'linear-gradient(180deg,#090d12,#0c1219)',
+      boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)', ...style }}>
+      <div style={{ height:'100%', width:`${Math.max(0,Math.min(100,value))}%`, borderRadius:999,
+        background:`linear-gradient(90deg,#1ec3d4,${color})`,
+        boxShadow:`0 0 8px -1px ${color}, inset 0 1px 0 rgba(255,255,255,.3)`, transition:'width .6s ease' }}>
+        <div data-shimmer style={{ position:'absolute', inset:0, borderRadius:999, background:'linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)', transform:'translateX(-100%)' }} />
+      </div>
+    </div>
+  );
+}
+
+// ── Steps — used in DeepScan pipeline visualization ──────────────────────────
+function Steps({ labels, current }) {
+  return (
+    <div>
+      <div style={{ display:'flex', gap:4 }}>
+        {labels.map((_,i) => {
+          const done=i<current, now=i===current;
+          return <div key={i}  style={{ flex:1, height:4, borderRadius:3,
+            background: done?`linear-gradient(90deg,#1ec3d4,${T.cyan})`:now?`linear-gradient(90deg,#0a4a52,${T.cyan})`:'linear-gradient(180deg,#0a0f15,#0d141c)',
+            boxShadow: done?`0 0 7px -2px ${T.cyan}`:'inset 0 1px 2px rgba(0,0,0,.6)', transition:'background .3s' }} />;
+        })}
+      </div>
+      <div style={{ display:'flex', justifyContent:'space-between', fontFamily:T.mono, fontSize:8, color:T.fg4, letterSpacing:'0.05em', marginTop:5 }}>
+        {labels.map((l,i) => <span key={l} style={{ color:i===current?T.cyan:i<current?T.fg2:T.fg4, fontWeight:i===current?700:400 }}>{l}</span>)}
+      </div>
+    </div>
+  );
+}
+
+// ── Role tab bar — ARCS / GRAYSCALE / CTF / WTA / CONSULTING ─────────────────
+function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onConsultingToggle }) {
+  const [hovered, setHovered] = useState(null);
+  return (
+    <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
+      {/* FT role tabs */}
+      {TRAJ.map(n => {
+        const role  = ROLES.find(r => r.id === n.roleId);
+        const color = role?.color || T.steel;
+        const active = selectedNode === n.id;
+        const hot    = hovered === n.id;
+        return (
+          <button key={n.id} type="button"
+            onClick={() => { onSelectClient(null); onSelect(active ? null : n.id); if (consultingOpen) onConsultingToggle(); }}
+            onMouseEnter={() => setHovered(n.id)}
+            onMouseLeave={() => setHovered(null)}
+            style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
+              padding:'10px 4px 7px', background:'transparent', border:'none',
+              borderBottom: active ? `2px solid ${color}` : '2px solid transparent',
+              marginBottom:-1, cursor:'pointer', transition:'all .15s',
+              opacity: active ? 1 : hot ? 0.75 : 0.45 }}>
+            <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
+              color: active ? color : hot ? T.fg1 : T.fg3, transition:'color .15s', whiteSpace:'nowrap' }}>
+              {n.label}
+            </span>
+            <span style={{ fontFamily:T.mono, fontSize:7.5, color: active ? color : T.fg4,
+              letterSpacing:'0.04em', marginTop:3, opacity: active ? 0.75 : 0.5 }}>
+              {n.years}
+            </span>
+          </button>
+        );
+      })}
+      {/* CONSULTING tab — same mechanics, toggles section 02 */}
+      <button type="button"
+        onClick={() => { onSelect(null); onSelectClient(null); onConsultingToggle(); }}
+        onMouseEnter={() => setHovered('consulting')}
+        onMouseLeave={() => setHovered(null)}
+        style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
+          padding:'10px 4px 7px', background:'transparent', border:'none',
+          borderBottom: consultingOpen ? `2px solid ${T.steel}` : '2px solid transparent',
+          marginBottom:-1, cursor:'pointer', transition:'all .15s',
+          opacity: consultingOpen ? 1 : hovered==='consulting' ? 0.75 : 0.45 }}>
+        <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
+          color: consultingOpen ? T.steel : hovered==='consulting' ? T.fg1 : T.fg3,
+          transition:'color .15s', whiteSpace:'nowrap' }}>
+          CONSULTING
+        </span>
+        <span style={{ fontFamily:T.mono, fontSize:7.5, color: consultingOpen ? T.steel : T.fg4,
+          letterSpacing:'0.04em', marginTop:3, opacity: consultingOpen ? 0.75 : 0.5 }}>
+          2019–24
+        </span>
+      </button>
+    </div>
+  );
+}
+
+// ── 02 Select Consulting Work ─────────────────────────────────────────────────
+// Closed: ultra-compressed spine cards (mirrors FT catalogue mode)
+// Open:   full TribTiles with expand/collapse
+function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
+  return (
+    <div style={{ marginTop:8 }}>
+      <div style={{ display:'flex', alignItems:'center', padding:'10px 0 8px',
+        borderTop:`1px solid ${T.border}` }}>
+        <SectionLabel index="02">Select Consulting Work</SectionLabel>
+      </div>
+
+      {/* CLOSED — spine cards, symmetrical with FT catalogue mode */}
+      {!open && (
+        <div style={{ display:'flex', flexDirection:'column', gap:3 }}>
+          {CONSULTING_CLIENTS.map(c => (
+            <div key={c.id}
+              onClick={() => { onToggle(); onSelectClient(c.id); }}
+              style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 14px',
+                borderRadius:7, cursor:'pointer', transition:'opacity .15s',
+                border:`1px solid ${T.steel}22`,
+                background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
+                opacity:0.75 }}
+              onMouseEnter={e => e.currentTarget.style.opacity='1'}
+              onMouseLeave={e => e.currentTarget.style.opacity='0.75'}>
+              <span style={{ color:T.steel, fontSize:11 }}>{c.glyph}</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700,
+                letterSpacing:'0.08em', color:T.steel, textTransform:'uppercase' }}>
+                {c.label}
+              </span>
+              <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:8, color:T.fg4 }}>
+                {c.domain} · {c.dates}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* OPEN — full TribTiles */}
+      {open && (
+        <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:6,
+          animation:'slideDown .15s ease both' }}>
+          {CONSULTING_CLIENTS.map(c => (
+            <TribTile key={c.id} label={c.label.toUpperCase()} glyph={c.glyph} color={T.steel}
+              meta={`${c.domain} · ${c.dates}`}
+              expanded={selectedClient === c.id ? (
+                <div style={{ animation:'slideDown .18s ease both' }}>
+                  <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:14 }}>
+                    <span style={{ fontFamily:T.sans, fontSize:'1.7rem', fontWeight:700,
+                      color:T.steel, lineHeight:1 }}>{c.metric}</span>
+                    <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4,
+                      letterSpacing:'0.1em', textTransform:'uppercase' }}>{c.metricLabel}</span>
+                  </div>
+                  {c.bullets.map((b,i) => (
+                    <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                      <span style={{ color:T.steel, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
+                      <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              onClick={() => onSelectClient(selectedClient === c.id ? null : c.id)}>
+              {c.summary}
+            </TribTile>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── NCI counter ───────────────────────────────────────────────────────────────
+function NCICount({ target=87 }) {
+  const [n,setN] = useState(0);
+  useEffect(() => {
+    let s=null;
+    const dur=1100;
+    function step(ts) { if(!s)s=ts; const p=Math.min((ts-s)/dur,1); setN(Math.round((1-Math.pow(1-p,3))*target)); if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }, []);
+  return <>{n}</>;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONTENT DATA
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Each bullet tagged: v = ['all'] | ['all','figma'] | ['all','ds']
+// figma = practitioner depth in dev tools / visual-to-production workflow
+// ds    = quantitative / analytical / instrumentation depth
+const ROLES = [
+  { id:'arcs', glyph:'◈', label:'ARCS — Decision Science Platform', color:T.cyan,
+    dates:'2025–Present', role:'Founder & Product Partner',
+    summary:'Decision intelligence infrastructure from first principles — behavioral taxonomy, evidence-gating, experimentation frameworks, and self-updating feedback loops in production.',
+    metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
+    bullets:[
+      { t:'Reduced decision noise by 60% through structured evidence taxonomy and analytical gate design; accelerated time-to-insight by 3–5×', v:['all','ds'] },
+      { t:'Designed experimentation frameworks improving decision confidence by 2.5× with 40% reduction in wasted planning cycles', v:['all','ds'] },
+      { t:'Built self-updating analytical models that recalibrate scoring weights from prior outcomes — production feedback loop', v:['all','ds'] },
+      { t:'Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — active builder on the exact developer tooling this team instruments', v:['all','figma'] },
+    ] },
+  { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
+    dates:'2024–2025', role:'Product Lead, Site (Go-To-Market)',
+    summary:'CDP and personalization data model for 10 regulated investment products ($7B AUM). Behavioral event taxonomy for investor portal. SEC/FINRA–compliant data governance.',
+    metric:'$7B', metricLabel:'AUM ACROSS INSTRUMENTED PRODUCTS',
+    bullets:[
+      { t:'Architected CDP and personalization data model — defined segmentation schema and behavioral event taxonomy for investor portal', v:['all','ds'] },
+      { t:'Designed instrumentation layer mapping investor behavior signals to content recommendations; AI-driven personalization with measurable engagement lift', v:['all','ds','figma'] },
+      { t:'Data pipeline infrastructure at SEC/FINRA compliance thresholds; reduced release cycle time by 35% through automated QA instrumentation', v:['all','ds'] },
+      { t:'Translated regulatory constraints into data governance requirements covering collection, storage, and usage across all investor surfaces', v:['all','ds'] },
+    ] },
+  { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
+    dates:'2018–2019', role:'Sr. Director of Data & CRM Strategy',
+    summary:'Enterprise CDP and CRM strategy: primary data architecture owner. Segmentation engine across marketing, fundraising, and clinical operations. 20% revenue growth through data-driven personalization.',
+    metric:'20%', metricLabel:'REVENUE LIFT VIA DATA PERSONALIZATION',
+    bullets:[
+      { t:'Led enterprise-wide CDP and CRM strategy end-to-end: process mapping, vendor evaluation, Salesforce Lightning modernization', v:['all','ds'] },
+      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units', v:['all','ds'] },
+      { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and growth instrumentation', v:['all','ds'] },
+    ] },
+  { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
+    dates:'2016–2018', role:'Product & Partnerships Lead',
+    summary:'Real-time fan behavior forecasting at <120ms latency. CDP evaluation and selection for a global consumer sports platform. $850K+ in year-one revenue from social distribution partnerships.',
+    metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
+    bullets:[
+      { t:'Led CDP evaluation and selection for global consumer sports platform; defined real-time data architecture for fan engagement at scale', v:['all','ds'] },
+      { t:'Built predictive fan behavior forecasting and real-time scoring infrastructure enabling personalized offers at <120ms latency', v:['all','ds'] },
+      { t:'Designed first social distribution partnerships with Twitter and Facebook — behavioral data flows, attribution models; $850K+ year-one revenue', v:['all','ds'] },
+      { t:'Platform stress-testing and load simulations to surface OVP bottlenecks; data-informed reliability engineering for Women\'s Finals', v:['all','ds'] },
+    ] },
+];
+
+// ── Main tab trajectory — ARCS → Grayscale → CTF → WTA (reverse chron) ───────
+const TRAJ = [
+  { id:'arcs',      label:'ARCS',      years:'2025→',   roleId:'arcs'      },
+  { id:'grayscale', label:'GRAYSCALE', years:'2024–25', roleId:'grayscale' },
+  { id:'ctf',       label:'CTF',       years:'2018–19', roleId:'ctf'       },
+  { id:'wta',       label:'WTA',       years:'2016–18', roleId:'wta'       },
+];
+
+// ── Consulting clients — shown via dropdown picker on the 5th pseudo-tab ─────
+const CONSULTING_CLIENTS = [
+  { id:'squat',   glyph:'◉', label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
+    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition — sole tech partner from discovery through QA and handoff.',
+    metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
+    bullets:[
+      { t:'Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul', v:['all','ds'] },
+      { t:'Reduced information overload via data-driven content architecture; accelerated time-to-interaction as primary conversion KPI', v:['all','ds'] },
+      { t:'Partnered across engineering, marketing, design, clinical, and operations to align stakeholders and ship on schedule', v:['all'] },
+    ] },
+  { id:'axon',    glyph:'⬡', label:'Axon Enterprises',  dates:'Jun–Dec 2023', domain:'GovTech',
+    summary:'New venture incubation: product instrumentation framework and KPI taxonomy for secure first-responder OTT content platform MVP.',
+    metric:'MVP', metricLabel:'SECURE OTT PLATFORM',
+    bullets:[
+      { t:'Led discovery and business model validation for First Responder OTT network', v:['all'] },
+      { t:'Defined MVP features, instrumentation requirements, and success metrics for secure, video-first content platform', v:['all','ds'] },
+    ] },
+  { id:'twill',   glyph:'◑', label:'Twill Health',      dates:'Jan 2021–May 2023', domain:'HealthTech',
+    summary:'Market viability testing for 3 AI-enabled digital health product lines across a HIPAA-regulated environment.',
+    metric:'3', metricLabel:'AI HEALTH PRODUCT LINES VALIDATED',
+    bullets:[
+      { t:'Conducted market viability testing for 3 AI-enabled digital health lines; KPI frameworks informed go-forward decisions on 2 of 3', v:['all','ds'] },
+      { t:'Validated commercial strategy with primary research and brand health studies in HIPAA-regulated context', v:['all','ds'] },
+    ] },
+  { id:'gopro',   glyph:'◬', label:'GoPro',             dates:'Aug 2020–Dec 2021', domain:'Consumer Tech',
+    summary:'Analytics framework for international EMEA/APAC growth strategy; GDPR data sovereignty for consumer data activation.',
+    metric:'EMEA/APAC', metricLabel:'INTERNATIONAL GROWTH STRATEGY',
+    bullets:[
+      { t:'Designed analytics framework for EMEA/APAC international growth initiatives', v:['all','ds'] },
+      { t:'Navigated GDPR data sovereignty requirements for international consumer data collection, activation, and attribution', v:['all','ds'] },
+    ] },
+  { id:'verizon', glyph:'⊕', label:'Verizon Media',      dates:'Jan–Dec 2021', domain:'Moonshot Strategy',
+    summary:'Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.',
+    metric:'5', metricLabel:'5G INNOVATION VENTURES ASSESSED',
+    bullets:[
+      { t:'Quantitative opportunity assessments for 5 5G innovation products; market sizing and competitive analysis', v:['all','ds'] },
+      { t:'Analyzed market trends to recommend go/no-go decisions on venture investments', v:['all','ds'] },
+    ] },
+];
+
+// ── True North content per focus view ────────────────────────────────────────
+const TRUE_NORTH = {
+  all:   { heading:'OVERVIEW',
+    text:'Decade-plus at the intersection of product analytics and developer tooling. Currently building production systems on Figma MCP + Code Connect daily. The data I\'d be analyzing is the product I\'m already using — which means day-one questions aren\'t "what does this product do?" but "why does this engagement pattern look like this, and is it instrumentation or real signal?"' },
+  figma: { heading:'WHY FIGMA',
+    text:'Not studying Dev Mode from the outside — building production systems on top of it. arcs-v9 uses Figma Dev Mode, Code Connect, and MCP server as production infrastructure for AI-native development workflows. Day-one analytical questions come from inside the product, not from the docs.' },
+  ds:    { heading:'ANALYTICAL DEPTH',
+    text:'10+ years owning the full analytical lifecycle: instrumentation architecture → experiment design → forecasting → decision observability. Builds the measurement layer from scratch — WTA at <120ms, Grayscale CDP/event taxonomy, ARCS decision observability at 60% noise reduction. SQL · Python · Snowflake · Redshift. The quantitative rigor is in the record.' },
+};
+
+const SKILLS = [
+  { id:'figmadev', label:'Figma Dev Mode',      accent:T.cyan,  views:['all','figma'] },
+  { id:'codeconn', label:'Code Connect',         accent:T.cyan,  views:['all','figma'] },
+  { id:'mcp',      label:'MCP Server',           accent:T.cyan,  views:['all','figma'] },
+  { id:'claude',   label:'Claude Code',          accent:T.cyan,  views:['all','figma'] },
+  { id:'agentic',  label:'Agentic AI',            accent:T.cyan,  views:['all','figma'] },
+  { id:'sql',      label:'SQL',                  accent:T.green, views:['all','ds'] },
+  { id:'python',   label:'Python',               accent:T.green, views:['all','ds'] },
+  { id:'forecast', label:'Forecasting',          accent:T.green, views:['all','ds'] },
+  { id:'abtest',   label:'A/B Experimentation',  accent:T.green, views:['all','ds'] },
+  { id:'datamod',  label:'Data Modeling',        accent:T.green, views:['all','ds'] },
+  { id:'snow',     label:'Snowflake',            accent:T.green, views:['all','ds'] },
+  { id:'redshift', label:'Redshift',             accent:T.green, views:['all','ds'] },
+  { id:'cdp',      label:'CDP Architecture',     accent:T.gold,  views:['all','ds'] },
+  { id:'segment',  label:'Segment / mParticle',  accent:T.gold,  views:['all','ds'] },
+  { id:'evttax',   label:'Event Taxonomy',       accent:T.gold,  views:['all','ds'] },
+  { id:'attrib',   label:'Attribution Modeling', accent:T.gold,  views:['all','ds'] },
+  { id:'tableau',  label:'Tableau',              accent:T.gold,  views:['all','ds'] },
+  { id:'governa',  label:'Data Governance',      accent:T.gold,  views:['all','ds'] },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SKETCH — minimal, distilled, typographically considered
+// Dark ground. Single cyan rule. Pure hierarchy. Nothing decorative.
+// ─────────────────────────────────────────────────────────────────────────────
+function GrainResume() {
+  const roles = [
+    { co:'ARCS — Decision Science Platform', role:'Founder & Product Partner', dates:'2025–Present',
+      metrics:'60% noise reduction  ·  2.5× decision confidence  ·  3–5× time-to-insight',
+      bullets:['Reduced decision noise by 60% through structured evidence taxonomy; 3–5× time-to-insight acceleration',
+               'Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — practitioner of the exact developer tooling',
+               'Experimentation frameworks; 40% reduction in wasted planning cycles'] },
+    { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
+      metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
+      bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
+               'Behavioral event taxonomy and instrumentation layer for investor portal; 35% release cycle reduction'] },
+    { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
+      metrics:'Seven-figure engagement  ·  $350M ARR client  ·  5 verticals',
+      bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition',
+               'Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
+    { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
+      metrics:'20% revenue lift  ·  CDP + CRM architecture  ·  Salesforce modernization',
+      bullets:['Enterprise CDP and CRM strategy end-to-end; segmentation engine across marketing, fundraising, and clinical ops',
+               '20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
+    { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018',
+      metrics:'<120ms latency  ·  $850K year-one revenue  ·  global consumer platform',
+      bullets:['Real-time fan behavior forecasting infrastructure at <120ms latency; CDP selection for global sports platform',
+               '$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook)'] },
+  ];
+
+  return (
+    <div style={{ animation:'fadeUp .3s ease both' }}>
+      {/* Summary */}
+      <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
+        maxWidth:680, marginBottom:24 }}>
+        Product intelligence leader and analytical builder with 10+ years owning the full analytical
+        lifecycle — instrumentation design, behavioral event modeling, experiment frameworks, and decision
+        observability. Builds the measurement layer. Currently building arcs-v9 on Figma Dev Mode,
+        Code Connect, and MCP server as production infrastructure.
+      </p>
+
+      {/* Thin cyan gradient rule — the one graphic element */}
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.cyan},${T.cyan}00)`,
+        marginBottom:28, width:'55%' }} />
+
+      {/* Experience */}
+      <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
+        textTransform:'uppercase', color:T.fg4, marginBottom:18 }}>Experience</div>
+
+      <div style={{ display:'flex', flexDirection:'column' }}>
+        {roles.map((r,i) => (
+          <div key={i} style={{ paddingBottom:20, marginBottom:20,
+            borderBottom: i < roles.length-1 ? `1px solid ${T.border}22` : 'none' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:2 }}>
+              <span style={{ fontFamily:T.sans, fontSize:13.5, fontWeight:600, color:T.fg1,
+                letterSpacing:'-0.01em' }}>{r.co}</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.06em',
+                flexShrink:0, marginLeft:16 }}>{r.dates}</span>
+            </div>
+            <div style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg3, marginBottom:6,
+              letterSpacing:'0.01em' }}>{r.role}</div>
+            <div style={{ fontFamily:T.mono, fontSize:9, color:`${T.cyan}88`,
+              letterSpacing:'0.07em', marginBottom:10 }}>{r.metrics}</div>
+            {r.bullets.map((b,j) => (
+              <div key={j} style={{ display:'flex', gap:10, marginBottom:4 }}>
+                <span style={{ color:`${T.cyan}44`, fontSize:11, marginTop:1, flexShrink:0 }}>—</span>
+                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6 }}>{b}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.border},transparent)`,
+        margin:'8px 0 20px' }} />
+
+      {/* Skills */}
+      <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
+        textTransform:'uppercase', color:T.fg4, marginBottom:14 }}>Technical Proficiency</div>
+      <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
+        {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
+          ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
+          ['Developer Tools',   'Figma Dev Mode · Code Connect · MCP Server · Claude Code · GitHub · Agentic AI workflows'],
+          ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
+        ].map(([label,val],i) => (
+          <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
+            <span style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, color:T.fg4,
+              letterSpacing:'0.08em', flexShrink:0, minWidth:116,
+              textTransform:'uppercase' }}>{label}</span>
+            <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{val}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.border},transparent)`,
+        margin:'18px 0 16px' }} />
+
+      {/* Education */}
+      <div style={{ display:'flex', gap:36, flexWrap:'wrap' }}>
+        {[['Oberlin College','BA, Honors Studio Art','2002–2006'],
+          ['MIT xPRO','AI: Business Strategy','Certificate']].map(([inst,deg,yr],i) => (
+          <div key={i}>
+            <span style={{ fontFamily:T.sans, fontSize:12.5, fontWeight:600, color:T.fg1 }}>{inst}</span>
+            <span style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg3 }}> — {deg}</span>
+            <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, marginLeft:10 }}>{yr}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SHARP — full interactive resume
+// ─────────────────────────────────────────────────────────────────────────────
+function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClient }) {
+  const [manualExpanded,   setManualExpanded]   = useState(null);
+  const [consultingOpen,   setConsultingOpen]   = useState(false);
+
+  const expanded = selectedNode
+    ? (TRAJ.find(n=>n.id===selectedNode)?.roleId || null)
+    : manualExpanded;
+
+  const toggle = id => {
+    if (selectedNode && TRAJ.find(n=>n.id===selectedNode)?.roleId === id) {
+      onSelectNode(null);
+    } else {
+      setManualExpanded(e => e===id ? null : id);
+    }
+  };
+
+  // When consulting opens, clear any expanded FT role
+  const toggleConsulting = () => {
+    setConsultingOpen(o => !o);
+    if (!consultingOpen) { onSelectNode(null); setManualExpanded(null); }
+  };
+
+  const client = CONSULTING_CLIENTS.find(c => c.id === selectedClient);
+
+  return (
+    <div style={{ animation:'fadeUp .3s ease both' }}>
+
+
+      {/* 01 — FT Experience */}
+      <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
+      <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode} onSelectClient={onSelectClient}
+        consultingOpen={consultingOpen} onConsultingToggle={toggleConsulting} />
+      <div style={{ marginBottom:8 }} />
+      {/* When consulting is open: FT roles collapse to spine labels */}
+      <div style={{ display:'flex', flexDirection:'column', gap: consultingOpen ? 3 : 6, marginBottom:10 }}>
+        {ROLES.map(r => {
+          // CATALOGUE MODE — consulting open: ultra-compressed spine card
+          if (consultingOpen) return (
+            <div key={r.id}
+              onClick={() => { setConsultingOpen(false); toggle(r.id); }}
+              style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 14px',
+                borderRadius:7, cursor:'pointer', transition:'all .15s',
+                border:`1px solid ${r.color}22`,
+                background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
+                opacity:0.7 }}
+              onMouseEnter={e => e.currentTarget.style.opacity='1'}
+              onMouseLeave={e => e.currentTarget.style.opacity='0.7'}>
+              <span style={{ color:r.color, fontSize:11 }}>{r.glyph}</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700,
+                letterSpacing:'0.08em', color:r.color, textTransform:'uppercase' }}>
+                {r.label}
+              </span>
+              <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:8, color:T.fg4 }}>{r.dates}</span>
+            </div>
+          );
+          // NORMAL MODE — full TribTile
+          return (
+            <TribTile key={r.id} label={r.label} glyph={r.glyph} color={r.color}
+              meta={r.dates}
+              expanded={expanded===r.id ? (
+                <div style={{ animation:'slideDown .18s ease both' }}>
+                  <div style={{ display:'flex', alignItems:'baseline', gap:10, marginBottom:14 }}>
+                    <span style={{ fontFamily:T.sans, fontSize:'1.7rem', fontWeight:700, color:r.color, lineHeight:1 }}>{r.metric}</span>
+                    <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.1em', textTransform:'uppercase' }}>{r.metricLabel}</span>
+                  </div>
+                  {r.bullets.map((b,i) => (
+                    <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                      <span style={{ color:r.color, fontSize:10, marginTop:3, flexShrink:0 }}>·</span>
+                      <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+              onClick={() => toggle(r.id)}>
+              {r.summary}
+            </TribTile>
+          );
+        })}
+      </div>
+
+      {/* 02 — Select Consulting Work */}
+      <ConsultingSection selectedClient={selectedClient} onSelectClient={onSelectClient}
+        open={consultingOpen} onToggle={toggleConsulting} />
+
+      {/* 03 — Skills */}
+      <SectionLabel index="03" style={{ marginBottom:10, marginTop:20 }}>Skills</SectionLabel>
+      <div style={{ display:'flex', flexWrap:'wrap', gap:5, marginBottom:24 }}>
+        {SKILLS.map(s => (
+          <Chip key={s.id} label={s.label} accent={s.accent} selected={true} />
+        ))}
+      </div>
+
+      <Rule style={{ marginBottom:20 }} />
+
+      {/* Education */}
+      <SectionLabel index="04" style={{ marginBottom:10 }}>Education</SectionLabel>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
+        {[
+          { inst:'Oberlin College', degree:'BA, Honors Studio Art', year:'2002–2006', note:'Design-first foundation — aesthetic intuition applied to data visualization and developer experience analytics.' },
+          { inst:'MIT xPRO', degree:'AI: Business Strategy', year:'Certificate', note:'AI strategy, product instrumentation, and ML system design for enterprise and product contexts.' },
+        ].map((e,i) => (
+          <div key={i} style={{ borderRadius:8, overflow:'hidden', border:`1px solid ${T.border}` }}>
+            <div style={{ padding:'10px 12px', background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.1))' }}>
+              <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, color:T.fg3, marginBottom:3 }}>{e.inst} · {e.year}</div>
+              <div style={{ fontFamily:T.sans, fontSize:12.5, fontWeight:600, color:T.fg1, marginBottom:3 }}>{e.degree}</div>
+              <div style={{ fontFamily:T.sans, fontSize:11, color:T.fg3, lineHeight:1.5 }}>{e.note}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DEEP — ARCS profile scan (zones of genius, constructive interference, JTBD)
+// ─────────────────────────────────────────────────────────────────────────────
+function DeepScan() {
+  const m = useMobile();
+  const [open, setOpen] = useState(null);
+  const tog = id => setOpen(o => o===id ? null : id);
+
+  // Glass card — premium hardware container from design system
+  const glass = (extra={}) => ({
+    borderRadius:10,
+    border:'1px solid rgba(255,255,255,.08)',
+    background:'linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)), #0d1117',
+    boxShadow:'inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 1px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.45)',
+    ...extra
+  });
+
+  return (
+    <div style={{ marginTop:28, animation:'fadeUp .4s ease both' }}>
+      {/* Scan header — matches 01 EXPERIENCE pattern */}
+      <div style={{ paddingTop:20, borderTop:`1px solid ${T.border}`, marginBottom:16 }}>
+        <SectionLabel index="02">Deep Profile</SectionLabel>
+      </div>
+
+      <div style={{ height:1, background:`linear-gradient(90deg,${T.cyan}44,${T.border}22)`, marginBottom:20 }} />
+
+      {/* Core Strengths — TrueNorthPanel, cyan is the only signal in this section */}
+      <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:16 }}>
+        Builds measurement systems for things that do not have categories yet — then becomes the first and most demanding analyst of what he built. The practitioner-analyst fusion: cannot analyze well what he has not built, cannot build right without the analytical feedback loop. This combination is rare because most job descriptions separate the two.
+      </TrueNorthPanel>
+
+      {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
+      <SectionLabel style={{ marginBottom:10 }}>ENERGY PROFILE</SectionLabel>
+      <div style={{ ...glass({ padding:'16px 18px', marginBottom:20 }) }}>
+        <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? 16 : 0 }}>
+          <div style={{ paddingRight: m ? 0 : 20 }}>
+            <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
+              color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Activates</div>
+            {['First instrumentation layer — no playbook, invent the taxonomy',
+              'Cross-domain synthesis — connecting what specialists keep separate',
+              'High-stakes contexts where measurement actually matters',
+              'The moment instrumentation reveals what the team did not know to ask',
+              'Building the thing, then becoming its first analyst',
+            ].map((e,i) => (
+              <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                <span style={{ color:T.fg4, fontSize:9, marginTop:2, flexShrink:0 }}>—</span>
+                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ paddingLeft: m ? 0 : 20, borderLeft: m ? 'none' : '1px solid rgba(255,255,255,.06)', borderTop: m ? '1px solid rgba(255,255,255,.06)' : 'none', paddingTop: m ? 16 : 0 }}>
+            <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
+              color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Depletes</div>
+            {['Pure optimization once built and proven — attention drops',
+              'ML / stat work disconnected from product decisions (no "so what")',
+              'Siloed contexts where cross-domain synthesis is not valued',
+              'Work that lives permanently in presentations, never ships',
+              'Bureaucratic consensus without clear decision authority',
+            ].map((e,i) => (
+              <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
+                <span style={{ color:T.fg4, fontSize:9, marginTop:2, flexShrink:0 }}>—</span>
+                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Compound Advantages — TribTile, all steel (no rainbow) */}
+      <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
+      <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
+        {[
+          { id:'ci1', glyph:'⊗', label:'Studio Art × Data Architecture',
+            meta:'Oberlin 2006 × 10yr career',
+            summary:'Aesthetic intelligence applied to analytical infrastructure — data products that get used because they are designed to be understood, not just accurate.',
+            detail:<>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
+                The Oberlin Studio Art degree isn't a liability in a DS role at a design company — it's the compound advantage. Most data scientists build dashboards that are technically correct and behaviorally unused. The aesthetic judgment fires before the data confirms low engagement.
+              </p>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
+                For Figma: the company builds tools for designers. An analyst who understands <em>why</em> a design feels right — not just what the usage data says — asks better product questions.
+              </p>
+            </> },
+          { id:'ci2', glyph:'⊗', label:'WTA Fan Behavior (2016) × Figma Developer Workflow (2026)',
+            meta:'10-year isomorphism — Tier 1 verified',
+            summary:'WTA fan modeling at <120ms and Figma Dev Mode are the same instrumentation class: user in flow state, product needs to surface the right action without breaking the flow.',
+            detail:<>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
+                At WTA (2016–2018): fan in a live event → personalized offer at {"<"}120ms. Instrument the flow, detect intent, deliver without friction. The architecture had to be real-time because a delayed offer was worthless.
+              </p>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
+                2026 Figma Dev Mode: developer in design-to-code flow. Same problem — flow state, intent signal, friction measurement. The WTA architecture was the same problem, 10 years earlier.
+              </p>
+            </> },
+          { id:'ci3', glyph:'⊗', label:'Regulated Finance (Grayscale) × Consumer Analytics (WTA/CTF)',
+            meta:'Compliance × growth compound',
+            summary:'Knows what CANNOT be tracked (regulatory) and what SHOULD be tracked (product growth). Data products that are legally defensible and analytically useful.',
+            detail:<>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
+                SEC/FINRA constraints at Grayscale taught a discipline most consumer DS never face: when data collection is a liability, instrumentation decisions have to be architecturally sound, not just analytically interesting.
+              </p>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
+                Paired with WTA consumer analytics, the compound is growth instrumentation that survives legal scrutiny. Relevant for Figma as it scales into enterprise.
+              </p>
+            </> },
+        ].map(t => (
+          <TribTile key={t.id} glyph={t.glyph} label={t.label} color={T.steel} meta={t.meta}
+            expanded={open===t.id ? t.detail : null}
+            onClick={() => tog(t.id)}>
+            {t.summary}
+          </TribTile>
+        ))}
+      </div>
+
+      {/* Productive Tensions — instrument gauge cards, uniform steel palette */}
+      <SectionLabel style={{ marginBottom:10 }}>PRODUCTIVE TENSIONS</SectionLabel>
+      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr 1fr', gap:8, marginBottom:20 }}>
+        {[
+          { label:'Builder ↔ Analyst',
+            desc:'Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.' },
+          { label:'Aesthetic ↔ Rigor',
+            desc:'"This metric is ugly therefore unused" fires before statistical validation confirms it. Aesthetic judgment accelerates the analytical loop.' },
+          { label:'Pioneer ↔ Production',
+            desc:'Drawn to new territory but has the regulated-environment discipline to ship in high-stakes contexts. Valuable where new products need to be production-grade from day one.' },
+        ].map((d,i) => (
+          <div key={i} style={{ ...glass({ padding:'14px 16px' }) }}>
+            <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.1em',
+              textTransform:'uppercase', color:T.fg3, marginBottom:8,
+              paddingBottom:8, borderBottom:'1px solid rgba(255,255,255,.06)' }}>{d.label}</div>
+            <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6 }}>{d.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Role Fit — glass cards, ID badge in steel, only FIGMA tag gets cyan */}
+      <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
+      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap:8, marginBottom:20 }}>
+        {[
+          { id:'A', label:'Make the invisible legible',
+            desc:'First instrumentation layer where no measurement framework exists. Greenfield analytics — invent the taxonomy.',
+            figma:'Dev Mode / Code Connect are relatively new — the instrumentation layer IS greenfield.' },
+          { id:'B', label:'Find the pattern before the category exists',
+            desc:'Analytics at the frontier of an emerging product type. Signals are ambiguous, the framework has to be built, not applied.',
+            figma:'Same pattern recognition that applied to developer workflow analytics applies here.' },
+          { id:'C', label:'Bridge worlds specialists cannot cross',
+            desc:'Aesthetic intelligence and analytical rigor coexisting. Design tools, creative platforms — where the experience IS the data.',
+            figma:'Figma is exactly this. The Oberlin/data compound is the bridge.' },
+          { id:'D', label:'Turn the builder into the analyst',
+            desc:'Practitioner depth as the analytical asset. Knowing the product from the inside changes the quality of every question.',
+            figma:'Builds on Figma MCP daily. "Why does this pattern look like this?" not "what does Dev Mode do?"' },
+        ].map(j => (
+          <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
+            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+              <span style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, color:T.fg3,
+                width:20, height:20, borderRadius:'50%', border:'1.5px solid rgba(255,255,255,.15)',
+                display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>{j.id}</span>
+              <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, color:T.fg2,
+                letterSpacing:'0.05em' }}>{j.label}</span>
+            </div>
+            <p style={{ fontFamily:T.sans, fontSize:12, color:T.fg3, lineHeight:1.6, marginBottom:10 }}>{j.desc}</p>
+            <div style={{ padding:'8px 10px', borderRadius:7,
+              background:'linear-gradient(180deg,#090d12,#0c1219)',
+              boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)',
+              border:'1px solid rgba(255,255,255,.06)' }}>
+              <span style={{ fontFamily:T.mono, fontSize:8, color:T.cyan, letterSpacing:'0.08em',
+                textTransform:'uppercase', marginRight:6 }}>FIGMA ▲</span>
+              <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.figma}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
+      <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
+        Every other DS candidate for this role will have studied Dev Mode, Code Connect, and MCP from the outside. He's been building production systems on top of them for over a year. The practitioner-analyst combination is the rarest signal in DS hiring — verifiable, not claimed. Day-one questions: not "what does this product do?" but "why does this engagement drop-off pattern look like this, and is it instrumentation or real signal?"
+      </TrueNorthPanel>
+
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ROOT
+// ─────────────────────────────────────────────────────────────────────────────
+function Resume() {
+  const [depth,          setDepth]          = useState('sharp');
+  const [selectedNode,   setSelectedNode]   = useState('arcs');
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [headerH,  setHeaderH]  = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const headerRef = useRef(null);
+
+  // Measure header height for spacer
+  useEffect(() => {
+    if (!headerRef.current) return;
+    const obs = new ResizeObserver(entries => setHeaderH(entries[0].contentRect.height));
+    obs.observe(headerRef.current);
+    return () => obs.disconnect();
+  }, []);
+
+  // Disable fixed header on mobile portrait
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = e => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
+  const showRich   = depth === 'sharp' || depth === 'superionic';
+  const showDeep   = depth === 'superionic';
+  const showSimple = depth === 'grain';
+  const [resumeCollapsed, setResumeCollapsed] = useState(false);
+  useEffect(() => { if (depth !== 'superionic') setResumeCollapsed(false); }, [depth]);
+
+  return (
+    <div className="page">
+
+      {/* ── Header — fixed on desktop, scrolls on mobile ─────────────── */}
+      <div ref={headerRef} style={{
+        position: isMobile ? 'relative' : 'fixed',
+        top: isMobile ? 'auto' : 0,
+        left: isMobile ? 'auto' : 0,
+        right: isMobile ? 'auto' : 0,
+        zIndex: 50,
+        background: T.bg,
+        borderBottom: `1px solid ${T.border}`,
+      }}>
+        <div style={{ maxWidth:860, margin:'0 auto', padding: isMobile ? '20px 24px 16px' : '24px 24px 18px' }}>
+          {/* Name / contact */}
+          <div style={{ marginBottom: isMobile ? 12 : 16 }}>
+            <h1 style={{ fontFamily:T.sans, fontSize: isMobile ? '1.55rem' : '2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
+              Zach Harris
+            </h1>
+            <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
+              Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
+            </div>
+          </div>
+          {/* True North */}
+          <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom: isMobile ? 10 : 14 }}>
+            {TRUE_NORTH.all.text}
+          </TrueNorthPanel>
+          {/* Depth selector */}
+          <div className="no-print">
+            <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
+          </div>
+        </div>
+      </div>
+
+      {/* Spacer — only needed when header is fixed (desktop) */}
+      {!isMobile && <div style={{ height: headerH + 20 }} />}
+
+      {/* ── Scrollable content ───────────────────────────────────────────── */}
+      {showSimple && <GrainResume />}
+
+      {/* WIREFRAME — collapsible when PIXEL PERFECT is active */}
+      {showRich && (
+        <div>
+          {showDeep && (
+            <button type="button" onClick={() => setResumeCollapsed(r => !r)}
+              style={{ display:'flex', alignItems:'center', gap:8, width:'100%', padding:'8px 0',
+                background:'transparent', border:'none', borderBottom:`1px solid ${T.border}`,
+                marginBottom:16, cursor:'pointer' }}>
+              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.12em',
+                color:T.fg3, textTransform:'uppercase' }}>RESUME</span>
+              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4,
+                marginLeft:'auto' }}>{resumeCollapsed ? '▼ expand' : '▲ collapse'}</span>
+            </button>
+          )}
+          {!resumeCollapsed && (
+            <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
+              selectedClient={selectedClient} onSelectClient={setSelectedClient} />
+          )}
+        </div>
+      )}
+
+      {showDeep && <DeepScan />}
+
+      {/* ── Contact — always visible ──────────────────────────────────── */}
+      <div style={{ marginTop:28, padding:'14px 16px', borderRadius:10, border:`1px solid ${T.border}`,
+        background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
+        display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
+        <div style={{ fontFamily:T.sans, fontSize:13, color:T.fg2 }}>
+          Hayden — happy to connect before Monday.{' '}
+          <span style={{ color:T.cyan, fontFamily:T.mono, fontSize:11 }}>Zach.Harris@Gmail.com</span>
+          <span style={{ color:T.fg4, fontSize:11 }}> · 203·807·2976</span>
+        </div>
+        <a href="mailto:Zach.Harris@Gmail.com"
+          style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:7,
+            fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.05em', color:'#071014',
+            background:`linear-gradient(135deg,${T.cyan},#00c8d4)`,
+            boxShadow:`0 0 14px ${T.cyan}44, 0 4px 10px rgba(0,0,0,.4)` }}>
+          ◈ SEND BEARING
+        </a>
+      </div>
+
+      {/* ATS download — generates self-contained HTML file, not lazy print */}
+      <div className="no-print" style={{ marginTop:32, display:'flex', justifyContent:'center', gap:10 }}>
+        <button type="button" onClick={() => {
+          const roles = [
+            { co:'ARCS — Decision Science Platform', role:'Founder & Product Partner', dates:'2025–Present',
+              bullets:['Reduced decision noise by 60% through structured evidence taxonomy; 3–5× time-to-insight acceleration','Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — practitioner of the exact developer tooling','Experimentation frameworks; 40% reduction in wasted planning cycles'] },
+            { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
+              bullets:['Architected CDP and personalization data model for 10 regulated investment products ($7B AUM)','Behavioral event taxonomy and instrumentation layer; 35% release cycle reduction; zero SEC/FINRA violations'] },
+            { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
+              bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition','Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
+            { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
+              bullets:['Enterprise CDP and CRM strategy; segmentation engine across marketing, fundraising, and clinical ops','20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
+            { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018',
+              bullets:['Real-time fan behavior forecasting infrastructure at <120ms latency; CDP selection for global sports platform','$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook)'] },
+          ];
+          const html = `<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zachary Harris — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#fff;color:#111;font-family:'Inter',system-ui,sans-serif}
+body{max-width:760px;margin:0 auto;padding:0.7in 0.6in}
+h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#111;line-height:1}
+.rule{height:1px;background:linear-gradient(90deg,#007A8A,transparent);margin:12px 0 20px;width:55%}
+.contact{font-family:'JetBrains Mono',monospace;font-size:9px;color:#666;letter-spacing:0.06em;margin-top:8px}
+.title{font-size:12px;color:#444;margin-top:5px}
+.summary{font-size:13px;color:#333;line-height:1.75;margin-bottom:24px;max-width:680px}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#888;margin-bottom:16px}
+.role{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid #eee}
+.role-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
+.role-co{font-size:13.5px;font-weight:600;color:#111;letter-spacing:-0.01em}
+.role-dates{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;letter-spacing:0.06em}
+.role-title{font-size:11.5px;color:#666;margin-bottom:6px}
+.role-metrics{font-family:'JetBrains Mono',monospace;font-size:9px;color:#007A8A;letter-spacing:0.07em;margin-bottom:9px}
+.bullet{display:flex;gap:10px;margin-bottom:4px}
+.bullet-dash{color:#007A8A88;font-size:11px;margin-top:1px;flex-shrink:0}
+.bullet-text{font-size:12px;color:#333;line-height:1.6}
+.skills-row{display:flex;gap:16px;align-items:baseline;margin-bottom:7px}
+.skills-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#888;letter-spacing:0.08em;text-transform:uppercase;flex-shrink:0;min-width:116px}
+.skills-val{font-size:12px;color:#444;line-height:1.55}
+.edu-row{display:inline-flex;gap:36px;flex-wrap:wrap}
+.edu-inst{font-size:12.5px;font-weight:600;color:#111}
+.edu-deg{font-size:12.5px;color:#666}
+.edu-yr{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;margin-left:10px}
+.divider{height:1px;background:linear-gradient(90deg,#ddd,transparent);margin:18px 0 16px}
+@media print{body{padding:0.5in 0.6in;font-size:11px}}
+</style></head><body>
+<h1>Zach Harris</h1>
+<div class="contact">Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris</div>
+<div class="title">Product Intelligence Leader  ·  Analytical Builder  ·  Figma Practitioner</div>
+<div class="rule"></div>
+<p class="summary">Product intelligence leader and analytical builder with 10+ years owning the full analytical lifecycle — instrumentation design, behavioral event modeling, experiment frameworks, and decision observability. Builds the measurement layer. Currently building arcs-v9 on Figma Dev Mode, Code Connect, and MCP server as production infrastructure.</p>
+<div class="section-label">Experience</div>
+${roles.map(r => `<div class="role">
+  <div class="role-header"><span class="role-co">${r.co}</span><span class="role-dates">${r.dates}</span></div>
+  <div class="role-title">${r.role}</div>
+  ${r.bullets.map(b => `<div class="bullet"><span class="bullet-dash">—</span><span class="bullet-text">${b}</span></div>`).join('')}
+</div>`).join('')}
+<div class="divider"></div>
+<div class="section-label">Technical Proficiency</div>
+<div class="skills-row"><span class="skills-label">Analytics & DS</span><span class="skills-val">SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling</span></div>
+<div class="skills-row"><span class="skills-label">Data Systems</span><span class="skills-val">Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems</span></div>
+<div class="skills-row"><span class="skills-label">Developer Tools</span><span class="skills-val">Figma Dev Mode · Code Connect · MCP Server · Claude Code · GitHub · Agentic AI workflows</span></div>
+<div class="skills-row"><span class="skills-label">Instrumentation</span><span class="skills-val">Event taxonomy · behavioral tracking · product telemetry · data quality · data governance</span></div>
+<div class="divider"></div>
+<div class="section-label">Education</div>
+<div class="edu-row">
+  <span><span class="edu-inst">Oberlin College</span><span class="edu-deg"> — BA, Honors Studio Art</span><span class="edu-yr">2002–2006</span></span>
+  <span><span class="edu-inst">MIT xPRO</span><span class="edu-deg"> — AI: Business Strategy</span><span class="edu-yr">Certificate</span></span>
+</div>
+</body></html>`;
+          const blob = new Blob([html], { type:'text/html' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'zach-harris-resume.html';
+          a.click();
+          URL.revokeObjectURL(a.href);
+        }}
+        style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 20px',
+          borderRadius:7, border:`1px solid ${T.border}`, background:'transparent',
+          fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.08em',
+          color:T.fg3, cursor:'pointer', transition:'all .15s' }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor=T.cyan; e.currentTarget.style.color=T.cyan; }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.fg3; }}>
+          ↓ ATS RESUME (.html)
+        </button>
+      </div>
+
+      {/* Footer */}
+      <div style={{ marginTop:20, display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:`1px solid ${T.border}` }}>
+        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em' }}>Zach Harris · resume.arcs.care</span>
+        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>2026</span>
+      </div>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Resume />);
+</script>
+</body>
+</html>
