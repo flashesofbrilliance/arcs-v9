@@ -55,6 +55,31 @@
   ],
   "risk_rules": [
     {
+      "id": "secrets",
+      "when": { "subject_matches": "(?i)\\b(secret|filter-repo|purge|history-scrub|credential)\\b" },
+      "set": { "sev": "RUIN", "status": "AVERTED", "how": "history rewrite + secret rotation", "risk": "Credentials committed to git history", "note": "API keys reached git history and were purged before exploitation. Ruin-class — a single exposure is unrecoverable." }
+    },
+    {
+      "id": "rls",
+      "when": { "subject_matches": "(?i)\\brls\\b|deny-all" },
+      "set": { "sev": "HIGH", "status": "AVERTED", "how": "RLS deny-all on all tables", "risk": "Unauthenticated data access (no RLS)", "note": "Tables were briefly reachable without auth; closed by deny-all row-level security." }
+    },
+    {
+      "id": "auth-gap",
+      "when": { "subject_matches": "(?i)soft-guard|unauthenticated|auth gate" },
+      "set": { "sev": "HIGH", "status": "MITIGATED", "how": "app-layer session guard", "risk": "Unauthenticated API access", "note": "API routes were reachable without a session; guarded at the app layer (prod enforces, dev passes through)." }
+    },
+    {
+      "id": "xuser",
+      "when": { "subject_matches": "(?i)anonymous compass|receipt.?claim|cross.?user" },
+      "set": { "sev": "HIGH", "status": "MITIGATED", "how": "scoped per-session receipt-claim", "risk": "Cross-user data leakage", "note": "Anonymous compass receipts scoped per session to prevent cross-user reads." }
+    },
+    {
+      "id": "deploy-blocker",
+      "when": { "subject_matches": "(?i)prismapg|prisma.*adapter|p1012|unblock.*deploy|deploy.*block" },
+      "set": { "sev": "MED", "status": "AVERTED", "how": "adapter / config fix", "risk": "Deploy blocked — Prisma 7 adapter", "note": "Prisma 7 engine/schema mismatch blocked the deploy; resolved by the PrismaPg adapter pattern." }
+    },
+    {
       "id": "revert",
       "when": { "subject_matches": "(?i)^revert|\\brollback\\b|\\bback ?out\\b" },
       "set": { "sev": "HIGH", "status": "MITIGATED", "how": "reverted", "risk": null }
@@ -71,7 +96,7 @@
     }
   ],
   "drop": {
-    "subject_matches": "(?i)^(chore|docs|test|style|build|ci)(\\(|:)|merge branch|merge pull request|bump|handoff|snapshot|pickup|\\bwip\\b|typo|lint|format|gitignore"
+    "subject_matches": "(?i)^(chore|docs|test|style|build|ci)(\\(|:)|^[a-z]+\\(resume\\)|merge branch|merge pull request|bump|handoff|snapshot|pickup|\\bwip\\b|typo|lint|format|gitignore"
   },
   "default": { "type": "feat", "alt": "L1", "conf": 80, "keep": false }
 }

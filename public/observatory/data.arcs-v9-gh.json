@@ -1,43 +1,62 @@
 {
   "repo": "flashesofbrilliance/arcs-v9",
   "label": "arcs-v9 \u2014 GitHub rules engine",
-  "generated_at": "2026-06-08T02:04:11",
-  "head_sha": "edc3bcc",
+  "generated_at": "2026-06-08T14:19:56",
+  "head_sha": "3aae5d8",
   "attribution": "shown",
   "span_start": "2026-05-27",
   "span_days": 14,
   "redacted_open_risks": 0,
   "events": [
     {
-      "id": "ev-1afe828",
+      "id": "ev-a737c56",
       "date": "2026-05-27",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(schema+db): wire DATABASE_URL in datasource, simplify PrismaClient, gitignore .env.local",
-      "sha": "1afe828",
-      "desc": "D: Prisma schema was missing url = env(\"DATABASE_URL\") \u2014 Postgres provider had no connection string\nE: prisma/schema.prisma \u00b7 src/lib/db.ts \u00b7 .gitignore\nW: TODAY\nY: GREEN / HIGH / STABLE\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86,
-      "peak": true
-    },
-    {
-      "id": "ev-bf4205a",
-      "date": "2026-05-27",
-      "alt": "L3",
+      "alt": "L5",
       "type": "milestone",
-      "label": "fix(db): conditional Prisma adapter \u2014 SQLite local, native Postgres on Vercel",
-      "sha": "bf4205a",
-      "desc": "Resolves PrismaClientInitializationError: adapter-better-sqlite3 is\nincompatible with postgres provider. Now branches on DATABASE_URL prefix\nso Vercel builds against Supabase without the SQLite adapter.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "label": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct imports, revisit at 8+ components",
+      "sha": "a737c56",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
       "conf": 90,
       "peak": true
     },
     {
-      "id": "ev-25e76e8",
+      "id": "ev-d597708",
+      "date": "2026-05-27",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(ui): Card + CardHeader + CardDivider \u2014 accent border, 3 padding modes",
+      "sha": "d597708",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-80530b8",
+      "date": "2026-05-27",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes",
+      "sha": "80530b8",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-924fd10",
+      "date": "2026-05-27",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap",
+      "sha": "924fd10",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-9970c3f",
       "date": "2026-05-27",
       "alt": "L4",
       "type": "security",
-      "label": "security(auth): soft-guard all API routes \u2014 prod enforces session, dev passes through",
-      "sha": "25e76e8",
-      "desc": "Pattern: auth() \u2192 userId; 401 in production if null; userId filter on history query.\nRoutes hardened: history, compass, brief, guide (GET/POST/PATCH), prep.\nauth.ts stub typed properly: Promise<{user:{id,email}}|null> so TS resolves session shape.\nCompass: userId now sourced from session (not request body) in production.\nLocal dev unaffected \u2014 auth stub returns null, NODE_ENV=development, all routes pass.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "label": "feat(security): RLS deny-all policies for all 9 Supabase tables",
+      "sha": "9970c3f",
+      "desc": "scripts/rls-policies.sql \u2014 paste into Supabase SQL Editor to apply.\nADR-008 documents why auth.uid() policies are wrong for this auth\narchitecture (Auth.js v5 + Prisma superuser \u2260 Supabase Auth JWT).\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
       "conf": 90,
       "peak": true
     },
@@ -51,57 +70,6 @@
       "desc": "D: What is the correct build sequence for founding-10 conversion gap?\nE: arcs-care compass-widget.tsx, lab-offer.tsx, hero.tsx, /api/waitlist (reuse)\nW: THIS_QUARTER \u2014 revisit trigger: 1 Lab inquiry within 30 days of case study live\nY: YELLOW / MEDIUM / REVISIT\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
       "conf": 90,
       "peak": true
-    },
-    {
-      "id": "ev-d597708",
-      "date": "2026-05-28",
-      "alt": "L2",
-      "type": "feat",
-      "label": "feat(ui): Card + CardHeader + CardDivider \u2014 accent border, 3 padding modes",
-      "sha": "d597708",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-80530b8",
-      "date": "2026-05-28",
-      "alt": "L2",
-      "type": "feat",
-      "label": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes",
-      "sha": "80530b8",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-924fd10",
-      "date": "2026-05-28",
-      "alt": "L2",
-      "type": "feat",
-      "label": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap",
-      "sha": "924fd10",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-9970c3f",
-      "date": "2026-05-28",
-      "alt": "L4",
-      "type": "security",
-      "label": "feat(security): RLS deny-all policies for all 9 Supabase tables",
-      "sha": "9970c3f",
-      "desc": "scripts/rls-policies.sql \u2014 paste into Supabase SQL Editor to apply.\nADR-008 documents why auth.uid() policies are wrong for this auth\narchitecture (Auth.js v5 + Prisma superuser \u2260 Supabase Auth JWT).\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 90,
-      "peak": true
-    },
-    {
-      "id": "ev-11ba2fc",
-      "date": "2026-05-28",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(db): Prisma 7 adapter pattern \u2014 url via PrismaPg, not schema.prisma",
-      "sha": "11ba2fc",
-      "desc": "Prisma 7 removed url from datasource block in schema.prisma.\n- prisma.config.ts: load .env.local \u2192 .env chain; DATABASE_URL required (no SQLite fallback)\n- src/lib/db.ts: pass PrismaPg adapter with connectionString to PrismaClient\n- Both migrate (prisma.config.ts) and runtime (db.ts) use Supabase pooler URL\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
     },
     {
       "id": "ev-02b68da",
@@ -137,6 +105,17 @@
       "peak": true
     },
     {
+      "id": "ev-8f97054",
+      "date": "2026-06-03",
+      "alt": "L4",
+      "type": "security",
+      "label": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
+      "sha": "8f97054",
+      "desc": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
+      "conf": 90,
+      "peak": true
+    },
+    {
       "id": "ev-663d831",
       "date": "2026-06-03",
       "alt": "L1",
@@ -158,27 +137,6 @@
       "peak": true
     },
     {
-      "id": "ev-8f97054",
-      "date": "2026-06-04",
-      "alt": "L4",
-      "type": "security",
-      "label": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
-      "sha": "8f97054",
-      "desc": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
-      "conf": 90,
-      "peak": true
-    },
-    {
-      "id": "ev-79f39e6",
-      "date": "2026-06-05",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): reset collapsed state when leaving PIXEL PERFECT",
-      "sha": "79f39e6",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
       "id": "ev-934a18c",
       "date": "2026-06-05",
       "alt": "L1",
@@ -189,242 +147,172 @@
       "conf": 86
     },
     {
-      "id": "ev-4a37d02",
+      "id": "ev-bbeb8a8",
+      "date": "2026-06-05",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(observatory): hide=strip-to-subject; regen deployed data clean",
+      "sha": "bbeb8a8",
+      "desc": "Per demo decision: --attribution hide now strips desc to the commit\nsubject line (drops body where trailers/noise live) \u2014 simpler than the\nregex scrub, removes _ATTR_RE. Regenerated the deployed public data.jsx\nwith hide so the Deloitte-facing demo reads clean.\n\nRemaining Co-Authored-By/Claude strings are legitimate subject-line\ncontent (a commit naming the attribution feature; the product's Claude\npipeline), not authorship trailers. Flag-reversible: regen with show.\n\nhttps://claude.ai/code/session_01WzAA5PW6FyFTd7uqFKebrf",
+      "conf": 88
+    },
+    {
+      "id": "ev-7fec720",
+      "date": "2026-06-05",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(observatory): --attribution show|hide flag for Co-Authored-By trailers",
+      "sha": "7fec720",
+      "desc": "Gauntlet flagged 8 Co-Authored-By/session-url/email trailers in the\npublic data.jsx desc fields. Rather than hard-removing, gate visibility\nbehind a flag (data recoverable by regenerating with show).\n\n- desc_of() scrubs trailer lines when HIDE_ATTRIBUTION set\n- --attribution show (default, byte-identical output) | hide\n- hide: 8 trailers -> 0, session URLs/emails gone, JS valid, 21 events\n  intact; legitimate Claude-as-product mentions correctly preserved\n\nDeloitte-facing build:\n  python3 scripts/build_observatory.py --attribution hide\n\nhttps://claude.ai/code/session_01WzAA5PW6FyFTd7uqFKebrf",
+      "conf": 88
+    },
+    {
+      "id": "ev-98a04f1",
       "date": "2026-06-05",
       "alt": "L1",
       "type": "fix",
-      "label": "fix(resume): jargon cleanup, kill glow animations, ARCS tab default, collapsible wireframe",
-      "sha": "4a37d02",
-      "desc": "- Default selectedNode: 'arcs' (ARCS tab open on load)\n- Removed glow/pulse animations: arcs-pulse, nciCount, scanPulse keyframes + data-pulse\n- Print CSS: print-color-adjust: exact to preserve dark backgrounds\n- Removed NCI SCORE panel (internal scoring, not for recruiter)\n- Removed WeatherBar jargon (Y-GATE / HIGH CONVICTION / NCI 87)\n- Footer: 'ZACHARY HARRIS \u00b7 resume.arcs.care \u00b7 2026'\n- Section headers cleaned: CAREER BEARING \u2192 OVERVIEW, ZONE OF GENIUS \u2192 CORE STRENGTHS, etc.\n- PIXEL PERFECT: wireframe section has collapse/expand toggle\n- L0-L5 / W: JUNE 2026 / Y: GREEN references removed\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "label": "fix(observatory): build_layers honors --repo-path; scaffold non-arcs repos",
+      "sha": "98a04f1",
+      "desc": "Gauntlet found the tailored-instance path crashed on any foreign repo:\nbuild_layers read _DECISIONS + file metrics relative to cwd, not\nREPO_PATH, and the deck prose is editorial arcs-v9 content.\n\n- add rp() to resolve repo-relative reads against the target repo\n- loc() + _DECISIONS listdir now use rp(), guarded against absence\n- foreign repos (no WORLD.md) get generic_layers(): a scaffold deck\n  with real L1/L2 signals + author-me L3-L5 slots, never arcs-v9 prose\n\nVerified: arcs-v9 deck byte-identical (backward-compat); a 5-commit\nthrowaway repo generates valid scaffold output, slug wired through.\n\nhttps://claude.ai/code/session_01WzAA5PW6FyFTd7uqFKebrf",
       "conf": 86
     },
     {
-      "id": "ev-ec6ee70",
+      "id": "ev-2d6e08b",
       "date": "2026-06-05",
-      "alt": "L3",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(observatory): absolute asset paths so /observatory clean URL renders",
+      "sha": "2d6e08b",
+      "desc": "The /observatory rewrite serves index.html but the address bar stays\n/observatory (no trailing slash), so relative asset refs (data.jsx,\ncolors_and_type.css, ...) resolved to root and 404'd -> blank page.\nRoot-absolute /observatory/* paths resolve regardless of slash.\nVerified: all 6 assets return 200 when loaded via /observatory.\n\nhttps://claude.ai/code/session_01WzAA5PW6FyFTd7uqFKebrf",
+      "conf": 86
+    },
+    {
+      "id": "ev-0f384e1",
+      "date": "2026-06-05",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(observatory): pin turbopack.root + make generator repo-agnostic",
+      "sha": "0f384e1",
+      "desc": "- next.config.ts: pin turbopack.root to silence Next 16 workspace-root\n  inference ambiguity (build now verified clean: 12 routes, TS pass)\n- build_observatory.py: add --repo-path/--slug/--out args so a tailored\n  instance can be generated from any repo's real git history (defaults\n  reproduce arcs-v9). This is the static path to loading another app\n  into the Observatory \u2014 no backend/token needed.\n- data.jsx: regenerated against current HEAD (21 events)\n\nhttps://claude.ai/code/session_01WzAA5PW6FyFTd7uqFKebrf",
+      "conf": 86
+    },
+    {
+      "id": "ev-27ee318",
+      "date": "2026-06-05",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(observatory): wire Observatory UI kit to real repo data",
+      "sha": "27ee318",
+      "desc": "Implements the Claude Design \"ARCS OS\" Observatory handoff: a forensic,\nT0-anchored, atomic change-control observability layer over the build\ntrajectory.\n\n- public/observatory/ \u2014 the kit (index.html + timeline/deck/views/\n  tweaks-panel.jsx + colors_and_type.css), untouched per BACKEND_HANDOFF's\n  one rule. Only the CSS path was flattened + an honesty footer added.\n- scripts/build_observatory.py \u2014 generator: emits data.jsx (EVENTS/RISKS/\n  LAYERS/span) from REAL data \u2014 git log (classified commits), repo signals\n  + ADRs (risk register), real file metrics + provenance (5-altitude deck).\n- Exposure: PUBLIC, OPEN-risks REDACTED. 2 standing OPEN risks computed but\n  withheld from the public payload; redaction count surfaced for honesty.\n- next.config.ts \u2014 /observatory rewrite to the static kit.\n\n20 events \u00b7 5 public risks (2 redacted) \u00b7 17 scored findings, all sourced\nfrom this repo's real git history. Re-run the generator to refresh.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-7bc512c",
+      "date": "2026-06-05",
+      "alt": "L5",
       "type": "milestone",
-      "label": "fix(resume): restore Steps component, real HTML download, vercel.json /resume rewrite",
-      "sha": "ec6ee70",
-      "desc": "- DeepScan crash fixed: Steps component was deleted but still referenced\n- PIXEL PERFECT now renders correctly (5950px confirmed)\n- ATS download: generates self-contained HTML blob with clean print CSS\n  + downloads as zach-harris-resume.html (not lazy window.print())\n- vercel.json: /resume rewrite \u2192 /resume.html for cleaner URL\n- resume.arcs.care subdomain config (add domain in Vercel dashboard)\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "label": "feat(sim): lattice_sim.py \u2014 structural load test for ADR-023",
+      "sha": "7bc512c",
+      "desc": "Conductor loop (folksonomist -> reinforce -> decay -> contrarian ->\ncalc-guard -> sentinel) over a synthetic receipt stream with preferential\nattachment (the cyclic feedback that makes calcification possible).\n\nModes: anterior (forward load sim), posterior (recoil analysis), sweep\n(maps the SUPERIONIC envelope over lambda/c/g), test (the pre-PR gate).\n\n`test` asserts F1-F6 reproduce + envelope non-empty; exits 0/1. F1 calcify\nneeds pref-attach (cyclic regime, per deep research); F5 sensor-divergence\nis real (node-share misses core concentration that gini catches). Gini is\nthe primary phase gauge; node-share is the divergent second proxy.\n\nCertifies machinery + failure-mode reproduction ONLY. Emits PROVISIONAL/\nSYNTHETIC receipts to gitignored exports/. PR stays BLOCKED until real-\ncorpus Zipf baseline (100+ receipts) per ADR-023.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
       "conf": 90,
       "peak": true
     },
     {
-      "id": "ev-aad5279",
+      "id": "ev-9f669fa",
       "date": "2026-06-05",
+      "alt": "L5",
+      "type": "milestone",
+      "label": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM",
+      "sha": "9f669fa",
+      "desc": "Observability layer modeled as an inferred folksonomy DAG over receipts,\nheld in a superionic phase band by three governed counter-forces (edge\ndecay / contrarian pressure / Drift Sentinel) mapped per L0-L7 level.\n\nPressure constants are L7 meta-governance constants, never system-tunable\n(self-tuning decay = NOTOMATION breach). Implementation gated at 100+\nreceipts (same gate as ADR-020); goal_edges overlay deferred to a future\nschema ADR.\n\nAdversarially grounded via 5-agent deep research \u2014 four over-claims\ncorrected in place (no monotone-complexity theorem; rising complexity is\nenrichment not calcification; DAG well-motivated not computationally\nrequired; irreducibility does not forbid declaration). Calcification\nbacking re-pointed to preferential-attachment dynamics.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-c1e2721",
+      "date": "2026-06-08",
       "alt": "L3",
       "type": "feat",
-      "label": "feat(resume): ARCS\u2192Grayscale\u2192CTF\u2192WTA tabs + consulting dropdown picker",
-      "sha": "aad5279",
-      "desc": "- Tab order: ARCS \u2192 GRAYSCALE \u2192 CTF \u2192 WTA (reverse chronological)\n- CONSULTING becomes a dropdown pseudo-tab with dashed bottom border\n- Dropdown lists 5 clients: Squat NY \u00b7 Axon \u00b7 Twill Health \u00b7 GoPro \u00b7 Verizon\n- Selecting a client shows its TribTile with scope details + metric reveal\n- Client tab label shows first word of company name (SQUAT, AXON, etc.)\n- Clicking away or re-clicking collapses the client card\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "label": "feat(observatory): plug-and-play GitHub event explorer \u2014 rule engine + ingester",
+      "sha": "c1e2721",
+      "desc": "Static-first GitHub analytics on top of the hot-swap data layer. Point the\nObservatory at any repo, define custom events declaratively, dataset drops\ninto the live switcher \u2014 no UI rebuild.\n\n- scripts/event-rules.json: user-editable ruleset. First-match-wins mapping\n  from GitHub signals (commit/pr/release/workflow) to Observatory events/risks\n  with altitude (L5->L1) + type + conf. Predicates: subject/body regex,\n  prefix/scope (conventional-commits), author, label, kind, status.\n- scripts/event_rules.py: pure rule engine + offline self-test.\n- scripts/github_ingest.py: fetch commits/releases (stdlib urllib, token from\n  env) OR --from-json for offline/CI; applies ruleset; auto-derives the\n  altitude deck; emits data.<name>.json + updates datasets.json. --name lets\n  multiple views of one repo coexist.\n- build_observatory.py: manifest now keyed by file (not slug) so heuristic and\n  rules-engine views of the same repo coexist in the switcher.\n- scripts/OBSERVATORY-INGEST.md: plug-and-play guide.\n\nValidated end-to-end against 100 real arcs-v9 commits via GitHub MCP ->\ndata.arcs-v9-gh.json (40 events). Both datasets live in the switcher. No deps.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
       "conf": 88
     },
     {
-      "id": "ev-a9b4b45",
-      "date": "2026-06-05",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): reverse chrono tabs, consulting as TribTile, remove FIGMA ghost",
-      "sha": "a9b4b45",
-      "desc": "- TRAJ order: ARCS \u2192 GRAYSCALE \u2192 CONSULTING \u2192 CTF \u2192 WTA\n- CONSULTING added as full TribTile with expand/collapse (includes Squat NY)\n- 7-FIG metric from _CLAIMS-REGISTRY Tier 1 (Squat NY engagement value)\n- Removed separate flat consulting grid \u2014 now unified pattern\n- FIGMA\u2197 ghost tab removed\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-30cc163",
-      "date": "2026-06-05",
+      "id": "ev-3aae5d8",
+      "date": "2026-06-08",
       "alt": "L3",
       "type": "feat",
-      "label": "feat(resume): Figma DS interactive resume \u2014 clean build, ROM-state archetype",
-      "sha": "30cc163",
-      "desc": "- Headline: Product Intelligence Leader \u00b7 Analytical Builder (Builder archetype, not DS)\n- Three depth modes: SKETCH / WIREFRAME / PIXEL PERFECT\n- Company tabs replace progress-bar navigation\n- Focus view: FULL / FIGMA DS / DATA \u2014 with bullet highlighting + True North swap\n- ARCS Profile Scan (PIXEL PERFECT): Zone of Genius, CI tiles, JTBD fit map\n- CI Tile 2: WTA fan behavior \u00d7 Figma Dev Mode (Tier 1 verified, replaces Newrow)\n- Zero Hila contamination: Newrow, Shorty Award, Salesperson of Year all stripped\n- Claims sourced from _MASTER/_CLAIMS-REGISTRY.md Tier 1/2 only\n\nInstance: figma-ds-2026 (arcs-intel-protocol)\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "label": "feat(observatory): hot-swappable JSON datasets \u2014 runtime/data split + switcher",
+      "sha": "3aae5d8",
+      "desc": "Decouple the Observatory from its baked-in data.jsx so datasets can be\nswapped at runtime without a rebuild/redeploy:\n\n- runtime.jsx (new): static code module \u2014 token maps, helpers, and\n  hydrateObservatory(payload) which installs EVENTS/RISKS/LAYERS/LEDGER +\n  span + repo link onto window. The verbatim global contract the views read.\n- data.<slug>.json (new): swappable payload the generator now emits instead\n  of baking arrays into JS. datasets.json: switcher manifest.\n- index.html: Root fetches datasets.json -> selected payload -> hydrate ->\n  mount App. Dataset <select> re-hydrates + remounts (App key=file) with no\n  page reload; ?data= deep-links a dataset. Honesty footer folded into React\n  so it tracks the active dataset.\n- deck.jsx: REPO_BASE/PROV_LEDGER made lazy (read window.REPO on call) so\n  module-load no longer precedes hydrate.\n- build_observatory.py: emits data.<name>.json + updates datasets.json;\n  --out-dir/--label flags; runtime.jsx stays hand-maintained.\n\nViews unchanged. JSX validated via @babel/parser. Payload refreshed to HEAD\n5e0ce36 (span +14d). data.jsx removed.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
       "conf": 88
-    },
-    {
-      "id": "ev-5a4bf8c",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): eliminate all apostrophes in single-quoted JSX strings",
-      "sha": "5a4bf8c",
-      "desc": "5 contractions were breaking Babel parse silently:\ndon't, isn't, they're, CAN'T, can't + can't/hasn't in TrueNorthPanel\nAll replaced with expanded forms (do not, is not, etc.)\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-7cb2d74",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): unescaped apostrophe in didn't broke Babel parse",
-      "sha": "7cb2d74",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-df08509",
-      "date": "2026-06-06",
-      "alt": "L2",
-      "type": "feat",
-      "label": "feat(resume): glassmorphism TribTile \u2014 emboss/signal/deboss from design system",
-      "sha": "df08509",
-      "desc": "Collapsed: emboss raised ridge (inset top highlight + inset bottom shadow)\nHovered: enhanced emboss with larger outer shadow\nExpanded: signal underlight (color-keyed glow from below) + floating shadow\nExpanded panel: deboss pressed-in surface\nAll states: glass surface gradient + bevel highlight line at top edge\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-bcc959f",
-      "date": "2026-06-06",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(resume): symmetrical grammar \u2014 consulting shows spines when collapsed",
-      "sha": "bcc959f",
-      "desc": "02 closed: 5 consulting clients as ultra-compressed spine cards (\u25fb label \u00b7 domain \u00b7 dates)\n02 open: full TribTiles with expand/collapse\nClicking a spine card opens the section AND expands that specific client.\nMirrors exactly how FT roles compress when consulting is active.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-ccf092a",
-      "date": "2026-06-06",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(resume): CONSULTING as 5th tab, toggles section 02",
-      "sha": "ccf092a",
-      "desc": "CONSULTING tab sits after WTA with T.steel color + same mechanics.\nClicking it toggles consultingOpen (compresses FT tiles to spines).\nConsultingSection header is now a static label \u2014 tab owns the toggle.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-ff2c66c",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): fixed header desktop only, scrolls on mobile \u2264768px",
-      "sha": "ff2c66c",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-9a4cbed",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): replace L0-L5 strip with hairline separator",
-      "sha": "9a4cbed",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-59812cc",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): spacer div instead of paddingTop override \u2014 fixes header cutoff",
-      "sha": "59812cc",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-11a7679",
-      "date": "2026-06-06",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(resume): 01 ultra-collapses when 02 consulting is expanded",
-      "sha": "11a7679",
-      "desc": "consultingOpen state lifted to SharpResume \u2014 triggers catalogue spine mode\non all FT role tiles the moment consulting section opens, regardless of\nwhether a specific client has been selected.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-54b9c7d",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): truly fixed header \u2014 position:fixed + ResizeObserver padding",
-      "sha": "54b9c7d",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-39809ec",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): Zach Harris (not ZACHARY), remove tagline",
-      "sha": "39809ec",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-38c0ea0",
-      "date": "2026-06-06",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(resume): 02 Select Consulting Work as accordion section",
-      "sha": "38c0ea0",
-      "desc": "- Consulting moved out of tab row \u2014 tabs are now pure FT roles only\n- 02 Select Consulting Work is a collapsed accordion below the FT tiles\n- Opens to show client picker list with domain + dates\n- Selecting a client shows detail card with back link\n- FT roles still compress to catalogue spines when consulting client active\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-1dd3f27",
-      "date": "2026-06-06",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(resume): FT roles compress to catalogue spines when consulting selected",
-      "sha": "1dd3f27",
-      "desc": "When a consulting client is picked from the dropdown:\n- ARCS/Grayscale/CTF/WTA collapse to single-line spine cards (glyph + label + dates)\n- Consulting client card expands immediately below the catalogue\n- Clicking a spine label deselects consulting and opens that role\n- Creates visual space for consulting detail to appear above the fold\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-a5acd39",
-      "date": "2026-06-06",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): sticky header, CTF before WTA, Deep Profile label matches Experience",
-      "sha": "a5acd39",
-      "desc": "- Header block (name + TrueNorthPanel + depth slider) now position:sticky top:0\n  with gradient fade so content scrolls underneath cleanly\n- ROLES array: CTF (2018-19) now before WTA (2016-18) \u2014 matches TRAJ order\n- Deep Profile section label: uses SectionLabel index='02' pattern matching '01 Experience'\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-6deff92",
-      "date": "2026-06-07",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): header breathing room \u2014 unified 24px side padding, looser vertical rhythm",
-      "sha": "6deff92",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-81bbeb7",
-      "date": "2026-06-07",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(resume): consulting glyph vocabulary \u2014 unique glyphs per client",
-      "sha": "81bbeb7",
-      "desc": "\u25c9 Squat NY (embedded/targeted)\n\u2b21 Axon (systematic/structural)\n\u25d1 Twill Health (liminal/testing)\n\u25ec GoPro (motion/capture)\n\u2295 Verizon Media (expansion/moonshot)\n\nWired through both render paths: closed spine + open TribTile.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 88
-    },
-    {
-      "id": "ev-6fc6a8d",
-      "date": "2026-06-07",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): tab title Zachary \u2192 Zach",
-      "sha": "6fc6a8d",
-      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
-    },
-    {
-      "id": "ev-edc3bcc",
-      "date": "2026-06-07",
-      "alt": "L1",
-      "type": "fix",
-      "label": "fix(resume): mobile responsive \u2014 h1 scale, overview font, grids collapse to 1col on \u2264768px",
-      "sha": "edc3bcc",
-      "desc": "- useMobile() hook shared across all components\n- h1: 2.1rem \u2192 1.55rem on mobile\n- TrueNorthPanel: 0.9rem \u2192 0.78rem text + compact padding on mobile\n- Contact line: lineHeight 1.7 for clean natural wrap\n- DeepScan Energy Profile 2-col \u2192 1-col on mobile (divider flips to horizontal)\n- DeepScan Productive Tensions 3-col \u2192 1-col on mobile\n- DeepScan Role Fit 2-col \u2192 1-col on mobile\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 86
     }
   ],
-  "risks": [],
+  "risks": [
+    {
+      "id": "risk-a1b76dd",
+      "date": "2026-05-27",
+      "risk": "Unauthenticated data access (no RLS)",
+      "sev": "HIGH",
+      "status": "AVERTED",
+      "sha": "a1b76dd",
+      "how": "RLS deny-all on all tables",
+      "note": "Tables were briefly reachable without auth; closed by deny-all row-level security."
+    },
+    {
+      "id": "risk-d732dad",
+      "date": "2026-05-29",
+      "risk": "Deploy blocked \u2014 Prisma 7 adapter",
+      "sev": "MED",
+      "status": "AVERTED",
+      "sha": "d732dad",
+      "how": "adapter / config fix",
+      "note": "Prisma 7 engine/schema mismatch blocked the deploy; resolved by the PrismaPg adapter pattern."
+    },
+    {
+      "id": "risk-8f97054",
+      "date": "2026-06-03",
+      "risk": "Credentials committed to git history",
+      "sev": "RUIN",
+      "status": "AVERTED",
+      "sha": "8f97054",
+      "how": "history rewrite + secret rotation",
+      "note": "API keys reached git history and were purged before exploitation. Ruin-class \u2014 a single exposure is unrecoverable."
+    },
+    {
+      "id": "risk-6a5b856",
+      "date": "2026-06-03",
+      "risk": "Cross-user data leakage",
+      "sev": "HIGH",
+      "status": "MITIGATED",
+      "sha": "6a5b856",
+      "how": "scoped per-session receipt-claim",
+      "note": "Anonymous compass receipts scoped per session to prevent cross-user reads."
+    }
+  ],
   "layers": [
     {
       "id": "L5",
       "findings": [
+        {
+          "id": "s-a737c56",
+          "lab": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct impor",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "MILESTONE",
+          "date": "2026-05-27",
+          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+          "prov": [
+            [
+              "chore(adr): ADR-011 UI import strategy \u2014 no barr",
+              "a737c56",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
         {
           "id": "s-4932cdd",
           "lab": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi ",
@@ -432,11 +320,48 @@
           "conf": 90,
           "risk": "LOW",
           "kind": "MILESTONE",
+          "date": "2026-05-28",
           "desc": "D: What is the correct build sequence for founding-10 conversion gap?\nE: arcs-care compass-widget.tsx, lab-offer.tsx, hero.tsx, /api/waitlist (reuse)\nW: THIS_QUARTER \u2014 revisit trigger: 1 Lab inquiry within 30 days of case study live\nY: YELL",
           "prov": [
             [
               "feat(adr): ADR-013 arcs.care conversion architec",
               "4932cdd",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-7bc512c",
+          "lab": "feat(sim): lattice_sim.py \u2014 structural load test for ADR-023",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "MILESTONE",
+          "date": "2026-06-05",
+          "desc": "Conductor loop (folksonomist -> reinforce -> decay -> contrarian ->\ncalc-guard -> sentinel) over a synthetic receipt stream with preferential\nattachment (the cyclic feedback that makes calcification possible).\n\nModes: anterior (forward load",
+          "prov": [
+            [
+              "feat(sim): lattice_sim.py \u2014 structural load test",
+              "7bc512c",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-9f669fa",
+          "lab": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure R",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "MILESTONE",
+          "date": "2026-06-05",
+          "desc": "Observability layer modeled as an inferred folksonomy DAG over receipts,\nheld in a superionic phase band by three governed counter-forces (edge\ndecay / contrarian pressure / Drift Sentinel) mapped per L0-L7 level.\n\nPressure constants are L7",
+          "prov": [
+            [
+              "feat(spec): ADR-023 superionic goal lattice + la",
+              "9f669fa",
               "commit",
               "\u2014"
             ]
@@ -448,29 +373,13 @@
       "id": "L4",
       "findings": [
         {
-          "id": "s-25e76e8",
-          "lab": "security(auth): soft-guard all API routes \u2014 prod enforces sessio",
-          "grade": "A",
-          "conf": 90,
-          "risk": "LOW",
-          "kind": "SECURITY",
-          "desc": "Pattern: auth() \u2192 userId; 401 in production if null; userId filter on history query.\nRoutes hardened: history, compass, brief, guide (GET/POST/PATCH), prep.\nauth.ts stub typed properly: Promise<{user:{id,email}}|null> so TS resolves session",
-          "prov": [
-            [
-              "security(auth): soft-guard all API routes \u2014 prod",
-              "25e76e8",
-              "commit",
-              "\u2014"
-            ]
-          ]
-        },
-        {
           "id": "s-9970c3f",
           "lab": "feat(security): RLS deny-all policies for all 9 Supabase tables",
           "grade": "A",
           "conf": 90,
           "risk": "LOW",
           "kind": "SECURITY",
+          "date": "2026-05-27",
           "desc": "scripts/rls-policies.sql \u2014 paste into Supabase SQL Editor to apply.\nADR-008 documents why auth.uid() policies are wrong for this auth\narchitecture (Auth.js v5 + Prisma superuser \u2260 Supabase Auth JWT).\n\nCo-Authored-By: Claude Sonnet 4.6 <nore",
           "prov": [
             [
@@ -488,6 +397,7 @@
           "conf": 90,
           "risk": "LOW",
           "kind": "SECURITY",
+          "date": "2026-05-29",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -505,6 +415,7 @@
           "conf": 90,
           "risk": "LOW",
           "kind": "SECURITY",
+          "date": "2026-05-29",
           "desc": "Auth.js v5 PrismaAdapter requires emailVerified DateTime? and image String? on\nthe User model. AdapterError on magic link signin was caused by missing columns.\nColumns added to Supabase via MCP migration; schema updated to match.\n\nCo-Author",
           "prov": [
             [
@@ -522,11 +433,30 @@
           "conf": 90,
           "risk": "LOW",
           "kind": "SECURITY",
+          "date": "2026-05-29",
           "desc": "Replaces null stub with live Auth.js v5 config. Resend EmailProvider reads\nAUTH_RESEND_KEY (added to all Vercel envs this session). AUTH_URL set in prod.\nSign-in page: /compass. Session callback surfaces user.id for API auth guards.\n\nCo-Aut",
           "prov": [
             [
               "feat(auth): wire Auth.js v5 magic link \u2014 Resend ",
               "935759f",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-8f97054",
+          "lab": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access cred",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "date": "2026-06-03",
+          "desc": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
+          "prov": [
+            [
+              "fix(brief): remove anon 401 gate \u2014 receipt ID is",
+              "8f97054",
               "commit",
               "\u2014"
             ]
@@ -539,6 +469,7 @@
           "conf": 90,
           "risk": "LOW",
           "kind": "SECURITY",
+          "date": "2026-06-03",
           "desc": "- Remove prod-only 401 guard from /api/compass and /api/prep\n- Anonymous receipts written with userId=null, sessionId preserved\n- POST /api/compass now open to unauthenticated users in production\n- /api/history, /api/brief/[id], /api/guide/",
           "prov": [
             [
@@ -555,102 +486,72 @@
       "id": "L3",
       "findings": [
         {
-          "id": "s-bf4205a",
-          "lab": "fix(db): conditional Prisma adapter \u2014 SQLite local, native Postg",
-          "grade": "A",
-          "conf": 90,
-          "risk": "LOW",
-          "kind": "MILESTONE",
-          "desc": "Resolves PrismaClientInitializationError: adapter-better-sqlite3 is\nincompatible with postgres provider. Now branches on DATABASE_URL prefix\nso Vercel builds against Supabase without the SQLite adapter.\n\nCo-Authored-By: Claude Sonnet 4.6 <n",
-          "prov": [
-            [
-              "fix(db): conditional Prisma adapter \u2014 SQLite loc",
-              "bf4205a",
-              "commit",
-              "\u2014"
-            ]
-          ]
-        },
-        {
-          "id": "s-ec6ee70",
-          "lab": "fix(resume): restore Steps component, real HTML download, vercel",
-          "grade": "A",
-          "conf": 90,
-          "risk": "LOW",
-          "kind": "MILESTONE",
-          "desc": "- DeepScan crash fixed: Steps component was deleted but still referenced\n- PIXEL PERFECT now renders correctly (5950px confirmed)\n- ATS download: generates self-contained HTML blob with clean print CSS\n  + downloads as zach-harris-resume.ht",
-          "prov": [
-            [
-              "fix(resume): restore Steps component, real HTML ",
-              "ec6ee70",
-              "commit",
-              "\u2014"
-            ]
-          ]
-        },
-        {
-          "id": "s-aad5279",
-          "lab": "feat(resume): ARCS\u2192Grayscale\u2192CTF\u2192WTA tabs + consulting dropdown ",
+          "id": "s-bbeb8a8",
+          "lab": "feat(observatory): hide=strip-to-subject; regen deployed data cl",
           "grade": "B",
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
-          "desc": "- Tab order: ARCS \u2192 GRAYSCALE \u2192 CTF \u2192 WTA (reverse chronological)\n- CONSULTING becomes a dropdown pseudo-tab with dashed bottom border\n- Dropdown lists 5 clients: Squat NY \u00b7 Axon \u00b7 Twill Health \u00b7 GoPro \u00b7 Verizon\n- Selecting a client shows i",
+          "date": "2026-06-05",
+          "desc": "Per demo decision: --attribution hide now strips desc to the commit\nsubject line (drops body where trailers/noise live) \u2014 simpler than the\nregex scrub, removes _ATTR_RE. Regenerated the deployed public data.jsx\nwith hide so the Deloitte-fac",
           "prov": [
             [
-              "feat(resume): ARCS\u2192Grayscale\u2192CTF\u2192WTA tabs + cons",
-              "aad5279",
+              "feat(observatory): hide=strip-to-subject; regen ",
+              "bbeb8a8",
               "commit",
               "\u2014"
             ]
           ]
         },
         {
-          "id": "s-30cc163",
-          "lab": "feat(resume): Figma DS interactive resume \u2014 clean build, ROM-sta",
+          "id": "s-7fec720",
+          "lab": "feat(observatory): --attribution show|hide flag for Co-Authored-",
           "grade": "B",
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
-          "desc": "- Headline: Product Intelligence Leader \u00b7 Analytical Builder (Builder archetype, not DS)\n- Three depth modes: SKETCH / WIREFRAME / PIXEL PERFECT\n- Company tabs replace progress-bar navigation\n- Focus view: FULL / FIGMA DS / DATA \u2014 with bull",
+          "date": "2026-06-05",
+          "desc": "Gauntlet flagged 8 Co-Authored-By/session-url/email trailers in the\npublic data.jsx desc fields. Rather than hard-removing, gate visibility\nbehind a flag (data recoverable by regenerating with show).\n\n- desc_of() scrubs trailer lines when H",
           "prov": [
             [
-              "feat(resume): Figma DS interactive resume \u2014 clea",
-              "30cc163",
+              "feat(observatory): --attribution show|hide flag ",
+              "7fec720",
               "commit",
               "\u2014"
             ]
           ]
         },
         {
-          "id": "s-bcc959f",
-          "lab": "feat(resume): symmetrical grammar \u2014 consulting shows spines when",
+          "id": "s-c1e2721",
+          "lab": "feat(observatory): plug-and-play GitHub event explorer \u2014 rule en",
           "grade": "B",
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
-          "desc": "02 closed: 5 consulting clients as ultra-compressed spine cards (\u25fb label \u00b7 domain \u00b7 dates)\n02 open: full TribTiles with expand/collapse\nClicking a spine card opens the section AND expands that specific client.\nMirrors exactly how FT roles c",
+          "date": "2026-06-08",
+          "desc": "Static-first GitHub analytics on top of the hot-swap data layer. Point the\nObservatory at any repo, define custom events declaratively, dataset drops\ninto the live switcher \u2014 no UI rebuild.\n\n- scripts/event-rules.json: user-editable ruleset",
           "prov": [
             [
-              "feat(resume): symmetrical grammar \u2014 consulting s",
-              "bcc959f",
+              "feat(observatory): plug-and-play GitHub event ex",
+              "c1e2721",
               "commit",
               "\u2014"
             ]
           ]
         },
         {
-          "id": "s-ccf092a",
-          "lab": "feat(resume): CONSULTING as 5th tab, toggles section 02",
+          "id": "s-3aae5d8",
+          "lab": "feat(observatory): hot-swappable JSON datasets \u2014 runtime/data sp",
           "grade": "B",
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
-          "desc": "CONSULTING tab sits after WTA with T.steel color + same mechanics.\nClicking it toggles consultingOpen (compresses FT tiles to spines).\nConsultingSection header is now a static label \u2014 tab owns the toggle.\n\nCo-Authored-By: Claude Sonnet 4.6 ",
+          "date": "2026-06-08",
+          "desc": "Decouple the Observatory from its baked-in data.jsx so datasets can be\nswapped at runtime without a rebuild/redeploy:\n\n- runtime.jsx (new): static code module \u2014 token maps, helpers, and\n  hydrateObservatory(payload) which installs EVENTS/RI",
           "prov": [
             [
-              "feat(resume): CONSULTING as 5th tab, toggles sec",
-              "ccf092a",
+              "feat(observatory): hot-swappable JSON datasets \u2014",
+              "3aae5d8",
               "commit",
               "\u2014"
             ]
@@ -668,6 +569,7 @@
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
+          "date": "2026-05-27",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -685,6 +587,7 @@
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
+          "date": "2026-05-27",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -702,6 +605,7 @@
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
+          "date": "2026-05-27",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -713,17 +617,18 @@
           ]
         },
         {
-          "id": "s-df08509",
-          "lab": "feat(resume): glassmorphism TribTile \u2014 emboss/signal/deboss from",
+          "id": "s-27ee318",
+          "lab": "feat(observatory): wire Observatory UI kit to real repo data",
           "grade": "B",
           "conf": 88,
           "risk": "LOW",
           "kind": "FEAT",
-          "desc": "Collapsed: emboss raised ridge (inset top highlight + inset bottom shadow)\nHovered: enhanced emboss with larger outer shadow\nExpanded: signal underlight (color-keyed glow from below) + floating shadow\nExpanded panel: deboss pressed-in surfa",
+          "date": "2026-06-05",
+          "desc": "Implements the Claude Design \"ARCS OS\" Observatory handoff: a forensic,\nT0-anchored, atomic change-control observability layer over the build\ntrajectory.\n\n- public/observatory/ \u2014 the kit (index.html + timeline/deck/views/\n  tweaks-panel.jsx",
           "prov": [
             [
-              "feat(resume): glassmorphism TribTile \u2014 emboss/si",
-              "df08509",
+              "feat(observatory): wire Observatory UI kit to re",
+              "27ee318",
               "commit",
               "\u2014"
             ]
@@ -735,68 +640,18 @@
       "id": "L1",
       "findings": [
         {
-          "id": "s-1afe828",
-          "lab": "fix(schema+db): wire DATABASE_URL in datasource, simplify Prisma",
-          "grade": "B",
-          "conf": 86,
-          "risk": "LOW",
-          "kind": "FIX",
-          "desc": "D: Prisma schema was missing url = env(\"DATABASE_URL\") \u2014 Postgres provider had no connection string\nE: prisma/schema.prisma \u00b7 src/lib/db.ts \u00b7 .gitignore\nW: TODAY\nY: GREEN / HIGH / STABLE\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic",
-          "prov": [
-            [
-              "fix(schema+db): wire DATABASE_URL in datasource,",
-              "1afe828",
-              "commit",
-              "\u2014"
-            ]
-          ]
-        },
-        {
-          "id": "s-11ba2fc",
-          "lab": "fix(db): Prisma 7 adapter pattern \u2014 url via PrismaPg, not schema",
-          "grade": "B",
-          "conf": 86,
-          "risk": "LOW",
-          "kind": "FIX",
-          "desc": "Prisma 7 removed url from datasource block in schema.prisma.\n- prisma.config.ts: load .env.local \u2192 .env chain; DATABASE_URL required (no SQLite fallback)\n- src/lib/db.ts: pass PrismaPg adapter with connectionString to PrismaClient\n- Both mi",
-          "prov": [
-            [
-              "fix(db): Prisma 7 adapter pattern \u2014 url via Pris",
-              "11ba2fc",
-              "commit",
-              "\u2014"
-            ]
-          ]
-        },
-        {
           "id": "s-663d831",
           "lab": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config ob",
           "grade": "B",
           "conf": 86,
           "risk": "LOW",
           "kind": "FIX",
+          "date": "2026-06-03",
           "desc": "PrismaPg({ connectionString }) creates the adapter but the underlying pool\nnever establishes SSL on the Supabase pooler (port 6543), causing every\nPrisma runtime query to throw. This silently broke Auth.js VerificationToken\nwrites, receipt ",
           "prov": [
             [
               "fix(db): PrismaPg requires explicit pg.Pool with",
               "663d831",
-              "commit",
-              "\u2014"
-            ]
-          ]
-        },
-        {
-          "id": "s-79f39e6",
-          "lab": "fix(resume): reset collapsed state when leaving PIXEL PERFECT",
-          "grade": "B",
-          "conf": 86,
-          "risk": "LOW",
-          "kind": "FIX",
-          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-          "prov": [
-            [
-              "fix(resume): reset collapsed state when leaving ",
-              "79f39e6",
               "commit",
               "\u2014"
             ]
@@ -809,6 +664,7 @@
           "conf": 86,
           "risk": "LOW",
           "kind": "FIX",
+          "date": "2026-06-05",
           "desc": "- Renamed middleware.ts \u2192 proxy.ts (Next.js 16 convention)\n- proxy() + proxyConfig exports (replaces middleware + config)\n- resume.* hostname \u2192 rewrites all paths to /resume.html\n- Fixes resume.arcs.care showing compass homepage instead of ",
           "prov": [
             [
@@ -820,17 +676,54 @@
           ]
         },
         {
-          "id": "s-4a37d02",
-          "lab": "fix(resume): jargon cleanup, kill glow animations, ARCS tab defa",
+          "id": "s-98a04f1",
+          "lab": "fix(observatory): build_layers honors --repo-path; scaffold non-",
           "grade": "B",
           "conf": 86,
           "risk": "LOW",
           "kind": "FIX",
-          "desc": "- Default selectedNode: 'arcs' (ARCS tab open on load)\n- Removed glow/pulse animations: arcs-pulse, nciCount, scanPulse keyframes + data-pulse\n- Print CSS: print-color-adjust: exact to preserve dark backgrounds\n- Removed NCI SCORE panel (in",
+          "date": "2026-06-05",
+          "desc": "Gauntlet found the tailored-instance path crashed on any foreign repo:\nbuild_layers read _DECISIONS + file metrics relative to cwd, not\nREPO_PATH, and the deck prose is editorial arcs-v9 content.\n\n- add rp() to resolve repo-relative reads a",
           "prov": [
             [
-              "fix(resume): jargon cleanup, kill glow animation",
-              "4a37d02",
+              "fix(observatory): build_layers honors --repo-pat",
+              "98a04f1",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-2d6e08b",
+          "lab": "fix(observatory): absolute asset paths so /observatory clean URL",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "date": "2026-06-05",
+          "desc": "The /observatory rewrite serves index.html but the address bar stays\n/observatory (no trailing slash), so relative asset refs (data.jsx,\ncolors_and_type.css, ...) resolved to root and 404'd -> blank page.\nRoot-absolute /observatory/* paths ",
+          "prov": [
+            [
+              "fix(observatory): absolute asset paths so /obser",
+              "2d6e08b",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-0f384e1",
+          "lab": "fix(observatory): pin turbopack.root + make generator repo-agnos",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "date": "2026-06-05",
+          "desc": "- next.config.ts: pin turbopack.root to silence Next 16 workspace-root\n  inference ambiguity (build now verified clean: 12 routes, TS pass)\n- build_observatory.py: add --repo-path/--slug/--out args so a tailored\n  instance can be generated ",
+          "prov": [
+            [
+              "fix(observatory): pin turbopack.root + make gene",
+              "0f384e1",
               "commit",
               "\u2014"
             ]
