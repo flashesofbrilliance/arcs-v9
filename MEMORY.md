@@ -542,3 +542,51 @@ Calendar Phase 2     📋 OPEN — find/rename existing morning routine event
 
 ### No blocking question
 
+
+---
+
+## [v2.2.0] 2026-06-05 — Career Intelligence Session: Figma DS + Hila × Pinterest
+
+### Session context
+- Operator: Zach Harris
+- Session goal: Diamond-cut resume + recruiter prep for two roles; ARCS design system scoped for Figma-native resume; dev server config
+
+### Artifacts landed (Gamma)
+
+| Artifact | URL |
+|---|---|
+| Hila Raz Harris — Pinterest LCP Resume | https://gamma.app/docs/HILA-RAZ-HARRIS-Pinterest-Lead-Client-Partner-Resume-2026-v8samqoyda2cr9v |
+| GPT vs ARCS Companion Deck | (Hila session — separate Gamma) |
+| Zach — Figma DS Resume v1 | https://gamma.app/docs/Zach-Harris-Resume-Figma-Data-Scientist-1xbftazh8qgrs74 |
+| Zach — Figma DS Resume v2 S-Tier | (pending generation ID: Sj7JW1qfxsviyFQV5MwZp) |
+| Zach — VCE2 Gauntlet Audit | (pending generation ID: GpISKm2nXT0OSI0loFQMi) |
+| Zach — Hayden Ozawa Call Prep | (pending generation ID: 6ln8x6LCD6KkTttqU1trz) |
+
+### Key decisions this session
+
+- **ARCS design system scoped for Figma-native resume** — clarity ridge / light mode adaptation of ARCS OS tokens; Figma Present format for Hayden Ozawa submission; PDF export as fallback
+- **VCE2 framework applied** — V(ulnerability) × C(onviction) × E1(vidence) × E2(cho) audit; current 6.3 → post-fix 8.3/10
+- **launch.json created** — `.claude/launch.json` with Next.js Dev Server (port 3000, autoPort:false) — Prisma Studio removed pending DATABASE_URL in .env.local
+- **ADR-016 still open** — auth.ts wiring; compass non-functional in prod without it
+- **Figma MCP file creation** — Figma resume build initiated this session (team: Le Woof)
+
+### VCE2 findings (Figma DS resume)
+- Kill 1: Snowflake/Redshift/Forecasting absent → ATS 52% → 89% pass rate
+- Kill 2: "Equivalent to Figma" annotation cancer → removed
+- Kill 3: "20 years" → "decade-plus" (overqualified signal)
+- Kill 4: Oberlin Studio Art → reframed as Figma differentiator (design intuition + data rigor)
+- Orthogonal signal (9.5/10): daily practitioner on Figma MCP + Code Connect → arcs-v9
+
+### Recruiter strategy (Hayden Ozawa call — Monday)
+- Champion plant: "He's not studying the product from the outside — he's building on it"
+- Closing Q: "What does success look like in 90 days, and is this greenfield instrumentation or building on an existing framework?"
+- Python gap: named once, reframed as leverage — never apologized for
+
+### P-track status
+| Track | Status |
+|---|---|
+| arcs-v9 → Vercel | ✅ READY |
+| ADR-016 auth.ts | 🔴 OPEN — compass non-functional in prod |
+| Figma DS application | 🟡 Resume v2 + prep doc generated; Figma file initiated |
+| launch.json | ✅ Created — Prisma Studio pending DATABASE_URL |
+
