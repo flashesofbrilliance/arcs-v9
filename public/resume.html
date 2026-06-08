@@ -324,7 +324,7 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onCo
         const hot    = hovered === n.id;
         return (
           <button key={n.id} type="button"
-            onClick={() => { onSelectClient(null); onSelect(active ? null : n.id); if (consultingOpen) onConsultingToggle(); }}
+            onClick={() => { onSelectClient(null); onSelect(active ? null : n.id); }}
             onMouseEnter={() => setHovered(n.id)}
             onMouseLeave={() => setHovered(null)}
             style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
@@ -380,8 +380,6 @@ function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
         onMouseEnter={e => e.currentTarget.style.opacity='0.8'}
         onMouseLeave={e => e.currentTarget.style.opacity='1'}>
         <SectionLabel index="02">Select Consulting Work</SectionLabel>
-        <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:8, color:T.steel,
-          letterSpacing:'0.08em' }}>{open ? '▲ collapse' : '▼ expand'}</span>
       </div>
 
       {/* OPEN — full TribTiles */}
