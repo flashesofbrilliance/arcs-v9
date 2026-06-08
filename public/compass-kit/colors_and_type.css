@@ -1,0 +1,12 @@
+/* ARCS Compass UI Kit — fonts + the handful of CSS vars index.html reads.
+   Color/type tokens proper live in T (primitives.jsx); this just feeds the
+   page shell (body bg/fg, fonts) and placeholder color. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+  --bg: #020408;
+  --fg1: #e2e8f0;
+  --fg4: #475569;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, monospace;
+}

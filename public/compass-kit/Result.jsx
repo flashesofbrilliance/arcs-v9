@@ -1,0 +1,112 @@
+// ARCS Compass — Result (Receipt) view, recomposed on the updated atoms.
+
+function ResultView({ result, onTributary, onBrief, onReset }) {
+  const [showReasoning, setShowReasoning] = React.useState(false);
+  const weather = Y_WEATHER[result.y_state] || Y_WEATHER.GREEN;
+  const resStyle = RES_STYLE[result.render_resolution] || RES_STYLE.SHARP;
+  const r = result.reasoning || {};
+  const verdictColor = (v) => v === "PASS" ? T.green : v === "TENSION" ? T.gold : T.red;
+  const tribColor = (t) => t === "meta" ? T.cyan : t === "challenge" ? T.red : T.gold;
+
+  return (
+    <div style={{ maxWidth: 640, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
+        <Wordmark section="Receipt" />
+        <Button variant="ghost" size="sm" glyph="←" onClick={onReset}>New question</Button>
+      </div>
+      <Rule style={{ marginBottom: "1.5rem" }} />
+
+      <div style={{ fontFamily: T.sans, fontSize: "0.9rem", color: T.fg2, lineHeight: 1.5, marginBottom: "1.5rem", paddingLeft: "0.85rem", borderLeft: `2px solid ${T.cyan}55` }}>
+        {result.question}
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}>
+        <WeatherBar weather={weather} delta={result.nci_delta} resolution={result.render_resolution} />
+
+        <TrueNorthPanel heading={`True North · ${result.decision_mode} · ${result.door_class}`}
+          footnotes={result.why?.length > 0 && (
+            <ul style={{ position: "relative", margin: "0.85rem 0 0", paddingLeft: "1.25rem", lineHeight: 1.7, color: "#bfeef5", fontSize: "0.875rem", ...resStyle }}>
+              {result.why.map((w, i) => <li key={i}>{w}</li>)}
+            </ul>
+          )}>
+          {result.true_north}
+        </TrueNorthPanel>
+
+        {/* Instruments — glass bezels around recessed readouts */}
+        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          {(() => { const c = nciColor(result.nci_score); return (
+            <Gauge label="NCI" value={result.nci_score} sub="/ 100" color={c} glow={signalGlow(c)} minWidth={120} />
+          ); })()}
+          {result.coherence_pct !== undefined && (
+            <Gauge label="Coherence" minWidth={120} value={<>{result.coherence_pct}<span style={{ fontSize: 16, color: T.fg4 }}>%</span></>} />
+          )}
+          {result.is_satoshi && (
+            <Gauge label="Satoshi" accent={T.gold} minWidth={140} valueSize={24} color={T.gold} glow={signalGlow(T.gold)} value="★ Peak" />
+          )}
+          {result.macro_tags?.length > 0 && (
+            <Gauge label="Macro Tags" flex={2} minWidth={160}>
+              <div style={{ position: "relative", display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+                {result.macro_tags.map(t => (
+                  <span key={t} style={{ fontSize: 11, padding: "3px 9px", borderRadius: 999, color: "#cfd9e6", fontWeight: 600, fontFamily: T.mono,
+                    background: "linear-gradient(180deg, #1a2330, #121922)", boxShadow: "inset 0 1px 0 rgba(255,255,255,.1), inset 0 -2px 4px rgba(0,0,0,.5)" }}>{t}</span>
+                ))}
+              </div>
+            </Gauge>
+          )}
+        </div>
+
+        <Button variant="outline-cyan" glyph="⊕" onClick={onBrief} style={{ width: "100%" }}>Open Cartography Brief&nbsp;<span style={{ fontFamily: T.sans, fontWeight: 500, opacity: .75 }}>→</span></Button>
+
+        {result.tributaries?.length > 0 && (
+          <div style={{ marginTop: "0.5rem" }}>
+            <SectionLabel style={{ marginBottom: "0.6rem" }}>Tributaries · where to navigate next</SectionLabel>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {result.tributaries.map((t, i) => (
+                <TributaryTile key={i} label={t.label} color={tribColor(t.type)} glyph={t.type === "meta" ? "⊕" : undefined} onClick={() => onTributary(t.prompt)}>{t.prompt}</TributaryTile>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {r.court && (
+          <>
+            <Button variant="ghost" onClick={() => setShowReasoning(v => !v)} style={{ width: "100%", justifyContent: "space-between" }}>
+              <span>{showReasoning ? "Hide reasoning · L0–L5" : "Show full reasoning · L0–L5"}</span>
+              <span style={{ display: "inline-block", transition: "transform .2s ease", transform: showReasoning ? "rotate(90deg)" : "none", fontSize: "0.85em", lineHeight: 1 }}>▶</span>
+            </Button>
+            {showReasoning && (
+              <div style={{ ...resStyle }}>
+                <Tabs accent={T.cyan} items={[
+                  { value: "court", label: "Court", glyph: "◆", content: (
+                    <>
+                      <Label style={{ marginBottom: "0.75rem" }}>Constitutional Court</Label>
+                      {r.court.map((c, i) => (
+                        <div key={i} style={{ display: "flex", gap: "0.75rem", marginBottom: "0.5rem", fontSize: "0.8rem" }}>
+                          <span style={{ fontFamily: T.mono, color: verdictColor(c.verdict), fontWeight: 700, minWidth: 64 }}>{c.verdict}</span>
+                          <span style={{ color: T.fg2 }}><strong style={{ color: T.fg1 }}>{c.name}</strong> — {c.detail}</span>
+                        </div>
+                      ))}
+                      {r.court_verdict && <div style={{ marginTop: "0.75rem", paddingTop: "0.75rem", borderTop: `1px solid ${T.border}`, fontSize: "0.8rem", color: T.fg3, fontStyle: "italic" }}>{r.court_verdict}</div>}
+                    </>
+                  ) },
+                  ...(r.advisors ? [{ value: "advisors", label: "Advisors", glyph: "⊕", content: (
+                    <>
+                      <Label style={{ marginBottom: "0.5rem" }}>Advisors</Label>
+                      <div style={{ fontSize: "0.8rem", color: T.fg2, display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                        <div><span style={{ color: T.red, fontWeight: 600 }}>Loki: </span>{r.advisors.loki_challenge}</div>
+                        <div><span style={{ color: T.green, fontWeight: 600 }}>Counter: </span>{r.advisors.loki_counter}</div>
+                        <div><span style={{ color: T.fg4 }}>Bayesian risk: </span><span style={{ color: T.gold, fontWeight: 600 }}>{r.advisors.bayesian_risk_pct}%</span> — {r.advisors.bayesian_rationale}</div>
+                      </div>
+                    </>
+                  ) }] : []),
+                ]} />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+window.ResultView = ResultView;

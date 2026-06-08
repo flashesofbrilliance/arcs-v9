@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCS Compass — UI Kit</title>
+<link rel="stylesheet" href="/compass-kit/colors_and_type.css">
+<style>
+  html, body { margin: 0; background: var(--bg); color: var(--fg1); font-family: var(--font-sans); }
+  * { box-sizing: border-box; }
+  ::selection { background: rgba(0,240,255,0.22); }
+  /* quiet entrance for screen swaps */
+  .screen { animation: fade .22s ease-out; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .screen { animation: none; } }
+  textarea::placeholder, input::placeholder { color: var(--fg4); }
+  /* Motion components */
+  @keyframes arcs-spin { to { transform: rotate(360deg); } }
+  @keyframes arcs-shimmer { to { transform: translateX(100%); } }
+  @keyframes arcs-indet { 0% { left: -36%; } 100% { left: 102%; } }
+  @keyframes arcs-pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    [data-spin], [data-shimmer], [data-indet], [data-pulse] { animation: none !important; }
+  }
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="/compass-kit/primitives.jsx"></script>
+<script type="text/babel" src="/compass-kit/atoms.jsx"></script>
+<script type="text/babel" src="/compass-kit/mock.jsx"></script>
+<script type="text/babel" src="/compass-kit/Home.jsx"></script>
+<script type="text/babel" src="/compass-kit/Compass.jsx"></script>
+<script type="text/babel" src="/compass-kit/Result.jsx"></script>
+<script type="text/babel" src="/compass-kit/Brief.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+  const { useState } = React;
+
+  function App() {
+    const [screen, setScreen] = useState("home");   // home | compass | result | brief
+    const [result, setResult] = useState(null);
+    const [seed, setSeed] = useState(null);          // tributary prefill
+
+    function goCompass(seedQ = null) { setSeed(seedQ); setScreen("compass"); window.scrollTo(0, 0); }
+    function onResult(r) { setResult(r); setScreen("result"); window.scrollTo(0, 0); }
+    function onTributary(prompt) { goCompass(prompt); }
+
+    let view;
+    if (screen === "home")    view = <Home onOpen={() => goCompass(null)} />;
+    else if (screen === "compass") view = <CompassForm key={seed || "blank"} initialQuestion={seed} onResult={onResult} />;
+    else if (screen === "result")  view = <ResultView result={result} onTributary={onTributary} onBrief={() => { setScreen("brief"); window.scrollTo(0,0); }} onReset={() => goCompass(null)} />;
+    else if (screen === "brief")   view = <Brief result={result} onBack={() => { setScreen("result"); window.scrollTo(0,0); }} />;
+
+    return <div className="screen" key={screen}>{view}</div>;
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
