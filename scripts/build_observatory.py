@@ -315,14 +315,16 @@ def slug_to_name(slug):
 
 
 def update_manifest(out_dir, slug, name, label, file_name):
-    """Idempotently add/replace this dataset's row in datasets.json (the switcher list)."""
+    """Idempotently add/replace this dataset's row in datasets.json (the switcher list).
+    Keyed by file_name so multiple views of one repo (e.g. heuristic vs rules-engine)
+    can coexist; re-running the same producer replaces its own entry cleanly."""
     path = os.path.join(out_dir, "datasets.json")
     try:
         with open(path) as f:
             manifest = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         manifest = {"datasets": []}
-    rows = [d for d in manifest.get("datasets", []) if d.get("slug") != slug]
+    rows = [d for d in manifest.get("datasets", []) if d.get("file") != file_name]
     rows.append({"slug": slug, "name": name, "label": label, "file": file_name})
     rows.sort(key=lambda d: d.get("name", ""))
     manifest["datasets"] = rows

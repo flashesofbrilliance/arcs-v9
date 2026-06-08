@@ -1,0 +1,842 @@
+{
+  "repo": "flashesofbrilliance/arcs-v9",
+  "label": "arcs-v9 \u2014 GitHub rules engine",
+  "generated_at": "2026-06-08T02:04:11",
+  "head_sha": "edc3bcc",
+  "attribution": "shown",
+  "span_start": "2026-05-27",
+  "span_days": 14,
+  "redacted_open_risks": 0,
+  "events": [
+    {
+      "id": "ev-1afe828",
+      "date": "2026-05-27",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(schema+db): wire DATABASE_URL in datasource, simplify PrismaClient, gitignore .env.local",
+      "sha": "1afe828",
+      "desc": "D: Prisma schema was missing url = env(\"DATABASE_URL\") \u2014 Postgres provider had no connection string\nE: prisma/schema.prisma \u00b7 src/lib/db.ts \u00b7 .gitignore\nW: TODAY\nY: GREEN / HIGH / STABLE\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86,
+      "peak": true
+    },
+    {
+      "id": "ev-bf4205a",
+      "date": "2026-05-27",
+      "alt": "L3",
+      "type": "milestone",
+      "label": "fix(db): conditional Prisma adapter \u2014 SQLite local, native Postgres on Vercel",
+      "sha": "bf4205a",
+      "desc": "Resolves PrismaClientInitializationError: adapter-better-sqlite3 is\nincompatible with postgres provider. Now branches on DATABASE_URL prefix\nso Vercel builds against Supabase without the SQLite adapter.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-25e76e8",
+      "date": "2026-05-27",
+      "alt": "L4",
+      "type": "security",
+      "label": "security(auth): soft-guard all API routes \u2014 prod enforces session, dev passes through",
+      "sha": "25e76e8",
+      "desc": "Pattern: auth() \u2192 userId; 401 in production if null; userId filter on history query.\nRoutes hardened: history, compass, brief, guide (GET/POST/PATCH), prep.\nauth.ts stub typed properly: Promise<{user:{id,email}}|null> so TS resolves session shape.\nCompass: userId now sourced from session (not request body) in production.\nLocal dev unaffected \u2014 auth stub returns null, NODE_ENV=development, all routes pass.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-4932cdd",
+      "date": "2026-05-28",
+      "alt": "L5",
+      "type": "milestone",
+      "label": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi build sequence locked",
+      "sha": "4932cdd",
+      "desc": "D: What is the correct build sequence for founding-10 conversion gap?\nE: arcs-care compass-widget.tsx, lab-offer.tsx, hero.tsx, /api/waitlist (reuse)\nW: THIS_QUARTER \u2014 revisit trigger: 1 Lab inquiry within 30 days of case study live\nY: YELLOW / MEDIUM / REVISIT\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-d597708",
+      "date": "2026-05-28",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(ui): Card + CardHeader + CardDivider \u2014 accent border, 3 padding modes",
+      "sha": "d597708",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-80530b8",
+      "date": "2026-05-28",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes",
+      "sha": "80530b8",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-924fd10",
+      "date": "2026-05-28",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap",
+      "sha": "924fd10",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-9970c3f",
+      "date": "2026-05-28",
+      "alt": "L4",
+      "type": "security",
+      "label": "feat(security): RLS deny-all policies for all 9 Supabase tables",
+      "sha": "9970c3f",
+      "desc": "scripts/rls-policies.sql \u2014 paste into Supabase SQL Editor to apply.\nADR-008 documents why auth.uid() policies are wrong for this auth\narchitecture (Auth.js v5 + Prisma superuser \u2260 Supabase Auth JWT).\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-11ba2fc",
+      "date": "2026-05-28",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(db): Prisma 7 adapter pattern \u2014 url via PrismaPg, not schema.prisma",
+      "sha": "11ba2fc",
+      "desc": "Prisma 7 removed url from datasource block in schema.prisma.\n- prisma.config.ts: load .env.local \u2192 .env chain; DATABASE_URL required (no SQLite fallback)\n- src/lib/db.ts: pass PrismaPg adapter with connectionString to PrismaClient\n- Both migrate (prisma.config.ts) and runtime (db.ts) use Supabase pooler URL\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-02b68da",
+      "date": "2026-05-29",
+      "alt": "L4",
+      "type": "security",
+      "label": "debug(auth): add full error logger to surface AdapterError cause",
+      "sha": "02b68da",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-d732dad",
+      "date": "2026-05-29",
+      "alt": "L4",
+      "type": "security",
+      "label": "fix(auth): add emailVerified + image to User model \u2014 PrismaAdapter requirement",
+      "sha": "d732dad",
+      "desc": "Auth.js v5 PrismaAdapter requires emailVerified DateTime? and image String? on\nthe User model. AdapterError on magic link signin was caused by missing columns.\nColumns added to Supabase via MCP migration; schema updated to match.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-935759f",
+      "date": "2026-05-29",
+      "alt": "L4",
+      "type": "security",
+      "label": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + PrismaAdapter",
+      "sha": "935759f",
+      "desc": "Replaces null stub with live Auth.js v5 config. Resend EmailProvider reads\nAUTH_RESEND_KEY (added to all Vercel envs this session). AUTH_URL set in prod.\nSign-in page: /compass. Session callback surfaces user.id for API auth guards.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-663d831",
+      "date": "2026-06-03",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config object form silently breaks Supabase pooler",
+      "sha": "663d831",
+      "desc": "PrismaPg({ connectionString }) creates the adapter but the underlying pool\nnever establishes SSL on the Supabase pooler (port 6543), causing every\nPrisma runtime query to throw. This silently broke Auth.js VerificationToken\nwrites, receipt creates, and all DB operations in production.\n\nFix: pass new Pool({ connectionString, ssl: { rejectUnauthorized: false } })\nexplicitly so SSL terminates correctly against aws-1-us-east-1.pooler.supabase.com.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-6a5b856",
+      "date": "2026-06-03",
+      "alt": "L4",
+      "type": "security",
+      "label": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim endpoint",
+      "sha": "6a5b856",
+      "desc": "- Remove prod-only 401 guard from /api/compass and /api/prep\n- Anonymous receipts written with userId=null, sessionId preserved\n- POST /api/compass now open to unauthenticated users in production\n- /api/history, /api/brief/[id], /api/guide/[id] retain 401 guard (auth-gated by design)\n- PATCH /api/receipts/claim \u2014 migrates anonymous receipts to userId on sign-in\n  userId sourced from server-side auth() only, never from request body\n- dashboard: localStorage.setItem('arcs_session_id') after compass result\n- dashboard: useEffect on mount claims pre-auth receipts if user is authenticated\n- scripts/smoke.sh \u2014 5-assertion ADR-016 acceptance gate\n- .gitignore: .mcp.json + supabase/ excluded from source\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-8f97054",
+      "date": "2026-06-04",
+      "alt": "L4",
+      "type": "security",
+      "label": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
+      "sha": "8f97054",
+      "desc": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-79f39e6",
+      "date": "2026-06-05",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): reset collapsed state when leaving PIXEL PERFECT",
+      "sha": "79f39e6",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-934a18c",
+      "date": "2026-06-05",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(routing): proxy.ts for resume.arcs.care hostname rewrite (Next.js 16)",
+      "sha": "934a18c",
+      "desc": "- Renamed middleware.ts \u2192 proxy.ts (Next.js 16 convention)\n- proxy() + proxyConfig exports (replaces middleware + config)\n- resume.* hostname \u2192 rewrites all paths to /resume.html\n- Fixes resume.arcs.care showing compass homepage instead of resume\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-4a37d02",
+      "date": "2026-06-05",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): jargon cleanup, kill glow animations, ARCS tab default, collapsible wireframe",
+      "sha": "4a37d02",
+      "desc": "- Default selectedNode: 'arcs' (ARCS tab open on load)\n- Removed glow/pulse animations: arcs-pulse, nciCount, scanPulse keyframes + data-pulse\n- Print CSS: print-color-adjust: exact to preserve dark backgrounds\n- Removed NCI SCORE panel (internal scoring, not for recruiter)\n- Removed WeatherBar jargon (Y-GATE / HIGH CONVICTION / NCI 87)\n- Footer: 'ZACHARY HARRIS \u00b7 resume.arcs.care \u00b7 2026'\n- Section headers cleaned: CAREER BEARING \u2192 OVERVIEW, ZONE OF GENIUS \u2192 CORE STRENGTHS, etc.\n- PIXEL PERFECT: wireframe section has collapse/expand toggle\n- L0-L5 / W: JUNE 2026 / Y: GREEN references removed\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-ec6ee70",
+      "date": "2026-06-05",
+      "alt": "L3",
+      "type": "milestone",
+      "label": "fix(resume): restore Steps component, real HTML download, vercel.json /resume rewrite",
+      "sha": "ec6ee70",
+      "desc": "- DeepScan crash fixed: Steps component was deleted but still referenced\n- PIXEL PERFECT now renders correctly (5950px confirmed)\n- ATS download: generates self-contained HTML blob with clean print CSS\n  + downloads as zach-harris-resume.html (not lazy window.print())\n- vercel.json: /resume rewrite \u2192 /resume.html for cleaner URL\n- resume.arcs.care subdomain config (add domain in Vercel dashboard)\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "peak": true
+    },
+    {
+      "id": "ev-aad5279",
+      "date": "2026-06-05",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): ARCS\u2192Grayscale\u2192CTF\u2192WTA tabs + consulting dropdown picker",
+      "sha": "aad5279",
+      "desc": "- Tab order: ARCS \u2192 GRAYSCALE \u2192 CTF \u2192 WTA (reverse chronological)\n- CONSULTING becomes a dropdown pseudo-tab with dashed bottom border\n- Dropdown lists 5 clients: Squat NY \u00b7 Axon \u00b7 Twill Health \u00b7 GoPro \u00b7 Verizon\n- Selecting a client shows its TribTile with scope details + metric reveal\n- Client tab label shows first word of company name (SQUAT, AXON, etc.)\n- Clicking away or re-clicking collapses the client card\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-a9b4b45",
+      "date": "2026-06-05",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): reverse chrono tabs, consulting as TribTile, remove FIGMA ghost",
+      "sha": "a9b4b45",
+      "desc": "- TRAJ order: ARCS \u2192 GRAYSCALE \u2192 CONSULTING \u2192 CTF \u2192 WTA\n- CONSULTING added as full TribTile with expand/collapse (includes Squat NY)\n- 7-FIG metric from _CLAIMS-REGISTRY Tier 1 (Squat NY engagement value)\n- Removed separate flat consulting grid \u2014 now unified pattern\n- FIGMA\u2197 ghost tab removed\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-30cc163",
+      "date": "2026-06-05",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): Figma DS interactive resume \u2014 clean build, ROM-state archetype",
+      "sha": "30cc163",
+      "desc": "- Headline: Product Intelligence Leader \u00b7 Analytical Builder (Builder archetype, not DS)\n- Three depth modes: SKETCH / WIREFRAME / PIXEL PERFECT\n- Company tabs replace progress-bar navigation\n- Focus view: FULL / FIGMA DS / DATA \u2014 with bullet highlighting + True North swap\n- ARCS Profile Scan (PIXEL PERFECT): Zone of Genius, CI tiles, JTBD fit map\n- CI Tile 2: WTA fan behavior \u00d7 Figma Dev Mode (Tier 1 verified, replaces Newrow)\n- Zero Hila contamination: Newrow, Shorty Award, Salesperson of Year all stripped\n- Claims sourced from _MASTER/_CLAIMS-REGISTRY.md Tier 1/2 only\n\nInstance: figma-ds-2026 (arcs-intel-protocol)\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-5a4bf8c",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): eliminate all apostrophes in single-quoted JSX strings",
+      "sha": "5a4bf8c",
+      "desc": "5 contractions were breaking Babel parse silently:\ndon't, isn't, they're, CAN'T, can't + can't/hasn't in TrueNorthPanel\nAll replaced with expanded forms (do not, is not, etc.)\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-7cb2d74",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): unescaped apostrophe in didn't broke Babel parse",
+      "sha": "7cb2d74",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-df08509",
+      "date": "2026-06-06",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(resume): glassmorphism TribTile \u2014 emboss/signal/deboss from design system",
+      "sha": "df08509",
+      "desc": "Collapsed: emboss raised ridge (inset top highlight + inset bottom shadow)\nHovered: enhanced emboss with larger outer shadow\nExpanded: signal underlight (color-keyed glow from below) + floating shadow\nExpanded panel: deboss pressed-in surface\nAll states: glass surface gradient + bevel highlight line at top edge\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-bcc959f",
+      "date": "2026-06-06",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): symmetrical grammar \u2014 consulting shows spines when collapsed",
+      "sha": "bcc959f",
+      "desc": "02 closed: 5 consulting clients as ultra-compressed spine cards (\u25fb label \u00b7 domain \u00b7 dates)\n02 open: full TribTiles with expand/collapse\nClicking a spine card opens the section AND expands that specific client.\nMirrors exactly how FT roles compress when consulting is active.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-ccf092a",
+      "date": "2026-06-06",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): CONSULTING as 5th tab, toggles section 02",
+      "sha": "ccf092a",
+      "desc": "CONSULTING tab sits after WTA with T.steel color + same mechanics.\nClicking it toggles consultingOpen (compresses FT tiles to spines).\nConsultingSection header is now a static label \u2014 tab owns the toggle.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-ff2c66c",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): fixed header desktop only, scrolls on mobile \u2264768px",
+      "sha": "ff2c66c",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-9a4cbed",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): replace L0-L5 strip with hairline separator",
+      "sha": "9a4cbed",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-59812cc",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): spacer div instead of paddingTop override \u2014 fixes header cutoff",
+      "sha": "59812cc",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-11a7679",
+      "date": "2026-06-06",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): 01 ultra-collapses when 02 consulting is expanded",
+      "sha": "11a7679",
+      "desc": "consultingOpen state lifted to SharpResume \u2014 triggers catalogue spine mode\non all FT role tiles the moment consulting section opens, regardless of\nwhether a specific client has been selected.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-54b9c7d",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): truly fixed header \u2014 position:fixed + ResizeObserver padding",
+      "sha": "54b9c7d",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-39809ec",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): Zach Harris (not ZACHARY), remove tagline",
+      "sha": "39809ec",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-38c0ea0",
+      "date": "2026-06-06",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): 02 Select Consulting Work as accordion section",
+      "sha": "38c0ea0",
+      "desc": "- Consulting moved out of tab row \u2014 tabs are now pure FT roles only\n- 02 Select Consulting Work is a collapsed accordion below the FT tiles\n- Opens to show client picker list with domain + dates\n- Selecting a client shows detail card with back link\n- FT roles still compress to catalogue spines when consulting client active\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-1dd3f27",
+      "date": "2026-06-06",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): FT roles compress to catalogue spines when consulting selected",
+      "sha": "1dd3f27",
+      "desc": "When a consulting client is picked from the dropdown:\n- ARCS/Grayscale/CTF/WTA collapse to single-line spine cards (glyph + label + dates)\n- Consulting client card expands immediately below the catalogue\n- Clicking a spine label deselects consulting and opens that role\n- Creates visual space for consulting detail to appear above the fold\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-a5acd39",
+      "date": "2026-06-06",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): sticky header, CTF before WTA, Deep Profile label matches Experience",
+      "sha": "a5acd39",
+      "desc": "- Header block (name + TrueNorthPanel + depth slider) now position:sticky top:0\n  with gradient fade so content scrolls underneath cleanly\n- ROLES array: CTF (2018-19) now before WTA (2016-18) \u2014 matches TRAJ order\n- Deep Profile section label: uses SectionLabel index='02' pattern matching '01 Experience'\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-6deff92",
+      "date": "2026-06-07",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): header breathing room \u2014 unified 24px side padding, looser vertical rhythm",
+      "sha": "6deff92",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-81bbeb7",
+      "date": "2026-06-07",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(resume): consulting glyph vocabulary \u2014 unique glyphs per client",
+      "sha": "81bbeb7",
+      "desc": "\u25c9 Squat NY (embedded/targeted)\n\u2b21 Axon (systematic/structural)\n\u25d1 Twill Health (liminal/testing)\n\u25ec GoPro (motion/capture)\n\u2295 Verizon Media (expansion/moonshot)\n\nWired through both render paths: closed spine + open TribTile.\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 88
+    },
+    {
+      "id": "ev-6fc6a8d",
+      "date": "2026-06-07",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): tab title Zachary \u2192 Zach",
+      "sha": "6fc6a8d",
+      "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    },
+    {
+      "id": "ev-edc3bcc",
+      "date": "2026-06-07",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(resume): mobile responsive \u2014 h1 scale, overview font, grids collapse to 1col on \u2264768px",
+      "sha": "edc3bcc",
+      "desc": "- useMobile() hook shared across all components\n- h1: 2.1rem \u2192 1.55rem on mobile\n- TrueNorthPanel: 0.9rem \u2192 0.78rem text + compact padding on mobile\n- Contact line: lineHeight 1.7 for clean natural wrap\n- DeepScan Energy Profile 2-col \u2192 1-col on mobile (divider flips to horizontal)\n- DeepScan Productive Tensions 3-col \u2192 1-col on mobile\n- DeepScan Role Fit 2-col \u2192 1-col on mobile\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 86
+    }
+  ],
+  "risks": [],
+  "layers": [
+    {
+      "id": "L5",
+      "findings": [
+        {
+          "id": "s-4932cdd",
+          "lab": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi ",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "MILESTONE",
+          "desc": "D: What is the correct build sequence for founding-10 conversion gap?\nE: arcs-care compass-widget.tsx, lab-offer.tsx, hero.tsx, /api/waitlist (reuse)\nW: THIS_QUARTER \u2014 revisit trigger: 1 Lab inquiry within 30 days of case study live\nY: YELL",
+          "prov": [
+            [
+              "feat(adr): ADR-013 arcs.care conversion architec",
+              "4932cdd",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "findings": [
+        {
+          "id": "s-25e76e8",
+          "lab": "security(auth): soft-guard all API routes \u2014 prod enforces sessio",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "desc": "Pattern: auth() \u2192 userId; 401 in production if null; userId filter on history query.\nRoutes hardened: history, compass, brief, guide (GET/POST/PATCH), prep.\nauth.ts stub typed properly: Promise<{user:{id,email}}|null> so TS resolves session",
+          "prov": [
+            [
+              "security(auth): soft-guard all API routes \u2014 prod",
+              "25e76e8",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-9970c3f",
+          "lab": "feat(security): RLS deny-all policies for all 9 Supabase tables",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "desc": "scripts/rls-policies.sql \u2014 paste into Supabase SQL Editor to apply.\nADR-008 documents why auth.uid() policies are wrong for this auth\narchitecture (Auth.js v5 + Prisma superuser \u2260 Supabase Auth JWT).\n\nCo-Authored-By: Claude Sonnet 4.6 <nore",
+          "prov": [
+            [
+              "feat(security): RLS deny-all policies for all 9 ",
+              "9970c3f",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-02b68da",
+          "lab": "debug(auth): add full error logger to surface AdapterError cause",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+          "prov": [
+            [
+              "debug(auth): add full error logger to surface Ad",
+              "02b68da",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-d732dad",
+          "lab": "fix(auth): add emailVerified + image to User model \u2014 PrismaAdapt",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "desc": "Auth.js v5 PrismaAdapter requires emailVerified DateTime? and image String? on\nthe User model. AdapterError on magic link signin was caused by missing columns.\nColumns added to Supabase via MCP migration; schema updated to match.\n\nCo-Author",
+          "prov": [
+            [
+              "fix(auth): add emailVerified + image to User mod",
+              "d732dad",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-935759f",
+          "lab": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + ",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "desc": "Replaces null stub with live Auth.js v5 config. Resend EmailProvider reads\nAUTH_RESEND_KEY (added to all Vercel envs this session). AUTH_URL set in prod.\nSign-in page: /compass. Session callback surfaces user.id for API auth guards.\n\nCo-Aut",
+          "prov": [
+            [
+              "feat(auth): wire Auth.js v5 magic link \u2014 Resend ",
+              "935759f",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-6a5b856",
+          "lab": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "SECURITY",
+          "desc": "- Remove prod-only 401 guard from /api/compass and /api/prep\n- Anonymous receipts written with userId=null, sessionId preserved\n- POST /api/compass now open to unauthenticated users in production\n- /api/history, /api/brief/[id], /api/guide/",
+          "prov": [
+            [
+              "feat(auth): ADR-016 Option C \u2014 anonymous compass",
+              "6a5b856",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "findings": [
+        {
+          "id": "s-bf4205a",
+          "lab": "fix(db): conditional Prisma adapter \u2014 SQLite local, native Postg",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "MILESTONE",
+          "desc": "Resolves PrismaClientInitializationError: adapter-better-sqlite3 is\nincompatible with postgres provider. Now branches on DATABASE_URL prefix\nso Vercel builds against Supabase without the SQLite adapter.\n\nCo-Authored-By: Claude Sonnet 4.6 <n",
+          "prov": [
+            [
+              "fix(db): conditional Prisma adapter \u2014 SQLite loc",
+              "bf4205a",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-ec6ee70",
+          "lab": "fix(resume): restore Steps component, real HTML download, vercel",
+          "grade": "A",
+          "conf": 90,
+          "risk": "LOW",
+          "kind": "MILESTONE",
+          "desc": "- DeepScan crash fixed: Steps component was deleted but still referenced\n- PIXEL PERFECT now renders correctly (5950px confirmed)\n- ATS download: generates self-contained HTML blob with clean print CSS\n  + downloads as zach-harris-resume.ht",
+          "prov": [
+            [
+              "fix(resume): restore Steps component, real HTML ",
+              "ec6ee70",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-aad5279",
+          "lab": "feat(resume): ARCS\u2192Grayscale\u2192CTF\u2192WTA tabs + consulting dropdown ",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "- Tab order: ARCS \u2192 GRAYSCALE \u2192 CTF \u2192 WTA (reverse chronological)\n- CONSULTING becomes a dropdown pseudo-tab with dashed bottom border\n- Dropdown lists 5 clients: Squat NY \u00b7 Axon \u00b7 Twill Health \u00b7 GoPro \u00b7 Verizon\n- Selecting a client shows i",
+          "prov": [
+            [
+              "feat(resume): ARCS\u2192Grayscale\u2192CTF\u2192WTA tabs + cons",
+              "aad5279",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-30cc163",
+          "lab": "feat(resume): Figma DS interactive resume \u2014 clean build, ROM-sta",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "- Headline: Product Intelligence Leader \u00b7 Analytical Builder (Builder archetype, not DS)\n- Three depth modes: SKETCH / WIREFRAME / PIXEL PERFECT\n- Company tabs replace progress-bar navigation\n- Focus view: FULL / FIGMA DS / DATA \u2014 with bull",
+          "prov": [
+            [
+              "feat(resume): Figma DS interactive resume \u2014 clea",
+              "30cc163",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-bcc959f",
+          "lab": "feat(resume): symmetrical grammar \u2014 consulting shows spines when",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "02 closed: 5 consulting clients as ultra-compressed spine cards (\u25fb label \u00b7 domain \u00b7 dates)\n02 open: full TribTiles with expand/collapse\nClicking a spine card opens the section AND expands that specific client.\nMirrors exactly how FT roles c",
+          "prov": [
+            [
+              "feat(resume): symmetrical grammar \u2014 consulting s",
+              "bcc959f",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-ccf092a",
+          "lab": "feat(resume): CONSULTING as 5th tab, toggles section 02",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "CONSULTING tab sits after WTA with T.steel color + same mechanics.\nClicking it toggles consultingOpen (compresses FT tiles to spines).\nConsultingSection header is now a static label \u2014 tab owns the toggle.\n\nCo-Authored-By: Claude Sonnet 4.6 ",
+          "prov": [
+            [
+              "feat(resume): CONSULTING as 5th tab, toggles sec",
+              "ccf092a",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "findings": [
+        {
+          "id": "s-d597708",
+          "lab": "feat(ui): Card + CardHeader + CardDivider \u2014 accent border, 3 pad",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+          "prov": [
+            [
+              "feat(ui): Card + CardHeader + CardDivider \u2014 acce",
+              "d597708",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-80530b8",
+          "lab": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/m",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+          "prov": [
+            [
+              "feat(ui): Button component \u2014 primary/ghost/dange",
+              "80530b8",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-924fd10",
+          "lab": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+          "prov": [
+            [
+              "feat(ui): canonical tokens.ts + Badge component ",
+              "924fd10",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-df08509",
+          "lab": "feat(resume): glassmorphism TribTile \u2014 emboss/signal/deboss from",
+          "grade": "B",
+          "conf": 88,
+          "risk": "LOW",
+          "kind": "FEAT",
+          "desc": "Collapsed: emboss raised ridge (inset top highlight + inset bottom shadow)\nHovered: enhanced emboss with larger outer shadow\nExpanded: signal underlight (color-keyed glow from below) + floating shadow\nExpanded panel: deboss pressed-in surfa",
+          "prov": [
+            [
+              "feat(resume): glassmorphism TribTile \u2014 emboss/si",
+              "df08509",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "findings": [
+        {
+          "id": "s-1afe828",
+          "lab": "fix(schema+db): wire DATABASE_URL in datasource, simplify Prisma",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "desc": "D: Prisma schema was missing url = env(\"DATABASE_URL\") \u2014 Postgres provider had no connection string\nE: prisma/schema.prisma \u00b7 src/lib/db.ts \u00b7 .gitignore\nW: TODAY\nY: GREEN / HIGH / STABLE\n\nCo-Authored-By: Claude Sonnet 4.6 <noreply@anthropic",
+          "prov": [
+            [
+              "fix(schema+db): wire DATABASE_URL in datasource,",
+              "1afe828",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-11ba2fc",
+          "lab": "fix(db): Prisma 7 adapter pattern \u2014 url via PrismaPg, not schema",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "desc": "Prisma 7 removed url from datasource block in schema.prisma.\n- prisma.config.ts: load .env.local \u2192 .env chain; DATABASE_URL required (no SQLite fallback)\n- src/lib/db.ts: pass PrismaPg adapter with connectionString to PrismaClient\n- Both mi",
+          "prov": [
+            [
+              "fix(db): Prisma 7 adapter pattern \u2014 url via Pris",
+              "11ba2fc",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-663d831",
+          "lab": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config ob",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "desc": "PrismaPg({ connectionString }) creates the adapter but the underlying pool\nnever establishes SSL on the Supabase pooler (port 6543), causing every\nPrisma runtime query to throw. This silently broke Auth.js VerificationToken\nwrites, receipt ",
+          "prov": [
+            [
+              "fix(db): PrismaPg requires explicit pg.Pool with",
+              "663d831",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-79f39e6",
+          "lab": "fix(resume): reset collapsed state when leaving PIXEL PERFECT",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+          "prov": [
+            [
+              "fix(resume): reset collapsed state when leaving ",
+              "79f39e6",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-934a18c",
+          "lab": "fix(routing): proxy.ts for resume.arcs.care hostname rewrite (Ne",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "desc": "- Renamed middleware.ts \u2192 proxy.ts (Next.js 16 convention)\n- proxy() + proxyConfig exports (replaces middleware + config)\n- resume.* hostname \u2192 rewrites all paths to /resume.html\n- Fixes resume.arcs.care showing compass homepage instead of ",
+          "prov": [
+            [
+              "fix(routing): proxy.ts for resume.arcs.care host",
+              "934a18c",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        },
+        {
+          "id": "s-4a37d02",
+          "lab": "fix(resume): jargon cleanup, kill glow animations, ARCS tab defa",
+          "grade": "B",
+          "conf": 86,
+          "risk": "LOW",
+          "kind": "FIX",
+          "desc": "- Default selectedNode: 'arcs' (ARCS tab open on load)\n- Removed glow/pulse animations: arcs-pulse, nciCount, scanPulse keyframes + data-pulse\n- Print CSS: print-color-adjust: exact to preserve dark backgrounds\n- Removed NCI SCORE panel (in",
+          "prov": [
+            [
+              "fix(resume): jargon cleanup, kill glow animation",
+              "4a37d02",
+              "commit",
+              "\u2014"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
