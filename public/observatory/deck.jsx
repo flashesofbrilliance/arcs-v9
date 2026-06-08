@@ -14,6 +14,15 @@ function srcHref(src) {
   if (m[2]) h += `#L${m[2]}` + (m[3] ? `-L${m[3]}` : "");
   return h;
 }
+// resolve a provenance Source cell to a URL given what was Observed.
+// commit SHAs → the GitHub commit; file paths → blob URL (srcHref).
+function obsHref(src, observed) {
+  if (String(observed).toLowerCase() === "commit" && /^[0-9a-f]{7,40}$/i.test(String(src)))
+    return `${repoBase()}/commit/${src}`;
+  return srcHref(src);
+}
+// a real provenance-ledger id (P01–P28); "—" / blanks are not linkable.
+const isProvId = (v) => /^P\d+$/i.test(String(v || "").trim());
 // confidence → subtle inset-bottom bloom intensity (underlit LED, never a halo)
 const hx = (n) => Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, "0");
 const confBloom = (conf) => hx((conf - 30) * 0.7);
@@ -131,7 +140,7 @@ function Sheet({ item, onClose }) {
     : isNode ? `${item.kind} · scored finding`
     : isRisk ? `ruin-path · ${item.sev}`
     : `${item.alt} · ${ALT[item.alt] && ALT[item.alt].name}${item.peak ? " · ★ peak" : ""}`;
-  const leadProv = isNode && item.prov && item.prov[0] ? item.prov[0][3] : null;
+  const leadProv = isNode && item.prov && item.prov[0] && isProvId(item.prov[0][3]) ? item.prov[0][3] : null;
 
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 50, visibility: open ? "visible" : "hidden", pointerEvents: open ? "auto" : "none" }}>
@@ -186,11 +195,13 @@ function Sheet({ item, onClose }) {
                     <tbody>{item.prov.map((row, i) => (
                       <tr key={i}>
                         <td style={tdS}>{row[0]}</td>
-                        <td style={tdS}>{(() => { const h = srcHref(row[1]); return h
+                        <td style={tdS}>{(() => { const h = obsHref(row[1], row[2]); return h
                           ? <a href={h} target="_blank" rel="noopener" style={{ color: C.green, fontSize: 11, wordBreak: "break-word", textDecoration: "none" }}>{row[1]}<span style={{ fontSize: 9 }}>↗</span></a>
                           : <code style={{ color: C.green, fontSize: 11, wordBreak: "break-word" }}>{row[1]}</code>; })()}</td>
                         <td style={{ ...tdS, color: C.gold }}>{row[2]}</td>
-                        <td style={tdS}><a href={provLedger()} target="_blank" rel="noopener" title="provenance ledger" style={{ color: "var(--fg3)", textDecoration: "none" }}>{row[3]}<span style={{ fontSize: 9, color: C.cyan }}> ↗</span></a></td>
+                        <td style={tdS}>{isProvId(row[3])
+                          ? <a href={provLedger()} target="_blank" rel="noopener" title="provenance ledger" style={{ color: "var(--fg3)", textDecoration: "none" }}>{row[3]}<span style={{ fontSize: 9, color: C.cyan }}> ↗</span></a>
+                          : <span style={{ color: "var(--fg4)" }}>{row[3]}</span>}</td>
                       </tr>
                     ))}</tbody>
                   </table>

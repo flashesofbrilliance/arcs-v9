@@ -95,7 +95,7 @@ def build_layers(events: list[dict], slug: str, per_alt: int = 6) -> list[dict]:
             findings.append({
                 "id": f"s-{e['sha']}", "lab": e["label"][:64], "grade": grade_of(e.get("conf", 82)),
                 "conf": e.get("conf", 82), "risk": "LOW", "kind": e.get("type", "event").upper(),
-                "date": e.get("date"),
+                "date": e.get("date"), "sha": e["sha"],
                 "desc": e.get("desc", "")[:240],
                 "prov": [[e["label"][:48], e["sha"], "commit", "—"]],
             })
