@@ -1094,6 +1094,19 @@ function Resume() {
           <span style={{ color:T.fg4, fontSize:11 }}> · 203·807·2976</span>
         </div>
         <a href="mailto:Zach.Harris@Gmail.com"
+          onClick={(e) => {
+            e.preventDefault();
+            const send = (subject) => { window.location.href = 'mailto:Zach.Harris@Gmail.com?subject=' + encodeURIComponent(subject); };
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(
+                (pos) => send('Transmitting from: ' + pos.coords.latitude.toFixed(4) + ', ' + pos.coords.longitude.toFixed(4)),
+                () => send('Transmitting from: location unavailable'),
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+              );
+            } else {
+              send('Transmitting from: location unavailable');
+            }
+          }}
           style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:7,
             fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.05em', color:'#071014',
             background:`linear-gradient(135deg,${T.cyan},#00c8d4)`,
