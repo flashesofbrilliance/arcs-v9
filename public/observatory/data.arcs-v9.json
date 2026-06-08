@@ -1,8 +1,8 @@
 {
   "repo": "flashesofbrilliance/arcs-v9",
   "label": "arcs-v9 \u2014 forensic git history",
-  "generated_at": "2026-06-08T00:27:58",
-  "head_sha": "5e0ce36",
+  "generated_at": "2026-06-08T02:04:11",
+  "head_sha": "3aae5d8",
   "attribution": "shown",
   "span_start": "2026-05-27",
   "span_days": 14,
@@ -254,6 +254,16 @@
       "sha": "bbeb8a8",
       "desc": "feat(observatory): hide=strip-to-subject; regen deployed data clean \u2014 Per demo decision: --attribution hide now strips desc to the commit",
       "conf": 94
+    },
+    {
+      "id": "ev-3aae5d8",
+      "date": "2026-06-08",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(observatory): hot-swappable JSON datasets \u2014 runtime/data split + switcher",
+      "sha": "3aae5d8",
+      "desc": "feat(observatory): hot-swappable JSON datasets \u2014 runtime/data split + switcher \u2014 Decouple the Observatory from its baked-in data.jsx so datasets can be",
+      "conf": 90
     }
   ],
   "risks": [

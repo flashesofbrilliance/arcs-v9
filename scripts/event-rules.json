@@ -1,0 +1,77 @@
+{
+  "version": "0.1.0",
+  "description": "Default Observatory event ruleset — generic conventional-commits. Edit this to define your own custom events: each rule maps a GitHub signal (commit/PR/release/workflow) to an Observatory event with an altitude (L5 executive -> L1 surgical), a type, and a confidence. First matching rule wins.",
+  "event_rules": [
+    {
+      "id": "genesis",
+      "when": { "kind_in": ["release"], "subject_matches": "(?i)v?0\\.0|initial|genesis|first" },
+      "set": { "type": "genesis", "alt": "L3", "conf": 84, "peak": true }
+    },
+    {
+      "id": "security",
+      "when": { "subject_matches": "(?i)\\b(security|rls|secret|credential|deny-all|cve|vuln|sanitize|auth)\\b" },
+      "set": { "type": "security", "alt": "L4", "conf": 90, "peak": true }
+    },
+    {
+      "id": "governance",
+      "when": { "subject_matches": "(?i)\\b(adr|rfc|decision|govern|strategy|canon|spec)\\b" },
+      "set": { "type": "milestone", "alt": "L5", "conf": 90, "peak": true }
+    },
+    {
+      "id": "release",
+      "when": { "kind_in": ["release"] },
+      "set": { "type": "milestone", "alt": "L3", "conf": 92, "peak": true }
+    },
+    {
+      "id": "deploy",
+      "when": { "subject_matches": "(?i)\\b(deploy|release|ship|vercel|publish|rollout|ga|ready)\\b" },
+      "set": { "type": "milestone", "alt": "L3", "conf": 90, "peak": true }
+    },
+    {
+      "id": "feat-ui",
+      "when": { "prefix_in": ["feat"], "subject_matches": "(?i)\\b(ui|ux|design|component|page|view|button|card|style|css)\\b" },
+      "set": { "type": "feat", "alt": "L2", "conf": 88 }
+    },
+    {
+      "id": "feat",
+      "when": { "prefix_in": ["feat"] },
+      "set": { "type": "feat", "alt": "L3", "conf": 88 }
+    },
+    {
+      "id": "perf",
+      "when": { "prefix_in": ["perf"] },
+      "set": { "type": "feat", "alt": "L2", "conf": 86 }
+    },
+    {
+      "id": "fix-critical",
+      "when": { "prefix_in": ["fix"], "subject_matches": "(?i)\\b(critical|hotfix|unblock|crash|data ?loss|prod|outage)\\b" },
+      "set": { "type": "fix", "alt": "L3", "conf": 90, "peak": true }
+    },
+    {
+      "id": "fix",
+      "when": { "prefix_in": ["fix"] },
+      "set": { "type": "fix", "alt": "L1", "conf": 86 }
+    }
+  ],
+  "risk_rules": [
+    {
+      "id": "revert",
+      "when": { "subject_matches": "(?i)^revert|\\brollback\\b|\\bback ?out\\b" },
+      "set": { "sev": "HIGH", "status": "MITIGATED", "how": "reverted", "risk": null }
+    },
+    {
+      "id": "incident",
+      "when": { "subject_matches": "(?i)\\b(incident|outage|breach|data ?loss|leak|exposed)\\b" },
+      "set": { "sev": "RUIN", "status": "MITIGATED", "how": "see commit" }
+    },
+    {
+      "id": "ci-failure",
+      "when": { "kind_in": ["workflow"], "status_in": ["failure"] },
+      "set": { "sev": "MED", "status": "OPEN", "how": "CI red" }
+    }
+  ],
+  "drop": {
+    "subject_matches": "(?i)^(chore|docs|test|style|build|ci)(\\(|:)|merge branch|merge pull request|bump|handoff|snapshot|pickup|\\bwip\\b|typo|lint|format|gitignore"
+  },
+  "default": { "type": "feat", "alt": "L1", "conf": 80, "keep": false }
+}
