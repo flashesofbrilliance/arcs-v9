@@ -3,12 +3,14 @@
 const RISK_BORDER = { LOW: "solid", MED: "dashed", HIGH: "solid" };
 // provenance links — Source cells point at the repo file (best-effort blob URL);
 // prov IDs (P01–P28) point at the provenance ledger that substantiates the claim.
-const REPO_BASE = REPO.replace(/\/commit\/$/, "");
-const PROV_LEDGER = `${REPO_BASE}/blob/main/docs/provenance-ledger.md`;
+// lazy: window.REPO is installed by hydrateObservatory() at runtime (hot-swappable),
+// so these must read it on call, not at module-load (which happens before hydrate).
+const repoBase = () => String(window.REPO || "https://github.com/flashesofbrilliance/arcs-v9/commit/").replace(/\/commit\/$/, "");
+const provLedger = () => `${repoBase()}/blob/main/docs/provenance-ledger.md`;
 function srcHref(src) {
   const m = String(src || "").match(/^([\w./-]+\.[A-Za-z]+)(?::(\d+)(?:-(\d+))?)?$/);
   if (!m) return null; // commands / multi-source observations aren't single files
-  let h = `${REPO_BASE}/blob/main/${m[1]}`;
+  let h = `${repoBase()}/blob/main/${m[1]}`;
   if (m[2]) h += `#L${m[2]}` + (m[3] ? `-L${m[3]}` : "");
   return h;
 }
@@ -145,7 +147,7 @@ function Sheet({ item, onClose }) {
                 {(isEvent || isRisk) && (item.sha
                   ? <a href={REPO + item.sha} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 11, color: C.green, padding: "5px 10px", borderRadius: 6, border: `1px solid ${C.green}45`, background: `${C.green}10`, textDecoration: "none", whiteSpace: "nowrap" }}>{item.sha}<span style={{ fontSize: 9 }}>↗</span></a>
                   : <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg4)", padding: "5px 10px", borderRadius: 6, border: "1px solid #243042", whiteSpace: "nowrap" }}>standing</span>)}
-                {isNode && leadProv && <a href={PROV_LEDGER} target="_blank" rel="noopener" title="open the provenance ledger" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 11, color: C.cyan, padding: "5px 10px", borderRadius: 6, border: `1px solid ${C.cyan}45`, background: `${C.cyan}10`, whiteSpace: "nowrap", textDecoration: "none" }}>prov {leadProv}<span style={{ fontSize: 9 }}>↗</span></a>}
+                {isNode && leadProv && <a href={provLedger()} target="_blank" rel="noopener" title="open the provenance ledger" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 11, color: C.cyan, padding: "5px 10px", borderRadius: 6, border: `1px solid ${C.cyan}45`, background: `${C.cyan}10`, whiteSpace: "nowrap", textDecoration: "none" }}>prov {leadProv}<span style={{ fontSize: 9 }}>↗</span></a>}
                 <button onClick={onClose} aria-label="close" style={{ width: 30, height: 30, borderRadius: 6, border: "1px solid #243042", background: "linear-gradient(180deg, #11181f, #0a1016)", color: "var(--fg3)", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>✕</button>
               </div>
             </div>
@@ -184,7 +186,7 @@ function Sheet({ item, onClose }) {
                           ? <a href={h} target="_blank" rel="noopener" style={{ color: C.green, fontSize: 11, wordBreak: "break-word", textDecoration: "none" }}>{row[1]}<span style={{ fontSize: 9 }}>↗</span></a>
                           : <code style={{ color: C.green, fontSize: 11, wordBreak: "break-word" }}>{row[1]}</code>; })()}</td>
                         <td style={{ ...tdS, color: C.gold }}>{row[2]}</td>
-                        <td style={tdS}><a href={PROV_LEDGER} target="_blank" rel="noopener" title="provenance ledger" style={{ color: "var(--fg3)", textDecoration: "none" }}>{row[3]}<span style={{ fontSize: 9, color: C.cyan }}> ↗</span></a></td>
+                        <td style={tdS}><a href={provLedger()} target="_blank" rel="noopener" title="provenance ledger" style={{ color: "var(--fg3)", textDecoration: "none" }}>{row[3]}<span style={{ fontSize: 9, color: C.cyan }}> ↗</span></a></td>
                       </tr>
                     ))}</tbody>
                   </table>
