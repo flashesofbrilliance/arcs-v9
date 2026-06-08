@@ -703,6 +703,7 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
     if (selectedNode && TRAJ.find(n=>n.id===selectedNode)?.roleId === id) {
       onSelectNode(null);
     } else {
+      onSelectNode(null); // detach from tab-driven expansion
       setManualExpanded(e => e===id ? null : id);
     }
   };
