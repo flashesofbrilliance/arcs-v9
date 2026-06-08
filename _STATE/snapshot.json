@@ -43,7 +43,22 @@
     "DATABASE_URL missing from Preview env",
     "Audience dropdown not built yet (resume)"
   ],
-  "next_action": "Confirm Vercel prod deploy is Ready after merge; verify app.arcs.care/observatory renders both datasets. Then: wire live PR/workflow fetchers, or Panel/Chip (ADR-009).",
+  "next_action": "PHASE 2 — promote the Compass UI kit into the real app. Read _STATE/compass-kit-phase2-handoff.md first. Kit source: public/compass-kit/; live mock preview: app.arcs.care/compass-kit. Rebuild /, /dashboard, /brief/[receiptId] on the kit; swap mockCompass -> /api/compass (2 field remaps: macro_tags<-meta.macro_tags, attach question). Reconcile the kit with the existing src/ui/ DS (ADR-009/011) rather than fork. Recommended in a FRESH session for clean context.",
+  "compass_kit_phase2": {
+    "handoff": "_STATE/compass-kit-phase2-handoff.md",
+    "preview": "https://app.arcs.care/compass-kit",
+    "source_dir": "public/compass-kit/",
+    "target": "arcs-v9 = app.arcs.care (NOT the arcs.care marketing repo)",
+    "status": "Phase 1 (live mock preview) shipped; Phase 2 (TSX port + real API + DS reconcile) not started",
+    "field_remaps": ["result.macro_tags <- result.meta.macro_tags", "result.question kept in client state (API does not echo it)"],
+    "existing_ds": "src/ui/{tokens.ts,Badge.tsx,Button.tsx,Card.tsx} (ADR-009/011) — extend, do not duplicate"
+  },
+  "this_session_shipped": [
+    "Observatory: rules-engine dataset default + dated risks + provenance-to-GitHub commit links",
+    "compass-kit live mock preview (/compass-kit)",
+    "resume SEND BEARING -> geo-stamped email subject",
+    "bare /brief -> redirect /dashboard (was 404)"
+  ],
   "blocking": "NONE",
   "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
   "serialization_protocol": {
