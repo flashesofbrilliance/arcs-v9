@@ -1,7 +1,7 @@
 {
   "repo": "flashesofbrilliance/arcs-v9",
   "label": "arcs-v9 \u2014 GitHub rules engine",
-  "generated_at": "2026-06-08T14:19:56",
+  "generated_at": "2026-06-08T14:28:03",
   "head_sha": "3aae5d8",
   "attribution": "shown",
   "span_start": "2026-05-27",
@@ -303,6 +303,7 @@
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-05-27",
+          "sha": "a737c56",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -321,6 +322,7 @@
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-05-28",
+          "sha": "4932cdd",
           "desc": "D: What is the correct build sequence for founding-10 conversion gap?\nE: arcs-care compass-widget.tsx, lab-offer.tsx, hero.tsx, /api/waitlist (reuse)\nW: THIS_QUARTER \u2014 revisit trigger: 1 Lab inquiry within 30 days of case study live\nY: YELL",
           "prov": [
             [
@@ -339,6 +341,7 @@
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-06-05",
+          "sha": "7bc512c",
           "desc": "Conductor loop (folksonomist -> reinforce -> decay -> contrarian ->\ncalc-guard -> sentinel) over a synthetic receipt stream with preferential\nattachment (the cyclic feedback that makes calcification possible).\n\nModes: anterior (forward load",
           "prov": [
             [
@@ -357,6 +360,7 @@
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-06-05",
+          "sha": "9f669fa",
           "desc": "Observability layer modeled as an inferred folksonomy DAG over receipts,\nheld in a superionic phase band by three governed counter-forces (edge\ndecay / contrarian pressure / Drift Sentinel) mapped per L0-L7 level.\n\nPressure constants are L7",
           "prov": [
             [
@@ -380,6 +384,7 @@
           "risk": "LOW",
           "kind": "SECURITY",
           "date": "2026-05-27",
+          "sha": "9970c3f",
           "desc": "scripts/rls-policies.sql \u2014 paste into Supabase SQL Editor to apply.\nADR-008 documents why auth.uid() policies are wrong for this auth\narchitecture (Auth.js v5 + Prisma superuser \u2260 Supabase Auth JWT).\n\nCo-Authored-By: Claude Sonnet 4.6 <nore",
           "prov": [
             [
@@ -398,6 +403,7 @@
           "risk": "LOW",
           "kind": "SECURITY",
           "date": "2026-05-29",
+          "sha": "02b68da",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -416,6 +422,7 @@
           "risk": "LOW",
           "kind": "SECURITY",
           "date": "2026-05-29",
+          "sha": "d732dad",
           "desc": "Auth.js v5 PrismaAdapter requires emailVerified DateTime? and image String? on\nthe User model. AdapterError on magic link signin was caused by missing columns.\nColumns added to Supabase via MCP migration; schema updated to match.\n\nCo-Author",
           "prov": [
             [
@@ -434,6 +441,7 @@
           "risk": "LOW",
           "kind": "SECURITY",
           "date": "2026-05-29",
+          "sha": "935759f",
           "desc": "Replaces null stub with live Auth.js v5 config. Resend EmailProvider reads\nAUTH_RESEND_KEY (added to all Vercel envs this session). AUTH_URL set in prod.\nSign-in page: /compass. Session callback surfaces user.id for API auth guards.\n\nCo-Aut",
           "prov": [
             [
@@ -452,6 +460,7 @@
           "risk": "LOW",
           "kind": "SECURITY",
           "date": "2026-06-03",
+          "sha": "8f97054",
           "desc": "fix(brief): remove anon 401 gate \u2014 receipt ID is the access credential (ADR-016)",
           "prov": [
             [
@@ -470,6 +479,7 @@
           "risk": "LOW",
           "kind": "SECURITY",
           "date": "2026-06-03",
+          "sha": "6a5b856",
           "desc": "- Remove prod-only 401 guard from /api/compass and /api/prep\n- Anonymous receipts written with userId=null, sessionId preserved\n- POST /api/compass now open to unauthenticated users in production\n- /api/history, /api/brief/[id], /api/guide/",
           "prov": [
             [
@@ -493,6 +503,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-06-05",
+          "sha": "bbeb8a8",
           "desc": "Per demo decision: --attribution hide now strips desc to the commit\nsubject line (drops body where trailers/noise live) \u2014 simpler than the\nregex scrub, removes _ATTR_RE. Regenerated the deployed public data.jsx\nwith hide so the Deloitte-fac",
           "prov": [
             [
@@ -511,6 +522,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-06-05",
+          "sha": "7fec720",
           "desc": "Gauntlet flagged 8 Co-Authored-By/session-url/email trailers in the\npublic data.jsx desc fields. Rather than hard-removing, gate visibility\nbehind a flag (data recoverable by regenerating with show).\n\n- desc_of() scrubs trailer lines when H",
           "prov": [
             [
@@ -529,6 +541,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-06-08",
+          "sha": "c1e2721",
           "desc": "Static-first GitHub analytics on top of the hot-swap data layer. Point the\nObservatory at any repo, define custom events declaratively, dataset drops\ninto the live switcher \u2014 no UI rebuild.\n\n- scripts/event-rules.json: user-editable ruleset",
           "prov": [
             [
@@ -547,6 +560,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-06-08",
+          "sha": "3aae5d8",
           "desc": "Decouple the Observatory from its baked-in data.jsx so datasets can be\nswapped at runtime without a rebuild/redeploy:\n\n- runtime.jsx (new): static code module \u2014 token maps, helpers, and\n  hydrateObservatory(payload) which installs EVENTS/RI",
           "prov": [
             [
@@ -570,6 +584,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-05-27",
+          "sha": "d597708",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -588,6 +603,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-05-27",
+          "sha": "80530b8",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -606,6 +622,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-05-27",
+          "sha": "924fd10",
           "desc": "Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
           "prov": [
             [
@@ -624,6 +641,7 @@
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-06-05",
+          "sha": "27ee318",
           "desc": "Implements the Claude Design \"ARCS OS\" Observatory handoff: a forensic,\nT0-anchored, atomic change-control observability layer over the build\ntrajectory.\n\n- public/observatory/ \u2014 the kit (index.html + timeline/deck/views/\n  tweaks-panel.jsx",
           "prov": [
             [
@@ -647,6 +665,7 @@
           "risk": "LOW",
           "kind": "FIX",
           "date": "2026-06-03",
+          "sha": "663d831",
           "desc": "PrismaPg({ connectionString }) creates the adapter but the underlying pool\nnever establishes SSL on the Supabase pooler (port 6543), causing every\nPrisma runtime query to throw. This silently broke Auth.js VerificationToken\nwrites, receipt ",
           "prov": [
             [
@@ -665,6 +684,7 @@
           "risk": "LOW",
           "kind": "FIX",
           "date": "2026-06-05",
+          "sha": "934a18c",
           "desc": "- Renamed middleware.ts \u2192 proxy.ts (Next.js 16 convention)\n- proxy() + proxyConfig exports (replaces middleware + config)\n- resume.* hostname \u2192 rewrites all paths to /resume.html\n- Fixes resume.arcs.care showing compass homepage instead of ",
           "prov": [
             [
@@ -683,6 +703,7 @@
           "risk": "LOW",
           "kind": "FIX",
           "date": "2026-06-05",
+          "sha": "98a04f1",
           "desc": "Gauntlet found the tailored-instance path crashed on any foreign repo:\nbuild_layers read _DECISIONS + file metrics relative to cwd, not\nREPO_PATH, and the deck prose is editorial arcs-v9 content.\n\n- add rp() to resolve repo-relative reads a",
           "prov": [
             [
@@ -701,6 +722,7 @@
           "risk": "LOW",
           "kind": "FIX",
           "date": "2026-06-05",
+          "sha": "2d6e08b",
           "desc": "The /observatory rewrite serves index.html but the address bar stays\n/observatory (no trailing slash), so relative asset refs (data.jsx,\ncolors_and_type.css, ...) resolved to root and 404'd -> blank page.\nRoot-absolute /observatory/* paths ",
           "prov": [
             [
@@ -719,6 +741,7 @@
           "risk": "LOW",
           "kind": "FIX",
           "date": "2026-06-05",
+          "sha": "0f384e1",
           "desc": "- next.config.ts: pin turbopack.root to silence Next 16 workspace-root\n  inference ambiguity (build now verified clean: 12 routes, TS pass)\n- build_observatory.py: add --repo-path/--slug/--out args so a tailored\n  instance can be generated ",
           "prov": [
             [
