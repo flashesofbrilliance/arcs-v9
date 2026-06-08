@@ -95,6 +95,7 @@ def build_layers(events: list[dict], slug: str, per_alt: int = 6) -> list[dict]:
             findings.append({
                 "id": f"s-{e['sha']}", "lab": e["label"][:64], "grade": grade_of(e.get("conf", 82)),
                 "conf": e.get("conf", 82), "risk": "LOW", "kind": e.get("type", "event").upper(),
+                "date": e.get("date"),
                 "desc": e.get("desc", "")[:240],
                 "prov": [[e["label"][:48], e["sha"], "commit", "—"]],
             })
@@ -146,6 +147,17 @@ def main():
         r = ER.classify_risk(s, rules)
         if r:
             risks.append(r)
+
+    # dedupe risks by distinct risk text — keep first (earliest) occurrence,
+    # so each exposure surfaces once on the register rather than once per commit.
+    seen, deduped = set(), []
+    for r in risks:
+        key = r.get("risk") or r.get("note") or r.get("id")
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(r)
+    risks = deduped
 
     if not events:
         sys.exit("No events produced — check the repo has commits and the ruleset matches them.")

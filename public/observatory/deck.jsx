@@ -32,6 +32,7 @@ function ScoreNode({ node, onOpen }) {
         animation: high ? "obs-pulse 1.8s infinite" : "none" }}>
       <div style={{ fontSize: 11.5, color: "#e2e8f0", lineHeight: 1.3 }}>{node.lab}</div>
       <div style={{ fontSize: 9.5, color: "#8593a6", letterSpacing: ".04em", marginTop: 3, display: "flex", gap: 6 }}>
+        {node.date && <span style={{ color: "#707e92" }}>{node.date.slice(5)}</span>}
         <span style={{ fontWeight: 700, color: c }}>{node.grade}</span><span>conf {node.conf}</span><span>{node.risk}</span>
       </div>
     </button>
@@ -78,7 +79,10 @@ function RiskNode({ rk, onOpen }) {
         border: `1px solid ${sc}45`, borderLeft: `3px solid ${sc}`, borderRadius: 12, padding: "9px 11px", background: "linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01) 40%, rgba(0,0,0,.18)), linear-gradient(165deg, #11181f, #0a1016)",
         boxShadow: `inset 0 1px 0 rgba(255,255,255,.05), inset 0 -8px 13px -9px ${sc}40, 0 0 ${h ? 12 : 8}px -4px ${sc}, 0 4px 12px rgba(0,0,0,.4)`, transform: h ? "translateY(-2px)" : "none", transition: "transform .25s, box-shadow .2s", fontFamily: "var(--font-mono)" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
-        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".08em", padding: "1px 6px", borderRadius: 4, background: "rgba(255,255,255,.06)", color: SEV[rk.sev] }}>{rk.sev}</span>
+        <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".08em", padding: "1px 6px", borderRadius: 4, background: "rgba(255,255,255,.06)", color: SEV[rk.sev] }}>{rk.sev}</span>
+          {rk.date && <span style={{ fontSize: 9, color: "#707e92" }}>{rk.date.slice(5)}</span>}
+        </span>
         <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", padding: "1px 7px", border: `1px solid ${sc}`, borderRadius: 5, color: sc }}>{rk.status}</span>
       </div>
       <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0", lineHeight: 1.3 }}>{rk.risk}</div>
