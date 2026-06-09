@@ -84,18 +84,18 @@ function ChainOfEvents({ focus, query, current, setCurrent, onOpen }) {
                 border: `1px solid ${accent}66`, borderRadius: 8, padding: "7px 10px",
                 background: "linear-gradient(180deg, #0e151e, #0a0f16)", boxShadow: `0 12px 26px -10px rgba(0,0,0,.85), 0 0 0 1px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05)` }}>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".06em", color: accent, fontWeight: 700, marginBottom: 3, whiteSpace: "nowrap" }}>
-                  {e.date.slice(5)} · {e.alt} {ALT[e.alt].name} · {String(e.type).toUpperCase()}{e.peak ? " · ★" : ""}
+                  {e.alt} {ALT[e.alt].name} · {String(e.type).toUpperCase()}{e.peak ? " · ★" : ""}
                 </div>
                 <div style={{ fontFamily: "var(--font-sans)", fontSize: 11.5, color: "#e2e8f0", lineHeight: 1.35 }}>{e.label}</div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "#8593a6", marginTop: 4, whiteSpace: "nowrap" }}>conf {e.conf}{e.sha ? " · " + e.sha : ""}</div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "#8593a6", marginTop: 4, whiteSpace: "nowrap" }}>conf {e.conf}</div>
               </div>
             );
           })()}
         </div>
       </div>
-      {/* time axis — uniform chronological order */}
-      <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 34px 2px 116px", fontFamily: "var(--font-mono)", fontSize: 9, color: "#707e92", letterSpacing: ".06em" }}>
-        <span>Apr 9 · genesis</span><span>build order →</span><span>Jun 4 · now</span>
+      {/* build order axis label */}
+      <div style={{ display: "flex", justifyContent: "center", padding: "6px 34px 2px 116px", fontFamily: "var(--font-mono)", fontSize: 9, color: "#707e92", letterSpacing: ".06em" }}>
+        <span>genesis → build order → demo-ready</span>
       </div>
     </section>
   );
@@ -175,24 +175,22 @@ const SEV_ORDER = ["RUIN", "HIGH", "MED"];
 const SEV_NAME = { RUIN: "RUIN-CLASS", HIGH: "HIGH", MED: "MEDIUM" };
 const EV_GLYPH = { genesis: "✦", canon: "❖", milestone: "★", feat: "⊕", security: "⊘", fix: "✕", kairos: "◇" };
 
-function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", win = 14, onOpen }) {
-  const buildH = 38, laneH = 72, axisH = 18, gut = 92, DAY = 86400000;
-  const allMs = [...EVENTS, ...RISKS].map(x => Date.parse(x.date));
-  const END = Math.max(...allMs);                                  // latest milestone = now
-  const START = win >= 999 ? Math.min(...allMs) : END - win * DAY; // rolling window (Period slot)
-  const spanDays = Math.max(1, Math.round((END - START) / DAY));
-  const inWin = (dstr) => Date.parse(dstr) >= START;
-  const rks = [...RISKS].filter(r => inWin(r.date)).sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-  const evs = [...EVENTS].filter(e => inWin(e.date)).sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-  const xp = (dstr) => 3 + ((Date.parse(dstr) - START) / (END - START)) * 94;
-  const xpDay = (d) => 3 + (d / spanDays) * 94;
-  const laneDim = (sev) => sevFocus !== "all" && sev !== sevFocus; // Focus slot isolates a severity
+function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", onOpen }) {
+  const buildH = 38, laneH = 72, axisH = 0, gut = 92;
+  const LEDGER_ALL = window.LEDGER || [];
+  const total = Math.max(1, LEDGER_ALL.length - 1);
+  // x-position by LEDGER index (build order), same spacing as ChainOfEvents
+  const xpItem = (id) => {
+    const idx = LEDGER_ALL.findIndex(x => x.id === id);
+    return idx < 0 ? 50 : 3 + (idx / total) * 94;
+  };
+  const rks = [...RISKS];
+  const evs = [...EVENTS];
+  const laneDim = (sev) => sevFocus !== "all" && sev !== sevFocus;
   const sevCenter = (sev) => buildH + SEV_ORDER.indexOf(sev) * laneH + laneH / 2;
   const buildCenter = buildH / 2;
   const H = buildH + SEV_ORDER.length * laneH;
   const [hv, setHv] = React.useState(null);
-  const weeks = []; for (let d = 0; d <= spanDays; d += 7) weeks.push(d); if (weeks[weeks.length - 1] !== spanDays) weeks.push(spanDays);
-  const wkLabel = (d) => { const dt = new Date(START + d * DAY); return `${dt.getMonth() + 1}/${dt.getDate()}`; };
   const StatusKey = ({ c, children }) => (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
       <span style={{ width: 8, height: 8, borderRadius: 2, transform: "rotate(45deg)", border: `2px solid ${c}`, background: "#0a1016" }} />
@@ -208,7 +206,7 @@ function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", win = 14, onOpen 
       boxShadow: "inset 0 1px 0 rgba(255,255,255,.08), inset 0 -2px 8px rgba(0,0,0,.5), 0 5px 16px rgba(0,0,0,.4)" }}>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: 10, marginBottom: 10 }}>
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: ".08em", color: C.red, fontWeight: 700 }}>RISK REGISTER</span>
-        <span style={{ fontSize: 10, color: "#8593a6" }}>rolling window · ◆ risk in severity lanes · glyph = build-event overlay · ring = status · ← → step · ↑ ↓ focus lane</span>
+        <span style={{ fontSize: 10, color: "#8593a6" }}>◆ risk in severity lanes · glyph = build-event overlay · ring = status · ← → step · ↑ ↓ focus lane</span>
       </div>
       <div style={{ display: "flex" }}>
         {/* gutter labels */}
@@ -224,10 +222,9 @@ function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", win = 14, onOpen 
         <div style={{ position: "relative", flex: "1 1 auto", height: H + axisH, minWidth: 0 }}>
           <div style={{ position: "absolute", left: 0, right: 0, top: buildH, height: 1, background: "#1b2a3d" }} />
           {SEV_ORDER.map((sev, i) => i > 0 && <div key={sev} style={{ position: "absolute", left: 0, right: 0, top: buildH + i * laneH, height: 1, background: "#13202e" }} />)}
-          {/* week gridlines + build-overlay verticals */}
+          {/* build-overlay verticals */}
           <svg viewBox={`0 0 100 ${H}`} preserveAspectRatio="none" style={{ position: "absolute", left: 0, top: 0, width: "100%", height: H, pointerEvents: "none" }}>
-            {weeks.map(d => <line key={"w" + d} x1={xpDay(d)} x2={xpDay(d)} y1="0" y2={H} stroke="#27374f" strokeWidth="1" vectorEffect="non-scaling-stroke" />)}
-            {evs.map(e => <line key={"o" + e.id} x1={xp(e.date)} x2={xp(e.date)} y1={buildH} y2={H} stroke={e.peak ? C.gold : C.cyan} strokeOpacity={e.peak ? ".24" : ".09"} strokeWidth="1" strokeDasharray={e.peak ? "3 4" : undefined} vectorEffect="non-scaling-stroke" />)}
+            {evs.map(e => <line key={"o" + e.id} x1={xpItem(e.id)} x2={xpItem(e.id)} y1={buildH} y2={H} stroke={e.peak ? C.gold : C.cyan} strokeOpacity={e.peak ? ".24" : ".09"} strokeWidth="1" strokeDasharray={e.peak ? "3 4" : undefined} vectorEffect="non-scaling-stroke" />)}
           </svg>
           {/* build-event overlay markers (the other 11 milestones) */}
           {evs.map(e => {
@@ -236,14 +233,14 @@ function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", win = 14, onOpen 
             const glyph = e.peak ? "★" : (EV_GLYPH[e.type] || "•");
             const sz = e.peak ? 17 : 14;
             return (
-              <button key={e.id} onClick={() => onOpen(e)} title={`${e.date.slice(5)} · ${e.alt} ${ALT[e.alt].name} · ${e.label}`}
-                style={{ position: "absolute", left: `${xp(e.date)}%`, top: buildCenter, width: sz, height: sz, marginLeft: -sz / 2, marginTop: -sz / 2,
+              <button key={e.id} onClick={() => onOpen(e)} title={`${e.alt} ${ALT[e.alt].name} · ${e.label}`}
+                style={{ position: "absolute", left: `${xpItem(e.id)}%`, top: buildCenter, width: sz, height: sz, marginLeft: -sz / 2, marginTop: -sz / 2,
                   display: "inline-flex", alignItems: "center", justifyContent: "center", borderRadius: "50%", cursor: "pointer", padding: 0,
                   border: `1px solid ${e.peak ? "#1a1404" : "#03060b"}`, background: accent, color: "#04070c",
                   fontFamily: "var(--font-mono)", fontSize: e.peak ? 10 : 8, fontWeight: 700,
                   boxShadow: `0 0 ${e.peak ? 8 : 5}px -1px ${accent}, inset 0 1px 0 rgba(255,255,255,.4)`,
                   opacity: dim ? 0.14 : 0.95, pointerEvents: dim ? "none" : "auto", transition: "opacity .3s, transform .15s" }}
-                onMouseEnter={ev => { ev.currentTarget.style.transform = "scale(1.25)"; setHv({ x: xp(e.date), cy: buildCenter, item: e, isRisk: false }); }}
+                onMouseEnter={ev => { ev.currentTarget.style.transform = "scale(1.25)"; setHv({ x: xpItem(e.id), cy: buildCenter, item: e, isRisk: false }); }}
                 onMouseLeave={ev => { ev.currentTarget.style.transform = "scale(1)"; setHv(h => (h && h.item.id === e.id ? null : h)); }}>{glyph}</button>
             );
           })}
@@ -255,24 +252,21 @@ function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", win = 14, onOpen 
             const selected = sel === idx;
             return (
               <React.Fragment key={r.id}>
-                {selected && !dim && <span style={{ position: "absolute", left: `${xp(r.date)}%`, top: sevCenter(r.sev), width: sz + 13, height: sz + 13, marginLeft: -(sz + 13) / 2, marginTop: -(sz + 13) / 2, borderRadius: "50%", border: `1.5px solid ${C.cyan}`, boxShadow: `0 0 11px -1px ${C.cyan}`, pointerEvents: "none" }} />}
+                {selected && !dim && <span style={{ position: "absolute", left: `${xpItem(r.id)}%`, top: sevCenter(r.sev), width: sz + 13, height: sz + 13, marginLeft: -(sz + 13) / 2, marginTop: -(sz + 13) / 2, borderRadius: "50%", border: `1.5px solid ${C.cyan}`, boxShadow: `0 0 11px -1px ${C.cyan}`, pointerEvents: "none" }} />}
                 <button onClick={() => { setSel && setSel(idx); onOpen(r); }} title={`${r.sev} · ${r.status} — ${r.risk}`}
                   data-pulse={r.status === "OPEN" ? "" : undefined}
-                  style={{ position: "absolute", left: `${xp(r.date)}%`, top: sevCenter(r.sev), width: sz, height: sz, marginLeft: -sz / 2, marginTop: -sz / 2,
+                  style={{ position: "absolute", left: `${xpItem(r.id)}%`, top: sevCenter(r.sev), width: sz, height: sz, marginLeft: -sz / 2, marginTop: -sz / 2,
                     borderRadius: 2, cursor: "pointer", padding: 0, transform: "rotate(45deg)",
                     border: `2px solid ${sc}`, background: c,
                     boxShadow: `inset 0 1px 0 rgba(255,255,255,.4), 0 0 ${r.sev === "RUIN" ? 11 : 7}px -1px ${c}, 0 2px 5px rgba(0,0,0,.5)`,
                     opacity: dim ? 0.16 : 1, pointerEvents: dim ? "none" : "auto",
                     animation: r.status === "OPEN" ? "obs-pulse 1.8s infinite" : "none", transition: "opacity .3s, transform .15s" }}
-                  onMouseEnter={ev => { ev.currentTarget.style.transform = "rotate(45deg) scale(1.32)"; setHv({ x: xp(r.date), cy: sevCenter(r.sev), item: r, isRisk: true }); }}
+                  onMouseEnter={ev => { ev.currentTarget.style.transform = "rotate(45deg) scale(1.32)"; setHv({ x: xpItem(r.id), cy: sevCenter(r.sev), item: r, isRisk: true }); }}
                   onMouseLeave={ev => { ev.currentTarget.style.transform = "rotate(45deg) scale(1)"; setHv(h => (h && h.item.id === r.id ? null : h)); }} />
               </React.Fragment>
             );
           })}
-          {/* week axis labels */}
-          {weeks.map(d => (
-            <span key={"wl" + d} style={{ position: "absolute", left: `${xpDay(d)}%`, top: H + 3, transform: "translateX(-50%)", fontFamily: "var(--font-mono)", fontSize: 8.5, color: "#707e92", whiteSpace: "nowrap" }}>{wkLabel(d)}</span>
-          ))}
+          {/* build-order axis — no dates */}
           {/* mini collapsed-card hover preview */}
           {hv && (() => {
             const x = hv.item, isRisk = hv.isRisk, below = hv.cy < 70;
@@ -283,11 +277,11 @@ function RiskLanes({ query, sel = 0, setSel, sevFocus = "all", win = 14, onOpen 
                 border: `1px solid ${accent}66`, borderRadius: 8, padding: "7px 10px",
                 background: "linear-gradient(180deg, #0e151e, #0a0f16)", boxShadow: `0 12px 26px -10px rgba(0,0,0,.85), 0 0 0 1px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.05)` }}>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: ".06em", color: accent, fontWeight: 700, marginBottom: 3, whiteSpace: "nowrap" }}>
-                  {x.date.slice(5)} · {isRisk ? `⚠ ${x.sev} · ${x.status}` : `${x.alt} ${ALT[x.alt].name} · ${String(x.type).toUpperCase()}`}
+                  {isRisk ? `⚠ ${x.sev} · ${x.status}` : `${x.alt} ${ALT[x.alt].name} · ${String(x.type).toUpperCase()}`}
                 </div>
                 <div style={{ fontFamily: "var(--font-sans)", fontSize: 11.5, color: "#e2e8f0", lineHeight: 1.35 }}>{x.risk || x.label}</div>
                 <div style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "#8593a6", marginTop: 4, whiteSpace: "nowrap" }}>
-                  {isRisk ? `countered: ${x.how}` : `conf ${x.conf}${x.sha ? " · " + x.sha : ""}`}
+                  {isRisk ? `countered: ${x.how}` : `conf ${x.conf}`}
                 </div>
               </div>
             );
@@ -319,7 +313,7 @@ function RiskByLane({ sevFocus = "all", query, onOpen }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {SEV_ORDER.map(sev => {
           const dimLane = sevFocus !== "all" && sev !== sevFocus;
-          const items = RISKS.filter(r => r.sev === sev).sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+          const items = RISKS.filter(r => r.sev === sev);
           return (
             <div key={sev} style={{ display: "flex", alignItems: "center", gap: 10, padding: "7px 10px", borderRadius: 8,
               border: `1px solid ${SEV[sev]}2e`, borderLeft: `3px solid ${SEV[sev]}`,
