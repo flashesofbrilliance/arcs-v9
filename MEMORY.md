@@ -5,6 +5,44 @@
 
 ---
 
+## [v2.6.0] 2026-06-09 — Figma recoil report + resume.arcs.care architecture gates (ADR-024)
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Environment: Claude Code on the web (cloud) — model `claude-sonnet-4-6`
+- Branch: `claude/amazing-rubin-z3sv1a` → merged to main
+
+### Artifacts landed
+
+| Action | Detail |
+|---|---|
+| Created | `runtime/recoil/2026-06-08-figma-recruiter-screen.md` — ARCS Recoil Report for Jun 8 Figma recruiter screen. NCI 72→58 (Δ-14). Y: YELLOW/MEDIUM/WATCH. HOLD verdict. Recruiter: Hayden. HM: unconfirmed. |
+| Created | `src/app/recoil/page.tsx` — Document UIKit FE page (sidebar-nav + scrollable body). Signal delta table, ex-ante receipt, confidence bars, survivable next steps, recoil analysis, drift sentinel. |
+| Created | `_DECISIONS/ADR-024-resume-arcs-care-architecture-gates.md` — DECIDED. Two gates resolved: (1) Scan = input/routing page, auto-runs on load when opportunityId in URL; (2) Single Vercel deployment, (userId, opportunityId) composite RLS. Full OpportunityScanOutput schema. Build sequence steps 1–10. |
+| Amended | ADR-024 amended post-/dual-bar-raiser audit: scan trigger corrected to auto-run; table renamed to `opportunity_scans`; enum field types for recruiter_altitude + rhetorical_resonance; added fit_breakdown/silence_map/raw_jd_text; added Open Questions section. |
+
+### Key architectural decisions (ADR-024)
+- **Scan layer = input/routing page, not document destination.** Scan output pre-fills compass; full artifact lives at `/brief`.
+- **Single Vercel deployment.** All opportunities scoped by `(userId, opportunityId)` composite key. API route layer is primary enforcement (Prisma bypasses RLS).
+- **Auto-trigger:** `/scan/[opportunityId]` runs scan on mount if opportunityId in URL; paste-first if not.
+- **OpportunityScanOutput table:** `opportunity_scans` — fit_score (0–100), recruiter_altitude (low/mid/high), rhetorical_resonance (analytical/relational/executional/visionary), north_star_signal, fit_breakdown (jsonb), silence_map (jsonb), raw_jd_text.
+- **Signal Brief:** collapsible accordion (collapsed by default) at top of `/compass`; sidebar drawer at ≥1024px.
+
+### Pending build sequence (ADR-024 steps 1–10)
+1. New repo: `arcs-resume` (Next.js 16 · Prisma 7 · Supabase · Auth.js v5)
+2. ADR-025: Supabase migration — `opportunity_scans` table
+3. Input surface: `/` (paste resume + JD + alternatives → mint opportunityId → redirect)
+4. Scan API: `POST /api/scan` → Claude → write OpportunityScanOutput → redirect to `/compass/[id]`
+5. Compass surface: pre-fill contract, Signal Brief panel, editable question
+6. Brief surface: UIKit sidebar-nav Profile Scan layout
+7. Prep, receipt, recoil surfaces (port from arcs-v9)
+
+### Cross-repo notes
+- `arcs-v9`: ADR-024 committed to `_DECISIONS/`. No other arcs-v9 changes required.
+- `resume.arcs.care`: new repo — ADR-024 governs all build decisions downstream.
+
+---
+
 ## [v2.5.0] 2026-06-05 — ADR-023 superionic goal lattice + Observatory wired (branch: observability-milestone-mapping)
 
 ### Session context
