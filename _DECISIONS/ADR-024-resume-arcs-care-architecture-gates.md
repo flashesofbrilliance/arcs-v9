@@ -96,9 +96,11 @@ These are parallel, not hierarchical. The Claude Project writes artifacts (recoi
 
 ### T1 — Scan Trigger
 
-**Decision: Manual trigger — user pastes JD + hits "Scan"**
+**Decision: Auto-run on page load when `opportunityId` is present in the URL**
 
-Auto-run on page load would require URL params pre-populated (impractical for first visit). The input surface is intentional: paste resume variant, paste JD, name alternatives. The "Scan" button is the deliberate gate — it signals "I've loaded the right context for this specific opportunity." No accidental scans on browser back-navigation.
+If the JD is not yet stored, the page shows a single-field paste input before triggering the scan. No manual "Scan" button on the happy path — the URL param is the trigger. If the user arrives at `/scan/[opportunityId]` with a pre-registered opportunity, the scan starts immediately on mount (streaming status). This matches the Layer 1 mental model: creating an opportunity instance and arriving at the scan page are the same atomic action.
+
+**Edge case:** First visit with no URL param → input surface (paste resume + JD + alternatives). On submit, `opportunityId` is minted, written to URL, and scan auto-fires.
 
 ### T2 — RLS Policy Shape
 
@@ -112,28 +114,30 @@ Single `opportunityId` alone is insufficient — a UUID is not a secret, and a l
 
 The scan layer writes one `opportunities` row to Supabase. The `/compass/[opportunityId]` route reads it on mount and injects into the compass form + API call context.
 
-**Fields the scan writes:**
+**Fields the scan writes (table: `opportunity_scans`):**
 
 ```typescript
 interface OpportunityScanOutput {
-  opportunityId:       string    // UUID, generated at scan creation
-  userId:              string    // session userId
-  company:             string    // extracted from JD
-  roleTitle:           string    // extracted from JD
-  jdText:              string    // raw JD paste
-  resumeVariant:       string    // raw resume paste
-  alternatives:        string    // JSON array: [{label, stage}]
+  opportunity_id:       uuid       // generated at scan creation
+  user_id:              uuid       // session userId
+  created_at:           timestamp
 
-  // Scan output — written by Claude scan call
-  fitScore:            number    // 0–100
-  recruiterAltitude:   string    // e.g. "Reading at IC level — technical vocabulary expected"
-  rhetoricalResonance: string    // e.g. "Language match: 72%. Gap: JD uses 'velocity', resume uses 'throughput'"
-  northStar:           string    // e.g. "10 years regulated-environment product delivery with zero violations"
-  prefilledQuestion:   string    // e.g. "Given the Figma Code org role vs. Deloitte FDE and JPMorgan DeFi, is this worth the investment of time and effort?"
+  // Injected into DEWY compass
+  fit_score:            number     // 0–100, vector collision score
+  recruiter_altitude:   "low" | "mid" | "high"   // inferred from JD signal density
+  rhetorical_resonance: "analytical" | "relational" | "executional" | "visionary"
+  north_star_signal:    string     // 1–2 sentence synthesis of what they're really hiring for
+
+  // Surfaced in Signal Brief accordion (not injected into form)
+  fit_breakdown:        jsonb      // per-dimension scores
+  silence_map:          jsonb      // JD sections with low signal (what they didn't say)
+  raw_jd_text:          text
+
+  // Compass pre-fill
+  prefilled_question:   string     // e.g. "Given the Figma Code org role vs. Deloitte FDE and JPMorgan DeFi, is this worth the investment of time and effort?"
 
   // Render metadata
-  scanConfidence:      number    // 0–100; drives Signal Brief render resolution
-  createdAt:           string    // ISO 8601
+  scan_confidence:      number     // 0–100; drives Signal Brief render resolution
 }
 ```
 
@@ -165,7 +169,7 @@ The compass route POST to `/api/compass` includes the `opportunityId` — every 
    └─ Next.js 16 · Prisma 7 · Supabase · Auth.js v5 (same stack as arcs-v9)
    └─ resume.arcs.care Vercel project
 
-2. Supabase migration: opportunities table (T3 schema above)
+2. Supabase migration: `opportunity_scans` table (T3 schema above) — ADR-025
 
 3. Input surface: resume.arcs.care/ (paste resume + JD + alternatives → Scan)
 
@@ -187,6 +191,16 @@ The compass route POST to `/api/compass` includes the `opportunityId` — every 
 10. ADR-025: resume.arcs.care Supabase schema (opportunities table migration)
     ADR-026: resume.arcs.care scan Claude prompt spec
 ```
+
+---
+
+---
+
+## Open Questions (Pre-Build — resolved in principle, implementation TBD)
+
+1. **Scan streaming UX:** Does `/scan` show a progress bar, streaming text, or a spinner? → Recommendation: streaming status messages ("Scoring fit vectors… Mapping recruiter altitude… Building signal brief…") to reduce perceived latency.
+2. **Compass pre-fill animation:** Fields populate sequentially (80ms stagger) or render fully populated? → Recommendation: sequential 80ms stagger — signals the AI read the JD, not that it guessed.
+3. **Signal Brief accordion placement:** Top of compass page (above the receipt form) or sidebar drawer? → Recommendation: collapsible top accordion for mobile-first; sidebar drawer at ≥1024px breakpoint.
 
 ---
 
