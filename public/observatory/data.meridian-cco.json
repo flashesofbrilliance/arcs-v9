@@ -1,6 +1,6 @@
 {
   "repo": "meridian-cco",
-  "label": "Meridian CCO Intelligence — Deloitte FDE",
+  "label": "Meridian CCO Intelligence \u2014 Deloitte FDE",
   "generated_at": "2026-06-09T00:00:00Z",
   "head_sha": "demo-ready",
   "attribution": "hide",
@@ -11,11 +11,11 @@
     {
       "id": "ev-meridian-001",
       "date": "2026-05-26",
-      "alt": "L0",
+      "alt": "L1",
       "type": "milestone",
-      "label": "Dataset loaded — 75 deals, 10 reps, Q1 2026 quota targets ingested",
+      "label": "Dataset loaded \u2014 75 deals, 10 reps, Q1 2026 quota targets ingested",
       "sha": "init",
-      "desc": "Raw CSV → pandas DataFrames. Enterprise attainment 58.57%, Mid-Market 56.4%. Ironbridge loss_reason = null confirmed.",
+      "desc": "Raw CSV \u2192 pandas DataFrames. Enterprise attainment 58.57%, Mid-Market 56.4%. Ironbridge loss_reason = null confirmed.",
       "conf": 100,
       "peak": false
     },
@@ -24,7 +24,7 @@
       "date": "2026-05-26",
       "alt": "L1",
       "type": "milestone",
-      "label": "Integrity gate — 5 assertions guard every server start",
+      "label": "Integrity gate \u2014 5 assertions guard every server start",
       "sha": "integrity",
       "desc": "Enterprise attainment ~58.6%, Ironbridge null loss_reason, at-risk reps present, pipeline >$4M, coverage math chain. Server refuses to start if any assertion fails.",
       "conf": 100,
@@ -35,7 +35,7 @@
       "date": "2026-05-27",
       "alt": "L2",
       "type": "milestone",
-      "label": "Trust architecture — pre-LLM compute layer; LLM formats prose only",
+      "label": "Trust architecture \u2014 pre-LLM compute layer; LLM formats prose only",
       "sha": "engine",
       "desc": "All numbers computed by pandas before LLM sees them. LLM role: classify intent + format prose. Never calculates. This is the architectural answer to the hallucination failure.",
       "conf": 98,
@@ -46,7 +46,7 @@
       "date": "2026-05-27",
       "alt": "L2",
       "type": "milestone",
-      "label": "8 intent gates — pre-LLM short-circuit on known failure modes",
+      "label": "8 intent gates \u2014 pre-LLM short-circuit on known failure modes",
       "sha": "parser",
       "desc": "segment_attainment, rep_risk, pipeline_close_date, pipeline_coverage, win_rate, competitive_analysis, rep_correlation, discovery. Each fires before LLM call with pandas-computed payload.",
       "conf": 97,
@@ -57,9 +57,9 @@
       "date": "2026-05-27",
       "alt": "L3",
       "type": "milestone",
-      "label": "Traceable source citations — OPP-XX / REP-XX IDs on every answer",
+      "label": "Traceable source citations \u2014 OPP-XX / REP-XX IDs on every answer",
       "sha": "trace",
-      "desc": "Every response includes source IDs the CCO can verify. Not 'based on your data' — specific deal and rep records. /source/{id} endpoint resolves any ID to its raw row.",
+      "desc": "Every response includes source IDs the CCO can verify. Not 'based on your data' \u2014 specific deal and rep records. /source/{id} endpoint resolves any ID to its raw row.",
       "conf": 98,
       "peak": false
     },
@@ -68,7 +68,7 @@
       "date": "2026-05-27",
       "alt": "L3",
       "type": "milestone",
-      "label": "4 declared failure modes — PREDICTIVE / UNDEFINED / COMPOUND / UNANSWERABLE",
+      "label": "4 declared failure modes \u2014 PREDICTIVE / UNDEFINED / COMPOUND / UNANSWERABLE",
       "sha": "reasoning",
       "desc": "System knows its limits and says so. Each mode returns debug object with failure_type + reformulations. No silent degradation.",
       "conf": 97,
@@ -79,7 +79,7 @@
       "date": "2026-05-28",
       "alt": "L3",
       "type": "milestone",
-      "label": "Deloitte rubric eval — 10/10 passing incl. Ironbridge CRITICAL",
+      "label": "Deloitte rubric eval \u2014 10/10 passing incl. Ironbridge CRITICAL",
       "sha": "eval-rubric",
       "desc": "eval_rubric.py: all 4 official assignment queries pass. E4 (Ironbridge unanswerable) confirmed: confidence=unanswerable, zero fabricated figures. Definition of done for the assignment.",
       "conf": 100,
@@ -90,7 +90,7 @@
       "date": "2026-05-28",
       "alt": "L4",
       "type": "milestone",
-      "label": "Vector cache + FAQ warm — 16 pre-computed responses at startup",
+      "label": "Vector cache + FAQ warm \u2014 16 pre-computed responses at startup",
       "sha": "cache",
       "desc": "Jaccard + containment similarity. Cache bypassed for rep-named queries (personalised). Startup warms 16 FAQ entries in background thread.",
       "conf": 92,
@@ -101,9 +101,9 @@
       "date": "2026-05-29",
       "alt": "L4",
       "type": "milestone",
-      "label": "Rep routing precision — last-name / first-name / full-name all resolve correctly",
+      "label": "Rep routing precision \u2014 last-name / first-name / full-name all resolve correctly",
       "sha": "rep-gate",
-      "desc": "'marsh' → rep_summary (REP-06). 'kevin' → Kevin Marsh. 'enterprise' → segment_attainment (not a rep). Three separate routing gates, no cross-fire.",
+      "desc": "'marsh' \u2192 rep_summary (REP-06). 'kevin' \u2192 Kevin Marsh. 'enterprise' \u2192 segment_attainment (not a rep). Three separate routing gates, no cross-fire.",
       "conf": 96,
       "peak": false
     },
@@ -112,7 +112,7 @@
       "date": "2026-06-01",
       "alt": "L4",
       "type": "milestone",
-      "label": "Extended eval suite — E11–E25, 33 invariants, JTBD annotations",
+      "label": "Extended eval suite \u2014 E11\u2013E25, 33 invariants, JTBD annotations",
       "sha": "eval-full",
       "desc": "E11: cold onboarding (open-ended discovery). E15: rep correlation (tenure gap, coverage gap, Lisa Park anomaly). E18: compound query graceful decline. E25: multi-rep comparison refusal without hallucination.",
       "conf": 99,
@@ -123,9 +123,9 @@
       "date": "2026-06-03",
       "alt": "L5",
       "type": "milestone",
-      "label": "Behavioral economics layer — Prospect Theory + Go board strategy",
+      "label": "Behavioral economics layer \u2014 Prospect Theory + Go board strategy",
       "sha": "prospect-go",
-      "desc": "Kahneman-Tversky (λ=2.25, α=β=0.88). Reference point = quota. Loss domain = risk-seeking. Go status per rep: ALIVE/FIGHTING/DEAD GROUP. CCO sente moves ranked by expected fleet impact.",
+      "desc": "Kahneman-Tversky (\u03bb=2.25, \u03b1=\u03b2=0.88). Reference point = quota. Loss domain = risk-seeking. Go status per rep: ALIVE/FIGHTING/DEAD GROUP. CCO sente moves ranked by expected fleet impact.",
       "conf": 90,
       "peak": false
     },
@@ -134,7 +134,7 @@
       "date": "2026-06-04",
       "alt": "L5",
       "type": "milestone",
-      "label": "Nash equilibrium signaling — Liar's Poker between managers",
+      "label": "Nash equilibrium signaling \u2014 Liar's Poker between managers",
       "sha": "liarpoker",
       "desc": "3-manager game: David Kim INFLATED (1.74x coverage absorbs exposure), Reyes/Huang SANDBAGGED (dead zone too high). Mixed equilibrium = channel fog. Death spiral: 0 triggers in 10K trials, 100% stagnation at P50=87.1%.",
       "conf": 88,
@@ -145,7 +145,7 @@
       "date": "2026-06-04",
       "alt": "L5",
       "type": "milestone",
-      "label": "Commission reform pro-forma — 4 structures, ROI at 30% behavioral lift",
+      "label": "Commission reform pro-forma \u2014 4 structures, ROI at 30% behavioral lift",
       "sha": "proforma",
       "desc": "CURRENT (0/6/12%), NO_CLIFF (6/12%), LINEAR (8% flat), RAMP (4/7/13%). RAMP best ROI: 1.2x at 30% lift, 0.8 month payback. Dead-zone pipeline at risk: $201K (3.4pp fleet miss). Commission delta = option mechanics.",
       "conf": 91,
@@ -156,9 +156,9 @@
       "date": "2026-06-05",
       "alt": "L5",
       "type": "milestone",
-      "label": "Architecture review — Type A/B/C analysis routing, architect-validated",
+      "label": "Architecture review \u2014 Type A/B/C analysis routing, architect-validated",
       "sha": "arch-review",
-      "desc": "Type A (queryable): V×C×S, Bayesian CIs, dead-zone commission → query pipeline. Type B (panels): wargame, proforma, prospect_go, liarpoker → /analysis/* endpoints. Type C (CLI): redteam, synthetic. 5 failure modes enumerated.",
+      "desc": "Type A (queryable): V\u00d7C\u00d7S, Bayesian CIs, dead-zone commission \u2192 query pipeline. Type B (panels): wargame, proforma, prospect_go, liarpoker \u2192 /analysis/* endpoints. Type C (CLI): redteam, synthetic. 5 failure modes enumerated.",
       "conf": 95,
       "peak": false
     },
@@ -167,7 +167,7 @@
       "date": "2026-06-09",
       "alt": "L5",
       "type": "milestone",
-      "label": "Full suite 25/25 — all Deloitte criteria passing, demo-ready",
+      "label": "Full suite 25/25 \u2014 all Deloitte criteria passing, demo-ready",
       "sha": "25-25",
       "desc": "25 eval cases + 33 invariants. E1 Enterprise 58.57%. E2 Rivera/Marsh/Cole. E3 pipeline dollar figure. E4 Ironbridge unanswerable, no fabricated data. Interactive runtime.py REPL for live analysis.",
       "conf": 100,
@@ -182,7 +182,7 @@
       "sev": "HIGH",
       "status": "AVERTED",
       "sha": "engine",
-      "how": "Pre-LLM pandas compute — LLM never sees raw numbers",
+      "how": "Pre-LLM pandas compute \u2014 LLM never sees raw numbers",
       "note": "Meridian's prior AI tool hallucinated figures and lost CCO trust. Architecture inverts the pattern: pandas computes, LLM formats prose only."
     },
     {
@@ -192,7 +192,7 @@
       "sev": "HIGH",
       "status": "AVERTED",
       "sha": "eval-rubric",
-      "how": "Pre-LLM UNANSWERABLE gate — short-circuits before any LLM call",
+      "how": "Pre-LLM UNANSWERABLE gate \u2014 short-circuits before any LLM call",
       "note": "Ironbridge loss_reason is null. System detects this analytically and returns confidence=unanswerable. Verified in 10K eval runs: zero fabricated figures."
     },
     {
@@ -212,17 +212,17 @@
       "sev": "HIGH",
       "status": "OPEN",
       "sha": "proforma",
-      "how": "RAMP structure removes cliff — 1.2x ROI at 30% behavioral lift",
+      "how": "RAMP structure removes cliff \u2014 1.2x ROI at 30% behavioral lift",
       "note": "Dead-zone reps earn $0 marginal commission below 50% quota. Commission delta = 0% = deep OTM call. RAMP structure is the cheapest fix at $146K incremental cost."
     },
     {
       "id": "risk-death-spiral",
       "date": "2026-06-04",
-      "risk": "Fleet morale death spiral — borderline trigger conditions active",
+      "risk": "Fleet morale death spiral \u2014 borderline trigger conditions active",
       "sev": "MED",
       "status": "OPEN",
       "sha": "liarpoker",
-      "how": "Remove cliff → restore delta → restore marginal incentive",
+      "how": "Remove cliff \u2192 restore delta \u2192 restore marginal incentive",
       "note": "10K Monte Carlo: 0 spirals triggered but 100% stagnation. P50 fleet attainment 87.1%. Trigger threshold: morale < 0.55 AND dead-zone fraction > 40%. Currently borderline."
     }
   ],
@@ -232,19 +232,26 @@
       "findings": [
         {
           "id": "s-meridian-arch",
-          "lab": "Architecture: Type A/B/C analysis routing — architect-validated",
+          "lab": "Architecture: Type A/B/C analysis routing \u2014 architect-validated",
           "grade": "A",
           "conf": 95,
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-06-09",
           "sha": "arch-review",
-          "desc": "Queryable intelligence → query pipeline. Framework panels → /analysis/* endpoints. Dev tooling → CLI only.",
-          "prov": [["Type A/B/C routing decision", "arch-review", "decision", "Perplexity architect"]]
+          "desc": "Queryable intelligence \u2192 query pipeline. Framework panels \u2192 /analysis/* endpoints. Dev tooling \u2192 CLI only.",
+          "prov": [
+            [
+              "Type A/B/C routing decision",
+              "arch-review",
+              "decision",
+              "Perplexity architect"
+            ]
+          ]
         },
         {
           "id": "s-meridian-proforma",
-          "lab": "Commission reform pro-forma — RAMP structure best ROI (1.2x)",
+          "lab": "Commission reform pro-forma \u2014 RAMP structure best ROI (1.2x)",
           "grade": "A",
           "conf": 91,
           "risk": "LOW",
@@ -252,19 +259,33 @@
           "date": "2026-06-04",
           "sha": "proforma",
           "desc": "4 commission structures modeled. RAMP (4/7/13%) dominates on ROI at standard behavioral lift assumptions.",
-          "prov": [["proforma.py", "proforma", "analysis", "pandas"]]
+          "prov": [
+            [
+              "proforma.py",
+              "proforma",
+              "analysis",
+              "pandas"
+            ]
+          ]
         },
         {
           "id": "s-meridian-prospect",
-          "lab": "Prospect Theory (λ=2.25) — loss domain = risk-seeking on quota cliff",
+          "lab": "Prospect Theory (\u03bb=2.25) \u2014 loss domain = risk-seeking on quota cliff",
           "grade": "A",
           "conf": 90,
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-06-03",
           "sha": "prospect-go",
-          "desc": "KT value function applied to rep quota positions. Dead-zone reps in loss domain behave risk-seeking (fight/quit, not steady grind). Paralysis index = fight_force × pivot_force.",
-          "prov": [["prospect_go.py", "prospect-go", "analysis", "pandas"]]
+          "desc": "KT value function applied to rep quota positions. Dead-zone reps in loss domain behave risk-seeking (fight/quit, not steady grind). Paralysis index = fight_force \u00d7 pivot_force.",
+          "prov": [
+            [
+              "prospect_go.py",
+              "prospect-go",
+              "analysis",
+              "pandas"
+            ]
+          ]
         }
       ]
     },
@@ -273,15 +294,22 @@
       "findings": [
         {
           "id": "s-meridian-eval25",
-          "lab": "25/25 eval suite + 33 invariants — zero regressions",
+          "lab": "25/25 eval suite + 33 invariants \u2014 zero regressions",
           "grade": "A",
           "conf": 100,
           "risk": "LOW",
           "kind": "MILESTONE",
           "date": "2026-06-09",
           "sha": "25-25",
-          "desc": "E1–E25 plus invariant layer. JTBD annotations on every case. Next-analysis chips verified. No false positives on unanswerable gate.",
-          "prov": [["eval.py", "25-25", "test", "pytest-style assertions"]]
+          "desc": "E1\u2013E25 plus invariant layer. JTBD annotations on every case. Next-analysis chips verified. No false positives on unanswerable gate.",
+          "prov": [
+            [
+              "eval.py",
+              "25-25",
+              "test",
+              "pytest-style assertions"
+            ]
+          ]
         },
         {
           "id": "s-meridian-nash",
@@ -293,19 +321,33 @@
           "date": "2026-06-04",
           "sha": "liarpoker",
           "desc": "Analytic payoff matrix (not Monte Carlo) confirms mixed equilibrium. CCO navigating with broken altimeter. Decision friction drag at 40% dead zone: -17.7pp combined velocity penalty.",
-          "prov": [["liarpoker.py", "liarpoker", "analysis", "game theory"]]
+          "prov": [
+            [
+              "liarpoker.py",
+              "liarpoker",
+              "analysis",
+              "game theory"
+            ]
+          ]
         },
         {
           "id": "s-meridian-rep-gate",
-          "lab": "Rep routing precision — 3 name formats, zero segment cross-fire",
+          "lab": "Rep routing precision \u2014 3 name formats, zero segment cross-fire",
           "grade": "A",
           "conf": 96,
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-05-29",
           "sha": "rep-gate",
-          "desc": "Last-name, first-name, full-name all route to rep_summary. 'enterprise' correctly routes to segment_attainment. Verified E21–E24.",
-          "prov": [["parser.py rep gate", "rep-gate", "logic", "pandas"]]
+          "desc": "Last-name, first-name, full-name all route to rep_summary. 'enterprise' correctly routes to segment_attainment. Verified E21\u2013E24.",
+          "prov": [
+            [
+              "parser.py rep gate",
+              "rep-gate",
+              "logic",
+              "pandas"
+            ]
+          ]
         }
       ]
     },
@@ -314,7 +356,7 @@
       "findings": [
         {
           "id": "s-meridian-trust",
-          "lab": "Trust architecture — pre-LLM compute, zero fabrication surface",
+          "lab": "Trust architecture \u2014 pre-LLM compute, zero fabrication surface",
           "grade": "A",
           "conf": 98,
           "risk": "LOW",
@@ -322,11 +364,18 @@
           "date": "2026-05-27",
           "sha": "engine",
           "desc": "Pandas computes all numbers. LLM receives structured payload, returns formatted prose. Zero path where LLM can hallucinate a figure.",
-          "prov": [["engine.py", "engine", "architecture", "pandas"]]
+          "prov": [
+            [
+              "engine.py",
+              "engine",
+              "architecture",
+              "pandas"
+            ]
+          ]
         },
         {
           "id": "s-meridian-failures",
-          "lab": "4 failure modes — PREDICTIVE / UNDEFINED / COMPOUND / UNANSWERABLE",
+          "lab": "4 failure modes \u2014 PREDICTIVE / UNDEFINED / COMPOUND / UNANSWERABLE",
           "grade": "A",
           "conf": 97,
           "risk": "LOW",
@@ -334,19 +383,33 @@
           "date": "2026-05-27",
           "sha": "reasoning",
           "desc": "Each mode has a debug object with failure_type + reformulations. E16 predictive, E17 undefined metric, E18 compound, E4 unanswerable. All verified in eval suite.",
-          "prov": [["reasoning.py", "reasoning", "logic", "pandas"]]
+          "prov": [
+            [
+              "reasoning.py",
+              "reasoning",
+              "logic",
+              "pandas"
+            ]
+          ]
         },
         {
           "id": "s-meridian-sources",
-          "lab": "Traceable source citations — OPP-XX / REP-XX on every response",
+          "lab": "Traceable source citations \u2014 OPP-XX / REP-XX on every response",
           "grade": "A",
           "conf": 98,
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-05-27",
           "sha": "trace",
-          "desc": "/source/{id} resolves any citation to its raw data row. Not 'based on your data' — specific records the CCO can verify.",
-          "prov": [["trace.py + /source endpoint", "trace", "api", "pandas"]]
+          "desc": "/source/{id} resolves any citation to its raw data row. Not 'based on your data' \u2014 specific records the CCO can verify.",
+          "prov": [
+            [
+              "trace.py + /source endpoint",
+              "trace",
+              "api",
+              "pandas"
+            ]
+          ]
         }
       ]
     },
@@ -355,7 +418,7 @@
       "findings": [
         {
           "id": "s-meridian-rubric",
-          "lab": "Deloitte rubric eval — 10/10, Ironbridge CRITICAL pass",
+          "lab": "Deloitte rubric eval \u2014 10/10, Ironbridge CRITICAL pass",
           "grade": "A",
           "conf": 100,
           "risk": "LOW",
@@ -363,19 +426,33 @@
           "date": "2026-05-28",
           "sha": "eval-rubric",
           "desc": "eval_rubric.py = definition of done for assignment. 4 official queries + critical edge cases. 0 CRITICAL failures.",
-          "prov": [["eval_rubric.py", "eval-rubric", "test", "assertions"]]
+          "prov": [
+            [
+              "eval_rubric.py",
+              "eval-rubric",
+              "test",
+              "assertions"
+            ]
+          ]
         },
         {
           "id": "s-meridian-cache",
-          "lab": "Vector cache — Jaccard + containment, rep-named bypass",
+          "lab": "Vector cache \u2014 Jaccard + containment, rep-named bypass",
           "grade": "B",
           "conf": 92,
           "risk": "LOW",
           "kind": "FEAT",
           "date": "2026-05-28",
           "sha": "cache",
-          "desc": "16 FAQ entries warmed at startup. Personalised queries (rep-named) bypass cache for accuracy. Cache invalidation: none needed — data is static CSV.",
-          "prov": [["cache.py", "cache", "infra", "python"]]
+          "desc": "16 FAQ entries warmed at startup. Personalised queries (rep-named) bypass cache for accuracy. Cache invalidation: none needed \u2014 data is static CSV.",
+          "prov": [
+            [
+              "cache.py",
+              "cache",
+              "infra",
+              "python"
+            ]
+          ]
         }
       ]
     },
@@ -384,7 +461,7 @@
       "findings": [
         {
           "id": "s-meridian-integrity",
-          "lab": "5-assertion integrity gate — server refuses to start on data corruption",
+          "lab": "5-assertion integrity gate \u2014 server refuses to start on data corruption",
           "grade": "A",
           "conf": 100,
           "risk": "LOW",
@@ -392,11 +469,18 @@
           "date": "2026-05-26",
           "sha": "integrity",
           "desc": "Enterprise attainment, Ironbridge null check, at-risk reps present, pipeline floor, coverage math chain. Zero-tolerance boot: any assertion failure = SystemExit(1).",
-          "prov": [["server.py _run_integrity_checks()", "integrity", "infra", "python"]]
+          "prov": [
+            [
+              "server.py _run_integrity_checks()",
+              "integrity",
+              "infra",
+              "python"
+            ]
+          ]
         },
         {
           "id": "s-meridian-runtime",
-          "lab": "Interactive runtime.py REPL — toggle log mode, run any analysis",
+          "lab": "Interactive runtime.py REPL \u2014 toggle log mode, run any analysis",
           "grade": "B",
           "conf": 90,
           "risk": "LOW",
@@ -404,7 +488,14 @@
           "date": "2026-06-09",
           "sha": "runtime",
           "desc": "python3 runtime.py: server starts in background thread, REPL in foreground. Commands: q <query>, eval, eval rubric, eval synthetic, insights, wargame, commission, proforma, prospect, liarpoker, bayes, redteam, log (toggle verbose), health, cache.",
-          "prov": [["runtime.py", "runtime", "tooling", "python"]]
+          "prov": [
+            [
+              "runtime.py",
+              "runtime",
+              "tooling",
+              "python"
+            ]
+          ]
         }
       ]
     }
