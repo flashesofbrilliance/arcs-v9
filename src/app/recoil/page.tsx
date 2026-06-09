@@ -44,8 +44,8 @@ const SECTIONS = [
 
 const ENTITIES = [
   { role: "Candidate",         name: "Zach Harris" },
-  { role: "Recruiter",         name: "Ally — Figma (joined Mar 2026, split eng/data)" },
-  { role: "Hiring Manager",    name: "Caitlin — 'Code' org lead" },
+  { role: "Recruiter",         name: "Hayden — Figma (joined Mar 2026, split eng/data)" },
+  { role: "Hiring Manager",    name: "Name unconfirmed — 'Code' org lead" },
   { role: "Org Target",        name: "Figma 'Code' — Dev Mode · Code Connect · MCP" },
   { role: "Alt A",             name: "Deloitte FDE — Fortune 100 / frontier tech" },
   { role: "Alt B",             name: "JPMorgan DeFi infra — $10T/day capital" },
@@ -54,7 +54,7 @@ const ENTITIES = [
 const SIGNAL_DELTAS = [
   { signal: "Role shape",             expected: "Internal FDE, strategic cross-functional layer",         actual: "✅ Confirmed — Code org spans product/eng/design",              delta: "MATCH",    dc: t.green },
   { signal: "Greenfield opportunity", expected: "Significant — inflection point, not routine",            actual: "✅ 'New things that may not even exist today'",                  delta: "MATCH",    dc: t.green },
-  { signal: "HM interest",            expected: "Unknown — cold sourcing",                                actual: "✅ Caitlin proactively sourced LinkedIn before screen",           delta: "SURPRISE", dc: t.cyan  },
+  { signal: "HM interest",            expected: "Unknown — cold sourcing",                                actual: "✅ the HM proactively sourced LinkedIn before screen",           delta: "SURPRISE", dc: t.cyan  },
   { signal: "Interview process",      expected: "Standard tech screen → case study",                     actual: "⚠️ No-AI coding assessment required — policy in transition",     delta: "MISS",     dc: t.red   },
   { signal: "AI culture",             expected: "Forward-leaning, AI-native",                             actual: "⚠️ AI encouraged on the job; blocked in assessments",            delta: "PARTIAL",  dc: t.gold  },
   { signal: "Senior IC track",        expected: "Available",                                              actual: "🔲 Data science org framing — seniority unclear",               delta: "UNCLEAR",  dc: t.muted },
@@ -73,7 +73,7 @@ const NEXT_STEPS = [
   { n: 1, rev: 10, color: t.green,  label: "WAIT",                   body: "Hold all activity until recruiter returns. Deadline: nudge Jun 16 if no contact. Cost: zero." },
   { n: 2, rev: 9,  color: t.green,  label: "EXPLORE ALT ROLES",      body: "Ask about strategy/ops, Dylan's org, or any roles without rigid assessment. Frame as fit-finding." },
   { n: 3, rev: 7,  color: t.gold,   label: "BUILD CASE STUDY NOW",   body: "Grayscale A/B sprint = perfect experimentation story. ~3–4 hrs. Dual-use for Deloitte too." },
-  { n: 4, rev: 6,  color: t.gold,   label: "DECLINE GRACEFULLY",     body: "If assessment stays rigid: warm exit. Keep Caitlin's attention for better timing window." },
+  { n: 4, rev: 6,  color: t.gold,   label: "DECLINE GRACEFULLY",     body: "If assessment stays rigid: warm exit. Keep the HM's attention for better timing window." },
   { n: 5, rev: 4,  color: t.muted,  label: "SPEEDRUN W/ AI IF OK",   body: "Only if recruiter confirms AI tools allowed. Offer already made — don't repeat unprompted." },
 ]
 
@@ -331,7 +331,7 @@ export default function RecoilPage() {
             <strong style={{ color: t.text, ...res }}>What moved the gate down:</strong> No-AI assessment is a genuine blocker. Role sits formally in data science — strategic latitude may be bounded. Recruiter openly uncertain about path forward. Two active alternatives at stronger pipeline stages.
           </p>
           <p style={{ fontSize: "0.78rem", color: t.dimmed, lineHeight: 1.6, marginBottom: "2rem" }}>
-            <strong style={{ color: t.text, ...res }}>What held it from RED:</strong> Caitlin's proactive sourcing is a real signal. Recruiter committed to HM consult + alt role exploration.
+            <strong style={{ color: t.text, ...res }}>What held it from RED:</strong> the HM's proactive sourcing is a real signal. Recruiter committed to HM consult + alt role exploration.
           </p>
 
           {/* ── Signal Delta ──────────────────────────────────────────────── */}
@@ -422,7 +422,7 @@ export default function RecoilPage() {
           <SectionAnchor id="analysis" />
           <SectionHead label="Recoil Analysis" />
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
-            The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface worth engaging. Caitlin's proactive LinkedIn sourcing is not noise; it means the fit signal is real from the hiring side.
+            The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface worth engaging. the HM's proactive LinkedIn sourcing is not noise; it means the fit signal is real from the hiring side.
           </p>
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
             The process friction is the only genuine blocker. The recruiter acknowledged it directly:
@@ -457,7 +457,7 @@ export default function RecoilPage() {
             <AsideBox color={t.muted}>
               <div style={{ fontSize: "0.58rem", color: t.muted, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "0.3rem" }}>Open Questions</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
-                {["Will Caitlin approve AI tools or restructure the assessment?", "Are there open recs outside data science?", "What does Figma's senior IC path look like in Code?"].map((q, i) => (
+                {["Will the HM approve AI tools or restructure the assessment?", "Are there open recs outside data science?", "What does Figma's senior IC path look like in Code?"].map((q, i) => (
                   <div key={i} style={{ display: "flex", gap: "0.4rem" }}>
                     <span style={{ color: t.gold, fontSize: "0.65rem" }}>?</span>
                     <span style={{ fontSize: "0.7rem", color: t.text, lineHeight: 1.4, ...res }}>{q}</span>
