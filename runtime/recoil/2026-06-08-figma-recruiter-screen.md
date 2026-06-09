@@ -37,8 +37,8 @@ Atomic form: *Proceed, hold, or redirect — and at what cost?*
 | Role | Entity |
 |---|---|
 | Candidate | Zach Harris |
-| Recruiter | Ally (unnamed in transcript; relatively new — joined Figma March 2026, split between software engineering and data org hiring) |
-| Hiring Manager | Caitlin (sourced Zach's LinkedIn — "Code" org lead) |
+| Recruiter | Hayden (joined Figma March 2026, split between software engineering and data org hiring) |
+| Hiring Manager | Name unconfirmed in transcript (sourced Zach's LinkedIn — "Code" org lead) |
 | Org target | Figma "Code" — rebranded developer tools, cross-functional product/eng/design layer |
 | Active alternatives | Deloitte FDE (Fortune 100 / frontier tech) · JPMorgan DeFi infrastructure ($10T daily capital) |
 
@@ -60,7 +60,7 @@ Atomic form: *Proceed, hold, or redirect — and at what cost?*
 |---|---|---|---|
 | Role shape | Internal FDE — strategic cross-functional layer bridging fragmented product surfaces | ✅ Confirmed — "Code" org spans product/eng/design; Dev Mode + Code Connect + MCP | **MATCH** |
 | Greenfield opportunity | Significant — inflection point, not routine execution | ✅ Present alongside existing products; recruiter explicitly named "new things that may not even exist today" | **MATCH** |
-| Hiring manager interest | Unknown — cold sourcing | ✅ Caitlin sourced Zach's LinkedIn proactively before screen | **POSITIVE SURPRISE** |
+| Hiring manager interest | Unknown — cold sourcing | ✅ the HM sourced Zach's LinkedIn proactively before screen | **POSITIVE SURPRISE** |
 | Interview process | Standard technical screen → case study | ⚠️ No-AI coding assessment required — a constraint Figma itself is "still noodling" | **MISS — process friction** |
 | AI culture | Forward-leaning, AI-native | ⚠️ AI encouraged once hired; blocked in interview process | **PARTIAL** |
 | Senior IC track | Available | 🔲 Data science org framing adds ambiguity — seniority not confirmed | **UNCLEAR** |
@@ -84,7 +84,7 @@ Delta:      -14 NCI  |  conviction: HIGH → MEDIUM  |  stability: STABLE → WA
 - Active alternatives (Deloitte, JPM) are both at stronger pipeline stages
 
 **What held the gate from going RED:**
-- Caitlin's proactive LinkedIn sourcing is a real conviction signal
+- the HM's proactive LinkedIn sourcing is a real conviction signal
 - Recruiter committed to HM consult + alt role exploration
 - Case study stage (experimentation focus) is a strong surface-match regardless
 
@@ -132,7 +132,7 @@ The Figma case study is focused on experimentation — the Grayscale parallel sp
 
 ### 4. DECLINE GRACEFULLY — Warm exit, door stays open
 **Reversibility: 6/10**
-If assessment remains rigid and no alternative paths surface, exit cleanly. Keep Caitlin's attention available for a future moment when Figma's process has caught up. Do not ghost.
+If assessment remains rigid and no alternative paths surface, exit cleanly. Keep the HM's attention available for a future moment when Figma's process has caught up. Do not ghost.
 
 ### 5. SPEEDRUN ASSESSMENT WITH AI IF PERMITTED — Only if unlocked
 **Reversibility: 4/10**
@@ -142,7 +142,7 @@ Do not volunteer this again unprompted. If recruiter returns with AI tools allow
 
 ## Recoil Analysis
 
-The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface that's energizing. Caitlin's proactive LinkedIn sourcing is not nothing; it means the fit signal is real from the hiring side too.
+The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface that's energizing. the HM's proactive LinkedIn sourcing is not nothing; it means the fit signal is real from the hiring side too.
 
 The process friction is the only genuine blocker, and the recruiter acknowledged it openly: *"We're at this crossroads where we don't allow AI tools in the interview process and yet we talk to so many people who say this is my everyday."* That sentence is both a constraint and a signal — this policy is in transition. The risk of investing 8–15 hours in a traditional coding assessment that produces a false negative for both sides is the actual problem being navigated.
 
@@ -166,6 +166,6 @@ Status: CLEAR
 
 ## Open Questions (blocking_question)
 
-1. Will Caitlin approve AI tools or restructure the assessment?
+1. Will the HM approve AI tools or restructure the assessment?
 2. Are there open recs outside the data science org that fit better (strategy/ops, Dylan's team)?
 3. What does Figma's definition of "senior IC" look like in the Code org — does it have a path that matches the composer/conductor framing?
