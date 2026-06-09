@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 
+export const dynamic = "force-dynamic"
+
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const GUIDE_SYSTEM = `You are the ARCS Field OS Guide Generator. Generate a structured field guide for entering a high-stakes interaction with a named entity.

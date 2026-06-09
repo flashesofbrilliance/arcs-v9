@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/db"
 
+export const dynamic = "force-dynamic"
+
 // ADR-016 Option C: migrate anonymous receipts to authenticated user on sign-in.
 // sessionId comes from the request body (stored in localStorage pre-auth).
 // userId is sourced from server-side auth() ONLY — never from the request body.

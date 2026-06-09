@@ -256,7 +256,7 @@ export default function RecoilPage() {
               <Chip label="WATCH" color={t.gold} />
               <Chip label="DEGRADED" color={t.muted} />
             </div>
-            <h1 style={{ fontSize: "1.5rem", fontWeight: 500, lineHeight: 1.3, color: t.text, marginBottom: "0.5rem", ...res }}>
+            <h1 style={{ fontSize: "1.5rem", lineHeight: 1.3, color: t.text, marginBottom: "0.5rem", ...res }}>
               Figma Recruiter Screen
             </h1>
             <p style={{ fontSize: "0.8rem", color: t.dimmed, marginBottom: "1.25rem" }}>
@@ -349,7 +349,7 @@ export default function RecoilPage() {
               <tbody>
                 {SIGNAL_DELTAS.map((row, i) => (
                   <tr key={i} style={{ borderBottom: `1px solid ${t.border}` }}>
-                    <td style={{ padding: "0.7rem 1rem 0.7rem 0", color: t.text, fontWeight: 500, whiteSpace: "nowrap", ...res }}>{row.signal}</td>
+                    <td style={{ padding: "0.7rem 1rem 0.7rem 0", color: t.text, whiteSpace: "nowrap", ...res }}>{row.signal}</td>
                     <td style={{ padding: "0.7rem 1rem", color: t.dimmed, lineHeight: 1.5, maxWidth: 200 }}>{row.expected}</td>
                     <td style={{ padding: "0.7rem 1rem", color: t.text, lineHeight: 1.5, maxWidth: 240, ...res }}>{row.actual}</td>
                     <td style={{ padding: "0.7rem 0 0.7rem 1rem", whiteSpace: "nowrap" }}><Chip label={row.delta} color={row.dc} /></td>
