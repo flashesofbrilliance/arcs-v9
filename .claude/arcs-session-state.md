@@ -1,54 +1,61 @@
 # ARCS Session State
 
-**Last updated:** 2026-06-05 (v2.5.0)
-**Environment:** Claude Code on the web (cloud)
-**Branch:** `claude/observability-milestone-mapping-345ho` — ⚠️ NOT merged to main
-**Last commit (arcs-v9):** bbeb8a8 — feat(observatory): hide=strip-to-subject; regen deployed data clean
+**Last updated:** 2026-06-09 (v2.6.0)
+**Environment:** Claude Code local
+**Branch:** `main` — in sync with origin
+**Last commit (arcs-v9):** a39da66 — fix(resume): decouple consulting from FT tab clicks
 **Last commit (arcs-care):** 136add1 — perf(cron): batch T+7 emails (unchanged this session)
-
-## ⚠️ Cloud snapshot sync gap
-
-The cloud setup script fetches `_STATE/snapshot.json` from the **main** branch. This session
-wrote it on a feature branch — the next cloud session won't see it until merge. A local
-`/handoff-pickup` reads the working-tree file and is fine. **To close: merge this branch to main.**
 
 ## Status
 
-- arcs-v9 Vercel: ✅ LIVE — https://app.arcs.care (unchanged this session)
+- arcs-v9 Vercel: ✅ LIVE — https://app.arcs.care
 - arcs-v9 Auth: ✅ magic link end-to-end (unchanged)
 - arcs-v9 DB: ✅ xbbpiryokswwvcrcutge / arcs_app / 7 tables (unchanged — no migration this session)
 - arcs-care: ✅ LIVE (unchanged)
   - Item 1 (case study): 🔒 Dark — pending NEXT_PUBLIC_CASE_STUDY_APPROVED
   - Items 2 + 3 (email capture, spots badge): ✅ Live
+- Observatory: ✅ merged to main — `app.arcs.care/observatory` live, cloud sync gap CLOSED
 
-## What landed this session (ADR-023 + Observatory)
+## What landed this session (2026-06-09 — Deloitte + Memory)
 
-- **ADR-023 DECIDED** — Observability as a Superionic Goal Lattice. Inferred weighted folksonomy
-  DAG over receipts; observe edge-weight tightening not node-state; three governed counter-forces
-  (edge-decay/contrarian/Drift-Sentinel) hold the superionic band. FMEA + Conductor-loop arch.
-  Build GATED at 100+ receipts (L6). `9f669fa`, `48b1e6f`.
-- **lattice-pressure-rom.json** — ROM v0.1.0, L7-governed pressure constants, self-tuning FORBIDDEN.
-- **lattice_sim.py** — structural load-test harness. `7bc512c`.
-- **5-agent adversarial pass** — corrected 4 over-claims (recorded in ADR Loki + ROM `_adversarial_grounding`).
-- **Observatory wired** — repo-agnostic `build_observatory.py`; `--attribution hide` = strip-to-subject;
-  `data.jsx` regenerated clean for Deloitte demo; turbopack.root + absolute asset paths. `27ee318`→`bbeb8a8`.
+- **Deloitte FDE eval: 25/25 passing** — all 4 official test queries pass, 33 invariants pass
+  - E4 (Ironbridge unanswerable) correctly returns `confidence=unanswerable`, no fabricated figures
+  - Full eval run: `python3 eval.py` in `meridian-cco/` worktree
+- **Meridian behavioral economics layer** — prospect_go.py, liarpoker.py, proforma.py written
+  (CLI-only; not yet wired to server — that is "next 4 hours" interview narrative)
+- **Analysis architecture plan** — Type A/B/C routing, architect-reviewed (Perplexity space)
+  Plan: `~/.claude/plans/breezy-wiggling-pebble.md`
+- **Memory consolidation** — arcs-v9.md updated, meridian-deloitte.md created, MEMORY.md updated
+- **Meridian handoff** — `SESSION-HANDOFF-2026-06-09.md` in meridian-cco worktree
+
+## No arcs-v9 repo commits this session
+
+All work was in: `meridian-cco/` worktree (untracked), `~/.claude/memory/` (home dir),
+`~/.claude/plans/` (home dir). The arcs-v9 repo itself was read-only this session.
 
 ## Open sprint
 
 ```
-1. Merge claude/observability-milestone-mapping-345ho → main   (closes cloud snapshot sync gap)
-2. Panel/Chip design system components (ADR-009)               READY
-3. ADR-006 branching strategy (first-external-user gate)       READY
-4. arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED (if Dan confirmed)
+1. Compass Kit Phase 2 — TSX port + real API wire        NEXT (read _STATE/compass-kit-phase2-handoff.md)
+2. Panel/Chip design system components (ADR-009)         READY
+3. ADR-006 branching strategy (first-external-user gate) READY
+4. ADR-016 auth.ts wiring                                OPEN (compass non-functional in prod)
+5. arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED       WAITING on Dan Pascone confirmation
 ```
+
+## Deloitte interview prep state
+
+- Demo: `localhost:8080/app.html` (UI) + `localhost:8000` (FastAPI)
+- Verbal framing: in `meridian-cco/SESSION-HANDOFF-2026-06-09.md` + `~/.claude/memory/meridian-deloitte.md`
+- Analysis wiring (Type A/B/C) = "next 4 hours" answer, NOT pre-interview build work
+- Architecture reviewed and validated by Perplexity architect this session
 
 ## Key infra facts (for next session)
 
 - DB: `xbbpiryokswwvcrcutge` / `arcs_app` role / port 6543 pooler
 - Vercel project: `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9` / team `zachharris-3439s-projects`
-- State snapshot: `_STATE/snapshot.json` — cloud setup script reads it from **main** raw URL
-- `/arcs-handoff` is local-only; in cloud use the `/handoff` skill
+- State snapshot: `_STATE/snapshot.json` — reads from main branch raw URL in cloud sessions
 
 ## Next session
 
-/handoff-pickup → confirm branch merge state → merge to main OR Panel/Chip (ADR-009) OR ADR-006
+/handoff-pickup → Compass Kit Phase 2 (read _STATE/compass-kit-phase2-handoff.md first)
