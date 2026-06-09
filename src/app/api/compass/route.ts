@@ -4,6 +4,8 @@ import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
 
+export const dynamic = "force-dynamic"
+
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 function selectMode(horizon: string, stakes: string): "QUICKMOVE" | "PLAN" | "COURT" {
