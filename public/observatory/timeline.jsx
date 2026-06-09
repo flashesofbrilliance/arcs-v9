@@ -118,18 +118,12 @@ function ControlBar({ mode, setMode, focus, setFocus, sevFocus, setSevFocus, vie
   const focusVal = isRisk ? sevFocus : focus;
   const focusOpts = isRisk ? SEV_OPTS : ALT_OPTS;
   const focusSet = isRisk ? setSevFocus : setFocus;
-  // Period slot: ledger grouping (glance) or rolling window (risk)
-  const periodShown = isRisk || mode === "glance";
-  const periodVal = isRisk ? riskWin : view;
-  const periodOpts = isRisk ? WIN_OPTS : GROUP_OPTS;
-  const periodSet = isRisk ? setRiskWin : setView;
-  const periodLabel = isRisk ? "Window" : "Group";
+  // Period slot removed — no date-based grouping or rolling window
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "0 0 2px" }}>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
         <Dropdown label="View" value={mode} options={MODE_OPTS} onChange={setMode} accent={C.cyan} minWidth={190} />
         <Dropdown label="Focus" value={focusVal} options={focusOpts} onChange={focusSet} accent={C.cyan} minWidth={188} />
-        {periodShown && <Dropdown label={periodLabel} value={periodVal} options={periodOpts} onChange={periodSet} accent={C.cyan} minWidth={130} />}
         <Sep />
         <Ctl active={legendOpen} accent={C.cyan} onClick={() => setLegendOpen(v => !v)}>legend <span style={{ display: "inline-block", fontSize: 9, color: "#707e92", transform: legendOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }}>▾</span></Ctl>
         <Sep />
@@ -342,7 +336,6 @@ function FocusedAltitudeStrip({ focus, visibleCount, query, onOpen }) {
                     onMouseLeave={ev => ev.currentTarget.style.borderColor = `${accent}45`}>
                     <span style={{ flex: "0 0 auto", width: 16, height: 16, borderRadius: "50%", background: accent, color: "#04070c", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 9, fontWeight: 700, boxShadow: `0 0 6px -1px ${accent}` }}>{glyph}</span>
                     <span style={{ fontSize: 10, color: "#cbd5e1", maxWidth: 230, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.label}</span>
-                    <span style={{ flex: "0 0 auto", fontSize: 8.5, color: "#707e92" }}>{e.date.slice(5)}</span>
                   </button>
                 );
               }) : <span style={{ fontFamily: "var(--font-mono)", fontSize: 9, color: "#5b6675" }}>no build events</span>}
@@ -364,8 +357,7 @@ function Track({ visibleCount, query, onOpen }) {
         const accent = isRisk ? SEV[x.sev] : (x.peak ? C.gold : ALT[x.alt].accent);
         const sz = x.peak ? 17 : isRisk ? 11 : 13;
         return (
-          <a key={x.id} href={isRisk ? `#${x.id}` : (REPO + x.sha)} target={isRisk ? undefined : "_blank"} rel="noopener"
-            onClick={isRisk ? (e) => { e.preventDefault(); onOpen(x); } : undefined}
+          <a key={x.id} href="#" onClick={(e) => { e.preventDefault(); onOpen(x); }}
             title={x.label || x.risk}
             style={{ position: "absolute", top: x.peak ? 3 : isRisk ? 6 : 5, left: `${x.left}%`, width: sz, height: sz, marginLeft: -sz / 2,
               borderRadius: isRisk ? 2 : "50%", transform: isRisk ? "rotate(45deg)" : "none", background: accent, border: "2px solid var(--bg, #020408)",
@@ -413,7 +405,6 @@ function Scrubber({ replay, setReplay, playing, setPlaying, focus }) {
         fontFamily: "var(--font-mono)", fontSize: 11, display: "flex", gap: 10, alignItems: "baseline", flexWrap: "wrap" }}>
         {sel ? <>
           <span style={{ color: "#707e92" }}>{String(Math.max(1, pos + 1)).padStart(2, "0")} / {steps.length}</span>
-          <span style={{ color: "#8593a6" }}>{sel.date.slice(5)}</span>
           <span style={{ color: tColor(sel), fontWeight: 700, letterSpacing: ".02em" }}>{tLabel(sel)}</span>
           <span style={{ color: "#e2e8f0", flex: "1 1 auto", minWidth: 0 }}>{sel.label || sel.risk}</span>
         </> : <>
@@ -449,21 +440,10 @@ function Ledger({ view, visibleCount, query, onOpen }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
       {rows.map((x) => {
         const i = LEDGER.indexOf(x);
-        const keys = groupKeys(x.date);
-        const key = keys[view];
-        const showHeader = key !== lastKey;
-        lastKey = key;
         const dim = i >= visibleCount;
-        return (
-          <React.Fragment key={x.id}>
-            {showHeader && (
-              <p style={{ margin: "9px 0 1px", padding: "2px 8px", fontSize: 9, letterSpacing: ".1em", textTransform: "uppercase",
-                color: view === "month" ? C.cyan : view === "week" ? C.gold : "#8593a6",
-                borderBottom: view === "month" ? "1px solid #1c2a40" : "none", fontWeight: view === "month" ? 700 : 400 }}>{key}</p>
-            )}
-            {x.kind === "event" ? <EventRow ev={x} dim={dim} onOpen={onOpen} /> : <RiskRow rk={x} dim={dim} onOpen={onOpen} />}
-          </React.Fragment>
-        );
+        return x.kind === "event"
+          ? <EventRow key={x.id} ev={x} dim={dim} onOpen={onOpen} />
+          : <RiskRow key={x.id} rk={x} dim={dim} onOpen={onOpen} />;
       })}
     </div>
   );
@@ -477,15 +457,12 @@ function EventRow({ ev, dim, onOpen }) {
       padding: "9px 11px", borderRadius: 7, background: ev.peak ? "rgba(255,215,0,.05)" : (h ? "rgba(0,240,255,.06)" : "rgba(255,255,255,.015)"), opacity: dim ? 0.16 : 1, transition: "opacity .3s, background .2s" }}>
       <button onClick={() => onOpen(ev)} style={{ display: "flex", flexDirection: "column", gap: 3, flex: "1 1 auto", minWidth: 0, background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: 0 }}>
         <span style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap", whiteSpace: "nowrap", fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".04em" }}>
-          <span style={{ color: "#8593a6" }}>{ev.date.slice(5)}</span>
-          <span style={{ color: "#3a4a5e" }}>·</span>
           <span style={{ fontWeight: 700, color: ALT[ev.alt].accent }}>{ev.alt} {ALT[ev.alt].name}</span>
           <span style={{ color: "#3a4a5e" }}>·</span>
           <span style={{ color: TYPE_COLOR[ev.type] || C.steel, textTransform: "uppercase", letterSpacing: ".08em" }}>{ev.peak ? "★ " : ""}{ev.type}</span>
         </span>
         <span style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 500, lineHeight: 1.35, color: h ? C.cyan : "var(--fg1)", transition: "color .15s" }}>{ev.label}</span>
       </button>
-      <a href={REPO + ev.sha} target="_blank" rel="noopener" style={{ color: C.green, fontFamily: "var(--font-mono)", fontSize: 11, flex: "0 0 auto", textDecoration: "none", alignSelf: "center" }}>{ev.sha}↗</a>
     </div>
   );
 }
@@ -497,17 +474,13 @@ function RiskRow({ rk, dim, onOpen }) {
       padding: "9px 11px", borderRadius: 7, background: h ? "rgba(255,77,109,.10)" : "rgba(255,77,109,.045)", opacity: dim ? 0.16 : 1, transition: "opacity .3s, background .2s" }}>
       <button onClick={() => onOpen(rk)} style={{ display: "flex", flexDirection: "column", gap: 3, flex: "1 1 auto", minWidth: 0, background: "none", border: "none", cursor: "pointer", textAlign: "left", padding: 0 }}>
         <span style={{ display: "flex", gap: 8, alignItems: "baseline", flexWrap: "wrap", whiteSpace: "nowrap", fontFamily: "var(--font-mono)", fontSize: 10, letterSpacing: ".04em" }}>
-          <span style={{ color: "#8593a6" }}>{rk.date.slice(5)}</span>
-          <span style={{ color: "#3a4a5e" }}>·</span>
           <span style={{ fontWeight: 700, color: SEV[rk.sev] }}>⚠ {rk.sev} RISK</span>
           <span style={{ color: "#3a4a5e" }}>·</span>
           <span style={{ color: STATUS[rk.status], textTransform: "uppercase", letterSpacing: ".08em" }}>{rk.status}</span>
         </span>
         <span style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 500, lineHeight: 1.35, color: h ? C.cyan : "var(--fg1)", transition: "color .15s" }}>{rk.risk}</span>
       </button>
-      {rk.sha
-        ? <a href={REPO + rk.sha} target="_blank" rel="noopener" style={{ color: SEV[rk.sev], fontFamily: "var(--font-mono)", fontSize: 11, flex: "0 0 auto", textDecoration: "none", alignSelf: "center" }}>{rk.sha}↗</a>
-        : <span style={{ color: "#707e92", fontSize: 10, flex: "0 0 auto", alignSelf: "center" }}>standing</span>}
+      <span style={{ color: "#707e92", fontSize: 10, flex: "0 0 auto", alignSelf: "center", fontFamily: "var(--font-mono)" }}>{rk.status === "OPEN" ? "⚠ open" : "averted"}</span>
     </div>
   );
 }

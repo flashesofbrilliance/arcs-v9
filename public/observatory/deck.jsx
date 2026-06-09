@@ -41,7 +41,6 @@ function ScoreNode({ node, onOpen }) {
         animation: high ? "obs-pulse 1.8s infinite" : "none" }}>
       <div style={{ fontSize: 11.5, color: "#e2e8f0", lineHeight: 1.3 }}>{node.lab}</div>
       <div style={{ fontSize: 9.5, color: "#8593a6", letterSpacing: ".04em", marginTop: 3, display: "flex", gap: 6 }}>
-        {node.date && <span style={{ color: "#707e92" }}>{node.date.slice(5)}</span>}
         <span style={{ fontWeight: 700, color: c }}>{node.grade}</span><span>conf {node.conf}</span><span>{node.risk}</span>
       </div>
     </button>
@@ -90,13 +89,12 @@ function RiskNode({ rk, onOpen }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
         <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
           <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".08em", padding: "1px 6px", borderRadius: 4, background: "rgba(255,255,255,.06)", color: SEV[rk.sev] }}>{rk.sev}</span>
-          {rk.date && <span style={{ fontSize: 9, color: "#707e92" }}>{rk.date.slice(5)}</span>}
         </span>
         <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: ".06em", padding: "1px 7px", border: `1px solid ${sc}`, borderRadius: 5, color: sc }}>{rk.status}</span>
       </div>
       <div style={{ fontSize: 12, fontWeight: 700, color: "#e2e8f0", lineHeight: 1.3 }}>{rk.risk}</div>
       <div style={{ fontSize: 9.5, color: C.cyan, marginTop: 3, letterSpacing: ".03em" }}>{rk.how}</div>
-      <div style={{ fontSize: 9.5, color: rk.sha ? C.green : "#707e92", marginTop: 6 }}>{rk.sha ? rk.sha + "↗" : "standing"}</div>
+      <div style={{ fontSize: 9.5, color: STATUS[rk.status], marginTop: 6, letterSpacing: ".04em" }}>{rk.status}</div>
     </button>
   );
 }
@@ -157,9 +155,9 @@ function Sheet({ item, onClose }) {
                 <h3 style={{ margin: 0, fontFamily: "var(--font-sans)", fontSize: 17, fontWeight: 600, letterSpacing: "-0.01em", color: "var(--fg1)", lineHeight: 1.25 }}>{item.lab || item.risk || item.label}</h3>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8, flex: "0 0 auto" }}>
-                {(isEvent || isRisk) && (item.sha
-                  ? <a href={REPO + item.sha} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 11, color: C.green, padding: "5px 10px", borderRadius: 6, border: `1px solid ${C.green}45`, background: `${C.green}10`, textDecoration: "none", whiteSpace: "nowrap" }}>{item.sha}<span style={{ fontSize: 9 }}>↗</span></a>
-                  : <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--fg4)", padding: "5px 10px", borderRadius: 6, border: "1px solid #243042", whiteSpace: "nowrap" }}>standing</span>)}
+                {isRisk && !item.sha && (
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: STATUS[item.status], padding: "5px 10px", borderRadius: 6, border: `1px solid ${STATUS[item.status]}45`, background: `${STATUS[item.status]}10`, whiteSpace: "nowrap" }}>{item.status}</span>
+                )}
                 {isNode && leadProv && <a href={provLedger()} target="_blank" rel="noopener" title="open the provenance ledger" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: "var(--font-mono)", fontSize: 11, color: C.cyan, padding: "5px 10px", borderRadius: 6, border: `1px solid ${C.cyan}45`, background: `${C.cyan}10`, whiteSpace: "nowrap", textDecoration: "none" }}>prov {leadProv}<span style={{ fontSize: 9 }}>↗</span></a>}
                 <button onClick={onClose} aria-label="close" style={{ width: 30, height: 30, borderRadius: 6, border: "1px solid #243042", background: "linear-gradient(180deg, #11181f, #0a1016)", color: "var(--fg3)", cursor: "pointer", fontFamily: "var(--font-mono)", fontSize: 12, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>✕</button>
               </div>
@@ -180,7 +178,7 @@ function Sheet({ item, onClose }) {
               {isEvent && <>
                 <MetaPill label="altitude" value={`${item.alt} · ${ALT[item.alt] && ALT[item.alt].name}`} color={ALT[item.alt] && ALT[item.alt].accent} />
                 <MetaPill label="type" value={item.type} color={TYPE_COLOR[item.type] || C.steel} />
-                <MetaPill label="date" value={item.date.slice(5)} color={C.steel} />
+                {item.conf && <MetaPill label="confidence" value={item.conf} color={C.cyan} />}
               </>}
             </div>
 

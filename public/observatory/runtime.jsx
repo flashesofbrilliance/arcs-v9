@@ -71,6 +71,7 @@ function hydrateObservatory(p) {
     EVENTS, RISKS, LAYERS, LEDGER,
     leftPct, groupKeys, matchQ, stepIndices,
     REDACTED_OPEN_RISKS, SPAN_START, SPAN_DAYS,
+    DATA_PROVENANCE: p.data_provenance || null,
     OBS_DATASET: { repo: slug, label: p.label, generated_at: p.generated_at, head_sha: p.head_sha, attribution: p.attribution },
   });
   return window.OBS_DATASET;
