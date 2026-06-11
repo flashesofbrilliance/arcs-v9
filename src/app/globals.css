@@ -118,6 +118,13 @@
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* compass-app motion atoms (Spinner / ProgressBar / StepProgress) */
+@keyframes arcs-spin    { to { transform: rotate(360deg); } }
+@keyframes arcs-indet   { 0% { left: -36%; } 100% { left: 102%; } }
+@keyframes arcs-shimmer { 0% { transform: translateX(-100%); } 60%, 100% { transform: translateX(220%); } }
+@keyframes arcs-pulse   { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+@keyframes fade         { from { opacity: 0; } to { opacity: 1; } }
+
 /* ─── Reduced Motion ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -111,15 +111,40 @@ export const yGateColor: Record<string, string> = {
 
 export interface WeatherReading { label: string; icon: string; color: string }
 
+// NOTE: must cover EVERY state ygate.ts can emit (GREEN YELLOW RED FORK SCRATCH
+// DELTA PARADOX DRIFT LOCKED). An unmapped state is a bug — use getWeather(), which
+// guards against the silent GREEN fallback (RED rendering as "Clarity Ridge" would
+// invert its meaning — RED is the free-solo/ruin-exposure topology, WORLD.md).
 export const yWeather: Record<string, WeatherReading> = {
   GREEN:   { label: 'CLARITY RIDGE',         icon: '▲', color: signal.green },
   YELLOW:  { label: 'PRESSURE BAND',         icon: '◈', color: signal.gold },
+  RED:     { label: 'EXPOSED · RUIN EDGE',   icon: '✕', color: signal.red },
   FORK:    { label: 'FORK · PATH SELECTION', icon: '⊕', color: signal.cyan },
   SCRATCH: { label: 'FOG LAYER · ORIENT',    icon: '~', color: text.muted },
   DELTA:   { label: 'CONVICTION SHIFT',      icon: '△', color: signal.violet },
   PARADOX: { label: 'PARADOX · CURATOR',     icon: '∞', color: signal.magenta },
+  DRIFT:   { label: 'DRIFT · SPIN CYCLE',    icon: '↻', color: signal.steel },
   LOCKED:  { label: 'KAIROS LOCK · LOCKED',  icon: '◆', color: signal.cyan },
 }
+
+// Resolve a y_state to its weather reading. Falls back to SCRATCH (fog/orient —
+// the honest "unknown terrain" reading), and in dev warns loudly so a new ygate
+// state can never silently masquerade as a different one.
+export const getWeather = (yState: string | null | undefined): WeatherReading => {
+  if (yState && yWeather[yState]) return yWeather[yState]
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(`[yWeather] unmapped y_state "${yState}" — add it to yWeather. Falling back to SCRATCH.`)
+  }
+  return yWeather.SCRATCH
+}
+
+// ─── Tributary type → color (canonical: Result.jsx tribColor) ────────────────
+
+export const tribColor = (type: string): string =>
+  type === 'meta' ? signal.cyan
+  : type === 'challenge' ? signal.red
+  : type === 'adjacent' ? signal.gold
+  : signal.steel
 
 // ─── Render resolution → earned-fidelity style (WORLD.md render scale) ────────
 
