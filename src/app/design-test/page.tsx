@@ -15,6 +15,25 @@ import { ChipToggle } from '@/ui/ChipToggle'
 import { WeatherBar } from '@/instrument/WeatherBar'
 import { TrueNorthPanel } from '@/instrument/TrueNorthPanel'
 import { TributaryTile } from '@/instrument/TributaryTile'
+import { SectionLabel } from '@/ui/SectionLabel'
+import { Rule } from '@/ui/Rule'
+import { Spinner } from '@/ui/Spinner'
+import { ProgressBar } from '@/ui/ProgressBar'
+import { StepProgress } from '@/ui/StepProgress'
+import { HeaderLockup } from '@/molecules/HeaderLockup'
+import { HorizonStakesRow } from '@/molecules/HorizonStakesRow'
+import { CalibrationChips } from '@/molecules/CalibrationChips'
+import { PipelineRunning } from '@/molecules/PipelineRunning'
+import { ConvictionSidebar } from '@/molecules/ConvictionSidebar'
+import { TributariesStack } from '@/molecules/TributariesStack'
+import { InstrumentCluster } from '@/molecules/InstrumentCluster'
+import { FatedGrid } from '@/molecules/FatedGrid'
+import { TerrainPaths } from '@/molecules/TerrainPaths'
+import { Home } from '@/organisms/Home'
+import { CompassForm } from '@/organisms/CompassForm'
+import { ResultView } from '@/organisms/ResultView'
+import { Brief } from '@/organisms/Brief'
+import { mockCompass } from '@/lib/mockCompass'
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -30,6 +49,13 @@ export default function DesignTestPage() {
   const [picker, setPicker] = useState('week')
   const [chips, setChips] = useState<Record<string, boolean>>({ lab: true, bar: false, kkl: false })
   const [field, setField] = useState('')
+  // molecule/organism demo state
+  const [mHorizon, setMHorizon] = useState('THIS_WEEK')
+  const [mStakes, setMStakes] = useState('MEDIUM')
+  const [mProtect, setMProtect] = useState<string[]>(['Cash'])
+  const toggleProtect = (c: string) => setMProtect(p => p.includes(c) ? p.filter(x => x !== c) : p.length >= 2 ? p : [...p, c])
+  const runwayResult = mockCompass('Should I take the Series A now or extend runway?')
+  const hireResult = mockCompass('Do I make the leverage hire this quarter?')
 
   return (
     <div style={{ minHeight: '100vh', background: surface.bg, padding: '40px 48px', fontFamily: font.sans }}>
@@ -130,6 +156,119 @@ export default function DesignTestPage() {
           { value: 'quarter', label: 'This quarter' },
           { value: 'years', label: 'Years out' },
         ]} />
+      </Section>
+
+      {/* ─── Newer atoms ─────────────────────────────────────────── */}
+      <Section title="SectionLabel / Rule">
+        <div style={{ width: 360, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <SectionLabel index="01">State the decision</SectionLabel>
+          <SectionLabel index="02" color={signal.gold}>Calibrate · optional</SectionLabel>
+          <SectionLabel>Tributaries · where to navigate next</SectionLabel>
+          <Rule />
+        </div>
+      </Section>
+
+      <Section title="Spinner">
+        <Spinner size={18} />
+        <Spinner size={28} />
+        <Spinner size={28} color={signal.gold} />
+      </Section>
+
+      <Section title="ProgressBar">
+        <div style={{ width: 360, display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <ProgressBar value={68} />
+          <ProgressBar indeterminate />
+          <ProgressBar value={40} color={signal.gold} />
+        </div>
+      </Section>
+
+      <Section title="StepProgress">
+        <StepProgress current={3} style={{ width: 360 }} />
+      </Section>
+
+      {/* ─── Molecules ───────────────────────────────────────────── */}
+      <Section title="MOLECULE · HeaderLockup">
+        <div style={{ width: 560 }}>
+          <HeaderLockup section="Receipt" actionLabel="New question" actionGlyph="←" />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · HorizonStakesRow">
+        <div style={{ width: 480 }}>
+          <HorizonStakesRow horizon={mHorizon} stakes={mStakes} onHorizonChange={setMHorizon} onStakesChange={setMStakes} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · CalibrationChips">
+        <div style={{ width: 420 }}>
+          <CalibrationChips selected={mProtect} onToggle={toggleProtect} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · PipelineRunning">
+        <div style={{ width: 360 }}>
+          <PipelineRunning current={3} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · InstrumentCluster">
+        <div style={{ width: 640 }}>
+          <InstrumentCluster result={runwayResult} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · TributariesStack">
+        <div style={{ width: 480 }}>
+          <TributariesStack tributaries={runwayResult.tributaries} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · FatedGrid">
+        <div style={{ width: 480 }}>
+          <FatedGrid fated={runwayResult.reasoning.fated || {}} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · TerrainPaths">
+        <div style={{ width: 480 }}>
+          <TerrainPaths paths={runwayResult.reasoning.paths} />
+        </div>
+      </Section>
+
+      <Section title="MOLECULE · ConvictionSidebar">
+        <div style={{ width: 300 }}>
+          <ConvictionSidebar result={runwayResult} />
+        </div>
+      </Section>
+
+      {/* ─── Organisms ───────────────────────────────────────────── */}
+      <Section title="ORGANISM · Home">
+        <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
+          <Home />
+        </div>
+      </Section>
+
+      <Section title="ORGANISM · CompassForm">
+        <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
+          <CompassForm
+            question="" horizon={mHorizon} stakes={mStakes} protecting={mProtect} calibrated
+            step={3}
+            onQuestionChange={() => {}} onHorizonChange={setMHorizon} onStakesChange={setMStakes}
+            onToggleProtect={toggleProtect} onSubmit={() => {}}
+          />
+        </div>
+      </Section>
+
+      <Section title="ORGANISM · ResultView">
+        <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
+          <ResultView result={hireResult} />
+        </div>
+      </Section>
+
+      <Section title="ORGANISM · Brief">
+        <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
+          <Brief result={runwayResult} />
+        </div>
       </Section>
     </div>
   )
