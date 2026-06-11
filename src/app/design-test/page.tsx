@@ -34,6 +34,59 @@ import { CompassForm } from '@/organisms/CompassForm'
 import { ResultView } from '@/organisms/ResultView'
 import { Brief } from '@/organisms/Brief'
 import { mockCompass } from '@/lib/mockCompass'
+import { T as docT } from '@/document/tokens'
+import { CoverBlock } from '@/document/patterns/CoverBlock'
+import { TwoColumn } from '@/document/patterns/TwoColumn'
+import { SidelineList } from '@/document/patterns/SidelineList'
+import { Timeline } from '@/document/patterns/Timeline'
+import { ScenarioStack } from '@/document/patterns/ScenarioStack'
+import { QuoteBlock } from '@/document/patterns/QuoteBlock'
+import { AsideBox } from '@/document/patterns/AsideBox'
+import { SmartGrid } from '@/document/patterns/SmartGrid'
+import { ProcessSteps } from '@/document/patterns/ProcessSteps'
+import { DataTable } from '@/document/patterns/DataTable'
+import { DOC_PATTERNS, DOC_TYPES } from '@/document/registry'
+import { RecoilReport } from '@/document/screens/RecoilReport'
+import { ProfileScan } from '@/document/screens/ProfileScan'
+import { Brief as DocBrief } from '@/document/screens/Brief'
+import { PrepDoc } from '@/document/screens/PrepDoc'
+import { Receipt as DocReceipt } from '@/document/screens/Receipt'
+
+const DOC_SCREEN_COMPS = [RecoilReport, ProfileScan, DocBrief, PrepDoc, DocReceipt]
+
+function DocFrame({ dt, children }: { dt: typeof DOC_TYPES[number]; children: React.ReactNode }) {
+  return (
+    <div style={{ borderRadius: 10, border: '1px solid #243042', overflow: 'hidden', marginBottom: 22, background: '#020408' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 18px', borderBottom: `1px solid ${docT.border}`, background: 'linear-gradient(180deg,#0e151e,#0c121a)' }}>
+        <span style={{ display: 'flex', gap: 6 }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#FF4D6D66' }} />
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#FFD70066' }} />
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#00FF9D66' }} />
+        </span>
+        <span style={{ fontFamily: docT.mono, fontSize: 12, color: dt.accent, fontWeight: 700 }}>{dt.icon}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: 13, fontWeight: 700, color: '#dbe6f1' }}>{dt.label}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: 10.5, color: docT.fg4 }}>patterns.jsx</span>
+        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 10, color: dt.accent, letterSpacing: '.14em' }}>{dt.mono}</span>
+      </div>
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '4px 40px 36px' }}>{children}</div>
+    </div>
+  )
+}
+
+function DocCard({ idx, p }: { idx: string; p: typeof DOC_PATTERNS[number] }) {
+  const Demo = p.Demo
+  return (
+    <div style={{ borderRadius: 8, border: '1px solid #243042', overflow: 'hidden', background: 'linear-gradient(165deg,#0c131b,#0a0f15)', display: 'flex', flexDirection: 'column', marginBottom: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '11px 16px', borderBottom: `1px solid ${docT.border}`, background: 'linear-gradient(180deg,#0e151e,#0c121a)' }}>
+        <span style={{ fontFamily: docT.mono, fontSize: 9.5, color: docT.fg4, width: 20 }}>{idx}</span>
+        <span style={{ fontFamily: docT.mono, fontSize: 13, fontWeight: 700, color: '#dbe6f1' }}>{p.name}</span>
+        <span style={{ marginLeft: 'auto', fontFamily: docT.mono, fontSize: 10, color: docT.fg4 }}>patterns.jsx</span>
+      </div>
+      <div style={{ padding: '13px 18px 4px', fontFamily: docT.sans, fontSize: 12.5, lineHeight: 1.55, color: docT.fg3 }}>{p.desc}</div>
+      <div style={{ padding: '10px 20px 24px' }}><Demo /></div>
+    </div>
+  )
+}
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -268,6 +321,33 @@ export default function DesignTestPage() {
       <Section title="ORGANISM · Brief">
         <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
           <Brief result={runwayResult} />
+        </div>
+      </Section>
+
+      {/* ─── DOCUMENT KIT ───────────────────────────────────────────── */}
+      <Section title="DOCUMENT KIT · 10 reader-view patterns">
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginBottom: 24 }}>
+            <DocCard idx="01" p={DOC_PATTERNS[0]} />
+            <DocCard idx="02" p={DOC_PATTERNS[1]} />
+            <DocCard idx="03" p={DOC_PATTERNS[2]} />
+            <DocCard idx="04" p={DOC_PATTERNS[3]} />
+            <DocCard idx="05" p={DOC_PATTERNS[4]} />
+            <DocCard idx="06" p={DOC_PATTERNS[5]} />
+            <DocCard idx="07" p={DOC_PATTERNS[6]} />
+            <DocCard idx="08" p={DOC_PATTERNS[7]} />
+            <DocCard idx="09" p={DOC_PATTERNS[8]} />
+            <DocCard idx="10" p={DOC_PATTERNS[9]} />
+          </div>
+        </div>
+      </Section>
+
+      <Section title="DOCUMENT KIT · 5 document screens">
+        <div style={{ width: '100%' }}>
+          {DOC_TYPES.map((dt, i) => {
+            const Comp = DOC_SCREEN_COMPS[i]
+            return <DocFrame key={dt.id} dt={dt}><Comp /></DocFrame>
+          })}
         </div>
       </Section>
     </div>
