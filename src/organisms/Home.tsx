@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { font, signal, text } from '@/ui/tokens'
-import { signalGlow } from '@/ui/tokens'
+import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
 import { Rule } from '@/ui/Rule'
@@ -22,11 +22,37 @@ const HOME_STEPS = [
   { n: '04', title: 'Cartography brief', body: 'Situation framing, FATED decomposition, terrain paths, and tributaries — the full map of where you stand.' },
 ]
 
-export interface HomeProps {
-  onOpen?: () => void
+// Demo receipt for the landing's "Example · Decision Receipt" card. When a real
+// recent receipt is passed it overrides the static sample; otherwise the sample
+// keeps the landing rendering even on an empty DB.
+export interface HomeDemo {
+  decision: string
+  trueNorth: string
+  nciScore: number
+  mode?: string | null
+  doorClass?: string | null
+  yState?: string | null
 }
 
-export function Home({ onOpen }: HomeProps) {
+const DEMO_FALLBACK: HomeDemo = {
+  decision: 'Should I take the Series A now or extend runway another 6 months and grow into a higher valuation?',
+  trueNorth: 'Extend runway — the valuation delta at your current growth rate outweighs the optionality cost of 6 months.',
+  nciScore: 74,
+  mode: 'COURT',
+  doorClass: 'ONE_WAY',
+  yState: 'GREEN',
+}
+
+export interface HomeProps {
+  onOpen?: () => void
+  demo?: HomeDemo | null
+}
+
+export function Home({ onOpen, demo }: HomeProps) {
+  const d = demo ?? DEMO_FALLBACK
+  const w = getWeather(d.yState)
+  const door = doorMeta[normalizeDoorClass(d.doorClass)]
+  const gaugeC = nciColor(d.nciScore)
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '2rem 1.5rem 3.5rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
@@ -54,20 +80,19 @@ export function Home({ onOpen }: HomeProps) {
 
       <Card style={{ marginBottom: '3rem', padding: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <Label>Example · Decision Receipt</Label>
-          <Badge label="▲ Clarity Ridge" color={signal.green} register="light" />
+          <Label>{demo ? 'Recent · Decision Receipt' : 'Example · Decision Receipt'}</Label>
+          <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
         </div>
         <div style={{ fontFamily: font.sans, fontSize: '0.9375rem', color: text.primary, marginBottom: '1.25rem', lineHeight: 1.5 }}>
-          Should I take the Series A now or extend runway another 6 months and grow into a higher valuation?
+          {d.decision}
         </div>
-        <TrueNorthPanel heading="True North · COURT · ONE_WAY" style={{ padding: '1rem 1.25rem', marginBottom: '1rem' }}>
-          Extend runway — the valuation delta at your current growth rate outweighs the optionality cost of 6 months.
+        <TrueNorthPanel heading={`True North${d.mode ? ' · ' + d.mode : ''} · ${door.label}`} style={{ padding: '1rem 1.25rem', marginBottom: '1rem' }}>
+          {d.trueNorth}
         </TrueNorthPanel>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Gauge label="NCI" value="74" sub="/ 100" color={signal.green} glow={signalGlow(signal.green)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
-          <Badge label="One_Way" color={signal.cyan} register="governance" />
-          <Badge label="KKL" color={signal.steel} register="light" />
-          <Badge label="◆ Court" color={signal.gold} register="governance" />
+          <Gauge label="NCI" value={String(d.nciScore)} sub="/ 100" color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
+          <Badge label={door.label} color={door.color} register="governance" />
+          {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
         </div>
       </Card>
 
