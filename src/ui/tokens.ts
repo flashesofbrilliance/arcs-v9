@@ -1,6 +1,7 @@
 // ARCS v9 design tokens — inline style constants
 // Source of truth: WORLD.md palette + arcs-v9 page conventions
 // Rule: inline styles only — no className, no Tailwind, no CSS modules
+import type React from 'react'
 
 // ─── Surface / background hierarchy ──────────────────────────────────────────
 
@@ -30,11 +31,14 @@ export const text = {
 // ─── Signal colors — mode state and Y-gate rendering ─────────────────────────
 
 export const signal = {
-  cyan:   '#00F0FF',  // True North, active bearing
-  green:  '#00FF9D',  // Coherent / SHARP resolution
-  gold:   '#FFD700',  // Court / LOCKED
-  red:    '#FF4D6D',  // Alert / GRAIN resolution
-  steel:  '#94a3b8',  // Default / neutral
+  cyan:    '#00F0FF',  // True North, active bearing
+  green:   '#00FF9D',  // Coherent / SHARP resolution
+  gold:    '#FFD700',  // Court / LOCKED
+  orange:  '#ff9d3c',  // Warning / macro-tag
+  red:     '#FF4D6D',  // Alert / GRAIN resolution
+  steel:   '#94a3b8',  // Default / neutral
+  violet:  '#A78BFA',  // DELTA · conviction shift
+  magenta: '#E879F9',  // PARADOX · curator
 } as const
 
 // ─── Typography ───────────────────────────────────────────────────────────────
@@ -99,4 +103,56 @@ export const yGateColor: Record<string, string> = {
   DRIFT:    signal.steel,
   PARADOX:  signal.red,
   RED:      signal.red,
+}
+
+// ─── Y-state → terrain weather reading ───────────────────────────────────────
+// Mirrors the kit's Y_WEATHER (compass-app primitives.jsx). label = zone name,
+// icon = glyph, color = signal tint. Used by WeatherBar / Result header.
+
+export interface WeatherReading { label: string; icon: string; color: string }
+
+export const yWeather: Record<string, WeatherReading> = {
+  GREEN:   { label: 'CLARITY RIDGE',         icon: '▲', color: signal.green },
+  YELLOW:  { label: 'PRESSURE BAND',         icon: '◈', color: signal.gold },
+  FORK:    { label: 'FORK · PATH SELECTION', icon: '⊕', color: signal.cyan },
+  SCRATCH: { label: 'FOG LAYER · ORIENT',    icon: '~', color: text.muted },
+  DELTA:   { label: 'CONVICTION SHIFT',      icon: '△', color: signal.violet },
+  PARADOX: { label: 'PARADOX · CURATOR',     icon: '∞', color: signal.magenta },
+  LOCKED:  { label: 'KAIROS LOCK · LOCKED',  icon: '◆', color: signal.cyan },
+}
+
+// ─── Render resolution → earned-fidelity style (WORLD.md render scale) ────────
+
+export const resStyle: Record<string, React.CSSProperties> = {
+  SHARP:    { opacity: 1.0,  fontWeight: 500, letterSpacing: '0' },
+  DEGRADED: { opacity: 0.85, fontWeight: 400, letterSpacing: '0.01em' },
+  GRAIN:    { opacity: 0.70, fontWeight: 300, letterSpacing: '0.02em' },
+  MOIRE:    { opacity: 0.60, fontWeight: 300, letterSpacing: '0.03em' },
+}
+
+// ─── NCI score → signal color ────────────────────────────────────────────────
+
+export const nciColor = (s: number): string =>
+  s >= 70 ? signal.green : s >= 45 ? signal.gold : signal.red
+
+// glow tint for a signal color (used by instrument readouts)
+export const signalGlow = (c: string): string =>
+  c === signal.green ? 'rgba(0,255,157,.6)'
+  : c === signal.gold ? 'rgba(255,215,0,.55)'
+  : c === signal.red  ? 'rgba(255,77,109,.55)'
+  : c === signal.cyan ? 'rgba(0,240,255,.55)'
+  : 'rgba(160,180,210,.35)'
+
+// ─── Canonical door_class vocabulary (F9) ────────────────────────────────────
+// Live /api/compass emits ONE_WAY | TWO_WAY. The kit mock's legacy "REVERSIBLE"
+// maps to TWO_WAY. Normalize at the API boundary so DoorBadge has one vocabulary.
+
+export type DoorClass = 'ONE_WAY' | 'TWO_WAY'
+
+export const normalizeDoorClass = (raw: string | null | undefined): DoorClass =>
+  raw === 'ONE_WAY' ? 'ONE_WAY' : 'TWO_WAY'  // REVERSIBLE / null / TWO_WAY → TWO_WAY
+
+export const doorMeta: Record<DoorClass, { label: string; color: string }> = {
+  ONE_WAY: { label: 'ONE-WAY DOOR', color: signal.gold },   // irreversible · weigh hard
+  TWO_WAY: { label: 'TWO-WAY DOOR', color: signal.green },  // reversible · move
 }
