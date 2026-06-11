@@ -1,0 +1,25 @@
+'use client'
+import React from 'react'
+import { font, signal } from '@/ui/tokens'
+
+// TrueNorthPanel — underlit cyan-glass conclusion surface
+export interface TrueNorthPanelProps {
+  heading: React.ReactNode
+  children: React.ReactNode
+  footnotes?: React.ReactNode
+  style?: React.CSSProperties
+}
+
+export function TrueNorthPanel({ heading, children, footnotes, style }: TrueNorthPanelProps) {
+  return (
+    <div style={{ position: 'relative', overflow: 'hidden', padding: '1.25rem 1.5rem', borderRadius: 6,
+      border: `1px solid ${signal.cyan}42`,
+      background: 'linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, #06343b, #0a1620)',
+      boxShadow: 'inset 0 1px 0 rgba(120,245,255,.48), inset 0 -11px 17px -11px rgba(0,240,255,.36), 0 0 12px rgba(0,240,255,.16), 0 5px 16px rgba(0,0,0,.5)', ...style }}>
+      <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '42%', background: 'linear-gradient(rgba(255,255,255,.07), rgba(255,255,255,0))', pointerEvents: 'none' }} />
+      <div style={{ position: 'relative', fontFamily: font.mono, fontSize: 10, color: signal.cyan, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, fontWeight: 700, textShadow: `0 0 8px ${signal.cyan}66` }}>{heading}</div>
+      <p style={{ position: 'relative', fontFamily: font.sans, fontSize: '1.0625rem', lineHeight: 1.6, color: '#eafcff', margin: 0, fontWeight: 500 }}>{children}</p>
+      {footnotes}
+    </div>
+  )
+}
