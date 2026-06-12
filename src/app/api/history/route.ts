@@ -1,21 +1,16 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
-import { auth } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
+// Ungated demo mode: returns recent seed receipts globally (no auth, no userId
+// filter) so the history ledger is populated for the end-to-end walkthrough.
+// To restore per-user isolation (ADR-001), re-add the auth() gate + userId where.
 export async function GET() {
-  const session = await auth()
-  const userId = session?.user?.id ?? null
-  if (!userId && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   const receipts = await prisma.receipt.findMany({
     where: {
       status: { not: "EXPIRED" },
       parentId: null, // seed receipts only (alpha questions)
-      ...(userId ? { userId } : {}), // prod: filter to user's own receipts
     },
     orderBy: { createdAt: "desc" },
     take: 50,
