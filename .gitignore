@@ -59,6 +59,13 @@ next
 # claude code local settings (keep settings.json, not settings.local.json)
 .claude/settings.local.json
 
+# claude code volatile/local runtime state (keep canon + committed specs tracked)
+.claude/drift-report.md
+.claude/*.local.md
+.claude/tmp/
+.claude/cache/
+.claude/logs/
+
 # ARCS scan outputs — personal data, generated locally, not source
 exports/network/
 exports/calendar/

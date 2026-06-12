@@ -46,9 +46,11 @@ const DEMO_FALLBACK: HomeDemo = {
 export interface HomeProps {
   onOpen?: () => void
   demo?: HomeDemo | null
+  demoLabel?: string
+  onBrief?: () => void
 }
 
-export function Home({ onOpen, demo }: HomeProps) {
+export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
   const d = demo ?? DEMO_FALLBACK
   const w = getWeather(d.yState)
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
@@ -80,7 +82,7 @@ export function Home({ onOpen, demo }: HomeProps) {
 
       <Card style={{ marginBottom: '3rem', padding: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <Label>{demo ? 'Recent · Decision Receipt' : 'Example · Decision Receipt'}</Label>
+          <Label>{demoLabel ?? (demo ? 'Recent · Decision Receipt' : 'Example · Decision Receipt')}</Label>
           <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
         </div>
         <div style={{ fontFamily: font.sans, fontSize: '0.9375rem', color: text.primary, marginBottom: '1.25rem', lineHeight: 1.5 }}>
@@ -94,6 +96,11 @@ export function Home({ onOpen, demo }: HomeProps) {
           <Badge label={door.label} color={door.color} register="governance" />
           {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
         </div>
+        {onBrief && (
+          <div style={{ marginTop: '1.25rem' }}>
+            <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
+          </div>
+        )}
       </Card>
 
       <div id="how" style={{ marginBottom: '3rem' }}>

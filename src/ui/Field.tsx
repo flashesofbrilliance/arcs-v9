@@ -6,6 +6,8 @@ import { font, text } from './tokens'
 export interface FieldProps {
   label?: string
   as?: 'input' | 'textarea' | 'select'
+  type?: string
+  required?: boolean
   value?: string
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   placeholder?: string
@@ -15,7 +17,7 @@ export interface FieldProps {
   fieldStyle?: React.CSSProperties
 }
 
-export function Field({ label, as = 'input', value, onChange, placeholder, rows, children, style, fieldStyle }: FieldProps) {
+export function Field({ label, as = 'input', type = 'text', required, value, onChange, placeholder, rows, children, style, fieldStyle }: FieldProps) {
   const [f, setF] = useState(false)
   const isSelect = as === 'select'
   const glow = f && !isSelect // horizon (select) gets a clean focus line, no glow
@@ -39,10 +41,10 @@ export function Field({ label, as = 'input', value, onChange, placeholder, rows,
       <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '34%', background: 'linear-gradient(rgba(255,255,255,.05), rgba(255,255,255,0))', pointerEvents: 'none' }} />
       {label && <span style={{ position: 'relative', display: 'block', fontFamily: font.mono, fontSize: 11, color: text.secondary, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: 8 }}>{label}</span>}
       {as === 'textarea'
-        ? <textarea rows={rows || 3} value={value} onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} style={well} />
+        ? <textarea rows={rows || 3} required={required} value={value} onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} style={well} />
         : as === 'select'
-        ? <select value={value} onChange={onChange as React.ChangeEventHandler<HTMLSelectElement>} onFocus={onFocus} onBlur={onBlur} style={well}>{children}</select>
-        : <input type="text" value={value} onChange={onChange as React.ChangeEventHandler<HTMLInputElement>} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} style={well} />}
+        ? <select value={value} required={required} onChange={onChange as React.ChangeEventHandler<HTMLSelectElement>} onFocus={onFocus} onBlur={onBlur} style={well}>{children}</select>
+        : <input type={type} required={required} value={value} onChange={onChange as React.ChangeEventHandler<HTMLInputElement>} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} style={well} />}
     </div>
   )
 }

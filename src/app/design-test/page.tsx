@@ -304,10 +304,10 @@ export default function DesignTestPage() {
       <Section title="ORGANISM · CompassForm">
         <div style={{ width: '100%', border: `1px solid ${signal.cyan}30`, borderRadius: 6, overflow: 'hidden', background: surface.bg }}>
           <CompassForm
-            question="" horizon={mHorizon} stakes={mStakes} protecting={mProtect} calibrated
+            question="" horizon={mHorizon} stakes={mStakes}
             step={3}
             onQuestionChange={() => {}} onHorizonChange={setMHorizon} onStakesChange={setMStakes}
-            onToggleProtect={toggleProtect} onSubmit={() => {}}
+            onCalibrate={() => {}} onSubmit={() => {}}
           />
         </div>
       </Section>

@@ -239,3 +239,19 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// Lead — advisory funnel capture. source: "waitlist" (full-service ARCS) or
+// "advisory" (30-min consult). receiptId optionally links the brief that drove
+// the inquiry. Not tied to a User — leads arrive pre-account.
+model Lead {
+  id        String   @id @default(cuid())
+  email     String
+  name      String?
+  message   String?
+  source    String   @default("waitlist")
+  receiptId String?
+  createdAt DateTime @default(now())
+
+  @@index([source])
+  @@index([createdAt])
+}

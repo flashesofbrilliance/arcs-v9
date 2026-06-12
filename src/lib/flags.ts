@@ -6,14 +6,15 @@
 // RBAC check) without touching call sites.
 //
 // publicHistory:
-//   true  (default, current PLG/demo phase) → GET /api/history is ungated:
-//          recent receipts returned globally, no auth, no userId filter.
-//   false (set PUBLIC_HISTORY=false once RBAC is ready) → per-user isolation:
-//          requires a session, filters to the caller's own receipts (ADR-001).
+//   false (default, current PLG model) → per-user isolation: GET /api/history
+//          requires a session and filters to the caller's own receipts (ADR-001).
+//          Sign-up is the lead-capture hook (history + sharing are gated).
+//   true  (set PUBLIC_HISTORY=true) → ungated demo mode: recent receipts
+//          returned globally with no auth. Use only for a public demo build.
 
 export const flags = {
-  // Default ON until RBAC for the PLG motion is ready. Set PUBLIC_HISTORY=false to gate.
-  publicHistory: process.env.PUBLIC_HISTORY !== "false",
+  // Default OFF → history is tokenized per authenticated user. Set PUBLIC_HISTORY=true for demo.
+  publicHistory: process.env.PUBLIC_HISTORY === "true",
 } as const
 
 export type Flags = typeof flags

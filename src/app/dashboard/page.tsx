@@ -22,8 +22,6 @@ function DashboardInner() {
   const [inboundPrepId] = useState(() => searchParams.get("prepId") ?? null)
   const [horizon, setHorizon] = useState<Horizon>("THIS_WEEK")
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
-  const [protecting, setProtecting] = useState<string[]>([])
-  const [calibrated, setCalibrated] = useState(false)
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState(0)
   const [result, setResult] = useState<CompassResult | null>(null)
@@ -61,6 +59,15 @@ function DashboardInner() {
       .catch(() => {})
   }, [])
 
+  // Returning from /prep with a prepId + question → run the enriched compass once.
+  const autoRan = useRef(false)
+  useEffect(() => {
+    if (autoRan.current || !inboundPrepId || !question.trim()) return
+    autoRan.current = true
+    runCompass()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inboundPrepId])
+
   async function runCompass(opts: { followUp?: boolean } = {}) {
     if (!question.trim() || loading) return
     setLoading(true)
@@ -68,16 +75,9 @@ function DashboardInner() {
     if (!opts.followUp) setResult(null)
 
     try {
-      // Inline calibration → real prep session, threaded as prepId (3a→3b chain)
-      let prepId = inboundPrepId
-      if (!opts.followUp && calibrated && protecting.length > 0) {
-        const prepRes = await fetch("/api/prep", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ stakes, horizon, protecting, confidence: 3 }),
-        })
-        if (prepRes.ok) prepId = (await prepRes.json()).prep_id ?? prepId
-      }
+      // Calibration is the full /prep form now (true 1–5 confidence + entity +
+      // adversarial). Its prepId arrives via ?prepId= and enriches the L0–L5 run.
+      const prepId = inboundPrepId
 
       const res = await fetch("/api/compass", {
         method: "POST",
@@ -152,7 +152,7 @@ function DashboardInner() {
       {result ? (
         <ResultView
           result={result}
-          onReset={() => { setResult(null); setQuestion(""); setCalibrated(false); setProtecting([]) }}
+          onReset={() => { setResult(null); setQuestion("") }}
           onBrief={() => router.push(`/brief/${result.receipt_id}`)}
           onTributary={handleTributary}
         />
@@ -161,15 +161,12 @@ function DashboardInner() {
           question={question}
           horizon={horizon}
           stakes={stakes}
-          protecting={protecting}
-          calibrated={calibrated}
           running={loading}
           step={step}
           onQuestionChange={setQuestion}
           onHorizonChange={(v) => setHorizon(v as Horizon)}
           onStakesChange={(v) => setStakes(v as Stakes)}
-          onToggleProtect={(chip) => setProtecting((p) => p.includes(chip) ? p.filter((c) => c !== chip) : [...p, chip])}
-          onCalibrate={() => setCalibrated(true)}
+          onCalibrate={() => router.push(`/prep?q=${encodeURIComponent(question)}`)}
           onSubmit={() => runCompass()}
           onHistory={() => router.push("/history")}
         />
