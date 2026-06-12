@@ -154,3 +154,22 @@ a shared auth layer across both surfaces becomes attractive.
 
 **Implementation pointer:** `src/lib/auth.ts` (stub to replace), `src/app/api/compass/route.ts`
 (gate to modify), `src/app/api/receipts/` (claim endpoint to create)
+
+---
+
+## Amendment — 2026-06-12 (launch hardening)
+
+The Option-C model is now live and extended for the public launch (see ADR-025):
+
+- **History is per-user gated by default.** `flags.publicHistory` now defaults OFF
+  (`PUBLIC_HISTORY=true` re-enables ungated demo mode). `GET /api/history` requires a session
+  and filters to the caller's own receipts.
+- **Sharing is the lead-capture hook.** Briefs stay publicly viewable, but the brief share row
+  (`src/app/brief/[receiptId]/page.tsx`) is auth-gated: logged-out users get "Sign in to share"
+  → `/compass?next=/brief/<id>`. Anonymous receipts are claimed on first sign-in (existing
+  `/api/receipts/claim`, now also invoked from the brief page).
+- **Sign-in UI** added to app-shell headers (`src/molecules/AuthControl.tsx`); `/compass` login
+  ported to the design system and honors `?next=`.
+
+The compass itself remains anonymous (ADR-016 Option C unchanged). This amendment narrows what
+is gated to *history + sharing*, not the core run.
