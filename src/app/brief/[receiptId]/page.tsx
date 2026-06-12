@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
+import { track } from "@vercel/analytics"
 import { surface, text, signal, font } from "@/ui/tokens"
 import { Brief } from "@/organisms/Brief"
 import { Card } from "@/ui/Card"
@@ -73,8 +74,16 @@ export default function BriefPage() {
     return () => { cancelled = true }
   }, [receiptId])
 
+  // Count every share action, split by channel, so we can see how often briefs
+  // get sent on. Page-views on /brief/[receiptId] (auto via <Analytics/>) count
+  // the other side of the funnel: how often a shared link is opened.
+  function trackShare(method: "copy" | "sms" | "x") {
+    track("brief_shared", { method, receiptId })
+  }
+
   async function copyLink() {
     await navigator.clipboard.writeText(`${window.location.origin}/brief/${receiptId}`)
+    trackShare("copy")
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -105,8 +114,8 @@ export default function BriefPage() {
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
           <Label style={{ marginRight: "0.25rem" }}>Share</Label>
           <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
-          <Button variant="ghost" size="sm" onClick={() => window.open(`sms:?body=${encodeURIComponent(`${result.true_north}\n\nARCS Brief → ${window.location.origin}/brief/${receiptId}`)}`)}>SMS</Button>
-          <Button variant="ghost" size="sm" onClick={() => window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(result.true_north.slice(0, 220))}&url=${encodeURIComponent(`${window.location.origin}/brief/${receiptId}`)}`)}>Post to X</Button>
+          <Button variant="ghost" size="sm" onClick={() => { trackShare("sms"); window.open(`sms:?body=${encodeURIComponent(`${result.true_north}\n\nARCS Brief → ${window.location.origin}/brief/${receiptId}`)}`) }}>SMS</Button>
+          <Button variant="ghost" size="sm" onClick={() => { trackShare("x"); window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(result.true_north.slice(0, 220))}&url=${encodeURIComponent(`${window.location.origin}/brief/${receiptId}`)}`) }}>Post to X</Button>
         </div>
       </div>
     </main>
