@@ -9,6 +9,7 @@ import { Field } from '@/ui/Field'
 import { TributaryTile } from '@/instrument/TributaryTile'
 import { HorizonStakesRow } from '@/molecules/HorizonStakesRow'
 import { PipelineRunning } from '@/molecules/PipelineRunning'
+import { AuthControl } from '@/molecules/AuthControl'
 
 // CompassForm — Question Compass organism. PRESENTATIONAL: controlled inputs via
 // value/onChange, work via onSubmit, progress via running/step. Parent owns the
@@ -46,7 +47,10 @@ export function CompassForm({
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '2rem 1.5rem 4rem', containerType: 'inline-size' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Question Compass" />
-        <Button variant="ghost" size="sm" onClick={onHistory}>History</Button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <Button variant="ghost" size="sm" onClick={onHistory}>History</Button>
+          <AuthControl next="/history" />
+        </div>
       </div>
       <Rule style={{ marginBottom: '2rem' }} />
 
