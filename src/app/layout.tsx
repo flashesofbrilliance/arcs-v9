@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
+import { VercelToolbar } from "@vercel/toolbar/next"
 import "./globals.css"
 
 const inter = Inter({
@@ -47,6 +48,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased">
         {children}
+        <VercelToolbar />
       </body>
     </html>
   )
