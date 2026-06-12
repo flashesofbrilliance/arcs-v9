@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { surface, text, signal, font } from "@/ui/tokens"
+import { useState, Suspense } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { surface, text, signal, font, border } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { SectionLabel } from "@/ui/SectionLabel"
@@ -37,8 +37,10 @@ const CONF_OPTS = [
   { value: "5", label: "Confirming", accent: "green" as const },
 ]
 
-export default function PrepPage() {
+function PrepInner() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const [question] = useState(() => searchParams.get("q") ?? "")
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [horizon, setHorizon] = useState<Horizon>("THIS_WEEK")
   const [protecting, setProtecting] = useState<string[]>([])
@@ -65,7 +67,8 @@ export default function PrepPage() {
         }),
       })
       const { prep_id } = await res.json()
-      router.push(`/dashboard?prepId=${prep_id}`)
+      const q = question.trim() ? `&q=${encodeURIComponent(question)}` : ""
+      router.push(`/dashboard?prepId=${prep_id}${q}`)
     } catch {
       setLoading(false)
     }
@@ -78,7 +81,7 @@ export default function PrepPage() {
       <div style={{ maxWidth: 560, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Calibrate" />
-          <Button variant="ghost" size="sm" glyph="←" onClick={() => router.push("/")}>ARCS</Button>
+          <Button variant="ghost" size="sm" glyph="←" onClick={() => router.push(question.trim() ? `/dashboard?q=${encodeURIComponent(question)}` : "/dashboard")}>Compass</Button>
         </div>
         <Rule style={{ marginBottom: "2rem" }} />
 
@@ -89,6 +92,12 @@ export default function PrepPage() {
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: 0, lineHeight: 1.6 }}>
             These signals tell the compass which mode to run, what to protect, and who else is in the terrain.
           </p>
+          {question.trim() && (
+            <div style={{ marginTop: "1rem", padding: "0.75rem 0.9rem", border: `1px solid ${border.subtle}`, borderRadius: 8, background: surface.elevated }}>
+              <span style={{ fontFamily: font.mono, fontSize: "0.6rem", color: signal.gold, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>Calibrating</span>
+              <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, margin: "0.4rem 0 0", lineHeight: 1.5 }}>{question}</p>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
@@ -125,5 +134,13 @@ export default function PrepPage() {
         </form>
       </div>
     </main>
+  )
+}
+
+export default function PrepPage() {
+  return (
+    <Suspense fallback={<main style={{ minHeight: "100vh", background: surface.bg }} />}>
+      <PrepInner />
+    </Suspense>
   )
 }

@@ -9,6 +9,7 @@ import { SectionLabel } from "@/ui/SectionLabel"
 import { Card } from "@/ui/Card"
 import { Badge } from "@/ui/Badge"
 import { Button } from "@/ui/Button"
+import { AuthControl } from "@/molecules/AuthControl"
 
 // History — cached receipts/briefs ledger. Simple list now (Observatory replay
 // later). Each row → its brief. Page owns the fetch (head/body).
@@ -30,13 +31,15 @@ export default function HistoryPage() {
   const router = useRouter()
   const [rows, setRows] = useState<Row[] | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [needsAuth, setNeedsAuth] = useState(false)
 
   useEffect(() => {
     let cancelled = false
     fetch("/api/history")
-      .then(async (r) => ({ ok: r.ok, data: await r.json() }))
-      .then(({ ok, data }) => {
+      .then(async (r) => ({ ok: r.ok, status: r.status, data: await r.json().catch(() => ({})) }))
+      .then(({ ok, status, data }) => {
         if (cancelled) return
+        if (status === 401) { setNeedsAuth(true); return }
         if (!ok) { setError(data.error ?? "Could not load history"); return }
         setRows(data.receipts ?? [])
       })
@@ -49,15 +52,28 @@ export default function HistoryPage() {
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Ledger" />
-          <Button variant="ghost" size="sm" glyph="⊕" onClick={() => router.push("/dashboard")}>New question</Button>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            <Button variant="ghost" size="sm" glyph="⊕" onClick={() => router.push("/dashboard")}>New question</Button>
+            <AuthControl next="/history" />
+          </div>
         </div>
         <Rule style={{ marginBottom: "2rem" }} />
 
         <SectionLabel style={{ marginBottom: "1.25rem" }}>Receipt history · your cartography atlas</SectionLabel>
 
+        {needsAuth && (
+          <Card style={{ padding: "1.5rem 1.75rem" }}>
+            <div style={{ fontFamily: font.sans, fontSize: "1rem", fontWeight: 600, color: text.primary, marginBottom: "0.5rem" }}>Sign in to see your atlas</div>
+            <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
+              Your questions, prep, and briefs are saved under your account. One magic link — no password.
+            </p>
+            <Button variant="primary" size="md" glyph="→" onClick={() => router.push("/compass?next=/history")}>Sign in</Button>
+          </Card>
+        )}
+
         {error && <div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.85rem" }}>{error}</div>}
 
-        {!error && rows === null && (
+        {!error && !needsAuth && rows === null && (
           <div style={{ fontFamily: font.mono, fontSize: "0.8rem", color: text.muted, letterSpacing: "0.1em" }}>LOADING LEDGER…</div>
         )}
 

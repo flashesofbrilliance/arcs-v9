@@ -59,6 +59,8 @@ export default function BriefPage() {
   const [framing, setFraming] = useState<string>("")
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
+  // null = still checking. The brief itself is public; sharing is gated (PLG hook).
+  const [authed, setAuthed] = useState<boolean | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -74,6 +76,33 @@ export default function BriefPage() {
     return () => { cancelled = true }
   }, [receiptId])
 
+  // Resolve auth state; once signed in, claim this browser's anonymous receipts.
+  useEffect(() => {
+    let cancelled = false
+    fetch("/api/auth/session")
+      .then((r) => r.json())
+      .then(async (s) => {
+        if (cancelled) return
+        const isAuthed = !!s?.user?.id
+        setAuthed(isAuthed)
+        if (isAuthed && typeof window !== "undefined") {
+          const stored = localStorage.getItem("arcs_session_id")
+          if (stored) {
+            const r = await fetch("/api/receipts/claim", {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ sessionId: stored }),
+            })
+            if (r.ok) localStorage.removeItem("arcs_session_id")
+          }
+        }
+      })
+      .catch(() => { if (!cancelled) setAuthed(false) })
+    return () => { cancelled = true }
+  }, [])
+
+  const briefUrl = () => `${window.location.origin}/brief/${receiptId}`
+
   // Count every share action, split by channel, so we can see how often briefs
   // get sent on. Page-views on /brief/[receiptId] (auto via <Analytics/>) count
   // the other side of the funnel: how often a shared link is opened.
@@ -82,10 +111,18 @@ export default function BriefPage() {
   }
 
   async function copyLink() {
-    await navigator.clipboard.writeText(`${window.location.origin}/brief/${receiptId}`)
+    await navigator.clipboard.writeText(briefUrl())
     trackShare("copy")
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+  function shareSms() {
+    trackShare("sms")
+    window.open(`sms:?body=${encodeURIComponent(`${result?.true_north}\n\nARCS Brief → ${briefUrl()}`)}`)
+  }
+  function shareX() {
+    trackShare("x")
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(briefUrl())}`)
   }
 
   if (error) {
@@ -113,9 +150,17 @@ export default function BriefPage() {
 
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
           <Label style={{ marginRight: "0.25rem" }}>Share</Label>
-          <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
-          <Button variant="ghost" size="sm" onClick={() => { trackShare("sms"); window.open(`sms:?body=${encodeURIComponent(`${result.true_north}\n\nARCS Brief → ${window.location.origin}/brief/${receiptId}`)}`) }}>SMS</Button>
-          <Button variant="ghost" size="sm" onClick={() => { trackShare("x"); window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(result.true_north.slice(0, 220))}&url=${encodeURIComponent(`${window.location.origin}/brief/${receiptId}`)}`) }}>Post to X</Button>
+          {authed ? (
+            <>
+              <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
+              <Button variant="ghost" size="sm" onClick={shareSms}>SMS</Button>
+              <Button variant="ghost" size="sm" onClick={shareX}>Post to X</Button>
+            </>
+          ) : (
+            <Button variant="gold" size="sm" glyph="◈" onClick={() => router.push(`/compass?next=${encodeURIComponent(`/brief/${receiptId}`)}`)}>
+              Sign in to share
+            </Button>
+          )}
         </div>
       </div>
     </main>

@@ -8,8 +8,8 @@ import { SectionLabel } from '@/ui/SectionLabel'
 import { Field } from '@/ui/Field'
 import { TributaryTile } from '@/instrument/TributaryTile'
 import { HorizonStakesRow } from '@/molecules/HorizonStakesRow'
-import { CalibrationChips } from '@/molecules/CalibrationChips'
 import { PipelineRunning } from '@/molecules/PipelineRunning'
+import { AuthControl } from '@/molecules/AuthControl'
 
 // CompassForm — Question Compass organism. PRESENTATIONAL: controlled inputs via
 // value/onChange, work via onSubmit, progress via running/step. Parent owns the
@@ -24,22 +24,19 @@ export interface CompassFormProps {
   question: string
   horizon: string
   stakes: string
-  protecting: string[]
-  calibrated?: boolean
   running?: boolean
   step?: number
   onQuestionChange: (value: string) => void
   onHorizonChange: (value: string) => void
   onStakesChange: (value: string) => void
-  onToggleProtect: (chip: string) => void
   onCalibrate?: () => void
   onSubmit: () => void
   onHistory?: () => void
 }
 
 export function CompassForm({
-  question, horizon, stakes, protecting, calibrated, running, step = 0,
-  onQuestionChange, onHorizonChange, onStakesChange, onToggleProtect, onCalibrate, onSubmit, onHistory,
+  question, horizon, stakes, running, step = 0,
+  onQuestionChange, onHorizonChange, onStakesChange, onCalibrate, onSubmit, onHistory,
 }: CompassFormProps) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -50,7 +47,10 @@ export function CompassForm({
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '2rem 1.5rem 4rem', containerType: 'inline-size' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Question Compass" />
-        <Button variant="ghost" size="sm" onClick={onHistory}>History</Button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <Button variant="ghost" size="sm" onClick={onHistory}>History</Button>
+          <AuthControl next="/history" />
+        </div>
       </div>
       <Rule style={{ marginBottom: '2rem' }} />
 
@@ -67,14 +67,8 @@ export function CompassForm({
         </div>
 
         <div style={{ margin: '1.25rem 0' }}>
-          {!calibrated ? (
-            <>
-              <SectionLabel index="02" color={signal.gold} style={{ marginBottom: '0.75rem' }}>Calibrate · optional</SectionLabel>
-              <Button variant="gold" glyph="◈" onClick={onCalibrate} style={{ width: '100%' }}>Sharpen the read</Button>
-            </>
-          ) : (
-            <CalibrationChips selected={protecting} onToggle={onToggleProtect} />
-          )}
+          <SectionLabel index="02" color={signal.gold} style={{ marginBottom: '0.75rem' }}>Calibrate · optional</SectionLabel>
+          <Button variant="gold" glyph="◈" onClick={onCalibrate} style={{ width: '100%' }}>Sharpen the read — stakes, confidence &amp; context</Button>
         </div>
 
         <Button type="submit" variant="primary" size="lg" glyph={running ? '~' : '⊕'} disabled={running || !question.trim()} style={{ width: '100%' }}>
