@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic"
 
 // Advisory funnel capture. Stores a Lead and fires a best-effort confirmation
 // email (Resend REST — no new dependency). source: "waitlist" | "advisory".
-const BOOKING_URL = process.env.NEXT_PUBLIC_CONSULT_BOOKING_URL ?? ""
+const BOOKING_URL = process.env.NEXT_PUBLIC_CONSULT_BOOKING_URL ?? "https://calendar.app.google/r3eSwEE2HueXUBeC6"
 const FROM = process.env.EMAIL_FROM ?? "ARCS <noreply@arcs.care>"
 
 function isEmail(s: unknown): s is string {
