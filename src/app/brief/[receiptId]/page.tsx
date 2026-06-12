@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
+import { track } from "@vercel/analytics"
 import { surface, text, signal, font } from "@/ui/tokens"
 import { Brief } from "@/organisms/Brief"
 import { Card } from "@/ui/Card"
@@ -102,15 +103,25 @@ export default function BriefPage() {
 
   const briefUrl = () => `${window.location.origin}/brief/${receiptId}`
 
+  // Count every share action, split by channel, so we can see how often briefs
+  // get sent on. Page-views on /brief/[receiptId] (auto via <Analytics/>) count
+  // the other side of the funnel: how often a shared link is opened.
+  function trackShare(method: "copy" | "sms" | "x") {
+    track("brief_shared", { method, receiptId })
+  }
+
   async function copyLink() {
     await navigator.clipboard.writeText(briefUrl())
+    trackShare("copy")
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
   function shareSms() {
+    trackShare("sms")
     window.open(`sms:?body=${encodeURIComponent(`${result?.true_north}\n\nARCS Brief → ${briefUrl()}`)}`)
   }
   function shareX() {
+    trackShare("x")
     window.open(`https://x.com/intent/tweet?text=${encodeURIComponent((result?.true_north ?? "").slice(0, 220))}&url=${encodeURIComponent(briefUrl())}`)
   }
 
