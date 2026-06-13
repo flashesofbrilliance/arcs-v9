@@ -80,7 +80,10 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
         </div>
       </div>
 
-      <Card style={{ marginBottom: '3rem', padding: '1.5rem' }}>
+      {/* Bierut fix V — the featured Receipt is the conversion asset (output
+          before input); the cyan underlit accent makes it read as an artifact,
+          not documentation. */}
+      <Card accent={signal.cyan} style={{ marginBottom: '3rem', padding: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
           <Label>{demoLabel ?? (demo ? 'Recent · Decision Receipt' : 'Example · Decision Receipt')}</Label>
           <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />

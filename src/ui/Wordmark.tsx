@@ -9,8 +9,11 @@ export interface WordmarkProps {
 export function Wordmark({ section }: WordmarkProps) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-      <span style={{ fontFamily: font.mono, fontSize: '0.65rem', letterSpacing: '0.15em', color: signal.cyan, textTransform: 'uppercase', fontWeight: 700, whiteSpace: 'nowrap' }}>
-        ARCS <span style={{ color: text.secondary, fontWeight: 500 }}>FIELD OS</span>
+      {/* Bierut fix I — the mark reads as a proper noun, not a UI label: ARCS
+          heavier + wider-tracked; FIELD OS drops to a lighter cut + dimmer ink. */}
+      <span style={{ fontFamily: font.mono, fontSize: '0.65rem', textTransform: 'uppercase', whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'baseline', gap: '0.45em' }}>
+        <span style={{ color: signal.cyan, fontWeight: 800, letterSpacing: '0.22em' }}>ARCS</span>
+        <span style={{ color: text.dimmed, fontWeight: 400, letterSpacing: '0.14em' }}>FIELD OS</span>
       </span>
       {section && (
         <>
