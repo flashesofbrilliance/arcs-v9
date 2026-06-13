@@ -51,7 +51,7 @@ export default function HomePage() {
 
       <div style={{ maxWidth: 620, margin: '0 auto', padding: '0 1.5rem 4rem', textAlign: 'center' }}>
         <p style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 1rem' }}>
-          Want ARCS run with you on the decisions that matter most?
+          Want ARCS to run with you on the decisions that matter most?
         </p>
         <Button variant="gold" size="md" glyph="◈" onClick={() => router.push('/waitlist')}>
           Full-service ARCS &amp; advisory →
