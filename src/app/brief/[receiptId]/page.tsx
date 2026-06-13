@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
 import { surface, text, signal, font } from "@/ui/tokens"
 import { Brief } from "@/organisms/Brief"
+import { TributariesStack } from "@/molecules/TributariesStack"
 import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
 import { Button } from "@/ui/Button"
@@ -56,6 +57,10 @@ export default function BriefPage() {
   const receiptId = String(params.receiptId)
 
   const [result, setResult] = useState<CompassResult | null>(null)
+  const [sessionId, setSessionId] = useState<string | null>(null)
+  // Lineage position — depth in the reasoning chain + parent for breadcrumb.
+  const [depth, setDepth] = useState<number>(0)
+  const [parentId, setParentId] = useState<string | null>(null)
   const [framing, setFraming] = useState<string>("")
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -70,6 +75,9 @@ export default function BriefPage() {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
+        setSessionId((data.receipt?.sessionId as string) ?? null)
+        setDepth(Number(data.receipt?.version ?? 0))
+        setParentId((data.receipt?.parentId as string) ?? null)
         setFraming(data.brief?.situationFraming ?? "")
       })
       .catch(() => { if (!cancelled) setError("Could not load brief") })
@@ -100,6 +108,16 @@ export default function BriefPage() {
       .catch(() => { if (!cancelled) setAuthed(false) })
     return () => { cancelled = true }
   }, [])
+
+  // Follow a tributary → start a new compass round seeded by this tributary's
+  // prompt, parented to this receipt (lineage edge) and kept in the same session
+  // thread. The dashboard reads ?parent & ?sid and auto-runs the follow-up.
+  function followTributary(prompt: string) {
+    track("brief_tributary_followed", { receiptId })
+    const params = new URLSearchParams({ q: prompt, parent: receiptId })
+    if (sessionId) params.set("sid", sessionId)
+    router.push(`/dashboard?${params.toString()}`)
+  }
 
   const briefUrl = () => `${window.location.origin}/brief/${receiptId}`
 
@@ -138,9 +156,28 @@ export default function BriefPage() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
+      {depth > 0 && (
+        <div style={{ maxWidth: 880, margin: "0 auto", padding: "1.25rem 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+          <span style={{ color: signal.cyan }}>Level {depth}</span>
+          <span style={{ color: text.muted }}>·</span>
+          {parentId ? (
+            <button onClick={() => router.push(`/brief/${parentId}`)} style={{ background: "none", border: "none", padding: 0, cursor: "pointer", color: text.dimmed, fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+              ← Parent brief
+            </button>
+          ) : (
+            <span style={{ color: text.dimmed }}>Reasoning chain</span>
+          )}
+        </div>
+      )}
       <Brief result={result} onBack={() => router.push("/dashboard")} />
 
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 3rem" }}>
+        {result.tributaries?.length > 0 && (
+          <Card style={{ marginBottom: "1.5rem" }}>
+            <TributariesStack tributaries={result.tributaries} onTributary={followTributary} />
+          </Card>
+        )}
+
         {framing && (
           <Card style={{ marginBottom: "1.5rem" }}>
             <Label style={{ marginBottom: "0.75rem" }}>Situation Framing</Label>

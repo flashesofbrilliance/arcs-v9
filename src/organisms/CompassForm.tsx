@@ -8,7 +8,7 @@ import { SectionLabel } from '@/ui/SectionLabel'
 import { Field } from '@/ui/Field'
 import { TributaryTile } from '@/instrument/TributaryTile'
 import { HorizonStakesRow } from '@/molecules/HorizonStakesRow'
-import { PipelineRunning } from '@/molecules/PipelineRunning'
+import { PipelineTakeover } from '@/molecules/PipelineTakeover'
 import { AuthControl } from '@/molecules/AuthControl'
 
 // CompassForm — Question Compass organism. PRESENTATIONAL: controlled inputs via
@@ -66,16 +66,21 @@ export function CompassForm({
           <HorizonStakesRow horizon={horizon} stakes={stakes} onHorizonChange={onHorizonChange} onStakesChange={onStakesChange} />
         </div>
 
-        <div style={{ margin: '1.25rem 0' }}>
-          <SectionLabel index="02" color={signal.gold} style={{ marginBottom: '0.75rem' }}>Calibrate · optional</SectionLabel>
-          <Button variant="gold" glyph="◈" onClick={onCalibrate} style={{ width: '100%' }}>Sharpen the read — stakes, confidence &amp; context</Button>
-        </div>
-
-        <Button type="submit" variant="primary" size="lg" glyph={running ? '~' : '⊕'} disabled={running || !question.trim()} style={{ width: '100%' }}>
+        {/* Bierut fix III — one bindu per screen. Get True North is the single
+            primary action; calibration collapses to a quiet modifier beneath it,
+            so the ready user never has to choose which button to press. */}
+        <Button type="submit" variant="primary" size="lg" glyph={running ? '~' : '⊕'} disabled={running || !question.trim()} style={{ width: '100%', marginTop: '1.5rem' }}>
           {running ? 'Running L0–L5 pipeline…' : <>Get True North&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></>}
         </Button>
 
-        {running && <PipelineRunning current={step} style={{ marginTop: '1rem' }} />}
+        {!running && (
+          <button type="button" onClick={onCalibrate}
+            style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: 'pointer', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.dimmed }}>
+            ◈ &nbsp;Sharpen the read — stakes, confidence &amp; context
+          </button>
+        )}
+
+        {running && <PipelineTakeover current={step} />}
       </form>
 
       {!question && (

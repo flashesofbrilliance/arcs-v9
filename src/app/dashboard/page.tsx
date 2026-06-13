@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { surface, text, signal } from "@/ui/tokens"
+import { surface, text } from "@/ui/tokens"
 import { CompassForm } from "@/organisms/CompassForm"
+import { CompassError } from "@/molecules/CompassError"
 import { ResultView } from "@/organisms/ResultView"
 import type { CompassResult } from "@/lib/mockCompass"
 
@@ -20,6 +21,9 @@ function DashboardInner() {
 
   const [question, setQuestion] = useState(() => searchParams.get("q") ?? "")
   const [inboundPrepId] = useState(() => searchParams.get("prepId") ?? null)
+  // Tributary follow-up arriving from a brief: ?parent=<receiptId>&sid=<sessionId>
+  const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
+  const [inboundSid] = useState(() => searchParams.get("sid") ?? null)
   const [horizon, setHorizon] = useState<Horizon>("THIS_WEEK")
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [loading, setLoading] = useState(false)
@@ -29,9 +33,10 @@ function DashboardInner() {
 
   // Session tracking — preserved across tributary follow-ups
   const [sessionId, setSessionId] = useState<string>("")
-  const [parentReceiptId, setParentReceiptId] = useState<string | null>(null)
+  const [parentReceiptId, setParentReceiptId] = useState<string | null>(inboundParent)
   const tributaryMode = useRef(false)
-  useEffect(() => { setSessionId(crypto.randomUUID()) }, [])
+  // Continue the brief's session thread if one arrived; otherwise start fresh.
+  useEffect(() => { setSessionId(inboundSid ?? crypto.randomUUID()) }, [inboundSid])
 
   // Animate the L0–L5 step indicator while the pipeline runs
   useEffect(() => {
@@ -67,6 +72,17 @@ function DashboardInner() {
     runCompass()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inboundPrepId])
+
+  // Arriving from a brief tributary → run the parented follow-up once the
+  // session thread is resolved, so the new receipt joins the same lineage.
+  const autoRanParent = useRef(false)
+  useEffect(() => {
+    if (autoRanParent.current || !inboundParent || !question.trim() || !sessionId) return
+    autoRanParent.current = true
+    tributaryMode.current = true
+    runCompassWith(question, true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionId])
 
   async function runCompass(opts: { followUp?: boolean } = {}) {
     if (!question.trim() || loading) return
@@ -143,9 +159,7 @@ function DashboardInner() {
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       {error && (
         <div style={{ maxWidth: 620, margin: "0 auto", padding: "1rem 1.5rem 0" }}>
-          <div style={{ fontSize: "0.8rem", color: signal.red, border: `1px solid ${signal.red}40`, background: `${signal.red}10`, borderRadius: 6, padding: "0.6rem 0.9rem" }}>
-            {error}
-          </div>
+          <CompassError message={error} onRetry={() => runCompass()} />
         </div>
       )}
 
