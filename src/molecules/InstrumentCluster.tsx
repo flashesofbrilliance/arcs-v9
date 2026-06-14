@@ -13,7 +13,7 @@ export function InstrumentCluster({ result }: InstrumentClusterProps) {
   const c = nciColor(result.nci_score)
   return (
     <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-      <Gauge label="NCI" value={result.nci_score} sub="/ 100" color={c} glow={signalGlow(c)} minWidth={120} />
+      <Gauge label="Conviction" value={result.nci_score} sub="/ 100" color={c} glow={signalGlow(c)} minWidth={120} />
       {result.coherence_pct !== undefined && (
         <Gauge label="Coherence" minWidth={120} value={<>{result.coherence_pct}<span style={{ fontSize: 16, color: text.muted }}>%</span></>} />
       )}

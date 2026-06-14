@@ -29,6 +29,7 @@ export default function HomePage() {
           decision: r.decision ?? r.trueNorth ?? '',
           trueNorth: r.trueNorth ?? '',
           nciScore: r.nciScore ?? 50,
+          coherence: r.coherencePct ?? null,
           mode: r.mode,
           doorClass: r.doorClass,
           yState: r.yState,

@@ -39,7 +39,7 @@ export function Field({ label, as = 'input', type = 'text', required, value, onC
       background: 'linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, #131b23, #0a1016)',
       boxShadow: 'inset 0 1px 0 rgba(255,255,255,.14), inset 0 -2px 6px rgba(0,0,0,.55), 0 5px 14px rgba(0,0,0,.5)', ...style }}>
       <div style={{ position: 'absolute', inset: '0 0 auto 0', height: '34%', background: 'linear-gradient(rgba(255,255,255,.05), rgba(255,255,255,0))', pointerEvents: 'none' }} />
-      {label && <span style={{ position: 'relative', display: 'block', fontFamily: font.mono, fontSize: 11, color: text.secondary, textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 700, marginBottom: 8 }}>{label}</span>}
+      {label && <span style={{ position: 'relative', display: 'block', fontFamily: font.mono, ...font.tier.t3, color: text.secondary, textTransform: 'uppercase', marginBottom: 8 }}>{label}</span>}
       {as === 'textarea'
         ? <textarea rows={rows || 3} required={required} value={value} onChange={onChange as React.ChangeEventHandler<HTMLTextAreaElement>} placeholder={placeholder} onFocus={onFocus} onBlur={onBlur} style={well} />
         : as === 'select'
