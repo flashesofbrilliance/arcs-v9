@@ -7,6 +7,7 @@ import { track } from "@vercel/analytics"
 import { surface, text, signal, font } from "@/ui/tokens"
 import { Brief } from "@/organisms/Brief"
 import { TributariesStack } from "@/molecules/TributariesStack"
+import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
 import { Button } from "@/ui/Button"
@@ -151,7 +152,15 @@ export default function BriefPage() {
     )
   }
   if (!result) {
-    return <main style={{ minHeight: "100vh", background: surface.bg, color: text.muted, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: font.mono, fontSize: "0.8rem", letterSpacing: "0.1em" }}>RENDERING BRIEF…</main>
+    return (
+      <main style={{ minHeight: "100vh", background: "radial-gradient(120% 70% at 50% -5%, #0a1422 0%, #020408 62%)", color: text.primary, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
+        <SequenceLoader
+          title="Rendering cartography brief…"
+          stages={[{ name: "SURVEY" }, { name: "SITUATION FRAMING" }, { name: "ENTITY READ" }, { name: "TERRAIN PATHS" }, { name: "SILKSCREEN" }]}
+          footer="Rendering through the fog…"
+        />
+      </main>
+    )
   }
 
   return (

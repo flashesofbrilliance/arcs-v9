@@ -80,7 +80,7 @@ export function CompassForm({
           </button>
         )}
 
-        {running && <PipelineTakeover current={step} />}
+        {running && <PipelineTakeover />}
       </form>
 
       {!question && (

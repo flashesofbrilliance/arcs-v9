@@ -29,6 +29,7 @@ export interface HomeDemo {
   decision: string
   trueNorth: string
   nciScore: number
+  coherence?: number | null
   mode?: string | null
   doorClass?: string | null
   yState?: string | null
@@ -38,6 +39,7 @@ const DEMO_FALLBACK: HomeDemo = {
   decision: 'Should I take the Series A now or extend runway another 6 months and grow into a higher valuation?',
   trueNorth: 'Extend runway — the valuation delta at your current growth rate outweighs the optionality cost of 6 months.',
   nciScore: 74,
+  coherence: 81,
   mode: 'COURT',
   doorClass: 'ONE_WAY',
   yState: 'GREEN',
@@ -95,7 +97,10 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
           {d.trueNorth}
         </TrueNorthPanel>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Gauge label="NCI" value={String(d.nciScore)} sub="/ 100" color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
+          <Gauge label="Conviction" value={String(d.nciScore)} sub="/ 100" color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
+          {d.coherence != null && (
+            <Gauge label="Coherence" value={<>{d.coherence}<span style={{ fontSize: 15, color: text.muted }}>%</span></>} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
+          )}
           <Badge label={door.label} color={door.color} register="governance" />
           {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
         </div>
