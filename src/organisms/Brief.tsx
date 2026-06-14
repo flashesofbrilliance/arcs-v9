@@ -22,6 +22,18 @@ export function Brief({ result, onBack }: BriefProps) {
   const fated = r.fated || {}
   const weather = getWeather(result.y_state)
 
+  // Two-column brief collapses to a single column on narrow viewports — the
+  // fixed 280px sidebar otherwise overflows portrait phones. matchMedia (not a
+  // CSS @media rule) keeps this within the inline-styles-only constraint.
+  const [narrow, setNarrow] = React.useState(false)
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 720px)')
+    const sync = () => setNarrow(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
+
   return (
     <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -37,7 +49,7 @@ export function Brief({ result, onBack }: BriefProps) {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 280px', gap: '1.25rem', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 280px', gap: '1.25rem', alignItems: 'start' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
           <FatedGrid fated={fated} />
           <TerrainPaths paths={r.paths} />

@@ -10,7 +10,7 @@ export interface LabelProps {
 
 export function Label({ children, color, style }: LabelProps) {
   return (
-    <div style={{ fontFamily: font.mono, fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: color || text.muted, fontWeight: 700, ...style }}>
+    <div style={{ fontFamily: font.mono, ...font.tier.t3, textTransform: 'uppercase', color: color || text.muted, ...style }}>
       {children}
     </div>
   )
