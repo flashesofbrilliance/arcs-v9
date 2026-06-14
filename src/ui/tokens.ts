@@ -65,6 +65,18 @@ export const font = {
     wider:  '0.08em',
     widest: '0.14em',
   },
+  // Six graded mono label tiers (Bierut fix II). As a tier rises: size up,
+  // tracking down, weight holds — so the map legend stops reading like the
+  // coastline. Color stays caller-controlled (it's semantic). Spread onto a
+  // mono element: style={{ fontFamily: font.mono, ...font.tier.t3 }}.
+  tier: {
+    t1: { fontSize: '0.594rem', fontWeight: 700, letterSpacing: '0.16em' }, // 9.5px · section index
+    t2: { fontSize: '0.625rem', fontWeight: 700, letterSpacing: '0.14em' }, // 10px  · section label
+    t3: { fontSize: '0.656rem', fontWeight: 700, letterSpacing: '0.12em' }, // 10.5px · field label
+    t4: { fontSize: '0.6875rem', fontWeight: 600, letterSpacing: '0.10em' }, // 11px · instrument value
+    t5: { fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em' }, // 12px · signal callout
+    t6: { fontSize: '0.8125rem', fontWeight: 700, letterSpacing: '0.06em' }, // 13px · section heading
+  },
 } as const
 
 // ─── Radius ───────────────────────────────────────────────────────────────────

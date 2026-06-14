@@ -16,11 +16,11 @@ export function SectionLabel({ index, children, color = text.muted, style }: Sec
   return (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, ...style }}>
       {index && (
-        <span style={{ fontFamily: font.mono, fontSize: 10, fontWeight: 700, color: signal.cyan, letterSpacing: '0.1em' }}>
+        <span style={{ fontFamily: font.mono, ...font.tier.t1, color: signal.cyan }}>
           {index}
         </span>
       )}
-      <span style={{ fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color }}>
+      <span style={{ fontFamily: font.mono, ...font.tier.t2, textTransform: 'uppercase', color }}>
         {children}
       </span>
     </div>
