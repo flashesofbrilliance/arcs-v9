@@ -159,6 +159,9 @@ export function ReflectLayer({
   const [shavasanaOpen, setShavasanaOpen] = useState(false)
   const [shavasanaIdx, setShavasanaIdx] = useState(0)
   const [shavasanaFilter, setShavasanaFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
+  const [meditateOpen, setMeditateOpen] = useState(false)
+  const [meditateLoading, setMeditateLoading] = useState(false)
+  const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
   const [linkPickerOpen, setLinkPickerOpen] = useState(false)
   const [linkQuery, setLinkQuery] = useState("")
   const [linkType, setLinkType] = useState<string>("ALL")
@@ -407,6 +410,23 @@ export function ReflectLayer({
     }
   }
 
+  async function runMeditate() {
+    setMeditateLoading(true)
+    setMeditateOpen(true)
+    setMeditateResult(null)
+    try {
+      const res = await fetch("/api/annotations/meditate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ receiptId }),
+      })
+      const d = await res.json()
+      if (d.ok) setMeditateResult({ held: d.held ?? [], falsified: d.falsified ?? [], elevated: d.elevated ?? [] })
+    } finally {
+      setMeditateLoading(false)
+    }
+  }
+
   function toggleLayer(type: keyof typeof layers) {
     const next = { ...layers, [type]: !layers[type] }
     setLayers(next)
@@ -529,16 +549,114 @@ export function ReflectLayer({
               </div>
             </div>
 
-            {/* Annotations list */}
+            {/* Annotations list — or Meditate view */}
             <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 8 }}>
-              {railAnnotations.length === 0 && (
+
+              {/* ── Meditate panel (SidelineList grammar from Doc UIKit) ── */}
+              {meditateOpen && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {/* Meditate header */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                    <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,255,157,.7)", textTransform: "uppercase" }}>📿 Meditate</span>
+                    <button
+                      onClick={() => setMeditateOpen(false)}
+                      style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}
+                    >
+                      ← Annotations
+                    </button>
+                  </div>
+
+                  {meditateLoading && (
+                    <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(0,255,157,.4)", textAlign: "center", padding: "24px 0", letterSpacing: ".08em" }}>
+                      distilling beliefs…
+                    </div>
+                  )}
+
+                  {!meditateLoading && meditateResult && (
+                    <>
+                      {/* Held — cyan */}
+                      {meditateResult.held.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,240,255,.5)", textTransform: "uppercase", marginBottom: 2 }}>
+                            Held under pressure
+                          </div>
+                          {meditateResult.held.map((item, i) => (
+                            <div key={i} style={{
+                              padding: "10px 12px",
+                              borderRadius: 6,
+                              background: "rgba(0,240,255,.04)",
+                              border: ".5px solid rgba(0,240,255,.15)",
+                              borderLeft: "2.5px solid rgba(0,240,255,.5)",
+                            }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Falsified — red */}
+                      {meditateResult.falsified.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5, marginTop: 4 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,77,109,.5)", textTransform: "uppercase", marginBottom: 2 }}>
+                            Challenged
+                          </div>
+                          {meditateResult.falsified.map((item, i) => (
+                            <div key={i} style={{
+                              padding: "10px 12px",
+                              borderRadius: 6,
+                              background: "rgba(255,77,109,.04)",
+                              border: ".5px solid rgba(255,77,109,.15)",
+                              borderLeft: "2.5px solid rgba(255,77,109,.5)",
+                            }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Elevated — green */}
+                      {meditateResult.elevated.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5, marginTop: 4 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,255,157,.5)", textTransform: "uppercase", marginBottom: 2 }}>
+                            Elevated
+                          </div>
+                          {meditateResult.elevated.map((item, i) => (
+                            <div key={i} style={{
+                              padding: "10px 12px",
+                              borderRadius: 6,
+                              background: "rgba(0,255,157,.04)",
+                              border: ".5px solid rgba(0,255,157,.15)",
+                              borderLeft: "2.5px solid rgba(0,255,157,.5)",
+                            }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Continue to Shavasana */}
+                      <div style={{ marginTop: 8, paddingTop: 8, borderTop: ".5px solid rgba(30,41,59,.3)" }}>
+                        <button
+                          onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL"); setMeditateOpen(false) }}
+                          disabled={annotations.length === 0}
+                          style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 12px", width: "100%", justifyContent: "center" }}
+                        >
+                          ☽ Continue to Shavasana
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {!meditateOpen && railAnnotations.length === 0 && (
                 <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
                   {activeInstrument
                     ? `${TYPE_ICON[activeInstrument]} Select text to annotate`
                     : "Select an instrument below\nto begin annotating"}
                 </div>
               )}
-              {railAnnotations.map((a) => {
+              {!meditateOpen && railAnnotations.map((a) => {
                 const c = TYPE_COLOR[a.type]
                 const isExpanded = expandedChip?.annotation.id === a.id
                 const kernelText = isExpanded ? expandedChip?.annotation.kernel : a.kernel
@@ -668,13 +786,22 @@ export function ReflectLayer({
                   {TYPE_ICON[activeInstrument]} Select text to annotate · Esc to cancel
                 </div>
               )}
-              <button
-                onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
-                disabled={annotations.length === 0}
-                style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 12px", width: "100%", justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
-              >
-                ☽ Shavasana · {annotations.length}
-              </button>
+              <div style={{ display: "flex", gap: 4 }}>
+                <button
+                  onClick={runMeditate}
+                  disabled={annotations.length === 0 || meditateLoading}
+                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                >
+                  📿 Meditate
+                </button>
+                <button
+                  onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
+                  disabled={annotations.length === 0}
+                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                >
+                  ☽ Shavasana
+                </button>
+              </div>
             </div>
           </div>
         )}
