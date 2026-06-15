@@ -31,13 +31,6 @@ interface LinkedRef {
   label: string
 }
 
-interface LinkResult {
-  type: string
-  id: string
-  label: string
-  meta?: string
-}
-
 interface DraftAnnotation {
   anchorText: string
   preContext: string
@@ -156,7 +149,6 @@ export function ReflectLayer({
   const [annotations, setAnnotations] = useState<Annotation[]>([])
   const [draft, setDraft] = useState<DraftAnnotation | null>(null)
   const [draftBody, setDraftBody] = useState("")
-  const [draftLinkedRef, setDraftLinkedRef] = useState<LinkedRef | null>(null)
   const [expandedChip, setExpandedChip] = useState<ExpandedChip | null>(null)
   const [shavasanaOpen, setShavasanaOpen] = useState(false)
   const [shavasanaIdx, setShavasanaIdx] = useState(0)
@@ -164,17 +156,12 @@ export function ReflectLayer({
   const [meditateOpen, setMeditateOpen] = useState(false)
   const [meditateLoading, setMeditateLoading] = useState(false)
   const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
-  const [linkPickerOpen, setLinkPickerOpen] = useState(false)
-  const [linkQuery, setLinkQuery] = useState("")
-  const [linkType, setLinkType] = useState<string>("ALL")
-  const [linkResults, setLinkResults] = useState<LinkResult[]>([])
   const [narrow, setNarrow] = useState(false)
   // Floating selection picker — appears on any text highlight; dismissed on Escape / click-outside
   const [selectionPicker, setSelectionPicker] = useState<{
     anchorText: string; preContext: string; postContext: string
     x: number; y: number  // viewport coords
   } | null>(null)
-  const linkSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   // Ref mirror so hotkey handler can read selectionPicker without stale closure
   const selectionPickerRef = useRef<typeof selectionPicker>(null)
 
@@ -203,8 +190,6 @@ export function ReflectLayer({
         selectionPickerRef.current = null
         setDraft(null)
         setDraftBody("")
-        setDraftLinkedRef(null)
-        setLinkPickerOpen(false)
         setExpandedChip(null)
         if (shavasanaOpen) setShavasanaOpen(false)
       }
@@ -257,7 +242,6 @@ export function ReflectLayer({
           y: rect.bottom + window.scrollY + 8,
         })
         setDraftBody("")
-        setDraftLinkedRef(null)
         setSelectionPicker(null)
       } else {
         setHudOpen(true)
@@ -347,25 +331,9 @@ export function ReflectLayer({
       y: sp.y + window.scrollY + 72 + 8,
     })
     setDraftBody("")
-    setDraftLinkedRef(null)
-    setLinkPickerOpen(false)
     selectionPickerRef.current = null
     setSelectionPicker(null)
   }
-
-  // Link search
-  useEffect(() => {
-    if (!linkPickerOpen) return
-    if (linkSearchTimer.current) clearTimeout(linkSearchTimer.current)
-    linkSearchTimer.current = setTimeout(() => {
-      const params = new URLSearchParams({ q: linkQuery, type: linkType })
-      fetch(`/api/annotations/link-search?${params}`)
-        .then((r) => r.json())
-        .then((d) => { if (d.ok) setLinkResults(d.results) })
-        .catch(() => {})
-    }, 200)
-    return () => { if (linkSearchTimer.current) clearTimeout(linkSearchTimer.current) }
-  }, [linkQuery, linkType, linkPickerOpen])
 
   async function submitAnnotation(reactionBody?: string) {
     if (!draft || !activeInstrument) return
@@ -384,7 +352,6 @@ export function ReflectLayer({
           postContext: draft.postContext,
           type: activeInstrument,
           body,
-          linkedRef: draftLinkedRef ?? undefined,
         }),
       })
       const d = await res.json()
@@ -392,8 +359,6 @@ export function ReflectLayer({
         setAnnotations((prev) => [...prev, d.annotation])
         setDraft(null)
         setDraftBody("")
-        setDraftLinkedRef(null)
-        setLinkPickerOpen(false)
         window.getSelection()?.removeAllRanges()
       }
     } catch {
@@ -536,43 +501,42 @@ export function ReflectLayer({
                 <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>↓ close</button>
               </div>
 
-              {/* Filter pills */}
-              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+              {/* ScenarioStack-style tabs */}
+              <div style={{ display: "flex", gap: 0, borderRadius: 6, overflow: "hidden", border: ".5px solid rgba(30,41,59,.4)" }}>
                 {([
-                  { key: "ALL" as const, label: `All · ${annotations.length}`, color: CYAN },
-                  { key: "THOUGHT" as const, label: `${TYPE_ICON.THOUGHT} ${thoughtCount}`, color: CYAN },
-                  { key: "COMMENT" as const, label: `${TYPE_ICON.COMMENT} ${commentCount}`, color: GOLD },
-                  { key: "REACTION" as const, label: `${TYPE_ICON.REACTION} ${reactionCount}`, color: RED },
-                ] as const).map(({ key, label, color }) => {
+                  { key: "THOUGHT" as const, emoji: "💭", label: "Thought", count: thoughtCount, color: CYAN },
+                  { key: "COMMENT" as const, emoji: "💬", label: "Comment", count: commentCount, color: GOLD },
+                  { key: "REACTION" as const, emoji: "🗯️", label: "React", count: reactionCount, color: RED },
+                ] as const).map(({ key, emoji, label, count, color }, i) => {
                   const active = railFilter === key
                   return (
                     <button
                       key={key}
                       onClick={() => setRailFilterAndLayers(key)}
                       style={{
+                        flex: 1,
                         fontFamily: font.mono,
-                        fontSize: 8,
+                        fontSize: 7,
                         fontWeight: 700,
                         letterSpacing: ".06em",
-                        padding: "3px 10px",
-                        borderRadius: 20,
+                        padding: "6px 4px",
                         cursor: "pointer",
-                        border: ".5px solid",
-                        background: active ? `${color}12` : "rgba(10,15,26,.3)",
-                        borderColor: active ? `${color}40` : "rgba(30,41,59,.3)",
-                        color: active ? `${color}cc` : "rgba(71,85,105,.5)",
+                        border: "none",
+                        borderRight: i < 2 ? ".5px solid rgba(30,41,59,.4)" : "none",
+                        borderBottom: active ? `2px solid ${color}` : "2px solid transparent",
+                        background: active ? `${color}10` : "rgba(10,15,26,.4)",
+                        color: active ? color : "rgba(71,85,105,.5)",
                         textTransform: "uppercase",
+                        display: "flex", flexDirection: "column", alignItems: "center", gap: 3,
+                        transition: "all .12s",
                       }}
                     >
-                      {label}
+                      <span style={{ fontSize: 14 }}>{emoji}</span>
+                      <span>{label}</span>
+                      {count > 0 && <span style={{ opacity: .6 }}>{count}</span>}
                     </button>
                   )
                 })}
-              </div>
-
-              {/* Hotkey legend */}
-              <div style={{ marginTop: 8, fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.35)", letterSpacing: ".04em" }}>
-                ~ Thought &nbsp;·&nbsp; ! Comment &nbsp;·&nbsp; @ Reaction
               </div>
             </div>
 
@@ -691,52 +655,21 @@ export function ReflectLayer({
                   <div
                     key={a.id}
                     style={{
-                      borderRadius: 5,
-                      border: `.5px solid ${c}20`,
-                      background: `${c}05`,
-                      overflow: "hidden",
+                      borderLeft: `3px solid ${c}`,
+                      paddingLeft: 12,
+                      paddingTop: 4,
+                      paddingBottom: 8,
                     }}
                   >
-                    {/* Card top hairline glow */}
-                    <div style={{ height: ".5px", background: `linear-gradient(90deg,transparent,${c}25 30%,${c}25 70%,transparent)` }} />
+                    {/* Body — QuoteBlock primary text */}
+                    <div style={{ fontFamily: font.sans, fontSize: 12, fontWeight: 500, color: text.primary, lineHeight: 1.6, marginBottom: 6 }}>
+                      {a.body}
+                    </div>
 
-                    <div style={{ padding: "8px 9px" }}>
-                      {/* Type badge + date */}
-                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
-                        <span style={{
-                          fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".08em",
-                          color: `${c}aa`, textTransform: "uppercase",
-                          background: `${c}0d`, border: `.5px solid ${c}28`,
-                          padding: "1px 6px", borderRadius: 10,
-                        }}>
-                          {TYPE_ICON[a.type]} {a.type === "THOUGHT" ? "TH" : a.type === "COMMENT" ? "CO" : "RE"}
-                        </span>
-                        <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>
-                          {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                        </span>
-                        {a.linkedRef && (() => {
-                          try {
-                            const lr: LinkedRef = JSON.parse(a.linkedRef)
-                            return <span style={{ fontFamily: font.mono, fontSize: 6, color: `${GOLD}66`, marginLeft: "auto", border: `.5px solid ${GOLD}22`, borderRadius: 8, padding: "1px 5px" }}>{lr.type.slice(0, 3)}</span>
-                          } catch { return null }
-                        })()}
-                      </div>
-
-                      {/* Anchor quote */}
-                      <div style={{
-                        borderLeft: `2px solid ${c}35`,
-                        paddingLeft: 8, marginBottom: 7,
-                        fontFamily: font.mono, fontSize: 8,
-                        color: "rgba(71,85,105,.55)", lineHeight: 1.45,
-                        fontStyle: "italic",
-                      }}>
-                        "{a.anchorText.slice(0, 70)}{a.anchorText.length > 70 ? "…" : ""}"
-                      </div>
-
-                      {/* Body */}
-                      <div style={{ fontSize: 11, color: text.primary, lineHeight: 1.6, marginBottom: 8 }}>
-                        {a.body}
-                      </div>
+                    {/* Anchor attribution line */}
+                    <div style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1.4 }}>
+                      — "{a.anchorText.slice(0, 55)}{a.anchorText.length > 55 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    </div>
 
                       {/* Kernel block */}
                       {kernelText && (
@@ -780,7 +713,6 @@ export function ReflectLayer({
                         </button>
                       </div>
                     </div>
-                  </div>
                 )
               })}
             </div>
@@ -1005,73 +937,25 @@ export function ReflectLayer({
                 onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) submitAnnotation() }}
                 style={{
                   width: "100%",
-                  background: "rgba(4,7,14,.6)",
+                  background: "rgba(10,15,26,.8)",
                   border: `.5px solid ${border.subtle}`,
                   borderRadius: 4,
-                  color: text.primary,
+                  color: "#e2e8f0",
                   fontFamily: font.mono,
-                  fontSize: 9,
+                  fontSize: 11,
                   padding: "6px 8px",
                   resize: "none",
-                  height: 52,
+                  height: 64,
                   outline: "none",
                   lineHeight: 1.4,
                 }}
               />
 
-              {/* Linked artifact */}
-              {draftLinkedRef && (
-                <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 5, background: "rgba(10,15,26,.5)", border: `.5px solid ${border.subtle}`, borderRadius: 3, padding: "4px 7px" }}>
-                  <span style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, color: GOLD }}>{draftLinkedRef.type.slice(0, 3)}</span>
-                  <span style={{ fontSize: 8, color: text.secondary, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{draftLinkedRef.label}</span>
-                  <button onClick={() => setDraftLinkedRef(null)} style={{ background: "none", border: "none", color: "rgba(71,85,105,.5)", cursor: "pointer", fontSize: 10, padding: 0 }}>✕</button>
-                </div>
-              )}
-
               <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 4 }}>
-                <button onClick={() => setLinkPickerOpen((p) => !p)} style={{ ...glassBtn(), fontSize: 7, padding: "3px 8px" }}>+ Link</button>
                 <div style={{ flex: 1 }} />
                 <button onClick={() => { setDraft(null); setDraftBody("") }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 8px" }}>Cancel</button>
                 <button onClick={() => submitAnnotation()} disabled={!draftBody.trim()} style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 10px", opacity: draftBody.trim() ? 1 : .4 }}>Save →</button>
               </div>
-
-              {/* Link picker dropdown */}
-              {linkPickerOpen && (
-                <div style={{ position: "absolute", top: "100%", left: 0, right: 0, marginTop: 4, background: "rgba(8,12,20,.96)", border: `.5px solid ${border.subtle}`, borderRadius: 5, zIndex: 60, overflow: "hidden" }}>
-                  <div style={{ padding: "5px 8px", borderBottom: `.5px solid rgba(30,41,59,.3)` }}>
-                    <input
-                      value={linkQuery}
-                      onChange={(e) => setLinkQuery(e.target.value)}
-                      placeholder="search…"
-                      autoFocus
-                      style={{ width: "100%", background: "rgba(4,7,14,.5)", border: `.5px solid ${border.subtle}`, borderRadius: 3, color: text.primary, fontFamily: font.mono, fontSize: 8, padding: "3px 7px", outline: "none" }}
-                    />
-                  </div>
-                  <div style={{ display: "flex", gap: 3, padding: "4px 7px", borderBottom: `.5px solid rgba(30,41,59,.2)`, flexWrap: "wrap" }}>
-                    {["ALL", "RECEIPT", "ADR", "ATG_TRIBUTARY", "WISDOM"].map((t) => (
-                      <button key={t} onClick={() => setLinkType(t)} style={{ ...glassBtn(linkType === t ? CYAN : undefined), fontSize: 6, padding: "2px 6px", borderRadius: 10 }}>{t === "ATG_TRIBUTARY" ? "Tributary" : t.slice(0, 7)}</button>
-                    ))}
-                  </div>
-                  <div style={{ maxHeight: 160, overflowY: "auto" }}>
-                    {linkResults.map((r) => (
-                      <div
-                        key={`${r.type}-${r.id}`}
-                        onClick={() => { setDraftLinkedRef({ type: r.type as LinkedRef["type"], id: r.id, label: r.label }); setLinkPickerOpen(false) }}
-                        style={{ padding: "5px 9px", borderBottom: `.5px solid rgba(15,21,32,.6)`, cursor: "pointer", display: "flex", gap: 7, alignItems: "flex-start" }}
-                      >
-                        <span style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, color: GOLD, minWidth: 26, paddingTop: 1 }}>{r.type.slice(0, 3)}</span>
-                        <div>
-                          <div style={{ fontSize: 9, color: text.secondary, lineHeight: 1.3 }}>{r.label.slice(0, 60)}</div>
-                          {r.meta && <div style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", marginTop: 1 }}>{r.meta}</div>}
-                        </div>
-                      </div>
-                    ))}
-                    {linkResults.length === 0 && (
-                      <div style={{ padding: "8px 9px", fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>No results</div>
-                    )}
-                  </div>
-                </div>
-              )}
             </>
           )}
         </div>
