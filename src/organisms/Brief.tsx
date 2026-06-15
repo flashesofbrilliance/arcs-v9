@@ -16,9 +16,10 @@ export interface BriefProps {
   result: CompassResult
   onBack?: () => void
   onTributary?: (prompt: string) => void
+  onNewQuestion?: () => void
 }
 
-export function Brief({ result, onBack, onTributary }: BriefProps) {
+export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps) {
   const r = result.reasoning || {}
   const fated = r.fated || {}
   const weather = getWeather(result.y_state)
@@ -39,7 +40,10 @@ export function Brief({ result, onBack, onTributary }: BriefProps) {
     <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Wordmark section="Cartography Brief" />
-        <Button variant="ghost" size="sm" onClick={onBack}>← Back to ledger</Button>
+        <div style={{ display: 'flex', gap: '0.25rem' }}>
+          <Button variant="ghost" size="sm" onClick={onBack}>← Ledger</Button>
+          {onNewQuestion && <Button variant="ghost" size="sm" glyph="⊕" onClick={onNewQuestion}>New question</Button>}
+        </div>
       </div>
 
       <div style={{ marginBottom: '2rem' }}>
