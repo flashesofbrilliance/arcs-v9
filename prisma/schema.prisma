@@ -38,6 +38,7 @@ model PrepSession {
   confidence       Int?      // 1–5 (1=lost, 5=just need confirmation)
   entity           String?   // named party — populates brief stakeholder rows
   adversarialInput String?   // "Strongest case against your instinct"
+  outcomeHorizon   String?   // natural language: "when do you expect the shoe to drop?"
   createdAt        DateTime  @default(now())
   receipts         Receipt[]
 }
@@ -159,6 +160,7 @@ model Receipt {
   createdAt      DateTime         @default(now())
   reviewDate     DateTime?
   status         String           @default("OPEN") // OPEN | LOGGED | EXPIRED
+  reminderDate   String?          // ISO date string — when to send outcome follow-up email
 
   @@index([userId])
   @@index([sessionId])
