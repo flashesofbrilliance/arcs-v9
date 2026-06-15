@@ -100,19 +100,6 @@ function glassBtn(color?: string): React.CSSProperties {
   }
 }
 
-function chipStyle(type: "THOUGHT" | "COMMENT" | "REACTION"): React.CSSProperties {
-  const c = TYPE_COLOR[type]
-  return {
-    borderRadius: 5,
-    padding: "5px 8px",
-    border: `.5px solid ${c}30`,
-    background: `${c}07`,
-    fontSize: 9,
-    lineHeight: 1.45,
-    cursor: "pointer",
-    color: type === "THOUGHT" ? "#94e8ff" : type === "COMMENT" ? "#ffe27a" : "#ff8fa3",
-  }
-}
 
 function hairline(): React.CSSProperties {
   return {
@@ -368,102 +355,279 @@ export function ReflectLayer({
     setDraft(null)
   }
 
-  const visibleThoughts = annotations.filter((a) => a.type === "THOUGHT" && layers.THOUGHT)
-  const visibleComments = annotations.filter((a) => a.type === "COMMENT" && layers.COMMENT)
-  const visibleReactions = annotations.filter((a) => a.type === "REACTION" && layers.REACTION)
+  // Rail filter — "ALL" shows everything; individual type hides the others
+  const [railFilter, setRailFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
+
   const thoughtCount = annotations.filter((a) => a.type === "THOUGHT").length
   const commentCount = annotations.filter((a) => a.type === "COMMENT").length
   const reactionCount = annotations.filter((a) => a.type === "REACTION").length
+
+  const railAnnotations = annotations.filter((a) =>
+    railFilter === "ALL" ? true : a.type === railFilter
+  ).sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
 
   const shavasanaAnnotations = annotations.filter((a) =>
     shavasanaFilter === "ALL" ? true : a.type === shavasanaFilter
   )
   const currentShav = shavasanaAnnotations[shavasanaIdx]
 
-  const showMargins = hudOpen && !narrow
+  const showRail = hudOpen && !narrow
+
+  // Sync railFilter → layers for URL-based surfaces
+  function setRailFilterAndLayers(f: typeof railFilter) {
+    setRailFilter(f)
+    if (f === "ALL") {
+      const next = { THOUGHT: true, COMMENT: true, REACTION: true }
+      setLayers(next)
+      if (layerUrlBase) router.replace(`${layerUrlBase}/${encodeLayerSegment(next)}`, { scroll: false })
+    } else {
+      const next = { THOUGHT: f === "THOUGHT", COMMENT: f === "COMMENT", REACTION: f === "REACTION" }
+      setLayers(next)
+      if (layerUrlBase) router.replace(`${layerUrlBase}/${encodeLayerSegment(next)}`, { scroll: false })
+    }
+  }
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
-      {/* Three-column layout when HUD open */}
+      {/* Two-column layout: [300px left rail | content] when HUD open */}
       <div style={{
-        display: showMargins ? "grid" : "block",
-        gridTemplateColumns: showMargins ? "140px 1fr 140px" : undefined,
+        display: showRail ? "grid" : "block",
+        gridTemplateColumns: showRail ? "300px 1fr" : undefined,
+        alignItems: "start",
       }}>
-        {/* Left margin — Thoughts */}
-        {showMargins && (
-          <div style={{ padding: "10px 7px", borderRight: ".5px solid rgba(30,41,59,.35)", display: "flex", flexDirection: "column", gap: 5 }}>
-            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,240,255,.38)", textTransform: "uppercase", marginBottom: 3 }}>
-              {TYPE_ICON.THOUGHT} Thoughts
+        {/* ── Left Rail ── */}
+        {showRail && (
+          <div style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            borderRight: ".5px solid rgba(30,41,59,.4)",
+            background: "rgba(6,9,16,.6)",
+            backdropFilter: "blur(8px)",
+            overflow: "hidden",
+          }}>
+            {/* Rail header */}
+            <div style={{
+              padding: "12px 12px 10px",
+              borderBottom: ".5px solid rgba(30,41,59,.35)",
+              flexShrink: 0,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.6)", textTransform: "uppercase" }}>◎ Reflect</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>{surfaceProp}</span>
+                </div>
+                <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>↓ close</button>
+              </div>
+
+              {/* Filter pills */}
+              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                {([
+                  { key: "ALL" as const, label: `All · ${annotations.length}`, color: CYAN },
+                  { key: "THOUGHT" as const, label: `${TYPE_ICON.THOUGHT} ${thoughtCount}`, color: CYAN },
+                  { key: "COMMENT" as const, label: `${TYPE_ICON.COMMENT} ${commentCount}`, color: GOLD },
+                  { key: "REACTION" as const, label: `${TYPE_ICON.REACTION} ${reactionCount}`, color: RED },
+                ] as const).map(({ key, label, color }) => {
+                  const active = railFilter === key
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => setRailFilterAndLayers(key)}
+                      style={{
+                        fontFamily: font.mono,
+                        fontSize: 8,
+                        fontWeight: 700,
+                        letterSpacing: ".06em",
+                        padding: "3px 10px",
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        border: ".5px solid",
+                        background: active ? `${color}12` : "rgba(10,15,26,.3)",
+                        borderColor: active ? `${color}40` : "rgba(30,41,59,.3)",
+                        color: active ? `${color}cc` : "rgba(71,85,105,.5)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Hotkey legend */}
+              <div style={{ marginTop: 8, fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.35)", letterSpacing: ".04em" }}>
+                ~ Thought &nbsp;·&nbsp; ! Comment &nbsp;·&nbsp; @ Reaction
+              </div>
             </div>
-            {visibleThoughts.map((a) => (
-              <div key={a.id} style={chipStyle("THOUGHT")} onClick={() => setExpandedChip({ annotation: a, distilling: false })}>
-                <span style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.body.slice(0, 55)}</span>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", display: "block", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"{a.anchorText.slice(0, 30)}"</span>
+
+            {/* Annotations list */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 8 }}>
+              {railAnnotations.length === 0 && (
+                <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
+                  {activeInstrument
+                    ? `${TYPE_ICON[activeInstrument]} Select text to annotate`
+                    : "Select an instrument below\nto begin annotating"}
+                </div>
+              )}
+              {railAnnotations.map((a) => {
+                const c = TYPE_COLOR[a.type]
+                const isExpanded = expandedChip?.annotation.id === a.id
+                const kernelText = isExpanded ? expandedChip?.annotation.kernel : a.kernel
+                return (
+                  <div
+                    key={a.id}
+                    style={{
+                      borderRadius: 5,
+                      border: `.5px solid ${c}20`,
+                      background: `${c}05`,
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* Card top hairline glow */}
+                    <div style={{ height: ".5px", background: `linear-gradient(90deg,transparent,${c}25 30%,${c}25 70%,transparent)` }} />
+
+                    <div style={{ padding: "8px 9px" }}>
+                      {/* Type badge + date */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                        <span style={{
+                          fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".08em",
+                          color: `${c}aa`, textTransform: "uppercase",
+                          background: `${c}0d`, border: `.5px solid ${c}28`,
+                          padding: "1px 6px", borderRadius: 10,
+                        }}>
+                          {TYPE_ICON[a.type]} {a.type === "THOUGHT" ? "TH" : a.type === "COMMENT" ? "CO" : "RE"}
+                        </span>
+                        <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>
+                          {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </span>
+                        {a.linkedRef && (() => {
+                          try {
+                            const lr: LinkedRef = JSON.parse(a.linkedRef)
+                            return <span style={{ fontFamily: font.mono, fontSize: 6, color: `${GOLD}66`, marginLeft: "auto", border: `.5px solid ${GOLD}22`, borderRadius: 8, padding: "1px 5px" }}>{lr.type.slice(0, 3)}</span>
+                          } catch { return null }
+                        })()}
+                      </div>
+
+                      {/* Anchor quote */}
+                      <div style={{
+                        borderLeft: `2px solid ${c}35`,
+                        paddingLeft: 8, marginBottom: 7,
+                        fontFamily: font.mono, fontSize: 8,
+                        color: "rgba(71,85,105,.55)", lineHeight: 1.45,
+                        fontStyle: "italic",
+                      }}>
+                        "{a.anchorText.slice(0, 70)}{a.anchorText.length > 70 ? "…" : ""}"
+                      </div>
+
+                      {/* Body */}
+                      <div style={{ fontSize: 11, color: text.primary, lineHeight: 1.6, marginBottom: 8 }}>
+                        {a.body}
+                      </div>
+
+                      {/* Kernel block */}
+                      {kernelText && (
+                        <div style={{
+                          marginBottom: 8, paddingTop: 7, borderTop: `.5px solid rgba(30,41,59,.3)`,
+                        }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, letterSpacing: ".12em", color: `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>☽ kernel</div>
+                          <div style={{ fontFamily: font.mono, fontSize: 11, color: `${GREEN}cc`, lineHeight: 1.55 }}>{kernelText}</div>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                        {!kernelText && (
+                          <button
+                            onClick={() => {
+                              setExpandedChip({ annotation: a, distilling: true })
+                              distillKernel(a)
+                            }}
+                            style={{ ...glassBtn(GREEN), fontSize: 7, padding: "3px 9px" }}
+                          >
+                            {expandedChip?.annotation.id === a.id && expandedChip?.distilling ? "…" : "☽ Distill"}
+                          </button>
+                        )}
+                        <div style={{ flex: 1 }} />
+                        <button
+                          onClick={() => deleteAnnotation(a.id)}
+                          style={{ ...glassBtn(RED), fontSize: 7, padding: "3px 8px" }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Rail footer — instrument buttons */}
+            <div style={{
+              padding: "9px 10px",
+              borderTop: ".5px solid rgba(30,41,59,.35)",
+              flexShrink: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+            }}>
+              <div style={{ display: "flex", gap: 4 }}>
+                {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
+                  const active = activeInstrument === t
+                  const c = TYPE_COLOR[t]
+                  return (
+                    <button
+                      key={t}
+                      onClick={() => activateInstrument(t)}
+                      style={{
+                        flex: 1,
+                        fontFamily: font.mono, fontSize: 8, fontWeight: 700,
+                        padding: "6px 4px", borderRadius: 4, cursor: "pointer",
+                        border: `.5px solid ${active ? `${c}50` : "rgba(30,41,59,.25)"}`,
+                        background: active ? `${c}12` : "rgba(10,15,26,.4)",
+                        color: active ? `${c}cc` : "rgba(71,85,105,.5)",
+                        letterSpacing: ".04em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {TYPE_ICON[t]}
+                    </button>
+                  )
+                })}
               </div>
-            ))}
-            {!layers.THOUGHT && thoughtCount > 0 && (
-              <div style={{ border: ".5px dashed rgba(30,41,59,.3)", borderRadius: 4, padding: "5px", textAlign: "center", opacity: .4 }}>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>{thoughtCount} hidden</span>
-              </div>
-            )}
+              {activeInstrument && (
+                <div style={{ fontFamily: font.mono, fontSize: 7, color: `${TYPE_COLOR[activeInstrument]}66`, textAlign: "center", letterSpacing: ".06em" }}>
+                  {TYPE_ICON[activeInstrument]} Select text to annotate · Esc to cancel
+                </div>
+              )}
+              <button
+                onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
+                disabled={annotations.length === 0}
+                style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 12px", width: "100%", justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+              >
+                ☽ Shavasana · {annotations.length}
+              </button>
+            </div>
           </div>
         )}
 
-        {/* Center content */}
+        {/* ── Content ── */}
         <div style={{ cursor: activeInstrument ? CURSORS[activeInstrument] : undefined }}>
           {children}
         </div>
-
-        {/* Right margin — Comments + Reactions */}
-        {showMargins && (
-          <div style={{ padding: "10px 7px", borderLeft: ".5px solid rgba(30,41,59,.35)", display: "flex", flexDirection: "column", gap: 5 }}>
-            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,215,0,.38)", textTransform: "uppercase", marginBottom: 2 }}>
-              {TYPE_ICON.COMMENT} Comments
-            </div>
-            {visibleComments.map((a) => (
-              <div key={a.id} style={chipStyle("COMMENT")} onClick={() => setExpandedChip({ annotation: a, distilling: false })}>
-                <span style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.body.slice(0, 55)}</span>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", display: "block", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"{a.anchorText.slice(0, 30)}"</span>
-              </div>
-            ))}
-            {!layers.COMMENT && commentCount > 0 && (
-              <div style={{ border: ".5px dashed rgba(30,41,59,.3)", borderRadius: 4, padding: "5px", textAlign: "center", opacity: .4 }}>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>{commentCount} hidden</span>
-              </div>
-            )}
-            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,77,109,.35)", textTransform: "uppercase", marginTop: 8, marginBottom: 2 }}>
-              {TYPE_ICON.REACTION} Reactions
-            </div>
-            {visibleReactions.map((a) => (
-              <div key={a.id} style={chipStyle("REACTION")} onClick={() => setExpandedChip({ annotation: a, distilling: false })}>
-                <span style={{ display: "block" }}>{a.body}</span>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", display: "block", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"{a.anchorText.slice(0, 30)}"</span>
-              </div>
-            ))}
-            {!layers.REACTION && reactionCount > 0 && (
-              <div style={{ border: ".5px dashed rgba(30,41,59,.3)", borderRadius: 4, padding: "5px", textAlign: "center", opacity: .4 }}>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>{reactionCount} hidden</span>
-              </div>
-            )}
-          </div>
-        )}
       </div>
 
-      {/* ── HUD Strip ── */}
-      <div style={{
-        position: "sticky",
-        bottom: 0,
-        background: "rgba(6,10,18,.88)",
-        borderTop: hudOpen ? ".5px solid rgba(0,240,255,.12)" : ".5px solid rgba(30,41,59,.25)",
-        zIndex: 40,
-      }}>
-        {/* Glow hairline when open */}
-        {hudOpen && (
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: ".5px", background: "linear-gradient(90deg,transparent,rgba(0,240,255,.2) 25%,rgba(0,240,255,.2) 75%,transparent)" }} />
-        )}
-
-        {!hudOpen ? (
-          // ── Collapsed resting pill ──
+      {/* ── HUD Strip (collapsed state only — rail handles open state) ── */}
+      {!hudOpen && (
+        <div style={{
+          position: "sticky",
+          bottom: 0,
+          background: "rgba(6,10,18,.88)",
+          borderTop: ".5px solid rgba(30,41,59,.25)",
+          zIndex: 40,
+        }}>
           <div style={{ padding: "7px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <button
               onClick={() => reflectUrl ? router.push(reflectUrl) : setHudOpen(true)}
@@ -477,118 +641,8 @@ export function ReflectLayer({
               {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}
             </span>
           </div>
-        ) : (
-          // ── Lifted HUD ──
-          <div style={{ padding: "11px 14px" }}>
-            {/* Header row */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 9 }}>
-              <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.55)", textTransform: "uppercase" }}>◎ Reflect</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.45)" }}>·</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>
-                surface <span style={{ color: "rgba(0,240,255,.6)" }}>{surfaceProp}</span>
-              </span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.45)" }}>·</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>
-                total <span style={{ color: "rgba(0,240,255,.6)" }}>{annotations.length}</span>
-              </span>
-              <div style={{ flex: 1, height: ".5px", background: "rgba(30,41,59,.4)" }} />
-              {/* Gauges */}
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
-                  const count = annotations.filter((a) => a.type === t).length
-                  const c = TYPE_COLOR[t]
-                  return (
-                    <div key={t} style={{ textAlign: "center", opacity: count === 0 ? .3 : 1 }}>
-                      <div style={{ fontFamily: font.mono, fontSize: 13, fontWeight: 700, color: `${c}cc`, lineHeight: 1 }}>{count}</div>
-                      <div style={{ fontFamily: font.mono, fontSize: 6, color: `${c}55`, letterSpacing: ".1em" }}>{t.slice(0, 2)}</div>
-                    </div>
-                  )
-                })}
-              </div>
-              <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>↓ close</button>
-            </div>
-
-            {/* Layer toggles */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 5, marginBottom: 9 }}>
-              {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
-                const on = layers[t]
-                const c = TYPE_COLOR[t]
-                const count = annotations.filter((a) => a.type === t).length
-                return (
-                  <div
-                    key={t}
-                    onClick={() => toggleLayer(t)}
-                    style={{
-                      borderRadius: 6,
-                      padding: "7px 9px",
-                      border: `.5px solid ${on ? `${c}30` : "rgba(30,41,59,.18)"}`,
-                      background: on ? `${c}06` : "rgba(10,15,26,.25)",
-                      position: "relative",
-                      overflow: "hidden",
-                      cursor: "pointer",
-                      opacity: on ? 1 : .4,
-                    }}
-                  >
-                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,rgba(255,255,255,.025) 0%,transparent 55%)" }} />
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
-                      <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, color: on ? `${c}cc` : "rgba(71,85,105,.5)", letterSpacing: ".04em" }}>
-                        {TYPE_ICON[t]} {TYPE_LABEL[t]}
-                      </span>
-                      <span style={{
-                        fontFamily: font.mono, fontSize: 7,
-                        padding: "1px 6px", borderRadius: 10,
-                        border: `.5px solid ${on ? `${c}33` : "rgba(30,41,59,.3)"}`,
-                        background: on ? `${c}10` : "rgba(30,41,59,.2)",
-                        color: on ? `${c}80` : "rgba(71,85,105,.35)",
-                      }}>
-                        {on ? "ON" : "OFF"}
-                      </span>
-                    </div>
-                    <div style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>
-                      {count} · {t === "THOUGHT" ? "left" : "right"} margin
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            <div style={hairline()} />
-
-            {/* Action pills */}
-            <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-              {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
-                const active = activeInstrument === t
-                const c = TYPE_COLOR[t]
-                return (
-                  <button
-                    key={t}
-                    onClick={() => activateInstrument(t)}
-                    style={{
-                      ...glassBtn(active ? c : undefined),
-                      fontSize: 7,
-                      padding: "4px 12px",
-                      background: active ? `${c}14` : "rgba(15,21,32,.5)",
-                      borderColor: active ? `${c}55` : "rgba(71,85,105,.22)",
-                      color: active ? `${c}dd` : "rgba(71,85,105,.6)",
-                    }}
-                  >
-                    {TYPE_ICON[t]} Write {t === "REACTION" ? "reaction" : t.toLowerCase()}
-                    {active && <span style={{ opacity: .6 }}>·</span>}
-                  </button>
-                )
-              })}
-              <div style={{ flex: 1 }} />
-              <button
-                onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
-                disabled={annotations.length === 0}
-                style={{ ...glassBtn(GREEN), fontSize: 7, padding: "4px 12px", opacity: annotations.length === 0 ? .3 : 1 }}
-              >
-                ☽ Shavasana ({annotations.length})
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* ── Annotation popover ── */}
       {draft && activeInstrument && (
