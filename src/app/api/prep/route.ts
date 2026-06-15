@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
   // ADR-016 Option C: prep open to anonymous users
 
   const body = await req.json()
-  const { stakes, horizon, protecting = [], confidence, entity, adversarialInput } = body
+  const { stakes, horizon, protecting = [], confidence, entity, adversarialInput, outcomeHorizon } = body
 
   const prep = await prisma.prepSession.create({
     data: {
@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
       confidence: typeof confidence === "number" ? confidence : null,
       entity: entity?.trim() || null,
       adversarialInput: adversarialInput?.trim() || null,
+      outcomeHorizon: outcomeHorizon?.trim() || null,
     },
   })
 
