@@ -15,9 +15,10 @@ import type { CompassResult } from '@/lib/mockCompass'
 export interface BriefProps {
   result: CompassResult
   onBack?: () => void
+  onTributary?: (prompt: string) => void
 }
 
-export function Brief({ result, onBack }: BriefProps) {
+export function Brief({ result, onBack, onTributary }: BriefProps) {
   const r = result.reasoning || {}
   const fated = r.fated || {}
   const weather = getWeather(result.y_state)
@@ -67,7 +68,7 @@ export function Brief({ result, onBack }: BriefProps) {
           )}
         </div>
 
-        <ConvictionSidebar result={result} />
+        <ConvictionSidebar result={result} onTributary={onTributary} />
       </div>
     </div>
   )
