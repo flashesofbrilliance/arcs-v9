@@ -169,7 +169,7 @@ export default function BriefPage() {
   }
 
   return (
-    <ReflectLayer receiptId={receiptId} surface="BRIEF">
+    <ReflectLayer receiptId={receiptId} surface="BRIEF" reflectUrl={`/brief/reflect/${receiptId}`}>
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       {depth > 0 && (
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "1.25rem 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>

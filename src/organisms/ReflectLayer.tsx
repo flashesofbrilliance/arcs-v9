@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback, useRef } from "react"
+import { useRouter } from "next/navigation"
 import { font, signal, text, surface, border } from "@/ui/tokens"
 
 // Reflect Layer — acetate overlay annotation system for Brief and Receipt surfaces.
@@ -53,6 +54,13 @@ export interface ReflectLayerProps {
   receiptId: string
   surface: "BRIEF" | "RECEIPT"
   children: React.ReactNode
+  // URL-driven reflect pages
+  defaultHudOpen?: boolean
+  defaultLayers?: { THOUGHT: boolean; COMMENT: boolean; REACTION: boolean }
+  // When set, collapsed pill navigates here instead of opening inline
+  reflectUrl?: string
+  // When set, layer toggles push to this URL base + "/" + joined layer keys
+  layerUrlBase?: string
 }
 
 const CYAN = signal.cyan
@@ -122,9 +130,38 @@ const CURSORS: Record<string, string> = {
 
 const REACTIONS = ["◆ Key", "✕ Disagree", "⚑ Flag", "↻ Follow up"]
 
-export function ReflectLayer({ receiptId, surface: surfaceProp, children }: ReflectLayerProps) {
-  const [hudOpen, setHudOpen] = useState(false)
-  const [layers, setLayers] = useState({ THOUGHT: true, COMMENT: true, REACTION: true })
+// Parse "thoughts+comments" → { THOUGHT: true, COMMENT: true, REACTION: false }
+export function parseLayerSegment(seg: string | undefined): { THOUGHT: boolean; COMMENT: boolean; REACTION: boolean } {
+  if (!seg) return { THOUGHT: true, COMMENT: true, REACTION: true }
+  const parts = seg.toLowerCase().split("+")
+  return {
+    THOUGHT: parts.some((p) => p === "thoughts" || p === "thought"),
+    COMMENT: parts.some((p) => p === "comments" || p === "comment"),
+    REACTION: parts.some((p) => p === "reactions" || p === "reaction"),
+  }
+}
+
+// Encode { THOUGHT: true, COMMENT: false, REACTION: true } → "thoughts+reactions"
+export function encodeLayerSegment(layers: { THOUGHT: boolean; COMMENT: boolean; REACTION: boolean }): string {
+  const parts: string[] = []
+  if (layers.THOUGHT) parts.push("thoughts")
+  if (layers.COMMENT) parts.push("comments")
+  if (layers.REACTION) parts.push("reactions")
+  return parts.join("+") || "thoughts+comments+reactions"
+}
+
+export function ReflectLayer({
+  receiptId,
+  surface: surfaceProp,
+  children,
+  defaultHudOpen = false,
+  defaultLayers,
+  reflectUrl,
+  layerUrlBase,
+}: ReflectLayerProps) {
+  const router = useRouter()
+  const [hudOpen, setHudOpen] = useState(defaultHudOpen)
+  const [layers, setLayers] = useState(defaultLayers ?? { THOUGHT: true, COMMENT: true, REACTION: true })
   const [activeInstrument, setActiveInstrument] = useState<"THOUGHT" | "COMMENT" | "REACTION" | null>(null)
   const [annotations, setAnnotations] = useState<Annotation[]>([])
   const [draft, setDraft] = useState<DraftAnnotation | null>(null)
@@ -265,7 +302,14 @@ export function ReflectLayer({ receiptId, surface: surfaceProp, children }: Refl
   }
 
   function toggleLayer(type: keyof typeof layers) {
-    setLayers((prev) => ({ ...prev, [type]: !prev[type] }))
+    setLayers((prev) => {
+      const next = { ...prev, [type]: !prev[type] }
+      if (layerUrlBase) {
+        const seg = encodeLayerSegment(next)
+        router.replace(`${layerUrlBase}/${seg}`, { scroll: false })
+      }
+      return next
+    })
   }
 
   function activateInstrument(type: "THOUGHT" | "COMMENT" | "REACTION") {
@@ -370,10 +414,13 @@ export function ReflectLayer({ receiptId, surface: surfaceProp, children }: Refl
         {!hudOpen ? (
           // ── Collapsed resting pill ──
           <div style={{ padding: "7px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <button onClick={() => setHudOpen(true)} style={{ ...glassBtn(CYAN), fontSize: 8, padding: "4px 13px", gap: 6 }}>
+            <button
+              onClick={() => reflectUrl ? router.push(reflectUrl) : setHudOpen(true)}
+              style={{ ...glassBtn(CYAN), fontSize: 8, padding: "4px 13px", gap: 6 }}
+            >
               <span style={{ fontSize: 10 }}>◎</span>
               <span>Reflect</span>
-              <span style={{ opacity: .45, marginLeft: 2, fontSize: 8 }}>↑</span>
+              <span style={{ opacity: .45, marginLeft: 2, fontSize: 8 }}>{reflectUrl ? "→" : "↑"}</span>
             </button>
             <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)", letterSpacing: ".06em" }}>
               {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}

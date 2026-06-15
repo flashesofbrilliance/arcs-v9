@@ -108,7 +108,7 @@ export default function ReceiptPage() {
   }
 
   return (
-    <ReflectLayer receiptId={receiptId} surface="RECEIPT">
+    <ReflectLayer receiptId={receiptId} surface="RECEIPT" reflectUrl={`/receipt/reflect/${receiptId}`}>
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Header */}
         <div style={{ borderBottom: `0.5px solid ${signal.steel}33`, background: `rgba(13,17,23,0.8)` }}>

@@ -53,6 +53,7 @@ export default function HistoryPage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Ledger" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            <Button variant="ghost" size="sm" onClick={() => router.push("/history/reflect")}>◎ Reflect</Button>
             <Button variant="ghost" size="sm" glyph="⊕" onClick={() => router.push("/dashboard")}>New question</Button>
             <AuthControl next="/history" />
           </div>
