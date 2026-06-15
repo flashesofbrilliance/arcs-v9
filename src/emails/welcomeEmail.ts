@@ -9,6 +9,9 @@
 export interface WelcomeEmailOpts {
   ctaUrl?: string
   ctaLabel?: string
+  // Unique token fragment (last 6 chars of the magic-link token) prevents
+  // Gmail from threading and collapsing repeated magic-link emails.
+  token?: string
 }
 
 const C = {
@@ -27,11 +30,13 @@ const C = {
 export function welcomeEmail(opts: WelcomeEmailOpts = {}): { subject: string; html: string } {
   const ctaUrl = opts.ctaUrl ?? 'https://app.arcs.care/dashboard'
   const ctaLabel = opts.ctaLabel ?? 'Ask your first question →'
+  const stamp = opts.token?.slice(-6) ?? Date.now().toString(36)
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"></head>
 <body style="margin:0;padding:0;background:${C.bg};">
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">${stamp}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg};">
   <tr><td align="center" style="padding:32px 16px;">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;">
@@ -77,5 +82,5 @@ export function welcomeEmail(opts: WelcomeEmailOpts = {}): { subject: string; ht
 </table>
 </body></html>`
 
-  return { subject: "You're in. Navigate to clarity.", html }
+  return { subject: `You're in. Navigate to clarity. [${stamp}]`, html }
 }
