@@ -111,6 +111,7 @@ export default function HistoryPage() {
                   <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
                     <Button variant="ghost" size="sm" onClick={() => router.push(`/receipt/${r.id}`)}>Receipt →</Button>
                     {r.brief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${r.id}`)}>Brief →</Button>}
+                    <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/reflect/${r.id}`)}>◎ Reflect</Button>
                   </div>
                 </div>
               </Card>
