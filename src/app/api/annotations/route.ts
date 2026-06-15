@@ -17,6 +17,12 @@ export async function POST(req: NextRequest) {
   if (!["THOUGHT", "COMMENT", "REACTION"].includes(type)) {
     return NextResponse.json({ error: "type must be THOUGHT, COMMENT, or REACTION" }, { status: 400 })
   }
+  if (typeof anchorText === "string" && anchorText.length > 1000) {
+    return NextResponse.json({ error: "anchorText too long" }, { status: 400 })
+  }
+  if (typeof annotationBody === "string" && annotationBody.length > 2000) {
+    return NextResponse.json({ error: "body too long" }, { status: 400 })
+  }
 
   const annotation = await prisma.annotation.create({
     data: {

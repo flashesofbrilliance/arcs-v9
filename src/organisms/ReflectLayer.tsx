@@ -21,6 +21,7 @@ interface Annotation {
   body: string
   linkedRef: string | null
   kernel: string | null
+  hardened: boolean
   createdAt: string
 }
 
@@ -100,19 +101,6 @@ function glassBtn(color?: string): React.CSSProperties {
   }
 }
 
-function chipStyle(type: "THOUGHT" | "COMMENT" | "REACTION"): React.CSSProperties {
-  const c = TYPE_COLOR[type]
-  return {
-    borderRadius: 5,
-    padding: "5px 8px",
-    border: `.5px solid ${c}30`,
-    background: `${c}07`,
-    fontSize: 9,
-    lineHeight: 1.45,
-    cursor: "pointer",
-    color: type === "THOUGHT" ? "#94e8ff" : type === "COMMENT" ? "#ffe27a" : "#ff8fa3",
-  }
-}
 
 function hairline(): React.CSSProperties {
   return {
@@ -172,12 +160,22 @@ export function ReflectLayer({
   const [shavasanaOpen, setShavasanaOpen] = useState(false)
   const [shavasanaIdx, setShavasanaIdx] = useState(0)
   const [shavasanaFilter, setShavasanaFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
+  const [meditateOpen, setMeditateOpen] = useState(false)
+  const [meditateLoading, setMeditateLoading] = useState(false)
+  const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
   const [linkPickerOpen, setLinkPickerOpen] = useState(false)
   const [linkQuery, setLinkQuery] = useState("")
   const [linkType, setLinkType] = useState<string>("ALL")
   const [linkResults, setLinkResults] = useState<LinkResult[]>([])
   const [narrow, setNarrow] = useState(false)
+  // Floating selection picker — appears on any text highlight; dismissed on Escape / click-outside
+  const [selectionPicker, setSelectionPicker] = useState<{
+    anchorText: string; preContext: string; postContext: string
+    x: number; y: number  // viewport coords
+  } | null>(null)
   const linkSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Ref mirror so hotkey handler can read selectionPicker without stale closure
+  const selectionPickerRef = useRef<typeof selectionPicker>(null)
 
   // Responsive — collapse margins on narrow viewports
   useEffect(() => {
@@ -196,10 +194,12 @@ export function ReflectLayer({
       .catch(() => {})
   }, [receiptId])
 
-  // Close draft popover on Escape
+  // Close overlays on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        setSelectionPicker(null)
+        selectionPickerRef.current = null
         setDraft(null)
         setDraftBody("")
         setDraftLinkedRef(null)
@@ -231,11 +231,15 @@ export function ReflectLayer({
         target.isContentEditable
       ) return
       const instrument = HOTKEYS[key]
+      e.preventDefault()
+      // If picker is showing (text selected), hotkey picks that instrument directly
+      if (selectionPickerRef.current) {
+        pickInstrument(instrument)
+        return
+      }
       const sel = window.getSelection()
       const selectedText = sel?.toString().trim() ?? ""
       if (selectedText.length >= 3) {
-        // Text already selected — activate instrument + immediately open draft
-        e.preventDefault()
         setHudOpen(true)
         setActiveInstrument(instrument)
         const range = sel!.getRangeAt(0)
@@ -253,9 +257,8 @@ export function ReflectLayer({
         })
         setDraftBody("")
         setDraftLinkedRef(null)
+        setSelectionPicker(null)
       } else {
-        // No selection — just arm the instrument so cursor mode activates
-        e.preventDefault()
         setHudOpen(true)
         setActiveInstrument((prev) => prev === instrument ? null : instrument)
       }
@@ -264,35 +267,90 @@ export function ReflectLayer({
     return () => document.removeEventListener("keydown", handler)
   }, [])
 
-  // Text selection listener
-  const handleMouseUp = useCallback(() => {
-    if (!activeInstrument) return
+  // Text selection → floating picker. Show picker on any selection ≥ 3 chars
+  // when the HUD is open. Instrument pre-arming is no longer required.
+  const handleMouseUp = useCallback((e: MouseEvent) => {
+    // Don't trigger inside textareas / inputs
+    const target = e.target as HTMLElement
+    if (
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      target.isContentEditable
+    ) return
+
     const sel = window.getSelection()
-    if (!sel || sel.isCollapsed) return
+    if (!sel || sel.isCollapsed) {
+      setSelectionPicker(null)
+      return
+    }
     const selectedText = sel.toString().trim()
-    if (!selectedText || selectedText.length < 3) return
+    if (!selectedText || selectedText.length < 3) {
+      setSelectionPicker(null)
+      return
+    }
+
+    if (!hudOpen) return  // picker only relevant in reflect mode
+
     const range = sel.getRangeAt(0)
     const rect = range.getBoundingClientRect()
     const container = range.commonAncestorContainer.textContent ?? ""
     const offset = container.indexOf(selectedText)
     const preContext = container.slice(Math.max(0, offset - 40), offset)
     const postContext = container.slice(offset + selectedText.length, offset + selectedText.length + 40)
-    setDraft({
+
+    // Position picker above the selection; clamp to viewport edges
+    // Keep ref in sync so hotkey handler can read without stale closure
+    const pickerW = 264
+    const rawX = rect.left + rect.width / 2 - pickerW / 2
+    const x = Math.max(8, Math.min(rawX, window.innerWidth - pickerW - 8))
+    const y = rect.top - 72  // above selection; falls back to below if < 0
+    const next = {
       anchorText: selectedText,
       preContext,
       postContext,
-      x: rect.left + rect.width / 2,
-      y: rect.bottom + window.scrollY + 8,
-    })
-    setDraftBody("")
-    setDraftLinkedRef(null)
-    setLinkPickerOpen(false)
-  }, [activeInstrument])
+      x,
+      y: y < 8 ? rect.bottom + 8 : y,
+    }
+    selectionPickerRef.current = next
+    setSelectionPicker(next)
+  }, [hudOpen])
 
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp)
     return () => document.removeEventListener("mouseup", handleMouseUp)
   }, [handleMouseUp])
+
+  // Dismiss picker on mousedown outside it — skip if click is inside the picker
+  const pickerContainerRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (pickerContainerRef.current?.contains(e.target as Node)) return
+      setSelectionPicker(null)
+      selectionPickerRef.current = null
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [])
+
+  // Pick instrument from the floating picker → arm + open draft immediately
+  function pickInstrument(type: "THOUGHT" | "COMMENT" | "REACTION") {
+    const sp = selectionPickerRef.current
+    if (!sp) return
+    setActiveInstrument(type)
+    setHudOpen(true)
+    setDraft({
+      anchorText: sp.anchorText,
+      preContext: sp.preContext,
+      postContext: sp.postContext,
+      x: sp.x + 132,
+      y: sp.y + window.scrollY + 72 + 8,
+    })
+    setDraftBody("")
+    setDraftLinkedRef(null)
+    setLinkPickerOpen(false)
+    selectionPickerRef.current = null
+    setSelectionPicker(null)
+  }
 
   // Link search
   useEffect(() => {
@@ -313,28 +371,32 @@ export function ReflectLayer({
     const body = reactionBody ?? draftBody.trim()
     if (!body) return
 
-    const res = await fetch("/api/annotations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        receiptId,
-        surface: surfaceProp,
-        anchorText: draft.anchorText,
-        preContext: draft.preContext,
-        postContext: draft.postContext,
-        type: activeInstrument,
-        body,
-        linkedRef: draftLinkedRef ?? undefined,
-      }),
-    })
-    const d = await res.json()
-    if (d.ok) {
-      setAnnotations((prev) => [...prev, d.annotation])
-      setDraft(null)
-      setDraftBody("")
-      setDraftLinkedRef(null)
-      setLinkPickerOpen(false)
-      window.getSelection()?.removeAllRanges()
+    try {
+      const res = await fetch("/api/annotations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          receiptId,
+          surface: surfaceProp,
+          anchorText: draft.anchorText,
+          preContext: draft.preContext,
+          postContext: draft.postContext,
+          type: activeInstrument,
+          body,
+          linkedRef: draftLinkedRef ?? undefined,
+        }),
+      })
+      const d = await res.json()
+      if (d.ok) {
+        setAnnotations((prev) => [...prev, d.annotation])
+        setDraft(null)
+        setDraftBody("")
+        setDraftLinkedRef(null)
+        setLinkPickerOpen(false)
+        window.getSelection()?.removeAllRanges()
+      }
+    } catch {
+      // network failure — draft stays open so user can retry
     }
   }
 
@@ -354,6 +416,30 @@ export function ReflectLayer({
     }
   }
 
+  async function hardenKernel(id: string) {
+    const res = await fetch(`/api/annotations/${id}/harden`, { method: "POST" })
+    if (!res.ok) return
+    setAnnotations((prev) => prev.map((a) => a.id === id ? { ...a, hardened: true } : a))
+    setExpandedChip((prev) => prev?.annotation.id === id ? { ...prev, annotation: { ...prev.annotation, hardened: true } } : prev)
+  }
+
+  async function runMeditate() {
+    setMeditateLoading(true)
+    setMeditateOpen(true)
+    setMeditateResult(null)
+    try {
+      const res = await fetch("/api/annotations/meditate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ receiptId }),
+      })
+      const d = await res.json()
+      if (d.ok) setMeditateResult({ held: d.held ?? [], falsified: d.falsified ?? [], elevated: d.elevated ?? [] })
+    } finally {
+      setMeditateLoading(false)
+    }
+  }
+
   function toggleLayer(type: keyof typeof layers) {
     const next = { ...layers, [type]: !layers[type] }
     setLayers(next)
@@ -368,102 +454,396 @@ export function ReflectLayer({
     setDraft(null)
   }
 
-  const visibleThoughts = annotations.filter((a) => a.type === "THOUGHT" && layers.THOUGHT)
-  const visibleComments = annotations.filter((a) => a.type === "COMMENT" && layers.COMMENT)
-  const visibleReactions = annotations.filter((a) => a.type === "REACTION" && layers.REACTION)
+  // Rail filter — "ALL" shows everything; individual type hides the others
+  const [railFilter, setRailFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
+
   const thoughtCount = annotations.filter((a) => a.type === "THOUGHT").length
   const commentCount = annotations.filter((a) => a.type === "COMMENT").length
   const reactionCount = annotations.filter((a) => a.type === "REACTION").length
+
+  const railAnnotations = annotations.filter((a) =>
+    railFilter === "ALL" ? true : a.type === railFilter
+  ).sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
 
   const shavasanaAnnotations = annotations.filter((a) =>
     shavasanaFilter === "ALL" ? true : a.type === shavasanaFilter
   )
   const currentShav = shavasanaAnnotations[shavasanaIdx]
 
-  const showMargins = hudOpen && !narrow
+  const showRail = hudOpen && !narrow
+
+  // Sync railFilter → layers for URL-based surfaces
+  function setRailFilterAndLayers(f: typeof railFilter) {
+    setRailFilter(f)
+    if (f === "ALL") {
+      const next = { THOUGHT: true, COMMENT: true, REACTION: true }
+      setLayers(next)
+      if (layerUrlBase) router.replace(`${layerUrlBase}/${encodeLayerSegment(next)}`, { scroll: false })
+    } else {
+      const next = { THOUGHT: f === "THOUGHT", COMMENT: f === "COMMENT", REACTION: f === "REACTION" }
+      setLayers(next)
+      if (layerUrlBase) router.replace(`${layerUrlBase}/${encodeLayerSegment(next)}`, { scroll: false })
+    }
+  }
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
-      {/* Three-column layout when HUD open */}
+      {/* Two-column layout: [300px left rail | content] when HUD open */}
       <div style={{
-        display: showMargins ? "grid" : "block",
-        gridTemplateColumns: showMargins ? "140px 1fr 140px" : undefined,
+        display: showRail ? "grid" : "block",
+        gridTemplateColumns: showRail ? "300px 1fr" : undefined,
+        alignItems: "start",
       }}>
-        {/* Left margin — Thoughts */}
-        {showMargins && (
-          <div style={{ padding: "10px 7px", borderRight: ".5px solid rgba(30,41,59,.35)", display: "flex", flexDirection: "column", gap: 5 }}>
-            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,240,255,.38)", textTransform: "uppercase", marginBottom: 3 }}>
-              {TYPE_ICON.THOUGHT} Thoughts
+        {/* ── Left Rail ── */}
+        {showRail && (
+          <div style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            borderRight: ".5px solid rgba(30,41,59,.4)",
+            background: "rgba(6,9,16,.6)",
+            backdropFilter: "blur(8px)",
+            overflow: "hidden",
+          }}>
+            {/* Rail header */}
+            <div style={{
+              padding: "12px 12px 10px",
+              borderBottom: ".5px solid rgba(30,41,59,.35)",
+              flexShrink: 0,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <span style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.6)", textTransform: "uppercase" }}>◎ Reflect</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>{surfaceProp}</span>
+                </div>
+                <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>↓ close</button>
+              </div>
+
+              {/* Filter pills */}
+              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                {([
+                  { key: "ALL" as const, label: `All · ${annotations.length}`, color: CYAN },
+                  { key: "THOUGHT" as const, label: `${TYPE_ICON.THOUGHT} ${thoughtCount}`, color: CYAN },
+                  { key: "COMMENT" as const, label: `${TYPE_ICON.COMMENT} ${commentCount}`, color: GOLD },
+                  { key: "REACTION" as const, label: `${TYPE_ICON.REACTION} ${reactionCount}`, color: RED },
+                ] as const).map(({ key, label, color }) => {
+                  const active = railFilter === key
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => setRailFilterAndLayers(key)}
+                      style={{
+                        fontFamily: font.mono,
+                        fontSize: 8,
+                        fontWeight: 700,
+                        letterSpacing: ".06em",
+                        padding: "3px 10px",
+                        borderRadius: 20,
+                        cursor: "pointer",
+                        border: ".5px solid",
+                        background: active ? `${color}12` : "rgba(10,15,26,.3)",
+                        borderColor: active ? `${color}40` : "rgba(30,41,59,.3)",
+                        color: active ? `${color}cc` : "rgba(71,85,105,.5)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* Hotkey legend */}
+              <div style={{ marginTop: 8, fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.35)", letterSpacing: ".04em" }}>
+                ~ Thought &nbsp;·&nbsp; ! Comment &nbsp;·&nbsp; @ Reaction
+              </div>
             </div>
-            {visibleThoughts.map((a) => (
-              <div key={a.id} style={chipStyle("THOUGHT")} onClick={() => setExpandedChip({ annotation: a, distilling: false })}>
-                <span style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.body.slice(0, 55)}</span>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", display: "block", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"{a.anchorText.slice(0, 30)}"</span>
+
+            {/* Annotations list — or Meditate view */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 8 }}>
+
+              {/* ── Meditate panel (SidelineList grammar from Doc UIKit) ── */}
+              {meditateOpen && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {/* Meditate header */}
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                    <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,255,157,.7)", textTransform: "uppercase" }}>📿 Meditate</span>
+                    <button
+                      onClick={() => setMeditateOpen(false)}
+                      style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}
+                    >
+                      ← Annotations
+                    </button>
+                  </div>
+
+                  {meditateLoading && (
+                    <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(0,255,157,.4)", textAlign: "center", padding: "24px 0", letterSpacing: ".08em" }}>
+                      distilling beliefs…
+                    </div>
+                  )}
+
+                  {!meditateLoading && meditateResult && (
+                    <>
+                      {/* Held — cyan */}
+                      {meditateResult.held.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,240,255,.5)", textTransform: "uppercase", marginBottom: 2 }}>
+                            Held under pressure
+                          </div>
+                          {meditateResult.held.map((item, i) => (
+                            <div key={i} style={{
+                              padding: "10px 12px",
+                              borderRadius: 6,
+                              background: "rgba(0,240,255,.04)",
+                              border: ".5px solid rgba(0,240,255,.15)",
+                              borderLeft: "2.5px solid rgba(0,240,255,.5)",
+                            }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Falsified — red */}
+                      {meditateResult.falsified.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5, marginTop: 4 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,77,109,.5)", textTransform: "uppercase", marginBottom: 2 }}>
+                            Challenged
+                          </div>
+                          {meditateResult.falsified.map((item, i) => (
+                            <div key={i} style={{
+                              padding: "10px 12px",
+                              borderRadius: 6,
+                              background: "rgba(255,77,109,.04)",
+                              border: ".5px solid rgba(255,77,109,.15)",
+                              borderLeft: "2.5px solid rgba(255,77,109,.5)",
+                            }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Elevated — green */}
+                      {meditateResult.elevated.length > 0 && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 5, marginTop: 4 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,255,157,.5)", textTransform: "uppercase", marginBottom: 2 }}>
+                            Elevated
+                          </div>
+                          {meditateResult.elevated.map((item, i) => (
+                            <div key={i} style={{
+                              padding: "10px 12px",
+                              borderRadius: 6,
+                              background: "rgba(0,255,157,.04)",
+                              border: ".5px solid rgba(0,255,157,.15)",
+                              borderLeft: "2.5px solid rgba(0,255,157,.5)",
+                            }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Continue to Shavasana */}
+                      <div style={{ marginTop: 8, paddingTop: 8, borderTop: ".5px solid rgba(30,41,59,.3)" }}>
+                        <button
+                          onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL"); setMeditateOpen(false) }}
+                          disabled={annotations.length === 0}
+                          style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 12px", width: "100%", justifyContent: "center" }}
+                        >
+                          ☽ Continue to Shavasana
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {!meditateOpen && railAnnotations.length === 0 && (
+                <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
+                  {activeInstrument
+                    ? `${TYPE_ICON[activeInstrument]} Select text to annotate`
+                    : "Select an instrument below\nto begin annotating"}
+                </div>
+              )}
+              {!meditateOpen && railAnnotations.map((a) => {
+                const c = TYPE_COLOR[a.type]
+                const isExpanded = expandedChip?.annotation.id === a.id
+                const kernelText = isExpanded ? expandedChip?.annotation.kernel : a.kernel
+                return (
+                  <div
+                    key={a.id}
+                    style={{
+                      borderRadius: 5,
+                      border: `.5px solid ${c}20`,
+                      background: `${c}05`,
+                      overflow: "hidden",
+                    }}
+                  >
+                    {/* Card top hairline glow */}
+                    <div style={{ height: ".5px", background: `linear-gradient(90deg,transparent,${c}25 30%,${c}25 70%,transparent)` }} />
+
+                    <div style={{ padding: "8px 9px" }}>
+                      {/* Type badge + date */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 6 }}>
+                        <span style={{
+                          fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".08em",
+                          color: `${c}aa`, textTransform: "uppercase",
+                          background: `${c}0d`, border: `.5px solid ${c}28`,
+                          padding: "1px 6px", borderRadius: 10,
+                        }}>
+                          {TYPE_ICON[a.type]} {a.type === "THOUGHT" ? "TH" : a.type === "COMMENT" ? "CO" : "RE"}
+                        </span>
+                        <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>
+                          {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </span>
+                        {a.linkedRef && (() => {
+                          try {
+                            const lr: LinkedRef = JSON.parse(a.linkedRef)
+                            return <span style={{ fontFamily: font.mono, fontSize: 6, color: `${GOLD}66`, marginLeft: "auto", border: `.5px solid ${GOLD}22`, borderRadius: 8, padding: "1px 5px" }}>{lr.type.slice(0, 3)}</span>
+                          } catch { return null }
+                        })()}
+                      </div>
+
+                      {/* Anchor quote */}
+                      <div style={{
+                        borderLeft: `2px solid ${c}35`,
+                        paddingLeft: 8, marginBottom: 7,
+                        fontFamily: font.mono, fontSize: 8,
+                        color: "rgba(71,85,105,.55)", lineHeight: 1.45,
+                        fontStyle: "italic",
+                      }}>
+                        "{a.anchorText.slice(0, 70)}{a.anchorText.length > 70 ? "…" : ""}"
+                      </div>
+
+                      {/* Body */}
+                      <div style={{ fontSize: 11, color: text.primary, lineHeight: 1.6, marginBottom: 8 }}>
+                        {a.body}
+                      </div>
+
+                      {/* Kernel block */}
+                      {kernelText && (
+                        <div style={{
+                          marginBottom: 8, paddingTop: 7, borderTop: `.5px solid rgba(30,41,59,.3)`,
+                        }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, letterSpacing: ".12em", color: a.hardened ? `${CYAN}66` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
+                            {a.hardened ? "💎 hardened" : "☽ kernel"}
+                          </div>
+                          <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}dd` : `${GREEN}cc`, lineHeight: 1.55 }}>{kernelText}</div>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                        {!kernelText && (
+                          <button
+                            onClick={() => {
+                              setExpandedChip({ annotation: a, distilling: true })
+                              distillKernel(a)
+                            }}
+                            style={{ ...glassBtn(GREEN), fontSize: 7, padding: "3px 9px" }}
+                          >
+                            {expandedChip?.annotation.id === a.id && expandedChip?.distilling ? "…" : "☽ Distill"}
+                          </button>
+                        )}
+                        {kernelText && !a.hardened && (
+                          <button
+                            onClick={() => hardenKernel(a.id)}
+                            style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 9px" }}
+                          >
+                            💎 Harden
+                          </button>
+                        )}
+                        <div style={{ flex: 1 }} />
+                        <button
+                          onClick={() => deleteAnnotation(a.id)}
+                          style={{ ...glassBtn(RED), fontSize: 7, padding: "3px 8px" }}
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Rail footer — instrument buttons */}
+            <div style={{
+              padding: "9px 10px",
+              borderTop: ".5px solid rgba(30,41,59,.35)",
+              flexShrink: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+            }}>
+              <div style={{ display: "flex", gap: 4 }}>
+                {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
+                  const active = activeInstrument === t
+                  const c = TYPE_COLOR[t]
+                  return (
+                    <button
+                      key={t}
+                      onClick={() => activateInstrument(t)}
+                      style={{
+                        flex: 1,
+                        fontFamily: font.mono, fontSize: 8, fontWeight: 700,
+                        padding: "6px 4px", borderRadius: 4, cursor: "pointer",
+                        border: `.5px solid ${active ? `${c}50` : "rgba(30,41,59,.25)"}`,
+                        background: active ? `${c}12` : "rgba(10,15,26,.4)",
+                        color: active ? `${c}cc` : "rgba(71,85,105,.5)",
+                        letterSpacing: ".04em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {TYPE_ICON[t]}
+                    </button>
+                  )
+                })}
               </div>
-            ))}
-            {!layers.THOUGHT && thoughtCount > 0 && (
-              <div style={{ border: ".5px dashed rgba(30,41,59,.3)", borderRadius: 4, padding: "5px", textAlign: "center", opacity: .4 }}>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>{thoughtCount} hidden</span>
+              {activeInstrument && (
+                <div style={{ fontFamily: font.mono, fontSize: 7, color: `${TYPE_COLOR[activeInstrument]}66`, textAlign: "center", letterSpacing: ".06em" }}>
+                  {TYPE_ICON[activeInstrument]} Select text to annotate · Esc to cancel
+                </div>
+              )}
+              <div style={{ display: "flex", gap: 4 }}>
+                <button
+                  onClick={runMeditate}
+                  disabled={annotations.length === 0 || meditateLoading}
+                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                >
+                  📿 Meditate
+                </button>
+                <button
+                  onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
+                  disabled={annotations.length === 0}
+                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                >
+                  ☽ Shavasana
+                </button>
               </div>
-            )}
+            </div>
           </div>
         )}
 
-        {/* Center content */}
+        {/* ── Content ── */}
         <div style={{ cursor: activeInstrument ? CURSORS[activeInstrument] : undefined }}>
           {children}
         </div>
-
-        {/* Right margin — Comments + Reactions */}
-        {showMargins && (
-          <div style={{ padding: "10px 7px", borderLeft: ".5px solid rgba(30,41,59,.35)", display: "flex", flexDirection: "column", gap: 5 }}>
-            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,215,0,.38)", textTransform: "uppercase", marginBottom: 2 }}>
-              {TYPE_ICON.COMMENT} Comments
-            </div>
-            {visibleComments.map((a) => (
-              <div key={a.id} style={chipStyle("COMMENT")} onClick={() => setExpandedChip({ annotation: a, distilling: false })}>
-                <span style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.body.slice(0, 55)}</span>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", display: "block", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"{a.anchorText.slice(0, 30)}"</span>
-              </div>
-            ))}
-            {!layers.COMMENT && commentCount > 0 && (
-              <div style={{ border: ".5px dashed rgba(30,41,59,.3)", borderRadius: 4, padding: "5px", textAlign: "center", opacity: .4 }}>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>{commentCount} hidden</span>
-              </div>
-            )}
-            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,77,109,.35)", textTransform: "uppercase", marginTop: 8, marginBottom: 2 }}>
-              {TYPE_ICON.REACTION} Reactions
-            </div>
-            {visibleReactions.map((a) => (
-              <div key={a.id} style={chipStyle("REACTION")} onClick={() => setExpandedChip({ annotation: a, distilling: false })}>
-                <span style={{ display: "block" }}>{a.body}</span>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", display: "block", marginTop: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>"{a.anchorText.slice(0, 30)}"</span>
-              </div>
-            ))}
-            {!layers.REACTION && reactionCount > 0 && (
-              <div style={{ border: ".5px dashed rgba(30,41,59,.3)", borderRadius: 4, padding: "5px", textAlign: "center", opacity: .4 }}>
-                <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>{reactionCount} hidden</span>
-              </div>
-            )}
-          </div>
-        )}
       </div>
 
-      {/* ── HUD Strip ── */}
-      <div style={{
-        position: "sticky",
-        bottom: 0,
-        background: "rgba(6,10,18,.88)",
-        borderTop: hudOpen ? ".5px solid rgba(0,240,255,.12)" : ".5px solid rgba(30,41,59,.25)",
-        zIndex: 40,
-      }}>
-        {/* Glow hairline when open */}
-        {hudOpen && (
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: ".5px", background: "linear-gradient(90deg,transparent,rgba(0,240,255,.2) 25%,rgba(0,240,255,.2) 75%,transparent)" }} />
-        )}
-
-        {!hudOpen ? (
-          // ── Collapsed resting pill ──
+      {/* ── HUD Strip (collapsed state only — rail handles open state) ── */}
+      {!hudOpen && (
+        <div style={{
+          position: "sticky",
+          bottom: 0,
+          background: "rgba(6,10,18,.88)",
+          borderTop: ".5px solid rgba(30,41,59,.25)",
+          zIndex: 40,
+        }}>
           <div style={{ padding: "7px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <button
               onClick={() => reflectUrl ? router.push(reflectUrl) : setHudOpen(true)}
@@ -477,118 +857,76 @@ export function ReflectLayer({
               {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}
             </span>
           </div>
-        ) : (
-          // ── Lifted HUD ──
-          <div style={{ padding: "11px 14px" }}>
-            {/* Header row */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 9 }}>
-              <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.55)", textTransform: "uppercase" }}>◎ Reflect</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.45)" }}>·</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>
-                surface <span style={{ color: "rgba(0,240,255,.6)" }}>{surfaceProp}</span>
-              </span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.45)" }}>·</span>
-              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)" }}>
-                total <span style={{ color: "rgba(0,240,255,.6)" }}>{annotations.length}</span>
-              </span>
-              <div style={{ flex: 1, height: ".5px", background: "rgba(30,41,59,.4)" }} />
-              {/* Gauges */}
-              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
-                  const count = annotations.filter((a) => a.type === t).length
-                  const c = TYPE_COLOR[t]
-                  return (
-                    <div key={t} style={{ textAlign: "center", opacity: count === 0 ? .3 : 1 }}>
-                      <div style={{ fontFamily: font.mono, fontSize: 13, fontWeight: 700, color: `${c}cc`, lineHeight: 1 }}>{count}</div>
-                      <div style={{ fontFamily: font.mono, fontSize: 6, color: `${c}55`, letterSpacing: ".1em" }}>{t.slice(0, 2)}</div>
-                    </div>
-                  )
-                })}
-              </div>
-              <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>↓ close</button>
-            </div>
+        </div>
+      )}
 
-            {/* Layer toggles */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 5, marginBottom: 9 }}>
-              {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
-                const on = layers[t]
-                const c = TYPE_COLOR[t]
-                const count = annotations.filter((a) => a.type === t).length
-                return (
-                  <div
-                    key={t}
-                    onClick={() => toggleLayer(t)}
-                    style={{
-                      borderRadius: 6,
-                      padding: "7px 9px",
-                      border: `.5px solid ${on ? `${c}30` : "rgba(30,41,59,.18)"}`,
-                      background: on ? `${c}06` : "rgba(10,15,26,.25)",
-                      position: "relative",
-                      overflow: "hidden",
-                      cursor: "pointer",
-                      opacity: on ? 1 : .4,
-                    }}
-                  >
-                    <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg,rgba(255,255,255,.025) 0%,transparent 55%)" }} />
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
-                      <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, color: on ? `${c}cc` : "rgba(71,85,105,.5)", letterSpacing: ".04em" }}>
-                        {TYPE_ICON[t]} {TYPE_LABEL[t]}
-                      </span>
-                      <span style={{
-                        fontFamily: font.mono, fontSize: 7,
-                        padding: "1px 6px", borderRadius: 10,
-                        border: `.5px solid ${on ? `${c}33` : "rgba(30,41,59,.3)"}`,
-                        background: on ? `${c}10` : "rgba(30,41,59,.2)",
-                        color: on ? `${c}80` : "rgba(71,85,105,.35)",
-                      }}>
-                        {on ? "ON" : "OFF"}
-                      </span>
-                    </div>
-                    <div style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>
-                      {count} · {t === "THOUGHT" ? "left" : "right"} margin
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
+      {/* ── Selection picker — appears on any text highlight when reflect is open ── */}
+      {selectionPicker && (
+        <div
+          ref={pickerContainerRef}
+          style={{
+            position: "fixed",
+            top: selectionPicker.y,
+            left: selectionPicker.x,
+            width: 264,
+            zIndex: 60,
+            background: "rgba(8,12,20,.95)",
+            border: ".5px solid rgba(30,41,59,.5)",
+            borderRadius: 8,
+            overflow: "hidden",
+            boxShadow: "0 4px 24px rgba(0,0,0,.5), 0 0 0 .5px rgba(0,240,255,.06)",
+          }}
+        >
+          {/* Top glow */}
+          <div style={{ height: ".5px", background: "linear-gradient(90deg,transparent,rgba(0,240,255,.2) 30%,rgba(0,240,255,.2) 70%,transparent)" }} />
 
-            <div style={hairline()} />
-
-            {/* Action pills */}
-            <div style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-              {(["THOUGHT", "COMMENT", "REACTION"] as const).map((t) => {
-                const active = activeInstrument === t
-                const c = TYPE_COLOR[t]
-                return (
-                  <button
-                    key={t}
-                    onClick={() => activateInstrument(t)}
-                    style={{
-                      ...glassBtn(active ? c : undefined),
-                      fontSize: 7,
-                      padding: "4px 12px",
-                      background: active ? `${c}14` : "rgba(15,21,32,.5)",
-                      borderColor: active ? `${c}55` : "rgba(71,85,105,.22)",
-                      color: active ? `${c}dd` : "rgba(71,85,105,.6)",
-                    }}
-                  >
-                    {TYPE_ICON[t]} Write {t === "REACTION" ? "reaction" : t.toLowerCase()}
-                    {active && <span style={{ opacity: .6 }}>·</span>}
-                  </button>
-                )
-              })}
-              <div style={{ flex: 1 }} />
-              <button
-                onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
-                disabled={annotations.length === 0}
-                style={{ ...glassBtn(GREEN), fontSize: 7, padding: "4px 12px", opacity: annotations.length === 0 ? .3 : 1 }}
-              >
-                ☽ Shavasana ({annotations.length})
-              </button>
-            </div>
+          {/* Anchor quote */}
+          <div style={{
+            padding: "7px 12px 6px",
+            borderBottom: ".5px solid rgba(30,41,59,.3)",
+            fontFamily: font.mono, fontSize: 8,
+            color: "rgba(71,85,105,.5)", lineHeight: 1.4,
+          }}>
+            "{selectionPicker.anchorText.slice(0, 48)}{selectionPicker.anchorText.length > 48 ? "…" : ""}"
           </div>
-        )}
-      </div>
+
+          {/* 3×2 picker grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+            {([
+              { type: "THOUGHT" as const, emoji: "💭", label: "Thought", key: "~", color: CYAN },
+              { type: "COMMENT" as const,  emoji: "💬", label: "Comment", key: "!", color: GOLD },
+              { type: "REACTION" as const, emoji: "🗯️", label: "React",   key: "@", color: RED },
+            ]).map(({ type, emoji, label, key, color }, i) => (
+              <button
+                key={type}
+                onClick={() => pickInstrument(type)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  borderRight: i < 2 ? ".5px solid rgba(30,41,59,.3)" : "none",
+                  cursor: "pointer",
+                  padding: "10px 6px 9px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 5,
+                  transition: "background .12s",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${color}0c` }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent" }}
+              >
+                {/* Row 1 — emoji */}
+                <span style={{ fontSize: 20, lineHeight: 1 }}>{emoji}</span>
+                {/* Row 2 — label + hotkey */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                  <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".05em", color: `${color}bb`, textTransform: "uppercase" }}>{label}</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)", letterSpacing: ".02em" }}>{key}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Annotation popover ── */}
       {draft && activeInstrument && (
@@ -742,7 +1080,9 @@ export function ReflectLayer({
               <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
               <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>{new Date(expandedChip.annotation.createdAt).toLocaleDateString()}</span>
               {expandedChip.annotation.linkedRef && (() => {
-                const lr: LinkedRef = JSON.parse(expandedChip.annotation.linkedRef)
+                let lr: LinkedRef | null = null
+                try { lr = JSON.parse(expandedChip.annotation.linkedRef) } catch { return null }
+                if (!lr) return null
                 return (
                   <div style={{ marginLeft: "auto", background: `${GOLD}0a`, border: `.5px solid ${GOLD}33`, borderRadius: 10, padding: "1px 7px", display: "flex", gap: 4 }}>
                     <span style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, color: `${GOLD}99` }}>{lr.type.slice(0, 3)}</span>
@@ -759,8 +1099,10 @@ export function ReflectLayer({
             </div>
             {expandedChip.annotation.kernel && (
               <div style={{ marginBottom: 12, paddingTop: 10, borderTop: `.5px solid rgba(30,41,59,.35)` }}>
-                <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".12em", color: `${GREEN}55`, textTransform: "uppercase", marginBottom: 5 }}>☽ Kernel</div>
-                <div style={{ fontFamily: font.mono, fontSize: 12, color: `${GREEN}dd`, lineHeight: 1.55 }}>{expandedChip.annotation.kernel}</div>
+                <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".12em", color: expandedChip.annotation.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 5 }}>
+                  {expandedChip.annotation.hardened ? "💎 Hardened" : "☽ Kernel"}
+                </div>
+                <div style={{ fontFamily: font.mono, fontSize: 12, color: expandedChip.annotation.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>{expandedChip.annotation.kernel}</div>
               </div>
             )}
             <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
@@ -771,6 +1113,14 @@ export function ReflectLayer({
                   style={{ ...glassBtn(GREEN), fontSize: 8, padding: "5px 14px", opacity: expandedChip.distilling ? .6 : 1 }}
                 >
                   {expandedChip.distilling ? "Distilling…" : "☽ Distill"}
+                </button>
+              )}
+              {expandedChip.annotation.kernel && !expandedChip.annotation.hardened && (
+                <button
+                  onClick={() => hardenKernel(expandedChip.annotation.id)}
+                  style={{ ...glassBtn(CYAN), fontSize: 8, padding: "5px 14px" }}
+                >
+                  💎 Harden
                 </button>
               )}
               <div style={{ flex: 1 }} />
@@ -832,7 +1182,9 @@ export function ReflectLayer({
                   <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
                   <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>{new Date(currentShav.createdAt).toLocaleDateString()}</span>
                   {currentShav.linkedRef && (() => {
-                    const lr: LinkedRef = JSON.parse(currentShav.linkedRef)
+                    let lr: LinkedRef | null = null
+                    try { lr = JSON.parse(currentShav.linkedRef) } catch { return null }
+                    if (!lr) return null
                     return (
                       <div style={{ marginLeft: "auto", background: `${GOLD}08`, border: `.5px solid ${GOLD}28`, borderRadius: 10, padding: "1px 7px", display: "flex", gap: 4 }}>
                         <span style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, color: `${GOLD}80` }}>{lr.type.slice(0, 3)}</span>
@@ -851,8 +1203,18 @@ export function ReflectLayer({
                 {/* Distill / kernel */}
                 {currentShav.kernel ? (
                   <div style={{ paddingTop: 14, borderTop: `.5px solid rgba(30,41,59,.35)` }}>
-                    <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".14em", color: `${GREEN}44`, textTransform: "uppercase", marginBottom: 6 }}>☽ Kernel</div>
-                    <div style={{ fontFamily: font.mono, fontSize: 16, color: `${GREEN}ee`, lineHeight: 1.6, letterSpacing: ".01em" }}>{currentShav.kernel}</div>
+                    <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".14em", color: currentShav.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 6 }}>
+                      {currentShav.hardened ? "💎 Hardened" : "☽ Kernel"}
+                    </div>
+                    <div style={{ fontFamily: font.mono, fontSize: 16, color: currentShav.hardened ? `${CYAN}ee` : `${GREEN}ee`, lineHeight: 1.6, letterSpacing: ".01em" }}>{currentShav.kernel}</div>
+                    {!currentShav.hardened && (
+                      <button
+                        onClick={() => hardenKernel(currentShav.id)}
+                        style={{ ...glassBtn(CYAN), fontSize: 9, padding: "6px 16px", marginTop: 12 }}
+                      >
+                        💎 Harden
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <button
