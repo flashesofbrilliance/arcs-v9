@@ -112,22 +112,15 @@ const WIN_OPTS = [
   { value: 7, label: "1 week" }, { value: 14, label: "2 weeks" }, { value: 28, label: "4 weeks" }, { value: 999, label: "All time" },
 ];
 
-function ControlBar({ mode, setMode, focus, setFocus, sevFocus, setSevFocus, view, setView, riskWin, setRiskWin, legendOpen, setLegendOpen, query, setQuery, face, setFace }) {
-  const isRisk = mode === "risk";
-  // Focus slot: altitude (glance/chain) or severity (risk) — always present, fixed position
-  const focusVal = isRisk ? sevFocus : focus;
-  const focusOpts = isRisk ? SEV_OPTS : ALT_OPTS;
-  const focusSet = isRisk ? setSevFocus : setFocus;
-  // Period slot removed — no date-based grouping or rolling window
+function ControlBar({ focus, setFocus, legendOpen, setLegendOpen, query, setQuery, face, setFace }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "0 0 2px" }}>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <Dropdown label="View" value={mode} options={MODE_OPTS} onChange={setMode} accent={C.cyan} minWidth={190} />
-        <Dropdown label="Focus" value={focusVal} options={focusOpts} onChange={focusSet} accent={C.cyan} minWidth={188} />
+        <Dropdown label="Focus" value={focus} options={ALT_OPTS} onChange={setFocus} accent={C.cyan} minWidth={188} />
         <Sep />
         <Ctl active={legendOpen} accent={C.cyan} onClick={() => setLegendOpen(v => !v)}>legend <span style={{ display: "inline-block", fontSize: 9, color: "#707e92", transform: legendOpen ? "rotate(180deg)" : "none", transition: "transform .2s" }}>▾</span></Ctl>
         <Sep />
-        <Ctl active accent={C.gold} onClick={() => setFace(f => f === "trajectory" ? "altitude" : "trajectory")} title="flip the card — trajectory ⇄ by lane">⇄ {face === "trajectory" ? (isRisk ? "by severity" : "by altitude") : "trajectory"}</Ctl>
+        <Ctl active accent={C.gold} onClick={() => setFace(f => f === "trajectory" ? "altitude" : "trajectory")} title="flip the card — trajectory ⇄ by lane">⇄ {face === "trajectory" ? "by altitude" : "trajectory"}</Ctl>
       </div>
       <SearchBox query={query} setQuery={setQuery} />
     </div>
@@ -485,23 +478,8 @@ function RiskRow({ rk, dim, onOpen }) {
   );
 }
 
-function Timeline({ replay, setReplay, view, query, face, focus, onOpen }) {
-  const [playing, setPlaying] = React.useState(false);
-  const replayRef = React.useRef(replay);
-  replayRef.current = replay;
-  React.useEffect(() => {
-    if (!playing) return;
-    const steps = stepIndices(focus);
-    const iv = setInterval(() => {
-      const cur = replayRef.current;
-      const p = cur === "all" ? -1 : steps.indexOf(cur);
-      const np = p + 1;
-      if (np >= steps.length - 1) { setReplay(steps[steps.length - 1]); setPlaying(false); }
-      else setReplay(steps[np]);
-    }, 1050);
-    return () => clearInterval(iv);
-  }, [playing, focus]);
-  const visibleCount = replay === "all" ? LEDGER.length : replay + 1;
+function Timeline({ query, face, focus, onOpen }) {
+  const visibleCount = LEDGER.length;
   const onBack = face === "altitude";
   return (
     <section style={{ position: "relative", border: "1px solid #22324d", borderRadius: 12, padding: "12px 14px 14px",
@@ -510,13 +488,12 @@ function Timeline({ replay, setReplay, view, query, face, focus, onOpen }) {
         <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: ".08em", color: onBack ? C.gold : C.cyan, fontWeight: 700 }}>{onBack ? "BY ALTITUDE" : "8-WEEK TRAJECTORY"}</span>
         <span style={{ fontSize: 10, color: "#8593a6" }}>{onBack
           ? "the card's back — each altitude Exec→Surgical as a labelled lane · Focus dims the rest · tap → card"
-          : "5 altitude lanes Exec→Surgical · glyph = type · ★ peak · ⚠ risk band · tap → card · ▶ or ← / → to replay"}</span>
+          : "5 altitude lanes Exec→Surgical · glyph = type · ★ peak · ⚠ risk band · tap → card"}</span>
       </div>
       {onBack
         ? <FocusedAltitudeStrip focus={focus} visibleCount={visibleCount} query={query} onOpen={onOpen} />
         : <TrajectoryMap visibleCount={visibleCount} query={query} focus={focus} onOpen={onOpen} />}
-      <Scrubber replay={replay} setReplay={setReplay} playing={playing} setPlaying={setPlaying} focus={focus} />
-      <Ledger view={view} visibleCount={visibleCount} query={query} onOpen={onOpen} />
+      <Ledger view="week" visibleCount={visibleCount} query={query} onOpen={onOpen} />
     </section>
   );
 }
