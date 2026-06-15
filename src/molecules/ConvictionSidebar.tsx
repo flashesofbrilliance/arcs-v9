@@ -3,14 +3,16 @@ import React from 'react'
 import { font, border, text, nciColor } from '@/ui/tokens'
 import { Card } from '@/ui/Card'
 import { Label } from '@/ui/Label'
+import { TributariesStack } from '@/molecules/TributariesStack'
 import type { CompassResult } from '@/lib/mockCompass'
 
-// ConvictionSidebar — Card (Conviction readout) + Card (Tributaries). Source: Brief.jsx sidebar.
+// ConvictionSidebar — Card (Conviction readout) + interactive TributariesStack.
 export interface ConvictionSidebarProps {
   result: CompassResult
+  onTributary?: (prompt: string) => void
 }
 
-export function ConvictionSidebar({ result }: ConvictionSidebarProps) {
+export function ConvictionSidebar({ result, onTributary }: ConvictionSidebarProps) {
   const r = result.reasoning || {}
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', position: 'sticky', top: '1rem' }}>
@@ -29,20 +31,11 @@ export function ConvictionSidebar({ result }: ConvictionSidebarProps) {
         </div>
       </Card>
 
-      <Card padding="compact" style={{ padding: '1rem 1.25rem' }}>
-        <Label style={{ marginBottom: '0.75rem' }}>Tributaries</Label>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
-          {result.tributaries?.map((t, i) => {
-            const c = t.type === 'meta' ? '#00F0FF' : t.type === 'challenge' ? '#FF4D6D' : '#FFD700'
-            return (
-              <div key={i}>
-                <span style={{ fontFamily: font.mono, fontSize: '0.55rem', color: c, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 700 }}>{t.label}</span>
-                <div style={{ fontFamily: font.sans, fontSize: '0.75rem', color: text.dimmed, lineHeight: 1.45, marginTop: '0.2rem' }}>{t.prompt}</div>
-              </div>
-            )
-          })}
-        </div>
-      </Card>
+      {result.tributaries && result.tributaries.length > 0 && (
+        <Card padding="compact" style={{ padding: '1rem 1.25rem' }}>
+          <TributariesStack tributaries={result.tributaries} onTributary={onTributary} />
+        </Card>
+      )}
     </div>
   )
 }

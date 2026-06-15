@@ -184,7 +184,7 @@ export default function BriefPage() {
           )}
         </div>
       )}
-      <Brief result={result} onBack={() => router.push("/history")} />
+      <Brief result={result} onBack={() => router.push("/history")} onTributary={followTributary} />
 
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 3rem" }}>
         {result.tributaries?.length > 0 && children.length === 0 && (
