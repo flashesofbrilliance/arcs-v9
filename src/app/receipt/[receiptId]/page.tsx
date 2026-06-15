@@ -164,18 +164,12 @@ export default function ReceiptPage() {
             </div>
           )}
 
-          {/* FATED + conviction two-col */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1.5rem", marginBottom: "2rem", alignItems: "start" }}>
-            <div>
-              {fated && (
-                <div style={{ marginBottom: "1.5rem" }}>
-                  <FatedGrid fated={fated} />
-                </div>
-              )}
-              {paths && paths.length > 0 && (
-                <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />
-              )}
-            </div>
+          {/* FATED · Terrain Paths · Conviction — single-column stack */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "2rem" }}>
+            {fated && Object.keys(fated).length > 0 && <FatedGrid fated={fated} />}
+            {paths && paths.length > 0 && (
+              <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />
+            )}
             <ConvictionSidebar result={compassResult} />
           </div>
 

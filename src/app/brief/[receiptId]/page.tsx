@@ -186,7 +186,25 @@ export default function BriefPage() {
       )}
       <Brief result={result} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
 
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 3rem" }}>
+      {/* Sticky share footer */}
+      <div style={{ position: "sticky", bottom: 0, zIndex: 30, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: `0.5px solid rgba(30,41,59,0.5)` }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", padding: "0.75rem 1.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <Label style={{ marginRight: "0.25rem", flexShrink: 0 }}>Share</Label>
+          {authed ? (
+            <>
+              <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
+              <Button variant="ghost" size="sm" onClick={shareSms}>SMS</Button>
+              <Button variant="ghost" size="sm" onClick={shareX}>Post to X</Button>
+            </>
+          ) : (
+            <Button variant="gold" size="sm" glyph="◈" onClick={() => router.push(`/compass?next=${encodeURIComponent(`/brief/${receiptId}`)}`)}>
+              Sign in to share
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 6rem" }}>
         {children.length > 0 && (
           <Card style={{ marginBottom: "1.5rem" }}>
             <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>
@@ -227,20 +245,6 @@ export default function BriefPage() {
           </Card>
         )}
 
-        <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
-          <Label style={{ marginRight: "0.25rem" }}>Share</Label>
-          {authed ? (
-            <>
-              <Button variant="ghost" size="sm" onClick={copyLink}>{copied ? "✓ Copied" : "Copy link"}</Button>
-              <Button variant="ghost" size="sm" onClick={shareSms}>SMS</Button>
-              <Button variant="ghost" size="sm" onClick={shareX}>Post to X</Button>
-            </>
-          ) : (
-            <Button variant="gold" size="sm" glyph="◈" onClick={() => router.push(`/compass?next=${encodeURIComponent(`/brief/${receiptId}`)}`)}>
-              Sign in to share
-            </Button>
-          )}
-        </div>
       </div>
     </main>
     </ReflectLayer>
