@@ -164,7 +164,14 @@ export function ReflectLayer({
   const [linkType, setLinkType] = useState<string>("ALL")
   const [linkResults, setLinkResults] = useState<LinkResult[]>([])
   const [narrow, setNarrow] = useState(false)
+  // Floating selection picker — appears on any text highlight; dismissed on Escape / click-outside
+  const [selectionPicker, setSelectionPicker] = useState<{
+    anchorText: string; preContext: string; postContext: string
+    x: number; y: number  // viewport coords
+  } | null>(null)
   const linkSearchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Ref mirror so hotkey handler can read selectionPicker without stale closure
+  const selectionPickerRef = useRef<typeof selectionPicker>(null)
 
   // Responsive — collapse margins on narrow viewports
   useEffect(() => {
@@ -183,10 +190,11 @@ export function ReflectLayer({
       .catch(() => {})
   }, [receiptId])
 
-  // Close draft popover on Escape
+  // Close overlays on Escape
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        setSelectionPicker(null)
         setDraft(null)
         setDraftBody("")
         setDraftLinkedRef(null)
@@ -218,11 +226,15 @@ export function ReflectLayer({
         target.isContentEditable
       ) return
       const instrument = HOTKEYS[key]
+      e.preventDefault()
+      // If picker is showing (text selected), hotkey picks that instrument directly
+      if (selectionPickerRef.current) {
+        pickInstrument(instrument)
+        return
+      }
       const sel = window.getSelection()
       const selectedText = sel?.toString().trim() ?? ""
       if (selectedText.length >= 3) {
-        // Text already selected — activate instrument + immediately open draft
-        e.preventDefault()
         setHudOpen(true)
         setActiveInstrument(instrument)
         const range = sel!.getRangeAt(0)
@@ -240,9 +252,8 @@ export function ReflectLayer({
         })
         setDraftBody("")
         setDraftLinkedRef(null)
+        setSelectionPicker(null)
       } else {
-        // No selection — just arm the instrument so cursor mode activates
-        e.preventDefault()
         setHudOpen(true)
         setActiveInstrument((prev) => prev === instrument ? null : instrument)
       }
@@ -251,35 +262,90 @@ export function ReflectLayer({
     return () => document.removeEventListener("keydown", handler)
   }, [])
 
-  // Text selection listener
-  const handleMouseUp = useCallback(() => {
-    if (!activeInstrument) return
+  // Text selection → floating picker. Show picker on any selection ≥ 3 chars
+  // when the HUD is open. Instrument pre-arming is no longer required.
+  const handleMouseUp = useCallback((e: MouseEvent) => {
+    // Don't trigger inside textareas / inputs
+    const target = e.target as HTMLElement
+    if (
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      target.isContentEditable
+    ) return
+
     const sel = window.getSelection()
-    if (!sel || sel.isCollapsed) return
+    if (!sel || sel.isCollapsed) {
+      setSelectionPicker(null)
+      return
+    }
     const selectedText = sel.toString().trim()
-    if (!selectedText || selectedText.length < 3) return
+    if (!selectedText || selectedText.length < 3) {
+      setSelectionPicker(null)
+      return
+    }
+
+    if (!hudOpen) return  // picker only relevant in reflect mode
+
     const range = sel.getRangeAt(0)
     const rect = range.getBoundingClientRect()
     const container = range.commonAncestorContainer.textContent ?? ""
     const offset = container.indexOf(selectedText)
     const preContext = container.slice(Math.max(0, offset - 40), offset)
     const postContext = container.slice(offset + selectedText.length, offset + selectedText.length + 40)
-    setDraft({
+
+    // Position picker above the selection; clamp to viewport edges
+    // Keep ref in sync so hotkey handler can read without stale closure
+    const pickerW = 264
+    const rawX = rect.left + rect.width / 2 - pickerW / 2
+    const x = Math.max(8, Math.min(rawX, window.innerWidth - pickerW - 8))
+    const y = rect.top - 72  // above selection; falls back to below if < 0
+    const next = {
       anchorText: selectedText,
       preContext,
       postContext,
-      x: rect.left + rect.width / 2,
-      y: rect.bottom + window.scrollY + 8,
-    })
-    setDraftBody("")
-    setDraftLinkedRef(null)
-    setLinkPickerOpen(false)
-  }, [activeInstrument])
+      x,
+      y: y < 8 ? rect.bottom + 8 : y,
+    }
+    selectionPickerRef.current = next
+    setSelectionPicker(next)
+  }, [hudOpen])
 
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp)
     return () => document.removeEventListener("mouseup", handleMouseUp)
   }, [handleMouseUp])
+
+  // Dismiss picker on mousedown outside it
+  useEffect(() => {
+    const handler = () => {
+      // fired before mouseup; only clear if no new selection will appear
+      // (handleMouseUp will re-set it if selection is kept)
+      setSelectionPicker(null)
+      selectionPickerRef.current = null
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [])
+
+  // Pick instrument from the floating picker → arm + open draft immediately
+  function pickInstrument(type: "THOUGHT" | "COMMENT" | "REACTION") {
+    const sp = selectionPickerRef.current
+    if (!sp) return
+    setActiveInstrument(type)
+    setHudOpen(true)
+    setDraft({
+      anchorText: sp.anchorText,
+      preContext: sp.preContext,
+      postContext: sp.postContext,
+      x: sp.x + 132,
+      y: sp.y + window.scrollY + 72 + 8,
+    })
+    setDraftBody("")
+    setDraftLinkedRef(null)
+    setLinkPickerOpen(false)
+    selectionPickerRef.current = null
+    setSelectionPicker(null)
+  }
 
   // Link search
   useEffect(() => {
@@ -640,6 +706,74 @@ export function ReflectLayer({
             <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)", letterSpacing: ".06em" }}>
               {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}
             </span>
+          </div>
+        </div>
+      )}
+
+      {/* ── Selection picker — appears on any text highlight when reflect is open ── */}
+      {selectionPicker && (
+        <div
+          style={{
+            position: "fixed",
+            top: selectionPicker.y,
+            left: selectionPicker.x,
+            width: 264,
+            zIndex: 60,
+            background: "rgba(8,12,20,.95)",
+            border: ".5px solid rgba(30,41,59,.5)",
+            borderRadius: 8,
+            overflow: "hidden",
+            boxShadow: "0 4px 24px rgba(0,0,0,.5), 0 0 0 .5px rgba(0,240,255,.06)",
+          }}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          {/* Top glow */}
+          <div style={{ height: ".5px", background: "linear-gradient(90deg,transparent,rgba(0,240,255,.2) 30%,rgba(0,240,255,.2) 70%,transparent)" }} />
+
+          {/* Anchor quote */}
+          <div style={{
+            padding: "7px 12px 6px",
+            borderBottom: ".5px solid rgba(30,41,59,.3)",
+            fontFamily: font.mono, fontSize: 8,
+            color: "rgba(71,85,105,.5)", lineHeight: 1.4,
+          }}>
+            "{selectionPicker.anchorText.slice(0, 48)}{selectionPicker.anchorText.length > 48 ? "…" : ""}"
+          </div>
+
+          {/* 3×2 picker grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+            {([
+              { type: "THOUGHT" as const, emoji: "💭", label: "Thought", key: "~", color: CYAN },
+              { type: "COMMENT" as const,  emoji: "💬", label: "Comment", key: "!", color: GOLD },
+              { type: "REACTION" as const, emoji: "🗯️", label: "React",   key: "@", color: RED },
+            ]).map(({ type, emoji, label, key, color }, i) => (
+              <button
+                key={type}
+                onClick={() => pickInstrument(type)}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  borderRight: i < 2 ? ".5px solid rgba(30,41,59,.3)" : "none",
+                  cursor: "pointer",
+                  padding: "10px 6px 9px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 5,
+                  transition: "background .12s",
+                }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = `${color}0c` }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent" }}
+              >
+                {/* Row 1 — emoji */}
+                <span style={{ fontSize: 20, lineHeight: 1 }}>{emoji}</span>
+                {/* Row 2 — label + hotkey */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+                  <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".05em", color: `${color}bb`, textTransform: "uppercase" }}>{label}</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)", letterSpacing: ".02em" }}>{key}</span>
+                </div>
+              </button>
+            ))}
           </div>
         </div>
       )}
