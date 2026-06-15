@@ -19,8 +19,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       // The magic-link email IS the branded welcome card. The one-time sign-in
       // URL becomes the CTA (clicking it verifies + lands on the compass).
       // Auth.js still owns token generation/storage — this only sends the email.
-      async sendVerificationRequest({ identifier: email, url, provider }) {
-        const { subject, html } = welcomeEmail({ ctaUrl: url, ctaLabel: "Sign in to ARCS →" })
+      async sendVerificationRequest({ identifier: email, url, provider, token }) {
+        const { subject, html } = welcomeEmail({ ctaUrl: url, ctaLabel: "Sign in to ARCS →", token })
         const resend = new ResendClient(process.env.AUTH_RESEND_KEY)
         const { error } = await resend.emails.send({
           from: provider.from as string,

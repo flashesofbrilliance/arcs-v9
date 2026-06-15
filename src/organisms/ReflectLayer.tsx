@@ -150,6 +150,8 @@ export function ReflectLayer({
   const [draft, setDraft] = useState<DraftAnnotation | null>(null)
   const [draftBody, setDraftBody] = useState("")
   const [expandedChip, setExpandedChip] = useState<ExpandedChip | null>(null)
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
+  const [distillingIds, setDistillingIds] = useState<Set<string>>(new Set())
   const [shavasanaOpen, setShavasanaOpen] = useState(false)
   const [shavasanaIdx, setShavasanaIdx] = useState(0)
   const [shavasanaFilter, setShavasanaFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
@@ -386,6 +388,7 @@ export function ReflectLayer({
   }
 
   async function distillKernel(annotation: Annotation) {
+    setDistillingIds((prev) => new Set(prev).add(annotation.id))
     setExpandedChip((prev) => prev ? { ...prev, distilling: true } : null)
     const res = await fetch(`/api/annotations/${annotation.id}/shavasana`, { method: "POST" })
     const d = await res.json()
@@ -393,6 +396,7 @@ export function ReflectLayer({
       setAnnotations((prev) => prev.map((a) => a.id === annotation.id ? { ...a, kernel: d.kernel } : a))
       setExpandedChip((prev) => prev ? { ...prev, annotation: { ...prev.annotation, kernel: d.kernel }, distilling: false } : null)
     }
+    setDistillingIds((prev) => { const s = new Set(prev); s.delete(annotation.id); return s })
   }
 
   async function hardenKernel(id: string) {
@@ -402,11 +406,28 @@ export function ReflectLayer({
     setExpandedChip((prev) => prev?.annotation.id === id ? { ...prev, annotation: { ...prev.annotation, hardened: true } } : prev)
   }
 
+  function toggleExpanded(id: string) {
+    setExpandedIds((prev) => {
+      const s = new Set(prev)
+      s.has(id) ? s.delete(id) : s.add(id)
+      return s
+    })
+  }
+
   async function runMeditate() {
     setMeditateLoading(true)
     setMeditateOpen(true)
     setMeditateResult(null)
     try {
+      // Auto-distill any annotations that don't have kernels yet
+      const undistilled = annotations.filter((a) => !a.kernel)
+      if (undistilled.length > 0) {
+        await Promise.all(undistilled.map(async (a) => {
+          const res = await fetch(`/api/annotations/${a.id}/shavasana`, { method: "POST" })
+          const d = await res.json()
+          if (d.ok) setAnnotations((prev) => prev.map((x) => x.id === a.id ? { ...x, kernel: d.kernel } : x))
+        }))
+      }
       const res = await fetch("/api/annotations/meditate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -467,6 +488,7 @@ export function ReflectLayer({
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
+      <style>{`::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(30,41,59,.55);border-radius:2px}::-webkit-scrollbar-thumb:hover{background:rgba(71,85,105,.65)}`}</style>
       {/* Two-column layout: [300px left rail | content] when HUD open */}
       <div style={{
         display: showRail ? "grid" : "block",
@@ -540,179 +562,126 @@ export function ReflectLayer({
               </div>
             </div>
 
-            {/* Annotations list — or Meditate view */}
-            <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 8 }}>
+            {/* Annotations list — inline meditate synthesis + accordion cards */}
+            <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 0 }}>
 
-              {/* ── Meditate panel (SidelineList grammar from Doc UIKit) ── */}
-              {meditateOpen && (
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  {/* Meditate header */}
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
-                    <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,255,157,.7)", textTransform: "uppercase" }}>📿 Meditate</span>
-                    <button
-                      onClick={() => setMeditateOpen(false)}
-                      style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", background: "none", border: "none", cursor: "pointer", padding: "2px 6px" }}
-                    >
-                      ← Annotations
-                    </button>
-                  </div>
+              {/* ── Meditate synthesis — inline at top when active ── */}
+              {(meditateOpen || meditateResult) && (
+                <div style={{ marginBottom: 10 }}>
+                  <button
+                    onClick={() => setMeditateOpen((p) => !p)}
+                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "4px 0 6px" }}
+                  >
+                    <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}bb`, textTransform: "uppercase" }}>
+                      📿 Meditate
+                    </span>
+                    <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>{meditateOpen ? "▲" : "▼"}</span>
+                  </button>
 
-                  {meditateLoading && (
-                    <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(0,255,157,.4)", textAlign: "center", padding: "24px 0", letterSpacing: ".08em" }}>
-                      distilling beliefs…
+                  {meditateOpen && meditateLoading && (
+                    <div style={{ fontFamily: font.mono, fontSize: 9, color: `${GREEN}44`, textAlign: "center", padding: "16px 0", letterSpacing: ".08em" }}>distilling…</div>
+                  )}
+
+                  {meditateOpen && !meditateLoading && meditateResult && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                      {[
+                        { label: "Held", items: meditateResult.held, color: CYAN },
+                        { label: "Challenged", items: meditateResult.falsified, color: RED },
+                        { label: "Elevated", items: meditateResult.elevated, color: GREEN },
+                      ].filter(({ items }) => items.length > 0).map(({ label, items, color }) => (
+                        <div key={label}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: `${color}55`, textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
+                          {items.map((item, i) => (
+                            <div key={i} style={{ borderLeft: `2px solid ${color}44`, paddingLeft: 8, marginBottom: 4 }}>
+                              <p style={{ fontFamily: font.sans, fontSize: 11, color: text.secondary, lineHeight: 1.5, margin: 0 }}>{item}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
                     </div>
                   )}
-
-                  {!meditateLoading && meditateResult && (
-                    <>
-                      {/* Held — cyan */}
-                      {meditateResult.held.length > 0 && (
-                        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,240,255,.5)", textTransform: "uppercase", marginBottom: 2 }}>
-                            Held under pressure
-                          </div>
-                          {meditateResult.held.map((item, i) => (
-                            <div key={i} style={{
-                              padding: "10px 12px",
-                              borderRadius: 6,
-                              background: "rgba(0,240,255,.04)",
-                              border: ".5px solid rgba(0,240,255,.15)",
-                              borderLeft: "2.5px solid rgba(0,240,255,.5)",
-                            }}>
-                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Falsified — red */}
-                      {meditateResult.falsified.length > 0 && (
-                        <div style={{ display: "flex", flexDirection: "column", gap: 5, marginTop: 4 }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(255,77,109,.5)", textTransform: "uppercase", marginBottom: 2 }}>
-                            Challenged
-                          </div>
-                          {meditateResult.falsified.map((item, i) => (
-                            <div key={i} style={{
-                              padding: "10px 12px",
-                              borderRadius: 6,
-                              background: "rgba(255,77,109,.04)",
-                              border: ".5px solid rgba(255,77,109,.15)",
-                              borderLeft: "2.5px solid rgba(255,77,109,.5)",
-                            }}>
-                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Elevated — green */}
-                      {meditateResult.elevated.length > 0 && (
-                        <div style={{ display: "flex", flexDirection: "column", gap: 5, marginTop: 4 }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: "rgba(0,255,157,.5)", textTransform: "uppercase", marginBottom: 2 }}>
-                            Elevated
-                          </div>
-                          {meditateResult.elevated.map((item, i) => (
-                            <div key={i} style={{
-                              padding: "10px 12px",
-                              borderRadius: 6,
-                              background: "rgba(0,255,157,.04)",
-                              border: ".5px solid rgba(0,255,157,.15)",
-                              borderLeft: "2.5px solid rgba(0,255,157,.5)",
-                            }}>
-                              <p style={{ fontFamily: font.sans, fontSize: 12, color: "rgba(226,232,240,.8)", lineHeight: 1.55, margin: 0 }}>{item}</p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Continue to Shavasana */}
-                      <div style={{ marginTop: 8, paddingTop: 8, borderTop: ".5px solid rgba(30,41,59,.3)" }}>
-                        <button
-                          onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL"); setMeditateOpen(false) }}
-                          disabled={annotations.length === 0}
-                          style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 12px", width: "100%", justifyContent: "center" }}
-                        >
-                          ☽ Continue to Shavasana
-                        </button>
-                      </div>
-                    </>
-                  )}
+                  <div style={{ height: ".5px", background: "rgba(30,41,59,.4)", marginTop: 6 }} />
                 </div>
               )}
 
-              {!meditateOpen && railAnnotations.length === 0 && (
+              {railAnnotations.length === 0 && (
                 <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
                   {activeInstrument
                     ? `${TYPE_ICON[activeInstrument]} Select text to annotate`
-                    : "Select an instrument below\nto begin annotating"}
+                    : "Select an instrument\nto begin annotating"}
                 </div>
               )}
-              {!meditateOpen && railAnnotations.map((a) => {
+
+              {railAnnotations.map((a) => {
                 const c = TYPE_COLOR[a.type]
-                const isExpanded = expandedChip?.annotation.id === a.id
-                const kernelText = isExpanded ? expandedChip?.annotation.kernel : a.kernel
+                const isOpen = expandedIds.has(a.id)
+                const isDistilling = distillingIds.has(a.id)
+                const cleanKernel = a.kernel ? a.kernel.replace(/\*\*|#{1,3} /g, "") : null
                 return (
-                  <div
-                    key={a.id}
-                    style={{
-                      borderLeft: `3px solid ${c}`,
-                      paddingLeft: 12,
-                      paddingTop: 4,
-                      paddingBottom: 8,
-                    }}
-                  >
-                    {/* Body — QuoteBlock primary text */}
-                    <div style={{ fontFamily: font.sans, fontSize: 12, fontWeight: 500, color: text.primary, lineHeight: 1.6, marginBottom: 6 }}>
-                      {a.body}
-                    </div>
-
-                    {/* Anchor attribution line */}
-                    <div style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1.4 }}>
-                      — "{a.anchorText.slice(0, 55)}{a.anchorText.length > 55 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                    </div>
-
-                      {/* Kernel block */}
-                      {kernelText && (
-                        <div style={{
-                          marginBottom: 8, paddingTop: 7, borderTop: `.5px solid rgba(30,41,59,.3)`,
-                        }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, letterSpacing: ".12em", color: a.hardened ? `${CYAN}66` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
-                            {a.hardened ? "💎 hardened" : "☽ kernel"}
-                          </div>
-                          <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}dd` : `${GREEN}cc`, lineHeight: 1.55 }}>{kernelText}</div>
+                  <div key={a.id} style={{ borderLeft: `3px solid ${c}`, paddingLeft: 10, paddingTop: 6, paddingBottom: 6, marginBottom: 6 }}>
+                    {/* Header row — click to expand */}
+                    <div
+                      onClick={() => toggleExpanded(a.id)}
+                      style={{ cursor: "pointer", display: "flex", alignItems: "flex-start", gap: 6 }}
+                    >
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontFamily: font.sans, fontSize: 13, fontWeight: 500, color: text.primary, lineHeight: 1.55 }}>
+                          {a.body}
                         </div>
-                      )}
-
-                      {/* Actions */}
-                      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-                        {!kernelText && (
-                          <button
-                            onClick={() => {
-                              setExpandedChip({ annotation: a, distilling: true })
-                              distillKernel(a)
-                            }}
-                            style={{ ...glassBtn(GREEN), fontSize: 7, padding: "3px 9px" }}
-                          >
-                            {expandedChip?.annotation.id === a.id && expandedChip?.distilling ? "…" : "☽ Distill"}
-                          </button>
+                        <div style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.45)", lineHeight: 1.4, marginTop: 3 }}>
+                          — "{a.anchorText.slice(0, 50)}{a.anchorText.length > 50 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        </div>
+                        {/* Collapsed kernel preview */}
+                        {!isOpen && cleanKernel && (
+                          <div style={{ fontFamily: font.mono, fontSize: 8, color: a.hardened ? `${CYAN}77` : `${GREEN}66`, lineHeight: 1.4, marginTop: 4 }}>
+                            {a.hardened ? "💎 " : "☽ "}{cleanKernel.slice(0, 70)}{cleanKernel.length > 70 ? "…" : ""}
+                          </div>
                         )}
-                        {kernelText && !a.hardened && (
-                          <button
-                            onClick={() => hardenKernel(a.id)}
-                            style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 9px" }}
-                          >
-                            💎 Harden
-                          </button>
-                        )}
-                        <div style={{ flex: 1 }} />
-                        <button
-                          onClick={() => deleteAnnotation(a.id)}
-                          style={{ ...glassBtn(RED), fontSize: 7, padding: "3px 8px" }}
-                        >
-                          ✕
-                        </button>
                       </div>
+                      <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.3)", paddingTop: 2, flexShrink: 0 }}>{isOpen ? "▲" : "▼"}</span>
                     </div>
+
+                    {/* Accordion body */}
+                    {isOpen && (
+                      <div style={{ marginTop: 8, paddingTop: 8, borderTop: ".5px solid rgba(30,41,59,.3)" }}>
+                        {/* Full kernel */}
+                        {cleanKernel ? (
+                          <div style={{ marginBottom: 8 }}>
+                            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: a.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 4 }}>
+                              {a.hardened ? "💎 Hardened" : "☽ Kernel"}
+                            </div>
+                            <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}cc` : `${GREEN}bb`, lineHeight: 1.55 }}>{cleanKernel}</div>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); distillKernel(a) }}
+                            disabled={isDistilling}
+                            style={{ ...glassBtn(GREEN), fontSize: 7, padding: "4px 10px", marginBottom: 8, opacity: isDistilling ? .5 : 1 }}
+                          >
+                            {isDistilling ? "distilling…" : "☽ Distill kernel"}
+                          </button>
+                        )}
+                        {/* Actions */}
+                        <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+                          {cleanKernel && !a.hardened && (
+                            <button
+                              onClick={(e) => { e.stopPropagation(); hardenKernel(a.id) }}
+                              style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 8px" }}
+                            >
+                              💎 Harden
+                            </button>
+                          )}
+                          <div style={{ flex: 1 }} />
+                          <button
+                            onClick={(e) => { e.stopPropagation(); deleteAnnotation(a.id) }}
+                            style={{ ...glassBtn(RED), fontSize: 7, padding: "2px 7px" }}
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 )
               })}
             </div>
@@ -887,24 +856,26 @@ export function ReflectLayer({
           style={{
             position: "absolute",
             top: draft.y,
-            left: Math.min(draft.x, window.innerWidth - 240),
-            width: 230,
-            background: "rgba(8,12,20,.92)",
-            border: `.5px solid ${TYPE_COLOR[activeInstrument]}28`,
-            borderRadius: 6,
-            padding: 10,
+            left: Math.min(draft.x, window.innerWidth - 280),
+            width: 268,
+            background: "rgba(6,10,18,.97)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
+            border: `.5px solid ${TYPE_COLOR[activeInstrument]}40`,
+            borderRadius: 8,
+            padding: 12,
             zIndex: 50,
-            boxShadow: `0 0 20px rgba(0,0,0,.5)`,
+            boxShadow: `0 8px 32px rgba(0,0,0,.7), 0 0 0 .5px rgba(0,0,0,.4)`,
           }}
         >
           {/* Top hairline glow */}
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: ".5px", background: `linear-gradient(90deg,transparent,${TYPE_COLOR[activeInstrument]}33 40%,${TYPE_COLOR[activeInstrument]}33 60%,transparent)` }} />
 
-          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[activeInstrument]}88`, textTransform: "uppercase", marginBottom: 6 }}>
+          <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[activeInstrument]}cc`, textTransform: "uppercase", marginBottom: 7 }}>
             {TYPE_ICON[activeInstrument]} {activeInstrument}
           </div>
-          <div style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", borderLeft: ".5px solid rgba(30,41,59,.5)", paddingLeft: 7, marginBottom: 8, lineHeight: 1.5 }}>
-            "{draft.anchorText.slice(0, 60)}{draft.anchorText.length > 60 ? "…" : ""}"
+          <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(148,163,184,.6)", borderLeft: `.5px solid ${TYPE_COLOR[activeInstrument]}30`, paddingLeft: 8, marginBottom: 10, lineHeight: 1.5 }}>
+            "{draft.anchorText.slice(0, 70)}{draft.anchorText.length > 70 ? "…" : ""}"
           </div>
 
           {activeInstrument === "REACTION" ? (
