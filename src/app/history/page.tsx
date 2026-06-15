@@ -53,6 +53,7 @@ export default function HistoryPage() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Ledger" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            <Button variant="ghost" size="sm" onClick={() => router.push("/history/reflect")}>◎ Reflect</Button>
             <Button variant="ghost" size="sm" glyph="⊕" onClick={() => router.push("/dashboard")}>New question</Button>
             <AuthControl next="/history" />
           </div>
@@ -90,27 +91,30 @@ export default function HistoryPage() {
             const c = nciColor(r.nciScore)
             const followUps = r.children?.length ?? 0
             return (
-              <div key={r.id} onClick={() => router.push(`/brief/${r.id}`)} style={{ cursor: "pointer" }}>
-                <Card accent={w.color} style={{ padding: "1rem 1.25rem" }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "0.6rem" }}>
-                    <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                      <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: text.muted }}>{new Date(r.createdAt).toLocaleDateString()}</span>
-                      <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "1rem", color: c, textShadow: `0 0 10px ${c}55` }}>{r.nciScore}</span>
-                    </div>
+              <Card key={r.id} accent={w.color} style={{ padding: "1rem 1.25rem" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "0.6rem" }}>
+                  <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                    <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: text.muted }}>{new Date(r.createdAt).toLocaleDateString()}</span>
+                    <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "1rem", color: c, textShadow: `0 0 10px ${c}55` }}>{r.nciScore}</span>
                   </div>
-                  <div style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.primary, lineHeight: 1.4, marginBottom: "0.5rem" }}>{r.decision}</div>
-                  <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.secondary, lineHeight: 1.5, marginBottom: "0.7rem" }}>
-                    <span style={{ color: signal.cyan }}>True North · </span>{r.trueNorth}
-                  </div>
+                </div>
+                <div style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.primary, lineHeight: 1.4, marginBottom: "0.5rem" }}>{r.decision}</div>
+                <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.secondary, lineHeight: 1.5, marginBottom: "0.7rem" }}>
+                  <span style={{ color: signal.cyan }}>True North · </span>{r.trueNorth}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", flexWrap: "wrap" }}>
                   <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", alignItems: "center" }}>
                     <Badge label={door.label} color={door.color} register="light" />
                     {r.mode && <Badge label={r.mode} color={signal.gold} register="light" />}
-                    {r.brief && <Badge label="◆ BRIEF" color={signal.cyan} register="light" />}
                     {followUps > 0 && <Badge label={`↳ ${followUps} follow-up${followUps > 1 ? "s" : ""}`} color={signal.steel} register="light" />}
                   </div>
-                </Card>
-              </div>
+                  <div style={{ display: "flex", gap: "0.4rem", flexShrink: 0 }}>
+                    <Button variant="ghost" size="sm" onClick={() => router.push(`/receipt/${r.id}`)}>Receipt →</Button>
+                    {r.brief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${r.id}`)}>Brief →</Button>}
+                  </div>
+                </div>
+              </Card>
             )
           })}
         </div>

@@ -245,6 +245,24 @@ model VerificationToken {
 // Lead — advisory funnel capture. source: "waitlist" (full-service ARCS) or
 // "advisory" (30-min consult). receiptId optionally links the brief that drove
 // the inquiry. Not tied to a User — leads arrive pre-account.
+model Annotation {
+  id          String   @id @default(cuid())
+  userId      String?
+  receiptId   String
+  surface     String   @default("BRIEF")  // BRIEF | RECEIPT
+  anchorText  String
+  preContext  String   @default("")
+  postContext String   @default("")
+  type        String   // THOUGHT | COMMENT | REACTION
+  body        String
+  linkedRef   String?  // JSON: { type: "RECEIPT"|"ADR"|"ATG_TRIBUTARY"|"WISDOM", id: string, label: string }
+  kernel      String?
+  createdAt   DateTime @default(now())
+
+  @@index([receiptId])
+  @@index([userId])
+}
+
 model Lead {
   id        String   @id @default(cuid())
   email     String
