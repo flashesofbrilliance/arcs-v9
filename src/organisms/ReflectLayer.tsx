@@ -153,6 +153,8 @@ export function ReflectLayer({
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
   const [distillingIds, setDistillingIds] = useState<Set<string>>(new Set())
   const [shavasanaExpanded, setShavasanaExpanded] = useState(false)
+  const [shavasanaIdx, setShavasanaIdx] = useState(0)
+  const [shavasanaFilter, setShavasanaFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
   const [meditateLoading, setMeditateLoading] = useState(false)
   const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
   const [meditateExpanded, setMeditateExpanded] = useState(true)
@@ -602,43 +604,99 @@ export function ReflectLayer({
                 </div>
               )}
 
-              {/* ── Shavasana kernels — inline accordion ── */}
+              {/* ── Shavasana — inline carousel ── */}
               {shavasanaExpanded && (() => {
-                const kerneled = annotations.filter((a) => a.kernel)
+                const shavList = annotations.filter((a) =>
+                  shavasanaFilter === "ALL" ? true : a.type === shavasanaFilter
+                )
+                const cur = shavList[Math.min(shavasanaIdx, shavList.length - 1)]
+                const safeIdx = Math.min(shavasanaIdx, shavList.length - 1)
                 return (
                   <div style={{ marginBottom: 2 }}>
-                    <button
-                      onClick={() => setShavasanaExpanded(false)}
-                      style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "5px 0" }}
-                    >
-                      <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase" }}>
-                        ☽ Shavasana · {kerneled.length} kernel{kerneled.length !== 1 ? "s" : ""}
+                    {/* Header row */}
+                    <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 0" }}>
+                      <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase", flex: 1 }}>
+                        ☽ Shavasana · {shavList.length}
                       </span>
-                      <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>▲</span>
-                    </button>
-                    {kerneled.length === 0 ? (
-                      <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", padding: "10px 0" }}>Run 📿 Meditate first to distill kernels</div>
-                    ) : (
-                      <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingBottom: 6 }}>
-                        {kerneled.map((a) => {
-                          const cleanK = a.kernel!.replace(/\*\*|#{1,3} /g, "")
-                          return (
-                            <div key={a.id} style={{ borderLeft: `2px solid ${a.hardened ? CYAN : GREEN}33`, paddingLeft: 8 }}>
-                              <div style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.35)", marginBottom: 3 }}>
-                                {TYPE_ICON[a.type]} — "{a.anchorText.slice(0, 40)}{a.anchorText.length > 40 ? "…" : ""}"
+                      {/* Filter pills */}
+                      {(["ALL", "THOUGHT", "COMMENT", "REACTION"] as const).map((f) => (
+                        <button
+                          key={f}
+                          onClick={() => { setShavasanaFilter(f); setShavasanaIdx(0) }}
+                          style={{ ...glassBtn(shavasanaFilter === f ? CYAN : undefined), fontSize: 6, padding: "2px 6px", borderRadius: 10 }}
+                        >
+                          {f === "ALL" ? "All" : TYPE_ICON[f]}
+                        </button>
+                      ))}
+                      <button onClick={() => setShavasanaExpanded(false)} style={{ ...glassBtn(), fontSize: 7, padding: "2px 6px", marginLeft: 2 }}>✕</button>
+                    </div>
+
+                    {shavList.length === 0 ? (
+                      <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", padding: "10px 0" }}>No annotations in this layer</div>
+                    ) : cur && (
+                      <div>
+                        {/* Card */}
+                        <div style={{ background: "rgba(8,13,22,.6)", border: `.5px solid ${TYPE_COLOR[cur.type]}18`, borderRadius: 6, padding: "10px 12px", marginBottom: 6 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 7, color: `${TYPE_COLOR[cur.type]}66`, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 6 }}>
+                            {TYPE_ICON[cur.type]} {cur.type} · {new Date(cur.createdAt).toLocaleDateString()}
+                          </div>
+                          <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 7, marginBottom: 8, fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1.5 }}>
+                            "{cur.anchorText}"
+                          </div>
+                          <div style={{ fontFamily: font.sans, fontSize: 11, color: text.secondary, lineHeight: 1.6, marginBottom: 10 }}>{cur.body}</div>
+
+                          {cur.kernel ? (
+                            <div style={{ paddingTop: 8, borderTop: `.5px solid rgba(30,41,59,.3)` }}>
+                              <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: cur.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
+                                {cur.hardened ? "💎 Hardened" : "☽ Kernel"}
                               </div>
-                              <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}cc` : `${GREEN}bb`, lineHeight: 1.55 }}>{cleanK}</div>
-                              {!a.hardened && (
-                                <button
-                                  onClick={() => hardenKernel(a.id)}
-                                  style={{ ...glassBtn(CYAN), fontSize: 7, padding: "2px 7px", marginTop: 4 }}
-                                >
+                              <div style={{ fontFamily: font.mono, fontSize: 12, color: cur.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>
+                                {cur.kernel.replace(/\*\*|#{1,3} /g, "")}
+                              </div>
+                              {!cur.hardened && (
+                                <button onClick={() => hardenKernel(cur.id)} style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 9px", marginTop: 6 }}>
                                   💎 Harden
                                 </button>
                               )}
                             </div>
-                          )
-                        })}
+                          ) : (
+                            <button
+                              onClick={async () => {
+                                const res = await fetch(`/api/annotations/${cur.id}/shavasana`, { method: "POST" })
+                                const d = await res.json()
+                                if (d.ok) setAnnotations((prev) => prev.map((a) => a.id === cur.id ? { ...a, kernel: d.kernel } : a))
+                              }}
+                              style={{ ...glassBtn(GREEN), fontSize: 8, padding: "4px 12px" }}
+                            >
+                              ☽ Distill →
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Navigation */}
+                        {shavList.length > 1 && (
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, paddingBottom: 6 }}>
+                            <button
+                              onClick={() => setShavasanaIdx((i) => Math.max(0, i - 1))}
+                              disabled={safeIdx === 0}
+                              style={{ ...glassBtn(), fontSize: 7, padding: "3px 10px", opacity: safeIdx === 0 ? .3 : 1 }}
+                            >← prev</button>
+                            <div style={{ flex: 1, display: "flex", justifyContent: "center", gap: 4 }}>
+                              {shavList.map((_, i) => (
+                                <div
+                                  key={i}
+                                  onClick={() => setShavasanaIdx(i)}
+                                  style={{ width: i === safeIdx ? 16 : 5, height: 5, borderRadius: i === safeIdx ? 2 : "50%", background: i === safeIdx ? `${CYAN}bb` : "rgba(30,41,59,.45)", cursor: "pointer", transition: "all .15s" }}
+                                />
+                              ))}
+                            </div>
+                            <button
+                              onClick={() => setShavasanaIdx((i) => Math.min(shavList.length - 1, i + 1))}
+                              disabled={safeIdx === shavList.length - 1}
+                              style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 10px", opacity: safeIdx === shavList.length - 1 ? .3 : 1 }}
+                            >next →</button>
+                          </div>
+                        )}
                       </div>
                     )}
                     <div style={{ height: ".5px", background: "rgba(30,41,59,.3)" }} />
