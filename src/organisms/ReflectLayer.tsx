@@ -199,6 +199,7 @@ export function ReflectLayer({
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setSelectionPicker(null)
+        selectionPickerRef.current = null
         setDraft(null)
         setDraftBody("")
         setDraftLinkedRef(null)
@@ -319,11 +320,11 @@ export function ReflectLayer({
     return () => document.removeEventListener("mouseup", handleMouseUp)
   }, [handleMouseUp])
 
-  // Dismiss picker on mousedown outside it
+  // Dismiss picker on mousedown outside it — skip if click is inside the picker
+  const pickerContainerRef = useRef<HTMLDivElement | null>(null)
   useEffect(() => {
-    const handler = () => {
-      // fired before mouseup; only clear if no new selection will appear
-      // (handleMouseUp will re-set it if selection is kept)
+    const handler = (e: MouseEvent) => {
+      if (pickerContainerRef.current?.contains(e.target as Node)) return
       setSelectionPicker(null)
       selectionPickerRef.current = null
     }
@@ -370,28 +371,32 @@ export function ReflectLayer({
     const body = reactionBody ?? draftBody.trim()
     if (!body) return
 
-    const res = await fetch("/api/annotations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        receiptId,
-        surface: surfaceProp,
-        anchorText: draft.anchorText,
-        preContext: draft.preContext,
-        postContext: draft.postContext,
-        type: activeInstrument,
-        body,
-        linkedRef: draftLinkedRef ?? undefined,
-      }),
-    })
-    const d = await res.json()
-    if (d.ok) {
-      setAnnotations((prev) => [...prev, d.annotation])
-      setDraft(null)
-      setDraftBody("")
-      setDraftLinkedRef(null)
-      setLinkPickerOpen(false)
-      window.getSelection()?.removeAllRanges()
+    try {
+      const res = await fetch("/api/annotations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          receiptId,
+          surface: surfaceProp,
+          anchorText: draft.anchorText,
+          preContext: draft.preContext,
+          postContext: draft.postContext,
+          type: activeInstrument,
+          body,
+          linkedRef: draftLinkedRef ?? undefined,
+        }),
+      })
+      const d = await res.json()
+      if (d.ok) {
+        setAnnotations((prev) => [...prev, d.annotation])
+        setDraft(null)
+        setDraftBody("")
+        setDraftLinkedRef(null)
+        setLinkPickerOpen(false)
+        window.getSelection()?.removeAllRanges()
+      }
+    } catch {
+      // network failure — draft stays open so user can retry
     }
   }
 
@@ -412,7 +417,8 @@ export function ReflectLayer({
   }
 
   async function hardenKernel(id: string) {
-    await fetch(`/api/annotations/${id}/harden`, { method: "POST" })
+    const res = await fetch(`/api/annotations/${id}/harden`, { method: "POST" })
+    if (!res.ok) return
     setAnnotations((prev) => prev.map((a) => a.id === id ? { ...a, hardened: true } : a))
     setExpandedChip((prev) => prev?.annotation.id === id ? { ...prev, annotation: { ...prev.annotation, hardened: true } } : prev)
   }
@@ -857,6 +863,7 @@ export function ReflectLayer({
       {/* ── Selection picker — appears on any text highlight when reflect is open ── */}
       {selectionPicker && (
         <div
+          ref={pickerContainerRef}
           style={{
             position: "fixed",
             top: selectionPicker.y,
@@ -869,7 +876,6 @@ export function ReflectLayer({
             overflow: "hidden",
             boxShadow: "0 4px 24px rgba(0,0,0,.5), 0 0 0 .5px rgba(0,240,255,.06)",
           }}
-          onMouseDown={(e) => e.stopPropagation()}
         >
           {/* Top glow */}
           <div style={{ height: ".5px", background: "linear-gradient(90deg,transparent,rgba(0,240,255,.2) 30%,rgba(0,240,255,.2) 70%,transparent)" }} />
@@ -1074,7 +1080,9 @@ export function ReflectLayer({
               <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
               <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>{new Date(expandedChip.annotation.createdAt).toLocaleDateString()}</span>
               {expandedChip.annotation.linkedRef && (() => {
-                const lr: LinkedRef = JSON.parse(expandedChip.annotation.linkedRef)
+                let lr: LinkedRef | null = null
+                try { lr = JSON.parse(expandedChip.annotation.linkedRef) } catch { return null }
+                if (!lr) return null
                 return (
                   <div style={{ marginLeft: "auto", background: `${GOLD}0a`, border: `.5px solid ${GOLD}33`, borderRadius: 10, padding: "1px 7px", display: "flex", gap: 4 }}>
                     <span style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, color: `${GOLD}99` }}>{lr.type.slice(0, 3)}</span>
@@ -1174,7 +1182,9 @@ export function ReflectLayer({
                   <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
                   <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>{new Date(currentShav.createdAt).toLocaleDateString()}</span>
                   {currentShav.linkedRef && (() => {
-                    const lr: LinkedRef = JSON.parse(currentShav.linkedRef)
+                    let lr: LinkedRef | null = null
+                    try { lr = JSON.parse(currentShav.linkedRef) } catch { return null }
+                    if (!lr) return null
                     return (
                       <div style={{ marginLeft: "auto", background: `${GOLD}08`, border: `.5px solid ${GOLD}28`, borderRadius: 10, padding: "1px 7px", display: "flex", gap: 4 }}>
                         <span style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, color: `${GOLD}80` }}>{lr.type.slice(0, 3)}</span>
