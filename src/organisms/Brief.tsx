@@ -1,17 +1,15 @@
 'use client'
 import React from 'react'
-import { font, signal, border, text, getWeather } from '@/ui/tokens'
+import { font, signal, border, text, getWeather, nciColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
 import { Label } from '@/ui/Label'
 import { Card } from '@/ui/Card'
 import { FatedGrid } from '@/molecules/FatedGrid'
 import { TerrainPaths } from '@/molecules/TerrainPaths'
-import { ConvictionSidebar } from '@/molecules/ConvictionSidebar'
+import { TributariesStack } from '@/molecules/TributariesStack'
 import type { CompassResult } from '@/lib/mockCompass'
 
-// Brief — Cartography Brief organism (two-column). PRESENTATIONAL: result via
-// props, onBack callback. Source: compass-app/Brief.jsx.
 export interface BriefProps {
   result: CompassResult
   onBack?: () => void
@@ -24,9 +22,6 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
   const fated = r.fated || {}
   const weather = getWeather(result.y_state)
 
-  // Two-column brief collapses to a single column on narrow viewports — the
-  // fixed 280px sidebar otherwise overflows portrait phones. matchMedia (not a
-  // CSS @media rule) keeps this within the inline-styles-only constraint.
   const [narrow, setNarrow] = React.useState(false)
   React.useEffect(() => {
     const mq = window.matchMedia('(max-width: 720px)')
@@ -36,8 +31,11 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
     return () => mq.removeEventListener('change', sync)
   }, [])
 
+  const nc = nciColor(result.nci_score)
+
   return (
     <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
+      {/* Header */}
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Wordmark section="Cartography Brief" />
         <div style={{ display: 'flex', gap: '0.25rem' }}>
@@ -46,7 +44,8 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
         </div>
       </div>
 
-      <div style={{ marginBottom: '2rem' }}>
+      {/* True North */}
+      <div style={{ marginBottom: '1.5rem' }}>
         <Label style={{ marginBottom: '0.75rem', color: weather.color }}>{weather.icon} {weather.label} · {result.render_resolution}</Label>
         <h1 style={{ fontFamily: font.sans, fontSize: '1.5rem', fontWeight: 600, color: text.primary, margin: '0 0 0.75rem', lineHeight: 1.3, letterSpacing: '-0.01em' }}>{result.question}</h1>
         <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.primary, margin: 0, lineHeight: 1.6, fontWeight: 500 }}>
@@ -54,11 +53,34 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : '1fr 280px', gap: '1.25rem', alignItems: 'start' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <FatedGrid fated={fated} />
-          <TerrainPaths paths={r.paths} />
-          {r.court && (
+      {/* Conviction — full-width, right below True North */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: '1.25rem', flexWrap: narrow ? 'wrap' : 'nowrap' }}>
+        <div style={{ flexShrink: 0 }}>
+          <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Conviction</div>
+          <div style={{ fontFamily: font.sans, fontSize: '2.25rem', fontWeight: 700, color: nc, lineHeight: 1, textShadow: `0 0 12px ${nc}55` }}>{result.nci_score}</div>
+          <div style={{ fontFamily: font.mono, fontSize: '0.55rem', color: text.dimmed, marginTop: '0.2rem', letterSpacing: '0.06em' }}>/ 100</div>
+        </div>
+        {!narrow && <div style={{ width: '0.5px', height: 44, background: border.subtle, flexShrink: 0 }} />}
+        <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+          {([
+            ['Mode', result.decision_mode],
+            ['Door', result.door_class?.replace(/_/g, ' ')],
+            ['Coherence', result.coherence_pct != null ? `${result.coherence_pct}%` : '—'],
+            ...(r.advisors?.bayesian_risk_pct != null ? [['Bayesian risk', `${r.advisors.bayesian_risk_pct}%`]] : []),
+          ] as [string, string][]).map(([k, v]) => (
+            <div key={k}>
+              <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.1em', color: text.muted, textTransform: 'uppercase', marginBottom: '0.2rem' }}>{k}</div>
+              <div style={{ fontFamily: font.mono, fontSize: '0.75rem', color: text.secondary }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Two-col: Terrain Paths + Constitutional Court */}
+      {(r.paths?.length || r.court) ? (
+        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (r.paths?.length && r.court ? '1fr 1fr' : '1fr'), gap: '1.25rem', marginBottom: '1.25rem' }}>
+          {r.paths?.length ? <TerrainPaths paths={r.paths} /> : null}
+          {r.court ? (
             <Card>
               <Label style={{ marginBottom: '1rem' }}>Constitutional Court</Label>
               {r.court.map((c, i) => (
@@ -69,11 +91,21 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
               ))}
               {r.court_verdict && <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: `1px solid ${border.subtle}`, fontSize: '0.82rem', color: text.dimmed, fontStyle: 'italic' }}>{r.court_verdict}</div>}
             </Card>
-          )}
+          ) : null}
         </div>
+      ) : null}
 
-        <ConvictionSidebar result={result} onTributary={onTributary} />
+      {/* FATED — full-width single column */}
+      <div style={{ marginBottom: '1.25rem' }}>
+        <FatedGrid fated={fated} />
       </div>
+
+      {/* Where to Navigate Next — tributaries as full-width interactive card */}
+      {result.tributaries && result.tributaries.length > 0 && (
+        <Card style={{ marginBottom: '1.25rem' }}>
+          <TributariesStack tributaries={result.tributaries} onTributary={onTributary} />
+        </Card>
+      )}
     </div>
   )
 }
