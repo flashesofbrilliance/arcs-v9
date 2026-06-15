@@ -12,7 +12,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const annotation = await prisma.annotation.findUnique({ where: { id } })
   if (!annotation) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
-  // Allow delete if userId matches, or both are null (anonymous)
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   if (annotation.userId !== userId) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 })
   }
