@@ -13,6 +13,7 @@ import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
 import { Button } from "@/ui/Button"
 import type { CompassResult } from "@/lib/mockCompass"
+import { ReflectLayer } from "@/organisms/ReflectLayer"
 
 // Brief surface — the shareable cartography report. Fetches the stored brief +
 // receipt, maps the DB receipt → CompassResult, renders the Brief organism
@@ -168,6 +169,7 @@ export default function BriefPage() {
   }
 
   return (
+    <ReflectLayer receiptId={receiptId} surface="BRIEF">
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       {depth > 0 && (
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "1.25rem 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
@@ -247,5 +249,6 @@ export default function BriefPage() {
         </div>
       </div>
     </main>
+    </ReflectLayer>
   )
 }
