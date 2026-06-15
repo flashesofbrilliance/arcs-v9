@@ -211,6 +211,58 @@ export function ReflectLayer({
     return () => document.removeEventListener("keydown", handler)
   }, [shavasanaOpen])
 
+  // Annotation hotkeys: ` → THOUGHT  ! → REACTION  @ → COMMENT
+  // Guards: skip if target is an editable element; if text is selected, open
+  // draft immediately; otherwise activate instrument (cursor mode only).
+  useEffect(() => {
+    const HOTKEYS: Record<string, "THOUGHT" | "COMMENT" | "REACTION"> = {
+      "`": "THOUGHT",
+      "!": "REACTION",
+      "@": "COMMENT",
+    }
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key
+      if (!(key in HOTKEYS)) return
+      const target = e.target as HTMLElement
+      if (
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target.isContentEditable
+      ) return
+      const instrument = HOTKEYS[key]
+      const sel = window.getSelection()
+      const selectedText = sel?.toString().trim() ?? ""
+      if (selectedText.length >= 3) {
+        // Text already selected — activate instrument + immediately open draft
+        e.preventDefault()
+        setHudOpen(true)
+        setActiveInstrument(instrument)
+        const range = sel!.getRangeAt(0)
+        const rect = range.getBoundingClientRect()
+        const container = range.commonAncestorContainer.textContent ?? ""
+        const offset = container.indexOf(selectedText)
+        const preContext = container.slice(Math.max(0, offset - 40), offset)
+        const postContext = container.slice(offset + selectedText.length, offset + selectedText.length + 40)
+        setDraft({
+          anchorText: selectedText,
+          preContext,
+          postContext,
+          x: rect.left + rect.width / 2,
+          y: rect.bottom + window.scrollY + 8,
+        })
+        setDraftBody("")
+        setDraftLinkedRef(null)
+      } else {
+        // No selection — just arm the instrument so cursor mode activates
+        e.preventDefault()
+        setHudOpen(true)
+        setActiveInstrument((prev) => prev === instrument ? null : instrument)
+      }
+    }
+    document.addEventListener("keydown", handler)
+    return () => document.removeEventListener("keydown", handler)
+  }, [])
+
   // Text selection listener
   const handleMouseUp = useCallback(() => {
     if (!activeInstrument) return
