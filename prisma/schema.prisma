@@ -257,6 +257,7 @@ model Annotation {
   body        String
   linkedRef   String?  // JSON: { type: "RECEIPT"|"ADR"|"ATG_TRIBUTARY"|"WISDOM", id: string, label: string }
   kernel      String?
+  hardened    Boolean  @default(false)
   createdAt   DateTime @default(now())
 
   @@index([receiptId])
