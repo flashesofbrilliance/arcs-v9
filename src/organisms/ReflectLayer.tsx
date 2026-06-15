@@ -21,6 +21,7 @@ interface Annotation {
   body: string
   linkedRef: string | null
   kernel: string | null
+  hardened: boolean
   createdAt: string
 }
 
@@ -410,6 +411,12 @@ export function ReflectLayer({
     }
   }
 
+  async function hardenKernel(id: string) {
+    await fetch(`/api/annotations/${id}/harden`, { method: "POST" })
+    setAnnotations((prev) => prev.map((a) => a.id === id ? { ...a, hardened: true } : a))
+    setExpandedChip((prev) => prev?.annotation.id === id ? { ...prev, annotation: { ...prev.annotation, hardened: true } } : prev)
+  }
+
   async function runMeditate() {
     setMeditateLoading(true)
     setMeditateOpen(true)
@@ -716,8 +723,10 @@ export function ReflectLayer({
                         <div style={{
                           marginBottom: 8, paddingTop: 7, borderTop: `.5px solid rgba(30,41,59,.3)`,
                         }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, letterSpacing: ".12em", color: `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>☽ kernel</div>
-                          <div style={{ fontFamily: font.mono, fontSize: 11, color: `${GREEN}cc`, lineHeight: 1.55 }}>{kernelText}</div>
+                          <div style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, letterSpacing: ".12em", color: a.hardened ? `${CYAN}66` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
+                            {a.hardened ? "💎 hardened" : "☽ kernel"}
+                          </div>
+                          <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}dd` : `${GREEN}cc`, lineHeight: 1.55 }}>{kernelText}</div>
                         </div>
                       )}
 
@@ -732,6 +741,14 @@ export function ReflectLayer({
                             style={{ ...glassBtn(GREEN), fontSize: 7, padding: "3px 9px" }}
                           >
                             {expandedChip?.annotation.id === a.id && expandedChip?.distilling ? "…" : "☽ Distill"}
+                          </button>
+                        )}
+                        {kernelText && !a.hardened && (
+                          <button
+                            onClick={() => hardenKernel(a.id)}
+                            style={{ ...glassBtn(CYAN), fontSize: 7, padding: "3px 9px" }}
+                          >
+                            💎 Harden
                           </button>
                         )}
                         <div style={{ flex: 1 }} />
@@ -1074,8 +1091,10 @@ export function ReflectLayer({
             </div>
             {expandedChip.annotation.kernel && (
               <div style={{ marginBottom: 12, paddingTop: 10, borderTop: `.5px solid rgba(30,41,59,.35)` }}>
-                <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".12em", color: `${GREEN}55`, textTransform: "uppercase", marginBottom: 5 }}>☽ Kernel</div>
-                <div style={{ fontFamily: font.mono, fontSize: 12, color: `${GREEN}dd`, lineHeight: 1.55 }}>{expandedChip.annotation.kernel}</div>
+                <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".12em", color: expandedChip.annotation.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 5 }}>
+                  {expandedChip.annotation.hardened ? "💎 Hardened" : "☽ Kernel"}
+                </div>
+                <div style={{ fontFamily: font.mono, fontSize: 12, color: expandedChip.annotation.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>{expandedChip.annotation.kernel}</div>
               </div>
             )}
             <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
@@ -1086,6 +1105,14 @@ export function ReflectLayer({
                   style={{ ...glassBtn(GREEN), fontSize: 8, padding: "5px 14px", opacity: expandedChip.distilling ? .6 : 1 }}
                 >
                   {expandedChip.distilling ? "Distilling…" : "☽ Distill"}
+                </button>
+              )}
+              {expandedChip.annotation.kernel && !expandedChip.annotation.hardened && (
+                <button
+                  onClick={() => hardenKernel(expandedChip.annotation.id)}
+                  style={{ ...glassBtn(CYAN), fontSize: 8, padding: "5px 14px" }}
+                >
+                  💎 Harden
                 </button>
               )}
               <div style={{ flex: 1 }} />
@@ -1166,8 +1193,18 @@ export function ReflectLayer({
                 {/* Distill / kernel */}
                 {currentShav.kernel ? (
                   <div style={{ paddingTop: 14, borderTop: `.5px solid rgba(30,41,59,.35)` }}>
-                    <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".14em", color: `${GREEN}44`, textTransform: "uppercase", marginBottom: 6 }}>☽ Kernel</div>
-                    <div style={{ fontFamily: font.mono, fontSize: 16, color: `${GREEN}ee`, lineHeight: 1.6, letterSpacing: ".01em" }}>{currentShav.kernel}</div>
+                    <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".14em", color: currentShav.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 6 }}>
+                      {currentShav.hardened ? "💎 Hardened" : "☽ Kernel"}
+                    </div>
+                    <div style={{ fontFamily: font.mono, fontSize: 16, color: currentShav.hardened ? `${CYAN}ee` : `${GREEN}ee`, lineHeight: 1.6, letterSpacing: ".01em" }}>{currentShav.kernel}</div>
+                    {!currentShav.hardened && (
+                      <button
+                        onClick={() => hardenKernel(currentShav.id)}
+                        style={{ ...glassBtn(CYAN), fontSize: 9, padding: "6px 16px", marginTop: 12 }}
+                      >
+                        💎 Harden
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <button
