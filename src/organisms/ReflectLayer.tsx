@@ -150,6 +150,7 @@ export function ReflectLayer({
 }: ReflectLayerProps) {
   const router = useRouter()
   const [hudOpen, setHudOpen] = useState(defaultHudOpen)
+  const [barVisible, setBarVisible] = useState(true)
   const [layers, setLayers] = useState(defaultLayers ?? { THOUGHT: true, COMMENT: true, REACTION: true })
   const [activeInstrument, setActiveInstrument] = useState<"THOUGHT" | "COMMENT" | "REACTION" | null>(null)
   const [annotations, setAnnotations] = useState<Annotation[]>([])
@@ -402,7 +403,20 @@ export function ReflectLayer({
 
   async function deleteAnnotation(id: string) {
     await fetch(`/api/annotations/${id}`, { method: "DELETE" })
-    setAnnotations((prev) => prev.filter((a) => a.id !== id))
+    setAnnotations((prev) => {
+      const next = prev.filter((a) => a.id !== id)
+      if (next.length === 0) {
+        setHudOpen(false)
+      } else {
+        // auto-toggle off any layer that now has zero annotations
+        setLayers((prevLayers) => ({
+          THOUGHT: next.some((a) => a.type === "THOUGHT") ? prevLayers.THOUGHT : false,
+          COMMENT: next.some((a) => a.type === "COMMENT") ? prevLayers.COMMENT : false,
+          REACTION: next.some((a) => a.type === "REACTION") ? prevLayers.REACTION : false,
+        }))
+      }
+      return next
+    })
     setExpandedChip(null)
   }
 
@@ -835,8 +849,8 @@ export function ReflectLayer({
         </div>
       </div>
 
-      {/* ── HUD Strip (collapsed state only — rail handles open state) ── */}
-      {!hudOpen && (
+      {/* ── HUD Strip (collapsed state) ── */}
+      {!hudOpen && barVisible && (
         <div style={{
           position: "sticky",
           bottom: 0,
@@ -846,16 +860,23 @@ export function ReflectLayer({
         }}>
           <div style={{ padding: "7px 14px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <button
-              onClick={() => reflectUrl ? router.push(reflectUrl) : setHudOpen(true)}
+              onClick={() => reflectUrl ? router.push(reflectUrl) : (setHudOpen(true), setBarVisible(true))}
               style={{ ...glassBtn(CYAN), fontSize: 8, padding: "4px 13px", gap: 6 }}
             >
               <span style={{ fontSize: 10 }}>◎</span>
               <span>Reflect</span>
               <span style={{ opacity: .45, marginLeft: 2, fontSize: 8 }}>{reflectUrl ? "→" : "↑"}</span>
             </button>
-            <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)", letterSpacing: ".06em" }}>
-              {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}
-            </span>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)", letterSpacing: ".06em" }}>
+                {annotations.length} annotation{annotations.length !== 1 ? "s" : ""}
+              </span>
+              <button
+                onClick={() => { setBarVisible(false); if (reflectUrl) router.back() }}
+                style={{ background: "none", border: "none", padding: "2px 4px", cursor: "pointer", fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1 }}
+                title="Dismiss reflect bar"
+              >✕</button>
+            </div>
           </div>
         </div>
       )}
