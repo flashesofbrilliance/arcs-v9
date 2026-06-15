@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server"
 import Anthropic from "@anthropic-ai/sdk"
 import { prisma } from "@/lib/db"
+import { auth } from "@/lib/auth"
 
 const client = new Anthropic()
 
 export async function POST(req: NextRequest) {
+  const session = await auth()
+  const userId = session?.user?.id ?? null
+
   const { receiptId } = await req.json()
   if (!receiptId) return NextResponse.json({ error: "receiptId required" }, { status: 400 })
 
   const annotations = await prisma.annotation.findMany({
-    where: { receiptId },
+    where: { receiptId, userId },
     orderBy: { createdAt: "asc" },
+    take: 40,
     select: { type: true, anchorText: true, body: true, kernel: true },
   })
 
@@ -23,7 +28,7 @@ export async function POST(req: NextRequest) {
     .join("\n")
 
   const msg = await client.messages.create({
-    model: "claude-haiku-4-5",
+    model: "claude-haiku-4-5-20251001",
     max_tokens: 512,
     temperature: 0,
     system: `You are a belief-diff analyzer. Given a set of annotations made while reading a decision document, identify:

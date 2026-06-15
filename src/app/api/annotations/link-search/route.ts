@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
     }))
   }
 
-  if (type === "ALL" || type === "WISDOM") {
+  if ((type === "ALL" || type === "WISDOM") && userId) {
     const wisdom = await prisma.annotation.findMany({
       where: {
         userId,
