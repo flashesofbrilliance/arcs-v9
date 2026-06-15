@@ -4,7 +4,8 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
-import { surface, text, signal, font } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor } from "@/ui/tokens"
+import { Badge } from "@/ui/Badge"
 import { Brief } from "@/organisms/Brief"
 import { TributariesStack } from "@/molecules/TributariesStack"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
@@ -63,6 +64,8 @@ export default function BriefPage() {
   const [depth, setDepth] = useState<number>(0)
   const [parentId, setParentId] = useState<string | null>(null)
   const [framing, setFraming] = useState<string>("")
+  const [children, setChildren] = useState<Array<{ id: string; decision: string; trueNorth: string; yState: string; nciScore: number; version: number; createdAt: string }>>([])
+
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
   // null = still checking. The brief itself is public; sharing is gated (PLG hook).
@@ -80,6 +83,7 @@ export default function BriefPage() {
         setDepth(Number(data.receipt?.version ?? 0))
         setParentId((data.receipt?.parentId as string) ?? null)
         setFraming(data.brief?.situationFraming ?? "")
+        setChildren(data.children ?? [])
       })
       .catch(() => { if (!cancelled) setError("Could not load brief") })
     return () => { cancelled = true }
@@ -178,12 +182,45 @@ export default function BriefPage() {
           )}
         </div>
       )}
-      <Brief result={result} onBack={() => router.push("/dashboard")} />
+      <Brief result={result} onBack={() => router.push("/history")} />
 
       <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 3rem" }}>
         {result.tributaries?.length > 0 && (
           <Card style={{ marginBottom: "1.5rem" }}>
             <TributariesStack tributaries={result.tributaries} onTributary={followTributary} />
+          </Card>
+        )}
+
+        {children.length > 0 && (
+          <Card style={{ marginBottom: "1.5rem" }}>
+            <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {children.map((child) => {
+                const w = getWeather(child.yState)
+                const c = nciColor(child.nciScore)
+                return (
+                  <div
+                    key={child.id}
+                    onClick={() => router.push(`/brief/${child.id}`)}
+                    style={{ cursor: "pointer", padding: "0.75rem", borderRadius: 4, border: `1px solid ${signal.cyan}22`, background: "#0a1520", transition: "border-color 0.15s" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${signal.cyan}66`)}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = `${signal.cyan}22`)}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.75rem", marginBottom: "0.35rem" }}>
+                      <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                        <span style={{ fontFamily: font.mono, fontSize: "0.65rem", color: text.muted, letterSpacing: "0.08em" }}>L{child.version}</span>
+                        <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "0.85rem", color: c }}>{child.nciScore}</span>
+                      </div>
+                    </div>
+                    <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.primary, lineHeight: 1.4, marginBottom: "0.25rem" }}>{child.decision}</div>
+                    <div style={{ fontFamily: font.sans, fontSize: "0.75rem", color: text.secondary, lineHeight: 1.4 }}>
+                      <span style={{ color: signal.cyan }}>True North · </span>{child.trueNorth}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </Card>
         )}
 

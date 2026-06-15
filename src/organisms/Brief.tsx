@@ -38,7 +38,7 @@ export function Brief({ result, onBack }: BriefProps) {
     <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Wordmark section="Cartography Brief" />
-        <Button variant="ghost" size="sm" onClick={onBack}>← Back to receipt</Button>
+        <Button variant="ghost" size="sm" onClick={onBack}>← Back to ledger</Button>
       </div>
 
       <div style={{ marginBottom: '2rem' }}>

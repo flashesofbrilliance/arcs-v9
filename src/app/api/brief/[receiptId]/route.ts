@@ -53,7 +53,16 @@ export async function GET(
   const { receiptId } = await params
 
   // Serve from store if already generated
-  const existing = await prisma.brief.findUnique({ where: { receiptId }, include: { receipt: true } })
+  // children = the tributary rounds spawned from this receipt (down-chain nav).
+  // Bounded (≤3 tributaries per node); userId-scoping seam noted for post-RBAC.
+  const childrenInclude = {
+    children: {
+      select: { id: true, decision: true, trueNorth: true, yState: true, nciScore: true, version: true, createdAt: true },
+      orderBy: { createdAt: "asc" as const },
+    },
+  }
+
+  const existing = await prisma.brief.findUnique({ where: { receiptId }, include: { receipt: { include: childrenInclude } } })
   if (existing) {
     const tributaries = (() => {
       try {
@@ -70,7 +79,7 @@ export async function GET(
 
   const receipt = await prisma.receipt.findUnique({
     where: { id: receiptId },
-    include: { prep: true },
+    include: { prep: true, ...childrenInclude },
   })
   if (!receipt) return NextResponse.json({ error: "Receipt not found" }, { status: 404 })
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -138,13 +147,15 @@ export async function GET(
         entityAnalysis: entityAnalysis ? JSON.stringify(entityAnalysis) : null,
       },
     })
-    return NextResponse.json({ ok: true, brief, receipt, tributaries, entityAnalysis })
+    const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
+    return NextResponse.json({ ok: true, brief, receipt, tributaries, entityAnalysis, children })
   } catch {
     const stored = await prisma.brief.findUnique({ where: { receiptId } })
     const storedEntity = (() => {
       try { return stored?.entityAnalysis ? JSON.parse(stored.entityAnalysis) : null }
       catch { return null }
     })()
-    return NextResponse.json({ ok: true, brief: stored, receipt, tributaries, entityAnalysis: storedEntity })
+    const children = (receipt as Record<string, unknown> & { children?: unknown[] }).children ?? []
+    return NextResponse.json({ ok: true, brief: stored, receipt, tributaries, entityAnalysis: storedEntity, children })
   }
 }
