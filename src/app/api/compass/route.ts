@@ -259,7 +259,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
     // 1. Confirmation email — send immediately
     resend.emails.send({
-      from: "ARCS <compass@arcs.care>",
+      from: "ARCS <noreply@arcs.care>",
       to: userEmail,
       subject: `Receipt: ${(parsed.true_north as string ?? "").slice(0, 80)}`,
       text: `Your compass bearing is locked.\n\nTRUE NORTH\n${parsed.true_north}\n\nWHY\n${why}\n\nCONVICTION: ${receipt.nciScore}/100  ·  ${mode} · ${door}\n\nCartography brief →\n${briefUrl}`,
@@ -271,7 +271,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       scheduledAt.setHours(9, 0, 0, 0) // 9am on the target day
       if (scheduledAt > new Date()) {
         resend.emails.send({
-          from: "ARCS <compass@arcs.care>",
+          from: "ARCS <noreply@arcs.care>",
           to: userEmail,
           subject: `How did it go? "${(question.trim()).slice(0, 60)}"`,
           text: `You made a call ${Math.round((scheduledAt.getTime() - receipt.createdAt.getTime()) / 86400000)} days ago.\n\nTRUE NORTH\n${parsed.true_north}\n\nThe shoe has dropped. What actually happened? Log the outcome →\n${briefUrl}\n\n—\nARCS Field OS`,
