@@ -47,6 +47,7 @@ function PrepInner() {
   const [confidence, setConfidence] = useState("3")
   const [entity, setEntity] = useState("")
   const [adversarial, setAdversarial] = useState("")
+  const [outcomeHorizon, setOutcomeHorizon] = useState("")
   const [loading, setLoading] = useState(false)
 
   function toggleProtect(chip: string) {
@@ -64,6 +65,7 @@ function PrepInner() {
           stakes, horizon, protecting, confidence: Number(confidence),
           entity: entity.trim() || null,
           adversarialInput: adversarial.trim() || null,
+          outcomeHorizon: outcomeHorizon.trim() || null,
         }),
       })
       const { prep_id } = await res.json()
@@ -125,6 +127,7 @@ function PrepInner() {
 
           <Field label="Who else is in this terrain?" value={entity} onChange={(e) => setEntity(e.target.value)} placeholder="person, company, stakeholder, panel…" />
           <Field label="Strongest case against your instinct" value={adversarial} onChange={(e) => setAdversarial(e.target.value)} placeholder="One sentence. The Loki vector." />
+          <Field label="When do you expect the shoe to drop?" value={outcomeHorizon} onChange={(e) => setOutcomeHorizon(e.target.value)} placeholder="end of Q3, when we close the hire, 30 days…" />
 
           <div style={{ position: "sticky", bottom: "1.5rem", background: `linear-gradient(to top, ${surface.bg} 70%, transparent)`, paddingTop: "1rem" }}>
             <Button type="submit" variant="primary" size="lg" glyph={loading ? "~" : "⊕"} disabled={loading} style={{ width: "100%" }}>

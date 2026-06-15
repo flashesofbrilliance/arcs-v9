@@ -1,8 +1,11 @@
 import Anthropic from "@anthropic-ai/sdk"
+import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
+
+const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
 export const dynamic = "force-dynamic"
 
@@ -47,11 +50,13 @@ RULES:
   - [1] challenge: the need-to-hear branch — the uncomfortable truth or overlooked constraint
   - [2] adjacent: an adjacent primitive or domain they haven't named that reframes the terrain
   Tributaries must be specific to THIS decision — not generic. Write them as first-person questions.
+- reminder_iso: if OUTCOME_HORIZON is provided, parse it into an ISO 8601 date string (YYYY-MM-DD) relative to today (${new Date().toISOString().slice(0, 10)}). If ambiguous or not provided, return null.
 - Never add preamble. Return only the JSON object.
 
 OUTPUT SHAPE (strict JSON, no markdown fences):
 {
   "true_north": "string",
+  "reminder_iso": null,
   "why": ["string"],
   "decision_mode": "COURT",
   "clarity_mode": "SIMPLE",
@@ -159,7 +164,8 @@ HORIZON: ${prep.horizon ?? horizon}
 PROTECTING: ${protecting.length > 0 ? protecting.join(", ") : "not specified"}
 CONFIDENCE ENTERING: ${prep.confidence ?? "not specified"}/5
 ENTITY: ${prep.entity ?? "not named"}
-ADVERSARIAL VECTOR (user's strongest counter): ${prep.adversarialInput ?? "not provided"}`
+ADVERSARIAL VECTOR (user's strongest counter): ${prep.adversarialInput ?? "not provided"}
+OUTCOME_HORIZON: ${prep.outcomeHorizon ?? "not specified"}`
     : ""
 
   const userMsg = `DECISION: ${question.trim()}
@@ -241,8 +247,39 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       forkPath: null,
       // Status
       status: "OPEN",
+      reminderDate: typeof parsed.reminder_iso === "string" ? parsed.reminder_iso : null,
     },
   })
+
+  // Fire emails (non-blocking — don't let email failure break the compass response)
+  const userEmail = session?.user?.email ?? null
+  if (resend && userEmail) {
+    const briefUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://arcs-zachharris-3439s-projects.vercel.app"}/brief/${receipt.id}`
+    const why = (parsed.why as string[] ?? []).map((b: string) => `• ${b}`).join("\n")
+
+    // 1. Confirmation email — send immediately
+    resend.emails.send({
+      from: "ARCS <noreply@arcs.care>",
+      to: userEmail,
+      subject: `Receipt: ${(parsed.true_north as string ?? "").slice(0, 80)}`,
+      text: `Your compass bearing is locked.\n\nTRUE NORTH\n${parsed.true_north}\n\nWHY\n${why}\n\nCONVICTION: ${receipt.nciScore}/100  ·  ${mode} · ${door}\n\nCartography brief →\n${briefUrl}`,
+    }).catch(() => {})
+
+    // 2. Reminder email — scheduled for reminderDate if we have one
+    if (receipt.reminderDate) {
+      const scheduledAt = new Date(receipt.reminderDate)
+      scheduledAt.setHours(9, 0, 0, 0) // 9am on the target day
+      if (scheduledAt > new Date()) {
+        resend.emails.send({
+          from: "ARCS <noreply@arcs.care>",
+          to: userEmail,
+          subject: `How did it go? "${(question.trim()).slice(0, 60)}"`,
+          text: `You made a call ${Math.round((scheduledAt.getTime() - receipt.createdAt.getTime()) / 86400000)} days ago.\n\nTRUE NORTH\n${parsed.true_north}\n\nThe shoe has dropped. What actually happened? Log the outcome →\n${briefUrl}\n\n—\nARCS Field OS`,
+          scheduledAt: scheduledAt.toISOString(),
+        }).catch(() => {})
+      }
+    }
+  }
 
   return NextResponse.json({
     ok: true,
