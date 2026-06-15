@@ -133,7 +133,7 @@ const REACTIONS = ["◆ Key", "✕ Disagree", "⚑ Flag", "↻ Follow up"]
 // Parse "thoughts+comments" → { THOUGHT: true, COMMENT: true, REACTION: false }
 export function parseLayerSegment(seg: string | undefined): { THOUGHT: boolean; COMMENT: boolean; REACTION: boolean } {
   if (!seg) return { THOUGHT: true, COMMENT: true, REACTION: true }
-  const parts = seg.toLowerCase().split("+")
+  const parts = seg.toLowerCase().split("-")
   return {
     THOUGHT: parts.some((p) => p === "thoughts" || p === "thought"),
     COMMENT: parts.some((p) => p === "comments" || p === "comment"),
@@ -141,13 +141,14 @@ export function parseLayerSegment(seg: string | undefined): { THOUGHT: boolean; 
   }
 }
 
-// Encode { THOUGHT: true, COMMENT: false, REACTION: true } → "thoughts+reactions"
+// Encode { THOUGHT: true, COMMENT: false, REACTION: true } → "thoughts-reactions"
+// Uses hyphen, not plus — + is ambiguous in URL path segments under some routers.
 export function encodeLayerSegment(layers: { THOUGHT: boolean; COMMENT: boolean; REACTION: boolean }): string {
   const parts: string[] = []
   if (layers.THOUGHT) parts.push("thoughts")
   if (layers.COMMENT) parts.push("comments")
   if (layers.REACTION) parts.push("reactions")
-  return parts.join("+") || "thoughts+comments+reactions"
+  return parts.join("-") || "thoughts-comments-reactions"
 }
 
 export function ReflectLayer({
@@ -354,14 +355,12 @@ export function ReflectLayer({
   }
 
   function toggleLayer(type: keyof typeof layers) {
-    setLayers((prev) => {
-      const next = { ...prev, [type]: !prev[type] }
-      if (layerUrlBase) {
-        const seg = encodeLayerSegment(next)
-        router.replace(`${layerUrlBase}/${seg}`, { scroll: false })
-      }
-      return next
-    })
+    const next = { ...layers, [type]: !layers[type] }
+    setLayers(next)
+    if (layerUrlBase) {
+      const seg = encodeLayerSegment(next)
+      router.replace(`${layerUrlBase}/${seg}`, { scroll: false })
+    }
   }
 
   function activateInstrument(type: "THOUGHT" | "COMMENT" | "REACTION") {
