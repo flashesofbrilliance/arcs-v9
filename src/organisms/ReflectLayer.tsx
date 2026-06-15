@@ -152,12 +152,10 @@ export function ReflectLayer({
   const [expandedChip, setExpandedChip] = useState<ExpandedChip | null>(null)
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
   const [distillingIds, setDistillingIds] = useState<Set<string>>(new Set())
-  const [shavasanaOpen, setShavasanaOpen] = useState(false)
-  const [shavasanaIdx, setShavasanaIdx] = useState(0)
-  const [shavasanaFilter, setShavasanaFilter] = useState<"ALL" | "THOUGHT" | "COMMENT" | "REACTION">("ALL")
-  const [meditateOpen, setMeditateOpen] = useState(false)
+  const [shavasanaExpanded, setShavasanaExpanded] = useState(false)
   const [meditateLoading, setMeditateLoading] = useState(false)
   const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
+  const [meditateExpanded, setMeditateExpanded] = useState(true)
   const [narrow, setNarrow] = useState(false)
   // Floating selection picker — appears on any text highlight; dismissed on Escape / click-outside
   const [selectionPicker, setSelectionPicker] = useState<{
@@ -193,12 +191,12 @@ export function ReflectLayer({
         setDraft(null)
         setDraftBody("")
         setExpandedChip(null)
-        if (shavasanaOpen) setShavasanaOpen(false)
+        setShavasanaExpanded(false)
       }
     }
     document.addEventListener("keydown", handler)
     return () => document.removeEventListener("keydown", handler)
-  }, [shavasanaOpen])
+  }, [])
 
   // Annotation hotkeys: ` → THOUGHT  ! → REACTION  @ → COMMENT
   // Guards: skip if target is an editable element; if text is selected, open
@@ -402,8 +400,11 @@ export function ReflectLayer({
   async function hardenKernel(id: string) {
     const res = await fetch(`/api/annotations/${id}/harden`, { method: "POST" })
     if (!res.ok) return
-    setAnnotations((prev) => prev.map((a) => a.id === id ? { ...a, hardened: true } : a))
+    // Preserve kernel field — only flip hardened flag
+    setAnnotations((prev) => prev.map((a) => a.id === id ? { ...a, hardened: true, kernel: a.kernel } : a))
     setExpandedChip((prev) => prev?.annotation.id === id ? { ...prev, annotation: { ...prev.annotation, hardened: true } } : prev)
+    // Keep accordion open after harden so user sees the result
+    setExpandedIds((prev) => new Set(prev).add(id))
   }
 
   function toggleExpanded(id: string) {
@@ -416,7 +417,7 @@ export function ReflectLayer({
 
   async function runMeditate() {
     setMeditateLoading(true)
-    setMeditateOpen(true)
+    setMeditateExpanded(true)
     setMeditateResult(null)
     try {
       // Auto-distill any annotations that don't have kernels yet
@@ -465,10 +466,7 @@ export function ReflectLayer({
     railFilter === "ALL" ? true : a.type === railFilter
   ).sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
 
-  const shavasanaAnnotations = annotations.filter((a) =>
-    shavasanaFilter === "ALL" ? true : a.type === shavasanaFilter
-  )
-  const currentShav = shavasanaAnnotations[shavasanaIdx]
+
 
   const showRail = hudOpen && !narrow
 
@@ -565,25 +563,25 @@ export function ReflectLayer({
             {/* Annotations list — inline meditate synthesis + accordion cards */}
             <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 0 }}>
 
-              {/* ── Meditate synthesis — inline at top when active ── */}
-              {(meditateOpen || meditateResult) && (
-                <div style={{ marginBottom: 10 }}>
+              {/* ── Meditate synthesis — inline accordion ── */}
+              {(meditateLoading || meditateResult) && (
+                <div style={{ marginBottom: 2 }}>
                   <button
-                    onClick={() => setMeditateOpen((p) => !p)}
-                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "4px 0 6px" }}
+                    onClick={() => setMeditateExpanded((p) => !p)}
+                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "5px 0" }}
                   >
                     <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}bb`, textTransform: "uppercase" }}>
                       📿 Meditate
                     </span>
-                    <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>{meditateOpen ? "▲" : "▼"}</span>
+                    <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>{meditateExpanded ? "▲" : "▼"}</span>
                   </button>
 
-                  {meditateOpen && meditateLoading && (
-                    <div style={{ fontFamily: font.mono, fontSize: 9, color: `${GREEN}44`, textAlign: "center", padding: "16px 0", letterSpacing: ".08em" }}>distilling…</div>
+                  {meditateExpanded && meditateLoading && (
+                    <div style={{ fontFamily: font.mono, fontSize: 9, color: `${GREEN}44`, textAlign: "center", padding: "14px 0", letterSpacing: ".08em" }}>distilling…</div>
                   )}
 
-                  {meditateOpen && !meditateLoading && meditateResult && (
-                    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  {meditateExpanded && !meditateLoading && meditateResult && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: 4, paddingBottom: 6 }}>
                       {[
                         { label: "Held", items: meditateResult.held, color: CYAN },
                         { label: "Challenged", items: meditateResult.falsified, color: RED },
@@ -600,9 +598,53 @@ export function ReflectLayer({
                       ))}
                     </div>
                   )}
-                  <div style={{ height: ".5px", background: "rgba(30,41,59,.4)", marginTop: 6 }} />
+                  <div style={{ height: ".5px", background: "rgba(30,41,59,.3)" }} />
                 </div>
               )}
+
+              {/* ── Shavasana kernels — inline accordion ── */}
+              {shavasanaExpanded && (() => {
+                const kerneled = annotations.filter((a) => a.kernel)
+                return (
+                  <div style={{ marginBottom: 2 }}>
+                    <button
+                      onClick={() => setShavasanaExpanded(false)}
+                      style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "5px 0" }}
+                    >
+                      <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase" }}>
+                        ☽ Shavasana · {kerneled.length} kernel{kerneled.length !== 1 ? "s" : ""}
+                      </span>
+                      <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>▲</span>
+                    </button>
+                    {kerneled.length === 0 ? (
+                      <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", padding: "10px 0" }}>Run 📿 Meditate first to distill kernels</div>
+                    ) : (
+                      <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingBottom: 6 }}>
+                        {kerneled.map((a) => {
+                          const cleanK = a.kernel!.replace(/\*\*|#{1,3} /g, "")
+                          return (
+                            <div key={a.id} style={{ borderLeft: `2px solid ${a.hardened ? CYAN : GREEN}33`, paddingLeft: 8 }}>
+                              <div style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.35)", marginBottom: 3 }}>
+                                {TYPE_ICON[a.type]} — "{a.anchorText.slice(0, 40)}{a.anchorText.length > 40 ? "…" : ""}"
+                              </div>
+                              <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}cc` : `${GREEN}bb`, lineHeight: 1.55 }}>{cleanK}</div>
+                              {!a.hardened && (
+                                <button
+                                  onClick={() => hardenKernel(a.id)}
+                                  style={{ ...glassBtn(CYAN), fontSize: 7, padding: "2px 7px", marginTop: 4 }}
+                                >
+                                  💎 Harden
+                                </button>
+                              )}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+                    <div style={{ height: ".5px", background: "rgba(30,41,59,.3)" }} />
+                  </div>
+                )
+              })()}
 
               {railAnnotations.length === 0 && (
                 <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
@@ -733,7 +775,7 @@ export function ReflectLayer({
                   📿 Meditate
                 </button>
                 <button
-                  onClick={() => { setShavasanaOpen(true); setShavasanaIdx(0); setShavasanaFilter("ALL") }}
+                  onClick={() => setShavasanaExpanded((p) => !p)}
                   disabled={annotations.length === 0}
                   style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
@@ -1007,140 +1049,6 @@ export function ReflectLayer({
         </div>
       )}
 
-      {/* ── Shavasana Overlay ── */}
-      {shavasanaOpen && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(2,4,8,.94)", zIndex: 80, display: "flex", flexDirection: "column", padding: 20, overflowY: "auto" }}>
-          {/* Header */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-            <span style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".14em", color: `${GREEN}70`, textTransform: "uppercase" }}>☽ Shavasana</span>
-            <div style={{ flex: 1, height: ".5px", background: `${GREEN}14` }} />
-            {/* Filter pills */}
-            <div style={{ display: "flex", gap: 4 }}>
-              {(["ALL", "THOUGHT", "COMMENT", "REACTION"] as const).map((f) => (
-                <button
-                  key={f}
-                  onClick={() => { setShavasanaFilter(f); setShavasanaIdx(0) }}
-                  style={{
-                    ...glassBtn(shavasanaFilter === f ? CYAN : undefined),
-                    fontSize: 6, padding: "2px 8px", borderRadius: 10,
-                  }}
-                >
-                  {f === "ALL" ? `All (${annotations.length})` : `${TYPE_ICON[f]} ${annotations.filter(a => a.type === f).length}`}
-                </button>
-              ))}
-            </div>
-            <div style={{ width: ".5px", height: 14, background: "rgba(30,41,59,.4)" }} />
-            <button onClick={() => setShavasanaOpen(false)} style={{ ...glassBtn(), fontSize: 8, padding: "3px 9px" }}>✕</button>
-          </div>
-
-          {shavasanaAnnotations.length === 0 ? (
-            <div style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.4)", textAlign: "center", marginTop: 40 }}>No annotations in this layer</div>
-          ) : currentShav && (
-            <>
-              {/* Annotation card */}
-              <div style={{
-                background: "rgba(8,13,22,.75)",
-                border: `.5px solid ${TYPE_COLOR[currentShav.type]}18`,
-                borderRadius: 8,
-                padding: 16,
-                flex: 1,
-                maxWidth: 560,
-                margin: "0 auto",
-                width: "100%",
-                position: "relative",
-                overflow: "hidden",
-              }}>
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: ".5px", background: `linear-gradient(90deg,transparent,${TYPE_COLOR[currentShav.type]}25 30%,${TYPE_COLOR[currentShav.type]}25 70%,transparent)` }} />
-                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
-                  <span style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: `${TYPE_COLOR[currentShav.type]}77`, textTransform: "uppercase" }}>
-                    {TYPE_ICON[currentShav.type]} {currentShav.type}
-                  </span>
-                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
-                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>{new Date(currentShav.createdAt).toLocaleDateString()}</span>
-                  {currentShav.linkedRef && (() => {
-                    let lr: LinkedRef | null = null
-                    try { lr = JSON.parse(currentShav.linkedRef) } catch { return null }
-                    if (!lr) return null
-                    return (
-                      <div style={{ marginLeft: "auto", background: `${GOLD}08`, border: `.5px solid ${GOLD}28`, borderRadius: 10, padding: "1px 7px", display: "flex", gap: 4 }}>
-                        <span style={{ fontFamily: font.mono, fontSize: 6, fontWeight: 700, color: `${GOLD}80` }}>{lr.type.slice(0, 3)}</span>
-                        <span style={{ fontSize: 7, color: `${GOLD}66` }}>{lr.label.slice(0, 28)}</span>
-                      </div>
-                    )
-                  })()}
-                </div>
-                <div style={{ borderLeft: `.5px solid rgba(30,41,59,.45)`, paddingLeft: 9, marginBottom: 12, fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1.5 }}>
-                  "{currentShav.anchorText}"
-                </div>
-                <div style={{ fontSize: 12, color: text.primary, lineHeight: 1.7, marginBottom: 18 }}>
-                  {currentShav.body}
-                </div>
-
-                {/* Distill / kernel */}
-                {currentShav.kernel ? (
-                  <div style={{ paddingTop: 14, borderTop: `.5px solid rgba(30,41,59,.35)` }}>
-                    <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".14em", color: currentShav.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 6 }}>
-                      {currentShav.hardened ? "💎 Hardened" : "☽ Kernel"}
-                    </div>
-                    <div style={{ fontFamily: font.mono, fontSize: 16, color: currentShav.hardened ? `${CYAN}ee` : `${GREEN}ee`, lineHeight: 1.6, letterSpacing: ".01em" }}>{currentShav.kernel}</div>
-                    {!currentShav.hardened && (
-                      <button
-                        onClick={() => hardenKernel(currentShav.id)}
-                        style={{ ...glassBtn(CYAN), fontSize: 9, padding: "6px 16px", marginTop: 12 }}
-                      >
-                        💎 Harden
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <button
-                    onClick={async () => {
-                      const res = await fetch(`/api/annotations/${currentShav.id}/shavasana`, { method: "POST" })
-                      const d = await res.json()
-                      if (d.ok) {
-                        setAnnotations((prev) => prev.map((a) => a.id === currentShav.id ? { ...a, kernel: d.kernel } : a))
-                      }
-                    }}
-                    style={{ ...glassBtn(GREEN), fontSize: 9, padding: "6px 16px" }}
-                  >
-                    ☽ Distill →
-                  </button>
-                )}
-              </div>
-
-              {/* Navigation */}
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14, maxWidth: 560, margin: "14px auto 0", width: "100%" }}>
-                <button
-                  onClick={() => setShavasanaIdx((i) => Math.max(0, i - 1))}
-                  disabled={shavasanaIdx === 0}
-                  style={{ ...glassBtn(), fontSize: 8, padding: "5px 16px", opacity: shavasanaIdx === 0 ? .3 : 1 }}
-                >← hold</button>
-                <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", gap: 6 }}>
-                  {shavasanaAnnotations.map((_, i) => (
-                    <div
-                      key={i}
-                      onClick={() => setShavasanaIdx(i)}
-                      style={{
-                        width: i === shavasanaIdx ? 20 : 6,
-                        height: i === shavasanaIdx ? 2 : 6,
-                        borderRadius: i === shavasanaIdx ? 1 : "50%",
-                        background: i === shavasanaIdx ? `${CYAN}cc` : "rgba(30,41,59,.5)",
-                        cursor: "pointer",
-                        transition: "all .2s",
-                      }}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={() => setShavasanaIdx((i) => Math.min(shavasanaAnnotations.length - 1, i + 1))}
-                  disabled={shavasanaIdx === shavasanaAnnotations.length - 1}
-                  style={{ ...glassBtn(CYAN), fontSize: 8, padding: "5px 16px", opacity: shavasanaIdx === shavasanaAnnotations.length - 1 ? .3 : 1 }}
-                >advance →</button>
-              </div>
-            </>
-          )}
-        </div>
-      )}
     </div>
   )
 }
