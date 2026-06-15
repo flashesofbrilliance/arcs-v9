@@ -169,6 +169,7 @@ function DashboardInner() {
           onReset={() => { setResult(null); setQuestion("") }}
           onBrief={() => router.push(`/brief/${result.receipt_id}`)}
           onTributary={handleTributary}
+          onHistory={() => router.push("/history")}
         />
       ) : (
         <CompassForm

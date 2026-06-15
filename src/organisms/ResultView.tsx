@@ -19,9 +19,10 @@ export interface ResultViewProps {
   onReset?: () => void
   onBrief?: () => void
   onTributary?: (prompt: string) => void
+  onHistory?: () => void
 }
 
-export function ResultView({ result, onReset, onBrief, onTributary }: ResultViewProps) {
+export function ResultView({ result, onReset, onBrief, onTributary, onHistory }: ResultViewProps) {
   const [showReasoning, setShowReasoning] = React.useState(false)
   const weather = getWeather(result.y_state)
   const rs = resStyle[result.render_resolution] || resStyle.SHARP
@@ -32,7 +33,10 @@ export function ResultView({ result, onReset, onBrief, onTributary }: ResultView
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Receipt" />
-        <Button variant="ghost" size="sm" glyph="←" onClick={onReset}>New question</Button>
+        <div style={{ display: "flex", gap: "0.25rem" }}>
+          {onHistory && <Button variant="ghost" size="sm" onClick={onHistory}>← Ledger</Button>}
+          <Button variant="ghost" size="sm" glyph="⊕" onClick={onReset}>New question</Button>
+        </div>
       </div>
       <Rule style={{ marginBottom: '1.5rem' }} />
 
