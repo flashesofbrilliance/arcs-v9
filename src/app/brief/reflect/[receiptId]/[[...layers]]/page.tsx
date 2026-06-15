@@ -192,12 +192,6 @@ export default function BriefReflectPage() {
         <Brief result={result} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
 
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 6rem" }}>
-          {result.tributaries?.length > 0 && children.length === 0 && (
-            <Card style={{ marginBottom: "1.5rem" }}>
-              <TributariesStack tributaries={result.tributaries} onTributary={followTributary} />
-            </Card>
-          )}
-
           {children.length > 0 && (
             <Card style={{ marginBottom: "1.5rem" }}>
               <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>
