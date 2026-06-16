@@ -6,6 +6,8 @@
 // styles, solid colors only (no backdrop-filter/blur/background-image), serif +
 // system-font fallbacks. Returns { subject, text, html }.
 
+import { darkLockHead } from './darkLock'
+
 export interface ReceiptEmailOpts {
   // The sharpened question / decision (drives the subject line).
   question: string
@@ -91,52 +93,53 @@ ARCS Field OS · render through the fog to earned clarity`
   // ── HTML ─────────────────────────────────────────────────────────────────
   const whyRows = why.map((b) => `
     <tr>
-      <td valign="top" style="font-family:${C.sans};font-size:14px;line-height:1.6;color:${C.cyan};padding:0 8px 0 0;">•</td>
-      <td valign="top" style="font-family:${C.sans};font-size:14px;line-height:1.6;color:${C.body};padding:0 0 10px 0;">${escapeHtml(b)}</td>
+      <td valign="top" class="arcs-cyan" style="font-family:${C.sans};font-size:14px;line-height:1.6;color:${C.cyan};padding:0 8px 0 0;">•</td>
+      <td valign="top" class="arcs-body" style="font-family:${C.sans};font-size:14px;line-height:1.6;color:${C.body};padding:0 0 10px 0;">${escapeHtml(b)}</td>
     </tr>`).join('')
 
   // Mode/Door cells live inside the Conviction card now (Conviction is lifted
   // above True North so the email leads with the bearing's strength).
   const modeDoorCells = [
     mode ? `<td valign="top" style="padding:0 26px 0 0;">
-       <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 5px 0;">Mode</div>
-       <div style="font-family:${C.mono};font-size:13px;font-weight:700;color:${C.body};">${escapeHtml(mode)}</div>
+       <div class="arcs-muted" style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 5px 0;">Mode</div>
+       <div class="arcs-body" style="font-family:${C.mono};font-size:13px;font-weight:700;color:${C.body};">${escapeHtml(mode)}</div>
      </td>` : '',
     door ? `<td valign="top">
-       <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 5px 0;">Door</div>
+       <div class="arcs-muted" style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 5px 0;">Door</div>
        <div style="font-family:${C.mono};font-size:13px;font-weight:700;color:${door === 'ONE_WAY' ? C.gold : C.body};">${escapeHtml(door.replace('_', '-'))}</div>
      </td>` : '',
   ].filter(Boolean).join('')
 
-  const convictionCard = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0f1a;border:1px solid ${C.border};border-radius:10px;margin:0 0 22px 0;">
+  const convictionCard = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="arcs-card" style="background:#0a0f1a;border:1px solid ${C.border};border-radius:10px;margin:0 0 22px 0;">
     <tr><td style="padding:18px 20px;">
-      <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 6px 0;">Conviction</div>
-      <div style="font-family:${C.serif};font-size:42px;line-height:1;color:${cColor};font-weight:400;">${nci}<span style="font-family:${C.mono};font-size:14px;color:${C.muted};font-weight:400;"> / 100</span></div>
+      <div class="arcs-muted" style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 6px 0;">Conviction</div>
+      <div style="font-family:${C.serif};font-size:42px;line-height:1;color:${cColor};font-weight:400;">${nci}<span class="arcs-muted" style="font-family:${C.mono};font-size:14px;color:${C.muted};font-weight:400;"> / 100</span></div>
       ${modeDoorCells ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 0 0;border-top:1px solid ${C.border};"><tr><td style="padding:14px 0 0 0;"><table role="presentation" cellpadding="0" cellspacing="0"><tr>${modeDoorCells}</tr></table></td></tr></table>` : ''}
     </td></tr>
   </table>`
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"></head>
-<body style="margin:0;padding:0;background:${C.bg};">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
+${darkLockHead(C)}</head>
+<body class="arcs-body" style="margin:0;padding:0;background:${C.bg};">
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">Bearing locked · ${escapeHtml(subjLead.slice(0, 48))} · ${stamp}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="arcs-bg" style="background:${C.bg};">
   <tr><td align="center" style="padding:32px 16px;">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;">
 
       <tr><td style="padding:0 0 22px 0;font-family:${C.mono};font-size:12px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:${C.cyan};">
-        ARCS <span style="color:${C.body};font-weight:400;">FIELD OS</span>
+        <span class="arcs-cyan">ARCS</span> <span class="arcs-body" style="color:${C.body};font-weight:400;">FIELD OS</span>
       </td></tr>
 
-      <tr><td style="background:${C.panel};border:1px solid ${C.border};border-radius:16px;padding:34px 32px 28px 32px;">
+      <tr><td class="arcs-panel" style="background:${C.panel};border:1px solid ${C.border};border-radius:16px;padding:34px 32px 28px 32px;">
 
-        <div style="font-family:${C.mono};font-size:11px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:${C.cyan};padding:0 0 16px 0;">
+        <div class="arcs-cyan" style="font-family:${C.mono};font-size:11px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:${C.cyan};padding:0 0 16px 0;">
           Compass bearing · locked
         </div>
 
-        <div style="font-family:${C.serif};font-size:30px;line-height:1.16;color:${C.ink};padding:0 0 22px 0;font-weight:400;">
-          Your compass bearing<br><em style="color:${C.body};">is locked.</em>
+        <div class="arcs-ink" style="font-family:${C.serif};font-size:30px;line-height:1.16;color:${C.ink};padding:0 0 22px 0;font-weight:400;">
+          Your compass bearing<br><em class="arcs-body" style="color:${C.body};">is locked.</em>
         </div>
 
         <!-- Conviction — lifted above True North -->
@@ -145,14 +148,14 @@ ARCS Field OS · render through the fog to earned clarity`
         <!-- True North -->
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid ${C.border};">
           <tr><td style="padding:18px 0 0 0;">
-            <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 7px 0;">True North</div>
-            <div style="font-family:${C.serif};font-size:18px;line-height:1.5;color:${C.cyan};">${escapeHtml(tn)}</div>
+            <div class="arcs-muted" style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 7px 0;">True North</div>
+            <div class="arcs-cyan" style="font-family:${C.serif};font-size:18px;line-height:1.5;color:${C.cyan};">${escapeHtml(tn)}</div>
           </td></tr>
         </table>
 
         ${why.length ? `<!-- Why -->
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:20px 0 0 0;">
-          <tr><td style="padding:0 0 9px 0;font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};">Why</td></tr>
+          <tr><td class="arcs-muted" style="padding:0 0 9px 0;font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};">Why</td></tr>
           ${whyRows}
         </table>` : ''}
 
@@ -164,7 +167,7 @@ ARCS Field OS · render through the fog to earned clarity`
           </td>
         </tr></table>
 
-        <div style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
+        <div class="arcs-muted" style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
           Render through the fog to earned clarity.
         </div>
 
