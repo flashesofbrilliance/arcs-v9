@@ -2,11 +2,14 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { surface, text, contentContainer } from "@/ui/tokens"
+import { surface, text, contentContainer, border } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
-import { ResultView } from "@/organisms/ResultView"
+import { ReceiptPreviewWidget } from "@/molecules/ReceiptPreviewWidget"
+import { TributariesStack } from "@/molecules/TributariesStack"
+import { Wordmark } from "@/ui/Wordmark"
+import { Button } from "@/ui/Button"
 import type { CompassResult } from "@/lib/mockCompass"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
@@ -166,13 +169,27 @@ function DashboardInner() {
       )}
 
       {result ? (
-        <ResultView
-          result={result}
-          onReset={() => { setResult(null); setQuestion("") }}
-          onBrief={() => router.push(`/brief/${result.receipt_id}`)}
-          onTributary={handleTributary}
-          onHistory={() => router.push("/history")}
-        />
+        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "4rem" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+            <Wordmark section="Receipt" />
+            <div style={{ display: "flex", gap: "0.25rem" }}>
+              <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>
+              <Button variant="ghost" size="sm" glyph="⊕" onClick={() => { setResult(null); setQuestion("") }}>New question</Button>
+            </div>
+          </div>
+
+          <ReceiptPreviewWidget
+            result={result}
+            onOpenBrief={() => router.push(`/brief/${result.receipt_id}`)}
+            onOpenReceipt={() => router.push(`/receipt/${result.receipt_id}`)}
+          />
+
+          {result.tributaries?.length > 0 && (
+            <div style={{ marginTop: "1.5rem", paddingTop: "1.5rem", borderTop: `0.5px solid ${border.subtle}` }}>
+              <TributariesStack tributaries={result.tributaries} onTributary={handleTributary} />
+            </div>
+          )}
+        </div>
       ) : (
         <CompassForm
           question={question}
