@@ -319,6 +319,13 @@ export function ReflectLayer({
     }
     selectionPickerRef.current = next
     setSelectionPicker(next)
+
+    // iPad: a pen selection ALSO triggers the native iOS edit menu, colliding
+    // with our picker. We've captured the anchor text + position, so collapse
+    // the live selection — the native menu has nothing to attach to and
+    // dismisses, leaving only the ARCS picker. Mouse (desktop) keeps its
+    // highlight; there's no native menu to fight there.
+    if (e.pointerType === "pen") sel.removeAllRanges()
   }, [hudOpen])
 
   useEffect(() => {
@@ -877,7 +884,9 @@ export function ReflectLayer({
         )}
 
         {/* ── Content ── */}
-        <div style={{ cursor: hudOpen ? FLASHLIGHT : undefined }}>
+        {/* In reflect mode ARCS owns the selection experience: suppress the iOS
+            long-press callout so a pen selection raises only the ARCS picker. */}
+        <div style={{ cursor: hudOpen ? FLASHLIGHT : undefined, WebkitTouchCallout: hudOpen ? "none" : undefined }}>
           {children}
         </div>
       </div>
