@@ -19,7 +19,8 @@ export function DebriefCard({ receiptId, question, trueNorth, nciScore, createdA
   const router = useRouter()
   const now = new Date()
   const created = new Date(createdAt)
-  const daysElapsed = Math.floor((now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24))
+  const elapsed = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24)
+  const daysElapsed = Number.isFinite(elapsed) ? Math.floor(elapsed) : 0
 
   // Google Calendar link builder
   function buildCalendarLink() {
@@ -29,15 +30,16 @@ export function DebriefCard({ receiptId, question, trueNorth, nciScore, createdA
     const startTime = calDate.toISOString().replace(/[-:]/g, "").split(".")[0] + "Z"
 
     const title = `Debrief: Did it land?`
+    // Truncate True North to avoid URL length limits (>2000 chars can break on some platforms)
+    const tnTruncated = trueNorth.length > 200 ? trueNorth.slice(0, 197) + "…" : trueNorth
     const description = `Original decision: "${question}"
 
-True North (bearing): "${trueNorth}"
+True North: "${tnTruncated}"
 
-Conviction at decision: ${nciScore}/100
-
+Conviction: ${nciScore}/100
 Days elapsed: ${daysElapsed}d
 
-${protecting.length > 0 ? `You were protecting: ${protecting.join(" · ")}\n\n` : ""}The shoe has dropped. Did it land where the compass pointed? Log your outcome at:
+The shoe has dropped. Did it land where the compass pointed? Log your outcome at:
 ${typeof window !== "undefined" ? window.location.origin : ""}/debrief/${receiptId}`
 
     const params = new URLSearchParams({
