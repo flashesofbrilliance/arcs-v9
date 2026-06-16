@@ -1,0 +1,46 @@
+name: CI
+
+# Smoke gate: lint + type-check + build on every push/PR. Uses the existing
+# package.json scripts only — no new test deps. Build runs against a dummy
+# DATABASE_URL since Prisma's client is generated at install (postinstall) and
+# the build does not connect to the DB.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    env:
+      # Build-time placeholders — no real secrets, no DB connection at build.
+      DATABASE_URL: "postgresql://user:pass@localhost:5432/db"
+      ANTHROPIC_API_KEY: "sk-ant-ci-placeholder"
+      AUTH_SECRET: "ci-placeholder-secret"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      # Advisory: the repo carries pre-existing lint debt, so lint reports but
+      # does not block. Tighten to a hard gate once the backlog is cleared.
+      - name: Lint (advisory)
+        run: npm run lint
+        continue-on-error: true
+
+      # Hard gates — both pass today.
+      - name: Type-check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build

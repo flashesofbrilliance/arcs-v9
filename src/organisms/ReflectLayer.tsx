@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { font, signal, text, surface, border } from "@/ui/tokens"
+import { PointerTypeProbe } from "@/ui/PointerTypeProbe"
 
 // Reflect Layer — acetate overlay annotation system for Brief and Receipt surfaces.
 // Three independent layers: THOUGHT (cyan, left margin), COMMENT (gold, right margin),
@@ -103,11 +104,10 @@ function hairline(): React.CSSProperties {
   }
 }
 
-const CURSORS: Record<string, string> = {
-  THOUGHT: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='18'%3E%E2%9C%8F%3C/text%3E%3C/svg%3E") 4 20, text`,
-  COMMENT: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='18'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E") 4 20, text`,
-  REACTION: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='18'%3E%E2%97%88%3C/text%3E%3C/svg%3E") 4 20, crosshair`,
-}
+// In reflect mode the cursor is always a flashlight 🔦 — regardless of the
+// armed instrument — so dragging over text reads as shining a light on it.
+// Hotspot at the beam tip (top-left); falls back to text so selection still works.
+const FLASHLIGHT = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ctext y='23' font-size='22'%3E%F0%9F%94%A6%3C/text%3E%3C/svg%3E") 3 3, text`
 
 const REACTIONS = ["◆ Key", "✕ Disagree", "⚑ Flag", "↻ Follow up"]
 
@@ -498,10 +498,11 @@ export function ReflectLayer({
   // Phones (≤760): Reflect is hidden. Render the brief/receipt read-only so the
   // native iOS text-selection menu is left untouched. Reflect is a desktop+tablet
   // instrument (see AskUserQuestion 2026-06-16).
-  if (mobile) return <>{children}</>
+  if (mobile) return <><PointerTypeProbe />{children}</>
 
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
+      <PointerTypeProbe />
       <style>{`::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(30,41,59,.55);border-radius:2px}::-webkit-scrollbar-thumb:hover{background:rgba(71,85,105,.65)}`}</style>
       {/* Two-column layout: [300px left rail | content] when HUD open */}
       <div style={{
@@ -859,7 +860,7 @@ export function ReflectLayer({
         )}
 
         {/* ── Content ── */}
-        <div style={{ cursor: activeInstrument ? CURSORS[activeInstrument] : undefined }}>
+        <div style={{ cursor: hudOpen ? FLASHLIGHT : undefined }}>
           {children}
         </div>
       </div>
