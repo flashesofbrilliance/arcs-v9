@@ -168,9 +168,33 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
           {meta}
         </div>
       </div>
-      {/* Unified CTA row — matches Cluster & Read */}
-      <div style={{ padding: '16px 22px' }}>
-        <CTARow onOpenBrief={onOpenBrief} onOpenReceipt={onOpenReceipt} />
+      {/* Accent Weather buttons — sans serif, subtle border, Y-state color */}
+      <div style={{ padding: '16px 22px', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        {["Open Cartography Brief →", "Receipt"].map((a, i) => (
+          <button key={i} onClick={i === 0 ? onOpenBrief : onOpenReceipt} style={{
+            height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
+            background: i === 0 ? w.color : 'transparent', color: i === 0 ? "#020408" : text.secondary, border: i === 0 ? 'none' : `1px solid ${border.subtle}`,
+            transition: 'all .12s',
+          }}
+          onMouseEnter={(e) => {
+            if (i === 0) {
+              (e.currentTarget as HTMLButtonElement).style.opacity = '0.9'
+            } else {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = text.primary
+              (e.currentTarget as HTMLButtonElement).style.color = text.primary
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (i === 0) {
+              (e.currentTarget as HTMLButtonElement).style.opacity = '1'
+            } else {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = border.subtle
+              (e.currentTarget as HTMLButtonElement).style.color = text.secondary
+            }
+          }}>
+            {a}
+          </button>
+        ))}
       </div>
     </div>
   )
