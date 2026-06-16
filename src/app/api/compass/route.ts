@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
+import { debriefEmail } from "@/emails/debriefEmail"
 
 const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
@@ -265,16 +266,28 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       text: `Your compass bearing is locked.\n\nTRUE NORTH\n${parsed.true_north}\n\nWHY\n${why}\n\nCONVICTION: ${receipt.nciScore}/100  ·  ${mode} · ${door}\n\nCartography brief →\n${briefUrl}`,
     }).catch(() => {})
 
-    // 2. Reminder email — scheduled for reminderDate if we have one
+    // 2. Debrief (calibration) email — the §5.6 close-the-loop touchpoint,
+    //    scheduled for reminderDate. Reflects the original bearing back and
+    //    routes to logging the outcome. A receipt can't close itself.
     if (receipt.reminderDate) {
       const scheduledAt = new Date(receipt.reminderDate)
       scheduledAt.setHours(9, 0, 0, 0) // 9am on the target day
       if (scheduledAt > new Date()) {
+        const debrief = debriefEmail({
+          question: question.trim(),
+          trueNorth: parsed.true_north as string ?? "",
+          daysElapsed: (scheduledAt.getTime() - receipt.createdAt.getTime()) / 86400000,
+          conviction: receipt.nciScore,
+          protecting,
+          debriefUrl: briefUrl,
+          token: receipt.id,
+        })
         resend.emails.send({
           from: "ARCS <noreply@arcs.care>",
           to: userEmail,
-          subject: `How did it go? "${(question.trim()).slice(0, 60)}"`,
-          text: `You made a call ${Math.round((scheduledAt.getTime() - receipt.createdAt.getTime()) / 86400000)} days ago.\n\nTRUE NORTH\n${parsed.true_north}\n\nThe shoe has dropped. What actually happened? Log the outcome →\n${briefUrl}\n\n—\nARCS Field OS`,
+          subject: debrief.subject,
+          text: debrief.text,
+          html: debrief.html,
           scheduledAt: scheduledAt.toISOString(),
         }).catch(() => {})
       }
