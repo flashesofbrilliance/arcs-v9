@@ -180,6 +180,7 @@ function DashboardInner() {
 
           <ReceiptPreviewWidget
             result={result}
+            defaultVariant="cluster"
             onOpenBrief={() => router.push(`/brief/${result.receipt_id}`)}
             onOpenReceipt={() => router.push(`/receipt/${result.receipt_id}`)}
           />
