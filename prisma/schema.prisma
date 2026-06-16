@@ -144,6 +144,7 @@ model Receipt {
   // ── Lineage ───────────────────────────────────────────────────────────────
   sessionId      String           // groups full decision thread
   parentId       String?          // null = seed receipt (schema: parent_receipt_id → parentId)
+  parentTributaryIndex Int?       // 0|1|2 = which tributary spawned this receipt; null if seed
   version        Int              @default(0) // lineage counter (not schema version — see schemaVersion)
   forkPath       String?          // which path was chosen if parent was FORK state
   mergedFrom     String           @default("[]") // JSON: string[] receipt ids
