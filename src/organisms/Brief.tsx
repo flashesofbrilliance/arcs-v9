@@ -84,10 +84,17 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
         </div>
       </div>
 
-      {/* Two-col: Terrain Paths + Constitutional Court entries */}
-      {(r.paths?.length || r.court) ? (
-        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (r.paths?.length && r.court ? '1fr 1fr' : '1fr'), gap: '1.25rem', marginBottom: '1.25rem' }}>
-          {r.paths?.length ? <TerrainPaths paths={r.paths} /> : null}
+      {/* Terrain Paths — single column, directly under Conviction */}
+      {r.paths?.length ? (
+        <div style={{ marginBottom: '1.25rem' }}>
+          <TerrainPaths paths={r.paths} />
+        </div>
+      ) : null}
+
+      {/* Two-col: FATED + Constitutional Court entries */}
+      {(Object.keys(fated).length > 0 || r.court) ? (
+        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (Object.keys(fated).length > 0 && r.court ? '1fr 1fr' : '1fr'), gap: '1.25rem', marginBottom: '1.25rem' }}>
+          {Object.keys(fated).length > 0 ? <FatedGrid fated={fated} /> : null}
           {r.court ? (
             <Card>
               <Label style={{ marginBottom: '1rem' }}>Constitutional Court</Label>
@@ -109,11 +116,6 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
           <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{r.court_verdict}</div>
         </div>
       )}
-
-      {/* FATED — full-width single column */}
-      <div style={{ marginBottom: '1.25rem' }}>
-        <FatedGrid fated={fated} />
-      </div>
 
       {/* Situation Framing — above the tributaries block */}
       {situationFraming && (
