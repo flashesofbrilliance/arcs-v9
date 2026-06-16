@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
 import { debriefEmail } from "@/emails/debriefEmail"
+import { receiptEmail } from "@/emails/receiptEmail"
 
 const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
@@ -256,14 +257,24 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   const userEmail = session?.user?.email ?? null
   if (resend && userEmail) {
     const briefUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://arcs-zachharris-3439s-projects.vercel.app"}/brief/${receipt.id}`
-    const why = (parsed.why as string[] ?? []).map((b: string) => `• ${b}`).join("\n")
 
-    // 1. Confirmation email — send immediately
+    // 1. Receipt confirmation email — the T₀ "bearing locked" artifact.
+    const receiptMail = receiptEmail({
+      question: question.trim(),
+      trueNorth: parsed.true_north as string ?? "",
+      why: (parsed.why as string[]) ?? [],
+      nci: receipt.nciScore,
+      mode,
+      door,
+      briefUrl,
+      token: receipt.id,
+    })
     resend.emails.send({
       from: "ARCS <noreply@arcs.care>",
       to: userEmail,
-      subject: `Receipt: ${(parsed.true_north as string ?? "").slice(0, 80)}`,
-      text: `Your compass bearing is locked.\n\nTRUE NORTH\n${parsed.true_north}\n\nWHY\n${why}\n\nCONVICTION: ${receipt.nciScore}/100  ·  ${mode} · ${door}\n\nCartography brief →\n${briefUrl}`,
+      subject: receiptMail.subject,
+      text: receiptMail.text,
+      html: receiptMail.html,
     }).catch(() => {})
 
     // 2. Debrief (calibration) email — the §5.6 close-the-loop touchpoint,
