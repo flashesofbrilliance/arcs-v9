@@ -134,6 +134,10 @@
 }
 
 /* ─── Base ───────────────────────────────────────────────────────────────────── */
+html {
+  overflow-y: scroll;
+}
+
 body {
   background-color: var(--color-obsidian-950);
   color: var(--color-ivory-100);
