@@ -184,7 +184,7 @@ export default function BriefPage() {
           )}
         </div>
       )}
-      <Brief result={result} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
+      <Brief result={result} situationFraming={framing} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
 
       {/* Sticky share footer */}
       <div style={{ position: "sticky", bottom: 0, zIndex: 30, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: `0.5px solid rgba(30,41,59,0.5)` }}>
@@ -235,13 +235,6 @@ export default function BriefPage() {
                 )
               })}
             </div>
-          </Card>
-        )}
-
-        {framing && (
-          <Card style={{ marginBottom: "1.5rem" }}>
-            <Label style={{ marginBottom: "0.75rem" }}>Situation Framing</Label>
-            <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>{framing}</p>
           </Card>
         )}
 
