@@ -17,16 +17,17 @@ export type PreviewVariant = "cluster" | "read" | "artifact"
 // ── Shared palette (from audit :root) ──────────────────────────────────────
 const HAIR = "rgba(22,30,43,0.8)"
 
-// ── Gauge — the instrument cluster atom ────────────────────────────────────
+// ── Gauge — the instrument cluster atom (glassmorphism) ────────────────────
 function Gauge({ label, value, sub, sparkPct, color }: {
   label: string; value: string; sub?: string; sparkPct?: number; color: string
 }) {
   return (
     <div style={{
-      position: "relative", borderRadius: 8, padding: "16px 18px 17px", overflow: "hidden",
-      border: `1px solid ${border.subtle}`,
-      background: "linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.008) 40%,rgba(0,0,0,.2)),linear-gradient(165deg,#10171f,#0a0f15)",
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.06),0 6px 18px rgba(0,0,0,.45)",
+      position: "relative", borderRadius: 12, padding: "16px 18px 17px", overflow: "hidden",
+      border: `1px solid rgba(255,255,255,.12)`,
+      background: "rgba(16,23,31,.35)",
+      backdropFilter: "blur(12px)",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.35)",
     }}>
       <div style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span>{label}</span>
@@ -121,11 +122,10 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   )
 }
 
-// ── Variant C — Verdict Artifact (CoverBlock document grammar + app tokens) ──
+// ── Variant C — Verdict Artifact (CoverBlock document grammar + unified buttons) ──
 // Renders the receipt as a document cover: Y-state + mode badges, True North as
 // the hero title, the decision as subtitle, the instrument readout as the meta
-// strip, and the brief/receipt CTAs as cover actions. Uses app token overrides
-// so the colors/text match the rest of the widget aesthetic.
+// strip. Uses CTARow for unified button styling across all carousel variants.
 function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   const w = getWeather(result.y_state)
   const door = result.door_class?.replace(/_/g, " ")
@@ -142,22 +142,65 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
       background: `linear-gradient(180deg,rgba(14,22,38,.5),rgba(9,14,24,.66))`,
       boxShadow: `inset 0 -3px 20px ${signal.cyan}18, 0 0 0 0.5px ${signal.cyan}22`,
     }}>
-      <CoverBlock
-        accent={w.color}
-        badges={[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean) as string[]}
-        title={result.true_north}
-        subtitle={result.question}
-        meta={meta}
-        actions={["Open Cartography Brief →", "Receipt"]}
-        onAction={(i) => (i === 0 ? onOpenBrief?.() : onOpenReceipt?.())}
-        tokens={{
-          fg1: text.primary,
-          fg2: text.secondary,
-          fg4: text.muted,
-          border: border.subtle,
-          bg: "#020408",
-        }}
-      />
+      <div style={{ padding: '36px 0 32px', borderBottom: `1px solid ${border.subtle}` }}>
+        {/* Badges */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+          {[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean).map((b, i) => (
+            <span key={i} style={{
+              display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
+              borderRadius: 4, fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: i === 0 ? "#020408" : w.color,
+              background: i === 0 ? w.color : `${w.color}16`,
+              border: i === 0 ? 'none' : `1px solid ${w.color}35`,
+            }}>{b}</span>
+          ))}
+        </div>
+        {/* Title — h2 size for clarity hierarchy */}
+        <h2 style={{ fontFamily: font.sans, fontSize: 22, fontWeight: 600, color: text.primary, letterSpacing: '-0.02em', lineHeight: 1.4, marginBottom: 16 }}>
+          {result.true_north}
+        </h2>
+        {/* Subtitle */}
+        <p style={{ fontFamily: font.sans, fontSize: 15, color: text.secondary, lineHeight: 1.7, marginBottom: 16, maxWidth: 640 }}>
+          {result.question}
+        </p>
+        {/* Meta */}
+        <div style={{ fontFamily: font.mono, fontSize: 10, color: text.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>
+          {meta}
+        </div>
+      </div>
+      {/* Accent Weather buttons — sans serif, subtle border, Y-state color */}
+      <div style={{ padding: '16px 22px', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        {["Open Cartography Brief →", "Receipt"].map((a, i) => {
+          const isPrimary = i === 0
+          return (
+            <button key={i} onClick={isPrimary ? onOpenBrief : onOpenReceipt} style={{
+              height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
+              background: isPrimary ? w.color : 'transparent', color: isPrimary ? "#020408" : text.secondary, border: isPrimary ? 'none' : `1px solid ${border.subtle}`,
+              transition: 'all .12s',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              if (isPrimary) {
+                el.style.opacity = '0.9'
+              } else {
+                el.style.borderColor = text.primary
+                el.style.color = text.primary
+              }
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              if (isPrimary) {
+                el.style.opacity = '1'
+              } else {
+                el.style.borderColor = border.subtle
+                el.style.color = text.secondary
+              }
+            }}>
+              {a}
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }

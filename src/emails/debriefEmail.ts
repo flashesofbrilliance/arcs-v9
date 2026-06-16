@@ -72,7 +72,7 @@ export function debriefEmail(opts: DebriefEmailOpts): { subject: string; text: s
   const protectingLine = protecting.length ? `\nYOU WERE PROTECTING\n${protecting.join(' · ')}\n` : ''
   const convictionLine = conviction != null ? `  ·  conviction ${conviction}/100` : ''
   const text =
-`You made this call ${days} day${days === 1 ? '' : 's'} ago${convictionLine}.
+`You made this call ${days}d ago${convictionLine}.
 
 THE QUESTION
 ${q}
