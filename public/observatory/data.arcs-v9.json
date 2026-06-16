@@ -1,269 +1,342 @@
 {
   "repo": "flashesofbrilliance/arcs-v9",
   "label": "arcs-v9 \u2014 forensic git history",
-  "generated_at": "2026-06-08T02:04:11",
-  "head_sha": "3aae5d8",
+  "generated_at": "2026-06-16T19:14:18",
+  "head_sha": "b1c4207",
   "attribution": "shown",
-  "span_start": "2026-05-27",
-  "span_days": 14,
+  "span_start": "2026-06-08",
+  "span_days": 10,
   "redacted_open_risks": 2,
   "events": [
     {
-      "id": "ev-9970c3f",
-      "date": "2026-05-27",
+      "id": "ev-75d8338",
+      "date": "2026-06-08",
       "alt": "L3",
       "type": "genesis",
       "peak": true,
       "label": "Earliest commit in current history (filter-repo rewrite)",
-      "sha": "9970c3f",
-      "desc": "Git history was rewritten to purge committed secrets; SHAs before this were rewritten. Earliest visible commit: feat(security): RLS deny-all policies for all 9 Supabase tables.",
+      "sha": "75d8338",
+      "desc": "Git history was rewritten to purge committed secrets; SHAs before this were rewritten. Earliest visible commit: feat(compass-kit): stage Compass UI kit as live preview at /compass-kit.",
       "conf": 80
     },
     {
-      "id": "ev-f73d0fb",
-      "date": "2026-05-27",
-      "alt": "L5",
-      "type": "canon",
-      "peak": true,
-      "label": "chore(adr): ADR-009 design system canonicalization \u2014 inline-style component library in arcs-v9",
-      "sha": "f73d0fb",
-      "desc": "chore(adr): ADR-009 design system canonicalization \u2014 inline-style component library in arcs-v9 \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 90
-    },
-    {
-      "id": "ev-924fd10",
-      "date": "2026-05-27",
-      "alt": "L4",
-      "type": "canon",
-      "peak": true,
-      "label": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap",
-      "sha": "924fd10",
-      "desc": "feat(ui): canonical tokens.ts + Badge component \u2014 arcs-v9 design system bootstrap \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 90
-    },
-    {
-      "id": "ev-80530b8",
-      "date": "2026-05-27",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes",
-      "sha": "80530b8",
-      "desc": "feat(ui): Button component \u2014 primary/ghost/danger variants, sm/md/lg sizes \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 90
-    },
-    {
-      "id": "ev-8bde699",
-      "date": "2026-05-27",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "chore(adr): ADR-010 arcs_dewy naming collision \u2014 rename to resolve",
-      "sha": "8bde699",
-      "desc": "chore(adr): ADR-010 arcs_dewy naming collision \u2014 rename to resolve \u2014 Pre-audited: DEWYLog/DEWYEntry have zero callers outside arcs_dewy.py.",
-      "conf": 94
-    },
-    {
-      "id": "ev-a737c56",
-      "date": "2026-05-27",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct imports, revisit at 8+ components",
-      "sha": "a737c56",
-      "desc": "chore(adr): ADR-011 UI import strategy \u2014 no barrel, direct imports, revisit at 8+ components \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 94
-    },
-    {
-      "id": "ev-6ae6582",
-      "date": "2026-05-28",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided",
-      "sha": "6ae6582",
-      "desc": "docs(adr): ADR-009/011 ultrareview patches + ADR-012 PLG Phase 1 decided \u2014 D: Lock session ADR ledger \u2014 ultrareview revisions to 009/011, new ADR-012 decided",
-      "conf": 94
-    },
-    {
-      "id": "ev-4932cdd",
-      "date": "2026-05-28",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi build sequence locked",
-      "sha": "4932cdd",
-      "desc": "feat(adr): ADR-013 arcs.care conversion architecture \u2014 kintsugi build sequence locked \u2014 D: What is the correct build sequence for founding-10 conversion gap?",
-      "conf": 94
-    },
-    {
-      "id": "ev-b72f95f",
-      "date": "2026-05-28",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(adr): ADR-014 CI/CD governance circuit breaker model",
-      "sha": "b72f95f",
-      "desc": "docs(adr): ADR-014 CI/CD governance circuit breaker model \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 94
-    },
-    {
-      "id": "ev-c8b2eb5",
-      "date": "2026-05-28",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(adr): ADR-014 CI/CD governance circuit breakers + ADR-015 case study content gate stub",
-      "sha": "c8b2eb5",
-      "desc": "docs(adr): ADR-014 CI/CD governance circuit breakers + ADR-015 case study content gate stub \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
-      "conf": 94
-    },
-    {
-      "id": "ev-44f40b2",
-      "date": "2026-05-28",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(adr): seal ADR-015/016/017; stub ADR-018 as HELD",
-      "sha": "44f40b2",
-      "desc": "docs(adr): seal ADR-015/016/017; stub ADR-018 as HELD \u2014 ADR-015: DECIDED \u2014 Option A. Items 2+3 proceed; item 1 content-gated.",
-      "conf": 94
-    },
-    {
-      "id": "ev-695afb3",
-      "date": "2026-05-29",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "chore(adr): ADR-019 receipt-core Python boundary \u2014 ReceiptObject as wire/storage ACL",
-      "sha": "695afb3",
-      "desc": "chore(adr): ADR-019 receipt-core Python boundary \u2014 ReceiptObject as wire/storage ACL \u2014 Option B: ReceiptObject at wire/storage boundary only; CoherenceReceipt/DecisionReceipt",
-      "conf": 94
-    },
-    {
-      "id": "ev-4f4b3ee",
-      "date": "2026-05-29",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(adr): seal ADR-020 \u2014 Tribune Intelligence Layer (Anterior/Proactive/Posterior)",
-      "sha": "4f4b3ee",
-      "desc": "docs(adr): seal ADR-020 \u2014 Tribune Intelligence Layer (Anterior/Proactive/Posterior) \u2014 Three-phase decision scaffolding wrapping the receipt core. Proactive phase",
-      "conf": 94
-    },
-    {
-      "id": "ev-e3f29ff",
-      "date": "2026-05-29",
-      "alt": "L3",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(spec): compass atomic design spec v1 \u2014 atoms 1\u201311, gates, cross-atom rules",
-      "sha": "e3f29ff",
-      "desc": "docs(spec): compass atomic design spec v1 \u2014 atoms 1\u201311, gates, cross-atom rules \u2014 11 atoms fully specced from Architect packet (canon-derived, Kairos Recall active).",
-      "conf": 94
-    },
-    {
-      "id": "ev-935759f",
-      "date": "2026-05-29",
-      "alt": "L4",
-      "type": "security",
-      "label": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + PrismaAdapter",
-      "sha": "935759f",
-      "desc": "feat(auth): wire Auth.js v5 magic link \u2014 Resend EmailProvider + PrismaAdapter \u2014 Replaces null stub with live Auth.js v5 config. Resend EmailProvider reads",
-      "conf": 94
-    },
-    {
-      "id": "ev-6a5b856",
-      "date": "2026-06-03",
-      "alt": "L5",
-      "type": "security",
-      "label": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim endpoint",
-      "sha": "6a5b856",
-      "desc": "feat(auth): ADR-016 Option C \u2014 anonymous compass + receipt claim endpoint \u2014 - Remove prod-only 401 guard from /api/compass and /api/prep",
-      "conf": 94
-    },
-    {
-      "id": "ev-663d831",
-      "date": "2026-06-03",
-      "alt": "L3",
-      "type": "fix",
-      "label": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config object form silently breaks Supabase pooler",
-      "sha": "663d831",
-      "desc": "fix(db): PrismaPg requires explicit pg.Pool with SSL \u2014 config object form silently breaks Supabase pooler \u2014 PrismaPg({ connectionString }) creates the adapter but the underlying pool",
-      "conf": 90
-    },
-    {
-      "id": "ev-f04a589",
-      "date": "2026-06-03",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "docs(adr): ADR-016 execution receipt + ADR-022 schema debt + activation-check.sql",
-      "sha": "f04a589",
-      "desc": "docs(adr): ADR-016 execution receipt + ADR-022 schema debt + activation-check.sql \u2014 - ADR-016 amended: full execution receipt (deviations, prod state, seal confirmation)",
-      "conf": 94
-    },
-    {
-      "id": "ev-11a0fe7",
-      "date": "2026-06-03",
-      "alt": "L4",
-      "type": "security",
-      "peak": true,
-      "label": "chore(security): close history-scrub gap \u2014 secrets purged from all history",
-      "sha": "11a0fe7",
-      "desc": "chore(security): close history-scrub gap \u2014 secrets purged from all history \u2014 git filter-repo --replace-text removed re_T6zSFsRF_* (Resend key) and",
-      "conf": 94
-    },
-    {
-      "id": "ev-9f669fa",
-      "date": "2026-06-05",
-      "alt": "L5",
-      "type": "milestone",
-      "peak": true,
-      "label": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM",
-      "sha": "9f669fa",
-      "desc": "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM \u2014 Observability layer modeled as an inferred folksonomy DAG over receipts,",
-      "conf": 94
-    },
-    {
-      "id": "ev-27ee318",
-      "date": "2026-06-05",
-      "alt": "L3",
-      "type": "feat",
-      "label": "feat(observatory): wire Observatory UI kit to real repo data",
-      "sha": "27ee318",
-      "desc": "feat(observatory): wire Observatory UI kit to real repo data \u2014 Implements the Claude Design \"ARCS OS\" Observatory handoff: a forensic,",
-      "conf": 90
-    },
-    {
-      "id": "ev-7fec720",
-      "date": "2026-06-05",
-      "alt": "L4",
-      "type": "feat",
-      "label": "feat(observatory): --attribution show|hide flag for Co-Authored-By trailers",
-      "sha": "7fec720",
-      "desc": "feat(observatory): --attribution show|hide flag for Co-Authored-By trailers \u2014 Gauntlet flagged 8 Co-Authored-By/session-url/email trailers in the",
-      "conf": 90
-    },
-    {
-      "id": "ev-bbeb8a8",
-      "date": "2026-06-05",
-      "alt": "L3",
-      "type": "milestone",
-      "peak": true,
-      "label": "feat(observatory): hide=strip-to-subject; regen deployed data clean",
-      "sha": "bbeb8a8",
-      "desc": "feat(observatory): hide=strip-to-subject; regen deployed data clean \u2014 Per demo decision: --attribution hide now strips desc to the commit",
-      "conf": 94
-    },
-    {
-      "id": "ev-3aae5d8",
+      "id": "ev-c41e153",
       "date": "2026-06-08",
       "alt": "L3",
       "type": "feat",
-      "label": "feat(observatory): hot-swappable JSON datasets \u2014 runtime/data split + switcher",
-      "sha": "3aae5d8",
-      "desc": "feat(observatory): hot-swappable JSON datasets \u2014 runtime/data split + switcher \u2014 Decouple the Observatory from its baked-in data.jsx so datasets can be",
-      "conf": 90
+      "label": "feat(resume): SEND BEARING emails a geo-stamped subject",
+      "sha": "c41e153",
+      "desc": "feat(resume): SEND BEARING emails a geo-stamped subject \u2014 The contact CTA now requests browser geolocation on click and opens the",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/c41e153"
+    },
+    {
+      "id": "ev-352efd2",
+      "date": "2026-06-09",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(recoil): Figma recruiter screen recoil report + FE page",
+      "sha": "352efd2",
+      "desc": "feat(recoil): Figma recruiter screen recoil report + FE page \u2014 - runtime/recoil/2026-06-08-figma-recruiter-screen.md \u2014 full DEWY receipt,",
+      "conf": 90,
+      "nci": 76,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/352efd2"
+    },
+    {
+      "id": "ev-e6f7a0f",
+      "date": "2026-06-09",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(recoil): Figma recruiter screen recoil report + FE page",
+      "sha": "e6f7a0f",
+      "desc": "feat(recoil): Figma recruiter screen recoil report + FE page \u2014 Merges claude/amazing-rubin-z3sv1a \u2014 recoil report for Jun 8 Figma screen.",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/e6f7a0f"
+    },
+    {
+      "id": "ev-1dfac20",
+      "date": "2026-06-09",
+      "alt": "L5",
+      "type": "milestone",
+      "peak": true,
+      "label": "docs(adr): ADR-024 resume.arcs.care architecture gates \u2014 DECIDED",
+      "sha": "1dfac20",
+      "desc": "docs(adr): ADR-024 resume.arcs.care architecture gates \u2014 DECIDED \u2014 Two gates resolved:",
+      "conf": 94,
+      "nci": 85,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/1dfac20"
+    },
+    {
+      "id": "ev-d6222b2",
+      "date": "2026-06-09",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(observatory): Meridian CCO dataset \u2014 Deloitte FDE static build timeline",
+      "sha": "d6222b2",
+      "desc": "feat(observatory): Meridian CCO dataset \u2014 Deloitte FDE static build timeline \u2014 Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/d6222b2"
+    },
+    {
+      "id": "ev-72c1d5a",
+      "date": "2026-06-11",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(ui): ARCS OS design-system atom layer \u2014 tokens + cockpit primitives",
+      "sha": "72c1d5a",
+      "desc": "feat(ui): ARCS OS design-system atom layer \u2014 tokens + cockpit primitives \u2014 Step 0+1 of the design-system port (plan: integrate-arcs-os-design-system).",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/72c1d5a"
+    },
+    {
+      "id": "ev-0a035b2",
+      "date": "2026-06-11",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(ui): complete atom ladder \u2014 Swiss + motion atoms, weather fixes",
+      "sha": "0a035b2",
+      "desc": "feat(ui): complete atom ladder \u2014 Swiss + motion atoms, weather fixes \u2014 - Port remaining 5 kit atoms: SectionLabel, Rule (src/ui); Spinner,",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/0a035b2"
+    },
+    {
+      "id": "ev-e7eb06b",
+      "date": "2026-06-11",
+      "alt": "L3",
+      "type": "milestone",
+      "peak": true,
+      "label": "feat(toolbar): add Vercel Toolbar for visual markup on deploys",
+      "sha": "e7eb06b",
+      "desc": "feat(toolbar): add Vercel Toolbar for visual markup on deploys \u2014 @vercel/toolbar@0.2.6 + <VercelToolbar/> in root layout. Enables pinned",
+      "conf": 94,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/e7eb06b"
+    },
+    {
+      "id": "ev-26f27bc",
+      "date": "2026-06-12",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(prep,history): port final two surfaces to design system",
+      "sha": "26f27bc",
+      "desc": "feat(prep,history): port final two surfaces to design system \u2014 Completes the design-system port (all 5 surfaces now wired):",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/26f27bc"
+    },
+    {
+      "id": "ev-e39aed4",
+      "date": "2026-06-12",
+      "alt": "L4",
+      "type": "security",
+      "label": "feat(history): ungated demo mode \u2014 recent receipts without auth",
+      "sha": "e39aed4",
+      "desc": "feat(history): ungated demo mode \u2014 recent receipts without auth \u2014 Drops the auth() 401 gate + userId filter on GET /api/history so the ledger",
+      "conf": 94,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/e39aed4"
+    },
+    {
+      "id": "ev-4955daf",
+      "date": "2026-06-12",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(flags): gate history GET behind publicHistory feature flag",
+      "sha": "4955daf",
+      "desc": "feat(flags): gate history GET behind publicHistory feature flag \u2014 Adds src/lib/flags.ts (env-driven, dependency-free). GET /api/history now",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/4955daf"
+    },
+    {
+      "id": "ev-6b4e327",
+      "date": "2026-06-12",
+      "alt": "L5",
+      "type": "milestone",
+      "peak": true,
+      "label": "feat(analytics): Vercel Analytics \u2014 track brief share + view funnel [NCI:SKIP] (#7)",
+      "sha": "6b4e327",
+      "desc": "feat(analytics): Vercel Analytics \u2014 track brief share + view funnel [NCI:SKIP] (#7) \u2014 Adds @vercel/analytics to measure how often brief links travel:",
+      "conf": 94,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/6b4e327"
+    },
+    {
+      "id": "ev-8e3803d",
+      "date": "2026-06-12",
+      "alt": "L5",
+      "type": "security",
+      "label": "feat: launch hardening \u2014 auth-gated PLG, prep integration, advisory funnel (#8)",
+      "sha": "8e3803d",
+      "desc": "feat: launch hardening \u2014 auth-gated PLG, prep integration, advisory funnel (#8) \u2014 * chore(gitignore): ignore claude-code volatile local runtime state [NCI:SKIP]",
+      "conf": 94,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/8e3803d"
+    },
+    {
+      "id": "ev-6c0e201",
+      "date": "2026-06-12",
+      "alt": "L3",
+      "type": "milestone",
+      "peak": true,
+      "label": "feat(toolbar): hide Vercel Toolbar by default, \u2318+. to toggle [NCI:SKIP] (#9)",
+      "sha": "6c0e201",
+      "desc": "feat(toolbar): hide Vercel Toolbar by default, \u2318+. to toggle [NCI:SKIP] (#9) \u2014 The toolbar is no longer auto-injected (the /next VercelToolbar only injected",
+      "conf": 94,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/6c0e201"
+    },
+    {
+      "id": "ev-8606699",
+      "date": "2026-06-13",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(email): branded welcome card as the magic-link email",
+      "sha": "8606699",
+      "desc": "feat(email): branded welcome card as the magic-link email \u2014 - src/emails/welcomeEmail.ts: dependency-free, email-safe (table layout, inline",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/8606699"
+    },
+    {
+      "id": "ev-a150742",
+      "date": "2026-06-13",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(ui): clickable tributary reasoning-web + 5 launch-campaign refinements",
+      "sha": "a150742",
+      "desc": "feat(ui): clickable tributary reasoning-web + 5 launch-campaign refinements \u2014 Reasoning web (Phase 1, manual click-to-deepen):",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/a150742"
+    },
+    {
+      "id": "ev-b3f988c",
+      "date": "2026-06-14",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(ui): animated engine-thinking loaders + Conviction/Coherence metrics + responsive fixes",
+      "sha": "b3f988c",
+      "desc": "feat(ui): animated engine-thinking loaders + Conviction/Coherence metrics + responsive fixes \u2014 - SequenceLoader: staged loader whose connector bars actually fill as the",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/b3f988c"
+    },
+    {
+      "id": "ev-6842984",
+      "date": "2026-06-14",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(brief): down-chain reasoning-web nav + back-to-ledger fix [NCI:83] (#13)",
+      "sha": "6842984",
+      "desc": "feat(brief): down-chain reasoning-web nav + back-to-ledger fix [NCI:83] (#13) \u2014 #1: Back button on brief \u2192 /history (ledger), not /dashboard.",
+      "conf": 90,
+      "nci": 83,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/6842984"
+    },
+    {
+      "id": "ev-175d23f",
+      "date": "2026-06-14",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(receipt): \u2190 Ledger nav on receipt view (#14)",
+      "sha": "175d23f",
+      "desc": "feat(receipt): \u2190 Ledger nav on receipt view (#14) \u2014 * feat(brief): down-chain reasoning-web nav + back-to-ledger fix [NCI:83]",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/175d23f"
+    },
+    {
+      "id": "ev-a24ca4f",
+      "date": "2026-06-14",
+      "alt": "L1",
+      "type": "fix",
+      "label": "fix(brief): suppress tributary prompts when children exist (#15)",
+      "sha": "a24ca4f",
+      "desc": "fix(brief): suppress tributary prompts when children exist (#15) \u2014 * feat(brief): down-chain reasoning-web nav + back-to-ledger fix [NCI:83]",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/a24ca4f"
+    },
+    {
+      "id": "ev-3fae2c9",
+      "date": "2026-06-15",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(receipts): confirmation email + scheduled outcome reminder (#16)",
+      "sha": "3fae2c9",
+      "desc": "feat(receipts): confirmation email + scheduled outcome reminder (#16) \u2014 * feat(brief): down-chain reasoning-web nav + back-to-ledger fix [NCI:83]",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/3fae2c9"
+    },
+    {
+      "id": "ev-d35274d",
+      "date": "2026-06-15",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(reflect): left rail layout \u2014 300px consolidated annotation panel",
+      "sha": "d35274d",
+      "desc": "feat(reflect): left rail layout \u2014 300px consolidated annotation panel \u2014 Replace 3-column margin split with 2-column [300px rail | content] layout.",
+      "conf": 90,
+      "nci": 91,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/d35274d"
+    },
+    {
+      "id": "ev-09833b7",
+      "date": "2026-06-15",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(reflect): floating selection picker \u2014 \ud83d\udcad \ud83d\udcac \ud83d\uddef\ufe0f 3\u00d72 grid on text highlight",
+      "sha": "09833b7",
+      "desc": "feat(reflect): floating selection picker \u2014 \ud83d\udcad \ud83d\udcac \ud83d\uddef\ufe0f 3\u00d72 grid on text highlight \u2014 Any text selection \u22653 chars while reflect is open shows a fixed picker above",
+      "conf": 90,
+      "nci": 92,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/09833b7"
+    },
+    {
+      "id": "ev-149cee3",
+      "date": "2026-06-16",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(reflect+email): debrief calibration email + mobile/tablet reflect views",
+      "sha": "149cee3",
+      "desc": "feat(reflect+email): debrief calibration email + mobile/tablet reflect views \u2014 Two arcs.care (app.arcs.care) JTBD gaps closed:",
+      "conf": 90,
+      "nci": 84,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/149cee3"
+    },
+    {
+      "id": "ev-43ede00",
+      "date": "2026-06-16",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(email): designed receipt confirmation email (T0 bearing-locked)",
+      "sha": "43ede00",
+      "desc": "feat(email): designed receipt confirmation email (T0 bearing-locked) \u2014 The immediate post-compass confirmation email was raw plain text (\"Your",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/43ede00"
+    },
+    {
+      "id": "ev-e317541",
+      "date": "2026-06-16",
+      "alt": "L2",
+      "type": "feat",
+      "label": "feat(debrief): outcome-logging surface \u2014 closes the receipt loop (\u00a75.6)",
+      "sha": "e317541",
+      "desc": "feat(debrief): outcome-logging surface \u2014 closes the receipt loop (\u00a75.6) \u2014 The debrief email's \"Log how it landed\" CTA now lands somewhere that actually",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/e317541"
+    },
+    {
+      "id": "ev-7cfe632",
+      "date": "2026-06-16",
+      "alt": "L3",
+      "type": "feat",
+      "label": "feat(reflect): flashlight cursor + pointerType probe + CI smoke gate",
+      "sha": "7cfe632",
+      "desc": "feat(reflect): flashlight cursor + pointerType probe + CI smoke gate \u2014 - Reflect mode now shows a \ud83d\udd26 flashlight cursor over content regardless of the",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/7cfe632"
+    },
+    {
+      "id": "ev-2d647a9",
+      "date": "2026-06-16",
+      "alt": "L4",
+      "type": "canon",
+      "peak": true,
+      "label": "feat(operators): consolidate canonical operators library + complete canon",
+      "sha": "2d647a9",
+      "desc": "feat(operators): consolidate canonical operators library + complete canon \u2014 OPERATORS LIBRARY (34 files, 16.6K LOC, 736 KB):",
+      "conf": 90,
+      "url": "https://github.com/flashesofbrilliance/arcs-v9/commit/2d647a9"
     }
   ],
   "risks": [
@@ -273,19 +346,9 @@
       "risk": "Unauthenticated data access (no RLS)",
       "sev": "HIGH",
       "status": "AVERTED",
-      "sha": "9970c3f",
+      "sha": "1dfac20",
       "how": "RLS deny-all on all 9 tables",
       "note": "Tables briefly readable without auth; closed by deny-all RLS."
-    },
-    {
-      "id": "risk-prisma",
-      "date": "2026-05-28",
-      "risk": "Prisma 7 P1012 \u2014 deploy blocked",
-      "sev": "MED",
-      "status": "AVERTED",
-      "sha": "935759f",
-      "how": "PrismaPg adapter fix",
-      "note": "Schema/engine mismatch blocked deploy; resolved by adapter swap."
     },
     {
       "id": "risk-xuser",
@@ -293,19 +356,9 @@
       "risk": "Cross-user data leakage",
       "sev": "HIGH",
       "status": "MITIGATED",
-      "sha": "44f40b2",
+      "sha": "c010a08",
       "how": "anonymous + scoped receipt-claim",
       "note": "Receipt-claim flow scoped per session to prevent cross-user reads."
-    },
-    {
-      "id": "risk-secrets",
-      "date": "2026-06-04",
-      "risk": "Credentials committed to git history",
-      "sev": "RUIN",
-      "status": "AVERTED",
-      "sha": "11a0fe7",
-      "how": "history rewrite + secret rotation",
-      "note": "API keys reached git history; purged before exploitation. Ruin-class \u2014 single exposure is unrecoverable."
     },
     {
       "id": "risk-solo",
@@ -333,7 +386,7 @@
           "prov": [
             [
               "Product = compass pipeline",
-              "src/app/api/compass/route.ts:1-258",
+              "src/app/api/compass/route.ts:1-322",
               "POST handler \u2192 receipt",
               "P09"
             ]
@@ -419,12 +472,12 @@
           "conf": 90,
           "risk": "LOW",
           "kind": "CLASS",
-          "desc": "22 ADRs recorded; reversibility explicit.",
+          "desc": "24 ADRs recorded; reversibility explicit.",
           "prov": [
             [
               "ADRs present",
               "_DECISIONS/",
-              "ADR-001\u2026022",
+              "ADR-001\u2026024",
               "P15"
             ]
           ]
@@ -526,17 +579,17 @@
       "findings": [
         {
           "id": "s-L2-0",
-          "lab": "compass route 258",
+          "lab": "compass route 322",
           "grade": "A",
           "conf": 98,
           "risk": "LOW",
           "kind": "INSTANCE",
-          "desc": "The compass route is 258 lines \u2014 the heaviest single handler.",
+          "desc": "The compass route is 322 lines \u2014 the heaviest single handler.",
           "prov": [
             [
-              "258 lines",
+              "322 lines",
               "src/app/api/compass/route.ts",
-              "L1-258",
+              "L1-322",
               "P09"
             ]
           ]

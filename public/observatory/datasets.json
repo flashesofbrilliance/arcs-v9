@@ -1,10 +1,10 @@
 {
   "datasets": [
     {
-      "slug": "meridian-cco",
-      "name": "meridian-cco",
-      "label": "Meridian CCO \u2014 Deloitte FDE",
-      "file": "data.meridian-cco.json"
+      "slug": "flashesofbrilliance/arcs-v9",
+      "name": "arcs-v9",
+      "label": "arcs-v9 \u2014 forensic git history",
+      "file": "data.arcs-v9.json"
     },
     {
       "slug": "flashesofbrilliance/arcs-v9",
@@ -13,10 +13,10 @@
       "file": "data.arcs-v9-gh.json"
     },
     {
-      "slug": "flashesofbrilliance/arcs-v9",
-      "name": "arcs-v9",
-      "label": "arcs-v9 \u2014 forensic git history",
-      "file": "data.arcs-v9.json"
+      "slug": "meridian-cco",
+      "name": "meridian-cco",
+      "label": "Meridian CCO \u2014 Deloitte FDE",
+      "file": "data.meridian-cco.json"
     }
   ]
 }
