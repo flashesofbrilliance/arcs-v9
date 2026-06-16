@@ -17,16 +17,17 @@ export type PreviewVariant = "cluster" | "read" | "artifact"
 // ── Shared palette (from audit :root) ──────────────────────────────────────
 const HAIR = "rgba(22,30,43,0.8)"
 
-// ── Gauge — the instrument cluster atom ────────────────────────────────────
+// ── Gauge — the instrument cluster atom (glassmorphism) ────────────────────
 function Gauge({ label, value, sub, sparkPct, color }: {
   label: string; value: string; sub?: string; sparkPct?: number; color: string
 }) {
   return (
     <div style={{
-      position: "relative", borderRadius: 8, padding: "16px 18px 17px", overflow: "hidden",
-      border: `1px solid ${border.subtle}`,
-      background: "linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.008) 40%,rgba(0,0,0,.2)),linear-gradient(165deg,#10171f,#0a0f15)",
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.06),0 6px 18px rgba(0,0,0,.45)",
+      position: "relative", borderRadius: 12, padding: "16px 18px 17px", overflow: "hidden",
+      border: `1px solid rgba(255,255,255,.12)`,
+      background: "rgba(16,23,31,.35)",
+      backdropFilter: "blur(12px)",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.35)",
     }}>
       <div style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span>{label}</span>
