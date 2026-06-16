@@ -4,6 +4,10 @@ import { prisma } from "@/lib/db"
 import { auth } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
+// Generates situation framing + entity analysis via Claude (parallel calls).
+// Same timeout exposure as the compass route — without this the function can be
+// killed mid-generation and the receipt page shows "Could not load receipt".
+export const maxDuration = 60
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
