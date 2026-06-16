@@ -189,7 +189,7 @@ export default function BriefReflectPage() {
           </div>
         )}
 
-        <Brief result={result} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
+        <Brief result={result} situationFraming={framing} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
 
         <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 6rem" }}>
           {children.length > 0 && (
@@ -220,13 +220,6 @@ export default function BriefReflectPage() {
                   )
                 })}
               </div>
-            </Card>
-          )}
-
-          {framing && (
-            <Card style={{ marginBottom: "1.5rem" }}>
-              <Label style={{ marginBottom: "0.75rem" }}>Situation Framing</Label>
-              <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.7, margin: 0, whiteSpace: "pre-wrap" }}>{framing}</p>
             </Card>
           )}
 

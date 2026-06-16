@@ -15,9 +15,11 @@ export interface BriefProps {
   onBack?: () => void
   onTributary?: (prompt: string) => void
   onNewQuestion?: () => void
+  // AI situation framing — rendered just above the Tributaries block.
+  situationFraming?: string
 }
 
-export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps) {
+export function Brief({ result, onBack, onTributary, onNewQuestion, situationFraming }: BriefProps) {
   const r = result.reasoning || {}
   const fated = r.fated || {}
   const weather = getWeather(result.y_state)
@@ -44,13 +46,19 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
         </div>
       </div>
 
+      {/* Status line — fog fidelity */}
+      <Label style={{ marginBottom: '1rem', color: weather.color }}>{weather.icon} {weather.label} · {result.render_resolution}</Label>
+
+      {/* Decision — the question, at the top (mirrors the receipt pattern) */}
+      <div style={{ marginBottom: '1.25rem', padding: '1rem 1.25rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
+        <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Decision</div>
+        <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{result.question}</div>
+      </div>
+
       {/* True North */}
-      <div style={{ marginBottom: '1.5rem' }}>
-        <Label style={{ marginBottom: '0.75rem', color: weather.color }}>{weather.icon} {weather.label} · {result.render_resolution}</Label>
-        <h1 style={{ fontFamily: font.sans, fontSize: '1.5rem', fontWeight: 600, color: text.primary, margin: '0 0 0.75rem', lineHeight: 1.3, letterSpacing: '-0.01em' }}>{result.question}</h1>
-        <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.primary, margin: 0, lineHeight: 1.6, fontWeight: 500 }}>
-          <span style={{ color: signal.cyan }}>True North · </span>{result.true_north}
-        </p>
+      <div style={{ marginBottom: '1.25rem' }}>
+        <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.14em', color: signal.cyan, textTransform: 'uppercase', marginBottom: '0.5rem' }}>True North</div>
+        <div style={{ fontFamily: font.sans, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 600, color: text.primary, lineHeight: 1.35 }}>{result.true_north}</div>
       </div>
 
       {/* Conviction — full-width, right below True North */}
@@ -99,6 +107,14 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
       <div style={{ marginBottom: '1.25rem' }}>
         <FatedGrid fated={fated} />
       </div>
+
+      {/* Situation Framing — above the tributaries block */}
+      {situationFraming && (
+        <Card style={{ marginBottom: '1.25rem' }}>
+          <Label style={{ marginBottom: '0.75rem' }}>Situation Framing</Label>
+          <p style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{situationFraming}</p>
+        </Card>
+      )}
 
       {/* Where to Navigate Next — tributaries as full-width interactive card */}
       {result.tributaries && result.tributaries.length > 0 && (

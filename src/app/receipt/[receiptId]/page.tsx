@@ -135,9 +135,10 @@ export default function ReceiptPage() {
 
         {/* Body */}
         <div style={{ maxWidth: 960, margin: "0 auto", padding: "2rem 1.5rem 6rem" }}>
-          {/* Conviction — lifted above True North: lead with the bearing's strength */}
-          <div style={{ marginBottom: "2rem" }}>
-            <ConvictionSidebar result={compassResult} />
+          {/* Decision — the question, at the top */}
+          <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
+            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.6 }}>{receipt.decision}</div>
           </div>
 
           {/* True North */}
@@ -148,10 +149,9 @@ export default function ReceiptPage() {
             </div>
           </div>
 
-          {/* Question */}
-          <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
-            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.6 }}>{receipt.decision}</div>
+          {/* Conviction — directly below True North */}
+          <div style={{ marginBottom: "2rem" }}>
+            <ConvictionSidebar result={compassResult} />
           </div>
 
           {/* Why bullets */}
