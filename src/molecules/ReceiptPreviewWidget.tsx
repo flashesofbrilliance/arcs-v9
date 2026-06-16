@@ -214,29 +214,49 @@ export function ReceiptPreviewWidget({
   onOpenReceipt,
   defaultVariant = "read",
 }: WidgetProps & { defaultVariant?: PreviewVariant }) {
-  const [active, setActive] = React.useState<PreviewVariant>(defaultVariant)
+  const startIdx = Math.max(0, VARIANTS.findIndex(v => v.id === defaultVariant))
+  const [idx, setIdx] = React.useState(startIdx)
+  const active = VARIANTS[idx].id
+  const go = (dir: number) => setIdx(i => (i + dir + VARIANTS.length) % VARIANTS.length)
+
+  const arrow: React.CSSProperties = {
+    display: "inline-flex", alignItems: "center", justifyContent: "center",
+    width: 30, height: 30, borderRadius: 16, cursor: "pointer", flexShrink: 0,
+    border: `.5px solid rgba(71,85,105,.28)`, background: "rgba(10,15,26,.5)",
+    color: text.muted, fontFamily: font.mono, fontSize: "0.95rem", lineHeight: 1,
+    transition: "all .12s",
+  }
 
   return (
     <div>
-      {/* Variant toggle strip */}
-      <div style={{ display: "flex", gap: 4, marginBottom: 18, borderBottom: `0.5px solid ${border.subtle}`, paddingBottom: 14 }}>
-        {VARIANTS.map(v => (
-          <button
-            key={v.id}
-            onClick={() => setActive(v.id)}
-            style={{
-              fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".08em",
-              textTransform: "uppercase", padding: "5px 14px", borderRadius: 20, cursor: "pointer",
-              border: ".5px solid",
-              background: active === v.id ? `${signal.cyan}12` : "rgba(10,15,26,.5)",
-              borderColor: active === v.id ? `${signal.cyan}55` : "rgba(71,85,105,.25)",
-              color: active === v.id ? signal.cyan : text.muted,
-              transition: "all .12s",
-            }}
-          >
-            {v.label}
-          </button>
-        ))}
+      {/* Variant carousel — ‹ label › with dot indicators */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 18, borderBottom: `0.5px solid ${border.subtle}`, paddingBottom: 14 }}>
+        <button aria-label="Previous view" onClick={() => go(-1)} style={arrow}>‹</button>
+
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+          <span style={{
+            fontFamily: font.mono, fontSize: "0.72rem", fontWeight: 700, letterSpacing: ".12em",
+            textTransform: "uppercase", color: signal.cyan, textShadow: `0 0 10px ${signal.cyan}33`,
+          }}>
+            {VARIANTS[idx].label}
+          </span>
+          <div style={{ display: "flex", gap: 5 }}>
+            {VARIANTS.map((v, i) => (
+              <button
+                key={v.id}
+                aria-label={v.label}
+                onClick={() => setIdx(i)}
+                style={{
+                  width: i === idx ? 18 : 5, height: 5, borderRadius: i === idx ? 3 : "50%",
+                  background: i === idx ? `${signal.cyan}bb` : "rgba(71,85,105,.4)",
+                  border: "none", padding: 0, cursor: "pointer", transition: "all .15s",
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        <button aria-label="Next view" onClick={() => go(1)} style={arrow}>›</button>
       </div>
 
       {active === "cluster"  && <VariantCluster  result={result} onOpenBrief={onOpenBrief} onOpenReceipt={onOpenReceipt} />}
