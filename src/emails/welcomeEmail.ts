@@ -6,6 +6,8 @@
 // Fonts: custom webfonts don't load reliably in email, so the hero falls back to
 // Georgia (serif) and body to a system sans — the cockpit register still reads.
 
+import { darkLockHead } from './darkLock'
+
 export interface WelcomeEmailOpts {
   ctaUrl?: string
   ctaLabel?: string
@@ -34,28 +36,29 @@ export function welcomeEmail(opts: WelcomeEmailOpts = {}): { subject: string; ht
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"></head>
-<body style="margin:0;padding:0;background:${C.bg};">
+<meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark">
+${darkLockHead(C)}</head>
+<body class="arcs-body" style="margin:0;padding:0;background:${C.bg};">
 <div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">${stamp}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${C.bg};">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="arcs-bg" style="background:${C.bg};">
   <tr><td align="center" style="padding:32px 16px;">
     <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;">
 
       <tr><td style="padding:0 0 22px 0;font-family:${C.mono};font-size:12px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:${C.cyan};">
-        ARCS <span style="color:${C.body};font-weight:400;">FIELD OS</span>
+        <span class="arcs-cyan">ARCS</span> <span class="arcs-body" style="color:${C.body};font-weight:400;">FIELD OS</span>
       </td></tr>
 
-      <tr><td style="background:${C.panel};border:1px solid ${C.border};border-radius:16px;padding:34px 32px 28px 32px;">
+      <tr><td class="arcs-panel" style="background:${C.panel};border:1px solid ${C.border};border-radius:16px;padding:34px 32px 28px 32px;">
 
-        <div style="font-family:${C.mono};font-size:11px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:${C.cyan};padding:0 0 16px 0;">
+        <div class="arcs-cyan" style="font-family:${C.mono};font-size:11px;letter-spacing:2.4px;text-transform:uppercase;font-weight:700;color:${C.cyan};padding:0 0 16px 0;">
           Welcome, navigator
         </div>
 
-        <div style="font-family:${C.serif};font-size:34px;line-height:1.12;color:${C.ink};padding:0 0 16px 0;font-weight:400;">
-          The map is blank<br><em style="color:${C.body};">until you name</em> the fork.
+        <div class="arcs-ink" style="font-family:${C.serif};font-size:34px;line-height:1.12;color:${C.ink};padding:0 0 16px 0;font-weight:400;">
+          The map is blank<br><em class="arcs-body" style="color:${C.body};">until you name</em> the fork.
         </div>
 
-        <div style="font-family:${C.sans};font-size:15px;line-height:1.7;color:${C.body};padding:0 0 26px 0;max-width:420px;">
+        <div class="arcs-body" style="font-family:${C.sans};font-size:15px;line-height:1.7;color:${C.body};padding:0 0 26px 0;max-width:420px;">
           You're in. Nothing's been decided yet — that's the point. Bring the one decision that won't wait, and the compass renders your first bearing.
         </div>
 
@@ -67,7 +70,7 @@ export function welcomeEmail(opts: WelcomeEmailOpts = {}): { subject: string; ht
           </td>
         </tr></table>
 
-        <div style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
+        <div class="arcs-muted" style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
           Render through the fog to earned clarity.
         </div>
 
