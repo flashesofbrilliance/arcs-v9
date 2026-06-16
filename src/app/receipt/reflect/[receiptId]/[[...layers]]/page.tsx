@@ -6,13 +6,12 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor } from "@/ui/tokens"
+import { surface, text, signal, border, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
-import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer, parseLayerSegment } from "@/organisms/ReflectLayer"
-import type { CompassResult } from "@/lib/mockCompass"
 
 function safeParse<T>(v: unknown, fallback: T): T {
   if (typeof v !== "string") return (v as T) ?? fallback
@@ -40,6 +39,7 @@ export default function ReceiptReflectPage() {
   const params = useParams()
   const router = useRouter()
   const receiptId = String(params.receiptId)
+  const vw = useVw()
   const layersParam = Array.isArray(params.layers) ? params.layers[0] : (params.layers as string | undefined)
   const defaultLayers = parseLayerSegment(layersParam)
   const layerUrlBase = `/receipt/reflect/${receiptId}`
@@ -84,19 +84,6 @@ export default function ReceiptReflectPage() {
   const w = getWeather(receipt.yState)
   const nc = nciColor(receipt.nciScore)
 
-  const compassResult: CompassResult = {
-    receipt_id: receipt.id, question: receipt.decision, true_north: receipt.trueNorth,
-    why, nci_score: receipt.nciScore, coherence_pct: receipt.coherencePct,
-    is_satoshi: false, decision_mode: receipt.mode, door_class: receipt.doorClass,
-    y_state: receipt.yState, render_resolution: "SHARP", nci_delta: null,
-    macro_tags: macroTags, tributaries: [],
-    reasoning: {
-      fated: fated as unknown as CompassResult["reasoning"]["fated"],
-      paths: paths as unknown as CompassResult["reasoning"]["paths"],
-      court_verdict: receipt.courtVerdict,
-    },
-  }
-
   return (
     <ReflectLayer
       receiptId={receiptId}
@@ -108,7 +95,7 @@ export default function ReceiptReflectPage() {
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Header */}
         <div style={{ borderBottom: `0.5px solid rgba(0,240,255,0.12)`, background: "rgba(0,240,255,0.03)" }}>
-          <div style={{ maxWidth: 960, margin: "0 auto", padding: "0.6rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
               <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
@@ -124,40 +111,81 @@ export default function ReceiptReflectPage() {
           </div>
         </div>
 
-        <div style={{ maxWidth: 960, margin: "0 auto", padding: "2rem 1.5rem 6rem" }}>
-          <div style={{ marginBottom: "2rem" }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
-            <div style={{ fontFamily: font.sans, fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)", fontWeight: 600, color: text.primary, lineHeight: 1.35 }}>{receipt.trueNorth}</div>
+        <div style={{ ...contentContainer(vw), paddingTop: "3rem", paddingBottom: "6rem" }}>
+          {/* Status line — fog fidelity */}
+          <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: w.color, textTransform: "uppercase", marginBottom: "1rem" }}>{w.icon} {w.label} · {receipt.yState}</div>
+
+          {/* Decision — the question, at the top (mirrors the brief pattern) */}
+          <div style={{ marginBottom: "1.75rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
+            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.85 }}>{receipt.decision}</div>
           </div>
 
-          <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
-            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
-            <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.6 }}>{receipt.decision}</div>
+          {/* True North */}
+          <div style={{ marginBottom: "1.75rem" }}>
+            <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
+            <div style={{ fontFamily: font.sans, fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)", fontWeight: 600, color: text.primary, lineHeight: 2.0 }}>{receipt.trueNorth}</div>
+          </div>
+
+          {/* Conviction — full-width strip, right below True North */}
+          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: "1.75rem", flexWrap: "wrap" }}>
+            <div style={{ flexShrink: 0 }}>
+              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.2rem" }}>Conviction</div>
+              <div style={{ fontFamily: font.sans, fontSize: "2.25rem", fontWeight: 700, color: nc, lineHeight: 1, textShadow: `0 0 12px ${nc}55` }}>{receipt.nciScore}</div>
+              <div style={{ fontFamily: font.mono, fontSize: "0.55rem", color: text.dimmed, marginTop: "0.2rem", letterSpacing: "0.06em" }}>/ 100</div>
+            </div>
+            <div style={{ width: "0.5px", height: 44, background: border.subtle, flexShrink: 0 }} />
+            <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+              {([
+                ["Mode", receipt.mode],
+                ["Door", receipt.doorClass?.replace(/_/g, " ")],
+                ["Coherence", receipt.coherencePct != null ? `${receipt.coherencePct}%` : "—"],
+              ] as [string, string][]).map(([k, v]) => (
+                <div key={k}>
+                  <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.1em", color: text.muted, textTransform: "uppercase", marginBottom: "0.2rem" }}>{k}</div>
+                  <div style={{ fontFamily: font.mono, fontSize: "0.75rem", color: text.secondary }}>{v}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
           {why.length > 0 && (
-            <div style={{ marginBottom: "2rem" }}>
+            <div style={{ marginBottom: "1.75rem" }}>
               <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.75rem" }}>Why This</div>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 {why.map((bullet, i) => (
                   <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
                     <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: signal.cyan, fontWeight: 700, flexShrink: 0, marginTop: "0.15rem" }}>{String(i + 1).padStart(2, "0")}</span>
-                    <span style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.secondary, lineHeight: 1.6 }}>{bullet}</span>
+                    <span style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.secondary, lineHeight: 1.85 }}>{bullet}</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "1.5rem", marginBottom: "2rem", alignItems: "start" }}>
-            <div>
-              {Object.keys(fated).length > 0 && <div style={{ marginBottom: "1.5rem" }}><FatedGrid fated={fated} /></div>}
-              {paths.length > 0 && <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />}
+          {/* Terrain Paths — single column, directly under Why */}
+          {paths.length > 0 && (
+            <div style={{ marginBottom: "1.75rem" }}>
+              <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />
             </div>
-            <ConvictionSidebar result={compassResult} />
-          </div>
+          )}
 
-          <div style={{ borderTop: `0.5px solid ${signal.steel}22`, paddingTop: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          {/* FATED Decomposition — single column */}
+          {Object.keys(fated).length > 0 && (
+            <div style={{ marginBottom: "1.75rem" }}>
+              <FatedGrid fated={fated} />
+            </div>
+          )}
+
+          {/* Court Verdict — standalone card, same atom as Decision */}
+          {receipt.courtVerdict && (
+            <div style={{ marginBottom: "1.75rem", padding: "1.25rem 1.5rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Court Verdict</div>
+              <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.secondary, lineHeight: 1.85 }}>{receipt.courtVerdict}</div>
+            </div>
+          )}
+
+          <div style={{ borderTop: `0.5px solid ${border.subtle}`, paddingTop: "1.25rem", display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
             <Pill label="MODE" value={receipt.mode} color={signal.gold} />
             <Pill label="DOOR" value={receipt.doorClass?.replace(/_/g, " ")} color={signal.steel} />
             {receipt.stakesLevel && <Pill label="STAKES" value={receipt.stakesLevel} color={signal.red} />}
