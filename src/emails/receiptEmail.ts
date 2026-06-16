@@ -95,12 +95,10 @@ ARCS Field OS · render through the fog to earned clarity`
       <td valign="top" style="font-family:${C.sans};font-size:14px;line-height:1.6;color:${C.body};padding:0 0 10px 0;">${escapeHtml(b)}</td>
     </tr>`).join('')
 
-  const metaCells = [
-    `<td valign="top" style="padding:0 20px 0 0;">
-       <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 5px 0;">Conviction</div>
-       <div style="font-family:${C.mono};font-size:15px;font-weight:700;color:${cColor};">${nci}<span style="color:${C.muted};font-weight:400;">/100</span></div>
-     </td>`,
-    mode ? `<td valign="top" style="padding:0 20px 0 0;">
+  // Mode/Door cells live inside the Conviction card now (Conviction is lifted
+  // above True North so the email leads with the bearing's strength).
+  const modeDoorCells = [
+    mode ? `<td valign="top" style="padding:0 26px 0 0;">
        <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 5px 0;">Mode</div>
        <div style="font-family:${C.mono};font-size:13px;font-weight:700;color:${C.body};">${escapeHtml(mode)}</div>
      </td>` : '',
@@ -109,6 +107,14 @@ ARCS Field OS · render through the fog to earned clarity`
        <div style="font-family:${C.mono};font-size:13px;font-weight:700;color:${door === 'ONE_WAY' ? C.gold : C.body};">${escapeHtml(door.replace('_', '-'))}</div>
      </td>` : '',
   ].filter(Boolean).join('')
+
+  const convictionCard = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0a0f1a;border:1px solid ${C.border};border-radius:10px;margin:0 0 22px 0;">
+    <tr><td style="padding:18px 20px;">
+      <div style="font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};padding:0 0 6px 0;">Conviction</div>
+      <div style="font-family:${C.serif};font-size:42px;line-height:1;color:${cColor};font-weight:400;">${nci}<span style="font-family:${C.mono};font-size:14px;color:${C.muted};font-weight:400;"> / 100</span></div>
+      ${modeDoorCells ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px 0 0 0;border-top:1px solid ${C.border};"><tr><td style="padding:14px 0 0 0;"><table role="presentation" cellpadding="0" cellspacing="0"><tr>${modeDoorCells}</tr></table></td></tr></table>` : ''}
+    </td></tr>
+  </table>`
 
   const html = `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -133,6 +139,9 @@ ARCS Field OS · render through the fog to earned clarity`
           Your compass bearing<br><em style="color:${C.body};">is locked.</em>
         </div>
 
+        <!-- Conviction — lifted above True North -->
+        ${convictionCard}
+
         <!-- True North -->
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid ${C.border};">
           <tr><td style="padding:18px 0 0 0;">
@@ -146,11 +155,6 @@ ARCS Field OS · render through the fog to earned clarity`
           <tr><td style="padding:0 0 9px 0;font-family:${C.mono};font-size:9px;letter-spacing:1.6px;text-transform:uppercase;color:${C.muted};">Why</td></tr>
           ${whyRows}
         </table>` : ''}
-
-        <!-- Meta strip -->
-        <table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px 0 0 0;border-top:1px solid ${C.border};">
-          <tr><td style="padding:18px 0 0 0;"><table role="presentation" cellpadding="0" cellspacing="0"><tr>${metaCells}</tr></table></td></tr>
-        </table>
 
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px 0 0 0;"><tr>
           <td style="border-radius:6px;background:${C.cyan};">
