@@ -142,7 +142,11 @@ export function ReflectLayer({
   layerUrlBase,
 }: ReflectLayerProps) {
   const router = useRouter()
-  const [hudOpen, setHudOpen] = useState(defaultHudOpen)
+  // On mobile, never auto-raise the sheet over the content — start collapsed to
+  // the HUD strip so the brief is readable; the navigator raises Reflect by tap.
+  const [hudOpen, setHudOpen] = useState(
+    () => defaultHudOpen && !(typeof window !== "undefined" && window.innerWidth <= 760)
+  )
   const [barVisible, setBarVisible] = useState(true)
   const [layers, setLayers] = useState(defaultLayers ?? { THOUGHT: true, COMMENT: true, REACTION: true })
   const [activeInstrument, setActiveInstrument] = useState<"THOUGHT" | "COMMENT" | "REACTION" | null>(null)
@@ -158,7 +162,7 @@ export function ReflectLayer({
   const [meditateLoading, setMeditateLoading] = useState(false)
   const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
   const [meditateExpanded, setMeditateExpanded] = useState(true)
-  const [narrow, setNarrow] = useState(false)
+  const [vw, setVw] = useState<number>(() => (typeof window !== "undefined" ? window.innerWidth : 1280))
   // Floating selection picker — appears on any text highlight; dismissed on Escape / click-outside
   const [selectionPicker, setSelectionPicker] = useState<{
     anchorText: string; preContext: string; postContext: string
@@ -167,14 +171,19 @@ export function ReflectLayer({
   // Ref mirror so hotkey handler can read selectionPicker without stale closure
   const selectionPickerRef = useRef<typeof selectionPicker>(null)
 
-  // Responsive — collapse margins on narrow viewports
+  // Responsive — track viewport width → three registers:
+  //   mobile  (≤760px)  : rail becomes a bottom sheet, content stays full-width
+  //   tablet  (761–1024): rail stays a column but narrows to 240px
+  //   desktop (>1024)   : full 300px sticky rail
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 760px)")
-    const sync = () => setNarrow(mq.matches)
+    const sync = () => setVw(window.innerWidth)
     sync()
-    mq.addEventListener("change", sync)
-    return () => mq.removeEventListener("change", sync)
+    window.addEventListener("resize", sync)
+    return () => window.removeEventListener("resize", sync)
   }, [])
+  const mobile = vw <= 760
+  const tablet = vw > 760 && vw <= 1024
+  const narrow = mobile // legacy alias — callers that hid the rail on "narrow" meant mobile
 
   // Fetch annotations on mount
   useEffect(() => {
@@ -276,7 +285,7 @@ export function ReflectLayer({
       return
     }
 
-    if (!hudOpen) return  // picker only relevant in reflect mode
+    if (!hudOpen && !mobile) return  // desktop: only in reflect mode · mobile: selection always offers the picker
 
     const range = sel.getRangeAt(0)
     const rect = range.getBoundingClientRect()
@@ -300,11 +309,17 @@ export function ReflectLayer({
     }
     selectionPickerRef.current = next
     setSelectionPicker(next)
-  }, [hudOpen])
+  }, [hudOpen, mobile])
 
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp)
-    return () => document.removeEventListener("mouseup", handleMouseUp)
+    // Touch: selection settles on touchend — mirror the handler so annotation
+    // works on phones/tablets. handleMouseUp only reads window.getSelection().
+    document.addEventListener("touchend", handleMouseUp as unknown as EventListener)
+    return () => {
+      document.removeEventListener("mouseup", handleMouseUp)
+      document.removeEventListener("touchend", handleMouseUp as unknown as EventListener)
+    }
   }, [handleMouseUp])
 
   // Dismiss picker on mousedown outside it — skip if click is inside the picker
@@ -489,15 +504,40 @@ export function ReflectLayer({
   return (
     <div style={{ position: "relative", minHeight: "100vh" }}>
       <style>{`::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(30,41,59,.55);border-radius:2px}::-webkit-scrollbar-thumb:hover{background:rgba(71,85,105,.65)}`}</style>
-      {/* Two-column layout: [300px left rail | content] when HUD open */}
+      {/* Mobile sheet scrim — dims the brief behind the raised rail */}
+      {mobile && hudOpen && (
+        <div
+          onClick={() => { setHudOpen(false); setActiveInstrument(null) }}
+          style={{ position: "fixed", inset: 0, background: "rgba(2,4,8,.55)", zIndex: 54, backdropFilter: "blur(1px)" }}
+        />
+      )}
+
+      {/* Layout: desktop/tablet → [rail | content] column. Mobile → content
+          stays full-width and the rail overlays as a bottom sheet. */}
       <div style={{
         display: showRail ? "grid" : "block",
-        gridTemplateColumns: showRail ? "300px 1fr" : undefined,
+        gridTemplateColumns: showRail ? (tablet ? "240px 1fr" : "300px 1fr") : undefined,
         alignItems: "start",
       }}>
-        {/* ── Left Rail ── */}
-        {showRail && (
-          <div style={{
+        {/* ── Rail — sticky column (desktop/tablet) or bottom sheet (mobile) ── */}
+        {hudOpen && (
+          <div style={mobile ? {
+            position: "fixed",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: "82vh",
+            zIndex: 55,
+            display: "flex",
+            flexDirection: "column",
+            borderTop: ".5px solid rgba(0,240,255,.18)",
+            borderTopLeftRadius: 16,
+            borderTopRightRadius: 16,
+            background: "rgba(6,9,16,.97)",
+            backdropFilter: "blur(12px)",
+            overflow: "hidden",
+            boxShadow: "0 -8px 40px rgba(0,0,0,.6)",
+          } : {
             position: "sticky",
             top: 0,
             height: "100vh",
@@ -508,6 +548,15 @@ export function ReflectLayer({
             backdropFilter: "blur(8px)",
             overflow: "hidden",
           }}>
+            {/* Drag handle — mobile sheet only; tap to lower back to the HUD strip */}
+            {mobile && (
+              <div
+                onClick={() => { setHudOpen(false); setActiveInstrument(null) }}
+                style={{ display: "flex", justifyContent: "center", padding: "9px 0 5px", flexShrink: 0, cursor: "pointer" }}
+              >
+                <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(71,85,105,.55)" }} />
+              </div>
+            )}
             {/* Rail header */}
             <div style={{
               padding: "12px 12px 10px",
@@ -888,9 +937,9 @@ export function ReflectLayer({
           ref={pickerContainerRef}
           style={{
             position: "fixed",
-            top: selectionPicker.y,
-            left: selectionPicker.x,
-            width: 264,
+            ...(mobile
+              ? { left: 12, right: 12, bottom: 18, width: "auto" }
+              : { top: selectionPicker.y, left: selectionPicker.x, width: 264 }),
             zIndex: 60,
             background: "rgba(8,12,20,.95)",
             border: ".5px solid rgba(30,41,59,.5)",
@@ -954,17 +1003,16 @@ export function ReflectLayer({
       {draft && activeInstrument && (
         <div
           style={{
-            position: "absolute",
-            top: draft.y,
-            left: Math.min(draft.x, window.innerWidth - 280),
-            width: 268,
+            ...(mobile
+              ? { position: "fixed", left: 12, right: 12, bottom: 18, width: "auto" }
+              : { position: "absolute", top: draft.y, left: Math.min(draft.x, window.innerWidth - 280), width: 268 }),
             background: "rgba(6,10,18,.97)",
             backdropFilter: "blur(16px)",
             WebkitBackdropFilter: "blur(16px)",
             border: `.5px solid ${TYPE_COLOR[activeInstrument]}40`,
             borderRadius: 8,
             padding: 12,
-            zIndex: 50,
+            zIndex: mobile ? 65 : 50,
             boxShadow: `0 8px 32px rgba(0,0,0,.7), 0 0 0 .5px rgba(0,0,0,.4)`,
           }}
         >
