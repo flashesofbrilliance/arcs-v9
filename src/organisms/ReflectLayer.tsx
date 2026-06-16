@@ -257,9 +257,12 @@ export function ReflectLayer({
     return () => document.removeEventListener("keydown", handler)
   }, [])
 
-  // Text selection → floating picker. Show picker on any selection ≥ 3 chars
-  // when the HUD is open. Instrument pre-arming is no longer required.
-  const handleMouseUp = useCallback((e: MouseEvent) => {
+  // Text selection → floating picker. Fires on pointerup, but only for precise
+  // input — mouse, trackpad, or stylus (Apple Pencil). Finger selection
+  // (pointerType "touch") is left to the native iOS edit menu; Reflect never
+  // overrides it. So on iPad, annotation effectively activates with the Pencil.
+  const handleMouseUp = useCallback((e: PointerEvent) => {
+    if (e.pointerType === "touch") return  // finger → native selection menu, not us
     // Don't trigger inside textareas / inputs
     const target = e.target as HTMLElement
     if (
@@ -306,11 +309,11 @@ export function ReflectLayer({
   }, [hudOpen])
 
   useEffect(() => {
-    // Pointer-driven only (mouse/trackpad/Pencil). We deliberately do NOT listen
-    // for touchend: on touch, a long-press selection belongs to the native iOS
-    // edit menu (Copy/Look Up/Translate) — Reflect must not override it.
-    document.addEventListener("mouseup", handleMouseUp)
-    return () => document.removeEventListener("mouseup", handleMouseUp)
+    // pointerup carries pointerType (mouse | pen | touch). The handler ignores
+    // touch, so finger selection keeps the native iOS edit menu and only a
+    // mouse/trackpad/stylus selection raises the Reflect picker.
+    document.addEventListener("pointerup", handleMouseUp)
+    return () => document.removeEventListener("pointerup", handleMouseUp)
   }, [handleMouseUp])
 
   // Dismiss picker on mousedown outside it — skip if click is inside the picker
