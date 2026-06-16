@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
+import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
 import { receiptEmail } from "@/emails/receiptEmail"
 
@@ -256,7 +257,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   // Fire emails (non-blocking — don't let email failure break the compass response)
   const userEmail = session?.user?.email ?? null
   if (resend && userEmail) {
-    const briefUrl = `${process.env.NEXT_PUBLIC_APP_URL ?? "https://arcs-zachharris-3439s-projects.vercel.app"}/brief/${receipt.id}`
+    const briefUrl = `${APP_URL}/brief/${receipt.id}`
 
     // 1. Receipt confirmation email — the T₀ "bearing locked" artifact.
     const receiptMail = receiptEmail({
@@ -290,7 +291,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           daysElapsed: (scheduledAt.getTime() - receipt.createdAt.getTime()) / 86400000,
           conviction: receipt.nciScore,
           protecting,
-          debriefUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://arcs-zachharris-3439s-projects.vercel.app"}/debrief/${receipt.id}`,
+          debriefUrl: `${APP_URL}/debrief/${receipt.id}`,
           token: receipt.id,
         })
         resend.emails.send({
