@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
 import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
@@ -39,6 +40,7 @@ export default function ReceiptPage() {
   const params = useParams()
   const router = useRouter()
   const receiptId = String(params.receiptId)
+  const vw = useVw()
 
   const [receipt, setReceipt] = useState<ReceiptData | null>(null)
   const [hasBrief, setHasBrief] = useState(false)
@@ -112,7 +114,7 @@ export default function ReceiptPage() {
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Header */}
         <div style={{ borderBottom: `0.5px solid ${signal.steel}33`, background: `rgba(13,17,23,0.8)` }}>
-          <div style={{ maxWidth: 960, margin: "0 auto", padding: "1rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+          <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
               <button
                 onClick={() => router.push("/history")}
@@ -134,7 +136,7 @@ export default function ReceiptPage() {
         </div>
 
         {/* Body */}
-        <div style={{ maxWidth: 960, margin: "0 auto", padding: "2rem 1.5rem 6rem" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "6rem" }}>
           {/* Decision — the question, at the top */}
           <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
             <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>

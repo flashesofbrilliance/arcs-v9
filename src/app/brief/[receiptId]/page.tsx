@@ -4,7 +4,8 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
-import { surface, text, signal, font, getWeather, nciColor } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { Badge } from "@/ui/Badge"
 import { Brief } from "@/organisms/Brief"
 import { TributariesStack } from "@/molecules/TributariesStack"
@@ -58,6 +59,7 @@ export default function BriefPage() {
   const params = useParams()
   const router = useRouter()
   const receiptId = String(params.receiptId)
+  const vw = useVw()
 
   const [result, setResult] = useState<CompassResult | null>(null)
   const [sessionId, setSessionId] = useState<string | null>(null)
@@ -172,7 +174,7 @@ export default function BriefPage() {
     <ReflectLayer receiptId={receiptId} surface="BRIEF" reflectUrl={`/brief/reflect/${receiptId}`}>
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       {depth > 0 && (
-        <div style={{ maxWidth: 880, margin: "0 auto", padding: "1.25rem 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "1.25rem", paddingBottom: 0, display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
           <span style={{ color: signal.cyan }}>Level {depth}</span>
           <span style={{ color: text.muted }}>·</span>
           {parentId ? (
@@ -188,7 +190,7 @@ export default function BriefPage() {
 
       {/* Sticky share footer */}
       <div style={{ position: "sticky", bottom: 0, zIndex: 30, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: `0.5px solid rgba(30,41,59,0.5)` }}>
-        <div style={{ maxWidth: 880, margin: "0 auto", padding: "0.75rem 1.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "0.75rem", paddingBottom: "0.75rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <Label style={{ marginRight: "0.25rem", flexShrink: 0 }}>Share</Label>
           {authed ? (
             <>
@@ -204,7 +206,7 @@ export default function BriefPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 6rem" }}>
+      <div style={{ ...contentContainer(vw), paddingTop: 0, paddingBottom: "6rem" }}>
         {children.length > 0 && (
           <Card style={{ marginBottom: "1.5rem" }}>
             <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>

@@ -6,7 +6,8 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, nciColor } from "@/ui/tokens"
+import { surface, text, signal, font, nciColor, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { Card } from "@/ui/Card"
 import { Button } from "@/ui/Button"
 import { SectionLabel } from "@/ui/SectionLabel"
@@ -48,6 +49,7 @@ export default function DebriefPage() {
   const params = useParams()
   const router = useRouter()
   const receiptId = String(params.receiptId)
+  const vw = useVw()
 
   const [recap, setRecap] = useState<ReceiptRecap | null>(null)
   const [logged, setLogged] = useState<LoggedOutcome | null>(null)
@@ -98,7 +100,7 @@ export default function DebriefPage() {
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       {/* breadcrumb */}
       <div style={{ borderBottom: `0.5px solid rgba(255,215,0,0.12)`, background: "rgba(255,215,0,0.03)" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", padding: "0.6rem 1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
           <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
           <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
@@ -106,7 +108,7 @@ export default function DebriefPage() {
           <span style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: signal.gold, textTransform: "uppercase" }}>◰ Debrief</span>
         </div>
       </div>
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: "1.75rem 1.25rem 5rem" }}>{children}</div>
+      <div style={{ ...contentContainer(vw), paddingTop: "1.75rem", paddingBottom: "5rem" }}>{children}</div>
     </main>
   )
 

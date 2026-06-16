@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
-import { font, signal, border, text, getWeather, nciColor } from '@/ui/tokens'
+import { font, signal, border, text, getWeather, nciColor, contentContainer } from '@/ui/tokens'
+import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
 import { Label } from '@/ui/Label'
@@ -33,10 +34,13 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
     return () => mq.removeEventListener('change', sync)
   }, [])
 
+  const vw = useVw()
+  const cc = contentContainer(vw)
+
   const nc = nciColor(result.nci_score)
 
   return (
-    <div style={{ maxWidth: 920, margin: '0 auto', padding: '3.25rem 2.25rem 5rem' }}>
+    <div style={{ ...cc, paddingTop: '3.25rem', paddingBottom: '5rem' }}>
       {/* Header */}
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Wordmark section="Cartography Brief" />

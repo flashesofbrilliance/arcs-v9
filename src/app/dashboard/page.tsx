@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { surface, text } from "@/ui/tokens"
+import { surface, text, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
 import { ResultView } from "@/organisms/ResultView"
@@ -18,6 +19,7 @@ type Stakes = "LOW" | "MEDIUM" | "HIGH"
 function DashboardInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const vw = useVw()
 
   const [question, setQuestion] = useState(() => searchParams.get("q") ?? "")
   const [inboundPrepId] = useState(() => searchParams.get("prepId") ?? null)
@@ -158,7 +160,7 @@ function DashboardInner() {
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       {error && (
-        <div style={{ maxWidth: 620, margin: "0 auto", padding: "1rem 1.5rem 0" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
           <CompassError message={error} onRetry={() => runCompass()} />
         </div>
       )}
