@@ -60,7 +60,19 @@ def loc(path: str) -> int:
         return 0
 
 
+def extract_nci(subject: str) -> int | None:
+    """Extract NCI score from [NCI:XX] suffix. Returns None if not found or unparseable."""
+    m = re.search(r"\[NCI:(\d+)\]", subject)
+    if m:
+        try:
+            return int(m.group(1))
+        except ValueError:
+            pass
+    return None
+
+
 def clean(subject: str) -> str:
+    """Remove [NCI:XX] suffix from subject line."""
     return re.sub(r"\s*\[NCI:[^\]]*\]\s*$", "", subject).strip()
 
 
@@ -134,11 +146,17 @@ def classify(c: dict, first: bool) -> dict | None:
     if typ in ("genesis", "milestone", "security"):
         conf += 4
     conf = min(conf, 96)
+
+    nci = extract_nci(c["subject"])
+    git_url = f"https://github.com/{REPO_SLUG}/commit/{c['sha']}"
+
     return {"id": f"ev-{c['sha']}", "date": c["date"], "alt": alt, "type": typ,
             **({"peak": True} if peak else {}),
             "label": clean(c["subject"]), "sha": c["sha"],
             "desc": desc_of(c),
-            "conf": conf}
+            "conf": conf,
+            **({"nci": nci} if nci is not None else {}),
+            "url": git_url}
 
 
 def build_events(cs: list[dict]) -> list[dict]:
