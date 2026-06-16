@@ -135,6 +135,11 @@ export default function ReceiptPage() {
 
         {/* Body */}
         <div style={{ maxWidth: 960, margin: "0 auto", padding: "2rem 1.5rem 6rem" }}>
+          {/* Conviction — lifted above True North: lead with the bearing's strength */}
+          <div style={{ marginBottom: "2rem" }}>
+            <ConvictionSidebar result={compassResult} />
+          </div>
+
           {/* True North */}
           <div style={{ marginBottom: "2rem" }}>
             <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.14em", color: signal.cyan, textTransform: "uppercase", marginBottom: "0.5rem" }}>True North</div>
@@ -164,13 +169,12 @@ export default function ReceiptPage() {
             </div>
           )}
 
-          {/* FATED · Terrain Paths · Conviction — single-column stack */}
+          {/* FATED · Terrain Paths — single-column stack (Conviction lifted to top) */}
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "2rem" }}>
             {fated && Object.keys(fated).length > 0 && <FatedGrid fated={fated} />}
             {paths && paths.length > 0 && (
               <TerrainPaths paths={paths as Parameters<typeof TerrainPaths>[0]["paths"]} />
             )}
-            <ConvictionSidebar result={compassResult} />
           </div>
 
           {/* Schema ledger pills */}
