@@ -158,7 +158,10 @@ export function ReflectLayer({
   const [meditateLoading, setMeditateLoading] = useState(false)
   const [meditateResult, setMeditateResult] = useState<{ held: string[]; falsified: string[]; elevated: string[] } | null>(null)
   const [meditateExpanded, setMeditateExpanded] = useState(true)
-  const [vw, setVw] = useState<number>(() => (typeof window !== "undefined" ? window.innerWidth : 1280))
+  // Start at desktop width so the server-rendered tree and the first client
+  // render agree (no hydration mismatch). The effect below sets the real width
+  // after mount, then transitions to the mobile/tablet layout cleanly.
+  const [vw, setVw] = useState<number>(1280)
   // Floating selection picker — appears on any text highlight; dismissed on Escape / click-outside
   const [selectionPicker, setSelectionPicker] = useState<{
     anchorText: string; preContext: string; postContext: string
@@ -170,10 +173,14 @@ export function ReflectLayer({
   // Responsive — Reflect is a desktop+tablet instrument. Phones (≤760) get a
   // clean read-only brief (gated below). Tablet (761–1024) keeps a narrower rail.
   useEffect(() => {
-    const sync = () => setVw(window.innerWidth)
+    let raf = 0
+    const sync = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => setVw(window.innerWidth))
+    }
     sync()
     window.addEventListener("resize", sync)
-    return () => window.removeEventListener("resize", sync)
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", sync) }
   }, [])
   const mobile = vw <= 760
   const tablet = vw > 760 && vw <= 1024
@@ -262,7 +269,13 @@ export function ReflectLayer({
   // (pointerType "touch") is left to the native iOS edit menu; Reflect never
   // overrides it. So on iPad, annotation effectively activates with the Pencil.
   const handleMouseUp = useCallback((e: PointerEvent) => {
-    if (e.pointerType === "touch") return  // finger → native selection menu, not us
+    if (e.pointerType === "touch") {
+      // Finger → native iOS selection menu, never us. Also clear any picker a
+      // prior pen/mouse selection left open so the two menus never co-exist.
+      setSelectionPicker(null)
+      selectionPickerRef.current = null
+      return
+    }
     // Don't trigger inside textareas / inputs
     const target = e.target as HTMLElement
     if (
@@ -839,20 +852,24 @@ export function ReflectLayer({
                   {TYPE_ICON[activeInstrument]} Select text to annotate · Esc to cancel
                 </div>
               )}
-              <div style={{ display: "flex", gap: 4 }}>
+              {/* Meditate is the action (green, runs a synthesis); Shavasana is a
+                  view toggle (neutral, expands the per-annotation kernel carousel).
+                  Distinct treatments so they don't read as the same button. */}
+              <div style={{ display: "flex", gap: 4, alignItems: "stretch" }}>
                 <button
                   onClick={runMeditate}
                   disabled={annotations.length === 0 || meditateLoading}
-                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 2, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
-                  📿 Meditate
+                  📿 {meditateLoading ? "Synthesizing…" : "Meditate"}
                 </button>
                 <button
                   onClick={() => setShavasanaExpanded((p) => !p)}
                   disabled={annotations.length === 0}
-                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                  aria-expanded={shavasanaExpanded}
+                  style={{ ...glassBtn(shavasanaExpanded ? CYAN : undefined), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
-                  ☽ Shavasana
+                  ☽ Shavasana <span style={{ opacity: .6 }}>{shavasanaExpanded ? "▴" : "▾"}</span>
                 </button>
               </div>
             </div>
