@@ -9,14 +9,12 @@
 // All primitives pulled from the arcs.care Surface Audit atomic compositions.
 import React from "react"
 import { signal, text, font, border, nciColor, getWeather } from "@/ui/tokens"
+import { CoverBlock } from "@/document/patterns/CoverBlock"
 import type { CompassResult } from "@/lib/mockCompass"
 
 export type PreviewVariant = "cluster" | "read" | "artifact"
 
 // ── Shared palette (from audit :root) ──────────────────────────────────────
-const PANEL = "#0d1117"
-const ELEVATED = "#111827"
-const INKLINE = "#0a0e14"
 const HAIR = "rgba(22,30,43,0.8)"
 
 // ── Gauge — the instrument cluster atom ────────────────────────────────────
@@ -123,55 +121,35 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   )
 }
 
-// ── Variant C — Verdict Artifact (underlit LED card, F05 audit fix) ─────────
+// ── Variant C — Verdict Artifact (CoverBlock document grammar) ──────────────
+// Renders the receipt as a document cover: Y-state + mode badges, True North as
+// the hero title, the decision as subtitle, the instrument readout as the meta
+// strip, and the brief/receipt CTAs as cover actions.
 function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
-  const nc = nciColor(result.nci_score)
   const w = getWeather(result.y_state)
+  const door = result.door_class?.replace(/_/g, " ")
+  const meta = [
+    `NCI ${result.nci_score} / 100`,
+    result.decision_mode && `MODE ${result.decision_mode}`,
+    door && `DOOR ${door}`,
+    result.coherence_pct != null && `COHERENCE ${result.coherence_pct}%`,
+  ].filter(Boolean).join("  ·  ")
 
   return (
     <div style={{
-      border: `1px solid ${border.subtle}`, borderRadius: 12, overflow: "hidden",
+      borderRadius: 12, overflow: "hidden", padding: "0 22px",
       background: `linear-gradient(180deg,rgba(14,22,38,.5),rgba(9,14,24,.66))`,
       boxShadow: `inset 0 -3px 20px ${signal.cyan}18, 0 0 0 0.5px ${signal.cyan}22`,
     }}>
-      {/* Top header stripe */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, padding: "18px 22px 16px", borderBottom: `1px solid ${HAIR}`, background: INKLINE }}>
-        <div>
-          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: text.muted, marginBottom: 8 }}>Decision</div>
-          <div style={{ fontFamily: font.sans, fontSize: "0.85rem", lineHeight: 1.5, color: text.secondary, maxWidth: 520 }}>{result.question}</div>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 24, padding: "0 11px", borderRadius: 5, fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: w.color, background: `${w.color}15`, border: `1px solid ${w.color}44` }}>{w.icon} {w.label}</span>
-          <div style={{ fontFamily: font.mono, fontWeight: 800, fontSize: "1.75rem", lineHeight: 1, color: nc, textShadow: `0 0 14px ${nc}55` }}>{result.nci_score}<span style={{ fontSize: "0.6rem", fontWeight: 600, color: text.muted, letterSpacing: ".1em", marginLeft: 4 }}>NCI</span></div>
-        </div>
-      </div>
-
-      {/* True North body */}
-      <div style={{ padding: "20px 22px 22px" }}>
-        <div style={{ fontFamily: font.mono, fontSize: "0.55rem", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan, marginBottom: 10 }}>True North</div>
-        <div style={{ fontFamily: font.sans, fontSize: "clamp(1rem,2vw,1.3rem)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.5, color: text.primary, marginBottom: 18 }}>
-          {result.true_north}
-        </div>
-
-        {/* Meta pills row */}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-          {[
-            { label: "Mode", value: result.decision_mode },
-            { label: "Door", value: result.door_class?.replace(/_/g," ") },
-            ...(result.coherence_pct != null ? [{ label: "Coherence", value: `${result.coherence_pct}%` }] : []),
-          ].map(({ label, value }) => (
-            <div key={label} style={{ display: "flex", alignItems: "center", gap: 0, border: `0.5px solid ${border.subtle}44`, borderRadius: 3, overflow: "hidden", fontSize: "0.6rem", fontFamily: font.mono }}>
-              <span style={{ background: "rgba(255,255,255,.04)", padding: "3px 7px", color: text.muted, letterSpacing: ".08em", textTransform: "uppercase" }}>{label}</span>
-              <span style={{ padding: "3px 8px", color: text.secondary, background: "rgba(13,17,23,.5)" }}>{value}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Cyan bottom-bloom accent line (F05) */}
-        <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${signal.cyan}66, transparent)`, marginBottom: 18 }} />
-
-        <CTARow onOpenBrief={onOpenBrief} onOpenReceipt={onOpenReceipt} />
-      </div>
+      <CoverBlock
+        accent={w.color}
+        badges={[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean) as string[]}
+        title={result.true_north}
+        subtitle={result.question}
+        meta={meta}
+        actions={["Open Cartography Brief →", "Receipt"]}
+        onAction={(i) => (i === 0 ? onOpenBrief?.() : onOpenReceipt?.())}
+      />
     </div>
   )
 }

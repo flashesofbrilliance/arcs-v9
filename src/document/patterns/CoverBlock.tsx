@@ -10,9 +10,13 @@ export interface CoverBlockProps {
   meta?: React.ReactNode
   actions?: string[]
   accent?: string
+  // Optional click handlers, indexed parallel to `actions`. When omitted the
+  // buttons render inert (document-preview behavior). Additive — existing
+  // callers that pass only string labels are unaffected.
+  onAction?: (index: number) => void
 }
 
-export function CoverBlock({ badges = [], title, subtitle, meta, actions = [], accent = T.cyan }: CoverBlockProps) {
+export function CoverBlock({ badges = [], title, subtitle, meta, actions = [], accent = T.cyan, onAction }: CoverBlockProps) {
   return (
     <div style={{ padding: '36px 0 32px', borderBottom: `1px solid ${T.border}` }}>
       {badges.length > 0 && (
@@ -26,7 +30,7 @@ export function CoverBlock({ badges = [], title, subtitle, meta, actions = [], a
       {actions.length > 0 && (
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           {actions.map((a, i) => (
-            <button key={i} style={{ height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: T.sans, fontSize: 13, fontWeight: 500,
+            <button key={i} onClick={onAction ? () => onAction(i) : undefined} style={{ height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: T.sans, fontSize: 13, fontWeight: 500,
               background: i === 0 ? accent : 'transparent', color: i === 0 ? T.bg : T.fg2, border: i === 0 ? 'none' : `1px solid ${T.border}` }}>
               {a}
             </button>
