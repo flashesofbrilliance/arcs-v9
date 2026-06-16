@@ -170,31 +170,36 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
       </div>
       {/* Accent Weather buttons — sans serif, subtle border, Y-state color */}
       <div style={{ padding: '16px 22px', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        {["Open Cartography Brief →", "Receipt"].map((a, i) => (
-          <button key={i} onClick={i === 0 ? onOpenBrief : onOpenReceipt} style={{
-            height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
-            background: i === 0 ? w.color : 'transparent', color: i === 0 ? "#020408" : text.secondary, border: i === 0 ? 'none' : `1px solid ${border.subtle}`,
-            transition: 'all .12s',
-          }}
-          onMouseEnter={(e) => {
-            if (i === 0) {
-              (e.currentTarget as HTMLButtonElement).style.opacity = '0.9'
-            } else {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = text.primary
-              (e.currentTarget as HTMLButtonElement).style.color = text.primary
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (i === 0) {
-              (e.currentTarget as HTMLButtonElement).style.opacity = '1'
-            } else {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = border.subtle
-              (e.currentTarget as HTMLButtonElement).style.color = text.secondary
-            }
-          }}>
-            {a}
-          </button>
-        ))}
+        {["Open Cartography Brief →", "Receipt"].map((a, i) => {
+          const isPrimary = i === 0
+          return (
+            <button key={i} onClick={isPrimary ? onOpenBrief : onOpenReceipt} style={{
+              height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
+              background: isPrimary ? w.color : 'transparent', color: isPrimary ? "#020408" : text.secondary, border: isPrimary ? 'none' : `1px solid ${border.subtle}`,
+              transition: 'all .12s',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              if (isPrimary) {
+                el.style.opacity = '0.9'
+              } else {
+                el.style.borderColor = text.primary
+                el.style.color = text.primary
+              }
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              if (isPrimary) {
+                el.style.opacity = '1'
+              } else {
+                el.style.borderColor = border.subtle
+                el.style.color = text.secondary
+              }
+            }}>
+              {a}
+            </button>
+          )
+        })}
       </div>
     </div>
   )
