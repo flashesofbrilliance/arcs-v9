@@ -142,22 +142,43 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
       background: `linear-gradient(180deg,rgba(14,22,38,.5),rgba(9,14,24,.66))`,
       boxShadow: `inset 0 -3px 20px ${signal.cyan}18, 0 0 0 0.5px ${signal.cyan}22`,
     }}>
-      <CoverBlock
-        accent={w.color}
-        badges={[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean) as string[]}
-        title={result.true_north}
-        subtitle={result.question}
-        meta={meta}
-        actions={["Open Cartography Brief →", "Receipt"]}
-        onAction={(i) => (i === 0 ? onOpenBrief?.() : onOpenReceipt?.())}
-        tokens={{
-          fg1: text.primary,
-          fg2: text.secondary,
-          fg4: text.muted,
-          border: border.subtle,
-          bg: "#020408",
-        }}
-      />
+      <div style={{ padding: '36px 0 32px', borderBottom: `1px solid ${border.subtle}` }}>
+        {/* Badges */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+          {[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean).map((b, i) => (
+            <span key={i} style={{
+              display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
+              borderRadius: 4, fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: i === 0 ? "#020408" : w.color,
+              background: i === 0 ? w.color : `${w.color}16`,
+              border: i === 0 ? 'none' : `1px solid ${w.color}35`,
+            }}>{b}</span>
+          ))}
+        </div>
+        {/* Title — h2 size for clarity hierarchy */}
+        <h2 style={{ fontFamily: font.sans, fontSize: 22, fontWeight: 600, color: text.primary, letterSpacing: '-0.02em', lineHeight: 1.4, marginBottom: 16 }}>
+          {result.true_north}
+        </h2>
+        {/* Subtitle */}
+        <p style={{ fontFamily: font.sans, fontSize: 15, color: text.secondary, lineHeight: 1.7, marginBottom: 16, maxWidth: 640 }}>
+          {result.question}
+        </p>
+        {/* Meta */}
+        <div style={{ fontFamily: font.mono, fontSize: 10, color: text.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>
+          {meta}
+        </div>
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {["Open Cartography Brief →", "Receipt"].map((a, i) => (
+            <button key={i} onClick={i === 0 ? onOpenBrief : onOpenReceipt} style={{
+              height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
+              background: i === 0 ? w.color : 'transparent', color: i === 0 ? "#020408" : text.secondary, border: i === 0 ? 'none' : `1px solid ${border.subtle}`
+            }}>
+              {a}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
