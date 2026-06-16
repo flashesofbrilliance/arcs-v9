@@ -11,6 +11,12 @@ import { receiptEmail } from "@/emails/receiptEmail"
 const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
 export const dynamic = "force-dynamic"
+// The L0–L5 pipeline emits a large structured JSON object (up to max_tokens),
+// which can take 20–40s on Sonnet. Without this, Vercel kills the function at
+// the default timeout and drops the connection — the browser then reports the
+// fetch as "Load failed" (COMPASS OFFLINE · L0 SIGNAL LOST). 60s is the Hobby
+// ceiling and safe across plans.
+export const maxDuration = 60
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
