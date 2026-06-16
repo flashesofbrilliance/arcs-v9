@@ -84,7 +84,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
         </div>
       </div>
 
-      {/* Two-col: Terrain Paths + Constitutional Court */}
+      {/* Two-col: Terrain Paths + Constitutional Court entries */}
       {(r.paths?.length || r.court) ? (
         <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (r.paths?.length && r.court ? '1fr 1fr' : '1fr'), gap: '1.25rem', marginBottom: '1.25rem' }}>
           {r.paths?.length ? <TerrainPaths paths={r.paths} /> : null}
@@ -97,11 +97,18 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
                   <span style={{ color: text.secondary }}><strong style={{ color: text.primary }}>{c.name}</strong> — {c.detail}</span>
                 </div>
               ))}
-              {r.court_verdict && <div style={{ marginTop: '0.75rem', paddingTop: '0.75rem', borderTop: `1px solid ${border.subtle}`, fontSize: '0.82rem', color: text.dimmed, fontStyle: 'italic' }}>{r.court_verdict}</div>}
             </Card>
           ) : null}
         </div>
       ) : null}
+
+      {/* Court Verdict — single-column card, same atom as Decision box */}
+      {r.court_verdict && (
+        <div style={{ marginBottom: '1.25rem', padding: '1rem 1.25rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
+          <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Court Verdict</div>
+          <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{r.court_verdict}</div>
+        </div>
+      )}
 
       {/* FATED — full-width single column */}
       <div style={{ marginBottom: '1.25rem' }}>
