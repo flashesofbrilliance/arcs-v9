@@ -8,7 +8,7 @@ import { Label } from '@/ui/Label'
 import { Card } from '@/ui/Card'
 import { FatedGrid } from '@/molecules/FatedGrid'
 import { TerrainPaths } from '@/molecules/TerrainPaths'
-import { TributariesStack } from '@/molecules/TributariesStack'
+import { ExpandableTributaries } from '@/molecules/ExpandableTributaries'
 import type { CompassResult } from '@/lib/mockCompass'
 
 export interface BriefProps {
@@ -129,11 +129,11 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
         </Card>
       )}
 
-      {/* Where to Navigate Next — tributaries as full-width interactive card */}
+      {/* Where to Navigate Next — collapsible tributaries threads */}
       {result.tributaries && result.tributaries.length > 0 && (
-        <Card style={{ marginBottom: '1.75rem' }}>
-          <TributariesStack tributaries={result.tributaries} onTributary={onTributary} />
-        </Card>
+        <div style={{ marginBottom: '1.75rem' }}>
+          <ExpandableTributaries tributaries={result.tributaries} onTributary={onTributary} />
+        </div>
       )}
     </div>
   )
