@@ -168,32 +168,31 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
           {meta}
         </div>
       </div>
-      {/* Accent Weather buttons — sans serif, subtle border, Y-state color */}
+      {/* Tighter button design — mono, 8px radius, solid fills, confident */}
       <div style={{ padding: '16px 22px', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
         {["Open Cartography Brief →", "Receipt"].map((a, i) => {
           const isPrimary = i === 0
           return (
             <button key={i} onClick={isPrimary ? onOpenBrief : onOpenReceipt} style={{
-              height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
-              background: isPrimary ? w.color : 'transparent', color: isPrimary ? "#020408" : text.secondary, border: isPrimary ? 'none' : `1px solid ${border.subtle}`,
-              transition: 'all .12s',
+              padding: '10px 20px', borderRadius: 8, cursor: 'pointer', fontFamily: font.mono, fontSize: '0.7rem', fontWeight: 700,
+              letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', transition: 'all .12s',
+              background: isPrimary ? w.color : "rgba(71,85,105,.2)", color: isPrimary ? "#020408" : text.secondary,
+              boxShadow: isPrimary ? `0 4px 12px ${w.color}33` : 'none',
             }}
             onMouseEnter={(e) => {
               const el = e.currentTarget as HTMLButtonElement
               if (isPrimary) {
-                el.style.opacity = '0.9'
+                el.style.boxShadow = `0 6px 16px ${w.color}44`
               } else {
-                el.style.borderColor = text.primary
-                el.style.color = text.primary
+                el.style.background = "rgba(71,85,105,.35)"
               }
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLButtonElement
               if (isPrimary) {
-                el.style.opacity = '1'
+                el.style.boxShadow = `0 4px 12px ${w.color}33`
               } else {
-                el.style.borderColor = border.subtle
-                el.style.color = text.secondary
+                el.style.background = "rgba(71,85,105,.2)"
               }
             }}>
               {a}
@@ -205,20 +204,20 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   )
 }
 
-// ── Shared CTA row ──────────────────────────────────────────────────────────
+// ── Shared CTA row (mono, 8px radius, solid fills, confident) ──────────────
 function CTARow({ onOpenBrief, onOpenReceipt }: { onOpenBrief?: () => void; onOpenReceipt?: () => void }) {
   const btn = (primary: boolean): React.CSSProperties => ({
-    fontFamily: font.mono, fontSize: "0.65rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase",
-    padding: "8px 18px", borderRadius: 20, cursor: "pointer", border: ".5px solid",
-    display: "inline-flex", alignItems: "center", gap: 6,
+    fontFamily: font.mono, fontSize: "0.7rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase",
+    padding: "10px 20px", borderRadius: 8, cursor: "pointer", border: "none",
+    display: "inline-flex", alignItems: "center", gap: 6, transition: "all .12s",
     ...(primary
-      ? { background: `${signal.cyan}14`, borderColor: `${signal.cyan}55`, color: signal.cyan, boxShadow: `0 0 10px ${signal.cyan}14` }
-      : { background: "rgba(15,21,32,.5)", borderColor: "rgba(71,85,105,.28)", color: text.muted }),
+      ? { background: signal.cyan, color: "#020408", boxShadow: `0 4px 12px ${signal.cyan}33` }
+      : { background: "rgba(71,85,105,.2)", color: text.secondary }),
   })
   return (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <button style={btn(true)} onClick={onOpenBrief}>Open Cartography Brief →</button>
-      <button style={btn(false)} onClick={onOpenReceipt}>Receipt</button>
+      <button style={btn(true)} onClick={onOpenBrief} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 6px 16px ${signal.cyan}44` }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 12px ${signal.cyan}33` }}>Open Cartography Brief →</button>
+      <button style={btn(false)} onClick={onOpenReceipt} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(71,85,105,.35)" }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(71,85,105,.2)" }}>Receipt</button>
     </div>
   )
 }
