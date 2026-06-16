@@ -120,8 +120,17 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | Receipt save prompt | Middleware / UI | P1 | Biggest PLG gap — soft auth nudge |
 | GIGI substrate client | Lib | P2 | `src/lib/gigi.ts` — seam point in compass/route.ts |
 | Stripe billing gate | Middleware | P3 | Gates COURT/DEEP mode |
-| Kairos detection | Background job | P4 | Requires Observatory first |
-| Observatory / replay | Worker | P4 | Receipt replay + history analysis |
+| Kairos detection | Background job | P4 | Machinery in `scripts/` via ADR-023; gated at 100 receipts |
+| Observatory / replay | Worker | P4 | Machinery in `scripts/` (lattice_sim, Folksonomist); gated at 100 receipts |
+
+### Foundation (production-ready, stdlib-only Python)
+| Component | File(s) | Purpose | Status |
+|---|---|---|---|
+| ARCS Core Kernel | `scripts/arcs_core.py` | Double Helix, Triune Logic, archetype taxonomy, Folksonomist operator | READY |
+| Scanner Suite | `scripts/calendar_scan.py`, `reader_scan.py`, `listening_scan.py`, `network_scan*.py`, `forensic_scan.py`, `archetype_scan.py` | Extract OM from personal data across 6 domains | READY |
+| Analysis Pipeline | `scripts/arcs_cli.py` | 5-verb framework (analyze/assess/evaluate/synthesize/recapitulate) | READY |
+| Simulation Harness | `scripts/lattice_sim.py` | ADR-023 observability lattice structural testing | READY |
+| Utilities | `scripts/score_me.py`, `export_apollo.py`, activation-check.sql, rls-policies.sql, smoke.sh | Scoring, export, audit, testing | READY |
 
 ---
 
