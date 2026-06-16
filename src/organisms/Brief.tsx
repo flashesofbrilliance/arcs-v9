@@ -36,7 +36,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
   const nc = nciColor(result.nci_score)
 
   return (
-    <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
+    <div style={{ maxWidth: 920, margin: '0 auto', padding: '3.25rem 2.25rem 5rem' }}>
       {/* Header */}
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Wordmark section="Cartography Brief" />
@@ -50,19 +50,19 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
       <Label style={{ marginBottom: '1rem', color: weather.color }}>{weather.icon} {weather.label} · {result.render_resolution}</Label>
 
       {/* Decision — the question, at the top (mirrors the receipt pattern) */}
-      <div style={{ marginBottom: '1.25rem', padding: '1rem 1.25rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
+      <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
         <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Decision</div>
         <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{result.question}</div>
       </div>
 
       {/* True North */}
-      <div style={{ marginBottom: '1.25rem' }}>
+      <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.14em', color: signal.cyan, textTransform: 'uppercase', marginBottom: '0.5rem' }}>True North</div>
         <div style={{ fontFamily: font.sans, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 600, color: text.primary, lineHeight: 1.35 }}>{result.true_north}</div>
       </div>
 
       {/* Conviction — full-width, right below True North */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1rem 1.25rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: '1.25rem', flexWrap: narrow ? 'wrap' : 'nowrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6, marginBottom: '1.75rem', flexWrap: narrow ? 'wrap' : 'nowrap' }}>
         <div style={{ flexShrink: 0 }}>
           <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.2rem' }}>Conviction</div>
           <div style={{ fontFamily: font.sans, fontSize: '2.25rem', fontWeight: 700, color: nc, lineHeight: 1, textShadow: `0 0 12px ${nc}55` }}>{result.nci_score}</div>
@@ -86,14 +86,14 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
 
       {/* Terrain Paths — single column, directly under Conviction */}
       {r.paths?.length ? (
-        <div style={{ marginBottom: '1.25rem' }}>
+        <div style={{ marginBottom: '1.75rem' }}>
           <TerrainPaths paths={r.paths} />
         </div>
       ) : null}
 
       {/* Two-col: FATED + Constitutional Court entries */}
       {(Object.keys(fated).length > 0 || r.court) ? (
-        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (Object.keys(fated).length > 0 && r.court ? '1fr 1fr' : '1fr'), gap: '1.25rem', marginBottom: '1.25rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: narrow ? '1fr' : (Object.keys(fated).length > 0 && r.court ? '1fr 1fr' : '1fr'), gap: '1.5rem', marginBottom: '1.75rem' }}>
           {Object.keys(fated).length > 0 ? <FatedGrid fated={fated} /> : null}
           {r.court ? (
             <Card>
@@ -111,7 +111,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
 
       {/* Court Verdict — single-column card, same atom as Decision box */}
       {r.court_verdict && (
-        <div style={{ marginBottom: '1.25rem', padding: '1rem 1.25rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
+        <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
           <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Court Verdict</div>
           <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{r.court_verdict}</div>
         </div>
@@ -119,7 +119,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
 
       {/* Situation Framing — above the tributaries block */}
       {situationFraming && (
-        <Card style={{ marginBottom: '1.25rem' }}>
+        <Card style={{ marginBottom: '1.75rem' }}>
           <Label style={{ marginBottom: '0.75rem' }}>Situation Framing</Label>
           <p style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{situationFraming}</p>
         </Card>
@@ -127,7 +127,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
 
       {/* Where to Navigate Next — tributaries as full-width interactive card */}
       {result.tributaries && result.tributaries.length > 0 && (
-        <Card style={{ marginBottom: '1.25rem' }}>
+        <Card style={{ marginBottom: '1.75rem' }}>
           <TributariesStack tributaries={result.tributaries} onTributary={onTributary} />
         </Card>
       )}
