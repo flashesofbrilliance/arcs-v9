@@ -124,9 +124,9 @@ export default function DebriefPage() {
         The call you logged · {days} day{days === 1 ? "" : "s"} ago
       </div>
       <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>The question</div>
-      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.primary, lineHeight: 1.5, marginBottom: "1rem" }}>{recap.question}</div>
+      <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.primary, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.question}</div>
       <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.16em", textTransform: "uppercase", color: text.muted, marginBottom: "0.4rem" }}>True North · the bearing we set</div>
-      <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: signal.cyan, lineHeight: 1.45, marginBottom: "1rem" }}>{recap.trueNorth}</div>
+      <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: signal.cyan, lineHeight: 1.6, marginBottom: "1rem", maxWidth: "100%", wordWrap: "break-word" }}>{recap.trueNorth}</div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "1.25rem", paddingTop: "0.75rem", borderTop: `0.5px solid ${signal.cyan}1a` }}>
         <div>
           <div style={{ fontFamily: font.mono, fontSize: "0.55rem", letterSpacing: "0.14em", textTransform: "uppercase", color: text.muted, marginBottom: "0.25rem" }}>Conviction</div>
