@@ -115,7 +115,7 @@ function PrepInner() {
           </div>
 
           <div>
-            <SectionLabel index="02" style={{ marginBottom: "0.75rem" }}>How sure were you before you came here?</SectionLabel>
+            <SectionLabel index="03" style={{ marginBottom: "0.75rem" }}>How sure were you before you came here?</SectionLabel>
             <SegmentedSlider options={CONF_OPTS} value={confidence} onChange={setConfidence} />
           </div>
 
@@ -129,7 +129,7 @@ function PrepInner() {
           <Field label="Strongest case against your instinct" value={adversarial} onChange={(e) => setAdversarial(e.target.value)} placeholder="One sentence. The Loki vector." />
           <Field label="When do you expect the shoe to drop?" value={outcomeHorizon} onChange={(e) => setOutcomeHorizon(e.target.value)} placeholder="end of Q3, when we close the hire, 30 days…" />
 
-          <div style={{ position: "sticky", bottom: "1.5rem", background: `linear-gradient(to top, ${surface.bg} 70%, transparent)`, paddingTop: "1rem" }}>
+          <div style={{ position: "sticky", bottom: 0, background: surface.bg, borderTop: `0.5px solid ${border.subtle}`, padding: "1rem 0 1.25rem", marginTop: "0.5rem" }}>
             <Button type="submit" variant="primary" size="lg" glyph={loading ? "~" : "⊕"} disabled={loading} style={{ width: "100%" }}>
               {loading ? "Loading terrain…" : <>Enter the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></>}
             </Button>
