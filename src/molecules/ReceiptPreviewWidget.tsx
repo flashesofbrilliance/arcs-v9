@@ -121,10 +121,11 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   )
 }
 
-// ── Variant C — Verdict Artifact (CoverBlock document grammar) ──────────────
+// ── Variant C — Verdict Artifact (CoverBlock document grammar + app tokens) ──
 // Renders the receipt as a document cover: Y-state + mode badges, True North as
 // the hero title, the decision as subtitle, the instrument readout as the meta
-// strip, and the brief/receipt CTAs as cover actions.
+// strip, and the brief/receipt CTAs as cover actions. Uses app token overrides
+// so the colors/text match the rest of the widget aesthetic.
 function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   const w = getWeather(result.y_state)
   const door = result.door_class?.replace(/_/g, " ")
@@ -149,6 +150,13 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
         meta={meta}
         actions={["Open Cartography Brief →", "Receipt"]}
         onAction={(i) => (i === 0 ? onOpenBrief?.() : onOpenReceipt?.())}
+        tokens={{
+          fg1: text.primary,
+          fg2: text.secondary,
+          fg4: text.muted,
+          border: border.subtle,
+          bg: "#020408",
+        }}
       />
     </div>
   )
