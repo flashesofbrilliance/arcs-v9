@@ -121,11 +121,10 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   )
 }
 
-// ── Variant C — Verdict Artifact (CoverBlock document grammar + app tokens) ──
+// ── Variant C — Verdict Artifact (CoverBlock document grammar + unified buttons) ──
 // Renders the receipt as a document cover: Y-state + mode badges, True North as
 // the hero title, the decision as subtitle, the instrument readout as the meta
-// strip, and the brief/receipt CTAs as cover actions. Uses app token overrides
-// so the colors/text match the rest of the widget aesthetic.
+// strip. Uses CTARow for unified button styling across all carousel variants.
 function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   const w = getWeather(result.y_state)
   const door = result.door_class?.replace(/_/g, " ")
@@ -167,17 +166,10 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
         <div style={{ fontFamily: font.mono, fontSize: 10, color: text.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>
           {meta}
         </div>
-        {/* Actions */}
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          {["Open Cartography Brief →", "Receipt"].map((a, i) => (
-            <button key={i} onClick={i === 0 ? onOpenBrief : onOpenReceipt} style={{
-              height: 38, padding: '0 18px', borderRadius: 7, cursor: 'pointer', fontFamily: font.sans, fontSize: 13, fontWeight: 500,
-              background: i === 0 ? w.color : 'transparent', color: i === 0 ? "#020408" : text.secondary, border: i === 0 ? 'none' : `1px solid ${border.subtle}`
-            }}>
-              {a}
-            </button>
-          ))}
-        </div>
+      </div>
+      {/* Unified CTA row — matches Cluster & Read */}
+      <div style={{ padding: '16px 22px' }}>
+        <CTARow onOpenBrief={onOpenBrief} onOpenReceipt={onOpenReceipt} />
       </div>
     </div>
   )
