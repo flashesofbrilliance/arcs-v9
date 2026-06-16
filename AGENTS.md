@@ -132,6 +132,34 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | Simulation Harness | `scripts/lattice_sim.py` | ADR-023 observability lattice structural testing | READY |
 | Utilities | `scripts/score_me.py`, `export_apollo.py`, activation-check.sql, rls-policies.sql, smoke.sh | Scoring, export, audit, testing | READY |
 
+### Operators Library (atomic design components, L0-L5 implementation)
+| Layer | Component | File | LOC | Purpose | Status |
+|-------|-----------|------|-----|---------|--------|
+| **Meta-Operators** | LAB | `operators/arcs_operators_lab.py` | 28KB | Loki/Advisors/Bayesian — three-lens adversarial reasoning | READY |
+| | BAR | `operators/arcs_operators_bar.py` | 19KB | Risk/ruin assessment — boundary conditions | READY |
+| | SAGE | `operators/arcs_operators_sage.py` | 29KB | Sage reasoning — somatic + epistemic | READY |
+| | CURATOR | `operators/arcs_operators_curator.py` | 13KB | Multi-perspective synthesis | READY |
+| | KAIROS | `operators/arcs_operator_kairos.py` | 9.4KB | Timing operator — horizon/window | READY |
+| | CONTRACT | `operators/arcs_operator_contract.py` | 9.8KB | Constitutional reasoning | READY |
+| | OPERATOR20 | `operators/arcs_operator20.py` | 38KB | Phase 5 synthesis | READY |
+| | KINTSUGI | `operators/arcs_kintsugi.py` | 26KB | Phase gate validation + healing | READY |
+| **Primitives** | Core Elements | `operators/arcs_primitives.py` | 23KB | CoherenceSignal/Receipt, ARCS Law (C = αA - β(S-S_min)² + γW) | READY |
+| | Bridge | `operators/arcs_primitives_bridge.py` | 10KB | Type conversions | READY |
+| | Receipt | `operators/arcs_receipt_core.py` | 7.6KB | Receipt contract | READY |
+| **Systems** | Constitutional Court | `operators/arcs_constitutional_court.py` | 25KB | Axiom enforcement | READY |
+| | Heart/Coherence | `operators/arcs_hc.py` | 34KB | Coherence metrics | READY |
+| | LTE | `operators/arcs_lte.py` | 46KB | Trajectory modeling | READY |
+| | ROM | `operators/arcs_rom.py` | 19KB | Motion rules | READY |
+| | Trace | `operators/arcs_trace.py` + `arcs_trace_loki.py` | 79KB | Execution tracing | READY |
+| **Infrastructure** | Pipeline | `operators/arcs_pipeline_v1.py` | 20KB | Operator sequencing | READY |
+| | Runtime | `operators/arcs_runtime_service.py` | 28KB | State management | READY |
+| | API | `operators/arcs_api.py` | 40KB | External interface | READY |
+| | CLI | `operators/cli_arcs_run.py` | 28KB | CLI harness | READY |
+| | Storage | `operators/arcs_store.py`, `arcs_yoav_store.py` | 42KB | Persistence | READY |
+| **Total** | 34 files | `operators/` | **16.6K LOC** | **Atomic design components for L0–L5 decision pipeline** | **PRODUCTION** |
+
+**Integration status:** Operators are canonical alternative implementation. Not currently wired into compass route (which uses Claude L0–L5). Future integration: custom decision domains, audit hooks, phase gates for high-consequence decisions.
+
 ---
 
 ## Gotchas
