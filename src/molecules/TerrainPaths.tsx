@@ -24,7 +24,7 @@ export function TerrainPaths({ paths }: TerrainPathsProps) {
               <Badge label={p.tag} color={p.status === 'selected' ? signal.cyan : signal.steel} register="light" />
               {p.status === 'selected' && <span style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.1em', color: signal.cyan }}>SELECTED LINE</span>}
             </div>
-            <div style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed, lineHeight: 1.5 }}>{p.detail}</div>
+            <div style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed, lineHeight: 1.85 }}>{p.detail}</div>
           </div>
         ))}
       </div>

@@ -52,13 +52,13 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
       {/* Decision — the question, at the top (mirrors the receipt pattern) */}
       <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
         <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Decision</div>
-        <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{result.question}</div>
+        <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85 }}>{result.question}</div>
       </div>
 
       {/* True North */}
       <div style={{ marginBottom: '1.75rem' }}>
         <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.14em', color: signal.cyan, textTransform: 'uppercase', marginBottom: '0.5rem' }}>True North</div>
-        <div style={{ fontFamily: font.sans, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 600, color: text.primary, lineHeight: 1.35 }}>{result.true_north}</div>
+        <div style={{ fontFamily: font.sans, fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)', fontWeight: 600, color: text.primary, lineHeight: 2.0 }}>{result.true_north}</div>
       </div>
 
       {/* Conviction — full-width, right below True North */}
@@ -99,9 +99,9 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
             <Card>
               <Label style={{ marginBottom: '1rem' }}>Constitutional Court</Label>
               {r.court.map((c, i) => (
-                <div key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem', fontSize: '0.82rem' }}>
-                  <span style={{ fontFamily: font.mono, color: c.verdict === 'PASS' ? signal.green : c.verdict === 'TENSION' ? signal.gold : signal.red, fontWeight: 700, minWidth: 64 }}>{c.verdict}</span>
-                  <span style={{ color: text.secondary }}><strong style={{ color: text.primary }}>{c.name}</strong> — {c.detail}</span>
+                <div key={i} style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.65rem', fontSize: '0.82rem' }}>
+                  <span style={{ fontFamily: font.mono, color: c.verdict === 'PASS' ? signal.green : c.verdict === 'TENSION' ? signal.gold : signal.red, fontWeight: 700, minWidth: 64, lineHeight: 1.85 }}>{c.verdict}</span>
+                  <span style={{ color: text.secondary, lineHeight: 1.85 }}><strong style={{ color: text.primary }}>{c.name}</strong> — {c.detail}</span>
                 </div>
               ))}
             </Card>
@@ -113,7 +113,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
       {r.court_verdict && (
         <div style={{ marginBottom: '1.75rem', padding: '1.25rem 1.5rem', background: 'rgba(13,17,23,0.6)', border: `0.5px solid ${border.subtle}`, borderRadius: 6 }}>
           <div style={{ fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.12em', color: text.dimmed, textTransform: 'uppercase', marginBottom: '0.4rem' }}>Court Verdict</div>
-          <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.6 }}>{r.court_verdict}</div>
+          <div style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85 }}>{r.court_verdict}</div>
         </div>
       )}
 
@@ -121,7 +121,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
       {situationFraming && (
         <Card style={{ marginBottom: '1.75rem' }}>
           <Label style={{ marginBottom: '0.75rem' }}>Situation Framing</Label>
-          <p style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.7, margin: 0, whiteSpace: 'pre-wrap' }}>{situationFraming}</p>
+          <p style={{ fontFamily: font.sans, fontSize: '0.9rem', color: text.secondary, lineHeight: 1.85, margin: 0, whiteSpace: 'pre-wrap' }}>{situationFraming}</p>
         </Card>
       )}
 
