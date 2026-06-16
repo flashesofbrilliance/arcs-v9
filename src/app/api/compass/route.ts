@@ -290,7 +290,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           daysElapsed: (scheduledAt.getTime() - receipt.createdAt.getTime()) / 86400000,
           conviction: receipt.nciScore,
           protecting,
-          debriefUrl: briefUrl,
+          debriefUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? "https://arcs-zachharris-3439s-projects.vercel.app"}/debrief/${receipt.id}`,
           token: receipt.id,
         })
         resend.emails.send({
