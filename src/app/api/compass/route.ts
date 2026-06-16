@@ -190,7 +190,17 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       system: SYSTEM,
       messages: [{ role: "user", content: userMsg }],
     })
+
+    if (!message.content || message.content.length === 0) {
+      return NextResponse.json({ error: "Claude returned empty response", raw }, { status: 502 })
+    }
+
     raw = message.content[0].type === "text" ? message.content[0].text : ""
+
+    if (!raw || raw.trim().length === 0) {
+      return NextResponse.json({ error: "Claude returned empty text content", raw }, { status: 502 })
+    }
+
     const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()
     parsed = JSON.parse(cleaned)
   } catch (err) {
