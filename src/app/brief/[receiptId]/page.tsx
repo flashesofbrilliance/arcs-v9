@@ -9,6 +9,7 @@ import { useVw } from "@/ui/useVw"
 import { Badge } from "@/ui/Badge"
 import { Brief } from "@/organisms/Brief"
 import { TributariesStack } from "@/molecules/TributariesStack"
+import { DebriefCard } from "@/molecules/DebriefCard"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { Card } from "@/ui/Card"
 import { Label } from "@/ui/Label"
@@ -62,6 +63,7 @@ export default function BriefPage() {
   const vw = useVw()
 
   const [result, setResult] = useState<CompassResult | null>(null)
+  const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null)
   const [sessionId, setSessionId] = useState<string | null>(null)
   // Lineage position — depth in the reasoning chain + parent for breadcrumb.
   const [depth, setDepth] = useState<number>(0)
@@ -81,6 +83,7 @@ export default function BriefPage() {
       .then(({ ok, data }) => {
         if (cancelled) return
         if (!ok) { setError(data.error ?? "Could not load brief"); return }
+        setReceipt(data.receipt)
         setResult(toCompassResult(data.receipt, data.tributaries ?? []))
         setSessionId((data.receipt?.sessionId as string) ?? null)
         setDepth(Number(data.receipt?.version ?? 0))
@@ -207,6 +210,17 @@ export default function BriefPage() {
       </div>
 
       <div style={{ ...contentContainer(vw), paddingTop: 0, paddingBottom: "6rem" }}>
+        {receipt && result && (
+          <DebriefCard
+            receiptId={receiptId}
+            question={String(receipt.decision ?? "")}
+            trueNorth={String(receipt.trueNorth ?? "")}
+            nciScore={Number(receipt.nciScore ?? 0)}
+            createdAt={String(receipt.createdAt ?? new Date().toISOString())}
+            protecting={(() => { try { return JSON.parse(receipt.protecting as string) } catch { return [] } })()}
+          />
+        )}
+
         {children.length > 0 && (
           <Card style={{ marginBottom: "1.5rem" }}>
             <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>
