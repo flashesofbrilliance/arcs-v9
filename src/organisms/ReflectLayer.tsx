@@ -263,27 +263,21 @@ export function ReflectLayer({
     return () => document.removeEventListener("keydown", handler)
   }, [])
 
-  // Text selection → floating picker. Show picker on any selection ≥ 3 chars
-  // when the HUD is open. Instrument pre-arming is no longer required.
-  const handleMouseUp = useCallback((e: MouseEvent) => {
-    // Don't trigger inside textareas / inputs
-    const target = e.target as HTMLElement
-    if (
+  // Build the floating picker from whatever text is currently selected.
+  // Shared by mouseup (desktop) and touchend/selectionchange (touch). Reads
+  // window.getSelection() directly so it works regardless of which event fired.
+  const tryShowPicker = useCallback((evtTarget?: EventTarget | null) => {
+    const target = evtTarget as HTMLElement | null
+    if (target && (
       target instanceof HTMLInputElement ||
       target instanceof HTMLTextAreaElement ||
       target.isContentEditable
-    ) return
+    )) return
 
     const sel = window.getSelection()
-    if (!sel || sel.isCollapsed) {
-      setSelectionPicker(null)
-      return
-    }
+    if (!sel || sel.isCollapsed) { setSelectionPicker(null); return }
     const selectedText = sel.toString().trim()
-    if (!selectedText || selectedText.length < 3) {
-      setSelectionPicker(null)
-      return
-    }
+    if (!selectedText || selectedText.length < 3) { setSelectionPicker(null); return }
 
     if (!hudOpen && !mobile) return  // desktop: only in reflect mode · mobile: selection always offers the picker
 
@@ -294,8 +288,8 @@ export function ReflectLayer({
     const preContext = container.slice(Math.max(0, offset - 40), offset)
     const postContext = container.slice(offset + selectedText.length, offset + selectedText.length + 40)
 
-    // Position picker above the selection; clamp to viewport edges
-    // Keep ref in sync so hotkey handler can read without stale closure
+    // Position picker above the selection; clamp to viewport edges (desktop).
+    // On mobile the picker is bottom-anchored by its own styles, so x/y are moot.
     const pickerW = 264
     const rawX = rect.left + rect.width / 2 - pickerW / 2
     const x = Math.max(8, Math.min(rawX, window.innerWidth - pickerW - 8))
@@ -311,16 +305,32 @@ export function ReflectLayer({
     setSelectionPicker(next)
   }, [hudOpen, mobile])
 
+  const handleMouseUp = useCallback((e: Event) => { tryShowPicker(e.target) }, [tryShowPicker])
+
   useEffect(() => {
     document.addEventListener("mouseup", handleMouseUp)
-    // Touch: selection settles on touchend — mirror the handler so annotation
-    // works on phones/tablets. handleMouseUp only reads window.getSelection().
-    document.addEventListener("touchend", handleMouseUp as unknown as EventListener)
+    // Touch: a long-press selection settles on touchend — mirror the handler.
+    document.addEventListener("touchend", handleMouseUp)
     return () => {
       document.removeEventListener("mouseup", handleMouseUp)
-      document.removeEventListener("touchend", handleMouseUp as unknown as EventListener)
+      document.removeEventListener("touchend", handleMouseUp)
     }
   }, [handleMouseUp])
+
+  // Mobile/touch: touchend alone is unreliable after a long-press selection
+  // (iOS finalizes the range via the magnifier). Watch selectionchange,
+  // debounced, so the picker appears once the selection settles. Mobile-only —
+  // desktop is already covered by mouseup, and selectionchange would thrash it.
+  useEffect(() => {
+    if (!mobile) return
+    let t: ReturnType<typeof setTimeout>
+    const onSel = () => {
+      clearTimeout(t)
+      t = setTimeout(() => tryShowPicker(document.activeElement), 320)
+    }
+    document.addEventListener("selectionchange", onSel)
+    return () => { document.removeEventListener("selectionchange", onSel); clearTimeout(t) }
+  }, [mobile, tryShowPicker])
 
   // Dismiss picker on mousedown outside it — skip if click is inside the picker
   const pickerContainerRef = useRef<HTMLDivElement | null>(null)
@@ -339,7 +349,9 @@ export function ReflectLayer({
     const sp = selectionPickerRef.current
     if (!sp) return
     setActiveInstrument(type)
-    setHudOpen(true)
+    // Desktop: raise the rail. Mobile: keep the sheet down so it doesn't cover
+    // the text being annotated — the draft popover is bottom-anchored instead.
+    if (!mobile) setHudOpen(true)
     setDraft({
       anchorText: sp.anchorText,
       preContext: sp.preContext,
@@ -938,7 +950,7 @@ export function ReflectLayer({
           style={{
             position: "fixed",
             ...(mobile
-              ? { left: 12, right: 12, bottom: 18, width: "auto" }
+              ? { left: 12, right: 12, bottom: 84, width: "auto" }
               : { top: selectionPicker.y, left: selectionPicker.x, width: 264 }),
             zIndex: 60,
             background: "rgba(8,12,20,.95)",
@@ -1004,7 +1016,7 @@ export function ReflectLayer({
         <div
           style={{
             ...(mobile
-              ? { position: "fixed", left: 12, right: 12, bottom: 18, width: "auto" }
+              ? { position: "fixed", left: 12, right: 12, bottom: 84, width: "auto" }
               : { position: "absolute", top: draft.y, left: Math.min(draft.x, window.innerWidth - 280), width: 268 }),
             background: "rgba(6,10,18,.97)",
             backdropFilter: "blur(16px)",
