@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
-import { font, signal, border, text, getWeather, resStyle } from '@/ui/tokens'
+import { font, signal, border, text, getWeather, resStyle, contentContainer } from '@/ui/tokens'
+import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
 import { Rule } from '@/ui/Rule'
@@ -23,6 +24,7 @@ export interface ResultViewProps {
 }
 
 export function ResultView({ result, onReset, onBrief, onTributary, onHistory }: ResultViewProps) {
+  const vw = useVw()
   const [showReasoning, setShowReasoning] = React.useState(false)
   const weather = getWeather(result.y_state)
   const rs = resStyle[result.render_resolution] || resStyle.SHARP
@@ -30,7 +32,7 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
   const verdictColor = (v: string) => v === 'PASS' ? signal.green : v === 'TENSION' ? signal.gold : signal.red
 
   return (
-    <div style={{ maxWidth: 640, margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
+    <div style={{ ...contentContainer(vw), paddingTop: '2rem', paddingBottom: '4rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Receipt" />
         <div style={{ display: "flex", gap: "0.25rem" }}>

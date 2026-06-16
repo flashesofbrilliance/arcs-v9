@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
-import { font, signal, text } from '@/ui/tokens'
+import { font, signal, text, formContainer } from '@/ui/tokens'
+import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
 import { Rule } from '@/ui/Rule'
@@ -38,13 +39,14 @@ export function CompassForm({
   question, horizon, stakes, running, step = 0,
   onQuestionChange, onHorizonChange, onStakesChange, onCalibrate, onSubmit, onHistory,
 }: CompassFormProps) {
+  const vw = useVw()
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!question.trim() || running) return
     onSubmit()
   }
   return (
-    <div style={{ maxWidth: 620, margin: '0 auto', padding: '2rem 1.5rem 4rem', containerType: 'inline-size' }}>
+    <div style={{ ...formContainer(vw), paddingTop: '2rem', paddingBottom: '4rem', containerType: 'inline-size' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Question Compass" />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>

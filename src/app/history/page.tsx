@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor, normalizeDoorClass, doorMeta } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor, normalizeDoorClass, doorMeta, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { SectionLabel } from "@/ui/SectionLabel"
@@ -29,6 +30,7 @@ interface Row {
 
 export default function HistoryPage() {
   const router = useRouter()
+  const vw = useVw()
   const [rows, setRows] = useState<Row[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [needsAuth, setNeedsAuth] = useState(false)
@@ -49,7 +51,7 @@ export default function HistoryPage() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      <div style={{ maxWidth: 720, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
+      <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "4rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Ledger" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>

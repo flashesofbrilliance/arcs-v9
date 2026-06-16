@@ -2,7 +2,8 @@
 
 import { useState, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { surface, text, signal, font, border } from "@/ui/tokens"
+import { surface, text, signal, font, border, formContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
 import { SectionLabel } from "@/ui/SectionLabel"
@@ -40,6 +41,7 @@ const CONF_OPTS = [
 function PrepInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const vw = useVw()
   const [question] = useState(() => searchParams.get("q") ?? "")
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [horizon, setHorizon] = useState<Horizon>("THIS_WEEK")
@@ -80,7 +82,7 @@ function PrepInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      <div style={{ maxWidth: 560, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
+      <div style={{ ...formContainer(vw), paddingTop: "2rem", paddingBottom: "4rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Calibrate" />
           <Button variant="ghost" size="sm" glyph="←" onClick={() => router.push(question.trim() ? `/dashboard?q=${encodeURIComponent(question)}` : "/dashboard")}>Compass</Button>

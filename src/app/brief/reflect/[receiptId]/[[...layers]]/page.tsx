@@ -10,7 +10,8 @@
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { track } from "@vercel/analytics"
-import { surface, text, signal, font, getWeather, nciColor } from "@/ui/tokens"
+import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { useVw } from "@/ui/useVw"
 import { Badge } from "@/ui/Badge"
 import { Brief } from "@/organisms/Brief"
 import { TributariesStack } from "@/molecules/TributariesStack"
@@ -58,6 +59,7 @@ export default function BriefReflectPage() {
   const params = useParams()
   const router = useRouter()
   const receiptId = String(params.receiptId)
+  const vw = useVw()
   // [[...layers]] comes in as string[] or undefined
   const layersParam = Array.isArray(params.layers) ? params.layers[0] : (params.layers as string | undefined)
   const defaultLayers = parseLayerSegment(layersParam)
@@ -166,7 +168,7 @@ export default function BriefReflectPage() {
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Reflect surface breadcrumb */}
         <div style={{ borderBottom: `0.5px solid rgba(0,240,255,0.12)`, background: "rgba(0,240,255,0.03)" }}>
-          <div style={{ maxWidth: 880, margin: "0 auto", padding: "0.6rem 1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div style={{ ...contentContainer(vw), paddingTop: "0.6rem", paddingBottom: "0.6rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <button onClick={() => router.push("/history")} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Ledger</button>
             <span style={{ color: text.dimmed, fontFamily: font.mono, fontSize: "0.6rem" }}>·</span>
             <button onClick={() => router.push(`/brief/${receiptId}`)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.1em", color: text.dimmed, textTransform: "uppercase", padding: 0 }}>Brief</button>
@@ -176,7 +178,7 @@ export default function BriefReflectPage() {
         </div>
 
         {depth > 0 && (
-          <div style={{ maxWidth: 880, margin: "0 auto", padding: "1.25rem 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
+          <div style={{ ...contentContainer(vw), paddingTop: "1.25rem", paddingBottom: 0, display: "flex", alignItems: "center", gap: "0.75rem", fontFamily: font.mono, fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase" }}>
             <span style={{ color: signal.cyan }}>Level {depth}</span>
             <span style={{ color: text.muted }}>·</span>
             {parentId ? (
@@ -191,7 +193,7 @@ export default function BriefReflectPage() {
 
         <Brief result={result} situationFraming={framing} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
 
-        <div style={{ maxWidth: 880, margin: "0 auto", padding: "0 1.5rem 6rem" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: 0, paddingBottom: "6rem" }}>
           {children.length > 0 && (
             <Card style={{ marginBottom: "1.5rem" }}>
               <Label style={{ marginBottom: "0.75rem" }}>Tributary rounds · where this led</Label>
