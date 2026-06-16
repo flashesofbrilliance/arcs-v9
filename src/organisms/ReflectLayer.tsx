@@ -527,7 +527,7 @@ export function ReflectLayer({
       {/* Two-column layout: [300px left rail | content] when HUD open */}
       <div style={{
         display: showRail ? "grid" : "block",
-        gridTemplateColumns: showRail ? (tablet ? "240px 1fr" : "300px 1fr") : undefined,
+        gridTemplateColumns: showRail ? (tablet ? "320px 1fr" : "400px 1fr") : undefined,
         alignItems: "start",
       }}>
         {/* ── Left Rail ── */}
@@ -551,11 +551,11 @@ export function ReflectLayer({
             }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.6)", textTransform: "uppercase" }}>◎ Reflect</span>
-                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.4)" }}>·</span>
-                  <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>{surfaceProp}</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 11, fontWeight: 700, letterSpacing: ".12em", color: "rgba(0,240,255,.6)", textTransform: "uppercase" }}>◎ Reflect</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.4)" }}>·</span>
+                  <span style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.5)", letterSpacing: ".06em" }}>{surfaceProp}</span>
                 </div>
-                <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 7, padding: "3px 9px" }}>↓ close</button>
+                <button onClick={() => { setHudOpen(false); setActiveInstrument(null) }} style={{ ...glassBtn(), fontSize: 9, padding: "4px 11px" }}>↓ close</button>
               </div>
 
               {/* ScenarioStack-style tabs */}
@@ -573,10 +573,10 @@ export function ReflectLayer({
                       style={{
                         flex: 1,
                         fontFamily: font.mono,
-                        fontSize: 7,
+                        fontSize: 9,
                         fontWeight: 700,
                         letterSpacing: ".06em",
-                        padding: "6px 4px",
+                        padding: "7px 4px",
                         cursor: "pointer",
                         border: "none",
                         borderRight: i < 2 ? ".5px solid rgba(30,41,59,.4)" : "none",
@@ -598,7 +598,7 @@ export function ReflectLayer({
             </div>
 
             {/* Annotations list — inline meditate synthesis + accordion cards */}
-            <div style={{ flex: 1, overflowY: "auto", padding: "8px 10px", display: "flex", flexDirection: "column", gap: 0 }}>
+            <div style={{ flex: 1, overflowY: "auto", padding: "10px 14px", display: "flex", flexDirection: "column", gap: 0 }}>
 
               {/* ── Meditate synthesis — inline accordion ── */}
               {(meditateLoading || meditateResult) && (
@@ -607,14 +607,14 @@ export function ReflectLayer({
                     onClick={() => setMeditateExpanded((p) => !p)}
                     style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", padding: "5px 0" }}
                   >
-                    <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}bb`, textTransform: "uppercase" }}>
+                    <span style={{ fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}bb`, textTransform: "uppercase" }}>
                       📿 Meditate
                     </span>
-                    <span style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.4)" }}>{meditateExpanded ? "▲" : "▼"}</span>
+                    <span style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.4)" }}>{meditateExpanded ? "▲" : "▼"}</span>
                   </button>
 
                   {meditateExpanded && meditateLoading && (
-                    <div style={{ fontFamily: font.mono, fontSize: 9, color: `${GREEN}44`, textAlign: "center", padding: "14px 0", letterSpacing: ".08em" }}>distilling…</div>
+                    <div style={{ fontFamily: font.mono, fontSize: 11, color: `${GREEN}44`, textAlign: "center", padding: "14px 0", letterSpacing: ".08em" }}>distilling…</div>
                   )}
 
                   {meditateExpanded && !meditateLoading && meditateResult && (
@@ -625,10 +625,10 @@ export function ReflectLayer({
                         { label: "Elevated", items: meditateResult.elevated, color: GREEN },
                       ].filter(({ items }) => items.length > 0).map(({ label, items, color }) => (
                         <div key={label}>
-                          <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: `${color}55`, textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
+                          <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: `${color}55`, textTransform: "uppercase", marginBottom: 3 }}>{label}</div>
                           {items.map((item, i) => (
                             <div key={i} style={{ borderLeft: `2px solid ${color}44`, paddingLeft: 8, marginBottom: 4 }}>
-                              <p style={{ fontFamily: font.sans, fontSize: 11, color: text.secondary, lineHeight: 1.5, margin: 0 }}>{item}</p>
+                              <p style={{ fontFamily: font.sans, fontSize: 13, color: text.secondary, lineHeight: 1.6, margin: 0 }}>{item}</p>
                             </div>
                           ))}
                         </div>
@@ -650,7 +650,7 @@ export function ReflectLayer({
                   <div style={{ marginBottom: 2 }}>
                     {/* Header row */}
                     <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "5px 0" }}>
-                      <span style={{ fontFamily: font.mono, fontSize: 8, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase", flex: 1 }}>
+                      <span style={{ fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: ".1em", color: `${GREEN}88`, textTransform: "uppercase", flex: 1 }}>
                         ☽ Shavasana · {shavList.length}
                       </span>
                       {/* Filter pills */}
@@ -672,20 +672,20 @@ export function ReflectLayer({
                       <div>
                         {/* Card */}
                         <div style={{ background: "rgba(8,13,22,.6)", border: `.5px solid ${TYPE_COLOR[cur.type]}18`, borderRadius: 6, padding: "10px 12px", marginBottom: 6 }}>
-                          <div style={{ fontFamily: font.mono, fontSize: 7, color: `${TYPE_COLOR[cur.type]}66`, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 6 }}>
+                          <div style={{ fontFamily: font.mono, fontSize: 9, color: `${TYPE_COLOR[cur.type]}66`, textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 6 }}>
                             {TYPE_ICON[cur.type]} {cur.type} · {new Date(cur.createdAt).toLocaleDateString()}
                           </div>
-                          <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 7, marginBottom: 8, fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.5)", lineHeight: 1.5 }}>
+                          <div style={{ borderLeft: `.5px solid rgba(30,41,59,.5)`, paddingLeft: 7, marginBottom: 8, fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.5)", lineHeight: 1.55 }}>
                             "{cur.anchorText}"
                           </div>
-                          <div style={{ fontFamily: font.sans, fontSize: 11, color: text.secondary, lineHeight: 1.6, marginBottom: 10 }}>{cur.body}</div>
+                          <div style={{ fontFamily: font.sans, fontSize: 13, color: text.secondary, lineHeight: 1.65, marginBottom: 10 }}>{cur.body}</div>
 
                           {cur.kernel ? (
                             <div style={{ paddingTop: 8, borderTop: `.5px solid rgba(30,41,59,.3)` }}>
-                              <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: cur.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
+                              <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: cur.hardened ? `${CYAN}44` : `${GREEN}44`, textTransform: "uppercase", marginBottom: 4 }}>
                                 {cur.hardened ? "💎 Hardened" : "☽ Kernel"}
                               </div>
-                              <div style={{ fontFamily: font.mono, fontSize: 12, color: cur.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>
+                              <div style={{ fontFamily: font.mono, fontSize: 13, color: cur.hardened ? `${CYAN}dd` : `${GREEN}dd`, lineHeight: 1.55 }}>
                                 {cur.kernel.replace(/\*\*|#{1,3} /g, "")}
                               </div>
                               {!cur.hardened && (
@@ -740,7 +740,7 @@ export function ReflectLayer({
               })()}
 
               {railAnnotations.length === 0 && (
-                <div style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.6 }}>
+                <div style={{ fontFamily: font.mono, fontSize: 11, color: "rgba(71,85,105,.3)", textAlign: "center", marginTop: 24, lineHeight: 1.7 }}>
                   {activeInstrument
                     ? `${TYPE_ICON[activeInstrument]} Select text to annotate`
                     : "Select an instrument\nto begin annotating"}
@@ -753,27 +753,27 @@ export function ReflectLayer({
                 const isDistilling = distillingIds.has(a.id)
                 const cleanKernel = a.kernel ? a.kernel.replace(/\*\*|#{1,3} /g, "") : null
                 return (
-                  <div key={a.id} style={{ borderLeft: `3px solid ${c}`, paddingLeft: 10, paddingTop: 6, paddingBottom: 6, marginBottom: 6 }}>
+                  <div key={a.id} style={{ borderLeft: `3px solid ${c}`, paddingLeft: 14, paddingTop: 10, paddingBottom: 10, marginBottom: 10 }}>
                     {/* Header row — click to expand */}
                     <div
                       onClick={() => toggleExpanded(a.id)}
                       style={{ cursor: "pointer", display: "flex", alignItems: "flex-start", gap: 6 }}
                     >
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: font.sans, fontSize: 13, fontWeight: 500, color: text.primary, lineHeight: 1.55 }}>
+                        <div style={{ fontFamily: font.sans, fontSize: 14, fontWeight: 500, color: text.primary, lineHeight: 1.6 }}>
                           {a.body}
                         </div>
-                        <div style={{ fontFamily: font.mono, fontSize: 8, color: "rgba(71,85,105,.45)", lineHeight: 1.4, marginTop: 3 }}>
-                          — "{a.anchorText.slice(0, 50)}{a.anchorText.length > 50 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                        <div style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.45)", lineHeight: 1.45, marginTop: 4 }}>
+                          — "{a.anchorText.slice(0, 60)}{a.anchorText.length > 60 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                         {/* Collapsed kernel preview */}
                         {!isOpen && cleanKernel && (
-                          <div style={{ fontFamily: font.mono, fontSize: 8, color: a.hardened ? `${CYAN}77` : `${GREEN}66`, lineHeight: 1.4, marginTop: 4 }}>
-                            {a.hardened ? "💎 " : "☽ "}{cleanKernel.slice(0, 70)}{cleanKernel.length > 70 ? "…" : ""}
+                          <div style={{ fontFamily: font.mono, fontSize: 10, color: a.hardened ? `${CYAN}77` : `${GREEN}66`, lineHeight: 1.45, marginTop: 5 }}>
+                            {a.hardened ? "💎 " : "☽ "}{cleanKernel.slice(0, 80)}{cleanKernel.length > 80 ? "…" : ""}
                           </div>
                         )}
                       </div>
-                      <span style={{ fontFamily: font.mono, fontSize: 7, color: "rgba(71,85,105,.3)", paddingTop: 2, flexShrink: 0 }}>{isOpen ? "▲" : "▼"}</span>
+                      <span style={{ fontFamily: font.mono, fontSize: 9, color: "rgba(71,85,105,.3)", paddingTop: 2, flexShrink: 0 }}>{isOpen ? "▲" : "▼"}</span>
                     </div>
 
                     {/* Accordion body */}
@@ -782,10 +782,10 @@ export function ReflectLayer({
                         {/* Full kernel */}
                         {cleanKernel ? (
                           <div style={{ marginBottom: 8 }}>
-                            <div style={{ fontFamily: font.mono, fontSize: 7, fontWeight: 700, letterSpacing: ".1em", color: a.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 4 }}>
+                            <div style={{ fontFamily: font.mono, fontSize: 9, fontWeight: 700, letterSpacing: ".1em", color: a.hardened ? `${CYAN}55` : `${GREEN}55`, textTransform: "uppercase", marginBottom: 4 }}>
                               {a.hardened ? "💎 Hardened" : "☽ Kernel"}
                             </div>
-                            <div style={{ fontFamily: font.mono, fontSize: 11, color: a.hardened ? `${CYAN}cc` : `${GREEN}bb`, lineHeight: 1.55 }}>{cleanKernel}</div>
+                            <div style={{ fontFamily: font.mono, fontSize: 13, color: a.hardened ? `${CYAN}cc` : `${GREEN}bb`, lineHeight: 1.6 }}>{cleanKernel}</div>
                           </div>
                         ) : (
                           <button
@@ -823,7 +823,7 @@ export function ReflectLayer({
 
             {/* Rail footer — instrument buttons */}
             <div style={{
-              padding: "9px 10px",
+              padding: "11px 14px",
               borderTop: ".5px solid rgba(30,41,59,.35)",
               flexShrink: 0,
               display: "flex",
@@ -840,8 +840,8 @@ export function ReflectLayer({
                       onClick={() => activateInstrument(t)}
                       style={{
                         flex: 1,
-                        fontFamily: font.mono, fontSize: 8, fontWeight: 700,
-                        padding: "6px 4px", borderRadius: 4, cursor: "pointer",
+                        fontFamily: font.mono, fontSize: 10, fontWeight: 700,
+                        padding: "7px 4px", borderRadius: 4, cursor: "pointer",
                         border: `.5px solid ${active ? `${c}50` : "rgba(30,41,59,.25)"}`,
                         background: active ? `${c}12` : "rgba(10,15,26,.4)",
                         color: active ? `${c}cc` : "rgba(71,85,105,.5)",
@@ -855,7 +855,7 @@ export function ReflectLayer({
                 })}
               </div>
               {activeInstrument && (
-                <div style={{ fontFamily: font.mono, fontSize: 7, color: `${TYPE_COLOR[activeInstrument]}66`, textAlign: "center", letterSpacing: ".06em" }}>
+                <div style={{ fontFamily: font.mono, fontSize: 9, color: `${TYPE_COLOR[activeInstrument]}66`, textAlign: "center", letterSpacing: ".06em" }}>
                   {TYPE_ICON[activeInstrument]} Select text to annotate · Esc to cancel
                 </div>
               )}
@@ -866,7 +866,7 @@ export function ReflectLayer({
                 <button
                   onClick={runMeditate}
                   disabled={annotations.length === 0 || meditateLoading}
-                  style={{ ...glassBtn(GREEN), fontSize: 7, padding: "5px 10px", flex: 2, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                  style={{ ...glassBtn(GREEN), fontSize: 9, padding: "6px 12px", flex: 2, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
                   📿 {meditateLoading ? "Synthesizing…" : "Meditate"}
                 </button>
@@ -874,7 +874,7 @@ export function ReflectLayer({
                   onClick={() => setShavasanaExpanded((p) => !p)}
                   disabled={annotations.length === 0}
                   aria-expanded={shavasanaExpanded}
-                  style={{ ...glassBtn(shavasanaExpanded ? CYAN : undefined), fontSize: 7, padding: "5px 10px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
+                  style={{ ...glassBtn(shavasanaExpanded ? CYAN : undefined), fontSize: 9, padding: "6px 12px", flex: 1, justifyContent: "center", opacity: annotations.length === 0 ? .3 : 1 }}
                 >
                   ☽ Shavasana <span style={{ opacity: .6 }}>{shavasanaExpanded ? "▴" : "▾"}</span>
                 </button>
