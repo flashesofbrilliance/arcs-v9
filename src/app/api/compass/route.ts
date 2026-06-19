@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk"
 import { Resend } from "resend"
 import { NextRequest, NextResponse } from "next/server"
+import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
@@ -119,6 +120,7 @@ OUTPUT SHAPE (strict JSON, no markdown fences):
 }`
 
 export async function POST(req: NextRequest) {
+  const t0 = Date.now()
   const session = await auth()
   const userId = session?.user?.id ?? null
   // ADR-016 Option C: compass open to anonymous users; userId written as null
@@ -186,16 +188,45 @@ CLARITY: ${clarityMode}${prepBlock}
 
 Run the L0–L5 pipeline. Return only the JSON object.`
 
+  // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
+  // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
+  const MODEL_MAP = {
+    QUICKMOVE: { model: "claude-haiku-4-5-20251001", max_tokens: 2048, temperature: 0 },
+    PLAN:      { model: "claude-haiku-4-5-20251001", max_tokens: 3072, temperature: 0.3 },
+    COURT:     { model: "claude-sonnet-4-6",          max_tokens: 4096, temperature: 0.5 },
+  } as const
+  const modelConfig = MODEL_MAP[mode]
+
+  const t1 = Date.now()
+  let t2 = t1
   let parsed: Record<string, unknown>
   let raw = ""
 
+  // Cache QUICKMOVE and PLAN at temp≤0.3 — COURT uses temp=0.5 (adversarial variation intentional)
+  const runInference = mode === "COURT"
+    ? () => anthropic.messages.create({
+        model: modelConfig.model,
+        max_tokens: modelConfig.max_tokens,
+        temperature: modelConfig.temperature,
+        system: SYSTEM,
+        messages: [{ role: "user", content: userMsg }],
+      })
+    : unstable_cache(
+        () => anthropic.messages.create({
+          model: modelConfig.model,
+          max_tokens: modelConfig.max_tokens,
+          temperature: modelConfig.temperature,
+          system: SYSTEM,
+          messages: [{ role: "user", content: userMsg }],
+        }),
+        // Cache key: includes model+tokens so config changes auto-bust stale entries
+        [modelConfig.model, String(modelConfig.max_tokens), mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
+        { revalidate: 3600 } // 1-hour TTL — fresh enough for decision contexts
+      )
+
   try {
-    const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 4096,
-      system: SYSTEM,
-      messages: [{ role: "user", content: userMsg }],
-    })
+    const message = await runInference()
+    t2 = Date.now()
 
     if (!message.content || message.content.length === 0) {
       return NextResponse.json({ error: "Claude returned empty response", raw }, { status: 502 })
@@ -230,8 +261,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   const reasoning = parsed.reasoning as Record<string, unknown> | undefined
 
   // Persist receipt with full DEWY fields
-  const receipt = await prisma.receipt.create({
-    data: {
+  let receipt
+  try {
+    const receiptData = {
       userId: userId ?? null,
       prepId: prep?.id ?? null,
       parentId: parentReceiptId ?? null,
@@ -267,8 +299,33 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       // Status
       status: "OPEN",
       reminderDate: typeof parsed.reminder_iso === "string" ? parsed.reminder_iso : null,
-    },
-  })
+    }
+
+    // Check for undefined values before creating receipt
+    const undefinedFields = Object.entries(receiptData)
+      .filter(([_, v]) => v === undefined)
+      .map(([k]) => k)
+    if (undefinedFields.length > 0) {
+      console.error("[COMPASS DATA CHECK] Undefined fields:", undefinedFields)
+    }
+
+    // Log a sample of the receiptData for debugging
+    console.log("[COMPASS DATA SAMPLE]", {
+      mode: receiptData.mode,
+      doorClass: receiptData.doorClass,
+      yPolarity: receiptData.yPolarity,
+      gradientDirection: typeof receiptData.gradientDirection,
+      yGateScore: typeof receiptData.yGateScore,
+    })
+
+    receipt = await prisma.receipt.create({ data: receiptData })
+  } catch (err) {
+    console.error("[COMPASS ERROR] Failed to create receipt:", err instanceof Error ? err.message : String(err))
+    throw err
+  }
+  const t3 = Date.now()
+
+  console.log(`[COMPASS PROFILE] Setup: ${t1-t0}ms | Claude: ${t2-t1}ms | Prisma: ${t3-t2}ms | Total: ${t3-t0}ms`)
 
   // Fire emails (non-blocking — don't let email failure break the compass response)
   const userEmail = session?.user?.email ?? null
