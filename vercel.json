@@ -1,4 +1,15 @@
 {
+  "experimentalServices": {
+    "web": {
+      "entrypoint": ".",
+      "routePrefix": "/"
+    },
+    "sage": {
+      "entrypoint": "operators/arcs_api.py",
+      "routePrefix": "/svc/sage",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
       "source": "/resume",

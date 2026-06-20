@@ -390,6 +390,49 @@ def run_pipeline(req: RunRequest):
 
 
 # ---------------------------------------------------------------------------
+# SAGE score — advisory pre-screen for the Next.js compass route
+# ---------------------------------------------------------------------------
+# NOTOMATION boundary: this endpoint enriches Claude's context with operator
+# signal (NCI, court verdict, axioms). It never persists — the Prisma Receipt
+# model in arcs-v9 is the single source of truth. Do not add a _store_receipt
+# call here; that would create a second, divergent receipt store.
+
+class SageScoreRequest(BaseModel):
+    """Human-language input from the Next.js compass route."""
+    question:  str   = Field(..., min_length=4, max_length=2000)
+    horizon:   str   = Field(default="THIS_WEEK",
+                              pattern=r"^(TODAY|THIS_WEEK|THIS_QUARTER|THIS_YEAR|LONG_ARC)$")
+    stakes:    str   = Field(default="MEDIUM", pattern=r"^(LOW|MEDIUM|HIGH)$")
+    hci_score: float = Field(default=0.72, ge=0.0, le=1.0)
+
+
+@app.post("/api/sage-score", response_model=RunResponse)
+def sage_score(req: SageScoreRequest):
+    """
+    Runs SAGE → LAB → BAR → Court → Kintsugi on a synthetic signal derived
+    from stakes/horizon/hci_score, and returns the raw pipeline result.
+    No persistence — see NOTOMATION note above.
+    """
+    irreversibility = _HORIZON_IRREVERSIBILITY.get(req.horizon, 0.25)
+    base    = _STAKES_SIGNALS[req.stakes]
+    hci_mod = 0.85 + (req.hci_score * 0.30)
+    irr_mod = 1.0  - (irreversibility * 0.10)
+    signal_values = [round(v * hci_mod * irr_mod, 3) for v in base]
+
+    run_req = RunRequest(
+        signal_values=signal_values,
+        domain="question_compass",
+        label=req.question[:128],
+        phase_id="phase_5",
+        irreversibility=irreversibility,
+        on_purpose=True,
+        hci_score=req.hci_score,
+        fated_facts=req.question,
+    )
+    return run_pipeline(run_req)
+
+
+# ---------------------------------------------------------------------------
 # Question Compass — front-door endpoint
 # ---------------------------------------------------------------------------
 

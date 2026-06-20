@@ -166,6 +166,32 @@ export async function POST(req: NextRequest) {
   const mode = selectMode(activeHorizon, activeStakes)
   const door = doorClass(activeHorizon, activeStakes)
 
+  // SAGE pre-screen: advisory-only operator signal (NCI/court/axioms) from the
+  // Python pipeline. Never blocks the route — if SAGE_URL is unset or the
+  // service is down, we log and proceed with Claude alone. NOTOMATION: this
+  // enriches Claude's context; it never decides or persists on its own.
+  let sageBlock = ""
+  if (process.env.SAGE_URL) {
+    try {
+      const sageRes = await fetch(`${process.env.SAGE_URL}/api/sage-score`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: question.trim(), horizon: activeHorizon, stakes: activeStakes }),
+        signal: AbortSignal.timeout(3000),
+      })
+      if (sageRes.ok) {
+        const sage = await sageRes.json()
+        sageBlock = `\nOPERATOR SIGNAL (SAGE pipeline — advisory, not authoritative):
+NCI: ${sage.nci_score} | VERDICT: ${sage.verdict} | COURT: ${sage.court_verdict ?? "n/a"}
+SIGNAL CLASS: ${sage.signal_classification} | SATOSHI: ${sage.is_satoshi}`
+      } else {
+        console.error("[SAGE] non-200 response:", sageRes.status)
+      }
+    } catch (err) {
+      console.error("[SAGE] unreachable, proceeding without operator signal:", err instanceof Error ? err.message : String(err))
+    }
+  }
+
   // Build enriched user message
   const protecting = prep ? JSON.parse(prep.protecting) as string[] : []
   const prepBlock = prep
@@ -184,7 +210,7 @@ HORIZON: ${activeHorizon}
 STAKES: ${activeStakes}
 MODE: ${mode}
 DOOR: ${door}
-CLARITY: ${clarityMode}${prepBlock}
+CLARITY: ${clarityMode}${prepBlock}${sageBlock}
 
 Run the L0–L5 pipeline. Return only the JSON object.`
 
