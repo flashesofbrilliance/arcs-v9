@@ -188,27 +188,39 @@ CLARITY: ${clarityMode}${prepBlock}
 
 Run the L0–L5 pipeline. Return only the JSON object.`
 
+  // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
+  // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
+  const MODEL_MAP = {
+    QUICKMOVE: { model: "claude-haiku-4-5-20251001", max_tokens: 2048, temperature: 0 },
+    PLAN:      { model: "claude-haiku-4-5-20251001", max_tokens: 3072, temperature: 0.3 },
+    COURT:     { model: "claude-sonnet-4-6",          max_tokens: 4096, temperature: 0.5 },
+  } as const
+  const modelConfig = MODEL_MAP[mode]
+
   const t1 = Date.now()
   let t2 = t1
   let parsed: Record<string, unknown>
   let raw = ""
 
-  // Advisor tool: Haiku executor self-routes to Opus when adversarial depth is needed.
   // Prompt caching: SYSTEM prefix cached server-side — 90% cost reduction after first request.
   // unstable_cache: deduplicates identical questions within a 1-hour window.
-  const runInference = unstable_cache(
-    () => anthropic.beta.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 4096,
-      temperature: 0,
-      betas: ["advisor-tool-2026-03-01", "prompt-caching-2024-07-31"],
-      tools: [{ type: "advisor_20260301" as const, name: "advisor", model: "claude-opus-4-8" }],
-      system: [{ type: "text" as const, text: SYSTEM, cache_control: { type: "ephemeral" } }],
-      messages: [{ role: "user", content: userMsg }],
-    }),
-    [mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
-    { revalidate: 3600 }
-  )
+  // COURT not cached (temp=0.5, adversarial variation intentional).
+  const callClaude = (betas: string[]) => anthropic.beta.messages.create({
+    model: modelConfig.model,
+    max_tokens: modelConfig.max_tokens,
+    temperature: modelConfig.temperature,
+    betas,
+    system: [{ type: "text" as const, text: SYSTEM, cache_control: { type: "ephemeral" } }],
+    messages: [{ role: "user", content: userMsg }],
+  })
+
+  const runInference = mode === "COURT"
+    ? () => callClaude(["prompt-caching-2024-07-31"])
+    : unstable_cache(
+        () => callClaude(["prompt-caching-2024-07-31"]),
+        [modelConfig.model, String(modelConfig.max_tokens), mode, activeHorizon, activeStakes, clarityMode, question.trim().toLowerCase()],
+        { revalidate: 3600 }
+      )
 
   try {
     const message = await runInference()
@@ -218,9 +230,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       return NextResponse.json({ error: "Claude returned empty response", raw }, { status: 502 })
     }
 
-    // Advisor tool may interleave tool_use blocks — find the final text block with JSON
-    const textBlock = message.content.find((b) => b.type === "text")
-    raw = textBlock?.type === "text" ? textBlock.text : ""
+    raw = message.content[0].type === "text" ? message.content[0].text : ""
 
     if (!raw || raw.trim().length === 0) {
       return NextResponse.json({ error: "Claude returned empty text content", raw }, { status: 502 })
