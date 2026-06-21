@@ -161,6 +161,7 @@ model Receipt {
   outcome        Outcome?
   brief          Brief?
   guide          PrepGuide?
+  sageTrace      SageTrace? // invisible — never `include`d by client-facing routes; query directly for the efficacy study
 
   createdAt      DateTime         @default(now())
   reviewDate     DateTime?
@@ -183,6 +184,26 @@ model Brief {
   situationFraming String   // generated prose, stored once
   entityAnalysis   String?  // JSON: {role,leverage_theirs,leverage_yours,alignment,alignment_read,signal_to_watch,risk_surface}
   generatedAt      DateTime @default(now())
+}
+
+// Invisible trace log for the SAGE operator pre-screen (see compass/route.ts).
+// Deliberately a separate table, not a Receipt column — no existing
+// client-facing route `include`s this relation, so it can never leak into
+// an API response by accident. Query directly (see scripts/sage_efficacy.py)
+// once enough paired Outcomes exist to compare with-SAGE vs without-SAGE
+// decision quality. NOTOMATION: this is observation only, never gates or
+// alters the response the user receives.
+model SageTrace {
+  id            String   @id @default(cuid())
+  receiptId     String   @unique
+  receipt       Receipt  @relation(fields: [receiptId], references: [id])
+  fired         Boolean  // true = SAGE call succeeded and its signal was used
+  signal        String?  // JSON: raw SAGE response — null when fired=false
+  failureReason String?  // e.g. "unreachable", "non-200:401", "SAGE_URL unset" — null when fired=true
+  latencyMs     Int?     // SAGE call duration — null when fired=false
+  createdAt     DateTime @default(now())
+
+  @@index([fired])
 }
 
 model PrepGuide {
