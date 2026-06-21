@@ -85,6 +85,10 @@ model Receipt {
   paths          String?          // JSON: [{id,title,detail,tag,status}]
   court          String?          // JSON: [{name,verdict,detail}] — null unless ruin detected
   courtVerdict   String?          // one-sentence court ruling
+  // nciSelfGrade: per canon §1.2 Kintsugi/NCI self-grade — Claude's own
+  // honest assessment of its output, not a hidden audit (unlike SageTrace).
+  // JSON: {factual,sources,honesty,action: bool, notes: string}
+  nciSelfGrade   String?          // JSON: {factual,sources,honesty,action,notes}
   mode           String           // QUICKMOVE | PLAN | COURT (schema: mode)
   doorClass      String?          // ONE_WAY | TWO_WAY
   // macroTags: legacy field. Maps to schema `macros_run` (LAB|BAR|KKL|ATG).

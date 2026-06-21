@@ -61,6 +61,12 @@ RULES:
   - [2] adjacent: an adjacent primitive or domain they haven't named that reframes the terrain
   Tributaries must be specific to THIS decision — not generic. Write them as first-person questions.
 - reminder_iso: if OUTCOME_HORIZON is provided, parse it into an ISO 8601 date string (YYYY-MM-DD) relative to today (${new Date().toISOString().slice(0, 10)}). If ambiguous or not provided, return null.
+- nci_self_grade: REQUIRED self-assessment, four boolean checks. Be honest — a false here is more useful than a false "true". Never fabricate a source, stat, or urgency signal to make a check pass.
+  - factual: are the claims in true_north/why/fated.facts verifiable from what the user actually provided (the question + prep context), not invented?
+  - sources: if you reference any external fact, stat, or precedent not given by the user, is it something you actually know with confidence — not a plausible-sounding fabrication? If you made no external claims, this is true by default.
+  - honesty: did you state uncertainty explicitly where it exists, rather than projecting false confidence?
+  - action: does true_north give one concrete next step, not a hedge?
+  - notes: if ANY of the above is false, explain which claim/section is unsupported. Otherwise "".
 - Never add preamble. Return only the JSON object.
 
 OUTPUT SHAPE (strict JSON, no markdown fences):
@@ -74,6 +80,7 @@ OUTPUT SHAPE (strict JSON, no markdown fences):
   "coherence_pct": 54,
   "is_satoshi": false,
   "door_class": "ONE_WAY",
+  "nci_self_grade": { "factual": true, "sources": true, "honesty": true, "action": true, "notes": "" },
   "meta": { "macro_tags": ["BAR"] },
   "tributaries": [
     { "type": "meta",     "label": "Meta-Question",  "prompt": "string" },
@@ -305,6 +312,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       paths: reasoning?.paths ? JSON.stringify(reasoning.paths) : null,
       court: reasoning?.court ? JSON.stringify(reasoning.court) : null,
       courtVerdict: typeof reasoning?.court_verdict === "string" ? reasoning.court_verdict : null,
+      nciSelfGrade: parsed.nci_self_grade ? JSON.stringify(parsed.nci_self_grade) : null,
       mode,
       doorClass: door,
       macroTags: JSON.stringify((parsed.meta as Record<string, unknown>)?.macro_tags ?? []),
