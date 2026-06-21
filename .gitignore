@@ -81,6 +81,7 @@ network_archetype_viz.html
 network_scan.json
 network_scan.md
 exports/
+operators/_tf_distillation_artifacts/
 .env*.local
 .mcp.json
 supabase/
