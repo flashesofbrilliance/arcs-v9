@@ -404,6 +404,12 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   }
 
   return NextResponse.json({
+    ...parsed,
+    // Deterministic fields win — Claude's own JSON echoes decision_mode and
+    // door_class per the OUTPUT SHAPE schema, but those are advisory text,
+    // not authoritative. The route's selectMode()/doorClass() output is what
+    // was actually used for routing, Y-gate computation, and persistence —
+    // these must always override whatever Claude echoed back.
     ok: true,
     receipt_id: receipt.id,
     session_id: resolvedSessionId,
@@ -414,6 +420,5 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     y_conviction: yGate.yConviction,
     render_resolution: yGate.renderResolution,
     nci_delta: parent?.nciScore != null ? receipt.nciScore - parent.nciScore : null,
-    ...parsed,
   })
 }
