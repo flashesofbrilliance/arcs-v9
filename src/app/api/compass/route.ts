@@ -406,7 +406,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       subject: receiptMail.subject,
       text: receiptMail.text,
       html: receiptMail.html,
-    }).catch(() => {})
+    }).catch((err) => console.error("[EMAIL] receipt confirmation failed:", err instanceof Error ? err.message : String(err)))
 
     // 2. Debrief (calibration) email — the §5.6 close-the-loop touchpoint,
     //    scheduled for reminderDate. Reflects the original bearing back and
@@ -414,7 +414,17 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     if (receipt.reminderDate) {
       const scheduledAt = new Date(receipt.reminderDate)
       scheduledAt.setHours(9, 0, 0, 0) // 9am on the target day
-      if (scheduledAt > new Date()) {
+      // Resend's scheduledAt supports a maximum of 30 days out. Beyond that,
+      // the send call fails outright — silently, if not logged. Found via a
+      // real audit: 14 of 74 eligible receipts had reminderDate >30 days out,
+      // every one of which would have failed this way with zero visibility.
+      // No cron-based long-horizon scheduler exists yet (see arcs-session-state.md);
+      // for now just make the gap loud instead of silent.
+      const RESEND_MAX_SCHEDULE_DAYS = 30
+      const daysOut = (scheduledAt.getTime() - Date.now()) / 86400000
+      if (daysOut > RESEND_MAX_SCHEDULE_DAYS) {
+        console.error(`[EMAIL] debrief for receipt ${receipt.id} is ${Math.round(daysOut)} days out — exceeds Resend's ${RESEND_MAX_SCHEDULE_DAYS}-day scheduling limit, not attempting (would fail silently otherwise)`)
+      } else if (scheduledAt > new Date()) {
         const debrief = debriefEmail({
           question: question.trim(),
           trueNorth: parsed.true_north as string ?? "",
@@ -431,7 +441,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           text: debrief.text,
           html: debrief.html,
           scheduledAt: scheduledAt.toISOString(),
-        }).catch(() => {})
+        }).catch((err) => console.error(`[EMAIL] debrief for receipt ${receipt.id} failed:`, err instanceof Error ? err.message : String(err)))
       }
     }
   }
