@@ -1,100 +1,112 @@
 # ARCS Session State
 
-**Last updated:** 2026-06-19 (v2.8.0)
+**Last updated:** 2026-06-21 (v2.9.0)
 **Environment:** Claude Code local, worktree `frosty-kepler-b69f51`
-**Branch:** `main`
-**Last commit (arcs-v9):** 99dc0b2 — feat(compass): wire SAGE pipeline as advisory pre-screen via Vercel Services [NCI:76]
+**Branch:** `main` (merged from `sage-services-preview`)
+**Last commit (arcs-v9):** 1ec1292 — security(scripts): read-only Postgres role for sage_efficacy.js
 **Last commit (arcs-care):** 136add1 — unchanged this session
 
 ## Status
 
-- arcs-v9 Vercel: ✅ LIVE — https://app.arcs.care
-- arcs-v9 Auth: ✅ magic link (unchanged)
-- arcs-v9 DB: ✅ xbbpiryokswwvcrcutge / postgres — DATABASE_URL auth bug fixed this session (see below)
-- Compass latency: ✅ baseline established — see benchmarks below
+- arcs-v9 Vercel: ✅ LIVE — https://app.arcs.care — Framework Preset is **Services** (was Next.js;
+  switched this session), SAGE Python sidecar confirmed building and serving traffic in Production
+- arcs-v9 Auth: ✅ magic link (unchanged) — `AUTH_SECRET` still missing on Preview (separate, minor gap)
+- arcs-v9 DB: ✅ xbbpiryokswwvcrcutge / postgres — single DB shared across local/Preview/Production
+- Compass: ✅ model routing + prompt caching + SAGE pre-screen + NCI self-grade, all live in prod
+- SAGE efficacy study: ✅ infra live (SageTrace table + sage_efficacy.js), correctly gated at n=0
+  with-SAGE Outcomes — will start producing real numbers once Outcomes accumulate post-launch
 - Observatory: ✅ unchanged, live
 
-## What landed this session (2026-06-19 — Compass Latency + SAGE Scoping)
+## What landed this session (2026-06-19 → 2026-06-21)
 
-### DATABASE_URL auth fix (blocker, resolved)
-- Root cause: `!` in Supabase password (`1163Merwins2026!`) was mishandled by `pg`'s connection-string
-  URL parser (both raw and `%21`-encoded forms failed P1000 auth)
-- Fix: `src/lib/db.ts` now parses `DATABASE_URL` manually via `new URL()` + `decodeURIComponent()` on
-  each component, passed to `pg.Pool` as discrete fields (not a connection-string)
-- Also added DATABASE_URL to Vercel **Development** scope (was Production-only)
+Long session, several distinct phases. Summarized newest-first since that's most actionable.
 
-### Compass latency optimization — commits 964b0fa → 3c51173 → a266cf1
-- **964b0fa** — Model routing: `MODEL_MAP` keys QUICKMOVE/PLAN → Haiku 4.5, COURT → Sonnet 4.6.
-  `unstable_cache` wraps QUICKMOVE/PLAN inference (temp ≤0.3, deterministic); COURT bypasses cache
-  (temp=0.5, adversarial variation intentional). **2.6x speedup** on non-COURT modes.
-- **3c51173** — Tried replacing MODEL_MAP with the Anthropic advisor tool (beta `advisor-tool-2026-03-01`):
-  Haiku executor self-routing to Opus 4.8 advisor. **Reverted** — see below.
-- **a266cf1** — Reverted advisor tool, restored MODEL_MAP. **Kept** prompt caching
-  (`prompt-caching-2024-07-31` beta, `cache_control: ephemeral` on the 120-line SYSTEM prompt) layered
-  on top of MODEL_MAP + unstable_cache.
+### Phase 5 — Read-only DB role for analysis scripts (1ec1292)
+- New Postgres role `arcs_readonly`: SELECT-only via table grants, verified write-blocked
+- **Gotcha hit:** table-level GRANT SELECT alone wasn't enough — this project's RLS deny-all
+  policies (ADR-008) silently filtered all rows for the new role (count(*) returned 0 against a
+  table with 1 real row, no error). Needed `ALTER ROLE arcs_readonly BYPASSRLS` explicitly.
+  Re-verified writes still blocked after granting it. Saved as a standalone memory.
+- `sage_efficacy.js` now prefers `DATABASE_URL_READONLY` (`.env.local`, gitignored), warns + falls
+  back to write-capable `DATABASE_URL` if unset.
 
-### Benchmark results (measured this session, local dev)
-| Path | Time | Notes |
-|---|---|---|
-| PLAN cold (Haiku, prompt-cache cold write) | ~19.3s | one-time ~4s cache-write overhead |
-| PLAN repeat (unstable_cache hit) | **120ms** | 1-hour TTL dedup on identical question+context |
-| COURT cold (Sonnet, uncached by design) | ~39s | unchanged |
-| Advisor tool (Haiku→Opus, any mode) | **172s** | ❌ rejected — Opus consult is synchronous, not viable for a 60s route budget |
+### Phase 4 — NCI self-grade rubric live in Production (1bf7251, 7fc29b4)
+- Canon (`_CANON/arcs-v9-additional/ARCS-v9-Chapter-Book-Canon.md` §1.2) specifies every non-trivial
+  output should self-grade Factual/Sources/Honesty/Action — was documented spec only, never wired
+  into the live SYSTEM prompt. Now implemented: SYSTEM prompt + OUTPUT SHAPE + new `nciSelfGrade`
+  Receipt column. **Visible** (unlike SageTrace) — flows straight through the API response.
+- Verified genuinely substantive, not performative: live test produced `honesty: false` (Claude
+  caught itself anchoring on SAGE's signal as ground truth) and separately `factual: false` +
+  `action: false` (caught a vague "confirm with deployment lead" with no lead named).
+- **Caught before damage:** main's `operators/pyproject.toml` was missing the `scipy` fix that only
+  existed on the preview branch — would have crashed SAGE in prod with `ModuleNotFoundError`. Found
+  by checking build logs of the just-deployed Production build, fixed same session (7fc29b4).
 
-### SAGE operator integration — LANDED — commit 99dc0b2
-- Discovered `operators/arcs_api.py` already has a full FastAPI backend with a `/question-compass`
-  endpoint that runs the entire SAGE→LAB→BAR→Court→Kintsugi pipeline (`run_pipeline()`). This
-  superseded the original A/B/C text-adapter framing — went with "wire in the existing pipeline"
-  instead of building a new text-signal adapter from scratch.
-- **Key design call:** did NOT reuse `/question-compass` directly — it calls `_store_receipt()`,
-  which writes to a separate Supabase `arcs_receipts` table. That would create a second, divergent
-  receipt store alongside Prisma. Instead added a new lean endpoint, `POST /api/sage-score`
-  (`operators/arcs_api.py`), which calls `run_pipeline()` directly and returns the raw result —
-  **no persistence**. Prisma `Receipt` stays the single source of truth; SAGE is advisory-only
-  context fed into Claude (NOTOMATION: enriches, never decides or writes doctrine).
-- **Deployment:** added via Vercel Services (`vercel.json` → `experimentalServices`), Python sidecar
-  at `routePrefix: "/svc/sage"`, `operators/pyproject.toml` added (fastapi/pydantic/numpy/uvicorn).
-  **Manual step required before next prod deploy:** Vercel dashboard → Project Settings → Build &
-  Deployment → Framework Preset → select **Services**.
-- **Local dev:** kept `npm run dev` (did not switch to `vercel dev -L`); Python service run manually:
-  `cd operators && ARCS_TRACE_DIR=/tmp/arcs_trace_logs python3 -m uvicorn arcs_api:app --port 8765`.
-  `SAGE_URL=http://localhost:8765` added to `.env.local`.
-- **Wiring in `compass/route.ts`:** fetches SAGE with a 3s timeout before building `userMsg`; on
-  failure (timeout, non-200, unreachable) logs `[SAGE] unreachable...` and proceeds Claude-only —
-  verified this fallback works by killing the service mid-session (200 OK, NCI computed without it).
-- **Verified end-to-end:** SAGE 200 OK → Claude reads `OPERATOR SIGNAL` block in prompt → COURT mode
-  returned NCI 76, FORK y_state, true_north referencing the 8-week timeline framing from context.
-- **Open Loki risk (stated in commit body):** the synthetic signal is still stakes/horizon-derived
-  (closer to "Option B" than the originally-scoped text-derived "Option C"), not a true linguistic
-  feature extraction. NCI/court output should be treated as a soft signal, not validated ground
-  truth, until tested against a real compass corpus.
+### Phase 3 — SAGE efficacy infrastructure + research scripts (merged from sage-services-preview)
+- `SageTrace` table (separate from Receipt, never `include`d by any client route — invisible by
+  construction, not convention) logs every SAGE call: fired/signal/failureReason/latencyMs
+- `scripts/sage_efficacy.js` — compares Outcome.matched/regretScore with-SAGE vs without-SAGE,
+  gated at n=20/group (currently n=0/n=1 — correctly reports GATED)
+- `scripts/tf_sage_distillation.py` + `scripts/torch_sage_distillation.py` — pure research,
+  distill the deterministic SAGE kinematic classifier into TF/PyTorch models trained on synthetic
+  data (NOT real Outcomes). 81.9%/80.8% classification accuracy, framework-comparable. Found a real
+  property of the deterministic classifier along the way: a pure linear ramp rarely hits
+  `strong_signal` because near-zero acceleration noise has a random sign relative to velocity,
+  tripping `phase_cancellation` — needs consistent curvature, not just a consistent slope.
+- `scripts/vercel-debug.sh` — codifies 4 CLI gotchas hit this session (curl path syntax, flaky
+  logs, sensitive-var masking, git-branch scoping never applying to CLI deploys)
 
-## Open sprint
+### Phase 2 — SAGE wiring + decision_mode bug fix (commits from 2026-06-19, detailed in prior log)
+- Model routing (Haiku/Sonnet by mode) + prompt caching + advisor-tool revert (172s, rejected) —
+  see git log 964b0fa/3c51173/a266cf1 for full detail, omitted here for length
+- SAGE wired as advisory pre-screen via Vercel Services (`POST /api/sage-score`, no persistence —
+  Prisma stays single source of truth; the pre-existing `/question-compass` endpoint was NOT reused
+  because it writes to a separate Supabase table)
+- Found + fixed: `decision_mode`/`door_class` in the API response were silently overwritten by
+  Claude's own echoed values (`...parsed` spread order bug) — pre-existing, unrelated to SAGE,
+  found while validating SAGE. Fixed in 2a27d5b, verified live.
+
+### Phase 1 — DATABASE_URL auth fix (blocker, resolved)
+- Root cause: `!` in Supabase password mishandled by `pg`'s connection-string URL parser
+- Fix: `src/lib/db.ts` parses `DATABASE_URL` manually via `new URL()` + `decodeURIComponent()`
+
+## Open items (accurate as of this update)
 
 ```
-1. ADR-016 auth.ts wiring                                            OPEN (compass non-functional in prod without it)
-2. Vercel dashboard: Framework Preset → Services                     MANUAL — required before SAGE deploys to prod
-3. Validate SAGE NCI output against real compass corpus               OPEN (Loki risk above)
-4. Compass Kit Phase 2 — TSX port + real API wire                    READY (carried over)
-5. Panel/Chip design system components (ADR-009)                     READY (carried over)
-6. ADR-006 branching strategy (first-external-user gate)              READY (carried over)
-7. arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED                    WAITING on Dan Pascone (carried over)
+1. ADR-016 auth.ts wiring                                  OPEN — compass works anonymous-only
+                                                             without it (ADR-016 Option C), not
+                                                             fully blocking, but magic-link auth
+                                                             on Preview is currently broken
+                                                             (AUTH_SECRET unset there)
+2. Validate SAGE NCI against real with-SAGE Outcomes        OPEN — infra is ready (SageTrace +
+                                                             sage_efficacy.js), genuinely no
+                                                             data yet. Re-run the script
+                                                             periodically; nothing to build,
+                                                             just needs real usage + time.
+3. AUTH_SECRET missing on Preview env                       OPEN — small, separate from SAGE work
+4. Compass Kit Phase 2 — TSX port + real API wire           READY (carried over, untouched)
+5. Panel/Chip design system components (ADR-009)            READY (carried over, untouched)
+6. ADR-006 branching strategy (first-external-user gate)    READY (carried over, untouched)
+7. arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED          WAITING on Dan Pascone (carried over)
 ```
 
 ## Key infra facts (for next session)
 
-- DB: `xbbpiryokswwvcrcutge` / database `postgres` / port 6543 pooler — **use manual URL parsing in
-  db.ts, not a raw connection string**, password contains `!`
+- DB: `xbbpiryokswwvcrcutge` / database `postgres` / port 6543 pooler — manual URL parsing in
+  db.ts (password contains `!`)
 - Vercel project: `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9` / team `zachharris-3439s-projects`
-- `next.config.ts` must keep `turbopack: { root: __dirname }` — do not let this regress to
-  `experimental.turbopack`, it was accidentally overwritten once this session and restored
-- SAGE service: `operators/arcs_api.py` exposes `/api/sage-score` (advisory, no persistence) and the
-  pre-existing `/question-compass` (persists to a separate Supabase table — do not wire this one
-  into the Next.js route without resolving the dual-receipt-store question first)
-- `SAGE_URL` must be set in three places to avoid silent misses: `.env.local` (local dev), Vercel
-  Preview env, Vercel Production env — `route.ts` fails open (logs + continues) if unset/unreachable
+- **Framework Preset is Services** (project-wide, not per-environment) — do not revert this
+- `vercel deploy` (CLI) does NOT attach git-branch metadata — any env var scoped to a specific
+  git-branch silently never applies to a CLI-triggered deploy. Scope to "all preview branches"
+  (pass `""` as the git-branch positional in `vercel env add`) unless deploys are git-push-only.
+- `operators/pyproject.toml` needs `scipy` (already fixed on main) — if this regresses again,
+  it's because someone branched off an older commit before 7fc29b4
+- `arcs_readonly` Postgres role exists for read-only analysis scripts — needs `BYPASSRLS` granted
+  (already done) or it will silently see 0 rows under this project's RLS deny-all policies
+- `next.config.ts` must keep `turbopack: { root: __dirname }` — regressed once this session, restored
 
 ## Next session
 
-`/handoff-pickup` → set Vercel Framework Preset to Services + add SAGE_URL to Preview/Prod →
-validate SAGE NCI against real receipts → ADR-016 auth.ts wiring
+`/handoff-pickup` → ADR-016 auth.ts wiring, or AUTH_SECRET on Preview, or pick up one of the
+carried-over READY items (Compass Kit Phase 2 / Panel-Chip / ADR-006). SAGE efficacy validation
+needs no action — just time and real usage.
