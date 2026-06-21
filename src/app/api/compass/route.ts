@@ -170,8 +170,20 @@ export async function POST(req: NextRequest) {
   // Python pipeline. Never blocks the route — if SAGE_URL is unset or the
   // service is down, we log and proceed with Claude alone. NOTOMATION: this
   // enriches Claude's context; it never decides or persists on its own.
+  //
+  // sageTraceData below feeds an invisible SageTrace row (written after the
+  // receipt is created) — never returned to the client, never `include`d by
+  // any client-facing route. Exists only for the with/without-SAGE efficacy
+  // study once enough paired Outcomes accumulate (see scripts/sage_efficacy.py).
   let sageBlock = ""
+  let sageTraceData: { fired: boolean; signal: string | null; failureReason: string | null; latencyMs: number | null } = {
+    fired: false,
+    signal: null,
+    failureReason: process.env.SAGE_URL ? null : "SAGE_URL unset",
+    latencyMs: null,
+  }
   if (process.env.SAGE_URL) {
+    const sageT0 = Date.now()
     try {
       const sageRes = await fetch(`${process.env.SAGE_URL}/api/sage-score`, {
         method: "POST",
@@ -179,16 +191,23 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({ question: question.trim(), horizon: activeHorizon, stakes: activeStakes }),
         signal: AbortSignal.timeout(3000),
       })
+      sageTraceData.latencyMs = Date.now() - sageT0
       if (sageRes.ok) {
         const sage = await sageRes.json()
         sageBlock = `\nOPERATOR SIGNAL (SAGE pipeline — advisory, not authoritative):
 NCI: ${sage.nci_score} | VERDICT: ${sage.verdict} | COURT: ${sage.court_verdict ?? "n/a"}
 SIGNAL CLASS: ${sage.signal_classification} | SATOSHI: ${sage.is_satoshi}`
+        sageTraceData.fired = true
+        sageTraceData.signal = JSON.stringify(sage)
       } else {
         console.error("[SAGE] non-200 response:", sageRes.status)
+        sageTraceData.failureReason = `non-200:${sageRes.status}`
       }
     } catch (err) {
-      console.error("[SAGE] unreachable, proceeding without operator signal:", err instanceof Error ? err.message : String(err))
+      sageTraceData.latencyMs = Date.now() - sageT0
+      const msg = err instanceof Error ? err.message : String(err)
+      console.error("[SAGE] unreachable, proceeding without operator signal:", msg)
+      sageTraceData.failureReason = `unreachable:${msg}`
     }
   }
 
@@ -348,6 +367,12 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     throw err
   }
   const t3 = Date.now()
+
+  // Invisible trace write — never blocks or affects the response. See the
+  // sageTraceData comment above for why this is a separate, never-`include`d table.
+  prisma.sageTrace.create({
+    data: { receiptId: receipt.id, ...sageTraceData },
+  }).catch((err) => console.error("[SAGE TRACE] failed to write:", err instanceof Error ? err.message : String(err)))
 
   console.log(`[COMPASS PROFILE] Setup: ${t1-t0}ms | Claude: ${t2-t1}ms | Prisma: ${t3-t2}ms | Total: ${t3-t0}ms`)
 
