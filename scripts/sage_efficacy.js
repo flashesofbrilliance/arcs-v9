@@ -11,6 +11,11 @@
 // (ADR-020/023): below MIN_SAMPLE per group, the comparison is statistically
 // meaningless and the script says so rather than printing a misleading delta.
 //
+// Read-only by design: connects as the `arcs_readonly` Postgres role (SELECT
+// only, verified — INSERT/UPDATE/DELETE all return "permission denied").
+// This script never needs write access; using the app's own write-capable
+// DATABASE_URL for a read-only analysis is unnecessary exposure.
+//
 // Usage: node scripts/sage_efficacy.js [--min-sample=20]
 
 const { Pool } = require("pg")
@@ -22,11 +27,18 @@ const MIN_SAMPLE = Number(
 )
 
 function loadDatabaseUrl() {
-  if (process.env.DATABASE_URL) return process.env.DATABASE_URL
+  if (process.env.DATABASE_URL_READONLY) return process.env.DATABASE_URL_READONLY
+  if (process.env.DATABASE_URL) {
+    console.warn("[sage_efficacy] DATABASE_URL_READONLY not set — falling back to DATABASE_URL (write-capable). Prefer the readonly role.")
+    return process.env.DATABASE_URL
+  }
   const envPath = path.join(__dirname, "..", ".env.local")
   const content = fs.readFileSync(envPath, "utf8")
+  const readonlyMatch = content.match(/DATABASE_URL_READONLY="([^"]+)"/)
+  if (readonlyMatch) return readonlyMatch[1]
   const match = content.match(/DATABASE_URL="([^"]+)"/)
-  if (!match) throw new Error("DATABASE_URL not found in .env.local or environment")
+  if (!match) throw new Error("Neither DATABASE_URL_READONLY nor DATABASE_URL found in .env.local or environment")
+  console.warn("[sage_efficacy] DATABASE_URL_READONLY not found in .env.local — falling back to DATABASE_URL (write-capable).")
   return match[1]
 }
 
