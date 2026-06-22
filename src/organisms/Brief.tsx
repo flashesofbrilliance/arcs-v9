@@ -37,7 +37,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion }: BriefProps
     <div style={{ maxWidth: 880, margin: '0 auto', padding: '2.5rem 1.5rem 4rem' }}>
       {/* Header */}
       <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Wordmark section="Cartography Brief" />
+        <Wordmark section="Decision Brief" />
         <div style={{ display: 'flex', gap: '0.25rem' }}>
           <Button variant="ghost" size="sm" onClick={onBack}>← Ledger</Button>
           {onNewQuestion && <Button variant="ghost" size="sm" glyph="⊕" onClick={onNewQuestion}>New question</Button>}

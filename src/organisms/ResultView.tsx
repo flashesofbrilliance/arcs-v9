@@ -58,7 +58,7 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
 
         <InstrumentCluster result={result} />
 
-        <Button variant="outline-cyan" glyph="⊕" onClick={onBrief} style={{ width: '100%' }}>Open Cartography Brief&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
+        <Button variant="outline-cyan" glyph="⊕" onClick={onBrief} style={{ width: '100%' }}>Open Decision Brief&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
 
         {result.tributaries?.length > 0 && (
           <div style={{ marginTop: '0.5rem' }}>
