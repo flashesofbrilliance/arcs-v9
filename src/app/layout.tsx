@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
+import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
 import "./globals.css"
 
 const inter = Inter({
@@ -49,6 +50,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased">
         {children}
+        <ClaimAnonymousReceipts />
         <VercelToolbarToggle />
         <Analytics />
       </body>
