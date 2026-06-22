@@ -446,7 +446,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     }
   }
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     ...parsed,
     // Deterministic fields win — Claude's own JSON echoes decision_mode and
     // door_class per the OUTPUT SHAPE schema, but those are advisory text,
@@ -464,4 +464,18 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     render_resolution: yGate.renderResolution,
     nci_delta: parent?.nciScore != null ? receipt.nciScore - parent.nciScore : null,
   })
+
+  // Secondary persistence path for claiming this receipt on sign-in (see
+  // ClaimAnonymousReceipts.tsx). Not httpOnly — client JS reads it directly
+  // as a same-browser-context fallback alongside localStorage. Anonymous
+  // only; a logged-in user's own receipts don't need claiming.
+  if (!userId) {
+    response.cookies.set("arcs_session_id", resolvedSessionId, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 7 days — long enough to cover a delayed magic-link click
+      sameSite: "lax",
+    })
+  }
+
+  return response
 }
