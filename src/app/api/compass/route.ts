@@ -240,12 +240,14 @@ CLARITY: ${clarityMode}${prepBlock}${sageBlock}
 
 Run the L0–L5 pipeline. Return only the JSON object.`
 
-  // Model routing: COURT needs Sonnet's adversarial depth; QUICKMOVE/PLAN use Haiku (~5x faster)
+  // Model routing: COURT is HIGH stakes / one-way-door receipts only (lowest volume,
+  // highest cost of a bad answer) — worth Opus's extra reasoning depth and latency.
+  // QUICKMOVE/PLAN stay on Haiku (~5x faster) since they're reversible/low-stakes by definition.
   // min viable JSON for this schema is ~1800 tokens; give each mode headroom above that
   const MODEL_MAP = {
     QUICKMOVE: { model: "claude-haiku-4-5-20251001", max_tokens: 2048, temperature: 0 },
     PLAN:      { model: "claude-haiku-4-5-20251001", max_tokens: 3072, temperature: 0.3 },
-    COURT:     { model: "claude-sonnet-4-6",          max_tokens: 4096, temperature: 0.5 },
+    COURT:     { model: "claude-opus-4-8",            max_tokens: 4096, temperature: 0.5 },
   } as const
   const modelConfig = MODEL_MAP[mode]
 
