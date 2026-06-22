@@ -2,13 +2,14 @@
 
 > **Status:** DECIDED
 > **Date:** 2026-06-22
-> **Commit:** (set at merge)
+> **Commit:** b8e98e5
+> **Amended:** 2026-06-22 — Consequences corrected post-ground-check (debrief UX already shipped; ADR-026 reframed as delivery fix)
 
 ---
 
 ## D — The Decision
 
-**Sharp question:** Should we close the Option B→C gap (text-derived SAGE signal) now, or first build Outcome-logging UX to create the measurement instrument that would tell us if a better signal actually helps?
+**Sharp question:** Should we close the Option B→C gap (text-derived SAGE signal) now, or first fix Outcome delivery to create the measurement instrument that would tell us if a better signal actually helps?
 
 ---
 
@@ -43,11 +44,15 @@ The signal feeding the pipeline is synthetic: `_STAKES_SIGNALS` maps stakes/hori
 | `Outcome` | 1 |
 | `User` | 2 |
 
-184 Receipts, 1 Outcome = **0.5% close-loop rate**. `sage_efficacy.js` is gated at MIN_SAMPLE=20 per cohort against Outcome rows joined with SageTrace. At current rate, this gate is structurally far away — not "close but no data yet."
+184 Receipts, 1 Outcome = **0.5% close-loop rate**. `sage_efficacy.js` is gated at MIN_SAMPLE=20 per cohort against Outcome rows joined with SageTrace. At current rate, this gate is structurally far away.
 
-The tempting next move is Option A: replace the synthetic signal with text-derived input so NCI reflects actual question semantics. The problem: even a perfect text-derived signal cannot be validated today. The measurement instrument (Outcome-logging adoption) doesn't exist. Building signal precision before the instrument is the same structural error as the synthetic proxy itself — confident-looking work with no way to confirm it helped.
+**Post-draft ground-check (2026-06-22):** The 0.5% close-loop rate is not a missing-UX problem. `src/app/debrief/[receiptId]/page.tsx` is fully built: matched/what/regret/learning form, receipt recap card, wired to a scheduled debrief email. The bottleneck is a broken delivery pipeline:
+- `reminderDate` only sets from `parsed.reminder_iso`, which only exists when a PrepSession includes `outcomeHorizon`. Compass without a PrepSession never gets a debrief email.
+- Resend scheduling has a 30-day ceiling; receipts with `reminderDate` >30 days out fail silently (logged in commit `8ded67f`, unfixed).
+- Debrief emails were firing at 5am ET (UTC bug) until commit `8ded67f` this morning.
+- No in-app nudge exists; debrief is purely email-triggered.
 
-The real bottleneck is the 0.5% close-loop rate. It blocks Option A validation, LAB/BAR surfacing justification, NCI trust, and every future operator efficacy argument — not just this one decision.
+The decision framing — "fix the measurement instrument before building signal precision" — is correct and unchanged. Only the mechanism of the fix changes: it’s a delivery repair, not a UX build.
 
 ---
 
@@ -56,18 +61,18 @@ The real bottleneck is the 0.5% close-loop rate. It blocks Option A validation, 
 ### Option A — Close the B→C gap now (text-derived signal)
 - Replace `_STAKES_SIGNALS` with a text-derived signal from the compass question
 - Pros: NCI reflects question semantics, not just stakes/horizon proxy
-- Cons: No instrument to validate the improvement exists — 1 Outcome means any quality delta is invisible. Invests in precision before measurement capability. Same structural error as the proxy it replaces.
+- Cons: No instrument to validate the improvement exists. Invests in precision before measurement capability. Same structural error as the proxy it replaces.
 
 ### Option B — Downgrade NCI ambitions permanently
-- Document the stakes/horizon proxy as intentional; don't surface LAB/BAR output until Outcome data exists; remove NCI from any user-facing display
+- Document the stakes/horizon proxy as intentional; don’t surface LAB/BAR output until Outcome data exists
 - Pros: Honest about limitations; no build work required
-- Cons: Freezes the pipeline in a state the commit message itself calls unvalidated. Closes the door on operator surfacing as a product direction.
+- Cons: Freezes the pipeline in a state the commit message itself calls unvalidated.
 
-### Option C — Build Outcome-logging UX first
-- Make it easy for users to close the loop after a compass call: what did you decide, how did it go?
+### Option C — Fix Outcome delivery pipeline first
+- Repair the broken delivery path so the already-built debrief UX actually reaches users
 - Once MIN_SAMPLE=20 clears, re-open Option A with real match-rate/regret delta data
-- Pros: Fixes the root bottleneck. Unblocks every downstream operator validation (SAGE, LAB, BAR, NCI trust) simultaneously. Produces a product feature (outcome tracking) users actually benefit from.
-- Cons: Defers signal improvement. Requires UX design + Supabase work before Option A is even revisitable.
+- Pros: Fixes the root bottleneck. Unblocks every downstream operator validation simultaneously. No new UX surface required.
+- Cons: Defers signal improvement. Adoption still opt-in; MIN_SAMPLE may take weeks regardless.
 
 ---
 
@@ -75,14 +80,14 @@ The real bottleneck is the 0.5% close-loop rate. It blocks Option A validation, 
 
 **Chosen:** Option C
 
-**Rationale:** The 0.5% close-loop rate is the actual bottleneck, not signal precision. The same gap that blocks Option A validation also blocks LAB/BAR surfacing, NCI trust, and every future operator efficacy argument. Fixing the measurement instrument unblocks all of them simultaneously. Building Option A first is solving for precision before the instrument exists — the same structural mistake as the synthetic proxy.
+**Rationale:** The 0.5% close-loop rate is the actual bottleneck, not signal precision. The debrief UX is built and correct; it’s simply not reaching users due to delivery bugs (prep-gated eligibility, 30-day Resend ceiling, timezone bug, no in-app fallback). Fixing delivery is lower-cost and higher-leverage than building a new signal.
 
-Option A is not wrong in principle; it's wrong in sequence. Re-scope it as: *build text-derived signal once Outcome-logging adoption clears MIN_SAMPLE=20, so the build can be evaluated against real match-rate/regret deltas rather than vibes.*
+Option A is not wrong in principle; it’s wrong in sequence. Re-scope as: *build text-derived signal once Outcome delivery is repaired and MIN_SAMPLE=20 clears, so the build can be evaluated against real match-rate/regret deltas.*
 
 **Trade-offs accepted:**
-- SAGE NCI remains a soft, unvalidated proxy signal in production until Outcome-logging adoption improves
-- LAB/BAR/Court output stays computed-and-discarded for now; no wider extractor until signal is trustworthy
-- No governance gates (Architecture Decision 1 soft/hard NCI gate) — SAGE stays advisory-only, gated only by `SAGE_URL` presence
+- SAGE NCI remains a soft, unvalidated proxy signal until Outcome delivery is repaired and adoption improves
+- LAB/BAR/Court output stays computed-and-discarded; no wider extractor until signal is trustworthy
+- No governance gates (Architecture Decision 1) — SAGE stays advisory-only, gated only by `SAGE_URL` presence
 
 ---
 
@@ -92,19 +97,19 @@ Option A is not wrong in principle; it's wrong in sequence. Re-scope it as: *bui
 **Conviction:** HIGH
 **Stability:** STABLE
 
-**Loki test:** Strongest case against this decision: Option A is a contained engineering task (replace one function) with no UX dependency, while Outcome-logging UX requires design, adoption, and a long wait for data. You could ship text-derived signal this week and at least have it ready when Outcome data arrives. Counter: "ready when data arrives" assumes the signal design is correct — but without validation data, you're designing in the dark. A wrong text-signal design that bakes in for months is harder to correct than a known proxy. Better to wait and design with data.
+**Loki test:** Option A is a contained engineering task with no UX or delivery dependency. You could ship text-derived signal this week and have it ready when Outcome data eventually arrives. Counter: without validation data, you’re designing in the dark. A wrong text-signal design that bakes in for months is harder to correct than a known proxy.
 
 ---
 
 ## Consequences
 
-- **Outcome-logging UX** becomes the next specced feature; needs its own ADR (ADR-026) covering the UX surface, Supabase schema changes, and the MIN_SAMPLE gate definition
-- **Option A deferred** — explicitly not abandoned; re-open when `sage_efficacy.js` can produce a result against real cohorts
-- **SAGE advisory status preserved** — no regression; pipeline continues running, SageTrace continues logging, fields continue reaching Claude's prompt
+- **ADR-026** covers the debrief delivery fix: eligibility extension (all receipts, not just prep-originated), long-horizon scheduler for the 30-day Resend ceiling, and in-app fallback surface. **Not a UX build — the UX already exists.**
+- **Option A deferred** — explicitly not abandoned; re-open when `sage_efficacy.js` produces a result
+- **SAGE advisory status preserved** — no regression
 - **LAB/BAR surface work deferred** — `_extract_sage_fields()` expansion blocked until Option A is validated
-- **Architecture Decision 1 (soft/hard NCI gate)** — explicitly deferred; document in ADR-026 as a decision point once NCI is trustworthy
+- **Architecture Decision 1 (soft/hard NCI gate)** — deferred; revisit in ADR-025 re-open
 
-**Implementation pointer:** ADR-026 (Outcome-logging UX spec) is the next required ADR before any build work begins.
+**Implementation pointer:** ADR-026 (debrief delivery fix) is the next required ADR.
 
 ---
 
@@ -112,4 +117,4 @@ Option A is not wrong in principle; it's wrong in sequence. Re-scope it as: *bui
 
 - ADR-008 — RLS deny-all (Supabase auth architecture context)
 - ADR-023 — Observability as superionic goal lattice (downstream of receipt/outcome data quality)
-- ADR-026 — Outcome-logging UX spec (created by this decision, does not yet exist)
+- ADR-026 — Debrief delivery fix (created by this decision)
