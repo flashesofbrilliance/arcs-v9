@@ -413,7 +413,13 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     //    routes to logging the outcome. A receipt can't close itself.
     if (receipt.reminderDate) {
       const scheduledAt = new Date(receipt.reminderDate)
-      scheduledAt.setHours(9, 0, 0, 0) // 9am on the target day
+      // setHours() uses the SERVER's local timezone, not the user's — Vercel
+      // functions run in UTC, so this was computing 9am UTC = 5am Eastern,
+      // blasting users at 5am instead of the intended morning hour. No
+      // per-user timezone is stored yet, so this is a fixed approximation
+      // (14:00 UTC ≈ 9-10am US Eastern depending on DST), not a real fix —
+      // revisit properly once timezone is captured at signup/prep.
+      scheduledAt.setUTCHours(14, 0, 0, 0)
       // Resend's scheduledAt supports a maximum of 30 days out. Beyond that,
       // the send call fails outright — silently, if not logged. Found via a
       // real audit: 14 of 74 eligible receipts had reminderDate >30 days out,
@@ -441,6 +447,12 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           text: debrief.text,
           html: debrief.html,
           scheduledAt: scheduledAt.toISOString(),
+        }).then((res) => {
+          // Log the Resend email id so a scheduled send can actually be
+          // cancelled later if needed — the prior version discarded this,
+          // which is why a bad-timezone batch couldn't be cancelled and had
+          // to be left to fire.
+          console.log(`[EMAIL] debrief for receipt ${receipt.id} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
         }).catch((err) => console.error(`[EMAIL] debrief for receipt ${receipt.id} failed:`, err instanceof Error ? err.message : String(err)))
       }
     }
