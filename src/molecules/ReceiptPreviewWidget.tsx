@@ -9,6 +9,7 @@
 // All primitives pulled from the arcs.care Surface Audit atomic compositions.
 import React from "react"
 import { signal, text, font, border, nciColor, getWeather } from "@/ui/tokens"
+import { Chip } from "@/ui/Chip"
 import { CoverBlock } from "@/document/patterns/CoverBlock"
 import type { CompassResult } from "@/lib/mockCompass"
 
@@ -112,8 +113,8 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
       </div>
 
       <div style={{ display: "flex", gap: 8, marginBottom: 14, flexWrap: "wrap" }}>
-        {[result.decision_mode, result.door_class?.replace(/_/g," ")].filter(Boolean).map(t => (
-          <span key={t} style={{ display: "inline-flex", alignItems: "center", height: 23, padding: "0 11px", borderRadius: 4, fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: signal.cyan, background: "rgba(0,240,255,.1)", border: `1px solid rgba(0,240,255,.28)` }}>{t}</span>
+        {[result.decision_mode, result.door_class?.replace(/_/g," ")].filter(Boolean).map((t) => (
+          <Chip key={t} label={t as string} color={signal.cyan} />
         ))}
       </div>
 
@@ -146,13 +147,7 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
         {/* Badges */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
           {[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean).map((b, i) => (
-            <span key={i} style={{
-              display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
-              borderRadius: 4, fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
-              color: i === 0 ? "#020408" : w.color,
-              background: i === 0 ? w.color : `${w.color}16`,
-              border: i === 0 ? 'none' : `1px solid ${w.color}35`,
-            }}>{b}</span>
+            <Chip key={i} label={b as string} color={w.color} filled={i === 0} />
           ))}
         </div>
         {/* Title — h2 size for clarity hierarchy */}
