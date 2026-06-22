@@ -66,6 +66,18 @@ ATG · Kairos detection · Observatory/replay · Blockchain registry · L6–L7 
 - Inline styles only — no CSS files, no Tailwind, no className.
 - No new dependencies without asking.
 
+# Standing invariant: plan docs drift from shipped code
+
+`_STATE/`, `_QUEUE/PENDING.md`, ADR "READY"/"OPEN" labels, and `~/.claude/plans/*.md` are
+**claims, not facts**. On 2026-06-22, three "open" items in a row turned out to already be
+fully shipped under different names (a SAGE integration plan superseded by a simpler shipped
+path; ADR-016 already DECIDED+sealed despite a stale "OPEN" note; Compass Kit Phase 2 already
+ported end-to-end under organism/molecule names that don't match the kit's literal screen
+names) — and conversely, two items assumed safe turned out to be genuinely open (ADR-009
+Panel/Chip only 4/6 shipped; ADR-006's Supabase-branching safety gate had already fired and
+been crossed without enforcement). Net: **verify against actual files before trusting any
+plan doc, in either direction — "looks done" and "looks open" both need a real check.**
+
 # Handoff — v0.1.0 (2026-05-26)
 
 > **For Claude Code:** this section is your pickup point. Read in order below.
