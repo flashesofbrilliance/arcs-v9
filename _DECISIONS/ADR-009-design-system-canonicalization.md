@@ -117,3 +117,28 @@ Start there: Badge is the canonical Register-pattern example.
 **Failure path:** If the arcs-app pre-stub-revert commit is unreachable (squashed, force-pushed, or
 history pruned), reconstruct Badge/Button/Card from first principles using WORLD.md token spec
 (render scale table + Y-gate color system) as the source of truth for Register variants.
+
+---
+
+## Amendment — Execution Receipt (2026-06-22)
+
+> **Status:** DONE — full scope shipped
+
+Verified this session (not assumed from this doc): `src/ui/` now has 18 typed components,
+well past the QUARTER revisit trigger of "component count exceeds 12" — that trigger has
+fired and should be considered live, not just noted. Badge/Button/Card/Spinner shipped
+earlier (exact commits not traced); `Panel` and `Chip` were the two pieces still missing
+from this ADR's explicit Consequences list and were built this session
+(`src/ui/Panel.tsx`, `src/ui/Chip.tsx`, commit `2b5f536`). `Chip` also replaced two
+hand-rolled duplicate pill implementations in `src/molecules/ReceiptPreviewWidget.tsx` —
+exactly the design-drift failure mode Option C's rejection warned about, caught in the wild.
+
+`Panel` is net-new with no current consumer yet — built to close the ADR's scope, not in
+response to an existing duplication (unlike `Chip`). Fine for a primitives library, but
+worth noting it's unvalidated by real usage; if no page reaches for it within a normal
+revisit window, that's a small signal the abstraction wasn't actually needed.
+
+**Component-count revisit trigger:** now formally past due (18 > 12). Not actioned as part
+of this amendment — flagging for whoever next touches `src/ui/` to decide whether a barrel
+export, subdirectory split, or other reorganization is warranted (see ADR-011's own "≥8
+components" re-barrel trigger, which is also already past due).
