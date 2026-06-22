@@ -89,3 +89,49 @@ Supabase Branching creates isolated database branches per PR, with Vercel integr
 
 - ADR-005 — Vercel Supabase env injection (prerequisite; must be resolved first)
 - ADR-007 — prisma db push vs migrate (branching changes migration deployment strategy)
+
+---
+
+## Amendment — Gate Fired, Action Required (2026-06-22)
+
+> **Status:** GATE FIRED, NOT YET ENFORCED — action pending on your side (Supabase dashboard)
+
+### What happened
+
+The hard gate condition in the Loki test above — *"if any external user creates a receipt
+in production"* — has fired. Verified precisely via direct query (`Receipt.createdAt` for
+`cmqo7hylu000204l1zq0nqm8z`, the first real external sign-in, per `2ebf943`'s commit
+message): **2026-06-21 19:55:34 UTC**.
+
+**Correction to an earlier draft of this amendment:** I first wrote that schema changes
+(the `SageTrace` table, commit `cb18c28`; the `Receipt.nciSelfGrade` column, commit
+`1bf7251`) shipped *after* this gate fired. That was wrong — both commits are timestamped
+2026-06-20, a full day *before* the 2026-06-21 19:55:34 gate-fire. There is no documented
+violation. The correct framing: the gate fired 2026-06-21 19:55:34, and **no schema-altering
+change has been merged since** — so the risk is entirely forward-looking, not retroactive.
+
+Per this ADR's own rule, Supabase Branching became mandatory before any *subsequent*
+schema-altering merge — i.e. starting now, the next one.
+
+Confirmed via Supabase MCP this session: `list_branches` errors with "Project reference is
+missing when validating permissions" while `list_migrations` succeeds on the same connection
+— consistent with Branching never having been enabled on this project (no branches exist to
+query).
+
+### Action required (manual, Supabase dashboard — cannot be done via MCP/CLI from here)
+
+1. Supabase dashboard → project `xbbpiryokswwvcrcutge` → **Settings → Branching** → enable
+   (this is a paid-plan feature; confirm plan tier covers it before enabling)
+2. Connect the Vercel integration if not already connected: Supabase dashboard →
+   Integrations → Vercel → confirm `arcs-v9` project is linked
+3. Once enabled, Vercel should auto-inject a per-branch `DATABASE_URL` on the next PR/preview
+   deploy — verify on the next schema-touching PR specifically (check the preview deployment's
+   env vars show a branch-scoped `DATABASE_URL`, not the shared production one)
+4. After confirming a real branch-scoped preview works once, update this ADR's status to
+   **ENFORCED** and remove the `_QUEUE/PENDING.md` READY flag
+
+### Until enabled
+
+Treat every schema-altering PR as a direct-to-production change (because it is one). No
+automated guard exists to stop a destructive migration in a PR from reaching real user data —
+this is a process gap, not just a paperwork one, until step 1 above is done.
