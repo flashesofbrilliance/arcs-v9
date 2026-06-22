@@ -1,8 +1,40 @@
 # Handoff — Compass UI Kit → Real App (Phase 2)
 
-> **For the next session (recommended: fresh).** Everything below is on `main`.
-> Phase 1 (live static preview) is shipped. Phase 2 is the real port + DS reconcile.
-> Pickup: `/handoff-pickup`, then read this file top to bottom.
+> **STATUS: SUPERSEDED (2026-06-22).** Everything below this notice is a historical
+> record of intent — kept for context, not as an active task list.
+
+## Superseding receipt (2026-06-22)
+
+**Superseded by:** shipped `src/ui/` (18 typed components) + `src/app/dashboard/page.tsx`,
+`src/app/page.tsx`, `src/app/brief/[receiptId]/page.tsx` end-to-end wiring, plus
+`src/organisms/CompassForm.tsx`, `src/molecules/ReceiptPreviewWidget.tsx`,
+`src/molecules/TributariesStack.tsx`, `src/instrument/TributaryTile.tsx`.
+
+**Verified (not assumed):** read every page/organism/molecule listed above and confirmed
+each imports from `@/ui/*` (tokens, Wordmark, Button, Card, Badge, Label, Field, Rule,
+SectionLabel) and that `/dashboard` posts directly to `/api/compass` — no mock pipeline
+remains anywhere in the live app.
+
+**The three kit atoms this doc lists as still-to-port turned out to already exist, just
+under different names/locations than the kit's literal screen names:**
+- `TrueNorthPanel` → the "True North" glow card / synthesis block, present in all three
+  `ReceiptPreviewWidget` variants (Cluster/Read/Artifact)
+- `WeatherBar` → not a separate component; `getWeather()` from `@/ui/tokens` is called and
+  rendered inline in all three `ReceiptPreviewWidget` variants
+- `TributaryTile` → `src/instrument/TributaryTile.tsx` (not `src/ui/`) — used by
+  `TributariesStack.tsx`, whose own comment reads `// Source: Result.jsx`, i.e. a direct,
+  self-documented port of the kit screen this doc's Build Plan step 5 called for
+
+**Why this doc never got updated:** the build shipped under an organism/molecule naming
+convention (`CompassForm`, `ReceiptPreviewWidget`, `TributariesStack`) rather than the
+kit's literal screen names (`Compass.jsx`, `Result.jsx`, `Brief.jsx`), and partly outside
+`src/ui/` (`src/instrument/`). A search for the kit's exact names would not have found the
+shipped equivalents — same class of staleness as the SAGE integration plan and the
+ADR-016 "open" note corrected earlier this session.
+
+**Archive note:** `public/compass-kit/` (the static mock preview at `/compass-kit`) is
+legacy reference only — the real app has already surpassed it. Not deleted this session;
+safe to delete whenever its reference value is judged spent.
 
 ---
 
