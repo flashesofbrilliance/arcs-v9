@@ -94,7 +94,8 @@ Supabase Branching creates isolated database branches per PR, with Vercel integr
 
 ## Amendment — Gate Fired, Action Required (2026-06-22)
 
-> **Status:** GATE FIRED, NOT YET ENFORCED — action pending on your side (Supabase dashboard)
+> **Status:** GATE FIRED, RISK KNOWINGLY ACCEPTED — Branching declined for now (cost), not
+> just pending. See "Decision (2026-06-22)" below.
 
 ### What happened
 
@@ -118,7 +119,7 @@ missing when validating permissions" while `list_migrations` succeeds on the sam
 — consistent with Branching never having been enabled on this project (no branches exist to
 query).
 
-### Action required (manual, Supabase dashboard — cannot be done via MCP/CLI from here)
+### If/when enabling (manual, Supabase dashboard — cannot be done via MCP/CLI from here)
 
 1. Supabase dashboard → project `xbbpiryokswwvcrcutge` → **Settings → Branching** → enable
    (this is a paid-plan feature; confirm plan tier covers it before enabling)
@@ -130,8 +131,24 @@ query).
 4. After confirming a real branch-scoped preview works once, update this ADR's status to
    **ENFORCED** and remove the `_QUEUE/PENDING.md` READY flag
 
-### Until enabled
+### Decision (2026-06-22): defer, accept the risk explicitly
 
-Treat every schema-altering PR as a direct-to-production change (because it is one). No
-automated guard exists to stop a destructive migration in a PR from reaching real user data —
-this is a process gap, not just a paperwork one, until step 1 above is done.
+Cost decision, not a technical one — declined to enable the paid Branching feature right now.
+This reopens Option B (shared DB) from the original ADR, but the original justification for
+Option B ("zero rows in production, zero external users") no longer holds — the gate fired.
+Choosing to stay on Option B anyway, with the risk consciously priced in rather than ignored.
+
+**Interim mitigation, zero cost, in place of Branching:**
+- Before any schema-altering PR is merged: take a manual Supabase backup/snapshot from the
+  dashboard first (check what's included free on the current plan tier — don't assume
+  point-in-time recovery is available without checking).
+- Review schema-altering PRs more carefully than feature PRs — this is now the only gate.
+- Prefer additive migrations (new nullable columns/tables, like the two that already shipped
+  safely) over destructive ones (`DROP COLUMN`, `ALTER ... NOT NULL` on existing data) while
+  this gap stands. A destructive migration is the actual failure mode this ADR exists to
+  prevent — additive ones carry much lower risk even without branching.
+
+**Revisit trigger (replaces the original "first external user" gate, which already fired):**
+re-open this decision at the next of: (a) a second/third external user signs up (volume makes
+manual care less reliable), (b) a destructive (not additive) migration is actually needed,
+or (c) Supabase plan tier changes for any other reason and Branching becomes already-paid-for.
