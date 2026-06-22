@@ -1033,3 +1033,109 @@ NONE.
 
 `/handoff-pickup` → confirm branch merge state → merge to main OR Panel/Chip (ADR-009) OR ADR-006
 
+---
+
+# Handoff — v2.1.0 (2026-06-22, corrected same session)
+
+> **For Claude Code:** active pickup point. v2.5.0 above is preserved for history.
+> **Correction:** this section originally treated
+> `~/.claude/plans/phase-1-2-1-sage-integration-week-1.md` (written 2026-06-19, never
+> committed anywhere in this repo) as a literal blueprint still to be executed. It wasn't —
+> SAGE integration already shipped, between that plan's write date and now, via a different
+> and simpler path than the plan specified (see "What actually shipped" below). Only the
+> ROM A/B/C research-grounded rigor layer from that plan was never addressed by what
+> shipped. Read alongside `.claude/rules/arcs-invariants.md` (created same session, also
+> corrected).
+
+## What actually shipped (already in production, not a Week 1 task)
+
+| Plan said | What's actually live |
+|---|---|
+| New `child_process.spawn()` subprocess bridge | Vercel Services (Python sidecar) at `/svc/sage` — `vercel.json` → `experimentalServices.sage` → `operators/arcs_api.py` |
+| New text→signal linguistic adapter | None needed — reused `arcs_api.py`'s existing `run_pipeline()` / `/api/run` |
+| `operatorTrace`/`signalClass` columns on `Receipt` | Separate invisible `SageTrace` Prisma model (`prisma/schema.prisma:196`) — deliberately not on `Receipt`, never `include`d by client routes |
+| `ENABLE_OPERATORS` flag + canary % rollout | `SAGE_URL` env var presence is the implicit flag (`src/app/api/compass/route.ts:192`) — no canary percentage |
+| This `.claude/CLAUDE.md`/`.claude/rules/` port-architecture layer, ROM A/B/C gates | **Genuinely not built** — this is the one piece of the plan still open |
+
+Today, `compass/route.ts` calls `${SAGE_URL}/api/sage-score` (a thin wrapper over the same
+`run_pipeline()` as `/api/run`) as an **advisory** block appended to Claude's prompt — Claude
+can ignore it. It is not yet authoritative for `nci_score`, and the ROM A/B/C gates below
+were never wired into it.
+
+## What this section is now
+
+Not Task 0.1 of a still-pending plan — a standalone record of the one part of that plan
+(the ROM A/B/C rigor layer + six-layer cascade framing) that is still genuinely open, kept
+in case it's worth retrofitting onto the SAGE integration that already shipped. It does not
+gate or block anything that's already live.
+
+## The six-layer cascade ↔ Claude Code port structure
+
+| Port Layer | Cascade Layer | Function |
+|---|---|---|
+| `CLAUDE.md` (this file) | Layer 0: Metadata | Non-destructive doctrine anchoring |
+| `.claude/rules/` | Layer 1: Scaffolding | Positional constraints (write-lock sentinel, invariants) |
+| `.claude/agents/` | Layer 2: Qi | Kairos activation energy — when subagents fire |
+| `.claude/skills/` | Layer 3: Ma | Deliberate negative space — composable primitives with gaps |
+| `.claude/commands/` | Layer 4: Vibe Check | User-invocable entry point — last human gate |
+| `.claude/settings.json` hooks | Layer 5: Mastering | Coherence audit — receipt logging, signal normalization |
+
+This is not arbitrary scaffolding choice — it is the direct implementation of three
+convergent research findings (coherence of probability judgments, judicial bias cascades,
+eudaimonistic emotion theory — full citations in
+`~/.claude/plans/phase-1-2-1-sage-integration-week-1.md`). The full ROM A/B/C enforcement
+rules live in `.claude/rules/arcs-invariants.md`, not duplicated here.
+
+## Operator taxonomy (L0–L7 genome) — as actually wired today
+
+```
+question/prep → Claude (full L0–L5, self-reported nci_score) ←advisory block← SAGE /api/sage-score
+```
+
+Not the layered `SAGE → Wave 0 Gate → L0–L5 → Coherence Audit` sequence the plan described —
+SAGE runs in parallel as an ignorable advisory, not as a pre-gate Claude must pass through.
+LAB/BAR/CURATOR remain unwired (operators/ — "canonical alternative implementation," per
+AGENTS.md), same as the plan intended, just not for the reason the plan gave (no Week-1 gate
+was ever run; it was simply never prioritized).
+
+## Architectural decisions actually in effect (live, not "locked-pending")
+
+- Fallback: degrade to Claude-only if `SAGE_URL` unset or fetch fails — confirmed in
+  `compass/route.ts:189-216`, matches the plan's intent even though the mechanism differs
+- `arcs-care` unification: deferred — keep separate (unchanged)
+- Feature flag: presence of `SAGE_URL` env var, not `ENABLE_OPERATORS` — no canary percentage,
+  it's binary per-environment
+- Bridge mechanism: **HTTP call to the deployed `/svc/sage` Vercel Service**, not a subprocess
+  — confirmed live, this is the opposite of what an earlier draft of this section claimed
+
+## Still genuinely open (the one part of the 2026-06-19 plan not addressed by what shipped)
+
+ROM A (Coherence Audit), ROM B (Dual-Wave Adversarial), ROM C (Eudaimonistic Probe) — see
+`.claude/rules/arcs-invariants.md`. SAGE's advisory output is not currently checked for
+internal coherence, Loki/adversarial review still runs post-synthesis only (no Wave 0/Wave 1
+pre-synthesis pass), and the energy/discomfort scan does not fork goal-threat from hedonic
+noise. None of this blocks anything live; it's a rigor upgrade to consider, not a gap in
+production.
+
+## NCI mandate
+
+All receipts grade 0–100 (`nci_score` exists in the Claude response contract at
+`src/app/api/compass/route.ts:79` and maps to `Receipt.nciScore`). This is Claude's
+self-reported score, not yet checked against ROM A's coherence audit — that gate is the
+open item above, not something already enforced.
+
+## NOTOMATION + client-of-record (carried forward, restated for this layer)
+
+This integration scaffolds and sequences operator cognition; it never compresses, replaces,
+or overrules revealed preference. Zach is the only agent authorized to commit an
+irreversible decision — SAGE/LAB/BAR advise, they do not decide.
+
+## Where to pick up
+
+`~/.claude/plans/phase-1-2-1-sage-integration-week-1.md` is preserved as a historical
+record of intent, not an active task list — its Tasks 1.0 onward (operator validation,
+field mapping, subprocess bridge, signal adapter, route rewrite, canary rollout) are
+superseded by what's already live. If picking this up again, the open question is whether
+ROM A/B/C are worth retrofitting onto the existing SAGE wiring — not whether to build the
+plan's bridge/adapter/flag machinery, which already exists in a different form.
+
