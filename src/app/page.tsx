@@ -45,17 +45,20 @@ export default function HomePage() {
     <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
       <Home
         demo={demo}
-        demoLabel="Featured · Decision Receipt"
+        demoLabel="Featured · what ARCS produces"
         onOpen={() => router.push('/dashboard')}
         onBrief={() => router.push(`/brief/${PINNED_BRIEF_ID}`)}
       />
 
       <div style={{ maxWidth: 620, margin: '0 auto', padding: '0 1.5rem 4rem', textAlign: 'center' }}>
-        <p style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 1rem' }}>
+        <p style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 0.5rem' }}>
           Want ARCS to run with you on the decisions that matter most?
         </p>
+        <p style={{ fontFamily: font.sans, fontSize: '0.85rem', color: text.dimmed, lineHeight: 1.6, margin: '0 0 1rem' }}>
+          For founders and operators who want ARCS in the room when the stakes are high.
+        </p>
         <Button variant="gold" size="md" glyph="◈" onClick={() => router.push('/waitlist')}>
-          Full-service ARCS &amp; advisory →
+          Work with ARCS directly →
         </Button>
       </div>
     </main>

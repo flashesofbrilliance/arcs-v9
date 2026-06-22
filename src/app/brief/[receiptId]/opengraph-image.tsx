@@ -60,7 +60,7 @@ export default async function OGImage({
           </span>
           <span style={{ width: 1, height: 14, background: "#1e293b" }} />
           <span style={{ fontSize: 11, letterSpacing: "0.12em", color: "#475569", textTransform: "uppercase" }}>
-            Cartography Brief
+            Decision Brief
           </span>
           <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{
@@ -111,7 +111,7 @@ export default async function OGImage({
           <span style={{ fontSize: 12, color: "#475569" }}>arcs.app/brief/{receiptId.slice(0, 8)}…</span>
           <div style={{ marginLeft: "auto" }}>
             <span style={{ fontSize: 11, color: "#1e293b", letterSpacing: "0.1em" }}>
-              Navigate to clarity · Render through the fog
+              Navigate to clarity · Make the decision visible
             </span>
           </div>
         </div>

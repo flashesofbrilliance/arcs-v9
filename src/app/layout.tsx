@@ -26,16 +26,16 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "ARCS Field OS",
-  description: "Navigate to clarity. Render through the fog.",
+  description: "Navigate to clarity. Make the decision visible.",
   openGraph: {
     title: "ARCS Field OS",
-    description: "Navigate to clarity. Render through the fog.",
+    description: "Navigate to clarity. Make the decision visible.",
     siteName: "ARCS",
   },
   twitter: {
     card: "summary_large_image",
     title: "ARCS Field OS",
-    description: "Navigate to clarity. Render through the fog.",
+    description: "Navigate to clarity. Make the decision visible.",
   },
 }
 

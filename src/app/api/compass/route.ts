@@ -262,7 +262,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       from: "ARCS <noreply@arcs.care>",
       to: userEmail,
       subject: `Receipt: ${(parsed.true_north as string ?? "").slice(0, 80)}`,
-      text: `Your compass bearing is locked.\n\nTRUE NORTH\n${parsed.true_north}\n\nWHY\n${why}\n\nCONVICTION: ${receipt.nciScore}/100  ·  ${mode} · ${door}\n\nCartography brief →\n${briefUrl}`,
+      text: `Your compass bearing is locked.\n\nTRUE NORTH\n${parsed.true_north}\n\nWHY\n${why}\n\nCONVICTION: ${receipt.nciScore}/100  ·  ${mode} · ${door}\n\nDecision brief →\n${briefUrl}`,
     }).catch(() => {})
 
     // 2. Reminder email — scheduled for reminderDate if we have one
