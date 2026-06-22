@@ -349,7 +349,12 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       forkPath: null,
       // Status
       status: "OPEN",
-      reminderDate: typeof parsed.reminder_iso === "string" ? parsed.reminder_iso : null,
+      // ADR-026 Bug 1: without a PrepSession outcomeHorizon, parsed.reminder_iso
+      // is always null and the receipt is permanently ineligible for the debrief
+      // email. Default to T+7 so every receipt enters the delivery pipeline.
+      reminderDate: typeof parsed.reminder_iso === "string"
+        ? parsed.reminder_iso
+        : new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
     }
 
     // Check for undefined values before creating receipt
@@ -453,6 +458,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           // which is why a bad-timezone batch couldn't be cancelled and had
           // to be left to fire.
           console.log(`[EMAIL] debrief for receipt ${receipt.id} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
+          // Mark sent so the long-horizon cron (ADR-026 Bug 2) doesn't pick
+          // this receipt up again once its reminderDate enters its own sweep window.
+          return prisma.receipt.update({ where: { id: receipt.id }, data: { debriefSentAt: new Date() } })
         }).catch((err) => console.error(`[EMAIL] debrief for receipt ${receipt.id} failed:`, err instanceof Error ? err.message : String(err)))
       }
     }

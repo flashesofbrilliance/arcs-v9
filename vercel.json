@@ -23,5 +23,11 @@
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/debrief",
+      "schedule": "0 14 * * *"
+    }
   ]
 }

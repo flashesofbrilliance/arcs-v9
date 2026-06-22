@@ -167,6 +167,7 @@ model Receipt {
   reviewDate     DateTime?
   status         String           @default("OPEN") // OPEN | LOGGED | EXPIRED
   reminderDate   String?          // ISO date string — when to send outcome follow-up email
+  debriefSentAt  DateTime?        // set once the debrief email is sent/scheduled; prevents double-send between compass-time scheduling and the long-horizon cron (ADR-026)
 
   @@index([userId])
   @@index([sessionId])
