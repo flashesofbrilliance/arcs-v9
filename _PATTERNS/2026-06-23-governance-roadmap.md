@@ -171,6 +171,17 @@ hypotheticals:
   evidence is gathered at that same altitude — not a more tactical one that merely feels more
   rigorous because it's more concrete.
 
+  **Caveat added on a proper 5-verb pass (analyze/assess/evaluate/synthesize/recapitulate,
+  `scripts/arcs_cli.py`), not volunteered up front:** this entry's own core claim rests on an
+  `UNDEFINED`, not `OM`, premise — *what Perplexity Space's `Conviction`/`Coherence` grading
+  was actually assessed against* was never separately verified, only inferred as "the full
+  corpus" because that was the more charitable, plausible-sounding read. The entry was opined
+  and committed before that premise was checked. This is the same failure shape as the
+  withdrawn Funhouse Optics citation earlier in this session (an unverified claim treated as
+  settled) — caught here only because asked to run the loop explicitly rather than opine
+  directly. Standing fix: `Assess` stage must precede `Recapitulate` even when the inferred
+  premise feels obviously right.
+
 ## The abductive read
 
 Asked for the single best explanation covering all of the above, not a list of unrelated causes:
