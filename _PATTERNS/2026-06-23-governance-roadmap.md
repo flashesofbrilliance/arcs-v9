@@ -216,9 +216,30 @@ one (a small, cheap, repeated check).
   it. *Long-tail:* recovering it starts a new maintenance burden (dataset refresh, GitHub-ingest
   re-runs) rather than ending one — recovery isn't the finish line, it's a new commitment.
 
-## Open question — needs Zach's definition before proceeding
+## 5D 5W 5C 5R 5H — S-tier bar (resolved)
 
-"5D 5W 5C 5R 5H" was referenced as the bar for S-tier status on this plan. Not found anywhere in
-this repo's canon, specs, or `_CANON/`. Rather than guess a definition and apply it incorrectly,
-flagging this as genuinely undefined — need the actual framework before any of the above can be
-run through it.
+Framework: Perplexity Space canon (not yet formalized in this repo — logged as `IMPL_GAP`, see
+`.claude/arcs-canon.md`). Resolved via `/dual-bar-raiser` — Architect-issued definition:
+
+| Layer | Expansion | What it evaluates |
+|---|---|---|
+| **5D** | 5 Dimensions | The fractal frame — everything below nests inside this |
+| **5W** | Who / What / Where / When / Why | Situational completeness — is the context fully specified? |
+| **5C** | Consonance / Confidence / Conviction / Coherence / Cohesion | Signal quality — is what you're saying internally consistent and earned? |
+| **5R** | Risk / Resonance / Reflection / Refraction / Refutation | Adversarial stress — does this hold under pressure from multiple angles? |
+| **5H** | How (Executive / Strategic / Operational / Tactical / Surgical) | Altitude fidelity — is the answer at the right level of abstraction for the audience? |
+
+S-tier means all five layers are non-NULL and internally consistent — a plan that aces 5W but has
+UNDEFINED in 5R is a well-described plan with unexamined risk, not S-tier.
+
+**Run against this doc:**
+- **5W** (Who/What/Where/When/Why): Covered — situational context is fully specified.
+- **5C** (Consonance/Confidence/Conviction/Coherence/Cohesion): Covered — dependency reasoning is
+  internally consistent throughout.
+- **5R** (Risk/Resonance/Reflection/Refraction/Refutation): Mostly covered — the pre-mortem section
+  addresses Risk and Refutation well; Resonance and Reflection are implicit, not explicit.
+- **5H** (Executive/Strategic/Operational/Tactical/Surgical): Partial — items are sequenced but
+  altitude labels are not explicit. #1/#2 are Tactical/Surgical; #3/#6 are Operational; #4/#5 are
+  Strategic.
+- **Verdict:** Not S-tier as written. Upgrade path: add explicit altitude labels per item and
+  surface the Resonance/Reflection read for the 5R layer.

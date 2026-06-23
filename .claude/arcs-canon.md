@@ -125,6 +125,19 @@ Three always-on analysis lenses applied at L3–L4:
 
 ---
 
+## 5D 5W 5C 5R 5H — IMPL_GAP
+
+`5D 5W 5C 5R 5H` is a canonical S-tier evaluation rubric (5 Dimensions; Who/What/Where/When/Why;
+Consonance/Confidence/Conviction/Coherence/Cohesion; Risk/Resonance/Reflection/Refraction/
+Refutation; How at five altitudes — Executive/Strategic/Operational/Tactical/Surgical) that
+originates in Perplexity Space canon. **Not yet formalized in this repo** — referenced this session
+(`_PATTERNS/2026-06-23-governance-roadmap.md`) but no ADR or canon entry exists for it here. Logged
+as `IMPL_GAP`, not `CANON_COLLISION` — nothing in this repo conflicts with it, it simply hasn't been
+ported yet. Pending a proper ADR if this rubric is going to be applied to future repo artifacts
+beyond this one ad-hoc use.
+
+---
+
 ## Clarity Modes
 
 | Mode | When | Output |
