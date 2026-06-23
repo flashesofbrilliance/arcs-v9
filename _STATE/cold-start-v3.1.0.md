@@ -10,7 +10,9 @@
 
 ## Where you are
 
-Repo: `flashesofbrilliance/arcs-v9`, branch `main`, HEAD `3474d10`. This repo serves
+Repo: `flashesofbrilliance/arcs-v9`, branch `main`, HEAD `4dbe3d1` as of this file's last
+correction — **check `git log -1` yourself rather than trusting this number**, that's the
+whole point of the verification protocol below. This repo serves
 `app.arcs.care`, `www.arcs.care`, `arcs.care`, and `resume.arcs.care` — all one Vercel
 deployment, confirmed via `get_deployment`. (A standalone `arcs-care` Vercel project
 still exists but is `live: false` — don't build there by mistake.)
@@ -62,7 +64,28 @@ Read in this order, don't skip, don't re-derive what's already written down:
 human blockers. Pick whichever matches what Zach actually asks for first; don't just
 grab #1 by default.
 
-## Two things to carry forward, not just historically interesting
+## Three things to carry forward, not just historically interesting
+
+**On process, established after this file was first written — read this one first:**
+this session ran the ARCS 5-verb pipeline (analyze/assess/evaluate/synthesize/recapitulate,
+`scripts/arcs_cli.py`) explicitly before treating a finding as settled, after being told
+directly not to skip straight to opinion. That caught a real problem: the `ALTITUDE_MISMATCH`
+pathogen-catalog entry below had been opined and committed on an assumption that was never
+checked. But running the loop is not sufficient by itself — it's possible to perform all
+5 stages and still land on magical thinking, if the `Assess` stage's `OM`/`UNDEFINED`
+verdicts are asserted rather than independently verified. **Opinions are earned by validated
+evidence, not by the shape of the process used to produce them.** Before stating any
+finding here as settled, check what's actually been verified vs. inferred — don't let a
+well-structured-looking writeup substitute for that check, including this one.
+
+**On altitude, the second pathogen-catalog entry added this session (`ALTITUDE_MISMATCH`,
+`_PATTERNS/2026-06-23-governance-roadmap.md`, commits `a12f023`/`e2474e0`/`4dbe3d1`):**
+evaluating an executive-altitude claim using tactical-altitude evidence is a category error
+independent of whether the evidence is even correct. This happened in-session: file-level/
+module-level findings (BAR/KKL, RC-OPS-001) were used to push back on a whole-corpus
+self-grade — wrong altitude, not just wrong scope. The entry itself was caught making the
+same error its content describes (asserting what Perplexity Space's grading was actually
+based on, without checking) — see its own "Caveat added on a proper 5-verb pass" note.
 
 **On scope, corrected after this session ended:** arcs-v9 is only ~20% of the ARCS
 corpus/canon — the rest lives and compiles in Perplexity Space. The BAR/KKL collision
