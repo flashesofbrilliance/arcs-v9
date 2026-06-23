@@ -84,11 +84,11 @@ ${whyText}
 
 ${metaText}
 
-Cartography brief →
+Decision brief →
 ${briefUrl}
 
 —
-ARCS Field OS · render through the fog to earned clarity`
+ARCS Field OS · your judgment, sharper`
 
   // ── HTML ─────────────────────────────────────────────────────────────────
   const whyRows = why.map((b) => `
@@ -162,13 +162,13 @@ ${darkLockHead(C)}</head>
         <table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px 0 0 0;"><tr>
           <td style="border-radius:6px;background:${C.cyan};">
             <a href="${briefUrl}" style="display:inline-block;font-family:${C.mono};font-size:12px;letter-spacing:1.1px;text-transform:uppercase;font-weight:700;color:#021016;text-decoration:none;padding:14px 24px;">
-              Open cartography brief →
+              Open decision brief →
             </a>
           </td>
         </tr></table>
 
         <div class="arcs-muted" style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
-          Render through the fog to earned clarity.
+          Your judgment. Sharper.
         </div>
 
       </td></tr>

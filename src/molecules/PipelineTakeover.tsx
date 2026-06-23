@@ -26,7 +26,7 @@ export function PipelineTakeover() {
         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem',
       }}
     >
-      <SequenceLoader title="Running L0–L5 pipeline…" stages={LAYERS} footer="Rendering through the fog…" />
+      <SequenceLoader title="Reading the terrain…" stages={LAYERS} footer="Mapping the shape of the decision…" />
     </div>
   )
 }

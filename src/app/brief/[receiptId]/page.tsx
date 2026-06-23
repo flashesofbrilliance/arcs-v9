@@ -165,9 +165,9 @@ export default function BriefPage() {
     return (
       <main style={{ minHeight: "100vh", background: "radial-gradient(120% 70% at 50% -5%, #0a1422 0%, #020408 62%)", color: text.primary, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
         <SequenceLoader
-          title="Rendering cartography brief…"
+          title="Rendering your decision brief…"
           stages={[{ name: "SURVEY" }, { name: "SITUATION FRAMING" }, { name: "ENTITY READ" }, { name: "TERRAIN PATHS" }, { name: "SILKSCREEN" }]}
-          footer="Rendering through the fog…"
+          footer="Reading the terrain…"
         />
       </main>
     )
