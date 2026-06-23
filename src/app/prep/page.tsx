@@ -108,7 +108,7 @@ function PrepInner() {
             <SegmentedSlider options={STAKE_OPTS} value={stakes} onChange={(v) => setStakes(v as Stakes)} />
           </div>
 
-          <Picker label="When do you commit?" value={horizon} options={HORIZON_OPTS} onChange={(v) => setHorizon(v as Horizon)} />
+          <Picker label="When do you decide?" value={horizon} options={HORIZON_OPTS} onChange={(v) => setHorizon(v as Horizon)} />
 
           <div>
             <CalibrationChips selected={protecting} onToggle={toggleProtect} />

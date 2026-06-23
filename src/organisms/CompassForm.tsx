@@ -76,7 +76,7 @@ export function CompassForm({
         {!running && (
           <button type="button" onClick={onCalibrate}
             style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: 'pointer', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.dimmed }}>
-            ◈ &nbsp;Add context — stakes, confidence &amp; what you already know
+            ◈ &nbsp;Add context — stakes &amp; confidence
           </button>
         )}
 
