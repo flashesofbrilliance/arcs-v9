@@ -136,6 +136,23 @@ hypotheticals:
 - `UNENFORCED_CONVENTION` — a rule exists in writing with no mechanical check behind it (`[NCI:XX]`
   commit tags, "inline styles only," the DRIFT_LOG read instruction itself). Full catalog is task
   #5's job; named here because it's the same shape as the other two process pathogens.
+- `ACRONYM_DRIFT` — a `VERSION_DIVERGENCE` instance found *in canon itself*, not just in
+  infra/process docs, while doing a full (not skimmed) read of two reference files in the same
+  session this catalog was written: **BAR** means "Baseline / Asymmetric / Ruin" in
+  `_DECISIONS/ADR-020-tribune-intelligence-layer.md` but "Bayesian / Adversarial / Ruin" in
+  `.claude/arcs-canon.md` — two different concepts sharing only the word "Ruin." **KKL** means
+  "Kairos / Kairos Lock / Chronos" in ADR-020 but "Known-Known / Known-Unknown / Loki" in
+  `arcs-canon.md` — completely unrelated concepts sharing the same three letters. Neither file
+  references the other's definition. Found only by reading both files end to end; a grep-and-skim
+  pass (which is how both were first read, earlier in this same session) missed it entirely. This
+  is itself evidence for the catalog's central claim: drift compounds invisibly until something
+  forces a full read, not a scan.
+  **RESOLVED same session, via `/dual-bar-raiser` CONDITIONAL CLEAR:** `BAR` macro = Bayesian /
+  Adversarial / Ruin (canonical, in `arcs-canon.md`); ADR-020's "Evidence bar tiers" row is the
+  risk-tier *enum* (`baseline|asymmetric|ruin`), now relabeled "risk tier" to stop sharing BAR's
+  name. ADR-020's timing triad renamed `KKL` → `KLC` (Kairos / Lock / Chronos); `KKL` (Known-Known
+  / Known-Unknown / Loki) stays the epistemic map, unchanged, now cross-referenced from both files.
+  "KKR" in ADR-020's original footnote was ruled a defensive red herring, not a real third acronym.
 
 ## The abductive read
 

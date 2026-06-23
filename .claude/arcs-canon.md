@@ -116,9 +116,12 @@ Three always-on analysis lenses applied at L3–L4:
 
 | Macro | Stands for | What it surfaces |
 |---|---|---|
-| **BAR** | Bayesian / Adversarial / Ruin | Risk-weighted view — what kills this decision |
+| **BAR** | Bayesian / Adversarial / Ruin | Risk-weighted view — what kills this decision (risk tier enum: Baseline / Asymmetric / Ruin; macro lens: Bayesian / Adversarial / Ruin) |
 | **KKL** | Known-Known / Known-Unknown / Loki | Epistemic map — what do we actually know vs. assume |
 | **LAB** | Loki / Advisor / Bayes | Three-voice cross-check — adversarial, advisory, probabilistic |
+
+> **Disambiguation (2026-06-23):** `ADR-020-tribune-intelligence-layer.md`'s timing-signal triad
+> uses `KLC` (Kairos / Lock / Chronos) — distinct from this `KKL`. Do not conflate.
 
 ---
 

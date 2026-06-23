@@ -48,12 +48,19 @@ Do not reinvent. These are already in canon:
 
 | Tribune Concept | Canonical Source |
 |---|---|
-| Evidence bar tiers | BAR (Baseline / Asymmetric / Ruin) → LAB → Court |
+| Evidence bar tiers | Risk tier (Baseline / Asymmetric / Ruin) → LAB → Court |
 | Stakeholder model | Six Board roles: Detective / Accountant / Loki / Sentry / Alchemist / Elder |
 | Kinematic signals (v1) | Intra-session only: NCI delta, drift state (Drift Sentinel), BAR tier, clarity mode |
-| Timing / Kairos signals | KKL (not KKR): Kairos / Kairos Lock / Chronos |
+| Timing / Kairos signals | KLC (Kairos / Lock / Chronos) |
 | Court auto-escalation | Irreversibility ≥ 0.7, BAR Ruin, or identity wavefunction conflict |
 | Cross-session patterns | Deferred — gate: 100+ receipts (L6 engine territory) |
+
+> **Disambiguation (2026-06-23, CANON_COLLISION resolved via dual-bar-raiser):** `BAR` macro
+> definition lives in `.claude/arcs-canon.md` §BAR/KKL/LAB Macros — Bayesian / Adversarial / Ruin.
+> The "Evidence bar tiers" row above is the risk-tier *enum* (`baseline | asymmetric | ruin`), a
+> different thing wearing a similar label — call it "risk tier," not bare "BAR." `KLC` is this
+> ADR's timing-signal triad; `KKL` (Known-Known / Known-Unknown / Loki) is the separate epistemic
+> map defined in `arcs-canon.md` — do not conflate the two.
 
 **LAB = Loki + Advisors + Bayesian:**
 - L (Loki): Adversarial attack — steelman the opposition, find kill shots
