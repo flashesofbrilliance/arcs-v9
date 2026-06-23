@@ -1,60 +1,74 @@
-# Pickup — Trust Contract privacy wording (Zak's feedback)
+# Pickup — Trust Contract vs. Zak's feedback (RESOLVED, one residual question)
 
 > Paste as the first message in a fresh thread. Self-contained — no other file needs
-> reading first, though `_CANON/trust-contract.md` is the actual target.
+> reading first, though `_CANON/trust-contract.md` is the actual target if there's more
+> to do.
 
-## The one blocker
+## What this was, and what it turned out to be
 
-**Zak gave Zach feedback on the privacy wording in `_CANON/trust-contract.md`. The
-actual content of that feedback was never captured in this session** — only the topic
-was confirmed ("wording/clarity of what trust-contract.md already claims — data
-retention, what's stored for signed-in vs. anonymous users, etc."). Before editing
-anything: **ask Zach what Zak actually said.** Don't guess at a rewrite from the topic
-alone — that's exactly the kind of unverified-but-confident move this session's own
-governance work (see `ALTITUDE_MISMATCH` / 5-verb-loop entries in
-`_PATTERNS/2026-06-23-governance-roadmap.md` and the project memory at
-`run-5-verb-loop-before-opining.md`) flags as a standing failure pattern.
+Zak (Zach's contact) gave feedback in a chat thread (16–22 June) on what ARCS needed
+before he'd trust it with sensitive decision material. His checklist, verbatim:
 
-## Once you have the actual feedback
+> "the missing layer may not just be a privacy policy in the legal sense, but a visible
+> trust contract in the product itself: what is stored vs ephemeral · whether inputs
+> train anything · whether there is export/delete · what a lightweight/open-source
+> version can run locally · what kinds of decisions ARCS is and is not designed to
+> handle · how much confidence the user should place in the output"
 
-Target file: `_CANON/trust-contract.md` — `Status: CANONICAL`, so any edit needs a
-version bump (currently `1.0`) and a `MEMORY.md` entry per the doc's own amendment rule.
+Plus two framing questions: *"why would I want to trust a system I did not build myself
+with my human decision making/judgement"* and *"how will you catch people at the fork
+the system is solving for"* — and a positioning note: ARCS should feel less like
+"submit your uncertainty into a black box" and more like "a disciplined reasoning
+instrument you control."
 
-Section 1 ("What is stored, and what isn't") is the most likely target — current text,
-for reference:
+**Checked against `_CANON/trust-contract.md` (verified, not assumed) — it already
+covers all six checklist items, in the same order:**
 
-> **Your question (compass input):** Processed in real time and used to generate your
-> result. If you are not signed in, it is not stored beyond your session — it exists
-> only long enough to produce the receipt.
->
-> **Your receipt:** If you are signed in, your decision receipt is stored in your
-> account and accessible via your history. It is yours. If you are not signed in, the
-> receipt is generated and displayed but not persisted to a named account.
->
-> **Your debrief:** If you log an outcome (how the decision went), that is stored in
-> your account linked to the receipt. This data is used to improve ARCS's ability to
-> read terrain accurately over time — specifically, to validate whether the system's
-> confidence grades correspond to real outcomes. It is never shared or sold.
->
-> **System logs:** Standard infrastructure logs (request metadata, error traces) are
-> retained for debugging. They do not contain your decision content.
+| Zak's item | Section |
+|---|---|
+| stored vs. ephemeral | §1 |
+| inputs train anything | §2 |
+| export/delete | §3 |
+| lightweight/open-source local version | §4 |
+| what ARCS is/isn't designed for | §5 |
+| confidence calibration | §6 |
 
-Before rewriting wording, verify each claim against actual code, don't just polish
-prose — this document is the authority other surfaces derive from, so an inaccurate
-claim here is worse than an inaccurate claim anywhere else in the app:
-- `src/lib/db.ts` — what's actually persisted, anonymous vs. signed-in
-- `prisma/schema.prisma` — `Receipt`/`Outcome`/`PrepSession` models, what fields exist
-- Any analytics/logging call sites that touch decision content (search for what
-  "request metadata, error traces" actually means in practice — confirm it's true, not
-  aspirational)
+§7 ("Your autonomy is the point") directly answers the "why trust a system I didn't
+build" framing: *"The goal is not that you trust ARCS. The goal is that you trust your
+own judgment more."*
+
+**Timestamps confirm this isn't coincidence:** Zak's "valuable feedback" close-out was
+22 June, 12:03 PM. The document was committed `2026-06-22 16:04:44 -0400` — same day,
+four hours later. The document is the response, already written. There is no rewrite
+to do based on this feedback — that earlier framing (treat this as a wording-edit task)
+was wrong, corrected after actually reading the file end to end against the real
+checklist instead of the topic alone.
+
+**One claim spot-checked, not just trusted from the doc's own text:** §3 says data
+export "is on the near-term roadmap and not yet shipped." Confirmed via
+`find src/app/api -iname "*export*"` → no matches. Still accurate as of this writing —
+re-check if picking this up much later, since it's a roadmap claim that can go stale.
+
+## The one thing that's actually still open
+
+Zak's second framing question — **"how will you catch people at the fork the system is
+solving for"** — is not directly answered anywhere in the document. §5 lists *what kinds
+of decisions* ARCS handles, but not *how a user recognizes they're standing at one of
+those forks* before they ever open the compass. That's arguably a product/onboarding-UX
+question, not a trust-contract content gap — it's about discovery, not disclosure.
+
+**Decide, don't assume:** ask Zach whether this belongs in the trust contract (a new
+§8?), in product copy/onboarding (the homepage already gestures at this — "Name the
+real fork" — per the earlier copy-rewrite plan, `parsed-leaping-nova.md`), or nowhere
+yet (a real gap, parked, not actioned). Don't add a section to a `CANONICAL` document
+without that decision made first — bumping the version for an unconfirmed addition is
+the wrong default.
 
 ## Separately — don't conflate these two
 
-The **trust-contract page** (a route that renders this document live — it currently has
-zero product surface, confirmed via `find src/app -iname "*trust*"` returning nothing)
-is a **different, older, already-tracked task** — see `MEMORY.md`, `CLAUDE.md`, and
+The **trust-contract page** (a route that renders this document live — it has zero
+product surface, confirmed via `find src/app -iname "*trust*"` returning nothing) is a
+**different, older, already-tracked task** — see `MEMORY.md`, `CLAUDE.md`, and
 `.claude/arcs-session-state.md` (all three reference it; the newer
-`_STATE/cold-start-v3.1.0.md` for the unrelated 8-item governance backlog does not,
-deliberately — different scope). Zak's feedback is about the document's *wording*, not
-about building the missing page. Don't let "let's also ship the page while we're in
-here" silently expand scope unless Zach asks for that too.
+`_STATE/cold-start-v3.1.0.md`, scoped to the unrelated 8-item governance backlog,
+deliberately does not). Resolving Zak's feedback does not require building that page.
