@@ -1,9 +1,41 @@
 # ARCS Session State
 
-**Last updated:** 2026-06-23 (v3.0.0)
-**Environment:** Claude Code (local), worktree `claude/dreamy-ardinghelli-56bbfa`
-**Branch:** `claude/dreamy-ardinghelli-56bbfa` → merged to `main`
-**Last commit (arcs-v9):** 69250b4 — Merge branch 'claude/dreamy-ardinghelli-56bbfa'
+**Last updated:** 2026-06-23 (v3.1.0)
+**Environment:** Claude Code (local), worktree `frosty-kepler-b69f51` (direct commits to `main`)
+**Branch:** `main`
+**Last commit (arcs-v9):** 3474d10 — docs(patterns): cross-reference RECOIL-PROTOCOL corpus self-audit with repo verification
+
+## v3.1.0 delta (this update) — see MEMORY.md [v3.1.0] for full detail
+
+- **CANON_COLLISION resolved**: `BAR`/`KKL` meant two different things in two canon files.
+  Routed through `/dual-bar-raiser`, ruling applied, both files cross-reference each other now.
+  Commit `7fff8f6`.
+- **New ROM Candidate landed**: `operators/arcs_inchworm_echo.py`, tagged `RC-OPS-001`.
+  Golden Inchworm + Orthogonal Echo Detector. Explicitly NOT yet ROM — gated behind an
+  Observatory period. Third implementation pass this session (v1→v8.5→v8.5.1), each
+  independently executed and verified, not trusted from description alone. Commit `0eca22c`.
+  **Important nuance for next session**: a parallel v8.5.1 candidate (two-axis
+  ExecGrade/TriuneState design) was reviewed and explicitly NOT used — its boolean-feature
+  scoring has a real false-positive risk (counts False==False as a match). Don't resurrect it
+  without fixing that first.
+- **8-item governance roadmap** written with full dependency graph (parallel/sequential/
+  interlocking/entangled relationships), a Kintsugi-mapped pathogen taxonomy, and a fat-tail/
+  long-tail pre-mortem. `_PATTERNS/2026-06-23-governance-roadmap.md`. None of the 8 are built —
+  this is planning, not progress. Check `TaskList` for live status, not this file.
+- **A citation was withdrawn same-session**: a "verified reference" addendum citing Funhouse
+  Optics detail was added to the S-tier plan doc, then the cited URL was actually fetched and
+  found not to contain any of what was attributed to it. Withdrawn before it could calcify into
+  assumed-true. `_PATTERNS/2026-06-23-s-tier-execution-plan.md` commit `90aad7b`.
+- **Cross-referenced against `RECOIL-PROTOCOL.pdf`** (Zach's own corpus self-audit) — its
+  `Consonance ★★★★☆` self-grade independently flags the same gap this session found by other
+  means (claimed-as-live vs. actually-verified primitives). Named as a genuine cross-domain
+  echo, not coincidence. Commit `3474d10`.
+- **Self-assessment, asked for directly**: when pressed on whether reading that PDF was a
+  genuinely independent/blind check, the honest answer was no — this session was already
+  primed to find exactly this class of gap. Re-examined with that named: the deck's
+  `Conviction ★★★★★` and `Coherence ★★★★★` self-grades are harder to fully stand behind than
+  its own `Confidence ★★★★☆`/`Consonance ★★★★☆` grades, given a live canon contradiction
+  existed until this session.
 
 ## Status
 

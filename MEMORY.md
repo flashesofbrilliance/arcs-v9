@@ -5,6 +5,42 @@
 
 ---
 
+## [v3.1.0] 2026-06-23 — Engineering governance roadmap (tasks #1-8), RC-OPS-001 landed, BAR/KKL canon collision resolved
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Environment: Claude Code (local), continuation of the same 2026-06-23 session as v3.0.0
+- Branch: `claude/dreamy-ardinghelli-56bbfa` + direct commits on `main` via `frosty-kepler-b69f51` worktree
+
+### What landed (commits `7f1df53`..`3474d10`, 10 commits)
+| Commit | What |
+|---|---|
+| `7f1df53` | `_PATTERNS/2026-06-23-governance-roadmap.md` — 7-item dependency graph (parallel/sequential/interlocking/entangled relationships between the backlog items v3.0.0 surfaced) |
+| `d079674` | Kintsugi-mapped pathogen taxonomy (`SNAPSHOT_STALE`, `VERSION_DIVERGENCE`, `CREDENTIAL_EXPOSED`, `TOPOLOGY_INVERSION`, `PHANTOM_OPEN_ITEM`, `ORPHANED_ARTIFACT`, `SILENT_SENSOR`, `UNCLOSED_CEREMONY`, `UNENFORCED_CONVENTION`, `ACRONYM_DRIFT`) + fat-tail/long-tail pre-mortem on the roadmap itself |
+| `7fff8f6` | **CANON_COLLISION resolved**: `BAR` macro meant two different things in `ADR-020` (Baseline/Asymmetric/Ruin — a risk-tier enum) vs `.claude/arcs-canon.md` (Bayesian/Adversarial/Ruin — the analytical lens). `KKL` meant two unrelated things (Kairos/Kairos Lock/Chronos vs Known-Known/Known-Unknown/Loki). Routed through `/dual-bar-raiser`; Architect ruling applied: arcs-canon.md's BAR wins, ADR-020's risk-tier row relabeled "risk tier," ADR-020's timing triad renamed `KKL`→`KLC`. Both files now cross-reference each other. |
+| `a2e32fd` | "5D 5W 5C 5R 5H" S-tier rubric resolved via `/dual-bar-raiser` (5 Dimensions / Who-What-Where-When-Why / Consonance-Confidence-Conviction-Coherence-Cohesion / Risk-Resonance-Reflection-Refraction-Refutation / How at 5 altitudes) — logged as `IMPL_GAP` in `.claude/arcs-canon.md`, not yet a formal ADR |
+| `0eca22c` | **`operators/arcs_inchworm_echo.py` landed as `RC-OPS-001`** (ROM Candidate, explicitly NOT yet ROM). Golden Inchworm + Orthogonal Echo Detector, gated behind an Observatory period. This is the **third** implementation pass in-session (v1 → v8.5 → v8.5.1) — each independently executed and verified, not trusted from description: v1 had 4 confirmed bugs (golden-thread noun-extraction bug, needle double-"before", dead `orthogonality_fn` injection, OM/canon mismatch); v8.5 fixed 2, regressed `orthogonality_fn` to non-injectable, added a needle nested-quote bug; v8.5.1 (the landed version) fixes all of it, confirmed via independent execution + an explicit injection test proving the fix is real, not just claimed. A parallel v8.5.1 candidate (two-axis `ExecGrade`/`TriuneState` dataclass design) was reviewed and rejected — its boolean-feature scoring counts `False==False` as a match, letting deliberately-dissimilar domains in its own test suite score as a confident "OM" echo. |
+| `227be29`, `19b7a05`, `90aad7b` | `_PATTERNS/2026-06-23-s-tier-execution-plan.md` — per-task plan for #1-7 with Funhouse Optics applied, then a Perplexity-Space-sourced addendum that was **fetched and found not to support its own citation** (URL pointed at unrelated monetization content) — withdrawn same-session rather than left standing. |
+| `3474d10` | Cross-referenced Zach's `RECOIL-PROTOCOL.pdf` (the ARCS corpus's own retrospective self-audit) against this session's findings — the corpus's own `Consonance ★★★★☆` self-grade ("funhouse performative residue... flagged in Kairos Shavasana audit") independently converges with this session's repo-level findings (RC-OPS-001's freshness, the BAR/KKL collision). Two audit methods, same finding — named as a genuine Orthogonal Echo. |
+
+### Open backlog — 8 tracked items, NONE built yet (see TaskList, source of truth for status)
+1. Build local-only git backup repo for `~/.claude` globals — **S-tier, ready, no dependencies**
+2. Rotate/confirm-dead leaked Supabase password in `settings.local.json` — **blocked on Zach**, smallest scope/highest real stakes
+3. Consolidate arcs-v9's 3 overlapping narrative logs (`MEMORY.md`/`CLAUDE.md` handoff/`.claude/arcs-session-state.md`) — **S-tier, ready**; sequencing point, must land before #4b/#6b
+4. Drift-sensor cadence/severity/display — design done (Y-gate severity via Time-Quality-ROM decay × BAR ruin-risk), **build not started** — the long pole. Blocked by #6 (needs trailers to check ADR-vs-commit consistency) and #7 (needs Observatory for display)
+5. Audit prose-rules across `SKILL.md`/`AGENTS.md`/`CLAUDE.md`/`WORLD.md` for enforcement gaps — **S-tier, ready**, scope to `SKILL.md` first
+6. Design + retrofit DEWY commit/PR stamp (`ADR-Ref:`/`Y-Gate:` trailers) — **ready conditional on #3+#5 landing first**; forward-only, never rewrite history (highest-irreversibility item in the whole plan if mishandled)
+7. Cherry-pick orphaned Observatory commit `35070a3` from stale `/Users/zharris/arcs` clone — **S-tier, ready**; also the shared dependency for #4's display AND RC-OPS-001's own promotion gate
+8. Reformat the S-tier plan doc into the corpus's own canonical Section 1-7 format (True North → Kairos Map → Signal Physics → Hyperstition Arc → REQ/SPEC/PLAN → Decision Receipt+NCI Grade → Next Irreversible Step), per `RECOIL-PROTOCOL.pdf` page 9 — deferred for budget this session
+
+### Honest self-assessment (asked for directly this session, not volunteered)
+When pressed on whether an "independent" read of `RECOIL-PROTOCOL.pdf` was genuinely uncorrelated: no — this session was already primed to find claimed-vs-verified gaps before reading it, so finding one there isn't a clean independent signal. Re-examining with that named: the deck's `Conviction ★★★★★` ("Write-locked ROM... no hedge") and `Coherence ★★★★★` ("clean load-bearing spine") are harder to fully stand behind given a live canon contradiction (BAR/KKL) existed until this session and two of the deck's own "Always On" primitives had zero verified code until today. The two grades the deck already self-rated below 5 (`Confidence`, `Consonance`) are the calibrated ones; the two 5-star grades are where today's evidence pushes back hardest.
+
+### Next session starts at
+A dedicated cold-start prompt was written for a fresh, zero-context thread — see `_STATE/cold-start-v3.1.0.md`. Don't re-derive the dependency graph or pathogen catalog; both are written down in `_PATTERNS/2026-06-23-governance-roadmap.md` and `_PATTERNS/2026-06-23-s-tier-execution-plan.md`.
+
+---
+
 ## [v3.0.0] 2026-06-23 — S-tier copy rewrite + a11y fix + domain-topology correction
 
 ### Session context

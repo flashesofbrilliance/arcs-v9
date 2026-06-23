@@ -1135,3 +1135,55 @@ Observatory commit, (c) finish the vercel.ts migration properly. Re-verify the
 DATABASE_URL rotation-risk item once Supabase MCP reconnects (was disconnected mid-session,
 could not check).
 
+---
+
+# Handoff — v3.1.0 — 2026-06-23
+
+> **For Claude Code:** active pickup point. v3.0.0 above is preserved for history. This
+> entry covers the back half of the same 2026-06-23 session — full detail is in `MEMORY.md`
+> `[v3.1.0]`, not repeated here to avoid the two-logs-disagree problem this exact handoff
+> chain has already caught itself doing once today.
+
+## What changed since v3.0.0
+
+10 commits (`7f1df53`..`3474d10`). Headlines: a real `CANON_COLLISION` found and resolved
+(`BAR`/`KKL` meant two different things in two canon files — see `MEMORY.md`); a new
+ROM Candidate landed (`operators/arcs_inchworm_echo.py`, `RC-OPS-001` — Golden Inchworm +
+Orthogonal Echo Detector, gated behind an Observatory period, NOT yet ROM); an 8-item
+governance roadmap with full dependency graph, pathogen taxonomy, and pre-mortem
+(`_PATTERNS/2026-06-23-governance-roadmap.md`); a per-task S-tier plan
+(`_PATTERNS/2026-06-23-s-tier-execution-plan.md`) that includes a withdrawn citation
+(caught the same session — verify-before-commit applied to this document's own claims,
+not just to code); and a cross-reference against `RECOIL-PROTOCOL.pdf` (the ARCS corpus's
+own retrospective self-audit), which independently flagged the same gap this session found
+by other means.
+
+## File status
+
+```
+_PATTERNS/2026-06-23-governance-roadmap.md      ✅ EXISTS — dependency graph + pathogen catalog
+_PATTERNS/2026-06-23-s-tier-execution-plan.md   ✅ EXISTS — per-task plan, NOT in canonical
+                                                    Section 1-7 format yet (task #8)
+operators/arcs_inchworm_echo.py                 ✅ EXISTS — RC-OPS-001, gated, not ROM
+operators/README.md                             ✅ Updated — new "ROM Candidates" section
+_STATE/cold-start-v3.1.0.md                     🔴 CREATE THIS SESSION — zero-context pickup prompt
+```
+
+## Open backlog (8 items — see TaskList for live status, this is a snapshot)
+
+#1 backup repo (ready) · #2 password rotation (blocked on Zach) · #3 consolidate 3 logs
+(ready, sequencing point) · #4 drift-sensor (design done, build not started — long pole) ·
+#5 prose-rule audit (ready) · #6 DEWY commit stamp (ready after #3+#5) · #7 Observatory
+cherry-pick (ready) · #8 canonical S-tier reformat (deferred this session)
+
+## Blocking
+
+None for the next session to start work. #2 is blocked on Zach specifically, not on any
+session. #4 and #6 have internal sequencing dependencies, documented in the roadmap doc.
+
+## Next session starts at
+
+`/handoff-pickup`, then read `_STATE/cold-start-v3.1.0.md` for a fuller zero-context
+briefing before picking a task. Recommended first move: any of #1/#5/#7 (no dependencies,
+no human blocker, genuinely startable cold).
+
