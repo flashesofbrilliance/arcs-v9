@@ -153,6 +153,17 @@ hypotheticals:
   name. ADR-020's timing triad renamed `KKL` → `KLC` (Kairos / Lock / Chronos); `KKL` (Known-Known
   / Known-Unknown / Loki) stays the epistemic map, unchanged, now cross-referenced from both files.
   "KKR" in ADR-020's original footnote was ruled a defensive red herring, not a real third acronym.
+- `ALTITUDE_MISMATCH` — comparing evidence from one layer against a claim scoped to a different
+  layer, as if they're commensurable. Found in this session's own work, not the corpus: Implementer-
+  tier evidence (the BAR/KKL collision, RC-OPS-001's freshness — both found *in the arcs-v9 port*,
+  which is ~20% of the full corpus) got used to push back on Architect-tier self-grades
+  (`RECOIL-PROTOCOL.pdf`'s `Conviction`/`Coherence` ★★★★★, assessed against the full corpus running
+  in Perplexity Space). Corrected once named — the accurate finding was "the port lags the corpus,"
+  not "the corpus overclaims itself." The Architect/Implementer split (`arcs-dual-bar-raiser.md`)
+  exists precisely to keep these two altitudes from being silently conflated; this was a live
+  instance of conflating them anyway, caught after the fact rather than prevented at the point of
+  comparison. Worth a standing check: before treating a port-level finding as evidence about a
+  corpus-level claim, confirm both are actually scoped to the same artifact.
 
 ## The abductive read
 
