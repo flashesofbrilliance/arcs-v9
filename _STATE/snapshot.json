@@ -1,9 +1,10 @@
 {
   "captured_at": "2026-06-23T13:25:47Z",
+  "captured_at_v3_1_0_delta": "2026-06-23T23:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "69250b4",
-    "head_message": "Merge branch 'claude/dreamy-ardinghelli-56bbfa'",
+    "head_sha": "3474d10",
+    "head_message": "docs(patterns): cross-reference RECOIL-PROTOCOL corpus self-audit with repo verification",
     "branch": "main",
     "in_sync_with_origin": true,
     "dirty_files": [
@@ -58,9 +59,14 @@
     "Vercel CLI upgraded 54.7.1 -> 54.14.5 (via Homebrew, not npm global — two separate installs existed)",
     "vercel.json migrated to typed vercel.ts (@vercel/config) — note: a LATER main commit re-added vercel.json with experimentalServices + crons that vercel.ts doesn't yet cover; that re-merge was aborted, not resolved (see blocking)",
     "Corrected a stale belief (mine, this session) that arcs.care and app.arcs.care were separate codebases — they are now the same deployment. ~/.claude/CLAUDE.md updated with a standing verification protocol to prevent recurrence.",
-    "Audited stale local clone /Users/zharris/arcs — 2 of 3 orphaned commits superseded, 1 (Observatory) genuinely recoverable, not yet cherry-picked"
+    "Audited stale local clone /Users/zharris/arcs — 2 of 3 orphaned commits superseded, 1 (Observatory) genuinely recoverable, not yet cherry-picked",
+    "[v3.1.0 delta] CANON_COLLISION resolved: BAR/KKL meant two different things in two canon files, ruled via /dual-bar-raiser, both files now cross-reference each other (commit 7fff8f6)",
+    "[v3.1.0 delta] operators/arcs_inchworm_echo.py landed as RC-OPS-001 (ROM Candidate, NOT yet ROM, gated on an Observatory period) - third implementation pass in-session, each independently executed and verified (commit 0eca22c)",
+    "[v3.1.0 delta] 8-item governance roadmap with full dependency graph, pathogen taxonomy, fat-tail/long-tail pre-mortem (_PATTERNS/2026-06-23-governance-roadmap.md) - planning only, none of the 8 built",
+    "[v3.1.0 delta] A citation was added to the S-tier plan doc, then fetched and found not to support itself, then withdrawn same-session (commit 90aad7b) - verify-before-commit applied reflexively to this session's own claims",
+    "[v3.1.0 delta] Cross-referenced RECOIL-PROTOCOL.pdf (corpus self-audit) against repo-level findings - independent convergence on the same gap, named as a genuine cross-domain echo (commit 3474d10)"
   ],
-  "next_action": "Either (a) plan + build a trust-contract page on arcs-v9 (pulling from _CANON/trust-contract.md, now confirmed as the actual public surface for arcs.care), or (b) cherry-pick commit 35070a3 from /Users/zharris/arcs to recover the full interactive Observatory page, or (c) finish the vercel.ts migration properly (port experimentalServices + crons before re-merging). None started yet — all three are flagged opportunities from this session, not in-flight work.",
+  "next_action": "8 tracked items, none built. #1 (backup repo), #5 (prose-rule audit), #7 (Observatory cherry-pick) have zero dependencies and zero human blockers - start any of those cold. #2 needs Zach (Supabase dashboard check). #3 must land before #4b/#6b (sequencing point). #4 is the long pole (design done, build not started). #6 needs #3+#5 first. #8 is the canonical Section 1-7 reformat, deferred for budget. See _PATTERNS/2026-06-23-governance-roadmap.md and _PATTERNS/2026-06-23-s-tier-execution-plan.md for full detail - don't re-derive, they're already written. The OLDER opportunities below (trust-contract page, vercel.ts migration) are still open too but are NOT part of the 8-item list - they predate it.",
   "blocking": "The vercel.ts migration is INCOMPLETE: current main's vercel.json (re-added by other work after the migration commit) has experimentalServices (Python sage microservice route) and crons that the committed vercel.ts does not represent. The migration attempt was aborted mid-session rather than risk dropping those silently. vercel.json is currently the only complete config on main — vercel.ts exists in a feature branch but was never merged. Needs a deliberate pass to port everything before re-attempting, or abandon vercel.ts and revert to vercel.json as canonical.",
   "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
   "serialization_protocol": {
