@@ -153,17 +153,23 @@ hypotheticals:
   name. ADR-020's timing triad renamed `KKL` → `KLC` (Kairos / Lock / Chronos); `KKL` (Known-Known
   / Known-Unknown / Loki) stays the epistemic map, unchanged, now cross-referenced from both files.
   "KKR" in ADR-020's original footnote was ruled a defensive red herring, not a real third acronym.
-- `ALTITUDE_MISMATCH` — comparing evidence from one layer against a claim scoped to a different
-  layer, as if they're commensurable. Found in this session's own work, not the corpus: Implementer-
-  tier evidence (the BAR/KKL collision, RC-OPS-001's freshness — both found *in the arcs-v9 port*,
-  which is ~20% of the full corpus) got used to push back on Architect-tier self-grades
-  (`RECOIL-PROTOCOL.pdf`'s `Conviction`/`Coherence` ★★★★★, assessed against the full corpus running
-  in Perplexity Space). Corrected once named — the accurate finding was "the port lags the corpus,"
-  not "the corpus overclaims itself." The Architect/Implementer split (`arcs-dual-bar-raiser.md`)
-  exists precisely to keep these two altitudes from being silently conflated; this was a live
-  instance of conflating them anyway, caught after the fact rather than prevented at the point of
-  comparison. Worth a standing check: before treating a port-level finding as evidence about a
-  corpus-level claim, confirm both are actually scoped to the same artifact.
+- `ALTITUDE_MISMATCH` — evaluating an executive-altitude claim using tactical-altitude evidence,
+  as if the 5H altitude scale (Executive / Strategic / Operational / Tactical / Surgical — already
+  established earlier in this same session's own Funhouse Optics pass) doesn't apply to the
+  evaluator's own reasoning, only to the thing being evaluated. Found in this session's own work:
+  the BAR/KKL collision and RC-OPS-001's freshness are **tactical**-altitude findings (one file's
+  contradiction, one module's build status). `RECOIL-PROTOCOL.pdf`'s `Conviction`/`Coherence`
+  ★★★★★ self-grades are **executive**-altitude claims (is the whole bet sound). Using tactical
+  evidence to push back on an executive claim is a category error independent of whether the
+  tactical evidence is even correct — it would still be the wrong instrument at the wrong altitude.
+  The Implementer/Architect split (`arcs-dual-bar-raiser.md`) and the port-vs-corpus scope gap
+  (arcs-v9 is ~20% of the full canon) are *correlated* with this — Implementer work is structurally
+  tactical, Architect work is structurally executive — but the altitude mismatch is the more
+  precise diagnosis. Corrected once named: the accurate finding was "the port lags the corpus,"
+  a tactical/operational finding, not a rebuttal of an executive-altitude self-assessment. Standing
+  check: before evaluating any claim, name the altitude it's actually made at, and confirm your
+  evidence is gathered at that same altitude — not a more tactical one that merely feels more
+  rigorous because it's more concrete.
 
 ## The abductive read
 
