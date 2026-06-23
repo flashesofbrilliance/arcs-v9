@@ -48,4 +48,4 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ---
 
-*Last updated: 2026-06-22 — full reconciliation against `_DECISIONS/` (ADR-001 through ADR-026); corrected stale 002/003/005/006/007 statuses; added 008–026; added non-ADR backlog section for Receipt save prompt + Calibrate HOLD gate gap; flagged ADR-025 numbering collision and ADR-021 gap.*
+*Last updated: 2026-06-23 18:07 UTC (auto-generated)*
