@@ -5,6 +5,29 @@
 > exhaustive. This is the Kintsugi discipline applied to the plan itself: a
 > visible seam is honest; a hidden gap is not.
 
+## Recoil cross-reference (added post-commit, Zach's RECOIL-PROTOCOL.pdf)
+
+That PDF is the ARCS corpus's own retrospective self-audit (Recoil Protocol — 5D/5W/5H/5C/Qi-Ma-Wuwei
+passes over the canon's own history), not a forward roadmap. Its Layer 4 (5C Conviction Map)
+self-grades `Consonance ★★★★☆`, explicitly flagging *"funhouse performative residue... flagged in
+Kairos Shavasana audit"* as the corpus's own stated growth edge — `v9 ROM Candidates` (Golden
+Inchworm, Orthogonal Echo Detector, Funhouse Optics, BAR/KKL/LAB, Drift Sentinel, RCS Scanner) are
+listed under "Stack (Always On)" there, framed as live.
+
+**This session's repo-level verification found the same gap independently, from a different
+direction:** Golden Inchworm + OED only became real, verified code today (`RC-OPS-001`, explicitly
+not-yet-ROM); BAR/KKL had an actual unresolved contradiction across two canon files until this
+session's `/dual-bar-raiser` pass. Two audit methods — one over the corpus's narrative history, one
+over the actual git/code state — converging on the identical finding. That's a genuine Orthogonal
+Echo (same kinematic pattern: described-as-settled vs. actually-built, surfacing twice from
+unrelated methods), not a coincidence worth ignoring.
+
+**Also surfaced, not yet acted on:** the PDF's page 9 "S-Tier Report Output Format" (Sections 1–7:
+True North → Kairos Map → Signal Physics → Hyperstition Arc → REQ/SPEC/PLAN → Decision
+Receipt+NCI Grade → Next Irreversible Step) is the actual canonical S-tier structure — this
+document does not follow it, because it was written before this PDF was read. Reformatting into
+that structure is tracked as a follow-up (task #8), not done here, given budget.
+
 ## Terminology corrections (apply before reading further)
 
 - **ATG = Anticipatory *Tributary* Generator** (compass tributaries: meta-question /
