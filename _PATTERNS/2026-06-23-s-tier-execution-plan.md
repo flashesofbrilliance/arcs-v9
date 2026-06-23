@@ -185,3 +185,29 @@ below S-tier** (one blocked on a human, one only half-built) and that's the hone
 read, not a hedge. #1, #3, #5, #7 are genuinely ready to execute as written. #6
 is ready *conditional on* #3 and #5 landing first. This is the seam: five solid,
 one human-blocked, one long-pole. Showing it, not smoothing it.
+
+---
+
+## Addendum — Perplexity Space cross-check (2026-06-23, post-commit)
+
+Zach supplied a richer Funhouse Optics reference sourced from Perplexity Space
+(a presigned S3 upload link — **not independently fetched by this session**; the
+content below is taken as his sourced summary, same provenance discipline as
+everything else flagged "unverified by me" in this doc). It corroborates rather
+than contradicts the above. Two additions worth keeping:
+
+- **Mandatory gates (new detail, not in the local canon grep this session found):**
+  Q2 (Concave) and Q4 (Posterior) are required for any decision touching ≥2 weeks
+  of time, meaningful capital, or key relationships. Q6 (Orthogonal) is required
+  before any new protocol moves ETHEREAL → ROM. **Applies directly to RC-OPS-001's
+  promotion gate** — its Observatory-period requirement should explicitly include
+  a Q6 pass before promotion, not just replay volume.
+- **Sharper one-line Inchworm↔ATG framing:** *"Inchworm's Needle feeds ATG
+  (tributaries: root-cause / want-vs-need / adjacent). Tribune (ADR-020) is a
+  separate Board+LAB layer; its Posterior phase informs receipt-grounding before
+  ATG's adjacency check runs. Not the same primitive. Not yet integrated in code."*
+  This is more precise than this doc's own framing above — treat it as the
+  authoritative phrasing going forward.
+
+No change to the per-task verdicts. The #6 Q2-Concave flag stands as the sharpest
+finding in the plan either way.
