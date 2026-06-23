@@ -72,6 +72,16 @@ This directory contains the atomic design components that compose the ARCS decis
 |-----------|------|---------|
 | **Test Receipts** | `seed_test_receipts.py` | Test fixture generator |
 
+### ROM Candidates — Experimentation (not yet canonical)
+
+> Everything above this section is production-ready canonical. Everything below
+> is explicitly **not**. Do not treat as constitutional; do not depend on its
+> output for any decision-gating logic until promoted.
+
+| Operator | File | RC ID | Promotion trigger |
+|----------|------|-------|--------------------|
+| **INCHWORM+ECHO** | `arcs_inchworm_echo.py` | RC-OPS-001 | Observatory period — findings must be logged and replayed through Observatory across multiple real sessions, with severity grading and named patterns confirmed accurate in hindsight, before promotion to full ROM. See file header and `_PATTERNS/2026-06-23-governance-roadmap.md` task #7. |
+
 ## Key Relationships
 
 ```
