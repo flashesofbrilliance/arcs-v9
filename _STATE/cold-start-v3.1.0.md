@@ -62,15 +62,30 @@ Read in this order, don't skip, don't re-derive what's already written down:
 human blockers. Pick whichever matches what Zach actually asks for first; don't just
 grab #1 by default.
 
-## One thing to carry forward, not just historically interesting
+## Two things to carry forward, not just historically interesting
 
-When asked to cross-check a document (`RECOIL-PROTOCOL.pdf`, the ARCS corpus's own
-retrospective self-audit) against this session's findings, the honest answer to "was
-that an independent/blind read" was **no** — the session was already primed to find
-exactly the kind of gap it found. If you're asked to do an "independent" or "blind"
-sanity check on anything, and you've already built up context this session that points
-toward a particular answer, say so plainly rather than presenting convergence as if it
-were a clean second signal. That's not a one-off — it's the standing bar.
+**On scope, corrected after this session ended:** arcs-v9 is only ~20% of the ARCS
+corpus/canon — the rest lives and compiles in Perplexity Space. The BAR/KKL collision
+and RC-OPS-001's freshness are real findings *about this port*, not evidence that the
+corpus's own `Conviction ★★★★★`/`Coherence ★★★★★` self-grades (from `RECOIL-PROTOCOL.pdf`)
+are overclaimed — those grades were almost certainly assessed against the full corpus,
+not this partial port. An earlier version of this session's own write-up made exactly
+that scope error (compared port-level findings against corpus-level self-grades) before
+catching it. **The honest framing: port lag, not corpus incoherence.** That's also a
+*more* useful framing operationally — "the port lags the corpus" is actionable (port
+more, sync more often); "the corpus overclaims itself" isn't something arcs-v9 work can
+fix at all.
+
+**On the independent-read question:** when asked to cross-check a document against this
+session's findings, the honest answer to "was that an independent/blind read" was no —
+the session was already primed to find exactly the kind of gap it found. That observation
+stood, and was explicitly *not* something to apologize for: deliberately injecting a
+primed, skeptical reader is the same generative move `RECOIL-PROTOCOL.pdf` itself names
+as **productive discord** — friction as raw material, not an error state, the same engine
+behind every Loki Test in the corpus's own Hyperstition Pipeline. The point of pairing
+with an external reader isn't to get an uncorrelated second opinion; it's to get friction
+you can't generate by re-reading your own work alone. If asked for an "independent" check
+again, name the priming honestly — but don't treat the priming itself as the problem.
 
 ---
 
