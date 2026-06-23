@@ -170,7 +170,7 @@ function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
       </div>
       {/* Tighter button design — mono, 8px radius, solid fills, confident */}
       <div style={{ padding: '16px 22px', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        {["Open Cartography Brief →", "Receipt"].map((a, i) => {
+        {["Open Decision Brief →", "Receipt"].map((a, i) => {
           const isPrimary = i === 0
           return (
             <button key={i} onClick={isPrimary ? onOpenBrief : onOpenReceipt} style={{
@@ -216,7 +216,7 @@ function CTARow({ onOpenBrief, onOpenReceipt }: { onOpenBrief?: () => void; onOp
   })
   return (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <button style={btn(true)} onClick={onOpenBrief} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 6px 16px ${signal.cyan}44` }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 12px ${signal.cyan}33` }}>Open Cartography Brief →</button>
+      <button style={btn(true)} onClick={onOpenBrief} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 6px 16px ${signal.cyan}44` }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 12px ${signal.cyan}33` }}>Open Decision Brief →</button>
       <button style={btn(false)} onClick={onOpenReceipt} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(71,85,105,.35)" }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(71,85,105,.2)" }}>Receipt</button>
     </div>
   )
