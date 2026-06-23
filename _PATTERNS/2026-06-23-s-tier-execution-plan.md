@@ -191,23 +191,29 @@ one human-blocked, one long-pole. Showing it, not smoothing it.
 ## Addendum — Perplexity Space cross-check (2026-06-23, post-commit)
 
 Zach supplied a richer Funhouse Optics reference sourced from Perplexity Space
-(a presigned S3 upload link — **not independently fetched by this session**; the
-content below is taken as his sourced summary, same provenance discipline as
-everything else flagged "unverified by me" in this doc). It corroborates rather
-than contradicts the above. Two additions worth keeping:
+(a presigned S3 upload link). **UPDATE, same session: the URL was fetched and
+checked.** The actual content at that URL does **not** contain any of the claimed
+definitions — no Funhouse Optics six-lens detail, no "mandatory gates" rule, no
+ATG/Tribune distinction, no Golden Inchworm mention. The fetched document is ARCS
+monetization positioning and pricing-tier content (Light/Medium/Heavy professional
+services framing), unrelated to what was attributed to it. The fetch tool's own
+note flagged a sibling filename (`arcs-v8-5-system-initializatio-...md`) as a
+possible location for the real material — not confirmed, just the one lead found.
 
-- **Mandatory gates (new detail, not in the local canon grep this session found):**
-  Q2 (Concave) and Q4 (Posterior) are required for any decision touching ≥2 weeks
-  of time, meaningful capital, or key relationships. Q6 (Orthogonal) is required
-  before any new protocol moves ETHEREAL → ROM. **Applies directly to RC-OPS-001's
-  promotion gate** — its Observatory-period requirement should explicitly include
-  a Q6 pass before promotion, not just replay volume.
-- **Sharper one-line Inchworm↔ATG framing:** *"Inchworm's Needle feeds ATG
-  (tributaries: root-cause / want-vs-need / adjacent). Tribune (ADR-020) is a
-  separate Board+LAB layer; its Posterior phase informs receipt-grounding before
-  ATG's adjacency check runs. Not the same primitive. Not yet integrated in code."*
-  This is more precise than this doc's own framing above — treat it as the
-  authoritative phrasing going forward.
+**Both additions below are withdrawn pending a real citation.** Neither is
+contradicted by canon (they may well be correct), but neither is confirmed by the
+source offered for them, and the source actively does not support them on
+inspection. This is the discipline this whole document is built on — applied to
+itself, not just to the original v1/v8.5/v8.5.1 code claims:
 
-No change to the per-task verdicts. The #6 Q2-Concave flag stands as the sharpest
-finding in the plan either way.
+- ~~Mandatory gates rule (Q2+Q4 required for ≥2-week/capital/relationship bets;
+  Q6 required before ETHEREAL→ROM)~~ — **unconfirmed.** If true, it's a real and
+  useful constraint on RC-OPS-001's promotion gate; needs a real citation before
+  it governs anything.
+- ~~Sharper Inchworm↔ATG one-liner~~ — **unconfirmed as "more authoritative."**
+  The original framing earlier in this document stands as the only version with
+  an actual basis (direct read of `ARCS-v9-Chapter-Book-Canon.md` this session).
+
+No change to the per-task verdicts — none of them depended on the withdrawn
+additions. The #6 Q2-Concave flag stands as the sharpest finding in the plan,
+sourced to this session's own Funhouse Optics pass, not the disputed addendum.
