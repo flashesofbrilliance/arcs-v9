@@ -57,7 +57,10 @@ L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade · L4=cr
 Every compass response should include 2–4 tributaries: meta-question · need-to-hear branch · unnamed adjacent primitive
 
 ## What's NOT built yet
-ATG · Kairos detection · Observatory/replay · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
+ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
+Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
+rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
+from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -1032,4 +1035,103 @@ NONE.
 ## Next session starts at
 
 `/handoff-pickup` → confirm branch merge state → merge to main OR Panel/Chip (ADR-009) OR ADR-006
+
+---
+
+# Handoff — v3.0.0 — 2026-06-23
+
+> **For Claude Code:** active pickup point. v2.5.0 above is preserved for history.
+> Note: this repo's three handoff trackers had drifted to three different "latest" versions
+> — `MEMORY.md` was at v2.6.0, this file's last entry was v2.5.0, and `.claude/arcs-session-state.md`
+> was already ahead of both at v2.9.0. All three are realigned at v3.0.0 as of this entry.
+
+## What changed since v2.5.0
+
+### S-tier copy rewrite (homepage, compass, brief, prep, emails)
+Retired internal jargon from every user-facing surface: "L0–L5 pipeline," "boardroom-grade,"
+"Cartography Brief," "render through the fog," "FATED decomposition" (kept as a UI label,
+dropped from prose). Governing principle: ARCS produces clarity about the *shape* of a
+decision, not an answer — copy reinforces user agency, never implies the system decides
+for them. Touched: `Home.tsx`, `page.tsx`, `CompassForm.tsx`, `PipelineTakeover.tsx`,
+`Brief.tsx`, `prep/page.tsx`, `opengraph-image.tsx`, `ResultView.tsx`,
+`ReceiptPreviewWidget.tsx`, `FatedGrid.tsx`, both email templates, `layout.tsx` metadata.
+
+### Accessibility fix — `Field.tsx`
+Every input/textarea/select in the app was missing `id`/`name` (audit finding). Fixed at
+the component level: auto-derives a stable id from the visible label, real `<label htmlFor>`
+instead of a plain span. No call sites needed touching — fixes every Field instance app-wide
+(prep, dashboard, waitlist, etc.) in one place.
+
+### ReflectLayer bug fixes
+Three real bugs, not cosmetic: hardenKernel was dropping the kernel field on click (now
+preserved + accordion stays open); meditate's expand/collapse used the same boolean as its
+loading state (split into `meditateExpanded` vs `meditateLoading`); shavasana was a
+full-screen modal that got deleted mid-refactor leaving no carousel at all (rebuilt inline
+with working prev/next, dot indicators, per-type filter pills).
+
+### Brief layout — 8 Vercel toolbar threads resolved
+Conviction card moved to full-width below True North; FATED dropped to single column below
+a 2-col Terrain/Court grid; tributaries promoted to a full-width "Where to Navigate Next"
+card; share row converted to a sticky frost-glass footer; FATED axes color-coded
+(Facts=cyan, Assumptions=gold, Tradeoffs=red, Emotions=green, Direction=steel).
+
+### Infra
+- Vercel CLI `54.7.1` → `54.14.5` (the real binary is a Homebrew install, `vercel-cli`
+  formula — a parallel `npm i -g vercel` install exists but is shadowed in `PATH`, harmless,
+  not cleaned up).
+- `vercel.json` → `vercel.ts` (typed config, `@vercel/config` added as new dep) — **incomplete,
+  see Blocking below.**
+
+### Domain topology correction (read this one carefully)
+This session asserted, incorrectly, that `arcs.care` and `app.arcs.care` were two separate
+codebases (this repo vs. the old `arcs-care` PLG funnel repo). **Confirmed wrong** via
+`get_deployment("arcs.care")`: both domains, plus `www.arcs.care` and `resume.arcs.care`,
+alias to *this* repo's production deployment. The standalone `arcs-care` Vercel project is
+`live: false`. Fixed in `~/.claude/CLAUDE.md` (global) with a standing verification
+protocol — re-check domain-to-project claims live via `get_deployment` before trusting any
+memory file or table, including this one. Two new memory files capture the correction:
+`arcs-v9-arcs-care-domain-consolidation.md`, `verify-domain-topology-live-not-from-memory.md`.
+
+**Practical consequence:** any future "public arcs.care surface" work (trust-contract page,
+marketing copy, etc.) belongs in *this* repo. The `arcs-care` repo (`~/arcs-care-local`)
+still has real code (its own instrument-panel `/compass` UI, Lab Offer Card funnel) but none
+of it is currently reachable by a visitor.
+
+### Stale-clone audit (`/Users/zharris/arcs` — do not use this path, see global CLAUDE.md)
+3 orphaned commits found, never pushed to any remote branch:
+- 2 "design system Phase 2" commits — **superseded**, every component they add already
+  exists on `main` under `src/instrument/` instead of `src/ui/`. Nothing to recover.
+- 1 Observatory commit (`35070a3`) — **not superseded.** Full interactive `/observatory`
+  Next.js page, 1174 lines, zero new deps, 3 views + replay scrubber + keyboard nav. Current
+  `main` only has the static `public/observatory/` demo. Genuinely recoverable via
+  cherry-pick onto a clean branch; not yet done.
+
+## File status
+
+```
+_STATE/snapshot.json                  ✅ RECAPTURED — was 15 days stale, several of its
+                                          listed "open items" had already silently resolved
+MEMORY.md                             ✅ v3.0.0 entry added (realigned with this file)
+~/.claude/CLAUDE.md (global)          ✅ 3 corrections + new verification protocol
+_CANON/trust-contract.md              ✅ EXISTS on main (committed separately, not this
+                                          session) — NOT YET surfaced on any live page
+vercel.ts                             🟡 EXISTS on feature branch only — NOT merged
+```
+
+## Blocking
+
+`vercel.ts` migration is incomplete and intentionally not merged. While it was in flight,
+other concurrent work re-added `vercel.json` on `main` with `experimentalServices` (a Python
+`sage` microservice route) and `crons` that the committed `vercel.ts` doesn't represent.
+Merging as-is would silently drop both. `vercel.json` remains canonical on `main` — do not
+delete it again without first porting `experimentalServices` + `crons` into the `vercel.ts`
+branch and confirming `@vercel/config`'s `VercelConfig` type actually supports
+`experimentalServices` (unconfirmed as of this session).
+
+## Next session starts at
+
+`/handoff-pickup` → pick one: (a) trust-contract page on arcs-v9, (b) cherry-pick the
+Observatory commit, (c) finish the vercel.ts migration properly. Re-verify the
+DATABASE_URL rotation-risk item once Supabase MCP reconnects (was disconnected mid-session,
+could not check).
 
