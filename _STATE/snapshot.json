@@ -1,20 +1,26 @@
 {
-  "captured_at": "2026-06-08T00:00:00Z",
+  "captured_at": "2026-06-23T13:25:47Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_message": "merge: observability-milestone-mapping (Observatory hot-swap + GitHub explorer) into main",
+    "head_sha": "69250b4",
+    "head_message": "Merge branch 'claude/dreamy-ardinghelli-56bbfa'",
     "branch": "main",
-    "merged_from": "claude/observability-milestone-mapping-345ho",
-    "in_sync_with_origin": true
+    "in_sync_with_origin": true,
+    "dirty_files": [
+      "package-lock.json (pre-existing local diff in this worktree, unrelated to this session, not committed)",
+      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, pre-existing, not reviewed or landed)",
+      "test_prisma_direct.js (untracked scratch file, pre-existing, not part of this session)"
+    ]
   },
-  "note": "Merge reconciles two parallel workstreams onto main: (1) resume.arcs.care (main, head 79f39e6-era) and (2) Observatory observability layer (this branch). Neither touched the other's files; only this snapshot conflicted. Cloud snapshot sync gap CLOSED by this merge.",
+  "note": "Prior snapshot (2026-06-08) was 15 days stale at capture time — several of its open items had already silently resolved and one major topology fact (arcs.care vs app.arcs.care) had inverted. See vercel.note and compass_kit_phase2.status below for the corrections made this capture.",
   "vercel": {
     "project": "arcs-v9",
     "production_alias": "https://app.arcs.care",
-    "custom_domains": ["app.arcs.care", "resume.arcs.care"],
+    "custom_domains": ["app.arcs.care", "www.arcs.care", "arcs.care", "resume.arcs.care"],
+    "latest_deploy_url": "https://arcs-v9-2uh24yydf-zachharris-3439s-projects.vercel.app",
     "latest_deploy_status": "Ready",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"],
-    "note": "Merge to main triggers a fresh prod deploy. Observatory is static under public/observatory and serves at app.arcs.care/observatory."
+    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY", "CRON_SECRET", "ARCS_TRACE_DIR"],
+    "note": "DOMAIN CONSOLIDATION (confirmed 2026-06-23 via get_deployment): arcs.care + www.arcs.care now alias to THIS deployment, not the separate arcs-care Vercel project. The standalone arcs-care project (prj_cVMjIW1ElkddeqdyowuQi34P7KIs, codebase ~/arcs-care-local) shows live:false. Full detail: ~/.claude/CLAUDE.md and project memory arcs-v9-arcs-care-domain-consolidation.md. DATABASE_URL confirmed present on BOTH Production and Preview (resolves the prior snapshot's 'Preview env missing DATABASE_URL' item). CRON_SECRET added ~17h ago for the new /api/cron/debrief endpoint."
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
@@ -22,44 +28,40 @@
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
     "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"],
-    "note": "Unchanged. No migration this session."
+    "note": "Unchanged this session. Supabase MCP disconnected mid-session — DATABASE_URL rotation-risk item (ADR-005 amendment) could not be re-verified, carried forward as still-open."
+  },
+  "auth": {
+    "status": "RESOLVED — prior snapshot listed 'ADR-016 OPEN (auth.ts wiring)' / 'compass non-functional in prod until done'. src/lib/auth.ts is fully wired (Auth.js v5 + Resend provider + PrismaAdapter) and confirmed working live via agent-browser: the sign-in form renders and the magic-link flow is functional on app.arcs.care/compass."
   },
   "observatory": {
-    "status": "Hot-swap data layer + plug-and-play GitHub event explorer SHIPPED",
-    "data_layer": "runtime.jsx (static code) + data.<name>.json (swappable payload) + datasets.json (switcher manifest); index.html Root fetches->hydrates->mounts, dataset <select> remounts with no reload, ?data= deep-links.",
-    "explorer": "scripts/event-rules.json (user-editable custom-event ruleset) + scripts/event_rules.py (engine) + scripts/github_ingest.py (live REST or --from-json; emits data.<name>.json + manifest). Guide: scripts/OBSERVATORY-INGEST.md.",
-    "datasets_live": ["data.arcs-v9.json (heuristic)", "data.arcs-v9-gh.json (rules engine; validated on 100 real arcs-v9 commits via GitHub MCP)"],
-    "not_yet": "Live PR + workflow-run fetchers (engine supports kind/label/status; only commits+releases wired to live fetch — PRs/workflows via --from-json for now). No browser render proof in cloud sandbox (unpkg + headless blocked); renders on Vercel.",
-    "verify_after_deploy": "Open app.arcs.care/observatory; switcher (top-right) lists both datasets; pick 'arcs-v9-gh'; confirm timeline/deck render and ?data=data.arcs-v9-gh.json deep-links."
+    "status": "Static demo SHIPPED (public/observatory/, served via next.config.ts rewrite at /observatory). The interactive full Next.js route (src/app/observatory/page.tsx, 1174 lines, 3 views + replay scrubber + keyboard nav) was built in a session that never got pushed — it exists only in the stale local clone /Users/zharris/arcs (commit 35070a3), not on any remote branch. Not superseded; genuinely recoverable via cherry-pick. See project memory stale-arcs-clone-observatory-recoverable.md."
   },
   "open_adrs": [
     "ADR-023 DECIDED (goal lattice — implementation gated at 100+ receipts)",
     "ADR-009 READY (Panel/Chip design system)",
     "ADR-006 READY (Supabase branching — first-external-user gate)",
-    "ADR-016 OPEN (auth.ts wiring — carried from main)"
+    "ADR-026 IN PROGRESS (debrief delivery fix — eligibility extension + scheduler shipped per commit a2bc4e4; a draft 'calendar-invite-vs-email' follow-on doc sits untracked/uncommitted in this worktree, not yet reviewed or landed)"
   ],
-  "open_items_from_main": [
-    "ADR-016: auth.ts wiring",
-    "DATABASE_URL missing from Preview env",
-    "Audience dropdown not built yet (resume)"
-  ],
-  "next_action": "PHASE 2 — promote the Compass UI kit into the real app. Read _STATE/compass-kit-phase2-handoff.md first. Kit source: public/compass-kit/; live mock preview: app.arcs.care/compass-kit. Rebuild /, /dashboard, /brief/[receiptId] on the kit; swap mockCompass -> /api/compass (2 field remaps: macro_tags<-meta.macro_tags, attach question). Reconcile the kit with the existing src/ui/ DS (ADR-009/011) rather than fork. Recommended in a FRESH session for clean context.",
   "compass_kit_phase2": {
     "handoff": "_STATE/compass-kit-phase2-handoff.md",
-    "preview": "https://app.arcs.care/compass-kit",
-    "source_dir": "public/compass-kit/",
-    "target": "arcs-v9 = app.arcs.care (NOT the arcs.care marketing repo)",
-    "status": "Phase 1 (live mock preview) shipped; Phase 2 (TSX port + real API + DS reconcile) not started",
-    "field_remaps": ["result.macro_tags <- result.meta.macro_tags", "result.question kept in client state (API does not echo it)"],
-    "existing_ds": "src/ui/{tokens.ts,Badge.tsx,Button.tsx,Card.tsx} (ADR-009/011) — extend, do not duplicate"
+    "source_dir": "public/compass-kit/ (still present as the original static mock — Brief.jsx/Compass.jsx/Home.jsx/Result.jsx, untouched)",
+    "target": "arcs-v9 = app.arcs.care",
+    "status": "RESOLVED — prior snapshot said 'Phase 2 not started'. Confirmed this session: src/organisms/{Home,CompassForm,Brief,ResultView}.tsx are real TSX components wired to the live /api/compass endpoint and the src/ui/ design system (Button, Card, Field, etc.), not the static kit. All three target routes (/, /dashboard, /brief/[receiptId]) are built on real components.",
+    "existing_ds": "src/ui/{tokens.ts,Badge.tsx,Button.tsx,Card.tsx,Field.tsx,Picker.tsx,...} (ADR-009/011) — actively extended this session (Field.tsx gained auto id/name derivation for accessibility)."
   },
   "this_session_shipped": [
-    "Observatory: rules-engine dataset default + dated risks + provenance-to-GitHub commit links",
-    "compass-kit live mock preview (/compass-kit)",
-    "resume SEND BEARING -> geo-stamped email subject",
-    "bare /brief -> redirect /dashboard (was 404)"
+    "S-tier copy rewrite: Home/CompassForm/Brief/prep/email surfaces — retired 'L0-L5 pipeline', 'boardroom-grade', 'Cartography Brief', 'render through the fog' from all user-facing copy",
+    "FATED grid color-coded per axis (Facts/Assumptions/Tradeoffs/Emotions/Direction)",
+    "Brief page layout restructure — 8 Vercel toolbar feedback threads resolved",
+    "ReflectLayer annotation system: kernel-loss-on-harden bug fixed, meditate toggle state bug fixed, shavasana converted from modal to inline carousel with working prev/next",
+    "Field.tsx accessibility fix — every form input/textarea/select now gets a real id/name (auto-derived from label) and a proper <label htmlFor>, fixing an audit finding across every Field instance in the app",
+    "Vercel CLI upgraded 54.7.1 -> 54.14.5 (via Homebrew, not npm global — two separate installs existed)",
+    "vercel.json migrated to typed vercel.ts (@vercel/config) — note: a LATER main commit re-added vercel.json with experimentalServices + crons that vercel.ts doesn't yet cover; that re-merge was aborted, not resolved (see blocking)",
+    "Corrected a stale belief (mine, this session) that arcs.care and app.arcs.care were separate codebases — they are now the same deployment. ~/.claude/CLAUDE.md updated with a standing verification protocol to prevent recurrence.",
+    "Audited stale local clone /Users/zharris/arcs — 2 of 3 orphaned commits superseded, 1 (Observatory) genuinely recoverable, not yet cherry-picked"
   ],
-  "blocking": "NONE",
+  "next_action": "Either (a) plan + build a trust-contract page on arcs-v9 (pulling from _CANON/trust-contract.md, now confirmed as the actual public surface for arcs.care), or (b) cherry-pick commit 35070a3 from /Users/zharris/arcs to recover the full interactive Observatory page, or (c) finish the vercel.ts migration properly (port experimentalServices + crons before re-merging). None started yet — all three are flagged opportunities from this session, not in-flight work.",
+  "blocking": "The vercel.ts migration is INCOMPLETE: current main's vercel.json (re-added by other work after the migration commit) has experimentalServices (Python sage microservice route) and crons that the committed vercel.ts does not represent. The migration attempt was aborted mid-session rather than risk dropping those silently. vercel.json is currently the only complete config on main — vercel.ts exists in a feature branch but was never merged. Needs a deliberate pass to port everything before re-attempting, or abandon vercel.ts and revert to vercel.json as canonical.",
   "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
   "serialization_protocol": {
     "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here; a parallel build was started and discarded to avoid forking the protocol)",

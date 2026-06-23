@@ -5,6 +5,44 @@
 
 ---
 
+## [v3.0.0] 2026-06-23 — S-tier copy rewrite + a11y fix + domain-topology correction
+
+### Session context
+- Operator: Zach Harris (`flashesofbrilliance`)
+- Environment: Claude Code (local), worktree `claude/dreamy-ardinghelli-56bbfa`
+- Branch: `claude/dreamy-ardinghelli-56bbfa` → merged to `main` (commits `60a4f71`, `efb1af7`, `69250b4`)
+
+### Artifacts landed (arcs-v9)
+| File | What changed |
+|---|---|
+| `src/organisms/Home.tsx`, `src/app/page.tsx` | S-tier copy rewrite — retired "boardroom-grade," "render through the fog," internal pipeline jargon from all homepage copy |
+| `src/organisms/CompassForm.tsx`, `src/molecules/PipelineTakeover.tsx` | Loading/placeholder/CTA copy aligned to new register; one example decision swapped |
+| `src/app/prep/page.tsx` | "When do you decide?" vs "When will you know if it worked?" — disambiguated two previously near-identical horizon fields |
+| `src/organisms/Brief.tsx`, `src/app/brief/[receiptId]/page.tsx`, `src/app/brief/[receiptId]/opengraph-image.tsx`, `src/organisms/ResultView.tsx`, `src/molecules/ReceiptPreviewWidget.tsx`, `src/molecules/FatedGrid.tsx` | "Cartography Brief" → "Decision Brief" everywhere; FATED axes color-coded; Brief layout restructured (8 Vercel toolbar threads resolved: conviction placement, FATED placement, sticky share footer, tributaries promoted to "Where to Navigate Next") |
+| `src/ui/Field.tsx` | **Accessibility fix** — every input/textarea/select now gets a real `id`/`name` (auto-derived from label) + proper `<label htmlFor>`. Fixes an audit finding across every Field instance app-wide. |
+| `src/organisms/ReflectLayer.tsx` | 3 bugs fixed: kernel lost on harden click, meditate collapse/expand state bug, shavasana converted from full-screen modal to inline accordion carousel with working prev/next navigation |
+| `src/emails/welcomeEmail.ts`, `src/emails/receiptEmail.ts`, `src/app/layout.tsx`, `src/app/api/compass/route.ts` | Retired-tagline sweep — "render through the fog to earned clarity" → "Your judgment. Sharper." across metadata + email templates |
+
+### Infra
+- Vercel CLI upgraded `54.7.1` → `54.14.5` (Homebrew formula `vercel-cli`; a separate `npm i -g` install was shadowed by it — left in place, harmless but redundant)
+- `@vercel/config` added as a new dependency; `vercel.json` migrated to typed `vercel.ts` — **see Open gaps, this migration is incomplete and not on main**
+
+### Cross-repo / topology correction (the big one this session)
+Discovered and corrected a stale belief — including one I personally asserted mid-session before being corrected by the operator — that `arcs.care` and `app.arcs.care` were separate codebases (the old `arcs-care` PLG repo vs. this one). **They are not.** Confirmed live via `get_deployment`: `arcs.care`, `www.arcs.care`, `app.arcs.care`, `resume.arcs.care` are all aliased to this repo's production deployment. The standalone `arcs-care` Vercel project is `live: false`. Fixed in three places: `~/.claude/CLAUDE.md` (repo table + new standing verification protocol), and two new files under `.claude/projects/-Users-zharris-arcs-v9/memory/` (`arcs-v9-arcs-care-domain-consolidation.md`, `verify-domain-topology-live-not-from-memory.md`).
+
+### Open gaps
+- 🔴 **vercel.ts migration incomplete** — current `main`'s `vercel.json` (re-added by other concurrent work) has `experimentalServices` (Python `sage` route) + `crons` that the committed `vercel.ts` branch doesn't represent. Migration attempt aborted mid-merge rather than risk silently dropping those. `vercel.json` remains canonical on `main`; `vercel.ts` only exists on the feature branch, unmerged.
+- 🟡 **Observatory recoverable** — stale local clone `/Users/zharris/arcs` (do not use — see CLAUDE.md) has one orphaned, never-pushed commit (`35070a3`) containing a full 1174-line interactive `/observatory` Next.js page. Current `main` only has the static `public/observatory/` demo. Not superseded, not yet cherry-picked.
+- 🟡 **Trust contract page** — `_CANON/trust-contract.md` exists on `main` (committed earlier, separately) but isn't surfaced anywhere on the live site. Now confirmed this repo IS the right place for that page (per the domain correction above). Not started.
+- 🟡 `_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md` — untracked draft sitting in the `frosty-kepler-b69f51` worktree, never reviewed or committed.
+
+### Next move
+1. `/handoff-pickup` → read `_STATE/snapshot.json` (recaptured this session, was 15 days stale before)
+2. Pick one: trust-contract page build, Observatory cherry-pick, or finish the vercel.ts migration
+3. Re-verify DATABASE_URL rotation status once Supabase MCP reconnects (was disconnected mid-session)
+
+---
+
 ## [v2.6.0] 2026-06-09 — Figma recoil report + resume.arcs.care architecture gates (ADR-024)
 
 ### Session context
