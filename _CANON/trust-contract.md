@@ -1,7 +1,7 @@
 # ARCS Trust Contract
 
-> **Version:** 1.0
-> **Date:** 2026-06-22
+> **Version:** 1.1
+> **Date:** 2026-06-23
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
 
@@ -122,8 +122,24 @@ The goal is not that you trust ARCS. The goal is that you trust your own judgmen
 
 ---
 
+## 8. How ARCS catches you at the fork
+
+**Honest answer: it doesn't, yet — you have to recognize it and bring it.**
+
+§5 above defines what kinds of decisions ARCS is designed for. It does not address a different question: how do you know you're standing at one of those forks *before* you ever open the compass? Today, the answer is that ARCS does not proactively detect this. There is no background system watching your calendar, your messages, or your behavior for a decision forming and tapping you on the shoulder. You have to notice the fork yourself and bring it to the instrument.
+
+This is a real limitation, not a hidden one. Two things are true at once:
+
+- **It's partly a deliberate boundary, not just a gap.** A system that silently watches your data for "decision-shaped moments" and surfaces itself uninvited is closer to the black box ARCS is explicitly trying not to be (see §7). Discovery without consent is its own trust problem — solving "how do you find the fork" by adding ambient surveillance would trade one trust gap for a worse one.
+- **It's also genuinely unbuilt, not fully resolved by that boundary.** A consent-based version of fork-detection — something that helps you notice a decision is forming from signals you've explicitly opted into, rather than ambient monitoring — is a real, not-yet-built direction (`Kairos detection`, tracked as backlog in this repo's `AGENTS.md`, gated behind having enough real outcome data to calibrate it responsibly). It is not shipped. This document will be updated when that changes.
+
+**What exists today instead:** product copy is the current, honest mechanism — surfaces like the homepage's "name the real fork" framing exist to prompt *you* to recognize the moment, not to detect it for you. That's a discovery aid, not a disclosure claim, and it lives in product copy rather than this contract for that reason: it's a UX nudge, not a guarantee about what the system does on your behalf.
+
+---
+
 ## Amendment log
 
 | Version | Date | Change |
 |---|---|---|
+| 1.1 | 2026-06-23 | Added §8 — answers Zak's "how will you catch people at the fork" question (previously unaddressed; verified against the full June 16–22 feedback checklist, all six original items were already covered §1–§6) |
 | 1.0 | 2026-06-22 | Initial canonical version |

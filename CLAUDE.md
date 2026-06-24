@@ -1187,3 +1187,56 @@ session. #4 and #6 have internal sequencing dependencies, documented in the road
 briefing before picking a task. Recommended first move: any of #1/#5/#7 (no dependencies,
 no human blocker, genuinely startable cold).
 
+---
+
+# Handoff — v3.2.0 (2026-06-23)
+
+> **For Claude Code:** active pickup point. v3.1.0 above is preserved for history. This
+> session worked on branch `observatory-cherry-pick` (pushed to origin, no PR yet).
+
+## What changed since v3.1.0
+
+- **Critical production fix, live regardless of git/merge state**: Supabase project
+  `xbbpiryokswwvcrcutge` had `public.SageTrace` fully exposed (RLS disabled, anon
+  read/write/delete via PostgREST). Found via a real alert email, verified and fixed via
+  the `supabase` CLI (the Supabase **MCP connection cannot see this project** — wrong
+  org; use the CLI). Fixed with the ADR-008 deny-all pattern; 27 of 31 follow-up WARNs
+  also cleared. 4 left deliberately — see Open backlog #13/#14 below.
+- **Backlog #5 (prose-rule audit) DONE** — `_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md`.
+  Zero of 6 in-scope `SKILL.md` rules have real enforcement. Headline: "inline styles
+  only, no Tailwind, no className" has been violated at `src/app/layout.tsx` since the
+  first commit — independently re-verified, not just trusted from the audit.
+- **Backlog #7 (Observatory cherry-pick) DONE** — turned out to already be on this
+  branch before the session started; the genuinely-missing piece (dead `/observatory`
+  rewrite removal from `next.config.ts`) is done and build-verified.
+- **Trust contract v1.0 → v1.1** — `_CANON/trust-contract.md` §8 added, answering Zak's
+  "how will you catch people at the fork" feedback. Zach's call: new canonical section.
+- Full detail: `MEMORY.md` `[v3.2.0]`, `.claude/arcs-session-state.md`,
+  `_STATE/branch-observatory-cherry-pick.json` (per-branch state file — this branch's
+  work was NOT written into the shared `_STATE/snapshot.json`, per the documented
+  serialization protocol for feature branches).
+
+## Open backlog (revised — #5 and #7 done, #13/#14 new)
+
+#1 backup repo (done, prior session) · #2 password rotation (blocked on Zach) · #3
+consolidate 3 logs (ready, sequencing point) · #4 drift-sensor (design done, build not
+started — long pole) · ~~#5 prose-rule audit~~ **DONE** · #6 DEWY commit stamp (ready
+after #3+#5 — #5 now satisfied) · ~~#7 Observatory cherry-pick~~ **DONE** · #8 canonical
+S-tier reformat (still deferred) · **#13 NEW** — orphaned Supabase tables
+(`meeting_cards`/`risks`/`raci`/`dependencies`/`drift_signals`/`immune_sessions`/
+`immune_turns`/`pathogen_log`), no owning app found anywhere, needs Zach's input · **#14
+NEW** — 4 remaining Supabase advisor WARNs, left unfixed deliberately (ownership/intent
+unconfirmed), not urgent.
+
+## Blocking
+
+None for the next session to start cold on #3, #4(design), or #13. #2 and the separate
+`xbbpiryokswwvcrcutge` `DATABASE_URL` rotation risk (ADR-005 amendment — a *different*
+password than #2's, don't conflate) both need Zach directly.
+
+## Next session starts at
+
+`/handoff-pickup` → `.claude/arcs-session-state.md` for the fullest current detail.
+Recommended: #3 (log consolidation, unblocks #6's retrofit) or #13 (orphaned tables,
+just needs Zach to glance at the Supabase dashboard).
+
