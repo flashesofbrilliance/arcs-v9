@@ -1,156 +1,125 @@
 # ARCS Session State
 
-**Last updated:** 2026-06-23 (v3.1.0)
-**Environment:** Claude Code (local), worktree `frosty-kepler-b69f51` (direct commits to `main`)
-**Branch:** `main`
-**Last commit (arcs-v9):** 3474d10 — docs(patterns): cross-reference RECOIL-PROTOCOL corpus self-audit with repo verification
+**Last updated:** 2026-06-23 (v3.2.0)
+**Environment:** Claude Code (local), worktree `busy-chaplygin-22139c`
+**Branch:** `observatory-cherry-pick` (pushed to origin, no PR opened yet — deliberate, Zach's choice)
+**Last commit (arcs-v9):** e888cc4 — chore: fold in lockfile normalization + RLS doc project-ref fix
 
-## v3.1.0 delta (this update) — see MEMORY.md [v3.1.0] for full detail
+## v3.2.0 delta (this update) — see MEMORY.md [v3.2.0] for full detail
 
-- **CANON_COLLISION resolved**: `BAR`/`KKL` meant two different things in two canon files.
-  Routed through `/dual-bar-raiser`, ruling applied, both files cross-reference each other now.
-  Commit `7fff8f6`.
-- **New ROM Candidate landed**: `operators/arcs_inchworm_echo.py`, tagged `RC-OPS-001`.
-  Golden Inchworm + Orthogonal Echo Detector. Explicitly NOT yet ROM — gated behind an
-  Observatory period. Third implementation pass this session (v1→v8.5→v8.5.1), each
-  independently executed and verified, not trusted from description alone. Commit `0eca22c`.
-  **Important nuance for next session**: a parallel v8.5.1 candidate (two-axis
-  ExecGrade/TriuneState design) was reviewed and explicitly NOT used — its boolean-feature
-  scoring has a real false-positive risk (counts False==False as a match). Don't resurrect it
-  without fixing that first.
-- **8-item governance roadmap** written with full dependency graph (parallel/sequential/
-  interlocking/entangled relationships), a Kintsugi-mapped pathogen taxonomy, and a fat-tail/
-  long-tail pre-mortem. `_PATTERNS/2026-06-23-governance-roadmap.md`. None of the 8 are built —
-  this is planning, not progress. Check `TaskList` for live status, not this file.
-- **A citation was withdrawn same-session**: a "verified reference" addendum citing Funhouse
-  Optics detail was added to the S-tier plan doc, then the cited URL was actually fetched and
-  found not to contain any of what was attributed to it. Withdrawn before it could calcify into
-  assumed-true. `_PATTERNS/2026-06-23-s-tier-execution-plan.md` commit `90aad7b`.
-- **Cross-referenced against `RECOIL-PROTOCOL.pdf`** (Zach's own corpus self-audit) — its
-  `Consonance ★★★★☆` self-grade independently flags the same gap this session found by other
-  means (claimed-as-live vs. actually-verified primitives). Named as a genuine cross-domain
-  echo, not coincidence. Commit `3474d10`.
-- **Self-assessment, asked for directly**: when pressed on whether reading that PDF was a
-  genuinely independent/blind check, the honest answer was no — this session was already
-  primed to find exactly this class of gap. Re-examined with that named: the deck's
-  `Conviction ★★★★★` and `Coherence ★★★★★` self-grades are harder to fully stand behind than
-  its own `Confidence ★★★★☆`/`Consonance ★★★★☆` grades, given a live canon contradiction
-  existed until this session.
+- **Critical production fix, live, independent of git/merge state**: Supabase project
+  `xbbpiryokswwvcrcutge` (ARCS_v9) had `public.SageTrace` fully exposed — RLS disabled
+  entirely, anon read/write/delete via PostgREST. Found via a real Supabase alert email,
+  verified live with `supabase db advisors --linked` (the Supabase **MCP connection in this
+  session cannot see this project at all** — wrong account/org; the Supabase **CLI** on this
+  machine is correctly linked — use the CLI for arcs-v9 Supabase work going forward). Fixed
+  with the ADR-008 deny-all pattern, re-verified 0 ERRORs after. Follow-up pass cleared 27 of
+  31 remaining WARNs (perf-only `auth_rls_initplan` fixes + 1 redundant policy). 4 WARNs left
+  deliberately unfixed — see Open items #13.
+- **Task #5 (prose-rule audit) DONE**: `_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md`.
+  Zero of 6 in-scope `SKILL.md` rules have any real enforcement mechanism. Headline finding,
+  independently re-verified: "inline styles only, no Tailwind, no className" has been violated
+  at `src/app/layout.tsx` (the app root) since the first commit.
+- **Task #7 (Observatory cherry-pick) DONE** — with a process catch worth repeating: the
+  actual page (`src/app/observatory/page.tsx`) was **already on this branch** before this
+  session started (this branch is literally named `observatory-cherry-pick`). A subagent was
+  dispatched to redo it from scratch before that was checked — caught when the cherry-pick
+  came back empty. The one genuinely-missing piece (removing the now-dead `/observatory`
+  static rewrite from `next.config.ts`) is done and build-verified.
+- **Trust contract v1.0 → v1.1**: `_CANON/trust-contract.md` §8 added, answering Zak's
+  residual "how will you catch people at the fork" question. Zach's explicit call: new
+  canonical section. Honest about current state — no proactive fork-detection exists yet.
+- **Process findings, recorded as durable memory** (`~/.claude/projects/-Users-zharris-arcs-v9/memory/`):
+  two delegated subagents hit the account's spend limit mid-task (finished by hand); one
+  agent's doc citation could not have been a live read (no `node_modules` in its sandbox) —
+  conclusion held on independent re-check, but the claimed verification method wasn't real;
+  an absolute-path edit landed in the wrong checkout (`/Users/zharris/arcs-v9` main, a
+  *different* branch with its own unrelated in-progress work) due to this repo's many parallel
+  worktrees — reverted there, redone correctly in this worktree.
 
 ## Status
 
-- arcs-v9 Vercel: ✅ LIVE — production deploy Ready, serves **app.arcs.care, www.arcs.care, arcs.care,
-  resume.arcs.care** (all one deployment — see Domain correction below)
-- arcs-v9 Auth: ✅ magic link fully wired (ADR-016 RESOLVED this session — was open as of the prior
-  update). `AUTH_SECRET` confirmed present on BOTH Production and Preview (also resolved — prior
-  update flagged it missing on Preview).
-- arcs-v9 DB: unchanged — `xbbpiryokswwvcrcutge` / postgres / port 6543 pooler, manual URL parsing
-  in `db.ts` (password contains `!`)
-- DATABASE_URL: confirmed present on both Production and Preview via `vercel env ls` (this resolves
-  another long-standing open item from the global CLAUDE.md P-track)
-- CRON_SECRET: new, added ~17h before this snapshot, for `/api/cron/debrief` (ADR-026)
-- arcs-care project: ⚠️ now confirmed `live: false` — see Domain correction below
+- arcs-v9 Vercel: ✅ LIVE — production unaffected this session. Pushing `observatory-cherry-pick`
+  likely auto-triggered a Vercel preview build (confirmed via `vercel ls`: a Preview deploy
+  exists, separate from Production) — non-destructive, doesn't touch `app.arcs.care`.
+- arcs-v9 Auth: unchanged, still fully wired (see v3.0.0).
+- arcs-v9 DB: `xbbpiryokswwvcrcutge` — **RLS gap closed this session** (see delta above).
+  Several tables present in this project (`meeting_cards`/`risks`/`raci`/`dependencies`/
+  `drift_signals`/`immune_sessions`/`immune_turns`/`pathogen_log`) have **no owning app found
+  anywhere on disk** (checked arcs-v9, arcs-care-local, full home-dir grep) — all 0 rows,
+  real open question for Zach, not yet resolved.
+- **Two distinct password concerns — don't conflate them:**
+  1. `settings.local.json` has a literal plaintext Supabase DB password baked into a
+     `Bash(...)` permission-allow string — for project `owdiiyvphyifukygvxhg` (the OTHER,
+     inactive project). This is governance-roadmap backlog item **#2, blocked on Zach**.
+  2. The live `xbbpiryokswwvcrcutge` `DATABASE_URL` rotation risk (ADR-005 amendment,
+     manually-set, not integration-managed) is a **separate, older, still-open** item — see
+     Open items #8 below. Different project, different password, both real.
 
 ## ⚠️ Domain correction (read this first if picking up cold)
 
-`arcs.care` is **not** a separate site from `app.arcs.care`. Confirmed via `get_deployment`:
-both domains (plus `www.arcs.care`, `resume.arcs.care`) alias to *this* repo's production
-deployment. The standalone `arcs-care` Vercel project (codebase `~/arcs-care-local`, its own
-instrument-panel `/compass` UI + PLG funnel) is inactive — `live: false`. Any "public arcs.care
-surface" work belongs in this repo. Full detail + the verification habit going forward: see
-`~/.claude/CLAUDE.md` and project memory `arcs-v9-arcs-care-domain-consolidation.md` /
-`verify-domain-topology-live-not-from-memory.md`.
+Unchanged from v3.0.0/v3.1.0 — `arcs.care` is not a separate site from `app.arcs.care`. See
+`~/.claude/CLAUDE.md` and project memory `arcs-v9-arcs-care-domain-consolidation.md`.
 
-## What landed this session (2026-06-23)
-
-S-tier copy rewrite (Home/CompassForm/Brief/prep/emails — retired "L0–L5 pipeline,"
-"boardroom-grade," "Cartography Brief," "render through the fog" from all user-facing copy);
-FATED grid color-coded per axis; Brief layout restructured (8 Vercel toolbar threads resolved);
-**accessibility fix** in `Field.tsx` (every form field now gets a real id/name, was missing
-app-wide); 3 real bugs fixed in `ReflectLayer.tsx` (kernel-loss-on-harden, meditate toggle state,
-shavasana rebuilt as inline carousel); Vercel CLI upgraded 54.7.1→54.14.5; `vercel.json`→`vercel.ts`
-migration started but **left incomplete and unmerged** (see Blocking); full audit of the
-domain-topology correction above; audited stale local clone `/Users/zharris/arcs` (2 of 3 orphaned
-commits superseded, 1 — full interactive Observatory page — genuinely recoverable, not yet done).
-
-Full detail: `MEMORY.md` `[v3.0.0]` entry, `CLAUDE.md` `# Handoff — v3.0.0`.
-
-## Open items (re-verified 2026-06-23)
+## Open items (re-verified 2026-06-23, v3.2.0)
 
 ```
-1. ADR-016 auth.ts wiring                                  RESOLVED — fully wired, confirmed
-                                                             working live via agent-browser
-2. AUTH_SECRET missing on Preview                           RESOLVED — present on both envs now
-3. DATABASE_URL missing on Preview                          RESOLVED — present on both envs now
-4. DMARC monitor-only                                        RESOLVED — p=quarantine confirmed
-5. vercel.ts migration                                      🔴 INCOMPLETE — main's vercel.json has
-                                                             experimentalServices (this project's
-                                                             Framework Preset is "Services", not
-                                                             autodetected Next.js — see Key infra
-                                                             facts) + crons that vercel.ts doesn't
-                                                             represent. Aborted mid-merge rather
-                                                             than risk dropping either silently.
-6. Observatory full interactive page                        🟡 RECOVERABLE — orphaned commit
-                                                             35070a3 in stale /Users/zharris/arcs
-                                                             clone, never pushed, not superseded
-7. Trust contract page                                      🟡 NOT STARTED — _CANON/trust-contract.md
-                                                             exists on main but isn't surfaced
-                                                             anywhere live; this repo is now
-                                                             confirmed the right place for it
-8. DATABASE_URL rotation risk (ADR-005 amendment)            OPEN — could not re-verify, Supabase
-                                                             MCP was disconnected mid-session
-9. Validate SAGE NCI against real with-SAGE Outcomes        OPEN — carried over, infra ready
-                                                             (SageTrace + sage_efficacy.js), still
-                                                             genuinely no data yet
-10. Panel/Chip design system components (ADR-009)            READY — carried over, untouched
-11. ADR-006 branching strategy (first-external-user gate)    READY — carried over, untouched
-12. arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED          WAITING on Dan Pascone — carried over,
-                                                             though note: arcs-care isn't live on
-                                                             any domain right now regardless (#8
-                                                             Domain correction)
+1.  ADR-016 auth.ts wiring                                   RESOLVED (carried, unchanged)
+2.  settings.local.json leaked password (owdiiyvphyifukygvxhg) BLOCKED ON ZACH — confirm dead
+                                                               or rotate; not this session's to fix
+3.  vercel.ts migration                                      🔴 INCOMPLETE — carried, unchanged
+4.  Trust contract page (route that renders trust-contract.md) NOT STARTED — different/older task
+                                                               than the v1.1 content amendment done
+                                                               this session; don't conflate the two
+5.  DATABASE_URL rotation risk, xbbpiryokswwvcrcutge (ADR-005) OPEN — carried, still not
+                                                               re-verified (separate password from #2)
+6.  Validate SAGE NCI against real with-SAGE Outcomes        OPEN — carried, still no data
+7.  Panel/Chip design system components (ADR-009)            READY — carried, untouched
+8.  ADR-006 branching strategy (first-external-user gate)    READY — carried, untouched
+9.  arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED          WAITING on Dan Pascone — carried
+10. Governance backlog #3 — consolidate 3 narrative logs     READY — unblocked, untouched
+11. Governance backlog #4 — drift-sensor cadence/severity    Design done, build not started —
+                                                               the long pole; blocked on #6/#7below
+12. Governance backlog #6 — DEWY commit/PR trailer stamp     Ready after #3+#5 (✅#5 now done) —
+                                                               forward-only, NEVER rewrite history
+13. Orphaned Supabase tables, no owning app found            OPEN, NEW this session — see Status
+14. 4 remaining Supabase advisor WARNs (deliberately unfixed) OPEN — 3 on the orphaned tables
+                                                               above (unconfirmed ownership), 1 on
+                                                               `sessions`' public INSERT (confirmed
+                                                               intentional, arcs-care's compass widget)
 ```
+
+Resolved this session, removed from the list: governance backlog **#5** (prose audit) and
+**#7** (Observatory cherry-pick) — both DONE, see delta above.
 
 ## Key infra facts (for next session)
 
-- DB: `xbbpiryokswwvcrcutge` / database `postgres` / port 6543 pooler — manual URL parsing in
-  `db.ts` (password contains `!`)
-- Vercel project: `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9` / team `zachharris-3439s-projects`
-- **Framework Preset is Services** (project-wide, not per-environment) — do not revert this.
-  This is *why* `vercel.json` currently has an `experimentalServices` block (the Python `sage`
-  microservice route) that the in-progress `vercel.ts` migration doesn't yet represent — confirm
-  `@vercel/config`'s typed schema actually supports this advanced/unusual setting before
-  re-attempting the migration.
-- The actual Vercel CLI binary is a Homebrew install (`vercel-cli` formula at
-  `/opt/homebrew/bin/vercel`) — a separate `npm i -g vercel` install exists and gets shadowed in
-  `PATH`. Upgrade via `brew upgrade vercel-cli`, not `npm i -g vercel@latest`, or you'll upgrade
-  the wrong one and see no version change.
-- `/Users/zharris/arcs` is a STALE abandoned clone of this same repo (last commit 2026-06-07) —
-  do not use it as a working directory, but it does have one recoverable orphaned commit (see
-  Open items #6).
-- `arcs_readonly` Postgres role exists for read-only analysis scripts — needs `BYPASSRLS` granted
-  (already done) or it will silently see 0 rows under this project's RLS deny-all policies
-- `next.config.ts` must keep `turbopack: { root: __dirname }`
-- `vercel deploy` (CLI) does NOT attach git-branch metadata — any env var scoped to a specific
-  git-branch silently never applies to a CLI-triggered deploy. Scope to "all preview branches"
-  unless deploys are git-push-only.
+- **Supabase MCP is scoped to the wrong account/org for arcs-v9** — `list_projects` only shows
+  `owdiiyvphyifukygvxhg` and `monomath-compiler`, both inactive, never `xbbpiryokswwvcrcutge`.
+  Use the `supabase` CLI instead (`supabase link --project-ref xbbpiryokswwvcrcutge`,
+  `supabase db advisors --linked`, `supabase db query --linked` — none need Docker; `db dump`/
+  `push` do and will fail clearly if Docker isn't running).
+- **This repo has 15+ active git worktrees** (`git worktree list`) — an absolute path like
+  `/Users/zharris/arcs-v9/<file>` can silently resolve to the bare/main checkout instead of
+  your session's own worktree, even mid-session, with no error. Confirm `pwd`/`git branch
+  --show-current` before editing by absolute path if there's any doubt.
+- All facts from v3.0.0/v3.1.0 (DB connection details, Vercel project IDs, CLI install
+  location, `next.config.ts` turbopack root requirement) — unchanged, not repeated here.
 
-## Prior session highlights (2026-06-19 → 2026-06-21, compressed — full detail in MEMORY.md history)
+## Prior session highlights (compressed — full detail in MEMORY.md history)
 
-- SAGE efficacy infra shipped: `SageTrace` table (invisible by construction, never `include`d),
-  `scripts/sage_efficacy.js` comparing with/without-SAGE Outcomes, gated at n=20/group
-- NCI self-grade rubric (Factual/Sources/Honesty/Action) wired into the live system prompt +
-  new `nciSelfGrade` Receipt column — verified genuinely substantive (caught real issues in live
-  tests, not performative)
-- Found + fixed a real bug: `decision_mode`/`door_class` were silently overwritten by Claude's
-  own echoed values in the API response (`...parsed` spread order bug)
-- Read-only Postgres role `arcs_readonly` added for analysis scripts — hit and documented the
-  "table GRANT SELECT isn't enough under RLS deny-all, need explicit BYPASSRLS" gotcha
-- Root-caused and fixed a `DATABASE_URL` auth failure: `!` in the Supabase password was mishandled
-  by `pg`'s connection-string URL parser — fixed via manual `new URL()` parsing in `db.ts`
+- v3.1.0: CANON_COLLISION (`BAR`/`KKL`) resolved via `/dual-bar-raiser`; `RC-OPS-001`
+  (`arcs_inchworm_echo.py`) landed as a ROM Candidate, not yet ROM; 8-item governance
+  roadmap + pathogen taxonomy written; a withdrawn citation caught same-session;
+  `RECOIL-PROTOCOL.pdf` cross-referenced, independent convergence found.
+- v3.0.0: S-tier copy rewrite; `Field.tsx` accessibility fix app-wide; 3 `ReflectLayer.tsx`
+  bugs fixed; domain-topology correction (`arcs.care`/`app.arcs.care` are one deployment).
+- 2026-06-19→21: SAGE efficacy infra shipped; NCI self-grade rubric wired; a real
+  `decision_mode`/`door_class` spread-order bug found and fixed; `arcs_readonly` role +
+  `BYPASSRLS` gotcha documented.
 
 ## Next session
 
-`/handoff-pickup` → pick one: trust-contract page on arcs-v9, Observatory commit cherry-pick, or
-finish the vercel.ts migration properly (port `experimentalServices` + `crons` first). SAGE
-efficacy validation needs no action — just time and real usage. Re-verify DATABASE_URL rotation
-status once Supabase MCP reconnects.
+`/handoff-pickup` → governance backlog #3 (consolidate 3 logs, sequencing point for #4/#6) or
+#7-adjacent cleanup (orphaned Supabase tables question, item #13) are the most startable-cold
+options. #2 and #5(DATABASE_URL rotation) both need Zach directly, not actionable solo.
