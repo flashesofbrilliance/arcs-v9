@@ -2,6 +2,26 @@
 # ARCS v1.3 - The Unified Law of Coherence
 # Production Grade Kinematic Manifold (Orders 1-12)
 # From Classical Mechanics (1-3) to Quantum Flow (11-12).
+#
+# ── CONFORMANCE NOTICE (added 2026-06-24, downstream of primary-disciple adjudication) ──
+# Per the 12D-manifold ruling (see _PATTERNS/2026-06-24-kinematics-adjudication.md):
+# the manifold is a HETEROGENEOUS two-zone stack, NOT a uniform derivative ladder.
+#   • D1-D3 (D4 borderline): true time-derivatives. _recursive_diff is valid here.
+#   • D5-D12: COHERENCE-OPERATOR zone. Literal repeated np.gradient is noise-dominated
+#     past ~D4-D5 (numerical wall) and does NOT measure the system — no amount of data
+#     fixes this; it is a property of the method.
+# Current state of this file vs. the ruling:
+#   • D11/D12 (plie/eleve): already reformulated (Beta-derivative / conductivity-weighted)
+#     — ruled the MORE MATURE artifact, conformant.
+#   • D5-D10 (crackle/pop/lock/drop/shot/releve): STILL plain _recursive_diff finite
+#     differences — NON-CONFORMANT pending reformulation as explicit operators. Do NOT
+#     trust analyze()'s D5-D10 outputs as measured signal; they are numerically noise.
+#   • D7/D9/D10 are additionally cross-signal / bounded-domain quantities (phase coherence,
+#     interference, ceiling-approach) — conceptually NOT scalar time-derivatives at all.
+# Naming of D8-D12 (Drop/Shot/Releve/Plie/Eleve here vs Drift/Resonance/Saturation/
+# Entropy-Rate/Coherence-Pulse in the doc) is NOT yet adjudicated — retitle pending.
+# Reformulating D5-D10 is primary/joint work (canon-level), intentionally NOT done here.
+# ────────────────────────────────────────────────────────────────────────────────────
 
 import numpy as np
 from scipy.special import gamma
