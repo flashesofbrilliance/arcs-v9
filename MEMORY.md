@@ -5,6 +5,75 @@
 
 ---
 
+## [v3.2.0] 2026-06-23 — Critical Supabase RLS fix, tasks #5/#7 closed, trust-contract §8 added
+
+### Session context
+- Operator: Zach Harris, branch `observatory-cherry-pick` (worktree `busy-chaplygin-22139c`)
+- Continuation of the same 2026-06-23 thread as v3.1.0/v3.2.0's backlog
+
+### Critical fix — live production exposure (not part of the 8-item backlog)
+A Supabase security alert ("Table publicly accessible") for project `xbbpiryokswwvcrcutge`
+(ARCS_v9) was verified live via `supabase db advisors --linked` (the Supabase MCP
+connection in this session is scoped to the wrong account/org and could not see this
+project at all — the CLI, separately logged in, could). Confirmed real: `public.SageTrace`
+(11 rows, Prisma-managed) had RLS disabled entirely — fully open anon read/write/delete via
+PostgREST. Fixed with the same deny-all pattern as ADR-008 (Prisma bypasses RLS as the
+`postgres` superuser regardless; RLS exists only to block public PostgREST access). Re-verified
+post-fix: 0 ERRORs. A follow-up pass cleared 27 of 31 remaining WARN-level advisories
+(`auth_rls_initplan` perf fixes across `meeting_cards`/`risks`/`raci`/`dependencies`/
+`drift_signals`/`receipts`/`immune_sessions`/`immune_turns`/`pathogen_log`, plus a redundant
+permissive policy dropped on `sessions`). 4 WARNs left deliberately unfixed: 3 on
+`immune_sessions`/`immune_turns`/`pathogen_log` (zero rows, zero references anywhere on
+disk — unconfirmed ownership, not safe to guess-tighten) and 1 on `sessions` (confirmed
+intentional — backs `arcs-care-local`'s public `/receipts` page). `scripts/rls-policies.sql`'s
+stale header (said `owdiiyvphyifukygvxhg`, the wrong/inactive project) corrected to the real
+live ref. Open question for Zach: what are `immune_sessions`/`meeting_cards`/`risks`/`raci`/
+`dependencies`/`drift_signals` — no owning app found in any local repo.
+
+### Task #5 — prose-rule enforcement audit (`_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md`)
+Scoped to `SKILL.md` per the plan. Zero of six in-scope rules have any real enforcement
+mechanism. Highest-value finding, independently re-verified (not just trusted from the
+writeup): "inline styles only — no Tailwind, no className" — stated as a hard constraint in
+three files — has been violated at the application root (`src/app/layout.tsx`,
+`className="...bg-obsidian-950..."`, `tailwindcss` a real dependency) since the first commit.
+Two out-of-scope findings also surfaced: CI's actual typecheck gate does the thing `AGENTS.md`
+says not to do (`tsc --noEmit` vs. the documented `npx next build`), and SKILL.md
+self-contradicts on the commit-trailer file count (5 vs. 3).
+
+### Task #7 — Observatory cherry-pick (`35070a3`)
+Turned out to be already-landed before this session started (this branch's HEAD already had
+the full 1174-line `src/app/observatory/page.tsx` — missed checking this before delegating
+to a subagent to redo it from scratch). The one genuinely-missing piece — removing the now-dead
+`/observatory` static rewrite from `next.config.ts`, which the real App Router page route now
+shadows — is done and build-verified (`npx next build` passes, `○ /observatory` registers as
+a real prerendered route).
+
+### Trust contract v1.1 — `_CANON/trust-contract.md` §8 added
+Zak's feedback checklist (6 items) was already fully covered §1–§6, verified against his
+literal wording, not assumed from topic match. The one open framing question — "how will you
+catch people at the fork the system is solving for" — had no home. Zach's call: add it as a
+new canonical §8 rather than route it to product copy or park it. Written honestly: ARCS does
+not proactively detect a forming decision today (deliberate boundary against ambient
+surveillance, *and* a genuine gap — consent-based `Kairos detection` is unbuilt backlog).
+Version bumped 1.0 → 1.1 per the doc's own amendment rule.
+
+### Process note
+Both background-delegated subagents (for #5 and #7) hit the account's monthly spend limit
+mid-task and were finished by hand. One agent (#7) cited a Next.js doc file from a sandbox
+that had no `node_modules` installed — it could not have read it live as instructed. The
+underlying technical claim (rewrite-vs-page-route precedence) held up when independently
+re-checked against the real file in a working environment, but the agent's stated verification
+method was not real. Distinguish "conclusion happened to be correct" from "conclusion was
+actually verified" — this session's standing discipline, applied to its own delegated work
+this time, not just to external claims.
+
+### Next session starts at
+Backlog items remaining: #1 (done, see v3.1.0 follow-up), #2 (blocked on Zach), #3, #4, #6, #8.
+Two small uncommitted items from this session not yet folded into a branch: confirm with Zach
+whether to consolidate.
+
+---
+
 ## [v3.1.0] 2026-06-23 — Engineering governance roadmap (tasks #1-8), RC-OPS-001 landed, BAR/KKL canon collision resolved
 
 ### Session context
