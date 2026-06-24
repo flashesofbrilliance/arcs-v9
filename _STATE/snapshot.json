@@ -1,24 +1,25 @@
 {
   "captured_at": "2026-06-23T13:25:47Z",
   "captured_at_v3_1_0_delta": "2026-06-23T23:55:00Z",
+  "captured_at_v3_2_0_delta": "2026-06-24T00:10:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "3474d10",
-    "head_message": "docs(patterns): cross-reference RECOIL-PROTOCOL corpus self-audit with repo verification",
+    "head_sha": "870bda3",
+    "head_message": "Merge pull request #21 from flashesofbrilliance/observatory-cherry-pick",
     "branch": "main",
     "in_sync_with_origin": true,
     "dirty_files": [
-      "package-lock.json (pre-existing local diff in this worktree, unrelated to this session, not committed)",
       "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, pre-existing, not reviewed or landed)",
       "test_prisma_direct.js (untracked scratch file, pre-existing, not part of this session)"
     ]
   },
+  "v3_2_0_reconciliation_note": "PR #21 (branch observatory-cherry-pick) merged to main as 870bda3. Full session detail lives in MEMORY.md [v3.2.0], CLAUDE.md 'Handoff — v3.2.0', and the now-historical per-branch file _STATE/branch-observatory-cherry-pick.json (point-in-time record from before merge, left as-is rather than edited after the fact). This top-level snapshot.json is updated below per the serialization_protocol's 'main reconciles on merge' rule. package-lock.json's pre-existing local diff is gone — the merge included the identical lockfile normalization, so the autostash reapplied to zero diff.",
   "note": "Prior snapshot (2026-06-08) was 15 days stale at capture time — several of its open items had already silently resolved and one major topology fact (arcs.care vs app.arcs.care) had inverted. See vercel.note and compass_kit_phase2.status below for the corrections made this capture.",
   "vercel": {
     "project": "arcs-v9",
     "production_alias": "https://app.arcs.care",
     "custom_domains": ["app.arcs.care", "www.arcs.care", "arcs.care", "resume.arcs.care"],
-    "latest_deploy_url": "https://arcs-v9-2uh24yydf-zachharris-3439s-projects.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-3d0t94dfc-zachharris-3439s-projects.vercel.app",
     "latest_deploy_status": "Ready",
     "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY", "CRON_SECRET", "ARCS_TRACE_DIR"],
     "note": "DOMAIN CONSOLIDATION (confirmed 2026-06-23 via get_deployment): arcs.care + www.arcs.care now alias to THIS deployment, not the separate arcs-care Vercel project. The standalone arcs-care project (prj_cVMjIW1ElkddeqdyowuQi34P7KIs, codebase ~/arcs-care-local) shows live:false. Full detail: ~/.claude/CLAUDE.md and project memory arcs-v9-arcs-care-domain-consolidation.md. DATABASE_URL confirmed present on BOTH Production and Preview (resolves the prior snapshot's 'Preview env missing DATABASE_URL' item). CRON_SECRET added ~17h ago for the new /api/cron/debrief endpoint."
@@ -29,13 +30,13 @@
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
     "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"],
-    "note": "Unchanged this session. Supabase MCP disconnected mid-session — DATABASE_URL rotation-risk item (ADR-005 amendment) could not be re-verified, carried forward as still-open."
+    "note": "DATABASE_URL rotation-risk item (ADR-005 amendment) still not re-verified, carried forward as still-open. CRITICAL FIX v3.2.0: public.SageTrace had RLS disabled entirely (anon read/write/delete via PostgREST) — found via a real Supabase alert email, fixed via the supabase CLI (deny-all pattern, ADR-008), verified 0 ERRORs via `supabase db advisors --linked`. 27 of 31 follow-up WARNs also cleared. Supabase MCP in this Claude environment cannot see this project at all (wrong org) — use the CLI, not MCP, for this project's Supabase work. 4 WARNs + an open ownership question (meeting_cards/risks/raci/dependencies/drift_signals/immune_sessions/immune_turns/pathogen_log — zero rows, no owning app found anywhere on disk) remain, see MEMORY.md [v3.2.0]."
   },
   "auth": {
     "status": "RESOLVED — prior snapshot listed 'ADR-016 OPEN (auth.ts wiring)' / 'compass non-functional in prod until done'. src/lib/auth.ts is fully wired (Auth.js v5 + Resend provider + PrismaAdapter) and confirmed working live via agent-browser: the sign-in form renders and the magic-link flow is functional on app.arcs.care/compass."
   },
   "observatory": {
-    "status": "Static demo SHIPPED (public/observatory/, served via next.config.ts rewrite at /observatory). The interactive full Next.js route (src/app/observatory/page.tsx, 1174 lines, 3 views + replay scrubber + keyboard nav) was built in a session that never got pushed — it exists only in the stale local clone /Users/zharris/arcs (commit 35070a3), not on any remote branch. Not superseded; genuinely recoverable via cherry-pick. See project memory stale-arcs-clone-observatory-recoverable.md."
+    "status": "DONE, MERGED, LIVE — interactive full Next.js route (src/app/observatory/page.tsx, 1174 lines, 3 views + replay scrubber + keyboard nav) cherry-picked from the orphaned commit 35070a3, build-verified, and merged to main via PR #21 (870bda3). The dead static rewrite (/observatory -> /observatory/index.html) was removed from next.config.ts since the real page route shadows it; the old static demo is still reachable directly at /observatory/index.html (confirmed 200, not deleted) for any existing external bookmarks (this demo was built for a Deloitte-facing audience per MEMORY.md:204)."
   },
   "open_adrs": [
     "ADR-023 DECIDED (goal lattice — implementation gated at 100+ receipts)",
@@ -64,9 +65,14 @@
     "[v3.1.0 delta] operators/arcs_inchworm_echo.py landed as RC-OPS-001 (ROM Candidate, NOT yet ROM, gated on an Observatory period) - third implementation pass in-session, each independently executed and verified (commit 0eca22c)",
     "[v3.1.0 delta] 8-item governance roadmap with full dependency graph, pathogen taxonomy, fat-tail/long-tail pre-mortem (_PATTERNS/2026-06-23-governance-roadmap.md) - planning only, none of the 8 built",
     "[v3.1.0 delta] A citation was added to the S-tier plan doc, then fetched and found not to support itself, then withdrawn same-session (commit 90aad7b) - verify-before-commit applied reflexively to this session's own claims",
-    "[v3.1.0 delta] Cross-referenced RECOIL-PROTOCOL.pdf (corpus self-audit) against repo-level findings - independent convergence on the same gap, named as a genuine cross-domain echo (commit 3474d10)"
+    "[v3.1.0 delta] Cross-referenced RECOIL-PROTOCOL.pdf (corpus self-audit) against repo-level findings - independent convergence on the same gap, named as a genuine cross-domain echo (commit 3474d10)",
+    "[v3.2.0 delta] CRITICAL: public.SageTrace RLS-disabled exposure found (real alert email) and fixed live via supabase CLI, independent of any git branch - already in production. 27 of 31 follow-up advisory WARNs also cleared.",
+    "[v3.2.0 delta] Governance backlog #5 (prose-rule enforcement audit) DONE - zero of 6 in-scope SKILL.md rules enforced; 'no Tailwind/className' independently re-verified as violated at src/app/layout.tsx since commit 1",
+    "[v3.2.0 delta] Governance backlog #7 (Observatory cherry-pick) DONE and MERGED (PR #21, 870bda3) - see observatory.status above",
+    "[v3.2.0 delta] Trust contract v1.0 -> v1.1: _CANON/trust-contract.md Sec.8 added, answering an external reviewer's residual feedback question",
+    "[v3.2.0 delta] Process: two delegated subagents hit the account spend limit mid-task (finished by hand); one agent's doc citation was unverifiable from its own sandbox (no node_modules) - conclusion held on independent re-check, method didn't. Recorded as durable memory for future sessions."
   ],
-  "next_action": "8 tracked items, none built. #1 (backup repo), #5 (prose-rule audit), #7 (Observatory cherry-pick) have zero dependencies and zero human blockers - start any of those cold. #2 needs Zach (Supabase dashboard check). #3 must land before #4b/#6b (sequencing point). #4 is the long pole (design done, build not started). #6 needs #3+#5 first. #8 is the canonical Section 1-7 reformat, deferred for budget. See _PATTERNS/2026-06-23-governance-roadmap.md and _PATTERNS/2026-06-23-s-tier-execution-plan.md for full detail - don't re-derive, they're already written. The OLDER opportunities below (trust-contract page, vercel.ts migration) are still open too but are NOT part of the 8-item list - they predate it.",
+  "next_action": "Governance backlog #5 and #7 are DONE (this delta). Remaining: #2 needs Zach (Supabase dashboard check, settings.local.json leaked password for the OTHER/inactive project owdiiyvphyifukygvxhg - do not confuse with the DATABASE_URL rotation risk above, different project/password). #3 (consolidate 3 narrative logs) is unblocked and is the sequencing point before #4b/#6b. #4 is the long pole (design done, build not started). #6 is now ready (needs #3+#5, #5 now satisfied). #8 (canonical Section 1-7 reformat) still deferred. NEW this delta: the orphaned-Supabase-tables ownership question (see database.note) needs Zach's input - genuinely unconfirmed, not actionable solo. See _PATTERNS/2026-06-23-governance-roadmap.md, _PATTERNS/2026-06-23-s-tier-execution-plan.md, and MEMORY.md [v3.2.0] for full detail - don't re-derive. The trust-contract PAGE (a route rendering trust-contract.md live) is still NOT STARTED and is a different/older task than the v1.1 content amendment done this delta - don't conflate them. vercel.ts migration also still incomplete, unchanged.",
   "blocking": "The vercel.ts migration is INCOMPLETE: current main's vercel.json (re-added by other work after the migration commit) has experimentalServices (Python sage microservice route) and crons that the committed vercel.ts does not represent. The migration attempt was aborted mid-session rather than risk dropping those silently. vercel.json is currently the only complete config on main — vercel.ts exists in a feature branch but was never merged. Needs a deliberate pass to port everything before re-attempting, or abandon vercel.ts and revert to vercel.json as canonical.",
   "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
   "serialization_protocol": {
