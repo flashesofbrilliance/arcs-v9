@@ -42,8 +42,8 @@ export async function POST(req: NextRequest) {
   }
 
   const [pdfBlob, exportBlob] = await Promise.all([
-    pdf ? put(`profile-uploads/${userId}/profile.pdf`, pdf, { access: "public", addRandomSuffix: true }) : null,
-    exportZip ? put(`profile-uploads/${userId}/export.zip`, exportZip, { access: "public", addRandomSuffix: true }) : null,
+    pdf ? put(`profile-uploads/${userId}/profile.pdf`, pdf, { access: "private", addRandomSuffix: true }) : null,
+    exportZip ? put(`profile-uploads/${userId}/export.zip`, exportZip, { access: "private", addRandomSuffix: true }) : null,
   ])
 
   const upload = await prisma.profileUpload.upsert({

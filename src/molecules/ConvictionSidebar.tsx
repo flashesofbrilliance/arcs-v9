@@ -22,7 +22,13 @@ export function ConvictionSidebar({ result, onTributary }: ConvictionSidebarProp
         <div style={{ fontFamily: font.mono, fontSize: '0.65rem', color: text.muted, marginTop: '0.35rem', letterSpacing: '0.08em' }}>CONVICTION / 100 · COHERENCE {result.coherence_pct}%</div>
         <div style={{ height: 1, background: border.subtle, margin: '1rem 0' }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-          {([['Mode', result.decision_mode], ['Door', result.door_class], ['Bayesian risk', (r.advisors?.bayesian_risk_pct ?? '—') + '%']] as [string, string][]).map(([k, v]) => (
+          {([
+            ['Mode', result.decision_mode],
+            ['Door', result.door_class],
+            // Hide entirely rather than show "—%" — an uncalculated risk reads
+            // as confusing, not as "zero risk" or "not applicable."
+            ...(typeof r.advisors?.bayesian_risk_pct === 'number' ? [['Bayesian risk', `${r.advisors.bayesian_risk_pct}%`]] : []),
+          ] as [string, string][]).map(([k, v]) => (
             <div key={k} style={{ display: 'flex', justifyContent: 'space-between', fontFamily: font.mono, fontSize: '0.7rem' }}>
               <span style={{ color: text.muted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{k}</span>
               <span style={{ color: text.secondary }}>{v}</span>

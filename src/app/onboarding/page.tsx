@@ -78,8 +78,21 @@ export default function OnboardingPage() {
             <div style={{ fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: 4 }}>
               Full data export (.zip)
             </div>
-            <div style={{ fontSize: 12, color: text.dimmed, marginBottom: exportZip ? 8 : 0 }}>
-              {exportZip ? exportZip.name : "LinkedIn → Settings → Get a copy of your data"}
+            <div style={{ fontSize: 12, color: text.dimmed, marginBottom: 8 }}>
+              {exportZip ? exportZip.name : (
+                <>
+                  Get it directly:{" "}
+                  <a
+                    href="https://www.linkedin.com/mypreferences/d/download-my-data"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ color: "#00F0FF", textDecoration: "underline" }}
+                  >
+                    linkedin.com/mypreferences/d/download-my-data
+                  </a>
+                </>
+              )}
             </div>
             <input
               type="file"
