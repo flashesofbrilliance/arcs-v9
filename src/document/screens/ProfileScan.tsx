@@ -132,41 +132,24 @@ export function ProfileScanZach({ depth = 'deep' }: { depth?: ScanDepth } = {}) 
       {showRich && (
       <Sec id="z-threads" idx="02" label="Profile Threads" title="Four-Thread Assessment" accent={A}>
         <SidelineList items={[
-          { label: 'Red Thread · Recurring Risk', accent: T.red, title: 'Tenure Misreads Without Dated Data', body: 'The export-only parse flagged "frequent role changes (5+ positions)" as a drainer signal. Cross-checking against the dated PDF tenure shows 3 of those are concurrent advisor/mentor roles alongside one long anchor — not sequential job-hopping. The flag doesn\'t survive contact with dates.' },
+          { label: 'Red Thread · Recurring Risk', accent: T.red, title: 'Tenure Misreads Without Dated Data', body: 'The export-only parse flagged "frequent role changes (5+ positions)" as a drainer signal. Cross-checking against the dated PDF tenure shows 3 of those are concurrent advisor/mentor roles alongside one long anchor (Mañana, 6.5 yrs) — not sequential job-hopping. The flag doesn\'t survive contact with dates.', note: 'Concurrent: Le Woof Brand (advisor) · Cornell Tech (mentor) · Outlier Ventures (advisor).' },
           { label: 'Gold Thread · Working Asset', accent: T.gold, title: '100 Skills, 765 Endorsements — Fully Surfaced', body: 'The full export carries real per-skill endorsement counts for all 100 listed skills, not the 15-skill summary cluster most views stop at. This is straightforward, already-parsed enrichment (operators/linkedin_pipeline/linkedin_export.py), not a future build.' },
           { label: 'Green Thread · Conviction', accent: T.green, title: '38 Authored Articles — a Real First-Person Corpus', body: 'Full long-form writing, HTML-stripped and parsed from the export\'s Articles/ directory. The longest single article ran 6,013 words. This corpus is the primary input for anything that wants to read voice or thesis, not the short post text alone.' },
-          { label: 'Vermillion · Constraint', accent: T.orange, title: 'Platform Inferences Have No Document Slot Yet', body: 'LinkedIn\'s own ad-targeting categories about this account (Inferences_about_you.csv) are a genuinely different signal class — the platform\'s model of the person, not the person\'s own data. Parsed and available, but the canonical six-section document shape has nowhere to put it yet.' },
+          { label: 'Vermillion · Constraint', accent: T.orange, title: 'Platform Inferences Have No Document Slot Yet', body: 'LinkedIn\'s own ad-targeting categories about this account (Inferences_about_you.csv) are a genuinely different signal class — the platform\'s model of the person, not the person\'s own data. Parsed and available, but the canonical six-section document shape has nowhere to put it yet — see below.' },
         ]} />
-      </Sec>
-      )}
-
-      {showRich && (
-      <Sec id="z-arc" idx="03" label="Career Arc" title="Evidence Ledger — Dated Tenure" accent={A}>
-        <DataTable
-          columns={['Period', 'Engagement', 'Type', 'Source']}
-          rows={[
-            ['Anchor, 6.5 yrs', 'Mañana', 'Primary engagement', 'PDF — dated tenure'],
-            ['Concurrent', 'Le Woof Brand', 'Advisor', 'PDF — dated tenure'],
-            ['Concurrent', 'Cornell Tech', 'Mentor', 'PDF — dated tenure'],
-            ['Concurrent', 'Outlier Ventures', 'Advisor', 'PDF — dated tenure'],
-            ['Ongoing', 'ARCS Field OS', 'Founder/builder', 'This repo'],
-          ]}
-        />
       </Sec>
       )}
 
       {showDeep && (
-      <Sec id="z-capabilities" idx="04" label="Capability Map" title="Four Quadrant Read" accent={A}>
+      <Sec id="z-inferences" idx="03" label="Platform Model" title="What LinkedIn Infers About This Account" accent={A}>
         <SmartGrid cols={2} items={[
-          { label: 'Quadrant A · Core', color: T.green, title: 'Concurrent-Role Builder Pattern', body: 'One long anchor engagement plus multiple concurrent advisor/mentor roles, confirmed by dated tenure — a real pattern the export-only parse alone would have mislabeled as instability.' },
-          { label: 'Quadrant B · Compound', color: T.cyan, title: '38-Article First-Person Corpus', body: 'A real long-form writing archive, fully parsed and available — the input a future voice/thesis-reading feature would need, already sitting in the pipeline.' },
-          { label: 'Quadrant C · Signal', color: T.gold, title: 'Full Skill/Endorsement Depth', body: '100 skills × real per-skill endorsement counts, not the 15-skill headline cluster — already extracted, not a future build.' },
-          { label: 'Quadrant D · Gap', color: T.orange, title: 'Two Unconsumed Signal Classes', body: 'Platform inferences (LinkedIn\'s ad-targeting model of the person) and post-level engagement/resonance data are both parsed and available but have no section in the canonical document shape yet — flagged, not yet built.' },
+          { label: 'Inference', color: T.cyan, title: 'Frontier-Tech Affinity', body: 'LinkedIn\'s ad-targeting model categorizes this account as having an affinity for emerging/frontier technology — its own read of the signal, not a self-report.' },
+          { label: 'Inference', color: T.gold, title: 'Interest: Technology Media', body: 'Flagged as interested in media about technology — consistent with the authored-article corpus, but derived independently by the platform.' },
         ]} />
       </Sec>
       )}
 
-      <Sec id="z-assertion" idx="05" label="Key Assertion" title="The Enrichment Theorem" accent={A}>
+      <Sec id="z-assertion" idx="04" label="Key Assertion" title="The Enrichment Theorem" accent={A}>
         <QuoteBlock accent={A} attribution="ARCS Profile Scan — Zach Harris, Thread Analysis">
           The headline view and the full export are not the same document at different resolutions — the export contains entire signal classes (the authored corpus, full endorsement depth, the platform's own inferences) that the headline never surfaces at all.
         </QuoteBlock>
