@@ -74,7 +74,7 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
           What are you really<br />trying to decide?
         </h1>
         <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, maxWidth: 480, margin: '0 0 2rem' }}>
-          Most critical decisions are too important to think through alone. When you&rsquo;re in the weeds or too close to the problem, sometimes you need an impartial, unbiased, agenda-free outside point of view. ARCS helps sharpen your frame of reference by orienting you in the right direction with earned clarity, confidence, and conviction based on evidence.
+          Most critical decisions are too important to think through alone. When you&rsquo;re too close to the problem, often an impartial, unbiased, agenda-free outside point of view can help. ARCS does this by widening your frame of reference, pressure testing your thinking, and orienting you in the right direction. You make the call, but with higher confidence and conviction.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
