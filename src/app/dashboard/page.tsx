@@ -69,6 +69,17 @@ function DashboardInner() {
       .catch(() => {})
   }, [])
 
+  // ADR-029: nudge a logged-in user who hasn't uploaded or skipped the
+  // onboarding profile step yet. 401 (anonymous) is the common case — fail
+  // silent, don't show the nudge.
+  const [showOnboardingNudge, setShowOnboardingNudge] = useState(false)
+  useEffect(() => {
+    fetch("/api/onboarding/upload")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((s) => { if (s && !s.seen) setShowOnboardingNudge(true) })
+      .catch(() => {})
+  }, [])
+
   // Returning from /prep with a prepId + question → run the enriched compass once.
   const autoRan = useRef(false)
   useEffect(() => {
@@ -162,6 +173,23 @@ function DashboardInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
+      {showOnboardingNudge && (
+        <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
+            border: `1px solid ${border.subtle}`, borderRadius: 10, padding: "10px 16px",
+          }}>
+            <span style={{ fontSize: 13, color: text.secondary }}>
+              Add your LinkedIn profile to enrich your Profile Scan — takes under 30 seconds.
+            </span>
+            <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+              <Button variant="ghost" size="sm" onClick={() => setShowOnboardingNudge(false)}>Dismiss</Button>
+              <Button variant="primary" size="sm" onClick={() => router.push("/onboarding")}>Set up profile</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {error && (
         <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
           <CompassError message={error} onRetry={() => runCompass()} />
