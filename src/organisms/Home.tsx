@@ -71,13 +71,10 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
       <div style={{ marginBottom: '3rem' }}>
         <SectionLabel style={{ marginBottom: '1.25rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
         <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2.25rem, 5.5vw, 3.25rem)', fontWeight: 600, lineHeight: 1.08, color: text.primary, margin: '0 0 1.5rem', letterSpacing: '-0.025em' }}>
-          The call stays yours.<br />The thinking gets sharper.
+          What are you really<br />trying to decide?
         </h1>
-        <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, maxWidth: 480, margin: '0 0 0.5rem' }}>
-          <em style={{ fontStyle: 'italic' }}>For the decisions too important to think through alone —<br />and too consequential to hand to a black box.</em>
-        </p>
         <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, maxWidth: 480, margin: '0 0 2rem' }}>
-          ARCS surfaces the shape of your decision. Your judgment stays the final word.
+          Most critical decisions are too important to think through alone. When you&rsquo;re in the weeds or too close to the problem, sometimes you need an impartial, unbiased, agenda-free outside point of view. ARCS helps sharpen your frame of reference by orienting you in the right direction with earned clarity, confidence, and conviction based on evidence.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
@@ -134,7 +131,7 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
 
       <Rule style={{ marginBottom: '1.5rem' }} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
-        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed }}>The call stays yours. The thinking gets sharper.</span>
+        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed }}>Earned clarity. Your judgment stays the final word.</span>
         <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
       </div>
 
