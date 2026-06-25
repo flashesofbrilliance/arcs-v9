@@ -16,10 +16,10 @@ import { TrueNorthPanel } from '@/instrument/TrueNorthPanel'
 // Source: compass-app/Home.jsx (verbatim layout, window atoms → ES imports).
 
 const HOME_STEPS = [
-  { n: '01', title: 'Name the real fork', body: "Most people present the symptom. ARCS asks for the actual decision — the fork, not the friction. Set your horizon and stakes." },
-  { n: '02', title: 'It stress-tests the question', body: "Six layers run simultaneously: what's actually at stake, what you might be missing, what the strongest case against your instinct is, and whether the terrain is stable enough to move." },
-  { n: '03', title: 'One direction. Honest about certainty.', body: "A single clear direction — not hedged, not vague. Graded by conviction. If the terrain doesn't support confidence, ARCS says so instead of faking it." },
-  { n: '04', title: 'The full map of where you stand', body: 'Full situation read: why this direction, what you\'re trading off, what to watch for, and the questions worth asking next.' },
+  { n: '01', title: 'Name the real fork', body: "Most people bring the symptom. ARCS asks for the actual decision — the fork, not the friction." },
+  { n: '02', title: 'The question gets stress-tested', body: "What's actually at stake. What you might be missing. The strongest case against your instinct. Whether the ground is stable enough to move." },
+  { n: '03', title: 'One direction. A specific next move.', body: "Not hedged, not vague — a clear call, graded by conviction. If the terrain doesn't support confidence, ARCS says so instead of pretending it does." },
+  { n: '04', title: 'The full map', body: "Why this direction. What you're trading. What to watch. What's worth asking next." },
 ]
 
 // Demo receipt for the landing's "Example · Decision Receipt" card. When a real
@@ -71,14 +71,17 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
       <div style={{ marginBottom: '3rem' }}>
         <SectionLabel style={{ marginBottom: '1.25rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
         <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2.25rem, 5.5vw, 3.25rem)', fontWeight: 600, lineHeight: 1.08, color: text.primary, margin: '0 0 1.5rem', letterSpacing: '-0.025em' }}>
-          What are you really<br />trying to decide?
+          The call stays yours.<br />The thinking gets sharper.
         </h1>
+        <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, maxWidth: 480, margin: '0 0 0.5rem' }}>
+          <em style={{ fontStyle: 'italic' }}>For the decisions too important to think through alone —<br />and too consequential to hand to a black box.</em>
+        </p>
         <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, maxWidth: 480, margin: '0 0 2rem' }}>
-          For the decisions you can't think your way out of alone — and won't trust a black box to make for you. ARCS surfaces the shape of your decision. Your judgment stays yours.
+          ARCS surfaces the shape of your decision. Your judgment stays the final word.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
-          <Button variant="ghost" size="lg" onClick={() => { const el = typeof document !== 'undefined' ? document.getElementById('how') : null; if (el) window.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' }) }}>See how it works</Button>
+          <Button variant="ghost" size="lg" glyph="◆" onClick={() => { const el = typeof document !== 'undefined' ? document.getElementById('how') : null; if (el) window.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' }) }}>See how it works</Button>
         </div>
       </div>
 
@@ -130,9 +133,23 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
       </div>
 
       <Rule style={{ marginBottom: '1.5rem' }} />
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed }}>Your judgment. Sharper.</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '2.5rem' }}>
+        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed }}>The call stays yours. The thinking gets sharper.</span>
         <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
+      </div>
+
+      <div style={{ borderTop: `1px solid ${signal.gold}25`, paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed, maxWidth: 420 }}>
+          For founders and operators who want ARCS in the room when the stakes are high.
+        </span>
+        <Button
+          variant="gold"
+          size="sm"
+          glyph="◈"
+          onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist#advisory' }}
+        >
+          Work with ARCS directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+        </Button>
       </div>
     </div>
   )
