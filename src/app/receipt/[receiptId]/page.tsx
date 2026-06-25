@@ -34,6 +34,7 @@ interface ReceiptData {
   version: number
   createdAt: string
   courtVerdict?: string
+  sessionId: string
 }
 
 export default function ReceiptPage() {
@@ -45,6 +46,9 @@ export default function ReceiptPage() {
   const [receipt, setReceipt] = useState<ReceiptData | null>(null)
   const [hasBrief, setHasBrief] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // /api/brief/[receiptId] already recovers tributaries from the receipt's
+  // stored rawResponse (see that route) — just wasn't read here before.
+  const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
 
   useEffect(() => {
     let cancelled = false
@@ -55,6 +59,7 @@ export default function ReceiptPage() {
         if (!ok) { setError(data.error ?? "Could not load receipt"); return }
         setReceipt(data.receipt as ReceiptData)
         setHasBrief(!!data.brief)
+        setTributaries(Array.isArray(data.tributaries) ? data.tributaries : [])
       })
       .catch(() => { if (!cancelled) setError("Could not load receipt") })
     return () => { cancelled = true }
@@ -101,7 +106,7 @@ export default function ReceiptPage() {
     render_resolution: "SHARP",
     nci_delta: null,
     macro_tags: macroTags,
-    tributaries: [],
+    tributaries: tributaries ?? [],
     reasoning: {
       fated: fated as unknown as CompassResult["reasoning"]["fated"],
       paths: paths as unknown as CompassResult["reasoning"]["paths"],
@@ -153,7 +158,17 @@ export default function ReceiptPage() {
 
           {/* Conviction — directly below True North */}
           <div style={{ marginBottom: "2rem" }}>
-            <ConvictionSidebar result={compassResult} />
+            <ConvictionSidebar
+              result={compassResult}
+              onTributary={(prompt) => {
+                const params = new URLSearchParams({
+                  q: prompt,
+                  parent: receipt.id,
+                  sid: receipt.sessionId,
+                })
+                router.push(`/dashboard?${params.toString()}`)
+              }}
+            />
           </div>
 
           {/* Why bullets */}

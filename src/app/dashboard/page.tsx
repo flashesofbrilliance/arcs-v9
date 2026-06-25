@@ -6,11 +6,7 @@ import { surface, text, contentContainer, border } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { CompassForm } from "@/organisms/CompassForm"
 import { CompassError } from "@/molecules/CompassError"
-import { ReceiptPreviewWidget } from "@/molecules/ReceiptPreviewWidget"
-import { TributariesStack } from "@/molecules/TributariesStack"
-import { Wordmark } from "@/ui/Wordmark"
 import { Button } from "@/ui/Button"
-import type { CompassResult } from "@/lib/mockCompass"
 
 // Dashboard — the Compass surface. CompassForm (input) + ResultView (receipt)
 // organisms are presentational; this page owns the live L0–L5 pipeline, prep
@@ -33,13 +29,11 @@ function DashboardInner() {
   const [stakes, setStakes] = useState<Stakes>("MEDIUM")
   const [loading, setLoading] = useState(false)
   const [step, setStep] = useState(0)
-  const [result, setResult] = useState<CompassResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   // Session tracking — preserved across tributary follow-ups
   const [sessionId, setSessionId] = useState<string>("")
   const [parentReceiptId, setParentReceiptId] = useState<string | null>(inboundParent)
-  const tributaryMode = useRef(false)
   // Continue the brief's session thread if one arrived; otherwise start fresh.
   useEffect(() => { setSessionId(inboundSid ?? crypto.randomUUID()) }, [inboundSid])
 
@@ -95,56 +89,19 @@ function DashboardInner() {
   useEffect(() => {
     if (autoRanParent.current || !inboundParent || !question.trim() || !sessionId) return
     autoRanParent.current = true
-    tributaryMode.current = true
     runCompassWith(question, true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId])
 
   async function runCompass(opts: { followUp?: boolean } = {}) {
     if (!question.trim() || loading) return
-    setLoading(true)
-    setError(null)
-    if (!opts.followUp) setResult(null)
-
-    try {
-      // Calibration is the full /prep form now (true 1–5 confidence + entity +
-      // adversarial). Its prepId arrives via ?prepId= and enriches the L0–L5 run.
-      const prepId = inboundPrepId
-
-      const res = await fetch("/api/compass", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          question,
-          horizon,
-          stakes,
-          sessionId: opts.followUp ? sessionId : crypto.randomUUID(),
-          prepId,
-          parentReceiptId: opts.followUp ? parentReceiptId : null,
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? "Unknown error")
-      setResult({ ...data, question })
-      setSessionId(data.session_id)
-      setParentReceiptId(data.receipt_id)
-      tributaryMode.current = false
-      if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong")
-    } finally {
-      setLoading(false)
-    }
+    return runCompassWith(question, !!opts.followUp)
   }
 
-  function handleTributary(prompt: string) {
-    setQuestion(prompt)
-    tributaryMode.current = true
-    // run as a follow-up on the next tick so `question` is updated
-    setTimeout(() => runCompassWith(prompt, true), 0)
-  }
-
-  // tributary needs the new question immediately (state not yet flushed)
+  // Per Zach's toolbar feedback: the dashboard no longer renders an inline
+  // preview carousel after a run — it navigates straight to the receipt page
+  // (skips the friction of an intermediary multi-variant view; the receipt
+  // page is now the canonical "see your result" surface, tributaries and all).
   async function runCompassWith(q: string, followUp: boolean) {
     if (loading) return
     setLoading(true)
@@ -154,19 +111,20 @@ function DashboardInner() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: q, horizon, stakes,
-          sessionId, prepId: inboundPrepId,
+          question: q,
+          horizon,
+          stakes,
+          sessionId: followUp ? sessionId : crypto.randomUUID(),
+          prepId: inboundPrepId,
           parentReceiptId: followUp ? parentReceiptId : null,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? "Unknown error")
-      setResult({ ...data, question: q })
-      setSessionId(data.session_id)
-      setParentReceiptId(data.receipt_id)
+      if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
+      router.push(`/receipt/${data.receipt_id}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong")
-    } finally {
       setLoading(false)
     }
   }
@@ -196,44 +154,19 @@ function DashboardInner() {
         </div>
       )}
 
-      {result ? (
-        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "4rem" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-            <Wordmark section="Receipt" />
-            <div style={{ display: "flex", gap: "0.25rem" }}>
-              <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>
-              <Button variant="ghost" size="sm" glyph="⊕" onClick={() => { setResult(null); setQuestion("") }}>New question</Button>
-            </div>
-          </div>
-
-          <ReceiptPreviewWidget
-            result={result}
-            defaultVariant="cluster"
-            onOpenBrief={() => router.push(`/brief/${result.receipt_id}`)}
-            onOpenReceipt={() => router.push(`/receipt/${result.receipt_id}`)}
-          />
-
-          {result.tributaries?.length > 0 && (
-            <div style={{ marginTop: "1.5rem", paddingTop: "1.5rem", borderTop: `0.5px solid ${border.subtle}` }}>
-              <TributariesStack tributaries={result.tributaries} onTributary={handleTributary} />
-            </div>
-          )}
-        </div>
-      ) : (
-        <CompassForm
-          question={question}
-          horizon={horizon}
-          stakes={stakes}
-          running={loading}
-          step={step}
-          onQuestionChange={setQuestion}
-          onHorizonChange={(v) => setHorizon(v as Horizon)}
-          onStakesChange={(v) => setStakes(v as Stakes)}
-          onCalibrate={() => router.push(`/prep?q=${encodeURIComponent(question)}`)}
-          onSubmit={() => runCompass()}
-          onHistory={() => router.push("/history")}
-        />
-      )}
+      <CompassForm
+        question={question}
+        horizon={horizon}
+        stakes={stakes}
+        running={loading}
+        step={step}
+        onQuestionChange={setQuestion}
+        onHorizonChange={(v) => setHorizon(v as Horizon)}
+        onStakesChange={(v) => setStakes(v as Stakes)}
+        onCalibrate={() => router.push(`/prep?q=${encodeURIComponent(question)}`)}
+        onSubmit={() => runCompass()}
+        onHistory={() => router.push("/history")}
+      />
     </main>
   )
 }
