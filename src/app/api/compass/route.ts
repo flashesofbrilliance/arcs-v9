@@ -433,8 +433,21 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       // for now just make the gap loud instead of silent.
       const RESEND_MAX_SCHEDULE_DAYS = 30
       const daysOut = (scheduledAt.getTime() - Date.now()) / 86400000
+      // Progressive disclosure: the first debrief a user ever gets is sent
+      // unconditionally (the close-the-loop promise). Every later one needs
+      // debriefOptIn — set via the link in that first email — so receipt
+      // volume doesn't translate 1:1 into unrequested email volume.
+      const debriefUser = userId ? await prisma.user.findUnique({
+        where: { id: userId },
+        select: { firstDebriefSentAt: true, debriefOptIn: true },
+      }) : null
+      const isFirstDebrief = !!debriefUser && debriefUser.firstDebriefSentAt === null
+      const eligible = isFirstDebrief || debriefUser?.debriefOptIn === true
+
       if (daysOut > RESEND_MAX_SCHEDULE_DAYS) {
         console.error(`[EMAIL] debrief for receipt ${receipt.id} is ${Math.round(daysOut)} days out — exceeds Resend's ${RESEND_MAX_SCHEDULE_DAYS}-day scheduling limit, not attempting (would fail silently otherwise)`)
+      } else if (!eligible) {
+        console.log(`[EMAIL] debrief for receipt ${receipt.id} skipped — user has not opted in to repeat reminders`)
       } else if (scheduledAt > new Date()) {
         const debrief = debriefEmail({
           question: question.trim(),
@@ -444,6 +457,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           protecting,
           debriefUrl: `${APP_URL}/debrief/${receipt.id}`,
           token: receipt.id,
+          isFirstDebrief,
+          optInUrl: isFirstDebrief && userId ? `${APP_URL}/api/account/reminders?action=opt-in&uid=${userId}` : undefined,
+          optOutUrl: !isFirstDebrief && userId ? `${APP_URL}/api/account/reminders?action=opt-out&uid=${userId}` : undefined,
         })
         resend.emails.send({
           from: "ARCS <noreply@arcs.care>",
@@ -452,7 +468,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           text: debrief.text,
           html: debrief.html,
           scheduledAt: scheduledAt.toISOString(),
-        }).then((res) => {
+        }).then(async (res) => {
           // Log the Resend email id so a scheduled send can actually be
           // cancelled later if needed — the prior version discarded this,
           // which is why a bad-timezone batch couldn't be cancelled and had
@@ -460,7 +476,10 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           console.log(`[EMAIL] debrief for receipt ${receipt.id} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
           // Mark sent so the long-horizon cron (ADR-026 Bug 2) doesn't pick
           // this receipt up again once its reminderDate enters its own sweep window.
-          return prisma.receipt.update({ where: { id: receipt.id }, data: { debriefSentAt: new Date() } })
+          await prisma.receipt.update({ where: { id: receipt.id }, data: { debriefSentAt: new Date() } })
+          if (isFirstDebrief && userId) {
+            await prisma.user.update({ where: { id: userId }, data: { firstDebriefSentAt: new Date() } })
+          }
         }).catch((err) => console.error(`[EMAIL] debrief for receipt ${receipt.id} failed:`, err instanceof Error ? err.message : String(err)))
       }
     }
