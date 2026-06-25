@@ -82,10 +82,12 @@ function WaitlistInner() {
         <Rule style={{ marginBottom: "2rem" }} />
 
         <h1 style={{ fontFamily: font.sans, fontSize: "1.6rem", fontWeight: 600, color: text.primary, margin: "0 0 0.5rem", lineHeight: 1.2, letterSpacing: "-0.01em" }}>
-          Bring ARCS to your hardest decisions.
+          Bring ARCS into the room.
         </h1>
         <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.muted, margin: "0 0 2rem", lineHeight: 1.6 }}>
-          Full-service ARCS pairs the compass with hands-on advisory — the receipts, the Court, the Bayesian loop, run with you.
+          Bespoke, white-glove engagements for teams that want to go deeper than the
+          self-serve compass — a one-day bootcamp, a working session with your team, or
+          a Mañana sprint built around the decision in front of you right now.
         </p>
 
         {/* Full-service waitlist */}
@@ -104,8 +106,13 @@ function WaitlistInner() {
         </Card>
 
         {/* Advisory consult */}
-        <Card accent={signal.gold}>
-          <SectionLabel index="02" color={signal.gold} style={{ marginBottom: "0.75rem" }}>Book a 30-minute consult · free</SectionLabel>
+        <Card id="advisory" accent={signal.gold}>
+          <SectionLabel index="02" color={signal.gold} style={{ marginBottom: "0.75rem" }}>Bootcamp, workshop, or sprint · 30-min intro call</SectionLabel>
+          <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
+            Tell us about the decision in front of your team. We'll scope whether a
+            one-day bootcamp, a hands-on workshop, or a focused Mañana sprint is the
+            right shape — then book a 30-minute call to map it out.
+          </p>
           {aSent ? (
             <Done>
               Got it — we&apos;ll be in touch.
