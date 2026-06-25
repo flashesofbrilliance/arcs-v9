@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { surface, text, font } from '@/ui/tokens'
+import { surface, text } from '@/ui/tokens'
 import { Home, type HomeDemo } from '@/organisms/Home'
-import { Button } from '@/ui/Button'
 
 // Landing surface. Thin wrapper: routes the organism's callbacks and fetches the
 // pinned featured brief for the demo card (public /api/brief — not the gated
@@ -49,18 +48,6 @@ export default function HomePage() {
         onOpen={() => router.push('/dashboard')}
         onBrief={() => router.push(`/brief/${PINNED_BRIEF_ID}`)}
       />
-
-      <div style={{ maxWidth: 620, margin: '0 auto', padding: '0 1.5rem 4rem', textAlign: 'center' }}>
-        <p style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 0.5rem' }}>
-          Want ARCS to run with you on the decisions that matter most?
-        </p>
-        <p style={{ fontFamily: font.sans, fontSize: '0.85rem', color: text.dimmed, lineHeight: 1.6, margin: '0 0 1rem' }}>
-          For founders and operators who want ARCS in the room when the stakes are high.
-        </p>
-        <Button variant="gold" size="md" glyph="◈" onClick={() => router.push('/waitlist')}>
-          Work with ARCS directly →
-        </Button>
-      </div>
     </main>
   )
 }
