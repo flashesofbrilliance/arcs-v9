@@ -36,6 +36,23 @@ model User {
   // asked for, the opposite of the prior auto-send-every-receipt behavior.
   firstDebriefSentAt DateTime?
   debriefOptIn       Boolean   @default(false)
+  profileUpload      ProfileUpload?
+}
+
+// Onboarding upload step (<30s, skippable — see ADR-029). Store-only for now:
+// no generation pipeline reads this yet (that's the still-unbuilt Profile
+// Scan pipeline per ADR-028). Files live in Vercel Blob; this row is just the
+// pointer + lightweight status so the dashboard can nudge a skipped user
+// later without re-asking blindly.
+model ProfileUpload {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id])
+  pdfUrl      String?   // LinkedIn "Save to PDF" profile export
+  exportUrl   String?   // Full LinkedIn data export ZIP
+  skipped     Boolean   @default(false)
+  uploadedAt  DateTime?
+  createdAt   DateTime  @default(now())
 }
 
 model PrepSession {

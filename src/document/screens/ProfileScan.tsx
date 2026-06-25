@@ -30,10 +30,10 @@ export const PROFILE_SAMPLE = {
 
 export const ZACH_PROFILE = {
   cover: {
-    badges: ['Profile Scan', 'DEEP · LinkedIn export + Creator Analytics'],
+    badges: ['Profile Scan', 'DEEP · LinkedIn profile PDF + full data export'],
     title: 'Profile Scan — Zach Harris',
-    subtitle: 'Reach and quiet resonance are separable axes. Thesis-consistency, not impression volume, predicts which content lands quietly and specifically with a technical audience.',
-    meta: 'ARCS PROFILE · Jun 2026 · 4 LinkedIn data surfaces, per-post attribution',
+    subtitle: 'The LinkedIn export surfaces far more than the headline competency list: 100 skills, 765 endorsements, 38 authored long-form articles, dated concurrent-role tenure, and the platform\'s own inferences about who it thinks you are.',
+    meta: 'ARCS PROFILE · Jun 2026 · LinkedIn profile PDF + export ZIP, enrichment pipeline',
     actions: ['Export Brief', 'Open Prep Doc'],
   },
 }
@@ -115,41 +115,41 @@ export function ProfileScanZach({ depth = 'deep' }: { depth?: ScanDepth } = {}) 
     <div>
       <CoverBlock {...ZACH_PROFILE.cover} accent={A} />
 
-      <Sec id="z-contrast" idx="01" label="Signal Read" title="Reach vs. Resonance" accent={A}>
+      <Sec id="z-contrast" idx="01" label="Signal Read" title="Headline vs. Full Export" accent={A}>
         <TwoColumn accent={A}
           left={{
-            heading: 'What the Reach Numbers Say',
-            items: ['Jan 29, 2026 "Forgetting Machine" article — 74,851 impressions, the #1 post of the year', 'Jun 3, 2026 off-thesis post — 41,710 impressions, the 4th-highest reach of any post measured', 'Both look like strong performers by impression count alone'],
-            note: 'Impressions are the metric every export surfaces first. They are also the least informative one here.',
+            heading: 'What the PDF/Headline Says',
+            items: ['A short competency list and a top-15 skill cluster — the surface LinkedIn shows by default', 'Career read as a sequence of roles with no visible concurrency', 'No authored writing, no endorsement depth, no sense of platform-side inference'],
+            note: 'The headline is a summary. The export is the actual record.',
           }}
           right={{
-            heading: 'What the Per-Post Data Actually Shows',
-            items: ['Jun 3 (off-thesis) save-rate: <b>0.0048%</b>, send-rate: 0.0000% — the weakest quiet-resonance reading of the six posts measured', 'Jun 4, 2026 — a direct callback to the Jan 29 thesis — save-rate <b>0.046%</b>, ~2x the next-highest, despite lower reach than Jun 3', 'Thesis-consistency predicts save/send density independent of impression volume (n=6, one account — directional, not law)'],
+            heading: 'What the Full Export Actually Contains',
+            items: ['<b>100</b> skills with real per-skill endorsement counts (765 endorsements total), not the 15-skill cluster the summary view shows', '<b>38</b> authored long-form articles — a full first-person corpus, not just short post copy', 'Dated position history reveals <b>concurrent</b> advisor roles (Le Woof Brand, Cornell Tech, Outlier Ventures) running alongside one 6.5-year anchor engagement (Mañana) — not the sequential job-hopping a naive read of "5+ positions" would suggest', 'LinkedIn\'s own ad-targeting model of the account ("platform inferences") — a signal class with no slot in the document yet'],
           }}
         />
       </Sec>
 
       {showRich && (
-      <Sec id="z-threads" idx="02" label="Resonance Threads" title="Four-Thread Assessment" accent={A}>
+      <Sec id="z-threads" idx="02" label="Profile Threads" title="Four-Thread Assessment" accent={A}>
         <SidelineList items={[
-          { label: 'Red Thread · Recurring Risk', accent: T.red, title: 'High Reach Does Not Predict Quiet Resonance', body: 'Jun 3 had the 4th-highest impressions of the six posts measured but the lowest save-rate and a zero send-rate. Optimizing for impressions alone would have called this post a win.' },
-          { label: 'Gold Thread · Working Asset', accent: T.gold, title: 'Trend Surfing, Used in Production', body: 'The Jan 29 → Jun 4 callback chain was deliberately timed using the existing Trend Surfing molecule (velocity/acceleration entry-exit detection) against a tracked attention-value signal — not posted on intuition. A jerk-based pre_peak_warning() extension, validated against this real engagement series, now buys ~1 day of lead time over the prior acceleration-only signal.' },
-          { label: 'Green Thread · Conviction', accent: T.green, title: 'The Jan 29 → Jun 4 Callback', body: 'Jun 4\'s direct callback to the Jan 29 thesis produced 71,906 impressions, 19 followers gained, 33 saves, 7 sends — and a measured 9% Apple-employee audience composition on that specific post, an order of magnitude above the 1% account-wide baseline. Concentrated, attributable, on-thesis.', note: 'Per-post demographics, not inference — this is the most evidenced finding in the whole scan.' },
-          { label: 'Vermillion · Constraint', accent: T.orange, title: 'Four Manual, Creator-Mode-Gated Exports', body: 'Every finding above required four separate manual LinkedIn exports (personal data ZIP, 365-day Content Analytics, live 90-day Saves/Sends, per-post analytics) — none API-automatable, two gated behind Creator Mode. This doesn\'t scale past a one-person manual walkthrough yet.' },
+          { label: 'Red Thread · Recurring Risk', accent: T.red, title: 'Tenure Misreads Without Dated Data', body: 'The export-only parse flagged "frequent role changes (5+ positions)" as a drainer signal. Cross-checking against the dated PDF tenure shows 3 of those are concurrent advisor/mentor roles alongside one long anchor — not sequential job-hopping. The flag doesn\'t survive contact with dates.' },
+          { label: 'Gold Thread · Working Asset', accent: T.gold, title: '100 Skills, 765 Endorsements — Fully Surfaced', body: 'The full export carries real per-skill endorsement counts for all 100 listed skills, not the 15-skill summary cluster most views stop at. This is straightforward, already-parsed enrichment (operators/linkedin_pipeline/linkedin_export.py), not a future build.' },
+          { label: 'Green Thread · Conviction', accent: T.green, title: '38 Authored Articles — a Real First-Person Corpus', body: 'Full long-form writing, HTML-stripped and parsed from the export\'s Articles/ directory. The longest single article ran 6,013 words. This corpus is the primary input for anything that wants to read voice or thesis, not the short post text alone.' },
+          { label: 'Vermillion · Constraint', accent: T.orange, title: 'Platform Inferences Have No Document Slot Yet', body: 'LinkedIn\'s own ad-targeting categories about this account (Inferences_about_you.csv) are a genuinely different signal class — the platform\'s model of the person, not the person\'s own data. Parsed and available, but the canonical six-section document shape has nowhere to put it yet.' },
         ]} />
       </Sec>
       )}
 
       {showRich && (
-      <Sec id="z-arc" idx="03" label="Post Chain" title="Evidence Ledger — Top 6 Posts" accent={A}>
+      <Sec id="z-arc" idx="03" label="Career Arc" title="Evidence Ledger — Dated Tenure" accent={A}>
         <DataTable
-          columns={['Date', 'Topic', 'Impressions', 'Saves', 'Save-Rate']}
+          columns={['Period', 'Engagement', 'Type', 'Source']}
           rows={[
-            ['Jan 29', '"Forgetting Machine" — original thesis', '74,851', '17', '0.023%'],
-            ['Feb 24–26', 'Anticipatory cluster — Apple 50th lead-in', '~27,000 ea.', '5–6', '0.018%'],
-            ['May 25', 'Gap-breaker — "wrong instrument"', '51,059', '9', '0.018%'],
-            ['Jun 3', 'Off-thesis post', '41,710', '2', '0.0048%'],
-            ['Jun 4', 'Direct callback to Jan 29 thesis', '71,906', '33', '0.046%'],
+            ['Anchor, 6.5 yrs', 'Mañana', 'Primary engagement', 'PDF — dated tenure'],
+            ['Concurrent', 'Le Woof Brand', 'Advisor', 'PDF — dated tenure'],
+            ['Concurrent', 'Cornell Tech', 'Mentor', 'PDF — dated tenure'],
+            ['Concurrent', 'Outlier Ventures', 'Advisor', 'PDF — dated tenure'],
+            ['Ongoing', 'ARCS Field OS', 'Founder/builder', 'This repo'],
           ]}
         />
       </Sec>
@@ -158,17 +158,17 @@ export function ProfileScanZach({ depth = 'deep' }: { depth?: ScanDepth } = {}) 
       {showDeep && (
       <Sec id="z-capabilities" idx="04" label="Capability Map" title="Four Quadrant Read" accent={A}>
         <SmartGrid cols={2} items={[
-          { label: 'Quadrant A · Core', color: T.green, title: 'Thesis-Consistent Long-Form Authorship', body: '38 authored articles in the LinkedIn export, full first-person long-form corpus — the primary input for a future Rhetorical Resonance Engine, not just short post copy.' },
-          { label: 'Quadrant B · Compound', color: T.cyan, title: 'Trend Surfing Applied to Real Timing', body: 'A generic velocity/acceleration/jerk detector (operators/linkedin_pipeline/primitives.py), validated against real Creator Analytics data at two real peaks — not a theoretical primitive, a production one.' },
-          { label: 'Quadrant C · Signal', color: T.gold, title: 'Per-Post Attributable Demographics', body: 'Per-post analytics close the loop a personal-data-export or 365-day aggregate alone cannot: attributable followers-gained, saves/sends, and audience composition per individual post.' },
-          { label: 'Quadrant D · Gap', color: T.orange, title: 'Manual, Creator-Mode-Gated Acquisition', body: 'All four data surfaces require manual UI export; two require Creator Mode. No automatable pipeline exists yet — the acquisition step, not the analysis, is the current bottleneck.' },
+          { label: 'Quadrant A · Core', color: T.green, title: 'Concurrent-Role Builder Pattern', body: 'One long anchor engagement plus multiple concurrent advisor/mentor roles, confirmed by dated tenure — a real pattern the export-only parse alone would have mislabeled as instability.' },
+          { label: 'Quadrant B · Compound', color: T.cyan, title: '38-Article First-Person Corpus', body: 'A real long-form writing archive, fully parsed and available — the input a future voice/thesis-reading feature would need, already sitting in the pipeline.' },
+          { label: 'Quadrant C · Signal', color: T.gold, title: 'Full Skill/Endorsement Depth', body: '100 skills × real per-skill endorsement counts, not the 15-skill headline cluster — already extracted, not a future build.' },
+          { label: 'Quadrant D · Gap', color: T.orange, title: 'Two Unconsumed Signal Classes', body: 'Platform inferences (LinkedIn\'s ad-targeting model of the person) and post-level engagement/resonance data are both parsed and available but have no section in the canonical document shape yet — flagged, not yet built.' },
         ]} />
       </Sec>
       )}
 
-      <Sec id="z-assertion" idx="05" label="Key Assertion" title="The Resonance Theorem" accent={A}>
+      <Sec id="z-assertion" idx="05" label="Key Assertion" title="The Enrichment Theorem" accent={A}>
         <QuoteBlock accent={A} attribution="ARCS Profile Scan — Zach Harris, Thread Analysis">
-          Reach and quiet resonance are separable axes. The post with the highest save-rate in this corpus was not the post with the most impressions — it was the post most consistent with an already-established thesis.
+          The headline view and the full export are not the same document at different resolutions — the export contains entire signal classes (the authored corpus, full endorsement depth, the platform's own inferences) that the headline never surfaces at all.
         </QuoteBlock>
       </Sec>
     </div>
