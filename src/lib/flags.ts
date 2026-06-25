@@ -15,6 +15,9 @@
 export const flags = {
   // Default OFF → history is tokenized per authenticated user. Set PUBLIC_HISTORY=true for demo.
   publicHistory: process.env.PUBLIC_HISTORY === "true",
+  // Default OFF → Profile Scan (/scan) is a staging-only surface for scan.arcs.care.
+  // Set SCAN_ENABLED=true to render it. See ADR-028.
+  scanEnabled: process.env.SCAN_ENABLED === "true",
 } as const
 
 export type Flags = typeof flags
