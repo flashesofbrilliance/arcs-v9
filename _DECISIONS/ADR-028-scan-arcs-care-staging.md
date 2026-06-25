@@ -60,13 +60,19 @@ YELLOW/MEDIUM/HOLD for the canonical content model (mode enum, audience-directio
 term-collision resolution for Thread/Signal/5D/Genome) — explicitly not decided here, routed
 to Zach per the TEI plan's "route unblocking decisions as cheap questions" allocation.
 
-## Open questions (routed to Zach, not resolved here)
+## Open questions — RESOLVED 2026-06-25 (Zach)
 
-1. `mode=` enum — confirm or correct: `recruiting-eval` / `partnership-eval` /
-   `relationship-building` (inferred from 3 Gamma docs)
-2. `audience-direction` — confirm `internal` / `external` as the only two values
-3. `arcs_cfa` disposition — is it the permanent home for the LinkedIn-export parsing
-   pipeline, or does that logic port into this repo?
+1. ~~`mode=` enum~~ — **LOCKED**: `recruiting-eval` / `partnership-eval` / `relationship-building`,
+   as inferred from the 3 Gamma docs. Refine later only if a 4th mode shows up in practice.
+2. ~~`audience-direction`~~ — **LOCKED**: `internal` / `external` is the complete enum.
+3. ~~`arcs_cfa` disposition~~ — **PORTED**: `linkedin_export.py` + `primitives.py`
+   (jerk/`pre_peak_warning` included) copied into `operators/linkedin_pipeline/` in this
+   repo, sourced from `arcs_cfa` commit `fd6ea07`. `arcs_cfa`'s own copies left in place
+   (port, not move) until the generation pipeline confirms arcs-v9 is the sole consumer.
+   Not yet wired into any route — parser/primitive layer only.
+
+## Still open (not asked this round)
+
 4. Whether to pursue the inbound-email-PDF-attachment path (Resend inbound parse) as an
    alternative to an upload UI for the eventual generation pipeline
 
