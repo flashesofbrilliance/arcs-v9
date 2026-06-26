@@ -81,3 +81,67 @@ export function RecoilReport({ data }: RecoilReportProps = {}) {
     </div>
   )
 }
+
+// ─── Dynamic variant — real per-call data, not the static Jon Smyrl sample ───
+// Produced by the /recoil-report skill from a Granola transcript run through
+// both Recoil Protocol passes (runtime/specs/recoil-modes-v1.md). Same six
+// canonical sections/patterns as RecoilReport above, just data-driven.
+
+export interface RecoilReportData {
+  cover: {
+    badges: [string, string]
+    title: string
+    subtitle: string
+    meta: string
+    actions: [string, string]
+  }
+  loadBearingQuote: { text: string; attribution: string }
+  callWalk: { label: string; title: string; body: string; peak?: boolean }[]
+  signalThreads: { label: string; accent: string; title: string; body: string; note?: string }[]
+  scenarios: {
+    best: { title: string; body: string; note?: string }
+    base: { title: string; body: string; note?: string }
+    worst: { title: string; body: string; note?: string }
+  }
+  riskFlags: { variant: 'warning' | 'caution' | 'info' | 'success'; label: string; body: string }[]
+  protocol: { label: string; title: string; body: string; active?: boolean }[]
+}
+
+export function RecoilReportFromData({ data: d }: { data: RecoilReportData }) {
+  const A = T.cyan
+  return (
+    <div>
+      <CoverBlock {...d.cover} accent={A} />
+
+      <Sec id="r-quote" idx="01" label="Signal Quote" title="The Most Load-Bearing Moment" accent={A}>
+        <QuoteBlock accent={A} attribution={d.loadBearingQuote.attribution}>
+          {d.loadBearingQuote.text}
+        </QuoteBlock>
+      </Sec>
+
+      <Sec id="r-walk" idx="02" label="Call Walk" title="Chronological Signal Map" accent={A}>
+        <Timeline accent={A} steps={d.callWalk} />
+      </Sec>
+
+      <Sec id="r-signal" idx="03" label="Signal Assessment" title="Four-Thread Read" accent={A}>
+        <SidelineList items={d.signalThreads} />
+      </Sec>
+
+      <Sec id="r-scenarios" idx="04" label="Outcome Model" title="Three Paths Forward" accent={A}>
+        <ScenarioStack scenarios={d.scenarios} />
+      </Sec>
+
+      <Sec id="r-flags" idx="05" label="Risk Flags" title="What to Watch" accent={A}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {d.riskFlags.map((f, i) => (
+            <AsideBox key={i} variant={f.variant} label={f.label}>{f.body}</AsideBox>
+          ))}
+        </div>
+      </Sec>
+
+      <Sec id="r-next" idx="06" label="Protocol" title="Recovery Protocol" accent={A}>
+        <ProcessSteps accent={A} steps={d.protocol} />
+      </Sec>
+    </div>
+  )
+}

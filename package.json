@@ -14,7 +14,8 @@
     "postinstall": "prisma generate",
     "db:generate": "npx prisma generate",
     "db:reset": "npx prisma migrate reset --force",
-    "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close"
+    "verify": "agent-browser open http://localhost:3000 && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser open http://localhost:3000/dashboard && agent-browser wait --load networkidle && agent-browser screenshot --annotate && agent-browser close",
+    "test:smoke": "playwright test"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.100.1",
@@ -40,6 +41,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
