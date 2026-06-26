@@ -74,7 +74,7 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
           What are you really<br />trying to decide?
         </h1>
         <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, maxWidth: 480, margin: '0 0 2rem' }}>
-          Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem, an unbiased outside perspective can help. ARCS expands your field of view to sharpen your line of sight to the horizon line and orient you in the right direction.
+          Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
           <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
