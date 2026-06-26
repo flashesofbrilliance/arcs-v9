@@ -83,9 +83,10 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
       </div>
 
       {/* Bierut fix V — the featured Receipt is the conversion asset (output
-          before input); the cyan underlit accent makes it read as an artifact,
-          not documentation. */}
-      <Card accent={signal.cyan} style={{ marginBottom: '3rem', padding: '1.5rem' }}>
+          before input). Outer box stays neutral (no colored outline/glow,
+          matching the compass/receipt pages) — only the True North panel
+          itself glows, same as everywhere else it appears. */}
+      <Card style={{ marginBottom: '3rem', padding: '1.5rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
           <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt — what ARCS produces')}</Label>
           <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
@@ -96,16 +97,20 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
         <TrueNorthPanel heading={`True North${d.mode ? ' · ' + d.mode : ''} · ${door.label}`} style={{ padding: '1rem 1.25rem', marginBottom: '1rem' }}>
           {d.trueNorth}
         </TrueNorthPanel>
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Gauge label="Conviction" value={String(d.nciScore)} sub="/ 100" color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
-          {d.coherence != null && (
-            <Gauge label="Coherence" value={<>{d.coherence}<span style={{ fontSize: 15, color: text.muted }}>%</span></>} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
-          )}
-          <Badge label={door.label} color={door.color} register="governance" />
-          {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <Gauge label="Conviction" value={String(d.nciScore)} sub="/ 100" color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
+            {d.coherence != null && (
+              <Gauge label="Coherence" value={String(d.coherence)} sub="%" flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
+            )}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
+            <Badge label={door.label} color={door.color} register="governance" />
+            {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
+          </div>
         </div>
         {onBrief && (
-          <div style={{ marginTop: '1.25rem' }}>
+          <div style={{ marginTop: '1.25rem', display: 'flex', justifyContent: 'flex-end' }}>
             <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
           </div>
         )}
