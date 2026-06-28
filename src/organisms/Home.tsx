@@ -111,7 +111,10 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
             <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt — what ARCS produces')}</Label>
             <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
           </div>
-          <div style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.primary, marginBottom: '1rem', lineHeight: 1.5 }}>
+          <div
+            title={d.decision}
+            style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.primary, marginBottom: '1rem', lineHeight: 1.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+          >
             {d.decision}
           </div>
           <TrueNorthPanel
