@@ -58,7 +58,7 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
   const gaugeC = nciColor(d.nciScore)
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '2rem 1.5rem 3.5rem' }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', padding: '2rem 1.5rem 3.5rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark />
         <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -68,62 +68,64 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
       </div>
       <Rule style={{ marginBottom: '3rem' }} />
 
-      <div style={{ marginBottom: '3rem' }}>
-        <SectionLabel style={{ marginBottom: '1.25rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
-        <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2.25rem, 5.5vw, 3.25rem)', fontWeight: 600, lineHeight: 1.08, color: text.primary, margin: '0 0 1.5rem', letterSpacing: '-0.025em' }}>
-          What are you really<br />trying to decide?
-        </h1>
-        <p style={{ fontFamily: font.sans, fontSize: '1.0625rem', color: text.secondary, lineHeight: 1.7, margin: '0 0 2rem' }}>
-          Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
-        </p>
-        <div style={{ marginBottom: '0.75rem' }}>
-          <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
+      {/* Split-screen (direction #3) — pitch and proof side by side, so a
+          visitor never scrolls past one without the other. Collapses to a
+          single column via auto-fit, no separate mobile breakpoint needed. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '2.5rem', alignItems: 'center', marginBottom: '3rem' }}>
+        <div>
+          <SectionLabel style={{ marginBottom: '1.25rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
+          <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2rem, 4.5vw, 2.75rem)', fontWeight: 600, lineHeight: 1.1, color: text.primary, margin: '0 0 1.25rem', letterSpacing: '-0.025em' }}>
+            What are you really<br />trying to decide?
+          </h1>
+          <p style={{ fontFamily: font.sans, fontSize: '1rem', color: text.secondary, lineHeight: 1.7, margin: '0 0 1.75rem' }}>
+            Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
+          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => { const el = typeof document !== 'undefined' ? document.getElementById('how') : null; if (el) window.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' }) }}
+            >
+              See how it works&nbsp;<span style={{ color: signal.cyan, animation: 'glow 2s ease-in-out infinite' }}>↓</span>
+            </Button>
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => { const el = typeof document !== 'undefined' ? document.getElementById('how') : null; if (el) window.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' }) }}
-          >
-            See how it works&nbsp;<span style={{ color: signal.cyan, animation: 'glow 2s ease-in-out infinite' }}>↓</span>
-          </Button>
-        </div>
-      </div>
 
-      {/* Bierut fix V — the featured Receipt is the conversion asset (output
-          before input). Outer box stays neutral (no colored outline/glow,
-          matching the compass/receipt pages) — only the True North panel
-          itself glows, same as everywhere else it appears. */}
-      <Card style={{ marginBottom: '3rem', padding: '1.5rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
-          <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt — what ARCS produces')}</Label>
-          <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
-        </div>
-        <div style={{ fontFamily: font.sans, fontSize: '0.9375rem', color: text.primary, marginBottom: '1.25rem', lineHeight: 1.5 }}>
-          {d.decision}
-        </div>
-        <TrueNorthPanel
-          heading={`True North${d.mode ? ' · ' + d.mode : ''} · ${door.label}`}
-          style={{ padding: '1rem 1.25rem', marginBottom: '1rem', animation: 'glow 4s ease-in-out infinite' }}
-        >
-          {d.trueNorth}
-        </TrueNorthPanel>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.75rem', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <Gauge label="Conviction" value={`${d.nciScore}%`} color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
-            {d.coherence != null && (
-              <Gauge label="Coherence" value={`${d.coherence}%`} flex="0 0 auto" minWidth={96} valueSize={26} style={{ padding: '10px 14px' }} />
-            )}
+        {/* Outer box stays neutral (no colored outline/glow, matching the
+            compass/receipt pages) — only the True North panel itself glows,
+            same as everywhere else it appears. */}
+        <Card style={{ padding: '1.25rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
+            <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt — what ARCS produces')}</Label>
+            <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
-            {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
-            <Badge label={door.label} color={door.color} register="governance" />
-            {onBrief && (
-              <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
-            )}
+          <div style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.primary, marginBottom: '1rem', lineHeight: 1.5 }}>
+            {d.decision}
           </div>
-        </div>
-      </Card>
+          <TrueNorthPanel
+            heading={`True North${d.mode ? ' · ' + d.mode : ''} · ${door.label}`}
+            style={{ padding: '0.9rem 1.1rem', marginBottom: '0.9rem', animation: 'glow 4s ease-in-out infinite' }}
+          >
+            {d.trueNorth}
+          </TrueNorthPanel>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.6rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+              <Gauge label="Conviction" value={`${d.nciScore}%`} color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
+              {d.coherence != null && (
+                <Gauge label="Coherence" value={`${d.coherence}%`} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
+              )}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
+              {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
+              <Badge label={door.label} color={door.color} register="governance" />
+              {onBrief && (
+                <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
+              )}
+            </div>
+          </div>
+        </Card>
+      </div>
 
       <div id="how" style={{ marginBottom: '3rem' }}>
         <SectionLabel style={{ marginBottom: '1.5rem' }}>How it works</SectionLabel>
