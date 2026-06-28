@@ -142,29 +142,35 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
           {d.tributaries && d.tributaries.length > 0 && (
             <div style={{ marginTop: '0.9rem' }}>
               <SectionLabel style={{ marginBottom: '0.5rem' }}>Tributaries · where to navigate next</SectionLabel>
-              <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-                {d.tributaries.map((t, i) => {
-                  const c = tribColor(t.type)
-                  return (
-                    <button
-                      key={i}
-                      onClick={() => { if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
-                      style={{
-                        fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.04em', fontWeight: 600, textTransform: 'uppercase',
-                        color: c, background: 'transparent', border: `1px solid ${c}40`, borderRadius: 5, padding: '5px 10px', cursor: 'pointer',
-                      }}
-                    >
-                      {t.label}
-                    </button>
-                  )
-                })}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                  {d.tributaries.map((t, i) => {
+                    const c = tribColor(t.type)
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => { if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
+                        style={{
+                          fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.04em', fontWeight: 600, textTransform: 'uppercase',
+                          color: c, background: 'transparent', border: `1px solid ${c}40`, borderRadius: 5, padding: '5px 10px', cursor: 'pointer',
+                        }}
+                      >
+                        {t.label}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {onBrief && (
+                  <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief} style={{ flexShrink: 0 }}>View brief&nbsp;→</Button>
+                )}
               </div>
             </div>
           )}
 
-          {/* Breathing room before the button — deliberately separate from
-              the badge stack's space-between rhythm above. */}
-          {onBrief && (
+          {/* Tributaries absent (no demo override provided one) — button keeps
+              its own row, same right-aligned position as before. */}
+          {onBrief && !(d.tributaries && d.tributaries.length > 0) && (
             <div style={{ marginTop: '1.1rem', display: 'flex', justifyContent: 'flex-end' }}>
               <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
             </div>
