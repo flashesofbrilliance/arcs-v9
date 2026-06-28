@@ -178,7 +178,7 @@ ${darkLockHead(C)}</head>
       </td></tr>
 
       <tr><td style="padding:16px 4px 0 4px;font-family:${C.mono};font-size:10px;letter-spacing:0.6px;color:#334155;">
-        arcs.care${opts.optOutUrl ? ` · <a href="${opts.optOutUrl}" style="color:#334155;text-decoration:underline;">turn off reminders</a>` : ''}
+        arcs.care · <a href="${opts.optOutUrl ?? 'https://app.arcs.care/unsubscribe'}" style="color:#334155;text-decoration:underline;">${opts.optOutUrl ? 'turn off reminders' : 'unsubscribe'}</a>
       </td></tr>
 
     </table>
