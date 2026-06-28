@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { font, signal, text } from '@/ui/tokens'
-import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta } from '@/ui/tokens'
+import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta, tribColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
 import { Rule } from '@/ui/Rule'
@@ -11,6 +11,7 @@ import { Label } from '@/ui/Label'
 import { Badge } from '@/ui/Badge'
 import { Gauge } from '@/ui/Gauge'
 import { TrueNorthPanel } from '@/instrument/TrueNorthPanel'
+import type { Tributary } from '@/lib/mockCompass'
 
 // Home — marketing/entry organism. PRESENTATIONAL: takes onOpen callback only.
 // Source: compass-app/Home.jsx (verbatim layout, window atoms → ES imports).
@@ -33,8 +34,13 @@ export interface HomeDemo {
   mode?: string | null
   doorClass?: string | null
   yState?: string | null
+  tributaries?: Tributary[]
 }
 
+// ATG (Anticipatory Tributary Generator) preview — the same 3-prompt shape
+// every real receipt produces. Shown compact here (one-line chips, not the
+// full TributaryTile stack) so the demo card stays roughly the height of
+// the left column instead of growing past it.
 const DEMO_FALLBACK: HomeDemo = {
   decision: 'Should I take the Series A now or extend runway another 6 months and grow into a higher valuation?',
   trueNorth: 'Extend runway — the valuation delta at your current growth rate outweighs the optionality cost of 6 months.',
@@ -43,6 +49,11 @@ const DEMO_FALLBACK: HomeDemo = {
   mode: 'COURT',
   doorClass: 'ONE_WAY',
   yState: 'GREEN',
+  tributaries: [
+    { type: 'meta', label: 'Meta', prompt: 'What would have to be true for taking the A now to be right regardless of valuation?' },
+    { type: 'challenge', label: 'Challenge', prompt: 'If the next two months miss plan, what is your recovery line on the wait?' },
+    { type: 'adjacent', label: 'Adjacent', prompt: 'Does a bridge note de-risk the wait without resetting the round terms?' },
+  ],
 }
 
 export interface HomeProps {
@@ -109,21 +120,52 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
           >
             {d.trueNorth}
           </TrueNorthPanel>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '0.6rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', gap: '0.6rem', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
               <Gauge label="Conviction" value={`${d.nciScore}%`} color={gaugeC} glow={signalGlow(gaugeC)} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
               {d.coherence != null && (
                 <Gauge label="Coherence" value={`${d.coherence}%`} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
               )}
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem' }}>
-              {d.mode && <Badge label={d.mode} color={signal.gold} register="light" />}
+            {/* space-between + stretch: door-class pill's bottom lands flush
+                with the bottom of the (taller) Coherence gauge, instead of
+                both badges clinging to the top of the row. */}
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+              {d.mode ? <Badge label={d.mode} color={signal.gold} register="light" /> : <span />}
               <Badge label={door.label} color={door.color} register="governance" />
-              {onBrief && (
-                <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
-              )}
             </div>
           </div>
+
+          {d.tributaries && d.tributaries.length > 0 && (
+            <div style={{ marginTop: '0.9rem' }}>
+              <SectionLabel style={{ marginBottom: '0.5rem' }}>Tributaries · where to navigate next</SectionLabel>
+              <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+                {d.tributaries.map((t, i) => {
+                  const c = tribColor(t.type)
+                  return (
+                    <button
+                      key={i}
+                      onClick={() => { if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
+                      style={{
+                        fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.04em', fontWeight: 600, textTransform: 'uppercase',
+                        color: c, background: 'transparent', border: `1px solid ${c}40`, borderRadius: 5, padding: '5px 10px', cursor: 'pointer',
+                      }}
+                    >
+                      {t.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Breathing room before the button — deliberately separate from
+              the badge stack's space-between rhythm above. */}
+          {onBrief && (
+            <div style={{ marginTop: '1.1rem', display: 'flex', justifyContent: 'flex-end' }}>
+              <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
+            </div>
+          )}
         </Card>
       </div>
 
