@@ -30,13 +30,28 @@ function FillBar({ state, stepMs }: { state: RowState; stepMs: number }) {
     if (state === 'done') { setW(100); return }
     if (state === 'pending') { setW(0); return }
     // active / last → animate from 0 toward the target on the next frame so the
-    // width transition actually runs. The last stage eases to 90% and holds,
-    // signalling "still working" rather than a premature complete.
+    // width transition actually runs.
     setW(0)
     const r = requestAnimationFrame(() => setW(state === 'last' ? 90 : 100))
     return () => cancelAnimationFrame(r)
   }, [state])
-  const dur = state === 'last' ? stepMs * 6 : stepMs
+  // The final stage's real duration is whatever the in-flight request
+  // actually takes — there's no per-stage telemetry from a single
+  // un-streamed API call to drive this honestly. Rather than hold the bar
+  // static at 90% (which reads as stalled on a slow response and reads as
+  // "done early" on a fast one), keep it creeping toward 99% for as long as
+  // the parent stays mounted — i.e. for exactly as long as the real call
+  // takes, not a fixed schedule. This is the bar actually tracking elapsed
+  // wall-clock time, not a fabricated progress estimate.
+  React.useEffect(() => {
+    if (state !== 'last') return
+    const id = setInterval(() => setW((prev) => Math.min(99, prev + 1)), 1400)
+    return () => clearInterval(id)
+  }, [state])
+  // 1300ms matches the creep interval's cadence so each 1% step's
+  // transition finishes just before the next one fires, instead of the old
+  // single long ease that only ever covered the initial 0→90% hop.
+  const dur = state === 'last' ? 1300 : stepMs
   return (
     <div style={{ flex: 1, height: 2, borderRadius: 2, background: '#141e2e', overflow: 'hidden' }}>
       <div style={{ height: '100%', width: `${w}%`, background: signal.cyan, transition: `width ${dur}ms linear`, boxShadow: `0 0 6px ${signal.cyan}99` }} />

@@ -65,12 +65,18 @@ function DashboardInner() {
 
   // ADR-029: nudge a logged-in user who hasn't uploaded or skipped the
   // onboarding profile step yet. 401 (anonymous) is the common case — fail
-  // silent, don't show the nudge.
-  const [showOnboardingNudge, setShowOnboardingNudge] = useState(false)
+  // silent, don't show the nudge. Per toolbar feedback (DxUNiOM8XDu8): a user
+  // who uploaded only the PDF (export still missing) had no way back into
+  // the flow — `seen` alone went true on the first upload and the nudge
+  // never returned. Re-show it whenever the profile is incomplete and the
+  // user hasn't explicitly skipped, with copy that reflects what's missing.
+  const [onboardingNudge, setOnboardingNudge] = useState<{ hasPdf: boolean; hasExport: boolean } | null>(null)
   useEffect(() => {
     fetch("/api/onboarding/upload")
       .then((r) => (r.ok ? r.json() : null))
-      .then((s) => { if (s && !s.seen) setShowOnboardingNudge(true) })
+      .then((s) => {
+        if (s && !s.skipped && !(s.hasPdf && s.hasExport)) setOnboardingNudge({ hasPdf: s.hasPdf, hasExport: s.hasExport })
+      })
       .catch(() => {})
   }, [])
 
@@ -131,18 +137,22 @@ function DashboardInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      {showOnboardingNudge && (
+      {onboardingNudge && (
         <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: 0 }}>
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
             border: `1px solid ${border.subtle}`, borderRadius: 10, padding: "10px 16px",
           }}>
             <span style={{ fontSize: 13, color: text.secondary }}>
-              Add your LinkedIn profile to enrich your Profile Scan — takes under 30 seconds.
+              {onboardingNudge.hasPdf
+                ? "Add your full data export to deepen your Profile Scan — takes under 30 seconds."
+                : "Add your LinkedIn profile to enrich your Profile Scan — takes under 30 seconds."}
             </span>
             <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
-              <Button variant="ghost" size="sm" onClick={() => setShowOnboardingNudge(false)}>Dismiss</Button>
-              <Button variant="primary" size="sm" onClick={() => router.push("/onboarding")}>Set up profile</Button>
+              <Button variant="ghost" size="sm" onClick={() => setOnboardingNudge(null)}>Dismiss</Button>
+              <Button variant="primary" size="sm" onClick={() => router.push("/onboarding")}>
+                {onboardingNudge.hasPdf ? "Add export" : "Set up profile"}
+              </Button>
             </div>
           </div>
         </div>
