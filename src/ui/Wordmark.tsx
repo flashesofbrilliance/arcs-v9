@@ -7,28 +7,21 @@ export interface WordmarkProps {
   section?: string
 }
 
-// Logomark — a nested infinity/orbit knot, vector not raster so it stays
-// crisp at the ~14-18px size it actually renders at next to the wordmark.
-// Two concentric loops echo the "many strands, one path" reference image
-// without the noise — a photo of light-trails turns to mud at this scale.
+// Logomark — Zach's reference render (the infinity/orbit knot), cropped
+// tight to the knot itself (public/brand/arcs-mark-128.png). The source
+// photo's background is near-black but not pure black like the app's
+// surface.bg, so `mix-blend-mode: screen` drops the seam: black pixels
+// contribute nothing under screen, only the bright strands show through.
 function ArcsMark() {
   return (
-    <svg width="18" height="13" viewBox="0 0 24 16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-      <path
-        d="M12 8 C12 3.5 5 3.5 5 8 C5 12.5 12 12.5 12 8 C12 3.5 19 3.5 19 8 C19 12.5 12 12.5 12 8"
-        stroke={signal.cyan}
-        strokeWidth={1.1}
-        strokeLinecap="round"
-        opacity={0.95}
-      />
-      <path
-        d="M12 8 C12 5.2 8 5.2 8 8 C8 10.8 12 10.8 12 8 C12 5.2 16 5.2 16 8 C16 10.8 12 10.8 12 8"
-        stroke={signal.cyan}
-        strokeWidth={0.7}
-        strokeLinecap="round"
-        opacity={0.5}
-      />
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src="/brand/arcs-mark-128.png"
+      alt=""
+      width={18}
+      height={18}
+      style={{ flexShrink: 0, mixBlendMode: 'screen', objectFit: 'cover' }}
+    />
   )
 }
 
