@@ -58,12 +58,13 @@ const DEMO_FALLBACK: HomeDemo = {
 
 export interface HomeProps {
   onOpen?: () => void
+  onCalibrate?: () => void
   demo?: HomeDemo | null
   demoLabel?: string
   onBrief?: () => void
 }
 
-export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
+export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProps) {
   const d = demo ?? DEMO_FALLBACK
   const w = getWeather(d.yState)
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
@@ -73,7 +74,11 @@ export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark />
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          <Button variant="ghost" size="sm" onClick={onOpen}>Calibrate</Button>
+          {/* Per toolbar feedback (CSZchYG4Dne4): Calibrate previously aliased
+              Open compass — both went to /dashboard. Calibrate now routes to
+              the actual calibration instrument (/prep), matching the same
+              destination CompassForm's own "Add context" link uses. */}
+          <Button variant="ghost" size="sm" onClick={onCalibrate ?? onOpen}>Calibrate</Button>
           <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
         </div>
       </div>
