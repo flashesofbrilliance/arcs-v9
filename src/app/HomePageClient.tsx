@@ -15,6 +15,7 @@ export function HomePageClient({ demo, pinnedBriefId }: { demo: HomeDemo | null;
         demo={demo}
         demoLabel="Featured · what ARCS produces"
         onOpen={() => router.push('/dashboard')}
+        onCalibrate={() => router.push('/prep')}
         onBrief={() => router.push(`/brief/${pinnedBriefId}`)}
       />
     </main>
