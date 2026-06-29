@@ -81,6 +81,7 @@ This directory contains the atomic design components that compose the ARCS decis
 | Operator | File | RC ID | Promotion trigger |
 |----------|------|-------|--------------------|
 | **INCHWORM+ECHO** | `arcs_inchworm_echo.py` | RC-OPS-001 | Observatory period — findings must be logged and replayed through Observatory across multiple real sessions, with severity grading and named patterns confirmed accurate in hindsight, before promotion to full ROM. See file header and `_PATTERNS/2026-06-23-governance-roadmap.md` task #7. |
+| **PROFILE-SCAN-FOLKSONOMY-TIGHTENING** | `_SPECS/profile-scan-spec-v1.md` (§ "Term collision") | RC-OPS-002 | Hypothesis: term variation across Profile Scan block variants (Thread/Signal/5D/Genome meaning different things per document) is folksonomy edge-weight tightening, not inconsistency to standardize away — per the Folksonomist operator (`arcs_core.py`) and ADR-023's model. **Promotion gate = measured-baseline-stability, NOT a magic number.** The "100+ receipts" in ADR-020/023 is arbitrary (ADR-020 itself says 50 in two places, 100 in a third); the real, non-arbitrary condition is ADR-023's own `g > Gini_baseline(corpus)` where the baseline is a *measured* quantity. Promote when the corpus's measured Gini/Zipf baseline has stabilized (stops moving materially as N grows / CI tight enough) — possibly well under 100 — and only if the terms are then shown to actually be converging, not just accumulating. Corpus this session was n=5; convergence is NOT yet measurable. |
 
 ## Key Relationships
 

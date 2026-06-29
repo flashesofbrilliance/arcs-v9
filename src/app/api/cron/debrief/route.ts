@@ -38,22 +38,39 @@ export async function GET(req: NextRequest) {
   // Candidates: never sent, has a reminderDate now inside the 30-day Resend
   // window, no Outcome logged yet, and a real user/email to send to.
   // (Anonymous receipts have no userId and can't be debriefed by email.)
+  // Progressive disclosure (same gate as compass/route.ts's inline send):
+  // a user's first-ever debrief always goes out; every later one needs
+  // User.debriefOptIn. Filtered here at query time, not just per-row below,
+  // so a power user with many overdue receipts doesn't get swept into many
+  // emails just because none of them have individually been sent yet.
   const candidates = await prisma.receipt.findMany({
     where: {
       debriefSentAt: null,
       reminderDate: { not: null, lte: windowEndStr },
       outcome: null,
       userId: { not: null },
+      user: { is: { OR: [{ firstDebriefSentAt: null }, { debriefOptIn: true }] } },
     },
-    include: { user: { select: { email: true } } },
+    include: { user: { select: { id: true, email: true, firstDebriefSentAt: true, debriefOptIn: true } } },
   })
 
   const results: { receiptId: string; ok: boolean; detail: string }[] = []
+  // A single sweep can surface several overdue receipts for the same
+  // never-debriefed user — only the first one sent this run gets the
+  // "freebie" treatment; the in-memory query snapshot won't reflect that
+  // until we update it ourselves mid-loop.
+  const firstUsedThisRun = new Set<string>()
 
   for (const receipt of candidates) {
     const userEmail = receipt.user?.email
     if (!userEmail || !receipt.reminderDate) {
       results.push({ receiptId: receipt.id, ok: false, detail: "missing email or reminderDate" })
+      continue
+    }
+
+    const isFirstDebrief = receipt.user!.firstDebriefSentAt === null && !firstUsedThisRun.has(receipt.user!.id)
+    if (!isFirstDebrief && !receipt.user!.debriefOptIn) {
+      results.push({ receiptId: receipt.id, ok: false, detail: "skipped — not opted in to repeat reminders" })
       continue
     }
 
@@ -85,6 +102,9 @@ export async function GET(req: NextRequest) {
       protecting,
       debriefUrl: `${APP_URL}/debrief/${receipt.id}`,
       token: receipt.id,
+      isFirstDebrief,
+      optInUrl: isFirstDebrief ? `${APP_URL}/api/account/reminders?action=opt-in&uid=${receipt.user!.id}` : undefined,
+      optOutUrl: !isFirstDebrief ? `${APP_URL}/api/account/reminders?action=opt-out&uid=${receipt.user!.id}` : undefined,
     })
 
     try {
@@ -100,6 +120,10 @@ export async function GET(req: NextRequest) {
         where: { id: receipt.id },
         data: { debriefSentAt: new Date() },
       })
+      if (isFirstDebrief) {
+        await prisma.user.update({ where: { id: receipt.user!.id }, data: { firstDebriefSentAt: new Date() } })
+        firstUsedThisRun.add(receipt.user!.id)
+      }
       results.push({ receiptId: receipt.id, ok: true, detail: res.data?.id ?? "sent" })
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)

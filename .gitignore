@@ -86,3 +86,4 @@ operators/_torch_distillation_artifacts/
 .env*.local
 .mcp.json
 supabase/
+test-results/
