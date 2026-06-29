@@ -1,0 +1,27 @@
+{
+  "cover": {
+    "badges": ["Recoil Report", "Demo · Smoke Test"],
+    "title": "Demo Call — Smoke Test Fixture",
+    "subtitle": "Synthetic fixture used by the Playwright smoke test for the dynamic /recoil/[reportId] route. Not a real call.",
+    "meta": "ARCS RECOIL · Smoke Test · 0 min",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": { "text": "This is a smoke-test fixture quote.", "attribution": "Smoke Test · n/a" },
+  "callWalk": [
+    { "label": "Open", "title": "Fixture Step", "body": "Synthetic step for route smoke testing.", "peak": false }
+  ],
+  "signalThreads": [
+    { "label": "Coherence", "accent": "#00F0FF", "title": "Fixture Thread", "body": "Synthetic thread body." }
+  ],
+  "scenarios": {
+    "best": { "title": "Best", "body": "Synthetic best-case body." },
+    "base": { "title": "Base", "body": "Synthetic base-case body." },
+    "worst": { "title": "Worst", "body": "Synthetic worst-case body." }
+  },
+  "riskFlags": [
+    { "variant": "info", "label": "Fixture", "body": "Synthetic risk flag for smoke testing." }
+  ],
+  "protocol": [
+    { "label": "Step 01", "title": "Fixture Protocol Step", "body": "Synthetic protocol body.", "active": true }
+  ]
+}

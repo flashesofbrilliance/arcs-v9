@@ -27,6 +27,19 @@ export interface DebriefEmailOpts {
   debriefUrl: string
   // Unique fragment (e.g. receipt id tail) — keeps Gmail from threading repeats.
   token?: string
+  // True only for a user's first-ever debrief send. The first one is sent
+  // unconditionally (the core close-the-loop promise); every later one
+  // requires the opt-in click below — progressive disclosure, not an
+  // assumed standing subscription. See prisma User.debriefOptIn.
+  isFirstDebrief?: boolean
+  // One-click link that flips User.debriefOptIn to true. Only rendered when
+  // isFirstDebrief is true — there's nothing to opt into on a repeat send,
+  // the user already opted in to get it.
+  optInUrl?: string
+  // One-click link that flips User.debriefOptIn back to false. Only relevant
+  // (and only rendered) on a non-first send — that's the only case where the
+  // user is actively subscribed to anything.
+  optOutUrl?: string
 }
 
 const C = {
@@ -67,6 +80,7 @@ export function debriefEmail(opts: DebriefEmailOpts): { subject: string; text: s
   const days = Math.max(1, Math.round(daysElapsed))
   const q = question.trim()
   const qShort = q.length > 60 ? `${q.slice(0, 57)}…` : q
+  const showOptIn = Boolean(opts.isFirstDebrief && opts.optInUrl)
 
   // ── Plain-text fallback (deliverability + non-HTML clients) ──────────────
   const protectingLine = protecting.length ? `\nYOU WERE PROTECTING\n${protecting.join(' · ')}\n` : ''
@@ -85,7 +99,8 @@ Did it land where the compass pointed?
 
 Log how it landed →
 ${debriefUrl}
-
+${showOptIn ? `
+This is the only check-in we send without asking first. Want future ones like\nit? Turn on reminders →\n${opts.optInUrl}\n` : ''}
 —
 ARCS Field OS · render through the fog to earned clarity`
 
@@ -155,10 +170,15 @@ ${darkLockHead(C)}</head>
           On track, drifting, or landed — name it, and the next call starts from clearer ground.
         </div>
 
+        ${showOptIn ? `<div class="arcs-muted" style="margin:18px 0 0 0;padding:14px 16px;border:1px solid ${C.border};border-radius:10px;font-family:${C.sans};font-size:13px;line-height:1.6;color:${C.muted};">
+          This is the only check-in ARCS sends without asking first. Want future ones like it?
+          <a href="${opts.optInUrl}" style="color:${C.cyan};text-decoration:underline;">Turn on reminders →</a>
+        </div>` : ''}
+
       </td></tr>
 
       <tr><td style="padding:16px 4px 0 4px;font-family:${C.mono};font-size:10px;letter-spacing:0.6px;color:#334155;">
-        arcs.care · <a href="https://app.arcs.care/unsubscribe" style="color:#334155;text-decoration:underline;">unsubscribe</a>
+        arcs.care · <a href="${opts.optOutUrl ?? 'https://app.arcs.care/unsubscribe'}" style="color:#334155;text-decoration:underline;">${opts.optOutUrl ? 'turn off reminders' : 'unsubscribe'}</a>
       </td></tr>
 
     </table>
