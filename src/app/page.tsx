@@ -33,24 +33,13 @@ function readCachedDemo(): HomeDemo | null {
 
 export default function HomePage() {
   const router = useRouter()
-  const [demo, setDemo] = useState<HomeDemo | null>(() => {
-    const cached = readCachedDemo()
-    // TEMP DEBUG (remove after diagnosis) — trace exactly what each render
-    // paints and why, to catch the flash/revert without guessing.
-    console.log('[HOME DEBUG] init state:', cached ? `cached:${cached.decision.slice(0, 30)}` : 'null (fallback)')
-    return cached
-  })
+  const [demo, setDemo] = useState<HomeDemo | null>(() => readCachedDemo())
 
   useEffect(() => {
-    console.log('[HOME DEBUG] HomePage mounted')
     let cancelled = false
     fetch(`/api/brief/${PINNED_BRIEF_ID}`)
-      .then((r) => {
-        console.log('[HOME DEBUG] fetch status:', r.status, 'cancelled:', cancelled)
-        return r.ok ? r.json() : null
-      })
+      .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        console.log('[HOME DEBUG] fetch resolved, has receipt:', !!data?.receipt, 'cancelled:', cancelled)
         if (cancelled || !data?.receipt) return
         const r = data.receipt
         const next: HomeDemo = {
@@ -62,20 +51,14 @@ export default function HomePage() {
           doorClass: r.doorClass,
           yState: r.yState,
         }
-        console.log('[HOME DEBUG] setDemo (real):', next.decision.slice(0, 30))
         setDemo(next)
         try { window.sessionStorage.setItem(DEMO_CACHE_KEY, JSON.stringify(next)) } catch {}
       })
-      .catch((err) => console.log('[HOME DEBUG] fetch error:', err))
+      .catch(() => {})
     return () => {
-      console.log('[HOME DEBUG] HomePage cleanup (cancelled=true)')
       cancelled = true
     }
   }, [])
-
-  useEffect(() => {
-    console.log('[HOME DEBUG] demo state changed:', demo ? demo.decision.slice(0, 30) : 'null (will render fallback)')
-  }, [demo])
 
   return (
     <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
