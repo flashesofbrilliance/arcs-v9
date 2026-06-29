@@ -12,10 +12,28 @@ import { Home, type HomeDemo } from '@/organisms/Home'
 
 // Pinned featured decision shown on the homepage + linked as the example brief.
 const PINNED_BRIEF_ID = 'cmqbd3i3k000104lawptiz7x0'
+const DEMO_CACHE_KEY = `arcs_home_demo_${PINNED_BRIEF_ID}`
+
+// Per toolbar feedback (JqKzfbYZdK1-): the real pinned brief loads async, so
+// the first paint always starts from Home's static fallback sample and swaps
+// once the fetch resolves — a visible flash on every fresh load, and on a
+// slow/flaky connection it can look like it "reverts" if the swap is still
+// pending when someone glances back at the tab. Caching the last successful
+// fetch in sessionStorage lets repeat views in the same tab paint the real
+// card immediately, with no fallback-then-swap flash at all.
+function readCachedDemo(): HomeDemo | null {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = window.sessionStorage.getItem(DEMO_CACHE_KEY)
+    return raw ? (JSON.parse(raw) as HomeDemo) : null
+  } catch {
+    return null
+  }
+}
 
 export default function HomePage() {
   const router = useRouter()
-  const [demo, setDemo] = useState<HomeDemo | null>(null)
+  const [demo, setDemo] = useState<HomeDemo | null>(() => readCachedDemo())
 
   useEffect(() => {
     let cancelled = false
@@ -24,7 +42,7 @@ export default function HomePage() {
       .then((data) => {
         if (cancelled || !data?.receipt) return
         const r = data.receipt
-        setDemo({
+        const next: HomeDemo = {
           decision: r.decision ?? r.trueNorth ?? '',
           trueNorth: r.trueNorth ?? '',
           nciScore: r.nciScore ?? 50,
@@ -32,7 +50,9 @@ export default function HomePage() {
           mode: r.mode,
           doorClass: r.doorClass,
           yState: r.yState,
-        })
+        }
+        setDemo(next)
+        try { window.sessionStorage.setItem(DEMO_CACHE_KEY, JSON.stringify(next)) } catch {}
       })
       .catch(() => {})
     return () => {
