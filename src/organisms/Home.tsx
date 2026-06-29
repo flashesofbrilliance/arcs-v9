@@ -65,10 +65,6 @@ export interface HomeProps {
 
 export function Home({ onOpen, demo, demoLabel, onBrief }: HomeProps) {
   const d = demo ?? DEMO_FALLBACK
-  // TEMP DEBUG (remove after diagnosis)
-  if (typeof window !== 'undefined') {
-    console.log('[HOME DEBUG] Home render, using:', demo ? 'real prop' : 'DEMO_FALLBACK', '—', d.decision.slice(0, 30))
-  }
   const w = getWeather(d.yState)
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
   const gaugeC = nciColor(d.nciScore)
