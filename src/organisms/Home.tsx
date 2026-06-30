@@ -78,7 +78,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         <Wordmark />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
           <Button variant="ghost" size="sm" onClick={() => router.push('/history')}>History</Button>
-          <AuthControl next="/history" />
+          <AuthControl next="/history" showWaitlist />
         </div>
       </div>
       <Rule style={{ marginBottom: '3rem' }} />

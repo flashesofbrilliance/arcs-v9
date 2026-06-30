@@ -90,8 +90,8 @@ function WaitlistInner() {
           Bring ARCS into the room.
         </h1>
         <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.muted, margin: "0 0 2rem", lineHeight: 1.6 }}>
-          Work with Zach directly. Bring a real decision your team is sitting on — we&apos;ll
-          work through it together in a focused session built around what you actually need.
+          Advisory, fixed-term, and ongoing support available for teams who need more
+          hands-on service — available on request.
         </p>
 
         {/* Full-service waitlist — always visible */}
