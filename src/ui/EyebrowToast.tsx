@@ -281,10 +281,6 @@ export function EyebrowToast() {
                     >
                       Open the compass →
                     </button>
-                    <div style={{ display: 'flex', gap: '1.25rem', justifyContent: 'center' }}>
-                      <button onClick={() => setDepth('terms')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Read the terms</button>
-                      <button onClick={() => setDepth('full')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Full contract</button>
-                    </div>
                   </div>
                 )}
 
