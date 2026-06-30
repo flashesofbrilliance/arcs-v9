@@ -40,11 +40,11 @@ export function StickyFooter({
         transition: 'background 0.45s ease',
       }}
     >
-      <div style={{ position: 'relative', maxWidth, margin: '0 auto', height: '100%', padding: '0 1.5rem' }}>
+      <div style={{ position: 'relative', maxWidth, margin: '0 auto', height: '100%', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center' }}>
         {/* Normal content — fades out when drawer opens */}
         <div
           style={{
-            position: 'absolute', inset: 0,
+            position: 'absolute', inset: 0, padding: '0.75rem 1.5rem',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem',
             opacity: open ? 0 : 1,
             transition: 'opacity 0.3s ease',
