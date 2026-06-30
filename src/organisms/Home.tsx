@@ -90,7 +90,8 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '1.25rem', paddingBottom: '1.25rem' }}>
           <SectionLabel style={{ marginBottom: '0.85rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
           <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2rem, 4.5vw, 2.75rem)', fontWeight: 600, lineHeight: 1.1, color: text.primary, margin: '0 0 1.25rem', letterSpacing: '-0.025em' }}>
-            What are you really<br />trying to decide?
+            <span style={{ display: 'block', whiteSpace: 'nowrap' }}>What are you really</span>
+            <span style={{ display: 'block', whiteSpace: 'nowrap' }}>trying to decide?</span>
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: '1rem', color: text.secondary, lineHeight: 1.85, margin: '0 0 1.75rem' }}>
             Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
@@ -159,7 +160,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
                 </div>
 
                 {onBrief && (
-                  <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief} style={{ flexShrink: 0 }}>View brief&nbsp;→</Button>
+                  <Button variant="outline-cyan" size="sm" onClick={onBrief} style={{ flexShrink: 0 }}>View brief&nbsp;→</Button>
                 )}
               </div>
             </div>
@@ -169,7 +170,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
               its own row, same right-aligned position as before. */}
           {onBrief && !(d.tributaries && d.tributaries.length > 0) && (
             <div style={{ marginTop: '1.1rem', display: 'flex', justifyContent: 'flex-end' }}>
-              <Button variant="outline-cyan" size="sm" glyph="◆" onClick={onBrief}>View the full brief&nbsp;→</Button>
+              <Button variant="outline-cyan" size="sm" onClick={onBrief}>View the full brief&nbsp;→</Button>
             </div>
           )}
         </Card>
@@ -201,10 +202,9 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         <Button
           variant="gold"
           size="sm"
-          glyph="◈"
           onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist?view=advisory' }}
         >
-          Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+          Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
         </Button>
       </div>
       </div>
