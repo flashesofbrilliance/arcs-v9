@@ -334,11 +334,6 @@ export function EyebrowToast() {
                     >
                       Open the compass →
                     </button>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                      <button onClick={() => nav('/trust')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Trust contract</button>
-                      <button onClick={() => nav('/privacy')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Privacy policy</button>
-                      <button onClick={() => nav('/terms')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Terms of service</button>
-                    </div>
                   </div>
                 )}
 
@@ -365,11 +360,6 @@ export function EyebrowToast() {
                     >
                       Open the compass →
                     </button>
-                    <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                      <button onClick={() => nav('/trust')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Trust contract →</button>
-                      <button onClick={() => nav('/privacy')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Privacy policy →</button>
-                      <button onClick={() => nav('/terms')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Terms of service →</button>
-                    </div>
                   </div>
                 )}
 
