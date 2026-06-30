@@ -168,7 +168,7 @@ export function EyebrowToast() {
             <div
               onClick={() => setOpen(false)}
               style={{
-                position: 'fixed', top: TOAST_H, left: 0, right: 0, bottom: 0, zIndex: 108,
+                position: 'fixed', top: TOAST_H, left: 0, right: 0, bottom: FOOTER_H, zIndex: 108,
                 background: 'rgba(0, 0, 0, 0.3)',
                 backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(4px)',
