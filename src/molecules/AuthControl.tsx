@@ -6,7 +6,8 @@ import { Button } from '@/ui/Button'
 // AuthControl — self-contained session widget for app-shell headers. Resolves
 // its own auth state (so host organisms stay presentational) and offers Sign in
 // (→ /compass) when anonymous, Sign out when authenticated.
-export function AuthControl({ next }: { next?: string }) {
+// showWaitlist: renders a Waitlist button when not signed in (home nav only).
+export function AuthControl({ next, showWaitlist }: { next?: string; showWaitlist?: boolean }) {
   const router = useRouter()
   const [authed, setAuthed] = useState<boolean | null>(null)
 
@@ -29,6 +30,11 @@ export function AuthControl({ next }: { next?: string }) {
     )
   }
   return (
-    <Button variant="ghost" size="sm" onClick={() => router.push(next ? `/compass?next=${encodeURIComponent(next)}` : '/compass')}>Sign in</Button>
+    <>
+      {showWaitlist && (
+        <Button variant="ghost" size="sm" onClick={() => router.push('/waitlist')}>Waitlist</Button>
+      )}
+      <Button variant="ghost" size="sm" onClick={() => router.push(next ? `/compass?next=${encodeURIComponent(next)}` : '/compass')}>Sign in</Button>
+    </>
   )
 }
