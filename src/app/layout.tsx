@@ -48,7 +48,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${crimsonPro.variable} ${jetbrainsMono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased">
+      <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased" style={{ overscrollBehavior: "none" }}>
         {children}
         <ClaimAnonymousReceipts />
         <VercelToolbarToggle />

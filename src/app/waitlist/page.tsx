@@ -8,6 +8,7 @@ import { Rule } from "@/ui/Rule"
 import { Field } from "@/ui/Field"
 import { Button } from "@/ui/Button"
 import { Card } from "@/ui/Card"
+import { StickyFooter } from "@/ui/StickyFooter"
 
 async function postLead(payload: Record<string, unknown>): Promise<{ ok: boolean }> {
   try {
@@ -73,16 +74,7 @@ function WaitlistInner() {
         </Card>
 
       </div>
-      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, borderTop: `1px solid ${signal.gold}25`, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)" }}>
-        <div style={{ maxWidth: 620, margin: "0 auto", padding: "0.75rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-          <span style={{ fontFamily: font.sans, fontSize: "0.75rem", lineHeight: 1.4, color: text.dimmed }}>
-            Need a working session or sprint?
-          </span>
-          <Button variant="gold" size="sm" onClick={() => router.push("/advisory")}>
-            Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
-          </Button>
-        </div>
-      </div>
+      <StickyFooter message="Need a working session or sprint?" maxWidth={620} />
     </main>
   )
 }
