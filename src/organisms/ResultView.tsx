@@ -60,12 +60,53 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
 
         <InstrumentCluster result={result} />
 
-        <Button variant="outline-cyan" glyph="⊕" onClick={onBrief} style={{ width: '100%' }}>Open Decision Brief&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
-
+        {/* Tributaries + Brief on one row */}
         {result.tributaries?.length > 0 && (
-          <div style={{ marginTop: '0.5rem' }}>
-            <TributariesStack tributaries={result.tributaries} onTributary={onTributary} />
+          <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'stretch' }}>
+            <Button variant="outline-cyan" glyph="⊕" onClick={onBrief}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 500, opacity: 0.75 }}>Brief&nbsp;→</span>
+            </Button>
+            {result.tributaries.map((t, i) => (
+              <button
+                key={i}
+                onClick={() => onTributary?.(t.prompt)}
+                title={t.prompt}
+                style={{
+                  flex: 1,
+                  height: 28,
+                  padding: '4px 12px',
+                  borderRadius: 4,
+                  border: `1px solid ${signal.cyan}44`,
+                  background: 'rgba(0,240,255,0.04)',
+                  fontFamily: font.mono,
+                  fontSize: '0.7rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: signal.cyan,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = `${signal.cyan}88`
+                  e.currentTarget.style.background = 'rgba(0,240,255,0.08)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = `${signal.cyan}44`
+                  e.currentTarget.style.background = 'rgba(0,240,255,0.04)'
+                }}
+              >
+                {t.label}
+              </button>
+            ))}
           </div>
+        )}
+
+        {result.tributaries?.length === 0 && (
+          <Button variant="outline-cyan" glyph="⊕" onClick={onBrief} style={{ width: '100%' }}>Open Decision Brief&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
         )}
 
         {r.court && (
