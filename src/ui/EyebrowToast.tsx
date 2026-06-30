@@ -13,13 +13,15 @@ const STORAGE_KEY = 'arcs-toast-dismissed'
 const mono = font.mono
 const sans = font.sans
 
-type Depth = 'deal' | 'terms' | 'full' | 'philosophy'
+type Depth = 'deal' | 'terms' | 'full' | 'philosophy' | 'rights' | 'manifesto'
 
 const DEPTHS = [
   { id: 'deal' as Depth, label: 'The deal', sub: '30 sec' },
   { id: 'terms' as Depth, label: 'The terms', sub: '2 min' },
-  { id: 'full' as Depth, label: 'Full contract', sub: 'Standalone pages' },
+  { id: 'full' as Depth, label: 'Full contract', sub: 'Detailed' },
   { id: 'philosophy' as Depth, label: 'Philosophy', sub: 'Vision' },
+  { id: 'rights' as Depth, label: 'Bill of rights', sub: 'Your agency' },
+  { id: 'manifesto' as Depth, label: 'Manifesto', sub: 'Why ARCS' },
 ]
 
 const CHIPS = [
@@ -67,9 +69,23 @@ const FULL_SECTIONS = [
 ]
 
 const PHILOSOPHY_SECTIONS = [
-  { n: '§ I', head: 'Bill of Rights', body: 'You have the right to understand why you were shown something. You have the right to know if a decision is probabilistic or deterministic. You have the right to delete everything about you, instantly.' },
-  { n: '§ II', head: 'On sovereignty', body: 'Your data is yours. Your thoughts are yours. Your decisions are yours. A navigation tool does not own the navigator.' },
-  { n: '§ III', head: 'On clarity', body: 'Fog is real. Pretending it isn\'t is worse than admitting it. The best compass is one that says "terrain unknown" when it means it.' },
+  { n: '§ I', head: 'On sovereignty', body: 'Your data is yours. Your thoughts are yours. Your decisions are yours. A navigation tool does not own the navigator.' },
+  { n: '§ II', head: 'On clarity', body: 'Fog is real. Pretending it isn\'t is worse than admitting it. The best compass is one that says "terrain unknown" when it means it.' },
+  { n: '§ III', head: 'On coherence', body: 'Better outcomes don\'t come from optimization—they come from alignment. Coherence measures how well your decision works with reality, constraints, and values.' },
+]
+
+const BILL_OF_RIGHTS_SECTIONS = [
+  { n: '§ 01', head: 'Right to transparency', body: 'You have the right to understand why you were shown something. You have the right to know if a decision is probabilistic or deterministic.' },
+  { n: '§ 02', head: 'Right to deletion', body: 'You have the right to delete everything about you, permanently, instantly, with no conditions and no recourse by us.' },
+  { n: '§ 03', head: 'Right to agency', body: 'ARCS produces a bearing, not an answer. You decide. We don\'t.' },
+  { n: '§ 04', head: 'Right to audit', body: 'Source code stays public. You can verify every claim we make about what we do with your data.' },
+]
+
+const MANIFESTO_SECTIONS = [
+  { n: '§ I', head: 'The problem', body: 'Decision frameworks fail because they\'re built on deductive or inductive reasoning. 80% of real decisions require abductive reasoning—finding the best explanation when information is incomplete.' },
+  { n: '§ II', head: 'The thesis', body: 'Coherence, not certainty. There are many viable solutions with different trade-offs. The goal isn\'t finding "optimal"—it\'s finding coherent: aligned with your context, values, and constraints.' },
+  { n: '§ III', head: 'The law', body: 'Coherence = Alignment - Entropy + Useful Work. A sub-optimal solution with low friction often outperforms an optimal solution with high entropy.' },
+  { n: '§ IV', head: 'The wager', body: 'In a complex, uncertain, rapidly changing world, coherence > certainty. Even if imperfect, multi-operator reasoning is less wrong than unaided human cognition for complex decisions.' },
 ]
 
 export function EyebrowToast() {
@@ -365,6 +381,58 @@ export function EyebrowToast() {
                 {depth === 'philosophy' && (
                   <div>
                     {PHILOSOPHY_SECTIONS.map((s, i, arr) => (
+                      <div key={s.n}>
+                        <div style={{ marginBottom: '0.8rem' }}>
+                          <div style={{ fontFamily: mono, fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                        </div>
+                        {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
+                      </div>
+                    ))}
+
+                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
+                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
+
+                    <button
+                      onClick={() => nav('/dashboard')}
+                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
+                    >
+                      Open the compass →
+                    </button>
+                  </div>
+                )}
+
+                {/* ─── Depth: Bill of Rights ─── */}
+                {depth === 'rights' && (
+                  <div>
+                    {BILL_OF_RIGHTS_SECTIONS.map((s, i, arr) => (
+                      <div key={s.n}>
+                        <div style={{ marginBottom: '0.8rem' }}>
+                          <div style={{ fontFamily: mono, fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                        </div>
+                        {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
+                      </div>
+                    ))}
+
+                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
+                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
+
+                    <button
+                      onClick={() => nav('/dashboard')}
+                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
+                    >
+                      Open the compass →
+                    </button>
+                  </div>
+                )}
+
+                {/* ─── Depth: Manifesto ─── */}
+                {depth === 'manifesto' && (
+                  <div>
+                    {MANIFESTO_SECTIONS.map((s, i, arr) => (
                       <div key={s.n}>
                         <div style={{ marginBottom: '0.8rem' }}>
                           <div style={{ fontFamily: mono, fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
