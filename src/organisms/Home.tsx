@@ -87,9 +87,9 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           visitor never scrolls past one without the other. Collapses to a
           single column via auto-fit, no separate mobile breakpoint needed. */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '2.5rem', alignItems: 'stretch', marginBottom: '3rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '1.25rem', paddingBottom: '1.25rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '1.25rem', paddingBottom: '1.25rem', containerType: 'inline-size' }}>
           <SectionLabel style={{ marginBottom: '0.85rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
-          <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 600, lineHeight: 1.1, color: text.primary, margin: '0 0 1.25rem', letterSpacing: '-0.025em' }}>
+          <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.85rem, 10.5cqw, 2.1rem)', fontWeight: 600, lineHeight: 1.1, color: text.primary, margin: '0 0 1.25rem', letterSpacing: '-0.025em' }}>
             What are you really<br />trying to decide?
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: '1rem', color: text.secondary, lineHeight: 1.85, margin: '0 0 1.75rem' }}>
