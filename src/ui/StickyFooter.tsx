@@ -59,6 +59,21 @@ export function StickyFooter({
           </Button>
         </div>
 
+        {/* Legal links — fade in when drawer opens */}
+        <div
+          style={{
+            position: 'absolute', inset: 0, padding: '0.75rem 1.5rem',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap',
+            opacity: open ? 1 : 0,
+            transition: 'opacity 0.3s ease',
+            pointerEvents: open ? 'auto' : 'none',
+          }}
+        >
+          <button onClick={() => router.push('/trust')} style={legalLinkStyle}>Trust contract</button>
+          <button onClick={() => router.push('/privacy')} style={legalLinkStyle}>Privacy policy</button>
+          <button onClick={() => router.push('/terms')} style={legalLinkStyle}>Terms of service</button>
+        </div>
+
       </div>
     </div>
   )
