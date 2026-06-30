@@ -19,6 +19,28 @@ if [ -f "$MEMDIR/MEMORY.md" ]; then
   if [ -z "${orphans:-}" ]; then echo "memory: 1-1 OK"; else echo "memory: ORPHANS (not in MEMORY.md) -> $(echo $orphans | tr '\n' ' ')"; fi
 fi
 
+# Snapshot staleness check
+SNAPFILE="$CLAUDE_PROJECT_DIR/_STATE/snapshot.json"
+if [ -f "$SNAPFILE" ]; then
+  captured=$(python3 -c "
+import json, datetime
+try:
+  d = json.load(open('$SNAPFILE'))
+  cap = d.get('captured_at', '')
+  if cap:
+    cap_dt = datetime.datetime.fromisoformat(cap.replace('Z', '+00:00'))
+    age = (datetime.datetime.now(datetime.timezone.utc) - cap_dt).days
+    print(age)
+  else:
+    print('?')
+except:
+  print('?')
+" 2>/dev/null)
+  if [ "$captured" != "?" ] && [ "$captured" -gt 3 ]; then
+    echo "snapshot: STALE (${captured}d old) — run /init-state-sync to refresh"
+  fi
+fi
+
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
