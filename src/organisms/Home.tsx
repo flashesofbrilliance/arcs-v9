@@ -128,9 +128,6 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
                 <Gauge label="Coherence" value={`${d.coherence}%`} flex="0 0 auto" minWidth={88} valueSize={22} style={{ padding: '8px 12px' }} />
               )}
             </div>
-            {/* space-between + stretch: door-class pill's bottom lands flush
-                with the bottom of the (taller) Coherence gauge, instead of
-                both badges clinging to the top of the row. */}
             <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end' }}>
               {d.mode ? <Badge label={d.mode} color={signal.gold} register="light" /> : <span />}
               <Badge label={door.label} color={door.color} register="governance" />
