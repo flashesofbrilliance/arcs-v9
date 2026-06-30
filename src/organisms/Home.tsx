@@ -87,24 +87,17 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
       {/* Split-screen (direction #3) — pitch and proof side by side, so a
           visitor never scrolls past one without the other. Collapses to a
           single column via auto-fit, no separate mobile breakpoint needed. */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '2.5rem', alignItems: 'center', marginBottom: '3rem' }}>
-        <div>
-          <SectionLabel style={{ marginBottom: '1.25rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '2.5rem', alignItems: 'stretch', marginBottom: '3rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: '1.25rem', paddingBottom: '1.25rem' }}>
+          <SectionLabel style={{ marginBottom: '0.85rem' }}>Navigate to clarity · Make the decision visible</SectionLabel>
           <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(2rem, 4.5vw, 2.75rem)', fontWeight: 600, lineHeight: 1.1, color: text.primary, margin: '0 0 1.25rem', letterSpacing: '-0.025em' }}>
             What are you really<br />trying to decide?
           </h1>
-          <p style={{ fontFamily: font.sans, fontSize: '1rem', color: text.secondary, lineHeight: 1.7, margin: '0 0 1.75rem' }}>
+          <p style={{ fontFamily: font.sans, fontSize: '1rem', color: text.secondary, lineHeight: 1.85, margin: '0 0 1.75rem' }}>
             Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => { const el = typeof document !== 'undefined' ? document.getElementById('how') : null; if (el) window.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' }) }}
-            >
-              See how it works&nbsp;<span style={{ color: signal.cyan, animation: 'glow 2s ease-in-out infinite' }}>↓</span>
-            </Button>
           </div>
         </div>
 
@@ -124,7 +117,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           </div>
           <TrueNorthPanel
             heading={`True North${d.mode ? ' · ' + d.mode : ''} · ${door.label}`}
-            style={{ padding: '0.9rem 1.1rem', marginBottom: '0.9rem', animation: 'glow 4s ease-in-out infinite' }}
+            style={{ padding: '0.9rem 1.1rem', marginBottom: '0.9rem' }}
           >
             {d.trueNorth}
           </TrueNorthPanel>
@@ -201,15 +194,9 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         </div>
       </div>
 
-      <Rule style={{ marginBottom: '1.5rem' }} />
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', padding: '0.75rem 0' }}>
-        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed }}>Earned clarity. Your judgment stays the final word.</span>
-        <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
-      </div>
-
-      <div style={{ borderTop: `1px solid ${signal.gold}25`, marginTop: '0.75rem', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={{ borderTop: `1px solid ${signal.gold}25`, marginTop: '1.1rem', paddingTop: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
         <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, maxWidth: 420 }}>
-          For founders and operators who want ARCS in the room when the stakes are high.
+          Interested in ARCS powered sprints by Mañana?
         </span>
         <Button
           variant="gold"
@@ -217,7 +204,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           glyph="◈"
           onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist#advisory' }}
         >
-          Work with ARCS directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+          Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span>
         </Button>
       </div>
     </div>
