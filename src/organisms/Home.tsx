@@ -104,7 +104,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
             compass/receipt pages) — only the True North panel itself glows,
             same as everywhere else it appears. */}
         <Card style={{ padding: '1.25rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.85rem' }}>
             <Label>{demoLabel ?? (demo ? 'Recent · what ARCS produces' : 'Example receipt — what ARCS produces')}</Label>
             <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
           </div>
