@@ -351,9 +351,6 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
-                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
-
                     <button
                       onClick={() => nav('/dashboard')}
                       style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
@@ -376,9 +373,6 @@ export function EyebrowToast() {
                         {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
                       </div>
                     ))}
-
-                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
-                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
 
                     <button
                       onClick={() => nav('/dashboard')}
@@ -403,9 +397,6 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
-                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
-
                     <button
                       onClick={() => nav('/dashboard')}
                       style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
@@ -429,9 +420,6 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
-                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
-
                     <button
                       onClick={() => nav('/dashboard')}
                       style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
@@ -450,30 +438,3 @@ export function EyebrowToast() {
   )
 }
 
-function SupportRow({ copied, onCopy, sm }: { copied: boolean; onCopy: () => void; sm: boolean }) {
-  return (
-    <div style={{
-      border: `0.5px solid ${border.subtle}`, borderRadius: 7,
-      padding: '0.6rem 0.8rem', marginBottom: '0.9rem',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem',
-      flexWrap: sm ? 'wrap' : 'nowrap',
-    }}>
-      <div>
-        <div style={{ fontFamily: mono, fontSize: 8, textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.2rem' }}>Support the project · USDC or ETH</div>
-        <div style={{ fontFamily: mono, fontSize: sm ? 11 : 12, color: text.primary }}>zachharris.eth</div>
-      </div>
-      <button
-        onClick={onCopy}
-        style={{
-          fontFamily: mono, fontSize: 9,
-          color: copied ? signal.green : text.secondary,
-          background: surface.elevated, border: `0.5px solid ${border.subtle}`,
-          borderRadius: 5, padding: '4px 9px', cursor: 'pointer',
-          whiteSpace: 'nowrap', transition: 'color 0.15s', flexShrink: 0,
-        }}
-      >
-        {copied ? 'Copied ✓' : 'Copy address'}
-      </button>
-    </div>
-  )
-}
