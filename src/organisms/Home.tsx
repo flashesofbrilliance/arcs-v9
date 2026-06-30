@@ -189,20 +189,8 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         </div>
       </div>
 
-<<<<<<< HEAD
       <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, borderTop: `1px solid ${signal.gold}25`, background: 'rgba(2,4,8,0.92)', backdropFilter: 'blur(12px)' }}>
       <div style={{ maxWidth: 960, margin: '0 auto', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-||||||| b76fcc2
-      <Rule style={{ marginBottom: '1.5rem' }} />
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', padding: '0.75rem 0' }}>
-        <span style={{ fontFamily: font.sans, fontSize: '0.8rem', color: text.dimmed }}>Earned clarity. Your judgment stays the final word.</span>
-        <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
-      </div>
-
-      <div style={{ borderTop: `1px solid ${signal.gold}25`, marginTop: '0.75rem', paddingTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-=======
-      <div style={{ borderTop: `1px solid ${signal.gold}25`, marginTop: '1.1rem', paddingTop: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
->>>>>>> origin/main
         <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, maxWidth: 420 }}>
           Interested in ARCS powered sprints by Mañana?
         </span>
