@@ -43,8 +43,8 @@ function CompassInner() {
         <Rule style={{ marginTop: "1rem" }} />
       </div>
 
-      {/* Card — vertically centered in remaining space, max 420 inside the 960 container */}
-      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem 1.5rem 6rem" }}>
+      {/* Card — vertically centered on desktop, top-aligned on mobile */}
+      <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 6rem" }}>
         <Card style={{ width: "100%", maxWidth: 420 }}>
           <h1 style={{ fontFamily: font.sans, fontSize: "1.4rem", fontWeight: 600, color: text.primary, margin: "0 0 0.5rem", lineHeight: 1.25, letterSpacing: "-0.01em" }}>
             Save your receipts. Share your briefs.
@@ -70,7 +70,7 @@ function CompassInner() {
 
       {/* Sticky footer — same 960px container as home/waitlist */}
       <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, borderTop: `1px solid ${signal.gold}25`, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)" }}>
-        <div style={{ ...contentContainer(vw), padding: "0.75rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "0.75rem", paddingBottom: "0.75rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
           <span style={{ fontFamily: font.sans, fontSize: "0.75rem", lineHeight: 1.4, color: text.dimmed }}>
             Need a working session or sprint?
           </span>
