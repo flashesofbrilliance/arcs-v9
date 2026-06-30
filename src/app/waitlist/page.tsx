@@ -90,35 +90,32 @@ function WaitlistInner() {
           Bring ARCS into the room.
         </h1>
         <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.muted, margin: "0 0 2rem", lineHeight: 1.6 }}>
-          Bespoke, white-glove engagements for teams that want to go deeper than the
-          self-serve compass — a one-day bootcamp, a working session with your team, or
-          a Mañana sprint built around the decision in front of you right now.
+          Work with Zach directly. Bring a real decision your team is sitting on — we&apos;ll
+          work through it together in a focused session built around what you actually need.
         </p>
 
-        {/* Full-service waitlist — hidden when arriving via advisory CTA */}
-        {!advisoryOnly && (
-          <Card style={{ marginBottom: "1.5rem" }}>
-            <SectionLabel index="01" style={{ marginBottom: "0.75rem" }}>Full-service ARCS · waitlist</SectionLabel>
-            {wSent ? (
-              <Done>You&apos;re on the list. We&apos;ll reach out as spots open.</Done>
-            ) : (
-              <form onSubmit={submitWaitlist} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <Field label="Email" type="email" required value={wEmail} onChange={(e) => setWEmail(e.target.value)} placeholder="you@example.com" />
-                <Button type="submit" variant="primary" size="md" glyph={wLoading ? "~" : "⊕"} disabled={wLoading || !wEmail.trim()} style={{ width: "100%" }}>
-                  {wLoading ? "Adding…" : "Join the waitlist"}
-                </Button>
-              </form>
-            )}
-          </Card>
-        )}
+        {/* Full-service waitlist — always visible */}
+        <Card style={{ marginBottom: "1.5rem" }}>
+          <SectionLabel index="01" style={{ marginBottom: "0.75rem" }}>Stay in the loop · waitlist</SectionLabel>
+          {wSent ? (
+            <Done>You&apos;re on the list. We&apos;ll reach out as spots open.</Done>
+          ) : (
+            <form onSubmit={submitWaitlist} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <Field label="Email" type="email" required value={wEmail} onChange={(e) => setWEmail(e.target.value)} placeholder="you@example.com" />
+              <Button type="submit" variant="primary" size="md" glyph={wLoading ? "~" : "⊕"} disabled={wLoading || !wEmail.trim()} style={{ width: "100%" }}>
+                {wLoading ? "Adding…" : "Join the waitlist"}
+              </Button>
+            </form>
+          )}
+        </Card>
 
         {/* Advisory consult */}
         <Card id="advisory" accent={signal.gold}>
-          <SectionLabel index="02" color={signal.gold} style={{ marginBottom: "0.75rem" }}>Bootcamp, workshop, or sprint · 30-min intro call</SectionLabel>
+          <SectionLabel index="02" color={signal.gold} style={{ marginBottom: "0.75rem" }}>Book a 30-min intro call</SectionLabel>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
-            Tell us about the decision in front of your team. We'll scope whether a
-            one-day bootcamp, a hands-on workshop, or a focused Mañana sprint is the
-            right shape — then book a 30-minute call to map it out.
+            Tell us what your team is trying to decide. We&apos;ll figure out the right
+            format — a one-day session, a working workshop, or a focused sprint — and
+            get on a quick call to plan it out.
           </p>
           {aSent ? (
             <Done>
