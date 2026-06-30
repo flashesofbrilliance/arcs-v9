@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/db"
+import { waitlistEmail, advisoryEmail } from "@/lib/emails"
 
 export const dynamic = "force-dynamic"
 
@@ -43,10 +44,13 @@ export async function POST(req: NextRequest) {
     const text = src === "advisory"
       ? `Thanks — we received your request for a 30-minute ARCS-powered advisory session.${cta}\n\nWe'll be in touch shortly.`
       : `You're on the list for full-service ARCS. We'll reach out as spots open.${cta}`
+    const html = src === "advisory"
+      ? advisoryEmail(typeof name === "string" ? name : null, BOOKING_URL || null)
+      : waitlistEmail(BOOKING_URL || null)
     fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: FROM, to: email.trim(), subject, text }),
+      body: JSON.stringify({ from: FROM, to: email.trim(), subject, text, html }),
     }).catch(() => {})
 
     // Internal alert — same best-effort posture, separate send so a failure
