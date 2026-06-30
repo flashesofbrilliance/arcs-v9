@@ -1,0 +1,1 @@
+ALTER TABLE "Receipt" ADD COLUMN IF NOT EXISTS "atgTributaries" TEXT;

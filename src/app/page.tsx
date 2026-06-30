@@ -23,6 +23,10 @@ async function getPinnedDemo(): Promise<HomeDemo | null> {
   try {
     const r = await prisma.receipt.findUnique({ where: { id: PINNED_BRIEF_ID } })
     if (!r) return null
+    let tributaries = undefined
+    try {
+      if (r.atgTributaries) tributaries = JSON.parse(r.atgTributaries)
+    } catch { /* malformed — omit */ }
     return {
       decision: r.decision ?? r.trueNorth ?? '',
       trueNorth: r.trueNorth ?? '',
@@ -31,6 +35,7 @@ async function getPinnedDemo(): Promise<HomeDemo | null> {
       mode: r.mode,
       doorClass: r.doorClass,
       yState: r.yState,
+      tributaries,
     }
   } catch {
     return null

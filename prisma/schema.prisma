@@ -119,6 +119,7 @@ model Receipt {
   doorClass      String?          // ONE_WAY | TWO_WAY
   // macroTags: legacy field. Maps to schema `macros_run` (LAB|BAR|KKL|ATG).
   macroTags      String           @default("[]") // JSON: string[] — maps to schema `macros_run`
+  atgTributaries String?          // JSON: [{type,label,prompt}] — ATG follow-up prompts
   rawResponse    String?          // full Claude JSON for deep reasoning
   inferredFields String           @default("[]") // JSON: string[] — auto-inferred fields (schema: inferred_fields)
   collisionFields String          @default("[]") // JSON: string[] — collision-resolved fields (schema: collision_fields)
