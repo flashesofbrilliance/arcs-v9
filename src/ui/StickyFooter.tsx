@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { text, signal, font } from './tokens'
 import { Button } from './Button'
@@ -28,6 +29,13 @@ export function StickyFooter({
 }) {
   const { open } = useToastDrawer()
   const router = useRouter()
+  const [copied, setCopied] = useState(false)
+
+  function copyAddr() {
+    navigator.clipboard.writeText('zachharris.eth')
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   return (
     <div
@@ -75,6 +83,53 @@ export function StickyFooter({
         </div>
 
       </div>
+
+      {/* Support section - shows below footer when drawer opens */}
+      {open && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            top: FOOTER_H,
+            padding: '1rem 1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 280,
+              textAlign: 'center',
+            }}
+          >
+            <div style={{ fontFamily: font.mono, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.1em', color: text.muted, marginBottom: '0.4rem' }}>
+              Support The Project
+            </div>
+            <div style={{ fontFamily: font.mono, fontSize: 13, fontWeight: 700, color: text.primary, marginBottom: '0.5rem' }}>
+              zachharris.eth
+            </div>
+            <button
+              onClick={copyAddr}
+              style={{
+                fontFamily: font.mono,
+                fontSize: 9,
+                color: copied ? signal.green : text.secondary,
+                background: 'rgba(0,240,255,0.05)',
+                border: `0.5px solid ${signal.cyan}33`,
+                borderRadius: 4,
+                padding: '4px 9px',
+                cursor: 'pointer',
+                transition: 'color 0.15s',
+              }}
+            >
+              {copied ? 'Copied ✓' : 'Copy address'}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
