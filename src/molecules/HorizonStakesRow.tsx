@@ -29,8 +29,11 @@ export interface HorizonStakesRowProps {
 
 export function HorizonStakesRow({ horizon, stakes, onHorizonChange, onStakesChange }: HorizonStakesRowProps) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-      <Picker label="Horizon" value={horizon} onChange={onHorizonChange} options={HORIZON_OPTS} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+      {/* Horizon — thin picker on top */}
+      <Picker label="Horizon" value={horizon} onChange={onHorizonChange} options={HORIZON_OPTS} style={{ padding: '8px 10px' }} />
+
+      {/* Stakes — full-width bezel below */}
       <div style={{ position: 'relative', borderRadius: 6, padding: '12px 14px 13px',
         border: '1px solid #2a3647',
         background: 'linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, #131b23, #0a1016)',
