@@ -6,6 +6,7 @@ import { surface, text, signal, font, border } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { useToastDrawer } from '@/ui/ToastDrawerContext'
 import { FOOTER_H } from '@/ui/StickyFooter'
+import { Button } from '@/ui/Button'
 
 const TOAST_H = 36
 const STORAGE_KEY = 'arcs-toast-dismissed'
@@ -275,12 +276,9 @@ export function EyebrowToast() {
                       ))}
                     </div>
 
-                    <button
-                      onClick={() => nav('/dashboard')}
-                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
-                    >
-                      Open the compass →
-                    </button>
+                    <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
+                      Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+                    </Button>
                   </div>
                 )}
 
@@ -328,12 +326,9 @@ export function EyebrowToast() {
                     {/* ETH support */}
                     <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
 
-                    <button
-                      onClick={() => nav('/dashboard')}
-                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
-                    >
-                      Open the compass →
-                    </button>
+                    <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
+                      Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+                    </Button>
                   </div>
                 )}
 
@@ -351,12 +346,9 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <button
-                      onClick={() => nav('/dashboard')}
-                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
-                    >
-                      Open the compass →
-                    </button>
+                    <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
+                      Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+                    </Button>
                   </div>
                 )}
 
@@ -374,12 +366,9 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <button
-                      onClick={() => nav('/dashboard')}
-                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
-                    >
-                      Open the compass →
-                    </button>
+                    <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
+                      Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+                    </Button>
                   </div>
                 )}
 
@@ -397,12 +386,9 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <button
-                      onClick={() => nav('/dashboard')}
-                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
-                    >
-                      Open the compass →
-                    </button>
+                    <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
+                      Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+                    </Button>
                   </div>
                 )}
 
@@ -420,12 +406,9 @@ export function EyebrowToast() {
                       </div>
                     ))}
 
-                    <button
-                      onClick={() => nav('/dashboard')}
-                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
-                    >
-                      Open the compass →
-                    </button>
+                    <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
+                      Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
+                    </Button>
                   </div>
                 )}
 
