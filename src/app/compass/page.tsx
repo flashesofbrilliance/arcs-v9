@@ -32,16 +32,16 @@ function CompassInner() {
   }
 
   return (
-    <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, padding: "1.5rem 1.5rem 6rem" }}>
+    <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", flexDirection: "column", padding: "1.5rem 1.5rem 6rem" }}>
       {/* Top nav — clickable logotype to abandon sign-in and return home */}
-      <div style={{ maxWidth: 420, margin: "0 auto", paddingBottom: "1.5rem" }}>
+      <div style={{ maxWidth: 420, margin: "0 auto", width: "100%", paddingBottom: "1.5rem" }}>
         <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
           <Wordmark section="Sign in" />
         </button>
         <Rule style={{ marginTop: "1rem" }} />
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Card style={{ width: "100%", maxWidth: 420 }}>
           <h1 style={{ fontFamily: font.sans, fontSize: "1.4rem", fontWeight: 600, color: text.primary, margin: "0 0 0.5rem", lineHeight: 1.25, letterSpacing: "-0.01em" }}>
             Save your receipts. Share your briefs.
