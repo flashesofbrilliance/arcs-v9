@@ -1,14 +1,20 @@
 {
-  "captured_at": "2026-06-29T22:28:42Z",
+  "captured_at": "2026-06-30T20:09:10Z",
   "repo": "flashesofbrilliance/arcs-v9",
-  "staleness_note": "Prior snapshot (2026-06-23, v3.2.0) sat unreconciled for 6 days and ~40 commits despite real shipped work on 6/25, 6/26, 6/27, and 6/29 — the serialization_protocol's 'main reconciles on merge' step was simply skipped each time, not blocked by anything. This capture closes that gap. Going forward: if you're reading this and it's been multiple days since captured_at with commits on main since, assume it's stale again until re-verified — don't trust the date alone.",
   "git": {
-    "head_sha": "6172ff1",
-    "head_message": "fix(brief): OG image matches DebriefCard, the page's real hero element",
-    "branch": "main",
+    "head_sha": "0e55082",
+    "head_message": "feat(toast): limit EyebrowToast to home page; remove redundant footer links [NCI:125]",
+    "branch": "claude/sleepy-booth-889373",
     "in_sync_with_origin": true,
     "dirty_files": [],
-    "note": "PR #22 (branch claude/sleepy-booth-889373) merged to main as 6c84f56, then two more fixes (ada79be, 6172ff1) cherry-picked directly onto main same-day after live verification each time — not squash-merged, not force-pushed. ADR-026's old untracked 'calendar-invite-vs-email' draft and the test_prisma_direct.js scratch file (both listed dirty in the prior snapshot) are gone — working tree is clean."
+    "session_commits": [
+      "0e55082 feat(toast): limit EyebrowToast to home page; remove redundant footer links [NCI:125]",
+      "69ee80a fix(footer): add vertical padding to StickyFooter content [NCI:124]",
+      "989d44e feat(form): stack Horizon + Stakes vertically for full-width Stakes [NCI:123]",
+      "11bd8f9 feat(toast): drawer respects sticky footer height; footer fades to legal links on open [NCI:122]",
+      "aa5473a fix(slider): replace cqi font-size with fixed 10px — Medium no longer clips on mobile [NCI:121]"
+    ],
+    "pr_status": "PR #42 created, ready for merge to main; feature branch pushed to origin"
   },
   "vercel": {
     "project": "arcs-v9",
@@ -57,8 +63,9 @@
     "AUTH_RESEND_KEY empty-value incident found and fixed (see vercel.note) — this had been silently breaking all email sends for an unknown prior period, not just the new lead-alert feature.",
     "ADR-030 nested-thread-view scoped on real lineage data rather than assumption — see jtbd_status.detect / database.note."
   ],
-  "next_action": "Pick one: (1) build the ADR-030 ThreadTree component (architecture decided, nothing built yet) — natural next step given the toolbar thread is still open waiting on it. (2) Wire Chart Course's scan suite into an actual UI surface — it's real, shipped, and completely invisible to users today. (3) Scope the Detect surface's W-layer/Kairos build now that the receipt-count gate is confirmed clear — nobody has acted on that yet. (4) ADR-009 (Panel/Chip) and ADR-006 (Supabase branching) remain READY/unstarted from before, lowest urgency of the open items. Do NOT re-derive the toolbar/lead/homepage work above from git log — it's fully captured here and in this session's commit messages.",
-  "blocking": "None of substance. vercel.ts migration mentioned in the prior snapshot appears abandoned, not pending — vercel.ts no longer exists in the repo at all; vercel.json is the sole, current config on main. Treat that item as resolved-by-abandonment unless someone explicitly revives it.",
+  "session_summary": "UI polish session: EyebrowToast covenant drawer now home-page-only; sticky footer cross-fades to empty on drawer open (removed redundant legal links); Horizon/Stakes form stacked vertically for full-width mobile; SegmentedSlider 'Medium' text no longer clips. 5 commits (NCI:120-125). Verified in preview. PR #42 created, ready to merge.",
+  "next_action": "Merge PR #42 to main and deploy to arcs.care. Next session: implement floating sm Button variant (no glow), then pick from open ADRs (ADR-009 Panel/Chip, ADR-006 Supabase branching, ADR-030 ThreadTree, or Chart Course UI wiring).",
+  "blocking": "NONE",
   "security_status": "CLOSED 2026-06-04 (leaked secrets rotated + purged from history) — unchanged. New finding this capture (AUTH_RESEND_KEY empty value) was a data/config issue, not a leak — no rotation needed, just re-entry of the real value.",
   "serialization_protocol": {
     "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here)",
