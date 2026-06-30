@@ -4,6 +4,9 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
+import { Wordmark } from "@/ui/Wordmark"
+import { Rule } from "@/ui/Rule"
+import { Button } from "@/ui/Button"
 import { FatedGrid } from "@/molecules/FatedGrid"
 import { TerrainPaths } from "@/molecules/TerrainPaths"
 import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
@@ -117,31 +120,20 @@ export default function ReceiptPage() {
   return (
     <ReflectLayer receiptId={receiptId} surface="RECEIPT" reflectUrl={`/receipt/reflect/${receiptId}`}>
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-        {/* Header */}
-        <div style={{ borderBottom: `0.5px solid ${signal.steel}33`, background: `rgba(13,17,23,0.8)` }}>
-          <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>
-              <button
-                onClick={() => router.push("/history")}
-                style={{ background: "rgba(30,41,59,0.4)", border: "0.5px solid rgba(30,41,59,0.6)", borderRadius: 4, padding: "0.35rem 0.75rem", cursor: "pointer", fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.1em", color: text.muted, textTransform: "uppercase" }}
-              >
-                ← Ledger
-              </button>
-              <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.12em", color: signal.cyan, textTransform: "uppercase" }}>Decision Receipt</span>
-            </div>
-            {hasBrief && (
-              <button
-                onClick={() => router.push(`/brief/${receiptId}`)}
-                style={{ background: `${signal.cyan}11`, border: `0.5px solid ${signal.cyan}44`, borderRadius: 4, padding: "0.35rem 0.75rem", cursor: "pointer", fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.1em", color: signal.cyan, textTransform: "uppercase", boxShadow: `0 0 8px ${signal.cyan}11` }}
-              >
-                Brief →
-              </button>
-            )}
+        {/* Header — Wordmark + Rule, matching home/history/brief pattern */}
+        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Wordmark section="Decision Receipt" />
+          <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+            <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>
+            {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
           </div>
+        </div>
+        <div style={{ ...contentContainer(vw), paddingBottom: "1.5rem" }}>
+          <Rule />
         </div>
 
         {/* Body */}
-        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "6rem" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: "6rem" }}>
           {/* Decision — the question, at the top */}
           <div style={{ marginBottom: "2rem", padding: "1rem 1.25rem", background: "rgba(13,17,23,0.6)", border: `0.5px solid ${signal.steel}33`, borderRadius: 6 }}>
             <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", color: text.dimmed, textTransform: "uppercase", marginBottom: "0.4rem" }}>Decision</div>
