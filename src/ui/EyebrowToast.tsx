@@ -147,6 +147,20 @@ export function EyebrowToast() {
             </button>
           </div>
 
+          {/* ── Frosted glass scrim ── */}
+          {open && (
+            <div
+              onClick={() => setOpen(false)}
+              style={{
+                position: 'fixed', top: TOAST_H, left: 0, right: 0, bottom: 0, zIndex: 108,
+                background: 'rgba(0, 0, 0, 0.3)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+                cursor: 'pointer',
+              }}
+            />
+          )}
+
           {/* ── Drawer ── */}
           {open && (
             <div
