@@ -198,8 +198,8 @@ export const doorMeta: Record<DoorClass, { label: string; color: string }> = {
 // contentContainer: brief, receipt, history, dashboard, debrief
 // formContainer:    prep (deliberately narrower — it's a form, not a document)
 export function contentContainer(vw: number): React.CSSProperties {
-  const maxWidth = vw >= 1440 ? 1280 : vw >= 1100 ? 1100 : vw >= 768 ? 960 : "100%"
-  const px = vw >= 1440 ? "3rem" : vw >= 1100 ? "2.5rem" : vw >= 768 ? "2rem" : vw >= 481 ? "1.5rem" : "1rem"
+  const maxWidth = vw >= 768 ? 960 : "100%"
+  const px = vw >= 481 ? "1.5rem" : "1rem"
   return { maxWidth, margin: "0 auto", paddingLeft: px, paddingRight: px }
 }
 export function formContainer(vw: number): React.CSSProperties {

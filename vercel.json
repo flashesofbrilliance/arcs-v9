@@ -1,4 +1,15 @@
 {
+  "experimentalServices": {
+    "web": {
+      "entrypoint": ".",
+      "routePrefix": "/"
+    },
+    "sage": {
+      "entrypoint": "operators/arcs_api.py",
+      "routePrefix": "/svc/sage",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
       "source": "/resume",
@@ -11,6 +22,12 @@
       "headers": [
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
       ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/debrief",
+      "schedule": "0 14 * * *"
     }
   ]
 }

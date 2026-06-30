@@ -1,0 +1,51 @@
+{
+  "captured_at": "2026-06-23T19:55:00Z",
+  "repo": "flashesofbrilliance/arcs-v9",
+  "branch": "observatory-cherry-pick",
+  "note": "Per-branch state file per the serialization_protocol in _STATE/snapshot.json — feature branches own their own _STATE/branch-<slug>.json rather than overwriting the shared snapshot.json. Main reconciles on merge.",
+  "git": {
+    "head_sha": "e888cc4",
+    "head_message": "chore: fold in lockfile normalization + RLS doc project-ref fix",
+    "base": "origin/main @ d9147db",
+    "pushed_to_origin": true,
+    "pr_opened": false,
+    "commits_ahead_of_main": [
+      "63a41c0 feat(observatory): ARCS Observatory UI - full interactive forensic replay [NCI:88]",
+      "b305306 fix(config): remove dead /observatory rewrite, real page route wins",
+      "81e17a3 docs(patterns): prose-rule enforcement audit (task #5) [NCI:SKIP]",
+      "95d752b docs(canon): trust-contract v1.1 - add Sec.8 answering fork-discovery question",
+      "e888cc4 chore: fold in lockfile normalization + RLS doc project-ref fix"
+    ]
+  },
+  "production_db_change_this_session": {
+    "note": "NOT a code change - applied directly against live Supabase project xbbpiryokswwvcrcutge via supabase CLI (db query --linked), independent of this git branch. Already live in production regardless of merge status.",
+    "critical_fix": "public.SageTrace had RLS disabled entirely (anon read/write/delete via PostgREST). Fixed with ADR-008's deny-all pattern. Verified via supabase db advisors --linked: 0 ERRORs before -> after.",
+    "followup_fix": "27 of 31 WARN-level advisories cleared (auth_rls_initplan perf fixes + 1 redundant policy dropped on sessions). 4 WARNs left deliberately: 3 on immune_sessions/immune_turns/pathogen_log (zero rows, zero code references anywhere on disk, ownership unconfirmed) + 1 on sessions (confirmed intentional, backs arcs-care-local's public /receipts page).",
+    "open_question_for_zach": "What owns meeting_cards/risks/raci/dependencies/drift_signals/immune_sessions/immune_turns/pathogen_log? No matching app found in arcs-v9, arcs-care-local, or a full home-directory grep. All currently 0 rows."
+  },
+  "task_5_prose_audit": {
+    "status": "DONE",
+    "file": "_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md",
+    "headline_finding": "Zero of 6 in-scope SKILL.md rules have any real enforcement mechanism. 'Inline styles only - no Tailwind, no className' (stated as hard constraint in 3 files) independently re-verified as ALREADY VIOLATED at src/app/layout.tsx since the first commit (tailwindcss is a real dependency, className is used with Tailwind utility classes there)."
+  },
+  "task_7_observatory_cherrypick": {
+    "status": "DONE",
+    "discovery": "The actual page (src/app/observatory/page.tsx, 1174 lines) was ALREADY on this branch before this session started - missed checking git log on the active branch before dispatching a subagent to redo it. Caught when the cherry-pick came back empty.",
+    "genuine_fix_this_session": "Removed the now-dead /observatory static rewrite from next.config.ts (the real App Router page route shadows it per Next.js's documented rewrite ordering). Build-verified: npx next build passes clean, /observatory registers as a real prerendered route (○)."
+  },
+  "trust_contract": {
+    "status": "v1.0 -> v1.1",
+    "file": "_CANON/trust-contract.md",
+    "change": "Added Sec.8 answering Zak's residual 'how will you catch people at the fork' framing question. Zach's explicit decision: new canonical section, not product-copy routing, not parked. Honest about current state: no proactive fork-detection exists; Kairos detection (consent-based) is unbuilt backlog; ambient-surveillance-style detection named as a deliberate boundary, not just a gap.",
+    "memory_entry_added": "MEMORY.md [v3.2.0], per the doc's own amendment rule (version bump + MEMORY.md entry required)."
+  },
+  "process_findings_this_session": [
+    "Two delegated subagents (#5, #7) both hit the account's monthly spend limit mid-task; finished by hand.",
+    "One agent (#7) cited a Next.js doc file from a sandbox with no node_modules installed - could not have read it live. Independently re-verified the real file in a working environment: the conclusion held, but the agent's stated verification method was not real.",
+    "Caught mid-session: an absolute-path edit (scripts/rls-policies.sql) landed in the main bare checkout (/Users/zharris/arcs-v9, a different branch with its own unrelated in-progress work) instead of this worktree, due to this repo's many parallel git worktrees. Reverted there, redone correctly here.",
+    "All four memory/process findings above recorded as durable memory files in ~/.claude/projects/-Users-zharris-arcs-v9/memory/ for future-session use."
+  ],
+  "vercel_side_effect": "Pushing this branch likely auto-triggered a Vercel preview build (default GitHub integration behavior) - confirmed via `vercel ls`: a Preview deployment exists at 31m old, separate from the 3h-old Production deploys. Non-destructive, does not touch app.arcs.care.",
+  "next_action": "Branch is pushed, no PR opened yet (deliberate - Zach's choice this session). Remaining 8-item backlog: #2 blocked on Zach (password rotation/dead-confirm), #3/#4/#6/#8 untouched. Orphaned Supabase tables question (above) needs Zach's input. Decide: open a PR for this branch, or keep accumulating before merging.",
+  "blocking": "NONE for next session to start cold on #1(done)/#3/#5(done)/#7(done) status - #3, #4, #6, #8 remain and #4/#6 have internal sequencing dependencies already documented in _PATTERNS/2026-06-23-governance-roadmap.md."
+}

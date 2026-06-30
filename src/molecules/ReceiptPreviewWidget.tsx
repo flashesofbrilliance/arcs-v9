@@ -9,26 +9,25 @@
 // All primitives pulled from the arcs.care Surface Audit atomic compositions.
 import React from "react"
 import { signal, text, font, border, nciColor, getWeather } from "@/ui/tokens"
+import { CoverBlock } from "@/document/patterns/CoverBlock"
 import type { CompassResult } from "@/lib/mockCompass"
 
 export type PreviewVariant = "cluster" | "read" | "artifact"
 
 // ── Shared palette (from audit :root) ──────────────────────────────────────
-const PANEL = "#0d1117"
-const ELEVATED = "#111827"
-const INKLINE = "#0a0e14"
 const HAIR = "rgba(22,30,43,0.8)"
 
-// ── Gauge — the instrument cluster atom ────────────────────────────────────
+// ── Gauge — the instrument cluster atom (glassmorphism) ────────────────────
 function Gauge({ label, value, sub, sparkPct, color }: {
   label: string; value: string; sub?: string; sparkPct?: number; color: string
 }) {
   return (
     <div style={{
-      position: "relative", borderRadius: 8, padding: "16px 18px 17px", overflow: "hidden",
-      border: `1px solid ${border.subtle}`,
-      background: "linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.008) 40%,rgba(0,0,0,.2)),linear-gradient(165deg,#10171f,#0a0f15)",
-      boxShadow: "inset 0 1px 0 rgba(255,255,255,.06),0 6px 18px rgba(0,0,0,.45)",
+      position: "relative", borderRadius: 12, padding: "16px 18px 17px", overflow: "hidden",
+      border: `1px solid rgba(255,255,255,.12)`,
+      background: "rgba(16,23,31,.35)",
+      backdropFilter: "blur(12px)",
+      boxShadow: "inset 0 1px 0 rgba(255,255,255,.08),0 8px 24px rgba(0,0,0,.35)",
     }}>
       <div style={{ fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".13em", textTransform: "uppercase", color: text.muted, marginBottom: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span>{label}</span>
@@ -123,73 +122,102 @@ function VariantRead({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
   )
 }
 
-// ── Variant C — Verdict Artifact (underlit LED card, F05 audit fix) ─────────
+// ── Variant C — Verdict Artifact (CoverBlock document grammar + unified buttons) ──
+// Renders the receipt as a document cover: Y-state + mode badges, True North as
+// the hero title, the decision as subtitle, the instrument readout as the meta
+// strip. Uses CTARow for unified button styling across all carousel variants.
 function VariantArtifact({ result, onOpenBrief, onOpenReceipt }: WidgetProps) {
-  const nc = nciColor(result.nci_score)
   const w = getWeather(result.y_state)
+  const door = result.door_class?.replace(/_/g, " ")
+  const meta = [
+    `NCI ${result.nci_score} / 100`,
+    result.decision_mode && `MODE ${result.decision_mode}`,
+    door && `DOOR ${door}`,
+    result.coherence_pct != null && `COHERENCE ${result.coherence_pct}%`,
+  ].filter(Boolean).join("  ·  ")
 
   return (
     <div style={{
-      border: `1px solid ${border.subtle}`, borderRadius: 12, overflow: "hidden",
+      borderRadius: 12, overflow: "hidden", padding: "0 22px",
       background: `linear-gradient(180deg,rgba(14,22,38,.5),rgba(9,14,24,.66))`,
       boxShadow: `inset 0 -3px 20px ${signal.cyan}18, 0 0 0 0.5px ${signal.cyan}22`,
     }}>
-      {/* Top header stripe */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, padding: "18px 22px 16px", borderBottom: `1px solid ${HAIR}`, background: INKLINE }}>
-        <div>
-          <div style={{ fontFamily: font.mono, fontSize: "0.55rem", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: text.muted, marginBottom: 8 }}>Decision</div>
-          <div style={{ fontFamily: font.sans, fontSize: "0.85rem", lineHeight: 1.5, color: text.secondary, maxWidth: 520 }}>{result.question}</div>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0 }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 24, padding: "0 11px", borderRadius: 5, fontFamily: font.mono, fontSize: "0.6rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: w.color, background: `${w.color}15`, border: `1px solid ${w.color}44` }}>{w.icon} {w.label}</span>
-          <div style={{ fontFamily: font.mono, fontWeight: 800, fontSize: "1.75rem", lineHeight: 1, color: nc, textShadow: `0 0 14px ${nc}55` }}>{result.nci_score}<span style={{ fontSize: "0.6rem", fontWeight: 600, color: text.muted, letterSpacing: ".1em", marginLeft: 4 }}>NCI</span></div>
-        </div>
-      </div>
-
-      {/* True North body */}
-      <div style={{ padding: "20px 22px 22px" }}>
-        <div style={{ fontFamily: font.mono, fontSize: "0.55rem", fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: signal.cyan, marginBottom: 10 }}>True North</div>
-        <div style={{ fontFamily: font.sans, fontSize: "clamp(1rem,2vw,1.3rem)", fontWeight: 600, letterSpacing: "-.02em", lineHeight: 1.5, color: text.primary, marginBottom: 18 }}>
-          {result.true_north}
-        </div>
-
-        {/* Meta pills row */}
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
-          {[
-            { label: "Mode", value: result.decision_mode },
-            { label: "Door", value: result.door_class?.replace(/_/g," ") },
-            ...(result.coherence_pct != null ? [{ label: "Coherence", value: `${result.coherence_pct}%` }] : []),
-          ].map(({ label, value }) => (
-            <div key={label} style={{ display: "flex", alignItems: "center", gap: 0, border: `0.5px solid ${border.subtle}44`, borderRadius: 3, overflow: "hidden", fontSize: "0.6rem", fontFamily: font.mono }}>
-              <span style={{ background: "rgba(255,255,255,.04)", padding: "3px 7px", color: text.muted, letterSpacing: ".08em", textTransform: "uppercase" }}>{label}</span>
-              <span style={{ padding: "3px 8px", color: text.secondary, background: "rgba(13,17,23,.5)" }}>{value}</span>
-            </div>
+      <div style={{ padding: '36px 0 32px', borderBottom: `1px solid ${border.subtle}` }}>
+        {/* Badges */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+          {[`${w.icon} ${w.label}`, result.decision_mode].filter(Boolean).map((b, i) => (
+            <span key={i} style={{
+              display: 'inline-flex', alignItems: 'center', height: 22, padding: '0 10px',
+              borderRadius: 4, fontFamily: font.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: i === 0 ? "#020408" : w.color,
+              background: i === 0 ? w.color : `${w.color}16`,
+              border: i === 0 ? 'none' : `1px solid ${w.color}35`,
+            }}>{b}</span>
           ))}
         </div>
-
-        {/* Cyan bottom-bloom accent line (F05) */}
-        <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${signal.cyan}66, transparent)`, marginBottom: 18 }} />
-
-        <CTARow onOpenBrief={onOpenBrief} onOpenReceipt={onOpenReceipt} />
+        {/* Title — h2 size for clarity hierarchy */}
+        <h2 style={{ fontFamily: font.sans, fontSize: 22, fontWeight: 600, color: text.primary, letterSpacing: '-0.02em', lineHeight: 1.4, marginBottom: 16 }}>
+          {result.true_north}
+        </h2>
+        {/* Subtitle */}
+        <p style={{ fontFamily: font.sans, fontSize: 15, color: text.secondary, lineHeight: 1.7, marginBottom: 16, maxWidth: 640 }}>
+          {result.question}
+        </p>
+        {/* Meta */}
+        <div style={{ fontFamily: font.mono, fontSize: 10, color: text.muted, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>
+          {meta}
+        </div>
+      </div>
+      {/* Tighter button design — mono, 8px radius, solid fills, confident */}
+      <div style={{ padding: '16px 22px', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        {["Open Decision Brief →", "Receipt"].map((a, i) => {
+          const isPrimary = i === 0
+          return (
+            <button key={i} onClick={isPrimary ? onOpenBrief : onOpenReceipt} style={{
+              padding: '10px 20px', borderRadius: 8, cursor: 'pointer', fontFamily: font.mono, fontSize: '0.7rem', fontWeight: 700,
+              letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', transition: 'all .12s',
+              background: isPrimary ? w.color : "rgba(71,85,105,.2)", color: isPrimary ? "#020408" : text.secondary,
+              boxShadow: isPrimary ? `0 4px 12px ${w.color}33` : 'none',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              if (isPrimary) {
+                el.style.boxShadow = `0 6px 16px ${w.color}44`
+              } else {
+                el.style.background = "rgba(71,85,105,.35)"
+              }
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              if (isPrimary) {
+                el.style.boxShadow = `0 4px 12px ${w.color}33`
+              } else {
+                el.style.background = "rgba(71,85,105,.2)"
+              }
+            }}>
+              {a}
+            </button>
+          )
+        })}
       </div>
     </div>
   )
 }
 
-// ── Shared CTA row ──────────────────────────────────────────────────────────
+// ── Shared CTA row (mono, 8px radius, solid fills, confident) ──────────────
 function CTARow({ onOpenBrief, onOpenReceipt }: { onOpenBrief?: () => void; onOpenReceipt?: () => void }) {
   const btn = (primary: boolean): React.CSSProperties => ({
-    fontFamily: font.mono, fontSize: "0.65rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase",
-    padding: "8px 18px", borderRadius: 20, cursor: "pointer", border: ".5px solid",
-    display: "inline-flex", alignItems: "center", gap: 6,
+    fontFamily: font.mono, fontSize: "0.7rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase",
+    padding: "10px 20px", borderRadius: 8, cursor: "pointer", border: "none",
+    display: "inline-flex", alignItems: "center", gap: 6, transition: "all .12s",
     ...(primary
-      ? { background: `${signal.cyan}14`, borderColor: `${signal.cyan}55`, color: signal.cyan, boxShadow: `0 0 10px ${signal.cyan}14` }
-      : { background: "rgba(15,21,32,.5)", borderColor: "rgba(71,85,105,.28)", color: text.muted }),
+      ? { background: signal.cyan, color: "#020408", boxShadow: `0 4px 12px ${signal.cyan}33` }
+      : { background: "rgba(71,85,105,.2)", color: text.secondary }),
   })
   return (
     <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-      <button style={btn(true)} onClick={onOpenBrief}>Open Cartography Brief →</button>
-      <button style={btn(false)} onClick={onOpenReceipt}>Receipt</button>
+      <button style={btn(true)} onClick={onOpenBrief} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 6px 16px ${signal.cyan}44` }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.boxShadow = `0 4px 12px ${signal.cyan}33` }}>Open Decision Brief →</button>
+      <button style={btn(false)} onClick={onOpenReceipt} onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(71,85,105,.35)" }} onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(71,85,105,.2)" }}>Receipt</button>
     </div>
   )
 }
