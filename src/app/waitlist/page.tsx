@@ -42,7 +42,7 @@ function WaitlistInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      <div style={{ maxWidth: 620, margin: "0 auto", padding: "2rem 1.5rem 4rem" }}>
+      <div style={{ maxWidth: 620, margin: "0 auto", padding: "2rem 1.5rem 6rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Waitlist" />
           <Button variant="ghost" size="sm" glyph="←" onClick={() => router.push("/")}>ARCS</Button>
@@ -71,12 +71,16 @@ function WaitlistInner() {
           )}
         </Card>
 
-        <p style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.dimmed, marginTop: "1.5rem", textAlign: "center" }}>
-          Need a working session or sprint?{" "}
-          <button onClick={() => router.push("/advisory")} style={{ background: "none", border: "none", cursor: "pointer", color: signal.cyan, fontSize: "0.8rem", fontFamily: font.sans, textDecoration: "underline" }}>
-            Inquire directly →
-          </button>
-        </p>
+      </div>
+      <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, borderTop: `1px solid ${signal.gold}25`, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)" }}>
+        <div style={{ maxWidth: 620, margin: "0 auto", padding: "0.75rem 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+          <span style={{ fontFamily: font.sans, fontSize: "0.75rem", lineHeight: 1.4, color: text.dimmed }}>
+            Need a working session or sprint?
+          </span>
+          <Button variant="gold" size="sm" onClick={() => router.push("/advisory")}>
+            Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
+          </Button>
+        </div>
       </div>
     </main>
   )
