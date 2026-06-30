@@ -335,6 +335,7 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       mode,
       doorClass: door,
       macroTags: JSON.stringify((parsed.meta as Record<string, unknown>)?.macro_tags ?? []),
+      atgTributaries: parsed.tributaries ? JSON.stringify(parsed.tributaries) : null,
       rawResponse: raw,
       // E
       entity: prep?.entity ?? null,
