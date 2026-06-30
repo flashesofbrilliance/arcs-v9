@@ -66,7 +66,7 @@ const FULL_SECTIONS = [
 ]
 
 export function EyebrowToast() {
-  const [dismissed, setDismissed] = useState(true) // true = hidden initially (avoids flash)
+  const [dismissed, setDismissed] = useState(false) // show on every page load
   const { open, setOpen } = useToastDrawer()
   const [depth, setDepth] = useState<Depth>('deal')
   const [copied, setCopied] = useState(false)
@@ -74,15 +74,10 @@ export function EyebrowToast() {
   const router = useRouter()
   const sm = vw < 640
 
-  useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY) !== '1') setDismissed(false)
-  }, [])
-
   function dismiss(e: React.MouseEvent) {
     e.stopPropagation()
     setDismissed(true)
     setOpen(false)
-    localStorage.setItem(STORAGE_KEY, '1')
   }
 
   function copyAddr() {
