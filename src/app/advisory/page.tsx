@@ -64,8 +64,8 @@ function AdvisoryInner() {
         <Card accent={signal.gold}>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
             Tell us what your team is trying to decide. We&apos;ll figure out the right
-            format — a one-day session, a working workshop, or a focused sprint — and
-            get on a quick call to plan it out.
+            format — one-day session, multi-day workshop, or focused sprint — and get
+            on a call to plan out your plan.
           </p>
           {sent ? (
             <div style={{ padding: "1rem", border: `1px solid ${signal.green}`, borderRadius: 8, color: signal.green, fontSize: "0.85rem", fontFamily: font.sans, lineHeight: 1.6 }}>
