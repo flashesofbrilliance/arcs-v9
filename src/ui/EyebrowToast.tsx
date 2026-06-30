@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { surface, text, signal, font, border } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
+import { useToastDrawer } from '@/ui/ToastDrawerContext'
+import { FOOTER_H } from '@/ui/StickyFooter'
 
 const TOAST_H = 36
 const STORAGE_KEY = 'arcs-toast-dismissed'
@@ -65,7 +67,7 @@ const FULL_SECTIONS = [
 
 export function EyebrowToast() {
   const [dismissed, setDismissed] = useState(true) // true = hidden initially (avoids flash)
-  const [open, setOpen] = useState(false)
+  const { open, setOpen } = useToastDrawer()
   const [depth, setDepth] = useState<Depth>('deal')
   const [copied, setCopied] = useState(false)
   const vw = useVw()
@@ -150,7 +152,7 @@ export function EyebrowToast() {
                 position: 'fixed', top: TOAST_H, left: 0, right: 0, zIndex: 109,
                 background: surface.panel,
                 borderBottom: `0.5px solid ${border.subtle}`,
-                maxHeight: `calc(100vh - ${TOAST_H}px)`,
+                maxHeight: `calc(100vh - ${TOAST_H}px - ${FOOTER_H}px)`,
                 overflowY: 'auto',
                 WebkitOverflowScrolling: 'touch',
               }}
