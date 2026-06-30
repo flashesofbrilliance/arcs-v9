@@ -13,12 +13,13 @@ const STORAGE_KEY = 'arcs-toast-dismissed'
 const mono = font.mono
 const sans = font.sans
 
-type Depth = 'deal' | 'terms' | 'full'
+type Depth = 'deal' | 'terms' | 'full' | 'philosophy'
 
 const DEPTHS = [
   { id: 'deal' as Depth, label: 'The deal', sub: '30 sec' },
   { id: 'terms' as Depth, label: 'The terms', sub: '2 min' },
   { id: 'full' as Depth, label: 'Full contract', sub: 'Standalone pages' },
+  { id: 'philosophy' as Depth, label: 'Philosophy', sub: 'Vision' },
 ]
 
 const CHIPS = [
@@ -60,9 +61,15 @@ const COVENANT_GROUPS = [
 
 const FULL_SECTIONS = [
   { n: '§ 01', head: 'A navigation tool, not an answer machine', body: 'ARCS produces a directional bearing, a conviction grade, and tributaries. It does not make decisions. The bearing is an input to your judgment, not a replacement for it.' },
-  { n: '§ 02', head: 'Two columns. Both matter.', body: 'ARCS commits to directional clarity, honest limits, open source, and data sovereignty. You commit to real questions and honest framing. Full covenant table at /terms.' },
-  { n: '§ 03', head: 'Always. Sometimes. Never.', body: 'Input never trains a model. Anonymous sessions store nothing. Delete within 30 days, permanently. Full governance table at /privacy.' },
+  { n: '§ 02', head: 'Two columns. Both matter.', body: 'ARCS commits to directional clarity, honest limits, open source, and data sovereignty. You commit to real questions and honest framing.' },
+  { n: '§ 03', head: 'Always. Sometimes. Never.', body: 'Input never trains a model. Anonymous sessions store nothing. Delete within 30 days, permanently. No exceptions.' },
   { n: '§ 04', head: "What isn't built yet", body: 'Kairos detection is not live. Data export is on the roadmap. Audit log not built. The trust contract names every gap rather than hiding it.' },
+]
+
+const PHILOSOPHY_SECTIONS = [
+  { n: '§ I', head: 'Bill of Rights', body: 'You have the right to understand why you were shown something. You have the right to know if a decision is probabilistic or deterministic. You have the right to delete everything about you, instantly.' },
+  { n: '§ II', head: 'On sovereignty', body: 'Your data is yours. Your thoughts are yours. Your decisions are yours. A navigation tool does not own the navigator.' },
+  { n: '§ III', head: 'On clarity', body: 'Fog is real. Pretending it isn\'t is worse than admitting it. The best compass is one that says "terrain unknown" when it means it.' },
 ]
 
 export function EyebrowToast() {
@@ -337,6 +344,32 @@ export function EyebrowToast() {
                       <button onClick={() => nav('/privacy')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Privacy policy →</button>
                       <button onClick={() => nav('/terms')} style={{ fontFamily: mono, fontSize: 9, color: text.muted, textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>Terms of service →</button>
                     </div>
+                  </div>
+                )}
+
+                {/* ─── Depth: Philosophy ─── */}
+                {depth === 'philosophy' && (
+                  <div>
+                    {PHILOSOPHY_SECTIONS.map((s, i, arr) => (
+                      <div key={s.n}>
+                        <div style={{ marginBottom: '0.8rem' }}>
+                          <div style={{ fontFamily: mono, fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.2rem' }}>{s.n}</div>
+                          <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, marginBottom: '0.2rem' }}>{s.head}</div>
+                          <div style={{ fontFamily: sans, fontSize: 11, color: text.secondary, lineHeight: 1.6 }}>{s.body}</div>
+                        </div>
+                        {i < arr.length - 1 && <div style={{ height: 1, background: border.subtle, marginBottom: '0.8rem' }} />}
+                      </div>
+                    ))}
+
+                    <div style={{ height: 1, background: border.subtle, margin: '0.9rem 0' }} />
+                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
+
+                    <button
+                      onClick={() => nav('/dashboard')}
+                      style={{ width: '100%', padding: '0.6rem', background: 'none', border: `0.5px solid ${border.subtle}`, borderRadius: 7, fontFamily: mono, fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: signal.cyan, cursor: 'pointer', marginBottom: '0.65rem' }}
+                    >
+                      Open the compass →
+                    </button>
                   </div>
                 )}
 
