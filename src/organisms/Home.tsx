@@ -1,9 +1,11 @@
 'use client'
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import { font, signal, text } from '@/ui/tokens'
 import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta, tribColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
+import { AuthControl } from '@/molecules/AuthControl'
 import { Rule } from '@/ui/Rule'
 import { SectionLabel } from '@/ui/SectionLabel'
 import { Card } from '@/ui/Card'
@@ -65,6 +67,7 @@ export interface HomeProps {
 }
 
 export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProps) {
+  const router = useRouter()
   const d = demo ?? DEMO_FALLBACK
   const w = getWeather(d.yState)
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
@@ -73,7 +76,9 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
     <div style={{ maxWidth: 960, margin: '0 auto', padding: '2rem 1.5rem 5.5rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark />
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <Button variant="ghost" size="sm" onClick={() => router.push('/history')}>History</Button>
+          <AuthControl next="/history" />
           <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
         </div>
       </div>
