@@ -37,6 +37,7 @@ model User {
   firstDebriefSentAt DateTime?
   debriefOptIn       Boolean   @default(false)
   profileUpload      ProfileUpload?
+  scanSignals        ScanSignal[]
 }
 
 // Onboarding upload step (<30s, skippable — see ADR-029). Store-only for now:
@@ -326,5 +327,166 @@ model Lead {
   createdAt DateTime @default(now())
 
   @@index([source])
+  @@index([createdAt])
+}
+
+// ─── Profile Scan — ScanSignal + ScanFeedback ─────────────────────────────────
+//
+// ScanSignal is the living carrier primitive for a person's genome read.
+// It is NOT a document/snapshot — it is the first energy signature that gets
+// progressively recalibrated over time via ScanFeedback (reactions to v1),
+// then via behavioral accumulation from compass receipts.
+//
+// Lineage chain: v1 (cold read from blob) → v2 (meta-commentary feedback)
+// → v3+ (receipts accumulation) — same parentSignalId chain as Receipt.parentId.
+//
+// Vector space: signalEmbedding + feedbackEmbedding store serialized float
+// arrays (JSON TEXT). On Supabase a companion raw migration enables pgvector
+// and adds a real vector(1536) column alongside each — Prisma manages the
+// TEXT field, pgvector manages the search layer on top. Never conflate the two.
+//
+// Blob storage: sourceBlobUrls holds Vercel Blob URLs to the raw input files
+// (LinkedIn PDF, export ZIP, CSV). Large generated outputs (full scan HTML/PDF)
+// go to outputBlobUrl. The DB row holds only the derived carrier data — never
+// raw file bytes in Postgres.
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ScanSignal {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+
+  // Lineage — mirrors Receipt.parentId pattern for versioning
+  version         Int      @default(1)
+  parentSignalId  String?
+  parent          ScanSignal?  @relation("SignalLineage", fields: [parentSignalId], references: [id])
+  children        ScanSignal[] @relation("SignalLineage")
+
+  // Discriminator — what kind of scan produced this signal
+  // "profile" | "network" | "pair" | "recoil"
+  signalType      String   @default("profile")
+
+  // Calibration basis — what generated this version of the signal
+  // "cold_read" | "feedback_v1" | "feedback_v2" | "receipts_n"
+  calibrationBasis String   @default("cold_read")
+
+  // Source artifacts (Vercel Blob URLs, not the file bytes themselves)
+  // TEXT: JSON [{type: "linkedin_pdf"|"export_zip"|"csv"|"other", url: string, uploadedAt: string}]
+  sourceBlobUrls  String?
+
+  // Generated output artifact (full scan document) — Vercel Blob URL
+  outputBlobUrl   String?
+
+  // ── Core carrier fields (all TEXT JSON — consistent with repo convention) ──
+
+  // [{type: "Builder"|"Navigator"|"Illuminator"|..., weight: 0-1, confidence: "HIGH"|"MEDIUM"|"LOW"}]
+  archetypeStack  String   @default("[]")
+
+  // {red: {assessment, evidence, locked: bool},
+  //  gold: {assessment, evidence, locked: bool},
+  //  green: {assessment, evidence, locked: bool},
+  //  vermillion: {assessment, evidence, locked: bool}}
+  genomeThreads   String   @default("{}")
+
+  // {stated: string[], observed: string[], gap: string}
+  signalContrast  String   @default("{}")
+
+  // The single most diagnostic data point — the thing that makes the genome provable
+  loadBearingPoint String   @default("")
+
+  // What the signal underserves in its current external packaging
+  packagingGap    String   @default("")
+
+  // [{period, role, domain, expression, verified: bool}]
+  evidenceLedger  String   @default("[]")
+
+  // LinkedIn ad-targeting inferences — the platform's own model of the person
+  // JSON: [{category, value}] — only present for LinkedIn export scans
+  platformInferences String?
+
+  // Network resonance (for network/pair scan types only)
+  // JSON: {commonThreads: string[], divergencePoints: string[], combinedGap: string}
+  networkResonance String?
+
+  // ── Recalibration state ───────────────────────────────────────────────────
+
+  // CLEAR | WATCH | DRIFT — mirrors Accumulation Protocol (Book II Part V)
+  driftState      String   @default("CLEAR")
+
+  // Receipts logged since last recalibration — recalibration prompt at threshold
+  receiptsSince   Int      @default(0)
+
+  // How many receipts before NOTOMATION-compliant recalibration nudge fires
+  // (default 5 — per Accumulation Protocol §5.3 delta gate cadence)
+  deltaThreshold  Int      @default(5)
+
+  // ── Vector space ─────────────────────────────────────────────────────────
+  // Serialized float array for the composite signal embedding.
+  // Prisma stores as TEXT; Supabase pgvector companion column (raw migration)
+  // stores as vector(1536) for actual cosine similarity search.
+  // Populated by the embedding pipeline after signal generation, not inline.
+  signalEmbedding String?
+
+  // ── Extensibility escape hatch ────────────────────────────────────────────
+  // Open JSON bag — future fields added here without a schema migration.
+  // Graduated to top-level columns once access patterns are stable.
+  metadata        String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  feedback        ScanFeedback[]
+
+  @@index([userId])
+  @@index([parentSignalId])
+  @@index([signalType])
+  @@index([driftState])
+  @@index([createdAt])
+}
+
+model ScanFeedback {
+  id           String     @id @default(cuid())
+  signalId     String
+  signal       ScanSignal @relation(fields: [signalId], references: [id])
+
+  // Which recalibration pass this feedback belongs to (v1 = first reaction read)
+  feedbackVersion Int     @default(1)
+
+  // ── Five-axis payload (single JSON field — all 5 axes + intensity) ─────────
+  // Not per-axis columns: adding a 6th axis or changing axis names requires zero
+  // migration. Derived scalars (overallIntensity, deltaGateDecision) live as
+  // queryable top-level fields alongside the payload.
+  //
+  // Shape:
+  // {
+  //   somatic:    { valence: "resonates"|"partial"|"override", intensity: "strong"|"moderate"|"flat", note: string }
+  //   emotional:  { valence: "resonates"|"partial"|"override", intensity: "strong"|"moderate"|"flat",
+  //                 emotion: "pride"|"grief"|"defensiveness"|"relief"|"flatness"|string, note: string }
+  //   rational:   { valence: "accurate"|"partial"|"inaccurate", intensity: "strong"|"moderate"|"flat",
+  //                 corrections: [{field: string, correction: string}] }
+  //   contextual: { valence: "current"|"stale"|"partial", intensity: "strong"|"moderate"|"flat", note: string }
+  //   rhetorical: { valence: "lands"|"misses"|"partial", intensity: "strong"|"moderate"|"flat", note: string }
+  // }
+  payload      String     @default("{}")
+
+  // Derived scalars — computed from payload at write time for query efficiency.
+  // Never used as the source of truth; always re-derivable from payload.
+  overallIntensity   String?  // "strong" | "moderate" | "flat"
+  deltaGateDecision  String?  // "LOCK" | "WATCH" | "HOLD" | "REFRAME"
+
+  // Annotation artifacts — Vercel Blob URLs for any annotated documents
+  // JSON: [{type: "annotated_scan"|"voice_memo"|string, url: string}]
+  annotationBlobUrls String?
+
+  // ── Vector space ─────────────────────────────────────────────────────────
+  // Embedding of the feedback payload for semantic similarity across recalibrations.
+  feedbackEmbedding String?
+
+  metadata     String?
+  createdAt    DateTime   @default(now())
+
+  @@index([signalId])
+  @@index([deltaGateDecision])
   @@index([createdAt])
 }
