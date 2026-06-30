@@ -78,7 +78,6 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
               Open compass — both went to /dashboard. Calibrate now routes to
               the actual calibration instrument (/prep), matching the same
               destination CompassForm's own "Add context" link uses. */}
-          <Button variant="ghost" size="sm" onClick={onCalibrate ?? onOpen}>Calibrate</Button>
           <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
         </div>
       </div>
