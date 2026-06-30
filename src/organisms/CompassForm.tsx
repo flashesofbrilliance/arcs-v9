@@ -76,9 +76,10 @@ export function CompassForm({
         </Button>
 
         {!running && (
-          <button type="button" onClick={onCalibrate}
-            style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: 'pointer', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: text.dimmed }}>
-            ◈ &nbsp;Add context — stakes, confidence &amp; what you already know
+          <button type="button"
+            onClick={() => { if (question.trim()) onCalibrate?.() }}
+            style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: question.trim() ? 'pointer' : 'default', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: question.trim() ? text.dimmed : text.dimmed + '55', opacity: question.trim() ? 1 : 0.4 }}>
+            Add context — stakes, confidence &amp; what you already know
           </button>
         )}
 
