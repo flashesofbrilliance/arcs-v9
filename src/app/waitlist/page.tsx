@@ -43,9 +43,10 @@ function WaitlistInner() {
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
       <div style={{ maxWidth: 620, margin: "0 auto", padding: "2rem 1.5rem 6rem" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
-          <Wordmark section="Waitlist" />
-          <Button variant="ghost" size="sm" glyph="←" onClick={() => router.push("/")}>ARCS</Button>
+        <div style={{ paddingBottom: "1rem" }}>
+          <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+            <Wordmark section="Waitlist" />
+          </button>
         </div>
         <Rule style={{ marginBottom: "2rem" }} />
 
