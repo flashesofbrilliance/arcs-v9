@@ -70,15 +70,10 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
   const gaugeC = nciColor(d.nciScore)
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', padding: '2rem 1.5rem 3.5rem' }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', padding: '2rem 1.5rem 5.5rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark />
         <div style={{ display: 'flex', gap: '0.5rem' }}>
-          {/* Per toolbar feedback (CSZchYG4Dne4): Calibrate previously aliased
-              Open compass — both went to /dashboard. Calibrate now routes to
-              the actual calibration instrument (/prep), matching the same
-              destination CompassForm's own "Add context" link uses. */}
-          <Button variant="ghost" size="sm" onClick={onCalibrate ?? onOpen}>Calibrate</Button>
           <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
         </div>
       </div>
@@ -194,7 +189,8 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         </div>
       </div>
 
-      <div style={{ borderTop: `1px solid ${signal.gold}25`, marginTop: '1.1rem', paddingTop: '1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, borderTop: `1px solid ${signal.gold}25`, background: 'rgba(2,4,8,0.92)', backdropFilter: 'blur(12px)' }}>
+      <div style={{ maxWidth: 960, margin: '0 auto', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
         <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, maxWidth: 420 }}>
           Interested in ARCS powered sprints by Mañana?
         </span>
@@ -202,10 +198,11 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           variant="gold"
           size="sm"
           glyph="◈"
-          onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist#advisory' }}
+          onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist?view=advisory' }}
         >
           Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span>
         </Button>
+      </div>
       </div>
     </div>
   )
