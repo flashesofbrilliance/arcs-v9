@@ -79,7 +79,6 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
           <Button variant="ghost" size="sm" onClick={() => router.push('/history')}>History</Button>
           <AuthControl next="/history" />
-          <Button variant="outline-cyan" size="sm" glyph="⊕" onClick={onOpen}>Open compass</Button>
         </div>
       </div>
       <Rule style={{ marginBottom: '3rem' }} />
