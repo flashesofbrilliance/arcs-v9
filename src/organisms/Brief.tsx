@@ -3,12 +3,13 @@ import React from 'react'
 import { font, signal, border, text, getWeather, nciColor, contentContainer } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
+import { Rule } from '@/ui/Rule'
 import { Button } from '@/ui/Button'
 import { Label } from '@/ui/Label'
 import { Card } from '@/ui/Card'
 import { FatedGrid } from '@/molecules/FatedGrid'
 import { TerrainPaths } from '@/molecules/TerrainPaths'
-import { TributariesStack } from '@/molecules/TributariesStack'
+import { ExpandableTributaries } from '@/molecules/ExpandableTributaries'
 import type { CompassResult } from '@/lib/mockCompass'
 
 export interface BriefProps {
@@ -40,15 +41,16 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
   const nc = nciColor(result.nci_score)
 
   return (
-    <div style={{ ...cc, paddingTop: '3.25rem', paddingBottom: '5rem' }}>
-      {/* Header */}
-      <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Wordmark section="Cartography Brief" />
+    <div style={{ ...cc, paddingTop: '2rem', paddingBottom: '5rem' }}>
+      {/* Header — matches home/history/receipt Wordmark + Rule pattern */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+        <Wordmark section="Decision Brief" />
         <div style={{ display: 'flex', gap: '0.25rem' }}>
           <Button variant="ghost" size="sm" onClick={onBack}>← Ledger</Button>
           {onNewQuestion && <Button variant="ghost" size="sm" glyph="⊕" onClick={onNewQuestion}>New question</Button>}
         </div>
       </div>
+      <Rule style={{ marginBottom: '1.5rem' }} />
 
       {/* Status line — fog fidelity */}
       <Label style={{ marginBottom: '1rem', color: weather.color }}>{weather.icon} {weather.label} · {result.render_resolution}</Label>
@@ -77,9 +79,9 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
           {([
             ['Mode', result.decision_mode],
             ['Door', result.door_class?.replace(/_/g, ' ')],
-            ['Coherence', result.coherence_pct != null ? `${result.coherence_pct}%` : '—'],
+            ['Coherence', result.coherence_pct != null ? `${result.coherence_pct}%` : null],
             ...(r.advisors?.bayesian_risk_pct != null ? [['Bayesian risk', `${r.advisors.bayesian_risk_pct}%`]] : []),
-          ] as [string, string][]).map(([k, v]) => (
+          ].filter(([, v]) => v != null) as [string, string][]).map(([k, v]) => (
             <div key={k}>
               <div style={{ fontFamily: font.mono, fontSize: '0.55rem', letterSpacing: '0.1em', color: text.muted, textTransform: 'uppercase', marginBottom: '0.2rem' }}>{k}</div>
               <div style={{ fontFamily: font.mono, fontSize: '0.75rem', color: text.secondary }}>{v}</div>
@@ -129,11 +131,11 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
         </Card>
       )}
 
-      {/* Where to Navigate Next — tributaries as full-width interactive card */}
+      {/* Where to Navigate Next — collapsible tributaries threads */}
       {result.tributaries && result.tributaries.length > 0 && (
-        <Card style={{ marginBottom: '1.75rem' }}>
-          <TributariesStack tributaries={result.tributaries} onTributary={onTributary} />
-        </Card>
+        <div style={{ marginBottom: '1.75rem' }}>
+          <ExpandableTributaries tributaries={result.tributaries} onTributary={onTributary} />
+        </div>
       )}
     </div>
   )

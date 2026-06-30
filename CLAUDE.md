@@ -57,7 +57,10 @@ L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade · L4=cr
 Every compass response should include 2–4 tributaries: meta-question · need-to-hear branch · unnamed adjacent primitive
 
 ## What's NOT built yet
-ATG · Kairos detection · Observatory/replay · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
+ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
+Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
+rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
+from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
@@ -1032,4 +1035,208 @@ NONE.
 ## Next session starts at
 
 `/handoff-pickup` → confirm branch merge state → merge to main OR Panel/Chip (ADR-009) OR ADR-006
+
+---
+
+# Handoff — v3.0.0 — 2026-06-23
+
+> **For Claude Code:** active pickup point. v2.5.0 above is preserved for history.
+> Note: this repo's three handoff trackers had drifted to three different "latest" versions
+> — `MEMORY.md` was at v2.6.0, this file's last entry was v2.5.0, and `.claude/arcs-session-state.md`
+> was already ahead of both at v2.9.0. All three are realigned at v3.0.0 as of this entry.
+
+## What changed since v2.5.0
+
+### S-tier copy rewrite (homepage, compass, brief, prep, emails)
+Retired internal jargon from every user-facing surface: "L0–L5 pipeline," "boardroom-grade,"
+"Cartography Brief," "render through the fog," "FATED decomposition" (kept as a UI label,
+dropped from prose). Governing principle: ARCS produces clarity about the *shape* of a
+decision, not an answer — copy reinforces user agency, never implies the system decides
+for them. Touched: `Home.tsx`, `page.tsx`, `CompassForm.tsx`, `PipelineTakeover.tsx`,
+`Brief.tsx`, `prep/page.tsx`, `opengraph-image.tsx`, `ResultView.tsx`,
+`ReceiptPreviewWidget.tsx`, `FatedGrid.tsx`, both email templates, `layout.tsx` metadata.
+
+### Accessibility fix — `Field.tsx`
+Every input/textarea/select in the app was missing `id`/`name` (audit finding). Fixed at
+the component level: auto-derives a stable id from the visible label, real `<label htmlFor>`
+instead of a plain span. No call sites needed touching — fixes every Field instance app-wide
+(prep, dashboard, waitlist, etc.) in one place.
+
+### ReflectLayer bug fixes
+Three real bugs, not cosmetic: hardenKernel was dropping the kernel field on click (now
+preserved + accordion stays open); meditate's expand/collapse used the same boolean as its
+loading state (split into `meditateExpanded` vs `meditateLoading`); shavasana was a
+full-screen modal that got deleted mid-refactor leaving no carousel at all (rebuilt inline
+with working prev/next, dot indicators, per-type filter pills).
+
+### Brief layout — 8 Vercel toolbar threads resolved
+Conviction card moved to full-width below True North; FATED dropped to single column below
+a 2-col Terrain/Court grid; tributaries promoted to a full-width "Where to Navigate Next"
+card; share row converted to a sticky frost-glass footer; FATED axes color-coded
+(Facts=cyan, Assumptions=gold, Tradeoffs=red, Emotions=green, Direction=steel).
+
+### Infra
+- Vercel CLI `54.7.1` → `54.14.5` (the real binary is a Homebrew install, `vercel-cli`
+  formula — a parallel `npm i -g vercel` install exists but is shadowed in `PATH`, harmless,
+  not cleaned up).
+- `vercel.json` → `vercel.ts` (typed config, `@vercel/config` added as new dep) — **incomplete,
+  see Blocking below.**
+
+### Domain topology correction (read this one carefully)
+This session asserted, incorrectly, that `arcs.care` and `app.arcs.care` were two separate
+codebases (this repo vs. the old `arcs-care` PLG funnel repo). **Confirmed wrong** via
+`get_deployment("arcs.care")`: both domains, plus `www.arcs.care` and `resume.arcs.care`,
+alias to *this* repo's production deployment. The standalone `arcs-care` Vercel project is
+`live: false`. Fixed in `~/.claude/CLAUDE.md` (global) with a standing verification
+protocol — re-check domain-to-project claims live via `get_deployment` before trusting any
+memory file or table, including this one. Two new memory files capture the correction:
+`arcs-v9-arcs-care-domain-consolidation.md`, `verify-domain-topology-live-not-from-memory.md`.
+
+**Practical consequence:** any future "public arcs.care surface" work (trust-contract page,
+marketing copy, etc.) belongs in *this* repo. The `arcs-care` repo (`~/arcs-care-local`)
+still has real code (its own instrument-panel `/compass` UI, Lab Offer Card funnel) but none
+of it is currently reachable by a visitor.
+
+### Stale-clone audit (`/Users/zharris/arcs` — do not use this path, see global CLAUDE.md)
+3 orphaned commits found, never pushed to any remote branch:
+- 2 "design system Phase 2" commits — **superseded**, every component they add already
+  exists on `main` under `src/instrument/` instead of `src/ui/`. Nothing to recover.
+- 1 Observatory commit (`35070a3`) — **not superseded.** Full interactive `/observatory`
+  Next.js page, 1174 lines, zero new deps, 3 views + replay scrubber + keyboard nav. Current
+  `main` only has the static `public/observatory/` demo. Genuinely recoverable via
+  cherry-pick onto a clean branch; not yet done.
+
+## File status
+
+```
+_STATE/snapshot.json                  ✅ RECAPTURED — was 15 days stale, several of its
+                                          listed "open items" had already silently resolved
+MEMORY.md                             ✅ v3.0.0 entry added (realigned with this file)
+~/.claude/CLAUDE.md (global)          ✅ 3 corrections + new verification protocol
+_CANON/trust-contract.md              ✅ EXISTS on main (committed separately, not this
+                                          session) — NOT YET surfaced on any live page
+vercel.ts                             🟡 EXISTS on feature branch only — NOT merged
+```
+
+## Blocking
+
+`vercel.ts` migration is incomplete and intentionally not merged. While it was in flight,
+other concurrent work re-added `vercel.json` on `main` with `experimentalServices` (a Python
+`sage` microservice route) and `crons` that the committed `vercel.ts` doesn't represent.
+Merging as-is would silently drop both. `vercel.json` remains canonical on `main` — do not
+delete it again without first porting `experimentalServices` + `crons` into the `vercel.ts`
+branch and confirming `@vercel/config`'s `VercelConfig` type actually supports
+`experimentalServices` (unconfirmed as of this session).
+
+## Next session starts at
+
+`/handoff-pickup` → pick one: (a) trust-contract page on arcs-v9, (b) cherry-pick the
+Observatory commit, (c) finish the vercel.ts migration properly. Re-verify the
+DATABASE_URL rotation-risk item once Supabase MCP reconnects (was disconnected mid-session,
+could not check).
+
+---
+
+# Handoff — v3.1.0 — 2026-06-23
+
+> **For Claude Code:** active pickup point. v3.0.0 above is preserved for history. This
+> entry covers the back half of the same 2026-06-23 session — full detail is in `MEMORY.md`
+> `[v3.1.0]`, not repeated here to avoid the two-logs-disagree problem this exact handoff
+> chain has already caught itself doing once today.
+
+## What changed since v3.0.0
+
+10 commits (`7f1df53`..`3474d10`). Headlines: a real `CANON_COLLISION` found and resolved
+(`BAR`/`KKL` meant two different things in two canon files — see `MEMORY.md`); a new
+ROM Candidate landed (`operators/arcs_inchworm_echo.py`, `RC-OPS-001` — Golden Inchworm +
+Orthogonal Echo Detector, gated behind an Observatory period, NOT yet ROM); an 8-item
+governance roadmap with full dependency graph, pathogen taxonomy, and pre-mortem
+(`_PATTERNS/2026-06-23-governance-roadmap.md`); a per-task S-tier plan
+(`_PATTERNS/2026-06-23-s-tier-execution-plan.md`) that includes a withdrawn citation
+(caught the same session — verify-before-commit applied to this document's own claims,
+not just to code); and a cross-reference against `RECOIL-PROTOCOL.pdf` (the ARCS corpus's
+own retrospective self-audit), which independently flagged the same gap this session found
+by other means.
+
+## File status
+
+```
+_PATTERNS/2026-06-23-governance-roadmap.md      ✅ EXISTS — dependency graph + pathogen catalog
+_PATTERNS/2026-06-23-s-tier-execution-plan.md   ✅ EXISTS — per-task plan, NOT in canonical
+                                                    Section 1-7 format yet (task #8)
+operators/arcs_inchworm_echo.py                 ✅ EXISTS — RC-OPS-001, gated, not ROM
+operators/README.md                             ✅ Updated — new "ROM Candidates" section
+_STATE/cold-start-v3.1.0.md                     🔴 CREATE THIS SESSION — zero-context pickup prompt
+```
+
+## Open backlog (8 items — see TaskList for live status, this is a snapshot)
+
+#1 backup repo (ready) · #2 password rotation (blocked on Zach) · #3 consolidate 3 logs
+(ready, sequencing point) · #4 drift-sensor (design done, build not started — long pole) ·
+#5 prose-rule audit (ready) · #6 DEWY commit stamp (ready after #3+#5) · #7 Observatory
+cherry-pick (ready) · #8 canonical S-tier reformat (deferred this session)
+
+## Blocking
+
+None for the next session to start work. #2 is blocked on Zach specifically, not on any
+session. #4 and #6 have internal sequencing dependencies, documented in the roadmap doc.
+
+## Next session starts at
+
+`/handoff-pickup`, then read `_STATE/cold-start-v3.1.0.md` for a fuller zero-context
+briefing before picking a task. Recommended first move: any of #1/#5/#7 (no dependencies,
+no human blocker, genuinely startable cold).
+
+---
+
+# Handoff — v3.2.0 (2026-06-23)
+
+> **For Claude Code:** active pickup point. v3.1.0 above is preserved for history. This
+> session worked on branch `observatory-cherry-pick` (pushed to origin, no PR yet).
+
+## What changed since v3.1.0
+
+- **Critical production fix, live regardless of git/merge state**: Supabase project
+  `xbbpiryokswwvcrcutge` had `public.SageTrace` fully exposed (RLS disabled, anon
+  read/write/delete via PostgREST). Found via a real alert email, verified and fixed via
+  the `supabase` CLI (the Supabase **MCP connection cannot see this project** — wrong
+  org; use the CLI). Fixed with the ADR-008 deny-all pattern; 27 of 31 follow-up WARNs
+  also cleared. 4 left deliberately — see Open backlog #13/#14 below.
+- **Backlog #5 (prose-rule audit) DONE** — `_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md`.
+  Zero of 6 in-scope `SKILL.md` rules have real enforcement. Headline: "inline styles
+  only, no Tailwind, no className" has been violated at `src/app/layout.tsx` since the
+  first commit — independently re-verified, not just trusted from the audit.
+- **Backlog #7 (Observatory cherry-pick) DONE** — turned out to already be on this
+  branch before the session started; the genuinely-missing piece (dead `/observatory`
+  rewrite removal from `next.config.ts`) is done and build-verified.
+- **Trust contract v1.0 → v1.1** — `_CANON/trust-contract.md` §8 added, answering Zak's
+  "how will you catch people at the fork" feedback. Zach's call: new canonical section.
+- Full detail: `MEMORY.md` `[v3.2.0]`, `.claude/arcs-session-state.md`,
+  `_STATE/branch-observatory-cherry-pick.json` (per-branch state file — this branch's
+  work was NOT written into the shared `_STATE/snapshot.json`, per the documented
+  serialization protocol for feature branches).
+
+## Open backlog (revised — #5 and #7 done, #13/#14 new)
+
+#1 backup repo (done, prior session) · #2 password rotation (blocked on Zach) · #3
+consolidate 3 logs (ready, sequencing point) · #4 drift-sensor (design done, build not
+started — long pole) · ~~#5 prose-rule audit~~ **DONE** · #6 DEWY commit stamp (ready
+after #3+#5 — #5 now satisfied) · ~~#7 Observatory cherry-pick~~ **DONE** · #8 canonical
+S-tier reformat (still deferred) · **#13 NEW** — orphaned Supabase tables
+(`meeting_cards`/`risks`/`raci`/`dependencies`/`drift_signals`/`immune_sessions`/
+`immune_turns`/`pathogen_log`), no owning app found anywhere, needs Zach's input · **#14
+NEW** — 4 remaining Supabase advisor WARNs, left unfixed deliberately (ownership/intent
+unconfirmed), not urgent.
+
+## Blocking
+
+None for the next session to start cold on #3, #4(design), or #13. #2 and the separate
+`xbbpiryokswwvcrcutge` `DATABASE_URL` rotation risk (ADR-005 amendment — a *different*
+password than #2's, don't conflate) both need Zach directly.
+
+## Next session starts at
+
+`/handoff-pickup` → `.claude/arcs-session-state.md` for the fullest current detail.
+Recommended: #3 (log consolidation, unblocks #6's retrofit) or #13 (orphaned tables,
+just needs Zach to glance at the Supabase dashboard).
 

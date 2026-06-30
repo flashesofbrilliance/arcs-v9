@@ -1,70 +1,70 @@
 {
-  "captured_at": "2026-06-08T00:00:00Z",
+  "captured_at": "2026-06-29T22:28:42Z",
   "repo": "flashesofbrilliance/arcs-v9",
+  "staleness_note": "Prior snapshot (2026-06-23, v3.2.0) sat unreconciled for 6 days and ~40 commits despite real shipped work on 6/25, 6/26, 6/27, and 6/29 — the serialization_protocol's 'main reconciles on merge' step was simply skipped each time, not blocked by anything. This capture closes that gap. Going forward: if you're reading this and it's been multiple days since captured_at with commits on main since, assume it's stale again until re-verified — don't trust the date alone.",
   "git": {
-    "head_message": "merge: observability-milestone-mapping (Observatory hot-swap + GitHub explorer) into main",
+    "head_sha": "6172ff1",
+    "head_message": "fix(brief): OG image matches DebriefCard, the page's real hero element",
     "branch": "main",
-    "merged_from": "claude/observability-milestone-mapping-345ho",
-    "in_sync_with_origin": true
+    "in_sync_with_origin": true,
+    "dirty_files": [],
+    "note": "PR #22 (branch claude/sleepy-booth-889373) merged to main as 6c84f56, then two more fixes (ada79be, 6172ff1) cherry-picked directly onto main same-day after live verification each time — not squash-merged, not force-pushed. ADR-026's old untracked 'calendar-invite-vs-email' draft and the test_prisma_direct.js scratch file (both listed dirty in the prior snapshot) are gone — working tree is clean."
   },
-  "note": "Merge reconciles two parallel workstreams onto main: (1) resume.arcs.care (main, head 79f39e6-era) and (2) Observatory observability layer (this branch). Neither touched the other's files; only this snapshot conflicted. Cloud snapshot sync gap CLOSED by this merge.",
   "vercel": {
     "project": "arcs-v9",
     "production_alias": "https://app.arcs.care",
-    "custom_domains": ["app.arcs.care", "resume.arcs.care"],
+    "custom_domains": ["app.arcs.care", "www.arcs.care", "arcs.care", "resume.arcs.care"],
     "latest_deploy_status": "Ready",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"],
-    "note": "Merge to main triggers a fresh prod deploy. Observatory is static under public/observatory and serves at app.arcs.care/observatory."
+    "latest_deploy_commit": "6172ff1",
+    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY", "CRON_SECRET", "ARCS_TRACE_DIR", "BLOB_READ_WRITE_TOKEN (new — onboarding upload, ADR-029)", "SCAN_ENABLED (Preview only — ADR-028)"],
+    "note": "REAL INCIDENT this capture: AUTH_RESEND_KEY had an empty string value on BOTH Production and Preview (set ~26 days ago, never actually given a value, or a value that got lost — root cause not determined). Result: every Resend email send in the app had been silently no-op'ing for an unknown period, since `if (key) {...}` is false on an empty string. Found while testing the new lead-alert feature, fixed by Zach re-saving it as a Sensitive var (confirmed live via real test send — arrived). No code change required; this was purely an env-var data problem. Worth a periodic real-send check on email features going forward, since failures here are silent by design (delivery failures must not break the calling request)."
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
-    "schema_confirmed": ["User", "Receipt", "PrepSession", "Brief", "Account", "Session", "VerificationToken"],
-    "note": "Unchanged. No migration this session."
+    "receipt_count": 198,
+    "note": "RECEIPT-COUNT GATE CLEARED, NOT YET ACTED ON: ADR-023 (observability goal lattice) and the Kairos/Observatory work were both explicitly gated at '100+ receipts.' Verified via `supabase db query` this capture: 198 receipts in production. The gate has been clear for a while and nobody revisited it — flagging explicitly so it doesn't keep silently sitting there. Also ran a real recursive-CTE check on lineage depth/width (ADR-030): max thread depth 6 levels, widest single node 5 children (exceeds the nominal 3-tributary cap — a parent can be revisited more than once)."
   },
-  "observatory": {
-    "status": "Hot-swap data layer + plug-and-play GitHub event explorer SHIPPED",
-    "data_layer": "runtime.jsx (static code) + data.<name>.json (swappable payload) + datasets.json (switcher manifest); index.html Root fetches->hydrates->mounts, dataset <select> remounts with no reload, ?data= deep-links.",
-    "explorer": "scripts/event-rules.json (user-editable custom-event ruleset) + scripts/event_rules.py (engine) + scripts/github_ingest.py (live REST or --from-json; emits data.<name>.json + manifest). Guide: scripts/OBSERVATORY-INGEST.md.",
-    "datasets_live": ["data.arcs-v9.json (heuristic)", "data.arcs-v9-gh.json (rules engine; validated on 100 real arcs-v9 commits via GitHub MCP)"],
-    "not_yet": "Live PR + workflow-run fetchers (engine supports kind/label/status; only commits+releases wired to live fetch — PRs/workflows via --from-json for now). No browser render proof in cloud sandbox (unpkg + headless blocked); renders on Vercel.",
-    "verify_after_deploy": "Open app.arcs.care/observatory; switcher (top-right) lists both datasets; pick 'arcs-v9-gh'; confirm timeline/deck render and ?data=data.arcs-v9-gh.json deep-links."
+  "jtbd_status": {
+    "source": "arcs-field-os/jtbd/jtbd-master-map.md (v0.1.0, 2026-05-26) — that doc is itself over a month stale; this is a re-verification against actual current code, not a re-read of the doc.",
+    "calibrate": "STILL NOT BUILT. No pre-question quality check, no HOLD gate, nothing in CompassForm or compass/route.ts that surfaces a better question before running the pipeline. ATG is genuinely backlog, confirmed by grep, not assumed.",
+    "orient": "SHIPPED — Compass -> DEWY -> Y-gate. This is the app; everything this week's session touched lives downstream of this surface.",
+    "chart_course": "SHIPPED AS SCRIPTS, NOT WIRED INTO THE PRODUCT UI. Python scan suite in scripts/ is real and unchanged; nothing in src/app surfaces it to a user yet.",
+    "detect": "PARTIALLY UNBLOCKED SINCE THE DOC WAS WRITTEN. The interactive Observatory route (src/app/observatory/page.tsx, 1174 lines) is confirmed real and live on main, not a stub. The receipt-count gate is clear (see database.note above). What's still missing: the W-layer / pattern-distillation engine and Kairos detection (operators/arcs_operator_kairos.py exists but isn't wired into the app) — that's the actual remaining build, not the render shell."
   },
   "open_adrs": [
-    "ADR-023 DECIDED (goal lattice — implementation gated at 100+ receipts)",
-    "ADR-009 READY (Panel/Chip design system)",
-    "ADR-006 READY (Supabase branching — first-external-user gate)",
-    "ADR-016 OPEN (auth.ts wiring — carried from main)"
+    "ADR-023 DECIDED (goal lattice) — implementation gate (100+ receipts) is now CLEAR, not yet acted on",
+    "ADR-009 READY (Panel/Chip design system) — unchanged, still not started",
+    "ADR-006 READY (Supabase branching — first-external-user gate) — unchanged, still not started",
+    "ADR-026 (debrief delivery fix) — shipped, then materially extended again this week (progressive-disclosure opt-in for repeat debriefs, commit 501ee5f; first-debrief unsubscribe-link regression caught by code review and fixed same day, commit 2b68fac)",
+    "ADR-028 (Profile Scan staging) — DECIDED + implementation shipped behind SCAN_ENABLED flag, content model locked by Zach. Generation pipeline still explicitly out of scope.",
+    "ADR-029 (onboarding profile upload) — DECIDED + shipped, store-only, skippable. Toolbar feedback (DxUNiOM8XDu8) about no way back into an incomplete profile led to a same-week follow-up fix (PDF required/export optional + dashboard re-nudge), commit 61e7fa6.",
+    "ADR-030 NEW (nested thread view for tributary follow-ups) — architecture DECIDED on real production data (recursive CTE: depth 6, width 5), component not yet built. See toolbar thread e7tomv612gRX."
   ],
-  "open_items_from_main": [
-    "ADR-016: auth.ts wiring",
-    "DATABASE_URL missing from Preview env",
-    "Audience dropdown not built yet (resume)"
+  "this_week_shipped": [
+    "Homepage rebuilt as split-screen layout (direction #3 of 8 explored, Zach's explicit pick) — headline/CTAs left, featured-receipt card right, built with real production components not a mockup",
+    "Homepage's pinned-receipt flash/revert bug — root-caused via live console instrumentation (not guessed): page.tsx was a client component fetching /api/brief/[id] after mount, so the static fallback always painted first. Fixed properly by converting to a server component that reads the Receipt via Prisma before any HTML reaches the browser (force-dynamic) — eliminates the race structurally, not just papered over with a sessionStorage cache (which shipped first, then was superseded same week once the real fix landed)",
+    "Tributary chips + 'View brief' button consolidated onto one row on the homepage demo card",
+    "ARCS logomark experiment: tried inline-SVG, then Zach's actual reference-image asset (cropped + mix-blend-mode:screen to drop the seam) — both reverted at Zach's call ('this isn't working'), back to text-only wordmark. Zach is sourcing a proper SVG.",
+    "Wordmark component made a home-link everywhere it's used (compass, brief, history, prep, waitlist, receipt) in one change",
+    "Calibrate button bug (toolbar CSZchYG4Dne4): was aliased to the same handler as 'Open compass' (-> /dashboard), so it never actually calibrated anything. Fixed to route to /prep.",
+    "Lead capture (waitlist + advisory forms) had been writing to the DB with zero notification or review surface since it was built. Added: (1) an admin email alert on every submission, (2) /admin/leads, a real auth-gated review page (redirects unauthenticated, 404s non-admin, no client fetch). Both verified with real test submissions, not just code review.",
+    "OG image for /brief/[receiptId] (what renders when the SMS-share link is pasted anywhere) was a completely different, older layout than what the page actually shows. Rewrote it to mirror DebriefCard's real content ('The shoe has dropped' / Question / True North / Conviction / Days elapsed) — verified by fetching the actual generated PNG against the real pinned receipt, not just reading the code.",
+    "Full toolbar comment sweep across two passes (pre- and post-merge) — see _QUEUE/toolbar-open-items-2026-06-25.md for what's still genuinely open vs. resolved.",
+    "Recurring browser-level font-size report (AEhpU2dpUgBj, and earlier WG5sdXx0B6XB) diagnosed conclusively as a Chrome zoom/accessibility-font-size setting, not a code regression — confirmed via a controlled test (fixed-px element stays exact while rem-based elements scale 1.25x). Not fixable from this side; explained the actual fix (Cmd+0 / chrome://settings/appearance) to Zach directly.",
+    "AUTH_RESEND_KEY empty-value incident found and fixed (see vercel.note) — this had been silently breaking all email sends for an unknown prior period, not just the new lead-alert feature.",
+    "ADR-030 nested-thread-view scoped on real lineage data rather than assumption — see jtbd_status.detect / database.note."
   ],
-  "next_action": "PHASE 2 — promote the Compass UI kit into the real app. Read _STATE/compass-kit-phase2-handoff.md first. Kit source: public/compass-kit/; live mock preview: app.arcs.care/compass-kit. Rebuild /, /dashboard, /brief/[receiptId] on the kit; swap mockCompass -> /api/compass (2 field remaps: macro_tags<-meta.macro_tags, attach question). Reconcile the kit with the existing src/ui/ DS (ADR-009/011) rather than fork. Recommended in a FRESH session for clean context.",
-  "compass_kit_phase2": {
-    "handoff": "_STATE/compass-kit-phase2-handoff.md",
-    "preview": "https://app.arcs.care/compass-kit",
-    "source_dir": "public/compass-kit/",
-    "target": "arcs-v9 = app.arcs.care (NOT the arcs.care marketing repo)",
-    "status": "Phase 1 (live mock preview) shipped; Phase 2 (TSX port + real API + DS reconcile) not started",
-    "field_remaps": ["result.macro_tags <- result.meta.macro_tags", "result.question kept in client state (API does not echo it)"],
-    "existing_ds": "src/ui/{tokens.ts,Badge.tsx,Button.tsx,Card.tsx} (ADR-009/011) — extend, do not duplicate"
-  },
-  "this_session_shipped": [
-    "Observatory: rules-engine dataset default + dated risks + provenance-to-GitHub commit links",
-    "compass-kit live mock preview (/compass-kit)",
-    "resume SEND BEARING -> geo-stamped email subject",
-    "bare /brief -> redirect /dashboard (was 404)"
-  ],
-  "blocking": "NONE",
-  "security_status": "CLOSED 2026-06-04 — both leaked secrets rotated AND purged from git history via filter-repo (carried forward; no security change this session).",
+  "next_action": "Pick one: (1) build the ADR-030 ThreadTree component (architecture decided, nothing built yet) — natural next step given the toolbar thread is still open waiting on it. (2) Wire Chart Course's scan suite into an actual UI surface — it's real, shipped, and completely invisible to users today. (3) Scope the Detect surface's W-layer/Kairos build now that the receipt-count gate is confirmed clear — nobody has acted on that yet. (4) ADR-009 (Panel/Chip) and ADR-006 (Supabase branching) remain READY/unstarted from before, lowest urgency of the open items. Do NOT re-derive the toolbar/lead/homepage work above from git log — it's fully captured here and in this session's commit messages.",
+  "blocking": "None of substance. vercel.ts migration mentioned in the prior snapshot appears abandoned, not pending — vercel.ts no longer exists in the repo at all; vercel.json is the sole, current config on main. Treat that item as resolved-by-abandonment unless someone explicitly revives it.",
+  "security_status": "CLOSED 2026-06-04 (leaked secrets rotated + purged from history) — unchanged. New finding this capture (AUTH_RESEND_KEY empty value) was a data/config issue, not a leak — no rotation needed, just re-entry of the real value.",
   "serialization_protocol": {
-    "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here; a parallel build was started and discarded to avoid forking the protocol)",
-    "design": "per-branch state files — each branch owns _STATE/branch-<slug>.json and never overwrites the shared snapshot/session-state; main reconciles on merge. This very merge's only conflict (snapshot.json) is exactly the problem that design eliminates.",
+    "owner": "Perplexity-space ARCS instance (CANONICAL — do NOT re-implement the lock-manager here)",
+    "design": "per-branch state files — each branch owns _STATE/branch-<slug>.json and never overwrites the shared snapshot/session-state; main reconciles on merge.",
     "arcs_v9_stance": "ADOPT the per-branch-file convention for /handoff on feature branches; do NOT host the lock-manager implementation.",
+    "compliance_note": "NOT FOLLOWED this week — no _STATE/branch-claude-sleepy-booth-889373.json was ever created, and the merge-time reconciliation into this file didn't happen until this capture, 6 days and 3 follow-on commits late. The protocol is still right; the discipline of actually doing it on every branch/merge is the gap. If you're an agent picking this up: create the per-branch file BEFORE your first commit on a new branch, not as an afterthought.",
     "decided": "2026-06-06"
   }
 }

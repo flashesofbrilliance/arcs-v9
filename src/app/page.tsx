@@ -1,63 +1,48 @@
-'use client'
+import { prisma } from '@/lib/db'
+import type { HomeDemo } from '@/organisms/Home'
+import { HomePageClient } from './HomePageClient'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { surface, text, font } from '@/ui/tokens'
-import { Home, type HomeDemo } from '@/organisms/Home'
-import { Button } from '@/ui/Button'
-
-// Landing surface. Thin wrapper: routes the organism's callbacks and fetches the
-// pinned featured brief for the demo card (public /api/brief — not the gated
-// history). Falls back to the static sample inside Home when unavailable. The
-// Home organism stays presentational (head/body F4).
+// Landing surface. Server component: fetches the pinned featured receipt
+// directly via Prisma at render time, so the correct content is in the HTML
+// before it ever reaches the browser — no client fetch, no loading state, no
+// flash-then-swap. (Previously this was a client component that fetched
+// /api/brief/[id] after mount; that always painted Home's static fallback
+// sample first and swapped once the fetch resolved, which is the flash Zach
+// kept seeing — confirmed via live console tracing, not guessed.) Falls back
+// to the static sample inside Home only if the pinned receipt is missing.
 
 // Pinned featured decision shown on the homepage + linked as the example brief.
 const PINNED_BRIEF_ID = 'cmqbd3i3k000104lawptiz7x0'
 
-export default function HomePage() {
-  const router = useRouter()
-  const [demo, setDemo] = useState<HomeDemo | null>(null)
+// Direct DB read at request time, not build time — without this Next would
+// try to statically prerender the page (running the Prisma query once at
+// build, baking whatever it returned into a static HTML shell forever).
+export const dynamic = 'force-dynamic'
 
-  useEffect(() => {
-    let cancelled = false
-    fetch(`/api/brief/${PINNED_BRIEF_ID}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (cancelled || !data?.receipt) return
-        const r = data.receipt
-        setDemo({
-          decision: r.decision ?? r.trueNorth ?? '',
-          trueNorth: r.trueNorth ?? '',
-          nciScore: r.nciScore ?? 50,
-          coherence: r.coherencePct ?? null,
-          mode: r.mode,
-          doorClass: r.doorClass,
-          yState: r.yState,
-        })
-      })
-      .catch(() => {})
-    return () => {
-      cancelled = true
+async function getPinnedDemo(): Promise<HomeDemo | null> {
+  try {
+    const r = await prisma.receipt.findUnique({ where: { id: PINNED_BRIEF_ID } })
+    if (!r) return null
+    let tributaries = undefined
+    try {
+      if (r.atgTributaries) tributaries = JSON.parse(r.atgTributaries)
+    } catch { /* malformed — omit */ }
+    return {
+      decision: r.decision ?? r.trueNorth ?? '',
+      trueNorth: r.trueNorth ?? '',
+      nciScore: r.nciScore ?? 50,
+      coherence: r.coherencePct ?? null,
+      mode: r.mode,
+      doorClass: r.doorClass,
+      yState: r.yState,
+      tributaries,
     }
-  }, [])
+  } catch {
+    return null
+  }
+}
 
-  return (
-    <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
-      <Home
-        demo={demo}
-        demoLabel="Featured · Decision Receipt"
-        onOpen={() => router.push('/dashboard')}
-        onBrief={() => router.push(`/brief/${PINNED_BRIEF_ID}`)}
-      />
-
-      <div style={{ maxWidth: 620, margin: '0 auto', padding: '0 1.5rem 4rem', textAlign: 'center' }}>
-        <p style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.secondary, lineHeight: 1.6, margin: '0 0 1rem' }}>
-          Want ARCS to run with you on the decisions that matter most?
-        </p>
-        <Button variant="gold" size="md" glyph="◈" onClick={() => router.push('/waitlist')}>
-          Full-service ARCS &amp; advisory →
-        </Button>
-      </div>
-    </main>
-  )
+export default async function HomePage() {
+  const demo = await getPinnedDemo()
+  return <HomePageClient demo={demo} pinnedBriefId={PINNED_BRIEF_ID} />
 }

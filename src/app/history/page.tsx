@@ -92,12 +92,16 @@ export default function HistoryPage() {
             const c = nciColor(r.nciScore)
             const followUps = r.children?.length ?? 0
             return (
-              <Card key={r.id} accent={w.color} style={{ padding: "1rem 1.25rem" }}>
+              // Subtle rail accent (TerrainPaths pattern), not a full glow/outline
+              // per card — a list of many cards reads as noise with a loud
+              // accent on every single row.
+              <Card key={r.id} style={{ padding: "1rem 1.25rem 1rem 1rem", borderLeft: `2px solid ${w.color}` }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "0.6rem" }}>
                   <Badge label={`${w.icon} ${w.label}`} color={w.color} register="light" />
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.4rem" }}>
                     <span style={{ fontFamily: font.mono, fontSize: "0.7rem", color: text.muted }}>{new Date(r.createdAt).toLocaleDateString()}</span>
-                    <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "1rem", color: c, textShadow: `0 0 10px ${c}55` }}>{r.nciScore}</span>
+                    <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: "1rem", color: c }}>{r.nciScore}</span>
+                    <span style={{ fontFamily: font.mono, fontSize: "0.6rem", color: text.muted, letterSpacing: "0.06em" }}>CONVICTION</span>
                   </div>
                 </div>
                 <div style={{ fontFamily: font.sans, fontSize: "0.875rem", color: text.primary, lineHeight: 1.4, marginBottom: "0.5rem" }}>{r.decision}</div>

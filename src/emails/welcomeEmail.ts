@@ -71,7 +71,7 @@ ${darkLockHead(C)}</head>
         </tr></table>
 
         <div class="arcs-muted" style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
-          Render through the fog to earned clarity.
+          Your judgment. Sharper.
         </div>
 
       </td></tr>

@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────────────────────
--- RLS Policies for arcs-v9 / Supabase project owdiiyvphyifukygvxhg
+-- RLS Policies for arcs-v9 / Supabase project xbbpiryokswwvcrcutge (ARCS_v9)
 --
 -- Architecture note:
 --   Prisma connects as the `postgres` superuser role via DATABASE_URL (pooler

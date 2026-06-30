@@ -110,7 +110,7 @@ function PrepInner() {
             <SegmentedSlider options={STAKE_OPTS} value={stakes} onChange={(v) => setStakes(v as Stakes)} />
           </div>
 
-          <Picker label="When does this land?" value={horizon} options={HORIZON_OPTS} onChange={(v) => setHorizon(v as Horizon)} />
+          <Picker label="When do you commit?" value={horizon} options={HORIZON_OPTS} onChange={(v) => setHorizon(v as Horizon)} />
 
           <div>
             <CalibrationChips selected={protecting} onToggle={toggleProtect} />
@@ -129,7 +129,7 @@ function PrepInner() {
 
           <Field label="Who else is in this terrain?" value={entity} onChange={(e) => setEntity(e.target.value)} placeholder="person, company, stakeholder, panel…" />
           <Field label="Strongest case against your instinct" value={adversarial} onChange={(e) => setAdversarial(e.target.value)} placeholder="One sentence. The Loki vector." />
-          <Field label="When do you expect the shoe to drop?" value={outcomeHorizon} onChange={(e) => setOutcomeHorizon(e.target.value)} placeholder="end of Q3, when we close the hire, 30 days…" />
+          <Field label="When will you know if it worked?" value={outcomeHorizon} onChange={(e) => setOutcomeHorizon(e.target.value)} placeholder="not when you decide — when the outcome shows up: end of Q3, when we close the hire, 30 days…" />
 
           <div style={{ position: "sticky", bottom: 0, background: surface.bg, borderTop: `0.5px solid ${border.subtle}`, padding: "1rem 0 1.25rem", marginTop: "0.5rem" }}>
             <Button type="submit" variant="primary" size="lg" glyph={loading ? "~" : "⊕"} disabled={loading} style={{ width: "100%" }}>
