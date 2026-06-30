@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, Suspense } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { surface, text, signal, font } from "@/ui/tokens"
 import { Wordmark } from "@/ui/Wordmark"
@@ -40,6 +40,11 @@ function WaitlistInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const receiptId = searchParams.get("receipt") || undefined
+  const [advisoryOnly, setAdvisoryOnly] = useState(false)
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search)
+    setAdvisoryOnly(p.get("view") === "advisory")
+  }, [])
 
   // Full-service waitlist
   const [wEmail, setWEmail] = useState("")
@@ -90,20 +95,22 @@ function WaitlistInner() {
           a Mañana sprint built around the decision in front of you right now.
         </p>
 
-        {/* Full-service waitlist */}
-        <Card style={{ marginBottom: "1.5rem" }}>
-          <SectionLabel index="01" style={{ marginBottom: "0.75rem" }}>Full-service ARCS · waitlist</SectionLabel>
-          {wSent ? (
-            <Done>You&apos;re on the list. We&apos;ll reach out as spots open.</Done>
-          ) : (
-            <form onSubmit={submitWaitlist} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              <Field label="Email" type="email" required value={wEmail} onChange={(e) => setWEmail(e.target.value)} placeholder="you@example.com" />
-              <Button type="submit" variant="primary" size="md" glyph={wLoading ? "~" : "⊕"} disabled={wLoading || !wEmail.trim()} style={{ width: "100%" }}>
-                {wLoading ? "Adding…" : "Join the waitlist"}
-              </Button>
-            </form>
-          )}
-        </Card>
+        {/* Full-service waitlist — hidden when arriving via advisory CTA */}
+        {!advisoryOnly && (
+          <Card style={{ marginBottom: "1.5rem" }}>
+            <SectionLabel index="01" style={{ marginBottom: "0.75rem" }}>Full-service ARCS · waitlist</SectionLabel>
+            {wSent ? (
+              <Done>You&apos;re on the list. We&apos;ll reach out as spots open.</Done>
+            ) : (
+              <form onSubmit={submitWaitlist} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <Field label="Email" type="email" required value={wEmail} onChange={(e) => setWEmail(e.target.value)} placeholder="you@example.com" />
+                <Button type="submit" variant="primary" size="md" glyph={wLoading ? "~" : "⊕"} disabled={wLoading || !wEmail.trim()} style={{ width: "100%" }}>
+                  {wLoading ? "Adding…" : "Join the waitlist"}
+                </Button>
+              </form>
+            )}
+          </Card>
+        )}
 
         {/* Advisory consult */}
         <Card id="advisory" accent={signal.gold}>

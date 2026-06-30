@@ -202,7 +202,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           variant="gold"
           size="sm"
           glyph="◈"
-          onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist#advisory' }}
+          onClick={() => { if (typeof window !== 'undefined') window.location.href = '/waitlist?view=advisory' }}
         >
           Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span>
         </Button>
