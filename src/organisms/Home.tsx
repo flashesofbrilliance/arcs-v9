@@ -5,6 +5,7 @@ import { font, signal, text } from '@/ui/tokens'
 import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta, tribColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
+import { StickyFooter } from '@/ui/StickyFooter'
 import { AuthControl } from '@/molecules/AuthControl'
 import { Rule } from '@/ui/Rule'
 import { SectionLabel } from '@/ui/SectionLabel'
@@ -193,20 +194,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         </div>
       </div>
 
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, borderTop: `1px solid ${signal.gold}25`, background: 'rgba(2,4,8,0.92)', backdropFilter: 'blur(12px)' }}>
-      <div style={{ maxWidth: 960, margin: '0 auto', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
-        <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, maxWidth: 420 }}>
-          Interested in ARCS powered sprints by Mañana?
-        </span>
-        <Button
-          variant="gold"
-          size="sm"
-          onClick={() => { if (typeof window !== 'undefined') window.location.href = '/advisory' }}
-        >
-          Inquire directly&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
-        </Button>
-      </div>
-      </div>
+      <StickyFooter message="Interested in ARCS powered sprints by Mañana?" maxWidth={960} />
     </div>
   )
 }

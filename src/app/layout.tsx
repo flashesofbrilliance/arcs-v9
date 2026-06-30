@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
 import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
 import { EyebrowToast } from "@/ui/EyebrowToast"
+import { ToastDrawerProvider } from "@/ui/ToastDrawerContext"
 import "./globals.css"
 
 const inter = Inter({
@@ -50,8 +51,10 @@ export default function RootLayout({
       className={`${inter.variable} ${crimsonPro.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased" style={{ overscrollBehavior: "none" }}>
-        <EyebrowToast />
-        {children}
+        <ToastDrawerProvider>
+          <EyebrowToast />
+          {children}
+        </ToastDrawerProvider>
         <ClaimAnonymousReceipts />
         <VercelToolbarToggle />
         <Analytics />
