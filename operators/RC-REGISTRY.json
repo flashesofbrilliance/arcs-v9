@@ -1,0 +1,13 @@
+[
+  {
+    "id": "RC-OPS-001",
+    "name": "Golden Inchworm + Orthogonal Echo Detector",
+    "file": "operators/arcs_inchworm_echo.py",
+    "status": "READY_FOR_PERIOD",
+    "gate": "Observatory period (no RC promotions until period + 100 receipts)",
+    "description": "Golden Inchworm (Red Thread \u2192 Golden Thread \u2192 Needle, 3-pass) + Orthogonal Echo Detector (cross-domain kinematic isomorphisms)",
+    "source_rom": "_CANON/book-ii/part-ii-core-rom-axioms.md (Golden Inchworm + Orthogonal Echo primitives)",
+    "ready_since": "2026-06-23",
+    "promoted_at": null
+  }
+]
