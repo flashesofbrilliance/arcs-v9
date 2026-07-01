@@ -71,15 +71,15 @@ export function StickyFooter({
         <div
           style={{
             position: 'absolute', inset: 0, padding: '0.75rem 1.5rem',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1.5rem',
             opacity: open ? 1 : 0,
             transition: 'opacity 0.3s ease',
             pointerEvents: open ? 'auto' : 'none',
           }}
         >
-          <button onClick={() => router.push('/trust')} style={legalLinkStyle}>Trust contract</button>
-          <button onClick={() => router.push('/privacy')} style={legalLinkStyle}>Privacy policy</button>
-          <button onClick={() => router.push('/terms')} style={legalLinkStyle}>Terms of service</button>
+          <button onClick={() => router.push('/trust')} style={legalLinkStyle}>Trust</button>
+          <button onClick={() => router.push('/privacy')} style={legalLinkStyle}>Privacy</button>
+          <button onClick={() => router.push('/terms')} style={legalLinkStyle}>Terms</button>
         </div>
 
       </div>
