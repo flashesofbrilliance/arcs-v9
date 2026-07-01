@@ -27,16 +27,28 @@ export function ExpandableTributaries({ tributaries, onTributary, authed, plgCon
   const [email, setEmail] = useState('')
   const [plgStatus, setPlgStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
 
+  // If auth resolves to confirmed-true while the PLG form is showing (slow session
+  // check + fast click), navigate the user rather than leaving the form open.
+  React.useEffect(() => {
+    if (authed === true && pendingTrib) {
+      onTributary?.(pendingTrib.prompt)
+      setPendingTrib(null)
+      setOpen(false)
+    }
+  }, [authed]) // eslint-disable-line react-hooks/exhaustive-deps
+
   if (!tributaries.length) return null
 
   function handleTribClick(t: Tributary) {
-    // Authed users (and null=still checking) get the normal navigation path
-    if (authed !== false || !plgContext) {
+    // Only confirmed-authed users bypass the PLG gate; null (still checking)
+    // and false both show the signup form — the effect above handles the
+    // edge case where null later resolves to true.
+    if (authed === true || !plgContext) {
       onTributary?.(t.prompt)
       setOpen(false)
       return
     }
-    // Unauthed viewer on a shared brief → capture intent, show signup
+    // Unauthed (or still-checking) viewer → capture intent, show signup
     setPendingTrib(t)
     setPlgStatus('idle')
     setEmail('')
