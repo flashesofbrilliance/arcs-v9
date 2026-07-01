@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Skeleton Key — Fanatics Collectibles</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface3: #0a0f18;
+  --border: #1e293b; --border2: rgba(30,41,59,0.5);
+  --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 100px; }
+.page { max-width: 640px; margin: 0 auto; }
+
+/* HEADER */
+.eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 14px; }
+.headline { font-size: 26px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 8px; }
+.headline em { color: var(--cyan); font-style: normal; }
+.sub { font-size: 13px; color: var(--muted); line-height: 1.65; max-width: 520px; }
+
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.25; margin: 24px 0; }
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* JOURNEY TIMELINE */
+.journey { position: relative; padding-left: 36px; }
+.journey::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--cyan)44, var(--border) 60%, var(--border2));
+}
+
+/* NODE */
+.node { position: relative; margin-bottom: 24px; }
+.node::before {
+  content: '';
+  position: absolute;
+  left: -29px;
+  top: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: var(--bg);
+  z-index: 2;
+}
+.node.closed::before  { border-color: var(--dimmed); background: var(--surface); }
+.node.active::before  { border-color: var(--cyan); background: var(--cyan)33; box-shadow: 0 0 10px var(--cyan)55; }
+.node.open::before    { border-color: var(--border); background: var(--bg); }
+
+.node-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.node.active .node-card { border-color: rgba(0,240,255,0.2); }
+.node.open .node-card   { opacity: 0.65; }
+
+/* NODE HEADER */
+.node-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px 12px;
+  border-bottom: 1px solid var(--border2);
+}
+.node-num { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--dimmed); letter-spacing: 0.1em; flex-shrink: 0; }
+.node-name { font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; flex: 1; }
+.node-date { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; }
+.badge {
+  font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0;
+}
+.badge-closed  { color: var(--dimmed); border-color: var(--border); background: transparent; }
+.badge-active  { color: var(--cyan);   border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.06); }
+.badge-open    { color: var(--muted);  border-color: var(--border); background: transparent; }
+.badge-partial { color: var(--gold);   border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.06); }
+
+/* NODE BODY */
+.node-body { padding: 14px 18px; }
+.node-summary { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+
+/* PRIOR UPDATE TABLE */
+.delta-label { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 8px; }
+.delta-rows { display: flex; flex-direction: column; gap: 0; background: var(--surface3); border: 1px solid var(--border2); border-radius: 7px; overflow: hidden; margin-bottom: 12px; }
+.delta-row { display: grid; grid-template-columns: 100px 1fr 1fr; align-items: stretch; border-bottom: 1px solid rgba(30,41,59,0.35); }
+.delta-row:last-child { border-bottom: none; }
+.delta-axis { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--dimmed); letter-spacing: 0.07em; padding: 8px 10px; border-right: 1px solid var(--border2); display: flex; align-items: center; }
+.delta-prior { font-size: 11.5px; color: var(--muted); padding: 8px 10px; border-right: 1px solid var(--border2); text-decoration: line-through; text-decoration-color: rgba(255,255,255,0.12); display: flex; align-items: center; line-height: 1.4; }
+.delta-actual { font-size: 11.5px; color: var(--text); padding: 8px 10px; display: flex; align-items: center; line-height: 1.4; }
+.delta-actual.green  { color: var(--green); }
+.delta-actual.cyan   { color: var(--cyan); }
+.delta-actual.gold   { color: var(--gold); }
+.delta-actual.red    { color: var(--red); }
+
+/* SIGNAL THREADS */
+.signals { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.sig-chip {
+  font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.07em;
+  padding: 3px 9px; border-radius: 4px; border: 1px solid;
+}
+.sig-green  { color: var(--green); border-color: rgba(0,255,157,0.3); background: rgba(0,255,157,0.05); }
+.sig-cyan   { color: var(--cyan);  border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.05); }
+.sig-gold   { color: var(--gold);  border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
+.sig-red    { color: var(--red);   border-color: rgba(255,77,109,0.3); background: rgba(255,77,109,0.05); }
+.sig-muted  { color: var(--muted); border-color: var(--border);       background: transparent; }
+
+/* POSITION BLOCK */
+.position-block {
+  background: linear-gradient(160deg, rgba(0,240,255,0.06), rgba(0,240,255,0.02));
+  border: 1px solid rgba(0,240,255,0.18);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.position-block::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0.5;
+}
+.pos-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
+.pos-text { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.5; margin-bottom: 14px; }
+
+/* OPEN THREADS */
+.threads { display: flex; flex-direction: column; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
+.thread-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border2); }
+.thread-row:last-child { border-bottom: none; }
+.thread-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; width: 52px; flex-shrink: 0; padding-top: 2px; }
+.thread-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; }
+.thread-date { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; flex-shrink: 0; padding-top: 3px; }
+
+/* DOCS NAV */
+.docs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.doc-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; text-decoration: none; display: block; transition: border-color 0.15s; }
+.doc-card:hover { border-color: rgba(0,240,255,0.3); }
+.doc-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+.doc-desc { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div style="margin-bottom:24px">
+    <div class="eyebrow">Skeleton Key · Fanatics Collectibles · Not for distribution</div>
+    <div class="headline">The play, <em>sequenced.</em></div>
+    <div class="sub">Every move from first signal to current position. What was known going in, what changed on contact, and what's open. A living receipt for the Fanatics candidacy.</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <!-- JOURNEY -->
+  <div class="sl" style="margin-bottom:16px">Signal sequence</div>
+  <div class="journey">
+
+    <!-- NODE 01: THE WORM -->
+    <div class="node closed">
+      <div class="node-card">
+        <div class="node-head">
+          <span class="node-num">01</span>
+          <span class="node-name" style="color:var(--green)">THE WORM</span>
+          <span class="node-date">~Jun 24, 2026</span>
+          <span class="badge badge-closed">CLOSED</span>
+        </div>
+        <div class="node-body">
+          <p class="node-summary">Chris Lamontagne (President, Strategy & Growth, Fanatics) posted: <span style="color:var(--text)">"I am looking for a few exceptional & high-agency operators to come and join us at Fanatics for the next phase of growth. If you're the right person. *Have your agent speak to my agent*"</span> — 109 likes, 12 comments. Zach was first to comment and first to book time.</p>
+          <div style="margin:10px 0;padding:10px 14px;background:var(--surface3);border:1px solid var(--border2);border-radius:7px;">
+            <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;">Zach's first comment</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.55;margin-bottom:6px;">"A.R.C.S. delegating back to me — maybe reaching out soon…"</div>
+            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Post linked to Chris's AI-native easter egg hiring site (<a href="https://growth-mauve.vercel.app" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">growth-mauve.vercel.app</a>) — an agent-based application flow. Zach booked the 15-min call the same day. The stunt deck's last page adapted that same site for a prompt injection scenario: red-pilling Chris on agent-to-agent security. Not a pitch. A proof that got it.</div>
+          </div>
+          <div class="delta-label">Prior → Actual</div>
+          <div class="delta-rows">
+            <div class="delta-row">
+              <div class="delta-axis">Post type</div>
+              <div class="delta-prior">Standard recruiting broadcast</div>
+              <div class="delta-actual cyan">"Have your agent speak to my agent" — AI-native signal + easter egg flow</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Response</div>
+              <div class="delta-prior">Passive applications expected</div>
+              <div class="delta-actual green">First comment + first to book. Responded in kind: agent-to-agent.</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Path opened</div>
+              <div class="delta-prior">No inbound path defined</div>
+              <div class="delta-actual green">Warm intro path opened · Stunt deployed as follow-up proof</div>
+            </div>
+          </div>
+          <div class="signals">
+            <span class="sig-green">FIRST_COMMENT</span>
+            <span class="sig-green">FIRST_BOOK</span>
+            <span class="sig-cyan">AI_NATIVE_SIGNAL</span>
+            <span class="sig-gold">EASTER_EGG_UNLOCKED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 02: THE STUNT -->
+    <div class="node closed">
+      <div class="node-card">
+        <div class="node-head">
+          <span class="node-num">02</span>
+          <span class="node-name" style="color:var(--gold)">THE STUNT</span>
+          <span class="node-date">Jun 25–26, 2026</span>
+          <span class="badge badge-closed">CLOSED</span>
+        </div>
+        <div class="node-body">
+          <p class="node-summary">15-min call with Chris (Jun 25), followed same night by "The bubblegum problem" — an email + Magic Patterns deck sent as something "easy to socialize internally." The stalking horse: not a resume, not a pitch deck. Something you make when you've already started. Last page of the deck adapted Chris's own easter egg hiring site for a prompt injection scenario.</p>
+          <div class="delta-label">Prior → Actual</div>
+          <div class="delta-rows">
+            <div class="delta-row">
+              <div class="delta-axis">Function</div>
+              <div class="delta-prior">Demo asset / portfolio piece</div>
+              <div class="delta-actual cyan">Became Chris's credibility anchor in the CJ intro</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Positioning</div>
+              <div class="delta-prior">Generic growth exec narrative</div>
+              <div class="delta-actual green">Differentiated: builder who thinks, not analyst who reports</div>
+            </div>
+          </div>
+          <div class="signals">
+            <span class="sig-gold">CREDIBILITY_ANCHOR</span>
+            <span class="sig-cyan">STUNT_DEPLOYED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 03: THE VOLLEY -->
+    <div class="node closed">
+      <div class="node-card">
+        <div class="node-head">
+          <span class="node-num">03</span>
+          <span class="node-name" style="color:var(--cyan)">THE VOLLEY</span>
+          <span class="node-date">Jun 29, 2026</span>
+          <span class="badge badge-closed">CLOSED</span>
+        </div>
+        <div class="node-body">
+          <p class="node-summary">Chris replied to "The bubblegum problem" email: <span style="color:var(--text)">"Hey Zach, Thank you for the thoughtful follow up; i loved what you built — would be keen to have the team dive in deeper. As an immediate next step, I'd like to introduce CJ, who leads Talent for…"</span> CJ replied with a Calendly link within 2 hours. Jul 1 booked same day.</p>
+          <div class="delta-label">Prior → Actual</div>
+          <div class="delta-rows">
+            <div class="delta-row">
+              <div class="delta-axis">Chris reaction</div>
+              <div class="delta-prior">Polite acknowledgment expected</div>
+              <div class="delta-actual green">"i loved what you built" · intro to CJ CC'd same email</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Speed</div>
+              <div class="delta-prior">Days or weeks to response</div>
+              <div class="delta-actual cyan">CJ replied with Calendly link within 2 hours · Jul 1 booked</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Path forward</div>
+              <div class="delta-prior">Unknown — CJ might be terminal node</div>
+              <div class="delta-actual gold">CJ is advocate · Chase intro is the next gate</div>
+            </div>
+          </div>
+          <div class="signals">
+            <span class="sig-cyan">CJ_ADVOCATE</span>
+            <span class="sig-green">ROLE_CONFIRMED_REAL</span>
+            <span class="sig-gold">CHASE_GATE_IDENTIFIED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 04: THE CALL -->
+    <div class="node closed">
+      <div class="node-card">
+        <div class="node-head">
+          <span class="node-num">04</span>
+          <span class="node-name" style="color:var(--cyan)">THE CALL</span>
+          <span class="node-date">Jul 1, 2026</span>
+          <span class="badge badge-closed">CLOSED · NCI 88 · GREEN/HIGH/STABLE</span>
+        </div>
+        <div class="node-body">
+          <p class="node-summary">30 min with CJ Masopust. Role confirmed, scope revealed, org shape confirmed, AI stack confirmed. CJ is an advocate. Process after Chase still undefined — that's the one open thread from this call.</p>
+          <div class="delta-label">Prior → Actual</div>
+          <div class="delta-rows">
+            <div class="delta-row">
+              <div class="delta-axis">Scope</div>
+              <div class="delta-prior">Unknown — cross-BU hypothesis</div>
+              <div class="delta-actual cyan">Instant Rips beachhead confirmed. Cross-BU potential acknowledged.</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Team shape</div>
+              <div class="delta-prior">Senior IC / no team (assumed)</div>
+              <div class="delta-actual green">VP-level · small team (~5–6) · player-coach</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Comp / JD</div>
+              <div class="delta-prior">Nothing confirmed</div>
+              <div class="delta-actual gold">Verbal band only. Spec being built with hire. No JD yet.</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Timeline</div>
+              <div class="delta-prior">Unknown</div>
+              <div class="delta-actual green">3–4 weeks. No Fanatics-side pressure. Expedite lever confirmed.</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">AI stack</div>
+              <div class="delta-prior">Unknown — assumed enterprise tools</div>
+              <div class="delta-actual cyan">Claude + ChatGPT Enterprise confirmed in production</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Stunt landing</div>
+              <div class="delta-prior">Unknown how it was received</div>
+              <div class="delta-actual green">CJ had a talent-sourcing agent built herself — resonance confirmed</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Process → Chase</div>
+              <div class="delta-prior">Unknown</div>
+              <div class="delta-actual gold">Zach → Chase. What happens after Chase still undefined. (PARTIAL)</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Growth Plus One</div>
+              <div class="delta-prior">Unknown</div>
+              <div class="delta-actual cyan">Confirmed. Fan Fest: CJ checking with Chris.</div>
+            </div>
+          </div>
+          <div class="signals">
+            <span class="sig-cyan">SCOPE_EXPANSION</span>
+            <span class="sig-cyan">CJ_ADVOCATE</span>
+            <span class="sig-green">ROLE_FLUID_CONFIRMED</span>
+            <span class="sig-gold">COMMUNITY_SIGNAL</span>
+            <span class="sig-gold">DEADLINE_LIVE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 05: CHASE — OPEN -->
+    <div class="node open">
+      <div class="node-card">
+        <div class="node-head">
+          <span class="node-num">05</span>
+          <span class="node-name" style="color:var(--muted)">CHASE INTRO</span>
+          <span class="node-date">Pending</span>
+          <span class="badge badge-open">OPEN</span>
+        </div>
+        <div class="node-body">
+          <p class="node-summary" style="color:var(--muted)">Intro to Chase (GM, Instant Rips) via CJ and/or Chris. This is the beachhead gate — Chase is the first BU lead who would be directly impacted by this role. The chase-intro page is built and live at chase-intro.arcs.care.</p>
+          <div class="delta-label">Known going in</div>
+          <div class="delta-rows">
+            <div class="delta-row">
+              <div class="delta-axis">Path</div>
+              <div class="delta-prior">—</div>
+              <div class="delta-actual" style="color:var(--muted)">CJ making intro. Timing TBD.</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Position</div>
+              <div class="delta-prior">—</div>
+              <div class="delta-actual" style="color:var(--muted)">Rips is the proposed beachhead. Chase is the primary stakeholder.</div>
+            </div>
+            <div class="delta-row">
+              <div class="delta-axis">Escalation</div>
+              <div class="delta-prior">—</div>
+              <div class="delta-actual red">If Chase doesn't respond: escalation path to Chris undefined</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NODE 06: CLOSE — FUTURE -->
+    <div class="node open">
+      <div class="node-card">
+        <div class="node-head">
+          <span class="node-num">06</span>
+          <span class="node-name" style="color:var(--muted)">THE CLOSE</span>
+          <span class="node-date">3–4 wks</span>
+          <span class="badge badge-open">NOT YET</span>
+        </div>
+        <div class="node-body">
+          <p class="node-summary" style="color:var(--muted)">JD lands, comp confirmed, offer extended. CJ said 3–4 week timeline with no Fanatics pressure. Expedite lever exists if needed.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /journey -->
+
+  <div class="rule-glow"></div>
+
+  <!-- CURRENT POSITION -->
+  <div class="position-block" style="margin-top:24px">
+    <div class="pos-label">◈ Current position — Post CJ · Jul 1, 2026</div>
+    <div class="pos-text">Role is real, CJ is an advocate, scope is right. Waiting on Chase intro. The one undefined gap is what happens after Chase — no process has been established between Chase, CJ, and Chris for how this closes.</div>
+    <div class="signals">
+      <span class="sig-cyan">Y-GATE: GREEN / HIGH / STABLE</span>
+      <span class="sig-green">NCI POST-CALL: 88</span>
+      <span class="sig-gold">NEXT GATE: CHASE INTRO</span>
+    </div>
+  </div>
+
+  <!-- OPEN THREADS -->
+  <div class="sl">Open threads</div>
+  <div class="threads" style="margin-bottom:24px">
+    <div class="thread-row">
+      <div class="thread-owner" style="color:var(--cyan)">ZACH</div>
+      <div class="thread-text">Chase intro — send chase-intro.arcs.care once CJ makes the connect</div>
+      <div class="thread-date">Pending CJ</div>
+    </div>
+    <div class="thread-row">
+      <div class="thread-owner" style="color:var(--gold)">CJ</div>
+      <div class="thread-text">Circle back with Chris on role JD + interview process</div>
+      <div class="thread-date">By Jul 9</div>
+    </div>
+    <div class="thread-row">
+      <div class="thread-owner" style="color:var(--gold)">CJ</div>
+      <div class="thread-text">Growth Plus One invite + Fan Fest offer (checking with Chris)</div>
+      <div class="thread-date">By Jul 11</div>
+    </div>
+    <div class="thread-row">
+      <div class="thread-owner" style="color:var(--muted)">TBD</div>
+      <div class="thread-text">Process after Chase — escalation path if Chase non-responsive needs to be defined</div>
+      <div class="thread-date">Open</div>
+    </div>
+    <div class="thread-row">
+      <div class="thread-owner" style="color:var(--muted)">TBD</div>
+      <div class="thread-text">JD + comp band — verbal only; formal spec being built with the hire</div>
+      <div class="thread-date">3–4 wks</div>
+    </div>
+  </div>
+
+  <!-- DOC NAV -->
+  <div class="sl" style="margin-bottom:12px">All surfaces</div>
+  <div class="docs-grid">
+    <a class="doc-card" href="https://cj-brief.arcs.care/" target="_blank" rel="noopener">
+      <div class="doc-name" style="color:var(--cyan)">CJ Brief</div>
+      <div class="doc-desc">Pre/post-call receipt · CJ Masopust · Jul 1</div>
+    </a>
+    <a class="doc-card" href="https://chase-intro.arcs.care/" target="_blank" rel="noopener">
+      <div class="doc-name" style="color:var(--green)">Chase Intro</div>
+      <div class="doc-desc">Instant Rips GM intro · ready to send</div>
+    </a>
+    <a class="doc-card" href="https://growth-intel.arcs.care/" target="_blank" rel="noopener">
+      <div class="doc-name" style="color:var(--gold)">Role Shape</div>
+      <div class="doc-desc">Full growth intelligence pitch deck</div>
+    </a>
+    <a class="doc-card" href="https://resume.arcs.care/" target="_blank" rel="noopener">
+      <div class="doc-name" style="color:var(--muted)">Resume</div>
+      <div class="doc-desc">Tailored for Head of Growth Intelligence</div>
+    </a>
+    <a class="doc-card" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview?ref=share_panel&sharedBy=34144b0b-8b5b-4c65-b368-f5827b66da0c&hideToolbar=true&disableComments=true" target="_blank" rel="noopener">
+      <div class="doc-name" style="color:var(--gold)">The Stunt</div>
+      <div class="doc-desc">Magic Patterns deck · the stalking horse</div>
+    </a>
+    <a class="doc-card" href="/recoil/2026-07-01-masopust" target="_blank" rel="noopener">
+      <div class="doc-name" style="color:var(--dimmed)">Recoil · CJ</div>
+      <div class="doc-desc">Post-call receipt · auth-gated</div>
+    </a>
+  </div>
+
+  <!-- SPEED RUN -->
+  <div style="margin-top:32px;">
+    <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent.includes('▶')?'▼  SPEED RUN — HIDE':'▶  SPEED RUN — T0 → NOW';"
+      style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+        padding:11px 20px;border-radius:8px;cursor:pointer;
+        background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.2);
+        font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;
+        color:var(--cyan);text-transform:uppercase;">
+      ▶  SPEED RUN — T0 → NOW
+    </button>
+    <div style="display:none;margin-top:8px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+      <div style="background:var(--surface);padding:14px 16px 6px;border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);">INSTANT REPLAY · T0 → NOW · 5 BEATS</span>
+      </div>
+      <div style="display:flex;flex-direction:column;">
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--green);">T−7</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jun 24</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;">THE WORM</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">Chris posts "Have your agent speak to my agent." Zach: first comment, first to book the 15-min call.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--gold);">T0</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jun 25–26</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;">THE STUNT</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">15-min call with Chris. Same night: "The bubblegum problem" email + Magic Patterns deck. Not a resume — a thing already built.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--cyan);">T+4</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jun 29</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.08em;text-transform:uppercase;">THE VOLLEY</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">Chris: <em style="color:var(--text);font-style:normal;">"i loved what you built — would be keen to have the team dive in deeper."</em> CC'd CJ on the same email. CJ replied with Calendly within 2 hours.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--cyan);">T+6</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jul 1</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.08em;text-transform:uppercase;">THE CALL</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">30 min with CJ Masopust (Talent Lead). Role: SD→VP, reports to Chris. Full digital growth org — Tops.com, Fanatics Live, Collect, VA. NCI 88 · GREEN/HIGH/STABLE.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;padding:12px 16px;align-items:start;background:rgba(0,240,255,0.03);">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--cyan);">NOW</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jul 1+</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.08em;text-transform:uppercase;">CHASE INTRO</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">Brief ready. Calendar link live. First move: Mon Jul 7. CJ circles back with Chris on JD + process same week.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
+    ZACH HARRIS · NOT FOR DISTRIBUTION
+  </div>
+
+</div>
+</body>
+</html>

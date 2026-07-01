@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>For CJ — Fanatics Collectibles</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+/* MASTHEAD */
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
+/* ROWS */
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+
+/* NEXT STEPS */
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+/* LINKS */
+.links { display: flex; gap: 10px; }
+.link-btn { flex: 1; display: block; text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 13px 16px; border-radius: 8px; text-decoration: none; border: 1px solid; }
+.link-btn-primary { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+.link-btn-secondary { color: var(--green); background: rgba(0,255,157,0.06); border-color: rgba(0,255,157,0.3); }
+.link-btn-tertiary { color: var(--gold); background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3); }
+
+/* CALENDAR REMINDERS */
+.cal-block { margin-top: 14px; }
+.cal-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; }
+.cal-icon { font-size: 14px; flex-shrink: 0; }
+.cal-text { flex: 1; }
+.cal-title { font-size: 12px; color: var(--text); font-weight: 600; line-height: 1.3; }
+.cal-date { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.cal-links { display: flex; gap: 8px; flex-shrink: 0; }
+.cal-link { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px; text-decoration: none; border: 1px solid; }
+.cal-gcal { color: var(--cyan); border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.06); }
+.cal-ics { color: var(--dimmed); border-color: var(--border); background: transparent; }
+
+/* REDIRECTS */
+.redir-rows { display: flex; flex-direction: column; }
+.redir-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.redir-row:last-child { border-bottom: none; }
+.redir-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; }
+.redir-text { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+/* PRE-CALL BULLETS */
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+
+/* Q ROWS */
+.q-rows { display: flex; flex-direction: column; }
+.q-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* VARIANTS */
+.variant { display: flex; flex-direction: column; gap: 0; }
+.variant-header { display: flex; align-items: baseline; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+.variant-header:hover .variant-label { color: var(--text); }
+.variant-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.variant-tag { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; }
+.variant-body { display: none; padding: 20px; border-bottom: 1px solid rgba(30,41,59,0.4); background: var(--surface2); }
+.variant-body.open { display: block; }
+.variant-text { font-size: 13px; color: var(--text); line-height: 1.75; white-space: pre-wrap; font-family: var(--sans); }
+.variant:last-child .variant-header { border-bottom: none; }
+.variant:last-child .variant-body { border-bottom: none; }
+
+/* SIGNAL ROWS */
+.sig-rows { display: flex; flex-direction: column; }
+.sig-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.sig-row:last-child { border-bottom: none; }
+.sig-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.sig-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.sig-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.sig-text strong { color: var(--text); font-weight: 600; }
+
+/* RISK ACTION ROWS */
+.risk-rows { display: flex; flex-direction: column; }
+.risk-row { padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.risk-row:last-child { border-bottom: none; }
+.risk-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.risk-sev { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.risk-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.risk-action { font-family: var(--mono); font-size: 11px; color: var(--cyan); line-height: 1.55; }
+
+/* BEHAVIORAL TESTS */
+.btest-rows { display: flex; flex-direction: column; }
+.btest-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.btest-row:last-child { border-bottom: none; }
+.btest-q { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 6px; }
+.btest-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">Not for Distribution</div>
+    <div class="masthead-name">CJ Masopust</div>
+    <div class="masthead-sub">Talent Lead · Fanatics Collectibles</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <div id="post-datestamp" style="display:block;font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 1, 2026 · POST-CALL</div>
+
+  <!-- TABS -->
+  <div class="card" style="overflow:visible;background:none;border:none;">
+    <div class="tabs">
+      <button class="tab-btn" onclick="switchTab('pre')">Pre-Call</button>
+      <button class="tab-btn active" onclick="switchTab('post')">Post-Call</button>
+    </div>
+
+    <!-- PRE-CALL -->
+    <div id="tab-pre" class="tab-pane">
+
+      <div>
+        <div class="sl">The role — going in</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Title</div>
+              <div class="conf-val"><strong>Head of Growth Intelligence</strong> — new function, not a backfill</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Reports to</div>
+              <div class="conf-val">Chris Lamontagne, President, Strategy & Growth — direct intro from Chris</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Level</div>
+              <div class="conf-val">SD → VP. Shape defined with the right person.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Scope</div>
+              <div class="conf-val" style="color:var(--dimmed)">Instant Rips as beachhead (per Chris). Full org scope TBD on this call.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Comp</div>
+              <div class="conf-val" style="color:var(--dimmed)">Ballpark not confirmed. No JD cut yet — number expected on this call.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">What Chris said going in</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--green)"></div>
+              <div class="intel-text"><strong>Chris made the intro directly.</strong> He positioned Zach to CJ as a specific fit — not a general candidate pool introduction.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>Roles are fluid given pace of growth.</strong> Chris's framing: no existing req to fill, scope negotiable with Chase. The conversation is about the person and the idea, not a JD.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>Instant Rips is the beachhead.</strong> Chris named it in the first 10 minutes, not as an example — as the destination. This is where the Chase conversation starts.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--muted)"></div>
+              <div class="intel-text"><strong>Fanatics is AI-native going in.</strong> Known pre-call from public signals and the Chris intro. Stack detail (Claude, ChatGPT Enterprise, Glean, Zapier, Notion) confirmed by CJ on the call — not assumed.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Questions going in — what CJ answered</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-n" style="color:var(--gold)">1</div>
+              <div class="q-text">What does the interview process look like — who else is in the loop before Chase?
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">PARTIAL · CJ screen done. Next = Chase. Process after Chase still undefined — ask Chase in first 5 min.</div>
+              </div>
+            </div>
+            <div class="q-row">
+              <div class="q-n" style="color:var(--green)">2</div>
+              <div class="q-text">Is there a JD written? Or is the spec being built with the hire?
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">ANSWERED · No JD. Comp band verbal only — not yet through comp team. Spec is being built with the hire. Role is genuinely fluid.</div>
+              </div>
+            </div>
+            <div class="q-row">
+              <div class="q-n" style="color:var(--green)">3</div>
+              <div class="q-text">What's the real timeline — 3 weeks, 3 months? Any external pressure on the role?
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">ANSWERED · 3–4 weeks. No Fanatics-side pressure. If Zach has a competing deadline, CJ can expedite — lever confirmed.</div>
+              </div>
+            </div>
+            <div class="q-row">
+              <div class="q-n" style="color:var(--green)">4</div>
+              <div class="q-text">Growth Plus One + Fan Fest — path to those before formal process?
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">ANSWERED · Growth Plus One confirmed — CJ adding Zach directly. Fan Fest = CJ checking with Chris. Call closed on community, not process.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- POST-CALL -->
+    <div id="tab-post" class="tab-pane active">
+
+      <div>
+        <div class="sl">What we confirmed</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Role</div>
+              <div class="conf-val"><strong>SD → VP</strong>, reporting to Chris. Full digital growth org — Tops.com, Fanatics Live, Collect, VA. 3M+ customers.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Culture</div>
+              <div class="conf-val">Player-coach. VP owns ~5–6 people. 5 days in-office, West Village.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Comp</div>
+              <div class="conf-val"><strong>$350–400K all-in.</strong> VP base ~$300–325K + 30% bonus target + 4-yr RSU. Pre-IPO liquidity in development.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Timeline</div>
+              <div class="conf-val">3–4 weeks. Expedite available if a deadline surfaces — you have the lever.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Stack</div>
+              <div class="conf-val">Claude, ChatGPT Enterprise, Glean, Zapier, Notion — already live at Fanatics.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Next steps</div>
+        <div class="card">
+          <div class="next-rows">
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">Zach</div>
+              <div class="next-text">Brief + pitch deck for Chase — links below. Forward as-is or use the one-liner: <em style="color:var(--dimmed)">"Chris intro'd Zach — worth 30 minutes on the growth intelligence angle."</em></div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--gold)">CJ</div>
+              <div class="next-text">Circle back with Chris on role JD + interview process — early week of Jul 7.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--gold)">CJ</div>
+              <div class="next-text">Growth Plus One invite + Fan Fest check with Chris.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="links">
+        <a class="link-btn link-btn-primary" href="https://chase-intro.arcs.care/">CHASE BRIEF →</a>
+        <a class="link-btn link-btn-secondary" href="https://growth-intel.arcs.care/">ROLE SHAPE →</a>
+        <a class="link-btn link-btn-tertiary" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview?ref=share_panel&sharedBy=34144b0b-8b5b-4c65-b368-f5827b66da0c&hideToolbar=true&disableComments=true" target="_blank" rel="noopener">THE STUNT →</a>
+      </div>
+
+      <!-- Calendar reminders -->
+      <div class="cal-block">
+        <div class="sl" style="margin-bottom:10px">Add to calendar — follow-up reminders</div>
+        <div class="cal-row" style="border-color:rgba(0,240,255,0.15);background:rgba(0,240,255,0.03)">
+          <div class="cal-icon">📅</div>
+          <div class="cal-text">
+            <div class="cal-title" style="color:var(--cyan)">Reach out to Chase — set up a call</div>
+            <div class="cal-date">Mon Jul 7, 2026 · First move of the week</div>
+            <div style="font-size:11px;color:var(--dimmed);margin-top:4px;line-height:1.5;">Send chase-intro.arcs.care + offer avails via <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">calendar link</a> · note you can work around his schedule if none work</div>
+          </div>
+          <div class="cal-links">
+            <a class="cal-link cal-gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Reach+out+to+Chase+%E2%80%94+Fanatics+Instant+Rips&dates=20260707T140000Z/20260707T143000Z&details=Send+chase-intro.arcs.care+to+Chase+(GM%2C+Instant+Rips).+Include+calendar+booking+link+(calendar.app.google%2FcTQkE1W2D8EPo8q59).+Note+flexibility+to+work+around+his+schedule.+Intro+via+CJ+Masopust+%2B+Chris+Lamontagne." target="_blank" rel="noopener">Google</a>
+            <a class="cal-link cal-ics" href="#" onclick="downloadIcs('chase-reach-out-jul7','Reach out to Chase - Fanatics Instant Rips','20260707T140000Z','20260707T143000Z','Send chase-intro.arcs.care to Chase. Include calendar booking link. Note flexibility to work around his schedule. Intro via CJ Masopust + Chris Lamontagne.');return false;">+ .ics</a>
+          </div>
+        </div>
+        <div class="cal-row">
+          <div class="cal-icon">📅</div>
+          <div class="cal-text">
+            <div class="cal-title">Circle back with CJ — Role JD + interview process</div>
+            <div class="cal-date">Wed Jul 9, 2026 · Early week of Jul 7</div>
+          </div>
+          <div class="cal-links">
+            <a class="cal-link cal-gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Circle+back+with+CJ+Masopust+%E2%80%94+Role+JD+%2B+interview+process&dates=20260709T140000Z/20260709T143000Z&details=Follow+up+with+CJ+Masopust+re%3A+Head+of+Growth+Intelligence+role+at+Fanatics+Collectibles.+Agenda%3A+confirm+role+JD+timeline%2C+interview+process+next+steps.&location=Fanatics+Collectibles" target="_blank" rel="noopener">Google</a>
+            <a class="cal-link cal-ics" href="#" onclick="downloadIcs('cj-followup-jul9','Circle back with CJ Masopust - Role JD + interview process','20260709T140000Z','20260709T143000Z','Follow up with CJ re: Head of Growth Intelligence role. Agenda: confirm role JD timeline, interview process next steps.');return false;">+ .ics</a>
+          </div>
+        </div>
+        <div class="cal-row">
+          <div class="cal-icon">📅</div>
+          <div class="cal-text">
+            <div class="cal-title">CJ — Growth Plus One invite + Fan Fest offer</div>
+            <div class="cal-date">Fri Jul 11, 2026 · End of week</div>
+          </div>
+          <div class="cal-links">
+            <a class="cal-link cal-gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CJ+Masopust+%E2%80%94+Growth+Plus+One+invite+%2B+Fan+Fest+offer&dates=20260711T140000Z/20260711T143000Z&details=Send+Growth+Plus+One+invite+to+CJ+Masopust.+Fan+Fest+offer+follow-through+(CJ+checking+with+Chris).+Fanatics+Collectibles+process.&location=Fanatics+Collectibles" target="_blank" rel="noopener">Google</a>
+            <a class="cal-link cal-ics" href="#" onclick="downloadIcs('cj-fanfest-jul11','CJ Masopust - Growth Plus One invite + Fan Fest offer','20260711T150000Z','20260711T153000Z','Send Growth Plus One invite to CJ Masopust. Fan Fest offer follow-through (CJ checking with Chris). Fanatics Collectibles process.');return false;">+ .ics</a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">If the path needs redirecting — all of these are still a yes</div>
+        <div class="card">
+          <div class="redir-rows">
+            <div class="redir-row">
+              <div class="redir-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Timing</div>
+              <div class="redir-text">If 4 weeks out is better than now — tell me. I'd rather show up at the right moment.</div>
+            </div>
+            <div class="redir-row">
+              <div class="redir-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Shape</div>
+              <div class="redir-text">If the framing needs adjusting before it clicks for Chase — tell me what to change. I'll rebuild before we have that call.</div>
+            </div>
+            <div class="redir-row">
+              <div class="redir-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Process</div>
+              <div class="redir-text">If there's a right door — point me to it. I'll walk through it the right way.</div>
+            </div>
+            <div class="redir-row">
+              <div class="redir-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">BU</div>
+              <div class="redir-text">If the fit is sharper somewhere else in the Fanatics family — I'm open. Goal is the highest-leverage landing.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALL SIGNALS -->
+      <div>
+        <div class="sl">Signals from the call</div>
+        <div class="card">
+          <div class="sig-rows">
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--green)">↑ Scope expansion</div>
+                <div class="sig-text"><strong>Role is bigger than the beachhead framing suggested.</strong> Full digital growth org — Tops.com, Fanatics Live, Collect, VA (Paris). SD→VP reporting directly to Chris. 3M+ customers across buyer and seller sides. Chase/Rips is still the right entry point — but the strategic ceiling is the whole org, not one BU.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--cyan)">↑ CJ as active advocate</div>
+                <div class="sig-text"><strong>CJ is a practitioner-builder, not a process gatekeeper.</strong> She built a talent-sourcing agent (10 pre-vetted candidates/day, auto-generated market overviews) and an Interview Architect GPT (JD + resume → competency questions, rating rubrics). The AI angle landed without needing to be sold. She will advocate internally with Chase — not just route the introduction.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--gold)">→ Community signal</div>
+                <div class="sig-text"><strong>Call closed on community inclusion, not process mechanics.</strong> Growth Plus One (speakeasy at Fanatics HQ) + Fan Fest guest check with Chris. CJ wants Zach in the ecosystem independent of whether the Chase conversation leads to an offer. Durable goodwill regardless of outcome.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RISK ACTIONS -->
+      <div>
+        <div class="sl">Open risk actions</div>
+        <div class="card">
+          <div class="risk-rows">
+            <div class="risk-row">
+              <div class="risk-top">
+                <div class="risk-sev" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">MED</div>
+                <div class="risk-label">Comp band not formalized</div>
+              </div>
+              <div class="risk-action">ASK CJ → "Is the $350–400K band something comp has signed off on, or is that a working estimate before the JD is cut?"</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-top">
+                <div class="risk-sev" style="color:var(--red);border-color:rgba(255,77,109,0.3);background:rgba(255,77,109,0.05)">HIGH IF</div>
+                <div class="risk-label">Competing offer deadline</div>
+              </div>
+              <div class="risk-action">If any offer arrives with a hard expiration date before mid-July — escalate to CJ within 24 hours with the specific date. Do not wait. Draft message now, keep in drafts: "CJ — just received [X offer] with a [date] deadline. You mentioned you could expedite — wanted to give you advance notice."</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-top">
+                <div class="risk-sev" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">LOW</div>
+                <div class="risk-label">Chase process undefined</div>
+              </div>
+              <div class="risk-action">ASK CHASE (first 5 min) → "What does your typical process look like after this kind of intro?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- JOB REQ VARIANTS -->
+      <div>
+        <div class="sl">Job req — 5 variants (copy/paste)</div>
+        <div class="card">
+          <div class="variant" onclick="toggleVariant(this)">
+            <div class="variant-header">
+              <div class="variant-label">V1 · LinkedIn / Public post</div>
+              <div class="variant-tag">tap to expand ↓</div>
+            </div>
+            <div class="variant-body">
+              <div class="variant-text">We're building a function that doesn't exist yet at Fanatics Collectibles.
+
+The growth org runs five businesses and moves fast. Each one generates learning from every drop, campaign, and live event. Right now, most of that learning dies — it ends up in Slack threads and post-mortems no one reads before the next campaign starts.
+
+We're adding a senior growth executive to change that.
+
+This is not one profile. We're thinking about a few people with different shapes — some will be closer to the creative and brand side of growth, some closer to the data and systems side, some closer to the commercial and partnership side. The work is defining what good looks like in each, then finding the people who can build it.
+
+What the right person owns, regardless of shape: the institutional memory layer — structured context before major decisions, honest capture of what was predicted vs. what happened, and cross-BU signal that makes each BU's learning compound.
+
+Stack already live: Claude, ChatGPT Enterprise, Glean, Notion. You're building on infrastructure that's already running.
+
+Level: Senior Director → VP. Player-coach with a small team. Reports to President, Strategy & Growth.
+Location: West Village, NYC · 5 days in-office.
+
+If you've operated where decisions outpace process and you build instruments instead of decks — let's talk.</div>
+            </div>
+          </div>
+          <div class="variant" onclick="toggleVariant(this)">
+            <div class="variant-header">
+              <div class="variant-label">V2 · Internal brief (for Chase's team)</div>
+              <div class="variant-tag">tap to expand ↓</div>
+            </div>
+            <div class="variant-body">
+              <div class="variant-text">Head of Growth Intelligence — Instant Rips beachhead, cross-BU expansion
+
+We're adding a VP-level growth executive. Player-coach with a small team (~5–6). Org is flat — this person operates at high altitude but does the work. Starts at Instant Rips, builds out from there.
+
+The gap they fill: we're good at running campaigns. We're not yet good at learning from them in a way that compounds. Pre-campaign, we rely on memory and whatever was written down from the last comparable drop. Post-campaign, we generate a metrics report and file it. The next campaign starts roughly where the last one did.
+
+This role changes that. They own:
+→ Pre-campaign framing: structured context before major drops and campaigns, scored for confidence
+→ Post-campaign capture: predicted vs. actual, committed to record, not a Slack thread
+→ Cross-BU signal: what Rips is learning that Trading Cards and Live Commerce should know
+
+We're not hiring one profile. The breadth we're looking for varies — creative and brand, systems and data, commercial and partnerships. The right candidate can go deep in at least one of those and hold their own across all of them.
+
+They report to Chris. Level: SD → VP depending on the person. 5 days, West Village.
+
+Earns trust with GMs without adding overhead. Knows the difference between a dashboard and a decision instrument.</div>
+            </div>
+          </div>
+          <div class="variant" onclick="toggleVariant(this)">
+            <div class="variant-header">
+              <div class="variant-label">V3 · Referral ask (word of mouth)</div>
+              <div class="variant-tag">tap to expand ↓</div>
+            </div>
+            <div class="variant-body">
+              <div class="variant-text">I'm looking for a specific kind of person — might be someone you know.
+
+Fanatics Collectibles is hiring a senior growth executive. New function, not a backfill. The org is flat and fast — this person operates at a high level but stays close to the work. VP with a small team (~5–6).
+
+What I'm looking for isn't one fixed profile. The breadth matters more than the lane. The right person can go deep on at least a couple of these: creative direction, growth marketing, tech and tooling, business strategy, partnerships and sales, or security and risk. And they can hold their own in the others when the conversation shifts.
+
+The thing they have in common with whoever fits: they built something at a fast org when the learning kept dying. Not a process doc. An actual system. And the GMs used it before the next campaign — not after.
+
+They're AI-native. Claude and ChatGPT Enterprise are already running here. This isn't a greenfield pitch — it's infrastructure that needs someone who can build on it.
+
+Player-coach. Level SD → VP, NYC (West Village, 5 days), reports to President, Strategy & Growth. If anyone comes to mind, send them my way.</div>
+            </div>
+          </div>
+          <div class="variant" onclick="toggleVariant(this)">
+            <div class="variant-header">
+              <div class="variant-label">V4 · Recruiter brief (sourcing spec)</div>
+              <div class="variant-tag">tap to expand ↓</div>
+            </div>
+            <div class="variant-body">
+              <div class="variant-text">Role: Head of Growth Intelligence
+Company: Fanatics Collectibles (pre-IPO, West Village NYC)
+Reports to: Chris Lamontagne, President, Strategy & Growth
+Level: Senior Director → VP · Player-coach, small team (~5–6)
+Comp: $350–400K all-in (base ~$300–325K at VP, 25–30% bonus target, 4-yr RSU, pre-IPO liquidity)
+Location: West Village, NYC · 5 days in-office
+
+Function summary:
+New role — building the institutional memory and decision intelligence layer for a high-velocity growth org spanning five business units. Org is flat; this person operates at VP altitude but stays hands-on. Starting with Instant Rips, building cross-BU from there.
+
+Note: this is one of several growth leadership shapes being added. Not a single-profile search — different candidates will fit different facets of the org.
+
+What they own:
+• Pre-decision framing: structured context before major growth calls
+• Post-decision capture: predicted vs. actual variance, committed to record
+• Cross-BU intelligence: pattern recognition across business units
+• Tooling: built on Claude, ChatGPT Enterprise, Glean, Notion (already live)
+
+Ideal background:
+• Senior growth exec with genuine range — creative, marketing, commercial, tech, or strategy
+• Has built systems (not just processes) in high-pace environments
+• AI-native — uses LLMs to build instruments, not just generate content
+• Earns trust with GMs rather than adding overhead
+• Comfortable operating without a defined playbook
+
+Breadth matters: the strongest candidate can go deep in at least 2–3 of these — creative direction, growth marketing, tech/tooling, business strategy, partnerships/sales, or security/risk. And they can hold their own across all of them when the conversation shifts.
+
+Hard nos:
+• Pure BI / analytics background (not a reporting role)
+• Consulting mindset (embedded builder, not advisory)
+• Needs a clear org chart to understand their mandate</div>
+            </div>
+          </div>
+          <div class="variant" onclick="toggleVariant(this)">
+            <div class="variant-header">
+              <div class="variant-label">V5 · The req the candidate wrote</div>
+              <div class="variant-tag">tap to expand ↓</div>
+            </div>
+            <div class="variant-body">
+              <div class="variant-text">Head of Growth Intelligence
+Fanatics Collectibles · West Village, NYC
+
+A new function that doesn't exist yet.
+
+The growth org at Fanatics moves fast across five businesses. What it needs — and doesn't have — is an institutional memory layer: a system that captures learning from every drop, campaign, and live event and makes each subsequent decision sharper than the last.
+
+This role builds that system.
+
+The org is flat. VP with a small team (~5–6). You operate at a high level and you do the work. That's not a contradiction here — it's the whole point.
+
+What you own:
+PRE — Structured framing before major drops + campaigns
+POST — Capture: predicted vs. actual, committed to record
+XBIZ — Patterns across Instant Rips, Trading Cards, VA, Live Commerce, Fanatics Live
+STACK — Claude, ChatGPT Enterprise, Glean — already live
+
+What you build:
+Not dashboards. Not reporting. Decision instruments — tools that sharpen what happens next, not summaries of what already happened.
+
+Who fits:
+You can go broad and deep. Creative direction, growth marketing, tech and tooling, business strategy, partnerships and sales, security and risk — you've operated across more than one of these at depth, and you can hold your own across all of them. That range isn't a liability here. It's the job.
+
+You've built something at a fast org that made the learning compound. Not a process document. A real system that GMs used before the next decision — not after.
+
+Player-coach. Lead a small team, stay close to the work. GMs trust you because you make decisions sharper, not slower.
+
+What success looks like:
+Day 30 — Decision anatomy map for Instant Rips
+Day 60 — First audit brief — a real tool Chase's team uses before the next drop
+Day 90 — First cross-BU signal report
+
+What this isn't:
+BI. Analytics. A CoE. A process layer that slows GMs down.
+
+Reports to Chris Lamontagne, President, Strategy & Growth · Level SD → VP · $350–400K all-in
+
+This req was written by the person applying for it. That's intentional.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEHAVIORAL TESTS -->
+      <div>
+        <div class="sl">Recommended behavioral tests</div>
+        <div class="card">
+          <div class="btest-rows">
+            <div class="btest-row">
+              <div class="btest-q">"Walk me through a decision you had to make with incomplete data. What did you capture afterward — and did anyone use it before the next similar decision?"</div>
+              <div class="btest-look">LOOK FOR → a closed loop. Not just "I documented it" — someone actually used it. If the answer ends at the decision itself, that's a signal.</div>
+            </div>
+            <div class="btest-row">
+              <div class="btest-q">"Describe a system you built — not a process you documented. What changed because of it, and how would you know if it stopped working?"</div>
+              <div class="btest-look">LOOK FOR → specificity about mechanism, not outcome. Anyone can claim impact. The person who built it knows how it breaks.</div>
+            </div>
+            <div class="btest-row">
+              <div class="btest-q">"Tell me about a time a GM or business leader pushed back on your framing of a problem. What happened?"</div>
+              <div class="btest-look">LOOK FOR → did they hold their ground with evidence, or did they fold? This role has to earn trust with Chase without having formal authority. How they navigate pushback is the whole job.</div>
+            </div>
+            <div class="btest-row">
+              <div class="btest-q">"Describe a campaign or initiative where the learning compounded into the next one. What specifically did you do to make that happen — not the org, you?"</div>
+              <div class="btest-look">LOOK FOR → personal agency, not org credit. "We had a good retrospective process" is not the answer. "I built the template and sent it before the next campaign kickoff" is.</div>
+            </div>
+            <div class="btest-row">
+              <div class="btest-q">"What's the difference between a dashboard and a decision instrument? Give me an example of each from your own work."</div>
+              <div class="btest-look">LOOK FOR → this is the role's core thesis. If they can't articulate the distinction cleanly — or if their "decision instrument" is just a fancy dashboard — misalignment on what this function is.</div>
+            </div>
+            <div class="btest-row">
+              <div class="btest-q">"You've been embedded for 30 days. You've found that two GMs are running nearly identical experiments and neither knows about the other. What do you do?"</div>
+              <div class="btest-look">LOOK FOR → do they go to their manager, go directly to the GMs, or build something that surfaces this automatically? The third answer is the job. The first is politics. The second is courage without infrastructure.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="switchTab(\'' + id + '\')"]').classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('post-datestamp').style.display = id === 'post' ? 'block' : 'none';
+}
+function toggleVariant(el) {
+  const body = el.querySelector('.variant-body');
+  const tag = el.querySelector('.variant-tag');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  tag.textContent = isOpen ? 'tap to expand ↓' : 'tap to collapse ↑';
+}
+function downloadIcs(filename, title, start, end, description) {
+  const uid = filename + '-' + Date.now() + '@arcs.care';
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//ARCS//cj-brief//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTART:' + start,
+    'DTEND:' + end,
+    'SUMMARY:' + title,
+    'DESCRIPTION:' + description.replace(/,/g, '\\,'),
+    'STATUS:CONFIRMED',
+    'BEGIN:VALARM',
+    'TRIGGER:-PT30M',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Reminder',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename + '.ics';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
