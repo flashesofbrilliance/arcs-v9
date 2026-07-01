@@ -189,7 +189,15 @@ export default function BriefPage() {
           )}
         </div>
       )}
-      <Brief result={result} situationFraming={framing} onBack={() => router.push("/history")} onTributary={followTributary} onNewQuestion={() => router.push("/dashboard")} />
+      <Brief
+        result={result}
+        situationFraming={framing}
+        onBack={() => router.push("/history")}
+        onTributary={followTributary}
+        onNewQuestion={() => router.push("/dashboard")}
+        authed={authed}
+        plgContext={{ receiptId, sessionId }}
+      />
 
       {/* Sticky share footer */}
       <div style={{ position: "sticky", bottom: 0, zIndex: 30, background: "rgba(2,4,8,0.92)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderTop: `0.5px solid rgba(30,41,59,0.5)` }}>

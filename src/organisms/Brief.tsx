@@ -10,6 +10,7 @@ import { Card } from '@/ui/Card'
 import { FatedGrid } from '@/molecules/FatedGrid'
 import { TerrainPaths } from '@/molecules/TerrainPaths'
 import { ExpandableTributaries } from '@/molecules/ExpandableTributaries'
+import type { PlgContext } from '@/molecules/ExpandableTributaries'
 import type { CompassResult } from '@/lib/mockCompass'
 
 export interface BriefProps {
@@ -19,9 +20,13 @@ export interface BriefProps {
   onNewQuestion?: () => void
   // AI situation framing — rendered just above the Tributaries block.
   situationFraming?: string
+  // PLG hook — passed through to ExpandableTributaries for unauthenticated
+  // viewers of shared briefs.
+  authed?: boolean | null
+  plgContext?: PlgContext
 }
 
-export function Brief({ result, onBack, onTributary, onNewQuestion, situationFraming }: BriefProps) {
+export function Brief({ result, onBack, onTributary, onNewQuestion, situationFraming, authed, plgContext }: BriefProps) {
   const r = result.reasoning || {}
   const fated = r.fated || {}
   const weather = getWeather(result.y_state)
@@ -134,7 +139,7 @@ export function Brief({ result, onBack, onTributary, onNewQuestion, situationFra
       {/* Where to Navigate Next — collapsible tributaries threads */}
       {result.tributaries && result.tributaries.length > 0 && (
         <div style={{ marginBottom: '1.75rem' }}>
-          <ExpandableTributaries tributaries={result.tributaries} onTributary={onTributary} />
+          <ExpandableTributaries tributaries={result.tributaries} onTributary={onTributary} authed={authed} plgContext={plgContext} />
         </div>
       )}
     </div>
