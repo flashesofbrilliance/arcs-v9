@@ -98,6 +98,91 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <div class="rule-glow"></div>
 
+  <!-- AUDIENCE LENSES -->
+  <div>
+    <div class="sl">At your altitude</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+      <div style="display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;" id="lens-tabs">
+        <button onclick="setLens('president')" class="lens-btn lens-active" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--cyan);cursor:pointer;white-space:nowrap;border-bottom:2px solid var(--cyan);flex-shrink:0;">PRESIDENT</button>
+        <button onclick="setLens('cto')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CTO</button>
+        <button onclick="setLens('cmo')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CMO</button>
+        <button onclick="setLens('cro')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CRO</button>
+        <button onclick="setLens('talent')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">TALENT</button>
+        <button onclick="setLens('gm')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">GM · RIPS</button>
+      </div>
+      <div id="lens-content" style="padding:18px 20px;">
+
+        <div id="lens-president" class="lens-pane">
+          <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Chris Lamontagne · President, Strategy & Growth</div>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"I'm not backing a candidate. I'm seeding an architecture that compounds across BUs."</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">You introduced this play. Rips POC puts measurable signal behind that bet — 90-day output you can put in front of Mahan with zero interpretation needed.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">The cross-BU signal report at T+90 is the artifact that pulls the other GMs in. You don't have to mandate adoption — the output sells it.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">The "side effect" question: if this holds at Collectibles, what does it become across the full platform? That's the conversation worth having with Mahan before someone else frames it.</span></div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(0,240,255,0.05);border-radius:7px;border:1px solid rgba(0,240,255,0.15);font-size:12px;color:var(--cyan);font-style:italic;">"I brought the intelligence layer to Fanatics before anyone else saw it as a layer."</div>
+        </div>
+
+        <div id="lens-cto" class="lens-pane" style="display:none;">
+          <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--steel);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CTO · Technical Architecture</div>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"The missing middleware between your data systems and your operators' decisions."</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Sits above the data layer, not inside it.</strong> Reads from existing sources — doesn't touch your warehouse, doesn't replace your BI stack. The interface is the decision taxonomy, not the data pipeline.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Already on your confirmed stack.</strong> Built on Claude + ChatGPT Enterprise — both deployed at Fanatics. The integration point is the operator workflow, not the infrastructure. No new tools, no new contracts.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">The API mandate parallel applies technically.</strong> Consistent decision taxonomy across BUs = a composable signal interface. When a BU captures a decision in the same schema, it becomes callable by any other BU. That's the architecture you don't have yet.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">ARCS is the proof-of-concept in production.</strong> The platform is already built and running. Rips is the first external deployment — not a prototype, a tenancy.</span></div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(136,153,170,0.06);border-radius:7px;border:1px solid rgba(136,153,170,0.15);font-size:12px;color:var(--steel);font-style:italic;">"Every data team measures what happened. This captures what was decided and why — before and after. Different layer."</div>
+        </div>
+
+        <div id="lens-cmo" class="lens-pane" style="display:none;">
+          <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CMO · Fan Intelligence & Campaign</div>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"Every drop generates campaign learning. This is the system that captures it before it dies."</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pre/post-campaign intelligence loop.</strong> Structured hypothesis before a drop — what we think will drive the number and why. Structured capture after — what actually drove it, where we left fan engagement on the table.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU fan signal.</strong> The collector behavior Rips sees during a drop is a leading indicator for what Trading Cards fans do the following week. That signal exists — it just doesn't move between BUs right now.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Compounding attribution model.</strong> Each campaign that runs through the intelligence layer makes the attribution model sharper. By campaign 10, you know things about fan conversion timing that no analyst discovered because no analyst was capturing the pre-decision context.</span></div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(0,255,157,0.04);border-radius:7px;border:1px solid rgba(0,255,157,0.15);font-size:12px;color:var(--green);font-style:italic;">"The fan behavior signal that Trading Cards learned in Q1 is relevant to your campaign in Q2. But only if someone held the pattern."</div>
+        </div>
+
+        <div id="lens-cro" class="lens-pane" style="display:none;">
+          <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CRO · Revenue & Commercial</div>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"Revenue per drop goes up when you know what drove the last one."</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pricing intelligence on every drop.</strong> Structured pre-decision framing on every commercial call — what we predicted the ceiling was, what it actually was, where we underpriced or left conversion on the table.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU commercial compounding.</strong> What Trading Cards' partnership structure taught us about fan monetization is relevant to Live Commerce's next anchor deal. The signal exists — it just doesn't travel between BUs right now.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Partnership asset.</strong> Structured decision records are the thing you bring to a commercial negotiation when you want to prove you understand your fan better than the other side of the table. Right now that proof is anecdotal. The intelligence layer makes it documented.</span></div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(255,215,0,0.04);border-radius:7px;border:1px solid rgba(255,215,0,0.15);font-size:12px;color:var(--gold);font-style:italic;">"The structured decision records become an asset in commercial negotiations — proof you know your fan better than anyone else in the room."</div>
+        </div>
+
+        <div id="lens-talent" class="lens-pane" style="display:none;">
+          <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CJ Masopust · Talent Lead</div>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"90-day POC with VP comp and measurable output. Easiest greenlight in the stack."</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Bounded risk for Chase.</strong> Not a company-wide initiative — a Rips POC. If it works, Chase is the GM who proved the model. If it doesn't, it was a scoped 90-day experiment and you learned something about Rips' intelligence gaps regardless.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Measurable output at 30/60/90.</strong> Not a 12-month ramp before ROI is visible. Decision anatomy map at 30 days. Audit brief the team uses at 60. Cross-BU signal report at 90. Three artifacts you can put in front of anyone who asks.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">The comp band fits.</strong> VP base, 30% bonus, 4-yr RSU. Pre-IPO liquidity in development. The role is real — SD→VP, reports to Chris, full digital growth org scope. This isn't experimental headcount.</span></div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(100,116,139,0.08);border-radius:7px;border:1px solid rgba(100,116,139,0.15);font-size:12px;color:var(--dimmed);font-style:italic;">"Chris intro'd Zach — worth 30 minutes on the growth intelligence angle."</div>
+        </div>
+
+        <div id="lens-gm" class="lens-pane" style="display:none;">
+          <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Chase · GM, Instant Rips</div>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"30-minute call. 90-day POC. The intelligence layer your BU has been missing."</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 30:</strong> Decision anatomy map. Clearest picture Rips has had of its own growth motion — how drops actually get decided, where the gaps are, what the team is guessing at versus knowing.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 60:</strong> Audit brief the team actually uses before the next drop — not a post-mortem, a pre-decision tool. Structured framing so the hypothesis is documented before the drop, not reverse-engineered after.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 90:</strong> Cross-BU signal report — what Rips' learning is worth to the other four BUs. This is the artifact that makes you the GM who proved the model. The other BUs want in. That's organizational pull you generated.</span></div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(0,255,157,0.04);border-radius:7px;border:1px solid rgba(0,255,157,0.15);font-size:12px;color:var(--green);font-style:italic;">"Rips is the beachhead. You're not running a pilot — you're running the proof of concept that defines the architecture for the whole platform."</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- THE CONTRAST -->
   <div>
     <div class="sl">Traditional hire vs. this model</div>
@@ -272,5 +357,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   </div>
 
 </div>
+<script>
+const LENS_COLORS = { president:'#00F0FF', cto:'#8899aa', cmo:'#00FF9D', cro:'#FFD700', talent:'#64748b', gm:'#00FF9D' };
+function setLens(id) {
+  document.querySelectorAll('.lens-pane').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.lens-btn').forEach(b => {
+    b.style.color = 'var(--muted)';
+    b.style.borderBottom = '2px solid transparent';
+  });
+  document.getElementById('lens-' + id).style.display = 'block';
+  const btn = [...document.querySelectorAll('.lens-btn')].find(b => b.getAttribute('onclick') === "setLens('" + id + "')");
+  if (btn) { btn.style.color = LENS_COLORS[id]; btn.style.borderBottom = '2px solid ' + LENS_COLORS[id]; }
+}
+</script>
 </body>
 </html>
