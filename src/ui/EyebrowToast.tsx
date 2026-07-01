@@ -118,6 +118,10 @@ export function EyebrowToast() {
   }
 
   function nav(path: string) {
+    if (pathname.startsWith(path)) {
+      setOpen(false)
+      return
+    }
     router.push(path)
   }
 
