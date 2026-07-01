@@ -82,7 +82,7 @@ function PrepInner() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      <div style={{ ...formContainer(vw), paddingTop: "2rem", paddingBottom: "4rem" }}>
+      <div style={{ ...formContainer(vw), paddingTop: "2rem", paddingBottom: "6rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Calibrate" />
           <Button variant="ghost" size="sm" glyph="←" onClick={() => router.push(question.trim() ? `/dashboard?q=${encodeURIComponent(question)}` : "/dashboard")}>Compass</Button>

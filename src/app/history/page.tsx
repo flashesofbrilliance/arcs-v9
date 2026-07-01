@@ -51,7 +51,7 @@ export default function HistoryPage() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "4rem" }}>
+      <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "6rem" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Ledger" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>

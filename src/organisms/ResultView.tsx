@@ -32,7 +32,7 @@ export function ResultView({ result, onReset, onBrief, onTributary, onHistory }:
   const verdictColor = (v: string) => v === 'PASS' ? signal.green : v === 'TENSION' ? signal.gold : signal.red
 
   return (
-    <div style={{ ...contentContainer(vw), paddingTop: '2rem', paddingBottom: '4rem' }}>
+    <div style={{ ...contentContainer(vw), paddingTop: '2rem', paddingBottom: '6rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Receipt" />
         <div style={{ display: "flex", gap: "0.25rem" }}>

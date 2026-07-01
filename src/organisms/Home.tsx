@@ -5,7 +5,7 @@ import { font, signal, text } from '@/ui/tokens'
 import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta, tribColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
 import { Button } from '@/ui/Button'
-import { StickyFooter } from '@/ui/StickyFooter'
+
 import { AuthControl } from '@/molecules/AuthControl'
 import { Rule } from '@/ui/Rule'
 import { SectionLabel } from '@/ui/SectionLabel'
@@ -187,7 +187,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
         </div>
       </div>
 
-      <StickyFooter message="Interested in ARCS powered sprints by Mañana?" maxWidth={960} />
+
     </div>
   )
 }

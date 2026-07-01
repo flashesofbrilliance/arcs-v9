@@ -26,7 +26,7 @@ export default async function AdminLeadsPage() {
 
   return (
     <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
-      <div style={{ ...contentContainer(0), paddingTop: "2rem", paddingBottom: "4rem", maxWidth: 860 }}>
+      <div style={{ ...contentContainer(0), paddingTop: "2rem", paddingBottom: "6rem", maxWidth: 860 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingBottom: "1rem" }}>
           <Wordmark section="Leads" />
           <Badge label={`${leads.length} total`} color={signal.cyan} register="light" />

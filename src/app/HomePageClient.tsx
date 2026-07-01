@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation'
 import { surface, text } from '@/ui/tokens'
 import { Home, type HomeDemo } from '@/organisms/Home'
-import { EyebrowToast } from '@/ui/EyebrowToast'
-import { ToastDrawerProvider } from '@/ui/ToastDrawerContext'
 
 // Thin client wrapper — only exists to bind router callbacks (useRouter
 // requires a client component). All data arrives as a prop, already
@@ -12,17 +10,14 @@ import { ToastDrawerProvider } from '@/ui/ToastDrawerContext'
 export function HomePageClient({ demo, pinnedBriefId }: { demo: HomeDemo | null; pinnedBriefId: string }) {
   const router = useRouter()
   return (
-    <ToastDrawerProvider>
-      <EyebrowToast />
-      <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
-        <Home
-          demo={demo}
-          demoLabel="Featured · what ARCS produces"
-          onOpen={() => router.push('/dashboard')}
-          onCalibrate={() => router.push('/prep')}
-          onBrief={() => router.push(`/brief/${pinnedBriefId}`)}
-        />
-      </main>
-    </ToastDrawerProvider>
+    <main style={{ minHeight: '100vh', background: surface.bg, color: text.primary }}>
+      <Home
+        demo={demo}
+        demoLabel="Featured · what ARCS produces"
+        onOpen={() => router.push('/dashboard')}
+        onCalibrate={() => router.push('/prep')}
+        onBrief={() => router.push(`/brief/${pinnedBriefId}`)}
+      />
+    </main>
   )
 }

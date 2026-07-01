@@ -8,7 +8,7 @@ import { Rule } from "@/ui/Rule"
 import { Field } from "@/ui/Field"
 import { Button } from "@/ui/Button"
 import { Card } from "@/ui/Card"
-import { StickyFooter } from "@/ui/StickyFooter"
+
 
 async function postLead(payload: Record<string, unknown>): Promise<{ ok: boolean }> {
   try {
@@ -74,7 +74,7 @@ function WaitlistInner() {
         </Card>
 
       </div>
-      <StickyFooter message="Need a working session or sprint?" maxWidth={620} />
+
     </main>
   )
 }

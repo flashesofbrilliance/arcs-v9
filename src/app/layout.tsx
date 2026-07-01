@@ -3,6 +3,9 @@ import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
 import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
+import { EyebrowToast } from "@/ui/EyebrowToast"
+import { StickyFooter } from "@/ui/StickyFooter"
+import { Providers } from "./Providers"
 import "./globals.css"
 
 const inter = Inter({
@@ -53,10 +56,14 @@ export default function RootLayout({
       className={`${inter.variable} ${crimsonPro.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased" style={{ overscrollBehavior: "none" }}>
-        {children}
-        <ClaimAnonymousReceipts />
-        <VercelToolbarToggle />
-        <Analytics />
+        <Providers>
+          <EyebrowToast />
+          {children}
+          <StickyFooter message="Interested in ARCS powered sprints by Mañana?" maxWidth={960} />
+          <ClaimAnonymousReceipts />
+          <VercelToolbarToggle />
+          <Analytics />
+        </Providers>
       </body>
     </html>
   )
