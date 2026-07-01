@@ -95,6 +95,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .variant:last-child .variant-header { border-bottom: none; }
 .variant:last-child .variant-body { border-bottom: none; }
 
+/* SIGNAL ROWS */
+.sig-rows { display: flex; flex-direction: column; }
+.sig-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.sig-row:last-child { border-bottom: none; }
+.sig-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.sig-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.sig-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.sig-text strong { color: var(--text); font-weight: 600; }
+
+/* RISK ACTION ROWS */
+.risk-rows { display: flex; flex-direction: column; }
+.risk-row { padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.risk-row:last-child { border-bottom: none; }
+.risk-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.risk-sev { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.risk-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.risk-action { font-family: var(--mono); font-size: 11px; color: var(--cyan); line-height: 1.55; }
+
 /* BEHAVIORAL TESTS */
 .btest-rows { display: flex; flex-direction: column; }
 .btest-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
@@ -279,6 +297,63 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div class="redir-row">
               <div class="redir-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">BU</div>
               <div class="redir-text">If the fit is sharper somewhere else in the Fanatics family — I'm open. Goal is the highest-leverage landing.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CALL SIGNALS -->
+      <div>
+        <div class="sl">Signals from the call</div>
+        <div class="card">
+          <div class="sig-rows">
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--green)">↑ Scope expansion</div>
+                <div class="sig-text"><strong>Role is bigger than the beachhead framing suggested.</strong> Full digital growth org — Tops.com, Fanatics Live, Collect, VA (Paris). SD→VP reporting directly to Chris. 3M+ customers across buyer and seller sides. Chase/Rips is still the right entry point — but the strategic ceiling is the whole org, not one BU.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--cyan)">↑ CJ as active advocate</div>
+                <div class="sig-text"><strong>CJ is a practitioner-builder, not a process gatekeeper.</strong> She built a talent-sourcing agent (10 pre-vetted candidates/day, auto-generated market overviews) and an Interview Architect GPT (JD + resume → competency questions, rating rubrics). The AI angle landed without needing to be sold. She will advocate internally with Chase — not just route the introduction.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--gold)">→ Community signal</div>
+                <div class="sig-text"><strong>Call closed on community inclusion, not process mechanics.</strong> Growth Plus One (speakeasy at Fanatics HQ) + Fan Fest guest check with Chris. CJ wants Zach in the ecosystem independent of whether the Chase conversation leads to an offer. Durable goodwill regardless of outcome.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RISK ACTIONS -->
+      <div>
+        <div class="sl">Open risk actions</div>
+        <div class="card">
+          <div class="risk-rows">
+            <div class="risk-row">
+              <div class="risk-top">
+                <div class="risk-sev" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">MED</div>
+                <div class="risk-label">Comp band not formalized</div>
+              </div>
+              <div class="risk-action">ASK CJ → "Is the $350–400K band something comp has signed off on, or is that a working estimate before the JD is cut?"</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-top">
+                <div class="risk-sev" style="color:var(--red);border-color:rgba(255,77,109,0.3);background:rgba(255,77,109,0.05)">HIGH IF</div>
+                <div class="risk-label">Competing offer deadline</div>
+              </div>
+              <div class="risk-action">If any offer arrives with a hard expiration date before mid-July — escalate to CJ within 24 hours with the specific date. Do not wait. Draft message now, keep in drafts: "CJ — just received [X offer] with a [date] deadline. You mentioned you could expedite — wanted to give you advance notice."</div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-top">
+                <div class="risk-sev" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">LOW</div>
+                <div class="risk-label">Chase process undefined</div>
+              </div>
+              <div class="risk-action">ASK CHASE (first 5 min) → "What does your typical process look like after this kind of intro?"</div>
             </div>
           </div>
         </div>
