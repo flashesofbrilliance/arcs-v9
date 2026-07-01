@@ -11,7 +11,13 @@ const nextConfig: NextConfig = {
   // the real page route is matched first and the rewrite was already dead/unreachable code.
   // Removed for clarity rather than left as misleading dead config.
   async rewrites() {
-    return [{ source: "/compass-kit", destination: "/compass-kit/index.html" }];
+    return [
+      // Subdomain root routing: token.arcs.care/ → /token.html, etc.
+      { source: "/", destination: "/token.html",    has: [{ type: "host", value: "token.arcs.care" }] },
+      { source: "/", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
+      { source: "/", destination: "/resume.html",   has: [{ type: "host", value: "resume.arcs.care" }] },
+      { source: "/compass-kit", destination: "/compass-kit/index.html" },
+    ];
   },
 };
 
