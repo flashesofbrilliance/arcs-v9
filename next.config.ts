@@ -1,20 +1,6 @@
 import type { NextConfig } from "next";
-import path from "path";
-
-// Resolve the actual project root from the main checkout (not worktree)
-// Get the git worktree root
-const { execSync } = require("child_process");
-const gitRoot = execSync("git rev-parse --show-toplevel", {
-  encoding: "utf-8",
-  stdio: ["pipe", "pipe", "pipe"], // suppress stderr
-}).trim();
-const projectRoot = path.resolve(gitRoot);
 
 const nextConfig: NextConfig = {
-  // Next 16 / Turbopack: pin the workspace root explicitly. Without this,
-  // root inference can resolve to src/app and fail to find next/package.json.
-  // Using git root to handle worktrees correctly.
-  turbopack: { root: projectRoot },
   // /compass-kit → the static Compass UI kit preview (cosmetic; mock pipeline, no backend)
   //
   // /observatory used to rewrite here too, to a static demo at public/observatory/index.html.
