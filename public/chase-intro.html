@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>For Chase — Growth Intelligence · Instant Rips</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
@@ -40,6 +41,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .day-row:last-child { border-bottom: none; }
 .day-n { font-family: var(--mono); font-size: 14px; font-weight: 800; }
 .day-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* ORG DIAGRAM */
+.org-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 16px 16px; overflow-x: auto; }
+.org-card .mermaid { min-width: 100%; }
 
 /* CTA */
 .cta-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 24px; position: relative; overflow: hidden; }
@@ -78,7 +83,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="bullet">
           <div class="bullet-dot" style="background:var(--green)"></div>
-          <div class="bullet-text"><strong>Senior IC, starting at Rips.</strong> No team, no management overhead. The leverage is in the system, not the org chart.</div>
+          <div class="bullet-text"><strong>VP-level growth exec with a small team.</strong> Player-coach. Rips is the beachhead — your BU is where the system gets built and proven first.</div>
         </div>
         <div class="bullet">
           <div class="bullet-dot" style="background:var(--gold)"></div>
@@ -109,16 +114,75 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
+  <!-- ORG CHART -->
+  <div>
+    <div class="sl">Where this role sits</div>
+    <div class="org-card">
+      <div class="mermaid">
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0d1117', 'primaryTextColor': '#e2e8f0', 'primaryBorderColor': '#1e293b', 'lineColor': '#475569', 'secondaryColor': '#111820', 'tertiaryColor': '#020408', 'background': '#020408', 'mainBkg': '#0d1117', 'nodeBorder': '#1e293b', 'clusterBkg': '#111820', 'titleColor': '#e2e8f0', 'edgeLabelBackground': '#0d1117', 'fontFamily': 'ui-monospace, SF Mono, monospace'}}}%%
+flowchart TD
+    CEO["🏛 CEO · Fanatics Collectibles"]
+    CHRIS["Chris Lamontagne\nSVP Growth"]
+    CHASE["Chase ⬅ you\nGM · Instant Rips"]
+    TC["GM\nTrading Cards"]
+    LC["GM\nLive Commerce"]
+    VA["GM\nVA · Paris"]
+    FL["GM\nFanatics Live"]
+    ZACH["✦ Head of Growth Intelligence\nZach Harris · VP-level"]
+
+    CEO --> CHRIS
+    CHRIS --> CHASE
+    CHRIS --> TC
+    CHRIS --> LC
+    CHRIS --> VA
+    CHRIS --> FL
+    CHRIS --> ZACH
+
+    ZACH -.->|Rips first| CHASE
+    ZACH -.->|then cross-BU| TC
+    ZACH -.->|then cross-BU| LC
+    ZACH -.->|then cross-BU| VA
+    ZACH -.->|then cross-BU| FL
+
+    style ZACH fill:#0a1a1a,stroke:#00F0FF,stroke-width:2px,color:#00F0FF
+    style CHASE fill:#0a1a10,stroke:#00FF9D,stroke-width:1px,color:#00FF9D
+    style CHRIS fill:#111820,stroke:#475569,stroke-width:1px,color:#e2e8f0
+    style CEO fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
+    style TC fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
+    style LC fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
+    style VA fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
+    style FL fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
+      </div>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="cta-block">
     <div class="cta-ask">20 minutes to find out if this is the gap you're feeling.</div>
     <div class="cta-sub">If it is, we figure out the shape. If not, you've lost 20 minutes and we've both saved a longer conversation that wasn't going anywhere.</div>
     <div class="cta-buttons">
-      <a class="cta-btn cta-primary" href="https://growth-intel.arcs.care/">FULL DECK →</a>
-      <a class="cta-btn cta-secondary" href="mailto:zach.harris@gmail.com">EMAIL ZACH</a>
+      <a class="cta-btn cta-primary" href="https://calendar.app.google/acn5aU8kv8FchZUWA" target="_blank" rel="noopener">BOOK 20 MIN →</a>
+      <a class="cta-btn cta-secondary" href="https://growth-intel.arcs.care/">FULL DECK</a>
     </div>
   </div>
 
 </div>
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#0d1117',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#1e293b',
+      lineColor: '#475569',
+      background: '#020408',
+      mainBkg: '#0d1117',
+      nodeBorder: '#1e293b',
+      fontFamily: 'ui-monospace, SF Mono, Cascadia Code, monospace',
+      fontSize: '12px'
+    }
+  });
+</script>
 </body>
 </html>
