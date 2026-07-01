@@ -37,6 +37,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
         // chase-intro.arcs.care → public/chase-intro.html
         { source: "/:path*", destination: "/chase-intro.html", has: [{ type: "host", value: "chase-intro.arcs.care" }] },
+        // growth-intel.arcs.care → public/growth-intel.html
+        { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
