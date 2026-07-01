@@ -441,7 +441,7 @@ const ROLES = [
     metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
     bullets:[
       { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
-      { t:'Built AI-native analysis pipeline on Claude + MCP server — same infrastructure stack Fanatics currently runs in production', v:['all','figma'] },
+      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise — same tools confirmed in production at Fanatics', v:['all','figma'] },
       { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions — compounding institutional memory', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy — breadth is the product', v:['all'] },
     ] },
@@ -527,11 +527,11 @@ const CONSULTING_CLIENTS = [
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
   all:   { heading:'GROWTH INTELLIGENCE',
-    text:'Growth executive and system builder with a decade across creative, tech, marketing, data, and commercial operations — in sports, finance, health, and consumer. Builds the institutional memory layer: structured pre-decision framing, honest post-decision capture, and cross-domain pattern recognition that makes each campaign sharper than the last. Currently: ARCS, a decision intelligence platform built on the same AI stack already running at Fanatics.' },
+    text:'Growth executive and system builder with a decade across creative, tech, marketing, data, and commercial operations — in sports, finance, health, and consumer. Builds the institutional memory layer: structured pre-decision framing, honest post-decision capture, and cross-domain pattern recognition that makes each campaign sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed.' },
   figma: { heading:'GROWTH DEPTH',
     text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch — no inherited playbook, no pre-existing measurement framework. That\'s the pattern this role requires.' },
   ds:    { heading:'SYSTEMS DEPTH',
-    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native stack (Claude, ChatGPT Enterprise, MCP) in production — not experiments.' },
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production — not experiments.' },
 };
 
 const SKILLS = [
@@ -562,10 +562,10 @@ const SKILLS = [
 function GrainResume() {
   const roles = [
     { co:'ARCS — Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
-      metrics:'60% noise reduction  ·  AI-native on Claude + MCP  ·  3–5× time-to-insight',
+      metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
       bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
                '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude + MCP server + agentic pipelines — same stack Fanatics has in production'] },
+               'Running on Claude + ChatGPT Enterprise — same tools confirmed in production at Fanatics (CJ, Jul 1)'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
       metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
       bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
@@ -879,15 +879,15 @@ function DeepScan() {
                 For Fanatics: Trading Cards, Instant Rips, Live Commerce, and Paris all speak different languages. The intelligence layer has to translate. That's a creative problem as much as an analytical one.
               </p>
             </> },
-          { id:'ci3', glyph:'⊗', label:'AI-Native on Fanatics\' Own Stack',
-            meta:'Claude + ChatGPT Enterprise + MCP — production, not experiments',
-            summary:'Currently building ARCS on the same AI stack Fanatics runs in production. Day-one questions aren\'t "how does this work?" — they\'re "here\'s what the pattern across Rips drops is telling us."',
+          { id:'ci3', glyph:'⊗', label:'AI-Native on Fanatics\' Own Tools',
+            meta:'Claude + ChatGPT Enterprise — confirmed in production at Fanatics',
+            summary:'ARCS runs on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed. Day-one questions aren\'t "how does this work?" — they\'re "here\'s what the pattern across Rips drops is telling us."',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                ARCS is built on Claude, MCP server, and agentic pipelines — the same infrastructure Fanatics uses. CJ confirmed this on the call (segment 4): Fanatics already has Claude and ChatGPT Enterprise deployed. The onboarding conversation isn't "here's what AI can do" — it's "here's the pattern I'm already seeing in your drop data."
+                CJ confirmed on the call (Jul 1): Fanatics already has Claude and ChatGPT Enterprise deployed in production. ARCS runs on both. The onboarding conversation isn't "here's what AI can do" — it's "here's the pattern I'm already seeing in your drop data."
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
-                This is verifiable, not claimed. The architecture is in production and the stack matches. The rarest thing in growth intelligence hiring.
+                This is confirmed, not claimed. The tools match. The rarest thing in growth intelligence hiring.
               </p>
             </> },
         ].map(t => (
@@ -929,9 +929,9 @@ function DeepScan() {
           { id:'B', label:'Cross-BU pattern recognition',
             desc:'What Trading Cards learned last quarter is relevant to Rips this quarter. The intelligence only compounds if someone is holding it across BUs.',
             fanatics:'Five business units. One intelligence layer. The breadth is the entire value proposition.' },
-          { id:'C', label:'AI-native on the actual stack',
-            desc:'Not "using AI tools." Building on Claude, MCP, and agentic pipelines in production — the same architecture Fanatics already runs.',
-            fanatics:'CJ confirmed Claude + ChatGPT Enterprise in production at Fanatics. Day-one questions aren\'t about the tool — they\'re about the pattern.' },
+          { id:'C', label:'AI-native on the actual tools',
+            desc:'Not "using AI tools." Building on Claude and ChatGPT Enterprise in production.',
+            fanatics:'CJ confirmed Claude + ChatGPT Enterprise deployed at Fanatics (Jul 1). Day-one questions aren\'t about the tool — they\'re about the pattern.' },
           { id:'D', label:'Commercial layer as well as analytical',
             desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for — and being able to run the commercial decision, not just report on it.',
             fanatics:'VP-level player-coach with ~5-6 people. The role is hands-on. The work ships.' },
