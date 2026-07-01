@@ -9,7 +9,7 @@ import { Rule } from "@/ui/Rule"
 import { Field } from "@/ui/Field"
 import { Button } from "@/ui/Button"
 import { Card } from "@/ui/Card"
-import { StickyFooter } from "@/ui/StickyFooter"
+
 
 // Sign-in surface — magic link (Auth.js v5 + Resend). Honors ?next= so a gated
 // action (sharing a brief, opening history) returns the user where they started
@@ -70,7 +70,7 @@ function CompassInner() {
         </Card>
       </div>
 
-      <StickyFooter message="Need a working session or sprint?" maxWidth={960} />
+
     </main>
   )
 }

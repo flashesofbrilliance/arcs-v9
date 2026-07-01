@@ -46,7 +46,7 @@ export function CompassForm({
     onSubmit()
   }
   return (
-    <div style={{ ...formContainer(vw), paddingTop: '2rem', paddingBottom: '4rem', containerType: 'inline-size' }}>
+    <div style={{ ...formContainer(vw), paddingTop: '2rem', paddingBottom: '6rem', containerType: 'inline-size' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark section="Question Compass" />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
