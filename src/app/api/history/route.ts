@@ -39,7 +39,20 @@ export async function GET() {
       createdAt: true,
       sessionId: true,
       brief: { select: { id: true } },
-      children: { select: { id: true } }, // follow-up count
+      children: {
+        select: {
+          id: true,
+          decision: true,
+          trueNorth: true,
+          nciScore: true,
+          yState: true,
+          mode: true,
+          doorClass: true,
+          createdAt: true,
+          brief: { select: { id: true } },
+        },
+        orderBy: { createdAt: 'asc' },
+      },
     },
   })
 
