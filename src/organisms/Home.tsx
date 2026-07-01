@@ -137,10 +137,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           {d.tributaries && d.tributaries.length > 0 && (
             <div style={{ marginTop: '0.9rem' }}>
               <SectionLabel style={{ marginBottom: '0.5rem' }}>Tributaries · where to navigate next</SectionLabel>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                {onBrief && (
-                  <Button variant="outline-cyan" size="sm" onClick={onBrief} style={{ flexShrink: 0 }}>Brief&nbsp;→</Button>
-                )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                 {d.tributaries.map((t, i) => {
                   const c = tribColor(t.type)
                   return (
@@ -148,16 +145,18 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
                       key={i}
                       onClick={() => { if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
                       style={{
-                        flex: 1, minWidth: 0,
-                        fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.04em', fontWeight: 600, textTransform: 'uppercase',
-                        color: c, background: 'transparent', border: `1px solid ${c}40`, borderRadius: 5, padding: '5px 10px', cursor: 'pointer',
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                        fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.06em', fontWeight: 700, textTransform: 'uppercase',
+                        color: c, background: `${c}0d`, border: `1px solid ${c}55`, borderRadius: 4, padding: '3px 7px', cursor: 'pointer',
+                        whiteSpace: 'nowrap', flexShrink: 0,
                       }}
                     >
                       {t.label}
                     </button>
                   )
                 })}
+                {onBrief && (
+                  <Button variant="outline-cyan" size="sm" onClick={onBrief} style={{ marginLeft: 'auto', flexShrink: 0 }}>Brief&nbsp;→</Button>
+                )}
               </div>
             </div>
           )}
