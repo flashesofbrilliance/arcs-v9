@@ -1240,3 +1240,72 @@ password than #2's, don't conflate) both need Zach directly.
 Recommended: #3 (log consolidation, unblocks #6's retrofit) or #13 (orphaned tables,
 just needs Zach to glance at the Supabase dashboard).
 
+---
+
+# Handoff — v3.3.0 (2026-06-30)
+
+> **For Claude Code:** active pickup point. v3.2.0 above is preserved for history.
+
+## What changed since v3.2.0
+
+- **MASSIVE MERGE: sleepy-booth → main SHIPPED** — commit `5db496b`
+  - 170 files changed, 42K+ insertions
+  - EyebrowToast breadcrumb/drawer (NCI:120-125) — renders covenant drawer, 3 depths, dismiss, responsive
+  - Trust/Privacy/Terms pages (NCI:119) — `/trust`, `/privacy`, `/terms` routes + legal links in footer
+  - Observatory full page (1174 LOC) — interactive replay theater, dataset switcher, GitHub event ingest
+  - Operators library consolidation — 34 files, 16.6K LOC (LAB, BAR, SAGE, CURATOR, KAIROS, CONTRACT, OPERATOR20, KINTSUGI, etc.)
+  - Canon documents — ARCS-Canon v1.1 + v2.0, Litepaper, Manifesto, Phenomenology, Yellow Paper, Glossary
+  - New ADRs — ADR-025 through ADR-030 (sage signal, debrief delivery, observatory substrate, scan staging, onboarding, nested threads)
+  - Prisma migrations — 4 new migrations (debrief sent_at, debrief optin, profile upload, ATG tributaries)
+  - Git worktree confusion resolved — initial merge landed on `claude/arcs-care-outstanding-tasks-a6mwaz` (wrong branch); re-merged via `frosty-kepler-b69f51` worktree to proper main
+- **Production deploy triggered** — `app.arcs.care` (+ aliases `arcs.care`, `www.arcs.care`, `resume.arcs.care`) now serving commit `5db496b` with breadcrumb/drawer live
+- **Dev server running** — port 3000, installed `@vercel/analytics` (dependency brought in by merge), autoPort enabled for future conflicts
+- **Missing dependency fix** — `@vercel/analytics@next` was referenced but not installed; added `--save` to package.json
+
+## File status
+
+```
+src/ui/EyebrowToast.tsx                    ✅ New — breadcrumb drawer component (383 LOC)
+src/ui/StickyFooter.tsx                    ✅ New — sticky footer with legal links fade
+src/ui/ToastDrawerContext.tsx              ✅ New — context for drawer state
+src/app/trust/page.tsx                     ✅ New — 192 LOC trust contract page
+src/app/privacy/page.tsx                   ✅ New — 204 LOC privacy policy page
+src/app/terms/page.tsx                     ✅ New — 212 LOC terms of service page
+src/app/observatory/page.tsx               ✅ New — 1174 LOC interactive replay theater
+operators/                                 ✅ All 34 files committed (arcs_api, arcs_backup, arcs_hc, arcs_lte, arcs_trace, etc.)
+_CANON/                                    ✅ All canon documents committed (6 core + glossary + index)
+_DECISIONS/index.json                      ✅ New — ADR registry (272 entries)
+prisma/migrations/                         ✅ 4 new migrations committed
+```
+
+## Compass Kit Phase 2 readiness
+
+Next session begins Compass Kit Phase 2 — promoting the static kit (`public/compass-kit/`) into the real app. Phase 2 handoff exists at `_STATE/compass-kit-phase2-handoff.md`. Immediate next actions:
+1. Write ADR deciding DS reconciliation (Option A: extend existing `src/ui/`, Option B: namespace as `src/ui/compass-kit/`)
+2. Port atoms to `src/ui/*.tsx` (30+ components)
+3. Wire `/dashboard` to real `/api/compass` pipeline
+4. Verify preview-deploy parity vs. `/compass-kit` mock
+5. Merge to main
+
+This session did NOT touch Compass Kit Phase 2 — all work was merging sleepy-booth (breadcrumb/drawer features) to unblock production.
+
+## Open items
+
+- ADR-015 case study approval gate — Dan Pascone confirmation still pending (blocks NEXT_PUBLIC_CASE_STUDY_APPROVED flip on arcs-care)
+- Compass Kit Phase 2 ADR — to be written next session (DS reconciliation choice)
+- Production deploy verification — check app.arcs.care/arcs.care for breadcrumb/drawer visibility (should be live within 1–3 min of this session)
+
+## Blocking
+
+NONE for Compass Kit Phase 2 start. All prerequisites are met (main is clean, features merged, dev server running).
+
+## Last confirmed commits
+
+```
+arcs-v9: 5db496b — Merge sleepy-booth → main for production breadcrumb/drawer features
+```
+
+## Next session starts at
+
+`/handoff-pickup` → Compass Kit Phase 2 ADR + Phase 2 kickoff. Proceed directly to "Write DS reconciliation ADR" unless production verification reveals unexpected issues.
+

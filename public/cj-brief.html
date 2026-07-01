@@ -145,17 +145,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <div class="rule-glow"></div>
 
-  <div id="post-datestamp" style="display:none;font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 1, 2026 · POST-CALL</div>
+  <div id="post-datestamp" style="display:block;font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 1, 2026 · POST-CALL</div>
 
   <!-- TABS -->
   <div class="card" style="overflow:visible;background:none;border:none;">
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('pre')">Pre-Call</button>
-      <button class="tab-btn" onclick="switchTab('post')">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('pre')">Pre-Call</button>
+      <button class="tab-btn active" onclick="switchTab('post')">Post-Call</button>
     </div>
 
     <!-- PRE-CALL -->
-    <div id="tab-pre" class="tab-pane active">
+    <div id="tab-pre" class="tab-pane">
 
       <div>
         <div class="sl">The role — going in</div>
@@ -244,7 +244,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
 
     <!-- POST-CALL -->
-    <div id="tab-post" class="tab-pane">
+    <div id="tab-post" class="tab-pane active">
 
       <div>
         <div class="sl">What we confirmed</div>
@@ -626,6 +626,7 @@ function switchTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   document.getElementById('post-datestamp').style.display = id === 'post' ? 'block' : 'none';
 }
+if (window.location.hash === '#debrief') { switchTab('post'); }
 function toggleVariant(el) {
   const body = el.querySelector('.variant-body');
   const tag = el.querySelector('.variant-tag');
