@@ -48,7 +48,7 @@ function CompassInner() {
       <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 6rem" }}>
         <Card style={{ width: "100%", maxWidth: 420 }}>
           <h1 style={{ fontFamily: font.sans, fontSize: "1.4rem", fontWeight: 600, color: text.primary, margin: "0 0 0.5rem", lineHeight: 1.25, letterSpacing: "-0.01em" }}>
-            Save your receipts. Share your briefs.
+            Save receipts. Share briefs.
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.75rem", lineHeight: 1.6 }}>
             One magic link — no password. Your questions, prep, and briefs land under your account, and your shared briefs stay yours.
