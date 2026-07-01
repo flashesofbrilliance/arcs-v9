@@ -40,31 +40,34 @@ export function StickyFooter({
             backdropFilter: 'blur(12px)',
           }}
         >
+          {/* Message + CTA — constrained to maxWidth */}
           <div
             style={{
               maxWidth, margin: '0 auto', height: '100%', padding: '0.75rem 1.5rem',
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem',
+              display: 'flex', alignItems: 'center', gap: '1rem',
             }}
           >
-            <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed }}>
+            <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, flex: 1 }}>
               {message}
             </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-              <Button variant="gold" size="sm" onClick={() => router.push(ctaHref)}>
-                {ctaLabel}&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
-              </Button>
-              <button
-                onClick={() => setDismissed(true)}
-                aria-label="Dismiss"
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  width: 24, height: 24, background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0,
-                }}
-              >
-                <span style={{ fontFamily: font.mono, fontSize: 11, color: `${text.dimmed}99`, lineHeight: 1 }}>✕</span>
-              </button>
-            </div>
+            <Button variant="gold" size="sm" onClick={() => router.push(ctaHref)}>
+              {ctaLabel}&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
+            </Button>
           </div>
+
+          {/* X — absolute at right:0, matches breadcrumb X position */}
+          <button
+            onClick={() => setDismissed(true)}
+            aria-label="Dismiss"
+            style={{
+              position: 'absolute', right: 0, top: 0, bottom: 0,
+              minWidth: 44, padding: '0 12px',
+              background: 'none', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <span style={{ fontFamily: font.mono, fontSize: 10, color: `${signal.gold}44`, lineHeight: 1 }}>✕</span>
+          </button>
         </div>
       )}
 
