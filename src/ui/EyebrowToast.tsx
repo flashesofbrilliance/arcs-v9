@@ -323,9 +323,6 @@ export function EyebrowToast() {
                       <div style={{ fontFamily: sans, fontSize: 11, color: text.muted, marginTop: '0.2rem' }}>If ARCS breaks this covenant, you are released from it immediately.</div>
                     </div>
 
-                    {/* ETH support */}
-                    <SupportRow copied={copied} onCopy={copyAddr} sm={sm} />
-
                     <Button variant="outline-cyan" size="lg" glyph="⊕" onClick={() => nav('/dashboard')} style={{ width: '100%', marginBottom: '0.65rem' }}>
                       Open the compass&nbsp;<span style={{ fontFamily: sans, fontWeight: 500, opacity: 0.75 }}>→</span>
                     </Button>
