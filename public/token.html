@@ -102,6 +102,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div class="sub">The traditional seat model locks intelligence inside one BU. This deploys an operator as a <strong>system-level service layer</strong> — Instant Rips first, then xBiz as the signal compounds.</div>
   </div>
 
+  <!-- IYKYK CONTEXT BAR -->
+  <div id="iykyk-bar" onclick="toggleIykyk()" style="display:flex;align-items:center;gap:10px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.18);border-radius:7px;padding:9px 13px;cursor:pointer;">
+    <span style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--gold);flex-shrink:0;">CONTEXT</span>
+    <span style="font-size:11.5px;color:var(--muted);line-height:1.4;">Chris Lamontagne's stalking horse frame — the Rips beachhead as proof of platform architecture.</span>
+    <span id="iykyk-arrow" style="font-family:var(--mono);font-size:9px;color:var(--dimmed);margin-left:auto;flex-shrink:0;">IYKYK ↓</span>
+  </div>
+  <div id="iykyk-body" style="display:none;background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.12);border-top:none;border-radius:0 0 7px 7px;margin-top:-8px;padding:13px 14px;">
+    <p style="font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:8px;">Chris framed the Head of Growth Intelligence play as a <strong style="color:var(--gold);">stalking horse</strong> — a structurally bounded POC that looks like a single-BU hire but is actually the proof of concept for a platform-wide intelligence architecture. The Rips deployment isn't a pilot. It's the first node. The architecture was designed to compound from day one.</p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.65;">The token you're reading is the deployment brief for that first node. <span style="color:var(--gold);font-family:var(--mono);font-size:10px;">!newHire → new_Deployment{Tenant:POC}</span></p>
+  </div>
+
   <!-- DEPTH TOGGLE -->
   <div style="display:flex;gap:6px;align-items:center;">
     <span style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-right:4px;">View</span>
@@ -157,6 +168,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">The cross-BU signal report at T+90 is the artifact that pulls the other GMs in. You don't have to mandate adoption — the output sells it.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">The "side effect" question: if this holds at Collectibles, what does it become across the full platform? That's the conversation worth having with Mahan before someone else frames it.</span></div>
           </div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:1px solid rgba(30,41,59,0.4);padding-top:10px;">
+            <div style="padding:7px 10px 7px 0;border-right:1px solid rgba(30,41,59,0.4);">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;">THEY'LL SAY</div>
+              <div style="font-size:11.5px;color:var(--text);font-weight:600;line-height:1.4;">"This is a platform bet dressed as a 90-day POC."</div>
+            </div>
+            <div style="padding:7px 0 7px 10px;">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">YOU SAY</div>
+              <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">That's exactly right. The scoping is risk management, not ambiguity. If Rips holds, you didn't back a VP — you seeded an architecture before the rest of the org understood it was needed.</div>
+            </div>
+          </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(0,240,255,0.05);border-radius:7px;border:1px solid rgba(0,240,255,0.15);font-size:12px;color:var(--cyan);font-style:italic;">"I brought the intelligence layer to Fanatics before anyone else saw it as a layer."</div>
         </div>
 
@@ -167,6 +188,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Sits above the data layer, not inside it.</strong> Reads from existing sources — doesn't touch your warehouse, doesn't replace your BI stack.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Already on your confirmed stack.</strong> Built on Claude + ChatGPT Enterprise — both deployed at Fanatics. No new tools, no new contracts.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Consistent decision taxonomy = composable signal interface.</strong> When a BU captures a decision in the same schema, it becomes callable by any other BU. That's the architecture you don't have yet.</span></div>
+          </div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:1px solid rgba(30,41,59,0.4);padding-top:10px;">
+            <div style="padding:7px 10px 7px 0;border-right:1px solid rgba(30,41,59,0.4);">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;">THEY'LL SAY</div>
+              <div style="font-size:11.5px;color:var(--text);font-weight:600;line-height:1.4;">"We'd need integration with our data infra before this is useful."</div>
+            </div>
+            <div style="padding:7px 0 7px 10px;">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">YOU SAY</div>
+              <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">Nothing touches your warehouse. The intelligence layer reads from what already exists. Claude and ChatGPT Enterprise are both confirmed on stack at Fanatics — no new contracts, no new tools.</div>
+            </div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(136,153,170,0.06);border-radius:7px;border:1px solid rgba(136,153,170,0.15);font-size:12px;color:var(--steel);font-style:italic;">"Every data team measures what happened. This captures what was decided and why — before and after. Different layer."</div>
         </div>
@@ -179,6 +210,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU fan signal.</strong> The collector behavior Rips sees during a drop is a leading indicator for what Trading Cards fans do the following week. That signal exists — it just doesn't move between BUs right now.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Compounding attribution.</strong> By campaign 10, you know things about fan conversion timing that no analyst discovered — because no analyst was capturing the pre-decision context.</span></div>
           </div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:1px solid rgba(30,41,59,0.4);padding-top:10px;">
+            <div style="padding:7px 10px 7px 0;border-right:1px solid rgba(30,41,59,0.4);">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;">THEY'LL SAY</div>
+              <div style="font-size:11.5px;color:var(--text);font-weight:600;line-height:1.4;">"My attribution tooling already tracks campaign performance."</div>
+            </div>
+            <div style="padding:7px 0 7px 10px;">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">YOU SAY</div>
+              <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">Attribution tells you what happened after. This captures what was decided before the drop — the hypothesis, the constraint, the bet. That's the layer attribution can't see because it wasn't there.</div>
+            </div>
+          </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(0,255,157,0.04);border-radius:7px;border:1px solid rgba(0,255,157,0.15);font-size:12px;color:var(--green);font-style:italic;">"The fan behavior signal that Trading Cards learned in Q1 is relevant to your campaign in Q2. But only if someone held the pattern."</div>
         </div>
 
@@ -189,6 +230,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pricing intelligence on every drop.</strong> What we predicted the ceiling was, what it actually was, where we underpriced or left conversion on the table.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU commercial compounding.</strong> What Trading Cards' partnership structure taught us about fan monetization is relevant to Live Commerce's next anchor deal — if someone held the pattern.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Partnership asset.</strong> Structured decision records are what you bring to a commercial negotiation to prove you understand your fan better than the other side of the table.</span></div>
+          </div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:1px solid rgba(30,41,59,0.4);padding-top:10px;">
+            <div style="padding:7px 10px 7px 0;border-right:1px solid rgba(30,41,59,0.4);">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;">THEY'LL SAY</div>
+              <div style="font-size:11.5px;color:var(--text);font-weight:600;line-height:1.4;">"Cross-BU budget pooling means no one owns the ROI line."</div>
+            </div>
+            <div style="padding:7px 0 7px 10px;">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">YOU SAY</div>
+              <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">Rips POC is single-BU budget — Chase's line, Chase's signature. Cross-BU expansion is a separate conversation. This starts with one drop, one measurement cycle, one clean owner.</div>
+            </div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(255,215,0,0.04);border-radius:7px;border:1px solid rgba(255,215,0,0.15);font-size:12px;color:var(--gold);font-style:italic;">"The structured decision records become a commercial asset — proof you know your fan better than anyone else in the room."</div>
         </div>
@@ -201,6 +252,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Measurable output at 30/60/90.</strong> Decision anatomy map. Audit brief. Cross-BU signal report. Three artifacts you can put in front of anyone who asks.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">The comp band fits.</strong> VP base, 30% bonus, 4-yr RSU. SD→VP path, reports to Chris, full digital growth org scope.</span></div>
           </div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:1px solid rgba(30,41,59,0.4);padding-top:10px;">
+            <div style="padding:7px 10px 7px 0;border-right:1px solid rgba(30,41,59,0.4);">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;">THEY'LL SAY</div>
+              <div style="font-size:11.5px;color:var(--text);font-weight:600;line-height:1.4;">"How does a POC fit into standard headcount planning?"</div>
+            </div>
+            <div style="padding:7px 0 7px 10px;">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">YOU SAY</div>
+              <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">It doesn't. A 90-day operator engagement isn't a headcount line — it's a service scoped to output. If it holds, the perm conversation has evidence behind it. If it doesn't, you didn't make a 4-year bet on an unproven hypothesis.</div>
+            </div>
+          </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(100,116,139,0.08);border-radius:7px;border:1px solid rgba(100,116,139,0.15);font-size:12px;color:var(--dimmed);font-style:italic;">"Chris intro'd Zach — worth 30 minutes on the growth intelligence angle."</div>
         </div>
 
@@ -211,6 +272,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 30:</strong> Decision anatomy map. Clearest picture Rips has had of its own growth motion — how drops actually get decided, where the gaps are.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 60:</strong> Audit brief the team uses before the next drop. Pre-decision framing so the hypothesis is documented before the drop, not reverse-engineered after.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 90:</strong> Cross-BU signal report — what Rips' learning is worth to the other four BUs. This is the artifact that makes you the GM who proved the model.</span></div>
+          </div>
+          <div style="margin-top:12px;display:grid;grid-template-columns:1fr 2fr;gap:0;border-top:1px solid rgba(30,41,59,0.4);padding-top:10px;">
+            <div style="padding:7px 10px 7px 0;border-right:1px solid rgba(30,41,59,0.4);">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:4px;">THEY'LL SAY</div>
+              <div style="font-size:11.5px;color:var(--text);font-weight:600;line-height:1.4;">"I can't scope 90 days without knowing exactly what I'm committing to."</div>
+            </div>
+            <div style="padding:7px 0 7px 10px;">
+              <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">YOU SAY</div>
+              <div style="font-size:11.5px;color:var(--muted);line-height:1.45;">That's what the call is for. The brief → call → POC structure means no commitment until step 5. Each step narrows the ask before the next one starts. 30 minutes scopes everything.</div>
+            </div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(0,255,157,0.04);border-radius:7px;border:1px solid rgba(0,255,157,0.15);font-size:12px;color:var(--green);font-style:italic;">"Rips is the beachhead. You're not running a pilot — you're running the proof of concept that defines the architecture for the whole platform."</div>
         </div>
@@ -513,12 +584,38 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <!-- CTA — always visible -->
   <div class="signal-block">
-    <div class="signal-title">Start at Rips. Let the signal tell you what's next.</div>
-    <div class="signal-sub">90 days to prove the model. If it works, the question isn't whether to scale — it's how fast.</div>
+    <div class="signal-title">The path is the play.</div>
+    <div class="signal-sub">Four artifacts. One per step. No commitment until the call.</div>
+
+    <div style="display:flex;flex-direction:column;gap:5px;margin:16px 0 20px;">
+      <div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);">03</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">CJ Masopust — Talent Gate</div>
+          <div style="font-size:11px;color:var(--muted);">Pre-call context + post-call debrief</div>
+        </div>
+        <a href="https://cj-brief.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--red);text-decoration:none;padding:5px 9px;border:1px solid rgba(255,77,109,0.3);border-radius:5px;white-space:nowrap;">OPEN →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);">04</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">Chase Crawford — GM Brief</div>
+          <div style="font-size:11px;color:var(--muted);">Rips-specific deployment framing. 30/60/90 output map.</div>
+        </div>
+        <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--green);text-decoration:none;padding:5px 9px;border:1px solid rgba(0,255,157,0.3);border-radius:5px;white-space:nowrap;">OPEN →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid rgba(255,215,0,0.2);border-radius:8px;background:rgba(255,215,0,0.03);">
+        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);">∞</div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">new_Deployment — Full Play</div>
+          <div style="font-size:11px;color:var(--muted);">The role is the architecture. This token is the proof of concept.</div>
+        </div>
+        <a href="https://fanatics.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--gold);text-decoration:none;padding:5px 9px;border:1px solid rgba(255,215,0,0.3);border-radius:5px;white-space:nowrap;">OPEN →</a>
+      </div>
+    </div>
+
     <div class="signal-btns">
       <a class="s-btn s-primary" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">BOOK 30 MIN →</a>
-      <a class="s-btn s-secondary" href="https://chase-intro.arcs.care/" target="_blank" rel="noopener">RIPS BRIEF</a>
-      <a class="s-btn s-secondary" href="https://fanatics.arcs.care/" target="_blank" rel="noopener">FULL PLAY</a>
     </div>
   </div>
 
@@ -541,6 +638,13 @@ function setLens(id) {
   if (btn) { btn.style.color = LENS_COLORS[id]; btn.style.borderBottom = '2px solid ' + LENS_COLORS[id]; }
 }
 
+function toggleIykyk() {
+  const body = document.getElementById('iykyk-body');
+  const arrow = document.getElementById('iykyk-arrow');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? 'IYKYK ↓' : 'IYKYK ↑';
+}
 function setDepth(d) {
   // d-rich = show in rich + deep; d-deep (without d-rich) = deep only
   document.querySelectorAll('.d-rich').forEach(el => el.style.display = (d === 'rich' || d === 'deep') ? 'block' : 'none');
