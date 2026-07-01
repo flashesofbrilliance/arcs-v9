@@ -1,0 +1,186 @@
+{
+  "reportId": "2026-07-01-masopust",
+  "meta": {
+    "callTitle": "Fanatics Collectibles 30 Min Screen w/CJ",
+    "counterpart": "CJ Masopust",
+    "counterpartRole": "Talent Lead, Fanatics Collectibles",
+    "callDate": "2026-07-01",
+    "callTime": "12:30 PM EDT",
+    "durationMinutes": 30,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
+    "prePrepSession": null,
+    "note": "No PrepSession captured pre-call. Deep Recall pass scored against CJ brief intel and Jun 25 Lamontagne call expectations."
+  },
+  "cover": {
+    "yGate": "GREEN",
+    "conviction": "HIGH",
+    "stability": "STABLE",
+    "renderState": "SHARP",
+    "nci": 88,
+    "headline": "Screen passed. CJ is an advocate, not a gatekeeper. Path to Chase is clear.",
+    "subline": "Role scope broader than expected — SD to VP, full digital growth org across 4 platforms. Comp real. Timeline live. One pending deadline risk."
+  },
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
+  "loadBearingQuote": {
+    "text": "CJ built a talent-sourcing agent that auto-generates market overviews and delivers 10 pre-vetted candidates daily.",
+    "attribution": "GRANOLA NOTES · CJ MASOPUST · JUL 1, 2026",
+    "significance": "She's not a process gatekeeper who needs to be convinced of the AI angle — she's already living in it. The ARCS value prop landed without needing to be sold. This changes the Chase conversation prep: CJ will be an active internal advocate, not just a routing node."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "SCOPE REVEAL",
+      "time": "0–6 min",
+      "direction": "FORWARD",
+      "summary": "Role is SD to VP reporting directly to Chris — not just an Instant Rips slot. Scope: performance marketing, lifecycle, and data/analytics across Tops.com, Fanatics Live, Fanatics Collect, and VA (Paris-based live shopping). 3M+ customers, growth on buyer and seller sides.",
+      "divergenceFlag": "HIGH — Pre-call expectation was a Chase/Instant Rips-specific conversation. Actual scope is the entire digital growth org. This is a higher altitude entry than the beachhead framing suggested."
+    },
+    {
+      "segment": 2,
+      "label": "ORG SHAPE",
+      "time": "6–12 min",
+      "direction": "FORWARD",
+      "summary": "Player-coach culture. VP manages ~5–6 people, not 50+. Small lean teams. 5-day in-office, West Village NYC. Zach confirmed Fairfield commute workable (~60 min). Level targeting SD to VP.",
+      "divergenceFlag": "LOW — Matches expectations. Lean team structure consistent with Chris's 'fluid per growth' framing."
+    },
+    {
+      "segment": 3,
+      "label": "COMP + TIMELINE",
+      "time": "12–18 min",
+      "direction": "FORWARD",
+      "summary": "$350–400K all-in (base + 25–30% bonus + RSUs). VP base ballpark $300–325K. RSU: 4-year vest, 25%/yr, pre-IPO liquidity being developed. Process: 3–4 weeks realistically. CJ will expedite if Zach faces an offer deadline. No formal JD with comp team yet.",
+      "divergenceFlag": "MED — Comp band verbal/ballpark only. No JD = no comp team sign-off. Band could shift when formalized. Zach flagged potential offers post-July 4th; CJ acknowledged the lever."
+    },
+    {
+      "segment": 4,
+      "label": "AI RESONANCE",
+      "time": "18–24 min",
+      "direction": "FORWARD",
+      "summary": "Stack: Claude (full suite), ChatGPT Enterprise (2+ yrs), Glean, Zapier, Notion. CJ built a talent-sourcing agent (10 pre-vetted candidates/day, market overviews auto-generated) and an 'Interview Architect' GPT (JD + resume → competency questions, probing guides, rating rubrics). Live pain: interview scheduling blocked by Greenhouse/Outlook/Google identity conflicts behind Okta. Zach noted official MCPs from tools like Greenhouse are coming.",
+      "divergenceFlag": "LOW — Exceeded expectations. CJ is a practitioner-builder. The conversation moved fast and stayed substantive. No selling required."
+    },
+    {
+      "segment": 5,
+      "label": "WARM CLOSE",
+      "time": "24–30 min",
+      "direction": "REVERSE",
+      "summary": "Next steps: Zach sends brief + deck for CJ to forward to Chase. CJ circles back with Chris week of July 7 on role JD and process. CJ adds Zach to Growth Plus One event (speakeasy at Fanatics HQ, growth + innovation focus) and checks with Chris on Fan Fest guest passes.",
+      "divergenceFlag": "HIGH SIGNAL — Call did not close on process mechanics. It closed on community inclusion. Growth Plus One + Fan Fest is a personal affinity signal. CJ wants Zach in the ecosystem independent of process outcome."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "SCOPE_EXPANSION",
+      "label": "Scope Expansion",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "Role is senior leadership across the full digital growth org (4 platforms, 3M+ customers), not a Chase-specific Instant Rips slot. This is a higher-altitude entry point — the beachhead framing for Chase remains correct, but the strategic ceiling is much higher than Instant Rips alone."
+    },
+    {
+      "id": "CJ_ADVOCATE",
+      "label": "CJ as Advocate",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "CJ is a practitioner-builder who immediately resonated with the AI angle. She built real tools (talent agent, Interview Architect) and has live pain (Greenhouse scheduling). She will be an active internal advocate with Chase, not a passive routing node."
+    },
+    {
+      "id": "ROLE_FLUID_CONFIRMED",
+      "label": "Role Still Fluid",
+      "color": "gold",
+      "strength": "DIRECTIONAL",
+      "description": "No formal JD, no comp team alignment yet. Comp band verbal/ballpark. The role is being shaped in real time. This is structural optionality — Zach has more influence over role definition than a standard search. It also means the band could shift when formalized."
+    },
+    {
+      "id": "COMMUNITY_SIGNAL",
+      "label": "Community Signal",
+      "color": "cyan",
+      "strength": "DIRECTIONAL",
+      "description": "Growth Plus One event invite (speakeasy at Fanatics HQ) and Fan Fest check signals personal affinity beyond process. CJ wants Zach in the room independent of whether the Chase conversation leads to an offer. This is durable goodwill in the org regardless of outcome."
+    },
+    {
+      "id": "DEADLINE_LIVE",
+      "label": "Deadline Risk Live",
+      "color": "red",
+      "strength": "WATCH",
+      "description": "Zach flagged potential offers post-July 4th. CJ acknowledged she can expedite. This lever has been surfaced and acknowledged — if a deadline materializes, the action is immediate escalation to CJ with the specific date. Do not wait."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 60,
+      "label": "Fast track",
+      "description": "CJ forwards brief + deck to Chase this week → Chase conversation within 10 days → role shape defined → formal JD by end of July → offer first week of August.",
+      "trigger": "Zach sends brief + deck today. CJ delivers. Chase is immediately relevant.",
+      "watch": "Chase response latency. If no reply within 5 business days, ping CJ."
+    },
+    {
+      "id": "B",
+      "probability": 30,
+      "label": "Standard track",
+      "description": "CJ circles back with Chris week of July 7 → Chase intro scheduled for mid-July → 3–4 week standard process → offer first week of August.",
+      "trigger": "Process follows natural cadence. No external deadline.",
+      "watch": "No JD by July 14 = flag to CJ. Process is drifting."
+    },
+    {
+      "id": "C",
+      "probability": 10,
+      "label": "Compressed by deadline",
+      "description": "External offer arrives before Chase conversation. Zach escalates immediately to CJ with specific date. Fanatics compresses to parallel-track or advances Chase intro to this week.",
+      "trigger": "Any offer letter with a hard expiration date.",
+      "watch": "Do not wait more than 24 hours to tell CJ if this happens."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "NO_JD_RISK",
+      "severity": "MED",
+      "label": "Comp band not formalized",
+      "description": "CJ gave a verbal ballpark ($350–400K all-in, VP base ~$300–325K). No comp team alignment, no formal JD. Band could shift when formalized. Validate actual band before Chase conversation or before any competing offer is used as leverage.",
+      "action": "Ask CJ in follow-up: 'Is the $350–400K band something comp has signed off on, or is that a working estimate before JD is cut?'"
+    },
+    {
+      "id": "PROCESS_UNDEFINED",
+      "severity": "LOW",
+      "label": "Post-Chase process not specified",
+      "description": "What happens after Chase is undefined. 3–4 weeks is an estimate. There may be additional stakeholders (team loops, cross-BU). The Loop stage was removed from the pipeline tracker based on CJ's signal — but validate with Chase whether his process includes team rounds.",
+      "action": "Ask Chase directly in the first 5 minutes: 'What does your typical process look like after this kind of intro?'"
+    },
+    {
+      "id": "OFFER_COLLISION",
+      "severity": "HIGH_IF_TRIGGERED",
+      "label": "Competing offer deadline",
+      "description": "Zach flagged potential offers post-July 4th. CJ has explicitly acknowledged the expedite lever. If any offer arrives with a hard expiration date before mid-July, escalate to CJ within 24 hours with the specific date.",
+      "action": "Draft a one-line message to CJ now. Keep it in drafts. Send immediately if a deadline materializes: 'CJ — just received [X offer] with a [date] deadline. You mentioned you could expedite — wanted to give you advance notice.'"
+    },
+    {
+      "id": "COMMUTE_MATERIAL",
+      "severity": "LOW",
+      "label": "5-day in-office from Fairfield",
+      "description": "~60 min each way, 5 days/week. Zach confirmed workable. This is a real daily constraint. Worth testing physically before offer stage, not as a theoretical assumption.",
+      "action": "No action now. Revisit if offer stage requires confirmation. The commute should be validated, not just estimated."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "Call ended on community inclusion (Growth Plus One, Fan Fest) — not on process mechanics. Reading backward, the warmest signal was added last, not front-loaded. The AI resonance section (segment 4) was where CJ showed her full hand as a builder. The scope reveal (segment 1) was the most analytically significant moment but was handled matter-of-factly, not as a sales pitch."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "No PrepSession captured. Scored against CJ brief intel and Jun 25 Lamontagne expectations.",
+        "keyFinding": "Pre-call expectation: Talent screen to route to Chase / Instant Rips. Actual: Senior leadership across full digital growth org. The scope expansion was the biggest divergence. Everything else (role fluidity, AI resonance, warm close) confirmed or exceeded expectation. Net: call exceeded expectations on scope altitude and CJ advocate status. Below-expectation: process definition (still undefined) and JD formalization (still pending)."
+      }
+    ],
+    "immediateActions": [
+      "Send CJ the brief (cj-brief.arcs.care) and deck link TODAY — this is the Chase unlock",
+      "Update pipeline stage tracker: Talent Screen → HM·Chase (stage 2 complete)",
+      "Monitor for any offer deadlines through July 4th weekend",
+      "Do NOT wait for CJ's week-of-7th follow-up to reach Chase — brief + deck should arrive before that"
+    ]
+  }
+}
