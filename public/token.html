@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>The Intelligence Operator — Tokenized Deployment Model</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface3: #0a0f18;
+  --border: #1e293b; --border2: rgba(30,41,59,0.5);
+  --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --steel: #8899aa;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 100px; }
+.page { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+.eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 10px; }
+.headline { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 10px; }
+.headline em { color: var(--cyan); font-style: normal; }
+.sub { font-size: 14px; color: var(--muted); line-height: 1.65; }
+.sub strong { color: var(--text); font-weight: 600; }
+
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.25; }
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* CONTRAST BLOCK */
+.contrast { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.contrast-col { padding: 16px 18px; background: var(--surface); }
+.contrast-col.alt { background: rgba(0,240,255,0.04); }
+.contrast-label { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.contrast-label.live { color: var(--cyan); }
+.contrast-row { font-size: 12px; color: var(--muted); line-height: 1.6; padding: 5px 0; border-bottom: 1px solid rgba(30,41,59,0.4); display: flex; gap: 8px; }
+.contrast-row:last-child { border-bottom: none; }
+.contrast-row.live-row { color: var(--text); }
+.contrast-row .bullet { flex-shrink: 0; margin-top: 3px; }
+
+/* DEPLOYMENT CHAIN */
+.chain { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.chain-node { padding: 16px 20px; border-bottom: 1px solid var(--border2); position: relative; }
+.chain-node:last-child { border-bottom: none; }
+.chain-node.active { background: linear-gradient(160deg, rgba(0,240,255,0.05), rgba(0,0,0,0.1)); }
+.chain-node.scale { background: rgba(0,255,157,0.02); }
+.chain-node.future { background: transparent; opacity: 0.65; }
+.chain-badge { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.badge-tag { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 7px; border-radius: 4px; }
+.badge-poc { background: rgba(0,240,255,0.15); color: var(--cyan); border: 1px solid rgba(0,240,255,0.25); }
+.badge-scale { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+.badge-cross { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.2); }
+.badge-future { background: rgba(136,153,170,0.1); color: var(--steel); border: 1px solid rgba(136,153,170,0.15); }
+.chain-title { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 4px; }
+.chain-sub { font-size: 12.5px; color: var(--muted); line-height: 1.55; margin-bottom: 12px; }
+.chain-beats { display: flex; flex-direction: column; gap: 4px; }
+.beat { display: grid; grid-template-columns: 36px 1fr; gap: 8px; align-items: baseline; }
+.beat-n { font-family: var(--mono); font-size: 10px; font-weight: 800; }
+.beat-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.beat-text strong { color: var(--text); font-weight: 600; }
+
+/* BU GRID */
+.bu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
+.bu-card { padding: 10px 12px; border-radius: 7px; border: 1px solid var(--border2); background: rgba(255,255,255,0.02); }
+.bu-name { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--green); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+.bu-desc { font-size: 11.5px; color: var(--muted); line-height: 1.45; }
+.bu-card.first { border-color: rgba(0,240,255,0.25); background: rgba(0,240,255,0.03); }
+.bu-card.first .bu-name { color: var(--cyan); }
+
+/* ECONOMICS */
+.econ-row { display: grid; grid-template-columns: 1fr 2fr; gap: 12px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--border2); }
+.econ-row:last-child { border-bottom: none; }
+.econ-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; padding-top: 2px; }
+.econ-val { font-size: 13px; color: var(--text); line-height: 1.55; }
+.econ-val em { font-style: normal; color: var(--cyan); font-weight: 600; }
+
+/* SIGNAL GATE */
+.signal-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 20px; position: relative; overflow: hidden; }
+.signal-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:0.5; }
+.signal-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; margin-bottom: 6px; }
+.signal-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.signal-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.s-btn { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 11px 18px; border-radius: 7px; text-decoration: none; display: inline-block; }
+.s-primary { background: var(--cyan); color: var(--bg); }
+.s-secondary { color: var(--muted); border: 1px solid var(--border); background: transparent; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div>
+    <div class="eyebrow">Not for distribution · Engagement model · Fanatics Collectibles</div>
+    <div class="headline">Not a hire.<br><em>A deployment.</em></div>
+    <div class="sub">The traditional seat model locks intelligence inside one BU. This model treats the operator as a <strong>system-level service layer</strong> — deployed first to Instant Rips as the proof of concept, then scaled across xBiz units as the signal compounds. The institutional memory appreciates with each node added.</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <!-- THE CONTRAST -->
+  <div>
+    <div class="sl">Traditional hire vs. this model</div>
+    <div class="contrast">
+      <div class="contrast-col">
+        <div class="contrast-label">Traditional VP Hire</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>One seat, one BU, one budget line</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>4-year vest before the system pays back</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>Learning dies in that BU at exit</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>Cross-BU pattern recognition = manual, ad hoc</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>ROI unverifiable until 12–18 months in</div>
+      </div>
+      <div class="contrast-col alt">
+        <div class="contrast-label live">Intelligence Operator</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>One operator, 5 BU nodes, shared signal layer</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Rips POC proves value in 90 days</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Institutional memory is the asset — it stays</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Cross-BU patterns surface automatically</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Measurable signal output at 30/60/90 days</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPLOYMENT CHAIN -->
+  <div>
+    <div class="sl">Deployment chain</div>
+    <div class="chain">
+
+      <!-- MINT 01 -->
+      <div class="chain-node active">
+        <div class="chain-badge">
+          <span class="badge-tag badge-poc">MINT 01</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">PROOF OF CONCEPT</span>
+        </div>
+        <div class="chain-title">Instant Rips</div>
+        <div class="chain-sub">The beachhead. Rips is the highest-velocity BU for decision intelligence — drop cadence, fan behavior data, and time-compressed decisions make it the ideal first deployment. The POC proves the model on the hardest problem first.</div>
+        <div class="chain-beats">
+          <div class="beat">
+            <div class="beat-n" style="color:var(--cyan)">30</div>
+            <div class="beat-text"><strong>Decision anatomy map.</strong> Clearest picture Rips has had of its own growth motion — how drops actually get decided.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-n" style="color:var(--gold)">60</div>
+            <div class="beat-text"><strong>First audit brief.</strong> A tool the team uses before the next drop, not after. Structured pre-decision framing + post-decision capture.</div>
+          </div>
+          <div class="beat">
+            <div class="beat-n" style="color:var(--green)">90</div>
+            <div class="beat-text"><strong>Cross-BU signal report.</strong> What Rips' learning is worth to the other four BUs. This is the POC output that unlocks the next deployment.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCALE: xBiz -->
+      <div class="chain-node scale">
+        <div class="chain-badge">
+          <span class="badge-tag badge-scale">SCALE</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">XBIZ UNITS · COLLECTIBLES</span>
+        </div>
+        <div class="chain-title">All five BUs — one intelligence layer</div>
+        <div class="chain-sub">Each BU adds a node to the same compounding system. What Trading Cards learned last quarter becomes relevant to Live Commerce this quarter — but only if someone is holding the pattern across BUs. The operator is that someone.</div>
+        <div class="bu-grid">
+          <div class="bu-card first">
+            <div class="bu-name">Instant Rips ◈</div>
+            <div class="bu-desc">POC complete · signal seeded</div>
+          </div>
+          <div class="bu-card">
+            <div class="bu-name">Trading Cards</div>
+            <div class="bu-desc">Drop velocity · collector behavior · auction intelligence</div>
+          </div>
+          <div class="bu-card">
+            <div class="bu-name">Live Commerce</div>
+            <div class="bu-desc">Real-time fan signal · broadcast conversion</div>
+          </div>
+          <div class="bu-card">
+            <div class="bu-name">VA · Paris</div>
+            <div class="bu-desc">International expansion · localization signal</div>
+          </div>
+          <div class="bu-card" style="grid-column:1/-1;">
+            <div class="bu-name">Fanatics Live</div>
+            <div class="bu-desc">Event intelligence · venue-level fan behavior · post-event capture loop</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CROSS-CHAIN -->
+      <div class="chain-node future">
+        <div class="chain-badge">
+          <span class="badge-tag badge-cross">CROSS-CHAIN</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">PILOT SUCCESS · OUTSIDE COLLECTIBLES</span>
+        </div>
+        <div class="chain-title">Fanatics Holding Co</div>
+        <div class="chain-sub">If Collectibles proves the model — decision intelligence compounds across Fanatics Betting & Gaming, Fanatics Events, Fanatics Commerce. The operator becomes the intelligence substrate for the full platform. This is the cross-chain scenario: not a VP in one vertical, but the intelligence architecture for the whole org.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
+          <span style="font-family:var(--mono);font-size:8.5px;color:var(--muted);padding:4px 8px;border:1px solid var(--border2);border-radius:4px;">Betting & Gaming</span>
+          <span style="font-family:var(--mono);font-size:8.5px;color:var(--muted);padding:4px 8px;border:1px solid var(--border2);border-radius:4px;">Fanatics Events</span>
+          <span style="font-family:var(--mono);font-size:8.5px;color:var(--muted);padding:4px 8px;border:1px solid var(--border2);border-radius:4px;">Fanatics Commerce</span>
+          <span style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);padding:4px 8px;border:1px solid rgba(30,41,59,0.3);border-radius:4px;">+3 verticals</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ECONOMICS -->
+  <div>
+    <div class="sl">The economic case</div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
+      <div class="econ-row">
+        <div class="econ-label">Rips POC cost</div>
+        <div class="econ-val">One embedded operator, scoped to a 90-day intelligence build. <em>Measurable output at 30/60/90 days</em> — not a 12-month ramp before ROI is visible.</div>
+      </div>
+      <div class="econ-row">
+        <div class="econ-label">Scale marginal cost</div>
+        <div class="econ-val">Each additional BU node costs less than the last — the taxonomy, the memory layer, and the decision framework already exist. You're adding signal, not rebuilding the system.</div>
+      </div>
+      <div class="econ-row">
+        <div class="econ-label">vs. 5 BU analysts</div>
+        <div class="econ-val">Five separate BU analysts generate five isolated intelligence silos. <em>One cross-BU operator generates a compounding shared asset.</em> The math is different.</div>
+      </div>
+      <div class="econ-row">
+        <div class="econ-label">The asset</div>
+        <div class="econ-val">The institutional memory layer doesn't leave when a contract ends. The decision records, the taxonomy, the audit briefs — <em>that's the Fanatics asset.</em> It appreciates with every deployment.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="signal-block">
+    <div class="signal-title">Start at Rips. Let the signal tell you what's next.</div>
+    <div class="signal-sub">90 days to prove the model. If it works, the question isn't whether to scale — it's how fast.</div>
+    <div class="signal-btns">
+      <a class="s-btn s-primary" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">BOOK 30 MIN →</a>
+      <a class="s-btn s-secondary" href="https://chase-intro.arcs.care/" target="_blank" rel="noopener">RIPS BRIEF</a>
+      <a class="s-btn s-secondary" href="https://fanatics.arcs.care/" target="_blank" rel="noopener">FULL PLAY</a>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
+    ZACH HARRIS · NOT FOR DISTRIBUTION
+  </div>
+
+</div>
+</body>
+</html>
