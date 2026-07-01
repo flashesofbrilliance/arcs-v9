@@ -73,8 +73,8 @@ const DEPTHS = [
 
 const FOCUS_VIEWS = [
   { value:'all',   label:'FULL',        accent:'cyan' },
-  { value:'figma', label:'FIGMA DS',    accent:'green' },
-  { value:'ds',    label:'DATA',        accent:'gold' },
+  { value:'figma', label:'GROWTH',      accent:'green', desc:'Growth marketing · lifecycle · commercial depth' },
+  { value:'ds',    label:'SYSTEMS',     accent:'gold',  desc:'Decision systems · instrumentation · AI tooling' },
 ];
 
 // ── Atoms ────────────────────────────────────────────────────────────────────
@@ -435,44 +435,48 @@ function NCICount({ target=87 }) {
 // figma = practitioner depth in dev tools / visual-to-production workflow
 // ds    = quantitative / analytical / instrumentation depth
 const ROLES = [
-  { id:'arcs', glyph:'◈', label:'ARCS — Decision Science Platform', color:T.cyan,
-    dates:'2025–Present', role:'Founder & Product Partner',
-    summary:'Decision intelligence infrastructure from first principles — behavioral taxonomy, evidence-gating, experimentation frameworks, and self-updating feedback loops in production.',
+  { id:'arcs', glyph:'◈', label:'ARCS — Decision Intelligence Platform', color:T.cyan,
+    dates:'2025–Present', role:'Founder',
+    summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and compounding feedback loops that make each subsequent decision measurably sharper.',
     metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
+    compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units — and what\'s the right first wedge to prove the model?',
     bullets:[
-      { t:'Reduced decision noise by 60% through structured evidence taxonomy and analytical gate design; accelerated time-to-insight by 3–5×', v:['all','ds'] },
-      { t:'Designed experimentation frameworks improving decision confidence by 2.5× with 40% reduction in wasted planning cycles', v:['all','ds'] },
-      { t:'Built self-updating analytical models that recalibrate scoring weights from prior outcomes — production feedback loop', v:['all','ds'] },
-      { t:'Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — active builder on the exact developer tooling this team instruments', v:['all','figma'] },
+      { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
+      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
+      { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions — compounding institutional memory', v:['all','ds'] },
+      { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy — breadth is the product', v:['all'] },
     ] },
   { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
-    dates:'2024–2025', role:'Product Lead, Site (Go-To-Market)',
-    summary:'CDP and personalization data model for 10 regulated investment products ($7B AUM). Behavioral event taxonomy for investor portal. SEC/FINRA–compliant data governance.',
+    dates:'2024–2025', role:'Product Lead, Go-To-Market',
+    summary:'Cross-BU growth intelligence layer for 10 regulated investment products across $7B AUM. Behavioral event taxonomy, personalization data model, and lifecycle/CRM strategy for investor portal at SEC/FINRA compliance.',
     metric:'$7B', metricLabel:'AUM ACROSS INSTRUMENTED PRODUCTS',
+    compassPrompt:'How do you build behavioral instrumentation for ten regulated investment products where a single taxonomy error becomes a compliance incident — and what does the governance architecture look like before you touch the first event?',
     bullets:[
-      { t:'Architected CDP and personalization data model — defined segmentation schema and behavioral event taxonomy for investor portal', v:['all','ds'] },
-      { t:'Designed instrumentation layer mapping investor behavior signals to content recommendations; AI-driven personalization with measurable engagement lift', v:['all','ds','figma'] },
-      { t:'Data pipeline infrastructure at SEC/FINRA compliance thresholds; reduced release cycle time by 35% through automated QA instrumentation', v:['all','ds'] },
-      { t:'Translated regulatory constraints into data governance requirements covering collection, storage, and usage across all investor surfaces', v:['all','ds'] },
+      { t:'Architected cross-product growth intelligence layer: CDP, behavioral event taxonomy, segmentation schema, and personalization data model across 10 regulated products', v:['all','ds'] },
+      { t:'Led lifecycle/CRM strategy — behavioral signals → content recommendations; AI-driven personalization with measurable engagement lift', v:['all','figma'] },
+      { t:'Reduced release cycle time by 35% through automated QA instrumentation; data governance at SEC/FINRA compliance thresholds', v:['all','ds'] },
+      { t:'Translated regulatory constraints into data governance architecture covering collection, storage, and usage across all investor surfaces', v:['all','ds'] },
     ] },
   { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
-    dates:'2018–2019', role:'Sr. Director of Data & CRM Strategy',
-    summary:'Enterprise CDP and CRM strategy: primary data architecture owner. Segmentation engine across marketing, fundraising, and clinical operations. 20% revenue growth through data-driven personalization.',
-    metric:'20%', metricLabel:'REVENUE LIFT VIA DATA PERSONALIZATION',
+    dates:'2018–2019', role:'Sr. Director, Data & CRM Strategy',
+    summary:'Enterprise growth intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation engine across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.',
+    metric:'20%', metricLabel:'NET-NEW REVENUE VIA DATA PERSONALIZATION',
+    compassPrompt:'When a mission-driven org needs to shift from intuition-led to data-led fundraising, what\'s the right sequence — and how do you get program teams to act on the signal before the next campaign launches?',
     bullets:[
-      { t:'Led enterprise-wide CDP and CRM strategy end-to-end: process mapping, vendor evaluation, Salesforce Lightning modernization', v:['all','ds'] },
-      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units', v:['all','ds'] },
-      { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and growth instrumentation', v:['all','ds'] },
+      { t:'Built enterprise growth intelligence infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation', v:['all','ds'] },
+      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units — first intelligence layer any of these teams had', v:['all','ds'] },
+      { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and cross-BU growth instrumentation', v:['all','figma'] },
     ] },
   { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
     dates:'2016–2018', role:'Product & Partnerships Lead',
-    summary:'Real-time fan behavior forecasting at <120ms latency. CDP evaluation and selection for a global consumer sports platform. $850K+ in year-one revenue from social distribution partnerships.',
+    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue from first social distribution partnerships.',
     metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
+    compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously — what does the pre/post-event capture loop look like?',
     bullets:[
-      { t:'Led CDP evaluation and selection for global consumer sports platform; defined real-time data architecture for fan engagement at scale', v:['all','ds'] },
-      { t:'Built predictive fan behavior forecasting and real-time scoring infrastructure enabling personalized offers at <120ms latency', v:['all','ds'] },
-      { t:'Designed first social distribution partnerships with Twitter and Facebook — behavioral data flows, attribution models; $850K+ year-one revenue', v:['all','ds'] },
-      { t:'Platform stress-testing and load simulations to surface OVP bottlenecks; data-informed reliability engineering for Women\'s Finals', v:['all','ds'] },
+      { t:'Led CDP evaluation and selection for global consumer sports platform; built real-time fan behavior scoring at <120ms — personalized offers served during live events', v:['all','ds'] },
+      { t:'Designed first commercial partnerships with Twitter and Facebook — behavioral data flows, attribution models, event-driven revenue; $850K+ year-one', v:['all','figma'] },
+      { t:'Pre/post-event intelligence loop: pre-tournament fan segmentation → in-event scoring → post-event outcome capture. Applied before "growth intelligence" was a category.', v:['all','ds'] },
+      { t:'Platform load simulation and reliability engineering ahead of Women\'s Finals — data-informed capacity decisions, not guesses', v:['all','ds'] },
     ] },
 ];
 
@@ -526,33 +530,33 @@ const CONSULTING_CLIENTS = [
 
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
-  all:   { heading:'OVERVIEW',
-    text:'Decade-plus at the intersection of product analytics and developer tooling. Currently building production systems on Figma MCP + Code Connect daily. The data I\'d be analyzing is the product I\'m already using — which means day-one questions aren\'t "what does this product do?" but "why does this engagement pattern look like this, and is it instrumentation or real signal?"' },
-  figma: { heading:'WHY FIGMA',
-    text:'Not studying Dev Mode from the outside — building production systems on top of it. arcs-v9 uses Figma Dev Mode, Code Connect, and MCP server as production infrastructure for AI-native development workflows. Day-one analytical questions come from inside the product, not from the docs.' },
-  ds:    { heading:'ANALYTICAL DEPTH',
-    text:'10+ years owning the full analytical lifecycle: instrumentation architecture → experiment design → forecasting → decision observability. Builds the measurement layer from scratch — WTA at <120ms, Grayscale CDP/event taxonomy, ARCS decision observability at 60% noise reduction. SQL · Python · Snowflake · Redshift. The quantitative rigor is in the record.' },
+  all:   { heading:'GROWTH INTELLIGENCE',
+    text:'Growth executive and system builder with a decade across creative, tech, marketing, data, and commercial operations — in sports, finance, health, and consumer. Builds the institutional memory layer: structured pre-decision framing, honest post-decision capture, and cross-domain pattern recognition that makes each campaign sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed.' },
+  figma: { heading:'GROWTH DEPTH',
+    text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch — no inherited playbook, no pre-existing measurement framework. That\'s the pattern this role requires.' },
+  ds:    { heading:'SYSTEMS DEPTH',
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production — not experiments.' },
 };
 
 const SKILLS = [
-  { id:'figmadev', label:'Figma Dev Mode',      accent:T.cyan,  views:['all','figma'] },
-  { id:'codeconn', label:'Code Connect',         accent:T.cyan,  views:['all','figma'] },
-  { id:'mcp',      label:'MCP Server',           accent:T.cyan,  views:['all','figma'] },
-  { id:'claude',   label:'Claude Code',          accent:T.cyan,  views:['all','figma'] },
-  { id:'agentic',  label:'Agentic AI',            accent:T.cyan,  views:['all','figma'] },
-  { id:'sql',      label:'SQL',                  accent:T.green, views:['all','ds'] },
-  { id:'python',   label:'Python',               accent:T.green, views:['all','ds'] },
-  { id:'forecast', label:'Forecasting',          accent:T.green, views:['all','ds'] },
-  { id:'abtest',   label:'A/B Experimentation',  accent:T.green, views:['all','ds'] },
-  { id:'datamod',  label:'Data Modeling',        accent:T.green, views:['all','ds'] },
-  { id:'snow',     label:'Snowflake',            accent:T.green, views:['all','ds'] },
-  { id:'redshift', label:'Redshift',             accent:T.green, views:['all','ds'] },
-  { id:'cdp',      label:'CDP Architecture',     accent:T.gold,  views:['all','ds'] },
-  { id:'segment',  label:'Segment / mParticle',  accent:T.gold,  views:['all','ds'] },
-  { id:'evttax',   label:'Event Taxonomy',       accent:T.gold,  views:['all','ds'] },
-  { id:'attrib',   label:'Attribution Modeling', accent:T.gold,  views:['all','ds'] },
-  { id:'tableau',  label:'Tableau',              accent:T.gold,  views:['all','ds'] },
-  { id:'governa',  label:'Data Governance',      accent:T.gold,  views:['all','ds'] },
+  { id:'claude',   label:'Claude / ChatGPT Enterprise', accent:T.cyan,  views:['all','figma'] },
+  { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
+  { id:'agentic',  label:'Agentic AI Pipelines',        accent:T.cyan,  views:['all','figma'] },
+  { id:'glean',    label:'Glean',                       accent:T.cyan,  views:['all','figma'] },
+  { id:'growth',   label:'Growth Marketing',            accent:T.green, views:['all','figma'] },
+  { id:'lifecycle',label:'Lifecycle / CRM',             accent:T.green, views:['all','figma'] },
+  { id:'gtm',      label:'GTM Strategy',                accent:T.green, views:['all','figma'] },
+  { id:'sql',      label:'SQL',                         accent:T.green, views:['all','ds'] },
+  { id:'python',   label:'Python',                      accent:T.green, views:['all','ds'] },
+  { id:'abtest',   label:'A/B Experimentation',         accent:T.green, views:['all','ds'] },
+  { id:'forecast', label:'Forecasting',                 accent:T.green, views:['all','ds'] },
+  { id:'datamod',  label:'Data Modeling',               accent:T.green, views:['all','ds'] },
+  { id:'cdp',      label:'CDP Architecture',            accent:T.gold,  views:['all','ds'] },
+  { id:'segment',  label:'Segment / mParticle',         accent:T.gold,  views:['all','ds'] },
+  { id:'evttax',   label:'Event Taxonomy',              accent:T.gold,  views:['all','ds'] },
+  { id:'attrib',   label:'Attribution Modeling',        accent:T.gold,  views:['all','ds'] },
+  { id:'snow',     label:'Snowflake',                   accent:T.gold,  views:['all','ds'] },
+  { id:'governa',  label:'Data Governance',             accent:T.gold,  views:['all','ds'] },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -561,11 +565,11 @@ const SKILLS = [
 // ─────────────────────────────────────────────────────────────────────────────
 function GrainResume() {
   const roles = [
-    { co:'ARCS — Decision Science Platform', role:'Founder & Product Partner', dates:'2025–Present',
-      metrics:'60% noise reduction  ·  2.5× decision confidence  ·  3–5× time-to-insight',
-      bullets:['Reduced decision noise by 60% through structured evidence taxonomy; 3–5× time-to-insight acceleration',
-               'Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — practitioner of the exact developer tooling',
-               'Experimentation frameworks; 40% reduction in wasted planning cycles'] },
+    { co:'ARCS — Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
+      metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
+      bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
+               '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
+               'Running on Claude + ChatGPT Enterprise — same tools confirmed in production at Fanatics (CJ, Jul 1)'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
       metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
       bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
@@ -589,10 +593,10 @@ function GrainResume() {
       {/* Summary */}
       <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
         maxWidth:680, marginBottom:24 }}>
-        Product intelligence leader and analytical builder with 10+ years owning the full analytical
-        lifecycle — instrumentation design, behavioral event modeling, experiment frameworks, and decision
-        observability. Builds the measurement layer. Currently building arcs-v9 on Figma Dev Mode,
-        Code Connect, and MCP server as production infrastructure.
+        Growth intelligence executive and system builder with a decade across creative, tech, marketing,
+        data, and commercial — in sports, finance, health, and consumer. Builds the institutional memory
+        layer: structured pre-decision framing, honest post-decision capture, cross-domain pattern
+        recognition. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
       </p>
 
       {/* Thin cyan gradient rule — the one graphic element */}
@@ -636,7 +640,7 @@ function GrainResume() {
       <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
         {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
           ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
-          ['Developer Tools',   'Figma Dev Mode · Code Connect · MCP Server · Claude Code · GitHub · Agentic AI workflows'],
+          ['AI & Tools',        'Claude · ChatGPT Enterprise · MCP Server · Glean · Agentic AI pipelines · GitHub'],
           ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
         ].map(([label,val],i) => (
           <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
@@ -741,6 +745,18 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
                       <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
                     </div>
                   ))}
+                  {r.compassPrompt && (
+                    <div style={{ marginTop:14, padding:'10px 12px', borderRadius:7,
+                      background:'rgba(255,255,255,.025)', border:'1px solid rgba(255,255,255,.07)' }}>
+                      <div style={{ fontFamily:T.mono, fontSize:8, fontWeight:700, letterSpacing:'0.12em',
+                        textTransform:'uppercase', color:T.fg4, marginBottom:5 }}>COMPASS SIGNAL</div>
+                      <div style={{ fontFamily:T.mono, fontSize:11, color:T.fg3, lineHeight:1.6,
+                        fontStyle:'italic', marginBottom:8 }}>"{r.compassPrompt}"</div>
+                      <a href="https://app.arcs.care/dashboard" target="_blank" rel="noopener"
+                        style={{ fontFamily:T.mono, fontSize:9, color:r.color, letterSpacing:'0.06em',
+                          textDecoration:'none', opacity:0.7 }}>→ run through compass</a>
+                    </div>
+                  )}
                 </div>
               ) : null}
               onClick={() => toggle(r.id)}>
@@ -813,7 +829,7 @@ function DeepScan() {
 
       {/* Core Strengths — TrueNorthPanel, cyan is the only signal in this section */}
       <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:16 }}>
-        Builds measurement systems for things that do not have categories yet — then becomes the first and most demanding analyst of what he built. The practitioner-analyst fusion: cannot analyze well what he has not built, cannot build right without the analytical feedback loop. This combination is rare because most job descriptions separate the two.
+        Builds the intelligence layer before the category for it exists — then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in growth intelligence hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
       </TrueNorthPanel>
 
       {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
@@ -857,37 +873,37 @@ function DeepScan() {
       <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
-          { id:'ci1', glyph:'⊗', label:'Studio Art × Data Architecture',
-            meta:'Oberlin 2006 × 10yr career',
-            summary:'Aesthetic intelligence applied to analytical infrastructure — data products that get used because they are designed to be understood, not just accurate.',
+          { id:'ci1', glyph:'⊗', label:'WTA Fan Intelligence (2016) × Instant Rips (2026)',
+            meta:'Sports fan monetization — 10-year isomorphism',
+            summary:'WTA live-event fan scoring at <120ms and Instant Rips drops are the same architecture: user in a high-stakes, time-compressed moment; personalized offer or insight needs to land before the window closes.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                The Oberlin Studio Art degree isn't a liability in a DS role at a design company — it's the compound advantage. Most data scientists build dashboards that are technically correct and behaviorally unused. The aesthetic judgment fires before the data confirms low engagement.
+                At WTA (2016–2018): fan at a live event → behavioral signal → personalized offer under 120ms. The system had to read intent and deliver without friction because a delayed offer during a match moment was worthless. Built the real-time architecture, the behavioral taxonomy, and the commercial partnership layer ($850K+ year-one from Twitter and Facebook).
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                For Figma: the company builds tools for designers. An analyst who understands <em>why</em> a design feels right — not just what the usage data says — asks better product questions.
+                Instant Rips is the same problem class: collector in a drop window → purchase decision → post-drop intelligence feeds the next drop. The WTA architecture is the direct ancestor of what Rips needs.
               </p>
             </> },
-          { id:'ci2', glyph:'⊗', label:'WTA Fan Behavior (2016) × Figma Developer Workflow (2026)',
-            meta:'10-year isomorphism — Tier 1 verified',
-            summary:'WTA fan modeling at <120ms and Figma Dev Mode are the same instrumentation class: user in flow state, product needs to surface the right action without breaking the flow.',
+          { id:'ci2', glyph:'⊗', label:'Studio Art × Cross-BU Intelligence',
+            meta:'Oberlin 2006 × breadth career',
+            summary:'Aesthetic intelligence applied to growth architecture — intelligence products that get used because they\'re designed to be understood, not just accurate. And creative judgment that holds across product categories.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                At WTA (2016–2018): fan in a live event → personalized offer at {"<"}120ms. Instrument the flow, detect intent, deliver without friction. The architecture had to be real-time because a delayed offer was worthless.
+                Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously — the same skill that makes a cross-BU intelligence layer actually work instead of producing reports no one reads.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                2026 Figma Dev Mode: developer in design-to-code flow. Same problem — flow state, intent signal, friction measurement. The WTA architecture was the same problem, 10 years earlier.
+                For Fanatics: Trading Cards, Instant Rips, Live Commerce, and Paris all speak different languages. The intelligence layer has to translate. That's a creative problem as much as an analytical one.
               </p>
             </> },
-          { id:'ci3', glyph:'⊗', label:'Regulated Finance (Grayscale) × Consumer Analytics (WTA/CTF)',
-            meta:'Compliance × growth compound',
-            summary:'Knows what CANNOT be tracked (regulatory) and what SHOULD be tracked (product growth). Data products that are legally defensible and analytically useful.',
+          { id:'ci3', glyph:'⊗', label:'AI-Native on Fanatics\' Own Tools',
+            meta:'Claude + ChatGPT Enterprise — confirmed in production at Fanatics',
+            summary:'ARCS runs on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed. Day-one questions aren\'t "how does this work?" — they\'re "here\'s what the pattern across Rips drops is telling us."',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                SEC/FINRA constraints at Grayscale taught a discipline most consumer DS never face: when data collection is a liability, instrumentation decisions have to be architecturally sound, not just analytically interesting.
+                CJ confirmed on the call (Jul 1): Fanatics already has Claude and ChatGPT Enterprise deployed in production. ARCS runs on both. The onboarding conversation isn't "here's what AI can do" — it's "here's the pattern I'm already seeing in your drop data."
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
-                Paired with WTA consumer analytics, the compound is growth instrumentation that survives legal scrutiny. Relevant for Figma as it scales into enterprise.
+                This is confirmed, not claimed. The tools match. The rarest thing in growth intelligence hiring.
               </p>
             </> },
         ].map(t => (
@@ -919,22 +935,22 @@ function DeepScan() {
         ))}
       </div>
 
-      {/* Role Fit — glass cards, ID badge in steel, only FIGMA tag gets cyan */}
+      {/* Role Fit — glass cards, ID badge in steel, FANATICS tag gets cyan */}
       <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap:8, marginBottom:20 }}>
         {[
-          { id:'A', label:'Make the invisible legible',
-            desc:'First instrumentation layer where no measurement framework exists. Greenfield analytics — invent the taxonomy.',
-            figma:'Dev Mode / Code Connect are relatively new — the instrumentation layer IS greenfield.' },
-          { id:'B', label:'Find the pattern before the category exists',
-            desc:'Analytics at the frontier of an emerging product type. Signals are ambiguous, the framework has to be built, not applied.',
-            figma:'Same pattern recognition that applied to developer workflow analytics applies here.' },
-          { id:'C', label:'Bridge worlds specialists cannot cross',
-            desc:'Aesthetic intelligence and analytical rigor coexisting. Design tools, creative platforms — where the experience IS the data.',
-            figma:'Figma is exactly this. The Oberlin/data compound is the bridge.' },
-          { id:'D', label:'Turn the builder into the analyst',
-            desc:'Practitioner depth as the analytical asset. Knowing the product from the inside changes the quality of every question.',
-            figma:'Builds on Figma MCP daily. "Why does this pattern look like this?" not "what does Dev Mode do?"' },
+          { id:'A', label:'Build the intelligence layer before it has a name',
+            desc:'Greenfield. No inherited playbook, no pre-existing measurement framework. Invent the taxonomy for how growth decisions get made and remembered.',
+            fanatics:'Fanatics Collectibles has the drops, the data, and the scale. It doesn\'t yet have the institutional memory layer. That\'s the gap.' },
+          { id:'B', label:'Cross-BU pattern recognition',
+            desc:'What Trading Cards learned last quarter is relevant to Rips this quarter. The intelligence only compounds if someone is holding it across BUs.',
+            fanatics:'Five business units. One intelligence layer. The breadth is the entire value proposition.' },
+          { id:'C', label:'AI-native on the actual tools',
+            desc:'Not "using AI tools." Building on Claude and ChatGPT Enterprise in production.',
+            fanatics:'CJ confirmed Claude + ChatGPT Enterprise deployed at Fanatics (Jul 1). Day-one questions aren\'t about the tool — they\'re about the pattern.' },
+          { id:'D', label:'Commercial layer as well as analytical',
+            desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for — and being able to run the commercial decision, not just report on it.',
+            fanatics:'VP-level player-coach with ~5-6 people. The role is hands-on. The work ships.' },
         ].map(j => (
           <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
@@ -950,8 +966,8 @@ function DeepScan() {
               boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)',
               border:'1px solid rgba(255,255,255,.06)' }}>
               <span style={{ fontFamily:T.mono, fontSize:8, color:T.cyan, letterSpacing:'0.08em',
-                textTransform:'uppercase', marginRight:6 }}>FIGMA ▲</span>
-              <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.figma}</span>
+                textTransform:'uppercase', marginRight:6 }}>WHY IT MATTERS ▲</span>
+              <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.fanatics}</span>
             </div>
           </div>
         ))}
@@ -959,7 +975,7 @@ function DeepScan() {
 
       {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
       <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
-        Every other DS candidate for this role will have studied Dev Mode, Code Connect, and MCP from the outside. He's been building production systems on top of them for over a year. The practitioner-analyst combination is the rarest signal in DS hiring — verifiable, not claimed. Day-one questions: not "what does this product do?" but "why does this engagement drop-off pattern look like this, and is it instrumentation or real signal?"
+        Every other candidate for this role will have depth in one lane — analytics, or marketing, or product, or tech. The unusual thing here is genuine breadth: creative, tech, business, marketing, sales, and security coexisting in one person who can operate at VP level and do the work. Add AI-native on Claude and ChatGPT Enterprise, sports fan monetization experience that's directly isomorphic to live commerce drops, and a working decision intelligence platform built from scratch — and the day-one questions aren't about onboarding. They're about what the pattern in the data is already telling us.
       </TrueNorthPanel>
 
     </div>
@@ -1020,7 +1036,7 @@ function Resume() {
               Zach Harris
             </h1>
             <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
-              Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
+              Fairfield, CT  ·  <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>LinkedIn.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>
           </div>
           {/* True North */}
@@ -1067,122 +1083,18 @@ function Resume() {
       <div style={{ marginTop:28, padding:'14px 16px', borderRadius:10, border:`1px solid ${T.border}`,
         background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
         display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
-        <div style={{ fontFamily:T.sans, fontSize:13, color:T.fg2 }}>
-          Hayden — happy to connect before Monday.{' '}
-          <span style={{ color:T.cyan, fontFamily:T.mono, fontSize:11 }}>Zach.Harris@Gmail.com</span>
-          <span style={{ color:T.fg4, fontSize:11 }}> · 203·807·2976</span>
+        <div style={{ fontFamily:T.mono, fontSize:11, color:T.fg3, lineHeight:1.6 }}>
+          <span style={{ color:T.fg2 }}>Zach Harris</span>
+          <span style={{ color:T.fg4 }}> · Fairfield, CT</span>
         </div>
-        <a href="mailto:Zach.Harris@Gmail.com"
-          onClick={(e) => {
-            e.preventDefault();
-            const send = (subject) => { window.location.href = 'mailto:Zach.Harris@Gmail.com?subject=' + encodeURIComponent(subject); };
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (pos) => send('Transmitting from: ' + pos.coords.latitude.toFixed(4) + ', ' + pos.coords.longitude.toFixed(4)),
-                () => send('Transmitting from: location unavailable'),
-                { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-              );
-            } else {
-              send('Transmitting from: location unavailable');
-            }
-          }}
+        <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener"
           style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:7,
             fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.05em', color:'#071014',
             background:`linear-gradient(135deg,${T.cyan},#00c8d4)`,
-            boxShadow:`0 0 14px ${T.cyan}44, 0 4px 10px rgba(0,0,0,.4)` }}>
-          ◈ SEND BEARING
+            boxShadow:`0 0 14px ${T.cyan}44, 0 4px 10px rgba(0,0,0,.4)`,
+            textDecoration:'none' }}>
+          ◈ BOOK 30 MIN
         </a>
-      </div>
-
-      {/* ATS download — generates self-contained HTML file, not lazy print */}
-      <div className="no-print" style={{ marginTop:32, display:'flex', justifyContent:'center', gap:10 }}>
-        <button type="button" onClick={() => {
-          const roles = [
-            { co:'ARCS — Decision Science Platform', role:'Founder & Product Partner', dates:'2025–Present',
-              bullets:['Reduced decision noise by 60% through structured evidence taxonomy; 3–5× time-to-insight acceleration','Built arcs-v9 on Figma Dev Mode, Code Connect, and MCP server — practitioner of the exact developer tooling','Experimentation frameworks; 40% reduction in wasted planning cycles'] },
-            { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
-              bullets:['Architected CDP and personalization data model for 10 regulated investment products ($7B AUM)','Behavioral event taxonomy and instrumentation layer; 35% release cycle reduction; zero SEC/FINRA violations'] },
-            { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
-              bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition','Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
-            { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
-              bullets:['Enterprise CDP and CRM strategy; segmentation engine across marketing, fundraising, and clinical ops','20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
-            { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018',
-              bullets:['Real-time fan behavior forecasting infrastructure at <120ms latency; CDP selection for global sports platform','$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook)'] },
-          ];
-          const html = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zachary Harris — Resume</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#fff;color:#111;font-family:'Inter',system-ui,sans-serif}
-body{max-width:760px;margin:0 auto;padding:0.7in 0.6in}
-h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#111;line-height:1}
-.rule{height:1px;background:linear-gradient(90deg,#007A8A,transparent);margin:12px 0 20px;width:55%}
-.contact{font-family:'JetBrains Mono',monospace;font-size:9px;color:#666;letter-spacing:0.06em;margin-top:8px}
-.title{font-size:12px;color:#444;margin-top:5px}
-.summary{font-size:13px;color:#333;line-height:1.75;margin-bottom:24px;max-width:680px}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#888;margin-bottom:16px}
-.role{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid #eee}
-.role-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
-.role-co{font-size:13.5px;font-weight:600;color:#111;letter-spacing:-0.01em}
-.role-dates{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;letter-spacing:0.06em}
-.role-title{font-size:11.5px;color:#666;margin-bottom:6px}
-.role-metrics{font-family:'JetBrains Mono',monospace;font-size:9px;color:#007A8A;letter-spacing:0.07em;margin-bottom:9px}
-.bullet{display:flex;gap:10px;margin-bottom:4px}
-.bullet-dash{color:#007A8A88;font-size:11px;margin-top:1px;flex-shrink:0}
-.bullet-text{font-size:12px;color:#333;line-height:1.6}
-.skills-row{display:flex;gap:16px;align-items:baseline;margin-bottom:7px}
-.skills-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#888;letter-spacing:0.08em;text-transform:uppercase;flex-shrink:0;min-width:116px}
-.skills-val{font-size:12px;color:#444;line-height:1.55}
-.edu-row{display:inline-flex;gap:36px;flex-wrap:wrap}
-.edu-inst{font-size:12.5px;font-weight:600;color:#111}
-.edu-deg{font-size:12.5px;color:#666}
-.edu-yr{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;margin-left:10px}
-.divider{height:1px;background:linear-gradient(90deg,#ddd,transparent);margin:18px 0 16px}
-@media print{body{padding:0.5in 0.6in;font-size:11px}}
-</style></head><body>
-<h1>Zach Harris</h1>
-<div class="contact">Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris</div>
-<div class="title">Product Intelligence Leader  ·  Analytical Builder  ·  Figma Practitioner</div>
-<div class="rule"></div>
-<p class="summary">Product intelligence leader and analytical builder with 10+ years owning the full analytical lifecycle — instrumentation design, behavioral event modeling, experiment frameworks, and decision observability. Builds the measurement layer. Currently building arcs-v9 on Figma Dev Mode, Code Connect, and MCP server as production infrastructure.</p>
-<div class="section-label">Experience</div>
-${roles.map(r => `<div class="role">
-  <div class="role-header"><span class="role-co">${r.co}</span><span class="role-dates">${r.dates}</span></div>
-  <div class="role-title">${r.role}</div>
-  ${r.bullets.map(b => `<div class="bullet"><span class="bullet-dash">—</span><span class="bullet-text">${b}</span></div>`).join('')}
-</div>`).join('')}
-<div class="divider"></div>
-<div class="section-label">Technical Proficiency</div>
-<div class="skills-row"><span class="skills-label">Analytics & DS</span><span class="skills-val">SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling</span></div>
-<div class="skills-row"><span class="skills-label">Data Systems</span><span class="skills-val">Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems</span></div>
-<div class="skills-row"><span class="skills-label">Developer Tools</span><span class="skills-val">Figma Dev Mode · Code Connect · MCP Server · Claude Code · GitHub · Agentic AI workflows</span></div>
-<div class="skills-row"><span class="skills-label">Instrumentation</span><span class="skills-val">Event taxonomy · behavioral tracking · product telemetry · data quality · data governance</span></div>
-<div class="divider"></div>
-<div class="section-label">Education</div>
-<div class="edu-row">
-  <span><span class="edu-inst">Oberlin College</span><span class="edu-deg"> — BA, Honors Studio Art</span><span class="edu-yr">2002–2006</span></span>
-  <span><span class="edu-inst">MIT xPRO</span><span class="edu-deg"> — AI: Business Strategy</span><span class="edu-yr">Certificate</span></span>
-</div>
-</body></html>`;
-          const blob = new Blob([html], { type:'text/html' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'zach-harris-resume.html';
-          a.click();
-          URL.revokeObjectURL(a.href);
-        }}
-        style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 20px',
-          borderRadius:7, border:`1px solid ${T.border}`, background:'transparent',
-          fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.08em',
-          color:T.fg3, cursor:'pointer', transition:'all .15s' }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor=T.cyan; e.currentTarget.style.color=T.cyan; }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.fg3; }}>
-          ↓ ATS RESUME (.html)
-        </button>
       </div>
 
       {/* Footer */}
