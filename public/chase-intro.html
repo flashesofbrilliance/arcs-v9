@@ -4,186 +4,237 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>For Chase — Growth Intelligence · Instant Rips</title>
-<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<title>For Chase — Instant Rips · Fanatics Collectibles</title>
 <style>
 :root {
-  --bg: #020408; --surface: #0d1117; --surface2: #111820;
-  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface3: #0a0f18;
+  --border: #1e293b; --border2: rgba(30,41,59,0.5);
+  --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
   --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
   --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 80px; }
-.page { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
 
-.eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
-.headline { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 10px; }
-.headline em { color: var(--cyan); font-style: normal; }
-.sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
+.eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 10px; }
+.headline { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.rule { height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,157,0.3), transparent); }
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 
-.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
-.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 
-/* BULLET LIST */
-.bullets { display: flex; flex-direction: column; gap: 0; }
-.bullet { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.bullet:last-child { border-bottom: none; }
-.bullet-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-.bullet-text { font-size: 14px; color: var(--text); line-height: 1.55; }
-.bullet-text strong { font-weight: 600; color: var(--text); }
+.rows { display: flex; flex-direction: column; }
+.row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid var(--border2); }
+.row:last-child { border-bottom: none; }
+.row-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; padding-top: 1px; }
+.row-val { font-size: 13px; color: var(--text); line-height: 1.55; }
+.row-val strong { font-weight: 600; }
 
-/* 90-DAY TABLE */
-.day-rows { display: flex; flex-direction: column; }
-.day-row { display: grid; grid-template-columns: 44px 1fr; align-items: center; padding: 11px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.day-row:last-child { border-bottom: none; }
-.day-n { font-family: var(--mono); font-size: 14px; font-weight: 800; }
-.day-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+/* PROVENANCE CHAIN */
+.chain { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+.chain-node { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; border: 1px solid; white-space: nowrap; }
+.chain-arrow { font-family: var(--mono); font-size: 11px; color: var(--dimmed); padding: 0 6px; }
 
-/* ORG DIAGRAM */
-.org-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 16px 16px; overflow-x: auto; }
-.org-card .mermaid { min-width: 100%; }
+/* 90 DAY PLAN */
+.plan-rows { display: flex; flex-direction: column; }
+.plan-row { display: grid; grid-template-columns: 56px 1fr; gap: 0; border-bottom: 1px solid var(--border2); }
+.plan-row:last-child { border-bottom: none; }
+.plan-day { font-family: var(--mono); font-size: 10px; font-weight: 800; letter-spacing: 0.06em; padding: 14px 14px; border-right: 1px solid var(--border2); display: flex; align-items: flex-start; }
+.plan-items { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+.plan-item { display: flex; align-items: flex-start; gap: 10px; }
+.plan-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.plan-text { font-size: 12.5px; color: var(--text); line-height: 1.55; }
+.plan-text strong { font-weight: 600; }
+.plan-note { font-size: 11px; color: var(--dimmed); margin-top: 2px; line-height: 1.45; }
+
+/* RISK BOUNDS */
+.bounds { display: flex; flex-direction: column; gap: 0; }
+.bound-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border2); }
+.bound-row:last-child { border-bottom: none; }
+.bound-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; margin-top: 1px; }
+.bound-text { font-size: 13px; color: var(--text); line-height: 1.55; }
 
 /* CTA */
-.cta-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 24px; position: relative; overflow: hidden; }
-.cta-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:0.5; }
-.cta-ask { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; margin-bottom: 6px; }
-.cta-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
-.cta-buttons { display: flex; gap: 10px; }
-.cta-btn { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 12px 20px; border-radius: 7px; text-decoration: none; display: inline-block; }
-.cta-primary { background: var(--cyan); color: var(--bg); }
-.cta-secondary { color: var(--muted); border: 1px solid var(--border); background: transparent; }
+.cta { background: linear-gradient(155deg, rgba(0,255,157,0.07), rgba(0,255,157,0.02)); border: 1px solid rgba(0,255,157,0.2); border-radius: 12px; padding: 22px; position: relative; overflow: hidden; }
+.cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); opacity: 0.5; }
+.cta-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.cta-text { font-size: 14px; color: var(--text); line-height: 1.6; margin-bottom: 16px; }
+.cta-btn { display: block; text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 20px; border-radius: 8px; text-decoration: none; background: var(--green); color: var(--bg); border: 1px solid var(--green); }
+
+/* SIGNALS */
+.signals { display: flex; flex-wrap: wrap; gap: 6px; }
+.sig { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.07em; padding: 3px 9px; border-radius: 4px; border: 1px solid; }
 </style>
 </head>
 <body>
 <div class="page">
 
+  <!-- HEADER -->
   <div>
-    <div class="eyebrow">For Chase · Intro via Chris Lamontagne · Not for distribution</div>
-    <div class="headline">Growth intelligence<br>for <em>Instant Rips</em></div>
-    <div class="sub">What it is, why it matters at your pace, and why Chris made the intro.</div>
+    <div class="eyebrow">Via Chris Lamontagne · CJ Masopust · Not for distribution</div>
+    <div class="headline">Chase Crawford</div>
+    <div class="sub">GM, Instant Rips · Fanatics Collectibles</div>
   </div>
 
-  <div class="rule-glow"></div>
+  <div class="rule"></div>
 
-  <!-- TL;DR -->
+  <!-- PROVENANCE -->
   <div>
-    <div class="sl">TL;DR</div>
+    <div class="sl">How this landed on your desk</div>
+    <div class="card" style="padding:16px 20px">
+      <div class="chain" style="margin-bottom:14px">
+        <div class="chain-node" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">Chris's post</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">15-min call</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">"bubblegum" deck</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">"i loved what you built"</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">CJ · Jul 1</div>
+        <div class="chain-arrow">→</div>
+        <div class="chain-node" style="color:var(--green);border-color:rgba(0,255,157,0.4);background:rgba(0,255,157,0.08)">You</div>
+      </div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.65">Chris flagged Rips in the first 10 minutes of our call — not as an example, as the destination. CJ confirmed it on Jul 1. The framing: this starts at Rips, builds from there. Your call, your line.</div>
+    </div>
+  </div>
+
+  <!-- WHO I AM -->
+  <div>
+    <div class="sl">Who I am</div>
     <div class="card">
-      <div class="bullets">
-        <div class="bullet">
-          <div class="bullet-dot" style="background:var(--red)"></div>
-          <div class="bullet-text"><strong>Every drop generates learning. Most of it dies.</strong> It ends up in a Slack thread or a post-mortem no one reads before the next campaign starts.</div>
+      <div class="rows">
+        <div class="row">
+          <div class="row-key">Background</div>
+          <div class="row-val">20 years operating at the intersection of growth, data, and systems — from early-stage to late-stage, from brand to platform. Most recently: built the growth intelligence function at <strong>Tailored Wealth</strong> (hiring system + decision infrastructure, one session).</div>
         </div>
-        <div class="bullet">
-          <div class="bullet-dot" style="background:var(--cyan)"></div>
-          <div class="bullet-text"><strong>I build the system that makes each drop make the next one better.</strong> Not a dashboard. A decision memory layer — structured records of what was predicted, what happened, why the gap was there.</div>
+        <div class="row">
+          <div class="row-key">What I build</div>
+          <div class="row-val"><strong>Decision instruments</strong> — not dashboards, not reports. Tools that sharpen what happens next before the next campaign starts. The difference: someone uses it before the drop, not after.</div>
         </div>
-        <div class="bullet">
-          <div class="bullet-dot" style="background:var(--green)"></div>
-          <div class="bullet-text"><strong>VP-level growth exec with a small team.</strong> Player-coach. Rips is the beachhead — your BU is where the system gets built and proven first.</div>
+        <div class="row">
+          <div class="row-key">AI stack</div>
+          <div class="row-val">Claude, ChatGPT Enterprise — already live at Fanatics. I build on infrastructure that's running, not proposals for what to buy.</div>
         </div>
-        <div class="bullet">
-          <div class="bullet-dot" style="background:var(--gold)"></div>
-          <div class="bullet-text"><strong>Chris thinks there's a fit here.</strong> 30 minutes to find out if he's right — and a fast path to a no if he's not.</div>
+        <div class="row">
+          <div class="row-key">The stunt</div>
+          <div class="row-val">Chris's LinkedIn post linked to an AI-native hiring flow. Same night, I adapted that flow for a prompt injection scenario and sent it as a proof-of-concept. CJ called it a credibility anchor. It's how I work: if I see a gap, I build the thing.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 90-DAY -->
+  <!-- WHAT I'D BUILD AT RIPS -->
   <div>
-    <div class="sl">What you'd have in 90 days</div>
+    <div class="sl">What I'd build at Rips — 30 · 60 · 90</div>
     <div class="card">
-      <div class="day-rows">
-        <div class="day-row">
-          <div class="day-n" style="color:var(--cyan)">30</div>
-          <div class="day-text">Decision anatomy map — clearest picture Rips has had of its own growth motion</div>
+      <div class="plan-rows">
+        <div class="plan-row">
+          <div class="plan-day" style="color:var(--cyan)">DAY<br>30</div>
+          <div class="plan-items">
+            <div class="plan-item">
+              <div class="plan-dot" style="background:var(--cyan)"></div>
+              <div>
+                <div class="plan-text"><strong>Decision anatomy map for Instant Rips</strong></div>
+                <div class="plan-note">Every major drop or campaign type mapped: what's decided, who decides it, what information exists going in, what's missing. Your team reviews it. We find the two or three gaps where a structured brief would change the outcome.</div>
+              </div>
+            </div>
+            <div class="plan-item">
+              <div class="plan-dot" style="background:var(--dimmed)"></div>
+              <div>
+                <div class="plan-text">15-minute kickoff with your team — no overhead introduced</div>
+                <div class="plan-note">I'm embedded, not advisory. The framework lives in your team's rhythm, not a new meeting structure.</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="day-row">
-          <div class="day-n" style="color:var(--gold)">60</div>
-          <div class="day-text">First audit brief — a tool your team actually uses before the next drop, not after</div>
+        <div class="plan-row">
+          <div class="plan-day" style="color:var(--green)">DAY<br>60</div>
+          <div class="plan-items">
+            <div class="plan-item">
+              <div class="plan-dot" style="background:var(--green)"></div>
+              <div>
+                <div class="plan-text"><strong>First pre-drop audit brief — a real tool, before the next drop</strong></div>
+                <div class="plan-note">Structured framing delivered to your team before the next major Rips campaign. Predicted outcomes, confidence scores, known weak layers. Scored for confidence so the brief is honest about what we know vs. assume.</div>
+              </div>
+            </div>
+            <div class="plan-item">
+              <div class="plan-dot" style="background:var(--dimmed)"></div>
+              <div>
+                <div class="plan-text">Post-drop capture template live</div>
+                <div class="plan-note">Predicted vs. actual, committed to record. Not a Slack thread. Not a post-mortem that no one reads before the next campaign.</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="day-row">
-          <div class="day-n" style="color:var(--green)">90</div>
-          <div class="day-text">Cross-BU signal report — what Rips' learning is worth to Trading Cards and Live Commerce</div>
+        <div class="plan-row">
+          <div class="plan-day" style="color:var(--gold)">DAY<br>90</div>
+          <div class="plan-items">
+            <div class="plan-item">
+              <div class="plan-dot" style="background:var(--gold)"></div>
+              <div>
+                <div class="plan-text"><strong>First cross-BU signal report</strong></div>
+                <div class="plan-note">What Rips is learning that Trading Cards, VA, and Live Commerce should know before their next comparable decision. The learning compounds across BUs — that's the whole point of starting here.</div>
+              </div>
+            </div>
+            <div class="plan-item">
+              <div class="plan-dot" style="background:var(--dimmed)"></div>
+              <div>
+                <div class="plan-text">Rips POC complete — expansion case ready</div>
+                <div class="plan-note">If the first 90 days work, Chase has the data to make the expansion case. If they don't, it was a scoped experiment with a clean read on why.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ORG CHART -->
+  <!-- WHY BOUNDED RISK -->
   <div>
-    <div class="sl">Where this role sits</div>
-    <div class="org-card">
-      <div class="mermaid">
-%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#0d1117', 'primaryTextColor': '#e2e8f0', 'primaryBorderColor': '#1e293b', 'lineColor': '#475569', 'secondaryColor': '#111820', 'tertiaryColor': '#020408', 'background': '#020408', 'mainBkg': '#0d1117', 'nodeBorder': '#1e293b', 'clusterBkg': '#111820', 'titleColor': '#e2e8f0', 'edgeLabelBackground': '#0d1117', 'fontFamily': 'ui-monospace, SF Mono, monospace'}}}%%
-flowchart TD
-    CEO["Michael Mahan\nCEO · Fanatics Collectibles"]
-    CHRIS["Chris Lamontagne\nPresident, Strategy & Growth"]
-    CHASE["Chase ⬅ you\nGM · Instant Rips"]
-    TC["GM\nTrading Cards"]
-    LC["GM\nLive Commerce"]
-    VA["GM\nVA · Paris"]
-    FL["GM\nFanatics Live"]
-    ZACH["✦ Head of Growth, Intelligence | xBiz\nZach Harris · Growth Exec"]
-
-    CEO --> CHRIS
-    CHRIS --> CHASE
-    CHRIS --> TC
-    CHRIS --> LC
-    CHRIS --> VA
-    CHRIS --> FL
-    CHRIS --> ZACH
-
-    ZACH -.->|Rips first| CHASE
-    ZACH -.->|then cross-BU| TC
-    ZACH -.->|then cross-BU| LC
-    ZACH -.->|then cross-BU| VA
-    ZACH -.->|then cross-BU| FL
-
-    style ZACH fill:#0a1a1a,stroke:#00F0FF,stroke-width:2px,color:#00F0FF
-    style CHASE fill:#0a1a10,stroke:#00FF9D,stroke-width:1px,color:#00FF9D
-    style CHRIS fill:#111820,stroke:#475569,stroke-width:1px,color:#e2e8f0
-    style CEO fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
-    style TC fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
-    style LC fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
-    style VA fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
-    style FL fill:#0d1117,stroke:#1e293b,stroke-width:1px,color:#64748b
+    <div class="sl">Why this is bounded risk for you</div>
+    <div class="card">
+      <div class="bounds">
+        <div class="bound-row">
+          <div class="bound-tag" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">Single BU</div>
+          <div class="bound-text">Rips POC is one budget line — Chase's signature, not a company-wide initiative. If it works, you're the GM who proved the model. If it doesn't, it was a scoped 90-day experiment with a clean read.</div>
+        </div>
+        <div class="bound-row">
+          <div class="bound-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">No overhead</div>
+          <div class="bound-text">The operator carries the system. Your team has a 15-minute pre-drop cadence, not a new reporting structure. Ongoing lift after the framework is embedded: zero.</div>
+        </div>
+        <div class="bound-row">
+          <div class="bound-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Earns trust</div>
+          <div class="bound-text">I don't get to add overhead. If the brief doesn't sharpen your team's next decision, we adjust or stop. The instrument has to be used before the next drop — not after it — or it's not working.</div>
+        </div>
+        <div class="bound-row">
+          <div class="bound-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Stack</div>
+          <div class="bound-text">Claude and ChatGPT Enterprise are already running at Fanatics. I build on infrastructure that's live — no new tooling budget, no evaluation cycles.</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta-block">
-    <div class="cta-ask">30 minutes to find out if this is the gap you're feeling.</div>
-    <div class="cta-sub">If it is, we figure out the shape. If not, you've lost 30 minutes and we've both saved a longer conversation that wasn't going anywhere.</div>
-    <div class="cta-buttons">
-      <a class="cta-btn cta-primary" href="https://calendar.app.google/acn5aU8kv8FchZUWA" target="_blank" rel="noopener">BOOK 30 MIN →</a>
-      <a class="cta-btn cta-secondary" href="https://growth-intel.arcs.care/">FULL DECK</a>
-      <a class="cta-btn cta-secondary" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview?ref=share_panel&sharedBy=34144b0b-8b5b-4c65-b368-f5827b66da0c&hideToolbar=true&disableComments=true" target="_blank" rel="noopener">THE STUNT</a>
-    </div>
+  <!-- THE ASK -->
+  <div class="cta">
+    <div class="cta-label">The ask</div>
+    <div class="cta-text">30 minutes to pressure-test the framing. Not a pitch. If the Rips use case doesn't hold up under your questions, I want to know that before we go further. Bring the hardest version of "why would this work here."</div>
+    <a class="cta-btn" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">BOOK 30 MIN →</a>
+    <div style="font-size:11px;color:var(--dimmed);margin-top:10px;text-align:center;line-height:1.5">Can work around your schedule — if none of these slots work, reply and I'll find one that does.</div>
   </div>
+
+  <!-- SIGNALS -->
+  <div class="signals">
+    <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">CHRIS_INTRO · DIRECT</span>
+    <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">CJ_ALIGNED · NCI 88</span>
+    <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">RIPS_BEACHHEAD · CONFIRMED</span>
+  </div>
+
+  <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.1em">ZACH HARRIS · NOT FOR DISTRIBUTION</div>
 
 </div>
-<script>
-  mermaid.initialize({
-    startOnLoad: true,
-    theme: 'base',
-    themeVariables: {
-      primaryColor: '#0d1117',
-      primaryTextColor: '#e2e8f0',
-      primaryBorderColor: '#1e293b',
-      lineColor: '#475569',
-      background: '#020408',
-      mainBkg: '#0d1117',
-      nodeBorder: '#1e293b',
-      fontFamily: 'ui-monospace, SF Mono, Cascadia Code, monospace',
-      fontSize: '12px'
-    }
-  });
-</script>
 </body>
 </html>

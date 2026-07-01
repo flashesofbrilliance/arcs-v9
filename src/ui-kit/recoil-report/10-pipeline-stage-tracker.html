@@ -1,0 +1,129 @@
+<!-- @dsCard group="Recoil Report" name="Pipeline Stage Tracker" subtitle="Interview stage stepper · current stage highlighted · date + blocker per stage" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+}
+
+.pipeline {
+  display: flex; align-items: flex-start; gap: 0;
+  position: relative;
+}
+
+/* connector line behind nodes */
+.pipeline::before {
+  content: '';
+  position: absolute;
+  top: 18px; left: 18px; right: 18px; height: 1px;
+  background: var(--border);
+  z-index: 0;
+}
+
+.stage {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 10px; position: relative; z-index: 1;
+}
+
+.stage-node {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  border: 1px solid; flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.stage-body { text-align: center; }
+
+.stage-name {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+
+.stage-date {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--dimmed); margin-top: 3px;
+}
+
+.stage-note {
+  font-family: var(--font-sans); font-size: 10px;
+  color: var(--muted); margin-top: 4px;
+  max-width: 110px; text-align: center; line-height: 1.4;
+}
+
+/* DONE */
+.stage-done .stage-node {
+  background: rgba(0,255,157,0.1); border-color: var(--green); color: var(--green);
+}
+.stage-done .stage-name { color: var(--green); }
+
+/* ACTIVE */
+.stage-active .stage-node {
+  background: rgba(0,240,255,0.12); border-color: var(--cyan);
+  color: var(--cyan); box-shadow: var(--cyan-glow);
+}
+.stage-active .stage-name { color: var(--cyan); }
+
+/* PENDING */
+.stage-pending .stage-node {
+  background: var(--surface); border-color: var(--border); color: var(--dimmed);
+}
+.stage-pending .stage-name { color: var(--muted); }
+
+/* BLOCKED */
+.stage-blocked .stage-node {
+  background: rgba(255,77,109,0.08); border-color: var(--red); color: var(--red);
+}
+.stage-blocked .stage-name { color: var(--red); }
+</style>
+</head>
+<body>
+<div class="section-label">§ Pipeline Stage</div>
+<div class="pipeline">
+
+  <div class="stage stage-done">
+    <div class="stage-node">✓</div>
+    <div class="stage-body">
+      <div class="stage-name">Sponsor</div>
+      <div class="stage-date">Jun 25</div>
+      <div class="stage-note">Chris Lamontagne — warm intro confirmed</div>
+    </div>
+  </div>
+
+  <div class="stage stage-done">
+    <div class="stage-node">✓</div>
+    <div class="stage-body">
+      <div class="stage-name">Talent Screen</div>
+      <div class="stage-date">Jul 1</div>
+      <div class="stage-note">CJ Masopust — complete</div>
+    </div>
+  </div>
+
+  <div class="stage stage-active">
+    <div class="stage-node">3</div>
+    <div class="stage-body">
+      <div class="stage-name">HM · Chase</div>
+      <div class="stage-date">TBD</div>
+      <div class="stage-note">Instant Rips Growth</div>
+    </div>
+  </div>
+
+  <div class="stage stage-pending">
+    <div class="stage-node">4</div>
+    <div class="stage-body">
+      <div class="stage-name">Offer</div>
+      <div class="stage-date">TBD</div>
+      <div class="stage-note">Role: Growth Intel</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

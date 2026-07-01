@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recoil Report — CJ Masopust · Jul 1</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --cyan-glow: 0 0 12px rgba(0,240,255,0.25);
+  --green-glow: 0 0 12px rgba(0,255,157,0.2);
+  --red-glow: 0 0 12px rgba(255,77,109,0.3);
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 32px 24px 80px; }
+.page { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.card-body { padding: 20px; }
+
+/* HEADER */
+.header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--green); }
+.header-inner { padding: 20px 24px 20px 28px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.header-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--green); margin-bottom: 6px; }
+.header-name { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.1; }
+.header-sub { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 4px; }
+.header-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.receipt-id { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid var(--green); background: rgba(0,255,157,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.nci-val { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--green); line-height: 1; text-align: right; }
+.nci-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; text-align: right; }
+
+/* NOTICE */
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+/* LOAD-BEARING QUOTE */
+.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
+.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.lbq-text { font-family: var(--sans); font-size: 19px; font-weight: 500; color: var(--text); line-height: 1.55; letter-spacing: -0.01em; font-style: italic; margin-bottom: 16px; }
+.lbq-text::before { content: '\201C'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+.lbq-text::after { content: '\201D'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-left: 4px; }
+.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+.lbq-sig { font-family: var(--sans); font-size: 12px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 12px; }
+
+/* SEGMENTS */
+.segments { display: flex; flex-direction: column; gap: 0; }
+.seg { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.seg:last-child { border-bottom: none; }
+.seg-time { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--border); }
+.seg-num { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--dimmed); line-height: 1; }
+.seg-ts { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.seg-body { padding: 16px 14px; border-right: 1px solid var(--border); }
+.seg-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+.seg-summary { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
+.seg-flag { padding: 16px 14px; }
+.seg-flag-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 6px; }
+.seg-flag-text { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.55; }
+
+/* SIGNAL THREADS */
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sig { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; position: relative; overflow: hidden; }
+.sig::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; }
+.sig-green::before { background: var(--green); }
+.sig-cyan::before { background: var(--cyan); }
+.sig-gold::before { background: var(--gold); }
+.sig-red::before { background: var(--red); }
+.sig-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-left: 8px; }
+.sig-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.sig-green .sig-name { color: var(--green); }
+.sig-cyan .sig-name { color: var(--cyan); }
+.sig-gold .sig-name { color: var(--gold); }
+.sig-red .sig-name { color: var(--red); }
+.sig-strength { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; }
+.strength-hard { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+.strength-dir { background: rgba(0,240,255,0.08); color: var(--cyan); border: 1px solid rgba(0,240,255,0.2); }
+.strength-watch { background: rgba(255,77,109,0.08); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.sig-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 8px; }
+
+/* SCENARIOS */
+.scenario-rows { display: flex; flex-direction: column; gap: 0; }
+.scenario { display: grid; grid-template-columns: 56px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.scenario:last-child { border-bottom: none; }
+.scenario-prob { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 4px; }
+.prob-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; }
+.prob-pct { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.scenario-body { padding: 16px 18px; }
+.scenario-id { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 4px; }
+.scenario-label { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.04em; }
+.scenario-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.scenario-watch { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.scenario-watch::before { content: 'WATCH → '; color: var(--gold); }
+
+/* RISK FLAGS */
+.risk-rows { display: flex; flex-direction: column; gap: 0; }
+.risk { display: grid; grid-template-columns: 80px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.risk:last-child { border-bottom: none; }
+.risk-sev { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 6px; }
+.sev-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; text-align: center; }
+.sev-high { background: rgba(255,77,109,0.1); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+.sev-med { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+.sev-low { background: rgba(30,41,59,0.5); color: var(--muted); border: 1px solid var(--border); }
+.risk-body { padding: 16px 18px; }
+.risk-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.risk-action { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+.risk-action::before { content: 'ACTION → '; }
+
+/* PROTOCOL */
+.protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pass-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }
+.pass-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.pass-dir { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-bottom: 12px; }
+.pass-body { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+/* IMMEDIATE ACTIONS */
+.action-rows { display: flex; flex-direction: column; gap: 0; }
+.action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.action-row:last-child { border-bottom: none; }
+.action-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; }
+.action-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
+
+/* FOOTER STOP-LOSS */
+.stop-loss { background: rgba(255,77,109,0.06); border: 1px solid rgba(255,77,109,0.25); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+.sl-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); flex-shrink: 0; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: var(--red); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div>
+        <div class="header-mark">RECOIL REPORT · FANATICS COLLECTIBLES</div>
+        <div class="header-name">CJ Masopust</div>
+        <div class="header-sub">Talent Lead · 30 Min Screen · Jul 1, 2026 · 12:30 PM EDT</div>
+      </div>
+      <div class="header-meta">
+        <div class="receipt-id">2026-07-01-masopust</div>
+        <div class="ygate-badge"><div class="ygate-dot"></div>GREEN / HIGH / STABLE</div>
+        <div>
+          <div class="nci-val">88</div>
+          <div class="nci-label">NCI Score</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVATE NOTICE -->
+  <div class="notice">
+    <div class="notice-icon">⚠</div>
+    <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Reverse Listening + Deep Recall · 5 segments · No PrepSession captured pre-call</div>
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="card">
+    <div class="card-body" style="padding: 22px 24px;">
+      <div class="label" style="margin-bottom: 10px;">Call verdict</div>
+      <div style="font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; letter-spacing: -0.01em;">Screen passed. CJ is an advocate, not a gatekeeper. Path to Chase is clear.</div>
+      <div style="font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6;">Role scope broader than expected — SD to VP, full digital growth org across 4 platforms. Comp real. Timeline live. One pending deadline risk to watch.</div>
+    </div>
+  </div>
+
+  <!-- LOAD-BEARING QUOTE -->
+  <div class="lbq">
+    <div class="lbq-text">CJ built a talent-sourcing agent that auto-generates market overviews and delivers 10 pre-vetted candidates daily.</div>
+    <div class="lbq-attr">GRANOLA NOTES · CJ MASOPUST · JUL 1, 2026</div>
+    <div class="lbq-sig">She's not a process gatekeeper who needs to be convinced of the AI angle — she's already living in it. The ARCS value prop landed without needing to be sold. This changes the Chase conversation prep: CJ will be an active internal advocate, not just a routing node.</div>
+  </div>
+
+  <!-- CALL WALK -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Call Walk — 5 Segments</div>
+      <div class="label">Reverse Listening + Deep Recall</div>
+    </div>
+    <div class="segments">
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">01</div>
+          <div class="seg-ts">0–6 min</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--cyan);">Scope Reveal</div>
+          <div class="seg-summary">Role is SD to VP reporting directly to Chris — not just an Instant Rips slot. Scope: performance marketing, lifecycle, and data/analytics across Tops.com, Fanatics Live, Fanatics Collect, and VA (Paris-based live shopping). 3M+ customers, growth across buyer and seller sides.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+          <div class="seg-flag-text">Pre-call expectation was a Chase/Instant Rips-specific conversation. Actual scope is the entire digital growth org. Higher altitude entry than beachhead framing suggested.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">02</div>
+          <div class="seg-ts">6–12 min</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--muted);">Org Shape</div>
+          <div class="seg-summary">Player-coach culture. VP manages ~5–6 people, not 50+. Small lean teams. 5-day in-office, West Village NYC. Zach confirmed Fairfield commute workable (~60 min). Level targeting SD to VP.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--muted);">Divergence · LOW</div>
+          <div class="seg-flag-text">Matches expectations. Lean team structure consistent with Chris's 'fluid per growth' framing.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">03</div>
+          <div class="seg-ts">12–18 min</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--gold);">Comp + Timeline</div>
+          <div class="seg-summary">$350–400K all-in (base + 25–30% bonus + RSUs). VP base ballpark $300–325K. RSU: 4-year vest, 25%/yr, pre-IPO liquidity being developed. Process: 3–4 weeks realistically. CJ will expedite if Zach faces an offer deadline. No formal JD with comp team yet.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--gold);">Divergence · MED</div>
+          <div class="seg-flag-text">Comp band verbal only. No JD = no comp team sign-off. Zach flagged potential offers post-July 4th; CJ acknowledged the expedite lever.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">04</div>
+          <div class="seg-ts">18–24 min</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--green);">AI Resonance</div>
+          <div class="seg-summary">Stack: Claude (full suite), ChatGPT Enterprise (2+ yrs), Glean, Zapier, Notion. CJ built a talent-sourcing agent and an "Interview Architect" GPT (JD + resume → competency questions, probing guides, rating rubrics). Live pain: scheduling blocked by Greenhouse/Outlook/Google identity conflicts behind Okta.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--muted);">Divergence · LOW</div>
+          <div class="seg-flag-text">Exceeded expectations. CJ is a practitioner-builder. The conversation moved fast and stayed substantive. No selling required on the AI angle.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">05</div>
+          <div class="seg-ts">24–30 min</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--cyan);">Warm Close</div>
+          <div class="seg-summary">Zach sends brief + deck for CJ to forward to Chase. CJ circles back with Chris week of July 7 on role JD and process. CJ adds Zach to Growth Plus One event (speakeasy at Fanatics HQ) and checks with Chris on Fan Fest guest passes.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--cyan);">Signal · HIGH</div>
+          <div class="seg-flag-text">Call closed on community inclusion, not process mechanics. Growth Plus One + Fan Fest = personal affinity signal. CJ wants Zach in the ecosystem independent of process outcome.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIGNAL THREADS -->
+  <div>
+    <div class="label" style="margin-bottom: 12px;">Signal Threads</div>
+    <div class="signal-grid">
+
+      <div class="sig sig-green">
+        <div class="sig-header">
+          <div class="sig-name">Scope Expansion</div>
+          <div class="sig-strength strength-hard">HARD YES</div>
+        </div>
+        <div class="sig-desc">Role is senior leadership across the full digital growth org (4 platforms, 3M+ customers), not a Chase-specific Instant Rips slot. The beachhead framing for Chase remains correct, but the strategic ceiling is much higher than Instant Rips alone.</div>
+      </div>
+
+      <div class="sig sig-green">
+        <div class="sig-header">
+          <div class="sig-name">CJ as Advocate</div>
+          <div class="sig-strength strength-hard">HARD YES</div>
+        </div>
+        <div class="sig-desc">CJ is a practitioner-builder who immediately resonated with the AI angle. She built real tools and has live pain. She will be an active internal advocate with Chase — not a passive routing node.</div>
+      </div>
+
+      <div class="sig sig-gold">
+        <div class="sig-header">
+          <div class="sig-name">Role Still Fluid</div>
+          <div class="sig-strength strength-dir">DIRECTIONAL</div>
+        </div>
+        <div class="sig-desc">No formal JD, no comp team alignment yet. Comp band verbal/ballpark. The role is being shaped in real time — structural optionality, but also risk: band could shift when formalized.</div>
+      </div>
+
+      <div class="sig sig-cyan">
+        <div class="sig-header">
+          <div class="sig-name">Community Signal</div>
+          <div class="sig-strength strength-dir">DIRECTIONAL</div>
+        </div>
+        <div class="sig-desc">Growth Plus One + Fan Fest invite signals personal affinity beyond process. CJ wants Zach in the room independent of whether the Chase conversation leads to an offer. Durable goodwill regardless of outcome.</div>
+      </div>
+
+      <div class="sig sig-red" style="grid-column: 1 / -1;">
+        <div class="sig-header">
+          <div class="sig-name">Deadline Risk Live</div>
+          <div class="sig-strength strength-watch">WATCH</div>
+        </div>
+        <div class="sig-desc">Zach flagged potential offers post-July 4th. CJ acknowledged she can expedite. This lever has been surfaced and acknowledged — if a deadline materializes, the action is immediate escalation to CJ with the specific date. Do not wait.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Probability Tree — 3 Scenarios</div>
+    </div>
+    <div class="scenario-rows">
+
+      <div class="scenario">
+        <div class="scenario-prob">
+          <div class="prob-val">60</div>
+          <div class="prob-pct">%</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-id">Scenario A</div>
+          <div class="scenario-label">Fast Track</div>
+          <div class="scenario-desc">CJ forwards brief + deck to Chase this week → Chase conversation within 10 days → role shape defined → formal JD by end of July → offer first week of August.</div>
+          <div class="scenario-watch">Chase response latency. If no reply within 5 business days, ping CJ.</div>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-prob">
+          <div class="prob-val">30</div>
+          <div class="prob-pct">%</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-id">Scenario B</div>
+          <div class="scenario-label">Standard Track</div>
+          <div class="scenario-desc">CJ circles back with Chris week of July 7 → Chase intro scheduled for mid-July → 3–4 week standard process → offer first week of August.</div>
+          <div class="scenario-watch">No JD by July 14 = flag to CJ. Process is drifting.</div>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-prob">
+          <div class="prob-val">10</div>
+          <div class="prob-pct">%</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-id">Scenario C</div>
+          <div class="scenario-label">Compressed by Deadline</div>
+          <div class="scenario-desc">External offer arrives before Chase conversation. Zach escalates immediately to CJ with specific date. Fanatics compresses to parallel-track or advances Chase intro to this week.</div>
+          <div class="scenario-watch">Do not wait more than 24 hours to tell CJ if this happens.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RISK FLAGS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Risk Flags</div>
+    </div>
+    <div class="risk-rows">
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-med">MED</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">Comp band not formalized</div>
+          <div class="risk-desc">CJ gave a verbal ballpark ($350–400K all-in, VP base ~$300–325K). No comp team alignment, no formal JD. Band could shift when formalized. Validate actual band before Chase conversation or before any competing offer is used as leverage.</div>
+          <div class="risk-action">Ask CJ in follow-up: "Is the $350–400K band something comp has signed off on, or is that a working estimate before JD is cut?"</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-low">LOW</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">Post-Chase process undefined</div>
+          <div class="risk-desc">What happens after Chase is undefined. 3–4 weeks is an estimate. There may be additional stakeholders. Validate with Chase whether his process includes team rounds before assuming a clean 4-stage pipeline.</div>
+          <div class="risk-action">Ask Chase directly in first 5 minutes: "What does your typical process look like after this kind of intro?"</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-high">HIGH*</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">Competing offer deadline</div>
+          <div class="risk-desc">Zach flagged potential offers post-July 4th. CJ has explicitly acknowledged the expedite lever. If any offer arrives with a hard expiration date before mid-July, escalate to CJ within 24 hours with the specific date. *HIGH if triggered.</div>
+          <div class="risk-action">Draft a one-line message to CJ now. Keep it in drafts. Send immediately if a deadline materializes.</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-low">LOW</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">5-day in-office from Fairfield</div>
+          <div class="risk-desc">~60 min each way, 5 days/week. Zach confirmed workable. This is a real daily constraint — worth validating physically before offer stage, not just as a theoretical assumption.</div>
+          <div class="risk-action">No action now. Revisit before offer stage. The commute should be tested, not just estimated.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROTOCOL -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Recoil Protocol</div>
+      <div class="label">5 segments · 30 min call</div>
+    </div>
+    <div class="card-body">
+      <div class="protocol-grid">
+        <div class="pass-card">
+          <div class="pass-name">Reverse Listening</div>
+          <div class="pass-dir">End → Start</div>
+          <div class="pass-body">Call ended on community inclusion (Growth Plus One, Fan Fest) — not on process mechanics. Reading backward, the warmest signal was added last, not front-loaded. The AI resonance section (segment 4) was where CJ showed her full hand as a builder. The scope reveal (segment 1) was the most analytically significant moment but was handled matter-of-factly, not as a sales pitch.</div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-name">Deep Recall</div>
+          <div class="pass-dir">Start → End · vs pre-call expectation</div>
+          <div class="pass-body">Pre-call: Talent screen to route to Chase / Instant Rips. Actual: Senior leadership across full digital growth org. Scope expansion was the biggest divergence. AI resonance, warm close, and role fluidity all confirmed or exceeded expectation. Below-expectation: process definition and JD formalization still pending.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMMEDIATE ACTIONS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Immediate Actions</div>
+    </div>
+    <div class="action-rows">
+      <div class="action-row">
+        <div class="action-num">1</div>
+        <div class="action-text">Send CJ the brief (cj-brief.arcs.care) and deck link TODAY — this is the Chase unlock. Do not wait for her July 7 follow-up with Chris.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">2</div>
+        <div class="action-text">Update pipeline stage tracker: Talent Screen → complete. HM · Chase is now the active stage.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">3</div>
+        <div class="action-text">Monitor for any offer deadlines through July 4th weekend. If one arrives, escalate to CJ within 24 hours with the specific date.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">4</div>
+        <div class="action-text">Validate the comp band with CJ before using it in any negotiation — "Is $350–400K what comp has signed off on, or a working estimate?"</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STOP-LOSS -->
+  <div class="stop-loss">
+    <div class="sl-label">Stop-Loss</div>
+    <div class="sl-text">Any competing offer with a hard expiration date before mid-July triggers immediate CJ escalation. Brief + deck must arrive before end of day Jul 1. If Chase has not responded within 5 business days of brief delivery, ping CJ.</div>
+  </div>
+
+</div>
+</body>
+</html>
