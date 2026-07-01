@@ -90,6 +90,34 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 /* DEPTH */
 .d-rich, .d-deep { display: none; }
+
+/* ARTIFACT EXPAND */
+@keyframes slideDown { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.artifact-card {
+  border-radius: 8px; border: 1px solid var(--border); background: var(--surface);
+  overflow: hidden; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.artifact-card:hover { border-color: rgba(255,255,255,0.12); }
+.artifact-card.expanded {
+  box-shadow: inset 0 -10px 18px -10px var(--card-accent, rgba(0,240,255,0.15)), 0 0 12px var(--card-accent, rgba(0,240,255,0.06));
+}
+.artifact-card.expanded .artifact-border { border-color: var(--card-border, rgba(0,240,255,0.25)); }
+.artifact-header { display: grid; grid-template-columns: 28px 1fr 14px; gap: 10px; align-items: center; padding: 11px 14px; user-select: none; }
+.artifact-chevron { font-size: 7px; color: var(--dimmed); transition: transform 0.2s, color 0.15s; }
+.artifact-card.expanded .artifact-chevron { transform: rotate(180deg); color: var(--muted); }
+.artifact-detail {
+  display: none; padding: 12px 14px 14px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.12) 100%);
+  border-top: 1px solid var(--border2);
+  animation: slideDown 0.15s ease both;
+}
+.artifact-card.expanded .artifact-detail { display: block; }
+.artifact-preview { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 10px; }
+.artifact-preview strong { color: var(--text); font-weight: 500; }
+.artifact-preview em { font-style: normal; }
+.a-btn { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 8px 14px; border-radius: 6px; text-decoration: none; display: inline-block; }
+.artifact-muted { opacity: 0.55; cursor: default; }
+.artifact-muted:hover { border-color: var(--border); }
 </style>
 </head>
 <body>
@@ -588,30 +616,87 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div class="signal-sub">Four artifacts. One per step. No commitment until the call.</div>
 
     <div style="display:flex;flex-direction:column;gap:5px;margin:16px 0 20px;">
-      <div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);">
-        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);">03</div>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">CJ Masopust — Talent Gate</div>
-          <div style="font-size:11px;color:var(--muted);">Pre-call context + post-call debrief</div>
+
+      <!-- 01 WORM — muted, no link, context-only -->
+      <div class="artifact-card artifact-muted" style="--card-accent:rgba(100,116,139,0.15);--card-border:rgba(100,116,139,0.2);" onclick="toggleArtifact(this)">
+        <div class="artifact-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dimmed);">01</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:1px;">The Worm — Carrier Signal</div>
+            <div style="font-size:11px;color:var(--dimmed);">Chris's post → comment → "let's grab 15 min"</div>
+          </div>
+          <div class="artifact-chevron">▼</div>
         </div>
-        <a href="https://cj-brief.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--red);text-decoration:none;padding:5px 9px;border:1px solid rgba(255,77,109,0.3);border-radius:5px;white-space:nowrap;">OPEN →</a>
-      </div>
-      <div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);">
-        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);">04</div>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">Chase Crawford — GM Brief</div>
-          <div style="font-size:11px;color:var(--muted);">Rips-specific deployment framing. 30/60/90 output map.</div>
+        <div class="artifact-detail">
+          <div class="artifact-preview">Chris posted on decision intelligence. Zach left a comment on the Bubblegum Problem — a pricing/demand framing for drop-model commerce. Chris replied within the hour. <strong>The whole chain started there.</strong></div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.08em;">DOCUMENTED IN FULL PLAY →</div>
         </div>
-        <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--green);text-decoration:none;padding:5px 9px;border:1px solid rgba(0,255,157,0.3);border-radius:5px;white-space:nowrap;">OPEN →</a>
       </div>
-      <div style="display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 14px;border:1px solid rgba(255,215,0,0.2);border-radius:8px;background:rgba(255,215,0,0.03);">
-        <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);">∞</div>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">new_Deployment — Full Play</div>
-          <div style="font-size:11px;color:var(--muted);">The role is the architecture. This token is the proof of concept.</div>
+
+      <!-- 02 STUNT — pending -->
+      <div class="artifact-card" style="--card-accent:rgba(255,215,0,0.12);--card-border:rgba(255,215,0,0.2);" onclick="toggleArtifact(this)">
+        <div class="artifact-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);">02</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">The Stunt — Transmission</div>
+            <div style="font-size:11px;color:var(--muted);">The Bubblegum Problem, live in 15 minutes</div>
+          </div>
+          <div class="artifact-chevron">▼</div>
         </div>
-        <a href="https://fanatics.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--gold);text-decoration:none;padding:5px 9px;border:1px solid rgba(255,215,0,0.3);border-radius:5px;white-space:nowrap;">OPEN →</a>
+        <div class="artifact-detail">
+          <div class="artifact-preview">A live demand/pricing intelligence demo built for Rips' drop model — built during the 15-min cold call. The core insight: <strong>Instant Rips has a Bubblegum Problem.</strong> When everything sells, you don't know what was actually wanted. Capturing pre-drop intent resolves it.<br><br>Chris's response: <em style="color:var(--gold);">"i loved what you built."</em> The stunt is the proof that the method works before any meeting, contract, or headcount line.</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:0.08em;opacity:0.6;">ARTIFACT PENDING →</div>
+        </div>
       </div>
+
+      <!-- 03 CJ -->
+      <div class="artifact-card" style="--card-accent:rgba(255,77,109,0.12);--card-border:rgba(255,77,109,0.25);" onclick="toggleArtifact(this)">
+        <div class="artifact-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);">03</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">CJ Masopust — Talent Gate</div>
+            <div style="font-size:11px;color:var(--muted);">Pre-call context + post-call debrief</div>
+          </div>
+          <div class="artifact-chevron">▼</div>
+        </div>
+        <div class="artifact-detail">
+          <div class="artifact-preview">Jul 1, 2026 call with CJ Masopust, Talent Lead. <strong>Role confirmed:</strong> Head of Growth Intelligence — reports to Chris, VP base + 30% bonus + 4-yr RSU. Scope: all five BUs, SD→VP path, full digital growth org.<br><br>CJ's read: <em style="color:var(--red);">"impressive background, strong communication, rare skill set."</em> Closed on community, not process. Chase intro to follow.</div>
+          <a href="https://cj-brief.arcs.care/" target="_blank" rel="noopener" class="a-btn" style="color:var(--red);background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.25);" onclick="event.stopPropagation()">OPEN BRIEF →</a>
+        </div>
+      </div>
+
+      <!-- 04 CHASE -->
+      <div class="artifact-card" style="--card-accent:rgba(0,255,157,0.12);--card-border:rgba(0,255,157,0.25);" onclick="toggleArtifact(this)">
+        <div class="artifact-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);">04</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">Chase Crawford — GM Brief</div>
+            <div style="font-size:11px;color:var(--muted);">Rips-specific deployment framing. 30/60/90 output map.</div>
+          </div>
+          <div class="artifact-chevron">▼</div>
+        </div>
+        <div class="artifact-detail">
+          <div class="artifact-preview">Chase is GM, Instant Rips — the right first node. Clear drop cycles, contained blast radius, single owner. <strong>Day 30:</strong> decision anatomy map. <strong>Day 60:</strong> audit brief the team uses before the next drop. <strong>Day 90:</strong> cross-BU signal report — the artifact that makes Chase the GM who proved the model.<br><br>Bounded risk: Chase's budget line, Chase's call. If it holds at Rips, the data makes the cross-BU case.</div>
+          <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" class="a-btn" style="color:var(--green);background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.2);" onclick="event.stopPropagation()">OPEN BRIEF →</a>
+        </div>
+      </div>
+
+      <!-- ∞ FULL PLAY -->
+      <div class="artifact-card" style="--card-accent:rgba(255,215,0,0.1);--card-border:rgba(255,215,0,0.22);border-color:rgba(255,215,0,0.15);background:rgba(255,215,0,0.02);" onclick="toggleArtifact(this)">
+        <div class="artifact-header">
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);">∞</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">new_Deployment — Full Play</div>
+            <div style="font-size:11px;color:var(--muted);">The role is the architecture. This token is the proof of concept.</div>
+          </div>
+          <div class="artifact-chevron">▼</div>
+        </div>
+        <div class="artifact-detail">
+          <div class="artifact-preview">The complete chain of provenance: Worm → Stunt → CJ → Chase → deployment. Every beat documented, every causal link visible. The intelligence layer as a platform architecture — Rips as MINT 01, five BU nodes, compounding signal layer.<br><br><em style="color:var(--gold);">The role is the architecture. This token is the proof of concept.</em></div>
+          <a href="https://fanatics.arcs.care/" target="_blank" rel="noopener" class="a-btn" style="color:var(--gold);background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.22);" onclick="event.stopPropagation()">FULL SEQUENCE →</a>
+        </div>
+      </div>
+
     </div>
 
     <div class="signal-btns">
@@ -626,6 +711,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 </div>
 <script>
 const LENS_COLORS = { president:'#00F0FF', cto:'#8899aa', cmo:'#00FF9D', cro:'#FFD700', talent:'#64748b', gm:'#00FF9D' };
+
+function toggleArtifact(card) {
+  if (card.classList.contains('artifact-muted')) {
+    card.classList.toggle('expanded');
+    return;
+  }
+  card.classList.toggle('expanded');
+}
 
 function setLens(id) {
   document.querySelectorAll('.lens-pane').forEach(p => p.style.display = 'none');
