@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pre-Meeting Brief — CJ Masopust · Jul 1</title>
+<meta name="robots" content="noindex, nofollow">
+<title>For CJ — Pre-Meeting Brief · Jul 1</title>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
@@ -14,180 +15,144 @@
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
-.page { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.page { max-width: 700px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
 
-/* MASTHEAD */
 .masthead { text-align: center; padding-bottom: 8px; }
 .masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .masthead-name { font-family: var(--sans); font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 4px; }
 .masthead-sub { font-family: var(--sans); font-size: 14px; color: var(--muted); }
 .masthead-date { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 10px; letter-spacing: 0.08em; }
 
-/* DIVIDER */
-.rule { height: 1px; background: var(--border); }
-.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.4; }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.35; }
 
-/* SECTION LABEL */
 .sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 
-/* CARD */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.card-pad { padding: 20px 24px; }
 
-/* WHAT THIS CALL IS */
-.what-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; }
-.what-cell { background: var(--surface); padding: 18px 22px; }
-.what-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-.what-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.6; }
+/* CONTEXT BLOCK */
+.context-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; position: relative; overflow: hidden; }
+.context-block::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--green); }
+.context-inner { padding-left: 8px; }
+.context-text { font-family: var(--sans); font-size: 14px; color: var(--text); line-height: 1.65; }
+.context-text + .context-text { margin-top: 12px; }
 
-/* CHRIS-CONFIRMED INTEL */
+/* INTEL ROWS */
 .intel-rows { display: flex; flex-direction: column; }
 .intel-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 22px; border-bottom: 1px solid rgba(30,41,59,0.5); }
 .intel-row:last-child { border-bottom: none; }
-.intel-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.intel-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 .intel-body { flex: 1; }
-.intel-fact { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.5; margin-bottom: 3px; }
+.intel-fact { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; margin-bottom: 3px; }
 .intel-source { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; }
 
-/* WHAT I'M ASKING */
-.ask-rows { display: flex; flex-direction: column; gap: 0; }
-.ask-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 22px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+/* THREE ASKS */
+.ask-rows { display: flex; flex-direction: column; }
+.ask-row { display: flex; align-items: flex-start; gap: 14px; padding: 16px 22px; border-bottom: 1px solid rgba(30,41,59,0.5); }
 .ask-row:last-child { border-bottom: none; }
 .ask-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; }
-.ask-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
-.ask-sub { font-family: var(--sans); font-size: 11px; color: var(--dimmed); margin-top: 4px; line-height: 1.5; }
+.ask-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.6; }
+.ask-sub { font-family: var(--sans); font-size: 11px; color: var(--dimmed); margin-top: 5px; line-height: 1.5; }
 
-/* GRACEFUL OFF-RAMPS */
-.ramp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.ramp-header { padding: 14px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
-.ramp-icon { font-size: 14px; }
-.ramp-title { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.ramp-body { display: flex; flex-direction: column; }
-.ramp-row { padding: 14px 22px; border-bottom: 1px solid rgba(30,41,59,0.4); display: flex; align-items: flex-start; gap: 12px; }
+/* OFF-RAMPS */
+.ramp-rows { display: flex; flex-direction: column; }
+.ramp-row { display: flex; align-items: flex-start; gap: 12px; padding: 14px 22px; border-bottom: 1px solid rgba(30,41,59,0.4); }
 .ramp-row:last-child { border-bottom: none; }
-.ramp-trigger { font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; flex-shrink: 0; white-space: nowrap; }
-.ramp-text { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.55; }
+.ramp-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid; flex-shrink: 0; white-space: nowrap; margin-top: 1px; }
+.ramp-text { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
 
-/* FORWARD CTA */
-.forward-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 22px 24px; text-align: center; position: relative; overflow: hidden; }
+/* FORWARD */
+.forward-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 22px 24px; position: relative; overflow: hidden; }
 .forward-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.5; }
-.forward-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.forward-name { font-family: var(--sans); font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-.forward-role { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-.forward-line { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.6; max-width: 540px; margin: 0 auto; }
-.forward-link { display: inline-block; margin-top: 14px; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--cyan); border: 1px solid rgba(0,240,255,0.3); padding: 7px 18px; border-radius: 6px; text-decoration: none; }
+.fwd-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.fwd-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.65; margin-bottom: 14px; }
+.fwd-suggested { font-family: var(--mono); font-size: 11px; color: var(--gold); background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 6px; padding: 10px 14px; line-height: 1.6; margin-bottom: 14px; }
+.fwd-link { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--cyan); border: 1px solid rgba(0,240,255,0.3); padding: 7px 18px; border-radius: 6px; text-decoration: none; }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- MASTHEAD -->
   <div class="masthead">
-    <div class="masthead-eyebrow">Pre-Meeting Brief · Confidential</div>
+    <div class="masthead-eyebrow">For CJ · Pre-Meeting Brief · Not for Distribution</div>
     <div class="masthead-name">CJ Masopust</div>
-    <div class="masthead-sub">Talent Lead, Fanatics Collectibles · Introduction via Chris Lamontagne</div>
+    <div class="masthead-sub">Talent Lead, Fanatics Collectibles · Intro via Chris Lamontagne</div>
     <div class="masthead-date">JUL 1, 2026 · 12:30 PM</div>
   </div>
 
   <div class="rule-glow"></div>
 
-  <!-- WHAT THIS CALL IS -->
+  <!-- WHAT CHRIS ASKED YOU TO DO -->
   <div>
-    <div class="sl">What this call is — and isn't</div>
-    <div class="what-grid">
-      <div class="what-cell">
-        <div class="what-label" style="color:var(--green)">Is</div>
-        <div class="what-text">A two-way conversation to figure out if there's a shape here that works for both sides. Chris introduced us because he thought there might be — the goal is to test that together, not to pitch or be pitched.</div>
-      </div>
-      <div class="what-cell">
-        <div class="what-label" style="color:var(--red)">Isn't</div>
-        <div class="what-text">A traditional interview or a role application. There's no existing JD we're trying to match. Chris's framing was explicit: "roles are fluid given pace of growth." We're exploring the shape, not filling a slot.</div>
+    <div class="sl">What Chris asked you to do</div>
+    <div class="context-block">
+      <div class="context-inner">
+        <div class="context-text">Chris made the intro directly — no ticket, no req, no prompting from either side. He did it four days after we spoke, without being asked. His framing was: <em>"Zach has some interesting ideas about what a forward-deployed growth intelligence function could look like — worth a conversation."</em></div>
+        <div class="context-text">This means your job today isn't to screen for fit against a spec. It's to figure out whether there's a path to get this in front of Chase, and what that path looks like cleanly. The qualification criteria is Chase's — not a JD's.</div>
       </div>
     </div>
   </div>
 
-  <!-- CHRIS-CONFIRMED INTEL -->
+  <!-- WHAT CHRIS CONFIRMED — HIGH CONFIDENCE -->
   <div>
-    <div class="sl">What we know — confirmed by Chris · High confidence</div>
+    <div class="sl">What Chris confirmed — high confidence · your anchor for the Chase conversation</div>
     <div class="card">
       <div class="intel-rows">
-
         <div class="intel-row">
           <div class="intel-dot" style="background:var(--green)"></div>
           <div class="intel-body">
-            <div class="intel-fact">Instant Rips is the beachhead. Chris named it unprompted in the first 10 minutes — not as an example, as a destination.</div>
-            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · SEGMENT 2 · DIRECT</div>
+            <div class="intel-fact">Instant Rips is the beachhead. Chris named it in the first 10 minutes without prompting — not as an example, as a destination. This is where the conversation with Chase starts.</div>
+            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · DIRECT · HIGH CONFIDENCE</div>
           </div>
         </div>
-
         <div class="intel-row">
           <div class="intel-dot" style="background:var(--green)"></div>
           <div class="intel-body">
-            <div class="intel-fact">Roles are fluid. "Looking for people with distinct ideas about what they want to do next" — this is constitutional permission to architect a bespoke function, not apply to an existing one.</div>
-            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · SEGMENT 5 · VERBATIM</div>
+            <div class="intel-fact">"Roles are fluid given pace of growth — looking for people with distinct ideas about what they want to do next." There's no existing req to fill. The role shape is negotiable with Chase.</div>
+            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · VERBATIM · HIGH CONFIDENCE</div>
           </div>
         </div>
-
-        <div class="intel-row">
-          <div class="intel-dot" style="background:var(--green)"></div>
-          <div class="intel-body">
-            <div class="intel-fact">Five growth teams, each moving independently. The thing Chris doesn't have is a horizontal intelligence layer — something that makes each team's learning compound rather than silo.</div>
-            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · SEGMENT 2 · INFERRED HIGH CONFIDENCE</div>
-          </div>
-        </div>
-
         <div class="intel-row">
           <div class="intel-dot" style="background:var(--cyan)"></div>
           <div class="intel-body">
-            <div class="intel-fact">Chris's AI philosophy: "expose human moments, get out of the way." He is specifically not looking for automation-for-automation's-sake. Fan identity and the irrational purchase are the product — the system should serve that, not flatten it.</div>
-            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · SEGMENT 3 · DIRECT</div>
+            <div class="intel-fact">The function being proposed is a horizontal intelligence layer — something that makes all five growth teams' learning compound rather than silo. It's a third model that sits outside the CoE vs GM debate Chris mentioned is live internally.</div>
+            <div class="intel-source">JUN 25 CALL · INFERRED · HIGH CONFIDENCE</div>
           </div>
         </div>
-
         <div class="intel-row">
           <div class="intel-dot" style="background:var(--cyan)"></div>
           <div class="intel-body">
-            <div class="intel-fact">Collectibles are inherently irrational — that's the point. The business is doubling roughly every 4 months. Speed of growth is outpacing institutional memory.</div>
-            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · SEGMENT 3 · DIRECT</div>
+            <div class="intel-fact">The business is doubling roughly every 4 months. Speed of growth is outpacing institutional memory — that's the problem this function solves.</div>
+            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · DIRECT</div>
           </div>
         </div>
-
-        <div class="intel-row">
-          <div class="intel-dot" style="background:var(--gold)"></div>
-          <div class="intel-body">
-            <div class="intel-fact">CoE vs GM model is a live, unresolved debate inside Fanatics. The function Zach is proposing is a third model — a horizontal intelligence layer — that neither side fully answers. This should be named explicitly in the Chase conversation.</div>
-            <div class="intel-source">CHRIS LAMONTAGNE · JUN 25 · SEGMENT 2 · STRUCTURAL INFERENCE</div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
 
-  <!-- WHAT I'M ASKING OF CJ -->
+  <!-- WHAT I'M ASKING OF YOU -->
   <div>
-    <div class="sl">What I'm asking of you today — specifically</div>
+    <div class="sl">What I'm asking of you — specifically</div>
     <div class="card">
       <div class="ask-rows">
         <div class="ask-row">
           <div class="ask-num">1</div>
           <div>
-            <div class="ask-text">Tell me what you see from the Talent side — is there a shape of role that makes sense for Instant Rips, or is this a conversation that needs to happen with Chase first?</div>
-            <div class="ask-sub">I'm not trying to end-run process. If there's a formal path, I want to be on it correctly.</div>
+            <div class="ask-text">Is there a path to Chase, and what does it look like? A 20-minute call, a written brief you forward, a warm email intro — whatever is cleanest for how Chase operates.</div>
+            <div class="ask-sub">I'm not trying to go around process. If there's a formal path, I want to be on it correctly from the start.</div>
           </div>
         </div>
         <div class="ask-row">
           <div class="ask-num">2</div>
           <div>
-            <div class="ask-text">Help me understand how to have the right conversation with Chase — what does he care most about right now in the Instant Rips growth motion?</div>
-            <div class="ask-sub">I've done my homework on the public signals, but you have context I don't.</div>
+            <div class="ask-text">What does Chase care about most right now in the Instant Rips growth motion? What would make a conversation with him immediately relevant vs. something he needs to be sold on?</div>
+            <div class="ask-sub">You have context on his priorities that I don't. Even one sentence about what he's currently focused on changes how I show up.</div>
           </div>
         </div>
         <div class="ask-row">
           <div class="ask-num">3</div>
           <div>
-            <div class="ask-text">If there's a next step, tell me what it is and what artifact would be most useful — a written role brief, a deck, a working session, something else.</div>
-            <div class="ask-sub">I'll build whatever is most useful for the conversation you need to have internally.</div>
+            <div class="ask-text">Tell me what artifact to build. A one-pager, a deck, a working session on a specific growth problem, something else. I'll produce whatever is most useful for the conversation you need to have with him internally.</div>
+            <div class="ask-sub">The deck from the Chris conversation is the current anchor — link below if useful.</div>
           </div>
         </div>
       </div>
@@ -197,38 +162,34 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <!-- GRACEFUL OFF-RAMPS -->
   <div>
     <div class="sl">Graceful off-ramps — circuit breakers for both sides</div>
-    <div class="ramp-card">
-      <div class="ramp-header">
-        <div class="ramp-title">If any of these are true, say so and we'll recalibrate — no friction, no awkwardness</div>
-      </div>
-      <div class="ramp-body">
+    <div class="card">
+      <div class="ramp-rows">
         <div class="ramp-row">
-          <div class="ramp-trigger" style="color:var(--gold);border:1px solid rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">TIMING</div>
-          <div class="ramp-text">Instant Rips is heads-down on a launch cycle and this isn't the right 6 weeks — I'd rather know that than burn a Chase intro at the wrong moment. Tell me when the window opens and I'll be there.</div>
+          <div class="ramp-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">WRONG TIMING</div>
+          <div class="ramp-text">If Instant Rips is heads-down on a launch cycle and this isn't the right 6 weeks, I'd rather know that than burn a Chase intro at the wrong moment. Tell me when the window opens.</div>
         </div>
         <div class="ramp-row">
-          <div class="ramp-trigger" style="color:var(--muted);border:1px solid var(--border);background:rgba(30,41,59,0.3)">SHAPE MISMATCH</div>
-          <div class="ramp-text">If what Zach's describing doesn't map to anything Chase would recognize as a gap he has, that's useful information. It means either the framing needs to change or the beachhead is different. Both are correctable.</div>
+          <div class="ramp-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">NO REQ</div>
+          <div class="ramp-text">If there's no req to attach this to right now, I'm not trying to manufacture one. I'd rather understand what would need to be true for a req to exist — is that a Chase decision, a Chris decision, or something else?</div>
         </div>
         <div class="ramp-row">
-          <div class="ramp-trigger" style="color:var(--muted);border:1px solid var(--border);background:rgba(30,41,59,0.3)">NO OPEN REQ</div>
-          <div class="ramp-text">If there's no req to attach this to and Talent can't move without one, I'd rather know the path to creating one than sit in a queue that doesn't exist. Who writes the req — Chase, Chris, or someone else?</div>
+          <div class="ramp-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">WRONG SHAPE</div>
+          <div class="ramp-text">If what I'm describing doesn't map to anything Chase would recognize as a gap, that's the most useful thing you could tell me. It means either the framing needs to change or the beachhead is different — both correctable before a Chase conversation, not after.</div>
         </div>
         <div class="ramp-row">
-          <div class="ramp-trigger" style="color:var(--cyan);border:1px solid rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">BETTER FIT</div>
-          <div class="ramp-text">If there's a different BU or function that maps better — Trading Cards, Live Commerce, something else in the Fanatics family — I'm genuinely open to that conversation. The goal is to find the highest-leverage place to land, not to force a specific title.</div>
+          <div class="ramp-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">DIFFERENT BU</div>
+          <div class="ramp-text">If there's a stronger fit somewhere else in the Fanatics family — Trading Cards, Live Commerce, authenticated merch — I'm genuinely open to starting there instead. The goal is the highest-leverage landing, not a specific title at a specific BU.</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- FORWARD CTA -->
+  <!-- FORWARD TO CHASE -->
   <div class="forward-block">
-    <div class="forward-label">Easy Forward to Chase</div>
-    <div class="forward-name">Chase / Instant Rips GM</div>
-    <div class="forward-role">Hiring Manager · Fanatics Collectibles</div>
-    <div class="forward-line">The deck Zach sent Chris is the anchor — it lays out the intelligence layer function and the 90-day beachhead at Instant Rips in detail. If you forward this with a one-liner ("the receipt system / growth intel layer Chris mentioned — worth 20 min"), that's everything Chase needs to decide if it's worth a call.</div>
-    <a class="forward-link" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview">VIEW DECK →</a>
+    <div class="fwd-label">If you want to forward this to Chase — suggested one-liner</div>
+    <div class="fwd-suggested">"Chris intro'd Zach Harris — he has some interesting thinking on what a growth intelligence function at Instant Rips could look like. Worth 20 minutes."</div>
+    <div class="fwd-text">The full brief for Chase is at the link below — it leads with the Instant Rips gap, not with Zach's background. It's designed to be forwarded as-is.</div>
+    <a class="fwd-link" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview">CHASE BRIEF →</a>
   </div>
 
 </div>
