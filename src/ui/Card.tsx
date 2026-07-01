@@ -27,9 +27,9 @@ export function Card({ accent, padding = 'default', style, children, ...props }:
         boxShadow: `inset 0 1px 0 ${accent}80, inset 0 -11px 17px -11px ${accent}55, 0 0 12px ${accent}26, 0 5px 16px rgba(0,0,0,.5)`,
       }
     : {
-        border: '1px solid #243042',
+        border: '1px solid #1c2738',
         background: 'linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, #11181f, #0a1016)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,.10), inset 0 -2px 8px rgba(0,0,0,.5), 0 5px 16px rgba(0,0,0,.45)',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,.04), inset 0 -2px 8px rgba(0,0,0,.4)',
       }
 
   return (
