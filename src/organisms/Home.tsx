@@ -93,7 +93,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           <h1 style={{ fontFamily: font.sans, fontSize: 'clamp(1.85rem, 10.5cqw, 2.1rem)', fontWeight: 600, lineHeight: 1.1, color: text.primary, margin: '0 0 1.25rem', letterSpacing: '-0.025em' }}>
             What are you really<br />trying to decide?
           </h1>
-          <p style={{ fontFamily: font.sans, fontSize: '1rem', color: text.secondary, lineHeight: 1.85, margin: '0 0 1.75rem' }}>
+          <p style={{ fontFamily: font.sans, fontSize: '1.125rem', color: text.secondary, lineHeight: 1.75, margin: '0 0 1.75rem' }}>
             Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
@@ -111,7 +111,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           </div>
           <div
             title={d.decision}
-            style={{ fontFamily: font.sans, fontSize: '0.875rem', color: text.primary, marginBottom: '1rem', lineHeight: 1.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+            style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.primary, marginBottom: '1rem', lineHeight: 1.5, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
           >
             {d.decision}
           </div>
@@ -178,8 +178,8 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
               <div style={{ display: 'grid', gridTemplateColumns: '44px 1fr', gap: '1.25rem', alignItems: 'baseline', padding: '1.1rem 0' }}>
                 <div style={{ fontFamily: font.mono, fontSize: '0.75rem', color: signal.cyan, fontWeight: 700, letterSpacing: '0.1em' }}>{step.n}</div>
                 <div>
-                  <div style={{ fontFamily: font.sans, fontSize: '0.95rem', fontWeight: 600, color: text.primary, marginBottom: '0.3rem' }}>{step.title}</div>
-                  <div style={{ fontFamily: font.sans, fontSize: '0.85rem', color: text.dimmed, lineHeight: 1.65 }}>{step.body}</div>
+                  <div style={{ fontFamily: font.sans, fontSize: '1.05rem', fontWeight: 600, color: text.primary, marginBottom: '0.3rem' }}>{step.title}</div>
+                  <div style={{ fontFamily: font.sans, fontSize: '0.95rem', color: text.dimmed, lineHeight: 1.65 }}>{step.body}</div>
                 </div>
               </div>
             </div>
