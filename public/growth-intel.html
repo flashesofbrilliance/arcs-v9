@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Growth Intelligence — Zach Harris</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 100px; }
+.page { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+
+/* COVER */
+.cover { padding: 48px 40px 40px; text-align: center; position: relative; overflow: hidden; }
+.cover::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), var(--green), transparent); opacity: 0.5; }
+.cover-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
+.cover-title { font-family: var(--sans); font-size: 36px; font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 12px; }
+.cover-sub { font-family: var(--sans); font-size: 16px; color: var(--muted); line-height: 1.6; max-width: 520px; margin: 0 auto 24px; }
+.cover-author { font-family: var(--mono); font-size: 11px; color: var(--dimmed); letter-spacing: 0.08em; }
+
+/* PROBLEM */
+.problem-text { font-family: var(--sans); font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.65; letter-spacing: -0.01em; padding: 28px 32px; }
+.problem-highlight { color: var(--cyan); }
+
+/* TWO-COL GRID */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.col-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px 24px; }
+.col-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.col-title { font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
+.col-body { font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* FUNCTION ROWS */
+.fn-rows { display: flex; flex-direction: column; }
+.fn-row { display: flex; align-items: flex-start; gap: 16px; padding: 16px 24px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.fn-row:last-child { border-bottom: none; }
+.fn-verb { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; width: 60px; flex-shrink: 0; padding-top: 2px; }
+.fn-body { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.6; }
+
+/* ARC STEPS */
+.arc-steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; }
+.arc-step { padding: 22px 20px; border-right: 1px solid var(--border); }
+.arc-step:last-child { border-right: none; }
+.arc-n { font-family: var(--mono); font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+.arc-phase { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; }
+.arc-items { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+/* NOT ROWS */
+.not-rows { display: flex; flex-direction: column; }
+.not-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 24px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.not-row:last-child { border-bottom: none; }
+.not-x { font-family: var(--mono); font-size: 11px; color: var(--red); flex-shrink: 0; margin-top: 1px; }
+.not-text { font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+/* WHY */
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.why-cell { padding: 20px 24px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.why-cell:nth-child(2n) { border-right: none; }
+.why-cell:nth-last-child(-n+2) { border-bottom: none; }
+.why-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.why-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.6; }
+
+/* CTA */
+.cta { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 32px 36px; text-align: center; position: relative; overflow: hidden; }
+.cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.5; }
+.cta-text { font-family: var(--sans); font-size: 17px; color: var(--text); line-height: 1.6; margin-bottom: 22px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.cta-link { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: var(--cyan); border: 1px solid rgba(0,240,255,0.3); padding: 9px 22px; border-radius: 6px; text-decoration: none; margin-bottom: 22px; }
+.cta-sub { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- COVER -->
+  <div class="card cover">
+    <div class="cover-eyebrow">Pitch Deck · Zach Harris</div>
+    <div class="cover-title">Growth Intelligence</div>
+    <div class="cover-sub">A forward-deployed function that turns every drop, live event, and campaign into compounding organizational learning — instead of a one-time spike and a forgotten post-mortem.</div>
+    <div class="cover-author">PREPARED FOR FANATICS COLLECTIBLES · JUL 2026</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <!-- THE PROBLEM -->
+  <div>
+    <div class="sl">The problem worth solving</div>
+    <div class="card">
+      <div class="problem-text">Every drop at Instant Rips generates learning. <span class="problem-highlight">Right now, most of that learning dies.</span> It lives in someone's head, a Slack thread, or a post-launch debrief that nobody reads before the next one. At the speed Fanatics is growing, that's not a process gap — it's a compounding tax on every decision the growth org makes.</div>
+    </div>
+  </div>
+
+  <!-- CURRENT STATE vs WITH THIS FUNCTION -->
+  <div>
+    <div class="sl">Current state vs. with this function</div>
+    <div class="two-col">
+      <div class="col-card" style="border-color:rgba(255,77,109,0.2);">
+        <div class="col-label" style="color:var(--red);">Without</div>
+        <div class="col-body">Each BU runs its own playbook in isolation. What Trading Cards learns about price sensitivity doesn't reach Live Commerce before they test the same thing. What Instant Rips learned from the last three drops isn't structured in a way that Chase can hand to a new hire in week one. Learning compounds inside individuals, not inside the org.</div>
+      </div>
+      <div class="col-card" style="border-color:rgba(0,255,157,0.2);">
+        <div class="col-label" style="color:var(--green);">With</div>
+        <div class="col-body">Every campaign, drop, and live event produces a structured record: what was predicted, what happened, and why. Those records cross-reference across BUs. A new Instant Rips hire can see every relevant precedent in 20 minutes. A decision that was a coin-flip last quarter is a data-backed call this quarter. The org gets smarter faster than the headcount grows.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THE FUNCTION -->
+  <div>
+    <div class="sl">What the function actually is</div>
+    <div class="card">
+      <div class="fn-rows">
+        <div class="fn-row">
+          <div class="fn-verb" style="color:var(--cyan);">Owns</div>
+          <div class="fn-body">The institutional memory layer for the growth org. Pre-decision framing, post-decision capture, cross-BU pattern recognition. Not a reporting layer — a decision-support layer.</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-verb" style="color:var(--green);">Builds</div>
+          <div class="fn-body">Lightweight AI-assisted workflows that turn operational data into structured decisions — not dashboards that summarize what already happened, but instruments that sharpen what happens next.</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-verb" style="color:var(--gold);">Delivers</div>
+          <div class="fn-body">A compounding advantage: the faster the growth org moves, the more learning it captures, and the sharper each subsequent decision gets. Speed and rigor compound instead of trading off against each other.</div>
+        </div>
+        <div class="fn-row">
+          <div class="fn-verb" style="color:var(--muted);">Is not</div>
+          <div class="fn-body">A BI function. Not analytics. Not a COE that sets policy. Not a layer of process that slows GMs down. The GMs run their businesses — this function makes the learning from those businesses work harder.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 90-DAY ARC -->
+  <div>
+    <div class="sl">90-day arc</div>
+    <div class="card">
+      <div class="arc-steps">
+        <div class="arc-step">
+          <div class="arc-n" style="color:var(--cyan);">01</div>
+          <div class="arc-phase" style="color:var(--cyan);">Discovery · Days 1–30</div>
+          <div class="arc-items">Map the actual decision anatomy at Instant Rips. Where does learning die? What decisions get made without it? What's the highest-leverage place to start capturing?</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-n" style="color:var(--gold);">02</div>
+          <div class="arc-phase" style="color:var(--gold);">First Brief · Days 31–60</div>
+          <div class="arc-items">Produce the first structured audit brief on a real Instant Rips campaign or drop. Show what captured learning looks like in practice — not as a concept, as a tool Chase and his team actually use.</div>
+        </div>
+        <div class="arc-step">
+          <div class="arc-n" style="color:var(--green);">03</div>
+          <div class="arc-phase" style="color:var(--green);">Propagate · Days 61–90</div>
+          <div class="arc-items">Cross-reference Instant Rips findings with at least one adjacent BU. Surface the first cross-domain pattern. Start building the case for what this looks like at the org level.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY ZACH -->
+  <div>
+    <div class="sl">Why Zach</div>
+    <div class="card">
+      <div class="why-grid">
+        <div class="why-cell">
+          <div class="why-label">Built this system</div>
+          <div class="why-text">ARCS is a decision intelligence platform Zach built from scratch — it's not a side project. The structured decision-capture workflow at the core of this pitch is the same system that produced the brief you're reading.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-label">Operated at this altitude</div>
+          <div class="why-text">Cross-functional leadership in high-growth environments where decisions moved faster than process could keep up. Not a consultant who studied this — someone who lived in the gap and built tools to close it.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-label">Distinct ideas, not a template</div>
+          <div class="why-text">Chris's framing was "looking for people with distinct ideas about what they want to do next." The function described here isn't a job description being filled — it's a hypothesis about where the highest leverage is at Fanatics right now.</div>
+        </div>
+        <div class="why-cell">
+          <div class="why-label">Starts fast</div>
+          <div class="why-text">No ramp required on the tools. Claude, ChatGPT, Glean, Notion — the stack is already live at Fanatics. The 30-day discovery phase produces a real artifact, not a listening tour that produces a presentation about listening.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-text" style="margin-bottom:18px;">20 minutes to find out if the gap I'm describing is the gap you're feeling.</div>
+    <a class="cta-link" href="https://chase-intro.arcs.care/">READ THE CHASE BRIEF →</a>
+    <div class="cta-sub">ZACH HARRIS · ZACH.HARRIS@GMAIL.COM · NOT FOR PUBLIC DISTRIBUTION</div>
+  </div>
+
+</div>
+</body>
+</html>
