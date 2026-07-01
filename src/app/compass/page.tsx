@@ -55,8 +55,9 @@ function CompassInner() {
           </p>
 
           {sent ? (
-            <div style={{ padding: "1rem", border: `1px solid ${signal.green}`, borderRadius: 8, color: signal.green, fontSize: "0.85rem", fontFamily: font.sans, lineHeight: 1.5 }}>
-              Check your email — magic link sent to <strong>{email}</strong>.
+            <div style={{ paddingLeft: "1rem", borderLeft: `2px solid ${signal.cyan}`, marginTop: "0.5rem" }}>
+              <div style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: text.muted, marginBottom: "0.35rem" }}>Link sent</div>
+              <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.primary, lineHeight: 1.5 }}>Check your email — sent to <span style={{ color: signal.cyan }}>{email}</span></div>
             </div>
           ) : (
             <form onSubmit={handleMagicLink} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
