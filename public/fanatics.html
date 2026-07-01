@@ -70,6 +70,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 @keyframes node-ring { 0% { box-shadow: 0 0 10px var(--nc), 0 0 0 0 color-mix(in srgb, var(--nc) 50%, transparent); } 70% { box-shadow: 0 0 10px var(--nc), 0 0 0 10px transparent; } 100% { box-shadow: 0 0 10px var(--nc), 0 0 0 0 transparent; } }
 .beat.fired:not(.pending) .beat-node { animation: node-ring 2.5s ease-out infinite; }
 
+/* BEAT-05 TARGET — red LED flash + card breathe glow */
+@keyframes led-flash { 0%,100% { background:rgba(255,77,109,0.06); border-color:rgba(255,77,109,0.4); box-shadow:0 0 4px rgba(255,77,109,0.2); } 50% { background:rgba(255,77,109,0.35); border-color:var(--red); box-shadow:0 0 14px 2px rgba(255,77,109,0.55); } }
+@keyframes target-breathe { 0%,100% { box-shadow:none; border-color:rgba(255,77,109,0.18); } 50% { box-shadow:0 0 28px -6px rgba(255,77,109,0.28), inset 0 0 40px -28px rgba(255,77,109,0.1); border-color:rgba(255,77,109,0.45); } }
+#beat-05.fired .beat-node { animation: led-flash 1.4s ease-in-out infinite !important; border-color:var(--red) !important; background:rgba(255,77,109,0.1); }
+#beat-05.fired .beat-card { animation: target-breathe 2.2s ease-in-out infinite; border-color:rgba(255,77,109,0.22); }
+#beat-05 .beat-card { opacity:1 !important; }
+
 .beat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.4s ease; }
 .beat.fired:not(.pending) .beat-card { border-color: color-mix(in srgb, var(--nc, var(--border)) 25%, var(--border)); }
 .beat.pending .beat-card { opacity: 0.5; }
@@ -258,7 +265,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         <div class="beat-head">
           <span class="beat-num">02</span>
           <span class="beat-name">THE STUNT</span>
-          <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">TRANSMISSION</span>
+          <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);letter-spacing:0.08em">SIGNAL INTERRUPT&nbsp;—&nbsp;TRANSMISSION DECODED</span>
           <span class="beat-date">Jun 25–26, 2026</span>
         </div>
         <div class="beat-body">
@@ -445,15 +452,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       <div class="connector-label">Gate: Chase intro · brief ready · first move Jul 7</div>
     </div>
 
-    <!-- BEAT 05: CHASE INTRO — PENDING -->
-    <div class="beat pending" id="beat-05" style="--nc: var(--muted)">
-      <div class="beat-node" style="border-color:var(--border)"></div>
+    <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
+    <div class="beat" id="beat-05" style="--nc: var(--red)">
+      <div class="beat-node" style="border-color:rgba(255,77,109,0.5)"></div>
       <div class="beat-card">
         <div class="beat-head">
           <span class="beat-num">05</span>
-          <span class="beat-name" style="color:var(--muted)">CHASE INTRO</span>
-          <span class="beat-tag" style="color:var(--muted);border-color:var(--border);background:transparent">INCOMING</span>
-          <span class="beat-date">→ Jul 7</span>
+          <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
+          <span class="beat-tag" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06)">TARGET</span>
+          <span class="beat-date" style="color:rgba(255,77,109,0.7)">→ Jul 7</span>
         </div>
         <div class="beat-body">
           <div class="beat-effect" style="margin-bottom:0">Intro to Chase Crawford (GM, Instant Rips) via CJ and/or Chris. This is the beachhead gate. Brief at chase-intro.arcs.care. Calendar link live. First move: Mon Jul 7.</div>
@@ -567,12 +574,33 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 </div>
 
 <script>
-// Scroll-triggered beat animations
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('fired') });
-}, { threshold: 0.12 });
+// Sequential circuit — inchworm forward from T0 to TNow
+// Each beat fires only after the previous animation completes.
+// Beat-06 (horizon) stays unlit — beyond the current signal edge.
+const SEQUENCE = ['beat-01','beat-02','beat-03','beat-04','beat-05'];
+const STEP_MS = 620; // slightly longer than the 0.55s CSS transition
 
-document.querySelectorAll('.beat').forEach(b => observer.observe(b));
+let sequenceStarted = false;
+
+function fireSequence(idx) {
+  if (idx >= SEQUENCE.length) return;
+  const el = document.getElementById(SEQUENCE[idx]);
+  if (el) el.classList.add('fired');
+  setTimeout(() => fireSequence(idx + 1), STEP_MS);
+}
+
+const trigger = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && !sequenceStarted) {
+      sequenceStarted = true;
+      trigger.disconnect();
+      fireSequence(0);
+    }
+  });
+}, { threshold: 0.08 });
+
+const first = document.getElementById('beat-01');
+if (first) trigger.observe(first);
 
 // Toggle detail expand
 function toggleDetail(toggle) {
