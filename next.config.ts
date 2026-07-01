@@ -25,7 +25,18 @@ const nextConfig: NextConfig = {
   // the real page route is matched first and the rewrite was already dead/unreachable code.
   // Removed for clarity rather than left as misleading dead config.
   async rewrites() {
-    return [{ source: "/compass-kit", destination: "/compass-kit/index.html" }];
+    return {
+      beforeFiles: [
+        // cj-brief.arcs.care → public/cj-brief.html
+        { source: "/:path*", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
+        // chase-intro.arcs.care → public/chase-intro.html
+        { source: "/:path*", destination: "/chase-intro.html", has: [{ type: "host", value: "chase-intro.arcs.care" }] },
+      ],
+      afterFiles: [
+        { source: "/compass-kit", destination: "/compass-kit/index.html" },
+      ],
+      fallback: [],
+    };
   },
 };
 
