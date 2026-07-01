@@ -626,6 +626,7 @@ function switchTab(id) {
   document.getElementById('tab-' + id).classList.add('active');
   document.getElementById('post-datestamp').style.display = id === 'post' ? 'block' : 'none';
 }
+if (window.location.hash === '#debrief') { switchTab('post'); }
 function toggleVariant(el) {
   const body = el.querySelector('.variant-body');
   const tag = el.querySelector('.variant-tag');

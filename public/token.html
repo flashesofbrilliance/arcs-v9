@@ -105,9 +105,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <!-- DEPTH TOGGLE -->
   <div style="display:flex;gap:6px;align-items:center;">
     <span style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-right:4px;">View</span>
-    <button id="d-simple" onclick="setDepth('simple')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--cyan);background:rgba(0,240,255,0.12);color:var(--cyan);cursor:pointer;">SIMPLE</button>
-    <button id="d-rich" onclick="setDepth('rich')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">RICH</button>
-    <button id="d-deep" onclick="setDepth('deep')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">DEEP</button>
+    <button id="d-simple" onclick="setDepth('simple')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--cyan);background:rgba(0,240,255,0.12);color:var(--cyan);cursor:pointer;">ULTRACONDENSED</button>
+    <button id="d-rich" onclick="setDepth('rich')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">CONDENSED</button>
+    <button id="d-deep" onclick="setDepth('deep')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">EXPANDED</button>
   </div>
 
   <div class="rule-glow"></div>
@@ -294,7 +294,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <!-- S5: THE ARC — rich + deep -->
   <div class="d-rich d-deep">
-    <div class="sl-row"><span class="sl">The engagement arc</span><span class="rt">6 beats, first signal to TEI</span></div>
+    <div class="sl-row"><span class="sl">The engagement arc</span><span class="rt">7 beats, first signal to TEI</span></div>
     <div style="display:flex;flex-direction:column;gap:0;">
 
       <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
@@ -323,7 +323,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
         <div style="display:flex;flex-direction:column;align-items:center;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,255,157,0.06);border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);flex-shrink:0;">03</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,77,109,0.08);border:1.5px solid var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;">03</div>
+          <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
+        </div>
+        <div style="padding-bottom:18px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:3px;">CJ BRIEF</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">Talent gate — CJ Masopust, Head of Talent</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">Pre-call alignment with CJ before Chase. She knows the org, the hiring mandate, and where this role fits. Her signal gates the path to Chase. <span style="color:var(--red);">cj-brief.arcs.care</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,255,157,0.06);border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);flex-shrink:0;">04</div>
           <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
         </div>
         <div style="padding-bottom:18px;">
@@ -335,7 +347,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
         <div style="display:flex;flex-direction:column;align-items:center;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.06);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">04</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.06);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">05</div>
           <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
         </div>
         <div style="padding-bottom:18px;">
@@ -347,7 +359,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
         <div style="display:flex;flex-direction:column;align-items:center;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,240,255,0.1);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);flex-shrink:0;">05</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,240,255,0.1);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);flex-shrink:0;">06</div>
           <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
         </div>
         <div style="padding-bottom:18px;">
@@ -359,7 +371,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
         <div style="display:flex;flex-direction:column;align-items:center;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.08);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">06</div>
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.08);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">07</div>
         </div>
         <div style="padding-bottom:8px;">
           <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--gold);margin-bottom:3px;">TEI BOOK</div>
@@ -409,7 +421,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div style="display:flex;flex-direction:column;gap:6px;">
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:0;">
           <div style="padding:12px 14px;border-right:1px solid var(--border);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
             <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"We already have data teams."</div>
@@ -422,7 +434,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:0;">
           <div style="padding:12px 14px;border-right:1px solid var(--border);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
             <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"No bandwidth for a new system."</div>
@@ -435,7 +447,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:0;">
           <div style="padding:12px 14px;border-right:1px solid var(--border);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
             <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"What's the measurable ROI?"</div>
@@ -448,7 +460,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:0;">
           <div style="padding:12px 14px;border-right:1px solid var(--border);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
             <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"What happens after 90 days?"</div>
@@ -461,7 +473,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="display:grid;grid-template-columns:1fr 2fr;gap:0;">
           <div style="padding:12px 14px;border-right:1px solid var(--border);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
             <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"Why not just hire a VP of Growth?"</div>
