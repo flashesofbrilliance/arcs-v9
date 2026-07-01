@@ -12,6 +12,21 @@
   },
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/token.html",
+      "has": [{"type": "host", "value": "token.arcs.care"}]
+    },
+    {
+      "source": "/",
+      "destination": "/cj-brief.html",
+      "has": [{"type": "host", "value": "cj-brief.arcs.care"}]
+    },
+    {
+      "source": "/",
+      "destination": "/resume.html",
+      "has": [{"type": "host", "value": "resume.arcs.care"}]
+    },
+    {
       "source": "/resume",
       "destination": "/resume.html"
     }
