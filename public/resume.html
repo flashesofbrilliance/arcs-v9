@@ -439,9 +439,10 @@ const ROLES = [
     dates:'2025–Present', role:'Founder',
     summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and compounding feedback loops that make each subsequent decision measurably sharper.',
     metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
+    compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units — and what\'s the right first wedge to prove the model?',
     bullets:[
       { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
-      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise — same tools confirmed in production at Fanatics', v:['all','figma'] },
+      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
       { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions — compounding institutional memory', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy — breadth is the product', v:['all'] },
     ] },
@@ -449,6 +450,7 @@ const ROLES = [
     dates:'2024–2025', role:'Product Lead, Go-To-Market',
     summary:'Cross-BU growth intelligence layer for 10 regulated investment products across $7B AUM. Behavioral event taxonomy, personalization data model, and lifecycle/CRM strategy for investor portal at SEC/FINRA compliance.',
     metric:'$7B', metricLabel:'AUM ACROSS INSTRUMENTED PRODUCTS',
+    compassPrompt:'How do you build behavioral instrumentation for ten regulated investment products where a single taxonomy error becomes a compliance incident — and what does the governance architecture look like before you touch the first event?',
     bullets:[
       { t:'Architected cross-product growth intelligence layer: CDP, behavioral event taxonomy, segmentation schema, and personalization data model across 10 regulated products', v:['all','ds'] },
       { t:'Led lifecycle/CRM strategy — behavioral signals → content recommendations; AI-driven personalization with measurable engagement lift', v:['all','figma'] },
@@ -459,6 +461,7 @@ const ROLES = [
     dates:'2018–2019', role:'Sr. Director, Data & CRM Strategy',
     summary:'Enterprise growth intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation engine across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.',
     metric:'20%', metricLabel:'NET-NEW REVENUE VIA DATA PERSONALIZATION',
+    compassPrompt:'When a mission-driven org needs to shift from intuition-led to data-led fundraising, what\'s the right sequence — and how do you get program teams to act on the signal before the next campaign launches?',
     bullets:[
       { t:'Built enterprise growth intelligence infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation', v:['all','ds'] },
       { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units — first intelligence layer any of these teams had', v:['all','ds'] },
@@ -468,6 +471,7 @@ const ROLES = [
     dates:'2016–2018', role:'Product & Partnerships Lead',
     summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue from first social distribution partnerships.',
     metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
+    compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously — what does the pre/post-event capture loop look like?',
     bullets:[
       { t:'Led CDP evaluation and selection for global consumer sports platform; built real-time fan behavior scoring at <120ms — personalized offers served during live events', v:['all','ds'] },
       { t:'Designed first commercial partnerships with Twitter and Facebook — behavioral data flows, attribution models, event-driven revenue; $850K+ year-one', v:['all','figma'] },
@@ -592,7 +596,7 @@ function GrainResume() {
         Growth intelligence executive and system builder with a decade across creative, tech, marketing,
         data, and commercial — in sports, finance, health, and consumer. Builds the institutional memory
         layer: structured pre-decision framing, honest post-decision capture, cross-domain pattern
-        recognition. Currently: ARCS, a decision intelligence platform on the same AI stack Fanatics runs.
+        recognition. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
       </p>
 
       {/* Thin cyan gradient rule — the one graphic element */}
@@ -741,6 +745,18 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
                       <span style={{ fontFamily:T.sans, fontSize:12.5, lineHeight:1.6, color:T.fg1 }}>{b.t}</span>
                     </div>
                   ))}
+                  {r.compassPrompt && (
+                    <div style={{ marginTop:14, padding:'10px 12px', borderRadius:7,
+                      background:'rgba(255,255,255,.025)', border:'1px solid rgba(255,255,255,.07)' }}>
+                      <div style={{ fontFamily:T.mono, fontSize:8, fontWeight:700, letterSpacing:'0.12em',
+                        textTransform:'uppercase', color:T.fg4, marginBottom:5 }}>COMPASS SIGNAL</div>
+                      <div style={{ fontFamily:T.mono, fontSize:11, color:T.fg3, lineHeight:1.6,
+                        fontStyle:'italic', marginBottom:8 }}>"{r.compassPrompt}"</div>
+                      <a href="https://app.arcs.care/dashboard" target="_blank" rel="noopener"
+                        style={{ fontFamily:T.mono, fontSize:9, color:r.color, letterSpacing:'0.06em',
+                          textDecoration:'none', opacity:0.7 }}>→ run through compass</a>
+                    </div>
+                  )}
                 </div>
               ) : null}
               onClick={() => toggle(r.id)}>
@@ -950,7 +966,7 @@ function DeepScan() {
               boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)',
               border:'1px solid rgba(255,255,255,.06)' }}>
               <span style={{ fontFamily:T.mono, fontSize:8, color:T.cyan, letterSpacing:'0.08em',
-                textTransform:'uppercase', marginRight:6 }}>FANATICS ▲</span>
+                textTransform:'uppercase', marginRight:6 }}>WHY IT MATTERS ▲</span>
               <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.fanatics}</span>
             </div>
           </div>
@@ -959,7 +975,7 @@ function DeepScan() {
 
       {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
       <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
-        Every other candidate for this role will have depth in one lane — analytics, or marketing, or product, or tech. The unusual thing here is genuine breadth: creative, tech, business, marketing, sales, and security coexisting in one person who can operate at VP level and do the work. Add AI-native on the actual stack Fanatics runs, sports fan monetization experience that's directly isomorphic to Rips, and a working decision intelligence platform built from scratch — and the day-one questions aren't about onboarding. They're about what the pattern in the drop data is already telling us.
+        Every other candidate for this role will have depth in one lane — analytics, or marketing, or product, or tech. The unusual thing here is genuine breadth: creative, tech, business, marketing, sales, and security coexisting in one person who can operate at VP level and do the work. Add AI-native on Claude and ChatGPT Enterprise, sports fan monetization experience that's directly isomorphic to live commerce drops, and a working decision intelligence platform built from scratch — and the day-one questions aren't about onboarding. They're about what the pattern in the data is already telling us.
       </TrueNorthPanel>
 
     </div>
@@ -1020,7 +1036,7 @@ function Resume() {
               Zach Harris
             </h1>
             <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
-              Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris
+              Fairfield, CT  ·  <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>LinkedIn.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>
           </div>
           {/* True North */}
@@ -1067,122 +1083,18 @@ function Resume() {
       <div style={{ marginTop:28, padding:'14px 16px', borderRadius:10, border:`1px solid ${T.border}`,
         background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
         display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
-        <div style={{ fontFamily:T.sans, fontSize:13, color:T.fg2 }}>
-          For the Head of Growth Intelligence role at Fanatics Collectibles.{' '}
-          <span style={{ color:T.cyan, fontFamily:T.mono, fontSize:11 }}>Zach.Harris@Gmail.com</span>
-          <span style={{ color:T.fg4, fontSize:11 }}> · 203·807·2976</span>
+        <div style={{ fontFamily:T.mono, fontSize:11, color:T.fg3, lineHeight:1.6 }}>
+          <span style={{ color:T.fg2 }}>Zach Harris</span>
+          <span style={{ color:T.fg4 }}> · Fairfield, CT</span>
         </div>
-        <a href="mailto:Zach.Harris@Gmail.com"
-          onClick={(e) => {
-            e.preventDefault();
-            const send = (subject) => { window.location.href = 'mailto:Zach.Harris@Gmail.com?subject=' + encodeURIComponent(subject); };
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (pos) => send('Transmitting from: ' + pos.coords.latitude.toFixed(4) + ', ' + pos.coords.longitude.toFixed(4)),
-                () => send('Transmitting from: location unavailable'),
-                { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
-              );
-            } else {
-              send('Transmitting from: location unavailable');
-            }
-          }}
+        <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener"
           style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:7,
             fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.05em', color:'#071014',
             background:`linear-gradient(135deg,${T.cyan},#00c8d4)`,
-            boxShadow:`0 0 14px ${T.cyan}44, 0 4px 10px rgba(0,0,0,.4)` }}>
-          ◈ SEND BEARING
+            boxShadow:`0 0 14px ${T.cyan}44, 0 4px 10px rgba(0,0,0,.4)`,
+            textDecoration:'none' }}>
+          ◈ BOOK 30 MIN
         </a>
-      </div>
-
-      {/* ATS download — generates self-contained HTML file, not lazy print */}
-      <div className="no-print" style={{ marginTop:32, display:'flex', justifyContent:'center', gap:10 }}>
-        <button type="button" onClick={() => {
-          const roles = [
-            { co:'ARCS — Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
-              bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI pipeline (Claude + MCP), compounding feedback loop','60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture','AI-native on Claude + MCP — same stack Fanatics has in production'] },
-            { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
-              bullets:['Architected CDP and personalization data model for 10 regulated investment products ($7B AUM)','Behavioral event taxonomy and instrumentation layer; 35% release cycle reduction; zero SEC/FINRA violations'] },
-            { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
-              bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition','Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
-            { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
-              bullets:['Enterprise CDP and CRM strategy; segmentation engine across marketing, fundraising, and clinical ops','20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
-            { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018',
-              bullets:['Real-time fan behavior forecasting infrastructure at <120ms latency; CDP selection for global sports platform','$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook)'] },
-          ];
-          const html = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Zachary Harris — Resume</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{background:#fff;color:#111;font-family:'Inter',system-ui,sans-serif}
-body{max-width:760px;margin:0 auto;padding:0.7in 0.6in}
-h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;color:#111;line-height:1}
-.rule{height:1px;background:linear-gradient(90deg,#007A8A,transparent);margin:12px 0 20px;width:55%}
-.contact{font-family:'JetBrains Mono',monospace;font-size:9px;color:#666;letter-spacing:0.06em;margin-top:8px}
-.title{font-size:12px;color:#444;margin-top:5px}
-.summary{font-size:13px;color:#333;line-height:1.75;margin-bottom:24px;max-width:680px}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#888;margin-bottom:16px}
-.role{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid #eee}
-.role-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px}
-.role-co{font-size:13.5px;font-weight:600;color:#111;letter-spacing:-0.01em}
-.role-dates{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;letter-spacing:0.06em}
-.role-title{font-size:11.5px;color:#666;margin-bottom:6px}
-.role-metrics{font-family:'JetBrains Mono',monospace;font-size:9px;color:#007A8A;letter-spacing:0.07em;margin-bottom:9px}
-.bullet{display:flex;gap:10px;margin-bottom:4px}
-.bullet-dash{color:#007A8A88;font-size:11px;margin-top:1px;flex-shrink:0}
-.bullet-text{font-size:12px;color:#333;line-height:1.6}
-.skills-row{display:flex;gap:16px;align-items:baseline;margin-bottom:7px}
-.skills-label{font-family:'JetBrains Mono',monospace;font-size:8.5px;font-weight:700;color:#888;letter-spacing:0.08em;text-transform:uppercase;flex-shrink:0;min-width:116px}
-.skills-val{font-size:12px;color:#444;line-height:1.55}
-.edu-row{display:inline-flex;gap:36px;flex-wrap:wrap}
-.edu-inst{font-size:12.5px;font-weight:600;color:#111}
-.edu-deg{font-size:12.5px;color:#666}
-.edu-yr{font-family:'JetBrains Mono',monospace;font-size:9px;color:#999;margin-left:10px}
-.divider{height:1px;background:linear-gradient(90deg,#ddd,transparent);margin:18px 0 16px}
-@media print{body{padding:0.5in 0.6in;font-size:11px}}
-</style></head><body>
-<h1>Zach Harris</h1>
-<div class="contact">Fairfield, CT  ·  203·807·2976  ·  Zach.Harris@Gmail.com  ·  LinkedIn.com/in/zharris</div>
-<div class="title">Head of Growth Intelligence  ·  System Builder  ·  AI-Native Operator</div>
-<div class="rule"></div>
-<p class="summary">Growth intelligence executive and system builder with a decade across creative, tech, marketing, data, and commercial — in sports, finance, health, and consumer. Builds the institutional memory layer: structured pre-decision framing, honest post-decision capture, cross-domain pattern recognition. Currently: ARCS, a decision intelligence platform on the same AI stack Fanatics runs.</p>
-<div class="section-label">Experience</div>
-${roles.map(r => `<div class="role">
-  <div class="role-header"><span class="role-co">${r.co}</span><span class="role-dates">${r.dates}</span></div>
-  <div class="role-title">${r.role}</div>
-  ${r.bullets.map(b => `<div class="bullet"><span class="bullet-dash">—</span><span class="bullet-text">${b}</span></div>`).join('')}
-</div>`).join('')}
-<div class="divider"></div>
-<div class="section-label">Technical Proficiency</div>
-<div class="skills-row"><span class="skills-label">Analytics & DS</span><span class="skills-val">SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling</span></div>
-<div class="skills-row"><span class="skills-label">Data Systems</span><span class="skills-val">Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems</span></div>
-<div class="skills-row"><span class="skills-label">AI &amp; Tools</span><span class="skills-val">Claude · ChatGPT Enterprise · MCP Server · Glean · Agentic AI pipelines · GitHub</span></div>
-<div class="skills-row"><span class="skills-label">Instrumentation</span><span class="skills-val">Event taxonomy · behavioral tracking · product telemetry · data quality · data governance</span></div>
-<div class="divider"></div>
-<div class="section-label">Education</div>
-<div class="edu-row">
-  <span><span class="edu-inst">Oberlin College</span><span class="edu-deg"> — BA, Honors Studio Art</span><span class="edu-yr">2002–2006</span></span>
-  <span><span class="edu-inst">MIT xPRO</span><span class="edu-deg"> — AI: Business Strategy</span><span class="edu-yr">Certificate</span></span>
-</div>
-</body></html>`;
-          const blob = new Blob([html], { type:'text/html' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'zach-harris-resume.html';
-          a.click();
-          URL.revokeObjectURL(a.href);
-        }}
-        style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 20px',
-          borderRadius:7, border:`1px solid ${T.border}`, background:'transparent',
-          fontFamily:T.mono, fontSize:10, fontWeight:700, letterSpacing:'0.08em',
-          color:T.fg3, cursor:'pointer', transition:'all .15s' }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor=T.cyan; e.currentTarget.style.color=T.cyan; }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor=T.border; e.currentTarget.style.color=T.fg3; }}>
-          ↓ ATS RESUME (.html)
-        </button>
       </div>
 
       {/* Footer */}
