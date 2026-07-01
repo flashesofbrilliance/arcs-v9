@@ -41,11 +41,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .signal-wire {
   position: absolute; left: 10px; top: 14px; bottom: 14px; width: 2px;
   background: linear-gradient(180deg,
-    rgba(0,255,157,0.9) 0%, rgba(0,255,157,0.7) 18%,
-    rgba(255,215,0,0.8) 22%, rgba(255,215,0,0.6) 38%,
-    rgba(0,240,255,0.8) 42%, rgba(0,240,255,0.7) 62%,
-    rgba(0,240,255,0.6) 66%, rgba(0,240,255,0.4) 76%,
-    rgba(30,41,59,0.8) 80%, rgba(30,41,59,0.3) 90%, transparent 100%
+    rgba(255,77,109,0.9) 0%, rgba(255,77,109,0.6) 16%,
+    rgba(0,240,255,0.7) 20%, rgba(0,240,255,0.6) 48%,
+    rgba(255,215,0,0.7) 52%, rgba(255,215,0,0.5) 68%,
+    rgba(0,255,157,0.7) 72%, rgba(0,255,157,0.9) 100%
   );
   animation: wire-breathe 4s ease-in-out infinite;
 }
@@ -161,93 +160,141 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 <div class="page">
 
   <!-- HEADER -->
-  <div style="margin-bottom:32px">
+  <div style="margin-bottom:24px">
     <div class="eyebrow">Skeleton Key · Fanatics Collectibles · Not for distribution</div>
     <div class="headline">The <em>chain reaction.</em></div>
-    <div class="sub">Full provenance from carrier signal to current position. Every reverberation, in sequence.</div>
+    <div class="sub">Current position first. Scroll down for full provenance.</div>
   </div>
 
-  <!-- WAVEFORM -->
+  <!-- CURRENT POSITION -->
+  <div class="position-block">
+    <div class="pos-label">◈ Current position — Post CJ · Jul 1, 2026</div>
+    <div class="pos-text">Role is real, CJ is an advocate, scope is right. Waiting on Chase intro. The one undefined gap is what happens after Chase — no process established between Chase, CJ, and Chris for how this closes.</div>
+    <div class="pos-sigs">
+      <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">Y-GATE: GREEN / HIGH / STABLE</span>
+      <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">NCI: 88</span>
+      <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">NEXT GATE: CHASE INTRO</span>
+    </div>
+  </div>
+
+  <!-- OPEN THREADS -->
+  <div class="sl">Open threads</div>
+  <div class="threads" style="margin-bottom:28px">
+    <div class="thread-row">
+      <div class="th-owner" style="color:var(--cyan)">Zach</div>
+      <div class="th-text">Reach out to Chase — send chase-intro.arcs.care once CJ makes the connect</div>
+      <div class="th-date">Jul 7</div>
+    </div>
+    <div class="thread-row">
+      <div class="th-owner" style="color:var(--gold)">CJ</div>
+      <div class="th-text">Circle back with Chris on role JD + interview process</div>
+      <div class="th-date">By Jul 9</div>
+    </div>
+    <div class="thread-row">
+      <div class="th-owner" style="color:var(--gold)">CJ</div>
+      <div class="th-text">Growth Plus One invite + Fan Fest check with Chris</div>
+      <div class="th-date">By Jul 11</div>
+    </div>
+    <div class="thread-row">
+      <div class="th-owner" style="color:var(--muted)">TBD</div>
+      <div class="th-text">Process after Chase — escalation path if Chase non-responsive undefined</div>
+      <div class="th-date">Open</div>
+    </div>
+    <div class="thread-row">
+      <div class="th-owner" style="color:var(--muted)">TBD</div>
+      <div class="th-text">JD + comp band — verbal only; formal spec being built with the hire</div>
+      <div class="th-date">3–4 wks</div>
+    </div>
+  </div>
+
+  <!-- ALL SURFACES -->
+  <div class="sl" style="margin-bottom:12px">All surfaces</div>
+  <div class="nav-grid" style="margin-bottom:36px">
+    <a class="nav-card" href="https://cj-brief.arcs.care/" target="_blank" rel="noopener">
+      <div class="nav-name" style="color:var(--cyan)">CJ Brief</div>
+      <div class="nav-desc">Pre/post-call receipt · CJ Masopust · Jul 1</div>
+    </a>
+    <a class="nav-card" href="https://chase-intro.arcs.care/" target="_blank" rel="noopener">
+      <div class="nav-name" style="color:var(--green)">Chase Intro</div>
+      <div class="nav-desc">Instant Rips GM brief · ready to send</div>
+    </a>
+    <a class="nav-card" href="https://chris-intro.arcs.care/" target="_blank" rel="noopener">
+      <div class="nav-name" style="color:var(--gold)">Chris Loop-Close</div>
+      <div class="nav-desc">Post-CJ thinking · peer-to-peer · send now</div>
+    </a>
+    <a class="nav-card" href="https://resume.arcs.care/" target="_blank" rel="noopener">
+      <div class="nav-name" style="color:var(--muted)">Resume</div>
+      <div class="nav-desc">Tailored for Head of Growth Intelligence</div>
+    </a>
+    <a class="nav-card" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview?ref=share_panel&sharedBy=34144b0b-8b5b-4c65-b368-f5827b66da0c&hideToolbar=true&disableComments=true" target="_blank" rel="noopener">
+      <div class="nav-name" style="color:var(--gold)">The Stunt</div>
+      <div class="nav-desc">Magic Patterns deck · the stalking horse</div>
+    </a>
+    <a class="nav-card" href="/recoil/2026-07-01-masopust" target="_blank" rel="noopener">
+      <div class="nav-name" style="color:var(--dimmed)">Recoil · CJ</div>
+      <div class="nav-desc">Post-call receipt · auth-gated</div>
+    </a>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- PROVENANCE -->
+  <div class="sl" style="margin-bottom:6px">Provenance</div>
+  <div style="font-size:12px;color:var(--dimmed);margin-bottom:20px;line-height:1.5">Most recent first. Scroll down to see how it started.</div>
+
+  <!-- WAVEFORM — reverse order (05→01, left to right = oldest to newest for nav) -->
   <div class="waveform-wrap">
     <svg class="waveform" viewBox="0 0 560 62" xmlns="http://www.w3.org/2000/svg" style="height:62px">
-      <!-- baseline -->
       <line x1="0" y1="44" x2="560" y2="44" stroke="#1e293b" stroke-width="1"/>
-
-      <!-- beat 01: WORM (green) -->
-      <g class="wf-spike" id="wf-01" onclick="scrollToBeat('beat-01')" style="cursor:pointer">
-        <line x1="70" y1="44" x2="70" y2="20" stroke="#00FF9D" stroke-width="2"/>
-        <circle cx="70" cy="20" r="3" fill="#00FF9D"/>
-        <text x="70" y="57" text-anchor="middle" class="wf-label">01 WORM</text>
+      <g class="wf-spike" id="wf-05" onclick="scrollToBeat('beat-05')" style="cursor:pointer">
+        <line x1="70" y1="44" x2="70" y2="32" stroke="#FF4D6D" stroke-width="2"/>
+        <circle cx="70" cy="32" r="2.5" fill="#FF4D6D"/>
+        <text x="70" y="57" text-anchor="middle" class="wf-label">05 TARGET</text>
       </g>
-      <!-- beat 02: STUNT (gold) -->
-      <g class="wf-spike" id="wf-02" onclick="scrollToBeat('beat-02')" style="cursor:pointer">
-        <line x1="175" y1="44" x2="175" y2="26" stroke="#FFD700" stroke-width="2"/>
-        <circle cx="175" cy="26" r="3" fill="#FFD700"/>
-        <text x="175" y="57" text-anchor="middle" class="wf-label">02 STUNT</text>
+      <g class="wf-spike" id="wf-04" onclick="scrollToBeat('beat-04')" style="cursor:pointer">
+        <line x1="175" y1="44" x2="175" y2="12" stroke="#00F0FF" stroke-width="2"/>
+        <circle cx="175" cy="12" r="3" fill="#00F0FF"/>
+        <text x="175" y="57" text-anchor="middle" class="wf-label">04 CALL</text>
       </g>
-      <!-- beat 03: VOLLEY (cyan) — tallest, Chris's reply -->
       <g class="wf-spike" id="wf-03" onclick="scrollToBeat('beat-03')" style="cursor:pointer">
         <line x1="280" y1="44" x2="280" y2="5" stroke="#00F0FF" stroke-width="2"/>
         <circle cx="280" cy="5" r="3.5" fill="#00F0FF"/>
         <line x1="260" y1="44" x2="300" y2="44" stroke="#00F0FF" stroke-width="1" opacity="0.2"/>
         <text x="280" y="57" text-anchor="middle" class="wf-label">03 VOLLEY</text>
       </g>
-      <!-- beat 04: CALL (cyan) -->
-      <g class="wf-spike" id="wf-04" onclick="scrollToBeat('beat-04')" style="cursor:pointer">
-        <line x1="385" y1="44" x2="385" y2="12" stroke="#00F0FF" stroke-width="2"/>
-        <circle cx="385" cy="12" r="3" fill="#00F0FF"/>
-        <text x="385" y="57" text-anchor="middle" class="wf-label">04 CALL</text>
+      <g class="wf-spike" id="wf-02" onclick="scrollToBeat('beat-02')" style="cursor:pointer">
+        <line x1="385" y1="44" x2="385" y2="26" stroke="#FFD700" stroke-width="2"/>
+        <circle cx="385" cy="26" r="3" fill="#FFD700"/>
+        <text x="385" y="57" text-anchor="middle" class="wf-label">02 STUNT</text>
       </g>
-      <!-- beat 05: CHASE (pending) -->
-      <g class="wf-spike" id="wf-05" onclick="scrollToBeat('beat-05')" style="cursor:pointer;opacity:0.35">
-        <line x1="468" y1="44" x2="468" y2="32" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,3"/>
-        <circle cx="468" cy="32" r="2.5" fill="none" stroke="#475569" stroke-width="1.5"/>
-        <text x="468" y="57" text-anchor="middle" class="wf-label">05 CHASE</text>
+      <g class="wf-spike" id="wf-01" onclick="scrollToBeat('beat-01')" style="cursor:pointer">
+        <line x1="490" y1="44" x2="490" y2="20" stroke="#00FF9D" stroke-width="2"/>
+        <circle cx="490" cy="20" r="3" fill="#00FF9D"/>
+        <text x="490" y="57" text-anchor="middle" class="wf-label">01 WORM</text>
       </g>
-      <!-- beat 06: CLOSE (horizon) -->
-      <g class="wf-spike" id="wf-06" onclick="scrollToBeat('beat-06')" style="cursor:pointer;opacity:0.2">
-        <line x1="530" y1="44" x2="530" y2="38" stroke="#475569" stroke-width="1" stroke-dasharray="2,3"/>
-        <text x="530" y="57" text-anchor="middle" class="wf-label">06 CLOSE</text>
-      </g>
-
-      <!-- glow on volley -->
       <ellipse cx="280" cy="44" rx="24" ry="4" fill="#00F0FF" opacity="0.04"/>
     </svg>
   </div>
 
-  <div class="rule"></div>
-
-  <!-- SIGNAL SEQUENCE -->
-  <div class="sl">Signal sequence</div>
-  <div class="signal-sequence">
+  <!-- SIGNAL SEQUENCE — reverse chronological: 05 → 04 → 03 → 02 → 01 -->
+  <div class="signal-sequence" style="margin-top:24px">
     <div class="signal-wire"></div>
 
-    <!-- BEAT 01: THE WORM -->
-    <div class="beat" id="beat-01" style="--nc: var(--green)">
-      <div class="beat-node"></div>
+    <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
+    <div class="beat" id="beat-05" style="--nc: var(--red)">
+      <div class="beat-node" style="border-color:rgba(255,77,109,0.5)"></div>
       <div class="beat-card">
         <div class="beat-head">
-          <span class="beat-num">01</span>
-          <span class="beat-name">THE WORM</span>
-          <span class="beat-tag" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">CARRIER</span>
-          <span class="beat-date">~Jun 24, 2026</span>
+          <span class="beat-num">05</span>
+          <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
+          <span class="beat-tag" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06)">TARGET</span>
+          <span class="beat-date" style="color:rgba(255,77,109,0.7)">→ Jul 7</span>
         </div>
         <div class="beat-body">
-          <div class="artifact">
-            <div class="artifact-label">Chris Lamontagne · President, Strategy &amp; Growth · Fanatics · LinkedIn</div>
-            <div class="artifact-text"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7475181518055911424/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">"I am looking for a few exceptional &amp; high-agency operators to come and join us at Fanatics for the next phase of growth. If you're the right person. <em>*Have your agent speak to my agent*</em>"</a></div>
-            <div class="artifact-sub">109 likes · 12 comments · Linked to AI-native easter egg hiring flow at growth-mauve.vercel.app</div>
-          </div>
-          <div class="artifact">
-            <div class="artifact-label">Zach · First comment</div>
-            <div class="artifact-text">"A.R.C.S. delegating back to me — maybe reaching out soon…"</div>
-            <div class="artifact-sub">First comment on the post. First to book. Same day. Responded in kind — agent to agent.</div>
-          </div>
-          <div class="signals" style="margin-top:12px">
-            <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">FIRST_COMMENT</span>
-            <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">FIRST_BOOK</span>
-            <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">AI_NATIVE_SIGNAL</span>
-            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">EASTER_EGG_UNLOCKED</span>
+          <div class="beat-effect" style="margin-bottom:0">Intro to Chase Crawford (GM, Instant Rips) via CJ and/or Chris. This is the beachhead gate. Brief at chase-intro.arcs.care. Calendar link live. First move: Mon Jul 7.</div>
+          <div style="margin-top:12px;padding:10px 14px;background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.15);border-radius:7px">
+            <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--red);letter-spacing:0.1em;margin-bottom:4px">OPEN THREAD</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5">Process after Chase — escalation path if Chase is non-responsive is undefined. Ask Chase in first 5 minutes: <em style="color:var(--text)">"What does your typical process look like after this kind of intro?"</em></div>
           </div>
         </div>
       </div>
@@ -255,110 +302,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <div class="connector">
       <div class="connector-arrow">↓</div>
-      <div class="connector-label">Opened: 15-min call · stunt conceived same night</div>
-    </div>
-
-    <!-- BEAT 02: THE STUNT -->
-    <div class="beat" id="beat-02" style="--nc: var(--gold)">
-      <div class="beat-node"></div>
-      <div class="beat-card">
-        <div class="beat-head">
-          <span class="beat-num">02</span>
-          <span class="beat-name">THE STUNT</span>
-          <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);letter-spacing:0.08em">SIGNAL INTERRUPT&nbsp;—&nbsp;TRANSMISSION DECODED</span>
-          <span class="beat-date">Jun 25–26, 2026</span>
-        </div>
-        <div class="beat-body">
-          <div class="artifact">
-            <div class="artifact-label">15-min call with Chris · Jun 25</div>
-            <div class="artifact-text">Direct call the same day as booking. Chris's framing: roles are fluid, scope negotiable with Chase. Instant Rips named in the first 10 minutes — not as an example, as the destination.</div>
-          </div>
-          <div class="artifact">
-            <div class="artifact-label">Same night — "The Bubblegum Problem" email + Magic Patterns deck</div>
-            <div class="artifact-text">Sent as something "easy to socialize internally." <em>Not a resume. Not a pitch deck. Something you make when you've already started.</em> Last page adapted Chris's own easter egg hiring site into a prompt injection scenario — red-pilling Chris on agent-to-agent security.</div>
-          </div>
-          <div class="signals" style="margin-top:12px">
-            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">CREDIBILITY_ANCHOR</span>
-            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">STUNT_DEPLOYED</span>
-          </div>
-        </div>
-        <div class="beat-toggle" onclick="toggleDetail(this)">
-          <div class="toggle-label">Prior → Actual</div>
-          <div class="toggle-arrow">↓</div>
-        </div>
-        <div class="beat-detail">
-          <div class="dt">
-            <div class="dr">
-              <div class="da">Function</div>
-              <div class="dp">Demo asset / portfolio piece</div>
-              <div class="dv" style="color:var(--cyan)">Became Chris's credibility anchor in the CJ intro</div>
-            </div>
-            <div class="dr">
-              <div class="da">Positioning</div>
-              <div class="dp">Generic growth exec narrative</div>
-              <div class="dv" style="color:var(--green)">Differentiated: builder who thinks, not analyst who reports</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="connector">
-      <div class="connector-arrow">↓</div>
-      <div class="connector-label">Sent: email delivered · T+4 days to reverberation</div>
-    </div>
-
-    <!-- BEAT 03: THE VOLLEY -->
-    <div class="beat" id="beat-03" style="--nc: var(--cyan)">
-      <div class="beat-node"></div>
-      <div class="beat-card">
-        <div class="beat-head">
-          <span class="beat-num">03</span>
-          <span class="beat-name">THE VOLLEY</span>
-          <span class="beat-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">REVERBERATION</span>
-          <span class="beat-date">Jun 29, 2026</span>
-        </div>
-        <div class="beat-body">
-          <div class="artifact">
-            <div class="artifact-label">Chris Lamontagne · Reply to "The Bubblegum Problem"</div>
-            <div class="artifact-text" style="font-size:15px;font-weight:600;line-height:1.5;color:var(--text)">"Hey Zach, Thank you for the thoughtful follow up; <em>i loved what you built</em> — would be keen to have the team dive in deeper. As an immediate next step, I'd like to introduce CJ, who leads Talent for…"</div>
-            <div class="artifact-sub">CJ Masopust CC'd on the same email. She replied with a Calendly link within 2 hours. Jul 1 booked same day.</div>
-          </div>
-          <div class="signals" style="margin-top:12px">
-            <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">CJ_ADVOCATE</span>
-            <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">ROLE_CONFIRMED_REAL</span>
-            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">CHASE_GATE_IDENTIFIED</span>
-          </div>
-        </div>
-        <div class="beat-toggle" onclick="toggleDetail(this)">
-          <div class="toggle-label">Prior → Actual</div>
-          <div class="toggle-arrow">↓</div>
-        </div>
-        <div class="beat-detail">
-          <div class="dt">
-            <div class="dr">
-              <div class="da">Chris reaction</div>
-              <div class="dp">Polite acknowledgment expected</div>
-              <div class="dv" style="color:var(--green)">"i loved what you built" · intro to CJ same email</div>
-            </div>
-            <div class="dr">
-              <div class="da">Speed</div>
-              <div class="dp">Days or weeks to response</div>
-              <div class="dv" style="color:var(--cyan)">CJ replied with Calendly within 2 hours · Jul 1 booked</div>
-            </div>
-            <div class="dr">
-              <div class="da">Path forward</div>
-              <div class="dp">Unknown — CJ might be terminal node</div>
-              <div class="dv" style="color:var(--gold)">CJ is advocate · Chase intro is the gate</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="connector">
-      <div class="connector-arrow">↓</div>
-      <div class="connector-label">Caused: CJ intro · Calendly within 2 hrs · Jul 1 booked</div>
+      <div class="connector-label">Origin: Jul 1 · CJ alignment opened this gate</div>
     </div>
 
     <!-- BEAT 04: THE CALL -->
@@ -449,24 +393,138 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <div class="connector">
       <div class="connector-arrow">↓</div>
-      <div class="connector-label">Gate: Chase intro · brief ready · first move Jul 7</div>
+      <div class="connector-label">Origin: Jun 29 · Chris's reply triggered CJ intro · Calendly within 2 hrs</div>
     </div>
 
-    <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
-    <div class="beat" id="beat-05" style="--nc: var(--red)">
-      <div class="beat-node" style="border-color:rgba(255,77,109,0.5)"></div>
+    <!-- BEAT 03: THE VOLLEY -->
+    <div class="beat" id="beat-03" style="--nc: var(--cyan)">
+      <div class="beat-node"></div>
       <div class="beat-card">
         <div class="beat-head">
-          <span class="beat-num">05</span>
-          <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
-          <span class="beat-tag" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06)">TARGET</span>
-          <span class="beat-date" style="color:rgba(255,77,109,0.7)">→ Jul 7</span>
+          <span class="beat-num">03</span>
+          <span class="beat-name">THE VOLLEY</span>
+          <span class="beat-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">REVERBERATION</span>
+          <span class="beat-date">Jun 29, 2026</span>
         </div>
         <div class="beat-body">
-          <div class="beat-effect" style="margin-bottom:0">Intro to Chase Crawford (GM, Instant Rips) via CJ and/or Chris. This is the beachhead gate. Brief at chase-intro.arcs.care. Calendar link live. First move: Mon Jul 7.</div>
-          <div style="margin-top:12px;padding:10px 14px;background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.15);border-radius:7px">
-            <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:var(--red);letter-spacing:0.1em;margin-bottom:4px">OPEN THREAD</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.5">Process after Chase — escalation path if Chase is non-responsive is undefined. Ask Chase in first 5 minutes: <em style="color:var(--text)">"What does your typical process look like after this kind of intro?"</em></div>
+          <div class="artifact">
+            <div class="artifact-label">Chris Lamontagne · Reply to "The Bubblegum Problem"</div>
+            <div class="artifact-text" style="font-size:15px;font-weight:600;line-height:1.5;color:var(--text)">"Hey Zach, Thank you for the thoughtful follow up; <em>i loved what you built</em> — would be keen to have the team dive in deeper. As an immediate next step, I'd like to introduce CJ, who leads Talent for…"</div>
+            <div class="artifact-sub">CJ Masopust CC'd on the same email. She replied with a Calendly link within 2 hours. Jul 1 booked same day.</div>
+          </div>
+          <div class="signals" style="margin-top:12px">
+            <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">CJ_ADVOCATE</span>
+            <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">ROLE_CONFIRMED_REAL</span>
+            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">CHASE_GATE_IDENTIFIED</span>
+          </div>
+        </div>
+        <div class="beat-toggle" onclick="toggleDetail(this)">
+          <div class="toggle-label">Prior → Actual</div>
+          <div class="toggle-arrow">↓</div>
+        </div>
+        <div class="beat-detail">
+          <div class="dt">
+            <div class="dr">
+              <div class="da">Chris reaction</div>
+              <div class="dp">Polite acknowledgment expected</div>
+              <div class="dv" style="color:var(--green)">"i loved what you built" · intro to CJ same email</div>
+            </div>
+            <div class="dr">
+              <div class="da">Speed</div>
+              <div class="dp">Days or weeks to response</div>
+              <div class="dv" style="color:var(--cyan)">CJ replied with Calendly within 2 hours · Jul 1 booked</div>
+            </div>
+            <div class="dr">
+              <div class="da">Path forward</div>
+              <div class="dp">Unknown — CJ might be terminal node</div>
+              <div class="dv" style="color:var(--gold)">CJ is advocate · Chase intro is the gate</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="connector-arrow">↓</div>
+      <div class="connector-label">Origin: Jun 25–26 · the stunt that triggered the volley</div>
+    </div>
+
+    <!-- BEAT 02: THE STUNT -->
+    <div class="beat" id="beat-02" style="--nc: var(--gold)">
+      <div class="beat-node"></div>
+      <div class="beat-card">
+        <div class="beat-head">
+          <span class="beat-num">02</span>
+          <span class="beat-name">THE STUNT</span>
+          <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);letter-spacing:0.08em">SIGNAL INTERRUPT&nbsp;—&nbsp;TRANSMISSION DECODED</span>
+          <span class="beat-date">Jun 25–26, 2026</span>
+        </div>
+        <div class="beat-body">
+          <div class="artifact">
+            <div class="artifact-label">15-min call with Chris · Jun 25</div>
+            <div class="artifact-text">Direct call the same day as booking. Chris's framing: roles are fluid, scope negotiable with Chase. Instant Rips named in the first 10 minutes — not as an example, as the destination.</div>
+          </div>
+          <div class="artifact">
+            <div class="artifact-label">Same night — "The Bubblegum Problem" email + Magic Patterns deck</div>
+            <div class="artifact-text">Sent as something "easy to socialize internally." <em>Not a resume. Not a pitch deck. Something you make when you've already started.</em> Last page adapted Chris's own easter egg hiring site into a prompt injection scenario — red-pilling Chris on agent-to-agent security.</div>
+          </div>
+          <div class="signals" style="margin-top:12px">
+            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">CREDIBILITY_ANCHOR</span>
+            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">STUNT_DEPLOYED</span>
+          </div>
+        </div>
+        <div class="beat-toggle" onclick="toggleDetail(this)">
+          <div class="toggle-label">Prior → Actual</div>
+          <div class="toggle-arrow">↓</div>
+        </div>
+        <div class="beat-detail">
+          <div class="dt">
+            <div class="dr">
+              <div class="da">Function</div>
+              <div class="dp">Demo asset / portfolio piece</div>
+              <div class="dv" style="color:var(--cyan)">Became Chris's credibility anchor in the CJ intro</div>
+            </div>
+            <div class="dr">
+              <div class="da">Positioning</div>
+              <div class="dp">Generic growth exec narrative</div>
+              <div class="dv" style="color:var(--green)">Differentiated: builder who thinks, not analyst who reports</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="connector">
+      <div class="connector-arrow">↓</div>
+      <div class="connector-label">Origin: ~Jun 24 · the signal that started everything</div>
+    </div>
+
+    <!-- BEAT 01: THE WORM -->
+    <div class="beat" id="beat-01" style="--nc: var(--green)">
+      <div class="beat-node"></div>
+      <div class="beat-card">
+        <div class="beat-head">
+          <span class="beat-num">01</span>
+          <span class="beat-name">THE WORM</span>
+          <span class="beat-tag" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">CARRIER</span>
+          <span class="beat-date">~Jun 24, 2026</span>
+        </div>
+        <div class="beat-body">
+          <div class="artifact">
+            <div class="artifact-label">Chris Lamontagne · President, Strategy &amp; Growth · Fanatics · LinkedIn</div>
+            <div class="artifact-text"><a href="https://www.linkedin.com/feed/update/urn:li:activity:7475181518055911424/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">"I am looking for a few exceptional &amp; high-agency operators to come and join us at Fanatics for the next phase of growth. If you're the right person. <em>*Have your agent speak to my agent*</em>"</a></div>
+            <div class="artifact-sub">109 likes · 12 comments · Linked to AI-native easter egg hiring flow at growth-mauve.vercel.app</div>
+          </div>
+          <div class="artifact">
+            <div class="artifact-label">Zach · First comment</div>
+            <div class="artifact-text">"A.R.C.S. delegating back to me — maybe reaching out soon…"</div>
+            <div class="artifact-sub">First comment on the post. First to book. Same day. Responded in kind — agent to agent.</div>
+          </div>
+          <div class="signals" style="margin-top:12px">
+            <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">FIRST_COMMENT</span>
+            <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">FIRST_BOOK</span>
+            <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">AI_NATIVE_SIGNAL</span>
+            <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">EASTER_EGG_UNLOCKED</span>
           </div>
         </div>
       </div>
@@ -495,78 +553,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   </div><!-- /signal-sequence -->
 
-  <div class="rule"></div>
-
-  <!-- CURRENT POSITION -->
-  <div class="position-block">
-    <div class="pos-label">◈ Current position — Post CJ · Jul 1, 2026</div>
-    <div class="pos-text">Role is real, CJ is an advocate, scope is right. Waiting on Chase intro. The one undefined gap is what happens after Chase — no process established between Chase, CJ, and Chris for how this closes.</div>
-    <div class="pos-sigs">
-      <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">Y-GATE: GREEN / HIGH / STABLE</span>
-      <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">NCI: 88</span>
-      <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">NEXT GATE: CHASE INTRO</span>
-    </div>
-  </div>
-
-  <!-- OPEN THREADS -->
-  <div class="sl">Open threads</div>
-  <div class="threads" style="margin-bottom:28px">
-    <div class="thread-row">
-      <div class="th-owner" style="color:var(--cyan)">Zach</div>
-      <div class="th-text">Reach out to Chase — send chase-intro.arcs.care once CJ makes the connect</div>
-      <div class="th-date">Jul 7</div>
-    </div>
-    <div class="thread-row">
-      <div class="th-owner" style="color:var(--gold)">CJ</div>
-      <div class="th-text">Circle back with Chris on role JD + interview process</div>
-      <div class="th-date">By Jul 9</div>
-    </div>
-    <div class="thread-row">
-      <div class="th-owner" style="color:var(--gold)">CJ</div>
-      <div class="th-text">Growth Plus One invite + Fan Fest check with Chris</div>
-      <div class="th-date">By Jul 11</div>
-    </div>
-    <div class="thread-row">
-      <div class="th-owner" style="color:var(--muted)">TBD</div>
-      <div class="th-text">Process after Chase — escalation path if Chase non-responsive undefined</div>
-      <div class="th-date">Open</div>
-    </div>
-    <div class="thread-row">
-      <div class="th-owner" style="color:var(--muted)">TBD</div>
-      <div class="th-text">JD + comp band — verbal only; formal spec being built with the hire</div>
-      <div class="th-date">3–4 wks</div>
-    </div>
-  </div>
-
-  <!-- ALL SURFACES -->
-  <div class="sl" style="margin-bottom:12px">All surfaces</div>
-  <div class="nav-grid">
-    <a class="nav-card" href="https://cj-brief.arcs.care/" target="_blank" rel="noopener">
-      <div class="nav-name" style="color:var(--cyan)">CJ Brief</div>
-      <div class="nav-desc">Pre/post-call receipt · CJ Masopust · Jul 1</div>
-    </a>
-    <a class="nav-card" href="https://chase-intro.arcs.care/" target="_blank" rel="noopener">
-      <div class="nav-name" style="color:var(--green)">Chase Intro</div>
-      <div class="nav-desc">Instant Rips GM brief · ready to send</div>
-    </a>
-    <a class="nav-card" href="https://chris-intro.arcs.care/" target="_blank" rel="noopener">
-      <div class="nav-name" style="color:var(--gold)">Chris Loop-Close</div>
-      <div class="nav-desc">Post-CJ thinking · peer-to-peer · send now</div>
-    </a>
-    <a class="nav-card" href="https://resume.arcs.care/" target="_blank" rel="noopener">
-      <div class="nav-name" style="color:var(--muted)">Resume</div>
-      <div class="nav-desc">Tailored for Head of Growth Intelligence</div>
-    </a>
-    <a class="nav-card" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview?ref=share_panel&sharedBy=34144b0b-8b5b-4c65-b368-f5827b66da0c&hideToolbar=true&disableComments=true" target="_blank" rel="noopener">
-      <div class="nav-name" style="color:var(--gold)">The Stunt</div>
-      <div class="nav-desc">Magic Patterns deck · the stalking horse</div>
-    </a>
-    <a class="nav-card" href="/recoil/2026-07-01-masopust" target="_blank" rel="noopener">
-      <div class="nav-name" style="color:var(--dimmed)">Recoil · CJ</div>
-      <div class="nav-desc">Post-call receipt · auth-gated</div>
-    </a>
-  </div>
-
   <div style="margin-top:32px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.1em">
     ZACH HARRIS · NOT FOR DISTRIBUTION
   </div>
@@ -574,11 +560,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 </div>
 
 <script>
-// Sequential circuit — inchworm forward from T0 to TNow
-// Each beat fires only after the previous animation completes.
-// Beat-06 (horizon) stays unlit — beyond the current signal edge.
-const SEQUENCE = ['beat-01','beat-02','beat-03','beat-04','beat-05'];
-const STEP_MS = 620; // slightly longer than the 0.55s CSS transition
+// Reverse-chronological cascade: fires 05→04→03→02→01 as user scrolls into provenance section.
+// Beat-05 is first in DOM — trigger watches it. Beat-06 stays unlit.
+const SEQUENCE = ['beat-05','beat-04','beat-03','beat-02','beat-01'];
+const STEP_MS = 620;
 
 let sequenceStarted = false;
 
@@ -599,7 +584,7 @@ const trigger = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.08 });
 
-const first = document.getElementById('beat-01');
+const first = document.getElementById('beat-05');
 if (first) trigger.observe(first);
 
 // Toggle detail expand
