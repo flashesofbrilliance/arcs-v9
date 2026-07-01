@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>For Chris — Post-CJ · Fanatics Collectibles</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface3: #0a0f18;
+  --border: #1e293b; --border2: rgba(30,41,59,0.5);
+  --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 100px; }
+.page { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+.eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 12px; }
+.rule { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.25), transparent); }
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+/* PROSE CARD */
+.note {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 26px;
+  position: relative;
+  overflow: hidden;
+}
+.note::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.4), transparent);
+}
+.note-from { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.note-body { font-size: 14px; color: var(--text); line-height: 1.75; }
+.note-body p + p { margin-top: 14px; }
+.note-body em { color: var(--gold); font-style: normal; font-weight: 500; }
+
+/* THINKING POINTS */
+.points { display: flex; flex-direction: column; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.point { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border2); }
+.point:last-child { border-bottom: none; }
+.point-num { font-family: var(--mono); font-size: 10px; font-weight: 800; color: var(--gold); flex-shrink: 0; width: 18px; padding-top: 1px; }
+.point-body { flex: 1; }
+.point-headline { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 5px; }
+.point-detail { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
+.point-detail strong { color: var(--text); font-weight: 500; }
+
+/* RIPS FRAME */
+.rips-block {
+  background: linear-gradient(155deg, rgba(0,255,157,0.06), rgba(0,255,157,0.02));
+  border: 1px solid rgba(0,255,157,0.18);
+  border-radius: 12px;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+}
+.rips-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--green), transparent); opacity: 0.4; }
+.rips-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.rips-text { font-size: 13.5px; color: var(--text); line-height: 1.7; }
+.rips-text em { color: var(--green); font-style: normal; font-weight: 500; }
+
+/* NEXT MOVE */
+.next-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+.next-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
+.next-rows { display: flex; flex-direction: column; gap: 8px; }
+.next-row { display: flex; align-items: flex-start; gap: 10px; }
+.next-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.next-text span { color: var(--muted); }
+
+/* LINKS */
+.links { display: flex; gap: 8px; }
+.link-btn { flex: 1; display: block; text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 13px 16px; border-radius: 8px; text-decoration: none; border: 1px solid; transition: opacity 0.15s; }
+.link-btn:hover { opacity: 0.85; }
+
+/* SIGNALS */
+.signals { display: flex; flex-wrap: wrap; gap: 6px; }
+.sig { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.07em; padding: 3px 9px; border-radius: 4px; border: 1px solid; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div>
+    <div class="eyebrow">For Chris Lamontagne · Post-CJ · Jul 1, 2026 · Not for distribution</div>
+    <div style="font-size:20px;font-weight:700;letter-spacing:-0.02em;color:var(--text);line-height:1.2">CJ call was great.<br>Here's where my thinking landed.</div>
+  </div>
+
+  <div class="rule"></div>
+
+  <!-- THE NOTE -->
+  <div class="note">
+    <div class="note-from">Zach → Chris</div>
+    <div class="note-body">
+      <p>Thanks for the intro — CJ is excellent. We confirmed the role, the scope, and the right entry point. The conversation closed on community, not process, which tells me something about the culture.</p>
+      <p>I spent some time after the call going deeper on the framing. A few things sharpened that I wanted to share before the Chase conversation.</p>
+      <p>What I keep coming back to: <em>this isn't a growth hire — it's an institutional memory hire.</em> The distinction matters for who fits, and for what success looks like in the first 90 days.</p>
+    </div>
+  </div>
+
+  <!-- WHERE MY THINKING LANDED -->
+  <div>
+    <div class="sl">Where my thinking landed</div>
+    <div class="points">
+      <div class="point">
+        <div class="point-num">1</div>
+        <div class="point-body">
+          <div class="point-headline">The role is about compounding learning, not producing output</div>
+          <div class="point-detail">Every fast org generates learning. Most of it dies in Slack threads and post-mortems that no one reads before the next campaign starts. The right hire builds the layer that captures what was predicted vs. what happened — and makes each subsequent decision sharper than the last. <strong>The instrument has to be used before the next drop, not after it.</strong> That's the distinction between a dashboard and a decision brief.</div>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-num">2</div>
+        <div class="point-body">
+          <div class="point-headline">The right person has range, not just depth</div>
+          <div class="point-detail">This role earns trust with GMs across creative, commercial, data, and ops — without having formal authority over any of them. That requires someone who can go deep in at least two or three of those lanes and hold their own across all of them. <strong>The breadth isn't a liability here. It's the job.</strong> A pure analytics hire won't earn the room. A pure strategy hire won't build the instrument.</div>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-num">3</div>
+        <div class="point-body">
+          <div class="point-headline">The window to build this right is now</div>
+          <div class="point-detail">Fanatics is at the inflection point where undocumented learning starts to compound into either <strong>systematic advantage</strong> or <strong>systematic blind spots</strong>. Five BUs, each generating signal from every drop and campaign — without a cross-BU layer, each one re-learns what the others already know. That's expensive. The window to build it cleanly, before the org is bigger, is short.</div>
+        </div>
+      </div>
+      <div class="point">
+        <div class="point-num">4</div>
+        <div class="point-body">
+          <div class="point-headline">AI makes this tractable in a way it wasn't two years ago</div>
+          <div class="point-detail">Claude and ChatGPT Enterprise are already live at Fanatics. The infrastructure exists. The gap is someone who can build decision instruments on top of it — not generate content, not automate reports, but build tools that sharpen what happens next. <strong>CJ built her own talent-sourcing agent.</strong> That's the culture signal that makes this role viable. The org is ready.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIPS FRAMING -->
+  <div class="rips-block">
+    <div class="rips-label">Why Rips is the right beachhead</div>
+    <div class="rips-text">You named it in the first 10 minutes of our call. I've been thinking about why it's exactly right: <em>clear drop cycles, contained blast radius, single owner, measurable outcomes.</em> Chase's line, Chase's call. If the first 90 days work at Rips, the data makes the cross-BU case. If they don't, it was a scoped experiment with a clean read on why. That's the only kind of bet worth taking.</div>
+  </div>
+
+  <!-- NEXT MOVE -->
+  <div class="next-block">
+    <div class="next-label">What's next</div>
+    <div class="next-rows">
+      <div class="next-row">
+        <div class="next-dot" style="background:var(--cyan)"></div>
+        <div class="next-text">Looking forward to the Chase intro — brief is ready at <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">chase-intro.arcs.care</a></div>
+      </div>
+      <div class="next-row">
+        <div class="next-dot" style="background:var(--gold)"></div>
+        <div class="next-text">CJ is circling back on role JD + interview process early week of Jul 7 <span>— no rush on my end</span></div>
+      </div>
+      <div class="next-row">
+        <div class="next-dot" style="background:var(--dimmed)"></div>
+        <div class="next-text">Full sequence at <a href="https://fanatics.arcs.care/" target="_blank" rel="noopener" style="color:var(--dimmed);text-decoration:none;">fanatics.arcs.care</a> <span>if useful context</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINKS -->
+  <div class="links">
+    <a class="link-btn" href="https://chase-intro.arcs.care/" style="color:var(--green);background:rgba(0,255,157,0.06);border-color:rgba(0,255,157,0.3)">CHASE BRIEF →</a>
+    <a class="link-btn" href="https://fanatics.arcs.care/" style="color:var(--gold);background:rgba(255,215,0,0.06);border-color:rgba(255,215,0,0.3)">FULL SEQUENCE →</a>
+  </div>
+
+  <!-- SIGNALS -->
+  <div class="signals">
+    <span class="sig" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">POST-CJ · NCI 88 · GREEN/HIGH/STABLE</span>
+    <span class="sig" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">THINKING_DEEPENED</span>
+    <span class="sig" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">CHASE_GATE_READY</span>
+  </div>
+
+  <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.1em">ZACH HARRIS · NOT FOR DISTRIBUTION</div>
+
+</div>
+</body>
+</html>
