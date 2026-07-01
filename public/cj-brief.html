@@ -60,6 +60,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .link-btn { flex: 1; display: block; text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 13px 16px; border-radius: 8px; text-decoration: none; border: 1px solid; }
 .link-btn-primary { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
 .link-btn-secondary { color: var(--green); background: rgba(0,255,157,0.06); border-color: rgba(0,255,157,0.3); }
+.link-btn-tertiary { color: var(--gold); background: rgba(255,215,0,0.06); border-color: rgba(255,215,0,0.3); }
+
+/* CALENDAR REMINDERS */
+.cal-block { margin-top: 14px; }
+.cal-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; }
+.cal-icon { font-size: 14px; flex-shrink: 0; }
+.cal-text { flex: 1; }
+.cal-title { font-size: 12px; color: var(--text); font-weight: 600; line-height: 1.3; }
+.cal-date { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.cal-links { display: flex; gap: 8px; flex-shrink: 0; }
+.cal-link { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px; text-decoration: none; border: 1px solid; }
+.cal-gcal { color: var(--cyan); border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.06); }
+.cal-ics { color: var(--dimmed); border-color: var(--border); background: transparent; }
 
 /* REDIRECTS */
 .redir-rows { display: flex; flex-direction: column; }
@@ -283,7 +296,35 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div class="links">
         <a class="link-btn link-btn-primary" href="https://chase-intro.arcs.care/">CHASE BRIEF →</a>
-        <a class="link-btn link-btn-secondary" href="https://growth-intel.arcs.care/">PITCH DECK →</a>
+        <a class="link-btn link-btn-secondary" href="https://growth-intel.arcs.care/">ROLE SHAPE →</a>
+        <a class="link-btn link-btn-tertiary" href="https://www.magicpatterns.com/TODO" target="_blank" rel="noopener">THE STUNT →</a>
+      </div>
+
+      <!-- Calendar reminders -->
+      <div class="cal-block">
+        <div class="sl" style="margin-bottom:10px">Add to calendar — follow-up reminders</div>
+        <div class="cal-row">
+          <div class="cal-icon">📅</div>
+          <div class="cal-text">
+            <div class="cal-title">Circle back with CJ — Role JD + interview process</div>
+            <div class="cal-date">Wed Jul 9, 2026 · Early week of Jul 7</div>
+          </div>
+          <div class="cal-links">
+            <a class="cal-link cal-gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Circle+back+with+CJ+Masopust+%E2%80%94+Role+JD+%2B+interview+process&dates=20260709T090000Z/20260709T093000Z&details=Follow+up+with+CJ+Masopust+re%3A+Head+of+Growth+Intelligence+role+at+Fanatics+Collectibles.+Agenda%3A+confirm+role+JD+timeline%2C+interview+process+next+steps.&location=Fanatics+Collectibles" target="_blank" rel="noopener">Google</a>
+            <a class="cal-link cal-ics" href="#" onclick="downloadIcs('cj-followup-jul9','Circle back with CJ Masopust - Role JD + interview process','20260709T090000Z','20260709T093000Z','Follow up with CJ re: Head of Growth Intelligence role. Agenda: confirm role JD timeline, interview process next steps.');return false;">+ .ics</a>
+          </div>
+        </div>
+        <div class="cal-row">
+          <div class="cal-icon">📅</div>
+          <div class="cal-text">
+            <div class="cal-title">CJ — Growth Plus One invite + Fan Fest offer</div>
+            <div class="cal-date">Fri Jul 11, 2026 · End of week</div>
+          </div>
+          <div class="cal-links">
+            <a class="cal-link cal-gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CJ+Masopust+%E2%80%94+Growth+Plus+One+invite+%2B+Fan+Fest+offer&dates=20260711T140000Z/20260711T143000Z&details=Send+Growth+Plus+One+invite+to+CJ+Masopust.+Fan+Fest+offer+follow-through+(CJ+checking+with+Chris).+Fanatics+Collectibles+process.&location=Fanatics+Collectibles" target="_blank" rel="noopener">Google</a>
+            <a class="cal-link cal-ics" href="#" onclick="downloadIcs('cj-fanfest-jul11','CJ Masopust - Growth Plus One invite + Fan Fest offer','20260711T140000Z','20260711T143000Z','Send Growth Plus One invite to CJ Masopust. Fan Fest offer follow-through (CJ checking with Chris). Fanatics Collectibles process.');return false;">+ .ics</a>
+          </div>
+        </div>
       </div>
 
       <div>
@@ -579,6 +620,36 @@ function toggleVariant(el) {
   const isOpen = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
   tag.textContent = isOpen ? 'tap to expand ↓' : 'tap to collapse ↑';
+}
+function downloadIcs(filename, title, start, end, description) {
+  const uid = filename + '-' + Date.now() + '@arcs.care';
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//ARCS//cj-brief//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTART:' + start,
+    'DTEND:' + end,
+    'SUMMARY:' + title,
+    'DESCRIPTION:' + description.replace(/,/g, '\\,'),
+    'STATUS:CONFIRMED',
+    'BEGIN:VALARM',
+    'TRIGGER:-PT30M',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Reminder',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename + '.ics';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 </script>
 </body>
