@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { surface, text, signal, font, border } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { useToastDrawer } from '@/ui/ToastDrawerContext'
@@ -96,7 +96,14 @@ export function EyebrowToast() {
   const [copied, setCopied] = useState(false)
   const vw = useVw()
   const router = useRouter()
+  const pathname = usePathname()
   const sm = vw < 640
+
+  // Close drawer on route change — avoids the ~250ms flash of the home page
+  // that occurred when setOpen(false) was called before router.push completed.
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
 
   function dismiss(e: React.MouseEvent) {
     e.stopPropagation()
@@ -111,7 +118,6 @@ export function EyebrowToast() {
   }
 
   function nav(path: string) {
-    setOpen(false)
     router.push(path)
   }
 
