@@ -132,6 +132,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <div class="rule-glow"></div>
 
+  <div id="post-datestamp" style="display:none;font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 1, 2026 · POST-CALL</div>
+
   <!-- TABS -->
   <div class="card" style="overflow:visible;background:none;border:none;">
     <div class="tabs">
@@ -222,8 +224,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- POST-CALL -->
     <div id="tab-post" class="tab-pane">
-
-      <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding-top:4px;">JUL 1, 2026 · POST-CALL</div>
 
       <div>
         <div class="sl">What we confirmed</div>
@@ -554,6 +554,7 @@ function switchTab(id) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
   document.querySelector('[onclick="switchTab(\'' + id + '\')"]').classList.add('active');
   document.getElementById('tab-' + id).classList.add('active');
+  document.getElementById('post-datestamp').style.display = id === 'post' ? 'block' : 'none';
 }
 function toggleVariant(el) {
   const body = el.querySelector('.variant-body');
