@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
 import { ClaimAnonymousReceipts } from "@/components/ClaimAnonymousReceipts"
 import { EyebrowToast } from "@/ui/EyebrowToast"
@@ -63,6 +64,7 @@ export default function RootLayout({
           <ClaimAnonymousReceipts />
           <VercelToolbarToggle />
           <Analytics />
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
