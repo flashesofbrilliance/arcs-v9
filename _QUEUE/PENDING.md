@@ -48,4 +48,4 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ---
 
-*Last updated: 2026-06-23 18:07 UTC (auto-generated)*
+*Last updated: 2026-07-01 22:41 UTC (auto-generated)*
