@@ -74,7 +74,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
   const door = doorMeta[normalizeDoorClass(d.doorClass)]
   const gaugeC = nciColor(d.nciScore)
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', padding: '2rem 1.5rem 5.5rem' }}>
+    <div style={{ maxWidth: 960, margin: '0 auto', padding: '2rem 1.5rem 6rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '1rem' }}>
         <Wordmark />
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
