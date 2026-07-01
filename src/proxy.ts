@@ -2,12 +2,15 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
-  'token':    '/token.html',
-  'cj-brief': '/cj-brief.html',
-  'resume':   '/resume.html',
+  'token':        '/token.html',
+  'cj-brief':     '/cj-brief.html',
+  'chase-intro':  '/chase-intro.html',
+  'chris-intro':  '/chris-intro.html',
+  'fanatics':     '/fanatics.html',
+  'resume':       '/resume.html',
 }
 
-export function proxy(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
   const dest = SUBDOMAIN_MAP[sub]
@@ -29,6 +32,6 @@ export function proxy(request: NextRequest) {
   return NextResponse.next()
 }
 
-export const proxyConfig = {
+export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }
