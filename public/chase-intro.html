@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>For Chase — Instant Rips Growth Intelligence · Intro via Chris Lamontagne</title>
+<title>For Chase — Growth Intelligence · Instant Rips</title>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
@@ -14,226 +14,109 @@
   --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
-.page { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 80px; }
+.page { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
 
-.masthead { padding-bottom: 4px; }
-.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.masthead-headline { font-family: var(--sans); font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 6px; }
-.masthead-sub { font-family: var(--sans); font-size: 14px; color: var(--muted); line-height: 1.5; }
+.eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.headline { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 10px; }
+.headline em { color: var(--cyan); font-style: normal; }
+.sub { font-size: 14px; color: var(--muted); line-height: 1.6; }
 
 .rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
-.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 
-.lead { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px 28px; }
-.lead-text { font-family: var(--sans); font-size: 15px; color: var(--text); line-height: 1.7; }
-.lead-text + .lead-text { margin-top: 14px; }
-.lead-em { color: var(--cyan); font-style: normal; }
+/* BULLET LIST */
+.bullets { display: flex; flex-direction: column; gap: 0; }
+.bullet { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.bullet:last-child { border-bottom: none; }
+.bullet-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.bullet-text { font-size: 14px; color: var(--text); line-height: 1.55; }
+.bullet-text strong { font-weight: 600; color: var(--text); }
 
-.gap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; }
-.gap-cell { background: var(--surface); padding: 18px 22px; }
-.gap-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; }
-.gap-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.6; }
+/* 90-DAY TABLE */
+.day-rows { display: flex; flex-direction: column; }
+.day-row { display: grid; grid-template-columns: 44px 1fr; align-items: center; padding: 11px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.day-row:last-child { border-bottom: none; }
+.day-n { font-family: var(--mono); font-size: 14px; font-weight: 800; }
+.day-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
 
-.function-rows { display: flex; flex-direction: column; }
-.fn-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 22px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.fn-row:last-child { border-bottom: none; }
-.fn-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; flex-shrink: 0; width: 72px; margin-top: 1px; }
-.fn-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
-.fn-sub { font-family: var(--sans); font-size: 11px; color: var(--dimmed); margin-top: 4px; line-height: 1.5; }
-
-.phases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; }
-.phase { background: var(--surface); padding: 18px 18px 16px; }
-.phase-num { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 6px; }
-.phase-name { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
-.phase-items { display: flex; flex-direction: column; gap: 7px; }
-.phase-item { font-family: var(--sans); font-size: 11px; color: var(--dimmed); line-height: 1.5; padding-left: 11px; position: relative; }
-.phase-output { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); line-height: 1.5; }
-
-.not-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 22px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.not-row:last-child { border-bottom: none; }
-.not-x { font-family: var(--mono); font-size: 11px; color: var(--red); flex-shrink: 0; font-weight: 700; }
-.not-text { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.55; }
-.not-text strong { color: var(--text); font-weight: 500; }
-
-.cb-rows { display: flex; flex-direction: column; }
-.cb-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 22px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.cb-row:last-child { border-bottom: none; }
-.cb-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 4px; border: 1px solid; flex-shrink: 0; white-space: nowrap; margin-top: 1px; }
-.cb-text { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
-
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; }
-.about-cell { background: var(--surface); padding: 16px 20px; }
-.about-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-.about-text { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.55; }
-
-.ask-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 22px 24px; position: relative; overflow: hidden; }
-.ask-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.5; }
-.ask-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-.ask-text { font-family: var(--sans); font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 14px; }
-.ask-link { display: inline-block; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: var(--cyan); border: 1px solid rgba(0,240,255,0.3); padding: 7px 18px; border-radius: 6px; text-decoration: none; }
+/* CTA */
+.cta-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 24px; position: relative; overflow: hidden; }
+.cta-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:0.5; }
+.cta-ask { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; margin-bottom: 6px; }
+.cta-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.cta-buttons { display: flex; gap: 10px; }
+.cta-btn { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 12px 20px; border-radius: 7px; text-decoration: none; display: inline-block; }
+.cta-primary { background: var(--cyan); color: var(--bg); }
+.cta-secondary { color: var(--muted); border: 1px solid var(--border); background: transparent; }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <div class="masthead">
-    <div class="masthead-eyebrow">For Chase · Intro via Chris Lamontagne · Not for Distribution</div>
-    <div class="masthead-headline">A growth intelligence function for Instant Rips</div>
-    <div class="masthead-sub">What it is, what it costs you, what it unlocks in 90 days — and the fastest path to a no if it's not the right fit.</div>
+  <div>
+    <div class="eyebrow">For Chase · Intro via Chris Lamontagne · Not for distribution</div>
+    <div class="headline">Growth intelligence<br>for <em>Instant Rips</em></div>
+    <div class="sub">What it is, why it matters at your pace, and why Chris made the intro.</div>
   </div>
 
   <div class="rule-glow"></div>
 
+  <!-- TL;DR -->
   <div>
-    <div class="sl">The problem worth solving</div>
-    <div class="lead">
-      <div class="lead-text">Every drop at Instant Rips generates learning: what converted, what didn't, what the fan signal looked like before and after, where the funnel leaked. <span class="lead-em">Right now, most of that learning dies.</span> It lives in someone's memory, a Slack thread, a post-mortem deck that nobody reads before the next drop. The next campaign starts slightly less informed than it could.</div>
-      <div class="lead-text">At the growth pace Chris described — doubling roughly every 4 months — that's a compounding problem. Each drop is a one-time experiment instead of a building block. The team gets faster at execution and stays roughly the same speed at judgment.</div>
-      <div class="lead-text">The function I'm proposing is the infrastructure that makes each drop make the next one better. Not a new analyst. Not another dashboard. A decision memory layer that converts campaign-level learning into org-level clarity.</div>
-    </div>
-  </div>
-
-  <div>
-    <div class="sl">What this looks like inside Instant Rips specifically</div>
-    <div class="gap-grid">
-      <div class="gap-cell">
-        <div class="gap-label" style="color:var(--red)">Current state</div>
-        <div class="gap-text">Pre-campaign: gut feel + whatever was written down from the last comparable drop. Post-campaign: metrics report, a few takeaways, filed and forgotten. Repeat.</div>
-      </div>
-      <div class="gap-cell">
-        <div class="gap-label" style="color:var(--green)">With this function</div>
-        <div class="gap-text">Pre-campaign: a structured brief anchored to what worked, what failed, and why — scored for confidence, not just reported. Post-campaign: variance analysis that closes the loop. The next team that runs a similar drop starts with your data, not from scratch.</div>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <div class="sl">What the function actually is — in plain terms</div>
+    <div class="sl">TL;DR</div>
     <div class="card">
-      <div class="function-rows">
-        <div class="fn-row">
-          <div class="fn-label" style="color:var(--cyan)">Owns</div>
-          <div>
-            <div class="fn-text">The full-funnel growth system for Instant Rips — acquisition through retention. Every campaign generates a structured record of what was predicted, what happened, and why — not just a performance report.</div>
-            <div class="fn-sub">Senior IC, not a team. No management overhead on your side. Operates as a force multiplier on the people you already have.</div>
-          </div>
+      <div class="bullets">
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--red)"></div>
+          <div class="bullet-text"><strong>Every drop generates learning. Most of it dies.</strong> It ends up in a Slack thread or a post-mortem no one reads before the next campaign starts.</div>
         </div>
-        <div class="fn-row">
-          <div class="fn-label" style="color:var(--green)">Builds</div>
-          <div>
-            <div class="fn-text">The institutional memory layer. Tribal knowledge that currently lives in your best operator's head gets converted into something the whole org can learn from — before it walks out the door or gets lost in the pace.</div>
-            <div class="fn-sub">Not a tool. Not a doc system. A living decision archive that compounds with each drop.</div>
-          </div>
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--cyan)"></div>
+          <div class="bullet-text"><strong>I build the system that makes each drop make the next one better.</strong> Not a dashboard. A decision memory layer — structured records of what was predicted, what happened, why the gap was there.</div>
         </div>
-        <div class="fn-row">
-          <div class="fn-label" style="color:var(--gold)">Delivers</div>
-          <div>
-            <div class="fn-text">Predictive accountability. Pre-campaign: here's what we think will happen and why, scored for confidence. Post-campaign: did it? Why was the gap there? What does the next team need to know before they start?</div>
-            <div class="fn-sub">The distinction between flying on vibes and flying on receipts matters more at each successive doubling.</div>
-          </div>
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--green)"></div>
+          <div class="bullet-text"><strong>Senior IC, starting at Rips.</strong> No team, no management overhead. The leverage is in the system, not the org chart.</div>
+        </div>
+        <div class="bullet">
+          <div class="bullet-dot" style="background:var(--gold)"></div>
+          <div class="bullet-text"><strong>Chris thinks there's a fit here.</strong> 20 minutes to find out if he's right — and a fast path to a no if he's not.</div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- 90-DAY -->
   <div>
-    <div class="sl">First 90 days at Instant Rips</div>
-    <div class="phases">
-      <div class="phase">
-        <div class="phase-num" style="color:var(--cyan)">DAY 1–30</div>
-        <div class="phase-name">Discovery</div>
-        <div class="phase-items">
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--cyan)"></span>Audit every live growth motion — what's running, what's been tried, what's worked and why</div>
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--cyan)"></span>Map where learning currently dies in the funnel</div>
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--cyan)"></span>Identify the single highest-leverage layer to instrument first</div>
-        </div>
-        <div class="phase-output">Output: First audit brief — the clearest picture Rips has had of its own growth motion</div>
-      </div>
-      <div class="phase">
-        <div class="phase-num" style="color:var(--green)">DAY 31–60</div>
-        <div class="phase-name">First loop</div>
-        <div class="phase-items">
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--green)"></span>One full campaign cycle with the memory layer live — pre-campaign receipt, post-campaign validation</div>
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--green)"></span>First variance measurement: predicted vs. actual, and why the gap was there</div>
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--green)"></span>Fan signal taxonomy specific to Rips' drop cadence</div>
-        </div>
-        <div class="phase-output">Output: Proof the system generates better predictions than gut feel — one concrete example</div>
-      </div>
-      <div class="phase">
-        <div class="phase-num" style="color:var(--gold)">DAY 61–90</div>
-        <div class="phase-name">Propagate</div>
-        <div class="phase-items">
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--gold)"></span>Surface learnings to adjacent BUs — Trading Cards, Live Commerce — what transfers</div>
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--gold)"></span>Build the cross-BU case from evidence, not a proposal deck</div>
-          <div class="phase-item"><span style="position:absolute;left:0;top:6px;width:4px;height:4px;border-radius:50%;background:var(--gold)"></span>Scope Phase 2 with you and Chris</div>
-        </div>
-        <div class="phase-output">Output: Cross-BU brief — the function that started at Rips has a case for the whole org</div>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <div class="sl">What this isn't</div>
+    <div class="sl">What you'd have in 90 days</div>
     <div class="card">
-      <div class="not-row">
-        <div class="not-x">✕</div>
-        <div class="not-text"><strong>Not another analyst or growth PM.</strong> This function doesn't sit inside a campaign workflow. It sits above it — instrumenting decisions, not executing them.</div>
-      </div>
-      <div class="not-row">
-        <div class="not-x">✕</div>
-        <div class="not-text"><strong>Not a CoE pitch.</strong> This is a third model — a horizontal intelligence layer that makes both CoE and GM structures faster without adding political overhead or reporting lines.</div>
-      </div>
-      <div class="not-row">
-        <div class="not-x">✕</div>
-        <div class="not-text"><strong>Not a team build.</strong> Senior IC starting at Instant Rips. One person. The leverage is in the system, not the org chart.</div>
-      </div>
-      <div class="not-row">
-        <div class="not-x">✕</div>
-        <div class="not-text"><strong>Not a consulting engagement.</strong> Embedded — inside the drop cycle, inside the decision loop. Not advising from outside on a deliverable basis.</div>
-      </div>
-    </div>
-  </div>
-
-  <div>
-    <div class="sl">Fastest path to a no if this isn't right</div>
-    <div class="card">
-      <div class="cb-rows">
-        <div class="cb-row">
-          <div class="cb-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">WRONG TIMING</div>
-          <div class="cb-text">If you're in a launch crunch and there's no bandwidth for a new function this quarter, say so. I'd rather come back at the right moment than waste 20 minutes on a closed window.</div>
+      <div class="day-rows">
+        <div class="day-row">
+          <div class="day-n" style="color:var(--cyan)">30</div>
+          <div class="day-text">Decision anatomy map — clearest picture Rips has had of its own growth motion</div>
         </div>
-        <div class="cb-row">
-          <div class="cb-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">WRONG GAP</div>
-          <div class="cb-text">If what you actually need is a funnel operator or a performance marketer — someone who runs campaigns, not instruments decisions — that's a different role. Worth naming early if so.</div>
+        <div class="day-row">
+          <div class="day-n" style="color:var(--gold)">60</div>
+          <div class="day-text">First audit brief — a tool your team actually uses before the next drop, not after</div>
         </div>
-        <div class="cb-row">
-          <div class="cb-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">WRONG BU</div>
-          <div class="cb-text">If Trading Cards or Live Commerce has a more urgent version of this problem, I'm open to starting there. The beachhead matters less than the place where the system generates the most value fastest.</div>
+        <div class="day-row">
+          <div class="day-n" style="color:var(--green)">90</div>
+          <div class="day-text">Cross-BU signal report — what Rips' learning is worth to Trading Cards and Live Commerce</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div>
-    <div class="sl">Why Zach — the short version</div>
-    <div class="about-grid">
-      <div class="about-cell">
-        <div class="about-label">Relevant background</div>
-        <div class="about-text">Built the growth and intelligence infrastructure at Grayscale during the $7B AUM period — high-stakes decisions under regulatory pressure, no precedent, fast pace. Digital growth builder since 2006 across media, finance, and consumer.</div>
-      </div>
-      <div class="about-cell">
-        <div class="about-label">Why this function, why now</div>
-        <div class="about-text">Zach built a decision intelligence system specifically for this problem — converting campaign-level learning into org-level clarity that compounds over time. Instant Rips at this growth pace is exactly the environment where it generates the most leverage.</div>
-      </div>
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-ask">20 minutes to find out if this is the gap you're feeling.</div>
+    <div class="cta-sub">If it is, we figure out the shape. If not, you've lost 20 minutes and we've both saved a longer conversation that wasn't going anywhere.</div>
+    <div class="cta-buttons">
+      <a class="cta-btn cta-primary" href="https://growth-intel.arcs.care/">FULL DECK →</a>
+      <a class="cta-btn cta-secondary" href="mailto:zach.harris@gmail.com">EMAIL ZACH</a>
     </div>
-  </div>
-
-  <div class="ask-block">
-    <div class="ask-label">The ask</div>
-    <div class="ask-text">20 minutes to find out if the gap I'm describing is the gap you're feeling. If it is, we figure out the shape. If it's not, you've lost 20 minutes and we've both saved ourselves a longer conversation that wasn't going anywhere.</div>
-    <a class="ask-link" href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview">FULL DECK →</a>
   </div>
 
 </div>
