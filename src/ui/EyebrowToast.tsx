@@ -169,7 +169,7 @@ export function EyebrowToast() {
             <div
               onClick={() => setOpen(false)}
               style={{
-                position: 'fixed', top: TOAST_H, left: 0, right: 0, bottom: FOOTER_H + LEGAL_H, zIndex: 108,
+                position: 'fixed', top: TOAST_H, left: 0, right: 0, bottom: `calc(${FOOTER_H + LEGAL_H}px + env(safe-area-inset-bottom))`, zIndex: 108,
                 background: 'rgba(0, 0, 0, 0.3)',
                 backdropFilter: 'blur(4px)',
                 WebkitBackdropFilter: 'blur(4px)',
@@ -185,7 +185,7 @@ export function EyebrowToast() {
                 position: 'fixed', top: TOAST_H, left: 0, right: 0, zIndex: 109,
                 background: surface.panel,
                 borderBottom: `0.5px solid ${border.subtle}`,
-                maxHeight: `calc(100vh - ${TOAST_H}px - ${FOOTER_H + LEGAL_H}px)`,
+                maxHeight: `calc(100vh - ${TOAST_H}px - ${FOOTER_H + LEGAL_H}px - env(safe-area-inset-bottom))`,
                 overflowY: 'auto',
                 WebkitOverflowScrolling: 'touch',
               }}
