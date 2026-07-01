@@ -467,8 +467,47 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </a>
   </div>
 
-  <div style="margin-top:32px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
-    ZACH HARRIS · ZACH.HARRIS@GMAIL.COM · NOT FOR DISTRIBUTION
+  <!-- SPEED RUN -->
+  <div style="margin-top:32px;">
+    <button onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.textContent=this.textContent.includes('▶')?'▼  SPEED RUN — HIDE':'▶  SPEED RUN — T0 → NOW';"
+      style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;
+        padding:11px 20px;border-radius:8px;cursor:pointer;
+        background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.2);
+        font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;
+        color:var(--cyan);text-transform:uppercase;">
+      ▶  SPEED RUN — T0 → NOW
+    </button>
+    <div style="display:none;margin-top:8px;border:1px solid var(--border);border-radius:10px;overflow:hidden;">
+      <div style="background:var(--surface);padding:14px 16px 6px;border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);">INSTANT REPLAY · T0 → NOW · 5 BEATS</span>
+      </div>
+      <div style="display:flex;flex-direction:column;">
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--green);">T−7</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jun 24</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;">THE WORM</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">Chris posts "Have your agent speak to my agent." Zach: first comment, first to book the 15-min call.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--gold);">T0</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jun 25–26</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;">THE STUNT</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">15-min call with Chris. Same night: "The bubblegum problem" email + Magic Patterns deck. Not a resume — a thing already built.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--cyan);">T+4</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jun 29</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.08em;text-transform:uppercase;">THE VOLLEY</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">Chris: <em style="color:var(--text);font-style:normal;">"i loved what you built — would be keen to have the team dive in deeper."</em> CC'd CJ on the same email. CJ replied with Calendly within 2 hours.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;border-bottom:1px solid rgba(30,41,59,0.5);padding:12px 16px;align-items:start;">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--cyan);">T+6</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jul 1</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.08em;text-transform:uppercase;">THE CALL</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">30 min with CJ Masopust (Talent Lead). Role: SD→VP, reports to Chris. Full digital growth org — Tops.com, Fanatics Live, Collect, VA. NCI 88 · GREEN/HIGH/STABLE.</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:72px 1fr;gap:0;padding:12px 16px;align-items:start;background:rgba(0,240,255,0.03);">
+          <div><span style="font-family:var(--mono);font-size:10px;font-weight:800;color:var(--cyan);">NOW</span><br><span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">Jul 1+</span></div>
+          <div><span style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.08em;text-transform:uppercase;">CHASE INTRO</span><br><span style="font-size:12.5px;color:var(--text);line-height:1.55;">Brief ready. Calendar link live. First move: Mon Jul 7. CJ circles back with Chris on JD + process same week.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
+    ZACH HARRIS · NOT FOR DISTRIBUTION
   </div>
 
 </div>
