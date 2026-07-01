@@ -33,7 +33,7 @@ export function StickyFooter({
       {!dismissed && (
         <div
           style={{
-            position: 'fixed', bottom: LEGAL_H, left: 0, right: 0, zIndex: 50,
+            position: 'fixed', bottom: `calc(${LEGAL_H}px + env(safe-area-inset-bottom))`, left: 0, right: 0, zIndex: 50,
             height: FOOTER_H,
             borderTop: `1px solid ${signal.gold}25`,
             background: 'rgba(2,4,8,0.92)',
@@ -68,11 +68,12 @@ export function StickyFooter({
         </div>
       )}
 
-      {/* Legal bar — always visible at the very bottom */}
+      {/* Legal bar — always visible at the very bottom, above iOS home indicator */}
       <div
         style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
-          height: LEGAL_H,
+          height: `calc(${LEGAL_H}px + env(safe-area-inset-bottom))`,
+          paddingBottom: 'env(safe-area-inset-bottom)',
           borderTop: `1px solid rgba(255,255,255,0.05)`,
           background: 'rgba(2,4,8,0.92)',
           backdropFilter: 'blur(12px)',

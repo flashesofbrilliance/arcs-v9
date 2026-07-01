@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter, Crimson_Pro, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { VercelToolbarToggle } from "@/components/VercelToolbarToggle"
@@ -24,6 +24,10 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
 })
+
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   title: "ARCS Field OS",
