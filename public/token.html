@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>The Intelligence Operator — Tokenized Deployment Model</title>
+<title>!newHire → new_Deployment — Fanatics Collectibles</title>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820; --surface3: #0a0f18;
@@ -17,7 +17,7 @@
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 100px; }
-.page { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+.page { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
 
 .eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 10px; }
 .headline { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--text); margin-bottom: 10px; }
@@ -27,8 +27,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.25; }
 .sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.sl-row { display:flex; align-items:baseline; gap:8px; margin-bottom:12px; }
+.sl-row .sl { margin-bottom:0; }
+.sl-row .rt { font-family:var(--mono); font-size:8px; color:var(--dimmed); }
 
-/* CONTRAST BLOCK */
+/* CONTRAST */
 .contrast { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
 .contrast-col { padding: 16px 18px; background: var(--surface); }
 .contrast-col.alt { background: rgba(0,240,255,0.04); }
@@ -84,6 +87,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .s-btn { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 11px 18px; border-radius: 7px; text-decoration: none; display: inline-block; }
 .s-primary { background: var(--cyan); color: var(--bg); }
 .s-secondary { color: var(--muted); border: 1px solid var(--border); background: transparent; }
+
+/* DEPTH */
+.d-rich, .d-deep { display: none; }
 </style>
 </head>
 <body>
@@ -93,17 +99,48 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <div>
     <div class="eyebrow">Not for distribution · Engagement model · Fanatics Collectibles</div>
     <div class="headline"><span style="font-size:0.7em;opacity:0.65;font-weight:400;letter-spacing:0em;">!newHire</span><br><em>new_Deployment</em><span style="font-size:0.55em;opacity:0.7;font-weight:500;letter-spacing:0em;"> {Tenant:POC}</span></div>
-    <div class="sub">The traditional seat model locks intelligence inside one BU. This model treats the operator as a <strong>system-level service layer</strong> — deployed first to Instant Rips as the proof of concept, then scaled across xBiz units as the signal compounds. The institutional memory appreciates with each node added.</div>
+    <div class="sub">The traditional seat model locks intelligence inside one BU. This deploys an operator as a <strong>system-level service layer</strong> — Instant Rips first, then xBiz as the signal compounds.</div>
+  </div>
+
+  <!-- DEPTH TOGGLE -->
+  <div style="display:flex;gap:6px;align-items:center;">
+    <span style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-right:4px;">View</span>
+    <button id="d-simple" onclick="setDepth('simple')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--cyan);background:rgba(0,240,255,0.12);color:var(--cyan);cursor:pointer;">SIMPLE</button>
+    <button id="d-rich" onclick="setDepth('rich')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">RICH</button>
+    <button id="d-deep" onclick="setDepth('deep')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">DEEP</button>
   </div>
 
   <div class="rule-glow"></div>
 
-  <!-- AUDIENCE LENSES -->
+  <!-- S1: CONTRAST — all depths -->
   <div>
-    <div class="sl">At your altitude</div>
+    <div class="sl-row"><span class="sl">What's different</span><span class="rt">~1 min</span></div>
+    <div class="contrast">
+      <div class="contrast-col">
+        <div class="contrast-label">Traditional VP Hire</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>One seat, one BU, one budget line</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>4-year vest before the system pays back</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>Learning dies in that BU at exit</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>Cross-BU patterns = manual, ad hoc</div>
+        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>ROI unverifiable until 12–18 months in</div>
+      </div>
+      <div class="contrast-col alt">
+        <div class="contrast-label live">Intelligence Operator</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>One operator, 5 BU nodes, shared signal layer</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Rips POC proves value in 90 days</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Institutional memory is the asset — it stays</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Cross-BU patterns surface automatically</div>
+        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Measurable output at 30/60/90 days</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S2: AUDIENCE LENSES — all depths -->
+  <div>
+    <div class="sl-row"><span class="sl">At your altitude</span><span class="rt">pick your role</span></div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
       <div style="display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;" id="lens-tabs">
-        <button onclick="setLens('president')" class="lens-btn lens-active" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--cyan);cursor:pointer;white-space:nowrap;border-bottom:2px solid var(--cyan);flex-shrink:0;">PRESIDENT</button>
+        <button onclick="setLens('president')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--cyan);cursor:pointer;white-space:nowrap;border-bottom:2px solid var(--cyan);flex-shrink:0;">PRESIDENT</button>
         <button onclick="setLens('cto')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CTO</button>
         <button onclick="setLens('cmo')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CMO</button>
         <button onclick="setLens('cro')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CRO</button>
@@ -127,10 +164,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--steel);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CTO · Technical Architecture</div>
           <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"The missing middleware between your data systems and your operators' decisions."</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Sits above the data layer, not inside it.</strong> Reads from existing sources — doesn't touch your warehouse, doesn't replace your BI stack. The interface is the decision taxonomy, not the data pipeline.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Already on your confirmed stack.</strong> Built on Claude + ChatGPT Enterprise — both deployed at Fanatics. The integration point is the operator workflow, not the infrastructure. No new tools, no new contracts.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">The API mandate parallel applies technically.</strong> Consistent decision taxonomy across BUs = a composable signal interface. When a BU captures a decision in the same schema, it becomes callable by any other BU. That's the architecture you don't have yet.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">ARCS is the proof-of-concept in production.</strong> The platform is already built and running. Rips is the first external deployment — not a prototype, a tenancy.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Sits above the data layer, not inside it.</strong> Reads from existing sources — doesn't touch your warehouse, doesn't replace your BI stack.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Already on your confirmed stack.</strong> Built on Claude + ChatGPT Enterprise — both deployed at Fanatics. No new tools, no new contracts.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--steel);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Consistent decision taxonomy = composable signal interface.</strong> When a BU captures a decision in the same schema, it becomes callable by any other BU. That's the architecture you don't have yet.</span></div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(136,153,170,0.06);border-radius:7px;border:1px solid rgba(136,153,170,0.15);font-size:12px;color:var(--steel);font-style:italic;">"Every data team measures what happened. This captures what was decided and why — before and after. Different layer."</div>
         </div>
@@ -139,9 +175,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CMO · Fan Intelligence & Campaign</div>
           <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"Every drop generates campaign learning. This is the system that captures it before it dies."</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pre/post-campaign intelligence loop.</strong> Structured hypothesis before a drop — what we think will drive the number and why. Structured capture after — what actually drove it, where we left fan engagement on the table.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pre/post-campaign intelligence loop.</strong> Structured hypothesis before a drop. Structured capture after — what drove it, where we left engagement on the table.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU fan signal.</strong> The collector behavior Rips sees during a drop is a leading indicator for what Trading Cards fans do the following week. That signal exists — it just doesn't move between BUs right now.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Compounding attribution model.</strong> Each campaign that runs through the intelligence layer makes the attribution model sharper. By campaign 10, you know things about fan conversion timing that no analyst discovered because no analyst was capturing the pre-decision context.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Compounding attribution.</strong> By campaign 10, you know things about fan conversion timing that no analyst discovered — because no analyst was capturing the pre-decision context.</span></div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(0,255,157,0.04);border-radius:7px;border:1px solid rgba(0,255,157,0.15);font-size:12px;color:var(--green);font-style:italic;">"The fan behavior signal that Trading Cards learned in Q1 is relevant to your campaign in Q2. But only if someone held the pattern."</div>
         </div>
@@ -150,20 +186,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CRO · Revenue & Commercial</div>
           <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"Revenue per drop goes up when you know what drove the last one."</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pricing intelligence on every drop.</strong> Structured pre-decision framing on every commercial call — what we predicted the ceiling was, what it actually was, where we underpriced or left conversion on the table.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU commercial compounding.</strong> What Trading Cards' partnership structure taught us about fan monetization is relevant to Live Commerce's next anchor deal. The signal exists — it just doesn't travel between BUs right now.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Partnership asset.</strong> Structured decision records are the thing you bring to a commercial negotiation when you want to prove you understand your fan better than the other side of the table. Right now that proof is anecdotal. The intelligence layer makes it documented.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Pricing intelligence on every drop.</strong> What we predicted the ceiling was, what it actually was, where we underpriced or left conversion on the table.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Cross-BU commercial compounding.</strong> What Trading Cards' partnership structure taught us about fan monetization is relevant to Live Commerce's next anchor deal — if someone held the pattern.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--gold);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Partnership asset.</strong> Structured decision records are what you bring to a commercial negotiation to prove you understand your fan better than the other side of the table.</span></div>
           </div>
-          <div style="margin-top:14px;padding:10px 14px;background:rgba(255,215,0,0.04);border-radius:7px;border:1px solid rgba(255,215,0,0.15);font-size:12px;color:var(--gold);font-style:italic;">"The structured decision records become an asset in commercial negotiations — proof you know your fan better than anyone else in the room."</div>
+          <div style="margin-top:14px;padding:10px 14px;background:rgba(255,215,0,0.04);border-radius:7px;border:1px solid rgba(255,215,0,0.15);font-size:12px;color:var(--gold);font-style:italic;">"The structured decision records become a commercial asset — proof you know your fan better than anyone else in the room."</div>
         </div>
 
         <div id="lens-talent" class="lens-pane" style="display:none;">
           <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">CJ Masopust · Talent Lead</div>
           <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"90-day POC with VP comp and measurable output. Easiest greenlight in the stack."</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Bounded risk for Chase.</strong> Not a company-wide initiative — a Rips POC. If it works, Chase is the GM who proved the model. If it doesn't, it was a scoped 90-day experiment and you learned something about Rips' intelligence gaps regardless.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Measurable output at 30/60/90.</strong> Not a 12-month ramp before ROI is visible. Decision anatomy map at 30 days. Audit brief the team uses at 60. Cross-BU signal report at 90. Three artifacts you can put in front of anyone who asks.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">The comp band fits.</strong> VP base, 30% bonus, 4-yr RSU. Pre-IPO liquidity in development. The role is real — SD→VP, reports to Chris, full digital growth org scope. This isn't experimental headcount.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Bounded risk for Chase.</strong> Not a company-wide initiative — a Rips POC. If it works, Chase is the GM who proved the model. If it doesn't, it was a scoped 90-day experiment.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Measurable output at 30/60/90.</strong> Decision anatomy map. Audit brief. Cross-BU signal report. Three artifacts you can put in front of anyone who asks.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--dimmed);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">The comp band fits.</strong> VP base, 30% bonus, 4-yr RSU. SD→VP path, reports to Chris, full digital growth org scope.</span></div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(100,116,139,0.08);border-radius:7px;border:1px solid rgba(100,116,139,0.15);font-size:12px;color:var(--dimmed);font-style:italic;">"Chris intro'd Zach — worth 30 minutes on the growth intelligence angle."</div>
         </div>
@@ -172,9 +208,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Chase · GM, Instant Rips</div>
           <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"30-minute call. 90-day POC. The intelligence layer your BU has been missing."</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 30:</strong> Decision anatomy map. Clearest picture Rips has had of its own growth motion — how drops actually get decided, where the gaps are, what the team is guessing at versus knowing.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 60:</strong> Audit brief the team actually uses before the next drop — not a post-mortem, a pre-decision tool. Structured framing so the hypothesis is documented before the drop, not reverse-engineered after.</span></div>
-            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 90:</strong> Cross-BU signal report — what Rips' learning is worth to the other four BUs. This is the artifact that makes you the GM who proved the model. The other BUs want in. That's organizational pull you generated.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 30:</strong> Decision anatomy map. Clearest picture Rips has had of its own growth motion — how drops actually get decided, where the gaps are.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 60:</strong> Audit brief the team uses before the next drop. Pre-decision framing so the hypothesis is documented before the drop, not reverse-engineered after.</span></div>
+            <div style="display:flex;gap:10px;"><span style="color:var(--green);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;"><strong style="color:var(--text);">Day 90:</strong> Cross-BU signal report — what Rips' learning is worth to the other four BUs. This is the artifact that makes you the GM who proved the model.</span></div>
           </div>
           <div style="margin-top:14px;padding:10px 14px;background:rgba(0,255,157,0.04);border-radius:7px;border:1px solid rgba(0,255,157,0.15);font-size:12px;color:var(--green);font-style:italic;">"Rips is the beachhead. You're not running a pilot — you're running the proof of concept that defines the architecture for the whole platform."</div>
         </div>
@@ -183,98 +219,45 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
-  <!-- THE CONTRAST -->
-  <div>
-    <div class="sl">Traditional hire vs. this model</div>
-    <div class="contrast">
-      <div class="contrast-col">
-        <div class="contrast-label">Traditional VP Hire</div>
-        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>One seat, one BU, one budget line</div>
-        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>4-year vest before the system pays back</div>
-        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>Learning dies in that BU at exit</div>
-        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>Cross-BU pattern recognition = manual, ad hoc</div>
-        <div class="contrast-row"><span class="bullet" style="color:var(--red)">—</span>ROI unverifiable until 12–18 months in</div>
-      </div>
-      <div class="contrast-col alt">
-        <div class="contrast-label live">Intelligence Operator</div>
-        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>One operator, 5 BU nodes, shared signal layer</div>
-        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Rips POC proves value in 90 days</div>
-        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Institutional memory is the asset — it stays</div>
-        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Cross-BU patterns surface automatically</div>
-        <div class="contrast-row live-row"><span class="bullet" style="color:var(--cyan)">◈</span>Measurable signal output at 30/60/90 days</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DEPLOYMENT CHAIN -->
-  <div>
-    <div class="sl">Deployment chain</div>
+  <!-- S3: DEPLOYMENT CHAIN — rich + deep -->
+  <div class="d-rich d-deep">
+    <div class="sl-row"><span class="sl">Deployment chain</span><span class="rt">Rips → xBiz → Holding Co</span></div>
     <div class="chain">
-
-      <!-- MINT 01 -->
       <div class="chain-node active">
         <div class="chain-badge">
           <span class="badge-tag badge-poc">MINT 01</span>
           <span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">PROOF OF CONCEPT</span>
         </div>
         <div class="chain-title">Instant Rips</div>
-        <div class="chain-sub">The beachhead. Rips is the highest-velocity BU for decision intelligence — drop cadence, fan behavior data, and time-compressed decisions make it the ideal first deployment. The POC proves the model on the hardest problem first.</div>
+        <div class="chain-sub">The beachhead. Drop cadence, fan behavior data, and time-compressed decisions make Rips the ideal first deployment. The POC proves the model on the hardest problem first.</div>
         <div class="chain-beats">
-          <div class="beat">
-            <div class="beat-n" style="color:var(--cyan)">30</div>
-            <div class="beat-text"><strong>Decision anatomy map.</strong> Clearest picture Rips has had of its own growth motion — how drops actually get decided.</div>
-          </div>
-          <div class="beat">
-            <div class="beat-n" style="color:var(--gold)">60</div>
-            <div class="beat-text"><strong>First audit brief.</strong> A tool the team uses before the next drop, not after. Structured pre-decision framing + post-decision capture.</div>
-          </div>
-          <div class="beat">
-            <div class="beat-n" style="color:var(--green)">90</div>
-            <div class="beat-text"><strong>Cross-BU signal report.</strong> What Rips' learning is worth to the other four BUs. This is the POC output that unlocks the next deployment.</div>
-          </div>
+          <div class="beat"><div class="beat-n" style="color:var(--cyan)">30</div><div class="beat-text"><strong>Decision anatomy map.</strong> How drops actually get decided.</div></div>
+          <div class="beat"><div class="beat-n" style="color:var(--gold)">60</div><div class="beat-text"><strong>First audit brief.</strong> Structured pre-decision framing before the next drop.</div></div>
+          <div class="beat"><div class="beat-n" style="color:var(--green)">90</div><div class="beat-text"><strong>Cross-BU signal report.</strong> What Rips' learning is worth to the other four BUs.</div></div>
         </div>
       </div>
-
-      <!-- SCALE: xBiz -->
       <div class="chain-node scale">
         <div class="chain-badge">
           <span class="badge-tag badge-scale">SCALE</span>
           <span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">XBIZ UNITS · COLLECTIBLES</span>
         </div>
         <div class="chain-title">All five BUs — one intelligence layer</div>
-        <div class="chain-sub">Each BU adds a node to the same compounding system. What Trading Cards learned last quarter becomes relevant to Live Commerce this quarter — but only if someone is holding the pattern across BUs. The operator is that someone.</div>
+        <div class="chain-sub">Each BU adds a node to the same compounding system. The operator holds the pattern across BUs — so what Trading Cards learned last quarter is relevant to Live Commerce this quarter.</div>
         <div class="bu-grid">
-          <div class="bu-card first">
-            <div class="bu-name">Instant Rips ◈</div>
-            <div class="bu-desc">POC complete · signal seeded</div>
-          </div>
-          <div class="bu-card">
-            <div class="bu-name">Trading Cards</div>
-            <div class="bu-desc">Drop velocity · collector behavior · auction intelligence</div>
-          </div>
-          <div class="bu-card">
-            <div class="bu-name">Live Commerce</div>
-            <div class="bu-desc">Real-time fan signal · broadcast conversion</div>
-          </div>
-          <div class="bu-card">
-            <div class="bu-name">VA · Paris</div>
-            <div class="bu-desc">International expansion · localization signal</div>
-          </div>
-          <div class="bu-card" style="grid-column:1/-1;">
-            <div class="bu-name">Fanatics Live</div>
-            <div class="bu-desc">Event intelligence · venue-level fan behavior · post-event capture loop</div>
-          </div>
+          <div class="bu-card first"><div class="bu-name">Instant Rips ◈</div><div class="bu-desc">POC complete · signal seeded</div></div>
+          <div class="bu-card"><div class="bu-name">Trading Cards</div><div class="bu-desc">Drop velocity · collector behavior · auction intelligence</div></div>
+          <div class="bu-card"><div class="bu-name">Live Commerce</div><div class="bu-desc">Real-time fan signal · broadcast conversion</div></div>
+          <div class="bu-card"><div class="bu-name">VA · Paris</div><div class="bu-desc">International expansion · localization signal</div></div>
+          <div class="bu-card" style="grid-column:1/-1;"><div class="bu-name">Fanatics Live</div><div class="bu-desc">Event intelligence · venue-level fan behavior · post-event capture loop</div></div>
         </div>
       </div>
-
-      <!-- CROSS-CHAIN -->
       <div class="chain-node future">
         <div class="chain-badge">
           <span class="badge-tag badge-cross">CROSS-CHAIN</span>
           <span style="font-family:var(--mono);font-size:8px;color:var(--dimmed);">PILOT SUCCESS · OUTSIDE COLLECTIBLES</span>
         </div>
         <div class="chain-title">Fanatics Holding Co</div>
-        <div class="chain-sub">If Collectibles proves the model — decision intelligence compounds across Fanatics Betting & Gaming, Fanatics Events, Fanatics Commerce. The operator becomes the intelligence substrate for the full platform. This is the cross-chain scenario: not a VP in one vertical, but the intelligence architecture for the whole org.</div>
+        <div class="chain-sub">If Collectibles proves the model — decision intelligence compounds across Fanatics Betting & Gaming, Events, Commerce. Not a VP in one vertical, but the intelligence architecture for the whole org.</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;">
           <span style="font-family:var(--mono);font-size:8.5px;color:var(--muted);padding:4px 8px;border:1px solid var(--border2);border-radius:4px;">Betting & Gaming</span>
           <span style="font-family:var(--mono);font-size:8.5px;color:var(--muted);padding:4px 8px;border:1px solid var(--border2);border-radius:4px;">Fanatics Events</span>
@@ -282,13 +265,115 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <span style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);padding:4px 8px;border:1px solid rgba(30,41,59,0.3);border-radius:4px;">+3 verticals</span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- S4: BAR-RAISE TEST — rich + deep -->
+  <div class="d-rich d-deep">
+    <div class="sl-row"><span class="sl">The innovation mandate test</span><span class="rt">~2 min</span></div>
+    <div style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:14px;">Invert the burden of proof: <strong style="color:var(--text);">"What do we lose by not doing it?"</strong> Map all three scenarios. If the floor is still net positive, the burden has shifted.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="background:rgba(0,255,157,0.04);border:1px solid rgba(0,255,157,0.2);border-radius:9px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--green);margin-bottom:8px;">BEST</div>
+        <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.45;margin-bottom:6px;">Rips holds. Cross-BU signal creates organizational pull.</div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">xBiz adopts. Fanatics Holding Co has a defensible intelligence substrate before a competitor builds one.</div>
+      </div>
+      <div style="background:rgba(0,240,255,0.03);border:1px solid rgba(0,240,255,0.15);border-radius:9px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--cyan);margin-bottom:8px;">BASE</div>
+        <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.45;margin-bottom:6px;">Solid artifacts. Team uses the brief. Cross-BU propagation slower.</div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Decision taxonomy and audit brief template exist permanently. Rips knows things about its growth motion it didn't know before.</div>
+      </div>
+      <div style="background:rgba(255,77,109,0.03);border:1px solid rgba(255,77,109,0.15);border-radius:9px;padding:14px;">
+        <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--red);margin-bottom:8px;">WORST</div>
+        <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.45;margin-bottom:6px;">POC surfaces structural gaps. Intelligence layer can't compound here yet.</div>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">You now have the clearest picture of Rips' decision gaps that exists anywhere. That's not failure — that's a diagnostic.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:11px 14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:8px;font-size:12px;color:var(--gold);">In all three scenarios, Fanatics learns something it doesn't currently know. The floor is net positive.</div>
+  </div>
+
+  <!-- S5: THE ARC — rich + deep -->
+  <div class="d-rich d-deep">
+    <div class="sl-row"><span class="sl">The engagement arc</span><span class="rt">6 beats, first signal to TEI</span></div>
+    <div style="display:flex;flex-direction:column;gap:0;">
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,240,255,0.12);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);flex-shrink:0;">01</div>
+          <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
+        </div>
+        <div style="padding-bottom:18px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--cyan);margin-bottom:3px;">EXEC RECAP</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">One-page signal for Mahan / board conversation</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">What did we learn from the Rips POC and what does it mean for the platform? The artifact Chris brings upstairs.</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(136,153,170,0.1);border:1.5px solid var(--steel);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--steel);flex-shrink:0;">02</div>
+          <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
+        </div>
+        <div style="padding-bottom:18px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--steel);margin-bottom:3px;">THE WORM</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">Growth signal context — Chris's frame for the category</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">Establishes the problem before the solution enters the room. <span style="color:var(--steel);">growth-mauve.vercel.app</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,255,157,0.06);border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);flex-shrink:0;">03</div>
+          <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
+        </div>
+        <div style="padding-bottom:18px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:3px;">THE HOOK</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">Chase's situational awareness brief</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">Rips-specific deployment framing. 30/60/90 output map, beachhead case. <span style="color:var(--green);">chase-intro.arcs.care</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.06);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">04</div>
+          <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
+        </div>
+        <div style="padding-bottom:18px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--gold);margin-bottom:3px;">THE CALL</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">30 minutes. Scope the POC. Agree on the signal threshold.</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">Map Rips' current decision anatomy. Identify the first two drops where the intelligence layer has highest leverage. No commitment beyond the call.</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,240,255,0.1);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);flex-shrink:0;">05</div>
+          <div style="width:1px;flex:1;background:var(--border);min-height:20px;margin:4px 0;"></div>
+        </div>
+        <div style="padding-bottom:18px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--cyan);margin-bottom:3px;">THE POC</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">90-day Rips deployment. Tenant:0 of the intelligence substrate.</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">Three artifacts at 30/60/90. Embedded, scoped, self-sustaining. The cross-BU signal report is the argument for what comes next.</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.08);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">06</div>
+        </div>
+        <div style="padding-bottom:8px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--gold);margin-bottom:3px;">TEI BOOK</div>
+          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:3px;">Fanatics Total Economic Impact — built from real Rips data</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.5;">What the intelligence layer is worth across the platform, documented from actual POC numbers. The asset Mahan takes to a board conversation. Forrester builds these for enterprise vendors — we build ours from the ground up.</div>
+        </div>
+      </div>
 
     </div>
   </div>
 
-  <!-- AMAZON PARALLEL -->
-  <div>
-    <div class="sl">The architectural precedent</div>
+  <!-- S6: AMAZON PARALLEL — deep only -->
+  <div class="d-deep">
+    <div class="sl-row"><span class="sl">The architectural precedent</span><span class="rt">~2 min</span></div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
       <div style="padding:14px 18px 10px;border-bottom:1px solid var(--border2);">
         <span style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);">2002 · THE BEZOS API MANDATE</span>
@@ -296,7 +381,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       <div style="padding:14px 18px;">
         <p style="font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:12px;">Bezos mandated that every Amazon team expose its data and functionality through a service interface. All inter-team communication goes through those interfaces. No exceptions. The side effect of the mandate wasn't the mandate — it was AWS. The internal platform became the most valuable external product in history because the architecture forced composability between teams that had previously been silos.</p>
         <div style="height:1px;background:linear-gradient(90deg,rgba(255,215,0,0.3),transparent);margin:14px 0;"></div>
-        <p style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:14px;">The Fanatics version of this isn't a technical mandate. It's an intelligence interface. Each BU has growth signal trapped inside — post-mortems no one reads before the next campaign, tribal knowledge that walks out when a GM leaves, drop learnings that never reach Trading Cards. The intelligence operator creates the interface layer: consistent decision taxonomy, structured pre/post-capture, composable signal that any BU node can call.</p>
+        <p style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:14px;">The Fanatics version isn't a technical mandate. It's an intelligence interface. Each BU has growth signal trapped inside — post-mortems no one reads before the next campaign, tribal knowledge that walks out when a GM leaves. The intelligence operator creates the interface layer: consistent decision taxonomy, structured pre/post-capture, composable signal any BU node can call.</p>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px;">
           <div style="padding:10px 12px;border-radius:7px;background:rgba(0,240,255,0.04);border:1px solid rgba(0,240,255,0.12);">
             <div style="font-family:var(--mono);font-size:8px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:5px;">Tenant 0</div>
@@ -318,97 +403,72 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
-  <!-- BAR-RAISE TEST -->
-  <div>
-    <div class="sl">The innovation mandate test</div>
-    <div style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px;">The bar-raise test inverts the burden of proof. The default question is "why should we do this?" The innovation mandate question is: <strong style="color:var(--text);">"What do we lose by not doing it?"</strong> Map all three scenarios. If the floor is still net positive, the burden has shifted.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-      <div style="background:rgba(0,255,157,0.04);border:1px solid rgba(0,255,157,0.2);border-radius:9px;padding:16px;">
-        <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--green);margin-bottom:8px;">BEST CASE</div>
-        <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;margin-bottom:8px;">Rips POC holds. Cross-BU signal report creates organizational pull.</div>
-        <div style="font-size:11.5px;color:var(--muted);line-height:1.55;">xBiz adopts the taxonomy. Fanatics Holding Co has a defensible intelligence substrate before a competitor builds one. The T+90 artifact is what Mahan puts in front of the board.</div>
-      </div>
-      <div style="background:rgba(0,240,255,0.03);border:1px solid rgba(0,240,255,0.15);border-radius:9px;padding:16px;">
-        <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--cyan);margin-bottom:8px;">BASE CASE</div>
-        <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;margin-bottom:8px;">POC delivers solid artifacts. Rips team uses the audit brief. Cross-BU propagation is slower.</div>
-        <div style="font-size:11.5px;color:var(--muted);line-height:1.55;">Decision anatomy map and pre-drop brief template exist permanently. Rips knows things about its own growth motion it didn't know before. That knowledge stays regardless of what happens next.</div>
-      </div>
-      <div style="background:rgba(255,77,109,0.03);border:1px solid rgba(255,77,109,0.15);border-radius:9px;padding:16px;">
-        <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--red);margin-bottom:8px;">WORST CASE</div>
-        <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;margin-bottom:8px;">POC surfaces intractable structural gaps. Intelligence layer can't compound here yet.</div>
-        <div style="font-size:11.5px;color:var(--muted);line-height:1.55;">You now have the clearest picture of Rips' decision gaps that exists anywhere. That's not failure — that's a diagnostic that every future hire, every system investment, every growth conversation plugs into.</div>
-      </div>
-    </div>
-    <div style="margin-top:12px;padding:12px 16px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:8px;font-size:12.5px;color:var(--gold);font-style:italic;">In all three scenarios, Fanatics learns something it doesn't currently know. The floor is net positive. Burden of proof has shifted.</div>
-  </div>
-
-  <!-- OBJECTION PRE-MORTEM -->
-  <div>
-    <div class="sl">Anticipatory objection pre-mortem</div>
-    <div style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px;">Run the critical path backward from each failure mode. If the objection is valid, the pre-mortem trace shows where it breaks down — and whether that break is recoverable.</div>
-    <div style="display:flex;flex-direction:column;gap:8px;">
+  <!-- S7: OBJECTION PRE-MORTEM — deep only -->
+  <div class="d-deep">
+    <div class="sl-row"><span class="sl">Anticipatory objection pre-mortem</span><span class="rt">~3 min</span></div>
+    <div style="display:flex;flex-direction:column;gap:6px;">
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="padding:14px 16px;border-right:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:6px;">OBJECTION</div>
-            <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;">"We already have data teams and analysts."</div>
+          <div style="padding:12px 14px;border-right:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
+            <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"We already have data teams."</div>
           </div>
-          <div style="padding:14px 16px;">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:6px;">TRACE</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.55;">Analysts measure what happened after. This captures the decision context <em style="color:var(--text);">before</em> the outcome — the hypothesis, the constraint, the dissent that got overruled. Different layer. Your analysts don't have this data because no one structured the pre-decision moment.</div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:5px;">TRACE</div>
+            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Analysts measure what happened <em style="color:var(--text);">after</em>. This captures decision context <em style="color:var(--text);">before</em> — the hypothesis, the constraint, the dissent that got overruled. Different layer. No one structured the pre-decision moment.</div>
           </div>
         </div>
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="padding:14px 16px;border-right:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:6px;">OBJECTION</div>
-            <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;">"The team doesn't have bandwidth to run a new system."</div>
+          <div style="padding:12px 14px;border-right:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
+            <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"No bandwidth for a new system."</div>
           </div>
-          <div style="padding:14px 16px;">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:6px;">TRACE</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.55;">The operator carries the system, not the team. Chase's team has a 15-minute pre-drop brief cadence, not a new reporting structure. The ask is one structured conversation per drop — the artifact is permanent. Bandwidth cost: low. Ongoing lift: zero after the framework is embedded.</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="padding:14px 16px;border-right:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:6px;">OBJECTION</div>
-            <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;">"What's the measurable ROI?"</div>
-          </div>
-          <div style="padding:14px 16px;">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:6px;">TRACE</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.55;">Conservative: one avoidable pricing error per drop season × average drop revenue × number of drops. That number is almost certainly larger than the POC cost. The more durable ROI is the compounding attribution model — each campaign that runs through the framework makes the next one measurably cheaper to execute correctly.</div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:5px;">TRACE</div>
+            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">The operator carries the system. Chase's team has a 15-minute pre-drop cadence, not a new reporting structure. One structured conversation per drop. Ongoing lift: zero after the framework is embedded.</div>
           </div>
         </div>
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="padding:14px 16px;border-right:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:6px;">OBJECTION</div>
-            <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;">"What happens after 90 days?"</div>
+          <div style="padding:12px 14px;border-right:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
+            <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"What's the measurable ROI?"</div>
           </div>
-          <div style="padding:14px 16px;">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:6px;">TRACE</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.55;">The artifacts don't leave. The decision taxonomy, the audit brief template, the pre-drop framing cadence — those are Rips' assets regardless of what happens to the contract. The 90-day output is designed to be self-sustaining. The operator's job is to make himself unnecessary.</div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:5px;">TRACE</div>
+            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">Conservative: one avoidable pricing error per drop season × average drop revenue × number of drops. Almost certainly larger than the POC cost. Durable ROI: each campaign through the framework makes the next one cheaper to execute correctly.</div>
           </div>
         </div>
       </div>
 
       <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div style="padding:14px 16px;border-right:1px solid var(--border);">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:6px;">OBJECTION</div>
-            <div style="font-size:12.5px;color:var(--text);font-weight:600;line-height:1.45;">"Why not just hire a full-time VP of Growth?"</div>
+          <div style="padding:12px 14px;border-right:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
+            <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"What happens after 90 days?"</div>
           </div>
-          <div style="padding:14px 16px;">
-            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:6px;">TRACE</div>
-            <div style="font-size:12px;color:var(--muted);line-height:1.55;">A VP hire commits to a single BU's context before the platform-wide intelligence need is even understood. This model proves the need first, then the right org structure becomes obvious. If the POC works, the VP conversation has evidence behind it. If it doesn't, you didn't make a 4-year bet on an unproven hypothesis.</div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:5px;">TRACE</div>
+            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">The artifacts don't leave. Decision taxonomy, audit brief template, pre-drop cadence — Rips' assets regardless of what happens to the contract. The operator's job is to make himself unnecessary.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+          <div style="padding:12px 14px;border-right:1px solid var(--border);">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--red);margin-bottom:5px;">OBJECTION</div>
+            <div style="font-size:12px;color:var(--text);font-weight:600;line-height:1.4;">"Why not just hire a VP of Growth?"</div>
+          </div>
+          <div style="padding:12px 14px;">
+            <div style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:5px;">TRACE</div>
+            <div style="font-size:11.5px;color:var(--muted);line-height:1.5;">A VP hire commits to a single BU's context before the platform-wide intelligence need is understood. This model proves the need first. If the POC works, the VP conversation has evidence. If not, you didn't make a 4-year bet on an unproven hypothesis.</div>
           </div>
         </div>
       </div>
@@ -416,89 +476,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
-  <!-- THE ARC -->
-  <div>
-    <div class="sl">The engagement arc</div>
-    <div style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px;">Six beats from first signal to total economic impact. Each step creates the artifact that makes the next step obvious.</div>
-    <div style="display:flex;flex-direction:column;gap:0;">
-
-      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,240,255,0.12);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);flex-shrink:0;">01</div>
-          <div style="width:1px;height:100%;background:var(--border);min-height:24px;margin:4px 0;"></div>
-        </div>
-        <div style="padding-bottom:20px;">
-          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--cyan);margin-bottom:4px;">EXEC RECAP</div>
-          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;">One-page signal for Mahan / board-level conversation</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.55;">Pure outcome language. No jargon. The question it answers: "What did we learn from the Rips POC and what does it mean for the platform?" The artifact that Chris brings upstairs.</div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(136,153,170,0.1);border:1.5px solid var(--steel);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--steel);flex-shrink:0;">02</div>
-          <div style="width:1px;height:100%;background:var(--border);min-height:24px;margin:4px 0;"></div>
-        </div>
-        <div style="padding-bottom:20px;">
-          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--steel);margin-bottom:4px;">THE WORM</div>
-          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;">Growth signal context — Chris's frame for the category</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.55;">The ambient awareness layer. Chris's signal map of where the growth intelligence opportunity is and why now. Establishes the problem before the solution enters the room. Lives at <span style="color:var(--steel);">growth-mauve.vercel.app</span>.</div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,255,157,0.06);border:1.5px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);flex-shrink:0;">03</div>
-          <div style="width:1px;height:100%;background:var(--border);min-height:24px;margin:4px 0;"></div>
-        </div>
-        <div style="padding-bottom:20px;">
-          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--green);margin-bottom:4px;">THE HOOK</div>
-          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;">Chase's situational awareness brief</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.55;">Pre-call intelligence for Chase — what the deployment looks like at Rips specifically, the 30/60/90 output map, the beachhead framing. Lives at <span style="color:var(--green);">chase-intro.arcs.care</span>.</div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.06);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">04</div>
-          <div style="width:1px;height:100%;background:var(--border);min-height:24px;margin:4px 0;"></div>
-        </div>
-        <div style="padding-bottom:20px;">
-          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--gold);margin-bottom:4px;">THE CALL</div>
-          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;">30 minutes. Scope the POC. Agree on the signal threshold.</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.55;">The only ask at this stage: 30 minutes to map Rips' current decision anatomy and identify the first two drops where the intelligence layer has the highest leverage. No commitment beyond the call. No 12-month ramp. One conversation.</div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(0,240,255,0.1);border:1.5px solid var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);flex-shrink:0;">05</div>
-          <div style="width:1px;height:100%;background:var(--border);min-height:24px;margin:4px 0;"></div>
-        </div>
-        <div style="padding-bottom:20px;">
-          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--cyan);margin-bottom:4px;">THE POC</div>
-          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;">90-day Rips deployment. Tenant:0 of the intelligence substrate.</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.55;">Three artifacts at 30/60/90. The service operator model — embedded, scoped, self-sustaining. The POC is the proof; the artifacts are the asset; the cross-BU signal report is the argument for what comes next.</div>
-        </div>
-      </div>
-
-      <div style="display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
-          <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,215,0,0.08);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;">06</div>
-        </div>
-        <div style="padding-bottom:8px;">
-          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;color:var(--gold);margin-bottom:4px;">TEI BOOK</div>
-          <div style="font-size:13px;color:var(--text);font-weight:600;margin-bottom:4px;">Fanatics Total Economic Impact — built from real Rips data</div>
-          <div style="font-size:12px;color:var(--muted);line-height:1.55;">The final artifact. What the intelligence layer is worth across the platform — documented from the POC's actual numbers, not a vendor's projected model. The kind of asset Mahan takes to a board conversation or uses to justify the xBiz scale decision. Forrester builds these for enterprise software vendors. We build ours from the ground up, from real signal.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ECONOMICS -->
-  <div>
-    <div class="sl">The economic case</div>
+  <!-- S8: ECONOMICS — deep only -->
+  <div class="d-deep">
+    <div class="sl-row"><span class="sl">The economic case</span><span class="rt">~1 min</span></div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
       <div class="econ-row">
         <div class="econ-label">Rips POC cost</div>
@@ -506,20 +486,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
       <div class="econ-row">
         <div class="econ-label">Scale marginal cost</div>
-        <div class="econ-val">Each additional BU node costs less than the last — the taxonomy, the memory layer, and the decision framework already exist. You're adding signal, not rebuilding the system.</div>
+        <div class="econ-val">Each additional BU node costs less than the last — the taxonomy, the memory layer, and the decision framework already exist. Adding signal, not rebuilding the system.</div>
       </div>
       <div class="econ-row">
         <div class="econ-label">vs. 5 BU analysts</div>
-        <div class="econ-val">Five separate BU analysts generate five isolated intelligence silos. <em>One cross-BU operator generates a compounding shared asset.</em> The math is different.</div>
+        <div class="econ-val">Five separate analysts generate five isolated silos. <em>One cross-BU operator generates a compounding shared asset.</em> The math is different.</div>
       </div>
       <div class="econ-row">
         <div class="econ-label">The asset</div>
-        <div class="econ-val">The institutional memory layer doesn't leave when a contract ends. The decision records, the taxonomy, the audit briefs — <em>that's the Fanatics asset.</em> It appreciates with every deployment.</div>
+        <div class="econ-val">The institutional memory layer doesn't leave when a contract ends. Decision records, taxonomy, audit briefs — <em>that's the Fanatics asset.</em> It appreciates with every deployment.</div>
       </div>
     </div>
   </div>
 
-  <!-- CTA -->
+  <!-- CTA — always visible -->
   <div class="signal-block">
     <div class="signal-title">Start at Rips. Let the signal tell you what's next.</div>
     <div class="signal-sub">90 days to prove the model. If it works, the question isn't whether to scale — it's how fast.</div>
@@ -537,15 +517,31 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 </div>
 <script>
 const LENS_COLORS = { president:'#00F0FF', cto:'#8899aa', cmo:'#00FF9D', cro:'#FFD700', talent:'#64748b', gm:'#00FF9D' };
+
 function setLens(id) {
   document.querySelectorAll('.lens-pane').forEach(p => p.style.display = 'none');
   document.querySelectorAll('.lens-btn').forEach(b => {
-    b.style.color = 'var(--muted)';
+    b.style.color = '#475569';
     b.style.borderBottom = '2px solid transparent';
   });
   document.getElementById('lens-' + id).style.display = 'block';
   const btn = [...document.querySelectorAll('.lens-btn')].find(b => b.getAttribute('onclick') === "setLens('" + id + "')");
   if (btn) { btn.style.color = LENS_COLORS[id]; btn.style.borderBottom = '2px solid ' + LENS_COLORS[id]; }
+}
+
+function setDepth(d) {
+  // d-rich = show in rich + deep; d-deep (without d-rich) = deep only
+  document.querySelectorAll('.d-rich').forEach(el => el.style.display = (d === 'rich' || d === 'deep') ? 'block' : 'none');
+  document.querySelectorAll('.d-deep:not(.d-rich)').forEach(el => el.style.display = d === 'deep' ? 'block' : 'none');
+  // update button styles
+  ['simple','rich','deep'].forEach(function(name) {
+    const btn = document.getElementById('d-' + name);
+    if (!btn) return;
+    const active = name === d;
+    btn.style.background = active ? 'rgba(0,240,255,0.12)' : 'transparent';
+    btn.style.borderColor = active ? '#00F0FF' : '#1e293b';
+    btn.style.color = active ? '#00F0FF' : '#475569';
+  });
 }
 </script>
 </body>
