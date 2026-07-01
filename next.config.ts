@@ -4,11 +4,17 @@ import path from "path";
 // Resolve the actual project root from the main checkout (not worktree)
 // Get the git worktree root
 const { execSync } = require("child_process");
-const gitRoot = execSync("git rev-parse --show-toplevel", {
-  encoding: "utf-8",
-  stdio: ["pipe", "pipe", "pipe"], // suppress stderr
-}).trim();
-const projectRoot = path.resolve(gitRoot);
+let projectRoot: string;
+try {
+  const gitRoot = execSync("git rev-parse --show-toplevel", {
+    encoding: "utf-8",
+    stdio: ["pipe", "pipe", "pipe"],
+  }).trim();
+  projectRoot = path.resolve(gitRoot);
+} catch {
+  // Vercel build env has no .git — process.cwd() is already the project root
+  projectRoot = process.cwd();
+}
 
 const nextConfig: NextConfig = {
   // Next 16 / Turbopack: pin the workspace root explicitly. Without this,
