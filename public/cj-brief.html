@@ -5,13 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>For CJ — Fanatics Collectibles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
-  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --border: #1e293b; --text: #e2e8f0; --muted: #64748b; --dimmed: #8899aa;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
   --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
-  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --sans: 'Instrument Sans','Inter',system-ui,-apple-system,sans-serif;
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
@@ -29,22 +32,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
 
 /* TABS */
-.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; background: var(--surface); }
 .tab-btn {
   flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
   font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
-  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 .tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-btn:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.04); }
+.tab-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
 .tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
 .tab-pane.active { display: flex; }
 
 /* ROWS */
 .conf-rows { display: flex; flex-direction: column; }
-.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
 .conf-row:last-child { border-bottom: none; }
-.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; padding-top: 2px; }
 .conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
 .conf-val strong { font-weight: 600; }
 
@@ -94,7 +99,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .q-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
 .q-row:last-child { border-bottom: none; }
 .q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
-.q-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
 
 /* VARIANTS */
 .variant { display: flex; flex-direction: column; gap: 0; }
@@ -102,8 +107,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .variant-header:hover .variant-label { color: var(--text); }
 .variant-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 .variant-tag { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; }
-.variant-body { display: none; padding: 20px; border-bottom: 1px solid rgba(30,41,59,0.4); background: var(--surface2); }
-.variant-body.open { display: block; }
+.variant-body { display: block; max-height: 0; overflow: hidden; padding: 0 20px; border-bottom: 1px solid rgba(30,41,59,0.4); background: var(--surface2); transition: max-height 0.28s ease, padding 0.28s ease; }
+.variant-body.open { max-height: 800px; padding: 20px; }
 .variant-text { font-size: 13px; color: var(--text); line-height: 1.75; white-space: pre-wrap; font-family: var(--sans); }
 .variant:last-child .variant-header { border-bottom: none; }
 .variant:last-child .variant-body { border-bottom: none; }
@@ -132,12 +137,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .btest-row:last-child { border-bottom: none; }
 .btest-q { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 6px; }
 .btest-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; }
+.link-btn:focus-visible,
+.cal-link:focus-visible,
+.variant-header:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 @media (max-width: 640px) {
   body { padding: 28px 16px 60px; }
   .links { flex-wrap: wrap; }
   .link-btn { flex: 1 1 calc(50% - 5px); min-width: 120px; }
   .cal-row { flex-wrap: wrap; gap: 8px; }
   .cal-links { flex-shrink: unset; width: 100%; justify-content: flex-start; }
+  .cal-link { padding: 8px 14px; }
   .conf-key { width: 70px; }
   .next-owner { width: 44px; }
 }
