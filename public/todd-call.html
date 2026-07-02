@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRL Resins · Phase 1 Proposal · Zach Harris</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --border: #1e293b;
+  --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --green-glow: 0 0 14px rgba(0,255,157,0.3), 0 0 4px rgba(0,255,157,0.6);
+  --r-sm: 4px; --r-lg: 12px;
+  --mono: 'GeistMono','JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+  --sans: 'InstrumentSans','Inter',system-ui,-apple-system,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 96px; }
+.page { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+/* ── HEADER ── */
+.header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--green); }
+.header-inner { padding: 24px 28px 24px 32px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.header-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: var(--green); margin-bottom: 8px; text-transform: uppercase; }
+.header-name { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.015em; line-height: 1.2; }
+.header-sub { font-family: var(--sans); font-size: 12px; color: var(--muted); margin-top: 5px; }
+.ygate { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: var(--r-sm); border: 1px solid rgba(0,255,157,0.3); background: rgba(0,255,157,0.05); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 0.1em; white-space: nowrap; }
+.ygate-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: var(--green-glow); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* ── LOAD-BEARING QUOTE ── */
+.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
+.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), transparent 55%); }
+.lbq-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.lbq-text { font-family: var(--sans); font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.65; font-style: italic; }
+.lbq-text::before { content: '\201C'; color: var(--green); font-size: 26px; font-style: normal; line-height: 0; vertical-align: -0.28em; margin-right: 3px; }
+.lbq-text::after  { content: '\201D'; color: var(--green); font-size: 26px; font-style: normal; line-height: 0; vertical-align: -0.28em; margin-left: 3px; }
+.lbq-attr { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 14px; }
+
+/* ── PHASE 1 CARD ── */
+.phase1 { background: var(--surface); border: 1px solid rgba(0,255,157,0.2); border-radius: var(--r-lg); overflow: hidden; }
+.phase1-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.phase1-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); }
+.phase1-window { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; }
+.phase1-title { padding: 22px 24px 4px; font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.015em; }
+.phase1-hook { padding: 8px 24px 20px; font-family: var(--sans); font-size: 14px; color: var(--dimmed); line-height: 1.65; border-bottom: 1px solid var(--border); }
+.deliverables { display: flex; flex-direction: column; }
+.dlv { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.dlv:last-child { border-bottom: none; }
+.dlv-label { padding: 16px 20px; border-right: 1px solid var(--border); }
+.dlv-name { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 0.06em; margin-bottom: 4px; }
+.dlv-tag { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+.dlv-body { padding: 16px 20px; }
+.dlv-benefit { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+.dlv-detail { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.6; }
+
+/* ── NEXT UP (sketch) ── */
+.next-up { border: 1px dashed rgba(30,41,59,0.7); border-radius: var(--r-lg); padding: 16px 22px; display: flex; align-items: flex-start; gap: 16px; opacity: 0.5; }
+.next-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); white-space: nowrap; padding-top: 2px; }
+.next-items { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.7; }
+
+/* ── PROTOCOL ── */
+.protocol { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.protocol-header { padding: 14px 22px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.steps { display: flex; flex-direction: column; }
+.step { display: grid; grid-template-columns: 48px 1fr; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.step:last-child { border-bottom: none; }
+.step-num { display: flex; align-items: flex-start; justify-content: center; padding: 18px 0; border-right: 1px solid var(--border); font-family: var(--mono); font-size: 13px; font-weight: 700; }
+.step-num.active { color: var(--green); text-shadow: var(--green-glow); }
+.step-num.next   { color: var(--dimmed); }
+.step-body { padding: 16px 20px; }
+.step-title { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.step-desc  { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.6; }
+.step-owner { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; margin-top: 5px; }
+
+/* ── STOP-LOSS ── */
+.stop-loss { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-radius: var(--r-lg); border: 1px solid rgba(0,255,157,0.15); background: rgba(0,255,157,0.03); }
+.sl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: var(--green-glow); flex-shrink: 0; animation: pulse 2.5s ease-in-out infinite; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: rgba(0,255,157,0.7); line-height: 1.55; flex: 1; }
+.sl-ts { font-family: var(--mono); font-size: 9px; color: rgba(0,255,157,0.3); white-space: nowrap; }
+
+@media (max-width: 600px) {
+  .header-inner { grid-template-columns: 1fr; }
+  .dlv { grid-template-columns: 1fr; }
+  .dlv-label { border-right: none; border-bottom: 1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div>
+        <div class="header-mark">Phase 1 Proposal · PRL Resins</div>
+        <div class="header-name">Fix the Instrument Panel First</div>
+        <div class="header-sub">Zach Harris · Jul 2, 2026 · prlresins.com</div>
+      </div>
+      <div class="ygate">
+        <div class="ygate-dot"></div>
+        READY TO START
+      </div>
+    </div>
+  </div>
+
+  <!-- LOAD-BEARING QUOTE -->
+  <div class="lbq">
+    <div class="lbq-eyebrow">Todd Hotes · Close of call · Jul 2, 2026</div>
+    <div class="lbq-text">There's very limited friction because really, nobody else knows about any type of technology. So if this works, go for it.</div>
+    <div class="lbq-attr">One decision maker. Budget not a constraint. Zero internal approval required.</div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase1">
+    <div class="phase1-header">
+      <div class="phase1-badge">Phase 1 · Weeks 1–3</div>
+      <div class="phase1-window">Fixed scope · Discrete invoice · Defined success metric</div>
+    </div>
+    <div class="phase1-title">One-week sprint · 3 sessions · $1,500 fixed</div>
+    <div class="phase1-hook">Right now PRL's marketing stack is flying IFR without instruments. Stale tags are penalizing every PPC dollar. GA4 is essentially dark. Three 90-minute sessions this week fixes both — and delivers a proof document, not a promise.</div>
+    <div class="deliverables">
+
+      <div class="dlv">
+        <div class="dlv-label">
+          <div class="dlv-name">Session 1</div>
+          <div class="dlv-tag">Diagnostic · 90 min</div>
+        </div>
+        <div class="dlv-body">
+          <div class="dlv-benefit">Full tag inventory — know exactly what's broken and why</div>
+          <div class="dlv-detail">GTM access → every tag audited live. Dead tags identified and flagged. GA4 current state reviewed. Priority hit list agreed together before session ends. You leave knowing exactly what's been costing you on every click.</div>
+        </div>
+      </div>
+
+      <div class="dlv">
+        <div class="dlv-label">
+          <div class="dlv-name">Session 2</div>
+          <div class="dlv-tag">Build · 90 min</div>
+        </div>
+        <div class="dlv-body">
+          <div class="dlv-benefit">GA4 live — every form fill tracked, every lead source visible</div>
+          <div class="dlv-detail">Dead tags removed. GA4 conversion events wired across every landing page and form. Verified in real-time with DebugView during the session — not a claim, a live confirmation. You can see leads appearing the moment the form is submitted.</div>
+        </div>
+      </div>
+
+      <div class="dlv">
+        <div class="dlv-label">
+          <div class="dlv-name">Session 3</div>
+          <div class="dlv-tag">Verify + Report · 90 min</div>
+        </div>
+        <div class="dlv-body">
+          <div class="dlv-benefit">Google optimizing toward leads, not clicks — proof document delivered</div>
+          <div class="dlv-detail">GA4 connected to Google Ads — the algorithm now feeds on real lead data instead of click volume. Lighthouse before/after scores side by side. GA4 funnel report by source. Walked through together. If the numbers moved, you know exactly how much. If Phase 2 makes sense, you'll see why in the data.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NEXT UP (sketch) -->
+  <div class="next-up">
+    <div class="next-label">On deck</div>
+    <div class="next-items">Phase 2 — Unbounce → SugarCRM direct (retire Zapier) &nbsp;·&nbsp; Phase 3 — Homepage qualification agent (two-tree: knows resin / has application) &nbsp;·&nbsp; Phase 4 — PPC creative AI &nbsp;·&nbsp; Phase 5 — LinkedIn ABM</div>
+  </div>
+
+  <!-- PROTOCOL -->
+  <div class="protocol">
+    <div class="protocol-header">One ask</div>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num active">→</div>
+        <div class="step-body">
+          <div class="step-title">Reply yes — I'll send a Session 1 calendar invite today</div>
+          <div class="step-desc">All I need to start: GTM admin access + GA4 admin access. One invoice at the end of the week. No scope doc, no contract, no back-and-forth.</div>
+          <div class="step-owner">$1,500 · Fixed · One invoice · This week</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STOP-LOSS -->
+  <div class="stop-loss">
+    <div class="sl-dot"></div>
+    <div class="sl-text">Success metric — measurable improvement in GA4 conversion rate or Google Ads Quality Score within 30 days. If the numbers don't move, stop and diagnose before Phase 2.</div>
+    <div class="sl-ts">JUL 2, 2026</div>
+  </div>
+
+</div>
+</body>
+</html>
