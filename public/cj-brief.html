@@ -596,6 +596,7 @@ Reports to Chris Lamontagne, President, Strategy & Growth · Level SD → VP</di
   </div>
 
 </div>
+<script defer src="/_vercel/insights/script.js"></script>
 <script>
 function switchTab(id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -603,6 +604,7 @@ function switchTab(id) {
   document.querySelector('[onclick="switchTab(\'' + id + '\')"]').classList.add('active');
   document.getElementById('tab-' + id).classList.add('active');
   document.getElementById('post-datestamp').style.display = id === 'post' ? 'block' : 'none';
+  if (window.va) va('event', { name: 'tab_view', data: { tab: id, brief: 'cj-brief' } });
 }
 if (window.location.hash === '#debrief') { switchTab('post'); }
 function toggleVariant(el) {
@@ -611,6 +613,10 @@ function toggleVariant(el) {
   const isOpen = body.classList.contains('open');
   body.classList.toggle('open', !isOpen);
   tag.textContent = isOpen ? 'tap to expand ↓' : 'tap to collapse ↑';
+  if (!isOpen && window.va) {
+    const label = el.querySelector('.variant-label');
+    va('event', { name: 'variant_expand', data: { variant: label ? label.textContent.trim() : '', brief: 'cj-brief' } });
+  }
 }
 function downloadIcs(filename, title, start, end, description) {
   const uid = filename + '-' + Date.now() + '@arcs.care';
@@ -641,7 +647,11 @@ function downloadIcs(filename, title, start, end, description) {
   a.download = filename + '.ics';
   a.click();
   URL.revokeObjectURL(a.href);
+  if (window.va) va('event', { name: 'ics_download', data: { event: filename, brief: 'cj-brief' } });
 }
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'cj-brief' } });
+});
 </script>
 </body>
 </html>
