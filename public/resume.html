@@ -37,7 +37,6 @@
   </style>
 </head>
 <body>
-<a href="https://fanatics.arcs.care/" style="position:fixed;top:14px;left:16px;z-index:100;font-family:ui-monospace,'SF Mono','Cascadia Code',monospace;font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#64748b;text-decoration:none;opacity:0.45;transition:opacity 0.15s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.45'">← Skeleton Key</a>
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useRef } = React;
@@ -443,7 +442,7 @@ const ROLES = [
     compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units — and what\'s the right first wedge to prove the model?',
     bullets:[
       { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
-      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
+      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
       { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions — compounding institutional memory', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy — breadth is the product', v:['all'] },
     ] },
@@ -531,10 +530,10 @@ const CONSULTING_CLIENTS = [
 
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
-  all:   { heading:'GROWTH INTELLIGENCE',
-    text:'Growth executive and system builder with two decades across creative, tech, marketing, data, and commercial operations — in sports, finance, health, and consumer. Builds the institutional memory layer: structured pre-decision framing, honest post-decision capture, and cross-domain pattern recognition that makes each campaign sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed.' },
+  all:   { heading:'APPLIED AI · DECISION INTELLIGENCE',
+    text:'Growth executive and system builder with two decades across creative, tech, marketing, data, and commercial operations — in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.' },
   figma: { heading:'GROWTH DEPTH',
-    text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch — no inherited playbook, no pre-existing measurement framework. That\'s the pattern this role requires.' },
+    text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch — no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
   ds:    { heading:'SYSTEMS DEPTH',
     text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production — not experiments.' },
 };
@@ -570,7 +569,7 @@ function GrainResume() {
       metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
       bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
                '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude + ChatGPT Enterprise — same tools confirmed in production at Fanatics (CJ, Jul 1)'] },
+               'Running on Claude + ChatGPT Enterprise with MCP server — AI-native in production, not experiments'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
       metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
       bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
@@ -595,10 +594,10 @@ function GrainResume() {
       <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
         maxWidth:680, marginBottom:24 }}>
         Growth executive and system builder with two decades across creative, tech, marketing, data,
-        and commercial operations — in sports, finance, health, and consumer. Builds the institutional
-        memory layer: structured pre-decision framing, honest post-decision capture, and cross-domain
-        pattern recognition that makes each campaign sharper than the last. Currently: ARCS, a decision
-        intelligence platform built on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed.
+        and commercial operations — in sports, finance, health, and consumer. Builds the intelligence
+        layer before the category for it exists: structured pre-decision framing, AI-native analysis
+        pipelines, and compounding feedback loops that make each decision sharper than the last.
+        Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
       </p>
 
       {/* Thin cyan gradient rule — the one graphic element */}
@@ -875,37 +874,37 @@ function DeepScan() {
       <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
-          { id:'ci1', glyph:'⊗', label:'WTA Fan Intelligence (2016) × Instant Rips (2026)',
+          { id:'ci1', glyph:'⊗', label:'WTA Real-Time Intelligence (2016) × Live Commerce (2026)',
             meta:'Sports fan monetization — 10-year isomorphism',
-            summary:'WTA live-event fan scoring at <120ms and Instant Rips drops are the same architecture: user in a high-stakes, time-compressed moment; personalized offer or insight needs to land before the window closes.',
+            summary:'WTA live-event fan scoring at <120ms and modern live commerce drops are the same architecture: user in a high-stakes, time-compressed moment; personalized signal needs to land before the window closes.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
                 At WTA (2016–2018): fan at a live event → behavioral signal → personalized offer under 120ms. The system had to read intent and deliver without friction because a delayed offer during a match moment was worthless. Built the real-time architecture, the behavioral taxonomy, and the commercial partnership layer ($850K+ year-one from Twitter and Facebook).
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Instant Rips is the same problem class: collector in a drop window → purchase decision → post-drop intelligence feeds the next drop. The WTA architecture is the direct ancestor of what Rips needs.
+                Live commerce drops are the same problem class: user in a purchase window → behavioral signal → post-event intelligence feeds the next drop. The WTA architecture is a direct ancestor. The isomorphism is structural, not superficial.
               </p>
             </> },
-          { id:'ci2', glyph:'⊗', label:'Studio Art × Cross-BU Intelligence',
+          { id:'ci2', glyph:'⊗', label:'Studio Art × Cross-Domain Intelligence',
             meta:'Oberlin 2006 × breadth career',
-            summary:'Aesthetic intelligence applied to growth architecture — intelligence products that get used because they\'re designed to be understood, not just accurate. And creative judgment that holds across product categories.',
+            summary:'Aesthetic intelligence applied to system architecture — intelligence products that get used because they\'re designed to be understood, not just accurate. Creative judgment that holds across product categories and industries.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously — the same skill that makes a cross-BU intelligence layer actually work instead of producing reports no one reads.
+                Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously — the same skill that makes a cross-domain intelligence layer actually work instead of producing reports no one reads.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                For Fanatics: Trading Cards, Instant Rips, Live Commerce, and Paris all speak different languages. The intelligence layer has to translate. That's a creative problem as much as an analytical one.
+                Applied AI and forward-deployed engineering require the same skill: translating between what the system can do, what the customer needs, and what the data is actually showing. That translation is a creative act as much as a technical one.
               </p>
             </> },
-          { id:'ci3', glyph:'⊗', label:'AI-Native on Fanatics\' Own Tools',
-            meta:'Claude + ChatGPT Enterprise — confirmed in production at Fanatics',
-            summary:'ARCS runs on Claude and ChatGPT Enterprise — the same tools Fanatics has deployed. Day-one questions aren\'t "how does this work?" — they\'re "here\'s what the pattern across Rips drops is telling us."',
+          { id:'ci3', glyph:'⊗', label:'AI-Native in Production — Not in Demos',
+            meta:'Claude + ChatGPT Enterprise + MCP Server · ARCS',
+            summary:'ARCS is built on Claude and ChatGPT Enterprise with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" — it\'s "here\'s what the pattern in your data is already telling us."',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                CJ confirmed on the call (Jul 1): Fanatics already has Claude and ChatGPT Enterprise deployed in production. ARCS runs on both. The onboarding conversation isn't "here's what AI can do" — it's "here's the pattern I'm already seeing in your drop data."
+                Applied AI roles require fluency with the actual production stack — not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), ChatGPT Enterprise, a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
-                This is confirmed, not claimed. The tools match. The rarest thing in growth intelligence hiring.
+                Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept.
               </p>
             </> },
         ].map(t => (
@@ -937,22 +936,22 @@ function DeepScan() {
         ))}
       </div>
 
-      {/* Role Fit — glass cards, ID badge in steel, FANATICS tag gets cyan */}
+      {/* Role Fit — glass cards targeting Applied AI / FDE / Decision Intelligence / Product Eng / AI Strategist */}
       <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap:8, marginBottom:20 }}>
         {[
-          { id:'A', label:'Build the intelligence layer before it has a name',
-            desc:'Greenfield. No inherited playbook, no pre-existing measurement framework. Invent the taxonomy for how growth decisions get made and remembered.',
-            fanatics:'Fanatics Collectibles has the drops, the data, and the scale. It doesn\'t yet have the institutional memory layer. That\'s the gap.' },
-          { id:'B', label:'Cross-BU pattern recognition',
-            desc:'What Trading Cards learned last quarter is relevant to Rips this quarter. The intelligence only compounds if someone is holding it across BUs.',
-            fanatics:'Five business units. One intelligence layer. The breadth is the entire value proposition.' },
-          { id:'C', label:'AI-native on the actual tools',
-            desc:'Not "using AI tools." Building on Claude and ChatGPT Enterprise in production.',
-            fanatics:'CJ confirmed Claude + ChatGPT Enterprise deployed at Fanatics (Jul 1). Day-one questions aren\'t about the tool — they\'re about the pattern.' },
-          { id:'D', label:'Commercial layer as well as analytical',
+          { id:'A', label:'Forward Deployed · Applied AI Engineering',
+            desc:'Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context — without needing to be hand-held through the problem.',
+            why:'ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.' },
+          { id:'B', label:'Decision Intelligence · AI Strategist',
+            desc:'Not just measuring outcomes — designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
+            why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: CDP across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
+          { id:'C', label:'Applied AI Engineering · Product Engineer',
+            desc:'Fluent with the production AI stack — not conceptually familiar with it. Claude API (tool use, extended thinking), ChatGPT Enterprise, MCP server, agentic pipelines. Ships, not demos.',
+            why:'ARCS runs this stack in production across a full decision lifecycle. The architecture is the proof of concept. Most candidates at this level talk about these tools; fewer have deployed them end-to-end.' },
+          { id:'D', label:'Commercial layer alongside analytical depth',
             desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for — and being able to run the commercial decision, not just report on it.',
-            fanatics:'VP-level player-coach with ~5-6 people. The role is hands-on. The work ships.' },
+            why:'WTA: $850K year-one from first commercial partnerships. Grayscale: lifecycle strategy with measurable engagement lift. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.' },
         ].map(j => (
           <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
@@ -968,8 +967,8 @@ function DeepScan() {
               boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)',
               border:'1px solid rgba(255,255,255,.06)' }}>
               <span style={{ fontFamily:T.mono, fontSize:8, color:T.cyan, letterSpacing:'0.08em',
-                textTransform:'uppercase', marginRight:6 }}>WHY IT MATTERS ▲</span>
-              <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.fanatics}</span>
+                textTransform:'uppercase', marginRight:6 }}>IN PRACTICE ▲</span>
+              <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.why}</span>
             </div>
           </div>
         ))}
@@ -977,7 +976,7 @@ function DeepScan() {
 
       {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
       <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
-        Every other candidate for this role will have depth in one lane — analytics, or marketing, or product, or tech. The unusual thing here is genuine breadth: creative, tech, business, marketing, sales, and security coexisting in one person who can operate at VP level and do the work. Add AI-native on Claude and ChatGPT Enterprise, sports fan monetization experience that's directly isomorphic to live commerce drops, and a working decision intelligence platform built from scratch — and the day-one questions aren't about onboarding. They're about what the pattern in the data is already telling us.
+        Most candidates for Applied AI / FDE / Decision Intelligence roles have depth in one lane — analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name — and the first questions aren't about onboarding. They're about what's already in the data.
       </TrueNorthPanel>
 
     </div>
