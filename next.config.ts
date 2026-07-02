@@ -11,7 +11,25 @@ const nextConfig: NextConfig = {
   // the real page route is matched first and the rewrite was already dead/unreachable code.
   // Removed for clarity rather than left as misleading dead config.
   async rewrites() {
-    return [{ source: "/compass-kit", destination: "/compass-kit/index.html" }];
+    return {
+      beforeFiles: [
+        // cj-brief.arcs.care → public/cj-brief.html
+        { source: "/:path*", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
+        // chase-intro.arcs.care → public/chase-intro.html
+        { source: "/:path*", destination: "/chase-intro.html", has: [{ type: "host", value: "chase-intro.arcs.care" }] },
+        // chris.arcs.care → public/chris-intro.html (canonical); chris-intro.arcs.care kept as alias
+        { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris.arcs.care" }] },
+        { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris-intro.arcs.care" }] },
+        // growth-intel.arcs.care → public/growth-intel.html
+        { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
+        // todd-call.arcs.care → public/todd-call.html
+        { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+      ],
+      afterFiles: [
+        { source: "/compass-kit", destination: "/compass-kit/index.html" },
+      ],
+      fallback: [],
+    };
   },
 };
 
