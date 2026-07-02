@@ -28,6 +28,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
 
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-pane { display: none; flex-direction: column; gap: 14px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
 .rows { display: flex; flex-direction: column; }
 .row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
 .row:last-child { border-bottom: none; }
@@ -42,23 +53,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
 .dot-text { font-size: 13px; color: var(--text); line-height: 1.55; }
 .dot-text strong { font-weight: 600; }
+.dot-text em { color: var(--dimmed); font-style: normal; }
 
-.q-rows { display: flex; flex-direction: column; }
-.q-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.q-row:last-child { border-bottom: none; }
-.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; flex-shrink: 0; width: 18px; margin-top: 1px; }
-.q-body { font-size: 13px; line-height: 1.55; }
-.q-text { color: var(--text); margin-bottom: 4px; }
-.q-why { font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.02em; line-height: 1.5; }
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.next-text em { color: var(--dimmed); font-style: normal; }
 
-.nail-block { background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.2); border-radius: 10px; padding: 18px 20px; }
-.nail-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
-.nail-text { font-size: 13px; color: var(--text); line-height: 1.75; }
-.nail-text strong { font-weight: 600; }
+.recoil-block { background: rgba(0,255,157,0.04); border: 1px solid rgba(0,255,157,0.2); border-radius: 10px; padding: 18px 20px; }
+.recoil-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+.recoil-text { font-size: 13px; color: var(--text); line-height: 1.75; }
+.recoil-text strong { font-weight: 600; }
 
 @media (max-width: 640px) {
   body { padding: 28px 16px 60px; }
   .row-key { width: 64px; }
+  .next-owner { width: 44px; }
 }
 </style>
 </head>
@@ -74,92 +86,131 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <div class="rule-glow"></div>
 
-  <!-- WHO KELLY IS -->
-  <div>
-    <div class="sl">Who you're talking to</div>
-    <div class="card">
-      <div class="rows">
-        <div class="row">
-          <div class="row-key">Now</div>
-          <div class="row-val"><strong>VP Applied AI</strong> — since April 2026. Building internal AI systems, tooling, policy, and enablement. Four months into this pivot. Still figuring out what good looks like.</div>
-        </div>
-        <div class="row">
-          <div class="row-key">Before</div>
-          <div class="row-val">13 years running customer education at <strong>Envestnet/Tamarac</strong> — wealth management SaaS, same customer base as Juniper. Grew education from docs to full enablement model.</div>
-        </div>
-        <div class="row">
-          <div class="row-key">DNA</div>
-          <div class="row-val">English lit → fintech educator → AI builder. Thinks in terms of <em>does this actually help people use the product</em>, not just <em>does the model work</em>.</div>
-        </div>
-        <div class="row">
-          <div class="row-key">Top skills</div>
-          <div class="row-val" style="color:var(--dimmed)">AI-Assisted Documentation · AI-Driven Personalization · AI Automation</div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="datestamp" style="display:block;font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">POST-CALL</div>
 
-  <!-- WHAT THIS MEANS -->
-  <div>
-    <div class="sl">What this means for the conversation</div>
-    <div class="card">
-      <div class="dot-rows">
-        <div class="dot-row">
-          <div class="dot" style="background:var(--cyan)"></div>
-          <div class="dot-text"><strong>She's not evaluating you from the outside.</strong> She just made the same move you're making — crossing from adjacent domain expertise into applied AI. She'll recognize the pattern.</div>
-        </div>
-        <div class="dot-row">
-          <div class="dot" style="background:var(--green)"></div>
-          <div class="dot-text"><strong>She knows the Juniper customer cold.</strong> Investment managers, GPs, LPs — she spent 13 years serving this exact profile at Envestnet. She doesn't need you to explain the trust problem. She already lived it.</div>
-        </div>
-        <div class="dot-row">
-          <div class="dot" style="background:var(--gold)"></div>
-          <div class="dot-text"><strong>She's building internally, you'd be deploying externally.</strong> FDE sits at the customer-facing end of what she's building. She needs someone whose standards match hers — not someone who'll ship fast and leave a mess she has to fix.</div>
-        </div>
-        <div class="dot-row">
-          <div class="dot" style="background:var(--muted)"></div>
-          <div class="dot-text"><strong>English lit background.</strong> She communicates in narrative, not specs. Match that register. Don't lead with architecture.</div>
-        </div>
-      </div>
+  <div class="card" style="overflow:visible;background:none;border:none;">
+    <div class="tabs">
+      <button class="tab-btn" onclick="switchTab('pre', event)">Pre-Call</button>
+      <button class="tab-btn active" onclick="switchTab('post', event)">Post-Call</button>
     </div>
-  </div>
 
-  <!-- QUESTIONS -->
-  <div>
-    <div class="sl">Questions to ask</div>
-    <div class="card">
-      <div class="q-rows">
-        <div class="q-row">
-          <div class="q-n" style="color:var(--cyan)">1</div>
-          <div class="q-body">
-            <div class="q-text">You moved from Enablement to Applied AI four months ago — what shifted in how you think about the customer problem?</div>
-            <div class="q-why">→ Gets her to articulate her own inflection point. High signal on where she's landed on AI-as-tool vs. AI-as-product.</div>
-          </div>
-        </div>
-        <div class="q-row">
-          <div class="q-n" style="color:var(--gold)">2</div>
-          <div class="q-body">
-            <div class="q-text">How do you think about the interface between what you're building internally and what FDE deploys with customers?</div>
-            <div class="q-why">→ Maps the actual working relationship. Is FDE autonomous or is it an extension of her internal AI strategy?</div>
-          </div>
-        </div>
-        <div class="q-row">
-          <div class="q-n" style="color:var(--green)">3</div>
-          <div class="q-body">
-            <div class="q-text">Where have you seen AI land well with investment managers — and where has it created more confusion than clarity?</div>
-            <div class="q-why">→ She has 13 years of Envestnet customer intel. This is the most useful thing she can tell you. The backfire story is where trust actually lives.</div>
+    <!-- PRE-CALL -->
+    <div id="tab-pre" class="tab-pane">
+
+      <div>
+        <div class="sl">Who Kelly is</div>
+        <div class="card">
+          <div class="rows">
+            <div class="row">
+              <div class="row-key">Now</div>
+              <div class="row-val"><strong>VP Applied AI</strong> — since April 2026. Building internal AI systems, tooling, policy, and enablement. Four months into this pivot.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Before</div>
+              <div class="row-val">13 years running customer education at <strong>Envestnet/Tamarac</strong> — wealth management SaaS, same customer base as Juniper. Grew education from docs to full enablement model.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">DNA</div>
+              <div class="row-val">English lit → fintech educator → AI builder. Communicates in narrative, not specs.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Top skills</div>
+              <div class="row-val" style="color:var(--dimmed)">AI-Assisted Documentation · AI-Driven Personalization · AI Automation</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ONE THING -->
-  <div class="nail-block">
-    <div class="nail-label">One thing to nail</div>
-    <div class="nail-text">She made the same career bet you're making — she crossed from domain expertise into applied AI and is four months in. Don't pitch her on AI. <strong>Talk to her like a peer who's figuring out the same problem from a different angle.</strong> Your thread — Grayscale, WTA, ARCS — is all the same claim: you build for people who can't afford to be wrong. Say that once, clearly, and let it land.</div>
+      <div>
+        <div class="sl">What this meant going in</div>
+        <div class="card">
+          <div class="dot-rows">
+            <div class="dot-row">
+              <div class="dot" style="background:var(--cyan)"></div>
+              <div class="dot-text"><strong>She made the same bet you're making</strong> — crossing from domain expertise into applied AI. Talk to her like a peer, not a candidate.</div>
+            </div>
+            <div class="dot-row">
+              <div class="dot" style="background:var(--green)"></div>
+              <div class="dot-text"><strong>She knows the Juniper customer cold.</strong> 13 years serving investment managers and LPs at Envestnet. Don't explain the trust problem — she lived it.</div>
+            </div>
+            <div class="dot-row">
+              <div class="dot" style="background:var(--gold)"></div>
+              <div class="dot-text"><strong>FDE is the customer-facing end of what she's building internally.</strong> She needs someone whose standards match hers.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- POST-CALL -->
+    <div id="tab-post" class="tab-pane active">
+
+      <div>
+        <div class="sl">What we learned</div>
+        <div class="card">
+          <div class="rows">
+            <div class="row">
+              <div class="row-key">Kelly</div>
+              <div class="row-val">Ex-PM at Microsoft. <strong>Evaluating product thinking, not code.</strong> Went deep on architecture, tooling philosophy, and role scope — not a screening call.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Overlap</div>
+              <div class="row-val">They'd built a simpler version of the competitive intel tool you described (Slack summaries via managed agents) and <strong>hit LinkedIn ToS issues</strong> — shared context, real constraint they haven't solved.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Role</div>
+              <div class="row-val">Blended model floated: <strong>strategic advisory + embedded AI engineering + pre-sales FDE + special projects.</strong> She was open but flagged she doesn't own all the relevant teams.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Proof pt.</div>
+              <div class="row-val">Fanatics data room — 24 hours, president-level — landed as the sharpest positioning proof point.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Assessment</div>
+              <div class="row-val">You proposed an alternative to the generic coding exercise: <em>a real exec problem, time-boxed build.</em> She's looping back with Nushi on this.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Next steps</div>
+        <div class="card">
+          <div class="next-rows">
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--gold)">Kelly</div>
+              <div class="next-text">Review your site in detail. Noodle on whether the blended role structure can be assembled across teams.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--gold)">Nushi</div>
+              <div class="next-text">Kelly loops back with her on the alternative assessment — real exec problem, time-boxed build instead of a generic coding exercise.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">Zach</div>
+              <div class="next-text">Timely follow-up with Nushi to keep momentum. The main open question — <em>can the blended role be assembled across teams Kelly doesn't fully own</em> — needs to resolve before the next round.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recoil-block">
+        <div class="recoil-label">Recoil read</div>
+        <div class="recoil-text">Conversation clearly went beyond a standard interview — you were co-designing architecture and challenging the role definition. <strong>That's the signal.</strong> The risk is the blended structure spans teams she doesn't fully own. Worth a timely nudge to Nushi before that momentum cools.</div>
+      </div>
+
+    </div>
   </div>
 
 </div>
+
+<script>
+function switchTab(id, e) {
+  document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+  document.querySelectorAll('.tab-pane').forEach(function(pane) { pane.classList.remove('active'); });
+  e.currentTarget.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+</script>
 </body>
 </html>
