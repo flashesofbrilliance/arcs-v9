@@ -57,22 +57,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .beat.pending.fired { opacity: 1; }
 
 .beat-node {
-  position: absolute; left: -38px; top: 15px;
-  width: 14px; height: 14px; border-radius: 50%;
-  border: 2px solid var(--nc, var(--border)); background: var(--bg); z-index: 2;
-  transition: background 0.4s ease, box-shadow 0.4s ease;
+  position: absolute; left: -34px; top: 18px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--nc, var(--border)); z-index: 2;
+  opacity: 0.5;
 }
-.beat.fired:not(.pending) .beat-node {
-  background: var(--nc, var(--border));
-  box-shadow: 0 0 10px var(--nc, transparent), 0 0 22px color-mix(in srgb, var(--nc, transparent) 40%, transparent);
-}
-@keyframes node-ring { 0% { box-shadow: 0 0 10px var(--nc), 0 0 0 0 color-mix(in srgb, var(--nc) 50%, transparent); } 70% { box-shadow: 0 0 10px var(--nc), 0 0 0 10px transparent; } 100% { box-shadow: 0 0 10px var(--nc), 0 0 0 0 transparent; } }
-.beat.fired:not(.pending) .beat-node { animation: node-ring 2.5s ease-out infinite; }
+.beat.fired:not(.pending) .beat-node { opacity: 1; }
 
 /* BEAT-05 TARGET — red LED flash + card breathe glow */
-@keyframes led-flash { 0%,100% { background:rgba(255,77,109,0.06); border-color:rgba(255,77,109,0.4); box-shadow:0 0 4px rgba(255,77,109,0.2); } 50% { background:rgba(255,77,109,0.35); border-color:var(--red); box-shadow:0 0 14px 2px rgba(255,77,109,0.55); } }
 @keyframes target-breathe { 0%,100% { box-shadow:none; border-color:rgba(255,77,109,0.18); } 50% { box-shadow:0 0 28px -6px rgba(255,77,109,0.28), inset 0 0 40px -28px rgba(255,77,109,0.1); border-color:rgba(255,77,109,0.45); } }
-#beat-05.fired .beat-node { animation: led-flash 1.4s ease-in-out infinite !important; border-color:var(--red) !important; background:rgba(255,77,109,0.1); }
+#beat-05.fired .beat-node { background: var(--red) !important; }
 #beat-05.fired .beat-card { animation: target-breathe 2.2s ease-in-out infinite; border-color:rgba(255,77,109,0.22); }
 #beat-05 .beat-card { opacity:1 !important; }
 
