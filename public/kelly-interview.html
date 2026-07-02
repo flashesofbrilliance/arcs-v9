@@ -62,6 +62,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
 .next-text em { color: var(--dimmed); font-style: normal; }
 
+.quote-block { background: rgba(0,240,255,0.03); border-left: 3px solid rgba(0,240,255,0.3); border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 0; }
+.quote-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+.quote-attr { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; }
+
 .recoil-block { background: rgba(0,255,157,0.04); border: 1px solid rgba(0,255,157,0.2); border-radius: 10px; padding: 18px 20px; }
 .recoil-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
 .recoil-text { font-size: 13px; color: var(--text); line-height: 1.75; }
@@ -72,6 +76,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .signal-name { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 6px; }
 .signal-tagline { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); line-height: 1.3; margin-bottom: 10px; }
 .signal-sub { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.signal-origin { font-family: var(--mono); font-size: 10px; color: var(--gold); margin-top: 12px; letter-spacing: 0.06em; }
 
 .register { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .reg-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
@@ -83,11 +88,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .arch-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .arch-row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
 .arch-row:last-child { border-bottom: none; }
-.arch-num { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; padding-top: 1px; }
-.arch-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--dimmed); flex-shrink: 0; width: 88px; padding-top: 1px; }
+.arch-num { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; padding-top: 2px; }
+.arch-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--dimmed); flex-shrink: 0; width: 96px; padding-top: 2px; }
 .arch-text { font-size: 12.5px; color: var(--text); line-height: 1.55; }
 .arch-text strong { font-weight: 600; color: var(--green); }
 .arch-text em { color: var(--dimmed); font-style: normal; }
+.arch-sub { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+.arch-sub-row { display: flex; gap: 8px; align-items: flex-start; }
+.arch-sub-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; flex-shrink: 0; padding-top: 2px; }
+.arch-sub-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
 .fix-block { background: rgba(255,77,109,0.04); border: 1px solid rgba(255,77,109,0.2); border-radius: 10px; padding: 16px 20px; }
 .fix-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
@@ -117,20 +126,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .b2b-text strong { font-weight: 600; }
 .b2b-text em { color: var(--dimmed); font-style: normal; }
 
-.timeline { display: flex; flex-direction: column; gap: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-.tl-row { display: flex; align-items: center; gap: 14px; padding: 12px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.timeline { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.tl-row { display: flex; align-items: flex-start; gap: 14px; padding: 12px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
 .tl-row:last-child { border-bottom: none; }
-.tl-day { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--gold); flex-shrink: 0; width: 52px; }
-.tl-text { font-size: 12.5px; color: var(--text); line-height: 1.45; }
+.tl-day { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--gold); flex-shrink: 0; width: 52px; padding-top: 1px; }
+.tl-text { font-size: 12.5px; color: var(--text); line-height: 1.5; }
 .tl-text em { color: var(--dimmed); font-style: normal; }
 
 @media (max-width: 560px) {
   .register { grid-template-columns: 1fr; }
   .lens-row { flex-direction: column; }
-  .lens-left { border-right: none; border-bottom: 1px solid rgba(255,215,0,0.08); padding-bottom: 10px; }
+  .lens-left { border-right: none; border-bottom: 1px solid rgba(255,215,0,0.08); }
   .row-key { width: 64px; }
   .next-owner { width: 44px; }
-  .arch-label { width: 72px; }
+  .arch-label { width: 76px; }
 }
 </style>
 </head>
@@ -149,8 +158,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <div class="card" style="overflow:visible;background:none;border:none;">
     <div class="tabs">
       <button class="tab-btn" onclick="switchTab('pre', event)">Pre-Call</button>
-      <button class="tab-btn" onclick="switchTab('post', event)">Post-Call</button>
-      <button class="tab-btn active" onclick="switchTab('build', event)">Build</button>
+      <button class="tab-btn active" onclick="switchTab('post', event)">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('build', event)">Build</button>
     </div>
 
     <!-- PRE-CALL -->
@@ -161,19 +170,23 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="rows">
             <div class="row">
               <div class="row-key">Now</div>
-              <div class="row-val"><strong>VP Applied AI</strong> — since April 2026. Building internal AI systems, tooling, policy, and enablement for a company whose product thesis is "unified platform kills silos."</div>
+              <div class="row-val"><strong>VP Applied AI</strong> — since April 2026. Building internal AI systems, tooling, and enablement. Role is <strong>internal-facing</strong>: build, hand back to teams for maintenance, move to the next problem. Greenfield by design.</div>
             </div>
             <div class="row">
               <div class="row-key">Before</div>
-              <div class="row-val">13 years running customer education at <strong>Envestnet/Tamarac</strong> — wealth management SaaS, same GP/LP customer base as Juniper. Built education from docs to full enablement model. Knows the IR professional's daily pain firsthand.</div>
+              <div class="row-val">13 years at <strong>Envestnet/Tamarac</strong> — wealth management SaaS, same GP/LP customer base as Juniper. Knows the IR professional's daily pain at molecular level.</div>
             </div>
             <div class="row">
               <div class="row-key">DNA</div>
-              <div class="row-val">English lit → fintech educator → AI builder. Communicates in narrative and product logic, not specs.</div>
+              <div class="row-val">Ex-PM at Microsoft. English lit → fintech educator → AI builder. Evaluates on <strong>product thinking</strong>, not code. Played drums — genuine music background.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Culture</div>
+              <div class="row-val">Values people who <strong>"cook"</strong> over those who plan for three months. Speed of execution is a first-class signal for him.</div>
             </div>
             <div class="row">
               <div class="row-key">Product co.</div>
-              <div class="row-val" style="color:var(--muted)">Juniper's external thesis: "operational alpha" — the compounding effect of better decisions, faster execution, scalable systems. Kelly is building the AI layer that makes this real internally.</div>
+              <div class="row-val" style="color:var(--muted)">External thesis: "operational alpha" — better decisions, faster execution, scalable systems. CEO Alex runs the company. Internally, the AI team is building what Juniper sells.</div>
             </div>
           </div>
         </div>
@@ -184,19 +197,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="dot-rows">
             <div class="dot-row">
               <div class="dot" style="background:var(--cyan)"></div>
-              <div class="dot-text"><strong>He made the same career bet you're making.</strong> Domain expertise → applied AI. Talk to him like a peer, not a candidate.</div>
+              <div class="dot-text"><strong>He's an ex-PM evaluating product thinking.</strong> The architecture decision-making, stakeholder mapping, and "definition of done" framing matter more than syntax.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--green)"></div>
-              <div class="dot-text"><strong>He knows the customer problem at molecular level.</strong> Juniper's white paper names four silos that GP/IR teams live in. Kelly's 13 years is a lived audit of exactly these. Don't explain the trust problem — he has scar tissue from it.</div>
+              <div class="dot-text"><strong>This role doesn't travel.</strong> Internal tooling only, no customer-facing work. The draw vs. frontier AI roles (Deloitte: 50%+ travel) is real and should land — he'll understand it's a deliberate choice, not a limitation.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--gold)"></div>
-              <div class="dot-text"><strong>Their AI vision is specific, not vague.</strong> The white paper lays it out: voice capture → auto-log to CRM → AI analyzes content → automated next steps → Outlook/Teams drafts. FDE deploys this vision to GP customers who are actively struggling with it. He needs someone who can operate at that fidelity.</div>
+              <div class="dot-text"><strong>He values speed.</strong> Come in already knowing where you're going. "Cook" doesn't mean reckless — it means you've internalized the constraints and can move without waiting for permission to think.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--red)"></div>
-              <div class="dot-text"><strong>Retail investors are the growth vector.</strong> White paper calls out "complexities of retail investors becoming key sources of capital." The AI buildout is about scale — handling LP volume that human workflows can't.</div>
+              <div class="dot-text"><strong>Shared frequency.</strong> He played drums. Lead with the producer/composer mental model for AI orchestration — instruments, sampling, arrangement. It's not a metaphor for him, it's the same cognitive structure.</div>
             </div>
           </div>
         </div>
@@ -204,70 +217,87 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
 
     <!-- POST-CALL -->
-    <div id="tab-post" class="tab-pane">
+    <div id="tab-post" class="tab-pane active">
+
       <div>
         <div class="sl">What we learned</div>
         <div class="card">
           <div class="rows">
             <div class="row">
-              <div class="row-key">Kelly</div>
-              <div class="row-val">Ex-PM at Microsoft. <strong>Evaluating product thinking, not code.</strong> Went deep on architecture, tooling philosophy, and role scope — not a screening call.</div>
+              <div class="row-key">The ask</div>
+              <div class="row-val">CEO Alex commissioned the problem directly: <em>"Scan ~40 competitors for new features, exec changes, security incidents — surface it proactively to internal teams."</em> This was the live demo. Not a hypothetical.</div>
             </div>
             <div class="row">
-              <div class="row-key">Overlap</div>
-              <div class="row-val">His team built Slack summaries via managed agents and <strong>hit LinkedIn ToS</strong>. Now the sharper frame: Juniper sells the fix to the "external-internal silo" (their own taxonomy: <em>"crucial industry trends hard to track, internal and third-party data disconnected"</em>) — and had that exact problem internally. You walked in with the permanent fix to the gap they hadn't named.</div>
+              <div class="row-key">Their build</div>
+              <div class="row-val">LinkedIn scraping → hit ToS → pivoted to managed agents → Slack channel summaries. Functional but fragile. No eval layer. No role-based routing. <strong>The duct-tape version of what you pitched.</strong></div>
+            </div>
+            <div class="row">
+              <div class="row-key">What landed</div>
+              <div class="row-val">Stakeholder/persona mapping first (CRO, CMO, CFO need different data at different resolution). Reverse-engineering from "definition of done" with constitutional guardrails. Two agentic layers: <strong>looking out</strong> (market intel, positioning, TAM) + <strong>looking in</strong> (feature parity via browser automation). MCP enrichment: Gartner, CB Insights, Privco, Clay.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Analogy</div>
+              <div class="row-val">Used <strong>Juniper's own product</strong> as the metaphor for horizontal service layers — subscriptions + CRM + client portal bundled = the architecture he's trying to replicate internally. He recognized it immediately.</div>
             </div>
             <div class="row">
               <div class="row-key">Tooling</div>
-              <div class="row-val">His philosophy — consolidation over proliferation, horizontal service layers, standardize before abstracting — mirrors Juniper's product thesis verbatim. He's building the internal version of what they sell.</div>
+              <div class="row-val">Spotify engineering example for standardized agentic pipelines. Consolidation over proliferation — 50,000 tools = tech debt. Standardize global Claude skills/commands org-wide before building abstractions.</div>
+            </div>
+            <div class="row">
+              <div class="row-key">Vision fit</div>
+              <div class="row-val">Private markets and alternative assets as a growing asset class. Companies building <strong>API-like internal services between departments</strong> — Amazon/AWS 2002 analogy. Change management for laggards: integrating tech invisibly without disrupting existing people/process/tools.</div>
             </div>
             <div class="row">
               <div class="row-key">Role</div>
-              <div class="row-val">Blended model floated: <strong>strategic advisory + embedded AI engineering + pre-sales FDE + special projects.</strong> Open but flagged he doesn't own all relevant teams.</div>
+              <div class="row-val">Blended model floated: <strong>strategic advisory + embedded AI engineering + pre-sales FDE + special projects.</strong> He was open, flagged he doesn't own all relevant teams, said he'd "noodle on it."</div>
             </div>
             <div class="row">
               <div class="row-key">Proof pt.</div>
-              <div class="row-val">Fanatics data room — 24 hours, president-level — landed as the sharpest proof point. Maps to their "Partner-IR silo" problem: leaders moving fast, no time to log, IR scrambling to reconstruct context. You've lived the pressure that their platform is designed to eliminate.</div>
-            </div>
-            <div class="row">
-              <div class="row-key">Assessment</div>
-              <div class="row-val">Alternative to the generic coding exercise proposed: <em>real exec problem, time-boxed build.</em> He's looping Nushi.</div>
+              <div class="row-val">Fanatics data room — 24 hours, president-level — landed hard. Maps directly to the Partner-IR silo Juniper sells against: leadership moving fast, no time to log, IR scrambling. You've operated in that exact pressure.</div>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="quote-block">
+        <div class="quote-text">"I've been loving your perspective so far."</div>
+        <div class="quote-attr">Kelly Mullaney · mid-call · unprompted</div>
+      </div>
+
       <div>
         <div class="sl">Next steps</div>
         <div class="card">
           <div class="next-rows">
             <div class="next-row">
               <div class="next-owner" style="color:var(--gold)">Kelly</div>
-              <div class="next-text">Review your site. Noodle on blended role structure across teams he doesn't all own.</div>
+              <div class="next-text">Review your site in detail. Noodle on blended role structure across teams he doesn't all own.</div>
             </div>
             <div class="next-row">
               <div class="next-owner" style="color:var(--gold)">Nushi</div>
-              <div class="next-text">Kelly loops back on alternative assessment — real exec problem, time-boxed build.</div>
+              <div class="next-text">Kelly loops back on alternative assessment — real exec problem (Alex's CEO ask is the natural candidate), time-boxed build instead of a generic coding exercise.</div>
             </div>
             <div class="next-row">
               <div class="next-owner" style="color:var(--cyan)">Zach</div>
-              <div class="next-text">Timely follow-up with Nushi. Main open question — <em>can blended role be assembled across teams Kelly doesn't fully own</em> — needs to resolve before next round.</div>
+              <div class="next-text">Follow up with Nushi before the momentum cools. Open question: <em>can the blended role span teams Kelly doesn't fully own?</em> That's the structural gate — everything else is resolved.</div>
             </div>
           </div>
         </div>
       </div>
+
       <div class="recoil-block">
         <div class="recoil-label">Recoil read</div>
-        <div class="recoil-text">Conversation went beyond a standard interview — you were co-designing architecture and challenging the role definition. <strong>That's the signal.</strong> With the white paper overlay: you demonstrated FDE-level fluency in exactly the product problem Juniper's sales team is in market with right now. The risk isn't competence — it's whether the blended structure can be assembled across teams he doesn't fully own. Nudge Nushi before the momentum cools.</div>
+        <div class="recoil-text">Not a screening call — it was a co-design session. He praised your perspective mid-call, unprompted. The music rapport was real (drums/electronic production). The Amazon/AWS 2002 internal-API vision landed as shared language. <strong>The fit is there.</strong> The only structural question is whether the blended role can be assembled across teams he doesn't fully own — that lives with Nushi now.</div>
       </div>
     </div>
 
     <!-- BUILD TAB -->
-    <div id="tab-build" class="tab-pane active">
+    <div id="tab-build" class="tab-pane">
 
       <div class="signal-hero">
         <div class="signal-name">SIGNAL — Competitive Intelligence System</div>
         <div class="signal-tagline">Operational alpha for your own team's competitive blind spot.</div>
-        <div class="signal-sub">Event-driven pipeline. Deterministic evals. Role-based output channels. No scraping. No ToS risk. Built from Juniper's own playbook — applied to the problem they hadn't named internally.</div>
+        <div class="signal-sub">Two agentic layers. MCP enrichment. Role-based presentation. Deterministic evals. No scraping. No ToS risk. Built from Juniper's own playbook — applied to the gap they hadn't named internally.</div>
+        <div class="signal-origin">▸ CEO Alex's direct mandate: scan ~40 competitors, surface proactively to internal teams.</div>
       </div>
 
       <div>
@@ -276,36 +306,89 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="reg-card">
             <div class="reg-label" style="color:var(--gold)">Executive</div>
             <div class="reg-body">
-              Sales walks into every demo with <strong>last week's battlecard</strong>, not last quarter's. Product sees <strong>what customers are asking competitors for</strong>. You get a three-bullet Monday brief on competitive position. When a competitor raises a round, ships a feature, or posts six ML jobs — you find out <em>that day</em>.
+              CEO gets a 30-second digest. CRO, CMO, CFO each get <strong>different data at different resolution</strong> — persona-mapped from day one. Sales walks in with last week's battlecard. When a competitor ships a feature, changes an exec, or posts a security incident — you find out <em>that day</em>.
             </div>
           </div>
           <div class="reg-card">
             <div class="reg-label" style="color:var(--cyan)">Technical</div>
             <div class="reg-body">
-              Pollers watch <strong>ToS-safe sources</strong> on configurable intervals → events queue → Claude claude-sonnet-5 per event: classify · extract · score · route. Output channels: <em>Slack digest, living battlecard doc, feature gap log, CRM enrichment webhook.</em> Deterministic evals: precision/recall on classification, grounding check on summaries.
+              Two agentic layers: <strong>looking out</strong> (market intel, positioning, TAM, share of voice) + <strong>looking in</strong> (feature parity via browser/agent automation). MCP enrichment: <em>Gartner, CB Insights, Privco, Clay.</em> Triggers via Vercel edge functions + Google News Alert connectors. Deterministic, falsifiable evals at every layer.
             </div>
           </div>
         </div>
       </div>
 
-      <!-- White paper lens overlay -->
+      <div>
+        <div class="sl">Architecture — six layers</div>
+        <div class="arch-block">
+          <div class="arch-row">
+            <div class="arch-num">01</div>
+            <div class="arch-label">Sources</div>
+            <div class="arch-text">
+              <div class="arch-sub">
+                <div class="arch-sub-row">
+                  <div class="arch-sub-tag" style="color:var(--cyan)">OUT →</div>
+                  <div class="arch-sub-text">Competitor press rooms, changelog pages, G2/Capterra reviews, SEC EDGAR filings, job posting pages <em>(not profile data)</em>, company social accounts, your own CRM deal notes.</div>
+                </div>
+                <div class="arch-sub-row">
+                  <div class="arch-sub-tag" style="color:var(--green)">IN →</div>
+                  <div class="arch-sub-text">Browser automation / agent browsers for feature parity gap analysis — what competitors have shipped that Juniper hasn't.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-num">02</div>
+            <div class="arch-label">Triggers</div>
+            <div class="arch-text">Vercel edge functions + Google News Alert connectors. Event watchers: new competitor post → fires · 5+ AI/ML hires in 30 days → fires · exec change · funding round · security incident · G2 review mentioning pricing. <strong>Trigger = signal, not noise.</strong></div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-num">03</div>
+            <div class="arch-label">Enrichment</div>
+            <div class="arch-text">MCP layer pulls third-party context per event: <strong>Gartner</strong> (analyst positioning) · <strong>CB Insights</strong> (funding/market data) · <strong>Privco</strong> (private company financials) · <strong>Clay</strong> (contact + firmographic enrichment). Signal quality goes from raw to contextualized.</div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-num">04</div>
+            <div class="arch-label">Processing</div>
+            <div class="arch-text">Claude claude-sonnet-5 per event. Constitutional guardrails defined upfront with non-technical stakeholders. Four outputs: <strong>who</strong> (competitor) · <strong>what</strong> (signal type: product/pricing/hiring/exec/security) · <strong>relevance score</strong> 1–5 · <strong>stakeholder tag</strong> (CEO/CRO/CMO/CFO/product).</div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-num">05</div>
+            <div class="arch-label">Outputs</div>
+            <div class="arch-text">Presentation layer fully abstracted from backend. <strong>CEO:</strong> 30-second Slack digest, 3 bullets. <strong>Analyst:</strong> deep drill-down view, full sourcing. <strong>Sales:</strong> auto-updated battlecard (what changed this week). <strong>Product:</strong> feature gap log from competitor reviews + browser intelligence.</div>
+          </div>
+          <div class="arch-row">
+            <div class="arch-num">06</div>
+            <div class="arch-label">Evals</div>
+            <div class="arch-text">Deterministic and falsifiable — not vibes. <strong>Recall:</strong> did we catch event X within Y hours? <strong>Precision:</strong> is competitor classification correct? <strong>Grounding:</strong> is summary faithful to source? <strong>Coverage:</strong> are all 40 target competitors being monitored? Weekly eval report. Thresholds trigger human review.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fix-block">
+        <div class="fix-label">The LinkedIn fix</div>
+        <div class="fix-text">
+          Their existing system scraped <strong>profile data</strong> — personal work history, contact info. That's the ToS violation. <em>Job posting pages are different.</em> Progressive enrichment options already scoped: LinkedIn API access, Frontspace, Privco API, Clay enrichment. Signal quality from job postings + enrichment APIs is equivalent to profile scraping without the legal exposure. The fix isn't a workaround — it's a cleaner architecture with a clear upgrade path.
+        </div>
+      </div>
+
       <div>
         <div class="sl">Juniper's own language — applied here</div>
         <div class="lens-block">
           <div class="lens-header">
             <div class="lens-title">White paper overlay</div>
-            <div class="lens-subtitle">SIGNAL maps directly onto Juniper's published product thesis. This is their vocabulary — you can speak it back to them.</div>
+            <div class="lens-subtitle">SIGNAL maps directly onto Juniper's published product thesis. Their vocabulary — you can speak it back to them.</div>
           </div>
           <div class="lens-rows">
             <div class="lens-row">
               <div class="lens-left">
                 <div class="lens-col-label">Their taxonomy</div>
                 <div class="lens-col-text"><strong>External-internal silo</strong></div>
-                <div class="lens-col-quote">"Crucial industry trends and analysis can be hard to track. Internal and third-party data are often disconnected. Manually combining data slows insight delivery."</div>
+                <div class="lens-col-quote">"Crucial industry trends and analysis can be hard to track. Internal and third-party data are often disconnected."</div>
               </div>
               <div class="lens-right">
                 <div class="lens-col-label">What SIGNAL does</div>
-                <div class="lens-col-text">Eliminates the silo entirely. Competitive signals flow automatically from external sources into internal output channels. <strong>No manual combining. No "where did I see that" moment.</strong></div>
+                <div class="lens-col-text">Eliminates the silo. Competitive signals flow automatically from external sources into internal channels. <strong>No manual combining. No "where did I see that" moment.</strong></div>
               </div>
             </div>
             <div class="lens-row">
@@ -316,77 +399,28 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
               </div>
               <div class="lens-right">
                 <div class="lens-col-label">SIGNAL's value frame</div>
-                <div class="lens-col-text">Better decisions → exec brief routes correct signal to correct person. Faster execution → battlecard auto-updates, no analyst needed. Scalable → <strong>same pipeline handles 10 competitors or 100.</strong></div>
+                <div class="lens-col-text">Better decisions → correct signal to correct person. Faster execution → battlecard auto-updates, no analyst needed. Scalable → <strong>same pipeline handles 10 competitors or 100.</strong></div>
               </div>
             </div>
             <div class="lens-row">
               <div class="lens-left">
-                <div class="lens-col-label">Their AI vision</div>
-                <div class="lens-col-text"><strong>Voice → CRM → AI → automated next steps</strong></div>
-                <div class="lens-col-quote">"AI functionality within the CRM could analyze the content to create automated next steps."</div>
-              </div>
-              <div class="lens-right">
-                <div class="lens-col-label">Structural parallel</div>
-                <div class="lens-col-text">SIGNAL is the same pattern applied to competitive intelligence: <strong>event trigger → Claude extraction → automated routing</strong> to the right stakeholder. Not a different architecture — the same one.</div>
-              </div>
-            </div>
-            <div class="lens-row">
-              <div class="lens-left">
-                <div class="lens-col-label">Their customers' pain</div>
+                <div class="lens-col-label">The irony</div>
                 <div class="lens-col-text"><strong>"You're not scaling. You're surviving."</strong></div>
                 <div class="lens-col-quote">Jay Farber, Juniper Square GM, on IR professionals duct-taping workflows.</div>
               </div>
               <div class="lens-right">
-                <div class="lens-col-label">The irony SIGNAL surfaces</div>
-                <div class="lens-col-text">Juniper's own competitive intel team was also duct-taping — Slack summaries, manual monitoring, ToS wall. <strong>SIGNAL is them eating their own dog food.</strong></div>
+                <div class="lens-col-label">Confirmed in the call</div>
+                <div class="lens-col-text">Their competitive intel team was doing exactly this — Slack summaries, manual monitoring, ToS wall. <strong>SIGNAL is Juniper eating their own dog food.</strong></div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="sl">Architecture — five layers</div>
-        <div class="arch-block">
-          <div class="arch-row">
-            <div class="arch-num">01</div>
-            <div class="arch-label">Sources</div>
-            <div class="arch-text">Competitor press rooms, changelog pages, job posting pages <em>(not profile data — that's the ToS fix)</em>, G2/Capterra reviews, SEC EDGAR filings, company social accounts, your own CRM deal notes mentioning competitor names.</div>
-          </div>
-          <div class="arch-row">
-            <div class="arch-num">02</div>
-            <div class="arch-label">Triggers</div>
-            <div class="arch-text">Configurable event watchers: new blog post → fires · 5+ AI/ML job postings in 30 days → fires · new funding round · new G2 review mentioning pricing · 8-K filing. <strong>Trigger = signal, not noise.</strong></div>
-          </div>
-          <div class="arch-row">
-            <div class="arch-num">03</div>
-            <div class="arch-label">Processing</div>
-            <div class="arch-text">Claude claude-sonnet-5 per event. Four outputs: <strong>who</strong> (competitor) · <strong>what</strong> (signal type: product/pricing/hiring/funding/messaging) · <strong>relevance score</strong> 1–5 vs. Juniper's position · <strong>stakeholder tag</strong> (exec/sales/product).</div>
-          </div>
-          <div class="arch-row">
-            <div class="arch-num">04</div>
-            <div class="arch-label">Outputs</div>
-            <div class="arch-text">Exec: weekly Slack digest, 3 bullets, red/yellow/green on competitive posture. Sales: auto-updated battlecard (what changed in competitor messaging this week). Product: feature gap log from competitor reviews. Hiring intel: alert when competitor signals new direction via recruiting.</div>
-          </div>
-          <div class="arch-row">
-            <div class="arch-num">05</div>
-            <div class="arch-label">Evals</div>
-            <div class="arch-text">Deterministic, not vibes. <strong>Recall:</strong> did we catch event X within Y hours? <strong>Precision:</strong> is competitor classification correct? <strong>Grounding:</strong> is summary faithful to source? Thresholds trigger human review — system doesn't overstate its confidence.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fix-block">
-        <div class="fix-label">The LinkedIn fix</div>
-        <div class="fix-text">
-          The existing system scraped <strong>profile data</strong> — personal work history, contact info. That's the ToS violation. <em>Job posting pages are different.</em> A company's own job listings are public marketing material. Signal quality from job postings is ~80% of what you get from profiles for competitive intel — hiring patterns reveal product direction and technical bets without touching personal data. The fix isn't a workaround. It's a cleaner architecture.
         </div>
       </div>
 
       <div class="b2b-block">
         <div class="b2b-label">The B2B angle — beyond internal use</div>
         <div class="b2b-text">
-          GP customers have the same external-internal silo. A fund manager raising capital needs to know: what are competing funds offering? What are LPs saying about comparable strategies? The white paper names this as "crucial industry trends hard to track" — and sells Juniper as the fix. <strong>SIGNAL is a proof-of-concept for a feature their customers would pay for.</strong> Internal tool today. Product surface tomorrow. The FDE who built it already knows the architecture.
+          GP customers have the same external-internal silo. A fund manager raising capital needs to know what competing funds are offering, what LPs are saying about comparable strategies. Juniper already names this gap in their white paper and sells against it. <strong>SIGNAL is a proof-of-concept for a feature their customers would pay for.</strong> Internal tool today. Product surface tomorrow. The FDE who built it already knows the architecture — and already has the CEO's mandate on it.
         </div>
       </div>
 
@@ -394,24 +428,28 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         <div class="sl">Time-box — if this is the assessment</div>
         <div class="timeline">
           <div class="tl-row">
-            <div class="tl-day">Day 1–2</div>
-            <div class="tl-text">Event source pollers + trigger layer. Three sources wired: competitor press rooms, job postings, G2 reviews. Events queue running.</div>
+            <div class="tl-day">Day 1</div>
+            <div class="tl-text">Stakeholder/persona mapping with CRO, CMO, CFO. Define acceptance criteria and constitutional guardrails. Lock "definition of done" before writing a line.</div>
           </div>
           <div class="tl-row">
-            <div class="tl-day">Day 3</div>
-            <div class="tl-text">Claude processing layer. Classify → extract → score → route. Prompt locked with deterministic output schema.</div>
+            <div class="tl-day">Day 2–3</div>
+            <div class="tl-text">Event source pollers + trigger layer (Vercel edge functions + Google News Alert connectors). "Looking out" layer running: press rooms, job postings, G2, EDGAR.</div>
           </div>
           <div class="tl-row">
             <div class="tl-day">Day 4</div>
-            <div class="tl-text">Slack digest channel live. Battlecard output to Notion/Confluence. Role-based routing confirmed.</div>
+            <div class="tl-text">MCP enrichment wired (Privco/Clay). Claude processing layer: classify → enrich → score → route. Prompt locked with deterministic output schema.</div>
           </div>
           <div class="tl-row">
             <div class="tl-day">Day 5</div>
-            <div class="tl-text">Eval harness. Precision/recall instrumented. Grounding check running. Weekly eval report template.</div>
+            <div class="tl-text">Role-based output channels live: CEO Slack digest, sales battlecard, product gap log. "Looking in" browser automation layer stubbed.</div>
+          </div>
+          <div class="tl-row">
+            <div class="tl-day">Day 6</div>
+            <div class="tl-text">Eval harness. Recall/precision/grounding/coverage instrumented. Weekly eval report template. Hand-back doc for team maintenance.</div>
           </div>
           <div class="tl-row" style="border-top:1px solid rgba(0,240,255,0.15);">
             <div class="tl-day" style="color:var(--cyan)">Delivery</div>
-            <div class="tl-text" style="color:var(--text)"><strong>Working system. Not a prototype.</strong> Real events flowing, real outputs routing, evals instrumented. Demo-able to execs and extensible by engineers.</div>
+            <div class="tl-text" style="color:var(--text)"><strong>Working system. Not a prototype.</strong> Alex's CEO mandate delivered. Real events, real outputs, evals instrumented. Demo-able to execs, extensible by engineers, documented for handback.</div>
           </div>
         </div>
       </div>
