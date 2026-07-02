@@ -118,6 +118,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .a-btn { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 8px 14px; border-radius: 6px; text-decoration: none; display: inline-block; }
 .artifact-muted { opacity: 0.55; cursor: default; }
 .artifact-muted:hover { border-color: var(--border); }
+@media (max-width: 640px) {
+  body { padding: 32px 16px 80px; }
+  .contrast { grid-template-columns: 1fr; }
+  .contrast-col.alt { border-top: 2px solid var(--border); }
+  .bu-grid { grid-template-columns: 1fr; }
+  .econ-row { grid-template-columns: 100px 1fr; }
+  .signal-btns { gap: 6px; }
+  .s-btn { padding: 10px 14px; font-size: 10px; }
+}
 </style>
 </head>
 <body>
