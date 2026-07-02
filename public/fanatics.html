@@ -196,6 +196,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .p-muted { opacity: 0.55; cursor: default; }
 .p-muted:hover { border-color: var(--border); }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -660,7 +661,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="p-detail">
           <div class="p-preview">Jul 1, 2026 call with CJ Masopust, Talent Lead. <strong>Role confirmed:</strong> Head of Growth Intelligence — reports to Chris, VP track, all five BUs, SD→VP path. CJ's read was strong. Closed on community, not process. Chase intro to follow.</div>
-          <a href="https://cj-brief.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--red);background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.25);" onclick="event.stopPropagation()">OPEN BRIEF →</a>
+          <a href="https://cj-brief.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--red);background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.25);" onclick="event.stopPropagation();if(window.va)va('event',{name:'brief_link_click',data:{dest:'cj-brief',brief:'fanatics'}})">OPEN BRIEF →</a>
         </div>
       </div>
 
@@ -675,7 +676,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="p-detail">
           <div class="p-preview">Chase is GM, Instant Rips — the right first node. Clear drop cycles, contained blast radius, single owner. <strong>Day 30:</strong> decision anatomy map. <strong>Day 60:</strong> audit brief the team uses before the next drop. <strong>Day 90:</strong> cross-BU signal report — the artifact that makes Chase the GM who proved the model.</div>
-          <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--green);background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.2);" onclick="event.stopPropagation()">OPEN BRIEF →</a>
+          <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--green);background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.2);" onclick="event.stopPropagation();if(window.va)va('event',{name:'brief_link_click',data:{dest:'chase-intro',brief:'fanatics'}})">OPEN BRIEF →</a>
         </div>
       </div>
 
@@ -690,7 +691,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="p-detail">
           <div class="p-preview">The complete chain: Worm → Stunt → CJ → Chase → hire. Every beat documented, every causal link visible. Starts at Rips — five BUs from there, each one sharper than the last.</div>
-          <a href="https://token.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--cyan);background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.22);" onclick="event.stopPropagation()">FULL PLAY →</a>
+          <a href="https://token.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--cyan);background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.22);" onclick="event.stopPropagation();if(window.va)va('event',{name:'brief_link_click',data:{dest:'token',brief:'fanatics'}})">FULL PLAY →</a>
         </div>
       </div>
 
@@ -715,18 +716,31 @@ function toggleDetail(toggle) {
   const isClosed = detail.classList.contains('closed');
   detail.classList.toggle('closed', !isClosed);
   arrow.textContent = isClosed ? '↑' : '↓';
+  if (window.va && isClosed) {
+    const label = toggle.querySelector('.toggle-label');
+    va('event', { name: 'beat_expand', data: { beat: label ? label.textContent.trim() : toggle.id, brief: 'fanatics' } });
+  }
 }
 
 // Waveform click → scroll to beat
 function scrollToBeat(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (window.va) va('event', { name: 'waveform_click', data: { beat: id, brief: 'fanatics' } });
 }
 
 function togglePathCard(card) {
   if (card.classList.contains('p-muted')) return;
   card.classList.toggle('expanded');
+  if (window.va && !card.classList.contains('expanded')) {
+    const title = card.querySelector('[class*="p-title"],[class*="path-title"]');
+    va('event', { name: 'path_expand', data: { path: title ? title.textContent.trim() : 'unknown', brief: 'fanatics' } });
+  }
 }
+
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'fanatics' } });
+});
 </script>
 </body>
 </html>
