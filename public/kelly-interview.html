@@ -274,11 +274,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="next-row">
               <div class="next-owner" style="color:var(--gold)">Nushi</div>
-              <div class="next-text">Kelly loops back on alternative assessment — real exec problem (Alex's CEO ask is the natural candidate), time-boxed build instead of a generic coding exercise.</div>
+              <div class="next-text">Kelly loops back on alternative assessment — <strong>not yet confirmed.</strong> Proposed: real exec problem (Alex's CEO ask is the natural candidate), time-boxed build. If the default coding exercise stands instead, SIGNAL is still the right frame — just recalibrate scope to the actual prompt.</div>
             </div>
             <div class="next-row">
               <div class="next-owner" style="color:var(--cyan)">Zach</div>
-              <div class="next-text">Follow up with Nushi before the momentum cools. Open question: <em>can the blended role span teams Kelly doesn't fully own?</em> That's the structural gate — everything else is resolved.</div>
+              <div class="next-text">Follow up with Nushi before the momentum cools. Two open questions: <em>(1) can the blended role be assembled across teams Kelly doesn't fully own?</em> If not — <em>(2) is the standalone internal FDE role still the right bet, or does this contact stay warm for a future window?</em> Don't leave either unresolved.</div>
             </div>
           </div>
         </div>
@@ -332,7 +332,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
                 </div>
                 <div class="arch-sub-row">
                   <div class="arch-sub-tag" style="color:var(--green)">IN →</div>
-                  <div class="arch-sub-text">Browser automation / agent browsers for feature parity gap analysis — what competitors have shipped that Juniper hasn't.</div>
+                  <div class="arch-sub-text">Feature parity gap analysis via <strong>Playwright / Stagehand / Browserbase</strong> — what competitors have shipped that Juniper hasn't. <em>Note: verify ToS on target product UIs before automating; scope this layer collaboratively with the team, not unilaterally.</em></div>
                 </div>
               </div>
             </div>
@@ -345,7 +345,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="arch-row">
             <div class="arch-num">03</div>
             <div class="arch-label">Enrichment</div>
-            <div class="arch-text">MCP layer pulls third-party context per event: <strong>Gartner</strong> (analyst positioning) · <strong>CB Insights</strong> (funding/market data) · <strong>Privco</strong> (private company financials) · <strong>Clay</strong> (contact + firmographic enrichment). Signal quality goes from raw to contextualized.</div>
+            <div class="arch-text">MCP layer pulls third-party context per event. <strong>Tier A</strong> (if subscriptions exist): Gartner (analyst positioning) · CB Insights (funding/market data) · Privco (private company financials). <strong>Tier B</strong> (default, no subscriptions needed): Clay enrichment + public sources — covers ~80% of the competitive signal at zero marginal cost. Start here, upgrade as needed.</div>
           </div>
           <div class="arch-row">
             <div class="arch-num">04</div>
@@ -420,7 +420,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       <div class="b2b-block">
         <div class="b2b-label">The B2B angle — beyond internal use</div>
         <div class="b2b-text">
-          GP customers have the same external-internal silo. A fund manager raising capital needs to know what competing funds are offering, what LPs are saying about comparable strategies. Juniper already names this gap in their white paper and sells against it. <strong>SIGNAL is a proof-of-concept for a feature their customers would pay for.</strong> Internal tool today. Product surface tomorrow. The FDE who built it already knows the architecture — and already has the CEO's mandate on it.
+          GP customers have the same external-internal silo. A fund manager raising capital needs to know what competing funds are offering, what LPs are saying about comparable strategies. Juniper already names this gap in their white paper and sells against it. <strong>Hypothesis worth validating with the product team:</strong> SIGNAL's architecture could map onto a customer-facing feature. Not a claim — a question worth asking once the internal version is running and the signal quality is proven. The FDE who built it is the right person to bridge that conversation.
         </div>
       </div>
 
@@ -428,8 +428,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         <div class="sl">Time-box — if this is the assessment</div>
         <div class="timeline">
           <div class="tl-row">
+            <div class="tl-day">Day 0</div>
+            <div class="tl-text">Competitor onboarding: configure the ~40 target profiles, watcher rules, and enrichment tier per competitor. Not planning — assumption validation. "Cook" means you've internalized the constraints before showing up, not that you skip this.</div>
+          </div>
+          <div class="tl-row">
             <div class="tl-day">Day 1</div>
-            <div class="tl-text">Stakeholder/persona mapping with CRO, CMO, CFO. Define acceptance criteria and constitutional guardrails. Lock "definition of done" before writing a line.</div>
+            <div class="tl-text">Stakeholder/persona mapping with CRO, CMO, CFO. Confirm acceptance criteria and constitutional guardrails. Lock "definition of done" — Day 0 assumption check surfaces anything that needs adjusting here.</div>
           </div>
           <div class="tl-row">
             <div class="tl-day">Day 2–3</div>
