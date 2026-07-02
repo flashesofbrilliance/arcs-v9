@@ -5,6 +5,23 @@
 
 ---
 
+## [v3.3.1] 2026-07-02 — kelly-interview brief built + deployed, Todd Phase 1 proposal verified
+
+### Session context
+Post-interview brief for Kelly Mullaney (VP Applied AI, Juniper Square) built from scratch and shipped to `kelly-interview.arcs.care`. Four-tab layout: Pre-Call / Post-Call / Build / The Ask. Key work: host-based routing fix in `next.config.ts` (was missing from beforeFiles — page was serving Next.js root instead of HTML); read times on tab buttons; bullet scan copy throughout; mental model row (stated vs revealed preference); 5 unsubstantiated claims dropped after fact-check audit (GP/LP customer base claim, 7-day lag specific number, Jay Farber quote attribution, 80% signal coverage figure, "one sentence" commission framing). Email sent to Kelly 3:50pm. Brief confirmed live via curl (`x-matched-path: /kelly-interview.html`). Todd Hotes / PRL Resins Phase 1 proposal also verified live at `todd-call.arcs.care`.
+
+### Decisions
+- host-based subdomain rewrites MUST live in `next.config.ts` `beforeFiles` with `has: [{type: "host"}]` — `vercel.json` rewrites are intercepted by Next.js App Router before they fire
+- NCI counter at 191 end of session
+- Kelly follow-up cadence: let breathe until Wed Jul 8, then one-line check-in "any movement on your end?" — do not go around Kelly to Alex or Nushi directly
+
+### Open loops
+- Kelly Mullaney / Juniper Square — waiting on Kelly to loop back with Nushi re alternative assessment
+- Todd Hotes / PRL Resins — waiting on yes/no re Phase 1 ($1,500, 3 sessions this week)
+- Compass Kit Phase 2 ADR — not started, no blocker
+
+---
+
 ## [v3.2.0] 2026-06-23 — Critical Supabase RLS fix, tasks #5/#7 closed, trust-contract §8 added
 
 ### Session context
