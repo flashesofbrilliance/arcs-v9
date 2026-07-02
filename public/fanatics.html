@@ -176,7 +176,33 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .nav-card { padding: 12px 14px 10px; }
   .dr { grid-template-columns: 72px 1fr 1fr; }
   .signal-sequence { padding-left: 34px; }
+  .signal-btns { gap: 6px; }
+  .s-btn { padding: 10px 14px; font-size: 10px; }
 }
+
+/* PATH IS THE PLAY */
+.path-block { background: var(--surface2); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 20px; position: relative; overflow: hidden; }
+.path-block::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:0.5; }
+.path-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; margin-bottom: 6px; }
+.path-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; line-height: 1.5; }
+.path-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.p-btn { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 11px 18px; border-radius: 7px; text-decoration: none; display: inline-block; }
+.p-primary { background: var(--cyan); color: var(--bg); }
+@keyframes slideDown { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:translateY(0); } }
+.p-card { border-radius: 8px; border: 1px solid var(--border); background: var(--surface); overflow: hidden; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+.p-card:hover { border-color: rgba(255,255,255,0.12); }
+.p-card.expanded { box-shadow: inset 0 -10px 18px -10px var(--card-accent, rgba(0,240,255,0.15)), 0 0 12px var(--card-accent, rgba(0,240,255,0.06)); }
+.p-header { display: grid; grid-template-columns: 28px 1fr 14px; gap: 10px; align-items: center; padding: 11px 14px; user-select: none; }
+.p-chevron { font-size: 7px; color: var(--dimmed); transition: transform 0.2s, color 0.15s; }
+.p-card.expanded .p-chevron { transform: rotate(180deg); color: var(--muted); }
+.p-detail { display: none; padding: 12px 14px 14px; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.12) 100%); border-top: 1px solid rgba(30,41,59,0.5); animation: slideDown 0.15s ease both; }
+.p-card.expanded .p-detail { display: block; }
+.p-preview { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 10px; }
+.p-preview strong { color: var(--text); font-weight: 500; }
+.p-preview em { font-style: normal; }
+.p-link { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; padding: 8px 14px; border-radius: 6px; text-decoration: none; display: inline-block; }
+.p-muted { opacity: 0.55; cursor: default; }
+.p-muted:hover { border-color: var(--border); }
 </style>
 </head>
 <body>
@@ -605,6 +631,95 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   </div><!-- /signal-sequence -->
 
+  <!-- PATH IS THE PLAY -->
+  <div class="path-block" style="margin-top:32px;">
+    <div class="path-title">The path is the play.</div>
+    <div class="path-sub">Four artifacts. One per step. No commitment until the call.</div>
+
+    <div style="display:flex;flex-direction:column;gap:5px;margin:0 0 20px;">
+
+      <div class="p-card p-muted expanded" style="--card-accent:rgba(100,116,139,0.15);" onclick="togglePathCard(this)">
+        <div class="p-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dimmed);">01</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--muted);margin-bottom:1px;">The Worm — Carrier Signal</div>
+            <div style="font-size:11px;color:var(--dimmed);">Chris's post → comment → "let's grab 15 min"</div>
+          </div>
+          <div class="p-chevron">▼</div>
+        </div>
+        <div class="p-detail">
+          <div class="p-preview">Chris posted on decision intelligence. Zach left a comment on the Bubblegum Problem — a pricing/demand framing for drop-model commerce. Chris replied within the hour. <strong>The whole chain started there.</strong></div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.08em;">DOCUMENTED IN FULL PLAY →</div>
+        </div>
+      </div>
+
+      <div class="p-card expanded" style="--card-accent:rgba(255,215,0,0.12);--card-border:rgba(255,215,0,0.2);" onclick="togglePathCard(this)">
+        <div class="p-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);">02</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">The Stunt — Transmission</div>
+            <div style="font-size:11px;color:var(--muted);">The Bubblegum Problem, live in 15 minutes</div>
+          </div>
+          <div class="p-chevron">▼</div>
+        </div>
+        <div class="p-detail">
+          <div class="p-preview">A live demand/pricing intelligence demo built for Rips' drop model during the 15-min cold call. Core insight: <strong>Instant Rips has a Bubblegum Problem.</strong> When everything sells, you don't know what was actually wanted. Capturing pre-drop intent resolves it. Chris's response closed the loop.</div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:0.08em;opacity:0.6;">ARTIFACT PENDING →</div>
+        </div>
+      </div>
+
+      <div class="p-card expanded" style="--card-accent:rgba(255,77,109,0.12);--card-border:rgba(255,77,109,0.25);" onclick="togglePathCard(this)">
+        <div class="p-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);">03</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">CJ Masopust — Talent Gate</div>
+            <div style="font-size:11px;color:var(--muted);">Pre-call context + post-call debrief</div>
+          </div>
+          <div class="p-chevron">▼</div>
+        </div>
+        <div class="p-detail">
+          <div class="p-preview">Jul 1, 2026 call with CJ Masopust, Talent Lead. <strong>Role confirmed:</strong> Head of Growth Intelligence — reports to Chris, VP track, all five BUs, SD→VP path. CJ's read was strong. Closed on community, not process. Chase intro to follow.</div>
+          <a href="https://cj-brief.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--red);background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.25);" onclick="event.stopPropagation()">OPEN BRIEF →</a>
+        </div>
+      </div>
+
+      <div class="p-card expanded" style="--card-accent:rgba(0,255,157,0.12);--card-border:rgba(0,255,157,0.25);" onclick="togglePathCard(this)">
+        <div class="p-header">
+          <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);">04</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">Chase Crawford — GM Brief</div>
+            <div style="font-size:11px;color:var(--muted);">Rips-specific deployment framing. 30/60/90 output map.</div>
+          </div>
+          <div class="p-chevron">▼</div>
+        </div>
+        <div class="p-detail">
+          <div class="p-preview">Chase is GM, Instant Rips — the right first node. Clear drop cycles, contained blast radius, single owner. <strong>Day 30:</strong> decision anatomy map. <strong>Day 60:</strong> audit brief the team uses before the next drop. <strong>Day 90:</strong> cross-BU signal report — the artifact that makes Chase the GM who proved the model.</div>
+          <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--green);background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.2);" onclick="event.stopPropagation()">OPEN BRIEF →</a>
+        </div>
+      </div>
+
+      <div class="p-card expanded" style="--card-accent:rgba(0,240,255,0.1);--card-border:rgba(0,240,255,0.22);background:rgba(0,240,255,0.02);" onclick="togglePathCard(this)">
+        <div class="p-header">
+          <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);">∞</div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:1px;">new_Deployment — Full Play</div>
+            <div style="font-size:11px;color:var(--muted);">The role is the architecture. This token is the proof of concept.</div>
+          </div>
+          <div class="p-chevron">▼</div>
+        </div>
+        <div class="p-detail">
+          <div class="p-preview">The complete chain: Worm → Stunt → CJ → Chase → deployment. Every beat documented, every causal link visible. The intelligence layer as a platform architecture — Rips as the first node, five BU signal layer compounding from there.</div>
+          <a href="https://token.arcs.care/" target="_blank" rel="noopener" class="p-link" style="color:var(--cyan);background:rgba(0,240,255,0.06);border:1px solid rgba(0,240,255,0.22);" onclick="event.stopPropagation()">FULL PLAY →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="path-btns">
+      <a class="p-btn p-primary" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">BOOK 30 MIN →</a>
+    </div>
+  </div>
+
   <div style="margin-top:32px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.1em">
     ZACH HARRIS · NOT FOR DISTRIBUTION
   </div>
@@ -652,6 +767,11 @@ function toggleDetail(toggle) {
 function scrollToBeat(id) {
   const el = document.getElementById(id);
   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function togglePathCard(card) {
+  if (card.classList.contains('p-muted')) return;
+  card.classList.toggle('expanded');
 }
 </script>
 </body>
