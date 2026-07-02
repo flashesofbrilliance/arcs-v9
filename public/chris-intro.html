@@ -90,6 +90,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .note { padding: 20px 18px; }
 }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -148,5 +149,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.1em">ZACH HARRIS · FANATICS COLLECTIBLES</div>
 
 </div>
+<script>
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'chris-intro' } });
+});
+document.querySelectorAll('a.link-btn').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'brief_link_click', data: { dest: a.textContent.trim().replace(' →','').toLowerCase().replace(/\s+/g,'-'), brief: 'chris-intro' } });
+  });
+});
+</script>
 </body>
 </html>

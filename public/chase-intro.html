@@ -74,6 +74,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .cta { padding: 18px; }
 }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -236,5 +237,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.1em">ZACH HARRIS · FANATICS COLLECTIBLES</div>
 
 </div>
+<script>
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'chase-intro' } });
+});
+document.querySelectorAll('a[href*="calendar"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'book_call_click', data: { brief: 'chase-intro' } });
+  });
+});
+document.querySelectorAll('a[href*="fanatics.arcs.care"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'provenance_click', data: { brief: 'chase-intro', dest: a.textContent.trim() } });
+  });
+});
+</script>
 </body>
 </html>
