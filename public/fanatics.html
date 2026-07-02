@@ -51,7 +51,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 @keyframes wire-breathe { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
 
 /* BEAT */
-.beat { position: relative; margin-bottom: 6px; opacity: 0; transform: translateY(10px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.beat { position: relative; margin-bottom: 6px; opacity: 0; transform: translateY(6px); transition: opacity 0.12s ease, transform 0.12s ease; }
 .beat.fired { opacity: 1; transform: translateY(0); }
 .beat.pending { opacity: 0; }
 .beat.pending.fired { opacity: 1; }
@@ -713,7 +713,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 // Reverse-chronological cascade: fires 05→04→03→02→01 as user scrolls into provenance section.
 // Beat-05 is first in DOM — trigger watches it. Beat-06 stays unlit.
 const SEQUENCE = ['beat-05','beat-04','beat-03','beat-02','beat-01'];
-const STEP_MS = 620;
+const STEP_MS = 120;
 
 let sequenceStarted = false;
 
