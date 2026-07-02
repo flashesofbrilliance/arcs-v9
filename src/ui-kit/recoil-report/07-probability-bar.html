@@ -1,0 +1,95 @@
+<!-- @dsCard group="Recoil Report" name="Probability Bar" subtitle="Labeled horizontal progress · threshold color · variable rows" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+}
+
+.prob-tree { display: flex; flex-direction: column; gap: 14px; }
+
+.prob-row { display: flex; align-items: center; gap: 16px; }
+
+.prob-label {
+  font-family: var(--font-sans); font-size: 13px; color: var(--text);
+  min-width: 260px; flex-shrink: 0;
+}
+
+.prob-track {
+  flex: 1; height: 20px; border-radius: 10px;
+  background: var(--surface-2);
+  overflow: hidden; position: relative;
+}
+.prob-fill {
+  height: 100%; border-radius: 10px;
+  background: var(--bar-color);
+  position: relative;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Subtle shimmer on fill */
+.prob-fill::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12));
+  border-radius: 10px;
+}
+
+.prob-pct {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  color: var(--bar-color);
+  min-width: 40px; text-align: right; flex-shrink: 0;
+}
+
+/* Threshold-based color assignment */
+.high   { --bar-color: var(--green); }
+.medium { --bar-color: var(--gold); }
+.low    { --bar-color: var(--muted); }
+.risk   { --bar-color: var(--red); }
+.active { --bar-color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="section-label">§ Probability Tree · Pre-Call Confidence</div>
+<div class="prob-tree">
+
+  <div class="prob-row high">
+    <div class="prob-label">Call advances to Chase intro</div>
+    <div class="prob-track"><div class="prob-fill" style="width:75%"></div></div>
+    <div class="prob-pct">75%</div>
+  </div>
+
+  <div class="prob-row active">
+    <div class="prob-label">CJ has substantive context from Chris</div>
+    <div class="prob-track"><div class="prob-fill" style="width:60%"></div></div>
+    <div class="prob-pct">60%</div>
+  </div>
+
+  <div class="prob-row medium">
+    <div class="prob-label">Role shape gets named on this call</div>
+    <div class="prob-track"><div class="prob-fill" style="width:40%"></div></div>
+    <div class="prob-pct">40%</div>
+  </div>
+
+  <div class="prob-row low">
+    <div class="prob-label">Active req attached to this</div>
+    <div class="prob-track"><div class="prob-fill" style="width:25%"></div></div>
+    <div class="prob-pct">25%</div>
+  </div>
+
+  <div class="prob-row low">
+    <div class="prob-label">She asks to see the deck</div>
+    <div class="prob-track"><div class="prob-fill" style="width:30%"></div></div>
+    <div class="prob-pct">30%</div>
+  </div>
+
+</div>
+</body>
+</html>

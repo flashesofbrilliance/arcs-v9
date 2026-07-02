@@ -1,0 +1,131 @@
+<!-- @dsCard group="Recoil Report" name="Kairos Node Card" subtitle="5 signal types: AHA/MIRROR/DISCORD/QUIET/ALPHA · color taxonomy" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+}
+
+.kairos-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+}
+
+.kairos-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: border-color 0.2s;
+}
+.kairos-card:hover { border-color: var(--signal-color, var(--border)); }
+
+.kairos-band {
+  height: 3px; width: 100%;
+  background: var(--signal-color);
+}
+
+.kairos-body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+.kairos-icon {
+  font-size: 20px; line-height: 1;
+}
+
+.kairos-type {
+  font-family: var(--font-sans); font-size: 12px; font-weight: 700;
+  color: var(--signal-color);
+  letter-spacing: 0.02em;
+}
+
+.kairos-divider {
+  height: 1px; background: var(--border); margin: 2px 0;
+}
+
+.kairos-watch {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--dimmed); line-height: 1.5;
+}
+
+.kairos-respond {
+  font-family: var(--font-sans); font-size: 11px;
+  color: var(--muted); line-height: 1.4;
+  font-style: italic; margin-top: 4px;
+}
+
+/* Signal type color bindings */
+.aha     { --signal-color: var(--cyan); }
+.mirror  { --signal-color: var(--gold); }
+.discord { --signal-color: var(--red); }
+.quiet   { --signal-color: var(--muted); }
+.alpha   { --signal-color: var(--green); }
+</style>
+</head>
+<body>
+<div class="section-label">§ Kairos Nodes · Signal Taxonomy</div>
+<div class="kairos-grid">
+
+  <div class="kairos-card aha">
+    <div class="kairos-band"></div>
+    <div class="kairos-body">
+      <div class="kairos-icon">⚡</div>
+      <div class="kairos-type">AHA Flash</div>
+      <div class="kairos-divider"></div>
+      <div class="kairos-watch">She names the problem before you do</div>
+      <div class="kairos-respond">Don't fill in — let her finish. Then: "That's the exact thing I'd own."</div>
+    </div>
+  </div>
+
+  <div class="kairos-card mirror">
+    <div class="kairos-band"></div>
+    <div class="kairos-body">
+      <div class="kairos-icon">🔱</div>
+      <div class="kairos-type">Mirror Shock</div>
+      <div class="kairos-divider"></div>
+      <div class="kairos-watch">Org has been thinking about this, hasn't found the person</div>
+      <div class="kairos-respond">Slow down. Name the role together.</div>
+    </div>
+  </div>
+
+  <div class="kairos-card discord">
+    <div class="kairos-band"></div>
+    <div class="kairos-body">
+      <div class="kairos-icon">🔴</div>
+      <div class="kairos-type">Productive Discord</div>
+      <div class="kairos-divider"></div>
+      <div class="kairos-watch">One person vs. team question surfaces</div>
+      <div class="kairos-respond">Counter: "One person to start, beachhead funnel. Instant Rips is the lab."</div>
+    </div>
+  </div>
+
+  <div class="kairos-card quiet">
+    <div class="kairos-band"></div>
+    <div class="kairos-body">
+      <div class="kairos-icon">⚠️</div>
+      <div class="kairos-type">Quiet Signal</div>
+      <div class="kairos-divider"></div>
+      <div class="kairos-watch">Chase timeline hedge or "we're early stage on this"</div>
+      <div class="kairos-respond">Don't push. "I'm patient on structure. The mandate matters more."</div>
+    </div>
+  </div>
+
+  <div class="kairos-card alpha">
+    <div class="kairos-band"></div>
+    <div class="kairos-body">
+      <div class="kairos-icon">💎</div>
+      <div class="kairos-type">Hidden Alpha</div>
+      <div class="kairos-divider"></div>
+      <div class="kairos-watch">A second frustrated champion emerges</div>
+      <div class="kairos-respond">Get their name. Ask if CJ can make the connection.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

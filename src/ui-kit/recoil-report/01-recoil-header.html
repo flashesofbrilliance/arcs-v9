@@ -1,0 +1,185 @@
+<!-- @dsCard group="Recoil Report" name="Recoil Header" subtitle="PRE-CALL / LIVE / POST-CALL modes" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+  .recoil-header {
+    display: flex; align-items: stretch;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    position: relative;
+  }
+  .recoil-header::before {
+    content: ''; width: 4px; flex-shrink: 0;
+    background: var(--cyan);
+  }
+
+  .header-arcs {
+    padding: 16px 24px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid var(--border);
+    min-width: 120px;
+  }
+  .arcs-mark {
+    font-family: var(--font-display);
+    font-size: 32px; font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .arcs-sub {
+    font-family: var(--font-mono);
+    font-size: 9px; color: var(--muted);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  .header-center {
+    flex: 1; padding: 14px 24px;
+    display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  }
+  .receipt-id {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--dimmed);
+    letter-spacing: 0.04em;
+  }
+  .y-gate-badge {
+    display: inline-flex; align-items: center;
+    background: var(--green-bg);
+    border: 1px solid var(--green);
+    border-radius: var(--r-sm);
+    padding: 4px 12px;
+    font-family: var(--font-sans);
+    font-size: 11px; font-weight: 600;
+    color: var(--green);
+    letter-spacing: 0.08em;
+    width: fit-content;
+  }
+  .y-gate-badge.yellow { background: var(--gold-bg); border-color: var(--gold); color: var(--gold); }
+  .y-gate-badge.red    { background: var(--red-bg);  border-color: var(--red);  color: var(--red);  }
+  .y-gate-badge.cyan   { background: var(--cyan-bg); border-color: var(--cyan); color: var(--cyan); }
+
+  .header-nci {
+    padding: 14px 28px;
+    display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
+    border-left: 1px solid var(--border);
+    gap: 2px;
+  }
+  .nci-label {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--muted); letter-spacing: 0.1em;
+  }
+  .nci-value {
+    font-family: var(--font-mono); font-size: 36px; font-weight: 700;
+    color: var(--green); line-height: 1;
+  }
+  .nci-value.yellow { color: var(--gold); }
+  .nci-value.red    { color: var(--red); }
+  .nci-render {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--cyan); letter-spacing: 0.08em;
+  }
+
+  .mode-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 9px;
+    color: var(--muted); letter-spacing: 0.1em;
+  }
+  .mode-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  .mode-dot.pulse {
+    animation: pulse 2s infinite;
+    box-shadow: var(--green-glow);
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Variant showcase */
+  .variants { display: flex; flex-direction: column; gap: 12px; }
+  .variant-label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+<div class="variants">
+  <!-- PRE-CALL MODE -->
+  <div>
+    <div class="variant-label">MODE: PRE-CALL</div>
+    <div class="recoil-header">
+      <div class="header-arcs">
+        <div class="arcs-mark">ARCS</div>
+        <div class="arcs-sub">Recoil Receipt</div>
+      </div>
+      <div class="header-center">
+        <div class="receipt-id">ARCS-ORIENT-2026-07-01T12:30Z · fanatics-cj001</div>
+        <div class="y-gate-badge">GREEN / HIGH / KAIROS-ACTIVE</div>
+        <div class="mode-pill">
+          <div class="mode-dot"></div>
+          PRE-CALL · PREP MODE
+        </div>
+      </div>
+      <div class="header-nci">
+        <div class="nci-label">NCI</div>
+        <div class="nci-value">91</div>
+        <div class="nci-render">SHARP</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE MODE -->
+  <div>
+    <div class="variant-label">MODE: LIVE</div>
+    <div class="recoil-header">
+      <div class="header-arcs">
+        <div class="arcs-mark">ARCS</div>
+        <div class="arcs-sub">Recoil Receipt</div>
+      </div>
+      <div class="header-center">
+        <div class="receipt-id">ARCS-ORIENT-2026-07-01T12:30Z · fanatics-cj001</div>
+        <div class="y-gate-badge yellow">YELLOW / MEDIUM / WATCH</div>
+        <div class="mode-pill">
+          <div class="mode-dot pulse" style="background:var(--gold)"></div>
+          LIVE · COMPASS ACTIVE
+        </div>
+      </div>
+      <div class="header-nci">
+        <div class="nci-label">NCI</div>
+        <div class="nci-value yellow">74</div>
+        <div class="nci-render" style="color:var(--gold)">DEGRADED</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST-CALL MODE -->
+  <div>
+    <div class="variant-label">MODE: POST-CALL</div>
+    <div class="recoil-header">
+      <div class="header-arcs">
+        <div class="arcs-mark">ARCS</div>
+        <div class="arcs-sub">Recoil Receipt</div>
+      </div>
+      <div class="header-center">
+        <div class="receipt-id">ARCS-ORIENT-2026-07-01T13:02Z · fanatics-cj001 · CLOSED</div>
+        <div class="y-gate-badge cyan">GREEN / HIGH / CHASE-INTRO-CONFIRMED</div>
+        <div class="mode-pill">
+          <div class="mode-dot" style="background:var(--dimmed)"></div>
+          POST-CALL · RECEIPT BANKED
+        </div>
+      </div>
+      <div class="header-nci">
+        <div class="nci-label">NCI Δ</div>
+        <div class="nci-value" style="font-size:26px; color:var(--cyan)">91→96</div>
+        <div class="nci-render">LOCKED</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
