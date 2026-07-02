@@ -1,0 +1,207 @@
+<!-- @dsCard group="Recoil Report" name="Hyperstition Arc" subtitle="5-node stepper · active glow state · stage 0–4" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.arc-wrapper {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 28px 32px 24px;
+}
+.arc-label {
+  font-family: var(--font-mono); font-size: 9px;
+  color: var(--muted); letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+
+.arc-track {
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative;
+}
+
+.arc-node {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  flex: 1;
+  position: relative; z-index: 2;
+}
+
+.node-circle {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  transition: all 0.3s;
+}
+.node-circle .inner-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--border);
+}
+
+.arc-node.done .node-circle {
+  border-color: var(--muted);
+}
+.arc-node.done .inner-dot { background: var(--muted); }
+
+.arc-node.active .node-circle {
+  background: rgba(0,240,255,0.08);
+  border-color: var(--cyan);
+  box-shadow: var(--cyan-glow);
+}
+.arc-node.active .inner-dot {
+  width: 14px; height: 14px;
+  background: var(--cyan);
+  box-shadow: var(--cyan-glow);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.3); opacity: 0.7; }
+}
+
+.arc-node.pending .node-circle { opacity: 0.4; }
+.arc-node.pending .inner-dot   { opacity: 0.4; }
+
+.node-label {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.06em; text-align: center;
+  white-space: nowrap;
+}
+.arc-node.done    .node-label { color: var(--muted); }
+.arc-node.active  .node-label { color: var(--cyan); font-weight: 700; }
+.arc-node.pending .node-label { color: var(--border); }
+
+/* Connector lines between nodes */
+.arc-connector {
+  flex: 1; height: 1px;
+  margin: 0 -4px;
+  position: relative; top: -19px; /* align with circle center */
+  z-index: 1;
+}
+.arc-connector.done    { background: var(--muted); }
+.arc-connector.active  {
+  background: linear-gradient(90deg, var(--muted), var(--cyan));
+  box-shadow: 0 0 6px rgba(0,240,255,0.3);
+}
+.arc-connector.pending { background: var(--border); }
+
+/* Arrow tip */
+.arc-connector::after {
+  content: '';
+  position: absolute; right: -1px; top: -4px;
+  border-left: 7px solid transparent;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+.arc-connector.done::after    { border-left-color: var(--muted); }
+.arc-connector.active::after  { border-left-color: var(--cyan); }
+.arc-connector.pending::after { border-left-color: var(--border); }
+
+.variants { display: flex; flex-direction: column; gap: 16px; }
+.variant-title { font-family: var(--font-mono); font-size: 9px; color: var(--muted); margin-bottom: 4px; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+<div class="variants">
+
+  <!-- Stage 2: KAIROS LOCK active -->
+  <div>
+    <div class="variant-title">STAGE 2 — KAIROS LOCK ACTIVE</div>
+    <div class="arc-wrapper">
+      <div class="arc-label">§ Hyperstition Arc · Current Stage</div>
+      <div class="arc-track">
+        <div class="arc-node done">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">Ethereal</div>
+        </div>
+        <div class="arc-connector done"></div>
+        <div class="arc-node done">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">Loki Test</div>
+        </div>
+        <div class="arc-connector active"></div>
+        <div class="arc-node active">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">KAIROS LOCK</div>
+        </div>
+        <div class="arc-connector pending"></div>
+        <div class="arc-node pending">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">Receipt</div>
+        </div>
+        <div class="arc-connector pending"></div>
+        <div class="arc-node pending">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">ROM Hard-Yes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 0: Ethereal (entry) -->
+  <div>
+    <div class="variant-title">STAGE 0 — ETHEREAL (ENTRY)</div>
+    <div class="arc-wrapper">
+      <div class="arc-label">§ Hyperstition Arc · Current Stage</div>
+      <div class="arc-track">
+        <div class="arc-node active">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">Ethereal</div>
+        </div>
+        <div class="arc-connector pending"></div>
+        <div class="arc-node pending">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">Loki Test</div>
+        </div>
+        <div class="arc-connector pending"></div>
+        <div class="arc-node pending">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">KAIROS LOCK</div>
+        </div>
+        <div class="arc-connector pending"></div>
+        <div class="arc-node pending">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">Receipt</div>
+        </div>
+        <div class="arc-connector pending"></div>
+        <div class="arc-node pending">
+          <div class="node-circle"><div class="inner-dot"></div></div>
+          <div class="node-label">ROM Hard-Yes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stage 4: ROM Hard-Yes (complete) -->
+  <div>
+    <div class="variant-title">STAGE 4 — ROM HARD-YES (COMPLETE)</div>
+    <div class="arc-wrapper">
+      <div class="arc-label">§ Hyperstition Arc · Current Stage</div>
+      <div class="arc-track">
+        <div class="arc-node done"><div class="node-circle"><div class="inner-dot"></div></div><div class="node-label">Ethereal</div></div>
+        <div class="arc-connector done"></div>
+        <div class="arc-node done"><div class="node-circle"><div class="inner-dot"></div></div><div class="node-label">Loki Test</div></div>
+        <div class="arc-connector done"></div>
+        <div class="arc-node done"><div class="node-circle"><div class="inner-dot"></div></div><div class="node-label">KAIROS LOCK</div></div>
+        <div class="arc-connector done"></div>
+        <div class="arc-node done"><div class="node-circle"><div class="inner-dot"></div></div><div class="node-label">Receipt</div></div>
+        <div class="arc-connector active"></div>
+        <div class="arc-node active" style="--active-color: var(--green)">
+          <div class="node-circle" style="background:rgba(0,255,157,0.08);border-color:var(--green);box-shadow:var(--green-glow)">
+            <div class="inner-dot" style="background:var(--green);box-shadow:var(--green-glow)"></div>
+          </div>
+          <div class="node-label" style="color:var(--green)">ROM Hard-Yes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

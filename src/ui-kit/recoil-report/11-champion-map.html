@@ -1,0 +1,151 @@
+<!-- @dsCard group="Recoil Report" name="Champion Map" subtitle="Org relationship graph · sponsor / gatekeeper / decision / coordinator" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+}
+
+.champion-row {
+  display: flex; align-items: center; gap: 0;
+}
+
+.champ-card {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.champ-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent-color);
+}
+
+.champ-role {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--accent-color); margin-bottom: 6px;
+}
+
+.champ-name {
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  color: var(--text); line-height: 1.2;
+}
+
+.champ-title {
+  font-family: var(--font-sans); font-size: 11px;
+  color: var(--muted); margin-top: 2px; line-height: 1.3;
+}
+
+.champ-signal {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--accent-color);
+}
+
+.champ-signal-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.champ-note {
+  font-family: var(--font-sans); font-size: 11px;
+  color: var(--dimmed); margin-top: 6px; line-height: 1.4;
+  font-style: italic;
+}
+
+/* Edge connector */
+.champ-edge {
+  display: flex; align-items: center;
+  padding: 0 6px; flex-shrink: 0;
+  flex-direction: column; gap: 3px;
+}
+
+.edge-line {
+  width: 28px; height: 1px; background: var(--border);
+}
+
+.edge-label {
+  font-family: var(--font-mono); font-size: 8px;
+  color: var(--dimmed); letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* Strength variants */
+.edge-strong .edge-line { background: var(--cyan); box-shadow: 0 0 4px rgba(0,240,255,0.4); }
+.edge-strong .edge-label { color: var(--cyan); }
+.edge-warm .edge-line { background: var(--green); }
+.edge-warm .edge-label { color: var(--green); }
+.edge-pending .edge-line { background: var(--border); border-top: 1px dashed var(--border); }
+</style>
+</head>
+<body>
+<div class="section-label">§ Champion Map · Signal Flow</div>
+
+<div class="champion-row">
+
+  <div class="champ-card" style="--accent-color: var(--green)">
+    <div class="champ-role">Sponsor</div>
+    <div class="champ-name">Chris Lamontagne</div>
+    <div class="champ-title">SVP Growth · Fanatics Collectibles</div>
+    <div class="champ-signal"><span class="champ-signal-dot"></span>WARM · Intro sent Jun 25</div>
+    <div class="champ-note">"Give me a force multiplier on the growth org's memory." Owns the mandate.</div>
+  </div>
+
+  <div class="champ-edge edge-strong">
+    <div class="edge-line"></div>
+    <div class="edge-label">intro'd</div>
+  </div>
+
+  <div class="champ-card" style="--accent-color: var(--cyan)">
+    <div class="champ-role">Gatekeeper · TODAY</div>
+    <div class="champ-name">CJ Masopust</div>
+    <div class="champ-title">Talent Lead · Fanatics Collectibles</div>
+    <div class="champ-signal"><span class="champ-signal-dot"></span>ACTIVE · Screen Jul 1 12:30</div>
+    <div class="champ-note">Routes to Chase. Needs to file me cleanly. Her win = a brief she can forward without editing.</div>
+  </div>
+
+  <div class="champ-edge edge-pending">
+    <div class="edge-line"></div>
+    <div class="edge-label">routes to</div>
+  </div>
+
+  <div class="champ-card" style="--accent-color: var(--gold)">
+    <div class="champ-role">Decision · HM</div>
+    <div class="champ-name">Chase</div>
+    <div class="champ-title">Instant Rips Growth Lead</div>
+    <div class="champ-signal" style="color:var(--gold)"><span class="champ-signal-dot" style="background:var(--gold)"></span>PENDING · Intro TBD</div>
+    <div class="champ-note">Owns the Instant Rips P&L + growth motion. The actual "does this role exist" answer lives here.</div>
+  </div>
+
+  <div class="champ-edge edge-pending">
+    <div class="edge-line"></div>
+    <div class="edge-label">CC'd</div>
+  </div>
+
+  <div class="champ-card" style="--accent-color: var(--muted)">
+    <div class="champ-role">Coordinator</div>
+    <div class="champ-name">Regina Marshall</div>
+    <div class="champ-title">EA · Chris Lamontagne</div>
+    <div class="champ-signal" style="color:var(--muted)"><span class="champ-signal-dot" style="background:var(--muted)"></span>PASSIVE · CC'd on intro</div>
+    <div class="champ-note">Manages Chris's calendar. CC suggests she may coordinate Chase intro too. Watch if she resurfaces.</div>
+  </div>
+
+</div>
+</body>
+</html>

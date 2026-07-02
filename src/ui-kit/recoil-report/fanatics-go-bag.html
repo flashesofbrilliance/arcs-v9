@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zach Harris · Growth Intelligence · Fanatics Collectibles</title>
+<style>
+/* ── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:       #020408;
+  --surface:  #0d1117;
+  --surface2: #111820;
+  --border:   #1e293b;
+  --text:     #e2e8f0;
+  --muted:    #475569;
+  --dimmed:   #64748b;
+  --cyan:     #00F0FF;
+  --green:    #00FF9D;
+  --gold:     #FFD700;
+  --red:      #FF4D6D;
+
+  --cyan-glow:  0 0 12px rgba(0,240,255,0.25);
+  --green-glow: 0 0 12px rgba(0,255,157,0.2);
+  --red-glow:   0 0 12px rgba(255,77,109,0.3);
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 12px;
+
+  --mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  padding: 32px 24px 64px;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── LABELS ─────────────────────────────────────────────── */
+.label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── CARDS ──────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.card-title {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+
+.card-body { padding: 20px; }
+
+/* ── SECTION DIVIDER ────────────────────────────────────── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+}
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed);
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   01 — HEADER
+═══════════════════════════════════════════════════════════ */
+.header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 3px; background: var(--cyan);
+}
+
+.header-inner {
+  padding: 20px 24px 20px 28px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-identity {}
+
+.header-mark {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; color: var(--cyan); margin-bottom: 6px;
+}
+
+.header-name {
+  font-family: var(--sans); font-size: 22px; font-weight: 700;
+  color: var(--text); letter-spacing: -0.01em; line-height: 1.1;
+}
+
+.header-role {
+  font-family: var(--sans); font-size: 13px; color: var(--muted);
+  margin-top: 3px;
+}
+
+.header-links {
+  display: flex; gap: 10px; margin-top: 10px;
+}
+
+.header-link {
+  font-family: var(--mono); font-size: 10px;
+  padding: 4px 12px; border-radius: var(--r-sm);
+  border: 1px solid var(--border); color: var(--muted);
+  text-decoration: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+.header-link:hover { border-color: var(--cyan); color: var(--cyan); }
+.header-link.primary {
+  border-color: var(--cyan); color: var(--cyan);
+  background: rgba(0,240,255,0.06);
+}
+
+.header-meta {
+  display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+}
+
+.receipt-id {
+  font-family: var(--mono); font-size: 10px; color: var(--dimmed);
+  letter-spacing: 0.06em;
+}
+
+.ygate-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px; border-radius: var(--r-sm);
+  border: 1px solid var(--green); background: rgba(0,255,157,0.06);
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  color: var(--green); letter-spacing: 0.1em;
+}
+.ygate-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: var(--green-glow);
+}
+
+.nci-block {
+  text-align: right;
+}
+.nci-val {
+  font-family: var(--mono); font-size: 28px; font-weight: 700;
+  color: var(--cyan); line-height: 1; letter-spacing: -0.02em;
+}
+.nci-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   02 — BRIEF (syllogism)
+═══════════════════════════════════════════════════════════ */
+.brief-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 24px 28px;
+}
+
+.brief-thesis {
+  font-family: var(--sans); font-size: 17px; font-weight: 500;
+  color: var(--text); line-height: 1.6; letter-spacing: -0.01em;
+  margin-bottom: 20px;
+}
+.brief-thesis .hl { color: var(--cyan); font-weight: 600; }
+
+.syllogism {
+  display: flex; flex-direction: column; gap: 0;
+}
+
+.syl-row {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(30,41,59,0.5);
+}
+.syl-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.syl-marker {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  flex-shrink: 0; border: 1px solid;
+}
+.syl-1 .syl-marker { border-color: var(--cyan); color: var(--cyan); }
+.syl-2 .syl-marker { border-color: var(--green); color: var(--green); }
+.syl-3 .syl-marker { border-color: var(--gold); color: var(--gold); }
+
+.syl-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.syl-1 .syl-label { color: var(--cyan); }
+.syl-2 .syl-label { color: var(--green); }
+.syl-3 .syl-label { color: var(--gold); }
+
+.syl-text {
+  font-family: var(--sans); font-size: 13px; color: var(--text);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   03 — PIPELINE STAGE TRACKER
+═══════════════════════════════════════════════════════════ */
+.pipeline {
+  display: flex; align-items: flex-start; gap: 0;
+  position: relative; padding: 20px;
+}
+.pipeline::before {
+  content: '';
+  position: absolute;
+  top: 38px; left: 52px; right: 52px; height: 1px;
+  background: var(--border); z-index: 0;
+}
+
+.stage {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 10px; position: relative; z-index: 1;
+}
+
+.stage-node {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  border: 1px solid; flex-shrink: 0;
+}
+
+.stage-body { text-align: center; }
+.stage-name {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.stage-date { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-top: 3px; }
+.stage-note { font-family: var(--sans); font-size: 10px; color: var(--muted); margin-top: 4px; max-width: 110px; text-align: center; line-height: 1.4; }
+
+.stage-done .stage-node { background: rgba(0,255,157,0.1); border-color: var(--green); color: var(--green); }
+.stage-done .stage-name { color: var(--green); }
+.stage-active .stage-node { background: rgba(0,240,255,0.12); border-color: var(--cyan); color: var(--cyan); box-shadow: var(--cyan-glow); }
+.stage-active .stage-name { color: var(--cyan); }
+.stage-pending .stage-node { background: var(--surface); border-color: var(--border); color: var(--dimmed); }
+.stage-pending .stage-name { color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   04 — CHAMPION MAP
+═══════════════════════════════════════════════════════════ */
+.champ-row { display: flex; align-items: stretch; gap: 0; padding: 20px; }
+
+.champ-card {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  position: relative; overflow: hidden;
+}
+.champ-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+  background: var(--c-accent);
+}
+
+.champ-role { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-accent); margin-bottom: 5px; }
+.champ-name { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.2; }
+.champ-title { font-family: var(--sans); font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+.champ-signal { display: flex; align-items: center; gap: 5px; margin-top: 7px; font-family: var(--mono); font-size: 10px; color: var(--c-accent); }
+.champ-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--c-accent); flex-shrink: 0; }
+.champ-note { font-family: var(--sans); font-size: 11px; color: var(--dimmed); margin-top: 6px; line-height: 1.4; font-style: italic; }
+
+.champ-edge {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 0 8px; gap: 4px; flex-shrink: 0;
+}
+.edge-line { width: 24px; height: 1px; }
+.edge-label { font-family: var(--mono); font-size: 8px; color: var(--dimmed); letter-spacing: 0.06em; white-space: nowrap; }
+.edge-solid .edge-line { background: var(--cyan); box-shadow: 0 0 4px rgba(0,240,255,0.3); }
+.edge-solid .edge-label { color: var(--cyan); }
+.edge-dashed .edge-line { background: none; border-top: 1px dashed var(--border); }
+
+/* ═══════════════════════════════════════════════════════════
+   05 — ROLE THESIS
+═══════════════════════════════════════════════════════════ */
+.owns-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.owns-cell {
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+.owns-cell:last-child { border-right: none; }
+.owns-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.owns-value { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.owns-sub { font-family: var(--sans); font-size: 11px; color: var(--dimmed); margin-top: 5px; line-height: 1.4; }
+
+.adj-row { padding: 14px 20px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.adj-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); flex-shrink: 0; }
+.adj-chip { font-family: var(--mono); font-size: 10px; padding: 4px 12px; border-radius: var(--r-sm); border: 1px solid; }
+.adj-primary { border-color: var(--cyan); color: var(--cyan); background: rgba(0,240,255,0.06); }
+.adj-warm { border-color: var(--green); color: var(--green); background: rgba(0,255,157,0.04); }
+.adj-cold { border-color: var(--border); color: var(--muted); }
+.adj-arrow { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+
+/* ═══════════════════════════════════════════════════════════
+   06 — 90-DAY BUILD
+═══════════════════════════════════════════════════════════ */
+.phases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; padding: 20px; }
+
+.phase {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md); overflow: hidden;
+}
+.phase-header { padding: 12px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+.phase-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; font-weight: 700; border: 1px solid; flex-shrink: 0; }
+.phase-days { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.phase-name { font-family: var(--sans); font-size: 12px; font-weight: 600; margin-top: 1px; color: var(--text); }
+.phase-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.phase-item { display: flex; align-items: flex-start; gap: 8px; }
+.pi-dot { width: 5px; height: 5px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+.pi-text { font-family: var(--sans); font-size: 11px; color: var(--text); line-height: 1.4; }
+.pi-sub { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-top: 2px; }
+.phase-output { margin: 0 14px 12px; padding: 8px 10px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-sm); font-family: var(--mono); font-size: 9px; color: var(--muted); line-height: 1.5; }
+
+.ph-cyan .phase-num { border-color: var(--cyan); color: var(--cyan); }
+.ph-cyan .phase-days { color: var(--cyan); }
+.ph-cyan .pi-dot { background: var(--cyan); }
+.ph-green .phase-num { border-color: var(--green); color: var(--green); }
+.ph-green .phase-days { color: var(--green); }
+.ph-green .pi-dot { background: var(--green); }
+.ph-gold .phase-num { border-color: var(--gold); color: var(--gold); }
+.ph-gold .phase-days { color: var(--gold); }
+.ph-gold .pi-dot { background: var(--gold); }
+
+/* ═══════════════════════════════════════════════════════════
+   07 — PROBABILITY TREE
+═══════════════════════════════════════════════════════════ */
+.prob-tree { display: flex; flex-direction: column; gap: 12px; padding: 20px; }
+.prob-row { display: flex; align-items: center; gap: 14px; }
+.prob-label { font-family: var(--sans); font-size: 13px; color: var(--text); min-width: 260px; flex-shrink: 0; }
+.prob-track { flex: 1; height: 18px; border-radius: 9px; background: var(--surface2); overflow: hidden; position: relative; }
+.prob-fill { height: 100%; border-radius: 9px; background: var(--c-bar); position: relative; }
+.prob-fill::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 40px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1)); border-radius: 9px; }
+.prob-pct { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--c-bar); min-width: 38px; text-align: right; flex-shrink: 0; }
+
+.p-green { --c-bar: var(--green); }
+.p-cyan  { --c-bar: var(--cyan); }
+.p-gold  { --c-bar: var(--gold); }
+.p-muted { --c-bar: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   08 — KAIROS PROBES
+═══════════════════════════════════════════════════════════ */
+.probes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 20px; }
+.probe {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 14px 16px;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.probe-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.probe-type { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+.probe-text { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.4; font-style: italic; }
+.probe-why { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 5px; line-height: 1.4; }
+
+.probe-cyan .probe-type { color: var(--cyan); }
+.probe-gold .probe-type { color: var(--gold); }
+.probe-green .probe-type { color: var(--green); }
+.probe-red .probe-type { color: var(--red); }
+
+/* ═══════════════════════════════════════════════════════════
+   09 — HYPERSTITION ARC
+═══════════════════════════════════════════════════════════ */
+.hyp-arc { padding: 20px; display: flex; align-items: center; gap: 0; position: relative; }
+.hyp-arc::before {
+  content: '';
+  position: absolute; top: 38px; left: 40px; right: 40px; height: 1px;
+  background: var(--border); z-index: 0;
+}
+
+.hyp-node {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px;
+  position: relative; z-index: 1;
+}
+.hyp-bubble {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  border: 1px solid; flex-shrink: 0;
+}
+.hyp-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; max-width: 80px; line-height: 1.3; }
+.hyp-sub { font-family: var(--sans); font-size: 10px; color: var(--dimmed); text-align: center; max-width: 90px; line-height: 1.3; }
+
+.hyp-done .hyp-bubble { background: rgba(0,255,157,0.1); border-color: var(--green); color: var(--green); }
+.hyp-done .hyp-label { color: var(--green); }
+.hyp-active .hyp-bubble { background: rgba(0,240,255,0.12); border-color: var(--cyan); color: var(--cyan); box-shadow: var(--cyan-glow); }
+.hyp-active .hyp-label { color: var(--cyan); }
+.hyp-pending .hyp-bubble { background: var(--surface); border-color: var(--border); color: var(--dimmed); }
+.hyp-pending .hyp-label { color: var(--muted); }
+
+/* ═══════════════════════════════════════════════════════════
+   10 — STOP-LOSS
+═══════════════════════════════════════════════════════════ */
+.stop-loss {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px 20px; border-radius: var(--r-lg);
+  border: 1px solid var(--red); background: rgba(255,77,109,0.05);
+}
+.sl-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+.sl-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); box-shadow: var(--red-glow); flex-shrink: 0; animation: blink 2s ease-in-out infinite; }
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.2; } }
+.sl-text { font-family: var(--mono); font-size: 12px; color: var(--red); line-height: 1.5; }
+.sl-ts { font-family: var(--mono); font-size: 10px; color: rgba(255,77,109,0.5); white-space: nowrap; flex-shrink: 0; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── 01 HEADER ── -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-identity">
+        <div class="header-mark">ARCS · GROWTH INTELLIGENCE</div>
+        <div class="header-name">Zach Harris</div>
+        <div class="header-role">Growth Intel Lead candidate · Fanatics Collectibles · Instant Rips (start)</div>
+        <div class="header-links">
+          <a href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview" target="_blank" class="header-link primary">View Deck →</a>
+          <a href="https://linkedin.com/in/zachharris" target="_blank" class="header-link">LinkedIn</a>
+        </div>
+      </div>
+      <div class="header-meta">
+        <div class="receipt-id">RCPT-FC-2026-0701</div>
+        <div class="ygate-badge"><div class="ygate-dot"></div> GREEN / HIGH</div>
+        <div style="margin-top:4px">
+          <div class="nci-val">91</div>
+          <div class="nci-label">NCI · SHARP</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 02 BRIEF ── -->
+  <div class="brief-card">
+    <div style="margin-bottom:6px" class="label">The brief</div>
+    <div class="brief-thesis">
+      Chris Lamontagne intro'd this conversation after an agentic hiring process to explore whether <span class="hl">Growth Intelligence</span> — a memory layer that converts every Fanatics campaign and drop into compounding institutional knowledge — could become the force multiplier the growth org is missing. Instant Rips is the clearest beachhead. The learnings don't stay there.
+    </div>
+    <div class="syllogism">
+      <div class="syl-row syl-1">
+        <div class="syl-marker">P</div>
+        <div>
+          <div class="syl-label">Proposed</div>
+          <div class="syl-text">A Growth Intelligence function that makes every Instant Rips drop a decision receipt — predictions before, validation after, variance banked as org knowledge. The deck walks through the system design. <a href="https://www.magicpatterns.com/c/hm2tfa2zncmesrfi5sdlrw/preview" target="_blank" style="color:var(--cyan)">View deck →</a></div>
+        </div>
+      </div>
+      <div class="syl-row syl-2">
+        <div class="syl-marker">Q</div>
+        <div>
+          <div class="syl-label">Wants to learn</div>
+          <div class="syl-text">Where Instant Rips is in its growth arc today — acquisition bottleneck, conversion, or retention. How the 5-team org structure maps to the CoE vs. GM model Chris described. Whether the force-multiplier framing maps to a gap Chase is already feeling.</div>
+        </div>
+      </div>
+      <div class="syl-row syl-3">
+        <div class="syl-marker">∴</div>
+        <div>
+          <div class="syl-label">Therefore</div>
+          <div class="syl-text">Instant Rips is the right beachhead because the product loop is tight enough to prove compounding returns fast — and what works there propagates to every adjacent BU touching live commerce or collectible categories. The function that starts at Rips doesn't stay at Rips.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 03 PIPELINE ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Pipeline Stage</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--muted)">Chris → CJ → Chase → Loop → Offer</div>
+    </div>
+    <div class="pipeline">
+      <div class="stage stage-done">
+        <div class="stage-node">✓</div>
+        <div class="stage-body">
+          <div class="stage-name">Sponsor</div>
+          <div class="stage-date">Jun 25</div>
+          <div class="stage-note">Chris Lamontagne warm intro</div>
+        </div>
+      </div>
+      <div class="stage stage-active">
+        <div class="stage-node">2</div>
+        <div class="stage-body">
+          <div class="stage-name">Talent</div>
+          <div class="stage-date">Jul 1 · 12:30</div>
+          <div class="stage-note">CJ Masopust — TODAY</div>
+        </div>
+      </div>
+      <div class="stage stage-pending">
+        <div class="stage-node">3</div>
+        <div class="stage-body">
+          <div class="stage-name">HM · Chase</div>
+          <div class="stage-date">TBD</div>
+          <div class="stage-note">Instant Rips Growth</div>
+        </div>
+      </div>
+      <div class="stage stage-pending">
+        <div class="stage-node">4</div>
+        <div class="stage-body">
+          <div class="stage-name">Loop</div>
+          <div class="stage-date">TBD</div>
+          <div class="stage-note">Team + cross-BU</div>
+        </div>
+      </div>
+      <div class="stage stage-pending">
+        <div class="stage-node">5</div>
+        <div class="stage-body">
+          <div class="stage-name">Offer</div>
+          <div class="stage-date">TBD</div>
+          <div class="stage-note">Role: Growth Intel</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04 CHAMPION MAP ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Champion Map · Signal Flow</div>
+    </div>
+    <div class="champ-row">
+      <div class="champ-card" style="--c-accent: var(--green)">
+        <div class="champ-role">Sponsor</div>
+        <div class="champ-name">Chris Lamontagne</div>
+        <div class="champ-title">SVP Growth · Fanatics Collectibles</div>
+        <div class="champ-signal"><span class="champ-dot"></span>WARM · Intro Jun 25</div>
+        <div class="champ-note">"Force multiplier on growth org memory." Owns the mandate.</div>
+      </div>
+      <div class="champ-edge edge-solid">
+        <div class="edge-line"></div>
+        <div class="edge-label">intro'd</div>
+      </div>
+      <div class="champ-card" style="--c-accent: var(--cyan)">
+        <div class="champ-role">Gatekeeper · Today</div>
+        <div class="champ-name">CJ Masopust</div>
+        <div class="champ-title">Talent Lead · Fanatics Collectibles</div>
+        <div class="champ-signal"><span class="champ-dot"></span>ACTIVE · Screen 12:30</div>
+        <div class="champ-note">Routes to Chase. Win = a brief she can forward without editing.</div>
+      </div>
+      <div class="champ-edge edge-dashed">
+        <div class="edge-line"></div>
+        <div class="edge-label">routes to</div>
+      </div>
+      <div class="champ-card" style="--c-accent: var(--gold)">
+        <div class="champ-role">Decision · HM</div>
+        <div class="champ-name">Chase</div>
+        <div class="champ-title">Instant Rips Growth Lead</div>
+        <div class="champ-signal" style="color:var(--gold)"><span class="champ-dot" style="background:var(--gold)"></span>PENDING · TBD</div>
+        <div class="champ-note">Owns Instant Rips P&L + growth motion. "Does this role exist" answer lives here.</div>
+      </div>
+      <div class="champ-edge edge-dashed">
+        <div class="edge-line"></div>
+        <div class="edge-label">CC'd</div>
+      </div>
+      <div class="champ-card" style="--c-accent: var(--muted)">
+        <div class="champ-role">Coordinator</div>
+        <div class="champ-name">Regina Marshall</div>
+        <div class="champ-title">EA · Chris Lamontagne</div>
+        <div class="champ-signal" style="color:var(--muted)"><span class="champ-dot" style="background:var(--muted)"></span>PASSIVE · CC'd</div>
+        <div class="champ-note">Manages Chris's calendar. CC on intro suggests she may coordinate Chase intro too.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 05 ROLE THESIS ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Role Thesis · Growth Intelligence Lead</div>
+      <div style="font-family:var(--mono);font-size:9px;padding:3px 10px;border-radius:var(--r-sm);border:1px solid var(--cyan);color:var(--cyan);background:rgba(0,240,255,0.06)">BEACHHEAD: INSTANT RIPS</div>
+    </div>
+    <div class="owns-grid">
+      <div class="owns-cell">
+        <div class="owns-label">Owns</div>
+        <div class="owns-value">Full-funnel growth system</div>
+        <div class="owns-sub">Acquisition → conversion → retention. Every campaign generates a receipt, not just a report.</div>
+      </div>
+      <div class="owns-cell">
+        <div class="owns-label">Builds</div>
+        <div class="owns-value">Institutional memory layer</div>
+        <div class="owns-sub">Converts each drop, test, and signal into compounding org knowledge. The 5th team that makes the other 4 faster.</div>
+      </div>
+      <div class="owns-cell">
+        <div class="owns-label">Delivers</div>
+        <div class="owns-value">Predictive accountability</div>
+        <div class="owns-sub">Ex-ante confidence, post-hoc validation. Did this work because of process or luck? The system knows.</div>
+      </div>
+    </div>
+    <div class="adj-row">
+      <div class="adj-label">Propagates →</div>
+      <div class="adj-chip adj-primary">Instant Rips</div>
+      <div class="adj-arrow">→</div>
+      <div class="adj-chip adj-warm">Live Commerce</div>
+      <div class="adj-chip adj-warm">Trading Cards</div>
+      <div class="adj-chip adj-warm">Authenticated Merch</div>
+      <div class="adj-arrow">→</div>
+      <div class="adj-chip adj-cold">All collectible BUs</div>
+    </div>
+  </div>
+
+  <!-- ── 06 90-DAY BUILD ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">90-Day Build Arc</div>
+    </div>
+    <div class="phases">
+      <div class="phase ph-cyan">
+        <div class="phase-header">
+          <div class="phase-num">1</div>
+          <div>
+            <div class="phase-days">Day 1–30</div>
+            <div class="phase-name">Terrain Read</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Audit every live Instant Rips growth motion</div><div class="pi-sub">What's running, what's worked, what's been tried twice</div></div></div>
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Map the 5 teams' signal flows</div><div class="pi-sub">Where does learning die? Where does it compound?</div></div></div>
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Identify the funnel bottleneck</div><div class="pi-sub">CAC, conversion, or retention — pick the highest leverage layer</div></div></div>
+        </div>
+        <div class="phase-output">Output: terrain brief — first decision receipt the org has ever had on its own growth motion</div>
+      </div>
+      <div class="phase ph-green">
+        <div class="phase-header">
+          <div class="phase-num">2</div>
+          <div>
+            <div class="phase-days">Day 31–60</div>
+            <div class="phase-name">First Loop</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Run one full campaign cycle with memory layer live</div><div class="pi-sub">Pre-campaign receipt → post-campaign validation</div></div></div>
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Wire the signal taxonomy</div><div class="pi-sub">Categorize what drop types generate what learnings</div></div></div>
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">First variance measurement</div><div class="pi-sub">Predicted vs. actual — and why was the gap there?</div></div></div>
+        </div>
+        <div class="phase-output">Output: first compounding receipt — proof system beats gut feel</div>
+      </div>
+      <div class="phase ph-gold">
+        <div class="phase-header">
+          <div class="phase-num">3</div>
+          <div>
+            <div class="phase-days">Day 61–90</div>
+            <div class="phase-name">Propagate</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Surface learnings to adjacent BUs</div><div class="pi-sub">Trading Cards, Live Commerce, Merch — what transfers?</div></div></div>
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Build the CoE case from evidence</div><div class="pi-sub">If receipts prove value, the cross-BU argument writes itself</div></div></div>
+          <div class="phase-item"><div class="pi-dot"></div><div><div class="pi-text">Scope Phase 2 with Chris</div><div class="pi-sub">What does "force multiplier on the growth org" look like at scale?</div></div></div>
+        </div>
+        <div class="phase-output">Output: cross-BU brief + Phase 2 proposal — Rips → whole org</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 07 PROBABILITY TREE ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Probability Tree · Path Confidence</div>
+    </div>
+    <div class="prob-tree">
+      <div class="prob-row p-green">
+        <div class="prob-label">This call advances to Chase intro</div>
+        <div class="prob-track"><div class="prob-fill" style="width:75%"></div></div>
+        <div class="prob-pct">75%</div>
+      </div>
+      <div class="prob-row p-cyan">
+        <div class="prob-label">CJ has substantive context from Chris</div>
+        <div class="prob-track"><div class="prob-fill" style="width:60%"></div></div>
+        <div class="prob-pct">60%</div>
+      </div>
+      <div class="prob-row p-gold">
+        <div class="prob-label">Role shape gets named on this call</div>
+        <div class="prob-track"><div class="prob-fill" style="width:40%"></div></div>
+        <div class="prob-pct">40%</div>
+      </div>
+      <div class="prob-row p-gold">
+        <div class="prob-label">Active req attached to this process</div>
+        <div class="prob-track"><div class="prob-fill" style="width:30%"></div></div>
+        <div class="prob-pct">30%</div>
+      </div>
+      <div class="prob-row p-muted">
+        <div class="prob-label">CJ asks to see the deck unprompted</div>
+        <div class="prob-track"><div class="prob-fill" style="width:35%"></div></div>
+        <div class="prob-pct">35%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 08 SMART PROBES ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Smart Probes · Kairos Unlock Questions</div>
+    </div>
+    <div class="probes">
+      <div class="probe probe-cyan">
+        <div class="probe-icon">◎</div>
+        <div>
+          <div class="probe-type">AHA FLASH · Context Confirm</div>
+          <div class="probe-text">"What do you already know about what Chris is looking for — and is there context I can fill in?"</div>
+          <div class="probe-why">→ Calibrates her brief, surfaces what she's working with, opens revealed preference window immediately</div>
+        </div>
+      </div>
+      <div class="probe probe-gold">
+        <div class="probe-icon">◈</div>
+        <div>
+          <div class="probe-type">MIRROR SHOCK · Role Legibility</div>
+          <div class="probe-text">"Does this land in an existing function for you — or is this a bespoke conversation you're still architecting?"</div>
+          <div class="probe-why">→ Tells you whether there's a req or whether you're helping write one. Defines your real leverage.</div>
+        </div>
+      </div>
+      <div class="probe probe-green">
+        <div class="probe-icon">◇</div>
+        <div>
+          <div class="probe-type">HIDDEN ALPHA · Chase Frame</div>
+          <div class="probe-text">"What would help make the Chase intro a clean handoff — what does he need to see before we connect?"</div>
+          <div class="probe-why">→ Inverts evaluation dynamic. She becomes the expert. Surfaces her actual success metric for this hire.</div>
+        </div>
+      </div>
+      <div class="probe probe-red">
+        <div class="probe-icon">◆</div>
+        <div>
+          <div class="probe-type">PRODUCTIVE DISCORD · Org Signal</div>
+          <div class="probe-text">"How is the growth org structured right now — is Chase running an embedded model or still figuring out the shape?"</div>
+          <div class="probe-why">→ "Still figuring out" = org design is live = builder role, not executor slot. That's the signal you need.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 09 HYPERSTITION ARC ── -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Hyperstition Arc · Role Into Existence</div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--muted)">KAIROS LOCK · STAGE 3 ACTIVE</div>
+    </div>
+    <div class="hyp-arc">
+      <div class="hyp-node hyp-done">
+        <div class="hyp-bubble">✓</div>
+        <div class="hyp-label">Ethereal</div>
+        <div class="hyp-sub">The pitch — Growth Intel framing born</div>
+      </div>
+      <div class="hyp-node hyp-done">
+        <div class="hyp-bubble">✓</div>
+        <div class="hyp-label">Loki Test</div>
+        <div class="hyp-sub">Chris heard it — didn't reject it, intro'd instead</div>
+      </div>
+      <div class="hyp-node hyp-active">
+        <div class="hyp-bubble">⚡</div>
+        <div class="hyp-label">Kairos Lock</div>
+        <div class="hyp-sub">CJ confirms direction — role shape starts crystallizing</div>
+      </div>
+      <div class="hyp-node hyp-pending">
+        <div class="hyp-bubble">4</div>
+        <div class="hyp-label">Receipt</div>
+        <div class="hyp-sub">Chase call — req opened or role carved</div>
+      </div>
+      <div class="hyp-node hyp-pending">
+        <div class="hyp-bubble">5</div>
+        <div class="hyp-label">ROM Hard-Yes</div>
+        <div class="hyp-sub">Offer — the role exists because this conversation made it real</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 10 STOP-LOSS ── -->
+  <div class="stop-loss">
+    <div class="sl-left">
+      <div class="sl-dot"></div>
+      <div class="sl-text">STOP-LOSS · NCI drops below 65 on this call → HOLD. Reassess with Chris before Chase intro. No Chase intro named by Jul 8 → reopen directly with Chris.</div>
+    </div>
+    <div class="sl-ts">07.01.2026 · 12:30 ET · THETA DECAY ACTIVE</div>
+  </div>
+
+</div>
+</body>
+</html>
