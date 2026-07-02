@@ -11,6 +11,20 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 }
 
 export default function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  // Recoil cookie gate — private alpha, single user
+  if (pathname.startsWith('/recoil') && pathname !== '/recoil/unlock') {
+    const session = request.cookies.get('recoil_session')?.value
+    const secret = process.env.RECOIL_PASSWORD
+    if (!secret || session !== secret) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/recoil/unlock'
+      url.searchParams.set('next', pathname)
+      return NextResponse.redirect(url)
+    }
+  }
+
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
   const dest = SUBDOMAIN_MAP[sub]

@@ -1,0 +1,139 @@
+<!-- @dsCard group="Recoil Report" name="Stop-Loss Footer" subtitle="3 states: ACTIVE / TRIGGERED / CLEARED" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+.variant-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 4px;
+}
+
+.stop-loss {
+  border-radius: var(--r-md);
+  padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  border: 1px solid;
+}
+
+.sl-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+
+.sl-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sl-text {
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.5;
+}
+
+.sl-timestamp {
+  font-family: var(--font-mono); font-size: 10px;
+  flex-shrink: 0; white-space: nowrap;
+}
+
+/* ACTIVE — monitoring, not triggered */
+.sl-active {
+  background: rgba(255,77,109,0.05);
+  border-color: var(--red);
+}
+.sl-active .sl-dot   { background: var(--red); box-shadow: var(--red-glow); animation: blink 2s ease-in-out infinite; }
+.sl-active .sl-text  { color: var(--red); }
+.sl-active .sl-timestamp { color: rgba(255,77,109,0.5); }
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* TRIGGERED — stop-loss fired */
+.sl-triggered {
+  background: rgba(255,77,109,0.12);
+  border-color: var(--red);
+  box-shadow: var(--red-glow);
+}
+.sl-triggered .sl-dot   { background: var(--red); }
+.sl-triggered .sl-text  { color: var(--text); }
+.sl-triggered .sl-timestamp { color: var(--red); }
+.sl-trigger-badge {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  padding: 3px 10px; border-radius: var(--r-sm);
+  background: var(--red); color: var(--bg);
+  letter-spacing: 0.1em; flex-shrink: 0;
+}
+
+/* CLEARED — past the window, stop-loss not triggered */
+.sl-cleared {
+  background: rgba(0,255,157,0.04);
+  border-color: var(--green);
+}
+.sl-cleared .sl-dot   { background: var(--green); }
+.sl-cleared .sl-text  { color: var(--muted); text-decoration: line-through; }
+.sl-cleared .sl-timestamp { color: var(--green); }
+.sl-clear-badge {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  padding: 3px 10px; border-radius: var(--r-sm);
+  border: 1px solid var(--green); color: var(--green);
+  background: var(--green-bg); letter-spacing: 0.1em; flex-shrink: 0;
+}
+
+/* Banked lesson strip */
+.banked-lesson {
+  padding: 10px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-family: var(--font-sans); font-size: 12px;
+  color: var(--dimmed); font-style: italic;
+  text-align: center; letter-spacing: 0.02em;
+}
+.banked-lesson strong { color: var(--muted); font-style: normal; }
+</style>
+</head>
+<body>
+
+<div>
+  <div class="variant-label">STATE: ACTIVE — monitoring, threshold not reached</div>
+  <div class="stop-loss sl-active">
+    <div class="sl-left">
+      <div class="sl-dot"></div>
+      <div class="sl-text">STOP-LOSS · If NCI drops below 65 on this call — HOLD and reassess with Chris before Chase intro.</div>
+    </div>
+    <div class="sl-timestamp">07.01.2026 · 12:30 ET · THETA DECAY ACTIVE</div>
+  </div>
+</div>
+
+<div>
+  <div class="variant-label">STATE: TRIGGERED — stop-loss fired</div>
+  <div class="stop-loss sl-triggered">
+    <div class="sl-left">
+      <div class="sl-dot"></div>
+      <div class="sl-text">NCI fell to 58 on call. Chase intro on hold. Reassess with Chris before next move.</div>
+    </div>
+    <div class="sl-trigger-badge">TRIGGERED</div>
+    <div class="sl-timestamp" style="color:var(--red)">07.08.2026 · STOP-LOSS FIRED</div>
+  </div>
+</div>
+
+<div>
+  <div class="variant-label">STATE: CLEARED — call closed, stop-loss not triggered</div>
+  <div class="stop-loss sl-cleared">
+    <div class="sl-left">
+      <div class="sl-dot"></div>
+      <div class="sl-text">STOP-LOSS · If NCI drops below 65 on this call — HOLD and reassess with Chris before Chase intro.</div>
+    </div>
+    <div class="sl-clear-badge">CLEARED</div>
+    <div class="sl-timestamp">07.01.2026 · 13:02 ET · RECEIPT BANKED</div>
+  </div>
+</div>
+
+<div class="banked-lesson">
+  <strong>Banked Lesson:</strong> Revealed preference &gt; stated preference. Always weight what they volunteer over what they confirm.
+</div>
+
+</body>
+</html>

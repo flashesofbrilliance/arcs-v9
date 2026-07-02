@@ -2,11 +2,19 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "UIKit Static Server",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4040", "--directory", "src/ui-kit/recoil-report"],
+      "port": 4040,
+      "cwd": "/Users/zharris/arcs-v9"
+    },
+    {
       "name": "Next.js Dev Server",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 3000,
-      "autoPort": false
+      "autoPort": true,
+      "cwd": "/Users/zharris/arcs-v9"
     }
   ]
 }

@@ -1,0 +1,123 @@
+<!-- @dsCard group="Recoil Report" name="Beat Stepper" subtitle="Numbered beat list · title + one-liner · variable count" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+}
+
+.beat-list { display: flex; flex-direction: column; gap: 8px; }
+
+.beat-item {
+  display: flex; align-items: center; gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left accent line derived from beat color */
+.beat-item::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--beat-color, var(--border));
+}
+
+.beat-number {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--beat-color, var(--muted));
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-sans); font-size: 13px; font-weight: 700;
+  color: var(--bg);
+}
+
+.beat-content { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.beat-title {
+  font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+  color: var(--beat-color, var(--text));
+}
+.beat-body {
+  font-family: var(--font-mono); font-size: 11px; color: var(--dimmed);
+  line-height: 1.4;
+}
+
+.beat-tag {
+  flex-shrink: 0;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; padding: 3px 8px;
+  border-radius: var(--r-sm); border: 1px solid var(--beat-color, var(--border));
+  color: var(--beat-color, var(--muted));
+  background: rgba(255,255,255,0.03);
+}
+
+/* Beat color assignments */
+.beat-1 { --beat-color: var(--cyan); }
+.beat-2 { --beat-color: var(--green); }
+.beat-3 { --beat-color: var(--gold); }
+.beat-4 { --beat-color: var(--text); }
+.beat-5 { --beat-color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="section-label">§ Five Beats · In Order</div>
+<div class="beat-list">
+
+  <div class="beat-item beat-1">
+    <div class="beat-number">1</div>
+    <div class="beat-content">
+      <div class="beat-title">Own the unusual path</div>
+      <div class="beat-body">ARCS found the signal before the post was widely visible. That's what the work does.</div>
+    </div>
+    <div class="beat-tag">OPEN</div>
+  </div>
+
+  <div class="beat-item beat-2">
+    <div class="beat-number">2</div>
+    <div class="beat-content">
+      <div class="beat-title">State the mandate, not the title</div>
+      <div class="beat-body">Not title-shopping. The mandate: give the growth engine a memory. Make Fanatics never make an expensive mistake twice.</div>
+    </div>
+    <div class="beat-tag">OPEN</div>
+  </div>
+
+  <div class="beat-item beat-3">
+    <div class="beat-number">3</div>
+    <div class="beat-content">
+      <div class="beat-title">Land on Instant Rips as the beachhead</div>
+      <div class="beat-body">High-velocity decisions every week. Compounding fast. Chris already named it — own it.</div>
+    </div>
+    <div class="beat-tag">OPEN</div>
+  </div>
+
+  <div class="beat-item beat-4">
+    <div class="beat-number">4</div>
+    <div class="beat-content">
+      <div class="beat-title">Grayscale proof, compressed</div>
+      <div class="beat-body">$7B in digital assets, peak regulatory headwind, zero failures. The loops here are faster and the data is richer.</div>
+    </div>
+    <div class="beat-tag">OPEN</div>
+  </div>
+
+  <div class="beat-item beat-5">
+    <div class="beat-number">5</div>
+    <div class="beat-content">
+      <div class="beat-title">Open the choose-your-adventure frame</div>
+      <div class="beat-body">GM-style on one funnel, or horizontal intelligence layer across verticals — which is more useful right now?</div>
+    </div>
+    <div class="beat-tag">OPEN</div>
+  </div>
+
+</div>
+</body>
+</html>
