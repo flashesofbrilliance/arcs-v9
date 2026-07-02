@@ -51,10 +51,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 @keyframes wire-breathe { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
 
 /* BEAT */
-.beat { position: relative; margin-bottom: 6px; opacity: 0; transform: translateY(6px); transition: opacity 0.12s ease, transform 0.12s ease; }
-.beat.fired { opacity: 1; transform: translateY(0); }
-.beat.pending { opacity: 0; }
-.beat.pending.fired { opacity: 1; }
+.beat { position: relative; margin-bottom: 6px; }
+.beat.pending { opacity: 0.45; }
 
 .beat-node {
   position: absolute; left: -34px; top: 18px;
@@ -710,33 +708,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 </div>
 
 <script>
-// Reverse-chronological cascade: fires 05→04→03→02→01 as user scrolls into provenance section.
-// Beat-05 is first in DOM — trigger watches it. Beat-06 stays unlit.
-const SEQUENCE = ['beat-05','beat-04','beat-03','beat-02','beat-01'];
-const STEP_MS = 120;
-
-let sequenceStarted = false;
-
-function fireSequence(idx) {
-  if (idx >= SEQUENCE.length) return;
-  const el = document.getElementById(SEQUENCE[idx]);
-  if (el) el.classList.add('fired');
-  setTimeout(() => fireSequence(idx + 1), STEP_MS);
-}
-
-const trigger = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting && !sequenceStarted) {
-      sequenceStarted = true;
-      trigger.disconnect();
-      fireSequence(0);
-    }
-  });
-}, { threshold: 0.08 });
-
-const first = document.getElementById('beat-05');
-if (first) trigger.observe(first);
-
 // Toggle detail expand
 function toggleDetail(toggle) {
   const detail = toggle.nextElementSibling;
