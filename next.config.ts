@@ -6,11 +6,14 @@ import path from "path";
 const { execSync } = require("child_process");
 let projectRoot: string;
 try {
-  const gitRoot = execSync("git rev-parse --show-toplevel", {
+  // --git-common-dir returns the shared .git dir, which lives in the main checkout
+  // even when running from a worktree. --show-toplevel returns the worktree path,
+  // which has no node_modules — this was the source of the Turbopack root error.
+  const gitCommonDir = execSync("git rev-parse --git-common-dir", {
     encoding: "utf-8",
     stdio: ["pipe", "pipe", "pipe"],
   }).trim();
-  projectRoot = path.resolve(gitRoot);
+  projectRoot = path.resolve(path.dirname(gitCommonDir));
 } catch {
   // Vercel build env has no .git — process.cwd() is already the project root
   projectRoot = process.cwd();
@@ -37,6 +40,9 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
         // chase-intro.arcs.care → public/chase-intro.html
         { source: "/:path*", destination: "/chase-intro.html", has: [{ type: "host", value: "chase-intro.arcs.care" }] },
+        // chris.arcs.care → public/chris-intro.html (canonical); chris-intro.arcs.care kept as alias
+        { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris.arcs.care" }] },
+        { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris-intro.arcs.care" }] },
         // growth-intel.arcs.care → public/growth-intel.html
         { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
       ],
