@@ -140,17 +140,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div class="sub">The traditional seat model locks intelligence inside one BU. This deploys an operator as a <strong>system-level service layer</strong> — Instant Rips first, then xBiz as the signal compounds.</div>
   </div>
 
-  <!-- IYKYK CONTEXT BAR -->
-  <div id="iykyk-bar" onclick="toggleIykyk()" style="display:flex;align-items:center;gap:10px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.18);border-radius:7px;padding:9px 13px;cursor:pointer;">
-    <span style="font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.12em;color:var(--gold);flex-shrink:0;">CONTEXT</span>
-    <span style="font-size:11.5px;color:var(--muted);line-height:1.4;">Chris Lamontagne's stalking horse frame — the Rips beachhead as proof of platform architecture.</span>
-    <span id="iykyk-arrow" style="font-family:var(--mono);font-size:9px;color:var(--dimmed);margin-left:auto;flex-shrink:0;">IYKYK ↓</span>
-  </div>
-  <div id="iykyk-body" style="display:none;background:rgba(255,215,0,0.02);border:1px solid rgba(255,215,0,0.12);border-top:none;border-radius:0 0 7px 7px;margin-top:-8px;padding:13px 14px;">
-    <p style="font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:8px;">Chris framed the Head of Growth Intelligence play as a <strong style="color:var(--gold);">stalking horse</strong> — a structurally bounded POC that looks like a single-BU hire but is actually the proof of concept for a platform-wide intelligence architecture. The Rips deployment isn't a pilot. It's the first node. The architecture was designed to compound from day one.</p>
-    <p style="font-size:12px;color:var(--muted);line-height:1.65;">The token you're reading is the deployment brief for that first node. <span style="color:var(--gold);font-family:var(--mono);font-size:10px;">!newHire → new_Deployment{Tenant:POC}</span></p>
-  </div>
-
   <!-- DEPTH TOGGLE -->
   <div style="display:flex;gap:0;border-bottom:1px solid var(--border);">
     <button id="d-simple" onclick="setDepth('simple')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:9px 16px 8px;border:none;border-bottom:2px solid var(--cyan);background:none;cursor:pointer;text-align:left;margin-bottom:-1px;">
@@ -749,13 +738,6 @@ function setLens(id) {
   if (btn) { btn.style.color = LENS_COLORS[id]; btn.style.borderBottom = '2px solid ' + LENS_COLORS[id]; }
 }
 
-function toggleIykyk() {
-  const body = document.getElementById('iykyk-body');
-  const arrow = document.getElementById('iykyk-arrow');
-  const open = body.style.display !== 'none';
-  body.style.display = open ? 'none' : 'block';
-  arrow.textContent = open ? 'IYKYK ↓' : 'IYKYK ↑';
-}
 function setDepth(d) {
   // d-rich = show in rich + deep; d-deep (without d-rich) = deep only
   document.querySelectorAll('.d-rich').forEach(el => el.style.display = (d === 'rich' || d === 'deep') ? 'block' : 'none');
