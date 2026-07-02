@@ -7,7 +7,7 @@
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --border: #1e293b;
-  --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --text: #e2e8f0; --muted: #64748b; --dimmed: #8899aa;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
   --green-glow: 0 0 14px rgba(0,255,157,0.3), 0 0 4px rgba(0,255,157,0.6);
   --r-sm: 4px; --r-lg: 12px;
@@ -80,6 +80,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .sl-text { font-family: var(--mono); font-size: 11px; color: rgba(0,255,157,0.7); line-height: 1.55; flex: 1; }
 .sl-ts { font-family: var(--mono); font-size: 9px; color: rgba(0,255,157,0.3); white-space: nowrap; }
 
+a:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
 @media (max-width: 600px) {
   .header-inner { grid-template-columns: 1fr; }
   .dlv { grid-template-columns: 1fr; }
