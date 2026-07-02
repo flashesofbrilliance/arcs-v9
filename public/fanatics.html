@@ -113,8 +113,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .beat-toggle:hover { background: rgba(255,255,255,0.02); }
 .toggle-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); flex: 1; }
 .toggle-arrow { font-size: 10px; color: var(--dimmed); transition: transform 0.2s; }
-.beat-detail { display: none; padding: 14px 18px; border-top: 1px solid var(--border2); background: var(--surface3); }
-.beat-detail.open { display: block; }
+.beat-detail { display: block; padding: 14px 18px; border-top: 1px solid var(--border2); background: var(--surface3); }
+.beat-detail.closed { display: none; }
 
 /* DELTA TABLE */
 .dt { display: flex; flex-direction: column; border: 1px solid var(--border2); border-radius: 7px; overflow: hidden; }
@@ -394,7 +394,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="beat-toggle" onclick="toggleDetail(this)">
           <div class="toggle-label">Prior → Actual · all axes</div>
-          <div class="toggle-arrow">↓</div>
+          <div class="toggle-arrow">↑</div>
         </div>
         <div class="beat-detail">
           <div class="dt">
@@ -472,7 +472,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="beat-toggle" onclick="toggleDetail(this)">
           <div class="toggle-label">Prior → Actual</div>
-          <div class="toggle-arrow">↓</div>
+          <div class="toggle-arrow">↑</div>
         </div>
         <div class="beat-detail">
           <div class="dt">
@@ -508,7 +508,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         <div class="beat-head">
           <span class="beat-num">02</span>
           <span class="beat-name">THE STUNT</span>
-          <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);letter-spacing:0.08em">SIGNAL INTERRUPT&nbsp;—&nbsp;TRANSMISSION DECODED</span>
+          <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);letter-spacing:0.08em">SIGNAL INTERRUPT</span>
           <span class="beat-date">Jun 25–26, 2026</span>
         </div>
         <div class="beat-body">
@@ -527,7 +527,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
         <div class="beat-toggle" onclick="toggleDetail(this)">
           <div class="toggle-label">Prior → Actual</div>
-          <div class="toggle-arrow">↓</div>
+          <div class="toggle-arrow">↑</div>
         </div>
         <div class="beat-detail">
           <div class="dt">
@@ -643,9 +643,9 @@ if (first) trigger.observe(first);
 function toggleDetail(toggle) {
   const detail = toggle.nextElementSibling;
   const arrow = toggle.querySelector('.toggle-arrow');
-  const isOpen = detail.classList.contains('open');
-  detail.classList.toggle('open', !isOpen);
-  arrow.textContent = isOpen ? '↓' : '↑';
+  const isClosed = detail.classList.contains('closed');
+  detail.classList.toggle('closed', !isClosed);
+  arrow.textContent = isClosed ? '↑' : '↓';
 }
 
 // Waveform click → scroll to beat
