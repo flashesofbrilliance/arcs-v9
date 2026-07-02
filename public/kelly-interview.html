@@ -30,22 +30,30 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); background: var(--surface); border-radius: 10px 10px 0 0; }
 .tab-btn {
-  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
-  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  flex: 1; padding: 10px 12px 9px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
   margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
 }
 .tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-time { font-family: var(--mono); font-size: 8px; font-weight: 400; letter-spacing: 0.06em; color: var(--dimmed); text-transform: lowercase; opacity: 0.7; }
+.tab-btn.active .tab-time { color: var(--cyan); opacity: 0.5; }
 .tab-pane { display: none; flex-direction: column; gap: 14px; padding-top: 4px; }
 .tab-pane.active { display: flex; }
 
 .rows { display: flex; flex-direction: column; }
 .row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
 .row:last-child { border-bottom: none; }
-.row-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; padding-top: 1px; }
+.row-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; padding-top: 2px; }
 .row-val { font-size: 13px; color: var(--text); line-height: 1.55; }
 .row-val strong { font-weight: 600; }
 .row-val em { color: var(--dimmed); font-style: normal; }
+.row-val ul { margin: 5px 0 0 2px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.row-val ul li { font-size: 12.5px; color: var(--text); line-height: 1.5; padding-left: 14px; position: relative; }
+.row-val ul li::before { content: "·"; position: absolute; left: 0; color: var(--dimmed); }
+.row-val ul li strong { font-weight: 600; }
+.row-val ul li em { color: var(--dimmed); font-style: normal; }
 
 .dot-rows { display: flex; flex-direction: column; }
 .dot-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
@@ -54,6 +62,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .dot-text { font-size: 13px; color: var(--text); line-height: 1.55; }
 .dot-text strong { font-weight: 600; }
 .dot-text em { color: var(--dimmed); font-style: normal; }
+.dot-text ul { margin: 5px 0 0 2px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; }
+.dot-text ul li { font-size: 12px; color: var(--muted); line-height: 1.45; padding-left: 12px; position: relative; }
+.dot-text ul li::before { content: "–"; position: absolute; left: 0; color: var(--dimmed); }
 
 .next-rows { display: flex; flex-direction: column; }
 .next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
@@ -68,8 +79,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .recoil-block { background: rgba(0,255,157,0.04); border: 1px solid rgba(0,255,157,0.2); border-radius: 10px; padding: 18px 20px; }
 .recoil-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
-.recoil-text { font-size: 13px; color: var(--text); line-height: 1.75; }
+.recoil-list { display: flex; flex-direction: column; gap: 6px; }
+.recoil-item { display: flex; align-items: flex-start; gap: 10px; }
+.recoil-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 6px; }
+.recoil-text { font-size: 13px; color: var(--text); line-height: 1.6; }
 .recoil-text strong { font-weight: 600; }
+.recoil-verdict { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(0,255,157,0.12); font-size: 12px; color: var(--muted); line-height: 1.5; }
+.recoil-verdict strong { color: var(--green); font-weight: 600; }
 
 /* Build tab */
 .signal-hero { background: linear-gradient(135deg, rgba(0,240,255,0.06) 0%, rgba(0,255,157,0.04) 100%); border: 1px solid rgba(0,240,255,0.15); border-radius: 10px; padding: 22px 24px; }
@@ -81,9 +97,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .register { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .reg-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; }
 .reg-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
-.reg-body { font-size: 12.5px; color: var(--text); line-height: 1.65; }
-.reg-body strong { font-weight: 600; }
-.reg-body em { color: var(--dimmed); font-style: normal; }
+.reg-list { display: flex; flex-direction: column; gap: 4px; }
+.reg-item { font-size: 12.5px; color: var(--text); line-height: 1.5; padding-left: 12px; position: relative; }
+.reg-item::before { content: "·"; position: absolute; left: 0; color: var(--dimmed); }
+.reg-item strong { font-weight: 600; }
+.reg-item em { color: var(--dimmed); font-style: normal; }
 
 .arch-block { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .arch-row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
@@ -100,9 +118,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .fix-block { background: rgba(255,77,109,0.04); border: 1px solid rgba(255,77,109,0.2); border-radius: 10px; padding: 16px 20px; }
 .fix-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
-.fix-text { font-size: 12.5px; color: var(--text); line-height: 1.7; }
-.fix-text strong { font-weight: 600; }
-.fix-text em { color: var(--dimmed); font-style: normal; }
+.fix-list { display: flex; flex-direction: column; gap: 5px; }
+.fix-item { font-size: 12.5px; color: var(--text); line-height: 1.55; padding-left: 14px; position: relative; }
+.fix-item::before { content: "·"; position: absolute; left: 0; color: var(--red); opacity: 0.5; }
+.fix-item strong { font-weight: 600; }
+.fix-item em { color: var(--dimmed); font-style: normal; }
 
 /* Lens overlay block */
 .lens-block { background: rgba(255,215,0,0.03); border: 1px solid rgba(255,215,0,0.18); border-radius: 10px; overflow: hidden; }
@@ -122,9 +142,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .b2b-block { background: rgba(0,255,157,0.03); border: 1px solid rgba(0,255,157,0.15); border-radius: 10px; padding: 16px 20px; }
 .b2b-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
-.b2b-text { font-size: 12.5px; color: var(--text); line-height: 1.7; }
-.b2b-text strong { font-weight: 600; }
-.b2b-text em { color: var(--dimmed); font-style: normal; }
+.b2b-list { display: flex; flex-direction: column; gap: 5px; }
+.b2b-item { font-size: 12.5px; color: var(--text); line-height: 1.55; padding-left: 14px; position: relative; }
+.b2b-item::before { content: "·"; position: absolute; left: 0; color: var(--green); opacity: 0.5; }
+.b2b-item strong { font-weight: 600; }
+.b2b-item em { color: var(--dimmed); font-style: normal; }
 
 .timeline { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 .tl-row { display: flex; align-items: flex-start; gap: 14px; padding: 12px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
@@ -156,7 +178,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .next-owner { width: 44px; }
   .arch-label { width: 76px; }
   .tabs { overflow-x: auto; }
-  .tab-btn { font-size: 9px; padding: 10px 10px; letter-spacing: 0.08em; }
+  .tab-btn { font-size: 9px; padding: 8px 8px; letter-spacing: 0.06em; }
 }
 </style>
 </head>
@@ -174,10 +196,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <div class="card" style="overflow:visible;background:none;border:none;">
     <div class="tabs">
-      <button class="tab-btn" onclick="switchTab('pre', event)">Pre-Call</button>
-      <button class="tab-btn active" onclick="switchTab('post', event)">Post-Call</button>
-      <button class="tab-btn" onclick="switchTab('build', event)">Build</button>
-      <button class="tab-btn" onclick="switchTab('case', event)">The Ask</button>
+      <button class="tab-btn" onclick="switchTab('pre', event)">Pre-Call<span class="tab-time">2 min</span></button>
+      <button class="tab-btn active" onclick="switchTab('post', event)">Post-Call<span class="tab-time">3 min</span></button>
+      <button class="tab-btn" onclick="switchTab('build', event)">Build<span class="tab-time">4 min</span></button>
+      <button class="tab-btn" onclick="switchTab('case', event)">The Ask<span class="tab-time">2 min</span></button>
     </div>
 
     <!-- PRE-CALL -->
@@ -196,7 +218,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="row">
               <div class="row-key">DNA</div>
-              <div class="row-val">Liberal Arts + English Lit → brief Microsoft PM stint → 13 years building customer education at scale → AI builder. His deepest eval lens isn't just speed — it's <strong>will people actually adopt this, and can the team maintain it without me?</strong> That's the pattern behind every role he's held. Played drums — genuine music background.</div>
+              <div class="row-val">
+                <ul>
+                  <li>Lib arts → brief Microsoft PM stint → 13 yrs customer education at scale → AI builder</li>
+                  <li>Core eval lens: <strong>will people adopt it? Can the team maintain it without me?</strong></li>
+                  <li>Played drums — genuine music background, same cognitive register as AI orchestration</li>
+                </ul>
+              </div>
             </div>
             <div class="row">
               <div class="row-key">Culture</div>
@@ -209,6 +237,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           </div>
         </div>
       </div>
+
       <div>
         <div class="sl">Zach only — if this escalates to Alex Robinson (CEO)</div>
         <div class="card">
@@ -239,19 +268,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="dot-rows">
             <div class="dot-row">
               <div class="dot" style="background:var(--cyan)"></div>
-              <div class="dot-text"><strong>He's an ex-PM evaluating product thinking.</strong> The architecture decision-making, stakeholder mapping, and "definition of done" framing matter more than syntax.</div>
+              <div class="dot-text"><strong>He's an ex-PM evaluating product thinking.</strong> Architecture decision-making, stakeholder mapping, and "definition of done" framing matter more than syntax.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--green)"></div>
-              <div class="dot-text"><strong>This role doesn't travel.</strong> Internal tooling only, no customer-facing work. The draw vs. frontier AI roles (Deloitte: 50%+ travel) is real and should land — he'll understand it's a deliberate choice, not a limitation.</div>
+              <div class="dot-text"><strong>This role doesn't travel.</strong> Internal tooling only, no customer-facing work. The draw vs. frontier AI roles (Deloitte: 50%+ travel) is real and should land.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--gold)"></div>
-              <div class="dot-text"><strong>He values speed.</strong> Come in already knowing where you're going. "Cook" doesn't mean reckless — it means you've internalized the constraints and can move without waiting for permission to think.</div>
+              <div class="dot-text"><strong>He values speed.</strong> "Cook" doesn't mean reckless — it means you've internalized the constraints and can move without waiting for permission to think.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--red)"></div>
-              <div class="dot-text"><strong>Shared frequency.</strong> He played drums. Lead with the producer/composer mental model for AI orchestration — instruments, sampling, arrangement. It's not a metaphor for him, it's the same cognitive structure.</div>
+              <div class="dot-text"><strong>Shared frequency.</strong> He played drums. The producer/composer mental model for AI orchestration isn't a metaphor for him — it's the same cognitive structure.</div>
             </div>
           </div>
         </div>
@@ -271,11 +300,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="row">
               <div class="row-key">Their build</div>
-              <div class="row-val">LinkedIn scraping → hit ToS → pivoted to managed agents → Slack channel summaries. Functional but fragile. No eval layer. No role-based routing. <strong>The duct-tape version of what you pitched.</strong></div>
+              <div class="row-val">
+                <ul>
+                  <li>LinkedIn scraping → hit ToS wall → pivoted to managed agents</li>
+                  <li>Slack channel summaries — functional but fragile</li>
+                  <li>No eval layer. No role-based routing. <strong>Duct-tape version of what you pitched.</strong></li>
+                </ul>
+              </div>
             </div>
             <div class="row">
               <div class="row-key">What landed</div>
-              <div class="row-val">Stakeholder/persona mapping first (CRO, CMO, CFO need different data at different resolution). Reverse-engineering from "definition of done" with constitutional guardrails. Two agentic layers: <strong>looking out</strong> (market intel, positioning, TAM) + <strong>looking in</strong> (feature parity via browser automation). MCP enrichment: Gartner, CB Insights, Privco, Clay.</div>
+              <div class="row-val">
+                <ul>
+                  <li>Stakeholder/persona mapping first — CRO, CMO, CFO each need different data at different resolution</li>
+                  <li>Reverse-engineer from "definition of done" with constitutional guardrails before touching a keyboard</li>
+                  <li>Two agentic layers: <strong>looking out</strong> (market intel, TAM, positioning) + <strong>looking in</strong> (feature parity via browser automation)</li>
+                  <li>MCP enrichment: Gartner, CB Insights, Privco, Clay</li>
+                </ul>
+              </div>
             </div>
             <div class="row">
               <div class="row-key">Analogy</div>
@@ -283,11 +325,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="row">
               <div class="row-key">Tooling</div>
-              <div class="row-val">Spotify engineering example for standardized agentic pipelines. Consolidation over proliferation — 50,000 tools = tech debt. Standardize global Claude skills/commands org-wide before building abstractions.</div>
+              <div class="row-val">
+                <ul>
+                  <li>Spotify engineering example for standardized agentic pipelines</li>
+                  <li>Consolidation over proliferation — 50,000 tools = tech debt</li>
+                  <li>Standardize global Claude skills/commands org-wide before building abstractions</li>
+                </ul>
+              </div>
             </div>
             <div class="row">
               <div class="row-key">Vision fit</div>
-              <div class="row-val">Private markets and alternative assets as a growing asset class. Companies building <strong>API-like internal services between departments</strong> — Amazon/AWS 2002 analogy. Change management for laggards: integrating tech invisibly without disrupting existing people/process/tools.</div>
+              <div class="row-val">Private markets as a growing asset class. Companies building <strong>API-like internal services between departments</strong> — Amazon/AWS 2002 analogy. Change management for laggards: integrating tech invisibly without disrupting existing people/process/tools.</div>
             </div>
             <div class="row">
               <div class="row-key">Role</div>
@@ -299,7 +347,13 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="row">
               <div class="row-key">30/60/90</div>
-              <div class="row-val">Kelly's explicit evaluation criteria: <em>"Can they speak with the customer, determine intent, and make sure the juice is worth the squeeze?"</em> Then: <em>"We can design our own SDLC — can they just cook?"</em> He evaluates against two failure modes — the planner who spends three months scoping, and the builder who spends <em>"$50,000 replacing a Kanban board."</em> Speed is signal. Intent-diagnosis before building is the gate.</div>
+              <div class="row-val">
+                <ul>
+                  <li><strong>Gate 1:</strong> Can they speak to the customer, determine intent, make sure the juice is worth the squeeze?</li>
+                  <li><strong>Gate 2:</strong> Can they just cook — no three-month scoping plan, no $50K Kanban board replacement?</li>
+                  <li>Speed is signal. Intent-diagnosis before building is the gate.</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -324,7 +378,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="next-row">
               <div class="next-owner" style="color:var(--cyan)">Zach</div>
-              <div class="next-text">Follow up with Nushi before the momentum cools. Two open questions: <em>(1) can the blended role be assembled across teams Kelly doesn't fully own?</em> If not — <em>(2) is the standalone internal FDE role still the right bet, or does this contact stay warm for a future window?</em> Don't leave either unresolved.</div>
+              <div class="next-text">Follow up with Nushi before the momentum cools. Two open questions: <em>(1) can the blended role be assembled across teams Kelly doesn't fully own?</em> If not — <em>(2) is the standalone internal FDE role still the right bet, or does this contact stay warm for a future window?</em></div>
             </div>
           </div>
         </div>
@@ -332,7 +386,29 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div class="recoil-block">
         <div class="recoil-label">Recoil read</div>
-        <div class="recoil-text">Not a screening call — it was a co-design session. He praised your perspective mid-call, unprompted. When you floated the Clay enrichment idea he said <strong>"I might steal that one from you."</strong> The music rapport was real (drums/electronic production — he retired his kit but it's the same cognitive register). The Amazon/AWS 2002 internal-API vision landed as shared language. <strong>The fit is there.</strong> The only structural question is whether the blended role can be assembled across teams he doesn't fully own — that lives with Nushi now.</div>
+        <div class="recoil-list">
+          <div class="recoil-item">
+            <div class="recoil-dot"></div>
+            <div class="recoil-text">Not a screening call — it was a co-design session</div>
+          </div>
+          <div class="recoil-item">
+            <div class="recoil-dot"></div>
+            <div class="recoil-text">Praised your perspective mid-call, unprompted: <em>"I've been loving your perspective so far"</em></div>
+          </div>
+          <div class="recoil-item">
+            <div class="recoil-dot"></div>
+            <div class="recoil-text">Clay enrichment idea: <strong>"I might steal that one from you"</strong></div>
+          </div>
+          <div class="recoil-item">
+            <div class="recoil-dot"></div>
+            <div class="recoil-text">Music rapport landed (drums → electronic production → same cognitive register)</div>
+          </div>
+          <div class="recoil-item">
+            <div class="recoil-dot"></div>
+            <div class="recoil-text">Amazon/AWS 2002 internal-API frame registered as shared language</div>
+          </div>
+        </div>
+        <div class="recoil-verdict"><strong>The fit is there.</strong> The only structural question is whether the blended role can be assembled across teams he doesn't fully own — that lives with Nushi now.</div>
       </div>
     </div>
 
@@ -351,14 +427,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         <div class="register">
           <div class="reg-card">
             <div class="reg-label" style="color:var(--gold)">Executive</div>
-            <div class="reg-body">
-              CEO gets a 30-second digest. CRO, CMO, CFO each get <strong>different data at different resolution</strong> — persona-mapped from day one. Sales walks in with last week's battlecard. When a competitor ships a feature, changes an exec, or posts a security incident — you find out <em>that day</em>.
+            <div class="reg-list">
+              <div class="reg-item">CEO: 30-second digest, 3 bullets</div>
+              <div class="reg-item">CRO, CMO, CFO: <strong>different data at different resolution</strong> — persona-mapped from day one</div>
+              <div class="reg-item">Sales: last week's battlecard, auto-updated</div>
+              <div class="reg-item">When a competitor ships or an exec changes — <em>you find out that day</em></div>
             </div>
           </div>
           <div class="reg-card">
             <div class="reg-label" style="color:var(--cyan)">Technical</div>
-            <div class="reg-body">
-              Two agentic layers: <strong>looking out</strong> (market intel, positioning, TAM, share of voice) + <strong>looking in</strong> (feature parity via browser/agent automation). MCP enrichment: <em>Gartner, CB Insights, Privco, Clay.</em> Triggers via Vercel edge functions + Google News Alert connectors. Deterministic, falsifiable evals at every layer.
+            <div class="reg-list">
+              <div class="reg-item"><strong>Looking out:</strong> market intel, positioning, TAM, share of voice</div>
+              <div class="reg-item"><strong>Looking in:</strong> feature parity via browser/agent automation</div>
+              <div class="reg-item">MCP enrichment: <em>Gartner, CB Insights, Privco, Clay</em></div>
+              <div class="reg-item">Deterministic, falsifiable evals at every layer</div>
             </div>
           </div>
         </div>
@@ -378,7 +460,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
                 </div>
                 <div class="arch-sub-row">
                   <div class="arch-sub-tag" style="color:var(--green)">IN →</div>
-                  <div class="arch-sub-text">Feature parity gap analysis via <strong>Playwright / Stagehand / Browserbase</strong> — what competitors have shipped that Juniper hasn't. <em>Note: verify ToS on target product UIs before automating; scope this layer collaboratively with the team, not unilaterally.</em></div>
+                  <div class="arch-sub-text">Feature parity gap analysis via <strong>Playwright / Stagehand / Browserbase</strong> — what competitors have shipped that Juniper hasn't. <em>Verify ToS on target product UIs before automating; scope collaboratively, not unilaterally.</em></div>
                 </div>
               </div>
             </div>
@@ -386,35 +468,39 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="arch-row">
             <div class="arch-num">02</div>
             <div class="arch-label">Triggers</div>
-            <div class="arch-text">Vercel edge functions + Google News Alert connectors. Event watchers: new competitor post → fires · 5+ AI/ML hires in 30 days → fires · exec change · funding round · security incident · G2 review mentioning pricing. <strong>Trigger = signal, not noise.</strong></div>
+            <div class="arch-text">Vercel edge functions + Google News Alert connectors. Fires on: new competitor post · 5+ AI/ML hires in 30 days · exec change · funding round · security incident · G2 review mentioning pricing. <strong>Trigger = signal, not noise.</strong></div>
           </div>
           <div class="arch-row">
             <div class="arch-num">03</div>
             <div class="arch-label">Enrichment</div>
-            <div class="arch-text">MCP layer pulls third-party context per event. <strong>Tier A</strong> (if subscriptions exist): Gartner (analyst positioning) · CB Insights (funding/market data) · Privco (private company financials). <strong>Tier B</strong> (default, no subscriptions needed): Clay enrichment + public sources — covers ~80% of the competitive signal at zero marginal cost. Start here, upgrade as needed.</div>
+            <div class="arch-text"><strong>Tier A</strong> (if subscriptions exist): Gartner · CB Insights · Privco. <strong>Tier B</strong> (default, no subscriptions needed): Clay enrichment + public sources — covers ~80% of the signal at zero marginal cost. <em>Start here, upgrade as needed.</em></div>
           </div>
           <div class="arch-row">
             <div class="arch-num">04</div>
             <div class="arch-label">Processing</div>
-            <div class="arch-text">Claude claude-sonnet-5 per event. Constitutional guardrails defined upfront with non-technical stakeholders. Four outputs: <strong>who</strong> (competitor) · <strong>what</strong> (signal type: product/pricing/hiring/exec/security) · <strong>relevance score</strong> 1–5 · <strong>stakeholder tag</strong> (CEO/CRO/CMO/CFO/product).</div>
+            <div class="arch-text">Claude claude-sonnet-5 per event. Constitutional guardrails defined with non-technical stakeholders upfront. Four outputs: <strong>who</strong> · <strong>what</strong> (product/pricing/hiring/exec/security) · <strong>relevance score</strong> 1–5 · <strong>stakeholder tag</strong> (CEO/CRO/CMO/CFO/product).</div>
           </div>
           <div class="arch-row">
             <div class="arch-num">05</div>
             <div class="arch-label">Outputs</div>
-            <div class="arch-text">Presentation layer fully abstracted from backend. <strong>CEO:</strong> 30-second Slack digest, 3 bullets. <strong>Analyst:</strong> deep drill-down view, full sourcing. <strong>Sales:</strong> auto-updated battlecard (what changed this week). <strong>Product:</strong> feature gap log from competitor reviews + browser intelligence.</div>
+            <div class="arch-text">Presentation layer fully abstracted from backend. <strong>CEO:</strong> 30-sec Slack digest. <strong>Analyst:</strong> deep drill-down, full sourcing. <strong>Sales:</strong> auto-updated battlecard. <strong>Product:</strong> feature gap log from reviews + browser intel.</div>
           </div>
           <div class="arch-row">
             <div class="arch-num">06</div>
             <div class="arch-label">Evals</div>
-            <div class="arch-text">Deterministic and falsifiable — not vibes. <strong>Recall:</strong> did we catch event X within Y hours? <strong>Precision:</strong> is competitor classification correct? <strong>Grounding:</strong> is summary faithful to source? <strong>Coverage:</strong> are all 40 target competitors being monitored? Weekly eval report. Thresholds trigger human review.</div>
+            <div class="arch-text">Deterministic and falsifiable. <strong>Recall:</strong> did we catch event X within Y hours? <strong>Precision:</strong> competitor classification correct? <strong>Grounding:</strong> summary faithful to source? <strong>Coverage:</strong> all 40 competitors monitored? Weekly eval report. Thresholds trigger human review.</div>
           </div>
         </div>
       </div>
 
       <div class="fix-block">
         <div class="fix-label">The LinkedIn fix</div>
-        <div class="fix-text">
-          Their existing system scraped <strong>profile data</strong> — personal work history, contact info. That's the ToS violation. <em>Job posting pages are different.</em> Progressive enrichment options already scoped: LinkedIn API access, Frontspace, Privco API, Clay enrichment. Signal quality from job postings + enrichment APIs is equivalent to profile scraping without the legal exposure. The fix isn't a workaround — it's a cleaner architecture with a clear upgrade path.
+        <div class="fix-list">
+          <div class="fix-item">Their system scraped <strong>profile data</strong> — personal work history, contact info. That's the ToS violation.</div>
+          <div class="fix-item"><em>Job posting pages are different.</em> Public, fair game, high-signal for hiring intent.</div>
+          <div class="fix-item">Progressive enrichment options already scoped: LinkedIn API · Frontspace · Privco API · Clay</div>
+          <div class="fix-item">Signal quality from job postings + enrichment APIs equals profile scraping — without the legal exposure.</div>
+          <div class="fix-item">The fix isn't a workaround. It's a <strong>cleaner architecture with a clear upgrade path.</strong></div>
         </div>
       </div>
 
@@ -445,7 +531,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
               </div>
               <div class="lens-right">
                 <div class="lens-col-label">SIGNAL's value frame</div>
-                <div class="lens-col-text">Better decisions → correct signal to correct person. Faster execution → battlecard auto-updates, no analyst needed. Scalable → <strong>same pipeline handles 10 competitors or 100.</strong></div>
+                <div class="lens-col-text">Better decisions → correct signal to correct person. Faster execution → battlecard auto-updates. Scalable → <strong>same pipeline handles 10 competitors or 100.</strong></div>
               </div>
             </div>
             <div class="lens-row">
@@ -465,8 +551,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
       <div class="b2b-block">
         <div class="b2b-label">The B2B angle — beyond internal use</div>
-        <div class="b2b-text">
-          GP customers have the same external-internal silo. A fund manager raising capital needs to know what competing funds are offering, what LPs are saying about comparable strategies. Juniper already names this gap in their white paper and sells against it. <strong>Hypothesis worth validating with the product team:</strong> SIGNAL's architecture could map onto a customer-facing feature. Not a claim — a question worth asking once the internal version is running and the signal quality is proven. The FDE who built it is the right person to bridge that conversation.
+        <div class="b2b-list">
+          <div class="b2b-item">GP customers have the same external-internal silo — fund managers need to know what competing funds are offering.</div>
+          <div class="b2b-item">Juniper already names this gap in their white paper and sells against it.</div>
+          <div class="b2b-item"><strong>Hypothesis worth validating:</strong> SIGNAL's architecture could map onto a customer-facing feature.</div>
+          <div class="b2b-item">Not a claim — a question worth asking once the internal version is running and signal quality is proven.</div>
+          <div class="b2b-item">The FDE who built the internal version is the right person to bridge that conversation.</div>
         </div>
       </div>
 
@@ -475,11 +565,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         <div class="timeline">
           <div class="tl-row">
             <div class="tl-day">Day 0</div>
-            <div class="tl-text">Competitor onboarding: configure the ~40 target profiles, watcher rules, and enrichment tier per competitor. Not planning — assumption validation. "Cook" means you've internalized the constraints before showing up, not that you skip this.</div>
+            <div class="tl-text">Configure ~40 target profiles, watcher rules, enrichment tier per competitor. Assumption validation, not planning. "Cook" means you've internalized the constraints before showing up.</div>
           </div>
           <div class="tl-row">
             <div class="tl-day">Day 1</div>
-            <div class="tl-text">Stakeholder/persona mapping with CRO, CMO, CFO. Confirm acceptance criteria and constitutional guardrails. Lock "definition of done" — Day 0 assumption check surfaces anything that needs adjusting here.</div>
+            <div class="tl-text">Stakeholder/persona mapping with CRO, CMO, CFO. Confirm acceptance criteria and constitutional guardrails. Lock "definition of done."</div>
           </div>
           <div class="tl-row">
             <div class="tl-day">Day 2–3</div>
@@ -521,19 +611,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="dot-rows">
             <div class="dot-row">
               <div class="dot" style="background:var(--gold)"></div>
-              <div class="dot-text"><strong>The role is greenfield and still being defined.</strong> Kelly said it himself: build, hand back, move to the next problem. Standard exercises test known skills for known roles. This one is being invented in real time — a proxy test measures the wrong thing.</div>
+              <div class="dot-text"><strong>The role is greenfield and still being defined.</strong> Standard exercises test known skills for known roles. This one is being invented in real time — a proxy test measures the wrong thing.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--cyan)"></div>
-              <div class="dot-text"><strong>Alex's mandate IS the assessment.</strong> SIGNAL — the competitive intel system — is what the CEO actually asked to be built. Evaluating a candidate by having them deliver on Alex's real ask is higher signal than any synthetic exercise. The demo and the job are the same thing.</div>
+              <div class="dot-text"><strong>Alex's mandate IS the assessment.</strong> Evaluating a candidate by having them deliver on the CEO's real ask is higher signal than any synthetic exercise. The demo and the job are the same thing.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--green)"></div>
-              <div class="dot-text"><strong>The candidate already demonstrated the core skill.</strong> Kelly's own success metric: diagnose intent, make sure juice is worth the squeeze, move fast. That happened in the interview — stakeholder mapping, reverse-engineering from definition of done, two-layer architecture, constitutional guardrails. The interview was the test. It passed.</div>
+              <div class="dot-text"><strong>The candidate already demonstrated the core skill.</strong> Kelly's own gate: diagnose intent, make sure the juice is worth the squeeze, move fast. That happened in the interview. It passed.</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--red)"></div>
-              <div class="dot-text"><strong>A coding exercise filters for the wrong profile.</strong> The role needs a hunter-gatherer-butcher-chef-busboy — someone who can talk to an internal team, translate intent, and ship. A generic technical screen will select for an engineer who can't do the first three. The process optimizes for the wrong outcome.</div>
+              <div class="dot-text"><strong>A coding exercise filters for the wrong profile.</strong> This role needs someone who can talk to an internal team, translate intent, and ship. A generic technical screen selects for an engineer who can't do the first three.</div>
             </div>
           </div>
         </div>
@@ -545,7 +635,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="rows">
             <div class="row">
               <div class="row-key">Fanatics</div>
-              <div class="row-val">24 hours. President-level stakeholder. Data room built cold from a 15-minute conversation. This is the job — not a simulation of it. <strong>Ask: what would a coding exercise have told you that this didn't?</strong></div>
+              <div class="row-val">24 hours. President-level stakeholder. Data room built cold from a 15-minute conversation. This is the job — not a simulation of it. <strong>What would a coding exercise have told you that this didn't?</strong></div>
             </div>
             <div class="row">
               <div class="row-key">This site</div>
@@ -565,15 +655,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="dot-rows">
             <div class="dot-row">
               <div class="dot" style="background:var(--gold)"></div>
-              <div class="dot-text"><strong>Frame it as a process upgrade, not an exception.</strong> "For roles being defined in real time, a real-world deliverable is a better signal than a synthetic exercise. We'd learn more, faster, with less risk of filtering the wrong way."</div>
+              <div class="dot-text"><strong>Frame it as a process upgrade, not an exception.</strong> "For roles being defined in real time, a real-world deliverable gives better signal than a synthetic exercise."</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--gold)"></div>
-              <div class="dot-text"><strong>Tie it to Alex's mandate.</strong> "The CEO commissioned SIGNAL. We have a candidate who designed it to spec in 45 minutes. The alternative assessment is: give him the actual ask and see what ships in a week."</div>
+              <div class="dot-text"><strong>Tie it to Alex's mandate.</strong> "The CEO commissioned SIGNAL. We have a candidate who designed it to spec in 45 minutes. The alternative assessment: give him the actual ask and see what ships in a week."</div>
             </div>
             <div class="dot-row">
               <div class="dot" style="background:var(--gold)"></div>
-              <div class="dot-text"><strong>De-risk the deviation.</strong> "If the output isn't there, we haven't lost anything — we just run a standard next step. But if it is, we've de-risked a hire that a coding exercise never could."</div>
+              <div class="dot-text"><strong>De-risk the deviation.</strong> "If the output isn't there, we run a standard next step. If it is, we've de-risked a hire that a coding exercise never could."</div>
             </div>
           </div>
         </div>
@@ -607,15 +697,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           <div class="redir-rows">
             <div class="redir-row">
               <div class="redir-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Process</div>
-              <div class="redir-text">If standard process can't be skipped — the ask becomes simpler: <strong>what's the actual problem Alex wants solved right now?</strong> Give Zach that instead of a generic prompt. The output will be the same caliber either way.</div>
+              <div class="redir-text">If standard process can't be skipped — the ask becomes simpler: <strong>what's the actual problem Alex wants solved right now?</strong> Give Zach that instead of a generic prompt.</div>
             </div>
             <div class="redir-row">
               <div class="redir-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">Role</div>
-              <div class="redir-text">If the blended model can't be assembled — the standalone internal FDE role is still worth the bet. The question is whether it's the right landing for this window, or whether the contact stays warm for a future opening.</div>
+              <div class="redir-text">If the blended model can't be assembled — the standalone internal FDE role is still worth the bet. Is it the right landing for this window, or does the contact stay warm for a future opening?</div>
             </div>
             <div class="redir-row">
               <div class="redir-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Timing</div>
-              <div class="redir-text">If the window needs more runway — flag it. A week's delay to get the right assessment format is better than a fast wrong answer.</div>
+              <div class="redir-text">If the window needs more runway — flag it. A week's delay to get the right assessment format beats a fast wrong answer.</div>
             </div>
           </div>
         </div>
@@ -635,7 +725,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
             </div>
             <div class="next-row">
               <div class="next-owner" style="color:var(--cyan)">Fallback</div>
-              <div class="next-text">If the standard process can't be skipped, the ask is simply: <em>what's the actual problem you need solved right now?</em> Give Zach that instead of a generic prompt. The output will be the same either way.</div>
+              <div class="next-text">If standard process can't be skipped: <em>what's the actual problem you need solved right now?</em> Give Zach that instead of a generic prompt. Same output either way.</div>
             </div>
           </div>
         </div>
