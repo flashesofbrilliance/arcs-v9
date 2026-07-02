@@ -1,0 +1,133 @@
+<!-- @dsCard group="Recoil Report" name="Receipt Table" subtitle="2-col key-value · PRE-CALL / POST-CALL modes · variable rows" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+
+.receipt-table {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border-collapse: collapse;
+}
+
+.receipt-table tr { border-bottom: 1px solid rgba(30,41,59,0.6); }
+.receipt-table tr:last-child { border-bottom: none; }
+.receipt-table tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+.receipt-table td {
+  padding: 11px 16px; vertical-align: top;
+}
+
+.td-key {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.06em;
+  white-space: nowrap; width: 22%;
+  border-right: 1px solid var(--border);
+}
+
+.td-val {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text);
+  line-height: 1.5;
+}
+
+/* Highlight variants for specific rows */
+.td-val.north  { color: var(--cyan); font-weight: 600; }
+.td-val.warn   { color: var(--gold); }
+.td-val.stop   { color: var(--red); }
+.td-val.thresh {
+  font-family: var(--font-sans); font-size: 12px;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.thresh-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 10px; border-radius: var(--r-sm);
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  border: 1px solid;
+}
+.thresh-chip.proceed { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+.thresh-chip.hold    { color: var(--gold);  border-color: var(--gold);  background: var(--gold-bg); }
+.thresh-chip.red     { color: var(--red);   border-color: var(--red);   background: var(--red-bg); }
+</style>
+</head>
+<body>
+
+<!-- PRE-CALL MODE -->
+<div>
+  <div class="section-label">§ Pre-Call Receipt · Mode: PRE-CALL</div>
+  <table class="receipt-table">
+    <tbody>
+      <tr>
+        <td class="td-key">Core decision</td>
+        <td class="td-val">Does this call unlock Chase + Instant Rips, or does it gate on a second conversation?</td>
+      </tr>
+      <tr>
+        <td class="td-key">True North</td>
+        <td class="td-val north">Exit with Chase intro confirmed or calendared</td>
+      </tr>
+      <tr>
+        <td class="td-key">Stated → watch</td>
+        <td class="td-val warn">CJ says she needs to "loop in the team"</td>
+      </tr>
+      <tr>
+        <td class="td-key">Revealed → weight</td>
+        <td class="td-val">If she stays past 30 min or asks follow-up Qs — that's the real signal</td>
+      </tr>
+      <tr>
+        <td class="td-key">Stop-loss</td>
+        <td class="td-val stop">No Chase intro by Jul 8 → LinkedIn direct (Chris opened the door)</td>
+      </tr>
+      <tr>
+        <td class="td-key">NCI threshold</td>
+        <td class="td-val thresh">
+          <span class="thresh-chip proceed">≥85 PROCEED</span>
+          <span class="thresh-chip hold">65–84 CONDITIONAL</span>
+          <span class="thresh-chip red">&lt;65 HOLD</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- POST-CALL MODE -->
+<div>
+  <div class="section-label">§ Post-Call Receipt · Mode: POST-CALL</div>
+  <table class="receipt-table">
+    <tbody>
+      <tr>
+        <td class="td-key">Decision</td>
+        <td class="td-val north">Pursue Fanatics Collectibles via Chase intro — confirmed path</td>
+      </tr>
+      <tr>
+        <td class="td-key">NCI Δ</td>
+        <td class="td-val" style="color:var(--green)">91 → 96 · LOCKED</td>
+      </tr>
+      <tr>
+        <td class="td-key">Banked lesson</td>
+        <td class="td-val">She asked to see the deck unprompted — revealed preference confirmed. She's building the case internally.</td>
+      </tr>
+      <tr>
+        <td class="td-key">Drift risk</td>
+        <td class="td-val warn">Chase intro has no confirmed date — theta decay active</td>
+      </tr>
+      <tr>
+        <td class="td-key">Next step</td>
+        <td class="td-val north">Send deck within 1hr · follow up if no Chase calendar within 5 days</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

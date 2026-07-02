@@ -1,0 +1,161 @@
+{
+  "reportId": "2026-06-25-lamontagne",
+  "meta": {
+    "call": "Growth Execs (Zach Harris)",
+    "date": "2026-06-25",
+    "time": "3:00 PM EDT",
+    "duration_minutes": 30,
+    "segment_count": 5,
+    "participants": [
+      { "name": "Chris Lamontagne", "role": "SVP Growth · Fanatics Collectibles", "signal": "CHAMPION" },
+      { "name": "Regina Marshall", "role": "EA · Chris Lamontagne", "signal": "COORDINATOR" }
+    ],
+    "prepSession": null,
+    "note": "No PrepSession captured — pre-call expectation baseline unavailable. Recoil scored against revealed signal density only."
+  },
+
+  "cover": {
+    "title": "Recoil Report — Chris Lamontagne / Fanatics",
+    "subtitle": "Growth Execs · Jun 25 · 30 min",
+    "ygate": "GREEN",
+    "conviction": "HIGH",
+    "stability": "REVISIT",
+    "nci_pre": null,
+    "nci_post": 91,
+    "render": "SHARP"
+  },
+
+  "loadBearingQuote": {
+    "text": "Roles are fluid given pace of growth — looking for people with distinct ideas about what they want to do next.",
+    "speaker": "Chris Lamontagne",
+    "segment": 5,
+    "significance": "This is the constitutional permission to architect a bespoke role rather than apply to an existing one. The word 'fluid' is not hedging — it is an open door. The phrase 'distinct ideas' is the qualifying criterion."
+  },
+
+  "segments": [
+    {
+      "num": 1,
+      "window": "0–6 min",
+      "summary": "Zach's background intro — WTA, Grayscale, internet builder since 2006, ARCS philosophy",
+      "reverseSignal": "Opened at the right altitude. Grayscale ($7B under peak regulatory pressure) is the right proof point — it establishes high-stakes, low-clarity decision-making under institutional scrutiny, which maps to what Chris is navigating.",
+      "forwardSignal": "ARCS framing as 'human on the bike / agentic in service of the user' landed as a direct echo of Chris's own stated AI philosophy. Strong alignment signal, early."
+    },
+    {
+      "num": 2,
+      "window": "6–12 min",
+      "summary": "Chris's context — growth team structure, CoE vs GM model debate, Instant Rips named as vertical example",
+      "reverseSignal": "Instant Rips was named here — not at the close. Reading backward, this naming early in the call was directive. It wasn't an example to illustrate; it was Chris flagging the beachhead he had in mind.",
+      "forwardSignal": "The CoE vs GM debate is live and unresolved inside Fanatics. Zach didn't claim a position on this debate — left it as a structural observation. Missed moment: the receipt system framing IS an argument for the intelligence layer model over the CoE model. Should have been named as such."
+    },
+    {
+      "num": 3,
+      "window": "12–18 min",
+      "summary": "AI philosophy — collectibles as inherently irrational, fan identity signals, what to automate vs. preserve",
+      "reverseSignal": "This segment had the highest alignment density of the call. Chris's 'expose human moments, get out of the way' is structurally identical to ARCS's NOTOMATION rule ('never compress or replace revealed preference'). This was the moment where a hard close was available — 'that's exactly what ARCS is built on' — and wasn't taken.",
+      "forwardSignal": "Chris is specifically not interested in automation for automation's sake. He's looking for someone who understands why the irrational purchase is the product. This is a value filter, not just a tech philosophy."
+    },
+    {
+      "num": 4,
+      "window": "18–24 min",
+      "summary": "Dream role discussion — forward-deployed engineer, horizontal receipt system, pre-mortems and simulation",
+      "reverseSignal": "Reading backward: the 'receipt system' framing is what made Chris comfortable enough to offer intros. The pitch landed because it was specific about the artifact, not just the function.",
+      "forwardSignal": "The word 'horizontal' in Zach's pitch is load-bearing — it's the answer to the CoE vs GM debate without stating it. A horizontal intelligence layer IS the third option neither CoE nor GM fully solves. This framing was implicit; it should be made explicit in the written narrative."
+    },
+    {
+      "num": 5,
+      "window": "24–30 min",
+      "summary": "Close — written narrative ask, relevant intros promised",
+      "reverseSignal": "SOFTER close than the call signal density warranted. The call built toward 'here's who you should meet' but closed at 'send me something in writing.' This is not negative — it means Chris needed an artifact to route internally before making intros. The written narrative is the gate.",
+      "forwardSignal": "Chris acted on his own initiative 4 days later (CJ intro Jun 29) without waiting for a prompted follow-up. This is the revealed preference: he had already decided to route. The written narrative may have been the trigger, or the call alone was sufficient."
+    }
+  ],
+
+  "signalThreads": [
+    {
+      "type": "CHAMPION_CONFIRMED",
+      "color": "green",
+      "signal": "'I'll use it to make relevant intros' — Chris has already decided to route. He needs an artifact to do it cleanly, not more convincing.",
+      "weight": "HARD_YES"
+    },
+    {
+      "type": "BEACHHEAD_NAMED",
+      "color": "cyan",
+      "signal": "Instant Rips named in segment 2, unprompted, as a specific vertical example. Not a throwaway. When a founder-level exec names a specific product in a 30-min intro call, it is directional.",
+      "weight": "DIRECTIONAL"
+    },
+    {
+      "type": "ROLE_FLUID",
+      "color": "gold",
+      "signal": "'Roles are fluid given pace of growth.' This is architectural permission. The role doesn't exist on a JD somewhere — it can be manifested.",
+      "weight": "HIGH"
+    },
+    {
+      "type": "PHILOSOPHY_LOCK",
+      "color": "cyan",
+      "signal": "Chris's AI philosophy (expose human moments, get out of the way) is structurally identical to ARCS's NOTOMATION rule. This is not alignment by coincidence — it's a values match at the system level.",
+      "weight": "HIGH"
+    },
+    {
+      "type": "REGINA_PRESENT",
+      "color": "muted",
+      "signal": "Regina was on the original invite, not CC'd later. She is Chris's organizational proxy. Her presence on the CJ intro email is coordination infrastructure, not surveillance.",
+      "weight": "WATCH"
+    }
+  ],
+
+  "riskFlags": [
+    {
+      "flag": "CLOSE_WAS_SOFT",
+      "severity": "LOW",
+      "detail": "The call closed at 'send me a written narrative' rather than a named next-person intro. Chris actioned independently 4 days later — the risk resolved itself. But the pattern is worth noting: Zach did not ask for a specific intro by name at close. The gap was 4 days, not 4 hours."
+    },
+    {
+      "flag": "COE_POSITION_NEVER_OWNED",
+      "severity": "MED",
+      "detail": "The CoE vs GM debate was introduced and left open. The receipt system / horizontal intelligence layer IS an answer to this debate — a third model that neither side is currently naming. This should be named explicitly in the Chase prep."
+    },
+    {
+      "flag": "NO_PREPRESSION_CAPTURED",
+      "severity": "LOW",
+      "detail": "No PrepSession existed for this call. Pre-call expectation baseline unavailable. The post-call NCI of 91 is assessed against revealed signal density only, not scored against stated expectations."
+    }
+  ],
+
+  "scenarios": [
+    {
+      "label": "Chase intro advances to offer",
+      "probability": 0.55,
+      "conditions": "Instant Rips has an active growth gap Chase is currently feeling. The role-thesis framing (intelligence layer, not another GM) maps to something he doesn't have a name for yet but wants.",
+      "color": "green"
+    },
+    {
+      "label": "Chris creates role directly, bypasses formal process",
+      "probability": 0.25,
+      "conditions": "Chris's 'roles are fluid' language + the pace of doubling every 4 months + the fact he acted independently on the intro. Founders who are building fast sometimes hire before the req is written.",
+      "color": "cyan"
+    },
+    {
+      "label": "Call advances but role shape requires renegotiation",
+      "probability": 0.15,
+      "conditions": "Chase has a different gap in mind — not growth intel but a specific funnel operator. Requires resetting the role thesis on the Chase call without losing the Chris intro as the anchor.",
+      "color": "gold"
+    },
+    {
+      "label": "Process stalls at Talent / no Chase intro materializes",
+      "probability": 0.05,
+      "conditions": "CJ screens and finds no open req to attach this to. Stop-loss: reopen with Chris directly within 7 days if no Chase calendar appears.",
+      "color": "red"
+    }
+  ],
+
+  "protocol": {
+    "bankedLessons": [
+      "When a founder-level exec names a specific product unprompted in a 30-min intro call, treat it as a directional signal, not an example. Instant Rips was the destination Chris had in mind from segment 2.",
+      "Philosophy alignment at the system level (NOTOMATION ↔ 'expose human moments') is a stronger closing signal than any individual credential. The moment it surfaces, name it and lock it.",
+      "The horizontal intelligence layer framing is the answer to the CoE vs GM debate. Make it explicit — it's a third model, not a variation on either side."
+    ],
+    "nextMoveIfNCI_above_85": "Chase call confirmed → go-bag delivered → 30-day ChasePrep session with full receipt system pitch tailored to Instant Rips funnel specifics.",
+    "nextMoveIfNCI_65_to_84": "CJ call advances but Chase intro not confirmed. Follow up with Chris directly within 48 hours referencing the written narrative.",
+    "stopLoss": "No Chase intro calendar by Jul 8 → reopen with Chris directly. He acted in 4 days on his own; a second signal from Zach within 13 days of the original call is well inside any reasonable timeline."
+  }
+}

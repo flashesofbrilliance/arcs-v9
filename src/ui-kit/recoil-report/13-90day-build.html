@@ -1,0 +1,207 @@
+<!-- @dsCard group="Recoil Report" name="90-Day Build" subtitle="Three-phase operator arc · Day 1-30 / 31-60 / 61-90" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+}
+
+.phases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+.phase {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.phase-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.phase-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  border: 1px solid; flex-shrink: 0;
+}
+
+.phase-meta { flex: 1; }
+
+.phase-days {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+.phase-name {
+  font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+  margin-top: 1px;
+}
+
+.phase-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+.phase-item {
+  display: flex; align-items: flex-start; gap: 10px;
+}
+
+.item-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  margin-top: 5px; flex-shrink: 0;
+}
+
+.item-text {
+  font-family: var(--font-sans); font-size: 12px;
+  color: var(--text); line-height: 1.4;
+}
+
+.item-sub {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--dimmed); margin-top: 2px;
+}
+
+.phase-output {
+  margin: 0 16px 14px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--muted); line-height: 1.4;
+}
+.phase-output strong { font-style: normal; }
+
+/* Phase 1 — cyan */
+.phase-1 .phase-num { border-color: var(--cyan); color: var(--cyan); }
+.phase-1 .phase-days { color: var(--cyan); }
+.phase-1 .item-dot { background: var(--cyan); }
+
+/* Phase 2 — green */
+.phase-2 .phase-num { border-color: var(--green); color: var(--green); }
+.phase-2 .phase-days { color: var(--green); }
+.phase-2 .item-dot { background: var(--green); }
+
+/* Phase 3 — gold */
+.phase-3 .phase-num { border-color: var(--gold); color: var(--gold); }
+.phase-3 .phase-days { color: var(--gold); }
+.phase-3 .item-dot { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="section-label">§ 90-Day Build Arc</div>
+<div class="phases">
+
+  <div class="phase phase-1">
+    <div class="phase-header">
+      <div class="phase-num">1</div>
+      <div class="phase-meta">
+        <div class="phase-days">Day 1–30</div>
+        <div class="phase-name">Terrain Read</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Audit every live Instant Rips growth motion</div>
+          <div class="item-sub">What's running, what's worked, what's been tried twice</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Map the 5 teams' signal flows</div>
+          <div class="item-sub">Where does learning die? Where does it compound?</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Identify the bottleneck in the funnel</div>
+          <div class="item-sub">CAC, conversion, or retention — pick the highest leverage layer</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-output"><strong>Output:</strong> Terrain brief — first decision receipt the org has ever had on its own growth motion</div>
+  </div>
+
+  <div class="phase phase-2">
+    <div class="phase-header">
+      <div class="phase-num">2</div>
+      <div class="phase-meta">
+        <div class="phase-days">Day 31–60</div>
+        <div class="phase-name">First Loop</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Run one full campaign cycle with the memory layer live</div>
+          <div class="item-sub">Pre-campaign receipt → post-campaign validation</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Wire the signal taxonomy</div>
+          <div class="item-sub">Categorize what types of drops generate what types of learning</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">First variance measurement</div>
+          <div class="item-sub">What did we predict vs. what happened — and why was the gap there?</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-output"><strong>Output:</strong> First compounding receipt — proof the system generates better predictions than gut feel</div>
+  </div>
+
+  <div class="phase phase-3">
+    <div class="phase-header">
+      <div class="phase-num">3</div>
+      <div class="phase-meta">
+        <div class="phase-days">Day 61–90</div>
+        <div class="phase-name">Propagate</div>
+      </div>
+    </div>
+    <div class="phase-body">
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Surface learnings to adjacent BUs</div>
+          <div class="item-sub">Trading Cards, Live Commerce, Authenticated Merch — what transfers?</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Build the CoE case from evidence</div>
+          <div class="item-sub">If the receipts prove value, the argument for a cross-BU function writes itself</div>
+        </div>
+      </div>
+      <div class="phase-item">
+        <div class="item-dot"></div>
+        <div>
+          <div class="item-text">Scope Phase 2 with Chris</div>
+          <div class="item-sub">What does "force multiplier on the growth org" look like at scale?</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-output"><strong>Output:</strong> Cross-BU brief + Phase 2 proposal — the function that started at Rips now has a case for the whole org</div>
+  </div>
+
+</div>
+</body>
+</html>

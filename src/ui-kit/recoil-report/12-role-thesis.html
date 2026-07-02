@@ -1,0 +1,137 @@
+<!-- @dsCard group="Recoil Report" name="Role Thesis" subtitle="What the function owns · beachhead · adjacency map" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 2px;
+}
+
+.thesis-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.thesis-header {
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+
+.thesis-title {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  color: var(--cyan); letter-spacing: 0.04em;
+}
+
+.thesis-badge {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  padding: 3px 10px; border-radius: var(--r-sm);
+  border: 1px solid var(--cyan); color: var(--cyan);
+  background: rgba(0,240,255,0.06); letter-spacing: 0.1em;
+}
+
+.owns-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+
+.owns-cell {
+  padding: 14px 20px;
+  border-right: 1px solid var(--border);
+}
+.owns-cell:last-child { border-right: none; }
+
+.owns-label {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 6px;
+}
+
+.owns-value {
+  font-family: var(--font-sans); font-size: 13px;
+  color: var(--text); line-height: 1.4;
+}
+
+.owns-sub {
+  font-family: var(--font-sans); font-size: 11px;
+  color: var(--dimmed); margin-top: 4px; line-height: 1.4;
+}
+
+/* adjacency row */
+.adjacency-row {
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+
+.adj-label {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); flex-shrink: 0;
+}
+
+.adj-chip {
+  font-family: var(--font-mono); font-size: 10px;
+  padding: 4px 12px; border-radius: var(--r-sm);
+  border: 1px solid;
+}
+
+.adj-primary { border-color: var(--cyan); color: var(--cyan); background: rgba(0,240,255,0.06); }
+.adj-warm    { border-color: var(--green); color: var(--green); background: rgba(0,255,157,0.04); }
+.adj-cold    { border-color: var(--border); color: var(--muted); }
+
+.adj-arrow {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--dimmed);
+}
+</style>
+</head>
+<body>
+
+<div class="section-label">§ Role Thesis · Growth Intelligence</div>
+
+<div class="thesis-card">
+  <div class="thesis-header">
+    <div class="thesis-title">Growth Intelligence Lead — Instant Rips</div>
+    <div class="thesis-badge">BEACHHEAD</div>
+  </div>
+
+  <div class="owns-grid">
+    <div class="owns-cell">
+      <div class="owns-label">Owns</div>
+      <div class="owns-value">Full-funnel growth system</div>
+      <div class="owns-sub">Acquisition → conversion → retention loop. Every campaign generates a receipt, not just a report.</div>
+    </div>
+    <div class="owns-cell">
+      <div class="owns-label">Builds</div>
+      <div class="owns-value">Institutional memory layer</div>
+      <div class="owns-sub">Converts each drop, test, and signal into compounding org knowledge. The 5th team that makes the other 4 faster.</div>
+    </div>
+    <div class="owns-cell">
+      <div class="owns-label">Delivers</div>
+      <div class="owns-value">Predictive accountability</div>
+      <div class="owns-sub">Ex-ante confidence, post-hoc validation. Did this work because of process or luck? The system knows.</div>
+    </div>
+  </div>
+
+  <div class="adjacency-row">
+    <div class="adj-label">Propagates to →</div>
+    <div class="adj-chip adj-primary">Instant Rips</div>
+    <div class="adj-arrow">→</div>
+    <div class="adj-chip adj-warm">Live Commerce</div>
+    <div class="adj-chip adj-warm">Trading Cards</div>
+    <div class="adj-chip adj-warm">Authenticated Merch</div>
+    <div class="adj-arrow">→</div>
+    <div class="adj-chip adj-cold">All collectible BUs</div>
+  </div>
+</div>
+
+</body>
+</html>

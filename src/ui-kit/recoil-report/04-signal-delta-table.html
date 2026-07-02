@@ -1,0 +1,110 @@
+<!-- @dsCard group="Recoil Report" name="Signal Delta Table" subtitle="Expected vs Actual vs Confidence · variable rows" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="_tokens.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: var(--font-sans); padding: 24px; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+
+.signal-table {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  border-collapse: collapse;
+}
+.signal-table th {
+  background: rgba(255,255,255,0.03);
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 10px 14px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.signal-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(30,41,59,0.5);
+  vertical-align: middle;
+}
+.signal-table tr:last-child td { border-bottom: none; }
+.signal-table tr:nth-child(odd) td { background: rgba(255,255,255,0.015); }
+
+.td-signal {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text);
+  white-space: nowrap;
+}
+.td-expected {
+  font-family: var(--font-sans); font-size: 12px; color: var(--dimmed);
+}
+.td-conf {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  white-space: nowrap;
+}
+.td-conf.high   { color: var(--green); }
+.td-conf.medium { color: var(--gold); }
+.td-conf.low    { color: var(--red); }
+
+.risk-badge {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.08em; padding: 3px 8px;
+  border-radius: var(--r-sm); border: 1px solid;
+}
+.risk-badge.HIGH   { color: var(--red);   border-color: var(--red);   background: var(--red-bg); }
+.risk-badge.MED    { color: var(--gold);  border-color: var(--gold);  background: var(--gold-bg); }
+.risk-badge.LOW    { color: var(--green); border-color: var(--green); background: var(--green-bg); }
+</style>
+</head>
+<body>
+<div class="section-label">§ Pre-Call Signal Delta · Expected State Going In</div>
+<table class="signal-table">
+  <thead>
+    <tr>
+      <th style="width:32%">Signal</th>
+      <th style="width:40%">Expected State</th>
+      <th style="width:12%">Confidence</th>
+      <th style="width:10%">Δ Risk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="td-signal">CJ has read your deck</td>
+      <td class="td-expected">Maybe — not explicitly forwarded</td>
+      <td class="td-conf medium">45%</td>
+      <td><span class="risk-badge MED">MED</span></td>
+    </tr>
+    <tr>
+      <td class="td-signal">CJ has a defined role brief</td>
+      <td class="td-expected">Unlikely — role is exploratory</td>
+      <td class="td-conf low">20%</td>
+      <td><span class="risk-badge HIGH">HIGH</span></td>
+    </tr>
+    <tr>
+      <td class="td-signal">CJ knows Grayscale background</td>
+      <td class="td-expected">Only if she read the email chain</td>
+      <td class="td-conf medium">55%</td>
+      <td><span class="risk-badge MED">MED</span></td>
+    </tr>
+    <tr>
+      <td class="td-signal">Chase is actively hiring</td>
+      <td class="td-expected">Warm but not a confirmed req</td>
+      <td class="td-conf medium">40%</td>
+      <td><span class="risk-badge MED">MED</span></td>
+    </tr>
+    <tr>
+      <td class="td-signal">Call advances to Chase intro</td>
+      <td class="td-expected">Yes — if beachhead framing lands</td>
+      <td class="td-conf high">75%</td>
+      <td><span class="risk-badge LOW">LOW</span></td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>
