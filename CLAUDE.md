@@ -1309,3 +1309,48 @@ arcs-v9: 5db496b — Merge sleepy-booth → main for production breadcrumb/drawe
 
 `/handoff-pickup` → Compass Kit Phase 2 ADR + Phase 2 kickoff. Proceed directly to "Write DS reconciliation ADR" unless production verification reveals unexpected issues.
 
+
+---
+
+# Handoff — v3.4.0 (2026-07-02)
+
+> **For Claude Code:** active pickup point. v3.3.0 above is preserved for history.
+
+## What changed this session
+
+### PRL Resins / Todd Hotes — Phase 1 Proposal SHIPPED
+
+- `src/ui-kit/recoil-report/todd-prl-resins-recoil.html` — 5-section standalone proposal:
+  - Header ("Fix the Instrument Panel First"), load-bearing quote (verbatim from call close), Phase 1 sprint card (3×90-min sessions, $1,500 fixed), dimmed on-deck sketch (Phase 2–5), one ask + stop-loss
+  - Aviation framing throughout ("flying IFR without instruments") — Todd is an ATP/PC-24 type rated
+  - ARCS design tokens, no external deps
+- `public/todd-call.html` — copy for static serving
+- `next.config.ts` (main) — `beforeFiles` entry added for `todd-call.arcs.care`
+- `1ea5e8a` committed and pushed to main; domain live at https://todd-call.arcs.care
+
+### Subdomain HTML hosting workflow — now documented in memory
+
+See memory: `subdomain-html-hosting-workflow.md`
+
+Key lessons:
+- `vercel.json` rewrites are overridden by `src/app/page.tsx` — use `beforeFiles` in `next.config.ts`
+- Changes must be on `main` (not a worktree branch) — commit via `frosty-kepler-b69f51` worktree
+- New subdomains must be explicitly assigned to arcs-v9 in Vercel dashboard if `alias_conflict` error
+
+### Resend MCP plugin — stale API key
+
+`mcp__plugin_resend_resend__send-email` returns 400 `API key is invalid`. Key needs rotation in Resend dashboard → update MCP plugin config. Workaround this session: Zach sent email manually.
+
+## Last confirmed commit (arcs-v9 main)
+
+`1ea5e8a` — fix(routing): todd-call.arcs.care → proposal page [NCI:182]
+
+## Open items
+
+- Resend MCP API key needs rotation (blocks automated email from Claude sessions)
+- Compass Kit Phase 2 ADR still unwritten (from v3.3.0)
+- ADR-015 case study gate — Dan Pascone approval still pending
+
+## Next session starts at
+
+`/handoff-pickup` → pick one: (a) Resend key rotation + smoke test, (b) Compass Kit Phase 2 ADR, (c) next prospect proposal page
