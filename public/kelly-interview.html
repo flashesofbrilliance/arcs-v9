@@ -15,12 +15,11 @@
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
-.page { max-width: 620px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.page { max-width: 580px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
 
-.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 
-/* MASTHEAD */
 .masthead { text-align: center; padding-bottom: 4px; }
 .masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
 .masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
@@ -29,67 +28,37 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 .rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
 
-/* TABS */
-.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
-.tab-btn {
-  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
-  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
-  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
-}
-.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
-.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
-.tab-pane.active { display: flex; }
+.rows { display: flex; flex-direction: column; }
+.row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.row:last-child { border-bottom: none; }
+.row-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 76px; padding-top: 1px; }
+.row-val { font-size: 13px; color: var(--text); line-height: 1.55; }
+.row-val strong { font-weight: 600; }
+.row-val em { color: var(--dimmed); font-style: normal; }
 
-/* ROWS */
-.conf-rows { display: flex; flex-direction: column; }
-.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.conf-row:last-child { border-bottom: none; }
-.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; }
-.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
-.conf-val strong { font-weight: 600; }
+.dot-rows { display: flex; flex-direction: column; }
+.dot-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.dot-row:last-child { border-bottom: none; }
+.dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.dot-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.dot-text strong { font-weight: 600; }
 
-/* INTEL ROWS */
-.intel-rows { display: flex; flex-direction: column; }
-.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.intel-row:last-child { border-bottom: none; }
-.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
-.intel-text strong { font-weight: 600; }
-
-/* Q ROWS */
 .q-rows { display: flex; flex-direction: column; }
 .q-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
 .q-row:last-child { border-bottom: none; }
-.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
-.q-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-body { font-size: 13px; line-height: 1.55; }
+.q-text { color: var(--text); margin-bottom: 4px; }
+.q-why { font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.02em; line-height: 1.5; }
 
-/* SIGNAL ROWS */
-.sig-rows { display: flex; flex-direction: column; }
-.sig-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.sig-row:last-child { border-bottom: none; }
-.sig-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
-.sig-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
-.sig-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
-.sig-text strong { color: var(--text); font-weight: 600; }
-
-/* NAIL BLOCK */
-.nail-block { background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.2); border-radius: 10px; padding: 20px; }
+.nail-block { background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.2); border-radius: 10px; padding: 18px 20px; }
 .nail-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
 .nail-text { font-size: 13px; color: var(--text); line-height: 1.75; }
-.nail-text em { color: var(--dimmed); font-style: normal; }
 .nail-text strong { font-weight: 600; }
-
-/* BEHAVIORAL TESTS */
-.btest-rows { display: flex; flex-direction: column; }
-.btest-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.btest-row:last-child { border-bottom: none; }
-.btest-q { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 6px; }
-.btest-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; }
 
 @media (max-width: 640px) {
   body { padding: 28px 16px 60px; }
-  .conf-key { width: 70px; }
+  .row-key { width: 64px; }
 }
 </style>
 </head>
@@ -99,268 +68,98 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <div class="masthead">
     <div class="masthead-eyebrow">Juniper Square</div>
     <div class="masthead-name">Kelly Mullaney</div>
-    <div class="masthead-sub">VP, Customer Education · Juniper Square</div>
-    <div class="masthead-meta">Jul 2, 2026 · 12:15–1:00pm EDT · Zoom · 45 min</div>
+    <div class="masthead-sub">VP Applied AI · formerly VP Enablement & Product Education</div>
+    <div class="masthead-meta">Jul 2, 2026 · 12:15–1:00pm EDT · Senior FDE (AI)</div>
   </div>
 
   <div class="rule-glow"></div>
 
-  <div id="datestamp" style="display:block;font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">Senior Forward Deployed Engineer (AI)</div>
-
-  <!-- TABS -->
-  <div class="card" style="overflow:visible;background:none;border:none;">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('role')">The Role</button>
-      <button class="tab-btn" onclick="switchTab('intel')">Intel</button>
-      <button class="tab-btn" onclick="switchTab('angles')">Angles</button>
-      <button class="tab-btn" onclick="switchTab('questions')">Questions</button>
+  <!-- WHO KELLY IS -->
+  <div>
+    <div class="sl">Who you're talking to</div>
+    <div class="card">
+      <div class="rows">
+        <div class="row">
+          <div class="row-key">Now</div>
+          <div class="row-val"><strong>VP Applied AI</strong> — since April 2026. Building internal AI systems, tooling, policy, and enablement. Four months into this pivot. Still figuring out what good looks like.</div>
+        </div>
+        <div class="row">
+          <div class="row-key">Before</div>
+          <div class="row-val">13 years running customer education at <strong>Envestnet/Tamarac</strong> — wealth management SaaS, same customer base as Juniper. Grew education from docs to full enablement model.</div>
+        </div>
+        <div class="row">
+          <div class="row-key">DNA</div>
+          <div class="row-val">English lit → fintech educator → AI builder. Thinks in terms of <em>does this actually help people use the product</em>, not just <em>does the model work</em>.</div>
+        </div>
+        <div class="row">
+          <div class="row-key">Top skills</div>
+          <div class="row-val" style="color:var(--dimmed)">AI-Assisted Documentation · AI-Driven Personalization · AI Automation</div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- THE ROLE -->
-    <div id="tab-role" class="tab-pane active">
-
-      <div>
-        <div class="sl">Confirmed going in</div>
-        <div class="card">
-          <div class="conf-rows">
-            <div class="conf-row">
-              <div class="conf-key">Title</div>
-              <div class="conf-val"><strong>Senior Forward Deployed Engineer (AI)</strong></div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Company</div>
-              <div class="conf-val">Juniper Square — private markets software platform. GP/LP fund admin, investor relations, cap table, LP portal.</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Mission</div>
-              <div class="conf-val">Digitize the private markets — PE, venture, real estate, infrastructure funds.</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Customer</div>
-              <div class="conf-val">Fund managers, GPs, family offices. Sophisticated but not technical. High trust threshold. Regulated environment.</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Process</div>
-              <div class="conf-val">Recruiter screen (Nushi, Jun 29) done. Kelly = substantive loop, not a formality.</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Recording</div>
-              <div class="conf-val" style="color:var(--dimmed)">BrightHire recording. Speak as if Nushi replays the first 90 seconds cold.</div>
-            </div>
-          </div>
+  <!-- WHAT THIS MEANS -->
+  <div>
+    <div class="sl">What this means for the conversation</div>
+    <div class="card">
+      <div class="dot-rows">
+        <div class="dot-row">
+          <div class="dot" style="background:var(--cyan)"></div>
+          <div class="dot-text"><strong>She's not evaluating you from the outside.</strong> She just made the same move you're making — crossing from adjacent domain expertise into applied AI. She'll recognize the pattern.</div>
+        </div>
+        <div class="dot-row">
+          <div class="dot" style="background:var(--green)"></div>
+          <div class="dot-text"><strong>She knows the Juniper customer cold.</strong> Investment managers, GPs, LPs — she spent 13 years serving this exact profile at Envestnet. She doesn't need you to explain the trust problem. She already lived it.</div>
+        </div>
+        <div class="dot-row">
+          <div class="dot" style="background:var(--gold)"></div>
+          <div class="dot-text"><strong>She's building internally, you'd be deploying externally.</strong> FDE sits at the customer-facing end of what she's building. She needs someone whose standards match hers — not someone who'll ship fast and leave a mess she has to fix.</div>
+        </div>
+        <div class="dot-row">
+          <div class="dot" style="background:var(--muted)"></div>
+          <div class="dot-text"><strong>English lit background.</strong> She communicates in narrative, not specs. Match that register. Don't lead with architecture.</div>
         </div>
       </div>
-
-      <div>
-        <div class="sl">Kelly's lens — what she's filtering for</div>
-        <div class="card">
-          <div class="intel-rows">
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--cyan)"></div>
-              <div class="intel-text"><strong>Time-to-value is her currency.</strong> She measures success by how fast customers get productive — not docs read, trainings completed, or tickets closed.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--green)"></div>
-              <div class="intel-text"><strong>She's seen AI backfire.</strong> AI features that confused customers, spiked support, eroded trust. Her filter is: will this person make things clearer or noisier?</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--gold)"></div>
-              <div class="intel-text"><strong>FDE = 60% relationship, 40% engineering</strong> in her world. She's not hiring someone who codes in a closet. She wants someone who earns trust before opening a terminal.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--muted)"></div>
-              <div class="intel-text"><strong>She owns the gap</strong> between what the platform can do and what customers actually do. She knows exactly where they get stuck, churn, and call support.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+  </div>
 
-    <!-- INTEL -->
-    <div id="tab-intel" class="tab-pane">
-
-      <div>
-        <div class="sl">Juniper Square — company context</div>
-        <div class="card">
-          <div class="sig-rows">
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--cyan);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--cyan)">Market</span>
-                <div class="sig-text">Private markets are a $13T asset class that still runs on PDFs, spreadsheets, and email. Juniper is the infrastructure layer — fund admin, LP reporting, investor portal, cap table.</div>
-              </div>
-            </div>
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--green);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--green)">Why AI is hard here</span>
-                <div class="sig-text">Customers are managing <strong>other people's capital</strong>. A GP who makes a wrong LP distribution because an AI got confused doesn't get a second chance. Trust is non-negotiable — speed is secondary.</div>
-              </div>
-            </div>
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--gold);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--gold)">Forward Deployed = embedded</span>
-                <div class="sig-text">This is not a support role. FDE sits inside customer organizations, understands their actual workflow, and builds AI-native solutions on top of the Juniper platform. Part consultant, part builder, part trusted advisor.</div>
-              </div>
-            </div>
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--muted);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--muted)">Podcast signal</span>
-                <div class="sig-text">They run "The Distribution" — interviews with PE/VC/RE leaders. They think in terms of the GP/LP relationship, not just product usage. Reference this if natural.</div>
-              </div>
-            </div>
+  <!-- QUESTIONS -->
+  <div>
+    <div class="sl">Questions to ask</div>
+    <div class="card">
+      <div class="q-rows">
+        <div class="q-row">
+          <div class="q-n" style="color:var(--cyan)">1</div>
+          <div class="q-body">
+            <div class="q-text">You moved from Enablement to Applied AI four months ago — what shifted in how you think about the customer problem?</div>
+            <div class="q-why">→ Gets her to articulate her own inflection point. High signal on where she's landed on AI-as-tool vs. AI-as-product.</div>
+          </div>
+        </div>
+        <div class="q-row">
+          <div class="q-n" style="color:var(--gold)">2</div>
+          <div class="q-body">
+            <div class="q-text">How do you think about the interface between what you're building internally and what FDE deploys with customers?</div>
+            <div class="q-why">→ Maps the actual working relationship. Is FDE autonomous or is it an extension of her internal AI strategy?</div>
+          </div>
+        </div>
+        <div class="q-row">
+          <div class="q-n" style="color:var(--green)">3</div>
+          <div class="q-body">
+            <div class="q-text">Where have you seen AI land well with investment managers — and where has it created more confusion than clarity?</div>
+            <div class="q-why">→ She has 13 years of Envestnet customer intel. This is the most useful thing she can tell you. The backfire story is where trust actually lives.</div>
           </div>
         </div>
       </div>
-
-      <div>
-        <div class="sl">Your background — what maps here</div>
-        <div class="card">
-          <div class="sig-rows">
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--cyan);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--cyan)">ARCS</span>
-                <div class="sig-text"><strong>AI compass for high-stakes decisions</strong> — exactly what Juniper's customers face daily (capital allocation, LP communication, fund timing). You built the tool; you understand the topology.</div>
-              </div>
-            </div>
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--green);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--green)">Grayscale</span>
-                <div class="sig-text"><strong>$7B launch</strong> — regulated financial infrastructure, institutional trust, no margin for error. You operated at the edge where wrong means catastrophic, not inconvenient.</div>
-              </div>
-            </div>
-            <div class="sig-row">
-              <div>
-                <div class="sig-dot" style="background:var(--gold);display:inline-block;margin-right:8px;vertical-align:middle;margin-top:-2px;"></div>
-                <span class="sig-label" style="color:var(--gold)">WTA</span>
-                <div class="sig-text">Global stakeholder environment, high-visibility decisions, diverse power structures. You know how to build trust with operators who have seen too many tools that overpromised.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+  </div>
 
-    <!-- ANGLES -->
-    <div id="tab-angles" class="tab-pane">
-
-      <div>
-        <div class="sl">Rhetorical resonance — what lands with her</div>
-        <div class="card">
-          <div class="btest-rows">
-            <div class="btest-row">
-              <div class="btest-q">"The hardest part of AI in enterprise isn't the model — it's meeting customers where they are in their workflow."</div>
-              <div class="btest-look">→ Names her problem directly. She owns the education-to-workflow gap every day.</div>
-            </div>
-            <div class="btest-row">
-              <div class="btest-q">"I think about AI in financial services as a guided trail system, not autopilot. The customer should always know where they are and how to get back."</div>
-              <div class="btest-look">→ Differentiates from engineers who hand customers a black box. Directly addresses the trust problem in private markets.</div>
-            </div>
-            <div class="btest-row">
-              <div class="btest-q">"The question I always ask before building is: does this reduce cognitive load or just move it somewhere else?"</div>
-              <div class="btest-look">→ Customer Education framing. She measures value by friction removed, not features shipped.</div>
-            </div>
-            <div class="btest-row">
-              <div class="btest-q">ARCS NOTOMATION angle: "AI should scaffold and sequence cognition — never compress or overrule the user's own process."</div>
-              <div class="btest-look">→ Use this if she asks how you think about AI + trust. It's the exact posture a high-stakes customer base requires.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="nail-block">
-          <div class="nail-label">One thing to nail</div>
-          <div class="nail-text">Kelly's filter: <em>will this person earn trust with my customers before they build anything?</em><br><br>
-          The narrative through-line — <strong>Grayscale → WTA → ARCS</strong> — is all the same thread: <strong>build tools that help high-stakes operators see more clearly.</strong> Say it in those terms. Not "I'm good at AI." Not "I've shipped products." The specific claim: you build for people who can't afford to be wrong.<br><br>
-          Lead with instinct as a builder who listens. Let the technical firepower come out second.</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- QUESTIONS -->
-    <div id="tab-questions" class="tab-pane">
-
-      <div>
-        <div class="sl">Questions to ask Kelly</div>
-        <div class="card">
-          <div class="q-rows">
-            <div class="q-row">
-              <div class="q-n" style="color:var(--cyan)">1</div>
-              <div class="q-text">What does a successful forward-deployed AI engagement look like for you — 90 days in, what's different for the customer?
-                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">→ Gets her to name the outcome she's actually optimizing for. Listen for: NPS, support deflection, usage depth, GP satisfaction.</div>
-              </div>
-            </div>
-            <div class="q-row">
-              <div class="q-n" style="color:var(--gold)">2</div>
-              <div class="q-text">Where are customers getting stuck today that you think AI has a real shot at solving — and where have you seen it backfire?
-                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">→ This is the most useful intel in the call. The backfire part is where trust actually lives. Don't skip it.</div>
-              </div>
-            </div>
-            <div class="q-row">
-              <div class="q-n" style="color:var(--green)">3</div>
-              <div class="q-text">How does this role interface with your team? Do you see customer education and forward deployment converging or staying separate?
-                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">→ Maps the org structure you'd actually work inside. Also signals whether she sees FDE as a complement or a threat to her team's mandate.</div>
-              </div>
-            </div>
-            <div class="q-row">
-              <div class="q-n" style="color:var(--muted)">4</div>
-              <div class="q-text">What's the trust bar customers have to clear before they let you change something in their workflow?
-                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:5px;letter-spacing:0.02em;">→ The real question beneath every FDE role in a regulated environment. Shows you understand the customer's exposure, not just the product's capability.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="sl">Post-call tracking</div>
-        <div class="card">
-          <div class="conf-rows">
-            <div class="conf-row">
-              <div class="conf-key">Her take on AI</div>
-              <div class="conf-val" style="color:var(--dimmed)">—</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Backfire story</div>
-              <div class="conf-val" style="color:var(--dimmed)">—</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Org structure</div>
-              <div class="conf-val" style="color:var(--dimmed)">—</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Next step</div>
-              <div class="conf-val" style="color:var(--dimmed)">—</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Energy read</div>
-              <div class="conf-val" style="color:var(--dimmed)">—</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
+  <!-- ONE THING -->
+  <div class="nail-block">
+    <div class="nail-label">One thing to nail</div>
+    <div class="nail-text">She made the same career bet you're making — she crossed from domain expertise into applied AI and is four months in. Don't pitch her on AI. <strong>Talk to her like a peer who's figuring out the same problem from a different angle.</strong> Your thread — Grayscale, WTA, ARCS — is all the same claim: you build for people who can't afford to be wrong. Say that once, clearly, and let it land.</div>
   </div>
 
 </div>
-
-<script>
-function switchTab(id) {
-  document.querySelectorAll('.tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
-  document.querySelectorAll('.tab-pane').forEach(function(pane) { pane.classList.remove('active'); });
-  event.currentTarget.classList.add('active');
-  document.getElementById('tab-' + id).classList.add('active');
-}
-</script>
 </body>
 </html>
