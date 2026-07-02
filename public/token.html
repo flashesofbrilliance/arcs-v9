@@ -152,11 +152,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   </div>
 
   <!-- DEPTH TOGGLE -->
-  <div style="display:flex;gap:6px;align-items:center;">
-    <span style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;margin-right:4px;">View</span>
-    <button id="d-simple" onclick="setDepth('simple')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--cyan);background:rgba(0,240,255,0.12);color:var(--cyan);cursor:pointer;">ULTRACONDENSED</button>
-    <button id="d-rich" onclick="setDepth('rich')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">CONDENSED</button>
-    <button id="d-deep" onclick="setDepth('deep')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;padding:6px 13px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;">EXPANDED</button>
+  <div style="display:flex;gap:0;border-bottom:1px solid var(--border);">
+    <button id="d-simple" onclick="setDepth('simple')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:9px 16px 8px;border:none;border-bottom:2px solid var(--cyan);background:none;cursor:pointer;text-align:left;margin-bottom:-1px;">
+      <div class="d-label" style="color:var(--cyan);">SIMPLE</div>
+      <div class="d-sub" style="font-size:8px;font-weight:500;color:var(--dimmed);letter-spacing:0.06em;margin-top:2px;opacity:1;">Exec</div>
+    </button>
+    <button id="d-rich" onclick="setDepth('rich')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:9px 16px 8px;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;text-align:left;margin-bottom:-1px;">
+      <div class="d-label" style="color:var(--dimmed);">RICH</div>
+      <div class="d-sub" style="font-size:8px;font-weight:500;color:var(--dimmed);letter-spacing:0.06em;margin-top:2px;opacity:0.35;">Strategic</div>
+    </button>
+    <button id="d-deep" onclick="setDepth('deep')" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:9px 16px 8px;border:none;border-bottom:2px solid transparent;background:none;cursor:pointer;text-align:left;margin-bottom:-1px;">
+      <div class="d-label" style="color:var(--dimmed);">DEEP</div>
+      <div class="d-sub" style="font-size:8px;font-weight:500;color:var(--dimmed);letter-spacing:0.06em;margin-top:2px;opacity:0.35;">Operational</div>
+    </button>
   </div>
 
   <div class="rule-glow"></div>
@@ -752,14 +760,16 @@ function setDepth(d) {
   // d-rich = show in rich + deep; d-deep (without d-rich) = deep only
   document.querySelectorAll('.d-rich').forEach(el => el.style.display = (d === 'rich' || d === 'deep') ? 'block' : 'none');
   document.querySelectorAll('.d-deep:not(.d-rich)').forEach(el => el.style.display = d === 'deep' ? 'block' : 'none');
-  // update button styles
+  // update underline-tab styles
   ['simple','rich','deep'].forEach(function(name) {
     const btn = document.getElementById('d-' + name);
     if (!btn) return;
     const active = name === d;
-    btn.style.background = active ? 'rgba(0,240,255,0.12)' : 'transparent';
-    btn.style.borderColor = active ? '#00F0FF' : '#1e293b';
-    btn.style.color = active ? '#00F0FF' : '#475569';
+    btn.style.borderBottom = active ? '2px solid #00F0FF' : '2px solid transparent';
+    const label = btn.querySelector('.d-label');
+    if (label) label.style.color = active ? '#00F0FF' : '#475569';
+    const sub = btn.querySelector('.d-sub');
+    if (sub) sub.style.opacity = active ? '1' : '0.35';
   });
 }
 </script>
