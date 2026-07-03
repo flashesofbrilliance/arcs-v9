@@ -469,7 +469,7 @@ const ROLES = [
     ] },
   { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
     dates:'2016–2018', role:'Product & Partnerships Lead',
-    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue from first social distribution partnerships.',
+    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue. The live commerce drop model is structurally the same problem — same high-stakes window, same intent capture, same personalized delivery.',
     metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
     compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously — what does the pre/post-event capture loop look like?',
     bullets:[
@@ -874,9 +874,9 @@ function DeepScan() {
       <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
-          { id:'ci1', glyph:'⊗', label:'WTA Real-Time Intelligence (2016) × Live Commerce (2026)',
-            meta:'Sports fan monetization — 10-year isomorphism',
-            summary:'WTA live-event fan scoring at <120ms and modern live commerce drops are the same architecture: user in a high-stakes, time-compressed moment; personalized signal needs to land before the window closes.',
+          { id:'ci1', glyph:'⊗', label:'Sports fan monetization × live commerce drops — same architecture',
+            meta:'WTA <120ms fan scoring · live drops · 10-year gap',
+            summary:'WTA live-event fan scoring at <120ms and live commerce drops are the same architecture: user in a high-stakes, time-compressed purchase window; personalized signal needs to land before the window closes. Built the first version in 2016.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
                 At WTA (2016–2018): fan at a live event → behavioral signal → personalized offer under 120ms. The system had to read intent and deliver without friction because a delayed offer during a match moment was worthless. Built the real-time architecture, the behavioral taxonomy, and the commercial partnership layer ($850K+ year-one from Twitter and Facebook).
@@ -1101,7 +1101,13 @@ function Resume() {
       {/* Footer */}
       <div style={{ marginTop:20, display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:`1px solid ${T.border}` }}>
         <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em' }}>Zach Harris · resume.arcs.care</span>
-        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>2026</span>
+        <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+          <a href="https://fanatics.arcs.care/" target="_blank" rel="noopener"
+            style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em', textDecoration:'none', opacity:0.65 }}>
+            ← Fanatics brief
+          </a>
+          <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>2026</span>
+        </div>
       </div>
 
     </div>
