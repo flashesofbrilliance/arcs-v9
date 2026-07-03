@@ -35,6 +35,7 @@
       a { text-decoration: none !important; }
     }
   </style>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div id="root"></div>
@@ -1115,6 +1116,16 @@ function Resume() {
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(<Resume />);
+</script>
+<script>
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'resume' } });
+});
+document.addEventListener('click', function(e) {
+  const a = e.target.closest('a');
+  if (!a || !window.va) return;
+  if (a.href.includes('fanatics.arcs.care')) va('event', { name: 'brief_link_click', data: { dest: 'fanatics', brief: 'resume' } });
+});
 </script>
 </body>
 </html>

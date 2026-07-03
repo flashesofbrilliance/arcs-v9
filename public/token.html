@@ -91,6 +91,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .s-btn { padding: 10px 14px; font-size: 10px; }
 }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -628,7 +629,21 @@ function setDepth(d) {
     const sub = btn.querySelector('.d-sub');
     if (sub) sub.style.opacity = active ? '1' : '0.35';
   });
+  if (window.va) va('event', { name: 'depth_change', data: { depth: d, brief: 'token' } });
 }
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'token' } });
+});
+document.querySelectorAll('a[href*="calendar"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'book_call_click', data: { brief: 'token' } });
+  });
+});
+document.querySelectorAll('a[href*="chase-intro"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'brief_link_click', data: { dest: 'chase-intro', brief: 'token' } });
+  });
+});
 </script>
 </body>
 </html>
