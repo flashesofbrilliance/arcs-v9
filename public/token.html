@@ -99,6 +99,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   <div>
     <div class="eyebrow">Not for distribution · Engagement model · Fanatics Collectibles</div>
     <div class="headline"><span style="font-size:0.7em;opacity:0.65;font-weight:400;letter-spacing:0em;">!newHire</span><br><em>new_Deployment</em><span style="font-size:0.55em;opacity:0.7;font-weight:500;letter-spacing:0em;"> {Tenant:POC}</span></div>
+    <div style="font-size:15px;color:var(--text);line-height:1.5;margin-bottom:8px;font-weight:500;letter-spacing:-0.01em;">An intelligence operator embedded at Instant Rips, compounding across five BUs.</div>
     <div class="sub">The traditional seat model locks intelligence inside one BU. This deploys an operator as a <strong>system-level service layer</strong> — Instant Rips first, then xBiz as the signal compounds.</div>
   </div>
 
@@ -149,11 +150,11 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;">
       <div style="display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;" id="lens-tabs">
         <button onclick="setLens('president')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--cyan);cursor:pointer;white-space:nowrap;border-bottom:2px solid var(--cyan);flex-shrink:0;">PRESIDENT</button>
+        <button onclick="setLens('gm')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">GM · RIPS</button>
+        <button onclick="setLens('talent')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">TALENT</button>
         <button onclick="setLens('cto')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CTO</button>
         <button onclick="setLens('cmo')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CMO</button>
         <button onclick="setLens('cro')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">CRO</button>
-        <button onclick="setLens('talent')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">TALENT</button>
-        <button onclick="setLens('gm')" class="lens-btn" style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;padding:11px 14px;border:none;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;flex-shrink:0;">GM · RIPS</button>
       </div>
       <div id="lens-content" style="padding:18px 20px;">
 
@@ -287,6 +288,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
+  <!-- SIMPLE: arc preview + depth hint -->
+  <div id="depth-preview" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+    <span style="font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.08em;padding:4px 10px;border-radius:99px;border:1px solid rgba(0,240,255,0.25);color:var(--cyan);background:rgba(0,240,255,0.06);">Instant Rips POC</span>
+    <span style="color:var(--dimmed);font-size:11px;">→</span>
+    <span style="font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.08em;padding:4px 10px;border-radius:99px;border:1px solid rgba(0,255,157,0.2);color:var(--green);background:rgba(0,255,157,0.04);">5 BU nodes</span>
+    <span style="color:var(--dimmed);font-size:11px;">→</span>
+    <span style="font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:0.08em;padding:4px 10px;border-radius:99px;border:1px solid rgba(255,215,0,0.2);color:var(--gold);background:rgba(255,215,0,0.04);">Holding Co platform</span>
+  </div>
+  <div id="depth-hint" style="font-family:var(--mono);font-size:8.5px;color:var(--dimmed);letter-spacing:0.07em;line-height:1.6;">
+    RICH → deployment chain + economic case &nbsp;·&nbsp; DEEP → full operational playbook
+  </div>
+
   <!-- S3: DEPLOYMENT CHAIN — rich + deep -->
   <div class="d-rich d-deep">
     <div class="sl-row"><span class="sl">Deployment chain</span><span class="rt">Rips → xBiz → Holding Co</span></div>
@@ -360,8 +373,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div style="margin-top:10px;padding:11px 14px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:8px;font-size:12px;color:var(--gold);">In all three scenarios, Fanatics learns something it doesn't currently know. The floor is net positive.</div>
   </div>
 
-  <!-- S5: THE ARC — rich + deep -->
-  <div class="d-rich d-deep">
+  <!-- S5: THE ARC — deep only -->
+  <div class="d-deep">
     <div class="sl-row"><span class="sl">The engagement arc</span><span class="rt">7 beats, first signal to TEI</span></div>
     <div style="display:flex;flex-direction:column;gap:0;">
 
@@ -556,8 +569,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
-  <!-- S8: ECONOMICS — deep only -->
-  <div class="d-deep">
+  <!-- S8: ECONOMICS — rich + deep -->
+  <div class="d-rich d-deep">
     <div class="sl-row"><span class="sl">The economic case</span><span class="rt">~1 min</span></div>
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;">
       <div class="econ-row">
@@ -579,7 +592,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
-  <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
+  <div style="text-align:center;padding:24px 0 12px;">
+    <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener" style="display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:13px 32px;background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.3);border-radius:8px;color:var(--cyan);text-decoration:none;">BOOK 30 MIN →</a>
+  </div>
+  <div style="margin-top:4px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
     ZACH HARRIS · NOT FOR DISTRIBUTION
   </div>
 
@@ -597,6 +613,8 @@ function setLens(id) {
   document.getElementById('lens-' + id).style.display = 'block';
   const btn = [...document.querySelectorAll('.lens-btn')].find(b => b.getAttribute('onclick') === "setLens('" + id + "')");
   if (btn) { btn.style.color = LENS_COLORS[id]; btn.style.borderBottom = '2px solid ' + LENS_COLORS[id]; }
+  const autoDepth = {president:'rich', cto:'rich', cmo:'rich', cro:'rich', talent:'deep', gm:'deep'};
+  if (autoDepth[id]) setDepth(autoDepth[id]);
 }
 
 function setDepth(d) {
@@ -614,6 +632,10 @@ function setDepth(d) {
     const sub = btn.querySelector('.d-sub');
     if (sub) sub.style.opacity = active ? '1' : '0.35';
   });
+  const preview = document.getElementById('depth-preview');
+  const hint = document.getElementById('depth-hint');
+  if (preview) preview.style.display = d === 'simple' ? 'flex' : 'none';
+  if (hint) hint.style.display = d === 'simple' ? 'block' : 'none';
 }
 </script>
 </body>
