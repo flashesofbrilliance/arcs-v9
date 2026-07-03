@@ -91,6 +91,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .s-btn { padding: 10px 14px; font-size: 10px; }
 }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -101,6 +102,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div class="headline"><span style="font-size:0.7em;opacity:0.65;font-weight:400;letter-spacing:0em;">!newHire</span><br><em>new_Deployment</em><span style="font-size:0.55em;opacity:0.7;font-weight:500;letter-spacing:0em;"> {Tenant:POC}</span></div>
     <div class="sub">The traditional seat model locks intelligence inside one BU. This deploys an operator as a <strong>system-level service layer</strong> — Instant Rips first, then xBiz as the signal compounds.</div>
   </div>
+
+  <!-- ORIENTATION -->
+  <div style="font-size:12.5px;color:var(--muted);line-height:1.6;padding:4px 0 16px;">This is the strategic architecture behind the Rips engagement. Read at the depth that matches your conversation.</div>
 
   <!-- DEPTH TOGGLE -->
   <div style="display:flex;gap:0;border-bottom:1px solid var(--border);">
@@ -159,7 +163,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
         <div id="lens-president" class="lens-pane">
           <div style="font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;">Chris Lamontagne · President, Strategy & Growth</div>
-          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"I'm not backing a candidate. I'm seeding an architecture that compounds across BUs."</p>
+          <p style="font-size:13.5px;color:var(--text);line-height:1.65;margin-bottom:14px;font-weight:600;">"Not backing a candidate. Seeding an architecture that compounds N^xBUs."</p>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">You introduced this play. Rips POC puts measurable signal behind that bet — 90-day output you can put in front of Mahan with zero interpretation needed.</span></div>
             <div style="display:flex;gap:10px;"><span style="color:var(--cyan);flex-shrink:0;margin-top:3px;">◈</span><span style="font-size:12.5px;color:var(--muted);line-height:1.55;">The cross-BU signal report at T+90 is the artifact that pulls the other GMs in. You don't have to mandate adoption — the output sells it.</span></div>
@@ -579,6 +583,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     </div>
   </div>
 
+  <!-- CTA -->
+  <div style="margin-top:32px;padding:20px 22px;background:linear-gradient(155deg,rgba(0,240,255,0.06),rgba(0,240,255,0.02));border:1px solid rgba(0,240,255,0.2);border-radius:12px;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.5"></div>
+    <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">Next</div>
+    <div style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:16px;">30 minutes scopes everything. Chase brief is at <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" style="color:var(--cyan);text-decoration:none;">chase-intro.arcs.care</a> if you want it ahead of the call.</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:12px 18px;border-radius:8px;text-decoration:none;border:1px solid rgba(0,240,255,0.4);color:var(--cyan);background:rgba(0,240,255,0.07);">BOOK 30 MIN →</a>
+      <a href="https://chase-intro.arcs.care/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:12px 18px;border-radius:8px;text-decoration:none;border:1px solid rgba(0,255,157,0.3);color:var(--green);background:rgba(0,255,157,0.05);">CHASE BRIEF →</a>
+    </div>
+  </div>
+
   <div style="margin-top:8px;font-family:var(--mono);font-size:9px;color:var(--dimmed);text-align:center;letter-spacing:0.08em;">
     ZACH HARRIS · NOT FOR DISTRIBUTION
   </div>
@@ -614,7 +629,21 @@ function setDepth(d) {
     const sub = btn.querySelector('.d-sub');
     if (sub) sub.style.opacity = active ? '1' : '0.35';
   });
+  if (window.va) va('event', { name: 'depth_change', data: { depth: d, brief: 'token' } });
 }
+window.addEventListener('load', function() {
+  if (window.va) va('event', { name: 'brief_open', data: { brief: 'token' } });
+});
+document.querySelectorAll('a[href*="calendar"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'book_call_click', data: { brief: 'token' } });
+  });
+});
+document.querySelectorAll('a[href*="chase-intro"]').forEach(function(a) {
+  a.addEventListener('click', function() {
+    if (window.va) va('event', { name: 'brief_link_click', data: { dest: 'chase-intro', brief: 'token' } });
+  });
+});
 </script>
 </body>
 </html>
