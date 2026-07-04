@@ -52,6 +52,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   animation: wire-breathe 4s ease-in-out infinite;
 }
 @keyframes wire-breathe { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
+@keyframes led-pulse { 0%,100% { box-shadow: 0 0 0 0 var(--nc, var(--border)); opacity: 0.9; } 50% { box-shadow: 0 0 7px 3px var(--nc, var(--border)); opacity: 1; } }
 
 /* BEAT */
 .beat { position: relative; margin-bottom: 6px; }
@@ -65,13 +66,25 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 }
 .beat.fired:not(.pending) .beat-node { opacity: 1; }
 
+/* LED dot — top-left of card, pulses on fired beats */
+.beat-led {
+  position: absolute; top: 14px; left: 14px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--nc, var(--border));
+  opacity: 0.25; z-index: 1; pointer-events: none;
+}
+.beat:not(.pending) .beat-led {
+  opacity: 1;
+  animation: led-pulse 2s ease-in-out infinite;
+}
+
 /* BEAT-05 TARGET — red LED flash + card breathe glow */
 @keyframes target-breathe { 0%,100% { box-shadow:none; border-color:rgba(255,77,109,0.18); } 50% { box-shadow:0 0 28px -6px rgba(255,77,109,0.28), inset 0 0 40px -28px rgba(255,77,109,0.1); border-color:rgba(255,77,109,0.45); } }
 #beat-05.fired .beat-node { background: var(--red) !important; }
 #beat-05.fired .beat-card { animation: target-breathe 2.2s ease-in-out infinite; border-color:rgba(255,77,109,0.22); }
 #beat-05 .beat-card { opacity:1 !important; }
 
-.beat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.4s ease; }
+.beat-card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.4s ease; }
 .beat.fired:not(.pending) .beat-card { border-color: color-mix(in srgb, var(--nc, var(--border)) 25%, var(--border)); }
 .beat.pending .beat-card { opacity: 0.5; }
 
@@ -202,6 +215,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .p-muted:hover { border-color: var(--border); }
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
+  <script src="/_vercel/toolbar/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -348,7 +362,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
     <div class="beat" id="beat-05" style="--nc: var(--red)">
       <div class="beat-node" style="border-color:rgba(255,77,109,0.5)"></div>
-      <div class="beat-card">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">05</span>
           <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
@@ -373,7 +387,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- BEAT 04: THE CALL -->
     <div class="beat" id="beat-04" style="--nc: var(--cyan)">
       <div class="beat-node"></div>
-      <div class="beat-card">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">04</span>
           <span class="beat-name">THE CALL</span>
@@ -464,7 +478,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- BEAT 03: THE VOLLEY -->
     <div class="beat" id="beat-03" style="--nc: var(--cyan)">
       <div class="beat-node"></div>
-      <div class="beat-card">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">03</span>
           <span class="beat-name">THE VOLLEY</span>
@@ -517,7 +531,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- BEAT 02: THE STUNT -->
     <div class="beat" id="beat-02" style="--nc: var(--gold)">
       <div class="beat-node"></div>
-      <div class="beat-card">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">02</span>
           <span class="beat-name">THE STUNT</span>
@@ -567,7 +581,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- BEAT 01: THE WORM -->
     <div class="beat" id="beat-01" style="--nc: var(--green)">
       <div class="beat-node"></div>
-      <div class="beat-card">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">01</span>
           <span class="beat-name">THE WORM</span>
@@ -603,7 +617,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- BEAT 06: THE CLOSE — HORIZON -->
     <div class="beat pending" id="beat-06" style="--nc: var(--dimmed)">
       <div class="beat-node" style="border-color:var(--border)"></div>
-      <div class="beat-card">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">06</span>
           <span class="beat-name" style="color:var(--dimmed)">THE CLOSE</span>
