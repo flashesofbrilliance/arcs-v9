@@ -51,6 +51,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // julia.arcs.care → public/julia.html
         { source: "/:path*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        // julia-ext.arcs.care → public/julia-ext.html (sanitized external version for Johnny)
+        { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },

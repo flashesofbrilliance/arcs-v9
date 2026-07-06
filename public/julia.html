@@ -306,6 +306,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
       <button class="tab-btn active" onclick="switchTab('pre-call', this)">Pre-Call</button>
       <button class="tab-btn" onclick="switchTab('recoil', this)">Recoil</button>
       <button class="tab-btn" onclick="switchTab('on-call', this)">On-Call</button>
+      <button class="tab-btn" onclick="switchTab('beats', this)">Beats</button>
       <button class="tab-btn" onclick="switchTab('agenda', this)">Jul 7</button>
     </div>
 
@@ -812,7 +813,189 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 
     </div>
 
-    <!-- ═══════════════════════════ TAB 4: JUL 7 ═══════════════════════════ -->
+    <!-- ═══════════════════════════ TAB 4: BEATS ═══════════════════════════ -->
+    <div id="tab-beats" class="tab-pane" style="padding: 20px; gap: 16px;">
+
+      <!-- Hard guardrails — always visible first -->
+      <div style="background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.35);border-radius:var(--r-lg);padding:16px 20px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">Hard Guardrails — Active Throughout</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">①</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Altitude check before every sentence.</strong> Could a Prudential exec follow this? If not, cut it. No ARCS jargon, no multi-syllable abstractions.</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">②</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>3-minute hard cap on every story.</strong> Stop when the answer is complete. She is evaluating communication precision, not volume.</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">③</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Never say "Prudential" or any client-specific detail from the briefing.</strong> Safe: "Fortune 100 regulated-industry clients."</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">④</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Ask the close question no matter what.</strong> Last 5 minutes. If she wraps early, ask it anyway before you say goodbye.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat sequence -->
+      <div>
+        <div class="sl">Call Flow — 45 Minutes</div>
+        <div class="card">
+          <div style="display:flex;flex-direction:column;">
+
+            <!-- Beat 1 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">1</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">0:00</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">60s</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">OPENING</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">Grayscale → regulated product delivery → AI tooling gap → deployment failure isn't technical → Tribe is the right context.</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">No warm-up lap. Energy from word one. Plain language. 60 seconds max.</div>
+              </div>
+            </div>
+
+            <!-- Beat 2 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">2</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">1:00</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~10 min</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">HER QUESTIONS — LISTEN AND CALIBRATE</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">She asks about background, AI experience, or the role. <strong>Read her opening register here</strong> — is she opening on delivery/process (→ Hot Take B) or market/positioning (→ Hot Take A)?</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">If she asks about AI products you've built → Story B (ARCS). Keep answers to 3 min.</div>
+              </div>
+            </div>
+
+            <!-- Beat 3 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">3</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~10 min</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">if pulled</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">ARCS — IF SHE ASKS</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">"A prep framework for high-stakes calls — pre-mortems, stakeholder logic, confidence check. Built to stop leaving calls realizing I'd answered the wrong question."</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--gold);line-height:1.5;">⚠ Hard cap: 90 seconds. Stop. If she pulls for more, give more. Don't volunteer the full system.</div>
+              </div>
+            </div>
+
+            <!-- Beat 4 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">4</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~10–20</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">min</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">STORY ZONE — A, B, OR C AS PROMPTED</div>
+                <div style="font-size:13px;line-height:1.55;margin-bottom:6px;">
+                  <span style="color:var(--cyan);font-weight:600;">A — Grayscale:</span> <span style="color:var(--muted);">Product under constraint. SEC disclosure changed mid-launch. Rebuilt in 72h. $7B.</span>
+                </div>
+                <div style="font-size:13px;line-height:1.55;margin-bottom:6px;">
+                  <span style="color:var(--green);font-weight:600;">B — ARCS:</span> <span style="color:var(--muted);">AI product built from scratch. Real stack. Real results. "I'm the primary user and the primary proof point."</span>
+                </div>
+                <div style="font-size:13px;line-height:1.55;margin-bottom:8px;">
+                  <span style="color:var(--gold);font-weight:600;">C — Ideal Protein:</span> <span style="color:var(--muted);">PE-acquired chaos. 10-person stakeholder matrix. Ran discovery before solution. +40% PQL, +63% booking rate.</span>
+                </div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">If she asks "walk me through an embedded engagement" → Story C. If she asks "what makes you different" → answer with a story, not a bullet.</div>
+              </div>
+            </div>
+
+            <!-- Beat 5 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--gold);line-height:1;">5</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">by min</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">30</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px;">HOT TAKE — DEPLOY BEFORE MIN 30</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;"><strong>B (recommended):</strong> "The biggest failure mode in enterprise AI deployments isn't the model — it's the success metric. Teams ship exactly what they specified, then discover the spec was wrong. The pre-deployment diagnostic is dramatically undervalued."</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--gold);line-height:1.5;">⚠ 30 seconds. Pause after. If she gives a polite "interesting" — land it and move. Do not double down.</div>
+              </div>
+            </div>
+
+            <!-- Beat 6 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">6</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~30–38</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">min</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">TAKE-HOME SIGNAL + TIMELINE</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">Drop that you're aware there's a take-home component and you're already thinking about how your stack maps to it. <em>Insider knowledge signal.</em></div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">If timeline comes up: <strong>"I'm in later stages with Kinexys/JPM and Deloitte — if there's strong mutual fit here I'd love to move as quickly as makes sense for Tribe."</strong></div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">Speed-run lever. Already on record from Mariana. Reference it cleanly.</div>
+              </div>
+            </div>
+
+            <!-- Beat 7 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green);line-height:1;">7</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">min 40</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">non-neg</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);letter-spacing:0.1em;margin-bottom:6px;">CLOSE QUESTION — NON-NEGOTIABLE</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:8px;font-style:italic;">"What does the first 30 days of a successful FDE engagement look like for Tribe — not from a deliverables standpoint, but from a trust-building standpoint with the client? How do your best practitioners earn the right to shape the problem before they start solving it?"</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--green);line-height:1.5;">Ask this even if she's wrapping up. It's the signal that separates practitioners from candidates.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- If/Then quick ref -->
+      <div>
+        <div class="sl">If She Says → You Say</div>
+        <div class="card">
+          <div style="display:flex;flex-direction:column;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid var(--border);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dimmed);letter-spacing:0.06em;">IF SHE ASKS…</div>
+              <div style="padding:12px 20px 12px 16px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dimmed);letter-spacing:0.06em;">YOU SAY…</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"Walk me through an embedded engagement"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Story C — Ideal Protein. PE acquisition chaos. Discovery before solution.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What AI products have you built?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Story B — ARCS. Plain problem → concrete product → real stack. Under 3 min.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What makes you different?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"I've been running a version of this deployment cycle for 18 months. Here's one example." → pick the most relevant story.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"You don't have Fortune 100 embedded experience"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"No org chart authority, hostile clock, had to ship anyway — Maana, Axon, GoPro. Same constraint structure." Never say consulting.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"How technical are you?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"I'm not the ML engineer — I'm the person who makes sure the ML engineer is solving the right problem." Own it, don't hedge.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What's your hot take on AI?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Hot Take B. 30 seconds. Pause. Don't over-explain if she doesn't engage.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════ TAB 5: JUL 7 ═══════════════════════════ -->
     <div id="tab-agenda" class="tab-pane" style="padding: 20px; gap: 20px;">
 
       <!-- Decision Receipt -->
