@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Steve LaBella / Tallin — ARCS Brief</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* MASTHEAD */
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
+/* SHARED ROW PATTERNS */
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+
+.scenario-rows { display: flex; flex-direction: column; }
+.scenario-row { padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.scenario-row:last-child { border-bottom: none; }
+.scenario-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.scenario-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.scenario-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.scenario-body { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+.q-rows { display: flex; flex-direction: column; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+
+.guard-rows { display: flex; flex-direction: column; }
+.guard-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.guard-row:last-child { border-bottom: none; }
+.guard-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 1px; }
+.guard-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.guard-text strong { color: var(--text); font-weight: 600; }
+
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+.sig-rows { display: flex; flex-direction: column; }
+.sig-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.sig-row:last-child { border-bottom: none; }
+.sig-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.sig-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.sig-text strong { color: var(--text); font-weight: 600; }
+
+.verdict-rows { display: flex; flex-direction: column; }
+.verdict-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.verdict-row:last-child { border-bottom: none; }
+.verdict-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+.verdict-body { flex: 1; }
+.verdict-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.verdict-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.verdict-text strong { color: var(--text); font-weight: 600; }
+
+/* RECOIL-SPECIFIC STYLES */
+.recoil-header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.recoil-header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--cyan); }
+.recoil-header-inner { padding: 20px 24px 20px 28px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.recoil-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-bottom: 6px; }
+.recoil-name { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.recoil-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.recoil-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.receipt-id { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(0,240,255,0.35); background: rgba(0,240,255,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+.nci-val { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; text-align: right; }
+.nci-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; text-align: right; }
+
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
+.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.lbq-text { font-family: var(--sans); font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.55; letter-spacing: -0.01em; font-style: italic; margin-bottom: 16px; }
+.lbq-text::before { content: '\201C'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+.lbq-text::after { content: '\201D'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-left: 4px; }
+.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+.lbq-sig { font-family: var(--sans); font-size: 12px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 12px; }
+
+.segments { display: flex; flex-direction: column; gap: 0; }
+.seg { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.seg:last-child { border-bottom: none; }
+.seg-time { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--border); }
+.seg-num { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--dimmed); line-height: 1; }
+.seg-ts { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.seg-body { padding: 16px 14px; border-right: 1px solid var(--border); }
+.seg-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+.seg-summary { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
+.seg-flag { padding: 16px 14px; }
+.seg-flag-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 6px; }
+.seg-flag-text { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.55; }
+
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sig-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; position: relative; overflow: hidden; }
+.sig-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; }
+.sig-card-green::before { background: var(--green); }
+.sig-card-cyan::before { background: var(--cyan); }
+.sig-card-gold::before { background: var(--gold); }
+.sig-card-red::before { background: var(--red); }
+.sig-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-left: 8px; }
+.sig-card-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.sig-card-green .sig-card-name { color: var(--green); }
+.sig-card-cyan .sig-card-name { color: var(--cyan); }
+.sig-card-gold .sig-card-name { color: var(--gold); }
+.sig-card-red .sig-card-name { color: var(--red); }
+.sig-strength { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; }
+.strength-hard { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+.strength-dir { background: rgba(0,240,255,0.08); color: var(--cyan); border: 1px solid rgba(0,240,255,0.2); }
+.strength-watch { background: rgba(255,77,109,0.08); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.sig-card-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 8px; }
+
+.prob-rows { display: flex; flex-direction: column; gap: 0; }
+.prob-row { display: grid; grid-template-columns: 56px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.prob-row:last-child { border-bottom: none; }
+.prob-num { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 4px; }
+.prob-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; }
+.prob-pct { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.prob-body { padding: 16px 18px; }
+.prob-id { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 4px; }
+.prob-label { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.04em; }
+.prob-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.prob-watch { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.prob-watch::before { content: 'WATCH → '; color: var(--gold); }
+
+.risk-rows { display: flex; flex-direction: column; gap: 0; }
+.risk-row { display: grid; grid-template-columns: 80px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.risk-row:last-child { border-bottom: none; }
+.risk-sev { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 6px; }
+.sev-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; text-align: center; }
+.sev-high { background: rgba(255,77,109,0.1); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+.sev-med { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+.sev-low { background: rgba(30,41,59,0.5); color: var(--muted); border: 1px solid var(--border); }
+.risk-body { padding: 16px 18px; }
+.risk-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.risk-action { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+.risk-action::before { content: 'ACTION → '; }
+
+.protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pass-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }
+.pass-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.pass-dir { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-bottom: 12px; }
+.pass-body { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+.action-rows { display: flex; flex-direction: column; gap: 0; }
+.action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.action-row:last-child { border-bottom: none; }
+.action-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; }
+.action-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
+
+.stop-loss { background: rgba(255,77,109,0.06); border: 1px solid rgba(255,77,109,0.25); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+.sl-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); flex-shrink: 0; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: var(--red); line-height: 1.5; }
+
+@media (max-width: 640px) {
+  body { padding: 28px 16px 60px; }
+  .conf-key { width: 70px; }
+  .next-owner { width: 44px; }
+  .seg { grid-template-columns: 60px 1fr; }
+  .seg-flag { display: none; }
+  .signal-grid { grid-template-columns: 1fr; }
+  .protocol-grid { grid-template-columns: 1fr; }
+  .recoil-header-inner { grid-template-columns: 1fr; }
+  .recoil-meta { align-items: flex-start; margin-top: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">Boardy Intro · Tallin</div>
+    <div class="masthead-name">Steve LaBella</div>
+    <div class="masthead-sub">Founder, Tallin · gettallin.com</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <div id="tab-datestamp" style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 6, 2026 · POST-CALL</div>
+
+  <div class="card" style="overflow:visible;background:none;border:none;">
+    <div class="tabs">
+      <button class="tab-btn" onclick="switchTab('pre')">Pre-Call</button>
+      <button class="tab-btn" onclick="switchTab('recoil')">Recoil</button>
+      <button class="tab-btn active" onclick="switchTab('post')">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('agenda')">Jul 9 Agenda</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ PRE-CALL -->
+    <div id="tab-pre" class="tab-pane">
+
+      <div>
+        <div class="sl">Who he is — going in</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Background</div>
+              <div class="conf-val"><strong>Serial fintech founder.</strong> 3 exits including iSend → Ding (international mobile top-ups, 8-figure exit).</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Building</div>
+              <div class="conf-val"><strong>Tallin</strong> — enterprise AI control plane. Shadow AI discovery, policy enforcement, spend control, board/auditor-ready reporting.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Traction</div>
+              <div class="conf-val">1 live VPC deployment ($1B fund design partner) + 2 more signed design partners going live. <span style="color:var(--dimmed)">No public revenue.</span></div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Intro via</div>
+              <div class="conf-val">Boardy · Jun 28 · Framing: Tallin compliance + ARCS decision receipts = stronger audit evidence for regulated buyers.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Also running</div>
+              <div class="conf-val" style="color:var(--dimmed)">Actively raising seed. Exploring FT CEO roles. Boardy flagged both — unprompted.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">What Boardy actually said — verbatim caveat</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>"Actively raising a seed round and exploring CEO roles, which may limit bandwidth for a new vendor pilot."</strong> Boardy flagged your concern before you had it.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--muted)"></div>
+              <div class="intel-text">Tallin's pricing "suggests he may be below your implied enterprise spend threshold, though he still holds corporate card authority." He's a peer in the same regulated-buyer space — not a buyer at ARCS scale.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Three scenarios — ranked by probability going in</div>
+        <div class="card">
+          <div class="scenario-rows">
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06)">Most likely</div>
+                <div class="scenario-label">Seed raise assist</div>
+              </div>
+              <div class="scenario-body">"Design partners going live" ≠ paying customers. He needs warm intros to regulated enterprise buyers or fund names. <strong style="color:var(--text);">The tell: pivots to "who do you know at [fund/bank/insurer]" before minute 10.</strong></div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Plausible</div>
+                <div class="scenario-label">CEO role shopping</div>
+              </div>
+              <div class="scenario-body">Running Tallin as proof-of-concept of exec credibility while evaluating FT roles. This call is a screen.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.04)">Real but gated</div>
+                <div class="scenario-label">Genuine ARCS partnership</div>
+              </div>
+              <div class="scenario-body">Boardy's framing is architecturally sound — only matters if Tallin has paying customers, not just design partners.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Three questions going in</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--cyan)">1</div>
+                <div class="q-text">"What does conversion from design partner to first paid contract look like for Tallin — what's the gate?"</div>
+              </div>
+              <div class="q-look">DESIGNED TO → reveal whether traction is real or vapor.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--gold)">2</div>
+                <div class="q-text">"What does the next 90 days look like for you personally?"</div>
+              </div>
+              <div class="q-look">DESIGNED TO → split the three scenarios by what he leads with.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--green)">3</div>
+                <div class="q-text">"What were you hoping to get out of this conversation?"</div>
+              </div>
+              <div class="q-look">DESIGNED TO → direct ask on the real agenda if it hadn't surfaced by minute 15.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Guards going in</div>
+        <div class="card">
+          <div class="guard-rows">
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--red);border-color:rgba(255,77,109,0.3);background:rgba(255,77,109,0.05)">Avoid</div>
+              <div class="guard-text">Don't let him frame ARCS as <strong>a tool in Tallin's stack</strong>. If ARCS belongs here, it's as a parallel enterprise play for the same regulated buyer.</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Watch for</div>
+              <div class="guard-text">The network ask dressed as partnership. <strong>"We should stay in touch / build something together"</strong> without a specific mutual deliverable = cataloging you as a warm intro node.</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">Your line</div>
+              <div class="guard-text"><strong>"Decision receipts for high-stakes judgment calls — ex-ante audit trail that compliance teams actually want."</strong> Tallin-adjacent without handing him a pitch for his raise.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ RECOIL -->
+    <div id="tab-recoil" class="tab-pane">
+
+      <!-- RECOIL HEADER -->
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">RECOIL REPORT · BOARDY INTRO</div>
+            <div class="recoil-name">Steve LaBella</div>
+            <div class="recoil-sub">Founder, Tallin · ~30 Min · Jul 6, 2026 · 11:00 AM EDT</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="receipt-id">2026-07-06-labella</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>YELLOW / MEDIUM / REVISIT</div>
+            <div>
+              <div class="nci-val">72</div>
+              <div class="nci-label">NCI Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTICE -->
+      <div class="notice">
+        <div class="notice-icon">⚠</div>
+        <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Reverse Listening + Deep Recall · 5 segments · No PrepSession captured pre-call</div>
+      </div>
+
+      <!-- VERDICT -->
+      <div class="card">
+        <div style="padding: 22px 24px;">
+          <div class="label" style="margin-bottom: 10px;">Call verdict</div>
+          <div style="font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; letter-spacing: -0.01em;">Consulting fit confirmed as the real agenda. All three pre-call scenarios were wrong about the primary dynamic — the correct one wasn't on the list.</div>
+          <div style="font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6;">Three ventures, not one. Seed raise active but never made an ask. CEO shopping signal absent. He closed by explicitly requesting a follow-up on the consulting side — his ask, verbatim, unprompted. NCI at 72: direction clear, conviction medium until he's tried the product.</div>
+        </div>
+      </div>
+
+      <!-- LOAD-BEARING QUOTE -->
+      <div class="lbq">
+        <div class="lbq-text">I wanna dig into the consulting side of what you're doing and whether there could ever be a fit with some of the stuff I'm working on.</div>
+        <div class="lbq-attr">STEVE LABELLA · VERBATIM CLOSE · JUL 6, 2026</div>
+        <div class="lbq-sig">This came after Zach's full product walkthrough — Monte Carlo, Bayesian updating, team design, pre/post briefings, decision sprints. The demo created the ask. Steve is a 3-exit operator who knows what he needs; when he says "I wanna dig into the consulting side," he's already pattern-matched this to a real gap in his current operating environment. The follow-up call isn't a courtesy — it's a live evaluation.</div>
+      </div>
+
+      <!-- CALL WALK -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Call Walk — 5 Segments</div>
+          <div class="label">Reverse Listening + Deep Recall</div>
+        </div>
+        <div class="segments">
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">01</div>
+              <div class="seg-ts">0–5 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--muted);">Rapport + Boardy context</div>
+              <div class="seg-summary">Holiday weekend exchange (both CT — Old Saybrook / Fairfield). Kids, family, heat. Boardy's mechanics: Steve 2–3 weeks in, ~12 calls generated, tried it because a buddy got 3 investor calls immediately. Signal vs. noise framing from Zach: "stated preference vs. revealed preference" — Steve acknowledged it cleanly.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--muted);">Divergence · LOW</div>
+              <div class="seg-flag-text">Standard warm-up. No agenda signaling here. The fundraising difficulty comment from Zach ("challenging climate, pre-seed or seed") was a probe — Steve didn't flinch or pivot to a pitch, which is the first signal the seed-raise-assist scenario was overstated.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">02</div>
+              <div class="seg-ts">5–10 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--red);">Background reveal</div>
+              <div class="seg-summary">Serial fintech founder, 3 exits, mostly venture-backed. Hesitated to start again pre-AI: "zero to one is really hard… getting complex ideas communicated to a group of people is challenging." AI removed that friction — now he's built four complex products. Tallin is primary. Two others being handed to operators. FX platform CEO signing this week. Sponsor bank compliance platform is newer.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+              <div class="seg-flag-text">Pre-call expectation: 1 venture (Tallin) + seed raise. Actual: 3 parallel ventures at different stages. This is the biggest structural divergence of the call. The FX platform alone ("approaching acquirers") suggests Steve is operating at a pace and breadth that changes the consulting engagement surface significantly.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">03</div>
+              <div class="seg-ts">10–18 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--gold);">Venture detail exchange</div>
+              <div class="seg-summary">FX exposure platform: helps multinationals manage currency risk across 2–10 currencies; manual process even at multi-billion-dollar companies; CEO signing this week; already talking to potential acquirers. Sponsor bank compliance: bridges fintech/sponsor bank due diligence gap; replaces spreadsheet-based quarterly reviews with trackable, automated, human-approved workflows. Zach riffed on ADL exposure, margin color, change controls — demonstrated domain depth without overselling.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--gold);">Divergence · MED</div>
+              <div class="seg-flag-text">Sponsor bank compliance platform is the most ARCS-adjacent venture Steve has. "Change controls, release management, counterparty risk aligned on both issuer and originator" — Zach named the exact problem this platform solves, which visibly landed. This is the highest-probability consulting entry point.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">04</div>
+              <div class="seg-ts">18–25 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--cyan);">ARCS product demo</div>
+              <div class="seg-summary">Steve asked Zach to "walk me through an example" — genuine curiosity, not politeness. Zach delivered: ex-ante receipts, Monte Carlo simulation, Bayesian updating of priors, org/team design use case, productive discord vs. groupthink, decision sprints for the fractional advisory practice, constitutional guardrails for cross-functional teams. Steve's response: "That is wild. I love it." Wi-Fi interruption mid-demo; Steve re-engaged cleanly post-reconnect.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--muted);">Divergence · LOW</div>
+              <div class="seg-flag-text">Pre-call guard: don't let him frame ARCS as a Tallin stack component. This guard was never triggered — Steve didn't try to integrate ARCS into Tallin's pitch. He engaged with it as a product in its own right, which is correct. No defensive positioning required.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">05</div>
+              <div class="seg-ts">25–30 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--green);">Consulting fit close</div>
+              <div class="seg-summary">Steve: "I wanna dig into the consulting side of what you're doing and whether there could ever be a fit with some of the stuff I'm working on." Offered to try Question Compass and give feedback. Accepted offer to see a sample pre/post briefing + recoil report. Agreed to follow-up call later this week or next.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--green);">Signal · HIGH</div>
+              <div class="seg-flag-text">Call closed on his ask, not Zach's. The seed raise never surfaced as a request. The CEO shopping scenario had no signal whatsoever. What emerged: a 3-exit operator who has built things fast with AI and now wants to know if the decision tooling and sprint methodology can accelerate what he's doing with his ventures.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SIGNAL THREADS -->
+      <div>
+        <div class="label" style="margin-bottom: 12px;">Signal Threads</div>
+        <div class="signal-grid">
+
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header">
+              <div class="sig-card-name">3 Ventures = 3 Openings</div>
+              <div class="sig-strength strength-hard">HARD YES</div>
+            </div>
+            <div class="sig-card-desc">Steve isn't operating one venture — he's running three at different stages. Each has a GTM gap, a team-building moment, or a compliance/change-control surface that is a direct fit for a decision sprint. The sponsor bank platform is the highest-probability entry point; the FX platform is close behind given CEO onboarding in progress.</div>
+          </div>
+
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header">
+              <div class="sig-card-name">His Close Was Specific</div>
+              <div class="sig-strength strength-hard">HARD YES</div>
+            </div>
+            <div class="sig-card-desc">"Consulting side" + "fit with some of the stuff I'm working on" = he's already pattern-matched what you do to a gap in his operating environment. This isn't "let's stay in touch" — it's a specific agenda request. The product demo created the ask. Don't dilute it by re-pitching on the follow-up call.</div>
+          </div>
+
+          <div class="sig-card sig-card-cyan">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Product Trial Offered</div>
+              <div class="sig-strength strength-dir">DIRECTIONAL</div>
+            </div>
+            <div class="sig-card-desc">He offered to try Question Compass and give feedback unprompted. That's a buyer instinct from a product-literate operator. His feedback — if it comes — is also a calibration signal about whether he understands the product correctly before you scope any engagement.</div>
+          </div>
+
+          <div class="sig-card sig-card-gold">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Domain Fluency Confirmed</div>
+              <div class="sig-strength strength-dir">DIRECTIONAL</div>
+            </div>
+            <div class="sig-card-desc">Steve engaged immediately on ADL exposure, margin color, sponsor bank counterparty risk, JP Morgan DeFi rails. He didn't need the fintech context explained. Any consulting engagement with him will move faster because the domain translation overhead is near zero — you're talking to someone who has lived this terrain.</div>
+          </div>
+
+          <div class="sig-card sig-card-red" style="grid-column: 1 / -1;">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Pre-Revenue on All Three</div>
+              <div class="sig-strength strength-watch">WATCH</div>
+            </div>
+            <div class="sig-card-desc">None of Steve's ventures have confirmed paying customers — Tallin has design partners, the FX platform is approaching acquirers, the sponsor bank platform is newer. Discretionary spend is available (no treasurer/comptroller gate) but runway depth is unknown. Before scoping any engagement, understand how he's self-funding three simultaneous ventures. This isn't a blocker — it's a scoping input.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROBABILITY TREE -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Probability Tree — 3 Forward Scenarios</div>
+        </div>
+        <div class="prob-rows">
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">60</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario A</div>
+              <div class="prob-label">Decision Sprint Engagement</div>
+              <div class="prob-desc">Steve tries Question Compass, engages with the product → follow-up call this week or next → consulting fit discussion focuses on sponsor bank compliance platform or FX platform CEO onboarding → scoped decision sprint engagement with one of his teams.</div>
+              <div class="prob-watch">Sprint entry point: sponsor bank compliance platform. It's the most ARCS-native use case he described and the one where "constitutional guardrails + change controls" maps directly.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">30</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario B</div>
+              <div class="prob-label">Strong Peer, No Immediate Engagement</div>
+              <div class="prob-desc">Product trial doesn't fully land or follow-up call surfaces a timing/budget mismatch → consulting fit doesn't crystallize into a scoped engagement → durable peer relationship maintained, potential referral source into his network of fintech founders and operators.</div>
+              <div class="prob-watch">If follow-up call drifts past 2 weeks without a booked date, it's scenario B.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">10</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario C</div>
+              <div class="prob-label">Larger Embedded Role</div>
+              <div class="prob-desc">Steve raises seed for Tallin or hands off more of the FX/sponsor bank ventures → brings Zach in as fractional CPO or embedded advisory capacity across more than one venture → larger, longer engagement than a single sprint.</div>
+              <div class="prob-watch">Signal: if he starts sharing board decks or cap tables before the sprint scope is settled.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RISK FLAGS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Risk Flags</div>
+        </div>
+        <div class="risk-rows">
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+            <div class="risk-body">
+              <div class="risk-label">Runway depth unknown</div>
+              <div class="risk-desc">Steve is self-funding three ventures simultaneously — none with confirmed paying customers yet. Discretionary spend exists but depth is unconfirmed. A sprint priced beyond his current cash position stalls before it starts.</div>
+              <div class="risk-action">On the follow-up call: scope the engagement to one venture, one team, one sprint. Don't open with a retainer frame. Let the first sprint prove value before the conversation broadens.</div>
+            </div>
+          </div>
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+            <div class="risk-body">
+              <div class="risk-label">Split attention across 3 ventures</div>
+              <div class="risk-desc">Steve runs everything simultaneously — Tallin is primary but the FX and sponsor bank platforms are both live and demanding. Any engagement that requires sustained executive bandwidth will compete with everything else he's running.</div>
+              <div class="risk-action">Design the sprint format to work with limited executive attention: async inputs, structured outputs, single decision owner per session. Steve is an operator, not a collaborator by temperament.</div>
+            </div>
+          </div>
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-low">LOW</div></div>
+            <div class="risk-body">
+              <div class="risk-label">Boardy framing mismatch on follow-up</div>
+              <div class="risk-desc">Boardy's intro positioned this as Tallin + ARCS audit evidence integration. Steve may have a different internal frame for the follow-up call depending on how he summarized this call to himself. The consulting fit framing needs to be re-anchored explicitly at the top of the next call.</div>
+              <div class="risk-action">Open the follow-up with: "You said you wanted to dig into the consulting side — I want to make sure we start there." Don't let the agenda drift back to product integration.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROTOCOL -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recoil Protocol</div>
+          <div class="label">5 segments · ~30 min call</div>
+        </div>
+        <div style="padding: 20px;">
+          <div class="protocol-grid">
+            <div class="pass-card">
+              <div class="pass-name">Reverse Listening</div>
+              <div class="pass-dir">End → Start</div>
+              <div class="pass-body">Call ended on Steve's explicit consulting fit ask — his language, not Zach's. Reading backward: the warmest signal was the close (segment 5), added after the full product demo. The domain fluency exchange (segment 3) was where Steve revealed the real operating complexity — three ventures with different GTM gaps. The rapport section (segment 1) was a clean probe: Zach mentioned fundraising headwinds and Steve didn't flinch or pivot to a raise ask. That non-event was the clearest early signal the seed-assist scenario was wrong.</div>
+            </div>
+            <div class="pass-card">
+              <div class="pass-name">Deep Recall</div>
+              <div class="pass-dir">Start → End · vs. pre-call expectation</div>
+              <div class="pass-body">Pre-call: 1 venture (Tallin), seed raise as primary agenda, CEO shopping as secondary. Actual: 3 ventures at different stages, no raise ask, no CEO shopping signal. Biggest divergence: segment 2 (3 ventures revealed vs. 1 expected). All three pre-call scenarios were wrong about the primary dynamic. The correct scenario — consulting fit as genuine peer connection — wasn't on the pre-call list. The product demo (segment 4) was not anticipated as a full walkthrough on this call; it emerged from Steve's question and ran for ~8 minutes. The close (segment 5) confirmed the demo created the ask.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMMEDIATE ACTIONS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Immediate Actions</div>
+        </div>
+        <div class="action-rows">
+          <div class="action-row">
+            <div class="action-num">1</div>
+            <div class="action-text">Send Question Compass link to steve@gettallin.com today — he offered to try it and give feedback. Close the loop while the call is fresh. Don't wait for the follow-up call to be scheduled first.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">2</div>
+            <div class="action-text">Send this brief (pre/post tabs) + this recoil report as the sample artifact he asked for. This document is the demo — it shows the briefing/debriefing methodology in its native register.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">3</div>
+            <div class="action-text">Book the follow-up call for later this week or next. Anchor the agenda explicitly on consulting fit — not product, not Tallin integration. Open with: "You said you wanted to dig into the consulting side. Let's start there."</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">4</div>
+            <div class="action-text">Target the sponsor bank compliance platform as the entry use case for the follow-up. It's the most direct match for the decision sprint methodology — change controls, compliance workflows, cross-stakeholder alignment at both issuer and originator. He described the pain precisely; don't make him re-explain it.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STOP-LOSS -->
+      <div class="stop-loss">
+        <div class="sl-label">Stop-Loss</div>
+        <div class="sl-text">If Question Compass trial generates no response within 5 business days, follow up directly. If follow-up call isn't booked within 2 weeks of today, momentum is gone — scenario B is the default. Don't let the consulting fit ask evaporate into a "great call, let's stay in touch."</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ JUL 9 AGENDA -->
+    <div id="tab-agenda" class="tab-pane">
+
+      <!-- CALL HEADER -->
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">FOLLOW-UP CALL · PART 2</div>
+            <div class="recoil-name">ARCS / Tallin</div>
+            <div class="recoil-sub">Thu Jul 9, 2026 · 10:30–11:00 AM EDT · Google Meet</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="receipt-id">30 min · consulting fit</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>ANCHOR: HIS ASK</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANCHOR QUOTE -->
+      <div class="lbq">
+        <div class="lbq-text">I wanna dig into the consulting side of what you're doing and whether there could ever be a fit with some of the stuff I'm working on.</div>
+        <div class="lbq-attr">STEVE LABELLA · VERBATIM CLOSE · JUL 6, 2026</div>
+        <div class="lbq-sig">This call exists because Steve asked for it. Open by naming it: "You said you wanted to dig into the consulting side — let's start there." Don't re-demo the product. Don't re-explain ARCS. He already has the brief, the recoil, and (ideally) has tried Question Compass. This call is about whether there's a sprint engagement to scope.</div>
+      </div>
+
+      <!-- NOTICE: DON'T DO LIST -->
+      <div class="notice">
+        <div class="notice-icon">⚠</div>
+        <div class="notice-text">DON'T re-demo the product · DON'T re-pitch ARCS · DON'T open with Tallin integration framing · DON'T let the agenda drift to partnership or intro asks</div>
+      </div>
+
+      <!-- AGENDA RUN OF SHOW -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Run of Show — 30 Min</div>
+          <div class="label">Consulting fit · Sprint scope</div>
+        </div>
+        <div class="segments">
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">01</div>
+              <div class="seg-ts">0–3 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color:var(--muted);">Anchor the agenda</div>
+              <div class="seg-summary">"You said you wanted to dig into the consulting side — I want to make sure we start there." Check if he tried Question Compass. If yes: ask what he noticed. If no: don't resell it — just continue. The brief in his hands already did the demo.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color:var(--cyan);">Opening line</div>
+              <div class="seg-flag-text">"You said you wanted to dig into the consulting side. Let's start there — which of your three ventures feels most live right now?"</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">02</div>
+              <div class="seg-ts">3–12 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color:var(--gold);">Sponsor bank compliance platform</div>
+              <div class="seg-summary">Highest-probability entry use case. He described the pain precisely on call 1: manual spreadsheet-based quarterly reviews, change controls, counterparty risk alignment across issuer and originator. Don't make him re-explain it. Name the use case, ask one sharp question: "Where does that process break down most visibly right now — who owns the decision when two counterparties disagree?"</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color:var(--gold);">Sprint fit test</div>
+              <div class="seg-flag-text">A decision sprint maps directly: ex-ante receipt for each change control decision, constitutional guardrails for issuer/originator alignment, audit-ready output at the end. Ask if that's the shape of gap he's trying to close.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">03</div>
+              <div class="seg-ts">12–20 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color:var(--cyan);">FX platform CEO onboarding moment</div>
+              <div class="seg-summary">He signed a CEO this week to take the FX platform to market. That's a warm handoff decision: what authority does the CEO have, what stays with Steve, how do they handle the first disagreement? This is a live sprint moment — the kind of decision that gets made badly in the first 90 days and costs 6 months later.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color:var(--cyan);">Question to ask</div>
+              <div class="seg-flag-text">"How have you thought about the authority split with the new CEO — is that conversation locked or still being negotiated?" If it's not locked, that's the sprint.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">04</div>
+              <div class="seg-ts">20–28 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color:var(--green);">Scope or surface the constraint</div>
+              <div class="seg-summary">By this point one of two things is true: (A) a specific use case has crystallized — scope a first sprint, one venture, one decision surface, one team. Or (B) the constraint is visible — timing, budget depth, bandwidth. Name it directly rather than leaving it soft. "Does it make sense to run one sprint on [use case] before we talk about anything bigger?"</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color:var(--green);">If (A) — close</div>
+              <div class="seg-flag-text">Name the deliverable, the timeline, the format. One sprint = one decision surface, 2–3 sessions, structured output. If (B) — agree on the constraint explicitly. Don't leave it ambiguous.</div>
+            </div>
+          </div>
+
+          <div class="seg" style="border-bottom:none;">
+            <div class="seg-time">
+              <div class="seg-num">05</div>
+              <div class="seg-ts">28–30 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color:var(--muted);">Close with a next action</div>
+              <div class="seg-summary">Leave with one concrete next action, not "let's stay in touch." Either: sprint scoped and on calendar, or a specific date to follow up once the constraint resolves. The stop-loss from the Recoil tab applies: if no booked next step by end of this call, momentum is gone.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color:var(--muted);">Stop-loss</div>
+              <div class="seg-flag-text">If the call ends without a next action on calendar, scenario B (strong peer, no engagement) is the default. Don't let a good conversation substitute for a commitment.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ENTRY USE CASES RANKED -->
+      <div>
+        <div class="sl">Entry use cases — ranked by fit</div>
+        <div class="card">
+          <div class="scenario-rows">
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.04)">Highest fit</div>
+                <div class="scenario-label">Sponsor bank compliance — change controls</div>
+              </div>
+              <div class="scenario-body">He named the exact pain on call 1: manual quarterly reviews, counterparty alignment across issuer/originator, no audit trail. <strong style="color:var(--text);">Sprint format: ex-ante receipt per change control decision, constitutional guardrails, audit-ready output.</strong> This is the clearest ARCS native use case of the three ventures.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Live moment</div>
+                <div class="scenario-label">FX platform — CEO authority handoff</div>
+              </div>
+              <div class="scenario-body">CEO signing this week. The first 30–90 days of a CEO onboarding is when authority ambiguity does the most damage. Sprint format: founder-CEO alignment session, decision rights mapping, pre-mortem on the first likely disagreement.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Lowest urgency</div>
+                <div class="scenario-label">Tallin — seed raise decision framework</div>
+              </div>
+              <div class="scenario-body">The raise is active but Steve didn't surface it as a pressure point. Don't lead here. If he raises it, the sprint angle is investor selection criteria and term sheet decision architecture — but only if he brings it up.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GUARDS -->
+      <div>
+        <div class="sl">Call guards</div>
+        <div class="card">
+          <div class="guard-rows">
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--red);border-color:rgba(255,77,109,0.3);background:rgba(255,77,109,0.05)">Avoid</div>
+              <div class="guard-text"><strong>Re-demoing the product.</strong> He's seen it. He has the brief. He may have tried the Compass. Repeating the demo signals you don't trust the handoff — and burns the 30 minutes you need to scope an engagement.</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--red);border-color:rgba(255,77,109,0.3);background:rgba(255,77,109,0.05)">Avoid</div>
+              <div class="guard-text"><strong>Broadening to a retainer frame before a first sprint lands.</strong> He's pre-revenue on all three ventures. Open with one sprint, one use case, one team. Prove value before the conversation broadens.</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05)">Watch for</div>
+              <div class="guard-text">If he pivots to Tallin fundraising or asks for intro names — <strong>he's defaulting to the scenario B dynamic.</strong> Fine to be helpful, but re-anchor: "Happy to think about that — want to finish the sprint conversation first?"</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">Your line</div>
+              <div class="guard-text"><strong>"One sprint, one use case, one team — and we see what the output looks like. If that's useful, everything else is easy to scope from there."</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOGISTICS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Logistics</div>
+        </div>
+        <div class="conf-rows">
+          <div class="conf-row">
+            <div class="conf-key">When</div>
+            <div class="conf-val">Thu Jul 9, 2026 · 10:30–11:00 AM EDT</div>
+          </div>
+          <div class="conf-row">
+            <div class="conf-key">Format</div>
+            <div class="conf-val">Google Meet · <span style="color:var(--dimmed)">meet.google.com/jmi-eibp-gao</span></div>
+          </div>
+          <div class="conf-row">
+            <div class="conf-key">Duration</div>
+            <div class="conf-val">30 min · no buffer — close the sprint scope by minute 28</div>
+          </div>
+          <div class="conf-row">
+            <div class="conf-key">Organizer</div>
+            <div class="conf-val">Boardy on behalf of both parties</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ POST-CALL -->
+    <div id="tab-post" class="tab-pane active">
+
+      <div>
+        <div class="sl">What we confirmed</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Ventures</div>
+              <div class="conf-val"><strong>Three parallel, not one.</strong> Tallin (primary, fundraising) + FX exposure platform (signing a CEO this week to take to market) + sponsor bank compliance platform (replacing manual spreadsheet-based due diligence). Portfolio operator, not a single-bet founder.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Tallin</div>
+              <div class="conf-val">Seed raise confirmed active. Design partners going live — no revenue date given. Still pre-revenue.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Energy</div>
+              <div class="conf-val">Re-energized by AI-enabled zero-to-one building post-exits. Explicitly said he hesitated to start again pre-AI because zero-to-one was too slow — that friction is now gone. Genuine builder, not a networker running a script.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Boardy</div>
+              <div class="conf-val">2–3 weeks in, ~12 intro calls generated including this one. Shared that a buddy used it to get 3 investor calls immediately — that's why he tried it.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">His close</div>
+              <div class="conf-val"><strong style="color:var(--green)">"I wanna dig into the consulting side of what you're doing and whether there could ever be a fit with some of the stuff I'm working on."</strong> Verbatim. This was his ask, not Zach's inference. The consulting side — his words — is the explicit follow-up agenda.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Demo given</div>
+              <div class="conf-val">Zach gave a full product walkthrough on this call — Monte Carlo simulation, Bayesian updating, team/org design, pre/post meeting briefings, decision sprints. Steve already has context. <span style="color:var(--dimmed)">Follow-up does not need to re-explain the product.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">How the pre-call scenarios landed</div>
+        <div class="card">
+          <div class="verdict-rows">
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.06)">Partial</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Seed raise assist — directionally right, not dominant</div>
+                <div class="verdict-text">Tallin seed raise is real and active. But he never made the network ask. Didn't pivot to "who do you know." The read was right about the dynamic, wrong about it being the primary agenda for this call.</div>
+              </div>
+            </div>
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Wrong</div>
+              <div class="verdict-body">
+                <div class="verdict-label">CEO role shopping — not present</div>
+                <div class="verdict-text">No signal of a landing-spot search. Running three ventures simultaneously is the opposite of someone looking for a soft landing. This scenario was noise in the pre-call read.</div>
+              </div>
+            </div>
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.06)">Emerged</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Genuine peer — consulting fit as the real mutual value</div>
+                <div class="verdict-text"><strong>The scenario that wasn't on the pre-call list.</strong> He's a serial operator with three early-stage ventures who needs product sprint leadership and decision tooling. The consulting/advisory side is the entry point — not partnership, not seed intro. He wants to experience the product before the next conversation.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Signals from the call</div>
+        <div class="card">
+          <div class="sig-rows">
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--green)">↑ Three ventures changes the picture</div>
+                <div class="sig-text"><strong>FX platform + sponsor bank compliance + Tallin = three early-stage products each with a GTM gap.</strong> The FX platform is signing a CEO this week — a warm handoff moment. The sponsor bank platform is replacing manual spreadsheet workflows — a direct use case for a decision sprint engagement. These aren't side projects; they're operating companies with near-zero friction for a discretionary consulting engagement.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--cyan)">↑ He wants to experience ARCS before talking about it</div>
+                <div class="sig-text"><strong>Offered to try Question Compass. Asked for a sample pre/post briefing + recoil report.</strong> That's a buyer instinct, not a networker instinct. He's product-literate enough to know he should test before committing to a follow-up agenda. Don't skip this step — send it today while the call is fresh.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--gold)">→ Your own GTM signal confirmed by his situation</div>
+                <div class="sig-text">Strongest conversion profile going in: <em>buyer with discretionary spend, no treasurer/comptroller approval needed</em>. <strong>A serial founder running three active ventures is that buyer exactly.</strong> The friction to run a decision sprint with one of his teams is near zero — if the product lands in his hands first.</div>
+              </div>
+            </div>
+            <div class="sig-row">
+              <div>
+                <div class="sig-label" style="color:var(--muted)">→ Boardy matched the domain, missed the use case</div>
+                <div class="sig-text">12 intros in 2–3 weeks and this call was substantive. <strong>The Tallin + ARCS audit evidence framing Boardy used pointed at a buyer dynamic that wasn't there.</strong> Steve isn't a buyer — he's a fellow operator building in the same regulated space. The actual value was a peer connection worth developing. Worth calibrating Boardy on which profiles convert to consulting engagements vs. which ones are just good conversations.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Next steps</div>
+        <div class="card">
+          <div class="next-rows">
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">Zach</div>
+              <div class="next-text">Send Steve the <strong>Question Compass link</strong> today. He offered to try it and give feedback — close the loop while the call is fresh.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">Zach</div>
+              <div class="next-text">Send this brief (with recoil tab) as the <strong>sample pre/post briefing + recoil report</strong> he asked for — the concrete product demo before any follow-up conversation. This is the demo, not a deck.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">Zach</div>
+              <div class="next-text"><strong>Schedule follow-up</strong> — agenda: consulting fit with his ventures (sponsor bank compliance is the clearest opening, FX platform CEO onboarding close behind). Frame it as: <em>"You've tried the product — here's what a decision sprint looks like with one of your teams."</em> Later this week or next.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelector('[onclick="switchTab(\'' + id + '\')"]').classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+  const stamps = { pre: 'JUL 6, 2026 · PRE-CALL', recoil: 'JUL 6, 2026 · RECOIL REPORT', post: 'JUL 6, 2026 · POST-CALL', agenda: 'JUL 9, 2026 · FOLLOW-UP AGENDA' };
+  document.getElementById('tab-datestamp').textContent = stamps[id] || '';
+}
+if (window.location.hash === '#pre') { switchTab('pre'); }
+else if (window.location.hash === '#recoil') { switchTab('recoil'); }
+else if (window.location.hash === '#agenda') { switchTab('agenda'); }
+</script>
+</body>
+</html>
