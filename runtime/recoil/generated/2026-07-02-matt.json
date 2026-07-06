@@ -1,0 +1,146 @@
+{
+  "reportId": "2026-07-02-matt",
+  "meta": {
+    "callTitle": "Matt x Zach // 1-1",
+    "counterpart": "Matt",
+    "counterpartRole": "Product Manager (B2B SaaS, former Deloitte SOX) — exploring solopreneur path",
+    "callDate": "2026-07-02",
+    "durationMinutes": 37,
+    "segmentCount": 6,
+    "protocol": "Reverse Listening + Deep Recall · 6 segments · max(3, round(sqrt(37)))",
+    "prePrepSession": null,
+    "note": "No PrepSession captured pre-call. Deep Recall scored against general intro-call expectations — meet-and-explore framing, no agenda declared."
+  },
+  "cover": {
+    "badges": ["Recoil Report", "Intro 1:1 · Jul 2, 2026"],
+    "title": "Matt × Zach — Exploratory Intro",
+    "subtitle": "Warm signal. Underexplored. One concrete ask landed — no delivery structure. Matt surfaced a real market thesis and his own failure mode. Both went unprobed. NCI: 67.",
+    "meta": "ARCS RECOIL · Jul 2, 2026 · 37 min call · No agenda declared",
+    "actions": ["Build the Graphic", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "I'm probably leaving this conversation more energized to think more like 50 years in the future so that we can make better incremental steps like today on like what is that smallest next thing we can put out?",
+    "attribution": "Matt · Jul 2, 2026 — reacting to Zach's ARCS pitch"
+  },
+  "callWalk": [
+    {
+      "label": "Rapport",
+      "title": "Kids, Connecticut, Brooklyn Exit — Clean Entry",
+      "body": "Kids, sleep deprivation, Greenpoint-to-Fairfield arc, elder millennial exodus. Matt has no kids, dog, wife, mid-30s. Zero friction. Zach front-loaded a vulnerability note on energy level — honest, unlikely to register negatively at this stage."
+    },
+    {
+      "label": "Matt's Background",
+      "title": "SOX → Pre-Sales → PM — Thread Dropped Mid-Sentence",
+      "body": "Matt: Deloitte SOX → pre-sales at a $150M B2B SaaS (now $1B+) → product management at scale. Called pre-sales his 'superpower' — thousands of buyers, discovery on steroids. Zach interrupted with a crypto/SOX tangent that Matt had to correct twice. Matt's framing of pre-sales as practitioner-of-buyer-psychology was never picked up."
+    },
+    {
+      "label": "Problem Space",
+      "title": "Real ICP Thesis Surfaced — Left on the Table",
+      "body": "Matt named two things: (1) AI tools helping teams 'build more messes faster' — nine docs on a subject, four invalidated 20 minutes later; (2) a specific ICP: white collar, $150–175K comp, non-exec-track, fear of AI displacement, stuck between waiting and trying to build in Claude, arrested by the skill-translation gap. Zach pivoted to ARCS rather than probing. This was the thread."
+    },
+    {
+      "label": "ARCS Pitch",
+      "title": "High Altitude — Matt Began Course-Correcting",
+      "body": "Zach: solo founder build, PLG model, atomization, Justin Welsh/Dan Co/Lenny resources, arcs.care, DEWY receipts, team topology math, 50-bit conscious-processing stat. Matt's response: 'You're catching me a little flat footed.' He then redirected: 'Getting it to the thing that somebody can hold — form and function matters a lot.' Diplomatic but real."
+    },
+    {
+      "label": "Matt's Admission",
+      "title": "Echo Chamber → Spiral → No Ship — His Failure Mode, Named",
+      "body": "Matt's most candid moment: 'If I spend too long in my own echo chamber, I sit in spiral and it feels like I made a lot of progress but didn't actually ship any product.' Connected it to team dynamics. Then asked explicitly for the groupthink graphic: 'Float something by me even if you have a draft — I would be really interested in seeing that.' This is the handshake.",
+      "peak": true
+    },
+    {
+      "label": "Close",
+      "title": "Warm Exit — No Timeline on the Graphic",
+      "body": "Zach added a bias-detector / Chrome extension riff. Matt confirmed the graphic ask. Close: warm, mutual appreciation, no timeline, no next meeting scheduled. Reading backward: the call ended graciously, not on a handshake with teeth."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "Market Thesis",
+      "accent": "#00FF9D",
+      "title": "Matt named a real ICP — self-description or direct observation",
+      "body": "White collar, $150–175K comp, non-exec-track, fear of AI replacement, arrested by the skill-translation gap. This is specific enough to be either personal or drawn from managing this cohort directly. Either way it is ARCS ICP territory. Whether Matt is a user, a collaborator, or a distribution node into this segment was never asked."
+    },
+    {
+      "label": "Echo Chamber Signal",
+      "accent": "#00F0FF",
+      "title": "He named his own failure mode with precision — that is user-zero language",
+      "body": "'I sit in spiral and it feels like I made a lot of progress but didn't actually ship any product.' He is describing a problem ARCS is designed to interrupt. Not a prospect hedging — a practitioner describing a real recurring failure state. The individual diagnosis is embedded inside his team-collaboration framing."
+    },
+    {
+      "label": "Pre-Sales Superpower",
+      "accent": "#00F0FF",
+      "title": "Discovery practitioner at scale — complementary lens",
+      "body": "Matt built his skills on thousands of real buyer conversations. He understands buying criteria and enterprise decision dynamics from the inside. If he is exploring a solopreneur or advisory path, this is his differentiator. The overlap with ARCS's target (decision-quality problem in enterprise B2B) is real and specific."
+    },
+    {
+      "label": "Groupthink Ask",
+      "accent": "#FFD700",
+      "title": "The only concrete deliverable — uncommitted",
+      "body": "Matt explicitly asked for the groupthink / wave-spectrum analysis graphic. 'Even a draft.' This is the most actionable output from the call. If the graphic lands well, it reopens the conversation on Matt's terms. If it doesn't get sent, the call fades to a warm memory.",
+      "note": "No timeline was set. This is the gap."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Graphic lands → thread reopens → collaborator",
+      "body": "Graphic sent within 5 days. Matt engages with real feedback. Second conversation scheduled — this time with prep: a real question about his market thesis, his echo chamber failure mode, whether ARCS could address it directly. Matt becomes an early collaborator, user-zero candidate, or distribution node into the exact segment he described.",
+      "note": "One graphic, one question. Not another pitch deck."
+    },
+    "base": {
+      "title": "Warm acquaintance, low momentum",
+      "body": "Graphic sent eventually or not at all. Matt files Zach as 'smart guy, interesting project' and resurfaces the connection when someone else needs it. No direct collaboration. Occasional LinkedIn mutual. The warmth of the close disguises how undefined the follow-through is."
+    },
+    "worst": {
+      "title": "Nothing sent — call evaporates",
+      "body": "No graphic, no follow-up. Matt tried arcs.care, hit friction, didn't hear back. The energy he described was real; the follow-through gap is also real. A genuinely warm relationship window closes without producing anything.",
+      "note": "This is the default path without active steering."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Talk ratio 75–80% Zach",
+      "body": "Matt surfaced three signal threads (ICP thesis, personal failure mode, graphic ask) — all three underexplored. His diplomatic redirects ('catching me flat footed,' 'something somebody can hold') were real-time course corrections that were acknowledged but not acted on mid-call. Before the next exploratory intro call: prep 3 open questions, do not pitch until all three are answered."
+    },
+    {
+      "variant": "warning",
+      "label": "Graphic deliverable uncommitted",
+      "body": "Matt asked for the groupthink wave-spectrum graphic. Zach said 'sure' with no timeline or format. The graphic does not yet exist in deliverable form. This is the handshake with teeth the call produced. Build it this week — not eventually."
+    },
+    {
+      "variant": "caution",
+      "label": "ICP hypothesis untested",
+      "body": "Matt's white-collar / $150–175K thesis was never probed. Could be a self-description, a team observation, or a product hypothesis — meaningfully different scenarios. One question in the follow-up: 'When you described that $150–175K cohort — are you describing people on your team, or something closer to home?'"
+    },
+    {
+      "variant": "info",
+      "label": "Resource drops unlikely to convert",
+      "body": "Justin Welsh, Dan Co, Lenny, Lenny Bot — four recommendations in a short window. Matt is a large-org B2B PM with structured time constraints. Long resource lists often convert to zero action. arcs.care/compass is the clearest CTA. Follow up in 2 weeks: 'Did you get a chance to try the compass?'"
+    }
+  ],
+  "protocol": [
+    {
+      "label": "This Week",
+      "title": "Build the Groupthink Graphic",
+      "body": "Even a rough draft — Matt said 'even if you have a draft.' Wave-spectrum analysis of constructive interference vs. groupthink loop. One visual, one paragraph of context. This is the handshake.",
+      "active": true
+    },
+    {
+      "label": "Send",
+      "title": "Short Note — One Graphic, One Question",
+      "body": "Reference his 'more information at me faster' framing. Attach the graphic. Ask one question about his $150–175K ICP thesis. No resource drops. No ARCS pitch. One question, one ask."
+    },
+    {
+      "label": "In Follow-Up",
+      "title": "Ask the Direct Question on ICP",
+      "body": "'When you described the $150–175K white collar cohort — are you describing people on your team, or something closer to home?' The answer changes whether Matt is a user, a collaborator, or a distribution node."
+    },
+    {
+      "label": "In 2 Weeks",
+      "title": "Compass Check-In",
+      "body": "Calendar reminder: 'Did Matt try the compass? Follow up if no signal.' If he tried it and hit friction, you want to know. If he got a reading, you want to hear what it said."
+    }
+  ]
+}
