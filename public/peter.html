@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Peter Espersen — ARCS Brief</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* MASTHEAD */
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
+/* SHARED ROW PATTERNS */
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+
+.scenario-rows { display: flex; flex-direction: column; }
+.scenario-row { padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.scenario-row:last-child { border-bottom: none; }
+.scenario-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.scenario-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.scenario-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.scenario-body { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+.q-rows { display: flex; flex-direction: column; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+
+.guard-rows { display: flex; flex-direction: column; }
+.guard-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.guard-row:last-child { border-bottom: none; }
+.guard-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 1px; }
+.guard-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.guard-text strong { color: var(--text); font-weight: 600; }
+
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+.sig-rows { display: flex; flex-direction: column; }
+.sig-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.sig-row:last-child { border-bottom: none; }
+.sig-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 5px; }
+.sig-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.sig-text strong { color: var(--text); font-weight: 600; }
+
+.verdict-rows { display: flex; flex-direction: column; }
+.verdict-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.verdict-row:last-child { border-bottom: none; }
+.verdict-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+.verdict-body { flex: 1; }
+.verdict-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.verdict-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.verdict-text strong { color: var(--text); font-weight: 600; }
+
+/* RECOIL-SPECIFIC */
+.recoil-header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.recoil-header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--cyan); }
+.recoil-header-inner { padding: 20px 24px 20px 28px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.recoil-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-bottom: 6px; }
+.recoil-name { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.recoil-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.recoil-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.receipt-id { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(0,240,255,0.35); background: rgba(0,240,255,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+.nci-val { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; text-align: right; }
+.nci-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; text-align: right; }
+
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
+.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.lbq-text { font-family: var(--sans); font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.55; letter-spacing: -0.01em; font-style: italic; margin-bottom: 16px; }
+.lbq-text::before { content: '\201C'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+.lbq-text::after { content: '\201D'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-left: 4px; }
+.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+.lbq-sig { font-family: var(--sans); font-size: 12px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 12px; }
+
+.segments { display: flex; flex-direction: column; gap: 0; }
+.seg { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.seg:last-child { border-bottom: none; }
+.seg-time { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--border); }
+.seg-num { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--dimmed); line-height: 1; }
+.seg-ts { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.seg-body { padding: 16px 14px; border-right: 1px solid var(--border); }
+.seg-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+.seg-summary { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
+.seg-flag { padding: 16px 14px; }
+.seg-flag-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 6px; }
+.seg-flag-text { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.55; }
+
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sig-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; position: relative; overflow: hidden; }
+.sig-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; }
+.sig-card-green::before { background: var(--green); }
+.sig-card-cyan::before { background: var(--cyan); }
+.sig-card-gold::before { background: var(--gold); }
+.sig-card-red::before { background: var(--red); }
+.sig-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-left: 8px; }
+.sig-card-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.sig-card-green .sig-card-name { color: var(--green); }
+.sig-card-cyan .sig-card-name { color: var(--cyan); }
+.sig-card-gold .sig-card-name { color: var(--gold); }
+.sig-card-red .sig-card-name { color: var(--red); }
+.sig-strength { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; }
+.strength-hard { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+.strength-dir { background: rgba(0,240,255,0.08); color: var(--cyan); border: 1px solid rgba(0,240,255,0.2); }
+.strength-watch { background: rgba(255,77,109,0.08); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.sig-card-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 8px; }
+
+.prob-rows { display: flex; flex-direction: column; gap: 0; }
+.prob-row { display: grid; grid-template-columns: 56px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.prob-row:last-child { border-bottom: none; }
+.prob-num { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 4px; }
+.prob-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; }
+.prob-pct { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.prob-body { padding: 16px 18px; }
+.prob-id { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 4px; }
+.prob-label { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.04em; }
+.prob-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.prob-watch { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.prob-watch::before { content: 'WATCH → '; color: var(--gold); }
+
+.risk-rows { display: flex; flex-direction: column; gap: 0; }
+.risk-row { display: grid; grid-template-columns: 80px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.risk-row:last-child { border-bottom: none; }
+.risk-sev { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 6px; }
+.sev-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; text-align: center; }
+.sev-high { background: rgba(255,77,109,0.1); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+.sev-med { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+.sev-low { background: rgba(30,41,59,0.5); color: var(--muted); border: 1px solid var(--border); }
+.risk-body { padding: 16px 18px; }
+.risk-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.risk-action { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+.risk-action::before { content: 'ACTION → '; }
+
+.protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pass-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }
+.pass-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.pass-dir { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-bottom: 12px; }
+.pass-body { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+.action-rows { display: flex; flex-direction: column; gap: 0; }
+.action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.action-row:last-child { border-bottom: none; }
+.action-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; }
+.action-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
+
+.stop-loss { background: rgba(255,77,109,0.06); border: 1px solid rgba(255,77,109,0.25); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+.sl-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); flex-shrink: 0; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: var(--red); line-height: 1.5; }
+
+/* COMPASS PROMPT */
+.compass-prompt { background: var(--surface2); border: 1px solid rgba(0,240,255,0.2); border-radius: var(--r-lg); padding: 24px 28px; position: relative; overflow: hidden; }
+.compass-prompt::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.cp-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
+.cp-text { font-family: var(--sans); font-size: 14px; color: var(--text); line-height: 1.7; letter-spacing: -0.01em; margin-bottom: 18px; }
+.cp-note { font-family: var(--mono); font-size: 10px; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 14px; }
+.cp-copy-btn {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
+  background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-sm);
+  color: var(--cyan); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  padding: 8px 16px; cursor: pointer; transition: background 0.15s;
+}
+.cp-copy-btn:hover { background: rgba(0,240,255,0.14); }
+
+.why-rows { display: flex; flex-direction: column; gap: 0; }
+.why-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.why-row:last-child { border-bottom: none; }
+.why-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid rgba(0,240,255,0.25); background: rgba(0,240,255,0.05); color: var(--cyan); flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+.why-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.why-body strong { color: var(--text); font-weight: 600; }
+
+/* PASSWORD GATE */
+#pw-gate {
+  position: fixed; inset: 0; z-index: 9999; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+}
+#pw-gate.hidden { display: none; }
+.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.pw-form { display: flex; gap: 10px; align-items: center; }
+.pw-input {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
+  color: var(--text); font-family: var(--mono); font-size: 14px; padding: 10px 16px;
+  outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s;
+}
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+.pw-btn {
+  background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-md);
+  color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s;
+}
+.pw-btn:hover { background: rgba(0,240,255,0.14); }
+.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+@media (max-width: 640px) {
+  body { padding: 28px 16px 60px; }
+  .conf-key { width: 70px; }
+  .next-owner { width: 44px; }
+  .seg { grid-template-columns: 60px 1fr; }
+  .seg-flag { display: none; }
+  .signal-grid { grid-template-columns: 1fr; }
+  .protocol-grid { grid-template-columns: 1fr; }
+  .recoil-header-inner { grid-template-columns: 1fr; }
+  .recoil-meta { align-items: flex-start; margin-top: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PRIVATE BRIEF</div>
+  <div class="pw-title">Peter Espersen</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris</div>
+</div>
+
+<script>
+if (sessionStorage.getItem('peter-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'peter') {
+    sessionStorage.setItem('peter-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+function switchTab(id) {
+  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+function copyPrompt() {
+  var text = document.getElementById('compass-prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('cp-btn');
+    btn.textContent = 'COPIED';
+    setTimeout(function() { btn.textContent = 'COPY PROMPT'; }, 2000);
+  });
+}
+</script>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">LinkedIn Forensic · ARCS Demo</div>
+    <div class="masthead-name">Peter Espersen</div>
+    <div class="masthead-sub">Senior Advisor, Palm Venture Studios · Board, Gentoro · NYC</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">APR 20, 2026 · POST-CALL</div>
+
+  <div class="card" style="overflow:visible;background:none;border:none;">
+    <div class="tabs">
+      <button class="tab-btn" onclick="switchTab('pre')">Pre-Call</button>
+      <button class="tab-btn" onclick="switchTab('recoil')">Recoil</button>
+      <button class="tab-btn active" onclick="switchTab('post')">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('play')">Play →</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ PRE-CALL -->
+    <div id="tab-pre" class="tab-pane">
+
+      <div>
+        <div class="sl">Who he is — going in</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Background</div>
+              <div class="conf-val"><strong>Kairos-competent integrator.</strong> Career through LEGO (Global Head of Co-creation, LEGO Ideas + ReBrick, 2010–2015) → Pixable (VP Product &amp; Marketing, MAU 6.5M→9.5M, 60M+ video views) → eVote (Co-founder, $3M raised, biometric + blockchain voting) → Capital One Growth Ventures → Hines Venture Studio.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Current</div>
+              <div class="conf-val"><strong>Palm Venture Studios</strong> — Senior Strategic Advisor, 10+ early-stage boards (SaaS, AI, PropTech, AR/VR, InsurTech). Board member at <strong>Gentoro</strong> — MCP/LLM agentic automation for enterprise. XPRIZE Visioneering Brain Trust (Learning &amp; Society). NYC.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Pattern</div>
+              <div class="conf-val">Repeatedly steps into the interface between a maturing macro wave and lagging institutions — Habbo/virtual worlds → LEGO co-creation → mobile media → biometric civic infra → AI/agents. Not a deep-tech specialist: a community-product-growth integrator who translates frontier tech into adoptable systems.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Context</div>
+              <div class="conf-val">Intro via LinkedIn forensic — Zach ran a deep ARCS pass on his profile, then reached out. Demo framing: ARCS on the left, vanilla Perplexity on the right, his own career used as the test case.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Known risk</div>
+              <div class="conf-val" style="color:var(--dimmed)">Actively advising 10+ companies + Gentoro board + XPRIZE. Bandwidth is thin by design. Any tool he adds has to be immediately useful, not aspirationally useful.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Pre-call reads — what to expect</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>He's a multi-LLM power user.</strong> Perplexity + Claude + ChatGPT + Gemini → investment memos, then adds his own judgment on top. He's not skeptical of AI. He's a discerning evaluator with a working alternative already in place.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>Platform risk concern is pre-loaded.</strong> Power users at this level have already thought about tool durability. Expect some version of "what happens when Anthropic closes the gap?" before the demo is over.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--muted)"></div>
+              <div class="intel-text">His superpower is pattern-recognition at the edge of maturing waves. He'll evaluate ARCS the same way he evaluates every new tool: "does this compound over time, or is it a point solution?"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Range of possible outcomes going in</div>
+        <div class="card">
+          <div class="scenario-rows">
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.04)">Best outcome</div>
+                <div class="scenario-label">Portfolio amplifier</div>
+              </div>
+              <div class="scenario-body">He sees ARCS as the reasoning layer for high-stakes advisory moments — routes Palm portfolio companies or Gentoro decisions through the compass before giving recommendations. Becomes a periodic high-value user without heavy activation energy.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.25);background:rgba(255,215,0,0.04)">Likely</div>
+                <div class="scenario-label">Interested but deferred</div>
+              </div>
+              <div class="scenario-body">Genuinely intrigued, platform risk concern unresolved, bandwidth thin. Wants to see the evolved front-end before committing attention. The "adds a different framework" acknowledgment that doesn't convert to a use case.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Possible</div>
+                <div class="scenario-label">Refers into portfolio</div>
+              </div>
+              <div class="scenario-body">Doesn't become a regular user himself, but routes one or more Palm companies toward ARCS for their own decision surfaces. Lower friction than direct adoption; still a meaningful outcome.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Three questions going in</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--cyan)">1</div>
+                <div class="q-text">"Where does your multi-LLM workflow actually break down — where do you add human judgment because the model output isn't reliable?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → the specific friction point where stateful reasoning and receipt history would actually matter to him.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--gold)">2</div>
+                <div class="q-text">"Which of your 10+ portfolio companies has the most complex decision surface right now?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → the natural entry point for a first real use case. Not a hypothetical.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--green)">3</div>
+                <div class="q-text">"What would have to be true for you to route a decision here instead of your current stack?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → his actual threshold — not his polite objection, his real one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Positioning going in</div>
+        <div class="card">
+          <div class="guard-rows">
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">ARCS framing</div>
+              <div class="guard-text"><strong>"The reasoning infrastructure that GPT/Claude can't replicate — stateful decision memory, anti-sycophancy, kairos timing, and a receipt you can audit against later."</strong> ARCS runs on top of Claude/GPT; it's not competing with them. The moat is state + audit trail + the question-beneath-the-question move. Not the underlying model.</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.04)">What he's listening for</div>
+              <div class="guard-text">He's a kairos-competent integrator by nature — he'll evaluate ARCS the same way he's evaluated every platform wave. The question he's implicitly asking: "Does this compound, or is it clever for one session and then forgettable?" Lead with compounding. Not features.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ RECOIL -->
+    <div id="tab-recoil" class="tab-pane">
+
+      <!-- RECOIL HEADER -->
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">RECOIL REPORT · LINKEDIN FORENSIC DEMO</div>
+            <div class="recoil-name">Peter Espersen</div>
+            <div class="recoil-sub">~30 Min · Apr 20, 2026</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="receipt-id">2026-04-20-espersen</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>YELLOW / MEDIUM / REVISIT</div>
+            <div>
+              <div class="nci-val">64</div>
+              <div class="nci-label">NCI Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTICE -->
+      <div class="notice">
+        <div class="notice-icon">⚠</div>
+        <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Reverse Listening + Deep Recall · 5 segments</div>
+      </div>
+
+      <!-- VERDICT -->
+      <div class="card">
+        <div style="padding: 22px 24px;">
+          <div class="label" style="margin-bottom: 10px;">Call verdict</div>
+          <div style="font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; letter-spacing: -0.01em;">The GPT/Claude objection is real but not fatal — it's the question of a sophisticated evaluator, not a dismissal. He's already doing a version of what ARCS does; the gap to bridge is narrower than the objection sounds.</div>
+          <div style="font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6;">Platform risk framing ("Anthropic might close the gap") reveals he's evaluating ARCS as infrastructure, not a point tool. That's the right frame. His positive close — "adds a different framework," wants to see the evolved front-end in ~3 weeks — keeps the door open without committing. NCI at 64: direction real, conviction gated behind a first concrete use case.</div>
+        </div>
+      </div>
+
+      <!-- LOAD-BEARING QUOTE -->
+      <div class="lbq">
+        <div class="lbq-text">It adds a different framework.</div>
+        <div class="lbq-attr">PETER ESPERSEN · VERBATIM CLOSE · APR 20, 2026</div>
+        <div class="lbq-sig">This came after the full live A/B demo — ARCS on the left, vanilla Perplexity on the right, his own LinkedIn profile as the test case. "Adds a different framework" is exactly the right aperture from a multi-LLM power user: he's not dismissing the GPT/Claude comparison, he's opening the door to a new category. The question is whether "different framework" compounds into a durable use case, or stays at the level of an interesting observation that doesn't change behavior.</div>
+      </div>
+
+      <!-- CALL WALK -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Call Walk — 5 Segments</div>
+          <div class="label">Reverse Listening + Deep Recall</div>
+        </div>
+        <div class="segments">
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">01</div>
+              <div class="seg-ts">0–5 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--muted);">Forensic framing</div>
+              <div class="seg-summary">Zach introduces the ARCS forensic pass done on Peter's LinkedIn profile as the entry frame. Two outputs on screen — ARCS analysis on the left, vanilla Perplexity on the right. Peter's initial register: curious, not guarded. He's seen demos before and isn't performing skepticism.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--muted);">Divergence · LOW</div>
+              <div class="seg-flag-text">Pre-call expectation: polite curiosity. Actual: genuine engagement from the first frame. Using his own profile as the test case was the right call — it prevented the demo from being abstract from the start.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">02</div>
+              <div class="seg-ts">5–12 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--gold);">Multi-LLM workflow reveal</div>
+              <div class="seg-summary">Peter surfaces his existing workflow: Perplexity for research, Claude for narrative synthesis, ChatGPT for pressure-testing, Gemini as a cross-check — all distilled manually into investment memos, then his own judgment on top. He's not skeptical of AI; he's a power user asking "why add another layer to what's already working?"</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--gold);">Divergence · MED</div>
+              <div class="seg-flag-text">This is the key structural insight of the call. He's already doing a rough version of the ARCS pipeline — just without state, without a receipt trail, and without the kairos/timing layer. The gap is real but narrower than expected. The case to make isn't "replace your stack" — it's "make your stack remember."</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">03</div>
+              <div class="seg-ts">12–20 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--cyan);">Live A/B demo</div>
+              <div class="seg-summary">ARCS on his own profile vs. vanilla Perplexity. Zach demonstrates: anti-sycophancy (tells you what you need to hear, not what you want), stateful persistence (RAM→ROM — decisions that stick and update over time), kairos moment detection (maps his career timing against macro waves), red team/blue team + Kintsugi (adversarial reconciliation). Peter's engagement noticeably increases through this segment — asking follow-up questions, not just listening.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--cyan);">Divergence · LOW</div>
+              <div class="seg-flag-text">The live demo on his own profile was the right move. Abstract feature demos don't land for operators at his level — seeing the kairos layer map his actual career transitions against macro waves made it concrete in a way that no explanation could.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">04</div>
+              <div class="seg-ts">20–26 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--red);">Platform risk objection</div>
+              <div class="seg-summary">Peter surfaces the durable wall: "A lot of the challenge with these tools is we don't know what Anthropic and OpenAI are sitting on… even if you're a really good tool, there might be an update that closes the gap." This is forward-looking infrastructure evaluation — he's not dismissing ARCS, he's asking whether the moat is durable. The sophisticated version of the commoditization fear.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+              <div class="seg-flag-text">This came AFTER he was engaged by the demo — which means it's a real concern, not an escape hatch. The correct answer isn't a defensive feature comparison. It's: "ARCS runs on top of Claude/GPT — we use the best available model for each layer. The moat is state, audit trail, and kairos. Those are things Anthropic and OpenAI are structurally not building." This answer wasn't fully locked in the call.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">05</div>
+              <div class="seg-ts">26–30 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--green);">Positive close with open loop</div>
+              <div class="seg-summary">Peter: "It adds a different framework." He wants to see the evolved front-end in approximately three weeks. No concrete next step committed — but not a hard stop. The door is genuinely open, not politely ajar.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--green);">Signal · MED</div>
+              <div class="seg-flag-text">"Different framework" from a multi-LLM power user who already has a working stack is real acknowledgment. The 3-week front-end timeline is his version of "show me you're building, not just talking." The follow-up artifact has to be the product — not a re-pitch.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SIGNAL THREADS -->
+      <div>
+        <div class="label" style="margin-bottom: 12px;">Signal Threads</div>
+        <div class="signal-grid">
+
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Already Does the Workflow</div>
+              <div class="sig-strength strength-hard">HARD YES</div>
+            </div>
+            <div class="sig-card-desc">He synthesizes 4 LLMs manually today. That's exactly what ARCS does — with state, audit trail, and kairos added on top. The gap to bridge isn't conceptual. It's "make his existing workflow remember and compound." That's a much shorter pitch than "here's a new way to think about decisions."</div>
+          </div>
+
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Kairos Is His Superpower</div>
+              <div class="sig-strength strength-hard">HARD YES</div>
+            </div>
+            <div class="sig-card-desc">His entire career pattern is kairos-competent integration — stepping into waves at the institution↔startup interface at exactly the right moment. The kairos detection layer in ARCS maps to his native way of thinking. Seeing it applied to his own career arc visibly landed in the demo. This is the most natural entry point for a first real use case.</div>
+          </div>
+
+          <div class="sig-card sig-card-gold">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Platform Risk is Load-Bearing</div>
+              <div class="sig-strength strength-dir">DIRECTIONAL</div>
+            </div>
+            <div class="sig-card-desc">He's evaluating ARCS as infrastructure — which is correct and is better than evaluating it as a point tool. But that means the durability argument has to be airtight. The answer to "Anthropic might close the gap" is: "We run on top of Anthropic. The gap we're building isn't in the model — it's in the state and the receipt trail. That's structurally yours, not theirs." This wasn't fully landed on the call.</div>
+          </div>
+
+          <div class="sig-card sig-card-red" style="grid-column: 1 / -1;">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Bandwidth Is The Real Constraint</div>
+              <div class="sig-strength strength-watch">WATCH</div>
+            </div>
+            <div class="sig-card-desc">10+ portfolio boards + Gentoro + XPRIZE = every tool competes for the same thin slice of cognitive bandwidth. Even if he's fully convinced, activation energy is the barrier. The follow-up artifact can't require any setup work on his end — it has to meet him where he already is. The compass prompt on this page is designed for that: paste it, run it, see what ARCS does that his current stack doesn't.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROBABILITY TREE -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Probability Tree — 4 Forward Scenarios</div>
+        </div>
+        <div class="prob-rows">
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">40</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario A</div>
+              <div class="prob-label">Portfolio Amplifier</div>
+              <div class="prob-desc">Runs the compass prompt → sees the question-beneath-the-question move and kairos layer working on his actual decision space → starts routing high-stakes Palm portfolio moments through ARCS before giving advisory recommendations. Low-friction, high-value use pattern that fits naturally into his existing workflow.</div>
+              <div class="prob-watch">Entry point: the "portfolio breadth vs. operator bet" prompt on the Play tab. If he runs it and sends a reaction, this scenario is live.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">30</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario B</div>
+              <div class="prob-label">Portfolio Referral</div>
+              <div class="prob-desc">Doesn't become a regular user himself, but routes one or more Palm portfolio companies toward ARCS for their own high-stakes decision moments. His role as connective tissue between 10+ companies makes this a meaningful outcome even if he's not the primary user.</div>
+              <div class="prob-watch">If he mentions a specific portfolio company with a decision surface that maps to the compass in the follow-up, this is where it's heading.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">20</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario C</div>
+              <div class="prob-label">Periodic High-Stakes User</div>
+              <div class="prob-desc">Rare but high-value usage — pulls ARCS out for the highest-stakes decisions only (Gentoro board moments, major Palm portfolio pivots, XPRIZE design questions). Not a habit, but not gone either. The receipt trail from even a few sessions starts to compound.</div>
+              <div class="prob-watch">Most likely if the front-end redesign lands well in the 3-week window and the platform risk concern is explicitly addressed.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">10</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario D</div>
+              <div class="prob-label">Goes Dark</div>
+              <div class="prob-desc">Bandwidth constraint wins. The 3-week window closes without follow-up. "Adds a different framework" stays at the level of an interesting observation and doesn't convert to any action. Not a hard rejection — just the default when there's too much in the queue.</div>
+              <div class="prob-watch">If no response to the Play tab compass prompt within 3 weeks, send one follow-up — the prompt, not the pitch — and let it rest.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RISK FLAGS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Risk Flags</div>
+        </div>
+        <div class="risk-rows">
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-high">HIGH</div></div>
+            <div class="risk-body">
+              <div class="risk-label">Platform risk objection unresolved</div>
+              <div class="risk-desc">"Anthropic might close the gap" is a real structural concern from a sophisticated evaluator — not a lazy objection. It wasn't fully answered on the call. If he's still sitting with it unresolved when the front-end lands in 3 weeks, it stays the durable wall.</div>
+              <div class="risk-action">The answer, for the record: ARCS runs on top of Anthropic/OpenAI. The moat is in state, audit trail, and kairos — things the model providers are structurally not building. Every model upgrade makes ARCS better, not obsolete. Lead with this explicitly on the next touch, don't wait for him to re-raise it.</div>
+            </div>
+          </div>
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+            <div class="risk-body">
+              <div class="risk-label">Activation energy is the real gate</div>
+              <div class="risk-desc">Even at full conviction, he has 10+ portfolio companies competing for attention. A tool that requires onboarding, setup, or any friction before the first useful output won't get through. The follow-up artifact has to be zero-setup.</div>
+              <div class="risk-action">The compass prompt on the Play tab is designed for this. One paste, one run. No account setup required. The first output has to show him something his existing stack doesn't — in that first session.</div>
+            </div>
+          </div>
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-low">LOW</div></div>
+            <div class="risk-body">
+              <div class="risk-label">3-week window decay</div>
+              <div class="risk-desc">"Adds a different framework" acknowledgment has a short half-life with high-portfolio operators. The 3-week front-end timeline is a soft commitment, not a hard one. Forward momentum requires a concrete artifact arriving before he forgets the specific things that landed in the demo.</div>
+              <div class="risk-action">This brief + the compass prompt is the artifact. Send peter.arcs.care with a one-line note — don't re-pitch, just open the door to the Play tab.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PROTOCOL -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recoil Protocol</div>
+          <div class="label">5 segments · ~30 min call</div>
+        </div>
+        <div style="padding: 20px;">
+          <div class="protocol-grid">
+            <div class="pass-card">
+              <div class="pass-name">Reverse Listening</div>
+              <div class="pass-dir">End → Start</div>
+              <div class="pass-body">Call ended on "adds a different framework" + 3-week front-end request. Reading backward: the platform risk objection (segment 4) came after he was already engaged by the demo — so it's genuine, not defensive. The workflow reveal (segment 2) is the most important moment: he's already doing a manual version of what ARCS does. The kairos demo (segment 3) was the highest-engagement point — his own career arc mapped against macro waves is the thing that made it concrete.</div>
+            </div>
+            <div class="pass-card">
+              <div class="pass-name">Deep Recall</div>
+              <div class="pass-dir">Start → End · vs. pre-call expectation</div>
+              <div class="pass-body">Pre-call: expected platform risk concern, expected multi-LLM stack disclosure. Actual: both correct, plus the workflow reveal was more detailed than expected — he's running a sophisticated 4-LLM synthesis process already. The biggest miss: expected the kairos layer to land as novel; it landed as familiar — because his entire career is kairos-competent integration. He recognized it because it maps to how he already thinks. That's both the strongest signal and the clearest path to a first use case.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMMEDIATE ACTIONS -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Immediate Actions</div>
+        </div>
+        <div class="action-rows">
+          <div class="action-row">
+            <div class="action-num">1</div>
+            <div class="action-text">Send peter.arcs.care — this brief is the artifact that demonstrates the pre/post briefing methodology in its native register. The Play tab has the compass prompt designed for his specific decision space. Don't re-pitch; just open the door.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">2</div>
+            <div class="action-text">Lead the send with the moat answer — not as a re-pitch, as a one-line clarification: "The thing I didn't answer cleanly on the call: ARCS runs on top of Anthropic. Every model upgrade makes it better. The moat is in the state and the receipt trail — which are structurally yours, not theirs."</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">3</div>
+            <div class="action-text">Give him the compass prompt from the Play tab. Don't ask him to come up with his own question — that's activation energy he doesn't have. The prompt is pre-loaded for his actual decision space. One paste, one run.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">4</div>
+            <div class="action-text">3-week check-in per his timeline (May 11, 2026). If no response by then, send the prompt once more — not the brief, not a re-pitch. Just the prompt. If no response after that, Scenario D is default and this stays as a durable peer relationship at ambient temperature.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STOP-LOSS -->
+      <div class="stop-loss">
+        <div class="sl-label">Stop-Loss</div>
+        <div class="sl-text">If no reaction to the compass prompt within 3 weeks of sending, one follow-up — the prompt, not the pitch. If still no response, this is Scenario D. Don't chase. Peter has real bandwidth constraints and a genuine but thin positive signal. A durable peer relationship at low activation is worth more than a high-friction follow-up sequence.</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ POST-CALL -->
+    <div id="tab-post" class="tab-pane active">
+
+      <div>
+        <div class="sl">What we confirmed</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Evaluator</div>
+              <div class="conf-val"><strong>Sophisticated, not skeptical.</strong> He's a 4-LLM power user who has already built his own version of the ARCS pipeline. His objection isn't "I don't see the value" — it's "I'm evaluating whether the moat is durable." That's the right kind of hard.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Moat gap</div>
+              <div class="conf-val">The platform risk answer wasn't fully locked in the call. He left with the concern unresolved. The answer — ARCS runs on top of Claude/GPT; the moat is state + audit + kairos, which are structurally ours — needs to arrive before the 3-week window closes.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Use case</div>
+              <div class="conf-val">The highest-probability entry: routing his advisory moments through the compass before giving recommendations to Palm portfolio companies. He's advising on high-stakes pivots every week; ARCS fits naturally into the pre-decision moment without requiring any change to his current workflow.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Kairos layer</div>
+              <div class="conf-val">This landed — visibly. Seeing his own career arc mapped against macro waves in real time was the highest-engagement point in the demo. The kairos layer is the most natural hook for someone whose entire operating identity is built around timing and wave-entry.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Window</div>
+              <div class="conf-val" style="color:var(--dimmed)">~3 weeks from Apr 20 = approximately May 11, 2026. His stated timeline for wanting to see the evolved front-end.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">How pre-call scenarios landed</div>
+        <div class="card">
+          <div class="verdict-rows">
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">CONFIRMED</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Curious evaluator</div>
+                <div class="verdict-text">Exactly right. Genuine engagement from the first frame — asked follow-up questions during the A/B demo, not just politely listening. The forensic pass on his own profile was the correct opening move.</div>
+              </div>
+            </div>
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--gold);border-color:rgba(255,215,0,0.25);background:rgba(255,215,0,0.05)">PARTIAL</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Soft skeptic</div>
+                <div class="verdict-text">The skepticism was about durability (platform risk), not about the concept itself. That's harder to answer in one call but easier to answer over time — every session that produces a receipt he can audit is evidence that the moat is real.</div>
+              </div>
+            </div>
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--dimmed);border-color:var(--border);background:rgba(30,41,59,0.3)">POSSIBLE</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Portfolio amplifier / referral</div>
+                <div class="verdict-text">Not confirmed, but not closed. He didn't name a specific portfolio company or decision surface. The first concrete use case is still the unlock. The compass prompt on the Play tab is designed to generate that first session.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Signals from the call</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--green)"></div>
+              <div class="intel-text"><strong>The kairos layer landed hardest.</strong> Not the anti-sycophancy demo, not the receipt concept — seeing his own career arc mapped against macro timing was the moment where his engagement noticeably shifted. That's the entry point.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>He's already doing this manually.</strong> The 4-LLM synthesis workflow is his current version of ARCS. The pitch isn't "here's a new way to think" — it's "make what you're already doing remember itself."</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>Platform risk is a real structural concern, not an escape hatch.</strong> It came after genuine engagement, which means it's a live objection, not a polite exit. The answer needs to arrive before the 3-week window closes.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--muted)"></div>
+              <div class="intel-text">The "adds a different framework" close is a genuine acknowledgment from a discerning evaluator. It's not a close, but it's real. The next artifact has to show the framework doing something his current stack structurally cannot.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Next steps</div>
+        <div class="card">
+          <div class="next-rows">
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">NOW</div>
+              <div class="next-text">Send peter.arcs.care with a one-line note addressing the platform risk concern + an invitation to the Play tab compass prompt. No re-pitch. No explanation of the brief. Just: "here's what I didn't answer cleanly, and here's the fastest way to see what I was describing."</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--gold)">3 WKS</div>
+              <div class="next-text">May 11 check-in per his stated timeline. If front-end has shipped, send the link. If compass prompt generated a reaction, use that as the agenda. If silence, send the prompt one more time — not the brief.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--muted)">IF ENGAGED</div>
+              <div class="next-text">Find which Palm portfolio company has the highest-stakes decision moment in the next 90 days — that's the entry point for a first real-stakes session. Don't propose a retainer. Propose one session on one real decision.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ PLAY -->
+    <div id="tab-play" class="tab-pane">
+
+      <!-- HEADER -->
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">QUESTION COMPASS · DESIGNED FOR PETER</div>
+            <div class="recoil-name">What ARCS does that your stack doesn't</div>
+            <div class="recoil-sub">One prompt · paste it · see the question-beneath-the-question</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="receipt-id">2026-04-20-espersen</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>YELLOW / MEDIUM</div>
+            <div>
+              <div class="nci-val">64</div>
+              <div class="nci-label">NCI · Apr 20</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTEXT -->
+      <div class="card">
+        <div style="padding: 20px 24px;">
+          <div class="label" style="margin-bottom: 10px;">The thing I didn't answer cleanly on the call</div>
+          <div style="font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 12px;">Your platform risk concern — "Anthropic might close the gap" — is the right question. Here's the answer that should have landed: <strong>ARCS runs on top of Claude and GPT. Every model upgrade makes ARCS better, not obsolete.</strong> The moat isn't in the underlying model. It's in three things the model providers are structurally not building:</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px;">
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--cyan); line-height: 1.5;">STATE — your decisions accumulate. Each session updates your priors. Receipt history is yours, not theirs.</div>
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--green); line-height: 1.5;">AUDIT TRAIL — ex-ante receipts you can compare against what actually happened. No model ships this.</div>
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5;">KAIROS — timing mapped to your specific trajectory, not generic timing advice. That's the layer you saw land on your own profile.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPASS PROMPT -->
+      <div>
+        <div class="sl">The prompt — designed for your decision space</div>
+        <div class="compass-prompt">
+          <div class="cp-label">Question Compass Prompt · Peter Espersen</div>
+          <div class="cp-text" id="compass-prompt-text">I've spent the last two years in portfolio leverage mode — advising 10+ early-stage companies across AI, PropTech, SaaS, and AR/VR through Palm Venture Studios while sitting on the Gentoro board as MCP/agent adoption starts to scale in enterprise. My pattern throughout my career has been the same: I find the wave early, help shape it from the edge at the institution-startup interface, and then move to the next one as it consolidates. Biometrics and blockchain civic infra, co-creation platforms at LEGO, mobile social with Pixable, virtual worlds at Sulake — each time I entered at the right moment.
+
+But I'm noticing that the AI and agent wave is moving faster than the others, and I'm not certain whether my current distributed mode compounds better as the window narrows — or whether this is the moment to go back inside as an operator at one of these companies before the best positions close. The question I keep deferring: is this the right moment to make that move, and if so, what would I actually be optimizing for?</div>
+          <button class="cp-copy-btn" id="cp-btn" onclick="copyPrompt()">COPY PROMPT</button>
+          <div class="cp-note">Paste this directly into app.arcs.care/dashboard. The compass will surface the question beneath the question — which isn't "operator vs. portfolio," it's something else entirely. That's the move.</div>
+        </div>
+      </div>
+
+      <!-- WHY THIS WORKS -->
+      <div>
+        <div class="sl">Why this prompt specifically — what ARCS does that GPT/Claude doesn't</div>
+        <div class="card">
+          <div class="why-rows">
+            <div class="why-row">
+              <div class="why-tag">Anti-sycophancy</div>
+              <div class="why-body"><strong>GPT/Claude will give you a balanced framework.</strong> ARCS will tell you what you actually need to hear — including whether "should I go back inside as an operator" is the real question or a proxy for something else. The question-beneath-the-question move is what you saw in the demo. It will happen here too.</div>
+            </div>
+            <div class="why-row">
+              <div class="why-tag">Kairos layer</div>
+              <div class="why-body"><strong>GPT/Claude give atemporal advice.</strong> ARCS maps WHY NOW — whether the AI/agent wave timing relative to your current position is actually a kairos moment, or whether that urgency is partly constructed. You've been right about timing before. This is the layer that audits that instinct.</div>
+            </div>
+            <div class="why-row">
+              <div class="why-tag">Stateful</div>
+              <div class="why-body"><strong>GPT/Claude don't remember.</strong> After this session, you'll have a receipt. Run the same question in 90 days and ARCS will show you what changed — where your conviction shifted, what new information updated your priors. Your existing multi-LLM stack can't do that. This is what makes the reasoning compound.</div>
+            </div>
+            <div class="why-row">
+              <div class="why-tag">Red team</div>
+              <div class="why-body"><strong>GPT/Claude validate your framing.</strong> ARCS runs an adversarial pass on your own reasoning — including the implicit premise that "portfolio leverage mode" is the right default. Sometimes the question you're asking is the tell. The red team layer surfaces that. Whether you take the output or push back on it is yours to call — ARCS doesn't decide for you.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TWO MORE USE CASES -->
+      <div>
+        <div class="sl">Two more places to try it — your actual decision terrain</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--gold)">A</div>
+                <div class="q-text" style="color:var(--text);font-size:13px;">Before your next major advisory recommendation to a Palm portfolio company. Run the decision through the compass first — what's the question beneath the question they're actually asking, and what's the kairos read on whether now is the right moment to act on it?</div>
+              </div>
+              <div class="q-look">Best demonstrates: stateful receipts across multiple portfolio decisions. The audit trail starts building from the first session.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--cyan)">B</div>
+                <div class="q-text" style="color:var(--text);font-size:13px;">The Gentoro board question: at what adoption inflection point does MCP/agent governance become a genuine enterprise requirement vs. a nice-to-have — and what does Gentoro need to have built before that inflection lands?</div>
+              </div>
+              <div class="q-look">Best demonstrates: the timing layer applied to a wave you're actively inside, not observing from the outside. Different from what your current LLM stack would produce on the same question.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DECISION RECEIPT -->
+      <div>
+        <div class="sl">Decision receipt — pre-follow-up</div>
+        <div class="card" style="position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--cyan);"></div>
+          <div class="conf-rows" style="padding-left:4px;">
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Question</div>
+              <div class="conf-val">How do I convert "adds a different framework" into a concrete first use case — and which prompt will show Peter something his existing 4-LLM stack structurally cannot produce?</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">True North</div>
+              <div class="conf-val"><strong>Peter runs one session.</strong> Not a commitment, not a follow-up call — one compass run on a real decision in his space. The receipt from that session is the artifact that answers the durability question better than any explanation could.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Hypothesis</div>
+              <div class="conf-val">The "portfolio breadth vs. operator bet" prompt is the highest-yield first session. It has kairos built in, requires stateful reasoning, and benefits from the question-beneath-the-question move — the combination that most distinguishes ARCS from his current workflow.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Sprint shape</div>
+              <div class="conf-val">Send peter.arcs.care → Play tab → one prompt → one run → his reaction is the agenda for the next touch. No setup friction. No onboarding overhead.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Y Gate</div>
+              <div class="conf-val"><span style="color:var(--gold);font-weight:600;">YELLOW / MEDIUM</span> — direction confirmed Apr 20; first use case not yet landed. Moves to GREEN when he runs a session and sends a reaction.</div>
+            </div>
+            <div class="conf-row" style="border-bottom:none;">
+              <div class="conf-key" style="width:96px;">Window</div>
+              <div class="conf-val">~3 weeks from Apr 20 = May 11, 2026. Per his stated timeline for the evolved front-end.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POST-CALL CLOSE-OUT PLACEHOLDER -->
+      <div>
+        <div class="sl">Post-call close-out — to fill after he responds</div>
+        <div class="card" style="position:relative;overflow:hidden;opacity:0.5;">
+          <div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--border);"></div>
+          <div class="conf-rows" style="padding-left:4px;">
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">What opened</div>
+              <div class="conf-val" style="color:var(--border);">— did he run the compass? which prompt? what was his reaction?</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">Use case</div>
+              <div class="conf-val" style="color:var(--border);">— YES / NO / REDIRECTED · which portfolio company or decision surface opened</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">Platform risk</div>
+              <div class="conf-val" style="color:var(--border);">— resolved / still live / reframed after first session</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">Y Gate</div>
+              <div class="conf-val" style="color:var(--border);">— update from YELLOW / MEDIUM</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">NCI delta</div>
+              <div class="conf-val" style="color:var(--border);">— from 64 · Apr 20 · UP / DOWN / FORK</div>
+            </div>
+            <div class="conf-row" style="border-bottom:none;align-items:flex-start;">
+              <div class="conf-key" style="width:96px;color:var(--border);padding-top:2px;">Belief shift</div>
+              <div class="conf-val" style="color:var(--border);">
+                <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.06em;margin-bottom:6px;">NET-NEW INFO THAT CHANGED THE MODEL</div>
+                <div>· —</div>
+                <div>· —</div>
+                <div>· —</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
