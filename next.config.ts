@@ -49,10 +49,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
         // todd-call.arcs.care → public/todd-call.html
         { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // vishal.arcs.care → public/vishal-kapadia-forensic-report.html (Clearing the Signal forensic)
-        { source: "/:path*", destination: "/vishal-kapadia-forensic-report.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
-        // vishal-awe.arcs.care → public/vishal-kapadia-awe-forensic.html (Awe paper forensic)
-        { source: "/:path*", destination: "/vishal-kapadia-awe-forensic.html", has: [{ type: "host", value: "vishal-awe.arcs.care" }] },
+        // vishal.arcs.care → public/vishal-combined.html (two-tab: essay forensic + awe paper forensic)
+        { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
