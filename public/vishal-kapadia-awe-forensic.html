@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Awe as a Pathway — ARCS Forensic Recall Report · Monroy & Keltner</title>
+<style>
+:root {
+  --bg: #09090d;
+  --surface: #111118;
+  --surface2: #17171f;
+  --border: #22222e;
+  --border2: #2c2c3a;
+  --text: #e8e8f0;
+  --muted: #8888a0;
+  --dim: #555568;
+  --gold: #c9a55a;
+  --gold2: #e8c87a;
+  --blue: #7b9cff;
+  --blue2: #a8c0ff;
+  --green: #5ec98f;
+  --red: #e07070;
+  --amber: #e0b84d;
+  --violet: #b48fff;
+  --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --serif: 'Georgia', 'Iowan Old Style', 'Times New Roman', serif;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: var(--serif);
+  line-height: 1.72;
+  font-size: 16px;
+}
+
+/* ─── LAYOUT ─── */
+.wrap { max-width: 860px; margin: 0 auto; padding: 64px 28px 120px; }
+.narrow { max-width: 680px; }
+
+/* ─── RULE ─── */
+.rule { border: none; border-top: 1px solid var(--border); margin: 56px 0; }
+.rule-gold { border: none; border-top: 1px solid var(--gold); opacity: 0.25; margin: 48px 0; }
+
+/* ─── EYEBROW / LABEL ─── */
+.eyebrow {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px;
+}
+.label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ─── MASTHEAD ─── */
+.masthead { padding: 0 0 56px; border-bottom: 1px solid var(--border); margin-bottom: 56px; }
+.masthead-kicker { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+.masthead-title { font-size: 42px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 10px; color: var(--text); }
+.masthead-sub { font-family: var(--sans); font-size: 15px; color: var(--muted); margin-bottom: 28px; }
+.masthead-meta { display: flex; gap: 32px; flex-wrap: wrap; }
+.meta-item { display: flex; flex-direction: column; gap: 3px; }
+.meta-val { font-family: var(--sans); font-size: 13px; color: var(--text); }
+.meta-key { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim); }
+
+/* ─── FOREWORD / AFTERWORD ─── */
+.section-kicker {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.section-title { font-size: 28px; font-weight: 700; letter-spacing: -0.015em; margin-bottom: 20px; color: var(--text); }
+.prose { font-family: var(--serif); font-size: 16px; line-height: 1.8; color: #d4d4e0; margin-bottom: 20px; }
+.prose strong { color: var(--text); font-weight: 700; }
+.prose em { color: var(--gold2); font-style: italic; }
+
+/* ─── PULL QUOTE ─── */
+.pull-quote {
+  border-left: 3px solid var(--gold);
+  padding: 12px 22px;
+  margin: 32px 0;
+  background: var(--surface);
+  border-radius: 0 8px 8px 0;
+}
+.pull-quote p {
+  font-family: var(--serif); font-size: 17px; font-style: italic;
+  color: var(--gold2); line-height: 1.65; margin-bottom: 6px;
+}
+.pull-quote cite {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--dim); font-style: normal;
+}
+
+/* ─── THREAD NAV ─── */
+.thread-nav {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px 28px; margin-bottom: 56px;
+}
+.thread-nav-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+.thread-list { display: flex; flex-direction: column; gap: 6px; list-style: none; }
+.thread-list a {
+  font-family: var(--sans); font-size: 13.5px; color: var(--blue2);
+  text-decoration: none; display: flex; align-items: baseline; gap: 10px;
+}
+.thread-list a:hover { color: var(--gold2); }
+.thread-num { font-family: var(--mono); font-size: 10px; color: var(--dim); min-width: 18px; }
+
+/* ─── THREAD SECTION ─── */
+.thread {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; margin-bottom: 32px;
+}
+.thread-header {
+  padding: 22px 28px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.thread-header-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.thread-id { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); }
+.thread-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+.thread-name { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+.thread-desc { font-family: var(--sans); font-size: 13.5px; color: var(--muted); }
+.thread-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 18px; }
+
+/* ─── PHASE CARD ─── */
+.phase { background: var(--bg); border: 1px solid var(--border2); border-radius: 10px; padding: 18px 20px; }
+.phase-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; font-family: var(--sans); }
+.phase-tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700;
+  padding: 3px 9px; border-radius: 4px; border: 1px solid var(--border2); background: var(--surface2);
+  white-space: nowrap;
+}
+.tag-analysis   { color: var(--blue2);   border-color: rgba(123,156,255,0.25); }
+.tag-assessment { color: var(--amber);   border-color: rgba(224,184,77,0.25); }
+.tag-evaluation { color: var(--red);     border-color: rgba(224,112,112,0.25); }
+.tag-synthesis  { color: var(--green);   border-color: rgba(94,201,143,0.25); }
+.tag-recap      { color: var(--violet);  border-color: rgba(180,143,255,0.25); }
+.phase-title { font-size: 13.5px; font-weight: 600; color: var(--text); }
+.phase-body { font-family: var(--sans); font-size: 14px; color: #c0c0d0; line-height: 1.7; }
+.phase-body strong { color: var(--text); }
+.phase-body em { color: var(--gold2); }
+
+/* ─── THREAD LABELS ─── */
+.color-structural { color: var(--blue2); }
+.color-rhetorical { color: var(--amber); }
+.color-metaphysical { color: var(--violet); }
+.color-empirical { color: var(--green); }
+.color-epistemic { color: var(--red); }
+.color-biological { color: var(--amber); }
+
+/* ─── NCI BOX ─── */
+.nci-box {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 22px 26px; margin-top: 32px;
+}
+.nci-box-title { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.nci-row { display: flex; align-items: baseline; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.nci-row:last-child { border-bottom: none; }
+.nci-key { font-family: var(--mono); font-size: 11px; color: var(--dim); min-width: 180px; }
+.nci-val { font-family: var(--sans); font-size: 14px; color: var(--text); }
+.nci-score { font-family: var(--mono); font-size: 22px; font-weight: 700; color: var(--gold); margin-right: 6px; }
+
+/* ─── LOCK TABLE ─── */
+.lock-table { width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 13px; margin-top: 14px; }
+.lock-table th { text-align: left; padding: 8px 10px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); border-bottom: 1px solid var(--border); }
+.lock-table td { padding: 9px 10px; border-bottom: 1px solid rgba(34,34,46,0.5); color: #c0c0d0; vertical-align: top; }
+.lock-table td:first-child { font-family: var(--mono); color: var(--gold); font-size: 11px; }
+.lock-table td:last-child { color: var(--green); font-family: var(--mono); font-size: 11px; }
+
+/* ─── AFTERWORD MEDITATION ─── */
+.meditation {
+  background: var(--surface); border-left: 3px solid var(--violet);
+  border-radius: 0 12px 12px 0; padding: 22px 26px; margin-bottom: 22px;
+}
+.meditation-num { font-family: var(--mono); font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+.meditation-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+.meditation-body { font-family: var(--sans); font-size: 14px; color: #c0c0d0; line-height: 1.72; }
+.meditation-body em { color: var(--violet); font-style: italic; }
+.meditation-body strong { color: var(--text); }
+
+/* ─── FOOTER ─── */
+.footer { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); text-align: center; margin-top: 80px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ══════════════════════ MASTHEAD ══════════════════════ -->
+  <div class="masthead">
+    <div class="masthead-kicker">ARCS · Deep Forensic Recall · S-Tier Diamond Protocol</div>
+    <h1 class="masthead-title">Awe as a Pathway to Mental and Physical Health</h1>
+    <div class="masthead-sub">A full-thread forensic report on Monroy & Keltner (2023) — evidentiary architecture, structural load-bearing, and the distance between the model and its proof</div>
+    <div class="masthead-meta">
+      <div class="meta-item"><span class="meta-key">Authors</span><span class="meta-val">Maria Monroy &amp; Dacher Keltner</span></div>
+      <div class="meta-item"><span class="meta-key">Publication</span><span class="meta-val">Perspectives on Psychological Science, 18(2)</span></div>
+      <div class="meta-item"><span class="meta-key">Report Date</span><span class="meta-val">Jul 6, 2026</span></div>
+      <div class="meta-item"><span class="meta-key">Protocol</span><span class="meta-val">v8.5 Diamond · Forensic Recall</span></div>
+      <div class="meta-item"><span class="meta-key">NCI Score</span><span class="meta-val">78 / 100</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ FOREWORD ══════════════════════ -->
+  <div id="foreword">
+    <div class="section-kicker">Foreword</div>
+    <h2 class="section-title">Why This Paper Demands Forensic Treatment</h2>
+
+    <div class="narrow">
+      <p class="prose">Most theoretical papers in positive psychology do one of two things: they propose a new construct and undersell its scope, or they propose a unifying theory and overstate the evidence behind it. Monroy and Keltner's paper on awe is doing something structurally more interesting — it is attempting a <strong>parsimonious unification move</strong> across five independent literatures (nature, spirituality, music/dance, collective movement, psychedelics) under a single emotional mechanism. That is a bold claim. It deserves forensic treatment, not just reading.</p>
+
+      <p class="prose">The paper's central bet is that awe — not "positive affect," not "transcendence" in the vague sense, but <em>awe specifically</em>, with measurable facial patterns and neurophysiological signatures — is the mechanism by which all five of these very different kinds of experience produce reproducible health benefits. If this is right, it has serious implications: it means that the mechanism is not in the content of the experience (prayer vs. psilocybin vs. hiking) but in a specific emotional response the experiences share. This is the kind of claim that, if it holds, restructures an entire field's explanatory vocabulary.</p>
+
+      <p class="prose">The forensic question is not whether the claim is interesting. It plainly is. The question is: <strong>does the evidentiary architecture support the structural load the theory places on it?</strong> And the answer, as this report will show, is: partially and honestly — the paper knows where its evidence thins, names it directly, and argues for the model anyway. That intellectual honesty is itself a finding worth documenting.</p>
+
+      <div class="pull-quote">
+        <p>"Entire pathways have only recently begun to be tested."</p>
+        <cite>Monroy &amp; Keltner · Awe as a Pathway · Limitations section</cite>
+      </div>
+
+      <p class="prose">That sentence — placed quietly in the limitations section — is doing more work than it appears to. It is acknowledging that the five-pathway model is currently held together more by theoretical coherence than by mediation evidence. This report tracks that gap through seven threads, from the paper's strongest moves (the measurement claim, the small-self phenomenon) to its most consequential underweighted finding (the threat-awe distinction) to the open question that the paper names but does not resolve.</p>
+
+      <p class="prose">The report identifies <strong>seven load-bearing threads</strong>. Each is analysed in five phases — <strong>Analysis → Assessment → Evaluation → Synthesis → Recapitulation</strong>. The afterword offers five meditations, including the paper's structural connection to Vishal Kapadia's "Clearing the Signal" — a connection that runs deeper than it might initially appear.</p>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ══════════════════════ THREAD NAV ══════════════════════ -->
+  <div class="thread-nav">
+    <div class="thread-nav-title">Seven Threads · Full Forensic Sequence</div>
+    <ul class="thread-list">
+      <li><a href="#t1"><span class="thread-num">01</span>The Measurement Claim — awe as distinct, cross-culturally consistent, and quantifiable</a></li>
+      <li><a href="#t2"><span class="thread-num">02</span>The Five-Pathway Model — the paper's structural spine and its evidentiary weight</a></li>
+      <li><a href="#t3"><span class="thread-num">03</span>The Threat-Awe Distinction — the most underweighted finding in the paper</a></li>
+      <li><a href="#t4"><span class="thread-num">04</span>The Unification Thesis — one mechanism explaining five separate literatures</a></li>
+      <li><a href="#t5"><span class="thread-num">05</span>The Small Self — the most concretely demonstrated mechanism in the paper</a></li>
+      <li><a href="#t6"><span class="thread-num">06</span>The Neurophysiology Thread — grounding a subjective state in measurable biology</a></li>
+      <li><a href="#t7"><span class="thread-num">07</span>The Causal Gap — the distance between the model and the evidence that proves it</a></li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════ THREAD 01 ══════════════════════ -->
+  <div class="thread" id="t1">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 01</span>
+        <span class="thread-label color-empirical">Empirical / Definitional</span>
+      </div>
+      <div class="thread-name">The Measurement Claim</div>
+      <div class="thread-desc">Awe as distinct, cross-culturally consistent, and quantifiable — the paper's foundational move against "ineffability"</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          The paper opens by confronting what would be its fatal objection if left unaddressed: that awe is irreducibly subjective, culturally variable, and therefore not amenable to scientific study. The authors don't sidestep this — they build a three-layer evidentiary case that awe is in fact measurable. Layer one: consistent facial signature (raised inner eyebrows, widened eyes, open mouth) identified across studies. Layer two: consistent vocal signature ("wow," "whoa") recognised across 144 cultures in a computational analysis of over 2 million videos. Layer three: consistent neurophysiological profile — elevated vagal tone, reduced sympathetic activation, increased oxytocin, reduced interleukin-6 (an inflammation marker). The implicit argument is: if something has a consistent face, a consistent sound, and a consistent biological signature across 144 cultures, the ineffability objection has been answered empirically, not philosophically.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">Where this thread is strong and where it thins</span>
+        </div>
+        <div class="phase-body">
+          The cross-cultural computational analysis is the strongest piece of evidence — 2M+ videos, 144 cultures, computational facial analysis is not easily dismissed. The neurophysiological markers are well-grounded in prior literature. The thread thins at the boundary of <em>measurement</em> vs. <em>categorisation</em>: the paper demonstrates that a consistent cluster of features co-occur, but the inference that these features constitute a <strong>distinct emotion</strong> (as opposed to a region in a continuous affective space) requires the additional premise that discrete emotion theory is the correct framework — a premise that is assumed rather than argued. Dimensional models of affect (valence × arousal) would partition this cluster differently.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Does the framework assumption undermine the claim — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          Adversarial check: if discrete emotion theory is wrong, does the measurement claim collapse? <strong>Partially, not fully.</strong> Even under a dimensional model, the paper's core finding — that this specific cluster of features (vast stimulus + cognitive accommodation + specific physiology) predicts specific health outcomes — would still hold. The claim would lose its conceptual elegance (it's not "awe," it's "a state characterised by X, Y, Z that correlates with health benefits") but the empirical relationships survive. The discrete emotion framing is a communication choice that trades explanatory precision for parsimony — a defensible trade in a theoretical review paper.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 01 establishes that the ineffability objection has been answered well enough to proceed. Awe is not a private experience that varies arbitrarily across individuals — it has predictable triggers, predictable expressions, predictable physiological signatures, and predictable behavioral consequences. Whether "awe" is the correct ontological category or a useful approximation of a more granular state is a question the paper brackets appropriately. For a theoretical review, that bracket is the right move.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>The thread holds with a noted bracket.</strong> The measurement claim is sufficiently grounded to support the paper's theoretical ambitions. The discrete-emotion framework is assumed rather than argued, but that assumption is appropriate for this genre of review.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ THREAD 02 ══════════════════════ -->
+  <div class="thread" id="t2">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 02</span>
+        <span class="thread-label color-structural">Structural</span>
+      </div>
+      <div class="thread-name">The Five-Pathway Model</div>
+      <div class="thread-desc">The paper's structural spine — how awe is theorised to produce health benefits through five interconnected mechanisms</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          The paper's central contribution is Figure 1: a model in which awe produces health benefits through five distinct pathways — (1) neurophysiological shifts, (2) diminished self-focus, (3) enhanced prosociality, (4) social integration, and (5) elevated meaning-making. This is not a simple "awe → wellbeing" claim; it is a mechanistic model specifying how the emotional state translates into health outcomes. The sophistication here is that the five pathways are presented as interconnected, not independent — meaning-making reinforces social integration, which sustains prosocial orientation, which feeds back into the neurophysiology. The model is deliberately systemic.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">Where this thread is strong and where it thins</span>
+        </div>
+        <div class="phase-body">
+          The model is theoretically coherent — the five pathways are individually well-motivated and the feedback loops are plausible. The thread thins significantly at the empirical level: <strong>each pathway has evidence at the correlational or experimental level, but the specific mediation claim — that awe produces health benefits <em>through</em> these five mechanisms — has not been fully tested.</strong> The authors acknowledge this ("entire pathways have only recently begun to be tested"), but the acknowledgment is positioned at the end rather than foregrounded. A reader skimming the model would reasonably believe the evidence is stronger than it is.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Is this a defect or a genre-appropriate feature — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          The genre is "Perspectives" — a theoretical review, not a meta-analysis or clinical trial. In this genre, proposing a well-motivated mechanistic model before all its pathways are fully proven is <strong>exactly what the journal is for</strong>. The paper is doing what theoretical review papers should do: synthesise existing evidence into a coherent model that generates testable predictions. The gap between model and proof is a feature, not a defect — provided the paper names it clearly. It names it, but quietly. The forensic concern is that the presentation may create an impression of stronger evidentiary support than currently exists, particularly for practitioners who use the model without reading the limitations.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 02 establishes that the paper's primary contribution is a theoretical architecture — a model with predictive power and research agenda implications — rather than a review of settled evidence. The five pathways are a map, not a confirmed territory. The map appears well-drawn based on available evidence, and the authors know the difference between the two. For a practitioner reader, the distinction matters: this is a strong theoretical framework to orient action, not an established clinical protocol.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>The spine holds as theory; it's partly hollow as evidence.</strong> The five-pathway model is the paper's main intellectual contribution and is well-motivated. The mediation proof is acknowledged-but-incomplete. Practitioners should treat it as a navigable hypothesis, not a confirmed mechanism.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ THREAD 03 ══════════════════════ -->
+  <div class="thread" id="t3">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 03</span>
+        <span class="thread-label color-epistemic">Critical / Epistemic</span>
+      </div>
+      <div class="thread-name">The Threat-Awe Distinction</div>
+      <div class="thread-desc">The finding the paper buries — approximately 25% of awe experiences contain threat appraisals that negate health benefits</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          The paper contains a structurally important finding that receives disproportionately little emphasis: approximately 25% of awe experiences involve threat appraisals — fear of being overwhelmed, sense of danger or judgment — and these <em>do not</em> produce health benefits. In some cases they actively reduce wellbeing. The threat-awe profile is not rare: it is consistently more prominent in Japanese samples compared to other cultures, and it is associated with neuroticism and contextual factors like perceived status hierarchies. This finding is scattered across three different sections — the definitional section, the cultural moderation discussion, and the domain-specific sections — rather than consolidated as a first-class finding.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">Why the burial matters</span>
+        </div>
+        <div class="phase-body">
+          The threat-awe distinction is the paper's most consequential underweighted finding for practitioners. If one-quarter of awe experiences are not just neutral but potentially harmful, then "cultivate more awe experiences" is incomplete advice — and potentially counterproductive for individuals with high neuroticism, individuals in high-hierarchy contexts, or for whom the awe trigger (the vastness of nature, the authority of a deity, the power of a collective) reads as threatening rather than expansive. <strong>The paper's framework as presented cannot distinguish in advance which type of awe a given person will experience</strong>, which is a significant practical limitation that the theoretical summary does not adequately foreground.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Is this an oversight or a defensible presentation choice — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          Adversarial check: the authors did not suppress the finding — they reported it in multiple places. The question is framing. The paper's title, abstract, and model all emphasise the positive pathway. Threat-awe appears as a caveat rather than a co-equal phenomenon. For a general-audience theoretical paper, this framing may be appropriate. For a clinical or intervention audience, it is insufficient. <strong>The paper should have included a sixth pathway element: "what predicts threat-awe vs. expansive awe, and how does this moderate the health benefit?"</strong> The absence of this element is the model's most actionable gap.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 03 establishes that the model has an implicit selection mechanism that the paper does not name: the benefits of awe accrue to people for whom vast stimuli read as expansive rather than threatening. Neuroticism, cultural context, and perceived status hierarchies are the known moderators. Any intervention design based on this paper needs a threat-awe screening layer that the paper does not provide the tools to build. This is not a defect in the paper's science; it is an honest gap at the boundary between theoretical review and clinical application.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>The most important finding in the paper is not in the abstract.</strong> Threat-awe is real, culturally moderated, and negates the health benefits. Any practitioner use of this framework that ignores this distinction is working from an incomplete model.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ THREAD 04 ══════════════════════ -->
+  <div class="thread" id="t4">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 04</span>
+        <span class="thread-label color-metaphysical">Conceptual / Unification</span>
+      </div>
+      <div class="thread-name">The Unification Thesis</div>
+      <div class="thread-desc">One emotion explaining why five very different experiences produce health benefits — the paper's deepest intellectual bet</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          The paper's deepest intellectual move is not the five-pathway model — it is the bet that a single emotion (awe) provides the common causal mechanism across five literatures that have generally been studied in isolation. Nature researchers explain nature's health benefits through stress reduction and restorative attention. Spirituality researchers cite social connection and meaning. Music researchers invoke synchrony and entrainment. Psychedelic researchers focus on ego dissolution and neuroplasticity. The paper argues that awe is the <em>mechanism underlying all of these</em> — not an additional explanation, but the explanation that unifies what were previously treated as separate phenomena.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">How strong is the unification argument</span>
+        </div>
+        <div class="phase-body">
+          The argument is more compelling in some domains than others. In nature and spirituality, the awe-mediation hypothesis is well-supported by existing studies that have measured awe directly. In collective movement and music, the mediation is more inferred than measured — the literature documents the experience and the health outcome, but the specific role of awe within the experience is less directly tested. In psychedelics, the connection is plausible and increasingly supported (psychedelics consistently produce reports of awe-like states) but the causal chain is not yet established. <strong>The unification is strongest as a research program and weakest as a current evidentiary claim.</strong>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Is the unification thesis premature — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          The adversarial reading: premature unification is a common error in theoretical psychology — it creates the appearance of parsimony while suppressing domain-specific mechanisms that may matter clinically. Does this apply here? Ruling: <strong>the risk is real but the bet is defensible.</strong> The mechanisms the paper proposes (DMN deactivation, diminished self-focus, vagal tone elevation) appear across multiple domains via independent measurement, which is strong evidence for a common mechanism rather than coincidental convergence. The bet is not reckless — it is appropriately bold for the evidence base. The paper is doing what science needs: naming a unification hypothesis early enough that it can be tested.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 04 establishes that the paper's lasting contribution may be the research agenda rather than the current findings. If the unification thesis holds — if awe is confirmed as the common mechanism across domains — it restructures how interventions should be designed (not "send people to nature" or "try meditation" but "engineer conditions for expansive awe"). If it fails, the domain-specific mechanisms remain intact and the paper becomes a useful misfire. Either outcome advances the field. The thesis earns its place in the paper.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>The unification thesis is the paper's most ambitious and least-proven claim — and its most valuable contribution.</strong> A bold, testable hypothesis that, if confirmed, would restructure an entire field's intervention vocabulary.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ THREAD 05 ══════════════════════ -->
+  <div class="thread" id="t5">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 05</span>
+        <span class="thread-label color-empirical">Empirical</span>
+      </div>
+      <div class="thread-name">The Small Self</div>
+      <div class="thread-desc">Diminished self-focus as the most concretely demonstrated mechanism — the Yosemite study and its implications</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          Of the five pathways, diminished self-focus has the strongest direct experimental evidence. The Yosemite self-portrait study is the anchor: participants drew themselves physically smaller after experiencing awe in a natural environment compared to control conditions. Daily diary studies corroborate this — on days when participants reported feeling awe, they reported perceiving themselves as a smaller part of a larger whole. Critically, mediation analysis confirms a causal chain: <strong>awe → reduced self-focus → lower daily stress</strong>. This is one of the few places in the paper where the mediation pathway has been directly tested and confirmed, not just theorised.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">Where this thread is strong and where it thins</span>
+        </div>
+        <div class="phase-body">
+          The self-portrait methodology is creative and the results are striking, but the effect size and external validity questions are real. Does the small-self phenomenon persist beyond laboratory or naturalistic observation into daily functioning? The daily diary evidence suggests yes, but longitudinal studies tracking whether sustained awe exposure produces durable reductions in self-focused rumination are not yet in the literature. The thread is strong as a mechanism demonstration and thinner as a clinical-duration claim.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Why this matters beyond the paper — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          The small-self finding connects to a well-established clinical literature: amplified self-focus is a transdiagnostic feature of depression, anxiety, body-image disorders, aggression, and social dysfunction. If awe reliably reduces self-focus via a specific mechanism, it points toward a potential intervention logic that is neither pharmacological nor classically cognitive-behavioral — it is environmental and experiential. <strong>This is the paper's most actionable clinical thread, and it is the one with the strongest evidentiary backing.</strong> The adversarial check finds no significant weakness at the mechanism level — the gap is in duration and dose.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 05 establishes that the small-self pathway is the evidentiary core of the paper — the place where the mechanism is most directly demonstrated and the clinical implications are clearest. If only one pathway were funded for further development, the mediation analysis connecting awe → diminished self-focus → reduced stress is the one with the strongest foundation and the most actionable intervention implications.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>This thread holds strongest.</strong> Awe reduces self-focus, and reduced self-focus reduces stress — confirmed via mediation analysis. The most evidentiary piece of the paper. Duration and dose questions remain open.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ THREAD 06 ══════════════════════ -->
+  <div class="thread" id="t6">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 06</span>
+        <span class="thread-label color-biological">Biological / Neurophysiological</span>
+      </div>
+      <div class="thread-name">The Neurophysiology Thread</div>
+      <div class="thread-desc">Grounding an emotional state in measurable biology — the paper's bet that the mechanism is somatic, not merely cognitive</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          A distinctive feature of this paper — unusual in the emotion-and-wellbeing literature — is the emphasis on specific neurophysiological markers. Awe is associated with: elevated vagal tone (linked to optimism, social connection, reduced cardiovascular risk), reduced sympathetic nervous system activation (the "calm and connect" profile vs. fight-or-flight), increased oxytocin (prosocial bonding), reduced interleukin-6 (an inflammation marker linked to depression and cardiovascular disease), and reduced default-mode network (DMN) activation (the brain network associated with self-referential rumination). The psychedelics research adds a specific mechanism: psilocybin deactivates the DMN through a serotonin-receptor pathway, producing the same reduction in self-referential thought that natural awe produces, which explains why they generate the same phenomenological profile.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">Where this thread is strong and where it thins</span>
+        </div>
+        <div class="phase-body">
+          The DMN / psychedelics / natural awe convergence is the most intellectually striking piece of the neurophysiology thread — the same brain network is deactivated by vastly different triggers, suggesting the mechanism is genuinely structural rather than stimulus-specific. The thread thins at the inflammation evidence: reduced interleukin-6 under awe conditions is documented, but whether the effect sizes are clinically meaningful (rather than statistically significant in laboratory studies) is not addressed. Vagal tone elevation is well-established but measured in controlled settings; whether naturalistic awe exposure produces durable vagal tone changes is less clear.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Does the biology grounding strengthen or overcomplicate the paper — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          The risk of grounding a theoretical model in specific biological markers is that the markers become a more testable (and falsifiable) commitment than a purely psychological model. The paper takes this risk deliberately. <strong>The risk is worth taking.</strong> The DMN convergence across natural awe and psychedelics is the single most compelling piece of evidence for the unification thesis — it shows that the mechanism is not in the content of the experience (a mountain vs. a molecule) but in a shared brain-state alteration. This is exactly the kind of biological grounding that would move the paper from theoretical speculation to mechanistic hypothesis.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 06 establishes that awe has a consistent neurophysiological signature and that this signature overlaps with the biological mechanisms known to produce health benefits. The convergence of DMN deactivation across natural awe and psychedelics is the strongest single piece of evidence for the unification thesis. The inflammation and vagal tone findings are suggestive but require larger naturalistic studies to determine clinical magnitude.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>The DMN convergence is the paper's most intellectually striking finding.</strong> Same brain-state alteration across mountain, music, meditation, and psilocybin — this is the biological evidence that the unification thesis deserves to be taken seriously.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════ THREAD 07 ══════════════════════ -->
+  <div class="thread" id="t7">
+    <div class="thread-header">
+      <div class="thread-header-top">
+        <span class="thread-id">Thread 07</span>
+        <span class="thread-label color-epistemic">Methodological / Epistemic</span>
+      </div>
+      <div class="thread-name">The Causal Gap</div>
+      <div class="thread-desc">The distance between the model and the evidence — what the paper knows it cannot yet prove, and what that means for its claims</div>
+    </div>
+    <div class="thread-body">
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-analysis">Analysis</span>
+          <span class="phase-title">What the thread is doing</span>
+        </div>
+        <div class="phase-body">
+          The paper contains, distributed across its limitation passages, a series of honest acknowledgments that add up to a significant admission: the five-pathway model is theoretically motivated but not yet causally proven. The specific gap is mediation. The paper has evidence that (a) awe correlates with health outcomes, and (b) the five pathway variables (self-focus, prosociality, etc.) also correlate with health outcomes, and (c) awe correlates with the pathway variables. But <strong>the specific claim that awe produces health benefits <em>because it reduces self-focus, which reduces stress</em> — rather than some other pathway — requires mediation studies that have only been conducted for Pathway 2 (diminished self-focus) and partially for Pathway 5 (meaning-making).</strong>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-assessment">Assessment</span>
+          <span class="phase-title">How significant is the causal gap</span>
+        </div>
+        <div class="phase-body">
+          The causal gap is significant for clinical application and modest for theoretical purposes. For a practitioner designing an intervention, the specific pathway matters — if you're trying to reduce depression by reducing inflammation, you need to know that the awe-inflammation pathway is real, durable, and dose-dependent. If you're building a theory of why transcendent experiences help, the correlation evidence and the mechanistic plausibility are sufficient scaffolding. The paper is appropriate for the second purpose and insufficient for the first — a distinction the paper does not make as clearly as it could.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-evaluation">Evaluation</span>
+          <span class="phase-title">Does honest limitation acknowledgment rescue the overclaim risk — adversarial check</span>
+        </div>
+        <div class="phase-body">
+          The paper's limitations section is genuinely honest — more so than many review papers in this space. The question is whether the honest limitations are structurally positioned to modify how readers interpret the findings, or whether they are easy to skip. Adversarial ruling: <strong>the limitations are real but their placement means the model's overclaim risk is not fully mitigated.</strong> A reader who encounters the model diagram (Figure 1) and the domain case studies without reaching the limitations section will come away with a stronger sense of established evidence than the paper's actual evidentiary base warrants. This is a presentation problem, not a scientific dishonesty problem — but it matters for how the paper circulates.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-synthesis">Synthesis</span>
+          <span class="phase-title">What this thread actually establishes</span>
+        </div>
+        <div class="phase-body">
+          Thread 07 establishes that the paper is at the right stage of theoretical development — it has enough evidence to motivate a model, not enough to prove one. The authors know this. The causal gap is not a hidden flaw; it is the actual frontier of the research program. The paper's primary contribution is the architecture for the next decade of empirical work rather than a settled summary of the current decade's findings. Reading it as the former produces appropriate expectations; reading it as the latter produces misplaced confidence.
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <span class="phase-tag tag-recap">Recapitulation</span>
+          <span class="phase-title">One-line receipt</span>
+        </div>
+        <div class="phase-body">
+          <strong>The gap between model and proof is the paper's honest self-assessment, not its flaw.</strong> This is where the research program lives. Practitioners should read the model as hypothesis architecture, not clinical protocol.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ══════════════════════ LOCK VERIFICATION ══════════════════════ -->
+  <div id="lock">
+    <div class="section-kicker">Lock Verification</div>
+    <h2 class="section-title">NCI Audit &amp; Thread Status</h2>
+
+    <div class="nci-box">
+      <div class="nci-box-title">Non-fiction Clarity Integrity — Final Score</div>
+      <div class="nci-row">
+        <span class="nci-key">Overall NCI</span>
+        <span class="nci-val"><span class="nci-score">78</span>/ 100</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Measurement claim</span>
+        <span class="nci-val">Well-grounded. Framework bracket (discrete vs. dimensional) noted but appropriate for genre.</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Five-pathway model</span>
+        <span class="nci-val">Theoretically coherent; mediation evidence partial. Appropriate for a Perspectives paper.</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Threat-awe distinction</span>
+        <span class="nci-val">Real, documented, and underweighted in framing. Most consequential gap for practitioner readers.</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Unification thesis</span>
+        <span class="nci-val">Bold, testable, worth the bet. DMN convergence is strong independent support.</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Small self / diminished self-focus</span>
+        <span class="nci-val">Strongest evidentiary thread. Mediation confirmed. Duration questions remain open.</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Neurophysiology</span>
+        <span class="nci-val">DMN convergence across natural awe and psychedelics is the paper's most striking finding.</span>
+      </div>
+      <div class="nci-row">
+        <span class="nci-key">Causal gap acknowledgment</span>
+        <span class="nci-val">Honest and correctly positioned as a limitation. Placement mitigates but doesn't fully prevent overclaim risk.</span>
+      </div>
+    </div>
+
+    <table class="lock-table" style="margin-top: 24px;">
+      <thead>
+        <tr>
+          <th>Thread</th>
+          <th>Title</th>
+          <th>Status</th>
+          <th>Verdict</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>T01</td>
+          <td>The Measurement Claim</td>
+          <td>Holds with bracket noted</td>
+          <td>CLEAR</td>
+        </tr>
+        <tr>
+          <td>T02</td>
+          <td>The Five-Pathway Model</td>
+          <td>Theory strong; mediation partial</td>
+          <td>PARTIAL</td>
+        </tr>
+        <tr>
+          <td>T03</td>
+          <td>The Threat-Awe Distinction</td>
+          <td>Real, underweighted, actionable</td>
+          <td>FLAG</td>
+        </tr>
+        <tr>
+          <td>T04</td>
+          <td>The Unification Thesis</td>
+          <td>Research program, not settled evidence</td>
+          <td>CLEAR</td>
+        </tr>
+        <tr>
+          <td>T05</td>
+          <td>The Small Self</td>
+          <td>Strongest thread; mediation confirmed</td>
+          <td>CLEAR</td>
+        </tr>
+        <tr>
+          <td>T06</td>
+          <td>The Neurophysiology</td>
+          <td>DMN convergence strong; duration gaps</td>
+          <td>CLEAR</td>
+        </tr>
+        <tr>
+          <td>T07</td>
+          <td>The Causal Gap</td>
+          <td>Honestly named; placement risk remains</td>
+          <td>NOTED</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ══════════════════════ AFTERWORD ══════════════════════ -->
+  <div id="afterword">
+    <div class="section-kicker">Afterword</div>
+    <h2 class="section-title">Five Meditations</h2>
+
+    <div class="meditation">
+      <div class="meditation-num">Meditation I</div>
+      <div class="meditation-title">The DMN Convergence and What It Means That the Mechanism Is Substrate-Independent</div>
+      <div class="meditation-body">
+        <p>The most striking finding in this paper is not the health benefits of awe — those are unsurprising given the existing literature on positive affect. It is that <em>the same brain network (the default-mode network) is deactivated by experiences as different as standing before a sequoia, attending a religious ceremony, and ingesting psilocybin</em>. The DMN is the neural correlate of the self-referential narrative — the internal monologue, the status tracking, the rumination loop. Its deactivation is not just a byproduct of awe; based on the convergence evidence, it appears to be the mechanism.</p>
+        <p>If this is right, it means the content of the transcendent experience is largely irrelevant to its mechanism. What matters is whether the experience is vast enough to temporarily override the self-narrative. This has a non-obvious implication for AI-mediated experience: can a sufficiently expansive AI-generated encounter reliably induce DMN deactivation? The paper does not address this, and the existing evidence base suggests the answer is probably not yet — naturalistic awe appears to require genuine scale, collective presence, or biochemical intervention. But it is the right question to be asking as AI systems become more immersive.</p>
+      </div>
+    </div>
+
+    <div class="meditation">
+      <div class="meditation-num">Meditation II</div>
+      <div class="meditation-title">The Structural Overlap with "Clearing the Signal"</div>
+      <div class="meditation-body">
+        <p>Vishal Kapadia's essay and this paper are working on structurally related problems from different angles. The essay argues that <em>jīva</em> luminosity — genuine self-generated clarity — requires subtraction: removing the karma-noise that obscures what is already present. The paper argues that awe produces health benefits specifically through <em>diminished self-focus</em> — the reduction of the self-referential narrative that amplifies stress, depression, and disconnection.</p>
+        <p>These are not the same claim, but they share a common architecture: <strong>the problem is not absence of the good thing, but the presence of noise that obscures it</strong>. In the essay, the noise is borrowed light — performed fluorescence. In the paper, the noise is amplified self-focus — the default-mode network's self-narration. The subtraction path in the essay maps onto the DMN deactivation mechanism in the paper. Both are arguing, in their respective registers, that the mechanism of flourishing is not addition but clearing.</p>
+        <p>The essay Vishal sent and the paper he shared two minutes later are the same thought in two different languages.</p>
+      </div>
+    </div>
+
+    <div class="meditation">
+      <div class="meditation-num">Meditation III</div>
+      <div class="meditation-title">What Threat-Awe Means for Intervention Design</div>
+      <div class="meditation-body">
+        <p>The threat-awe distinction (Thread 03) is the most underweighted finding in the paper for practitioners, and it has a specific practical implication: <em>not all exposure to vastness is therapeutic</em>. Vast stimuli that trigger a threat appraisal — a deity perceived as judgmental, a crowd experienced as overwhelming, a natural phenomenon associated with danger — produce a cortisol response, not a vagal response. The health benefits the paper describes require expansive awe, not threat-awe.</p>
+        <p>For any intervention designer using this framework, the first clinical question is not "how do we engineer awe experiences?" but "for this specific person, does vast stimuli trigger expansion or threat?" Neuroticism scores and cultural context are the known moderators, but they are blunt instruments. A fine-grained assessment tool for awe-type predisposition does not yet exist — and the paper's framework implies that building one should be a research priority before intervention design.
+        <strong>The intervention is not prescribed until the threat profile is assessed.</strong></p>
+      </div>
+    </div>
+
+    <div class="meditation">
+      <div class="meditation-num">Meditation IV</div>
+      <div class="meditation-title">The Open Question: Awe in Non-Transcendent Contexts</div>
+      <div class="meditation-body">
+        <p>Every domain the paper addresses involves encounters with something genuinely vast — mountains, sacred rituals, collective ceremonies, psychedelic experience. The implicit assumption is that awe is triggered by scale: something beyond one's current perceptual frame of reference. But the paper's own small-self evidence suggests the mechanism is not scale per se, but the <em>relative reduction of self-importance in the presence of something larger</em>. That is a more tractable lever.</p>
+        <p>This opens a question the paper does not address: can decision-making, intellectual discovery, or collaborative work produce awe-level self-transcendence? The available evidence suggests that the cognitive-accommodation requirement (encountering something that requires a frame expansion, not just a frame update) is achievable in intellectual contexts — a mathematical insight, a paradigm shift, a genuinely novel argument. If so, the health benefits of awe may be achievable in everyday professional contexts that do not involve mountains or psychedelics. This is the research frontier the paper's framework implies but does not map.</p>
+      </div>
+    </div>
+
+    <div class="meditation">
+      <div class="meditation-num">Meditation V</div>
+      <div class="meditation-title">On Honest Science and the Difference Between a Model and a Map</div>
+      <div class="meditation-body">
+        <p>The sentence buried in the paper's limitations section — <em>"entire pathways have only recently begun to be tested"</em> — is one of the most honest sentences in the positive psychology literature. It is unusual for a theoretical paper to so clearly name the distance between its model and its evidence. Most theoretical reviews in this space present their frameworks with a confidence that the underlying evidence does not support.</p>
+        <p>Monroy and Keltner are doing something harder: <strong>building the map before the territory is fully surveyed, and being transparent that the map is a map</strong>. This is not a limitation — it is what theoretical science is supposed to do. A model that cannot be built until the evidence is complete is not a theoretical contribution; it is a summary. The paper is useful precisely because it synthesises what is currently known into an architecture that makes the gaps visible. The gaps are the research agenda. The map is the tool for finding them.</p>
+        <p>This is the note worth carrying: the paper's intellectual honesty is not a hedge against its ambition — it is the thing that makes the ambition credible.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">ARCS · Deep Forensic Recall · v8.5 Diamond Protocol · Jul 6, 2026</div>
+
+</div>
+</body>
+</html>
