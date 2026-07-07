@@ -304,7 +304,8 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <div class="card">
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('pre-call', this)">Pre-Call</button>
-      <button class="tab-btn" onclick="switchTab('recoil', this)">Recoil</button>
+      <!-- Recoil tab hidden: intel carried into Pre-Call/On-Call/Beats -->
+      <!-- <button class="tab-btn" onclick="switchTab('recoil', this)">Recoil</button> -->
       <button class="tab-btn" onclick="switchTab('on-call', this)">On-Call</button>
       <button class="tab-btn" onclick="switchTab('beats', this)">Beats</button>
       <button class="tab-btn" onclick="switchTab('agenda', this)">Jul 8</button>
@@ -520,7 +521,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
     </div>
 
     <!-- ═══════════════════════════ TAB 2: RECOIL ═══════════════════════════ -->
-    <div id="tab-recoil" class="tab-pane" style="padding: 20px; gap: 20px;">
+    <div id="tab-recoil" class="tab-pane" style="display:none!important" hidden style="padding: 20px; gap: 20px;">
 
       <!-- Johnny Call -->
       <div class="recoil-header">
@@ -1056,6 +1057,35 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 
     <!-- ═══════════════════════════ TAB 5: JUL 7 ═══════════════════════════ -->
     <div id="tab-agenda" class="tab-pane" style="padding: 20px; gap: 20px;">
+
+      <!-- Runtime Card -->
+      <div>
+        <div class="sl">Runtime Card — Read This at T-minus 10. Nothing Else.</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Identity</div>
+              <div class="conf-val">I build decision infrastructure for orgs that want to ship AI but haven't agreed on what success looks like yet.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Constraint</div>
+              <div class="conf-val">Grayscale — SEC pivot mid-launch on an ETF product page. 7B digital asset platform, launched on schedule, zero violations.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Builder</div>
+              <div class="conf-val">ARCS — every call I've run through this decision prep system has moved to the next stage. This brief is the prep for this one.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Chaos</div>
+              <div class="conf-val">Ideal Protein — PE chaos, no shared definition of done. My first deliverable was to create that shared definition of success.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Close</div>
+              <div class="conf-val">Not deliverables, trust-building. How do your best practitioners earn the right to shape the problem before they start solving it?</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Decision Receipt -->
       <div>
