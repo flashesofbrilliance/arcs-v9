@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Runtime · Julia / Tribe AI</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: #fff;
+  color: #111;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  overflow: hidden;
+}
+.page {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* RUNTIME CARD */
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 12px;
+}
+.card-rows { display: flex; flex-direction: column; gap: 10px; }
+.card-row { display: flex; gap: 16px; align-items: baseline; }
+.row-key {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bbb;
+  flex-shrink: 0;
+  width: 48px;
+}
+.row-val { font-size: 15px; color: #111; line-height: 1.5; }
+.row-val em { font-style: normal; color: #666; font-size: 13px; }
+
+/* TRIGGER MAP */
+.trigger-table { width: 100%; border-collapse: collapse; }
+.trigger-table td {
+  padding: 9px 12px;
+  font-size: 13px;
+  line-height: 1.4;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+}
+.trigger-table tr:last-child td { border-bottom: none; }
+.trigger-table td:first-child {
+  color: #888;
+  width: 44%;
+  padding-left: 0;
+}
+.trigger-table td:nth-child(2) {
+  color: #444;
+  font-weight: 500;
+  width: 8px;
+  padding: 9px 6px;
+  color: #ccc;
+}
+.trigger-table td:last-child { color: #111; font-weight: 600; }
+
+/* ALTITUDE */
+.altitude {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.6;
+  padding: 14px 16px;
+  background: #f9f9f9;
+  border-radius: 6px;
+  border-left: 3px solid #ddd;
+}
+.altitude strong { color: #111; }
+
+/* DIVIDER */
+.divider { height: 1px; background: #f0f0f0; }
+
+@media (max-height: 700px) {
+  body { padding: 20px 24px; }
+  .page { gap: 20px; }
+  .card-rows { gap: 8px; }
+  .row-val { font-size: 14px; }
+}
+@media (max-width: 480px) {
+  body { padding: 24px 20px; align-items: flex-start; overflow-y: auto; }
+  .row-val { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- RUNTIME CARD -->
+  <div>
+    <div class="section-label">Runtime Card</div>
+    <div class="card-rows">
+      <div class="card-row">
+        <div class="row-key">HOOK</div>
+        <div class="row-val">"The failure isn't technical. Nobody agreed on what 'working' looks like before we deployed."</div>
+      </div>
+      <div class="card-row">
+        <div class="row-key">A</div>
+        <div class="row-val">"SEC changed the rules. We shipped anyway."</div>
+      </div>
+      <div class="card-row">
+        <div class="row-key">B</div>
+        <div class="row-val">"Execs forgot why they committed. I built instant replay for that."</div>
+      </div>
+      <div class="card-row">
+        <div class="row-key">C</div>
+        <div class="row-val">"Nobody could tell me what to build. I made the definition of success the first deliverable."</div>
+      </div>
+      <div class="card-row">
+        <div class="row-key">TAKE</div>
+        <div class="row-val">"The model works. Nobody agreed on what 'working' looks like." <em>[If she pulls: "Definition of done = artifact, not a conversation."]</em></div>
+      </div>
+      <div class="card-row">
+        <div class="row-key">CLOSE</div>
+        <div class="row-val">"Not deliverables — trust-building. How do your best practitioners earn the right to shape the problem?"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- STORY TRIGGER -->
+  <div>
+    <div class="section-label">Story Trigger</div>
+    <table class="trigger-table">
+      <tr>
+        <td>Embedded / no authority</td>
+        <td>→</td>
+        <td>C</td>
+      </tr>
+      <tr>
+        <td>Constraint / compliance</td>
+        <td>→</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <td>What you built / method</td>
+        <td>→</td>
+        <td>B</td>
+      </tr>
+      <tr>
+        <td>Where AI deployments fail</td>
+        <td>→</td>
+        <td>Hot Take</td>
+      </tr>
+      <tr>
+        <td>What makes you different</td>
+        <td>→</td>
+        <td>C close</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ALTITUDE FILTER -->
+  <div class="altitude">
+    <strong>Altitude filter:</strong> Julia: ex-Meta RL PM, neurotech founder. Could she tell exactly what I did from this sentence? If not → be specific.
+  </div>
+
+</div>
+</body>
+</html>

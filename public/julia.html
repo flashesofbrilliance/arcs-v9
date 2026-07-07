@@ -361,7 +361,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
             </div>
             <div class="intel-row">
               <div class="intel-dot" style="background:var(--green)"></div>
-              <div class="intel-text"><strong>Clients:</strong> Prudential, Kirkland &amp; Ellis, Microsoft — Fortune 100 tier. Partners: OpenAI, Anthropic, AWS, Microsoft. ~85 FT, hundreds more in Slack.</div>
+              <div class="intel-text"><strong>Clients:</strong> Prudential, Kirkland &amp; Ellis, Microsoft — Fortune 100 tier. Partners: OpenAI, Anthropic, AWS, Microsoft. ~100 FT practitioners, 600+ in the Tribe network.</div>
             </div>
             <div class="intel-row">
               <div class="intel-dot" style="background:var(--gold)"></div>
@@ -399,10 +399,10 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
                 <div class="story-title">ARCS — AI Product Built from Scratch</div>
               </div>
               <div class="story-bullet">
-                <div class="story-line"><div class="story-key">S</div><div class="story-val">High-stakes calls — pitches, negotiations, client intros — were the ones I was least prepared for. Not from lack of knowledge, but no structured way to model the other person's logic.</div></div>
+                <div class="story-line"><div class="story-key">S</div><div class="story-val">Across multiple engagements — PE transitions, regulated product builds, 0-to-1 with ambiguous sponsors — the same pattern: execs committed with full conviction, then couldn't reconstruct the rationale under friction. The Ideal Protein engagement was the most concentrated version. That's where decision receipts went from framework to tool.</div></div>
                 <div class="story-line"><div class="story-key">T</div><div class="story-val">Build a prep framework that runs preparation systematically, documents reasoning, captures learning for future calibration.</div></div>
                 <div class="story-line"><div class="story-key">A</div><div class="story-val">Built decision prep tool — prompt framework → structured system with stakeholder profiling, pre-mortem simulation, confidence self-grading. Tech: Claude Code, Python, FastAPI, Supabase RLS, Vercel.</div></div>
-                <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>Every call prepared with this system moved to the next stage. This brief is 40 pages.</strong></div></div>
+                <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>Every major call I've prepared this way has advanced. Story B v3 is the proof of method — pattern recognized across engagements, receipt layer built and deployed.</strong></div></div>
               </div>
               <div class="story-close">I am the primary user and the primary proof point. The methodology — structured diagnostic before sprint one — is exactly what I'd bring to client engagements.</div>
             </div>
@@ -449,7 +449,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
               <div class="risk-body">
                 <div class="risk-label">R3 — ARCS Reads as Vanity</div>
                 <div class="risk-desc">If ARCS sounds like a self-promotional side project rather than a live deployment system, it collapses as a story.</div>
-                <div class="risk-action">Three receipts ready: Kinexys prep moved to next stage · Millionways produced co-authorship conversation · This call has a 40-page brief. "I'm the primary user and the primary proof point."</div>
+                <div class="risk-action">Three receipts: Kinexys advanced · Millionways co-authorship · Story B v3 is the proof of method.</div>
               </div>
             </div>
             <div class="risk-row">
@@ -466,6 +466,14 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
                 <div class="risk-label">R5 — Over-Explanation</div>
                 <div class="risk-desc">Pacing ran long with Mariana. 45 minutes is tight. Julia is a practitioner — precision is respect.</div>
                 <div class="risk-action">Opening: 60s · ARCS: 60s · Each story: 3 min · Hot take: 30s. Stop when the answer is complete.</div>
+              </div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+              <div class="risk-body">
+                <div class="risk-label">R6 — Story B/C Double Attribution</div>
+                <div class="risk-desc">Both Story B and Story C draw from the Ideal Protein engagement. Julia may probe the overlap.</div>
+                <div class="risk-action">Disambiguation: "Ideal Protein was the most concentrated version of a pattern I saw across multiple clients. Story B = pattern across engagements. Story C = specific diagnostic at that client. Non-overlapping."</div>
               </div>
             </div>
           </div>
@@ -695,6 +703,11 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
           <div class="script-text">"The biggest failure mode in enterprise AI deployments isn't the model — it's the success metric. Teams ship a model that does exactly what they specified, then discover the spec was wrong. The FDE who catches that before sprint one is worth ten times the one who catches it at launch. I think the pre-deployment diagnostic is dramatically undervalued in how most teams staff these engagements."</div>
           <div class="script-clock">30 seconds · Pause after · If she gives a polite "interesting" — land it and move. Do not double down.</div>
         </div>
+        <div style="margin-top:12px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:var(--r-md);padding:16px 20px;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Second-Order Layer — Deploy Only If She Pulls</div>
+          <div style="font-size:13px;color:var(--text);line-height:1.65;font-style:italic;">"You make the definition of done a first-class deliverable before sprint one. Not a slide — a signed-off acceptance criteria document with the technical team, the business sponsor, and whoever owns the workflow the model is going to change. The pre-deployment diagnostic isn't a conversation. It's an artifact."</div>
+          <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);margin-top:10px;">30 seconds max. Only if she engages.</div>
+        </div>
       </div>
 
       <!-- Altitude Translation -->
@@ -813,7 +826,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
         <div style="display:flex;flex-direction:column;gap:8px;">
           <div style="display:flex;align-items:flex-start;gap:12px;">
             <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">①</div>
-            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Altitude check before every sentence.</strong> Could a Prudential exec follow this? If not, cut it. No ARCS jargon, no multi-syllable abstractions.</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Altitude check before every sentence.</strong> Could Julia — ex-Meta Reality Labs PM, neurotech founder — tell exactly what I did and how from this sentence? If not, go one layer more specific.</div>
           </div>
           <div style="display:flex;align-items:flex-start;gap:12px;">
             <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">②</div>
@@ -976,9 +989,21 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
               <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"How technical are you?"</div>
               <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"I'm not the ML engineer — I'm the person who makes sure the ML engineer is solving the right problem." Own it, don't hedge.</div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
               <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What's your hot take on AI?"</div>
               <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Hot Take B. 30 seconds. Pause. Don't over-explain if she doesn't engage.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"Which client is the Story B situation?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"Ideal Protein was the most concentrated version of a pattern I saw across multiple clients."</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"How do you define PQL?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"BMI screen + booking initiation. Both steps. Not just a form fill."</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"Walk me through your technical build workflow"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"Model capability mapping against stakeholder workflow first. Definition of done before sprint one. Stack: Claude Code, Cursor, MCP servers. Everything artifacts-first."</div>
             </div>
           </div>
         </div>
