@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // vishal.arcs.care → public/vishal-combined.html
+        { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
         { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         // cj-brief.arcs.care → public/cj-brief.html
