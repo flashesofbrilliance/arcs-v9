@@ -1309,3 +1309,41 @@ arcs-v9: 5db496b — Merge sleepy-booth → main for production breadcrumb/drawe
 
 `/handoff-pickup` → Compass Kit Phase 2 ADR + Phase 2 kickoff. Proceed directly to "Write DS reconciliation ADR" unless production verification reveals unexpected issues.
 
+
+---
+
+# Handoff — v3.5.0 (2026-07-07)
+
+> **For Claude Code:** active pickup point. v3.3.0 above is preserved for history.
+
+## What changed since v3.3.0
+
+### fanatics.arcs.care — LED + layout sprint COMPLETE
+
+- **LED refactor**: Pulsing LEDs moved from vertical left-rail dots to horizontal SVG waveform timeline circles. Each of the 5 timeline circles has a color-matched `filter: drop-shadow()` animation with staggered timing (`2s`, `2.3s`, `1.9s`, `2.5s`, `2.1s`). Vertical `signal-wire` element and `beat-node` div structure removed entirely.
+- **Beat card LED restored** [NCI:209]: `.beat-led` CSS re-added (6px dot, `position: absolute; top: 14px; left: 14px`) for visual color differentiation between beat cards — both card dot AND SVG timeline pulse coexist.
+- **Layout regression fixed** [NCI:210]: `signal-sequence` `padding-left` was 44px (left over from the removed vertical rail). Set to `0` on both desktop and mobile breakpoint — provenance beat cards now flush with all other page sections.
+- **Subdomain QA**: All 13 deployed subdomains confirmed 200 OK, zero 404s.
+
+### Security constraint (permanent, do not gate these)
+
+fanatics.arcs.care, chris.arcs.care, cj-debrief.arcs.care, chase-intro.arcs.care, token.arcs.care, kelly-interview.arcs.care, todd-call.arcs.care — ungated, no password protection.
+
+## Commits this session (arcs-v9 main)
+
+```
+0246df6 — fix(fanatics): remove orphaned signal-sequence indent, align beats with page layout [NCI:210]
+(prior commits NCI:205–209 from same session — LED refactor + deploy-prod.sh)
+```
+
+## Last production deploy
+
+`dpl_4ANhwAxWA3cG6gHVF5MBh3LXBR2k` — READY, aliased to app.arcs.care + all subdomain aliases.
+
+## Open items
+
+All v3.2.0 open items (#2–14) carried forward unchanged. See `.claude/arcs-session-state.md` for full list.
+
+## Next session starts at
+
+`/handoff-pickup` → julia.arcs.care drill feature (pre-call checklist → verbal drills; clarify interaction model + who are Jack, Jill, Boardy) OR governance backlog #3 (log consolidation).
