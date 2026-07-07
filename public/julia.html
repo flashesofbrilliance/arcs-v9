@@ -387,6 +387,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
                 <div class="story-title">Grayscale — Product Under Constraint</div>
               </div>
               <div class="story-bullet">
+                <div class="story-line"><div class="story-key" style="color:var(--cyan)">EXEC</div><div class="story-val" style="font-style:italic;color:var(--text);">At Grayscale, the rules changed mid-build — SEC and FINRA shifted disclosure requirements while we were already in motion — and my job was to keep the product shipping without letting compliance turn into a reactive fire drill. We made every legal constraint explicit and mapped it to a product decision in real time, so the eventual page reflected both what we'd promised and what we were allowed to say — the gap between the thesis and the rule change got narrowed on paper, not in panic.</div></div>
                 <div class="story-line"><div class="story-key">S</div><div class="story-val">Grayscale was mid-launch on 3 ETF product pages and 8 private placements during peak SEC/FINRA uncertainty (Reg D / Reg S), with disclosure rules changing materially mid-build.</div></div>
                 <div class="story-line"><div class="story-key">T</div><div class="story-val">Keep every customer-facing page correct and on time while the rules were moving.</div></div>
                 <div class="story-line"><div class="story-key">A</div><div class="story-val">I owned delivery across four workstreams: the design agency, the dev shop maintaining the legacy site, the headless CMS rebuild, and day-to-day planning. Legal sat in the build, not just at the end, and every change was written down.</div></div>
@@ -400,6 +401,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
                 <div class="story-title">ARCS — AI Product Built from Scratch</div>
               </div>
               <div class="story-bullet">
+                <div class="story-line"><div class="story-key" style="color:var(--green)">EXEC</div><div class="story-val" style="font-style:italic;color:var(--text);">Across engagements I kept seeing the same failure mode: hindsight is only 20/20 when the plans work out — when they don't, institutional amnesia and bias quietly rewrite why a decision was made and what risks were considered. So I built a receipt layer for decisions — capture what we believe, what options we considered, and what risks we saw before we commit, with confidence scores — then update those priors with actuals afterwards so the gap between what we said, what we did, and what actually happened gets smaller over time.</div></div>
                 <div class="story-line"><div class="story-key">S</div><div class="story-val">Across PE turnarounds, regulated builds, and 0-to-1 work with ambiguous sponsors, I kept seeing the same failure: people had shared documents but not shared understanding. Execs forgot why they'd committed. Ideal Protein was the most concentrated version — that's where decision receipts went from framework to tool.</div></div>
                 <div class="story-line"><div class="story-key">T</div><div class="story-val">Build a decision system that defines what "done" looks like for each stakeholder, captures the rationale at the moment of commitment, and runs pre-mortems before anyone starts a sprint.</div></div>
                 <div class="story-line"><div class="story-key">A</div><div class="story-val">I built a full decision prep system that profiles stakeholders, defines shared acceptance criteria, and runs pre-mortems to surface failure modes and headwinds before commitment. (Stack: Claude Code, Python, FastAPI, Supabase, Vercel.)</div></div>
@@ -413,6 +415,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
                 <div class="story-title">Ideal Protein — Client Challenge Navigation</div>
               </div>
               <div class="story-bullet">
+                <div class="story-line"><div class="story-key" style="color:var(--gold)">EXEC</div><div class="story-val" style="font-style:italic;color:var(--text);">In the PE turnaround, the issue wasn't bad decisions, it was undefined decisions — four senior stakeholders each had a different view of what success meant, but none of it had been made explicit, so every sprint was pulling toward a different target. My first deliverable was to get a shared definition of 'done' on paper — the stated success criteria — and turn it into a scope the whole team could see, measure, and ship against; only then could we compare the stated goals to the revealed outcomes and tighten the gap between what people said they wanted and what the product actually did.</div></div>
                 <div class="story-line"><div class="story-key">S</div><div class="story-val">Ideal Protein was PE-acquired and chaotic — no roadmap, no agile process, compliance blindspots, high API failure rates, and a 10-person stakeholder matrix (PE board, CMO, CIO/CTO, SVP Clinic Partnerships).</div></div>
                 <div class="story-line"><div class="story-key">T</div><div class="story-val">No shared definition of success. First real job was to get the PE board, CMO, CIO, and SVP clinics to agree on acceptance criteria across revenue, brand, API stability, and clinic acquisition before touching the product.</div></div>
                 <div class="story-line"><div class="story-key">A</div><div class="story-val">I ran a disaster check across competitors, brand, and the site, found the BMI calculator was the highest-traffic page, and turned it into a two-step lead qualification flow using the standard BMI 30 obesity cutoff as the gate. We used that shared definition to design the BMI-based lead gate and work backwards with pre-mortems to find where the flow could fail for patients, clinics, and compliance before shipping.</div></div>
@@ -420,6 +423,10 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
               </div>
               <div class="story-close">The ambiguity wasn't the problem — it was the diagnostic. The org couldn't tell me what to build because they hadn't agreed on what success looked like. My first deliverable was to create that shared definition.</div>
             </div>
+          </div>
+          <div style="margin-top:16px;padding:14px 18px;background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.15);border-radius:var(--r-md);">
+            <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--gold);margin-bottom:8px;">THROUGH-LINE</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.65;">The through-line across these is narrowing the gap between what teams say, what they commit to, and what actually happens — decision receipts, shared definitions of 'done,' and constraint maps are just different ways of making that delta visible early instead of reacting to it later.</div>
           </div>
         </div>
       </div>
@@ -1017,7 +1024,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
           <div class="take-rows">
             <div class="take-row recommended">
               <div class="take-tag">Simple</div>
-              <div class="take-text">"A leadership team kept revisiting decisions they'd already made because the rationale hadn't been captured clearly. I built the receipt layer so the team could move without rewriting history every two weeks."</div>
+              <div class="take-text">"Across engagements I kept seeing the same failure mode: institutional amnesia quietly rewrites why a decision was made when the plan doesn't work out. I built a receipt layer — capture what we believe and what risks we see before we commit, then update those priors with actuals — so the gap between what we said, what we did, and what happened gets smaller over time."</div>
             </div>
             <div class="take-row">
               <div class="take-tag">Rich</div>
