@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/_vercel/toolbar/script.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Growth Intelligence — Zach Harris</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); }
+
+/* SLIDE SHELL */
+.slide {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 60px 48px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  max-width: 900px; margin: 0 auto;
+}
+.slide-n {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed);
+  margin-bottom: 32px;
+}
+
+/* ── SLIDE 1 — COVER ── */
+.s1-eyebrow {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan);
+  margin-bottom: 20px;
+}
+.s1-title {
+  font-size: 72px; font-weight: 800; color: var(--text);
+  letter-spacing: -0.04em; line-height: 0.95; margin-bottom: 28px;
+}
+.s1-title span { color: var(--cyan); }
+.s1-sub {
+  font-size: 20px; color: var(--muted); line-height: 1.5;
+  max-width: 560px; margin-bottom: 48px; font-weight: 400;
+}
+.s1-meta {
+  font-family: var(--mono); font-size: 10px; color: var(--dimmed);
+  letter-spacing: 0.1em; text-transform: uppercase;
+}
+.s1-glow {
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--green), transparent);
+  opacity: 0.6;
+}
+
+/* ── SLIDE 2 — THE PROBLEM ── */
+.s2-statement {
+  font-size: 48px; font-weight: 700; color: var(--text);
+  letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 24px;
+  max-width: 700px;
+}
+.s2-statement em { color: var(--cyan); font-style: normal; }
+.s2-sub {
+  font-size: 17px; color: var(--muted); line-height: 1.6; max-width: 560px;
+}
+
+/* ── SLIDE 3 — WITHOUT / WITH ── */
+.s3-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+.s3-col { padding: 32px; border-radius: 10px; border: 1px solid; }
+.s3-col-bad { border-color: rgba(255,77,109,0.25); background: rgba(255,77,109,0.03); }
+.s3-col-good { border-color: rgba(0,255,157,0.25); background: rgba(0,255,157,0.03); }
+.s3-label {
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 20px;
+}
+.s3-label-bad { color: var(--red); }
+.s3-label-good { color: var(--green); }
+.s3-items { display: flex; flex-direction: column; gap: 14px; }
+.s3-item { display: flex; align-items: flex-start; gap: 12px; }
+.s3-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.s3-text { font-size: 14px; color: var(--muted); line-height: 1.55; }
+
+/* ── SLIDE 4 — THE FUNCTION ── */
+.s4-verbs { display: flex; flex-direction: column; gap: 0; margin-top: 8px; }
+.s4-row {
+  display: grid; grid-template-columns: 120px 1fr;
+  padding: 28px 0; border-bottom: 1px solid var(--border);
+  align-items: baseline; gap: 32px;
+}
+.s4-row:last-child { border-bottom: none; }
+.s4-verb {
+  font-size: 36px; font-weight: 800; letter-spacing: -0.03em; line-height: 1;
+}
+.s4-body { font-size: 16px; color: var(--muted); line-height: 1.6; }
+.s4-body strong { color: var(--text); font-weight: 500; }
+
+/* ── SLIDE 5 — 90-DAY ARC ── */
+.s5-steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 8px; }
+.s5-step {
+  padding: 32px 28px; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.s5-step:last-child { border-right: none; }
+.s5-n { font-size: 56px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.s5-phase {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+}
+.s5-range {
+  font-family: var(--mono); font-size: 10px; color: var(--dimmed);
+}
+.s5-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.s5-output {
+  font-family: var(--mono); font-size: 10px; line-height: 1.5;
+  margin-top: 4px; padding: 8px 10px; border-radius: 4px; border: 1px solid;
+}
+
+/* ── SLIDE 6 — WHY ZACH ── */
+.s6-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+.s6-card { padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.s6-headline { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 10px; letter-spacing: -0.01em; }
+.s6-body { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+/* ── SLIDE 7 — CTA ── */
+.s7-ask {
+  font-size: 52px; font-weight: 800; letter-spacing: -0.04em;
+  line-height: 1.05; max-width: 680px; margin-bottom: 36px; color: var(--text);
+}
+.s7-ask em { color: var(--cyan); font-style: normal; }
+.s7-link {
+  display: inline-block; font-family: var(--mono); font-size: 12px;
+  font-weight: 700; letter-spacing: 0.1em; color: var(--bg);
+  background: var(--cyan); padding: 14px 28px; border-radius: 6px;
+  text-decoration: none; margin-bottom: 24px;
+}
+.s7-meta { font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.08em; }
+
+/* NAV DOTS */
+.nav {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 10px; z-index: 10;
+}
+.nav a {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--border); display: block; transition: background 0.2s;
+}
+.nav a:hover { background: var(--cyan); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#s1"></a>
+  <a href="#s2"></a>
+  <a href="#s3"></a>
+  <a href="#s4"></a>
+  <a href="#s5"></a>
+  <a href="#s6"></a>
+  <a href="#s7"></a>
+  <a href="#s8"></a>
+</nav>
+
+<!-- ── 01 COVER ── -->
+<section id="s1" class="slide">
+  <div class="s1-glow"></div>
+  <div class="slide-n">01 / 08</div>
+  <div class="s1-eyebrow">Zach Harris · Fanatics Collectibles</div>
+  <div class="s1-title">Growth<br><span>Intelligence</span></div>
+  <div class="s1-sub">A function that turns every drop, live event, and campaign into compounding advantage — instead of a one-time spike and a forgotten debrief.</div>
+  <div class="s1-meta">Jul 2026 · Not for distribution</div>
+</section>
+
+<!-- ── 02 THE PROBLEM ── -->
+<section id="s2" class="slide">
+  <div class="slide-n">02 / 08 · The problem</div>
+  <div class="s2-statement">Every drop generates learning.<br><em>Most of it dies.</em></div>
+  <div class="s2-sub">It lives in someone's head, a Slack thread, or a post-launch debrief nobody reads before the next one. At the speed Fanatics is growing, that's not a process gap — it's a compounding tax on every decision the growth org makes.</div>
+</section>
+
+<!-- ── 03 WITHOUT / WITH ── -->
+<section id="s3" class="slide">
+  <div class="slide-n">03 / 08 · The gap</div>
+  <div class="s3-grid">
+    <div class="s3-col s3-col-bad">
+      <div class="s3-label s3-label-bad">Without</div>
+      <div class="s3-items">
+        <div class="s3-item">
+          <div class="s3-dot" style="background:var(--red)"></div>
+          <div class="s3-text">Each BU runs its own playbook in isolation. What Instant Rips learns doesn't reach Trading Cards before they test the same thing.</div>
+        </div>
+        <div class="s3-item">
+          <div class="s3-dot" style="background:var(--red)"></div>
+          <div class="s3-text">Post-launch knowledge lives in individuals. A new hire on week one inherits nothing structured.</div>
+        </div>
+        <div class="s3-item">
+          <div class="s3-dot" style="background:var(--red)"></div>
+          <div class="s3-text">Decisions that were coin-flips last quarter are coin-flips again this quarter.</div>
+        </div>
+      </div>
+    </div>
+    <div class="s3-col s3-col-good">
+      <div class="s3-label s3-label-good">With</div>
+      <div class="s3-items">
+        <div class="s3-item">
+          <div class="s3-dot" style="background:var(--green)"></div>
+          <div class="s3-text">Every campaign produces a structured record — what was predicted, what happened, why. Cross-referenced across BUs.</div>
+        </div>
+        <div class="s3-item">
+          <div class="s3-dot" style="background:var(--green)"></div>
+          <div class="s3-text">A new Instant Rips hire sees every relevant precedent in 20 minutes. Institutional memory outlasts headcount.</div>
+        </div>
+        <div class="s3-item">
+          <div class="s3-dot" style="background:var(--green)"></div>
+          <div class="s3-text">The org gets smarter faster than it grows. Speed and rigor compound instead of trading off.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 04 THE FUNCTION ── -->
+<section id="s4" class="slide">
+  <div class="slide-n">04 / 08 · The function</div>
+  <div class="s4-verbs">
+    <div class="s4-row">
+      <div class="s4-verb" style="color:var(--cyan)">Owns</div>
+      <div class="s4-body">The <strong>institutional memory layer</strong> for the growth org. Pre-decision framing, post-decision capture, cross-BU pattern recognition.</div>
+    </div>
+    <div class="s4-row">
+      <div class="s4-verb" style="color:var(--green)">Builds</div>
+      <div class="s4-body"><strong>AI-assisted workflows</strong> that turn operational data into structured decisions — instruments that sharpen what happens next, not dashboards that summarize what already happened.</div>
+    </div>
+    <div class="s4-row">
+      <div class="s4-verb" style="color:var(--gold)">Delivers</div>
+      <div class="s4-body">A <strong>compounding advantage</strong>: the faster the growth org moves, the more learning it captures, the sharper each subsequent decision gets.</div>
+    </div>
+    <div class="s4-row">
+      <div class="s4-verb" style="color:var(--dimmed)">Is not</div>
+      <div class="s4-body">BI. Analytics. A COE. A process layer that slows GMs down. The GMs run their businesses — this makes the learning from those businesses work harder.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 05 90-DAY ARC ── -->
+<section id="s5" class="slide">
+  <div class="slide-n">05 / 08 · 90-day arc</div>
+  <div class="s5-steps">
+    <div class="s5-step">
+      <div class="s5-n" style="color:var(--cyan)">01</div>
+      <div class="s5-phase" style="color:var(--cyan)">Discovery</div>
+      <div class="s5-range">Days 1–30</div>
+      <div class="s5-desc">Map where learning actually dies at Instant Rips. What decisions get made without it? What's the highest-leverage place to start?</div>
+      <div class="s5-output" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">Output → Decision anatomy map</div>
+    </div>
+    <div class="s5-step">
+      <div class="s5-n" style="color:var(--gold)">02</div>
+      <div class="s5-phase" style="color:var(--gold)">First Brief</div>
+      <div class="s5-range">Days 31–60</div>
+      <div class="s5-desc">Produce the first structured audit brief on a real Instant Rips drop. Show what captured learning looks like as a tool — not a concept.</div>
+      <div class="s5-output" style="color:var(--gold);border-color:rgba(255,215,0,0.2);background:rgba(255,215,0,0.04)">Output → Audit brief Chase's team uses</div>
+    </div>
+    <div class="s5-step">
+      <div class="s5-n" style="color:var(--green)">03</div>
+      <div class="s5-phase" style="color:var(--green)">Propagate</div>
+      <div class="s5-range">Days 61–90</div>
+      <div class="s5-desc">Cross-reference Instant Rips findings with one adjacent BU. Surface the first cross-domain pattern. Make the org-level case.</div>
+      <div class="s5-output" style="color:var(--green);border-color:rgba(0,255,157,0.2);background:rgba(0,255,157,0.04)">Output → First cross-BU signal report</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 06 WHY ZACH ── -->
+<section id="s6" class="slide">
+  <div class="slide-n">06 / 08 · Why Zach</div>
+  <div class="s6-grid">
+    <div class="s6-card">
+      <div class="s6-headline">Built this, not studied it</div>
+      <div class="s6-body">ARCS is a decision intelligence system Zach built from scratch. The structured capture workflow at the core of this pitch is the same system that produced the brief you're reading.</div>
+    </div>
+    <div class="s6-card">
+      <div class="s6-headline">Distinct ideas, not a template</div>
+      <div class="s6-body">Chris's framing: "looking for people with distinct ideas about what they want to do next." This function isn't a job description being filled — it's a hypothesis about where the highest leverage is at Fanatics right now.</div>
+    </div>
+    <div class="s6-card">
+      <div class="s6-headline">Stack is already live</div>
+      <div class="s6-body">Claude, ChatGPT, Glean, Notion — already at Fanatics. No ramp required on tooling. Day 30 produces a real artifact, not a presentation about listening.</div>
+    </div>
+    <div class="s6-card">
+      <div class="s6-headline">Operated at this altitude</div>
+      <div class="s6-body">Cross-functional leadership in high-growth environments where decisions moved faster than process. Built tools to close the gap because waiting for process wasn't an option.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 07 CTA ── -->
+<section id="s7" class="slide">
+  <div class="slide-n">07 / 08 · The ask</div>
+  <div class="s7-ask"><em>30 minutes</em> to find out if the gap I'm describing is the gap you're feeling.</div>
+  <a class="s7-link" href="https://chase-intro.arcs.care/">READ THE CHASE BRIEF →</a>
+  <div class="s7-meta">ZACH HARRIS · ZACH.HARRIS@GMAIL.COM · NOT FOR PUBLIC DISTRIBUTION</div>
+</section>
+
+<!-- ── 08 JOB REQ ── -->
+<section id="s8" class="slide">
+  <div class="slide-n">08 / 08 · The req</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start;">
+
+    <!-- LEFT: Role spec -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+      <div>
+        <div style="font-size:36px;font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:8px;">Head of Growth<br>Intelligence</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;">Fanatics Collectibles · West Village, NYC</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:100px 1fr;border-bottom:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);padding:12px 14px;">Reports to</div>
+          <div style="font-size:13px;color:var(--text);padding:12px 14px;">Chris Lamontagne, SVP Growth</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr;border-bottom:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);padding:12px 14px;">Level</div>
+          <div style="font-size:13px;color:var(--text);padding:12px 14px;">Senior Director → VP</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr;border-bottom:1px solid var(--border);">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);padding:12px 14px;">Location</div>
+          <div style="font-size:13px;color:var(--text);padding:12px 14px;">West Village, NYC · 5 days</div>
+        </div>
+        <div style="display:grid;grid-template-columns:100px 1fr;">
+          <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);padding:12px 14px;">Comp</div>
+          <div style="font-size:13px;color:var(--text);padding:12px 14px;">Confirmed · in-line with target</div>
+        </div>
+      </div>
+
+      <!-- 90-day outcomes -->
+      <div>
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Success · 90 days</div>
+        <div style="display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:52px 1fr;border-bottom:1px solid var(--border);align-items:center;">
+            <div style="font-family:var(--mono);font-size:16px;font-weight:800;color:var(--cyan);padding:12px 14px;">30</div>
+            <div style="font-size:12px;color:var(--muted);padding:12px 14px;">Decision anatomy map for Instant Rips</div>
+          </div>
+          <div style="display:grid;grid-template-columns:52px 1fr;border-bottom:1px solid var(--border);align-items:center;">
+            <div style="font-family:var(--mono);font-size:16px;font-weight:800;color:var(--gold);padding:12px 14px;">60</div>
+            <div style="font-size:12px;color:var(--muted);padding:12px 14px;">First audit brief — a tool Chase's team uses before the next drop</div>
+          </div>
+          <div style="display:grid;grid-template-columns:52px 1fr;align-items:center;">
+            <div style="font-family:var(--mono);font-size:16px;font-weight:800;color:var(--green);padding:12px 14px;">90</div>
+            <div style="font-size:12px;color:var(--muted);padding:12px 14px;">First cross-BU signal report</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Who / What -->
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">What you own</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:10px;align-items:baseline;"><div style="color:var(--cyan);font-family:var(--mono);font-size:10px;font-weight:700;flex-shrink:0;">PRE</div><div style="font-size:13px;color:var(--text);">Structured framing before major drops + campaigns</div></div>
+          <div style="display:flex;gap:10px;align-items:baseline;"><div style="color:var(--gold);font-family:var(--mono);font-size:10px;font-weight:700;flex-shrink:0;">POST</div><div style="font-size:13px;color:var(--text);">Capture: predicted vs. actual, committed to record</div></div>
+          <div style="display:flex;gap:10px;align-items:baseline;"><div style="color:var(--green);font-family:var(--mono);font-size:10px;font-weight:700;flex-shrink:0;">XBIZ</div><div style="font-size:13px;color:var(--text);">Patterns across Instant Rips, Trading Cards, VA, Live Commerce</div></div>
+          <div style="display:flex;gap:10px;align-items:baseline;"><div style="color:var(--muted);font-family:var(--mono);font-size:10px;font-weight:700;flex-shrink:0;">STACK</div><div style="font-size:13px;color:var(--text);">Claude, ChatGPT Enterprise, Glean — already live</div></div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">Who fits</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:13px;color:var(--muted);">Operated where decisions outpaced process — and built tools to close the gap</div>
+          <div style="font-size:13px;color:var(--muted);">Builds instruments, not decks about what already happened</div>
+          <div style="font-size:13px;color:var(--muted);">Comfortable with ambiguity — this function has no template</div>
+          <div style="font-size:13px;color:var(--muted);">Player-coach: doing the work, not managing people who do it</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,77,109,0.04);border:1px solid rgba(255,77,109,0.15);border-radius:8px;padding:16px 20px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">What this isn't</div>
+        <div style="font-size:13px;color:var(--muted);">BI. Analytics. A CoE. A process layer that slows GMs down.</div>
+      </div>
+
+      <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.6;padding-top:4px;">
+        This req was written by the person applying for it.<br>That's intentional.
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

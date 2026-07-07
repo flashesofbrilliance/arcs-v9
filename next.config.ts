@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // kelly-interview.arcs.care → public/kelly-interview.html
+        { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         // cj-brief.arcs.care → public/cj-brief.html
         { source: "/:path*", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
         // chase-intro.arcs.care → public/chase-intro.html
@@ -28,6 +30,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // julia.arcs.care → public/julia.html
         { source: "/:path*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
+        { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
