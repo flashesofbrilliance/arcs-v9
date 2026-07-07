@@ -48,10 +48,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
 /* LED dot — top-left of card, color-codes each beat */
 .beat-led {
-  position: absolute; top: 14px; left: 14px;
-  width: 6px; height: 6px; border-radius: 50%;
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
   background: var(--nc, var(--border));
-  opacity: 0.25; z-index: 1; pointer-events: none;
+  opacity: 0.25; pointer-events: none;
 }
 .beat:not(.pending) .beat-led {
   opacity: 1;
@@ -351,8 +350,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
     <div class="beat" id="beat-05" style="--nc: var(--red)">
-      <div class="beat-card"><div class="beat-led"></div>
+      <div class="beat-card">
         <div class="beat-head">
+          <div class="beat-led"></div>
           <span class="beat-num">05</span>
           <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
           <span class="beat-tag" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06)">TARGET</span>
@@ -375,8 +375,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 04: THE CALL -->
     <div class="beat" id="beat-04" style="--nc: var(--cyan)">
-      <div class="beat-card"><div class="beat-led"></div>
+      <div class="beat-card">
         <div class="beat-head">
+          <div class="beat-led"></div>
           <span class="beat-num">04</span>
           <span class="beat-name">THE CALL</span>
           <span class="beat-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">CALL</span>
@@ -465,8 +466,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 03: THE VOLLEY -->
     <div class="beat" id="beat-03" style="--nc: var(--cyan)">
-      <div class="beat-card"><div class="beat-led"></div>
+      <div class="beat-card">
         <div class="beat-head">
+          <div class="beat-led"></div>
           <span class="beat-num">03</span>
           <span class="beat-name">THE VOLLEY</span>
           <span class="beat-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05)">REPLY</span>
@@ -517,8 +519,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 02: THE STUNT -->
     <div class="beat" id="beat-02" style="--nc: var(--gold)">
-      <div class="beat-card"><div class="beat-led"></div>
+      <div class="beat-card">
         <div class="beat-head">
+          <div class="beat-led"></div>
           <span class="beat-num">02</span>
           <span class="beat-name">THE STUNT</span>
           <span class="beat-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);letter-spacing:0.08em">SIGNAL</span>
@@ -566,8 +569,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 01: THE WORM -->
     <div class="beat" id="beat-01" style="--nc: var(--green)">
-      <div class="beat-card"><div class="beat-led"></div>
+      <div class="beat-card">
         <div class="beat-head">
+          <div class="beat-led"></div>
           <span class="beat-num">01</span>
           <span class="beat-name">THE WORM</span>
           <span class="beat-tag" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">ORIGIN</span>
@@ -594,12 +598,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
     </div>
 
-    </div>
-
   </div><!-- /signal-sequence -->
 
   <!-- CTA -->
-  <div style="margin-top:32px;padding:20px 22px;background:linear-gradient(155deg,rgba(0,240,255,0.06),rgba(0,240,255,0.02));border:1px solid rgba(0,240,255,0.2);border-radius:12px;position:relative;overflow:hidden">
+  <div style="margin-top:40px;padding:24px;background:linear-gradient(155deg,rgba(0,240,255,0.06),rgba(0,240,255,0.02));border:1px solid rgba(0,240,255,0.2);border-radius:12px;position:relative;overflow:hidden">
     <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.5"></div>
     <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px">Next</div>
     <div style="font-size:14px;color:var(--text);line-height:1.6;margin-bottom:16px">Chase intro — brief at <a href="https://chase-intro.arcs.care/" style="color:var(--cyan);text-decoration:none;">chase-intro.arcs.care</a>. Calendar link live. 30 minutes to pressure-test the Rips framing.</div>
