@@ -40,47 +40,25 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
 
 /* SIGNAL SEQUENCE */
-.signal-sequence { position: relative; padding-left: 44px; }
-.signal-wire {
-  position: absolute; left: 10px; top: 14px; bottom: 14px; width: 2px;
-  background: linear-gradient(180deg,
-    rgba(255,77,109,0.9) 0%, rgba(255,77,109,0.6) 16%,
-    rgba(0,240,255,0.7) 20%, rgba(0,240,255,0.6) 48%,
-    rgba(255,215,0,0.7) 52%, rgba(255,215,0,0.5) 68%,
-    rgba(0,255,157,0.7) 72%, rgba(0,255,157,0.9) 100%
-  );
-  animation: wire-breathe 4s ease-in-out infinite;
-}
-@keyframes wire-breathe { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
-@keyframes led-pulse { 0%,100% { box-shadow: 0 0 0 0 var(--nc, var(--border)); opacity: 0.9; } 50% { box-shadow: 0 0 7px 3px var(--nc, var(--border)); opacity: 1; } }
+.signal-sequence { position: relative; padding-left: 0; }
 
 /* BEAT */
 .beat { position: relative; margin-bottom: 6px; }
 .beat.pending { opacity: 0.45; }
 
-.beat-node {
-  position: absolute; left: -34px; top: 18px;
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--nc, var(--border)); z-index: 2;
-  opacity: 0.5;
-}
-.beat.fired:not(.pending) .beat-node { opacity: 1; }
+/* Pulsing LED on SVG timeline circles */
+@keyframes svg-led-pulse-red   { 0%,100%{filter:drop-shadow(0 0 0px #FF4D6D);} 50%{filter:drop-shadow(0 0 5px #FF4D6D);} }
+@keyframes svg-led-pulse-cyan  { 0%,100%{filter:drop-shadow(0 0 0px #00F0FF);} 50%{filter:drop-shadow(0 0 5px #00F0FF);} }
+@keyframes svg-led-pulse-gold  { 0%,100%{filter:drop-shadow(0 0 0px #FFD700);} 50%{filter:drop-shadow(0 0 5px #FFD700);} }
+@keyframes svg-led-pulse-green { 0%,100%{filter:drop-shadow(0 0 0px #00FF9D);} 50%{filter:drop-shadow(0 0 5px #00FF9D);} }
+#wf-05 circle { animation: svg-led-pulse-red   2s ease-in-out infinite; }
+#wf-04 circle { animation: svg-led-pulse-cyan  2.3s ease-in-out infinite; }
+#wf-03 circle { animation: svg-led-pulse-cyan  1.9s ease-in-out infinite; }
+#wf-02 circle { animation: svg-led-pulse-gold  2.5s ease-in-out infinite; }
+#wf-01 circle { animation: svg-led-pulse-green 2.1s ease-in-out infinite; }
 
-/* LED dot — top-left of card, pulses on fired beats */
-.beat-led {
-  position: absolute; top: 14px; left: 14px;
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--nc, var(--border));
-  opacity: 0.25; z-index: 1; pointer-events: none;
-}
-.beat:not(.pending) .beat-led {
-  opacity: 1;
-  animation: led-pulse 2s ease-in-out infinite;
-}
-
-/* BEAT-05 TARGET — red LED flash + card breathe glow */
+/* BEAT-05 TARGET — card breathe glow */
 @keyframes target-breathe { 0%,100% { box-shadow:none; border-color:rgba(255,77,109,0.18); } 50% { box-shadow:0 0 28px -6px rgba(255,77,109,0.28), inset 0 0 40px -28px rgba(255,77,109,0.1); border-color:rgba(255,77,109,0.45); } }
-#beat-05.fired .beat-node { background: var(--red) !important; }
 #beat-05.fired .beat-card { animation: target-breathe 2.2s ease-in-out infinite; border-color:rgba(255,77,109,0.22); }
 #beat-05 .beat-card { opacity:1 !important; }
 
@@ -185,7 +163,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
   .nav-grid { grid-template-columns: 1fr; }
   .nav-card { padding: 12px 14px 10px; }
   .dr { grid-template-columns: 72px 1fr 1fr; }
-  .signal-sequence { padding-left: 34px; }
+  .signal-sequence { padding-left: 0; }
   .signal-btns { gap: 6px; }
   .s-btn { padding: 10px 14px; font-size: 10px; }
 }
@@ -357,12 +335,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   <!-- SIGNAL SEQUENCE — reverse chronological: 05 → 04 → 03 → 02 → 01 -->
   <div class="signal-sequence" style="margin-top:24px">
-    <div class="signal-wire"></div>
 
     <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
     <div class="beat" id="beat-05" style="--nc: var(--red)">
-      <div class="beat-node" style="border-color:rgba(255,77,109,0.5)"></div>
-      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">05</span>
           <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
@@ -386,8 +361,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 04: THE CALL -->
     <div class="beat" id="beat-04" style="--nc: var(--cyan)">
-      <div class="beat-node"></div>
-      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">04</span>
           <span class="beat-name">THE CALL</span>
@@ -477,8 +450,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 03: THE VOLLEY -->
     <div class="beat" id="beat-03" style="--nc: var(--cyan)">
-      <div class="beat-node"></div>
-      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">03</span>
           <span class="beat-name">THE VOLLEY</span>
@@ -530,8 +501,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 02: THE STUNT -->
     <div class="beat" id="beat-02" style="--nc: var(--gold)">
-      <div class="beat-node"></div>
-      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">02</span>
           <span class="beat-name">THE STUNT</span>
@@ -580,8 +549,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 01: THE WORM -->
     <div class="beat" id="beat-01" style="--nc: var(--green)">
-      <div class="beat-node"></div>
-      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">01</span>
           <span class="beat-name">THE WORM</span>
@@ -616,8 +583,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 06: THE CLOSE — HORIZON -->
     <div class="beat pending" id="beat-06" style="--nc: var(--dimmed)">
-      <div class="beat-node" style="border-color:var(--border)"></div>
-      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">06</span>
           <span class="beat-name" style="color:var(--dimmed)">THE CLOSE</span>
