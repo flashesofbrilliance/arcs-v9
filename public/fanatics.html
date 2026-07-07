@@ -46,6 +46,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .beat { position: relative; margin-bottom: 6px; }
 .beat.pending { opacity: 0.45; }
 
+/* LED dot — top-left of card, color-codes each beat */
+.beat-led {
+  position: absolute; top: 14px; left: 14px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--nc, var(--border));
+  opacity: 0.25; z-index: 1; pointer-events: none;
+}
+.beat:not(.pending) .beat-led {
+  opacity: 1;
+  animation: led-pulse 2s ease-in-out infinite;
+}
+@keyframes led-pulse { 0%,100% { box-shadow: 0 0 0 0 var(--nc, var(--border)); opacity: 0.9; } 50% { box-shadow: 0 0 7px 3px var(--nc, var(--border)); opacity: 1; } }
+
 /* Pulsing LED on SVG timeline circles */
 @keyframes svg-led-pulse-red   { 0%,100%{filter:drop-shadow(0 0 0px #FF4D6D);} 50%{filter:drop-shadow(0 0 5px #FF4D6D);} }
 @keyframes svg-led-pulse-cyan  { 0%,100%{filter:drop-shadow(0 0 0px #00F0FF);} 50%{filter:drop-shadow(0 0 5px #00F0FF);} }
@@ -338,6 +351,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 05: CHASE INTRO — TARGET (now / blocked) -->
     <div class="beat" id="beat-05" style="--nc: var(--red)">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">05</span>
           <span class="beat-name" style="color:var(--red)">CHASE INTRO</span>
@@ -361,6 +375,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 04: THE CALL -->
     <div class="beat" id="beat-04" style="--nc: var(--cyan)">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">04</span>
           <span class="beat-name">THE CALL</span>
@@ -450,6 +465,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 03: THE VOLLEY -->
     <div class="beat" id="beat-03" style="--nc: var(--cyan)">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">03</span>
           <span class="beat-name">THE VOLLEY</span>
@@ -501,6 +517,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 02: THE STUNT -->
     <div class="beat" id="beat-02" style="--nc: var(--gold)">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">02</span>
           <span class="beat-name">THE STUNT</span>
@@ -549,6 +566,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
     <!-- BEAT 01: THE WORM -->
     <div class="beat" id="beat-01" style="--nc: var(--green)">
+      <div class="beat-card"><div class="beat-led"></div>
         <div class="beat-head">
           <span class="beat-num">01</span>
           <span class="beat-name">THE WORM</span>
