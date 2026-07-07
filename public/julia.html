@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Julia Trabulsi / Tribe AI — ARCS Brief</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* MASTHEAD */
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
+/* SHARED ROW PATTERNS */
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 90px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+.conf-val em { color: var(--muted); font-style: normal; }
+
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+.intel-text em { color: var(--muted); font-style: normal; }
+
+.q-rows { display: flex; flex-direction: column; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+
+/* STORY CARDS */
+.story-rows { display: flex; flex-direction: column; }
+.story-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.story-row:last-child { border-bottom: none; }
+.story-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.story-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.story-title { font-size: 13px; font-weight: 600; color: var(--text); }
+.story-bullet { display: flex; flex-direction: column; gap: 4px; }
+.story-line { display: flex; gap: 10px; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.story-key { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 28px; padding-top: 2px; }
+.story-val { color: var(--muted); }
+.story-val strong { color: var(--text); font-weight: 600; }
+.story-close { margin-top: 10px; font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+
+/* RISK ROWS */
+.risk-rows { display: flex; flex-direction: column; gap: 0; }
+.risk-row { display: grid; grid-template-columns: 80px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.risk-row:last-child { border-bottom: none; }
+.risk-sev { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 6px; }
+.sev-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; text-align: center; }
+.sev-high { background: rgba(255,77,109,0.1); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+.sev-med { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+.sev-low { background: rgba(30,41,59,0.5); color: var(--muted); border: 1px solid var(--border); }
+.risk-body { padding: 16px 18px; }
+.risk-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.risk-action { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+.risk-action::before { content: 'FIX → '; }
+
+/* RECOIL HEADER */
+.recoil-header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.recoil-header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--cyan); }
+.recoil-header-inner { padding: 20px 24px 20px 28px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.recoil-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-bottom: 6px; }
+.recoil-name { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.recoil-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.recoil-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.nci-val { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; text-align: right; }
+.nci-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; text-align: right; }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(0,240,255,0.35); background: rgba(0,240,255,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+
+/* PEAKS */
+.peak-rows { display: flex; flex-direction: column; }
+.peak-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.peak-row:last-child { border-bottom: none; }
+.peak-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
+.peak-n { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2); padding: 2px 8px; border-radius: 3px; flex-shrink: 0; }
+.peak-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.peak-body { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.peak-imp { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border-left: 2px solid rgba(0,240,255,0.3); padding: 6px 12px; }
+
+/* SIGNAL GRID */
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sig-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; position: relative; overflow: hidden; }
+.sig-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; }
+.sig-card-green::before { background: var(--green); }
+.sig-card-gold::before { background: var(--gold); }
+.sig-card-red::before { background: var(--red); }
+.sig-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-left: 8px; }
+.sig-card-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.sig-card-green .sig-card-name { color: var(--green); }
+.sig-card-gold .sig-card-name { color: var(--gold); }
+.sig-card-red .sig-card-name { color: var(--red); }
+.sig-card-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 8px; }
+
+/* ON-CALL PANEL */
+.script-block { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 28px; position: relative; overflow: hidden; }
+.script-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.script-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
+.script-text { font-size: 14px; font-weight: 400; color: var(--text); line-height: 1.7; font-style: italic; }
+.script-clock { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 10px; }
+
+.take-rows { display: flex; flex-direction: column; gap: 0; }
+.take-row { padding: 18px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); position: relative; }
+.take-row:last-child { border-bottom: none; }
+.take-row.recommended::before { content: 'RECOMMENDED'; position: absolute; top: 10px; right: 14px; font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.12em; color: var(--green); background: rgba(0,255,157,0.07); border: 1px solid rgba(0,255,157,0.2); padding: 2px 7px; border-radius: 3px; }
+.take-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.take-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+.take-note { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 8px; line-height: 1.5; }
+
+.fracture-rows { display: flex; flex-direction: column; }
+.fracture-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.fracture-row:last-child { border-bottom: none; }
+.fracture-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.fracture-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+
+.lever-block { background: rgba(0,255,157,0.04); border: 1px solid rgba(0,255,157,0.2); border-radius: var(--r-md); padding: 18px 20px; }
+.lever-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+.lever-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+.lever-note { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; }
+
+.close-q { background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.2); border-radius: var(--r-md); padding: 18px 20px; }
+.close-q-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
+.close-q-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+.close-q-note { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; }
+
+/* TRANSLATE TABLE */
+.xlate-rows { display: flex; flex-direction: column; }
+.xlate-row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.xlate-row:last-child { border-bottom: none; }
+.xlate-from { padding: 11px 16px 11px 20px; border-right: 1px solid rgba(30,41,59,0.4); font-family: var(--mono); font-size: 11px; color: var(--red); display: flex; align-items: center; gap: 8px; }
+.xlate-from::before { content: '✕'; font-size: 9px; opacity: 0.7; }
+.xlate-to { padding: 11px 20px 11px 16px; font-size: 12px; color: var(--text); line-height: 1.5; display: flex; align-items: center; }
+
+/* AGENDA / RECEIPT */
+.receipt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.receipt-cell { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px 18px; }
+.receipt-cell.full { grid-column: 1 / -1; }
+.receipt-key { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.receipt-val { font-size: 13px; color: var(--text); line-height: 1.55; }
+.receipt-val strong { font-weight: 600; }
+.receipt-val.green { color: var(--green); font-family: var(--mono); font-size: 14px; font-weight: 700; }
+.receipt-val.gold { color: var(--gold); }
+
+.checklist { display: flex; flex-direction: column; gap: 0; }
+.check-group { padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.check-group:last-child { border-bottom: none; }
+.check-group-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.check-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
+.check-item:last-child { margin-bottom: 0; }
+.check-box { width: 14px; height: 14px; border: 1px solid var(--border); border-radius: 2px; flex-shrink: 0; margin-top: 1px; cursor: pointer; background: transparent; transition: background 0.1s, border-color 0.1s; }
+.check-box.done { background: var(--green); border-color: var(--green); }
+.check-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.check-text.urgent { color: var(--text); }
+
+.close-out { display: flex; flex-direction: column; gap: 0; }
+.co-row { display: flex; align-items: baseline; gap: 12px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.co-row:last-child { border-bottom: none; }
+.co-key { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); flex-shrink: 0; width: 100px; }
+.co-val { font-size: 13px; color: var(--dimmed); font-style: italic; }
+.co-val.filled { color: var(--text); font-style: normal; }
+
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+.true-north { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 28px; position: relative; overflow: hidden; }
+.true-north::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), transparent); }
+.tn-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+.tn-text { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.6; letter-spacing: -0.01em; }
+
+/* PASSWORD GATE */
+#pw-gate {
+  position: fixed; inset: 0; z-index: 9999; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+}
+#pw-gate.hidden { display: none; }
+.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.pw-form { display: flex; gap: 10px; align-items: center; }
+.pw-input {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
+  color: var(--text); font-family: var(--mono); font-size: 14px; padding: 10px 16px;
+  outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s;
+}
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+.pw-btn {
+  background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-md);
+  color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s;
+}
+.pw-btn:hover { background: rgba(0,240,255,0.14); }
+.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+@media (max-width: 640px) {
+  body { padding: 28px 16px 60px; }
+  .conf-key { width: 70px; }
+  .receipt-grid { grid-template-columns: 1fr; }
+  .signal-grid { grid-template-columns: 1fr; }
+  .xlate-row { grid-template-columns: 1fr; }
+  .xlate-from { border-right: none; border-bottom: 1px solid rgba(30,41,59,0.4); }
+  .recoil-header-inner { grid-template-columns: 1fr; }
+  .recoil-meta { align-items: flex-start; margin-top: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PRIVATE BRIEF</div>
+  <div class="pw-title">Julia Trabulsi / Tribe AI</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">Zach Harris · Jul 7, 2026</div>
+</div>
+
+<script>
+if (sessionStorage.getItem('julia-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'julia') {
+    sessionStorage.setItem('julia-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+</script>
+
+<div class="page">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-eyebrow">ARCS · Interview Brief</div>
+    <div class="masthead-name">Julia Trabulsi / Tribe AI</div>
+    <div class="masthead-sub">Forward Deployed PM Lead · Jul 7, 2026 · 2:00–2:45 PM EDT</div>
+  </div>
+  <div class="rule-glow"></div>
+
+  <!-- TRUE NORTH -->
+  <div class="true-north">
+    <div class="tn-eyebrow">True North</div>
+    <div class="tn-text">You are not a PM who learned AI. You are a systems builder who has been deploying decision infrastructure, live, at the edge. Tribe AI doesn't need another PM. They need someone who has already been doing what they do — inside their own practice.</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="card">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('pre-call', this)">Pre-Call</button>
+      <button class="tab-btn" onclick="switchTab('recoil', this)">Recoil</button>
+      <button class="tab-btn" onclick="switchTab('on-call', this)">On-Call</button>
+      <button class="tab-btn" onclick="switchTab('beats', this)">Beats</button>
+      <button class="tab-btn" onclick="switchTab('agenda', this)">Jul 7</button>
+    </div>
+
+    <!-- ═══════════════════════════ TAB 1: PRE-CALL ═══════════════════════════ -->
+    <div id="tab-pre-call" class="tab-pane active" style="padding: 20px; gap: 20px;">
+
+      <!-- Julia Profile -->
+      <div>
+        <div class="sl">Stakeholder Profile</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Role</div>
+              <div class="conf-val">Forward Deployed PM Lead, Tribe AI — <em>she has lived the exact role she's evaluating you for</em></div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Formation</div>
+              <div class="conf-val">Psychology research training → empiricist by default. Builds models before drawing conclusions. <strong>Evidence-first, always.</strong></div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Evaluating</div>
+              <div class="conf-val">Peer practitioner mode, not recruiter mode. She wants to know if you can do the job, not if you can describe it.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Respects</div>
+              <div class="conf-val">Specificity over fluency · Pattern recognition over jargon · Calibrated uncertainty · Outcomes, not frameworks</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Red flag</div>
+              <div class="conf-val"><strong>Altitude mismatch.</strong> FDE practitioners live in delivery — outputs, artifacts, sprint cycles, client outcomes. Abstraction reads as noise, not sophistication. Per Johnny: <em>"Read the room carefully."</em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tribe Intel -->
+      <div>
+        <div class="sl">Tribe AI — What You Need to Know</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>Not a staffing firm.</strong> Forward-deployed operator model — practitioners embedded inside client teams, shipping real deliverables. Pod = PM + AI Architect + AI Engineer(s).</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>Fixed-fee, land-and-expand.</strong> Scope is scope. New logo acquisition is not the priority — growing revenue within existing logos is. Turn away ~95% of inbound work.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--green)"></div>
+              <div class="intel-text"><strong>Revenue target already met for 2026</strong> as of late June. Doubling headcount before end of year. Talent-hungry — this pipeline compresses if you surface competing offers.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--green)"></div>
+              <div class="intel-text"><strong>Clients:</strong> Prudential, Kirkland &amp; Ellis, Microsoft — Fortune 100 tier. Partners: OpenAI, Anthropic, AWS, Microsoft. ~85 FT, hundreds more in Slack.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>One dedicated client per practitioner.</strong> Not a book of 45. "Over-deliver shop" — if something meaningful can be done within scope, you're enabled to do it.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>Fully AI-native.</strong> Unlimited model access, custom internal tools, MCP servers built in-house. Flat org — you report to a Field CTO.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Three Stories -->
+      <div>
+        <div class="sl">Three Prepared Stories — Quick Reference</div>
+        <div class="card">
+          <div class="story-rows">
+            <div class="story-row">
+              <div class="story-top">
+                <div class="story-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3)">Story A</div>
+                <div class="story-title">Grayscale — Product Under Constraint</div>
+              </div>
+              <div class="story-bullet">
+                <div class="story-line"><div class="story-key">S</div><div class="story-val">Grayscale mid-launch on ETF product page; SEC disclosure requirements changed materially.</div></div>
+                <div class="story-line"><div class="story-key">T</div><div class="story-val">Rebuild product communication architecture in real time under legal constraint without losing the investment thesis.</div></div>
+                <div class="story-line"><div class="story-key">A</div><div class="story-val">Two parallel workstreams — legal constraint mapping + investor narrative architecture. Every tradeoff documented.</div></div>
+                <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>Launched on schedule. Page survived regulatory scrutiny. $7B in digital asset launches.</strong></div></div>
+              </div>
+              <div class="story-close">FDE parallel: deployment window changes, you rebuild the communication layer without breaking the product. That's this role.</div>
+            </div>
+            <div class="story-row">
+              <div class="story-top">
+                <div class="story-tag" style="color:var(--green);border-color:rgba(0,255,157,0.3)">Story B</div>
+                <div class="story-title">ARCS — AI Product Built from Scratch</div>
+              </div>
+              <div class="story-bullet">
+                <div class="story-line"><div class="story-key">S</div><div class="story-val">High-stakes calls — pitches, negotiations, client intros — were the ones I was least prepared for. Not from lack of knowledge, but no structured way to model the other person's logic.</div></div>
+                <div class="story-line"><div class="story-key">T</div><div class="story-val">Build a prep framework that runs preparation systematically, documents reasoning, captures learning for future calibration.</div></div>
+                <div class="story-line"><div class="story-key">A</div><div class="story-val">Built decision prep tool — prompt framework → structured system with stakeholder profiling, pre-mortem simulation, confidence self-grading. Tech: Claude Code, Python, FastAPI, Supabase RLS, Vercel.</div></div>
+                <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>Every call prepared with this system moved to the next stage. This brief is 40 pages.</strong></div></div>
+              </div>
+              <div class="story-close">I am the primary user and the primary proof point. The methodology — structured diagnostic before sprint one — is exactly what I'd bring to client engagements.</div>
+            </div>
+            <div class="story-row">
+              <div class="story-top">
+                <div class="story-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3)">Story C</div>
+                <div class="story-title">Ideal Protein — Client Challenge Navigation</div>
+              </div>
+              <div class="story-bullet">
+                <div class="story-line"><div class="story-key">S</div><div class="story-val">Ideal Protein: PE-acquired, new leadership in controlled chaos. No roadmap, no agile process, compliance blindspots, high API failure rate. 10-person stakeholder matrix: PE board, CMO, CIO/CTO, SVP Clinic Partnerships.</div></div>
+                <div class="story-line"><div class="story-key">T</div><div class="story-val">4-phase program. No shared definition of done. First real job was to figure out what the actual problem was before anyone would let me solve it.</div></div>
+                <div class="story-line"><div class="story-key">A</div><div class="story-val">Disaster check first: competitive intel + brand audit + heuristics audit. BMI calculator (highest search-volume page) → atomized into 2-step lead qualification using 30 BMI legal obesity cutoff as segmentation gate. Embedded into client-side tech PMO, established agile cadence they'd never had.</div></div>
+                <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>+40% PQL · +15.8% New Clinic CAGR · +63% Booking Success Rate · +23 Website NPS · $350M ARR, 64-country footprint.</strong></div></div>
+              </div>
+              <div class="story-close">The ambiguity wasn't the problem — it was the diagnostic. The org couldn't tell me what to build because they hadn't agreed on what success looked like. My first deliverable was to create that shared definition.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 Risks -->
+      <div>
+        <div class="sl">Risk Map</div>
+        <div class="card">
+          <div class="risk-rows">
+            <div class="risk-row">
+              <div class="risk-sev"><div class="sev-badge sev-high">HIGH</div></div>
+              <div class="risk-body">
+                <div class="risk-label">R1 — Altitude Mismatch</div>
+                <div class="risk-desc">Your intellectual register is calibrated for heady founder conversations, not FDE practitioners who live in delivery. Per Johnny — direct warning. This is the #1 risk.</div>
+                <div class="risk-action">Translate everything before saying it. No ARCS doctrine. No multi-syllable abstractions. Outcomes + artifacts only. If a Prudential exec couldn't follow it, cut it.</div>
+              </div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+              <div class="risk-body">
+                <div class="risk-label">R2 — No Clean Embedded Proof</div>
+                <div class="risk-desc">No traditional Fortune 100 embedded engagement on the CV. Julia will probe this.</div>
+                <div class="risk-action">Pre-rehearse: "I came in as an outside operator with no org chart authority and had to ship anyway. mañana, Axon, GoPro — that's the muscle." Never say "consulting."</div>
+              </div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+              <div class="risk-body">
+                <div class="risk-label">R3 — ARCS Reads as Vanity</div>
+                <div class="risk-desc">If ARCS sounds like a self-promotional side project rather than a live deployment system, it collapses as a story.</div>
+                <div class="risk-action">Three receipts ready: Kinexys prep moved to next stage · Millionways produced co-authorship conversation · This call has a 40-page brief. "I'm the primary user and the primary proof point."</div>
+              </div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+              <div class="risk-body">
+                <div class="risk-label">R4 — Hot Take Doesn't Land</div>
+                <div class="risk-desc">The take is locked — no decision needed on call. The risk is over-explaining if she gives a polite "interesting."</div>
+                <div class="risk-action">30 seconds. Pause. If she doesn't engage — land it and move. Do not double down. The take is planted either way.</div>
+              </div>
+            </div>
+            <div class="risk-row">
+              <div class="risk-sev"><div class="sev-badge sev-low">LOW</div></div>
+              <div class="risk-body">
+                <div class="risk-label">R5 — Over-Explanation</div>
+                <div class="risk-desc">Pacing ran long with Mariana. 45 minutes is tight. Julia is a practitioner — precision is respect.</div>
+                <div class="risk-action">Opening: 60s · ARCS: 60s · Each story: 3 min · Hot take: 30s. Stop when the answer is complete.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Listening Questions -->
+      <div>
+        <div class="sl">Listening Questions</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n">1</div>
+                <div class="q-text">"Walk me through a client engagement where you were embedded — what did day one look like before you had any authority?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → Tone of the role evaluation. Is she stress-testing embedded proof, or is she pattern-matching on delivery muscle?</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n">2</div>
+                <div class="q-text">"What makes you different from the other candidates you've talked to for this role?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → What gap is she trying to fill? Answer with a story, not a resume bullet.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n">3</div>
+                <div class="q-text">"Walk me through a moment when the technical reality and the client expectation were completely misaligned — what did you do?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → Deployment failure mode fluency. This is Story C's setup. Land it clean.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n">4</div>
+                <div class="q-text">"What's your hot take on where AI deployments fail?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → This is asked at every stage. The take is locked. Say it. 30 seconds. Pause.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════ TAB 2: RECOIL ═══════════════════════════ -->
+    <div id="tab-recoil" class="tab-pane" style="padding: 20px; gap: 20px;">
+
+      <!-- Johnny Call -->
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">BRIEFING · JUN 23</div>
+            <div class="recoil-name">Johnny — Tribe AI Referral</div>
+            <div class="recoil-sub">AI Architect · Prudential account · Day 6 at Tribe</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="nci-val">96</div>
+            <div class="nci-label">NCI · Source</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>GREEN</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Resonance Peaks — Johnny</div>
+        <div class="card">
+          <div class="peak-rows">
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 1</div>
+                <div class="peak-label">The Title Unlock</div>
+              </div>
+              <div class="peak-body">Hadn't mapped the full title family: Applied AI Engineer, Product Engineer, Forward Deployed PM. The FDE PM shape is the right repositioning — confirmed by a live insider who made the same move at Grayscale.</div>
+              <div class="peak-imp">Carry forward: "AI Strategist" → "Forward Deployed PM who ran 0-to-1 builds under constraint." That's the positioning.</div>
+            </div>
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 2</div>
+                <div class="peak-label">Shared Grayscale Origin</div>
+              </div>
+              <div class="peak-body">Both left Grayscale for the same diagnostic reason: too rigid, couldn't lead AI initiatives. Johnny's story validates the Grayscale framing — not just "launched $7B in digital assets" but "left because the environment was too rigid for the work I wanted to do."</div>
+              <div class="peak-imp">The Grayscale story is richer than previously framed. Use the departure as proof of intellectual honesty, not just the product outcome.</div>
+            </div>
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 3</div>
+                <div class="peak-label">The Altitude Warning — #1 Risk</div>
+              </div>
+              <div class="peak-body">"Read the room carefully. Because I don't know that everybody you meet is going to be so heady." Said after hearing phrases like "ontological perspective," "epistemic humility," "constructive interference" in a single 45-minute call with a friendly insider. He flagged it diplomatically.</div>
+              <div class="peak-imp">This is the single most important piece of intel from any prior call. FDE practitioners speak in outputs and artifacts. Translate everything before saying it.</div>
+            </div>
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 4</div>
+                <div class="peak-label">Conviction Referral</div>
+              </div>
+              <div class="peak-body">"I wouldn't recommend you if I didn't think you were a great fit." Johnny burned internal social capital making this referral. This is not a resume pass-along — it's a conviction referral.</div>
+              <div class="peak-imp">Warm referral is real and on record. Don't underuse it as an opener — it's already a trust deposit in the room.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mariana Call -->
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">RECRUITER SCREEN · JUN 26</div>
+            <div class="recoil-name">Mariana Mendes — Tribe AI</div>
+            <div class="recoil-sub">Recruiter, Lisbon · Stage 1 of 6 · PASSED</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="nci-val">93</div>
+            <div class="nci-label">NCI · Source</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>GREEN</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Resonance Peaks — Mariana</div>
+        <div class="card">
+          <div class="peak-rows">
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 1</div>
+                <div class="peak-label">ARCS Pitch — Strongest Version on Record</div>
+              </div>
+              <div class="peak-body">The cleanest ARCS pitch in any transcript. Problem: institutional amnesia + overconfidence/underconfidence bias. Product: widens aperture, pressure-tests from multiple angles, constitutional guardrails framing. Tech stack: Claude Code, Python, FastAPI, Supabase RLS, Vercel.</div>
+              <div class="peak-imp">This is the version to use with Julia — plain problem → concrete product → real stack. Under 60 seconds. No doctrine.</div>
+            </div>
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 2</div>
+                <div class="peak-label">"CPO Within an Incubator" Frame</div>
+              </div>
+              <div class="peak-body">Mariana described the PM Lead role as "being a CPO within an incubator within a huge enterprise customer." She originated this framing and it landed well.</div>
+              <div class="peak-imp">Reflect it back to Julia: "I loved how the role was described to me — CPO within an incubator." Shows you internalized the briefing and see the scope clearly.</div>
+            </div>
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">PEAK 3</div>
+                <div class="peak-label">Speed-Run Lever — Activated and On Record</div>
+              </div>
+              <div class="peak-body">Competing timelines flagged. Mariana accepted: "If we can move faster we definitely will." This is now logged in Tribe's pipeline system per Johnny's description of their GTM tracking.</div>
+              <div class="peak-imp">Lever is live. If Julia asks about timeline, deploy it cleanly. Don't re-anchor — it's already in the system.</div>
+            </div>
+            <div class="peak-row">
+              <div class="peak-top">
+                <div class="peak-n">WATCH</div>
+                <div class="peak-label">Pacing — Ran Long with Mariana</div>
+              </div>
+              <div class="peak-body">Mariana flagged a hard stop at opening and again mid-call. Ran over anyway. With Julia — a practitioner evaluating efficiency and communication precision — running over time is a signal, not a feature.</div>
+              <div class="peak-imp">45 minutes. Hard caps: 3 min per story, 60s opening, 30s hot take. Stop when the answer is complete, not when you run out of things to say.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carry-forward signals -->
+      <div>
+        <div class="sl">Carry-Forward Intel</div>
+        <div class="signal-grid">
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header"><div class="sig-card-name">Confirmed</div></div>
+            <div class="sig-card-desc">Comp anchored at mid-$250K — logged in their system. Don't go lower. "I'm optimizing for the mandate, not just the number."</div>
+          </div>
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header"><div class="sig-card-name">Confirmed</div></div>
+            <div class="sig-card-desc">Take-home is Loom format, full day, 3 modules. Mention to Julia that you're aware of it — signals insider knowledge from Johnny.</div>
+          </div>
+          <div class="sig-card sig-card-gold">
+            <div class="sig-card-header"><div class="sig-card-name">Watch</div></div>
+            <div class="sig-card-desc">Hot take is asked at EVERY stage — confirmed by Johnny. The take is locked. Say it. 30 seconds. Pause.</div>
+          </div>
+          <div class="sig-card sig-card-gold">
+            <div class="sig-card-header"><div class="sig-card-name">Watch</div></div>
+            <div class="sig-card-desc">Co-founder meeting is rapid-fire character questions, not career interview. "What word would your wife use to describe you?" Prep separately after this call.</div>
+          </div>
+          <div class="sig-card sig-card-red">
+            <div class="sig-card-header"><div class="sig-card-name">Risk Live</div></div>
+            <div class="sig-card-desc">Do NOT reference Prudential, the 1,600 API migration, or Jenkins → GitHub Actions specifics. Johnny shared those in confidence. Safe: "Fortune 100 regulated-industry clients."</div>
+          </div>
+          <div class="sig-card sig-card-gold">
+            <div class="sig-card-header"><div class="sig-card-name">Unlock</div></div>
+            <div class="sig-card-desc">Hot take consistency: Johnny confirmed they are NOT checking across interviewers. Different takes per stage is fine. The test is having a POV, not maintaining a script.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════ TAB 3: ON-CALL ═══════════════════════════ -->
+    <div id="tab-on-call" class="tab-pane" style="padding: 20px; gap: 20px;">
+
+      <div class="notice">
+        <div class="notice-icon">▲</div>
+        <div class="notice-text">Live reference for the call. Opening → Hot Take → Stories → Close Question → Speed-Run Lever. Altitude translation rule is the governing constraint throughout.</div>
+      </div>
+
+      <!-- Opening -->
+      <div>
+        <div class="sl">Opening — 60 Seconds</div>
+        <div class="script-block">
+          <div class="script-eyebrow">Say This · Plain Language · No Jargon</div>
+          <div class="script-text">"I've spent the last several years at the intersection of regulated product delivery and AI tooling — first at Grayscale launching digital asset products under SEC/FINRA constraint, then through my practice working with clients on 0-to-1 builds where the org had the budget and the ambition but not the shape. What I kept noticing is that the deployment failure isn't usually technical — it's the gap between what the model can do and what the stakeholder can act on. That gap is what I've been building toward. Tribe feels like the right context to do that at scale."</div>
+          <div class="script-clock">Target: 60s · No warm-up lap · Energy + specificity from the first sentence</div>
+        </div>
+      </div>
+
+      <!-- ARCS 60s -->
+      <div>
+        <div class="sl">ARCS in 60 Seconds — If She Asks</div>
+        <div class="script-block">
+          <div class="script-eyebrow">Plain Language · Under 60s · No Doctrine</div>
+          <div class="script-text">"I built a prep framework for high-stakes calls and product decisions — basically a structured way to run pre-mortems, map stakeholder logic, and check my own confidence before I walk into a room. I've used it for every major pitch and engagement in the last year and a half. The honest version: I got tired of leaving calls realizing I'd answered the wrong question. This is what I built to stop that from happening."</div>
+          <div class="script-clock">Hard cap: 90 seconds unless she pulls for more · Stack: Claude Code, Python, FastAPI, Supabase, Vercel</div>
+        </div>
+      </div>
+
+      <!-- Hot Take -->
+      <div>
+        <div class="sl">Hot Take — Say This</div>
+        <div class="script-block">
+          <div class="script-eyebrow">Locked · Deploy Before Minute 30</div>
+          <div class="script-text">"The biggest failure mode in enterprise AI deployments isn't the model — it's the success metric. Teams ship a model that does exactly what they specified, then discover the spec was wrong. The FDE who catches that before sprint one is worth ten times the one who catches it at launch. I think the pre-deployment diagnostic is dramatically undervalued in how most teams staff these engagements."</div>
+          <div class="script-clock">30 seconds · Pause after · If she gives a polite "interesting" — land it and move. Do not double down.</div>
+        </div>
+      </div>
+
+      <!-- Altitude Translation -->
+      <div>
+        <div class="sl">Altitude Translation — Hard Rule for This Call</div>
+        <div class="card">
+          <div class="xlate-rows">
+            <div class="xlate-row">
+              <div class="xlate-from">ARCS</div>
+              <div class="xlate-to">a decision prep framework I built</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">Kintsugi</div>
+              <div class="xlate-to">how I turn a real gap into an honest answer</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">Kairos write-lock</div>
+              <div class="xlate-to">when I've committed to a decision and stop second-guessing it</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">NCI self-grade</div>
+              <div class="xlate-to">my confidence self-check</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">Hyperstition</div>
+              <div class="xlate-to">[do not use]</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">Ontological</div>
+              <div class="xlate-to">how I think about the problem shape</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">Epistemic humility</div>
+              <div class="xlate-to">knowing what I don't know</div>
+            </div>
+            <div class="xlate-row">
+              <div class="xlate-from">Constructive interference</div>
+              <div class="xlate-to">when two ideas compound each other</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kintsugi Fractures -->
+      <div>
+        <div class="sl">Kintsugi — Three Fractures With Gold Fills</div>
+        <div class="card">
+          <div class="fracture-rows">
+            <div class="fracture-row">
+              <div class="fracture-label">Fracture 1 — No Traditional Embedded Engagement</div>
+              <div class="fracture-text">"My version of embedded has been as a founding operator and practice lead — going into Axon or GoPro with no institutional authority and having to ship in a foreign environment with a hostile clock. The context is different; the constraint structure is identical."</div>
+            </div>
+            <div class="fracture-row">
+              <div class="fracture-label">Fracture 2 — ARCS Is Self-Referential</div>
+              <div class="fracture-text">"ARCS started as an internal tool for my own decisions. The best test of any decision system is whether you'd use it when the stakes are real. I've used it for every major call, pitch, and product decision in the last 18 months. That's the product-market fit signal I trust most."</div>
+            </div>
+            <div class="fracture-row">
+              <div class="fracture-label">Fracture 3 — AI Portfolio Is Narrow</div>
+              <div class="fracture-text">"I haven't built a production ML system. I've built systems on top of ML that make the output useful to real stakeholders. That's actually the skill most commonly missing when AI deployments fail. The model usually works. The decision-to-ship moment usually doesn't."</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Close Question -->
+      <div class="close-q">
+        <div class="close-q-label">The Close Question — Last 5 Minutes · Non-Negotiable</div>
+        <div class="close-q-text">"What does the first 30 days of a successful FDE engagement look like for Tribe — not from a deliverables standpoint, but from a trust-building standpoint with the client? I want to understand how your best practitioners earn the right to shape the problem before they start solving it."</div>
+        <div class="close-q-note">Ask this. It signals you think like a practitioner, not a candidate. It also surfaces how she thinks about the role — useful intelligence for every stage that follows.</div>
+      </div>
+
+      <!-- Speed-Run Lever -->
+      <div class="lever-block">
+        <div class="lever-label">Speed-Run Lever — Deploy If Timeline Comes Up</div>
+        <div class="lever-text">"I'm in later stages with a couple of roles — one in the JPM/Kinexys orbit and one at Deloitte. I want to be honest about that because if there's strong mutual fit here, I'd love to move as quickly as makes sense for Tribe."</div>
+        <div class="lever-note">Per Johnny: this sentence collapsed his pipeline from 4 weeks to 1 week. The lever is already on record from Mariana's call — reference it cleanly, don't re-anchor.</div>
+      </div>
+
+      <!-- Take-Home Signal -->
+      <div>
+        <div class="sl">Take-Home Signal</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Format</div>
+              <div class="conf-val">Loom video recording · <strong>Full day of work</strong> · Three modules</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Module 1</div>
+              <div class="conf-val">What matters for this role — mindset, approach, tools, visibility. Cultural alignment test.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Module 2</div>
+              <div class="conf-val">Drop into current state, build a mental model, produce next 2-week sprint using AI. Core FDE competency test.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Module 3</div>
+              <div class="conf-val">Build project triage system end-to-end, show process, deliver artifacts. Stack: ARCS + Notion + GitHub + Vercel → translate to outputs, not tools.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Signal move</div>
+              <div class="conf-val">Mention to Julia you're aware there's a take-home component and you're already thinking about how your tooling stack maps to it. Insider knowledge (via Johnny). Removes awkwardness about it being a surprise.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════ TAB 4: BEATS ═══════════════════════════ -->
+    <div id="tab-beats" class="tab-pane" style="padding: 20px; gap: 16px;">
+
+      <!-- Hard guardrails — always visible first -->
+      <div style="background:rgba(255,77,109,0.07);border:1px solid rgba(255,77,109,0.35);border-radius:var(--r-lg);padding:16px 20px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px;">Hard Guardrails — Active Throughout</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">①</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Altitude check before every sentence.</strong> Could a Prudential exec follow this? If not, cut it. No ARCS jargon, no multi-syllable abstractions.</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">②</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>3-minute hard cap on every story.</strong> Stop when the answer is complete. She is evaluating communication precision, not volume.</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">③</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Never say "Prudential" or any client-specific detail from the briefing.</strong> Safe: "Fortune 100 regulated-industry clients."</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--red);flex-shrink:0;width:20px;padding-top:1px;">④</div>
+            <div style="font-size:13px;color:var(--text);line-height:1.5;"><strong>Ask the close question no matter what.</strong> Last 5 minutes. If she wraps early, ask it anyway before you say goodbye.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beat sequence -->
+      <div>
+        <div class="sl">Call Flow — 45 Minutes</div>
+        <div class="card">
+          <div style="display:flex;flex-direction:column;">
+
+            <!-- Beat 1 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">1</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">0:00</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">60s</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">OPENING</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">Grayscale → regulated product delivery → AI tooling gap → deployment failure isn't technical → Tribe is the right context.</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">No warm-up lap. Energy from word one. Plain language. 60 seconds max.</div>
+              </div>
+            </div>
+
+            <!-- Beat 2 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">2</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">1:00</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~10 min</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">HER QUESTIONS — LISTEN AND CALIBRATE</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">She asks about background, AI experience, or the role. Listen for her register — delivery/execution or market/strategy. Answer in kind. Keep answers to 3 min.</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">If she asks about AI products you've built → Story B (ARCS). Keep answers to 3 min.</div>
+              </div>
+            </div>
+
+            <!-- Beat 3 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">3</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~10 min</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">if pulled</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">ARCS — IF SHE ASKS</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">"A prep framework for high-stakes calls — pre-mortems, stakeholder logic, confidence check. Built to stop leaving calls realizing I'd answered the wrong question."</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--gold);line-height:1.5;">⚠ Hard cap: 90 seconds. Stop. If she pulls for more, give more. Don't volunteer the full system.</div>
+              </div>
+            </div>
+
+            <!-- Beat 4 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">4</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~10–20</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">min</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">STORY ZONE — A, B, OR C AS PROMPTED</div>
+                <div style="font-size:13px;line-height:1.55;margin-bottom:6px;">
+                  <span style="color:var(--cyan);font-weight:600;">A — Grayscale:</span> <span style="color:var(--muted);">Product under constraint. SEC disclosure changed mid-launch. Rebuilt in 72h. $7B.</span>
+                </div>
+                <div style="font-size:13px;line-height:1.55;margin-bottom:6px;">
+                  <span style="color:var(--green);font-weight:600;">B — ARCS:</span> <span style="color:var(--muted);">AI product built from scratch. Real stack. Real results. "I'm the primary user and the primary proof point."</span>
+                </div>
+                <div style="font-size:13px;line-height:1.55;margin-bottom:8px;">
+                  <span style="color:var(--gold);font-weight:600;">C — Ideal Protein:</span> <span style="color:var(--muted);">PE-acquired chaos. 10-person stakeholder matrix. Ran discovery before solution. +40% PQL, +63% booking rate.</span>
+                </div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">If she asks "walk me through an embedded engagement" → Story C. If she asks "what makes you different" → answer with a story, not a bullet.</div>
+              </div>
+            </div>
+
+            <!-- Beat 5 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--gold);line-height:1;">5</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">by min</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">30</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);letter-spacing:0.1em;margin-bottom:6px;">HOT TAKE — DEPLOY BEFORE MIN 30</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;font-style:italic;">"The biggest failure mode in enterprise AI deployments isn't the model — it's the success metric. Teams ship exactly what they specified, then discover the spec was wrong. The pre-deployment diagnostic is dramatically undervalued."</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--gold);line-height:1.5;">⚠ 30 seconds. Pause after. If she gives a polite "interesting" — land it and move. Do not double down.</div>
+              </div>
+            </div>
+
+            <!-- Beat 6 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--cyan);line-height:1;">6</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">~30–38</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">min</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:0.1em;margin-bottom:6px;">TAKE-HOME SIGNAL + TIMELINE</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">Drop that you're aware there's a take-home component and you're already thinking about how your stack maps to it. <em>Insider knowledge signal.</em></div>
+                <div style="font-size:13px;color:var(--text);line-height:1.55;margin-bottom:8px;">If timeline comes up: <strong>"I'm in later stages with Kinexys/JPM and Deloitte — if there's strong mutual fit here I'd love to move as quickly as makes sense for Tribe."</strong></div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.5;">Speed-run lever. Already on record from Mariana. Reference it cleanly.</div>
+              </div>
+            </div>
+
+            <!-- Beat 7 -->
+            <div style="display:grid;grid-template-columns:80px 1fr;">
+              <div style="padding:16px 14px 16px 20px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;align-items:center;">
+                <div style="font-family:var(--mono);font-size:22px;font-weight:700;color:var(--green);line-height:1;">7</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">min 40</div>
+                <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);">non-neg</div>
+              </div>
+              <div style="padding:16px 18px;">
+                <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--green);letter-spacing:0.1em;margin-bottom:6px;">CLOSE QUESTION — NON-NEGOTIABLE</div>
+                <div style="font-size:13px;color:var(--text);line-height:1.65;margin-bottom:8px;font-style:italic;">"What does the first 30 days of a successful FDE engagement look like for Tribe — not from a deliverables standpoint, but from a trust-building standpoint with the client? How do your best practitioners earn the right to shape the problem before they start solving it?"</div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--green);line-height:1.5;">Ask this even if she's wrapping up. It's the signal that separates practitioners from candidates.</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- If/Then quick ref -->
+      <div>
+        <div class="sl">If She Says → You Say</div>
+        <div class="card">
+          <div style="display:flex;flex-direction:column;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid var(--border);font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dimmed);letter-spacing:0.06em;">IF SHE ASKS…</div>
+              <div style="padding:12px 20px 12px 16px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dimmed);letter-spacing:0.06em;">YOU SAY…</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"Walk me through an embedded engagement"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Story C — Ideal Protein. PE acquisition chaos. Discovery before solution.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What AI products have you built?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Story B — ARCS. Plain problem → concrete product → real stack. Under 3 min.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What makes you different?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"I've been running a version of this deployment cycle for 18 months. Here's one example." → pick the most relevant story.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"You don't have Fortune 100 embedded experience"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"No org chart authority, hostile clock, had to ship anyway — mañana, Axon, GoPro. Same constraint structure." Never say consulting.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid rgba(30,41,59,0.4);">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"How technical are you?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">"I'm not the ML engineer — I'm the person who makes sure the ML engineer is solving the right problem." Own it, don't hedge.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;">
+              <div style="padding:12px 16px 12px 20px;border-right:1px solid rgba(30,41,59,0.4);font-size:12px;color:var(--muted);line-height:1.5;">"What's your hot take on AI?"</div>
+              <div style="padding:12px 20px 12px 16px;font-size:12px;color:var(--text);line-height:1.5;">Hot Take B. 30 seconds. Pause. Don't over-explain if she doesn't engage.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════ TAB 5: JUL 7 ═══════════════════════════ -->
+    <div id="tab-agenda" class="tab-pane" style="padding: 20px; gap: 20px;">
+
+      <!-- Decision Receipt -->
+      <div>
+        <div class="sl">Pre-Call Decision Receipt</div>
+        <div class="receipt-grid">
+          <div class="receipt-cell full">
+            <div class="receipt-key">Question</div>
+            <div class="receipt-val">How do I walk into this call and walk out with a clear path to the next round?</div>
+          </div>
+          <div class="receipt-cell">
+            <div class="receipt-key">Horizon</div>
+            <div class="receipt-val">24 hours</div>
+          </div>
+          <div class="receipt-cell">
+            <div class="receipt-key">Stakes</div>
+            <div class="receipt-val gold">HIGH — FDE pipeline, active job search, warm referral chain</div>
+          </div>
+          <div class="receipt-cell">
+            <div class="receipt-key">Y Gate</div>
+            <div class="receipt-val green">GREEN · 94/100</div>
+          </div>
+          <div class="receipt-cell">
+            <div class="receipt-key">Window</div>
+            <div class="receipt-val">Jul 7, 2:00–2:45 PM EDT</div>
+          </div>
+          <div class="receipt-cell full">
+            <div class="receipt-key">Receipt Condition</div>
+            <div class="receipt-val">Julia sends follow-up within 24 hours OR explicitly states next steps on the call. If neither within 48 hours, follow up once — direct, short, no hedging.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist -->
+      <div>
+        <div class="sl">Pre-Call Checklist</div>
+        <div class="card">
+          <div class="checklist">
+            <div class="check-group">
+              <div class="check-group-label">Tonight (Before 9 PM EDT)</div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Lock Story C — clock Ideal Protein STAR at 3 minutes. Say it out loud.</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Clock the opening — 60 seconds max, plain language</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Clock ARCS 60-second version — under 60 seconds, no doctrine</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Say the hot take out loud — listen for confident vs. hedged. Clock it at 30 seconds.</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Practice altitude translation: say one ARCS concept, then immediately translate it. Repeat 5 times with different concepts.</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Quick Julia research — LinkedIn, any Tribe AI content she's authored, recent posts</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Send Johnny the close-loop text tonight</div></div>
+            </div>
+            <div class="check-group">
+              <div class="check-group-label">Tomorrow — Sharpening Window (12:00–1:45 PM EDT)</div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Re-read this brief once — orient, don't study</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Say the opening and hot take out loud once each</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Check Zoom link and tech setup (camera, audio, background)</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Hard stop on new inputs at 1:45 PM — no prep after that</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Eat before 1:30 PM</div></div>
+            </div>
+            <div class="check-group">
+              <div class="check-group-label">On the Call</div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Open with energy and specificity — no warm-up lap</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Register check: translate everything before saying it</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Surface the hot take before minute 30</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Hard cap: 90 seconds on ARCS unless she pulls for more</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">Mention awareness of the take-home — signals insider knowledge</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text urgent">Ask the close question in the last 5 minutes — non-negotiable</div></div>
+              <div class="check-item"><div class="check-box" onclick="toggle(this)"></div><div class="check-text">If timeline comes up: deploy the speed-run lever cleanly</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post-Call Close-Out -->
+      <div>
+        <div class="sl">Post-Call Close-Out — Fill After</div>
+        <div class="card">
+          <div class="close-out">
+            <div class="co-row">
+              <div class="co-key">What Opened</div>
+              <div class="co-val">— fill after call —</div>
+            </div>
+            <div class="co-row">
+              <div class="co-key">Next Stage</div>
+              <div class="co-val">— take-home scheduled? / timeline confirmed? —</div>
+            </div>
+            <div class="co-row">
+              <div class="co-key">Y Gate Shift</div>
+              <div class="co-val">from GREEN/94 → ___</div>
+            </div>
+            <div class="co-row">
+              <div class="co-key">NCI Delta</div>
+              <div class="co-val">from 94 · Jul 7 · UP / DOWN / FORK</div>
+            </div>
+            <div class="co-row">
+              <div class="co-key">Hot Take</div>
+              <div class="co-val">— Did it land / polite / got traction? —</div>
+            </div>
+            <div class="co-row">
+              <div class="co-key">Belief Shift</div>
+              <div class="co-val">— net-new info that changed the model (2–3 bullets) —</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Johnny close-loop text -->
+      <div>
+        <div class="sl">Johnny Close-Loop — Send Tonight</div>
+        <div class="script-block">
+          <div class="script-eyebrow">Text or Email · Tonight · Short</div>
+          <div class="script-text">"Hey — just wanted to say the context you gave me was incredibly helpful. I've done a deep dive and feel really well prepared for tomorrow. Will let you know how it goes."</div>
+          <div class="script-clock">Don't share the brief. After an offer is the right time to deepen the ARCS conversation with him.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:16px 0;">
+    <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.12em;">ARCS v9 · NCI 94/100 · Write-Locked Jul 6, 2026</div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function toggle(el) {
+  el.classList.toggle('done');
+}
+</script>
+
+</body>
+</html>
