@@ -32,6 +32,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // peter.arcs.care → public/peter.html
         { source: "/:path*", destination: "/peter.html", has: [{ type: "host", value: "peter.arcs.care" }] },
+        // julia.arcs.care/runtime → public/julia-runtime.html (must be before wildcard)
+        { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia.arcs.care → public/julia.html
         { source: "/:path*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
