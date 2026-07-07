@@ -1,29 +1,6 @@
 import type { NextConfig } from "next";
-import path from "path";
-
-// Resolve the actual project root from the main checkout (not worktree)
-// Get the git worktree root
-const { execSync } = require("child_process");
-let projectRoot: string;
-try {
-  // --git-common-dir returns the shared .git dir, which lives in the main checkout
-  // even when running from a worktree. --show-toplevel returns the worktree path,
-  // which has no node_modules — this was the source of the Turbopack root error.
-  const gitCommonDir = execSync("git rev-parse --git-common-dir", {
-    encoding: "utf-8",
-    stdio: ["pipe", "pipe", "pipe"],
-  }).trim();
-  projectRoot = path.resolve(path.dirname(gitCommonDir));
-} catch {
-  // Vercel build env has no .git — process.cwd() is already the project root
-  projectRoot = process.cwd();
-}
 
 const nextConfig: NextConfig = {
-  // Next 16 / Turbopack: pin the workspace root explicitly. Without this,
-  // root inference can resolve to src/app and fail to find next/package.json.
-  // Using git root to handle worktrees correctly.
-  turbopack: { root: projectRoot },
   // /compass-kit → the static Compass UI kit preview (cosmetic; mock pipeline, no backend)
   //
   // /observatory used to rewrite here too, to a static demo at public/observatory/index.html.
@@ -36,6 +13,8 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // vishal.arcs.care → public/vishal-combined.html
+        { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
         { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         // cj-brief.arcs.care → public/cj-brief.html
@@ -49,8 +28,14 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
         // todd-call.arcs.care → public/todd-call.html
         { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // vishal.arcs.care → public/vishal-combined.html (two-tab: essay forensic + awe paper forensic)
-        { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
+        // labella.arcs.care → public/labella.html
+        { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
+        // peter.arcs.care → public/peter.html
+        { source: "/:path*", destination: "/peter.html", has: [{ type: "host", value: "peter.arcs.care" }] },
+        // julia.arcs.care → public/julia.html
+        { source: "/:path*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
+        { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
