@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Peter Espersen — ARCS Brief</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
+.tab-btn { flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.15s, border-color 0.15s; }
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+
+.scenario-rows { display: flex; flex-direction: column; }
+.scenario-row { padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.scenario-row:last-child { border-bottom: none; }
+.scenario-top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px; }
+.scenario-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
+.scenario-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.scenario-body { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+.q-rows { display: flex; flex-direction: column; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+
+.guard-rows { display: flex; flex-direction: column; }
+.guard-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.guard-row:last-child { border-bottom: none; }
+.guard-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 1px; }
+.guard-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.guard-text strong { color: var(--text); font-weight: 600; }
+
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+.verdict-rows { display: flex; flex-direction: column; }
+.verdict-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.verdict-row:last-child { border-bottom: none; }
+.verdict-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+.verdict-body { flex: 1; }
+.verdict-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.verdict-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.verdict-text strong { color: var(--text); font-weight: 600; }
+
+.recoil-header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.recoil-header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--cyan); }
+.recoil-header-inner { padding: 20px 24px 20px 28px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.recoil-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--cyan); margin-bottom: 6px; }
+.recoil-name { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.recoil-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.recoil-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.receipt-id { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(0,240,255,0.35); background: rgba(0,240,255,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+.nci-val { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--cyan); line-height: 1; text-align: right; }
+.nci-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; text-align: right; }
+
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
+.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.lbq-text { font-family: var(--sans); font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.55; letter-spacing: -0.01em; font-style: italic; margin-bottom: 16px; }
+.lbq-text::before { content: '\201C'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+.lbq-text::after { content: '\201D'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-left: 4px; }
+.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+.lbq-sig { font-family: var(--sans); font-size: 12px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 12px; }
+
+.segments { display: flex; flex-direction: column; gap: 0; }
+.seg { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.seg:last-child { border-bottom: none; }
+.seg-time { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--border); }
+.seg-num { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--dimmed); line-height: 1; }
+.seg-ts { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.seg-body { padding: 16px 14px; border-right: 1px solid var(--border); }
+.seg-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+.seg-summary { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
+.seg-flag { padding: 16px 14px; }
+.seg-flag-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 6px; }
+.seg-flag-text { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.55; }
+
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sig-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; position: relative; overflow: hidden; }
+.sig-card::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; }
+.sig-card-green::before { background: var(--green); }
+.sig-card-cyan::before { background: var(--cyan); }
+.sig-card-gold::before { background: var(--gold); }
+.sig-card-red::before { background: var(--red); }
+.sig-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-left: 8px; }
+.sig-card-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.sig-card-green .sig-card-name { color: var(--green); }
+.sig-card-cyan .sig-card-name { color: var(--cyan); }
+.sig-card-gold .sig-card-name { color: var(--gold); }
+.sig-card-red .sig-card-name { color: var(--red); }
+.sig-strength { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; }
+.strength-hard { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+.strength-dir { background: rgba(0,240,255,0.08); color: var(--cyan); border: 1px solid rgba(0,240,255,0.2); }
+.strength-watch { background: rgba(255,77,109,0.08); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.sig-card-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 8px; }
+
+.prob-rows { display: flex; flex-direction: column; gap: 0; }
+.prob-row { display: grid; grid-template-columns: 56px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.prob-row:last-child { border-bottom: none; }
+.prob-num { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 4px; }
+.prob-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; }
+.prob-pct { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.prob-body { padding: 16px 18px; }
+.prob-id { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 4px; }
+.prob-label { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.04em; }
+.prob-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.prob-watch { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.prob-watch::before { content: 'WATCH → '; color: var(--gold); }
+
+.risk-rows { display: flex; flex-direction: column; gap: 0; }
+.risk-row { display: grid; grid-template-columns: 80px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.risk-row:last-child { border-bottom: none; }
+.risk-sev { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 6px; }
+.sev-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; text-align: center; }
+.sev-high { background: rgba(255,77,109,0.1); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+.sev-med { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+.sev-low { background: rgba(30,41,59,0.5); color: var(--muted); border: 1px solid var(--border); }
+.risk-body { padding: 16px 18px; }
+.risk-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.risk-action { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+.risk-action::before { content: 'ACTION → '; }
+
+.protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pass-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }
+.pass-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.pass-dir { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-bottom: 12px; }
+.pass-body { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+.action-rows { display: flex; flex-direction: column; gap: 0; }
+.action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.action-row:last-child { border-bottom: none; }
+.action-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; }
+.action-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
+
+.stop-loss { background: rgba(255,77,109,0.06); border: 1px solid rgba(255,77,109,0.25); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+.sl-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); flex-shrink: 0; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: var(--red); line-height: 1.5; }
+
+.compass-prompt { background: var(--surface2); border: 1px solid rgba(0,240,255,0.2); border-radius: var(--r-lg); padding: 24px 28px; position: relative; overflow: hidden; }
+.compass-prompt::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.cp-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 14px; }
+.cp-text { font-family: var(--sans); font-size: 14px; color: var(--text); line-height: 1.7; letter-spacing: -0.01em; margin-bottom: 18px; }
+.cp-note { font-family: var(--mono); font-size: 10px; color: var(--muted); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 14px; }
+.cp-copy-btn { display: inline-flex; align-items: center; gap: 7px; margin-top: 14px; background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-sm); color: var(--cyan); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 8px 16px; cursor: pointer; transition: background 0.15s; }
+.cp-copy-btn:hover { background: rgba(0,240,255,0.14); }
+
+.why-rows { display: flex; flex-direction: column; gap: 0; }
+.why-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.why-row:last-child { border-bottom: none; }
+.why-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid rgba(0,240,255,0.25); background: rgba(0,240,255,0.05); color: var(--cyan); flex-shrink: 0; white-space: nowrap; align-self: flex-start; margin-top: 2px; }
+.why-body { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.why-body strong { color: var(--text); font-weight: 600; }
+
+#pw-gate { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+#pw-gate.hidden { display: none; }
+.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.pw-form { display: flex; gap: 10px; align-items: center; }
+.pw-input { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 10px 16px; outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s; }
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+.pw-btn { background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-md); color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s; }
+.pw-btn:hover { background: rgba(0,240,255,0.14); }
+.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (max-width: 640px) {
+  body { padding: 28px 16px 60px; }
+  .conf-key { width: 70px; }
+  .next-owner { width: 44px; }
+  .seg { grid-template-columns: 60px 1fr; }
+  .seg-flag { display: none; }
+  .signal-grid { grid-template-columns: 1fr; }
+  .protocol-grid { grid-template-columns: 1fr; }
+  .recoil-header-inner { grid-template-columns: 1fr; }
+  .recoil-meta { align-items: flex-start; margin-top: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PRIVATE BRIEF</div>
+  <div class="pw-title">Peter Espersen</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris</div>
+</div>
+
+<script>
+if (sessionStorage.getItem('peter-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'peter') {
+    sessionStorage.setItem('peter-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPw(); });
+function switchTab(id, el) {
+  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+function copyPrompt() {
+  var text = document.getElementById('compass-prompt-text').innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('cp-btn');
+    btn.textContent = 'COPIED';
+    setTimeout(function() { btn.textContent = 'COPY PROMPT'; }, 2000);
+  });
+}
+</script>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">Via Ryan Oakes · Apr 20, 2026</div>
+    <div class="masthead-name">Peter Espersen</div>
+    <div class="masthead-sub">Partner, Transactions &amp; Compagnie · Senior Advisor, Palm Venture Studios · Board, Gentoro · NYC</div>
+  </div>
+
+  <div class="rule-glow"></div>
+
+  <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">APR 20, 2026 · POST-CALL</div>
+
+  <div class="card" style="overflow:visible;background:none;border:none;">
+    <div class="tabs">
+      <button class="tab-btn" onclick="switchTab('pre',this)">Pre-Call</button>
+      <button class="tab-btn" onclick="switchTab('recoil',this)">Recoil</button>
+      <button class="tab-btn active" onclick="switchTab('post',this)">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('play',this)">Play →</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ PRE-CALL -->
+    <div id="tab-pre" class="tab-pane">
+
+      <div>
+        <div class="sl">Who he is — going in</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Current</div>
+              <div class="conf-val"><strong>Partner, Transactions &amp; Compagnie</strong> (Dec 2025–present) — M&amp;A advisory, sell-side, capital raise. <strong>Senior Advisor, Palm Venture Studios</strong> (Jul 2024–present) — PE and venture studio; 10+ portfolio boards across SaaS, AI, PropTech, AR/VR. <strong>Board, Gentoro</strong> (Aug 2024–present) — MCP/LLM agentic automation for enterprise. XPRIZE Visioneering Brain Trust.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Operating mode</div>
+              <div class="conf-val">Has been on all sides: VC, private equity, family offices, investment banking, entrepreneur (built and sold companies, also crashed a couple). Spends most of his time investing and operating with a large family office in Greenwich, plus his IB advisory practice (help people sell companies, raise money).</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Palm thesis</div>
+              <div class="conf-val">"Good teams and healthy companies that have a challenge getting to capital." Palm looks at both PE and distressed deals — not because they want distress, because they believe there's intrinsic value misconfigured in companies that can't access capital.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Career arc</div>
+              <div class="conf-val">Danish native, now American. LEGO Group (Global Head of Co-creation, LEGO Ideas, 5 yrs) → Pixable (VP Product &amp; Marketing, MAU 6.5M→9.5M) → eVote (Co-founder, $3M raised, biometric + blockchain voting) → Capital One Growth Ventures → Hines Venture Studio → Palm + T&amp;C + Gentoro.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">Intro chain</div>
+              <div class="conf-val">Ryan Oakes (mutual — Zach from Brooklyn/Greenpoint yoga entrepreneur days, Ryan's wife Mika) → Ryan heard about ARCS → introduced to pip (a magician Ryan thought would be a useful skeptic) → pip didn't have the domain background, passed Peter's name instead.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">What to expect going in</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>He builds his own LLM investment memos.</strong> Perplexity + Claude + ChatGPT + Gemini → distilled investment memo → then he adds the human judgment layer on top. He's not a skeptic of AI; he's already a power user asking "why add another layer to what's working?"</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>He'll go right at the platform risk question.</strong> "Even if you're really, really good tool, there might be an update that closes the gap" — expect this. He's been operating in a world where models commoditize fast. This is a live structural concern, not a polite objection.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--green)"></div>
+              <div class="intel-text"><strong>He processes in deal terms.</strong> What's the play? What's the structure? What's the GTM? His native frame is capital strategy + M&amp;A, not product/innovation. Lead with the transaction analogy: ex-ante receipt = the diligence artifact you wish you'd had on every deal where the plan didn't work out.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--muted)"></div>
+              <div class="intel-text">He tends to say "let's just run it" — action-biased, won't overthink setup. Give him a scenario quickly. He picks up on framing fast and doesn't need extended explanation before he's ready to pressure-test.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Range of possible outcomes going in</div>
+        <div class="card">
+          <div class="scenario-rows">
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.04)">Best outcome</div>
+                <div class="scenario-label">IB deal diligence partner</div>
+              </div>
+              <div class="scenario-body">He routes a live sell-side situation or distressed deal through ARCS before advising clients — uses it as the ex-ante receipt layer that gives him both a better decision and audit protection. The T&amp;C practice is the most direct fit: fiduciary advisory with LP-style accountability.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.25);background:rgba(255,215,0,0.04)">Likely</div>
+                <div class="scenario-label">Interested, wants the front end first</div>
+              </div>
+              <div class="scenario-body">The demo registers as genuinely different but the interface is too raw to convert. He wants to see an evolved front-end before he'll try it on a real situation. 3-week window — his stated timeline. If the product surfaces in that window, the door stays open.</div>
+            </div>
+            <div class="scenario-row">
+              <div class="scenario-top">
+                <div class="scenario-tag" style="color:var(--muted);border-color:var(--border);background:rgba(30,41,59,0.3)">Possible</div>
+                <div class="scenario-label">Portfolio referral into Palm</div>
+              </div>
+              <div class="scenario-body">Doesn't use it himself yet, but routes a Palm portfolio company — one at a critical inflection point — toward ARCS for their own high-stakes pivot decision. Lower activation energy than direct adoption.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Three questions going in</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--cyan)">1</div>
+                <div class="q-text">"In the deals where a plan didn't work out — what do you wish you'd captured before you committed?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → where the ex-ante receipt maps directly to a real pain he's lived. Not hypothetical.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--gold)">2</div>
+                <div class="q-text">"In your current LLM investment memo workflow — where do you still have to apply judgment that the models can't do?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → the "add my own judgment on top" gap. That's exactly where ARCS lives.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--green)">3</div>
+                <div class="q-text">"What are you most focused on with T&amp;C right now — sell-side mandates, buy-side, capital advisory?"</div>
+              </div>
+              <div class="q-look">LISTENING FOR → which practice area has the live deal flow where a first compass run would generate real value immediately.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Positioning going in</div>
+        <div class="card">
+          <div class="guard-rows">
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.2);background:rgba(0,240,255,0.04)">ARCS framing</div>
+              <div class="guard-text"><strong>"The diligence artifact you wish you'd had on every deal where the plan didn't work out the way you expected."</strong> An ex-ante receipt before a one-way door: it doesn't fully indemnify you, but it shows you were disciplined, documents the train of thought, and gives you something to audit against later. Due diligence, due care, due process — in one traceable record.</div>
+            </div>
+            <div class="guard-row">
+              <div class="guard-tag" style="color:var(--green);border-color:rgba(0,255,157,0.25);background:rgba(0,255,157,0.04)">Platform risk pre-answer</div>
+              <div class="guard-text"><strong>ARCS runs on top of Claude and GPT — every model upgrade makes it better.</strong> The moat isn't in the underlying model. It's in state (receipts accumulate across decisions), audit trail (ex-ante artifacts are yours, not theirs), and the adversarial reasoning layer (the full court: red team, blue team, Kintsugi reconciliation). Those three things are structurally not what Anthropic or OpenAI are building.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ RECOIL -->
+    <div id="tab-recoil" class="tab-pane">
+
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">RECOIL REPORT · VIA RYAN OAKES</div>
+            <div class="recoil-name">Peter Espersen</div>
+            <div class="recoil-sub">~40 Min · Apr 20, 2026 · Google Meet → Zoom (connection switch mid-call)</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="receipt-id">2026-04-20-espersen</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>YELLOW / MEDIUM / REVISIT</div>
+            <div>
+              <div class="nci-val">64</div>
+              <div class="nci-label">NCI Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notice">
+        <div class="notice-icon">⚠</div>
+        <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Reverse Listening + Deep Recall · 5 segments · Screen sharing degraded mid-call, switched to Zoom</div>
+      </div>
+
+      <div class="card">
+        <div style="padding: 22px 24px;">
+          <div class="label" style="margin-bottom: 10px;">Call verdict</div>
+          <div style="font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; letter-spacing: -0.01em;">He's a peer operator who builds LLM investment memos himself — so his objection isn't "I don't get it," it's "convince me the moat is real." That's harder and better. The kairos layer on his own career arc was the highest-engagement moment. The front-end framing is the gate.</div>
+          <div style="font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6;">He picked the distressed turnaround scenario (Option A) immediately. Recognized the 90-day turnaround as a "theatrical theater production" — he's lived that pattern. Platform risk concern is structurally real, not a deflection. Closed with genuine interest and a 3-week front-end request. Also asked "what's the plan" — that's a deal-structure instinct, not a courtesy question. NCI at 64: direction confirmed, first real use case is the unlock.</div>
+        </div>
+      </div>
+
+      <div class="lbq">
+        <div class="lbq-text">It adds a different framework.</div>
+        <div class="lbq-attr">PETER ESPERSEN · VERBATIM · APR 20, 2026</div>
+        <div class="lbq-sig">This came after the full A/B demo — ARCS on the left, Perplexity on the right, kairos layer mapped across his own career arc. From a deal-maker who builds his own multi-LLM investment memos, "adds a different framework" is genuine acknowledgment from a discerning evaluator. It's not a close. It's a cracked door. What he asked next — "what's the plan, are you going to raise money?" — tells you more: he's pattern-matching this as a business, not just a tool. That's either a buying signal in his native register, or due diligence on whether to take it seriously.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Call Walk — 5 Segments</div>
+          <div class="label">Reverse Listening + Deep Recall</div>
+        </div>
+        <div class="segments">
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">01</div>
+              <div class="seg-ts">0–8 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--muted);">Rapport + context</div>
+              <div class="seg-summary">Fairfield / Manhattan / Greenwich exchange. Zach explains the Ryan → pip → Peter chain: pitching "the antidote to magical thinking," trying the harshest critics first, pip passed the name. Peter gives a clean 5-second bio: VC / PE / family offices / IB / entrepreneur — all sides of the table, multiple exits and crashes. Spends most of time with a large family office in Greenwich. Investment banking practice: helping people sell companies or raise.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--muted);">Divergence · LOW</div>
+              <div class="seg-flag-text">The Danish / Dennis Mortensen connection surfaced naturally — Peter and Dennis know each other, both Danish-American now. Peter distinguished himself from the "stationed for a year or two" Scandinavian expat crowd — he's rooted here, American wife, American citizenship. Relevant context: he operates peer-to-peer, not transactionally.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">02</div>
+              <div class="seg-ts">8–18 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--cyan);">ARCS context + scenario selection</div>
+              <div class="seg-summary">Zach walks through the premise: ARCS as antidote to institutional amnesia, ego-free decision making, ex-ante receipts, traceability of rationale. Three demo options offered: (A) distressed asset 90-day turnaround, (B) healthy but noisy team, (C) governance / board context (Gentoro). Peter picks Option A immediately: "probably the best one of these" — says the others are "very cut and dry." Zach caveats: bootleg front-end, $20/month Perplexity prototype, complex stuff under the hood.</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--cyan);">Divergence · MED</div>
+              <div class="seg-flag-text">He picked distressed turnaround without hesitation — that's his live domain (Palm looks at distressed deals). "Cut and dry" on the others = he finds team dynamics and governance more predictable from his experience. The distressed scenario has more decision optionality and ambiguity, which is where his judgment adds the most value — and where an ex-ante receipt matters most.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">03</div>
+              <div class="seg-ts">18–28 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--gold);">Live demo — screen sharing degrades → Zoom</div>
+              <div class="seg-summary">ARCS runs the distressed turnaround scenario: decision receipt, kairos read on timing, red-team / blue-team recursion, Kintsugi protocol reconciliation. Screen sharing becomes cloudy mid-demo — they switch to Zoom. Peter stays engaged through the friction, continues watching. Key moment: the kairos layer maps across his own career arc (virtual worlds → LEGO co-creation → mobile media → biometric voting → AI/agents) against macro timing. Peter: "I like that." Also acknowledged the 90-day turnaround framing: "very, very difficult to… definition of insanity."</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--gold);">Divergence · HIGH</div>
+              <div class="seg-flag-text">The screen friction could have killed the demo — it didn't. He stayed through the Zoom switch and continued engaging. That's an active signal, not passive. "I like that" on the kairos layer is specific: he has a deep intuition about timing himself (his career is built on wave entry). Seeing his own arc mapped against macro timing resonated because it mirrors how he already thinks — he recognized the framework, not just the output.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">04</div>
+              <div class="seg-ts">28–35 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--red);">Platform risk + workflow reveal</div>
+              <div class="seg-summary">Peter: "A lot of the challenge with these kind of tools is that we don't know or have limited indication of what Anthropic and OpenAI are sitting on… even if you're really, really good tool, there might be an update that closes the gap." Then he reveals his workflow: distills Perplexity + Claude + ChatGPT + sometimes Gemini → compiles investment memo → "then I show where I'm different, what me as the human is different." He's not a skeptic — he's a power user asking "what's the durable layer?"</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+              <div class="seg-flag-text">This came after positive engagement, not as an escape hatch. It's a genuine structural concern from someone who already runs a sophisticated multi-LLM process. The correct answer — "ARCS runs on top of Claude and GPT, every upgrade makes it better, the moat is in state and audit trail" — wasn't fully locked in the call. He left with the concern partially unresolved. That's the primary thing the Play tab needs to address explicitly.</div>
+            </div>
+          </div>
+
+          <div class="seg">
+            <div class="seg-time">
+              <div class="seg-num">05</div>
+              <div class="seg-ts">35–40 min</div>
+            </div>
+            <div class="seg-body">
+              <div class="seg-label" style="color: var(--green);">GTM question + 3-week close</div>
+              <div class="seg-summary">Peter asks about the front-end (it "shows a little bit like conceives an overlay on the LLMs" — his exact read of the positioning gap). Then: "What's the plan — are you going to raise money for it? Are you going to try and sell it as a consultancy thing?" Then the close: "I'd love once you to regroup in like three weeks or so when you're even further with the front end to take a look again."</div>
+            </div>
+            <div class="seg-flag">
+              <div class="seg-flag-label" style="color: var(--green);">Signal · HIGH</div>
+              <div class="seg-flag-text">The GTM question is him pattern-matching ARCS as a business — that's either deal diligence instinct (evaluating it as something to invest in or partner with) or an operator checking whether there's a real company behind the tool. Either way it's engagement at the company level, not just the product level. "Overlay on the LLMs" is his honest UI critique — he sees the positioning gap. The 3-week request is a soft commitment, not a courtesy close.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="label" style="margin-bottom: 12px;">Signal Threads</div>
+        <div class="signal-grid">
+
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header">
+              <div class="sig-card-name">He Picked The Hard Scenario</div>
+              <div class="sig-strength strength-hard">HARD YES</div>
+            </div>
+            <div class="sig-card-desc">He chose distressed turnaround (Option A) immediately, over governance and team dynamics. That's his live domain at Palm and T&amp;C — it's not a safe theoretical choice, it's where his judgment is most load-bearing. Picking the scenario where uncertainty is highest and receipts matter most is the strongest signal of engaged interest.</div>
+          </div>
+
+          <div class="sig-card sig-card-green">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Kairos Layer Landed</div>
+              <div class="sig-strength strength-hard">HARD YES</div>
+            </div>
+            <div class="sig-card-desc">"I like that" on the kairos mapping of his own career arc is specific and earned. He has deep timing intuition — his entire operating identity is built on reading when to step into a wave. Seeing it applied algorithmically to his own arc was the highest-engagement moment. That's the entry point for the Play tab prompt.</div>
+          </div>
+
+          <div class="sig-card sig-card-cyan">
+            <div class="sig-card-header">
+              <div class="sig-card-name">GTM Question = Deal Frame</div>
+              <div class="sig-strength strength-dir">DIRECTIONAL</div>
+            </div>
+            <div class="sig-card-desc">"Are you going to raise money or sell it as consultancy?" is him evaluating the business, not just the tool. From a deal-maker, that's a buying frame or a diligence frame — either way it's above the product evaluation level. He's asking what the entity is, not just what the software does.</div>
+          </div>
+
+          <div class="sig-card sig-card-gold">
+            <div class="sig-card-header">
+              <div class="sig-card-name">Platform Risk is Unresolved</div>
+              <div class="sig-strength strength-dir">DIRECTIONAL</div>
+            </div>
+            <div class="sig-card-desc">The moat question — "what happens when OpenAI closes the gap" — wasn't fully answered on the call. He left with it partially open. The Play tab addresses it directly: ARCS runs on top of those models; every upgrade makes it better; the durable layer is state, audit trail, and adversarial reasoning — none of which those providers are building.</div>
+          </div>
+
+          <div class="sig-card sig-card-red" style="grid-column: 1 / -1;">
+            <div class="sig-card-header">
+              <div class="sig-card-name">"Overlay on the LLMs" is the Real UI Critique</div>
+              <div class="sig-strength strength-watch">WATCH</div>
+            </div>
+            <div class="sig-card-desc">His exact read on the current front-end: "right now it shows a little bit like conceives an overlay on the LLMs." That's accurate and fair — a Perplexity-based prototype looks like a prompt layer, not a product. The 3-week front-end request is his way of saying: show me this lives in its own house. If the evolved front-end doesn't land that distinction clearly, the "adds a different framework" acknowledgment stays theoretical.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Probability Tree — 4 Forward Scenarios</div>
+        </div>
+        <div class="prob-rows">
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">40</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario A</div>
+              <div class="prob-label">IB / Deal Diligence Partner</div>
+              <div class="prob-desc">Runs the Play tab compass prompt on a live sell-side situation or distressed evaluation → sees the question-beneath-the-question move working on his actual advisory context → starts routing pre-commitment moments through ARCS. T&amp;C is the most direct fit: one-way-door transactions where an ex-ante receipt has real fiduciary value.</div>
+              <div class="prob-watch">Entry signal: he sends a reaction to the Play tab prompt with "this is what came up for me on a deal I'm working right now."</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">30</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario B</div>
+              <div class="prob-label">Palm Portfolio Referral</div>
+              <div class="prob-desc">Doesn't use it himself yet but routes a Palm company at a critical inflection point toward ARCS for their decision surface. One of his 10+ portfolio boards will have a high-stakes pivot moment in the next 90 days — he becomes the connector. Lower activation energy than direct adoption.</div>
+              <div class="prob-watch">If he mentions a specific portfolio company by name in the follow-up, that's where this is heading.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">20</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario C</div>
+              <div class="prob-label">Deal / Capital Raise Conversation</div>
+              <div class="prob-desc">The GTM question was real diligence. If ARCS is raising or structuring a deal, he's already pattern-matched where he might fit — as an advisor, a connector, or a small check. This is the least certain scenario but would explain why he asked "raise money or consultancy" before asking anything else about use cases.</div>
+              <div class="prob-watch">If follow-up turns to "what does the cap table look like" or "who else are you talking to," this is the scenario.</div>
+            </div>
+          </div>
+
+          <div class="prob-row">
+            <div class="prob-num">
+              <div class="prob-val">10</div>
+              <div class="prob-pct">%</div>
+            </div>
+            <div class="prob-body">
+              <div class="prob-id">Scenario D</div>
+              <div class="prob-label">Goes Dark</div>
+              <div class="prob-desc">Front-end doesn't land in the 3-week window, or the Play tab prompt generates no reaction. "Adds a different framework" stays at the acknowledgment level and doesn't convert. Not a rejection — just the default when there's too much in queue and the activation energy requirement is too high.</div>
+              <div class="prob-watch">If no response 3 weeks after sending peter.arcs.care, one follow-up — the prompt only, not the pitch. Then let it rest.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Risk Flags</div>
+        </div>
+        <div class="risk-rows">
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-high">HIGH</div></div>
+            <div class="risk-body">
+              <div class="risk-label">Platform risk answer not locked</div>
+              <div class="risk-desc">He left with "Anthropic might close the gap" partially unresolved. It's the load-bearing objection for someone who already runs a sophisticated multi-LLM workflow. If it's still sitting unanswered when the 3-week front-end lands, it remains the wall.</div>
+              <div class="risk-action">Lead the send with this explicitly: "The one thing I didn't answer cleanly — ARCS runs on top of Anthropic and OpenAI. Every upgrade makes ARCS better. The moat is in state, audit trail, and the adversarial reasoning layer. Those are structurally not what they're building." Don't wait for him to re-raise it.</div>
+            </div>
+          </div>
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-med">MED</div></div>
+            <div class="risk-body">
+              <div class="risk-label">"Overlay on LLMs" UI critique is real</div>
+              <div class="risk-desc">He named the positioning gap accurately. A Perplexity-based prototype looks like a prompt wrapper, not a standalone product. The evolved front-end has to live in its own house — not on a model's native UI — for the distinction to land.</div>
+              <div class="risk-action">app.arcs.care is the right URL to send. Not a Perplexity thread. The product has to feel like a product at first contact, before he even runs the first compass session.</div>
+            </div>
+          </div>
+
+          <div class="risk-row">
+            <div class="risk-sev"><div class="sev-badge sev-low">LOW</div></div>
+            <div class="risk-body">
+              <div class="risk-label">3-week window decay</div>
+              <div class="risk-desc">The close was genuine but soft. "Adds a different framework" has a short half-life with operators running multiple deal tracks simultaneously. The momentum needs an artifact before the specific things that landed in the demo fade.</div>
+              <div class="risk-action">peter.arcs.care with the compass prompt on the Play tab is the artifact. Send it with a one-liner addressing the moat question. No re-pitch, no setup required.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Recoil Protocol</div>
+          <div class="label">5 segments · ~40 min call</div>
+        </div>
+        <div style="padding: 20px;">
+          <div class="protocol-grid">
+            <div class="pass-card">
+              <div class="pass-name">Reverse Listening</div>
+              <div class="pass-dir">End → Start</div>
+              <div class="pass-body">Call ended with GTM question ("raise or consultancy?") + 3-week front-end request + "adds a different framework." Reading backward: the platform risk concern (segment 4) came after "I like that" on the kairos layer (segment 3) — genuine concern, not deflection. His scenario selection (segment 2) — distressed turnaround, immediately — was the first real signal. The intro exchange (segment 1) revealed full operating picture: he's not just one thing, he's been on all sides. That multi-vantage experience is why "what's the plan" is a real question, not small talk.</div>
+            </div>
+            <div class="pass-card">
+              <div class="pass-name">Deep Recall</div>
+              <div class="pass-dir">Start → End · vs. pre-call expectation</div>
+              <div class="pass-body">Pre-call: expected curious evaluator, expected multi-LLM objection. Both confirmed. The miss: didn't anticipate the GTM question — that raised the conversation above the product level to the company level. Also didn't anticipate the "overlay on LLMs" UI critique — that's an accurate read of the Perplexity prototype's positioning gap. Most important divergence: his distressed turnaround scenario selection (not governance, which was the board-relevant one) tells you where his judgment feels most load-bearing right now. Palm's thesis is distressed + capital-constrained teams. That's where the ex-ante receipt has the most real-stakes value for him.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Immediate Actions</div>
+        </div>
+        <div class="action-rows">
+          <div class="action-row">
+            <div class="action-num">1</div>
+            <div class="action-text">Send peter.arcs.care — the brief is the demo of the methodology, the Play tab has the compass prompt designed for his actual deal terrain. Open with one line answering the moat question, then point to the Play tab. No re-pitch.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">2</div>
+            <div class="action-text">Address the platform risk gap explicitly in the send: "ARCS runs on top of Anthropic and OpenAI. Every upgrade makes it better. The moat is in state, audit trail, and adversarial reasoning — none of which they're building." One sentence. Don't expand on it.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">3</div>
+            <div class="action-text">Give him the Play tab prompt — pre-loaded for his sell-side advisory context. Don't ask him to come up with his own question. One paste, one run, no setup.</div>
+          </div>
+          <div class="action-row">
+            <div class="action-num">4</div>
+            <div class="action-text">3-week check-in (May 11, 2026). If front-end has shipped, send app.arcs.care. If prompt generated a reaction, use that as the agenda. If silence, send the prompt once more — just the prompt.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stop-loss">
+        <div class="sl-label">Stop-Loss</div>
+        <div class="sl-text">No reaction to the compass prompt within 3 weeks → one follow-up, the prompt only. No reaction after that → Scenario D. Don't chase. A durable peer relationship at low temperature with someone running multiple deal tracks beats a high-friction follow-up sequence.</div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ POST-CALL -->
+    <div id="tab-post" class="tab-pane active">
+
+      <div>
+        <div class="sl">What we confirmed</div>
+        <div class="card">
+          <div class="conf-rows">
+            <div class="conf-row">
+              <div class="conf-key">Operating mode</div>
+              <div class="conf-val"><strong>Multi-sided deal operator.</strong> VC, PE, family offices, IB, entrepreneur — all sides. Currently: T&amp;C (sell-side / capital advisory) + Palm (PE + distressed + venture studio, 10+ boards) + Gentoro (MCP/enterprise agents board) + large family office in Greenwich. Not a single-bet operator — he runs multiple deal tracks simultaneously.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">LLM workflow</div>
+              <div class="conf-val">Already runs Perplexity + Claude + ChatGPT + Gemini → distilled investment memo → adds his own human judgment. The gap ARCS fills isn't in the research synthesis — it's in the judgment layer itself: making it auditable, adversarially pressure-tested, and stateful across decisions.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">What landed</div>
+              <div class="conf-val">The kairos layer on his own career arc — "I like that." The Kintsugi reconciliation framing — "I like that." The 90-day turnaround call-out ("definition of insanity / theatrical theater production") — he'd lived that pattern and recognized it immediately. The adversarial full-court structure (red team / blue team / conductor).</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">What didn't land</div>
+              <div class="conf-val">The moat question — platform risk wasn't fully resolved. The UI — "conceives an overlay on the LLMs" is his honest read of the Perplexity prototype, and he's not wrong. Both require the follow-up artifacts to close.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key">GTM signal</div>
+              <div class="conf-val" style="color:var(--dimmed)">"Are you going to raise money or sell as consultancy?" — this came before he asked about use cases or pricing. That's a deal-maker evaluating the entity, not just the tool. Ambiguous directionally but above the product evaluation level.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">How pre-call scenarios landed</div>
+        <div class="card">
+          <div class="verdict-rows">
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05)">CONFIRMED</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Interested, wants front end first</div>
+                <div class="verdict-text">Exact scenario. "Regroup in like three weeks or so when you're even further with the front end" — his exact words. The UI is the gate. app.arcs.care is the answer.</div>
+              </div>
+            </div>
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--gold);border-color:rgba(255,215,0,0.25);background:rgba(255,215,0,0.05)">PARTIAL</div>
+              <div class="verdict-body">
+                <div class="verdict-label">IB deal diligence partner</div>
+                <div class="verdict-text">Not confirmed but live. His domain selection (distressed turnaround), his T&amp;C practice, and the ex-ante receipt framing all align. The Play tab prompt is designed to activate this scenario by meeting him in his actual advisory context.</div>
+              </div>
+            </div>
+            <div class="verdict-row">
+              <div class="verdict-badge" style="color:var(--dimmed);border-color:var(--border);background:rgba(30,41,59,0.3)">NEW</div>
+              <div class="verdict-body">
+                <div class="verdict-label">Deal / capital raise conversation</div>
+                <div class="verdict-text">Not anticipated pre-call. The GTM question ("raise money or consultancy?") suggests he may also be evaluating ARCS as a business — potential deal, investment, or advisory relationship with ARCS itself, not just as a user of the tool.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Signals from the call</div>
+        <div class="card">
+          <div class="intel-rows">
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--green)"></div>
+              <div class="intel-text"><strong>He chose the hardest scenario.</strong> Distressed turnaround over governance and team dynamics — that's where his judgment is most load-bearing right now. The ex-ante receipt matters most when the decision is a one-way door. Palm's thesis is built around exactly that gap.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--cyan)"></div>
+              <div class="intel-text"><strong>The kairos layer is the hook.</strong> "I like that" — specific, not generic. He has deep timing intuition himself; seeing it applied to his own arc made the layer concrete in a way that no explanation could. That's the strongest connection point for a first real session.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--gold)"></div>
+              <div class="intel-text"><strong>The platform risk concern is load-bearing.</strong> He builds his own LLM investment memos — so "Anthropic might close the gap" is a structural concern from lived experience, not a casual objection. The answer has to be sharp and specific: state, audit trail, adversarial reasoning. Not "we're different." Those three things specifically.</div>
+            </div>
+            <div class="intel-row">
+              <div class="intel-dot" style="background:var(--muted)"></div>
+              <div class="intel-text">The GTM question changes the relationship frame. He's evaluating ARCS at the company level, not just the product level. That can be handled as a sign of interest (he's thinking about where this fits in the ecosystem he operates in) or followed up explicitly if there's appetite to explore.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Next steps</div>
+        <div class="card">
+          <div class="next-rows">
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--cyan)">NOW</div>
+              <div class="next-text">Send peter.arcs.care with one-liner on the moat question + invitation to Play tab. No re-pitch. "Here's the thing I didn't answer cleanly on the call, and here's the fastest way to see what I was describing without any setup."</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--gold)">3 WKS</div>
+              <div class="next-text">May 11 check-in per his stated timeline. If front-end has shipped, send app.arcs.care directly. If prompt generated a reaction, use that as the agenda for a follow-up call. If silence, send the prompt once more — just the prompt, no context.</div>
+            </div>
+            <div class="next-row">
+              <div class="next-owner" style="color:var(--muted)">IF ENGAGED</div>
+              <div class="next-text">Identify which T&amp;C deal or Palm portfolio situation has the most live decision pressure in the next 90 days. That's the entry point for a real-stakes first session — one decision, one receipt, verifiable later. Not a retainer conversation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ PLAY -->
+    <div id="tab-play" class="tab-pane">
+
+      <div class="recoil-header">
+        <div class="recoil-header-inner">
+          <div>
+            <div class="recoil-mark">QUESTION COMPASS · DESIGNED FOR YOUR DEAL TERRAIN</div>
+            <div class="recoil-name">What your LLM memo stack can't do</div>
+            <div class="recoil-sub">One prompt · paste it · see the judgment audit in action</div>
+          </div>
+          <div class="recoil-meta">
+            <div class="receipt-id">2026-04-20-espersen</div>
+            <div class="ygate-badge"><div class="ygate-dot"></div>YELLOW / MEDIUM</div>
+            <div>
+              <div class="nci-val">64</div>
+              <div class="nci-label">NCI · Apr 20</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="padding: 20px 24px;">
+          <div class="label" style="margin-bottom: 10px;">The thing I didn't answer cleanly on the call</div>
+          <div style="font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 12px;">Your objection — "even if you're really good, Anthropic might ship an update that closes the gap" — is the right question. Here's the answer that should have landed more cleanly: <strong>ARCS runs on top of Anthropic and OpenAI. Every model upgrade makes it better, not obsolete.</strong> The durable layer isn't in the model. It's in three things those providers are structurally not building:</div>
+          <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 4px;">
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--cyan); line-height: 1.5;">STATE — decisions accumulate. Session 10 knows what you decided in sessions 1 through 9, and why. Your investment memos don't do that across deals. This does.</div>
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--green); line-height: 1.5;">AUDIT TRAIL — ex-ante receipts you can compare against what actually happened. Your LLM memo is research synthesis. This is a judgment record you can audit 6 months later.</div>
+            <div style="font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5;">ADVERSARIAL REASONING — the full court runs on every session: red team, blue team, Kintsugi reconciliation. Not a pro/con list. A structured opposition process that reconciles the cracks. That's the layer you called "theatrical" — meaning you'd seen it, and you recognized what it was calling out.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">The prompt — tuned to your sell-side advisory context</div>
+        <div class="compass-prompt">
+          <div class="cp-label">Question Compass Prompt · Peter Espersen</div>
+          <div class="cp-text" id="compass-prompt-text">I'm advising a founder through a sell-side process right now. The company has real fundamentals — strong team, defensible product, recurring revenue — but the cap table has some drag and the market timing isn't ideal. A credible strategic buyer has come in at a price that's roughly 20-25% below what the founder believes the business is worth, based on their last funding round valuation. The founder is holding firm. My job is to help them think clearly.
+
+But before I give them advice that's load-bearing, I need to pressure-test my own read. I've been in the room with them long enough that my judgment might be anchored to their number without me fully noticing it.
+
+What are the conditions under which holding firm is genuinely the right move — and what are the conditions under which it's founder anchoring bias dressed up as conviction? And what evidence would I be able to point to in six months that would tell me which one this was?</div>
+          <button class="cp-copy-btn" id="cp-btn" onclick="copyPrompt()">COPY PROMPT</button>
+          <div class="cp-note">Paste this directly into app.arcs.care/dashboard. What ARCS will do that your current memo stack won't: surface the question beneath the question (which isn't "is the founder right" — it's something else), run an adversarial pass on your own position as the advisor, and produce a receipt you can audit against the outcome in six months. That's the part your Perplexity + Claude + GPT workflow can't produce. It gives you research. This gives you a judgment record.</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Why this prompt specifically — what happens that your memo stack doesn't do</div>
+        <div class="card">
+          <div class="why-rows">
+            <div class="why-row">
+              <div class="why-tag">Question beneath</div>
+              <div class="why-body"><strong>Your memo stack will analyze whether the buyer's price is fair.</strong> ARCS will first ask: is "should the founder hold firm" actually the question you're deciding, or is the real question "am I the right advisor to be making this call right now, given how long I've been in the room with them?" That move — the question-beneath-the-question — is what you saw on the call. It will happen here too.</div>
+            </div>
+            <div class="why-row">
+              <div class="why-tag">Judgment audit</div>
+              <div class="why-body"><strong>Your current workflow distills information and you add judgment on top.</strong> This audits the judgment itself — including the anchoring risk you named in the prompt. It will surface whether your position as the advisor has been pulled toward the founder's number without you noticing. That's not a research synthesis task. No model can do it for you. ARCS structures the adversarial pass that you'd otherwise have to do manually.</div>
+            </div>
+            <div class="why-row">
+              <div class="why-tag">Ex-ante receipt</div>
+              <div class="why-body"><strong>In six months, you'll know how this played out.</strong> The receipt from this session is what you look back at to see whether the signals you identified were the right ones — or whether something you named as a risk was the thing that actually determined the outcome. Your memo doesn't create that. This does. That's the durable layer you asked about.</div>
+            </div>
+            <div class="why-row">
+              <div class="why-tag">Anti-sycophancy</div>
+              <div class="why-body"><strong>Your LLM investment memos tend to validate the frame you bring in.</strong> ARCS is specifically designed not to do that — it will disagree with your hypothesis if the evidence doesn't support it, and it will name the specific falsifiable criteria that would prove you wrong. "The definition of insanity" read on the 90-day turnaround scenario — that's what this does. It calls the theatrical production a theatrical production.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Two more places to try it — from your actual operating context</div>
+        <div class="card">
+          <div class="q-rows">
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--gold)">A</div>
+                <div class="q-text" style="color:var(--text);font-size:13px;">Before your next Palm distressed deal recommendation. The scenario you picked on the call: "good team + bad moment vs. bad structure + good team." Run that distinction through the compass before you advise — what are the kill switches you'd want to have named ex-ante, six months before you know if you're right?</div>
+              </div>
+              <div class="q-look">Best demonstrates: ex-ante receipt with verifiable kill-switch criteria. The audit trail that proves you applied due diligence, due care, and due process — in one traceable record.</div>
+            </div>
+            <div class="q-row">
+              <div class="q-top">
+                <div class="q-n" style="color:var(--cyan)">B</div>
+                <div class="q-text" style="color:var(--text);font-size:13px;">The Gentoro timing question: at what enterprise adoption inflection point does MCP/agent governance become a genuine procurement requirement rather than a nice-to-have — and what does Gentoro need to have built before that inflection lands?</div>
+              </div>
+              <div class="q-look">Best demonstrates: kairos timing layer on a wave you're inside — the same layer that mapped your own career arc on the call. Different from what any of your current LLMs would produce on the same question because it's tracking your position relative to the wave, not just describing the wave.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Decision receipt — pre-follow-up</div>
+        <div class="card" style="position:relative;overflow:hidden;">
+          <div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--cyan);"></div>
+          <div class="conf-rows" style="padding-left:4px;">
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Question</div>
+              <div class="conf-val">How do I convert "adds a different framework" into a concrete first use case — and which prompt will show Peter something his existing multi-LLM investment memo workflow structurally cannot produce?</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">True North</div>
+              <div class="conf-val"><strong>Peter runs one session on a real advisory situation.</strong> Not a second demo — a real decision in his actual deal flow. The receipt from that session is the artifact that answers the durability question better than any explanation of the moat.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Hypothesis</div>
+              <div class="conf-val">The sell-side advisory prompt is the highest-yield first session: it's in his live domain (T&amp;C), requires judgment audit (not research synthesis), benefits from the question-beneath-the-question move, and produces an ex-ante receipt with a 6-month verifiable outcome. That combination is what differentiates ARCS from his current stack.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Sprint shape</div>
+              <div class="conf-val">Send peter.arcs.care → Play tab → one prompt → one run → his reaction is the agenda for the next touch. Zero setup friction on his end.</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;">Y Gate</div>
+              <div class="conf-val"><span style="color:var(--gold);font-weight:600;">YELLOW / MEDIUM</span> — direction confirmed Apr 20; first real session not yet landed. Moves to GREEN when he runs a prompt on a live deal and sends a reaction.</div>
+            </div>
+            <div class="conf-row" style="border-bottom:none;">
+              <div class="conf-key" style="width:96px;">Window</div>
+              <div class="conf-val">3 weeks from Apr 20 = May 11, 2026. His stated timeline for seeing the evolved front-end.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="sl">Post-call close-out — to fill after he responds</div>
+        <div class="card" style="position:relative;overflow:hidden;opacity:0.5;">
+          <div style="position:absolute;top:0;left:0;bottom:0;width:3px;background:var(--border);"></div>
+          <div class="conf-rows" style="padding-left:4px;">
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">What opened</div>
+              <div class="conf-val" style="color:var(--border);">— did he run the prompt? which deal context? what was his reaction?</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">Use case</div>
+              <div class="conf-val" style="color:var(--border);">— sell-side / distressed / Palm / Gentoro / ARCS itself?</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">Moat Q</div>
+              <div class="conf-val" style="color:var(--border);">— resolved / still live / reframed after first session</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">Y Gate</div>
+              <div class="conf-val" style="color:var(--border);">— update from YELLOW / MEDIUM</div>
+            </div>
+            <div class="conf-row">
+              <div class="conf-key" style="width:96px;color:var(--border);">NCI delta</div>
+              <div class="conf-val" style="color:var(--border);">— from 64 · Apr 20 · UP / DOWN / FORK</div>
+            </div>
+            <div class="conf-row" style="border-bottom:none;align-items:flex-start;">
+              <div class="conf-key" style="width:96px;color:var(--border);padding-top:2px;">Belief shift</div>
+              <div class="conf-val" style="color:var(--border);">
+                <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.06em;margin-bottom:6px;">NET-NEW INFO THAT CHANGED THE MODEL</div>
+                <div>· —</div>
+                <div>· —</div>
+                <div>· —</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
