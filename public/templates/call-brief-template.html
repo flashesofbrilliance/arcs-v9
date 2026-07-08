@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--
+  ARCS CALL BRIEF — CANONICAL TEMPLATE
+  =====================================
+  How to create a new brief:
+  1. Copy this file to public/{{NAME}}.html  (e.g. public/jane.html)
+  2. Replace all {{PLACEHOLDERS}} with real values (see list below)
+  3. Add a subdomain rewrite to next.config.ts:
+       { source: '/', destination: '/{{NAME}}.html', has: [{ type: 'host', value: '{{NAME}}.arcs.care' }] }
+  4. git add public/{{NAME}}.html next.config.ts && git commit on main worktree (frosty-kepler-b69f51)
+  5. vercel deploy (or push to main — auto-deploys)
+
+  PLACEHOLDERS:
+    {{NAME}}           — person's first name, lowercase (also the password and subdomain)
+    {{FULL_NAME}}      — "First Last" for display
+    {{COMPANY}}        — company or context label
+    {{DATE_LABEL}}     — e.g. "JUL 9, 2026 · PRE-CALL"
+    {{DATE_DISPLAY}}   — e.g. "Jul 9, 2026"
+    {{NEXT_DATE_TAB}}  — label for the Agenda tab, e.g. "Jul 9 Agenda"
+    {{YGATE}}          — Y-gate state, e.g. "YELLOW / MEDIUM / REVISIT"
+    {{TRUE_NORTH}}     — one-sentence True North for the relationship/call
+
+  TABS: Pre-Call | Recoil | Post-Call | {{NEXT_DATE_TAB}}
+  Post-Call tab starts hidden (shown after the call happens).
+  Password = {{NAME}} (lowercase first name).
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>{{FULL_NAME}} / {{COMPANY}} — ARCS Brief</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+
+/* LABEL / EYEBROW */
+.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+
+/* CARD */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* MASTHEAD */
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+
+/* TABS */
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; background: var(--surface); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-btn:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.04); }
+.tab-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+
+/* ROW PATTERNS */
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; padding-top: 2px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+
+.q-rows { display: flex; flex-direction: column; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+/* YGATE BADGE */
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(0,240,255,0.35); background: rgba(0,240,255,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); }
+
+/* CALENDAR REMINDERS */
+.cal-block { margin-top: 14px; }
+.cal-row { display: flex; align-items: center; gap: 12px; padding: 11px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; }
+.cal-icon { font-size: 14px; flex-shrink: 0; }
+.cal-text { flex: 1; }
+.cal-title { font-size: 12px; color: var(--text); font-weight: 600; line-height: 1.3; }
+.cal-date { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+.cal-links { display: flex; gap: 8px; flex-shrink: 0; }
+.cal-link { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px; text-decoration: none; border: 1px solid; }
+.cal-gcal { color: var(--cyan); border-color: rgba(0,240,255,0.3); background: rgba(0,240,255,0.06); }
+.cal-ics { color: var(--dimmed); border-color: var(--border); background: transparent; }
+
+/* ACTION LINKS */
+.links { display: flex; gap: 10px; }
+.link-btn { flex: 1; display: block; text-align: center; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; padding: 13px 16px; border-radius: 8px; text-decoration: none; border: 1px solid; }
+.link-btn-primary { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+.link-btn-secondary { color: var(--green); background: rgba(0,255,157,0.06); border-color: rgba(0,255,157,0.3); }
+
+/* PASSWORD GATE */
+#pw-gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; flex-direction: column; gap: 16px; }
+#pw-gate.hidden { display: none; }
+.pw-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.pw-input { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); color: var(--text); font-size: 16px; padding: 10px 16px; outline: none; width: 200px; text-align: center; letter-spacing: 0.1em; }
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-6px); }
+  40%,80% { transform: translateX(6px); }
+}
+</style>
+</head>
+<body>
+
+<!-- PASSWORD GATE — password = {{NAME}} (lowercase first name) -->
+<div id="pw-gate">
+  <div class="pw-label">ARCS · Private Brief</div>
+  <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+</div>
+
+<div class="page">
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-eyebrow">ARCS · Pre-Call Brief</div>
+    <div class="masthead-name">{{FULL_NAME}}</div>
+    <div class="masthead-sub">{{COMPANY}}</div>
+  </div>
+  <div class="rule-glow"></div>
+
+  <div class="card">
+    <div id="tab-datestamp" style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:12px 0 0;">{{DATE_LABEL}}</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('pre')">Pre-Call</button>
+      <button class="tab-btn" onclick="switchTab('recoil')">Recoil</button>
+      <button class="tab-btn" onclick="switchTab('post')">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('agenda')">{{NEXT_DATE_TAB}}</button>
+    </div>
+
+    <!-- PRE-CALL TAB -->
+    <div id="tab-pre" class="tab-pane active">
+
+      <!-- True North -->
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">True North</div></div>
+        <div style="padding:16px 20px;font-size:14px;line-height:1.6;color:var(--text);">
+          {{TRUE_NORTH}}
+        </div>
+      </div>
+
+      <!-- Context / Logistics -->
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Context</div></div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key">Date</div><div class="conf-val">{{DATE_DISPLAY}}</div></div>
+          <div class="conf-row"><div class="conf-key">Format</div><div class="conf-val"><!-- e.g. Video call, 45 min --></div></div>
+          <div class="conf-row"><div class="conf-key">Goal</div><div class="conf-val"><!-- one-sentence call goal --></div></div>
+          <div class="conf-row"><div class="conf-key">Y-Gate</div><div class="conf-val"><div class="ygate-badge"><div class="ygate-dot"></div>{{YGATE}}</div></div></div>
+        </div>
+      </div>
+
+      <!-- Intel -->
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Intel</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--cyan);"></div><div class="intel-text"><strong>Key fact 1</strong> — detail</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>Key fact 2</strong> — detail</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>Key fact 3</strong> — detail</div></div>
+        </div>
+      </div>
+
+      <!-- Questions to ask -->
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Questions to Ask</div></div>
+        <div class="q-rows">
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">1</div><div class="q-text"><!-- Question text --></div></div>
+            <div class="q-look">Look for: <!-- what a good answer sounds like --></div>
+          </div>
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">2</div><div class="q-text"><!-- Question text --></div></div>
+            <div class="q-look">Look for: <!-- what a good answer sounds like --></div>
+          </div>
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">3</div><div class="q-text"><!-- Question text --></div></div>
+            <div class="q-look">Look for: <!-- what a good answer sounds like --></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-pre -->
+
+    <!-- RECOIL TAB -->
+    <div id="tab-recoil" class="tab-pane">
+      <div class="card" style="margin:16px 16px 16px;">
+        <div class="card-header"><div class="card-title">Recoil Report</div></div>
+        <div style="padding:20px;font-size:13px;color:var(--muted);font-style:italic;">
+          <!-- Paste recoil report output here after running /recoil-report -->
+        </div>
+      </div>
+    </div><!-- /tab-recoil -->
+
+    <!-- POST-CALL TAB -->
+    <div id="tab-post" class="tab-pane">
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">What Happened</div></div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key">Outcome</div><div class="conf-val"><!-- one-sentence summary --></div></div>
+          <div class="conf-row"><div class="conf-key">Y-Gate</div><div class="conf-val"><!-- updated gate post-call --></div></div>
+          <div class="conf-row"><div class="conf-key">Surprise</div><div class="conf-val"><!-- what you didn't see coming --></div></div>
+        </div>
+      </div>
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Next Steps</div></div>
+        <div class="next-rows">
+          <div class="next-row"><div class="next-owner" style="color:var(--cyan);">Zach</div><div class="next-text"><!-- action item --></div></div>
+          <div class="next-row"><div class="next-owner" style="color:var(--gold);">{{NAME}}</div><div class="next-text"><!-- action item --></div></div>
+        </div>
+      </div>
+    </div><!-- /tab-post -->
+
+    <!-- AGENDA TAB -->
+    <div id="tab-agenda" class="tab-pane">
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">{{NEXT_DATE_TAB}}</div></div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key">Goal</div><div class="conf-val"><!-- next meeting goal --></div></div>
+          <div class="conf-row"><div class="conf-key">Y-Gate</div><div class="conf-val"><div class="ygate-badge"><div class="ygate-dot"></div>{{YGATE}}</div></div></div>
+        </div>
+      </div>
+
+      <!-- Calendar reminders -->
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Reminders</div></div>
+        <div style="padding:16px 20px;">
+          <div class="cal-block">
+            <div class="cal-row">
+              <div class="cal-icon">📅</div>
+              <div class="cal-text">
+                <div class="cal-title"><!-- Reminder title --></div>
+                <div class="cal-date"><!-- DATE --></div>
+              </div>
+              <div class="cal-links">
+                <a class="cal-link cal-gcal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{NAME}}+follow-up&dates=YYYYMMDD/YYYYMMDD" target="_blank">GCal</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Agenda Items</div></div>
+        <div class="q-rows">
+          <div class="q-row"><div class="q-top"><div class="q-n">1</div><div class="q-text"><!-- agenda item --></div></div></div>
+          <div class="q-row"><div class="q-top"><div class="q-n">2</div><div class="q-text"><!-- agenda item --></div></div></div>
+          <div class="q-row"><div class="q-top"><div class="q-n">3</div><div class="q-text"><!-- agenda item --></div></div></div>
+        </div>
+      </div>
+    </div><!-- /tab-agenda -->
+
+  </div><!-- /card wrapper -->
+</div><!-- /page -->
+
+<script>
+// Password gate — key stored per-brief in sessionStorage
+(function() {
+  var KEY = '{{NAME}}-auth';
+  var PW  = '{{NAME}}';
+  if (sessionStorage.getItem(KEY) === '1') {
+    document.getElementById('pw-gate').classList.add('hidden');
+    return;
+  }
+  var inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    if (inp.value.toLowerCase() === PW) {
+      sessionStorage.setItem(KEY, '1');
+      document.getElementById('pw-gate').classList.add('hidden');
+    } else {
+      inp.classList.add('shake');
+      inp.value = '';
+      setTimeout(function() { inp.classList.remove('shake'); }, 350);
+    }
+  });
+})();
+
+// Tab switcher
+function switchTab(id) {
+  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
