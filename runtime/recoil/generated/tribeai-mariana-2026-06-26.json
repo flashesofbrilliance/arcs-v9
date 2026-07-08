@@ -1,0 +1,129 @@
+{
+  "cover": {
+    "badges": ["Recoil Report · T1", "TribeAI · Recruiter Screen · Mariana Mendes"],
+    "title": "Mariana Mendes × Zach Harris — Forward Deployed PM Lead Screen",
+    "subtitle": "Confirmatory lap. Jonny's Intel validated on all counts. Urgency lever activated. Altitude held clean — no altitude bleed. One disclosure error: enthusiasm hierarchy revealed before leverage was built. NCI: 88 — clear to advance.",
+    "meta": "ARCS RECOIL · Jun 26, 2026 · ~22 min call · 5 segments · Reverse Listening + Deep Recall",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "Kind of like the quarterback of like all of those and like interfacing with all the non technical stakeholders and sort of herding cats and tap dancing on quicksand.",
+    "attribution": "Zach, ~35% mark — completing Mariana's partial framing of the PM Lead role. Constructive interference: she set it up, he landed it. The vocabulary matched without being canned."
+  },
+  "callWalk": [
+    {
+      "label": "Seg 1 · 0–20%",
+      "title": "Rapport — Lisbon / Portugal / Kids",
+      "body": "Shorter and tighter than T0's extended cold open. Mariana flags a hard stop early — Zach responds immediately: 'No worries.' Time calibration set in the first 60 seconds. IMPROVEMENT vs T0: no runway overrun on rapport."
+    },
+    {
+      "label": "Seg 2 · 20–40%",
+      "title": "Mariana's Company Intro — CPO-Within-Incubator Framing",
+      "body": "'7 years now' — updates Jonny's implicit 'relatively new' prior. Pod structure confirmed verbatim. PM Lead framing: 'CPO within an incubator within a huge enterprise customer.' This is the clearest role articulation in the loop so far. Signal: Mariana knows this pitch cold. The framing will land the same with every PM candidate.",
+      "peak": true
+    },
+    {
+      "label": "Seg 3 · 40–60%",
+      "title": "CONSTRUCTIVE INTERFERENCE — Pitch Lands Clean",
+      "body": "Zach names Jonny's referral immediately. Demonstrates pre-call homework: revenue number already hit, growth curve, Fortune 100 focus. Self-framing as 'builder at heart' followed by WTA and Grayscale examples. ARCS link dropped. Technical depth pitched without altitude bleed — Python, Claude Code, Supabase, Prisma, Vercel named but not over-explained. Mariana doesn't push back on any of it.",
+      "peak": true
+    },
+    {
+      "label": "Seg 4 · 60–80%",
+      "title": "AI Product Depth + Prototype-to-Production",
+      "body": "Mariana probes: 'AI product built from scratch — what did you use, what were you solving for?' Zach answers with ARCS: hindsight framing, receipt-based decision accountability. Prototype-to-production answer: WTA scaling scenario, CDN outage DR plan, 59-uptime compliance, smoke testing in staging. Technical without being heady. This is the clearest on-target technical segment across all three calls."
+    },
+    {
+      "label": "Seg 5 · 80–100%",
+      "title": "Comp Anchor + Urgency Lever — One Hit, One Miss",
+      "body": "COMP: 'Mid 250' — Mariana doesn't push back, commits to follow-up by end of day/Monday. Lever landed. URGENCY: Competing processes flagged per Jonny's coaching — Mariana offers to compress. MISS: 'Sounds like this honestly would be the most fun opportunity of all the ones I'm talking to.' This reveals enthusiasm hierarchy before leverage is confirmed, weakening the urgency frame that was just set up."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "Coaching Fidelity",
+      "accent": "#00FF9D",
+      "title": "Jonny's playbook executed cleanly",
+      "body": "Hard stop acknowledged immediately. Homework demonstrated. Competing processes flagged. Comp anchored. Mariana responded on every vector. This call did exactly what a T1 confirmatory screen should do."
+    },
+    {
+      "label": "Altitude",
+      "accent": "#00FF9D",
+      "title": "No heady bleed — T0 recoil zone suppressed",
+      "body": "No Observatory demo. No Recoil Report pitch. No epistemology or ontology. Stack named efficiently (Python, Claude Code, Supabase, Vercel). The altitude correction from T0 held across the full call."
+    },
+    {
+      "label": "Recoil Zone",
+      "accent": "#FFD700",
+      "title": "Enthusiasm hierarchy revealed prematurely",
+      "body": "'Most fun opportunity of all the ones I'm talking to' — disclosed immediately after flagging competing processes. This collapses the leverage delta that the urgency lever just created. The urgency lever works because they don't know how you rank their offer. Revealing the ranking gives that back.",
+      "note": "Once. Do not repeat in T2 or the co-founder meeting."
+    },
+    {
+      "label": "Prior Validation",
+      "accent": "#00FF9D",
+      "title": "Jonny's Intel confirmed on all counts",
+      "body": "Pod structure, CPO-within-incubator framing, company age correction (7 years), partner confirmation (OpenAI/Anthropic), growth numbers — all accurate. T0 Intel is trust-worthy baseline for remaining loop stages."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Loop compresses — T2 technical call within days",
+      "body": "Mariana follows up by Monday. Technical call (Julia or equivalent) scheduled same week. Urgency lever holds because enthusiasm ranking isn't mentioned again.",
+      "note": "Actual: T2 Julia call happened Jul 8 — 12 days after T1. Moderate compression, not maximum."
+    },
+    "base": {
+      "title": "Standard pacing — T2 within 2 weeks",
+      "body": "Mariana keeps her promise to follow up. Technical call scheduled within the week. Take-home follows. Loop is proceeding normally."
+    },
+    "worst": {
+      "title": "Enthusiasm reveal weakened the urgency lever",
+      "body": "Tribe knew you ranked them highest. If competing processes don't materialize as real competing offers, the urgency frame gets called. The loop slows to its natural pace without the compression benefit."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Enthusiasm disclosure",
+      "body": "Do not rank Tribe again in remaining stages. The point of flagging competing processes is to create uncertainty about your preference — revealing the ranking removes that uncertainty."
+    },
+    {
+      "variant": "success",
+      "label": "Altitude correction held",
+      "body": "T0 recoil zone did not appear. No product demos, no philosophy, no ecosystem macro. The fix worked for a 22-min hard-stop call with a non-technical screener."
+    },
+    {
+      "variant": "info",
+      "label": "Mariana is not the technical gate",
+      "body": "Her questions were culture and background focused, not technical. The technical bar starts at T2. Don't calibrate preparation based on this call's reception."
+    },
+    {
+      "variant": "success",
+      "label": "NCI: 88 — clear to advance",
+      "body": "Both core objectives hit: comp anchored, urgency lever activated. One disclosure error doesn't change the outcome. Advance."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "Hold 01",
+      "title": "Do not rank Tribe in remaining stages",
+      "body": "The enthusiasm reveal in T1 happened once. It cannot be walked back. The only correction is to not reinforce it. In T2 and co-founder: neutral positive, not superlative.",
+      "active": true
+    },
+    {
+      "label": "Prep 02",
+      "title": "T2 is the technical bar — prepare for hardening probes",
+      "body": "Mariana didn't ask about hardening, evals, or guardrails. The next interviewer will. The ARCS proof-of-build is the answer — have the specific arc ready: perplexity labs prototype → FastAPI backend → drift sentinel → lossless translation."
+    },
+    {
+      "label": "Prep 03",
+      "title": "Stakeholder disagreement story — have it ready",
+      "body": "Not probed in T1. High probability at T2. The Grayscale legal/compliance standoff (Mexican standoff → co-design partners → single source of truth → staging branches) is the right story."
+    },
+    {
+      "label": "Confirm 04",
+      "title": "Wait for the T2 invite — don't chase",
+      "body": "Mariana said end of day / Monday. The loop is in motion. Do not follow up before 5 business days. The urgency lever already fired."
+    }
+  ]
+}

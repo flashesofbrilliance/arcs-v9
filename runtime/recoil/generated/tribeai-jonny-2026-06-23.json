@@ -1,0 +1,141 @@
+{
+  "cover": {
+    "badges": ["Recoil Report · T0", "TribeAI · Referral Brief · Jonny"],
+    "title": "Jonny × Zach Harris — Tribe.ai Referral Brief",
+    "subtitle": "Pre-loop intelligence call. Aperture expanded (FDE → FDPM title unlocked). Coaching received but recoil zone demonstrated live in the same call. NCI: 78 — strong referral signal, behavioral flag confirmed once. One pattern to suppress before Friday.",
+    "meta": "ARCS RECOIL · Jun 23, 2026 · ~47 min call · 7 segments · Reverse Listening + Deep Recall",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "Read the room carefully. Not everyone you meet is going to be so heady.",
+    "attribution": "Jonny, ~75% mark — delivered after Zach demoed Observatory and Recoil Report mid-coaching call, demonstrating the exact behavior being warned about"
+  },
+  "callWalk": [
+    {
+      "label": "Seg 1 · 0–15%",
+      "title": "Rapport Baseline — LA / NYC / Kids",
+      "body": "Extended geography and family rapport (5+ min) before any role content. Warm and genuine — this is a friendship call with a business purpose embedded in it. The length signals real relationship depth, which is the referral's actual value."
+    },
+    {
+      "label": "Seg 2 · 15–29%",
+      "title": "APERTURE UNLOCK — FDE → FDPM Title",
+      "body": "Jonny reframes the talent landscape: AI native services as the #1 opportunity, forward deployed PM as a distinct role Zach hadn't been searching for. Zach: 'I didn't even consider looking for forward deployed PM roles.' Prior corrected live. This is the most durable information gain of the call.",
+      "peak": true
+    },
+    {
+      "label": "Seg 3 · 29–43%",
+      "title": "Pod Structure + Client Reality",
+      "body": "Prudential detail (1,600 APIs, Jenkins → GitHub Actions, 6-month compression of 16-month timeline). Flat org, high agency, no tooling dictates, one dedicated client per FDE. 'We've already met our revenue number for the year.' All confirmed later by Mariana and Julia — Jonny's Intel was accurate."
+    },
+    {
+      "label": "Seg 4 · 43–57%",
+      "title": "Interview Loop Mapped in Full",
+      "body": "3-module Loom take-home: (1) mindset/approach, (2) drop-in scenario / next-2-weeks sprint, (3) build a triage system end-to-end. Co-founder meeting: personal questions, not career. Hot take is asked at every stage. Speed compression via competing-offer disclosure confirmed. BEHAVIORAL FLAG: Zach asks 'Are they looking for variance in the hot take?' — meta-gaming the process rather than just having one ready. Jonny: 'I don't think it matters at all.'"
+    },
+    {
+      "label": "Seg 5 · 57–71%",
+      "title": "RECOIL ZONE — Live Demonstration",
+      "body": "Zach shares his hot take (knowledge economy convergence), then drops the Observatory link and pitches the Recoil Report as a potential internal tool. Jonny's response is polite-but-pivoting. This is the same behavior the warning at Seg 7 addresses — but the warning comes AFTER this segment, meaning Jonny observed the behavior before articulating the risk.",
+      "peak": false
+    },
+    {
+      "label": "Seg 6 · 71–86%",
+      "title": "Strategic Drift — Acqui-hire, PE, M&A",
+      "body": "Zach pivots toward macro ecosystem questions (acquisition play, hedge fund clients, M&A synergies). Jonny deflects each one: 'They are founder-led, not trying to flip.' Pattern: Zach gravitates toward macro/ecosystem framing (comfort zone) while Jonny keeps trying to ground the conversation in practical interview prep."
+    },
+    {
+      "label": "Seg 7 · 86–100%",
+      "title": "Warning Delivered + Warm Close",
+      "body": "Jonny: 'Read the room carefully. Not everyone you meet is going to be so heady.' IP assignment note. 'You should thank yourself.' This is the most load-bearing moment — not because it's harsh, but because it's the only thing Jonny said that required active correction of Zach's behavior rather than additional coaching."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "Referral Quality",
+      "accent": "#00FF9D",
+      "title": "Genuine enthusiasm — not transactional",
+      "body": "Jonny is recommending 5 people across multiple roles. His Intel was accurate across all three data points later verified (pod structure, client reality, interview loop). He stayed on for ~47 min of detailed coaching. This is a warm referral in the strong sense."
+    },
+    {
+      "label": "Recoil Zone 1",
+      "accent": "#FF4D6D",
+      "title": "Altitude mismatch demonstrated live",
+      "body": "Zach demoed Observatory and Recoil Report mid-Intel-briefing, while Jonny was trying to map the interview loop. The behavior was self-reinforcing: each new product idea extended the call past the practical coaching agenda. Jonny warned about it precisely because he had just watched it happen.",
+      "note": "Confirmed once. Must not appear in Mariana or Julia calls."
+    },
+    {
+      "label": "Recoil Zone 2",
+      "accent": "#FF4D6D",
+      "title": "Meta-gaming the process",
+      "body": "Asking whether 'variance in the hot take matters across people' signals analysis of the interview structure rather than authentic preparation. Jonny's answer was definitive: the question doesn't have a strategic answer. Have a take, say it."
+    },
+    {
+      "label": "Recovery",
+      "accent": "#00FF9D",
+      "title": "Aperture correction was immediate",
+      "body": "Zach updated his search framing live on the call (FDE → FDPM). Acknowledged the coaching. Committed to flagging competing processes. The corrective instinct is intact — the problem is execution lag between receiving a signal and adjusting."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Referral converts to fast-tracked loop",
+      "body": "Jonny's coaching on urgency lever is used immediately with Mariana. Loop compresses to 1–2 weeks. Behavioral correction holds across all remaining calls — no altitude mismatch with any interviewer.",
+      "note": "Requires: mentioning competing processes to Mariana on Friday, not over-demoing product during interview stages."
+    },
+    "base": {
+      "title": "Standard loop — 3–4 weeks",
+      "body": "Referral smooths entry. Interview proceeds at normal pace. Take-home is strong. Co-founder meeting lands on personal register. Offer comes.",
+      "note": "Most likely path if urgency lever lands but altitude issue persists in one interview without derailing."
+    },
+    "worst": {
+      "title": "Altitude mismatch kills the take-home stage",
+      "body": "The 3-module Loom requires demonstrating product thinking clearly on screen. If Zach goes heady in the take-home commentary (too much ARCS philosophy, not enough clear delivery artifacts), the hiring team can't read the capability. The signal is there but doesn't project.",
+      "note": "Mitigation: treat take-home modules as executive-altitude deliverables, not exploratory design sessions."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Behavioral Pattern — Altitude",
+      "body": "Demonstrated live during a coaching call with someone who has known Zach for years and forgives it. Mariana and the co-founder interview will not have that buffer. The fix is mechanical: answer at executive altitude first, offer depth on request."
+    },
+    {
+      "variant": "caution",
+      "label": "Meta-gaming tendency",
+      "body": "Asking 'are they looking for variance in the hot take' is a tell. It signals optimizing for the game rather than playing it. Tribe explicitly tests for authentic AI takes — the only right answer is a real one."
+    },
+    {
+      "variant": "info",
+      "label": "Intel accuracy",
+      "body": "Jonny's briefing was accurate across every claim later verified. Trust the loop structure he mapped. Don't over-prepare for things he didn't flag."
+    },
+    {
+      "variant": "success",
+      "label": "Referral signal is strong",
+      "body": "Five referrals placed, none rejected outright yet. Jonny is vouching hard. The path is clear — the only variable is behavioral execution, not qualification or fit."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "Fix 01",
+      "title": "Urgency lever — activate on first recruiter call",
+      "body": "Mention competing processes. Let Mariana offer to compress. Do not volunteer enthusiasm ranking ('most fun opportunity') — it removes leverage before it's been earned.",
+      "active": true
+    },
+    {
+      "label": "Fix 02",
+      "title": "Suppress demo instinct during interview stages",
+      "body": "Observatory, Recoil Report, and ARCS architecture are proof-of-build only when asked for. The right ask: 'Would you like me to drop a link?' Not a pre-emptive share."
+    },
+    {
+      "label": "Fix 03",
+      "title": "Have the hot take ready — one sentence",
+      "body": "Jonny's take: 'It's infrastructure like anything else.' Zach's is the knowledge/sharing economy convergence. Commit to one, say it cleanly, stop. No exploration mid-answer."
+    },
+    {
+      "label": "Prep 04",
+      "title": "Loom take-home: build deliverables, not documents",
+      "body": "Module 3 requires a triage system with artifacts. Lead with the artifact. Walk the logic after. Tone: product demo, not design essay."
+    }
+  ]
+}

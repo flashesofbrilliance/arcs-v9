@@ -1,0 +1,142 @@
+{
+  "cover": {
+    "badges": ["Recoil Report · T2", "TribeAI · Technical PM Interview · Julia"],
+    "title": "Julia × Zach Harris — Forward Deployed PM Lead · Technical Interview",
+    "subtitle": "Strongest close in the loop. Julia confirmed the land-and-expand model verbatim: 'You nailed it.' Hardening section explicitly validated. Discovery methodology took 4 follow-up cuts to land — the one active recoil zone. NCI: 91 — advance to take-home. One fix before the co-founder meeting.",
+    "meta": "ARCS RECOIL · Jul 8, 2026 · ~45 min call · 7 segments · Reverse Listening + Deep Recall",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "That's exactly the right read. That's exactly how we work. Like generally we'll start with kind of like smaller contracts that wedge that leads into the bigger contracts. Yeah, that's exactly right. You nailed it.",
+    "attribution": "Julia, final 60 seconds — responding to Zach's unprompted summary of Tribe's land-and-expand go-to-market. Validation close. The strongest explicit confirmation signal in the full three-call arc."
+  },
+  "callWalk": [
+    {
+      "label": "Seg 1 · 0–14%",
+      "title": "Register Calibration — Quadruple Major Acknowledgment",
+      "body": "'You might be the first person with a quadruple major I've talked to all week. Well maybe ever.' Zach signals he read Julia's profile. Correct altitude decision: she is the most intellectually comparable person in the loop (EEG → Meta Reality Labs → Control Labs → co-founder). The 'archaeology of knowledge' deflection was precise — acknowledged the register, declined the tangent, kept momentum. IMPROVEMENT vs T0: altitude correctly calibrated up, not flattened for a non-technical audience."
+    },
+    {
+      "label": "Seg 2 · 14–28%",
+      "title": "Flavor-of-PM Probe — 'Polymeth' and Patterns",
+      "body": "'Polymath' mispronounced as 'polymeth' — harmless single-word stumble. Julia synthesized the answer cleanly: 'Someone who can see the patterns and like dive in where you need to.' The distillation is better than the answer — Julia did the compression work. Builder + embedded operator + regulated industries + zero-to-one framing all landed.",
+      "peak": true
+    },
+    {
+      "label": "Seg 3 · 28–43%",
+      "title": "RECOIL ZONE — Discovery Methodology Took 4 Cuts",
+      "body": "Julia asked: 'Tell me about product discovery — especially AI.' Zach answered with the CBT behavioral health story (GAD-7, B2A testing, three personas). Julia had to ask 4 follow-up probes before the specific prioritization logic landed: (1) 'How did you decide what to go after?' (2) 'What tools were in your arsenal?' (3) 'Which persona were you building for?' (4) 'How did you prioritize which problem was most important?' Each cut means the previous answer didn't land at the level of specificity she needed. FullStory frustration metrics → PLG gate → freemium → drop-off as leading indicator was the right answer. It arrived on the 4th pass."
+    },
+    {
+      "label": "Seg 4 · 43–57%",
+      "title": "PEAK — Hardening Explicitly Validated",
+      "body": "Julia: 'Tell me about an AI product you've shipped — from discovery to production.' ARCS answer: perplexity labs prototyping first, FastAPI backend before frontend, hallucination self-check, lossless translation / Babble Fish, drift sentinel, altitude calibration across executive / ops / ML personas. Julia: 'I think that's very thoughtful about how you harden and the kind of things that you check for.' Explicit validation, no hedging. Julia asked for the URL after the call. This is the highest-signal segment in the full three-call arc.",
+      "peak": true
+    },
+    {
+      "label": "Seg 5 · 57–71%",
+      "title": "Stakeholder Story — Grayscale Legal/Compliance",
+      "body": "Grayscale: legal vs. compliance standoff (Mexican standoff). Resolution: co-design partners → shared definition of done → acceptance criteria → staging branches per scenario (best/base/worst) → Vercel toolbar as async review layer. Julia's synthesis: 'Building trust by making sure you're listening and hearing them and reading back: did I get this right?' She distilled it cleanly. RACI and escalation-level matching landed: 'Too many cooks' → tight pods attractive for this reason."
+    },
+    {
+      "label": "Seg 6 · 71–86%",
+      "title": "Julia's Candid Intel — Discovery Gap Disclosed",
+      "body": "Julia volunteered: her first Tribe engagement was 'handed a problem statement' and the discovery phase was skipped. Next contract (started 'a few days ago') is doing proper discovery now. This is the most valuable Intel disclosure in the entire loop — Tribe's PM discovery practice is actively being corrected. Zach is interviewing precisely when the correction is in flight. This is the differentiating wedge: not 'I know discovery,' but 'I know why skipping it breaks things, and here's what I've built to prevent it.'"
+    },
+    {
+      "label": "Seg 7 · 86–100%",
+      "title": "VALIDATION CLOSE — 'You Nailed It'",
+      "body": "Zach's unprompted summary: 'Existing scopes are locked and loaded, focus on delivery, once trust is earned you expand the relationship, right-size to the right stakeholders.' Julia: 'That's exactly the right read. That's exactly how we work. You nailed it.' Strongest validation close in the full arc. The call ended at its highest point.",
+      "peak": true
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "Validation Close",
+      "accent": "#00FF9D",
+      "title": "'You nailed it' — the clearest buy signal in the loop",
+      "body": "Julia confirmed Zach's model of Tribe's go-to-market verbatim and without qualification. This is a rare close: the candidate accurately described the company's internal operating model without being coached on it. It signals that Zach's mental model of the role is correct and legible."
+    },
+    {
+      "label": "Hardening Bar",
+      "accent": "#00FF9D",
+      "title": "Explicitly validated — Julia asked for the URL",
+      "body": "The hardening probe was the most technically rigorous section of the interview. Julia's explicit 'very thoughtful' and the URL request at the end are confirmation that ARCS as proof-of-build cleared the PM technical bar at Tribe."
+    },
+    {
+      "label": "Recoil Zone",
+      "accent": "#FF4D6D",
+      "title": "Discovery methodology — 4 follow-up cuts",
+      "body": "The CBT discovery story required 4 re-asks before the specific prioritization logic landed. Julia was patient; a less generous interviewer stops at cut 2. The story is real and the evidence is strong — the issue is extraction order. Lead with the insight (FullStory frustration data → drop-off → PLG gate), then give the context. Right now the context comes first and the insight arrives late.",
+      "note": "This is the one active fix before the co-founder meeting and take-home."
+    },
+    {
+      "label": "Insider Intel",
+      "accent": "#00FF9D",
+      "title": "Julia's discovery gap disclosure is the strategic wedge",
+      "body": "Tribe PMs have experienced the failure mode of skipping discovery (client-handed direction). Julia is actively correcting it on her current contract. This means: (a) Zach's discovery rigor is genuinely differentiating, not just table stakes, and (b) the co-founder or next interviewer is likely aware of this gap and will be testing for it."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Take-home invite within 5 days — differentiated discovery pitch",
+      "body": "Julia recommends to advance. Take-home focuses Modules 1–2 on discovery-led thinking (not just delivery), Module 3 on triage artifact that embeds discovery gates. Co-founder meeting lands on personal register. Offer.",
+      "note": "Requires: Module 3 take-home treats discovery as the PM's primary value-add, not just the artifact output."
+    },
+    "base": {
+      "title": "Take-home invite — standard pacing",
+      "body": "Julia recommends. Take-home receives average-strong review. Co-founder meeting goes well on personal register. Offer comes at or slightly below comp anchor.",
+      "note": "Most likely path. Julia's explicit validation is a strong positive signal for advancement."
+    },
+    "worst": {
+      "title": "Take-home discovery section is abstract — doesn't land",
+      "body": "The Loom Module 2 (drop-in scenario, build mental model, plan next 2 weeks) tests exactly the discovery → prioritization → specific-action chain. If Zach answers Module 2 the same way he answered Julia's discovery probe — context first, insight fourth — the evaluator sees the pattern and scores it down.",
+      "note": "Mitigation: lead with the prioritization output, not the discovery process."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Discovery answer extraction order",
+      "body": "Lead with the insight and prioritization output. Put the discovery process context behind it. The right sequence: 'We prioritized X because FullStory showed Y, which predicted Z' — not a chronological walkthrough that arrives at the insight on the 4th pass."
+    },
+    {
+      "variant": "info",
+      "label": "Take-home Module 2 is the live test of this fix",
+      "body": "Jonny described Module 2 as: 'Dropped in — build a mental model — what do you do in the next 2 weeks?' This is a discovery → prioritization → specific action arc. The fix from T2 applies directly to Module 2 script."
+    },
+    {
+      "variant": "success",
+      "label": "Hardening bar cleared explicitly",
+      "body": "No other fix needed on the ARCS / AI product dimension. Julia validated the hardening methodology without qualification. The take-home Module 3 (build a triage system) is a natural extension — ARCS is the proof and the methodology simultaneously."
+    },
+    {
+      "variant": "success",
+      "label": "NCI: 91 — advance to take-home",
+      "body": "Validation close. Hardening validated. Stakeholder story landed. Discovery methodology took 4 cuts but arrived. The one active fix (discovery extraction order) is mechanical and addressable in the take-home prep window."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "Fix 01",
+      "title": "Discovery answer: insight first, context second",
+      "body": "The CBT story's real insight was: FullStory frustration metrics revealed drop-off → PLG freemium gate tested → leading indicator (fewer frustration taps) predicted higher LTV. Lead with that sentence. Then provide the story. Never earn the conclusion — state it, then prove it.",
+      "active": true
+    },
+    {
+      "label": "Prep 02",
+      "title": "Take-home Module 2: build mental model in discovery register",
+      "body": "Module 2 is a drop-in scenario: build a mental model, plan the next 2 weeks. Open with: 'My first 3 days are discovery-only. Here's the interview list and what I'm trying to learn from each.' Julia's disclosure about the skipped-discovery engagement is the exact backstory. Tribe will score this highly right now."
+    },
+    {
+      "label": "Prep 03",
+      "title": "Co-founder meeting: personal register, not career",
+      "body": "Jonny: rapid-fire personal questions. 'One word your wife would use to describe you.' 'Most difficult thing you've ever done.' Prepare 3 answers in this register. Do not pivot to product or career accomplishments unless directly asked."
+    },
+    {
+      "label": "Prep 04",
+      "title": "Hot take: commit and hold",
+      "body": "Knowledge economy + sharing economy convergence. One sentence. Stop. If pushed: 'The spices are everywhere — LinkedIn engagement-farm posts, Substack, newsletters. The missing piece is the kitchen that combines them into something generative, not just aggregated.' No exploration mid-answer."
+    }
+  ]
+}
