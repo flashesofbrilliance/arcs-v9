@@ -38,6 +38,10 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
+        // fanatics.arcs.care → public/fanatics.html
+        { source: "/:path*", destination: "/fanatics.html", has: [{ type: "host", value: "fanatics.arcs.care" }] },
+        // token.arcs.care → public/token.html
+        { source: "/:path*", destination: "/token.html", has: [{ type: "host", value: "token.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },

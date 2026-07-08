@@ -34,5 +34,32 @@
   "nci_counter": 191,
   "session_summary": "Built and refined kelly-interview.arcs.care; fixed next.config.ts host routing; added read times, bullet scan copy, mental model row, dropped 5 unsubstantiated claims; deployed. Sent follow-up email to Kelly. Todd brief verified live.",
   "next_action": "Monitor Kelly response (follow Wed Jul 8 if silent). Monitor Todd response re Phase 1. Resume Compass Kit Phase 2 ADR when pipeline work resumes.",
-  "blocking": "NONE"
+  "blocking": "NONE",
+  "ui_artifacts": {
+    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
+    "canonical_template": "public/templates/call-brief-template.html",
+    "call_briefs": [
+      { "file": "public/labella.html",       "subdomain": "labella.arcs.care",       "person": "Steve LaBella / Tallin" },
+      { "file": "public/julia.html",          "subdomain": "julia.arcs.care",         "person": "Julia Trabulski" },
+      { "file": "public/julia-ext.html",      "subdomain": "julia-ext.arcs.care",     "person": "Julia Trabulski (sanitized external)" },
+      { "file": "public/cj-brief.html",       "subdomain": "cj-brief.arcs.care",      "person": "CJ Masopust / Fanatics" },
+      { "file": "public/chase-intro.html",    "subdomain": "chase-intro.arcs.care",   "person": "Chase intro" },
+      { "file": "public/chris-intro.html",    "subdomain": "chris.arcs.care",         "person": "Chris Lamontagne (alias: chris-intro.arcs.care)" },
+      { "file": "public/kelly-interview.html","subdomain": "kelly-interview.arcs.care","person": "Kelly Mullaney / Juniper Square" },
+      { "file": "public/todd-call.html",      "subdomain": "todd-call.arcs.care",     "person": "Todd Hotes / PRL Resins" },
+      { "file": "public/peter.html",          "subdomain": "peter.arcs.care",         "person": "Peter" },
+      { "file": "public/vishal-combined.html","subdomain": "vishal.arcs.care",        "person": "Vishal" },
+      { "file": "public/growth-intel.html",   "subdomain": "growth-intel.arcs.care",  "person": "Growth Intel" },
+      { "file": "public/fanatics.html",       "subdomain": "fanatics.arcs.care",      "person": "CJ Masopust / Fanatics (fanatics go-bag)" },
+      { "file": "public/token.html",          "subdomain": "token.arcs.care",         "person": "Token" }
+    ],
+    "ui_kit": {
+      "location": "src/ui-kit/recoil-report/",
+      "token_file": "src/ui-kit/recoil-report/_tokens.css",
+      "atoms": "01-recoil-header.html through 13-90day-build.html (13 isolated components)",
+      "reference_assembly": "src/ui-kit/recoil-report/index.html",
+      "instances": ["cj-masopust-recoil.html", "chris-lamontagne-recoil.html", "cj-brief.html", "cj-pre-meeting-brief.html", "chase-intro.html"]
+    }
+  }
 }
