@@ -1,3 +1,7 @@
+# ARCS Operator: KryptoniteScorer
+# Input:  jd_text (str) — raw job description text; company_archetype (str) — e.g. "Bureaucratic", "Catalyst"
+# Output: float 0.0–1.0 — kryptonite risk score (1.0 = pure bureaucratic kryptonite, 0.0 = catalyst vacuum)
+# Side effects: none
 import argparse
 
 
