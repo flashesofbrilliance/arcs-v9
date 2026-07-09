@@ -35,6 +35,17 @@
   "session_summary": "Built and refined kelly-interview.arcs.care; fixed next.config.ts host routing; added read times, bullet scan copy, mental model row, dropped 5 unsubstantiated claims; deployed. Sent follow-up email to Kelly. Todd brief verified live.",
   "next_action": "Monitor Kelly response (follow Wed Jul 8 if silent). Monitor Todd response re Phase 1. Resume Compass Kit Phase 2 ADR when pipeline work resumes.",
   "blocking": "NONE",
+  "memory_shards": {
+    "location": "_MEMORY/",
+    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
+    "files": [
+      "feedback_engagement_style.md",
+      "project_arcs_book_ii_audit_protocol.md",
+      "project_arcs_canon.md",
+      "project_arcs_gigi_substrate.md",
+      "project_perplexity_mcp.md"
+    ]
+  },
   "ui_artifacts": {
     "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
     "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",

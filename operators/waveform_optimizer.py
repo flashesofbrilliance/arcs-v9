@@ -1,3 +1,7 @@
+# ARCS Operator: WaveformOptimizer
+# Input:  freq (float) — decision frequency; amp (float) — amplitude; damping (float) — decay rate; time_steps (int)
+# Output: tuple[np.ndarray, np.ndarray] — (time vector, wave values) modeling A*sin(2πft)*exp(-dt)
+# Side effects: none
 from __future__ import annotations
 
 import numpy as np
