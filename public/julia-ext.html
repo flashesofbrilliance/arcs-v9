@@ -1,436 +1,553 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>Zach Harris — Tribe AI Prep</title>
-<script defer src="/_vercel/insights/script.js"></script>
+<!doctype html>
+<title>Julia Trabulski / Tribe AI — ARCS Brief</title>
 <style>
 :root {
-  --bg: #020408; --surface: #0d1117; --surface2: #111820;
-  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --bg: #020408; --surface: #0d1117; --surface2: #0b1017;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dim: #64748b;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
-  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
-  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code',monospace;
   --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --nav-h: 40px;
 }
-*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
-.page { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-
-.sl { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
-
-/* MASTHEAD */
-.masthead { text-align: center; padding-bottom: 4px; }
-.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
-.masthead-sub { font-size: 13px; color: var(--muted); }
-.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
-
-/* TABS */
-.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); }
-.tab-btn {
-  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
-  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
-  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s;
+@media (prefers-color-scheme: light) {
+  :root { --bg: #f0f4f8; --surface: #fff; --surface2: #f7f9fc; --border: #dce4ef; --text: #0f1a2a; --muted: #5a7090; --dim: #9ab0c8; --cyan: #006b88; --green: #007a47; --gold: #9a6c00; --red: #c0002e; }
 }
-.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
-.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
-.tab-pane.active { display: flex; }
+:root[data-theme="light"] { --bg: #f0f4f8; --surface: #fff; --surface2: #f7f9fc; --border: #dce4ef; --text: #0f1a2a; --muted: #5a7090; --dim: #9ab0c8; --cyan: #006b88; --green: #007a47; --gold: #9a6c00; --red: #c0002e; }
+:root[data-theme="dark"]  { --bg: #020408; --surface: #0d1117; --surface2: #0b1017; --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dim: #64748b; --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding-top:var(--nav-h);}
 
-/* ROWS */
-.conf-rows { display: flex; flex-direction: column; }
-.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.conf-row:last-child { border-bottom: none; }
-.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 90px; }
-.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
-.conf-val strong { font-weight: 600; }
-.conf-val em { color: var(--muted); font-style: normal; }
+/* ─── STICKY NAV ─── */
+.snav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:stretch;z-index:100;overflow-x:auto;scrollbar-width:none;}
+.snav::-webkit-scrollbar{display:none;}
+.snav a{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;padding:0 16px;display:flex;align-items:center;border-bottom:2px solid transparent;white-space:nowrap;transition:color 0.15s,border-color 0.15s;}
+.snav a:hover,.snav a.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.snav-meta{margin-left:auto;padding:0 14px;display:flex;align-items:center;font-family:var(--mono);font-size:9px;color:var(--dim);white-space:nowrap;border-left:1px solid var(--border);}
 
-.intel-rows { display: flex; flex-direction: column; }
-.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.intel-row:last-child { border-bottom: none; }
-.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
-.intel-text strong { font-weight: 600; }
+/* ─── PAGE ─── */
+.page{max-width:1100px;margin:0 auto;padding:20px 32px 80px;display:flex;flex-direction:column;gap:0;}
 
-/* STORY CARDS */
-.story-rows { display: flex; flex-direction: column; }
-.story-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.story-row:last-child { border-bottom: none; }
-.story-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.story-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; border: 1px solid; flex-shrink: 0; }
-.story-title { font-size: 13px; font-weight: 600; color: var(--text); }
-.story-bullet { display: flex; flex-direction: column; gap: 4px; }
-.story-line { display: flex; gap: 10px; font-size: 12px; color: var(--muted); line-height: 1.5; }
-.story-key { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 28px; padding-top: 2px; }
-.story-val { color: var(--muted); }
-.story-val strong { color: var(--text); font-weight: 600; }
-.story-close { margin-top: 10px; font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+/* ─── SECTION ─── */
+.section{padding:24px 0;border-bottom:1px solid var(--border);}
+.section:last-child{border-bottom:none;}
+.sec-head{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.sec-label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dim);}
+.sec-rule{flex:1;height:1px;background:var(--border);}
 
-/* SCRIPT BLOCKS */
-.script-block { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 28px; position: relative; overflow: hidden; }
-.script-block::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
-.script-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
-.script-text { font-size: 14px; font-weight: 400; color: var(--text); line-height: 1.7; font-style: italic; }
-.script-clock { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 10px; }
+/* ─── MASTHEAD ─── */
+.mh{text-align:center;padding:4px 0 20px;}
+.mh-e{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.mh-n{font-size:22px;font-weight:700;letter-spacing:-0.02em;color:var(--text);margin-bottom:3px;}
+.mh-s{font-size:13px;color:var(--dim);}
+.glow{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.25;margin:4px 0 20px;}
 
-/* TAKE ROWS */
-.take-rows { display: flex; flex-direction: column; gap: 0; }
-.take-row { padding: 18px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); position: relative; }
-.take-row:last-child { border-bottom: none; }
-.take-row.recommended::before { content: 'RECOMMENDED'; position: absolute; top: 10px; right: 14px; font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.12em; color: var(--green); background: rgba(0,255,157,0.07); border: 1px solid rgba(0,255,157,0.2); padding: 2px 7px; border-radius: 3px; }
-.take-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
-.take-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
-.take-note { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-top: 8px; line-height: 1.5; }
+/* ─── TRUE NORTH ─── */
+.tn{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;position:relative;overflow:hidden;margin-bottom:24px;}
+.tn::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);}
+.tn-e{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);margin-bottom:8px;}
+.tn-t{font-size:15px;font-weight:500;color:var(--text);line-height:1.65;letter-spacing:-0.01em;}
 
-/* FRACTURES */
-.fracture-rows { display: flex; flex-direction: column; }
-.fracture-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.fracture-row:last-child { border-bottom: none; }
-.fracture-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.fracture-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+/* ─── SCRIPTS ─── */
+.script{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:22px 24px;position:relative;overflow:hidden;margin-bottom:12px;}
+.script:last-child{margin-bottom:0;}
+.script::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.script-cyan::before{background:linear-gradient(90deg,var(--cyan),transparent);}
+.script-gold::before{background:linear-gradient(90deg,var(--gold),transparent);}
+.script-green::before{background:linear-gradient(90deg,var(--green),transparent);}
+.sc-e{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:8px;}
+.sc-e-cyan{color:var(--cyan);}
+.sc-e-gold{color:var(--gold);}
+.sc-e-green{color:var(--green);}
+.sc-t{font-size:14px;color:var(--text);line-height:1.75;font-style:italic;font-weight:400;}
+.sc-c{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:10px;line-height:1.5;}
 
-.close-q { background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.2); border-radius: var(--r-md); padding: 18px 20px; }
-.close-q-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px; }
-.close-q-text { font-size: 13px; color: var(--text); line-height: 1.65; font-style: italic; }
+/* ─── IF ASKED ─── */
+.sl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;margin-top:20px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.irow{padding:14px 18px;border-bottom:1px solid rgba(30,41,59,0.4);}
+.irow:last-child{border-bottom:none;}
+.itag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;}
+.itext{font-size:13px;color:var(--text);line-height:1.65;font-style:italic;}
 
-.true-north { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 28px; position: relative; overflow: hidden; }
-.true-north::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), transparent); }
-.tn-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
-.tn-text { font-size: 16px; font-weight: 500; color: var(--text); line-height: 1.6; letter-spacing: -0.01em; }
+/* ─── GUARD ─── */
+.guard{background:rgba(255,77,109,0.05);border:1px solid rgba(255,77,109,0.2);border-radius:8px;padding:12px 16px;display:flex;gap:10px;align-items:flex-start;margin-top:12px;}
+.guard-icon{font-family:var(--mono);font-size:11px;color:var(--red);flex-shrink:0;}
+.guard-text{font-family:var(--mono);font-size:11px;color:var(--red);line-height:1.5;}
 
-/* RECEIPT */
-.receipt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.receipt-cell { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px 18px; }
-.receipt-cell.full { grid-column: 1 / -1; }
-.receipt-key { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-.receipt-val { font-size: 13px; color: var(--text); line-height: 1.55; }
-.receipt-val.green { color: var(--green); font-family: var(--mono); font-size: 14px; font-weight: 700; }
-.receipt-val.gold { color: var(--gold); }
+/* ─── BEATS ─── */
+.flow{display:flex;flex-direction:column;}
+.frow{display:grid;grid-template-columns:72px 1fr;border-bottom:1px solid var(--border);}
+.frow:last-child{border-bottom:none;}
+.fclock{padding:16px 12px 16px 18px;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;}
+.fbig{font-family:var(--mono);font-size:20px;font-weight:700;line-height:1;}
+.fsmall{font-family:var(--mono);font-size:9px;color:var(--dim);text-align:center;}
+.fbody{padding:16px 18px;}
+.ftag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;}
+.ftext{font-size:13px;color:var(--text);line-height:1.55;}
+.fnote{font-family:var(--mono);font-size:10px;color:var(--dim);margin-top:6px;line-height:1.5;}
 
-/* PASSWORD GATE */
-#pw-gate {
-  position: fixed; inset: 0; z-index: 9999; background: var(--bg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
-}
-#pw-gate.hidden { display: none; }
-.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
-.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
-.pw-form { display: flex; gap: 10px; align-items: center; }
-.pw-input {
-  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md);
-  color: var(--text); font-family: var(--mono); font-size: 14px; padding: 10px 16px;
-  outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s;
-}
-.pw-input:focus { border-color: var(--cyan); }
-.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
-.pw-btn {
-  background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-md);
-  color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700;
-  letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s;
-}
-.pw-btn:hover { background: rgba(0,240,255,0.14); }
-.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  75% { transform: translateX(6px); }
-}
-@media (max-width: 640px) {
-  body { padding: 28px 16px 60px; }
-  .receipt-grid { grid-template-columns: 1fr; }
+/* ─── STORIES ─── */
+.story{padding:18px;border-bottom:1px solid rgba(30,41,59,0.4);}
+.story:last-child{border-bottom:none;}
+.story-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.stag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border-radius:3px;border:1px solid;}
+.stag-a{color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.05);}
+.stag-b{color:var(--green);border-color:rgba(0,255,157,0.3);background:rgba(0,255,157,0.05);}
+.stag-c{color:var(--gold);border-color:rgba(255,215,0,0.3);background:rgba(255,215,0,0.05);}
+.stitle{font-size:13px;font-weight:600;color:var(--text);}
+.result{background:rgba(0,255,157,0.05);border:1px solid rgba(0,255,157,0.15);border-radius:6px;padding:10px 14px;margin-bottom:10px;}
+.result-e{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.result-t{font-size:13px;font-weight:600;color:var(--text);line-height:1.5;}
+.slines{display:flex;flex-direction:column;gap:5px;}
+.sline{display:flex;gap:10px;font-size:12px;color:var(--muted);line-height:1.5;}
+.sk{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--dim);flex-shrink:0;width:24px;padding-top:2px;}
+.sclose{margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--cyan);background:rgba(0,240,255,0.04);border:1px solid rgba(0,240,255,0.12);border-radius:5px;padding:8px 12px;line-height:1.5;}
+
+/* ─── JULIA ─── */
+.arc-row{display:grid;grid-template-columns:82px 1fr;border-bottom:1px solid var(--border);}
+.arc-row:last-child{border-bottom:none;}
+.arc-era{padding:12px;border-right:1px solid var(--border);background:var(--surface2);display:flex;flex-direction:column;gap:3px;}
+.arc-co{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--dim);text-transform:uppercase;}
+.arc-yr{font-family:var(--mono);font-size:8px;color:var(--dim);}
+.arc-body{padding:12px 16px;}
+.arc-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.arc-signal{font-size:12px;color:var(--muted);line-height:1.55;}
+.arc-signal strong{color:var(--text);}
+.arc-signal em{color:var(--cyan);font-style:normal;}
+.res-item{display:flex;gap:12px;padding:13px 18px;border-bottom:1px solid var(--border);align-items:flex-start;}
+.res-item:last-child{border-bottom:none;}
+.rdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px;background:var(--green);box-shadow:0 0 6px rgba(0,255,157,0.4);}
+.rlabel{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.rbody{font-size:12px;color:var(--muted);line-height:1.6;}
+.rbody strong{color:var(--text);}
+.orow{padding:13px 18px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:flex-start;}
+.orow:last-child{border-bottom:none;}
+.on{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--dim);padding-top:1px;}
+.oq{font-size:13px;color:var(--text);line-height:1.6;font-style:italic;margin-bottom:4px;}
+.owhy{font-family:var(--mono);font-size:10px;color:var(--dim);line-height:1.5;}
+.owhy::before{content:'→ ';color:var(--cyan);}
+
+/* ─── RECEIPT ─── */
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.rcell{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px;}
+.rcell.full{grid-column:1/-1;}
+.rk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);margin-bottom:5px;}
+.rv{font-size:13px;color:var(--text);line-height:1.5;}
+.rv.g{color:var(--green);font-family:var(--mono);font-size:15px;font-weight:700;}
+.cl{display:flex;flex-direction:column;}
+.clg{padding:12px 18px;border-bottom:1px solid rgba(30,41,59,0.4);}
+.clg:last-child{border-bottom:none;}
+.clg-l{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.cli{display:flex;align-items:flex-start;gap:10px;margin-bottom:6px;}
+.cli:last-child{margin-bottom:0;}
+.chk{width:14px;height:14px;border:1px solid var(--border);border-radius:2px;flex-shrink:0;margin-top:1px;cursor:pointer;transition:background 0.1s,border-color 0.1s;background:transparent;}
+.chk.done{background:var(--green);border-color:var(--green);}
+.clt{font-size:12px;color:var(--text);line-height:1.5;}
+.co{display:flex;flex-direction:column;}
+.cor{display:flex;align-items:baseline;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(30,41,59,0.4);}
+.cor:last-child{border-bottom:none;}
+.cok{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);flex-shrink:0;width:100px;}
+.cov{font-size:13px;color:var(--dim);font-style:italic;}
+
+@media(max-width:560px){.arc-row,.rgrid{grid-template-columns:1fr;}.arc-era{border-right:none;border-bottom:1px solid var(--border);}}
+
+/* ─── PRINT ─── */
+.print-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);transition:color 0.15s,border-color 0.15s;}
+.print-btn:hover{color:var(--cyan);border-color:rgba(0,240,255,0.4);}
+@media print {
+  :root{--bg:#fff;--surface:#fff;--surface2:#f8f9fa;--border:#d0d7de;--text:#0f1a2a;--muted:#4a5568;--dim:#718096;--cyan:#005f73;--green:#276749;--gold:#7d5a00;--red:#9b1c31;}
+  body{padding:0;background:#fff;}
+  .snav,.print-btn,.glow{display:none;}
+  .section{page-break-inside:avoid;}
+  .card,.script,.story,.frow{break-inside:avoid;}
+  .script::before,.tn::before{display:none;}
 }
 </style>
-</head>
-<body>
 
-<div id="pw-gate">
-  <div class="pw-mark">ARCS · PREP KIT</div>
-  <div class="pw-title">Zach Harris / Tribe AI</div>
-  <div class="pw-form">
-    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
-    <button class="pw-btn" onclick="checkPw()">ENTER</button>
-  </div>
-  <div class="pw-hint">shared by Zach Harris · Jul 7, 2026</div>
-</div>
-
-<script>
-if (sessionStorage.getItem('julia-ext-auth') === '1') {
-  document.getElementById('pw-gate').classList.add('hidden');
-}
-function checkPw() {
-  var val = document.getElementById('pw-input').value.trim().toLowerCase();
-  if (val === 'tribe') {
-    sessionStorage.setItem('julia-ext-auth', '1');
-    document.getElementById('pw-gate').classList.add('hidden');
-  } else {
-    var inp = document.getElementById('pw-input');
-    inp.classList.add('shake');
-    inp.value = '';
-    setTimeout(function() { inp.classList.remove('shake'); }, 350);
-  }
-}
-document.getElementById('pw-input').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') checkPw();
-});
-</script>
+<!-- STICKY NAV -->
+<nav class="snav" id="snav">
+  <a href="#scripts">Scripts</a>
+  <a href="#beats">Beats</a>
+  <a href="#stories">Stories</a>
+  <a href="#julia">Julia</a>
+  <a href="#receipt">Receipt</a>
+  <a href="#recoil">Recoil</a>
+  <div class="snav-meta">Jul 8 · 3:30 PM EDT · ✓ Done</div>
+</nav>
 
 <div class="page">
 
-  <div class="masthead">
-    <div class="masthead-eyebrow">Interview Prep · Shared by Zach Harris</div>
-    <div class="masthead-name">Tribe AI — Julia Trabulsi</div>
-    <div class="masthead-sub">Forward Deployed PM · Jul 7, 2026 · 2:00–2:45 PM EDT</div>
+  <div class="mh">
+    <div class="mh-e">ARCS · Interview Brief</div>
+    <div class="mh-n">Julia Trabulski / Tribe AI</div>
+    <div class="mh-s">Forward Deployed PM Lead · Jul 8, 2026 · 3:30 PM EDT</div>
   </div>
-  <div class="rule-glow"></div>
+  <div class="glow"></div>
 
-  <div class="true-north">
-    <div class="tn-eyebrow">Positioning</div>
-    <div class="tn-text">Not a PM who learned AI. A systems builder who has been deploying decision infrastructure, live, at the edge — and who built a practice around the same deployment muscle Tribe's FDE model demands.</div>
-  </div>
-
-  <div class="card">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('context', this)">Context</button>
-      <button class="tab-btn" onclick="switchTab('stories', this)">Stories</button>
-      <button class="tab-btn" onclick="switchTab('on-call', this)">On-Call</button>
-      <button class="tab-btn" onclick="switchTab('receipt', this)">Receipt</button>
-    </div>
-
-    <!-- TAB 1: CONTEXT -->
-    <div id="tab-context" class="tab-pane active" style="padding: 20px; gap: 20px;">
-
-      <div>
-        <div class="sl">About Julia Trabulsi</div>
-        <div class="card">
-          <div class="conf-rows">
-            <div class="conf-row">
-              <div class="conf-key">Role</div>
-              <div class="conf-val">Forward Deployed PM Lead, Tribe AI — <em>practitioner evaluating a peer, not a recruiter screening a candidate</em></div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Formation</div>
-              <div class="conf-val">Psychology research background. Evidence-first evaluator. Claims need receipts — not frameworks, not buzzwords.</div>
-            </div>
-            <div class="conf-row">
-              <div class="conf-key">Listening for</div>
-              <div class="conf-val">Specificity · Deployment scar tissue · Calibrated uncertainty · Outcomes that can be visualized, not just described</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="sl">Tribe AI — What I Know Going In</div>
-        <div class="card">
-          <div class="intel-rows">
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--cyan)"></div>
-              <div class="intel-text"><strong>Forward-deployed operator model.</strong> Not consulting deliverables — practitioners embedded inside client teams. Pod = PM + AI Architect + AI Engineers. One dedicated client per practitioner.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--cyan)"></div>
-              <div class="intel-text"><strong>Fixed-fee, land-and-expand.</strong> Scope is scope. Revenue growth comes from expanding within existing logos, not acquiring new ones. Turn away ~95% of inbound work.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--green)"></div>
-              <div class="intel-text"><strong>Fortune 100 client tier.</strong> Partners: OpenAI, Anthropic, AWS, Microsoft. ~85 FT. Fully AI-native — unlimited model access, custom internal tooling.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--gold)"></div>
-              <div class="intel-text"><strong>Doubling headcount before end of 2026.</strong> Revenue target already met mid-year. Actively talent-hungry at the moment I'm talking to them.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="sl">Why This Role Fits</div>
-        <div class="card">
-          <div class="intel-rows">
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--green)"></div>
-              <div class="intel-text">I've been operating in the FDE shape since mañana — embedded, cross-functional, no institutional authority, ship anyway. The title finally matches the work.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--green)"></div>
-              <div class="intel-text">The deployment failure I keep seeing is not technical — it's the gap between what the model can do and what the stakeholder can act on. That's specifically what I've been building toward.</div>
-            </div>
-            <div class="intel-row">
-              <div class="intel-dot" style="background:var(--green)"></div>
-              <div class="intel-text">Grayscale: launched $7B in digital asset products under SEC/FINRA constraint on compressed timelines. I know what it means to deliver under constraint without burning the relationship.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- TAB 2: STORIES -->
-    <div id="tab-stories" class="tab-pane" style="padding: 20px; gap: 20px;">
-      <div class="card">
-        <div class="story-rows">
-          <div class="story-row">
-            <div class="story-top">
-              <div class="story-tag" style="color:var(--cyan);border-color:rgba(0,240,255,0.3)">Story A</div>
-              <div class="story-title">Grayscale — Product Under Constraint</div>
-            </div>
-            <div class="story-bullet">
-              <div class="story-line"><div class="story-key">S</div><div class="story-val">Grayscale mid-launch on ETF product page; SEC disclosure requirements changed materially.</div></div>
-              <div class="story-line"><div class="story-key">T</div><div class="story-val">Rebuild product communication architecture in real time under legal constraint without losing the investment thesis.</div></div>
-              <div class="story-line"><div class="story-key">A</div><div class="story-val">Ran two parallel workstreams — legal constraint mapping and investor narrative simultaneously. Every tradeoff documented in real time so auditors had a paper trail.</div></div>
-              <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>Launched on schedule. Page survived regulatory scrutiny. Investment thesis held. $7B in digital asset launches.</strong></div></div>
-            </div>
-            <div class="story-close">FDE parallel: deployment window changes, you rebuild the communication layer without breaking the product. That's this role.</div>
-          </div>
-
-          <div class="story-row">
-            <div class="story-top">
-              <div class="story-tag" style="color:var(--green);border-color:rgba(0,255,157,0.3)">Story B</div>
-              <div class="story-title">ARCS — AI Product Built from Scratch</div>
-            </div>
-            <div class="story-bullet">
-              <div class="story-line"><div class="story-key">S</div><div class="story-val">High-stakes calls — pitches, client intros — were the ones I was least prepared for. Not from lack of knowledge, but no structured way to model the other person's logic before walking in.</div></div>
-              <div class="story-line"><div class="story-key">T</div><div class="story-val">Build a decision prep system that runs preparation systematically and captures learning for future calibration.</div></div>
-              <div class="story-line"><div class="story-key">A</div><div class="story-val">Built ARCS — prompt framework → structured system with stakeholder profiling, pre-mortem simulation, confidence self-grading. Stack: Claude Code, Python, FastAPI, Supabase, Vercel. Deployed across real high-stakes contexts.</div></div>
-              <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>Every call prepared with this system moved to the next stage or produced a documented learning artifact. This prep kit is 40 pages.</strong></div></div>
-            </div>
-            <div class="story-close">I am the primary user and the primary proof point. The methodology — structured diagnostic before sprint one — is exactly what I'd bring to client engagements.</div>
-          </div>
-
-          <div class="story-row">
-            <div class="story-top">
-              <div class="story-tag" style="color:var(--gold);border-color:rgba(255,215,0,0.3)">Story C</div>
-              <div class="story-title">Ideal Protein — Client Challenge Navigation</div>
-            </div>
-            <div class="story-bullet">
-              <div class="story-line"><div class="story-key">S</div><div class="story-val">PE-acquired company, new leadership, controlled chaos. No roadmap, no agile process, compliance blindspots, high API failure rate on core product. 10-person stakeholder matrix including PE board observers.</div></div>
-              <div class="story-line"><div class="story-key">T</div><div class="story-val">4-phase program. No shared definition of done. First real job: figure out what the actual problem was before anyone would let me solve it.</div></div>
-              <div class="story-line"><div class="story-key">A</div><div class="story-val">Disaster check before touching anything: competitive intel + brand audit + heuristics audit. BMI calculator (highest-traffic page) → atomized into 2-step lead qualification using 30 BMI legal obesity cutoff as segmentation gate. Embedded into client tech PMO, established agile cadence they'd never had.</div></div>
-              <div class="story-line"><div class="story-key">R</div><div class="story-val"><strong>+40% PQL · +15.8% New Clinic CAGR · +63% Booking Success Rate · +23 Website NPS · Against $350M ARR, 64-country, 3,500+ clinics.</strong></div></div>
-            </div>
-            <div class="story-close">The ambiguity wasn't the problem — it was the diagnostic. The org couldn't tell me what to build because they hadn't agreed on what success looked like. My first deliverable was to create that shared definition.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 3: ON-CALL -->
-    <div id="tab-on-call" class="tab-pane" style="padding: 20px; gap: 20px;">
-
-      <div>
-        <div class="sl">Opening — 60 Seconds</div>
-        <div class="script-block">
-          <div class="script-eyebrow">Plain Language · No Jargon</div>
-          <div class="script-text">"I've spent the last several years at the intersection of regulated product delivery and AI tooling — first at Grayscale launching digital asset products under SEC/FINRA constraint, then through my practice working with clients on 0-to-1 builds where the org had the budget and the ambition but not the shape. What I kept noticing is that the deployment failure isn't usually technical — it's the gap between what the model can do and what the stakeholder can act on. That gap is what I've been building toward. Tribe feels like the right context to do that at scale."</div>
-          <div class="script-clock">Target: 60s · Energy + specificity from word one</div>
-        </div>
-      </div>
-
-      <div>
-        <div class="sl">Hot Takes — Prepped</div>
-        <div class="card">
-          <div class="take-rows">
-            <div class="take-row recommended">
-              <div class="take-tag">Option B · Delivery-Focused</div>
-              <div class="take-text">"The biggest failure mode in enterprise AI deployments isn't the model — it's the success metric. Teams ship a model that does exactly what they specified, then discover the spec was wrong. The FDE who catches that before sprint one is worth ten times the one who catches it at launch. I think the pre-deployment diagnostic is dramatically undervalued in how most teams staff these engagements."</div>
-              <div class="take-note">30 seconds · Pause after · Don't over-explain</div>
-            </div>
-            <div class="take-row">
-              <div class="take-tag">Option A · Strategic</div>
-              <div class="take-text">"The forward-deployed model is going to bifurcate. In two years, the Tribe that wins is the one that has developed proprietary IP from cross-client pattern recognition — not just talent placement. The practitioners who stay long enough to build that pattern library become irreplaceable. The ones who churn are just expensive contractors."</div>
-              <div class="take-note">30 seconds · Use if she opens on market/positioning questions</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <div class="sl">Honest Answers to Hard Questions</div>
-        <div class="card">
-          <div class="fracture-rows">
-            <div class="fracture-row">
-              <div class="fracture-label">Gap — No Traditional Embedded Client Engagement</div>
-              <div class="fracture-text">"My version of embedded has been as a founding operator and practice lead — going into Axon or GoPro with no institutional authority and having to ship in a foreign environment with a hostile clock. The context is different; the constraint structure is identical."</div>
-            </div>
-            <div class="fracture-row">
-              <div class="fracture-label">Gap — ARCS Is Self-Referential</div>
-              <div class="fracture-text">"ARCS started as an internal tool for my own decisions. The best test of any decision system is whether you'd use it when the stakes are real. I've used it for every major call, pitch, and product decision in the last 18 months. That's the product-market fit signal I trust most."</div>
-            </div>
-            <div class="fracture-row">
-              <div class="fracture-label">Gap — AI Portfolio Is Narrow</div>
-              <div class="fracture-text">"I haven't built a production ML system. I've built systems on top of ML that make the output useful to real stakeholders. That's actually the skill most commonly missing when AI deployments fail. The model usually works. The decision-to-ship moment usually doesn't."</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="close-q">
-        <div class="close-q-label">Close Question — Last 5 Minutes</div>
-        <div class="close-q-text">"What does the first 30 days of a successful FDE engagement look like for Tribe — not from a deliverables standpoint, but from a trust-building standpoint with the client? I want to understand how your best practitioners earn the right to shape the problem before they start solving it."</div>
-      </div>
-
-    </div>
-
-    <!-- TAB 4: RECEIPT -->
-    <div id="tab-receipt" class="tab-pane" style="padding: 20px; gap: 20px;">
-      <div>
-        <div class="sl">Decision Receipt</div>
-        <div class="receipt-grid">
-          <div class="receipt-cell full">
-            <div class="receipt-key">Question</div>
-            <div class="receipt-val">How do I walk into this call and walk out with a clear path to the next round?</div>
-          </div>
-          <div class="receipt-cell">
-            <div class="receipt-key">Horizon</div>
-            <div class="receipt-val">24 hours</div>
-          </div>
-          <div class="receipt-cell">
-            <div class="receipt-key">Stakes</div>
-            <div class="receipt-val gold">HIGH</div>
-          </div>
-          <div class="receipt-cell">
-            <div class="receipt-key">Confidence</div>
-            <div class="receipt-val green">94 / 100</div>
-          </div>
-          <div class="receipt-cell">
-            <div class="receipt-key">Window</div>
-            <div class="receipt-val">Jul 7 · 2:00–2:45 PM EDT</div>
-          </div>
-          <div class="receipt-cell full">
-            <div class="receipt-key">Receipt Condition</div>
-            <div class="receipt-val">Julia sends follow-up within 24 hours OR explicitly states next steps on the call.</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px 24px;">
-        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">What This Kit Is</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7;">
-          This prep kit was built with ARCS — a decision prep framework I built for high-stakes calls and product decisions. It runs pre-mortems, maps stakeholder logic, and checks my own confidence before I walk into a room. Every call I've prepared with this system has moved to the next stage or produced a documented learning artifact. The methodology — structured diagnostic before sprint one — is exactly what I'd bring to client engagements at Tribe.
-        </div>
-      </div>
-    </div>
-
+  <div class="tn">
+    <div class="tn-e">True North</div>
+    <div class="tn-t">You are not a PM who learned AI. You are a systems builder who has been deploying decision infrastructure, live, at the edge — for 18 months, on real stakes. Tribe doesn't need another PM. They need someone who has already been doing what they do. That is you. Walk in knowing that.</div>
+    <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--dim);line-height:1.6;border-top:1px solid var(--border);padding-top:12px;">Live filter: before every sentence — <strong style="color:var(--cyan);">What is the object?</strong> Artifact · metric · tool · observed behavior. No object = cut the sentence.</div>
   </div>
 
-  <div style="text-align:center;padding:16px 0;">
-    <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.12em;">ARCS · Built by Zach Harris · Jul 6, 2026</div>
+  <!-- ═══ SCRIPTS ═══ -->
+  <div class="section" id="scripts">
+    <div class="sec-head"><div class="sec-label">Scripts</div><div class="sec-rule"></div></div>
+
+    <div class="script script-cyan">
+      <div class="sc-e sc-e-cyan">Opening — 60 Seconds · Lock This · No Notes</div>
+      <div class="sc-t">"I'm a builder and senior embedded operator in high-stakes regulated environments, usually on zero-to-one and go-to-market initiatives. Most recently at Grayscale, I launched about $7 billion in digital assets into private and public capital markets during peak regulatory uncertainty under Reg D and Reg S constraints, with zero notices or violations. What drew me to Tribe specifically is the embedded pod model — one dedicated client, real mandate, outcomes over process — which is exactly the operating structure where I do my best work."</div>
+      <div class="sc-c">Energy from word one. No warm-up lap. Stop at 60 seconds.</div>
+    </div>
+
+    <div class="script script-cyan">
+      <div class="sc-e sc-e-cyan">ARCS — If She Asks · 90 Seconds Max</div>
+      <div class="sc-t">"There are four questions I want answered before any high-stakes call or product decision: Am I thinking about the problem in the right way? Am I asking the right questions? Am I pointed in the right direction? And do I have high enough conviction around the first job to actually move forward? I built a framework to answer all four, fast — stakeholder profiling, pre-mortem, confidence self-grading, lineage log. I use it for governance checkpoints before anything goes to exec, for team decisions so everyone's pre-mortem is in the same room before the meeting, and for client discovery — first week embedded, before I have authority, it's how I earn diagnostic credibility fast. Stack: Claude Code, Python, FastAPI, Supabase, Vercel. A tool I use every day."</div>
+      <div class="sc-c">If "live or just a framework?" → two receipts: Kinexys moved to next stage · Millionways produced a co-authorship conversation. Ceiling: "a tool I use every day."</div>
+    </div>
+
+    <div class="script script-gold">
+      <div class="sc-e sc-e-gold">Hot Take — Deploy at Natural Pause · 30 Seconds · Silence After</div>
+      <div class="sc-t">"In frontier health products, the real challenge is not showing off the technology. It's earning trust fast enough that the technology feels invisible and the outcome feels real."</div>
+      <div class="sc-c">Trigger: after any story lands, after she describes a client challenge, or at min 25 — whichever comes first. Do not force it mid-sentence. Say it. Hold 5 full seconds of silence.</div>
+    </div>
+
+    <div class="script script-green">
+      <div class="sc-e sc-e-green">Close Question — Last 5 Minutes · Non-Negotiable</div>
+      <div class="sc-t">"What does the first 30 days of a successful FDE engagement look like for Tribe — not from a deliverables standpoint, but from a trust-building standpoint? How do your best practitioners earn the right to shape the problem before they start solving it?"</div>
+      <div class="sc-c">Ask this even if she's wrapping up. If it was already answered organically mid-call, pivot to: "You've been at Tribe four months — what's surprised you about the role versus what you expected?" Her answer is intel for every stage that follows.</div>
+    </div>
+
+    <div class="script script-green">
+      <div class="sc-e sc-e-green">Timeline — If It Comes Up</div>
+      <div class="sc-t">"I have competing timelines I want to be transparent about — if there's strong mutual fit here, I'd love to move as quickly as makes sense for Tribe."</div>
+      <div class="sc-c">Already logged by Mariana — Tribe system knows. Keep it general: no company names, no stage detail. If she asks where → "a couple of roles in fintech and enterprise AI." Don't elaborate.</div>
+    </div>
+
+    <div class="sl">If She Asks About X</div>
+    <div class="card">
+      <div class="irow"><div class="itag">Embedded engagement without Fortune 100 org chart</div><div class="itext">"My version of embedded was going into Axon or GoPro with no institutional authority and having to ship anyway on a hostile clock. Different context — identical constraint structure."</div></div>
+      <div class="irow"><div class="itag">Technical depth</div><div class="itext">"I'm not the ML engineer. I'm the person who makes sure the ML engineer is solving the right problem — and that the model ships to a stakeholder who can act on it."</div></div>
+      <div class="irow"><div class="itag">ARCS — live or just a framework?</div><div class="itext">Two receipts: Kinexys moved to next stage · Millionways produced a co-authorship conversation. Ceiling: "a tool I use every day."</div></div>
+      <div class="irow"><div class="itag">ARCS — product or personal practice?</div><div class="itext">"Personal practice — I'm the primary user and the primary proof point. The best test of a decision system is whether you use it when the stakes are real. I have." Do not expand into product vision.</div></div>
+      <div class="irow"><div class="itag">What's in the disaster check?</div><div class="itext">"Three things: competitive intel — who's in the space and what's actually working, brand audit — where trust is already broken or already held, heuristics audit — what the UX is telling you that the roadmap isn't. That's the baseline before I touch the problem statement."</div></div>
+      <div class="irow"><div class="itag">How were the Ideal Protein metrics measured?</div><div class="itext">"PQL and booking rate were tracked through the platform's own CRM pipeline — before/after on a fixed 90-day window. NPS was a direct survey run by the client PMO. I didn't design the measurement instrument — I designed the intervention and held the baseline."</div></div>
+      <div class="irow"><div class="itag">Take-home — what does your tooling look like there?</div><div class="itext">"I'd use Claude Code and the ARCS prep framework for module one — the mindset and approach section maps directly to how I actually work. For module two I'd instrument the sprint scaffold live, not describe it after the fact. Module three is a triage system, which is exactly the domain I've built tooling in." Then stop.</div></div>
+    </div>
+
+    <div class="guard">
+      <div class="guard-icon">▲</div>
+      <div class="guard-text">One hard rule: never say Prudential or any client-specific detail Johnny gave you. Safe version: "Fortune 100 regulated-industry clients."</div>
+    </div>
+  </div>
+
+  <!-- ═══ BEATS ═══ -->
+  <div class="section" id="beats">
+    <div class="sec-head"><div class="sec-label">Beats</div><div class="sec-rule"></div></div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:14px 18px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Drift Sentinel</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">①</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>And-count:</strong> Three "ands" in one answer = past the stop point. Feel the third one. Cut.</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">②</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>90-second echo:</strong> She hasn't spoken in 90 seconds → you're drifting. Land the plane.</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);flex-shrink:0;width:18px;">③</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.55;"><strong>Object check:</strong> If the sentence you're in has no artifact, metric, tool, or observed behavior — stop. Finish on the last concrete thing you said.</div>
+          </div>
+          <div style="margin-top:4px;padding:9px 12px;background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.15);border-radius:6px;font-family:var(--mono);font-size:10px;color:var(--gold);line-height:1.6;">
+            Recovery: <em style="color:var(--text);font-style:italic;">"Actually — short version: [one sentence]. What's your read on that?"</em>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(0,240,255,.04);border:1px solid rgba(0,240,255,.15);border-radius:8px;padding:14px 18px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Read the Room — Zoom Signals</div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
+            <div style="font-size:12px;font-weight:600;color:var(--text);">Nod acceleration</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Rapid small nods = waiting for you to stop. → Drop to last concrete thing. Full stop.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
+            <div style="font-size:12px;font-weight:600;color:var(--text);">Completion attempt</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Mouth opens, closes — she's trying to speak. → Stop mid-sentence. "Go ahead." Don't finish your thought first.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
+            <div style="font-size:12px;font-weight:600;color:var(--text);">Expression freeze</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Face goes flat/neutral. Not hostile — processing nothing. → "Short version: [one sentence]." No question after.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
+            <div style="font-size:12px;font-weight:600;color:var(--text);">Eye drift ×2</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Off-camera or down twice in 30s. → Object check: is this sentence concrete? If not, cut + ask any question.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:140px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(30,41,59,.5);">
+            <div style="font-size:12px;font-weight:600;color:var(--text);">Posture shift back</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">Leaning back after leaning in. → "What's your read on that?" Return the ball immediately.</div>
+          </div>
+          <div style="padding:7px 0;">
+            <div style="font-size:12px;font-weight:600;color:var(--cyan);margin-bottom:3px;">Override signal</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.5;">"So are you saying..." — not confusion, it's compression. Say "exactly." Let her version stand. Do not expand.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="flow">
+        <div class="frow">
+          <div class="fclock"><div class="fbig" style="color:var(--cyan);">1</div><div class="fsmall">0:00</div><div class="fsmall">60s</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--cyan);">OPENING</div><div class="ftext">Builder + senior embedded operator + regulated delivery + Grayscale $7B, zero violations + Tribe: flat structure, dedicated pod, outcomes over process.</div><div class="fnote">Energy from word one. Stop at 60s.</div></div>
+        </div>
+        <div class="frow">
+          <div class="fclock"><div class="fbig" style="color:var(--cyan);">2</div><div class="fsmall">1:00</div><div class="fsmall">~10 min</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--cyan);">HER QUESTIONS — CALIBRATE</div><div class="ftext">Listen for her register: delivery/execution vs. market/strategy. Answer in kind. 3 min per answer. She asks about AI products → Story B.</div></div>
+        </div>
+        <div class="frow">
+          <div class="fclock"><div class="fbig" style="color:var(--cyan);">3</div><div class="fsmall">~10–20</div><div class="fsmall">min</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--cyan);">STORY ZONE</div><div class="ftext" style="display:flex;flex-direction:column;gap:5px;"><span><strong style="color:var(--cyan)">A — Grayscale:</strong> Regulated constraint. $7B launched, zero violations. 3 min.</span><span><strong style="color:var(--green)">B — ARCS:</strong> AI product from scratch. Real stack. "I'm the primary user and the primary proof point." 3 min.</span><span><strong style="color:var(--gold)">C — Ideal Protein:</strong> PE chaos. Discovery before solution. +40% PQL, +63% booking rate. 3 min.</span></div></div>
+        </div>
+        <div class="frow">
+          <div class="fclock"><div class="fbig" style="color:var(--gold);">4</div><div class="fsmall">by min</div><div class="fsmall">30</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--gold);">HOT TAKE</div><div class="ftext" style="font-style:italic;">"In frontier health products, the real challenge is not showing off the technology. It's earning trust fast enough that the technology feels invisible and the outcome feels real."</div><div class="fnote">30 seconds. Pause. Move on.</div></div>
+        </div>
+        <div class="frow">
+          <div class="fclock"><div class="fbig" style="color:var(--cyan);">5</div><div class="fsmall">~30–38</div><div class="fsmall">min</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--cyan);">TAKE-HOME + TIMELINE</div><div class="ftext">Signal awareness of the take-home format. If timeline comes up: deploy timeline lever.</div></div>
+        </div>
+        <div class="frow">
+          <div class="fclock"><div class="fbig" style="color:var(--green);">6</div><div class="fsmall">last 5</div><div class="fsmall">min</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--green);">CLOSE QUESTION — NON-NEGOTIABLE</div><div class="ftext" style="font-style:italic;">"What does the first 30 days of a successful FDE engagement look like — not from a deliverables standpoint, but from a trust-building standpoint?"</div><div class="fnote">Ask it even if she's wrapping up. If already answered: "You've been at Tribe four months — what surprised you?"</div></div>
+        </div>
+        <div class="frow" style="background:rgba(255,77,109,.03);">
+          <div class="fclock"><div class="fbig" style="color:var(--red);font-size:14px;">⚡</div><div class="fsmall" style="color:var(--red);">BRANCH</div></div>
+          <div class="fbody"><div class="ftag" style="color:var(--red);">IF SHE DOMINATES — 8 MIN LEFT</div><div class="ftext">Find a natural breath: "I want to make sure I leave time for a question before we're out." Hot take → close question. Skip unplayed stories. Do not try to fit everything.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ STORIES ═══ -->
+  <div class="section" id="stories">
+    <div class="sec-head"><div class="sec-label">Stories</div><div class="sec-rule"></div></div>
+    <div class="card">
+      <div class="story">
+        <div class="story-top"><div class="stag stag-a">Story A</div><div class="stitle">Grayscale — Regulated Delivery Under Constraint</div></div>
+        <div class="result"><div class="result-e">Lead With This</div><div class="result-t">~$7B in digital assets launched. Zero regulatory notices or violations. Time-to-done compressed by converting async review cycles into live staging workflows.</div></div>
+        <div class="slines">
+          <div class="sline"><div class="sk">S</div><div>~11 digital asset products; SEC/FINRA disclosure rules changing under Reg D, Reg S, 33/34/40 Act in real time.</div></div>
+          <div class="sline"><div class="sk">T</div><div>4 work streams: design agency, legacy Optimizely CMS, headless CMS rebuild (Sanity + TS), day-to-day product ops.</div></div>
+          <div class="sline"><div class="sk">A</div><div>Legal/compliance as upstream co-design partners. Three deployable site versions (best/base/worst). Vercel toolbar on live staging — nontechnical stakeholders comment in real time. Role-based publish controls to executive authority.</div></div>
+        </div>
+        <div class="sclose">Guardrails probe → say in this order: (1) Reg D/S branching — three deployable site versions, best/base/worst, (2) staging as the single truth source — stakeholders review live, not on slides, (3) sprint-end change controls before every prod push. In that order. Stop.</div>
+      </div>
+      <div class="story">
+        <div class="story-top"><div class="stag stag-b">Story B</div><div class="stitle">ARCS — AI Product Built From Scratch</div></div>
+        <div class="result"><div class="result-e">Lead With This</div><div class="result-t">Every major call prepped with this system advanced to the next stage. Compression of time to done. I am the primary user and the primary proof point.</div></div>
+        <div class="slines">
+          <div class="sline"><div class="sk">S</div><div>High-stakes calls — pitches, negotiations, intros — were the ones I was least prepared for. No structured way to model the other person's logic.</div></div>
+          <div class="sline"><div class="sk">T</div><div>Build a prep framework that runs preparation systematically, documents reasoning, captures learning for future calibration.</div></div>
+          <div class="sline"><div class="sk">A</div><div>Built decision prep tool — stakeholder profiling, pre-mortem simulation, confidence self-grading. Stack: Claude Code, Python, FastAPI, Supabase RLS, Vercel.</div></div>
+        </div>
+        <div class="sclose">I am the primary user and the primary proof point. The methodology — structured diagnostic before sprint one — is exactly what I'd bring to client engagements.</div>
+      </div>
+      <div class="story">
+        <div class="story-top"><div class="stag stag-c">Story C</div><div class="stitle">Ideal Protein — Discovery Before Solution</div></div>
+        <div class="result"><div class="result-e">Lead With This — In This Order</div><div class="result-t">+40% PQL · +63% Booking Rate · +23 NPS. Say them in that order. Stop. They came from structured measurement design, not a dashboard checked after launch.</div></div>
+        <div class="slines">
+          <div class="sline"><div class="sk">S</div><div>PE-acquired, new leadership in controlled chaos. No roadmap, no agile process, compliance blindspots, high API failure rate. 10-person stakeholder matrix.</div></div>
+          <div class="sline"><div class="sk">T</div><div>4-phase program. No shared definition of done. First job: figure out what the actual problem was before anyone would let me solve it.</div></div>
+          <div class="sline"><div class="sk">A</div><div>"I run a disaster check first — what's already broken, what's the correct hypothesis." Three components: competitive intel, brand audit, heuristics audit. That gave me the PQL gate design: BMI calculator was the highest-traffic page on site, so a 2-step lead qualification using the clinical obesity cutoff as the qualifier. Embedded into their PMO, established the agile cadence they'd never had.</div></div>
+        </div>
+        <div class="sclose">The ambiguity wasn't the problem — it was the diagnostic. My first deliverable was to create the shared definition of success. She will recognize the disaster-check methodology as a research scientist's protocol. Name it that way. // Metrics defense if she asks: PQL + booking tracked via CRM before/after on 90-day window; NPS was client-run survey. I designed the intervention and held the baseline. // BMI defense if she pushes: "The clinical cutoff was the client's existing proxy — I used their established instrument, not mine. The signal was that nobody had ever operationalized it as a conversion gate."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ JULIA ═══ -->
+  <div class="section" id="julia">
+    <div class="sec-head"><div class="sec-label">Julia</div><div class="sec-rule"></div></div>
+
+    <div class="sl" style="margin-top:0;">Who She Is — Formation Arc</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="arc-row"><div class="arc-era"><div class="arc-co">Nielsen</div><div class="arc-yr">2011–16</div></div><div class="arc-body"><div class="arc-title">Neurophysiologist → 12 Countries</div><div class="arc-signal">Pop-up EEG labs in 12 countries. Field empiricist who makes reliable evidence from unreliable conditions. <strong>This is her foundational pattern.</strong></div></div></div>
+      <div class="arc-row"><div class="arc-era"><div class="arc-co">Meta</div><div class="arc-yr">2017–22</div></div><div class="arc-body"><div class="arc-title">Research Scientist → PM, Reality Labs</div><div class="arc-signal">AI-based EMG models for AR/VR. <strong>She built at the neuro-AI interface before anyone called it that.</strong> She knows the gap between a lab result and a production deployment.</div></div></div>
+      <div class="arc-row"><div class="arc-era"><div class="arc-co">Child Mind</div><div class="arc-yr">2023–26</div></div><div class="arc-body"><div class="arc-title">Director of Product — Mirror App</div><div class="arc-signal">AR + AI journaling to <strong>100K+ users in 6 months</strong> with California. Institutional constraint + speed + scale + zero public margin for error. <em>Structurally identical to Grayscale. Fastest rapport vector.</em></div></div></div>
+      <div class="arc-row"><div class="arc-era"><div class="arc-co">Tribe AI</div><div class="arc-yr">Mar 2026</div></div><div class="arc-body"><div class="arc-title">Forward Deployed PM Lead — 4 months in</div><div class="arc-signal">She IS the role she's evaluating you for. <strong>Ask her what surprised her — she will give you a real answer.</strong></div></div></div>
+    </div>
+
+    <div class="sl">What Lands — Resonance</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="res-item"><div class="rdot"></div><div><div class="rlabel">Your hot take is her lived problem</div><div class="rbody">"Earning trust fast enough that the technology feels invisible" is the design challenge of Mirror, EEG psychiatry, and every Wispr product she's advised on. <strong>Say it clean. Let it land.</strong></div></div></div>
+      <div class="res-item"><div class="rdot"></div><div><div class="rlabel">Grayscale ↔ Mirror — name it once</div><div class="rbody">Same topology: institutional constraint + speed + scale + zero public margin for error. <strong>"You'll recognize this terrain."</strong> Say it once. Let her feel the recognition without you narrating it.</div></div></div>
+      <div class="res-item"><div class="rdot"></div><div><div class="rlabel">Disaster check = research protocol</div><div class="rbody">Your Ideal Protein story opens with competitive intel + brand audit + heuristics audit before touching the roadmap. That's a scientist's methodology. <strong>She'll recognize it as her own instinct.</strong></div></div></div>
+      <div class="res-item"><div class="rdot"></div><div><div class="rlabel">Builder-to-builder signal</div><div class="rbody">She co-founded SynapseBio and took it to clinical deployment. The right frame: <strong>"I am the primary user and the primary proof point."</strong> That's credible. "We're both founders" is not.</div></div></div>
+    </div>
+
+    <div class="sl">Close Questions — Pick by Feel</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="orow"><div class="on">1</div><div><div class="oq">"What does the first 30 days of a successful FDE engagement look like — not from a deliverables standpoint, but from a trust-building standpoint?"</div><div class="owhy">Primary. Signals practitioner thinking. Ask this no matter what.</div></div></div>
+      <div class="orow"><div class="on">2</div><div><div class="oq">"What does the onboarding diagnostic actually look like in week one, before you have authority over anything?"</div><div class="owhy">Reveals how the role really operates. Echoes your disaster-check instinct.</div></div></div>
+      <div class="orow"><div class="on">3</div><div><div class="oq">"You've been at Tribe about four months — what's surprised you about the role versus what you expected?"</div><div class="owhy">Peer question. She's still learning. Will give a real answer.</div></div></div>
+      <div class="orow"><div class="on">4</div><div><div class="oq">"What's your take on where AI deployments fail that most people aren't naming yet?"</div><div class="owhy">Peer inversion. You're asking her opinion, not performing for hers.</div></div></div>
+    </div>
+
+    <div class="sl">In Reserve — If the Conversation Earns It</div>
+    <div class="card">
+      <div class="orow"><div class="on">↓</div><div><div class="oq">"In your clinical neurotech work — EEG biomarkers for psychiatry — did the mechanism need to be visible to earn trust, or did it need to disappear? Because I find those are actually opposite problems."</div><div class="owhy">Productive discord. Not adversarial — invites her to show the nuance in her own work.</div></div></div>
+      <div class="orow"><div class="on">↓</div><div><div class="oq">"Mirror launched to 100K users in six months — how did you know it was working, not just adopted?"</div><div class="owhy">Respects her empiricist training. Creates peer dialogue about what counts as proof in behavior change products.</div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ RECEIPT ═══ -->
+  <div class="section" id="receipt">
+    <div class="sec-head"><div class="sec-label">Receipt</div><div class="sec-rule"></div></div>
+
+    <div class="sl" style="margin-top:0;">Pre-Call Receipt</div>
+    <div class="rgrid" style="margin-bottom:16px;">
+      <div class="rcell full"><div class="rk">Question</div><div class="rv">How do I walk into this call and walk out with a clear path to the next round?</div></div>
+      <div class="rcell"><div class="rk">Y Gate</div><div class="rv g">GREEN · 94/100</div></div>
+      <div class="rcell"><div class="rk">Window</div><div class="rv">Jul 8 · 3:30 PM EDT</div></div>
+      <div class="rcell"><div class="rk">Stakes</div><div class="rv">HIGH</div></div>
+      <div class="rcell"><div class="rk">Horizon</div><div class="rv">24 hours</div></div>
+      <div class="rcell full"><div class="rk">Receipt Condition</div><div class="rv">Julia sends follow-up within 24 hours OR states next steps on the call. If neither within 48 hours, follow up once — direct, short, no hedging.</div></div>
+    </div>
+
+    <div class="sl">On-Call Checklist</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="cl">
+        <div class="clg">
+          <div class="clg-l">Before 3:30 PM</div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Say the opening out loud once — 60 seconds, energy from word one</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Say the neurotech hot take out loud — 30 seconds, no qualifier after</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Hard stop on new inputs at 3:15 PM</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Zoom link, audio, camera, background confirmed</div></div>
+        </div>
+        <div class="clg">
+          <div class="clg-l">On the Call</div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Open with energy and specificity — word one</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Translate before you speak — outputs and artifacts only</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Hot take deployed before minute 30</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Take-home awareness signal dropped</div></div>
+          <div class="cli"><div class="chk" onclick="this.classList.toggle('done')"></div><div class="clt">Close question asked in last 5 minutes</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sl">Post-Call Close-Out</div>
+    <div class="card">
+      <div class="co">
+        <div class="cor"><div class="cok">Stage Outcome</div><div class="cov" style="color:var(--green);font-style:normal;font-weight:600;">Take-home assigned — 3 modules, day-long format: build in public · think on feet · present while doing it</div></div>
+        <div class="cor"><div class="cok">Y Gate Shift</div><div class="cov" style="color:var(--green);font-style:normal;font-weight:600;">GREEN/94 → GREEN · "You nailed it" (verbatim, on Tribe model read-back)</div></div>
+        <div class="cor"><div class="cok">Hot Take</div><div class="cov">Scripted form skipped — not needed. Tribe wedge→trust→expand read-back at close served the same function. Julia: "That's exactly right."</div></div>
+        <div class="cor"><div class="cok">Close Q</div><div class="cov">Q3 deployed organically ("what surprised you"). Julia disclosed: first engagement she was handed a problem statement and stripped of discovery value. New contract starting — rebuilding with discovery-first process now.</div></div>
+        <div class="cor"><div class="cok">Rapport Vector</div><div class="cov">Grayscale stakeholder conflict (most differentiated answer of the call) + Tribe model read-back at close. Also: family reunion / Anna Marie Island small talk — she offered personal detail unprompted.</div></div>
+        <div class="cor"><div class="cok">Net-New Intel</div><div class="cov">Julia's wound: discovery stripped from first engagement. New contract = discovery-first rebuild in progress. SynapseBio closure confirmed (she disclosed). Zone-of-genius answer was complete — PM owns discovery/mapping/prioritization/alignment/weekly presentations. ARCS airtime ~13 min — she redirected with "let's talk about hardening."</div></div>
+        <div class="cor"><div class="cok">Comp Signal</div><div class="cov">Not mentioned.</div></div>
+        <div class="cor"><div class="cok">Stage 3 Prep Note</div><div class="cov">Take-home format sourced from Johnny recon + Mariana screen — Julia did not assign or mention it on this call. Do not reference in follow-up email (operational security: reveals insider briefing). Module 1 = discovery artifact first. Module 2 = hardening checklist before architecture. Module 3 = weekly-deck-quality narrative. No ARCS labels anywhere.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RECOIL ═══ -->
+  <div class="section" id="recoil">
+    <div class="sec-head"><div class="sec-label">Recoil</div><div class="sec-rule"></div></div>
+
+    <div class="sl" style="margin-top:0;">Confirmed Intel — What the Call Locked</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="res-item"><div class="rdot" style="background:var(--green);"></div><div><div class="rlabel">Tribe model confirmed verbatim</div><div class="rbody">"Smaller contracts that wedge → trust → expand → extensions." Julia: <strong>"That's exactly right. You nailed it."</strong> Use this as the anchor signal. Open next-round conversations by referencing it.</div></div></div>
+      <div class="res-item"><div class="rdot" style="background:var(--green);"></div><div><div class="rlabel">Julia's wound = the take-home brief</div><div class="rbody">First engagement: handed a problem statement, stripped of discovery value. New contract starting now with discovery-first rebuild. <strong>Every take-home artifact should demonstrate you would never let that happen.</strong></div></div></div>
+      <div class="res-item"><div class="rdot" style="background:var(--green);"></div><div><div class="rlabel">Grayscale story was the strongest answer of the call</div><div class="rbody">Three deployable branches, shared definition of done, Vercel toolbar as trust mechanism, RACI at escalation levels. She recognized it. <strong>Keep this story. Carry a reusable version to the take-home.</strong></div></div></div>
+      <div class="res-item"><div class="rdot" style="background:var(--green);"></div><div><div class="rlabel">ARCS — strongest engagement signal of the call</div><div class="rbody">Julia explicitly asked for this topic ("tell me about an AI product you shipped"). She interrupted mid-description to lean in: <strong>"What was the product? Now I'm curious."</strong> Followed immediately with "oh that's awesome" and "I'm going to definitely come take a look at it afterwards" — unprompted. Her redirect was <strong>"let's talk about hardening so that product"</strong> — she kept ARCS in scope and asked to go deeper into it. Philosophical vocabulary (ontology, epistemology, rules of gravity) was deliberate calibration to her quadruple-major philosophy background; she didn't flag it. <strong>The 60-second ceiling going forward is protective of future evaluators, not a verdict on what happened in this room.</strong></div></div></div>
+      <div class="res-item"><div class="rdot" style="background:var(--cyan);"></div><div><div class="rlabel">Zone-of-genius loop is fully closed</div><div class="rbody">Julia gave a complete answer: PM owns discovery / mapping / prioritization / alignment / weekly presentations. Architect owns data flow / architecture / threat monitoring. Engineer executes. All-hands during hardening.</div></div></div>
+    </div>
+
+    <div class="sl">Take-Home — Module by Module</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="irow">
+        <div class="itag">Module 1 — Discovery</div>
+        <div class="itext">First deliverable = visible, organized artifact. Problem frame → stakeholder map → hypotheses. Julia's wound is the north star: show you do discovery before you accept a problem statement. Bias to artifact over explanation.</div>
+      </div>
+      <div class="irow">
+        <div class="itag">Module 2 — Solution + Hardening</div>
+        <div class="itext">Lead with the hardening checklist before the solution architecture. She probed safety and monitoring explicitly — reward that instinct. No ARCS branding. Present as standard FDPM hygiene: "here's the hardening checklist," not "here's my system."</div>
+      </div>
+      <div class="irow">
+        <div class="itag">Module 3 — Presentation</div>
+        <div class="itext">PM owns the deck and leads it. Structure: what we learned → what we're proposing → risks and asks → next week. Treat it like a real Fortune 100 weekly. Compress everything by 40% from what you'd say out loud.</div>
+      </div>
+    </div>
+
+    <div class="sl">Follow-Up Email — Filed</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="irow">
+        <div class="itag">Send window</div>
+        <div class="itext">Within 24 hours of call (Jul 8, EOD). Zero ARCS references. Zero mention of take-home (operational security — take-home intel came from Johnny/Mariana, not Julia; surfacing it reveals the briefing).</div>
+      </div>
+      <div class="irow">
+        <div class="itag">Draft</div>
+        <div class="itext" style="font-style:normal;line-height:1.8;">
+          Hi Julia —<br><br>
+          What you named about the first engagement — being handed a problem statement and watching the discovery work get stripped away — is the failure mode I've spent years building a practice around preventing. The first deliverable is always earning the right to define the problem.<br><br>
+          What sealed my conviction was the wedge-to-trust-to-expansion model. That's not just how Tribe operates — it's a constraint that structurally forces good PM work. You can't shortcut discovery when contract renewal is the downstream consequence.<br><br>
+          Really glad we connected. Looking forward to next steps.<br><br>
+          Zach
+        </div>
+      </div>
+      <div class="irow">
+        <div class="itag">Why this draft</div>
+        <div class="itext">Opens with her wound, framed forward-looking ("failure mode I've built against" — not empathy performance). Second paragraph is a POV on Tribe's model structure, not a recap of what she said. No zone-of-genius reference (loop was closed on the call — reopening it would signal inattention). No Anna Marie Island personal callout (cataloguing personal detail in writing reads as surveillance).</div>
+      </div>
+    </div>
+
+    <div class="sl">Keep / Tighten / Stop</div>
+    <div class="card">
+      <div class="irow">
+        <div class="itag" style="color:var(--green);">Keep</div>
+        <div class="itext">Grayscale stakeholder story · three-persona framework (advocate/wallet share/at-risk) · open with energy and specificity · ask "biggest surprise in 30 days" · mirror their model back at close · Vercel toolbar as trust-building mechanism story</div>
+      </div>
+      <div class="irow">
+        <div class="itag" style="color:var(--gold);">Tighten</div>
+        <div class="itext">ARCS ceiling: 60s verbal / zero in writing · object check before every sentence · 3 min per story max · stop when the answer is complete, not when energy runs out</div>
+      </div>
+      <div class="irow">
+        <div class="itag" style="color:var(--red);">Stop</div>
+        <div class="itext">Multi-turn ARCS architecture deep-dives · layering framework-on-framework when one concrete example is sufficient · ending answers with "I don't know if that answers your question" // Note: philosophical vocabulary (ontology, epistemology) was deliberate audience calibration to Julia's quadruple-major philosophy background — not an error. The error was duration. Don't flatten vocabulary for the next interviewer based on this.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 4px 0;">
+    <div style="font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:0.12em;">ARCS v9 · NCI 94 · GREEN → GREEN · Jul 8, 2026 · Recoil complete · Take-home next</div>
+    <button class="print-btn" onclick="window.print()">⬇ Save as PDF</button>
   </div>
 
 </div>
 
 <script>
-function switchTab(id, btn) {
-  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
-  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-  document.getElementById('tab-' + id).classList.add('active');
-  btn.classList.add('active');
-}
+// Highlight active nav link on scroll
+(function(){
+  var links = document.querySelectorAll('.snav a[href^="#"]');
+  var ids = Array.from(links).map(function(l){ return l.getAttribute('href').slice(1); });
+  var navH = 40;
+  function update(){
+    var scrollY = window.scrollY + navH + 8;
+    var active = ids[0];
+    ids.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && el.offsetTop <= scrollY) active = id;
+    });
+    links.forEach(function(l){
+      l.classList.toggle('active', l.getAttribute('href') === '#'+active);
+    });
+  }
+  window.addEventListener('scroll', update, {passive:true});
+  update();
+})();
 </script>
-</body>
-</html>
