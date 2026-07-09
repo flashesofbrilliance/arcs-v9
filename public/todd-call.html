@@ -3,199 +3,1089 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRL Resins · Phase 1 Proposal · Zach Harris</title>
+<title>PRL Resins · Recoil Report · Calls Jul 2 + Jul 9</title>
 <style>
 :root {
-  --bg: #020408; --surface: #0d1117; --border: #1e293b;
-  --text: #e2e8f0; --muted: #64748b; --dimmed: #8899aa;
-  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
-  --green-glow: 0 0 14px rgba(0,255,157,0.3), 0 0 4px rgba(0,255,157,0.6);
-  --r-sm: 4px; --r-lg: 12px;
-  --mono: 'GeistMono','JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
-  --sans: 'InstrumentSans','Inter',system-ui,-apple-system,sans-serif;
+  --bg: #020408;
+  --surface: #0d1117;
+  --surface-hi: #111827;
+  --border: #1e293b;
+  --border-hi: #2d3f55;
+  --text: #e2e8f0;
+  --sub: #94a3b8;
+  --muted: #475569;
+  --dim: #334155;
+  --green: #00FF9D;
+  --cyan: #00F0FF;
+  --gold: #FFD700;
+  --red: #FF4D6D;
+  --violet: #A78BFA;
+  --green-glow: 0 0 12px rgba(0,255,157,.35);
+  --cyan-glow: 0 0 12px rgba(0,240,255,.3);
+  --gold-glow: 0 0 10px rgba(255,215,0,.25);
+  --red-glow: 0 0 10px rgba(255,77,109,.25);
+  --mono: 'JetBrains Mono','IBM Plex Mono','Fira Code',ui-monospace,monospace;
+  --sans: system-ui,-apple-system,'Segoe UI',sans-serif;
+  --r: 6px;
 }
-*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 96px; }
-.page { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
 
-/* ── HEADER ── */
-.header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
-.header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--green); }
-.header-inner { padding: 24px 28px 24px 32px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
-.header-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; color: var(--green); margin-bottom: 8px; text-transform: uppercase; }
-.header-name { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.015em; line-height: 1.2; }
-.header-sub { font-family: var(--sans); font-size: 12px; color: var(--muted); margin-top: 5px; }
-.ygate { display: inline-flex; align-items: center; gap: 7px; padding: 6px 14px; border-radius: var(--r-sm); border: 1px solid rgba(0,255,157,0.3); background: rgba(0,255,157,0.05); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 0.1em; white-space: nowrap; }
-.ygate-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: var(--green-glow); animation: pulse 2.5s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.65;
+  padding-bottom: 80px;
+}
+
+/* ── STICKY HEADER ── */
+.doc-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(2,4,8,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+}
+.doc-header-inner {
+  max-width: 900px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 48px; gap: 16px;
+}
+.doc-mark {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--green);
+}
+.doc-tabs {
+  display: flex; gap: 0;
+}
+.doc-tab {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 14px; height: 48px;
+  display: flex; align-items: center;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+  text-decoration: none;
+}
+.doc-tab:hover { color: var(--sub); }
+.doc-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+/* ── PAGE ── */
+.page { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+/* ── SECTION ── */
+section { padding: 48px 0 0; }
+
+.section-eyebrow {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-size: 18px; font-weight: 700;
+  color: var(--text); letter-spacing: -.015em;
+  margin-bottom: 20px;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--border) 0%, transparent 70%);
+  margin: 48px 0 0;
+}
+
+/* ── COVER ── */
+.cover {
+  padding: 40px 0 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+}
+.cover-meta { display: flex; flex-direction: column; gap: 6px; }
+.cover-company {
+  font-family: var(--mono);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green);
+}
+.cover-title {
+  font-size: 26px; font-weight: 700;
+  color: var(--text); letter-spacing: -.02em; line-height: 1.15;
+}
+.cover-sub {
+  font-family: var(--mono);
+  font-size: 10px; color: var(--muted);
+  letter-spacing: .04em;
+  margin-top: 4px;
+}
+.status-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 14px;
+  background: rgba(0,255,157,.06);
+  border: 1px solid rgba(0,255,157,.25);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--green); white-space: nowrap;
+}
+.pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: var(--green-glow); animation: pulse 2.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
 
 /* ── LOAD-BEARING QUOTE ── */
-.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
-.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--green), transparent 55%); }
-.lbq-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
-.lbq-text { font-family: var(--sans); font-size: 18px; font-weight: 500; color: var(--text); line-height: 1.65; font-style: italic; }
-.lbq-text::before { content: '\201C'; color: var(--green); font-size: 26px; font-style: normal; line-height: 0; vertical-align: -0.28em; margin-right: 3px; }
-.lbq-text::after  { content: '\201D'; color: var(--green); font-size: 26px; font-style: normal; line-height: 0; vertical-align: -0.28em; margin-left: 3px; }
-.lbq-attr { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 14px; }
+.lbq {
+  margin-top: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 24px 28px;
+  position: relative; overflow: hidden;
+}
+.lbq::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent 55%);
+}
+.lbq-label {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 10px;
+}
+.lbq-text {
+  font-size: 16px; font-weight: 500;
+  color: var(--text); line-height: 1.6; font-style: italic;
+}
+.lbq-text::before { content: '\201C'; color: var(--green); font-size: 22px; font-style: normal; vertical-align: -.2em; margin-right: 3px; }
+.lbq-text::after  { content: '\201D'; color: var(--green); font-size: 22px; font-style: normal; vertical-align: -.2em; margin-left: 3px; }
+.lbq-attr {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--dim); letter-spacing: .08em; text-transform: uppercase;
+  margin-top: 12px;
+}
+.lbq-decode {
+  margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 9px;
+  color: rgba(0,255,157,.6); letter-spacing: .04em;
+}
 
-/* ── PHASE 1 CARD ── */
-.phase1 { background: var(--surface); border: 1px solid rgba(0,255,157,0.2); border-radius: var(--r-lg); overflow: hidden; }
-.phase1-header { padding: 16px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.phase1-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); }
-.phase1-window { font-family: var(--mono); font-size: 9px; color: var(--dimmed); letter-spacing: 0.06em; }
-.phase1-title { padding: 22px 24px 4px; font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.015em; }
-.phase1-hook { padding: 8px 24px 20px; font-family: var(--sans); font-size: 14px; color: var(--dimmed); line-height: 1.65; border-bottom: 1px solid var(--border); }
-.deliverables { display: flex; flex-direction: column; }
-.dlv { display: grid; grid-template-columns: 200px 1fr; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.dlv:last-child { border-bottom: none; }
-.dlv-label { padding: 16px 20px; border-right: 1px solid var(--border); }
-.dlv-name { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--green); letter-spacing: 0.06em; margin-bottom: 4px; }
-.dlv-tag { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
-.dlv-body { padding: 16px 20px; }
-.dlv-benefit { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
-.dlv-detail { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.6; }
+/* ── STACK SUMMARY ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px; margin-top: 16px;
+}
+.stack-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 10px 14px;
+}
+.stack-chip-label {
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.stack-chip-value {
+  font-size: 12px; font-weight: 600; color: var(--text);
+}
+.stack-chip.flag { border-color: rgba(255,215,0,.3); }
+.stack-chip.flag .stack-chip-value { color: var(--gold); }
+.stack-chip.ok .stack-chip-value { color: var(--green); }
 
-/* ── NEXT UP (sketch) ── */
-.next-up { border: 1px dashed rgba(30,41,59,0.7); border-radius: var(--r-lg); padding: 16px 22px; display: flex; align-items: flex-start; gap: 16px; opacity: 0.5; }
-.next-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); white-space: nowrap; padding-top: 2px; }
-.next-items { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.7; }
+/* ── PROTOCOL PASSES ── */
+.pass-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.pass-mode {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.pass-mode.reverse { background: rgba(0,240,255,.1); color: var(--cyan); border: 1px solid rgba(0,240,255,.25); }
+.pass-mode.deep { background: rgba(167,139,250,.1); color: var(--violet); border: 1px solid rgba(167,139,250,.25); }
+.pass-segments {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--muted); letter-spacing: .06em;
+}
 
-/* ── PROTOCOL ── */
-.protocol { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
-.protocol-header { padding: 14px 22px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.steps { display: flex; flex-direction: column; }
-.step { display: grid; grid-template-columns: 48px 1fr; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.step:last-child { border-bottom: none; }
-.step-num { display: flex; align-items: flex-start; justify-content: center; padding: 18px 0; border-right: 1px solid var(--border); font-family: var(--mono); font-size: 13px; font-weight: 700; }
-.step-num.active { color: var(--green); text-shadow: var(--green-glow); }
-.step-num.next   { color: var(--dimmed); }
-.step-body { padding: 16px 20px; }
-.step-title { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
-.step-desc  { font-family: var(--sans); font-size: 12px; color: var(--dimmed); line-height: 1.6; }
-.step-owner { font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.07em; text-transform: uppercase; margin-top: 5px; }
+.segments { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.seg {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  display: grid; grid-template-columns: 56px 1fr;
+  overflow: hidden;
+}
+.seg-num {
+  background: var(--surface-hi);
+  border-right: 1px solid var(--border);
+  padding: 14px 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  gap: 4px;
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+}
+.seg-num .n { color: var(--cyan); }
+.seg-num .dir { font-size: 8px; color: var(--dim); letter-spacing: .08em; }
+.seg-body { padding: 14px 16px; }
+.seg-beat {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  margin-bottom: 4px; line-height: 1.4;
+}
+.seg-detail { font-size: 12px; color: var(--sub); line-height: 1.6; }
+.seg-signal {
+  display: inline-block; margin-top: 7px;
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 3px;
+}
+.sig-green { background: rgba(0,255,157,.1); color: var(--green); border: 1px solid rgba(0,255,157,.2); }
+.sig-gold  { background: rgba(255,215,0,.1); color: var(--gold); border: 1px solid rgba(255,215,0,.2); }
+.sig-red   { background: rgba(255,77,109,.1); color: var(--red); border: 1px solid rgba(255,77,109,.2); }
+.sig-cyan  { background: rgba(0,240,255,.08); color: var(--cyan); border: 1px solid rgba(0,240,255,.2); }
+
+/* ── DIVERGENCE CALLOUT ── */
+.divergence {
+  margin-top: 20px;
+  background: rgba(255,215,0,.04);
+  border: 1px solid rgba(255,215,0,.2);
+  border-radius: var(--r);
+  padding: 18px 20px;
+}
+.divergence-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 8px;
+}
+.divergence-body { font-size: 13px; color: var(--sub); line-height: 1.65; }
+.divergence-body strong { color: var(--text); font-weight: 600; }
+
+/* ── SIGNAL THREADS ── */
+.threads { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.thread {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 14px 16px;
+  display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start;
+}
+.thread-icon {
+  width: 28px; height: 28px; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.thread-icon.risk { background: rgba(255,77,109,.1); }
+.thread-icon.caution { background: rgba(255,215,0,.1); }
+.thread-icon.signal { background: rgba(0,255,157,.08); }
+.thread-icon.info { background: rgba(0,240,255,.08); }
+.thread-title {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 3px;
+}
+.thread-body { font-size: 12px; color: var(--sub); line-height: 1.6; }
+.thread-body strong { color: var(--text); font-weight: 600; }
+
+/* ── RECALL SURPRISES ── */
+.surprises { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.surprise {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 16px;
+  display: grid; grid-template-columns: 20px 1fr; gap: 12px; align-items: start;
+}
+.surprise-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; }
+.surprise-dot.new { background: var(--cyan); box-shadow: var(--cyan-glow); }
+.surprise-dot.confirm { background: var(--green); box-shadow: var(--green-glow); }
+.surprise-dot.risk { background: var(--red); box-shadow: var(--red-glow); }
+.surprise-dot.caution { background: var(--gold); box-shadow: var(--gold-glow); }
+.surprise-text { font-size: 12px; color: var(--sub); line-height: 1.6; }
+.surprise-text strong { color: var(--text); font-weight: 600; }
+
+/* ── CHATBOT TABLE ── */
+.cb-table-wrap { overflow-x: auto; margin-top: 16px; border-radius: var(--r); border: 1px solid var(--border); }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 11px;
+}
+th {
+  background: var(--surface-hi);
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 12px; text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 11px 12px;
+  border-bottom: 1px solid rgba(30,41,59,.4);
+  color: var(--sub);
+  vertical-align: top;
+  line-height: 1.5;
+}
+tr:last-child td { border-bottom: none; }
+tr.recommended td { background: rgba(0,255,157,.03); }
+tr.recommended td:first-child { border-left: 2px solid var(--green); }
+.rec-badge {
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--green); display: inline-block;
+  padding: 1px 6px; border-radius: 2px;
+  background: rgba(0,255,157,.1); border: 1px solid rgba(0,255,157,.2);
+  margin-left: 5px;
+}
+.cost-hi { color: var(--red); }
+.cost-med { color: var(--gold); }
+.cost-lo { color: var(--green); }
+
+/* ── RECOMMENDATION BOX ── */
+.rec-box {
+  margin-top: 20px;
+  background: rgba(0,255,157,.04);
+  border: 1px solid rgba(0,255,157,.2);
+  border-radius: var(--r);
+  padding: 20px 24px;
+}
+.rec-box-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 8px;
+}
+.rec-box-title {
+  font-size: 15px; font-weight: 700; color: var(--text);
+  margin-bottom: 6px;
+}
+.rec-box-body { font-size: 12px; color: var(--sub); line-height: 1.65; }
+.rec-box-body strong { color: var(--text); font-weight: 600; }
+
+/* ── MVP SCENARIOS ── */
+.scenarios {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px; margin-top: 16px;
+}
+.scenario {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.scenario.best { border-color: rgba(0,255,157,.25); }
+.scenario.base { border-color: rgba(0,240,255,.2); }
+.scenario.worst { border-color: rgba(255,77,109,.2); }
+.scenario-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.scenario-label {
+  font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.best .scenario-label { color: var(--green); }
+.base .scenario-label { color: var(--cyan); }
+.worst .scenario-label { color: var(--muted); }
+.scenario-price {
+  font-size: 20px; font-weight: 700; letter-spacing: -.02em;
+}
+.best .scenario-price { color: var(--green); }
+.base .scenario-price { color: var(--cyan); }
+.worst .scenario-price { color: var(--sub); }
+.scenario-body { padding: 14px 16px; }
+.scenario-row {
+  font-size: 11px; color: var(--sub); line-height: 1.55;
+  margin-bottom: 8px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(30,41,59,.4);
+}
+.scenario-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.scenario-row strong { color: var(--text); font-weight: 600; display: block; font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; color: var(--muted); }
+
+/* ── PROTOCOL / NEXT STEPS ── */
+.protocol { display: flex; flex-direction: column; gap: 0; margin-top: 16px; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.protocol-party { border-bottom: 1px solid var(--border); }
+.protocol-party:last-child { border-bottom: none; }
+.protocol-party-header {
+  padding: 12px 16px;
+  background: var(--surface-hi);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.protocol-party-name {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--sub);
+}
+.protocol-items { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.proto-item {
+  display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: start;
+}
+.proto-arrow {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  color: var(--green); margin-top: 1px;
+}
+.proto-arrow.gold { color: var(--gold); }
+.proto-arrow.dim { color: var(--muted); }
+.proto-text { font-size: 12px; color: var(--sub); line-height: 1.6; }
+.proto-text strong { color: var(--text); font-weight: 600; }
+
+/* ── ARCH INSIGHT ── */
+.arch-callout {
+  margin-top: 20px;
+  background: var(--surface);
+  border: 1px solid rgba(0,240,255,.2);
+  border-radius: var(--r);
+  padding: 18px 20px;
+  position: relative; overflow: hidden;
+}
+.arch-callout::before {
+  content: '';
+  position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
+  background: var(--cyan);
+}
+.arch-callout-label {
+  font-family: var(--mono); font-size: 9px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 8px;
+}
+.arch-callout-title {
+  font-size: 14px; font-weight: 700; color: var(--text);
+  margin-bottom: 6px;
+}
+.arch-callout-body { font-size: 12px; color: var(--sub); line-height: 1.65; }
+.arch-callout-body strong { color: var(--text); font-weight: 600; }
 
 /* ── STOP-LOSS ── */
-.stop-loss { display: flex; align-items: center; gap: 14px; padding: 14px 20px; border-radius: var(--r-lg); border: 1px solid rgba(0,255,157,0.15); background: rgba(0,255,157,0.03); }
-.sl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: var(--green-glow); flex-shrink: 0; animation: pulse 2.5s ease-in-out infinite; }
-.sl-text { font-family: var(--mono); font-size: 11px; color: rgba(0,255,157,0.7); line-height: 1.55; flex: 1; }
-.sl-ts { font-family: var(--mono); font-size: 9px; color: rgba(0,255,157,0.3); white-space: nowrap; }
+.stop-loss {
+  margin-top: 28px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--r);
+  border: 1px solid rgba(0,255,157,.15);
+  background: rgba(0,255,157,.02);
+}
+.sl-text {
+  font-family: var(--mono); font-size: 10px;
+  color: rgba(0,255,157,.65); line-height: 1.55; flex: 1;
+}
+.sl-ts {
+  font-family: var(--mono); font-size: 9px;
+  color: rgba(0,255,157,.25); white-space: nowrap;
+}
 
-a:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
-@media (max-width: 600px) {
-  .header-inner { grid-template-columns: 1fr; }
-  .dlv { grid-template-columns: 1fr; }
-  .dlv-label { border-right: none; border-bottom: 1px solid var(--border); }
+/* ── TABLET (≤900px) ── */
+@media (max-width: 900px) {
+  .doc-header { padding: 0 16px; }
+}
+
+/* ── TABLET (≤768px) ── */
+@media (max-width: 768px) {
+  .doc-tabs { display: none; }
+  .scenarios { grid-template-columns: 1fr 1fr; }
+  .stop-loss { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .sl-ts { white-space: normal; }
+}
+
+/* ── MOBILE (≤640px) ── */
+@media (max-width: 640px) {
+  body { font-size: 13px; }
+  .page { padding: 0 14px; }
+  .cover { grid-template-columns: 1fr; }
+  .scenarios { grid-template-columns: 1fr; }
+  .seg { grid-template-columns: 44px 1fr; }
+  .seg-num { padding: 12px 8px; font-size: 10px; }
+  .stack-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .lbq { padding: 18px 16px; }
+  .lbq-text { font-size: 14px; }
+  .divergence { padding: 14px 16px; }
+  .rec-box { padding: 16px 18px; }
+  .arch-callout { padding: 14px 16px; }
+  .scenario-header { padding: 10px 14px; }
+  .scenario-body { padding: 12px 14px; }
+  .protocol-party-header { padding: 10px 14px; }
+  .protocol-items { padding: 10px 14px; }
+  .stop-loss { padding: 12px 14px; }
+  th { padding: 8px 10px; }
+  td { padding: 9px 10px; }
 }
 </style>
-<script defer src="/_vercel/insights/script.js"></script>
-  <script src="/_vercel/toolbar/script.js"></script>
 </head>
 <body>
+
+<!-- STICKY HEADER -->
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div class="doc-mark">Recoil Report · PRL Resins</div>
+    <nav class="doc-tabs">
+      <a class="doc-tab active" href="#reverse">Reverse</a>
+      <a class="doc-tab" href="#recall">Deep Recall</a>
+      <a class="doc-tab" href="#chatbot">Chatbot Analysis</a>
+      <a class="doc-tab" href="#mvp">MVP Scenarios</a>
+      <a class="doc-tab" href="#protocol">Protocol</a>
+    </nav>
+  </div>
+</div>
+
 <div class="page">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-inner">
-      <div>
-        <div class="header-mark">Phase 1 Proposal · PRL Resins</div>
-        <div class="header-name">Fix the Instrument Panel First</div>
-        <div class="header-sub">Zach Harris · Jul 2, 2026 · prlresins.com</div>
-      </div>
-      <div class="ygate">
-        <div class="ygate-dot"></div>
-        READY TO START
-      </div>
+  <!-- ── COVER ── -->
+  <div class="cover">
+    <div class="cover-meta">
+      <div class="cover-company">PRL Resins · Todd Hotes</div>
+      <div class="cover-title">Recoil Report</div>
+      <div class="cover-sub">Calls: Jul 2, 2026 (75 min) + Jul 9, 2026 (45 min) · 9 + 7 segments</div>
+    </div>
+    <div class="status-pill">
+      <div class="pulse"></div>
+      ACTIVE ENGAGEMENT
     </div>
   </div>
 
-  <!-- LOAD-BEARING QUOTE -->
+  <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
   <div class="lbq">
-    <div class="lbq-eyebrow">Todd Hotes · Close of call · Jul 2, 2026</div>
+    <div class="lbq-label">Todd Hotes · Close of Call 1 · Jul 2, 2026</div>
     <div class="lbq-text">There's very limited friction because really, nobody else knows about any type of technology. So if this works, go for it.</div>
-    <div class="lbq-attr">One decision maker. Budget not a constraint. Zero internal approval required.</div>
+    <div class="lbq-attr">Todd Hotes · PRL Resins CFO / Comptroller</div>
+    <div class="lbq-decode">DECODE → Lone decision maker. Budget not a blocker. Zero internal approval required. Low tolerance for process drag — wants to see working prototype before committing further.</div>
   </div>
 
-  <!-- PHASE 1 -->
-  <div class="phase1">
-    <div class="phase1-header">
-      <div class="phase1-badge">Phase 1 · Weeks 1–3</div>
-      <div class="phase1-window">Fixed scope · Discrete invoice · Defined success metric</div>
+  <!-- CONFIRMED STACK -->
+  <div class="divider" id="stack"></div>
+  <section>
+    <div class="section-eyebrow">Confirmed Stack</div>
+    <div class="section-title">Current technology environment</div>
+    <div class="stack-grid">
+      <div class="stack-chip ok">
+        <div class="stack-chip-label">CMS</div>
+        <div class="stack-chip-value">WordPress 7.0</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">PPC / Landing</div>
+        <div class="stack-chip-value">Unbounce</div>
+      </div>
+      <div class="stack-chip flag">
+        <div class="stack-chip-label">Automation</div>
+        <div class="stack-chip-value">Zapier FREE ⚠</div>
+      </div>
+      <div class="stack-chip ok">
+        <div class="stack-chip-label">CRM</div>
+        <div class="stack-chip-value">SugarCRM (long-term)</div>
+      </div>
+      <div class="stack-chip flag">
+        <div class="stack-chip-label">Analytics</div>
+        <div class="stack-chip-value">GA4 (dark) ⚠</div>
+      </div>
+      <div class="stack-chip flag">
+        <div class="stack-chip-label">Tag Mgmt</div>
+        <div class="stack-chip-value">GTM (stale tags) ⚠</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">Collab</div>
+        <div class="stack-chip-value">Slack / Teams</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">Booking</div>
+        <div class="stack-chip-value">None — phone only</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">SEO / SEM</div>
+        <div class="stack-chip-value">External agency (HS friend)</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">Sales cycle</div>
+        <div class="stack-chip-value">6–12 months</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">CS team</div>
+        <div class="stack-chip-value">3 reps · Farmington CT</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label">Sales team</div>
+        <div class="stack-chip-value">9 reps · territory-based</div>
+      </div>
     </div>
-    <div class="phase1-title">One-week sprint · 3 sessions · $1,500 fixed</div>
-    <div class="phase1-hook">Right now PRL's marketing stack is flying IFR without instruments. Stale tags are penalizing every PPC dollar. GA4 is essentially dark. Three 90-minute sessions this week fixes both — and delivers a proof document, not a promise.</div>
-    <div class="deliverables">
+  </section>
 
-      <div class="dlv">
-        <div class="dlv-label">
-          <div class="dlv-name">Session 1</div>
-          <div class="dlv-tag">Diagnostic · 90 min</div>
-        </div>
-        <div class="dlv-body">
-          <div class="dlv-benefit">Full tag inventory — know exactly what's broken and why</div>
-          <div class="dlv-detail">GTM access → every tag audited live. Dead tags identified and flagged. GA4 current state reviewed. Priority hit list agreed together before session ends. You leave knowing exactly what's been costing you on every click.</div>
+  <!-- ── REVERSE LISTENING PASS ── -->
+  <div class="divider" id="reverse"></div>
+  <section>
+    <div class="section-eyebrow">Protocol Pass 1</div>
+    <div class="section-title">Reverse Listening · Adaptive Time Dilation</div>
+
+    <div class="pass-header">
+      <span class="pass-mode reverse">Reverse · Jul 9 Call</span>
+      <span class="pass-segments">7 segments · read end → start</span>
+    </div>
+
+    <div class="segments">
+
+      <div class="seg">
+        <div class="seg-num"><span class="n">S7</span><span class="dir">CLOSE</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Warm close — relationship layer confirmed</div>
+          <div class="seg-detail">"Let's figure out when we can hang. Fire pit, no kids." Personal layer activated at close. Zach commits to follow up: build/buy/rent research + MVP scope. Todd: "I'll text you later." No explicit price agreement — scope deferred.</div>
+          <span class="seg-signal sig-green">Relationship: WARM</span>
         </div>
       </div>
 
-      <div class="dlv">
-        <div class="dlv-label">
-          <div class="dlv-name">Session 2</div>
-          <div class="dlv-tag">Build · 90 min</div>
-        </div>
-        <div class="dlv-body">
-          <div class="dlv-benefit">GA4 live — every form fill tracked, every lead source visible</div>
-          <div class="dlv-detail">Dead tags removed. GA4 conversion events wired across every landing page and form. Verified in real-time with DebugView during the session — not a claim, a live confirmation. You can see leads appearing the moment the form is submitted.</div>
+      <div class="seg">
+        <div class="seg-num"><span class="n">S6</span><span class="dir">↑</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Architectural unlock — skip CS, route to sales manager directly</div>
+          <div class="seg-detail">Zach surfaces the skip: "Why would customer service even need to be in the mix if the chatbot handed off directly to the sales manager?" Todd: "That could be an option too. Yeah... that's probably the way to go." This is the key decision of the call — not yet captured in any scope doc.</div>
+          <span class="seg-signal sig-cyan">Decision: LOCKED</span>
         </div>
       </div>
 
-      <div class="dlv">
-        <div class="dlv-label">
-          <div class="dlv-name">Session 3</div>
-          <div class="dlv-tag">Verify + Report · 90 min</div>
+      <div class="seg">
+        <div class="seg-num"><span class="n">S5</span><span class="dir">↑</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Org structure mapped — CS / territory / routing logic clarified</div>
+          <div class="seg-detail">3 CS reps each assigned to 3 salespeople (9 total). Territory-based routing by geography. Sales manager does close/loss analysis. No booking system — phone is CTA. CS currently receives inbound via email from forms. IP geofencing or address input are the routing vectors.</div>
+          <span class="seg-signal sig-green">Ops: CLEAR</span>
         </div>
-        <div class="dlv-body">
-          <div class="dlv-benefit">Google optimizing toward leads, not clicks — proof document delivered</div>
-          <div class="dlv-detail">GA4 connected to Google Ads — the algorithm now feeds on real lead data instead of click volume. Lighthouse before/after scores side by side. GA4 funnel report by source. Walked through together. If the numbers moved, you know exactly how much. If Phase 2 makes sense, you'll see why in the data.</div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-num"><span class="n">S4</span><span class="dir">↑</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Live G2 research session — Intercom, Zendesk, WP Bot surfaced</div>
+          <div class="seg-detail">WordPress 7.0 confirmed (Intercom compat). Zapier revealed as FREE plan — critical constraint change. Todd: "Maybe we do that — maybe we see what makes the most sense." Build/buy/rent framing accepted. Todd suggested WordPress plugin approach. Drift/SalesLoft explored but priced for enterprise.</div>
+          <span class="seg-signal sig-gold">Zapier: FREE — blocks automation backbone</span>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-num"><span class="n">S3</span><span class="dir">↑</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Full vision revealed — AI trained on PD form data, plastics textbook</div>
+          <div class="seg-detail">"Could we train this agent on essentially a plastics engineering textbook?" Todd's true north: customer inputs application need → chatbot recommends resin formulation → sends tear sheet → CS follows up. This is Phase 4/5, not MVP scope. Product dev forms + application sheets = the training data trove. NDA required before access.</div>
+          <span class="seg-signal sig-gold">Scope creep risk: Phase 4 vision embedded in Phase 3 ask</span>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-num"><span class="n">S2</span><span class="dir">↑</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Phase pivot — chatbot confirmed as priority over Phase 1 table stakes</div>
+          <div class="seg-detail">"I'd love to start with the chatbots. That's going to create the biggest bang on the business side. It's gonna hit harder." WOW factor is an explicit buying signal — Todd needs something demonstrable internally, not just technically correct. Zach tried Phase 1 first; Todd redirected immediately. Phase sequencing decision made in first 5 minutes.</div>
+          <span class="seg-signal sig-cyan">Priority: Chatbot first</span>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-num"><span class="n">S1</span><span class="dir">OPEN</span></div>
+        <div class="seg-body">
+          <div class="seg-beat">Personal rapport + Laz signal — potential churn event on Wednesday</div>
+          <div class="seg-detail">Nora sick (summer virus). Costa Rica musing. Then: Laz opportunity has a Wednesday meeting. "I would jump ship for that." If Laz materializes, Todd leaves PRL. Urgency to close this engagement before his situation changes. Also: Todd's boss history ("15 years of bullshit") — motivation to build something that gives him a win before he exits.</div>
+          <span class="seg-signal sig-red">Churn risk: Laz meeting Wednesday</span>
         </div>
       </div>
 
     </div>
-  </div>
 
-  <!-- NEXT UP (sketch) -->
-  <div class="next-up">
-    <div class="next-label">On deck</div>
-    <div class="next-items">Phase 2 — Unbounce → SugarCRM direct (retire Zapier) &nbsp;·&nbsp; Phase 3 — Homepage qualification agent (two-tree: knows resin / has application) &nbsp;·&nbsp; Phase 4 — PPC creative AI &nbsp;·&nbsp; Phase 5 — LinkedIn ABM</div>
-  </div>
+    <div class="divergence">
+      <div class="divergence-label">↕ Divergence — Forward expectation vs. backward landing</div>
+      <div class="divergence-body">
+        <strong>What the call seemed to be building toward (forward):</strong> A structured scoping conversation walking through the todd-call.arcs.care proposal page, phase by phase, arriving at a Phase 1 sprint agreement.<br><br>
+        <strong>Where it actually landed (backward):</strong> Todd had already decided Phase 3 before the call started. The proposal review lasted under 3 minutes before he redirected to "let's build out an AI agent." The real conversation was discovery inside Todd's AI vision, not scoping against the proposal. The architectural insight (skip CS → sales manager direct) emerged organically from ops mapping, not from a prepared scope question.<br><br>
+        <strong>Implication:</strong> The next engagement offer shouldn't be a Phase 1 proposal — it should be a Phase 3 chatbot MVP spec that acknowledges the direct-to-sales-manager routing architecture.
+      </div>
+    </div>
+  </section>
 
-  <!-- PROTOCOL -->
-  <div class="protocol">
-    <div class="protocol-header">One ask</div>
-    <div class="steps">
+  <!-- ── DEEP RECALL PASS ── -->
+  <div class="divider" id="recall"></div>
+  <section>
+    <div class="section-eyebrow">Protocol Pass 2</div>
+    <div class="section-title">Deep Recall · Both Calls — Jul 2 + Jul 9</div>
 
-      <div class="step">
-        <div class="step-num active">→</div>
-        <div class="step-body">
-          <div class="step-title">Reply yes — I'll send a Session 1 calendar invite today</div>
-          <div class="step-desc">All I need to start: GTM admin access + GA4 admin access. One invoice at the end of the week. No scope doc, no contract, no back-and-forth.</div>
-          <div class="step-owner">$1,500 · Fixed · One invoice · This week</div>
+    <div class="pass-header">
+      <span class="pass-mode deep">Deep Recall · Cross-call</span>
+      <span class="pass-segments">9 + 7 segments · start → end, scored against expectation</span>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top: 16px; margin-bottom: 10px;">Confirmed vs. Surprising vs. Contradicted</div>
+    <div class="surprises">
+      <div class="surprise">
+        <div class="surprise-dot confirm"></div>
+        <div class="surprise-text"><strong>SugarCRM long-term:</strong> "Probably here to stay for at least the time I'll be here." Stable integration target confirmed. Had PipeDrive before, moved to Sugar. Not moving again.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot new"></div>
+        <div class="surprise-text"><strong>Zapier is FREE plan — not paid.</strong> Call 1 assumed Zapier was the automation backbone. It's the free tier, which has hard limits on tasks/month and no multi-step Zaps. This eliminates Zapier as the SugarCRM bridge without upgrading ($19.99/mo) or replacing it entirely.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot confirm"></div>
+        <div class="surprise-text"><strong>WordPress 7.0</strong> — higher than expected, clean for any modern chatbot plugin. Intercom, Tidio, WP-Bot all confirmed compatible at WP 4.2+.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot new"></div>
+        <div class="surprise-text"><strong>No booking system at all.</strong> Salespeople are reachable by phone only — no calendar scheduling. Eliminates Cal.com / Calendly integration as a chatbot CTA. CTA is: phone number, email routing, or SugarCRM lead creation.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot new"></div>
+        <div class="surprise-text"><strong>Sales manager = the actual quarterback.</strong> Sits above CS in the lead flow. Does close/loss analysis. If the chatbot routes leads directly to the SM instead of 3 CS reps, it simplifies the integration target dramatically — one SugarCRM endpoint, not three email addresses.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot new"></div>
+        <div class="surprise-text"><strong>Product dev forms + application sheets exist</strong> as the training data corpus. NDA required before access. This is the data that powers Todd's Phase 4 vision (resin recommendation by application). Can't build the ML layer without it — nor should we try in MVP.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot risk"></div>
+        <div class="surprise-text"><strong>Todd may leave PRL.</strong> Laz opportunity has a Wednesday meeting. "I would jump ship for that." Engagement timeline is implicitly compressed by this personal variable — the chatbot needs to be built and delivering before he exits or his motivation changes.</div>
+      </div>
+      <div class="surprise">
+        <div class="surprise-dot confirm"></div>
+        <div class="surprise-text"><strong>Scenario A / B buyer archetypes held.</strong> Call 1 framing confirmed: "knows what they need" vs "needs formulation research." Session 3 vision (AI recommendation by application) is the long-form B-path extension. MVP branch logic only needs to capture name / email / phone / application type / formulation stage.</div>
+      </div>
+    </div>
+
+    <div class="section-eyebrow" style="margin-top: 28px; margin-bottom: 10px;">Signal threads — persistent across both calls</div>
+    <div class="threads">
+      <div class="thread">
+        <div class="thread-icon risk">⚠</div>
+        <div>
+          <div class="thread-title">Scope creep — Phase 4 vision embedded in Phase 3 ask</div>
+          <div class="thread-body">Todd's stated MVP is <strong>actually a 3–6 month build</strong> once you add AI formulation recommendation. Chatbot MVP = branch logic + lead capture + SugarCRM handoff. Phase 4 = ML recommendation engine trained on PD form data. Conflating them blows the budget and the timeline. Needs explicit de-scoping conversation.</div>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="thread-icon caution">🔒</div>
+        <div>
+          <div class="thread-title">Data dependency — NDA gates the real asset</div>
+          <div class="thread-body">Until Todd executes the NDA and shares product dev form fields, <strong>branch logic can only be designed at a conceptual level</strong>. Can't build Scenario B without knowing what fields CS/sales actually needs. Discovery calls with sales manager and CS rep are the unblocking action.</div>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="thread-icon risk">🚨</div>
+        <div>
+          <div class="thread-title">Churn risk — Laz meeting Wednesday Jul 9</div>
+          <div class="thread-body">If Laz closes, Todd exits PRL. No clear successor contact identified. <strong>Close the engagement quickly</strong>. Get NDA and access before that happens. The chatbot MVP also becomes Todd's portfolio piece if he does leave — frame it that way.</div>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="thread-icon caution">💸</div>
+        <div>
+          <div class="thread-title">Zapier FREE blocks the standard automation playbook</div>
+          <div class="thread-body">Zapier free = 100 tasks/month, 5-minute update frequency, single-step Zaps only. Cannot use as a chatbot→SugarCRM bridge at any real volume. Options: <strong>upgrade Zapier ($19.99/mo)</strong>, use SugarCRM REST API directly (free, documented), or use n8n as replacement automation layer.</div>
+        </div>
+      </div>
+      <div class="thread">
+        <div class="thread-icon signal">📶</div>
+        <div>
+          <div class="thread-title">WOW factor = internal justification signal</div>
+          <div class="thread-body">"It's gonna hit harder." Todd needs something demonstrable to justify spend to ownership (the family office). The chatbot is a visible artifact — it shows on the homepage, it logs leads, it has a before/after. <strong>The proof document from the MVP is as important as the chatbot itself.</strong> Build reporting into the scope.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CHATBOT ANALYSIS ── -->
+  <div class="divider" id="chatbot"></div>
+  <section>
+    <div class="section-eyebrow">5-Verb Analysis</div>
+    <div class="section-title">Chatbot Build / Buy / Rent — SMB WordPress + SugarCRM</div>
+
+    <div class="arch-callout">
+      <div class="arch-callout-label">Architecture Decision · Locked this call</div>
+      <div class="arch-callout-title">Skip CS → route chatbot leads directly to Sales Manager in SugarCRM</div>
+      <div class="arch-callout-body">Todd confirmed this on Jul 9. Integration target = <strong>one SugarCRM lead record</strong> assigned to the correct territory rep via the SM, not three CS email addresses. This simplifies every option below. Chatbot creates lead → SM reviews + routes → territory rep follows up by phone.</div>
+    </div>
+
+    <div class="cb-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Type</th>
+            <th>WP Integration</th>
+            <th>SugarCRM</th>
+            <th>Monthly Cost</th>
+            <th>Build Time</th>
+            <th>Maintainability</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="recommended">
+            <td><strong style="color:var(--text)">Tidio AI</strong><span class="rec-badge">RECOMMENDED</span></td>
+            <td>Rent</td>
+            <td class="cost-lo">Native plugin</td>
+            <td>REST API (direct) or Zapier+</td>
+            <td class="cost-lo">$29–49</td>
+            <td>1–2 days</td>
+            <td class="cost-lo">Easy — visual builder</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--text)">WP-Bot</strong></td>
+            <td>Rent</td>
+            <td class="cost-lo">Native plugin</td>
+            <td>Webhook / Zapier+</td>
+            <td class="cost-lo">$15–30</td>
+            <td>1 day</td>
+            <td class="cost-lo">Easy — limited AI</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--text)">Intercom</strong></td>
+            <td>Rent</td>
+            <td style="color:var(--sub)">JS embed / plugin</td>
+            <td>API / 3rd party</td>
+            <td class="cost-med">$74–139</td>
+            <td>2–3 days</td>
+            <td style="color:var(--sub)">Medium</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--text)">Botpress Cloud</strong></td>
+            <td>Rent / Build</td>
+            <td style="color:var(--sub)">Embed JS</td>
+            <td>REST API</td>
+            <td style="color:var(--sub)">$25–50</td>
+            <td>1–2 weeks</td>
+            <td style="color:var(--sub)">Medium</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--text)">n8n + Typeform</strong></td>
+            <td>Rent</td>
+            <td style="color:var(--sub)">Form embed</td>
+            <td>n8n → SugarCRM</td>
+            <td class="cost-lo">~$20</td>
+            <td>3–5 days</td>
+            <td style="color:var(--sub)">Medium (requires n8n)</td>
+          </tr>
+          <tr>
+            <td><strong style="color:var(--text)">Custom (Claude API)</strong></td>
+            <td>Build</td>
+            <td style="color:var(--sub)">Embed JS</td>
+            <td>Direct REST API</td>
+            <td class="cost-hi">$50–200 API</td>
+            <td>3–6 weeks</td>
+            <td class="cost-hi">High — requires dev</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="rec-box">
+      <div class="rec-box-label">Recommendation — MVP</div>
+      <div class="rec-box-title">Tidio AI on WordPress · SugarCRM via REST API · Zapier upgraded if API access blocked</div>
+      <div class="rec-box-body">
+        <strong>Why Tidio:</strong> WordPress native plugin (5-min install on WP 7.0), visual conversation flow builder that Todd's team can maintain without a developer, built-in AI fallback for unmatched queries, session memory for return visitors (critical for a 6–12 month sales cycle), documented SugarCRM integration via REST API. Starts at $29/mo — lowest friction, lowest cost, and the flow builder makes the branch logic visible and editable by Todd.<br><br>
+        <strong>SugarCRM bridge:</strong> Use SugarCRM REST API v8 directly (no Zapier required). Tidio supports webhook output → Node function → SugarCRM POST /Leads. If direct API is blocked, upgrade Zapier to Starter ($19.99/mo) as backup.<br><br>
+        <strong>Do not build custom for MVP.</strong> The branch logic design is where 80% of the value is, not the chatbot platform. Platform can be swapped in Phase 4 when the AI recommendation layer is ready.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MVP SCENARIOS ── -->
+  <div class="divider" id="mvp"></div>
+  <section>
+    <div class="section-eyebrow">Engagement Scoping</div>
+    <div class="section-title">Best / Base / Worst Case MVP</div>
+
+    <div class="scenarios">
+      <div class="scenario best">
+        <div class="scenario-header">
+          <div class="scenario-label">Best Case</div>
+          <div class="scenario-price">$1,500</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <strong>Timeline</strong>
+            1 week · 3 sessions × 90 min
+          </div>
+          <div class="scenario-row">
+            <strong>Scope</strong>
+            Tidio install + Scenario A/B branch logic (verbal from Todd, not NDA data) + SugarCRM lead creation + email notification to SM + territory routing field
+          </div>
+          <div class="scenario-row">
+            <strong>Trigger</strong>
+            Todd confirms this week, shares GTM/SugarCRM access immediately, SM available for 30-min call before Session 1
+          </div>
+          <div class="scenario-row">
+            <strong>Outcome</strong>
+            Live chatbot in 7–10 days. Leads flowing to SM. Proof document ready.
+          </div>
+          <div class="scenario-row">
+            <strong>Risk</strong>
+            Branch logic based on verbal spec — real leads may reveal edge cases. Low-fidelity Scenario B without NDA/PD form data.
+          </div>
         </div>
       </div>
 
-    </div>
-  </div>
+      <div class="scenario base">
+        <div class="scenario-header">
+          <div class="scenario-label">Base Case</div>
+          <div class="scenario-price">$3,000–3,500</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <strong>Timeline</strong>
+            3–4 weeks · 5–6 sessions
+          </div>
+          <div class="scenario-row">
+            <strong>Scope</strong>
+            NDA + product dev form field mapping + CS/SM discovery calls + Tidio + SugarCRM API integration + territory routing + GA4 chatbot event tracking + handoff documentation
+          </div>
+          <div class="scenario-row">
+            <strong>Trigger</strong>
+            NDA executed within 1 week. Data + discovery calls within 2 weeks. Todd still at PRL.
+          </div>
+          <div class="scenario-row">
+            <strong>Outcome</strong>
+            Production-grade chatbot with informed branch logic, measurable lead flow, and a clean handoff doc the team can manage.
+          </div>
+          <div class="scenario-row">
+            <strong>Risk</strong>
+            Timeline slips if data collection is delayed. Laz meeting creates churn risk mid-engagement.
+          </div>
+        </div>
+      </div>
 
-  <!-- STOP-LOSS -->
+      <div class="scenario worst">
+        <div class="scenario-header">
+          <div class="scenario-label">Worst Case</div>
+          <div class="scenario-price">$6,000–8,000</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <strong>Timeline</strong>
+            8–12 weeks
+          </div>
+          <div class="scenario-row">
+            <strong>Scope</strong>
+            Everything in base + custom Claude API recommendation engine trained on PD form taxonomy + resin catalog metadata + session persistence with email re-engagement + Slack notifications + sub-agent SDR routing per territory
+          </div>
+          <div class="scenario-row">
+            <strong>Trigger</strong>
+            Todd's Phase 4 vision approved as scope. Clean structured training data provided. Retainer model established.
+          </div>
+          <div class="scenario-row">
+            <strong>Outcome</strong>
+            AI-powered formulation recommendation chatbot. Todd's full vision realized.
+          </div>
+          <div class="scenario-row">
+            <strong>Risk</strong>
+            High. Requires clean metadata on resin catalog. Long timeline for an SMB without a tech team. Todd may exit before completion. Most of the value in the ML layer requires months of lead data feedback loop to calibrate.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divergence" style="margin-top: 20px;">
+      <div class="divergence-label">↗ Recommended path</div>
+      <div class="divergence-body">
+        <strong>Start at Best Case ($1,500).</strong> Ship a live chatbot. Let real leads reveal what's missing. Expand to Base Case in Month 2–3 once the NDA is executed and discovery calls happen. This also gives Todd a visible win before any Laz decision crystallizes — and a portfolio artifact he owns regardless of where he lands.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROTOCOL ── -->
+  <div class="divider" id="protocol"></div>
+  <section>
+    <div class="section-eyebrow">Next Steps</div>
+    <div class="section-title">Protocol — Action items by party</div>
+
+    <div class="protocol">
+      <div class="protocol-party">
+        <div class="protocol-party-header">
+          <div class="protocol-party-name">Zach (This week)</div>
+        </div>
+        <div class="protocol-items">
+          <div class="proto-item">
+            <div class="proto-arrow">→</div>
+            <div class="proto-text"><strong>Send this recoil report + chatbot analysis to Todd</strong> — the report itself is the deliverable he asked for ("do some research and homework"). Include the Tidio recommendation and the direct-to-SM routing decision.</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow">→</div>
+            <div class="proto-text"><strong>Draft NDA</strong> — simple mutual NDA covering PRL product dev form data + application sheets. DocuSign ready to send.</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow">→</div>
+            <div class="proto-text"><strong>Draft MVP scope doc</strong> — Phase 3 chatbot, Best Case path ($1,500), 3 sessions, Tidio on WordPress, SugarCRM via API, direct to SM architecture. One-pager, no jargon.</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow">→</div>
+            <div class="proto-text"><strong>Confirm SugarCRM REST API v8 access</strong> — verify whether Todd's SugarCRM instance exposes the /Leads endpoint and what auth model is required (OAuth2 or username/password). This determines whether direct API or Zapier upgrade is needed.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="protocol-party">
+        <div class="protocol-party-header">
+          <div class="protocol-party-name">Todd (Next 7 days)</div>
+        </div>
+        <div class="protocol-items">
+          <div class="proto-item">
+            <div class="proto-arrow gold">→</div>
+            <div class="proto-text"><strong>Execute NDA</strong> — before sharing product dev forms or application sheets. Unblocks Phase 4 design.</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow gold">→</div>
+            <div class="proto-text"><strong>Share product dev form fields + application sheet template</strong> — the branch logic for Scenario B depends on what fields CS/sales actually captures today.</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow gold">→</div>
+            <div class="proto-text"><strong>Schedule 30-min discovery call with sales manager</strong> — pain points, biggest time sinks, what data from inbound leads he actually uses vs. ignores. Record with Granola.</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow gold">→</div>
+            <div class="proto-text"><strong>Pull GA4 traffic report</strong> — homepage + Unbounce pages, last 90 days. (Requested in Call 1, still outstanding.)</div>
+          </div>
+          <div class="proto-item">
+            <div class="proto-arrow dim">→</div>
+            <div class="proto-text"><strong>Confirm SugarCRM access credentials</strong> — API key or admin login needed to wire the chatbot integration. Can be shared post-NDA.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <div class="stop-loss">
-    <div class="sl-dot"></div>
-    <div class="sl-text">Success metric — measurable improvement in GA4 conversion rate or Google Ads Quality Score within 30 days. If the numbers don't move, stop and diagnose before Phase 2.</div>
-    <div class="sl-ts">JUL 2, 2026</div>
+    <div class="pulse"></div>
+    <div class="sl-text">Stop-loss — if NDA is not executed within 2 weeks and no data is shared, pause Phase 4 design work and deliver Best Case scope ($1,500) from verbal spec alone. Don't wait for perfect data to start.</div>
+    <div class="sl-ts">JUL 9, 2026</div>
   </div>
 
 </div>
+
 <script>
-window.addEventListener('load', function() {
-  if (window.va) va('event', { name: 'brief_open', data: { brief: 'todd-call' } });
+// Smooth scroll tab behavior
+document.querySelectorAll('.doc-tab').forEach(tab => {
+  tab.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(tab.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.doc-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+  });
 });
+
+// Update active tab on scroll
+const sections = ['reverse','recall','chatbot','mvp','protocol'];
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.doc-tab').forEach(t => t.classList.remove('active'));
+      const tab = document.querySelector(`.doc-tab[href="#${entry.target.id}"]`);
+      if (tab) tab.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
 </script>
 </body>
 </html>
