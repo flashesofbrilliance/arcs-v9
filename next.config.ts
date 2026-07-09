@@ -42,6 +42,11 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/fanatics.html", has: [{ type: "host", value: "fanatics.arcs.care" }] },
         // token.arcs.care → public/token.html
         { source: "/:path*", destination: "/token.html", has: [{ type: "host", value: "token.arcs.care" }] },
+        // resume.arcs.care → public/resume.html
+        // NOTE: this rule previously existed ONLY inside the live deployment (deployed from a
+        // dirty tree, never committed) — verified 2026-07-09 via x-matched-path. Committed here
+        // so a clean redeploy from main cannot drop resume.arcs.care routing.
+        { source: "/:path*", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
