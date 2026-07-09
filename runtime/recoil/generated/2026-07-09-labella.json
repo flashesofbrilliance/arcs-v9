@@ -1,0 +1,195 @@
+{
+  "reportId": "2026-07-09-labella",
+  "meta": {
+    "callTitle": "Part 2: ARCS / Tallin Follow-up",
+    "counterpart": "Steve LaBella",
+    "counterpartRole": "Founder, Tallin (+ FX platform, sponsor-bank compliance venture)",
+    "callDate": "2026-07-09",
+    "callTime": "10:30 AM EDT",
+    "durationMinutes": 30,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
+    "prePrepSession": null,
+    "note": "No PrepSession row captured. Deep Recall pass scored against the pre-call decision receipt in labella.arcs.care Tab 4 (Question / True North / Hypothesis / Y Gate / Window). Transcript fidelity caveat: Granola swallowed several of Zach's turns mid-call — Steve's long answers embed responses to questions the transcript doesn't show."
+  },
+  "cover": {
+    "yGate": "FORK",
+    "conviction": "MEDIUM",
+    "stability": "STABLE",
+    "renderState": "DEGRADED",
+    "nci": 63,
+    "headline": "No sprint — and that's a clean close, not a miss. The constraint got named: his currency is equity until the raise.",
+    "subline": "The pre-call receipt's True North had two branches: 'sprint scoped OR constraint named explicitly.' The call closed on the second branch. Near-term paid work is dead; the relationship forked into network-exchange now, cash conversation post-raise."
+  },
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
+  "loadBearingQuote": {
+    "text": "How we could potentially work together probably makes more sense after my raise — my currency today is equity... after a raise there's cash compensation.",
+    "attribution": "GRANOLA TRANSCRIPT · STEVE LABELLA · JUL 9, 2026",
+    "significance": "This is the fork sentence — stated plainly, unprompted, near the close. It converts an ambiguous 'consulting fit' into a structural constraint: interest isn't the blocker, cash is. It also closes the pre-call receipt honestly on its secondary success condition (constraint named explicitly). Steve is post-raise pipeline, not a now-client — and pretending otherwise would have burned goodwill."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "AGENDA SWAP",
+      "time": "0–6 min",
+      "direction": "FORWARD",
+      "summary": "Tech fumbling, small talk (Zach's daughter sick). Steve takes the wheel with his own agenda: (a) hear about Zach's consulting side — he'd emailed minutes before about 'one of the ideas I had' (the sponsor-bank venture) and is 'reaching out to folks to get interest'; (b) Tallin design-partner onboarding friction — 'they love it, can't wait to do it, and then I chase people down to actually click the buttons.'",
+      "divergenceFlag": "HIGH — The sent agenda (Compass reactions → sponsor-bank deep dive → sprint shape → next steps) never ran. Steve's replacement agenda framed Zach as network + advice source from minute two, and the original agenda was never re-imposed. The deflection at the close was foreshadowed here."
+    },
+    {
+      "segment": 2,
+      "label": "FRICTION DIAGNOSIS",
+      "time": "6–12 min",
+      "direction": "FORWARD",
+      "summary": "Zach reframes: asks for ICP / job-rec shape, offers the site-teardown capability, names the design-partner state as 'pilot limbo,' asks where Steve thinks he's stuck (bandwidth / focus / priorities). Steve: partners are friends-network — a fund CCO delegated to an overwhelmed employee who 'loves it, will get it done'; Sacred Heart University via his college roommate (head of tech), CISO call Monday. 'I want it yesterday... but I'm not concerned.'",
+      "divergenceFlag": "MED — Stated urgency ('yesterday') vs revealed pace (accepts friends' timelines, persistence as the whole strategy, explicitly doesn't need help at Sacred Heart: 'I'm about as well connected there as I can be'). The onboarding friction is real but he declined every help-path except sympathy."
+    },
+    {
+      "segment": 3,
+      "label": "BUSINESS MODEL + SOC 2 + RAISE",
+      "time": "12–18 min",
+      "direction": "FORWARD",
+      "summary": "Pricing revealed: first 3 design partners 60 days free; then $2,500 promotional first two months; ~$1,000/mo base; charged per 'AI actor' (employees + agents + embedded AI), not per seat — still testing. Signup is self-serve terms acceptance; no procurement / security-audit gauntlet run yet. SOC 2 + pen test: quotes in hand, will 'personally write the check' only if a specific deal demands it — ideally after the round closes. Raise: three investor conversations total, two going to committee, one soft pass ('too early, want traction' + they found 'competitors who are not really competitors').",
+      "divergenceFlag": "LOW — Candid, coherent, self-aware. Note the echo: his SOC 2 posture (evidence-triggered spend, attestation only when a deal gates on it) is exactly the sequencing logic the Evidiam teardown recommended. He's already operating that way on Tallin."
+    },
+    {
+      "segment": 4,
+      "label": "VELOCITY FLEX + WEBSITE DEFLECTION",
+      "time": "18–24 min",
+      "direction": "FORWARD",
+      "summary": "Product velocity: the fund asked for prompt-level compliance review (are employees prompting around rules, uploading what they shouldn't) — 'we built that this week.' Not real-time interception; pull-and-review for regulator evidence. VPC deployment, no off-prem prompt storage. Wedge: regulated entities. On the Evidiam site: 'that's just a quick website... less about whether the website can be better, more about the business idea.'",
+      "divergenceFlag": "HIGH SIGNAL — He pre-discounted website critique as a value surface. The Evidiam teardown must land as business-decision analysis (GTM fork, kill criteria, SOC 2 gate), never as site feedback. Also note: builds-in-a-week velocity means feature gaps are not his bottleneck anywhere — distribution and attention are."
+    },
+    {
+      "segment": 5,
+      "label": "THE ASKS + THE FORK",
+      "time": "24–30 min",
+      "direction": "REVERSE",
+      "summary": "Steve's actual asks: (1) network scan for the sponsor-bank venture — someone who 'lived this world,' worked at a sponsor bank, sales/revenue side, to either buy the tech outright ('a bank or multinational that would simply want to buy the technology and own it — that's a wonderful outcome') or come on as CEO and launch it; he'll send a profile email. (2) Compliance-heavy intros + investor-adjacent thoughts for Tallin. (3) Working together: 'probably makes more sense after my raise — my currency today is equity.' Compass usage confession: 'I asked it one initial question but haven't really gone back — apologies.' Thought the brief was a static HTML file; told it's live, will re-look today. Warm close, nothing on calendar.",
+      "divergenceFlag": "HIGH — Read backward, the close is the call: Zach was engaged as a peer network node, not a vendor. The sponsor-bank venture needs a person (operator/CEO or acquirer), not decision tooling — the pre-call hypothesis inverted. The one hard deliverable is Steve's, not Zach's: the profile email."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "CONSTRAINT_EXPLICIT",
+      "label": "Constraint Named Cleanly",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "'My currency today is equity; after a raise there's cash compensation' is the most useful sentence Steve could have said. It removes the wishful middle where the engagement stays 'directionally interesting' forever. The pre-call receipt anticipated exactly this branch ('sprint scoped OR constraint named explicitly') — so this closes the receipt on a success condition, not a failure."
+    },
+    {
+      "id": "NETWORK_RECIPROCITY",
+      "label": "Peer / Network Channel Open",
+      "color": "cyan",
+      "strength": "DIRECTIONAL",
+      "description": "Steve treats Zach as a high-value node: wants compliance-heavy intros, a sponsor-bank operator/CEO/acquirer candidate profile (email coming), and floated 'clearly experienced smart guy' respect unprompted. His fund-CCO friend's delegate is already promising referrals to consulting clients. The relationship compounds through intros — in both directions — until the raise closes."
+    },
+    {
+      "id": "STATED_VS_REVEALED_URGENCY",
+      "label": "Urgency Gap on Design Partners",
+      "color": "gold",
+      "strength": "WATCH",
+      "description": "Stated: 'I want it done yesterday.' Revealed: accepts friends' timelines, strategy is persistence, declined help ('as well connected as I can be'). The Tallin onboarding pain is real but not purchase-triggering — he named it to vent and to signal traction-in-progress for the raise narrative, not to buy a fix."
+    },
+    {
+      "id": "PRODUCT_PULL_WEAK",
+      "label": "Product Pull-Through Weak",
+      "color": "red",
+      "strength": "WATCH",
+      "description": "Jul 6 stated: wants to experience the product before the next conversation, asked for the sample brief + recoil. Jul 9 revealed: one Compass question in three days, no return visit, brief mistaken for a static attachment, unprompted apology. Enthusiasm ≠ usage. For Steve, the demo channel that works is finished artifacts (briefs, teardowns) delivered as live links — not self-serve product exploration."
+    },
+    {
+      "id": "SPONSOR_BANK_INVERTED",
+      "label": "Sponsor-Bank Hypothesis Inverted",
+      "color": "red",
+      "strength": "HARD_NO",
+      "description": "Pre-call hypothesis: sponsor-bank platform = highest-probability sprint entry (change controls, counterparty risk). Revealed: Steve treats that venture as an asset to place — find an operator to run it or a bank/multinational to buy it outright. He wants a person from a network, not a decision process. The ARCS-adjacency of the domain was real; the buying intent behind it was not."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 55,
+      "label": "Network exchange now → cash conversation post-raise",
+      "description": "Zach delivers one or two genuinely good intros (sponsor-bank operator candidate, compliance-heavy design partner, or investor-adjacent), stays warm with artifact-quality touchpoints. When Steve announces a first close, the engagement conversation reopens with banked goodwill and a concrete pretext.",
+      "trigger": "Steve's profile email arrives → Zach responds with real candidates or an honest 'nobody fits yet.'",
+      "watch": "Raise timing — three investor conversations in, traditional round, could be 3–9 months. Anchor the revisit to his first-close announcement, not to 'after my raise.'"
+    },
+    {
+      "id": "B",
+      "probability": 30,
+      "label": "Peer network, no paid engagement",
+      "description": "Intros trade sporadically, the raise drags or the ventures reshuffle, no cash engagement materializes. Still positive-sum: the fund CCO's delegate referral channel, Boardy-graph reinforcement, and a fellow operator in regulated fintech who talks candidly about pricing and investors.",
+      "trigger": "Default path if the raise stalls or Zach's W2 situation resolves first.",
+      "watch": "Free-consulting creep — teardowns, network scans, and advice becoming the permanent mode. The Evidiam teardown is the gift; the next value transfer should have reciprocity attached."
+    },
+    {
+      "id": "C",
+      "probability": 10,
+      "label": "Equity-for-sprint (deliberate exception only)",
+      "description": "Steve explicitly floated equity as his current currency. A small equity-denominated sprint with one venture is possible — but only as a deliberate portfolio decision (does Zach want exposure to Tallin specifically?), not as a discount to keep momentum. Three pre-revenue ventures at once is exactly the profile where equity compensation under-prices the work.",
+      "trigger": "Only if Zach initiates it after a deliberate decision — do not let it emerge by drift.",
+      "watch": "If Steve proposes it, run it as its own receipt before answering. Default answer is no."
+    },
+    {
+      "id": "D",
+      "probability": 5,
+      "label": "Pre-raise sprint revival",
+      "description": "A design-partner stall turns existential, or a specific decision (pricing model, raise sequencing, sponsor-bank venture kill/keep) starts costing him real money pre-raise, and the $2.5K-scale sprint becomes cheaper than the mistake.",
+      "trigger": "A named decision with a deadline shows up in his follow-up emails.",
+      "watch": "Don't manufacture this. If it happens, it arrives on its own."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "POST_RAISE_INDEFINITE",
+      "severity": "HIGH",
+      "label": "'Post-raise' is a deferral wearing a date",
+      "description": "Three investor conversations total, traditional round, explicitly early. 'After my raise' could mean Q4 2026 or never. Without a concrete revisit trigger, this relationship silently downgrades from pipeline to acquaintance.",
+      "action": "Set the trigger now: revisit on Steve's first-close announcement OR Oct 1, 2026, whichever comes first. Calendar it. The check-in pretext is easy — 'how did the committee conversations land?'"
+    },
+    {
+      "id": "FREE_WORK_CREEP",
+      "severity": "MED",
+      "label": "Current currency is Zach's unpaid output",
+      "description": "The relationship's running tab: sample brief, recoil report, Evidiam teardown (plain + full), and now a network scan against Steve's profile email. Each is a deliberate investment — but the mode becomes permanent if it's never named. Steve is candid and fair; he'll respect an explicit frame.",
+      "action": "Cap the gift budget consciously. The teardown was the demonstration; the network scan is peer reciprocity. Anything past that gets a scope and a number, even a small one."
+    },
+    {
+      "id": "SINGLE_THREAD_ATTENTION",
+      "severity": "MED",
+      "label": "Three ventures, one scarce resource: his attention",
+      "description": "Tallin (raise + design partners) + FX platform (CEO signing) + sponsor-bank venture (operator search) all compete for the same founder-hours. He said it himself about his design partners — 'people's schedules' — and it applies doubly to him. Any plan that requires sustained Steve-bandwidth inherits that risk.",
+      "action": "Prefer asks and deliverables that are async and single-touch (an email, a candidate name, a live link). Never build a plan that needs him in a room weekly."
+    },
+    {
+      "id": "ARTIFACT_DELIVERY",
+      "severity": "LOW",
+      "label": "Artifact delivery confused him",
+      "description": "Steve thought the brief was a standalone HTML attachment and only learned on this call it was a live, updating page. The medium undersold the work for three days.",
+      "action": "Standardize: live link + password only, one line explaining it updates in place. Never attach HTML."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "The close was the call: profile email owed by Steve, network scan implicitly accepted by Zach, engagement deferred to post-raise, warm goodbye, nothing on calendar. Working backward, the deflection wasn't a late swerve — it was set in the first two minutes when Steve's replacement agenda cast Zach as network + advice source, and the pre-call agenda (Compass reactions → sponsor-bank deep dive → sprint shape) never ran. The forward read felt like a conversation approaching a sprint; the backward read shows a peer exchanging asks. The backward read is the true one."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "Scored against the pre-call decision receipt in labella.arcs.care Tab 4 (no PrepSession row).",
+        "keyFinding": "Question ('is there a scoped sprint use case?') — answered NO, cleanly. True North ('sprint scoped OR constraint named explicitly') — hit on the second branch: the equity/cash constraint was named in Steve's own words. Hypothesis (sponsor-bank platform as entry) — INVERTED: he wants an operator or acquirer for it, not tooling. Window ('next action on calendar by close or momentum resets') — technically missed; the live next action is Steve's profile email, so the 5-business-day follow-up rule is armed. Net: the receipt closed honestly. Conviction on near-term paid work moved from MEDIUM to effectively closed; conviction in the relationship's long-arc value held or rose."
+      }
+    ],
+    "immediateActions": [
+      "Reply to Steve's profile email (when it lands) with either 1–2 real candidates or an honest 'nobody in the graph fits yet' — speed matters more than yield on the first pass",
+      "Set the revisit trigger: first-close announcement OR Oct 1, 2026 — calendar it now",
+      "Re-share labella.arcs.care as a LIVE link with the close-out filled — it doubles as the loop-closing demo he never got from self-serve Compass",
+      "When he opens the Evidiam tab, frame it as business-decision analysis (GTM fork, SOC 2 gate, kill criteria) — he explicitly discounted 'website feedback' as a value surface",
+      "Log the fund-CCO delegate referral thread as a separate lead line — it may out-produce Steve directly"
+    ]
+  }
+}
