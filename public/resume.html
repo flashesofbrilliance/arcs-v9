@@ -755,7 +755,7 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
                         textTransform:'uppercase', color:T.fg4, marginBottom:5 }}>COMPASS SIGNAL</div>
                       <div style={{ fontFamily:T.mono, fontSize:11, color:T.fg3, lineHeight:1.6,
                         fontStyle:'italic', marginBottom:8 }}>"{r.compassPrompt}"</div>
-                      <a href="https://app.arcs.care/dashboard" target="_blank" rel="noopener"
+                      <a href={`https://app.arcs.care/dashboard?q=${encodeURIComponent(r.compassPrompt)}`} target="_blank" rel="noopener"
                         style={{ fontFamily:T.mono, fontSize:9, color:r.color, letterSpacing:'0.06em',
                           textDecoration:'none', opacity:0.7 }}>→ run through compass</a>
                     </div>
@@ -1045,10 +1045,6 @@ function Resume() {
               Fairfield, CT  ·  <a href="tel:+12038072976" style={{ color:T.fg3, textDecoration:'none' }}>203-807-2976</a>  ·  <a href="mailto:zach.harris@gmail.com" style={{ color:T.fg3, textDecoration:'none' }}>zach.harris@gmail.com</a>  ·  <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>
           </div>
-          {/* True North */}
-          <TrueNorthPanel heading={TRUE_NORTH.all.heading} style={{ marginBottom: isMobile ? 10 : 14 }}>
-            {TRUE_NORTH.all.text}
-          </TrueNorthPanel>
           {/* Depth selector */}
           <div className="no-print">
             <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
