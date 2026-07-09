@@ -2,10 +2,11 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "40079fd",
-    "head_message": "docs(handoff): append Handoff v3.6.0 — consolidation audit summary [NCI:SKIP]",
+    "head_sha": "340663a",
+    "head_message": "chore(sync): refresh _STATE/snapshot.json [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": [
+      ".claude/hooks/session-start.sh",
       "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
       "test_prisma_direct.js"
     ]
@@ -15,29 +16,44 @@
     "latest_deploy_url": "https://arcs-v9-ac5tp9qsy-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
-    "env_vars_present": ["AUTH_SECRET", "AUTH_RESEND_KEY", "DATABASE_URL", "ANTHROPIC_API_KEY"]
+    "env_vars_present": [
+      "AUTH_SECRET",
+      "AUTH_RESEND_KEY",
+      "DATABASE_URL",
+      "ANTHROPIC_API_KEY"
+    ]
   },
   "database": {
     "project_ref": "xbbpiryokswwvcrcutge",
     "role": "arcs_app",
     "pooler_host": "aws-1-us-east-1.pooler.supabase.com",
     "port": 6543,
-    "schema_confirmed": ["User","Receipt","PrepSession","Brief","Account","Session","VerificationToken"]
+    "schema_confirmed": [
+      "User",
+      "Receipt",
+      "PrepSession",
+      "Brief",
+      "Account",
+      "Session",
+      "VerificationToken"
+    ]
   },
   "active_briefs": {
-    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
-    "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 proposal $1,500 fixed, email sent Jul 2",
-    "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
+    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
+    "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 proposal $1,500 fixed, email sent Jul 2",
+    "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
     "chris-intro.arcs.care": "Chris intro brief"
   },
-  "open_adrs": ["ADR-026 (untracked — debrief calendar invite vs email)"],
+  "open_adrs": [
+    "ADR-026 (untracked \u2014 debrief calendar invite vs email)"
+  ],
   "nci_counter": 212,
-  "session_summary": "arcs-decision-receipts → arcs-v9 consolidation audit complete (2 commits: cf8b084 initial port, b7883fb bar-raiser corrections). Ported field-os specs, canonical call-brief template, fanatics/token subdomain routes. Corrected destinations: scripts→operators/, canon docs→_CANON/living/, memory shards ~/.claude/projects/→_MEMORY/ (git-tracked, cloud-visible). Handoff v3.6.0 appended to CLAUDE.md (40079fd).",
+  "session_summary": "arcs-decision-receipts \u2192 arcs-v9 consolidation audit complete (2 commits: cf8b084 initial port, b7883fb bar-raiser corrections). Ported field-os specs, canonical call-brief template, fanatics/token subdomain routes. Corrected destinations: scripts\u2192operators/, canon docs\u2192_CANON/living/, memory shards ~/.claude/projects/\u2192_MEMORY/ (git-tracked, cloud-visible). Handoff v3.6.0 appended to CLAUDE.md (40079fd).",
   "next_action": "Verify main worktree push state against origin. Then: julia.arcs.care drill feature (clarify interaction model + who are Jack/Jill/Boardy) OR governance backlog #3 (log consolidation, unblocks #6 DEWY commit stamp).",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
-    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
+    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
     "files": [
       "feedback_engagement_style.md",
       "project_arcs_book_ii_audit_protocol.md",
@@ -47,30 +63,89 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
-    "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
+    "_note": "This section added 2026-07-08 \u2014 previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "authoring_workflow": "copy public/templates/call-brief-template.html \u2192 fill {{PLACEHOLDERS}} \u2192 add beforeFiles rewrite to next.config.ts \u2192 commit on main (frosty-kepler-b69f51 worktree) \u2192 push \u2192 auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
-      { "file": "public/labella.html",       "subdomain": "labella.arcs.care",       "person": "Steve LaBella / Tallin" },
-      { "file": "public/julia.html",          "subdomain": "julia.arcs.care",         "person": "Julia Trabulski" },
-      { "file": "public/julia-ext.html",      "subdomain": "julia-ext.arcs.care",     "person": "Julia Trabulski (sanitized external)" },
-      { "file": "public/cj-brief.html",       "subdomain": "cj-brief.arcs.care",      "person": "CJ Masopust / Fanatics" },
-      { "file": "public/chase-intro.html",    "subdomain": "chase-intro.arcs.care",   "person": "Chase intro" },
-      { "file": "public/chris-intro.html",    "subdomain": "chris.arcs.care",         "person": "Chris Lamontagne (alias: chris-intro.arcs.care)" },
-      { "file": "public/kelly-interview.html","subdomain": "kelly-interview.arcs.care","person": "Kelly Mullaney / Juniper Square" },
-      { "file": "public/todd-call.html",      "subdomain": "todd-call.arcs.care",     "person": "Todd Hotes / PRL Resins" },
-      { "file": "public/peter.html",          "subdomain": "peter.arcs.care",         "person": "Peter" },
-      { "file": "public/vishal-combined.html","subdomain": "vishal.arcs.care",        "person": "Vishal" },
-      { "file": "public/growth-intel.html",   "subdomain": "growth-intel.arcs.care",  "person": "Growth Intel" },
-      { "file": "public/fanatics.html",       "subdomain": "fanatics.arcs.care",      "person": "CJ Masopust / Fanatics (fanatics go-bag)" },
-      { "file": "public/token.html",          "subdomain": "token.arcs.care",         "person": "Token" }
+      {
+        "file": "public/labella.html",
+        "subdomain": "labella.arcs.care",
+        "person": "Steve LaBella / Tallin"
+      },
+      {
+        "file": "public/julia.html",
+        "subdomain": "julia.arcs.care",
+        "person": "Julia Trabulski"
+      },
+      {
+        "file": "public/julia-ext.html",
+        "subdomain": "julia-ext.arcs.care",
+        "person": "Julia Trabulski (sanitized external)"
+      },
+      {
+        "file": "public/cj-brief.html",
+        "subdomain": "cj-brief.arcs.care",
+        "person": "CJ Masopust / Fanatics"
+      },
+      {
+        "file": "public/chase-intro.html",
+        "subdomain": "chase-intro.arcs.care",
+        "person": "Chase intro"
+      },
+      {
+        "file": "public/chris-intro.html",
+        "subdomain": "chris.arcs.care",
+        "person": "Chris Lamontagne (alias: chris-intro.arcs.care)"
+      },
+      {
+        "file": "public/kelly-interview.html",
+        "subdomain": "kelly-interview.arcs.care",
+        "person": "Kelly Mullaney / Juniper Square"
+      },
+      {
+        "file": "public/todd-call.html",
+        "subdomain": "todd-call.arcs.care",
+        "person": "Todd Hotes / PRL Resins"
+      },
+      {
+        "file": "public/peter.html",
+        "subdomain": "peter.arcs.care",
+        "person": "Peter"
+      },
+      {
+        "file": "public/vishal-combined.html",
+        "subdomain": "vishal.arcs.care",
+        "person": "Vishal"
+      },
+      {
+        "file": "public/growth-intel.html",
+        "subdomain": "growth-intel.arcs.care",
+        "person": "Growth Intel"
+      },
+      {
+        "file": "public/fanatics.html",
+        "subdomain": "fanatics.arcs.care",
+        "person": "CJ Masopust / Fanatics (fanatics go-bag)"
+      },
+      {
+        "file": "public/token.html",
+        "subdomain": "token.arcs.care",
+        "person": "Token"
+      }
     ],
     "ui_kit": {
       "location": "src/ui-kit/recoil-report/",
       "token_file": "src/ui-kit/recoil-report/_tokens.css",
       "atoms": "01-recoil-header.html through 13-90day-build.html (13 isolated components)",
       "reference_assembly": "src/ui-kit/recoil-report/index.html",
-      "instances": ["cj-masopust-recoil.html", "chris-lamontagne-recoil.html", "cj-brief.html", "cj-pre-meeting-brief.html", "chase-intro.html"]
+      "instances": [
+        "cj-masopust-recoil.html",
+        "chris-lamontagne-recoil.html",
+        "cj-brief.html",
+        "cj-pre-meeting-brief.html",
+        "chase-intro.html"
+      ]
     }
-  }
+  },
+  "git_refreshed_at": "2026-07-09T04:07:28Z"
 }
