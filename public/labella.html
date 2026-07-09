@@ -986,6 +986,140 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
     <!-- ═══════════════════════════════════════════════ EVIDIAM TEARDOWN -->
     <div id="tab-evidiam" class="tab-pane">
 
+      <div style="display:flex;justify-content:center;gap:8px;">
+        <button id="ev-btn-plain" onclick="switchEvidiamView('plain')" style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:7px 16px;border-radius:var(--r-sm);cursor:pointer;background:rgba(0,240,255,0.08);border:1px solid rgba(0,240,255,0.3);color:var(--cyan);">Plain English</button>
+        <button id="ev-btn-full" onclick="switchEvidiamView('full')" style="font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:7px 16px;border-radius:var(--r-sm);cursor:pointer;background:none;border:1px solid var(--border);color:var(--dimmed);">Full Instrument</button>
+      </div>
+
+      <!-- ─────────────── PLAIN ENGLISH VIEW ─────────────── -->
+      <div id="evidiam-plain" style="display:flex;flex-direction:column;gap:16px;">
+
+        <div class="recoil-header">
+          <div class="recoil-header-inner">
+            <div>
+              <div class="recoil-mark">WEBSITE TEARDOWN · PLAIN READ</div>
+              <div class="recoil-name">Evidiam — evidiam.com</div>
+              <div class="recoil-sub">What the site gets right, what's broken, and what it would take to fix — Jul 9, 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notice">
+          <div class="notice-icon">▲</div>
+          <div class="notice-text">Based on reading the five public pages from the outside — no product access. The "fake case study" read is an inference from how it's presented; worth confirming directly.</div>
+        </div>
+
+        <div class="lbq">
+          <div class="lbq-text">The website has a genuinely great core idea and explains its security unusually well — but it shows zero proof that any of it is real. No customers, no team, no names, and the only "example" on the site is a made-up case study dressed to look real. The good news: almost every serious problem can be fixed in hours, not months.</div>
+          <div class="lbq-attr">THE ONE-PARAGRAPH VERSION</div>
+        </div>
+
+        <div>
+          <div class="sl">What's genuinely strong</div>
+          <div class="card">
+            <div class="conf-rows">
+              <div class="conf-row">
+                <div class="conf-key" style="color:var(--green)">1</div>
+                <div class="conf-val"><strong>The core idea is sharp.</strong> "Your compliance evidence should belong to you, the fintech — not sit trapped in your bank's portal" is a real pain point nobody else solves. And the "we're neutral — banks can review the evidence without having to own or manage it" framing cleverly answers both sides' biggest objection at once.</div>
+              </div>
+              <div class="conf-row">
+                <div class="conf-key" style="color:var(--green)">2</div>
+                <div class="conf-val"><strong>The AI stance is disciplined.</strong> "AI prepares. A human decides. The line never blurs" — in a market full of companies claiming AI will do your compliance for you, this restraint is a genuine differentiator. It's also the best sentence on the site.</div>
+              </div>
+              <div class="conf-row">
+                <div class="conf-key" style="color:var(--green)">3</div>
+                <div class="conf-val"><strong>The security page is excellent.</strong> It explains in real technical detail how data is isolated and how records are made tamper-proof, and it's honest that the SOC 2 audit is still in progress. Most startups at this stage can't write this page. Don't touch it.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sl">The problems, in order of severity</div>
+          <div class="card">
+            <div class="risk-rows">
+              <div class="risk-row">
+                <div class="risk-sev"><div class="sev-badge sev-high">1 · HIGH</div></div>
+                <div class="risk-body">
+                  <div class="risk-label">A company selling "trustworthy evidence" has fake evidence on its homepage</div>
+                  <div class="risk-desc">The "Northwind Financial" case study shows precise-looking numbers (98.6% of alerts cleared) and a chain of sign-offs by named officers with exact timestamps — all invented, with no label saying so. For any other product that's a mockup. For this one, it's a company whose whole pitch is "records don't lie" demonstrating how to fabricate one. One skeptical bank compliance officer screenshots that and the story writes itself.</div>
+                  <div class="risk-action">One line: label it "illustrative sample." Better: replace it with a real (redacted) example the moment one exists. Costs an afternoon.</div>
+                </div>
+              </div>
+              <div class="risk-row">
+                <div class="risk-sev"><div class="sev-badge sev-high">2 · HIGH</div></div>
+                <div class="risk-body">
+                  <div class="risk-label">You never get to see the product's actual output</div>
+                  <div class="risk-desc">The whole pitch is "own the record" — and there is no record visible anywhere on the site. The only thing you can do is "Request access," which is a big ask when you've been shown nothing. The product's deliverable is literally a document, so the demo is free.</div>
+                  <div class="risk-action">Let people download a watermarked sample report, and let them run the tamper-check on it themselves. That's the demo, the proof, and an easier first step for hesitant buyers, all in one.</div>
+                </div>
+              </div>
+              <div class="risk-row">
+                <div class="risk-sev"><div class="sev-badge sev-high">3 · HIGH</div></div>
+                <div class="risk-body">
+                  <div class="risk-label">There are no humans anywhere</div>
+                  <div class="risk-desc">No team page, no founder names, no customer logos — just an email address (which, small detail, is @evidiam.io while the site is evidiam.com — exactly the kind of inconsistency a compliance reviewer notices). Banks buy from people with track records before they buy software. Three fintech exits is the single most persuasive thing this site could say, and it's hidden. Caveat: if the anonymity is deliberate — keeping this venture quiet for now — that's a fair choice, but it should be a choice, not an oversight.</div>
+                  <div class="risk-action">A founders section with real bios — or at minimum "built by three-time fintech founders" — and fix the .io/.com mismatch either direction.</div>
+                </div>
+              </div>
+              <div class="risk-row">
+                <div class="risk-sev"><div class="sev-badge sev-med">4 · MED</div></div>
+                <div class="risk-body">
+                  <div class="risk-label">The site can't decide who it's selling to first</div>
+                  <div class="risk-desc">It offers "two entry points" — one for fintechs, one for banks — which usually means the company hasn't picked. The two paths behave very differently: getting one bank on board automatically brings many fintechs (the bank invites its clients), while fintechs can start alone (build the record before any bank asks for it). There's a sensible answer available — fintechs are the product's users, banks are the distribution channel — but someone has to actually decide, based on where inbound interest is really coming from.</div>
+                  <div class="risk-action">This is the deepest question in the whole teardown — and it's a strategy decision, not a website edit.</div>
+                </div>
+              </div>
+              <div class="risk-row">
+                <div class="risk-sev"><div class="sev-badge sev-med">5 · MED</div></div>
+                <div class="risk-body">
+                  <div class="risk-label">The urgency is real but never stated</div>
+                  <div class="risk-desc">Right now, regulators are cracking down hard on exactly this corner of fintech — banks that sponsor fintechs are under enforcement pressure and pushing the paperwork burden onto their fintech clients. That's the strongest possible "why buy now" argument, it's doing Evidiam's marketing for free, and the site never mentions it.</div>
+                  <div class="risk-action">One section, written for founders: what the enforcement climate means for a fintech's next 12 months, and why the record has to exist before the request arrives. Windows like this close when bigger competitors notice.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="sl">A few deeper observations</div>
+          <div class="card">
+            <div class="intel-rows">
+              <div class="intel-row">
+                <div class="intel-dot" style="background:var(--gold)"></div>
+                <div class="intel-text"><strong>The awkward tension nobody's naming.</strong> The pitch to fintechs is "your record is portable — you keep it even when you switch banks." Which means the site is quietly telling each bank: <em>this tool is built so your clients can leave you.</em> A bank's lawyer will spot that in one read. Manageable — but it needs to be addressed head-on rather than left implicit.</div>
+              </div>
+              <div class="intel-row">
+                <div class="intel-dot" style="background:var(--red)"></div>
+                <div class="intel-text"><strong>The missing certification is a gate, not a to-do item.</strong> Banks are required to vet their critical vendors, so until Evidiam's own SOC 2 audit is done, selling to banks is mostly blocked — while selling to fintechs isn't. That fact alone should decide the order of the go-to-market plan.</div>
+              </div>
+              <div class="intel-row">
+                <div class="intel-dot" style="background:var(--cyan)"></div>
+                <div class="intel-text"><strong>The strongest story is untold.</strong> Some sponsor banks are exiting this business entirely right now. A fintech whose bank walks away, but whose compliance record survives intact and travels with them to the next bank — that's the most compelling scenario for this product, and it appears nowhere on the site.</div>
+              </div>
+              <div class="intel-row">
+                <div class="intel-dot" style="background:var(--green)"></div>
+                <div class="intel-text"><strong>Name the thing.</strong> The site calls its output a "packet," "record," "artifact," and "profile" interchangeably. The strongest companies in this mold win by owning a noun — the way Carta owns "the cap table." Pick one name and use it relentlessly.</div>
+              </div>
+              <div class="intel-row">
+                <div class="intel-dot" style="background:var(--red)"></div>
+                <div class="intel-text"><strong>What could kill it.</strong> A bank building its own mandatory portal, a big compliance-software incumbent adding this as a feature, or — more likely than either — this venture simply starving for attention while three companies run at once. Worth defining upfront: what evidence, by what date, keeps this venture alive?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lbq">
+          <div class="lbq-text">The thinking behind the product is sound — the principles are right, the architecture is right, the market timing is right. The website just doesn't practice what the product preaches: it asks for trust while showing a fabricated example, no proof, and no people. Label the sample, show one real report, put names on the site, and make the fintech-vs-bank-first decision deliberately instead of hedging it. Nearly all of that costs hours — and each hour removes a way to die.</div>
+          <div class="lbq-attr">THE BOTTOM LINE</div>
+        </div>
+
+      </div>
+
+      <!-- ─────────────── FULL INSTRUMENT VIEW ─────────────── -->
+      <div id="evidiam-full" style="display:none;flex-direction:column;gap:16px;">
+
       <div class="recoil-header">
         <div class="recoil-header-inner">
           <div>
@@ -1351,11 +1485,25 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
         </div>
       </div>
 
+      </div><!-- /evidiam-full -->
+
     </div>
   </div>
 
 </div>
 <script>
+function switchEvidiamView(v) {
+  var plain = document.getElementById('evidiam-plain');
+  var full = document.getElementById('evidiam-full');
+  var bp = document.getElementById('ev-btn-plain');
+  var bf = document.getElementById('ev-btn-full');
+  var on = { background: 'rgba(0,240,255,0.08)', borderColor: 'rgba(0,240,255,0.3)', color: 'var(--cyan)' };
+  var off = { background: 'none', borderColor: 'var(--border)', color: 'var(--dimmed)' };
+  plain.style.display = (v === 'plain') ? 'flex' : 'none';
+  full.style.display = (v === 'full') ? 'flex' : 'none';
+  Object.assign(bp.style, v === 'plain' ? on : off);
+  Object.assign(bf.style, v === 'full' ? on : off);
+}
 function switchTab(id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
