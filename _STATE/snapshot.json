@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-02T20:40:58Z",
+  "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "1ea5e8a",
-    "head_message": "fix(routing): todd-call.arcs.care → proposal page [NCI:182]",
+    "head_sha": "40079fd",
+    "head_message": "docs(handoff): append Handoff v3.6.0 — consolidation audit summary [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": [
       "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
@@ -31,9 +31,9 @@
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": ["ADR-026 (untracked — debrief calendar invite vs email)"],
-  "nci_counter": 191,
-  "session_summary": "Built and refined kelly-interview.arcs.care; fixed next.config.ts host routing; added read times, bullet scan copy, mental model row, dropped 5 unsubstantiated claims; deployed. Sent follow-up email to Kelly. Todd brief verified live.",
-  "next_action": "Monitor Kelly response (follow Wed Jul 8 if silent). Monitor Todd response re Phase 1. Resume Compass Kit Phase 2 ADR when pipeline work resumes.",
+  "nci_counter": 212,
+  "session_summary": "arcs-decision-receipts → arcs-v9 consolidation audit complete (2 commits: cf8b084 initial port, b7883fb bar-raiser corrections). Ported field-os specs, canonical call-brief template, fanatics/token subdomain routes. Corrected destinations: scripts→operators/, canon docs→_CANON/living/, memory shards ~/.claude/projects/→_MEMORY/ (git-tracked, cloud-visible). Handoff v3.6.0 appended to CLAUDE.md (40079fd).",
+  "next_action": "Verify main worktree push state against origin. Then: julia.arcs.care drill feature (clarify interaction model + who are Jack/Jill/Boardy) OR governance backlog #3 (log consolidation, unblocks #6 DEWY commit stamp).",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
