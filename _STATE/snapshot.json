@@ -2,14 +2,10 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "340663a",
-    "head_message": "chore(sync): refresh _STATE/snapshot.json [NCI:SKIP]",
+    "head_sha": "3e893e7",
+    "head_message": "feat(daniel): Crabtree recoil report + fractional.city teardown at daniel.arcs.care [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      ".claude/hooks/session-start.sh",
-      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md",
-      "test_prisma_direct.js"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -147,5 +143,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-09T04:07:28Z"
+  "git_refreshed_at": "2026-07-10T16:29:43Z"
 }
