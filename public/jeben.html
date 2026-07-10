@@ -85,19 +85,31 @@
   .waveform{width:100%;display:block;overflow:visible}
   .wf-label{font-family:var(--mono);font-size:7px;letter-spacing:.1em;fill:var(--faint)}
   .wf-spike:hover .wf-label,.wf-spike:focus .wf-label{fill:var(--text)}
-  @keyframes wf-pulse-cyan {0%,100%{filter:drop-shadow(0 0 0px #00F0FF)}50%{filter:drop-shadow(0 0 5px #00F0FF)}}
-  @keyframes wf-pulse-gold {0%,100%{filter:drop-shadow(0 0 0px #FFD700)}50%{filter:drop-shadow(0 0 5px #FFD700)}}
-  @keyframes wf-pulse-green{0%,100%{filter:drop-shadow(0 0 0px #00FF9D)}50%{filter:drop-shadow(0 0 5px #00FF9D)}}
-  @keyframes wf-pulse-red  {0%,100%{filter:drop-shadow(0 0 0px #FF4D6D)}50%{filter:drop-shadow(0 0 5px #FF4D6D)}}
-  @keyframes wf-pulse-steel{0%,100%{filter:drop-shadow(0 0 0px #94a3b8)}50%{filter:drop-shadow(0 0 4px #94a3b8)}}
-  #wf-1 circle{animation:wf-pulse-cyan 2.1s ease-in-out infinite}
-  #wf-2 circle{animation:wf-pulse-steel 2.6s ease-in-out infinite}
-  #wf-3 circle{animation:wf-pulse-green 1.9s ease-in-out infinite}
-  #wf-4 circle{animation:wf-pulse-cyan 2.3s ease-in-out infinite}
-  #wf-5 circle{animation:wf-pulse-gold 2.5s ease-in-out infinite}
-  #wf-6 circle{animation:wf-pulse-steel 2.8s ease-in-out infinite}
-  #wf-7 circle{animation:wf-pulse-red 2s ease-in-out infinite}
-  @media (prefers-reduced-motion: reduce){.waveform circle{animation:none !important}}
+  /* LED pulse — two layers so it renders everywhere:
+     (a) halo circle animated on opacity+scale (Safari-safe: transform-box)
+     (b) LED brightness pulse via opacity
+     filter:drop-shadow is NOT used — iOS Safari won't animate it on SVG children. */
+  .wf-halo{transform-box:fill-box;transform-origin:center;animation:wf-halo 2.2s ease-in-out infinite}
+  @keyframes wf-halo{0%,100%{opacity:0;transform:scale(.45)}50%{opacity:.4;transform:scale(1.25)}}
+  .wf-led{animation:wf-led 2.2s ease-in-out infinite}
+  @keyframes wf-led{0%,100%{opacity:.72}50%{opacity:1}}
+  #wf-1 .wf-halo,#wf-1 .wf-led{animation-duration:2.1s}
+  #wf-2 .wf-halo,#wf-2 .wf-led{animation-duration:2.6s}
+  #wf-3 .wf-halo,#wf-3 .wf-led{animation-duration:1.9s}
+  #wf-4 .wf-halo,#wf-4 .wf-led{animation-duration:2.3s}
+  #wf-5 .wf-halo,#wf-5 .wf-led{animation-duration:2.5s}
+  #wf-6 .wf-halo,#wf-6 .wf-led{animation-duration:2.8s}
+  #wf-7 .wf-halo,#wf-7 .wf-led{animation-duration:2s}
+  /* record dots pulse too — fanatics .beat-led pattern (box-shadow on HTML, Safari-solid) */
+  .tl li{--nc:#64748b}
+  .tl li.peak{--nc:#00F0FF}
+  #tl-3{--nc:#00FF9D} #tl-3::before{border-color:#00FF9D}
+  #tl-5{--nc:#FFD700} #tl-5::before{border-color:#FFD700}
+  #tl-7{--nc:#FF4D6D} #tl-7::before{border-color:#FF4D6D}
+  .tl li::before{animation:tl-led 2.4s ease-in-out infinite}
+  .tl li:nth-child(2n)::before{animation-duration:2.8s}
+  .tl li:nth-child(3n)::before{animation-duration:2.1s}
+  @keyframes tl-led{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 7px 2px var(--nc)}}
   @media (max-width:520px){.wf-label{display:none}.waveform{height:52px !important}}
   .tl h3{margin:3px 0 5px}
   .tl p{font-size:15.5px; color:var(--muted); margin:0}
@@ -245,38 +257,45 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
       <line x1="0" y1="44" x2="560" y2="44" stroke="#1e293b" stroke-width="1"/>
       <a href="#tl-1"><g class="wf-spike" id="wf-1" style="cursor:pointer">
         <line x1="40" y1="44" x2="40" y2="14" stroke="#00F0FF" stroke-width="2"/>
-        <circle cx="40" cy="14" r="3" fill="#00F0FF"/>
+        <circle class="wf-halo" cx="40" cy="14" r="7" fill="#00F0FF" opacity="0"/>
+        <circle class="wf-led" cx="40" cy="14" r="3" fill="#00F0FF"/>
         <text x="40" y="57" text-anchor="middle" class="wf-label">MAR 5 DISCOVERY</text>
       </g></a>
       <a href="#tl-2"><g class="wf-spike" id="wf-2" style="cursor:pointer">
         <line x1="120" y1="44" x2="120" y2="34" stroke="#94a3b8" stroke-width="2"/>
-        <circle cx="120" cy="34" r="2.5" fill="#94a3b8"/>
+        <circle class="wf-halo" cx="120" cy="34" r="7" fill="#94a3b8" opacity="0"/>
+        <circle class="wf-led" cx="120" cy="34" r="2.5" fill="#94a3b8"/>
         <text x="120" y="57" text-anchor="middle" class="wf-label">MAR 17 REGION</text>
       </g></a>
       <a href="#tl-3"><g class="wf-spike" id="wf-3" style="cursor:pointer">
         <line x1="200" y1="44" x2="200" y2="24" stroke="#00FF9D" stroke-width="2"/>
-        <circle cx="200" cy="24" r="3" fill="#00FF9D"/>
+        <circle class="wf-halo" cx="200" cy="24" r="7" fill="#00FF9D" opacity="0"/>
+        <circle class="wf-led" cx="200" cy="24" r="3" fill="#00FF9D"/>
         <text x="200" y="57" text-anchor="middle" class="wf-label">MAR 24 DEMO</text>
       </g></a>
       <a href="#tl-4"><g class="wf-spike" id="wf-4" style="cursor:pointer">
         <line x1="280" y1="44" x2="280" y2="5" stroke="#00F0FF" stroke-width="2"/>
-        <circle cx="280" cy="5" r="3.5" fill="#00F0FF"/>
+        <circle class="wf-halo" cx="280" cy="5" r="7" fill="#00F0FF" opacity="0"/>
+        <circle class="wf-led" cx="280" cy="5" r="3.5" fill="#00F0FF"/>
         <line x1="258" y1="44" x2="302" y2="44" stroke="#00F0FF" stroke-width="1" opacity="0.2"/>
         <text x="280" y="57" text-anchor="middle" class="wf-label">MAR 31 ECONOMICS</text>
       </g></a>
       <a href="#tl-5"><g class="wf-spike" id="wf-5" style="cursor:pointer">
         <line x1="360" y1="44" x2="360" y2="22" stroke="#FFD700" stroke-width="2"/>
-        <circle cx="360" cy="22" r="3" fill="#FFD700"/>
+        <circle class="wf-halo" cx="360" cy="22" r="7" fill="#FFD700" opacity="0"/>
+        <circle class="wf-led" cx="360" cy="22" r="3" fill="#FFD700"/>
         <text x="360" y="57" text-anchor="middle" class="wf-label">APR 2 DECK</text>
       </g></a>
       <a href="#tl-6"><g class="wf-spike" id="wf-6" style="cursor:pointer">
         <line x1="440" y1="44" x2="440" y2="36" stroke="#94a3b8" stroke-width="2"/>
-        <circle cx="440" cy="36" r="2.5" fill="#94a3b8"/>
+        <circle class="wf-halo" cx="440" cy="36" r="7" fill="#94a3b8" opacity="0"/>
+        <circle class="wf-led" cx="440" cy="36" r="2.5" fill="#94a3b8"/>
         <text x="440" y="57" text-anchor="middle" class="wf-label">APR 21 PAUSE</text>
       </g></a>
       <a href="#tl-7"><g class="wf-spike" id="wf-7" style="cursor:pointer">
         <line x1="520" y1="44" x2="520" y2="30" stroke="#FF4D6D" stroke-width="2"/>
-        <circle cx="520" cy="30" r="2.5" fill="#FF4D6D"/>
+        <circle class="wf-halo" cx="520" cy="30" r="7" fill="#FF4D6D" opacity="0"/>
+        <circle class="wf-led" cx="520" cy="30" r="2.5" fill="#FF4D6D"/>
         <text x="520" y="57" text-anchor="middle" class="wf-label">MAY 20 STATUS</text>
       </g></a>
       <ellipse cx="280" cy="44" rx="24" ry="4" fill="#00F0FF" opacity="0.04"/>
