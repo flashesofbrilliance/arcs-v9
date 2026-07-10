@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow"/>
-<title>Fractional.city — Teardown & Collaboration Atlas</title>
+<title>Fractional × ARCS — a teardown and a map</title>
 <style>
   :root{
     --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
@@ -57,30 +57,28 @@
   .band{border:1px solid var(--border);border-radius:6px;margin-bottom:16px;overflow:hidden}
   .bandhead{padding:12px 18px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
   .bandbody{padding:16px 18px}
-  .ledger{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em}
   .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
   a{color:var(--cyan)}
-
-/* PASSWORD GATE */
-#pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
-#pw-gate.hidden{display:none}
-.pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
-.pw-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em}
-.pw-form{display:flex;gap:10px;align-items:center}
-.pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:14px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
-.pw-input:focus{border-color:var(--cyan)}
-.pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
-.pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
-.pw-btn:hover{background:rgba(0,240,255,.14)}
-.pw-hint{font-family:var(--mono);font-size:10px;color:var(--dim)}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  /* PASSWORD GATE */
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+  #pw-gate.hidden{display:none}
+  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+  .pw-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+  .pw-form{display:flex;gap:10px;align-items:center}
+  .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:14px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
+  .pw-input:focus{border-color:var(--cyan)}
+  .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
+  .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
+  .pw-btn:hover{background:rgba(0,240,255,.14)}
+  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style>
 </head>
 <body>
 
 <div id="pw-gate">
-  <div class="pw-mark">ARCS · PRIVATE BRIEF</div>
-  <div class="pw-title">Daniel Crabtree / Fractional</div>
+  <div class="pw-mark">ARCS · PREPARED FOR DANIEL CRABTREE</div>
+  <div class="pw-title">Fractional × ARCS</div>
   <div class="pw-form">
     <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
     <button class="pw-btn" onclick="checkPw()">ENTER</button>
@@ -108,187 +106,111 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 });
 </script>
 
-
 <div class="wrap">
 
 <header>
-  <div class="eyebrow">ARCS · Website Teardown × Collaboration Atlas · Private — Zach internal</div>
-  <h1>Fractional.city: the site he has, the machine he described, and the seam where ARCS fits</h1>
-  <p class="sub">Daniel Crabtree spent fifty minutes describing a genuinely differentiated GTM truth-finding machine. His website describes almost none of it — and is structurally invisible to the two channels (Google, AI search) his buyers now use to verify him. This document is four things: the full dual-pass recoil report on the call itself, an evidence-grade teardown, the hyperstition of the site Fractional should already have, and the collaboration map across the clients he has, had, and could have.</p>
-  <div class="meta">SOURCE: JUL 9 2026 CALL (GRANOLA) + FRACTIONAL.CITY BUNDLE main.782bf072.js (FETCHED JUL 10) · LENS: 5W×5H · L0→L5 · Y: GREEN/HIGH/STABLE</div>
+  <div class="eyebrow">ARCS × Fractional · Prepared for Daniel Crabtree · Jul 2026</div>
+  <h1>Daniel — I pulled fractional.city apart the way you pull a market apart. Here's what the evidence says.</h1>
+  <p class="sub">You said on our call that it's "less about whether the website can be better, more about the business idea" — agreed. So this isn't website feedback. It's the move you run for your clients: touch the surface, collect the signal, report what the market actually sees. Three parts: what your site says today, the site the machine you described deserves, and a concrete map of where our two systems interlock. Plus one security item up top that's worth fixing this week regardless of everything else.</p>
+  <div class="meta">METHOD: FULL COPY INVENTORY EXTRACTED FROM YOUR PRODUCTION BUNDLE (main.782bf072.js) · JUL 10 2026 · PLUS OUR JUL 9 CONVERSATION</div>
 </header>
 
 <section>
-  <div class="sechead"><span class="idx">00</span><div><div class="seclabel">Recoil Report · Reverse Listening + Deep Recall · 7 segments</div><h2>The call itself — full dual-pass read</h2></div></div>
-
-  <div class="card stripe green"><div class="cardtop"><h3>Cover — Daniel Crabtree, Founder, Fractional</h3><span class="tag green">Y: GREEN · HIGH · STABLE</span></div>
-  <p>Jul 9 2026 · 2:00 PM EDT · ~50 min · Boardy intro · segment cadence <code>max(3, round(sqrt(50))) = 7</code>. No PrepSession captured; Deep Recall scored against the intro context ("didn't quite get the full angular agenda from Boardy"). Verdict: peer-mind match confirmed. Fractional generates market truth; its clients then make terrible decisions with it — his words. ARCS is the missing decision layer on his evidence layer. One committed artifact, and it's Zach's: the work-samples email.</p></div>
-
-  <div class="quote">"I played a lot of fantasy football… I do something similar with ChatGPT where I'll make a decision and then I'll look to find all the factors that went into that decision. And why did I do that… that same intellectual rigor. It sounds like you have the framework to apply that to business decisions. I think that's spectacular."<span class="attr">Load-bearing quote · Daniel Crabtree · closing third — he already runs decision receipts by hand; ARCS productizes his existing behavior. Revealed demand, not politeness.</span></div>
-
-  <h3 style="margin:18px 0 10px">Call walk — chronological signal map (peaks flagged)</h3>
-  <div class="card stripe"><div class="cardtop"><h3>SEG 1 · 0–18 min — Long rapport arc: frontier genome exchange</h3><span class="tag">D1 high</span></div>
-  <p>Nearly a third of the call: Alaska birth, Oregon Trail ancestry, dad building oil-and-gas supply in post-USSR Russia, 20 months in Costa Rica/Tulum with three kids, Sacramento reinvention as rugby/soccer coach. Reverse pass: not wasted time — the close ("I sensed the same style of thinking") was seeded here.</p></div>
-  <div class="card stripe"><div class="cardtop"><h3>SEG 2 · 18–24 min — Fractional origin: sales escape via venture studio</h3><span class="tag">W-field</span></div>
-  <p>Venture studio hired him to find first customers for a contractor-payroll company on a small budget; extrapolated the method into Fractional and left sales. Anchor client: Up.Labs (Porsche, JB Hunt, Walton family, US airlines). Flat monthly fee only — wants equity/commission upside, doesn't have it yet. He is pre-productization, bootstrapped, revenue-constrained.</p></div>
-  <div class="card stripe cyan"><div class="cardtop"><h3>SEG 3 · 24–30 min — "You got it. I can leave the chat."</h3><span class="tag cyan">PEAK · D3 max</span></div>
-  <p>Zach mirrored the whole Fractional loop back (sourcing → SDR focus-path → learning loop → refined ICP → double-down) in one pass and Daniel handed over the wheel — the highest positive jerk in the call, instant coherence lock. Method detail: no intent data, no Clay; heavily-trained ChatGPT as inference engine; FreighTech case — touched 50% of the market, learned buyers recoil from "AI," rewrote messaging without it. "Design thinking for sales."</p></div>
-  <div class="card stripe gold"><div class="cardtop"><h3>SEG 4 · 30–38 min — ARCS monologue: long, but it landed</h3><span class="tag gold">Verbosity flag ×3</span></div>
-  <p>Several unbroken minutes of decision-receipts pitch — third consecutive call the verbosity pattern appears. Survivable here because Daniel is a high-context listener. His response is the pivot sentence: "I think there's a lot of synergy in the way that we think."</p></div>
-  <div class="card stripe cyan"><div class="cardtop"><h3>SEG 5 · 38–42 min — The confession: "they make terrible decisions"</h3><span class="tag cyan">PEAK · L4 echo</span></div>
-  <p>Unprompted: "Most of the people that we worked with have not been good. They make honestly terrible decisions. Mostly because it's their product… or they have promises to investors." Revealed product-market fit for ARCS: Fractional's output is validated market truth; the failure mode is what clients do with it. Zach named the biases (sunk-cost, hindsight, confirmation); Daniel: "Yeah exactly."</p></div>
-  <div class="card stripe cyan"><div class="cardtop"><h3>SEG 6 · 42–47 min — Pod economy ↔ org-design receipts convergence</h3><span class="tag cyan">PEAK · orthogonal echo</span></div>
-  <p>His internal ambition: contractor pods matched via assessments, a task-oriented internal economy, all interaction data captured "at that atomic level" — blocked only by bootstrap capital ("if I had the money, I could just create the product"). Zach revealed the unlaunched ARCS org-design solution (zone-of-genius matching + receipt-calibrated confidence weighting). Two independently derived designs of the same machine. Aside surfaced: his prior blockchain "dynamic offer box" incentive system.</p></div>
-  <div class="card stripe"><div class="cardtop"><h3>SEG 7 · 47–50 min — Reverse-pass close: warm, unscheduled, deliverable on Zach</h3><span class="tag red">Divergence</span></div>
-  <p>The actual close: "Send me what you've done. Let's stay in touch and see where it goes in the next couple months." Triggers named: an Up.Labs joint project ("I could see us working on an Up.Labs project together… they are the chief not-good decision maker"), the 2025 restructuring/PE track ("I could go back to that track — that might be a good play"), and a new client close expected end of August. Read backward: Zach was engaged as a peer mind, not a vendor — and the only committed artifact is Zach's email. Nothing on calendar. That is the divergence the forward listen misses: the call felt like collaboration forming; it landed as unrealized potential energy with a single dependency, on Zach.</p></div>
-
-  <h3 style="margin:22px 0 10px">Four-thread signal read</h3>
-  <div class="grid2">
-    <div class="card stripe cyan"><div class="cardtop"><h3>WHO · L0→L1</h3><span class="tag cyan">Peer mind</span></div><p>Self-selected — he read Zach's articles before the intro: "same style of thinking… I haven't found as many like minds." Stated and revealed identity fully aligned. Relationship asset first, pipeline second.</p></div>
-    <div class="card stripe green"><div class="cardtop"><h3>WHAT · L2</h3><span class="tag green">Complementary</span></div><p>Fractional: evidence generation (first-customer truth, pods, A/B ICP tests, signal reports). ARCS: decision integrity (receipts, briefs, drift, bias correction). Zero overlap; the seam is exactly where his clients fail. Joint line: "Fractional finds the truth. ARCS makes sure you act on it."</p></div>
-    <div class="card stripe gold"><div class="cardtop"><h3>WHEN + WHERE · L3</h3><span class="tag gold">Window: ~Aug 31</span></div><p>Kairos is 6–10 weeks out, primed now by the samples email. Venue one: Up.Labs. Venue two: revived PE-restructuring track. Don't force scope before his close — his capital constraint is real.</p></div>
-    <div class="card stripe red"><div class="cardtop"><h3>WHY + HOW · L4→L5</h3><span class="tag red">Watch: verbosity</span></div><p>He already does ARCS by hand — that's the demand signal. Globally coherent at L5: same philosophy (test theses, kill losers fast, atomic data), adjacent machines, complementary networks. Mechanical fix stands: lead with the point.</p></div>
-  </div>
-
-  <h3 style="margin:22px 0 10px">Three paths forward</h3>
-  <div class="tablewrap"><table>
-    <tr><th>Scenario</th><th>Shape</th><th>Watch / trigger</th></tr>
-    <tr><td>BEST</td><td>Up.Labs co-engagement by September: decision-integrity layer (QBR receipt orchestration across Porsche/Walton/JB Hunt stakeholders) riding his retainer. Marquee studio case study for ARCS; differentiated upsell for Fractional.</td><td>His August close. Prime with one Up.Labs-shaped artifact, not a deck.</td></tr>
-    <tr><td>BASE</td><td>Peer alliance, slow burn — referrals both ways, collaboration materializes Q4 via the PE track or an ARCS client needing validation. Relationship compounds; no revenue yet.</td><td>Acceptable — decade-scale like-mind by his own framing.</td></tr>
-    <tr><td>WORST</td><td>The samples email gets a warm reply and drifts: deliverable was on Zach, no calendar anchor, bootstrapped founders deprioritize everything that isn't closing. The seam gets filled by a Clay-ecosystem "decision ops" bolt-on.</td><td>Insurance: end the email with a specific date proposal tied to his close.</td></tr>
-  </table></div>
-
-  <h3 style="margin:22px 0 10px">Risk flags</h3>
-  <ul>
-    <li><strong>Deliverable inversion (warning):</strong> the only committed action item is Zach's. Ship within 48h of the call — warm-intro momentum decays fast.</li>
-    <li><strong>Verbosity, third consecutive call (caution):</strong> Daniel absorbed it; colder counterparts won't. Lead with the point, then offer depth.</li>
-    <li><strong>His capital constraint mirrors LaBella's (caution):</strong> "if I had the money," twice. Collaboration must be revenue-generative for him (co-sell into his client), never a cost line.</li>
-    <li><strong>Site undermines him at the co-sell seam (info):</strong> see the teardown below — relaying it is a high-trust gift and the natural next touch.</li>
-    <li><strong>Cleanest forward triggers of the cycle (success):</strong> Up.Labs floated by him, PE track self-nominated, end-of-August dated unprompted.</li>
-  </ul>
+  <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the favor</div><h2>One security fix before anything else</h2></div></div>
+  <div class="card stripe red"><div class="cardtop"><h3>Your signup flow writes email + password directly to Firestore</h3><span class="tag red">Fix this week</span></div>
+  <p>The login page's signup path stores <code>{email, password, createdAt}</code> as a plain Firestore document instead of going through Firebase Auth's credential handling. If that collection's security rules are permissive — the default failure mode with this pattern — the credentials in it are readable from the client. Ten-minute check, small fix: route signups through Firebase Auth's <code>createUserWithEmailAndPassword</code> and never persist the raw password. Happy to look at it with you if useful. Everything below matters less than this.</p></div>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence · L0</div><h2>What is actually on fractional.city — full inventory</h2></div></div>
-  <p>The site is a client-side React app; every word below was extracted directly from its JavaScript bundle. This is the complete copy inventory — there is no hidden depth.</p>
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What fractional.city says today — the complete inventory</h2></div></div>
+  <p>Your site is a client-side React app, so I extracted every word from the JavaScript bundle directly. This is the whole surface — there's no hidden depth a visitor eventually finds.</p>
   <div class="tablewrap"><table>
     <tr><th>Surface</th><th>Verbatim content</th></tr>
     <tr><td>Hero</td><td>"FRACTIONAL — Go-to-Market Engine" · "Fractional licenses the systems, playbooks, and signal loops that turn early-stage ideas into structured market feedback"</td></tr>
     <tr><td>Logos</td><td>Porsche · JB Hunt · Up.Labs · Nobody Studios · Platform Venture Studio (unlinked, no stories)</td></tr>
-    <tr><td>Who's it for</td><td>Venture Studios ("license playbooks… for every portfolio company") · Innovation Teams ("structured market feedback on internal prototypes… before investing in scale") · Founders ("hire the GTM engine directly to generate buyer conversations, validate offers, and close deals")</td></tr>
+    <tr><td>Who's it for</td><td>Venture Studios · Innovation Teams · Founders — three clean cards, right segmentation</td></tr>
     <tr><td>Differentiator</td><td>"Our proprietary GTM machine moves fast, scales efficiently, and wins early. We find truth in the marketplace faster than anyone else."</td></tr>
-    <tr><td>Deliverables</td><td>ICP + positioning tools · Cold outreach playbooks · Airtable + Notion dashboards · Monthly buyer signal reports · "You don't need to figure it out from scratch."</td></tr>
-    <tr><td>About</td><td>"Fractional is a go-to-market intelligence engine for venture studios and innovation teams… Our model is not a services agency, it's infrastructure."</td></tr>
-    <tr><td>CTAs</td><td>BOOK STRATEGY CALL (Acuity) · Email Us · LinkedIn · Login (Firebase email/password)</td></tr>
+    <tr><td>Deliverables</td><td>ICP + positioning tools · Cold outreach playbooks · Airtable + Notion dashboards · Monthly buyer signal reports</td></tr>
+    <tr><td>About</td><td>"…go-to-market intelligence engine… Our model is not a services agency, it's infrastructure."</td></tr>
+    <tr><td>CTAs</td><td>BOOK STRATEGY CALL (Acuity) · Email Us · LinkedIn · Login</td></tr>
   </table></div>
-  <p style="margin-top:14px">The raw material is good — "we find truth in the marketplace faster than anyone else" is a real positioning line, and "infrastructure, not agency" is the right frame. The problem is everything the site <em>doesn't</em> do with it.</p>
+  <p style="margin-top:14px">The raw material is genuinely good. "We find truth in the marketplace faster than anyone else" is a real positioning line, and "infrastructure, not agency" is the right frame. The gaps below are all about what the site doesn't yet do with what you already have.</p>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis · L1–L2</div><h2>Seven gaps, ranked by what they cost him</h2></div></div>
+  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Six gaps, ranked by what they cost you</h2></div></div>
 
-  <div class="card stripe red"><div class="cardtop"><h3>1 · The site is invisible to search and AI — for a company that sells demand generation</h3><span class="tag red">Structural</span></div>
-  <p>100% client-side-rendered React. The HTML served to crawlers contains only "You need to enable JavaScript to run this app." The meta description is still the create-react-app default: <code>Web site created using create-react-app</code>. Title tag: just "Fractional." Zero structured data, zero OG tags. Every studio partner, LP, or founder who Googles him — or asks ChatGPT/Perplexity "who is Fractional.city" — gets nothing. A GTM engine whose own site generates no inbound signal is a walking counter-testimonial. This is the highest-leverage fix on the list and it's a weekend of work (prerender, or migrate to Next/Astro).</p></div>
+  <div class="card stripe red"><div class="cardtop"><h3>1 · The site is invisible to Google and AI search — and you sell demand generation</h3><span class="tag red">Structural</span></div>
+  <p>Because it's 100% client-side-rendered, the HTML a crawler receives says only "You need to enable JavaScript to run this app." The meta description is still the create-react-app default: <code>Web site created using create-react-app</code>. Title tag: just "Fractional." No structured data, no OG tags. Every studio partner or LP who Googles you — or asks ChatGPT or Perplexity "who is Fractional.city" — gets nothing back. For most companies that's a marketing problem; for a GTM engine it reads as a counter-testimonial. It's also the highest-leverage fix on this list and roughly a weekend of work (prerender the public shell, or move it to Next/Astro — the app behind login stays exactly as it is).</p></div>
 
-  <div class="card stripe red"><div class="cardtop"><h3>2 · Signup writes email + password directly to Firestore</h3><span class="tag red">Security</span></div>
-  <p>The bundle's login/signup path stores <code>{email, password, createdAt}</code> as a Firestore document rather than using Firebase Auth's credential handling. If that collection's rules are permissive (common with this pattern), client credentials are readable. Relay this privately — it's a genuine favor, and favors compound trust.</p></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>2 · No proof, despite having spectacular proof</h3><span class="tag gold">Credibility</span></div>
+  <p>On our call you casually told me a case study most agencies would kill for: you touched 50% of the FreighTech market, discovered buyers recoil from the word "AI," rewrote the messaging without it, and interest flipped. None of that is on the site. Porsche, JB Hunt, and the Walton-family adjacency show up only as naked logos. "We find truth faster than anyone" is asserted, never shown — and your exact buyer (studio partners deploying LP capital) is the most proof-demanding audience there is.</p></div>
 
-  <div class="card stripe gold"><div class="cardtop"><h3>3 · No proof, despite having spectacular proof</h3><span class="tag gold">Credibility</span></div>
-  <p>On the call he casually dropped a case study most agencies would kill for: <em>touched 50% of the FreighTech market, discovered buyers recoil from the word "AI," rewrote the messaging, and interest flipped</em>. None of that is on the site. Porsche/JB Hunt/Walton-family adjacency (via Up.Labs) appears only as naked logos. "We find truth faster than anyone" is asserted, never shown — and his exact buyer (studio partners deploying LP capital) is the most proof-demanding audience there is.</p></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>3 · Positioned as a product, rendered as a brochure</h3><span class="tag gold">Coherence</span></div>
+  <p>"Not a services agency — infrastructure." I believe it, because you walked me through the machine. But a first-time visitor sees no screenshot, no dashboard, no sample buyer-signal report, no pricing shape, no onboarding timeline — even though "up and running in 24–48 hours" came out of your mouth unprompted. The site's form contradicts its central claim, and buyers resolve that contradiction against you: it reads as a solo consultant with a landing page, which is exactly what Fractional is not.</p></div>
 
-  <div class="card stripe gold"><div class="cardtop"><h3>4 · Positioned as a product, rendered as a brochure</h3><span class="tag gold">Coherence</span></div>
-  <p>"Not a services agency — infrastructure." But there's no screenshot, no dashboard, no sample buyer-signal report, no pricing, no onboarding shape ("up and running in 24–48 hours" — said on the call, absent from the site). The site's form contradicts its central claim. Buyers resolve that contradiction against him: it reads as a solo consultant with a landing page.</p></div>
+  <div class="card stripe cyan"><div class="cardtop"><h3>4 · Your literal product is playbooks — and there's no lead magnet</h3><span class="tag cyan">Conversion</span></div>
+  <p>You license playbooks and signal reports, yet the only conversion path is a cold "book a strategy call." One redacted monthly buyer-signal report or a one-page playbook behind an email gate lets the product sell itself and builds a list. A single-CTA site makes every visitor a binary: book-or-bounce, and most bounce.</p></div>
 
-  <div class="card stripe cyan"><div class="cardtop"><h3>5 · The literal product is playbooks — and there's no lead magnet</h3><span class="tag cyan">Conversion</span></div>
-  <p>He licenses playbooks and signal reports, yet the only conversion path is a cold "book a strategy call." One redacted monthly buyer-signal report or one-page playbook behind an email gate would let the product sell itself and build the list he currently doesn't have. Single-CTA sites make every visitor a binary: book-or-bounce.</p></div>
+  <div class="card stripe cyan"><div class="cardtop"><h3>5 · The founder is an asset, and he's not on the site</h3><span class="tag cyan">Narrative</span></div>
+  <p>Oregon Trail ancestry. Born in Alaska. A father who built an oil-and-gas supply business in post-USSR Russia. Twenty months moving a family of five through Costa Rica. Escaped a sales career by inventing a repeatable first-customer machine. That's not small talk — "frontier truth-finding" is a brand, and it's precisely the temperament studios want pointed at unproven markets. Your About page is three sentences of category language instead. Six sentences of the real story would outperform them.</p></div>
 
-  <div class="card stripe cyan"><div class="cardtop"><h3>6 · The founder is the asset, and he's not on the site</h3><span class="tag cyan">Narrative</span></div>
-  <p>Oregon Trail ancestry, born in Alaska, dad built oil-and-gas supply in post-USSR Russia, twenty months bootstrapping a family through Costa Rica, escaped sales by inventing a repeatable first-customer machine. "Frontier truth-finding" is a brand, not small talk — and it's exactly the temperament studios want pointed at unproven markets. The About page is three sentences of category language instead.</p></div>
-
-  <div class="card stripe"><div class="cardtop"><h3>7 · Residue and hygiene</h3><span class="tag">Polish</span></div>
-  <p>Favicon hotlinked from a Squarespace CDN (the old site's ghost). Default theme-color. No sitemap/robots. The .city TLD is defensible but unclaimed-namespace confusion is real — worth owning fractional.city <em>as a metaphor</em> (see below) rather than apologizing for it.</p></div>
+  <div class="card stripe"><div class="cardtop"><h3>6 · Residue and hygiene</h3><span class="tag">Polish</span></div>
+  <p>The favicon is hotlinked from a Squarespace CDN — your old site's ghost, and a dead image the day that account closes. Default theme-color, no sitemap or robots.txt. And the .city TLD: defensible, but right now it's an accident you'd have to explain. Below is how to make it the best part of the brand.</p></div>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">Hyperstition · L3–L4</div><h2>The site Fractional should have — write it as if it already exists</h2></div></div>
-  <p>Hyperstition: describe the future artifact concretely enough that it starts causing itself. Daniel handed over the design language on the call without realizing it:</p>
-  <div class="quote">"When the data is coming in from your thesis it's an addicting experience. It's like watching fantasy football on Sunday… you're just watching your point totals go up."<span class="attr">Daniel Crabtree · Jul 9 2026</span></div>
+  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">The site you should have</div><h2>Write it as if it already exists — you gave me the design language yourself</h2></div></div>
+  <div class="quote">"When the data is coming in from your thesis it's an addicting experience. It's like watching fantasy football on Sunday… you're just watching your point totals go up."<span class="attr">You, Jul 9 — this sentence is the whole redesign</span></div>
   <ul>
-    <li><strong>The hero is a live scoreboard, not a tagline.</strong> A ticking (even lightly anonymized) feed of the machine running: "Thesis 14 · FreighTech ops leaders · 212 touches · 41 conversations · verdict: KILL — buyers reject 'AI' framing, retest without it." The site <em>is</em> the product demo. Nobody else in the SDR-adjacent world can show a kill verdict as proudly as a win — that's his actual differentiation ("we find truth," not "we book meetings").</li>
-    <li><strong>One full sample buyer-signal report, redacted, gated by email.</strong> The FreighTech story told with real numbers. This is simultaneously proof, lead magnet, and product spec.</li>
-    <li><strong>"Fractional City" becomes the metaphor instead of an accident.</strong> The pod economy he described — callers, writers, analysts matched by assessment into task pods — is literally a city of fractional workers with an internal economy. Name the districts. It converts his weirdest asset (the TLD) into the memorable brand story, and pre-sells the workforce-OS product he wants to raise for.</li>
+    <li><strong>The hero is a live scoreboard, not a tagline.</strong> A ticking, lightly anonymized feed of the machine running: "Thesis 14 · FreighTech ops leaders · 212 touches · 41 conversations · verdict: KILL — buyers reject 'AI' framing, retest without it." The site becomes the product demo. And nobody else in your world can show a kill verdict as proudly as a win — that's your actual differentiation. You sell truth, not booked meetings.</li>
+    <li><strong>One full sample buyer-signal report, redacted, gated by email.</strong> The FreighTech story with real numbers. Simultaneously proof, lead magnet, and product spec — three gaps closed with one artifact.</li>
+    <li><strong>"Fractional City" becomes the metaphor instead of the accident.</strong> The pod economy you described — callers, writers, analysts matched by assessment into task pods with an internal economy — is literally a city of fractional workers. Name the districts. It converts your weirdest asset (the TLD) into the memorable brand story, and it quietly pre-sells the workforce platform you eventually want to build.</li>
     <li><strong>A founder page that tells the frontier story in six sentences.</strong> Oregon Trail → Alaska → post-USSR Russia → Costa Rica → "I left sales by building the machine that replaced me." Studios buy operators with provenance.</li>
-    <li><strong>Server-rendered, schema-marked, AI-legible.</strong> The invisible-to-LLMs problem inverts into an edge: be the one GTM shop whose methodology pages AI search engines can actually quote. He said buyers distrust AI-labeled products — fine: the site never says "AI-powered," it shows evidence loops.</li>
-    <li><strong>Pricing shape, not pricing secrecy.</strong> "Monthly license · two ICP theses live at any time · 24–48h to first calls." Anchors the infrastructure claim; filters unqualified calls before they reach Acuity.</li>
+    <li><strong>Server-rendered and AI-legible.</strong> The invisibility problem inverts into an edge: be the one GTM shop whose methodology pages AI search engines can actually quote. And notice the echo of your own FreighTech finding — the site never needs to say "AI-powered." It shows evidence loops instead.</li>
+    <li><strong>Pricing shape, not pricing secrecy.</strong> "Monthly license · two ICP theses live at any time · first calls within 48 hours." It anchors the infrastructure claim and filters unqualified calls before they ever reach your Acuity page.</li>
   </ul>
-  <p class="mono">Gap → hyperstition delta in one line: today the site says "trust me, there's a machine." The future site lets the visitor watch the machine eat.</p>
+  <p class="mono">The delta in one line: today the site says "trust me, there's a machine." The next site lets the visitor watch the machine eat.</p>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Collaboration atlas · L4</div><h2>Overlap map: clients he does have, has had, could have</h2></div></div>
-  <p>The structural fit, in one line from the call: Fractional generates validated market truth; then — his words — "most of the people that we worked with… make honestly terrible decisions" with it. Fractional is the evidence layer. ARCS is the decision layer. Zero value-chain overlap, one shared seam.</p>
+  <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Where the machines interlock</div><h2>Fractional finds the truth. ARCS makes sure people act on it.</h2></div></div>
+  <p>The most useful thing you said on our call: your clients get world-class market evidence from you, and then too many of them make bad decisions with it anyway — because it's their product, or they've made promises to investors. That's not a flaw in Fractional; it's the boundary of it. Everything downstream of the evidence is what ARCS was built for: decision receipts, pre-mortems, bias flags, drift detection across stakeholders. Zero overlap in what we each do; one shared seam. Three concrete places to test it:</p>
 
   <div class="band">
-    <div class="bandhead"><h3 style="margin:0">DOES HAVE — Up.Labs (venture studio: Porsche, JB Hunt, Walton family, US airlines)</h3><span class="tag green">Named on call · both sides opted in</span></div>
+    <div class="bandhead"><h3 style="margin:0">A · A joint Up.Labs-shaped engagement</h3><span class="tag green">You raised it first</span></div>
     <div class="bandbody">
-      <p>Daniel: "I could see us working on an Up.Labs project together… they are the chief not-good decision maker." Multi-LP silo dysfunction is the exact PARADOX/FORK terrain ARCS receipts were built for.</p>
-      <ul>
-        <li><strong>Joint offer:</strong> decision-integrity layer riding on his existing retainer — pre-sprint decision receipts per stakeholder (Porsche board voice, Walton family office voice), drift review at each QBR, unified definition-of-done with explicit waypoint drops when the studio pivots.</li>
-        <li><strong>Commercials:</strong> revenue-generative for Daniel (upsell he co-sells, not a tool he buys — he's bootstrapped, flat-fee, pre-raise). Window: his next client close, self-dated "end of August."</li>
-      </ul>
+      <p>You said you could see us working on an Up.Labs project together. Multi-backer studios (a Porsche voice, a family-office voice, a logistics voice) are the canonical case for decision receipts: each stakeholder logs their read — headwinds, risks, acceptance criteria — before the sprint; the receipts get orchestrated into an explicit, shared definition of done; and when the project drifts from the committed vector mid-quarter, everyone sees the waypoint drop and re-commits or corrects <em>proactively</em>, instead of finger-pointing after the fact. Your data stays the input; the receipts make it undeniable. It rides alongside your existing engagement as something you deliver, not a competitor to it.</p>
     </div>
   </div>
 
   <div class="band">
-    <div class="bandhead"><h3 style="margin:0">HAS HAD — the 2025 restructuring / PE track</h3><span class="tag gold">Dormant · self-nominated for revival</span></div>
+    <div class="bandhead"><h3 style="margin:0">B · Reviving your restructuring track, with a second engine attached</h3><span class="tag gold">Your 2025 play, upgraded</span></div>
     <div class="bandbody">
-      <p>Late 2025 he ran engagements for companies needing a new revenue motion pre-Series B: "I could go back to that track. That might be a good play." Zach's decade of PE turnarounds + Grayscale-grade regtech is the missing senior-operator half he described PE firms lacking.</p>
-      <ul>
-        <li><strong>Joint offer:</strong> special-situations diligence — Fractional runs in-market validation on the target's revenue thesis (is there real demand, which ICP converts); ARCS runs the decision forensics (why the last CRO failed, exclusion criteria for the next one, receipt-backed board recommendation). One deliverable, two engines.</li>
-        <li><strong>Why it wins now:</strong> venture platform-services budgets are contracting; PE special-situations work is expanding into exactly this gap — a read Daniel agreed with on the call.</li>
-      </ul>
+      <p>You ran restructuring work in late 2025 — companies needing a new revenue motion before a raise — and said you might go back to that track. My last decade has been the other half of that deal: PE turnarounds, launching $7B of digital assets at Grayscale through regulatory chaos, senior-operator translation between boards and executive teams. The joint offer: Fractional runs in-market validation on the target's revenue thesis (is there real demand, which ICP converts); ARCS runs the decision forensics (why the last CRO actually failed, evidence-backed exclusion criteria for the next one, a receipt-backed recommendation the board can't un-see). One deliverable, two engines — and the venture-contraction / PE-expansion timing we both read the same way.</p>
     </div>
   </div>
 
   <div class="band">
-    <div class="bandhead"><h3 style="margin:0">COULD HAVE — studios, family offices, innovation teams, and each other's networks</h3><span class="tag cyan">Referral lanes + one shared product bet</span></div>
+    <div class="bandhead"><h3 style="margin:0">C · The long bet — your pod economy × my org-design engine</h3><span class="tag cyan">Same machine, two halves</span></div>
     <div class="bandbody">
-      <ul>
-        <li><strong>His lane → ARCS:</strong> Nobody Studios, Platform Venture Studio, and every studio where portfolio decision dysfunction burns LP money. Fractional's monthly signal report gains a "so what" page: receipt-grade recommendations instead of raw data his clients misuse.</li>
-        <li><strong>Zach's lane → Fractional:</strong> founders and operators needing first-customer truth — e.g. Tallin-shaped compliance startups stuck in pilot limbo, PRL-style family-office-owned industrials testing a new channel. Any manana client whose real blocker is "no validated demand signal" is a Fractional handoff.</li>
-        <li><strong>The shared long bet — pod economy × org-design receipts:</strong> his contractor-pod internal economy (assessment-matched pods, atomic task data, "if I had the money I could just create the product") and Zach's unlaunched org-design solution (zone-of-genius matching, receipt-calibrated confidence weighting) are two halves of the same machine, independently derived. Field-of-dreams path he endorsed on the call: find one paying anchor (a studio staffing pods across portfolio companies), build against their check, productize what converts.</li>
-      </ul>
+      <p>Your assessment-matched contractor pods with atomic task data, and the org-design system I haven't launched — zone-of-genius matching, confidence weighting calibrated against decision outcomes — are two independently derived halves of the same machine. Neither of us should build it on spec. The field-of-dreams path you liked on the call: find one paying anchor (a studio staffing pods across portfolio companies), build against their check, productize what converts. If that anchor shows up in either of our networks, we compare notes before either of us scopes it alone.</p>
+      <p style="margin-bottom:0">And immediately, before any of that: referral lanes both ways. You'll meet studios drowning in stakeholder dysfunction — that's mine. I'll meet founders whose real blocker is unvalidated demand — that's yours. The first trade makes the alliance real.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Lens grid · 5W × 5H · L0→L5</div><h2>The whole read on one instrument panel</h2></div></div>
-  <div class="tablewrap"><table>
-    <tr><th>Lens</th><th>Read</th><th>Level</th></tr>
-    <tr><td>WHO</td><td>Peer mind, self-selected — he read Zach's articles first; "same style of thinking… I haven't found as many like minds." Frontier genome = appetite for unproven terrain.</td><td class="mono">L0→L1</td></tr>
-    <tr><td>WHAT</td><td>Evidence layer (Fractional) + decision layer (ARCS). Complementary, non-cannibalizing. Joint line: "Fractional finds the truth. ARCS makes sure you act on it."</td><td class="mono">L2</td></tr>
-    <tr><td>WHEN</td><td>Not now — end of August (his next close, self-dated). Prime the window now with the samples email; don't force scope pre-close.</td><td class="mono">L3</td></tr>
-    <tr><td>WHERE</td><td>Up.Labs first (highest budget, hairiest dysfunction, mutually nominated); PE restructuring second; referral lanes immediately.</td><td class="mono">L3</td></tr>
-    <tr><td>WHY</td><td>He already decision-journals his own calls through ChatGPT and audits the factors afterward — then called the productized version "spectacular." Revealed demand, not polite interest.</td><td class="mono">L4</td></tr>
-    <tr><td>HOW</td><td>Co-sell into his clients (revenue-positive for him), never sell to him (he's bootstrapped). Gift the teardown as business analysis. Anchor every loop with a date.</td><td class="mono">L4</td></tr>
-    <tr><td>HOW MUCH</td><td>His pricing power is capped by invisibility (gaps 1–5); fixing the site raises the ceiling on any joint offer's price anchor too.</td><td class="mono">L4</td></tr>
-    <tr><td>HOW FAR</td><td>Global coherence check: same operating philosophy (test theses, kill losers fast, atomic data capture), adjacent machines, complementary networks. A decade-scale alliance if the first artifact ships. Y: GREEN / HIGH / STABLE.</td><td class="mono">L5</td></tr>
-  </table></div>
-</section>
-
-<section>
-  <div class="sechead"><span class="idx">06</span><div><div class="seclabel">Protocol</div><h2>Next four moves</h2></div></div>
+  <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>Straightforward from here</h2></div></div>
   <div class="grid2">
-    <div class="card stripe green"><div class="cardtop"><h3>01 · Now</h3><span class="tag green">Active</span></div><p>Ship the samples email (2–3 SHARP-fidelity receipts/briefs), ending with a proposed check-in date pegged to his end-of-August close. The only committed deliverable of the call is yours — momentum decays.</p></div>
-    <div class="card stripe cyan"><div class="cardtop"><h3>02 · This week</h3><span class="tag cyan">Gift</span></div><p>Send this teardown framed as business analysis, never site feedback. Flag the Firestore password issue privately and first — the favor buys the credibility for the rest.</p></div>
-    <div class="card stripe gold"><div class="cardtop"><h3>03 · ~Aug 1</h3><span class="tag gold">Staged</span></div><p>Pre-draft the one-page "decision-integrity layer for venture studios" in his own vocabulary (scoreboard, thesis kill-switch, atomic data). Release when his close signals capacity.</p></div>
-    <div class="card stripe"><div class="cardtop"><h3>04 · Ongoing</h3><span class="tag">Lanes</span></div><p>Open referrals both ways: his studios' decision dysfunction → ARCS; your clients' unvalidated demand → Fractional. First trade establishes the alliance is real.</p></div>
+    <div class="card stripe green"><div class="cardtop"><h3>This week</h3><span class="tag green">On me</span></div><p>I'm sending over samples of the ARCS work separately — pre-call briefs, receipts, a teardown like this one — so you can see the machine running, per your ask.</p></div>
+    <div class="card stripe red"><div class="cardtop"><h3>This week</h3><span class="tag red">On you</span></div><p>The Firestore fix. Ten minutes to check, worth more than everything else on this page.</p></div>
+    <div class="card stripe gold"><div class="cardtop"><h3>When your next client lands</h3><span class="tag gold">~August</span></div><p>You mentioned expecting to close something new by end of August. When it lands, let's take one real client problem — the hairiest one — and scope the joint version. If it doesn't fit, we'll have found that out cheaply, which is the whole philosophy anyway.</p></div>
+    <div class="card stripe"><div class="cardtop"><h3>Anytime</h3><span class="tag">Standing</span></div><p>If you want a second pair of eyes on the site rebuild or the sample-report lead magnet, say the word — the teardown above is the free half; the fix list is short.</p></div>
   </div>
 </section>
 
-<div class="footer">ARCS · Recoil-adjacent artifact · Generated Jul 10 2026 · Sources: Granola transcript 100701ab + fractional.city bundle main.782bf072.js · Private — do not forward</div>
+<div class="footer">Prepared by Zach Harris · ARCS · Jul 10 2026 · Sources: our Jul 9 conversation + fractional.city production bundle · Shared privately with Daniel Crabtree</div>
 </div>
-
 </body>
 </html>
