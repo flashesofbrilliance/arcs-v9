@@ -1,0 +1,145 @@
+{
+  "cover": {
+    "badges": ["Recoil Report", "Serialized · 6 Calls · Louisville Brands"],
+    "title": "Jeben × Zach — Louisville Brands Thread Serialization",
+    "subtitle": "Reverse Listening + Deep Recall across the full Mar 5 – May 20 call sequence, filtered to the Louisville Brands opportunity. The thread is warm, priced, and timed to an open funding round — but it stalled at the Justin introduction and has had no captured signal since Mar 31.",
+    "meta": "ARCS RECOIL · Jul 10, 2026 · 6 calls, Mar 5 – May 20, 2026 · Jeben (Palace Laundry Creative / Louisville Brands partner)",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "He'll just invent something in his head about mango and he'll go to AI really quick and have it make a bag for him... he feels like he's already done everything and I'm like — that's not it.",
+    "attribution": "Jeben, on Justin (Louisville Brands CEO) · Mar 31, 2026"
+  },
+  "callWalk": [
+    {
+      "label": "Mar 5 · Discovery",
+      "title": "Louisville Brands surfaces — factory, Pumps rework, mango push",
+      "body": "Jeben lays out the whole terrain unprompted: vegan-certified factory at ~40% throughput, co-manufacturing mushroom products, the Pumps pumpkin-seed product built to ~100% then retooled shell-less after market feedback, CEO pushing a mango product against visible shelf saturation, and a #1 best-selling RTD ('buzz bombs'). Zach offers a free ARCS pilot; Jeben agrees to send a business brief.",
+      "peak": true
+    },
+    {
+      "label": "Mar 17 · Adjacency",
+      "title": "Hermitage Farm + regional DNA threads",
+      "body": "Louisville-adjacent, not Louisville Brands: 45-key hotel build at Hermitage Farm, Woof co-brand idea, artist-management thread. Keeps the relationship compounding but adds no LB-specific commitment."
+    },
+    {
+      "label": "Mar 24 · Demo",
+      "title": "ARCS scans land — Jeben becomes an advocate",
+      "body": "Jeben (Orchestrator/Builder scan), team-interference simulation, decision receipts demoed. Jeben starts routing: Limitless Minds intro offered, Dana/YouTube floated. LB stays in view as the 'founder would vibe' target."
+    },
+    {
+      "label": "Mar 31 · Economics",
+      "title": "PEAK — pricing anchored, funding round revealed, Justin intro promised",
+      "body": "Jeben asks the money question directly and anchors against a $20K/mo convenience-store distribution vendor. Reveals the fund structure: Brown-Forman / United Rentals fund managers, a nephew investing $2–2.5M/yr, a new round closing now — 'your price range is appropriate… worthwhile if you get in there now.' Commits to cornering Justin for one hour and texting times.",
+      "peak": true
+    },
+    {
+      "label": "Apr 21 · Drift",
+      "title": "Louisville goes quiet — energy moves to Limitless Minds",
+      "body": "Full call spent on Harris Wilson prep and parenting. Zero Louisville Brands content. No mention of the promised Justin times. The thread is cooling without a named blocker — classic divergence between stated trajectory (Mar 31 close) and actual path."
+    },
+    {
+      "label": "May 20 · Null",
+      "title": "'Quick Catch Up?' — no summary, no transcript captured",
+      "body": "The last touchpoint produced zero recoverable signal: Granola has no notes and a null transcript. Fifty days of thread state are unknown. This is the gap the tracker artifact exists to close — the next conversation should not start from memory."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "Coherence",
+      "accent": "#00F0FF",
+      "title": "The Louisville thread is coherent and champion-carried",
+      "body": "Across four substantive calls, every LB pain point Jeben volunteered (Pumps rework, mango bias, vendor pitches, board dynamics, brand sprawl) maps one-to-one onto the ARCS offer as priced in the Apr 2 Gamma deck. Nothing needs re-positioning; it needs re-activation."
+    },
+    {
+      "label": "Recoil Zone 1",
+      "accent": "#FF4D6D",
+      "title": "The close never converted — intro promised, never landed",
+      "body": "Reverse listening: Mar 31 ends with 'give me a day… don't be surprised if you just see texts with times.' No session with Justin exists in any later record. The Apr 21 call — the natural checkpoint — contains no follow-up ask from Zach either. The stall is shared.",
+      "note": "The re-entry ask must be one sentence and one decision, not a re-pitch."
+    },
+    {
+      "label": "Recoil Zone 2",
+      "accent": "#FFD700",
+      "title": "Champion has stepped back from the client",
+      "body": "Jeben, Mar 31: he pulled back from Louisville Brands in February — 'I've made too many suggestions that have not gone where I think they should go.' He believes in the fit but has reduced standing and reduced patience. Weight on him lightly: give him a forwardable artifact instead of asking him to re-argue the case in person."
+    },
+    {
+      "label": "Recovery",
+      "accent": "#00FF9D",
+      "title": "Clean re-entry exists: one live decision, already named",
+      "body": "The 'next bag' decision (mango vs. alternatives) is live, board-visible, and the exact shape ARCS demos best. The deck, pricing, and draft email to Justin already exist. A single free studio session on that one decision converts the whole serialized record into a first receipt."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Justin takes the session; pilot starts inside the funding window",
+      "body": "Jeben forwards the tracker; Justin commits one hour on the next-bag decision. The receipt + a $2–5K market pretest lands before the round closes, and the Medium pilot ($10K/mo, two lanes) starts with board-level visibility. ARCS enters as governance infrastructure for freshly raised capital, not as a vendor pitch.",
+      "note": "Signal to watch: Jeben texts meeting times within a week of receiving the tracker."
+    },
+    "base": {
+      "title": "One demo session first, decision after the receipt",
+      "body": "Jeben shares the tracker and deck; Justin agrees to a single no-cost studio session on one live decision. Zach delivers the Decision Receipt and the Prove-It pretest design. Tier decision deferred until Justin holds the artifact in his hands — which is exactly the sales motion the deck already promises ('run one session, look at the receipt, then decide')."
+    },
+    "worst": {
+      "title": "No engagement now — preserve the record, set the tripwire",
+      "body": "Justin stays heads-down on Yokai/Japan or the round consumes all attention. Do not chase. The tracker stays the single source of truth; re-check at two tripwires: (1) the funding round closes, (2) the next product launch retro — especially if it rhymes with Pumps. The draft email to Justin in the Gamma deck stays ready.",
+      "note": "Downside is capped at zero spend. The cost of waiting is carried by Louisville Brands, not by Zach."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Champion detachment",
+      "body": "Jeben is semi-detached from LB since February. If activation requires sustained advocacy from him, it fails. Everything sent must be forwardable without him in the room."
+    },
+    {
+      "variant": "warning",
+      "label": "The pain is also the objection",
+      "body": "Justin's pattern — instant AI mockups that feel like finished work — means he may believe he already has what ARCS does. The counter is the Pumps receipt: his own AI told him what he wanted to hear; the market didn't."
+    },
+    {
+      "variant": "caution",
+      "label": "May 20 null capture",
+      "body": "The most recent Jeben touchpoint has no transcript and no notes. Current thread state is genuinely unknown — verify with Jeben before assuming the Mar 31 state still holds."
+    },
+    {
+      "variant": "info",
+      "label": "Funding-round clock",
+      "body": "The round was 'wrapping up' on Mar 31 — 101 days ago. The window Jeben flagged ('worthwhile if you get in there now') may already be narrower or closed. First question for Jeben, not a reason to hesitate."
+    },
+    {
+      "variant": "info",
+      "label": "Ecosystem, not one deal",
+      "body": "Jeben routes to five adjacent threads (Limitless Minds, Dana/YouTube, Miss Birdie, Hermitage, Woof). Louisville Brands is the highest-intent commercial thread but not the only one — a graceful LB outcome protects the whole lattice."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "Step 1",
+      "title": "Send Jeben the Louisville tracker artifact",
+      "body": "One link, layman's language, his threads serialized, the economics spelled out, next steps pre-framed as best/base/worst. Ask him to sanity-check the record — that request alone restarts the thread.",
+      "active": true
+    },
+    {
+      "label": "Step 2",
+      "title": "Verify thread state from May 20 onward",
+      "body": "One question: 'Where did things land with Justin and the round?' Fill the null before acting on stale assumptions."
+    },
+    {
+      "label": "Step 3",
+      "title": "Make the one-sentence ask",
+      "body": "One hour with Justin on the next-bag decision. Free. Output is a written Decision Receipt he keeps either way. No deck walkthrough, no platform tour."
+    },
+    {
+      "label": "Step 4",
+      "title": "Run the session → deliver receipt + Prove-It pretest design",
+      "body": "Session produces the receipt (options, assumptions, risks, recommended path, stop-loss line) plus a $2–5K, 30-day market pretest design that proves or kills the bet before any production run."
+    },
+    {
+      "label": "Step 5",
+      "title": "Tier decision after the receipt, aligned to 90-day pilot",
+      "body": "If the receipt earns it: Medium ($10K/mo, two lanes — Capital + Product) is the fit given the vendor decisions and next-bag cadence Jeben described. Month-1 off-ramp stays in the agreement — the engagement carries its own stop-loss."
+    }
+  ]
+}
