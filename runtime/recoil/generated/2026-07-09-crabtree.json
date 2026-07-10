@@ -1,0 +1,167 @@
+{
+  "reportId": "2026-07-09-crabtree",
+  "meta": {
+    "callTitle": "1-1 with Zach (Daniel Crabtree)",
+    "counterpart": "Daniel Crabtree",
+    "counterpartRole": "Founder, Fractional (fractional.city) — GTM engine for venture studios; Boardy intro",
+    "callDate": "2026-07-09",
+    "callTime": "2:00 PM EDT",
+    "durationMinutes": 50,
+    "segmentCount": 7,
+    "protocol": "Reverse Listening + Deep Recall · 7 segments · max(3, round(sqrt(50)))",
+    "prePrepSession": null,
+    "note": "No PrepSession row captured; Deep Recall scored against the Boardy intro context (Zach on-call: 'didn't quite get the full angular agenda from Boardy'). Lens grid applied per request: 5W/5H across L0 (atomic quotes) to L5 (global coherence of the relationship)."
+  },
+  "cover": {
+    "badges": ["Recoil Report", "GREEN · HIGH · STABLE"],
+    "title": "Daniel Crabtree — Fractional",
+    "subtitle": "Peer-mind match confirmed. Fractional generates market truth; its clients then make terrible decisions with it — Daniel said so verbatim. ARCS is the missing decision layer on top of his evidence layer. One committed artifact, and it's yours: send the work-samples email.",
+    "meta": "ARCS RECOIL · Jul 9 2026 · 2:00 PM EDT · ~50 min · Boardy intro · 7-segment dual pass",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "I played a lot of fantasy football... I do something similar with ChatGPT where I'll make a decision and then I'll look to find all the factors that went into that decision. And why did I do that... that same intellectual rigor. It sounds like you have the framework to apply that to business decisions. I think that's spectacular.",
+    "attribution": "GRANOLA TRANSCRIPT · DANIEL CRABTREE · JUL 9 2026 — closing third of the call"
+  },
+  "callWalk": [
+    {
+      "label": "SEG 1 · 0–18 min",
+      "title": "Long rapport arc — frontier genome exchange",
+      "body": "Nearly a third of the call: Alaska birth, Oregon Trail ancestry, dad building oil-and-gas supply in post-USSR Russia, 20 months in Costa Rica/Tulum with three kids, Sacramento reinvention as rugby/soccer coach. Zach matched with Tetris-parenting and Nosara stories. Reverse pass: this wasn't wasted time — the close ('I sensed the same style of thinking') was seeded here. Deep Recall: rapport velocity (D1) high, zero friction.",
+      "peak": false
+    },
+    {
+      "label": "SEG 2 · 18–24 min",
+      "title": "Fractional origin — sales escape velocity via venture studio",
+      "body": "Approached by a venture studio to find first customers for a contractor-payroll company on a small budget; extrapolated the method into Fractional and left sales entirely. Anchor client: Up.Labs (venture studio backed by Porsche, JB Hunt, the Walton family, US airlines). Business model: flat monthly fee only — wants commission/equity upside but doesn't have it yet. W-field: he is pre-productization, bootstrapped, revenue-constrained.",
+      "peak": false
+    },
+    {
+      "label": "SEG 3 · 24–30 min",
+      "title": "PEAK — 'You got it. I can leave the chat.'",
+      "body": "Zach mirrored Fractional's whole loop back (sourcing → SDR focus-path → learning loop → refined ICP → double-down) in one pass, and Daniel handed over the wheel: 'You got it. I can leave the chat.' Highest positive jerk (D3) in the call — instant coherence lock. Method detail: no intent data, no Clay; a heavily-trained ChatGPT as inference engine; FreighTech case — touched 50% of the market, learned buyers recoil from the word 'AI', rewrote messaging without it. 'Design thinking for sales.'",
+      "peak": true
+    },
+    {
+      "label": "SEG 4 · 30–38 min",
+      "title": "ARCS monologue — long but it landed",
+      "body": "Zach's decision-receipts pitch ran several unbroken minutes (verbosity pattern: third consecutive call it appears — flag, not fatal, because Daniel is a high-context listener). Creds stack (WTA, Grayscale $7B, regtech, manana sprints) delivered. Daniel's response was the sentence the whole call pivots on: 'I think there's a lot of synergy in the way that we think.'",
+      "peak": false
+    },
+    {
+      "label": "SEG 5 · 38–42 min",
+      "title": "PEAK — the confession: 'they make terrible decisions'",
+      "body": "Unprompted: 'Most of the people that we worked with have not been good. They make honestly terrible decisions. Mostly because it's their product... or they have promises to investors.' This is revealed product-market fit for ARCS at L4 (cross-domain): Fractional's output is validated market truth; the failure mode is what clients DO with it. Sunk-cost, hindsight, confirmation bias — Zach named them; Daniel: 'Yeah exactly.' The joint offer writes itself: evidence layer + decision layer.",
+      "peak": true
+    },
+    {
+      "label": "SEG 6 · 42–47 min",
+      "title": "PEAK — pod economy ↔ org-design receipts convergence",
+      "body": "Daniel's internal ambition: contractor pods matched via personality assessments, a task-oriented internal economy, all interaction data captured 'at that atomic level' for inference — blocked only by bootstrap capital ('if I had the money, I could just create the product'). Zach revealed the unlaunched ARCS org-design solution (zone-of-genius matching + receipt-calibrated confidence weighting). Orthogonal echo detected: two independently-derived designs of the same machine. Also surfaced: 'dynamic offer box' — his prior blockchain-tracked incentive system.",
+      "peak": true
+    },
+    {
+      "label": "SEG 7 · 47–50 min",
+      "title": "Reverse-pass close — warm, unscheduled, deliverable on Zach",
+      "body": "The actual close: 'Send me what you've done. Let's stay in touch and see where it goes in the next couple months.' Concrete triggers named: an Up.Labs joint project ('I could see us working on an Up.Labs project together'), the restructuring/PE track he ran late 2025 ('I could go back to that track — that might be a good play'), and a new client close expected by end of August. Read backward: Zach was engaged as a peer mind, not a vendor — and the only committed artifact is Zach's work-samples email. Nothing on calendar.",
+      "peak": false
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "WHO (L0→L1)",
+      "accent": "#00F0FF",
+      "title": "Peer mind, self-selected — he pre-read Zach's writing",
+      "body": "Daniel took the Boardy intro because he'd read Zach's articles and 'sensed the same style of thinking... I haven't found as many like minds out in the corporate world.' Frontier genome (Oregon Trail, USSR dad, Costa Rica) maps to appetite for unproven terrain. Coherence between his stated and revealed identity: fully aligned — rare.",
+      "note": "This is a relationship asset first, pipeline second. Sequence accordingly."
+    },
+    {
+      "label": "WHAT (L2)",
+      "accent": "#00FF9D",
+      "title": "Structural complementarity, not competition",
+      "body": "Fractional: evidence generation — first-customer truth-finding, human-in-loop pods, A/B ICP testing, buyer-signal reports. ARCS: decision integrity — receipts, pre/post-call briefs, drift detection, bias correction. Zero overlap in the value chain; the seam is exactly where his clients fail ('terrible decisions'). Path survivability of a joint offer: high — neither cannibalizes the other.",
+      "note": "Joint pitch in one line: 'Fractional finds the truth. ARCS makes sure you act on it.'"
+    },
+    {
+      "label": "WHEN + WHERE (L3)",
+      "accent": "#FFD700",
+      "title": "Window: end of August, via Up.Labs or PE restructuring",
+      "body": "Cascade triggers, in his words: (1) 'I'm thinking we'll close something new by end of August... next couple months would be good timing.' (2) Up.Labs — highest-budget, hairiest decision dysfunction (Porsche + Walton family + JB Hunt silos), explicitly nominated by both sides. (3) The 2025 restructuring track — dormant, revivable, and squarely inside Zach's PE-turnaround + Grayscale regtech creds. Kairos is not now; it is ~6–10 weeks out, primed by the samples email now.",
+      "note": "Do not force a scope before his next close — his currency is also constrained (bootstrapped, monthly-fee-only revenue)."
+    },
+    {
+      "label": "WHY + HOW (L4→L5)",
+      "accent": "#FF4D6D",
+      "title": "He already does ARCS by hand — that's the demand signal",
+      "body": "The load-bearing quote: he decision-journals his own choices through ChatGPT and audits the factors afterward, and he called the productized version 'spectacular.' At L5 the relationship is globally coherent: same operating philosophy (test theses in market, kill losers fast, capture data at the atomic level), adjacent machines, complementary networks (his: venture studios + studios' LPs; yours: PE, regtech, family-office operators like Todd/PRL and compliance founders like Steve/Tallin). The 'how' of collaboration is co-selling into decision-dysfunctional capital allocators — not subcontracting.",
+      "note": "Verbosity flag, third call running: the monologues landed here, but a colder counterpart would have checked out. Mechanical fix stands: lead with the point."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Up.Labs co-engagement by September",
+      "body": "Samples email lands this week; Daniel closes his new client by end of August; you jointly scope an Up.Labs decision-integrity layer (QBR receipt orchestration across Porsche/Walton/JB Hunt stakeholders) riding on his existing retainer. ARCS gets a marquee venture-studio case study; Fractional gets a differentiated upsell that isn't more SDR hours.",
+      "note": "Trigger to watch: his August close. Prime it with one concrete Up.Labs-shaped artifact, not a deck."
+    },
+    "base": {
+      "title": "Peer alliance, slow burn",
+      "body": "Emails exchanged, mutual respect banked, occasional referrals (he sends studio decision-dysfunction; you send founders needing first-customer truth). Collaboration materializes in Q4 when either his PE-restructuring track revives or an ARCS client needs in-market validation. Relationship compounds; no revenue yet.",
+      "note": "Acceptable. This is a decade-scale like-mind, per his own framing."
+    },
+    "worst": {
+      "title": "The email never converts",
+      "body": "Work samples go over, get a warm reply, and drift — because the deliverable was on Zach and no calendar event anchors the loop. Bootstrapped founders under revenue pressure deprioritize everything that isn't closing. Six months later both machines are bigger and the seam has been filled by someone else (a Clay-ecosystem 'decision ops' bolt-on).",
+      "note": "Cheapest insurance: end the samples email with a specific date proposal tied to his August close."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Deliverable inversion",
+      "body": "The only committed action item belongs to Zach (send past work). Until it ships, the entire relationship is unrealized potential energy. Ship it within 48h of the call — momentum decays fast after warm intros."
+    },
+    {
+      "variant": "caution",
+      "label": "Verbosity pattern, third consecutive call",
+      "body": "Multiple multi-minute unbroken ARCS monologues. Daniel absorbed them because he's a genuine peer; Steve LaBella and colder counterparts won't. Same mechanical fix as prior recoil reports: lead with the point, then offer depth."
+    },
+    {
+      "variant": "caution",
+      "label": "His capital constraint mirrors LaBella's",
+      "body": "Bootstrapped, flat monthly fees, 'if I had the money' said twice. Any near-term collaboration must be revenue-generative for him (co-sell into his client) — never a cost line (buying ARCS as a tool). Structure accordingly."
+    },
+    {
+      "variant": "info",
+      "label": "Fractional.city site undermines him at the seam you'd co-sell through",
+      "body": "Client-side-rendered React with default 'Web site created using create-react-app' meta description — invisible to Google and AI search; Squarespace-hotlinked favicon; no case studies despite FreighTech/Up.Labs material; signup writes email+password directly to Firestore. Relaying the teardown (as business analysis, not site critique) is a high-trust gift and a natural next touch."
+    },
+    {
+      "variant": "success",
+      "label": "Named, dated, double-opted collaboration triggers",
+      "body": "Up.Labs project explicitly floated by Daniel, PE-restructuring track self-nominated, end-of-August close named unprompted. This is the cleanest set of forward triggers of any call this cycle."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "Step 01 · Now",
+      "title": "Ship the samples email",
+      "body": "One email: 2–3 receipts/briefs at SHARP fidelity (labella-style pre-call brief, a recoil report, the Evidiam-style teardown), framed as 'here's the machine running.' End with a proposed check-in date pegged to his end-of-August close.",
+      "active": true
+    },
+    {
+      "label": "Step 02 · This week",
+      "title": "Send the fractional.city teardown as a gift",
+      "body": "Business-decision framing (GTM fork, credibility leak at the exact seam his buyers evaluate), not website feedback. Include the Firestore password flag privately — that one's a genuine favor."
+    },
+    {
+      "label": "Step 03 · ~Aug 1",
+      "title": "Pre-stage the Up.Labs joint artifact",
+      "body": "Draft a one-page 'decision-integrity layer for venture studios' concept using his own language (atomic data, fantasy-football scoreboard, thesis kill-switches). Hold until his new-client close signals capacity."
+    },
+    {
+      "label": "Step 04 · Ongoing",
+      "title": "Open the referral lanes",
+      "body": "His studio network ↔ your PE/regtech/family-office network. First candidate: any manana client needing in-market validation gets Fractional; any Fractional client drowning in stakeholder dysfunction gets ARCS."
+    }
+  ]
+}
