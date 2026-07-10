@@ -2,7 +2,7 @@
   "cover": {
     "badges": ["Recoil Report", "Serialized · 6 Calls · Louisville Brands"],
     "title": "Jeben × Zach — Louisville Brands Thread Serialization",
-    "subtitle": "Reverse Listening + Deep Recall across the full Mar 5 – May 20 call sequence, filtered to the Louisville Brands opportunity. The thread is warm, priced, and timed to an open funding round — but it stalled at the Justin introduction and has had no captured signal since Mar 31.",
+    "subtitle": "Reverse Listening + Deep Recall across the full Mar 5 – May 20 call sequence, filtered to the Louisville Brands opportunity. The thread is warm, priced, and timed to an open funding round. The post–Mar 31 silence had a human cause — a miscarriage in the founder's family put everything on hold — so the read is timing, not rejection. Re-entry must be gentle and led by a polished artifact.",
     "meta": "ARCS RECOIL · Jul 10, 2026 · 6 calls, Mar 5 – May 20, 2026 · Jeben (Palace Laundry Creative / Louisville Brands partner)",
     "actions": ["Open Receipt", "File to Prep Book"]
   },
@@ -34,14 +34,14 @@
       "peak": true
     },
     {
-      "label": "Apr 21 · Drift",
-      "title": "Louisville goes quiet — energy moves to Limitless Minds",
-      "body": "Full call spent on Harris Wilson prep and parenting. Zero Louisville Brands content. No mention of the promised Justin times. The thread is cooling without a named blocker — classic divergence between stated trajectory (Mar 31 close) and actual path."
+      "label": "Apr 21 · Pause",
+      "title": "Louisville goes quiet — cause was personal, not commercial",
+      "body": "Full call spent on Harris Wilson prep and parenting; zero Louisville Brands content. Understood later (Zach recall, Jul 10): the founder's wife had a miscarriage, and everything at Louisville Brands went on hold. The silence was timing and grief, not a verdict on the material — the original 'drift' read was wrong."
     },
     {
-      "label": "May 20 · Null",
-      "title": "'Quick Catch Up?' — no summary, no transcript captured",
-      "body": "The last touchpoint produced zero recoverable signal: Granola has no notes and a null transcript. Fifty days of thread state are unknown. This is the gap the tracker artifact exists to close — the next conversation should not start from memory."
+      "label": "May 20 · Status",
+      "title": "'Quick Catch Up?' — Limitless Minds postponement, per recall",
+      "body": "No transcript survived, but per Zach's recall the call was specifically about Limitless Minds: Harry postponed the next conversation — higher-priority stack, and likely waiting for the Calm chief medical officer he's been working with to settle in and reach product alignment before re-engaging. Louisville Brands remained paused for the family reasons above."
     }
   ],
   "signalThreads": [
@@ -54,9 +54,9 @@
     {
       "label": "Recoil Zone 1",
       "accent": "#FF4D6D",
-      "title": "The close never converted — intro promised, never landed",
-      "body": "Reverse listening: Mar 31 ends with 'give me a day… don't be surprised if you just see texts with times.' No session with Justin exists in any later record. The Apr 21 call — the natural checkpoint — contains no follow-up ask from Zach either. The stall is shared.",
-      "note": "The re-entry ask must be one sentence and one decision, not a re-pitch."
+      "title": "The intro never landed — but the cause was a family tragedy",
+      "body": "Reverse listening originally read the Mar 31→Apr 21 gap as shared drift. Corrected: a miscarriage in the founder's family froze Louisville Brands entirely. The recoil lesson shifts from 'follow up harder' to 'presentation quality': the earlier materials went out less polished than the moment deserved, so the re-entry should lead with a properly formatted, professional page — a dialed foot-forward — not a re-pitch.",
+      "note": "Re-entry timing belongs to the family. Jeben signals the moment; Zach supplies the artifact."
     },
     {
       "label": "Recoil Zone 2",
@@ -82,9 +82,9 @@
       "body": "Jeben shares the tracker and deck; Justin agrees to a single no-cost studio session on one live decision. Zach delivers the Decision Receipt and the Prove-It pretest design. Tier decision deferred until Justin holds the artifact in his hands — which is exactly the sales motion the deck already promises ('run one session, look at the receipt, then decide')."
     },
     "worst": {
-      "title": "No engagement now — preserve the record, set the tripwire",
-      "body": "Justin stays heads-down on Yokai/Japan or the round consumes all attention. Do not chase. The tracker stays the single source of truth; re-check at two tripwires: (1) the funding round closes, (2) the next product launch retro — especially if it rhymes with Pumps. The draft email to Justin in the Gamma deck stays ready.",
-      "note": "Downside is capped at zero spend. The cost of waiting is carried by Louisville Brands, not by Zach."
+      "title": "Not yet — hold the thread with care",
+      "body": "The timing stays wrong for the family, or the round and Yokai consume all attention. Do not chase. The tracker stays the single source of truth; the thread re-opens at whichever comes first: Jeben signals the moment is right, the funding round closes, or the next launch retro rhymes with Pumps. The draft email to Justin in the Gamma deck stays ready.",
+      "note": "Downside is capped at zero spend. The only unforced error available here is pushing while the family is grieving — don't."
     }
   },
   "riskFlags": [
@@ -100,8 +100,8 @@
     },
     {
       "variant": "caution",
-      "label": "May 20 null capture",
-      "body": "The most recent Jeben touchpoint has no transcript and no notes. Current thread state is genuinely unknown — verify with Jeben before assuming the Mar 31 state still holds."
+      "label": "Timing sensitivity",
+      "body": "Louisville Brands paused after a miscarriage in the founder's family. Any re-entry that reads as sales pressure during or shortly after that window does lasting damage. The move is a quiet, forwardable artifact Jeben can use whenever the moment is right — never a direct push to Justin."
     },
     {
       "variant": "info",
@@ -117,18 +117,18 @@
   "protocol": [
     {
       "label": "Step 1",
-      "title": "Send Jeben the Louisville tracker artifact",
-      "body": "One link, layman's language, his threads serialized, the economics spelled out, next steps pre-framed as best/base/worst. Ask him to sanity-check the record — that request alone restarts the thread.",
+      "title": "Stand up the tracker at jeben.arcs.care (password-gated)",
+      "body": "One professional, dialed page — the polished foot-forward the earlier materials weren't. Layman's language, his threads serialized, economics spelled out, next steps pre-framed best/base/worst. Ask Jeben only to sanity-check the record.",
       "active": true
     },
     {
       "label": "Step 2",
-      "title": "Verify thread state from May 20 onward",
-      "body": "One question: 'Where did things land with Justin and the round?' Fill the null before acting on stale assumptions."
+      "title": "Let Jeben set the clock",
+      "body": "The pause was a family tragedy, not a business signal. One gentle question: 'Is the record right, and when would a re-entry be welcome?' No follow-up cadence until he answers."
     },
     {
       "label": "Step 3",
-      "title": "Make the one-sentence ask",
+      "title": "Make the one-sentence ask — when invited",
       "body": "One hour with Justin on the next-bag decision. Free. Output is a written Decision Receipt he keeps either way. No deck walkthrough, no platform tour."
     },
     {

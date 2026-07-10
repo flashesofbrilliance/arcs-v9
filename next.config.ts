@@ -44,6 +44,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         // token.arcs.care → public/token.html
         { source: "/:path*", destination: "/token.html", has: [{ type: "host", value: "token.arcs.care" }] },
+        // jeben.arcs.care → public/jeben.html (Louisville Brands Thread Book, pw-gated)
+        { source: "/:path*", destination: "/jeben.html", has: [{ type: "host", value: "jeben.arcs.care" }] },
         // resume.arcs.care → public/resume.html
         // NOTE: this rule previously existed ONLY inside the live deployment (deployed from a
         // dirty tree, never committed) — verified 2026-07-09 via x-matched-path. Committed here
