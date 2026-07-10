@@ -79,6 +79,26 @@
   .tl li.peak::before{border-color:var(--accent); background:var(--accent)}
   .tl li.null::before{border-color:var(--red); background:var(--bg)}
   .tl .when{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+  .tl li{scroll-margin-top:24px}
+  /* signal waveform — same pattern as fanatics.arcs.care */
+  .waveform-wrap{margin:4px 0 34px}
+  .waveform{width:100%;display:block;overflow:visible}
+  .wf-label{font-family:var(--mono);font-size:7px;letter-spacing:.1em;fill:var(--faint)}
+  .wf-spike:hover .wf-label,.wf-spike:focus .wf-label{fill:var(--text)}
+  @keyframes wf-pulse-cyan {0%,100%{filter:drop-shadow(0 0 0px #00F0FF)}50%{filter:drop-shadow(0 0 5px #00F0FF)}}
+  @keyframes wf-pulse-gold {0%,100%{filter:drop-shadow(0 0 0px #FFD700)}50%{filter:drop-shadow(0 0 5px #FFD700)}}
+  @keyframes wf-pulse-green{0%,100%{filter:drop-shadow(0 0 0px #00FF9D)}50%{filter:drop-shadow(0 0 5px #00FF9D)}}
+  @keyframes wf-pulse-red  {0%,100%{filter:drop-shadow(0 0 0px #FF4D6D)}50%{filter:drop-shadow(0 0 5px #FF4D6D)}}
+  @keyframes wf-pulse-steel{0%,100%{filter:drop-shadow(0 0 0px #94a3b8)}50%{filter:drop-shadow(0 0 4px #94a3b8)}}
+  #wf-1 circle{animation:wf-pulse-cyan 2.1s ease-in-out infinite}
+  #wf-2 circle{animation:wf-pulse-steel 2.6s ease-in-out infinite}
+  #wf-3 circle{animation:wf-pulse-green 1.9s ease-in-out infinite}
+  #wf-4 circle{animation:wf-pulse-cyan 2.3s ease-in-out infinite}
+  #wf-5 circle{animation:wf-pulse-gold 2.5s ease-in-out infinite}
+  #wf-6 circle{animation:wf-pulse-steel 2.8s ease-in-out infinite}
+  #wf-7 circle{animation:wf-pulse-red 2s ease-in-out infinite}
+  @media (prefers-reduced-motion: reduce){.waveform circle{animation:none !important}}
+  @media (max-width:520px){.wf-label{display:none}.waveform{height:52px !important}}
   .tl h3{margin:3px 0 5px}
   .tl p{font-size:15.5px; color:var(--muted); margin:0}
   /* ledger */
@@ -220,38 +240,80 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
 <section id="timeline">
   <p class="eyebrow">02 · How We Got Here — The Serialized Record</p>
   <hr class="rule">
+  <div class="waveform-wrap">
+    <svg class="waveform" viewBox="0 0 560 62" xmlns="http://www.w3.org/2000/svg" style="height:62px" role="img" aria-label="Signal strength of each touchpoint, March 5 to May 20. Click a node to jump to it.">
+      <line x1="0" y1="44" x2="560" y2="44" stroke="#1e293b" stroke-width="1"/>
+      <a href="#tl-1"><g class="wf-spike" id="wf-1" style="cursor:pointer">
+        <line x1="40" y1="44" x2="40" y2="14" stroke="#00F0FF" stroke-width="2"/>
+        <circle cx="40" cy="14" r="3" fill="#00F0FF"/>
+        <text x="40" y="57" text-anchor="middle" class="wf-label">MAR 5 DISCOVERY</text>
+      </g></a>
+      <a href="#tl-2"><g class="wf-spike" id="wf-2" style="cursor:pointer">
+        <line x1="120" y1="44" x2="120" y2="34" stroke="#94a3b8" stroke-width="2"/>
+        <circle cx="120" cy="34" r="2.5" fill="#94a3b8"/>
+        <text x="120" y="57" text-anchor="middle" class="wf-label">MAR 17 REGION</text>
+      </g></a>
+      <a href="#tl-3"><g class="wf-spike" id="wf-3" style="cursor:pointer">
+        <line x1="200" y1="44" x2="200" y2="24" stroke="#00FF9D" stroke-width="2"/>
+        <circle cx="200" cy="24" r="3" fill="#00FF9D"/>
+        <text x="200" y="57" text-anchor="middle" class="wf-label">MAR 24 DEMO</text>
+      </g></a>
+      <a href="#tl-4"><g class="wf-spike" id="wf-4" style="cursor:pointer">
+        <line x1="280" y1="44" x2="280" y2="5" stroke="#00F0FF" stroke-width="2"/>
+        <circle cx="280" cy="5" r="3.5" fill="#00F0FF"/>
+        <line x1="258" y1="44" x2="302" y2="44" stroke="#00F0FF" stroke-width="1" opacity="0.2"/>
+        <text x="280" y="57" text-anchor="middle" class="wf-label">MAR 31 ECONOMICS</text>
+      </g></a>
+      <a href="#tl-5"><g class="wf-spike" id="wf-5" style="cursor:pointer">
+        <line x1="360" y1="44" x2="360" y2="22" stroke="#FFD700" stroke-width="2"/>
+        <circle cx="360" cy="22" r="3" fill="#FFD700"/>
+        <text x="360" y="57" text-anchor="middle" class="wf-label">APR 2 DECK</text>
+      </g></a>
+      <a href="#tl-6"><g class="wf-spike" id="wf-6" style="cursor:pointer">
+        <line x1="440" y1="44" x2="440" y2="36" stroke="#94a3b8" stroke-width="2"/>
+        <circle cx="440" cy="36" r="2.5" fill="#94a3b8"/>
+        <text x="440" y="57" text-anchor="middle" class="wf-label">APR 21 PAUSE</text>
+      </g></a>
+      <a href="#tl-7"><g class="wf-spike" id="wf-7" style="cursor:pointer">
+        <line x1="520" y1="44" x2="520" y2="30" stroke="#FF4D6D" stroke-width="2"/>
+        <circle cx="520" cy="30" r="2.5" fill="#FF4D6D"/>
+        <text x="520" y="57" text-anchor="middle" class="wf-label">MAY 20 STATUS</text>
+      </g></a>
+      <ellipse cx="280" cy="44" rx="24" ry="4" fill="#00F0FF" opacity="0.04"/>
+    </svg>
+  </div>
   <ul class="tl">
-    <li class="peak">
+    <li id="tl-1" class="peak">
       <span class="when">Mar 5 · Call 1 — Discovery</span>
       <h3>Louisville Brands enters the conversation</h3>
       <p>Jeben laid out the terrain: a certified-organic, certified-vegan factory running at roughly 40% of capacity; co-manufacturing mushroom products for other brands; three snack lines (jerky, pumpkin seeds, gym snacks) under separate brands with no shared identity — "it exists in pieces, and nobody can agree on what it is." The Pumps rework story and the CEO's mango push both surfaced here. Zach offered a free first analysis; Jeben agreed to send a business brief.</p>
     </li>
-    <li>
+    <li id="tl-2">
       <span class="when">Mar 17 · Call 2 — Region, not the company</span>
       <h3>Louisville-adjacent ideas</h3>
       <p>Hermitage Farm's 45-key hotel build, a possible co-branded horse-care product, artist management. Good threads — parked below — but no new Louisville Brands commitments.</p>
     </li>
-    <li>
+    <li id="tl-3">
       <span class="when">Mar 24 · Call 3 — Demo</span>
       <h3>Jeben sees ARCS work on real people</h3>
       <p>Profile scans, team-chemistry simulation, and the decision-receipt system. Jeben's read: the founder mindset at Louisville Brands "would vibe" with this. He starts opening doors.</p>
     </li>
-    <li class="peak">
+    <li id="tl-4" class="peak">
       <span class="when">Mar 31 · Call 4 — The economics call</span>
       <h3>Pricing anchored, funding round revealed, Justin intro promised</h3>
       <p>Jeben asked directly what an engagement costs, anchored it against a $20K-per-month convenience-store distribution vendor they already evaluate, and said the pricing "is appropriate — it's worthwhile if you get in there now." He revealed the investment structure (a fund tied to Brown-Forman and United Rentals money; an investor putting in $2–2.5M a year; a new round closing) and committed to cornering Justin for one hour.</p>
     </li>
-    <li>
+    <li id="tl-5">
       <span class="when">Apr 2 · Artifact</span>
       <h3>The proposal deck is built</h3>
       <p>"ARCS × Louisville Brands — A 90-Day Decision System": studio sessions, decision receipts, stop-loss rules, three lanes (Capital / Product / Brand), tiered pricing, and a ready-to-send note to Justin.</p>
     </li>
-    <li>
+    <li id="tl-6">
       <span class="when">Apr 21 · Call 5 — Pause</span>
       <h3>Louisville goes quiet — for a human reason</h3>
       <p>The whole call went to another opportunity (Limitless Minds) and family talk. The Louisville silence, it later became clear, wasn't about the material at all: a serious personal loss in the founder's family put everything on hold. The timing was off. The thread paused out of respect, not disinterest.</p>
     </li>
-    <li>
+    <li id="tl-7">
       <span class="when">May 20 · Call 6 — Status check</span>
       <h3>"Quick Catch Up?" — Limitless Minds postponed</h3>
       <p>No transcript survived, but the call was about Limitless Minds: Harry pushed the next conversation — a stack of higher priorities, and likely wanting the chief medical officer of Calm he's been working with to settle in and align on product before re-engaging. Louisville Brands remained paused for the family reasons above.</p>
