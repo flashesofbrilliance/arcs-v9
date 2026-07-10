@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         // fanatics.arcs.care → public/fanatics.html
         { source: "/:path*", destination: "/fanatics.html", has: [{ type: "host", value: "fanatics.arcs.care" }] },
+        // daniel.arcs.care → public/daniel.html (Crabtree recoil + fractional.city teardown)
+        { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         // token.arcs.care → public/token.html
         { source: "/:path*", destination: "/token.html", has: [{ type: "host", value: "token.arcs.care" }] },
         // resume.arcs.care → public/resume.html
