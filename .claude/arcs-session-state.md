@@ -1,6 +1,74 @@
 # ARCS Session State
 
-**Last updated:** 2026-06-23 (v3.2.0)
+**Last updated:** 2026-07-08 (v3.7.0)
+**Environment:** Claude Code (local), worktree `unruffled-chatelet-26794f`
+**Branch:** `claude/uikits-templates-artifacts-87c0ca`
+**Last commit (arcs-v9 main):** b7883fb — chore(consolidation): bar-raiser corrections [NCI:SKIP]
+
+## v3.7.0 delta (this update)
+
+- **Consolidation audit COMPLETE** — arcs-decision-receipts unique content ported to arcs-v9 in two commits:
+  - `cf8b084`: field-os specs → `runtime/specs/field-os/`; fanatics+token routes in `next.config.ts`; canonical template `public/templates/call-brief-template.html`; `ui_artifacts` section in `_STATE/snapshot.json`
+  - `b7883fb`: bar-raiser corrections — `kryptonite_scorer.py`+`waveform_optimizer.py` → `operators/`; 4 canon docs → `_CANON/living/`; 5 memory shards → `_MEMORY/` (git-tracked, replaces `~/.claude/projects/` which is machine-local)
+- **`_MEMORY/` directory established** — git-tracked product intelligence now visible to cloud sessions; 5 shards committed
+- **`_CANON/living/` directory established** — primary doctrine docs (v9-canon-operational, codex-v8.5, positioning, technical-overview) promoted from `arcs-v9-additional/`
+- **Canonical call-brief template** — `public/templates/call-brief-template.html` with `{{PLACEHOLDERS}}` and authoring workflow comment
+- **Snapshot coverage** — `_STATE/snapshot.json` now has `ui_artifacts` + `memory_shards` sections for cloud session bootstrap
+- **Pending Architect decisions**: monomath-compiler + gold-coast → standalone repos (not arcs-v9); index.html + deep-activate.html → audit provenance before porting
+- **`_STATE/snapshot.json` is 6d stale** — run `/init-state-sync` to refresh NCI counter and active brief roster
+
+## v3.6.0 delta (prior)
+
+- **fanatics.arcs.care LED placement fixed** — `.beat-led` converted from `position: absolute; top: 14px; left: 14px` (overlapping beat number) to `flex-shrink: 0` inline flex item, moved to first child inside `.beat-head`. Mirrors the diamond `◆` position: inline before the beat number on all 5 beats. [NCI:212]
+- **Stray `</div>` removed** — removing beat-06 in prior session left an orphaned closing div that closed `.page` container before the CTA block, causing it to render full-width outside the 680px max-width container. Fixed by removing the extra div. [NCI:212]
+- **CTA padding updated** — `margin-top: 32px → 40px`, `padding: 20px 22px → 24px` for consistent spacing with rest of page. [NCI:212]
+- **Committed + deployed** — commit `971f95e`, deploying to production via `deploy-prod.sh`.
+
+## v3.5.0 delta (prior)
+
+- **fanatics.arcs.care LED refactor COMPLETE** — pulsing LEDs moved from vertical left-rail to horizontal SVG waveform circles (5 `filter: drop-shadow()` animations, color-matched per beat, staggered timing). Vertical `signal-wire` element and `beat-node` dots removed. Beat card `.beat-led` dots restored (6px dot, top-left, color-coded via `--nc` CSS var) for visual differentiation between cards. [NCI:207–209]
+- **padding-left regression fixed + deployed** — `signal-sequence` `padding-left: 44px` was orphaned after removing the vertical rail. Set to `0` to align provenance beat cards with all other page sections. Commit `0246df6`, deployed to production. [NCI:210]
+- **Subdomain QA COMPLETE** — all 13 deployed subdomains confirmed 200 OK (curl + visual). Zero 404s.
+- **Fanatics security constraints re-confirmed**: fanatics.arcs.care, chris.arcs.care, cj-debrief.arcs.care, chase-intro.arcs.care, token.arcs.care, kelly-interview.arcs.care, todd-call.arcs.care — all ungated, no password protection.
+- **Drift sentinel fired** — this session state update + CLAUDE.md Handoff v3.5.0 written per pre-compaction protocol.
+
+## Status
+
+- arcs-v9 Vercel: ✅ LIVE — `dpl_4ANhwAxWA3cG6gHVF5MBh3LXBR2k` READY, aliased to `app.arcs.care`
+- fanatics.arcs.care: ✅ Beat LED dots + SVG timeline pulse + flush page layout — all live
+- All prior open items from v3.2.0: unchanged (carried forward — see prior session state below)
+
+## Open items (carried from v3.2.0, unresolved)
+
+```
+2.  settings.local.json leaked password (owdiiyvphyifukygvxhg)  BLOCKED ON ZACH
+3.  vercel.ts migration                                          🔴 INCOMPLETE
+4.  Trust contract page (route)                                  NOT STARTED
+5.  DATABASE_URL rotation risk, xbbpiryokswwvcrcutge (ADR-005)  OPEN
+6.  Validate SAGE NCI against real Outcomes                      OPEN
+7.  Panel/Chip design system components (ADR-009)               READY
+8.  ADR-006 branching strategy                                   READY
+9.  arcs-care: flip NEXT_PUBLIC_CASE_STUDY_APPROVED             WAITING on Dan Pascone
+10. Governance backlog #3 — consolidate 3 narrative logs        READY
+11. Governance backlog #4 — drift-sensor                        Design done, build not started
+12. Governance backlog #6 — DEWY commit/PR trailer stamp        Ready after #3
+13. Orphaned Supabase tables                                     OPEN — needs Zach's input
+14. 4 remaining Supabase advisor WARNs                          OPEN (deliberate)
+```
+
+## Next session
+
+`/handoff-pickup` → julia.arcs.care drill feature (pre-call checklist → verbal drills for voice call practice; clarify: drill interaction model + who are Jack, Jill, Boardy) OR governance backlog #3 (log consolidation).
+
+**Pending clarifications for julia.arcs.care drill feature:**
+1. Drill interaction model — inline flip/reveal, modal, or sidebar?
+2. Who are Jack, Jill, and Boardy? (referenced in julia.arcs.care pre-call checklist)
+
+---
+
+<!-- PRIOR SESSION STATE (v3.2.0) PRESERVED BELOW -->
+
+**[v3.2.0 — 2026-06-23]**
 **Environment:** Claude Code (local), worktree `busy-chaplygin-22139c`
 **Branch:** `observatory-cherry-pick` (pushed to origin, no PR opened yet — deliberate, Zach's choice)
 **Last commit (arcs-v9):** e888cc4 — chore: fold in lockfile normalization + RLS doc project-ref fix
