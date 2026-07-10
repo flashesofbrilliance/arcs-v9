@@ -2,8 +2,8 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "c2b3072",
-    "head_message": "fix(jeben): Safari-safe LED pulse \u2014 halo scale/opacity, not filter [NCI:SKIP]",
+    "head_sha": "9a80a28",
+    "head_message": "chore(state): snapshot mechanical refresh (session-resume hook) [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": []
   },
@@ -143,5 +143,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-10T22:35:46Z"
+  "git_refreshed_at": "2026-07-10T23:21:39Z"
 }
