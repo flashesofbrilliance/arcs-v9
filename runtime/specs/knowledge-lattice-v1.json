@@ -49,6 +49,10 @@
     "l": {
       "label": "LIBRARY",
       "r": 0.82
+    },
+    "g": {
+      "label": "META",
+      "r": 0.97
     }
   },
   "nodes": [
@@ -737,6 +741,61 @@
       "dom": "ety",
       "status": "ok",
       "what": "The backward force after firing: reading history against its own momentum."
+    },
+    {
+      "id": "meta_ont",
+      "label": "ONTOLOGY — what exists",
+      "st": "g",
+      "dom": "ont",
+      "status": "true",
+      "what": "The family of what exists: receipts, tributaries, doors, standing. Absent as a first-class node until e8 — the domain of what-exists did not itself exist in the lattice (caught by Zach, 2026-07-10). Receives 31 evidentiary roads but emits almost nothing: 'what exists' is currently defined by the other families rather than defining them.",
+      "shore": [
+        "Only one quantum axiom is ontological (ax3) — author the missing ontology axioms",
+        "Give ontology out-roads: what does the entity model imply for how we know?"
+      ]
+    },
+    {
+      "id": "meta_epi",
+      "label": "EPISTEMOLOGY — how we know",
+      "st": "g",
+      "dom": "epi",
+      "status": "ok",
+      "what": "Gauges, receipts-as-evidence, self-grades, eval harnesses. The only domain never silent as an evidence target across all 8 epochs — and the only healthy meta-node of the five."
+    },
+    {
+      "id": "meta_met",
+      "label": "METAPHYSICS — the physics",
+      "st": "g",
+      "dom": "met",
+      "status": "true",
+      "what": "The physics of the decision world: fog, phases, superionic, time. Quiet signal: attested by documents 3:1 over measurement (24 library roads vs 8 epistemology roads in). The physics is written far more than it is measured.",
+      "shore": [
+        "F7 kairos breadcrumbs + F8 outcome loop are the rebalancing measurements"
+      ]
+    },
+    {
+      "id": "meta_ety",
+      "label": "ETYMOLOGY — why these names",
+      "st": "g",
+      "dom": "ety",
+      "status": "true",
+      "what": "Where the names come from. Pure exporter: 8 roads out, 0 in — and zero pollination FROM any library doc in any epoch. ARCS imports all its names (Greek, CCRU, materials science, Chinese) and has never yet coined-and-canonized a term from its own material into this family.",
+      "shore": [
+        "Glossary backfill (F2) is the structural fix",
+        "First internal coinage candidates: DEWY, NOTOMATION, zero-point — name their origins formally"
+      ]
+    },
+    {
+      "id": "meta_lib",
+      "label": "LIBRARY — where it is written",
+      "st": "g",
+      "dom": "lib",
+      "status": "true",
+      "what": "17 documents, 64 roads out — and in-degree ZERO across every document. The library examines everything and is examined by nothing: the unexamined examiner, at family scale. Three canonical books (Canon v1.1/v2.0, Codex v8.5, Phenomenology) pollinate nothing at all.",
+      "shore": [
+        "Turn the 720° second sweep on the library itself: audit the documents as objects",
+        "Decide: are canon/codex/phen under-mined sources or consolidation candidates?"
+      ]
     }
   ],
   "edges": [
