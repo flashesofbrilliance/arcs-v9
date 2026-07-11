@@ -39,26 +39,35 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 #app { display: none; }
 
 /* ── HEADER + TABS ── */
-.doc-header { position: sticky; top: 0; z-index: 100; background: rgba(2,4,8,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 16px; }
+.doc-header { position: sticky; top: 38px; z-index: 100; background: rgba(2,4,8,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 16px; }
 .doc-header-inner { max-width: 940px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; min-height: 48px; gap: 12px; flex-wrap: wrap; }
 .doc-mark { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--green); padding: 8px 0; }
 .tabs { display: flex; gap: 0; overflow-x: auto; }
 .tab-btn { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 13px; height: 48px; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color .15s, border-color .15s; }
 .tab-btn:hover { color: var(--sub); }
 .tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
-.xlink {
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--cyan);
-  border: 1px solid rgba(0,240,255,.35);
-  border-radius: 4px;
-  padding: 5px 10px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .15s;
+/* ── STICKY BREADCRUMB ── */
+.crumb-bar {
+  position: sticky; top: 0; z-index: 110;
+  background: linear-gradient(90deg, rgba(0,255,157,.10), rgba(0,240,255,.08));
+  border-bottom: 1px solid rgba(0,240,255,.25);
+  backdrop-filter: blur(12px);
 }
-.xlink:hover { background: rgba(0,240,255,.08); }
+.crumb-inner {
+  max-width: 940px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; gap: 10px;
+  height: 38px;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  overflow-x: auto; white-space: nowrap;
+}
+.crumb-root { color: var(--dimmed); }
+.crumb-sep { color: #334155; }
+.crumb-seg { color: var(--muted); text-decoration: none; padding: 4px 10px; border-radius: 4px; transition: color .15s, background .15s; }
+.crumb-seg:hover { color: var(--text); background: rgba(255,255,255,.04); }
+.crumb-seg.current { color: #020408; background: var(--green); }
+.crumb-seg.other { color: var(--cyan); border: 1px solid rgba(0,240,255,.4); }
+.crumb-seg.other:hover { background: rgba(0,240,255,.1); color: var(--cyan); }
 .tab-pane { display: none; }
 .tab-pane.active { display: block; }
 
@@ -167,6 +176,14 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 </div>
 
 <div id="app">
+<div class="crumb-bar">
+  <div class="crumb-inner">
+    <span class="crumb-root">PRL Resins · Todd Hotes</span>
+    <span class="crumb-sep">/</span>
+    <a class="crumb-seg other" href="/">← Recoil Report</a>
+    <span class="crumb-seg current">Marketing Teardown</span>
+  </div>
+</div>
 <div class="doc-header">
   <div class="doc-header-inner">
     <div class="doc-mark">ARCS · PRL Teardown</div>
@@ -176,7 +193,6 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <button class="tab-btn" onclick="switchTab('roadmap')">Roadmap</button>
       <button class="tab-btn" onclick="switchTab('protocol')">Protocol</button>
     </div>
-    <a class="xlink" href="/">Recoil Report ↗</a>
   </div>
 </div>
 
