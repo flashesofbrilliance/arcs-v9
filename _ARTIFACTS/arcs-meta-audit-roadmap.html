@@ -1,0 +1,413 @@
+<title>ARCS Meta-Audit — Roadmap v1.0.0</title>
+<style>
+  /* ARCS cockpit system — deliberately single-theme: the ARCS world is dark obsidian.
+     Palette inherited from src/ui/tokens.ts, not invented here. */
+  :root{
+    --bg:#020408; --surface:#0d1117; --surface2:#0a0e14; --border:#1e293b;
+    --text:#e2e8f0; --sec:#94a3b8; --dim:#64748b; --mut:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --steel:#7dd3fc;
+    --mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+  }
+  html{background:var(--bg)}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;line-height:1.6}
+  .wrap{max-width:1020px;margin:0 auto;padding:0 1.25rem 6rem}
+  .lbl{font-family:var(--mono);font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+  .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)} .lbl.gr{color:var(--green)} .lbl.rd{color:var(--red)}
+  h2{font-size:1.15rem;font-weight:600;letter-spacing:-.01em;margin:0 0 .35rem;text-wrap:balance}
+  p{margin:.4rem 0;color:var(--sec);font-size:.925rem;max-width:68ch}
+  .rule{height:1px;background:var(--border);margin:2.4rem 0 1.6rem}
+  section{scroll-margin-top:90px}
+
+  /* ── control deck ── */
+  .deck{position:sticky;top:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .deck-in{max-width:1020px;margin:0 auto;padding:.6rem 1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:.75rem;font-weight:700;letter-spacing:.18em;color:var(--text)}
+  .wordmark b{color:var(--cyan)}
+  .seg{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden}
+  .seg button{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:none;border:none;color:var(--dim);padding:.45rem .7rem;cursor:pointer}
+  .seg button.on{background:rgba(0,240,255,.09);color:var(--cyan)}
+  .seg button:focus-visible,.btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
+  .metro{display:flex;align-items:center;gap:.5rem;min-width:220px}
+  .metro input{accent-color:var(--gold);width:110px}
+
+  /* ── fidelity engine (WORLD.md render scale: GRAIN→MOIRE→DEGRADED→SHARP→LOCKED) ── */
+  :root{--fid-opacity:1;--fid-blur:0px;--fid-gray:0;--fid-track:0em;--fid-scan:0;--fid-pw:450}
+  .wrap{opacity:var(--fid-opacity);filter:blur(var(--fid-blur)) grayscale(var(--fid-gray));letter-spacing:var(--fid-track);transition:opacity .2s ease,filter .2s ease}
+  .wrap p,.wrap td,.wrap .t{font-weight:var(--fid-pw)}
+  body::before{content:'';position:fixed;inset:0;z-index:60;pointer-events:none;opacity:var(--fid-scan);background:repeating-linear-gradient(0deg,rgba(0,0,0,.6) 0 1px,transparent 1px 3px)}
+  body.fid-moire::before{background:repeating-linear-gradient(0deg,rgba(0,0,0,.6) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,240,255,.03) 0 2px,transparent 2px 5px)}
+  body.fid-low .ep:not(.k){opacity:.3}
+  body.fid-locked .tn{box-shadow:0 0 54px rgba(0,240,255,.16);border-color:rgba(0,240,255,.6)}
+  body.fid-locked .gauge{border-color:rgba(0,240,255,.28)}
+  @media (prefers-reduced-motion:reduce){.wrap{transition:none}}
+  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.45rem .7rem;cursor:pointer}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan)}
+  .spacer{flex:1}
+
+  /* altitude visibility — the lossless translation picker */
+  .alt-exec [data-depth="op"],.alt-exec [data-depth="surg"]{display:none}
+  .alt-op [data-depth="surg"]{display:none}
+
+  /* ── hero receipt ── */
+  .hero{padding-top:2.6rem}
+  .stamp{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.1rem}
+  .hero h1{font-size:clamp(1.7rem,4.4vw,2.4rem);font-weight:600;letter-spacing:-.025em;line-height:1.12;margin:.4rem 0 1rem;text-wrap:balance}
+  .tn{border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.045);border-radius:6px;padding:1.1rem 1.3rem;box-shadow:0 0 34px rgba(0,240,255,.07)}
+  .tn p{color:var(--text);font-size:1.02rem;max-width:none}
+  .gauges{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.1rem}
+  .gauge{border:1px solid var(--border);background:var(--surface);border-radius:6px;padding:.6rem .9rem;min-width:104px}
+  .gauge .v{font-family:var(--mono);font-size:1.45rem;font-weight:700;font-variant-numeric:tabular-nums}
+  .note{font-size:.8rem;color:var(--dim);border-left:2px solid var(--gold);padding-left:.75rem;margin-top:1.1rem}
+
+  /* ── recoil passes ── */
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+  .panel{border:1px solid var(--border);background:var(--surface);border-radius:6px;padding:1rem 1.15rem}
+  .panel h3{font-size:.95rem;margin:.5rem 0 .3rem}
+  .flag{color:var(--gold);font-family:var(--mono);font-size:.7rem;font-weight:700}
+
+  /* ── timeline ── */
+  .tl-scroll{overflow-x:auto;border:1px solid var(--border);background:var(--surface2);border-radius:6px;padding:1.4rem 1rem 1rem}
+  .tl{position:relative;height:170px;min-width:860px}
+  .tl-axis{position:absolute;left:0;right:0;top:84px;height:1px;background:var(--border)}
+  .ep{position:absolute;top:0;width:150px;transform:translateX(-50%);transition:left .35s ease}
+  @media (prefers-reduced-motion:reduce){.ep{transition:none}.kdot{animation:none}}
+  .ep .dot{position:absolute;top:79px;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:var(--surface);border:2px solid var(--cyan)}
+  .ep.k .dot{border-color:var(--gold);background:rgba(255,215,0,.18)}
+  .kdot{animation:kpulse 2.4s ease-in-out infinite}
+  @keyframes kpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.35)}50%{box-shadow:0 0 0 7px rgba(255,215,0,0)}}
+  .ep .d{font-family:var(--mono);font-size:.58rem;color:var(--mut);text-align:center;position:absolute;top:56px;width:100%}
+  .ep .t{font-size:.72rem;color:var(--sec);text-align:center;position:absolute;top:100px;width:100%;line-height:1.35}
+  .ep.k .t{color:var(--gold)}
+  .ep:nth-child(odd) .t{top:auto;bottom:118px}
+  .ep:nth-child(odd) .d{top:auto;bottom:100px}
+  .tl-legend{display:flex;gap:1.4rem;margin-top:.7rem;flex-wrap:wrap}
+
+  /* ── parity table ── */
+  .tbl-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:6px}
+  table{border-collapse:collapse;width:100%;min-width:680px;background:var(--surface)}
+  th{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--border)}
+  td{font-size:.84rem;color:var(--sec);padding:.55rem .8rem;border-bottom:1px solid rgba(30,41,59,.55);vertical-align:top}
+  td:first-child{color:var(--text)}
+  tr:last-child td{border-bottom:none}
+  .chip{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:2px 7px;white-space:nowrap}
+  .c-ok{color:var(--green);background:rgba(0,255,157,.08);border:1px solid rgba(0,255,157,.35)}
+  .c-part{color:var(--gold);background:rgba(255,215,0,.07);border:1px solid rgba(255,215,0,.35)}
+  .c-stale{color:var(--red);background:rgba(255,77,109,.07);border:1px solid rgba(255,77,109,.4)}
+  .c-gate{color:var(--steel);background:rgba(125,211,252,.07);border:1px solid rgba(125,211,252,.3)}
+  .c-gap{color:var(--dim);background:rgba(100,116,139,.08);border:1px solid var(--border)}
+
+  /* ── gauntlet ── */
+  .gcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem}
+  .gcard{border:1px solid var(--border);border-left:3px solid var(--cyan);background:var(--surface);border-radius:6px;padding:1rem 1.15rem}
+  .gcard.gd{border-left-color:var(--gold)} .gcard.rd{border-left-color:var(--red)} .gcard.gr{border-left-color:var(--green)}
+  .verdict{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.1em}
+
+  /* ── chi/ma/wuwei ── */
+  .trip{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+  .trip .panel h3{font-size:1.4rem;font-weight:400;margin:0}
+  .trip .zh{font-size:2rem;line-height:1;opacity:.9}
+
+  /* ── stack rank ── */
+  .move{display:grid;grid-template-columns:44px 1fr auto;gap:1rem;align-items:baseline;padding:.95rem 0;border-bottom:1px solid rgba(30,41,59,.55)}
+  .move:last-child{border-bottom:none}
+  .move .n{font-family:var(--mono);font-size:.8rem;font-weight:700;color:var(--cyan)}
+  .move h3{font-size:.98rem;margin:0 0 .2rem}
+  .move p{font-size:.84rem;margin:0}
+  .ybadge{font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:3px 8px;white-space:nowrap}
+  .y-g{color:#020408;background:var(--green)} .y-y{color:#020408;background:var(--gold)} .y-f{color:var(--gold);border:1px solid var(--gold);background:rgba(255,215,0,.08)} .y-r{color:var(--red);border:1px solid var(--red);background:rgba(255,77,109,.07)}
+
+  .inch{font-family:var(--mono);font-size:.78rem;color:var(--sec);border:1px dashed var(--border);border-radius:6px;padding:.9rem 1.1rem}
+  .inch b{color:var(--gold)}
+  footer{margin-top:3rem;font-family:var(--mono);font-size:.62rem;color:var(--mut);letter-spacing:.08em}
+  @media print{.deck{position:static}.tl-scroll,.tbl-scroll{overflow:visible}body{background:#fff;color:#111}}
+</style>
+
+<div class="deck"><div class="deck-in">
+  <span class="wordmark"><b>ARCS</b>&nbsp;· META-AUDIT</span>
+  <div class="metro"><span class="lbl cy">Fidelity</span>
+    <input id="alt" type="range" min="0" max="6" step="1" value="1" style="accent-color:var(--cyan)" aria-label="Semantic fidelity: galactic to quantum">
+    <span class="lbl cy" id="alt-lbl" style="min-width:82px">EXEC</span>
+  </div>
+  <div class="metro"><span class="lbl gd">Resolution</span>
+    <input id="fid" type="range" min="0" max="100" value="62" aria-label="Render resolution: 8-bit to lossless">
+    <span class="lbl" id="fid-lbl" style="min-width:92px">4K · SHARP</span>
+  </div>
+  <span class="spacer"></span>
+  <button class="btn" id="dl-md">↓ .md</button>
+  <button class="btn" onclick="window.print()">Print / PDF</button>
+</div></div>
+
+<div class="wrap">
+
+<section class="hero">
+  <div class="stamp">
+    <span class="lbl cy">Recoil Protocol · Reverse + Deep Recall</span>
+    <span class="lbl">Epoch e802ed7 · 2026-07-10</span>
+    <span class="lbl gd">v1.0.0 · Golden Inchworm live</span>
+  </div>
+  <h1>The engine is real and live.<br>The loop is open.</h1>
+  <div class="tn">
+    <span class="lbl cy">True North · COURT · TWO-WAY DOOR</span>
+    <p>Close the loop — ship → measure → debrief → truth-sync — before adding any new organ. Every ranked move below serves that bearing; only one (the Hard Fork) is one-way.</p>
+  </div>
+  <div class="gauges">
+    <div class="gauge"><span class="lbl">Conviction</span><div class="v" style="color:var(--green)" data-precise="78">78</div></div>
+    <div class="gauge"><span class="lbl">Coherence</span><div class="v" style="color:var(--green)" data-precise="82">82</div></div>
+    <div class="gauge"><span class="lbl">Done-state</span><div class="v" style="color:var(--gold)" data-precise="42" data-assessed="1">~42%</div></div>
+    <div class="gauge"><span class="lbl">Canon drift</span><div class="v" style="color:var(--red)">3 stale</div></div>
+  </div>
+  <div class="note" data-depth="op">Requested confidence was 100%. ARCS doctrine — honest NCI, never inflate — overrides the request. These gauges are earned values: done-state is a weighted assessment of the parity matrix against WORLD.md's end-state, not a measurement.</div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§1 · Recoil passes</span>
+  <h2>Two readings of the whole corpus</h2>
+  <div class="cols" style="margin-top:.9rem">
+    <div class="panel">
+      <span class="lbl gd">Reverse listening · end → start</span>
+      <h3>Where it actually landed</h3>
+      <p><span class="flag">Δ1</span> The de-facto product is the <b style="color:var(--text)">artifact wedge</b> — call briefs, recoil reports, 13 personalized subdomains — while the canon still narrates the compass as the product.</p>
+      <p data-depth="op"><span class="flag">Δ2</span> The promised engine (operators/, 17,353 lines of Python) exists — but the shipping engine is a Claude prompt. Two implementations of one physics; one wired.</p>
+      <p data-depth="op"><span class="flag">Δ3</span> The system that preaches receipts had no receipts about itself until epoch e802ed7 (funnel events) and this audit.</p>
+    </div>
+    <div class="panel">
+      <span class="lbl gd">Deep recall · start → end · 1/100th</span>
+      <h3>The promise, slow-read</h3>
+      <p>WORLD.md promised: fog→clarity navigation, receipts as cartography, Observatory replay, accumulation into a personal atlas, Kairos timing, L0–L7, shared court, superionic flow.</p>
+      <p data-depth="op">Verdict: L0–L5 and the receipt→brief→replay chain are substantially real. Accumulation (outcomes → priors → atlas) is embryonic. Kairos and the collective layers are canon-only — <i>and correctly so</i>: they're gated, and the product discloses this honestly on its own trust surface.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§2 · Epochs</span>
+  <h2>Timeline — kairos breadcrumbs, fidelity-coupled</h2>
+  <p data-depth="op">Two dials, two axes of truth. <b style="color:var(--text)">Fidelity</b> is semantic altitude — GALACTIC → EXEC → STRATEGIC → OPERATIONAL → TACTICAL → SURGICAL → QUANTUM — the same facts at coarser or finer grain (lossless translation). <b style="color:var(--text)">Resolution</b> is render quality — 8-BIT·GRAIN → 32MB·MOIRE → 2K·DEGRADED → 4K·SHARP → 8K·LOCKED → LOSSLESS — walking WORLD.md's render scale. Time resolves with resolution: at 8-BIT only kairos landmarks stay legible and epochs space by significance-weight; at 8K+ the axis snaps to chronos precision. Gold nodes are kairos moments — where the terrain actually changed.</p>
+  <p class="note" data-depth="op">Doctrine guard: assessed values keep their tilde at any resolution. The dial changes rendering, never certainty — fidelity is earned, not dialed.</p>
+  <div class="tl-scroll"><div class="tl" id="tl"><div class="tl-axis"></div></div></div>
+  <div class="tl-legend">
+    <span class="lbl"><span style="color:var(--cyan)">●</span> chronos epoch</span>
+    <span class="lbl gd">● kairos breadcrumb</span>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§3 · Parity matrix</span>
+  <h2>Built vs. promised — verified against code, not handoffs</h2>
+  <div class="tbl-scroll" style="margin-top:.9rem"><table>
+    <thead><tr><th>Capability</th><th>Backend</th><th>Frontend</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>L0–L5 compass pipeline</td><td>Claude prompt · api/compass</td><td>dashboard</td><td><span class="chip c-ok">PARITY</span></td></tr>
+      <tr><td>Y-gate 12D → render fidelity</td><td>ygate.ts</td><td>resolution map</td><td><span class="chip c-ok">PARITY</span></td></tr>
+      <tr><td>DEWY receipts + briefs</td><td>15 Prisma models</td><td>receipt / brief / reflect</td><td><span class="chip c-ok">PARITY</span></td></tr>
+      <tr><td>ATG tributaries</td><td>EXACTLY-3 + migration</td><td>chips / stacks</td><td><span class="chip c-ok">PARITY</span> <span class="chip c-stale">CANON STALE</span></td></tr>
+      <tr><td>Outcome loop</td><td>api/receipts/[id]/outcome</td><td>debrief page</td><td><span class="chip c-ok">PARITY</span> <span class="chip c-stale">CANON STALE</span></td></tr>
+      <tr><td>Prep calibration</td><td>PrepSession</td><td>/prep</td><td><span class="chip c-part">PARTIAL</span></td></tr>
+      <tr><td>Observatory replay</td><td>GitHub ingest</td><td>1,174-LOC page</td><td><span class="chip c-part">PARTIAL</span> <span class="chip c-gate">GATED 100R</span></td></tr>
+      <tr><td>Recoil reports</td><td>JSON pipeline</td><td>route + ui-kit</td><td><span class="chip c-ok">PARITY</span></td></tr>
+      <tr data-depth="op"><td>Scan / Calibrate surface</td><td>ScanSignal / Feedback</td><td>/scan</td><td><span class="chip c-part">EMBRYO</span></td></tr>
+      <tr><td>Sage operator service</td><td>mounted /svc/sage</td><td><b style="color:var(--red)">zero callers</b></td><td><span class="chip c-stale">ORPHAN</span></td></tr>
+      <tr><td>Operators library · 17.4K LOC</td><td>37 files</td><td>unwired</td><td><span class="chip c-part">CANON-IN-CODE</span></td></tr>
+      <tr><td>Kairos detection</td><td>—</td><td>disclosed "Roadmap"</td><td><span class="chip c-gap">GAP · honest</span></td></tr>
+      <tr data-depth="op"><td>Drift sentinel</td><td>drift fields only</td><td>—</td><td><span class="chip c-gap">GAP → 08:00 routine</span></td></tr>
+      <tr data-depth="op"><td>Accumulation protocol · Book II·V</td><td>cron scaffolding</td><td>debrief embryo</td><td><span class="chip c-part">EMBRYO</span></td></tr>
+      <tr data-depth="surg"><td>Shared court · Book II·VI</td><td>—</td><td>—</td><td><span class="chip c-gate">GATED · correctly empty</span></td></tr>
+      <tr data-depth="surg"><td>L6–L7 lattice</td><td>sim harness only</td><td>—</td><td><span class="chip c-gate">GATED 100R</span></td></tr>
+      <tr><td>Billing rail</td><td>—</td><td>—</td><td><span class="chip c-gap">HELD — behind Hard Fork</span></td></tr>
+      <tr><td>Funnel instrumentation · 8 events</td><td>track()</td><td>landing + compass</td><td><span class="chip c-ok">NEW · e802ed7</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§4 · The gauntlet</span>
+  <h2>BAR · COURT · LAB · KKL · Fun House</h2>
+  <div class="gcards" style="margin-top:.9rem">
+    <div class="gcard rd">
+      <span class="lbl rd">BAR · ruin scan</span>
+      <p><span class="verdict" style="color:var(--green)">NO FATAL EXPOSURE.</span> Live risks: DATABASE_URL rotation (ADR-005, open) · key-man singularity · canon-drift as trust-ruin for a system-of-record product. The SageTrace RLS breach was caught and fixed — the immune system has worked once.</p>
+    </div>
+    <div class="gcard gr">
+      <span class="lbl gr">COURT · axiom checks</span>
+      <p>NOTOMATION <span class="verdict" style="color:var(--green)">PASS</span> — the compass never decides. Honesty <span class="verdict" style="color:var(--green)">PASS</span> — gaps disclosed in-product. Consistency <span class="verdict" style="color:var(--gold)">TENSION</span> — three stale canon claims contradict the code. Remedy: truth-sync commit (move #2).</p>
+    </div>
+    <div class="gcard">
+      <span class="lbl cy">LAB · Loki's strongest objections</span>
+      <p>① Two engines, no benchmark — the operators can't be justified or wired without an eval harness. ② The 100-receipt gates may never fire at organic traffic; distribution, not features, is binding. ③ The roadmap is currently steered by n=1.</p>
+    </div>
+    <div class="gcard gd">
+      <span class="lbl gd">KKL · timing</span>
+      <p>Kairos window <span class="verdict" style="color:var(--green)">OPEN</span> on the artifact wedge — live interview loops and engagements that pay and compound testimony. Window <span class="verdict" style="color:var(--red)">CLOSED</span> on enterprise/SOC2 — do not force it.</p>
+    </div>
+    <div class="gcard gd" style="grid-column:1/-1">
+      <span class="lbl gd">Fun House · the mirror</span>
+      <p><b style="color:var(--text)">ARCS's biggest unnamed fork is about itself: product-led compass vs. artifact-led consultancy.</b> The corpus orbits this fork without filing a receipt on it. Kryptonite: writing canon faster than closing loops — complexity as comfort. Fate if unaddressed: a beautiful atlas of a territory nobody walks. <span data-depth="op">Null reading: strip every layer away and what remains is one person making better decisions on record — that's the om; the infinite (L7, shared courts, lattice) grows from it or not at all.</span></p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§5 · Where the energy sits</span>
+  <h2>Chi · Ma · Wuwei</h2>
+  <div class="trip" style="margin-top:.9rem">
+    <div class="panel"><div class="zh" style="color:var(--green)">氣</div><h3>Chi</h3><p><b style="color:var(--text)">Where energy flows:</b> the artifact wedge and the just-instrumented funnel. Every recent NCI ships there. Feed it.</p></div>
+    <div class="panel"><div class="zh" style="color:var(--steel)">間</div><h3>Ma</h3><p><b style="color:var(--text)">Deliberate emptiness:</b> L6–L7, shared court, the 100-receipt gates, the unwired operators. Correctly empty — do not fill early.</p></div>
+    <div class="panel"><div class="zh" style="color:var(--gold)">無為</div><h3>Wuwei</h3><p><b style="color:var(--text)">Do not force:</b> operator/prompt unification, enterprise posture, monetization rails. Watch edge-weights; let the superordinate goal precipitate (ADR-023's own physics).</p></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§6 · Stack rank</span>
+  <h2>Next moves — conviction-graded, drift-sentried</h2>
+  <div class="panel" style="margin-top:.9rem">
+    <div class="move"><span class="n">01</span><div><h3>Ship the loop live</h3><p>Merge branch → deploy from <b>main checkout</b> → verify all 8 events in production analytics.</p></div><span class="ybadge y-g">GREEN · HIGH · S</span></div>
+    <div class="move"><span class="n">02</span><div><h3>Canon truth-sync</h3><p>Fix the three stale claims (ATG, outcome loop, sage orphan) in CLAUDE.md / AGENTS.md / snapshot. This audit is the diff list.</p></div><span class="ybadge y-g">GREEN · HIGH · S</span></div>
+    <div class="move"><span class="n">03</span><div><h3>Close the debrief loop for first users</h3><p>T+N outcome nudge on existing cron scaffolding — turns the accumulation embryo into an organ.</p></div><span class="ybadge y-y">YELLOW · MED · M</span></div>
+    <div class="move"><span class="n">04</span><div><h3>Eval harness: prompt vs. operators</h3><p>~20 canned decisions through both engines. Kills or crowns the /svc/sage orphan; gates any wiring.</p></div><span class="ybadge y-y">YELLOW · MED · M</span></div>
+    <div class="move" data-depth="op"><span class="n">05</span><div><h3>Kairos v0 as breadcrumbs</h3><p>Mark kairos moments on receipts — not an engine, just honest breadcrumbs. Cheap, keeps the roadmap promise.</p></div><span class="ybadge y-y">YELLOW · MED · S</span></div>
+    <div class="move"><span class="n">06</span><div><h3>HARD FORK — file the receipt</h3><p>Product-led compass vs. artifact-led consultancy. Run ARCS on ARCS: prep session, COURT mode, receipt logged. The unnamed fork taxing every other decision.</p></div><span class="ybadge y-f">FORK · S effort · L consequence</span></div>
+    <div class="move"><span class="n">07</span><div><h3>Monetization rail</h3><p>Stripe or equivalent — held RED until move 06 files its receipt; the rail depends on the fork's outcome.</p></div><span class="ybadge y-r">RED until #06</span></div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<section>
+  <span class="lbl cy">§7 · Update law</span>
+  <h2>Golden Inchworm log</h2>
+  <p data-depth="op">Canonical twin lives in-repo at <span style="font-family:var(--mono);font-size:.8rem">_STATE/meta-audit-roadmap-v1.md</span>. The Drift Sentry routine (daily 08:00 ET) appends an entry per new handoff / ROM candidate / serializability epoch, re-grades the parity matrix, and redeploys this page. Scheduled runs carry no special token discount — the economy is the batching itself.</p>
+  <div class="inch" style="margin-top:.8rem;border-color:rgba(255,215,0,.45)">
+    <b>2026-07-10 · v1.1.0 · epoch 1a4c350</b> — Atomic Surface Map filed (_PATTERNS/2026-07-10-atomic-surface-map.md): 3 component systems + 3 token sources named · Manifest Law (zod) · 6-service decomposition — render-svc is the missing cross-compiler, publisher automates the wedge · receipts-as-traces OTel mapping (dependency held for approval) · self-sovereignty ladder L1✅→L4. Build order A1–A9 inherits the loop-closing queue.
+  </div>
+  <div class="inch" style="margin-top:.6rem">
+    <b>2026-07-10 · v1.0.0 · epoch e802ed7</b> — Audit created. Funnel instrumentation shipped (NCI:88). Stale-canon findings filed: ATG · outcome loop · sage orphan. Fork receipt (#06) not yet filed.
+  </div>
+</section>
+
+<footer>ARCS FIELD OS · META-AUDIT v1.0.0 · RECOIL PROTOCOL · GAUGES ARE EARNED, NOT ASSERTED · ⊕</footer>
+</div>
+
+<script>
+// ── fidelity ladder (semantic altitude — lossless translation) ──
+const FID_LEVELS = ['GALACTIC','EXEC','STRATEGIC','OPERATIONAL','TACTICAL','SURGICAL','QUANTUM'];
+const altEl = document.getElementById('alt'), altLbl = document.getElementById('alt-lbl');
+function altitude(v) { // 0..6: ≤1 exec depth, ≤3 operator depth, ≥4 surgical depth
+  document.body.classList.remove('alt-exec','alt-op','alt-surg');
+  document.body.classList.add(v <= 1 ? 'alt-exec' : v <= 3 ? 'alt-op' : 'alt-surg');
+  altLbl.textContent = FID_LEVELS[v];
+}
+altEl.addEventListener('input', () => altitude(+altEl.value));
+altitude(1);
+
+// ── timeline + metronome (adaptive time dilation) ──
+const EPOCHS = [
+  { d:'2026-05-20', t:'Repo birth · canon sprint opens', w:1,   k:false },
+  { d:'2026-05-26', t:'DEWY schema · Time ROM · Book II begins', w:2, k:false },
+  { d:'2026-05-28', t:'P4 — first READY production deploy', w:3, k:true  },
+  { d:'2026-06-05', t:'ADR-023 · observability lattice', w:1.5, k:false },
+  { d:'2026-06-23', t:'Domain truth-sync · RLS breach caught + fixed', w:3, k:true },
+  { d:'2026-06-30', t:'Mega-merge 5db496b · 170 files to main', w:2.5, k:false },
+  { d:'2026-07-08', t:'Corpus consolidation · operators + canon', w:1.5, k:false },
+  { d:'2026-07-10', t:'First external users · funnel instrumented (e802ed7)', w:3, k:true },
+];
+const tl = document.getElementById('tl');
+const t0 = new Date(EPOCHS[0].d).getTime(), t1 = new Date(EPOCHS[EPOCHS.length-1].d).getTime();
+let wsum = 0; const wcum = EPOCHS.map(e => (wsum += e.w));
+const nodes = EPOCHS.map((e, i) => {
+  const el = document.createElement('div');
+  el.className = 'ep' + (e.k ? ' k' : '');
+  el.innerHTML = `<div class="d">${e.d.slice(5)}</div><div class="dot${e.k ? ' kdot' : ''}"></div><div class="t">${e.t}</div>`;
+  tl.appendChild(el);
+  return el;
+});
+function layout(chi) { // chi 0 = chronos (calendar), 1 = kairos (significance-weighted)
+  EPOCHS.forEach((e, i) => {
+    const chron = (new Date(e.d).getTime() - t0) / (t1 - t0);
+    const kair  = i === 0 ? 0 : wcum[i-1] / wsum;
+    const x = 6 + 88 * ((1 - chi) * chron + chi * kair);
+    nodes[i].style.left = x + '%';
+  });
+}
+// ── fidelity engine: 8-BIT → 8K, walking the canonical render scale ──
+const STOPS = [
+  { n: '8-BIT',    s: 'GRAIN'    },
+  { n: '32MB',     s: 'MOIRE'    },
+  { n: '2K',       s: 'DEGRADED' },
+  { n: '4K',       s: 'SHARP'    },
+  { n: '8K',       s: 'LOCKED'   },
+  { n: 'LOSSLESS', s: 'LOCKED+'  },
+];
+const fid = document.getElementById('fid'), flbl = document.getElementById('fid-lbl');
+const gauges = [...document.querySelectorAll('.gauge .v[data-precise]')];
+function fidelity(t) { // t 0 = 8-bit, 1 = 8K
+  const r = document.documentElement.style, lerp = (a, b) => a + (b - a) * t;
+  r.setProperty('--fid-opacity', lerp(0.7, 1).toFixed(3));
+  r.setProperty('--fid-blur', Math.max(0, 0.7 * (1 - t * 1.7)).toFixed(2) + 'px');
+  r.setProperty('--fid-gray', Math.max(0, 0.35 * (1 - t * 2)).toFixed(3));
+  r.setProperty('--fid-track', (0.02 * (1 - t) - 0.01 * Math.max(0, (t - 0.8) * 5)).toFixed(4) + 'em');
+  r.setProperty('--fid-scan', Math.max(0, 0.14 * (1 - t * 1.9)).toFixed(3));
+  r.setProperty('--fid-pw', Math.round(lerp(320, 520)));
+  document.body.classList.toggle('fid-low', t < 0.3);
+  document.body.classList.toggle('fid-moire', t >= 0.15 && t < 0.4);
+  document.body.classList.toggle('fid-locked', t > 0.9);
+  // gauges quantize at low fidelity; assessed values keep their tilde at ANY resolution
+  gauges.forEach(el => {
+    const v = +el.dataset.precise, assessed = !!el.dataset.assessed, pct = el.dataset.assessed ? '%' : '';
+    el.textContent = t < 0.3 ? '~' + Math.round(v / 10) * 10 + pct : (assessed ? '~' : '') + v + pct;
+  });
+  // temporal fidelity: 8-bit = kairos-weighted landmarks, 8K = chronos precision
+  layout(1 - t);
+  const stop = STOPS[Math.min(5, Math.floor(t * 6))];
+  flbl.textContent = stop.n + ' · ' + stop.s;
+}
+fid.addEventListener('input', () => fidelity(fid.value / 100));
+fidelity(0.62);
+
+// ── export .md (the git-tracked twin, embedded) ──
+document.getElementById('dl-md').addEventListener('click', () => {
+  const md = document.getElementById('md-twin').textContent;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([md], { type: 'text/markdown' }));
+  a.download = 'arcs-meta-audit-roadmap-v1.md';
+  a.click(); URL.revokeObjectURL(a.href);
+});
+</script>
+
+<script type="text/plain" id="md-twin">
+# ARCS Meta-Audit & Roadmap — v1.0.0 (export)
+
+Epoch: 2026-07-10 · verified at commit e802ed7 · canonical twin: _STATE/meta-audit-roadmap-v1.md (arcs-v9)
+
+TRUE NORTH: The engine is real and live; the loop is open. Close the loop (ship → measure → debrief → truth-sync) before adding any new organ.
+Conviction 78 · Coherence 82 · Done-state ~42% (assessed) · Canon drift: 3 stale claims
+
+RECOIL — Reverse Listening: (Δ1) de-facto product is the artifact wedge, canon still narrates the compass; (Δ2) two engines — 17.4K-LOC Python operators unwired, Claude prompt ships; (Δ3) no receipts about itself until e802ed7.
+RECOIL — Deep Recall (1/100th): L0–L5 + receipt→brief→replay substantially real; accumulation embryonic; Kairos + L6–L7 canon-only and honestly disclosed.
+
+PARITY: PARITY — compass L0–L5, Y-gate, DEWY receipts/briefs, ATG (canon stale), outcome loop (canon stale), recoil reports, funnel events (new).
+PARTIAL — prep (no prior-work field), observatory (gated 100R), scan surface, accumulation.
+ORPHAN — /svc/sage mounted, zero callers. GAP — kairos detection, drift sentinel. GATED — shared court, L6–L7. HELD — billing (behind hard fork).
+
+GAUNTLET: BAR — no fatal exposure; rotation risk + key-man + canon-drift-as-trust-ruin. COURT — NOTOMATION PASS, Honesty PASS, Consistency TENSION.
+LAB — two engines no benchmark; 100R gates may never fire organically; n=1 steering. KKL — artifact-wedge window OPEN, enterprise CLOSED.
+FUN HOUSE — unnamed fork: product-led vs artifact-led; kryptonite = canon faster than closed loops.
+
+CHI — artifact wedge + instrumented funnel. MA — gates, L6–L7, unwired operators (correctly empty). WUWEI — don't force unification, enterprise, monetization.
+
+STACK RANK: 01 Ship loop live (GREEN/HIGH/S) · 02 Canon truth-sync (GREEN/HIGH/S) · 03 Debrief loop for first users (YELLOW/M) · 04 Eval harness prompt-vs-operators (YELLOW/M) · 05 Kairos breadcrumbs v0 (YELLOW/S) · 06 HARD FORK receipt: product vs consultancy (FORK) · 07 Monetization rail (RED until 06).
+
+UPDATE LAW: Drift Sentry daily 08:00 ET appends inchworm entries per handoff/RC/epoch and re-grades parity. Gauges are earned, not asserted.
+</script>
