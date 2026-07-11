@@ -74,4 +74,5 @@
 
 ## 8. Golden Inchworm log (append-only, newest first)
 
+- **2026-07-10 · v1.1.0 · epoch `1a4c350`** — Atomic Surface Map filed (`_PATTERNS/2026-07-10-atomic-surface-map.md`): 3 component systems + 3 token sources named; Manifest Law (zod contract); 6-service decomposition (render-svc = the missing cross-compiler; publisher = wedge automation); receipts-as-traces OTel mapping (dep held for approval); 4-rung self-sovereignty ladder (L1 live, L2 next). Build order A1–A9 inherits the loop-closing queue — audit moves #01/#02 still first.
 - **2026-07-10 · v1.0.0 · epoch `e802ed7`** — Audit created. Funnel instrumentation shipped (NCI:88). Stale-canon findings filed (ATG, outcome loop, sage orphan). Fork receipt (#6) not yet filed.
