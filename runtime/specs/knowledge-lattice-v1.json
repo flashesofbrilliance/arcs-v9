@@ -1335,5 +1335,40 @@
       "eng",
       8
     ]
-  ]
+  ],
+  "invariants": {
+    "note": "Three grades of always-true, deliberately distinguished. TAUTOLOGY: true by construction within ARCS's own definitions — load-bearing, but carries no information about the world. CONSTITUTIONAL: normative invariant KEPT true by enforcement (could be violated; never has been; violation = constitutional breach). EMPIRICAL: has never been false across e1-e8 but is falsifiable — the only grade that constitutes evidence.",
+    "tautology": [
+      "trib3",
+      "door",
+      "sepoch",
+      "rend",
+      "orth"
+    ],
+    "constitutional": [
+      "noto",
+      "ax1",
+      "ax2",
+      "ax3",
+      "ax5",
+      "inch",
+      "selfg"
+    ],
+    "empirical": [
+      "rec",
+      "dewy",
+      "ygate",
+      "trust"
+    ]
+  },
+  "satoshi": {
+    "note": "The receipt is ARCS's satoshi: the smallest irreducible unit of recorded decision value. The structure is fractal-recursive — the same DEWY decomposition holds at every scale, and ARCS uses ARCS to build ARCS (this audit is itself a receipt about the receipt system).",
+    "scales": [
+      "RECEIPT",
+      "SESSION",
+      "HANDOFF EPOCH",
+      "AUDIT",
+      "CORPUS"
+    ]
+  }
 }
