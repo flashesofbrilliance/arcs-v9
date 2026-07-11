@@ -30,6 +30,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
+        // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
+        { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labelle.arcs.care" }] },
         // peter.arcs.care → public/peter.html
         { source: "/:path*", destination: "/peter.html", has: [{ type: "host", value: "peter.arcs.care" }] },
         // julia.arcs.care/runtime → public/julia-runtime.html (must be before wildcard)
