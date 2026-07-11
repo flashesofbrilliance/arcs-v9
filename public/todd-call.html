@@ -42,7 +42,7 @@ body {
 
 /* ── STICKY HEADER ── */
 .doc-header {
-  position: sticky; top: 0; z-index: 100;
+  position: sticky; top: 38px; z-index: 100;
   background: rgba(2,4,8,.92);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
@@ -76,19 +76,28 @@ body {
 }
 .doc-tab:hover { color: var(--sub); }
 .doc-tab.active { color: var(--green); border-bottom-color: var(--green); }
-.xlink {
-  font-family: var(--mono);
-  font-size: 9px; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: var(--cyan);
-  border: 1px solid rgba(0,240,255,.35);
-  border-radius: 4px;
-  padding: 5px 10px;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background .15s;
+/* ── STICKY BREADCRUMB ── */
+.crumb-bar {
+  position: sticky; top: 0; z-index: 110;
+  background: linear-gradient(90deg, rgba(0,255,157,.10), rgba(0,240,255,.08));
+  border-bottom: 1px solid rgba(0,240,255,.25);
+  backdrop-filter: blur(12px);
 }
-.xlink:hover { background: rgba(0,240,255,.08); }
+.crumb-inner {
+  max-width: 900px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; gap: 10px;
+  height: 38px;
+  font-family: var(--mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase;
+  overflow-x: auto; white-space: nowrap;
+}
+.crumb-root { color: var(--dimmed); }
+.crumb-sep { color: var(--dim, #334155); }
+.crumb-seg { color: var(--muted); text-decoration: none; padding: 4px 10px; border-radius: 4px; transition: color .15s, background .15s; }
+.crumb-seg:hover { color: var(--text); background: rgba(255,255,255,.04); }
+.crumb-seg.current { color: #020408; background: var(--green); }
+.crumb-seg.other { color: var(--cyan); border: 1px solid rgba(0,240,255,.4); }
+.crumb-seg.other:hover { background: rgba(0,240,255,.1); color: var(--cyan); }
 
 /* ── PAGE ── */
 .page { max-width: 900px; margin: 0 auto; padding: 0 24px; }
@@ -540,6 +549,14 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 <body>
 
 <!-- STICKY HEADER -->
+<div class="crumb-bar">
+  <div class="crumb-inner">
+    <span class="crumb-root">PRL Resins · Todd Hotes</span>
+    <span class="crumb-sep">/</span>
+    <span class="crumb-seg current">Recoil Report</span>
+    <a class="crumb-seg other" href="/teardown">Marketing Teardown →</a>
+  </div>
+</div>
 <div class="doc-header">
   <div class="doc-header-inner">
     <div class="doc-mark">Recoil Report · PRL Resins</div>
@@ -550,7 +567,6 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <a class="doc-tab" href="#mvp">MVP Scenarios</a>
       <a class="doc-tab" href="#protocol">Protocol</a>
     </nav>
-    <a class="xlink" href="/teardown">Teardown ↗</a>
   </div>
 </div>
 
