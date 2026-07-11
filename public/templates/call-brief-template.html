@@ -2,7 +2,17 @@
 <!--
   ARCS CALL BRIEF — CANONICAL TEMPLATE
   =====================================
-  How to create a new brief:
+  TEMPLATE_VERSION: 1.1
+
+  How to create a new brief (CLI path — preferred, see ADR-032):
+  1. Author briefs/{{NAME}}.params.json  (see briefs/demo.params.json for the schema)
+  2. python3 scripts/brief_render.py --params briefs/{{NAME}}.params.json
+  3. Add a subdomain rewrite to next.config.ts (step 3 below), commit on main, deploy
+  The generator fills the metadata placeholders and splices card content into the
+  tab regions using the <!-- /tab-* -\-> markers. Re-running it reproduces the
+  output byte-for-byte; `--check` verifies a rendered file hasn't drifted.
+
+  How to create a new brief (manual path — still valid):
   1. Copy this file to public/{{NAME}}.html  (e.g. public/jane.html)
   2. Replace all {{PLACEHOLDERS}} with real values (see list below)
   3. Add a subdomain rewrite to next.config.ts:

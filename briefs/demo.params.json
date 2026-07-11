@@ -1,0 +1,94 @@
+{
+  "name": "demo",
+  "slug": "demo-brief",
+  "full_name": "Brief Render Demo",
+  "company": "ARCS Internal — ADR-032 proof artifact",
+  "date_label": "JUL 10, 2026 · DEMO",
+  "date_display": "Jul 10, 2026",
+  "next_date_tab": "Adoption",
+  "ygate": "GREEN / HIGH / STABLE",
+  "true_north": "Every provenance claim on an ARCS artifact must be executable: this page was rendered by the command shown in its own footer, and re-running that command reproduces it byte-for-byte.",
+  "provenance": "full",
+  "tabs": {
+    "pre": [
+      {
+        "type": "text",
+        "title": "True North",
+        "text": "Every provenance claim on an ARCS artifact must be executable: this page was rendered by the command shown in its own footer, and re-running that command reproduces it byte-for-byte."
+      },
+      {
+        "type": "conf",
+        "title": "Context",
+        "rows": [
+          { "key": "Date", "val": "Jul 10, 2026" },
+          { "key": "Source", "val": "briefs/demo.params.json — this page is generated, not hand-edited" },
+          { "key": "Goal", "val": "Prove the ADR-032 loop: params + template &rarr; artifact, with runnable provenance" },
+          { "key": "Y-Gate", "badge": "GREEN / HIGH / STABLE" }
+        ]
+      },
+      {
+        "type": "intel",
+        "title": "What This Demonstrates",
+        "rows": [
+          { "color": "cyan", "text": "<strong>Traceability</strong> — the footer names the exact command, template version, and SHA-256 of both inputs" },
+          { "color": "green", "text": "<strong>Composability</strong> — the page is assembled from typed cards (conf, intel, questions, next, html) declared in JSON" },
+          { "color": "gold", "text": "<strong>Interoperability</strong> — the params contract is open JSON; anything that writes it can produce a brief" },
+          { "color": "red", "text": "<strong>Atomic design</strong> — cards reuse the canonical template's atoms unchanged; the generator adds zero new CSS" }
+        ]
+      },
+      {
+        "type": "questions",
+        "title": "Challenge This Page",
+        "rows": [
+          { "text": "Does the command in the footer actually run?", "look_for": "python3 scripts/brief_render.py --params briefs/demo.params.json — from the repo root" },
+          { "text": "Does it reproduce this exact file?", "look_for": "byte-identical output; scripts/brief_render.py --check exits 0" },
+          { "text": "Was any of this HTML hand-edited after render?", "look_for": "if yes, --check fails — hand edits to generated briefs are drift by definition (ADR-032)" }
+        ]
+      }
+    ],
+    "recoil": [
+      {
+        "type": "text",
+        "title": "Recoil — Why This Exists",
+        "text": "The first draft of this idea was to stamp artifacts with a CLI that didn't exist. That is provenance theater: the first technical viewer who runs the command turns a transparency claim into a credibility hole. ADR-032 chose the inversion — build the smallest real generator first, then the stamp is free and honest."
+      }
+    ],
+    "post": [
+      {
+        "type": "conf",
+        "title": "What Happened",
+        "rows": [
+          { "key": "Outcome", "val": "Generator built, template markers reused unchanged, proof artifact rendered end-to-end" },
+          { "key": "Y-Gate", "val": "GREEN — deterministic re-render verified" },
+          { "key": "Surprise", "val": "All 13 live briefs had diverged from the template; forward-only adoption was the honest scope" }
+        ]
+      },
+      {
+        "type": "next",
+        "title": "Next Steps",
+        "rows": [
+          { "owner": "Zach", "color": "cyan", "text": "Fill Y-conviction in ADR-032 and commit it" },
+          { "owner": "ARCS", "color": "gold", "text": "Route the next real call brief through brief_render.py instead of copy-and-fill" }
+        ]
+      }
+    ],
+    "agenda": [
+      {
+        "type": "conf",
+        "title": "Adoption",
+        "rows": [
+          { "key": "Goal", "val": "New briefs authored as params JSON; rendered HTML is never edited directly" },
+          { "key": "Tiers", "val": "Client-facing briefs default to the one-line receipt footer; this full provenance card is internal-only" }
+        ]
+      },
+      {
+        "type": "questions",
+        "title": "Open Items",
+        "rows": [
+          { "text": "Does brief_render graduate into arcs_cli.py as a sixth verb, or stay standalone?" },
+          { "text": "Backfill any live brief? Only if it becomes an active demo — otherwise history stays as-is." }
+        ]
+      }
+    ]
+  }
+}

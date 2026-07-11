@@ -2,9 +2,9 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "cdbbd73",
-    "head_message": "chore(jeben): drop retrigger comment; retry after Vercel STS incident [NCI:SKIP]",
-    "in_sync_with_origin": false,
+    "head_sha": "665a386",
+    "head_message": "Merge pull request #58 \u2014 filled centered LED dots on jeben.arcs.care",
+    "in_sync_with_origin": true,
     "dirty_files": []
   },
   "vercel": {
@@ -60,7 +60,7 @@
   },
   "ui_artifacts": {
     "_note": "This section added 2026-07-08 \u2014 previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
-    "authoring_workflow": "copy public/templates/call-brief-template.html \u2192 fill {{PLACEHOLDERS}} \u2192 add beforeFiles rewrite to next.config.ts \u2192 commit on main (frosty-kepler-b69f51 worktree) \u2192 push \u2192 auto-deploy",
+    "authoring_workflow": "CLI path (preferred, ADR-032): author briefs/<name>.params.json -> python3 scripts/brief_render.py --params briefs/<name>.params.json -> add beforeFiles rewrite to next.config.ts -> commit on main (frosty-kepler-b69f51 worktree) -> push -> auto-deploy. Rendered HTML is never hand-edited (--check detects drift). Manual path still valid: copy public/templates/call-brief-template.html -> fill {{PLACEHOLDERS}}. Client-facing briefs use provenance:'receipt' (one-line footer, no command surface); 'full' tier is internal-only.",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
       {
@@ -127,6 +127,11 @@
         "file": "public/token.html",
         "subdomain": "token.arcs.care",
         "person": "Token"
+      },
+      {
+        "file": "public/demo-brief.html",
+        "subdomain": "(none \u2014 /demo-brief.html path only)",
+        "person": "ADR-032 proof artifact \u2014 CLI-rendered from briefs/demo.params.json (do not hand-edit)"
       }
     ],
     "ui_kit": {
@@ -143,5 +148,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-10T22:05:21Z"
+  "git_refreshed_at": "2026-07-10T23:50:53Z"
 }
