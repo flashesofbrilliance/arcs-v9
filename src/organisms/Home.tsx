@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import { track } from '@vercel/analytics'
 import { font, signal, text } from '@/ui/tokens'
 import { signalGlow, nciColor, getWeather, normalizeDoorClass, doorMeta, tribColor } from '@/ui/tokens'
 import { Wordmark } from '@/ui/Wordmark'
@@ -94,10 +95,18 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
             What are you really<br />trying to decide?
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: '1.125rem', color: text.secondary, lineHeight: 1.75, margin: '0 0 1.75rem' }}>
-            Critical decisions are too important to tackle alone. When you&rsquo;re too close to the problem a fresh perspective helps. ARCS gives you a clear line of sight to the horizon line and orients you in the right direction.
+            It&rsquo;s hard to see the simple answer when you&rsquo;re deep in the variables. ARCS stress-tests the decision you&rsquo;re carrying and hands back one clear direction — with the reasoning, the tradeoffs, and what to watch next.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-            <Button size="lg" glyph="⊕" onClick={onOpen}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+              <Button size="lg" glyph="⊕" onClick={() => { track('landing_cta_compass'); onOpen?.() }}>Open the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></Button>
+              {onCalibrate && (
+                <Button variant="ghost" size="sm" onClick={() => { track('landing_cta_calibrate'); onCalibrate() }}>Calibrate first&nbsp;→</Button>
+              )}
+            </div>
+            <div style={{ fontFamily: font.mono, fontSize: '0.6875rem', letterSpacing: '0.06em', color: text.dimmed, marginTop: '0.85rem' }}>
+              Free · no account needed · first bearing in about a minute
+            </div>
           </div>
         </div>
 
@@ -143,7 +152,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
                   return (
                     <button
                       key={i}
-                      onClick={() => { if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
+                      onClick={() => { track('landing_tributary_click', { type: t.type }); if (typeof window !== 'undefined') window.location.href = `/dashboard?q=${encodeURIComponent(t.prompt)}` }}
                       style={{
                         fontFamily: font.mono, fontSize: '0.6rem', letterSpacing: '0.06em', fontWeight: 700, textTransform: 'uppercase',
                         color: c, background: `${c}0d`, border: `1px solid ${c}55`, borderRadius: 4, padding: '3px 7px', cursor: 'pointer',
@@ -155,7 +164,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
                   )
                 })}
                 {onBrief && (
-                  <Button variant="outline-cyan" size="sm" onClick={onBrief} style={{ marginLeft: 'auto', flexShrink: 0 }}>Brief&nbsp;→</Button>
+                  <Button variant="outline-cyan" size="sm" onClick={() => { track('landing_cta_brief'); onBrief() }} style={{ marginLeft: 'auto', flexShrink: 0 }}>Brief&nbsp;→</Button>
                 )}
               </div>
             </div>
@@ -163,7 +172,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
 
           {onBrief && !(d.tributaries && d.tributaries.length > 0) && (
             <div style={{ marginTop: '1.1rem', display: 'flex', justifyContent: 'flex-end' }}>
-              <Button variant="outline-cyan" size="sm" onClick={onBrief}>View the full brief&nbsp;→</Button>
+              <Button variant="outline-cyan" size="sm" onClick={() => { track('landing_cta_brief'); onBrief?.() }}>View the full brief&nbsp;→</Button>
             </div>
           )}
         </Card>

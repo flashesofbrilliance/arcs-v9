@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import { track } from '@vercel/analytics'
 import { font, signal, text, formContainer } from '@/ui/tokens'
 import { useVw } from '@/ui/useVw'
 import { Wordmark } from '@/ui/Wordmark'
@@ -43,6 +44,7 @@ export function CompassForm({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!question.trim() || running) return
+    track('compass_submitted', { hasContext: Boolean(horizon || stakes) })
     onSubmit()
   }
   return (
@@ -64,7 +66,7 @@ export function CompassForm({
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           <Field as="textarea" rows={3} label="Decision" value={question} onChange={e => onQuestionChange(e.target.value)}
-            placeholder="Type the decision, not the stress around it. The real fork, not the symptom." />
+            placeholder="Type the decision, not the stress around it — and include what you've already analyzed or ruled out." />
           <HorizonStakesRow horizon={horizon} stakes={stakes} onHorizonChange={onHorizonChange} onStakesChange={onStakesChange} />
         </div>
 
@@ -75,11 +77,13 @@ export function CompassForm({
           {running ? 'Reading the terrain…' : <>Get True North&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></>}
         </Button>
 
+        {/* Armed state must not read as disabled text — the resting→cyan
+            color shift is the affordance, no animation. */}
         {!running && (
           <button type="button"
-            onClick={() => { if (question.trim()) onCalibrate?.() }}
-            style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: question.trim() ? 'pointer' : 'default', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: question.trim() ? text.dimmed : text.dimmed + '55', opacity: question.trim() ? 1 : 0.4 }}>
-            Add context — stakes, confidence &amp; what you already know
+            onClick={() => { if (question.trim()) { track('compass_context_opened'); onCalibrate?.() } }}
+            style={{ display: 'block', margin: '0.85rem auto 0', background: 'none', border: 'none', cursor: question.trim() ? 'pointer' : 'default', fontFamily: font.mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: question.trim() ? signal.cyan : text.dimmed, opacity: question.trim() ? 1 : 0.5, transition: 'color 0.25s ease, opacity 0.25s ease' }}>
+            Add what you already know — it sharpens the bearing&nbsp;→
           </button>
         )}
 
@@ -91,7 +95,7 @@ export function CompassForm({
           <SectionLabel style={{ marginBottom: '0.75rem' }}>Not sure how to start? Try one of these:</SectionLabel>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {EXAMPLES.map(ex => (
-              <TributaryTile key={ex} label="Example" glyph="⊕" color={signal.cyan} onClick={() => onQuestionChange(ex)}>{ex}</TributaryTile>
+              <TributaryTile key={ex} label="Example" glyph="⊕" color={signal.cyan} onClick={() => { track('compass_example_clicked'); onQuestionChange(ex) }}>{ex}</TributaryTile>
             ))}
           </div>
         </div>

@@ -34,17 +34,17 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "ARCS Field OS",
-  description: "Navigate to clarity. Make the decision visible.",
+  title: "ARCS — Navigate to clarity",
+  description: "Bring ARCS the decision you're carrying. It stress-tests your framing and hands back one clear direction — reasoning, tradeoffs, and what to watch.",
   openGraph: {
-    title: "ARCS Field OS",
-    description: "Navigate to clarity. Make the decision visible.",
+    title: "ARCS — Navigate to clarity",
+    description: "Bring ARCS the decision you're carrying. It stress-tests your framing and hands back one clear direction — reasoning, tradeoffs, and what to watch.",
     siteName: "ARCS",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ARCS Field OS",
-    description: "Navigate to clarity. Make the decision visible.",
+    title: "ARCS — Navigate to clarity",
+    description: "Bring ARCS the decision you're carrying. It stress-tests your framing and hands back one clear direction — reasoning, tradeoffs, and what to watch.",
   },
 }
 
@@ -60,7 +60,7 @@ export default function RootLayout({
         <Providers>
           <EyebrowToast />
           {children}
-          <StickyFooter message="Interested in ARCS powered sprints by Mañana?" maxWidth={960} />
+          <StickyFooter message="ARCS-powered decision sprints for teams — run by Mañana." maxWidth={960} />
           <ClaimAnonymousReceipts />
           <VercelToolbarToggle />
           <Analytics />

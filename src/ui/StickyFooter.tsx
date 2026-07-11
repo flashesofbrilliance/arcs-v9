@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { track } from '@vercel/analytics'
 import { text, signal, font } from './tokens'
 import { Button } from './Button'
 import { useToastDrawer } from './ToastDrawerContext'
@@ -62,7 +63,7 @@ export function StickyFooter({
           <span style={{ fontFamily: font.sans, fontSize: '0.75rem', lineHeight: 1.4, color: text.dimmed, flex: 1 }}>
             {message}
           </span>
-          <Button variant="gold" size="sm" onClick={() => router.push(ctaHref)}>
+          <Button variant="gold" size="sm" onClick={() => { track('footer_inquiry_click'); router.push(ctaHref) }}>
             {ctaLabel}&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 400, opacity: 0.55 }}>→</span>
           </Button>
         </div>
