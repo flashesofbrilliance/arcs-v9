@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRL Resins · Marketing Teardown · Todd Hotes</title>
+<style>
+:root {
+  --bg: #020408;
+  --surface: #0d1117;
+  --surface-hi: #111827;
+  --border: #1e293b;
+  --border-hi: #2d3f55;
+  --text: #e2e8f0;
+  --sub: #94a3b8;
+  --muted: #475569;
+  --dimmed: #64748b;
+  --green: #00FF9D;
+  --cyan: #00F0FF;
+  --gold: #FFD700;
+  --red: #FF4D6D;
+  --violet: #A78BFA;
+  --mono: 'JetBrains Mono','IBM Plex Mono','Fira Code',ui-monospace,monospace;
+  --sans: system-ui,-apple-system,'Segoe UI',sans-serif;
+  --r: 6px;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.65; padding-bottom: 80px; }
+
+/* ── GATE ── */
+#gate { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; }
+.gate-box { text-align: center; padding: 24px; max-width: 340px; width: 100%; }
+.gate-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--green); margin-bottom: 24px; }
+.gate-q { font-size: 13px; color: var(--sub); margin-bottom: 16px; }
+#gate input { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 12px 14px; text-align: center; letter-spacing: .1em; outline: none; }
+#gate input:focus { border-color: var(--green); }
+#gate.shake .gate-box { animation: shake .4s; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-8px)} 40%,80%{transform:translateX(8px)} }
+#app { display: none; }
+
+/* ── HEADER + TABS ── */
+.doc-header { position: sticky; top: 0; z-index: 100; background: rgba(2,4,8,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 16px; }
+.doc-header-inner { max-width: 940px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; min-height: 48px; gap: 12px; flex-wrap: wrap; }
+.doc-mark { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--green); padding: 8px 0; }
+.tabs { display: flex; gap: 0; overflow-x: auto; }
+.tab-btn { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 13px; height: 48px; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color .15s, border-color .15s; }
+.tab-btn:hover { color: var(--sub); }
+.tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+.xlink {
+  font-family: var(--mono);
+  font-size: 9px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid rgba(0,240,255,.35);
+  border-radius: 4px;
+  padding: 5px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.xlink:hover { background: rgba(0,240,255,.08); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ── PAGE ── */
+.page { max-width: 940px; margin: 0 auto; padding: 0 20px; }
+.section { margin-top: 40px; }
+.eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.section h2 { font-size: 19px; font-weight: 650; letter-spacing: -.01em; margin-bottom: 4px; }
+.section-sub { font-size: 13px; color: var(--sub); max-width: 640px; }
+
+/* ── COVER ── */
+.cover { padding: 44px 0 8px; }
+.cover-kicker { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
+.cover h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; max-width: 720px; }
+.cover-sub { margin-top: 12px; font-size: 14px; color: var(--sub); max-width: 620px; }
+.cover-meta { display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap; }
+.cm { font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: .08em; text-transform: uppercase; }
+.cm b { color: var(--text); font-weight: 600; }
+
+/* ── SCOREBOARD ── */
+.scoreboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 20px; }
+.score-tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 16px; }
+.score-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.score-val { font-family: var(--mono); font-size: 22px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.score-note { font-size: 11px; color: var(--dimmed); margin-top: 2px; }
+.v-red { color: var(--red); } .v-gold { color: var(--gold); } .v-green { color: var(--green); } .v-cyan { color: var(--cyan); }
+
+/* ── FINDING CARDS ── */
+.finding { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); margin-top: 14px; overflow: hidden; }
+.finding-head { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.sev { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; padding: 3px 9px; border-radius: 3px; text-transform: uppercase; }
+.sev-critical { color: var(--red); background: rgba(255,77,109,.1); border: 1px solid rgba(255,77,109,.35); }
+.sev-major { color: var(--gold); background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.3); }
+.sev-opportunity { color: var(--cyan); background: rgba(0,240,255,.07); border: 1px solid rgba(0,240,255,.3); }
+.sev-strength { color: var(--green); background: rgba(0,255,157,.07); border: 1px solid rgba(0,255,157,.3); }
+.finding-title { font-size: 14.5px; font-weight: 650; }
+.finding-body { padding: 14px 18px; }
+.finding-body p { font-size: 13.5px; color: var(--sub); }
+.finding-body p + p { margin-top: 8px; }
+.finding-body b { color: var(--text); font-weight: 600; }
+.fix-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+.fix-cell { background: var(--surface-hi); padding: 10px 18px; }
+.fix-k { font-family: var(--mono); font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.fix-v { font-size: 12.5px; color: var(--text); margin-top: 2px; }
+.fix-v.hl { color: var(--green); font-weight: 600; }
+
+/* ── QUOTE ── */
+.lbq { border: 1px solid rgba(0,255,157,.3); background: linear-gradient(135deg, rgba(0,255,157,.05), rgba(0,240,255,.03)); border-radius: var(--r); padding: 20px 22px; margin-top: 18px; }
+.lbq-text { font-size: 15px; font-weight: 550; line-height: 1.55; color: var(--text); }
+.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--green); margin-top: 10px; letter-spacing: .1em; text-transform: uppercase; }
+
+/* ── ROADMAP ── */
+.phase { display: grid; grid-template-columns: 60px 1fr; border: 1px solid var(--border); border-radius: var(--r); margin-top: 14px; overflow: hidden; background: var(--surface); }
+.phase-num { display: flex; align-items: flex-start; justify-content: center; padding: 16px 8px; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--cyan); background: var(--surface-hi); border-right: 1px solid var(--border); }
+.phase-body { padding: 14px 18px; }
+.phase-title { font-size: 15px; font-weight: 650; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.phase-status { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+.ps-now { color: #020408; background: var(--green); }
+.ps-next { color: var(--cyan); border: 1px solid rgba(0,240,255,.4); }
+.ps-later { color: var(--muted); border: 1px solid var(--border-hi); }
+.phase-desc { font-size: 13px; color: var(--sub); margin-top: 6px; }
+.phase-meta { display: flex; gap: 18px; margin-top: 10px; flex-wrap: wrap; }
+.pm { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.pm b { color: var(--text); font-weight: 600; }
+.phase-unlock { margin-top: 10px; padding: 8px 12px; background: rgba(0,240,255,.04); border-left: 2px solid var(--cyan); font-size: 12.5px; color: var(--sub); border-radius: 0 var(--r) var(--r) 0; }
+.phase-unlock b { color: var(--cyan); font-weight: 600; }
+
+/* ── PROTOCOL ── */
+.protocol { border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-top: 16px; }
+.proto-head { padding: 11px 18px; background: var(--surface-hi); border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.proto-head.you { color: var(--cyan); }
+.proto-head.me { color: var(--green); }
+.proto-items { background: var(--surface); }
+.proto-item { display: grid; grid-template-columns: 20px 1fr; gap: 10px; padding: 10px 18px; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--sub); align-items: start; }
+.proto-item:last-child { border-bottom: none; }
+.proto-check { color: var(--muted); font-family: var(--mono); font-size: 12px; padding-top: 1px; }
+.proto-item b { color: var(--text); font-weight: 600; }
+
+/* ── AMBITION ARC ── */
+.arc { border: 1px solid var(--border); border-radius: var(--r); background: var(--surface); padding: 18px 20px; margin-top: 14px; }
+.arc-from { font-size: 13px; color: var(--sub); }
+.arc-arrow { font-family: var(--mono); color: var(--cyan); margin: 8px 0; font-size: 12px; }
+.arc-to { font-size: 14px; color: var(--text); font-weight: 550; }
+
+.footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim, #334155); }
+.footer span b { color: var(--muted); }
+
+@media (max-width: 640px) {
+  body { font-size: 13px; }
+  .page { padding: 0 14px; }
+  .phase { grid-template-columns: 44px 1fr; }
+  .finding-head { padding: 11px 14px; }
+  .finding-body { padding: 12px 14px; }
+  .fix-cell { padding: 9px 14px; }
+}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-box">
+    <div class="gate-mark">ARCS · PRL Resins Teardown</div>
+    <div class="gate-q">First name of the person this was built for (lowercase)</div>
+    <input id="pw" type="password" autocomplete="off" placeholder="&#8226;&#8226;&#8226;&#8226;" onkeydown="if(event.key==='Enter')checkPw()">
+  </div>
+</div>
+
+<div id="app">
+<div class="doc-header">
+  <div class="doc-header-inner">
+    <div class="doc-mark">ARCS · PRL Teardown</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('seat')">The Seat</button>
+      <button class="tab-btn" onclick="switchTab('teardown')">Teardown</button>
+      <button class="tab-btn" onclick="switchTab('roadmap')">Roadmap</button>
+      <button class="tab-btn" onclick="switchTab('protocol')">Protocol</button>
+    </div>
+    <a class="xlink" href="/">Recoil Report ↗</a>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════ TAB 1: THE SEAT ═══════════ -->
+<div id="tab-seat" class="tab-pane active">
+  <div class="cover">
+    <div class="cover-kicker">Marketing Function Teardown · Built from calls Jul 2 + Jul 9</div>
+    <h1>You're running marketing for a $100M company with the instruments turned off.</h1>
+    <div class="cover-sub">Everything below comes from what you shared across two calls — nothing invented. The teardown grades each instrument, the roadmap sequences the fixes, and the protocol is what we each do this week.</div>
+    <div class="cover-meta">
+      <div class="cm">Prepared for <b>Todd Hotes</b></div>
+      <div class="cm">Company <b>PRL Resins · ~$100M rev</b></div>
+      <div class="cm">Date <b>Jul 10, 2026</b></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The position</div>
+    <h2>Effective CMO, CFO, and Comptroller — with full discretion</h2>
+    <p class="section-sub" style="margin-top:8px">Family-office-owned, one owner, no committee. Nobody upstream scrutinizes tech spend. That is the rarest operating condition in B2B marketing: the constraint is not budget or approvals — it's <b style="color:var(--text)">instrumentation and hours in your day</b>. Every fix below is designed around that: high leverage, low ongoing maintenance, nothing that needs you babysitting it.</p>
+  </div>
+
+  <div class="lbq">
+    <div class="lbq-text">"Limited friction, nobody knows about tech — if it works, go for it."</div>
+    <div class="lbq-attr">Todd · Jul 2 call · the operating condition everything else builds on</div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The scoreboard</div>
+    <h2>Instrument panel, graded</h2>
+    <div class="scoreboard">
+      <div class="score-tile"><div class="score-label">GA4</div><div class="score-val v-red">DARK</div><div class="score-note">No reliable traffic read</div></div>
+      <div class="score-tile"><div class="score-label">GTM</div><div class="score-val v-red">STALE</div><div class="score-note">Tags unmaintained</div></div>
+      <div class="score-tile"><div class="score-label">PPC / Unbounce</div><div class="score-val v-gold">BLIND</div><div class="score-note">Spend without attribution</div></div>
+      <div class="score-tile"><div class="score-label">Web → CRM</div><div class="score-val v-red">NONE</div><div class="score-note">Phone-only intake</div></div>
+      <div class="score-tile"><div class="score-label">SugarCRM</div><div class="score-val v-green">SOLID</div><div class="score-note">Staying · REST API open</div></div>
+      <div class="score-tile"><div class="score-label">Sales motion</div><div class="score-val v-cyan">READY</div><div class="score-note">SM already runs close/loss</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">The ambition</div>
+    <h2>Where you said you want this to go</h2>
+    <div class="arc">
+      <div class="arc-from">Today: a manufacturer with a brochure site, paid landing pages that can't be measured, and buyers who have to already know what they want and pick up the phone.</div>
+      <div class="arc-arrow">──────────▶</div>
+      <div class="arc-to">Your stated end-state: an AI agent trained on PRL's product-development history that can take "I'm molding X for application Y" and recommend a formulation — a digital version of your best formulator, working the website 24/7. That's not a chatbot. That's a moat. The chatbot is step one of building it.</div>
+    </div>
+    <p class="section-sub" style="margin-top:14px">Nobody else in specialty resins at your scale is doing this. The PD form data you've accumulated is proprietary — a competitor can copy your website in a week, but they can't copy twenty years of formulation decisions. The roadmap tab sequences how to get there without betting everything on the endgame up front.</p>
+  </div>
+</div>
+
+<!-- ═══════════ TAB 2: TEARDOWN ═══════════ -->
+<div id="tab-teardown" class="tab-pane">
+  <div class="cover" style="padding-bottom:0">
+    <div class="cover-kicker">Instrument-by-instrument</div>
+    <h1 style="font-size:clamp(22px,4vw,30px)">Nine findings. Each one has a fix, an effort, and a payoff.</h1>
+    <div class="cover-sub">Ordered by severity, not by sequence — the Roadmap tab handles sequencing.</div>
+  </div>
+
+  <div class="section">
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-critical">Critical</span><span class="finding-title">1 · GA4 is dark — you're spending on PPC with no attribution</span></div>
+      <div class="finding-body">
+        <p>You're paying for traffic to Unbounce landers and can't see what happens after the click. At $100M revenue, even a small paid budget deserves a working read on cost-per-lead. Right now the answer to "is PPC working?" is a shrug.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Rebuild GA4 property + GTM container from scratch (faster than auditing the stale one)</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">1 session</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Cost-per-lead by channel; baseline for everything else</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-critical">Critical</span><span class="finding-title">2 · No web-to-CRM path — every lead must already know to call</span></div>
+      <div class="finding-body">
+        <p>The website generates zero structured leads. A buyer who finds prlresins.com at 9pm has no way to start a conversation — and in a 6–12 month sales cycle, the vendor who captures the inquiry first usually keeps it. This is the gap the chatbot closes.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Tidio chatbot → SugarCRM lead via REST API, routed straight to the sales manager</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">3 sessions (agreed scope)</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">24/7 lead capture; the "wow" demo; Phase 5 foundation</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-major">Major</span><span class="finding-title">3 · CS sits in the lead path as an accidental gatekeeper</span></div>
+      <div class="finding-body">
+        <p>Three CS reps in Farmington field inbound and relay to sales. They're good at service — but as a routing layer they add latency and lose context. <b>You already made this call on Jul 9:</b> route chatbot leads directly to the sales manager. This finding just makes it official for all inbound, not only the bot.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">SM becomes the single routing point; CS keeps service, loses triage</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Decision, not a build</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Faster first-touch; one accountable owner for lead follow-up</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-major">Major</span><span class="finding-title">4 · Two buyer types, one undifferentiated front door</span></div>
+      <div class="finding-body">
+        <p>Your buyers split cleanly: <b>Scenario A</b> knows the resin they need and wants to transact; <b>Scenario B</b> has an application problem and needs formulation help. Today both get the same brochure site and the same phone number. The A buyer wants speed; the B buyer wants expertise. Serving them identically underserves both.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Branch logic in the chatbot: A → qualify + route fast; B → capture application details for SM</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Inside chatbot scope</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Better-qualified leads; the branch design IS the real work</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-major">Major</span><span class="finding-title">5 · 6–12 month cycles with zero re-engagement machinery</span></div>
+      <div class="finding-body">
+        <p>A prospect who inquires in July may not buy until next spring. Nothing today holds that thread — no captured email, no session persistence, no nurture touch. Every long-cycle inquiry decays back to zero unless a human remembers.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Chatbot captures email early; SugarCRM lead keeps the thread; simple email fallback for follow-up</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Base-scope add-on</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Pipeline that survives the sales cycle instead of leaking</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-opportunity">Opportunity</span><span class="finding-title">6 · The PD form archive is an unmined moat</span></div>
+      <div class="finding-body">
+        <p>Years of product-development forms encode which formulations solved which application problems. That's training data no competitor has. It's also the one asset that requires care: <b>NDA first</b> (your call, and the right one), then structure the taxonomy, then build the recommendation layer on top of a chatbot that's already working.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">NDA → PD form data dump → taxonomy pass → Claude-powered recommendation engine (Phase 5)</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Months, staged</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">The digital formulator — the thing you actually described wanting</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-opportunity">Opportunity</span><span class="finding-title">7 · Zapier free tier is a ceiling — but you don't need to raise it</span></div>
+      <div class="finding-body">
+        <p>The free plan can't be the automation backbone. Good news: it doesn't need to be. SugarCRM's REST API means the chatbot writes leads directly — no middleman, no monthly automation tax, one less thing that silently breaks.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Direct REST integration; keep Zapier free for incidentals</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Inside chatbot scope</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">$0/mo automation cost; fewer failure points</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-strength">Strength</span><span class="finding-title">8 · The sales manager already runs close/loss analysis</span></div>
+      <div class="finding-body">
+        <p>Most companies your size have nobody doing win/loss discipline. Yours does it unprompted. That makes the SM the natural owner of chatbot-sourced leads — and the person whose 30 minutes of input will make the branch logic real instead of guessed. Build around this strength.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Action</div><div class="fix-v">30-min SM call before branch-logic session 1</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">One calendar invite</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Branch logic grounded in real close/loss patterns</div></div>
+      </div>
+    </div>
+
+    <div class="finding">
+      <div class="finding-head"><span class="sev sev-strength">Strength</span><span class="finding-title">9 · WordPress 7.0 + SugarCRM = boring, compatible, perfect</span></div>
+      <div class="finding-body">
+        <p>An up-to-date WordPress and a CRM with an open REST API is exactly the stack you want under this: every serious chatbot vendor supports it natively, and nothing here requires a replatform. The foundation is fine — it's the instruments bolted to it that were missing.</p>
+      </div>
+      <div class="fix-row">
+        <div class="fix-cell"><div class="fix-k">Action</div><div class="fix-v">Nothing. Don't let anyone sell you a replatform.</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Zero</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">All budget goes to capability, not migration</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB 3: ROADMAP ═══════════ -->
+<div id="tab-roadmap" class="tab-pane">
+  <div class="cover" style="padding-bottom:0">
+    <div class="cover-kicker">Sequenced · chatbot first, per your call</div>
+    <h1 style="font-size:clamp(22px,4vw,30px)">Five phases. Each one pays for itself before the next starts.</h1>
+    <div class="cover-sub">You already re-sequenced this on Jul 9 — chatbot before the instrument-panel work. This roadmap honors that: visible win first, plumbing second, moat last.</div>
+  </div>
+
+  <div class="section">
+    <div class="phase">
+      <div class="phase-num">P1</div>
+      <div class="phase-body">
+        <div class="phase-title">Chatbot MVP — the wow <span class="phase-status ps-now">Now</span></div>
+        <div class="phase-desc">Tidio on WordPress, A/B branch logic designed with the SM's close/loss input, leads written directly into SugarCRM via REST, routed to the sales manager by territory.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>3 sessions</b></span><span class="pm">Calendar <b>~2 weeks</b></span><span class="pm">Needs <b>SM call + WP admin access</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> first structured leads ever; the internal demo moment; proof the direct-to-SM routing works.</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">P2</div>
+      <div class="phase-body">
+        <div class="phase-title">Instrument panel — GA4 + GTM rebuild <span class="phase-status ps-next">Next</span></div>
+        <div class="phase-desc">Fresh GA4 property, clean GTM container, conversion events on chatbot interactions and Unbounce landers. Now PPC spend has a denominator.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>1–2 sessions</b></span><span class="pm">Needs <b>GA/GTM + Unbounce access</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> cost-per-lead by channel; you can finally kill or scale PPC with numbers instead of vibes.</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">P3</div>
+      <div class="phase-body">
+        <div class="phase-title">Re-engagement layer <span class="phase-status ps-next">Next</span></div>
+        <div class="phase-desc">Email capture in every bot path, lead-status hygiene in SugarCRM, a simple follow-up cadence so 6–12 month buyers don't evaporate.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>1–2 sessions</b></span><span class="pm">Depends on <b>P1 live + real lead flow</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> pipeline that compounds across the long cycle instead of resetting every quarter.</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">P4</div>
+      <div class="phase-body">
+        <div class="phase-title">PD data foundation <span class="phase-status ps-later">Later</span></div>
+        <div class="phase-desc">NDA signed → PD forms + application sheets exported → taxonomy built (resin family × application × outcome). Unglamorous, and the whole moat depends on it.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>staged, weeks</b></span><span class="pm">Gate <b>NDA (your call, correct)</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> the training corpus for P5. No taxonomy, no recommendation engine.</div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">P5</div>
+      <div class="phase-body">
+        <div class="phase-title">The digital formulator <span class="phase-status ps-later">Later</span></div>
+        <div class="phase-desc">Claude-powered recommendation engine on top of the P4 taxonomy: "I'm molding X for application Y" → suggested formulation family + routed to the right human. The Scenario-B buyer's dream, and yours.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>the real project</b></span><span class="pm">Depends on <b>P1 traffic + P4 data</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> the thing no competitor can copy — twenty years of formulation judgment, awake 24/7 on your website.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lbq">
+    <div class="lbq-text">"I'd love to start with the chatbot. I think that's going to create the biggest bang on the business side."</div>
+    <div class="lbq-attr">Todd · Jul 9 call · the sequencing decision, in your words</div>
+  </div>
+</div>
+
+<!-- ═══════════ TAB 4: PROTOCOL ═══════════ -->
+<div id="tab-protocol" class="tab-pane">
+  <div class="cover" style="padding-bottom:0">
+    <div class="cover-kicker">This week</div>
+    <h1 style="font-size:clamp(22px,4vw,30px)">Six items between here and a live chatbot.</h1>
+    <div class="cover-sub">Split by owner. Nothing on your list takes more than 15 minutes.</div>
+  </div>
+
+  <div class="section">
+    <div class="protocol">
+      <div class="proto-head you">Todd sends / schedules</div>
+      <div class="proto-items">
+        <div class="proto-item"><span class="proto-check">☐</span><span><b>WordPress admin access</b> (or a plugin-install-capable login) for prlresins.com</span></div>
+        <div class="proto-item"><span class="proto-check">☐</span><span><b>SugarCRM API credentials</b> — a user with lead-create permission is enough</span></div>
+        <div class="proto-item"><span class="proto-check">☐</span><span><b>30 min with the sales manager</b> — close/loss patterns feed the branch logic directly</span></div>
+        <div class="proto-item"><span class="proto-check">☐</span><span><b>NDA draft</b> whenever ready — gates P4/P5 only, nothing this month waits on it</span></div>
+      </div>
+    </div>
+
+    <div class="protocol">
+      <div class="proto-head me">Zach builds</div>
+      <div class="proto-items">
+        <div class="proto-item"><span class="proto-check">☐</span><span><b>Branch-logic map v1</b> — Scenario A and B conversation trees, drafted before the SM call so the call refines rather than starts from blank</span></div>
+        <div class="proto-item"><span class="proto-check">☐</span><span><b>Session 1 scheduled</b> — Tidio install + SugarCRM REST wiring, same week access lands</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="eyebrow">Standing note</div>
+    <h2>Whatever happens Wednesday</h2>
+    <p class="section-sub" style="margin-top:8px">The Laz conversation doesn't change this plan — it strengthens the case for shipping P1 fast. If you stay, PRL gets its lead engine. If you go, you leave behind a working system with your fingerprints on it and walk into the next thing with a live AI deployment story. Either way, the chatbot is yours.</p>
+  </div>
+
+  <div class="footer">
+    <span>ARCS · <b>Recoil-derived teardown</b></span>
+    <span>Source: <b>Calls Jul 2 + Jul 9, 2026</b></span>
+    <span><b>arcs.care</b></span>
+  </div>
+</div>
+
+</div><!-- /page -->
+</div><!-- /app -->
+
+<script>
+function checkPw(){
+  var v = document.getElementById('pw').value.trim().toLowerCase();
+  if (v === 'todd') {
+    sessionStorage.setItem('teardown_auth','1');
+    document.getElementById('gate').style.display='none';
+    document.getElementById('app').style.display='block';
+  } else {
+    var g = document.getElementById('gate');
+    g.classList.remove('shake'); void g.offsetWidth; g.classList.add('shake');
+    document.getElementById('pw').value='';
+  }
+}
+if (sessionStorage.getItem('teardown_auth')==='1'){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('app').style.display='block';
+}
+function switchTab(id){
+  document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:0});
+}
+</script>
+</body>
+</html>
