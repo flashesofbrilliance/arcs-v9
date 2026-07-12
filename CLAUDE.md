@@ -66,7 +66,7 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 - Do NOT read files you already know from this map.
 - Do NOT explore node_modules unless looking up a specific API.
 - Before writing Next.js/Prisma code, check `node_modules/next/dist/docs/` for breaking changes.
-- Inline styles only — no CSS files, no Tailwind, no className.
+- Inline styles only in components — no Tailwind, no utility classes. Sanctioned exceptions (only these): next/font classes on `<html>`, and the single `src/app/globals.css` (reset + keyframes + font tokens). Tailwind was removed 2026-07-11.
 - No new dependencies without asking.
 
 # Handoff — v0.1.0 (2026-05-26)

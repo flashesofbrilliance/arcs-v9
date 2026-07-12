@@ -35,7 +35,7 @@ export function ScenarioStack({ scenarios }: ScenarioStackProps) {
           </button>
         ))}
       </div>
-      <div key={active} className="fadein" style={{ padding: '18px 20px', borderRadius: 10, background: T.surface, border: `1px solid ${BDR(cfg.color)}` }}>
+      <div key={active} style={{ animation: 'fade .2s ease-out', padding: '18px 20px', borderRadius: 10, background: T.surface, border: `1px solid ${BDR(cfg.color)}` }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
           <Pill accent={cfg.color}>{cfg.label}</Pill>
           {s.title && <span style={{ fontFamily: T.sans, fontSize: 15, fontWeight: 600, color: T.fg1 }}>{s.title}</span>}

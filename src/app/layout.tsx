@@ -54,9 +54,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${crimsonPro.variable} ${jetbrainsMono.variable} h-full`}
+      // next/font exposes its CSS variables (--font-inter/--font-crimson/--font-mono)
+      // only as generated class names — this is the single sanctioned className in
+      // the app (SKILL.md Domain #4). Document base styles live in globals.css.
+      className={`${inter.variable} ${crimsonPro.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-full flex flex-col bg-obsidian-950 text-ivory-100 antialiased" style={{ overscrollBehavior: "none" }}>
+      <body style={{ overscrollBehavior: "none" }}>
         <Providers>
           <EyebrowToast />
           {children}

@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "type-check": "tsc --noEmit",
     "db:push": "npx prisma db push",
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
@@ -43,7 +42,6 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@tailwindcss/postcss": "^4",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -52,7 +50,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
     "prisma": "^7.8.0",
-    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }

@@ -1,9 +1,12 @@
 name: CI
 
-# Smoke gate: lint + type-check + build on every push/PR. Uses the existing
-# package.json scripts only — no new test deps. Build runs against a dummy
-# DATABASE_URL since Prisma's client is generated at install (postinstall) and
-# the build does not connect to the DB.
+# Smoke gate: lint + build on every push/PR. Uses the existing package.json
+# scripts only — no new test deps. Build runs against a dummy DATABASE_URL
+# since Prisma's client is generated at install (postinstall) and the build
+# does not connect to the DB. `next build` is also the canonical typecheck for
+# this repo (AGENTS.md: `npx next build`, not `tsc --noEmit` — TS5090 baseUrl
+# false positives); the former separate tsc step contradicted that rule and was
+# removed 2026-07-11 (audit finding #3).
 on:
   push:
     branches: [main]
@@ -38,9 +41,6 @@ jobs:
         run: npm run lint
         continue-on-error: true
 
-      # Hard gates — both pass today.
-      - name: Type-check
-        run: npm run type-check
-
-      - name: Build
+      # Hard gate — the build is also the typecheck.
+      - name: Build (typecheck + compile)
         run: npm run build

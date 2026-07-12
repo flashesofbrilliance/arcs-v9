@@ -271,3 +271,56 @@ UNDEFINED in 5R is a well-described plan with unexamined risk, not S-tier.
   Strategic.
 - **Verdict:** Not S-tier as written. Upgrade path: add explicit altitude labels per item and
   surface the Resonance/Reflection read for the 5R layer.
+
+---
+
+## Addendum — 2026-07-11 (Operator 20 excavation cross-reference)
+
+> Added by the 2026-07-11 archaeology session. Full findings live in
+> `_PATTERNS/2026-07-11-operator20-archaeology.md` — deliberately NOT duplicated here.
+> This doc already names why: the 3-overlapping-logs problem (`VERSION_DIVERGENCE`) is
+> what happens when the same facts live in multiple files. Only what changes this
+> roadmap's own reasoning is recorded below.
+
+### New pathogen instances (existing catalog entries, confirmed in the wild)
+
+- `ACRONYM_DRIFT` — **NCI** means two unrelated quantities in the same repo: the
+  monotone commit-tag counter (`[NCI:212]`) and the receipt `nci_score` (0–100
+  coherence score). Same shape as the resolved BAR/KKL collision; still open.
+- `ACRONYM_DRIFT` — **L0–L5** carries three meanings: pipeline stages
+  (`.claude/arcs-canon.md`), fractal abstraction layers (`CLAUDE.md`/`AGENTS.md`),
+  and atomic-design hierarchy levels (`operators/docs/PERIODIC-TABLE.md`).
+- `UNCLOSED_CEREMONY`, applied to **gates** (new sub-shape — previously observed on
+  open items, now on gate conditions): ADR-020's 50-receipt trigger cleared at 184
+  receipts with no go/park decision recorded; ADR-023's gate became measurable and
+  was never measured; ADR-025a's 30-day review window lands ~2026-07-12 with no
+  named reviewer or checklist. Gates open loudly and clear silently.
+
+### New pathogen CANDIDATE — needs ratification, not resolved unilaterally
+
+- `PHANTOM_CITATION` — a claim graded or cited against an artifact that does not
+  exist or does not contain the claim. Three independent instances now on record:
+  1. The withdrawn Funhouse Optics citation (2026-06-23 — this doc's own history;
+     URL pointed at unrelated content).
+  2. The subagent that cited a Next.js doc file it could not have read (2026-06-23,
+     `MEMORY.md` [v3.2.0] process note — no `node_modules` in its sandbox).
+  3. `operators/docs/ARCS-AtomicDesign-ProductionGuide.md` assigns letter grades
+     (A- 84%, A- 85%, B 72%…) to five files (`ARCS-RigorProtocol-S-TIER.md`,
+     `ARCS-ExternalityDetector-S-TIER.md`, `ARCS-MoleculeLibrary-Complete.md`,
+     `ARCS-RemediationHierarchy.md`, `ARCS-DecisionLineage.md`) that exist nowhere
+     in the repo (verified via `find`, 2026-07-11).
+  Named as a candidate per the standing detect→report→escalate discipline; whether
+  it enters the catalog proper is a human call.
+
+### Impact on the execution order above
+
+- **#3 (consolidate the 3 logs) re-confirmed as the highest-leverage unstarted item** —
+  independently, by a different method than the one that first proposed it. Roughly
+  half the excavation's Collision Report (name collisions, stale double-hosted canon,
+  silently-cleared gates) traces back to facts living in multiple places with no
+  single canonical surface.
+- **#6 (DEWY closing trailers) gains a second justification:** the
+  gates-cleared-silently finding is exactly the failure a closing ceremony exists to
+  prevent, extended from open items to gate conditions.
+- **No change to the dependency graph itself** — the excavation added instances and
+  urgency, not new edges.

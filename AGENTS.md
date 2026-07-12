@@ -19,7 +19,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 **`github.com/flashesofbrilliance/arcs-v9`** — canonical ARCS v9 decision intelligence app.
 Stack: Next.js 16 · Prisma 7 + SQLite (dev) / Supabase (prod) · Auth.js v5 · Anthropic SDK.
-No Tailwind. No CSS files. Inline styles only (per WORLD.md).
+No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inline styles only in components (per WORLD.md); the sole stylesheet is `src/app/globals.css` (reset + keyframes + font tokens — things inline styles cannot express).
 
 ---
 
@@ -165,7 +165,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 ## Gotchas
 
 1. **No new dependencies without asking.**
-2. **Inline styles only** — no className, no Tailwind, no CSS modules.
+2. **Inline styles only in components** — no Tailwind, no CSS modules, no utility classes. Exactly two sanctioned exceptions: next/font variable classes on `<html>` in `layout.tsx` (framework mechanism), and the single `src/app/globals.css` (document reset, `@keyframes`, font tokens, reduced-motion). No other CSS files, no other `className`.
 3. **JSON arrays are TEXT strings** — always `JSON.stringify()` before write, `JSON.parse()` after read.
 4. **`npx next build`** for typecheck, not `tsc --noEmit` (TS5090 false positives on baseUrl).
 5. **SQLite in dev, Postgres in prod** — don't use Prisma `Json` type until datasource is Postgres.

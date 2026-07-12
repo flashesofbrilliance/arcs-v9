@@ -1,5 +1,16 @@
 FILE 3: ARCS-AtomicDesign-ProductionGuide.md
 text
+
+> ⚠️ **PROVENANCE NOTICE (2026-07-11, Kintsugi seam — do not remove):**
+> This guide assigns letter grades (A- 84%, A- 85%, B 72%, B+ …) to five documents —
+> `ARCS-MoleculeLibrary-Complete.md`, `ARCS-RigorProtocol-S-TIER.md`,
+> `ARCS-ExternalityDetector-S-TIER.md`, `ARCS-RemediationHierarchy.md`,
+> `ARCS-DecisionLineage.md` — **none of which exist anywhere in this repository**
+> (verified via `find`, 2026-07-11). The grades are unsubstantiated and MUST NOT be
+> cited as evidence. Logged as instance #3 of the `PHANTOM_CITATION` pathogen
+> candidate (`_PATTERNS/2026-06-23-governance-roadmap.md`, 2026-07-11 addendum).
+> Original text preserved unmodified below per the append-only ethos.
+
 # ARCS Atomic Design System: Production Guide
 
 **Last Updated:** November 24, 2025  
