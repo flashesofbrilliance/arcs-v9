@@ -45,6 +45,7 @@
   <span class="spacer"></span>
   <button class="btn fire" id="fire">🔥 burn the center</button>
   <button class="btn" id="restore" style="display:none">⟲ re-seed from the edges</button>
+  <button class="btn" id="nocturne" title="the fire and the re-seeding, sung">🎼 nocturne</button>
 </div></div>
 
 <canvas id="cv"></canvas>
@@ -215,5 +216,34 @@ function openCenter(){
 function closeDrawer(){ sel = null; document.getElementById('drawer').classList.remove('open'); draw(); }
 document.getElementById('dx').addEventListener('click', closeDrawer);
 addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+// ── NOCTURNE: descending phrase = the fire · ascending phrase = re-seed from the edges ──
+let NAC = null, nocTimers = [];
+function nPluck(midis, when, g, dur) {
+  midis.forEach(m => {
+    const f = 440 * Math.pow(2, (m - 69) / 12);
+    const o1 = NAC.createOscillator(), o2 = NAC.createOscillator();
+    const env = NAC.createGain(), g2 = NAC.createGain();
+    o1.type = 'sine'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13;
+    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(NAC.destination);
+    const peak = .082 * g / Math.sqrt(midis.length);
+    env.gain.setValueAtTime(0, when);
+    env.gain.linearRampToValueAtTime(peak, when + .012);
+    env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.4));
+    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+  });
+}
+document.getElementById('nocturne').addEventListener('click', () => {
+  if (NAC) { nocTimers.forEach(clearTimeout); nocTimers = []; NAC.close(); NAC = null; return; }
+  NAC = new (window.AudioContext || window.webkitAudioContext)();
+  const t0 = NAC.currentTime + .2;
+  [[80], [77], [73], [68], [61, 49]].forEach((m, i) => nPluck(m, t0 + i * .55, .8, 1.6));
+  [[61], [65], [68], [73], [77], [80, 85]].forEach((m, i) => nPluck(m, t0 + 4.2 + i * .45, .7, 1.6));
+  nocTimers.push(setTimeout(() => ignite(true), 250));
+  nocTimers.push(setTimeout(() => ignite(false), 4400));
+  nocTimers.push(setTimeout(() => { if (NAC) { NAC.close(); NAC = null; } }, 10000));
+});
+
 resize();
 </script>

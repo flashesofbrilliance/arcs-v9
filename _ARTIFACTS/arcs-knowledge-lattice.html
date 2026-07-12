@@ -78,6 +78,7 @@
   <span class="phase" id="phase">SUPERIONIC</span>
   <span class="spacer"></span>
   <button class="btn" id="proto-btn">720° protocol</button>
+  <button class="btn" id="perform" title="epoch replay, sonified">🎼 perform</button>
   <button class="btn" id="dl">↓ .json</button>
 </div></div>
 
@@ -310,6 +311,48 @@ document.getElementById('dl').addEventListener('click', () => {
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([document.getElementById('lattice-data').textContent], { type:'application/json' }));
   a.download = 'knowledge-lattice-v1.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+
+// ── PERFORM: epoch replay sonified — each edge a pluck (pitch = target domain),
+//    each crystallization a bass chord. Music-box logic: the data plays itself. ──
+let PAC = null, perfTimers = [];
+function pPluck(midis, when, g, dur) {
+  midis.forEach(m => {
+    const f = 440 * Math.pow(2, (m - 69) / 12);
+    const o1 = PAC.createOscillator(), o2 = PAC.createOscillator();
+    const env = PAC.createGain(), g2 = PAC.createGain();
+    o1.type = 'sine'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13;
+    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(PAC.destination);
+    const peak = .082 * g / Math.sqrt(midis.length);
+    env.gain.setValueAtTime(0, when);
+    env.gain.linearRampToValueAtTime(peak, when + .012);
+    env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.4));
+    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+  });
+}
+const DOMNOTE = { ont: 73, epi: 77, met: 80, ety: 85, lib: 68 };
+document.getElementById('perform').addEventListener('click', () => {
+  if (PAC) { perfTimers.forEach(clearTimeout); perfTimers = []; PAC.close(); PAC = null; return; }
+  PAC = new (window.AudioContext || window.webkitAudioContext)();
+  let t = PAC.currentTime + .25; const prevDia = new Set();
+  NODES.forEach(n => { if (n.st !== 'g' && hardness(n, 0) >= 4) prevDia.add(n.id); });
+  for (let e = 1; e <= 8; e++) {
+    const evs = EDGES.filter(x => x[2] === e);
+    const dwell = Math.max(1.15, evs.length * .085 + .55);
+    const te = t;
+    perfTimers.push(setTimeout(() => { ep = e; epEl.value = e; draw(); }, (te - PAC.currentTime) * 1000));
+    evs.forEach((x, i) => pPluck([DOMNOTE[byId[x[1]].dom] || 73], te + i * .085, .55, 1.1));
+    NODES.forEach(n => {
+      if (n.st !== 'g' && hardness(n, e) >= 4 && !prevDia.has(n.id)) {
+        prevDia.add(n.id);
+        pPluck([49, 56, 61], te + dwell * .6, .85, 2.4); // a diamond is born
+      }
+    });
+    t += dwell;
+  }
+  perfTimers.push(setTimeout(() => { if (PAC) { PAC.close(); PAC = null; } }, (t - PAC.currentTime + 3) * 1000));
 });
 
 syncZoom(); resize();

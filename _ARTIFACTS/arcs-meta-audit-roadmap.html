@@ -410,4 +410,28 @@ CHI — artifact wedge + instrumented funnel. MA — gates, L6–L7, unwired ope
 STACK RANK: 01 Ship loop live (GREEN/HIGH/S) · 02 Canon truth-sync (GREEN/HIGH/S) · 03 Debrief loop for first users (YELLOW/M) · 04 Eval harness prompt-vs-operators (YELLOW/M) · 05 Kairos breadcrumbs v0 (YELLOW/S) · 06 HARD FORK receipt: product vs consultancy (FORK) · 07 Monetization rail (RED until 06).
 
 UPDATE LAW: Drift Sentry daily 08:00 ET appends inchworm entries per handoff/RC/epoch and re-grades parity. Gauges are earned, not asserted.
+
+// ── ENTRANCE: anime-style staggered reveal storytelling (reduced-motion honored) ──
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.wrap > section, .wrap > .rule').forEach((el, i) => {
+    el.style.opacity = '0'; el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity .7s ease, transform .7s cubic-bezier(.22,1,.36,1)';
+    setTimeout(() => { el.style.opacity = ''; el.style.transform = ''; }, 140 + i * 120);
+  });
+  document.querySelectorAll('.gauge .v[data-precise]').forEach((el, i) => {
+    const v = +el.dataset.precise, assessed = !!el.dataset.assessed, pct = assessed ? '%' : '';
+    const t0 = performance.now() + 420 + i * 170, dur = 900;
+    const tick = now => {
+      const p = (now - t0) / dur;
+      if (p >= 0) el.textContent = (assessed ? '~' : '') + Math.round(v * (1 - Math.pow(1 - Math.min(1, p), 3))) + pct;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+  nodes.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transition = (el.style.transition ? el.style.transition + ', ' : '') + 'opacity .5s ease';
+    setTimeout(() => { el.style.opacity = ''; }, 650 + i * 130);
+  });
+}
 </script>

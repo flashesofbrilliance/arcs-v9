@@ -35,6 +35,7 @@
   <div class="ctl"><span class="lbl">Fog</span><input id="fog" type="range" min="0" max="100" value="72" aria-label="Fog density"></div>
   <div class="ctl"><span class="lbl cy">Phase</span><input id="phase" type="range" min="0" max="628" value="90" aria-label="Rotation phase"></div>
   <button class="btn" id="drift">drift</button>
+  <button class="btn" id="lune" title="clair de lune drives the fog">🌙 lune</button>
 </div></div>
 
 <div class="cap">
@@ -140,6 +141,64 @@ driftBtn.addEventListener('click', () => {
   if (S.drift) loop(); else { cancelAnimationFrame(raf); raf = null; }
 });
 if (!reduced) { S.drift = true; driftBtn.classList.add('on'); }
+
+// ── LUNE: the music-box reduction of Clair de Lune (Debussy 1905, public domain)
+//    drives the scene — fog parts as the melody swells; the horizon is earned by ear. ──
+let LAC = null, luneRaf = null, luneT0 = 0, luneTimer = null;
+const LU = 0.46, LLOOP = 88;
+const LSCORE = [
+  [0,[77,80],6,.9],[6,[77,80],2,.7],[8,[75,78],3,.75],[11,[73,77],6,.85],
+  [17,[73,77],2,.6],[19,[72,75],3,.7],[22,[70,73],6,.8],[22,[49,56],12,.5],
+  [28,[68,72],8,.85],[36,[68,73],4,.7],[40,[70,75],4,.75],[44,[73,77],6,.85],
+  [44,[54],12,.45],[50,[75,78],2,.6],[52,[77,80],6,.9],
+  [58,[61],1,.5],[59,[65],1,.5],[60,[68],1,.55],[61,[73],1,.6],[62,[77],1,.65],
+  [63,[80],1,.7],[64,[85],1,.8],[65,[80],1,.65],[66,[77],1,.6],[67,[73],1,.55],
+  [68,[68],1,.5],[69,[65],1,.45],
+  [70,[77,80],8,.95],[70,[49,56],14,.5],[78,[73,77],8,.7],
+];
+function lPluck(midis, when, g, dur) {
+  midis.forEach(m => {
+    const f = 440 * Math.pow(2, (m - 69) / 12);
+    const o1 = LAC.createOscillator(), o2 = LAC.createOscillator();
+    const env = LAC.createGain(), g2 = LAC.createGain();
+    o1.type = 'sine'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13;
+    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(LAC.destination);
+    const peak = .082 * g / Math.sqrt(midis.length);
+    env.gain.setValueAtTime(0, when);
+    env.gain.linearRampToValueAtTime(peak, when + .012);
+    env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.4));
+    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+  });
+}
+function lSched(k) {
+  const t0 = luneT0 + k * LLOOP * LU;
+  LSCORE.forEach(ev => lPluck(ev[1], t0 + ev[0] * LU, ev[3], ev[2] * LU * 1.5));
+  luneTimer = setTimeout(() => lSched(k + 1), (t0 + LLOOP * LU - LAC.currentTime - 1.5) * 1000);
+}
+function lEnv(ts) {
+  let e = 0;
+  for (const ev of LSCORE) { const d = ts - ev[0] * LU; if (d >= 0) e += ev[3] * Math.exp(-d / 1.1); }
+  return Math.min(1, e * .5);
+}
+document.getElementById('lune').addEventListener('click', () => {
+  const btn = document.getElementById('lune');
+  if (LAC) { clearTimeout(luneTimer); cancelAnimationFrame(luneRaf); LAC.close(); LAC = null; btn.classList.remove('on'); draw(); return; }
+  if (S.drift) document.getElementById('drift').click(); // one conductor at a time
+  LAC = new (window.AudioContext || window.webkitAudioContext)();
+  luneT0 = LAC.currentTime + .2; lSched(0); btn.classList.add('on');
+  const step = () => {
+    const raw = LAC.currentTime - luneT0, ts = raw < 0 ? 0 : raw % (LLOOP * LU);
+    const e = lEnv(ts);
+    S.fog = Math.max(.08, .9 - .85 * e);
+    document.getElementById('fog').value = Math.round(S.fog * 100);
+    S.phase += .0022 + .0065 * e;
+    draw();
+    luneRaf = requestAnimationFrame(step);
+  };
+  luneRaf = requestAnimationFrame(step);
+});
+
 resize();
 if (S.drift) loop();
 </script>
