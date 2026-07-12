@@ -1,6 +1,10 @@
 # ARCS Operators Library — Atomic Design Components
 
-> **Status:** Production-ready canonical implementation
+> **Status:** Reference implementation — module-level Python, **not wired into the live
+> compass route or any deployed surface**. Relabeled 2026-07-11: the prior
+> "Production-ready canonical" claim was not backed by integration, deployment, or
+> end-to-end test evidence (see `_PATTERNS/2026-07-11-operator20-archaeology.md`,
+> Collision Report #3).
 > **Version:** v9.0
 > **Total:** 34 files, 16.6K LOC, 736 KB
 
@@ -48,7 +52,7 @@ This directory contains the atomic design components that compose the ARCS decis
 | **Rules of Motion (ROM)** | `arcs_rom.py` | 19KB | Canonical motion rules |
 | **Trace** | `arcs_trace.py` | 39KB | Execution tracing and debugging |
 | **Trace Loki** | `arcs_trace_loki.py` | 40KB | Loki adversarial trace analysis |
-| **CIS** | `arcs_cis.py` | 22KB | CIS system (coherence/integrity/signal?) |
+| **CIS** | `arcs_cis.py` | 22KB | Cognitive Interface System ("Babel Fish") — HC→LTE integration: altitude detection + cognitive-safety-modulated signal encoding (per the file's own header) |
 | **Diagnostic** | `arcs_diagnostic.py` | 17KB | System diagnostics and validation |
 
 ### Storage & Infrastructure
@@ -56,7 +60,7 @@ This directory contains the atomic design components that compose the ARCS decis
 | Component | File | Purpose |
 |-----------|------|---------|
 | **Store** | `arcs_store.py` | Core storage layer |
-| **Yoav Store** | `arcs_yoav_store.py` | Advanced storage (time-aware?) |
+| **Yoav Store** | `arcs_yoav_store.py` | Global serializability layer — ordered commit log + conflict detection across multi-future (YOAV clock) state (per the file's own header) |
 | **Substrate** | `arcs_substrate.py` | Substrate/foundation layer |
 | **BAR Seeding** | `arcs_seed_bar.py` | BAR operator initialization |
 | **Backup** | `arcs_backup.py` | Backup utilities |
@@ -126,9 +130,9 @@ where:
 
 ## Development Notes
 
-All operators are stdlib-only (no external dependencies). They are composable, testable in isolation, and designed for direct import into any ARCS decision pipeline.
+**Dependencies (corrected 2026-07-11 — the prior "all operators are stdlib-only" claim was false):** 12 of 34 files import numpy and/or scipy: `arcs_api`, `arcs_hc`, `arcs_constitutional_court`, `arcs_kinematics`, `arcs_operators_bar`, `arcs_operators_lab`, `arcs_operators_curator`, `arcs_operators_sage`, `arcs_pipeline_v1`, `arcs_primitives`, `arcs_store`, `waveform_optimizer` (verified by grep). The remaining 22 are stdlib-only. Operators are composable and testable in isolation.
 
-**Canonical status:** These operators are the production-ready, tested implementation of the ARCS decision reasoning engine. They complement (not replace) the Claude L0–L5 pipeline in the compass route, providing component-level reasoning hooks for custom decision flows.
+**Status (relabeled 2026-07-11):** These operators are a reference implementation of the ARCS decision reasoning engine at component resolution. They complement (not replace) the Claude L0–L5 pipeline in the compass route — but they are not integrated with it, and no deployment or end-to-end evidence backs a "production-ready" label.
 
 **Integration:** Currently not wired into the compass route (which uses Claude). Future integration points:
 - Custom operator chains for specialized decision domains

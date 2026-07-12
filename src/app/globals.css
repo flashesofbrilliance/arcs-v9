@@ -1,284 +1,104 @@
-@import "tailwindcss";
+/* ─── ARCS global stylesheet ─────────────────────────────────────────────────────
+   The ONLY stylesheet in the app, by constitution (SKILL.md Domain #4 /
+   AGENTS.md Gotchas #2). It exists solely for what inline styles cannot express:
+   the document-level reset, @keyframes, font-token custom properties, and the
+   reduced-motion media query. All component styling is inline styles — no
+   utility classes, no component classes, no Tailwind.
 
-/* ─── Design Tokens ──────────────────────────────────────────────────────────── */
-@theme inline {
+   2026-07-11: Tailwind removed. It was a Day-1 scaffold remnant that violated
+   the inline-styles rule from the repo's first commit
+   (_PATTERNS/2026-06-23-prose-rule-enforcement-audit.md, finding #1). The reset
+   below preserves the parts of Tailwind preflight this app actually relied on
+   (border-box sizing, zeroed margins, neutral headings/buttons/links). The
+   previous 285-line version's @theme palette, component classes (.panel-luxury,
+   .btn-luxury, …), and 6 of 11 keyframes had zero consumers in src/ (verified
+   by grep) and were removed as dead code. */
 
-  /* Fonts */
-  --font-sans:  var(--font-inter);
+/* ─── Reset (preflight-equivalent, minimal) ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+}
+
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd, ul, ol, pre {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ul, ol {
+  list-style: none;
+  padding: 0;
+}
+
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/* ─── Font tokens ───
+   --font-inter / --font-crimson / --font-mono are injected by next/font via
+   the sanctioned className on <html> (see layout.tsx). */
+:root {
+  --font-sans: var(--font-inter);
   --font-serif: var(--font-crimson);
-  --font-mono:  var(--font-mono);
-
-  /* ── Breakpoints ──────────────────────────────────────────────────────────── */
-  --breakpoint-mobile:     320px;
-  --breakpoint-mobile-lg:  480px;
-  --breakpoint-tablet:     768px;
-  --breakpoint-tablet-lg:  1024px;
-  --breakpoint-desktop:    1280px;
-  --breakpoint-desktop-lg: 1440px;
-  --breakpoint-wide:       1920px;
-
-  /* ── Color Palette ────────────────────────────────────────────────────────── */
-
-  /* Obsidian — page backgrounds */
-  --color-obsidian-950: #0A0C0D;
-  --color-obsidian-900: #12161A;
-  --color-obsidian-800: #1A2128;
-
-  /* Bronze — primary accent */
-  --color-bronze-600: #9A7755;
-  --color-bronze-500: #BA8F65;
-  --color-bronze-400: #D4A775;
-  --color-bronze-300: #E8BF95;
-
-  /* Jade — success */
-  --color-jade-600: #4A8270;
-  --color-jade-500: #5A9E87;
-  --color-jade-400: #7AB89E;
-
-  /* Amber — warning */
-  --color-amber-500: #BA9B5A;
-  --color-amber-400: #D4B67A;
-
-  /* Terracotta — critical */
-  --color-terracotta-500: #B8664F;
-  --color-terracotta-400: #D4826F;
-
-  /* Platinum / Steel — neutrals */
-  --color-platinum-500: #9AA0A5;
-  --color-steel-600:    #4A5158;
-  --color-steel-500:    #6A7178;
-  --color-steel-400:    #8A9198;
-  --color-steel-100:    #BAC0C5;
-
-  /* Ivory / Slate — text */
-  --color-ivory-100: #F8F5F0;
-  --color-ivory-200: #F0EBE3;
-  --color-slate-400: #8A9198;
-  --color-slate-500: #6A7178;
-  --color-slate-600: #4A5158;
-
-  /* ARCS semantic — Y gate / terrain (pipeline palette, keep alongside Wayfinder) */
-  --color-arcs-cyan:  #00F0FF;
-  --color-arcs-green: #00FF9D;
-  --color-arcs-gold:  #FFD700;
-  --color-arcs-red:   #FF4D6D;
-  --color-arcs-void:  #020408;
-
-  /* ── Custom Font Sizes ────────────────────────────────────────────────────── */
-  --font-size-label: 0.6875rem;
-  --font-size-micro: 0.625rem;
-
-  /* ── Shadows ──────────────────────────────────────────────────────────────── */
-  --shadow-inset-soft:  inset 0 2px 4px rgba(0,0,0,0.2);
-  --shadow-inset-deep:  inset 0 4px 8px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.03);
-  --shadow-raised:      0 1px 3px rgba(0,0,0,0.3), 0 -1px 0 rgba(255,255,255,0.03);
-  --shadow-elevated:    0 4px 12px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.15);
-  --shadow-floating:    0 8px 24px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2);
-  --shadow-glow-bronze: 0 0 20px rgba(186,143,101,0.2), 0 0 40px rgba(186,143,101,0.1);
-  --shadow-glow-jade:   0 0 20px rgba(90,158,135,0.2), 0 0 40px rgba(90,158,135,0.1);
-  --shadow-glow-cyan:   0 0 20px rgba(0,240,255,0.15), 0 0 40px rgba(0,240,255,0.07);
-
-  /* ── Animations ───────────────────────────────────────────────────────────── */
-  --animate-shimmer:        shimmer 2s linear infinite;
-  --animate-float:          float 3s ease-in-out infinite;
-  --animate-glow:           glow 2s ease-in-out infinite;
-  --animate-slide-up:       slideUp 0.3s ease-out;
-  --animate-fade-in:        fadeIn 0.2s ease-out;
-  --animate-slide-in-left:  slideInLeft 0.3s ease-out;
-  --animate-pulse-slow:     pulse 3s cubic-bezier(0.4,0,0.6,1) infinite;
-
-  /* ── Easing ───────────────────────────────────────────────────────────────── */
-  --ease-luxury: cubic-bezier(0.4, 0.0, 0.2, 1);
-  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-luxury: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ─── Keyframes ──────────────────────────────────────────────────────────────── */
-@keyframes shimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
-}
-@keyframes glow {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.6; }
-}
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-16px); }
-  to   { opacity: 1; transform: translateX(0); }
+/* ─── Base ─── */
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #0a0c0d;
+  color: #f8f5f0;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── Keyframes (every one below has a live inline-style consumer) ─── */
 /* compass-app motion atoms (Spinner / ProgressBar / StepProgress) */
 @keyframes arcs-spin    { to { transform: rotate(360deg); } }
 @keyframes arcs-indet   { 0% { left: -36%; } 100% { left: 102%; } }
 @keyframes arcs-shimmer { 0% { transform: translateX(-100%); } 60%, 100% { transform: translateX(220%); } }
 @keyframes arcs-pulse   { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+/* document patterns (ScenarioStack tab switch) */
 @keyframes fade         { from { opacity: 0; } to { opacity: 1; } }
 
-/* ─── Reduced Motion ─────────────────────────────────────────────────────────── */
+/* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* ─── Base ───────────────────────────────────────────────────────────────────── */
-html {
-  overflow-y: scroll;
-}
-
-body {
-  background-color: var(--color-obsidian-950);
-  color: var(--color-ivory-100);
-  font-family: var(--font-sans), system-ui, sans-serif;
-}
-
-/* ─── Component Utilities ────────────────────────────────────────────────────── */
-@layer components {
-
-  /* Panels */
-  .panel-luxury {
-    background: linear-gradient(135deg, var(--color-obsidian-800), var(--color-obsidian-900));
-    border: 1px solid color-mix(in srgb, var(--color-steel-500) 30%, transparent);
-    box-shadow: var(--shadow-elevated);
-  }
-  .panel-inset {
-    background: var(--color-obsidian-950);
-    border: 1px solid color-mix(in srgb, var(--color-steel-600) 40%, transparent);
-    box-shadow: var(--shadow-inset-deep);
-  }
-
-  /* Buttons */
-  .btn-luxury {
-    background: linear-gradient(135deg, var(--color-bronze-600), var(--color-bronze-500));
-    color: var(--color-obsidian-950);
-    font-weight: 700;
-    box-shadow: var(--shadow-raised);
-    transition: box-shadow 0.2s var(--ease-luxury), transform 0.2s var(--ease-luxury);
-    cursor: pointer;
-  }
-  .btn-luxury:hover {
-    box-shadow: var(--shadow-elevated);
-    transform: translateY(-1px);
-  }
-
-  /* Glass surface */
-  .surface-glass {
-    backdrop-filter: blur(16px);
-    background: color-mix(in srgb, var(--color-obsidian-900) 50%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-steel-500) 40%, transparent);
-  }
-
-  /* Text effects */
-  .text-embossed {
-    text-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 -1px 0 rgba(0,0,0,0.4);
-  }
-  .text-engraved {
-    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-  }
-
-  /* Bronze left-border accent */
-  .accent-bronze {
-    position: relative;
-    padding-left: 1rem;
-  }
-  .accent-bronze::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--color-bronze-400), var(--color-bronze-600));
-    box-shadow: var(--shadow-glow-bronze);
-  }
-
-  /* Inputs */
-  .input-luxury {
-    background: var(--color-obsidian-950);
-    border: 1px solid color-mix(in srgb, var(--color-steel-600) 40%, transparent);
-    box-shadow: var(--shadow-inset-deep);
-    padding: 0.75rem 1rem;
-    color: var(--color-ivory-100);
-    border-radius: 0.5rem;
-    width: 100%;
-    font-family: var(--font-sans);
-  }
-  .input-luxury:focus {
-    outline: none;
-    box-shadow: var(--shadow-inset-deep),
-      0 0 0 2px color-mix(in srgb, var(--color-platinum-500) 30%, transparent);
-  }
-
-  /* Raised card */
-  .raised {
-    box-shadow: var(--shadow-raised);
-    transition: box-shadow 0.2s var(--ease-luxury), transform 0.2s var(--ease-luxury);
-  }
-  .raised:hover {
-    box-shadow: var(--shadow-elevated);
-    transform: translateY(-1px);
-  }
-
-  /* Shimmer skeleton */
-  .skeleton {
-    background: linear-gradient(
-      90deg,
-      var(--color-obsidian-900) 25%,
-      var(--color-obsidian-800) 50%,
-      var(--color-obsidian-900) 75%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 1.6s infinite;
-    border-radius: 6px;
-  }
-
-  /* Bronze divider */
-  .divider-bronze {
-    height: 1px;
-    background: color-mix(in srgb, var(--color-steel-600) 50%, transparent);
-    position: relative;
-  }
-  .divider-bronze::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to right,
-      transparent,
-      color-mix(in srgb, var(--color-bronze-500) 20%, transparent),
-      transparent
-    );
-  }
-
-  /* Scrollbar */
-  .scrollbar-luxury {
-    scrollbar-width: thin;
-    scrollbar-color:
-      color-mix(in srgb, var(--color-steel-500) 50%, transparent)
-      var(--color-obsidian-900);
-  }
-
-  /* Typography utilities */
-  .text-label {
-    font-size: var(--font-size-label);
-    letter-spacing: 0.12em;
-    font-weight: 700;
-    text-transform: uppercase;
-    line-height: 1.2;
-  }
-  .text-micro {
-    font-size: var(--font-size-micro);
-    letter-spacing: 0.08em;
-    line-height: 1.2;
   }
 }

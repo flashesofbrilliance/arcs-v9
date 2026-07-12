@@ -47,16 +47,16 @@ Create narrative chapters in `canon/`. Rules:
 
 ### 4. TypeScript implementation
 Operate on `src/` (Next.js App Router, Prisma 7, Auth.js v5). Rules from `CLAUDE.md`:
-- Inline styles only — no CSS files, no Tailwind, no className
+- Inline styles only in components — no Tailwind (removed 2026-07-11), no CSS modules, no utility classes. Exactly two sanctioned exceptions: next/font variable classes on `<html>` in `layout.tsx` (the framework exposes font custom properties only as generated class names), and the single `src/app/globals.css` (document reset, `@keyframes`, font tokens, reduced-motion — things inline styles cannot express). No other CSS files, no other `className` anywhere.
 - No new dependencies without asking
 - Always check `WORLD.md` for governing law before writing new logic
 - Prisma models: JSON arrays as TEXT (SQLite), enums as plain strings
 
 ### 5. Python scan suite
 Operate on `scripts/`. Rules:
-- Zero external dependencies (Python 3.8+ stdlib only)
+- Python 3.8+ stdlib only, with exactly two declared exceptions (2026-06-23 audit finding #5): `network_scan.py` (anthropic SDK) and `archetype_scan.py` (plotly/networkx, visualization). Any new exception must be declared in the file header and added to this list.
 - DomainConfig/LokiRule architecture (`arcs_core.py` is the shared kernel)
-- Every new scanner must implement the gauntlet interface: `strand_a`, `strand_b`, `helix_composite`, `l2_bayesian`, `triune_classify`, `run_gauntlet`
+- Every new scanner integrates with the gauntlet by composition: it defines a `DomainConfig` (+ optional `strand_a_fn` hook) and calls into `arcs_core`'s shared gauntlet implementation. The gauntlet methods (`strand_a`, `strand_b`, `helix_composite`, `l2_bayesian`, `triune_classify`, `run_gauntlet`) live in the kernel, not in scanners — no scanner has ever defined them locally, and the previous wording of this rule described an interface that never existed (2026-06-23 audit finding #6).
 - Self-sovereign leaves: no scanner may depend on another scanner (only on `arcs_core`)
 
 ### 7. Session commands (slash commands)
@@ -70,7 +70,7 @@ Two slash commands live in `.claude/commands/`. They fire inside Claude Code (SU
 
 **Token budget contract:**
 - `/handoff` reads at most 5 files + `git log --oneline -10`
-- `/handoff-pickup` reads at most 3 files
+- `/handoff-pickup` reads at most 5 files (corrected 2026-07-11 to match `handoff-pickup.md`'s own contract; this file previously said 3 — the self-contradiction was audit finding #7)
 - Neither command reads `MEMORY.md` history, `WORLD.md`, or the full repo
 
 **Session state file:** `.claude/arcs-session-state.md` — overwritten by `/handoff` each session. Single cheapest entry point for pickup. Do not manually edit mid-session.
@@ -78,6 +78,13 @@ Two slash commands live in `.claude/commands/`. They fire inside Claude Code (SU
 ---
 
 ### 6. Input normalization & linting
+
+> **STATUS: SPECCED, NOT IMPLEMENTED** (marked 2026-07-11 per audit finding #8).
+> No code implements this gate — zero matches for `validation_state`, `blocking_question`,
+> or `ARCS-INV-` anywhere in `src/` or `scripts/`. Do not mistake the spec below for
+> running behavior. The compass route's Court verdict enum (`PASS|TENSION|BLOCK`) is a
+> *different* three-state enum for a different purpose — do not conflate them.
+
 Operate on any invocation, config string, or user input before it enters the L0–L5 pipeline. This is the **validation layer** that sits on top of the complete JTBD/DEWY map. Rules:
 
 **Gate contract (PASS / HOLD / REJECT):**
@@ -151,6 +158,9 @@ Operate on any invocation, config string, or user input before it enters the L0�
 
 ## HOLD/REJECT gate (validation layer — defined 2026-05-26)
 
+> **STATUS: SPECCED, NOT IMPLEMENTED** — see the banner on Skill Domain #6. This section
+> describes intended behavior, not built behavior.
+
 Every invocation/input passes through a three-state gate before execution:
 
 | State | Condition | Action |
@@ -185,3 +195,4 @@ Full implementation spec: see Skill Domain #6 above and `arcs-field-os/specs/ori
 | v0.2.0 | 2026-05-26 | Issue #2 priority queue corrected (JSON schema ✅ exists; Prisma + .md companion still needed); Skill Domain #6 added (Input Normalization & Linting — full gate spec, field-level rules, receipt contract); HOLD/REJECT section cross-linked to Domain #6 |
 | v0.3.0 | 2026-05-26 | Issues #2 and #3 complete; priority queue updated to reflect ✅ status; Skill Domain #7 added (Session Commands — /handoff + /handoff-pickup, token budget contract, arcs-session-state.md ownership) |
 | v0.4.0 | 2026-06-05 | Observatory + Lattice capabilities: `scripts/build_observatory.py` (repo-agnostic timeline generator, `--attribution show\|hide` = strip-to-subject for clean external demos); ADR-023 superionic goal-lattice model + `runtime/specs/lattice-pressure-rom.json` (L7-governed pressure constants, self-tuning FORBIDDEN); `scripts/lattice_sim.py` structural load-test harness. Cloud crosswalk noted: `/arcs-handoff` is local-only — use `/handoff` skill in cloud; cloud setup reads `_STATE/snapshot.json` from main. |
+| v0.5.0 | 2026-07-11 | Debt paydown — every false claim the 2026-06-23 enforcement audit caught, made true: Domain #4 rule rewritten to match reality (Tailwind removed from the repo same day; globals.css + next/font carve-outs made explicit); Domain #5 stdlib rule gains its two declared exceptions and the gauntlet rule now describes the composition architecture that actually exists (the six-method scanner interface never did); Domain #6 + HOLD/REJECT sections banner-marked SPECCED, NOT IMPLEMENTED; `/handoff-pickup` token budget corrected 3→5. Companion code changes: Tailwind deps + postcss.config.mjs removed, `layout.tsx`/`globals.css` de-Tailwinded, dead `.fadein` class replaced with a real inline animation, `tsc --noEmit` script + CI step removed (build is the typecheck, per the documented rule). |
