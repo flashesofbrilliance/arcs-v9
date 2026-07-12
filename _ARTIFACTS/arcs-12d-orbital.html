@@ -41,6 +41,19 @@
   .dimrow .bar{height:5px;background:rgba(30,41,59,.8);border-radius:2px;overflow:hidden}
   .dimrow .bar i{display:block;height:100%;background:var(--cyan)}
   .dimrow .v{font-family:var(--mono);font-size:.58rem;color:var(--sec);text-align:right;font-variant-numeric:tabular-nums}
+  /* performance program bar — the ballet's legibility scaffolding */
+  .perf{position:fixed;bottom:.9rem;left:50%;transform:translateX(-50%);z-index:32;width:min(680px,calc(100vw - 24px));
+    background:rgba(13,17,23,.96);border:1px solid var(--border);border-radius:8px;padding:.65rem .95rem;display:none}
+  .perf.open{display:block}
+  .perf .mv{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--gold)}
+  .perf .what{font-size:.78rem;color:var(--sec);margin:.15rem 0 .35rem;line-height:1.45}
+  .perf .proj{font-family:var(--mono);font-size:.64rem;color:var(--cyan);letter-spacing:.05em}
+  .perf .proj b{color:var(--text)}
+  .segbar{display:flex;height:7px;border-radius:3px;overflow:hidden;margin-top:.45rem;position:relative}
+  .segbar i{display:block;height:100%;opacity:.4}
+  .segbar i.now{opacity:1}
+  .segbar .ph{position:absolute;top:-2px;bottom:-2px;width:2px;background:#e2e8f0}
+  .perf .tm{font-family:var(--mono);font-size:.6rem;color:var(--mut);margin-top:.3rem;display:flex;justify-content:space-between}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -75,6 +88,14 @@
   <span class="kv">Zone A: D1–D4 kinematics (position · velocity · acceleration · degree) · Zone B: D5–D12 coherence operators</span>
   <span class="kv" id="inv-legend" style="display:none"><b style="color:#e2e8f0">◌ white dash = TAUTOLOGY</b> (true by construction — zero information about the world) · <b style="color:var(--cyan)">○ cyan = CONSTITUTIONAL</b> (kept true by enforcement) · <b style="color:var(--green)">◌ green dot = EMPIRICAL</b> (never false yet falsifiable — the only grade that is evidence)</span>
   <span class="kv" style="max-width:640px">Honesty note: this is a computed projection of the lattice onto a 12D state space — an adaptation of the kinematic-manifold convention, not arcs_kinematics.py's manifold (code wins over doc). A superposed node collapses only by a formalization measurement — see the Formalization Backlog.</span>
+</div>
+
+<div class="perf" id="perf">
+  <div class="mv" id="perf-mv"></div>
+  <div class="what" id="perf-what"></div>
+  <div class="proj" id="perf-proj"></div>
+  <div class="segbar" id="perf-bar"><span class="ph" id="perf-ph"></span></div>
+  <div class="tm"><span id="perf-t"></span><span id="perf-note"></span></div>
 </div>
 
 <div class="drawer" id="drawer"><button class="x" id="dxx">✕ ESC</button><div id="dbody"></div></div>
@@ -262,7 +283,8 @@ function draw() {
   });
   // nodes
   ids.forEach(id => {
-    const n = byId[id], dim = !visible(id);
+    const offStage = BAL.on && BAL.feature && !BAL.feature.has(id) && hard(id, 8) < 4;
+    const n = byId[id], dim = !visible(id) || offStage;
     const [x,y] = pos(id,ep), hd = hard(id,epR), c = DOMC[n.dom];
     void 0;
     const a = dim ? '26' : 'e6';
@@ -288,7 +310,7 @@ function draw() {
       }
     }
     if (sel === id) { ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(x,y,r+7,0,7); ctx.stroke(); }
-    if (sel === id || hd >= 4 || (superposed && !dim && entDeg[id] > 0)) {
+    if (BAL.on ? (!dim && (hd >= 4 || (BAL.labelCast && BAL.feature && BAL.feature.has(id)))) : (sel === id || hd >= 4 || (superposed && !dim && entDeg[id] > 0))) {
       ctx.fillStyle = 'rgba(226,232,240,.85)'; ctx.font = '10px ui-monospace,monospace';
       ctx.fillText(n.label.length > 26 ? n.label.slice(0,24)+'…' : n.label, x, y - r - 8);
     }
@@ -561,6 +583,41 @@ function balStage() {
 // bridge/stratum → motion×field → collapse×superposition AT THE CLIMAX → entanglement —
 // and the coda restores the viewer's own axes for the true pose.
 const TOUR = [[0,11],[1,2],[3,4],[0,5],[7,6],[1,11],[8,9],[10,5],[0,11],[0,11]];
+// The program — one line of meaning per movement; the cast is who the light follows.
+const PROGRAM = {
+  M: { name: 'MOONRISE', what: 'The quiet theme. The 29 superposed nodes breathe — uncollapsed, awaiting their formalization measurement.', cast: () => SUPERP, col: '#7dd3fc' },
+  P: { name: 'PAS DE DEUX', what: 'The lyric passages. The 7 entangled pairs orbit each other — nodes that share evidentiary roads move together.', cast: () => ENT.flat(), col: '#00FF9D' },
+  W: { name: 'EPOCH WAVE', what: 'The flowing arpeggios. Time ripples e1→e8 through this projection — watch the web assemble.', cast: () => null, col: '#00F0FF' },
+  D: { name: 'DIAMOND VARIATION', what: 'The climax. Receipt, NOTOMATION and Superionic — the only ≥4-road truths — take center stage.', cast: () => DIAMONDS.concat(METAS), col: '#FFD700' },
+  T: { name: 'THE TRUE POSE', what: 'The coda. Every dancer returns to their actual data position, on your axes. The dance ends where truth is.', cast: () => null, col: '#e2e8f0' },
+};
+const fmtT = s => (s/60|0) + ':' + ('0' + (s%60|0)).slice(-2);
+function buildSegbar() {
+  const bar = document.getElementById('perf-bar');
+  bar.querySelectorAll('i').forEach(x => x.remove());
+  MID.forms.forEach(([t0, F], i) => {
+    const t1 = i + 1 < MID.forms.length ? MID.forms[i+1][0] : MID.dur;
+    const el = document.createElement('i');
+    el.style.width = ((t1 - t0) / MID.dur * 100) + '%';
+    el.style.background = PROGRAM[F].col;
+    el.dataset.i = i;
+    bar.insertBefore(el, document.getElementById('perf-ph'));
+  });
+}
+function updateProgram(ts, segI) {
+  const F = MID.forms[segI][1], pg = PROGRAM[F];
+  document.getElementById('perf-mv').textContent = '🩰 MOVEMENT ' + (segI+1) + '/' + MID.forms.length + ' · ' + pg.name;
+  document.getElementById('perf-mv').style.color = pg.col;
+  document.getElementById('perf-what').textContent = pg.what;
+  const kx = +dxSel.value, ky = +dySel.value;
+  document.getElementById('perf-proj').innerHTML =
+    'projection · <b>' + DIMS[kx].k + ' ' + DIMS[kx].n + '</b> × <b>' + DIMS[ky].k + ' ' + DIMS[ky].n + '</b>' +
+    (F === 'T' ? ' — your axes' : '');
+  document.getElementById('perf-ph').style.left = (ts / MID.dur * 100) + '%';
+  document.querySelectorAll('#perf-bar i').forEach(el => el.classList.toggle('now', +el.dataset.i === segI));
+  document.getElementById('perf-t').textContent = fmtT(ts) + ' / ' + fmtT(MID.dur);
+  document.getElementById('perf-note').textContent = 'Clair de Lune · Debussy · perf. B. Krueger (CC BY-SA)';
+}
 function balletTargets(ts) {
   const [cx, cy, S] = balStage(), T = {}, F = formAt(ts);
   ids.forEach(id => T[id] = rawPos(id, 8).slice());          // the projected pose is the base
@@ -602,7 +659,11 @@ function balletFrame(dt) {
     const F = MID.forms[segI][1];
     if (F === 'T') { dxSel.value = BAL.userAxes[0]; dySel.value = BAL.userAxes[1]; }
     else { const pr = TOUR[segI % TOUR.length]; dxSel.value = pr[0]; dySel.value = pr[1]; }
+    const cast = PROGRAM[F].cast();
+    BAL.feature = cast ? new Set(cast) : null;   // stage lighting follows the cast
+    BAL.labelCast = (F === 'P');                 // name the dancers only in the duets
   }
+  updateProgram(ts, segI);
   // accents on the real performance's note onsets, scaled by velocity
   while (evPtr < MID.evs.length && MID.evs[evPtr][0] <= ts) {
     const [, n, v] = MID.evs[evPtr++];
@@ -632,6 +693,9 @@ function toggleBallet() {
   BAL.seg = -1; BAL.userAxes = [dxSel.value, dySel.value];
   evPtr = 0; evSched = 0;
   BAL.trailsWere = trails; trails = false;
+  buildSegbar();
+  document.getElementById('perf').classList.add('open');
+  document.querySelector('.hud').style.display = 'none';
   ids.forEach(id => BAL.cur[id] = rawPos(id, 8).slice());
   document.getElementById('ballet-btn').classList.add('on');
   scheduleWindow();
@@ -645,7 +709,9 @@ function toggleBallet() {
   balRaf = requestAnimationFrame(step);
 }
 function stopBallet() {
-  BAL.on = false; trails = BAL.trailsWere;
+  BAL.on = false; trails = BAL.trailsWere; BAL.feature = null;
+  document.getElementById('perf').classList.remove('open');
+  document.querySelector('.hud').style.display = '';
   if (BAL.userAxes) { dxSel.value = BAL.userAxes[0]; dySel.value = BAL.userAxes[1]; }
   clearTimeout(balTimer); cancelAnimationFrame(balRaf);
   killAudio();
@@ -715,6 +781,13 @@ function symMeasure() {                        // one measure = one left-to-righ
   const now = Math.max(AC.currentTime + .06, SYM.start + SYM.measure * measLen());
   const L = measLen(), epR = Math.max(1, Math.min(8, Math.round(ep)));
   const ch = chordFor(SYM.measure, epR), deg = ch.deg, kx = +dxSel.value, ky = +dySel.value;
+  const PCN = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+  document.getElementById('perf-mv').textContent = '𝄞 MEASURE ' + (SYM.measure + 1) + ' · CHORD ' + PCN[ch.root] + ' maj' + (deg.length >= 7 ? '9' : deg.length >= 6 ? '7' : '');
+  document.getElementById('perf-mv').style.color = '#00F0FF';
+  document.getElementById('perf-what').textContent = 'The state space, sounded: X→onset, Y→pitch, hardness→loudness. ' + deg.length + '-note scale · harmony unlocked by ' + EDGE_CUM(epR) + ' edges at e' + epR + '.';
+  document.getElementById('perf-proj').innerHTML = 'projection · <b>' + DIMS[kx].k + ' ' + DIMS[kx].n + '</b> × <b>' + DIMS[ky].k + ' ' + DIMS[ky].n + '</b>';
+  document.getElementById('perf-t').textContent = 'measure length ' + measLen().toFixed(1) + 's';
+  document.getElementById('perf-note').textContent = 'Gymnopédie sway through the evidence-unlocked fifths';
   const sup = id => byId[id].status !== 'ok';
   const eps = mode === 'SUPERPOSITION' ? [1,2,3,4,5,6,7,8] : [epR];
   const notes = [];                            // [tFrac, midi, vel, dur, dom, id, trill]
@@ -769,6 +842,9 @@ function toggleSymph() {
   SYM.on = true; SYM.start = AC.currentTime + .2; SYM.measure = 0; SYM.acc = [];
   BAL.amp = {};
   document.getElementById('symph-btn').classList.add('on');
+  document.getElementById('perf').classList.add('open');
+  document.querySelectorAll('#perf-bar i').forEach(x => x.remove());
+  document.querySelector('.hud').style.display = 'none';
   symMeasure();
   const step = () => {                         // playhead sweep + onset accents (all data)
     if (!SYM.on) return;
@@ -788,6 +864,8 @@ function toggleSymph() {
 }
 function stopSymph() {
   SYM.on = false; clearTimeout(SYM.timer); cancelAnimationFrame(SYM.raf);
+  document.getElementById('perf').classList.remove('open');
+  document.querySelector('.hud').style.display = '';
   killAudio();
   document.getElementById('symph-btn').classList.remove('on'); draw();
 }
