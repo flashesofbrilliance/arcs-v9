@@ -85,6 +85,8 @@
     <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
     <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>esc</b> close
   </p>
+  <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
+  <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
   <span class="lbl" style="color:var(--gold)">What the controls mean</span>
   <p style="font-size:.76rem;line-height:1.7">
     <b>Epochs (e1–e8)</b> — the corpus's eight serializability epochs (2026-05-20 → 07-10). Every edge is stamped with the epoch its evidentiary road appeared; scrubbing replays the web's growth.<br>
@@ -146,6 +148,24 @@ const DIMS = [
   { k:'D11', n:'ENTANGLEMENT',    f:(id) => entDeg[id] },
   { k:'D12', n:'FIELD COHERENCE', f:(id,ep) => { const nb=[...new Set([...srcAt(id,ep), ...outS[id].filter(e=>e[2]<=ep).map(e=>e[1])])]; return nb.length? nb.reduce((s,x)=>s+hard(x,ep),0)/nb.length : 0; } },
 ];
+
+// ── Conductor notation (runtime/specs/conductor-notation-v1.md) — one mark per dim.
+// D10-12 echo the canonical kinematic spectrum's ballet terms (arcs_kinematics.py):
+// Relevé (peak tension) · Plié (yield) · Élevé (unified) — Zach's coinage, adopted.
+const CONDUCTOR = [
+  { mark: '–',    ballet: 'aplomb',          note: 'tenuto — how set the placement is' },
+  { mark: '‿',    ballet: 'glissade',        note: 'legato — the traveling step' },
+  { mark: 'sfz',  ballet: 'fouetté',         note: 'sforzando — the whip-turn' },
+  { mark: 'div.', ballet: 'supported adagio',note: 'divisi — how many voices sound this note' },
+  { mark: 'ost.', ballet: 'porteur',         note: 'ostinato — the figure others stand on' },
+  { mark: 'poly.',ballet: 'character suite', note: 'polyphony — independence of the voices' },
+  { mark: '⌒',    ballet: 'pas couru',       note: 'ligature — tied across staves' },
+  { mark: '8va',  ballet: 'plié↕élevé depth',note: 'register — which octave of the system' },
+  { mark: 'V–I',  ballet: 'finished line',   note: 'cadence: authentic=formalized · deceptive=truing · fermata-rest=gated' },
+  { mark: 'tr',   ballet: 'RELEVÉ',          note: 'trill held unresolved — collapse is the resolution (peak tension, on pointe)' },
+  { mark: '𝄆',    ballet: 'PLIÉ',            note: 'canon — partners yield into each other' },
+  { mark: 'tutti',ballet: 'ÉLEVÉ',           note: 'the ensemble breathes as one body' },
+];
 // precompute tensor + ranges
 const T = {}; // T[ep][id] = [12]
 for (let ep = 1; ep <= 8; ep++) { T[ep] = {}; ids.forEach(id => T[ep][id] = DIMS.map(d => d.f(id, ep))); }
@@ -167,7 +187,7 @@ const KW = { 1:1, 2:2, 3:3, 4:1.5, 5:3, 6:2.5, 7:1.5, 8:3 }; // kairos significa
 
 // ── controls ──
 const dxSel = document.getElementById('dx'), dySel = document.getElementById('dy');
-DIMS.forEach((d, i) => { dxSel.add(new Option(d.k+' '+d.n, i)); dySel.add(new Option(d.k+' '+d.n, i)); });
+DIMS.forEach((d, i) => { const lbl = d.k+' '+d.n+' · '+CONDUCTOR[i].mark; dxSel.add(new Option(lbl, i)); dySel.add(new Option(lbl, i)); });
 dxSel.value = 0; dySel.value = 11;
 let ep = 8, trails = true, showEnt = true, supOnly = false, showInv = false, showSat = false, sel = null;
 let mode = 'CHRONOS', tempo = 1, playing = null;
@@ -193,9 +213,9 @@ function draw() {
   ctx.strokeStyle = 'rgba(30,41,59,.9)'; ctx.lineWidth = 1;
   ctx.strokeRect(M.l, M.t, w-M.l-M.r, h-M.t-M.b);
   ctx.fillStyle = '#475569'; ctx.font = '700 10px ui-monospace,monospace'; ctx.textAlign = 'center';
-  ctx.fillText(DIMS[kx].k+' — '+DIMS[kx].n+'  →', (M.l+w-M.r)/2, h-M.b+34);
+  ctx.fillText(DIMS[kx].k+' — '+DIMS[kx].n+' · '+CONDUCTOR[kx].mark+'  →', (M.l+w-M.r)/2, h-M.b+34);
   ctx.save(); ctx.translate(M.l-52, (M.t+h-M.b)/2); ctx.rotate(-Math.PI/2);
-  ctx.fillText(DIMS[ky].k+' — '+DIMS[ky].n+'  →', 0, 0); ctx.restore();
+  ctx.fillText(DIMS[ky].k+' — '+DIMS[ky].n+' · '+CONDUCTOR[ky].mark+'  →', 0, 0); ctx.restore();
   // grid ticks (quartiles)
   ctx.fillStyle = '#334155'; ctx.font = '9px ui-monospace,monospace';
   for (let q = 0; q <= 4; q++) {
@@ -367,7 +387,7 @@ function openDrawer(id) {
     ${n.status==='ok' ? '<span class="chip c-ok">COLLAPSED · FORMALIZED</span>' : '<span class="chip c-sup">⧉ SUPERPOSED — awaiting formalization measurement</span>'}${igChip}
     <p>${n.what}</p>
     <span class="lbl cy">12D state vector @ e${epD}</span>
-    ${DIMS.map((d,k) => `<div class="dimrow"><span class="n">${d.k} ${d.n}</span><span class="bar"><i style="width:${Math.round(norm(k,vec[k])*100)}%"></i></span><span class="v">${(+vec[k]).toFixed(vec[k]%1?2:0)}</span></div>`).join('')}
+    ${DIMS.map((d,k) => `<div class="dimrow" title="${CONDUCTOR[k].ballet} · ${CONDUCTOR[k].note}"><span class="n">${d.k} ${d.n} <b style="color:var(--gold)">${CONDUCTOR[k].mark}</b></span><span class="bar"><i style="width:${Math.round(norm(k,vec[k])*100)}%"></i></span><span class="v">${(+vec[k]).toFixed(vec[k]%1?2:0)}</span></div>`).join('')}
     ${partners.length ? `<span class="lbl vi" style="display:block;margin-top:.5rem">Entangled with</span><p style="font-size:.75rem">${partners.join(' · ')}</p>` : ''}
     ${n.shore ? `<span class="lbl gd" style="display:block;margin-top:.4rem">Collapse operations (formalization)</span><p style="font-size:.75rem">${n.shore.join(' — ')}</p>` : ''}`;
   dr.classList.add('open');
@@ -541,5 +561,9 @@ function stopBallet() {
 }
 document.getElementById('ballet-btn').addEventListener('click', toggleBallet);
 
+
+document.getElementById('conductor-score').innerHTML = DIMS.map((d, k) =>
+  `<b style="color:var(--gold)">${CONDUCTOR[k].mark}</b> ${d.k} ${d.n} — <i>${CONDUCTOR[k].ballet}</i>: ${CONDUCTOR[k].note}`
+).join('<br>');
 resize();
 </script>
