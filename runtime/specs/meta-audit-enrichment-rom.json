@@ -1,10 +1,32 @@
 {
   "rom": "meta-audit-enrichment",
   "codename": "THE ALCHEMIST",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "PINNED",
   "authored": "2026-07-12",
-  "epoch": "19dd948",
+  "amended": "2026-07-12 (v0.2.0: cookbook taxonomy expanded to full inventory by human direction — structural ladder + nine elemental classes)",
+  "epoch": "2300012",
+  "cookbook": {
+    "_note": "The reticulation taxonomy. Every atom in the corpus binds to exactly one structural tier (if it renders) and one elemental class (always). Expanding this taxonomy is a human act.",
+    "structural_ladder": {
+      "atoms": "src/ui/ (20) + src/ui-kit/recoil-report/ (13) + token sources (tokens.ts, _tokens.css, useVw)",
+      "molecules": "src/molecules/ (16) + src/instrument/ (3) + src/components/ (2)",
+      "organisms": "src/organisms/ (5: Home, CompassForm, ResultView, Brief, ReflectLayer)",
+      "templates": "src/document/patterns/ (10) + src/document/screens/ (5) + public/templates/ (1) + src/emails/ (4) + ui-kit assembly (1)",
+      "pages": "src/app/**/page.tsx (25)"
+    },
+    "elemental_ladder": {
+      "ordinals": "_CANON/ordinals/ — immutable minted vocabulary, mint-don't-edit",
+      "invariants": "5 ROM primitives + operational law (inline-styles, JSON-as-TEXT, no unasked deps, append-only handoffs, honest gauges)",
+      "primitives": "DEWY vector, ARCS Law, CoherenceSignal/Receipt, FATEDReasoning, AxiomCheck, SomaticReading, Y-gate manifold",
+      "protocols": "hyperstition, accumulation, shared court, recoil, handoff, collision-escalation, two-surface",
+      "operators": "operators/*.py — LAB, BAR, SAGE, CURATOR, KAIROS, CONTRACT, OPERATOR20, KINTSUGI + systems + infra",
+      "advisors": "Loki, Advisors, Bayesian, dual Bar Raiser, Curator, Fun House Mirror, DRIFT Sentinel, Kairos, The Alchemist",
+      "risks": "No-Go Inventory v1.0 (BSS_WALL, TRIUNE_REMAINDER, KINTSUGI_SCAR, STRUCTURAL_BLIND) + live BAR register + standing redaction law",
+      "patterns": "_PATTERNS/*.md — minted from post-mortems, cited by roadmaps, never silently edited",
+      "archetypes": "scripts/arcs_core.py ARCHETYPES — Builder, Navigator, Illuminator, Instrumentor, Mediator, Orienter, Chartist, Focused Executor; UNDEFINED never force-classified"
+    }
+  },
   "governing_canon": [
     "WORLD.md (render law: fidelity is earned, not dialed)",
     "_CANON/book-ii/part-ii-rom-axioms.md (NOTOMATION, Golden Inchworm)",
@@ -20,7 +42,7 @@
       "resolve a CANON_COLLISION or ADR numbering collision unilaterally",
       "close a drift-ledger item without a commit SHA to cite as evidence",
       "inflate a gauge or drop a tilde from an assessed value",
-      "invent a new element class (ordinal/invariant/primitive/protocol/operator/advisor) — escalate instead",
+      "invent a new cookbook tier or element class (see cookbook block) — escalate instead",
       "tune its own constants (self-tuning FORBIDDEN — same law as lattice-pressure ROM; constants change only by human commit)",
       "add dependencies, deploy, or touch production infrastructure",
       "run when the kill switch file is absent"
@@ -42,7 +64,7 @@
       "id": 2,
       "name": "RETICULATE",
       "maps_to": "L1 coherence + L2 survivability",
-      "does": "Bind every new/changed atom to its element class and organ; run invariant tripwire greps (className/Tailwind outside sanctioned files, package.json dep additions, Prisma Json type, commit-format conformance); flag unbindable atoms as drift candidates.",
+      "does": "Bind every new/changed atom to its cookbook coordinates — one structural tier (atoms/molecules/organisms/templates/pages, if it renders) and one elemental class (ordinals/invariants/primitives/protocols/operators/advisors/risks/patterns/archetypes) — plus its organ; run invariant tripwire greps (className/Tailwind outside sanctioned files, package.json dep additions, Prisma Json type, commit-format conformance); flag unbindable atoms as drift candidates.",
       "budget_share": 0.2
     },
     {

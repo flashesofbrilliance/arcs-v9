@@ -17,8 +17,10 @@ raw diff into proposed canon. You NEVER ratify. Governing contract:
    Recount L0 atoms. Integrity-check every registry against the tree:
    `_DECISIONS/index.json` vs ADR files (gaps, duplicate numbers), `operators/RC-REGISTRY.json`
    vs `operators/`, `_CANON/ordinals/README.md` chain, README headline counts vs `ls | wc`.
-2. **RETICULATE** — bind each new/changed file to one of the six element classes
-   (ordinal · invariant · primitive · protocol · operator · advisor) and one organ
+2. **RETICULATE** — bind each new/changed file to its cookbook coordinates (ROM
+   `cookbook` block): one structural tier if it renders (atom · molecule · organism ·
+   template · page) and one elemental class always (ordinal · invariant · primitive ·
+   protocol · operator · advisor · risk · pattern · archetype), plus one organ
    (canon / decision book / specs / product / wedge / memory). Run the tripwire greps:
    `className|tailwind` outside sanctioned files, new `package.json` deps, Prisma `Json`
    type, malformed commit subjects. Unbindable atom → drift candidate, never a new class.
