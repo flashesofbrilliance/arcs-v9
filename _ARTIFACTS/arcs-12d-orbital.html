@@ -83,7 +83,7 @@
   <p style="font-family:var(--mono);font-size:.72rem;line-height:2">
     <b>← →</b> step epoch (time) · <b>↑ ↓</b> cycle node selection (structure)<br>
     <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
-    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>esc</b> close
+    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose.
   </p>
   <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
   <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
@@ -431,42 +431,104 @@ addEventListener('keydown', e => {
   if (k === '?' || k === 'h' || k === 'H') document.getElementById('help').classList.toggle('open');
 });
 
-// ══ BALLET — Clair de Lune music box (Debussy, 1905 — public domain composition) ══
-// Score: hand-transcribed MUSIC-BOX REDUCTION of the opening theme (melody dyads,
-// bass anchors, one arpeggio run). Synthesized with WebAudio — zero external assets.
-// Choreography: an anime-style eased follow system; four formations, then the truth.
-const U = 0.46, LOOP = 88; // one 8th-note (s) · loop length (units)
-const SCORE = [ // [t(units), [midi...], dur(units), gain]
-  [0,[77,80],6,.9],[6,[77,80],2,.7],[8,[75,78],3,.75],[11,[73,77],6,.85],
-  [17,[73,77],2,.6],[19,[72,75],3,.7],[22,[70,73],6,.8],[22,[49,56],12,.5],
-  [28,[68,72],8,.85],[36,[68,73],4,.7],[40,[70,75],4,.75],[44,[73,77],6,.85],
-  [44,[54],12,.45],[50,[75,78],2,.6],[52,[77,80],6,.9],
-  [58,[61],1,.5],[59,[65],1,.5],[60,[68],1,.55],[61,[73],1,.6],[62,[77],1,.65],
-  [63,[80],1,.7],[64,[85],1,.8],[65,[80],1,.65],[66,[77],1,.6],[67,[73],1,.55],
-  [68,[68],1,.5],[69,[65],1,.45],
-  [70,[77,80],8,.95],[70,[49,56],14,.5],[78,[73,77],8,.7],
-];
-let AC = null, balTimer = null, balRaf = null;
-function pluck(midis, when, durU, g) {
-  midis.forEach(m => {
-    const f = 440 * Math.pow(2, (m - 69) / 12);
-    const o1 = AC.createOscillator(), o2 = AC.createOscillator();
-    const env = AC.createGain(), g2 = AC.createGain();
-    o1.type = 'sine'; o1.frequency.value = f;
-    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13; // metallic partial
-    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(AC.destination);
-    const peak = .082 * g / Math.sqrt(midis.length);
-    env.gain.setValueAtTime(0, when);
-    env.gain.linearRampToValueAtTime(peak, when + .012);
-    env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(1.3, durU * U * 1.5));
-    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+// ══ BALLET — Clair de Lune, complete (Debussy 1905; composition public domain).
+// MIDI performance: Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE (attribution required
+// and given here + in the help overlay). Embedded as base64: CSP allows no external fetch.
+// Parser + scheduler are vanilla JS. The choreography is DATA-DRIVEN: 4-second windows of
+// note-density and velocity classify each stretch of the performance —
+//   quiet → MOONRISE · lyric → PAS DE DEUX · flowing → EPOCH WAVES · climax → DIAMOND —
+// smoothed with a 12s minimum dwell; the coda resolves to the TRUE data pose and the
+// ballet ends where truth is. Accents fire on real note onsets, scaled by velocity.
+const MIDI_B64 = "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AEYuAFIwAE4ugmhOAABSAABGAABCLABOLoJoTgAAQgCBcEskAEIkAE4nAEgkgXBIAABLAABCAABOAABCJABIJABLJABOJ4FmTgAASwAAQgAKSAAASycATioAQicASCeBcEgAAEsAAE4AAEIAAEglAEslAE4oAEIlgVxCAABIAABLAABOABRQLABIKABEKABLKIFwSwAAUAAASAAARAAAQicATioASCcASyeFUEsAAEIAAE4AAEgAgmhCKQBONQBJLYJoTgAAQgAARDcAUDyCaFAAAEQAAEkAAFU8AEk3gmhJAABVAABGLABSOQBONIJoUgAARgAATjQAQjCCaEIAAE4AAE4AgXBGJwBCJwBLJwBOKoFwTgAARgAAQgAASwAARicASycAQicATiqBZk4AAEIAAEsACkYAAEYqAE4uAEIqAEsqgXBLAABGAABOAABCAABCKABGKABLKABOLIFcTgAAQgAARgAASwAUSCsARCsAUC8ATSuBcE0AAEgAAEQAAFAAAEYqAEsqAE4uAEIqhVBCAABGAABLAABOAIJoTj0ASTEARjEAQjaCaEIAAE4AAEQ9AFBGgmhQAABJAABGAABEAABXRwBLPoJoSwAAVwAASTAATjEAUjEAVUGCaFUAAEkAAEY5AFJBgmhSAABOAABSAABGAIFwUjIARjAATjCBcE4AAEYAAFIAAFIyAE4wAEYwgWZOAABSAApGAABSNQBGMwBOM4FwTgAARgAAUgAARjEAUjMATjGBXE4AAFIAAEYAFFAyAEgyAFQ0gXBUAABIAABQAABOMgBGMgBSNIFcUgAARgAATgAUUjMASTMAVTWBcFUAAEkAAFIAAFc5AEs3AFI3eFIAAEsAAFcAUFAzFFU4FFxBiihcAABVAABQAFVQLRFVMhJcN4RYXAAAVQAAUABVUC0RVTISXDeKKFwAAFUAAFAAUEQgFEshFFAnhVBQAABLAABEAABEKABBJYsgQQAARAAARCQARyeDYEcAAEklgXBJAABEAABBJQBEKIoeQQCBAkQAAEQlAEcog2BHAABEAABEKIFwRAAAQSoASS6DYEkAAEEAAEssAEQogXBEAABLAABNMABJLIVQSQAATQAAQSsASS+DYEkAAEEAAEksAE0wgXBNAABJAABPNQBLMYFwSwAATwAATS8ASSuBcEkAAE0AAEkvAEYrgXBGAABJ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";
+let AC = null, balTimer = null, balRaf = null, MID = null, evPtr = 0, evSched = 0, comp = null;
+
+function parseMidi(bin) {
+  const b = Uint8Array.from(atob(bin), c => c.charCodeAt(0));
+  const u32 = o => (b[o]<<24 | b[o+1]<<16 | b[o+2]<<8 | b[o+3]) >>> 0;
+  const u16 = o => b[o]<<8 | b[o+1];
+  const div = u16(12), ntrk = u16(10);
+  const vlq = o => { let v = 0, c; do { c = b[o++]; v = (v<<7) | (c & 127); } while (c & 128); return [v, o]; };
+  const tempos = [[0, 500000]], raw = [];
+  let o = 14;
+  for (let t = 0; t < ntrk; t++) {
+    const len = u32(o+4), end = o + 8 + len; let p = o + 8, tick = 0, run = 0;
+    const ons = {};
+    while (p < end) {
+      let d; [d, p] = vlq(p); tick += d;
+      let st = b[p];
+      if (st & 128) { p++; run = st; } else st = run;
+      if (st === 0xFF) {
+        const mt = b[p]; let l2, p2; [l2, p2] = vlq(p+1);
+        if (mt === 0x51) tempos.push([tick, b[p2]<<16 | b[p2+1]<<8 | b[p2+2]]);
+        p = p2 + l2;
+      } else if (st === 0xF0 || st === 0xF7) { let l2, p2; [l2, p2] = vlq(p); p = p2 + l2; }
+      else {
+        const hi = st & 0xF0;
+        if (hi === 0x90) { const n = b[p], v = b[p+1]; p += 2;
+          if (v > 0) ons[n] = [tick, v];
+          else if (ons[n]) { const [t0, v0] = ons[n]; delete ons[n]; raw.push([t0, n, v0, tick - t0]); } }
+        else if (hi === 0x80) { const n = b[p]; p += 2;
+          if (ons[n]) { const [t0, v0] = ons[n]; delete ons[n]; raw.push([t0, n, v0, tick - t0]); } }
+        else if (hi === 0xA0 || hi === 0xB0 || hi === 0xE0) p += 2;
+        else if (hi === 0xC0 || hi === 0xD0) p += 1;
+      }
+    }
+    o = end;
+  }
+  tempos.sort((a, z) => a[0] - z[0]);
+  const seg = [[0, 0, 500000]]; // [tick, cumSec, usPerQ]
+  for (let i = 1; i < tempos.length; i++) {
+    const [tk, us] = tempos[i], [ptk, psec, pus] = seg[seg.length-1];
+    seg.push([tk, psec + (tk - ptk) * pus / div / 1e6, us]);
+  }
+  const t2s = tk => { let lo = 0, hi = seg.length - 1;
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; seg[m][0] <= tk ? lo = m : hi = m - 1; }
+    const [stk, ssec, sus] = seg[lo]; return ssec + (tk - stk) * sus / div / 1e6; };
+  const evs = raw.map(([tk, n, v, du]) => [t2s(tk), n, v, Math.max(.06, t2s(tk+du) - t2s(tk))])
+                 .sort((a, z) => a[0] - z[0]);
+  return { evs, dur: Math.max(...evs.map(e => e[0] + e[3])) };
+}
+
+function buildForms(evs, dur) {  // the data-driven score → formation timeline
+  const W = 4, nw = Math.ceil(dur / W), wins = Array.from({length: nw}, () => [0, 0]);
+  evs.forEach(([t,, v]) => { const w = Math.min(nw-1, t/W|0); wins[w][0]++; wins[w][1] += v; });
+  const dens = wins.map(w => w[0]/W), vels = wins.map(w => w[0] ? w[1]/w[0] : 0);
+  const q = (a, p) => { const s = a.filter(x => x > 0).sort((x, y) => x - y); return s[Math.min(s.length-1, p*(s.length-1)|0)] || 0; };
+  const d5 = q(dens,.5), d7 = q(dens,.7), v45 = q(vels,.45), v85 = q(vels,.85);
+  let cls = wins.map((_, i) => dens[i] === 0 ? 'M'
+    : (vels[i] > v85 && dens[i] > d5) ? 'D' : dens[i] > d7 ? 'W' : vels[i] > v45 ? 'P' : 'M');
+  for (let i = Math.max(0, nw-5); i < nw; i++) cls[i] = 'T';   // coda → the true pose
+  // smooth: 12s (3-window) minimum dwell
+  for (let i = 1; i < nw - 1; i++) if (cls[i] !== cls[i-1] && cls[i] !== cls[i+1]) cls[i] = cls[i-1];
+  const forms = [[0, cls[0]]];
+  for (let i = 1; i < nw; i++) if (cls[i] !== forms[forms.length-1][1]) forms.push([i*W, cls[i]]);
+  return forms;
+}
+const formAt = ts => { let f = MID.forms[0][1];
+  for (const [t0, c] of MID.forms) { if (t0 <= ts) f = c; else break; } return f; };
+
+function pluck(n, when, vel, dur) {   // velocity-aware, piano-leaning music box
+  const f = 440 * Math.pow(2, (n - 69) / 12), g = Math.pow(vel / 92, 1.4) * .10;
+  const env = AC.createGain();
+  [[1, 1], [2.001, .22], [3.002, .08]].forEach(([m, a]) => {
+    const o = AC.createOscillator(), og = AC.createGain();
+    o.type = 'sine'; o.frequency.value = f * m; og.gain.value = a;
+    o.connect(og); og.connect(env); o.start(when); o.stop(when + dur * 1.4 + 1.2);
   });
+  env.connect(comp);
+  env.gain.setValueAtTime(0, when);
+  env.gain.linearRampToValueAtTime(g, when + .008);
+  env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(.9, dur * 1.3 + .5));
 }
-function scheduleAt(k) {
-  const t0 = BAL.start + k * LOOP * U;
-  SCORE.forEach(ev => pluck(ev[1], t0 + ev[0] * U, ev[2], ev[3]));
-  balTimer = setTimeout(() => scheduleAt(k + 1), (t0 + LOOP * U - AC.currentTime - 1.5) * 1000);
+function scheduleWindow() {           // 16s lookahead, refreshed every 8s
+  const now = AC.currentTime - BAL.start;
+  while (evSched < MID.evs.length && MID.evs[evSched][0] < now + 16) {
+    const [t, n, v, d] = MID.evs[evSched++];
+    pluck(n, BAL.start + t, v, d);
+  }
+  if (evSched < MID.evs.length) balTimer = setTimeout(scheduleWindow, 8000);
 }
+
 const DIAMONDS = ids.filter(id => hard(id, 8) >= 4);
 const METAS = ids.filter(id => byId[id].st === 'g');
 const SUPERP = ids.filter(id => byId[id].status !== 'ok');
@@ -479,57 +541,56 @@ function balStage() {
   return [(M.l + w - M.r) / 2, (M.t + h - M.b) / 2, Math.min(w - M.l - M.r, h - M.t - M.b) / 2];
 }
 function balletTargets(ts) {
-  const [cx, cy, S] = balStage(), T = {};
-  const phase = ts < 36 * U ? 1 : ts < 58 * U ? 2 : ts < 70 * U ? 3 : 4;
-  if (phase === 1) {          // MOONRISE — corps de ballet ring; superposed breathe
+  const [cx, cy, S] = balStage(), T = {}, F = formAt(ts);
+  if (F === 'M') {            // MOONRISE — quiet theme: the corps ring, superposed breathing
     ids.forEach((id, i) => {
-      const a = i / ids.length * 6.2832 + ts * .05;
-      const breathe = SUPERP.includes(id) ? Math.sin(ts * 2 + i) * 7 : 0;
+      const a = i / ids.length * 6.2832 + ts * .04;
+      const breathe = SUPERP.includes(id) ? Math.sin(ts * 1.6 + i) * 7 : 0;
       T[id] = [cx + Math.cos(a) * (S * .72 + breathe), cy + Math.sin(a) * (S * .72 + breathe)];
     });
-  } else if (phase === 2) {   // PAS DE DEUX — the 7 entangled pairs dance as duets
+  } else if (F === 'P') {     // PAS DE DEUX — lyric passages: entangled pairs as duets
     ids.forEach((id, i) => { const a = i / ids.length * 6.2832; T[id] = [cx + Math.cos(a) * S * .93, cy + Math.sin(a) * S * .93]; });
     ENT.forEach(([a, b], j) => {
       const ma = j / ENT.length * 6.2832, mx = cx + Math.cos(ma) * S * .45, my = cy + Math.sin(ma) * S * .45;
-      const oa = ts * 1.15 + j;
+      const oa = ts * 1.05 + j;
       T[a] = [mx + Math.cos(oa) * 24, my + Math.sin(oa) * 24];
       T[b] = [mx - Math.cos(oa) * 24, my - Math.sin(oa) * 24];
     });
-  } else if (phase === 3) {   // EPOCH WAVES — the arpeggio run played as time itself
+  } else if (F === 'W') {     // EPOCH WAVES — flowing arpeggios: time itself ripples
     ids.forEach(id => {
-      const lag = (STRD[byId[id].st] || 0) * .09;
-      const ef = 1 + 7 * Math.min(1, Math.max(0, (ts - 58 * U) / (12 * U) - lag));
-      T[id] = rawPos(id, ef);
+      const lag = (STRD[byId[id].st] || 0) * .11;
+      const ph = (ts * .12 - lag) % 1;
+      T[id] = rawPos(id, 1 + 7 * Math.max(0, Math.min(1, ph)));
     });
-  } else {                    // DIAMOND FINALE — crystals center stage; all else takes the true pose
+  } else if (F === 'D') {     // DIAMOND — the climax: crystals center stage
     ids.forEach(id => T[id] = rawPos(id, 8));
     DIAMONDS.forEach((id, i) => {
-      const a = i / DIAMONDS.length * 6.2832 - 1.5708 + ts * .3;
+      const a = i / DIAMONDS.length * 6.2832 - 1.5708 + ts * .25;
       T[id] = [cx + Math.cos(a) * S * .2, cy + Math.sin(a) * S * .2];
     });
     METAS.forEach((id, i) => {
-      const a = i / METAS.length * 6.2832 - 1.5708 + ts * .1;
+      const a = i / METAS.length * 6.2832 - 1.5708 + ts * .08;
       T[id] = [cx + Math.cos(a) * S * .5, cy + Math.sin(a) * S * .5];
     });
+  } else {                    // T — the coda: the dance ends where truth is
+    ids.forEach(id => T[id] = rawPos(id, 8));
   }
   return T;
 }
 function balletFrame(dt) {
-  const ts = (AC.currentTime - BAL.start) % (LOOP * U);
-  const loopN = Math.floor((AC.currentTime - BAL.start) / (LOOP * U));
-  SCORE.forEach((ev, i) => {  // note onsets → pirouette accents by pitch band
-    const key = loopN * 1000 + i, dt0 = ts - ev[0] * U;
-    if (dt0 >= 0 && dt0 < .13 && !BAL.fired[key]) {
-      BAL.fired[key] = 1;
-      const top = Math.max(...ev[1]), until = performance.now() + 520;
-      let grp;
-      if (top < 60) grp = DIAMONDS.concat(METAS);
-      else if (top >= 80) grp = ids.filter(id => 'qa'.includes(byId[id].st));
-      else if (top >= 73) grp = ids.filter(id => byId[id].st === 'm');
-      else grp = ids.filter(id => 'ol'.includes(byId[id].st));
-      grp.forEach(id => { if (Math.random() < .55) BAL.amp[id] = until; });
-    }
-  });
+  const ts = AC.currentTime - BAL.start;
+  // accents on the real performance's note onsets, scaled by velocity
+  while (evPtr < MID.evs.length && MID.evs[evPtr][0] <= ts) {
+    const [, n, v] = MID.evs[evPtr++];
+    const until = performance.now() + 260 + v * 3;
+    let grp;
+    if (n < 40) grp = DIAMONDS.concat(METAS);
+    else if (n >= 76) grp = ids.filter(id => 'qa'.includes(byId[id].st));
+    else if (n >= 58) grp = ids.filter(id => byId[id].st === 'm');
+    else grp = ids.filter(id => 'ol'.includes(byId[id].st));
+    grp.forEach(id => { if (Math.random() < .35 + v / 250) BAL.amp[id] = until; });
+  }
+  if (ts > MID.dur + 3) { stopBallet(); return; }   // the piece ends; the pose holds
   const T = balletTargets(ts), k = 1 - Math.exp(-dt * 3.2);
   ids.forEach(id => {
     const c = BAL.cur[id], t = T[id];
@@ -538,16 +599,21 @@ function balletFrame(dt) {
 }
 function toggleBallet() {
   if (BAL.on) { stopBallet(); return; }
+  if (!MID) { const m = parseMidi(MIDI_B64); MID = { ...m, forms: buildForms(m.evs, m.dur) }; }
   AC = new (window.AudioContext || window.webkitAudioContext)();
-  BAL.on = true; BAL.start = AC.currentTime + .2; BAL.cur = {}; BAL.fired = {}; BAL.amp = {};
+  comp = AC.createDynamicsCompressor();
+  comp.threshold.value = -20; comp.ratio.value = 5; comp.connect(AC.destination);
+  BAL.on = true; BAL.start = AC.currentTime + .3; BAL.cur = {}; BAL.amp = {};
+  evPtr = 0; evSched = 0;
   BAL.trailsWere = trails; trails = false;
   ids.forEach(id => BAL.cur[id] = rawPos(id, 8).slice());
   document.getElementById('ballet-btn').classList.add('on');
-  scheduleAt(0);
+  scheduleWindow();
   let last = performance.now();
   const step = now => {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
-    balletFrame(dt); draw();
+    balletFrame(dt); if (!BAL.on) return;
+    draw();
     balRaf = requestAnimationFrame(step);
   };
   balRaf = requestAnimationFrame(step);
