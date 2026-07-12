@@ -85,7 +85,7 @@
   <p style="font-family:var(--mono);font-size:.72rem;line-height:2">
     <b>← →</b> step epoch (time) · <b>↑ ↓</b> cycle node selection (structure)<br>
     <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
-    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = circle of fifths, growing from pentatonic (e1) as edges accrete; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
+    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose. The choreography is a projection tour: each segment re-projects the manifold through a new X·Y pair — kinematics → degrees → entropy → collapse×superposition at the climax — and the coda restores your own axes.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = major pentatonic on a chord root that sways Gymnopédie-style through the evidence-unlocked circle of fifths (maj7 and 9 unlock at later epochs) — Debussy/Satie by construction, no semitone clashes; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
   </p>
   <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
   <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
@@ -555,30 +555,32 @@ function balStage() {
   const w = cv.width / devicePixelRatio, h = cv.height / devicePixelRatio;
   return [(M.l + w - M.r) / 2, (M.t + h - M.b) / 2, Math.min(w - M.l - M.r, h - M.t - M.b) / 2];
 }
+// The choreography is a PROJECTION TOUR: each segment of the piece re-projects the
+// manifold through a new (X,Y) pair — the dancers glide because the world turns, not
+// because they leave their data. Ascent: Zone A kinematics → degrees → entropy →
+// bridge/stratum → motion×field → collapse×superposition AT THE CLIMAX → entanglement —
+// and the coda restores the viewer's own axes for the true pose.
+const TOUR = [[0,11],[1,2],[3,4],[0,5],[7,6],[1,11],[8,9],[10,5],[0,11],[0,11]];
 function balletTargets(ts) {
   const [cx, cy, S] = balStage(), T = {}, F = formAt(ts);
-  if (F === 'M') {            // MOONRISE — quiet theme: the corps ring, superposed breathing
-    ids.forEach((id, i) => {
-      const a = i / ids.length * 6.2832 + ts * .04;
-      const breathe = SUPERP.includes(id) ? Math.sin(ts * 1.6 + i) * 7 : 0;
-      T[id] = [cx + Math.cos(a) * (S * .72 + breathe), cy + Math.sin(a) * (S * .72 + breathe)];
-    });
-  } else if (F === 'P') {     // PAS DE DEUX — lyric passages: entangled pairs as duets
-    ids.forEach((id, i) => { const a = i / ids.length * 6.2832; T[id] = [cx + Math.cos(a) * S * .93, cy + Math.sin(a) * S * .93]; });
+  ids.forEach(id => T[id] = rawPos(id, 8).slice());          // the projected pose is the base
+  if (F === 'M') {                                            // quiet: superposed breathe in place
+    SUPERP.forEach((id, i) => { const b = Math.sin(ts * 1.6 + i) * 6;
+      T[id][0] += b; T[id][1] += Math.cos(ts * 1.3 + i) * 6; });
+  } else if (F === 'P') {                                     // lyric: duets orbit their projected midpoint
     ENT.forEach(([a, b], j) => {
-      const ma = j / ENT.length * 6.2832, mx = cx + Math.cos(ma) * S * .45, my = cy + Math.sin(ma) * S * .45;
-      const oa = ts * 1.05 + j;
-      T[a] = [mx + Math.cos(oa) * 24, my + Math.sin(oa) * 24];
-      T[b] = [mx - Math.cos(oa) * 24, my - Math.sin(oa) * 24];
+      const pa = rawPos(a, 8), pb = rawPos(b, 8);
+      const mx = (pa[0] + pb[0]) / 2, my = (pa[1] + pb[1]) / 2, oa = ts * 1.05 + j;
+      T[a] = [mx + Math.cos(oa) * 20, my + Math.sin(oa) * 20];
+      T[b] = [mx - Math.cos(oa) * 20, my - Math.sin(oa) * 20];
     });
-  } else if (F === 'W') {     // EPOCH WAVES — flowing arpeggios: time itself ripples
+  } else if (F === 'W') {                                     // flowing: the epoch wave inside this projection
     ids.forEach(id => {
       const lag = (STRD[byId[id].st] || 0) * .11;
-      const ph = (ts * .12 - lag) % 1;
-      T[id] = rawPos(id, 1 + 7 * Math.max(0, Math.min(1, ph)));
+      const ph = Math.max(0, Math.min(1, (ts * .12 - lag) % 1));
+      T[id] = rawPos(id, 1 + 7 * ph);
     });
-  } else if (F === 'D') {     // DIAMOND — the climax: crystals center stage
-    ids.forEach(id => T[id] = rawPos(id, 8));
+  } else if (F === 'D') {                                     // climax: diamonds center-stage in this frame
     DIAMONDS.forEach((id, i) => {
       const a = i / DIAMONDS.length * 6.2832 - 1.5708 + ts * .25;
       T[id] = [cx + Math.cos(a) * S * .2, cy + Math.sin(a) * S * .2];
@@ -587,13 +589,20 @@ function balletTargets(ts) {
       const a = i / METAS.length * 6.2832 - 1.5708 + ts * .08;
       T[id] = [cx + Math.cos(a) * S * .5, cy + Math.sin(a) * S * .5];
     });
-  } else {                    // T — the coda: the dance ends where truth is
-    ids.forEach(id => T[id] = rawPos(id, 8));
-  }
+  }                                                           // T: pure pose on the viewer's own axes
   return T;
 }
 function balletFrame(dt) {
   const ts = AC.currentTime - BAL.start;
+  // advance the projection tour on segment boundaries
+  let segI = 0;
+  for (let i = 0; i < MID.forms.length; i++) if (MID.forms[i][0] <= ts) segI = i; else break;
+  if (segI !== BAL.seg) {
+    BAL.seg = segI;
+    const F = MID.forms[segI][1];
+    if (F === 'T') { dxSel.value = BAL.userAxes[0]; dySel.value = BAL.userAxes[1]; }
+    else { const pr = TOUR[segI % TOUR.length]; dxSel.value = pr[0]; dySel.value = pr[1]; }
+  }
   // accents on the real performance's note onsets, scaled by velocity
   while (evPtr < MID.evs.length && MID.evs[evPtr][0] <= ts) {
     const [, n, v] = MID.evs[evPtr++];
@@ -620,6 +629,7 @@ function toggleBallet() {
   comp = AC.createDynamicsCompressor();
   comp.threshold.value = -20; comp.ratio.value = 5; comp.connect(AC.destination);
   BAL.on = true; BAL.start = AC.currentTime + .3; BAL.cur = {}; BAL.amp = {};
+  BAL.seg = -1; BAL.userAxes = [dxSel.value, dySel.value];
   evPtr = 0; evSched = 0;
   BAL.trailsWere = trails; trails = false;
   ids.forEach(id => BAL.cur[id] = rawPos(id, 8).slice());
@@ -636,6 +646,7 @@ function toggleBallet() {
 }
 function stopBallet() {
   BAL.on = false; trails = BAL.trailsWere;
+  if (BAL.userAxes) { dxSel.value = BAL.userAxes[0]; dySel.value = BAL.userAxes[1]; }
   clearTimeout(balTimer); cancelAnimationFrame(balRaf);
   killAudio();
   document.getElementById('ballet-btn').classList.remove('on');
@@ -660,12 +671,20 @@ document.getElementById('ballet-btn').addEventListener('click', toggleBallet);
 // Ballet moves the data to Debussy; the symphony lets the data make the music.
 const SYM = { on: false, start: 0, measure: 0, timer: null, raf: null };
 const EDGE_CUM = e => EDGES.filter(x => x[2] <= e).length;
-function scaleFor(ep) {                        // harmony accretes by fifths
+function chordFor(measure, ep) {   // Debussy/Satie tonality, still a law of the data:
+  // k roots are unlocked by cumulative edges (circle of fifths from Db); the chord root
+  // SWAYS Gymnopédie-style between adjacent unlocked roots, drifting one stop every
+  // four measures. The scale is the MAJOR PENTATONIC on that root — no semitone can
+  // clash by construction — with maj7 and 9 added only as later epochs unlock them.
   const frac = (EDGE_CUM(ep) - EDGE_CUM(1)) / (EDGE_CUM(8) - EDGE_CUM(1));
-  const k = 5 + Math.round(3 * frac);          // e1 pentatonic → e8 eight-note
-  const deg = [];
-  for (let i = 0; i < k; i++) deg.push((1 + 7 * i) % 12);   // root C# (Debussy's Db), fifths
-  return deg.sort((a, b) => a - b);
+  const k = 5 + Math.round(3 * frac);
+  const F = []; for (let i = 0; i < k; i++) F.push((1 + 7 * i) % 12);
+  const idx = ((measure % 2) + ((measure >> 2) % Math.max(1, k - 1))) % k;   // the sway + slow drift
+  const root = F[idx];
+  const offs = [0, 2, 4, 7, 9];                 // major pentatonic
+  if (k >= 6) offs.push(11);                    // maj7 unlocks
+  if (k >= 7) offs.push(14);                    // 9 unlocks (Lydian shimmer)
+  return { root, deg: offs.map(o => (root + o) % 12).sort((a, b) => a - b) };
 }
 function quant(m, deg) {                       // snap a raw midi float to the scale
   const oct = Math.floor(m / 12), pc = m - oct * 12;
@@ -675,7 +694,7 @@ function quant(m, deg) {                       // snap a raw midi float to the s
 }
 const VOICE = { ont: [[1,1],[2,.15]], epi: [[1,1],[2,.3],[4,.08]], met: [[1,1],[3,.25]], ety: [[1,1],[3,.2],[5,.1]], lib: [[1,.9],[2,.2],[3,.12]] };
 function voicePluck(n, when, vel, dur, dom, trill) {
-  const f = 440 * Math.pow(2, (n - 69) / 12), g = vel * .085, env = AC.createGain();
+  const f = 440 * Math.pow(2, (n - 69) / 12), g = vel * .07, env = AC.createGain();
   (VOICE[dom] || VOICE.ont).forEach(([m, a]) => {
     const o = AC.createOscillator(), og = AC.createGain();
     o.type = 'sine'; o.frequency.value = f * m; og.gain.value = a;
@@ -695,7 +714,7 @@ function symMeasure() {                        // one measure = one left-to-righ
   if (!SYM.on) return;
   const now = Math.max(AC.currentTime + .06, SYM.start + SYM.measure * measLen());
   const L = measLen(), epR = Math.max(1, Math.min(8, Math.round(ep)));
-  const deg = scaleFor(epR), kx = +dxSel.value, ky = +dySel.value;
+  const ch = chordFor(SYM.measure, epR), deg = ch.deg, kx = +dxSel.value, ky = +dySel.value;
   const sup = id => byId[id].status !== 'ok';
   const eps = mode === 'SUPERPOSITION' ? [1,2,3,4,5,6,7,8] : [epR];
   const notes = [];                            // [tFrac, midi, vel, dur, dom, id, trill]
@@ -704,7 +723,7 @@ function symMeasure() {                        // one measure = one left-to-righ
     if (hd === 0) return;                      // silence = not-yet-evidenced
     if (supOnly && !sup(id)) return;           // the lens: only the unresolved sound
     const x = norm(kx, dimAt(id, e, kx)), y = norm(ky, dimAt(id, e, ky));
-    const tF = mode === 'CHRONOS' ? Math.round(x * 16) / 16 : x;   // grid vs unmetered
+    const tF = mode === 'CHRONOS' ? Math.round(x * 8) / 8 : x;   // grid vs unmetered
     notes.push([tF, quant(40 + y * 45, deg), (.25 + .75 * hd / 4) / eps.length,
                 (.4 + hd * .5) * (L / 8), byId[id].dom, id, supOnly && sup(id)]);
   }));
@@ -727,10 +746,10 @@ function symMeasure() {                        // one measure = one left-to-righ
     });
   }
   if (showInv) {                               // invariants = the ground bass: always true, always sounding
-    const root = 37 + deg[0], fifth = root + 7;
-    voicePluck(root, now, .5, L, 'met', false);
-    voicePluck(fifth, now, .35, L, 'met', false);
-    INV.empirical.forEach((id, i) => voicePluck(root + 12, now + (i + 1) * L / (INV.empirical.length + 1), .22, .4, byId[id].dom, false));
+    const root = 36 + ch.root;                   // the chord root — harmony and constitution agree
+    voicePluck(root, now, .45, L * .6, 'met', false);
+    voicePluck(root + 7, now + L / 2, .32, L * .5, 'met', false);   // the Gymnopédie sway
+    INV.empirical.forEach((id, i) => voicePluck(root + 12, now + (i + 1) * L / (INV.empirical.length + 1), .18, .4, byId[id].dom, false));
   }
   SYM.measure++;
   SYM.timer = setTimeout(symMeasure, (now + L - AC.currentTime - .8) * 1000);
