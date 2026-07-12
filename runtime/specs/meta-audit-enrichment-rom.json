@@ -1,0 +1,111 @@
+{
+  "rom": "meta-audit-enrichment",
+  "codename": "THE ALCHEMIST",
+  "version": "0.1.0",
+  "status": "PINNED",
+  "authored": "2026-07-12",
+  "epoch": "19dd948",
+  "governing_canon": [
+    "WORLD.md (render law: fidelity is earned, not dialed)",
+    "_CANON/book-ii/part-ii-rom-axioms.md (NOTOMATION, Golden Inchworm)",
+    "_CANON/book-ii/part-v-the-accumulation-protocol.md (delta gates, drift detection)",
+    "runtime/specs/lattice-pressure-rom.json (L7-governed constants precedent)"
+  ],
+  "purpose": "Overnight batch routine that progressively enriches the internally-facing corpus registries (meta-audit artifact, its git twin, drift ledger, parity matrix, epoch timeline) so drift stops accumulating between human audits. ARCS building ARCS — as proposal, never as ratification.",
+  "constitutional_invariants": {
+    "notomation": "The Alchemist scaffolds and sequences; it never compresses, replaces, or overrules revealed preference. It PROPOSES on a branch; a human RATIFIES at dawn. No exceptions.",
+    "may_never": [
+      "merge or push to main",
+      "edit canon (_CANON/) or ordinals (mint-don't-edit; collisions escalate per canon-collision law)",
+      "resolve a CANON_COLLISION or ADR numbering collision unilaterally",
+      "close a drift-ledger item without a commit SHA to cite as evidence",
+      "inflate a gauge or drop a tilde from an assessed value",
+      "invent a new element class (ordinal/invariant/primitive/protocol/operator/advisor) — escalate instead",
+      "tune its own constants (self-tuning FORBIDDEN — same law as lattice-pressure ROM; constants change only by human commit)",
+      "add dependencies, deploy, or touch production infrastructure",
+      "run when the kill switch file is absent"
+    ]
+  },
+  "kill_switch": {
+    "file": "_STATE/alchemist-enabled",
+    "law": "File absent => the routine exits immediately with a no-op receipt. Creating or deleting this file is a human act. Ships DISABLED."
+  },
+  "phases": [
+    {
+      "id": 1,
+      "name": "SCAN",
+      "maps_to": "L0 atomic signal",
+      "does": "git log/diff since the epoch SHA stamped in _STATE/meta-audit-roadmap-v1.md; recount L0 atoms (canon docs, ADRs, operators, scripts, specs, src, routes, pages, models, briefs, patterns, shards, ordinals, RCs, tests); verify registry-vs-tree integrity (_DECISIONS/index.json vs files, RC-REGISTRY vs operators/, ordinals chain vs _CANON/ordinals/, artifact twin exists).",
+      "budget_share": 0.2
+    },
+    {
+      "id": 2,
+      "name": "RETICULATE",
+      "maps_to": "L1 coherence + L2 survivability",
+      "does": "Bind every new/changed atom to its element class and organ; run invariant tripwire greps (className/Tailwind outside sanctioned files, package.json dep additions, Prisma Json type, commit-format conformance); flag unbindable atoms as drift candidates.",
+      "budget_share": 0.2
+    },
+    {
+      "id": 3,
+      "name": "ENRICH",
+      "maps_to": "L3 cascade + L4 cross-domain",
+      "does": "Re-grade parity matrix rows touched by the diff; append/close drift-ledger entries with file:line or SHA evidence; propose epoch-timeline candidates (kairos flag only with justification); recompute assessed gauges (done-state, governed lines) with tildes intact.",
+      "budget_share": 0.35
+    },
+    {
+      "id": 4,
+      "name": "PROPOSE",
+      "maps_to": "L5 global coherence",
+      "does": "Write updated twin (_STATE/meta-audit-roadmap-v1.md) + regenerated artifact HTML + inchworm entry marked PROPOSED to branch alchemist/YYYY-MM-DD (fresh worktree off main; never deploys; artifact redeploy is staged as a payload path, executed only after human ratification).",
+      "budget_share": 0.15
+    },
+    {
+      "id": 5,
+      "name": "RECEIPT",
+      "maps_to": "accumulation protocol",
+      "does": "DEWY-stamped morning brief: what changed, what drifted, what needs the human, ranked by consequence — even when the answer is 'nothing' (heartbeat receipt). Written to _STATE/alchemist-briefs/YYYY-MM-DD.md on the proposal branch.",
+      "budget_share": 0.1
+    }
+  ],
+  "controls": {
+    "_note": "The interactive dials of the meta-audit artifact are the routine's tempo controls. Humans set them here; the routine reads them. It may not write this block.",
+    "aperture": {
+      "value": "F/8",
+      "range": ["F/22 kernel (registries + _STATE only)", "F/8 working (adds _CANON, _DECISIONS, operators, runtime, src)", "F/1.4 wide (adds public/, _PATTERNS, _MEMORY, scripts)", "F/0 limitless (adds published-artifact fleet re-read)"],
+      "meaning": "scan breadth"
+    },
+    "black_point": {
+      "value": 0.35,
+      "meaning": "noise floor: findings scoring below this consequence threshold are logged in the branch but excluded from the morning brief"
+    },
+    "fidelity": {
+      "value": "EXEC",
+      "range": ["GALACTIC", "EXEC", "STRATEGIC", "OPERATIONAL", "TACTICAL", "SURGICAL", "QUANTUM"],
+      "meaning": "altitude of the morning brief"
+    },
+    "resolution": {
+      "value": "4K",
+      "range": ["twin only", "twin + artifact page", "twin + artifact page + snapshot mechanical refresh"],
+      "meaning": "re-render scope of the PROPOSE phase"
+    },
+    "tempo": {
+      "value": "nightly 03:30 America/New_York",
+      "meaning": "cron cadence; overnight to batch token spend away from working hours"
+    },
+    "token_ceiling_per_run": {
+      "value": "hard stop at budget; on breach: halt, file partial receipt marked TRUNCATED, never silently trim findings"
+    }
+  },
+  "outputs": [
+    "branch alchemist/YYYY-MM-DD (proposal only)",
+    "_STATE/meta-audit-roadmap-v1.md updated (inchworm entry PROPOSED)",
+    "regenerated meta-audit artifact HTML (redeploy staged, human-gated)",
+    "_STATE/alchemist-briefs/YYYY-MM-DD.md (DEWY morning brief)"
+  ],
+  "ratification": {
+    "who": "human only",
+    "how": "review morning brief -> merge branch (ratify), amend then merge (correct), or delete branch (reject). Artifact redeploys only after merge.",
+    "record": "ratified inchworm entries drop the PROPOSED marker via the merge commit"
+  },
+  "amendment_law": "This ROM is versioned per repo spec policy: front-matter version bump for compatible change, meta-audit-enrichment-rom-v2.json only on breaking change. Constants and controls change only by human commit with NCI stamp."
+}
