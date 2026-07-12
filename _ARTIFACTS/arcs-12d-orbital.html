@@ -23,6 +23,11 @@
   .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
   .ctl{display:flex;align-items:center;gap:.4rem}
   .spacer{flex:1}
+  .grp{display:flex;align-items:center;gap:.45rem;padding:.3rem .55rem;border:1px solid rgba(30,41,59,.75);
+    border-radius:6px;background:rgba(13,17,23,.55)}
+  .glbl{font-family:var(--mono);font-size:.5rem;font-weight:700;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+  .grp select,.grp .btn{height:26px;box-sizing:border-box}
+  .grp input[type=range]{margin:0}
   #stage{position:fixed;inset:0;top:52px}
   canvas{display:block;width:100%;height:100%}
   .hud{position:fixed;left:1rem;bottom:.8rem;z-index:30;pointer-events:none;display:flex;flex-direction:column;gap:.3rem}
@@ -59,24 +64,42 @@
 
 <div class="deck"><div class="deck-in">
   <span class="wordmark"><b>ARCS</b> · 12D ORBITAL</span>
-  <div class="ctl"><span class="lbl cy">X</span><select id="dx"></select></div>
-  <div class="ctl"><span class="lbl cy">Y</span><select id="dy"></select></div>
-  <div class="ctl"><span class="lbl gd">Metronome</span>
+  <div class="grp" title="The two questions you cross — the projection is the score">
+    <span class="glbl">Projection</span>
+    <span class="lbl cy">X</span><select id="dx"></select>
+    <span class="lbl cy">Y</span><select id="dy"></select>
+  </div>
+  <div class="grp" title="How time is kept and which epoch is shown">
+    <span class="glbl">Time</span>
     <select id="metro"><option>CHRONOS</option><option>KAIROS</option><option>DILATION</option><option>SUSPENSION</option><option>SUPERPOSITION</option></select>
-    <input id="tempo" type="range" min="25" max="400" value="100" style="width:70px" aria-label="Tempo: time dilation factor">
-    <span class="lbl" id="tempo-lbl">1.0×</span></div>
-  <div class="ctl"><span class="lbl gd">Epoch</span><input id="epoch" type="range" min="1" max="8" value="8" step="any"><button class="btn" id="play">▶ orbit</button></div>
-  <span class="lbl" style="margin-left:.3rem">Layers</span>
-  <button class="btn on" id="t-trail" title="T — orbital history paths">trails</button>
-  <button class="btn on" id="t-ent" title="E — shared-road pairs (violet dash)">entangle</button>
-  <button class="btn" id="t-inv" title="I — always-true ring grammar">invariants</button>
-  <button class="btn" id="t-sat" title="G — DEWY self-similarity (gold)">satoshi</button>
-  <span class="lbl" style="margin-left:.3rem">Lens</span>
-  <button class="btn" id="t-sup" title="S — dim collapsed nodes">superposed</button>
-  <button class="btn" id="ballet-btn" title="B — clair de lune">🩰 ballet</button>
-  <button class="btn" id="symph-btn" title="N — the state space, sounded">𝄞 symphony</button>
-  <button class="btn" id="stop-audio" title="X — kill all audio, including tails" style="display:none;border-color:rgba(255,77,109,.5);color:var(--red)">⏹ stop</button>
-  <button class="btn" id="help-btn" title="? — keys and definitions">?</button>
+    <input id="tempo" type="range" min="25" max="400" value="100" style="width:64px" aria-label="Tempo">
+    <span class="lbl" id="tempo-lbl">1.0×</span>
+    <input id="epoch" type="range" min="1" max="8" value="8" step="any" style="width:88px" aria-label="Epoch">
+    <button class="btn" id="play">▶</button>
+  </div>
+  <div class="grp" title="Overlays — one visual channel each">
+    <span class="glbl">Layers</span>
+    <button class="btn on" id="t-trail" title="T — history paths">trails</button>
+    <button class="btn on" id="t-ent" title="E — shared-road pairs">entangle</button>
+    <button class="btn" id="t-inv" title="I — always-true rings">invariants</button>
+    <button class="btn" id="t-sat" title="G — DEWY self-similarity">satoshi</button>
+  </div>
+  <div class="grp" title="Emphasis filter">
+    <span class="glbl">Lens</span>
+    <button class="btn" id="t-sup" title="S — dim collapsed nodes">superposed</button>
+  </div>
+  <div class="grp" title="Performances — B ballet · N symphony · X stop">
+    <span class="glbl">Perform</span>
+    <button class="btn" id="ballet-btn" title="B — Clair de Lune projection tour">🩰 ballet</button>
+    <select id="inst" title="Ballet instrumentation — orchestra arranges by register" aria-label="Instrument">
+      <option value="orchestra">🎻 orchestra</option><option value="music box">music box</option>
+      <option value="piano">piano</option><option value="celesta">celesta</option>
+      <option value="harp">harp</option><option value="strings">strings</option><option value="flute">flute</option>
+    </select>
+    <button class="btn" id="symph-btn" title="N — the state space, sounded">𝄞 symphony</button>
+    <button class="btn" id="stop-audio" title="X — kill all audio, including tails" style="display:none;border-color:rgba(255,77,109,.5);color:var(--red)">⏹ stop</button>
+  </div>
+  <button class="btn" id="help-btn" title="Keys, meanings, and the laws">? guide</button>
   <span class="spacer"></span>
   <span class="kv" id="stats" style="pointer-events:none"></span>
 </div></div>
@@ -106,7 +129,7 @@
   <p style="font-family:var(--mono);font-size:.72rem;line-height:2">
     <b>← →</b> step epoch (time) · <b>↑ ↓</b> cycle node selection (structure)<br>
     <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
-    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose. The choreography is a projection tour: each segment re-projects the manifold through a new X·Y pair — kinematics → degrees → entropy → collapse×superposition at the climax — and the coda restores your own axes.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = major pentatonic on a chord root that sways Gymnopédie-style through the evidence-unlocked circle of fifths (maj7 and 9 unlock at later epochs) — Debussy/Satie by construction, no semitone clashes; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
+    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose. Instrumentation: the rack beside 🩰 re-voices the MIDI — 🎻 orchestra splits by register (strings bass · piano mid · harp upper · celesta top); changes apply within one scheduling window (≤8s). The choreography is a projection tour: each segment re-projects the manifold through a new X·Y pair — kinematics → degrees → entropy → collapse×superposition at the climax — and the coda restores your own axes.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = major pentatonic on a chord root that sways Gymnopédie-style through the evidence-unlocked circle of fifths (maj7 and 9 unlock at later epochs) — Debussy/Satie by construction, no semitone clashes; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
   </p>
   <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
   <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
@@ -544,18 +567,44 @@ function buildForms(evs, dur) {  // the data-driven score → formation timeline
 const formAt = ts => { let f = MID.forms[0][1];
   for (const [t0, c] of MID.forms) { if (t0 <= ts) f = c; else break; } return f; };
 
-function pluck(n, when, vel, dur) {   // velocity-aware, piano-leaning music box
-  const f = 440 * Math.pow(2, (n - 69) / 12), g = Math.pow(vel / 92, 1.4) * .10;
+// ── instrument rack: six synthesized patches; ORCHESTRA arranges by register
+//    (bass → string pad · mid → piano · upper-mid → harp · top → celesta),
+//    the way an arranger would split a piano score. Applies to the ballet MIDI;
+//    the symphony keeps its domain-voice law (its timbres are data, not taste).
+const INSTRUMENTS = {
+  'music box': { partials: [[1,1],[3.02,.13]],                 attack: .012, ring: 1.1  },
+  'piano':     { partials: [[1,1],[2.001,.22],[3.002,.08]],    attack: .008, ring: 1    },
+  'celesta':   { partials: [[1,1],[4.05,.22],[6.3,.05]],       attack: .004, ring: .8,  gain: .9 },
+  'harp':      { partials: [[1,1],[2,.35],[3,.15],[4,.07]],    attack: .006, ring: .9   },
+  'strings':   { partials: [[1,.8],[2,.25],[3,.12],[4.01,.05]],attack: .22,  sustain: true, gain: .8 },
+  'flute':     { partials: [[1,1],[2,.06],[3,.03]],            attack: .05,  ring: .7,  gain: .95 },
+};
+const ORCHESTRA = [[45,'strings'],[64,'piano'],[77,'harp'],[128,'celesta']];
+let INST = 'orchestra';
+document.getElementById('inst').addEventListener('change', e => INST = e.target.value);
+function patchFor(n) {
+  if (INST !== 'orchestra') return INSTRUMENTS[INST];
+  for (const [top, name] of ORCHESTRA) if (n <= top) return INSTRUMENTS[name];
+  return INSTRUMENTS.piano;
+}
+function pluck(n, when, vel, dur) {
+  const p = patchFor(n);
+  const f = 440 * Math.pow(2, (n - 69) / 12), g = Math.pow(vel / 92, 1.4) * .10 * (p.gain || 1);
   const env = AC.createGain();
-  [[1, 1], [2.001, .22], [3.002, .08]].forEach(([m, a]) => {
+  p.partials.forEach(([m, a]) => {
     const o = AC.createOscillator(), og = AC.createGain();
     o.type = 'sine'; o.frequency.value = f * m; og.gain.value = a;
-    o.connect(og); og.connect(env); o.start(when); o.stop(when + dur * 1.4 + 1.2);
+    o.connect(og); og.connect(env); o.start(when); o.stop(when + dur + 2.5);
   });
   env.connect(comp);
   env.gain.setValueAtTime(0, when);
-  env.gain.linearRampToValueAtTime(g, when + .008);
-  env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(.9, dur * 1.3 + .5));
+  env.gain.linearRampToValueAtTime(g, when + p.attack);
+  if (p.sustain) {
+    env.gain.setValueAtTime(g * .82, when + Math.max(p.attack, dur * .8));
+    env.gain.exponentialRampToValueAtTime(.0004, when + dur + .7);
+  } else {
+    env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(.9, dur * 1.3 + .5) * (p.ring || 1));
+  }
 }
 function scheduleWindow() {           // 16s lookahead, refreshed every 8s
   const now = AC.currentTime - BAL.start;
