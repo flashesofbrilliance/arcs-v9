@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>ARCS 12D Orbital — Knowledge Phase Space</title>
 <style>
   :root{
@@ -377,7 +378,7 @@ document.getElementById('hx').addEventListener('click', () => document.getElemen
 
 // ── keyboard navigation: arrows walk time and structure; digits walk the manifold ──
 const DIMKEYS = { '1':0,'2':1,'3':2,'4':3,'5':4,'6':5,'7':6,'8':7,'9':8,'0':9,'-':10,'=':11 };
-const CYCLE = [...ids].sort((a,b) => hardness(b,8) - hardness(a,8) || byId[a].label.localeCompare(byId[b].label));
+const CYCLE = [...ids].sort((a,b) => hard(b,8) - hard(a,8) || byId[a].label.localeCompare(byId[b].label));
 addEventListener('keydown', e => {
   if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   const k = e.key;
@@ -446,7 +447,7 @@ function scheduleAt(k) {
   SCORE.forEach(ev => pluck(ev[1], t0 + ev[0] * U, ev[2], ev[3]));
   balTimer = setTimeout(() => scheduleAt(k + 1), (t0 + LOOP * U - AC.currentTime - 1.5) * 1000);
 }
-const DIAMONDS = ids.filter(id => hardness(id, 8) >= 4);
+const DIAMONDS = ids.filter(id => hard(id, 8) >= 4);
 const METAS = ids.filter(id => byId[id].st === 'g');
 const SUPERP = ids.filter(id => byId[id].status !== 'ok');
 function balAmp(id) {
