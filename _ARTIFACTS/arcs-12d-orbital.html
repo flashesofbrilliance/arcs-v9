@@ -61,6 +61,7 @@
   <span class="lbl" style="margin-left:.3rem">Lens</span>
   <button class="btn" id="t-sup" title="S — dim collapsed nodes">superposed</button>
   <button class="btn" id="ballet-btn" title="B — clair de lune">🩰 ballet</button>
+  <button class="btn" id="symph-btn" title="N — the state space, sounded">𝄞 symphony</button>
   <button class="btn" id="help-btn" title="? — keys and definitions">?</button>
   <span class="spacer"></span>
   <span class="kv" id="stats" style="pointer-events:none"></span>
@@ -83,7 +84,7 @@
   <p style="font-family:var(--mono);font-size:.72rem;line-height:2">
     <b>← →</b> step epoch (time) · <b>↑ ↓</b> cycle node selection (structure)<br>
     <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
-    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose.
+    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = circle of fifths, growing from pentatonic (e1) as edges accrete; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
   </p>
   <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
   <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
@@ -264,7 +265,7 @@ function draw() {
     const [x,y] = pos(id,ep), hd = hard(id,epR), c = DOMC[n.dom];
     void 0;
     const a = dim ? '26' : 'e6';
-    const r = (4.5 + hd*1.1) * (BAL.on ? balAmp(id) : 1);
+    const r = (4.5 + hd*1.1) * ((BAL.on || SYM.on) ? balAmp(id) : 1);
     const superposed = n.status !== 'ok';
     const mark = (ox,oy,alpha) => {
       ctx.globalAlpha = alpha;
@@ -426,6 +427,7 @@ addEventListener('keydown', e => {
     metroEl.dispatchEvent(new Event('change')); return;
   }
   if (k === 'b' || k === 'B') { toggleBallet(); return; }
+  if (k === 'n' || k === 'N') { toggleSymph(); return; }
   const KEYTOGGLE = { t:'t-trail', e:'t-ent', i:'t-inv', g:'t-sat', s:'t-sup' };
   if (k.toLowerCase() in KEYTOGGLE) { document.getElementById(KEYTOGGLE[k.toLowerCase()]).click(); return; }
   if (k === '?' || k === 'h' || k === 'H') document.getElementById('help').classList.toggle('open');
@@ -599,6 +601,7 @@ function balletFrame(dt) {
 }
 function toggleBallet() {
   if (BAL.on) { stopBallet(); return; }
+  if (SYM.on) stopSymph();
   if (!MID) { const m = parseMidi(MIDI_B64); MID = { ...m, forms: buildForms(m.evs, m.dur) }; }
   AC = new (window.AudioContext || window.webkitAudioContext)();
   comp = AC.createDynamicsCompressor();
@@ -627,6 +630,135 @@ function stopBallet() {
 }
 document.getElementById('ballet-btn').addEventListener('click', toggleBallet);
 
+
+
+// ══ STATE-SYMPHONY — the combinatorial state space, sounded. Nothing decorative:
+// every musical parameter is a datum or a control. THE LAW:
+//   score      = the current projection (X → onset within an 8s measure, Y → pitch)
+//   silence    = not-yet-evidenced (hardness 0 at this epoch makes no sound)
+//   loudness   = hardness · duration = hardness (diamonds toll)
+//   harmony    = circle of fifths, k notes where k grows with cumulative edges
+//   voice      = domain (five partial profiles)
+//   metronome  = CHRONOS grid · KAIROS unmetered · DILATION tempo · SUSPENSION held chord
+//                · SUPERPOSITION all epochs stacked
+//   trails     = echo (history audible) · entangle = imitative canon (partner answers)
+//   invariants = ground bass (always-true = always-sounding) · satoshi = prolation canon
+//                (the line at 1x, 2x, 4x) · superposed lens = only the unresolved, trilling
+// Ballet moves the data to Debussy; the symphony lets the data make the music.
+const SYM = { on: false, start: 0, measure: 0, timer: null, raf: null };
+const EDGE_CUM = e => EDGES.filter(x => x[2] <= e).length;
+function scaleFor(ep) {                        // harmony accretes by fifths
+  const frac = (EDGE_CUM(ep) - EDGE_CUM(1)) / (EDGE_CUM(8) - EDGE_CUM(1));
+  const k = 5 + Math.round(3 * frac);          // e1 pentatonic → e8 eight-note
+  const deg = [];
+  for (let i = 0; i < k; i++) deg.push((1 + 7 * i) % 12);   // root C# (Debussy's Db), fifths
+  return deg.sort((a, b) => a - b);
+}
+function quant(m, deg) {                       // snap a raw midi float to the scale
+  const oct = Math.floor(m / 12), pc = m - oct * 12;
+  let best = deg[0], bd = 99;
+  for (const d of deg) for (const o of [-12, 0, 12]) { const diff = Math.abs(pc - (d + o)); if (diff < bd) { bd = diff; best = d + o; } }
+  return oct * 12 + best;
+}
+const VOICE = { ont: [[1,1],[2,.15]], epi: [[1,1],[2,.3],[4,.08]], met: [[1,1],[3,.25]], ety: [[1,1],[3,.2],[5,.1]], lib: [[1,.9],[2,.2],[3,.12]] };
+function voicePluck(n, when, vel, dur, dom, trill) {
+  const f = 440 * Math.pow(2, (n - 69) / 12), g = vel * .085, env = AC.createGain();
+  (VOICE[dom] || VOICE.ont).forEach(([m, a]) => {
+    const o = AC.createOscillator(), og = AC.createGain();
+    o.type = 'sine'; o.frequency.value = f * m; og.gain.value = a;
+    if (trill) {                              // superposition audible: oscillate a scale step
+      o.frequency.setValueAtTime(f * m, when);
+      for (let t = 0; t < dur; t += .125) o.frequency.setValueAtTime(f * m * (t % .25 < .125 ? 1 : 1.1225), when + t);
+    }
+    o.connect(og); og.connect(env); o.start(when); o.stop(when + dur + 1);
+  });
+  env.connect(symBus);
+  env.gain.setValueAtTime(0, when);
+  env.gain.linearRampToValueAtTime(g, when + .01);
+  env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(.5, dur));
+}
+let symBus = null;
+function symMeasure() {                        // one measure = one left-to-right reading
+  if (!SYM.on) return;
+  const now = Math.max(AC.currentTime + .06, SYM.start + SYM.measure * measLen());
+  const L = measLen(), epR = Math.max(1, Math.min(8, Math.round(ep)));
+  const deg = scaleFor(epR), kx = +dxSel.value, ky = +dySel.value;
+  const sup = id => byId[id].status !== 'ok';
+  const eps = mode === 'SUPERPOSITION' ? [1,2,3,4,5,6,7,8] : [epR];
+  const notes = [];                            // [tFrac, midi, vel, dur, dom, id, trill]
+  eps.forEach(e => ids.forEach(id => {
+    const hd = hard(id, e);
+    if (hd === 0) return;                      // silence = not-yet-evidenced
+    if (supOnly && !sup(id)) return;           // the lens: only the unresolved sound
+    const x = norm(kx, dimAt(id, e, kx)), y = norm(ky, dimAt(id, e, ky));
+    const tF = mode === 'CHRONOS' ? Math.round(x * 16) / 16 : x;   // grid vs unmetered
+    notes.push([tF, quant(40 + y * 45, deg), (.25 + .75 * hd / 4) / eps.length,
+                (.4 + hd * .5) * (L / 8), byId[id].dom, id, supOnly && sup(id)]);
+  }));
+  if (mode === 'SUSPENSION') {                 // time held: the current harmony as one chord
+    notes.forEach(([, m, v, , dom, id, tr]) => voicePluck(m, now, v * .8, L * .95, dom, tr));
+  } else {
+    notes.forEach(([tF, m, v, d, dom, id, tr]) => {
+      const t = now + tF * L * .94;
+      voicePluck(m, t, v, d, dom, tr);
+      SYM.acc.push([t, id, v]);
+      if (showEnt) {                           // entanglement = imitative canon
+        const pair = ENT.find(p => p[0] === id || p[1] === id);
+        if (pair) { const mate = pair[0] === id ? pair[1] : pair[0];
+          voicePluck(m, t + L * .25, v * .5, d * .8, byId[mate].dom, false); SYM.acc.push([t + L * .25, mate, v * .5]); }
+      }
+      if (showSat) {                           // satoshi = prolation canon: 2x and 4x augmentation
+        voicePluck(m - 12, now + tF * L * 1.88, v * .4, d * 1.6, dom, false);
+        voicePluck(m - 24, now + tF * L * 3.76, v * .25, d * 2.4, dom, false);
+      }
+    });
+  }
+  if (showInv) {                               // invariants = the ground bass: always true, always sounding
+    const root = 37 + deg[0], fifth = root + 7;
+    voicePluck(root, now, .5, L, 'met', false);
+    voicePluck(fifth, now, .35, L, 'met', false);
+    INV.empirical.forEach((id, i) => voicePluck(root + 12, now + (i + 1) * L / (INV.empirical.length + 1), .22, .4, byId[id].dom, false));
+  }
+  SYM.measure++;
+  SYM.timer = setTimeout(symMeasure, (now + L - AC.currentTime - .8) * 1000);
+}
+const measLen = () => 8 / tempo;
+function toggleSymph() {
+  if (SYM.on) { stopSymph(); return; }
+  if (BAL.on) stopBallet();                    // one conductor at a time
+  AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+  symBus = AC.createDynamicsCompressor(); symBus.threshold.value = -22; symBus.ratio.value = 6;
+  if (trails) {                                // trails = echo: history audible
+    const dly = AC.createDelay(1); dly.delayTime.value = .42;
+    const fb = AC.createGain(); fb.gain.value = .28;
+    symBus.connect(dly); dly.connect(fb); fb.connect(dly); dly.connect(AC.destination);
+  }
+  symBus.connect(AC.destination);
+  SYM.on = true; SYM.start = AC.currentTime + .2; SYM.measure = 0; SYM.acc = [];
+  BAL.amp = {};
+  document.getElementById('symph-btn').classList.add('on');
+  symMeasure();
+  const step = () => {                         // playhead sweep + onset accents (all data)
+    if (!SYM.on) return;
+    const tIn = ((AC.currentTime - SYM.start) % measLen()) / measLen();
+    while (SYM.acc.length && SYM.acc[0][0] <= AC.currentTime) {
+      const [, id, v] = SYM.acc.shift(); BAL.amp[id] = performance.now() + 200 + v * 500;
+    }
+    draw();
+    const dpr = devicePixelRatio, w = cv.width / dpr, h = cv.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const x = M.l + tIn * (w - M.l - M.r);
+    ctx.strokeStyle = 'rgba(255,215,0,.35)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, M.t); ctx.lineTo(x, h - M.b); ctx.stroke();
+    SYM.raf = requestAnimationFrame(step);
+  };
+  SYM.raf = requestAnimationFrame(step);
+}
+function stopSymph() {
+  SYM.on = false; clearTimeout(SYM.timer); cancelAnimationFrame(SYM.raf);
+  document.getElementById('symph-btn').classList.remove('on'); draw();
+}
+document.getElementById('symph-btn').addEventListener('click', toggleSymph);
 
 document.getElementById('conductor-score').innerHTML = DIMS.map((d, k) =>
   `<b style="color:var(--gold)">${CONDUCTOR[k].mark}</b> ${d.k} ${d.n} — <i>${CONDUCTOR[k].ballet}</i>: ${CONDUCTOR[k].note}`
