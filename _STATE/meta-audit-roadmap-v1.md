@@ -1,6 +1,6 @@
 ---
-version: 2.0.0
-epoch: 19dd948
+version: 2.1.0
+epoch: 2300012
 date: 2026-07-12
 artifact: https://claude.ai/code/artifact/cc787dbb-11e4-4576-a8d8-46822ca48f24
 rom: runtime/specs/meta-audit-enrichment-rom.json
@@ -26,7 +26,19 @@ every ratification is human, at dawn, on the record.
 20 API routes · 25 pages · 15 Prisma models · 20 public briefs · 15 published artifacts ·
 7 patterns · 5 memory shards · 1 ordinal · 1 ROM candidate · **1 test file**.
 
-Six element classes (the reticulation taxonomy — every atom is one of these):
+**The Alchemist's Cookbook — structural ladder** (atomic design, literal in the tree;
+three parallel atom systems are a named tension → ADR-031 reconciliation is the open receipt):
+
+| Tier | Where | # | Members |
+|---|---|---|---|
+| Atoms | `src/ui/` + `src/ui-kit/recoil-report/` | 20+13 | Badge · Button · Card · ChipToggle · EyebrowToast · Field · Gauge · Label · Picker · PointerTypeProbe · ProgressBar · Rule · SectionLabel · SegmentedSlider · Spinner · StepProgress · StickyFooter · Tabs · ToastDrawerContext · Wordmark + wedge-kit 01–13; token sources `tokens.ts` / `_tokens.css` / `useVw` |
+| Molecules | `src/molecules/` + `src/instrument/` + `src/components/` | 21 | AuthControl · CalibrationChips · CompassError · ConvictionSidebar · DebriefCard · ExpandableTributaries · FatedGrid · HeaderLockup · HorizonStakesRow · InstrumentCluster · PipelineRunning · PipelineTakeover · ReceiptPreviewWidget · SequenceLoader · TerrainPaths · TributariesStack + TributaryTile · TrueNorthPanel · WeatherBar + ClaimAnonymousReceipts · VercelToolbarToggle |
+| Organisms | `src/organisms/` | 5 | Home · CompassForm · ResultView · Brief · ReflectLayer |
+| Templates | `src/document/` + `public/templates/` + `src/emails/` | 21 | 10 document patterns + 5 document screens + call-brief `{{PLACEHOLDERS}}` + 4 emails + kit assembly |
+| Pages | `src/app/` | 25 | dashboard · compass · prep · brief/reflect · receipt/reflect · guide · debrief · history · observatory · recoil ×3 · scan · onboarding · advisory · waitlist · admin · trust/privacy/terms · design-test · / |
+
+**The Alchemist's Cookbook — elemental ladder** (nine classes; the reticulation taxonomy —
+every atom is one of these):
 
 | Class | Members / law |
 |---|---|
@@ -36,6 +48,9 @@ Six element classes (the reticulation taxonomy — every atom is one of these):
 | **Protocols** | Hyperstition pipeline · Accumulation (II·V) · Shared Court (II·VI, gated) · Recoil · Handoff chain (append-only, 20 entries) · canon-collision escalation · two-surface · drift sentry (designed, unbuilt). |
 | **Operators** | LAB · BAR · SAGE · CURATOR · KAIROS · CONTRACT · OPERATOR20 · KINTSUGI + Court/HC/LTE/ROM/Trace systems + infra. 37 files, 17,353 LOC, zero production callers (canon-in-code). RC-OPS-001 gated. |
 | **Advisors** | Loki · The Advisors · The Bayesian · dual Bar Raiser (Architect + Implementer) · The Curator · Fun House Mirror · DRIFT Sentinel · Kairos · **The Alchemist** (new this epoch — overnight enricher, proposes only). |
+| **Risks** | No-Go Inventory v1.0 (Kintsugi ROM artifact; append-only, receipt-tagged): `BSS_WALL` · `TRIUNE_REMAINDER` · `KINTSUGI_SCAR` · `STRUCTURAL_BLIND`. Live BAR register: DATABASE_URL rotation (ADR-005) · key-man · canon-drift-as-trust-ruin · 1-test coverage. Standing redaction law (5 Fanatics rules). Precedent: SageTrace RLS breach caught + fixed. |
+| **Patterns** | `_PATTERNS/` ×7 (governance roadmap w/ pathogen taxonomy · prose-rule audit · S-tier plan · kinematics adjudication · TEI budget · session post-mortem · two-surface protocol) + 4-tab call-brief engagement pattern. Law: minted from what broke, cited by roadmaps, never silently edited. |
+| **Archetypes** | 8 cross-domain in `scripts/arcs_core.py`, shared by every scanner: Builder · Navigator · Illuminator · Instrumentor · Mediator · Orienter · Chartist · Focused Executor — color + keyword lattice; `classify_archetype()` scores resonance; UNDEFINED never force-classified. |
 
 ## L1 · Bonds (organs)
 
@@ -115,6 +130,11 @@ H5 truth-sync narrating docs (this ledger is the diff).
 
 ## Inchworm log (append-only; newest first)
 
+- **2026-07-12 · v2.1.0 · epoch 2300012** — The Alchemist's Cookbook completed: structural
+  ladder inventoried from the tree (33 atoms · 21 molecules · 5 organisms · 21 templates ·
+  25 pages; three parallel atom systems named → ADR-031); elemental ladder grows to nine
+  classes — Risks (NGI ×4 + BAR register), Patterns (×7), Archetypes (×8) join; enrichment
+  ROM bumped to v0.2.0 carrying the full cookbook as reticulation taxonomy.
 - **2026-07-12 · v2.0.0 · epoch 19dd948** — The corpus enters the instrument. Six strata
   L0→L5 with live registries; aperture + black-point + tilt optics join fidelity/resolution;
   twin minted (Δ4 closed); Alchemist ROM v0.1.0 pinned + `/alchemist` routine authored;
