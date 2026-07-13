@@ -19,6 +19,16 @@
       "source": "/",
       "has": [{ "type": "host", "value": "kelly-interview.arcs.care" }],
       "destination": "/kelly-interview.html"
+    },
+    {
+      "source": "/teardown",
+      "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
+      "destination": "/todd-teardown.html"
+    },
+    {
+      "source": "/runtime",
+      "has": [{ "type": "host", "value": "julia.arcs.care" }],
+      "destination": "/julia-runtime.html"
     }
   ],
   "headers": [
