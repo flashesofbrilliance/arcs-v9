@@ -175,6 +175,18 @@
       "Get the $190K base / 10% bonus / no-equity structure confirmed in writing in Trainor's promised follow-up email — don't let it stay a verbal-only data point",
       "Before the Eddie call, decide a considered position on the two LOW-severity structural flags (narrow senior-IC ceiling; bonus not tied to the team outcome the role is pitched on) so they're addressed by choice, not surprise",
       "Reuse the Grayscale premortem/receipt-ledger story as-is for the Eddie and Phil Martin rounds — it was the strongest answer of this call and maps directly onto 'prototyping scalable, reliable, responsible production systems,' the operational challenge Trainor named for the role"
+    ],
+    "followUpLog": [
+      {
+        "date": "2026-07-13",
+        "action": "Application submitted via Workday link — closes immediateActions item 1",
+        "status": "DONE"
+      },
+      {
+        "date": "2026-07-13",
+        "action": "Requested written confirmation of the $190K base / 10% bonus / no-equity structure — sent via LinkedIn (not the promised follow-up email), asking Trainor to confirm the terms by email. Partially closes immediateActions item 2 — the written-record ask is made, but the confirmation itself is not yet in hand.",
+        "status": "PENDING_COUNTERPARTY_RESPONSE"
+      }
     ]
   }
 }
