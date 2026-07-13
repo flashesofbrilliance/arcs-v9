@@ -46,6 +46,11 @@ export default function ReceiptPage() {
   const receiptId = String(params.receiptId)
   const vw = useVw()
 
+  // Ephemeral anonymous bearing: never persisted server-side (trust contract
+  // — "anonymous sessions: nothing is stored"). The dashboard stashed the
+  // compass response in sessionStorage under this minted `eph_` id.
+  const isEphemeral = receiptId.startsWith("eph_")
+
   const [receipt, setReceipt] = useState<ReceiptData | null>(null)
   const [hasBrief, setHasBrief] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -54,6 +59,39 @@ export default function ReceiptPage() {
   const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
 
   useEffect(() => {
+    if (isEphemeral) {
+      const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
+      if (!raw) {
+        setError("This bearing wasn't stored — anonymous results live only in the browser tab that ran them. Run the compass again, or sign in first to keep receipts.")
+        return
+      }
+      try {
+        const d = JSON.parse(raw)
+        setReceipt({
+          id: receiptId,
+          decision: d.question ?? "",
+          trueNorth: d.true_north ?? "",
+          whyBullets: JSON.stringify(d.why ?? []),
+          nciScore: Number(d.nci_score ?? 0),
+          coherencePct: typeof d.coherence_pct === "number" ? d.coherence_pct : undefined,
+          mode: d.decision_mode ?? "",
+          doorClass: d.door_class ?? "",
+          yState: d.y_state ?? "",
+          fated: JSON.stringify(d.reasoning?.fated ?? {}),
+          paths: JSON.stringify(d.reasoning?.paths ?? []),
+          macroTags: JSON.stringify(d.meta?.macro_tags ?? []),
+          version: 0,
+          createdAt: new Date().toISOString(),
+          courtVerdict: typeof d.reasoning?.court_verdict === "string" ? d.reasoning.court_verdict : undefined,
+          sessionId: d.session_id ?? "",
+        })
+        setTributaries(Array.isArray(d.tributaries) ? d.tributaries : [])
+        setHasBrief(false)
+      } catch {
+        setError("Could not read this browser-local bearing.")
+      }
+      return
+    }
     let cancelled = false
     fetch(`/api/brief/${receiptId}`)
       .then(async (r) => ({ ok: r.ok, data: await r.json() }))
@@ -66,7 +104,7 @@ export default function ReceiptPage() {
       })
       .catch(() => { if (!cancelled) setError("Could not load receipt") })
     return () => { cancelled = true }
-  }, [receiptId])
+  }, [receiptId, isEphemeral])
 
   if (error) {
     return (
@@ -117,20 +155,33 @@ export default function ReceiptPage() {
     },
   }
 
-  return (
-    <ReflectLayer receiptId={receiptId} surface="RECEIPT" reflectUrl={`/receipt/reflect/${receiptId}`}>
+  const page = (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Header — Wordmark + Rule, matching home/history/brief pattern */}
         <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Wordmark section="Decision Receipt" />
           <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-            <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>
+            {isEphemeral
+              ? <Button variant="ghost" size="sm" onClick={() => router.push("/dashboard")}>← Compass</Button>
+              : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>}
             {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
           </div>
         </div>
         <div style={{ ...contentContainer(vw), paddingBottom: "1.5rem" }}>
           <Rule />
         </div>
+
+        {/* Ephemeral notice — the trust contract's "nothing is stored" made visible */}
+        {isEphemeral && (
+          <div style={{ ...contentContainer(vw), paddingBottom: "1.25rem" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", border: `0.5px solid ${signal.gold}44`, borderRadius: 6, padding: "0.6rem 1rem", background: `${signal.gold}0d` }}>
+              <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.08em", color: text.secondary }}>
+                NOT STORED — this bearing lives only in this browser tab, per the trust contract. Sign in before running to keep receipts.
+              </span>
+              <Button variant="ghost" size="sm" onClick={() => router.push("/compass")}>Sign in</Button>
+            </div>
+          </div>
+        )}
 
         {/* Body */}
         <div style={{ ...contentContainer(vw), paddingTop: "1rem", paddingBottom: "6rem" }}>
@@ -153,11 +204,11 @@ export default function ReceiptPage() {
             <ConvictionSidebar
               result={compassResult}
               onTributary={(prompt) => {
-                const params = new URLSearchParams({
-                  q: prompt,
-                  parent: receipt.id,
-                  sid: receipt.sessionId,
-                })
+                // Ephemeral bearings have no persisted row — omit `parent` so
+                // the follow-up doesn't reference a nonexistent receipt id.
+                const params = new URLSearchParams({ q: prompt })
+                if (!isEphemeral) params.set("parent", receipt.id)
+                if (receipt.sessionId) params.set("sid", receipt.sessionId)
                 router.push(`/dashboard?${params.toString()}`)
               }}
             />
@@ -201,6 +252,13 @@ export default function ReceiptPage() {
           </div>
         </div>
       </main>
+  )
+
+  // ReflectLayer's endpoints operate on persisted receipts — ephemeral
+  // bearings render bare (nothing server-side to reflect against).
+  return isEphemeral ? page : (
+    <ReflectLayer receiptId={receiptId} surface="RECEIPT" reflectUrl={`/receipt/reflect/${receiptId}`}>
+      {page}
     </ReflectLayer>
   )
 }

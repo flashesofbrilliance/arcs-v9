@@ -28,6 +28,15 @@ function selectMode(horizon: string, stakes: string): "QUICKMOVE" | "PLAN" | "CO
   return "PLAN"
 }
 
+function safeParseArray(v: string): string[] {
+  try {
+    const a = JSON.parse(v)
+    return Array.isArray(a) ? a.filter((x): x is string => typeof x === "string") : []
+  } catch {
+    return []
+  }
+}
+
 function doorClass(horizon: string, stakes: string): string {
   return stakes === "HIGH" || horizon === "THIS_QUARTER" || horizon === "ONE_TO_THREE_YEARS"
     ? "ONE_WAY"
@@ -138,6 +147,7 @@ export async function POST(req: NextRequest) {
     horizon = "THIS_WEEK",
     stakes = "MEDIUM",
     prepId,
+    prep: inlinePrepBody,
     parentReceiptId,
     sessionId,
     clarityMode = "SIMPLE",
@@ -153,10 +163,33 @@ export async function POST(req: NextRequest) {
   // Resolve session ID (passed from client or new)
   const resolvedSessionId = sessionId ?? crypto.randomUUID()
 
-  // Fetch prep session if provided
-  const prep = prepId
+  // Fetch prep session if provided (signed-in flow persists prep rows)
+  const prepRow = prepId
     ? await prisma.prepSession.findUnique({ where: { id: prepId } })
     : null
+
+  // Unified prep context. Anonymous clients pass prep inline in the request
+  // body instead of a prepId — trust-contract conformance (/trust §1,
+  // /privacy "no auth = no write path"): anonymous prep is never written to
+  // the DB (see /api/prep), so it arrives here as plain request data.
+  const inlinePrep = !prepRow && inlinePrepBody && typeof inlinePrepBody === "object"
+    ? inlinePrepBody as Record<string, unknown>
+    : null
+  const prep = prepRow
+    ? { ...prepRow, protecting: safeParseArray(prepRow.protecting) }
+    : inlinePrep
+      ? {
+          stakes: typeof inlinePrep.stakes === "string" ? inlinePrep.stakes : null,
+          horizon: typeof inlinePrep.horizon === "string" ? inlinePrep.horizon : null,
+          protecting: Array.isArray(inlinePrep.protecting)
+            ? inlinePrep.protecting.filter((p): p is string => typeof p === "string").slice(0, 4)
+            : [],
+          confidence: typeof inlinePrep.confidence === "number" ? inlinePrep.confidence : null,
+          entity: typeof inlinePrep.entity === "string" ? inlinePrep.entity.trim() || null : null,
+          adversarialInput: typeof inlinePrep.adversarialInput === "string" ? inlinePrep.adversarialInput.trim() || null : null,
+          outcomeHorizon: typeof inlinePrep.outcomeHorizon === "string" ? inlinePrep.outcomeHorizon.trim() || null : null,
+        }
+      : null
 
   // Fetch parent receipt if enriched re-run
   const parent = parentReceiptId
@@ -219,7 +252,7 @@ SIGNAL CLASS: ${sage.signal_classification} | SATOSHI: ${sage.is_satoshi}`
   }
 
   // Build enriched user message
-  const protecting = prep ? JSON.parse(prep.protecting) as string[] : []
+  const protecting = prep?.protecting ?? []
   const prepBlock = prep
     ? `\nCALIBRATION CONTEXT (from prep session):
 STAKES: ${prep.stakes ?? stakes}
@@ -310,12 +343,17 @@ Run the L0–L5 pipeline. Return only the JSON object.`
 
   const reasoning = parsed.reasoning as Record<string, unknown> | undefined
 
-  // Persist receipt with full DEWY fields
-  let receipt
+  // Persist receipt with full DEWY fields — SIGNED-IN ONLY. Trust-contract
+  // conformance (/trust §1 "anonymous sessions: nothing is stored", /privacy
+  // "no auth = no write path"): anonymous runs are never written to the DB.
+  // The client renders them ephemerally from this response (sessionStorage,
+  // `eph_` receipt ids) and they cease to exist when the tab closes.
+  let receipt: Awaited<ReturnType<typeof prisma.receipt.create>> | null = null
+  if (userId) {
   try {
     const receiptData = {
       userId: userId ?? null,
-      prepId: prep?.id ?? null,
+      prepId: prepRow?.id ?? null,
       parentId: parentReceiptId ?? null,
       sessionId: resolvedSessionId,
       version: sessionVersion,
@@ -376,24 +414,33 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     })
 
     receipt = await prisma.receipt.create({ data: receiptData })
+
+    // Invisible trace write — never blocks or affects the response. See the
+    // sageTraceData comment above for why this is a separate, never-`include`d
+    // table. Signed-in only: the trace embeds signal derived from user input,
+    // so it falls under the same no-anonymous-write rule as the receipt.
+    prisma.sageTrace.create({
+      data: { receiptId: receipt.id, ...sageTraceData },
+    }).catch((err) => console.error("[SAGE TRACE] failed to write:", err instanceof Error ? err.message : String(err)))
   } catch (err) {
     console.error("[COMPASS ERROR] Failed to create receipt:", err instanceof Error ? err.message : String(err))
     throw err
   }
+  } else {
+    console.log("[COMPASS] anonymous run — nothing persisted (trust contract: no auth = no write path)")
+  }
   const t3 = Date.now()
-
-  // Invisible trace write — never blocks or affects the response. See the
-  // sageTraceData comment above for why this is a separate, never-`include`d table.
-  prisma.sageTrace.create({
-    data: { receiptId: receipt.id, ...sageTraceData },
-  }).catch((err) => console.error("[SAGE TRACE] failed to write:", err instanceof Error ? err.message : String(err)))
 
   console.log(`[COMPASS PROFILE] Setup: ${t1-t0}ms | Claude: ${t2-t1}ms | Prisma: ${t3-t2}ms | Total: ${t3-t0}ms`)
 
-  // Fire emails (non-blocking — don't let email failure break the compass response)
+  // Fire emails (non-blocking — don't let email failure break the compass
+  // response). Requires a persisted receipt — anonymous runs have none.
   const userEmail = session?.user?.email ?? null
-  if (resend && userEmail) {
-    const briefUrl = `${APP_URL}/brief/${receipt.id}`
+  if (resend && userEmail && receipt) {
+    // Stable alias for use inside async callbacks below — `receipt` is a
+    // `let`, so TS narrowing doesn't survive into closures.
+    const rid = receipt.id
+    const briefUrl = `${APP_URL}/brief/${rid}`
 
     // 1. Receipt confirmation email — the T₀ "bearing locked" artifact.
     const receiptMail = receiptEmail({
@@ -474,14 +521,14 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           // cancelled later if needed — the prior version discarded this,
           // which is why a bad-timezone batch couldn't be cancelled and had
           // to be left to fire.
-          console.log(`[EMAIL] debrief for receipt ${receipt.id} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
+          console.log(`[EMAIL] debrief for receipt ${rid} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
           // Mark sent so the long-horizon cron (ADR-026 Bug 2) doesn't pick
           // this receipt up again once its reminderDate enters its own sweep window.
-          await prisma.receipt.update({ where: { id: receipt.id }, data: { debriefSentAt: new Date() } })
+          await prisma.receipt.update({ where: { id: rid }, data: { debriefSentAt: new Date() } })
           if (isFirstDebrief && userId) {
             await prisma.user.update({ where: { id: userId }, data: { firstDebriefSentAt: new Date() } })
           }
-        }).catch((err) => console.error(`[EMAIL] debrief for receipt ${receipt.id} failed:`, err instanceof Error ? err.message : String(err)))
+        }).catch((err) => console.error(`[EMAIL] debrief for receipt ${rid} failed:`, err instanceof Error ? err.message : String(err)))
       }
     }
   }
@@ -494,7 +541,10 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     // was actually used for routing, Y-gate computation, and persistence —
     // these must always override whatever Claude echoed back.
     ok: true,
-    receipt_id: receipt.id,
+    // null for anonymous runs — nothing was persisted (trust contract).
+    // The client renders the result ephemerally and mints an `eph_` id.
+    receipt_id: receipt?.id ?? null,
+    persisted: !!receipt,
     session_id: resolvedSessionId,
     session_version: sessionVersion,
     decision_mode: mode,
@@ -502,20 +552,14 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     y_state: yGate.yState,
     y_conviction: yGate.yConviction,
     render_resolution: yGate.renderResolution,
-    nci_delta: parent?.nciScore != null ? receipt.nciScore - parent.nciScore : null,
+    nci_delta: parent?.nciScore != null && receipt ? receipt.nciScore - parent.nciScore : null,
   })
 
-  // Secondary persistence path for claiming this receipt on sign-in (see
-  // ClaimAnonymousReceipts.tsx). Not httpOnly — client JS reads it directly
-  // as a same-browser-context fallback alongside localStorage. Anonymous
-  // only; a logged-in user's own receipts don't need claiming.
-  if (!userId) {
-    response.cookies.set("arcs_session_id", resolvedSessionId, {
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 days — long enough to cover a delayed magic-link click
-      sameSite: "lax",
-    })
-  }
+  // NOTE (2026-07-13, trust-contract conformance): the anonymous
+  // `arcs_session_id` claim cookie is no longer set here — with no anonymous
+  // persistence there is nothing to claim. ClaimAnonymousReceipts.tsx stays
+  // in place (harmless no-op for new sessions) until Phase 2's opt-in save
+  // flow decides its future.
 
   return response
 }

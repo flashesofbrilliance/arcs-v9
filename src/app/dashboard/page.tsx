@@ -22,6 +22,9 @@ function DashboardInner() {
 
   const [question, setQuestion] = useState(() => searchParams.get("q") ?? "")
   const [inboundPrepId] = useState(() => searchParams.get("prepId") ?? null)
+  // Anonymous prep arrives via sessionStorage instead of a persisted prepId
+  // (trust contract — no auth = no write path; see /prep + /api/prep).
+  const [inboundInlinePrep] = useState(() => searchParams.get("prep") === "inline")
   // Tributary follow-up arriving from a brief: ?parent=<receiptId>&sid=<sessionId>
   const [inboundParent] = useState(() => searchParams.get("parent") ?? null)
   const [inboundSid] = useState(() => searchParams.get("sid") ?? null)
@@ -113,6 +116,12 @@ function DashboardInner() {
     setLoading(true)
     setError(null)
     try {
+      // Anonymous prep enrichment: read the inline prep handed off by /prep
+      // via sessionStorage (nothing was persisted server-side).
+      let inlinePrep: Record<string, unknown> | null = null
+      if (inboundInlinePrep) {
+        try { inlinePrep = JSON.parse(sessionStorage.getItem("arcs_prep_inline") ?? "null") } catch { inlinePrep = null }
+      }
       const res = await fetch("/api/compass", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -122,13 +131,24 @@ function DashboardInner() {
           stakes,
           sessionId: followUp ? sessionId : crypto.randomUUID(),
           prepId: inboundPrepId,
+          prep: inlinePrep ?? undefined,
           parentReceiptId: followUp ? parentReceiptId : null,
         }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? "Unknown error")
       if (typeof window !== "undefined") localStorage.setItem("arcs_session_id", data.session_id)
-      router.push(`/receipt/${data.receipt_id}`)
+      if (data.receipt_id) {
+        router.push(`/receipt/${data.receipt_id}`)
+      } else {
+        // Anonymous run: nothing was persisted (trust contract). Render the
+        // bearing ephemerally — stash the response in sessionStorage under a
+        // minted `eph_` id and use the same receipt surface to display it.
+        sessionStorage.removeItem("arcs_prep_inline")
+        const eid = `eph_${crypto.randomUUID()}`
+        sessionStorage.setItem(`arcs_eph_${eid}`, JSON.stringify({ ...data, question: q }))
+        router.push(`/receipt/${eid}`)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong")
       setLoading(false)
