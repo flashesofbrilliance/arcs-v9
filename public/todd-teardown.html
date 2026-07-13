@@ -25,6 +25,7 @@
   --r: 6px;
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.65; padding-bottom: 80px; }
 
 /* ── GATE ── */
@@ -43,9 +44,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .doc-header-inner { max-width: 940px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; min-height: 48px; gap: 12px; flex-wrap: wrap; }
 .doc-mark { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--green); padding: 8px 0; }
 .tabs { display: flex; gap: 0; overflow-x: auto; }
-.tab-btn { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 13px; height: 48px; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; transition: color .15s, border-color .15s; }
-.tab-btn:hover { color: var(--sub); }
-.tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+.nav-link { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 13px; height: 48px; display: inline-flex; align-items: center; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; text-decoration: none; transition: color .15s, border-color .15s; }
+.nav-link:hover { color: var(--sub); }
+.nav-link.active { color: var(--green); border-bottom-color: var(--green); }
 /* ── STICKY BREADCRUMB ── */
 .crumb-bar {
   position: sticky; top: 0; z-index: 110;
@@ -68,12 +69,17 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 .crumb-seg.current { color: #020408; background: var(--green); }
 .crumb-seg.other { color: var(--cyan); border: 1px solid rgba(0,240,255,.4); }
 .crumb-seg.other:hover { background: rgba(0,240,255,.1); color: var(--cyan); }
-.tab-pane { display: none; }
-.tab-pane.active { display: block; }
-
 /* ── PAGE ── */
 .page { max-width: 940px; margin: 0 auto; padding: 0 20px; }
 .section { margin-top: 40px; }
+
+/* ── BLOCKS (single-page jump-link sections, replaces the old tab-pane show/hide) ── */
+.page-block { scroll-margin-top: 96px; }
+.page-block:not(:first-of-type) {
+  margin-top: 72px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
 .eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
 .section h2 { font-size: 19px; font-weight: 650; letter-spacing: -.01em; margin-bottom: 4px; }
 .section-sub { font-size: 13px; color: var(--sub); max-width: 640px; }
@@ -188,18 +194,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   <div class="doc-header-inner">
     <div class="doc-mark">ARCS · PRL Teardown</div>
     <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('seat')">The Seat</button>
-      <button class="tab-btn" onclick="switchTab('teardown')">Teardown</button>
-      <button class="tab-btn" onclick="switchTab('roadmap')">Roadmap</button>
-      <button class="tab-btn" onclick="switchTab('protocol')">Protocol</button>
+      <a class="nav-link active" href="#seat">The Seat</a>
+      <a class="nav-link" href="#teardown">Teardown</a>
+      <a class="nav-link" href="#roadmap">Roadmap</a>
+      <a class="nav-link" href="#protocol">Protocol</a>
     </div>
   </div>
 </div>
 
 <div class="page">
 
-<!-- ═══════════ TAB 1: THE SEAT ═══════════ -->
-<div id="tab-seat" class="tab-pane active">
+<!-- ═══════════ BLOCK 1: THE SEAT ═══════════ -->
+<div id="seat" class="page-block">
   <div class="cover">
     <div class="cover-kicker">Marketing Function Teardown · Built from calls Jul 2 + Jul 9</div>
     <h1>You're running marketing for a $100M company with the instruments turned off.</h1>
@@ -247,8 +253,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   </div>
 </div>
 
-<!-- ═══════════ TAB 2: TEARDOWN ═══════════ -->
-<div id="tab-teardown" class="tab-pane">
+<!-- ═══════════ BLOCK 2: TEARDOWN ═══════════ -->
+<div id="teardown" class="page-block">
   <div class="cover" style="padding-bottom:0">
     <div class="cover-kicker">Instrument-by-instrument</div>
     <h1 style="font-size:clamp(22px,4vw,30px)">Nine findings. Each one has a fix, an effort, and a payoff.</h1>
@@ -366,8 +372,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   </div>
 </div>
 
-<!-- ═══════════ TAB 3: ROADMAP ═══════════ -->
-<div id="tab-roadmap" class="tab-pane">
+<!-- ═══════════ BLOCK 3: ROADMAP ═══════════ -->
+<div id="roadmap" class="page-block">
   <div class="cover" style="padding-bottom:0">
     <div class="cover-kicker">Sequenced · chatbot first, per your call</div>
     <h1 style="font-size:clamp(22px,4vw,30px)">Five phases. Each one pays for itself before the next starts.</h1>
@@ -432,8 +438,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   </div>
 </div>
 
-<!-- ═══════════ TAB 4: PROTOCOL ═══════════ -->
-<div id="tab-protocol" class="tab-pane">
+<!-- ═══════════ BLOCK 4: PROTOCOL ═══════════ -->
+<div id="protocol" class="page-block">
   <div class="cover" style="padding-bottom:0">
     <div class="cover-kicker">This week</div>
     <h1 style="font-size:clamp(22px,4vw,30px)">Six items between here and a live chatbot.</h1>
@@ -493,13 +499,27 @@ if (sessionStorage.getItem('teardown_auth')==='1'){
   document.getElementById('gate').style.display='none';
   document.getElementById('app').style.display='block';
 }
-function switchTab(id){
-  document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active')});
-  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
-  document.getElementById('tab-'+id).classList.add('active');
-  event.target.classList.add('active');
-  window.scrollTo({top:0});
-}
+// Scroll-spy: highlight whichever nav link matches the block currently in
+// view. Replaces the old click-to-show/hide switchTab() now that all four
+// blocks render on one continuous page — the nav is jump links, not a
+// visibility toggle.
+(function(){
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-link'));
+  var blocks = Array.prototype.slice.call(document.querySelectorAll('.page-block'));
+  if (!navLinks.length || !blocks.length || !('IntersectionObserver' in window)) return;
+  var linkById = {};
+  navLinks.forEach(function(a){ linkById[a.getAttribute('href').slice(1)] = a; });
+  function setActive(id){
+    navLinks.forEach(function(a){ a.classList.remove('active'); });
+    if (linkById[id]) linkById[id].classList.add('active');
+  }
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting) setActive(entry.target.id);
+    });
+  }, { rootMargin: '-100px 0px -70% 0px', threshold: 0 });
+  blocks.forEach(function(b){ observer.observe(b); });
+})();
 </script>
 </body>
 </html>
