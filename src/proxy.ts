@@ -27,6 +27,12 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const hostnameDebug = request.headers.get('host') || ''
+  const subDebug = hostnameDebug.split('.')[0]
+  // TEMP diagnostic (2026-07-13) — confirms whether this middleware runs at
+  // all for a given host/path, decoupled from any routing-logic bugs.
+  // Remove once todd-call/teardown + julia/runtime are confirmed fixed.
+  const debugHeaders = { 'x-proxy-ran': '1', 'x-proxy-sub': subDebug, 'x-proxy-path': pathname }
 
   // Recoil cookie gate — private alpha, single user
   if (pathname.startsWith('/recoil') && pathname !== '/recoil/unlock') {
@@ -46,15 +52,21 @@ export default function proxy(request: NextRequest) {
   const multiPaths = MULTI_PATH_MAP[sub]
   if (multiPaths) {
     if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
-      return NextResponse.next()
+      const res = NextResponse.next()
+      Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
+      return res
     }
     const dest = multiPaths[pathname] ?? multiPaths.default
     if (pathname.startsWith(dest)) {
-      return NextResponse.next()
+      const res = NextResponse.next()
+      Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
+      return res
     }
     const url = request.nextUrl.clone()
     url.pathname = dest
-    return NextResponse.rewrite(url)
+    const res = NextResponse.rewrite(url)
+    Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
+    return res
   }
 
   const dest = SUBDOMAIN_MAP[sub]
@@ -66,14 +78,20 @@ export default function proxy(request: NextRequest) {
       pathname.startsWith('/_next') ||
       pathname.startsWith('/api')
     ) {
-      return NextResponse.next()
+      const res = NextResponse.next()
+      Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
+      return res
     }
     const url = request.nextUrl.clone()
     url.pathname = dest
-    return NextResponse.rewrite(url)
+    const res = NextResponse.rewrite(url)
+    Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
+    return res
   }
 
-  return NextResponse.next()
+  const res = NextResponse.next()
+  Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
+  return res
 }
 
 export const config = {
