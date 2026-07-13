@@ -31,8 +31,10 @@
 
   "premise_check": {
     "assumption": "Todd has not replied since 2026-07-02.",
-    "verified": false,
-    "detail": "Last confirmed in repo state 2026-07-08 (snapshot). Email not visible to this session; iMessage MCP timed out twice. IF TODD HAS ALREADY REPLIED, THIS RECEIPT IS VOID — check inbox/messages before acting on anything below."
+    "verified": true,
+    "result": "FALSIFIED — the receipt's core premise was wrong.",
+    "evidence": "iMessage thread (Zach supplied screenshot, 2026-07-13) shows an active, warm exchange, not silence: Todd confirmed the friends-and-family price ('Yes, for sure!'), the two are already brainstorming monetization/sales-intel features together, and today's gap has a stated, legitimate cause — an NTSB prelim report on a Netjets aircraft his company is slated to receive, which he said he'd 'jump back into this afternoon.' No inbox burial, no soft no, no misalignment signal — the relationship and the deal are both live.",
+    "disposition": "RECEIPT VOIDED per its own premise_check clause ('IF TODD HAS ALREADY REPLIED, THIS RECEIPT IS VOID'). The compass bearing, Loki falsifiers, and options below are retained for lineage only — they do not apply to the real situation and must not be acted on."
   },
 
   "offer_on_table": {
@@ -74,12 +76,16 @@
   "signal_threshold": "A yes/no, or a calendared session date. 'Sounds good' does not count as signal.",
   "review_date": "2026-07-16",
 
-  "human_decision": null,
-  "human_why": null,
+  "human_decision": "VOID — no action from options A/B/C. Todd is engaged; there is nothing to nudge and no stop-loss clock actually running.",
+  "human_why": "Premise check falsified the 11-day-silence framing entirely (see premise_check above). Correct read: warm, live relationship + already-agreed pricing + active feature/monetization brainstorm + a today-only, legitimate distraction (NTSB report on his own fleet). The only real signal to track going forward is whether Todd follows through on 'jump back in this afternoon' — not day-14/day-21 stop-losses, which never applied.",
   "write_lock": {
     "question": "Send the follow-up today with a 48-hour decision window (Option A) — yes or no?",
-    "answer": null,
-    "signed_by": null,
-    "signed_at": null
+    "answer": "MOOT — receipt voided before this question could apply.",
+    "signed_by": "Zach Harris",
+    "signed_at": "2026-07-13"
+  },
+  "next_real_step": {
+    "action": "Let Todd resurface on his own terms this afternoon as he said. If he doesn't by end of day, a light 'no rush, whenever things settle' check-in is warranted — not a decision-window ask.",
+    "not_needed": "The $900/2-week-sprint discount (F3 already argued this would misread as doubt) and any 48h-decision-window ask are both withdrawn — neither fits an already-warm, already-priced conversation."
   }
 }
