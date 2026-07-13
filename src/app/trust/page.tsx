@@ -67,7 +67,10 @@ export default function TrustPage() {
           {
             n: '§ 01', title: 'What we store and what we don\'t',
             body: <>
-              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing disappear when you close the tab. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content — only request metadata (timestamps, response codes).
+              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it. Want to keep one? Sign in and save it — the write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content — only request metadata (timestamps, response codes).
+              <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
+                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section — 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
+              </span>
             </>,
           },
           {

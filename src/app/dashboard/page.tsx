@@ -146,7 +146,10 @@ function DashboardInner() {
         // minted `eph_` id and use the same receipt surface to display it.
         sessionStorage.removeItem("arcs_prep_inline")
         const eid = `eph_${crypto.randomUUID()}`
-        sessionStorage.setItem(`arcs_eph_${eid}`, JSON.stringify({ ...data, question: q }))
+        // horizon/stakes/prep ride along so the opt-in save flow (ADR-032)
+        // can persist a faithful receipt post-auth — /api/compass doesn't
+        // echo them back.
+        sessionStorage.setItem(`arcs_eph_${eid}`, JSON.stringify({ ...data, question: q, horizon, stakes, prep: inlinePrep }))
         router.push(`/receipt/${eid}`)
       }
     } catch (err) {
