@@ -1,6 +1,6 @@
 ---
-version: 2.1.0
-epoch: 2300012
+version: 2.2.0
+epoch: f8f33a4
 date: 2026-07-12
 artifact: https://claude.ai/code/artifact/cc787dbb-11e4-4576-a8d8-46822ca48f24
 rom: runtime/specs/meta-audit-enrichment-rom.json
@@ -126,10 +126,36 @@ ygate/compass-parse/persistence · H3 repair ADR chain (successor ADRs, VOID 021
 index.json from tree) · H4 schedule the Alchemist (nightly 03:30 ET, kill switch human-held) ·
 H5 truth-sync narrating docs (this ledger is the diff).
 
+## ⊙ Switchboard — what's yours to flip (plain English)
+
+Every human-held lever, ranked by what it unblocks. The Alchemist re-grades this board
+nightly once armed; it can never flip anything on it.
+
+| # | Decision (plain) | How to flip | State |
+|---|---|---|---|
+| D1 | Accept this audit into the record? | Merge PR #61 | WAITING ON YOU |
+| D2 | Turn the night worker on? | `touch _STATE/alchemist-enabled` + `/schedule` nightly 03:30 ET | OFF BY DESIGN |
+| D3 | What is ARCS's business — product or consultancy? (the hard fork) | Run it through your own compass, COURT mode, save the receipt | OPEN SINCE v1.0.0 |
+| D4 | Fix the code or change the rule? (Tailwind in layout.tsx vs inline-only law) | One sentence: "fix layout.tsx" or "amend the law" | CONTRADICTION LIVE |
+| D5 | Approve the decision-log repair? (void 021, re-issue 024/025 collisions) | Say "approve H3" | PLAN READY |
+| D6 | Is the Dan Pascone case study a go? | After his yes: `NEXT_PUBLIC_CASE_STUDY_APPROVED=true` in Vercel prod | WAITING ON DAN |
+| D7 | Rotate the database password? | Supabase dashboard reset + `vercel env`, ~10 min | OPEN RISK |
+| D8 | Keep or drop the eight orphaned Supabase tables? | Glance + one-word ruling per table | NEEDS A GLANCE |
+| D9 | Rule on the glossary fork? | Supersede / renumber as #002 / abandon | HELD SINCE JUNE |
+
+**Standing dials** (ROM constants, human commit only): aperture F/8 · black point 0.35 ·
+fidelity EXEC · resolution 4K · token ceiling.
+**Recurring once armed:** every dawn — RATIFY (merge) / AMEND (edit + merge) / REJECT
+(delete branch). Silence is a free veto.
+
 ---
 
 ## Inchworm log (append-only; newest first)
 
+- **2026-07-13 · v2.2.0 · epoch f8f33a4** — The Switchboard: seventh rail stop (⊙) puts
+  every human-held lever on one board in plain English — 9 desk decisions (D1–D9), the
+  arm-the-Alchemist chain, standing dials, the recurring dawn ratification. PR #61 open,
+  awaiting D1.
 - **2026-07-12 · v2.1.0 · epoch 2300012** — The Alchemist's Cookbook completed: structural
   ladder inventoried from the tree (33 atoms · 21 molecules · 5 organisms · 21 templates ·
   25 pages; three parallel atom systems named → ADR-031); elemental ladder grows to nine
