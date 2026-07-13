@@ -7,7 +7,7 @@ import { QuoteBlock } from '../patterns/QuoteBlock'
 import { Timeline } from '../patterns/Timeline'
 import { SidelineList } from '../patterns/SidelineList'
 import { ScenarioStack } from '../patterns/ScenarioStack'
-import { AsideBox } from '../patterns/AsideBox'
+import { AsideBox, type AsideVariant } from '../patterns/AsideBox'
 import { ProcessSteps } from '../patterns/ProcessSteps'
 
 export interface RecoilReportProps { data?: Partial<typeof RECOIL_SAMPLE> }
@@ -107,16 +107,197 @@ export interface RecoilReportData {
   protocol: { label: string; title: string; body: string; active?: boolean }[]
 }
 
-export function RecoilReportFromData({ data: d }: { data: RecoilReportData }) {
+// ─── Raw input normalization ──────────────────────────────────────────────
+// The /recoil-report skill (runtime/specs/recoil-modes-v1.md) has produced
+// reports in more than one JSON shape over time — the flat CoverBlockProps
+// shape above (demo.json, jeben-louisville), and a richer meta+cover shape
+// with segment/probability/severity fields (labella, masopust, daniel,
+// christopher, precall notes — the shape recoil-modes-v1.md actually
+// documents). Rather than migrate historical report files or fork the
+// render path, normalize any raw shape onto RecoilReportData here, once,
+// so CoverBlock/Timeline/SidelineList/ScenarioStack/AsideBox/ProcessSteps
+// (shared with Receipt/Brief/PrepDoc — do not change their prop contracts)
+// always receive what they expect.
+
+export type RecoilReportRaw = Record<string, unknown>
+
+const COLOR_ALIAS: Record<string, string> = { green: T.green, gold: T.gold, red: T.red, cyan: T.cyan, orange: T.orange, purple: T.purple }
+const SEVERITY_TO_VARIANT: Record<string, AsideVariant> = { HIGH: 'warning', MED: 'caution', LOW: 'info' }
+
+function isRecord(v: unknown): v is Record<string, unknown> {
+  return typeof v === 'object' && v !== null
+}
+function str(v: unknown, fallback = ''): string {
+  return typeof v === 'string' ? v : fallback
+}
+function join(parts: (string | null | undefined | false)[], sep = ' · '): string {
+  return parts.filter((p): p is string => typeof p === 'string' && p.length > 0).join(sep)
+}
+
+function normalizeCover(raw: RecoilReportRaw): RecoilReportData['cover'] {
+  const rc = isRecord(raw.cover) ? raw.cover : {}
+  const rm = isRecord(raw.meta) ? raw.meta : {}
+  if (typeof rc.title === 'string') {
+    // Already flat shape — pass through.
+    return {
+      badges: (Array.isArray(rc.badges) ? rc.badges : ['Recoil Report', '']) as [string, string],
+      title: rc.title,
+      subtitle: str(rc.subtitle),
+      meta: str(rc.meta),
+      actions: (Array.isArray(rc.actions) ? rc.actions : ['Open Receipt', 'File to Prep Book']) as [string, string],
+    }
+  }
+  // Richer shape: meta.callTitle + cover.{yGate,conviction,stability,nci,headline,subline}
+  const badges = [str(rc.yGate), str(rc.conviction)].filter(Boolean)
+  return {
+    badges: (badges.length ? badges : ['Recoil Report', '']) as [string, string],
+    title: str(rm.callTitle, 'Recoil Report'),
+    subtitle: join([str(rc.headline) || null, str(rc.subline) || null], ' '),
+    meta: join([
+      'ARCS RECOIL',
+      str(rm.callDate) || null,
+      str(rm.callTime) || null,
+      typeof rm.durationMinutes === 'number' ? `${rm.durationMinutes} min` : null,
+      typeof rc.nci === 'number' ? `NCI ${rc.nci}` : null,
+      str(rc.stability) || null,
+    ]),
+    actions: ['Open Receipt', 'File to Prep Book'],
+  }
+}
+
+function normalizeCallWalk(raw: RecoilReportRaw): RecoilReportData['callWalk'] {
+  const list = Array.isArray(raw.callWalk) ? raw.callWalk : []
+  return list.filter(isRecord).map((step): RecoilReportData['callWalk'][number] => {
+    if (typeof step.title === 'string' && typeof step.body === 'string') {
+      return step as unknown as RecoilReportData['callWalk'][number] // already flat shape
+    }
+    const divergence = str(step.divergenceFlag)
+    return {
+      label: join([str(step.time) || null, str(step.direction) || null]),
+      title: str(step.label, `Segment ${step.segment ?? ''}`.trim()),
+      body: join([str(step.summary) || null, divergence ? `Divergence: ${divergence}` : null], '\n\n'),
+      peak: divergence.startsWith('HIGH'),
+    }
+  })
+}
+
+function normalizeSignalThreads(raw: RecoilReportRaw): RecoilReportData['signalThreads'] {
+  const list = Array.isArray(raw.signalThreads) ? raw.signalThreads : []
+  return list.filter(isRecord).map((item): RecoilReportData['signalThreads'][number] => {
+    if (typeof item.title === 'string' && typeof item.body === 'string') {
+      return item as unknown as RecoilReportData['signalThreads'][number] // already flat shape
+    }
+    const color = str(item.color)
+    return {
+      label: str(item.strength),
+      title: str(item.label),
+      body: str(item.description),
+      accent: COLOR_ALIAS[color] ?? (color || T.cyan),
+    }
+  })
+}
+
+function normalizeScenarios(raw: RecoilReportRaw): RecoilReportData['scenarios'] {
+  const s = raw.scenarios
+  if (isRecord(s) && isRecord(s.best) && isRecord(s.base) && isRecord(s.worst)) {
+    return s as unknown as RecoilReportData['scenarios'] // already flat shape
+  }
+  const list = Array.isArray(s) ? s.filter(isRecord) : []
+  const empty: RecoilReportData['scenarios']['best'] = { title: '—', body: 'No scenario data.' }
+  if (list.length === 0) return { best: empty, base: empty, worst: empty }
+  // Preserve authored order (already probability-ranked, highest first, per
+  // recoil-modes-v1.md scenario generation) into the fixed 3-slot tab UI.
+  // Any 4th+ scenario is folded into the worst slot's note as a footnote —
+  // ScenarioStack (shared with Receipt/Brief/PrepDoc) only supports 3 tabs.
+  const toScenario = (item: Record<string, unknown> | undefined): RecoilReportData['scenarios']['best'] => {
+    if (!item) return empty
+    const prob = typeof item.probability === 'number' ? `${item.probability}%` : null
+    return {
+      title: str(item.label, str(item.id)),
+      body: join([str(item.description, str(item.conditions)) || null, str(item.trigger) ? `Trigger: ${item.trigger}` : null], '\n\n'),
+      note: join([prob ? `Probability: ${prob}` : null, str(item.watch) || null], ' — ') || undefined,
+    }
+  }
+  const extra = list.slice(3).map((item) => `${str(item.label, str(item.id))}${typeof item.probability === 'number' ? ` (${item.probability}%)` : ''}`)
+  const worst = toScenario(list[2])
+  return {
+    best: toScenario(list[0]),
+    base: toScenario(list[1]),
+    worst: extra.length ? { ...worst, note: join([worst.note, `Also: ${extra.join('; ')}`], ' — ') } : worst,
+  }
+}
+
+function normalizeRiskFlags(raw: RecoilReportRaw): RecoilReportData['riskFlags'] {
+  const list = Array.isArray(raw.riskFlags) ? raw.riskFlags : []
+  return list.filter(isRecord).map((f) => {
+    if (typeof f.variant === 'string' && typeof f.body === 'string') {
+      return f as unknown as RecoilReportData['riskFlags'][number] // already flat shape
+    }
+    return {
+      variant: SEVERITY_TO_VARIANT[str(f.severity)] ?? 'info',
+      label: str(f.label),
+      body: join([str(f.description) || null, str(f.action) ? `Action: ${f.action}` : null], '\n\n'),
+    }
+  })
+}
+
+function normalizeProtocol(raw: RecoilReportRaw): RecoilReportData['protocol'] {
+  const p = raw.protocol
+  if (Array.isArray(p)) return p as RecoilReportData['protocol'] // already flat shape
+  if (!isRecord(p)) return []
+  const steps: RecoilReportData['protocol'] = []
+  const passes = Array.isArray(p.passes) ? p.passes.filter(isRecord) : []
+  for (const pass of passes) {
+    steps.push({
+      label: str(pass.direction, str(pass.name)),
+      title: str(pass.name),
+      body: str(pass.keyFinding, str(pass.prePrepNote)),
+    })
+  }
+  const actions = Array.isArray(p.immediateActions) ? p.immediateActions : []
+  actions.forEach((action, i) => {
+    if (typeof action !== 'string') return
+    steps.push({ label: 'NEXT ACTION', title: `Action ${i + 1}`, body: action, active: i === 0 })
+  })
+  return steps
+}
+
+function normalizeRecoilReport(raw: RecoilReportRaw): RecoilReportData {
+  return {
+    cover: normalizeCover(raw),
+    loadBearingQuote: isRecord(raw.loadBearingQuote)
+      ? { text: str(raw.loadBearingQuote.text), attribution: str(raw.loadBearingQuote.attribution) }
+      : { text: '', attribution: '' },
+    callWalk: normalizeCallWalk(raw),
+    signalThreads: normalizeSignalThreads(raw),
+    scenarios: normalizeScenarios(raw),
+    riskFlags: normalizeRiskFlags(raw),
+    protocol: normalizeProtocol(raw),
+  }
+}
+
+export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
   const A = T.cyan
+  const d = normalizeRecoilReport(raw)
+  const notice = str(raw.notice)
+  const significance = isRecord(raw.loadBearingQuote) ? str(raw.loadBearingQuote.significance) : ''
   return (
     <div>
       <CoverBlock {...d.cover} accent={A} />
+
+      {notice && (
+        <div style={{ margin: '16px 0' }}>
+          <AsideBox variant="warning" label="Notice">{notice}</AsideBox>
+        </div>
+      )}
 
       <Sec id="r-quote" idx="01" label="Signal Quote" title="The Most Load-Bearing Moment" accent={A}>
         <QuoteBlock accent={A} attribution={d.loadBearingQuote.attribution}>
           {d.loadBearingQuote.text}
         </QuoteBlock>
+        {significance && (
+          <p style={{ fontFamily: T.sans, fontSize: 13, color: T.fg3, lineHeight: 1.65, marginTop: 10 }}>{significance}</p>
+        )}
       </Sec>
 
       <Sec id="r-walk" idx="02" label="Call Walk" title="Chronological Signal Map" accent={A}>
