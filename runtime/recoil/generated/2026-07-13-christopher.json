@@ -19,7 +19,7 @@
     "renderState": "DEGRADED",
     "nci": 48,
     "headline": "Strong conceptual validation, zero operational traction — and the live demo broke mid-pitch.",
-    "subline": "Christopher independently named ARCS's correct market position (\"high stakes... high tension, difficult trade-offs... not where do I get the best pizza\") without being led there. But there was no PrepSession, no concrete ask, no next meeting on calendar, and the Compass demo hit an Anthropic API credit wall live on the call."
+    "subline": "Christopher independently named ARCS's correct market position (\"high stakes... high tension, difficult trade-offs... not where do I get the best pizza\") without being led there. But there was no PrepSession, no concrete ask, no next meeting on calendar, and the Compass demo failed live on the call — root cause unconfirmed (API credit exhaustion was Zach's real-time guess, not verified; a timeout is equally plausible)."
   },
   "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
   "loadBearingQuote": {
@@ -81,8 +81,8 @@
       "label": "LIVE DEMO — API CREDITS EXHAUSTED",
       "time": "48–52 min",
       "direction": "FORWARD",
-      "summary": "Zach walks through the live site, Christopher tries a real example ('should I get a job or stay 1099'). System returns 'Terrain dropped out before activating your fork... rerun the compass' — Zach diagnoses live, on the call, that Anthropic API credits/usage limit was likely hit. Pivots to walking through a pre-existing saved brief (the family-office special-situations one) instead of the live pipeline.",
-      "divergenceFlag": "HIGH — A real production reliability failure surfaced in front of a prospect/peer mid-demo, not a hypothetical. This is a concrete operational finding, not just a conversational one: no pre-call credit/usage check happened before a call where a live demo was planned."
+      "summary": "Zach walks through the live site, Christopher tries a real example ('should I get a job or stay 1099'). System returns 'Terrain dropped out before activating your fork... rerun the compass' — Zach guesses live, on the call, that Anthropic API credits/usage limit was hit, and says as much to Christopher. That diagnosis was never actually verified afterward — a request timeout is equally plausible. Pivots to walking through a pre-existing saved brief (the family-office special-situations one) instead of the live pipeline.",
+      "divergenceFlag": "HIGH — A real production reliability failure surfaced in front of a prospect/peer mid-demo, not a hypothetical. This is a concrete operational finding, not just a conversational one — but the root cause is unconfirmed. Zach's on-the-call guess ('probably out of API credits') was stated to Christopher as if likely, without checking; the actual cause (credits vs. timeout vs. something else) needs verification before any fix is prescribed."
     },
     {
       "segment": 8,
@@ -110,10 +110,10 @@
     },
     {
       "id": "DEMO_RELIABILITY_FAILURE",
-      "label": "Live Demo Hit API Credit Wall",
+      "label": "Live Demo Failed — Cause Unconfirmed",
       "color": "red",
       "strength": "HARD_YES",
-      "description": "The compass pipeline failed live mid-demo because of exhausted Anthropic API credits/usage — a preventable, concrete operational gap, not a conversational nuance. This is the single highest-leverage finding of the call and the only one with a clear, actionable fix."
+      "description": "The compass pipeline failed live mid-demo. Zach guessed out loud on the call that it was exhausted Anthropic API credits/usage, but never verified this afterward — a timeout is equally plausible. Either way this is the single highest-leverage finding of the call: something concrete broke in front of an outside party, and the actual root cause still needs to be checked (logs/error response) before it can be called fixed."
     },
     {
       "id": "NO_ASK_EITHER_DIRECTION",
@@ -159,11 +159,11 @@
   ],
   "riskFlags": [
     {
-      "id": "API_CREDIT_MONITORING_GAP",
+      "id": "DEMO_FAILURE_ROOT_CAUSE_UNCONFIRMED",
       "severity": "HIGH",
-      "label": "No pre-call check on Anthropic API credit/usage headroom before a call with a planned live demo",
-      "description": "The compass pipeline failed live on this call because of exhausted API credits — this is the second time this general class of issue has surfaced (see prior ANTHROPIC_API_KEY rotation history in MEMORY.md). A live demo failing in front of an external party is a real reliability/credibility cost, not a cosmetic bug.",
-      "action": "Add an API usage/credit check to the pre-call prep routine (Task A poller in call-brief-hooks-v1.md) for any call where a live demo is plausible, or add a low-balance alert on the Anthropic account directly."
+      "label": "Live demo failed on the call; the stated cause (API credits) was a guess, never verified",
+      "description": "Zach told Christopher live that it was 'probably out of API credits' but never checked logs/error response afterward to confirm. Could equally be a request timeout, a rate limit, or something else entirely. Presenting an unverified guess as a likely explanation — to a prospect, and now in this report — is itself worth flagging: don't let a plausible-sounding diagnosis substitute for actually checking.",
+      "action": "Check the actual error (Vercel function logs / Anthropic API response for the request window ~2:48-2:52pm ET, 2026-07-13) before prescribing any fix. Only add credit-monitoring or timeout-handling once the real cause is confirmed."
     },
     {
       "id": "COMMERCIALIZATION_STORY_UNCLEAR_TO_OUTSIDERS",
@@ -195,7 +195,7 @@
       }
     ],
     "immediateActions": [
-      "Fix the underlying issue, not just this instance: add an Anthropic API credit/usage check to Task A's pre-call routine, or a low-balance alert on the account, so a live demo never fails silently on a call again",
+      "Check logs to confirm the actual cause of the demo failure (credits vs. timeout vs. other) before building any fix — the API-credits explanation given on the call was an unverified guess",
       "If re-engaging Christopher, lead with one narrow, high-stakes use case (per his own advice) rather than the full multi-surface pitch — do not repeat the broad tour",
       "No calendar trigger set for this relationship — this is scenario A/B territory (peer validation, not pipeline); do not manufacture urgency that wasn't there on the call",
       "Log the monetization-skepticism pattern (now 2/2 unprompted outside reads) as a standing item to address before the next cold external pitch, not just for this relationship"
