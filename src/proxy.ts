@@ -13,13 +13,15 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 // Hosts with more than one static destination (a reserved sub-path plus a
 // default). Checked before SUBDOMAIN_MAP. Added 2026-07-13: todd-call.arcs.care
 // /teardown and julia.arcs.care /runtime were previously declared only in
-// next.config.ts + vercel.json rewrites, both of which proved unreliable for
-// this exact host+specific-path-vs-wildcard shape (verified live across three
-// separate fix attempts: reordering, a regex-excluded wildcard, a forced
-// no-cache rebuild — all still resolved to the default destination). This
-// middleware is the one mechanism already proven to reliably route the six
-// hosts above, and it runs earliest in the request lifecycle, so it owns the
-// decision directly instead of leaving it to a platform-config layer.
+// next.config.ts + vercel.json rewrites. Root cause of the bug this fixes:
+// platform-level rewrites are re-applied AFTER this middleware runs, and the
+// host's wildcard rule was re-catching the REWRITTEN destination filename
+// (e.g. "/todd-teardown.html" contains "teardown" but doesn't start with it,
+// so a prefix-only exclusion let the wildcard re-match it on the second pass
+// and overwrite this middleware's rewrite back to the default page) — fixed
+// in next.config.ts by excluding the substring anywhere, not just as a
+// prefix. This middleware entry is kept as the primary, deterministic
+// mechanism; next.config.ts's fix is the belt-and-suspenders backstop.
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
@@ -27,12 +29,6 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
 
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const hostnameDebug = request.headers.get('host') || ''
-  const subDebug = hostnameDebug.split('.')[0]
-  // TEMP diagnostic (2026-07-13) — confirms whether this middleware runs at
-  // all for a given host/path, decoupled from any routing-logic bugs.
-  // Remove once todd-call/teardown + julia/runtime are confirmed fixed.
-  const debugHeaders = { 'x-proxy-ran': '1', 'x-proxy-sub': subDebug, 'x-proxy-path': pathname }
 
   // Recoil cookie gate — private alpha, single user
   if (pathname.startsWith('/recoil') && pathname !== '/recoil/unlock') {
@@ -52,21 +48,15 @@ export default function proxy(request: NextRequest) {
   const multiPaths = MULTI_PATH_MAP[sub]
   if (multiPaths) {
     if (pathname.startsWith('/_next') || pathname.startsWith('/api')) {
-      const res = NextResponse.next()
-      Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
-      return res
+      return NextResponse.next()
     }
     const dest = multiPaths[pathname] ?? multiPaths.default
     if (pathname.startsWith(dest)) {
-      const res = NextResponse.next()
-      Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
-      return res
+      return NextResponse.next()
     }
     const url = request.nextUrl.clone()
     url.pathname = dest
-    const res = NextResponse.rewrite(url)
-    Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
-    return res
+    return NextResponse.rewrite(url)
   }
 
   const dest = SUBDOMAIN_MAP[sub]
@@ -78,20 +68,14 @@ export default function proxy(request: NextRequest) {
       pathname.startsWith('/_next') ||
       pathname.startsWith('/api')
     ) {
-      const res = NextResponse.next()
-      Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
-      return res
+      return NextResponse.next()
     }
     const url = request.nextUrl.clone()
     url.pathname = dest
-    const res = NextResponse.rewrite(url)
-    Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
-    return res
+    return NextResponse.rewrite(url)
   }
 
-  const res = NextResponse.next()
-  Object.entries(debugHeaders).forEach(([k, v]) => res.headers.set(k, v))
-  return res
+  return NextResponse.next()
 }
 
 export const config = {

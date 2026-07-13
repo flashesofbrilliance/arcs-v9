@@ -42,7 +42,7 @@ const nextConfig: NextConfig = {
         // todd-call.arcs.care root → public/todd-call.html
         { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care/anything-else (except /teardown) → public/todd-call.html
-        { source: "/:path((?!teardown).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        { source: "/:path((?!.*teardown).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
         // julia.arcs.care root → public/julia.html
         { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia.arcs.care/anything-else (except /runtime) → public/julia.html
-        { source: "/:path((?!runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        { source: "/:path((?!.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         // fanatics.arcs.care → public/fanatics.html
