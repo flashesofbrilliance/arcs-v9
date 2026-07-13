@@ -26,20 +26,39 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris-intro.arcs.care" }] },
         // growth-intel.arcs.care → public/growth-intel.html
         { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
-        // todd-call.arcs.care/teardown → public/todd-teardown.html (must be before wildcard)
+        // todd-call.arcs.care/teardown → public/todd-teardown.html
+        // FIX 2026-07-13: this rule and the wildcard below previously both
+        // matched `/teardown` (same host, overlapping `/:path*` source) with
+        // this one declared first on the theory that beforeFiles respects
+        // array order. Verified live in production that it does NOT reliably
+        // — the wildcard was winning (x-matched-path: /todd-call.html on a
+        // fresh, uncached request). Fixed structurally instead of by
+        // reordering: the wildcard's source now excludes "teardown" via a
+        // negative-lookahead regex, so only one rule can ever match a given
+        // path — no ambiguity for the router to resolve either way. See
+        // MEMORY.md and the identical fix below for julia.arcs.care/runtime,
+        // the only other host with this specific-path+wildcard shape.
         { source: "/teardown", destination: "/todd-teardown.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care → public/todd-call.html
-        { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // todd-call.arcs.care root → public/todd-call.html
+        { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // todd-call.arcs.care/anything-else (except /teardown) → public/todd-call.html
+        { source: "/:path((?!teardown).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labelle.arcs.care" }] },
         // peter.arcs.care → public/peter.html
         { source: "/:path*", destination: "/peter.html", has: [{ type: "host", value: "peter.arcs.care" }] },
-        // julia.arcs.care/runtime → public/julia-runtime.html (must be before wildcard)
+        // julia.arcs.care/runtime → public/julia-runtime.html
+        // FIX 2026-07-13: same shape as the todd-call.arcs.care/teardown fix
+        // above — the wildcard was winning over this exact-path rule despite
+        // declaration order (verified live, fresh/uncached request). Fixed
+        // structurally: the wildcard's source excludes "runtime" via regex.
         { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        // julia.arcs.care → public/julia.html
-        { source: "/:path*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        // julia.arcs.care root → public/julia.html
+        { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        // julia.arcs.care/anything-else (except /runtime) → public/julia.html
+        { source: "/:path((?!runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         // fanatics.arcs.care → public/fanatics.html
