@@ -168,6 +168,16 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   .finding-head { padding: 11px 14px; }
   .finding-body { padding: 12px 14px; }
   .fix-cell { padding: 9px 14px; }
+
+  /* Crumb bar: "PRL Resins · Todd Hotes / ← Recoil Report | Marketing
+     Teardown" doesn't fit a 375px viewport — the current-page pill was
+     getting hard-clipped mid-word with no visible scroll affordance
+     (reads as broken, not as "swipe for more"). The root label is
+     redundant with "ARCS · PRL Teardown" directly below it, so drop it
+     and its separator here — that alone is enough for both pills to fit
+     without any scrolling. */
+  .crumb-inner { padding: 0 14px; gap: 8px; }
+  .crumb-root, .crumb-sep { display: none; }
 }
 </style>
 </head>
