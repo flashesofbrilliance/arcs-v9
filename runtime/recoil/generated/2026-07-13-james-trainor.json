@@ -1,0 +1,180 @@
+{
+  "reportId": "2026-07-13-james-trainor",
+  "meta": {
+    "callTitle": "👋 Preparation for our 30-minute introductory call - Zach Harris and James Trainor",
+    "counterpart": "James Trainor",
+    "counterpartRole": "Fox Corporation — recruiter/hiring lead for the Senior PM, Emerging Tech role (reports toward Eddie, Senior Director; Eddie reports to Phil Martin, SVP AI Products; Phil reports to Melody Hill, CTO)",
+    "callDate": "2026-07-13",
+    "callTime": "3:30 PM EDT",
+    "durationMinutes": 30,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
+    "prePrepSession": "precall-james-trainor-2026-07-13, precall-trainor-2026-07-13",
+    "note": "Two pre-call notes existed (both cold-call, no prior ledger history, both flagging the invite's 'conduct an informed interview' language as evidence this is Trainor interviewing Zach, not the reverse — confirmed correct by the transcript). Deep Recall scored against that pre-call hypothesis. This is a real recruiting/interview call for a specific open role, not a Boardy-style peer/network call — different shape than the Christopher and LaBella reports on file."
+  },
+  "cover": {
+    "yGate": "GREEN",
+    "conviction": "HIGH",
+    "stability": "STABLE",
+    "renderState": "SHARP",
+    "nci": 72,
+    "headline": "Real interview, real next step — Eddie call to be scheduled this week — but comp structure has a ceiling worth naming now, not after two more rounds.",
+    "subline": "Unlike the two most recent networking-style calls on file (Christopher, LaBella), this one closed with a concrete, scheduled next action: apply, reply with availability, get routed to Eddie (hiring manager, 45 min) this week. Genuine mutual interest on both sides. The one structural note: the posted JD comp ($180K base) is stale — Trainor already had authorization to $190K base before this call — and the senior-IC growth path Zach explicitly asked for is real but narrow (only 4 principal/distinguished slots on the whole team)."
+  },
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
+  "loadBearingQuote": {
+    "text": "So the base I was able to go up to was 190... the job itself says 180. I can get that updated. I asked because I thought that was for a senior role, but I clarified with our compensation team and our HR VPs last week that we can go up to 190.",
+    "attribution": "GRANOLA TRANSCRIPT · JAMES TRAINOR · JUL 13, 2026",
+    "significance": "A concrete, actionable, favorable data point volunteered unprompted: the real comp ceiling ($190K base) is 5.5% above what's posted ($180K), and Trainor already had this cleared internally before the call — this is not a negotiating tactic, it's stale JD copy. Worth confirming in writing before the Eddie call rather than assuming it, since $190K + 10% bonus (no equity/RSU/LTI) is the actual number to plan around."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "AI ENABLEMENT HUB WALKTHROUGH + ROLE FRAME",
+      "time": "0–8 min",
+      "direction": "FORWARD",
+      "summary": "Trainor screen-shares Fox's internal AI enablement hub, frames the role as reducing off-the-shelf tool sprawl in favor of centralized web apps with ML-layer API hooks, specifically for the ad sales/ad tech org (AdRise, expanding from Tubi/World Cup to all Fox properties). Zach reframes it back as a 'horizontal center of excellence' + token-usage observability play — Trainor confirms enthusiastically.",
+      "divergenceFlag": "LOW — Genuine alignment; Zach's reframe was heard and validated, not just tolerated."
+    },
+    {
+      "segment": 2,
+      "label": "TECHNICAL/REGULATORY CONTEXT + WALLED GARDEN STRATEGY",
+      "time": "8–14 min",
+      "direction": "FORWARD",
+      "summary": "Discussion of cookie deprecation, zero/first-party data strategy, AdRise as Fox's proprietary walled-garden replacement for third-party ad tech. Trainor names the actual operational challenges: 'navigating the ambiguity' and 'prototyping scalable, reliable, responsible production systems' — language that maps directly onto Zach's own ARCS thesis.",
+      "divergenceFlag": "LOW — Strong thematic overlap between the role's stated pain points and Zach's own product background; not manufactured, both sides recognized it independently."
+    },
+    {
+      "segment": 3,
+      "label": "ZACH'S BACKGROUND — GRAYSCALE PREMORTEM/RECEIPT-LEDGER STORY",
+      "time": "14–20 min",
+      "direction": "FORWARD",
+      "summary": "Zach gives an extended answer on the Grayscale engagement (11 products, 8 private placements, launched under regulatory ambiguity) — premortem simulation, cross-stakeholder consensus-building via 'constitutional guardrails,' a decision ledger/receipt system that let the team point back to why a call was made. Explicitly ties this to what became ARCS. Trainor responds with visible recognition ('that's kind of the basis... that creativity that happens between the lines') rather than a rote 'great, next question.'",
+      "divergenceFlag": "LOW — This is the strongest answer of the call; Trainor's response reads as genuinely impressed, not polite. Matches the closing compliment in segment 5."
+    },
+    {
+      "segment": 4,
+      "label": "INTERVIEW PROCESS + COMP DISCLOSURE",
+      "time": "20–25 min",
+      "direction": "FORWARD",
+      "summary": "Process laid out: Trainor (done) → Eddie (hiring manager, 45 min, NY-based) → Justin (eng lead, 45 min) → Phil Martin (SVP AI Products, bar raiser, LA-based) — cross-functional round explicitly skipped, folded into the others. Comp: JD posts $180K base, Trainor discloses real ceiling is $190K (pre-cleared with comp/HR before this call); 10% bonus tied to level, not to the ad-sales team's actual performance (Zach asked directly, Trainor confirmed no); no equity, RSU, or LTI at all.",
+      "divergenceFlag": "MED — The $180K→$190K gap is a stated-vs-actual comp discrepancy, favorable but unprompted-disclosure-dependent (i.e., it only surfaced because Trainor volunteered it, not because the JD was accurate). The 'no bonus tie to team performance' answer is also worth flagging: the role is pitched as directly responsible for ad-sales churn/conversion outcomes, but comp isn't structured to reward that outcome specifically."
+    },
+    {
+      "segment": 5,
+      "label": "GROWTH PATH, EDDIE'S BACKGROUND, WTA OVERLAP, THE CLOSE",
+      "time": "25–30 min",
+      "direction": "REVERSE",
+      "summary": "Reading backward from the actual close: Trainor is 'still so impressed,' commits to sending the JD + prep questions by email today, asks Zach to reply with application confirmation + availability so her coordinator can book Eddie this week — a real, scheduled, near-term next step, not a vague 'let's stay in touch.' Working backward through the segment: Zach's explicit stated preference (senior IC, small pod, no engineering-manager layer) got a real but bounded answer — this is the first staff-level hire on the team, IC ceiling above staff is principal/distinguished with only ~4 such slots company-wide, and growth requires 'the business to continue to grow.' Eddie's own background (Padres scout/baseball ops → Fox consultant → 5 promotions in ~7 years) was offered as reassurance that non-traditional paths work here. Zach's WTA digital-transformation background landed well ('I did see that, that's what I liked').",
+      "divergenceFlag": "LOW — Unlike the Christopher/LaBella pattern, this call closes with a genuine concrete action item on both sides (Zach: apply + send availability; Trainor: send JD + coordinate Eddie). The one soft spot, read backward, is that Zach's explicit ask ('don't want to become an engineering-manager layer') got an honest but structurally narrow answer, not a confident 'yes, that path is wide open' — worth weighing before investing three more interview rounds."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "STATED_VS_REVEALED_COMP",
+      "label": "Stated JD Comp vs. Revealed Actual Ceiling",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "Stated (JD): $180K base. Revealed (Trainor, unprompted, mid-call): $190K base already cleared with comp/HR before this call, plus 10% bonus, no equity/RSU/LTI. This is a favorable stated-vs-revealed gap — the posted number understates the real offer — but it's only known because Trainor volunteered it; get it in writing before the Eddie round."
+    },
+    {
+      "id": "CONCRETE_NEXT_STEP_SCHEDULED",
+      "label": "Real Next Step Locked, Not Just Warmth",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "Contrasts directly with the two most recent networking-style calls on file (Christopher 2026-07-13, LaBella 2026-07-09), both of which closed with compliments but zero concrete action. This call closed with a bilateral, near-term, scheduled action: Zach applies + sends availability today; Trainor sends JD + routes to Eddie coordinator for a call this week."
+    },
+    {
+      "id": "IC_GROWTH_PATH_NARROW",
+      "label": "Zach's Stated IC Preference vs. Structurally Narrow Senior-IC Ceiling",
+      "color": "gold",
+      "strength": "WATCH",
+      "description": "Zach stated a clear preference: senior IC, maybe a small pod, explicitly not wanting an engineering-manager layer. Trainor's honest answer: this is the first staff-level hire under Eddie; above staff is principal/distinguished, of which there are only ~4 slots on the entire team, and further growth 'would have to' come from business growth, not a guaranteed track. This isn't a red flag — Trainor was candid rather than oversold it — but it's a real ceiling to weigh against the compensation and mission fit."
+    },
+    {
+      "id": "BONUS_NOT_TIED_TO_TEAM_OUTCOME",
+      "label": "Role Pitched on Ad-Sales Outcomes, Bonus Not Tied to Them",
+      "color": "gold",
+      "strength": "WATCH",
+      "description": "The role's stated mandate is directly about reducing ad-sales churn and increasing buying — but Zach's direct question ('is bonus tied to the actual sales team's performance?') got a clear no; bonus is leveling-based only, because the person will rotate to other AI products after this engagement. Coherent explanation, but means comp upside isn't structurally linked to the headline mandate."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 55,
+      "label": "Process continues as scheduled — Eddie call happens this week",
+      "description": "Zach applies via the Workday link, sends availability, Trainor's coordinator books Eddie (45 min). Modal outcome given both sides' explicit stated intent and the concrete next-step commitment.",
+      "trigger": "Zach applies + replies with availability today, per Trainor's ask.",
+      "watch": "Confirm the $190K figure and no-equity structure directly with Eddie or in the JD update before investing more interview time, so it's not re-litigated three rounds in."
+    },
+    {
+      "id": "B",
+      "probability": 25,
+      "label": "Zach self-selects out before the Eddie round over the IC-ceiling / comp-structure findings",
+      "description": "The narrow principal/distinguished headcount and bonus-not-tied-to-outcome structure give Zach pause relative to his stated preference for a IC-heavy, outcome-rewarded track — he declines or slow-walks the application.",
+      "trigger": "Zach weighs risk flags below as disqualifying rather than just noteworthy.",
+      "watch": "Don't let this decision get made implicitly by inaction — if this is the reason, name it explicitly rather than letting the process go cold."
+    },
+    {
+      "id": "C",
+      "probability": 15,
+      "label": "Process continues but stalls in scheduling (Eddie's coordinator delay)",
+      "description": "Both sides remain interested but the internal handoff to Eddie's coordinator introduces multi-day lag typical of large-org scheduling.",
+      "trigger": "Default org friction — no action needed to trigger, only to avoid.",
+      "watch": "If more than ~1 week passes with no Eddie scheduling email, follow up directly with Trainor rather than assuming it's progressing."
+    },
+    {
+      "id": "D",
+      "probability": 5,
+      "label": "Role is filled or paused before Zach's next round",
+      "description": "Internal reorg, budget freeze, or another candidate is fast-tracked.",
+      "trigger": "External to this relationship — Fox-side only.",
+      "watch": "No mitigation available from Zach's side; would surface as unusual silence from Trainor's coordinator."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "COMP_CEILING_UNCONFIRMED_IN_WRITING",
+      "severity": "MED",
+      "label": "Favorable $190K comp figure was spoken, not yet in writing",
+      "description": "Trainor volunteered a $190K base ceiling (JD posts $180K) and said she'd get the JD updated — but as of call end this exists only as a verbal statement on a recorded call, not a written confirmation from Fox.",
+      "action": "Get the $190K figure (plus the 10%-bonus, no-equity structure) confirmed in the promised follow-up email before the Eddie interview, so there's a paper trail if it needs to be renegotiated or referenced later."
+    },
+    {
+      "id": "SENIOR_IC_CEILING_NARROW",
+      "severity": "LOW",
+      "label": "Explicitly stated IC-track preference meets a structurally narrow senior-IC ceiling",
+      "description": "Only ~4 principal/distinguished slots exist company-wide above staff level, and further growth for this role 'would have to' track overall business growth — Trainor was candid about this rather than overselling it.",
+      "action": "Weigh this against mission/comp fit before the Eddie round; if the IC ceiling matters enough to be disqualifying, decide that consciously rather than discovering it three rounds in."
+    },
+    {
+      "id": "BONUS_STRUCTURE_MISALIGNED_WITH_STATED_MANDATE",
+      "severity": "LOW",
+      "label": "Role is pitched on ad-sales churn/conversion outcomes; bonus is level-based, not outcome-based",
+      "description": "Zach asked directly and got a clear, coherent answer (rotation to other AI products after this engagement is the stated reason) — not a red flag, but worth having a considered position on before the comp conversation resumes with Eddie or Phil.",
+      "action": "Decide in advance whether outcome-linked comp is a negotiating ask worth raising in a later round, or a non-issue given base/bonus is already favorable."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "The actual close is a real, bilateral, scheduled next step (apply + send availability today; Trainor sends JD + books Eddie this week) — structurally different from the Christopher and LaBella closes on file, which were warm but action-free. Read backward, the whole call was building toward exactly this outcome, and it landed there cleanly, with no deflection or scope drift at the end."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "Scored against both pre-call notes' shared hypothesis: this is Trainor interviewing Zach for a role, not a mutual/peer intro, flagged from the invite's 'conduct an informed interview' language. Confirmed correct by the transcript from the first exchange.",
+        "keyFinding": "Highest-leverage moment was the unprompted $190K comp disclosure (segment 4) — a concrete, actionable, favorable data point that arrived without Zach having to negotiate for it. Second-highest: Zach's Grayscale premortem/receipt-ledger answer (segment 3), which produced Trainor's most genuine reaction of the call and is directly reusable framing for the Eddie and Phil Martin rounds."
+      }
+    ],
+    "immediateActions": [
+      "Apply via the Workday link Trainor referenced (not yet done as of call end) and reply to her with availability for the Eddie round, per her explicit ask",
+      "Get the $190K base / 10% bonus / no-equity structure confirmed in writing in Trainor's promised follow-up email — don't let it stay a verbal-only data point",
+      "Before the Eddie call, decide a considered position on the two LOW-severity structural flags (narrow senior-IC ceiling; bonus not tied to the team outcome the role is pitched on) so they're addressed by choice, not surprise",
+      "Reuse the Grayscale premortem/receipt-ledger story as-is for the Eddie and Phil Martin rounds — it was the strongest answer of this call and maps directly onto 'prototyping scalable, reliable, responsible production systems,' the operational challenge Trainor named for the role"
+    ]
+  }
+}
