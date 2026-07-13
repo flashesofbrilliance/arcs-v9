@@ -2,10 +2,12 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "19dd948",
-    "head_message": "Merge pull request #60 \u2014 Three Parallel Paths section for jeben.arcs.care",
+    "head_sha": "35fc2e7",
+    "head_message": "fix(governance): pay down false-claim debt \u2014 remove Tailwind, align docs/CI to reality [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -143,5 +145,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-12T02:07:22Z"
+  "git_refreshed_at": "2026-07-12T13:25:15Z"
 }

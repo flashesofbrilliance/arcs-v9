@@ -295,6 +295,59 @@ above (real-corpus calibration) still governs.
 
 ---
 
+## ⚠️ Amendment — 2026-07-13: First real-corpus baseline measured (gate now has a number)
+
+The revisit gate above ("100+ receipts") cleared on count some time ago without anyone
+running the measurement the gate actually requires. Measured today, per the dual-audit
+composite action (`_PATTERNS/2026-07-13-dual-audit-reconciliation.md` §6).
+
+**Method (reproducible):**
+- Corpus: all **233 production receipts** (project `xbbpiryokswwvcrcutge`), ordered by
+  `createdAt`, pulled read-only via
+  `SELECT json_agg(COALESCE("macroTags",'[]') ORDER BY "createdAt") FROM "Receipt"`.
+- Lattice: `macroTags` co-occurrence — each receipt's unordered tag pairs increment edge
+  weight by 1. No decay applied (decay is a lattice-dynamics parameter in
+  `lattice-pressure-rom.json`, not a corpus property; the baseline is the raw distribution).
+- Metrics: byte-identical formulas to `scripts/lattice_sim.py` — `gini()` over edge
+  weights, node strengths, `eff_attractors` (Hill number), phase thresholds
+  (HOLD < 50 · SOLID ≥ 0.78 · GAS < 0.30 or unstable · else SUPERIONIC). "Stable" adapted
+  from the sim's 12-tick argmax persistence to: argmax node unchanged across the trailing
+  3 checkpoints.
+- Transcription cross-validated: script tag totals match SQL
+  `json_array_elements_text` GROUP BY exactly, all 9 tags.
+
+**Results (cumulative checkpoints):**
+
+| N | Gini | top_share | eff. attractors | vocab | edges | Zipf slope | argmax |
+|---|---|---|---|---|---|---|---|
+| 50 | 0.456 | 0.203 | 7.36 | 9 | 26 | −1.09 | KAIROS |
+| 100 | 0.523 | 0.222 | 7.15 | 9 | 29 | −1.10 | BAR |
+| 150 | 0.560 | 0.214 | 7.32 | 9 | 33 | −1.02 | BAR |
+| 200 | 0.557 | 0.213 | 7.24 | 9 | 33 | −1.06 | KAIROS |
+| **233** | **0.577** | **0.227** | **7.06** | **9** | **33** | **−1.14** | **KAIROS** |
+
+**Reading:**
+- **Gini_baseline(233) = 0.577** — mid-band, far from SOLID. But it is still drifting
+  upward (max |Δg| = 0.020 over the trailing 3 checkpoints) and the top attractor
+  **flipped BAR → KAIROS** inside the last 60 receipts. Under the sim's strict rule
+  (unstable ⇒ GAS), the corpus reads **GAS: the baseline has NOT yet stabilized.**
+  The gate stays open — but now for a measured reason, not an arbitrary count.
+- **Proposed stabilization criterion** (needs L7/write-lock ratification, per the
+  self-tuning prohibition): promote when trailing |Δgini| < 0.01 per 25-receipt
+  checkpoint for 3 consecutive checkpoints AND the argmax attractor persists across
+  them. At the current pace that is plausibly reachable within ~50–100 more receipts.
+- **Honest caveats:** (1) `macroTags` is a **closed 9-term system vocabulary**
+  (KAIROS 155 · BAR 141 · ONE_WAY 118 · KKL 97 · LAB 55 · TWO_WAY 43 · CHRONOS 38 ·
+  NOTOMATION 30 · FATED 7), not open emergent tagging — the lattice's open-folksonomy
+  assumption is not exercised by this corpus; true emergent structure awaits the
+  Folksonomist over free text (RC-OPS-002 territory). (2) Zipf slope ≈ −1.0 to −1.14 is
+  strikingly Zipf-like but fitted over only 9 ranks — suggestive, not evidential.
+  (3) Edge space is nearly saturated (33 of 36 possible pairs), so any future tightening
+  must appear in *weights* (Gini), not new edges — which is exactly what the model
+  predicts for a maturing lattice.
+
+---
+
 ## Linked receipts / ADRs
 
 - ADR-017 / ADR-019 — Receipt core schema, sealed ReceiptObject (relates to / respects)
