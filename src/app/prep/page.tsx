@@ -70,9 +70,18 @@ function PrepInner() {
           outcomeHorizon: outcomeHorizon.trim() || null,
         }),
       })
-      const { prep_id } = await res.json()
+      const { prep_id, prep } = await res.json()
       const q = question.trim() ? `&q=${encodeURIComponent(question)}` : ""
-      router.push(`/dashboard?prepId=${prep_id}${q}`)
+      if (prep_id) {
+        router.push(`/dashboard?prepId=${prep_id}${q}`)
+      } else {
+        // Anonymous: prep was not persisted (trust contract — no auth = no
+        // write path). Hand the fields to the dashboard via sessionStorage
+        // (never URL params: `protecting`/`adversarialInput` are free text)
+        // so it can pass them inline to /api/compass.
+        sessionStorage.setItem("arcs_prep_inline", JSON.stringify(prep))
+        router.push(`/dashboard?prep=inline${q}`)
+      }
     } catch {
       setLoading(false)
     }
