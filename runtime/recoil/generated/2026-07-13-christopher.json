@@ -19,7 +19,7 @@
     "renderState": "DEGRADED",
     "nci": 48,
     "headline": "Strong conceptual validation, zero operational traction — and the live demo broke mid-pitch.",
-    "subline": "Christopher independently named ARCS's correct market position (\"high stakes... high tension, difficult trade-offs... not where do I get the best pizza\") without being led there. But there was no PrepSession, no concrete ask, no next meeting on calendar, and the Compass demo failed live on the call — root cause unconfirmed (API credit exhaustion was Zach's real-time guess, not verified; a timeout is equally plausible)."
+    "subline": "Christopher independently named ARCS's correct market position (\"high stakes... high tension, difficult trade-offs... not where do I get the best pizza\") without being led there. But there was no PrepSession, no concrete ask, no next meeting on calendar, and the Compass demo appeared to fail live on the call. Verified against Vercel runtime logs afterward: it was NOT an API credit issue (three /api/compass calls in the exact call window all returned 200 — no quota/auth error anywhere) — it was Claude taking 44-48 seconds to respond, almost certainly outrunning a client-side timeout while the backend kept working and completed successfully seconds later."
   },
   "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
   "loadBearingQuote": {
@@ -81,8 +81,8 @@
       "label": "LIVE DEMO — API CREDITS EXHAUSTED",
       "time": "48–52 min",
       "direction": "FORWARD",
-      "summary": "Zach walks through the live site, Christopher tries a real example ('should I get a job or stay 1099'). System returns 'Terrain dropped out before activating your fork... rerun the compass' — Zach guesses live, on the call, that Anthropic API credits/usage limit was hit, and says as much to Christopher. That diagnosis was never actually verified afterward — a request timeout is equally plausible. Pivots to walking through a pre-existing saved brief (the family-office special-situations one) instead of the live pipeline.",
-      "divergenceFlag": "HIGH — A real production reliability failure surfaced in front of a prospect/peer mid-demo, not a hypothetical. This is a concrete operational finding, not just a conversational one — but the root cause is unconfirmed. Zach's on-the-call guess ('probably out of API credits') was stated to Christopher as if likely, without checking; the actual cause (credits vs. timeout vs. something else) needs verification before any fix is prescribed."
+      "summary": "Zach walks through the live site, Christopher tries a real example ('should I get a job or stay 1099'). System returns 'Terrain dropped out before activating your fork... rerun the compass' — Zach guesses live, on the call, that Anthropic API credits/usage limit was hit, and says as much to Christopher. VERIFIED AFTER THE FACT (Vercel runtime logs, 18:40-19:00 UTC window): this guess was wrong. Three /api/compass POSTs in this exact window (18:52:49, 18:53:20, 18:53:45) all returned 200 with no quota/auth/error of any kind — but each took 44-48 seconds for the Claude call alone (Setup ~100ms, Claude ~45s, Total ~45-48s). The backend completed successfully every time; the perceived 'failure' was almost certainly a client-side timeout giving up before the (slow but working) response arrived. Pivots to walking through a pre-existing saved brief (the family-office special-situations one) instead of retrying the live pipeline.",
+      "divergenceFlag": "HIGH — A real reliability issue surfaced in front of a prospect/peer mid-demo, and the root cause is now confirmed via logs: Claude response latency (~45s) outrunning a client-side timeout, not an API credit or quota problem. Zach's on-the-call guess ('probably out of API credits') and his later hypothesis ('maybe credits hit $0 on a Max plan upgrade') were both wrong — worth noting because two consecutive unverified guesses were offered with some confidence before anyone checked the actual logs."
     },
     {
       "segment": 8,
@@ -109,11 +109,11 @@
       "description": "'What are you doing to fund all this?' is a pointed question from an intelligent outside observer, not hostile but genuinely probing. Combined with his own advice ('go find the narrow use case... go out and sell it'), this is a second data point (after LaBella) that ARCS's GTM/monetization story is not yet legible to smart people encountering it fresh."
     },
     {
-      "id": "DEMO_RELIABILITY_FAILURE",
-      "label": "Live Demo Failed — Cause Unconfirmed",
+      "id": "DEMO_LATENCY_TIMEOUT",
+      "label": "Live Demo Appeared to Fail — Actually a ~45s Latency / Client Timeout",
       "color": "red",
       "strength": "HARD_YES",
-      "description": "The compass pipeline failed live mid-demo. Zach guessed out loud on the call that it was exhausted Anthropic API credits/usage, but never verified this afterward — a timeout is equally plausible. Either way this is the single highest-leverage finding of the call: something concrete broke in front of an outside party, and the actual root cause still needs to be checked (logs/error response) before it can be called fixed."
+      "description": "Confirmed via Vercel runtime logs: the compass pipeline never errored during the call window — three requests all returned 200, each taking 44-48 seconds for the Claude call. The demo 'failure' Christopher saw was almost certainly the client giving up waiting before the backend's (correct, working) response arrived. Two different unverified guesses were floated before checking (API credits exhausted; credits zeroed on a Max-plan upgrade) — neither checks out against the actual logs. This is the single highest-leverage finding of the call: a real, fixable latency/timeout gap, now correctly diagnosed."
     },
     {
       "id": "NO_ASK_EITHER_DIRECTION",
@@ -159,11 +159,11 @@
   ],
   "riskFlags": [
     {
-      "id": "DEMO_FAILURE_ROOT_CAUSE_UNCONFIRMED",
+      "id": "COMPASS_LATENCY_NEAR_TIMEOUT_THRESHOLD",
       "severity": "HIGH",
-      "label": "Live demo failed on the call; the stated cause (API credits) was a guess, never verified",
-      "description": "Zach told Christopher live that it was 'probably out of API credits' but never checked logs/error response afterward to confirm. Could equally be a request timeout, a rate limit, or something else entirely. Presenting an unverified guess as a likely explanation — to a prospect, and now in this report — is itself worth flagging: don't let a plausible-sounding diagnosis substitute for actually checking.",
-      "action": "Check the actual error (Vercel function logs / Anthropic API response for the request window ~2:48-2:52pm ET, 2026-07-13) before prescribing any fix. Only add credit-monitoring or timeout-handling once the real cause is confirmed."
+      "label": "Compass route regularly takes 44-48s for the Claude call — close enough to a client timeout to fail live demos",
+      "description": "Confirmed via Vercel logs (2026-07-13, 18:52:49/18:53:20/18:53:45 UTC — the exact demo window): every request succeeded server-side (200) but took 44-48 seconds end to end. This is not a one-off — it reads as the route's normal latency profile under a live/uncached prompt. Whatever the client is doing (fetch timeout, loading-state abandonment, or a Vercel/edge timeout on a different layer) is cutting the user off before a request that is actually going to succeed. Two guesses about the cause (API credits exhausted; credits zeroed by a plan upgrade) were both floated without checking and were both wrong.",
+      "action": "Check the client-side fetch/timeout config and any edge/proxy timeout in front of /api/compass; either extend the client timeout past ~50-60s, add a streaming/progress response so the UI doesn't look dead during a 45s wait, or reduce Claude call latency directly. Do this before the next live demo — this will recur on any call, not just this one."
     },
     {
       "id": "COMMERCIALIZATION_STORY_UNCLEAR_TO_OUTSIDERS",
@@ -195,7 +195,7 @@
       }
     ],
     "immediateActions": [
-      "Check logs to confirm the actual cause of the demo failure (credits vs. timeout vs. other) before building any fix — the API-credits explanation given on the call was an unverified guess",
+      "Root cause confirmed via Vercel logs: not API credits — Claude call latency (44-48s) outrunning a client-side timeout. Fix the timeout/streaming gap, not a credits/billing issue, before the next live demo",
       "If re-engaging Christopher, lead with one narrow, high-stakes use case (per his own advice) rather than the full multi-surface pitch — do not repeat the broad tour",
       "No calendar trigger set for this relationship — this is scenario A/B territory (peer validation, not pipeline); do not manufacture urgency that wasn't there on the call",
       "Log the monetization-skepticism pattern (now 2/2 unprompted outside reads) as a standing item to address before the next cold external pitch, not just for this relationship"
