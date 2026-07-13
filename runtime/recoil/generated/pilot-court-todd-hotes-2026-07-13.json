@@ -1,0 +1,85 @@
+{
+  "kit": "PILOT-COURT (Kit A — founder monetization / paid-pilot selection)",
+  "kit_source": "_PATTERNS/2026-07-11-operator20-archaeology.md §4 + Architect kit A (_PATTERNS/2026-07-13-dual-audit-reconciliation.md)",
+  "generated": "2026-07-13",
+  "generated_by": "Claude Code (Implementer). NOTOMATION: this is scaffolding — every human_* field is empty by design and the receipt is not actionable until the write_lock is answered by Zach.",
+
+  "dewy": {
+    "D": "Todd Hotes has not replied to the $1,500 Phase 1 chatbot-MVP proposal in 11 days. Follow up now, revise the offer, or hold to the 14-day stop-loss?",
+    "E": "Todd Hotes / PRL Resins — close friend; effective CMO/CFO/Comptroller, full discretion over spend at a $100M family-office-owned company",
+    "W": "This week (day 11 of a 14-day stop-loss window; proposal sent 2026-07-02)",
+    "Y": "FORK / from live compass run"
+  },
+
+  "compass_run": {
+    "receipt_id": "cmrjac11c000004l5d3xb3539",
+    "url": "https://app.arcs.care/brief/cmrjac11c000004l5d3xb3539",
+    "note": "Run anonymously via POST /api/compass 2026-07-13 — this receipt is itself one of the 48 anonymous rows implicated in the trust-contract finding filed the same day.",
+    "decision_mode": "PLAN",
+    "door_class": "TWO_WAY",
+    "y_state": "FORK",
+    "nci_score": 68,
+    "true_north": "Send a single, low-friction follow-up today (day 11) asking for a 48-hour decision window; if no response by day 13, revise the offer down to $900 and reframe as a 2-week sprint rather than holding to day 14.",
+    "court_verdict": "Follow up now with a decision request; revise offer by day 13 if no response. Friendship + discretion + silence = Todd expects a nudge, not patience."
+  },
+
+  "detective_lookup": {
+    "tool": "scripts/receipt_lookup.py",
+    "result": "NO PRIOR HISTORY for 'Todd Hotes' or 'PRL' — 5 ledger records on file, none match.",
+    "process_gap": "A live $1,500 proposal has zero internal-ledger history: the 2026-07-02 call was never recoiled in (call-brief-hooks-v1 Task B would have caught this). Log the gap, fix the habit."
+  },
+
+  "premise_check": {
+    "assumption": "Todd has not replied since 2026-07-02.",
+    "verified": false,
+    "detail": "Last confirmed in repo state 2026-07-08 (snapshot). Email not visible to this session; iMessage MCP timed out twice. IF TODD HAS ALREADY REPLIED, THIS RECEIPT IS VOID — check inbox/messages before acting on anything below."
+  },
+
+  "offer_on_table": {
+    "price_usd": 1500,
+    "scope": "Phase 1 chatbot MVP — Tidio + SugarCRM REST API, direct-to-sales-manager routing, 3 sessions",
+    "sent": "2026-07-02",
+    "surface": "todd-call.arcs.care + email"
+  },
+
+  "loki_falsifiers": [
+    {
+      "id": "F1-friendship-carries-the-deal",
+      "claim_at_risk": "Todd's silence is inbox burial, not a soft no.",
+      "falsifier": "The friendship makes deferral costless — he can ignore a favor-priced experiment indefinitely precisely because the relationship absorbs it. TEST: a direct 48h decision request. If he defers again without naming a date, the friendship is carrying the deal, not the value."
+    },
+    {
+      "id": "F2-wrong-owner",
+      "claim_at_risk": "Todd's discretion over spend means Todd's yes is sufficient.",
+      "falsifier": "The chatbot routes to sales managers — if they were never consulted, internal misalignment stalls the deal regardless of Todd's budget authority. TEST: ask in the follow-up whether the sales manager has seen todd-call.arcs.care."
+    },
+    {
+      "id": "F3-discount-signals-doubt",
+      "claim_at_risk": "The compass's own bearing (drop to $900 at day 13).",
+      "falsifier": "A 40% discount against a friend with a $100M budget signals doubt, not urgency — the binding constraint is likely attention/alignment, not price. COUNTER-MOVE: revise STRUCTURE at the same price (smaller first deliverable, or a hard start date), not the number. This falsifier directly contests the compass bearing; the court tension is recorded, the human resolves it."
+    }
+  ],
+
+  "options": [
+    { "id": "A", "move": "Follow up today with a 48-hour decision window (compass bearing)", "evidence_grade": "C — model inference; '40% reduction often unlocks a yes' is unsourced" },
+    { "id": "B", "move": "Hold to day-14 stop-loss (2026-07-16), then change the OFFER structure, not the effort (kit default)", "evidence_grade": "B — kit rule derived from engagement history" },
+    { "id": "C", "move": "Revise structure now at same price: smaller first deliverable or hard start date (F3 counter-move)", "evidence_grade": "C — untested against Todd specifically" }
+  ],
+
+  "stop_loss": {
+    "day_14_2026-07-16": "No reply → change the offer (structure/scope/start-date), not the effort. Do not chase.",
+    "day_21_2026-07-23": "No engagement → park PRL as a pilot prospect and move focus to the next live thread (Kelly / Juniper Square). Protect the friendship by dropping the sale, not the relationship."
+  },
+
+  "signal_threshold": "A yes/no, or a calendared session date. 'Sounds good' does not count as signal.",
+  "review_date": "2026-07-16",
+
+  "human_decision": null,
+  "human_why": null,
+  "write_lock": {
+    "question": "Send the follow-up today with a 48-hour decision window (Option A) — yes or no?",
+    "answer": null,
+    "signed_by": null,
+    "signed_at": null
+  }
+}
