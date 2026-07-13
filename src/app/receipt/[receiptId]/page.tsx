@@ -176,9 +176,19 @@ export default function ReceiptPage() {
           <div style={{ ...contentContainer(vw), paddingBottom: "1.25rem" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap", border: `0.5px solid ${signal.gold}44`, borderRadius: 6, padding: "0.6rem 1rem", background: `${signal.gold}0d` }}>
               <span style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.08em", color: text.secondary }}>
-                NOT STORED — this bearing lives only in this browser tab, per the trust contract. Sign in before running to keep receipts.
+                NOT STORED — this bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in.
               </span>
-              <Button variant="ghost" size="sm" onClick={() => router.push("/compass")}>Sign in</Button>
+              <Button variant="ghost" size="sm" onClick={() => {
+                // Opt-in save (ADR-032): stash the bearing in localStorage
+                // (sessionStorage is tab-scoped — a magic-link click opens a
+                // new tab and would lose it), then route to sign-in. The
+                // post-auth consumer (ClaimAnonymousReceipts) persists it.
+                const raw = sessionStorage.getItem(`arcs_eph_${receiptId}`)
+                if (raw) {
+                  try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), bearing: JSON.parse(raw) })) } catch {}
+                }
+                router.push("/compass")
+              }}>Sign in &amp; save</Button>
             </div>
           </div>
         )}

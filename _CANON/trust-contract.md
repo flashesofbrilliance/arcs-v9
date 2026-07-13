@@ -1,7 +1,7 @@
 # ARCS Trust Contract
 
-> **Version:** 1.1
-> **Date:** 2026-06-23
+> **Version:** 1.2
+> **Date:** 2026-07-13
 > **Authority:** This document is the source of truth for all user-facing trust, privacy, and autonomy claims across arcs.care and any ARCS product surface. Product copy, onboarding, and legal documents must derive from this — not the other way around.
 > **Status:** CANONICAL — amendments require a version bump and MEMORY.md entry.
 
@@ -27,7 +27,17 @@ Using ARCS is not a subscription to a black box. It is a relationship with a tra
 Processed in real time and used to generate your result. If you are not signed in, it is not stored beyond your session — it exists only long enough to produce the receipt.
 
 **Your receipt:**
-If you are signed in, your decision receipt is stored in your account and accessible via your history. It is yours. If you are not signed in, the receipt is generated and displayed but not persisted to a named account.
+If you are signed in, your decision receipt is stored in your account and accessible via your history. It is yours. If you are not signed in, the receipt is generated and displayed in your browser only — nothing is written server-side. If you want to keep an anonymous bearing, you can sign in and save it; the write happens only after you authenticate.
+
+> **Disclosure (2026-07-13 — repair seam, kept visible on purpose):** From launch until
+> 2026-07-13, a defect stored anonymous receipts server-side, contrary to this section —
+> 48 such receipts existed when it was found. The write path was fixed the same day
+> (commit `8b486e8`; the repository is public, so this is verifiable, not just claimed).
+> The pre-fix receipts were deliberately retained rather than deleted: receipt links are
+> made to be shared, and some are referenced in the wild — deleting them would break
+> those references. They carry no account identity. If you ran an anonymous session
+> before 2026-07-13: signing in from the same browser claims your receipts automatically,
+> and a deletion request (via the inquiry link on arcs.care) will be honored.
 
 **Your debrief:**
 If you log an outcome (how the decision went), that is stored in your account linked to the receipt. This data is used to improve ARCS's ability to read terrain accurately over time — specifically, to validate whether the system's confidence grades correspond to real outcomes. It is never shared or sold.
@@ -141,5 +151,6 @@ This is a real limitation, not a hidden one. Two things are true at once:
 
 | Version | Date | Change |
 |---|---|---|
+| 1.2 | 2026-07-13 | §1 amended: (a) anonymous receipts clarified — browser-only, nothing written server-side, opt-in save happens strictly post-auth; (b) dated repair-seam disclosure added — pre-fix defect stored 48 anonymous receipts, fixed in `8b486e8`, rows retained (operator decision: shared links reference them), deletion honored on request. See ADR-032. |
 | 1.1 | 2026-06-23 | Added §8 — answers Zak's "how will you catch people at the fork" question (previously unaddressed; verified against the full June 16–22 feedback checklist, all six original items were already covered §1–§6) |
 | 1.0 | 2026-06-22 | Initial canonical version |

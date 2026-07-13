@@ -84,7 +84,7 @@ model Receipt {
   // sessionTs: L5 freeze time. Distinct from createdAt (DB write time).
   receiptId        String?  @unique   // ARCS-ORIENT-[ISO8601]-[8-char hash]
   schemaVersion    String   @default("0.1.0") // dewy-receipt-schema-v1.json version
-  surface          String   @default("ORIENT") // ORIENT | CALIBRATE | CHART_COURSE | DETECT
+  surface          String   @default("ORIENT") // ORIENT | CALIBRATE | CHART_COURSE | DETECT | EPHEMERAL_SAVE (post-auth save of an anonymous bearing, client-attested — ADR-032)
   validationState  String   @default("PASS")   // PASS | HOLD | REJECT
   sessionTs        DateTime? // L5 freeze time (set explicitly; not DB write time)
 
