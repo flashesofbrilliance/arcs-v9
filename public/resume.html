@@ -992,7 +992,6 @@ function DeepScan() {
 // ROOT
 // ─────────────────────────────────────────────────────────────────────────────
 function Resume() {
-  const [depth,          setDepth]          = useState('sharp');
   const [selectedNode,   setSelectedNode]   = useState('arcs');
   const [selectedClient, setSelectedClient] = useState(null);
   const [headerH,  setHeaderH]  = useState(0);
@@ -1016,11 +1015,10 @@ function Resume() {
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  const showRich   = depth === 'sharp' || depth === 'superionic';
-  const showDeep   = depth === 'superionic';
-  const showSimple = depth === 'grain';
+  const showRich   = true;
+  const showDeep   = false;
+  const showSimple = false;
   const [resumeCollapsed, setResumeCollapsed] = useState(false);
-  useEffect(() => { if (depth !== 'superionic') setResumeCollapsed(false); }, [depth]);
 
   return (
     <div className="page">
@@ -1045,10 +1043,6 @@ function Resume() {
               <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>
           </div>
-          {/* Depth selector */}
-          <div className="no-print">
-            <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
-          </div>
         </div>
       </div>
 
@@ -1056,6 +1050,13 @@ function Resume() {
       {!isMobile && <div style={{ height: headerH + 20 }} />}
 
       {/* ── Scrollable content ───────────────────────────────────────────── */}
+
+      {/* Overview */}
+      <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
+        maxWidth:680, marginBottom:24 }}>
+        {TRUE_NORTH.all.text}
+      </p>
+
       {showSimple && <GrainResume />}
 
       {/* WIREFRAME — collapsible when PIXEL PERFECT is active */}
