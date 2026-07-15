@@ -41,6 +41,57 @@ jobs:
         run: npm run lint
         continue-on-error: true
 
+      # Advisory: canon-vs-code drift check (state-sync). Grep-based, narrow
+      # assertions only — see scripts/state_sync_check.py. Never blocks; the
+      # false-positive risk on a heuristic check isn't worth stopping a merge
+      # over. Tighten to a hard gate once its signal is proven over time,
+      # same path lint took.
+      - name: State-sync drift check (advisory)
+        run: python3 scripts/state_sync_check.py
+        continue-on-error: true
+
       # Hard gate — the build is also the typecheck.
       - name: Build (typecheck + compile)
         run: npm run build
+
+  fe-smoke:
+    runs-on: ubuntu-latest
+    needs: smoke
+    env:
+      DATABASE_URL: "postgresql://user:pass@localhost:5432/db"
+      ANTHROPIC_API_KEY: "sk-ant-ci-placeholder"
+      AUTH_SECRET: "ci-placeholder-secret"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # Real eval, not a placeholder: builds the app, boots it, and drives
+      # tests/smoke.spec.ts (route loads, no console errors, real content
+      # renders) against the actual server — not mocked. Hard gate: a broken
+      # route or a thrown console error blocks the merge.
+      - name: Build
+        run: npm run build
+
+      - name: Start server + wait for it to bind
+        run: |
+          npm run start &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000 > /dev/null && exit 0
+            sleep 1
+          done
+          echo "server never came up" && exit 1
+
+      - name: FE smoke (Playwright)
+        run: npm run test:smoke
+        env:
+          SMOKE_BASE_URL: "http://localhost:3000"
