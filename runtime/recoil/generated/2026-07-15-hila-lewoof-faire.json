@@ -1,0 +1,169 @@
+{
+  "reportId": "2026-07-15-hila-lewoof-faire",
+  "meta": {
+    "callTitle": "faire.com x le woof set up (zach to help)",
+    "counterpart": "Hila Raz Harris — founder, Le Woof (certified-organic, women-owned pet care brand)",
+    "counterpartRole": "Founder/operator asking Zach for hands-on execution help across Faire, Amazon, and Shopify",
+    "callDate": "2026-07-15",
+    "callTime": "1:30 PM EDT",
+    "durationMinutes": 60,
+    "segmentCount": 8,
+    "protocol": "Reverse Listening + Deep Recall · 8 segments · max(3, round(sqrt(60)))",
+    "prePrepSession": null,
+    "note": "No PrepSession or precall note exists for this call. This is a personal/family working session, not an ARCS client engagement — Hila is Zach's spouse. Granola attribution: 'Microphone' = Zach, 'Speaker' = Hila throughout. Flagging plainly per the Recoil Protocol's usual honesty standard, same as any other call."
+  },
+  "cover": {
+    "yGate": "YELLOW",
+    "conviction": "MEDIUM",
+    "stability": "SHIFTING",
+    "renderState": "DEGRADED",
+    "nci": 58,
+    "headline": "Priorities landed clean (Faire first); a real friction spike mid-call, but it self-corrected by the close.",
+    "subline": "Hila arrived with a hard time-box ('I have to get our children in an hour') and a pre-formed three-item list; Zach opened with a prioritization-framework instinct that collided with her mode and produced the sharpest exchange of the call ('you're not helpful because you go downstream to things I don't care about' / 'don't be adversarial'). Both recovered — by minute 60 there's a concrete, agreed structure: one Google Doc, delegated admin access, Faire first. The standing blocker (hila@lewoofbrand email inactive) is 8 months old and still unresolved."
+  },
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD — personal/family call, not a client artifact.",
+  "loadBearingQuote": {
+    "text": "Zach. Honey, honey, can you. To me, you're not helpful because you go downstream to so many things I don't care about. I don't care about this girl poop loop. I don't care about Dan. I'm trying to give you a list of where you can help me. I'm one individual. I have a finite amount of hours. Can we focus on Faire and setting up that profile once it's set up?",
+    "attribution": "GRANOLA TRANSCRIPT · HILA · JUL 15, 2026 (~min 26)",
+    "significance": "The single clearest moment of the call: a direct statement of mode mismatch. Hila is operating in hard-time-boxed execution mode (kids in an hour, three specific asks); Zach's clarifying-question habit (dependencies, tips-and-tricks from Dan and 'poop loop', fee structure) reads to her as scope creep away from the actual ask. Neither party was wrong about their own intent — the friction is a genuine style collision, not bad faith on either side, and it resolved by the end of the call."
+  },
+  "callWalk": [
+    {
+      "label": "0-7 MIN",
+      "title": "Cold Open — Time-Box Set Immediately",
+      "body": "Brooklyn/NYC rapport banter, then Hila states the hard constraint up front: 'I have to get our children in an hour' and 'I have, like, three things I need your help with. This doesn't need to be some long song and dance.' Zach's opening move — walk through all priorities by urgency/revenue-impact before diving in — is explicitly declined before it lands.",
+      "peak": false
+    },
+    {
+      "label": "7-16 MIN",
+      "title": "Faire.com Named as Priority One",
+      "body": "Hila lays out Le Woof's core SKUs (16oz shampoo, travel box [2oz mist + 4oz shampoo], standalone mist) and states the actual deadline: Faire Market promo goes live next week, and she wants her profile set up 'today through Friday.' This is unambiguous and specific — the clearest signal in the call.",
+      "peak": true
+    },
+    {
+      "label": "16-24 MIN",
+      "title": "Clarifying Questions Start Landing Wrong",
+      "body": "Zach asks about Faire's take-rate, whether Dan (a peer with Faire experience) or another contact ('poop loop') shared tips, and whether a profile already exists. Each is a reasonable diagnostic question in isolation; in aggregate, asked back-to-back under a 60-minute hard stop, they read as downstream tangents. Hila: 'You keep asking. This is the third time you've asked me this.'",
+      "peak": false
+    },
+    {
+      "label": "24-30 MIN",
+      "title": "Peak Friction — Mode Collision Named Directly",
+      "body": "Sharpest exchange of the call. Zach: 'If you want me to help you, be collaborative and don't be adversarial... I'm literally asking clarifying questions because I want to try to help you.' Hila: 'You're not helpful because you go downstream to so many things I don't care about... I'm one individual. I have a finite amount of hours.' Both hold their position but neither escalates further — the call does not derail.",
+      "peak": true
+    },
+    {
+      "label": "30-38 MIN",
+      "title": "De-escalation via Concrete SKU/Inventory Detail",
+      "body": "Conversation shifts to specifics: three flagship SKUs for Faire launch (spa collection + robes), MOQs (5-10 units), inventory reality (500 units on hand vs. a live 500-1,000 unit wholesale conversation in progress). Tone cools once the content is concrete rather than diagnostic.",
+      "peak": false
+    },
+    {
+      "label": "38-46 MIN",
+      "title": "Credentials & the Standing Infra Blocker Surfaces",
+      "body": "Hila proposes a single Faire Google Doc for credentials/pricing/SKUs (same pattern used for the Amazon doc with Leah). Zach asks for delegated admin access rather than shared login. Surfaces a real, 8-month-old blocker: the hila@lewoofbrand Gmail is inactive due to an unresolved Porkbun billing issue, which is blocking Google Analytics, Amazon Seller Central OTP delivery, and domain access.",
+      "peak": true
+    },
+    {
+      "label": "46-54 MIN",
+      "title": "Shopify / Klaviyo / Content Roadmap",
+      "body": "Secondary priorities named: reactivate Klaviyo (free tier only — no Shopify Pro upgrade unless she raises capital), a lightweight AI chatbot on the homepage, and 3-4 AI-assisted SEO blog posts (certified-organic messaging, dog cancer rates, 'family biome'). Explicitly deprioritized relative to Faire.",
+      "peak": false
+    },
+    {
+      "label": "54-60 MIN",
+      "title": "Close — Single Source of Truth Agreed",
+      "body": "Hila offers to send a written recap; Zach explicitly declines it ('you do not need to do a recap... I'll send you an example of my recoil report... I would really like you to not do stuff manually because you're wasting time on written recaps'). Lands on: one organized folder (Faire/Amazon/Shopify subfolders), Hila to send credentials + SKU/pricing doc, Zach as delegated admin. Warm sign-off.",
+      "peak": false
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "HARD_YES",
+      "accent": "#00FF9D",
+      "title": "Faire.com Is Priority One, Unambiguous, Deadline-Bound",
+      "body": "Faire Market promo goes live next week; Hila wants the profile set up this week through Friday. This is the single clearest, most actionable signal in the call — no ambiguity about sequencing.",
+      "note": "Everything else (Amazon, Shopify/Klaviyo, blog content) is explicitly secondary."
+    },
+    {
+      "label": "WATCH",
+      "accent": "#FFD700",
+      "title": "Prioritization-Instinct vs. Time-Boxed-Execution Mode Mismatch",
+      "body": "Zach's default move (sequence everything by urgency/revenue before acting) collided with Hila's pre-formed, time-boxed list. This produced the call's one real friction spike ('don't be adversarial' / 'you're not helpful'). Worth naming as a recurring collaboration pattern, not just a one-off — when the other party arrives with a fixed list and a hard clock, leading with structuring questions reads as resistance even when the intent is genuinely to help.",
+      "note": "Both people held their ground without escalating further; it resolved on its own by minute 30."
+    },
+    {
+      "label": "HARD_YES",
+      "accent": "#FF4D6D",
+      "title": "hila@lewoofbrand Gmail Inactive — 8 Months, Blocks 3 Systems",
+      "body": "The same unresolved Porkbun billing/credential issue from ~8 months ago is still blocking Google Analytics access, Amazon Seller Central OTP delivery, and domain administration. This is the single highest-leverage infrastructure fix available — it's upstream of Amazon, GA, and part of the Shopify analytics picture.",
+      "note": "Not new information, but it re-surfaced today and is worth actually closing this time rather than deferring again."
+    },
+    {
+      "label": "DIRECTIONAL",
+      "accent": "#00F0FF",
+      "title": "Single Source of Truth Agreed by the Close",
+      "body": "Both landed on one organized structure (Google Doc + Drive subfolders for Faire/Amazon/Shopify) instead of the 'one-off things at Hawk' / scattered-forwarded-emails pattern the call opened by trying to avoid. Zach also explicitly redirected Hila away from writing a manual recap toward this Recoil Report — the ask that started the call ('I want to record it because I think you'll understand how I can get it more organized') was honored."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Faire live before next week's Market promo",
+      "body": "Hila sends the Faire Google Doc (credentials, 3 SKUs, wholesale pricing, MOQs) within 1-2 days. Zach gets delegated admin, sets up the profile and listings by Friday, and it's live in time for the Faire Market promo window.",
+      "note": "Requires Hila to actually produce the doc — the whole thing is gated on that one artifact existing."
+    },
+    "base": {
+      "title": "Faire progresses; Amazon/Shopify slip; email blocker lingers",
+      "body": "Faire setup gets done on a slightly delayed timeline (credentials arrive but not instantly), Amazon/Shopify work doesn't start this week, and the hila@lewoofbrand Gmail/Porkbun issue stays unresolved because nobody owns closing it as a standalone task.",
+      "note": "This is the modal outcome if the credential doc arrives via message rather than getting scheduled as a concrete next step."
+    },
+    "worst": {
+      "title": "Reverts to scattered one-off asks",
+      "body": "No single doc materializes; requests come back to fragmented texts/emails (the exact pattern this call was trying to replace); the 8-month-old email/billing blocker persists into another quarter, continuing to block Amazon Seller Central alerts and Google Analytics.",
+      "note": "Probability: 20% — the close was concrete enough that this is not the modal path, but it's the pattern history shows this relationship can fall back into."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "8-Month-Old Infra Blocker Still Open",
+      "body": "hila@lewoofbrand Gmail inactive (Porkbun billing issue) is blocking Google Analytics, Amazon Seller Central OTP/alerts, and domain admin access. This has been open since roughly Nora's arrival ('when I came back from... leave with Nora') and keeps resurfacing as a side note rather than getting closed as its own task.\n\nAction: Treat this as its own standalone action item — resolve the Porkbun billing issue and reactivate the email before it blocks the Amazon relaunch too."
+    },
+    {
+      "variant": "caution",
+      "label": "Collaboration Mode Mismatch — Structuring vs. Time-Boxed Execution",
+      "body": "When Hila arrives with a fixed list and a hard clock, leading with sequencing/prioritization questions reads as resistance rather than help, even when well-intentioned. The call's sharpest moment ('don't be adversarial' / 'you're not helpful') traces directly to this.\n\nAction: On calls like this, mirror the requester's stated format first (take the list as given) and hold clarifying/dependency questions until after the list is captured, not interleaved with it."
+    },
+    {
+      "variant": "info",
+      "label": "Faire Fee Structure Still Unverified",
+      "body": "Hila stated she doesn't know if Faire takes a marketplace fee ('I don't know because I haven't sold anything there yet... I think there is') — the 'no downside' framing for Faire is currently an assumption, not a confirmed fact.\n\nAction: Confirm Faire's actual take-rate/fee structure once logged in, before treating the channel as pure upside in planning."
+    },
+    {
+      "variant": "success",
+      "label": "Clear, Actionable Task List Landed",
+      "body": "Despite the friction spike, the call closed with a specific, sequenced task list (Faire first, delegated admin, single Google Doc) and Zach redirected Hila away from a manual written recap toward this Recoil Report — which was the explicit goal she named at the very start of the call."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "Read backward from the actual close (single Google Doc, delegated admin, Faire-first sequencing, no manual recap), the mid-call friction spike (min 24-30) turns out not to have derailed anything — it's a detour that self-corrected, not a fork the call took. The forward read feels tense in the moment; the backward read shows both people landing on exactly the structure the call opened by asking for."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "No PrepSession exists for this call — it's a personal/family working session, not a prepped ARCS engagement. Scored instead against the implicit goal Hila stated in her opening line: 'I want to record it because I think you'll understand how I can get it more organized than asking one-off things.'",
+        "keyFinding": "That implicit goal was achieved: single-doc structure agreed, delegated admin requested, and Zach explicitly redirected Hila's recap instinct toward this Recoil Report instead of a manually written one. The one gap: the 8-month-old email/billing blocker was named again but not assigned an owner or a deadline to actually close it."
+      }
+    ],
+    "immediateActions": [
+      "Send Hila a simple Google Drive folder template (Faire / Amazon / Shopify subfolders, each with credentials / assets / status) so she has a concrete structure to fill rather than starting from a blank ask",
+      "Once the Faire Google Doc arrives, prioritize getting the profile live before next week's Faire Market promo — this is the one hard deadline in the call",
+      "Separately track and close the hila@lewoofbrand Gmail / Porkbun billing issue as its own task — it's blocking GA, Amazon Seller Central, and domain access, and has been open 8 months",
+      "On future calls like this, take Hila's stated list at face value first; hold sequencing/dependency questions until after the list is fully captured"
+    ]
+  }
+}
