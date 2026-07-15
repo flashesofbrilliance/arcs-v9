@@ -1,0 +1,928 @@
+<meta charset="utf-8">
+<title>ARCS 12D Orbital — Knowledge Phase Space</title>
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
+    --dim:#64748b; --mut:#475569; --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
+    --red:#FF4D6D; --steel:#7dd3fc; --violet:#c084fc;
+    --mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%}
+  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)} .lbl.vi{color:var(--violet)}
+  .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .deck-in{max-width:1320px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em}
+  .wordmark b{color:var(--cyan)}
+  select{background:var(--surface);color:var(--sec);border:1px solid var(--border);border-radius:4px;font-family:var(--mono);font-size:.62rem;padding:.35rem .4rem}
+  input[type=range]{accent-color:var(--gold);width:110px}
+  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .6rem;cursor:pointer}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan)}
+  .btn.on{border-color:var(--cyan);color:var(--cyan);background:rgba(0,240,255,.08)}
+  .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
+  .ctl{display:flex;align-items:center;gap:.4rem}
+  .spacer{flex:1}
+  .grp{display:flex;align-items:center;gap:.45rem;padding:.3rem .55rem;border:1px solid rgba(30,41,59,.75);
+    border-radius:6px;background:rgba(13,17,23,.55)}
+  .glbl{font-family:var(--mono);font-size:.5rem;font-weight:700;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+  .grp select,.grp .btn{height:26px;box-sizing:border-box}
+  .grp input[type=range]{margin:0}
+  #stage{position:fixed;inset:0;top:52px}
+  canvas{display:block;width:100%;height:100%}
+  .hud{position:fixed;left:1rem;bottom:.8rem;z-index:30;pointer-events:none;display:flex;flex-direction:column;gap:.3rem}
+  .kv{font-family:var(--mono);font-size:.6rem;color:var(--dim);letter-spacing:.07em}
+  .kv b{color:var(--sec)}
+  .drawer{position:fixed;top:64px;right:12px;width:min(370px,calc(100vw - 24px));max-height:calc(100vh - 90px);overflow-y:auto;z-index:35;
+    background:rgba(13,17,23,.97);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;display:none}
+  .drawer.open{display:block}
+  .drawer h3{font-size:1rem;margin:.25rem 0 .2rem}
+  .drawer p{font-size:.8rem;color:var(--sec);line-height:1.5;margin:.35rem 0}
+  .x{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:.72rem}
+  .chip{display:inline-block;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:2px 6px;margin-right:.3rem}
+  .c-ok{color:var(--green);border:1px solid rgba(0,255,157,.4)} .c-sup{color:var(--violet);border:1px solid rgba(192,132,252,.5)}
+  .dimrow{display:grid;grid-template-columns:118px 1fr 44px;gap:.5rem;align-items:center;margin:.22rem 0}
+  .dimrow .n{font-family:var(--mono);font-size:.55rem;color:var(--mut);letter-spacing:.05em}
+  .dimrow .bar{height:5px;background:rgba(30,41,59,.8);border-radius:2px;overflow:hidden}
+  .dimrow .bar i{display:block;height:100%;background:var(--cyan)}
+  .dimrow .v{font-family:var(--mono);font-size:.58rem;color:var(--sec);text-align:right;font-variant-numeric:tabular-nums}
+  /* performance program bar — the ballet's legibility scaffolding */
+  .perf{position:fixed;bottom:.9rem;left:50%;transform:translateX(-50%);z-index:32;width:min(680px,calc(100vw - 24px));
+    background:rgba(13,17,23,.96);border:1px solid var(--border);border-radius:8px;padding:.65rem .95rem;display:none}
+  .perf.open{display:block}
+  .perf .mv{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.08em;color:var(--gold)}
+  .perf .what{font-size:.78rem;color:var(--sec);margin:.15rem 0 .35rem;line-height:1.45}
+  .perf .proj{font-family:var(--mono);font-size:.64rem;color:var(--cyan);letter-spacing:.05em}
+  .perf .proj b{color:var(--text)}
+  .segbar{display:flex;height:7px;border-radius:3px;overflow:hidden;margin-top:.45rem;position:relative}
+  .segbar i{display:block;height:100%;opacity:.4}
+  .segbar i.now{opacity:1}
+  .segbar .ph{position:absolute;top:-2px;bottom:-2px;width:2px;background:#e2e8f0}
+  .perf .tm{font-family:var(--mono);font-size:.6rem;color:var(--mut);margin-top:.3rem;display:flex;justify-content:space-between}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="deck"><div class="deck-in">
+  <span class="wordmark"><b>ARCS</b> · 12D ORBITAL</span>
+  <div class="grp" title="The two questions you cross — the projection is the score">
+    <span class="glbl">Projection</span>
+    <span class="lbl cy">X</span><select id="dx"></select>
+    <span class="lbl cy">Y</span><select id="dy"></select>
+  </div>
+  <div class="grp" title="How time is kept and which epoch is shown">
+    <span class="glbl">Time</span>
+    <select id="metro"><option>CHRONOS</option><option>KAIROS</option><option>DILATION</option><option>SUSPENSION</option><option>SUPERPOSITION</option></select>
+    <input id="tempo" type="range" min="25" max="400" value="100" style="width:64px" aria-label="Tempo">
+    <span class="lbl" id="tempo-lbl">1.0×</span>
+    <input id="epoch" type="range" min="1" max="8" value="8" step="any" style="width:88px" aria-label="Epoch">
+    <button class="btn" id="play">▶</button>
+  </div>
+  <div class="grp" title="Overlays — one visual channel each">
+    <span class="glbl">Layers</span>
+    <button class="btn on" id="t-trail" title="T — history paths">trails</button>
+    <button class="btn on" id="t-ent" title="E — shared-road pairs">entangle</button>
+    <button class="btn" id="t-inv" title="I — always-true rings">invariants</button>
+    <button class="btn" id="t-sat" title="G — DEWY self-similarity">satoshi</button>
+  </div>
+  <div class="grp" title="Emphasis filter">
+    <span class="glbl">Lens</span>
+    <button class="btn" id="t-sup" title="S — dim collapsed nodes">superposed</button>
+  </div>
+  <div class="grp" title="Performances — B ballet · N symphony · X stop">
+    <span class="glbl">Perform</span>
+    <button class="btn" id="ballet-btn" title="B — Clair de Lune projection tour">🩰 ballet</button>
+    <select id="inst" title="Ballet instrumentation — orchestra arranges by register" aria-label="Instrument">
+      <option value="orchestra">🎻 orchestra</option><option value="music box">music box</option>
+      <option value="piano">piano</option><option value="celesta">celesta</option>
+      <option value="harp">harp</option><option value="strings">strings</option><option value="flute">flute</option>
+    </select>
+    <button class="btn" id="symph-btn" title="N — the state space, sounded">𝄞 symphony</button>
+    <button class="btn" id="stop-audio" title="X — kill all audio, including tails" style="display:none;border-color:rgba(255,77,109,.5);color:var(--red)">⏹ stop</button>
+  </div>
+  <button class="btn" id="help-btn" title="Keys, meanings, and the laws">? guide</button>
+  <span class="spacer"></span>
+  <span class="kv" id="stats" style="pointer-events:none"></span>
+</div></div>
+
+<div id="stage"><canvas id="cv"></canvas></div>
+
+<div class="hud">
+  <span class="kv"><b style="color:var(--violet)">⧉ twin-ghost = superposition</b> (uncollapsed status) · <b style="color:var(--violet)">╌╌ violet dash = entanglement</b> (shared evidentiary roads, Jaccard ≥ 0.4) · ◈ gold = diamond</span>
+  <span class="kv">Zone A: D1–D4 kinematics (position · velocity · acceleration · degree) · Zone B: D5–D12 coherence operators</span>
+  <span class="kv" id="inv-legend" style="display:none"><b style="color:#e2e8f0">◌ white dash = TAUTOLOGY</b> (true by construction — zero information about the world) · <b style="color:var(--cyan)">○ cyan = CONSTITUTIONAL</b> (kept true by enforcement) · <b style="color:var(--green)">◌ green dot = EMPIRICAL</b> (never false yet falsifiable — the only grade that is evidence)</span>
+  <span class="kv" style="max-width:640px">Honesty note: this is a computed projection of the lattice onto a 12D state space — an adaptation of the kinematic-manifold convention, not arcs_kinematics.py's manifold (code wins over doc). A superposed node collapses only by a formalization measurement — see the Formalization Backlog.</span>
+</div>
+
+<div class="perf" id="perf">
+  <div class="mv" id="perf-mv"></div>
+  <div class="what" id="perf-what"></div>
+  <div class="proj" id="perf-proj"></div>
+  <div class="segbar" id="perf-bar"><span class="ph" id="perf-ph"></span></div>
+  <div class="tm"><span id="perf-t"></span><span id="perf-note"></span></div>
+</div>
+
+<div class="drawer" id="drawer"><button class="x" id="dxx">✕ ESC</button><div id="dbody"></div></div>
+
+<div class="drawer" id="help" style="left:12px;right:auto;width:min(430px,calc(100vw - 24px))"><button class="x" id="hx">✕ ESC</button>
+  <span class="lbl" style="color:var(--cyan)">Keys · one grammar, one channel per layer</span>
+  <h3 style="margin:.3rem 0 .4rem">Navigate the phase space</h3>
+  <p style="font-family:var(--mono);font-size:.72rem;line-height:2">
+    <b>← →</b> step epoch (time) · <b>↑ ↓</b> cycle node selection (structure)<br>
+    <b>1–9 0 - =</b> set X axis to D1…D12 · <b>shift + same</b> set Y axis<br>
+    <b>space</b> play / hold · <b>M</b> cycle metronome · <b>T E I G S</b> toggle layers/lens · <b>B</b> 🩰 ballet · <b>N</b> 𝄞 symphony · <b>X</b> ⏹ kill all audio · <b>esc</b> close</p><p style="font-size:.7rem;color:var(--mut);line-height:1.6">🩰 The ballet plays the complete Clair de Lune (~4 min). Composition: Debussy, 1905 (public domain). MIDI performance: <b>Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE</b>. The choreography is read from the performance itself: note-density + velocity classify each passage (quiet → Moonrise · lyric → Pas de deux · flowing → Epoch waves · climax → Diamond), and the coda resolves to the true data pose. Instrumentation: the rack beside 🩰 re-voices the MIDI — 🎻 orchestra splits by register (strings bass · piano mid · harp upper · celesta top); changes apply within one scheduling window (≤8s). The choreography is a projection tour: each segment re-projects the manifold through a new X·Y pair — kinematics → degrees → entropy → collapse×superposition at the climax — and the coda restores your own axes.</p><p style="font-size:.7rem;color:var(--mut);line-height:1.7">𝄞 The symphony is the state space sounded — a law, not a playlist. Score = the current projection (X → onset, Y → pitch). Silence = not-yet-evidenced; loudness and ring = hardness; harmony = major pentatonic on a chord root that sways Gymnopédie-style through the evidence-unlocked circle of fifths (maj7 and 9 unlock at later epochs) — Debussy/Satie by construction, no semitone clashes; voice = domain. Metronome: grid / unmetered / tempo / held chord / all epochs stacked. Layers are audible, never cosmetic: trails = echo · entangle = imitative canon · invariants = the ground bass (always true, always sounding) · satoshi = prolation canon at 1×, 2×, 4× · superposed lens = only the unresolved, trilling. Change any control and the music must change — that is the test.
+  </p>
+  <span class="lbl" style="color:var(--gold)">Conductor's score — one mark per dimension</span>
+  <p style="font-family:var(--mono);font-size:.68rem;line-height:1.9" id="conductor-score"></p>
+  <span class="lbl" style="color:var(--gold)">What the controls mean</span>
+  <p style="font-size:.76rem;line-height:1.7">
+    <b>Epochs (e1–e8)</b> — the corpus's eight serializability epochs (2026-05-20 → 07-10). Every edge is stamped with the epoch its evidentiary road appeared; scrubbing replays the web's growth.<br>
+    <b>Metronome</b> — five timekeepings: CHRONOS even ticks · KAIROS dwells on significant epochs · DILATION continuous time (fractional epochs, interpolated) · <b>SUSPENSION holds time still</b> so you can move through structure (axes, nodes) while nothing ages · SUPERPOSITION renders all 8 epochs at once.<br>
+    <b>Layers</b> (each owns one visual channel): trails = colored history paths · entangle = violet dashes · invariants = ring grammar (dash/solid/dot) · satoshi = gold nested geometry.<br>
+    <b>Lens</b> (changes what is emphasized, adds nothing): superposed dims every collapsed node.
+  </p>
+</div>
+
+<script id="lattice-data" type="application/json">{"version":"1.0.0","epoch_source":"meta-audit v1.1.0 timeline (e1=2026-05-20 … e8=2026-07-10)","hardness_rule":"hardness(node) = count of DISTINCT domains among in-edge source nodes; diamond at >=4","domains":{"ont":{"label":"ONTOLOGY","sub":"what exists","a":-90},"epi":{"label":"EPISTEMOLOGY","sub":"how we know","a":-18},"met":{"label":"METAPHYSICS","sub":"the physics","a":54},"ety":{"label":"ETYMOLOGY","sub":"why these names","a":126},"lib":{"label":"LIBRARY","sub":"where it is written","a":198}},"strata":{"q":{"label":"QUANTUM","r":0.09},"a":{"label":"ATOMIC","r":0.24},"m":{"label":"MOLECULAR","r":0.42},"o":{"label":"ORGANISM","r":0.62},"l":{"label":"LIBRARY","r":0.82},"g":{"label":"META","r":0.97}},"nodes":[{"id":"zp","label":"Zero-Point Knowledge","st":"q","dom":"met","status":"true","what":"The empty center: what is known before any receipt — priors, lived experience, om. Currently a working metaphor, not a formal object.","shore":["No formal definition anywhere in the corpus — needs a canon entry","Relationship to PrepSession priors and prior-work capture unspecified","Is it a state (S_min in ARCS Law?) or a substrate? Decide."]},{"id":"ax1","label":"Lived experience outranks inference","st":"q","dom":"met","status":"ok","what":"ROM axiom; enforced in code via PRIOR WORK rule (e802ed7) and NOTOMATION guards."},{"id":"ax2","label":"Decisions are bets","st":"q","dom":"epi","status":"ok","what":"Epistemic stance: every True North is graded, never asserted as fact."},{"id":"ax3","label":"No commands, only offers","st":"q","dom":"ont","status":"ok","what":"What ARCS is: an instrument, never an authority."},{"id":"ax4","label":"Time quality ≈ outcome quality","st":"q","dom":"met","status":"true","what":"Asserted in doctrine; Time ROM formalizes decay but outcome linkage unmeasured.","shore":["Needs the outcome loop data (audit move #03) before it can be tested"]},{"id":"ax5","label":"Fidelity is earned","st":"q","dom":"epi","status":"ok","what":"Render scale law: never display more certainty than the data holds."},{"id":"om","label":"Om / the null reading","st":"q","dom":"met","status":"true","what":"Strip every layer: one person making better decisions on record. The om the infinite grows from.","shore":["Named in audit Fun House; not yet a canon term"]},{"id":"nci","label":"nci_score","st":"a","dom":"epi","status":"ok","what":"Honest 0–100 confidence; 40–60 = genuinely uncertain; inflation forbidden."},{"id":"coh","label":"coherence_pct","st":"a","dom":"epi","status":"ok","what":"How well-formed and answerable the question is."},{"id":"ypol","label":"yPolarity·conviction·stability","st":"a","dom":"ont","status":"ok","what":"Canonical Y-gate triple (aligned 61095c5)."},{"id":"door","label":"door_class","st":"a","dom":"ont","status":"ok","what":"ONE_WAY / TWO_WAY reversibility classification."},{"id":"stak","label":"stakes · horizon","st":"a","dom":"ont","status":"ok","what":"Mode selector inputs (QUICKMOVE/PLAN/COURT)."},{"id":"prior","label":"priorWork → exclusion criteria","st":"a","dom":"epi","status":"true","what":"New at e802ed7: user-stated prior analysis becomes exclusion criteria.","shore":["Zero-schema today (free text); dedicated PrepSession field + migration is Phase 2"]},{"id":"l7c","label":"L7 constants: decay · contrarian · calcification","st":"a","dom":"met","status":"shore","what":"Counter-forces pinned in lattice-pressure ROM; self-tuning FORBIDDEN.","shore":["Values are placeholders — never fitted to real receipts (gated at 100R)"]},{"id":"cad","label":"recoil cadence √duration","st":"a","dom":"epi","status":"shore","what":"Segment count max(3, round(sqrt(minutes))).","shore":["Spec is DRAFT, not canon-ratified"]},{"id":"law","label":"ARCS Law C = αA − β(S−S_min)² + γW","st":"a","dom":"met","status":"shore","what":"Coherence law in arcs_primitives.py.","shore":["α, β, γ, S_min never fitted to observed data","No unit analysis published — dimensional honesty check pending"]},{"id":"trib3","label":"EXACTLY-3 tributaries","st":"a","dom":"ont","status":"ok","what":"meta · challenge · adjacent — enforced in the compass contract."},{"id":"selfg","label":"nci_self_grade","st":"a","dom":"epi","status":"ok","what":"Four-boolean self-audit on every receipt: factual · sources · honesty · action."},{"id":"rec","label":"Receipt","st":"m","dom":"ont","status":"ok","what":"A state vector frozen in time — coordinate, seed, trace. The hardest-earned node in the lattice: ontology, epistemology, metaphysics, and library all point at it independently."},{"id":"tn","label":"True North","st":"m","dom":"ont","status":"ok","what":"One actionable sentence, graded by conviction. Never 'it depends'."},{"id":"kai","label":"Kairos","st":"m","dom":"met","status":"true","what":"The opportune moment. Many roads name it — Greek etymology, WORLD.md physics, Time ROM — but no code measures it. Named ≠ measured.","shore":["No detection engine (disclosed as Roadmap in-product)","v0 = breadcrumbs on receipts (audit move #05), not an engine"]},{"id":"chr","label":"Chronos","st":"m","dom":"met","status":"ok","what":"Calendar time; the axis kairos punctuates."},{"id":"sup","label":"Superionic","st":"m","dom":"met","status":"ok","what":"Structure + flow fused: fixed lattice, mobile charge. The named end-state, reinforced from four independent directions."},{"id":"fog","label":"Fog / Terrain","st":"m","dom":"met","status":"ok","what":"Uncertainty as navigable space; four zones from outer fog to nucleus."},{"id":"cmw","label":"Chi · Ma · Wuwei","st":"m","dom":"met","status":"true","what":"Energy / deliberate emptiness / non-forcing — audit §5 vocabulary.","shore":["Used in governance twice; not yet canon-defined terms"]},{"id":"sepoch","label":"Serializability Epoch","st":"m","dom":"epi","status":"ok","what":"Write-lock boundary for shared state; per-branch state files serialize feature work."},{"id":"man","label":"Artifact Manifest","st":"m","dom":"ont","status":"true","what":"Zod contract per artifact: params, targets, deps, events, provenance.","shore":["Specced in Surface Map A2 — zero manifests exist yet"]},{"id":"alt","label":"Altitude / Lossless Translation","st":"m","dom":"epi","status":"true","what":"Same truth at exec / operator / surgical grain.","shore":["Twice built ad-hoc (AltitudePicker, FidelityDial) — promote to src/ui atoms"]},{"id":"hyp","label":"Hyperstition","st":"m","dom":"met","status":"true","what":"Fiction that engineers its own reality — the done-state pulling the present toward it.","shore":["Lives only in ui-kit HTML and this audit — no canon definition","Distinguish from wishful thinking: a hyperstition must emit receipts"]},{"id":"zipf","label":"Folksonomy / Zipf baseline","st":"m","dom":"epi","status":"gate","what":"Emergent tag distribution over receipts.","shore":["Gated at 100 receipts — baseline unmeasurable today"]},{"id":"orth","label":"Orthogonal Vector","st":"m","dom":"epi","status":"ok","what":"An uncorrelated line of evidence. Hardness in this very lattice = count of distinct domains converging."},{"id":"attr","label":"Local Maximum / Attractor","st":"m","dom":"met","status":"ok","what":"Where independent roads converge; the superordinate goal precipitates, it is not declared (ADR-023)."},{"id":"drift","label":"Drift","st":"m","dom":"epi","status":"ok","what":"Entropy masquerading as motion — spin cycles, stale claims, maps diverging from terrain."},{"id":"dewy","label":"DEWY","st":"o","dom":"ont","status":"ok","what":"D·E·W·Y state vector — the decision's coordinates. Schema-pinned, Prisma-aligned, canon-documented."},{"id":"ygate","label":"Y-Gate","st":"o","dom":"epi","status":"ok","what":"12D manifold → polarity × conviction × stability → render state."},{"id":"cocd","label":"COCD Loop","st":"o","dom":"ont","status":"ok","what":"Calibrate → Orient → Chart → Detect; canonical sequence D→A→C→B."},{"id":"hpipe","label":"Hyperstition Pipeline","st":"o","dom":"met","status":"true","what":"Ethereal → Loki Test → Receipt Evaluation → ROM.","shore":["Stages 1–2 have no runtime representation"]},{"id":"inch","label":"Golden Inchworm","st":"o","dom":"epi","status":"ok","what":"Red thread → golden thread → needle; append-only advance. As of this week it has a live implementation: the sentry's inchworm log."},{"id":"echo","label":"Orthogonal Echo Detector","st":"o","dom":"epi","status":"true","what":"Surface cross-domain kinematic isomorphisms.","shore":["RC-OPS-001 gated behind an Observatory period — not ROM"]},{"id":"recoil","label":"Recoil Protocol","st":"o","dom":"epi","status":"true","what":"Reverse Listening + Deep Recall over any record.","shore":["Governing spec recoil-modes-v1 is DRAFT"]},{"id":"atg","label":"ATG","st":"o","dom":"ont","status":"ok","what":"Anticipatory Tributary Generator — live in code AND stale-claimed as unbuilt in AGENTS.md (truth-sync pending, audit #02)."},{"id":"gaunt","label":"Gauntlet — LAB·BAR·COURT·KKL·FunHouse","st":"o","dom":"epi","status":"ok","what":"The five-station pressure test; this explorer's 720° protocol is its skeptic-led form."},{"id":"lat","label":"Goal Lattice (ADR-023)","st":"o","dom":"epi","status":"gate","what":"Observability as a superionic goal lattice over receipts — the physics this page visualizes.","shore":["Implementation gated at 100 receipts; goal_edges overlay schema is a future ADR"]},{"id":"sent","label":"Drift Sentinel","st":"o","dom":"epi","status":"ok","what":"Was a GAP in the audit; now real as the 08:00 daily routine."},{"id":"noto","label":"NOTOMATION","st":"o","dom":"met","status":"ok","what":"Scaffold cognition, never replace revealed preference. Constitutional; enforced across manifesto, axiom, CI design, and COURT checks."},{"id":"kin","label":"12D Kinematic Manifold","st":"o","dom":"met","status":"ok","what":"Two-zone: D1–D3 derivatives + D5+ coherence operators. Code (arcs_kinematics v1.3) wins over docs."},{"id":"folk","label":"Folksonomist","st":"o","dom":"epi","status":"gate","what":"Operator that infers the weighted folksonomy DAG.","shore":["Runs on synthetic corpora only until 100R"]},{"id":"rend","label":"Render Scale","st":"o","dom":"met","status":"ok","what":"GRAIN→MOIRE→DEGRADED→SHARP→LOCKED; now also a live UI control (fidelity dial)."},{"id":"acc","label":"Accumulation Protocol","st":"o","dom":"ont","status":"true","what":"Receipts → outcomes → priors → atlas (Book II·V).","shore":["Debrief embryo only; audit move #03 closes the first loop"]},{"id":"crt2","label":"Shared Court","st":"o","dom":"ont","status":"gate","what":"Multi-party sessions, dissent records, arbitration (Book II·VI). Correctly empty."},{"id":"eng","label":"Engine Duality — prompt vs operators","st":"o","dom":"epi","status":"shore","what":"Two implementations of one physics; only the prompt ships. /svc/sage mounted, zero callers.","shore":["No eval harness — audit move #04 is the gate","Wiring before benchmark is forbidden by this map"]},{"id":"vce","label":"Vector Collision Engine","st":"o","dom":"met","status":"true","what":"Spec v1 + v2-delta exist in runtime/specs; no implementation.","shore":["Reconcile with Engine Duality before any build"]},{"id":"world","label":"WORLD.md","st":"l","dom":"lib","status":"ok","what":"The physics spec — governing law of the product world."},{"id":"b2","label":"Book II (Parts I–VI)","st":"l","dom":"lib","status":"ok","what":"Canonical: firehose→compass, ROM axioms, constitutional court, accumulation, shared court."},{"id":"canon","label":"ARCS-Canon v1.1 + v2.0","st":"l","dom":"lib","status":"ok","what":"Core canon documents."},{"id":"codex","label":"Codex v8.5","st":"l","dom":"lib","status":"ok","what":"Living operational codex."},{"id":"lite","label":"Litepaper","st":"l","dom":"lib","status":"ok","what":"Public-facing thesis."},{"id":"mani","label":"Manifesto","st":"l","dom":"lib","status":"ok","what":"Doctrine origin of NOTOMATION and offers-not-commands."},{"id":"phen","label":"Phenomenology","st":"l","dom":"lib","status":"ok","what":"First-person texture of decisions under pressure."},{"id":"yell","label":"Yellow Paper","st":"l","dom":"lib","status":"true","what":"Technical foundations.","shore":["Reconcile with shipped architecture — predates the prompt-engine reality"]},{"id":"pct","label":"Phase-Change Thesis 001","st":"l","dom":"lib","status":"true","what":"Gas→liquid→solid→superionic applied to decision quality.","shore":["Constants and thresholds informal — feeds the phase gauge on this page"]},{"id":"glos","label":"Glossary","st":"l","dom":"lib","status":"true","what":"Term registry.","shore":["Missing: zero-point, hyperstition, chi/ma/wuwei, om — the truing list of this lattice"]},{"id":"oprd","label":"orient-prd v0.1 (Kairos Lock)","st":"l","dom":"lib","status":"ok","what":"Governing authority for the DEWY pipeline issues."},{"id":"dsch","label":"dewy-receipt-schema-v1","st":"l","dom":"lib","status":"ok","what":"Machine-readable receipt truth; Prisma conforms."},{"id":"trom","label":"time-quality ROM","st":"l","dom":"lib","status":"ok","what":"W-field inference, DRIFT sentinel rules, Kairos Lock."},{"id":"lrom","label":"lattice-pressure ROM","st":"l","dom":"lib","status":"ok","what":"The three counter-forces, L7-pinned; self-tuning forbidden."},{"id":"adrs","label":"32 ADRs","st":"l","dom":"lib","status":"ok","what":"Decision receipts for the build itself."},{"id":"audit","label":"Meta-Audit v1.1 + Surface Map","st":"l","dom":"lib","status":"ok","what":"This week's recoil over the whole corpus; parent of this lattice."},{"id":"trust","label":"Trust Contract v1.1","st":"l","dom":"lib","status":"ok","what":"Public honesty surface — names every gap rather than hiding it."},{"id":"ety1","label":"kairos — καιρός","st":"m","dom":"ety","status":"ok","what":"Greek: the opportune, qualitative moment — vs chronos, quantitative time."},{"id":"ety2","label":"hyperstition — CCRU coinage","st":"m","dom":"ety","status":"ok","what":"hyper + superstition: fictions that make themselves real."},{"id":"ety3","label":"superionic — ice XVIII","st":"m","dom":"ety","status":"ok","what":"Materials science: fixed oxygen lattice, protons flowing through it."},{"id":"ety4","label":"無為 · 間 · 氣","st":"m","dom":"ety","status":"ok","what":"wúwéi (non-forcing) · ma (charged interval) · qì (vital energy)."},{"id":"ety5","label":"folksonomy — Vander Wal","st":"m","dom":"ety","status":"ok","what":"folk + taxonomy: classification that emerges from use, not decree."},{"id":"ety6","label":"NOTOMATION — portmanteau","st":"m","dom":"ety","status":"ok","what":"not + automation: the refusal that defines the product."},{"id":"ety7","label":"recoil — the shoe drops","st":"m","dom":"ety","status":"ok","what":"The backward force after firing: reading history against its own momentum."},{"id":"meta_ont","label":"ONTOLOGY — what exists","st":"g","dom":"ont","status":"true","what":"The family of what exists: receipts, tributaries, doors, standing. Absent as a first-class node until e8 — the domain of what-exists did not itself exist in the lattice (caught by Zach, 2026-07-10). Receives 31 evidentiary roads but emits almost nothing: 'what exists' is currently defined by the other families rather than defining them.","shore":["Only one quantum axiom is ontological (ax3) — author the missing ontology axioms","Give ontology out-roads: what does the entity model imply for how we know?"]},{"id":"meta_epi","label":"EPISTEMOLOGY — how we know","st":"g","dom":"epi","status":"ok","what":"Gauges, receipts-as-evidence, self-grades, eval harnesses. The only domain never silent as an evidence target across all 8 epochs — and the only healthy meta-node of the five."},{"id":"meta_met","label":"METAPHYSICS — the physics","st":"g","dom":"met","status":"true","what":"The physics of the decision world: fog, phases, superionic, time. Quiet signal: attested by documents 3:1 over measurement (24 library roads vs 8 epistemology roads in). The physics is written far more than it is measured.","shore":["F7 kairos breadcrumbs + F8 outcome loop are the rebalancing measurements"]},{"id":"meta_ety","label":"ETYMOLOGY — why these names","st":"g","dom":"ety","status":"true","what":"Where the names come from. Pure exporter: 8 roads out, 0 in — and zero pollination FROM any library doc in any epoch. ARCS imports all its names (Greek, CCRU, materials science, Chinese) and has never yet coined-and-canonized a term from its own material into this family.","shore":["Glossary backfill (F2) is the structural fix","First internal coinage candidates: DEWY, NOTOMATION, zero-point — name their origins formally"]},{"id":"meta_lib","label":"LIBRARY — where it is written","st":"g","dom":"lib","status":"true","what":"17 documents, 64 roads out — and in-degree ZERO across every document. The library examines everything and is examined by nothing: the unexamined examiner, at family scale. Three canonical books (Canon v1.1/v2.0, Codex v8.5, Phenomenology) pollinate nothing at all.","shore":["Turn the 720° second sweep on the library itself: audit the documents as objects","Decide: are canon/codex/phen under-mined sources or consolidation candidates?"]}],"edges":[["world","rec",1],["dsch","rec",2],["ygate","rec",2],["noto","rec",1],["audit","rec",8],["acc","rec",5],["selfg","rec",3],["world","sup",1],["lite","sup",5],["lat","sup",4],["ety3","sup",5],["pct","sup",5],["fog","sup",1],["mani","noto",1],["ax3","noto",1],["gaunt","noto",3],["adrs","noto",3],["ety6","noto",1],["ety1","kai",1],["world","kai",1],["trom","kai",2],["oprd","kai",2],["ety2","hyp",5],["hpipe","hyp",1],["audit","hyp",8],["om","zp",8],["ax1","zp",1],["prior","zp",8],["glos","zp",8],["audit","eng",8],["vce","eng",8],["adrs","lat",4],["lrom","lat",4],["zipf","lat",4],["folk","lat",4],["pct","lat",5],["world","inch",1],["sent","inch",8],["audit","inch",8],["b2","inch",2],["oprd","dewy",2],["dsch","dewy",2],["b2","dewy",2],["ygate","dewy",2],["ax2","dewy",1],["dsch","ygate",2],["kin","ygate",3],["world","ygate",1],["ypol","ygate",3],["oprd","atg",2],["trib3","atg",6],["audit","atg",8],["b2","gaunt",2],["audit","gaunt",8],["recoil","gaunt",7],["law","gaunt",3],["ety7","recoil",7],["cad","recoil",7],["audit","recoil",8],["world","rend",1],["ax5","rend",1],["ygate","rend",3],["alt","rend",8],["b2","acc",2],["trom","acc",2],["audit","acc",8],["b2","crt2",2],["trom","sent",2],["audit","sent",8],["drift","sent",6],["ety4","cmw",8],["audit","cmw",8],["ety5","zipf",4],["folk","zipf",4],["lat","attr",4],["audit","attr",8],["zp","attr",8],["lat","orth",4],["echo","orth",6],["gaunt","orth",8],["world","fog",1],["rend","fog",1],["pct","fog",5],["oprd","cocd",2],["b2","cocd",2],["audit","cocd",8],["mani","ax3",1],["world","ax4",1],["trom","ax4",2],["kin","law",3],["yell","law",2],["audit","man",8],["adrs","man",8],["ax1","prior",8],["audit","prior",8],["world","tn",1],["nci","tn",3],["dewy","tn",2],["trust","drift",6],["audit","drift",8],["yell","vce",2],["glos","kai",8],["glos","hyp",8],["ety2","hpipe",5],["b2","hpipe",2],["noto","l7c",4],["lrom","l7c",4],["audit","alt",8],["world","alt",1],["sepoch","inch",8],["b2","sepoch",2],["nci","selfg",6],["trust","selfg",6],["echo","kin",6],["yell","kin",2],["dewy","stak",2],["dewy","door",2],["dewy","ypol",2],["gaunt","eng",8]],"invariants":{"note":"Three grades of always-true, deliberately distinguished. TAUTOLOGY: true by construction within ARCS's own definitions — load-bearing, but carries no information about the world. CONSTITUTIONAL: normative invariant KEPT true by enforcement (could be violated; never has been; violation = constitutional breach). EMPIRICAL: has never been false across e1-e8 but is falsifiable — the only grade that constitutes evidence.","tautology":["trib3","door","sepoch","rend","orth"],"constitutional":["noto","ax1","ax2","ax3","ax5","inch","selfg"],"empirical":["rec","dewy","ygate","trust"]},"satoshi":{"note":"The receipt is ARCS's satoshi: the smallest irreducible unit of recorded decision value. The structure is fractal-recursive — the same DEWY decomposition holds at every scale, and ARCS uses ARCS to build ARCS (this audit is itself a receipt about the receipt system).","scales":["RECEIPT","SESSION","HANDOFF EPOCH","AUDIT","CORPUS"]}}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('lattice-data').textContent);
+const BAL = { on:false, cur:{}, amp:{}, fired:{}, start:0, trailsWere:true };
+const NODES = DATA.nodes, EDGES = DATA.edges;
+const byId = {}; NODES.forEach(n => byId[n.id] = n);
+const DOMC = { ont:'#00F0FF', epi:'#00FF9D', met:'#FFD700', ety:'#c084fc', lib:'#7dd3fc' };
+const STRD = { q:0, a:1, m:2, o:3, l:4, g:5 };
+
+// ── in/out edge indices ──
+const inS = {}, outS = {};
+NODES.forEach(n => { inS[n.id] = []; outS[n.id] = []; });
+EDGES.forEach(e => { outS[e[0]].push(e); inS[e[1]].push(e); });
+const srcAt = (id, ep) => inS[id].filter(e => e[2] <= ep).map(e => e[0]);
+const domsAt = (id, ep) => new Set(srcAt(id, ep).map(s => byId[s].dom));
+const hard = (id, ep) => domsAt(id, ep).size;
+
+// ── entanglement: Jaccard of in-edge source sets at e8, >=2 shared ──
+const ENT = [];
+const ids = NODES.map(n => n.id);
+for (let i = 0; i < ids.length; i++) for (let j = i+1; j < ids.length; j++) {
+  const a = new Set(srcAt(ids[i], 8)), b = new Set(srcAt(ids[j], 8));
+  if (a.size < 2 || b.size < 2) continue;
+  const inter = [...a].filter(x => b.has(x)).length;
+  if (inter < 2) continue;
+  const jac = inter / new Set([...a, ...b]).size;
+  if (jac >= 0.4) ENT.push([ids[i], ids[j], +jac.toFixed(2)]);
+}
+const entDeg = {}; ids.forEach(i => entDeg[i] = 0);
+ENT.forEach(([a,b]) => { entDeg[a]++; entDeg[b]++; });
+
+// ── the 12 dimensions ──
+function entropy(id, ep) {
+  const ds = srcAt(id, ep).map(s => byId[s].dom);
+  if (!ds.length) return 0;
+  const c = {}; ds.forEach(d => c[d] = (c[d]||0)+1);
+  return -Object.values(c).reduce((s,v) => s + (v/ds.length)*Math.log2(v/ds.length), 0);
+}
+const DIMS = [
+  { k:'D1',  n:'HARDNESS',        f:(id,ep) => hard(id,ep) },
+  { k:'D2',  n:'VELOCITY dH/dt',  f:(id,ep) => hard(id,ep) - hard(id,Math.max(1,ep-1)) },
+  { k:'D3',  n:'ACCEL d²H/dt²',   f:(id,ep) => (hard(id,ep)-hard(id,Math.max(1,ep-1))) - (hard(id,Math.max(1,ep-1))-hard(id,Math.max(1,ep-2))) },
+  { k:'D4',  n:'IN-DEGREE',       f:(id,ep) => srcAt(id,ep).length },
+  { k:'D5',  n:'OUT-DEGREE',      f:(id,ep) => outS[id].filter(e => e[2]<=ep).length },
+  { k:'D6',  n:'DOMAIN ENTROPY',  f:(id,ep) => entropy(id,ep) },
+  { k:'D7',  n:'BRIDGE SPAN',     f:(id,ep) => new Set([...srcAt(id,ep).map(s=>byId[s].dom), ...outS[id].filter(e=>e[2]<=ep).map(e=>byId[e[1]].dom)]).size },
+  { k:'D8',  n:'STRATUM DEPTH',   f:(id) => STRD[byId[id].st] },
+  { k:'D9',  n:'COLLAPSE CHARGE', f:(id) => ({ok:1,true:.5,shore:.25,gate:0})[byId[id].status] },
+  { k:'D10', n:'SUPERPOSITION',   f:(id) => byId[id].status === 'ok' ? 0 : 1 },
+  { k:'D11', n:'ENTANGLEMENT',    f:(id) => entDeg[id] },
+  { k:'D12', n:'FIELD COHERENCE', f:(id,ep) => { const nb=[...new Set([...srcAt(id,ep), ...outS[id].filter(e=>e[2]<=ep).map(e=>e[1])])]; return nb.length? nb.reduce((s,x)=>s+hard(x,ep),0)/nb.length : 0; } },
+];
+
+// ── Conductor notation (runtime/specs/conductor-notation-v1.md) — one mark per dim.
+// D10-12 echo the canonical kinematic spectrum's ballet terms (arcs_kinematics.py):
+// Relevé (peak tension) · Plié (yield) · Élevé (unified) — Zach's coinage, adopted.
+const CONDUCTOR = [
+  { mark: '–',    ballet: 'aplomb',          note: 'tenuto — how set the placement is' },
+  { mark: '‿',    ballet: 'glissade',        note: 'legato — the traveling step' },
+  { mark: 'sfz',  ballet: 'fouetté',         note: 'sforzando — the whip-turn' },
+  { mark: 'div.', ballet: 'supported adagio',note: 'divisi — how many voices sound this note' },
+  { mark: 'ost.', ballet: 'porteur',         note: 'ostinato — the figure others stand on' },
+  { mark: 'poly.',ballet: 'character suite', note: 'polyphony — independence of the voices' },
+  { mark: '⌒',    ballet: 'pas couru',       note: 'ligature — tied across staves' },
+  { mark: '8va',  ballet: 'plié↕élevé depth',note: 'register — which octave of the system' },
+  { mark: 'V–I',  ballet: 'finished line',   note: 'cadence: authentic=formalized · deceptive=truing · fermata-rest=gated' },
+  { mark: 'tr',   ballet: 'RELEVÉ',          note: 'trill held unresolved — collapse is the resolution (peak tension, on pointe)' },
+  { mark: '𝄆',    ballet: 'PLIÉ',            note: 'canon — partners yield into each other' },
+  { mark: 'tutti',ballet: 'ÉLEVÉ',           note: 'the ensemble breathes as one body' },
+];
+// precompute tensor + ranges
+const T = {}; // T[ep][id] = [12]
+for (let ep = 1; ep <= 8; ep++) { T[ep] = {}; ids.forEach(id => T[ep][id] = DIMS.map(d => d.f(id, ep))); }
+const RANGE = DIMS.map((_, k) => {
+  let lo = 1e9, hi = -1e9;
+  for (let ep = 1; ep <= 8; ep++) ids.forEach(id => { const v = T[ep][id][k]; if (v<lo) lo=v; if (v>hi) hi=v; });
+  return [lo, hi === lo ? lo+1 : hi];
+});
+const norm = (k, v) => (v - RANGE[k][0]) / (RANGE[k][1] - RANGE[k][0]);
+// fractional-epoch interpolation — time dilation renders between epochs
+const dimAt = (id, e, k) => {
+  const f = Math.max(1, Math.floor(e)), c = Math.min(8, f + 1), t = e - f;
+  return T[f][id][k] + (T[c][id][k] - T[f][id][k]) * t;
+};
+// invariant field (from lattice JSON) + kairos weights per epoch
+const INV = DATA.invariants || { tautology:[], constitutional:[], empirical:[] };
+const invGrade = id => INV.tautology.includes(id) ? 'taut' : INV.constitutional.includes(id) ? 'const' : INV.empirical.includes(id) ? 'emp' : null;
+const KW = { 1:1, 2:2, 3:3, 4:1.5, 5:3, 6:2.5, 7:1.5, 8:3 }; // kairos significance weights (meta-audit timeline)
+
+// ── controls ──
+const dxSel = document.getElementById('dx'), dySel = document.getElementById('dy');
+DIMS.forEach((d, i) => { const lbl = d.k+' '+d.n+' · '+CONDUCTOR[i].mark; dxSel.add(new Option(lbl, i)); dySel.add(new Option(lbl, i)); });
+dxSel.value = 0; dySel.value = 11;
+let ep = 8, trails = true, showEnt = true, supOnly = false, showInv = false, showSat = false, sel = null;
+let mode = 'CHRONOS', tempo = 1, playing = null;
+const jit = {}; ids.forEach((id,i) => { const h = (i*2654435761)%1000; jit[id] = [(h%31-15)*.45, (Math.floor(h/31)%31-15)*.45]; });
+
+// ── canvas ──
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d'), stage = document.getElementById('stage');
+function resize(){ cv.width = stage.clientWidth*devicePixelRatio; cv.height = stage.clientHeight*devicePixelRatio; draw(); }
+addEventListener('resize', resize);
+const M = { l: 90, r: 40, t: 46, b: 64 };
+function pos(id, e) { if (BAL.on && BAL.cur[id]) return BAL.cur[id]; return rawPos(id, e); }
+function rawPos(id, e) {
+  const kx = +dxSel.value, ky = +dySel.value;
+  const w = cv.width/devicePixelRatio, h = cv.height/devicePixelRatio;
+  return [ M.l + norm(kx, dimAt(id, e, kx)) * (w - M.l - M.r) + jit[id][0],
+           h - M.b - norm(ky, dimAt(id, e, ky)) * (h - M.t - M.b) + jit[id][1] ];
+}
+function draw() {
+  const dpr = devicePixelRatio, w = cv.width/dpr, h = cv.height/dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  const kx = +dxSel.value, ky = +dySel.value;
+  // axes
+  ctx.strokeStyle = 'rgba(30,41,59,.9)'; ctx.lineWidth = 1;
+  ctx.strokeRect(M.l, M.t, w-M.l-M.r, h-M.t-M.b);
+  ctx.fillStyle = '#475569'; ctx.font = '700 10px ui-monospace,monospace'; ctx.textAlign = 'center';
+  ctx.fillText(DIMS[kx].k+' — '+DIMS[kx].n+' · '+CONDUCTOR[kx].mark+'  →', (M.l+w-M.r)/2, h-M.b+34);
+  ctx.save(); ctx.translate(M.l-52, (M.t+h-M.b)/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText(DIMS[ky].k+' — '+DIMS[ky].n+' · '+CONDUCTOR[ky].mark+'  →', 0, 0); ctx.restore();
+  // grid ticks (quartiles)
+  ctx.fillStyle = '#334155'; ctx.font = '9px ui-monospace,monospace';
+  for (let q = 0; q <= 4; q++) {
+    const vx = RANGE[kx][0] + q/4*(RANGE[kx][1]-RANGE[kx][0]);
+    const vy = RANGE[ky][0] + q/4*(RANGE[ky][1]-RANGE[ky][0]);
+    ctx.fillText(vx.toFixed(1), M.l + q/4*(w-M.l-M.r), h-M.b+16);
+    ctx.textAlign='right'; ctx.fillText(vy.toFixed(1), M.l-8, h-M.b - q/4*(h-M.t-M.b)+3); ctx.textAlign='center';
+  }
+  const visible = id => !supOnly || byId[id].status !== 'ok';
+  const epR = Math.max(1, Math.min(8, Math.round(ep)));
+  // ── SUPERPOSITION metronome mode: all epochs rendered at once — time itself uncollapsed ──
+  if (mode === 'SUPERPOSITION') {
+    ids.forEach(id => {
+      if (!visible(id)) return;
+      const c = DOMC[byId[id].dom];
+      for (let e = 1; e <= 8; e++) {
+        const [x,y] = pos(id, e);
+        ctx.globalAlpha = .18 + .06*e; ctx.fillStyle = c;
+        ctx.beginPath(); ctx.arc(x, y, 3 + hard(id,e)*.8, 0, 7); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      const [x8,y8] = pos(id, 8);
+      if (hard(id,8) >= 4) { ctx.fillStyle='rgba(226,232,240,.85)'; ctx.font='10px ui-monospace,monospace'; ctx.fillText(byId[id].label, x8, y8-12); }
+    });
+    drawOverlays(w, h);
+    document.getElementById('stats').innerHTML = `⧉ temporal superposition · all 8 epochs at once · <b style="color:var(--violet)">${ENT.length} entangled pairs</b>`;
+    return;
+  }
+  // entanglement links
+  if (showEnt) ENT.forEach(([a,b,j]) => {
+    if (!visible(a) && !visible(b)) return;
+    const [x1,y1] = pos(a,ep), [x2,y2] = pos(b,ep);
+    ctx.strokeStyle = `rgba(192,132,252,${.25+j*.5})`; ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.setLineDash([]);
+  });
+  // trails
+  if (trails) ids.forEach(id => {
+    if (!visible(id)) return;
+    ctx.beginPath();
+    for (let e = 1; e <= ep; e++) { const [x,y] = pos(id,e); e===1 ? ctx.moveTo(x,y) : ctx.lineTo(x,y); }
+    ctx.strokeStyle = DOMC[byId[id].dom] + '30'; ctx.lineWidth = 1; ctx.stroke();
+  });
+  // nodes
+  ids.forEach(id => {
+    const offStage = BAL.on && BAL.feature && !BAL.feature.has(id) && hard(id, 8) < 4;
+    const n = byId[id], dim = !visible(id) || offStage;
+    const [x,y] = pos(id,ep), hd = hard(id,epR), c = DOMC[n.dom];
+    void 0;
+    const a = dim ? '26' : 'e6';
+    const r = (4.5 + hd*1.1) * ((BAL.on || SYM.on) ? balAmp(id) : 1);
+    const superposed = n.status !== 'ok';
+    const mark = (ox,oy,alpha) => {
+      ctx.globalAlpha = alpha;
+      if (hd >= 4) { ctx.fillStyle = '#FFD700'; ctx.beginPath(); ctx.moveTo(x+ox,y+oy-r*1.3); ctx.lineTo(x+ox+r*1.3,y+oy); ctx.lineTo(x+ox,y+oy+r*1.3); ctx.lineTo(x+ox-r*1.3,y+oy); ctx.closePath(); ctx.fill(); }
+      else { ctx.fillStyle = c + a; ctx.beginPath(); ctx.arc(x+ox, y+oy, r, 0, 7); ctx.fill(); }
+      ctx.globalAlpha = 1;
+    };
+    if (superposed && !dim) { mark(-3.2,-3.2,.5); mark(3.2,3.2,.5); ctx.strokeStyle='rgba(192,132,252,.75)'; ctx.lineWidth=1; ctx.beginPath(); ctx.arc(x,y,r+4,0,7); ctx.stroke(); }
+    else mark(0,0, dim ? .16 : 1);
+    // tautology / invariant field overlay
+    if (showInv && !dim) {
+      const g = invGrade(id);
+      if (g) {
+        ctx.lineWidth = 1.3;
+        if (g === 'taut') { ctx.strokeStyle = 'rgba(226,232,240,.9)'; ctx.setLineDash([5,4]); }
+        else if (g === 'const') { ctx.strokeStyle = 'rgba(0,240,255,.85)'; ctx.setLineDash([]); }
+        else { ctx.strokeStyle = 'rgba(0,255,157,.85)'; ctx.setLineDash([2,3]); }
+        ctx.beginPath(); ctx.arc(x, y, r + 9, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      }
+    }
+    if (sel === id) { ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(x,y,r+7,0,7); ctx.stroke(); }
+    if (BAL.on ? (!dim && (hd >= 4 || (BAL.labelCast && BAL.feature && BAL.feature.has(id)))) : (sel === id || hd >= 4 || (superposed && !dim && entDeg[id] > 0))) {
+      ctx.fillStyle = 'rgba(226,232,240,.85)'; ctx.font = '10px ui-monospace,monospace';
+      ctx.fillText(n.label.length > 26 ? n.label.slice(0,24)+'…' : n.label, x, y - r - 8);
+    }
+  });
+  drawOverlays(w, h);
+  const supN = ids.filter(id => byId[id].status !== 'ok').length;
+  const epLbl = Number.isInteger(ep) ? 'e'+ep : 'e'+ep.toFixed(2)+' (dilated)';
+  document.getElementById('stats').innerHTML = `${mode.toLowerCase()} · ${epLbl} · <b>${ids.length}</b> nodes · <b style="color:var(--violet)">${supN} superposed</b> · <b style="color:var(--violet)">${ENT.length} entangled</b>`;
+}
+// ── satoshi recursion overlay: the same DEWY shape at every scale ──
+function drawOverlays(w, h) {
+  if (!showSat) return;
+  const cx = (M.l + w - M.r) / 2, cy = (M.t + h - M.b) / 2;
+  const scales = (DATA.satoshi && DATA.satoshi.scales) || ['RECEIPT','SESSION','HANDOFF EPOCH','AUDIT','CORPUS'];
+  let s = Math.min(w - M.l - M.r, h - M.t - M.b) * .46;
+  ctx.textAlign = 'center';
+  for (let i = scales.length - 1; i >= 0; i--) {
+    const rot = (scales.length - 1 - i) * .13; // fractal twist per recursion level
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
+    ctx.strokeStyle = `rgba(255,215,0,${.18 + (scales.length-1-i)*.14})`;
+    ctx.lineWidth = 1.1;
+    ctx.beginPath(); ctx.moveTo(0,-s); ctx.lineTo(s,0); ctx.lineTo(0,s); ctx.lineTo(-s,0); ctx.closePath(); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,215,0,.75)'; ctx.font = '700 9px ui-monospace,monospace';
+    ctx.fillText(scales[i], 0, -s - 5);
+    if (i === scales.length - 1) { // outermost: the DEWY corners — same decomposition at every scale
+      ctx.fillStyle = 'rgba(0,240,255,.9)'; ctx.font = '700 11px ui-monospace,monospace';
+      ctx.fillText('D', 0, -s + 16); ctx.fillText('E', s - 12, 4); ctx.fillText('W', 0, s - 8); ctx.fillText('Y', -s + 12, 4);
+    }
+    ctx.restore();
+    s *= .42;
+  }
+  ctx.fillStyle = 'rgba(255,215,0,.6)'; ctx.font = '9px ui-monospace,monospace';
+  ctx.fillText('is_satoshi: the unit of which the whole is a multiple — ARCS builds ARCS with ARCS', cx, cy + Math.min(w-M.l-M.r, h-M.t-M.b)*.46 + 18);
+}
+// ── interaction ──
+cv.addEventListener('click', e => {
+  const rect = cv.getBoundingClientRect(), mx = e.clientX-rect.left, my = e.clientY-rect.top;
+  let best = null, bd = 1e9;
+  ids.forEach(id => { const [x,y] = pos(id,ep); const d = (x-mx)**2 + (y-my)**2; if (d < bd) { bd = d; best = id; } });
+  sel = bd < 400 ? best : null; openDrawer(sel); draw();
+});
+[dxSel, dySel].forEach(s => s.addEventListener('change', draw));
+const epEl = document.getElementById('epoch');
+epEl.addEventListener('input', () => { ep = +epEl.value; draw(); });
+// ── adaptive metronome: five modes of timekeeping ──
+const metroEl = document.getElementById('metro'), tempoEl = document.getElementById('tempo'), tempoLbl = document.getElementById('tempo-lbl');
+metroEl.addEventListener('change', () => {
+  mode = metroEl.value; stopPlay();
+  // SUSPENSION: time is held — the scrubber locks; structure (axes, selection) stays free.
+  epEl.disabled = (mode === 'SUPERPOSITION' || mode === 'SUSPENSION');
+  document.getElementById('play').textContent = mode === 'SUSPENSION' ? '◼ held' : mode === 'SUPERPOSITION' ? '⧉ all' : '▶ orbit';
+  draw();
+});
+tempoEl.addEventListener('input', () => { tempo = tempoEl.value / 100; tempoLbl.textContent = tempo.toFixed(2).replace(/0$/,'') + '×'; });
+function stopPlay(){ if (playing) { cancelAnimationFrame(playing.raf); clearTimeout(playing.to); playing = null; document.getElementById('play').textContent = '▶ orbit'; } }
+document.getElementById('play').addEventListener('click', () => {
+  if (playing) return stopPlay();                          // SUSPENSION by hand, any mode
+  if (mode === 'SUSPENSION') { draw(); return; }           // suspension: time is held — play does nothing
+  if (mode === 'SUPERPOSITION') { draw(); return; }        // all epochs already shown
+  document.getElementById('play').textContent = '⏸ hold';
+  playing = {};
+  if (mode === 'DILATION') {                               // continuous time — fractional epochs
+    let last = performance.now(); ep = 1;
+    const step = now => {
+      ep = Math.min(8, ep + (now - last) / (1400 / tempo)); last = now;
+      epEl.value = ep; draw();
+      if (ep < 8 && playing) playing.raf = requestAnimationFrame(step); else stopPlay();
+    };
+    playing.raf = requestAnimationFrame(step);
+  } else {                                                 // CHRONOS: even ticks · KAIROS: significance-weighted dwell
+    let i = 1; ep = 1; epEl.value = 1; draw();
+    const tick = () => {
+      if (++i > 8 || !playing) return stopPlay();
+      ep = i; epEl.value = i; draw();
+      const dwell = mode === 'KAIROS' ? 420 * KW[i] / tempo : 650 / tempo;
+      playing.to = setTimeout(tick, dwell);
+    };
+    playing.to = setTimeout(tick, mode === 'KAIROS' ? 420 * KW[1] / tempo : 650 / tempo);
+  }
+});
+const toggle = (id, fn) => document.getElementById(id).addEventListener('click', e => { e.target.classList.toggle('on'); fn(e.target.classList.contains('on')); draw(); });
+toggle('t-trail', v => trails = v); toggle('t-ent', v => showEnt = v); toggle('t-sup', v => supOnly = v);
+toggle('t-inv', v => { showInv = v; document.getElementById('inv-legend').style.display = v ? 'block' : 'none'; });
+toggle('t-sat', v => showSat = v);
+// ── drawer ──
+function openDrawer(id) {
+  const dr = document.getElementById('drawer');
+  if (!id) return dr.classList.remove('open');
+  const n = byId[id], epD = Math.max(1, Math.min(8, Math.round(ep))), vec = T[epD][id];
+  const ig = invGrade(id);
+  const igChip = ig === 'taut' ? '<span class="chip" style="color:#e2e8f0;border:1px dashed #64748b">TAUTOLOGY — true by construction</span>'
+    : ig === 'const' ? '<span class="chip" style="color:var(--cyan);border:1px solid rgba(0,240,255,.5)">CONSTITUTIONAL INVARIANT — kept true</span>'
+    : ig === 'emp' ? '<span class="chip c-ok">EMPIRICAL INVARIANT — never false, falsifiable</span>' : '';
+  const partners = ENT.filter(p => p[0]===id || p[1]===id).map(p => `${byId[p[0]===id?p[1]:p[0]].label} (J=${p[2]})`);
+  document.getElementById('dbody').innerHTML = `
+    <span class="lbl" style="color:${DOMC[n.dom]}">${DATA.domains[n.dom].label} · ${DATA.strata[n.st].label}</span>
+    <h3>${n.label}</h3>
+    ${n.status==='ok' ? '<span class="chip c-ok">COLLAPSED · FORMALIZED</span>' : '<span class="chip c-sup">⧉ SUPERPOSED — awaiting formalization measurement</span>'}${igChip}
+    <p>${n.what}</p>
+    <span class="lbl cy">12D state vector @ e${epD}</span>
+    ${DIMS.map((d,k) => `<div class="dimrow" title="${CONDUCTOR[k].ballet} · ${CONDUCTOR[k].note}"><span class="n">${d.k} ${d.n} <b style="color:var(--gold)">${CONDUCTOR[k].mark}</b></span><span class="bar"><i style="width:${Math.round(norm(k,vec[k])*100)}%"></i></span><span class="v">${(+vec[k]).toFixed(vec[k]%1?2:0)}</span></div>`).join('')}
+    ${partners.length ? `<span class="lbl vi" style="display:block;margin-top:.5rem">Entangled with</span><p style="font-size:.75rem">${partners.join(' · ')}</p>` : ''}
+    ${n.shore ? `<span class="lbl gd" style="display:block;margin-top:.4rem">Collapse operations (formalization)</span><p style="font-size:.75rem">${n.shore.join(' — ')}</p>` : ''}`;
+  dr.classList.add('open');
+}
+document.getElementById('dxx').addEventListener('click', () => { sel=null; document.getElementById('drawer').classList.remove('open'); draw(); });
+document.getElementById('help-btn').addEventListener('click', () => document.getElementById('help').classList.toggle('open'));
+document.getElementById('hx').addEventListener('click', () => document.getElementById('help').classList.remove('open'));
+
+// ── keyboard navigation: arrows walk time and structure; digits walk the manifold ──
+const DIMKEYS = { '1':0,'2':1,'3':2,'4':3,'5':4,'6':5,'7':6,'8':7,'9':8,'0':9,'-':10,'=':11 };
+const CYCLE = [...ids].sort((a,b) => hard(b,8) - hard(a,8) || byId[a].label.localeCompare(byId[b].label));
+addEventListener('keydown', e => {
+  if (['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+  const k = e.key;
+  if (k === 'Escape') { sel=null; document.getElementById('drawer').classList.remove('open'); document.getElementById('help').classList.remove('open'); draw(); return; }
+  if (k in DIMKEYS) { (e.shiftKey ? dySel : dxSel).value = DIMKEYS[k]; draw(); return; }
+  // shifted digit rows produce symbols on some layouts — map the common ones for Y
+  const SHIFTY = { '!':0,'@':1,'#':2,'$':3,'%':4,'^':5,'&':6,'*':7,'(':8,')':9,'_':10,'+':11 };
+  if (k in SHIFTY) { dySel.value = SHIFTY[k]; draw(); return; }
+  if (k === 'ArrowLeft' || k === 'ArrowRight') {
+    e.preventDefault();
+    if (mode === 'SUSPENSION') return;                       // time is held
+    ep = Math.max(1, Math.min(8, Math.round(ep) + (k === 'ArrowRight' ? 1 : -1)));
+    epEl.value = ep; draw(); return;
+  }
+  if (k === 'ArrowUp' || k === 'ArrowDown') {
+    e.preventDefault();
+    const i = sel ? CYCLE.indexOf(sel) : -1;
+    sel = CYCLE[(i + (k === 'ArrowDown' ? 1 : -1) + CYCLE.length) % CYCLE.length];
+    openDrawer(sel); draw(); return;
+  }
+  if (k === ' ') { e.preventDefault(); document.getElementById('play').click(); return; }
+  if (k === 'm' || k === 'M') {
+    const opts = [...metroEl.options].map(o => o.value);
+    metroEl.value = opts[(opts.indexOf(mode) + 1) % opts.length];
+    metroEl.dispatchEvent(new Event('change')); return;
+  }
+  if (k === 'b' || k === 'B') { toggleBallet(); return; }
+  if (k === 'n' || k === 'N') { toggleSymph(); return; }
+  if (k === 'x' || k === 'X') { stopAll(); return; }
+  const KEYTOGGLE = { t:'t-trail', e:'t-ent', i:'t-inv', g:'t-sat', s:'t-sup' };
+  if (k.toLowerCase() in KEYTOGGLE) { document.getElementById(KEYTOGGLE[k.toLowerCase()]).click(); return; }
+  if (k === '?' || k === 'h' || k === 'H') document.getElementById('help').classList.toggle('open');
+});
+
+// ══ BALLET — Clair de Lune, complete (Debussy 1905; composition public domain).
+// MIDI performance: Bernd Krueger, piano-midi.de — CC BY-SA 3.0 DE (attribution required
+// and given here + in the help overlay). Embedded as base64: CSP allows no external fetch.
+// Parser + scheduler are vanilla JS. The choreography is DATA-DRIVEN: 4-second windows of
+// note-density and velocity classify each stretch of the performance —
+//   quiet → MOONRISE · lyric → PAS DE DEUX · flowing → EPOCH WAVES · climax → DIAMOND —
+// smoothed with a 12s minimum dwell; the coda resolves to the TRUE data pose and the
+// ballet ends where truth is. Accents fire on real note onsets, scaled by velocity.
+const MIDI_B64 = "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AEYuAFIwAE4ugmhOAABSAABGAABCLABOLoJoTgAAQgCBcEskAEIkAE4nAEgkgXBIAABLAABCAABOAABCJABIJABLJABOJ4FmTgAASwAAQgAKSAAASycATioAQicASCeBcEgAAEsAAE4AAEIAAEglAEslAE4oAEIlgVxCAABIAABLAABOABRQLABIKABEKABLKIFwSwAAUAAASAAARAAAQicATioASCcASyeFUEsAAEIAAE4AAEgAgmhCKQBONQBJLYJoTgAAQgAARDcAUDyCaFAAAEQAAEkAAFU8AEk3gmhJAABVAABGLABSOQBONIJoUgAARgAATjQAQjCCaEIAAE4AAE4AgXBGJwBCJwBLJwBOKoFwTgAARgAAQgAASwAARicASycAQicATiqBZk4AAEIAAEsACkYAAEYqAE4uAEIqAEsqgXBLAABGAABOAABCAABCKABGKABLKABOLIFcTgAAQgAARgAASwAUSCsARCsAUC8ATSuBcE0AAEgAAEQAAFAAAEYqAEsqAE4uAEIqhVBCAABGAABLAABOAIJoTj0ASTEARjEAQjaCaEIAAE4AAEQ9AFBGgmhQAABJAABGAABEAABXRwBLPoJoSwAAVwAASTAATjEAUjEAVUGCaFUAAEkAAEY5AFJBgmhSAABOAABSAABGAIFwUjIARjAATjCBcE4AAEYAAFIAAFIyAE4wAEYwgWZOAABSAApGAABSNQBGMwBOM4FwTgAARgAAUgAARjEAUjMATjGBXE4AAFIAAEYAFFAyAEgyAFQ0gXBUAABIAABQAABOMgBGMgBSNIFcUgAARgAATgAUUjMASTMAVTWBcFUAAEkAAFIAAFc5AEs3AFI3eFIAAEsAAFcAUFAzFFU4FFxBiihcAABVAABQAFVQLRFVMhJcN4RYXAAAVQAAUABVUC0RVTISXDeKKFwAAFUAAFAAUEQgFEshFFAnhVBQAABLAABEAABEKABBJYsgQQAARAAARCQARyeDYEcAAEklgXBJAABEAABBJQBEKIoeQQCBAkQAAEQlAEcog2BHAABEAABEKIFwRAAAQSoASS6DYEkAAEEAAEssAEQogXBEAABLAABNMABJLIVQSQAATQAAQSsASS+DYEkAAEEAAEksAE0wgXBNAABJAABPNQBLMYFwSwAATwAATS8ASSuBcEkAAE0AAEkvAEYrgXBGAABJAABGJwBDKwBJKoFwQwAAQSSBcEEAAD0igXA9AABJAABGAAA9JoJoPQAAOiSCaDoAAEY0iyBGAABIM4NgSAAATTgHRCZqQSYORABqQQAHTQAPRjSLIEYAAEg4g2BIAABNPAdEJmpBJg5EAGJOQAhBAAdNAIY5Qi54Ri54RgAAQgAATgAATTp4Qi54QgAARi54RgAATQAASjp4Qi54QgAARi54RgAASgAASzx4QjF4QgAARjF4RgAASwAAUkOEU1IAhk1QM4RTUAB9UDMATTOLIE0AAFAAAFA5AFM5g2BTAABQAABVPIFwVQAATTkAUDmLIFAAAE0AAFM+AFA+g2BQAABTAABQRoFwUAAAVVeCaEkzeEkAAFBJeEwzeEwAAFAAAFUAAFhWgmhMNnhMAABVRnhQNnhQAABVAABYAABcWoJoUDh4UAAAWEZ4Uzh4UwAAWAAAXAAAXFyCaFA4eFAAAFU4eFUAAFE4eFEAAFwAAFpbgmhONHhOAABVNHhVAABRNHhRAIJoTjR4TgAAVTR4VQAAUTR4UQAAWgAAWluCaE40eE4AAFU0eFUAAFE0eFEAgmhONHhOAABVNHhVAABRNHhRAABaAABdW4NgXQAAYVt4VTR4VQAAYQAATlKCaEI0eEIAAEk0eEkAAEU0eEUAgmhCNHhCAABJNHhJAABFNHhFAABOAABRVINgUQAATDQAVU94TAAAUTR4UQAAVQAAWE8AVU+BcFUAAFgAAFdFAFNFgXBTAABXAABVRQBRRYFwUQAAVQAAUEoAU0qCaFMAAFAAAE5DAFFDhFhRAABOAABQPABMPIFwTAAAUAAATjwASzyBcEsAAE4AAEk+AEw+gXBMAABJAABLOgBHOoFwRwAASwAARTgASTiBcEkAAEUAAEc5AEQ5gXBEAABHAABCNABFNIFwRQAAQgAARDEAQDGBcDkugXBAAABEAABCKwA/K4FwPwAAQgAAPSgAQCiBcEAAAD0AADkAAD0lAD8oADYlg2A2AAA4JIFwOAAAOiaDYDoAAD0lgXA9AAA/AAA9AABCLAA8JQA/JYNgPwAAQgAAPygAQiUARiyBcEYAADwAAD8AAEIAAD0lAD8oADYlg2A2AAA4IoFwOAAAOiaDYDoAAD0lgXA9AAA/AAA9AABCKAA8JQA/JYNgPwAAQgAAPyQAQiQARieBcD8AADwAAD0igVw9AABCAABGABREJwBNKgBIJ4FwSAAATQAARAAARiYASykAQiaBcEIAAEsAAEYAAD0kAEIkAEYngXA9AAA6IoFwOgAAPSKBcD0AAEYAAEIAADofAEQkAEIhgXA6AAA8IoFwPAAAPyKBcD8AAEIAAEQAAEIiAEYiAD0igVw9AABGAABCABREJwBNKgBIJ4FwSAAATQAARAAAQiYASykARiaBcEYAAEsAAEIAAEIkAEYnAD0kgXA9AAA6IoFwOgAAPSKBcD0AAEYAAEIAADofAEQkAEIhgXA6AAA8IoFwPAAAPyKBcD8AAEIAAEQAAEsweD8geD8AAEIieEIAAEYgeEYAAEIieEIAAD8geD8AeD8geD8AAEIkeEIAAEYgeEYAAEIkeEIAAD8geD8AAEsAAE41g2BOAABSMgBIHnhIAABLIHhLAABSAABLMHg/IHg/AABCInhCAABGIHhGAABCInhCAAA/IHg/AHg/IHg/AABCJHhCAABGIHhGAABCJHhCAAA/IHg/AABLAABONYNgTgAASCAAUjR4SAAASyB4SwAAUgAAVzSCaEskeEsAAE4heE4AAFIgeFIAgmhLJHhLAABOIXhOAABUIHhUAIJoSyF4SwAATiB4TgAAUh94UgCCaEsgeEsAAE4feE4AAFEfeFEAAFcAAFU0gmhLH3hLAABOHnhOAABTHHhTAABVAABXNIJoSxx4SwAAThx4TgAAURt4UQAAVwAAsFt/hVCQWSYAXCaFUFwAAFkAAFknh0BZAABUIQBXJIFwVwAAVAAAWR8AVR2BcFUAAFkAAFcdAFQbjRBUAABXAABSJABVJ4FwVQAAUgAAVB4AVyGBcFcAAFQAAFUeAFIcgmhSAABVAABZKQBVJoVQVQAAWQAAVSQAUiGEWFIAAFUAAFQeAFAcgXBQAABUAABSGwBVHYFwVQAAUgAAVBoAUBiLIFAAAFQAgXBOIwBSJoFwUgAATgAAVCMAUCCBcFAAAFQAAFIjAE4dgXBSAABXJoFwVwAAUiSBcFIAAE4AAE0dAFAngXBQAABSJIFwUgAAUCODYFAAAE0AAE4hAEsegXBLAABOAABQHwBNHYFwTQAAUAAATh8ASx2FUEsAAE4AAEUgAE0hhVBFAIFwTQAATSUASSKBcEkAAE0AAEshAE4kgXBOAABLAABNJABJHYFwTQAAUiaBcFIAAE0kgXBNAABJAABJHABLJYFwSwAATSSBcE0AAEskgXBJAIFwSwAASSEARh6BcEYAAEkAAEsfAEgdgXBIAABLAABJHwBGHYVQRgAASQAASBoARBiFUEQAAEgAgXA1GgA4GoFwOAAANQCBcFAkAE0khVBNAABQAABJIQBNIYdATQAASQAARhkASycAQhmBcEsAAE0igXBNAABLHYsgQgAARgCBcEsAAEQkAD0kAEkkgXBJAAA9AABLJQA/JYFwPwAASwAARAAARCUAUCUATSWFUE0AAFAAAEQAAEkhAE0hAEEhhVBBAABJAIFwTQAAQRkARhkASyeBcEsAAE0igXBNAABLHYVQSwAASR2FUEkAAEYAAEEAgXA9JQA4IYFwPQAAPyiBcD8AADgAAEEhAEYlAD0hhVA9AABGAABBAAA4GwA9GwBBH4VQQQAAPQAAOACBcDohAD0hAEIlgXBCAABEKIFwRAAAPQAAOgAAQh0ARh0ASSGFUEkAAEYAAEIAAEYdAD0aAEIahVBCAAA9AABGAIFwPCMARiMAQiOBcEYAAEglgXBIAABCAAA8AABIHQBNHQBEGIVQRAAATQAASAAAPBUARBkAQhmFUEIAAEQAADwAg2A4GXg4AAA9GXg9AIJoOBp4OAAAPBp4PAAAQRp4QQCDYDgceDgAAD0aeD0Agmg4G3g4AAA8G3g8AABBG3hBAABEHgBHIYVQRwAARAAASR0AQBuFUEAAAEkAg2BEGXhEAABJGXhJAIJoRBp4RAAASBp4SAAATRp4TQCDYEQceEQAAEkaeEkAgmhEG3hEAABIG3hIAABNG3hNAABTIQBQHoVQUwAAVSKFUFUAAFAAAFMhAFAehVBTAABVIoVQVQAAWCWFUFgAAFAAAFklAFwokFJQGApVGgpZHApcAABZAABcIosgXAAAWQAAUAAAVQAA/y8ATVRyawAAGKwA/wMKUGlhbm8gbGVmdADAAACwB2QACkAAW3+BcEB/AJBBJABEK48ARAAAQQAAsEAAAJBFJABCHpBwQgAARQAAQSEARCeGLLBAf4pEkEQAAEEAALBAAACQPyAAQiaBabBAf4N8QACLB5BCAAQ/AAA/JQA9H4cysEB/g26QPQAAPwAAPBwAPyEasEAAhTSQPwACPAAAOh4APSGLID0AADoAADkcADwhhVA8AAA5AAA4HAA6IYYzsEB/hG2QOAAANiYWsEAAhTiQOgACNgAANRoAOB+FTjgAhVI1AAAzFwA2HECwQH+CKJAzAAAsHIJoNgAAJR4VsEAAgVuQJQAALAAAsEB/gXCQQR4ARCSNEEQAAEEAALBAAACQKhwAMSGBcD0bADoWADYWADEWiTAxAAAqAIVQNgAAOgAAMQAAPQAAKR4AMSRxsEB/f5A1HAA4IYNgOAAANQAAQSEAPRwRsEAAgQtAf4QykEEAAikAADEAAD0AADgbAD0ghVA9AAA4AACwQAAAkCocADEhgSqwQH9GkD0bADoWADYWADEWg2awQACFSpAxAAAqAIVQNgAAOgAAMQAAPQAALCR4sEB/eJA1HAA7IYNgOwAANQAAQSEAPRwAOxwNsEAAg0xAf4NnkDsAAD0AAEEAg2AsAAAuJySwQACBTJA/KAA1IAA6IIZIPwAAPSVAsEB/giiQLgCFUDoAADUAAD0AABseACckBLBAAFVAf4IPkEYgAEIgAEEghFg/HwBCHwBGHxGwQABBQH+BHpBGAABCAAA/AAA/HwBCHwBGH4FcRgAAQgAAPwAUQQAARgAAGwAAJwAAQgAAPyAAQiAARiCBcEYAAEIAAD8AAD0fAEIfAEYfCbBAAFBAf4EXkEYAAEIAAD0AAD0fAEIfAEYfgVxGAABCAAA9ABQ9IgBCIgBGIoFwRgAAQgAAPQAAPCAAQiAARiAOsEAAeEB/apBGAABCAAA8AAA8IABCIABGIIFcRgAAQgAAPAAUPB8AQh8ARh+CaEYAAEIAADwAAD0eAEIeAEYegmhGAABCAAA9AAA6HAA9HABCHAawQABdQH+EbZBCAAA9AAA6AACwQAAAkC4kABseACceX7BAf4IJkEYiAEIiAEEihFhCIgBLIgBGIg2wQABrQH94kEYAAEsAAEIAAEEgAEIgAEYggVxCAABGAABBABRBAAAbAAAnAABGAAAuAABCAAA/IQBCIQBGIQuwQAA7QH+BFpBGAABCAAA/ABRBIABCIABGIIFwRgAAQgAAQQAAPyAAQiAARiCBcEYAAEIAAD8AALBAAACQPSMAQiMARiMgsEB/gTyQRgAAQgAAPQAUPyEAQiEARiGBcEYAAEIAAD8AAD0hAEIhAEYhgVxGAABCAAA9ABQ8IABCIABGIA2wQAAvQH+CLJBGAABCAAA8AAA9HwBCHwBGH4JoRgAAQgAAPQAAOh4APx4AQh4TsEAASUB/hHSQQgAAPwAAOgAAICMALCoysEAAYkB/gVSQNjCCaDYAAD8nADwhADgmgmg4AAA8MoJoPAAAPAAAIAAALAAAPwAAQigAPyIAOicOsEAATkB/ggyQOgAANiyCaDYAAD8AAEIAALBAAACQISMALSqBKrBAf0aQPx4APB4ANh6BcDYAAD8AADwAAD8eADweADYegWY2AAA/AAA8AAo/IQA8IQA2IYFwNgAAPwAAPAAAPx8APB8ANh+BXDYAAD8AADwAFDgiADwiAD8igXA/AAA4AAAhAAAtAAA8AAA2IQA8IQA/IQywQACBEEB/hDSQPwAAPAAANgAAIicALi4VsEAAXEB/gXeQPSYAOiYANiiCaDYAADgtgmg4AAA6AAA9AAA9LIJoPQAALgAAIgAAQisAPSsAOisWsEAARkB/ggyQOgAANimCaDYAAD0AAEIAALBAAACQJCYAMC2BYrBAfw6QPyEAOiEANiGBcDYAAD8AADoAAD8hADohADYhgWY2AAA/AAA6AAo/IwA6IwA2I4FwNgAAPwAAOgAAPyIAOiIANiKBXDYAAD8AADoAFDgkADwkAEEkgXBBAAA4AAAkAAAwAAA8AAA2IwA6IwA/Iw2wQACBK0B/hBiQPwAAOgAANgAAsEAAAJAlKwAxM06wQH+CGpA9KQA6KQA2LIJoNgAAODGCaDgAADoAAD0AAD8zgmg/AAAxAAAlAABGLwBCLwA9LxWwQABAQH+CE5A9AAA6MYJoOgAAQgAARgAAsEAAAJAnKQAzMS6wQH+BQpA/KAA6KAA2KIFwNgAAPwAAOgAAPygAOigANiiBZjYAAD8AADoACj8rADorADYrgXA2AAA/AAA6AAA/KQA6KQA2KYFcNgAAPwAAOgAUOCoAPCoAQSqBcEEAADgAACcAADMAADwAAD8qADoqADYqC7BAAFxAf3WQNgAAOgAAPwAUPSsAQisARiuBcEYAAEIAAD0AAD8tAEItAEYteEYAAEIAAD8AAEEmA7BAABGQRCcUSSgUTSoEsEB/iklAABeQTQAAQQAARAAASQAAQCEPsEB/ApBEIhFGIhFJJBFMJYUMTAAARgAAQAAARAAASQAAPyEGsEAAC5BCIhFEIgOwQH8OkEkkEUslilKwQAAKkEsAAEQAAD8AAEIAAEkAADgbFD8cBbBAfw+QQh4USB+GDEgAADgAAD8AAEIAALBAAACQJSBWsEB/IpAsHngsAAAxHngxAAAlAAA1Hng1AAA4Hng4AAA9Hng9AAApIQqwQABAQH8ukDAaeDAAADUbeDUAACkAADgceDgAADweeDwAAEEfeEEAACwiCbBAADxAfzOQNCB4NAAAOCB4OAAALAAAOyB4OwAAQCB4QAAARCB2RAACsEAAAJAlIUqwQH8ukCweeCwAADEeeDEAACUAADUeeDUAADgeeDgAAD0eeD0AACkhDbBAACxAfz+QMB54MAAANR54NQAAKQAAOB94OAAAPCB4PAAAQSB4QQAALCIJsEAANkB/OZA0IHg0AAA4IHg4AAAsAAA7IHg7AHhAIHhAAACwQAAAkCUharBAfw6QJQAALCF4LAAAMSF4MQAANSF4NQAAOCF4OAAAPSF4PQAAQSIHsEAAQEB/MZBBAABEInhEAABBInhBAAA9Ing9AAA4Ing4AAA1JHg1AAA4JAewQABVQH8ckDgAADUkeDUAADEkeDEAACwkeCwAADEkeDEAACwleCwAACclCbBAADZAfzmQJwAALiV4LgAAMyV4MwAANyV4NwAAOiV4OgAAPyV4PwAUsEAAQkB/IpA/JHg/AAA6JHg6AAA3Ing3AAAzIngzAAAuInguAAAnIQiwQAA3QH85kCcAAC4heC4AADMheDMAADcheDcAADMheDMAAC4heC4AACwlBbBAADtAfziQMyF4MwAANiF4NgAAOiF4OgAAPCF4PAAAQiF4QgAALAAAKiYHsEAATkB/I5AxIHgxAAA2IXg2AAA6Ing6AAA9Ing9AABCJHhCAAAqAAApKAywQABJQH8jkDAkeDAAADUleDUAADgmeDgAADwngXA8AAApAAiwQAAHkCwlOLBAf0CQMyF4MwAANiF4NgAAOiF4OgAAPCF4PAAAQiJysEAABpBCAAAsAAAqJ1uwQH8dkDEieDEAADYleDYAADomeDoAAD0meD0AAEIncLBAAAiQQgAAKgAAKSxisEB/FpAwJ3gwAAA1KHg1AAA4K3g4AAA8LIFhsEAAAJAnLQ88AAApAGkuKAewQH9xkC4AADMoeDMAADYoeDYAADooeDoAAD8oeD8AACcAAEI8EbBAAGWQQgCBckE6gmhBAAA+OYJoPgAAPzqCaD8AAD43VrBAfyKQQit4QgAARit4RgAAPgAARit4RgAATit4TgAAUit4PzIGsEAASkB/KJBCJnhCAABGJnhGAAA/AABGJnhGAABOJnhOAABSAABSJnhSAAA8LAA4LBGwQAA5QH8ukDwAAEAleEAAAEQkeEQAADgAAEgieEgAAEwieEwAAFAhdlAAAjErCrBAAG6QOCUGsEB/cpA4AAA9JXg9AABBJXhBAABEJXhEAABJJXhJAAAxAAA4LgA1JwmwQABBQH8ukDgAADwmeDwAAEEoeEEAAEQqeEQAAEgseEgAAE0ueE0AADUAADsyADgqD7BAAEFAfyiQOwAAQCt4QAAARCt4RAAARyt4RwAATCt4TAAAUCt2UAACOAAAMTADsEAAPEB/OZA4K3g4AAA9K3g9AABBK3hBAABEK3hEAABJK3hJAAAxAAA4MwA1KwiwQAArQH9FkDgAADwoeDwAAEEqeEEAAEQreEQAAEgseEgAAE0teE0AADUAADs2ADgtDLBAAGFAfwuQOwAAQC14QAAARC14RAAARy14RwAAUC14UAAATC14TAAAOAAAsEAAAJA7LAA9NEewQH8xkD0AAEAyeEAAAEQyeEQAADsAAEcygmhHAAA9LABANA6wQABHQH8jkEAAAEQyeEQAAEcyeEcAAD0AAEkygmhJAABALgBENwiwQABNQH8jkEQAAEc0eEcAAEk0eEkAAEAAAEw0gmhMAABEOQqwQABuQH8AkEU2eEUAAEk2eEkAAEQAgmhCOAmwQABMQH8jkEU0eEUAAEk0eEkAAEIAgmhCOABBLwmwQAA+QH8xkEIAAEU0eEUAAEk0eEkAAEEAgmhAOAmwQAA3QH84kEI0eEIAAEU0eEUAAEAAgmhCOAA/Lw6wQABAQH8qkEIAAEU0eEUAAEk0eEkAAD8AgmhAOAA9LxOwQABQQH8VkEAAAEU0eEUAAEk0eEkAAD0AAEw0eEwAgXA7OASwQABfQH8VkD80eD8AAEI0eEIAADsAgmg5OA6wQABHQH8jkD00eD0AAEA0eEAAADkAgmg4OAawQABkQH8OkD00eD0AAEA0eEAAADgAAEU0eEUAgXCwQAAAkDY4R7BAfzGQPSt4PQAAQC0OsEAAMkB/OJBAAABCLnhCAABFMXhFAABJMnhJAABMMiSwQABGQH8OkEwAAE4yeE4AAEwxeEwAAEkwBrBAAF1AfxWQSQAARS54RQAAQi54QgAAQCt4QAAAQip4QgAAQCh4QAAAPScXsEAAPkB/I5A9AAA5Jng5AAA2JXg2AAA2AAAqKwewQABHQH8qkCoAADEmeDEAADQnErBAAEpAfxyQNAAANih4NgAAOSp4OQAAPSt4PQAAQCoVsEAAXEB/B5BAAAA9Kng9AAA5KHg5AAA2KHg2AAA0JwewQAA5QH84kDQAADEmeDEAAColELBAAFNAfxWQKgAAMSJ4MQAAKiUVsEAAR0B/HJAqAAAxIngxAAAqJXgqAAAxIngxAACwQAAAkCwgeCwAALBAfwCQMx94MwAALCF4LAAAMx94MwAALCF4LAAAMyB4MwAALCIPsEAAYkB/B5AsAAAzIHgzAAAsIngsAAAzIngzAAAsJHgsAAAzIngzAAAsIQqwQAA2QH84kCwAADMfeDMAACwheCwAADMfeDMAACwheCwAADMfeDMAACwgBrBAAF1AfxWQLAAAMx94MwAALCF4LAAAMx94MwAALCF4LAAAMyB4MwAALCIVsEAAR0B/HJAsAAAzIHgzAAAsIngsAAAzIXgzAAAsJHgsAAAzIngzAAAsIRKwQABDQH8jkCwAADMfeDMAACwheCwAADMfeDMAACwheCwAADMfeDMAACwlBrBAAGRAfw6QLAAAJyF4JwAALCV4LAAAMyR4MwAALCV4LAAAMyR4MwAAOCcKsEAANkB/OJA4AAAzIngzAAA4JXg4AAA/Ing/AAA4JHg4AAAzIngzAAA4JQuwQABDQH8qkDgAADMieDMAACwieCwAADMheDMAACwieCwAACcheCcAACwlArBAAExAfyqQLAAAJyF4JwAALCV4LAAAMyR4MwAALCV4LAAAMyR4MwAAOCcJsEAAPkB/MZA4AAAzIngzAAA4JXg4AAA/Ing/AAA4JHg4AAAzIngzAAA4JQmwQAA3QH84kDgAADMleDMAADgieDgAADMheDMAADgieDgAADMheDMAAD0oADYoCrBAAERAf4MSkDYAADgngXA4AAA6KgmwQABFQH+DEpA6AAA9KIFwPQAAPQAAPCgGsEAASEB/KpA/Hng/AABCHnhCAABGHnhGAIFwPAAAPSgANigIsEAAP0B/gxmQNgAAOCeBcDgAADoqFbBAAFxAf4JvkDoAAD0ogXA9AAA9AAA8KBOwQABJQH8ckD8eeD8AAEIeeEIAAEYeeEYAgXA8AACwQAAAkEIsVbBAfyOQRiV4RgAASSV4SQCCaEIkE7BAAEJAfyOQQgAARiB4RgAASSB4SQCCaEIlCbBAAD5AfzGQQgAARh94RgAASR94SQCCaEIAAEInCrBAAExAfyKQRR54RQAASR54SQCCaEIiCbBAADZAfzmQQgAARR54RQAASRx4SQCCaEIiBrBAAEpAfyiQQgAARRx4RQAASRx4SQCCaEIAALBAAACQQSBAsEB/OJBEIHhEAABIIHhIAABNIHhNAABQIHhQAABUIHhUAIVQQQAAQR0JsEAAhUeQQQAAQR4usEB/SpBFHnhFAABIHXhIAABLHHhLAABNG3hNAABRG3hRACKwQAA6QH+EdJBBAABBHIVQQQAAsEAAAJBBHWOwQH8VkEQdeEQAAEYceEYAAEkceEkAAE0beE0AAFAbeFAADrBAAGpAf4RYkEEAAEEchVBBAACwQAAAkD8cTrBAfyqQQhx4QgAARBp4RAAASBl4SAAASxl4SwAAThd4TgAGsEAAT0B/hHuQPwAAPxuFUD8AALBAAACQPSAusEB/SpA/IHg/AABCIHhCAABGIHhGAABJIHhJAABLIHhLAAiwQACBc0B/gWWQPBgZsEAAI5A/GDxBGDxEGDw9AABIGIVQSAAARAAAPAAAPwAAQQAAMB5OsEB/KpA2Hng2AAA6HXg6AAA8HXg8AAA/HHg/AABCHHhCAABGHQywQABJQH+Ee5BGAAAwAAA/HQA8HQA1HQ+wQABUQH+EbZA1AAA8AAA/AAA4Hg6wQAAuQH88kDoceDoAAD0ceD0AAEEbeEEAAEQbeEQAAEYbeEYACLBAAD9Af4MnQAAukDYbB7BAfzWQOhs8PRs8OAAAPxuFUD8AAD0AADoAADYAALBAAACQNR1jsEB/FZA4HXg4AAA6HHg6AAA9HHg9AABBG3hBAABEG3hEABGwQABEQH+Ee5A1AAAzIAA2IAA8IBWwQABjQH+BcJAzAAAsIIJoPAAANgAAsEAAAJAlHIIMsEB/gVSQQSEARCGBcDschVAlAAAsAIVQRAAAQQAAOwAAsEAAAJAqGgAxH4E4sEB/OJA9GQA6FQA2FQAxFYNvsEAAgSlAf4QYkDEAACoAhVA2AAA6AAAxAAA9AACwQAAAkCwhf7BAf3GQNR8AOB+DYDgAADUAADsaAEEfAD0fDbBAAIEAQH+EQZBBAAI9AAAsAAA9Hg6wQACBDkB/hDSQPQAAOwAALh8OsEAAgQ5Af1SQPxkAOhkANRWDbbBAAIVDkD8AAC4AAD0ehVA9AAA6AAA1AACwQH8AkCkihVqwQACBSkB/hAtAAIFFQH+DfJApAAAnIgawQACBFkB/hDSQMxkOsEAAgThAf4QKkDMAACcAAD8aCLBAAIFMQH+DfJA/AACwQAAAkCwiVbBAf4ITkDMfgmgzAABQGRCwQAB2QH+ESpBQAAAsAAA4GRWwQABOQH+EbZA4AACwQAAAkCUfeLBAfwCQLBt4LAAAMRp4MQAANRp4NQCBcCUAACkfCrBAAFJAfxyQMBx4MAAANRt4NQCCaCkAACUfCLBAAGlAfweQLBx4LAAAMRx4MQAANRt4NQCBcCUAALBAAACQKR9csEB/HJAwHHgwAAA1HHg1AIJoKQAALB8GsEAAckB/AJA0HHg0AAA4HHg4AAA7G3g7AABAG3hAAABCG3hCAABEGxGwQAB+QH+EQZBEAAAsAAAxHwiwQABpQH8HkDgeeDgAAD0aeD0AAEEaeEEAgXAxAAA1Hw6wQABjQH8HkDwceDwAAEEbeEEAgmg1AAAxHwewQABcQH8VkDgceDgAAD0ceD0AAEEbeEEAgXAxAAA1HwewQABaQH8XkDwceDwAAEEceEEAgmg1AAA4HwywQABhQH8LkDsZeDsAAEAZeEAAAEQYeEQAAEcYeEcAAEwWhkhMAAA4AAA4Hy6wQAA/QH8LkDsZeDsAAEAZeEAAAEQYeEQAAEcYeEcAAEwWhkhMAAA4AAAsHoVQLAAAJSEFsEAAU0B/IJAsGngsAAAxGHgxAAA1Fng1AAA4FXg4AAA9FHg9AABBG4FwQQAARBaBcEQAAEkWgXBJAAAlAABNG4FwTQAAUBaBcFAAAFUWgSpVAAA9FApEFgawQAAEkEkWCk0ZKLBAf4sgkE0AAD0AAEQAAEkAgn2wQAAA/y8ATVRyawAAADcA/wMvRGVidXNzeTogIkNsYWlyIGRlIGx1bmUiIGZyb20gU3VpdGUgYmVyZ2FtYXNxdWUA/y8ATVRyawAAACgA/wMgQ29weXJpZ2h0IKkgMTk5OCBieSBCZXJuZCBLcvxnZXIA/y8ATVRyawAAACAA/wMYaHR0cDovL3d3dy5waWFuby1taWRpLmRlAP8vAE1UcmsAAAAbAP8DE0VkaXRpb246IDIwMTEtMDgtMjAA/y8A";
+let AC = null, balTimer = null, balRaf = null, MID = null, evPtr = 0, evSched = 0, comp = null;
+// Audio lifecycle: every context is registered; killAudio() closes them ALL immediately.
+// Closing a context silences scheduled tails too — this is the transport's stop, not a pause.
+const ACS = new Set();
+function newAC() { const a = new (window.AudioContext || window.webkitAudioContext)(); ACS.add(a); return a; }
+function killAudio() {
+  ACS.forEach(a => { try { a.close(); } catch (e) {} });
+  ACS.clear(); AC = null; symBus = null;
+  document.getElementById('stop-audio').style.display = 'none';
+}
+function audioLive() { document.getElementById('stop-audio').style.display = ''; }
+function stopAll() { if (BAL.on) stopBallet(); if (SYM.on) stopSymph(); killAudio(); }
+
+function parseMidi(bin) {
+  const b = Uint8Array.from(atob(bin), c => c.charCodeAt(0));
+  const u32 = o => (b[o]<<24 | b[o+1]<<16 | b[o+2]<<8 | b[o+3]) >>> 0;
+  const u16 = o => b[o]<<8 | b[o+1];
+  const div = u16(12), ntrk = u16(10);
+  const vlq = o => { let v = 0, c; do { c = b[o++]; v = (v<<7) | (c & 127); } while (c & 128); return [v, o]; };
+  const tempos = [[0, 500000]], raw = [];
+  let o = 14;
+  for (let t = 0; t < ntrk; t++) {
+    const len = u32(o+4), end = o + 8 + len; let p = o + 8, tick = 0, run = 0;
+    const ons = {};
+    while (p < end) {
+      let d; [d, p] = vlq(p); tick += d;
+      let st = b[p];
+      if (st & 128) { p++; run = st; } else st = run;
+      if (st === 0xFF) {
+        const mt = b[p]; let l2, p2; [l2, p2] = vlq(p+1);
+        if (mt === 0x51) tempos.push([tick, b[p2]<<16 | b[p2+1]<<8 | b[p2+2]]);
+        p = p2 + l2;
+      } else if (st === 0xF0 || st === 0xF7) { let l2, p2; [l2, p2] = vlq(p); p = p2 + l2; }
+      else {
+        const hi = st & 0xF0;
+        if (hi === 0x90) { const n = b[p], v = b[p+1]; p += 2;
+          if (v > 0) ons[n] = [tick, v];
+          else if (ons[n]) { const [t0, v0] = ons[n]; delete ons[n]; raw.push([t0, n, v0, tick - t0]); } }
+        else if (hi === 0x80) { const n = b[p]; p += 2;
+          if (ons[n]) { const [t0, v0] = ons[n]; delete ons[n]; raw.push([t0, n, v0, tick - t0]); } }
+        else if (hi === 0xA0 || hi === 0xB0 || hi === 0xE0) p += 2;
+        else if (hi === 0xC0 || hi === 0xD0) p += 1;
+      }
+    }
+    o = end;
+  }
+  tempos.sort((a, z) => a[0] - z[0]);
+  const seg = [[0, 0, 500000]]; // [tick, cumSec, usPerQ]
+  for (let i = 1; i < tempos.length; i++) {
+    const [tk, us] = tempos[i], [ptk, psec, pus] = seg[seg.length-1];
+    seg.push([tk, psec + (tk - ptk) * pus / div / 1e6, us]);
+  }
+  const t2s = tk => { let lo = 0, hi = seg.length - 1;
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; seg[m][0] <= tk ? lo = m : hi = m - 1; }
+    const [stk, ssec, sus] = seg[lo]; return ssec + (tk - stk) * sus / div / 1e6; };
+  const evs = raw.map(([tk, n, v, du]) => [t2s(tk), n, v, Math.max(.06, t2s(tk+du) - t2s(tk))])
+                 .sort((a, z) => a[0] - z[0]);
+  return { evs, dur: Math.max(...evs.map(e => e[0] + e[3])) };
+}
+
+function buildForms(evs, dur) {  // the data-driven score → formation timeline
+  const W = 4, nw = Math.ceil(dur / W), wins = Array.from({length: nw}, () => [0, 0]);
+  evs.forEach(([t,, v]) => { const w = Math.min(nw-1, t/W|0); wins[w][0]++; wins[w][1] += v; });
+  const dens = wins.map(w => w[0]/W), vels = wins.map(w => w[0] ? w[1]/w[0] : 0);
+  const q = (a, p) => { const s = a.filter(x => x > 0).sort((x, y) => x - y); return s[Math.min(s.length-1, p*(s.length-1)|0)] || 0; };
+  const d5 = q(dens,.5), d7 = q(dens,.7), v45 = q(vels,.45), v85 = q(vels,.85);
+  let cls = wins.map((_, i) => dens[i] === 0 ? 'M'
+    : (vels[i] > v85 && dens[i] > d5) ? 'D' : dens[i] > d7 ? 'W' : vels[i] > v45 ? 'P' : 'M');
+  for (let i = Math.max(0, nw-5); i < nw; i++) cls[i] = 'T';   // coda → the true pose
+  // smooth: 12s (3-window) minimum dwell
+  for (let i = 1; i < nw - 1; i++) if (cls[i] !== cls[i-1] && cls[i] !== cls[i+1]) cls[i] = cls[i-1];
+  const forms = [[0, cls[0]]];
+  for (let i = 1; i < nw; i++) if (cls[i] !== forms[forms.length-1][1]) forms.push([i*W, cls[i]]);
+  return forms;
+}
+const formAt = ts => { let f = MID.forms[0][1];
+  for (const [t0, c] of MID.forms) { if (t0 <= ts) f = c; else break; } return f; };
+
+// ── instrument rack: six synthesized patches; ORCHESTRA arranges by register
+//    (bass → string pad · mid → piano · upper-mid → harp · top → celesta),
+//    the way an arranger would split a piano score. Applies to the ballet MIDI;
+//    the symphony keeps its domain-voice law (its timbres are data, not taste).
+const INSTRUMENTS = {
+  'music box': { partials: [[1,1],[3.02,.13]],                 attack: .012, ring: 1.1  },
+  'piano':     { partials: [[1,1],[2.001,.22],[3.002,.08]],    attack: .008, ring: 1    },
+  'celesta':   { partials: [[1,1],[4.05,.22],[6.3,.05]],       attack: .004, ring: .8,  gain: .9 },
+  'harp':      { partials: [[1,1],[2,.35],[3,.15],[4,.07]],    attack: .006, ring: .9   },
+  'strings':   { partials: [[1,.8],[2,.25],[3,.12],[4.01,.05]],attack: .22,  sustain: true, gain: .8 },
+  'flute':     { partials: [[1,1],[2,.06],[3,.03]],            attack: .05,  ring: .7,  gain: .95 },
+};
+const ORCHESTRA = [[45,'strings'],[64,'piano'],[77,'harp'],[128,'celesta']];
+let INST = 'orchestra';
+document.getElementById('inst').addEventListener('change', e => INST = e.target.value);
+function patchFor(n) {
+  if (INST !== 'orchestra') return INSTRUMENTS[INST];
+  for (const [top, name] of ORCHESTRA) if (n <= top) return INSTRUMENTS[name];
+  return INSTRUMENTS.piano;
+}
+function pluck(n, when, vel, dur) {
+  const p = patchFor(n);
+  const f = 440 * Math.pow(2, (n - 69) / 12), g = Math.pow(vel / 92, 1.4) * .10 * (p.gain || 1);
+  const env = AC.createGain();
+  p.partials.forEach(([m, a]) => {
+    const o = AC.createOscillator(), og = AC.createGain();
+    o.type = 'sine'; o.frequency.value = f * m; og.gain.value = a;
+    o.connect(og); og.connect(env); o.start(when); o.stop(when + dur + 2.5);
+  });
+  env.connect(comp);
+  env.gain.setValueAtTime(0, when);
+  env.gain.linearRampToValueAtTime(g, when + p.attack);
+  if (p.sustain) {
+    env.gain.setValueAtTime(g * .82, when + Math.max(p.attack, dur * .8));
+    env.gain.exponentialRampToValueAtTime(.0004, when + dur + .7);
+  } else {
+    env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(.9, dur * 1.3 + .5) * (p.ring || 1));
+  }
+}
+function scheduleWindow() {           // 16s lookahead, refreshed every 8s
+  const now = AC.currentTime - BAL.start;
+  while (evSched < MID.evs.length && MID.evs[evSched][0] < now + 16) {
+    const [t, n, v, d] = MID.evs[evSched++];
+    pluck(n, BAL.start + t, v, d);
+  }
+  if (evSched < MID.evs.length) balTimer = setTimeout(scheduleWindow, 8000);
+}
+
+const DIAMONDS = ids.filter(id => hard(id, 8) >= 4);
+const METAS = ids.filter(id => byId[id].st === 'g');
+const SUPERP = ids.filter(id => byId[id].status !== 'ok');
+function balAmp(id) {
+  const a = BAL.amp[id];
+  return a && a > performance.now() ? 1 + (a - performance.now()) / 500 * .9 : 1;
+}
+function balStage() {
+  const w = cv.width / devicePixelRatio, h = cv.height / devicePixelRatio;
+  return [(M.l + w - M.r) / 2, (M.t + h - M.b) / 2, Math.min(w - M.l - M.r, h - M.t - M.b) / 2];
+}
+// The choreography is a PROJECTION TOUR: each segment of the piece re-projects the
+// manifold through a new (X,Y) pair — the dancers glide because the world turns, not
+// because they leave their data. Ascent: Zone A kinematics → degrees → entropy →
+// bridge/stratum → motion×field → collapse×superposition AT THE CLIMAX → entanglement —
+// and the coda restores the viewer's own axes for the true pose.
+const TOUR = [[0,11],[1,2],[3,4],[0,5],[7,6],[1,11],[8,9],[10,5],[0,11],[0,11]];
+// The program — one line of meaning per movement; the cast is who the light follows.
+const PROGRAM = {
+  M: { name: 'MOONRISE', what: 'The quiet theme. The 29 superposed nodes breathe — uncollapsed, awaiting their formalization measurement.', cast: () => SUPERP, col: '#7dd3fc' },
+  P: { name: 'PAS DE DEUX', what: 'The lyric passages. The 7 entangled pairs orbit each other — nodes that share evidentiary roads move together.', cast: () => ENT.flat(), col: '#00FF9D' },
+  W: { name: 'EPOCH WAVE', what: 'The flowing arpeggios. Time ripples e1→e8 through this projection — watch the web assemble.', cast: () => null, col: '#00F0FF' },
+  D: { name: 'DIAMOND VARIATION', what: 'The climax. Receipt, NOTOMATION and Superionic — the only ≥4-road truths — take center stage.', cast: () => DIAMONDS.concat(METAS), col: '#FFD700' },
+  T: { name: 'THE TRUE POSE', what: 'The coda. Every dancer returns to their actual data position, on your axes. The dance ends where truth is.', cast: () => null, col: '#e2e8f0' },
+};
+const fmtT = s => (s/60|0) + ':' + ('0' + (s%60|0)).slice(-2);
+function buildSegbar() {
+  const bar = document.getElementById('perf-bar');
+  bar.querySelectorAll('i').forEach(x => x.remove());
+  MID.forms.forEach(([t0, F], i) => {
+    const t1 = i + 1 < MID.forms.length ? MID.forms[i+1][0] : MID.dur;
+    const el = document.createElement('i');
+    el.style.width = ((t1 - t0) / MID.dur * 100) + '%';
+    el.style.background = PROGRAM[F].col;
+    el.dataset.i = i;
+    bar.insertBefore(el, document.getElementById('perf-ph'));
+  });
+}
+function updateProgram(ts, segI) {
+  const F = MID.forms[segI][1], pg = PROGRAM[F];
+  document.getElementById('perf-mv').textContent = '🩰 MOVEMENT ' + (segI+1) + '/' + MID.forms.length + ' · ' + pg.name;
+  document.getElementById('perf-mv').style.color = pg.col;
+  document.getElementById('perf-what').textContent = pg.what;
+  const kx = +dxSel.value, ky = +dySel.value;
+  document.getElementById('perf-proj').innerHTML =
+    'projection · <b>' + DIMS[kx].k + ' ' + DIMS[kx].n + '</b> × <b>' + DIMS[ky].k + ' ' + DIMS[ky].n + '</b>' +
+    (F === 'T' ? ' — your axes' : '');
+  document.getElementById('perf-ph').style.left = (ts / MID.dur * 100) + '%';
+  document.querySelectorAll('#perf-bar i').forEach(el => el.classList.toggle('now', +el.dataset.i === segI));
+  document.getElementById('perf-t').textContent = fmtT(ts) + ' / ' + fmtT(MID.dur);
+  document.getElementById('perf-note').textContent = 'Clair de Lune · Debussy · perf. B. Krueger (CC BY-SA)';
+}
+function balletTargets(ts) {
+  const [cx, cy, S] = balStage(), T = {}, F = formAt(ts);
+  ids.forEach(id => T[id] = rawPos(id, 8).slice());          // the projected pose is the base
+  if (F === 'M') {                                            // quiet: superposed breathe in place
+    SUPERP.forEach((id, i) => { const b = Math.sin(ts * 1.6 + i) * 6;
+      T[id][0] += b; T[id][1] += Math.cos(ts * 1.3 + i) * 6; });
+  } else if (F === 'P') {                                     // lyric: duets orbit their projected midpoint
+    ENT.forEach(([a, b], j) => {
+      const pa = rawPos(a, 8), pb = rawPos(b, 8);
+      const mx = (pa[0] + pb[0]) / 2, my = (pa[1] + pb[1]) / 2, oa = ts * 1.05 + j;
+      T[a] = [mx + Math.cos(oa) * 20, my + Math.sin(oa) * 20];
+      T[b] = [mx - Math.cos(oa) * 20, my - Math.sin(oa) * 20];
+    });
+  } else if (F === 'W') {                                     // flowing: the epoch wave inside this projection
+    ids.forEach(id => {
+      const lag = (STRD[byId[id].st] || 0) * .11;
+      const ph = Math.max(0, Math.min(1, (ts * .12 - lag) % 1));
+      T[id] = rawPos(id, 1 + 7 * ph);
+    });
+  } else if (F === 'D') {                                     // climax: diamonds center-stage in this frame
+    DIAMONDS.forEach((id, i) => {
+      const a = i / DIAMONDS.length * 6.2832 - 1.5708 + ts * .25;
+      T[id] = [cx + Math.cos(a) * S * .2, cy + Math.sin(a) * S * .2];
+    });
+    METAS.forEach((id, i) => {
+      const a = i / METAS.length * 6.2832 - 1.5708 + ts * .08;
+      T[id] = [cx + Math.cos(a) * S * .5, cy + Math.sin(a) * S * .5];
+    });
+  }                                                           // T: pure pose on the viewer's own axes
+  return T;
+}
+function balletFrame(dt) {
+  const ts = AC.currentTime - BAL.start;
+  // advance the projection tour on segment boundaries
+  let segI = 0;
+  for (let i = 0; i < MID.forms.length; i++) if (MID.forms[i][0] <= ts) segI = i; else break;
+  if (segI !== BAL.seg) {
+    BAL.seg = segI;
+    const F = MID.forms[segI][1];
+    if (F === 'T') { dxSel.value = BAL.userAxes[0]; dySel.value = BAL.userAxes[1]; }
+    else { const pr = TOUR[segI % TOUR.length]; dxSel.value = pr[0]; dySel.value = pr[1]; }
+    const cast = PROGRAM[F].cast();
+    BAL.feature = cast ? new Set(cast) : null;   // stage lighting follows the cast
+    BAL.labelCast = (F === 'P');                 // name the dancers only in the duets
+  }
+  updateProgram(ts, segI);
+  // accents on the real performance's note onsets, scaled by velocity
+  while (evPtr < MID.evs.length && MID.evs[evPtr][0] <= ts) {
+    const [, n, v] = MID.evs[evPtr++];
+    const until = performance.now() + 260 + v * 3;
+    let grp;
+    if (n < 40) grp = DIAMONDS.concat(METAS);
+    else if (n >= 76) grp = ids.filter(id => 'qa'.includes(byId[id].st));
+    else if (n >= 58) grp = ids.filter(id => byId[id].st === 'm');
+    else grp = ids.filter(id => 'ol'.includes(byId[id].st));
+    grp.forEach(id => { if (Math.random() < .35 + v / 250) BAL.amp[id] = until; });
+  }
+  if (ts > MID.dur + 3) { stopBallet(); return; }   // the piece ends; the pose holds
+  const T = balletTargets(ts), k = 1 - Math.exp(-dt * 3.2);
+  ids.forEach(id => {
+    const c = BAL.cur[id], t = T[id];
+    c[0] += (t[0] - c[0]) * k; c[1] += (t[1] - c[1]) * k;
+  });
+}
+function toggleBallet() {
+  if (BAL.on) { stopBallet(); return; }
+  if (SYM.on) stopSymph();
+  if (!MID) { const m = parseMidi(MIDI_B64); MID = { ...m, forms: buildForms(m.evs, m.dur) }; }
+  killAudio(); AC = newAC(); audioLive();
+  comp = AC.createDynamicsCompressor();
+  comp.threshold.value = -20; comp.ratio.value = 5; comp.connect(AC.destination);
+  BAL.on = true; BAL.start = AC.currentTime + .3; BAL.cur = {}; BAL.amp = {};
+  BAL.seg = -1; BAL.userAxes = [dxSel.value, dySel.value];
+  evPtr = 0; evSched = 0;
+  BAL.trailsWere = trails; trails = false;
+  buildSegbar();
+  document.getElementById('perf').classList.add('open');
+  document.querySelector('.hud').style.display = 'none';
+  ids.forEach(id => BAL.cur[id] = rawPos(id, 8).slice());
+  document.getElementById('ballet-btn').classList.add('on');
+  scheduleWindow();
+  let last = performance.now();
+  const step = now => {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    balletFrame(dt); if (!BAL.on) return;
+    draw();
+    balRaf = requestAnimationFrame(step);
+  };
+  balRaf = requestAnimationFrame(step);
+}
+function stopBallet() {
+  BAL.on = false; trails = BAL.trailsWere; BAL.feature = null;
+  document.getElementById('perf').classList.remove('open');
+  document.querySelector('.hud').style.display = '';
+  if (BAL.userAxes) { dxSel.value = BAL.userAxes[0]; dySel.value = BAL.userAxes[1]; }
+  clearTimeout(balTimer); cancelAnimationFrame(balRaf);
+  killAudio();
+  document.getElementById('ballet-btn').classList.remove('on');
+  draw();
+}
+document.getElementById('ballet-btn').addEventListener('click', toggleBallet);
+
+
+
+// ══ STATE-SYMPHONY — the combinatorial state space, sounded. Nothing decorative:
+// every musical parameter is a datum or a control. THE LAW:
+//   score      = the current projection (X → onset within an 8s measure, Y → pitch)
+//   silence    = not-yet-evidenced (hardness 0 at this epoch makes no sound)
+//   loudness   = hardness · duration = hardness (diamonds toll)
+//   harmony    = circle of fifths, k notes where k grows with cumulative edges
+//   voice      = domain (five partial profiles)
+//   metronome  = CHRONOS grid · KAIROS unmetered · DILATION tempo · SUSPENSION held chord
+//                · SUPERPOSITION all epochs stacked
+//   trails     = echo (history audible) · entangle = imitative canon (partner answers)
+//   invariants = ground bass (always-true = always-sounding) · satoshi = prolation canon
+//                (the line at 1x, 2x, 4x) · superposed lens = only the unresolved, trilling
+// Ballet moves the data to Debussy; the symphony lets the data make the music.
+const SYM = { on: false, start: 0, measure: 0, timer: null, raf: null };
+const EDGE_CUM = e => EDGES.filter(x => x[2] <= e).length;
+function chordFor(measure, ep) {   // Debussy/Satie tonality, still a law of the data:
+  // k roots are unlocked by cumulative edges (circle of fifths from Db); the chord root
+  // SWAYS Gymnopédie-style between adjacent unlocked roots, drifting one stop every
+  // four measures. The scale is the MAJOR PENTATONIC on that root — no semitone can
+  // clash by construction — with maj7 and 9 added only as later epochs unlock them.
+  const frac = (EDGE_CUM(ep) - EDGE_CUM(1)) / (EDGE_CUM(8) - EDGE_CUM(1));
+  const k = 5 + Math.round(3 * frac);
+  const F = []; for (let i = 0; i < k; i++) F.push((1 + 7 * i) % 12);
+  const idx = ((measure % 2) + ((measure >> 2) % Math.max(1, k - 1))) % k;   // the sway + slow drift
+  const root = F[idx];
+  const offs = [0, 2, 4, 7, 9];                 // major pentatonic
+  if (k >= 6) offs.push(11);                    // maj7 unlocks
+  if (k >= 7) offs.push(14);                    // 9 unlocks (Lydian shimmer)
+  return { root, deg: offs.map(o => (root + o) % 12).sort((a, b) => a - b) };
+}
+function quant(m, deg) {                       // snap a raw midi float to the scale
+  const oct = Math.floor(m / 12), pc = m - oct * 12;
+  let best = deg[0], bd = 99;
+  for (const d of deg) for (const o of [-12, 0, 12]) { const diff = Math.abs(pc - (d + o)); if (diff < bd) { bd = diff; best = d + o; } }
+  return oct * 12 + best;
+}
+const VOICE = { ont: [[1,1],[2,.15]], epi: [[1,1],[2,.3],[4,.08]], met: [[1,1],[3,.25]], ety: [[1,1],[3,.2],[5,.1]], lib: [[1,.9],[2,.2],[3,.12]] };
+function voicePluck(n, when, vel, dur, dom, trill) {
+  const f = 440 * Math.pow(2, (n - 69) / 12), g = vel * .07, env = AC.createGain();
+  (VOICE[dom] || VOICE.ont).forEach(([m, a]) => {
+    const o = AC.createOscillator(), og = AC.createGain();
+    o.type = 'sine'; o.frequency.value = f * m; og.gain.value = a;
+    if (trill) {                              // superposition audible: oscillate a scale step
+      o.frequency.setValueAtTime(f * m, when);
+      for (let t = 0; t < dur; t += .125) o.frequency.setValueAtTime(f * m * (t % .25 < .125 ? 1 : 1.1225), when + t);
+    }
+    o.connect(og); og.connect(env); o.start(when); o.stop(when + dur + 1);
+  });
+  env.connect(symBus);
+  env.gain.setValueAtTime(0, when);
+  env.gain.linearRampToValueAtTime(g, when + .01);
+  env.gain.exponentialRampToValueAtTime(.0004, when + Math.max(.5, dur));
+}
+let symBus = null;
+function symMeasure() {                        // one measure = one left-to-right reading
+  if (!SYM.on) return;
+  const now = Math.max(AC.currentTime + .06, SYM.start + SYM.measure * measLen());
+  const L = measLen(), epR = Math.max(1, Math.min(8, Math.round(ep)));
+  const ch = chordFor(SYM.measure, epR), deg = ch.deg, kx = +dxSel.value, ky = +dySel.value;
+  const PCN = ['C','Db','D','Eb','E','F','Gb','G','Ab','A','Bb','B'];
+  document.getElementById('perf-mv').textContent = '𝄞 MEASURE ' + (SYM.measure + 1) + ' · CHORD ' + PCN[ch.root] + ' maj' + (deg.length >= 7 ? '9' : deg.length >= 6 ? '7' : '');
+  document.getElementById('perf-mv').style.color = '#00F0FF';
+  document.getElementById('perf-what').textContent = 'The state space, sounded: X→onset, Y→pitch, hardness→loudness. ' + deg.length + '-note scale · harmony unlocked by ' + EDGE_CUM(epR) + ' edges at e' + epR + '.';
+  document.getElementById('perf-proj').innerHTML = 'projection · <b>' + DIMS[kx].k + ' ' + DIMS[kx].n + '</b> × <b>' + DIMS[ky].k + ' ' + DIMS[ky].n + '</b>';
+  document.getElementById('perf-t').textContent = 'measure length ' + measLen().toFixed(1) + 's';
+  document.getElementById('perf-note').textContent = 'Gymnopédie sway through the evidence-unlocked fifths';
+  const sup = id => byId[id].status !== 'ok';
+  const eps = mode === 'SUPERPOSITION' ? [1,2,3,4,5,6,7,8] : [epR];
+  const notes = [];                            // [tFrac, midi, vel, dur, dom, id, trill]
+  eps.forEach(e => ids.forEach(id => {
+    const hd = hard(id, e);
+    if (hd === 0) return;                      // silence = not-yet-evidenced
+    if (supOnly && !sup(id)) return;           // the lens: only the unresolved sound
+    const x = norm(kx, dimAt(id, e, kx)), y = norm(ky, dimAt(id, e, ky));
+    const tF = mode === 'CHRONOS' ? Math.round(x * 8) / 8 : x;   // grid vs unmetered
+    notes.push([tF, quant(40 + y * 45, deg), (.25 + .75 * hd / 4) / eps.length,
+                (.4 + hd * .5) * (L / 8), byId[id].dom, id, supOnly && sup(id)]);
+  }));
+  if (mode === 'SUSPENSION') {                 // time held: the current harmony as one chord
+    notes.forEach(([, m, v, , dom, id, tr]) => voicePluck(m, now, v * .8, L * .95, dom, tr));
+  } else {
+    notes.forEach(([tF, m, v, d, dom, id, tr]) => {
+      const t = now + tF * L * .94;
+      voicePluck(m, t, v, d, dom, tr);
+      SYM.acc.push([t, id, v]);
+      if (showEnt) {                           // entanglement = imitative canon
+        const pair = ENT.find(p => p[0] === id || p[1] === id);
+        if (pair) { const mate = pair[0] === id ? pair[1] : pair[0];
+          voicePluck(m, t + L * .25, v * .5, d * .8, byId[mate].dom, false); SYM.acc.push([t + L * .25, mate, v * .5]); }
+      }
+      if (showSat) {                           // satoshi = prolation canon: 2x and 4x augmentation
+        voicePluck(m - 12, now + tF * L * 1.88, v * .4, d * 1.6, dom, false);
+        voicePluck(m - 24, now + tF * L * 3.76, v * .25, d * 2.4, dom, false);
+      }
+    });
+  }
+  if (showInv) {                               // invariants = the ground bass: always true, always sounding
+    const root = 36 + ch.root;                   // the chord root — harmony and constitution agree
+    voicePluck(root, now, .45, L * .6, 'met', false);
+    voicePluck(root + 7, now + L / 2, .32, L * .5, 'met', false);   // the Gymnopédie sway
+    INV.empirical.forEach((id, i) => voicePluck(root + 12, now + (i + 1) * L / (INV.empirical.length + 1), .18, .4, byId[id].dom, false));
+  }
+  SYM.measure++;
+  SYM.timer = setTimeout(symMeasure, (now + L - AC.currentTime - .8) * 1000);
+}
+const measLen = () => 8 / tempo;
+function toggleSymph() {
+  if (SYM.on) { stopSymph(); return; }
+  if (BAL.on) stopBallet();                    // one conductor at a time
+  killAudio(); AC = newAC(); audioLive();
+  symBus = AC.createDynamicsCompressor(); symBus.threshold.value = -22; symBus.ratio.value = 6;
+  if (trails) {                                // trails = echo: history audible
+    const dly = AC.createDelay(1); dly.delayTime.value = .42;
+    const fb = AC.createGain(); fb.gain.value = .28;
+    symBus.connect(dly); dly.connect(fb); fb.connect(dly); dly.connect(AC.destination);
+  }
+  symBus.connect(AC.destination);
+  SYM.on = true; SYM.start = AC.currentTime + .2; SYM.measure = 0; SYM.acc = [];
+  BAL.amp = {};
+  document.getElementById('symph-btn').classList.add('on');
+  document.getElementById('perf').classList.add('open');
+  document.querySelectorAll('#perf-bar i').forEach(x => x.remove());
+  document.querySelector('.hud').style.display = 'none';
+  symMeasure();
+  const step = () => {                         // playhead sweep + onset accents (all data)
+    if (!SYM.on) return;
+    const tIn = ((AC.currentTime - SYM.start) % measLen()) / measLen();
+    while (SYM.acc.length && SYM.acc[0][0] <= AC.currentTime) {
+      const [, id, v] = SYM.acc.shift(); BAL.amp[id] = performance.now() + 200 + v * 500;
+    }
+    draw();
+    const dpr = devicePixelRatio, w = cv.width / dpr, h = cv.height / dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const x = M.l + tIn * (w - M.l - M.r);
+    ctx.strokeStyle = 'rgba(255,215,0,.35)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(x, M.t); ctx.lineTo(x, h - M.b); ctx.stroke();
+    SYM.raf = requestAnimationFrame(step);
+  };
+  SYM.raf = requestAnimationFrame(step);
+}
+function stopSymph() {
+  SYM.on = false; clearTimeout(SYM.timer); cancelAnimationFrame(SYM.raf);
+  document.getElementById('perf').classList.remove('open');
+  document.querySelector('.hud').style.display = '';
+  killAudio();
+  document.getElementById('symph-btn').classList.remove('on'); draw();
+}
+document.getElementById('symph-btn').addEventListener('click', toggleSymph);
+document.getElementById('stop-audio').addEventListener('click', stopAll);
+
+document.getElementById('conductor-score').innerHTML = DIMS.map((d, k) =>
+  `<b style="color:var(--gold)">${CONDUCTOR[k].mark}</b> ${d.k} ${d.n} — <i>${CONDUCTOR[k].ballet}</i>: ${CONDUCTOR[k].note}`
+).join('<br>');
+resize();
+</script>
