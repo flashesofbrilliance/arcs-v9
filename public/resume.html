@@ -1052,10 +1052,9 @@ function Resume() {
       {/* ── Scrollable content ───────────────────────────────────────────── */}
 
       {/* Overview */}
-      <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
-        maxWidth:680, marginBottom:24 }}>
+      <TrueNorthPanel heading={TRUE_NORTH.all.heading} color={T.cyan} style={{ marginBottom:24 }}>
         {TRUE_NORTH.all.text}
-      </p>
+      </TrueNorthPanel>
 
       {showSimple && <GrainResume />}
 
