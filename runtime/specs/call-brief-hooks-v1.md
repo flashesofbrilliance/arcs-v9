@@ -50,26 +50,52 @@ it does not block the call.
 ## Task A — Pre-call brief poller
 
 **Cadence:** recurring, every 15 min, weekdays business hours (jitter is
-fine — this is advisory, not time-critical to the minute).
+fine — this is advisory, not time-critical to the minute). Because the
+window is ~20 minutes and the cadence is 15 minutes, **the same event will
+be seen by 1–2 consecutive firings.** Step 3 below exists specifically to
+stop that from producing duplicate work — do not skip it.
+
+**Canonical slug rule (fixed, not free-form):** the slug is the lowercased
+local-part of the external attendee's email address (the part before `@`),
+with `.`, `_`, and `+tags` collapsed to single hyphens — e.g.
+`james.trainor@fox.com` → `james-trainor`. If more than one external
+attendee, use the first non-internal one, in attendee-list order. This is
+the *only* slug-generation rule. Do not derive a slug from the calendar
+title or invent one per run — doing so is what caused a real duplicate on
+2026-07-13 (`precall-james-trainor-2026-07-13.json` and
+`precall-trainor-2026-07-13.json`, same person, same call, two separate
+firings, two free-formed slugs, neither firing checked for the other).
 
 **Procedure per firing:**
 1. List calendar events starting in the next ~20 minutes.
 2. Filter to events with exactly one external attendee (not @gmail.com
    internal, not a known non-1:1 domain) — or any event Zach has tagged
    `[ARCS]` in the title, whichever is broader at the time this runs.
-3. For each match: run `scripts/receipt_lookup.py` against the attendee's
-   name/email.
-4. Write an internal pre-call note to the ledger convention
+3. **Idempotency check (do this before any lookup or API call):** compute
+   the canonical slug for the event, then check whether
+   `runtime/recoil/generated/precall-<slug>-<date>.json` already exists.
+   If it does, this event was already handled by an earlier firing —
+   **skip it entirely**: no Detective lookup, no file write, no
+   notification for this event. This check must run before step 4 (the
+   Detective lookup), since the lookup is the expensive/token-costing step
+   this whole check exists to avoid repeating.
+4. For each surviving match: run `scripts/receipt_lookup.py` against the
+   attendee's name/email.
+5. Write an internal pre-call note to the ledger convention
    `runtime/recoil/generated/precall-<slug>-<date>.json` — reusing the
    `RecoilReportData` shape's `meta`/`cover`/`loadBearingQuote` fields at
    minimum; full segment/protocol fields are optional pre-call (no
-   transcript exists yet).
-5. If an external brief page already exists for this counterpart
+   transcript exists yet). Always include `meta.calendarEventId` (the
+   calendar event's `id` field) — this is the durable dedup key once more
+   than one event per day per counterpart becomes possible (recurring
+   counterparts, rescheduled calls).
+6. If an external brief page already exists for this counterpart
    (`public/<slug>.html`), do **not** auto-edit it. Note that fact only.
-6. Notify Zach (push notification, not email — this is internal-only
+7. Notify Zach (push notification, not email — this is internal-only
    output) with the digest: who, when, what the Detective lookup found.
-7. If no calendar events match, do nothing and end the run silently — do
-   not notify on a no-op tick.
+8. If no calendar events match after the idempotency filter, do nothing
+   and end the run silently — do not notify on a no-op tick, and do not
+   notify just because every match was a dedup-skip.
 
 ## Task B — Post-call recoil + close poller
 
@@ -79,28 +105,34 @@ fine — this is advisory, not time-critical to the minute).
 1. List calendar events that ended in the last ~90 minutes with exactly
    one external attendee.
 2. Match each to a Granola meeting by title/attendees/end-time proximity.
-3. If no transcript is available yet, skip silently (it may appear on a
+3. **Idempotency check:** using the same canonical slug rule as Task A,
+   check whether `runtime/recoil/generated/<date>-<slug>.json` already
+   exists for this event. If it does, this call was already closed out by
+   an earlier firing (the 90-minute window means up to ~4 firings can see
+   the same ended call at a 20-min cadence) — skip it entirely, no
+   re-transcription, no re-write, no notification.
+4. If no transcript is available yet, skip silently (it may appear on a
    later tick — Granola processing lag is normal).
-4. Run the full `/recoil-report` procedure (`runtime/specs/recoil-modes-v1.md`):
+6. Run the full `/recoil-report` procedure (`runtime/specs/recoil-modes-v1.md`):
    segment count `max(3, round(sqrt(duration_minutes)))`, Reverse Listening
    + Deep Recall passes, merge into `RecoilReportData`.
-5. Include a stated-vs-revealed section explicitly (this is now a standard
+7. Include a stated-vs-revealed section explicitly (this is now a standard
    part of the merge, not optional — see the LaBella report's ledger
    section as the template).
-6. Write the result to `runtime/recoil/generated/<date>-<slug>.json` and
+8. Write the result to `runtime/recoil/generated/<date>-<slug>.json` and
    commit it. **This step is fully autonomous — no review gate** (per Zach's
    2026-07-09 decision: auto-close immediately). This is the internal
    ledger; low blast radius if imperfect, since only Zach's authenticated
    session can read it.
-7. If an external brief page already exists for this counterpart AND
+9. If an external brief page already exists for this counterpart AND
    already has a pre-call receipt / close-out block (the Tab 4 pattern),
    refresh that page's close-out block with a **curated** version — verdict,
    Y-gate, next action, one-line belief shift — not the full internal
    candor. Commit and deploy via `scripts/deploy-prod.sh` per the standing
    worktree rule (main worktree only). If no such page exists, skip this
    step entirely.
-8. Notify Zach (push notification) with a one-line summary: Y-gate
-   delta, NCI delta, and whether an external page was updated.
+10. Notify Zach (push notification) with a one-line summary: Y-gate
+    delta, NCI delta, and whether an external page was updated.
 
 ## What this does NOT do
 
@@ -125,3 +157,13 @@ fine — this is advisory, not time-critical to the minute).
 - Each scheduled task run starts with zero memory of any prior conversation
   — the task prompt must be fully self-contained (this spec exists so the
   prompt can point here instead of re-deriving the procedure each time).
+- **Dedup is not automatic — each run must actively check for it** (added
+  2026-07-15, after a real duplicate: two firings 15 min apart both matched
+  the same 2026-07-13 James Trainor call, and because neither run checked
+  for an existing note before doing work, both ran a full Detective lookup
+  and wrote a separate file under a differently-freeformed slug
+  — `james-trainor` vs `trainor`. Zero memory across firings means the
+  idempotency check has to be a filesystem check (does
+  `precall-<slug>-<date>.json` already exist), not a "remember I already
+  did this" check — see the canonical slug rule + step 3 in Task A and
+  step 3 in Task B above).
