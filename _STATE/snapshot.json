@@ -2,9 +2,9 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "2e0cae3",
-    "head_message": "fix(jeben): sticky first column + themed scrollbar on wide tables",
-    "in_sync_with_origin": true,
+    "head_sha": "57b952f",
+    "head_message": "fix(resume): render overview in TrueNorthPanel bezel card, not plain text",
+    "in_sync_with_origin": false,
     "dirty_files": []
   },
   "vercel": {
@@ -143,5 +143,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-15T18:51:20Z"
+  "git_refreshed_at": "2026-07-15T21:56:40Z"
 }
