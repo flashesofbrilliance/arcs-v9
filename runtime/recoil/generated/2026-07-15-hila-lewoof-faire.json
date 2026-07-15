@@ -43,7 +43,7 @@
     {
       "label": "16-24 MIN",
       "title": "Clarifying Questions Start Landing Wrong",
-      "body": "Zach asks about Faire's take-rate, whether Dan (a peer with Faire experience) or another contact ('poop loop') shared tips, and whether a profile already exists. Each is a reasonable diagnostic question in isolation; in aggregate, asked back-to-back under a 60-minute hard stop, they read as downstream tangents. Hila: 'You keep asking. This is the third time you've asked me this.'",
+      "body": "Zach asks about Faire's take-rate, whether Dan (a peer with Faire experience) or another contact ('poop loop') shared tips, and whether a profile already exists. Each is a reasonable diagnostic question in isolation; in aggregate, asked back-to-back under a 60-minute hard stop, they read as downstream tangents. Hila: 'You keep asking. This is the third time you've asked me this.' Notably, Hila states 'I have, like, 30 minutes, Zach' in this stretch — despite having booked the call for a full hour on her own calendar invite. Zach was pacing against the 60-minute block he'd actually been sent; the tighter clock she was operating against was never disclosed until partway through.",
       "peak": false
     },
     {
@@ -89,7 +89,7 @@
       "label": "WATCH",
       "accent": "#FFD700",
       "title": "Prioritization-Instinct vs. Time-Boxed-Execution Mode Mismatch",
-      "body": "Zach's default move (sequence everything by urgency/revenue before acting) collided with Hila's pre-formed, time-boxed list. This produced the call's one real friction spike ('don't be adversarial' / 'you're not helpful'). Worth naming as a recurring collaboration pattern, not just a one-off — when the other party arrives with a fixed list and a hard clock, leading with structuring questions reads as resistance even when the intent is genuinely to help.",
+      "body": "Zach's default move (sequence everything by urgency/revenue before acting) collided with Hila's pre-formed, time-boxed list. This produced the call's one real friction spike ('don't be adversarial' / 'you're not helpful'). Worth naming as a recurring collaboration pattern, not just a one-off — when the other party arrives with a fixed list and a hard clock, leading with structuring questions reads as resistance even when the intent is genuinely to help. One real contributing factor, verifiable from the transcript: Hila booked a full 60-minute block on her own calendar invite, but stated mid-call 'I have, like, 30 minutes' — a tighter, undisclosed internal clock that Zach had no way to know going in. Some of the pacing friction traces to that mismatch, not just to Zach's questioning style.",
       "note": "Both people held their ground without escalating further; it resolved on its own by minute 30."
     },
     {
@@ -163,7 +163,8 @@
       "Send Hila a simple Google Drive folder template (Faire / Amazon / Shopify subfolders, each with credentials / assets / status) so she has a concrete structure to fill rather than starting from a blank ask",
       "Once the Faire Google Doc arrives, prioritize getting the profile live before next week's Faire Market promo — this is the one hard deadline in the call",
       "Separately track and close the hila@lewoofbrand Gmail / Porkbun billing issue as its own task — it's blocking GA, Amazon Seller Central, and domain access, and has been open 8 months",
-      "On future calls like this, take Hila's stated list at face value first; hold sequencing/dependency questions until after the list is fully captured"
+      "On future calls like this, take Hila's stated list at face value first; hold sequencing/dependency questions until after the list is fully captured",
+      "Propose a lightweight pre-call agenda template for future working sessions: Hila lists her topics in priority order, states how much time she actually has (not just what's on the calendar invite), and flags upfront whether she wants live Q&A time built in, wants clarifying questions held for a written follow-up after the call, or wants Zach to just take the list and figure out open questions independently. Removes the ambiguity that produced this call's one friction spike."
     ]
   }
 }
