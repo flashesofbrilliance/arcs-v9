@@ -1,0 +1,194 @@
+{
+  "reportId": "2026-07-15-jeben",
+  "meta": {
+    "callTitle": "Jeben x Zach // 1-1",
+    "counterpart": "Jeben",
+    "counterpartRole": "Palace Laundry Creative / Louisville Brands partner-advocate; Hermitage Farm co-owner",
+    "callDate": "2026-07-15",
+    "callTime": "10:45 AM EDT",
+    "durationMinutes": 30,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
+    "prePrepSession": null,
+    "note": "No PrepSession row captured; no pre-call note found at runtime/recoil/generated/precall-jeben-*.json. scripts/receipt_lookup.py returned NO PRIOR HISTORY for 'Jeben' despite a prior report on file (2026-07-10-jeben-louisville-serialization.json) — the lookup script's name-matching missed this counterpart; flagged as a Detective-tool gap, not re-derived here. Deep Recall pass scored against the implied agenda Zach stated in-call (\"I wanted to circle back on a few things\") rather than a formal ex-ante receipt."
+  },
+  "cover": {
+    "yGate": "FORK",
+    "conviction": "MEDIUM",
+    "stability": "WATCH",
+    "renderState": "DEGRADED",
+    "nci": 61,
+    "headline": "The Louisville Brands artifact landed — but so did a fact that makes it stale. The call forked into two live threads, neither closed.",
+    "subline": "Zach delivered the Thread Book (public/jeben.html) and got real news in return: the Louisville manufacturing plant is shutting down, moving to Wisconsin, ~20 jobs lost. Jeben pivoted immediately to a bigger question — has Zach worked with institutional/PE capital — and that thread, not the tracker, got the concrete \"let's find more time\" close."
+  },
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
+  "loadBearingQuote": {
+    "text": "The manufacturing plant is shutting down and manufacturing is moving to Wisconsin... on all of the products. And it's a cost saving measure it's unfortunate though because it also — I think 20 people in [Louisville] will lose their jobs because of it.",
+    "attribution": "GRANOLA TRANSCRIPT · JEBEN · JUL 15, 2026",
+    "significance": "This single fact invalidates a load-bearing assumption in the existing Louisville Brands tracker (\"factory utilization\" was listed as an open thread; the Jul 10 report frames the factory as an underused asset ARCS could help optimize). The situation is no longer under-utilization — it's active shutdown and relocation. Any re-entry that doesn't account for this reads as out of touch."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "COLD OPEN",
+      "time": "0–6 min",
+      "direction": "FORWARD",
+      "summary": "Personal catch-up: Jeben's wood delivery lands mid-call (\"the timing on this could not have worked better\"), studio-wall build in his Louisville industrial bay ($260/mo, no internet cost, dust-mitigation problem from neighboring tenants), delegation to a builder friend, comparison to Matthew Barney's Long Island City studio. Establishes rapport and Jeben's working philosophy (many parallel unfinished projects, a space with \"no consequence for the mess\").",
+      "divergenceFlag": "LOW — pure rapport-building, no business content, consistent with the pattern of prior Jeben calls opening this way."
+    },
+    {
+      "segment": 2,
+      "label": "FESTIVAL PIVOT",
+      "time": "6–12 min",
+      "direction": "FORWARD",
+      "summary": "Zach transitions to his prepared list (\"I wanted to circle back on a few things\"). First item: the annual graffiti/arts festival. Jeben reveals he declined to participate in Outside Lands (San Francisco) this year after 15 years — \"the direction they were headed was too generic... it's a wrap for Jeb.\" Pivots to his own new project instead: Iconography, a curated show at 21c Hotel in Louisville (Sept, part of Two Buck Weekend), four globally-recognized muralists, a companion podcast, tattoos/haircuts on-site — and an explicit \"we're looking for money.\"",
+      "divergenceFlag": "MED — Zach's question was closed-ended (is the festival happening); Jeben's answer opened into an unprompted funding ask for a different, new project. Noted but not pursued by Zach in-call."
+    },
+    {
+      "segment": 3,
+      "label": "MANDY + HERMITAGE",
+      "time": "12–18 min",
+      "direction": "FORWARD",
+      "summary": "Mandy update is thin — Jeben has only helped her land a couple of jobs, then reframes her as \"the archetype of artists I work with\" rather than a specific open thread. Hermitage Farm gets a substantial positive update: capital is raised, groundbreaking this year, a 47-key boutique hotel underway, an Auto Camp partnership pending a water-feature build decision, a music/festival build (Kentucky Performing Arts partnership, Lonesome Pine Specials IP, amphitheater terraforming), and the Barn 8 restaurant \"crushing it.\" Zach floats one line: an ARCS decision sprint could help with Hermitage's upcoming structural trade-offs. No response from Jeben — conversation moves on.",
+      "divergenceFlag": "MED — the decision-sprint offer was stated but not registered; Jeben's attention stayed on the Hermitage narrative itself, not the offer embedded in it."
+    },
+    {
+      "segment": 4,
+      "label": "HORSE SYNDICATE → LOUISVILLE BRANDS DELIVERY",
+      "time": "18–24 min",
+      "direction": "FORWARD",
+      "summary": "Tangent: Jeben and his wife are building a miniature-horse fractional-ownership business (\"syndicate,\" RWA-adjacent), naming unresolved, first horse (Letty) already purchased — confirms the wife's-friend co-development thread Zach raised is live. Then the core ask of the call: Zach explains he built the Thread Book (public/jeben.html) consolidating every Louisville Brands thread since March into one page, password-gated with Jeben's last name. Jeben immediately volunteers the plant-closure/Wisconsin-move fact (the load-bearing quote above) before Zach can walk him through the artifact's contents.",
+      "divergenceFlag": "HIGH — the artifact was framed as the thing that would let Jeben \"peruse\" the whole history efficiently; instead the call surfaced a fact the artifact doesn't yet contain, reversing the information flow from delivery to intake."
+    },
+    {
+      "segment": 5,
+      "label": "PE PIVOT — ABRUPT CLOSE",
+      "time": "24–30 min",
+      "direction": "FORWARD",
+      "summary": "Jeben says he'll spend time reading the tracker, then immediately redirects: has Zach engaged private equity or institutional investors, specifically naming a fund that manages Brown-Forman money. Zach answers honestly — advisory work with family-office/special-situations firms (e.g., a $70B UK fund) but not large PE, because they run their own risk/ops teams — and reframes ARCS as fitting \"high-stakes, one-way-door\" diligence work, open to an intro if Jeben has one. Jeben cuts the call short for his 11:15 with a director on an unrelated project, promises to \"talk more about this\" and floats knowing people worth an introduction.",
+      "divergenceFlag": "HIGH — the concrete forward commitment (\"let's find some more time,\" \"I think I might know a couple things\") attached to the PE thread, not to Louisville Brands. Read forward, the call felt like it was building toward closing the LB re-entry loop; the actual close was about something else entirely."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "TRACKER_NOW_STALE",
+      "label": "Delivered Artifact Is Already Out of Date",
+      "color": "gold",
+      "strength": "WATCH",
+      "description": "public/jeben.html (\"The Thread Book\") frames the Louisville factory as underused capacity — an optimization opportunity. Jeben's own update (plant closing, moving to Wisconsin, ~20 layoffs) contradicts that framing. The artifact needs a correction pass before it's referenced again; forwarding or re-linking it as-is risks reading as out of touch on the one fact Jeben chose to lead with."
+    },
+    {
+      "id": "STATED_VS_REVEALED_ENGAGEMENT",
+      "label": "Stated Enthusiasm vs. Revealed Redirection",
+      "color": "gold",
+      "strength": "WATCH",
+      "description": "Stated: \"I love this and I insist I have to spend some time looking through this.\" Revealed: no read-by commitment, no scheduled follow-up on the tracker specifically, and the very next thing Jeben does is redirect the conversation to a different, higher-altitude question (PE relationships) that has nothing to do with the artifact's content. The pattern matches the earlier serialized-thread finding (2026-07-10 report: \"champion has stepped back\") — Jeben remains warm and generative but doesn't close loops on the Louisville Brands ask specifically; he closes loops on whatever he raises himself."
+    },
+    {
+      "id": "PE_THREAD_NEW",
+      "label": "New Higher-Leverage Thread, Self-Initiated by Jeben",
+      "color": "cyan",
+      "strength": "DIRECTIONAL",
+      "description": "Jeben volunteered, unprompted, a specific institutional-capital angle (a fund adjacent to Brown-Forman money) and framed ARCS's actual fit correctly — high-stakes, one-way-door decisions — better than Zach's own pitch language a few minutes earlier. This is a genuinely new, separate opportunity that emerged organically and got the call's only concrete forward commitment. It should be tracked as its own thread, not folded back into the Louisville Brands file where it will get lost."
+    },
+    {
+      "id": "WOOF_HORSE_LIVE",
+      "label": "Adjacent Co-Development Thread Confirmed Live",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "The wife's-friend horse-product co-development idea Zach raised got an immediate, enthusiastic \"100%\" — and Jeben's own parallel miniature-horse business (already has purchased its first horse, Letty) makes this a natural, low-effort extension rather than a cold ask. Confirmed, not aspirational."
+    },
+    {
+      "id": "HERMITAGE_OFFER_UNREGISTERED",
+      "label": "Decision-Sprint Offer Floated, Not Registered",
+      "color": "steel",
+      "strength": "WATCH",
+      "description": "Hermitage Farm now has committed capital and live structural decisions in flight (Auto Camp water-feature build/buy, amphitheater terraforming, festival programming scale) — exactly the one-way-door decisions WORLD.md's BAR-edge framing targets. Zach's offer was a single embedded sentence that got no acknowledgment. It needs its own dedicated outreach, not a line inside a 30-minute personal catch-up."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 40,
+      "label": "Both threads advance in parallel",
+      "description": "Zach corrects the Thread Book with the Wisconsin-move fact and sends a narrow, single-ask follow-up naming only the PE/institutional-capital thread. Jeben responds to the PE ask with an actual introduction, and separately references the corrected tracker unprompted when he has bandwidth.",
+      "trigger": "Zach ships the tracker correction and the single-ask PE follow-up within the week, before the next Jeben call.",
+      "watch": "Whether Jeben's promised follow-up on \"finding more time\" for the PE conversation actually gets scheduled, or joins the pattern of offers that don't get a concrete next step (Mandy, the Hermitage decision-sprint line)."
+    },
+    {
+      "id": "B",
+      "probability": 40,
+      "label": "PE thread stalls like prior open offers; Louisville Brands stays paused",
+      "description": "No follow-up materializes on the PE introduction (consistent with several of Jeben's other floated offers this call — Mandy, the Hermitage sprint). Louisville Brands sits at \"artifact delivered, awaiting his read,\" with the correction made but no signal Jeben opened it.",
+      "trigger": "Default path if no dedicated, narrow follow-up is sent — bundling asks together has historically diluted response.",
+      "watch": "Whether Jeben references the Wisconsin-move detail again on his own, which would confirm he actually engaged with the material Zach shares."
+    },
+    {
+      "id": "C",
+      "probability": 20,
+      "label": "Louisville Brands closes for real — the plant move is the terminal signal",
+      "description": "The Wisconsin relocation isn't a footnote — it's the company entering active restructuring, and the \"next bag\" decision framing from the Jul 10 report is no longer the live decision. If the company is mid-restructuring, the highest-leverage entry point may already have passed, and the relationship value shifts entirely to the PE-intro and Hermitage threads.",
+      "trigger": "Jeben has no further Louisville Brands updates over the next 60 days, or explicitly signals the company is past the point where a decision-support engagement helps.",
+      "watch": "Whether Jeben's next update on Louisville Brands is about the restructuring's aftermath rather than about growth decisions — that would confirm this scenario."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "STALE_ARTIFACT_LIVE",
+      "severity": "HIGH",
+      "label": "The Thread Book (public/jeben.html) misrepresents the factory as underused, not shutting down",
+      "description": "Jeben was given a password to a page whose framing (factory utilization as an ARCS opportunity) his own update just contradicted. If he opens it and notices the mismatch before Zach corrects it, it reads as stale intel rather than a dialed artifact — undermining the exact \"polished foot-forward\" goal the page was built for.",
+      "action": "Correct public/jeben.html's factory-utilization framing with the Wisconsin-move fact before any further reference to the page — do this before, not after, sending any follow-up."
+    },
+    {
+      "id": "BUNDLED_ASKS_DILUTE",
+      "severity": "MED",
+      "label": "Multiple open threads (LB tracker, PE intro, Hermitage sprint, festival funding) risk collapsing into one unfocused follow-up",
+      "description": "This call surfaced four separate live threads in 30 minutes. The historical pattern with Jeben (per the Jul 10 serialization report) is that bundled asks get diffuse responses while a single, sharp ask gets a real answer (as the PE question did, unprompted, from Jeben's side).",
+      "action": "Send one narrow follow-up per thread, not a combined recap. Lead with the PE ask — it's the one Jeben already committed forward motion on."
+    },
+    {
+      "id": "DETECTIVE_LOOKUP_GAP",
+      "severity": "LOW",
+      "label": "scripts/receipt_lookup.py missed a known prior record for this counterpart",
+      "description": "The pre-call Detective lookup returned \"NO PRIOR HISTORY for 'Jeben'\" despite runtime/recoil/generated/2026-07-10-jeben-louisville-serialization.json existing on file. Likely a name-matching gap (first-name-only query vs. however the prior record is indexed).",
+      "action": "Not fixed this run — flagged for a future session to check receipt_lookup.py's matching logic against single-first-name counterparts."
+    },
+    {
+      "id": "HERMITAGE_OFFER_DROPPED",
+      "severity": "INFO",
+      "label": "Decision-sprint pitch for Hermitage Farm got no acknowledgment in-call",
+      "description": "Hermitage now has committed capital and multiple live structural decisions (Auto Camp water feature, amphitheater build) — a strong fit for the ARCS one-way-door framing — but the offer was a single unregistered sentence.",
+      "action": "Raise it again as its own dedicated, short outreach rather than embedded in a personal-catch-up call."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "The actual close was about institutional capital, not Louisville Brands. Working backward from Jeben's exit (\"I want to talk to you more about this... I think I might know a couple things\"), the only thread with a concrete forward commitment is the PE-intro question he raised himself. The Louisville Brands tracker delivery, which felt in the moment like the call's main event, got acknowledgment (\"I love this\") but no scheduled next step — the forward read and the backward read diverge sharply on which thread actually matters coming out of this call."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "Scored against Zach's stated in-call agenda (\"I wanted to circle back on a few things\": festival, Mandy, Hermitage, woof/horse co-dev, Louisville Brands) — no formal PrepSession row exists for this call.",
+        "keyFinding": "Of five stated agenda items: festival resolved cleanly (declined this year, explained why); Mandy stayed thin/unresolved; Hermitage delivered a strong update but Zach's own decision-sprint offer inside it went unregistered; the woof/horse co-dev thread confirmed live; Louisville Brands — the primary target — delivered the artifact but surfaced a materially new, negative fact (plant closure) that the artifact doesn't yet reflect, and the conversation pivoted away before Zach could make his actual ask (a read-by timeline, a reaction to the tracker). Net: high information yield, low commitment yield on the thread Zach came in prioritizing."
+      }
+    ],
+    "statedVsRevealed": [
+      {
+        "id": "STATED_VS_REVEALED_ARTIFACT_ENGAGEMENT",
+        "stated": "\"I love this and I mean I'm I insist that I have to spend some time looking through this because I need to read these parts there's a fair amount of information here.\"",
+        "revealed": "No read-by date, no scheduled follow-up call on the tracker specifically, and the very next sentence pivots to an unrelated question (PE relationships) rather than reacting to any specific content in the artifact.",
+        "read": "Matches the established pattern for this counterpart (2026-07-10 report: champion detachment) — genuine warmth and stated intent, but follow-through requires Jeben himself to initiate, not a delivered artifact to compel."
+      },
+      {
+        "id": "STATED_VS_REVEALED_FACTORY",
+        "stated": "The Thread Book (delivered this call) frames the factory as running at partial capacity — an efficiency/utilization opportunity worth ARCS's attention.",
+        "revealed": "The factory isn't underused — it's shutting down and relocating to Wisconsin, with ~20 local layoffs. The \"opportunity\" framing in the artifact is now factually wrong on this specific point.",
+        "read": "This is the call's most important finding. It's not a communication-style gap like the others — it's a factual correction that must be made before the artifact is used again."
+      }
+    ]
+  }
+}
