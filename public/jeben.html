@@ -117,12 +117,14 @@
   #wf-5 .wf-halo,#wf-5 .wf-led{animation-duration:2.5s}
   #wf-6 .wf-halo,#wf-6 .wf-led{animation-duration:2.8s}
   #wf-7 .wf-halo,#wf-7 .wf-led{animation-duration:2s}
+  #wf-8 .wf-halo,#wf-8 .wf-led{animation-duration:2.4s}
   /* record dots pulse too — fanatics .beat-led pattern (box-shadow on HTML, Safari-solid) */
   .tl li{--nc:#94a3b8}
   .tl li.peak{--nc:#00F0FF}
   #tl-3{--nc:#00FF9D}
   #tl-5{--nc:#FFD700}
   #tl-7{--nc:#FF4D6D}
+  #tl-8{--nc:#FF4D6D}
   .tl li::before{animation:tl-led 2.4s ease-in-out infinite}
   .tl li:nth-child(2n)::before{animation-duration:2.8s}
   .tl li:nth-child(3n)::before{animation-duration:2.1s}
@@ -242,7 +244,7 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
   <p class="eyebrow">Single Source of Truth · Prepared for Jeben · July 10, 2026</p>
   <h1>Louisville Brands × ARCS<br>The Thread Book</h1>
   <p class="dek">Everything we've discussed about Louisville Brands, pulled from our six calls and put in one place — what's live, what's parked, what an engagement is worth in dollars and time, and exactly what happens next. Written in plain English, so it can go straight to Justin.</p>
-  <p class="meta">SOURCES · 6 calls (Mar 5 → May 20, 2026) · ARCS × Louisville Brands proposal deck (Apr 2) · Zach Harris ↔ Jeben (Palace Laundry Creative)</p>
+  <p class="meta">SOURCES · 7 calls (Mar 5 → Jul 15, 2026) · ARCS × Louisville Brands proposal deck (Apr 2) · Zach Harris ↔ Jeben (Palace Laundry Creative)</p>
   <nav class="toc" aria-label="Contents">
     <a class="chip" href="#note">The one clear note</a>
     <a class="chip" href="#timeline">How we got here</a>
@@ -271,8 +273,8 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
   <p class="eyebrow">02 · How We Got Here — The Serialized Record</p>
   <hr class="rule">
   <div class="waveform-wrap">
-    <svg class="waveform" viewBox="0 0 560 62" xmlns="http://www.w3.org/2000/svg" style="height:62px" role="img" aria-label="Signal strength of each touchpoint, March 5 to May 20. Click a node to jump to it.">
-      <line x1="0" y1="44" x2="560" y2="44" stroke="#1e293b" stroke-width="1"/>
+    <svg class="waveform" viewBox="0 0 640 62" xmlns="http://www.w3.org/2000/svg" style="height:62px" role="img" aria-label="Signal strength of each touchpoint, March 5 to July 15. Click a node to jump to it.">
+      <line x1="0" y1="44" x2="640" y2="44" stroke="#1e293b" stroke-width="1"/>
       <a href="#tl-1"><g class="wf-spike" id="wf-1" style="cursor:pointer">
         <line x1="40" y1="44" x2="40" y2="14" stroke="#00F0FF" stroke-width="2"/>
         <circle class="wf-halo" cx="40" cy="14" r="7" fill="#00F0FF" opacity="0"/>
@@ -316,6 +318,13 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
         <circle class="wf-led" cx="520" cy="30" r="2.5" fill="#FF4D6D"/>
         <text x="520" y="57" text-anchor="middle" class="wf-label">MAY 20 STATUS</text>
       </g></a>
+      <a href="#tl-8"><g class="wf-spike" id="wf-8" style="cursor:pointer">
+        <line x1="600" y1="44" x2="600" y2="8" stroke="#FF4D6D" stroke-width="2"/>
+        <circle class="wf-halo" cx="600" cy="8" r="7" fill="#FF4D6D" opacity="0"/>
+        <circle class="wf-led" cx="600" cy="8" r="3.5" fill="#FF4D6D"/>
+        <line x1="578" y1="44" x2="622" y2="44" stroke="#FF4D6D" stroke-width="1" opacity="0.2"/>
+        <text x="600" y="57" text-anchor="middle" class="wf-label">JUL 15 CORRECTION</text>
+      </g></a>
       <ellipse cx="280" cy="44" rx="24" ry="4" fill="#00F0FF" opacity="0.04"/>
     </svg>
   </div>
@@ -354,6 +363,11 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
       <span class="when">May 20 · Call 6 — Status check</span>
       <h3>"Quick Catch Up?" — Limitless Minds postponed</h3>
       <p>No transcript survived, but the call was about Limitless Minds: Harry pushed the next conversation — a stack of higher priorities, and likely wanting the chief medical officer of Calm he's been working with to settle in and align on product before re-engaging. Louisville Brands remained paused for the family reasons above.</p>
+    </li>
+    <li id="tl-8" class="peak">
+      <span class="when">Jul 15 · Call 7 — This page reaches Jeben, and a correction lands same-call</span>
+      <h3>The plant isn't idle — it's closing</h3>
+      <p>Zach walked Jeben through this page directly for the first time and handed over the password. In the same breath, Jeben volunteered the fact that changes thread #7 below: the Louisville manufacturing plant is shutting down, with production moving to Wisconsin as a cost-saving decision, and roughly 20 local jobs affected. Everything else on this page still stands — this one thread does not. See the correction in the Louisville Ledger below.</p>
     </li>
   </ul>
 </section>
@@ -413,11 +427,11 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
   </div>
 
   <div class="thread">
-    <div class="head"><h3>7 · The Factory — 40% full</h3><span class="chip hold">Structural</span></div>
+    <div class="head"><h3>7 · The Factory — closing, not idle</h3><span class="chip risk">Corrected Jul 15 · Moving to Wisconsin</span></div>
     <div class="body">
-      <p>The plant runs at roughly 40% of what it could produce, partly offset by co-manufacturing mushroom products for others. Every point of idle capacity is money the company already spent that isn't earning. The real decision hiding here — invest to fill it, sell more co-packing, or restructure around a partner — is a one-way door worth a written receipt before anyone walks through it.</p>
+      <p><b>Superseded Jul 15, 2026.</b> This thread was originally written around a plant running at roughly 40% of capacity — a fill-it-or-restructure question. Jeben's update on the Jul 15 call changes the premise: the Louisville plant is shutting down, with production moving to Wisconsin as a cost-saving decision, and roughly 20 local jobs affected. This isn't an underused-asset question anymore — it's an active restructuring already in motion.</p>
     </div>
-    <div class="next"><b>Next</b>Capital-lane session, after the quick wins land. Needs real throughput and cost numbers first (see Unknowns).</div>
+    <div class="next"><b>Next</b>Confirm scope and timeline directly with Jeben before treating this as closed. A move this size usually carries its own decision trail — severance, timing, what stays vs. what moves — which could be exactly the one-way-door work ARCS is built for, just reframed from "fill the factory" to "get the move right."</div>
   </div>
 </section>
 
@@ -470,7 +484,7 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
         <li><b>The $20K/mo vendor</b> — sign, negotiate tripwires, or pass.</li>
         <li><b>Yokai's next drop</b> — price, volume, licensing.</li>
         <li><b>Brand family</b> — one look or many.</li>
-        <li><b>The factory's idle 60%</b> — fill, co-pack, or restructure.</li>
+        <li><b>The Wisconsin move</b> — get the wind-down right, not just react to it.</li>
       </ol>
     </div>
     <div class="card">
@@ -506,9 +520,10 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
       <tr><td>4 · Yokai scaling</td><td class="num">5</td><td class="num">3</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num warn">19</td></tr>
       <tr><td>2 · "Test small" rule</td><td class="num">3</td><td class="num">3</td><td class="num">5</td><td class="num">5</td><td class="num">3</td><td class="num warn">19</td></tr>
       <tr><td>6 · Brand family</td><td class="num">4</td><td class="num">2</td><td class="num">3</td><td class="num">3</td><td class="num">4</td><td class="num">16</td></tr>
-      <tr><td>7 · Factory capacity</td><td class="num">5</td><td class="num">2</td><td class="num">2</td><td class="num">2</td><td class="num">4</td><td class="num">15</td></tr>
+      <tr><td>7 · Factory move (was: capacity)</td><td class="num">5</td><td class="num">4</td><td class="num">2</td><td class="num">3</td><td class="num">4</td><td class="num warn">18</td></tr>
     </tbody>
   </table></div>
+  <p class="fine" style="margin-top:6px">Row 7 re-scored Jul 15 — urgency and evidence moved up now that this is an active move, not a standing-capacity question; ease-of-start stayed low pending real numbers from Jeben.</p>
   <p class="fine" style="margin-top:12px">Why a grid at all: five lanes of questions with five answers each is 3,125 possible paths through this. The whole point of the system is to shrink 3,125 paths to the handful with the best odds of surviving — and to write down why.</p>
 </section>
 
@@ -529,7 +544,7 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
 <section id="money">
   <p class="eyebrow">07 · What It's Worth — The Economics, in Plain English</p>
   <hr class="rule">
-  <p><b>What we know from Jeben directly:</b> roughly $2–2.5M of investor money goes in per year; distribution vendors quote ~$20K/month ($240K/year if it runs); one product was built ~100% of the way and then rebuilt after launch; drops sell out in under a minute (money left on the table); the factory runs at ~40%.</p>
+  <p><b>What we know from Jeben directly:</b> roughly $2–2.5M of investor money goes in per year; distribution vendors quote ~$20K/month ($240K/year if it runs); one product was built ~100% of the way and then rebuilt after launch; drops sell out in under a minute (money left on the table); the Louisville plant is closing, with production moving to Wisconsin (~20 local jobs affected).</p>
   <p><b>The cost side is simple.</b> The recommended pilot is the middle tier: <span class="num">$10K/month × 3 months = $30K</span>, covering two lanes (Capital + Product) and up to 4 decisions a month, with unused sessions rolling over inside the 90 days. Lighter ($15K total) and heavier ($45K total) versions exist. First session is free either way.</p>
 
   <div class="stats">
@@ -680,6 +695,7 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
       <tr><td class="num">Apr 2</td><td>Deck — "ARCS × Louisville Brands"</td><td>90-day pilot structure, three lanes, tiers, roll-over rule, draft email to Justin.</td></tr>
       <tr><td class="num">Apr 21</td><td>Call — "Jeben × Zach"</td><td>Limitless Minds prep; Louisville paused (family reasons, understood later).</td></tr>
       <tr><td class="num">May 20</td><td>Call — "Quick Catch Up?"</td><td>Limitless Minds status: Harry postponed pending priorities + Calm CMO alignment (per Zach's recall; no transcript survived).</td></tr>
+      <tr><td class="num">Jul 15</td><td>Call — "Jeben x Zach // 1-1"</td><td>Page delivered to Jeben directly, password handed over live. Correction: Louisville plant closing, moving to Wisconsin, ~20 local jobs affected (thread #7 above).</td></tr>
     </tbody>
   </table></div>
   <p class="fine" style="margin-top:16px">Prepared with ARCS Recoil Protocol (reverse-listening + deep-recall passes over the full call record). Quotes are verbatim from call transcripts; bracketed figures are as stated on the calls. This page is the living tracker — corrections from Jeben supersede everything on it.</p>
