@@ -1,0 +1,115 @@
+name: Deploy Verify + Auto-Rollback
+
+# Fires whenever Vercel's GitHub integration posts a deployment_status event
+# (it does this automatically on every deploy it makes — no extra wiring
+# needed beyond the Vercel↔GitHub integration already connected to this repo).
+# Only acts on the production environment reaching "success" (i.e. the new
+# deployment is live and serving traffic).
+#
+# On failure of either check below, this workflow rolls the alias back to
+# the previous READY production deployment via `vercel rollback`, then opens
+# a GitHub Issue recording what happened — same "circuit breaker, human
+# notified" pattern as arcs-care's ADR-014, adapted for this repo.
+#
+# Requires three repo secrets (Settings → Secrets and variables → Actions):
+#   VERCEL_TOKEN       — Vercel personal/team token, scoped to this project
+#   VERCEL_ORG_ID       — from `vercel project ls` or .vercel/project.json
+#   VERCEL_PROJECT_ID   — from .vercel/project.json
+# These are not set by this commit — a human has to add them once.
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'production'
+    runs-on: ubuntu-latest
+    env:
+      TARGET_URL: ${{ github.event.deployment_status.target_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # ADR-016 API assertions against the real live deployment.
+      - name: API smoke (scripts/smoke.sh)
+        id: api_smoke
+        run: |
+          chmod +x scripts/smoke.sh
+          PROD_URL="$TARGET_URL" bash scripts/smoke.sh
+        continue-on-error: true
+
+      # FE render/console-error assertions against the same live deployment.
+      - name: FE smoke (Playwright)
+        id: fe_smoke
+        run: npm run test:smoke
+        env:
+          SMOKE_BASE_URL: ${{ env.TARGET_URL }}
+        continue-on-error: true
+
+      - name: Evaluate results
+        id: eval
+        run: |
+          if [ "${{ steps.api_smoke.outcome }}" = "failure" ] || [ "${{ steps.fe_smoke.outcome }}" = "failure" ]; then
+            echo "failed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "failed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Vercel CLI
+        if: steps.eval.outputs.failed == 'true'
+        run: npm install -g vercel@latest
+
+      # Cauterize: revert the production alias to the last known-good
+      # deployment. `vercel rollback` targets the most recent prior READY
+      # deployment for this project automatically.
+      - name: Auto-rollback production alias
+        if: steps.eval.outputs.failed == 'true'
+        run: |
+          vercel rollback --token="${{ secrets.VERCEL_TOKEN }}" --yes \
+            --scope="${{ secrets.VERCEL_ORG_ID }}"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Open incident issue
+        if: steps.eval.outputs.failed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const apiOutcome = "${{ steps.api_smoke.outcome }}";
+            const feOutcome = "${{ steps.fe_smoke.outcome }}";
+            const targetUrl = process.env.TARGET_URL;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Auto-rollback triggered — deploy verify failed (${targetUrl})`,
+              body: [
+                `**SIGNAL_FAIL** — post-deploy verification failed on production deployment.`,
+                ``,
+                `- Target: ${targetUrl}`,
+                `- API smoke (scripts/smoke.sh): ${apiOutcome}`,
+                `- FE smoke (Playwright): ${feOutcome}`,
+                `- Action taken: \`vercel rollback\` executed automatically — production alias reverted to the prior READY deployment.`,
+                ``,
+                `This is the auto-rollback circuit breaker from deploy-verify.yml. Investigate the failing commit before redeploying; the rollback is a stopgap, not a fix.`,
+              ].join("\n"),
+              labels: ["incident", "auto-rollback"],
+            });
+
+      - name: Confirm pass (no-op)
+        if: steps.eval.outputs.failed == 'false'
+        run: echo "Deploy verify passed — no action taken."
