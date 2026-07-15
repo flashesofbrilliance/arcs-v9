@@ -10,7 +10,7 @@
     "segmentCount": 8,
     "protocol": "Reverse Listening + Deep Recall · 8 segments · max(3, round(sqrt(60)))",
     "prePrepSession": null,
-    "note": "No PrepSession or precall note exists for this call. This is a personal/family working session, not an ARCS client engagement — Hila is Zach's spouse. Granola attribution: 'Microphone' = Zach, 'Speaker' = Hila throughout. Flagging plainly per the Recoil Protocol's usual honesty standard, same as any other call."
+    "note": "No PrepSession or precall note exists for this call. This is a personal/family working session, not an ARCS client engagement — Hila is Zach's spouse. Granola attribution: 'Microphone' = Zach, 'Speaker' = Hila throughout. Flagging plainly per the Recoil Protocol's usual honesty standard, same as any other call. TIMING CAVEAT: the Granola transcript returned no per-utterance timestamps, so segment count (8) is computed correctly from the calendar-booked 60-minute duration per the governing formula, but the specific minute-ranges originally attached to each segment (e.g. '16-24 MIN') were fabricated by evenly dividing the transcript across 60 minutes — not measured. This is directly contradicted by Hila stating mid-call 'I have, like, 30 minutes' — if true, the back half of the call happened on a compressed, non-uniform clock, making the even-split minute labels actively misleading. Corrected below to sequence order (Segment N of 8) instead of invented clock times."
   },
   "cover": {
     "yGate": "YELLOW",
@@ -19,59 +19,59 @@
     "renderState": "DEGRADED",
     "nci": 58,
     "headline": "Priorities landed clean (Faire first); a real friction spike mid-call, but it self-corrected by the close.",
-    "subline": "Hila arrived with a hard time-box ('I have to get our children in an hour') and a pre-formed three-item list; Zach opened with a prioritization-framework instinct that collided with her mode and produced the sharpest exchange of the call ('you're not helpful because you go downstream to things I don't care about' / 'don't be adversarial'). Both recovered — by minute 60 there's a concrete, agreed structure: one Google Doc, delegated admin access, Faire first. The standing blocker (hila@lewoofbrand email inactive) is 8 months old and still unresolved."
+    "subline": "Hila arrived with a hard time-box ('I have to get our children in an hour') and a pre-formed three-item list; Zach opened with a prioritization-framework instinct that collided with her mode and produced the sharpest exchange of the call ('you're not helpful because you go downstream to things I don't care about' / 'don't be adversarial'). Both recovered — by the close there's a concrete, agreed structure: one Google Doc, delegated admin access, Faire first. The standing blocker (hila@lewoofbrand email inactive) is 8 months old and still unresolved."
   },
   "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD — personal/family call, not a client artifact.",
   "loadBearingQuote": {
     "text": "Zach. Honey, honey, can you. To me, you're not helpful because you go downstream to so many things I don't care about. I don't care about this girl poop loop. I don't care about Dan. I'm trying to give you a list of where you can help me. I'm one individual. I have a finite amount of hours. Can we focus on Faire and setting up that profile once it's set up?",
-    "attribution": "GRANOLA TRANSCRIPT · HILA · JUL 15, 2026 (~min 26)",
+    "attribution": "GRANOLA TRANSCRIPT · HILA · JUL 15, 2026 (peak-friction segment — no verified timestamp)",
     "significance": "The single clearest moment of the call: a direct statement of mode mismatch. Hila is operating in hard-time-boxed execution mode (kids in an hour, three specific asks); Zach's clarifying-question habit (dependencies, tips-and-tricks from Dan and 'poop loop', fee structure) reads to her as scope creep away from the actual ask. Neither party was wrong about their own intent — the friction is a genuine style collision, not bad faith on either side, and it resolved by the end of the call."
   },
   "callWalk": [
     {
-      "label": "0-7 MIN",
+      "label": "SEGMENT 1 OF 8",
       "title": "Cold Open — Time-Box Set Immediately",
       "body": "Brooklyn/NYC rapport banter, then Hila states the hard constraint up front: 'I have to get our children in an hour' and 'I have, like, three things I need your help with. This doesn't need to be some long song and dance.' Zach's opening move — walk through all priorities by urgency/revenue-impact before diving in — is explicitly declined before it lands.",
       "peak": false
     },
     {
-      "label": "7-16 MIN",
+      "label": "SEGMENT 2 OF 8",
       "title": "Faire.com Named as Priority One",
       "body": "Hila lays out Le Woof's core SKUs (16oz shampoo, travel box [2oz mist + 4oz shampoo], standalone mist) and states the actual deadline: Faire Market promo goes live next week, and she wants her profile set up 'today through Friday.' This is unambiguous and specific — the clearest signal in the call.",
       "peak": true
     },
     {
-      "label": "16-24 MIN",
+      "label": "SEGMENT 3 OF 8",
       "title": "Clarifying Questions Start Landing Wrong",
-      "body": "Zach asks about Faire's take-rate, whether Dan (a peer with Faire experience) or another contact ('poop loop') shared tips, and whether a profile already exists. Each is a reasonable diagnostic question in isolation; in aggregate, asked back-to-back under a 60-minute hard stop, they read as downstream tangents. Hila: 'You keep asking. This is the third time you've asked me this.' Notably, Hila states 'I have, like, 30 minutes, Zach' in this stretch — despite having booked the call for a full hour on her own calendar invite. Zach was pacing against the 60-minute block he'd actually been sent; the tighter clock she was operating against was never disclosed until partway through.",
+      "body": "Zach asks about Faire's take-rate, whether Dan (a peer with Faire experience) or another contact ('poop loop') shared tips, and whether a profile already exists. Each is a reasonable diagnostic question in isolation; in aggregate, asked back-to-back under Hila's hard stop, they read as downstream tangents. Hila: 'You keep asking. This is the third time you've asked me this.' Notably, Hila states 'I have, like, 30 minutes, Zach' in this segment — despite having booked the call for a full hour on her own calendar invite. Zach was pacing against the 60-minute block he'd actually been sent; the tighter clock she was operating against was never disclosed until partway through.",
       "peak": false
     },
     {
-      "label": "24-30 MIN",
+      "label": "SEGMENT 4 OF 8",
       "title": "Peak Friction — Mode Collision Named Directly",
       "body": "Sharpest exchange of the call. Zach: 'If you want me to help you, be collaborative and don't be adversarial... I'm literally asking clarifying questions because I want to try to help you.' Hila: 'You're not helpful because you go downstream to so many things I don't care about... I'm one individual. I have a finite amount of hours.' Both hold their position but neither escalates further — the call does not derail.",
       "peak": true
     },
     {
-      "label": "30-38 MIN",
+      "label": "SEGMENT 5 OF 8",
       "title": "De-escalation via Concrete SKU/Inventory Detail",
       "body": "Conversation shifts to specifics: three flagship SKUs for Faire launch (spa collection + robes), MOQs (5-10 units), inventory reality (500 units on hand vs. a live 500-1,000 unit wholesale conversation in progress). Tone cools once the content is concrete rather than diagnostic.",
       "peak": false
     },
     {
-      "label": "38-46 MIN",
+      "label": "SEGMENT 6 OF 8",
       "title": "Credentials & the Standing Infra Blocker Surfaces",
       "body": "Hila proposes a single Faire Google Doc for credentials/pricing/SKUs (same pattern used for the Amazon doc with Leah). Zach asks for delegated admin access rather than shared login. Surfaces a real, 8-month-old blocker: the hila@lewoofbrand Gmail is inactive due to an unresolved Porkbun billing issue, which is blocking Google Analytics, Amazon Seller Central OTP delivery, and domain access.",
       "peak": true
     },
     {
-      "label": "46-54 MIN",
+      "label": "SEGMENT 7 OF 8",
       "title": "Shopify / Klaviyo / Content Roadmap",
       "body": "Secondary priorities named: reactivate Klaviyo (free tier only — no Shopify Pro upgrade unless she raises capital), a lightweight AI chatbot on the homepage, and 3-4 AI-assisted SEO blog posts (certified-organic messaging, dog cancer rates, 'family biome'). Explicitly deprioritized relative to Faire.",
       "peak": false
     },
     {
-      "label": "54-60 MIN",
+      "label": "SEGMENT 8 OF 8",
       "title": "Close — Single Source of Truth Agreed",
       "body": "Hila offers to send a written recap; Zach explicitly declines it ('you do not need to do a recap... I'll send you an example of my recoil report... I would really like you to not do stuff manually because you're wasting time on written recaps'). Lands on: one organized folder (Faire/Amazon/Shopify subfolders), Hila to send credentials + SKU/pricing doc, Zach as delegated admin. Warm sign-off.",
       "peak": false
@@ -90,7 +90,7 @@
       "accent": "#FFD700",
       "title": "Prioritization-Instinct vs. Time-Boxed-Execution Mode Mismatch",
       "body": "Zach's default move (sequence everything by urgency/revenue before acting) collided with Hila's pre-formed, time-boxed list. This produced the call's one real friction spike ('don't be adversarial' / 'you're not helpful'). Worth naming as a recurring collaboration pattern, not just a one-off — when the other party arrives with a fixed list and a hard clock, leading with structuring questions reads as resistance even when the intent is genuinely to help. One real contributing factor, verifiable from the transcript: Hila booked a full 60-minute block on her own calendar invite, but stated mid-call 'I have, like, 30 minutes' — a tighter, undisclosed internal clock that Zach had no way to know going in. Some of the pacing friction traces to that mismatch, not just to Zach's questioning style.",
-      "note": "Both people held their ground without escalating further; it resolved on its own by minute 30."
+      "note": "Both people held their ground without escalating further; it resolved on its own within a couple of segments."
     },
     {
       "label": "HARD_YES",
@@ -150,7 +150,7 @@
       {
         "name": "Reverse Listening",
         "direction": "End → Start",
-        "keyFinding": "Read backward from the actual close (single Google Doc, delegated admin, Faire-first sequencing, no manual recap), the mid-call friction spike (min 24-30) turns out not to have derailed anything — it's a detour that self-corrected, not a fork the call took. The forward read feels tense in the moment; the backward read shows both people landing on exactly the structure the call opened by asking for."
+        "keyFinding": "Read backward from the actual close (single Google Doc, delegated admin, Faire-first sequencing, no manual recap), the mid-call friction spike (segments 3-4) turns out not to have derailed anything — it's a detour that self-corrected, not a fork the call took. The forward read feels tense in the moment; the backward read shows both people landing on exactly the structure the call opened by asking for."
       },
       {
         "name": "Deep Recall",
