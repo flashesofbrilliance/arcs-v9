@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Louisville Brands × ARCS — The Thread Book</title>
+<title>Louisville Brands × ARCS – The Thread Book</title>
 <style>
-  /* Canonical ARCS instrument tokens — matches the other *.arcs.care briefs
+  /* Canonical ARCS instrument tokens – matches the other *.arcs.care briefs
      (see public/daniel.html, WORLD.md design tokens). Dark-only by design. */
   :root{
     --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b; --border-soft:#16202e;
@@ -92,20 +92,22 @@
   .tl li{padding:0 0 26px 22px; position:relative}
   .tl li:last-child{padding-bottom:4px}
   .tl li::before{
-    content:''; position:absolute; left:-4px; top:8px; width:10px; height:10px;
+    /* left = -(dot-width/2 + border-width/2) = -(10/2 + 2/2) = -6px, so the
+       10px dot centers exactly on the 2px border-left line, not on li's edge. */
+    content:''; position:absolute; left:-6px; top:8px; width:10px; height:10px;
     background:var(--nc); border-radius:50%;
   }
   .tl .when{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
   .tl li{scroll-margin-top:24px}
-  /* signal waveform — same pattern as fanatics.arcs.care */
+  /* signal waveform – same pattern as fanatics.arcs.care */
   .waveform-wrap{margin:4px 0 34px}
   .waveform{width:100%;display:block;overflow:visible}
   .wf-label{font-family:var(--mono);font-size:7px;letter-spacing:.1em;fill:var(--faint)}
   .wf-spike:hover .wf-label,.wf-spike:focus .wf-label{fill:var(--text)}
-  /* LED pulse — two layers so it renders everywhere:
+  /* LED pulse – two layers so it renders everywhere:
      (a) halo circle animated on opacity+scale (Safari-safe: transform-box)
      (b) LED brightness pulse via opacity
-     filter:drop-shadow is NOT used — iOS Safari won't animate it on SVG children. */
+     filter:drop-shadow is NOT used – iOS Safari won't animate it on SVG children. */
   .wf-halo{transform-box:fill-box;transform-origin:center;animation:wf-halo 2.2s ease-in-out infinite}
   @keyframes wf-halo{0%,100%{opacity:0;transform:scale(.45)}50%{opacity:.4;transform:scale(1.25)}}
   .wf-led{animation:wf-led 2.2s ease-in-out infinite}
@@ -118,7 +120,7 @@
   #wf-6 .wf-halo,#wf-6 .wf-led{animation-duration:2.8s}
   #wf-7 .wf-halo,#wf-7 .wf-led{animation-duration:2s}
   #wf-8 .wf-halo,#wf-8 .wf-led{animation-duration:2.4s}
-  /* record dots pulse too — fanatics .beat-led pattern (box-shadow on HTML, Safari-solid) */
+  /* record dots pulse too – fanatics .beat-led pattern (box-shadow on HTML, Safari-solid) */
   .tl li{--nc:#94a3b8}
   .tl li.peak{--nc:#00F0FF}
   #tl-3{--nc:#00FF9D}
@@ -164,7 +166,7 @@
     white-space:nowrap;
   }
   td{padding:11px 14px; border-bottom:1px solid var(--border-soft); vertical-align:top; color:var(--muted)}
-  /* Sticky first column — the row label stays put while the score columns scroll
+  /* Sticky first column – the row label stays put while the score columns scroll
      underneath it, so a 7-column table (like the priority grid) never loses context
      on a phone. box-shadow (not border) draws the seam so it scrolls with the column. */
   td:first-child, th:first-child{
@@ -180,7 +182,7 @@
   }
   .num{font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap}
   .good{color:var(--green)} .warn{color:var(--gold)} .bad{color:var(--red)}
-  /* five grid — single column always: with 5 items per card (label + description
+  /* five grid – single column always: with 5 items per card (label + description
      each) a multi-column layout on wide screens forced side-by-side scanning across
      uneven card heights. Stacked reads top-to-bottom like the rest of the page. */
   .five{display:grid; grid-template-columns:1fr; gap:14px; margin-top:18px}
@@ -212,7 +214,7 @@
   }
 </style>
 <style>
-/* PASSWORD GATE — same pattern as the other *.arcs.care private briefs */
+/* PASSWORD GATE – same pattern as the other *.arcs.care private briefs */
 #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:0 24px;text-align:center}
 #pw-gate.hidden{display:none}
 .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
@@ -226,7 +228,7 @@
 .pw-hint{font-family:var(--mono);font-size:10px;color:var(--faint)}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @media (prefers-reduced-motion: reduce){.pw-input.shake{animation:none}}
-/* CALL-DEBRIEF TOAST — same sticky-bar language as arcs.care's EyebrowToast
+/* CALL-DEBRIEF TOAST – same sticky-bar language as arcs.care's EyebrowToast
    (src/ui/EyebrowToast.tsx), simplified: this is a static multi-page site,
    not an SPA, so a click redirects to /debrief instead of opening a drawer. */
 #toast-spacer{height:36px;flex-shrink:0}
@@ -253,7 +255,7 @@
 <body>
 <div id="pw-gate">
   <div class="pw-mark">ARCS · Private Brief</div>
-  <div class="pw-title">Louisville Brands × ARCS — The Thread Book</div>
+  <div class="pw-title">Louisville Brands × ARCS – The Thread Book</div>
   <div class="pw-form">
     <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
     <button class="pw-btn" onclick="checkPw()">ENTER</button>
@@ -282,7 +284,7 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
 </script>
 
 <div id="call-toast" role="banner" onclick="goToDebrief()">
-  <div class="toast-label">New · The July 15 call debrief — what's open, what's next<span class="toast-arrow">→</span></div>
+  <div class="toast-label">New · The July 15 call debrief – what's open, what's next<span class="toast-arrow">→</span></div>
   <button class="toast-dismiss" onclick="dismissToast(event)" aria-label="Dismiss"><span>✕</span></button>
 </div>
 <script>
@@ -305,7 +307,7 @@ function dismissToast(e) {
 <header>
   <p class="eyebrow">Single Source of Truth · Prepared for Jeben · July 10, 2026</p>
   <h1>Louisville Brands × ARCS<br>The Thread Book</h1>
-  <p class="dek">Everything we've discussed about Louisville Brands, pulled from our six calls and put in one place — what's live, what's parked, what an engagement is worth in dollars and time, and exactly what happens next. Written in plain English, so it can go straight to Justin.</p>
+  <p class="dek">Everything we've discussed about Louisville Brands, pulled from our six calls and put in one place – what's live, what's parked, what an engagement is worth in dollars and time, and exactly what happens next. Written in plain English, so it can go straight to Justin.</p>
   <p class="meta">SOURCES · 7 calls (Mar 5 → Jul 15, 2026) · ARCS × Louisville Brands proposal deck (Apr 2) · Zach Harris ↔ Jeben (Palace Laundry Creative)</p>
   <nav class="toc" aria-label="Contents">
     <a class="chip" href="#note">The one clear note</a>
@@ -326,13 +328,13 @@ function dismissToast(e) {
   <hr class="rule">
   <p class="lede">Strip away every side conversation and one note keeps humming underneath all six calls:</p>
   <div class="note gold">
-    <b>Louisville Brands is very good at making things and unproven at deciding which things to make.</b> The company has real hits — the #1 best-selling ready-to-drink product in its data set, bourbon releases that sell out in under a minute. It also built a pumpkin-seed product nearly 100% of the way, shipped it, and then had to rebuild it without shells because nobody pressure-tested the assumption before the money went out.
+    <b>Louisville Brands is very good at making things and unproven at deciding which things to make.</b> The company has real hits – the #1 best-selling ready-to-drink product in its data set, bourbon releases that sell out in under a minute. It also built a pumpkin-seed product nearly 100% of the way, shipped it, and then had to rebuild it without shells because nobody pressure-tested the assumption before the money went out.
   </div>
-  <p>That gap — between great instincts and unexamined bets — is exactly what ARCS closes. Not by making decisions for anyone, but by making every big bet <b>write down its assumptions, its risks, and its exit rule before a dollar moves.</b> Test small, read the real signal, then kill it or scale it.</p>
+  <p>That gap – between great instincts and unexamined bets – is exactly what ARCS closes. Not by making decisions for anyone, but by making every big bet <b>write down its assumptions, its risks, and its exit rule before a dollar moves.</b> Test small, read the real signal, then kill it or scale it.</p>
 </section>
 
 <section id="timeline">
-  <p class="eyebrow">02 · How We Got Here — The Serialized Record</p>
+  <p class="eyebrow">02 · How We Got Here – The Serialized Record</p>
   <hr class="rule">
   <div class="waveform-wrap">
     <svg class="waveform" viewBox="0 0 640 62" xmlns="http://www.w3.org/2000/svg" style="height:62px" role="img" aria-label="Signal strength of each touchpoint, March 5 to July 15. Click a node to jump to it.">
@@ -392,140 +394,140 @@ function dismissToast(e) {
   </div>
   <ul class="tl">
     <li id="tl-1" class="peak">
-      <span class="when">Mar 5 · Call 1 — Discovery</span>
+      <span class="when">Mar 5 · Call 1 – Discovery</span>
       <h3>Louisville Brands enters the conversation</h3>
-      <p>Jeben laid out the terrain: a certified-organic, certified-vegan factory running at roughly 40% of capacity; co-manufacturing mushroom products for other brands; three snack lines (jerky, pumpkin seeds, gym snacks) under separate brands with no shared identity — "it exists in pieces, and nobody can agree on what it is." The Pumps rework story and the CEO's mango push both surfaced here. Zach offered a free first analysis; Jeben agreed to send a business brief.</p>
+      <p>Jeben laid out the terrain: a certified-organic, certified-vegan factory running at roughly 40% of capacity; co-manufacturing mushroom products for other brands; three snack lines (jerky, pumpkin seeds, gym snacks) under separate brands with no shared identity – "it exists in pieces, and nobody can agree on what it is." The Pumps rework story and the CEO's mango push both surfaced here. Zach offered a free first analysis; Jeben agreed to send a business brief.</p>
     </li>
     <li id="tl-2">
-      <span class="when">Mar 17 · Call 2 — Region, not the company</span>
+      <span class="when">Mar 17 · Call 2 – Region, not the company</span>
       <h3>Louisville-adjacent ideas</h3>
-      <p>Hermitage Farm's 45-key hotel build, a possible co-branded horse-care product, artist management. Good threads — parked below — but no new Louisville Brands commitments.</p>
+      <p>Hermitage Farm's 45-key hotel build, a possible co-branded horse-care product, artist management. Good threads – parked below – but no new Louisville Brands commitments.</p>
     </li>
     <li id="tl-3">
-      <span class="when">Mar 24 · Call 3 — Demo</span>
+      <span class="when">Mar 24 · Call 3 – Demo</span>
       <h3>Jeben sees ARCS work on real people</h3>
       <p>Profile scans, team-chemistry simulation, and the decision-receipt system. Jeben's read: the founder mindset at Louisville Brands "would vibe" with this. He starts opening doors.</p>
     </li>
     <li id="tl-4" class="peak">
-      <span class="when">Mar 31 · Call 4 — The economics call</span>
+      <span class="when">Mar 31 · Call 4 – The economics call</span>
       <h3>Pricing anchored, funding round revealed, Justin intro promised</h3>
-      <p>Jeben asked directly what an engagement costs, anchored it against a $20K-per-month convenience-store distribution vendor they already evaluate, and said the pricing "is appropriate — it's worthwhile if you get in there now." He revealed the investment structure (a fund tied to Brown-Forman and United Rentals money; an investor putting in $2–2.5M a year; a new round closing) and committed to cornering Justin for one hour.</p>
+      <p>Jeben asked directly what an engagement costs, anchored it against a $20K-per-month convenience-store distribution vendor they already evaluate, and said the pricing "is appropriate – it's worthwhile if you get in there now." He revealed the investment structure (a fund tied to Brown-Forman and United Rentals money; an investor putting in $2–2.5M a year; a new round closing) and committed to cornering Justin for one hour.</p>
     </li>
     <li id="tl-5">
       <span class="when">Apr 2 · Artifact</span>
       <h3>The proposal deck is built</h3>
-      <p>"ARCS × Louisville Brands — A 90-Day Decision System": studio sessions, decision receipts, stop-loss rules, three lanes (Capital / Product / Brand), tiered pricing, and a ready-to-send note to Justin.</p>
+      <p>"ARCS × Louisville Brands – A 90-Day Decision System": studio sessions, decision receipts, stop-loss rules, three lanes (Capital / Product / Brand), tiered pricing, and a ready-to-send note to Justin.</p>
     </li>
     <li id="tl-6">
-      <span class="when">Apr 21 · Call 5 — Pause</span>
-      <h3>Louisville goes quiet — for a human reason</h3>
+      <span class="when">Apr 21 · Call 5 – Pause</span>
+      <h3>Louisville goes quiet – for a human reason</h3>
       <p>The whole call went to another opportunity (Limitless Minds) and family talk. The Louisville silence, it later became clear, wasn't about the material at all: a serious personal loss in the founder's family put everything on hold. The timing was off. The thread paused out of respect, not disinterest.</p>
     </li>
     <li id="tl-7">
-      <span class="when">May 20 · Call 6 — Status check</span>
-      <h3>"Quick Catch Up?" — Limitless Minds postponed</h3>
-      <p>No transcript survived, but the call was about Limitless Minds: Harry pushed the next conversation — a stack of higher priorities, and likely wanting the chief medical officer of Calm he's been working with to settle in and align on product before re-engaging. Louisville Brands remained paused for the family reasons above.</p>
+      <span class="when">May 20 · Call 6 – Status check</span>
+      <h3>"Quick Catch Up?" – Limitless Minds postponed</h3>
+      <p>No transcript survived, but the call was about Limitless Minds: Harry pushed the next conversation – a stack of higher priorities, and likely wanting the chief medical officer of Calm he's been working with to settle in and align on product before re-engaging. Louisville Brands remained paused for the family reasons above.</p>
     </li>
     <li id="tl-8" class="peak">
-      <span class="when">Jul 15 · Call 7 — This page reaches Jeben, and a correction lands same-call</span>
-      <h3>The plant isn't idle — it's closing</h3>
-      <p>Zach walked Jeben through this page directly for the first time and handed over the password. In the same breath, Jeben volunteered the fact that changes thread #7 below: the Louisville manufacturing plant is shutting down, with production moving to Wisconsin as a cost-saving decision, and roughly 20 local jobs affected. Everything else on this page still stands — this one thread does not. See the correction in the Louisville Ledger below.</p>
+      <span class="when">Jul 15 · Call 7 – This page reaches Jeben, and a correction lands same-call</span>
+      <h3>The plant isn't idle – it's closing</h3>
+      <p>Zach walked Jeben through this page directly for the first time and handed over the password. In the same breath, Jeben volunteered the fact that changes thread #7 below: the Louisville manufacturing plant is shutting down, with production moving to Wisconsin as a cost-saving decision, and roughly 20 local jobs affected. Everything else on this page still stands – this one thread does not. See the correction in the Louisville Ledger below.</p>
     </li>
   </ul>
 </section>
 
 <section id="ledger">
-  <p class="eyebrow">03 · The Louisville Ledger — Live Threads, Ranked</p>
+  <p class="eyebrow">03 · The Louisville Ledger – Live Threads, Ranked</p>
   <hr class="rule">
   <p>Every open Louisville Brands thread, in priority order. Each one carries what was actually said, why it matters, and the single next action.</p>
 
   <div class="thread">
-    <div class="head"><h3>1 · The Next Bag — mango vs. the field</h3><span class="chip hot">Hot · Decision is live</span></div>
+    <div class="head"><h3>1 · The Next Bag – mango vs. the field</h3><span class="chip hot">Hot · Decision is live</span></div>
     <div class="body">
-      <p>Justin wants a mango product. Jeben walked Whole Foods and Trader Joe's and saw a wall of mango products already sitting on shelves: "people that love it buy it all the time; people that don't aren't converting." Meanwhile the factory's real constraint set (no nuts, no meat, soy and mushroom bases) and the real customer (the repeat convenience-store buyer — the long-haul trucker who treats a gas station like a grocery store) point somewhere more specific.</p>
-      <div class="qt">"He'll just invent something in his head about mango, go to AI real quick and have it make a bag for him — and he feels like he's already done everything. And I'm like: that's not it."<span class="who">Jeben on Justin · Mar 31</span></div>
+      <p>Justin wants a mango product. Jeben walked Whole Foods and Trader Joe's and saw a wall of mango products already sitting on shelves: "people that love it buy it all the time; people that don't aren't converting." Meanwhile the factory's real constraint set (no nuts, no meat, soy and mushroom bases) and the real customer (the repeat convenience-store buyer – the long-haul trucker who treats a gas station like a grocery store) point somewhere more specific.</p>
+      <div class="qt">"He'll just invent something in his head about mango, go to AI real quick and have it make a bag for him – and he feels like he's already done everything. And I'm like: that's not it."<span class="who">Jeben on Justin · Mar 31</span></div>
     </div>
-    <div class="next"><b>Next</b>One 60–90 minute working session on this single decision, ending in a written receipt and a cheap market test — before any recipe work or production run.</div>
+    <div class="next"><b>Next</b>One 60–90 minute working session on this single decision, ending in a written receipt and a cheap market test – before any recipe work or production run.</div>
   </div>
 
   <div class="thread">
-    <div class="head"><h3>2 · The Pumps Lesson — install "test small" as a rule</h3><span class="chip live">Proof point</span></div>
+    <div class="head"><h3>2 · The Pumps Lesson – install "test small" as a rule</h3><span class="chip live">Proof point</span></div>
     <div class="body">
-      <p>The pumpkin-seed line was built nearly 100% of the way — brand, identity, product — and shipped with shells on. The market said the shells made them a chore to eat. The product was rebuilt shell-less after launch. A $2–5K side-by-side test (shelled vs. unshelled) before the run would have caught it. This isn't a criticism; it's the company's own best evidence that a pre-spend checkpoint pays for itself.</p>
+      <p>The pumpkin-seed line was built nearly 100% of the way – brand, identity, product – and shipped with shells on. The market said the shells made them a chore to eat. The product was rebuilt shell-less after launch. A $2–5K side-by-side test (shelled vs. unshelled) before the run would have caught it. This isn't a criticism; it's the company's own best evidence that a pre-spend checkpoint pays for itself.</p>
     </div>
-    <div class="next"><b>Next</b>Use Pumps as the case study inside the Justin conversation — his own data, not a vendor's slide.</div>
+    <div class="next"><b>Next</b>Use Pumps as the case study inside the Justin conversation – his own data, not a vendor's slide.</div>
   </div>
 
   <div class="thread">
     <div class="head"><h3>3 · Funding Round & Board Governance</h3><span class="chip hot">Timing window</span></div>
     <div class="body">
-      <p>An investor connected to serious Louisville money has been putting in $2–2.5M a year, and a new round was closing as of late March. Fresh capital means a board that wants to see discipline. Decision receipts — each big bet written down with expectations and confidence, then scored against what actually happened 90 days later — are exactly the kind of record that makes a board and a fund comfortable. Jeben's words: "that's the business intelligence they want… it will make it simpler for them to make their strategic decisions with their board and go get the funding they need."</p>
+      <p>An investor connected to serious Louisville money has been putting in $2–2.5M a year, and a new round was closing as of late March. Fresh capital means a board that wants to see discipline. Decision receipts – each big bet written down with expectations and confidence, then scored against what actually happened 90 days later – are exactly the kind of record that makes a board and a fund comfortable. Jeben's words: "that's the business intelligence they want… it will make it simpler for them to make their strategic decisions with their board and go get the funding they need."</p>
     </div>
     <div class="next"><b>Next</b>Confirm with Jeben where the round landed. If it closed, the discipline story shifts from "help us raise" to "show the new money it's governed well."</div>
   </div>
 
   <div class="thread">
-    <div class="head"><h3>4 · Yokai / Mugan Spirits — scale without losing the magic</h3><span class="chip live">High upside</span></div>
+    <div class="head"><h3>4 · Yokai / Mugan Spirits – scale without losing the magic</h3><span class="chip live">High upside</span></div>
     <div class="body">
-      <p>Kentucky bourbon finished in Japanese whisky casks, sold as new brands. The Nobunaga release: $350 a bottle, 15 years old, 122 proof. Drops of 300 bottles sell out in 18–50 seconds — which almost certainly means demand is far bigger than supply and the price is below what the market would bear. Three distinct audiences already showed up on their own (a Black bourbon enthusiasts community that bought a whole barrel; serious collectors; the streetwear/tastemaker crowd). Justin pours enormous personal time into Japan trips for deals that move slowly. The open questions are classic capital-allocation ones: raise price? bigger drops? licensing plays (the Japanese-woodblock-art idea landed well)? — and each is testable before committing.</p>
+      <p>Kentucky bourbon finished in Japanese whisky casks, sold as new brands. The Nobunaga release: $350 a bottle, 15 years old, 122 proof. Drops of 300 bottles sell out in 18–50 seconds – which almost certainly means demand is far bigger than supply and the price is below what the market would bear. Three distinct audiences already showed up on their own (a Black bourbon enthusiasts community that bought a whole barrel; serious collectors; the streetwear/tastemaker crowd). Justin pours enormous personal time into Japan trips for deals that move slowly. The open questions are classic capital-allocation ones: raise price? bigger drops? licensing plays (the Japanese-woodblock-art idea landed well)? – and each is testable before committing.</p>
     </div>
     <div class="next"><b>Next</b>Second candidate for a studio session: "What does the next Yokai drop look like if we design it to learn something?"</div>
   </div>
 
   <div class="thread">
-    <div class="head"><h3>5 · Vendor Commitments — the $20K/month question</h3><span class="chip risk">Money at risk</span></div>
+    <div class="head"><h3>5 · Vendor Commitments – the $20K/month question</h3><span class="chip risk">Money at risk</span></div>
     <div class="body">
-      <p>Louisville Brands gets pitched constantly — e.g. distribution brokers who charge ~$20K a month and promise placement in 300–500 convenience stores in about three months. Some of these are good deals; some quietly own the budget for a year. The fix Jeben and Zach already discussed on Mar 31: before signing, agree on tripwires in writing — what results by what date, and what happens if they miss — so walking away is a rule, not a fight.</p>
+      <p>Louisville Brands gets pitched constantly – e.g. distribution brokers who charge ~$20K a month and promise placement in 300–500 convenience stores in about three months. Some of these are good deals; some quietly own the budget for a year. The fix Jeben and Zach already discussed on Mar 31: before signing, agree on tripwires in writing – what results by what date, and what happens if they miss – so walking away is a rule, not a fight.</p>
     </div>
     <div class="next"><b>Next</b>Any live vendor decision is a ready-made first session topic; the receipt doubles as the vendor's accountability sheet.</div>
   </div>
 
   <div class="thread">
-    <div class="head"><h3>6 · Brand Architecture — one family or many strangers</h3><span class="chip hold">Big, not urgent</span></div>
+    <div class="head"><h3>6 · Brand Architecture – one family or many strangers</h3><span class="chip hold">Big, not urgent</span></div>
     <div class="body">
-      <p>Jerky, Pumps, gym snacks, and the spirits business share no visual family — "nobody can agree on what it is." Jeben's own reference: Little Debbie, where every product obviously comes from the same kitchen. Right now a fan of one product gets no signal to try the next, so each line pays full price to find every customer. The cheap way to settle the argument: run the unified-family look and a standalone look side by side in a small test and let buyers vote, instead of debating it in a conference room.</p>
+      <p>Jerky, Pumps, gym snacks, and the spirits business share no visual family – "nobody can agree on what it is." Jeben's own reference: Little Debbie, where every product obviously comes from the same kitchen. Right now a fan of one product gets no signal to try the next, so each line pays full price to find every customer. The cheap way to settle the argument: run the unified-family look and a standalone look side by side in a small test and let buyers vote, instead of debating it in a conference room.</p>
     </div>
     <div class="next"><b>Next</b>Park behind the next-bag decision; revisit as a Brand-lane session once the pilot is running.</div>
   </div>
 
   <div class="thread">
-    <div class="head"><h3>7 · The Factory — closing, not idle</h3><span class="chip risk">Corrected Jul 15 · Moving to Wisconsin</span></div>
+    <div class="head"><h3>7 · The Factory – closing, not idle</h3><span class="chip risk">Corrected Jul 15 · Moving to Wisconsin</span></div>
     <div class="body">
-      <p><b>Superseded Jul 15, 2026.</b> This thread was originally written around a plant running at roughly 40% of capacity — a fill-it-or-restructure question. Jeben's update on the Jul 15 call changes the premise: the Louisville plant is shutting down, with production moving to Wisconsin as a cost-saving decision, and roughly 20 local jobs affected. This isn't an underused-asset question anymore — it's an active restructuring already in motion.</p>
+      <p><b>Superseded Jul 15, 2026.</b> This thread was originally written around a plant running at roughly 40% of capacity – a fill-it-or-restructure question. Jeben's update on the Jul 15 call changes the premise: the Louisville plant is shutting down, with production moving to Wisconsin as a cost-saving decision, and roughly 20 local jobs affected. This isn't an underused-asset question anymore – it's an active restructuring already in motion.</p>
     </div>
-    <div class="next"><b>Next</b>Confirm scope and timeline directly with Jeben before treating this as closed. A move this size usually carries its own decision trail — severance, timing, what stays vs. what moves — which could be exactly the one-way-door work ARCS is built for, just reframed from "fill the factory" to "get the move right."</div>
+    <div class="next"><b>Next</b>Confirm scope and timeline directly with Jeben before treating this as closed. A move this size usually carries its own decision trail – severance, timing, what stays vs. what moves – which could be exactly the one-way-door work ARCS is built for, just reframed from "fill the factory" to "get the move right."</div>
   </div>
 </section>
 
 <section id="parked">
-  <p class="eyebrow">04 · Moved Down the List — Tracked, Not Active</p>
+  <p class="eyebrow">04 · Moved Down the List – Tracked, Not Active</p>
   <hr class="rule">
   <p>Good threads from the same calls that are <b>not</b> Louisville Brands priorities. Kept here so they don't leak back into the main conversation and so none of them get lost.</p>
   <div class="tblwrap"><table>
     <thead><tr><th>Thread</th><th>State</th><th>Wakes up when…</th></tr></thead>
     <tbody>
-      <tr><td>Limitless Minds (Harry Wilson)</td><td>Postponed by Harry — separate track</td><td>Harry clears his higher-priority stack and the Calm chief-medical-officer relationship settles into product alignment. He re-engages; don't chase.</td></tr>
+      <tr><td>Limitless Minds (Harry Wilson)</td><td>Postponed by Harry – separate track</td><td>Harry clears his higher-priority stack and the Calm chief-medical-officer relationship settles into product alignment. He re-engages; don't chase.</td></tr>
       <tr><td>Dana / YouTube</td><td>Parked by Jeben</td><td>Her project load clears; she raises it. Do not push.</td></tr>
-      <tr><td>Hermitage Farm hotel (45 keys)</td><td>Early — architects on site</td><td>Construction planning advances; revisit hospitality concierge ideas then.</td></tr>
+      <tr><td>Hermitage Farm hotel (45 keys)</td><td>Early – architects on site</td><td>Construction planning advances; revisit hospitality concierge ideas then.</td></tr>
       <tr><td>Miss Birdie (artist career)</td><td>Warm, no budget holder</td><td>Jeben schedules the jam session he floated.</td></tr>
       <tr><td>Woof × Hermitage co-brand</td><td>Idea stage</td><td>Hotel timeline firms up.</td></tr>
-      <tr><td>Louisville re-entry timing</td><td>Paused — family reasons</td><td>Jeben signals the moment is right. The re-entry is gentle and led by this page, not a pitch.</td></tr>
+      <tr><td>Louisville re-entry timing</td><td>Paused – family reasons</td><td>Jeben signals the moment is right. The re-entry is gentle and led by this page, not a pitch.</td></tr>
     </tbody>
   </table></div>
 </section>
 
 <section id="five">
-  <p class="eyebrow">05 · The Five-by-Five — The Whole Case on One Screen</p>
+  <p class="eyebrow">05 · The Five-by-Five – The Whole Case on One Screen</p>
   <hr class="rule">
-  <p>Five questions, five answers each: the who-what-when-where-why, the how, the decisions on the table, the risks of doing nothing, and what a pilot actually hands over. (Five lanes, five deep — 5×5×5×5×5. Read down any column and you have the pitch.)</p>
+  <p>Five questions, five answers each: the who-what-when-where-why, the how, the decisions on the table, the risks of doing nothing, and what a pilot actually hands over. (Five lanes, five deep – 5×5×5×5×5. Read down any column and you have the pitch.)</p>
   <div class="five">
     <div class="card">
       <h3>The 5 W's</h3>
       <ol>
         <li><b>Who:</b> Justin (CEO), Stanley (founder), Jeben (partner/creative), the fund's investor, the board (yes, including Jim).</li>
-        <li><b>What:</b> a decision system — one live bet per session, written receipt, exit rule agreed before spend.</li>
-        <li><b>When:</b> now — a funding round just closed or is closing, and the next-bag decision is live.</li>
-        <li><b>Where:</b> Louisville — the factory, the c-store shelf, and the Japan pipeline.</li>
+        <li><b>What:</b> a decision system – one live bet per session, written receipt, exit rule agreed before spend.</li>
+        <li><b>When:</b> now – a funding round just closed or is closing, and the next-bag decision is live.</li>
+        <li><b>Where:</b> Louisville – the factory, the c-store shelf, and the Japan pipeline.</li>
         <li><b>Why:</b> Pumps proved the current process learns <i>after</i> the money is spent.</li>
       </ol>
     </div>
@@ -535,44 +537,44 @@ function dismissToast(e) {
         <li><b>How it works:</b> 60–90 min on one decision → a one-page receipt everyone signs.</li>
         <li><b>How much:</b> $5K / $10K / $15K per month by depth; 90-day pilot; first session free.</li>
         <li><b>How long:</b> 90 days, with a month-one exit if the receipts aren't earning their keep.</li>
-        <li><b>How it's measured:</b> every receipt is scored later — expected vs. what actually happened.</li>
-        <li><b>How it stops:</b> pre-agreed stop-loss rules — on every bet, and on the engagement itself.</li>
+        <li><b>How it's measured:</b> every receipt is scored later – expected vs. what actually happened.</li>
+        <li><b>How it stops:</b> pre-agreed stop-loss rules – on every bet, and on the engagement itself.</li>
       </ol>
     </div>
     <div class="card">
       <h3>5 Decisions on the Table</h3>
       <ol>
-        <li><b>The next bag</b> — mango or something the trucker actually rebuys.</li>
-        <li><b>The $20K/mo vendor</b> — sign, negotiate tripwires, or pass.</li>
-        <li><b>Yokai's next drop</b> — price, volume, licensing.</li>
-        <li><b>Brand family</b> — one look or many.</li>
-        <li><b>The Wisconsin move</b> — get the wind-down right, not just react to it.</li>
+        <li><b>The next bag</b> – mango or something the trucker actually rebuys.</li>
+        <li><b>The $20K/mo vendor</b> – sign, negotiate tripwires, or pass.</li>
+        <li><b>Yokai's next drop</b> – price, volume, licensing.</li>
+        <li><b>Brand family</b> – one look or many.</li>
+        <li><b>The Wisconsin move</b> – get the wind-down right, not just react to it.</li>
       </ol>
     </div>
     <div class="card">
       <h3>5 Risks of Doing Nothing</h3>
       <ol>
-        <li><b>Another Pumps</b> — full build, then the market grades the homework.</li>
-        <li><b>Vendor lock-in</b> — $240K/year committed with no exit rule.</li>
-        <li><b>The echo chamber</b> — a room of agreement plus an AI that flatters.</li>
-        <li><b>The window</b> — new capital deployed the old way.</li>
-        <li><b>Brand sprawl</b> — every product paying full price for every customer.</li>
+        <li><b>Another Pumps</b> – full build, then the market grades the homework.</li>
+        <li><b>Vendor lock-in</b> – $240K/year committed with no exit rule.</li>
+        <li><b>The echo chamber</b> – a room of agreement plus an AI that flatters.</li>
+        <li><b>The window</b> – new capital deployed the old way.</li>
+        <li><b>Brand sprawl</b> – every product paying full price for every customer.</li>
       </ol>
     </div>
     <div class="card">
       <h3>5 Things a Pilot Hands Over</h3>
       <ol>
-        <li><b>Decision receipts</b> — the written record of every major call.</li>
-        <li><b>Stop-loss rules</b> — a tripwire on each live bet.</li>
-        <li><b>Pre-market test results</b> — real buyer signal before production.</li>
-        <li><b>A board-ready record</b> — proof of discipline for the fund.</li>
-        <li><b>A quarterly outside read</b> — the 15th rock the room can't see.</li>
+        <li><b>Decision receipts</b> – the written record of every major call.</li>
+        <li><b>Stop-loss rules</b> – a tripwire on each live bet.</li>
+        <li><b>Pre-market test results</b> – real buyer signal before production.</li>
+        <li><b>A board-ready record</b> – proof of discipline for the fund.</li>
+        <li><b>A quarterly outside read</b> – the 15th rock the room can't see.</li>
       </ol>
     </div>
   </div>
 
   <h2 style="margin-top:36px">The priority grid</h2>
-  <p>The seven ledger threads, scored 1–5 on the five tests that matter (5 = strongest case to act now). This is how the ranking above was set — and how to re-rank when facts change.</p>
+  <p>The seven ledger threads, scored 1–5 on the five tests that matter (5 = strongest case to act now). This is how the ranking above was set – and how to re-rank when facts change.</p>
   <div class="tblwrap"><table>
     <thead><tr><th>Thread</th><th class="num">$ at stake</th><th class="num">Urgency</th><th class="num">Ease of start</th><th class="num">Evidence in hand</th><th class="num">Fit for ARCS</th><th class="num">Total /25</th></tr></thead>
     <tbody>
@@ -585,26 +587,26 @@ function dismissToast(e) {
       <tr><td>7 · Factory move (was: capacity)</td><td class="num">5</td><td class="num">4</td><td class="num">2</td><td class="num">3</td><td class="num">4</td><td class="num warn">18</td></tr>
     </tbody>
   </table></div>
-  <p class="fine" style="margin-top:6px">Row 7 re-scored Jul 15 — urgency and evidence moved up now that this is an active move, not a standing-capacity question; ease-of-start stayed low pending real numbers from Jeben.</p>
-  <p class="fine" style="margin-top:12px">Why a grid at all: five lanes of questions with five answers each is 3,125 possible paths through this. The whole point of the system is to shrink 3,125 paths to the handful with the best odds of surviving — and to write down why.</p>
+  <p class="fine" style="margin-top:6px">Row 7 re-scored Jul 15 – urgency and evidence moved up now that this is an active move, not a standing-capacity question; ease-of-start stayed low pending real numbers from Jeben.</p>
+  <p class="fine" style="margin-top:12px">Why a grid at all: five lanes of questions with five answers each is 3,125 possible paths through this. The whole point of the system is to shrink 3,125 paths to the handful with the best odds of surviving – and to write down why.</p>
 </section>
 
 <section id="nulls">
   <p class="eyebrow">06 · The Unknowns, the Note, and the Long Game</p>
   <hr class="rule">
   <div class="note red">
-    <b>The unknowns (what we genuinely don't know yet).</b> No real unit economics have been shared: what the Pumps rework actually cost, margins on any line, the vendor contract terms, Yokai's per-drop profit, factory cost structure, or where the funding round landed. And the right moment to re-open the conversation is the family's to set, not ours. Every dollar figure in the next section is therefore an <i>illustration built on stated facts plus explicit assumptions</i> — the first working session's job is to replace each assumption with Louisville Brands' real numbers.
+    <b>The unknowns (what we genuinely don't know yet).</b> No real unit economics have been shared: what the Pumps rework actually cost, margins on any line, the vendor contract terms, Yokai's per-drop profit, factory cost structure, or where the funding round landed. And the right moment to re-open the conversation is the family's to set, not ours. Every dollar figure in the next section is therefore an <i>illustration built on stated facts plus explicit assumptions</i> – the first working session's job is to replace each assumption with Louisville Brands' real numbers.
   </div>
   <div class="note gold">
     <b>The note (the one thing that stays true no matter what).</b> Great instincts, no pre-spend checkpoint. Every thread above is that same note played in a different key.
   </div>
   <div class="note green">
-    <b>The long game (why this compounds without limit).</b> Receipts stack. A year in, Louisville Brands owns something almost no company its size has: a written record of what it believed, what it bet, and what actually happened — which sharpens every future bet, reads as institutional discipline to any investor, and turns the founders' intuition into an asset that outlives any single product. There's no ceiling on that; it just keeps compounding.
+    <b>The long game (why this compounds without limit).</b> Receipts stack. A year in, Louisville Brands owns something almost no company its size has: a written record of what it believed, what it bet, and what actually happened – which sharpens every future bet, reads as institutional discipline to any investor, and turns the founders' intuition into an asset that outlives any single product. There's no ceiling on that; it just keeps compounding.
   </div>
 </section>
 
 <section id="money">
-  <p class="eyebrow">07 · What It's Worth — The Economics, in Plain English</p>
+  <p class="eyebrow">07 · What It's Worth – The Economics, in Plain English</p>
   <hr class="rule">
   <p><b>What we know from Jeben directly:</b> roughly $2–2.5M of investor money goes in per year; distribution vendors quote ~$20K/month ($240K/year if it runs); one product was built ~100% of the way and then rebuilt after launch; drops sell out in under a minute (money left on the table); the Louisville plant is closing, with production moving to Wisconsin (~20 local jobs affected).</p>
   <p><b>The cost side is simple.</b> The recommended pilot is the middle tier: <span class="num">$10K/month × 3 months = $30K</span>, covering two lanes (Capital + Product) and up to 4 decisions a month, with unused sessions rolling over inside the 90 days. Lighter ($15K total) and heavier ($45K total) versions exist. First session is free either way.</p>
@@ -612,7 +614,7 @@ function dismissToast(e) {
   <div class="stats">
     <div class="stat"><div class="k">Pilot cost (base)</div><div class="v">$30K</div><div class="s">$10K/mo × 3 months, capped &amp; known. Month-one exit limits worst case to $10K.</div></div>
     <div class="stat"><div class="k">One avoided rework</div><div class="v">~$90K</div><div class="s">Assumed cost of a Pumps-scale build-ship-rebuild cycle (brand, tooling, run, rework).</div></div>
-    <div class="stat"><div class="k">One avoided bad vendor year</div><div class="v">$240K</div><div class="s">$20K/mo × 12 with no exit tripwires — the known quote, not an assumption.</div></div>
+    <div class="stat"><div class="k">One avoided bad vendor year</div><div class="v">$240K</div><div class="s">$20K/mo × 12 with no exit tripwires – the known quote, not an assumption.</div></div>
     <div class="stat"><div class="k">Annual capital at play</div><div class="v">$2–2.5M</div><div class="s">If discipline redirects even 10% of it, that's $200–250K/yr of better allocation.</div></div>
   </div>
 
@@ -622,7 +624,7 @@ function dismissToast(e) {
     <tbody>
       <tr>
         <td class="good">Best case</td>
-        <td>The system catches one big one-way-door mistake — a bad vendor year or an over-committed launch — plus the routine wins.</td>
+        <td>The system catches one big one-way-door mistake – a bad vendor year or an over-committed launch – plus the routine wins.</td>
         <td class="num">$30K</td><td class="num good">$250K+</td><td class="num good">~8×</td><td class="num good">First month</td>
       </tr>
       <tr>
@@ -638,30 +640,30 @@ function dismissToast(e) {
     </tbody>
   </table></div>
 
-  <p style="margin-top:18px"><b>The terms a board would use, translated.</b> <i>ROI</i> (return on investment): base case, every dollar in returns roughly $3.50 of avoided waste and captured value within the year — about a 250% return. <i>MOIC</i> (multiple on invested capital — "how many times over do I get my money back"): ~3.5× base, ~8× best. <i>IRR</i> (the annualized rate of return): honestly, IRR is built for money that comes back over years; here the money comes back in weeks, which makes the annualized figure look absurd (triple digits). The plain version is better: <b>the fee pays for itself the first time it stops one bad production run or one bad vendor year.</b> <i>Payback period</i>: roughly the first prevented misstep — call it 60–75 days in the base case.</p>
+  <p style="margin-top:18px"><b>The terms a board would use, translated.</b> <i>ROI</i> (return on investment): base case, every dollar in returns roughly $3.50 of avoided waste and captured value within the year – about a 250% return. <i>MOIC</i> (multiple on invested capital – "how many times over do I get my money back"): ~3.5× base, ~8× best. <i>IRR</i> (the annualized rate of return): honestly, IRR is built for money that comes back over years; here the money comes back in weeks, which makes the annualized figure look absurd (triple digits). The plain version is better: <b>the fee pays for itself the first time it stops one bad production run or one bad vendor year.</b> <i>Payback period</i>: roughly the first prevented misstep – call it 60–75 days in the base case.</p>
 
   <div class="note">
-    <b>The stop-loss framing — and it cuts both ways.</b> Today, the cost of a bad bet is uncapped: a vendor deal quietly eats $240K, a launch strands inventory, a Japan expansion eats a year of the CEO's attention. The pilot converts that uncapped exposure into one capped, known cost ($30K), the way insurance does — a stop-loss on wasted opportunity cost. And the engagement obeys its own rule: if after month one the receipts aren't obviously worth more than they cost, stop, out $10K, keep the receipts. ARCS carries the same tripwire it installs.
+    <b>The stop-loss framing – and it cuts both ways.</b> Today, the cost of a bad bet is uncapped: a vendor deal quietly eats $240K, a launch strands inventory, a Japan expansion eats a year of the CEO's attention. The pilot converts that uncapped exposure into one capped, known cost ($30K), the way insurance does – a stop-loss on wasted opportunity cost. And the engagement obeys its own rule: if after month one the receipts aren't obviously worth more than they cost, stop, out $10K, keep the receipts. ARCS carries the same tripwire it installs.
   </div>
-  <p class="fine">Every avoided-cost figure above is an estimate for discussion, grounded in what Jeben shared, not in Louisville Brands' books. Session one replaces these with real numbers — that's part of the deliverable.</p>
+  <p class="fine">Every avoided-cost figure above is an estimate for discussion, grounded in what Jeben shared, not in Louisville Brands' books. Session one replaces these with real numbers – that's part of the deliverable.</p>
 </section>
 
 <section id="test">
-  <p class="eyebrow">08 · The Prove-It Test — Defensibility Before a Dollar of Production</p>
+  <p class="eyebrow">08 · The Prove-It Test – Defensibility Before a Dollar of Production</p>
   <hr class="rule">
   <p>The lowest-risk way to evaluate all of this: don't buy a retainer, run <b>one live decision</b> through the full loop and judge the output. Thirty days, and the only new spend is the market test itself.</p>
   <ul class="clean">
-    <li><b>Week 1 — the session (free).</b> Justin + Jeben + Zach, 60–90 minutes, on the next-bag decision. Output: a one-page receipt — options considered, what we're assuming, what breaks the thesis, the recommended path, and the pre-agreed kill/scale line.</li>
-    <li><b>Weeks 2–4 — the market test (~$2–5K).</b> Three bag concepts (mango included — it competes fairly), put in front of 100–200 real convenience-store buyers: store-counter intercepts, a simple pre-order page, or both. Cheap, fast, and directionally honest — the exact test that would have caught the shells on Pumps.</li>
-    <li><b>Day 30 — the read.</b> The data either clears the pre-agreed line or it doesn't. Scale the winner with evidence the board can see, or kill it having spent thousands instead of a production run. Either outcome proves whether the market is actually defensible <i>before</i> anything gets built.</li>
+    <li><b>Week 1 – the session (free).</b> Justin + Jeben + Zach, 60–90 minutes, on the next-bag decision. Output: a one-page receipt – options considered, what we're assuming, what breaks the thesis, the recommended path, and the pre-agreed kill/scale line.</li>
+    <li><b>Weeks 2–4 – the market test (~$2–5K).</b> Three bag concepts (mango included – it competes fairly), put in front of 100–200 real convenience-store buyers: store-counter intercepts, a simple pre-order page, or both. Cheap, fast, and directionally honest – the exact test that would have caught the shells on Pumps.</li>
+    <li><b>Day 30 – the read.</b> The data either clears the pre-agreed line or it doesn't. Scale the winner with evidence the board can see, or kill it having spent thousands instead of a production run. Either outcome proves whether the market is actually defensible <i>before</i> anything gets built.</li>
   </ul>
-  <div class="note green"><b>What this proves beyond the product:</b> if the receipt from this one loop isn't obviously worth more than it cost, the 90-day pilot conversation ends there — no hard feelings, and Louisville Brands keeps the receipt and the test data.</div>
+  <div class="note green"><b>What this proves beyond the product:</b> if the receipt from this one loop isn't obviously worth more than it cost, the 90-day pilot conversation ends there – no hard feelings, and Louisville Brands keeps the receipt and the test data.</div>
 </section>
 
 <section id="paths">
-  <p class="eyebrow">09 · Three Parallel Paths — The Same Bet, Three Ways It Travels</p>
+  <p class="eyebrow">09 · Three Parallel Paths – The Same Bet, Three Ways It Travels</p>
   <hr class="rule">
-  <p>Every bet Louisville Brands makes walks one of three routes through the same six stages. The first two are visible from the trailhead. The third is the dangerous one, because <b>its symptoms feel like rewards</b> — it feels better than discipline at every step, right up until the market grades it.</p>
+  <p>Every bet Louisville Brands makes walks one of three routes through the same six stages. The first two are visible from the trailhead. The third is the dangerous one, because <b>its symptoms feel like rewards</b> – it feels better than discipline at every step, right up until the market grades it.</p>
   <div class="scen">
     <div class="card best">
       <span class="tag">The survivable path</span>
@@ -671,7 +673,7 @@ function dismissToast(e) {
         <li><b>Pressure test:</b> someone is paid to attack it; the mango competes fairly.</li>
         <li><b>Small contact:</b> $2–5K test in front of real buyers, kill/scale line pre-agreed.</li>
         <li><b>Commitment:</b> the survivor gets sized capital with a written exit rule.</li>
-        <li><b>The read:</b> results scored against the receipt — expected vs. actual.</li>
+        <li><b>The read:</b> results scored against the receipt – expected vs. actual.</li>
         <li><b>Next bet:</b> starts smarter; the record compounds.</li>
       </ol>
     </div>
@@ -680,22 +682,22 @@ function dismissToast(e) {
       <h3>Known risks, taken knowingly.</h3>
       <ol style="margin:10px 0 0; padding-left:18px; font-size:14px; color:var(--muted)">
         <li><b>Spark:</b> gut call plus partial data, under time pressure.</li>
-        <li><b>Pressure test:</b> skipped — the deadline is the argument.</li>
-        <li><b>Small contact:</b> skipped — "we know this customer."</li>
+        <li><b>Pressure test:</b> skipped – the deadline is the argument.</li>
+        <li><b>Small contact:</b> skipped – "we know this customer."</li>
         <li><b>Commitment:</b> full build, no exit rule; vendor signed without tripwires.</li>
         <li><b>The read:</b> ambiguous results argued in meetings, not against a record.</li>
         <li><b>Next bet:</b> starts with scar tissue but no lesson bank.</li>
       </ol>
-      <p style="margin-top:10px; font-size:13px">Sometimes survivable — but only by luck, and the luck isn't recorded either.</p>
+      <p style="margin-top:10px; font-size:13px">Sometimes survivable – but only by luck, and the luck isn't recorded either.</p>
     </div>
     <div class="card worst">
       <span class="tag">The magical-thinking path</span>
       <h3>Feels best. Costs most.</h3>
       <ol style="margin:10px 0 0; padding-left:18px; font-size:14px; color:var(--muted)">
-        <li><b>Spark:</b> an AI mockup in minutes — <i>it feels finished, so it must be.</i></li>
-        <li><b>Pressure test:</b> the room agrees, the AI flatters — <i>unanimity mistaken for evidence.</i></li>
-        <li><b>Small contact:</b> skipped — <i>momentum mistaken for validation.</i></li>
-        <li><b>Commitment:</b> ~100% built before the first outside signal — the Pumps route.</li>
+        <li><b>Spark:</b> an AI mockup in minutes – <i>it feels finished, so it must be.</i></li>
+        <li><b>Pressure test:</b> the room agrees, the AI flatters – <i>unanimity mistaken for evidence.</i></li>
+        <li><b>Small contact:</b> skipped – <i>momentum mistaken for validation.</i></li>
+        <li><b>Commitment:</b> ~100% built before the first outside signal – the Pumps route.</li>
         <li><b>The read:</b> surprise filed as bad luck; history quietly rewritten.</li>
         <li><b>Next bet:</b> same confidence, same priors, bigger stakes.</li>
       </ol>
@@ -707,39 +709,39 @@ function dismissToast(e) {
   <div class="tblwrap"><table style="min-width:520px">
     <thead><tr><th>The phrase (symptom)</th><th>What it feels like</th><th>What it's incubating (hazard)</th></tr></thead>
     <tbody>
-      <tr><td>"It's basically done — look at the bag."</td><td>Completion</td><td>Validation skipped; the mockup becomes the security blanket.</td></tr>
-      <tr><td>"Everyone's on board."</td><td>Alignment</td><td>Phase-lock — no falsifier left in the room; the 15th rock stays unseen.</td></tr>
+      <tr><td>"It's basically done – look at the bag."</td><td>Completion</td><td>Validation skipped; the mockup becomes the security blanket.</td></tr>
+      <tr><td>"Everyone's on board."</td><td>Alignment</td><td>Phase-lock – no falsifier left in the room; the 15th rock stays unseen.</td></tr>
       <tr><td>"We've come too far to stop now."</td><td>Commitment</td><td>Sunk cost steering the wheel; exposure now uncapped.</td></tr>
       <tr><td>"That was just bad luck / bad timing."</td><td>Resilience</td><td>The lesson escapes unrecorded; the same mistake re-arms.</td></tr>
-      <tr><td>"We always knew that could happen."</td><td>Wisdom</td><td>Hindsight rewrite — the record says otherwise, or would, if one existed.</td></tr>
+      <tr><td>"We always knew that could happen."</td><td>Wisdom</td><td>Hindsight rewrite – the record says otherwise, or would, if one existed.</td></tr>
     </tbody>
   </table></div>
   <div class="note">
-    <b>Why the receipts are the antidote and not just the record:</b> every one of these symptoms works by editing memory — what was believed, who agreed, what was promised. A decision receipt is memory that can't be edited after the fact. It doesn't argue with magical thinking in the moment; it just quietly makes the rewrite impossible later, which is what makes the next bet start from the truth.
+    <b>Why the receipts are the antidote and not just the record:</b> every one of these symptoms works by editing memory – what was believed, who agreed, what was promised. A decision receipt is memory that can't be edited after the fact. It doesn't argue with magical thinking in the moment; it just quietly makes the rewrite impossible later, which is what makes the next bet start from the truth.
   </div>
 </section>
 
 <section id="next">
-  <p class="eyebrow">10 · Next Steps — Three Ways This Goes</p>
+  <p class="eyebrow">10 · Next Steps – Three Ways This Goes</p>
   <hr class="rule">
   <div class="scen">
     <div class="card best">
       <span class="tag">Best case</span>
       <h3>The moment is right, and Justin leans in</h3>
       <p>Jeben confirms the family is in a good place to talk business again and forwards this page. Justin takes the free session within a few weeks; the receipt + Prove-It test land while the new capital is fresh, and the 90-day Medium pilot ($10K/mo) starts with the board watching.</p>
-      <p><b>Move now:</b> Jeben reads this page, corrects anything, and — only when the timing feels right — texts two candidate times.</p>
+      <p><b>Move now:</b> Jeben reads this page, corrects anything, and – only when the timing feels right – texts two candidate times.</p>
     </div>
     <div class="card base">
       <span class="tag">Base case</span>
       <h3>Show, then decide</h3>
-      <p>Jeben shares this page (a more dialed foot-forward than the earlier materials) when the moment allows. One free session on one live decision — next bag or the vendor question. Everyone judges the physical receipt, not the pitch. Tier decision comes after, if at all.</p>
-      <p><b>Move now:</b> Zach asks Jeben two things — is this record accurate, and when is re-entry welcome. Nothing else.</p>
+      <p>Jeben shares this page (a more dialed foot-forward than the earlier materials) when the moment allows. One free session on one live decision – next bag or the vendor question. Everyone judges the physical receipt, not the pitch. Tier decision comes after, if at all.</p>
+      <p><b>Move now:</b> Zach asks Jeben two things – is this record accurate, and when is re-entry welcome. Nothing else.</p>
     </div>
     <div class="card worst">
       <span class="tag">Worst case</span>
-      <h3>Not yet — hold the thread with care</h3>
+      <h3>Not yet – hold the thread with care</h3>
       <p>The timing stays wrong for the family, or the round and Yokai consume all attention. Nobody chases. This page holds the whole record, and the thread re-opens at whichever comes first: Jeben signals the moment is right, the round closes, or the next launch retro looks like Pumps again.</p>
-      <p><b>Move now:</b> nothing — except a quiet calendar note to check in with Jeben (about Jeben, not about business) in 45–60 days.</p>
+      <p><b>Move now:</b> nothing – except a quiet calendar note to check in with Jeben (about Jeben, not about business) in 45–60 days.</p>
     </div>
   </div>
 </section>
@@ -750,18 +752,18 @@ function dismissToast(e) {
   <div class="tblwrap"><table>
     <thead><tr><th>Date</th><th>Source</th><th>What it contributed</th></tr></thead>
     <tbody>
-      <tr><td class="num">Mar 5</td><td>Call — "Jeben × Zach"</td><td>Factory (40%), Pumps rework, mango push, trucker/c-store customer, #1 RTD, free-pilot offer.</td></tr>
-      <tr><td class="num">Mar 17</td><td>Call — "Jeben × Zach"</td><td>Hermitage Farm hotel, regional threads (parked).</td></tr>
-      <tr><td class="num">Mar 24</td><td>Call — "Jeben × Zach"</td><td>ARCS demo, decision receipts, ecosystem intros.</td></tr>
-      <tr><td class="num">Mar 31</td><td>Call — "Jeben × Zach // Let's go!!!"</td><td>Pricing ($5/10/15K vs. $20K/mo vendor anchor), fund &amp; round ($2–2.5M/yr), Yokai economics ($350 × 300 bottles, 18–50s sellouts), Justin's decision pattern, intro commitment.</td></tr>
-      <tr><td class="num">Apr 2</td><td>Deck — "ARCS × Louisville Brands"</td><td>90-day pilot structure, three lanes, tiers, roll-over rule, draft email to Justin.</td></tr>
-      <tr><td class="num">Apr 21</td><td>Call — "Jeben × Zach"</td><td>Limitless Minds prep; Louisville paused (family reasons, understood later).</td></tr>
-      <tr><td class="num">May 20</td><td>Call — "Quick Catch Up?"</td><td>Limitless Minds status: Harry postponed pending priorities + Calm CMO alignment (per Zach's recall; no transcript survived).</td></tr>
-      <tr><td class="num">Jul 15</td><td>Call — "Jeben x Zach // 1-1"</td><td>Page delivered to Jeben directly, password handed over live. Correction: Louisville plant closing, moving to Wisconsin, ~20 local jobs affected (thread #7 above).</td></tr>
+      <tr><td class="num">Mar 5</td><td>Call – "Jeben × Zach"</td><td>Factory (40%), Pumps rework, mango push, trucker/c-store customer, #1 RTD, free-pilot offer.</td></tr>
+      <tr><td class="num">Mar 17</td><td>Call – "Jeben × Zach"</td><td>Hermitage Farm hotel, regional threads (parked).</td></tr>
+      <tr><td class="num">Mar 24</td><td>Call – "Jeben × Zach"</td><td>ARCS demo, decision receipts, ecosystem intros.</td></tr>
+      <tr><td class="num">Mar 31</td><td>Call – "Jeben × Zach // Let's go!!!"</td><td>Pricing ($5/10/15K vs. $20K/mo vendor anchor), fund &amp; round ($2–2.5M/yr), Yokai economics ($350 × 300 bottles, 18–50s sellouts), Justin's decision pattern, intro commitment.</td></tr>
+      <tr><td class="num">Apr 2</td><td>Deck – "ARCS × Louisville Brands"</td><td>90-day pilot structure, three lanes, tiers, roll-over rule, draft email to Justin.</td></tr>
+      <tr><td class="num">Apr 21</td><td>Call – "Jeben × Zach"</td><td>Limitless Minds prep; Louisville paused (family reasons, understood later).</td></tr>
+      <tr><td class="num">May 20</td><td>Call – "Quick Catch Up?"</td><td>Limitless Minds status: Harry postponed pending priorities + Calm CMO alignment (per Zach's recall; no transcript survived).</td></tr>
+      <tr><td class="num">Jul 15</td><td>Call – "Jeben x Zach // 1-1"</td><td>Page delivered to Jeben directly, password handed over live. Correction: Louisville plant closing, moving to Wisconsin, ~20 local jobs affected (thread #7 above).</td></tr>
     </tbody>
   </table></div>
-  <p class="fine" style="margin-top:16px">Prepared with ARCS Recoil Protocol (reverse-listening + deep-recall passes over the full call record). Quotes are verbatim from call transcripts; bracketed figures are as stated on the calls. This page is the living tracker — corrections from Jeben supersede everything on it.</p>
-  <p class="fine" style="margin-top:10px">A same-password <a href="/debrief">call-by-call debrief</a> covers everything from the July 15 call — Louisville Brands and the other live threads (PE introduction, Hermitage, the horse syndicate, Iconography) — kept separate from this page since this one is scoped to what can go straight to Justin.</p>
+  <p class="fine" style="margin-top:16px">Prepared with ARCS Recoil Protocol (reverse-listening + deep-recall passes over the full call record). Quotes are verbatim from call transcripts; bracketed figures are as stated on the calls. This page is the living tracker – corrections from Jeben supersede everything on it.</p>
+  <p class="fine" style="margin-top:10px">A same-password <a href="/debrief">call-by-call debrief</a> covers everything from the July 15 call – Louisville Brands and the other live threads (PE introduction, Hermitage, the horse syndicate, Iconography) – kept separate from this page since this one is scoped to what can go straight to Justin.</p>
 </section>
 
 </div>
