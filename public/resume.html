@@ -1101,13 +1101,7 @@ function Resume() {
       {/* Footer */}
       <div style={{ marginTop:20, display:'flex', alignItems:'center', justifyContent:'space-between', paddingTop:14, borderTop:`1px solid ${T.border}` }}>
         <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em' }}>Zach Harris · resume.arcs.care</span>
-        <div style={{ display:'flex', alignItems:'center', gap:16 }}>
-          <a href="https://fanatics.arcs.care/" target="_blank" rel="noopener"
-            style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4, letterSpacing:'0.06em', textDecoration:'none', opacity:0.65 }}>
-            ← Fanatics brief
-          </a>
-          <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>2026</span>
-        </div>
+        <span style={{ fontFamily:T.mono, fontSize:8.5, color:T.fg4 }}>2026</span>
       </div>
 
     </div>
@@ -1119,11 +1113,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(<Resume />);
 <script>
 window.addEventListener('load', function() {
   if (window.va) va('event', { name: 'brief_open', data: { brief: 'resume' } });
-});
-document.addEventListener('click', function(e) {
-  const a = e.target.closest('a');
-  if (!a || !window.va) return;
-  if (a.href.includes('fanatics.arcs.care')) va('event', { name: 'brief_link_click', data: { dest: 'fanatics', brief: 'resume' } });
 });
 </script>
 </body>
