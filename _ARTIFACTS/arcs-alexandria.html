@@ -1,0 +1,250 @@
+<meta charset="utf-8">
+<title>ARCS Alexandria — The Library That Cannot Burn</title>
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
+    --dim:#64748b; --mut:#475569; --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
+    --red:#FF4D6D; --steel:#7dd3fc; --violet:#c084fc; --ember:#ff6b35;
+    --mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%;overflow:hidden}
+  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
+  .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .deck-in{max-width:1240px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em}
+  .wordmark b{color:var(--cyan)}
+  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan)}
+  .btn.fire{border-color:rgba(255,107,53,.5);color:var(--ember)}
+  .btn.fire:hover{border-color:var(--ember)}
+  .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
+  .spacer{flex:1}
+  canvas{position:fixed;inset:0;top:50px;display:block;width:100vw;height:calc(100vh - 50px);cursor:pointer}
+  .hud{position:fixed;left:1.1rem;bottom:.9rem;z-index:30;pointer-events:none;max-width:600px;display:flex;flex-direction:column;gap:.32rem}
+  .kv{font-family:var(--mono);font-size:.62rem;color:var(--dim);letter-spacing:.07em;line-height:1.55}
+  .kv b{color:var(--sec)}
+  .drawer{position:fixed;top:62px;right:12px;width:min(390px,calc(100vw - 24px));max-height:calc(100vh - 86px);overflow-y:auto;z-index:35;
+    background:rgba(13,17,23,.97);border:1px solid var(--border);border-radius:8px;padding:1.05rem 1.2rem;display:none}
+  .drawer.open{display:block}
+  .drawer h3{font-size:1.05rem;margin:.3rem 0 .2rem;letter-spacing:-.01em}
+  .drawer p{font-size:.82rem;color:var(--sec);line-height:1.58;margin:.4rem 0}
+  .drawer .law{border-left:2px solid var(--gold);padding-left:.7rem;font-size:.8rem;color:var(--text);margin:.6rem 0}
+  .x{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:.72rem}
+  .chip{display:inline-block;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.07em;border-radius:3px;padding:2px 7px;margin:.15rem .25rem .15rem 0}
+  .c-ok{color:var(--green);border:1px solid rgba(0,255,157,.4)}
+  .c-part{color:var(--gold);border:1px solid rgba(255,215,0,.4)}
+  .c-gap{color:var(--red);border:1px solid rgba(255,77,109,.45)}
+  .scrolls{margin:.4rem 0 0;padding:0;list-style:none}
+  .scrolls li{font-size:.75rem;color:var(--sec);margin:.28rem 0;font-family:var(--mono)}
+  .s-sov{color:var(--green)} .s-burn{color:var(--ember)} .s-plan{color:var(--steel)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="deck"><div class="deck-in">
+  <span class="wordmark"><b>ARCS</b> · ALEXANDRIA — the library that cannot burn</span>
+  <span class="spacer"></span>
+  <button class="btn fire" id="fire">🔥 burn the center</button>
+  <button class="btn" id="restore" style="display:none">⟲ re-seed from the edges</button>
+  <button class="btn" id="nocturne" title="the fire and the re-seeding, sung">🎼 nocturne</button>
+</div></div>
+
+<canvas id="cv"></canvas>
+
+<div class="hud">
+  <span class="kv"><b style="color:var(--gold)">The thesis:</b> Alexandria burned because it was singular. A giga network inverts the library — every navigator carries a pocket Alexandria (local-first vault); the network is the inter-library loan, never the vault itself.</span>
+  <span class="kv">Click a hall for its principle · click the reading room for the om · <b style="color:var(--green)">green scrolls are sovereign</b> (git-distributed / exportable) · <b style="color:var(--ember)">ember scrolls burn</b> (single-copy today) · <b style="color:var(--steel)">steel = planned rungs</b></span>
+  <span class="kv" id="stats"></span>
+</div>
+
+<div class="drawer" id="drawer"><button class="x" id="dx">✕ ESC</button><div id="dbody"></div></div>
+
+<script>
+// ── the five halls: atomic/network principles mapped to ARCS mechanisms ──
+const HALLS = [
+  { id:'trace', name:'TRACEABILITY', color:'#00F0FF',
+    law:'Every scroll carries its own lineage: nothing enters the library without a receipt of where it came from.',
+    def:'The ability to walk any artifact back to its origins — decision → receipt → parent receipt → commit → epoch.',
+    state:[['receiptId = trace_id · L0–L5 = spans','c-ok'],['parentId lineage + NCI commit stamps','c-ok'],['Inchworm log (append-only epochs)','c-ok'],['OTel proper — held for dependency approval','c-part']],
+    scrolls:[['User receipts (Postgres)','burn'],['SageTrace table','burn'],['32 ADRs','sov'],['Inchworm log','sov'],['NCI-stamped git history','sov']] },
+  { id:'transp', name:'TRANSPARENCY', color:'#00FF9D',
+    law:'The library names its own gaps: the catalog of what is missing is shelved beside what exists.',
+    def:'Honest gauges, disclosed roadmaps, invariant grades — never rendering more certainty than the data holds.',
+    state:[['Trust contract + in-product gap disclosure','c-ok'],['Honest NCI + self-grade booleans','c-ok'],['Invariant grades (tautology/constitutional/empirical)','c-ok'],['Quiet-signals reporting (silences as data)','c-ok']],
+    scrolls:[['Trust Contract v1.1','sov'],['EyebrowToast §04 disclosures','sov'],['Quiet Signals report','sov'],['Meta-audit gauges','sov']] },
+  { id:'sov', name:'SELF-SOVEREIGNTY', color:'#FFD700',
+    law:'Reading your own atlas never requires permission, an account, or a network. The record leaves with you.',
+    def:'Local-first: the network enriches and syncs; it never owns. The four-rung ladder from anonymous use to full local substrate.',
+    state:[['L1 anonymous + claim-on-login','c-ok'],['L2 export everywhere','c-part'],['L3 local vault (IndexedDB/SQLite)','c-gap'],['L4 GIGI fiber-bundle substrate','c-gap']],
+    scrolls:[['Anonymous sessions (L1)','sov'],['Lattice/backlog JSON exports','sov'],['User receipts — DB-only, no export yet','burn'],['~/.claude memory — machine-local','burn'],['L3 vault','plan'],['L4 GIGI substrate','plan']] },
+  { id:'interop', name:'INTEROPERABILITY', color:'#7dd3fc',
+    law:'One canonical shape, many tongues: any scroll can be read in any hall because all scrolls share the Receipt grammar.',
+    def:'Zod manifests, the Receipt JSON as lingua franca, cross-compiled targets (route · static · OG · md · email · print), MCP surfaces.',
+    state:[['Receipt JSON schema (dewy-receipt-schema-v1)','c-ok'],['Manifest Law — specced, zero manifests yet','c-part'],['render-svc cross-compiler','c-gap'],['MCP / connector surfaces','c-part']],
+    scrolls:[['dewy-receipt-schema-v1','sov'],['Artifact manifests (A2)','plan'],['call-brief template {{params}}','sov'],['render-svc','plan']] },
+  { id:'decomp', name:'DE/COMPOSABILITY', color:'#c084fc',
+    law:'Compose up, decompose down, lose nothing: token → atom → molecule → organism → template → page, and back.',
+    def:'Atomic design as physics: every surface is a lossless composition of manifest-bearing parts; imports flow down, data flows up.',
+    state:[['22 atoms · 16 molecules · 5 organisms','c-ok'],['Document UIKit: 10 patterns × 5 doc types','c-ok'],['37 Python operators (atomic decision units)','c-ok'],['tokens.json single source (A1)','c-gap']],
+    scrolls:[['src/ui atoms + tokens','sov'],['Document UIKit registry','sov'],['operators/ 17.4K LOC','sov'],['3 token sources — unreconciled','burn']] },
+];
+// scroll census for the fire test (computed below): sov = distributed copy exists · burn = single copy · plan = not yet real
+const CENTER = { name:'READING ROOM', sub:'zero-point · om', color:'#e2e8f0',
+  def:'The charged empty center. Strip every hall away: one person making better decisions on record. The om the library grows from — and the only room the fire test cannot touch, because it was never stored here.' };
+
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let W, H, CX, CY, R, burned = false, burnT = 0, sel = null, raf = null;
+function resize(){ W = innerWidth; H = innerHeight - 50; cv.width = W*devicePixelRatio; cv.height = H*devicePixelRatio; CX = W/2; CY = H/2 + 8; R = Math.min(W,H)*.44; draw(); }
+addEventListener('resize', resize);
+
+const hallAngle = i => -Math.PI/2 + i * 2*Math.PI/5;
+
+function draw(){
+  ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  ctx.fillStyle = '#020408'; ctx.fillRect(0,0,W,H);
+  ctx.textAlign = 'center';
+  // marble floor rings
+  for (const rr of [.32,.56,.78,1]) {
+    ctx.strokeStyle = 'rgba(30,41,59,.6)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(CX, CY, R*rr, 0, 7); ctx.stroke();
+  }
+  // halls
+  HALLS.forEach((hall, i) => {
+    const a0 = hallAngle(i) - Math.PI/5 + .06, a1 = hallAngle(i) + Math.PI/5 - .06;
+    const mid = hallAngle(i);
+    // hall wedge
+    ctx.beginPath(); ctx.arc(CX, CY, R*.98, a0, a1); ctx.arc(CX, CY, R*.36, a1, a0, true); ctx.closePath();
+    ctx.fillStyle = hall.color + (sel === hall ? '14' : '08');
+    ctx.strokeStyle = hall.color + '38'; ctx.lineWidth = 1.2;
+    ctx.fill(); ctx.stroke();
+    // shelves: three arcs of scroll ticks
+    hall.scrolls.forEach((s, si) => {
+      const rr = R * (.48 + si * .115);
+      const n = 7 + si * 2;
+      const state = burned ? (s[1] === 'sov' ? 'sov' : s[1] === 'plan' ? 'plan' : 'ash') : s[1];
+      for (let k = 0; k < n; k++) {
+        const a = a0 + (a1 - a0) * (k + .5) / n;
+        const x = CX + Math.cos(a) * rr, y = CY + Math.sin(a) * rr;
+        ctx.save(); ctx.translate(x, y); ctx.rotate(a + Math.PI/2);
+        if (state === 'ash') { ctx.fillStyle = `rgba(71,85,105,${.5 - burnT*.25})`; }
+        else if (state === 'sov') { ctx.fillStyle = burned ? '#00FF9D' : 'rgba(0,255,157,.75)'; }
+        else if (state === 'plan') { ctx.fillStyle = 'rgba(125,211,252,.4)'; }
+        else { ctx.fillStyle = 'rgba(255,107,53,.7)'; }
+        ctx.fillRect(-1.4, -5, 2.8, 10);
+        if (state === 'ash' && burnT > .5) { ctx.fillStyle = 'rgba(255,107,53,.25)'; ctx.fillRect(-1.4, 3, 2.8, 2); }
+        ctx.restore();
+      }
+      // scroll-line label
+      const lx = CX + Math.cos(mid) * rr, ly = CY + Math.sin(mid) * rr;
+      void lx; void ly;
+    });
+    // hall name
+    const nx = CX + Math.cos(mid) * R * 1.08, ny = CY + Math.sin(mid) * R * 1.08;
+    ctx.fillStyle = hall.color; ctx.font = '700 12px ui-monospace,monospace';
+    ctx.fillText(hall.name, nx, ny);
+  });
+  // reading room (center)
+  const cg = ctx.createRadialGradient(CX, CY, 0, CX, CY, R*.34);
+  if (burned) {
+    cg.addColorStop(0, `rgba(255,107,53,${.22*(1-burnT*.6)})`); cg.addColorStop(.6, 'rgba(30,10,4,.6)'); cg.addColorStop(1, 'rgba(2,4,8,0)');
+  } else {
+    cg.addColorStop(0, 'rgba(226,232,240,.13)'); cg.addColorStop(1, 'rgba(226,232,240,0)');
+  }
+  ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(CX, CY, R*.34, 0, 7); ctx.fill();
+  ctx.strokeStyle = burned ? 'rgba(255,107,53,.5)' : 'rgba(226,232,240,.35)'; ctx.lineWidth = 1.3;
+  ctx.beginPath(); ctx.arc(CX, CY, R*.3, 0, 7); ctx.stroke();
+  ctx.fillStyle = burned ? 'rgba(255,107,53,.85)' : 'rgba(226,232,240,.85)';
+  ctx.font = '700 11px ui-monospace,monospace';
+  ctx.fillText(burned ? 'THE FIRE' : 'READING ROOM', CX, CY - 6);
+  ctx.fillStyle = 'rgba(100,116,139,.85)'; ctx.font = '10px ui-monospace,monospace';
+  ctx.fillText(burned ? 'the center is gone' : 'zero-point · om', CX, CY + 12);
+  // stats
+  let sov = 0, burn = 0, plan = 0;
+  HALLS.forEach(h => h.scrolls.forEach(s => s[1] === 'sov' ? sov++ : s[1] === 'plan' ? plan++ : burn++));
+  document.getElementById('stats').innerHTML = burned
+    ? `after the fire: <b style="color:var(--green)">${sov} scroll-lines survive</b> (distributed copies) · <b style="color:var(--ember)">${burn} lost</b> — user receipts, sage traces, machine-local memory, unreconciled tokens · <b style="color:var(--steel)">${plan} rungs</b> would have saved them`
+    : `census: <b style="color:var(--green)">${sov} sovereign</b> · <b style="color:var(--ember)">${burn} single-copy (burnable today)</b> · <b style="color:var(--steel)">${plan} planned rungs</b> — the fire test is a design review, not a metaphor`;
+}
+// fire animation
+function ignite(on){
+  burned = on; burnT = 0;
+  document.getElementById('fire').style.display = on ? 'none' : '';
+  document.getElementById('restore').style.display = on ? '' : 'none';
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { burnT = 1; draw(); return; }
+  cancelAnimationFrame(raf);
+  const step = () => { burnT = Math.min(1, burnT + .02); draw(); if (burnT < 1) raf = requestAnimationFrame(step); };
+  raf = requestAnimationFrame(step);
+}
+document.getElementById('fire').addEventListener('click', () => ignite(true));
+document.getElementById('restore').addEventListener('click', () => ignite(false));
+
+// hall / center selection
+cv.addEventListener('click', e => {
+  const rect = cv.getBoundingClientRect();
+  const dx = e.clientX - rect.left - CX, dy = e.clientY - rect.top - CY;
+  const d = Math.hypot(dx, dy);
+  if (d < R*.34) { openCenter(); return; }
+  if (d > R*1.02) { closeDrawer(); return; }
+  let a = Math.atan2(dy, dx);
+  let best = 0, bd = 9;
+  HALLS.forEach((h, i) => { let da = Math.abs(Math.atan2(Math.sin(a - hallAngle(i)), Math.cos(a - hallAngle(i)))); if (da < bd) { bd = da; best = i; } });
+  openHall(HALLS[best]);
+});
+function openHall(h){
+  sel = h;
+  const cls = { sov:'s-sov', burn:'s-burn', plan:'s-plan' };
+  const mark = { sov:'▮ sovereign', burn:'▮ burns', plan:'▯ planned' };
+  document.getElementById('dbody').innerHTML = `
+    <span class="lbl" style="color:${h.color}">HALL OF ${h.name}</span>
+    <h3>${h.def}</h3>
+    <div class="law">${h.law}</div>
+    <span class="lbl">state of the hall</span>
+    <div>${h.state.map(s => `<span class="chip ${s[1]}">${s[0]}</span>`).join('')}</div>
+    <span class="lbl" style="display:block;margin-top:.55rem">shelved scroll-lines</span>
+    <ul class="scrolls">${h.scrolls.map(s => `<li><span class="${cls[s[1]]}">${mark[s[1]]}</span> — ${s[0]}</li>`).join('')}</ul>`;
+  document.getElementById('drawer').classList.add('open'); draw();
+}
+function openCenter(){
+  sel = null;
+  document.getElementById('dbody').innerHTML = `
+    <span class="lbl" style="color:#e2e8f0">${CENTER.name} · ${CENTER.sub}</span>
+    <h3>The only room the fire cannot touch</h3>
+    <p>${CENTER.def}</p>
+    <div class="law">Giga-network reading: GIGI is not a bigger Alexandria — it is the end of the singular library. Every navigator's vault is a full library in miniature; the reading room is wherever a navigator opens their own atlas. Burn any center and the library re-seeds from its edges.</div>
+    <p style="font-size:.75rem;color:var(--mut)">Sequenced in the Surface Map sovereignty ladder: L1 live → L2 export-everywhere (next) → L3 local vault → L4 GIGI substrate.</p>`;
+  document.getElementById('drawer').classList.add('open'); draw();
+}
+function closeDrawer(){ sel = null; document.getElementById('drawer').classList.remove('open'); draw(); }
+document.getElementById('dx').addEventListener('click', closeDrawer);
+addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+// ── NOCTURNE: descending phrase = the fire · ascending phrase = re-seed from the edges ──
+let NAC = null, nocTimers = [];
+function nPluck(midis, when, g, dur) {
+  midis.forEach(m => {
+    const f = 440 * Math.pow(2, (m - 69) / 12);
+    const o1 = NAC.createOscillator(), o2 = NAC.createOscillator();
+    const env = NAC.createGain(), g2 = NAC.createGain();
+    o1.type = 'sine'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13;
+    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(NAC.destination);
+    const peak = .082 * g / Math.sqrt(midis.length);
+    env.gain.setValueAtTime(0, when);
+    env.gain.linearRampToValueAtTime(peak, when + .012);
+    env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.4));
+    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+  });
+}
+document.getElementById('nocturne').addEventListener('click', () => {
+  if (NAC) { nocTimers.forEach(clearTimeout); nocTimers = []; NAC.close(); NAC = null; return; }
+  NAC = new (window.AudioContext || window.webkitAudioContext)();
+  const t0 = NAC.currentTime + .2;
+  [[80], [77], [73], [68], [61, 49]].forEach((m, i) => nPluck(m, t0 + i * .55, .8, 1.6));
+  [[61], [65], [68], [73], [77], [80, 85]].forEach((m, i) => nPluck(m, t0 + 4.2 + i * .45, .7, 1.6));
+  nocTimers.push(setTimeout(() => ignite(true), 250));
+  nocTimers.push(setTimeout(() => ignite(false), 4400));
+  nocTimers.push(setTimeout(() => { if (NAC) { NAC.close(); NAC = null; } }, 10000));
+});
+
+resize();
+</script>

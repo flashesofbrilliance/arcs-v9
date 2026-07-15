@@ -1,0 +1,360 @@
+<meta charset="utf-8">
+<title>ARCS Knowledge Lattice — Abductive Web Explorer</title>
+<style>
+  /* ARCS cockpit grammar — single-theme dark by commitment (the ARCS world is obsidian). */
+  :root{
+    --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
+    --dim:#64748b; --mut:#475569; --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700;
+    --red:#FF4D6D; --steel:#7dd3fc;
+    --mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%}
+  .lbl{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
+  .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)} .lbl.gr{color:var(--green)}
+
+  .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .deck-in{max-width:1280px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em}
+  .wordmark b{color:var(--cyan)}
+  .ctl{display:flex;align-items:center;gap:.45rem}
+  input[type=range]{accent-color:var(--cyan);width:120px}
+  #epoch{accent-color:var(--gold)}
+  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
+  .btn:hover{border-color:var(--cyan);color:var(--cyan)}
+  .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
+  .phase{font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.1em;padding:.35rem .6rem;border-radius:4px;border:1px solid var(--border)}
+  .spacer{flex:1}
+
+  #stage{position:fixed;inset:0;top:52px;cursor:grab}
+  #stage.drag{cursor:grabbing}
+  canvas{display:block;width:100%;height:100%;image-rendering:pixelated}
+
+  /* HUD */
+  .hud{position:fixed;left:1rem;bottom:1rem;z-index:30;display:flex;flex-direction:column;gap:.4rem;pointer-events:none}
+  .hud .row{display:flex;gap:1rem;flex-wrap:wrap}
+  .kv{font-family:var(--mono);font-size:.6rem;color:var(--dim);letter-spacing:.08em}
+  .kv b{color:var(--sec)}
+
+  /* detail drawer */
+  .drawer{position:fixed;top:64px;right:12px;width:min(360px,calc(100vw - 24px));max-height:calc(100vh - 90px);overflow-y:auto;z-index:35;
+    background:rgba(13,17,23,.97);border:1px solid var(--border);border-radius:8px;padding:1rem 1.1rem;display:none}
+  .drawer.open{display:block}
+  .drawer h3{font-size:1.02rem;margin:.3rem 0 .2rem;letter-spacing:-.01em}
+  .drawer p{font-size:.82rem;color:var(--sec);line-height:1.55;margin:.4rem 0}
+  .drawer .x{position:absolute;top:.5rem;right:.6rem;background:none;border:none;color:var(--mut);font-family:var(--mono);cursor:pointer;font-size:.75rem}
+  .chip{display:inline-block;font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.08em;border-radius:3px;padding:2px 7px;margin-right:.35rem}
+  .c-ok{color:var(--green);border:1px solid rgba(0,255,157,.4);background:rgba(0,255,157,.07)}
+  .c-true{color:var(--gold);border:1px solid rgba(255,215,0,.4);background:rgba(255,215,0,.07)}
+  .c-shore{color:var(--red);border:1px solid rgba(255,77,109,.45);background:rgba(255,77,109,.07)}
+  .c-gate{color:var(--steel);border:1px solid rgba(125,211,252,.35);background:rgba(125,211,252,.07)}
+  .hard{font-family:var(--mono);font-size:.7rem;color:var(--gold)}
+  ul.shore{margin:.3rem 0 .2rem 1rem;padding:0}
+  ul.shore li{font-size:.78rem;color:var(--sec);margin:.25rem 0}
+
+  /* protocol modal */
+  .modal{position:fixed;inset:0;z-index:50;background:rgba(2,4,8,.88);backdrop-filter:blur(6px);display:none;overflow-y:auto}
+  .modal.open{display:block}
+  .modal-in{max-width:880px;margin:6vh auto;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.6rem 1.8rem;position:relative}
+  .modal h2{margin:.2rem 0 .4rem;font-size:1.25rem;letter-spacing:-.01em}
+  .modal p{color:var(--sec);font-size:.88rem;line-height:1.6;max-width:70ch}
+  .sweep{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-top:1rem}
+  .sweep .col{border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem}
+  .sweep li{font-size:.8rem;color:var(--sec);margin:.35rem 0}
+  .rule-box{margin-top:1.1rem;border:1px solid rgba(255,215,0,.4);background:rgba(255,215,0,.05);border-radius:6px;padding:.8rem 1rem;font-size:.85rem;color:var(--text)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="deck"><div class="deck-in">
+  <span class="wordmark"><b>ARCS</b> · KNOWLEDGE LATTICE</span>
+  <div class="ctl"><span class="lbl cy">Fidelity</span>
+    <input id="zoom" type="range" min="0" max="100" value="30" aria-label="Semantic fidelity: galactic to quantum">
+    <span class="lbl cy" id="zoom-lbl" style="min-width:88px">OPERATIONAL</span></div>
+  <div class="ctl"><span class="lbl">Resolution</span>
+    <input id="res" type="range" min="0" max="5" step="1" value="4" style="accent-color:#94a3b8;width:90px" aria-label="Render resolution: 8-bit to lossless">
+    <span class="lbl" id="res-lbl" style="min-width:60px">8K</span></div>
+  <div class="ctl"><span class="lbl gd">Epoch</span>
+    <input id="epoch" type="range" min="1" max="8" value="8" aria-label="Epoch scrubber">
+    <button class="btn" id="play">▶ replay</button></div>
+  <span class="phase" id="phase">SUPERIONIC</span>
+  <span class="spacer"></span>
+  <button class="btn" id="proto-btn">720° protocol</button>
+  <button class="btn" id="perform" title="epoch replay, sonified">🎼 perform</button>
+  <button class="btn" id="dl">↓ .json</button>
+</div></div>
+
+<div id="stage"><canvas id="cv"></canvas></div>
+
+<div class="hud">
+  <div class="row">
+    <span class="kv">● fuzzy = 1 road · ◉ solid = 2 · ◆ crystal = 3 · <b style="color:var(--gold)">◈ diamond = 4+ orthogonal domains</b></span>
+  </div>
+  <div class="row">
+    <span class="kv"><b style="color:var(--green)">■</b> formalized · <b style="color:var(--gold)">■</b> needs truing · <b style="color:var(--red)">■</b> needs shoring · <b style="color:var(--steel)">■</b> gated</span>
+    <span class="kv">drag = pan · wheel = zoom · click = inspect</span>
+  </div>
+  <div class="row"><span class="kv" id="stats"></span></div>
+  <div class="row"><span class="kv" style="max-width:520px">phase describes the knowledge lattice, not the product (done-state ~42%, see meta-audit). Hardness is EARNED: distinct uncorrelated domains pointing at the same node.</span></div>
+</div>
+
+<div class="drawer" id="drawer"><button class="x" id="dx">✕ ESC</button><div id="dbody"></div></div>
+
+<div class="modal" id="modal"><div class="modal-in">
+  <button class="x btn" style="position:absolute;top:.8rem;right:.8rem" id="mx">✕ close</button>
+  <span class="lbl gd">War-game · Gauntlet · Anterior + Posterior</span>
+  <h2>The 720° skeptic-led pressure test</h2>
+  <p>Every node in this lattice carries a burden of proof. Two full sweeps — the first circles the claim from outside before commitment; the second circles it again after evidence, then turns the instrument on the examiner. 360° of skeptic + 360° of self-audit = 720°.</p>
+  <div class="sweep">
+    <div class="col"><span class="lbl cy">First 360° — anterior (before commitment)</span><ul>
+      <li><b>LAB / Loki</b> — strongest objection stated in its strongest form, not a strawman.</li>
+      <li><b>BAR</b> — ruin bound: what's the worst survivable loss if this claim is wrong?</li>
+      <li><b>Bayesian prior</b> — base rate before our evidence; wishful deltas flagged.</li>
+      <li><b>Premortem war-game</b> — it's 12 months later and this concept failed: write the obituary first.</li>
+      <li><b>COURT</b> — axiom collision check (NOTOMATION, honesty, consistency).</li>
+      <li><b>Burden assigned</b> — who bears proof, and what observation would falsify.</li>
+    </ul></div>
+    <div class="col"><span class="lbl gd">Second 360° — posterior (after evidence)</span><ul>
+      <li><b>Receipts</b> — what did we actually record, with outcomes where they exist?</li>
+      <li><b>Recoil</b> — reverse-listen the history: did it land where it was heading?</li>
+      <li><b>Bayesian update</b> — posterior moved by evidence, not by attachment.</li>
+      <li><b>Orthogonal echo</b> — did uncorrelated domains independently confirm? (This is the hardness metric.)</li>
+      <li><b>KKL</b> — is the window still open, or are we defending a stale claim?</li>
+      <li><b>Fun House</b> — audit the auditor: anchoring, sycophancy, self-confirmation, canon written faster than loops closed.</li>
+    </ul></div>
+  </div>
+  <div class="rule-box"><b style="color:var(--gold)">Diamond rule (highest burden of proof):</b> a node crystallizes only when it survives both sweeps AND holds ≥4 in-edges from distinct uncorrelated domains. Counter-forces are constitutional, not optional: edge-decay, contrarian-injection, and calcification-guard (lattice-pressure ROM, L7-pinned) exist precisely so the lattice cannot harden by enthusiasm alone.</div>
+</div></div>
+
+<script id="lattice-data" type="application/json">
+{"version":"1.0.0","epoch_source":"meta-audit v1.1.0 timeline (e1=2026-05-20 … e8=2026-07-10)","hardness_rule":"hardness(node) = count of DISTINCT domains among in-edge source nodes; diamond at >=4","domains":{"ont":{"label":"ONTOLOGY","sub":"what exists","a":-90},"epi":{"label":"EPISTEMOLOGY","sub":"how we know","a":-18},"met":{"label":"METAPHYSICS","sub":"the physics","a":54},"ety":{"label":"ETYMOLOGY","sub":"why these names","a":126},"lib":{"label":"LIBRARY","sub":"where it is written","a":198}},"strata":{"q":{"label":"QUANTUM","r":0.09},"a":{"label":"ATOMIC","r":0.24},"m":{"label":"MOLECULAR","r":0.42},"o":{"label":"ORGANISM","r":0.62},"l":{"label":"LIBRARY","r":0.82},"g":{"label":"META","r":0.97}},"nodes":[{"id":"zp","label":"Zero-Point Knowledge","st":"q","dom":"met","status":"true","what":"The empty center: what is known before any receipt — priors, lived experience, om. Currently a working metaphor, not a formal object.","shore":["No formal definition anywhere in the corpus — needs a canon entry","Relationship to PrepSession priors and prior-work capture unspecified","Is it a state (S_min in ARCS Law?) or a substrate? Decide."]},{"id":"ax1","label":"Lived experience outranks inference","st":"q","dom":"met","status":"ok","what":"ROM axiom; enforced in code via PRIOR WORK rule (e802ed7) and NOTOMATION guards."},{"id":"ax2","label":"Decisions are bets","st":"q","dom":"epi","status":"ok","what":"Epistemic stance: every True North is graded, never asserted as fact."},{"id":"ax3","label":"No commands, only offers","st":"q","dom":"ont","status":"ok","what":"What ARCS is: an instrument, never an authority."},{"id":"ax4","label":"Time quality ≈ outcome quality","st":"q","dom":"met","status":"true","what":"Asserted in doctrine; Time ROM formalizes decay but outcome linkage unmeasured.","shore":["Needs the outcome loop data (audit move #03) before it can be tested"]},{"id":"ax5","label":"Fidelity is earned","st":"q","dom":"epi","status":"ok","what":"Render scale law: never display more certainty than the data holds."},{"id":"om","label":"Om / the null reading","st":"q","dom":"met","status":"true","what":"Strip every layer: one person making better decisions on record. The om the infinite grows from.","shore":["Named in audit Fun House; not yet a canon term"]},{"id":"nci","label":"nci_score","st":"a","dom":"epi","status":"ok","what":"Honest 0–100 confidence; 40–60 = genuinely uncertain; inflation forbidden."},{"id":"coh","label":"coherence_pct","st":"a","dom":"epi","status":"ok","what":"How well-formed and answerable the question is."},{"id":"ypol","label":"yPolarity·conviction·stability","st":"a","dom":"ont","status":"ok","what":"Canonical Y-gate triple (aligned 61095c5)."},{"id":"door","label":"door_class","st":"a","dom":"ont","status":"ok","what":"ONE_WAY / TWO_WAY reversibility classification."},{"id":"stak","label":"stakes · horizon","st":"a","dom":"ont","status":"ok","what":"Mode selector inputs (QUICKMOVE/PLAN/COURT)."},{"id":"prior","label":"priorWork → exclusion criteria","st":"a","dom":"epi","status":"true","what":"New at e802ed7: user-stated prior analysis becomes exclusion criteria.","shore":["Zero-schema today (free text); dedicated PrepSession field + migration is Phase 2"]},{"id":"l7c","label":"L7 constants: decay · contrarian · calcification","st":"a","dom":"met","status":"shore","what":"Counter-forces pinned in lattice-pressure ROM; self-tuning FORBIDDEN.","shore":["Values are placeholders — never fitted to real receipts (gated at 100R)"]},{"id":"cad","label":"recoil cadence √duration","st":"a","dom":"epi","status":"shore","what":"Segment count max(3, round(sqrt(minutes))).","shore":["Spec is DRAFT, not canon-ratified"]},{"id":"law","label":"ARCS Law C = αA − β(S−S_min)² + γW","st":"a","dom":"met","status":"shore","what":"Coherence law in arcs_primitives.py.","shore":["α, β, γ, S_min never fitted to observed data","No unit analysis published — dimensional honesty check pending"]},{"id":"trib3","label":"EXACTLY-3 tributaries","st":"a","dom":"ont","status":"ok","what":"meta · challenge · adjacent — enforced in the compass contract."},{"id":"selfg","label":"nci_self_grade","st":"a","dom":"epi","status":"ok","what":"Four-boolean self-audit on every receipt: factual · sources · honesty · action."},{"id":"rec","label":"Receipt","st":"m","dom":"ont","status":"ok","what":"A state vector frozen in time — coordinate, seed, trace. The hardest-earned node in the lattice: ontology, epistemology, metaphysics, and library all point at it independently."},{"id":"tn","label":"True North","st":"m","dom":"ont","status":"ok","what":"One actionable sentence, graded by conviction. Never 'it depends'."},{"id":"kai","label":"Kairos","st":"m","dom":"met","status":"true","what":"The opportune moment. Many roads name it — Greek etymology, WORLD.md physics, Time ROM — but no code measures it. Named ≠ measured.","shore":["No detection engine (disclosed as Roadmap in-product)","v0 = breadcrumbs on receipts (audit move #05), not an engine"]},{"id":"chr","label":"Chronos","st":"m","dom":"met","status":"ok","what":"Calendar time; the axis kairos punctuates."},{"id":"sup","label":"Superionic","st":"m","dom":"met","status":"ok","what":"Structure + flow fused: fixed lattice, mobile charge. The named end-state, reinforced from four independent directions."},{"id":"fog","label":"Fog / Terrain","st":"m","dom":"met","status":"ok","what":"Uncertainty as navigable space; four zones from outer fog to nucleus."},{"id":"cmw","label":"Chi · Ma · Wuwei","st":"m","dom":"met","status":"true","what":"Energy / deliberate emptiness / non-forcing — audit §5 vocabulary.","shore":["Used in governance twice; not yet canon-defined terms"]},{"id":"sepoch","label":"Serializability Epoch","st":"m","dom":"epi","status":"ok","what":"Write-lock boundary for shared state; per-branch state files serialize feature work."},{"id":"man","label":"Artifact Manifest","st":"m","dom":"ont","status":"true","what":"Zod contract per artifact: params, targets, deps, events, provenance.","shore":["Specced in Surface Map A2 — zero manifests exist yet"]},{"id":"alt","label":"Altitude / Lossless Translation","st":"m","dom":"epi","status":"true","what":"Same truth at exec / operator / surgical grain.","shore":["Twice built ad-hoc (AltitudePicker, FidelityDial) — promote to src/ui atoms"]},{"id":"hyp","label":"Hyperstition","st":"m","dom":"met","status":"true","what":"Fiction that engineers its own reality — the done-state pulling the present toward it.","shore":["Lives only in ui-kit HTML and this audit — no canon definition","Distinguish from wishful thinking: a hyperstition must emit receipts"]},{"id":"zipf","label":"Folksonomy / Zipf baseline","st":"m","dom":"epi","status":"gate","what":"Emergent tag distribution over receipts.","shore":["Gated at 100 receipts — baseline unmeasurable today"]},{"id":"orth","label":"Orthogonal Vector","st":"m","dom":"epi","status":"ok","what":"An uncorrelated line of evidence. Hardness in this very lattice = count of distinct domains converging."},{"id":"attr","label":"Local Maximum / Attractor","st":"m","dom":"met","status":"ok","what":"Where independent roads converge; the superordinate goal precipitates, it is not declared (ADR-023)."},{"id":"drift","label":"Drift","st":"m","dom":"epi","status":"ok","what":"Entropy masquerading as motion — spin cycles, stale claims, maps diverging from terrain."},{"id":"dewy","label":"DEWY","st":"o","dom":"ont","status":"ok","what":"D·E·W·Y state vector — the decision's coordinates. Schema-pinned, Prisma-aligned, canon-documented."},{"id":"ygate","label":"Y-Gate","st":"o","dom":"epi","status":"ok","what":"12D manifold → polarity × conviction × stability → render state."},{"id":"cocd","label":"COCD Loop","st":"o","dom":"ont","status":"ok","what":"Calibrate → Orient → Chart → Detect; canonical sequence D→A→C→B."},{"id":"hpipe","label":"Hyperstition Pipeline","st":"o","dom":"met","status":"true","what":"Ethereal → Loki Test → Receipt Evaluation → ROM.","shore":["Stages 1–2 have no runtime representation"]},{"id":"inch","label":"Golden Inchworm","st":"o","dom":"epi","status":"ok","what":"Red thread → golden thread → needle; append-only advance. As of this week it has a live implementation: the sentry's inchworm log."},{"id":"echo","label":"Orthogonal Echo Detector","st":"o","dom":"epi","status":"true","what":"Surface cross-domain kinematic isomorphisms.","shore":["RC-OPS-001 gated behind an Observatory period — not ROM"]},{"id":"recoil","label":"Recoil Protocol","st":"o","dom":"epi","status":"true","what":"Reverse Listening + Deep Recall over any record.","shore":["Governing spec recoil-modes-v1 is DRAFT"]},{"id":"atg","label":"ATG","st":"o","dom":"ont","status":"ok","what":"Anticipatory Tributary Generator — live in code AND stale-claimed as unbuilt in AGENTS.md (truth-sync pending, audit #02)."},{"id":"gaunt","label":"Gauntlet — LAB·BAR·COURT·KKL·FunHouse","st":"o","dom":"epi","status":"ok","what":"The five-station pressure test; this explorer's 720° protocol is its skeptic-led form."},{"id":"lat","label":"Goal Lattice (ADR-023)","st":"o","dom":"epi","status":"gate","what":"Observability as a superionic goal lattice over receipts — the physics this page visualizes.","shore":["Implementation gated at 100 receipts; goal_edges overlay schema is a future ADR"]},{"id":"sent","label":"Drift Sentinel","st":"o","dom":"epi","status":"ok","what":"Was a GAP in the audit; now real as the 08:00 daily routine."},{"id":"noto","label":"NOTOMATION","st":"o","dom":"met","status":"ok","what":"Scaffold cognition, never replace revealed preference. Constitutional; enforced across manifesto, axiom, CI design, and COURT checks."},{"id":"kin","label":"12D Kinematic Manifold","st":"o","dom":"met","status":"ok","what":"Two-zone: D1–D3 derivatives + D5+ coherence operators. Code (arcs_kinematics v1.3) wins over docs."},{"id":"folk","label":"Folksonomist","st":"o","dom":"epi","status":"gate","what":"Operator that infers the weighted folksonomy DAG.","shore":["Runs on synthetic corpora only until 100R"]},{"id":"rend","label":"Render Scale","st":"o","dom":"met","status":"ok","what":"GRAIN→MOIRE→DEGRADED→SHARP→LOCKED; now also a live UI control (fidelity dial)."},{"id":"acc","label":"Accumulation Protocol","st":"o","dom":"ont","status":"true","what":"Receipts → outcomes → priors → atlas (Book II·V).","shore":["Debrief embryo only; audit move #03 closes the first loop"]},{"id":"crt2","label":"Shared Court","st":"o","dom":"ont","status":"gate","what":"Multi-party sessions, dissent records, arbitration (Book II·VI). Correctly empty."},{"id":"eng","label":"Engine Duality — prompt vs operators","st":"o","dom":"epi","status":"shore","what":"Two implementations of one physics; only the prompt ships. /svc/sage mounted, zero callers.","shore":["No eval harness — audit move #04 is the gate","Wiring before benchmark is forbidden by this map"]},{"id":"vce","label":"Vector Collision Engine","st":"o","dom":"met","status":"true","what":"Spec v1 + v2-delta exist in runtime/specs; no implementation.","shore":["Reconcile with Engine Duality before any build"]},{"id":"world","label":"WORLD.md","st":"l","dom":"lib","status":"ok","what":"The physics spec — governing law of the product world."},{"id":"b2","label":"Book II (Parts I–VI)","st":"l","dom":"lib","status":"ok","what":"Canonical: firehose→compass, ROM axioms, constitutional court, accumulation, shared court."},{"id":"canon","label":"ARCS-Canon v1.1 + v2.0","st":"l","dom":"lib","status":"ok","what":"Core canon documents."},{"id":"codex","label":"Codex v8.5","st":"l","dom":"lib","status":"ok","what":"Living operational codex."},{"id":"lite","label":"Litepaper","st":"l","dom":"lib","status":"ok","what":"Public-facing thesis."},{"id":"mani","label":"Manifesto","st":"l","dom":"lib","status":"ok","what":"Doctrine origin of NOTOMATION and offers-not-commands."},{"id":"phen","label":"Phenomenology","st":"l","dom":"lib","status":"ok","what":"First-person texture of decisions under pressure."},{"id":"yell","label":"Yellow Paper","st":"l","dom":"lib","status":"true","what":"Technical foundations.","shore":["Reconcile with shipped architecture — predates the prompt-engine reality"]},{"id":"pct","label":"Phase-Change Thesis 001","st":"l","dom":"lib","status":"true","what":"Gas→liquid→solid→superionic applied to decision quality.","shore":["Constants and thresholds informal — feeds the phase gauge on this page"]},{"id":"glos","label":"Glossary","st":"l","dom":"lib","status":"true","what":"Term registry.","shore":["Missing: zero-point, hyperstition, chi/ma/wuwei, om — the truing list of this lattice"]},{"id":"oprd","label":"orient-prd v0.1 (Kairos Lock)","st":"l","dom":"lib","status":"ok","what":"Governing authority for the DEWY pipeline issues."},{"id":"dsch","label":"dewy-receipt-schema-v1","st":"l","dom":"lib","status":"ok","what":"Machine-readable receipt truth; Prisma conforms."},{"id":"trom","label":"time-quality ROM","st":"l","dom":"lib","status":"ok","what":"W-field inference, DRIFT sentinel rules, Kairos Lock."},{"id":"lrom","label":"lattice-pressure ROM","st":"l","dom":"lib","status":"ok","what":"The three counter-forces, L7-pinned; self-tuning forbidden."},{"id":"adrs","label":"32 ADRs","st":"l","dom":"lib","status":"ok","what":"Decision receipts for the build itself."},{"id":"audit","label":"Meta-Audit v1.1 + Surface Map","st":"l","dom":"lib","status":"ok","what":"This week's recoil over the whole corpus; parent of this lattice."},{"id":"trust","label":"Trust Contract v1.1","st":"l","dom":"lib","status":"ok","what":"Public honesty surface — names every gap rather than hiding it."},{"id":"ety1","label":"kairos — καιρός","st":"m","dom":"ety","status":"ok","what":"Greek: the opportune, qualitative moment — vs chronos, quantitative time."},{"id":"ety2","label":"hyperstition — CCRU coinage","st":"m","dom":"ety","status":"ok","what":"hyper + superstition: fictions that make themselves real."},{"id":"ety3","label":"superionic — ice XVIII","st":"m","dom":"ety","status":"ok","what":"Materials science: fixed oxygen lattice, protons flowing through it."},{"id":"ety4","label":"無為 · 間 · 氣","st":"m","dom":"ety","status":"ok","what":"wúwéi (non-forcing) · ma (charged interval) · qì (vital energy)."},{"id":"ety5","label":"folksonomy — Vander Wal","st":"m","dom":"ety","status":"ok","what":"folk + taxonomy: classification that emerges from use, not decree."},{"id":"ety6","label":"NOTOMATION — portmanteau","st":"m","dom":"ety","status":"ok","what":"not + automation: the refusal that defines the product."},{"id":"ety7","label":"recoil — the shoe drops","st":"m","dom":"ety","status":"ok","what":"The backward force after firing: reading history against its own momentum."},{"id":"meta_ont","label":"ONTOLOGY — what exists","st":"g","dom":"ont","status":"true","what":"The family of what exists: receipts, tributaries, doors, standing. Absent as a first-class node until e8 — the domain of what-exists did not itself exist in the lattice (caught by Zach, 2026-07-10). Receives 31 evidentiary roads but emits almost nothing: 'what exists' is currently defined by the other families rather than defining them.","shore":["Only one quantum axiom is ontological (ax3) — author the missing ontology axioms","Give ontology out-roads: what does the entity model imply for how we know?"]},{"id":"meta_epi","label":"EPISTEMOLOGY — how we know","st":"g","dom":"epi","status":"ok","what":"Gauges, receipts-as-evidence, self-grades, eval harnesses. The only domain never silent as an evidence target across all 8 epochs — and the only healthy meta-node of the five."},{"id":"meta_met","label":"METAPHYSICS — the physics","st":"g","dom":"met","status":"true","what":"The physics of the decision world: fog, phases, superionic, time. Quiet signal: attested by documents 3:1 over measurement (24 library roads vs 8 epistemology roads in). The physics is written far more than it is measured.","shore":["F7 kairos breadcrumbs + F8 outcome loop are the rebalancing measurements"]},{"id":"meta_ety","label":"ETYMOLOGY — why these names","st":"g","dom":"ety","status":"true","what":"Where the names come from. Pure exporter: 8 roads out, 0 in — and zero pollination FROM any library doc in any epoch. ARCS imports all its names (Greek, CCRU, materials science, Chinese) and has never yet coined-and-canonized a term from its own material into this family.","shore":["Glossary backfill (F2) is the structural fix","First internal coinage candidates: DEWY, NOTOMATION, zero-point — name their origins formally"]},{"id":"meta_lib","label":"LIBRARY — where it is written","st":"g","dom":"lib","status":"true","what":"17 documents, 64 roads out — and in-degree ZERO across every document. The library examines everything and is examined by nothing: the unexamined examiner, at family scale. Three canonical books (Canon v1.1/v2.0, Codex v8.5, Phenomenology) pollinate nothing at all.","shore":["Turn the 720° second sweep on the library itself: audit the documents as objects","Decide: are canon/codex/phen under-mined sources or consolidation candidates?"]}],"edges":[["world","rec",1],["dsch","rec",2],["ygate","rec",2],["noto","rec",1],["audit","rec",8],["acc","rec",5],["selfg","rec",3],["world","sup",1],["lite","sup",5],["lat","sup",4],["ety3","sup",5],["pct","sup",5],["fog","sup",1],["mani","noto",1],["ax3","noto",1],["gaunt","noto",3],["adrs","noto",3],["ety6","noto",1],["ety1","kai",1],["world","kai",1],["trom","kai",2],["oprd","kai",2],["ety2","hyp",5],["hpipe","hyp",1],["audit","hyp",8],["om","zp",8],["ax1","zp",1],["prior","zp",8],["glos","zp",8],["audit","eng",8],["vce","eng",8],["adrs","lat",4],["lrom","lat",4],["zipf","lat",4],["folk","lat",4],["pct","lat",5],["world","inch",1],["sent","inch",8],["audit","inch",8],["b2","inch",2],["oprd","dewy",2],["dsch","dewy",2],["b2","dewy",2],["ygate","dewy",2],["ax2","dewy",1],["dsch","ygate",2],["kin","ygate",3],["world","ygate",1],["ypol","ygate",3],["oprd","atg",2],["trib3","atg",6],["audit","atg",8],["b2","gaunt",2],["audit","gaunt",8],["recoil","gaunt",7],["law","gaunt",3],["ety7","recoil",7],["cad","recoil",7],["audit","recoil",8],["world","rend",1],["ax5","rend",1],["ygate","rend",3],["alt","rend",8],["b2","acc",2],["trom","acc",2],["audit","acc",8],["b2","crt2",2],["trom","sent",2],["audit","sent",8],["drift","sent",6],["ety4","cmw",8],["audit","cmw",8],["ety5","zipf",4],["folk","zipf",4],["lat","attr",4],["audit","attr",8],["zp","attr",8],["lat","orth",4],["echo","orth",6],["gaunt","orth",8],["world","fog",1],["rend","fog",1],["pct","fog",5],["oprd","cocd",2],["b2","cocd",2],["audit","cocd",8],["mani","ax3",1],["world","ax4",1],["trom","ax4",2],["kin","law",3],["yell","law",2],["audit","man",8],["adrs","man",8],["ax1","prior",8],["audit","prior",8],["world","tn",1],["nci","tn",3],["dewy","tn",2],["trust","drift",6],["audit","drift",8],["yell","vce",2],["glos","kai",8],["glos","hyp",8],["ety2","hpipe",5],["b2","hpipe",2],["noto","l7c",4],["lrom","l7c",4],["audit","alt",8],["world","alt",1],["sepoch","inch",8],["b2","sepoch",2],["nci","selfg",6],["trust","selfg",6],["echo","kin",6],["yell","kin",2],["dewy","stak",2],["dewy","door",2],["dewy","ypol",2],["gaunt","eng",8]],"invariants":{"note":"Three grades of always-true, deliberately distinguished. TAUTOLOGY: true by construction within ARCS's own definitions — load-bearing, but carries no information about the world. CONSTITUTIONAL: normative invariant KEPT true by enforcement (could be violated; never has been; violation = constitutional breach). EMPIRICAL: has never been false across e1-e8 but is falsifiable — the only grade that constitutes evidence.","tautology":["trib3","door","sepoch","rend","orth"],"constitutional":["noto","ax1","ax2","ax3","ax5","inch","selfg"],"empirical":["rec","dewy","ygate","trust"]},"satoshi":{"note":"The receipt is ARCS's satoshi: the smallest irreducible unit of recorded decision value. The structure is fractal-recursive — the same DEWY decomposition holds at every scale, and ARCS uses ARCS to build ARCS (this audit is itself a receipt about the receipt system).","scales":["RECEIPT","SESSION","HANDOFF EPOCH","AUDIT","CORPUS"]}}
+</script>
+
+<script>
+const DATA = JSON.parse(document.getElementById('lattice-data').textContent);
+const NODES = DATA.nodes, EDGES = DATA.edges;
+const byId = {}; NODES.forEach(n => byId[n.id] = n);
+const DOMC = { ont:'#00F0FF', epi:'#00FF9D', met:'#FFD700', ety:'#c084fc', lib:'#7dd3fc' };
+const STATC = { ok:'#00FF9D', true:'#FFD700', shore:'#FF4D6D', gate:'#7dd3fc' };
+
+// ── layout: polar — domain sector × stratum ring; zero-point at absolute center ──
+const W = 2400; // world units
+const sector = {}; Object.keys(DATA.domains).forEach(d => sector[d] = DATA.domains[d].a * Math.PI/180);
+const groups = {};
+NODES.forEach(n => { const k = n.dom + n.st; (groups[k] = groups[k] || []).push(n); });
+NODES.forEach(n => {
+  if (n.id === 'zp') { n.x = 0; n.y = 0; return; }
+  const g = groups[n.dom + n.st], i = g.indexOf(n);
+  const spread = Math.min(1.15, .3 + g.length * .13);
+  const a = sector[n.dom] + (g.length === 1 ? 0 : (i/(g.length-1) - .5) * spread);
+  const r = DATA.strata[n.st].r * W/2 * (1 + ((i*2654435761)%97)/970 - .05);
+  n.x = Math.cos(a) * r; n.y = Math.sin(a) * r;
+});
+// hardness per epoch
+function hardness(n, ep) {
+  const doms = new Set();
+  EDGES.forEach(e => { if (e[1] === n.id && e[2] <= ep) doms.add(byId[e[0]].dom); });
+  return doms.size;
+}
+
+// ── camera / canvas ──
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const stage = document.getElementById('stage');
+let cam = { x: 0, y: 0, z: 0.55 }, ep = 8, sel = null;
+// fit the whole galaxy on first paint — ONTOLOGY sits at the top of the ring and
+// was falling off-viewport at a fixed default zoom (the missing 5th meta-node bug)
+let fitted = false;
+function fitView(){ if (fitted) return; fitted = true; cam.z = Math.max(Z_MIN, Math.min(stage.clientWidth, stage.clientHeight) / (W * 1.12)); syncZoom(); }
+// Resolution: canvas backing-store downsampling — real pixels, not a filter.
+// LOSSLESS additionally disables label culling: no information dropped.
+const RES_STOPS = [['8-BIT',.055],['32MB',.14],['2K',.38],['4K',.68],['8K',1],['LOSSLESS',1]];
+let RES = 1, LOSSLESS = false;
+function resize(){ fitView(); cv.width = Math.max(2, stage.clientWidth * devicePixelRatio * RES); cv.height = Math.max(2, stage.clientHeight * devicePixelRatio * RES); draw(); }
+addEventListener('resize', resize);
+const Z_MIN = .3, Z_MAX = 9;
+const LEVELS = [[.45,'GALACTIC'],[.7,'EXEC'],[1.1,'STRATEGIC'],[1.9,'OPERATIONAL'],[3.2,'TACTICAL'],[5.2,'SURGICAL'],[99,'QUANTUM']];
+function level(z){ for (const [t,l] of LEVELS) if (z < t) return l; return 'QUANTUM'; }
+
+function draw(){
+  const w = cv.width, h = cv.height, dpr = devicePixelRatio * RES;
+  ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,w,h);
+  ctx.translate(w/2, h/2); ctx.scale(cam.z*dpr, cam.z*dpr); ctx.translate(-cam.x, -cam.y);
+  const z = cam.z;
+  // stratum rings
+  ctx.lineWidth = 1/z; ctx.strokeStyle = 'rgba(30,41,59,.55)';
+  Object.values(DATA.strata).forEach(s => { if (s.r>0){ ctx.beginPath(); ctx.arc(0,0,s.r*W/2,0,7); ctx.stroke(); } });
+  // domain meta-nodes are drawn with the node pass (first-class since e8 — ontology was missing)
+  ctx.textAlign = 'center';
+  // edges
+  EDGES.forEach(e => {
+    if (e[2] > ep) return;
+    const a = byId[e[0]], b = byId[e[1]];
+    const hb = Math.min(4, hardness(b, ep));
+    ctx.strokeStyle = `rgba(0,240,255,${.06 + hb*.05})`;
+    ctx.lineWidth = (0.6 + hb*.55)/z;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+  });
+  // nodes
+  NODES.forEach(n => {
+    if (n.st === 'g') { // meta-node: hollow anchor + always-on label
+      const c = DOMC[n.dom], m = DATA.domains[n.dom];
+      ctx.strokeStyle = c; ctx.lineWidth = 2/z;
+      ctx.beginPath(); ctx.arc(n.x, n.y, 15, 0, 7); ctx.stroke();
+      if (n.status !== 'ok') { ctx.strokeStyle = 'rgba(192,132,252,.8)'; ctx.lineWidth = 1/z; ctx.beginPath(); ctx.arc(n.x, n.y, 22, 0, 7); ctx.stroke(); }
+      ctx.fillStyle = c+'dd'; ctx.font = `700 ${24/Math.max(z,.42)}px ui-monospace,monospace`;
+      ctx.fillText(m.label, n.x, n.y - 26/Math.max(z,.42));
+      ctx.fillStyle = 'rgba(100,116,139,.9)'; ctx.font = `400 ${14/Math.max(z,.42)}px ui-monospace,monospace`;
+      ctx.fillText(m.sub, n.x, n.y + 34/Math.max(z,.42));
+      if (sel === n) { ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5/z; ctx.beginPath(); ctx.arc(n.x, n.y, 30, 0, 7); ctx.stroke(); }
+      return;
+    }
+    const hd = Math.min(5, hardness(n, ep));
+    const c = STATC[n.status] || '#94a3b8';
+    const base = n.st==='q' ? 10 : n.st==='a' ? 8 : n.st==='m' ? 9 : n.st==='o' ? 11 : 10;
+    const r = base + hd*1.6;
+    if (hd <= 1) { // gas — fuzzy
+      const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*2.1);
+      g.addColorStop(0, c+'88'); g.addColorStop(1, c+'00');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(n.x,n.y,r*2.1,0,7); ctx.fill();
+    } else if (hd === 2) { // liquid — solid dot
+      ctx.fillStyle = c+'cc'; ctx.beginPath(); ctx.arc(n.x,n.y,r,0,7); ctx.fill();
+    } else { // crystal / diamond
+      const dr = r*1.35;
+      if (hd >= 4) { const g = ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,dr*2.4); g.addColorStop(0,'rgba(255,215,0,.30)'); g.addColorStop(1,'rgba(255,215,0,0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(n.x,n.y,dr*2.4,0,7); ctx.fill(); }
+      ctx.beginPath(); ctx.moveTo(n.x,n.y-dr); ctx.lineTo(n.x+dr,n.y); ctx.lineTo(n.x,n.y+dr); ctx.lineTo(n.x-dr,n.y); ctx.closePath();
+      ctx.fillStyle = hd>=4 ? '#FFD700' : c; ctx.fill();
+      ctx.strokeStyle = '#020408'; ctx.lineWidth = 2/z; ctx.stroke();
+    }
+    if (sel === n) { ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5/z; ctx.beginPath(); ctx.arc(n.x,n.y,r*2,0,7); ctx.stroke(); }
+    // labels by zoom stratum
+    const minZ = { l:.55, o:.75, m:1.5, a:2.8, q:.9 }[n.st];
+    if (LOSSLESS || z >= minZ || sel === n || hardness(n,ep) >= 4) {
+      ctx.fillStyle = 'rgba(226,232,240,.92)';
+      ctx.font = `${n.st==='q'||hd>=4?'700':'400'} ${13.5/Math.min(z,3)}px ui-monospace,monospace`;
+      ctx.fillText(n.label, n.x, n.y + r*2.1 + 14/Math.min(z,3));
+    }
+  });
+  // zero-point halo (ma — the charged empty center)
+  const g0 = ctx.createRadialGradient(0,0,0,0,0,110);
+  g0.addColorStop(0,'rgba(226,232,240,.10)'); g0.addColorStop(1,'rgba(226,232,240,0)');
+  ctx.fillStyle = g0; ctx.beginPath(); ctx.arc(0,0,110,0,7); ctx.fill();
+  hud();
+}
+function hud(){
+  const visE = EDGES.filter(e => e[2] <= ep).length;
+  const hards = NODES.map(n => hardness(n, ep));
+  const dia = hards.filter(h => h >= 4).length, mean = hards.reduce((a,b)=>a+b,0)/hards.length;
+  const flowing = EDGES.some(e => e[2] === ep);
+  const phase = mean < .8 ? ['GAS','#64748b'] : mean < 1.4 ? ['LIQUID','#7dd3fc'] : (dia >= 3 && flowing) ? ['SUPERIONIC','#00F0FF'] : ['SOLID','#94a3b8'];
+  const pel = document.getElementById('phase');
+  pel.textContent = phase[0]; pel.style.color = phase[1]; pel.style.borderColor = phase[1]+'55';
+  document.getElementById('stats').innerHTML =
+    `epoch <b>e${ep}</b> · edges <b>${visE}/${EDGES.length}</b> · mean hardness <b>${mean.toFixed(2)}</b> · diamonds <b style="color:#FFD700">${dia}</b> · level <b>${level(cam.z)}</b>`;
+  document.getElementById('zoom-lbl').textContent = level(cam.z);
+}
+
+// ── interaction ──
+let drag = null;
+stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY, cx:cam.x, cy:cam.y, moved:false }; stage.classList.add('drag'); });
+addEventListener('pointermove', e => { if (!drag) return; const dx=e.clientX-drag.x, dy=e.clientY-drag.y; if (Math.abs(dx)+Math.abs(dy)>4) drag.moved=true; cam.x = drag.cx - dx/cam.z; cam.y = drag.cy - dy/cam.z; draw(); });
+addEventListener('pointerup', e => {
+  stage.classList.remove('drag');
+  if (drag && !drag.moved) { // click select
+    const rect = cv.getBoundingClientRect();
+    const wx = (e.clientX-rect.left-rect.width/2)/cam.z + cam.x, wy = (e.clientY-rect.top-rect.height/2)/cam.z + cam.y;
+    let best=null, bd=1e9;
+    NODES.forEach(n => { const d=(n.x-wx)**2+(n.y-wy)**2; if (d<bd){bd=d;best=n;} });
+    sel = (bd < (28/Math.min(cam.z,2))**2) ? best : null;
+    openDrawer(sel); draw();
+  }
+  drag = null;
+});
+stage.addEventListener('wheel', e => { e.preventDefault(); cam.z = Math.min(Z_MAX, Math.max(Z_MIN, cam.z * Math.exp(-e.deltaY*.0012))); syncZoom(); draw(); }, { passive:false });
+const zoomEl = document.getElementById('zoom');
+function syncZoom(){ zoomEl.value = 100 * Math.log(cam.z/Z_MIN) / Math.log(Z_MAX/Z_MIN); }
+zoomEl.addEventListener('input', () => { cam.z = Z_MIN * Math.pow(Z_MAX/Z_MIN, zoomEl.value/100); draw(); });
+const resEl = document.getElementById('res'), resLbl = document.getElementById('res-lbl');
+resEl.addEventListener('input', () => {
+  const [name, f] = RES_STOPS[+resEl.value];
+  RES = f; LOSSLESS = name === 'LOSSLESS';
+  resLbl.textContent = name; resize();
+});
+const epEl = document.getElementById('epoch');
+epEl.addEventListener('input', () => { ep = +epEl.value; draw(); });
+document.getElementById('play').addEventListener('click', () => {
+  ep = 1; epEl.value = 1; draw();
+  let i = 1; const t = setInterval(() => { if (++i > 8) return clearInterval(t); ep = i; epEl.value = i; draw(); }, 700);
+});
+
+// ── drawer ──
+const drawer = document.getElementById('drawer');
+function openDrawer(n){
+  if (!n) { drawer.classList.remove('open'); return; }
+  const hd = hardness(n, ep), roads = new Set();
+  EDGES.forEach(e => { if (e[1]===n.id && e[2]<=ep) roads.add(DATA.domains[byId[e[0]].dom].label); });
+  const chips = { ok:['c-ok','FORMALIZED'], true:['c-true','NEEDS TRUING'], shore:['c-shore','NEEDS SHORING'], gate:['c-gate','GATED'] }[n.status];
+  document.getElementById('dbody').innerHTML = `
+    <span class="lbl" style="color:${DOMC[n.dom]}">${DATA.domains[n.dom].label} · ${DATA.strata[n.st].label}</span>
+    <h3>${n.label}</h3>
+    <span class="chip ${chips[0]}">${chips[1]}</span>
+    <span class="hard">${hd>=4?'◈ DIAMOND':'hardness '+hd} — ${roads.size ? [...roads].join(' + ') : 'no roads yet'}</span>
+    <p>${n.what}</p>
+    ${n.shore ? `<span class="lbl gd">Shore up / true up</span><ul class="shore">${n.shore.map(s=>`<li>${s}</li>`).join('')}</ul>` : ''}
+    <p style="font-size:.72rem;color:var(--mut)">720° state: anterior sweep = filed in meta-audit gauntlet · posterior sweep = ${hd>=4 ? 'survived — orthogonal echo confirmed' : hd + ' orthogonal road(s); diamond requires 4 across both sweeps'}.</p>`;
+  drawer.classList.add('open');
+}
+document.getElementById('dx').addEventListener('click', () => { sel=null; drawer.classList.remove('open'); draw(); });
+addEventListener('keydown', e => { if (e.key==='Escape'){ sel=null; drawer.classList.remove('open'); document.getElementById('modal').classList.remove('open'); draw(); } });
+
+// ── protocol modal + export ──
+document.getElementById('proto-btn').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+document.getElementById('mx').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+document.getElementById('dl').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([document.getElementById('lattice-data').textContent], { type:'application/json' }));
+  a.download = 'knowledge-lattice-v1.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+
+
+// ── PERFORM: epoch replay sonified — each edge a pluck (pitch = target domain),
+//    each crystallization a bass chord. Music-box logic: the data plays itself. ──
+let PAC = null, perfTimers = [];
+function pPluck(midis, when, g, dur) {
+  midis.forEach(m => {
+    const f = 440 * Math.pow(2, (m - 69) / 12);
+    const o1 = PAC.createOscillator(), o2 = PAC.createOscillator();
+    const env = PAC.createGain(), g2 = PAC.createGain();
+    o1.type = 'sine'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13;
+    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(PAC.destination);
+    const peak = .082 * g / Math.sqrt(midis.length);
+    env.gain.setValueAtTime(0, when);
+    env.gain.linearRampToValueAtTime(peak, when + .012);
+    env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.4));
+    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+  });
+}
+const DOMNOTE = { ont: 73, epi: 77, met: 80, ety: 85, lib: 68 };
+document.getElementById('perform').addEventListener('click', () => {
+  if (PAC) { perfTimers.forEach(clearTimeout); perfTimers = []; PAC.close(); PAC = null; return; }
+  PAC = new (window.AudioContext || window.webkitAudioContext)();
+  let t = PAC.currentTime + .25; const prevDia = new Set();
+  NODES.forEach(n => { if (n.st !== 'g' && hardness(n, 0) >= 4) prevDia.add(n.id); });
+  for (let e = 1; e <= 8; e++) {
+    const evs = EDGES.filter(x => x[2] === e);
+    const dwell = Math.max(1.15, evs.length * .085 + .55);
+    const te = t;
+    perfTimers.push(setTimeout(() => { ep = e; epEl.value = e; draw(); }, (te - PAC.currentTime) * 1000));
+    evs.forEach((x, i) => pPluck([DOMNOTE[byId[x[1]].dom] || 73], te + i * .085, .55, 1.1));
+    NODES.forEach(n => {
+      if (n.st !== 'g' && hardness(n, e) >= 4 && !prevDia.has(n.id)) {
+        prevDia.add(n.id);
+        pPluck([49, 56, 61], te + dwell * .6, .85, 2.4); // a diamond is born
+      }
+    });
+    t += dwell;
+  }
+  perfTimers.push(setTimeout(() => { if (PAC) { PAC.close(); PAC = null; } }, (t - PAC.currentTime + 3) * 1000));
+});
+
+syncZoom(); resize();
+</script>
