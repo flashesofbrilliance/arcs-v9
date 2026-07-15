@@ -75,6 +75,27 @@ const nextConfig: NextConfig = {
       fallback: [],
     };
   },
+  // Retired Fanatics-engagement subdomains — 301 to arcs.care rather than a bare 404.
+  // A redirect rule is evaluated per-request (unlike the static-file rewrites above,
+  // which Vercel's edge CDN can serve from a stale cache even after a new deploy)
+  // and gives anyone with an old link a graceful landing instead of a dead page.
+  async redirects() {
+    const retiredFanaticsHosts = [
+      "fanatics.arcs.care",
+      "chase-intro.arcs.care",
+      "chris.arcs.care",
+      "chris-intro.arcs.care",
+      "cj-brief.arcs.care",
+      "growth-intel.arcs.care",
+      "token.arcs.care",
+    ];
+    return retiredFanaticsHosts.map((value) => ({
+      source: "/:path*",
+      has: [{ type: "host" as const, value }],
+      destination: "https://arcs.care",
+      permanent: true,
+    }));
+  },
 };
 
 export default nextConfig;
