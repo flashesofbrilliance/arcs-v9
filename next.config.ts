@@ -17,15 +17,6 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
         { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
-        // cj-brief.arcs.care → public/cj-brief.html
-        { source: "/:path*", destination: "/cj-brief.html", has: [{ type: "host", value: "cj-brief.arcs.care" }] },
-        // chase-intro.arcs.care → public/chase-intro.html
-        { source: "/:path*", destination: "/chase-intro.html", has: [{ type: "host", value: "chase-intro.arcs.care" }] },
-        // chris.arcs.care → public/chris-intro.html (canonical); chris-intro.arcs.care kept as alias
-        { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris.arcs.care" }] },
-        { source: "/:path*", destination: "/chris-intro.html", has: [{ type: "host", value: "chris-intro.arcs.care" }] },
-        // growth-intel.arcs.care → public/growth-intel.html
-        { source: "/:path*", destination: "/growth-intel.html", has: [{ type: "host", value: "growth-intel.arcs.care" }] },
         // todd-call.arcs.care/teardown → public/todd-teardown.html
         // FIX 2026-07-13: this rule and the wildcard below previously both
         // matched `/teardown` (same host, overlapping `/:path*` source) with
@@ -61,12 +52,8 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
-        // fanatics.arcs.care → public/fanatics.html
-        { source: "/:path*", destination: "/fanatics.html", has: [{ type: "host", value: "fanatics.arcs.care" }] },
         // daniel.arcs.care → public/daniel.html (Crabtree recoil + fractional.city teardown)
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
-        // token.arcs.care → public/token.html
-        { source: "/:path*", destination: "/token.html", has: [{ type: "host", value: "token.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two
