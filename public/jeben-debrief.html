@@ -120,6 +120,29 @@
 .pw-hint{font-family:var(--mono);font-size:10px;color:var(--faint)}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @media (prefers-reduced-motion: reduce){.pw-input.shake{animation:none}}
+/* BACK-TO-LANDING TOAST — same pattern as jeben.html's call-debrief toast (and,
+   at one remove, arcs.care's EyebrowToast: sticky bar, gold mono label, dismiss).
+   This page has no nav back to the Thread Book otherwise, so it's an orphan
+   without this. */
+#toast-spacer{height:36px;flex-shrink:0}
+#call-toast{
+  position:fixed; top:0; left:0; right:0; z-index:60; height:36px;
+  background:var(--surface); border-bottom:.5px solid var(--border);
+  display:flex; align-items:center; cursor:pointer; user-select:none;
+}
+#call-toast.hidden{display:none}
+#call-toast:hover{background:var(--surface2)}
+.toast-label{
+  flex:1; display:flex; align-items:center; justify-content:center; gap:7px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold);
+}
+.toast-arrow{font-family:var(--mono); font-size:11px; color:var(--gold); opacity:.6}
+.toast-dismiss{
+  position:absolute; right:0; top:0; bottom:0; min-width:40px; padding:0 12px;
+  background:none; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+.toast-dismiss span{font-family:var(--mono); font-size:10px; color:var(--faint)}
+@media (max-width:520px){ .toast-label{font-size:9.5px; padding:0 40px} }
 </style>
 </head>
 <body>
@@ -153,7 +176,26 @@ document.getElementById('pw-input').addEventListener('keydown', function (e) {
 });
 </script>
 
+<div id="call-toast" role="banner" onclick="goToLanding()">
+  <div class="toast-label">← Back to the Louisville Brands Thread Book</div>
+  <button class="toast-dismiss" onclick="dismissToast(event)" aria-label="Dismiss"><span>✕</span></button>
+</div>
+<script>
+if (sessionStorage.getItem('jeben-debrief-toast-dismissed') === '1') {
+  document.getElementById('call-toast').classList.add('hidden');
+  document.getElementById('toast-spacer').style.height = '0';
+}
+function goToLanding() { window.location.href = '/'; }
+function dismissToast(e) {
+  e.stopPropagation();
+  sessionStorage.setItem('jeben-debrief-toast-dismissed', '1');
+  document.getElementById('call-toast').classList.add('hidden');
+  document.getElementById('toast-spacer').style.height = '0';
+}
+</script>
+
 <div class="wrap">
+<div id="toast-spacer"></div>
 
 <header>
   <p class="eyebrow">Call Debrief · Prepared for Jeben · July 15, 2026</p>
