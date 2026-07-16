@@ -1,0 +1,33 @@
+{
+  "_comment": "Fixture 'live sources' for teardown_eval.py fact-check mode. Each key is a data-src value an artifact might cite. Value is the fixture file whose text content is treated as ground truth for that source, plus is_homepage (tests the homepage-only trap) and notes.",
+  "https://fixture.test/": {
+    "file": "site/index.html",
+    "is_homepage": true,
+    "notes": "Homepage only. Deliberately does NOT contain the founder bio or the trust/safety copy - those are on /deep-page only. An artifact that claims those facts are 'on the homepage', or that cites the homepage for a deep-page-only fact, should fail fact-check."
+  },
+  "https://fixture.test/deep-page": {
+    "file": "site/deep-page.html",
+    "is_homepage": false,
+    "notes": "Subpage. Contains the founder bio and trust/safety copy. Also contains one fact ($90/mo pricing) that a fixture WebSearch summary (see websearch-summary.txt) gets WRONG ($120/mo) - tests whether the artifact trusted the live page or the unreliable secondary source."
+  },
+  "https://fixture.test/compare": {
+    "file": "site/compare.html",
+    "is_homepage": false,
+    "notes": "Comparison page claiming to beat CompetitorCo on price. CompetitorCo's real fixture price (competitor-a.html) is LOWER than fixture.test's claim implies - same shape as the real IZEA finding. Tests cross-referencing against an independent source."
+  },
+  "https://competitor-a.test/pricing": {
+    "file": "competitor-a.html",
+    "is_homepage": false,
+    "notes": "Independent third-party source for cross-referencing the /compare page's claim. Ground truth: CompetitorCo starts at $40/mo, cheaper than fixture.test implies."
+  },
+  "linkedin://bio": {
+    "file": "bio.txt",
+    "is_homepage": false,
+    "notes": "Primary-source bio. Ground truth for founder background claims - separate from and should agree with the /deep-page founder bio."
+  },
+  "websearch-summary (UNRELIABLE - should not be cited as a primary source)": {
+    "file": "websearch-summary.txt",
+    "is_homepage": false,
+    "notes": "Simulates an AI-generated WebSearch summary containing one fabricated stat ($5M+ claim, not present anywhere on the real fixture site) and one wrong number ($120/mo vs the real $90/mo on /deep-page). An artifact citing THIS as if it were a live source, or stating either of these two facts with no data-src at all, should fail."
+  }
+}
