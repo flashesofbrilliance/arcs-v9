@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>ARCS Build Observatory — Executive Edition</title>
+<title>ARCS: Day 0 to Today</title>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
@@ -17,7 +17,7 @@
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 56px 24px 80px; line-height: 1.5; }
-.page { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.page { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
 a { color: var(--cyan); }
 
 .eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
@@ -26,7 +26,7 @@ a { color: var(--cyan); }
 h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; }
 .byline { font-size: 13px; color: var(--dimmed); }
 .byline strong { color: var(--muted); font-weight: 600; }
-.lede { font-size: 15px; color: var(--muted); line-height: 1.65; max-width: 700px; }
+.lede { font-size: 15px; color: var(--muted); line-height: 1.65; max-width: 680px; }
 .lede strong { color: var(--text); font-weight: 600; }
 
 /* STAT STRIP */
@@ -66,17 +66,17 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .alt-readout strong { color: var(--cyan); }
 
 /* CADENCE CHART */
-.cadence { display: flex; align-items: flex-end; gap: 6px; height: 88px; margin-top: 14px; padding: 0 2px; }
+.cadence { display: flex; align-items: flex-end; gap: 4px; height: 88px; margin-top: 14px; padding: 0 2px; }
 .cad-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 5px; height: 100%; }
-.cad-bar { width: 100%; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--cyan), rgba(0,240,255,0.15)); min-height: 3px; position: relative; }
+.cad-bar { width: 100%; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--cyan), rgba(0,240,255,0.15)); min-height: 2px; position: relative; }
+.cad-bar.zero { background: rgba(30,41,59,0.8); }
 .cad-bar.peak { background: linear-gradient(180deg, var(--green), rgba(0,255,157,0.15)); }
-.cad-n { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); }
-.cad-w { font-family: var(--mono); font-size: 8px; color: var(--faint); letter-spacing: 0.04em; }
+.cad-n { font-family: var(--mono); font-size: 8.5px; font-weight: 700; color: var(--muted); }
+.cad-w { font-family: var(--mono); font-size: 7.5px; color: var(--faint); letter-spacing: 0.03em; }
 
-/* TIMELINE / MILESTONES */
+/* MILESTONES */
 .ms-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
-.ms { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; transition: opacity 0.2s; }
-.ms.hidden { display: none; }
+.ms { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; }
 .ms-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .ms-date { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.06em; flex-shrink: 0; }
 .ms-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
@@ -97,8 +97,6 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .learn-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
 .learn-body { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
 .learn-body strong { color: var(--text); font-weight: 600; }
-.learn-lesson { margin-top: 7px; font-size: 12px; color: var(--gold); line-height: 1.5; }
-.learn-lesson::before { content: "LESSON — "; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; }
 
 /* RISK REGISTER */
 .risk-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
@@ -113,13 +111,14 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .chip.gated { color: var(--cyan); background: rgba(0,240,255,0.07); border: 1px solid rgba(0,240,255,0.3); }
 .chip.open { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); }
 
-/* ROADMAP — NOW/NEXT/LATER LANES */
+/* ROADMAP LANES */
 .rm-lanes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
 .rm-lane { display: flex; flex-direction: column; gap: 10px; }
 .rm-lane-head { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 10px; border: 1px solid; border-radius: 6px; text-align: center; }
 .rm-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; flex: 1; }
 .rm-title { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 5px; }
 .rm-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.rm-body strong { color: var(--text); font-weight: 600; }
 
 .footer { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10.5px; color: var(--dimmed); line-height: 1.9; }
 .footer strong { color: var(--muted); }
@@ -132,6 +131,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   .echo-row { grid-template-columns: 1fr; }
   .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; transform: rotate(90deg); background: none; }
   .risk-table .hide-m { display: none; }
+  .cad-w { display: none; }
 }
 </style>
 </head>
@@ -139,67 +139,65 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS BUILD OBSERVATORY · EXECUTIVE EDITION · PREPARED FOR PROPHET</div>
-  <h1>60 days of real telemetry. Zoom from boardroom to commit.</h1>
-  <div class="byline">by <strong>Zach Harris</strong> · Builder / Applied AI Engineer, Forward Deployed · July 2026</div>
+  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS BUILD RECORD · PREPARED FOR PROPHET</div>
+  <h1>Day 0: one empty commit.<br>Day 98: a live product that grades itself.</h1>
+  <div class="byline">by <strong>Zach Harris</strong> · Builder / Applied AI Engineer · July 2026</div>
   <div class="lede">
-    This is not a slide deck — it's the actual production history of <strong>ARCS</strong>, a decision-intelligence
-    platform built solo and shipped live, rendered from the repo's own git telemetry. Every number below is
-    measured, every milestone links to real commits. Use the <strong>altitude dial</strong> to move from an
-    executive read down to the surgical layer — the same explorer discipline I'd bring to MAIA's evaluation,
-    observability, and delivery telemetry.
+    This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built alone and
+    run in production. Every number on this page comes from the repository itself. Every milestone links to
+    real commits. The dial below lets you read the story at whatever depth you want: the one page version,
+    or all the way down to the code.
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="stat-val accent">856</div><div class="stat-label">Commits · trailing 60 days</div></div>
-    <div class="stat"><div class="stat-val">148K</div><div class="stat-label">Lines added · 519 files touched</div></div>
-    <div class="stat"><div class="stat-val">277</div><div class="stat-label">Peak week · sustained 8-wk cadence</div></div>
-    <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">Production · app.arcs.care</div></div>
+    <div class="stat"><div class="stat-val accent">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
+    <div class="stat"><div class="stat-val">98</div><div class="stat-label">Days · first commit to now</div></div>
+    <div class="stat"><div class="stat-val">157K</div><div class="stat-label">Lines written · 528 files</div></div>
+    <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
 
   <!-- 01 ECHO MAP -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">01</div>
-      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">ECHO MAP — ARCS ↔ MAIA</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">WHERE ARCS AND MAIA MEET</div>
     </div>
-    <div class="section-title">Two systems, independently converging on the same physics.</div>
+    <div class="section-title">Two teams found the same answers without talking to each other.</div>
     <div class="section-body">
-      In my conversation with Mike, the strongest moments weren't me pitching — they were Mike describing
-      MAIA's trajectory and, without either of us steering there, landing on the exact structural ideas ARCS
-      is built on. That kind of independent convergence is the signal I'd trust most in your seat: it means the
-      isomorphisms below aren't analogies, they're the same problem discovered twice.
+      The best moments in my conversation with Mike were not me pitching. They were Mike describing where
+      MAIA is going, and landing on the same core ideas ARCS is built on. When two systems arrive at the
+      same answers independently, that is stronger evidence than any pitch.
     </div>
     <div class="echo-rows">
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · BY DEFINITION</div><div class="echo-text"><strong>Augmented Intelligence, not artificial replacement</strong> — an assistant that amplifies human insight, extending creativity, judgment, and expertise rather than substituting for them.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, BY DEFINITION</div><div class="echo-text"><strong>It amplifies human judgment instead of replacing it.</strong> That is the first line of what MAIA is.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · CONSTITUTIONAL LAW #1</div><div class="echo-text">The first, never-violate primitive in ARCS's governing spec: <strong>scaffold and sequence cognition only — never compress, replace, or overrule the human's revealed preference</strong>. The compass tells you where you are and which direction is uphill; it does not decide for you.</div></div>
-        <div class="echo-why"><strong>Why it matters</strong>Most platforms bolt this stance on after an incident forces it. Both systems chose it as the founding constraint — which means it's enforceable in architecture (release gates, render rules) instead of living in a policy doc. That's a trust story a consultancy can sell, and the deepest culture-fit signal on this page.</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, RULE #1</div><div class="echo-text"><strong>The system never decides for you.</strong> It shows you where you stand and what your options cost. The human always makes the call. This is the first rule in the product's written constitution.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Most companies adopt this stance after an incident forces them to. Both of us made it the founding rule, which means it is enforced in the code, not just written in a policy. That is a trust story you can show a client, not just tell them.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · IN MIKE'S FRAMING</div><div class="echo-text">Disparate parts of the business — a campaign tool, a brand-strategy tool — turn out to <strong>share underlying interaction patterns</strong>, and once a pattern is found it gets repurposed across offers.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, IN MIKE'S WORDS</div><div class="echo-text">Different offers, like a campaign tool and a brand strategy tool, turn out to <strong>share the same underlying patterns</strong>. Once a pattern is found, it gets reused across offers.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · BUILT-IN</div><div class="echo-text">Cross-domain pattern surfacing is a <strong>constitutional primitive</strong> in ARCS (the Orthogonal Echo Detector) — the system is architected to hunt for exactly those reusable isomorphisms, not stumble on them.</div></div>
-        <div class="echo-why"><strong>Why it matters</strong>Pattern reuse is the margin story of productized consulting — every discovered isomorphism turns a bespoke engagement into a repeatable offer. MAIA is finding these by experience; a platform can find them by design.</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, ON PURPOSE</div><div class="echo-text">ARCS is <strong>built to hunt for the same pattern showing up in different domains</strong>, rather than stumbling on it. Pattern reuse is a feature, not a lucky find.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Every reused pattern turns custom work into a product. That is the margin story for a consultancy. MAIA is finding these patterns by experience. A platform can find them by design.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · IN MIKE'S FRAMING</div><div class="echo-text">The push from <strong>chat to web-apps-with-agents underneath</strong> — commercializable surfaces on one secure hub, piloted with clients at a demo-in-two-weeks cadence, letting the market show where demand is.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PUSH</div><div class="echo-text">Moving from chat to <strong>real apps with agents underneath</strong>, piloted with clients fast, letting the market show where the demand is.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · SHIPPED</div><div class="echo-text">One engine, many surfaces: the same receipt pipeline powers the compass app, generated briefs, and <strong>client-facing artifact pages stood up as subdomains in hours</strong> — 14+ shipped in the 60-day window below.</div></div>
-        <div class="echo-why"><strong>Why it matters</strong>Velocity-to-test-demand is the revenue question for the Foundry this year. The build timeline below is a measured proof of that exact motion: portfolio of small bets, market feedback, double down.</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, ALREADY SHIPPED</div><div class="echo-text">One engine, many surfaces. The same pipeline powers the main app, generated briefs, and <strong>14+ client-facing pages, each stood up in hours</strong> during the window below.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Speed to test demand is the Foundry's revenue question this year. The timeline below is measured proof of that exact motion: many small bets, fast market feedback, double down on what works.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · THE MANDATE</div><div class="echo-text"><strong>Trusted AI for real consulting work</strong> — evaluation, hallucination risk, reliability, and release criteria for probabilistic systems, defined before and after launch.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE MANDATE</div><div class="echo-text"><strong>AI trustworthy enough for real client work.</strong> Testing for accuracy, made-up answers, and reliability, before and after launch.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · LOAD-BEARING</div><div class="echo-text">Every output carries a <strong>Y-gate confidence state, and the UI renders at earned fidelity</strong> — the interface literally cannot present low-confidence output as a clean answer. Evaluation isn't a QA step; it's the render pipeline.</div></div>
-        <div class="echo-why"><strong>Why it matters</strong>Client trust is Prophet's actual product. An AI surface that visibly refuses to over-claim is a differentiator a consultancy can sell — and an internal culture artifact engineers can build against.</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, LOAD-BEARING</div><div class="echo-text">Every answer carries a <strong>confidence gate, and the screen cannot show more certainty than the data earned</strong>. A shaky answer literally renders blurry. Quality control is the display layer, not a QA step.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Client trust is Prophet's actual product. An AI screen that visibly refuses to oversell itself is something a consultancy can demo, and something engineers can build against.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · THE PM PROBLEM</div><div class="echo-text">Fielding a <strong>firehose of requests, ideas, and backlog additions</strong> against ever-shifting resources — partners, contractors, interns, engineering in multiple time zones — and reconciling it with CoE strategy.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PM PROBLEM</div><div class="echo-text">A <strong>firehose of requests and ideas</strong> against ever-shifting resources: partners, contractors, interns, engineers in multiple time zones.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · GOVERNANCE LEDGER</div><div class="echo-text"><strong>272 Architecture Decision Records</strong> — every material yes, no, and not-yet has a written receipt with the rejected alternatives and the trigger to revisit. Ambiguity is managed on paper, not held in one person's head.</div></div>
-        <div class="echo-why"><strong>Why it matters</strong>The Foundry's decision volume will outgrow any individual's memory. A receipt discipline is how prioritization survives leadership review, staff turnover, and the CDO asking "why did we choose this?" six months later.</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, THE LEDGER</div><div class="echo-text"><strong>272 written decision records.</strong> Every meaningful yes, no, and not-yet has a short document saying what was chosen, what was rejected, and what would reopen it.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Decision volume will outgrow anyone's memory. Written receipts are how prioritization survives turnover, leadership review, and the question "why did we choose this?" six months later.</div>
       </div>
     </div>
   </div>
@@ -208,67 +206,61 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <div class="section">
     <div class="section-head">
       <div class="section-n">02</div>
-      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">BUILD EXPLORER — 60-DAY TELEMETRY</div>
+      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">THE BUILD, DAY 0 TO TODAY</div>
     </div>
-    <div class="section-title">The repo, at your altitude.</div>
+    <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
-      856 commits, May 17 → July 16. Pick an altitude: <strong>Executive</strong> shows only the moves that changed
-      the business; each level down widens the aperture and sharpens the fidelity, until <strong>Surgical</strong>
-      links every milestone to its actual commits in the public repo. (Keys 1–5 work too.)
+      <strong>The one page read</strong> shows 7 milestones, one plain sentence each. Each level down adds
+      more events and more detail, until <strong>Commits</strong> links every milestone to the actual code
+      in the public repo. Keys 1 to 5 work too.
     </div>
 
     <div class="cadence" id="cadence"></div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK · W22–W29 2026 · GREEN = PEAK (170-FILE PLATFORM MERGE WEEK)</div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GRAY = QUIET WEEKS · GREEN = PEAK</div>
 
     <div class="alt-bar" id="altbar">
-      <button class="alt-btn active" data-alt="0">Executive<span class="k">1 · what changed for the business</span></button>
-      <button class="alt-btn" data-alt="1">Strategic<span class="k">2 · why this direction</span></button>
-      <button class="alt-btn" data-alt="2">Operational<span class="k">3 · how the machine ran</span></button>
-      <button class="alt-btn" data-alt="3">Tactical<span class="k">4 · the moves in the trenches</span></button>
-      <button class="alt-btn" data-alt="4">Surgical<span class="k">5 · the commits themselves</span></button>
+      <button class="alt-btn active" data-alt="0">One Page<span class="k">1 · what changed</span></button>
+      <button class="alt-btn" data-alt="1">Direction<span class="k">2 · why this path</span></button>
+      <button class="alt-btn" data-alt="2">Process<span class="k">3 · how it ran</span></button>
+      <button class="alt-btn" data-alt="3">Detail<span class="k">4 · the moves</span></button>
+      <button class="alt-btn" data-alt="4">Commits<span class="k">5 · the code itself</span></button>
       <div class="alt-readout" id="readout"></div>
     </div>
 
     <div class="ms-list" id="mslist"></div>
   </div>
 
-  <!-- 03 KEY LEARNINGS -->
+  <!-- 03 LESSONS -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">03</div>
-      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">KEY LEARNINGS — PIVOTS &amp; CORRECTIONS</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">SIX LESSONS THE BUILD PAID FOR</div>
     </div>
-    <div class="section-title">The build is honest about where it was wrong.</div>
+    <div class="section-title">Where I was wrong, and what changed because of it.</div>
     <div class="learn-rows">
       <div class="learn">
-        <div class="learn-title">Paying down false-claim debt</div>
-        <div class="learn-body">A self-audit found the project's own written rules had <strong>zero real enforcement</strong> — including a "no Tailwind" rule violated since day one by scaffold remnants sitting in the build. Response: remove the dead framework, align docs and CI to reality, then institutionalize it — findings now close only via an enforcement mechanism or a dated, signed waiver in a CI-gated ledger.</div>
-        <div class="learn-lesson">Rules without enforcement are decoration. Audit the gap, then make the gap impossible.</div>
+        <div class="learn-title">Rules without enforcement are decoration.</div>
+        <div class="learn-body">An audit of my own project found that none of its written engineering rules were actually enforced. One rule had been violated since day one. The fix: align the checks with the rules, then make it structural. Now a finding can only be closed by a working enforcement mechanism or a signed, dated exception.</div>
       </div>
       <div class="learn">
-        <div class="learn-title">Security theater vs. real isolation</div>
-        <div class="learn-body">The textbook Postgres row-level-security pattern would have <strong>passed any checklist review and protected nothing</strong> — the ORM connects as a superuser that bypasses row policies entirely. Chose deny-all policies plus app-layer isolation instead, and wrote down exactly why the "correct-looking" option was rejected.</div>
-        <div class="learn-lesson">Security posture must match the actual connection topology, not the reference architecture diagram.</div>
+        <div class="learn-title">The textbook security setup would have protected nothing.</div>
+        <div class="learn-body">The standard database permission pattern looks right in review, but in this system the app connects with an account that bypasses those permissions entirely. I chose a stricter setup that actually holds, and wrote down exactly why the "correct looking" option was rejected.</div>
       </div>
       <div class="learn">
-        <div class="learn-title">Trust means no silent writes</div>
-        <div class="learn-body">Anonymous visitors' compass runs were being persisted without an account — legal-ish, but off-covenant. Shipped the <strong>subtraction first</strong> (cut the anonymous write path entirely), then rebuilt saving as an explicit opt-in, and versioned the public trust contract to match.</div>
-        <div class="learn-lesson">When behavior and stated values diverge, ship the deletion before the feature.</div>
+        <div class="learn-title">When behavior and promises drift apart, delete first.</div>
+        <div class="learn-body">Visitors without accounts were having their data saved quietly. Legal, but not what the product promised. I removed the saving entirely first, then rebuilt it as an explicit opt-in, and updated the public trust page to match.</div>
       </div>
       <div class="learn">
-        <div class="learn-title">Red-team the architecture doc, not just the code</div>
-        <div class="learn-body">The observability architecture (an inferred goal-lattice over decision receipts) went through an <strong>independent adversarial review before acceptance — which corrected four over-claims</strong> in the design doc, including a theorem that didn't exist. The corrected version shipped; the flattering version didn't.</div>
-        <div class="learn-lesson">Design documents hallucinate too. Evaluation discipline applies to prose.</div>
+        <div class="learn-title">Design documents can make things up too.</div>
+        <div class="learn-body">A major architecture proposal went through an independent challenge review before being accepted. The review caught four overclaims, including a cited theorem that does not exist. The corrected version shipped. The flattering version did not.</div>
       </div>
       <div class="learn">
-        <div class="learn-title">Aborting a migration is a decision, not a failure</div>
-        <div class="learn-body">A typed-config migration was deliberately <strong>halted mid-flight</strong> when it emerged that merging would silently drop production cron and service routes added concurrently on main. The abort, the reason, and the resume conditions were written down instead of forcing the merge.</div>
-        <div class="learn-lesson">Velocity includes knowing when not to merge. An aborted change with a receipt beats a shipped regression.</div>
+        <div class="learn-title">Stopping a change is a decision, not a failure.</div>
+        <div class="learn-body">A config migration was halted midway when it became clear that finishing it would silently drop live production settings added by parallel work. The stop, the reason, and the conditions to resume were all written down. No forced merge, no regression.</div>
       </div>
       <div class="learn">
-        <div class="learn-title">Verify live, not from memory</div>
-        <div class="learn-body">Documentation claimed two domains were served by two different codebases; a live infrastructure check proved <strong>both had silently consolidated onto one deployment</strong>. Now a standing protocol: any claim about what production is doing gets re-verified against the platform API before anyone relies on it.</div>
-        <div class="learn-lesson">Docs record the past. Production is the only source of truth about production.</div>
+        <div class="learn-title">Documents record the past. Production is the truth.</div>
+        <div class="learn-body">My own notes claimed two domains ran on two different codebases. A live check showed they had quietly merged onto one. New standing rule: any claim about what production is doing gets verified against production before anyone acts on it.</div>
       </div>
     </div>
   </div>
@@ -277,47 +269,47 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <div class="section">
     <div class="section-head">
       <div class="section-n">04</div>
-      <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER — CURRENT &amp; HONEST</div>
+      <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER, CURRENT AND HONEST</div>
     </div>
-    <div class="section-title">What I'd tell a board about this system today.</div>
+    <div class="section-title">What I would tell a board about this system today.</div>
     <table class="risk-table">
       <thead><tr><th>Risk</th><th class="hide-m">Mitigation</th><th>Sev</th><th>Status</th></tr></thead>
       <tbody>
         <tr>
-          <td><strong>Bus factor = 1.</strong> Single builder holds all context.</td>
-          <td class="hide-m">Everything-as-receipt: 856 stamped commits, 272 ADRs, versioned handoff chain, cold-start docs — built so a team can pick it up without me in the room.</td>
+          <td><strong>One person holds all the context.</strong></td>
+          <td class="hide-m">Everything is written down as it happens: 859 annotated commits, 272 decision records, versioned handoff notes. Built so a team could take over without me in the room.</td>
           <td><span class="chip high">HIGH</span></td>
           <td><span class="chip mit">MITIGATED BY DESIGN</span></td>
         </tr>
         <tr>
-          <td><strong>Eval corpus below statistical threshold.</strong> Advanced layers (Kairos timing, goal lattice, L6–L7) need 100+ real receipts to calibrate against.</td>
-          <td class="hide-m">Explicitly gated — machinery is built and tested, activation is blocked on evidence volume rather than shipped on vibes.</td>
+          <td><strong>Not enough real usage data yet</strong> to switch on the most advanced features responsibly.</td>
+          <td class="hide-m">Those features are built and tested but deliberately switched off until enough real data exists to measure them against. No feature ships on faith.</td>
           <td><span class="chip med">MED</span></td>
-          <td><span class="chip gated">GATED — DELIBERATE</span></td>
+          <td><span class="chip gated">GATED, ON PURPOSE</span></td>
         </tr>
         <tr>
-          <td><strong>Single model-provider dependency</strong> on the hot inference path.</td>
-          <td class="hide-m">Model-agnostic operators layer (16.6K LOC, pure Python, zero framework lock-in) implements the same decision logic independent of any vendor; prompt contracts are isolated at one seam.</td>
+          <td><strong>The core AI runs on a single vendor.</strong></td>
+          <td class="hide-m">The full decision engine also exists as a standalone, vendor-free implementation (16.6K lines of plain Python). The vendor connection sits behind one seam and can be swapped.</td>
           <td><span class="chip med">MED</span></td>
-          <td><span class="chip open">OPEN — HEDGE BUILT</span></td>
+          <td><span class="chip open">OPEN, HEDGE BUILT</span></td>
         </tr>
         <tr>
-          <td><strong>Prose-rule enforcement gap.</strong> Written standards drifted from CI reality (found by self-audit).</td>
-          <td class="hide-m">Enforcement-parity ledger: every audit finding closes via mechanism or dated waiver, CI-gated. The audit that found the gap is now itself enforced.</td>
+          <td><strong>Written standards drifted from what the checks enforced.</strong></td>
+          <td class="hide-m">Found by self-audit, then fixed structurally: every audit finding now closes through a real enforcement mechanism or a dated exception. The gap cannot silently reopen.</td>
           <td><span class="chip med">MED</span></td>
           <td><span class="chip mit">MITIGATED</span></td>
         </tr>
         <tr>
-          <td><strong>Scoring subjectivity.</strong> The coherence index (NCI) is self-graded pending outcome-anchored calibration.</td>
-          <td class="hide-m">Every score is logged with its receipt, so the calibration set accumulates automatically; closed-loop outcome tracking (shipped this window) is the correction signal.</td>
+          <td><strong>The quality score is still self-graded</strong> until enough outcomes accumulate to calibrate it.</td>
+          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped this week is the correction signal.</td>
           <td><span class="chip low">LOW</span></td>
-          <td><span class="chip gated">GATED ON CORPUS</span></td>
+          <td><span class="chip gated">GATED ON DATA</span></td>
         </tr>
         <tr>
-          <td><strong>Manually-set production secret</strong> outside integration management (rotation debt).</td>
-          <td class="hide-m">Known, documented in the ADR that created it, rotation procedure written, calendared.</td>
+          <td><strong>One production credential was set by hand</strong> and needs scheduled rotation.</td>
+          <td class="hide-m">Known, documented in the decision record that created it, rotation procedure written and calendared.</td>
           <td><span class="chip low">LOW</span></td>
-          <td><span class="chip open">OPEN — SCHEDULED</span></td>
+          <td><span class="chip open">OPEN, SCHEDULED</span></td>
         </tr>
       </tbody>
     </table>
@@ -327,188 +319,220 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <div class="section">
     <div class="section-head">
       <div class="section-n">05</div>
-      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP — NOW · NEXT · LATER</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP: NOW, NEXT, LATER</div>
     </div>
-    <div class="section-title">One backlog, three horizons — each promotion gated on evidence, not enthusiasm.</div>
+    <div class="section-title">One backlog, three horizons. Nothing moves up on enthusiasm alone.</div>
     <div class="section-body">
-      Items move right-to-left only when their gate condition is met. "Later" isn't a euphemism for
-      "someday" — every item has a named trigger that promotes it.
+      Every "later" item has a named condition that promotes it. When the condition is met, it moves. Until then, it waits.
     </div>
     <div class="rm-lanes">
       <div class="rm-lane">
-        <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW — IN PRODUCTION THIS CYCLE</div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CLOSED-LOOP OUTCOME TELEMETRY</div><div class="rm-body">Shipped this week: autonomous expected-vs-actual scoring on real events, written back to the auditable ledger. The evaluation flywheel is turning.</div></div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION CORPUS</div><div class="rm-body">Every receipt + scored outcome accumulates the baseline that the gated layers below are waiting on — the corpus builds itself as a side effect of normal use.</div></div>
+        <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW · IN PRODUCTION</div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped this week. The system now checks its own predictions against what actually happened, automatically, and writes the result to an audit trail.</div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome accumulates the evidence base the gated features below are waiting for. It builds itself through normal use.</div></div>
       </div>
       <div class="rm-lane">
-        <div class="rm-lane-head" style="color:var(--gold);border-color:rgba(255,215,0,0.3);">NEXT — UNBLOCKED &amp; SEQUENCED</div>
-        <div class="rm-card"><div class="rm-title">ATG (TRIBUTARIES)</div><div class="rm-body">Every response surfaces 2–4 adjacent threads: the meta-question beneath the stated one, an uncomfortable constraint, a cross-domain reframe.</div></div>
-        <div class="rm-card"><div class="rm-title">KAIROS DETECTION</div><div class="rm-body">Timing/window inference — machinery already built in the operators library. <strong>Gate: receipt-volume threshold.</strong></div></div>
+        <div class="rm-lane-head" style="color:var(--gold);border-color:rgba(255,215,0,0.3);">NEXT · UNBLOCKED</div>
+        <div class="rm-card"><div class="rm-title">ADJACENT QUESTIONS</div><div class="rm-body">Every answer will surface 2 to 4 threads worth pulling: the deeper question underneath, an uncomfortable constraint, a reframe from another field.</div></div>
+        <div class="rm-card"><div class="rm-title">TIMING DETECTION</div><div class="rm-body">Spotting when a decision's window is opening or closing. Machinery already built. <strong>Turns on at a set volume of real decisions.</strong></div></div>
       </div>
       <div class="rm-lane">
-        <div class="rm-lane-head" style="color:var(--steel);border-color:rgba(125,211,252,0.3);">LATER — EVIDENCE-GATED</div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--steel);">L6–L7 ENGINE</div><div class="rm-body">Ecosystem and meta-governance layers above the shipped L0–L5 stack. <strong>Gate: real-corpus volume justifies the complexity.</strong></div></div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--steel);">OBSERVABILITY LATTICE</div><div class="rm-body">The inferred-goal-DAG graduates from replay demo to live self-updating structure. <strong>Gate: measurable Zipf baseline at 100+ receipts.</strong></div></div>
+        <div class="rm-lane-head" style="color:var(--steel);border-color:rgba(125,211,252,0.3);">LATER · EVIDENCE-GATED</div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--steel);">TEAM AND ORG LAYERS</div><div class="rm-body">Extending the engine from one person's decisions to a team's, then an organization's. <strong>Turns on when the data volume justifies the complexity.</strong></div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--steel);">LIVE GOAL MAP</div><div class="rm-body">A self-updating map of what the work is actually driving toward, inferred from decisions rather than declared in a deck. <strong>Turns on at 100+ recorded decisions.</strong></div></div>
       </div>
     </div>
   </div>
 
   <div class="footer">
     <div><strong>Built by</strong> Zach Harris · zach.harris@gmail.com · 203-807-2976</div>
-    <div><strong>Telemetry source</strong> — git history, <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener">github.com/flashesofbrilliance/arcs-v9</a> (public) · numbers measured 2026-07-16</div>
-    <div><strong>Live product</strong> — <a href="https://app.arcs.care" target="_blank" rel="noopener">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank" rel="noopener">trust contract</a></div>
+    <div><strong>Source of every number</strong>: git history, <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener">github.com/flashesofbrilliance/arcs-v9</a> (public), measured 2026-07-16</div>
+    <div><strong>Live product</strong>: <a href="https://app.arcs.care" target="_blank" rel="noopener">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank" rel="noopener">trust contract</a></div>
   </div>
 
 </div>
 
 <script>
-// ── Real weekly commit cadence, W22–W29 2026 (git log --since=2026-05-17, main) ──
+// Real weekly commit counts, full history (git log, main branch, measured 2026-07-16)
 var CADENCE = [
-  { w: "W22", n: 84 }, { w: "W23", n: 67 }, { w: "W24", n: 48 }, { w: "W25", n: 90 },
-  { w: "W26", n: 70 }, { w: "W27", n: 277 }, { w: "W28", n: 123 }, { w: "W29", n: 95 }
+  { w: "APR", n: 1 }, { w: "", n: 0 }, { w: "", n: 0 }, { w: "", n: 0 }, { w: "", n: 0 }, { w: "", n: 0 },
+  { w: "MAY", n: 2 }, { w: "", n: 84 }, { w: "", n: 67 }, { w: "JUN", n: 48 }, { w: "", n: 90 },
+  { w: "", n: 70 }, { w: "JUL", n: 277 }, { w: "", n: 123 }, { w: "NOW", n: 97 }
 ];
 
-// ── Milestones. rank 1 = executive-visible, 2 = +strategic, 3 = +operational and below.
-// alt: [executive, strategic, operational, tactical] narratives; commits shown at surgical.
+// Milestones, Day 0 to today. rank 1 shows on the one-page read; 2 and 3 appear as you go deeper.
+// alt: [one-page, direction, process, detail] narratives; commits shown at the deepest level.
 var GH = "https://github.com/flashesofbrilliance/arcs-v9/commit/";
 var MILESTONES = [
   {
-    date: "MAY 26", title: "Foundation locked — schema-first receipt spine", rank: 1,
+    date: "DAY 0 · APR 9", title: "One commit. An empty scaffold.", rank: 1,
     alt: [
-      "The core product contract — what a decision receipt <strong>is</strong> — was pinned as a machine-readable schema before any UI existed. Everything since builds on that spine, which is why 60 days of velocity never required a rework.",
-      "Deliberate sequencing bet: define the receipt schema (the DEWY state vector) and the Y-gate confidence model first, so every later surface — app, briefs, client artifacts — consumes one canonical contract instead of inventing its own.",
-      "JSON Schema (Draft 07) authored as source of truth; Prisma data model conformed to the schema rather than the reverse. Y-gate enums aligned across engine, database, and UI in the same pass. A time-quality ROM pinned how window-inference confidence degrades.",
-      "Three files carried the day: the receipt schema, the Y-gate rewrite to canonical polarity×conviction×stability enums, and a 5-verb analysis CLI that made the pipeline decomposable and testable from the terminal before the web app matured."
+      "The starting line: a blank app skeleton. No product, no data, no users.",
+      "The stack was chosen for boredom on purpose: proven web framework, proven database, simple email login. Every interesting risk in this project lives in the product logic, so everything under it had to be unexciting.",
+      "One commit: Next.js 16, Prisma 7, magic-link auth wired but empty. Then the repo went quiet for five weeks while the design work happened on paper.",
+      "The five quiet weeks were the specification period: the decision-receipt concept, the confidence-gate model, and the product's written constitution were drafted before the second commit ever landed. Code came second on purpose."
     ],
     commits: [
-      { sha: "61095c5", msg: "refactor(ygate): align Y-gate enums to canonical DEWY schema [NCI:82]" },
-      { sha: "38aa0f6", msg: "feat(spec): Time Quality Attribution ROM v0.1.0 [NCI:84]" },
-      { sha: "e66d4de", msg: "feat(data-science): arcs_cli.py — 5-verb pipeline + apex spine receipt [NCI:81]" }
+      { sha: "471d573", msg: "Day 1 scaffold: Next.js 16 + Prisma 7 + Auth.js v5 magic link" }
     ]
   },
   {
-    date: "MAY 26", title: "Constitutional canon ratified", rank: 2,
+    date: "DAY 39 · MAY 18", title: "Ignition. The whole working core lands at once.", rank: 1,
+    alt: [
+      "After five quiet weeks of design, the full working core arrived in one push: ask a question, get a scored answer, keep the receipt.",
+      "The bet was to build the spine end to end before polishing any single part. A thin, complete loop beats a deep, half-connected one, because a complete loop can be tested against reality immediately.",
+      "One commit carried the compass (ask), the brief (read), history, prep, the confidence gate, and follow-up threads. A full operating handbook for the repo landed the same day, so any future contributor, human or AI, starts oriented.",
+      "The handbook is written for AI collaborators as much as humans: what the system is, what must never be violated, and where each piece lives. That document is why 800+ commits later the architecture still matches its description."
+    ],
+    commits: [
+      { sha: "a61d492", msg: "feat(v9): full pipeline: compass, brief, guide, history, prep, confidence gate" },
+      { sha: "752739d", msg: "docs(agents): full agent and devops handbook" }
+    ]
+  },
+  {
+    date: "DAY 47 · MAY 26", title: "The data contract gets locked.", rank: 2,
     alt: [
       "",
-      "Before scaling features, the governance layer the product answers to — six canonical chapters covering core axioms, a constitutional court for high-stakes decisions, and a multi-party deliberation model — was drafted, adversarially audited (21 findings applied), and ratified.",
-      "Parts V–VI went through a full upstream audit cycle: 21 findings, all must-fix items applied, then ratification. Key locks: quorum = unanimity of being bound (not agreement); standing is non-transferable; drift categories are positional, not numeric.",
-      "The audit protocol itself became reusable: section-keyed, sentence-anchored annotations, with consistency and canon-collision weighted above implementation gaps for forward-spec documents."
+      "Before scaling anything, the exact shape of a decision receipt was pinned down as a machine-readable contract. The database conforms to the contract, not the other way around. That single choice is why two months of speed never required a rework.",
+      "The receipt format was written as a formal schema. The confidence gate's states were aligned across the engine, the database, and the screen in one pass, so all three always speak the same language.",
+      "Alongside the schema, a small command-line tool made the whole analysis pipeline runnable and testable from a terminal, so the engine could be exercised and debugged without touching the web app at all."
     ],
     commits: [
-      { sha: "b6e59e4", msg: "feat(canon): promote Book II Parts V & VI to CANONICAL v1.0.0" }
+      { sha: "61095c5", msg: "refactor: align confidence-gate states to the canonical schema" },
+      { sha: "38aa0f6", msg: "feat(spec): time and window confidence rules, v0.1.0" },
+      { sha: "e66d4de", msg: "feat: command-line pipeline for the analysis engine" }
     ]
   },
   {
-    date: "MAY 27–28", title: "Production in 48 hours — deploy, harden, migrate", rank: 1,
-    alt: [
-      "From local prototype to a hardened production deployment in two days — including a breaking-change database migration and a security posture decision that rejected the textbook answer for the one that actually protects users.",
-      "The deploy surfaced a real fork: the ORM's new major version broke the standard connection pattern mid-deploy. Resolved via the adapter pattern, then locked row-level security as deny-all + app-layer isolation — with the reasoning for rejecting the 'correct-looking' alternative written into the decision record.",
-      "Prisma 7 removed schema-level connection URLs; fixed via the PrismaPg adapter. Schema bootstrapped to Supabase, baseline migration registered, RLS deny-all applied to all 9 tables. Two ADRs amended the same day to record where actual execution diverged from the plan.",
-      "Execution divergences were logged as first-class data: env vars set manually instead of via integration (rotation risk documented), DDL applied via MCP instead of db push (root cause of the direct-connection failure noted, workaround standardized). The plan and the as-built are both on file."
-    ],
-    commits: [
-      { sha: "11ba2fc", msg: "fix(db): Prisma 7 adapter pattern — url via PrismaPg, not schema.prisma" },
-      { sha: "5262c1a", msg: "chore(migrations): baseline migration 0_init — DEWY schema applied to Supabase" },
-      { sha: "9970c3f", msg: "feat(security): RLS deny-all policies for all 9 Supabase tables [NCI:88]" }
-    ]
-  },
-  {
-    date: "MAY 27", title: "Design system bootstrap", rank: 3,
+    date: "DAY 47 · MAY 26", title: "The rulebook gets ratified.", rank: 3,
     alt: [
       "",
       "",
-      "Canonical token palette + first components (Badge, Button, Card) with an explicit import-strategy decision (no barrel files, revisit trigger at ≥8 components) — small, but it made every later surface visually coherent for free.",
-      "Tokens extracted from the app's actual colors rather than aspirational ones; three registers (cockpit/governance/light) defined up front so client-facing and internal surfaces could diverge in tone without diverging in system."
+      "The product's written constitution, six chapters covering what the system may and may never do, was drafted, sent through an independent audit that raised 21 findings, corrected, and only then ratified.",
+      "The audit protocol itself became a reusable asset: findings are keyed to specific sections and sentences, and consistency problems outrank missing features when reviewing a design document."
     ],
     commits: [
-      { sha: "924fd10", msg: "feat(ui): canonical tokens.ts + Badge — design system bootstrap [NCI:79]" }
+      { sha: "b6e59e4", msg: "feat(canon): rulebook chapters V and VI ratified at v1.0.0" }
     ]
   },
   {
-    date: "JUN 5", title: "Architecture red-teamed before acceptance", rank: 1,
+    date: "DAY 48-49 · MAY 27-28", title: "Live in production, ten days after ignition.", rank: 1,
     alt: [
-      "The platform's observability architecture was subjected to an independent adversarial review <strong>before</strong> being accepted — which caught four over-claims in the design, including a cited theorem that doesn't exist. The corrected design shipped; the flattering one didn't.",
-      "The design question: should the platform's goal structure be hand-declared (a roadmap tree) or inferred from behavior (a weighted lattice over receipts)? The inferred model won — but with three counter-forces pinned as governed constants, and self-tuning explicitly forbidden as a constitutional violation.",
-      "ADR-023 + a machine-readable ROM pinning edge-decay, contrarian-injection, and calcification-guard parameters. A simulation harness load-tested the lattice structure. Activation gated behind a measurable real-corpus baseline (100+ receipts) — same gate discipline as every other advanced layer.",
-      "The adversarial pass ran as five independent research agents attacking the draft's citations and claims. Four corrections: no monotone-complexity theorem exists; rising complexity ≠ calcification; the DAG is well-motivated but not required; irreducibility doesn't bar declaration. All applied before merge."
+      "Ten days after the core landed, it was deployed, and hardened the same week: real database, locked-down access, users could sign in.",
+      "The deploy surfaced a real fork: the database toolkit had just shipped a breaking change. Fixed in-flight. Then a harder call: the textbook access-control setup would have looked right and protected nothing here, so a stricter model was chosen and the reasoning was written down.",
+      "Production database stood up and migrated, deny-by-default access rules applied to every table, and the plan-versus-reality gaps from the deploy logged as amendments to the original decision records rather than papered over.",
+      "The as-built record matters: environment settings that were set by hand instead of through the integration got documented as a rotation risk on day one, with the fix procedure attached. That honesty is what makes the risk register on this page trustworthy."
     ],
     commits: [
-      { sha: "9f669fa", msg: "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM" },
-      { sha: "bbeb8a8", msg: "feat(observatory): attribution-safe timeline regen for external demo" }
+      { sha: "11ba2fc", msg: "fix(db): adapt to the database toolkit's breaking change" },
+      { sha: "5262c1a", msg: "chore: baseline migration applied to production database" },
+      { sha: "9970c3f", msg: "feat(security): deny-by-default access rules on all tables" }
     ]
   },
   {
-    date: "JUN 30", title: "Platform merge — 170 files, five subsystems", rank: 1,
-    alt: [
-      "The largest integration of the window: trust/privacy/terms pages, an interactive replay theater, a 16.6K-line operators library, the full canon corpus, and six new decision records — merged and live in production the same day.",
-      "This merge converted ARCS from 'an app' into 'a platform with legal, observability, and governance surfaces' — the prerequisites for putting real client traffic on it. The operators library also landed the vendor-independence hedge: the entire decision engine re-implemented in dependency-free Python.",
-      "170 files, 42K+ insertions: EyebrowToast covenant drawer, /trust /privacy /terms routes, a 1,174-line interactive Observatory page, 34 operator files, 4 Prisma migrations, ADR-025 through ADR-030, and the indexed 272-entry ADR registry.",
-      "The merge itself hit a worktree-confusion incident (landed on the wrong branch first, re-merged via the canonical main worktree) — which became a documented gotcha and, later, a standing deploy-preflight script so the failure mode can't silently recur."
-    ],
-    commits: [
-      { sha: "5db496b", msg: "Merge sleepy-booth → main for production breadcrumb/drawer features" }
-    ]
-  },
-  {
-    date: "JUL 2–8", title: "Client artifact engine — one engine, many surfaces", rank: 2,
+    date: "DAY 48 · MAY 27", title: "A design system, from day one.", rank: 3,
     alt: [
       "",
-      "The productized-consulting motion, proven: parameterized client artifact pages (briefs, proposals, teardowns) stood up as branded subdomains in hours each — 14+ live in this window — all riding the same deploy pipeline and design system as the core app. Velocity-to-test-demand, measured.",
-      "A canonical HTML template with placeholder contract + a documented subdomain rewrite workflow turned each new client surface into a fill-in exercise: copy template, replace placeholders, add one rewrite rule, deploy. A consolidation audit then pulled scattered assets from a sibling repo into the monorepo with bar-raiser review.",
-      "The workflow encodes its own hard-won gotchas: rewrites must live in next.config beforeFiles (vercel.json entries get shadowed by the app router), deploys must run from the main worktree (feature-worktree deploys silently drop every other subdomain), and new domains need explicit project assignment."
+      "",
+      "A shared color and component system was pinned early, so every later surface, internal or client-facing, looks like one product for free.",
+      "Tokens were extracted from the app's actual rendered colors rather than aspirational brand values, and three visual registers were defined up front so client pages and internal tools can differ in tone without differing in system."
     ],
     commits: [
-      { sha: "1ea5e8a", msg: "fix(routing): todd-call.arcs.care → proposal page [NCI:182]" },
-      { sha: "cf8b084", msg: "chore(consolidation): port unique content + template registry" }
+      { sha: "924fd10", msg: "feat(ui): canonical color tokens and first components" }
     ]
   },
   {
-    date: "JUL 11–13", title: "Trust hardening — subtract first, then rebuild", rank: 1,
+    date: "DAY 57 · JUN 5", title: "The architecture gets challenged before it ships.", rank: 1,
     alt: [
-      "Two back-to-back integrity moves: an audit found the project's own rules weren't enforced (fixed at the root), and anonymous users' data was being persisted off-covenant (the write path was deleted first, then rebuilt as explicit opt-in). The public trust contract was versioned to match.",
-      "Both fixes follow the same doctrine — when stated values and actual behavior diverge, ship the subtraction before the feature. 'Pay down false-claim debt' removed a dead framework the docs claimed was never there; 'no auth = no write path' cut anonymous persistence entirely before opt-in save existed.",
-      "Tailwind scaffold remnants removed and CI aligned to the documented rules; anonymous receipt/prep persistence removed at the API layer; opt-in save + claim flow shipped as Phase 2; trust contract bumped to v1.2 with the new covenant language; a dual-audit reconciliation tied the threads together.",
-      "The enforcement follow-through landed as ADR-033 days later: an enforcement-parity ledger where every audit finding closes only via a mechanism or a dated waiver — CI-gated, so the audit-to-decoration decay loop is structurally broken."
+      "A major architecture proposal was sent through an independent challenge review before acceptance. The review caught four overclaims, including a cited theorem that does not exist. The corrected version shipped.",
+      "The question on the table: should the platform's picture of its own goals be hand-drawn, like a roadmap slide, or inferred from actual behavior? Inferred won, but with hard limits written in: the system may never tune its own guardrails.",
+      "The design, its tuning constants, and a simulation harness to stress-test the structure all landed together. Activation was gated behind a minimum volume of real data, the same rule applied to every advanced feature since.",
+      "The challenge review ran as five independent research passes attacking the draft's citations and claims. All four corrections were applied before the merge, and the record of what was wrong stayed in the document."
     ],
     commits: [
-      { sha: "35fc2e7", msg: "fix(governance): pay down false-claim debt — remove Tailwind, align docs/CI" },
-      { sha: "8b486e8", msg: "fix(trust): no auth = no write path — stop persisting anonymous receipts" },
-      { sha: "b9dab2a", msg: "feat(trust): Phase 2 — opt-in save + trust contract v1.2" },
-      { sha: "570e575", msg: "docs(governance): dual-audit reconciliation + ADR-023 baseline measurement" }
+      { sha: "9f669fa", msg: "feat(spec): goal-map architecture plus tuning rules" },
+      { sha: "bbeb8a8", msg: "feat(observatory): timeline demo regenerated clean for external viewing" }
     ]
   },
   {
-    date: "JUL 16", title: "Closed loop live — autonomous outcome telemetry", rank: 1,
+    date: "DAY 82 · JUN 30", title: "The platform merge: 170 files, five subsystems, one day.", rank: 1,
     alt: [
-      "The evaluation loop closed this week: a scheduled pipeline now matches calendar events to call transcripts, scores what actually happened against the pre-call expectation, writes an auditable outcome record, and notifies — autonomously. Expected vs. actual, measured without a human remembering to run it.",
-      "This is the product thesis eating its own tail: decision receipts only compound if outcomes get scored against them, and outcome-scoring only scales if it doesn't depend on discipline. The poller runs a two-pass protocol (reverse listening + deep recall) against the original expectation, with an idempotency contract learned from a real duplicate-work incident.",
-      "Task B poller: calendar → transcript matching by title/attendee/end-time proximity, segment count scaled to call length, stated-vs-revealed analysis as a standard section, results committed to an auth-gated internal ledger, push notification with Y-gate and coherence deltas. Three calls processed autonomously on the first production run.",
-      "The spec encodes its own failure history: a canonical slug rule exists because two firings once free-formed different slugs for the same call and duplicated an expensive lookup; the filesystem idempotency check runs before the costly step, not after. Zero-memory-across-firings is treated as a design constraint, not a bug."
+      "The biggest single integration: legal pages (trust, privacy, terms), an interactive replay theater for past decisions, and the whole engine re-implemented in plain Python as a vendor hedge. Merged and live in production the same day.",
+      "This merge is the line where ARCS stopped being an app and became a platform: legal surfaces, observability, and vendor independence are the prerequisites for putting client traffic on something.",
+      "170 files and 42,000+ lines: the trust/privacy/terms routes, a 1,174-line interactive replay page, a 34-file standalone engine library, four database migrations, six new decision records, and an indexed registry of all 272.",
+      "The merge initially landed on the wrong branch, a real mistake. It was caught, re-merged correctly, and the failure mode was turned into a standing pre-flight check in the deploy script so it structurally cannot recur."
     ],
     commits: [
-      { sha: "eab39a3", msg: "feat(recoil): post-call close-out — three calls, autonomous run" }
+      { sha: "5db496b", msg: "Merge: production platform features (trust pages, replay theater, engine library)" }
+    ]
+  },
+  {
+    date: "DAY 84-90 · JUL 2-8", title: "Client pages become a production line.", rank: 2,
+    alt: [
+      "",
+      "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in this window, all riding the same engine and design system.",
+      "A single reusable template with fill-in slots plus a documented publishing routine turned each new client page into a two-hour exercise instead of a project. A consolidation pass then pulled scattered assets from a sibling repository into the main one, with review.",
+      "The routine encodes its own past mistakes: which config file actually controls routing, why deploys must run from the main working copy (a wrong-copy deploy once silently dropped every other client page), and how new addresses get attached to the project."
+    ],
+    commits: [
+      { sha: "1ea5e8a", msg: "fix(routing): client proposal page live on its own address" },
+      { sha: "cf8b084", msg: "chore: consolidate scattered assets plus the reusable page template" }
+    ]
+  },
+  {
+    date: "DAY 93-95 · JUL 11-13", title: "Trust cleanup: delete first, rebuild second.", rank: 1,
+    alt: [
+      "Two integrity fixes back to back: an audit showed the project's own rules were not being enforced (fixed at the root), and visitor data was being saved without an account (the saving was deleted first, then rebuilt as opt-in). The public trust page was updated to match.",
+      "Both fixes follow one doctrine: when what the product does and what it promises drift apart, ship the deletion before the feature. Credibility comes from the order of operations.",
+      "A leftover styling framework the docs claimed was never there got removed and the automated checks were aligned with the written rules. The no-account save path was cut at the API level, then opt-in saving shipped as its own feature, and the trust contract was versioned to 1.2.",
+      "The structural follow-through landed days later: an enforcement ledger where every audit finding closes only through a working mechanism or a signed, dated exception, checked automatically. The audit-then-forget loop is broken by construction."
+    ],
+    commits: [
+      { sha: "35fc2e7", msg: "fix(governance): remove unused framework, align docs and checks with reality" },
+      { sha: "8b486e8", msg: "fix(trust): no account means no saving. Stop persisting visitor data" },
+      { sha: "b9dab2a", msg: "feat(trust): opt-in save plus trust contract v1.2" },
+      { sha: "570e575", msg: "docs(governance): reconciliation of two independent audits" }
+    ]
+  },
+  {
+    date: "DAY 98 · JUL 16", title: "The loop closes. The system now grades itself.", rank: 1,
+    alt: [
+      "As of this week the system checks its own predictions against what actually happened, automatically: it matches calendar events to call transcripts, scores the outcome against the expectation recorded before the call, files an audit record, and sends a one-line summary. No human has to remember to run it.",
+      "This is the product thesis completing itself: decision receipts only compound if outcomes get scored against them, and outcome scoring only scales if it does not depend on anyone's discipline. It also generates the calibration data every gated feature is waiting on.",
+      "A scheduled job matches ended calendar events to their transcripts, reads each transcript twice (once backward from the ending, once forward against the pre-call expectation), writes the scored result to a private ledger, and notifies with the deltas. Three real calls were processed autonomously on the first production run, today.",
+      "The job's specification encodes its own failure history: a duplicate-work incident led to a strict naming rule and a check-before-work step, because scheduled runs share no memory with each other. Treating amnesia as a design constraint is what makes unattended automation safe."
+    ],
+    commits: [
+      { sha: "eab39a3", msg: "feat(recoil): first autonomous post-call scoring run, three calls processed" }
     ]
   }
 ];
 
-// ── Cadence chart ──
+// Cadence chart
 (function () {
   var max = Math.max.apply(null, CADENCE.map(function (c) { return c.n; }));
   var el = document.getElementById("cadence");
   CADENCE.forEach(function (c) {
     var col = document.createElement("div"); col.className = "cad-col";
-    var n = document.createElement("div"); n.className = "cad-n"; n.textContent = c.n;
-    var bar = document.createElement("div"); bar.className = "cad-bar" + (c.n === max ? " peak" : "");
-    bar.style.height = Math.max(4, Math.round((c.n / max) * 58)) + "px";
+    var n = document.createElement("div"); n.className = "cad-n"; n.textContent = c.n > 0 ? c.n : "";
+    var bar = document.createElement("div");
+    bar.className = "cad-bar" + (c.n === max ? " peak" : c.n === 0 ? " zero" : "");
+    bar.style.height = c.n === 0 ? "2px" : Math.max(4, Math.round((c.n / max) * 58)) + "px";
     var w = document.createElement("div"); w.className = "cad-w"; w.textContent = c.w;
     col.appendChild(n); col.appendChild(bar); col.appendChild(w);
     el.appendChild(col);
   });
 })();
 
-// ── Altitude explorer ──
-var ALT_NAMES = ["EXECUTIVE", "STRATEGIC", "OPERATIONAL", "TACTICAL", "SURGICAL"];
-// altitude → max rank shown; text index; show commits?
+// Depth explorer
+var ALT_NAMES = ["ONE PAGE", "DIRECTION", "PROCESS", "DETAIL", "COMMITS"];
+var ALT_DESC = [
+  "one plain sentence per milestone",
+  "why each path was chosen",
+  "how the work actually ran",
+  "the moves, including the mistakes",
+  "every milestone linked to its real code"
+];
 var ALT_CFG = [
   { maxRank: 1, text: 0, commits: false },
   { maxRank: 2, text: 1, commits: false },
@@ -525,7 +549,6 @@ function render() {
   var shown = 0;
   MILESTONES.forEach(function (m) {
     if (m.rank > cfg.maxRank) return;
-    // fall back to the deepest non-empty narrative at or above the requested depth
     var text = "";
     for (var i = cfg.text; i >= 0; i--) { if (m.alt[i]) { text = m.alt[i]; break; } }
     if (!text) { for (var j = cfg.text + 1; j < m.alt.length; j++) { if (m.alt[j]) { text = m.alt[j]; break; } } }
@@ -533,7 +556,7 @@ function render() {
     var card = document.createElement("div"); card.className = "ms";
     var top = document.createElement("div"); top.className = "ms-top";
     top.innerHTML = '<span class="ms-date">' + m.date + '</span><span class="ms-title">' + m.title + '</span>' +
-      '<span class="ms-rank r' + m.rank + '">' + (m.rank === 1 ? "EXEC" : m.rank === 2 ? "STRAT" : "OPS") + '</span>';
+      '<span class="ms-rank r' + m.rank + '">' + (m.rank === 1 ? "CORE" : m.rank === 2 ? "PLUS" : "DEEP") + '</span>';
     var body = document.createElement("div"); body.className = "ms-body"; body.innerHTML = text;
     card.appendChild(top); card.appendChild(body);
     if (cfg.commits && m.commits && m.commits.length) {
@@ -548,10 +571,8 @@ function render() {
     list.appendChild(card);
   });
   document.getElementById("readout").innerHTML =
-    'ALTITUDE: <strong>' + ALT_NAMES[currentAlt] + '</strong> · showing ' + shown + ' of ' + MILESTONES.length +
-    ' milestones · ' + (cfg.commits ? "commit-level fidelity, linked to the public repo" :
-    currentAlt === 3 ? "execution-level narrative" : currentAlt === 2 ? "process-level narrative" :
-    currentAlt === 1 ? "direction-level narrative" : "business-outcome narrative");
+    'DEPTH: <strong>' + ALT_NAMES[currentAlt] + '</strong> · ' + shown + ' of ' + MILESTONES.length +
+    ' milestones · ' + ALT_DESC[currentAlt];
   document.querySelectorAll(".alt-btn").forEach(function (b) {
     b.classList.toggle("active", Number(b.dataset.alt) === currentAlt);
   });
