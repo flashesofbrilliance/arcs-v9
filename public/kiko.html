@@ -115,7 +115,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <div class="eyebrow">ARCS × Kiko · Prepared for Danny Quick · Jul 2026</div>
   <h1>Ahead of catching up, I pulled meetkiko.com apart the way Kiko pulls a creator roster apart.</h1>
   <p class="sub">Figured this'd be more useful than a "hey good luck with the new thing" text. Three parts: what the site says today, the site the machine you're building deserves, and a few honest, half-baked hypotheses on where Kiko and what I'm building might actually interlock – flagged as hypotheses since we haven't talked shop properly yet. Plus one hygiene item up top that's a fast fix regardless of anything else.</p>
-  <div class="meta">METHOD: LIVE PRODUCTION SCAN OF MEETKIKO.COM (RESPONSE HEADERS, RENDERED DOM, COPY) · JUL 16 2026 · PRE-CALL – NO CONVERSATION YET, SO NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE</div>
+  <div class="meta">METHOD: LIVE SCAN OF MEETKIKO.COM – HOMEPAGE, /COMPARE, /CREATOR-SOURCING, /VIDEO-INTELLIGENCE, /GROWTH (RESPONSE HEADERS, RENDERED DOM, COPY) · JUL 16 2026 · PRE-CALL – NO CONVERSATION YET, SO NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE</div>
   <nav class="pillnav">
     <a class="pill" href="#favor">00 · Favor</a>
     <a class="pill" href="#evidence">01 · Evidence</a>
@@ -140,43 +140,44 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
     <tr><td>Hero</td><td>"THE OLD PLAYBOOK STOPPED WORKING" · "EVERY COMPANY IS SHOUTING, NOBODY'S LISTENING" · "TRUST IS THE NEW DISTRIBUTION"</td></tr>
     <tr><td>Meta description</td><td>"Buy trust, not just attention. Creator growth infrastructure built for scale."</td></tr>
     <tr><td>Product 1</td><td>Creator Sourcing – AI-driven creator outreach and negotiation, "living, pre-vetted, pre-negotiated shortlist," from $200/mo</td></tr>
-    <tr><td>Product 2</td><td>Viral Intelligence – weekly Viral Brief on outlier formats/hooks/creators, Short-Form Analysis from $100/mo, first report free</td></tr>
+    <tr><td>Product 2</td><td>Viral Intelligence – weekly Viral Brief on outlier formats/hooks/creators, "See a sample report" CTA. No price shown anywhere on /video-intelligence when I checked – if $100/mo is real, it's not live right now</td></tr>
     <tr><td>Product 3</td><td>Growth Partner – fractional, full-stack execution across creators/UGC/paid/clipping/influencers, "not an agency, just outcomes"</td></tr>
-    <tr><td>Proof claim</td><td>"Team has built and scaled creator marketing programs to $100M+" · "our team in NYC and LA review and approve every AI interaction"</td></tr>
-    <tr><td>GTM motion</td><td>27-entry public comparison hub ("Kiko vs Everybody") against named competitors – a real category-capture SEO play</td></tr>
-    <tr><td>CTAs</td><td>GET HANDPICKED CREATORS · SEE THE DATA · IT'S TIME TO BUILD · GET STARTED – no self-serve checkout or signup form found on the page itself</td></tr>
+    <tr><td>Trust proof (buried)</td><td>On /creator-sourcing, not the homepage: "Our team reviews and approves every touchpoint and interaction. It's never autopilot." · "Everything is auditable – every email, negotiation, and creator interaction is logged." · contracts route through legal review, 3–5 day turnaround</td></tr>
+    <tr><td>Founder story (buried)</td><td>On /growth, not the homepage: "I quit my job working for Beyoncé to build a fashion resale marketplace backed by Snapchat and Floodgate with the belief that creators are what drive commerce," signed Danny Quick, Founder</td></tr>
+    <tr><td>GTM motion</td><td>27-entry public comparison hub ("Kiko vs Everybody") against named competitors including HypeAuditor, GRIN, CreatorIQ – a real category-capture SEO play. $200/mo Sourcing price confirmed here, repeated across entries</td></tr>
+    <tr><td>CTAs</td><td>GET HANDPICKED CREATORS · SEE THE DATA · IT'S TIME TO BUILD · GET STARTED – no self-serve checkout or signup form found on the homepage itself</td></tr>
   </table></div>
-  <p style="margin-top:14px">The raw material here is strong. "Every company is shouting, nobody's listening" gives visitors a villain before the pitch, and the three-tier ladder (self-serve data → subscription insight → fractional service) is a real go-to-market shape, not one undifferentiated offer.</p>
+  <p style="margin-top:14px">The raw material here is strong, and stronger than the homepage alone shows. "Every company is shouting, nobody's listening" gives visitors a villain before the pitch, the three-tier ladder (self-serve data → subscription insight → fractional service) is a real go-to-market shape, and the trust/legal-review detail on /creator-sourcing is genuinely credible – it's just three clicks from where anyone actually lands.</p>
 </section>
 
 <section id="gaps">
   <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Five gaps, ranked by what they cost you</h2></div></div>
 
-  <div class="card stripe red"><div class="cardtop"><h3>1 · "AI negotiates and contracts with creators" is the highest-liability claim on the page</h3><span class="tag red">Risk</span></div>
-  <p>Automated negotiation and deal-execution with third parties is exactly where brand-safety and legal exposure concentrate for a platform like this. The "team reviews every AI interaction" line is reassuring, but it's asserted, not shown – no detail on where human review sits in the loop, what's binding without it, or what happens when it's wrong. For a company selling trust as its category, this is the one claim that most needs a visible, specific answer.</p></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>1 · Your best trust proof is three clicks deep, and the homepage never points at it</h3><span class="tag gold">Discoverability</span></div>
+  <p>Correction from an earlier pass on just the homepage: /creator-sourcing has real, specific detail here – "our team reviews and approves every touchpoint and interaction, it's never autopilot," contracts routed through legal review with a 3–5 day turnaround, full audit logging on every negotiation. That's a genuinely credible answer to the exact question a wary buyer would ask about AI doing outreach and negotiation. But nothing on the homepage hints it exists – "TRUST IS THE NEW DISTRIBUTION" is the whole trust pitch up top, and a visitor who doesn't click through to Creator Sourcing never sees the proof behind it.</p></div>
 
   <div class="card stripe gold"><div class="cardtop"><h3>2 · No stated ICP, on a page selling three different buying decisions</h3><span class="tag gold">Coherence</span></div>
   <p>Sourcing, Intelligence, and Growth Partner are three different sales cycles and three different buyers – but nothing on the page tells a first-time visitor which one matches their size or stage. A DTC founder and a Fortune 500 CMO read the same homepage today with no default path. That's a real decision-architecture gap, not a copy nit.</p></div>
 
-  <div class="card stripe gold"><div class="cardtop"><h3>3 · "$100M+ scaled" is unattributed</h3><span class="tag gold">Credibility</span></div>
-  <p>No named brand, no case study, no logo wall visible anywhere in the rendered page. For a site whose entire thesis is "trust is the new distribution," the site's own trust signals are thin relative to the claim it's making about itself.</p></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>3 · Real-looking metrics on /growth aren't labeled as anyone's, in particular</h3><span class="tag gold">Credibility</span></div>
+  <p>The /growth page shows a live-looking Q1 2026 campaign log – 47 experiments, 200+ creators tested, +34% revenue growth, 4.2x ROAS – but it's not clear whether that's one client's real dashboard or an illustrative composite, and no named brand or logo appears anywhere on the site. Worth asking directly: is that a real account, and if so, is it shareable as a named case study? Right now the numbers are doing less work than they could.</p></div>
 
   <div class="card stripe cyan"><div class="cardtop"><h3>4 · Pricing without a path to actually pay it</h3><span class="tag cyan">Conversion</span></div>
-  <p>$200/mo and $100/mo read as anchors, but there's no signup form or checkout flow anywhere on the homepage – every CTA routes off-page. If Sourcing and Intelligence are meant to be genuinely self-serve, that's the highest-leverage build; if Growth Partner is actually the revenue engine, the self-serve pricing may be doing more marketing work than sales work, which is fine – but worth being deliberate about which one it is.</p></div>
+  <p>$200/mo (confirmed, repeated across /compare) reads as an anchor, but there's no signup form or checkout flow anywhere on the homepage or /creator-sourcing – every CTA routes off-page. Viral Intelligence has no price live anywhere I could find. If Sourcing is meant to be genuinely self-serve, that's the highest-leverage build; if Growth Partner is actually the revenue engine, the self-serve pricing may be doing more marketing work than sales work, which is fine – but worth being deliberate about which one it is.</p></div>
 
-  <div class="card stripe"><div class="cardtop"><h3>5 · The founder isn't on the site, and the story is unusually good</h3><span class="tag">Narrative</span></div>
-  <p>Head of Product for Beyoncé at Parkwood. Before that, built an artist-to-fan texting product (SuperPhone) after reading about how a working musician stayed connected to fans directly. Before Kiko, five years running Shop Galaxy through institutional backing (Floodgate, Homebrew, Maveron, Snapchat, among others). That's a founder who has personally lived both sides of "trust as distribution" – once as the artist's team, once as the founder raising real capital. None of it is on meetkiko.com.</p></div>
+  <div class="card stripe"><div class="cardtop"><h3>5 · The founder story exists and is strong – it's just orphaned on /growth</h3><span class="tag">Discoverability</span></div>
+  <p>Correction from an earlier pass: it's not true that the founder is absent from the site. /growth has a real, first-person, signed bio – Beyoncé/Parkwood, the fashion resale marketplace backed by Snapchat and Floodgate, "creators are what drive commerce." It's a strong, on-thesis story. It's just not linked anywhere from the homepage, so most visitors never reach it – same shape as gap #1, a distribution problem on your own site about a company that sells distribution.</p></div>
 </section>
 
 <section id="quickwins">
   <div class="sechead"><span class="idx">03</span><div><div class="seclabel">GTM quick wins</div><h2>Same category insight, more evidence of it</h2></div></div>
-  <div class="quote">"Distribution is the only moat."<span class="attr">meetkiko.com, hero copy – the sentence the whole redesign should prove, not just state</span></div>
+  <div class="quote">"Distribution is the only moat."<span class="attr">your LinkedIn, Kiko Creators listing – the sentence the site itself should prove, not just the resume line</span></div>
   <ul>
     <li><strong>The hero becomes a live feed, not a slogan.</strong> A ticking, lightly anonymized stream of the sourcing engine actually running – creators found, vetted, ranked, negotiated – the way the current creator-rolodex module hints at but doesn't sustain. The site becomes the product demo instead of a claim about one.</li>
     <li><strong>One redacted sample deliverable, gated by email.</strong> A real Viral Brief or buyer shortlist, anonymized. Proof, lead magnet, and product spec in one artifact – the same move that turns "trust me" into "watch it work."</li>
-    <li><strong>A founder page that tells the real story in six sentences.</strong> Beyoncé/Parkwood → SuperPhone (artist-to-fan trust, built once already) → Shop Galaxy (institutional capital, five years, real exits from real backers) → Kiko. Studios and brands buy operators with provenance; this provenance happens to be unusually on-thesis.</li>
-    <li><strong>Pricing shape wired to an actual path.</strong> "Monthly license · self-serve shortlist in 48 hours" if Sourcing is meant to be self-serve – or, if it isn't yet, a clear "book a call" frame instead of prices that don't connect to checkout.</li>
-    <li><strong>A visible answer to the AI-negotiation question before anyone has to ask it.</strong> One sentence – what's human-reviewed, what's binding, where the line is – turns the highest-risk claim on the page into the strongest trust signal on the page. That's the "trust is the new distribution" thesis applied to Kiko's own site, not just its pitch.</li>
+    <li><strong>Link the /growth founder bio from the homepage.</strong> It already exists, in your own words – Beyoncé/Parkwood → Shop Galaxy (institutional capital, real backers) → Kiko. Studios and brands buy operators with provenance; this provenance is unusually on-thesis and currently one click further than anyone will bother to go.</li>
+    <li><strong>Pricing shape wired to an actual path.</strong> $200/mo is real and confirmed across /compare, but never stated on the homepage or /creator-sourcing itself – "Monthly license · self-serve shortlist in 48 hours" would anchor the infrastructure claim right where people land.</li>
+    <li><strong>Pull the Trust &amp; Safety section from /creator-sourcing up to the homepage.</strong> "Never autopilot," legal review on every contract, full audit logging – that's the strongest answer to the AI-negotiation question you could ask for, and it's currently invisible to anyone who doesn't click through. That's the "trust is the new distribution" thesis applied to Kiko's own site, not just its pitch.</li>
   </ul>
   <p class="mono">The delta in one line: today the site asserts trust is the new distribution. The next site demonstrates it, on itself, first.</p>
 </section>
@@ -193,9 +194,9 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   </div>
 
   <div class="band">
-    <div class="bandhead"><h3 style="margin:0">B · The AI-negotiation trust gap, closed with a receipt instead of a claim</h3><span class="tag gold">Directly addresses Gap #1 above</span></div>
+    <div class="bandhead"><h3 style="margin:0">B · Kiko already logs the trail internally – the gap is turning it into proof the brand can see</h3><span class="tag gold">Directly addresses Gap #1 above</span></div>
     <div class="bandbody">
-      <p>If "our team reviews every AI interaction" became a receipt-backed trail – who reviewed which negotiation, when, what changed – the highest-liability claim on the site turns into the strongest evidence of it. That's a narrow, concrete pilot rather than a platform rebuild.</p>
+      <p>Correcting my own earlier guess here: you're not missing an audit trail – "every email, negotiation, and creator interaction is logged" is already a real claim on /creator-sourcing. The open question is who that log is actually for. If it's internal-only today, a receipt-shaped surface for the brand's side (why this creator, why this rate, who signed off) turns your existing operational discipline into an external trust artifact instead of an internal one. Narrow, concrete thing to compare notes on, not a platform rebuild.</p>
     </div>
   </div>
 
@@ -216,7 +217,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   </div>
 </section>
 
-<div class="footer">Prepared by Zach Harris · ARCS · Jul 16 2026 · Sources: live scan of meetkiko.com + Danny Quick's LinkedIn profile · Shared privately with Danny Quick</div>
+<div class="footer">Prepared by Zach Harris · ARCS · Jul 16 2026 · Sources: live scan of meetkiko.com (homepage, /compare, /creator-sourcing, /video-intelligence, /growth) + Danny Quick's LinkedIn profile · Shared privately with Danny Quick</div>
 </div>
 </body>
 </html>
