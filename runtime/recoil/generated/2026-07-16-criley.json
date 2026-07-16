@@ -2,15 +2,16 @@
   "reportId": "2026-07-16-criley",
   "meta": {
     "callTitle": "Interview with Prophet",
-    "counterpart": "Cassandra Riley (calendar organizer/recruiting coordinator) — live interviewer on the call was Mike Lemon, day-to-day lead of Prophet's AI Foundry",
+    "counterpart": "Mike Lemon — day-to-day lead of Prophet's AI Foundry, the actual interviewer on this call",
     "counterpartRole": "Prophet — management/AI consulting firm; role appears to be a PM/applied-AI-engineering seat inside the AI Foundry, working on their 'Maya' internal AI platform",
+    "schedulingContact": "Cassandra Riley (criley@prophet.com) — recruiting coordinator who organized the calendar invite; not present as a speaker on this call. The internal ledger filename/slug uses her email per the canonical slug rule (calendar external attendee), but she is not the counterpart this report analyzes.",
     "callDate": "2026-07-16",
     "callTime": "2:30 PM EDT",
     "durationMinutes": 43,
     "segmentCount": 7,
     "protocol": "Reverse Listening + Deep Recall · 7 segments · max(3, round(sqrt(43)))",
     "prePrepSession": "precall-cassandra-riley-2026-07-15",
-    "note": "Distinct from the Jul 15 11:29 AM 'Casandra // Prophet' call (30 min, first-round) and its precall note (precall-cassandra-riley-2026-07-15.json, which itself was scored for a 15-min call time that doesn't match either Granola meeting exactly — likely a scheduling shift between invite and actual call). This report covers the Jul 16 2:30 PM 'Interview with Prophet' round, 43 minutes actual (scheduled 30, ran ~13 over). Deep Recall scored against that precall note's advisory (cold call, no prior ledger history) since no richer pre-call receipt exists."
+    "note": "Distinct from the Jul 15 11:29 AM 'Casandra // Prophet' call (30 min, first-round) and its precall note (precall-cassandra-riley-2026-07-15.json, which itself was scored for a 15-min call time that doesn't match either Granola meeting exactly — likely a scheduling shift between invite and actual call). This report covers the Jul 16 2:30 PM 'Interview with Prophet' round, 43 minutes actual (scheduled 30, ran ~13 over). Deep Recall scored against that precall note's advisory (cold call, no prior ledger history) since no richer pre-call receipt exists. Counterpart correction (2026-07-16, post-write): Cassandra Riley is the scheduler, not the interviewer — Mike Lemon ran the call and is the correct counterpart for all analysis below."
   },
   "cover": {
     "yGate": "YELLOW",
