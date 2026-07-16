@@ -1,0 +1,90 @@
+{
+  "_doc": "Enforcement-parity ledger (ADR-033). Every audit finding must exit via one of: test | ci | guard | waiver. exit.type='open' entries age against severity SLAs (high=30d, medium=60d, low=90d from 'filed'). scripts/ledger_check.py fails CI on delinquent entries. Waivers require 'expires' and 'reason'; an expired waiver is delinquent. Do NOT close a finding by deleting it — set its exit and keep the row.",
+  "slas_days": { "high": 30, "medium": 60, "low": 90 },
+  "findings": [
+    {
+      "id": "RL-001",
+      "filed": "2026-07-16",
+      "severity": "high",
+      "summary": "Unauthenticated POST /api/compass calls the Anthropic API with no rate limit — wallet-drain/abuse vector.",
+      "exit": { "type": "guard", "ref": "src/lib/ratelimit.ts wired into src/app/api/compass/route.ts (interim in-memory limiter)", "date": "2026-07-16" }
+    },
+    {
+      "id": "GW-002",
+      "filed": "2026-07-16",
+      "severity": "medium",
+      "summary": "Durable, cross-instance rate limiting + spend caps + LLM observability via Vercel AI Gateway (replaces RL-001 interim limiter; also covers /api/brief and /api/guide Claude calls).",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "DEL-003",
+      "filed": "2026-07-16",
+      "severity": "high",
+      "summary": "Trust contract §3 promises account deletion within 30 days but no implemented deletion path existed.",
+      "exit": { "type": "guard", "ref": "src/app/api/account/delete/route.ts (auth-gated full cascade)", "date": "2026-07-16" }
+    },
+    {
+      "id": "TC-004",
+      "filed": "2026-07-16",
+      "severity": "high",
+      "summary": "Trust contract §1 (anonymous sessions write nothing server-side) has no regression test — the exact defect disclosed in §1 could silently recur.",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "YG-005",
+      "filed": "2026-07-16",
+      "severity": "medium",
+      "summary": "src/lib/ygate.ts (core scoring algorithm, pure function) has zero unit tests.",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "LINT-006",
+      "filed": "2026-07-16",
+      "severity": "medium",
+      "summary": "CI lint is advisory (continue-on-error); no lint rule prevents className/Tailwind recurrence after the 2026-07-11 removal.",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "OBS-007",
+      "filed": "2026-07-16",
+      "severity": "medium",
+      "summary": "No exception tracking on the app (SageTrace exposure was detected via a vendor email, not our own alerting).",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "DEP-008",
+      "filed": "2026-07-16",
+      "severity": "low",
+      "summary": "No automated dependency vulnerability scanning.",
+      "exit": { "type": "ci", "ref": ".github/dependabot.yml", "date": "2026-07-16" }
+    },
+    {
+      "id": "ROT-009",
+      "filed": "2026-07-16",
+      "severity": "high",
+      "summary": "DATABASE_URL manually set, rotation risk open since ADR-005 amendment (2026-05-28).",
+      "exit": { "type": "waiver", "reason": "Requires Zach to rotate the Supabase password and re-sync Vercel envs — not executable by a session alone.", "expires": "2026-08-15" }
+    },
+    {
+      "id": "BK-010",
+      "filed": "2026-07-16",
+      "severity": "medium",
+      "summary": "Production DB backup restore has never been tested — an unrestored backup is a hope, not a backup.",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "PL-011",
+      "filed": "2026-07-16",
+      "severity": "low",
+      "summary": "Trust contract §2 'aggregate anonymized only' modeling claim has no code boundary enforcing it (purpose limitation is prose-only).",
+      "exit": { "type": "open" }
+    },
+    {
+      "id": "ORPH-012",
+      "filed": "2026-07-16",
+      "severity": "low",
+      "summary": "Orphaned Supabase tables (meeting_cards/risks/raci/etc.) with no owning app; 4 advisor WARNs deliberately unfixed (backlog #13/#14).",
+      "exit": { "type": "waiver", "reason": "Ownership/intent unconfirmed — needs Zach to review the Supabase dashboard before dropping tables.", "expires": "2026-08-15" }
+    }
+  ]
+}
