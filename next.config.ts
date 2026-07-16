@@ -70,6 +70,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
         // danny.arcs.care → public/danny.html (Danny Quick / Kiko pre-call brief + teardown, pw-gated "quick")
         { source: "/:path*", destination: "/danny.html", has: [{ type: "host", value: "danny.arcs.care" }] },
+        // danny-ext.arcs.care → public/danny-ext.html (external-facing Kiko teardown + gift, addressed to Danny, pw-gated "danny")
+        { source: "/:path*", destination: "/danny-ext.html", has: [{ type: "host", value: "danny-ext.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
