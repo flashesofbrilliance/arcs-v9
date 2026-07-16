@@ -50,6 +50,11 @@ jobs:
         run: python3 scripts/state_sync_check.py
         continue-on-error: true
 
+      # Hard gate — enforcement-parity ledger (ADR-033): audit findings must
+      # exit via a mechanism or dated waiver within their severity SLA.
+      - name: Ledger delinquency check
+        run: python3 scripts/ledger_check.py
+
       # Hard gate — the build is also the typecheck.
       - name: Build (typecheck + compile)
         run: npm run build
