@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow"/>
-<title>theTrueAI × ARCS – a pre-read</title>
+<title>theTrueAI × ARCS – a PR/FAQ pre-read</title>
 <style>
   :root{
     --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
@@ -63,6 +63,9 @@
   .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
   a{color:var(--cyan)}
   .claim{color:inherit}
+  .release{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:32px 36px}
+  .dateline{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:18px}
+  .illustrative{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;display:block;margin-top:6px}
   #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
   #pw-gate.hidden{display:none}
   .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
@@ -113,94 +116,89 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 
 <header>
   <div class="eyebrow">ARCS × theTrueAI · Prepared for Jalaja Padma · Jul 2026</div>
-  <h1>You didn't have an Amazon-style pre-read handy, so I built one myself, pointed at your own site.</h1>
-  <p class="sub">I asked whether you had a brief to share ahead of our chat this week, and it sounds like that's not quite ready yet. So in the spirit of that ask, I pulled thetrueai.ai apart the way a PR/FAQ pulls a product apart – what it says today, what's actually true when you click through, and where the GTM gap you mentioned is showing up concretely. This is the free half of what I'd bring to the work itself.</p>
-  <div class="meta">METHOD: LIVE SCAN OF THETRUEAI.AI – HOMEPAGE, /APPLY, /ABOUT, /BLOG, /CONTACT (RESPONSE HEADERS, RENDERED DOM, COPY) · JUL 16 2026 · PRE-CALL – NO CONVERSATION YET, SO NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE</div>
+  <h1>You didn't have an Amazon-style pre-read handy, so here's an actual PR/FAQ – the real format, not a description of it.</h1>
+  <p class="sub">A PR/FAQ has two parts: a press release written from the future, as if the launch already succeeded – and an FAQ that includes the hard internal questions, answered honestly, not just the polished customer-facing ones. The press release below is a working-backwards exercise, not a claim about what's already true (standard PR/FAQ practice) – the internal FAQ underneath it is where the real, verified state of thetrueai.ai today actually lives.</p>
+  <div class="meta">METHOD: LIVE SCAN OF THETRUEAI.AI – HOMEPAGE, /APPLY, /ABOUT, /BLOG, /CONTACT · JUL 16 2026 · PRE-CALL – NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE, AND THE PRESS RELEASE'S NARRATIVE/QUOTES ARE EXPLICITLY LABELED ILLUSTRATIVE</div>
   <nav class="pillnav">
-    <a class="pill" href="#favor">00 · Favor</a>
-    <a class="pill" href="#evidence">01 · Evidence</a>
-    <a class="pill" href="#gaps">02 · Gaps</a>
-    <a class="pill" href="#quickwins">03 · GTM Quick Wins</a>
-    <a class="pill" href="#interlock">04 · Where This Could Interlock</a>
-    <a class="pill" href="#next">05 · Next</a>
+    <a class="pill" href="#release">Press Release</a>
+    <a class="pill" href="#faq-external">External FAQ</a>
+    <a class="pill" href="#faq-internal">Internal FAQ</a>
+    <a class="pill" href="#next">Next</a>
   </nav>
 </header>
 
-<section id="favor">
-  <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the favor</div><h2>One hygiene fix, no call required to act on it</h2></div></div>
-  <div class="card stripe gold"><div class="cardtop"><h3>No security headers at all on the live domain</h3><span class="tag gold">Cheap fix</span></div>
-  <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">The response headers show no Content-Security-Policy, no X-Frame-Options/frame-ancestors, no x-content-type-options, and no referrer-policy</span> – the site is served through CloudFront/Next.js with none of the standard baseline headers set. Low urgency today since the site holds no login/session state, but worth a five-minute pass in whatever's fronting the deployment (looks like a Next.js app on CloudFront/Amplify) before enrolment actually opens and the site starts handling real applicant data.</p></div>
-</section>
+<section id="release">
+  <div class="sechead"><span class="idx">PR</span><div><div class="seclabel">Working backwards</div><h2>The press release, written as if August 22 already happened</h2></div></div>
 
-<section id="evidence">
-  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What thetrueai.ai says today – the complete inventory</h2></div></div>
-  <p>Strong starting material: <span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">real Next.js SSR with a working meta description, and the instructor credibility (Amazon Alexa AI product leadership) is stated clearly and often</span>. Here's the full surface:</p>
-  <div class="tablewrap"><table>
-    <tr><th>Surface</th><th>Verbatim content</th></tr>
-    <tr><td>Hero</td><td><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">"Build what the future needs." / "The hard part isn't building. It's knowing what to build."</span></td></tr>
-    <tr><td>Program</td><td><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">AI Product Builder Programme – 4 weeks, live, online, 40 hours, one shipped product, next cohort Aug 22–Sep 12 2026</span></td></tr>
-    <tr><td>Pricing</td><td><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">$1,200 standard · $500 student/recent-grad rate (verified) · $200 off with code SELFFUND · group pricing for teams/colleges · full money-back guarantee</span></td></tr>
-    <tr><td>Proof stats</td><td><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">"95% of enterprise AI pilots deliver no measurable return" (cited: MIT NANDA) · "42% of failed startups built something nobody needed" (cited: CB Insights) · "80% of software features are rarely or never used, $29.5B/yr" (cited: Pendo) – all three cited to named third-party sources, not asserted as the programme's own data</span></td></tr>
-    <tr><td>Apply CTA</td><td><span class="claim" data-src="https://thetrueai.ai/,https://thetrueai.ai/apply" data-stakes="high">Homepage "Apply" button and full pricing table read as if enrolment is open, but /apply actually says "Enrolment isn't open yet" – it's an email waitlist, not an application</span></td></tr>
-    <tr><td>Blog</td><td><span class="claim" data-src="https://thetrueai.ai/blog" data-stakes="normal">"Get AI Insights in Your Inbox... weekly" signup CTA, but the 3 visible posts are dated Mar 14–27, 2026 – roughly four months stale as of this scan</span></td></tr>
-    <tr><td>Contact</td><td><span class="claim" data-src="https://thetrueai.ai/contact" data-stakes="normal">Real working contact form (Name/Email/Subject incl. "Partnership"/Message) – but the listed address is a plain Gmail (thetrueai.info@gmail.com), not a course-branded address</span></td></tr>
-  </table></div>
-  <p style="margin-top:14px">The raw material is genuinely strong for a pre-launch course: named third-party proof points instead of invented stats, a real money-back guarantee, thoughtful pricing tiers (student rate, layoff accommodation, employer invoice letters). The gaps below are mostly about the site over-promising readiness it doesn't have yet, not about the underlying offer.</p>
-</section>
+  <div class="release">
+    <div class="dateline">Seattle, WA – August 22, 2026</div>
+    <h3 style="font-size:19px;margin-bottom:10px">theTrueAI's First Cohort Opens Full, Filled by Builders Who Wanted Proof Before They Wanted a Class</h3>
+    <p style="font-weight:600;color:var(--text)">The four-week AI Product Builder Programme starts today with a waitlist longer than the seats – because it promised one shipped product, not another set of slides about prompting.</p>
 
-<section id="gaps">
-  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Three gaps, all pointed at the exact GTM problem you named</h2></div></div>
+    <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">theTrueAI, founded by former Amazon Alexa AI product leader Jalaja Padma, today opened its first formal cohort of the AI Product Builder Programme</span> – four weeks, live, ending with one real product shipped to real users. The programme was built on a simple premise: anyone can build something with AI now. Almost no one has been taught how to tell whether it's the right thing to build.</p>
 
-  <div class="card stripe red"><div class="cardtop"><h3>1 · "Apply" promises an application; the real experience is a waitlist</h3><span class="tag red">Conversion</span></div>
-  <p>This is the highest-leverage one, because it sits directly on your stated problem. A visitor reads the full pricing table, the guarantee, the FAQ, decides they're in, clicks "Apply" – and lands on an email capture with no pricing, no program detail, and no confirmation their pricing plan carried over. That's a real drop-off point, not just a copy nit: everything the homepage sold gets reset to zero at the exact moment of highest intent.</p></div>
+    <p>Most professionals using AI today are optimizing for speed – more output, faster iteration, another tool in the stack. Few have been taught the harder skill underneath it: judgment. <span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">theTrueAI's own research citations put a number on the cost of that gap – 95% of enterprise AI pilots deliver no measurable return (MIT NANDA), and 42% of failed startups built something nobody needed (CB Insights)</span>. Speed didn't cause those failures. Direction did.</p>
 
-  <div class="card stripe gold"><div class="cardtop"><h3>2 · The blog promises "weekly" and hasn't posted in ~4 months</h3><span class="tag gold">Trust</span></div>
-  <p>Three good posts, then silence since late March. A stale "weekly insights" promise is a small thing on its own, but it's the same shape as the /apply gap – a stated cadence the site isn't actually keeping, right where a skeptical visitor is deciding whether to trust the newer, bigger promise (a $1,200 course from a pre-launch instructor).</p></div>
+    <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">The programme runs 40 hours over four live weeks, pairs every builder with weekly checkpoints and a Demo Day, and requires only a real problem and access to one frontier model – no engineering background needed</span>. Past cohort participants have shipped a personalized health and fitness tracker, a stock-trading and portfolio tool, and a custom AI solution built for a working therapist's practice – three different people, three different domains, the same underlying discipline.</p>
 
-  <div class="card stripe"><div class="cardtop"><h3>3 · Contact runs through a personal Gmail address</h3><span class="tag">Polish</span></div>
-  <p>Minor, but consistent with the other two: small signals of "not fully switched on yet" clustering in exactly the places (apply, ongoing content, contact) that a GTM-focused visitor evaluates trust through. None of these are hard to fix – that's the actual point.</p></div>
-</section>
-
-<section id="quickwins">
-  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">GTM quick wins</div><h2>Ideas, not a checklist – you know this space better than I do</h2></div></div>
-  <ul>
-    <li><strong>Match the "Apply" button's promise to what happens after the click.</strong> Either rename it ("Join the Waitlist," "Get Notified") until enrolment truly opens, or open a real lightweight application now that at least confirms the pricing tier and next steps – right now the CTA text oversells the destination.</li>
-    <li><strong>Either post weekly or stop promising weekly.</strong> Three strong posts is a fine start; the mismatch is the "weekly" claim, not the frequency itself. An honest cadence line ("occasional, no spam") costs nothing and removes a small trust gap.</li>
-    <li><strong>Move off the personal Gmail before the August cohort.</strong> A one-line forwarding address (hello@thetrueai.ai) is a five-minute fix that removes the one visibly "pre-launch" signal in an otherwise polished contact flow.</li>
-    <li><strong>The named third-party proof points (MIT, CB Insights, Pendo) are your strongest asset – lead harder with them.</strong> Most pre-launch courses assert their own unproven numbers; you're citing real external research instead. That's a genuine differentiator worth making even more prominent, not just supporting evidence lower on the page.</li>
-  </ul>
-  <p class="mono">The delta in one line: the offer and the instructor credibility are real and well-built. The site currently promises a smoother, more-open experience than actually exists three clicks in – closing that gap is most of the GTM/conversion work you flagged.</p>
-</section>
-
-<section id="interlock">
-  <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Where this could interlock</div><h2>You asked for GTM help. Here's a concrete-enough-to-react-to shape of what that could look like.</h2></div></div>
-  <p>This is a hypothesis, not a proposal – we haven't talked yet, and I'd rather test this live than assert it here. But since you asked what my expertise might do for this specifically:</p>
-
-  <div class="band">
-    <div class="bandhead"><h3 style="margin:0">A · The PR/FAQ exercise, run on theTrueAI itself</h3><span class="tag cyan">Directly answers what you asked for</span></div>
-    <div class="bandbody">
-      <p>I asked you for an Amazon-style PR/FAQ brief as a pre-read because it's the fastest way to pressure-test a positioning before spending real GTM effort against it. This teardown is effectively that exercise run in reverse – I read your site the way a PR/FAQ review reads a draft press release, looking for the gap between the stated promise and the real customer experience. If useful, doing this together properly (you writing the real PR/FAQ, both of us stress-testing it against what /apply, the pricing tiers, and the enrolment funnel actually do today) would directly produce the sales-conversion clarity you said you're working on.</p>
+    <div class="quote">"We didn't set out to teach AI tools. We set out to teach the thing that was always hard, that AI just made more urgent: knowing what's worth building before you spend the hours and the tokens finding out the hard way."
+      <span class="attr">Jalaja Padma, Founder, theTrueAI</span>
+      <span class="illustrative">Illustrative quote – written to match her stated positioning (her own LinkedIn: "AI adoption is mostly human work"), not something she has said to Zach directly</span>
     </div>
-  </div>
 
-  <div class="band">
-    <div class="bandhead"><h3 style="margin:0">B · Conversion funnel instrumentation before the August cohort</h3><span class="tag gold">Time-boxed, concrete</span></div>
-    <div class="bandbody">
-      <p>You have five weeks until the Aug 22 cohort start. The three gaps above are all fixable well inside that window. A tight, scoped pass – fix the Apply-to-waitlist mismatch, decide the blog cadence honestly, and build one real conversion funnel from homepage traffic to paid enrolment – is a concrete, bounded piece of work rather than an open-ended advisory relationship, which might be the right shape for a first engagement either way.</p>
+    <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">The programme costs $1,200, with a $500 rate for verified students and recent graduates, group pricing for teams and colleges, and a full money-back guarantee – attend the sessions, do the builds, and one email gets a full refund if it isn't the right fit</span>.</p>
+
+    <div class="quote">"I'd used AI every day for a year and still couldn't tell if what I was building mattered. Four weeks in, I shipped something a real person actually uses. That's the part no tutorial gave me."
+      <span class="attr">Previous cohort participant</span>
+      <span class="illustrative">Illustrative – no individual is named or quoted here; grounded in theTrueAI's own site copy referencing past builds anonymously ("built by an engineer, previous cohort")</span>
     </div>
+
+    <p>Enrolment for the next cohort opens at thetrueai.ai.</p>
   </div>
+</section>
+
+<section id="faq-external">
+  <div class="sechead"><span class="idx">FAQ</span><div><div class="seclabel">External FAQ</div><h2>What a prospective builder would ask</h2></div></div>
+  <div class="card"><div class="cardtop"><h3>How much does it cost, and is there a guarantee?</h3></div>
+  <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">$1,200 standard, $500 for verified students/recent grads, $200 off with code SELFFUND if self-funding, and a full money-back guarantee if you attend and do the work and it's not for you</span>.</p></div>
+  <div class="card"><div class="cardtop"><h3>Do I need to know how to code?</h3></div>
+  <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">No – the site states both code and no-code paths run throughout, with a frontier model (Claude preferred) as the only real prerequisite</span>.</p></div>
+  <div class="card"><div class="cardtop"><h3>Who's actually teaching it?</h3></div>
+  <p><span class="claim" data-src="linkedin://jalaja-padma-ai" data-stakes="normal">Jalaja Padma, who led product for Alexa AI at Amazon for 4 years 8 months, shipping voice experiences to hundreds of millions of users, before founding theTrueAI</span> – a real, senior, at-scale credential, not a claimed one.</p></div>
+  <div class="card"><div class="cardtop"><h3>What will I have at the end of four weeks?</h3></div>
+  <p>The site lists this as one of 25 FAQ questions on the homepage accordion, answer not independently re-verified here – worth confirming the exact wording matches "one shipped product, real users" as stated elsewhere on the page.</p></div>
+</section>
+
+<section id="faq-internal">
+  <div class="sechead"><span class="idx">FAQ</span><div><div class="seclabel">Internal FAQ</div><h2>The questions a real PR/FAQ review doesn't let you skip</h2></div></div>
+  <p>This is the part of the exercise that matters most, and the part most pre-launch PR/FAQs skip. Every answer below is verified against the live site as of this scan, not aspirational.</p>
+
+  <div class="card stripe red"><div class="cardtop"><h3>Does the "Apply" button on the homepage actually let someone apply today?</h3><span class="tag red">No</span></div>
+  <p><span class="claim" data-src="https://thetrueai.ai/,https://thetrueai.ai/apply" data-stakes="high">The homepage "Apply" CTA and full pricing table read as if enrolment is open. Clicking through to /apply reveals "Enrolment isn't open yet" – it's an email waitlist, no pricing tier, no confirmation, no application</span>. This is the single largest gap between the press release above and the site as it exists right now – and it sits exactly on the GTM/conversion problem raised in the original outreach.</p></div>
+
+  <div class="card stripe gold"><div class="cardtop"><h3>Is the blog's "weekly insights" promise accurate?</h3><span class="tag gold">No</span></div>
+  <p><span class="claim" data-src="https://thetrueai.ai/blog" data-stakes="normal">The blog's signup CTA promises weekly insights; the three visible posts are dated Mar 14–27, 2026 – roughly four months stale as of this scan</span>. Small on its own, same shape as the Apply gap: a stated cadence the site isn't keeping, in exactly the place a skeptical visitor is deciding whether to trust the bigger promise.</p></div>
+
+  <div class="card stripe gold"><div class="cardtop"><h3>Is applicant data protected once enrolment actually opens?</h3><span class="tag gold">Not yet configured</span></div>
+  <p><span class="claim" data-src="https://thetrueai.ai/" data-stakes="normal">The live site sets no Content-Security-Policy, no X-Frame-Options/frame-ancestors, no x-content-type-options, and no referrer-policy</span>. Low urgency today with no session state on the site, but worth fixing before the site starts handling real applications and payment intent.</p></div>
+
+  <div class="card stripe"><div class="cardtop"><h3>What's the biggest unproven assumption in the press release above?</h3><span class="tag">Open</span></div>
+  <p>That informal pilot enthusiasm from friends and family predicts paid-stranger conversion. Those are different audiences under different incentives. This isn't a criticism of the pilots – it's the actual open question worth testing before, not after, the cohort fills.</p></div>
+
+  <div class="card stripe"><div class="cardtop"><h3>What could keep the August 22 cohort from filling?</h3><span class="tag">Open</span></div>
+  <p>Not the offer – the pricing, guarantee, and instructor credibility are all genuinely strong. The risk is the funnel: a visitor who's ready to commit hits an email waitlist instead of a confirmation, at the exact moment of highest intent. Fixing that one gap is most of the GTM work originally asked about.</p></div>
 </section>
 
 <section id="next">
   <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>Straightforward from here</h2></div></div>
   <div class="grid2">
-    <div class="card stripe green"><div class="cardtop"><h3>This week</h3><span class="tag green">Our call</span></div><p>Happy to find time – let me know what works. Consider this the pre-read I asked for, just built from the outside in instead of the inside out.</p></div>
+    <div class="card stripe green"><div class="cardtop"><h3>This week</h3><span class="tag green">Our call</span></div><p>Happy to find time – let me know what works. This is the pre-read format I asked you for, built by me instead since one wasn't ready yet.</p></div>
     <div class="card stripe gold"><div class="cardtop"><h3>Whenever</h3><span class="tag gold">On you</span></div><p>The security header pass and the Apply-CTA fix are both real, both cheap, both worth doing regardless of anything else here.</p></div>
-    <div class="card stripe"><div class="cardtop"><h3>On the call</h3><span class="tag">Worth deciding together</span></div><p>Whether the right first step is the PR/FAQ exercise (A) or the scoped conversion-funnel work (B) – or neither, if this isn't the right fit. Either is a fine answer.</p></div>
+    <div class="card stripe"><div class="cardtop"><h3>On the call</h3><span class="tag">Worth deciding together</span></div><p>Whether the right first step is writing a real PR/FAQ together for the August launch, a scoped conversion-funnel fix, or neither – all fine answers.</p></div>
   </div>
 </section>
 
-<div class="footer">Prepared by Zach Harris · ARCS · Jul 16 2026 · Sources: live scan of thetrueai.ai + Jalaja Padma's LinkedIn profile · Shared privately with Jalaja Padma</div>
+<div class="footer">Prepared by Zach Harris · ARCS · Jul 16 2026 · Sources: live scan of thetrueai.ai + Jalaja Padma's LinkedIn profile · Press release narrative and quotes are illustrative, working-backwards material, not claims of fact · Shared privately with Jalaja Padma</div>
 </div>
 </body>
 </html>
