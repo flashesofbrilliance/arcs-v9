@@ -274,7 +274,7 @@
   <span class="lbl cy">§6 · Stack rank</span>
   <h2>Next moves — conviction-graded, drift-sentried</h2>
   <div class="panel" style="margin-top:.9rem">
-    <div class="move"><span class="n">01</span><div><h3>Ship the loop live</h3><p>Merge branch → deploy from <b>main checkout</b> → verify all 8 events in production analytics.</p></div><span class="ybadge y-g">GREEN · HIGH · S</span></div>
+    <div class="move"><span class="n">01</span><div><h3>Ship the loop live</h3><p><s>Merge branch</s> → deploy from <b>main checkout</b> → verify all 8 events in production analytics. <b style="color:var(--gold)">PARTIAL, 2026-07-16</b> — this doc + its explorer artifacts landed on main; the branch's conflicting app files were deliberately excluded, not merged. Deploy+verify step not yet re-confirmed.</p></div><span class="ybadge y-g">GREEN · HIGH · S</span></div>
     <div class="move"><span class="n">02</span><div><h3>Canon truth-sync</h3><p>Fix the three stale claims (ATG, outcome loop, sage orphan) in CLAUDE.md / AGENTS.md / snapshot. This audit is the diff list.</p></div><span class="ybadge y-g">GREEN · HIGH · S</span></div>
     <div class="move"><span class="n">03</span><div><h3>Close the debrief loop for first users</h3><p>T+N outcome nudge on existing cron scaffolding — turns the accumulation embryo into an organ.</p></div><span class="ybadge y-y">YELLOW · MED · M</span></div>
     <div class="move"><span class="n">04</span><div><h3>Eval harness: prompt vs. operators</h3><p>~20 canned decisions through both engines. Kills or crowns the /svc/sage orphan; gates any wiring.</p></div><span class="ybadge y-y">YELLOW · MED · M</span></div>
@@ -291,6 +291,9 @@
   <h2>Golden Inchworm log</h2>
   <p data-depth="op">Canonical twin lives in-repo at <span style="font-family:var(--mono);font-size:.8rem">_STATE/meta-audit-roadmap-v1.md</span>. The Drift Sentry routine (daily 08:00 ET) appends an entry per new handoff / ROM candidate / serializability epoch, re-grades the parity matrix, and redeploys this page. Scheduled runs carry no special token discount — the economy is the batching itself.</p>
   <div class="inch" style="margin-top:.8rem;border-color:rgba(255,215,0,.45)">
+    <b>2026-07-16 · v2.5.0 · epoch ebf9978</b> — This doc + the 8-file _ARTIFACTS/ explorer set landed on main (d939769), additive-only cherry-pick from the branch that originated them. CI/CD circuit breaker shipped: scripts/state_sync_check.py (advisory drift check, already flagging the same ATG/outcome-handler gap as move 02 below — automated, not yet fixed), a real FE-render hard-gate in ci.yml, deploy-verify.yml (auto-rollback + GitHub Issue on failed post-deploy verification). Worktree audit: 29→14 — 15 removed after individual re-verification, meridian-cco (Deloitte take-home, always out of scope) hard-forked to a standalone repo. Recovered a real canon gap: Handoff v3.4.0 existed only in an unmerged worktree, code was already live, only the doc was missing.
+  </div>
+  <div class="inch" style="margin-top:.6rem;border-color:rgba(255,215,0,.45)">
     <b>2026-07-10 · v1.1.0 · epoch 1a4c350</b> — Atomic Surface Map filed (_PATTERNS/2026-07-10-atomic-surface-map.md): 3 component systems + 3 token sources named · Manifest Law (zod) · 6-service decomposition — render-svc is the missing cross-compiler, publisher automates the wedge · receipts-as-traces OTel mapping (dependency held for approval) · self-sovereignty ladder L1✅→L4. Build order A1–A9 inherits the loop-closing queue.
   </div>
   <div class="inch" style="margin-top:.6rem">
