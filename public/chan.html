@@ -113,9 +113,11 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .chip.gated { color: var(--cyan); background: rgba(0,240,255,0.07); border: 1px solid rgba(0,240,255,0.3); }
 .chip.open { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); }
 
-/* ROADMAP */
-.rm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-.rm-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; }
+/* ROADMAP — NOW/NEXT/LATER LANES */
+.rm-lanes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 14px; }
+.rm-lane { display: flex; flex-direction: column; gap: 10px; }
+.rm-lane-head { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 10px; border: 1px solid; border-radius: 6px; text-align: center; }
+.rm-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; flex: 1; }
 .rm-title { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 5px; }
 .rm-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
@@ -126,7 +128,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 @media (max-width: 640px) {
   h1 { font-size: 25px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
-  .rm-grid { grid-template-columns: 1fr; }
+  .rm-lanes { grid-template-columns: 1fr; }
   .echo-row { grid-template-columns: 1fr; }
   .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; transform: rotate(90deg); background: none; }
   .risk-table .hide-m { display: none; }
@@ -169,6 +171,12 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       isomorphisms below aren't analogies, they're the same problem discovered twice.
     </div>
     <div class="echo-rows">
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · BY DEFINITION</div><div class="echo-text"><strong>Augmented Intelligence, not artificial replacement</strong> — an assistant that amplifies human insight, extending creativity, judgment, and expertise rather than substituting for them.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · CONSTITUTIONAL LAW #1</div><div class="echo-text">The first, never-violate primitive in ARCS's governing spec: <strong>scaffold and sequence cognition only — never compress, replace, or overrule the human's revealed preference</strong>. The compass tells you where you are and which direction is uphill; it does not decide for you.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Most platforms bolt this stance on after an incident forces it. Both systems chose it as the founding constraint — which means it's enforceable in architecture (release gates, render rules) instead of living in a policy doc. That's a trust story a consultancy can sell, and the deepest culture-fit signal on this page.</div>
+      </div>
       <div class="echo-row">
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · IN MIKE'S FRAMING</div><div class="echo-text">Disparate parts of the business — a campaign tool, a brand-strategy tool — turn out to <strong>share underlying interaction patterns</strong>, and once a pattern is found it gets repurposed across offers.</div></div>
         <div class="echo-mid">↔</div>
@@ -319,14 +327,29 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <div class="section">
     <div class="section-head">
       <div class="section-n">05</div>
-      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP — GATED ON EVIDENCE</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP — NOW · NEXT · LATER</div>
     </div>
-    <div class="section-title">What's next, and what has to be true first.</div>
-    <div class="rm-grid">
-      <div class="rm-card"><div class="rm-title">L6–L7 ENGINE</div><div class="rm-body">Ecosystem and meta-governance layers above the shipped L0–L5 stack — activation gated on real-corpus volume, not built speculatively.</div></div>
-      <div class="rm-card"><div class="rm-title">ATG (TRIBUTARIES)</div><div class="rm-body">Every response surfaces 2–4 adjacent threads: the meta-question beneath the stated one, an uncomfortable constraint, a cross-domain reframe.</div></div>
-      <div class="rm-card"><div class="rm-title">KAIROS DETECTION</div><div class="rm-body">Timing/window inference at scale — designed, machinery in the operators library, gated behind a receipt-volume threshold.</div></div>
-      <div class="rm-card"><div class="rm-title">OBSERVABILITY LATTICE</div><div class="rm-body">The inferred-goal-DAG model graduates from replay demo to live self-updating structure once a measurable baseline exists.</div></div>
+    <div class="section-title">One backlog, three horizons — each promotion gated on evidence, not enthusiasm.</div>
+    <div class="section-body">
+      Items move right-to-left only when their gate condition is met. "Later" isn't a euphemism for
+      "someday" — every item has a named trigger that promotes it.
+    </div>
+    <div class="rm-lanes">
+      <div class="rm-lane">
+        <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW — IN PRODUCTION THIS CYCLE</div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CLOSED-LOOP OUTCOME TELEMETRY</div><div class="rm-body">Shipped this week: autonomous expected-vs-actual scoring on real events, written back to the auditable ledger. The evaluation flywheel is turning.</div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION CORPUS</div><div class="rm-body">Every receipt + scored outcome accumulates the baseline that the gated layers below are waiting on — the corpus builds itself as a side effect of normal use.</div></div>
+      </div>
+      <div class="rm-lane">
+        <div class="rm-lane-head" style="color:var(--gold);border-color:rgba(255,215,0,0.3);">NEXT — UNBLOCKED &amp; SEQUENCED</div>
+        <div class="rm-card"><div class="rm-title">ATG (TRIBUTARIES)</div><div class="rm-body">Every response surfaces 2–4 adjacent threads: the meta-question beneath the stated one, an uncomfortable constraint, a cross-domain reframe.</div></div>
+        <div class="rm-card"><div class="rm-title">KAIROS DETECTION</div><div class="rm-body">Timing/window inference — machinery already built in the operators library. <strong>Gate: receipt-volume threshold.</strong></div></div>
+      </div>
+      <div class="rm-lane">
+        <div class="rm-lane-head" style="color:var(--steel);border-color:rgba(125,211,252,0.3);">LATER — EVIDENCE-GATED</div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--steel);">L6–L7 ENGINE</div><div class="rm-body">Ecosystem and meta-governance layers above the shipped L0–L5 stack. <strong>Gate: real-corpus volume justifies the complexity.</strong></div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--steel);">OBSERVABILITY LATTICE</div><div class="rm-body">The inferred-goal-DAG graduates from replay demo to live self-updating structure. <strong>Gate: measurable Zipf baseline at 100+ receipts.</strong></div></div>
+      </div>
     </div>
   </div>
 
