@@ -19,8 +19,8 @@
     "stability": "WATCH",
     "renderState": "DEGRADED",
     "nci": 76,
-    "headline": "Strong structural fit, warm close, real engagement — but the same rehearsed narrative got reused across at least three different questions.",
-    "subline": "Ran 13 minutes over on interviewer initiative, multiple explicit 'that's exactly what we've experienced' moments from Mike Lemon, and Zach found the role through his own algorithm — a strong authenticity signal. The risk isn't fit, it's presentation: the ex-ante-receipt/hindsight-bias/avalanche block repeated near-verbatim across the overview, challenges, and org-transition questions."
+    "headline": "Strong structural fit, warm close, real engagement — the repeated narrative was deliberate positioning, not an unmanaged reflex.",
+    "subline": "Ran 13 minutes over on interviewer initiative, multiple explicit 'that's exactly what we've experienced' moments from Mike Lemon, and Zach found the role through his own algorithm — a strong authenticity signal. Correction from initial read (Zach, 2026-07-16): this is a consultancy, and Mike self-identified as lacking technical/product depth. Reusing and deepening the ARCS narrative across questions was a deliberate move to establish trust and authority with a non-technical, non-product-background client — sell the fit for a builder/founder/Applied AI Engineer/Forward Deployed Engineer role, and show Mike he was seen, heard, and understood, including the internal challenges a non-product 'product lead' likely faces. Read in that frame, not as a technical-peer interview."
   },
   "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
   "loadBearingQuote": {
@@ -58,8 +58,8 @@
       "label": "FEEDBACK-LOOP CHALLENGES — FULL ARCS NARRATIVE (2nd instance)",
       "time": "13–19 min",
       "direction": "FORWARD",
-      "summary": "Mike asks specifically about the biggest challenges building the ARCS feedback loop. Zach's answer re-covers dogfooding, own-blind-spot correction, hallucination/sycophancy safeguards, local-first architecture, statefulness — largely restating segment 3's framework rather than narrating a specific failure and fix.",
-      "divergenceFlag": "HIGH — this is the interview-pivot-to-self-promotion pattern by definition: a direct, specific competency question ('what were the biggest challenges, how did you overcome them') answered by re-explaining the system's design philosophy rather than a concrete, metrics-backed incident. Mike's question deserved a story; it got a redescription of the architecture."
+      "summary": "Mike asks specifically about the biggest challenges building the ARCS feedback loop. Zach's answer re-covers dogfooding, own-blind-spot correction, hallucination/sycophancy safeguards, local-first architecture, statefulness — deepening segment 3's framework rather than narrating a discrete failure-and-fix incident.",
+      "divergenceFlag": "MED — reclassified per Zach's correction: not an unmanaged self-promotion pivot. Mike had already flagged limited technical/product fluency; deepening the same narrative (rather than switching to a terse incident story) is a deliberate consultative move — establish expert authority and show Mike he's understood, aimed at a non-technical audience who needs the shape of the thinking demonstrated twice, not a peer who needs efficiency. Appropriate for this audience; would be a real flag only against a technically fluent panel."
     },
     {
       "segment": 5,
@@ -95,11 +95,11 @@
       "description": "Mike's closing description of cross-offer pattern-reuse at Prophet (load-bearing quote) mirrors ARCS's cross-domain isomorphism thesis without Zach having led him there. This is a stronger fit signal than any answer Zach gave about his own framework."
     },
     {
-      "id": "NARRATIVE_REPETITION",
-      "label": "Same Rehearsed Block Used for Two Different Questions",
-      "color": "orange",
+      "id": "CONSULTATIVE_DEPTH_POSITIONING",
+      "label": "Deliberate Narrative Reuse as Trust-Building, Not a Reflex",
+      "color": "cyan",
       "strength": "DIRECTIONAL",
-      "description": "Segments 3 and 4 substantially reuse the same ex-ante-receipt/hindsight-bias framework language. Segment 4 in particular answered a request for a specific challenge-and-fix story with a restatement of the system's design principles instead. This same pattern (same block, different prompt) also appears in the Jalaja call 45 minutes earlier and the Danny Quick call afterward — see those reports. Cross-call, this reads as reach-for-the-rehearsed-answer under any open prompt, not context-specific to this interview."
+      "description": "Segments 3 and 4 deepen the same ex-ante-receipt/hindsight-bias framework language rather than switching to a terse incident story. Per Zach's correction: this was intentional — Prophet is a consultancy, Mike self-identified as lacking technical/product depth, and the goal was to sell fit for a builder/founder/Applied AI Engineer/Forward Deployed Engineer role by making Mike feel seen and understood, including naming the internal challenges a non-product 'product lead' likely faces. Distinct from the same-block reuse noted in the Jalaja and Danny Quick reports the same afternoon — those were a discovery call and a peer catch-up, where the calculus is different (a scoped, answerable ask waiting on the other end, or no audience-fluency gap to bridge). Don't collapse this into the same pattern without checking the audience and objective first."
     },
     {
       "id": "OVERRUN_ON_THEIR_INITIATIVE",
@@ -119,11 +119,11 @@
   "scenarios": [
     {
       "id": "A",
-      "probability": 45,
+      "probability": 55,
       "label": "Advances to next round",
       "description": "Strong structural fit signals, genuine mutual recognition of shared thesis, overrun on their initiative — advances to a next interview stage (panel, technical, or offer-track).",
       "trigger": "Follow-up contact within ~5–7 business days.",
-      "watch": "If a next round happens, lead answers with concrete Prophet/Maya-specific reasoning before ARCS framework language — the segment 6 answers (situational, non-repetitive) were the strongest of the call; more of that, less of segments 3–4's pattern."
+      "watch": "If a next round happens, calibrate to the audience: the segment 6 answers (situational, Prophet/Maya-specific) were the strongest of the call for demonstrating applied judgment. If the next round is a technically fluent panel, lead with more of that; if it's Mike again or another non-technical stakeholder, the segment 3–4 depth-and-repeat approach already worked as intended — no need to compress it."
     },
     {
       "id": "B",
@@ -135,20 +135,20 @@
     },
     {
       "id": "C",
-      "probability": 25,
-      "label": "Soft pass on narrative fit",
-      "description": "Despite strong rapport, the repeated-narrative pattern (segments 3–4) could read internally as a candidate who pitches a personal framework rather than demonstrates direct applied-AI-engineering delivery inside someone else's org structure.",
-      "trigger": "Feedback (if given) referencing 'more examples of working inside existing systems' or similar.",
-      "watch": "This is the scenario the narrative-repetition risk flag exists to guard against in future rounds."
+      "probability": 15,
+      "label": "Soft pass on 'works inside existing systems' concern",
+      "description": "Lower-probability scenario, now that the narrative depth is understood as deliberate consultative positioning rather than an unmanaged reflex: still possible that a later-stage, more technical evaluator reads segments 3–4 as pitch-heavy relative to a peer-level technical narrative. This is a different risk than 'doesn't understand the audience' — it's audience-mismatch if the evaluator changes.",
+      "trigger": "Feedback (if given) specifically from a technical evaluator, referencing 'more examples of working inside existing systems' or similar — not from Mike, who by his own account needed exactly this depth.",
+      "watch": "Distinguish who's asking before recalibrating style for a next round."
     }
   ],
   "riskFlags": [
     {
-      "id": "NARRATIVE_REPETITION",
-      "severity": "MED",
-      "label": "Same rehearsed ARCS block answered two structurally different questions",
-      "description": "The specific-challenge-and-fix question (segment 4) got a restatement of the general framework instead of a concrete incident narrative. This is the interview-pivot-to-self-promotion pattern (see memory: feedback_interview_pivot_to_self_promotion) recurring in a live interview, not just a rapport call.",
-      "action": "Before any next round, prepare 2–3 short, concrete, metrics-backed incident stories (a specific failure and fix, a specific tradeoff decision and outcome) that are NOT the ex-ante-receipt framework restated — keep the framework language in reserve for when it's actually asked for directly."
+      "id": "AUDIENCE_CALIBRATION_FOR_NEXT_ROUND",
+      "severity": "LOW",
+      "label": "Depth-and-repeat worked for Mike; confirm the audience before reusing the same approach",
+      "description": "Segments 3–4's narrative depth was a deliberate, and apparently effective, consultative move calibrated to Mike's self-identified lack of technical/product fluency — not a flaw to correct. The only residual risk is applying the same approach unchanged if a next-round evaluator has a different fluency level or is assessing peer-level technical delivery rather than trustworthiness/fit.",
+      "action": "Before any next round, find out who's in the room. If it's Mike again or another non-technical stakeholder, the segment 3–4 approach already worked — keep it. If it's a more technical evaluator, have 2–3 concrete, metrics-backed incident stories ready as a variant, not a replacement."
     },
     {
       "id": "VAGUE_TIMELINE",
@@ -169,11 +169,11 @@
         "name": "Deep Recall",
         "direction": "Start → End",
         "prePrepNote": "Scored against the Jul 15 precall note's advisory: cold call, no prior ledger history, proceed on stated context only.",
-        "keyFinding": "No prior-history advisory applied here since this was first contact. Scored instead against the general expectation for a role-fit interview: the structural-fit signals (independent thesis convergence, extended overrun, concrete situational answers in segment 6) significantly exceed a typical first-round interview. The one real gap against a 'strong interview' bar is response variety — reaching for the same rehearsed block under different prompts (segments 3–4) reads as under-prepared for challenge-specific questions despite being extremely well-prepared for the overview question."
+        "keyFinding": "No prior-history advisory applied here since this was first contact. Scored instead against the general expectation for a role-fit interview: the structural-fit signals (independent thesis convergence, extended overrun, concrete situational answers in segment 6) significantly exceed a typical first-round interview. Segments 3–4's narrative depth, initially misread as under-prepared repetition, is better scored as calibrated consultative positioning against a non-technical, non-product-background evaluator (Zach's correction, 2026-07-16) — deepening rather than diversifying was the right call for this specific audience."
       }
     ],
     "immediateActions": [
-      "Prepare 2–3 concrete, non-ARCS-framework incident stories for the next round's likely 'tell me about a specific challenge' style questions",
+      "Confirm who's in the room for any next round before deciding whether to repeat the segment 3–4 depth-and-repeat approach (worked for Mike) or diversify toward terse technical incident stories (for a more technically fluent evaluator)",
       "If no contact within 5 business days, treat as normal process latency given the multi-stakeholder language used; request a status update at day 7 per the standard confirmation-signal convention",
       "No outreach needed before day 5 — the close was warm enough that early follow-up risks reading as anxious rather than confident"
     ]
