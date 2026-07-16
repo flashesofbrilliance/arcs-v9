@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Jalaja Padma / theTrueAI – ARCS Pre-Call Brief</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 100px; }
+.page { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.card-body { padding: 18px 20px; }
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+.jump-nav { position: sticky; top: 12px; z-index: 50; display: flex; gap: 6px; background: rgba(13,17,23,0.85); backdrop-filter: blur(8px); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 6px; overflow-x: auto; }
+.jump-link { flex: 1; text-align: center; white-space: nowrap; padding: 9px 10px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); text-decoration: none; border-radius: var(--r-md); transition: color 0.15s, background 0.15s; }
+.jump-link.active { color: var(--cyan); background: rgba(0,240,255,0.08); }
+.section-anchor { scroll-margin-top: 70px; }
+.section-title { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; margin-bottom: 2px; }
+.section-sub { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+.conf-rows, .intel-rows, .q-rows, .next-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: baseline; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 90px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.55; }
+.conf-val strong { font-weight: 600; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 56px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.footer-note { text-align: center; font-family: var(--mono); font-size: 10px; color: var(--dimmed); padding-top: 12px; }
+#pw-gate { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+#pw-gate.hidden { display: none; }
+.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.pw-form { display: flex; gap: 10px; align-items: center; }
+.pw-input { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); color: var(--text); font-family: var(--mono); font-size: 14px; padding: 10px 16px; outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s; }
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+.pw-btn { background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-md); color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s; }
+.pw-btn:hover { background: rgba(0,240,255,0.14); }
+.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (max-width: 640px) { body { padding: 28px 16px 60px; } .conf-key { width: 74px; } .next-owner { width: 46px; } }
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PRIVATE BRIEF</div>
+  <div class="pw-title">Jalaja Padma / theTrueAI</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris</div>
+</div>
+<script>
+if (sessionStorage.getItem('jalaja-auth') === '1') { document.getElementById('pw-gate').classList.add('hidden'); }
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'padma') {
+    sessionStorage.setItem('jalaja-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake'); inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPw(); });
+</script>
+
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-eyebrow">Pre-Call Brief · LinkedIn Inbound</div>
+    <div class="masthead-name">Jalaja Padma</div>
+    <div class="masthead-sub">Founder, theTrueAI · AI Adoption Advisor · Ex-Amazon Alexa</div>
+  </div>
+
+  <div class="rule-glow"></div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;">JUL 16, 2026 · PRE-CALL</div>
+
+  <nav class="jump-nav" id="jump-nav">
+    <a class="jump-link" href="#briefing">Briefing</a>
+    <a class="jump-link" href="#thread">The Ask</a>
+    <a class="jump-link" href="#teardown">Site Findings</a>
+    <a class="jump-link" href="#probe">Probe List</a>
+    <a class="jump-link" href="#agenda">Agenda</a>
+  </nav>
+
+  <div class="notice">
+    <div class="notice-icon">&#9888;</div>
+    <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD. Register: cold-ish LinkedIn inbound, first real conversation not yet had. Bio facts sourced from her exported LinkedIn profile (2026-07-16). Site findings from a live scan of thetrueai.ai the same day. The external-facing pre-read at thetrueai.arcs.care already covers the teardown in full detail addressed to her – this document is the internal complement: what to watch for, not what to show her.</div>
+  </div>
+
+  <!-- BRIEFING -->
+  <section id="briefing" class="section-anchor">
+    <div class="section-title">Who You're Talking To</div>
+    <div class="section-sub">Jalaja Padma – ex-Amazon Alexa product leadership, now solo-founding a pre-launch AI course</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Track Record – per LinkedIn</div></div>
+    <div class="conf-rows">
+      <div class="conf-row"><div class="conf-key">Now</div><div class="conf-val"><strong>Founder, theTrueAI</strong> – the AI Product Builder Programme, a 4-week live cohort course. Also <strong>AI Adoption Advisor / AI Product Builder, Arya Consulting</strong> (Nov 2025–present, 9 months) – running theTrueAI alongside an advisory practice, not as her only venture.</div></div>
+      <div class="conf-row"><div class="conf-key">Before</div><div class="conf-val"><strong>Product Leader, Alexa – Amazon</strong> (Sep 2021–Apr 2026, 4y8mo). "Led product at Amazon Alexa AI, shipping voice experiences to hundreds of millions of users." This is the real anchor credential – recent, senior, at-scale, and it's the headline instructor credential on theTrueAI's own site.</div></div>
+      <div class="conf-row"><div class="conf-key">Earlier</div><div class="conf-val">Senior PM, T-Mobile (2019–21) · Senior Product Consultant, Ericsson (2014–16, Delhi + Bellevue) · Product Consultant, Cognizant (2009–12, Toronto) · Senior Software Engineer, TCS (2005–09, Hyderabad). A long, steady product/engineering climb before Amazon – not a first-time operator.</div></div>
+      <div class="conf-row"><div class="conf-key">Education</div><div class="conf-val">Kellogg (Northwestern) – Certificate in Product Strategy · Udacity – AI for Product Manager NanoDegree · Osmania University – B.E. Electrical &amp; Electronics.</div></div>
+      <div class="conf-row"><div class="conf-key">Also writes</div><div class="conf-val">jalajapadma.com – "AI adoption and the next generation of AI-native work." Her stated throughline: "AI adoption is mostly human work," judgment over tooling.</div></div>
+    </div>
+  </div>
+
+  <!-- THE ASK -->
+  <section id="thread" class="section-anchor">
+    <div class="section-title">The Actual Thread So Far</div>
+    <div class="section-sub">What she said, what you said – read this before the call, not just the brief below</div>
+  </section>
+
+  <div class="card">
+    <div class="card-body" style="font-size:13px;color:var(--text);line-height:1.6;">
+      She reached out warm on LinkedIn, complimentary, then made a direct ask: help with GTM/sales conversion for theTrueAI, ahead of the first formal paid cohort in August. Stated context from her: ran informal pilots with friends/family, "very well received," now needs to convert that into real signups. You replied positively but immediately asked a calibrating question – <strong>whether she had an "Amazon-style brief" (PR/FAQ) to share as a pre-read</strong> – explicitly framed as something that helps set mutual expectations on scope/budget/timing before committing to a call.
+      <br><br>
+      <strong>She has not sent that brief.</strong> She sent the site link instead. The external pre-read at thetrueai.arcs.care is built to partly stand in for it – it's explicitly framed to her as "the free half," and section 04 reframes the exercise itself as a version of the PR/FAQ test, run on her own site. Worth watching whether she engages with that framing or just treats it as generic site feedback.
+    </div>
+  </div>
+
+  <!-- SITE FINDINGS -->
+  <section id="teardown" class="section-anchor">
+    <div class="section-title">Site Findings – Summary</div>
+    <div class="section-sub">Full detail + citations live at thetrueai.arcs.care. This is the internal-only compressed version.</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">What's Real and Working</div></div>
+    <div class="intel-rows">
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text">Genuinely good positioning – "everyone can build, few know what to build" is a real, differentiated angle, not generic AI-course copy. Named third-party proof points (MIT NANDA, CB Insights, Pendo) instead of invented stats – rare discipline for a pre-launch course.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--green)"></div><div class="intel-text">Thoughtful pricing architecture already: student rate, self-fund discount code, employer invoice letters, layoff accommodation, money-back guarantee. This is not a naive first pass – someone who's thought about buyer objections already.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">The Real Gap – Directly On Her Stated Problem</div></div>
+    <div class="intel-rows">
+      <div class="intel-row"><div class="intel-dot" style="background:var(--red)"></div><div class="intel-text"><strong>"Apply" promises an application; /apply is actually just an email waitlist.</strong> Confirmed live, twice (first check hit a routing glitch, re-verified). This is the single highest-leverage finding – it sits exactly on the GTM/conversion problem she named unprompted. Worth letting her react to this live rather than just reading it off the page.</div></div>
+      <div class="intel-row"><div class="intel-dot" style="background:var(--gold)"></div><div class="intel-text">Blog promises "weekly," last post ~4 months ago. Contact routes through a personal Gmail, not a course-branded address. Both minor individually, same shape as the Apply gap – promised polish that isn't quite there yet.</div></div>
+    </div>
+  </div>
+
+  <!-- PROBE LIST -->
+  <section id="probe" class="section-anchor">
+    <div class="section-title">Things to Probe Live</div>
+    <div class="section-sub">First real conversation – treat these as genuine open questions, not a vetting script</div>
+  </section>
+
+  <div class="card">
+    <div class="card-rows">
+      <div class="q-rows">
+        <div class="q-row"><div class="q-top"><div class="q-n">1</div><div class="q-text">"What did the pilot cohorts actually look like – how many people, what feedback specifically, did anyone pay?"</div></div><div class="q-look">LISTEN FOR: "very well received" from friends/family pilots is a soft signal – free pilots with a warm audience rarely predict paid-stranger conversion. A specific, concrete answer here (numbers, a quote, a completion rate) is a much stronger signal than the general framing in her outreach message.</div></div>
+        <div class="q-row"><div class="q-top"><div class="q-n">2</div><div class="q-text">"Is the Apply-vs-waitlist gap intentional soft-launch gating, or did that just not get built yet?"</div></div><div class="q-look">LISTEN FOR: if intentional (e.g., controlling cohort size before Aug 22), that reframes the "gap" as a deliberate choice, not an oversight – changes the whole conversation from "fix your funnel" to "is the funnel doing what you want it to do."</div></div>
+        <div class="q-row"><div class="q-top"><div class="q-n">3</div><div class="q-text">"What does 'GTM help' actually mean to you right now – more applicants, better conversion from applicant to paid, or positioning/messaging itself?"</div></div><div class="q-look">LISTEN FOR: these are three different problems requiring different engagements. A vague answer means the ask itself isn't fully formed yet – useful to know before scoping anything.</div></div>
+        <div class="q-row"><div class="q-top"><div class="q-n">4</div><div class="q-text">"You're running Arya Consulting alongside this – is theTrueAI the main bet, or one of two things running in parallel?"</div></div><div class="q-look">LISTEN FOR: same read as any founder running two things at once – which one is she actually prioritizing her hours against. Answer shapes how much urgency/resourcing to expect on her side of any collaboration.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AGENDA -->
+  <section id="agenda" class="section-anchor">
+    <div class="section-title">Proposed Agenda</div>
+    <div class="section-sub">First real conversation – she asked for time this week</div>
+  </section>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Call Flow</div></div>
+    <div class="next-rows">
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">0–5</div><div class="next-text">Let her lead – she initiated, she has a specific ask, let her state it in her own words before referencing anything from the site scan.</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">5–15</div><div class="next-text">Pilot specifics (Q1), the Apply/waitlist question (Q2), and what "GTM help" concretely means to her (Q3) – in whatever order the conversation naturally goes.</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">15–22</div><div class="next-text">Reference the pre-read only if she's engaged with it – don't force a walkthrough of thetrueai.arcs.care if she hasn't opened it yet; offer it as something to look at after if not.</div></div>
+      <div class="next-row"><div class="next-owner" style="color:var(--cyan)">22–30</div><div class="next-text">Land on a concrete next step – the PR/FAQ exercise, the scoped conversion-funnel work, or neither. Five weeks to Aug 22 is a real, useful constraint – use it to force a bounded first step rather than an open-ended advisory conversation.</div></div>
+    </div>
+  </div>
+
+  <div class="footer-note">ARCS · Private Brief · Generated 2026-07-16 ahead of a call this week</div>
+
+</div>
+
+<script>
+(function() {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.jump-link'));
+  var sections = links.map(function(l) { return document.querySelector(l.getAttribute('href')); });
+  function onScroll() {
+    var pos = window.scrollY + 100;
+    var activeIdx = 0;
+    sections.forEach(function(s, i) { if (s && s.offsetTop <= pos) activeIdx = i; });
+    links.forEach(function(l, i) { l.classList.toggle('active', i === activeIdx); });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+})();
+</script>
+
+</body>
+</html>

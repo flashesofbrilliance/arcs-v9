@@ -72,6 +72,10 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/danny.html", has: [{ type: "host", value: "danny.arcs.care" }] },
         // kiko.arcs.care → public/kiko.html (external-facing Kiko teardown + gift, addressed to Danny, pw-gated "danny")
         { source: "/:path*", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
+        // jalaja.arcs.care → public/jalaja.html (Jalaja Padma / theTrueAI pre-call brief, internal, pw-gated "padma")
+        { source: "/:path*", destination: "/jalaja.html", has: [{ type: "host", value: "jalaja.arcs.care" }] },
+        // thetrueai.arcs.care → public/thetrueai.html (external-facing theTrueAI teardown, addressed to Jalaja, pw-gated "jalaja")
+        { source: "/:path*", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
