@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow"/>
-<title>Kiko × ARCS — a teardown and a map</title>
+<title>Kiko × ARCS – a teardown and a map</title>
 <style>
   :root{
     --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
@@ -114,8 +114,8 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 <header>
   <div class="eyebrow">ARCS × Kiko · Prepared for Danny Quick · Jul 2026</div>
   <h1>Ahead of catching up, I pulled meetkiko.com apart the way Kiko pulls a creator roster apart.</h1>
-  <p class="sub">Figured this'd be more useful than a "hey good luck with the new thing" text. Three parts: what the site says today, the site the machine you're building deserves, and a few honest, half-baked hypotheses on where Kiko and what I'm building might actually interlock — flagged as hypotheses since we haven't talked shop properly yet. Plus one hygiene item up top that's a fast fix regardless of anything else.</p>
-  <div class="meta">METHOD: LIVE PRODUCTION SCAN OF MEETKIKO.COM (RESPONSE HEADERS, RENDERED DOM, COPY) · JUL 16 2026 · PRE-CALL — NO CONVERSATION YET, SO NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE</div>
+  <p class="sub">Figured this'd be more useful than a "hey good luck with the new thing" text. Three parts: what the site says today, the site the machine you're building deserves, and a few honest, half-baked hypotheses on where Kiko and what I'm building might actually interlock – flagged as hypotheses since we haven't talked shop properly yet. Plus one hygiene item up top that's a fast fix regardless of anything else.</p>
+  <div class="meta">METHOD: LIVE PRODUCTION SCAN OF MEETKIKO.COM (RESPONSE HEADERS, RENDERED DOM, COPY) · JUL 16 2026 · PRE-CALL – NO CONVERSATION YET, SO NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE</div>
   <nav class="pillnav">
     <a class="pill" href="#favor">00 · Favor</a>
     <a class="pill" href="#evidence">01 · Evidence</a>
@@ -129,22 +129,22 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 <section id="favor">
   <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the favor</div><h2>One hygiene fix, no call required to act on it</h2></div></div>
   <div class="card stripe gold"><div class="cardtop"><h3>No Content-Security-Policy or clickjacking protection on the live domain</h3><span class="tag gold">Cheap fix</span></div>
-  <p>meetkiko.com's response headers set <code>x-content-type-options: nosniff</code> and a real <code>referrer-policy</code>, but there's no CSP and no <code>X-Frame-Options</code> / <code>frame-ancestors</code> — the page can currently be iframed by any third-party site. There's also a wildcard <code>access-control-allow-origin: *</code> on the HTML document itself, which usually belongs on an API route, not a rendered page — a sign the Cloudflare config got copied from somewhere else rather than tuned per-route. Low urgency today since the page holds no session state, but it's a ten-minute Cloudflare rules change. Happy to point at the exact header set if useful.</p></div>
+  <p>meetkiko.com's response headers set <code>x-content-type-options: nosniff</code> and a real <code>referrer-policy</code>, but there's no CSP and no <code>X-Frame-Options</code> / <code>frame-ancestors</code> – the page can currently be iframed by any third-party site. There's also a wildcard <code>access-control-allow-origin: *</code> on the HTML document itself, which usually belongs on an API route, not a rendered page – a sign the Cloudflare config got copied from somewhere else rather than tuned per-route. Low urgency today since the page holds no session state, but it's a ten-minute Cloudflare rules change. Happy to point at the exact header set if useful.</p></div>
 </section>
 
 <section id="evidence">
-  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What meetkiko.com says today — the complete inventory</h2></div></div>
-  <p>Kiko is server-rendered (Next.js), which is worth naming as a genuine strength before anything else — real title, meta description, OG tags, a working robots.txt and sitemap.xml. Google and AI search engines get real content when they crawl this. Here's the full surface as a first-time visitor reads it:</p>
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What meetkiko.com says today – the complete inventory</h2></div></div>
+  <p>Kiko is server-rendered (Next.js), which is worth naming as a genuine strength before anything else – real title, meta description, OG tags, a working robots.txt and sitemap.xml. Google and AI search engines get real content when they crawl this. Here's the full surface as a first-time visitor reads it:</p>
   <div class="tablewrap"><table>
     <tr><th>Surface</th><th>Verbatim content</th></tr>
     <tr><td>Hero</td><td>"THE OLD PLAYBOOK STOPPED WORKING" · "EVERY COMPANY IS SHOUTING, NOBODY'S LISTENING" · "TRUST IS THE NEW DISTRIBUTION"</td></tr>
     <tr><td>Meta description</td><td>"Buy trust, not just attention. Creator growth infrastructure built for scale."</td></tr>
-    <tr><td>Product 1</td><td>Creator Sourcing — AI-driven creator outreach and negotiation, "living, pre-vetted, pre-negotiated shortlist," from $200/mo</td></tr>
-    <tr><td>Product 2</td><td>Viral Intelligence — weekly Viral Brief on outlier formats/hooks/creators, Short-Form Analysis from $100/mo, first report free</td></tr>
-    <tr><td>Product 3</td><td>Growth Partner — fractional, full-stack execution across creators/UGC/paid/clipping/influencers, "not an agency, just outcomes"</td></tr>
+    <tr><td>Product 1</td><td>Creator Sourcing – AI-driven creator outreach and negotiation, "living, pre-vetted, pre-negotiated shortlist," from $200/mo</td></tr>
+    <tr><td>Product 2</td><td>Viral Intelligence – weekly Viral Brief on outlier formats/hooks/creators, Short-Form Analysis from $100/mo, first report free</td></tr>
+    <tr><td>Product 3</td><td>Growth Partner – fractional, full-stack execution across creators/UGC/paid/clipping/influencers, "not an agency, just outcomes"</td></tr>
     <tr><td>Proof claim</td><td>"Team has built and scaled creator marketing programs to $100M+" · "our team in NYC and LA review and approve every AI interaction"</td></tr>
-    <tr><td>GTM motion</td><td>27-entry public comparison hub ("Kiko vs Everybody") against named competitors — a real category-capture SEO play</td></tr>
-    <tr><td>CTAs</td><td>GET HANDPICKED CREATORS · SEE THE DATA · IT'S TIME TO BUILD · GET STARTED — no self-serve checkout or signup form found on the page itself</td></tr>
+    <tr><td>GTM motion</td><td>27-entry public comparison hub ("Kiko vs Everybody") against named competitors – a real category-capture SEO play</td></tr>
+    <tr><td>CTAs</td><td>GET HANDPICKED CREATORS · SEE THE DATA · IT'S TIME TO BUILD · GET STARTED – no self-serve checkout or signup form found on the page itself</td></tr>
   </table></div>
   <p style="margin-top:14px">The raw material here is strong. "Every company is shouting, nobody's listening" gives visitors a villain before the pitch, and the three-tier ladder (self-serve data → subscription insight → fractional service) is a real go-to-market shape, not one undifferentiated offer.</p>
 </section>
@@ -153,56 +153,56 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Five gaps, ranked by what they cost you</h2></div></div>
 
   <div class="card stripe red"><div class="cardtop"><h3>1 · "AI negotiates and contracts with creators" is the highest-liability claim on the page</h3><span class="tag red">Risk</span></div>
-  <p>Automated negotiation and deal-execution with third parties is exactly where brand-safety and legal exposure concentrate for a platform like this. The "team reviews every AI interaction" line is reassuring, but it's asserted, not shown — no detail on where human review sits in the loop, what's binding without it, or what happens when it's wrong. For a company selling trust as its category, this is the one claim that most needs a visible, specific answer.</p></div>
+  <p>Automated negotiation and deal-execution with third parties is exactly where brand-safety and legal exposure concentrate for a platform like this. The "team reviews every AI interaction" line is reassuring, but it's asserted, not shown – no detail on where human review sits in the loop, what's binding without it, or what happens when it's wrong. For a company selling trust as its category, this is the one claim that most needs a visible, specific answer.</p></div>
 
   <div class="card stripe gold"><div class="cardtop"><h3>2 · No stated ICP, on a page selling three different buying decisions</h3><span class="tag gold">Coherence</span></div>
-  <p>Sourcing, Intelligence, and Growth Partner are three different sales cycles and three different buyers — but nothing on the page tells a first-time visitor which one matches their size or stage. A DTC founder and a Fortune 500 CMO read the same homepage today with no default path. That's a real decision-architecture gap, not a copy nit.</p></div>
+  <p>Sourcing, Intelligence, and Growth Partner are three different sales cycles and three different buyers – but nothing on the page tells a first-time visitor which one matches their size or stage. A DTC founder and a Fortune 500 CMO read the same homepage today with no default path. That's a real decision-architecture gap, not a copy nit.</p></div>
 
   <div class="card stripe gold"><div class="cardtop"><h3>3 · "$100M+ scaled" is unattributed</h3><span class="tag gold">Credibility</span></div>
   <p>No named brand, no case study, no logo wall visible anywhere in the rendered page. For a site whose entire thesis is "trust is the new distribution," the site's own trust signals are thin relative to the claim it's making about itself.</p></div>
 
   <div class="card stripe cyan"><div class="cardtop"><h3>4 · Pricing without a path to actually pay it</h3><span class="tag cyan">Conversion</span></div>
-  <p>$200/mo and $100/mo read as anchors, but there's no signup form or checkout flow anywhere on the homepage — every CTA routes off-page. If Sourcing and Intelligence are meant to be genuinely self-serve, that's the highest-leverage build; if Growth Partner is actually the revenue engine, the self-serve pricing may be doing more marketing work than sales work, which is fine — but worth being deliberate about which one it is.</p></div>
+  <p>$200/mo and $100/mo read as anchors, but there's no signup form or checkout flow anywhere on the homepage – every CTA routes off-page. If Sourcing and Intelligence are meant to be genuinely self-serve, that's the highest-leverage build; if Growth Partner is actually the revenue engine, the self-serve pricing may be doing more marketing work than sales work, which is fine – but worth being deliberate about which one it is.</p></div>
 
   <div class="card stripe"><div class="cardtop"><h3>5 · The founder isn't on the site, and the story is unusually good</h3><span class="tag">Narrative</span></div>
-  <p>Head of Product for Beyoncé at Parkwood. Before that, built an artist-to-fan texting product (SuperPhone) after reading about how a working musician stayed connected to fans directly. Before Kiko, five years running Shop Galaxy through institutional backing (Floodgate, Homebrew, Maveron, Snapchat, among others). That's a founder who has personally lived both sides of "trust as distribution" — once as the artist's team, once as the founder raising real capital. None of it is on meetkiko.com.</p></div>
+  <p>Head of Product for Beyoncé at Parkwood. Before that, built an artist-to-fan texting product (SuperPhone) after reading about how a working musician stayed connected to fans directly. Before Kiko, five years running Shop Galaxy through institutional backing (Floodgate, Homebrew, Maveron, Snapchat, among others). That's a founder who has personally lived both sides of "trust as distribution" – once as the artist's team, once as the founder raising real capital. None of it is on meetkiko.com.</p></div>
 </section>
 
 <section id="quickwins">
   <div class="sechead"><span class="idx">03</span><div><div class="seclabel">GTM quick wins</div><h2>Same category insight, more evidence of it</h2></div></div>
-  <div class="quote">"Distribution is the only moat."<span class="attr">meetkiko.com, hero copy — the sentence the whole redesign should prove, not just state</span></div>
+  <div class="quote">"Distribution is the only moat."<span class="attr">meetkiko.com, hero copy – the sentence the whole redesign should prove, not just state</span></div>
   <ul>
-    <li><strong>The hero becomes a live feed, not a slogan.</strong> A ticking, lightly anonymized stream of the sourcing engine actually running — creators found, vetted, ranked, negotiated — the way the current creator-rolodex module hints at but doesn't sustain. The site becomes the product demo instead of a claim about one.</li>
-    <li><strong>One redacted sample deliverable, gated by email.</strong> A real Viral Brief or buyer shortlist, anonymized. Proof, lead magnet, and product spec in one artifact — the same move that turns "trust me" into "watch it work."</li>
+    <li><strong>The hero becomes a live feed, not a slogan.</strong> A ticking, lightly anonymized stream of the sourcing engine actually running – creators found, vetted, ranked, negotiated – the way the current creator-rolodex module hints at but doesn't sustain. The site becomes the product demo instead of a claim about one.</li>
+    <li><strong>One redacted sample deliverable, gated by email.</strong> A real Viral Brief or buyer shortlist, anonymized. Proof, lead magnet, and product spec in one artifact – the same move that turns "trust me" into "watch it work."</li>
     <li><strong>A founder page that tells the real story in six sentences.</strong> Beyoncé/Parkwood → SuperPhone (artist-to-fan trust, built once already) → Shop Galaxy (institutional capital, five years, real exits from real backers) → Kiko. Studios and brands buy operators with provenance; this provenance happens to be unusually on-thesis.</li>
-    <li><strong>Pricing shape wired to an actual path.</strong> "Monthly license · self-serve shortlist in 48 hours" if Sourcing is meant to be self-serve — or, if it isn't yet, a clear "book a call" frame instead of prices that don't connect to checkout.</li>
-    <li><strong>A visible answer to the AI-negotiation question before anyone has to ask it.</strong> One sentence — what's human-reviewed, what's binding, where the line is — turns the highest-risk claim on the page into the strongest trust signal on the page. That's the "trust is the new distribution" thesis applied to Kiko's own site, not just its pitch.</li>
+    <li><strong>Pricing shape wired to an actual path.</strong> "Monthly license · self-serve shortlist in 48 hours" if Sourcing is meant to be self-serve – or, if it isn't yet, a clear "book a call" frame instead of prices that don't connect to checkout.</li>
+    <li><strong>A visible answer to the AI-negotiation question before anyone has to ask it.</strong> One sentence – what's human-reviewed, what's binding, where the line is – turns the highest-risk claim on the page into the strongest trust signal on the page. That's the "trust is the new distribution" thesis applied to Kiko's own site, not just its pitch.</li>
   </ul>
   <p class="mono">The delta in one line: today the site asserts trust is the new distribution. The next site demonstrates it, on itself, first.</p>
 </section>
 
 <section id="interlock">
   <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Where the machines might interlock</div><h2>Kiko finds the right creators. ARCS makes sure the decisions built on top of that evidence hold up.</h2></div></div>
-  <p>These are hypotheses, not a pitch — we haven't really talked shop yet, so take this as me thinking out loud rather than anything polished. The shape I'd guess at, based on the site alone: Kiko produces evidence (who to work with, what's working, what to spend) and a brand still has to decide what to do with it — budget commitment, campaign kill/continue calls, which creator relationships to deepen versus drop. That decision layer is the thing I've been building toward. A few places this might actually be real, worth kicking around next time we talk:</p>
+  <p>These are hypotheses, not a pitch – we haven't really talked shop yet, so take this as me thinking out loud rather than anything polished. The shape I'd guess at, based on the site alone: Kiko produces evidence (who to work with, what's working, what to spend) and a brand still has to decide what to do with it – budget commitment, campaign kill/continue calls, which creator relationships to deepen versus drop. That decision layer is the thing I've been building toward. A few places this might actually be real, worth kicking around next time we talk:</p>
 
   <div class="band">
     <div class="bandhead"><h3 style="margin:0">A · Kill/continue decisions on creator spend</h3><span class="tag cyan">Worth testing live</span></div>
     <div class="bandbody">
-      <p>Viral Intelligence tells a brand what's working; Growth Partner runs the engine. Somewhere in between is a recurring decision — keep this creator, cut that one, double down here — made under incomplete information and internal disagreement (marketing wants reach, finance wants CAC, the founder wants brand fit). A decision receipt at that checkpoint — who argued what, what evidence was weighed, what the actual call was — is exactly the layer Kiko's data feeds and doesn't currently own.</p>
+      <p>Viral Intelligence tells a brand what's working; Growth Partner runs the engine. Somewhere in between is a recurring decision – keep this creator, cut that one, double down here – made under incomplete information and internal disagreement (marketing wants reach, finance wants CAC, the founder wants brand fit). A decision receipt at that checkpoint – who argued what, what evidence was weighed, what the actual call was – is exactly the layer Kiko's data feeds and doesn't currently own.</p>
     </div>
   </div>
 
   <div class="band">
     <div class="bandhead"><h3 style="margin:0">B · The AI-negotiation trust gap, closed with a receipt instead of a claim</h3><span class="tag gold">Directly addresses Gap #1 above</span></div>
     <div class="bandbody">
-      <p>If "our team reviews every AI interaction" became a receipt-backed trail — who reviewed which negotiation, when, what changed — the highest-liability claim on the site turns into the strongest evidence of it. That's a narrow, concrete pilot rather than a platform rebuild.</p>
+      <p>If "our team reviews every AI interaction" became a receipt-backed trail – who reviewed which negotiation, when, what changed – the highest-liability claim on the site turns into the strongest evidence of it. That's a narrow, concrete pilot rather than a platform rebuild.</p>
     </div>
   </div>
 
   <div class="band">
     <div class="bandhead"><h3 style="margin:0">C · Two founders, two forms of "trust is the new distribution"</h3><span class="tag steel">Longer bet</span></div>
     <div class="bandbody">
-      <p>You built one artist-to-fan trust product already (SuperPhone) before building one for brands (Kiko). My last decade has been on the decision-governance side of high-stakes calls — PE turnarounds, launching $7B of digital assets at Grayscale through regulatory chaos. If there's a real overlap it's probably not obvious from a website; better to find it in conversation than assert it here.</p>
+      <p>You built one artist-to-fan trust product already (SuperPhone) before building one for brands (Kiko). My last decade has been on the decision-governance side of high-stakes calls – PE turnarounds, launching $7B of digital assets at Grayscale through regulatory chaos. If there's a real overlap it's probably not obvious from a website; better to find it in conversation than assert it here.</p>
     </div>
   </div>
 </section>
@@ -210,9 +210,9 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 <section id="next">
   <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>Straightforward from here</h2></div></div>
   <div class="grid2">
-    <div class="card stripe green"><div class="cardtop"><h3>Today</h3><span class="tag green">Our call</span></div><p>None of section 04 is a pitch — it's a starting point for a real conversation about what Kiko actually needs versus what I'm guessing from the outside.</p></div>
+    <div class="card stripe green"><div class="cardtop"><h3>Today</h3><span class="tag green">Our call</span></div><p>None of section 04 is a pitch – it's a starting point for a real conversation about what Kiko actually needs versus what I'm guessing from the outside.</p></div>
     <div class="card stripe gold"><div class="cardtop"><h3>Whenever</h3><span class="tag gold">On you</span></div><p>The CSP/clickjacking header fix. Ten minutes, worth doing regardless of anything else on this page.</p></div>
-    <div class="card stripe"><div class="cardtop"><h3>Anytime</h3><span class="tag">Standing</span></div><p>If it's useful to look at the AI-negotiation review flow or the pricing/checkout gap together, say the word — the teardown above is the free half.</p></div>
+    <div class="card stripe"><div class="cardtop"><h3>Anytime</h3><span class="tag">Standing</span></div><p>If it's useful to look at the AI-negotiation review flow or the pricing/checkout gap together, say the word – the teardown above is the free half.</p></div>
   </div>
 </section>
 
