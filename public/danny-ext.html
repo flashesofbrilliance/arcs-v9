@@ -20,7 +20,10 @@
   h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:10px 0 8px;font-weight:650}
   .sub{color:var(--muted)}
   .meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
-  section{margin-top:56px}
+  section{margin-top:56px;scroll-margin-top:20px}
+  .pillnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .pill{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:999px;transition:color .15s,border-color .15s}
+  .pill:hover{color:var(--cyan);border-color:rgba(0,240,255,.35)}
   .sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:22px}
   .sechead>div{flex:1;min-width:0}
   .idx{font-family:var(--mono);color:var(--cyan);font-size:13px}
@@ -113,15 +116,23 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <h1>Ahead of catching up, I pulled meetkiko.com apart the way Kiko pulls a creator roster apart.</h1>
   <p class="sub">Figured this'd be more useful than a "hey good luck with the new thing" text. Three parts: what the site says today, the site the machine you're building deserves, and a few honest, half-baked hypotheses on where Kiko and what I'm building might actually interlock — flagged as hypotheses since we haven't talked shop properly yet. Plus one hygiene item up top that's a fast fix regardless of anything else.</p>
   <div class="meta">METHOD: LIVE PRODUCTION SCAN OF MEETKIKO.COM (RESPONSE HEADERS, RENDERED DOM, COPY) · JUL 16 2026 · PRE-CALL — NO CONVERSATION YET, SO NOTHING BELOW IS ATTRIBUTED TO YOU AS A QUOTE</div>
+  <nav class="pillnav">
+    <a class="pill" href="#favor">00 · Favor</a>
+    <a class="pill" href="#evidence">01 · Evidence</a>
+    <a class="pill" href="#gaps">02 · Gaps</a>
+    <a class="pill" href="#quickwins">03 · GTM Quick Wins</a>
+    <a class="pill" href="#interlock">04 · Interlock</a>
+    <a class="pill" href="#next">05 · Next</a>
+  </nav>
 </header>
 
-<section>
+<section id="favor">
   <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the favor</div><h2>One hygiene fix, no call required to act on it</h2></div></div>
   <div class="card stripe gold"><div class="cardtop"><h3>No Content-Security-Policy or clickjacking protection on the live domain</h3><span class="tag gold">Cheap fix</span></div>
   <p>meetkiko.com's response headers set <code>x-content-type-options: nosniff</code> and a real <code>referrer-policy</code>, but there's no CSP and no <code>X-Frame-Options</code> / <code>frame-ancestors</code> — the page can currently be iframed by any third-party site. There's also a wildcard <code>access-control-allow-origin: *</code> on the HTML document itself, which usually belongs on an API route, not a rendered page — a sign the Cloudflare config got copied from somewhere else rather than tuned per-route. Low urgency today since the page holds no session state, but it's a ten-minute Cloudflare rules change. Happy to point at the exact header set if useful.</p></div>
 </section>
 
-<section>
+<section id="evidence">
   <div class="sechead"><span class="idx">01</span><div><div class="seclabel">Evidence</div><h2>What meetkiko.com says today — the complete inventory</h2></div></div>
   <p>Kiko is server-rendered (Next.js), which is worth naming as a genuine strength before anything else — real title, meta description, OG tags, a working robots.txt and sitemap.xml. Google and AI search engines get real content when they crawl this. Here's the full surface as a first-time visitor reads it:</p>
   <div class="tablewrap"><table>
@@ -138,7 +149,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <p style="margin-top:14px">The raw material here is strong. "Every company is shouting, nobody's listening" gives visitors a villain before the pitch, and the three-tier ladder (self-serve data → subscription insight → fractional service) is a real go-to-market shape, not one undifferentiated offer.</p>
 </section>
 
-<section>
+<section id="gaps">
   <div class="sechead"><span class="idx">02</span><div><div class="seclabel">Gap analysis</div><h2>Five gaps, ranked by what they cost you</h2></div></div>
 
   <div class="card stripe red"><div class="cardtop"><h3>1 · "AI negotiates and contracts with creators" is the highest-liability claim on the page</h3><span class="tag red">Risk</span></div>
@@ -157,7 +168,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <p>Head of Product for Beyoncé at Parkwood. Before that, built an artist-to-fan texting product (SuperPhone) after reading about how a working musician stayed connected to fans directly. Before Kiko, five years running Shop Galaxy through institutional backing (Floodgate, Homebrew, Maveron, Snapchat, among others). That's a founder who has personally lived both sides of "trust as distribution" — once as the artist's team, once as the founder raising real capital. None of it is on meetkiko.com.</p></div>
 </section>
 
-<section>
+<section id="quickwins">
   <div class="sechead"><span class="idx">03</span><div><div class="seclabel">GTM quick wins</div><h2>Same category insight, more evidence of it</h2></div></div>
   <div class="quote">"Distribution is the only moat."<span class="attr">meetkiko.com, hero copy — the sentence the whole redesign should prove, not just state</span></div>
   <ul>
@@ -170,7 +181,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   <p class="mono">The delta in one line: today the site asserts trust is the new distribution. The next site demonstrates it, on itself, first.</p>
 </section>
 
-<section>
+<section id="interlock">
   <div class="sechead"><span class="idx">04</span><div><div class="seclabel">Where the machines might interlock</div><h2>Kiko finds the right creators. ARCS makes sure the decisions built on top of that evidence hold up.</h2></div></div>
   <p>These are hypotheses, not a pitch — we haven't really talked shop yet, so take this as me thinking out loud rather than anything polished. The shape I'd guess at, based on the site alone: Kiko produces evidence (who to work with, what's working, what to spend) and a brand still has to decide what to do with it — budget commitment, campaign kill/continue calls, which creator relationships to deepen versus drop. That decision layer is the thing I've been building toward. A few places this might actually be real, worth kicking around next time we talk:</p>
 
@@ -196,7 +207,7 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
   </div>
 </section>
 
-<section>
+<section id="next">
   <div class="sechead"><span class="idx">05</span><div><div class="seclabel">Next</div><h2>Straightforward from here</h2></div></div>
   <div class="grid2">
     <div class="card stripe green"><div class="cardtop"><h3>Tomorrow</h3><span class="tag green">Our call</span></div><p>None of section 04 is a pitch — it's a starting point for a real conversation about what Kiko actually needs versus what I'm guessing from the outside.</p></div>
