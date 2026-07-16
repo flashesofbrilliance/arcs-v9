@@ -112,6 +112,26 @@ Style rules, non-negotiable (all caught the hard way this session):
 - Never narrate the editing/correction process at the reader ("correction from an earlier
   pass," "the way I just checked yours") — see Funhouse gate below. They see the final draft.
 
+### Citation markup (required — this is what makes Step 4's gauntlet mechanically checkable)
+
+Wrap every factual claim in the "Evidence" and "Gap analysis" sections in:
+
+```html
+<span class="claim" data-src="https://example.com/page" data-stakes="normal">
+  claim text, or a "verbatim quote"
+</span>
+```
+
+- `data-src` — one or more source URLs, comma-separated if the claim is cross-referenced
+  against multiple independent sources (e.g. a `/compare` claim checked against the named
+  competitor's own pricing page).
+- `data-stakes="high"` — pricing, funding, liability, or anything used to argue a gap exists.
+  High-stakes claims **must** cite ≥2 independent sources. Ordinary confirmed facts can stay
+  `data-stakes="normal"` with one good source.
+
+The spans don't need to be visually styled differently — this is a machine-checkable layer
+under normal-looking prose, not a visible citation UI (unless you want one).
+
 ## Step 4 — The gauntlet (run BEFORE calling either draft final, not after)
 
 This is the step that was, in the actual session, run reactively across three separate user
@@ -145,6 +165,28 @@ point of turning this into a skill. Apply each lens explicitly and record the ve
 Report the gauntlet result as a short table (lens → verdict → what was fixed) before treating
 either artifact as final — either to the user in chat, or in a scratch note, but not baked
 into the shipped page itself (that's Funhouse's job to prevent).
+
+### Run the deterministic harness — required, not optional
+
+Prose rules with no mechanical check are exactly how the real errors in this session's
+history happened (the `UNENFORCED_CONVENTION` pathogen this repo's own governance audit
+already named). Write the gauntlet writeup from above to a scratch file
+(e.g. `/tmp/<name>-gauntlet.md`), then run:
+
+```bash
+python3 scripts/teardown_eval.py public/<external-artifact>.html \
+  --gauntlet-report /tmp/<name>-gauntlet.md
+```
+
+This checks (deterministically, not by vibes): no em-dashes, no `ch`-width CSS caps, no
+`text-wrap:balance`, no process-narration language, all five gauntlet lenses present in the
+report, every claim carries a citation span, every high-stakes claim has ≥2 independent
+sources. **Must exit 0 before the artifact is deployed.** If it fails, fix the artifact —
+don't loosen the gate to make it pass. (It cannot fully verify fact-checking against live
+sources without a fixture snapshot of what was actually fetched — that part still rests on
+Step 2 having actually been done thoroughly. See `tests/fixtures/teardown-eval/` for the
+worked pass/fail examples and `tests/teardown_eval_selftest.sh` for the harness's own
+regression test.)
 
 ## Step 5 — Deploy
 
