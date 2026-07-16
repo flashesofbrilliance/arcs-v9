@@ -4,76 +4,132 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>ARCS — Product Mission, Architecture &amp; Roadmap</title>
+<title>ARCS Build Observatory — Executive Edition</title>
 <style>
 :root {
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
-  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
-  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b; --faint: #475569;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
   --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
   --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
   --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 56px 24px 80px; line-height: 1.5; }
-.page { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.page { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+a { color: var(--cyan); }
 
 .eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
-.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
-h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 6px 0 4px; }
-.byline { font-size: 13px; color: var(--dimmed); margin-bottom: 4px; }
+.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; }
+.byline { font-size: 13px; color: var(--dimmed); }
 .byline strong { color: var(--muted); font-weight: 600; }
-.lede { font-size: 15px; color: var(--muted); line-height: 1.65; max-width: 640px; }
+.lede { font-size: 15px; color: var(--muted); line-height: 1.65; max-width: 700px; }
 .lede strong { color: var(--text); font-weight: 600; }
 
 /* STAT STRIP */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; margin-top: 8px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
 .stat { background: var(--surface); padding: 16px 14px; }
 .stat-val { font-family: var(--mono); font-size: 20px; font-weight: 700; color: var(--text); }
 .stat-val.accent { color: var(--green); }
-.stat-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); margin-top: 4px; }
+.stat-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); margin-top: 4px; line-height: 1.4; }
 
-/* SECTION CARD */
-.section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 22px 24px; margin-top: 4px; }
-.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+/* SECTION */
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 26px; }
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
 .section-n { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); }
 .section-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; border: 1px solid; }
-.section-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 8px; }
+.section-title { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
 .section-body { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
 .section-body strong { color: var(--text); font-weight: 600; }
-.section-link { display: inline-block; margin-top: 12px; font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-decoration: none; }
 
-/* TIMELINE */
-.tl-rows { display: flex; flex-direction: column; margin-top: 4px; }
-.tl-row { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(30,41,59,0.5); }
-.tl-row:last-child { border-bottom: none; }
-.tl-date { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 64px; padding-top: 2px; letter-spacing: 0.04em; }
-.tl-text { font-size: 13px; color: var(--text); line-height: 1.55; }
-.tl-text strong { font-weight: 600; }
+/* ECHO MAP */
+.echo-rows { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.echo-row { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.echo-cell { padding: 14px 16px; }
+.echo-side-label { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+.echo-text { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+.echo-text strong { color: var(--text); font-weight: 600; }
+.echo-mid { display: flex; align-items: center; justify-content: center; color: var(--cyan); font-family: var(--mono); font-size: 14px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: rgba(0,240,255,0.03); }
+.echo-why { grid-column: 1 / -1; padding: 10px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--dimmed); line-height: 1.55; background: rgba(0,0,0,0.25); }
+.echo-why strong { color: var(--gold); font-weight: 600; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 6px; }
 
-/* ARCH GRID */
-.arch-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
-.arch-row { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(30,41,59,0.4); }
-.arch-row:last-child { border-bottom: none; }
-.arch-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
-.arch-text { font-size: 13px; color: var(--text); line-height: 1.55; }
-.arch-text strong { font-weight: 600; }
+/* ALTITUDE CONTROL */
+.alt-bar { position: sticky; top: 12px; z-index: 30; display: flex; gap: 6px; align-items: center; background: rgba(13,17,23,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 10px; padding: 8px; margin-top: 14px; flex-wrap: wrap; }
+.alt-btn { flex: 1; min-width: 92px; padding: 9px 8px; background: none; border: 1px solid transparent; border-radius: 7px; cursor: pointer; font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); transition: all 0.15s; text-align: center; }
+.alt-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+.alt-btn.active { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+.alt-btn .k { display: block; font-size: 8px; opacity: 0.55; margin-top: 2px; letter-spacing: 0.06em; }
+.alt-readout { width: 100%; font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.06em; padding: 4px 6px 0; }
+.alt-readout strong { color: var(--cyan); }
+
+/* CADENCE CHART */
+.cadence { display: flex; align-items: flex-end; gap: 6px; height: 88px; margin-top: 14px; padding: 0 2px; }
+.cad-col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 5px; height: 100%; }
+.cad-bar { width: 100%; border-radius: 3px 3px 0 0; background: linear-gradient(180deg, var(--cyan), rgba(0,240,255,0.15)); min-height: 3px; position: relative; }
+.cad-bar.peak { background: linear-gradient(180deg, var(--green), rgba(0,255,157,0.15)); }
+.cad-n { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); }
+.cad-w { font-family: var(--mono); font-size: 8px; color: var(--faint); letter-spacing: 0.04em; }
+
+/* TIMELINE / MILESTONES */
+.ms-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.ms { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; transition: opacity 0.2s; }
+.ms.hidden { display: none; }
+.ms-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.ms-date { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.06em; flex-shrink: 0; }
+.ms-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
+.ms-rank { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.1em; padding: 2px 6px; border-radius: 3px; margin-left: auto; }
+.ms-rank.r1 { color: var(--green); background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.25); }
+.ms-rank.r2 { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25); }
+.ms-rank.r3 { color: var(--steel); background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.25); }
+.ms-body { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-top: 7px; }
+.ms-body strong { color: var(--text); font-weight: 600; }
+.ms-commits { margin-top: 10px; border-top: 1px dashed rgba(30,41,59,0.9); padding-top: 9px; display: flex; flex-direction: column; gap: 5px; }
+.ms-commit { font-family: var(--mono); font-size: 10.5px; color: var(--dimmed); line-height: 1.5; display: flex; gap: 10px; align-items: baseline; }
+.ms-commit a { color: var(--gold); text-decoration: none; flex-shrink: 0; }
+.ms-commit a:hover { text-decoration: underline; }
+
+/* LEARNINGS */
+.learn-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.learn { background: var(--surface2); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: var(--r-md); padding: 13px 16px; }
+.learn-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.learn-body { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.learn-body strong { color: var(--text); font-weight: 600; }
+.learn-lesson { margin-top: 7px; font-size: 12px; color: var(--gold); line-height: 1.5; }
+.learn-lesson::before { content: "LESSON — "; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; }
+
+/* RISK REGISTER */
+.risk-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+.risk-table th { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.risk-table td { font-size: 12px; color: var(--muted); line-height: 1.55; padding: 11px 10px; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; }
+.risk-table td strong { color: var(--text); font-weight: 600; }
+.chip { display: inline-block; font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 7px; border-radius: 3px; white-space: nowrap; }
+.chip.high { color: var(--red); background: rgba(255,77,109,0.09); border: 1px solid rgba(255,77,109,0.3); }
+.chip.med { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); }
+.chip.low { color: var(--steel); background: rgba(125,211,252,0.08); border: 1px solid rgba(125,211,252,0.3); }
+.chip.mit { color: var(--green); background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.3); }
+.chip.gated { color: var(--cyan); background: rgba(0,240,255,0.07); border: 1px solid rgba(0,240,255,0.3); }
+.chip.open { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); }
 
 /* ROADMAP */
-.rm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
+.rm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
 .rm-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; }
 .rm-title { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--gold); margin-bottom: 5px; }
 .rm-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-/* FOOTER */
-.footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10.5px; color: var(--dimmed); line-height: 1.9; }
+.footer { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10.5px; color: var(--dimmed); line-height: 1.9; }
 .footer strong { color: var(--muted); }
-.footer a { color: var(--cyan); text-decoration: none; }
+.footer a { text-decoration: none; }
 
-@media (max-width: 560px) {
-  h1 { font-size: 26px; }
+@media (max-width: 640px) {
+  h1 { font-size: 25px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .rm-grid { grid-template-columns: 1fr; }
+  .echo-row { grid-template-columns: 1fr; }
+  .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; transform: rotate(90deg); background: none; }
+  .risk-table .hide-m { display: none; }
 }
 </style>
 </head>
@@ -81,116 +137,413 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · PRODUCT MISSION, ARCHITECTURE &amp; ROADMAP</div>
-  <h1>Navigate to clarity. One builder, one year, one production system.</h1>
+  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS BUILD OBSERVATORY · EXECUTIVE EDITION · PREPARED FOR PROPHET</div>
+  <h1>60 days of real telemetry. Zoom from boardroom to commit.</h1>
   <div class="byline">by <strong>Zach Harris</strong> · Builder / Applied AI Engineer, Forward Deployed · July 2026</div>
   <div class="lede">
-    ARCS is a decision-intelligence platform: it turns a stated question into a <strong>decision receipt</strong> —
-    a scored, evaluated, auditable artifact — rather than an opinion. Built solo over the past year, end to end:
-    product, architecture, evaluation discipline, governance, and a live production deploy carrying real user traffic.
-    This page is the shape of that build, offered as the closest available proxy for how I'd approach owning MAIA's
-    execution, delivery, and evaluation inside the AI Foundry.
+    This is not a slide deck — it's the actual production history of <strong>ARCS</strong>, a decision-intelligence
+    platform built solo and shipped live, rendered from the repo's own git telemetry. Every number below is
+    measured, every milestone links to real commits. Use the <strong>altitude dial</strong> to move from an
+    executive read down to the surgical layer — the same explorer discipline I'd bring to MAIA's evaluation,
+    observability, and delivery telemetry.
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="stat-val">L0–L5</div><div class="stat-label">Pipeline shipped, L6–L7 roadmapped</div></div>
-    <div class="stat"><div class="stat-val accent">34</div><div class="stat-label">Operators · 16.6K LOC</div></div>
-    <div class="stat"><div class="stat-val">272</div><div class="stat-label">ADRs — decision governance ledger</div></div>
+    <div class="stat"><div class="stat-val accent">856</div><div class="stat-label">Commits · trailing 60 days</div></div>
+    <div class="stat"><div class="stat-val">148K</div><div class="stat-label">Lines added · 519 files touched</div></div>
+    <div class="stat"><div class="stat-val">277</div><div class="stat-label">Peak week · sustained 8-wk cadence</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">Production · app.arcs.care</div></div>
   </div>
 
-  <!-- 01 MISSION -->
+  <!-- 01 ECHO MAP -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">01</div>
-      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">MISSION</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">ECHO MAP — ARCS ↔ MAIA</div>
     </div>
-    <div class="section-title">Decisions are positions on a manifold under pressure.</div>
+    <div class="section-title">Two systems, independently converging on the same physics.</div>
     <div class="section-body">
-      Most AI products answer questions. ARCS's governing premise is different: a good decision tool doesn't decide
-      <em>for</em> you — it makes visible <strong>where you actually are</strong> (what's fog, what's clear, what's
-      contested) and <strong>which direction is uphill</strong>. Every session produces a <strong>DEWY receipt</strong>
-      (Decision · Entity · Window · Y-gate) — an ex-ante statement of what's expected, scored against what actually
-      happens. That expected-vs-actual delta is the same evaluation primitive the AI Foundry role is built around:
-      define quality for a probabilistic system, catch drift before a user does, close the loop with real outcomes.
+      In my conversation with Mike, the strongest moments weren't me pitching — they were Mike describing
+      MAIA's trajectory and, without either of us steering there, landing on the exact structural ideas ARCS
+      is built on. That kind of independent convergence is the signal I'd trust most in your seat: it means the
+      isomorphisms below aren't analogies, they're the same problem discovered twice.
     </div>
-    <a class="section-link" href="https://app.arcs.care/compass" style="color:var(--cyan);" target="_blank">Try the live compass →</a>
+    <div class="echo-rows">
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · IN MIKE'S FRAMING</div><div class="echo-text">Disparate parts of the business — a campaign tool, a brand-strategy tool — turn out to <strong>share underlying interaction patterns</strong>, and once a pattern is found it gets repurposed across offers.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · BUILT-IN</div><div class="echo-text">Cross-domain pattern surfacing is a <strong>constitutional primitive</strong> in ARCS (the Orthogonal Echo Detector) — the system is architected to hunt for exactly those reusable isomorphisms, not stumble on them.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Pattern reuse is the margin story of productized consulting — every discovered isomorphism turns a bespoke engagement into a repeatable offer. MAIA is finding these by experience; a platform can find them by design.</div>
+      </div>
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · IN MIKE'S FRAMING</div><div class="echo-text">The push from <strong>chat to web-apps-with-agents underneath</strong> — commercializable surfaces on one secure hub, piloted with clients at a demo-in-two-weeks cadence, letting the market show where demand is.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · SHIPPED</div><div class="echo-text">One engine, many surfaces: the same receipt pipeline powers the compass app, generated briefs, and <strong>client-facing artifact pages stood up as subdomains in hours</strong> — 14+ shipped in the 60-day window below.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Velocity-to-test-demand is the revenue question for the Foundry this year. The build timeline below is a measured proof of that exact motion: portfolio of small bets, market feedback, double down.</div>
+      </div>
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · THE MANDATE</div><div class="echo-text"><strong>Trusted AI for real consulting work</strong> — evaluation, hallucination risk, reliability, and release criteria for probabilistic systems, defined before and after launch.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · LOAD-BEARING</div><div class="echo-text">Every output carries a <strong>Y-gate confidence state, and the UI renders at earned fidelity</strong> — the interface literally cannot present low-confidence output as a clean answer. Evaluation isn't a QA step; it's the render pipeline.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>Client trust is Prophet's actual product. An AI surface that visibly refuses to over-claim is a differentiator a consultancy can sell — and an internal culture artifact engineers can build against.</div>
+      </div>
+      <div class="echo-row">
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA · THE PM PROBLEM</div><div class="echo-text">Fielding a <strong>firehose of requests, ideas, and backlog additions</strong> against ever-shifting resources — partners, contractors, interns, engineering in multiple time zones — and reconciling it with CoE strategy.</div></div>
+        <div class="echo-mid">↔</div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS · GOVERNANCE LEDGER</div><div class="echo-text"><strong>272 Architecture Decision Records</strong> — every material yes, no, and not-yet has a written receipt with the rejected alternatives and the trigger to revisit. Ambiguity is managed on paper, not held in one person's head.</div></div>
+        <div class="echo-why"><strong>Why it matters</strong>The Foundry's decision volume will outgrow any individual's memory. A receipt discipline is how prioritization survives leadership review, staff turnover, and the CDO asking "why did we choose this?" six months later.</div>
+      </div>
+    </div>
   </div>
 
-  <!-- 02 ARCHITECTURE -->
+  <!-- 02 BUILD EXPLORER -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">02</div>
-      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">ARCHITECTURE &amp; EVALUATION</div>
+      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">BUILD EXPLORER — 60-DAY TELEMETRY</div>
     </div>
-    <div class="section-title">L0–L5 pipeline, DEWY receipts, Y-gate — evaluation is load-bearing, not bolted on.</div>
-    <div class="arch-grid">
-      <div class="arch-row"><div class="arch-dot" style="background:var(--cyan);"></div><div class="arch-text"><strong>L0–L5 pipeline</strong> — atomic signal → coherence → path survivability → cascade → cross-domain → global coherence. Every user question runs the full stack before a receipt is written.</div></div>
-      <div class="arch-row"><div class="arch-dot" style="background:var(--green);"></div><div class="arch-text"><strong>Y-gate, 12D manifold</strong> — polarity × conviction × stability collapse to a render state (GREEN/YELLOW/RED/FORK/SCRATCH/DELTA/PARADOX/DRIFT). The UI never renders higher-fidelity than the data earns — no confident-sounding hallucination dressed as a clean answer.</div></div>
-      <div class="arch-row"><div class="arch-dot" style="background:var(--gold);"></div><div class="arch-text"><strong>DEWY receipt schema</strong> — machine-readable JSON Schema (Draft 07) is the source of truth; Prisma models conform to it, not the reverse. Schema-first, not vibes-first.</div></div>
-      <div class="arch-row"><div class="arch-dot" style="background:var(--red);"></div><div class="arch-text"><strong>Anti-hallucination / anti-sycophancy safeguards</strong> — source-quality grading, evals gating every receipt write, explicit HOLD states when a window/entity field can't be inferred confidently rather than guessing.</div></div>
+    <div class="section-title">The repo, at your altitude.</div>
+    <div class="section-body">
+      856 commits, May 17 → July 16. Pick an altitude: <strong>Executive</strong> shows only the moves that changed
+      the business; each level down widens the aperture and sharpens the fidelity, until <strong>Surgical</strong>
+      links every milestone to its actual commits in the public repo. (Keys 1–5 work too.)
     </div>
+
+    <div class="cadence" id="cadence"></div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK · W22–W29 2026 · GREEN = PEAK (170-FILE PLATFORM MERGE WEEK)</div>
+
+    <div class="alt-bar" id="altbar">
+      <button class="alt-btn active" data-alt="0">Executive<span class="k">1 · what changed for the business</span></button>
+      <button class="alt-btn" data-alt="1">Strategic<span class="k">2 · why this direction</span></button>
+      <button class="alt-btn" data-alt="2">Operational<span class="k">3 · how the machine ran</span></button>
+      <button class="alt-btn" data-alt="3">Tactical<span class="k">4 · the moves in the trenches</span></button>
+      <button class="alt-btn" data-alt="4">Surgical<span class="k">5 · the commits themselves</span></button>
+      <div class="alt-readout" id="readout"></div>
+    </div>
+
+    <div class="ms-list" id="mslist"></div>
   </div>
 
-  <!-- 03 GOVERNANCE -->
+  <!-- 03 KEY LEARNINGS -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">03</div>
-      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">GOVERNANCE, SECURITY &amp; TRUST</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">KEY LEARNINGS — PIVOTS &amp; CORRECTIONS</div>
     </div>
-    <div class="section-title">272 decision receipts on the architecture itself. Nothing ships without a paper trail.</div>
-    <div class="section-body">
-      Every material build decision — not just product features — gets its own Architecture Decision Record: what was
-      decided, why, what was rejected, and the consequences if it's wrong. <strong>272 ADRs</strong> currently on file,
-      indexed and queryable. Security posture: row-level security (deny-all by default, app-layer user isolation),
-      Auth.js v5 magic-link sessions, a documented reasoning trail for <em>why</em> `auth.uid()` row policies were
-      deliberately rejected in favor of app-layer gating (Prisma connects as a superuser; the naive RLS pattern would
-      have been theater, not real isolation). A public <strong>trust contract</strong> commits to specific, falsifiable
-      claims about how the system handles data and where a person can catch it at the fork if it drifts.
+    <div class="section-title">The build is honest about where it was wrong.</div>
+    <div class="learn-rows">
+      <div class="learn">
+        <div class="learn-title">Paying down false-claim debt</div>
+        <div class="learn-body">A self-audit found the project's own written rules had <strong>zero real enforcement</strong> — including a "no Tailwind" rule violated since day one by scaffold remnants sitting in the build. Response: remove the dead framework, align docs and CI to reality, then institutionalize it — findings now close only via an enforcement mechanism or a dated, signed waiver in a CI-gated ledger.</div>
+        <div class="learn-lesson">Rules without enforcement are decoration. Audit the gap, then make the gap impossible.</div>
+      </div>
+      <div class="learn">
+        <div class="learn-title">Security theater vs. real isolation</div>
+        <div class="learn-body">The textbook Postgres row-level-security pattern would have <strong>passed any checklist review and protected nothing</strong> — the ORM connects as a superuser that bypasses row policies entirely. Chose deny-all policies plus app-layer isolation instead, and wrote down exactly why the "correct-looking" option was rejected.</div>
+        <div class="learn-lesson">Security posture must match the actual connection topology, not the reference architecture diagram.</div>
+      </div>
+      <div class="learn">
+        <div class="learn-title">Trust means no silent writes</div>
+        <div class="learn-body">Anonymous visitors' compass runs were being persisted without an account — legal-ish, but off-covenant. Shipped the <strong>subtraction first</strong> (cut the anonymous write path entirely), then rebuilt saving as an explicit opt-in, and versioned the public trust contract to match.</div>
+        <div class="learn-lesson">When behavior and stated values diverge, ship the deletion before the feature.</div>
+      </div>
+      <div class="learn">
+        <div class="learn-title">Red-team the architecture doc, not just the code</div>
+        <div class="learn-body">The observability architecture (an inferred goal-lattice over decision receipts) went through an <strong>independent adversarial review before acceptance — which corrected four over-claims</strong> in the design doc, including a theorem that didn't exist. The corrected version shipped; the flattering version didn't.</div>
+        <div class="learn-lesson">Design documents hallucinate too. Evaluation discipline applies to prose.</div>
+      </div>
+      <div class="learn">
+        <div class="learn-title">Aborting a migration is a decision, not a failure</div>
+        <div class="learn-body">A typed-config migration was deliberately <strong>halted mid-flight</strong> when it emerged that merging would silently drop production cron and service routes added concurrently on main. The abort, the reason, and the resume conditions were written down instead of forcing the merge.</div>
+        <div class="learn-lesson">Velocity includes knowing when not to merge. An aborted change with a receipt beats a shipped regression.</div>
+      </div>
+      <div class="learn">
+        <div class="learn-title">Verify live, not from memory</div>
+        <div class="learn-body">Documentation claimed two domains were served by two different codebases; a live infrastructure check proved <strong>both had silently consolidated onto one deployment</strong>. Now a standing protocol: any claim about what production is doing gets re-verified against the platform API before anyone relies on it.</div>
+        <div class="learn-lesson">Docs record the past. Production is the only source of truth about production.</div>
+      </div>
     </div>
-    <a class="section-link" href="https://arcs.care/trust" style="color:var(--gold);" target="_blank">Read the trust contract →</a>
   </div>
 
-  <!-- 04 BUILD TIMELINE -->
+  <!-- 04 RISK REGISTER -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">04</div>
-      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">BUILD TIMELINE</div>
+      <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER — CURRENT &amp; HONEST</div>
     </div>
-    <div class="section-title">Sustained delivery cadence, not a single sprint.</div>
-    <div class="tl-rows">
-      <div class="tl-row"><div class="tl-date">MAY '26</div><div class="tl-text"><strong>Foundation</strong> — repo live, first production Vercel deploy, DEWY receipt schema + Time-Quality-Attribution ROM authored and wired into Prisma.</div></div>
-      <div class="tl-row"><div class="tl-date">MAY '26</div><div class="tl-text"><strong>Constitutional canon</strong> — Book II, Parts I–VI ratified (core ROM axioms, constitutional court, accumulation protocol, multi-party "shared court" deliberation model) — the governance layer the product's decision logic answers to.</div></div>
-      <div class="tl-row"><div class="tl-date">JUN '26</div><div class="tl-text"><strong>Security &amp; data model</strong> — Postgres/Supabase migration, RLS deny-all policies across all tables, auth-gate audit on every API route.</div></div>
-      <div class="tl-row"><div class="tl-date">JUN '26</div><div class="tl-text"><strong>Operators library</strong> — 34-file, 16.6K-LOC atomic decision-component system (adversarial reasoning, risk/ruin assessment, timing operators, constitutional reasoning, phase-gate validation) — a second, standalone implementation of the L0–L5 logic in pure Python, no framework lock-in.</div></div>
-      <div class="tl-row"><div class="tl-date">JUN '26</div><div class="tl-text"><strong>Observability design</strong> — formalized the platform's own observability model as an inferred, weighted goal lattice over receipts (not a hand-declared roadmap tree) — adversarially reviewed by an independent 5-agent pass before being accepted, with over-claims explicitly corrected rather than shipped as-is.</div></div>
-      <div class="tl-row"><div class="tl-date">JUL '26</div><div class="tl-text"><strong>Production hardening</strong> — 170-file merge landing Trust/Privacy/Terms pages, a full interactive Observatory replay theater, domain consolidation onto one canonical production deployment, S-tier copy pass stripping internal jargon from every user-facing surface.</div></div>
-      <div class="tl-row"><div class="tl-date">JUL '26</div><div class="tl-text"><strong>Closed-loop automation</strong> — scheduled pre-call/post-call analysis pipeline: calendar events auto-match to call transcripts, run a two-pass (reverse + forward) recoil analysis against the original decision receipt, write an auditable outcome record, notify — the same "define quality, catch drift, close the loop with telemetry" discipline the AI Foundry role calls for, just pointed at a different domain.</div></div>
-    </div>
+    <div class="section-title">What I'd tell a board about this system today.</div>
+    <table class="risk-table">
+      <thead><tr><th>Risk</th><th class="hide-m">Mitigation</th><th>Sev</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Bus factor = 1.</strong> Single builder holds all context.</td>
+          <td class="hide-m">Everything-as-receipt: 856 stamped commits, 272 ADRs, versioned handoff chain, cold-start docs — built so a team can pick it up without me in the room.</td>
+          <td><span class="chip high">HIGH</span></td>
+          <td><span class="chip mit">MITIGATED BY DESIGN</span></td>
+        </tr>
+        <tr>
+          <td><strong>Eval corpus below statistical threshold.</strong> Advanced layers (Kairos timing, goal lattice, L6–L7) need 100+ real receipts to calibrate against.</td>
+          <td class="hide-m">Explicitly gated — machinery is built and tested, activation is blocked on evidence volume rather than shipped on vibes.</td>
+          <td><span class="chip med">MED</span></td>
+          <td><span class="chip gated">GATED — DELIBERATE</span></td>
+        </tr>
+        <tr>
+          <td><strong>Single model-provider dependency</strong> on the hot inference path.</td>
+          <td class="hide-m">Model-agnostic operators layer (16.6K LOC, pure Python, zero framework lock-in) implements the same decision logic independent of any vendor; prompt contracts are isolated at one seam.</td>
+          <td><span class="chip med">MED</span></td>
+          <td><span class="chip open">OPEN — HEDGE BUILT</span></td>
+        </tr>
+        <tr>
+          <td><strong>Prose-rule enforcement gap.</strong> Written standards drifted from CI reality (found by self-audit).</td>
+          <td class="hide-m">Enforcement-parity ledger: every audit finding closes via mechanism or dated waiver, CI-gated. The audit that found the gap is now itself enforced.</td>
+          <td><span class="chip med">MED</span></td>
+          <td><span class="chip mit">MITIGATED</span></td>
+        </tr>
+        <tr>
+          <td><strong>Scoring subjectivity.</strong> The coherence index (NCI) is self-graded pending outcome-anchored calibration.</td>
+          <td class="hide-m">Every score is logged with its receipt, so the calibration set accumulates automatically; closed-loop outcome tracking (shipped this window) is the correction signal.</td>
+          <td><span class="chip low">LOW</span></td>
+          <td><span class="chip gated">GATED ON CORPUS</span></td>
+        </tr>
+        <tr>
+          <td><strong>Manually-set production secret</strong> outside integration management (rotation debt).</td>
+          <td class="hide-m">Known, documented in the ADR that created it, rotation procedure written, calendared.</td>
+          <td><span class="chip low">LOW</span></td>
+          <td><span class="chip open">OPEN — SCHEDULED</span></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- 05 ROADMAP -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">05</div>
-      <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">ROADMAP</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP — GATED ON EVIDENCE</div>
     </div>
-    <div class="section-title">What's next — named, sequenced, and honestly gated on evidence.</div>
+    <div class="section-title">What's next, and what has to be true first.</div>
     <div class="rm-grid">
-      <div class="rm-card"><div class="rm-title">L6–L7 ENGINE</div><div class="rm-body">Ecosystem-level and meta-governance layers above the current L0–L5 stack — gated until real-corpus volume justifies the added complexity, not built speculatively.</div></div>
-      <div class="rm-card"><div class="rm-title">ATG (TRIBUTARIES)</div><div class="rm-body">Every response surfaces 2–4 adjacent threads: the meta-question beneath the stated one, an uncomfortable constraint, a cross-domain reframe — deepening single-turn answers into a navigable space.</div></div>
-      <div class="rm-card"><div class="rm-title">KAIROS DETECTION</div><div class="rm-body">Timing/window inference at scale — designed, machinery exists in the operators library, gated behind a receipt-volume threshold before going live.</div></div>
-      <div class="rm-card"><div class="rm-title">OBSERVABILITY LATTICE</div><div class="rm-body">The inferred-goal-DAG model (ADR-023) scales from a static replay demo into a live, self-updating structure once enough receipts exist to measure a real baseline against.</div></div>
+      <div class="rm-card"><div class="rm-title">L6–L7 ENGINE</div><div class="rm-body">Ecosystem and meta-governance layers above the shipped L0–L5 stack — activation gated on real-corpus volume, not built speculatively.</div></div>
+      <div class="rm-card"><div class="rm-title">ATG (TRIBUTARIES)</div><div class="rm-body">Every response surfaces 2–4 adjacent threads: the meta-question beneath the stated one, an uncomfortable constraint, a cross-domain reframe.</div></div>
+      <div class="rm-card"><div class="rm-title">KAIROS DETECTION</div><div class="rm-body">Timing/window inference at scale — designed, machinery in the operators library, gated behind a receipt-volume threshold.</div></div>
+      <div class="rm-card"><div class="rm-title">OBSERVABILITY LATTICE</div><div class="rm-body">The inferred-goal-DAG model graduates from replay demo to live self-updating structure once a measurable baseline exists.</div></div>
     </div>
   </div>
 
   <div class="footer">
     <div><strong>Built by</strong> Zach Harris · zach.harris@gmail.com · 203-807-2976</div>
-    <div><strong>Stack</strong> — Next.js 16 App Router · Prisma 7 + Postgres (Supabase) · Auth.js v5 · Anthropic SDK</div>
-    <div><strong>Live product</strong> — <a href="https://app.arcs.care" target="_blank">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank">trust contract</a></div>
+    <div><strong>Telemetry source</strong> — git history, <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener">github.com/flashesofbrilliance/arcs-v9</a> (public) · numbers measured 2026-07-16</div>
+    <div><strong>Live product</strong> — <a href="https://app.arcs.care" target="_blank" rel="noopener">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank" rel="noopener">trust contract</a></div>
   </div>
 
 </div>
 
+<script>
+// ── Real weekly commit cadence, W22–W29 2026 (git log --since=2026-05-17, main) ──
+var CADENCE = [
+  { w: "W22", n: 84 }, { w: "W23", n: 67 }, { w: "W24", n: 48 }, { w: "W25", n: 90 },
+  { w: "W26", n: 70 }, { w: "W27", n: 277 }, { w: "W28", n: 123 }, { w: "W29", n: 95 }
+];
+
+// ── Milestones. rank 1 = executive-visible, 2 = +strategic, 3 = +operational and below.
+// alt: [executive, strategic, operational, tactical] narratives; commits shown at surgical.
+var GH = "https://github.com/flashesofbrilliance/arcs-v9/commit/";
+var MILESTONES = [
+  {
+    date: "MAY 26", title: "Foundation locked — schema-first receipt spine", rank: 1,
+    alt: [
+      "The core product contract — what a decision receipt <strong>is</strong> — was pinned as a machine-readable schema before any UI existed. Everything since builds on that spine, which is why 60 days of velocity never required a rework.",
+      "Deliberate sequencing bet: define the receipt schema (the DEWY state vector) and the Y-gate confidence model first, so every later surface — app, briefs, client artifacts — consumes one canonical contract instead of inventing its own.",
+      "JSON Schema (Draft 07) authored as source of truth; Prisma data model conformed to the schema rather than the reverse. Y-gate enums aligned across engine, database, and UI in the same pass. A time-quality ROM pinned how window-inference confidence degrades.",
+      "Three files carried the day: the receipt schema, the Y-gate rewrite to canonical polarity×conviction×stability enums, and a 5-verb analysis CLI that made the pipeline decomposable and testable from the terminal before the web app matured."
+    ],
+    commits: [
+      { sha: "61095c5", msg: "refactor(ygate): align Y-gate enums to canonical DEWY schema [NCI:82]" },
+      { sha: "38aa0f6", msg: "feat(spec): Time Quality Attribution ROM v0.1.0 [NCI:84]" },
+      { sha: "e66d4de", msg: "feat(data-science): arcs_cli.py — 5-verb pipeline + apex spine receipt [NCI:81]" }
+    ]
+  },
+  {
+    date: "MAY 26", title: "Constitutional canon ratified", rank: 2,
+    alt: [
+      "",
+      "Before scaling features, the governance layer the product answers to — six canonical chapters covering core axioms, a constitutional court for high-stakes decisions, and a multi-party deliberation model — was drafted, adversarially audited (21 findings applied), and ratified.",
+      "Parts V–VI went through a full upstream audit cycle: 21 findings, all must-fix items applied, then ratification. Key locks: quorum = unanimity of being bound (not agreement); standing is non-transferable; drift categories are positional, not numeric.",
+      "The audit protocol itself became reusable: section-keyed, sentence-anchored annotations, with consistency and canon-collision weighted above implementation gaps for forward-spec documents."
+    ],
+    commits: [
+      { sha: "b6e59e4", msg: "feat(canon): promote Book II Parts V & VI to CANONICAL v1.0.0" }
+    ]
+  },
+  {
+    date: "MAY 27–28", title: "Production in 48 hours — deploy, harden, migrate", rank: 1,
+    alt: [
+      "From local prototype to a hardened production deployment in two days — including a breaking-change database migration and a security posture decision that rejected the textbook answer for the one that actually protects users.",
+      "The deploy surfaced a real fork: the ORM's new major version broke the standard connection pattern mid-deploy. Resolved via the adapter pattern, then locked row-level security as deny-all + app-layer isolation — with the reasoning for rejecting the 'correct-looking' alternative written into the decision record.",
+      "Prisma 7 removed schema-level connection URLs; fixed via the PrismaPg adapter. Schema bootstrapped to Supabase, baseline migration registered, RLS deny-all applied to all 9 tables. Two ADRs amended the same day to record where actual execution diverged from the plan.",
+      "Execution divergences were logged as first-class data: env vars set manually instead of via integration (rotation risk documented), DDL applied via MCP instead of db push (root cause of the direct-connection failure noted, workaround standardized). The plan and the as-built are both on file."
+    ],
+    commits: [
+      { sha: "11ba2fc", msg: "fix(db): Prisma 7 adapter pattern — url via PrismaPg, not schema.prisma" },
+      { sha: "5262c1a", msg: "chore(migrations): baseline migration 0_init — DEWY schema applied to Supabase" },
+      { sha: "9970c3f", msg: "feat(security): RLS deny-all policies for all 9 Supabase tables [NCI:88]" }
+    ]
+  },
+  {
+    date: "MAY 27", title: "Design system bootstrap", rank: 3,
+    alt: [
+      "",
+      "",
+      "Canonical token palette + first components (Badge, Button, Card) with an explicit import-strategy decision (no barrel files, revisit trigger at ≥8 components) — small, but it made every later surface visually coherent for free.",
+      "Tokens extracted from the app's actual colors rather than aspirational ones; three registers (cockpit/governance/light) defined up front so client-facing and internal surfaces could diverge in tone without diverging in system."
+    ],
+    commits: [
+      { sha: "924fd10", msg: "feat(ui): canonical tokens.ts + Badge — design system bootstrap [NCI:79]" }
+    ]
+  },
+  {
+    date: "JUN 5", title: "Architecture red-teamed before acceptance", rank: 1,
+    alt: [
+      "The platform's observability architecture was subjected to an independent adversarial review <strong>before</strong> being accepted — which caught four over-claims in the design, including a cited theorem that doesn't exist. The corrected design shipped; the flattering one didn't.",
+      "The design question: should the platform's goal structure be hand-declared (a roadmap tree) or inferred from behavior (a weighted lattice over receipts)? The inferred model won — but with three counter-forces pinned as governed constants, and self-tuning explicitly forbidden as a constitutional violation.",
+      "ADR-023 + a machine-readable ROM pinning edge-decay, contrarian-injection, and calcification-guard parameters. A simulation harness load-tested the lattice structure. Activation gated behind a measurable real-corpus baseline (100+ receipts) — same gate discipline as every other advanced layer.",
+      "The adversarial pass ran as five independent research agents attacking the draft's citations and claims. Four corrections: no monotone-complexity theorem exists; rising complexity ≠ calcification; the DAG is well-motivated but not required; irreducibility doesn't bar declaration. All applied before merge."
+    ],
+    commits: [
+      { sha: "9f669fa", msg: "feat(spec): ADR-023 superionic goal lattice + lattice-pressure ROM" },
+      { sha: "bbeb8a8", msg: "feat(observatory): attribution-safe timeline regen for external demo" }
+    ]
+  },
+  {
+    date: "JUN 30", title: "Platform merge — 170 files, five subsystems", rank: 1,
+    alt: [
+      "The largest integration of the window: trust/privacy/terms pages, an interactive replay theater, a 16.6K-line operators library, the full canon corpus, and six new decision records — merged and live in production the same day.",
+      "This merge converted ARCS from 'an app' into 'a platform with legal, observability, and governance surfaces' — the prerequisites for putting real client traffic on it. The operators library also landed the vendor-independence hedge: the entire decision engine re-implemented in dependency-free Python.",
+      "170 files, 42K+ insertions: EyebrowToast covenant drawer, /trust /privacy /terms routes, a 1,174-line interactive Observatory page, 34 operator files, 4 Prisma migrations, ADR-025 through ADR-030, and the indexed 272-entry ADR registry.",
+      "The merge itself hit a worktree-confusion incident (landed on the wrong branch first, re-merged via the canonical main worktree) — which became a documented gotcha and, later, a standing deploy-preflight script so the failure mode can't silently recur."
+    ],
+    commits: [
+      { sha: "5db496b", msg: "Merge sleepy-booth → main for production breadcrumb/drawer features" }
+    ]
+  },
+  {
+    date: "JUL 2–8", title: "Client artifact engine — one engine, many surfaces", rank: 2,
+    alt: [
+      "",
+      "The productized-consulting motion, proven: parameterized client artifact pages (briefs, proposals, teardowns) stood up as branded subdomains in hours each — 14+ live in this window — all riding the same deploy pipeline and design system as the core app. Velocity-to-test-demand, measured.",
+      "A canonical HTML template with placeholder contract + a documented subdomain rewrite workflow turned each new client surface into a fill-in exercise: copy template, replace placeholders, add one rewrite rule, deploy. A consolidation audit then pulled scattered assets from a sibling repo into the monorepo with bar-raiser review.",
+      "The workflow encodes its own hard-won gotchas: rewrites must live in next.config beforeFiles (vercel.json entries get shadowed by the app router), deploys must run from the main worktree (feature-worktree deploys silently drop every other subdomain), and new domains need explicit project assignment."
+    ],
+    commits: [
+      { sha: "1ea5e8a", msg: "fix(routing): todd-call.arcs.care → proposal page [NCI:182]" },
+      { sha: "cf8b084", msg: "chore(consolidation): port unique content + template registry" }
+    ]
+  },
+  {
+    date: "JUL 11–13", title: "Trust hardening — subtract first, then rebuild", rank: 1,
+    alt: [
+      "Two back-to-back integrity moves: an audit found the project's own rules weren't enforced (fixed at the root), and anonymous users' data was being persisted off-covenant (the write path was deleted first, then rebuilt as explicit opt-in). The public trust contract was versioned to match.",
+      "Both fixes follow the same doctrine — when stated values and actual behavior diverge, ship the subtraction before the feature. 'Pay down false-claim debt' removed a dead framework the docs claimed was never there; 'no auth = no write path' cut anonymous persistence entirely before opt-in save existed.",
+      "Tailwind scaffold remnants removed and CI aligned to the documented rules; anonymous receipt/prep persistence removed at the API layer; opt-in save + claim flow shipped as Phase 2; trust contract bumped to v1.2 with the new covenant language; a dual-audit reconciliation tied the threads together.",
+      "The enforcement follow-through landed as ADR-033 days later: an enforcement-parity ledger where every audit finding closes only via a mechanism or a dated waiver — CI-gated, so the audit-to-decoration decay loop is structurally broken."
+    ],
+    commits: [
+      { sha: "35fc2e7", msg: "fix(governance): pay down false-claim debt — remove Tailwind, align docs/CI" },
+      { sha: "8b486e8", msg: "fix(trust): no auth = no write path — stop persisting anonymous receipts" },
+      { sha: "b9dab2a", msg: "feat(trust): Phase 2 — opt-in save + trust contract v1.2" },
+      { sha: "570e575", msg: "docs(governance): dual-audit reconciliation + ADR-023 baseline measurement" }
+    ]
+  },
+  {
+    date: "JUL 16", title: "Closed loop live — autonomous outcome telemetry", rank: 1,
+    alt: [
+      "The evaluation loop closed this week: a scheduled pipeline now matches calendar events to call transcripts, scores what actually happened against the pre-call expectation, writes an auditable outcome record, and notifies — autonomously. Expected vs. actual, measured without a human remembering to run it.",
+      "This is the product thesis eating its own tail: decision receipts only compound if outcomes get scored against them, and outcome-scoring only scales if it doesn't depend on discipline. The poller runs a two-pass protocol (reverse listening + deep recall) against the original expectation, with an idempotency contract learned from a real duplicate-work incident.",
+      "Task B poller: calendar → transcript matching by title/attendee/end-time proximity, segment count scaled to call length, stated-vs-revealed analysis as a standard section, results committed to an auth-gated internal ledger, push notification with Y-gate and coherence deltas. Three calls processed autonomously on the first production run.",
+      "The spec encodes its own failure history: a canonical slug rule exists because two firings once free-formed different slugs for the same call and duplicated an expensive lookup; the filesystem idempotency check runs before the costly step, not after. Zero-memory-across-firings is treated as a design constraint, not a bug."
+    ],
+    commits: [
+      { sha: "eab39a3", msg: "feat(recoil): post-call close-out — three calls, autonomous run" }
+    ]
+  }
+];
+
+// ── Cadence chart ──
+(function () {
+  var max = Math.max.apply(null, CADENCE.map(function (c) { return c.n; }));
+  var el = document.getElementById("cadence");
+  CADENCE.forEach(function (c) {
+    var col = document.createElement("div"); col.className = "cad-col";
+    var n = document.createElement("div"); n.className = "cad-n"; n.textContent = c.n;
+    var bar = document.createElement("div"); bar.className = "cad-bar" + (c.n === max ? " peak" : "");
+    bar.style.height = Math.max(4, Math.round((c.n / max) * 58)) + "px";
+    var w = document.createElement("div"); w.className = "cad-w"; w.textContent = c.w;
+    col.appendChild(n); col.appendChild(bar); col.appendChild(w);
+    el.appendChild(col);
+  });
+})();
+
+// ── Altitude explorer ──
+var ALT_NAMES = ["EXECUTIVE", "STRATEGIC", "OPERATIONAL", "TACTICAL", "SURGICAL"];
+// altitude → max rank shown; text index; show commits?
+var ALT_CFG = [
+  { maxRank: 1, text: 0, commits: false },
+  { maxRank: 2, text: 1, commits: false },
+  { maxRank: 3, text: 2, commits: false },
+  { maxRank: 3, text: 3, commits: false },
+  { maxRank: 3, text: 3, commits: true }
+];
+var currentAlt = 0;
+
+function render() {
+  var cfg = ALT_CFG[currentAlt];
+  var list = document.getElementById("mslist");
+  list.innerHTML = "";
+  var shown = 0;
+  MILESTONES.forEach(function (m) {
+    if (m.rank > cfg.maxRank) return;
+    // fall back to the deepest non-empty narrative at or above the requested depth
+    var text = "";
+    for (var i = cfg.text; i >= 0; i--) { if (m.alt[i]) { text = m.alt[i]; break; } }
+    if (!text) { for (var j = cfg.text + 1; j < m.alt.length; j++) { if (m.alt[j]) { text = m.alt[j]; break; } } }
+    shown++;
+    var card = document.createElement("div"); card.className = "ms";
+    var top = document.createElement("div"); top.className = "ms-top";
+    top.innerHTML = '<span class="ms-date">' + m.date + '</span><span class="ms-title">' + m.title + '</span>' +
+      '<span class="ms-rank r' + m.rank + '">' + (m.rank === 1 ? "EXEC" : m.rank === 2 ? "STRAT" : "OPS") + '</span>';
+    var body = document.createElement("div"); body.className = "ms-body"; body.innerHTML = text;
+    card.appendChild(top); card.appendChild(body);
+    if (cfg.commits && m.commits && m.commits.length) {
+      var cwrap = document.createElement("div"); cwrap.className = "ms-commits";
+      m.commits.forEach(function (c) {
+        var row = document.createElement("div"); row.className = "ms-commit";
+        row.innerHTML = '<a href="' + GH + c.sha + '" target="_blank" rel="noopener">' + c.sha + '</a><span>' + c.msg + '</span>';
+        cwrap.appendChild(row);
+      });
+      card.appendChild(cwrap);
+    }
+    list.appendChild(card);
+  });
+  document.getElementById("readout").innerHTML =
+    'ALTITUDE: <strong>' + ALT_NAMES[currentAlt] + '</strong> · showing ' + shown + ' of ' + MILESTONES.length +
+    ' milestones · ' + (cfg.commits ? "commit-level fidelity, linked to the public repo" :
+    currentAlt === 3 ? "execution-level narrative" : currentAlt === 2 ? "process-level narrative" :
+    currentAlt === 1 ? "direction-level narrative" : "business-outcome narrative");
+  document.querySelectorAll(".alt-btn").forEach(function (b) {
+    b.classList.toggle("active", Number(b.dataset.alt) === currentAlt);
+  });
+}
+
+document.querySelectorAll(".alt-btn").forEach(function (b) {
+  b.addEventListener("click", function () { currentAlt = Number(b.dataset.alt); render(); });
+});
+document.addEventListener("keydown", function (e) {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  var k = e.key;
+  if (k >= "1" && k <= "5") { currentAlt = Number(k) - 1; render(); }
+});
+render();
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
