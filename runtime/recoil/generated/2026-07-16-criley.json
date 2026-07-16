@@ -3,7 +3,7 @@
   "meta": {
     "callTitle": "Interview with Prophet",
     "counterpart": "Mike Lemon — day-to-day lead of Prophet's AI Foundry, the actual interviewer on this call",
-    "counterpartRole": "Prophet — management/AI consulting firm; role appears to be a PM/applied-AI-engineering seat inside the AI Foundry, working on their 'Maya' internal AI platform",
+    "counterpartRole": "Prophet — management/AI consulting firm. Confirmed role (JD obtained post-call, 2026-07-16): Senior Product Manager, AI Foundry Team, New York — owns execution/delivery/continuous improvement of MAIA (Prophet's internal multi-agent AI platform). Hybrid, NYC office, 3+ days/week in person. $165,000–$220,000.",
     "schedulingContact": "Cassandra Riley (criley@prophet.com) — recruiting coordinator who organized the calendar invite; not present as a speaker on this call. The internal ledger filename/slug uses her email per the canonical slug rule (calendar external attendee), but she is not the counterpart this report analyzes.",
     "callDate": "2026-07-16",
     "callTime": "2:30 PM EDT",
@@ -20,13 +20,37 @@
     "renderState": "DEGRADED",
     "nci": 76,
     "headline": "Strong structural fit, warm close, real engagement — the repeated narrative was deliberate positioning, not an unmanaged reflex.",
-    "subline": "Ran 13 minutes over on interviewer initiative, multiple explicit 'that's exactly what we've experienced' moments from Mike Lemon, and Zach found the role through his own algorithm — a strong authenticity signal. Correction from initial read (Zach, 2026-07-16): this is a consultancy, and Mike self-identified as lacking technical/product depth. Reusing and deepening the ARCS narrative across questions was a deliberate move to establish trust and authority with a non-technical, non-product-background client — sell the fit for a builder/founder/Applied AI Engineer/Forward Deployed Engineer role, and show Mike he was seen, heard, and understood, including the internal challenges a non-product 'product lead' likely faces. Read in that frame, not as a technical-peer interview."
+    "subline": "Ran 13 minutes over on interviewer initiative, multiple explicit 'that's exactly what we've experienced' moments from Mike Lemon, and Zach found the role through his own algorithm — a strong authenticity signal. Correction from initial read (Zach, 2026-07-16): this is a consultancy, and Mike self-identified as lacking technical/product depth. Reusing and deepening the ARCS narrative across questions was a deliberate move to establish trust and authority with a non-technical, non-product-background client — sell the fit for a builder/founder/Applied AI Engineer/Forward Deployed Engineer role, and show Mike he was seen, heard, and understood, including the internal challenges a non-product 'product lead' likely faces. Read in that frame, not as a technical-peer interview. Second correction (Zach, same day, JD obtained post-call): the depth wasn't only Mike-fluency-calibrated — it was deliberate JD-pillar mapping. The actual JD (Senior PM, AI Foundry, $165–220K, NYC hybrid) requires almost exactly the ARCS competency set: technical credibility, AI evaluation/quality/observability (hallucination, red-teaming, release gates), experimentation/tradeoff analysis, agent lifecycle management, governance, and adoption/enablement. See roleAlignment below."
   },
   "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
   "loadBearingQuote": {
     "text": "It's fascinating to see what feel like very disparate parts of our business actually having, like, sharing commonalities in terms of the interaction... there's these patterns that we're starting to find, to where reuse is — like once you figure out the pattern and the interaction, it's like you can start to repurpose that for all these different offers.",
     "attribution": "GRANOLA TRANSCRIPT · MIKE LEMON (PROPHET) · JUL 16, 2026",
     "significance": "This is Mike independently describing, in Prophet's own product language, almost exactly the pattern-reuse thesis behind ARCS — cross-domain workflow isomorphism as a design principle, not a coincidence. It's the strongest structural-fit signal of the call: he arrived at the same abstraction Zach's been building toward, from his own product experience, without prompting."
+  },
+  "roleAlignment": {
+    "note": "JD obtained post-call (2026-07-16) — not available to score against during the call itself, but confirms the narrative-depth strategy was well-aimed, not just audience-calibrated. Coverage assessed against the JD's own bucket headers.",
+    "officialTitle": "Senior Product Manager — AI Foundry Team",
+    "location": "New York, hybrid, 3+ days/week in person",
+    "compRange": "$165,000–$220,000",
+    "coveredWell": [
+      { "jdBucket": "Technical Credibility & Engineering Partnership", "evidence": "TypeScript/Tailwind design system, MCPs, Vercel AI gateway, Supabase RLS + Prisma, hands-on prototyping language throughout — matches 'building prototypes, reviewing code, running experiments.'" },
+      { "jdBucket": "AI Evaluation, Quality & Observability", "evidence": "Hallucination/sycophancy safeguards, source-quality grading, evals and Y-gates, falsifiable pass/fail test framing in the scenario-question answer — near-direct match to 'testing protocols for agent accuracy, hallucination risk... release gates.'" },
+      { "jdBucket": "Experimentation & Technical Tradeoff Analysis", "evidence": "Scenario-question answer (segment 6): synthetic research, MVP framing, always/sometimes/never guardrails with the senior partner as co-design partner — directly matches 'design and run experiments... present clear recommendations with explicit tradeoffs.'" },
+      { "jdBucket": "Adoption, Enablement & Value Tracking", "evidence": "Early-adopter/laggard segmentation, meeting users on their preferred input channel (email vs. voice), NPS/detractor framing — matches 'drive adoption... understanding real workflows.'" },
+      { "jdBucket": "Stakeholder Communication", "evidence": "CFO-to-PM translation, 'Rosetta stone' framing for cross-org communication — direct match to 'tailor communication to the audience.'" }
+    ],
+    "notCoveredOrThin": [
+      { "jdBucket": "Data, Security & Governance", "gap": "No discussion of permissions, access control, auditability, SSO/RBAC, or enterprise data handling — the JD names these explicitly ('work with IT, security, legal... define requirements for permissions, access control, auditability'). ARCS's local-first/no-cloud-storage architecture is adjacent but was framed as a personal-tool design choice, not translated into enterprise governance language." },
+      { "jdBucket": "Roadmap, Delivery & Team Leadership", "gap": "No concrete example given of owning a backlog/release cadence or leading a cross-functional team through ambiguity without micromanaging — the JD's first bucket. Solo-founder examples don't directly demonstrate team leadership at delivery-cadence scale." },
+      { "jdBucket": "Named tool-stack familiarity", "gap": "JD explicitly lists LangChain, LangGraph, LlamaIndex, vector databases, Jira, GitHub — none of these were named on the call. Zach's actual stack (Claude Code, Vercel, Supabase, Prisma, MCPs) is adjacent but not a 1:1 match to what's listed; worth having a direct answer ready on familiarity/transferability if asked."
+      }
+    ],
+    "openLogistics": {
+      "issue": "NYC hybrid, 3+ days/week in person, never came up on the call at all.",
+      "why_it_matters": "Zach lives in Fairfield County, CT (confirmed segment 1 small talk) — a NYC commute 3+ days/week is a real, material logistics question, not a detail. This wasn't raised by either side and isn't yet a settled fact for Zach himself, let alone communicated to Prophet.",
+      "action": "This is a decision for Zach to make before it becomes a late-stage surprise in either direction — resolve willingness/logistics for a 3+ day NYC commute before or early in any next round, rather than letting an offer conversation be the first time it's discussed."
+    }
   },
   "callWalk": [
     {
@@ -173,6 +197,9 @@
       }
     ],
     "immediateActions": [
+      "Resolve the NYC hybrid (3+ days/week) logistics question for yourself before or early in any next round — this never came up on the call and is a real decision, not a detail",
+      "Prep direct, specific answers on Data/Security/Governance (permissions, access control, auditability — the one clearly under-covered JD bucket) and on named tool-stack familiarity (LangChain/LangGraph/LlamaIndex/vector DBs) for a next round",
+      "Have one or two concrete team-leadership/delivery-cadence examples ready — the JD's first bucket (roadmap/delivery/team leadership) wasn't demonstrated with a specific story on this call",
       "Confirm who's in the room for any next round before deciding whether to repeat the segment 3–4 depth-and-repeat approach (worked for Mike) or diversify toward terse technical incident stories (for a more technically fluent evaluator)",
       "If no contact within 5 business days, treat as normal process latency given the multi-stakeholder language used; request a status update at day 7 per the standard confirmation-signal convention",
       "No outreach needed before day 5 — the close was warm enough that early follow-up risks reading as anxious rather than confident"
