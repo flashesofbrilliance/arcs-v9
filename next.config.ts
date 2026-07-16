@@ -76,6 +76,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/jalaja.html", has: [{ type: "host", value: "jalaja.arcs.care" }] },
         // thetrueai.arcs.care → public/thetrueai.html (external-facing theTrueAI teardown, addressed to Jalaja, pw-gated "jalaja")
         { source: "/:path*", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
+        // chan.arcs.care → public/chan.html (ARCS product mission/architecture/roadmap hub for Prophet CDO show-and-tell, ungated)
+        { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
