@@ -553,9 +553,9 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">EVIDENCE GATING</div><div class="gauge-def">Features switch on at data thresholds, never on enthusiasm. The roadmap below runs on this.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">SOURCE QUALITY GRADING</div><div class="gauge-def">Every input is rated before it is allowed to move a conclusion.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">PROVENANCE</div><div class="gauge-def">Where each fact came from travels with the fact. The source labels on this page are the same machinery.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-HALLUCINATION</div><div class="gauge-def">The screen cannot show more certainty than the data earned. Shaky answers render blurry.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-HALLUCINATION*</div><div class="gauge-def">The screen cannot show more certainty than the data earned. Shaky answers render blurry.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-SYCOPHANCY</div><div class="gauge-def">Built to disagree with its operator. Challenge reviews killed four overclaims before one merge.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION*</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">INTEROPERABILITY</div><div class="gauge-def">Local-first, lowest lock-in: one tenant that works across AI runtimes, vendor swap behind one seam.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 34-operator library and one engine behind every surface.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt: expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
@@ -585,7 +585,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       </svg>
     </div>
     <div class="flow-scrollhint">← SWIPE FOR THE FULL LOOP →</div>
-    <div class="flow-footnote">*System in beta. Claims pending peer review and independent verification.</div>
+    <div class="flow-footnote">*System in beta. Anti-hallucination, bias detection, and red-teaming are mechanisms enforced in the code, not results proven at scale: the sample size behind them is still small. Effectiveness pending peer review and independent verification, not just this page's say-so.</div>
   </div>
 
   <!-- 03 BUILD EXPLORER -->
@@ -1301,7 +1301,7 @@ var SLIDES = [
     b: "Predictions scored against outcomes, automatically. That is what turns AI output into <strong>defensible judgment</strong>, and it only scales if it depends on no one's discipline.<br><br>ARCS closed that loop on Day 98. The same loop is buildable for the Foundry's pilots: every client demo becomes evidence." },
   { act: "CALIBRATION", ac: CH.close, chip: "SEEN · IN THE CODE", cc: CH.close,
     h: "The instruments this read was made with.",
-    b: "Every claim in this deck went through the same panel ARCS runs on: <strong>provenance</strong> (the source chip on every slide), <strong>source-quality grading</strong>, <strong>anti-hallucination</strong> (nothing rendered sharper than the evidence), <strong>anti-sycophancy</strong> (the vibe check exists so you can refute me), and <strong>traceability</strong>: the full build record behind this deck links every claim to a commit.<br><br>The instrument panel is section 02 of the page underneath this presentation." },
+    b: "Every claim in this deck went through the same panel ARCS runs on: <strong>provenance</strong> (the source chip on every slide), <strong>source-quality grading</strong>, <strong>anti-hallucination</strong> (nothing rendered sharper than the evidence), <strong>anti-sycophancy</strong> (the vibe check exists so you can refute me), and <strong>traceability</strong>: the full build record behind this deck links every claim to a commit.<br><br>Fair pushback: those are enforced mechanisms, not a proven track record at scale yet. Small sample size, no independent audit. Press on that; it's the right thing to press on.<br><br>The instrument panel is section 02 of the page underneath this presentation." },
   { act: "PRIOR TERRAIN", ac: CH.seen, chip: "SEEN · TRACK RECORD", cc: CH.seen,
     h: "Not my first regulated, high-stakes build.",
     b: "<div class='pres-stats' style='--hl:#7dd3fc;'>" +
