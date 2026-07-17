@@ -78,6 +78,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         // chan.arcs.care → public/chan.html (ARCS product mission/architecture/roadmap hub for Prophet CDO show-and-tell, ungated)
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
+        // status.arcs.care → public/status.html (standalone ARCS build-status fork of chan, no Prophet/presentation, ungated)
+        { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
