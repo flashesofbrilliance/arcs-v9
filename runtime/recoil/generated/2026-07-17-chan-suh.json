@@ -1,0 +1,236 @@
+{
+  "reportId": "2026-07-17-chan-suh",
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Internal recoil ledger, not the chan.arcs.care leave-behind.",
+  "meta": {
+    "callTitle": "Interview with Prophet — Chan Suh (CDO)",
+    "counterpart": "Chan Suh — Senior Partner & Chief Digital Officer, Prophet. Co-founded Agency.com ($80 + 2 people → 1,800 employees / 14 offices, NASDAQ IPO), later ran a digital-commerce consultancy and headed Samsung's Digital Innovation Team. Oversees the AI Foundry program + AI CoE (MAIA/'Maya'). The 'Speaker' on this transcript throughout — the actual interviewer and evaluator.",
+    "counterpartRole": "Program owner / evaluator for the Senior Product Manager, AI Foundry Team role ($165k–$220k, NYC hybrid 3+ days/week). Fast-track second round, escalated same-day from the Mike Lemon first round.",
+    "schedulingContact": "Cassandra Riley (criley@prophet.com) — recruiting coordinator, organizer of the calendar invite (schedule@iris.greenhouse.io = Greenhouse ATS automation, optional attendee). Not present on the call. The canonical slug rule would key this report to 'criley' (external-attendee email local-part), but that is deliberately overridden here — see slugNote.",
+    "slugNote": "Filed under slug 'chan-suh', NOT the canonical 'criley' (criley@prophet.com email local-part). Rationale: the calendar attendee is the recruiter, but the actual counterpart is Chan Suh; the ex-ante receipt is precall-chan-suh-2026-07-17.json; the leave-behind is public/chan.html. Keying to 'criley' would (a) collide conceptually with the genuine Cassandra Riley touchpoints (2026-07-16-criley.json = the Mike round filed under her email, precall-cassandra-riley-2026-07-15.json), (b) fail to bind to the chan-suh pre-call note for the Deep Recall pass, and (c) mis-key a hiring-manager interview under the scheduler. Durable dedup key is meta.calendarEventId, which is unique per call regardless of slug.",
+    "callDate": "2026-07-17",
+    "callTime": "5:00–5:45 PM EDT",
+    "durationMinutes": 45,
+    "segmentCount": 7,
+    "protocol": "Reverse Listening + Deep Recall · 7 segments · max(3, round(sqrt(45)))",
+    "prePrepSession": "precall-chan-suh-2026-07-17",
+    "calendarEventId": "_60q30c1g60o30e1i60o4ac1g60rj8gpl88rj2c1h84s34h9g60s30c1g60o30c1g6osj4ci16p346da264qk8h1g64o30c1g60o30c1g60o30c1g60o32c1g60o30c1g611k6ea28d33adq364o3acpk8p146cq28h344chh651jah9o6gqg",
+    "granolaMeetingId": "98a44bb7-ec2d-4206-84c6-77625684dab8",
+    "externalPage": "public/chan.html (chan.arcs.care) EXISTS but has NO post-call close-out block — it is the 'ARCS: Day 0 to Today' build-record leave-behind. Per hooks spec step 9 and the pre-call's explicit 'Do NOT edit chan.arcs.care' instruction, the external page was intentionally left untouched this run. No curated close-out was added.",
+    "note": "Second Prophet round, escalated same-day from the Mike Lemon first round (2026-07-16-criley.json, NCI 85 GREEN/HIGH/STABLE). Duration: scheduled 45 min, ran to time; Chan declined to extend (hard stop for a call he was hosting) — a measured close, notably cooler than Mike's interviewer-driven 13-min overrun, but with a genuine continuation ask ('we can pick it up again... maybe we can create some more time')."
+  },
+  "cover": {
+    "yGate": "GREEN",
+    "conviction": "MEDIUM",
+    "stability": "STABLE",
+    "renderState": "SHARP",
+    "nci": 80,
+    "headline": "Advanced, measured. Chan validated Zach's Maya read as 'spot on'; the governance/data-sovereignty convergence was the peak. Close was warm but time-boxed with no concrete next step locked.",
+    "subline": "A genuinely positive, substantive conversation that landed a half-notch below the exceptional Mike round. Three pre-call-flagged gaps resolved live and well: governance/local-first became the strongest mutual-conviction moment (the JD's thinnest bucket from the Mike round), team-leadership got a concrete Grayscale answer, and Zach's unprompted Maya hypotheses were confirmed by the CDO. But two pre-call disciplines were not followed — Zach presented the build-record/hypotheses live (screen-share) rather than handing off the page at close as planned, and led with the framework register rather than the recommended segment-6 situational one. Both recovered by accuracy, not by plan. Chan's real evaluation axis surfaced clearly: institutional harness ('a person can do a lot, but for an enterprise, all those people going off doing cool stuff doesn't advance the cause... how do you harness it?'), not individual technical brilliance. NYC 3-day commute — the pre-call's #1 predicted surprise — again did not come up and remains unresolved two rounds in."
+  },
+  "loadBearingQuote": {
+    "text": "What you were able to gather up about the philosophy and the intent of Maya is spot on... the fact that we are in a commercial setting, therefore what we do with it both internally and externally has to be quantifiable impact — revenue, time saved, or quality of work bettered.",
+    "attribution": "GRANOLA TRANSCRIPT · CHAN SUH (PROPHET, CDO) · JUL 17, 2026",
+    "significance": "The CDO confirming, unprompted, that Zach's hypotheses about Maya's philosophy and intent — formed from only a press release, the JD, and two prior calls — were accurate. This is the ARCS product thesis proven live in the room: structured see/hear/confirm discovery producing a correct read of a domain Zach had no inside access to. It parallels the Mike round's independent-convergence quote, but is stronger in one way (it's the senior evaluator validating Zach's read, not Zach discovering a shared abstraction) and weaker in another (Chan immediately reframed to the commercial bar — 'quantifiable impact' — which is the altitude he actually evaluates at). Lead future Chan touches from that quantifiable-impact framing, not from build velocity."
+  },
+  "statedVsRevealed": [
+    {
+      "axis": "Pre-call plan vs. execution — register",
+      "stated": "Pre-call briefing (precall-chan-suh): open by reading Chan's orientation, do NOT re-run the Mike deep-ARCS/framework recap, default to the segment-6 situational (Prophet/MAIA-specific, business-outcome) register, and hand off chan.arcs.care at the close — 'do NOT walk him through it live (that would repeat the Mike register at page scale).'",
+      "revealed": "Chan took the open himself ('tell me your journey + what you'd want a year from now'). Zach then ran a prepared, screen-shared hypothesis presentation (see/hear/confirm) plus the build-record/commit walkthrough — the more presentation-forward Mike register, and effectively a live narration of the leave-behind's substance rather than a handoff. It LANDED ('spot on'), so the deviation was recovered by hypothesis accuracy. But the specific discipline the pre-call prescribed was not applied; the recovery came from content quality, not from the plan.",
+      "read": "Not a failure — but the single most important calibration note. Against an AI-fluent evaluator, the live-narration register cost exactly one beat ('so you had Claude Code generate the Python — that's what it does best'). Accuracy bailed it out this time; do not assume it always will."
+    },
+    {
+      "axis": "Zach's self-narrative vs. demonstrated behavior — sales",
+      "stated": "Zach: 'What I'm not as in love with is the sales and new-business part of it... figuring out where my circle of competency can end and another person can begin.'",
+      "revealed": "Zach ran a full, polished consultative sales motion on Chan — discovery, hypotheses, confirm, close — and did it well enough that the CDO called the read 'spot on.' The 'I don't love sales' framing materially understates a demonstrated discovery/positioning capability.",
+      "read": "A revealed strength, not a contradiction to worry about. But be aware the modesty framing can read as either authentic or as hedging; the transcript shows the capability is real, so own it rather than pre-disclaiming it."
+    },
+    {
+      "axis": "Stated evaluation topic vs. real axis underneath",
+      "stated": "Chan's surface questions: 'how comfortable you'd be in an employee situation' and 'you didn't mention the actual technical building.'",
+      "revealed": "Chan's real worry, voiced in the AI-for-institutions riff: 'AI and Claude Code is optimizing for individual achievements. A person can do a lot of things. But for an enterprise that needs to harness a lot of people... all of those people going off doing exploratory cool stuff doesn't necessarily advance the cause. How do you harness it? How do you make it safe?' The employee/technical questions were proxies for one axis: can this solo-founder make AI advance a collective enterprise cause, not just individual velocity.",
+      "read": "This is the belief shift to internalize. The fit question is institutional harness, not individual brilliance. Zach answered it well in the moment (human-on-the-bike, extending org discipline, uniting disparate teams) but should LEAD from it next time rather than arriving there via the solo-build story."
+    }
+  ],
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "RAPPORT OPEN — GYM / KIDS / FUNCTIONAL STRENGTH",
+      "time": "0–4 min",
+      "direction": "FORWARD",
+      "summary": "Warm, unforced open: Zach's gym knee injury, a 5.5-year-old and a 15-month-old, Chan's three sedentary weeks; Zach's post-40 shift to strength/mobility/balance 'so I can keep up with my kids.' Genuine peer rapport, no performance.",
+      "divergenceFlag": "LOW."
+    },
+    {
+      "segment": 2,
+      "label": "CAREER ARC (3-PART) — CHAN DRIVES THE OPEN",
+      "time": "4–12 min",
+      "direction": "FORWARD",
+      "summary": "Chan takes the wheel ('tell me your journey... and what you'd like to be doing a year from now'), pre-empting Zach's planned orientation question. Zach gives the three-part arc: builder (ad tech / DTC e-commerce / boutique hospitality) → decade of zero-to-one in regulated industries (Grayscale $7B, WTA, rare-disease nonprofits, behavioral-health PE turnaround) → found the Prophet role via his own algorithm. mp3.com/producer origin, an agency.com nod to Chan directly.",
+      "divergenceFlag": "MED — long but responsive to an open prompt; Chan pulled on the 'series of short stints, searching for something' thread, which sets up segment 3."
+    },
+    {
+      "segment": 3,
+      "label": "EMPLOYEE-vs-ENTREPRENEUR PROBE — THE REAL AXIS (1st surfacing)",
+      "time": "12–18 min",
+      "direction": "FORWARD",
+      "summary": "Chan: 'you've been entrepreneurial a while... short stints... searching for something?' and then directly 'how comfortable you'd be in an employee situation, because you've been ahead of your own firm for a while.' Zach: circle of competency / zones of genius overlap, the isolation of solo founding, wanting a team to bounce ideas off, not loving the sales/new-business part. Honest and well-differentiated.",
+      "divergenceFlag": "LOW — genuinely responsive; this is Chan's true evaluation axis, not the tech."
+    },
+    {
+      "segment": 4,
+      "label": "TECHNICAL-BUILDING PROBE — MILD DEFLATION SIGNAL",
+      "time": "18–24 min",
+      "direction": "FORWARD",
+      "summary": "Chan: 'you didn't mention the actual technical building.' Zach: music/CS hybrid (Berklee-meets-MIT-Media-Lab program), hacking from a young age, bilingual PM/eng bridge, the ARCS change-control / instant-replay / anti-revisionist-history pitch, and the open-telemetry system he built 'yesterday' from the monorepo commits (Cloud Code + Python + Prisma RLS + Supabase + Vercel). Chan's tell: 'So you had Claude Code generate the Python. That's what it does best.'",
+      "divergenceFlag": "MED — the framework narrative re-surfaces here (the register the pre-call cautioned against), and Chan's flat 'that's what it does best' is the one place an AI-fluent evaluator lightly discounted the build-velocity flex."
+    },
+    {
+      "segment": 5,
+      "label": "TEAM-LEADERSHIP PROBE — MIKE-ROUND GAP CLOSED",
+      "time": "24–30 min",
+      "direction": "FORWARD",
+      "summary": "Chan: 'experience running teams?' Zach works backward from Grayscale: forward-deployed embedded product lead over four workstreams (front-end UI/UX agency mid-rebrand + design-system tokens/components, legacy CMS tech-debt paydown, headless-CMS + React-Native retool, end-to-end sprint delivery), ~$250k/mo resource value supporting $7B in digital assets; internal+external pods, QA automation, global 24h coverage; ~20 years of it.",
+      "divergenceFlag": "LOW — concrete and specific; directly closes the team-leadership/delivery-cadence gap flagged as undemonstrated in the Mike round."
+    },
+    {
+      "segment": 6,
+      "label": "PREPARED HYPOTHESIS PRESENTATION + PHILOSOPHICAL CONVERGENCE",
+      "time": "30–40 min",
+      "direction": "FORWARD",
+      "summary": "Zach screen-shares his see/hear/confirm hypotheses on Maya: augmenting (not replacing) intelligence, productizing a dogfooded platform on client demand, cross-offer pattern reuse (campaign tool vs. brand-strategy tool sharing back-end workflow), fire-hose→governance/guardrails, trust-as-a-feature, calibration/belief-change as white space. Chan: 'spot on,' then reframes to the commercial bar (quantifiable impact). The exchange deepens into LLM lock-in / data sovereignty / local-first — Chan's own strongest convictions ('I'd rather it leaked in AWS than inside an LLM company'). Zach matches: NOTOMATION / human-on-the-bike, local-first zero-trust, token-price gouging + fiduciary responsibility (Alex Karp), on-device deterministic compute with a line of demarcation for LLM-touching data.",
+      "divergenceFlag": "LOW — the substantive peak of the call; the governance/sovereignty convergence is real and is Zach's genuine credential. The only MED note is that the live walkthrough was the pre-call plan-deviation.",
+      "peak": true
+    },
+    {
+      "segment": 7,
+      "label": "CLOSE — MEASURED, TIME-BOXED, SOFT CONTINUATION",
+      "time": "40–45 min",
+      "direction": "REVERSE",
+      "summary": "Zach asks a sharp closing question (what success looks like at 6/12/24 months; how the Foundry/Maya evolves). Chan answers substantively: Foundry = internal platform + agents + workflows for own usage (take-up/usage rate = success); commercial = subscription agents/workflows for clients; the role is product-portfolio management as much as people/resource management; a SaaS tech partner (Lyzr-style) sits underneath Maya; 'triage fast, work well with me as program owner, keep everyone pointed the same way, ship apps, always make things better.' Zach offers more time; Chan declines — hard stop for a call he's hosting — and defers: 'we can pick it up again... let me go work with Cassandra, maybe we can create some more time.'",
+      "divergenceFlag": "MED — read backward, the trajectory was building toward mutual fit, but the landing was a measured, time-boxed deferral with no concrete next step locked. Warm and genuine, but distinctly cooler than the Mike round's interviewer-driven overrun and same-day fast-track."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "PHILOSOPHY_VALIDATED_LIVE",
+      "label": "CDO Confirmed Zach's Unprompted Maya Read as 'Spot On'",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "Zach's hypotheses about Maya's philosophy and intent — built from a press release, the JD, and two prior calls, with no inside access — were validated in the room by the program owner. This is the ARCS discovery thesis proven live: correct read of an opaque domain via structured see/hear/confirm. Note the immediate reframe: Chan pinned it to the commercial bar ('quantifiable impact — revenue, time saved, quality bettered'), which is the altitude he evaluates at. Carry that framing forward."
+    },
+    {
+      "id": "GOVERNANCE_SOVEREIGNTY_CONVERGENCE",
+      "label": "The JD's Thinnest Bucket Became the Strongest Convergence",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "Data/security/governance went uncovered in the Mike round (flagged as the one thin JD bucket). Here it was the peak: the LLM lock-in / data-sovereignty / local-first exchange was where Chan revealed his deepest convictions and Zach matched them naturally (Grayscale + Palo Alto private cloud, local-first zero-trust, on-device deterministic compute, fiduciary/token economics). Convert this from a back-third discovery into a lead credential."
+    },
+    {
+      "id": "INSTITUTIONAL_HARNESS_AXIS",
+      "label": "The Real Evaluation Axis Is Institutional Harness, Not Individual Brilliance",
+      "color": "cyan",
+      "strength": "DIRECTIONAL",
+      "description": "Chan's core worry: individually-optimizing AI ('a person can do a lot') doesn't advance an enterprise's collective cause — 'all those people going off doing exploratory cool stuff doesn't advance the cause. How do you harness it? How do you make it safe?' The employee-vs-entrepreneur and technical-building questions were proxies for this one axis. Zach answered it well in the moment; next round he should LEAD from institutional harness rather than arrive at it via the solo-build story."
+    },
+    {
+      "id": "PLAN_DEVIATION_RECOVERED_BY_ACCURACY",
+      "label": "Presented Live vs. the Planned Handoff — Recovered by Content, Not Plan",
+      "color": "cyan",
+      "strength": "DIRECTIONAL",
+      "description": "The pre-call was explicit: hand off chan.arcs.care at the close, do NOT narrate it live; default to the segment-6 situational register, not the Mike framework recap. Zach ran a screen-shared hypothesis + build-record walkthrough — the more presentation-forward Mike register. It worked because the hypotheses were accurate, but the discipline wasn't applied, and it cost one beat with an AI-fluent evaluator ('you had Claude Code generate the Python — that's what it does best'). Recovery by accuracy is not a repeatable plan."
+    },
+    {
+      "id": "COOLER_CLOSE_NO_LOCKED_STEP",
+      "label": "Warm but Time-Boxed — No Concrete Next Step Locked",
+      "color": "gold",
+      "strength": "WATCH",
+      "description": "Unlike the Mike→Chan same-day fast-track, this close deferred to a soft 'maybe we can create some more time' with Chan hard-stopping for another call. The continuation ask is genuine (he wants to pick it up again), but there is no scheduled next step and no urgency spike. Advancing, but measured — the burden is now on proactive follow-up, not on waiting for a hot inbound."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 45,
+      "label": "Chan sponsors — reads Zach at institutional-harness altitude",
+      "description": "The philosophy-validated + governance-convergence signals move Chan to put his own weight behind a concrete next step (team panel or offer track). Most likely if Zach follows up proactively and reframes around quantifiable institutional impact rather than build velocity.",
+      "trigger": "Proactive follow-up through Cassandra within 1–2 business days converts the soft 'maybe more time' into a scheduled step.",
+      "watch": "Chan explicitly evaluates for 'quantifiable impact' and 'how do you harness it safely' — sponsorship follows if the next touch leads there."
+    },
+    {
+      "id": "B",
+      "probability": 40,
+      "label": "Positive-but-measured advance on normal cadence",
+      "description": "Genuine interest, a second Chan conversation or a team panel gets scheduled, but on ordinary timing rather than the same-day-fast-track energy of the Mike→Chan handoff. The most representative reading of the actual close.",
+      "trigger": "Cassandra follows up to 'create some more time' as Chan said she would; no urgency spike either way.",
+      "watch": "Whether the next step is concretely scheduled or the 'maybe' drifts — that's the tell between B and C."
+    },
+    {
+      "id": "C",
+      "probability": 15,
+      "label": "Scheduling drifts / evaluator cools",
+      "description": "The soft 'maybe' stays soft; the AI-fluent-evaluator discount ('Claude Code generated it') plus the still-unresolved NYC 3-day commute surface later and slow the process without a champion push.",
+      "trigger": "No proactive follow-up + a later governance/logistics/stack probe that catches Zach in the build-velocity register rather than the institutional-harness one.",
+      "watch": "Silence past ~5 business days with no scheduled step is the Godel trigger — request a status update via Cassandra rather than waiting."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "NYC_COMMUTE_STILL_UNRESOLVED",
+      "severity": "MED",
+      "label": "NYC hybrid 3+ days/week — survived TWO rounds unaddressed",
+      "description": "The pre-call's #1 predicted live surprise again did not come up. Zach lives in Fairfield County, CT; a NYC-based CDO is exactly the person most likely to raise scope/logistics, and he didn't — which means it's still a live, unsettled fact heading toward an offer conversation.",
+      "action": "Decide the real floor now (would you negotiate to 2 days?). Do not let an offer conversation be the first time it's discussed."
+    },
+    {
+      "id": "AI_FLUENT_EVALUATOR_DISCOUNT",
+      "severity": "MED",
+      "label": "'You had Claude Code generate the Python — that's what it does best'",
+      "description": "Chan is AI-fluent; raw commit-volume / build-velocity flexes read as table-stakes or lightly discounted to him. The one flat beat of the call came exactly where Zach leaned on AI-assisted output volume.",
+      "action": "With this evaluator, lead with judgment, architecture, governance, and institutional-harness outcomes — not the number of commits shipped or that Claude Code wrote the code."
+    },
+    {
+      "id": "NO_CONCRETE_NEXT_STEP",
+      "severity": "MED",
+      "label": "Soft close — 'maybe we can create some more time'",
+      "description": "No scheduled next step. Unlike the same-day fast-track that produced this very call, Chan deferred to working with Cassandra to maybe find more time. Genuine interest, but the follow-through burden is now on Zach's side.",
+      "action": "Follow up proactively through Cassandra within 1–2 business days to convert the 'maybe' into a scheduled step; do not wait on a soft continuation."
+    },
+    {
+      "id": "REFRAME_TO_INSTITUTIONAL_HARNESS",
+      "severity": "LOW",
+      "label": "Lead future touches from collective-enterprise value, not solo velocity",
+      "description": "Chan's stated worry is that AI optimizes individual achievement at the expense of institutional advancement. The solo-founder narrative, however impressive, sits on the wrong side of that worry unless explicitly reframed.",
+      "action": "Open the next Chan touch with how ARCS/MAIA makes AI advance a collective enterprise cause (uniting disparate teams, extending org discipline, provable governance) — his exact concern, answered head-on."
+    },
+    {
+      "id": "ENTERING_FROM_STRENGTH",
+      "severity": "LOW",
+      "label": "Still a positive, advancing conversation",
+      "description": "Philosophy read validated 'spot on,' governance/sovereignty landed as the peak, team-leadership answered concretely (Mike-round gap closed), and Chan wants to continue. NCI 80 GREEN/MEDIUM/STABLE — a half-notch below the exceptional Mike round (85), which is a normal, healthy read for a measured senior-evaluator second round.",
+      "action": "Prep the follow-up and the two gaps (commute, institutional-harness framing); don't over-read the cooler close as a negative — it's a measured yes-so-far, not a soft pass."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "The actual close: Chan hard-stopped for a call he was hosting and deferred to 'let me go work with Cassandra, maybe we can create some more time' — a genuine but soft continuation, with no concrete next step. Read backward, the substantive peak (philosophy 'spot on' + the data-sovereignty convergence in segment 6) preceded a measured landing. The stated forward trajectory (Zach's structured presentation building toward mutual fit) diverged mildly from where it actually landed (a time-boxed deferral): the enthusiasm was real but distinctly more contained than the Mike round's interviewer-driven 13-minute overrun. Not a fade — a controlled, senior-register close."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "Scored against precall-chan-suh-2026-07-17.json (the richest ex-ante receipt in the pipeline — a full forward-looking briefing off the Mike round + a live read on Chan's background + the chan.arcs.care leave-behind).",
+        "keyFinding": "Three pre-call-flagged gaps resolved live and well — governance/local-first became the call's peak (the JD's thinnest bucket from the Mike round), team-leadership got a concrete Grayscale answer, and the unprompted Maya hypotheses were validated as 'spot on.' But two prescribed disciplines were NOT followed: Zach presented the build-record/hypotheses live via screen-share rather than handing off the page at close ('do NOT walk him through it live'), and led with the framework register rather than the recommended segment-6 situational one. Both recovered by hypothesis accuracy, not by plan — and the live-narration register cost exactly one beat with an AI-fluent evaluator. The pre-call's #1 predicted surprise (NYC 3-day commute) again did not surface and remains unresolved. Net: the pre-call read Chan's altitude and evaluation axis correctly; the execution recovered its own deviations through content quality."
+      }
+    ],
+    "immediateActions": [
+      "Follow up proactively through Cassandra within 1–2 business days to convert Chan's soft 'maybe we can create some more time' into a concretely scheduled next step — do not wait on the 'maybe.'",
+      "Decide the real NYC 3-day/week commute floor now — it has survived two rounds unaddressed and will otherwise surface cold in an offer conversation.",
+      "For any next Chan touch, lead from institutional harness (how AI advances a collective enterprise cause, safely and provably) — his stated worry — not solo build-velocity or commit volume; this also sidesteps the 'Claude Code generated it' discount.",
+      "Keep the governance / local-first / data-sovereignty thread hot and make it a lead credential — it was the single strongest convergence of the call and it's the JD's thinnest bucket.",
+      "Leave chan.arcs.care untouched — it is the finished leave-behind and has no close-out block; per the hooks spec and the pre-call instruction, do not add a post-call section to it."
+    ]
+  }
+}
