@@ -116,7 +116,16 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-btn:hover { opacity: 0.85; }
 .pres { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: none; flex-direction: column; }
 .pres.on { display: flex; }
-.pres-top { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; }
+/* Grid, not space-between: a flex space-between center block re-centers itself relative to
+   the width of the act label and chip, so it visibly drifts left/right as their text length
+   changes slide to slide. A 1fr/auto/1fr grid keeps the middle column pinned to true center
+   regardless of how long the flanking labels are. */
+.pres-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; gap: 12px; }
+/* Explicit grid-column pins (not source-order auto-placement): mobile hides #presstatus,
+   and auto-placement would otherwise shove #preschip into the center column once it does. */
+.pres-top > .pres-act { grid-column: 1; justify-self: start; }
+.pres-top > .pres-status { grid-column: 2; }
+.pres-top > .pres-chip { grid-column: 3; justify-self: end; }
 .pres-act { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; }
 .pres-chip { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 4px; border: 1px solid; background: var(--glass-surface); }
 .pres-chip.grade-seen { box-shadow: var(--glow-cyan); }
@@ -149,7 +158,14 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-h { font-size: var(--text-2xl); font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; }
 .pres-body { font-size: var(--text-base); color: var(--muted); line-height: 1.7; }
 .pres-body strong { color: var(--text); font-weight: 600; }
-.pres-bot { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; }
+/* Same fix as .pres-top: grid keeps the dots+count block pinned to true center regardless
+   of BACK / NEXT+EXIT button widths. */
+.pres-bot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; gap: 12px; }
+/* Explicit grid-column pins for the same reason as .pres-top: mobile hides #presprev/#presnext,
+   and auto-placement would otherwise pull #presmid into column 1. */
+#presprev { grid-column: 1; justify-self: start; }
+#presmid { grid-column: 2; justify-content: center; }
+#presend { grid-column: 3; justify-self: end; }
 .pres-bot button { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 13px; cursor: pointer; }
 .pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
 .pres::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--fogop, 0.85);
@@ -162,10 +178,15 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
   background-size: 56px 56px; }
 /* 2.5D isometric ground plane - the observatory floor, receding to the horizon */
-.pres-floor { position: absolute; left: -60%; right: -60%; bottom: 0; height: 34%; pointer-events: none; z-index: 0; opacity: 0.14;
+/* perspective() in vh, not a fixed px value: a fixed focal length relative to a box that
+   gets much wider on an ultrawide monitor (or shrinks in CSS-px terms under browser zoom)
+   produces degenerate distortion that swings the far edges of the plane out past the
+   viewport and clips them. A vh-based perspective keeps the same visual angle at any
+   viewport width or zoom level. Overscan widened to -120% for margin at extreme aspect ratios. */
+.pres-floor { position: absolute; left: -120%; right: -120%; bottom: 0; height: 34%; pointer-events: none; z-index: 0; opacity: 0.14;
   background-image: linear-gradient(rgba(125,211,252,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.7) 1px, transparent 1px);
   background-size: 64px 64px;
-  transform: perspective(560px) rotateX(64deg);
+  transform: perspective(70vh) rotateX(64deg);
   transform-origin: 50% 0%;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%); }
@@ -805,8 +826,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   <div class="pres-stage"><div class="pres-slide" id="presslide"><div class="pres-kicker" id="preskick"></div><div class="pres-num" id="presnum"></div><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div><div class="pres-horizon" id="preshorizon"><div class="hz-line"></div><div class="hz-label">HORIZON · CLEAR</div></div></div></div>
   <div class="pres-bot">
     <button id="presprev">← BACK</button>
-    <div style="display:flex;align-items:center;gap:14px;"><div class="pres-swipehint">← SWIPE →</div><div class="pres-dots" id="presdots"></div><div id="prescount"></div></div>
-    <div style="display:flex;gap:8px;"><button id="presnext">NEXT →</button><button id="presexit">EXIT ✕</button></div>
+    <div id="presmid" style="display:flex;align-items:center;gap:14px;"><div class="pres-swipehint">← SWIPE →</div><div class="pres-dots" id="presdots"></div><div id="prescount"></div></div>
+    <div id="presend" style="display:flex;gap:8px;"><button id="presnext">NEXT →</button><button id="presexit">EXIT ✕</button></div>
   </div>
 </div>
 
