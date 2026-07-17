@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>Ayesha × ARCS — good catching up</title>
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b;
+    --text:#e2e8f0; --muted:#8b9bb0; --dim:#64748b;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --steel:#94a3b8;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0}
+  .wrap{max-width:760px;margin:0 auto;padding:48px 22px 90px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
+  h1{font-size:clamp(24px,4.6vw,34px);line-height:1.2;margin:10px 0 8px;font-weight:650}
+  .sub{color:var(--muted)}
+  .meta{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.08em;margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  section{margin-top:52px;scroll-margin-top:20px}
+  .pillnav{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .pill{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:999px;transition:color .15s,border-color .15s}
+  .pill:hover{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .sechead{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px;margin-bottom:22px}
+  .sechead>div{flex:1;min-width:0}
+  .idx{font-family:var(--mono);color:var(--cyan);font-size:13px}
+  .seclabel{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  h2{font-size:20px;margin:6px 0 0;font-weight:600}
+  h3{font-size:15px;margin:0 0 6px;font-weight:600}
+  p{margin:0 0 14px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;margin-bottom:14px}
+  .stripe{border-left:3px solid var(--steel)}
+  .stripe.cyan{border-left-color:var(--cyan)}
+  .stripe.green{border-left-color:var(--green)}
+  .stripe.gold{border-left-color:var(--gold)}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);border-radius:3px;color:var(--muted);white-space:nowrap}
+  .tag.cyan{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+  .tag.green{color:var(--green);border-color:rgba(0,255,157,.35)}
+  .tag.gold{color:var(--gold);border-color:rgba(255,215,0,.35)}
+  .cardtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+  .quote{border-left:3px solid var(--cyan);padding:14px 18px;background:var(--surface);margin:18px 0;font-size:16.5px;font-style:italic;color:var(--text)}
+  .attr{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);font-style:normal;display:block;margin-top:8px;text-transform:uppercase}
+  .grid2{display:grid;grid-template-columns:1fr;gap:14px}
+  ul{margin:0 0 14px;padding-left:20px;color:var(--muted)}
+  li{margin-bottom:7px}
+  li strong{color:var(--text)}
+  .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+  a{color:var(--cyan)}
+  .btn{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);background:rgba(0,240,255,.06);border-radius:6px;padding:10px 18px;text-decoration:none;margin-top:6px}
+  .btn:hover{background:rgba(0,240,255,.14)}
+  /* PASSWORD GATE */
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+  #pw-gate.hidden{display:none}
+  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--muted)}
+  .pw-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+  .pw-form{display:flex;gap:10px;align-items:center}
+  .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:16px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
+  .pw-input:focus{border-color:var(--cyan)}
+  .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
+  .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
+  .pw-btn:hover{background:rgba(0,240,255,.14)}
+  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--dim)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PREPARED FOR AYESHA KHAN</div>
+  <div class="pw-title">Ayesha × ARCS</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris</div>
+</div>
+<script>
+if (sessionStorage.getItem('ayesha-ext-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'ayesha') {
+    sessionStorage.setItem('ayesha-ext-auth', '1');
+    document.getElementById('pw-input').blur();
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+</script>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">ARCS × Ayesha · Following up on our chat · Jul 2026</div>
+  <h1>Really enjoyed catching up today — here's the recap I promised.</h1>
+  <p class="sub">Boardy called it a "unique fit" and I think that's true, just not in the way either of us expected going in. You're heads-down on a corporate re-entry right now, not shopping for decision tooling — so this isn't a pitch. It's the two things that actually came up that might be useful, plus a standing offer.</p>
+  <div class="meta">30 MIN CONNECT · JUL 17 2026 · BOARDY PEER INTRO</div>
+  <nav class="pillnav">
+    <a class="pill" href="#resonance">00 · What Resonated</a>
+    <a class="pill" href="#compass">01 · Question Compass</a>
+    <a class="pill" href="#codealong">02 · The Claude Code Nudge</a>
+    <a class="pill" href="#open">03 · Standing Offer</a>
+  </nav>
+</header>
+
+<section id="resonance">
+  <div class="sechead"><span class="idx">00</span><div><div class="seclabel">First, the good part</div><h2>Two marketers comparing notes</h2></div></div>
+  <div class="quote">I love talking to another marketer who gets it.<span class="attr">you, about halfway through the call</span></div>
+  <p>That was the best part of the conversation for me too — the resource-starved-marketing-team venting, the "sticker shock" line, the value-prop and product-launch stuff. Genuinely fun to talk shop with someone who's actually done it, not just read about it. Wanted to say that plainly before anything else on this page.</p>
+</section>
+
+<section id="compass">
+  <div class="sechead"><span class="idx">01</span><div><div class="seclabel">The thing I build</div><h2>Question Compass — take a look whenever, no pressure</h2></div></div>
+  <div class="card stripe cyan"><div class="cardtop"><h3>What it is</h3><span class="tag cyan">2 minutes, self-serve</span></div>
+  <p>It's a tool for getting oriented on a decision fast — you put in what you're actually weighing, and it helps you see the shape of it before you commit to a direction. Not a pitch to use it for anything specific right now; just the link, in case a "which direction" moment comes up in the job search or anywhere else.</p>
+  <a class="btn" href="https://app.arcs.care/dashboard" target="_blank" rel="noopener">Open Question Compass →</a>
+  </div>
+</section>
+
+<section id="codealong">
+  <div class="sechead"><span class="idx">02</span><div><div class="seclabel">The one nudge worth repeating</div><h2>Learn Claude Code</h2></div></div>
+  <div class="card stripe gold"><div class="cardtop"><h3>Same thing your professor already told you</h3><span class="tag gold">Reinforcement, not a pitch</span></div>
+  <p>You mentioned a professor already pointed you here, so take this as a second vote, not a new idea: it's a genuinely fast on-ramp to building and shipping without waiting on a developer's quote or a court date to resolve first. Magic Patterns → Figma is a good visual starting point if the code side feels like too much of a leap on day one. Happy to walk through the first hour with you if that'd help — no cost, no scope creep, just getting you unstuck on the "which tool do I even open" question.</p>
+  </div>
+</section>
+
+<section id="open">
+  <div class="sechead"><span class="idx">03</span><div><div class="seclabel">Standing offer</div><h2>Simple and scoped</h2></div></div>
+  <div class="grid2">
+    <div class="card stripe green"><div class="cardtop"><h3>If it's useful</h3><span class="tag green">One ask at a time</span></div><p>Happy to take one look at your tech setup, or make one specific builder introduction if a good fit comes to mind — just say which one, and I'll either deliver it or tell you honestly if nobody fits yet.</p></div>
+    <div class="card stripe"><div class="cardtop"><h3>No pressure either way</h3><span class="tag">Standing</span></div><p>Good luck with the corporate search — genuinely rooting for it. And if you land somewhere that's wrestling with AI and decision-making at scale, I'd love to hear about it whenever that happens.</p></div>
+  </div>
+</section>
+
+<div class="footer">Prepared by Zach Harris · ARCS · Jul 17 2026 · Shared privately with Ayesha Khan</div>
+</div>
+</body>
+</html>
