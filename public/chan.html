@@ -83,6 +83,33 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .cad-n { font-family: var(--mono); font-size: 8.5px; font-weight: 700; color: var(--muted); }
 .cad-w { font-family: var(--mono); font-size: 7.5px; color: var(--faint); letter-spacing: 0.03em; }
 
+/* PRESENTATION MODE */
+.pres-btn { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--bg); background: var(--cyan); border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; }
+.pres-btn:hover { opacity: 0.85; }
+.pres { position: fixed; inset: 0; z-index: 100; background: var(--bg); display: none; flex-direction: column; }
+.pres.on { display: flex; }
+.pres-top { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; }
+.pres-act { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; }
+.pres-chip { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 4px; border: 1px solid; }
+.pres-stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 26px; }
+.pres-slide { max-width: 780px; width: 100%; }
+.pres-h { font-size: 34px; font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; }
+.pres-body { font-size: 16.5px; color: var(--muted); line-height: 1.7; }
+.pres-body strong { color: var(--text); font-weight: 600; }
+.pres-bot { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.08em; }
+.pres-bot button { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 13px; cursor: pointer; }
+.pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
+@media (max-width: 640px) { .pres-h { font-size: 24px; } .pres-body { font-size: 14.5px; } }
+
+/* CONDUCTOR LANE */
+.cond { display: flex; align-items: flex-end; gap: 4px; height: 44px; margin-top: 18px; padding: 0 2px; }
+.cond-col { flex: 1; display: flex; flex-direction: column-reverse; align-items: stretch; gap: 1px; height: 100%; }
+.cond-seg { width: 100%; border-radius: 1px; min-height: 2px; }
+.cond-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin-top: 8px; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.06em; color: var(--dimmed); }
+.cond-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.cond-legend i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.cond-caption { font-family: var(--mono); font-size: 9px; color: var(--faint); letter-spacing: 0.08em; text-align: center; margin-top: 8px; }
+
 /* MILESTONES */
 .ms-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
 .ms { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; }
@@ -188,7 +215,10 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 
   <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS BUILD RECORD · PREPARED FOR PROPHET</div>
   <h1>Day 0: one empty commit.<br>Day 98: a live product that grades itself.</h1>
-  <div class="byline">by <strong>Zach Harris</strong> · Builder / Applied AI Engineer · July 2026</div>
+  <div class="byline" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+    <span>by <strong>Zach Harris</strong> · Builder / Applied AI Engineer · July 2026</span>
+    <button class="pres-btn" id="presopen">▶ PRESENT</button>
+  </div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
     in production, and <strong>documented from day one so a team could take it over without me in the room</strong>.
@@ -215,7 +245,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <div class="stats">
     <div class="stat"><div class="stat-val accent">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
     <div class="stat"><div class="stat-val">98</div><div class="stat-label">Days · first commit to now</div></div>
-    <div class="stat"><div class="stat-val">157K</div><div class="stat-label">Lines written · 528 files</div></div>
+    <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
 
@@ -230,8 +260,11 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
     <div class="section-title">Two teams found the same answers without talking to each other.</div>
     <div class="section-body">
       The best moments in my conversation with Mike were not me pitching. They were Mike describing where
-      MAIA is going, and landing on the same core ideas ARCS is built on. When two systems arrive at the
-      same answers independently, that is stronger evidence than any pitch.
+      MAIA is going, and landing on the same core ideas ARCS is built on. The rows below draw on that
+      conversation, MAIA's public launch materials, and the role description — each labeled with its source.
+      When two systems arrive at the same answers independently, that is stronger evidence than any pitch.
+      And it is the motion Mike described Prophet selling: not a wish-strategy deck, but things actually
+      learned by rewiring your own business. This page is that artifact, receipts attached.
     </div>
     <div class="echo-rows">
       <div class="echo-row">
@@ -241,7 +274,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
         <div class="echo-why"><strong>Why it matters</strong>Most companies adopt this stance after an incident forces them to. Both of us made it the founding rule, which means it is enforced in the code, not just written in a policy. That is a trust story you can show a client, not just tell them.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, IN MIKE'S WORDS</div><div class="echo-text">Different offers, like a campaign tool and a brand strategy tool, turn out to <strong>share the same underlying patterns</strong>. Once a pattern is found, it gets reused across offers.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, FROM OUR CONVERSATION</div><div class="echo-text">Different offers, like a campaign tool and a brand strategy tool, turn out to <strong>share the same underlying patterns</strong>. Once a pattern is found, it gets reused across offers.</div></div>
         <div class="echo-mid">↔</div>
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, ON PURPOSE</div><div class="echo-text">ARCS is <strong>built to hunt for the same pattern showing up in different domains</strong>, rather than stumbling on it. Pattern reuse is a feature, not a lucky find.</div></div>
         <div class="echo-why"><strong>Why it matters</strong>Every reused pattern turns custom work into a product. That is the margin story for a consultancy. MAIA is finding these patterns by experience. A platform can find them by design.</div>
@@ -259,7 +292,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
         <div class="echo-why"><strong>Why it matters</strong>Client trust is Prophet's actual product. An AI screen that visibly refuses to oversell itself is something a consultancy can demo, and something engineers can build against.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PM PROBLEM</div><div class="echo-text">A <strong>firehose of requests and ideas</strong> against ever-shifting resources: partners, contractors, interns, engineers in multiple time zones.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PM PROBLEM</div><div class="echo-text">A <strong>firehose of requests and ideas</strong> against a resource picture that keeps shifting — a distributed mix of partners and builders across time zones.</div></div>
         <div class="echo-mid">↔</div>
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, THE LEDGER</div><div class="echo-text"><strong>272 <span class="term" data-def="One-page notes on each build choice: what was picked, what was rejected, and what would reopen the question. The industry name for these is ADRs, architecture decision records.">written decision records</span>.</strong> Every meaningful yes, no, and not-yet has a short document saying what was chosen, what was rejected, and what would reopen it.</div></div>
         <div class="echo-why"><strong>Why it matters</strong>Decision volume will outgrow anyone's memory. Written receipts are how prioritization survives turnover, leadership review, and the question "why did we choose this?" six months later.</div>
@@ -275,13 +308,17 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
-      <strong>The one page read</strong> shows 7 milestones, one plain sentence each. Each level down adds
+      <strong>The one page read</strong> shows 8 milestones, one plain sentence each. Each level down adds
       more events and more detail, until <strong>Commits</strong> links every milestone to the actual code
       in the public repo. Keys 1 to 5 work too.
     </div>
 
     <div class="cadence" id="cadence"></div>
     <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GRAY = QUIET WEEKS · GREEN = PEAK</div>
+
+    <div class="cond" id="cond"></div>
+    <div class="cond-legend" id="condlegend"></div>
+    <div class="cond-caption">BUILD TELEMETRY: THE SAME WEEKS, BY WHO HELD THE PEN · ONE HUMAN CONDUCTING FIVE GENERATIONS OF AI · 128 COMMITS FULLY BY HAND · EVERY HAND VISIBLE IN THE LOG</div>
 
     <div class="alt-bar" id="altbar">
       <button class="alt-btn active" data-alt="0">One Page<span class="k">1 · what changed</span></button>
@@ -491,6 +528,16 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 
 </div>
 
+<div class="pres" id="pres">
+  <div class="pres-top"><div class="pres-act" id="presact"></div><div class="pres-chip" id="preschip"></div></div>
+  <div class="pres-stage"><div class="pres-slide"><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div></div></div>
+  <div class="pres-bot">
+    <button id="presprev">← BACK</button>
+    <div id="prescount"></div>
+    <div style="display:flex;gap:8px;"><button id="presnext">NEXT →</button><button id="presexit">ESC · EXIT</button></div>
+  </div>
+</div>
+
 <script>
 // Real weekly commit counts, full history (git log, main branch, measured 2026-07-16)
 var CADENCE = [
@@ -606,9 +653,9 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 84-90 · JUL 2-8", title: "Client pages become a production line.", rank: 2,
+    date: "DAY 84-90 · JUL 2-8", title: "Client pages become a production line.", rank: 1,
     alt: [
-      "",
+      "The commercial motion, proven live: 14+ branded client-facing pages (briefs, proposals, analyses), each stood up in hours on the same engine — demand tested with real clients, not a deck.",
       "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in this window, all riding the same engine and design system.",
       "A single reusable template with fill-in slots plus a documented publishing routine turned each new client page into a two-hour exercise instead of a project. A consolidation pass then pulled scattered assets from a sibling repository into the main one, with review.",
       "The routine encodes its own past mistakes: which config file actually controls routing, why deploys must run from the main working copy (a wrong-copy deploy once silently dropped every other client page), and how new addresses get attached to the project."
@@ -660,6 +707,51 @@ var MILESTONES = [
     var w = document.createElement("div"); w.className = "cad-w"; w.textContent = c.w;
     col.appendChild(n); col.appendChild(bar); col.appendChild(w);
     el.appendChild(col);
+  });
+})();
+
+// Conductor lane: weekly commits by co-author (git log main, trailers, measured 2026-07-17)
+var COND_MODELS = [
+  { key: "Sonnet 4.6", color: "#00F0FF", total: 545 },
+  { key: "Sonnet 5",   color: "#00FF9D", total: 78 },
+  { key: "Fable 5",    color: "#c084fc", total: 47 },
+  { key: "Haiku 4.5",  color: "#FFD700", total: 32 },
+  { key: "Opus 4.8",   color: "#FF4D6D", total: 22 },
+  { key: "solo",       color: "#64748b", total: 128, label: "BY HAND, NO AI" }
+];
+var COND_WEEKS = [
+  { "Sonnet 4.6": 1 }, {}, {}, {}, {}, { "Sonnet 4.6": 2 },
+  { "Sonnet 4.6": 59, "solo": 5 }, { "solo": 2, "Opus 4.8": 3, "Sonnet 4.6": 35 },
+  { "Sonnet 4.6": 54, "solo": 15, "Opus 4.8": 1 }, { "solo": 43, "Sonnet 4.6": 26, "Opus 4.8": 14 },
+  { "Sonnet 4.6": 52, "Opus 4.8": 4, "solo": 7, "Haiku 4.5": 4 },
+  { "solo": 19, "Sonnet 4.6": 161, "Haiku 4.5": 28 }, { "Sonnet 4.6": 150, "solo": 21 },
+  { "Sonnet 5": 56, "solo": 16, "Fable 5": 40, "Sonnet 4.6": 5 }, { "Fable 5": 7, "Sonnet 5": 22 }
+];
+(function () {
+  var totals = COND_WEEKS.map(function (w) {
+    var s = 0; for (var k in w) s += w[k]; return s;
+  });
+  var max = Math.max.apply(null, totals);
+  var el = document.getElementById("cond");
+  COND_WEEKS.forEach(function (w, i) {
+    var col = document.createElement("div"); col.className = "cond-col";
+    var h = totals[i] === 0 ? 0 : Math.max(4, Math.round((totals[i] / max) * 44));
+    COND_MODELS.forEach(function (m) {
+      if (!w[m.key]) return;
+      var seg = document.createElement("div"); seg.className = "cond-seg";
+      seg.style.background = m.color;
+      seg.style.opacity = m.key === "solo" ? "0.55" : "0.85";
+      seg.style.height = Math.max(2, Math.round((w[m.key] / totals[i]) * h)) + "px";
+      seg.title = (m.label || "Claude " + m.key) + ": " + w[m.key] + " commits";
+      col.appendChild(seg);
+    });
+    el.appendChild(col);
+  });
+  var lg = document.getElementById("condlegend");
+  COND_MODELS.forEach(function (m) {
+    var s = document.createElement("span");
+    s.innerHTML = '<i style="background:' + m.color + '"></i>' + (m.label || "CLAUDE " + m.key.toUpperCase()) + " · " + m.total;
+    lg.appendChild(s);
   });
 })();
 
@@ -743,10 +835,73 @@ document.querySelectorAll(".alt-btn").forEach(function (b) {
 });
 document.addEventListener("keydown", function (e) {
   if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+  if (document.getElementById("pres").classList.contains("on")) return;
   var k = e.key;
   if (k >= "1" && k <= "5") { currentAlt = Number(k) - 1; render(); }
 });
 render();
+
+// Presentation mode — SEEN / HEARD / VIBE CHECK
+var CH = { seen: "#7dd3fc", heard: "#00F0FF", hyp: "#FFD700", close: "#00FF9D" };
+var SLIDES = [
+  { act: "OPENING", ac: CH.close, chip: "METHOD", cc: CH.close,
+    h: "My read of the Foundry, in three passes.",
+    b: "<strong>What I've seen. What I've heard. Then a vibe check — is this right?</strong><br><br>It is the same discovery loop I run with clients: observe, reflect it back, and calibrate before acting. Every slide is labeled with where it comes from — public record, our conversation, or my own hypothesis." },
+  { act: "ACT I · WHAT I'VE SEEN", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen,
+    h: "MAIA's founding stance is Augmented Intelligence.",
+    b: "It amplifies human insight — extends judgment instead of replacing it.<br><br>ARCS was built on the same rule #1: <strong>the system never decides for you.</strong> In both cases the stance is enforced in the code, not written in a policy. Most companies adopt it after an incident forces them to. We each made it the founding rule." },
+  { act: "ACT I · WHAT I'VE SEEN", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen,
+    h: "The Foundry's year: productize, commercialize, prove demand.",
+    b: "The public materials and the role description converge on one motion: move beyond chat to <strong>agent-powered apps</strong>, pilot with clients fast, and make <strong>trustworthy AI the sellable thing</strong>.<br><br>The scoreboard is revenue." },
+  { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
+    h: "Disparate offers share the same underlying patterns.",
+    b: "A campaign tool and a brand-strategy tool turn out to share core workflows — find the pattern once, reuse it across offers.<br><br><strong>ARCS hunts that isomorphism by design.</strong> We arrived at the same abstraction independently, from different directions. That is stronger evidence of fit than any pitch." },
+  { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
+    h: "From chat to apps with agents underneath.",
+    b: "The pilot loop Mike described: market signal in, demo back in a week or two, customize on interest.<br><br>My last 98 days ran that exact motion: <strong>one engine, 14+ client surfaces, stood up in hours each.</strong> Demand tested live, not projected." },
+  { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
+    h: "The PM problem: a firehose against shifting resources.",
+    b: "Requests, ideas and backlog additions against a resource picture that keeps changing.<br><br>My answer is receipts: <strong>272 written decision records</strong> — every yes, no, and not-yet survives turnover, leadership review, and the question \"why did we choose this?\" six months later." },
+  { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
+    h: "The big push is revenue.",
+    b: "Success in this role is commercialization: <strong>velocity of getting things into the market to test demand</strong> — many small bets, no polishing one basket.<br><br>The build record behind this deck is 98 days of exactly that discipline, in production, with the receipts public." },
+  { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
+    h: "The Foundry is becoming a forward-deployed engineering arm.",
+    b: "Pre-sales engineering is evolving into forward-deployed, applied-AI work: a quarterback who makes opportunities, stakeholders and systems land <strong>client-ready</strong>.<br><br>If that is where this is going, it is the role I have spent 98 days rehearsing in public." },
+  { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
+    h: "Trust is the actual product.",
+    b: "What clients will buy is \"we rewired ourselves and kept the receipts\" — not decks.<br><br>An AI surface that <strong>visibly refuses to oversell itself</strong> — confidence-gated, rendering only as sharply as the data earned — is trust a consultancy can demo. I would make MAIA's honesty a feature clients can see." },
+  { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
+    h: "What MAIA needs next is calibration data.",
+    b: "Predictions scored against outcomes, automatically — that is what turns AI output into <strong>defensible judgment</strong>, and it only scales if it depends on no one's discipline.<br><br>ARCS closed that loop on Day 98. The same loop is buildable for the Foundry's pilots: every client demo becomes evidence." },
+  { act: "VIBE CHECK", ac: CH.close, chip: "YOUR MOVE", cc: CH.close,
+    h: "That's my read. What did I get wrong?",
+    b: "Player, coach, pacecar — as comfortable presenting the 24-month roadmap in a board meeting as in the trenches of a code review.<br><br>The full build record sits behind this deck, every milestone linked to real code: <strong>chan.arcs.care</strong>" }
+];
+var presIdx = 0, presEl = document.getElementById("pres");
+function presRender() {
+  var s = SLIDES[presIdx];
+  document.getElementById("presact").textContent = s.act;
+  document.getElementById("presact").style.color = s.ac;
+  var chip = document.getElementById("preschip");
+  chip.textContent = s.chip; chip.style.color = s.cc; chip.style.borderColor = s.cc;
+  document.getElementById("presh").textContent = s.h;
+  document.getElementById("presbody").innerHTML = s.b;
+  document.getElementById("prescount").textContent = (presIdx + 1) + " / " + SLIDES.length;
+}
+function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); }
+function presExit() { presEl.classList.remove("on"); }
+function presStep(d) { presIdx = Math.min(SLIDES.length - 1, Math.max(0, presIdx + d)); presRender(); }
+document.getElementById("presopen").addEventListener("click", presOpen);
+document.getElementById("presexit").addEventListener("click", presExit);
+document.getElementById("presprev").addEventListener("click", function () { presStep(-1); });
+document.getElementById("presnext").addEventListener("click", function () { presStep(1); });
+document.addEventListener("keydown", function (e) {
+  if (!presEl.classList.contains("on")) return;
+  if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); presStep(1); }
+  else if (e.key === "ArrowLeft") { e.preventDefault(); presStep(-1); }
+  else if (e.key === "Escape") presExit();
+});
 
 // Tap-to-toggle for term tooltips (works for JS-rendered milestone cards too)
 document.addEventListener("click", function (e) {
