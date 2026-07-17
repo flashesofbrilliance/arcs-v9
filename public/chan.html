@@ -101,8 +101,23 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
 @media (max-width: 640px) { .pres-h { font-size: 24px; } .pres-body { font-size: 14.5px; } }
 
+/* TELEMETRY TABS + UNLOCKS */
+.tele-tabs { display: flex; gap: 6px; margin-top: 16px; }
+.tele-tab { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; color: var(--dimmed); background: none; border: 1px solid var(--border); border-radius: 7px; padding: 8px 14px; cursor: pointer; transition: all 0.15s; }
+.tele-tab:hover { color: var(--text); }
+.tele-tab.active { color: var(--bg); background: var(--cyan); border-color: var(--cyan); }
+.unlock-chip { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; color: var(--gold); background: rgba(255,215,0,0.07); border: 1px dashed rgba(255,215,0,0.4); border-radius: 5px; padding: 5px 10px; cursor: pointer; margin-top: 12px; user-select: none; }
+.unlock-chip:hover { background: rgba(255,215,0,0.12); }
+.unlock-card { display: none; background: var(--surface2); border: 1px solid rgba(255,215,0,0.3); border-left: 3px solid var(--gold); border-radius: var(--r-md); padding: 13px 16px; margin-top: 10px; }
+.unlock-card.open { display: block; }
+.unlock-title { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 6px; }
+.unlock-body { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.unlock-body strong { color: var(--text); font-weight: 600; }
+.cad-col.design-win { cursor: pointer; }
+.cad-col.design-win .cad-bar { background: rgba(255,215,0,0.35); min-height: 9px; }
+
 /* CONDUCTOR LANE */
-.cond { display: flex; align-items: flex-end; gap: 4px; height: 44px; margin-top: 18px; padding: 0 2px; }
+.cond { display: flex; align-items: flex-end; gap: 4px; height: 64px; margin-top: 18px; padding: 0 2px; }
 .cond-col { flex: 1; display: flex; flex-direction: column-reverse; align-items: stretch; gap: 1px; height: 100%; }
 .cond-seg { width: 100%; border-radius: 1px; min-height: 2px; }
 .cond-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin-top: 8px; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.06em; color: var(--dimmed); }
@@ -313,12 +328,31 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       in the public repo. Keys 1 to 5 work too.
     </div>
 
-    <div class="cadence" id="cadence"></div>
-    <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GRAY = QUIET WEEKS · GREEN = PEAK</div>
+    <div class="tele-tabs">
+      <button class="tele-tab active" data-tab="tempo">TEMPO · COMMITS PER WEEK</button>
+      <button class="tele-tab" data-tab="hands">HANDS · WHO HELD THE PEN</button>
+    </div>
 
-    <div class="cond" id="cond"></div>
-    <div class="cond-legend" id="condlegend"></div>
-    <div class="cond-caption">BUILD TELEMETRY: THE SAME WEEKS, BY WHO HELD THE PEN · ONE HUMAN CONDUCTING FIVE GENERATIONS OF AI · 128 COMMITS FULLY BY HAND · EVERY HAND VISIBLE IN THE LOG</div>
+    <div id="tab-tempo">
+      <div class="cadence" id="cadence"></div>
+      <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GOLD = THE QUIET STRETCH · GREEN = PEAK</div>
+      <div class="unlock-chip" id="chip-design">⊙ APR–MAY: FIVE QUIET WEEKS · WHAT THE SILENCE WAS — TAP</div>
+      <div class="unlock-card" id="unlock-design">
+        <div class="unlock-title">THE GAP IS NOT A GAP. IT IS THE DESIGN BUILD.</div>
+        <div class="unlock-body">One commit on Day 0, then the repository went quiet for five weeks — because the work moved to the drawing board. In that window I designed the <strong>brand system</strong>, the <strong>full design system</strong>, and the <strong>front-end component library</strong> — TypeScript components with Jest tests and linting wired for CI/CD, with Playwright end-to-end coverage next on the list. The decision-receipt concept and the product's written constitution were drafted in the same stretch. <strong>Code came second on purpose:</strong> when the repo woke up on Day 39, the entire working core landed in one push, because every piece already knew its place.</div>
+      </div>
+    </div>
+
+    <div id="tab-hands" style="display:none;">
+      <div class="cond" id="cond"></div>
+      <div class="cond-legend" id="condlegend"></div>
+      <div class="cond-caption">THE SAME WEEKS, BY WHO HELD THE PEN · ONE HUMAN CONDUCTING FIVE GENERATIONS OF AI · 128 COMMITS FULLY BY HAND</div>
+      <div class="unlock-chip" id="chip-frontier">⊙ JUL: THE ENSEMBLE ROTATES — TAP</div>
+      <div class="unlock-card" id="unlock-frontier">
+        <div class="unlock-title">BUILDING WITH THE FRONTIER AS IT MOVES.</div>
+        <div class="unlock-body">In the final two weeks the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline — the seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
+      </div>
+    </div>
 
     <div class="alt-bar" id="altbar">
       <button class="alt-btn active" data-alt="0">One Page<span class="k">1 · what changed</span></button>
@@ -698,7 +732,7 @@ var MILESTONES = [
 (function () {
   var max = Math.max.apply(null, CADENCE.map(function (c) { return c.n; }));
   var el = document.getElementById("cadence");
-  CADENCE.forEach(function (c) {
+  CADENCE.forEach(function (c, i) {
     var col = document.createElement("div"); col.className = "cad-col";
     var n = document.createElement("div"); n.className = "cad-n"; n.textContent = c.n > 0 ? c.n : "";
     var bar = document.createElement("div");
@@ -706,9 +740,27 @@ var MILESTONES = [
     bar.style.height = c.n === 0 ? "2px" : Math.max(4, Math.round((c.n / max) * 58)) + "px";
     var w = document.createElement("div"); w.className = "cad-w"; w.textContent = c.w;
     col.appendChild(n); col.appendChild(bar); col.appendChild(w);
+    if (i >= 1 && i <= 5) {
+      col.classList.add("design-win");
+      col.title = "The quiet stretch — tap to see what the silence was";
+      col.addEventListener("click", function () { toggleUnlock("unlock-design"); });
+    }
     el.appendChild(col);
   });
 })();
+
+// Telemetry tabs + unlock cards
+function toggleUnlock(id) { document.getElementById(id).classList.toggle("open"); }
+document.getElementById("chip-design").addEventListener("click", function () { toggleUnlock("unlock-design"); });
+document.getElementById("chip-frontier").addEventListener("click", function () { toggleUnlock("unlock-frontier"); });
+document.querySelectorAll(".tele-tab").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll(".tele-tab").forEach(function (x) { x.classList.remove("active"); });
+    b.classList.add("active");
+    document.getElementById("tab-tempo").style.display = b.dataset.tab === "tempo" ? "" : "none";
+    document.getElementById("tab-hands").style.display = b.dataset.tab === "hands" ? "" : "none";
+  });
+});
 
 // Conductor lane: weekly commits by co-author (git log main, trailers, measured 2026-07-17)
 var COND_MODELS = [
@@ -735,7 +787,7 @@ var COND_WEEKS = [
   var el = document.getElementById("cond");
   COND_WEEKS.forEach(function (w, i) {
     var col = document.createElement("div"); col.className = "cond-col";
-    var h = totals[i] === 0 ? 0 : Math.max(4, Math.round((totals[i] / max) * 44));
+    var h = totals[i] === 0 ? 0 : Math.max(4, Math.round((totals[i] / max) * 64));
     COND_MODELS.forEach(function (m) {
       if (!w[m.key]) return;
       var seg = document.createElement("div"); seg.className = "cond-seg";
