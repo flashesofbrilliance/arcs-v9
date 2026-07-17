@@ -331,15 +331,14 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .rm-body strong { color: var(--text); font-weight: 600; }
 
 /* TOOLTIPS + LEGEND */
-.term { border-bottom: 1px dotted rgba(0,240,255,0.55); cursor: help; position: relative; }
-.term::after {
-  content: attr(data-def); position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%);
-  width: 250px; background: #0b1420; border: 1px solid rgba(0,240,255,0.35); border-radius: 8px;
-  padding: 10px 12px; font-family: var(--sans); font-size: var(--text-sm); font-weight: 400; color: var(--muted);
-  line-height: 1.5; text-align: left; text-transform: none; letter-spacing: normal; white-space: normal;
-  opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 60; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-}
-.term:hover::after, .term.open::after { opacity: 1; }
+.term { border-bottom: 1px dotted rgba(0,240,255,0.55); cursor: help; }
+/* Term tooltip is a single viewport-clamped fixed element (see #termtip) so it never
+   overflows the right edge or gets trapped by an ancestor's overflow / stacking context. */
+#termtip { position: fixed; z-index: 95; max-width: min(280px, calc(100vw - 20px)); width: max-content;
+  background: #0b1420; border: 1px solid rgba(0,240,255,0.35); border-radius: 8px; padding: 10px 12px;
+  font-family: var(--sans); font-size: var(--text-sm); font-weight: 400; color: var(--muted); line-height: 1.5;
+  text-align: left; opacity: 0; pointer-events: none; transition: opacity 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+#termtip.on { opacity: 1; }
 .legend-hint { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: -8px; }
 .legend-hint b { color: var(--cyan); border-bottom: 1px dotted rgba(0,240,255,0.55); font-weight: 700; }
 .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
@@ -962,9 +961,11 @@ function tipWire(el, html) {
   el.addEventListener("mouseenter", function () {
     var r = el.getBoundingClientRect();
     chartTip.innerHTML = html;
-    chartTip.style.left = (r.left + r.width / 2) + "px";
-    chartTip.style.top = r.top + "px";
     chartTip.classList.add("on");
+    var half = chartTip.offsetWidth / 2, cx = r.left + r.width / 2;
+    cx = Math.max(half + 8, Math.min(window.innerWidth - half - 8, cx));
+    chartTip.style.left = cx + "px";
+    chartTip.style.top = r.top + "px";
   });
   el.addEventListener("mouseleave", function () { chartTip.classList.remove("on"); });
 }
@@ -1380,12 +1381,36 @@ presEl.addEventListener("touchend", function (e) {
   if (Math.abs(dx) > 48) presStep(dx < 0 ? 1 : -1);
 }, { passive: true });
 
-// Tap-to-toggle for term tooltips (works for JS-rendered milestone cards too)
+// Term tooltips: one viewport-clamped floating element. Hover on desktop, tap-toggle on touch.
+var termTip = document.createElement("div"); termTip.id = "termtip"; document.body.appendChild(termTip);
+var termActive = null;
+function showTermTip(el) {
+  termTip.textContent = el.getAttribute("data-def") || "";
+  termTip.classList.add("on");
+  var r = el.getBoundingClientRect(), tw = termTip.offsetWidth, th = termTip.offsetHeight;
+  var cx = r.left + r.width / 2, half = tw / 2;
+  cx = Math.max(half + 10, Math.min(window.innerWidth - half - 10, cx));
+  var above = r.top - th - 9;
+  termTip.style.left = cx + "px";
+  termTip.style.transform = "translateX(-50%)";
+  termTip.style.top = (above >= 8 ? above : r.bottom + 9) + "px";
+  termActive = el;
+}
+function hideTermTip() { termTip.classList.remove("on"); termActive = null; }
+document.addEventListener("mouseover", function (e) {
+  var t = e.target.closest ? e.target.closest(".term") : null;
+  if (t && t !== termActive) showTermTip(t);
+});
+document.addEventListener("mouseout", function (e) {
+  var t = e.target.closest ? e.target.closest(".term") : null;
+  if (t && t === termActive) hideTermTip();
+});
 document.addEventListener("click", function (e) {
   var t = e.target.closest ? e.target.closest(".term") : null;
-  document.querySelectorAll(".term.open").forEach(function (o) { if (o !== t) o.classList.remove("open"); });
-  if (t) t.classList.toggle("open");
+  if (t) { termActive === t ? hideTermTip() : showTermTip(t); }
+  else if (termActive) hideTermTip();
 });
+window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }, { passive: true });
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
