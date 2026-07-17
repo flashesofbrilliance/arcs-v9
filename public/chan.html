@@ -163,8 +163,14 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres-horizon .hz-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
 @keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
 .pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
-.pres-slide { animation: slidein 0.5s var(--ease-luxury); }
-@keyframes slidein { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.pres-slide { animation: slidein 0.45s var(--ease-luxury); }
+@keyframes slidein { from { opacity: 0; } to { opacity: 1; } }
+/* Interactive moiré topography — two contour-ring systems at different wavelengths.
+   One drifts with the pointer (GPU transform, lerped), one is fixed; their
+   interference is the terrain. Maya Lin wave-field register; MOIRE render state. */
+.pres-topo, .pres-topo2 { position: absolute; inset: -60%; pointer-events: none; z-index: 0; will-change: transform; }
+.pres-topo { background: repeating-radial-gradient(circle at 50% 50%, transparent 0 9px, rgba(125,211,252,0.35) 9px 10px); opacity: 0.055; }
+.pres-topo2 { background: repeating-radial-gradient(circle at 46% 56%, transparent 0 10px, rgba(0,240,255,0.30) 10px 11px); opacity: 0.045; }
 .pres-stat { background: var(--glass-surface), var(--surface2); box-shadow: var(--emboss); }
 @media (max-width: 900px) { .fathom { display: none; } }
 .pres-kicker { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
@@ -687,6 +693,8 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 </div>
 
 <div class="pres" id="pres">
+  <div class="pres-topo2"></div>
+  <div class="pres-topo" id="prestopo"></div>
   <div class="pres-bezel" id="presbezel"></div>
   <div class="fathom" id="fathom"></div>
   <div class="pres-hairline" id="preshair"></div>
@@ -1100,6 +1108,28 @@ function presWake() {
 }
 ["mousemove", "touchstart", "keydown"].forEach(function (ev) {
   presEl.addEventListener(ev, presWake, { passive: true });
+});
+// Moiré topography: the pointer terraforms the contour field (lerped, GPU-only)
+(function () {
+  var topo = document.getElementById("prestopo");
+  var tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+  function tick() {
+    cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
+    topo.style.transform = "translate(" + cx.toFixed(2) + "px," + cy.toFixed(2) + "px)";
+    raf = (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) ? requestAnimationFrame(tick) : null;
+  }
+  function aim(x, y) {
+    tx = (x / window.innerWidth - 0.5) * 60;
+    ty = (y / window.innerHeight - 0.5) * 60;
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  presEl.addEventListener("mousemove", function (e) { aim(e.clientX, e.clientY); }, { passive: true });
+  presEl.addEventListener("touchmove", function (e) { aim(e.touches[0].clientX, e.touches[0].clientY); }, { passive: true });
+})();
+// Right-click on the final slide = escape hatch back to the method page
+presEl.addEventListener("contextmenu", function (e) {
+  if (!presEl.classList.contains("on")) return;
+  if (presIdx === SLIDES.length - 1) { e.preventDefault(); presIdx = 0; presRender(); }
 });
 function presRender() {
   var s = SLIDES[presIdx];
