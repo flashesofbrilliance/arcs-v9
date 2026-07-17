@@ -120,6 +120,21 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .rm-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
 .rm-body strong { color: var(--text); font-weight: 600; }
 
+/* DEPENDENCY MAP */
+.dep-map { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.dep-node { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 16px; text-align: center; max-width: 480px; margin: 0 auto; width: 100%; }
+.dep-node.live { border-color: rgba(0,255,157,0.35); box-shadow: 0 0 14px rgba(0,255,157,0.06); }
+.dep-node.next { border-color: rgba(255,215,0,0.3); }
+.dep-node.later { border-color: rgba(125,211,252,0.25); }
+.dep-status { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 4px; }
+.dep-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.dep-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; margin-top: 4px; }
+.dep-arrow { text-align: center; font-family: var(--mono); font-size: 13px; color: var(--cyan); line-height: 1.2; }
+.dep-arrow span { display: block; font-size: 8.5px; color: var(--dimmed); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+.dep-fan { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.dep-fan .dep-node { max-width: none; margin: 0; }
+.dep-solo { margin-top: 4px; padding-top: 12px; border-top: 1px dashed rgba(30,41,59,0.9); }
+
 .footer { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--border); font-family: var(--mono); font-size: 10.5px; color: var(--dimmed); line-height: 1.9; }
 .footer strong { color: var(--muted); }
 .footer a { text-decoration: none; }
@@ -128,6 +143,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   h1 { font-size: 25px; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .rm-lanes { grid-template-columns: 1fr; }
+  .dep-fan { grid-template-columns: 1fr; }
   .echo-row { grid-template-columns: 1fr; }
   .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; transform: rotate(90deg); background: none; }
   .risk-table .hide-m { display: none; }
@@ -340,6 +356,57 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
         <div class="rm-lane-head" style="color:var(--steel);border-color:rgba(125,211,252,0.3);">LATER · EVIDENCE-GATED</div>
         <div class="rm-card"><div class="rm-title" style="color:var(--steel);">TEAM AND ORG LAYERS</div><div class="rm-body">Extending the engine from one person's decisions to a team's, then an organization's. <strong>Turns on when the data volume justifies the complexity.</strong></div></div>
         <div class="rm-card"><div class="rm-title" style="color:var(--steel);">LIVE GOAL MAP</div><div class="rm-body">A self-updating map of what the work is actually driving toward, inferred from decisions rather than declared in a deck. <strong>Turns on at 100+ recorded decisions.</strong></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 DEPENDENCY MAP -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">06</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>
+    </div>
+    <div class="section-title">The whole roadmap hangs on one dependency. It shipped this week.</div>
+    <div class="section-body">
+      Almost everything above waits on the same thing: real decisions with scored outcomes. The loop that
+      produces them went live on Day 98. From here, the roadmap unblocks itself through normal use.
+    </div>
+    <div class="dep-map">
+      <div class="dep-node live">
+        <div class="dep-status" style="color:var(--green);">LIVE TODAY</div>
+        <div class="dep-name">Self-grading loop</div>
+        <div class="dep-desc">Checks every prediction against what actually happened, automatically.</div>
+      </div>
+      <div class="dep-arrow">↓ <span>produces</span></div>
+      <div class="dep-node live">
+        <div class="dep-status" style="color:var(--green);">ACCUMULATING NOW</div>
+        <div class="dep-name">Calibration data</div>
+        <div class="dep-desc">Every decision plus its scored outcome. Builds itself through normal use. This is the single upstream dependency for everything below.</div>
+      </div>
+      <div class="dep-arrow">↓ <span>unlocks, at each volume threshold</span></div>
+      <div class="dep-fan">
+        <div class="dep-node next">
+          <div class="dep-status" style="color:var(--gold);">NEXT</div>
+          <div class="dep-name">Timing detection</div>
+          <div class="dep-desc">Needs: a set volume of real decisions. Machinery already built.</div>
+        </div>
+        <div class="dep-node later">
+          <div class="dep-status" style="color:var(--steel);">LATER</div>
+          <div class="dep-name">Live goal map</div>
+          <div class="dep-desc">Needs: 100+ recorded decisions to measure a baseline against.</div>
+        </div>
+        <div class="dep-node later">
+          <div class="dep-status" style="color:var(--steel);">LATER</div>
+          <div class="dep-name">Team and org layers</div>
+          <div class="dep-desc">Needs: goal map live first, plus multi-person usage data.</div>
+        </div>
+      </div>
+      <div class="dep-solo">
+        <div class="dep-node next" style="max-width:400px;margin:0 auto;">
+          <div class="dep-status" style="color:var(--gold);">NEXT · NO DATA GATE</div>
+          <div class="dep-name">Adjacent questions</div>
+          <div class="dep-desc">The one item with no upstream dependency. Blocked only by build time, so it is the natural next build.</div>
+        </div>
       </div>
     </div>
   </div>
