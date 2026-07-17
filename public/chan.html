@@ -258,8 +258,19 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 /* ARCHITECTURE FLOW DIAGRAM */
 .flow-title { font-family: var(--sans); font-size: var(--text-md); font-weight: 700; color: var(--text); margin-top: 22px; }
 .flow-sub { font-size: var(--text-sm); color: var(--muted); line-height: 1.6; margin-top: 6px; max-width: 780px; }
-.flow-wrap { margin-top: 14px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); background: rgba(2,4,8,0.4); box-shadow: var(--emboss); padding: 8px; }
+.flow-wrap { position: relative; margin-top: 14px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); background: rgba(2,4,8,0.4); box-shadow: var(--emboss); padding: 8px; -webkit-overflow-scrolling: touch; }
 .flow-svg { width: 100%; min-width: 720px; height: auto; display: block; }
+.flow-scrollhint { display: none; }
+/* The diagram is wider than a phone screen and scrolls horizontally, but mobile Safari
+   hides scrollbars until an active drag, so without a cue the truncated right edge reads
+   as broken content rather than "swipe for more". A right-edge fade + explicit hint fixes that. */
+@media (max-width: 640px) {
+  .flow-wrap::after { content: ""; position: absolute; top: 1px; right: 1px; bottom: 1px; width: 28px;
+    background: linear-gradient(90deg, transparent, rgba(2,4,8,0.88) 65%); pointer-events: none;
+    border-radius: 0 var(--r-md) var(--r-md) 0; }
+  .flow-scrollhint { display: block; font-family: var(--mono); font-size: var(--text-xs); color: var(--faint);
+    letter-spacing: 0.08em; text-align: center; margin-top: 6px; }
+}
 .fl-t { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; fill: var(--text); text-anchor: middle; }
 .fl-s { font-family: var(--mono); font-size: calc(var(--text-xs) * 0.86); fill: var(--dimmed); text-anchor: middle; letter-spacing: 0.02em; }
 .fl-loop { font-family: var(--mono); font-size: calc(var(--text-xs) * 0.86); font-weight: 700; letter-spacing: 0.14em; text-anchor: middle; }
@@ -403,7 +414,13 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   .rm-lanes { grid-template-columns: 1fr; }
   .dep-fan { grid-template-columns: 1fr; }
   .echo-row { grid-template-columns: 1fr; }
-  .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; transform: rotate(90deg); background: none; }
+  /* Do not transform:rotate() the mid divider: a rotated box paints visually turned but its
+     layout footprint (the space it reserves in the grid) stays its original wide/short
+     pre-rotation size, so the rotated glyph + its border lines visibly overflow above and
+     below their own cell and look like a disconnected floating icon. Swap the glyph via a
+     pseudo-element instead: no rotation, no layout/paint mismatch. */
+  .echo-mid { border: none; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 6px 0; background: none; font-size: 0; }
+  .echo-mid::after { content: "↕"; font-size: var(--text-md); }
   .risk-table .hide-m { display: none; }
   .cad-w { display: none; }
 }
@@ -566,6 +583,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
         <text x="447" y="242" class="fl-loop" fill="#00FF9D">EACH SCORED OUTCOME SHARPENS THE NEXT DECISION · THE COMPOUNDING LOOP</text>
       </svg>
     </div>
+    <div class="flow-scrollhint">← SWIPE FOR THE FULL LOOP →</div>
   </div>
 
   <!-- 03 BUILD EXPLORER -->
