@@ -47,13 +47,13 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 
 /* ECHO MAP */
 .echo-rows { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
-.echo-row { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.echo-row { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); }
 .echo-cell { padding: 14px 16px; }
 .echo-side-label { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
 .echo-text { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
 .echo-text strong { color: var(--text); font-weight: 600; }
 .echo-mid { display: flex; align-items: center; justify-content: center; color: var(--cyan); font-family: var(--mono); font-size: 14px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); background: rgba(0,240,255,0.03); }
-.echo-why { grid-column: 1 / -1; padding: 10px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--dimmed); line-height: 1.55; background: rgba(0,0,0,0.25); }
+.echo-why { grid-column: 1 / -1; padding: 10px 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--dimmed); line-height: 1.55; background: rgba(0,0,0,0.25); border-radius: 0 0 var(--r-md) var(--r-md); }
 .echo-why strong { color: var(--gold); font-weight: 600; font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 6px; }
 
 /* ALTITUDE CONTROL */
@@ -120,6 +120,23 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .rm-body { font-size: 12px; color: var(--muted); line-height: 1.5; }
 .rm-body strong { color: var(--text); font-weight: 600; }
 
+/* TOOLTIPS + LEGEND */
+.term { border-bottom: 1px dotted rgba(0,240,255,0.55); cursor: help; position: relative; }
+.term::after {
+  content: attr(data-def); position: absolute; bottom: calc(100% + 9px); left: 50%; transform: translateX(-50%);
+  width: 250px; background: #0b1420; border: 1px solid rgba(0,240,255,0.35); border-radius: 8px;
+  padding: 10px 12px; font-family: var(--sans); font-size: 11.5px; font-weight: 400; color: var(--muted);
+  line-height: 1.5; text-align: left; text-transform: none; letter-spacing: normal; white-space: normal;
+  opacity: 0; pointer-events: none; transition: opacity 0.15s; z-index: 60; box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.term:hover::after, .term.open::after { opacity: 1; }
+.legend-hint { font-family: var(--mono); font-size: 9.5px; color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: -8px; }
+.legend-hint b { color: var(--cyan); border-bottom: 1px dotted rgba(0,240,255,0.55); font-weight: 700; }
+.legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.legend-item { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; }
+.legend-term { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.legend-def { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
 /* DEPENDENCY MAP */
 .dep-map { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
 .dep-node { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 16px; text-align: center; max-width: 480px; margin: 0 auto; width: 100%; }
@@ -172,6 +189,8 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
 
+  <div class="legend-hint">Product terms look <b>like this</b>. Hover or tap for the plain meaning. Full legend at the bottom.</div>
+
   <!-- 01 ECHO MAP -->
   <div class="section">
     <div class="section-head">
@@ -188,7 +207,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       <div class="echo-row">
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, BY DEFINITION</div><div class="echo-text"><strong>It amplifies human judgment instead of replacing it.</strong> That is the first line of what MAIA is.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, RULE #1</div><div class="echo-text"><strong>The system never decides for you.</strong> It shows you where you stand and what your options cost. The human always makes the call. This is the first rule in the product's written constitution.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, RULE #1</div><div class="echo-text"><strong>The system never decides for you.</strong> It shows you where you stand and what your options cost. The human always makes the call. This is the first rule in the product's <span class="term" data-def="A short set of rules the product may never break, written down like law and checked in reviews. Rule one: the system never decides for the user.">written constitution</span>.</div></div>
         <div class="echo-why"><strong>Why it matters</strong>Most companies adopt this stance after an incident forces them to. Both of us made it the founding rule, which means it is enforced in the code, not just written in a policy. That is a trust story you can show a client, not just tell them.</div>
       </div>
       <div class="echo-row">
@@ -206,13 +225,13 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       <div class="echo-row">
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE MANDATE</div><div class="echo-text"><strong>AI trustworthy enough for real client work.</strong> Testing for accuracy, made-up answers, and reliability, before and after launch.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, LOAD-BEARING</div><div class="echo-text">Every answer carries a <strong>confidence gate, and the screen cannot show more certainty than the data earned</strong>. A shaky answer literally renders blurry. Quality control is the display layer, not a QA step.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, LOAD-BEARING</div><div class="echo-text">Every answer carries a <span class="term" data-def="A check every answer passes through that rates how solid it is. Green means firm ground, yellow means contested, red means do not lean on this. The rating controls how the answer is displayed."><strong>confidence gate</strong></span><strong>, and the screen cannot show more certainty than the data earned</strong>. A shaky answer literally renders blurry. Quality control is the display layer, not a QA step.</div></div>
         <div class="echo-why"><strong>Why it matters</strong>Client trust is Prophet's actual product. An AI screen that visibly refuses to oversell itself is something a consultancy can demo, and something engineers can build against.</div>
       </div>
       <div class="echo-row">
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PM PROBLEM</div><div class="echo-text">A <strong>firehose of requests and ideas</strong> against ever-shifting resources: partners, contractors, interns, engineers in multiple time zones.</div></div>
         <div class="echo-mid">↔</div>
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, THE LEDGER</div><div class="echo-text"><strong>272 written decision records.</strong> Every meaningful yes, no, and not-yet has a short document saying what was chosen, what was rejected, and what would reopen it.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, THE LEDGER</div><div class="echo-text"><strong>272 <span class="term" data-def="One-page notes on each build choice: what was picked, what was rejected, and what would reopen the question. The industry name for these is ADRs, architecture decision records.">written decision records</span>.</strong> Every meaningful yes, no, and not-yet has a short document saying what was chosen, what was rejected, and what would reopen it.</div></div>
         <div class="echo-why"><strong>Why it matters</strong>Decision volume will outgrow anyone's memory. Written receipts are how prioritization survives turnover, leadership review, and the question "why did we choose this?" six months later.</div>
       </div>
     </div>
@@ -264,7 +283,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       </div>
       <div class="learn">
         <div class="learn-title">When behavior and promises drift apart, delete first.</div>
-        <div class="learn-body">Visitors without accounts were having their data saved quietly. Legal, but not what the product promised. I removed the saving entirely first, then rebuilt it as an explicit opt-in, and updated the public trust page to match.</div>
+        <div class="learn-body">Visitors without accounts were having their data saved quietly. Legal, but not what the product promised. I removed the saving entirely first, then rebuilt it as an explicit opt-in, and updated the public <span class="term" data-def="A public page of specific, checkable promises about how the product handles people's data. Updated and versioned like code, so changes are visible.">trust page</span> to match.</div>
       </div>
       <div class="learn">
         <div class="learn-title">Design documents can make things up too.</div>
@@ -411,6 +430,29 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
     </div>
   </div>
 
+  <!-- 07 LEGEND -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">07</div>
+      <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">LEGEND: THE TERMS, IN PLAIN WORDS</div>
+    </div>
+    <div class="section-title">Every piece of product vocabulary on this page, translated.</div>
+    <div class="legend-grid">
+      <div class="legend-item"><div class="legend-term">ARCS</div><div class="legend-def">The product. A decision intelligence platform: it helps people make calls they can defend later, and keeps the receipts to prove it.</div></div>
+      <div class="legend-item"><div class="legend-term">Decision receipt</div><div class="legend-def">A short record made before acting: what you expect, what could go wrong, what else you considered. Scored later against what really happened.</div></div>
+      <div class="legend-item"><div class="legend-term">Compass</div><div class="legend-def">The main app surface. Ask a question, get an honest read of where you stand and which direction is uphill.</div></div>
+      <div class="legend-item"><div class="legend-term">Brief</div><div class="legend-def">The longer written readout generated from a compass run. Renders only as sharply as the data deserves.</div></div>
+      <div class="legend-item"><div class="legend-term">Confidence gate</div><div class="legend-def">A check every answer passes through that rates how solid it is. Green means firm, yellow means contested, red means do not lean on this. The rating controls the display.</div></div>
+      <div class="legend-item"><div class="legend-term">Written constitution</div><div class="legend-def">A short set of rules the product may never break, written down like law. Rule one: the system never decides for the user.</div></div>
+      <div class="legend-item"><div class="legend-term">Written decision record</div><div class="legend-def">A one-page note on a build choice: what was picked, what was rejected, and what would reopen the question. Industry name: ADR.</div></div>
+      <div class="legend-item"><div class="legend-term">Trust contract</div><div class="legend-def">A public page of specific, checkable promises about how the product handles people's data. Versioned like code, so changes are visible.</div></div>
+      <div class="legend-item"><div class="legend-term">Replay theater</div><div class="legend-def">A viewer for scrubbing back through past decisions like game film: what was known, what was expected, where confidence peaked or collapsed.</div></div>
+      <div class="legend-item"><div class="legend-term">Self-grading loop</div><div class="legend-def">Automation that compares each prediction to the actual outcome and files the result. No human has to remember to run it.</div></div>
+      <div class="legend-item"><div class="legend-term">Calibration data</div><div class="legend-def">The growing set of decisions plus scored outcomes. It is the evidence base that tunes the scoring and unlocks the gated features.</div></div>
+      <div class="legend-item"><div class="legend-term">Live goal map</div><div class="legend-def">A self-updating picture of what the work is actually driving toward, inferred from real decisions instead of declared in a slide.</div></div>
+    </div>
+  </div>
+
   <div class="footer">
     <div><strong>Built by</strong> Zach Harris · zach.harris@gmail.com · 203-807-2976</div>
     <div><strong>Source of every number</strong>: git history, <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener">github.com/flashesofbrilliance/arcs-v9</a> (public), measured 2026-07-16</div>
@@ -446,9 +488,9 @@ var MILESTONES = [
   {
     date: "DAY 39 · MAY 18", title: "Ignition. The whole working core lands at once.", rank: 1,
     alt: [
-      "After five quiet weeks of design, the full working core arrived in one push: ask a question, get a scored answer, keep the receipt.",
+      "After five quiet weeks of design, the full working core arrived in one push: ask a question, get a scored answer, keep the <span class='term' data-def='A short record made before acting: what you expect, what could go wrong, what else you considered. Scored later against what really happened.'>receipt</span>.",
       "The bet was to build the spine end to end before polishing any single part. A thin, complete loop beats a deep, half-connected one, because a complete loop can be tested against reality immediately.",
-      "One commit carried the compass (ask), the brief (read), history, prep, the confidence gate, and follow-up threads. A full operating handbook for the repo landed the same day, so any future contributor, human or AI, starts oriented.",
+      "One commit carried the <span class='term' data-def='The main app surface. Ask a question, get an honest read of where you stand and which direction is uphill.'>compass</span> (ask), the <span class='term' data-def='The longer written readout generated from a compass run. Renders only as sharply as the data deserves.'>brief</span> (read), history, prep, the <span class='term' data-def='A check every answer passes through that rates how solid it is. The rating controls how confidently the answer is displayed.'>confidence gate</span>, and follow-up threads. A full operating handbook for the repo landed the same day, so any future contributor, human or AI, starts oriented.",
       "The handbook is written for AI collaborators as much as humans: what the system is, what must never be violated, and where each piece lives. That document is why 800+ commits later the architecture still matches its description."
     ],
     commits: [
@@ -524,7 +566,7 @@ var MILESTONES = [
   {
     date: "DAY 82 · JUN 30", title: "The platform merge: 170 files, five subsystems, one day.", rank: 1,
     alt: [
-      "The biggest single integration: legal pages (trust, privacy, terms), an interactive replay theater for past decisions, and the whole engine re-implemented in plain Python as a vendor hedge. Merged and live in production the same day.",
+      "The biggest single integration: legal pages (trust, privacy, terms), an interactive <span class='term' data-def='A viewer for scrubbing back through past decisions like game film: what was known, what was expected, and where confidence peaked or collapsed.'>replay theater</span> for past decisions, and the whole engine re-implemented in plain Python as a vendor hedge. Merged and live in production the same day.",
       "This merge is the line where ARCS stopped being an app and became a platform: legal surfaces, observability, and vendor independence are the prerequisites for putting client traffic on something.",
       "170 files and 42,000+ lines: the trust/privacy/terms routes, a 1,174-line interactive replay page, a 34-file standalone engine library, four database migrations, six new decision records, and an indexed registry of all 272.",
       "The merge initially landed on the wrong branch, a real mistake. It was caught, re-merged correctly, and the failure mode was turned into a standing pre-flight check in the deploy script so it structurally cannot recur."
@@ -654,6 +696,13 @@ document.addEventListener("keydown", function (e) {
   if (k >= "1" && k <= "5") { currentAlt = Number(k) - 1; render(); }
 });
 render();
+
+// Tap-to-toggle for term tooltips (works for JS-rendered milestone cards too)
+document.addEventListener("click", function (e) {
+  var t = e.target.closest ? e.target.closest(".term") : null;
+  document.querySelectorAll(".term.open").forEach(function (o) { if (o !== t) o.classList.remove("open"); });
+  if (t) t.classList.toggle("open");
+});
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
