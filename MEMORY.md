@@ -5,6 +5,31 @@
 
 ---
 
+## [v3.7.0] 2026-07-17 — chan.arcs.care built end-to-end + status.arcs.care fork; two real mobile bugs found via device photos and fixed
+
+**Realignment note:** this file was last updated 2026-07-02 (v3.3.1) while `CLAUDE.md` had advanced to v3.6.0 across other sessions in between. Versioning here jumps to v3.7.0 to follow `CLAUDE.md` as the more current tracker, per the same realignment `CLAUDE.md`'s own v3.0.0 entry performed. Full narrative detail lives in `.claude/arcs-session-state.md`, not duplicated here.
+
+**chan.arcs.care** — built as a Prophet/Mike Lemon/Chan Suh (CDO) discovery-call artifact, iterated across ~20 commits in one long session:
+- Player/Coach/Pacecar identity frame, prior-terrain (pre-ARCS) résumé receipts, era-split visual separation
+- Instrument-panel section: 12 design principles (traceability, anti-hallucination, anti-sycophancy, etc.) each tied to where it's enforced, plus a hand-authored SVG of the actual compounding architecture loop (question → L0–L5 pipeline → receipt → outcome → calibration)
+- Conductor-lane telemetry: real git-trailer data showing which Claude model authored each week's commits, tabbed against commit-cadence, with click-to-unlock narrative cards (the 5 quiet design weeks; the model-rotation "building at the edge" story)
+- Presentation mode: 16 slides in a SEEN/HEARD/VIBE-CHECK discovery structure, provenance-graded per slide (glow=confidence per the canonical `--glow-*` tokens), Maya Lin-inspired pointer-terraformed moiré topography, 2.5D isometric floor (perspective scaled to `70vh`, not a fixed px, after it broke on ultrawide/zoom), a left-edge "fathom" progress rail, chrome that auto-hides after 2.6s idle, right-click escape-hatch on the closing slide back to slide 1
+- Full design-system conformance pass: pulled the canonical token file (`colors_and_type.css`) live from the "ARCS OS - Design System" Claude Design project via `DesignSync`, then migrated all 81 freehand font-sizes onto the canonical 8-step `--text-*` scale, swapped fonts to Inter + JetBrains Mono (the only two the project's own adherence linter permits), tokenized radii
+- Progressive disclosure: FOCUS-mode-by-default (only section 1 open, rest collapsed to a headline + one-line TL;DR), EXPAND ALL as the alternate mode
+- PII removed (email + phone from both footers); confirmed `noindex, nofollow` already present, no `robots.txt` override exists
+
+**status.arcs.care** — forked from `chan.html` with the Prophet-specific content and the entire presentation deck surgically removed (anchor-based excision, not hand-editing): echo-map, Player/Coach/Pacecar frame, prior-terrain creds, ~250 lines of presentation JS/DOM/CSS. Routed via `next.config.ts`; domain had to be attached to the Vercel project directly via API (the deploy script's pre-flight falsely reported it already assigned).
+
+**Two real mobile bugs, found only from actual device photos (HEIC — converted via `sips` since the Read tool can't render HEIC directly), not simulator resizing:**
+1. `.echo-mid`'s mobile styling used `transform: rotate(90deg)` on a full-width flex box to turn "↔" into "↕" — CSS transforms repaint an element in place but don't change its layout footprint, so the rotated glyph + its border lines visually overflowed above/below their own grid cell, reading as a disconnected floating icon. Fixed by dropping the rotation and swapping the glyph via `font-size:0` + `::after` instead.
+2. The architecture-loop SVG is legitimately wider than a phone screen and horizontally scrollable, but mobile Safari hides scrollbars until an active drag — the truncated edge read as broken content. Added a right-edge fade mask + explicit "SWIPE FOR THE FULL LOOP" hint, mobile-only.
+
+Also fixed in the same pass: presentation chrome (top/bottom bars) was drifting left/right slide-to-slide because `flex; justify-content: space-between` centers content *relative to flanking-element width*, not true viewport center — converted to CSS grid (`1fr auto 1fr`) with explicit `grid-column` pins (needed because mobile hides some children via `display:none`, and grid auto-placement would otherwise misplace the survivors).
+
+**Last confirmed commit:** `c536792` — merged to `main`, pushed to `origin/main`, deployed, and verified live via direct curl against both chan.arcs.care and status.arcs.care (not just "deploy succeeded" — actual served content checked for each specific fix).
+
+---
+
 ## [v3.3.1] 2026-07-02 — kelly-interview brief built + deployed, Todd Phase 1 proposal verified
 
 ### Session context

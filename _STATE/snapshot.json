@@ -1,15 +1,18 @@
 {
-  "captured_at": "2026-07-08T23:21:00Z",
+  "captured_at": "2026-07-17T20:20:03Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "57b952f",
-    "head_message": "fix(resume): render overview in TrueNorthPanel bezel card, not plain text",
-    "in_sync_with_origin": false,
-    "dirty_files": []
+    "head_sha": "c536792",
+    "head_message": "fix(chan): mobile echo-mid connector no longer overflows its row; scroll cue on the architecture diagram [NCI:SKIP]",
+    "in_sync_with_origin": true,
+    "dirty_files": [
+      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, pre-existing, not this session's work)",
+      "test_prisma_direct.js (untracked, pre-existing, not this session's work)"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-ac5tp9qsy-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-e4pdf5zd9-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -41,11 +44,11 @@
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
-    "ADR-026 (untracked \u2014 debrief calendar invite vs email)"
+    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)"
   ],
-  "nci_counter": 212,
-  "session_summary": "arcs-decision-receipts \u2192 arcs-v9 consolidation audit complete (2 commits: cf8b084 initial port, b7883fb bar-raiser corrections). Ported field-os specs, canonical call-brief template, fanatics/token subdomain routes. Corrected destinations: scripts\u2192operators/, canon docs\u2192_CANON/living/, memory shards ~/.claude/projects/\u2192_MEMORY/ (git-tracked, cloud-visible). Handoff v3.6.0 appended to CLAUDE.md (40079fd).",
-  "next_action": "Verify main worktree push state against origin. Then: julia.arcs.care drill feature (clarify interaction model + who are Jack/Jill/Boardy) OR governance backlog #3 (log consolidation, unblocks #6 DEWY commit stamp).",
+  "nci_counter": 226,
+  "session_summary": "chan.arcs.care (Prophet/Chan Suh discovery-call artifact) built end-to-end across ~20 commits: Player/Coach/Pacecar frame, instrument-panel principles + architecture-loop SVG, conductor-lane build telemetry, 16-slide SEEN/HEARD/VIBE-CHECK presentation mode (Maya Lin moir\u00e9 topography, isometric floor, fathom rail, chrome auto-hide), full ARCS-OS design-system conformance pass (Inter/JetBrains Mono, 8-step type scale, canonical tokens via DesignSync), FOCUS-default progressive disclosure with per-section TL;DRs. Forked to status.arcs.care (Prophet/presentation content stripped) for standalone build-status use. PII (email/phone) removed from both footers; robots noindex confirmed on both. Two real mobile bugs found from live device photos and fixed: echo-mid rotate(90deg) connector overflowing its grid row (root cause: CSS transforms repaint in place but don't change layout footprint), and the architecture SVG diagram cutting off with no scroll affordance on phone widths. Presentation chrome (top/bottom bars) also fixed to stop drifting slide-to-slide (flex space-between \u2192 CSS grid 1fr/auto/1fr), and the isometric floor's fixed-px perspective (560px) was breaking on ultrawide/zoom \u2014 changed to 70vh so it scales with viewport. Last commit c536792, deployed and verified live on both domains.",
+  "next_action": "No open thread on chan/status.arcs.care \u2014 last ask (mobile portrait/landscape QA) was verified live. Two untracked files sit in this worktree from other work (ADR-026, test_prisma_direct.js) \u2014 not part of this session, decide whether to commit or discard. Otherwise: julia.arcs.care drill feature or governance backlog #3 (log consolidation) remain open from prior sessions.",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -129,6 +132,18 @@
         "person": "Token"
       }
     ],
+    "product_status_pages": [
+      {
+        "file": "public/chan.html",
+        "subdomain": "chan.arcs.care",
+        "person": "Mike Lemon / Chan Suh (CDO) / Prophet — discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
+      },
+      {
+        "file": "public/status.html",
+        "subdomain": "status.arcs.care",
+        "person": "N/A — standalone build-status fork of chan.html with Prophet content and presentation mode removed"
+      }
+    ],
     "ui_kit": {
       "location": "src/ui-kit/recoil-report/",
       "token_file": "src/ui-kit/recoil-report/_tokens.css",
@@ -143,5 +158,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-15T21:56:40Z"
+  "git_refreshed_at": "2026-07-17T20:20:03Z"
 }
