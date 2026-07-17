@@ -13,6 +13,14 @@
   --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
   --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
   --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  /* Canonical elevation tokens — ARCS OS colors_and_type.css (Claude Design) */
+  --emboss: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+  --deboss: inset 0 2px 4px rgba(0,0,0,0.60), inset 0 -1px 0 rgba(255,255,255,0.06);
+  --glass-surface: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
+  --glow-cyan: inset 0 1px 0 rgba(120,245,255,0.55), inset 0 0 12px rgba(0,240,255,0.22), 0 0 16px rgba(0,240,255,0.45), 0 0 40px rgba(0,240,255,0.22), 0 4px 14px rgba(0,0,0,0.5);
+  --glow-green: inset 0 1px 0 rgba(140,255,210,0.55), inset 0 0 12px rgba(0,255,157,0.24), 0 0 16px rgba(0,255,157,0.48), 0 0 40px rgba(0,255,157,0.24), 0 4px 14px rgba(0,0,0,0.5);
+  --glow-gold: inset 0 1px 0 rgba(255,236,150,0.55), inset 0 0 12px rgba(255,215,0,0.22), 0 0 16px rgba(255,215,0,0.45), 0 0 40px rgba(255,215,0,0.20), 0 4px 14px rgba(0,0,0,0.5);
+  --ease-luxury: cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
@@ -100,7 +108,32 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres.on { display: flex; }
 .pres-top { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; }
 .pres-act { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; }
-.pres-chip { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 4px; border: 1px solid; }
+.pres-chip { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: 4px; border: 1px solid; background: var(--glass-surface); }
+.pres-chip.grade-seen { box-shadow: var(--glow-cyan); }
+.pres-chip.grade-heard { box-shadow: var(--emboss); }
+.pres-chip.grade-hyp { box-shadow: var(--deboss); }
+.pres-chip.grade-close { box-shadow: var(--glow-green); }
+/* Earned fidelity — render-resolution scale from colors_and_type.css. True North (headline) exempt. */
+.pres-body.res-sharp { opacity: 1; font-weight: 500; letter-spacing: 0; }
+.pres-body.res-degraded { opacity: 0.85; font-weight: 400; letter-spacing: 0.01em; }
+.pres-body.res-grain { opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; }
+/* Fathom rail — one tick per slide; descent = progress through evidence */
+.fathom { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
+.fathom i { width: 10px; height: 2px; background: var(--border); border-radius: 1px; transition: all 0.3s var(--ease-luxury); }
+.fathom i.past { background: var(--dimmed); }
+.fathom i.here { width: 18px; background: var(--hl, var(--cyan)); box-shadow: 0 0 8px var(--hl, var(--cyan)); }
+.fathom-label { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); writing-mode: vertical-rl; margin-top: 8px; }
+/* Chrome auto-hide while presenting */
+.pres-top, .pres-bot { transition: opacity 0.45s var(--ease-luxury); }
+.pres.idle .pres-top, .pres.idle .pres-bot { opacity: 0; pointer-events: none; }
+.pres.idle { cursor: none; }
+/* HorizonDist instrument (src/instrument/HorizonDist.tsx, CSS port) */
+.hdist { display: flex; flex-direction: column; gap: 7px; margin-top: 22px; max-width: 440px; }
+.hdist-row { display: flex; align-items: center; gap: 8px; }
+.hdist-l { font-family: var(--mono); font-size: 9px; color: var(--dimmed); width: 72px; flex-shrink: 0; letter-spacing: 0.05em; text-transform: uppercase; }
+.hdist-t { flex: 1; height: 3px; background: rgba(255,255,255,0.04); border-radius: 2px; overflow: hidden; }
+.hdist-f { height: 100%; border-radius: 2px; transition: width 1s ease; }
+.hdist-v { font-family: var(--mono); font-size: 10px; color: var(--muted); width: 26px; text-align: right; flex-shrink: 0; }
 .pres-stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 26px; }
 .pres-slide { max-width: 780px; width: 100%; }
 .pres-h { font-size: 34px; font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; }
@@ -109,9 +142,11 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres-bot { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.08em; }
 .pres-bot button { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 13px; cursor: pointer; }
 .pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
-.pres::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
-  background: radial-gradient(ellipse 60% 45% at 22% 82%, rgba(0,240,255,0.05), transparent 60%),
-              radial-gradient(ellipse 55% 40% at 82% 14%, rgba(0,255,157,0.04), transparent 60%);
+.pres::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--fogop, 0.85);
+  transition: opacity 0.8s var(--ease-luxury);
+  background: radial-gradient(ellipse 70% 55% at 22% 82%, rgba(148,163,184,0.10), transparent 62%),
+              radial-gradient(ellipse 65% 50% at 82% 14%, rgba(148,163,184,0.08), transparent 62%),
+              radial-gradient(ellipse 60% 45% at 50% 50%, rgba(0,240,255,0.04), transparent 60%);
   animation: fogdrift 14s ease-in-out infinite alternate; }
 .pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.045;
   background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
@@ -128,8 +163,10 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres-horizon .hz-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
 @keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
 .pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
-.pres-slide { animation: slidein 0.35s ease-out; }
-@keyframes slidein { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.pres-slide { animation: slidein 0.5s var(--ease-luxury); }
+@keyframes slidein { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.pres-stat { background: var(--glass-surface), var(--surface2); box-shadow: var(--emboss); }
+@media (max-width: 900px) { .fathom { display: none; } }
 .pres-kicker { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
 .pres-num { font-family: var(--mono); font-size: 120px; font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--hl, var(--cyan)); opacity: 0.65; margin-bottom: 18px; }
 .pres-div-title { font-size: 40px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 12px; }
@@ -651,6 +688,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 
 <div class="pres" id="pres">
   <div class="pres-bezel" id="presbezel"></div>
+  <div class="fathom" id="fathom"></div>
   <div class="pres-hairline" id="preshair"></div>
   <div class="pres-top"><div class="pres-act" id="presact"></div><div class="pres-status" id="presstatus"></div><div class="pres-chip" id="preschip"></div></div>
   <div class="pres-stage"><div class="pres-slide" id="presslide"><div class="pres-kicker" id="preskick"></div><div class="pres-num" id="presnum"></div><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div><div class="pres-horizon" id="preshorizon"><div class="hz-line"></div><div class="hz-label">HORIZON · CLEAR</div></div></div></div>
@@ -1011,7 +1049,12 @@ var SLIDES = [
     b: "Requests, ideas and backlog additions against a resource picture that keeps changing.<br><br>My answer is receipts: <strong>272 written decision records</strong> — every yes, no, and not-yet survives turnover, leadership review, and the question \"why did we choose this?\" six months later." },
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "The big push is revenue.",
-    b: "Success in this role is commercialization: <strong>velocity of getting things into the market to test demand</strong> — many small bets, no polishing one basket.<br><br>The build record behind this deck is 98 days of exactly that discipline, in production, with the receipts public." },
+    b: "Success in this role is commercialization: <strong>velocity of getting things into the market to test demand</strong> — many small bets, no polishing one basket.<br><br>The build record behind this deck is 98 days of exactly that discipline. July's ship tempo, from the log:" +
+       "<div class='hdist'>" +
+       "<div class='hdist-row'><span class='hdist-l'>JUL W1</span><div class='hdist-t'><div class='hdist-f' style='width:100%;background:var(--green);'></div></div><span class='hdist-v'>277</span></div>" +
+       "<div class='hdist-row'><span class='hdist-l'>JUL W2</span><div class='hdist-t'><div class='hdist-f' style='width:44%;background:var(--cyan);'></div></div><span class='hdist-v'>123</span></div>" +
+       "<div class='hdist-row'><span class='hdist-l'>THIS WK</span><div class='hdist-t'><div class='hdist-f' style='width:35%;background:var(--cyan);'></div></div><span class='hdist-v'>97</span></div>" +
+       "<div class='hdist-row'><span class='hdist-l' style='color:var(--faint);'>COMMITS/WK</span><div style='flex:1;'></div></div></div>" },
   { div: true, num: "03", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp, act: "ACT III",
     h: "Vibe check.",
     b: "Three hypotheses I hold at medium conviction. This is the part where you tell me what I got wrong — that correction is the most valuable thing I can leave with." },
@@ -1040,15 +1083,40 @@ var SLIDES = [
 ];
 var presIdx = 0, presEl = document.getElementById("pres");
 (function () {
-  var dots = document.getElementById("presdots");
-  SLIDES.forEach(function () { dots.appendChild(document.createElement("i")); });
+  var dots = document.getElementById("presdots"), rail = document.getElementById("fathom");
+  SLIDES.forEach(function () {
+    dots.appendChild(document.createElement("i"));
+    rail.appendChild(document.createElement("i"));
+  });
+  var lbl = document.createElement("div"); lbl.className = "fathom-label"; lbl.id = "fathomlbl";
+  rail.appendChild(lbl);
 })();
+// Chrome auto-hide: fade nav after 2.6s idle; any pointer/touch/key brings it back
+var idleTimer = null;
+function presWake() {
+  presEl.classList.remove("idle");
+  clearTimeout(idleTimer);
+  idleTimer = setTimeout(function () { if (presEl.classList.contains("on")) presEl.classList.add("idle"); }, 2600);
+}
+["mousemove", "touchstart", "keydown"].forEach(function (ev) {
+  presEl.addEventListener(ev, presWake, { passive: true });
+});
 function presRender() {
   var s = SLIDES[presIdx];
   document.getElementById("presact").textContent = s.act;
   document.getElementById("presact").style.color = s.ac;
   var chip = document.getElementById("preschip");
   chip.textContent = s.chip; chip.style.color = s.cc; chip.style.borderColor = s.cc;
+  var grade = s.chip.indexOf("HYPOTHESIS") === 0 ? "hyp" : s.chip.indexOf("HEARD") === 0 ? "heard" : s.chip.indexOf("SEEN") === 0 ? "seen" : "close";
+  chip.className = "pres-chip grade-" + grade;
+  // Fog thins one fathom per slide — earned clarity; horizon slide is clearest
+  presEl.style.setProperty("--fogop", (0.85 - 0.75 * (presIdx / (SLIDES.length - 1))).toFixed(2));
+  // Fathom rail
+  document.querySelectorAll("#fathom i").forEach(function (t, i) {
+    t.className = i < presIdx ? "past" : i === presIdx ? "here" : "";
+    t.style.setProperty("--hl", s.ac);
+  });
+  document.getElementById("fathomlbl").textContent = "FATHOM " + (presIdx + 1) + " OF " + SLIDES.length;
   document.getElementById("preshair").style.setProperty("--hl", s.ac);
   var num = document.getElementById("presnum");
   num.textContent = s.div ? s.num : "";
@@ -1061,7 +1129,8 @@ function presRender() {
   h.className = s.div ? "pres-div-title" : "pres-h";
   var body = document.getElementById("presbody");
   body.innerHTML = s.b;
-  body.className = s.div ? "pres-div-sub" : "pres-body";
+  var res = s.chip.indexOf("HYPOTHESIS") === 0 ? " res-grain" : s.chip.indexOf("HEARD") === 0 ? " res-degraded" : " res-sharp";
+  body.className = s.div ? "pres-div-sub" : "pres-body" + res;
   document.getElementById("prescount").textContent = (presIdx + 1) + " / " + SLIDES.length;
   document.getElementById("presbezel").style.setProperty("--hl", s.ac);
   document.getElementById("presstatus").innerHTML =
@@ -1074,8 +1143,8 @@ function presRender() {
   var slide = document.getElementById("presslide");
   slide.style.animation = "none"; void slide.offsetWidth; slide.style.animation = "";
 }
-function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); }
-function presExit() { presEl.classList.remove("on"); }
+function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); }
+function presExit() { presEl.classList.remove("on"); presEl.classList.remove("idle"); clearTimeout(idleTimer); }
 function presStep(d) { presIdx = Math.min(SLIDES.length - 1, Math.max(0, presIdx + d)); presRender(); }
 document.getElementById("presopen").addEventListener("click", presOpen);
 document.getElementById("presexit").addEventListener("click", presExit);
