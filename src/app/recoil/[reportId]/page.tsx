@@ -27,8 +27,13 @@ export default async function DynamicRecoilReportPage({
 }: {
   params: Promise<{ reportId: string }>
 }) {
-  const session = await auth()
-  if (!session?.user?.email) redirect("/compass?next=/recoil/" + (await params).reportId)
+  // ADR-001 doctrine: prod enforces session, dev passes through (matches the
+  // soft-auth pattern on all /api routes; also enables local visual QA of
+  // generated reports without a magic-link session).
+  if (process.env.NODE_ENV === "production") {
+    const session = await auth()
+    if (!session?.user?.email) redirect("/compass?next=/recoil/" + (await params).reportId)
+  }
 
   const { reportId } = await params
   const data = loadReport(reportId)

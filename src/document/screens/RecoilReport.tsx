@@ -276,6 +276,151 @@ function normalizeRecoilReport(raw: RecoilReportRaw): RecoilReportData {
   }
 }
 
+// ─── Deeper Strata — archaeology of the full ledger ───────────────────────
+// The six canonical sections render the briefing surface; everything else in
+// a report file (recapitulation, diamondCutPass, nonverbalOverlay, readOrder,
+// statedVsRevealed, meta, …) is ledger strata that previously never reached
+// the page. This section excavates them in AUTHORITY order — the anachronistic
+// tread mandated by readOrder: current truth first, provenance beneath,
+// substrate last. Depth maps onto the WORLD.md render scale: the top stratum
+// renders SHARP (superionic — structure + flow), deeper strata degrade toward
+// GRAIN, because depth is provenance, not truth. Amber preserves; it does not
+// update.
+
+const STRATA_CANONICAL = new Set([
+  'reportId', 'notice', 'cover', 'loadBearingQuote', 'callWalk',
+  'signalThreads', 'scenarios', 'riskFlags', 'protocol',
+])
+const STRATA_AUTHORITY = ['recapitulation', 'diamondCutPass', 'nonverbalOverlay', 'statedVsRevealed', 'readOrder']
+const STRATA_SUBSTRATE = 'meta'
+const AMBER = ['#FFD700', '#EAC14A', '#D0A93C', '#B69130', '#9C7A26', '#82651E']
+const STRATA_FIDELITY = [
+  { opacity: 1, weight: 500, tracking: '0em' },       // S0 — superionic, current truth
+  { opacity: 0.95, weight: 400, tracking: '0.002em' },
+  { opacity: 0.88, weight: 400, tracking: '0.006em' },
+  { opacity: 0.82, weight: 400, tracking: '0.01em' },
+  { opacity: 0.76, weight: 300, tracking: '0.015em' },
+  { opacity: 0.7, weight: 300, tracking: '0.02em' },  // deepest — grain
+]
+
+function strataLabel(k: string): string {
+  return k.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/[_-]+/g, ' ').trim().toUpperCase()
+}
+
+function StrataValue({ v, depth, amber }: { v: unknown; depth: number; amber: string }) {
+  if (v == null) return null
+  if (typeof v !== 'object') {
+    return (
+      <p style={{ fontFamily: T.sans, fontSize: 12.5, color: T.fg3, lineHeight: 1.7, margin: '3px 0', whiteSpace: 'pre-wrap' }}>
+        {String(v)}
+      </p>
+    )
+  }
+  if (Array.isArray(v)) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {v.map((item, i) => (
+          <div key={i} style={{ borderLeft: `1px solid ${amber}30`, paddingLeft: 10 }}>
+            <StrataValue v={item} depth={depth + 1} amber={amber} />
+          </div>
+        ))}
+      </div>
+    )
+  }
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {Object.entries(v as Record<string, unknown>).map(([k, item]) => (
+        <div key={k}>
+          <div style={{ fontFamily: T.mono, fontSize: 9, fontWeight: 700, color: `${amber}CC`, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 3 }}>
+            {strataLabel(k)}
+          </div>
+          <div style={{ paddingLeft: depth < 3 ? 10 : 6, borderLeft: `1px solid ${amber}22` }}>
+            <StrataValue v={item} depth={depth + 1} amber={amber} />
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function DeepStrata({ raw }: { raw: RecoilReportRaw }) {
+  const [open, setOpen] = React.useState(0) // FOCUS mode: only the top stratum open; -1 = all closed
+  const strata: { name: string; value: unknown; tag: string }[] = []
+  for (const k of STRATA_AUTHORITY) {
+    if (raw[k] != null) strata.push({ name: k, value: raw[k], tag: k === 'recapitulation' ? 'CURRENT TRUTH' : 'PROVENANCE' })
+  }
+  for (const k of Object.keys(raw)) {
+    if (!STRATA_CANONICAL.has(k) && k !== STRATA_SUBSTRATE && !STRATA_AUTHORITY.includes(k) && raw[k] != null) {
+      strata.push({ name: k, value: raw[k], tag: 'PROVENANCE' })
+    }
+  }
+  if (raw[STRATA_SUBSTRATE] != null) strata.push({ name: STRATA_SUBSTRATE, value: raw[STRATA_SUBSTRATE], tag: 'SUBSTRATE' })
+  if (strata.length === 0) return null
+
+  return (
+    <Sec id="r-strata" idx="07" label="Deeper Strata" title="Archaeology of the Ledger" accent={T.gold}>
+      <div style={{ marginBottom: 14 }}>
+        <AsideBox variant="info" label="Dig Protocol">
+          Anachronistic tread — the top stratum is current truth; deeper strata are preserved provenance, superseded
+          beliefs left in place and marked, never overwritten. Depth renders at earned fidelity: sharp at the surface,
+          grain at the substrate. Amber preserves; it does not update.
+        </AsideBox>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {strata.map((s, i) => {
+          const amber = AMBER[Math.min(i, AMBER.length - 1)]
+          const fid = STRATA_FIDELITY[Math.min(i, STRATA_FIDELITY.length - 1)]
+          const crystal = s.tag === 'CURRENT TRUTH'
+          const isOpen = open === i
+          const bytes = JSON.stringify(s.value).length
+          return (
+            <div key={s.name} style={{
+              border: crystal ? '1px solid rgba(0,240,255,0.30)' : `1px solid ${amber}30`,
+              borderRadius: 8,
+              background: crystal ? 'rgba(0,240,255,0.02)' : `${amber}08`,
+              boxShadow: crystal ? '0 0 20px rgba(0,240,255,0.07), inset 0 0 30px rgba(255,215,0,0.03)' : 'none',
+              opacity: fid.opacity,
+            }}>
+              <button
+                onClick={() => setOpen(isOpen ? -1 : i)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
+                  padding: '10px 14px', background: 'transparent', border: 'none', cursor: 'pointer',
+                }}
+              >
+                <span style={{
+                  fontFamily: T.mono, fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
+                  color: crystal ? T.cyan : amber, border: `1px solid ${crystal ? 'rgba(0,240,255,0.35)' : `${amber}40`}`,
+                  borderRadius: 4, padding: '2px 6px', flexShrink: 0,
+                }}>S{i}</span>
+                <span style={{ fontFamily: T.mono, fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: crystal ? T.fg1 : T.fg2, textTransform: 'uppercase' }}>
+                  {strataLabel(s.name)}
+                </span>
+                <span style={{ fontFamily: T.mono, fontSize: 9, color: crystal ? T.cyan : `${amber}AA`, letterSpacing: '0.12em', flexShrink: 0 }}>
+                  {s.tag}
+                </span>
+                <span style={{ flex: 1 }} />
+                <span style={{ fontFamily: T.mono, fontSize: 9, color: T.fg4, flexShrink: 0 }}>
+                  {(bytes / 1024).toFixed(1)} KB
+                </span>
+                <span style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4, flexShrink: 0 }}>{isOpen ? '▾' : '▸'}</span>
+              </button>
+              {isOpen && (
+                <div style={{
+                  padding: '4px 14px 14px', borderTop: `1px solid ${crystal ? 'rgba(0,240,255,0.15)' : `${amber}1E`}`,
+                  fontWeight: fid.weight, letterSpacing: fid.tracking,
+                }}>
+                  <StrataValue v={s.value} depth={0} amber={crystal ? '#7FE8F0' : amber} />
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </Sec>
+  )
+}
+
 export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
   const A = T.cyan
   const d = normalizeRecoilReport(raw)
@@ -323,6 +468,8 @@ export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
       <Sec id="r-next" idx="06" label="Protocol" title="Recovery Protocol" accent={A}>
         <ProcessSteps accent={A} steps={d.protocol} />
       </Sec>
+
+      <DeepStrata raw={raw} />
     </div>
   )
 }
