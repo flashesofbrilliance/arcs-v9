@@ -16,12 +16,13 @@
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 56px 24px 80px; line-height: 1.5; }
+html { overflow-x: hidden; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 56px 24px 80px; line-height: 1.5; overflow-x: hidden; }
 .page { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
 a { color: var(--cyan); }
 
 .eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
-.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse 2.2s ease-in-out infinite; }
+.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; }
 .byline { font-size: 13px; color: var(--dimmed); }
@@ -37,6 +38,14 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .frame-body { font-size: 12px; color: var(--muted); line-height: 1.55; }
 .frame-body strong { color: var(--text); font-weight: 600; }
 @media (max-width: 640px) { .frame-row { grid-template-columns: 1fr; } }
+
+/* PRIOR TERRAIN */
+.terrain-head { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-top: 2px; }
+.terrain-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.terrain-cell { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 13px; }
+.terrain-val { font-family: var(--mono); font-size: 19px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
+.terrain-label { font-size: 10.5px; color: var(--dimmed); line-height: 1.45; margin-top: 4px; }
+@media (max-width: 640px) { .terrain-row { grid-template-columns: repeat(2, 1fr); } }
 
 /* STAT STRIP */
 .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
@@ -99,7 +108,26 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres-bot { display: flex; justify-content: space-between; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.08em; }
 .pres-bot button { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 13px; cursor: pointer; }
 .pres-bot button:hover { color: var(--text); border-color: var(--dimmed); }
-@media (max-width: 640px) { .pres-h { font-size: 24px; } .pres-body { font-size: 14.5px; } }
+.pres::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+  background: radial-gradient(ellipse 60% 45% at 22% 82%, rgba(0,240,255,0.05), transparent 60%),
+              radial-gradient(ellipse 55% 40% at 82% 14%, rgba(0,255,157,0.04), transparent 60%);
+  animation: fogdrift 14s ease-in-out infinite alternate; }
+@keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
+.pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
+.pres-slide { animation: slidein 0.35s ease-out; }
+@keyframes slidein { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.pres-kicker { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
+.pres-num { font-family: var(--mono); font-size: 120px; font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--hl, var(--cyan)); opacity: 0.65; margin-bottom: 18px; }
+.pres-div-title { font-size: 40px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 12px; }
+.pres-div-sub { font-size: 15px; color: var(--muted); max-width: 520px; line-height: 1.6; }
+.pres-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
+.pres-stat { border: 1px solid var(--border); border-left: 3px solid var(--hl, var(--cyan)); border-radius: var(--r-md); background: var(--surface2); padding: 14px 16px; }
+.pres-stat b { font-family: var(--mono); font-size: 24px; font-weight: 800; color: var(--text); display: block; }
+.pres-stat span { font-size: 12px; color: var(--muted); line-height: 1.5; display: block; margin-top: 4px; }
+.pres-dots { display: flex; gap: 5px; }
+.pres-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
+.pres-dots i.on { background: var(--hl, var(--cyan)); }
+@media (max-width: 640px) { .pres-h { font-size: 24px; } .pres-body { font-size: 14.5px; } .pres-num { font-size: 72px; } .pres-div-title { font-size: 27px; } .pres-stats { grid-template-columns: 1fr; } }
 
 /* TELEMETRY TABS + UNLOCKS */
 .tele-tabs { display: flex; gap: 6px; margin-top: 16px; }
@@ -255,6 +283,14 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       <div class="frame-label" style="color: var(--gold);">PACECAR</div>
       <div class="frame-body">Set the tempo, then prove the track is drivable: core loop <strong>live in production 10 days after ignition</strong>, 14+ client surfaces stood up in hours each. The cadence chart below is the lap record.</div>
     </div>
+  </div>
+
+  <div class="terrain-head">PRIOR TERRAIN · THE PATTERN PREDATES ARCS — REGULATED, HIGH-STAKES, IN PRODUCTION</div>
+  <div class="terrain-row">
+    <div class="terrain-cell"><div class="terrain-val" style="color:var(--cyan);">$7B</div><div class="terrain-label">Digital assets launched across 10 regulated products at Grayscale — zero SEC/FINRA violations, immutable audit trails</div></div>
+    <div class="terrain-cell"><div class="terrain-val" style="color:var(--green);">525%</div><div class="terrain-label">Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</div></div>
+    <div class="terrain-cell"><div class="terrain-val" style="color:var(--gold);">&lt;120ms</div><div class="terrain-label">Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</div></div>
+    <div class="terrain-cell"><div class="terrain-val" style="color:var(--steel);">20%</div><div class="terrain-label">Net-new revenue for a national nonprofit via enterprise data-platform rebuild, scoping through rollout</div></div>
   </div>
 
   <div class="stats">
@@ -563,11 +599,12 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 </div>
 
 <div class="pres" id="pres">
+  <div class="pres-hairline" id="preshair"></div>
   <div class="pres-top"><div class="pres-act" id="presact"></div><div class="pres-chip" id="preschip"></div></div>
-  <div class="pres-stage"><div class="pres-slide"><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div></div></div>
+  <div class="pres-stage"><div class="pres-slide" id="presslide"><div class="pres-kicker" id="preskick"></div><div class="pres-num" id="presnum"></div><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div></div></div>
   <div class="pres-bot">
     <button id="presprev">← BACK</button>
-    <div id="prescount"></div>
+    <div style="display:flex;align-items:center;gap:14px;"><div class="pres-dots" id="presdots"></div><div id="prescount"></div></div>
     <div style="display:flex;gap:8px;"><button id="presnext">NEXT →</button><button id="presexit">ESC · EXIT</button></div>
   </div>
 </div>
@@ -899,12 +936,18 @@ var SLIDES = [
   { act: "OPENING", ac: CH.close, chip: "METHOD", cc: CH.close,
     h: "My read of the Foundry, in three passes.",
     b: "<strong>What I've seen. What I've heard. Then a vibe check — is this right?</strong><br><br>It is the same discovery loop I run with clients: observe, reflect it back, and calibrate before acting. Every slide is labeled with where it comes from — public record, our conversation, or my own hypothesis." },
+  { div: true, num: "01", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen, act: "ACT I",
+    h: "What I've seen.",
+    b: "The public record — MAIA's launch materials, Prophet's positioning, and the role itself. No interpretation yet, just the terrain as published." },
   { act: "ACT I · WHAT I'VE SEEN", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen,
     h: "MAIA's founding stance is Augmented Intelligence.",
     b: "It amplifies human insight — extends judgment instead of replacing it.<br><br>ARCS was built on the same rule #1: <strong>the system never decides for you.</strong> In both cases the stance is enforced in the code, not written in a policy. Most companies adopt it after an incident forces them to. We each made it the founding rule." },
   { act: "ACT I · WHAT I'VE SEEN", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen,
     h: "The Foundry's year: productize, commercialize, prove demand.",
     b: "The public materials and the role description converge on one motion: move beyond chat to <strong>agent-powered apps</strong>, pilot with clients fast, and make <strong>trustworthy AI the sellable thing</strong>.<br><br>The scoreboard is revenue." },
+  { div: true, num: "02", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard, act: "ACT II",
+    h: "What I've heard.",
+    b: "Four things Mike described that changed my read — reflected back the way I heard them, so you can tell me where the signal drifted." },
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "Disparate offers share the same underlying patterns.",
     b: "A campaign tool and a brand-strategy tool turn out to share core workflows — find the pattern once, reuse it across offers.<br><br><strong>ARCS hunts that isomorphism by design.</strong> We arrived at the same abstraction independently, from different directions. That is stronger evidence of fit than any pitch." },
@@ -917,6 +960,9 @@ var SLIDES = [
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "The big push is revenue.",
     b: "Success in this role is commercialization: <strong>velocity of getting things into the market to test demand</strong> — many small bets, no polishing one basket.<br><br>The build record behind this deck is 98 days of exactly that discipline, in production, with the receipts public." },
+  { div: true, num: "03", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp, act: "ACT III",
+    h: "Vibe check.",
+    b: "Three hypotheses I hold at medium conviction. This is the part where you tell me what I got wrong — that correction is the most valuable thing I can leave with." },
   { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
     h: "The Foundry is becoming a forward-deployed engineering arm.",
     b: "Pre-sales engineering is evolving into forward-deployed, applied-AI work: a quarterback who makes opportunities, stakeholders and systems land <strong>client-ready</strong>.<br><br>If that is where this is going, it is the role I have spent 98 days rehearsing in public." },
@@ -926,20 +972,48 @@ var SLIDES = [
   { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
     h: "What MAIA needs next is calibration data.",
     b: "Predictions scored against outcomes, automatically — that is what turns AI output into <strong>defensible judgment</strong>, and it only scales if it depends on no one's discipline.<br><br>ARCS closed that loop on Day 98. The same loop is buildable for the Foundry's pilots: every client demo becomes evidence." },
+  { act: "PRIOR TERRAIN", ac: CH.seen, chip: "SEEN · TRACK RECORD", cc: CH.seen,
+    h: "Not my first regulated, high-stakes build.",
+    b: "<div class='pres-stats' style='--hl:#7dd3fc;'>" +
+       "<div class='pres-stat'><b>$7B</b><span>Digital assets launched across 10 regulated products at Grayscale — zero SEC/FINRA violations, immutable audit trails</span></div>" +
+       "<div class='pres-stat'><b>525%</b><span>Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</span></div>" +
+       "<div class='pres-stat'><b>&lt;120ms</b><span>Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</span></div>" +
+       "<div class='pres-stat'><b>20%</b><span>Net-new revenue for a national nonprofit via an enterprise data-platform rebuild</span></div></div>" },
   { act: "VIBE CHECK", ac: CH.close, chip: "YOUR MOVE", cc: CH.close,
     h: "That's my read. What did I get wrong?",
     b: "Player, coach, pacecar — as comfortable presenting the 24-month roadmap in a board meeting as in the trenches of a code review.<br><br>The full build record sits behind this deck, every milestone linked to real code: <strong>chan.arcs.care</strong>" }
 ];
 var presIdx = 0, presEl = document.getElementById("pres");
+(function () {
+  var dots = document.getElementById("presdots");
+  SLIDES.forEach(function () { dots.appendChild(document.createElement("i")); });
+})();
 function presRender() {
   var s = SLIDES[presIdx];
   document.getElementById("presact").textContent = s.act;
   document.getElementById("presact").style.color = s.ac;
   var chip = document.getElementById("preschip");
   chip.textContent = s.chip; chip.style.color = s.cc; chip.style.borderColor = s.cc;
-  document.getElementById("presh").textContent = s.h;
-  document.getElementById("presbody").innerHTML = s.b;
+  document.getElementById("preshair").style.setProperty("--hl", s.ac);
+  var num = document.getElementById("presnum");
+  num.textContent = s.div ? s.num : "";
+  num.style.display = s.div ? "" : "none";
+  num.style.setProperty("--hl", s.ac);
+  document.getElementById("preskick").textContent = s.div ? s.act : "";
+  document.getElementById("preskick").style.display = s.div ? "" : "none";
+  var h = document.getElementById("presh");
+  h.textContent = s.h;
+  h.className = s.div ? "pres-div-title" : "pres-h";
+  var body = document.getElementById("presbody");
+  body.innerHTML = s.b;
+  body.className = s.div ? "pres-div-sub" : "pres-body";
   document.getElementById("prescount").textContent = (presIdx + 1) + " / " + SLIDES.length;
+  document.querySelectorAll("#presdots i").forEach(function (d, i) {
+    d.classList.toggle("on", i === presIdx);
+    d.style.setProperty("--hl", s.ac);
+  });
+  var slide = document.getElementById("presslide");
+  slide.style.animation = "none"; void slide.offsetWidth; slide.style.animation = "";
 }
 function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); }
 function presExit() { presEl.classList.remove("on"); }
@@ -954,6 +1028,13 @@ document.addEventListener("keydown", function (e) {
   else if (e.key === "ArrowLeft") { e.preventDefault(); presStep(-1); }
   else if (e.key === "Escape") presExit();
 });
+var swipeX = null;
+presEl.addEventListener("touchstart", function (e) { swipeX = e.changedTouches[0].clientX; }, { passive: true });
+presEl.addEventListener("touchend", function (e) {
+  if (swipeX === null) return;
+  var dx = e.changedTouches[0].clientX - swipeX; swipeX = null;
+  if (Math.abs(dx) > 48) presStep(dx < 0 ? 1 : -1);
+}, { passive: true });
 
 // Tap-to-toggle for term tooltips (works for JS-rendered milestone cards too)
 document.addEventListener("click", function (e) {
