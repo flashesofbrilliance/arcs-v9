@@ -184,10 +184,6 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-horizon .hz-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
 @keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
 .pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
-/* Opening flight - wireframe Mobius approach, resolves into the method slide */
-#presintro { position: absolute; inset: 0; z-index: 6; width: 100%; height: 100%; opacity: 1; transition: opacity 0.7s var(--ease-luxury); cursor: pointer; }
-#presintro.done { opacity: 0; pointer-events: none; }
-.intro-skip { position: absolute; bottom: 22px; right: 26px; z-index: 7; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wider); color: var(--dimmed); opacity: 0.7; pointer-events: none; }
 .pres-slide { animation: slidein 0.45s var(--ease-luxury); }
 @keyframes slidein { from { opacity: 0; } to { opacity: 1; } }
 /* Interactive moiré topography - two contour-ring systems at different wavelengths.
@@ -218,6 +214,9 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .section.collapsed .sec-toggle { transform: rotate(-90deg); }
 .sec-body { overflow: hidden; transition: max-height 0.4s var(--ease-luxury), opacity 0.3s var(--ease-luxury); }
 .section.collapsed .sec-body { max-height: 0 !important; opacity: 0; }
+.section .section-title { cursor: pointer; }
+.sec-tldr { display: none; font-size: var(--text-sm); color: var(--dimmed); line-height: 1.55; margin-top: 6px; max-width: 780px; cursor: pointer; }
+.section.collapsed .sec-tldr { display: block; }
 .focus-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface2); box-shadow: var(--emboss); }
 .focus-bar .fb-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wider); color: var(--dimmed); text-transform: uppercase; }
 .focus-btn { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wide); color: var(--muted); background: none; border: 1px solid var(--border); border-radius: var(--r-sm); padding: 6px 11px; cursor: pointer; transition: all 0.15s; }
@@ -433,8 +432,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 
   <div class="focus-bar">
     <span class="fb-label">Reading mode</span>
-    <button class="focus-btn active" id="fb-expand">▾ ALL OPEN</button>
-    <button class="focus-btn" id="fb-focus">◇ FOCUS · ONE AT A TIME</button>
+    <button class="focus-btn active" id="fb-focus">◇ FOCUS · ONE AT A TIME</button>
+    <button class="focus-btn" id="fb-expand">▾ EXPAND ALL</button>
     <span class="fb-label" style="color:var(--faint);">click any section header to fold it</span>
   </div>
 
@@ -786,8 +785,6 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 </div>
 
 <div class="pres" id="pres">
-  <canvas id="presintro" style="display:none;"></canvas>
-  <div class="intro-skip" id="introskip" style="display:none;">TAP OR ANY KEY · SKIP APPROACH</div>
   <div class="pres-floor"></div>
   <div class="pres-topo2"></div>
   <div class="pres-topo" id="prestopo"></div>
@@ -1145,33 +1142,49 @@ document.addEventListener("keydown", function (e) {
 });
 render();
 
-// Progressive disclosure - collapsible sections + FOCUS mode
+// Progressive disclosure - collapsible sections; FOCUS mode is the default
 (function () {
   var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
   var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
-  var focusOn = false;
+  var TLDRS = [
+    "Two teams reached the same core ideas without talking: augmented intelligence, pattern reuse, trustworthy AI as the product.",
+    "Twelve design principles set before the first feature, each enforced in code, plus the compounding loop they run.",
+    "Day 0 to Day 98 at whatever depth you want, from one plain sentence per milestone down to the actual commits.",
+    "Where I was wrong and what changed: delete before you rebuild, enforce don't decorate, honesty over polish.",
+    "What I'd tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.",
+    "One backlog, three horizons. Nothing moves up on enthusiasm; every later item has a named condition that promotes it.",
+    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped this week.",
+    "Every piece of product vocabulary on this page, translated into plain words."
+  ];
+  var focusOn = true;
   function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; }
-  function collapse(sec) {
+  function collapse(sec, instant) {
     var b = sec._body;
-    if (b.style.maxHeight === "none" || !b.style.maxHeight) { b.style.maxHeight = b.scrollHeight + "px"; void b.offsetHeight; }
+    if (!instant && (b.style.maxHeight === "none" || !b.style.maxHeight)) { b.style.maxHeight = b.scrollHeight + "px"; void b.offsetHeight; }
     b.style.maxHeight = "0px"; sec.classList.add("collapsed");
   }
-  sections.forEach(function (sec) {
+  function toggle(sec) {
+    if (sec.classList.contains("collapsed")) {
+      open(sec);
+      if (focusOn) sections.forEach(function (o) { if (o !== sec) collapse(o); });
+    } else { collapse(sec); }
+  }
+  sections.forEach(function (sec, idx) {
     var head = sec.querySelector(".section-head");
     if (!head) return;
     var body = document.createElement("div"); body.className = "sec-body";
     var node = head.nextElementSibling;
     while (node) { var next = node.nextElementSibling; body.appendChild(node); node = next; }
     sec.appendChild(body); sec._body = body; body.style.maxHeight = "none";
+    // Pull the headline out of the collapsible body so it stays visible when folded
+    var title = body.querySelector(".section-title");
+    if (title) sec.insertBefore(title, body);
+    // TL;DR line - shown only when collapsed
+    var tldr = document.createElement("div"); tldr.className = "sec-tldr"; tldr.textContent = TLDRS[idx] || "";
+    sec.insertBefore(tldr, body);
     var tog = document.createElement("span"); tog.className = "sec-toggle"; tog.textContent = "▾";
     head.appendChild(tog);
-    head.addEventListener("click", function () {
-      var isCollapsed = sec.classList.contains("collapsed");
-      if (isCollapsed) {
-        open(sec);
-        if (focusOn) sections.forEach(function (o) { if (o !== sec) collapse(o); });
-      } else { collapse(sec); }
-    });
+    [head, title, tldr].forEach(function (el) { if (el) el.addEventListener("click", function () { toggle(sec); }); });
   });
   expandBtn.addEventListener("click", function () {
     focusOn = false; expandBtn.classList.add("active"); focusBtn.classList.remove("active");
@@ -1181,6 +1194,9 @@ render();
     focusOn = true; focusBtn.classList.add("active"); expandBtn.classList.remove("active");
     sections.forEach(function (s, i) { i === 0 ? open(s) : collapse(s); });
   });
+  // Default state: FOCUS mode, section 01 open, the rest folded to their TL;DR (no load animation)
+  focusBtn.classList.add("active"); expandBtn.classList.remove("active");
+  sections.forEach(function (s, i) { i === 0 ? open(s) : collapse(s, true); });
 })();
 
 // Presentation mode - SEEN / HEARD / VIBE CHECK
@@ -1328,112 +1344,7 @@ function presRender() {
   var slide = document.getElementById("presslide");
   slide.style.animation = "none"; void slide.offsetWidth; slide.style.animation = "";
 }
-// Opening flight: wireframe Mobius, drone camera, smoke wisps. Resolves into slide 1.
-var introRunning = false;
-function startIntro() {
-  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  var cv = document.getElementById("presintro"), skipEl = document.getElementById("introskip");
-  var ctx = cv.getContext("2d");
-  var W = cv.width = presEl.clientWidth * (window.devicePixelRatio || 1);
-  var H = cv.height = presEl.clientHeight * (window.devicePixelRatio || 1);
-  cv.style.display = "block"; skipEl.style.display = "block";
-  cv.classList.remove("done");
-  introRunning = true;
-  var t0 = performance.now(), DUR = 3400;
-  var pmx = 0, pmy = 0, smx = 0, smy = 0;
-  function onMove(e) {
-    var x = (e.touches ? e.touches[0].clientX : e.clientX) / presEl.clientWidth - 0.5;
-    var y = (e.touches ? e.touches[0].clientY : e.clientY) / presEl.clientHeight - 0.5;
-    pmx = x * 0.35; pmy = y * 0.25;
-  }
-  presEl.addEventListener("mousemove", onMove, { passive: true });
-  presEl.addEventListener("touchmove", onMove, { passive: true });
-  // Smoke wisps: slow-drifting radial blobs
-  var wisps = [];
-  for (var i = 0; i < 7; i++) wisps.push({ x: Math.random(), y: 0.3 + Math.random() * 0.5, r: 0.10 + Math.random() * 0.16, vx: (Math.random() - 0.5) * 0.014, vy: -0.004 - Math.random() * 0.008, a: 0.05 + Math.random() * 0.05 });
-  function mob(u, v) { // parametric Mobius strip
-    var c = 1 + (v / 2) * Math.cos(u / 2);
-    return [c * Math.cos(u), c * Math.sin(u), (v / 2) * Math.sin(u / 2)];
-  }
-  function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
-  function frame(now) {
-    if (!introRunning) return;
-    var raw = Math.min(1, (now - t0) / DUR), t = ease(raw);
-    smx += (pmx - smx) * 0.05; smy += (pmy - smy) * 0.05;
-    // Drone path: orbit sweeps, tilts down, dollies in
-    var az = -1.1 + 1.7 * t + smx, el = 0.52 - 0.26 * t + smy;
-    var zoom = (0.24 + 0.34 * t) * Math.min(W, H);
-    var ca = Math.cos(az), sa = Math.sin(az), ce = Math.cos(el), se = Math.sin(el);
-    var f = 3.6 - 1.1 * t; // focal shortens as we close in
-    function proj(p) {
-      var x = p[0] * ca - p[1] * sa, y = p[0] * sa + p[1] * ca, z = p[2];
-      var y2 = y * ce - z * se, z2 = y * se + z * ce;
-      var s = f / (f + y2 + 2.6);
-      return [W / 2 + x * zoom * s, H / 2 - 10 - z2 * zoom * s, s];
-    }
-    ctx.clearRect(0, 0, W, H);
-    // wisps under the wireframe
-    wisps.forEach(function (w) {
-      w.x += w.vx * 0.016; w.y += w.vy;
-      var g = ctx.createRadialGradient(w.x * W, w.y * H, 0, w.x * W, w.y * H, w.r * W);
-      g.addColorStop(0, "rgba(148,163,184," + (w.a * (1 - raw * 0.5)) + ")");
-      g.addColorStop(1, "rgba(148,163,184,0)");
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-    });
-    // Mobius rings (v-constant) + rungs
-    var alpha = raw < 0.12 ? raw / 0.12 : raw > 0.86 ? (1 - raw) / 0.14 : 1;
-    var RINGS = 11, SEG = 110;
-    for (var ri = 0; ri < RINGS; ri++) {
-      var v = -0.9 + (1.8 * ri) / (RINGS - 1);
-      var rim = (ri === 0 || ri === RINGS - 1);
-      ctx.beginPath();
-      for (var si = 0; si <= SEG; si++) {
-        var pt = proj(mob((si / SEG) * Math.PI * 2, v));
-        si === 0 ? ctx.moveTo(pt[0], pt[1]) : ctx.lineTo(pt[0], pt[1]);
-      }
-      ctx.strokeStyle = "rgba(216,228,239," + (alpha * (rim ? 0.85 : 0.32)) + ")";
-      ctx.lineWidth = (rim ? 2.2 : 1) * (window.devicePixelRatio || 1);
-      ctx.shadowColor = "rgba(216,228,239,0.6)"; ctx.shadowBlur = rim ? 14 : 0;
-      ctx.stroke();
-    }
-    ctx.shadowBlur = 0;
-    for (var ui = 0; ui < 28; ui++) {
-      ctx.beginPath();
-      for (var vi = 0; vi <= 6; vi++) {
-        var pt2 = proj(mob((ui / 28) * Math.PI * 2, -0.9 + 1.8 * (vi / 6)));
-        vi === 0 ? ctx.moveTo(pt2[0], pt2[1]) : ctx.lineTo(pt2[0], pt2[1]);
-      }
-      ctx.strokeStyle = "rgba(216,228,239," + alpha * 0.14 + ")";
-      ctx.lineWidth = 1 * (window.devicePixelRatio || 1);
-      ctx.stroke();
-    }
-    lastFrame = now;
-    if (raw >= 1) { endIntro(); return; }
-    requestAnimationFrame(frame);
-  }
-  var lastFrame = 0;
-  // Fallback driver: some environments throttle rAF; an interval keeps the flight moving,
-  // and a hard timeout guarantees the canvas never strands the viewer.
-  var fallback = setInterval(function () {
-    if (!introRunning) { clearInterval(fallback); return; }
-    var now = performance.now();
-    if (now - lastFrame > 90) frame(now);
-  }, 45);
-  var safety = setTimeout(function () { if (introRunning) endIntro(); }, DUR + 1200);
-  function endIntro() {
-    introRunning = false;
-    clearInterval(fallback); clearTimeout(safety);
-    cv.classList.add("done"); skipEl.style.display = "none";
-    presEl.removeEventListener("mousemove", onMove);
-    presEl.removeEventListener("touchmove", onMove);
-    setTimeout(function () { cv.style.display = "none"; }, 750);
-  }
-  cv.addEventListener("click", endIntro, { once: true });
-  var skipKey = function () { if (introRunning) endIntro(); document.removeEventListener("keydown", skipKey, true); };
-  document.addEventListener("keydown", skipKey, true);
-  requestAnimationFrame(frame);
-}
-function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); startIntro(); }
+function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); }
 function presExit() { presEl.classList.remove("on"); presEl.classList.remove("idle"); clearTimeout(idleTimer); }
 function presStep(d) { presIdx = Math.min(SLIDES.length - 1, Math.max(0, presIdx + d)); presRender(); }
 document.getElementById("presopen").addEventListener("click", presOpen);
