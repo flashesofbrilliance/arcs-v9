@@ -128,7 +128,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres.idle .pres-top, .pres.idle .pres-bot { opacity: 0; pointer-events: none; }
 .pres.idle { cursor: none; }
 /* HorizonDist instrument (src/instrument/HorizonDist.tsx, CSS port) */
-.hdist { display: flex; flex-direction: column; gap: 7px; margin-top: 22px; max-width: 440px; }
+.hdist { display: flex; flex-direction: column; gap: 7px; margin-top: 22px; max-width: 780px; }
 .hdist-row { display: flex; align-items: center; gap: 8px; }
 .hdist-l { font-family: var(--mono); font-size: 9px; color: var(--dimmed); width: 72px; flex-shrink: 0; letter-spacing: 0.05em; text-transform: uppercase; }
 .hdist-t { flex: 1; height: 3px; background: rgba(255,255,255,0.04); border-radius: 2px; overflow: hidden; }
@@ -148,9 +148,20 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
               radial-gradient(ellipse 65% 50% at 82% 14%, rgba(148,163,184,0.08), transparent 62%),
               radial-gradient(ellipse 60% 45% at 50% 50%, rgba(0,240,255,0.04), transparent 60%);
   animation: fogdrift 14s ease-in-out infinite alternate; }
-.pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.045;
+.pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.022;
   background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
   background-size: 56px 56px; }
+/* 2.5D isometric ground plane — the observatory floor, receding to the horizon */
+.pres-floor { position: absolute; left: -60%; right: -60%; bottom: 0; height: 34%; pointer-events: none; z-index: 0; opacity: 0.14;
+  background-image: linear-gradient(rgba(125,211,252,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.7) 1px, transparent 1px);
+  background-size: 64px 64px;
+  transform: perspective(560px) rotateX(64deg);
+  transform-origin: 50% 0%;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%); }
+/* Content well — lifts the slide off the terrain so type stays legible */
+.pres-stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+  background: radial-gradient(ellipse 62% 68% at 50% 46%, rgba(2,4,8,0.92) 0%, rgba(2,4,8,0.72) 45%, transparent 78%); }
 .pres-top, .pres-stage, .pres-bot, .pres-hairline { position: relative; z-index: 2; }
 .pres-bezel { position: absolute; inset: 14px; border: 1px solid rgba(30,41,59,0.55); border-radius: 10px; pointer-events: none; z-index: 1; }
 .pres-bezel::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--hl, var(--cyan)); border-left: 2px solid var(--hl, var(--cyan)); border-top-left-radius: 10px; }
@@ -693,6 +704,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 </div>
 
 <div class="pres" id="pres">
+  <div class="pres-floor"></div>
   <div class="pres-topo2"></div>
   <div class="pres-topo" id="prestopo"></div>
   <div class="pres-bezel" id="presbezel"></div>
