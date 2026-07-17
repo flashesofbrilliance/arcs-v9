@@ -77,6 +77,11 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 /* MILESTONES */
 .ms-list { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
 .ms { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 14px 16px; }
+.ms.expandable { cursor: pointer; transition: border-color 0.15s; }
+.ms.expandable:hover { border-color: rgba(0,240,255,0.35); }
+.ms.expanded { border-color: rgba(0,240,255,0.45); }
+.ms-more { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: 0.1em; color: var(--dimmed); margin-top: 9px; user-select: none; }
+.ms.expandable:hover .ms-more, .ms.expanded .ms-more { color: var(--cyan); }
 .ms-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .ms-date { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--cyan); letter-spacing: 0.06em; flex-shrink: 0; }
 .ms-title { font-size: 14.5px; font-weight: 700; color: var(--text); }
@@ -651,6 +656,16 @@ var ALT_CFG = [
 ];
 var currentAlt = 0;
 
+function buildCommits(m) {
+  var cwrap = document.createElement("div"); cwrap.className = "ms-commits";
+  m.commits.forEach(function (c) {
+    var row = document.createElement("div"); row.className = "ms-commit";
+    row.innerHTML = '<a href="' + GH + c.sha + '" target="_blank" rel="noopener">' + c.sha + '</a><span>' + c.msg + '</span>';
+    cwrap.appendChild(row);
+  });
+  return cwrap;
+}
+
 function render() {
   var cfg = ALT_CFG[currentAlt];
   var list = document.getElementById("mslist");
@@ -661,21 +676,32 @@ function render() {
     var text = "";
     for (var i = cfg.text; i >= 0; i--) { if (m.alt[i]) { text = m.alt[i]; break; } }
     if (!text) { for (var j = cfg.text + 1; j < m.alt.length; j++) { if (m.alt[j]) { text = m.alt[j]; break; } } }
+    // Deepest narrative this milestone has — used by the per-card expand.
+    var deepIdx = -1;
+    for (var d = m.alt.length - 1; d >= 0; d--) { if (m.alt[d]) { deepIdx = d; break; } }
+    var hasDeeper = (deepIdx >= 0 && m.alt[deepIdx] !== text) || (!cfg.commits && m.commits && m.commits.length);
     shown++;
-    var card = document.createElement("div"); card.className = "ms";
+    var card = document.createElement("div"); card.className = "ms" + (hasDeeper ? " expandable" : "");
     var top = document.createElement("div"); top.className = "ms-top";
     top.innerHTML = '<span class="ms-date">' + m.date + '</span><span class="ms-title">' + m.title + '</span>' +
       '<span class="ms-rank r' + m.rank + '">' + (m.rank === 1 ? "CORE" : m.rank === 2 ? "PLUS" : "DEEP") + '</span>';
     var body = document.createElement("div"); body.className = "ms-body"; body.innerHTML = text;
     card.appendChild(top); card.appendChild(body);
     if (cfg.commits && m.commits && m.commits.length) {
-      var cwrap = document.createElement("div"); cwrap.className = "ms-commits";
-      m.commits.forEach(function (c) {
-        var row = document.createElement("div"); row.className = "ms-commit";
-        row.innerHTML = '<a href="' + GH + c.sha + '" target="_blank" rel="noopener">' + c.sha + '</a><span>' + c.msg + '</span>';
-        cwrap.appendChild(row);
+      card.appendChild(buildCommits(m));
+    }
+    if (hasDeeper) {
+      var more = document.createElement("div"); more.className = "ms-more"; more.textContent = "▾ TAP FOR FULL DEPTH";
+      card.appendChild(more);
+      card.addEventListener("click", function (e) {
+        if (e.target.closest(".term") || e.target.closest("a")) return;
+        var expanded = card.classList.toggle("expanded");
+        body.innerHTML = expanded ? m.alt[deepIdx] : text;
+        var cw = card.querySelector(".ms-commits");
+        if (expanded && !cw && m.commits && m.commits.length) card.insertBefore(buildCommits(m), more);
+        if (!expanded && cw && !cfg.commits) cw.remove();
+        more.textContent = expanded ? "▴ COLLAPSE" : "▾ TAP FOR FULL DEPTH";
       });
-      card.appendChild(cwrap);
     }
     list.appendChild(card);
   });
