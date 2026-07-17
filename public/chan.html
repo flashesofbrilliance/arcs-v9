@@ -13,17 +13,17 @@
   --bg: #020408; --surface: #0d1117; --surface2: #111820;
   --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b; --faint: #475569;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
-  /* Radii — canonical scale (ARCS OS colors_and_type.css) */
+  /* Radii - canonical scale (ARCS OS colors_and_type.css) */
   --r-xs: 3px; --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
-  /* Fonts — canonical families; the adherence linter permits only these two */
+  /* Fonts - canonical families; the adherence linter permits only these two */
   --mono: 'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',monospace;
   --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  /* Type scale — canonical, 8 steps */
+  /* Type scale - canonical, 8 steps */
   --text-xs: 10px; --text-sm: 12px; --text-md: 14px; --text-base: 16px;
   --text-lg: 18px; --text-xl: 22px; --text-2xl: 32px; --text-3xl: 48px;
   /* Tracking */
   --track-tight: -0.02em; --track-wide: 0.04em; --track-wider: 0.08em; --track-widest: 0.14em;
-  /* Canonical elevation tokens — ARCS OS colors_and_type.css (Claude Design) */
+  /* Canonical elevation tokens - ARCS OS colors_and_type.css (Claude Design) */
   --emboss: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
   --deboss: inset 0 2px 4px rgba(0,0,0,0.60), inset 0 -1px 0 rgba(255,255,255,0.06);
   --glass-surface: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
@@ -40,7 +40,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 a { color: var(--cyan); }
 
 .eyebrow { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
-.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2.2s ease-in-out infinite; }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; }
 .byline { font-size: var(--text-md); color: var(--dimmed); }
@@ -123,11 +123,11 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-chip.grade-heard { box-shadow: var(--emboss); }
 .pres-chip.grade-hyp { box-shadow: var(--deboss); }
 .pres-chip.grade-close { box-shadow: var(--glow-green); }
-/* Earned fidelity — render-resolution scale from colors_and_type.css. True North (headline) exempt. */
+/* Earned fidelity - render-resolution scale from colors_and_type.css. True North (headline) exempt. */
 .pres-body.res-sharp { opacity: 1; font-weight: 500; letter-spacing: 0; }
 .pres-body.res-degraded { opacity: 0.85; font-weight: 400; letter-spacing: 0.01em; }
 .pres-body.res-grain { opacity: 0.7; font-weight: 300; letter-spacing: 0.02em; }
-/* Fathom rail — one tick per slide; descent = progress through evidence */
+/* Fathom rail - one tick per slide; descent = progress through evidence */
 .fathom { position: absolute; left: 26px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
 .fathom i { width: 10px; height: 2px; background: var(--border); border-radius: 1px; transition: all 0.3s var(--ease-luxury); }
 .fathom i.past { background: var(--dimmed); }
@@ -161,7 +161,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.022;
   background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
   background-size: 56px 56px; }
-/* 2.5D isometric ground plane — the observatory floor, receding to the horizon */
+/* 2.5D isometric ground plane - the observatory floor, receding to the horizon */
 .pres-floor { position: absolute; left: -60%; right: -60%; bottom: 0; height: 34%; pointer-events: none; z-index: 0; opacity: 0.14;
   background-image: linear-gradient(rgba(125,211,252,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(125,211,252,0.7) 1px, transparent 1px);
   background-size: 64px 64px;
@@ -169,7 +169,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   transform-origin: 50% 0%;
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%);
   mask-image: linear-gradient(180deg, transparent 0%, #000 26%, #000 100%); }
-/* Content well — lifts the slide off the terrain so type stays legible */
+/* Content well - lifts the slide off the terrain so type stays legible */
 .pres-stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: -1;
   background: radial-gradient(ellipse 62% 68% at 50% 46%, rgba(2,4,8,0.92) 0%, rgba(2,4,8,0.72) 45%, transparent 78%); }
 .pres-top, .pres-stage, .pres-bot, .pres-hairline { position: relative; z-index: 2; }
@@ -184,9 +184,13 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-horizon .hz-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
 @keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
 .pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
+/* Opening flight - wireframe Mobius approach, resolves into the method slide */
+#presintro { position: absolute; inset: 0; z-index: 6; width: 100%; height: 100%; opacity: 1; transition: opacity 0.7s var(--ease-luxury); cursor: pointer; }
+#presintro.done { opacity: 0; pointer-events: none; }
+.intro-skip { position: absolute; bottom: 22px; right: 26px; z-index: 7; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wider); color: var(--dimmed); opacity: 0.7; pointer-events: none; }
 .pres-slide { animation: slidein 0.45s var(--ease-luxury); }
 @keyframes slidein { from { opacity: 0; } to { opacity: 1; } }
-/* Interactive moiré topography — two contour-ring systems at different wavelengths.
+/* Interactive moiré topography - two contour-ring systems at different wavelengths.
    One drifts with the pointer (GPU transform, lerped), one is fixed; their
    interference is the terrain. Maya Lin wave-field register; MOIRE render state. */
 .pres-topo, .pres-topo2 { position: absolute; inset: -60%; pointer-events: none; z-index: 0; will-change: transform; }
@@ -195,7 +199,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-stat { background: var(--glass-surface), var(--surface2); box-shadow: var(--emboss); }
 @media (max-width: 900px) { .fathom { display: none; } }
 .pres-kicker { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
-/* Divider numeral — decorative display graphic, derived from the largest token (no raw px literal) */
+/* Divider numeral - decorative display graphic, derived from the largest token (no raw px literal) */
 .pres-num { font-family: var(--mono); font-size: calc(var(--text-3xl) * 2.4); font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--hl, var(--cyan)); opacity: 0.65; margin-bottom: 18px; }
 .pres-div-title { font-size: var(--text-2xl); font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 12px; }
 .pres-div-sub { font-size: var(--text-base); color: var(--muted); max-width: 520px; line-height: 1.6; }
@@ -208,7 +212,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-dots i.on { background: var(--hl, var(--cyan)); }
 @media (max-width: 640px) { .pres-h { font-size: var(--text-xl); } .pres-body { font-size: var(--text-md); } .pres-num { font-size: calc(var(--text-3xl) * 1.5); } .pres-div-title { font-size: var(--text-xl); } .pres-stats { grid-template-columns: 1fr; } }
 
-/* PROGRESSIVE DISCLOSURE — collapsible sections + FOCUS mode */
+/* PROGRESSIVE DISCLOSURE - collapsible sections + FOCUS mode */
 .section-head { cursor: pointer; user-select: none; }
 .sec-toggle { margin-left: auto; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--dimmed); transition: transform 0.25s var(--ease-luxury); flex-shrink: 0; }
 .section.collapsed .sec-toggle { transform: rotate(-90deg); }
@@ -232,10 +236,25 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 /* INSTRUMENT PANEL (gauge grid) */
 .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
 .gauge { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; position: relative; }
-.gauge::before { content: ""; position: absolute; top: 10px; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--green); opacity: 0.55; }
+.gauge::before { content: ""; position: absolute; top: 10px; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2.4s ease-in-out infinite; }
+.gauge:nth-child(2)::before { animation-delay: 0.3s; } .gauge:nth-child(3)::before { animation-delay: 0.6s; }
+.gauge:nth-child(4)::before { animation-delay: 0.9s; } .gauge:nth-child(5)::before { animation-delay: 1.2s; }
+.gauge:nth-child(6)::before { animation-delay: 1.5s; } .gauge:nth-child(7)::before { animation-delay: 1.8s; }
+.gauge:nth-child(8)::before { animation-delay: 2.1s; } .gauge:nth-child(9)::before { animation-delay: 0.45s; }
+.gauge:nth-child(10)::before { animation-delay: 0.75s; } .gauge:nth-child(11)::before { animation-delay: 1.05s; }
+.gauge:nth-child(12)::before { animation-delay: 1.35s; }
 .gauge-name { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; margin-bottom: 5px; }
 .gauge-def { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
 @media (max-width: 640px) { .gauge-grid { grid-template-columns: 1fr 1fr; } }
+
+/* CHART TOOLTIP - one floating readout for cadence bars + conductor segments */
+#charttip { position: fixed; z-index: 90; pointer-events: none; opacity: 0; transition: opacity 0.15s var(--ease-luxury);
+  background: #0b1420; border: 1px solid rgba(0,240,255,0.35); border-radius: var(--r-sm); box-shadow: var(--shadow-floating, 0 8px 24px rgba(0,0,0,0.3));
+  font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; color: var(--text);
+  padding: 6px 10px; white-space: nowrap; transform: translate(-50%, calc(-100% - 8px)); }
+#charttip.on { opacity: 1; }
+#charttip small { display: block; font-weight: 400; color: var(--dimmed); letter-spacing: 0.04em; margin-top: 2px; }
+.cad-bar, .cond-seg { cursor: crosshair; }
 
 /* TELEMETRY TABS + UNLOCKS */
 .tele-tabs { display: flex; gap: 6px; margin-top: 16px; }
@@ -381,11 +400,11 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   <div class="frame-row">
     <div class="frame-cell" style="border-top-color: var(--green);">
       <div class="frame-label" style="color: var(--green);">PLAYER</div>
-      <div class="frame-body">In the code every day. <strong>859 commits</strong> under my own name, and the dial below goes all the way down to the diffs. Nothing on this page is a slide about work — it links to the work.</div>
+      <div class="frame-body">In the code every day. <strong>859 commits</strong> under my own name, and the dial below goes all the way down to the diffs. Nothing on this page is a slide about work; it links to the work.</div>
     </div>
     <div class="frame-cell" style="border-top-color: var(--cyan);">
       <div class="frame-label" style="color: var(--cyan);">COACH</div>
-      <div class="frame-body"><strong>272 decision records</strong>, a full operating handbook, versioned handoffs. Written so the next person starts oriented, not initiated — the difference between multiplying a team and being its bottleneck.</div>
+      <div class="frame-body"><strong>272 decision records</strong>, a full operating handbook, versioned handoffs. Written so the next person starts oriented, not initiated: the difference between multiplying a team and being its bottleneck.</div>
     </div>
     <div class="frame-cell" style="border-top-color: var(--gold);">
       <div class="frame-label" style="color: var(--gold);">PACECAR</div>
@@ -404,8 +423,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 
   <div class="era-head" style="color:var(--steel);"><span class="era-tick" style="background:var(--steel);"></span>PRIOR TERRAIN · 2016–2025 · AS PRODUCT LEAD, BEFORE ARCS</div>
   <div class="terrain-row">
-    <div class="terrain-cell"><div class="terrain-val">$7B</div><div class="terrain-label">Digital assets launched across 10 regulated products at Grayscale — zero SEC/FINRA violations, immutable audit trails</div></div>
-    <div class="terrain-cell"><div class="terrain-val">525%</div><div class="terrain-label">Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</div></div>
+    <div class="terrain-cell"><div class="terrain-val">$7B</div><div class="terrain-label">Digital assets launched across 10 regulated products at Grayscale, with zero SEC/FINRA violations and immutable audit trails</div></div>
+    <div class="terrain-cell"><div class="terrain-val">525%</div><div class="terrain-label">Qualified-lead lift for a $350M-revenue, 64-country healthcare client, as sole embedded technical partner</div></div>
     <div class="terrain-cell"><div class="terrain-val">&lt;120ms</div><div class="terrain-label">Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</div></div>
     <div class="terrain-cell"><div class="terrain-val">20%</div><div class="terrain-label">Net-new revenue for a national nonprofit via enterprise data-platform rebuild, scoping through rollout</div></div>
   </div>
@@ -429,7 +448,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     <div class="section-body">
       The best moments in my conversation with Mike were not me pitching. They were Mike describing where
       MAIA is going, and landing on the same core ideas ARCS is built on. The rows below draw on that
-      conversation, MAIA's public launch materials, and the role description — each labeled with its source.
+      conversation, MAIA's public launch materials, and the role description, each labeled with its source.
       When two systems arrive at the same answers independently, that is stronger evidence than any pitch.
       And it is the motion Mike described Prophet selling: not a wish-strategy deck, but things actually
       learned by rewiring your own business. This page is that artifact, receipts attached.
@@ -460,7 +479,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
         <div class="echo-why"><strong>Why it matters</strong>Client trust is Prophet's actual product. An AI screen that visibly refuses to oversell itself is something a consultancy can demo, and something engineers can build against.</div>
       </div>
       <div class="echo-row">
-        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PM PROBLEM</div><div class="echo-text">A <strong>firehose of requests and ideas</strong> against a resource picture that keeps shifting — a distributed mix of partners and builders across time zones.</div></div>
+        <div class="echo-cell"><div class="echo-side-label" style="color:var(--steel);">MAIA, THE PM PROBLEM</div><div class="echo-text">A <strong>firehose of requests and ideas</strong> against a resource picture that keeps shifting: a distributed mix of partners and builders across time zones.</div></div>
         <div class="echo-mid">↔</div>
         <div class="echo-cell"><div class="echo-side-label" style="color:var(--cyan);">ARCS, THE LEDGER</div><div class="echo-text"><strong>272 <span class="term" data-def="One-page notes on each build choice: what was picked, what was rejected, and what would reopen the question. The industry name for these is ADRs, architecture decision records.">written decision records</span>.</strong> Every meaningful yes, no, and not-yet has a short document saying what was chosen, what was rejected, and what would reopen it.</div></div>
         <div class="echo-why"><strong>Why it matters</strong>Decision volume will outgrow anyone's memory. Written receipts are how prioritization survives turnover, leadership review, and the question "why did we choose this?" six months later.</div>
@@ -477,25 +496,25 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     <div class="section-title">Twelve design principles, set before the first feature. Each one enforced, not aspirational.</div>
     <div class="section-body">
       An instrument you would trust in fog has to be calibrated before the flight, not during it. These are the
-      principles the system was built on — and for each, the concrete place it is enforced.
+      principles the system was built on, and for each, the concrete place it is enforced.
     </div>
     <div class="gauge-grid">
       <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRACEABILITY</div><div class="gauge-def">Every answer links back to its receipt. Every claim on this page links to a commit.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRANSPARENCY</div><div class="gauge-def">Reasoning shown, not just conclusions. The build record itself is public.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">EXPLAINABILITY</div><div class="gauge-def">Plain-language readouts at every altitude — the legend at the bottom of this page is the rule, not a courtesy.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">EXPLAINABILITY</div><div class="gauge-def">Plain-language readouts at every altitude. The legend at the bottom of this page is the rule, not a courtesy.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">EVIDENCE GATING</div><div class="gauge-def">Features switch on at data thresholds, never on enthusiasm. The roadmap below runs on this.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--green);">SOURCE QUALITY GRADING</div><div class="gauge-def">Every input is rated before it is allowed to move a conclusion.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--green);">PROVENANCE</div><div class="gauge-def">Where each fact came from travels with the fact — the source labels on this page are the same machinery.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--green);">PROVENANCE</div><div class="gauge-def">Where each fact came from travels with the fact. The source labels on this page are the same machinery.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-HALLUCINATION</div><div class="gauge-def">The screen cannot show more certainty than the data earned. Shaky answers render blurry.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-SYCOPHANCY</div><div class="gauge-def">Built to disagree with its operator. Challenge reviews killed four overclaims before one merge.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">INTEROPERABILITY</div><div class="gauge-def">Local-first, lowest lock-in: one tenant that works across AI runtimes, vendor swap behind one seam.</div></div>
       <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 34-operator library and one engine behind every surface.</div></div>
-      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt — expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt: expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
     </div>
 
     <div class="flow-title">How those principles run as one loop</div>
-    <div class="flow-sub">A question enters in fog. The pipeline grades it, writes a receipt, and — once the outcome is known — scores what happened against what was expected. That score sharpens the next decision. This is the compounding engine; everything else is a surface on top of it.</div>
+    <div class="flow-sub">A question enters in fog. The pipeline grades it, writes a receipt, and, once the outcome is known, scores what happened against what was expected. That score sharpens the next decision. This is the compounding engine; everything else is a surface on top of it.</div>
     <div class="flow-wrap">
       <svg class="flow-svg" viewBox="0 0 940 300" role="img" aria-label="ARCS architecture: question to compass pipeline to receipt to outcome to calibration, looping back sharper">
         <defs>
@@ -514,7 +533,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
         <g class="fl-node"><rect x="742" y="96" width="150" height="108" rx="10" fill="#0d1117" stroke="rgba(0,255,157,0.35)"/><text x="817" y="126" class="fl-t" fill="#00FF9D">CALIBRATION</text><text x="817" y="150" class="fl-s">scored automatically,</text><text x="817" y="164" class="fl-s">no human in the loop.</text><text x="817" y="184" class="fl-s">shipped day 98.</text></g>
         <!-- feedback arc: calibration sharpens the next question -->
         <path d="M817 204 V250 H78 V188" fill="none" stroke="#00FF9D" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#fg)" opacity="0.8"/>
-        <text x="447" y="242" class="fl-loop" fill="#00FF9D">EACH SCORED OUTCOME SHARPENS THE NEXT DECISION — THE COMPOUNDING LOOP</text>
+        <text x="447" y="242" class="fl-loop" fill="#00FF9D">EACH SCORED OUTCOME SHARPENS THE NEXT DECISION · THE COMPOUNDING LOOP</text>
       </svg>
     </div>
   </div>
@@ -540,10 +559,10 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     <div id="tab-tempo">
       <div class="cadence" id="cadence"></div>
       <div style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.08em;text-align:center;margin-top:6px;">COMMITS PER WEEK, APRIL TO JULY · GOLD = THE QUIET STRETCH · GREEN = PEAK</div>
-      <div class="unlock-chip" id="chip-design">⊙ APR–MAY: FIVE QUIET WEEKS · WHAT THE SILENCE WAS — TAP</div>
+      <div class="unlock-chip" id="chip-design">⊙ APR–MAY: FIVE QUIET WEEKS · WHAT THE SILENCE WAS · TAP</div>
       <div class="unlock-card" id="unlock-design">
         <div class="unlock-title">THE GAP IS NOT A GAP. IT IS THE DESIGN BUILD.</div>
-        <div class="unlock-body">One commit on Day 0, then the repository went quiet for five weeks — because the work moved to the drawing board. In that window I designed the <strong>brand system</strong>, the <strong>full design system</strong>, and the <strong>front-end component library</strong> — TypeScript components with Jest tests and linting wired for CI/CD, with Playwright end-to-end coverage next on the list. The decision-receipt concept and the product's written constitution were drafted in the same stretch. <strong>Code came second on purpose:</strong> when the repo woke up on Day 39, the entire working core landed in one push, because every piece already knew its place.</div>
+        <div class="unlock-body">One commit on Day 0, then the repository went quiet for five weeks, because the work moved to the drawing board. In that window I designed the <strong>brand system</strong>, the <strong>full design system</strong>, and the <strong>front-end component library</strong>: TypeScript components with Jest tests and linting wired for CI/CD, with Playwright end-to-end coverage next on the list. The decision-receipt concept and the product's written constitution were drafted in the same stretch. <strong>Code came second on purpose:</strong> when the repo woke up on Day 39, the entire working core landed in one push, because every piece already knew its place.</div>
       </div>
     </div>
 
@@ -551,10 +570,10 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <div class="cond" id="cond"></div>
       <div class="cond-legend" id="condlegend"></div>
       <div class="cond-caption">THE SAME WEEKS, BY WHO HELD THE PEN · ONE HUMAN CONDUCTING FIVE GENERATIONS OF AI · 128 COMMITS FULLY BY HAND</div>
-      <div class="unlock-chip" id="chip-frontier">⊙ JUL: THE ENSEMBLE ROTATES — TAP</div>
+      <div class="unlock-chip" id="chip-frontier">⊙ JUL: THE ENSEMBLE ROTATES · TAP</div>
       <div class="unlock-card" id="unlock-frontier">
-        <div class="unlock-title">BUILDING AT THE EDGE — WITH THE FRONTIER AS IT MOVES.</div>
-        <div class="unlock-body">In the final two weeks the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline — the seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
+        <div class="unlock-title">BUILDING AT THE EDGE: WITH THE FRONTIER AS IT MOVES.</div>
+        <div class="unlock-body">In the final two weeks the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline. The seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
       </div>
     </div>
 
@@ -767,6 +786,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 </div>
 
 <div class="pres" id="pres">
+  <canvas id="presintro" style="display:none;"></canvas>
+  <div class="intro-skip" id="introskip" style="display:none;">TAP OR ANY KEY · SKIP APPROACH</div>
   <div class="pres-floor"></div>
   <div class="pres-topo2"></div>
   <div class="pres-topo" id="prestopo"></div>
@@ -899,7 +920,7 @@ var MILESTONES = [
   {
     date: "DAY 84-90 · JUL 2-8", title: "Client pages become a production line.", rank: 1,
     alt: [
-      "The commercial motion, proven live: 14+ branded client-facing pages (briefs, proposals, analyses), each stood up in hours on the same engine — demand tested with real clients, not a deck.",
+      "The commercial motion, proven live: 14+ branded client-facing pages (briefs, proposals, analyses), each stood up in hours on the same engine, demand tested with real clients, not a deck.",
       "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in this window, all riding the same engine and design system.",
       "A single reusable template with fill-in slots plus a documented publishing routine turned each new client page into a two-hour exercise instead of a project. A consolidation pass then pulled scattered assets from a sibling repository into the main one, with review.",
       "The routine encodes its own past mistakes: which config file actually controls routing, why deploys must run from the main working copy (a wrong-copy deploy once silently dropped every other client page), and how new addresses get attached to the project."
@@ -938,6 +959,24 @@ var MILESTONES = [
   }
 ];
 
+// Chart tooltip - shared floating readout
+var chartTip = document.createElement("div"); chartTip.id = "charttip"; document.body.appendChild(chartTip);
+function tipWire(el, html) {
+  el.addEventListener("mouseenter", function () {
+    var r = el.getBoundingClientRect();
+    chartTip.innerHTML = html;
+    chartTip.style.left = (r.left + r.width / 2) + "px";
+    chartTip.style.top = r.top + "px";
+    chartTip.classList.add("on");
+  });
+  el.addEventListener("mouseleave", function () { chartTip.classList.remove("on"); });
+}
+// Week label helper - nearest month marker walking backward
+function weekName(i) {
+  for (var j = i; j >= 0; j--) { if (CADENCE[j].w) return CADENCE[j].w + (i - j > 0 ? " +" + (i - j) + "WK" : ""); }
+  return "WK " + (i + 1);
+}
+
 // Cadence chart
 (function () {
   var max = Math.max.apply(null, CADENCE.map(function (c) { return c.n; }));
@@ -948,11 +987,14 @@ var MILESTONES = [
     var bar = document.createElement("div");
     bar.className = "cad-bar" + (c.n === max ? " peak" : c.n === 0 ? " zero" : "");
     bar.style.height = c.n === 0 ? "2px" : Math.max(4, Math.round((c.n / max) * 58)) + "px";
+    tipWire(bar, (i >= 1 && i <= 5)
+      ? "DESIGN PERIOD<small>" + weekName(i) + " · 0 commits · the work was on the drawing board</small>"
+      : c.n + " COMMIT" + (c.n === 1 ? "" : "S") + "<small>" + weekName(i) + (c.n === max ? " · peak week" : "") + "</small>");
     var w = document.createElement("div"); w.className = "cad-w"; w.textContent = c.w;
     col.appendChild(n); col.appendChild(bar); col.appendChild(w);
     if (i >= 1 && i <= 5) {
       col.classList.add("design-win");
-      col.title = "The quiet stretch — tap to see what the silence was";
+      col.title = "The quiet stretch · tap to see what the silence was";
       col.addEventListener("click", function () { toggleUnlock("unlock-design"); });
     }
     el.appendChild(col);
@@ -1004,7 +1046,7 @@ var COND_WEEKS = [
       seg.style.background = m.color;
       seg.style.opacity = m.key === "solo" ? "0.55" : "0.85";
       seg.style.height = Math.max(2, Math.round((w[m.key] / totals[i]) * h)) + "px";
-      seg.title = (m.label || "Claude " + m.key) + ": " + w[m.key] + " commits";
+      tipWire(seg, (m.label || "CLAUDE " + m.key.toUpperCase()) + " · " + w[m.key] + " COMMITS<small>" + weekName(i) + " · " + Math.round((w[m.key] / totals[i]) * 100) + "% of the week's pen time</small>");
       col.appendChild(seg);
     });
     el.appendChild(col);
@@ -1055,7 +1097,7 @@ function render() {
     var text = "";
     for (var i = cfg.text; i >= 0; i--) { if (m.alt[i]) { text = m.alt[i]; break; } }
     if (!text) { for (var j = cfg.text + 1; j < m.alt.length; j++) { if (m.alt[j]) { text = m.alt[j]; break; } } }
-    // Deepest narrative this milestone has — used by the per-card expand.
+    // Deepest narrative this milestone has - used by the per-card expand.
     var deepIdx = -1;
     for (var d = m.alt.length - 1; d >= 0; d--) { if (m.alt[d]) { deepIdx = d; break; } }
     var hasDeeper = (deepIdx >= 0 && m.alt[deepIdx] !== text) || (!cfg.commits && m.commits && m.commits.length);
@@ -1103,7 +1145,7 @@ document.addEventListener("keydown", function (e) {
 });
 render();
 
-// Progressive disclosure — collapsible sections + FOCUS mode
+// Progressive disclosure - collapsible sections + FOCUS mode
 (function () {
   var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
   var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
@@ -1141,36 +1183,36 @@ render();
   });
 })();
 
-// Presentation mode — SEEN / HEARD / VIBE CHECK
+// Presentation mode - SEEN / HEARD / VIBE CHECK
 var CH = { seen: "#7dd3fc", heard: "#00F0FF", hyp: "#FFD700", close: "#00FF9D" };
 var SLIDES = [
   { act: "OPENING", ac: CH.close, chip: "METHOD", cc: CH.close,
     h: "My read of the Foundry, in three passes.",
-    b: "<strong>What I've seen. What I've heard. Then a vibe check — is this right?</strong><br><br>It is the same discovery loop I run with clients: observe, reflect it back, and calibrate before acting. Every slide is labeled with where it comes from — public record, our conversation, or my own hypothesis." },
+    b: "<strong>What I've seen. What I've heard. Then a vibe check: is this right?</strong><br><br>It is the same discovery loop I run with clients: observe, reflect it back, and calibrate before acting. Every slide is labeled with where it comes from: public record, our conversation, or my own hypothesis." },
   { div: true, num: "01", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen, act: "ACT I",
     h: "What I've seen.",
-    b: "The public record — MAIA's launch materials, Prophet's positioning, and the role itself. No interpretation yet, just the terrain as published." },
+    b: "The public record: MAIA's launch materials, Prophet's positioning, and the role itself. No interpretation yet, just the terrain as published." },
   { act: "ACT I · WHAT I'VE SEEN", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen,
     h: "MAIA's founding stance is Augmented Intelligence.",
-    b: "It amplifies human insight — extends judgment instead of replacing it.<br><br>ARCS was built on the same rule #1: <strong>the system never decides for you.</strong> In both cases the stance is enforced in the code, not written in a policy. Most companies adopt it after an incident forces them to. We each made it the founding rule." },
+    b: "It amplifies human insight and extends judgment instead of replacing it.<br><br>ARCS was built on the same rule #1: <strong>the system never decides for you.</strong> In both cases the stance is enforced in the code, not written in a policy. Most companies adopt it after an incident forces them to. We each made it the founding rule." },
   { act: "ACT I · WHAT I'VE SEEN", ac: CH.seen, chip: "SEEN · PUBLIC RECORD", cc: CH.seen,
     h: "The Foundry's year: productize, commercialize, prove demand.",
     b: "The public materials and the role description converge on one motion: move beyond chat to <strong>agent-powered apps</strong>, pilot with clients fast, and make <strong>trustworthy AI the sellable thing</strong>.<br><br>The scoreboard is revenue." },
   { div: true, num: "02", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard, act: "ACT II",
     h: "What I've heard.",
-    b: "Four things Mike described that changed my read — reflected back the way I heard them, so you can tell me where the signal drifted." },
+    b: "Four things Mike described that changed my read, reflected back the way I heard them, so you can tell me where the signal drifted." },
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "Disparate offers share the same underlying patterns.",
-    b: "A campaign tool and a brand-strategy tool turn out to share core workflows — find the pattern once, reuse it across offers.<br><br><strong>ARCS hunts that isomorphism by design.</strong> We arrived at the same abstraction independently, from different directions. That is stronger evidence of fit than any pitch." },
+    b: "A campaign tool and a brand-strategy tool turn out to share core workflows: find the pattern once, reuse it across offers.<br><br><strong>ARCS hunts that isomorphism by design.</strong> We arrived at the same abstraction independently, from different directions. That is stronger evidence of fit than any pitch." },
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "From chat to apps with agents underneath.",
     b: "The pilot loop Mike described: market signal in, demo back in a week or two, customize on interest.<br><br>My last 98 days ran that exact motion: <strong>one engine, 14+ client surfaces, stood up in hours each.</strong> Demand tested live, not projected." },
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "The PM problem: a firehose against shifting resources.",
-    b: "Requests, ideas and backlog additions against a resource picture that keeps changing.<br><br>My answer is receipts: <strong>272 written decision records</strong> — every yes, no, and not-yet survives turnover, leadership review, and the question \"why did we choose this?\" six months later." },
+    b: "Requests, ideas and backlog additions against a resource picture that keeps changing.<br><br>My answer is receipts: <strong>272 written decision records</strong>: every yes, no, and not-yet survives turnover, leadership review, and the question \"why did we choose this?\" six months later." },
   { act: "ACT II · WHAT I'VE HEARD", ac: CH.heard, chip: "HEARD · OUR CONVERSATION", cc: CH.heard,
     h: "The big push is revenue.",
-    b: "Success in this role is commercialization: <strong>velocity of getting things into the market to test demand</strong> — many small bets, no polishing one basket.<br><br>The build record behind this deck is 98 days of exactly that discipline. July's ship tempo, from the log:" +
+    b: "Success in this role is commercialization: <strong>velocity of getting things into the market to test demand</strong>: many small bets, no polishing one basket.<br><br>The build record behind this deck is 98 days of exactly that discipline. July's ship tempo, from the log:" +
        "<div class='hdist'>" +
        "<div class='hdist-row'><span class='hdist-l'>JUL W1</span><div class='hdist-t'><div class='hdist-f' style='width:100%;background:var(--green);'></div></div><span class='hdist-v'>277</span></div>" +
        "<div class='hdist-row'><span class='hdist-l'>JUL W2</span><div class='hdist-t'><div class='hdist-f' style='width:44%;background:var(--cyan);'></div></div><span class='hdist-v'>123</span></div>" +
@@ -1178,29 +1220,29 @@ var SLIDES = [
        "<div class='hdist-row'><span class='hdist-l' style='color:var(--faint);'>COMMITS/WK</span><div style='flex:1;'></div></div></div>" },
   { div: true, num: "03", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp, act: "ACT III",
     h: "Vibe check.",
-    b: "Three hypotheses I hold at medium conviction. This is the part where you tell me what I got wrong — that correction is the most valuable thing I can leave with." },
+    b: "Three hypotheses I hold at medium conviction. This is the part where you tell me what I got wrong. That correction is the most valuable thing I can leave with." },
   { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
     h: "The Foundry is becoming a forward-deployed engineering arm.",
     b: "Pre-sales engineering is evolving into forward-deployed, applied-AI work: a quarterback who makes opportunities, stakeholders and systems land <strong>client-ready</strong>.<br><br>If that is where this is going, it is the role I have spent 98 days rehearsing in public." },
   { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
     h: "Trust is the actual product.",
-    b: "What clients will buy is \"we rewired ourselves and kept the receipts\" — not decks.<br><br>An AI surface that <strong>visibly refuses to oversell itself</strong> — confidence-gated, rendering only as sharply as the data earned — is trust a consultancy can demo. I would make MAIA's honesty a feature clients can see." },
+    b: "What clients will buy is \"we rewired ourselves and kept the receipts,\" not decks.<br><br>An AI surface that <strong>visibly refuses to oversell itself</strong> (confidence-gated, rendering only as sharply as the data earned) is trust a consultancy can demo. I would make MAIA's honesty a feature clients can see." },
   { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
     h: "What MAIA needs next is calibration data.",
-    b: "Predictions scored against outcomes, automatically — that is what turns AI output into <strong>defensible judgment</strong>, and it only scales if it depends on no one's discipline.<br><br>ARCS closed that loop on Day 98. The same loop is buildable for the Foundry's pilots: every client demo becomes evidence." },
+    b: "Predictions scored against outcomes, automatically. That is what turns AI output into <strong>defensible judgment</strong>, and it only scales if it depends on no one's discipline.<br><br>ARCS closed that loop on Day 98. The same loop is buildable for the Foundry's pilots: every client demo becomes evidence." },
   { act: "CALIBRATION", ac: CH.close, chip: "SEEN · IN THE CODE", cc: CH.close,
     h: "The instruments this read was made with.",
-    b: "Every claim in this deck went through the same panel ARCS runs on: <strong>provenance</strong> (the source chip on every slide), <strong>source-quality grading</strong>, <strong>anti-hallucination</strong> (nothing rendered sharper than the evidence), <strong>anti-sycophancy</strong> (the vibe check exists so you can refute me), and <strong>traceability</strong> — the full build record behind this deck links every claim to a commit.<br><br>The instrument panel is section 02 of the page underneath this presentation." },
+    b: "Every claim in this deck went through the same panel ARCS runs on: <strong>provenance</strong> (the source chip on every slide), <strong>source-quality grading</strong>, <strong>anti-hallucination</strong> (nothing rendered sharper than the evidence), <strong>anti-sycophancy</strong> (the vibe check exists so you can refute me), and <strong>traceability</strong>: the full build record behind this deck links every claim to a commit.<br><br>The instrument panel is section 02 of the page underneath this presentation." },
   { act: "PRIOR TERRAIN", ac: CH.seen, chip: "SEEN · TRACK RECORD", cc: CH.seen,
     h: "Not my first regulated, high-stakes build.",
     b: "<div class='pres-stats' style='--hl:#7dd3fc;'>" +
-       "<div class='pres-stat'><b>$7B</b><span>Digital assets launched across 10 regulated products at Grayscale — zero SEC/FINRA violations, immutable audit trails</span></div>" +
-       "<div class='pres-stat'><b>525%</b><span>Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</span></div>" +
+       "<div class='pres-stat'><b>$7B</b><span>Digital assets launched across 10 regulated products at Grayscale, with zero SEC/FINRA violations and immutable audit trails</span></div>" +
+       "<div class='pres-stat'><b>525%</b><span>Qualified-lead lift for a $350M-revenue, 64-country healthcare client, as sole embedded technical partner</span></div>" +
        "<div class='pres-stat'><b>&lt;120ms</b><span>Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</span></div>" +
        "<div class='pres-stat'><b>20%</b><span>Net-new revenue for a national nonprofit via an enterprise data-platform rebuild</span></div></div>" },
   { act: "VIBE CHECK", ac: CH.close, chip: "YOUR MOVE", cc: CH.close, horizon: true,
     h: "That's my read. What did I get wrong?",
-    b: "Player, coach, pacecar — as comfortable presenting the 24-month roadmap in a board meeting as in the trenches of a code review.<br><br>The full build record sits behind this deck, every milestone linked to real code: <strong>chan.arcs.care</strong>" }
+    b: "Player, coach, pacecar: as comfortable presenting the 24-month roadmap in a board meeting as in the trenches of a code review.<br><br>The full build record sits behind this deck, every milestone linked to real code: <strong>chan.arcs.care</strong>" }
 ];
 var presIdx = 0, presEl = document.getElementById("pres");
 (function () {
@@ -1252,7 +1294,7 @@ function presRender() {
   chip.textContent = s.chip; chip.style.color = s.cc; chip.style.borderColor = s.cc;
   var grade = s.chip.indexOf("HYPOTHESIS") === 0 ? "hyp" : s.chip.indexOf("HEARD") === 0 ? "heard" : s.chip.indexOf("SEEN") === 0 ? "seen" : "close";
   chip.className = "pres-chip grade-" + grade;
-  // Fog thins one fathom per slide — earned clarity; horizon slide is clearest
+  // Fog thins one fathom per slide - earned clarity; horizon slide is clearest
   presEl.style.setProperty("--fogop", (0.85 - 0.75 * (presIdx / (SLIDES.length - 1))).toFixed(2));
   // Fathom rail
   document.querySelectorAll("#fathom i").forEach(function (t, i) {
@@ -1286,7 +1328,112 @@ function presRender() {
   var slide = document.getElementById("presslide");
   slide.style.animation = "none"; void slide.offsetWidth; slide.style.animation = "";
 }
-function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); }
+// Opening flight: wireframe Mobius, drone camera, smoke wisps. Resolves into slide 1.
+var introRunning = false;
+function startIntro() {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var cv = document.getElementById("presintro"), skipEl = document.getElementById("introskip");
+  var ctx = cv.getContext("2d");
+  var W = cv.width = presEl.clientWidth * (window.devicePixelRatio || 1);
+  var H = cv.height = presEl.clientHeight * (window.devicePixelRatio || 1);
+  cv.style.display = "block"; skipEl.style.display = "block";
+  cv.classList.remove("done");
+  introRunning = true;
+  var t0 = performance.now(), DUR = 3400;
+  var pmx = 0, pmy = 0, smx = 0, smy = 0;
+  function onMove(e) {
+    var x = (e.touches ? e.touches[0].clientX : e.clientX) / presEl.clientWidth - 0.5;
+    var y = (e.touches ? e.touches[0].clientY : e.clientY) / presEl.clientHeight - 0.5;
+    pmx = x * 0.35; pmy = y * 0.25;
+  }
+  presEl.addEventListener("mousemove", onMove, { passive: true });
+  presEl.addEventListener("touchmove", onMove, { passive: true });
+  // Smoke wisps: slow-drifting radial blobs
+  var wisps = [];
+  for (var i = 0; i < 7; i++) wisps.push({ x: Math.random(), y: 0.3 + Math.random() * 0.5, r: 0.10 + Math.random() * 0.16, vx: (Math.random() - 0.5) * 0.014, vy: -0.004 - Math.random() * 0.008, a: 0.05 + Math.random() * 0.05 });
+  function mob(u, v) { // parametric Mobius strip
+    var c = 1 + (v / 2) * Math.cos(u / 2);
+    return [c * Math.cos(u), c * Math.sin(u), (v / 2) * Math.sin(u / 2)];
+  }
+  function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function frame(now) {
+    if (!introRunning) return;
+    var raw = Math.min(1, (now - t0) / DUR), t = ease(raw);
+    smx += (pmx - smx) * 0.05; smy += (pmy - smy) * 0.05;
+    // Drone path: orbit sweeps, tilts down, dollies in
+    var az = -1.1 + 1.7 * t + smx, el = 0.52 - 0.26 * t + smy;
+    var zoom = (0.24 + 0.34 * t) * Math.min(W, H);
+    var ca = Math.cos(az), sa = Math.sin(az), ce = Math.cos(el), se = Math.sin(el);
+    var f = 3.6 - 1.1 * t; // focal shortens as we close in
+    function proj(p) {
+      var x = p[0] * ca - p[1] * sa, y = p[0] * sa + p[1] * ca, z = p[2];
+      var y2 = y * ce - z * se, z2 = y * se + z * ce;
+      var s = f / (f + y2 + 2.6);
+      return [W / 2 + x * zoom * s, H / 2 - 10 - z2 * zoom * s, s];
+    }
+    ctx.clearRect(0, 0, W, H);
+    // wisps under the wireframe
+    wisps.forEach(function (w) {
+      w.x += w.vx * 0.016; w.y += w.vy;
+      var g = ctx.createRadialGradient(w.x * W, w.y * H, 0, w.x * W, w.y * H, w.r * W);
+      g.addColorStop(0, "rgba(148,163,184," + (w.a * (1 - raw * 0.5)) + ")");
+      g.addColorStop(1, "rgba(148,163,184,0)");
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    });
+    // Mobius rings (v-constant) + rungs
+    var alpha = raw < 0.12 ? raw / 0.12 : raw > 0.86 ? (1 - raw) / 0.14 : 1;
+    var RINGS = 11, SEG = 110;
+    for (var ri = 0; ri < RINGS; ri++) {
+      var v = -0.9 + (1.8 * ri) / (RINGS - 1);
+      var rim = (ri === 0 || ri === RINGS - 1);
+      ctx.beginPath();
+      for (var si = 0; si <= SEG; si++) {
+        var pt = proj(mob((si / SEG) * Math.PI * 2, v));
+        si === 0 ? ctx.moveTo(pt[0], pt[1]) : ctx.lineTo(pt[0], pt[1]);
+      }
+      ctx.strokeStyle = "rgba(216,228,239," + (alpha * (rim ? 0.85 : 0.32)) + ")";
+      ctx.lineWidth = (rim ? 2.2 : 1) * (window.devicePixelRatio || 1);
+      ctx.shadowColor = "rgba(216,228,239,0.6)"; ctx.shadowBlur = rim ? 14 : 0;
+      ctx.stroke();
+    }
+    ctx.shadowBlur = 0;
+    for (var ui = 0; ui < 28; ui++) {
+      ctx.beginPath();
+      for (var vi = 0; vi <= 6; vi++) {
+        var pt2 = proj(mob((ui / 28) * Math.PI * 2, -0.9 + 1.8 * (vi / 6)));
+        vi === 0 ? ctx.moveTo(pt2[0], pt2[1]) : ctx.lineTo(pt2[0], pt2[1]);
+      }
+      ctx.strokeStyle = "rgba(216,228,239," + alpha * 0.14 + ")";
+      ctx.lineWidth = 1 * (window.devicePixelRatio || 1);
+      ctx.stroke();
+    }
+    lastFrame = now;
+    if (raw >= 1) { endIntro(); return; }
+    requestAnimationFrame(frame);
+  }
+  var lastFrame = 0;
+  // Fallback driver: some environments throttle rAF; an interval keeps the flight moving,
+  // and a hard timeout guarantees the canvas never strands the viewer.
+  var fallback = setInterval(function () {
+    if (!introRunning) { clearInterval(fallback); return; }
+    var now = performance.now();
+    if (now - lastFrame > 90) frame(now);
+  }, 45);
+  var safety = setTimeout(function () { if (introRunning) endIntro(); }, DUR + 1200);
+  function endIntro() {
+    introRunning = false;
+    clearInterval(fallback); clearTimeout(safety);
+    cv.classList.add("done"); skipEl.style.display = "none";
+    presEl.removeEventListener("mousemove", onMove);
+    presEl.removeEventListener("touchmove", onMove);
+    setTimeout(function () { cv.style.display = "none"; }, 750);
+  }
+  cv.addEventListener("click", endIntro, { once: true });
+  var skipKey = function () { if (introRunning) endIntro(); document.removeEventListener("keydown", skipKey, true); };
+  document.addEventListener("keydown", skipKey, true);
+  requestAnimationFrame(frame);
+}
+function presOpen() { presIdx = 0; presEl.classList.add("on"); presRender(); presWake(); startIntro(); }
 function presExit() { presEl.classList.remove("on"); presEl.classList.remove("idle"); clearTimeout(idleTimer); }
 function presStep(d) { presIdx = Math.min(SLIDES.length - 1, Math.max(0, presIdx + d)); presRender(); }
 document.getElementById("presopen").addEventListener("click", presOpen);
