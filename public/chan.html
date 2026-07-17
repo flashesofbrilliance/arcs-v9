@@ -39,12 +39,13 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .frame-body strong { color: var(--text); font-weight: 600; }
 @media (max-width: 640px) { .frame-row { grid-template-columns: 1fr; } }
 
-/* PRIOR TERRAIN */
-.terrain-head { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-top: 2px; }
-.terrain-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.terrain-cell { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 11px 13px; }
-.terrain-val { font-family: var(--mono); font-size: 19px; font-weight: 800; color: var(--text); letter-spacing: -0.01em; }
-.terrain-label { font-size: 10.5px; color: var(--dimmed); line-height: 1.45; margin-top: 4px; }
+/* ERA SPLIT: ARCS BUILD vs PRIOR TERRAIN */
+.era-head { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; margin-top: 2px; }
+.era-tick { width: 14px; height: 2px; border-radius: 1px; display: inline-block; }
+.terrain-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; opacity: 0.82; }
+.terrain-cell { background: rgba(13,17,23,0.6); border: 1px solid rgba(30,41,59,0.7); border-left: 2px solid rgba(125,211,252,0.4); border-radius: var(--r-md); padding: 10px 13px; }
+.terrain-val { font-family: var(--mono); font-size: 16px; font-weight: 800; color: var(--steel); letter-spacing: -0.01em; }
+.terrain-label { font-size: 10px; color: var(--dimmed); line-height: 1.45; margin-top: 4px; }
 @media (max-width: 640px) { .terrain-row { grid-template-columns: repeat(2, 1fr); } }
 
 /* STAT STRIP */
@@ -112,6 +113,19 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   background: radial-gradient(ellipse 60% 45% at 22% 82%, rgba(0,240,255,0.05), transparent 60%),
               radial-gradient(ellipse 55% 40% at 82% 14%, rgba(0,255,157,0.04), transparent 60%);
   animation: fogdrift 14s ease-in-out infinite alternate; }
+.pres::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.045;
+  background-image: linear-gradient(#7dd3fc 1px, transparent 1px), linear-gradient(90deg, #7dd3fc 1px, transparent 1px);
+  background-size: 56px 56px; }
+.pres-top, .pres-stage, .pres-bot, .pres-hairline { position: relative; z-index: 2; }
+.pres-bezel { position: absolute; inset: 14px; border: 1px solid rgba(30,41,59,0.55); border-radius: 10px; pointer-events: none; z-index: 1; }
+.pres-bezel::before { content: ""; position: absolute; top: -1px; left: -1px; width: 20px; height: 20px; border-top: 2px solid var(--hl, var(--cyan)); border-left: 2px solid var(--hl, var(--cyan)); border-top-left-radius: 10px; }
+.pres-bezel::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 20px; height: 20px; border-bottom: 2px solid var(--hl, var(--cyan)); border-right: 2px solid var(--hl, var(--cyan)); border-bottom-right-radius: 10px; }
+.pres-status { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); text-align: center; flex: 1; }
+.pres-status b { color: var(--muted); font-weight: 700; }
+.pres-horizon { display: none; margin-top: 34px; }
+.pres-horizon.on { display: block; }
+.pres-horizon .hz-line { height: 2px; background: linear-gradient(90deg, transparent, var(--green) 30%, var(--cyan) 70%, transparent); }
+.pres-horizon .hz-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--dimmed); text-align: center; margin-top: 8px; }
 @keyframes fogdrift { 0% { transform: translate3d(-2%, 1%, 0) scale(1); } 100% { transform: translate3d(2%, -1%, 0) scale(1.06); } }
 .pres-hairline { height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--hl, var(--cyan)), transparent); opacity: 0.7; }
 .pres-slide { animation: slidein 0.35s ease-out; }
@@ -128,6 +142,14 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 .pres-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
 .pres-dots i.on { background: var(--hl, var(--cyan)); }
 @media (max-width: 640px) { .pres-h { font-size: 24px; } .pres-body { font-size: 14.5px; } .pres-num { font-size: 72px; } .pres-div-title { font-size: 27px; } .pres-stats { grid-template-columns: 1fr; } }
+
+/* INSTRUMENT PANEL (gauge grid) */
+.gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+.gauge { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px 14px; position: relative; }
+.gauge::before { content: ""; position: absolute; top: 10px; right: 12px; width: 6px; height: 6px; border-radius: 50%; background: var(--green); opacity: 0.55; }
+.gauge-name { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 5px; }
+.gauge-def { font-size: 11.5px; color: var(--muted); line-height: 1.55; }
+@media (max-width: 640px) { .gauge-grid { grid-template-columns: 1fr 1fr; } }
 
 /* TELEMETRY TABS + UNLOCKS */
 .tele-tabs { display: flex; gap: 6px; margin-top: 16px; }
@@ -285,19 +307,21 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
     </div>
   </div>
 
-  <div class="terrain-head">PRIOR TERRAIN · THE PATTERN PREDATES ARCS — REGULATED, HIGH-STAKES, IN PRODUCTION</div>
-  <div class="terrain-row">
-    <div class="terrain-cell"><div class="terrain-val" style="color:var(--cyan);">$7B</div><div class="terrain-label">Digital assets launched across 10 regulated products at Grayscale — zero SEC/FINRA violations, immutable audit trails</div></div>
-    <div class="terrain-cell"><div class="terrain-val" style="color:var(--green);">525%</div><div class="terrain-label">Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</div></div>
-    <div class="terrain-cell"><div class="terrain-val" style="color:var(--gold);">&lt;120ms</div><div class="terrain-label">Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</div></div>
-    <div class="terrain-cell"><div class="terrain-val" style="color:var(--steel);">20%</div><div class="terrain-label">Net-new revenue for a national nonprofit via enterprise data-platform rebuild, scoping through rollout</div></div>
-  </div>
+  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>THE ARCS BUILD · DAY 0 → DAY 98 · APR–JUL 2026 · AS FOUNDER</div>
 
   <div class="stats">
     <div class="stat"><div class="stat-val accent">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
     <div class="stat"><div class="stat-val">98</div><div class="stat-label">Days · first commit to now</div></div>
     <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
+  </div>
+
+  <div class="era-head" style="color:var(--steel);"><span class="era-tick" style="background:var(--steel);"></span>PRIOR TERRAIN · 2016–2025 · AS PRODUCT LEAD, BEFORE ARCS</div>
+  <div class="terrain-row">
+    <div class="terrain-cell"><div class="terrain-val">$7B</div><div class="terrain-label">Digital assets launched across 10 regulated products at Grayscale — zero SEC/FINRA violations, immutable audit trails</div></div>
+    <div class="terrain-cell"><div class="terrain-val">525%</div><div class="terrain-label">Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</div></div>
+    <div class="terrain-cell"><div class="terrain-val">&lt;120ms</div><div class="terrain-label">Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</div></div>
+    <div class="terrain-cell"><div class="terrain-val">20%</div><div class="terrain-label">Net-new revenue for a national nonprofit via enterprise data-platform rebuild, scoping through rollout</div></div>
   </div>
 
   <div class="legend-hint">Product terms look <b>like this</b>. Hover or tap for the plain meaning. Full legend at the bottom.</div>
@@ -351,10 +375,37 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
     </div>
   </div>
 
-  <!-- 02 BUILD EXPLORER -->
+  <!-- 02 INSTRUMENT PANEL -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">02</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">THE INSTRUMENT PANEL</div>
+    </div>
+    <div class="section-title">Twelve design principles, set before the first feature. Each one enforced, not aspirational.</div>
+    <div class="section-body">
+      An instrument you would trust in fog has to be calibrated before the flight, not during it. These are the
+      principles the system was built on — and for each, the concrete place it is enforced.
+    </div>
+    <div class="gauge-grid">
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRACEABILITY</div><div class="gauge-def">Every answer links back to its receipt. Every claim on this page links to a commit.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">TRANSPARENCY</div><div class="gauge-def">Reasoning shown, not just conclusions. The build record itself is public.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--cyan);">EXPLAINABILITY</div><div class="gauge-def">Plain-language readouts at every altitude — the legend at the bottom of this page is the rule, not a courtesy.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--green);">EVIDENCE GATING</div><div class="gauge-def">Features switch on at data thresholds, never on enthusiasm. The roadmap below runs on this.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--green);">SOURCE QUALITY GRADING</div><div class="gauge-def">Every input is rated before it is allowed to move a conclusion.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--green);">PROVENANCE</div><div class="gauge-def">Where each fact came from travels with the fact — the source labels on this page are the same machinery.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-HALLUCINATION</div><div class="gauge-def">The screen cannot show more certainty than the data earned. Shaky answers render blurry.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">ANTI-SYCOPHANCY</div><div class="gauge-def">Built to disagree with its operator. Challenge reviews killed four overclaims before one merge.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--gold);">BIAS DETECTION</div><div class="gauge-def">Red-team your own argument before committing. Drift gets flagged, then normalized against baseline.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">INTEROPERABILITY</div><div class="gauge-def">Local-first, lowest lock-in: one tenant that works across AI runtimes, vendor swap behind one seam.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">ATOMIC DESIGN</div><div class="gauge-def">Small components, composed: a 34-operator library and one engine behind every surface.</div></div>
+      <div class="gauge"><div class="gauge-name" style="color:var(--steel);">THE DATA MODEL</div><div class="gauge-def">The decision receipt — expected vs. actual, machine-readable. The atomic unit everything compounds on.</div></div>
+    </div>
+  </div>
+
+  <!-- 03 BUILD EXPLORER -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">03</div>
       <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">THE BUILD, DAY 0 TO TODAY</div>
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
@@ -385,7 +436,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
       <div class="cond-caption">THE SAME WEEKS, BY WHO HELD THE PEN · ONE HUMAN CONDUCTING FIVE GENERATIONS OF AI · 128 COMMITS FULLY BY HAND</div>
       <div class="unlock-chip" id="chip-frontier">⊙ JUL: THE ENSEMBLE ROTATES — TAP</div>
       <div class="unlock-card" id="unlock-frontier">
-        <div class="unlock-title">BUILDING WITH THE FRONTIER AS IT MOVES.</div>
+        <div class="unlock-title">BUILDING AT THE EDGE — WITH THE FRONTIER AS IT MOVES.</div>
         <div class="unlock-body">In the final two weeks the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline — the seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
       </div>
     </div>
@@ -405,7 +456,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <!-- 03 LESSONS -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">03</div>
+      <div class="section-n">04</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">SIX LESSONS THE BUILD PAID FOR</div>
     </div>
     <div class="section-title">Where I was wrong, and what changed because of it.</div>
@@ -440,7 +491,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <!-- 04 RISK REGISTER -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">04</div>
+      <div class="section-n">05</div>
       <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER, CURRENT AND HONEST</div>
     </div>
     <div class="section-title">What I would tell a board about this system today.</div>
@@ -490,7 +541,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <!-- 05 ROADMAP -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">05</div>
+      <div class="section-n">06</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP: NOW, NEXT, LATER</div>
     </div>
     <div class="section-title">One backlog, three horizons. Nothing moves up on enthusiasm alone.</div>
@@ -519,7 +570,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <!-- 06 DEPENDENCY MAP -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">06</div>
+      <div class="section-n">07</div>
       <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>
     </div>
     <div class="section-title">The whole roadmap hangs on one dependency. It shipped this week.</div>
@@ -570,7 +621,7 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
   <!-- 07 LEGEND -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">07</div>
+      <div class="section-n">08</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">LEGEND: THE TERMS, IN PLAIN WORDS</div>
     </div>
     <div class="section-title">Every piece of product vocabulary on this page, translated.</div>
@@ -599,9 +650,10 @@ h1 { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.
 </div>
 
 <div class="pres" id="pres">
+  <div class="pres-bezel" id="presbezel"></div>
   <div class="pres-hairline" id="preshair"></div>
-  <div class="pres-top"><div class="pres-act" id="presact"></div><div class="pres-chip" id="preschip"></div></div>
-  <div class="pres-stage"><div class="pres-slide" id="presslide"><div class="pres-kicker" id="preskick"></div><div class="pres-num" id="presnum"></div><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div></div></div>
+  <div class="pres-top"><div class="pres-act" id="presact"></div><div class="pres-status" id="presstatus"></div><div class="pres-chip" id="preschip"></div></div>
+  <div class="pres-stage"><div class="pres-slide" id="presslide"><div class="pres-kicker" id="preskick"></div><div class="pres-num" id="presnum"></div><div class="pres-h" id="presh"></div><div class="pres-body" id="presbody"></div><div class="pres-horizon" id="preshorizon"><div class="hz-line"></div><div class="hz-label">HORIZON · CLEAR</div></div></div></div>
   <div class="pres-bot">
     <button id="presprev">← BACK</button>
     <div style="display:flex;align-items:center;gap:14px;"><div class="pres-dots" id="presdots"></div><div id="prescount"></div></div>
@@ -972,6 +1024,9 @@ var SLIDES = [
   { act: "ACT III · VIBE CHECK", ac: CH.hyp, chip: "HYPOTHESIS · CHECK ME", cc: CH.hyp,
     h: "What MAIA needs next is calibration data.",
     b: "Predictions scored against outcomes, automatically — that is what turns AI output into <strong>defensible judgment</strong>, and it only scales if it depends on no one's discipline.<br><br>ARCS closed that loop on Day 98. The same loop is buildable for the Foundry's pilots: every client demo becomes evidence." },
+  { act: "CALIBRATION", ac: CH.close, chip: "SEEN · IN THE CODE", cc: CH.close,
+    h: "The instruments this read was made with.",
+    b: "Every claim in this deck went through the same panel ARCS runs on: <strong>provenance</strong> (the source chip on every slide), <strong>source-quality grading</strong>, <strong>anti-hallucination</strong> (nothing rendered sharper than the evidence), <strong>anti-sycophancy</strong> (the vibe check exists so you can refute me), and <strong>traceability</strong> — the full build record behind this deck links every claim to a commit.<br><br>The instrument panel is section 02 of the page underneath this presentation." },
   { act: "PRIOR TERRAIN", ac: CH.seen, chip: "SEEN · TRACK RECORD", cc: CH.seen,
     h: "Not my first regulated, high-stakes build.",
     b: "<div class='pres-stats' style='--hl:#7dd3fc;'>" +
@@ -979,7 +1034,7 @@ var SLIDES = [
        "<div class='pres-stat'><b>525%</b><span>Qualified-lead lift for a $350M-revenue, 64-country healthcare client — sole embedded technical partner</span></div>" +
        "<div class='pres-stat'><b>&lt;120ms</b><span>Real-time fan scoring for a global sports platform, load-tested ahead of its peak streaming event</span></div>" +
        "<div class='pres-stat'><b>20%</b><span>Net-new revenue for a national nonprofit via an enterprise data-platform rebuild</span></div></div>" },
-  { act: "VIBE CHECK", ac: CH.close, chip: "YOUR MOVE", cc: CH.close,
+  { act: "VIBE CHECK", ac: CH.close, chip: "YOUR MOVE", cc: CH.close, horizon: true,
     h: "That's my read. What did I get wrong?",
     b: "Player, coach, pacecar — as comfortable presenting the 24-month roadmap in a board meeting as in the trenches of a code review.<br><br>The full build record sits behind this deck, every milestone linked to real code: <strong>chan.arcs.care</strong>" }
 ];
@@ -1008,6 +1063,10 @@ function presRender() {
   body.innerHTML = s.b;
   body.className = s.div ? "pres-div-sub" : "pres-body";
   document.getElementById("prescount").textContent = (presIdx + 1) + " / " + SLIDES.length;
+  document.getElementById("presbezel").style.setProperty("--hl", s.ac);
+  document.getElementById("presstatus").innerHTML =
+    "MODE <b>DISCOVERY</b> · TIMEBASE <b>98D</b> · FIX <b>" + s.chip.split(" ·")[0] + "</b> · SWEEP <b>" + (presIdx + 1) + "/" + SLIDES.length + "</b>";
+  document.getElementById("preshorizon").classList.toggle("on", !!s.horizon);
   document.querySelectorAll("#presdots i").forEach(function (d, i) {
     d.classList.toggle("on", i === presIdx);
     d.style.setProperty("--hl", s.ac);
@@ -1028,6 +1087,21 @@ document.addEventListener("keydown", function (e) {
   else if (e.key === "ArrowLeft") { e.preventDefault(); presStep(-1); }
   else if (e.key === "Escape") presExit();
 });
+// Mobile: horizontal swipe on the milestone list steps the depth dial
+(function () {
+  var sx = null, sy = null, ml = document.getElementById("mslist");
+  ml.addEventListener("touchstart", function (e) { sx = e.changedTouches[0].clientX; sy = e.changedTouches[0].clientY; }, { passive: true });
+  ml.addEventListener("touchend", function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    sx = sy = null;
+    if (Math.abs(dx) > 64 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+      currentAlt = Math.min(4, Math.max(0, currentAlt + (dx < 0 ? 1 : -1)));
+      render();
+      document.getElementById("altbar").scrollIntoView({ block: "nearest" });
+    }
+  }, { passive: true });
+})();
 var swipeX = null;
 presEl.addEventListener("touchstart", function (e) { swipeX = e.changedTouches[0].clientX; }, { passive: true });
 presEl.addEventListener("touchend", function (e) {
