@@ -1,6 +1,11 @@
 {
   "reportId": "2026-07-17-chan-suh",
   "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Internal recoil ledger, not the chan.arcs.care leave-behind.",
+  "readOrder": {
+    "directive": "⚠ CHRONOS-SEQUENCER RISK — this is an append-don't-overwrite ledger: write order preserves superseded beliefs as live-looking text. DO NOT read chronologically and act on any stratum before checking whether a later stratum overturned it. AUTHORITY ORDER (anachronistic tread — top layer is truth, lower layers are provenance): 1) cover [maintained in-place, always current] → 2) recapitulation [consolidated final state: account, Chan model, evidence ranking, round-three brief, meta-audit, forward-sim] → 3) scenarios/riskFlags/protocol [revised in-place, REVISED/DONE markers inline] → 4) diamondCutPass → nonverbalOverlay → base pass (statedVsRevealed/callWalk/signalThreads) as HISTORICAL EVIDENCE ONLY.",
+    "knownSupersededStrata": "callWalk seg 7 'cooler than Mike' divergence (overturned by nonverbalOverlay 2nd pass — scheduling artifact, affect HIGH) · pass-1 register-deviation framing (reframed by modelConfirmed/altitudeSerialization — the register was the winning channel) · original scenario weights 45/40/15 (revised in-place to 55/35/10 post-send) · pre-call's avoid-analogy prescription (miscalibrated, see B4).",
+    "consumers": "Applies to: receipt_lookup.py (Detective), Task A pre-call generation, any future-session LLM read (token truncation reads the file PREFIX — the oldest strata), and human skims. Same pathogen previously bit this repo as the three-way handoff-tracker drift (CLAUDE.md v3.0.0) and stale snapshot.json open-items."
+  },
   "meta": {
     "callTitle": "Interview with Prophet — Chan Suh (CDO)",
     "counterpart": "Chan Suh — Senior Partner & Chief Digital Officer, Prophet. Co-founded Agency.com ($80 + 2 people → 1,800 employees / 14 offices, NASDAQ IPO), later ran a digital-commerce consultancy and headed Samsung's Digital Innovation Team. Oversees the AI Foundry program + AI CoE (MAIA/'Maya'). The 'Speaker' on this transcript throughout — the actual interviewer and evaluator.",
@@ -237,7 +242,7 @@
       "time": "40–45 min",
       "direction": "REVERSE",
       "summary": "Zach asks a sharp closing question (what success looks like at 6/12/24 months; how the Foundry/Maya evolves). Chan answers substantively: Foundry = internal platform + agents + workflows for own usage (take-up/usage rate = success); commercial = subscription agents/workflows for clients; the role is product-portfolio management as much as people/resource management; a SaaS tech partner (Lyzr-style) sits underneath Maya; 'triage fast, work well with me as program owner, keep everyone pointed the same way, ship apps, always make things better.' Zach offers more time; Chan declines — hard stop for a call he's hosting — and defers: 'we can pick it up again... let me go work with Cassandra, maybe we can create some more time.'",
-      "divergenceFlag": "MED — read backward, the trajectory was building toward mutual fit, but the landing was a measured, time-boxed deferral with no concrete next step locked. Warm and genuine, but distinctly cooler than the Mike round's interviewer-driven overrun and same-day fast-track."
+      "divergenceFlag": "MED — read backward, the trajectory was building toward mutual fit, but the landing was a measured, time-boxed deferral with no concrete next step locked. Warm and genuine, but distinctly cooler than the Mike round's interviewer-driven overrun and same-day fast-track. [⚠ SUPERSEDED — pass-1 reading preserved as history. The 2nd pass (nonverbalOverlay) overturned this: the cool-down was a scheduling artifact (hard stop for a call he was hosting), the deferral contained the second impulse-correction ('Oh yeah' → 'I actually don't'), and affect was revised to HIGH. See readOrder.]"
     }
   ],
   "signalThreads": [
