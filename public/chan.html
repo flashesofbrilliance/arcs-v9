@@ -261,6 +261,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .flow-wrap { position: relative; margin-top: 14px; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); background: rgba(2,4,8,0.4); box-shadow: var(--emboss); padding: 8px; -webkit-overflow-scrolling: touch; }
 .flow-svg { width: 100%; min-width: 720px; height: auto; display: block; }
 .flow-scrollhint { display: none; }
+.flow-footnote { font-family: var(--mono); font-size: var(--text-xs); color: var(--faint); letter-spacing: 0.02em; line-height: 1.5; margin-top: 8px; }
 /* The diagram is wider than a phone screen and scrolls horizontally, but mobile Safari
    hides scrollbars until an active drag, so without a cue the truncated right edge reads
    as broken content rather than "swipe for more". A right-edge fade + explicit hint fixes that. */
@@ -571,7 +572,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
         <!-- forward chain -->
         <g class="fl-node"><rect x="14" y="112" width="128" height="76" rx="10" fill="#0d1117" stroke="#1e293b"/><text x="78" y="140" class="fl-t">QUESTION</text><text x="78" y="162" class="fl-s">asked in fog,</text><text x="78" y="176" class="fl-s">under pressure</text></g>
         <path d="M146 150 H186" stroke="#475569" stroke-width="1.5" marker-end="url(#fa)"/>
-        <g class="fl-node"><rect x="190" y="96" width="150" height="108" rx="10" fill="#0d1117" stroke="rgba(0,240,255,0.35)"/><text x="265" y="122" class="fl-t" fill="#00F0FF">L0–L5 PIPELINE</text><text x="265" y="144" class="fl-s">source-graded ·</text><text x="265" y="158" class="fl-s">anti-hallucination ·</text><text x="265" y="172" class="fl-s">confidence-gated ·</text><text x="265" y="186" class="fl-s">red-teamed</text></g>
+        <g class="fl-node"><rect x="190" y="96" width="150" height="108" rx="10" fill="#0d1117" stroke="rgba(0,240,255,0.35)"/><text x="265" y="122" class="fl-t" fill="#00F0FF">L0–L5 PIPELINE*</text><text x="265" y="144" class="fl-s">source-graded ·</text><text x="265" y="158" class="fl-s">anti-hallucination ·</text><text x="265" y="172" class="fl-s">confidence-gated ·</text><text x="265" y="186" class="fl-s">red-teamed</text></g>
         <path d="M344 150 H384" stroke="#475569" stroke-width="1.5" marker-end="url(#fa)"/>
         <g class="fl-node"><rect x="388" y="112" width="132" height="76" rx="10" fill="#0d1117" stroke="rgba(255,215,0,0.35)"/><text x="454" y="140" class="fl-t" fill="#FFD700">RECEIPT</text><text x="454" y="162" class="fl-s">expected vs actual,</text><text x="454" y="176" class="fl-s">rendered at earned</text></g>
         <path d="M524 150 H564" stroke="#475569" stroke-width="1.5" marker-end="url(#fa)"/>
@@ -584,6 +585,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       </svg>
     </div>
     <div class="flow-scrollhint">← SWIPE FOR THE FULL LOOP →</div>
+    <div class="flow-footnote">*System in beta. Claims pending peer review and independent verification.</div>
   </div>
 
   <!-- 03 BUILD EXPLORER -->
