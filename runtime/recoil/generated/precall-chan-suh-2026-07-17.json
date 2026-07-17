@@ -1,0 +1,164 @@
+{
+  "reportId": "precall-chan-suh-2026-07-17",
+  "kind": "precall",
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · This is the internal pre-call briefing, NOT the chan.arcs.care leave-behind.",
+  "meta": {
+    "callTitle": "Pre-Call Briefing — Chan Suh (CDO, Prophet)",
+    "counterpart": "Chan Suh — Senior Partner & Chief Digital Officer, Prophet (NYC). Co-founded Agency.com (built from $80 and 2 people to 1,800 employees / 14 offices, led it through a NASDAQ IPO and back private). Later ran a digital-commerce consultancy and headed Samsung's Digital Innovation Team. 20+ years as a digital-strategy figure. He oversees the AI Foundry program + AI CoE — Mike Lemon's own escalation path.",
+    "counterpartRole": "Evaluator for the Senior Product Manager, AI Foundry Team role ($165k–$220k, NYC hybrid 3+ days/week). This is a fast-track conversation, not a re-screen — Mike already validated the build.",
+    "callDate": "2026-07-17",
+    "callTime": "5:00–5:45 PM EDT",
+    "channel": "Zoom (prophet.zoom.us) · organizer Cassandra Riley (criley@prophet.com), host Chan Suh",
+    "calendarEventId": "_60q30c1g60o30e1i60o4ac1g60rj8gpl88rj2c1h84s34h9g60s30c1g60o30c1g6osj4ci16p346da264qk8h1g64o30c1g60o30c1g60o30c1g60o32c1g60o30c1g611k6ea28d33adq364o3acpk8p146cq28h344chh651jah9o6gqg",
+    "sourceRecoil": "2026-07-16-criley.json (Mike Lemon round — this briefing is the forward-looking synthesis of that report + a live check on Chan's background + the current chan.arcs.care leave-behind).",
+    "leaveBehind": "public/chan.html → chan.arcs.care. Hand it off at the close; do NOT walk him through it live (that would repeat the Mike register at page scale)."
+  },
+  "cover": {
+    "badges": ["Pre-Call Briefing", "Chan Suh · CDO · Prophet"],
+    "title": "Pre-Call Briefing — Chan Suh, Chief Digital Officer, Prophet",
+    "subtitle": "Fast-track escalation after the Mike Lemon round (NCI 85, GREEN/HIGH/STABLE). Chan is a different evaluator than Mike — an Agency.com founder who scaled $80 into a 1,800-person IPO'd agency, a strategist and business-model thinker, not a hands-on engineer. Do NOT re-run the Mike playbook. Open in business-outcome register, let him pull on the tech, and hand him chan.arcs.care as the leave-behind rather than narrating it.",
+    "meta": "ARCS PRECALL · Jul 17, 2026 · 5:00–5:45 PM EDT · Prophet AI Foundry · Zoom",
+    "actions": ["Open Mike Recoil (criley)", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "It's fascinating to see what feel like very disparate parts of our business actually having, like, sharing commonalities in terms of the interaction... there's these patterns that we're starting to find, to where reuse is — like once you figure out the pattern and the interaction, it's like you can start to repurpose that for all these different offers.",
+    "attribution": "CARRY-FORWARD FROM THE MIKE ROUND · MIKE LEMON (PROPHET) · JUL 16, 2026",
+    "significance": "This is your strongest card tonight, and it's Chan's card, not yours. Mike independently described cross-offer pattern-reuse — the exact thesis ARCS is built on — in Prophet's own product language. For an Agency.com founder, 'reusable patterns turn bespoke consulting into product leverage' IS the margin story of his whole career. Lead the substance of the call there, in his language, not in the ARCS-framework recap you gave Mike."
+  },
+  "callWalk": [
+    {
+      "label": "0–4 MIN · OPEN",
+      "title": "Read him, don't pitch",
+      "body": "Warm open, then one question that surfaces his orientation: 'Mike gave me a real feel for the Foundry day-to-day — I'd love your read on where you're taking it at the program level.' His answer tells you strategy-mode vs. hands-on. Calibrate everything after this to that read. Say MAIA, not Maya."
+    },
+    {
+      "label": "~10 MIN · CONVERGENCE",
+      "title": "The pattern-reuse thesis, in his language (share live)",
+      "body": "Frame Mike's independent convergence as 'the thing that made me want this conversation.' Then land the productization point: reusable patterns turn bespoke consulting into product leverage — the margin story for a consultancy. That's the Agency.com founder's native worldview; it's already written into §01 of the leave-behind."
+    },
+    {
+      "label": "~10–15 MIN · PROOF OF MOTION",
+      "title": "Segment-6 register — situational, not the framework recap",
+      "body": "Pull from the concrete stretch that landed with Mike: the 1-month-right-vs-1-week-15%-wrong tradeoff (synthetic research, falsifiable pass/fail, senior partner as co-design partner); meeting users where they are (email vs voice, CFO↔PM translation); and the pace — live in production 10 days after ignition, 14+ client surfaces in hours each. Pace is the point for a Foundry that's commercializing fast."
+    },
+    {
+      "label": "GESTURE ONLY · HIGH-LEVEL",
+      "title": "Name the depth, don't dive",
+      "body": "The 12 instrument-panel principles, the L0–L5 pipeline internals, the 34-operator library: one sentence each, then 'it's all on a page I'll leave you.' Resist narrating — that pull is the Mike register and it does not transfer to a CDO."
+    },
+    {
+      "label": "LAST 8–10 MIN · HIS QUESTIONS",
+      "title": "Let him steer — have the four answers loaded",
+      "body": "He'll likely probe one of: NYC commute logistics, data/security/governance, team-leadership/delivery cadence, or named tool-stack. Scripts are in the Protocol section below. Don't volunteer the defensive versions; answer what he actually asks."
+    },
+    {
+      "label": "CLOSE · HANDOFF",
+      "title": "Hand off chan.arcs.care explicitly",
+      "body": "'I built a full build-record for the team — every number links to a real commit, and it has a depth dial so you can read it as the one-page version or all the way down to the code. I'd rather leave it with you than talk at you now.' Point him at §01 (convergence/margin), §04 lessons, §05 board-level risk register. That handoff also answers the #1 risk in the register: bus factor — it proves the 'written so a team can take over without me' claim."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "HARD YES",
+      "accent": "#00FF9D",
+      "title": "Founder-to-founder respect is already on your side",
+      "body": "Chan built $80 into an 1,800-person agency through a NASDAQ IPO. He lived the start-with-nothing, prove-it-works arc. The solo-build-in-production story doesn't need selling to him — it needs operating at his altitude. Don't over-explain that it's impressive; show you can think at the business-model level he defaults to.",
+      "note": "Respect the instinct, then meet it — don't lean on it."
+    },
+    {
+      "label": "HARD YES",
+      "accent": "#00FF9D",
+      "title": "Independent thesis convergence (Mike round)",
+      "body": "Mike arrived at ARCS's cross-domain pattern-reuse thesis from his own product experience, unprompted — a stronger structural-fit signal than any answer you gave. Carry it into tonight as the substantive spine, framed in Prophet/MAIA terms."
+    },
+    {
+      "label": "DIRECTIONAL — RECALIBRATE",
+      "accent": "#00F0FF",
+      "title": "The Mike depth-and-repeat move does NOT transfer",
+      "body": "With Mike you deepened the ARCS narrative twice on purpose — he'd flagged limited technical/product fluency. Chan is a strategist and business-model thinker; the safer default with an unknown senior evaluator is the segment-6 register (situational, Prophet/MAIA-specific, business-outcome-framed). Let him pull on the tech; hand him the page when he does.",
+      "note": "This is the single most important calibration for tonight."
+    },
+    {
+      "label": "HARD YES",
+      "accent": "#00FF9D",
+      "title": "Same-day fast-track = hot process",
+      "body": "A CDO wanting a conversation within hours of a first-round call is a strong signal on its own. This call is evaluating conviction and fit — is this someone he wants in the Foundry and in front of clients — not re-screening skills Mike already validated."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Chan personally sponsors the fit",
+      "body": "He reads you as a builder-founder who operates at business-model altitude, connects the pattern-reuse thesis to Prophet's productization economics, and treats the commute + governance answers as non-issues. Moves you toward an offer / next concrete step with his own weight behind it.",
+      "note": "Most likely if you open in his register and resist the framework recap."
+    },
+    "base": {
+      "title": "Strong strategic conversation, standard next step",
+      "body": "Genuine mutual engagement, he probes one or two of the four gap areas, you answer cleanly, and it advances on the normal track (team panel / logistics conversation). Solid, expected outcome for a fast-track second round."
+    },
+    "worst": {
+      "title": "Register mismatch or an unprepped surprise",
+      "body": "Re-running the Mike deep-ARCS recap reads as feature-fixated to a strategist; or the NYC 3-days commute surfaces cold and you improvise; or a direct governance / tool-stack probe catches you flat. All three are pre-empted below — none should happen if the four scripts are loaded.",
+      "note": "Every failure mode here is avoidable with 20 minutes of prep."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "NYC hybrid, 3+ days/week — most likely live surprise",
+      "body": "Never came up with Mike; you live in Fairfield County, CT. A NYC-based CDO is the person most likely to raise scope/logistics. Decide your real floor BEFORE the call — don't discover it live. Script in Protocol."
+    },
+    {
+      "variant": "caution",
+      "label": "Audience calibration — Chan is not Mike",
+      "body": "Different, likely more strategic/business-outcome orientation. The segment 3–4 depth-and-repeat approach was calibrated for Mike specifically and should not transfer unchanged. Default opening register: segment-6 (situational, Prophet/MAIA-specific)."
+    },
+    {
+      "variant": "caution",
+      "label": "Data / Security / Governance — the one thin JD bucket",
+      "body": "Permissions, access control, auditability, SSO/RBAC went uncovered with Mike. This is secretly your strongest real credential (Grayscale). Lead with Grayscale, then show ARCS carries the same discipline. Script in Protocol."
+    },
+    {
+      "variant": "info",
+      "label": "Named tool-stack + team-leadership — have answers ready",
+      "body": "JD lists LangChain/LangGraph/LlamaIndex/vector DBs (your stack is adjacent, not identical) and expects delivery-cadence/team-leadership examples (undemonstrated solo with Mike). A founder who ran 1,800 people will listen for the leadership one. Scripts in Protocol."
+    },
+    {
+      "variant": "success",
+      "label": "You are entering from strength",
+      "body": "NCI 85 GREEN/HIGH/STABLE from Mike, independent thesis convergence, a 13-min interviewer-driven overrun, a same-day CDO fast-track, and a purpose-built leave-behind. This is the hottest path in the whole pipeline. Prep the gaps; don't overthink the position."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "FIRST MOVE",
+      "title": "Read his orientation before choosing a register",
+      "body": "Open question: 'Mike gave me a real feel for the Foundry day-to-day — I'd love your read on where you're taking it at the program level.' Strategy-mode → stay business-outcome. Hands-on-curious → still don't recap the framework; hand him the page and let it go deep for you.",
+      "active": true
+    },
+    {
+      "label": "ANSWER · COMMUTE",
+      "title": "If he raises NYC hybrid / 3 days",
+      "body": "'I'm in Fairfield County — I made the Brooklyn-to-Connecticut move for family, same reason Mike went to Richmond. The 3-days-in-NYC piece is a feature for me, not a friction point: the whole reason I want to join a team is the in-person whiteboarding and serendipity you don't get solo. Metro-North is a known quantity. I'd rather over-index on presence early while I'm ramping.' — Decide your true floor first; if you'd want to negotiate to 2 days, don't discover that live."
+    },
+    {
+      "label": "ANSWER · GOVERNANCE",
+      "title": "If he probes data / security / governance",
+      "body": "Answer from Grayscale first, not ARCS: 'This is where I've spent the most consequential part of my career. At Grayscale I was product lead launching $7B across ten regulated products — zero SEC or FINRA violations, immutable audit trails on every one, with legal and compliance in the room. That's fundamentally a governance problem: permissions, access control, provable auditability. I carried that into ARCS deliberately — local-first so client data isn't in someone's cloud by default, database access deny-all with explicit grants, every decision writing an immutable receipt. So the JD's auditability/access-control requirements aren't a stretch — they're the through-line.'"
+    },
+    {
+      "label": "ANSWER · TEAM LEADERSHIP",
+      "title": "If he probes delivery cadence / leading through ambiguity",
+      "body": "'The clearest example is the Grayscale launches. Regulated crypto had no playbook — we defined the delivery path while the regulatory ground was still moving. My job wasn't to have every answer; it was to keep legal, compliance, and engineering pointed at the same outcome without me being the bottleneck. [INSERT one concrete moment: a launch where you set the frame, delegated a hard call, and it held.] The way I lead is why ARCS exists: write the decision down — chosen, rejected, what would reopen it — so the team moves without re-litigating and without me in the room. The opposite of micromanaging.' — Load ONE named-stakes example before the call (Grayscale $7B, or the 64-country healthcare embed / 525% lift). Have it ready; don't wing the bracket."
+    },
+    {
+      "label": "ANSWER · TOOL STACK",
+      "title": "If he asks about LangChain/LangGraph/LlamaIndex/vector DBs",
+      "body": "'My stack is adjacent, not identical — Claude Code, the Vercel AI gateway, Supabase with Prisma, MCP for tool integration. The concepts map one-to-one: MCP does what LangChain tool-calling does, my L0–L5 pipeline is graph-structured orchestration like LangGraph, my eval/confidence-gating is the same discipline as an eval harness. I chose lower lock-in deliberately, but picking up LangGraph or LlamaIndex on a team that standardizes on them is days, not months — the hard part is the systems thinking, and that transfers.' If pressed on vector DBs / RAG specifically: 'ARCS is local-first so I haven't needed heavy retrieval, but the pattern's straightforward and I'd reach for it where the data shape calls for it.' Don't bluff RAG depth."
+    },
+    {
+      "label": "CLOSE",
+      "title": "Hand off the leave-behind, don't narrate it",
+      "body": "'I built a full build-record for the team — every number links to a real commit, and it has a depth dial so you can read it at whatever altitude you want. I'd rather leave it with you than talk at you now.' That framing IS the artifact and proves the 'written so a team can take over without me' claim. Point him at §01 (convergence/margin), §04 (lessons), §05 (board-level risk register). Do NOT edit chan.arcs.care — it's the finished leave-behind."
+    }
+  ]
+}
