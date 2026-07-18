@@ -2,13 +2,10 @@
   "captured_at": "2026-07-17T20:20:03Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "c536792",
-    "head_message": "fix(chan): mobile echo-mid connector no longer overflows its row; scroll cue on the architecture diagram [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": [
-      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, pre-existing, not this session's work)",
-      "test_prisma_direct.js (untracked, pre-existing, not this session's work)"
-    ]
+    "head_sha": "4e106c3",
+    "head_message": "feat(surface): State of the Union roadmap infographic [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -136,12 +133,12 @@
       {
         "file": "public/chan.html",
         "subdomain": "chan.arcs.care",
-        "person": "Mike Lemon / Chan Suh (CDO) / Prophet — discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
+        "person": "Mike Lemon / Chan Suh (CDO) / Prophet \u2014 discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
       },
       {
         "file": "public/status.html",
         "subdomain": "status.arcs.care",
-        "person": "N/A — standalone build-status fork of chan.html with Prophet content and presentation mode removed"
+        "person": "N/A \u2014 standalone build-status fork of chan.html with Prophet content and presentation mode removed"
       }
     ],
     "ui_kit": {
@@ -158,5 +155,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-17T20:20:03Z"
+  "git_refreshed_at": "2026-07-18T23:51:11Z"
 }
