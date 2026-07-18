@@ -1,0 +1,320 @@
+<title>ARCS — State of the Union</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    /* Ground / structure */
+    --bg:        #020408;
+    --bg-2:      #05080e;
+    --surface:   #0d1117;
+    --surface-2: #10161f;
+    --border:    #1e293b;
+    --border-soft:#141c28;
+    /* Text */
+    --text:      #e2e8f0;
+    --muted:     #64748b;
+    --dimmed:    #475569;
+    --faint:     #334155;
+    /* Status = Y-gate zones */
+    --green: #00FF9D;  /* shipped / locked      */
+    --gold:  #FFD700;  /* in progress / building */
+    --red:   #FF4D6D;  /* blocked / contested    */
+    --cyan:  #00F0FF;  /* next / unmapped        */
+    --mono: ui-monospace, "JetBrains Mono", "SF Mono", "Menlo", "Consolas", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1200px 700px at 82% -8%, rgba(0,240,255,0.05), transparent 60%),
+      radial-gradient(900px 600px at 8% 108%, rgba(0,255,157,0.04), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: clamp(20px, 4vw, 56px) clamp(16px, 3vw, 40px) 72px; }
+
+  /* ---- Masthead ---- */
+  .mast { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--border); padding-bottom: 22px; }
+  .brand { display: flex; align-items: baseline; gap: 14px; }
+  .logo {
+    font-family: var(--mono); font-weight: 700; letter-spacing: 0.42em;
+    font-size: clamp(20px, 3vw, 30px); color: var(--text);
+    padding-left: 2px;
+  }
+  .logo b { color: var(--cyan); font-weight: 700; }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase;
+    color: var(--dimmed);
+  }
+  h1 {
+    font-size: clamp(30px, 5.4vw, 58px); line-height: 1.02; margin: 12px 0 10px;
+    font-weight: 650; letter-spacing: -0.02em; text-wrap: balance;
+    background: linear-gradient(180deg, #f3f7fb, #9fb2c6);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .thesis { color: var(--muted); max-width: 62ch; font-size: 15px; }
+  .thesis b { color: var(--text); font-weight: 600; }
+  .stamp { font-family: var(--mono); font-size: 11px; color: var(--dimmed); text-align: right; line-height: 1.9; letter-spacing: 0.04em; white-space: nowrap; }
+  .stamp .lit { color: var(--green); }
+
+  /* ---- Overall progress bar ---- */
+  .meter { margin: 30px 0 8px; }
+  .meter-head { display: flex; justify-content: space-between; align-items: baseline; font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 9px; }
+  .meter-head b { color: var(--text); font-size: 13px; letter-spacing: 0.04em; }
+  .bar { height: 12px; border-radius: 2px; overflow: hidden; display: flex; border: 1px solid var(--border); background: var(--bg-2); }
+  .bar span { display: block; height: 100%; }
+  .bar .s-green { background: linear-gradient(90deg, rgba(0,255,157,0.55), var(--green)); }
+  .bar .s-gold  { background: linear-gradient(90deg, rgba(255,215,0,0.4), var(--gold)); }
+  .bar .s-red   { background: linear-gradient(90deg, rgba(255,77,109,0.35), var(--red)); }
+  .bar .s-cyan  { background: repeating-linear-gradient(45deg, rgba(0,240,255,0.20) 0 6px, rgba(0,240,255,0.08) 6px 12px); }
+  .meter-legend { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.02em; }
+  .meter-legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .d-green { background: var(--green); box-shadow: 0 0 8px rgba(0,255,157,0.7); }
+  .d-gold  { background: var(--gold); box-shadow: 0 0 8px rgba(255,215,0,0.6); }
+  .d-red   { background: var(--red);  box-shadow: 0 0 8px rgba(255,77,109,0.6); }
+  .d-cyan  { background: var(--cyan); box-shadow: 0 0 8px rgba(0,240,255,0.6); }
+
+  /* ---- Zone horizon ---- */
+  .horizon-label { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--faint); margin: 46px 0 14px; }
+  .horizon-label b { color: var(--muted); font-weight: 500; }
+
+  .zones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
+
+  .zone { position: relative; border: 1px solid var(--border-soft); border-radius: 10px; background: var(--surface); overflow: hidden; }
+  .zone-head { padding: 15px 16px 13px; border-bottom: 1px solid var(--border-soft); }
+  .zone-kicker { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed); }
+  .zone-name { font-size: 15px; font-weight: 650; margin: 5px 0 2px; letter-spacing: -0.01em; }
+  .zone-count { font-family: var(--mono); font-size: 12px; font-weight: 600; }
+  .zone-sub { font-size: 11.5px; color: var(--dimmed); font-family: var(--mono); letter-spacing: 0.02em; }
+
+  .zone-list { list-style: none; margin: 0; padding: 12px; display: flex; flex-direction: column; gap: 9px; }
+  .item {
+    position: relative; padding: 10px 12px 10px 13px; border-radius: 7px;
+    background: var(--surface-2); border: 1px solid var(--border-soft);
+  }
+  .item::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; }
+  .item h4 { margin: 0; font-size: 13px; font-weight: 600; letter-spacing: -0.005em; line-height: 1.3; }
+  .item p { margin: 4px 0 0; font-size: 11.5px; color: var(--muted); line-height: 1.4; }
+  .item .tag { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; color: var(--dimmed); text-transform: uppercase; margin-top: 6px; display: block; }
+
+  /* Fidelity keyed to status (WORLD.md render scale) */
+  .z-done  { border-color: rgba(0,255,157,0.22); box-shadow: 0 0 40px rgba(0,255,157,0.05) inset, 0 0 0 1px rgba(0,255,157,0.05); }
+  .z-done .zone-count, .z-done .zone-name { color: var(--green); }
+  .z-done .item::before { background: var(--green); box-shadow: 0 0 8px rgba(0,255,157,0.5); }
+  .z-done .item h4 { color: #eafff6; }
+
+  .z-prog { border-color: rgba(255,215,0,0.18); }
+  .z-prog .zone-count { color: var(--gold); }
+  .z-prog .zone-name { color: #ffe873; }
+  .z-prog .item::before { background: var(--gold); box-shadow: 0 0 7px rgba(255,215,0,0.45); animation: pulse 2.4s ease-in-out infinite; }
+  .z-prog .item h4 { color: #fff4cc; }
+
+  .z-block { border-color: rgba(255,77,109,0.18); }
+  .z-block .zone-count { color: var(--red); }
+  .z-block .zone-name { color: #ff8fa3; }
+  .z-block .item::before { background: var(--red); box-shadow: 0 0 7px rgba(255,77,109,0.4); }
+  .z-block .item h4 { color: #ffd7de; }
+
+  /* Next = grain: dimmed, low weight, tracked out (SCRATCH → GRAIN) */
+  .z-next { border-color: var(--border-soft); }
+  .z-next .zone-count { color: var(--cyan); }
+  .z-next .zone-name { color: #8fdfe8; }
+  .z-next .item { opacity: 0.72; background: rgba(16,22,31,0.6); }
+  .z-next .item::before { background: rgba(0,240,255,0.4); }
+  .z-next .item h4 { color: #c9d6e2; font-weight: 500; letter-spacing: 0.015em; }
+  .z-next .item p { color: var(--dimmed); }
+
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @media (prefers-reduced-motion: reduce) { .z-prog .item::before { animation: none; } }
+
+  /* ---- Version arc timeline ---- */
+  .arc { margin-top: 54px; border-top: 1px solid var(--border); padding-top: 30px; }
+  .arc h2 { font-size: 13px; font-family: var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed); font-weight: 500; margin: 0 0 22px; }
+  .track { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+  .track::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: linear-gradient(90deg, var(--faint), var(--green)); }
+  .node { position: relative; padding-top: 26px; }
+  .node::before { content: ""; position: absolute; top: 3px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--surface); border: 1px solid var(--muted); }
+  .node.on::before { background: var(--green); border-color: var(--green); box-shadow: 0 0 9px rgba(0,255,157,0.7); }
+  .node .v { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--text); }
+  .node .d { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+  .node .dt { font-family: var(--mono); font-size: 10px; color: var(--faint); margin-top: 4px; }
+
+  /* ---- Footnote ---- */
+  .foot { margin-top: 48px; border-top: 1px solid var(--border-soft); padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-family: var(--mono); font-size: 10.5px; color: var(--faint); letter-spacing: 0.06em; }
+  .foot b { color: var(--muted); font-weight: 500; }
+
+  @media (max-width: 900px) {
+    .zones { grid-template-columns: repeat(2, 1fr); }
+    .track { grid-template-columns: repeat(3, 1fr); row-gap: 22px; }
+    .track::before { display: none; }
+  }
+  @media (max-width: 560px) {
+    .zones { grid-template-columns: 1fr; }
+    .track { grid-template-columns: 1fr 1fr; }
+    .stamp { text-align: left; }
+  }
+</style>
+
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <header class="mast">
+    <div>
+      <div class="brand">
+        <span class="logo">A<b>R</b>CS</span>
+        <span class="eyebrow">Decision Intelligence · v9</span>
+      </div>
+      <h1>State of the Union</h1>
+      <p class="thesis">Where the terrain stands right now — <b>what's shipped and locked</b>, what's building on the clarity ridge, what's contested in the pressure band, and what's still fog. Fidelity is earned: crisp cards are done, grainy cards are unmapped.</p>
+    </div>
+    <div class="stamp">
+      REPORT · 2026-07-18<br>
+      HEAD <span class="lit">8c207d7</span><br>
+      PROD <span class="lit">● app.arcs.care READY</span><br>
+      ARC v0.1.0 → v3.7.0
+    </div>
+  </header>
+
+  <!-- OVERALL METER -->
+  <section class="meter">
+    <div class="meter-head"><b>Roadmap surface</b><span>~44 tracked workstreams</span></div>
+    <div class="bar" role="img" aria-label="Status distribution: majority shipped, some in progress, some blocked, remainder next">
+      <span class="s-green" style="width:57%"></span>
+      <span class="s-gold"  style="width:13%"></span>
+      <span class="s-red"   style="width:14%"></span>
+      <span class="s-cyan"  style="width:16%"></span>
+    </div>
+    <div class="meter-legend">
+      <span><i class="dot d-green"></i> Shipped &amp; locked · 25</span>
+      <span><i class="dot d-gold"></i> In progress · 6</span>
+      <span><i class="dot d-red"></i> Blocked / contested · 8</span>
+      <span><i class="dot d-cyan"></i> Next / unmapped · 11</span>
+    </div>
+  </section>
+
+  <!-- ZONE HORIZON -->
+  <div class="horizon-label">
+    <b>◀ OUTER FOG</b>
+    <span>pressure band · clarity ridge</span>
+    <b>SUPERIONIC NUCLEUS ▶</b>
+  </div>
+
+  <section class="zones">
+
+    <!-- NEXT -->
+    <div class="zone z-next">
+      <div class="zone-head">
+        <div class="zone-kicker">Outer fog · unmapped</div>
+        <div class="zone-name">What's Next</div>
+        <div class="zone-count">11 tracked</div>
+        <div class="zone-sub">orient only — don't commit</div>
+      </div>
+      <ul class="zone-list">
+        <li class="item"><h4>Receipt Save Prompt</h4><p>Soft-auth nudge on result — biggest PLG gap in the funnel.</p><span class="tag">P1 · backlog</span></li>
+        <li class="item"><h4>Outcome Handler</h4><p>PATCH /api/receipts/[id] — closes the receipt loop, fires outcome-matched.</p><span class="tag">P1 · backlog</span></li>
+        <li class="item"><h4>ATG — full tributaries</h4><p>2–4 branches: meta-question · need-to-hear · adjacent primitive. (3 shipped inline.)</p><span class="tag">next major feature</span></li>
+        <li class="item"><h4>Kairos Detection</h4><p>Timing/window background job. Machinery ready, gated at 100 receipts.</p><span class="tag">P4 · gated</span></li>
+        <li class="item"><h4>GIGI Substrate Client</h4><p>src/lib/gigi.ts — fiber-bundle DB seam at compass route.</p><span class="tag">P2</span></li>
+        <li class="item"><h4>Stripe Billing Gate</h4><p>Gates COURT / DEEP high-consequence mode.</p><span class="tag">P3</span></li>
+        <li class="item"><h4>Operators → Compass wire-in</h4><p>34-file, 16.6K-LOC library built but not yet in the live route.</p><span class="tag">integration</span></li>
+        <li class="item"><h4>L6–L7 Engine</h4><p>Ecosystem coherence + meta-governance. Stack tops out at L5 today.</p><span class="tag">architecture</span></li>
+        <li class="item"><h4>Vector Collision µsvc</h4><p>Python cross-domain isomorphism service (Orthogonal Echo).</p><span class="tag">research</span></li>
+        <li class="item"><h4>julia.arcs.care Drill</h4><p>Pre-call checklist → verbal drills. Interaction model TBD.</p><span class="tag">surface</span></li>
+        <li class="item"><h4>Book III / Part VII</h4><p>Next canon volume — unscoped. Book II is complete.</p><span class="tag">canon</span></li>
+      </ul>
+    </div>
+
+    <!-- BLOCKED -->
+    <div class="zone z-block">
+      <div class="zone-head">
+        <div class="zone-kicker">Pressure band · contested</div>
+        <div class="zone-name">Blocked</div>
+        <div class="zone-count">8 held</div>
+        <div class="zone-sub">Y-gate active — awaiting input</div>
+      </div>
+      <ul class="zone-list">
+        <li class="item"><h4>ADR-015 Case Study Gate</h4><p>Dan Pascone approval → flips CASE_STUDY_APPROVED, starts 30-day Lab clock.</p><span class="tag">human · Zach</span></li>
+        <li class="item"><h4>ADR-023 Observability Lattice</h4><p>Goal-lattice DAG over receipts. Gated until 100+ receipts for Zipf baseline.</p><span class="tag">data-gated</span></li>
+        <li class="item"><h4>Preview DATABASE_URL</h4><p>Vercel dashboard add (CLI v53 bug) — preview branches unmigrated.</p><span class="tag">human · dashboard</span></li>
+        <li class="item"><h4>Supabase password rotation</h4><p>Manually-set, not integration-managed. Rotation-drift risk live.</p><span class="tag">human · Zach</span></li>
+        <li class="item"><h4>Resend MCP key</h4><p>Stale API key — blocks automated email from sessions.</p><span class="tag">infra · rotate</span></li>
+        <li class="item"><h4>Orphaned Supabase tables</h4><p>8 tables, no owning app found. Needs a dashboard glance.</p><span class="tag">audit · #13</span></li>
+        <li class="item"><h4>4 advisor WARNs</h4><p>Left unfixed deliberately — ownership unconfirmed.</p><span class="tag">audit · #14</span></li>
+        <li class="item"><h4>vercel.ts migration</h4><p>Incomplete — would drop experimentalServices + crons if merged as-is.</p><span class="tag">held · don't merge</span></li>
+      </ul>
+    </div>
+
+    <!-- IN PROGRESS -->
+    <div class="zone z-prog">
+      <div class="zone-head">
+        <div class="zone-kicker">Clarity ridge · building</div>
+        <div class="zone-name">In Progress</div>
+        <div class="zone-count">6 active</div>
+        <div class="zone-sub">move carefully — lock what's earned</div>
+      </div>
+      <ul class="zone-list">
+        <li class="item"><h4>Compass Kit Phase 2</h4><p>Promote static kit → real app: port 30+ atoms, wire /dashboard to live pipeline.</p><span class="tag">ds reconciliation ADR</span></li>
+        <li class="item"><h4>Design System — Panel / Chip</h4><p>Next atoms after Badge / Button / Card (Phase 1 shipped).</p><span class="tag">ds sprint</span></li>
+        <li class="item"><h4>Drift Sentinel</h4><p>5-turn no-artifact watchdog. Design done, build not started (long pole).</p><span class="tag">governance #4</span></li>
+        <li class="item"><h4>Log consolidation</h4><p>Merge 3 handoff trackers → one. Sequencing point, unblocks #6.</p><span class="tag">governance #3</span></li>
+        <li class="item"><h4>DEWY commit stamp</h4><p>Enforce NCI on commits — ready after #3 + prose-audit #5.</p><span class="tag">governance #6</span></li>
+        <li class="item"><h4>ADR-013 conversion clock</h4><p>Week-1 builds shipped; 30-day Lab-inquiry signal window running.</p><span class="tag">arcs-care · PLG</span></li>
+      </ul>
+    </div>
+
+    <!-- DONE -->
+    <div class="zone z-done">
+      <div class="zone-head">
+        <div class="zone-kicker">Superionic · locked</div>
+        <div class="zone-name">Shipped</div>
+        <div class="zone-count">25 locked</div>
+        <div class="zone-sub">frictionless — full resolution</div>
+      </div>
+      <ul class="zone-list">
+        <li class="item"><h4>Compass Pipeline L0–L5</h4><p>Claude → DEWY receipt + Y-gate + 3 tributaries. The core engine.</p><span class="tag">core</span></li>
+        <li class="item"><h4>P4 — Vercel Production</h4><p>First READY deploy. Prisma 7 adapter + Supabase live, 9 tables.</p><span class="tag">infra ✓</span></li>
+        <li class="item"><h4>RLS Deny-All Gate</h4><p>All 9 Supabase tables locked before first external user.</p><span class="tag">security ✓</span></li>
+        <li class="item"><h4>Sprint 1 (#1–#5)</h4><p>DEWY schema · Time ROM · Compass→DEWY flow · Book II canon.</p><span class="tag">complete</span></li>
+        <li class="item"><h4>Book II — Parts I–VI</h4><p>All canonical v1.0.0. Constitutional court, accumulation, shared court.</p><span class="tag">canon ✓</span></li>
+        <li class="item"><h4>Observatory (full)</h4><p>1174-LOC interactive replay theater — scrub, overlay, ingest.</p><span class="tag">surface ✓</span></li>
+        <li class="item"><h4>Trust / Privacy / Terms</h4><p>Legal surfaces + EyebrowToast covenant drawer.</p><span class="tag">surface ✓</span></li>
+        <li class="item"><h4>Design System Phase 1</h4><p>Tokens · Badge · Button · Card. Instrument register.</p><span class="tag">ds ✓</span></li>
+        <li class="item"><h4>Operators Library</h4><p>34 files · 16.6K LOC — LAB / BAR / SAGE / KAIROS / court.</p><span class="tag">built</span></li>
+        <li class="item"><h4>arcs-care PLG Phase 1</h4><p>5-lens compass + conviction-gated Lab card.</p><span class="tag">funnel ✓</span></li>
+        <li class="item"><h4>CI/CD Circuit Breakers</h4><p>NOTOMATION gates · 5 named trip signals · human prod gate.</p><span class="tag">infra ✓</span></li>
+        <li class="item"><h4>Email Auth Stack</h4><p>DKIM · SPF · DMARC verified on arcs.care.</p><span class="tag">infra ✓</span></li>
+        <li class="item"><h4>13 Call-Brief Subdomains</h4><p>fanatics · chan · status · todd · chris · token &amp; more — all 200 OK.</p><span class="tag">recoil reports</span></li>
+        <li class="item"><h4>ADRs 001–030</h4><p>Full decision-receipt registry. Auth, DB split, DS, governance.</p><span class="tag">decisions ✓</span></li>
+        <li class="item"><h4>S-tier Copy + A11y</h4><p>Jargon retired app-wide; Field.tsx label/id fix across all inputs.</p><span class="tag">polish ✓</span></li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- VERSION ARC -->
+  <section class="arc">
+    <h2>The arc so far — v0.1.0 → v3.7.0</h2>
+    <div class="track">
+      <div class="node on"><div class="v">v0.1–0.3</div><div class="d">DEWY schema, Time ROM, Y-gate enums</div><div class="dt">2026-05-26</div></div>
+      <div class="node on"><div class="v">v0.5–0.9</div><div class="d">Book II canon, data-science suite, ADR bus</div><div class="dt">2026-05-27</div></div>
+      <div class="node on"><div class="v">v1.0–1.4</div><div class="d">P4 Vercel deploy, Supabase, RLS gate</div><div class="dt">2026-05-28</div></div>
+      <div class="node on"><div class="v">v1.5–2.1</div><div class="d">Design system, arcs-care PLG, CI/CD</div><div class="dt">2026-05-29</div></div>
+      <div class="node on"><div class="v">v3.0–3.4</div><div class="d">Copy rewrite, sleepy-booth merge, Observatory</div><div class="dt">2026-06/07</div></div>
+      <div class="node on"><div class="v">v3.5–3.7</div><div class="d">Subdomain briefs, consolidation, chan/status</div><div class="dt">2026-07-17</div></div>
+    </div>
+  </section>
+
+  <!-- FOOT -->
+  <footer class="foot">
+    <span><b>Render scale:</b> fidelity earned by status — SHARP=shipped · GRAIN=next (WORLD.md)</span>
+    <span>Sources: CLAUDE.md handoffs v0.1→v3.7 · AGENTS.md agent map · git HEAD 8c207d7</span>
+  </footer>
+
+</div>
