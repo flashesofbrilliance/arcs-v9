@@ -19,6 +19,13 @@ report's `readOrder` directive, and skips any risk flag carrying a superseded
 marker. It never serializes base-pass strata (callWalk/statedVsRevealed/
 signalThreads) — those are provenance, not state.
 
+Inductive-overfit discipline (same spec, sibling section): an advisory
+stripped of its bounds is how an anecdote gets treaded as law. The Read
+therefore carries its n and a sample-size regime classification (anecdote /
+directional prior / central-mass — thresholds per ADR-023's 100-receipt
+precedent), and any banked counterpart model's `validityBounds` is surfaced
+alongside the conclusion, never silently dropped.
+
 Usage:
     python3 scripts/receipt_lookup.py "<name or email fragment>"
     python3 scripts/receipt_lookup.py --all          # dump every counterpart on file
@@ -70,6 +77,30 @@ def is_superseded(flag):
     return any(m in text for m in SUPERSEDED_MARKERS)
 
 
+def regime(n):
+    # Sample-size regime ladder, recoil-modes-v1.md §Inductive-overfit risk.
+    # Central-mass threshold reuses ADR-023's 100-receipt gate rather than
+    # inventing a new one. Tails/edges are excepted at ANY n (BAR jurisdiction)
+    # — that exception is the reader's job, not this classifier's.
+    if n >= 100:
+        return "central-mass (n>=100, ADR-023 gate) — legitimate default IF conditions are stationary"
+    if n >= 10:
+        return "directional prior — condition-bounded lean, not a load-bearing assumption"
+    return "anecdote — no transfer warrant; re-verify per round, prep the branch distribution"
+
+
+def find_validity_bounds(record):
+    # Banked counterpart models live under recapitulation.<modelKey>.validityBounds
+    # (key name varies per counterpart, e.g. chanModel). Surface every one found.
+    recap = record.get("recapitulation")
+    found = []
+    if isinstance(recap, dict):
+        for key, val in recap.items():
+            if isinstance(val, dict) and "validityBounds" in val:
+                found.append((key, str(val["validityBounds"])))
+    return found
+
+
 def digest(records, query):
     hits = [r for r in records if matches(r, query)]
     if not hits:
@@ -104,6 +135,10 @@ def digest(records, query):
         if isinstance(recap, dict):
             as_of = recap.get("asOf", "undated")
             print(f"  recapitulation present (asOf {as_of}) — consolidated current state; read it before any stratum.")
+        for model_key, bounds in find_validity_bounds(r):
+            excerpt = bounds if len(bounds) <= 300 else bounds[:300] + " […]"
+            print(f"  banked model '{model_key}' carries validityBounds — read them before treading it as law:")
+            print(f"    {excerpt}")
         print()
 
     if superseded_skipped:
@@ -133,7 +168,10 @@ def digest(records, query):
     gates = [y for _, y in ygate_trend if y]
     latest_gate = gates[-1] if gates else "UNKNOWN"
 
-    print(f"\n--- Read ---")
+    # n for the regime read = scored calls only (records with a real cover
+    # gate) — pre-call stubs are not observations.
+    n_scored = len(gates)
+    print(f"\n--- Read (n={n_scored} scored call(s) — {regime(n_scored)}) ---")
     print(f"  NCI trend: {trend_word} ({numeric_nci[0] if numeric_nci else '?'} -> {numeric_nci[-1] if numeric_nci else '?'})")
     print(f"  Latest Y-gate: {latest_gate}")
     if latest_gate in ("FORK", "RED") or trend_word == "declining":
