@@ -11,6 +11,14 @@ This is the piece that was missing when the LaBella recoil ran on 2026-07-09:
 nothing queried prior outcomes before spending call time. Run this BEFORE
 scoping a pre-call brief, not after.
 
+Chronos-sequencer discipline (runtime/specs/recoil-modes-v1.md): ledger files
+are append-don't-overwrite — later passes correct earlier strata without
+deleting them. This reader therefore takes current state ONLY from `cover`
+(maintained in-place, always current) and `recapitulation`, honors each
+report's `readOrder` directive, and skips any risk flag carrying a superseded
+marker. It never serializes base-pass strata (callWalk/statedVsRevealed/
+signalThreads) — those are provenance, not state.
+
 Usage:
     python3 scripts/receipt_lookup.py "<name or email fragment>"
     python3 scripts/receipt_lookup.py --all          # dump every counterpart on file
@@ -51,8 +59,19 @@ def matches(record, query):
     return q in haystack
 
 
+# Marker forms mandated by recoil-modes-v1.md §Chronos-sequencer risk. Match
+# the marker syntax, not the bare word — a live flag may legitimately *mention*
+# a superseded sub-strategy without itself being overturned.
+SUPERSEDED_MARKERS = ("[SUPERSEDED", "⚠ SUPERSEDED", "SUPERSEDED —", "SUPERSEDED --")
+
+
+def is_superseded(flag):
+    text = " ".join(str(flag.get(k, "")) for k in ("label", "description", "action")).upper()
+    return any(m in text for m in SUPERSEDED_MARKERS)
+
+
 def digest(records, query):
-    hits = [r for r in load_all() if matches(r, query)]
+    hits = [r for r in records if matches(r, query)]
     if not hits:
         print(f"NO PRIOR HISTORY for '{query}' — {len(records)} total records on file, none match.")
         print("This is a cold call in the ledger. No pattern signal available; proceed on stated context only.")
@@ -65,18 +84,30 @@ def digest(records, query):
     nci_trend = []
     ygate_trend = []
     all_risk_flags = []
-    all_belief_shifts = []
+    superseded_skipped = 0
 
     for r in hits:
         meta = r.get("meta", {})
+        # NCI / Y-gate come from cover ONLY — it is maintained in-place and
+        # always current; strata may hold overturned reads of the same call.
         cover = r.get("cover", {})
         nci_trend.append((meta.get("callDate"), cover.get("nci")))
         ygate_trend.append((meta.get("callDate"), cover.get("yGate")))
         for rf in r.get("riskFlags", []):
+            if is_superseded(rf):
+                superseded_skipped += 1
+                continue
             all_risk_flags.append((meta.get("callDate"), rf.get("severity"), rf.get("label")))
         print(f"[{meta.get('callDate')}] {meta.get('callTitle')} — {meta.get('counterpartRole', '')}")
         print(f"  Y: {cover.get('yGate')}/{cover.get('conviction')} · NCI {cover.get('nci')} · {cover.get('headline', '')}")
+        recap = r.get("recapitulation")
+        if isinstance(recap, dict):
+            as_of = recap.get("asOf", "undated")
+            print(f"  recapitulation present (asOf {as_of}) — consolidated current state; read it before any stratum.")
         print()
+
+    if superseded_skipped:
+        print(f"({superseded_skipped} superseded risk flag(s) skipped — provenance, not live state)\n")
 
     print("--- NCI trend ---")
     print("  " + " -> ".join(f"{d}:{n}" for d, n in nci_trend))
@@ -96,7 +127,11 @@ def digest(records, query):
     if len(numeric_nci) >= 2:
         trend_word = "declining" if numeric_nci[-1] < numeric_nci[0] else (
             "improving" if numeric_nci[-1] > numeric_nci[0] else "flat")
-    latest_gate = ygate_trend[-1][1] if ygate_trend else "UNKNOWN"
+    # Latest = latest record that actually carries a cover gate. Pre-call
+    # stubs have an empty cover; letting one mask the last real read is the
+    # chronos-sequencer pathogen in cross-file form.
+    gates = [y for _, y in ygate_trend if y]
+    latest_gate = gates[-1] if gates else "UNKNOWN"
 
     print(f"\n--- Read ---")
     print(f"  NCI trend: {trend_word} ({numeric_nci[0] if numeric_nci else '?'} -> {numeric_nci[-1] if numeric_nci else '?'})")
