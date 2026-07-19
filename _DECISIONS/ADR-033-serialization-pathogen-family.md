@@ -6,14 +6,18 @@
 > **Date:** 2026-07-18
 > **Commit:** (set at merge)
 >
-> **Numbering note:** session memory records an "ADR-033 enforcement-parity ledger
-> (`_PATTERNS/ledger.json`, CI-gated)" — verified absent from main 2026-07-18 (no
-> file, no reference anywhere in-repo). That phantom is itself a family receipt
-> (open-loop decay + warrant-stripping: a mechanism recorded as live law that never
-> landed). This ADR takes the 033 slot and **absorbs that design** — its
+> **Numbering note (verified 2026-07-19):** session memory records an "ADR-033
+> enforcement-parity ledger (`_PATTERNS/ledger.json`, CI-gated)" as live law. Ground
+> truth: that work is real but stranded on unmerged branch
+> `claude/arcs-meta-cognitive-review-b7bbb0` (commit `6dca11c`, 2026-07-16, pushed
+> to origin, never merged) — absent from main. It is thus a double family receipt:
+> **open-loop decay** (a shipped-feeling mechanism that never landed) and
+> **epistemic-sequencer** (memory serialized it as enforced law, warrant stripped).
+> This ADR takes main's 033 slot and **absorbs that design** — its
 > close-only-via-mechanism-or-dated-waiver rule is the Obligation-coordinate
-> mitigation below. Related live collision: `_DECISIONS/` currently contains TWO
-> ADR-032 files (numbering assigned append-only, no registry check) — same family.
+> mitigation below. If that branch merges, its ADR renumbers to next-free;
+> `_DECISIONS/` already contains TWO ADR-032 files (numbering assigned append-only,
+> no registry check) — do not mint a third duplicate.
 
 ## D — The Decision
 
