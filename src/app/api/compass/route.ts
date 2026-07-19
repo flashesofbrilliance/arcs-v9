@@ -404,15 +404,6 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       console.error("[COMPASS DATA CHECK] Undefined fields:", undefinedFields)
     }
 
-    // Log a sample of the receiptData for debugging
-    console.log("[COMPASS DATA SAMPLE]", {
-      mode: receiptData.mode,
-      doorClass: receiptData.doorClass,
-      yPolarity: receiptData.yPolarity,
-      gradientDirection: typeof receiptData.gradientDirection,
-      yGateScore: typeof receiptData.yGateScore,
-    })
-
     receipt = await prisma.receipt.create({ data: receiptData })
 
     // Invisible trace write — never blocks or affects the response. See the
@@ -427,11 +418,15 @@ Run the L0–L5 pipeline. Return only the JSON object.`
     throw err
   }
   } else {
-    console.log("[COMPASS] anonymous run — nothing persisted (trust contract: no auth = no write path)")
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[COMPASS] anonymous run — nothing persisted (trust contract: no auth = no write path)")
+    }
   }
   const t3 = Date.now()
 
-  console.log(`[COMPASS PROFILE] Setup: ${t1-t0}ms | Claude: ${t2-t1}ms | Prisma: ${t3-t2}ms | Total: ${t3-t0}ms`)
+  if (process.env.NODE_ENV !== "production") {
+    console.log(`[COMPASS PROFILE] Setup: ${t1-t0}ms | Claude: ${t2-t1}ms | Prisma: ${t3-t2}ms | Total: ${t3-t0}ms`)
+  }
 
   // Fire emails (non-blocking — don't let email failure break the compass
   // response). Requires a persisted receipt — anonymous runs have none.
@@ -495,7 +490,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       if (daysOut > RESEND_MAX_SCHEDULE_DAYS) {
         console.error(`[EMAIL] debrief for receipt ${receipt.id} is ${Math.round(daysOut)} days out — exceeds Resend's ${RESEND_MAX_SCHEDULE_DAYS}-day scheduling limit, not attempting (would fail silently otherwise)`)
       } else if (!eligible) {
-        console.log(`[EMAIL] debrief for receipt ${receipt.id} skipped — user has not opted in to repeat reminders`)
+        if (process.env.NODE_ENV !== "production") {
+          console.log(`[EMAIL] debrief for receipt ${receipt.id} skipped — user has not opted in to repeat reminders`)
+        }
       } else if (scheduledAt > new Date()) {
         const debrief = debriefEmail({
           question: question.trim(),
@@ -521,7 +518,9 @@ Run the L0–L5 pipeline. Return only the JSON object.`
           // cancelled later if needed — the prior version discarded this,
           // which is why a bad-timezone batch couldn't be cancelled and had
           // to be left to fire.
-          console.log(`[EMAIL] debrief for receipt ${rid} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
+          if (process.env.NODE_ENV !== "production") {
+            console.log(`[EMAIL] debrief for receipt ${rid} scheduled, resend id: ${res.data?.id ?? "unknown"}`)
+          }
           // Mark sent so the long-horizon cron (ADR-026 Bug 2) doesn't pick
           // this receipt up again once its reminderDate enters its own sweep window.
           await prisma.receipt.update({ where: { id: rid }, data: { debriefSentAt: new Date() } })

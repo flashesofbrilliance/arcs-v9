@@ -703,7 +703,6 @@ export default function GuidePage() {
   }
 
   async function logStage(stageId: string, verdict: string, vibe?: string, indicatorObserved?: boolean) {
-    console.log(`[logStage] ${stageId} verdict=${verdict} vibe=${vibe} indicatorObserved=${indicatorObserved}`)
     const entry = { stageId, completedAt: new Date().toISOString(), verdict, vibe }
     await fetch(`/api/guide/${receiptId}`, {
       method: "PATCH",
