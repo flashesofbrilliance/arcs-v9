@@ -58,6 +58,21 @@ interface DeploymentApi {
 interface DeploymentStatusApi {
   state: string;
 }
+interface IssueApi {
+  // The REST /issues endpoint returns PRs too; a PR carries this key, a plain
+  // issue does not. We filter PRs out so the status counts are issues only.
+  pull_request?: unknown;
+  state: string;
+  labels: Array<{ name: string } | string>;
+}
+
+// The status-board buckets ARE these GitHub Issue labels — one per issue.
+// Keep this list in sync with the labels used when triaging work.
+const STATUS_LABELS = ["in-progress", "blocked", "next"] as const;
+
+function labelNames(issue: IssueApi): string[] {
+  return issue.labels.map((l) => (typeof l === "string" ? l : l.name));
+}
 
 export async function GET() {
   const payload: Record<string, unknown> = {
@@ -67,10 +82,14 @@ export async function GET() {
   };
 
   try {
-    const [commitsRes, prsRes, depRes] = await Promise.all([
+    const [commitsRes, prsRes, depRes, issuesRes] = await Promise.all([
       gh("/commits?sha=main&per_page=1"),
       gh("/pulls?state=open&per_page=100&sort=updated&direction=desc"),
       gh("/deployments?per_page=1"),
+      // Open issues drive the live status board. per_page=100 covers the whole
+      // open backlog today; if it ever exceeds 100 this undercounts — a paging
+      // loop would be the fix, flagged here rather than silently truncating.
+      gh("/issues?state=open&per_page=100"),
     ]);
 
     if (commitsRes.ok) {
@@ -106,6 +125,26 @@ export async function GET() {
           date: dep.created_at,
         };
       }
+    }
+
+    if (issuesRes.ok) {
+      const raw = (await issuesRes.json()) as IssueApi[];
+      const issues = raw.filter((i) => !i.pull_request); // drop PRs
+      const counts: Record<string, number> = {};
+      for (const label of STATUS_LABELS) {
+        counts[label] = issues.filter((i) => labelNames(i).includes(label)).length;
+      }
+      const link = issuesRes.headers.get("link");
+      payload.issues = {
+        // Live open backlog by status label (the source of truth for tracked work).
+        inProgress: counts["in-progress"],
+        blocked: counts["blocked"],
+        next: counts["next"],
+        openTotal: issues.length,
+        // Honesty flag: if there's a next page, the open backlog exceeds 100 and
+        // these counts are a floor, not exact. The client can label accordingly.
+        truncated: !!(link && /rel="next"/.test(link)),
+      };
     }
 
     return NextResponse.json(payload, { headers: CORS });
