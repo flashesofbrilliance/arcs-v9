@@ -1,58 +1,52 @@
 # ARCS Session State
 
-**Last updated:** 2026-07-17 (v3.7.0)
-**Environment:** Claude Code (local), worktree `chan-arcs-card-milestones-5f7790`
-**Branch:** `claude/chan-arcs-card-milestones-5f7790`, merged to `main`, pushed to `origin/main`
-**Last commit (arcs-v9):** c536792 — fix(chan): mobile echo-mid connector no longer overflows its row; scroll cue on the architecture diagram
+**Last updated:** 2026-07-19 (v3.10.0)
+**Environment:** Claude Code (local), worktree `nice-lalande-653c79`, all work committed via main worktree `frosty-kepler-b69f51`
+**Branch:** `main`, pushed to `origin/main`
+**Last commits (this thread):** `9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ handoff commit)
 
-## v3.7.0 delta (this update) — see MEMORY.md [v3.7.0] for full detail
+## v3.10.0 delta — see MEMORY.md [v3.10.0] for full detail
 
-- **chan.arcs.care built end-to-end** — Prophet/Mike Lemon/Chan Suh (CDO) discovery-call
-  artifact. Player/Coach/Pacecar frame, instrument-panel (12 principles + architecture-loop
-  SVG), conductor-lane telemetry (real git-trailer data on which Claude model wrote each
-  week's commits), 16-slide SEEN/HEARD/VIBE-CHECK presentation mode (moiré topography,
-  isometric floor, fathom rail, auto-hiding chrome), full ARCS-OS design-system conformance
-  (Inter/JetBrains Mono, 8-step type scale, canonical tokens pulled live via `DesignSync`),
-  FOCUS-default progressive disclosure with per-section TL;DRs.
-- **status.arcs.care forked** from chan.html — Prophet content + presentation mode
-  surgically removed for standalone build-status use. Domain had to be attached to the
-  Vercel project directly via API; the deploy script's pre-flight falsely reported it
-  already assigned.
-- **PII removed** (email/phone from both footers). `noindex, nofollow` confirmed on both,
-  no `robots.txt` override exists.
-- **Two real mobile bugs found from actual iPhone photos** (HEIC — Read tool can't render
-  it directly, converted via `sips` first): (1) a `transform: rotate(90deg)` connector
-  visually overflowing its own grid row because CSS transforms don't change layout
-  footprint — fixed via `font-size:0` + `::after` glyph swap instead of rotation; (2) the
-  architecture SVG cutting off with no scroll affordance on phone widths — added a fade
-  mask + explicit swipe hint, gated to only show when actually scrollable.
-- **Presentation chrome drift fixed** — top/bottom bars used `flex space-between`, which
-  centers content relative to flanking-sibling width, not true viewport center; slide-to-
-  slide the readout visibly jumped as act-label/chip text length varied. Converted to CSS
-  grid (`1fr auto 1fr`) with explicit `grid-column` pins (needed because mobile hides some
-  children via `display:none`, and grid auto-placement would otherwise misplace the
-  survivors). Verified: identical center x-coordinate across all 16 slides.
-- **Isometric floor perspective fixed for ultrawide/zoom** — was a fixed `perspective(560px)`,
-  which produces degenerate distortion against a much-wider-in-px element (ultrawide monitor)
-  or a zoomed-in effective viewport; changed to `perspective(70vh)` so it scales with
-  viewport height regardless of width or zoom level.
-- Every fix in this session was verified against the **live production domain** via direct
-  `curl` grep for the specific changed string/rule, not just "deploy succeeded."
+- **Serialization pathogen family, end to end (2026-07-17→19):** chronos-sequencer →
+  inductive-overfit → open-loop decay codified in `runtime/specs/recoil-modes-v1.md`
+  (v0.1.0→v0.4.0) + `call-brief-hooks-v1.md` (v1.1.0); unified in
+  `_DECISIONS/ADR-033-serialization-pathogen-family.md` under the tuple axiom
+  (claim, time, scope, warrant, obligations, dictionary — each member = one coordinate
+  dropped at write/read time). **RATIFIED by Zach: GREEN/HIGH/REVISIT** (leash: sweep's
+  100-obligation mark or next admission-gate candidate).
+- **Detective (`scripts/receipt_lookup.py`):** superseded-marker skip (marker syntax, not
+  bare word), n-aware regime read (anecdote/directional/central-mass; ADR-023 100-gate),
+  `validityBounds` surfaced verbatim, pre-call-stub covers no longer mask latest Y-gate,
+  and **`--sweep`** — every OPEN obligation ledger-wide, aged, oldest first.
+- **Sweep's first run: 52 open obligations / 20 reports / 0 ever closed** — incl. a
+  10-day-old HIGH whose owed action was "send within 48 hours." The pathogen proved
+  itself on contact.
+- **First documented closure:** enforcement-parity ledger (stranded on unmerged branch
+  2026-07-16→19; session memory had serialized it as live CI-gated law — double receipt)
+  merged as **ADR-034** (PR #63), renumbered exactly per ADR-033's rule. Jurisdictions:
+  ADR-034 `_PATTERNS/ledger.json` = repo/audit findings · `--sweep` = call-ledger
+  obligations.
+- **Version realignment:** CLAUDE.md was at v3.8.0, MEMORY.md at v3.9.0 (two concurrent
+  sessions, one tracker each). Both realigned at v3.10.0.
 
-## Open items carried forward (unrelated to this session)
+## Open items (this thread)
 
-- Two untracked files in the main worktree from other work, not touched this session:
-  `_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md`, `test_prisma_direct.js`.
-- julia.arcs.care drill feature (interaction model + who Jack/Jill/Boardy are still
-  unclarified) — open since v3.5.0/v3.6.0.
-- Governance backlog #3 (log consolidation, unblocks #6 DEWY commit stamp) — open since
-  v3.1.0/v3.2.0.
+1. **Sweep backlog** — 52 open riskFlags await owner `DONE (date — reason)` /
+   `WAIVED (date — reason)` status writes. Oldest: 18d (Masopust). Run
+   `python3 scripts/receipt_lookup.py --sweep`.
+2. **ADR-032 duplicate** — `_DECISIONS/` holds two ADR-032 files; dedupe/renumber
+   (numbering is assigned append-only with no registry check).
+3. **Epistemic- + etymology-sequencer** — registered with existing partial mechanisms
+   only (validityBounds clause generalization; glossary/canon-collision discipline).
+   Dedicated enforcement (warrant field on banked claims; rename tombstones) unbuilt.
 
-## Blocking
+## Prior open items — carried, not re-verified this thread
 
-NONE.
+See CLAUDE.md Handoff v3.8.0/v3.9.0 (MEMORY.md) blocks: Sentinel rebuild, SageTrace RLS,
+B2 cadence/HOLD-gate follow-up, plus the standing v3.2.0 backlog (#2 password rotation —
+blocked on Zach; #13 orphaned Supabase tables). Per open-loop discipline: these are OPEN
+until someone writes a closure, and this file is not their ledger — check their owners.
 
 ## Next session starts at
 
-`/handoff-pickup` → no open thread on chan/status.arcs.care. Otherwise: julia.arcs.care
-drill feature or governance backlog #3.
+`/handoff-pickup` → `--sweep`, close oldest flags first; or any carried open item above.

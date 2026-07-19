@@ -6,6 +6,47 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.10.0] 2026-07-19 — Serialization pathogen family: ADR-033 ratified + Detective --sweep
+
+> Tracker note: mid-session, CLAUDE.md's handoff chain read v3.8.0 while this file was at
+> v3.9.0 (two concurrent sessions, one tracker each — the exact chronos-sequencer receipt
+> ADR-033 cites). The v3.9.0 session healed it concurrently by appending its own CLAUDE.md
+> handoff; recorded here as a live family receipt, observed and closed same-day.
+
+**The family, discovered serially 2026-07-17→19 and unified under one axiom** (`_DECISIONS/
+ADR-033-serialization-pathogen-family.md`, **DECIDED — Zach ratified GREEN/HIGH/REVISIT**):
+a serialized belief is a tuple (claim, time, scope, warrant, obligations, dictionary); every
+member is one coordinate silently dropped at write/read time. time→chronos-sequencer ·
+scope→inductive-overfit · obligation→open-loop decay · warrant→epistemic-sequencer ·
+dictionary→etymology-sequencer. Admission gate (all 4): distinct coordinate + distinct
+mechanism + ≥1 in-repo receipt + named enforcement point.
+
+- `runtime/specs/recoil-modes-v1.md` v0.1.0→**v0.4.0**: §chronos-sequencer (readOrder
+  directive near file head, in-place `[SUPERSEDED — see X]` markers, cover always-current);
+  §inductive-overfit (banked models MUST carry validityBounds {n, conditions, stationarity};
+  n-aware regime ladder anecdote→directional→central-mass, ADR-023's 100-receipt gate as the
+  threshold; tails/edges excepted at ANY n — BAR jurisdiction); §open-loop decay (riskFlags
+  MUST carry `status` OPEN/DONE/WAIVED dated; closure is an explicit write, never silence).
+- `runtime/specs/call-brief-hooks-v1.md` v1.0.0→**v1.1.0**: Task A/B read
+  readOrder/recapitulation-designated current state FIRST; never quote a stratum without a
+  superseded-marker check.
+- `scripts/receipt_lookup.py` (Detective): superseded-marker skip (marker syntax, not bare
+  word — live flags may *mention* supersession), n-aware regime read, validityBounds
+  surfaced verbatim, latest-Y-gate no longer masked by empty pre-call-stub covers, and
+  **`--sweep`** — every OPEN obligation ledger-wide, aged, oldest first. First live run:
+  **52 open obligations across 20 reports, zero ever closed**, incl. a 10-day-old HIGH whose
+  owed action was "send within 48 hours." QED.
+- **First documented closure:** the enforcement-parity ledger, stranded on an unmerged
+  branch 2026-07-16→19 (memory had serialized it as live CI-gated law — double receipt:
+  open-loop + epistemic), merged as **ADR-034** (PR #63) renumbered per ADR-033's own rule.
+  Jurisdictions: ADR-034 `_PATTERNS/ledger.json` = repo/audit findings; `--sweep` = call-
+  ledger obligations. Worked example for the whole family:
+  `runtime/recoil/generated/2026-07-17-chan-suh.json` (readOrder + validityBounds).
+
+Commits: `9748048` `15d71d8` `9ce0dfc` `09bb14b` `5f181fc`. Open from this thread: act on
+the 52-flag sweep backlog; dedupe the two ADR-032 files; epistemic/etymology members have
+partial mechanisms only (no dedicated enforcement built yet — registered honestly as such).
+
 ## [v3.9.0] 2026-07-19 — Stateless anonymous brief sharing (ADR-037) + trust-contract v1.3
 
 Anonymous bearings are never persisted (trust contract). Made them shareable **without a server write** by
