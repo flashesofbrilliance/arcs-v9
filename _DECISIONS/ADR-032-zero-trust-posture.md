@@ -87,6 +87,11 @@ extend it to the whole stack.
 - [ ] **Verification screens provenance/tampering**, not just plausibility?
 - [ ] **Blast radius** if this component is fully compromised — bounded and stated?
 - [ ] **Attack/failure path logged** for anti-fragile learning?
+- [ ] **Local or global?** — is this fix specific to the artifact in hand, or does the
+  principle generalize to a *class* (all workflows, all external surfaces, all cached
+  data, all point-in-time artifacts)? Name the class; apply broadly or file it. (This
+  checklist item exists because the session that wrote this ADR repeatedly fixed the local
+  instance and missed the class — chronos-sequencer, the unhardened front door, etc.)
 
 An ADR that cannot check a box must state the residual risk explicitly (naming the gap is
 conformant; hiding it is not).
