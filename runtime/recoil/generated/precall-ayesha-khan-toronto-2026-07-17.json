@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "reportId": "precall-ayesha-khan-toronto-2026-07-17",
+    "kind": "precall",
+    "generatedAt": "2026-07-17T10:57:00-04:00",
+    "counterpart": "Ayesha Khan",
+    "counterpartEmail": "ayesha.khan.toronto@gmail.com",
+    "calendarEventId": "77ltfda2v5tkpmh5gu8dudrbsn",
+    "callTitle": "Zach & Ayesha Connect",
+    "callStart": "2026-07-17T11:30:00-04:00",
+    "callEnd": "2026-07-17T12:00:00-04:00",
+    "conferenceUrl": "https://meet.google.com/xxw-hpbw-yno",
+    "organizer": "ayesha.khan.toronto@gmail.com",
+    "externalPageExists": false,
+    "detective": {
+      "status": "COLD",
+      "priorRecords": 0,
+      "totalLedgerRecords": 16,
+      "advisory": "No prior history in the ledger for Ayesha Khan. Cold call — no NCI/Y-gate trend, no unresolved HIGH-severity flags. Proceed on stated context only.",
+      "riskFlags": [],
+      "nciTrend": null,
+      "yGateTrend": null
+    }
+  },
+  "cover": {
+    "title": "Pre-Call — Ayesha Khan",
+    "subtitle": "Zach & Ayesha Connect · Fri Jul 17, 11:30 AM ET · Google Meet",
+    "context": "Ayesha is the organizer (personal gmail, Toronto). This is a first logged 1:1 — no ARCS ledger history to draw a pattern from. Treat as a discovery/connect call: listen for what she's actually optimizing for before framing any ARCS angle.",
+    "detectiveVerdict": "COLD — advisory only, no gate."
+  },
+  "loadBearingQuote": {
+    "text": "First logged contact — there is no revealed-preference pattern yet. Everything this call surfaces becomes the baseline the next lookup reads against.",
+    "attribution": "ARCS Detective (call-brief-hooks-v1, Task A)"
+  }
+}
