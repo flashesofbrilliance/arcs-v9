@@ -14,10 +14,11 @@ import { NextResponse } from "next/server";
  */
 
 // ISR: the route response is cached and regenerated at most once per window.
-// 300s keeps GitHub calls (~4 per regeneration) under the unauthenticated
-// 60 req/hr ceiling even with zero traffic-shaping. Set GITHUB_TOKEN to lift
-// the origin to 5000/hr, after which this can safely drop to 60.
-export const revalidate = 300;
+// 600s keeps GitHub calls (~5 per regeneration: commits, pulls, deployments,
+// deploy-status, issues) at ~30 req/hr — comfortably under the unauthenticated
+// 60 req/hr ceiling even with constant traffic. Set GITHUB_TOKEN to lift the
+// origin to 5000/hr, after which this can safely drop back to 60–300.
+export const revalidate = 600;
 
 const REPO = "flashesofbrilliance/arcs-v9";
 const GH = `https://api.github.com/repos/${REPO}`;
@@ -38,9 +39,10 @@ function ghHeaders(): Record<string, string> {
 }
 
 function gh(path: string): Promise<Response> {
-  // Align the data-cache window with the route's ISR window so the whole
-  // response regenerates as one unit (one cache, one mental model).
-  return fetch(`${GH}${path}`, { headers: ghHeaders(), next: { revalidate: 300 } });
+  // Align the data-cache window with the route's ISR window (600s) so the whole
+  // response regenerates as one unit — otherwise the shorter fetch-cache wins and
+  // GitHub gets hit twice as often as the route's rate-limit budget assumes.
+  return fetch(`${GH}${path}`, { headers: ghHeaders(), next: { revalidate: 600 } });
 }
 
 interface CommitApi {
@@ -62,7 +64,8 @@ interface IssueApi {
   // The REST /issues endpoint returns PRs too; a PR carries this key, a plain
   // issue does not. We filter PRs out so the status counts are issues only.
   pull_request?: unknown;
-  state: string;
+  state: string; // "open" | "closed"
+  state_reason?: string | null; // "completed" | "not_planned" | "reopened" | null
   labels: Array<{ name: string } | string>;
 }
 
@@ -86,10 +89,11 @@ export async function GET() {
       gh("/commits?sha=main&per_page=1"),
       gh("/pulls?state=open&per_page=100&sort=updated&direction=desc"),
       gh("/deployments?per_page=1"),
-      // Open issues drive the live status board. per_page=100 covers the whole
-      // open backlog today; if it ever exceeds 100 this undercounts — a paging
-      // loop would be the fix, flagged here rather than silently truncating.
-      gh("/issues?state=open&per_page=100"),
+      // All issues (open + closed) drive the live status board in ONE call:
+      // open-by-label → the three backlog buckets; closed-completed → shipped.
+      // per_page=100 covers the whole set today; if it ever exceeds 100 this
+      // undercounts — the truncated flag says so rather than lying.
+      gh("/issues?state=all&per_page=100"),
     ]);
 
     if (commitsRes.ok) {
@@ -130,19 +134,26 @@ export async function GET() {
     if (issuesRes.ok) {
       const raw = (await issuesRes.json()) as IssueApi[];
       const issues = raw.filter((i) => !i.pull_request); // drop PRs
+      const open = issues.filter((i) => i.state === "open");
       const counts: Record<string, number> = {};
       for (const label of STATUS_LABELS) {
-        counts[label] = issues.filter((i) => labelNames(i).includes(label)).length;
+        counts[label] = open.filter((i) => labelNames(i).includes(label)).length;
       }
+      // Shipped = closed issues that were actually completed (exclude the ones
+      // closed as not-planned/duplicate — those aren't shipped, they're dropped).
+      const shipped = issues.filter(
+        (i) => i.state === "closed" && i.state_reason !== "not_planned",
+      ).length;
       const link = issuesRes.headers.get("link");
       payload.issues = {
-        // Live open backlog by status label (the source of truth for tracked work).
+        // Every bucket now live from GitHub Issues — the whole board is real.
+        shipped,
         inProgress: counts["in-progress"],
         blocked: counts["blocked"],
         next: counts["next"],
-        openTotal: issues.length,
-        // Honesty flag: if there's a next page, the open backlog exceeds 100 and
-        // these counts are a floor, not exact. The client can label accordingly.
+        openTotal: open.length,
+        // Honesty flag: if there's a next page the set exceeds 100 and these are
+        // a floor, not exact. The client labels it "floor" rather than lying.
         truncated: !!(link && /rel="next"/.test(link)),
       };
     }
