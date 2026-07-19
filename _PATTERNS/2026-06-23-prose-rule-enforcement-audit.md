@@ -1,5 +1,14 @@
 # Prose-Rule Enforcement Audit (Task #5) — 2026-06-23
 
+> **UPDATE 2026-07-19 (token-efficiency audit follow-up):** Finding #1's live violations have since
+> been **remediated**, not disproven — the audit was accurate on 2026-06-23. As of today:
+> `src/document/patterns/ScenarioStack.tsx` (the `className="fadein"` site) no longer exists, and
+> `src/app/layout.tsx` now carries the **single sanctioned** `className` — the next/font CSS-variable
+> classes on `<html>` (documented inline, AGENTS.md Gotcha #2 / SKILL.md Domain #4), not the Tailwind
+> utility classes it flagged. A repo-wide grep now returns exactly **1** `className` in `src/`, and it
+> is allowed. The *enforcement* gap (no ESLint/CI rule forbids `className`) is still real; the
+> *instances* are gone.
+
 > Scope: `SKILL.md` only, per the execution plan's narrowed scope decision
 > (`_PATTERNS/2026-06-23-s-tier-execution-plan.md` #5). Extension to `AGENTS.md`/
 > `CLAUDE.md`/`WORLD.md` is *not* done exhaustively here — two findings below

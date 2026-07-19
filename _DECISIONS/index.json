@@ -207,8 +207,8 @@
     "file": "ADR-024-resume-arcs-care-architecture-gates.md"
   },
   {
-    "id": "ADR-025",
-    "title": "ADR-025 — ARCS Go-Live: Provisional Logic for the Public Launch",
+    "id": "ADR-025a",
+    "title": "ADR-025a — ARCS Go-Live: Provisional Logic for the Public Launch",
     "status": "DRAFT",
     "y_state": null,
     "stability": null,
@@ -216,8 +216,8 @@
     "file": "ADR-025-arcs-go-live-provisional-logic.md"
   },
   {
-    "id": "ADR-025",
-    "title": "ADR-025 — SAGE Signal Validation Path",
+    "id": "ADR-025b",
+    "title": "ADR-025b — SAGE Signal Validation Path",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
