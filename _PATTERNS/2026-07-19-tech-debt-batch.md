@@ -37,7 +37,7 @@ Real risk or a product call — do not hand to an unattended agent.
 | B1 react-hooks | ✅ DIAGNOSED — all 3 SAFE/justified, no real bugs, no fix. |
 | B2 nci_score 5-lens | ⏳ OPEN — product decision (build 5-lens vs amend spec). |
 | B3 SageTrace RLS | ⏳ OPEN — out-of-band (Supabase CLI). |
-| **B4 (NEW)** prod build red | ⏳ OPEN — `npx next build` exits non-zero on error-page prerender (`/_global-error`, `/_not-found`: `useContext`/`useState` null). Pre-existing (fails on clean tree), compile/typecheck itself passes, app deploys on Vercel. Latent — investigate whether it's a Next-16 error-page quirk, a missing local env, or a real bug Vercel tolerates. |
+| **B4 (NEW)** prod build red | ✅ ROOT-CAUSED + FIXED — NOT an app bug. The cloud shell exports `NODE_ENV=development`; bare `next build` inherits it, React loads dev internals, and `/_global-error` static export crashes with `useContext` on null. `NODE_ENV=production npx next build` passes cleanly (23 routes). Vercel always built in production → deploys never affected. Fix: `package.json` `build` script pins `NODE_ENV=production`; AGENTS.md Gotcha #4 documents "use `npm run build`, not bare `npx next build`." Bonus: added a self-contained branded `src/app/global-error.tsx` (best practice; was not the fix). |
 
 **Honest triage takeaway:** the "6-item green batch" was really **3 real fixes** (A1, A5, A6) + **1 diagnosis** (B1); A2/A3/A4 evaporated on scrutiny (zero token value or nonexistent). Padding avoided.
 

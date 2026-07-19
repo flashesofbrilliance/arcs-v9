@@ -167,7 +167,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 1. **No new dependencies without asking.**
 2. **Inline styles only in components** — no Tailwind, no CSS modules, no utility classes. Exactly two sanctioned exceptions: next/font variable classes on `<html>` in `layout.tsx` (framework mechanism), and the single `src/app/globals.css` (document reset, `@keyframes`, font tokens, reduced-motion). No other CSS files, no other `className`.
 3. **JSON arrays are TEXT strings** — always `JSON.stringify()` before write, `JSON.parse()` after read.
-4. **`npx next build`** for typecheck, not `tsc --noEmit` (TS5090 false positives on baseUrl).
+4. **Build with `npm run build`, not bare `npx next build`** — for typecheck (not `tsc --noEmit`; TS5090 false positives on baseUrl) AND because the cloud shell exports `NODE_ENV=development`. A bare `next build` inherits that and crashes prerendering `/_global-error` with `Cannot read properties of null (reading 'useContext')` (React loads dev internals during static export). `npm run build` pins `NODE_ENV=production` so it's reproducible; Vercel already builds in production, which is why deploys were never affected.
 5. **SQLite in dev, Postgres in prod** — don't use Prisma `Json` type until datasource is Postgres.
 6. **`git worktree list`** before any git operation — active worktree changes between sessions.
 7. **Commit style:** `type(scope): imperative [NCI:XX]` + `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
