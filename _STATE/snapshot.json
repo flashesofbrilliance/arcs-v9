@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-19T03:54:01Z",
+  "captured_at": "2026-07-19T04:20:05Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "bf419c4",
-    "head_message": "docs(adr-032): generalize chronos-sequencer risk beyond recoil specs [NCI:SKIP]",
+    "head_sha": "9fc1762",
+    "head_message": "fix+docs: J8 empty-tools bug, Scout reframe, hybrid checklist [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -162,5 +162,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T01:33:41Z"
+  "git_refreshed_at": "2026-07-19T04:14:48Z"
 }
