@@ -286,5 +286,14 @@
     "stability": "REVISIT",
     "gate": "decision firm; history-rewrite execution is irreversible and owner-gated — verify private repo complete before any force-push",
     "file": "ADR-036-repo-split-public-private.md"
+  },
+  {
+    "id": "ADR-037",
+    "title": "ADR-037 — Stateless Anonymous Brief Sharing (fragment payload, no server write)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit for cross-device one-time or share analytics",
+    "file": "ADR-037-stateless-anonymous-share.md"
   }
 ]

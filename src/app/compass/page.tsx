@@ -19,6 +19,7 @@ function CompassInner() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const next = searchParams.get("next") || "/dashboard"
+  const shared = searchParams.get("shared") // set when a one-time shared bearing was consumed
   const vw = useVw()
   const [email, setEmail] = useState("")
   const [sent, setSent] = useState(false)
@@ -47,6 +48,14 @@ function CompassInner() {
       {/* Card — vertically centered on desktop, top-aligned on mobile */}
       <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 6rem" }}>
         <Card style={{ width: "100%", maxWidth: 420 }}>
+          {shared && (
+            <div style={{ borderLeft: `2px solid ${signal.gold}`, paddingLeft: "0.85rem", marginBottom: "1.25rem" }}>
+              <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: signal.gold, marginBottom: "0.3rem" }}>Shared bearing viewed</div>
+              <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.secondary, lineHeight: 1.55 }}>
+                That link was one-time — it opened once and isn&rsquo;t stored anywhere. Sign in to keep your own bearings and revisit their briefs.
+              </div>
+            </div>
+          )}
           <h1 style={{ fontFamily: font.sans, fontSize: "1.4rem", fontWeight: 600, color: text.primary, margin: "0 0 0.5rem", lineHeight: 1.25, letterSpacing: "-0.01em" }}>
             Save receipts. Share briefs.
           </h1>
