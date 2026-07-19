@@ -1,4 +1,4 @@
-# ADR-033 — Commit-NCI Rubric (ratify the `[NCI:XX]` commit gate)
+# ADR-035 — Commit-NCI Rubric (ratify the `[NCI:XX]` commit gate)
 
 > **Status:** DECIDED
 > **Date:** 2026-07-19
@@ -22,7 +22,7 @@ a commit is not a decision receipt.
 
 ## E — Entity / System
 
-- `_DECISIONS/ADR-033-commit-nci-rubric.md` — **this file is the rubric's only source of truth.**
+- `_DECISIONS/ADR-035-commit-nci-rubric.md` — **this file is the rubric's only source of truth.**
 - `.claude/skills/nci-scoring/SKILL.md` — mirrors the rubric; header points back here.
 - `.claude/commands/nci-commit.md`, `.claude/commands/drift-check.md` — same.
 - Commit messages: `type(scope): imperative [NCI:XX]` or `[NCI:SKIP <reason>]`.

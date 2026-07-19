@@ -6,6 +6,7 @@ import { unstable_cache } from "next/cache"
 import { prisma } from "@/lib/db"
 import { computeYGate } from "@/lib/ygate"
 import { auth } from "@/lib/auth"
+import { rateLimit, clientIp } from "@/lib/ratelimit"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
 import { receiptEmail } from "@/emails/receiptEmail"
@@ -148,6 +149,17 @@ OUTPUT SHAPE (strict JSON, no markdown fences):
 
 export async function POST(req: NextRequest) {
   const t0 = Date.now()
+
+  // Ledger RL-001: this route spends Anthropic tokens for anonymous callers.
+  // 10 requests/min/IP comfortably covers real use (each run takes 20–40s).
+  const rl = rateLimit(`compass:${clientIp(req)}`, { limit: 10, windowMs: 60_000 })
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: "Too many requests — the compass needs a moment. Try again shortly." },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } }
+    )
+  }
+
   const session = await auth()
   const userId = session?.user?.id ?? null
   // ADR-016 Option C: compass open to anonymous users; userId written as null

@@ -44,5 +44,5 @@ Real risk or a product call — do not hand to an unattended agent.
 ## How to run Tier A cheaply
 Fan out A1–A6 as **parallel background subagents**, one per item, each: make the edit → `npx next build`
 (where it touches code) → commit to `claude/token-efficiency-audit-ip3l3x` with `[NCI:SKIP <reason>]`
-(all six are docs/chore/mechanical per ADR-033, so SKIP is correct). Isolated contexts = the file-dump
+(all six are docs/chore/mechanical per ADR-035, so SKIP is correct). Isolated contexts = the file-dump
 noise never enters the main session. Estimated: 6 small agents, one build each.
