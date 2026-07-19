@@ -189,6 +189,32 @@ push if local `main` is behind (forces rebase, kills silent clobbers), (b) check
 - **J16** — Recoil-report gather robustness: reconcile the CURATOR's cross-file reads as an *explicit, consented* input list (per-subject allowlist) rather than filesystem wandering — makes multi-artifact synthesis safe under J8. adjacent. ~med.
 - **J17** — **Fork Lineage** (rebrand `init-state-sync`). Two moves: (a) make snapshot-sync a mandatory step 0 of `/handoff` — the semantic fields (session_summary/next_action/blocking/open_adrs) don't auto-refresh like the git fields do, so they silently drift (2 days stale at this handoff; operator caught it, the process didn't). (b) **Reframe the snapshot from a mutable current-state blob into a fork-lineage provenance record**: each session/worktree stamps the state it *forked from* (parent HEAD + fork timestamp + session id) and its *merge-back*, yielding a session-provenance DAG. This is the receipts/provenance ethos applied to the session topology itself, and it's the observability layer J5/J14 (write-lock serializability) need to make concurrent-session drift legible rather than a mystery — and it ties into the archaeology/immune-ledger themes. meta/process → architecture. ~med.
 
+### Local→global audit (things we scoped local that are actually a class, 2026-07-19)
+
+Prompted by the chronos-sequencer generalization — same failure mode (fix the instance, miss
+the class). Ranked by exposure:
+
+- **J19 (HIGHEST) — Harden `/api/compass`, the real front door.** We spent the session
+  hardening an *internal* validation workflow (recoil-report) with untrusted-data wrapping +
+  the Skeptic Sentinel, while the **production LLM entry point that takes real, arbitrary user
+  input** got none of it. The actual injection surface is unhardened. Apply untrusted-data
+  framing + a Sentinel pre-screen to compass. ~med.
+- **J20 — Promote the Skeptic Sentinel to a standalone reusable operator** (not embedded in
+  recoil-report). Intent/premise screening applies to compass, any workflow, and webhook/PR
+  ingestion — it's the general trust-boundary operator, currently trapped in one workflow. ~low.
+- **J18 — Rename the scoped agent types to generic primitives** (`recoil-reason` → a no-tools
+  reasoner; `recoil-gather-*` → read-only gatherers). The `recoil-` prefix makes *reusable*
+  primitives look single-use, so review-gate/patent-triage will re-invent them. ~low.
+- **J21 — Default watchdog/stop-rule for every long-running background task**, not per-run.
+  We wrote one for the recoil run by hand; every workflow/agent/deploy-wait needs the timeout. ~low.
+- **J22 — MCP server identity pinning.** The servers reconnect under *changing* IDs — noted
+  as a local annoyance, but it's a supply-chain trust gap (P8/P10): you cannot cryptographically
+  pin a server whose identity churns. A changing identity is itself a trust signal. ~med.
+- **J23 — Freshness stamps on all derived/cached surfaces** (brief, receipt, observatory), not
+  just the Live Pulse — the "data as of" principle is a class, not a one-widget fix. ~low.
+- **J24 — External-surface leak policy is a class, not just chan** (J1). Every prospect-facing
+  subdomain must not surface internal text; make it a policy + a check, not a per-page fix. ~low.
+
 **J3 plan:** per top-3 claim (accuracy-scaling, calibration, beats-experts):
 pre-register on OSF → build a time-ordered backtest over the receipt corpus →
 report CI-hit / reliability / win-rate against the kill criteria in §Evals. Gated
