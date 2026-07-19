@@ -2,8 +2,8 @@
   "captured_at": "2026-07-19T04:20:05Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "c62a10a",
-    "head_message": "chore(state): SessionStart snapshot refresh (mechanical) [NCI:SKIP]",
+    "head_sha": "ee6a46c",
+    "head_message": "feat(status): State of the Union first; pull sensitive Patent section [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -162,5 +162,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T12:39:17Z"
+  "git_refreshed_at": "2026-07-19T15:25:00Z"
 }
