@@ -195,6 +195,13 @@ push if local `main` is behind (forces rebase, kills silent clobbers), (b) check
 - **J15** — Verify cost, deeper: Sonnet first-pass refutation, Opus only on survivors (further bounds the driver J7 capped). adjacent. ~low.
 - **J16** — Recoil-report gather robustness: reconcile the CURATOR's cross-file reads as an *explicit, consented* input list (per-subject allowlist) rather than filesystem wandering — makes multi-artifact synthesis safe under J8. adjacent. ~med.
 - **J17** — **Fork Lineage** (rebrand `init-state-sync`). Two moves: (a) make snapshot-sync a mandatory step 0 of `/handoff` — the semantic fields (session_summary/next_action/blocking/open_adrs) don't auto-refresh like the git fields do, so they silently drift (2 days stale at this handoff; operator caught it, the process didn't). (b) **Reframe the snapshot from a mutable current-state blob into a fork-lineage provenance record**: each session/worktree stamps the state it *forked from* (parent HEAD + fork timestamp + session id) and its *merge-back*, yielding a session-provenance DAG. This is the receipts/provenance ethos applied to the session topology itself, and it's the observability layer J5/J14 (write-lock serializability) need to make concurrent-session drift legible rather than a mystery — and it ties into the archaeology/immune-ledger themes. meta/process → architecture. ~med.
+  **(c) Conditional action — DONE:** `scripts/fork_lineage_check.sh` — if commits since the last
+  state-sync exceed the threshold (default 5, `FORK_LINEAGE_THRESHOLD`), it triggers the sync
+  (exit 1 + actionable message). Fail-safe (unreadable snapshot → exit 2, never a silent pass);
+  terminating (the sync advances `head_sha` → count resets to 0 — cannot loop). Wire into a
+  stop/pre-push hook or run at handoff time. The threshold echoes WORLD.md's Drift Sentinel
+  ("5 turns without a new artifact"). Generalizes: a *drift-threshold trigger* is a class — it
+  applies to any point-in-time artifact, not just the snapshot (local→global).
 
 ### Local→global audit (things we scoped local that are actually a class, 2026-07-19)
 
