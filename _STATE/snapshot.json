@@ -1,17 +1,18 @@
 {
-  "captured_at": "2026-07-19T04:20:05Z",
+  "captured_at": "2026-07-19T22:12:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "0e19a69",
-    "head_message": "feat(status): live day-count from T0 (retire hardcoded '98')",
-    "in_sync_with_origin": false,
+    "head_sha": "486472e",
+    "head_message": "chore(state): SessionStart snapshot refresh (mechanical) [NCI:SKIP]",
+    "in_sync_with_origin": true,
     "dirty_files": [
-      "_STATE/snapshot.json"
+      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, other thread)",
+      "test_prisma_direct.js (untracked, other thread)"
     ]
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-e4pdf5zd9-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-oxmvo7d6i-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -45,12 +46,13 @@
   "open_adrs": [
     "ADR-031 (secrets inventory + rotation)",
     "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
-    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)"
+    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
+    "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Zero-Trust & Orchestration session. Started as a 'state of the union' graphic, ended as a governing security posture. Shipped: /state-of-union.html (roadmap/patents/evals/L0-L7 archaeology) + status.arcs.care sections 08-11 + chan.arcs.care Live Pulse (sanitized, J1); cached GET /api/pulse (ISR, CORS, verified HIT); corrected the false 'papers published' claim (internal drafts; public-repo = \u00a7102 question). Built the JTBD orchestration map (risk-calibrated model delegation), the recoil-report multi-agent workflow (least-privilege agent scoping, untrusted-data wrapping, bidirectional Skeptic Sentinel with false-premise/wolf mode, J7 verify cap, J10 preflight), and OSS vetting (kept /ultrareview bespoke; adopted claude-code-security-review CI, fork-guarded). ADR-031 secrets inventory; ADR-032 Zero-Trust Posture (10 principles incl. crypto/ZK proves identity not intent, egress-is-a-control, trust-of-input drives model tier; patterns: Skeptic Sentinel, dual-control handshake, step-up auth = magic-link primary/TOTP optional/WebAuthn endgame). Ran the recoil-report validation (wf_31635888-3f6): watchdog-stopped mid-verify; adversarial verify refuted 43/48 (~90%, working as designed on thin input); found the verify fan-out cost blowout + a cross-person data-bleed -> fixed as J7/J8/J10. J1/J2(audit)/J4/J6/J7/J8/J10 done. [post-handoff: J17 Fork Lineage added (rebrand init-state-sync -> provenance record; make snapshot-sync a mandatory /handoff step 0); Live-Pulse foot now shows honest 'data as of' generation time (ISR-cached ~5 min) rather than the client clock. Handoff: _STATE/handoff-2026-07-19-zero-trust.md. HEAD 30c7e4f.] [terminal: chronos-sequencer risk generalized in ADR-032 as a governing discipline \u2014 any point-in-time artifact read later as current serializes dead state unless it carries readOrder + superseded markers + a freshness stamp; recency is not currency. State-sync run as the gated terminal step per J17. No further commits after this.]",
-  "next_action": "Pick from J11 (/ultrareview enforces the ADR-032 conformance checklist), J13 (dual-control handshake in code), or J14 (write-lock serializability \u2014 read operators/arcs_yoav_store.py then ADR; absorbs J5). Re-run recoil-report ONLY after confirming MCP connectivity (J10) and validating the tools:[] empty-scope on recoil-reason (J8). Full session handoff: _STATE/handoff-2026-07-19-zero-trust.md (fold into CLAUDE.md as Handoff v3.8.0 once the concurrent handoff refactor settles).",
-  "blocking": "NONE for next session to start. Human-only actions pending: (1) J2 repo-privacy decision (named dossiers + papers public); (2) GITHUB_TOKEN -> Vercel (tighten /api/pulse to 60s); (3) ANTHROPIC_API_KEY -> GitHub Actions Secrets + 'require approval for outside collaborators' (so security.yml runs); (4) rotate Supabase DB password + Resend key (ADR-031); (5) branch-protection on main (the trigger half of J14).",
+  "session_summary": "Serialization pathogen family session: chronos-sequencer + inductive-overfit + open-loop decay codified in recoil-modes-v1.md (v0.1.0->v0.4.0) and call-brief-hooks (v1.1.0); ADR-033 tuple axiom (claim/time/scope/warrant/obligations/dictionary) RATIFIED GREEN/HIGH/REVISIT; Detective gained superseded-skip, n-aware regime read, validityBounds surfacing, and --sweep (first run: 52 open obligations / 20 reports / 0 ever closed). Enforcement-parity loop closed via ADR-034 merge (PR #63).",
+  "next_action": "Act on the --sweep backlog (52 open riskFlags; oldest 18d, incl. a 10d-old HIGH) \u2014 owners write DONE/WAIVED statuses; then dedupe the two ADR-032 files; epistemic/etymology members still need their own enforcement points (registered with existing partial mechanisms only).",
+  "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",

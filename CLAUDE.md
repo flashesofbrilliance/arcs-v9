@@ -257,3 +257,57 @@ All compass-side changes are build + typecheck + unit-tested, but **NOT driven v
 
 `/handoff-pickup` → merge is done; pick an out-of-band item (Sentinel rebuild, SageTrace RLS) or the
 B2 cadence/HOLD-gate follow-up.
+
+---
+
+# Handoff — v3.10.0 (2026-07-19)
+
+> **For Claude Code:** active pickup point. v3.8.0 above is preserved for history.
+> Version realignment: CLAUDE.md was at v3.8.0 while MEMORY.md was at v3.9.0 (two
+> concurrent sessions, one tracker each — the pathogen this very session codified).
+> Both realigned at v3.10.0. Full detail lives in `MEMORY.md` `[v3.10.0]`, not
+> repeated here.
+
+## What changed since v3.8.0
+
+**The serialization pathogen family** — codified, ratified, and enforced in one arc:
+
+- **ADR-033 DECIDED** (`_DECISIONS/ADR-033-serialization-pathogen-family.md`,
+  GREEN/HIGH/REVISIT, ratified by Zach 2026-07-19). One axiom: a serialized belief
+  is a tuple (claim, time, scope, warrant, obligations, dictionary); each family
+  member is one coordinate dropped. Five members registered with receipts +
+  enforcement points; 4-part admission gate stops taxonomy sprawl.
+- **`runtime/specs/recoil-modes-v1.md` → v0.4.0** — three mandates: `readOrder` +
+  `[SUPERSEDED]` markers + always-current cover (chronos); `validityBounds` with
+  n-aware regime ladder, tails/edges excepted at any n (inductive-overfit);
+  riskFlags `status` field, closure-is-an-explicit-write (open-loop).
+- **`runtime/specs/call-brief-hooks-v1.md` → v1.1.0** — Task A/B read current
+  state first; never quote a stratum unchecked.
+- **Detective (`scripts/receipt_lookup.py`)** — superseded-skip, n-aware Read,
+  validityBounds surfacing, and **`--sweep`**: first run found **52 open
+  obligations / 20 reports / 0 ever closed** (oldest 18d, incl. a 10d-old HIGH).
+- **First documented closure:** enforcement-parity ledger (stranded unmerged
+  3 days; memory had it serialized as live law) merged as **ADR-034** (PR #63),
+  renumbered per ADR-033's rule. Jurisdictions: ADR-034 ledger = repo/audit
+  findings; `--sweep` = call-ledger obligations.
+
+## Open from this thread
+
+1. **Sweep backlog** — 52 open riskFlags await owner `DONE`/`WAIVED` writes.
+2. **ADR-032 duplicate** — two files share the number; dedupe/renumber.
+3. **Epistemic + etymology members** — registered with existing partial mechanisms
+   only; dedicated enforcement (warrant field on banked claims; rename tombstones)
+   not yet built.
+
+## Last confirmed commits (this thread)
+
+`9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ this handoff commit)
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → run `python3 scripts/receipt_lookup.py --sweep` and start
+closing the oldest flags, or pick up any v3.8.0/v3.9.0 open item.
