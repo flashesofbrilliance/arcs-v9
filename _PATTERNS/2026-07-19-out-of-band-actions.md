@@ -11,9 +11,16 @@ Legend: 🔴 do-now leverage · 🟡 worth doing · 🟢 optional/hygiene
 ---
 
 ## A. arcs-decision-receipts environment — the Drift Sentinel (fix #3) 🔴
-**Why blocked here:** the scheduled task was created via the API from the `arcs-decision-receipts`
-environment. Ownership rule — a session in a *different* repo (this one) cannot read or modify it. Must be
-recreated/deleted from that environment (or the API that made it).
+**Why blocked here:** the scheduled task was created via `http_api`. Ownership rule — confirmed live
+2026-07-19: an agent session (this one) got `update_trigger: agents can only update routines they created`.
+Only a human (claude.ai → Settings → Routines toggle) or the owning env/API can modify it.
+
+> **DECIDED 2026-07-19 — DISABLE NOW, rebuild later.** The routine fires daily on **Sonnet** with all
+> **13 MCP connectors** it can't use, against a **stale JTBD** (design-system-v1 / arcs_api.py template /
+> ReceiptSavePrompt / monorepo consolidation — all done/obsolete) → tokens, no outcome. **Action for a
+> human:** claude.ai → Settings → Routines → "ARCS Daily Drift Sentinel + NCI Review" → toggle **off**
+> (stops the 04:00 UTC fire). Reversible. Then rebuild the lean/report-only version below when ready.
+> (One-shot `trig_015a…` recoil watchdog already fired `run_once_fired` — harmless, delete for tidiness.)
 
 **Cutover steps (from `sentinelrebuild.md`):**
 1. Create a NEW scheduled task from the arcs-decision-receipts environment with:

@@ -55,10 +55,12 @@ These don't have a number in the table above because no ADR exists for them — 
 > docs. The in-repo fixes are done + pushed; what remains is out-of-band (other environments) or follow-on.
 
 **Out-of-band — need an environment this cloud session can't reach** (see `_PATTERNS/2026-07-19-out-of-band-actions.md`):
-- 🔴 **Sentinel rebuild (fix #3) + security guardrail** — recreate from the `arcs-decision-receipts` env
-  (ownership rule): zero MCP connectors, Haiku model, push on. **AND make it report-only** — drop `Write`/
-  `Edit`, never let it `Edit` `CLAUDE.md`; see the lethal-trifecta write-up in
-  `_PATTERNS/2026-07-19-threat-assessment.md` §HIGH.
+- 🔴 **Sentinel: DISABLE NOW (decided 2026-07-19), then rebuild report-only.** The live routine
+  (`trig_01Wm…`) fires daily on Sonnet + 13 unused connectors against a stale JTBD = tokens, no outcome.
+  Agents can't modify an `http_api`-created routine (verified), so a **human** must toggle it off:
+  claude.ai → Settings → Routines → "ARCS Daily Drift Sentinel + NCI Review" → off. Then rebuild from the
+  `arcs-decision-receipts` env: zero MCP connectors, Haiku, **report-only** (drop `Write`/`Edit`, never
+  `Edit` `CLAUDE.md` — lethal-trifecta, `_PATTERNS/2026-07-19-threat-assessment.md` §HIGH).
 - 🔴 **`SageTrace` RLS** — enable + deny-all policy via the Supabase **CLI** (project invisible to the MCP,
   wrong org).
 - 🟡 Connector hygiene (claude.ai settings), Vercel preview `DATABASE_URL`, `DATABASE_URL` rotation reminder,
