@@ -2,10 +2,12 @@
   "captured_at": "2026-07-17T20:20:03Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "0379827",
-    "head_message": "chore(state): refresh snapshot to HEAD 4e106c3 [NCI:SKIP]",
+    "head_sha": "17a40ff",
+    "head_message": "chore(state): refresh session snapshot [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -155,5 +157,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T00:39:33Z"
+  "git_refreshed_at": "2026-07-19T01:33:41Z"
 }
