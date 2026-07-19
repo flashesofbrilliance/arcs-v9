@@ -51,8 +51,9 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ## Open backlog from the token-efficiency audit session (2026-07-19)
 
-> Branch `claude/token-efficiency-audit-ip3l3x` (not yet merged). Full detail in the `_PATTERNS/2026-07-19-*`
-> docs. The in-repo fixes are done + pushed; what remains is out-of-band (other environments) or follow-on.
+> Branch `claude/token-efficiency-audit-ip3l3x` **merged to main** (2026-07-19). Full detail in the
+> `_PATTERNS/2026-07-19-*` docs. The in-repo fixes are landed; what remains is out-of-band (other
+> environments) or follow-on.
 
 **Out-of-band — need an environment this cloud session can't reach** (see `_PATTERNS/2026-07-19-out-of-band-actions.md`):
 - 🔴 **Sentinel: DISABLE NOW (decided 2026-07-19), then rebuild report-only.** The live routine
@@ -71,8 +72,8 @@ These don't have a number in the table above because no ADR exists for them — 
 - **B2 depth:** source the `nci_by_lens.cadence` lens from `time-quality-attribution-rom.json` (currently
   Claude-estimated), and decide the **HOLD gate at NCI < 40** — which overlaps the existing "Calibrate-surface
   malformed-question HOLD gate" item above. See `_PATTERNS/2026-07-19-tech-debt-batch.md` B2.
-- **Merge** `claude/token-efficiency-audit-ip3l3x` → main (closes the cloud-snapshot staleness the lean
-  CLAUDE.md/MEMORY.md changes depend on).
+- ~~**Merge** `claude/token-efficiency-audit-ip3l3x` → main~~ ✅ DONE 2026-07-19 — merged; lean
+  CLAUDE.md/MEMORY.md confirmed live on main, cloud-snapshot staleness closed.
 
 ---
 
