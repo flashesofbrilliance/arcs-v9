@@ -73,10 +73,17 @@ Chan's report — the exact risk the tightening now closes.
 4. Rotate the overdue Supabase DB password + stale Resend MCP key (ADR-031).
 5. Branch-protection on `main` (the trigger half of J14 serializability).
 
+## Post-handoff commits (continued past the first handoff — see J17, this is the drift it fixes)
+- `fdcdf31` J7/J8/J10 hardening + this handoff · `0f2e3c8` init-state-sync + **J17 Fork Lineage**
+  (rebrand snapshot → provenance record; make sync a mandatory `/handoff` step 0) ·
+  `30c7e4f` pulse foot shows honest **"data as of"** generation time, not the client clock.
+- Live-pulse recency: status/chan are ISR-cached ~5 min (rate-limit safety without a token);
+  the foot now exposes that. Drop `revalidate` 300→60 once `GITHUB_TOKEN` is set (pending action #2).
+
 ## Key commits
-`e44fe02` ledger · `7abac40` ADR-032 + hardened workflow · `392ca41` least-privilege ·
-`f9290a0` ATG J1/J2/J4/J6 · `2038fa4` papers-correction + pulse + analytics ·
-`936e1dc`/`1f4b548` /api/pulse.
+`30c7e4f` pulse-timestamp · `0f2e3c8` state-sync + J17 · `fdcdf31` J7/J8/J10 · `e44fe02` ledger ·
+`7abac40` ADR-032 + hardened workflow · `392ca41` least-privilege · `f9290a0` ATG J1/J2/J4/J6 ·
+`2038fa4` papers-correction + pulse + analytics · `936e1dc`/`1f4b548` /api/pulse.
 
 ## Next session starts at
 Pick from J11 (self-enforcing doctrine), J13 (dual-control), or J14 (serializability — read
