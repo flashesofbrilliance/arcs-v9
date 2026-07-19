@@ -66,8 +66,10 @@ export default function RootLayout({
           <StickyFooter message="Interested in ARCS powered sprints by Mañana?" maxWidth={960} />
           <ClaimAnonymousReceipts />
           <VercelToolbarToggle />
-          <Analytics />
-          <SpeedInsights />
+          {/* Both inject scripts served by Vercel's edge (/_vercel/*) — off
+              Vercel (local prod, CI) those URLs 404 on every page. */}
+          {process.env.VERCEL ? <Analytics /> : null}
+          {process.env.VERCEL ? <SpeedInsights /> : null}
         </Providers>
       </body>
     </html>

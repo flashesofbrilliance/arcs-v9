@@ -15,4 +15,4 @@ Hard checklist — cite evidence, mark PASS / FAIL / N-A:
 5. **Resource bounds**: no unbounded queries (`findMany` without `take` on user-facing paths), no unbounded loops over external calls, in-memory state has a cap.
 6. **Cron/background**: scheduled work is idempotent — a double-fire or a missed fire must not corrupt state.
 
-Output: findings ranked by blast radius × likelihood, each with the concrete incident it prevents. Out-of-scope findings go to `_PATTERNS/ledger.json` (ADR-033).
+Output: findings ranked by blast radius × likelihood, each with the concrete incident it prevents. Out-of-scope findings go to `_PATTERNS/ledger.json` (ADR-034).

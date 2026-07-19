@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Enforcement-parity ledger gate (ADR-033).
+"""Enforcement-parity ledger gate (ADR-034).
 
 Fails (exit 1) when any finding in _PATTERNS/ledger.json is delinquent:
   - exit.type == "open" and older than its severity SLA, or

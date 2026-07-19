@@ -13,7 +13,7 @@ Method, per claim:
 4. Verdict: **VERIFIED** (evidence cited) / **FALSE** (counter-evidence cited) / **UNVERIFIABLE HERE** (requires live infra access — say exactly what check would settle it, e.g. `get_deployment(domain)`).
 
 Rules:
-- "There is a rule" ≠ "the rule is enforced." For any must/never/always claim, ask: what mechanism catches a violation? If none, the claim is at best VERIFIED-AS-PROSE — say so explicitly (this repo's core failure mode, per ADR-033).
+- "There is a rule" ≠ "the rule is enforced." For any must/never/always claim, ask: what mechanism catches a violation? If none, the claim is at best VERIFIED-AS-PROSE — say so explicitly (this repo's core failure mode, per ADR-034).
 - Absolute claims ("all routes", "every table", "zero X") require exhaustive checks, not sampling.
 - Never soften a FALSE into "partially true." Report the sentence as written.
 

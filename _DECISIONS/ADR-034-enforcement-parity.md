@@ -1,4 +1,4 @@
-# ADR-033 — Enforcement Parity: Internal Invariants Get the Same Gates as Client Artifacts
+# ADR-034 — Enforcement Parity: Internal Invariants Get the Same Gates as Client Artifacts
 
 > **Status:** DECIDED
 > **Date:** 2026-07-16
