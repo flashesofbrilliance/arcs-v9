@@ -28,20 +28,27 @@
       "filed": "2026-07-16",
       "severity": "high",
       "summary": "Trust contract §1 (anonymous sessions write nothing server-side) has no regression test — the exact defect disclosed in §1 could silently recur.",
-      "exit": { "type": "open" }
+      "exit": { "type": "test", "ref": "tests/trust-contract.spec.ts (row-count invariants for anon compass/prep + 401s on write paths; runs in fe-smoke)", "date": "2026-07-19" }
     },
     {
       "id": "YG-005",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "src/lib/ygate.ts (core scoring algorithm, pure function) has zero unit tests.",
-      "exit": { "type": "open" }
+      "exit": { "type": "test", "ref": "tests/ygate.spec.ts (10 table-driven cases across polarity/conviction/stability/drift/render)", "date": "2026-07-19" }
     },
     {
       "id": "LINT-006",
       "filed": "2026-07-16",
       "severity": "medium",
       "summary": "CI lint is advisory (continue-on-error); no lint rule prevents className/Tailwind recurrence after the 2026-07-11 removal.",
+      "exit": { "type": "ci", "ref": "scripts/style_rule_check.py hard gate in ci.yml (className recurrence). Full lint promotion split out as LINTP-014.", "date": "2026-07-19" }
+    },
+    {
+      "id": "LINTP-014",
+      "filed": "2026-07-19",
+      "severity": "medium",
+      "summary": "Promote eslint from advisory to blocking — requires clearing 154 pre-existing errors first (measured 2026-07-19).",
       "exit": { "type": "open" }
     },
     {
@@ -90,7 +97,7 @@
       "id": "SESS-013",
       "filed": "2026-07-18",
       "severity": "low",
-      "summary": "Legacy arcs-care 'sessions' table has an anon INSERT policy (WITH CHECK true) — open write surface on an inactive product; last remaining advisor WARN. Decide: drop the legacy arcs-care tables (sessions/waitlist) or tighten the policy.",
+      "summary": "Legacy arcs-care 'sessions' table has an anon INSERT policy (WITH CHECK true) — open write surface on an inactive product; last remaining advisor WARN. Decision-ready (counts 2026-07-19): waitlist=0 rows (safe to drop), sessions=51 rows of historical data (keep data, drop the anon INSERT policy). Needs Zach's yes.",
       "exit": { "type": "open" }
     }
   ]

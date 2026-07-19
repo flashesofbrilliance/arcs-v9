@@ -55,6 +55,12 @@ jobs:
       - name: Ledger delinquency check
         run: python3 scripts/ledger_check.py
 
+      # Hard gate — inline-styles-only rule (ledger LINT-006): no className
+      # outside the sanctioned allowlist. This rule was silently broken from
+      # the first commit for seven weeks; grep gate prevents recurrence.
+      - name: Style rule check (no className)
+        run: python3 scripts/style_rule_check.py
+
       # Hard gate — the build is also the typecheck.
       - name: Build (typecheck + compile)
         run: npm run build
