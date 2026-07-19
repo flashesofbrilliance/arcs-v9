@@ -214,6 +214,12 @@ the class). Ranked by exposure:
   just the Live Pulse — the "data as of" principle is a class, not a one-widget fix. ~low.
 - **J24 — External-surface leak policy is a class, not just chan** (J1). Every prospect-facing
   subdomain must not surface internal text; make it a policy + a check, not a per-page fix. ~low.
+- **J25 — Recursion/termination audit of self-referential operations.** Each self-triggering or
+  self-spawning process needs an explicit terminating condition: state-sync (✓ fixed — gated
+  terminal step), **ATG** (needs a stop rule — halt when a round yields no new *class*, not just
+  no new item), **Skeptic-on-Skeptic** (depth cap), workflow nesting (harness-capped at 1), and
+  the **local→global generalization** itself (bound the altitude climb). Unbounded self-reference
+  = liveness bug. Now gated by the ADR-032 checklist item. ~low.
 
 **J3 plan:** per top-3 claim (accuracy-scaling, calibration, beats-experts):
 pre-register on OSF → build a time-ordered backtest over the receipt corpus →

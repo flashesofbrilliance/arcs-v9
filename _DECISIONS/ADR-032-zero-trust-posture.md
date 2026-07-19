@@ -92,6 +92,15 @@ extend it to the whole stack.
   data, all point-in-time artifacts)? Name the class; apply broadly or file it. (This
   checklist item exists because the session that wrote this ADR repeatedly fixed the local
   instance and missed the class — chronos-sequencer, the unhardened front door, etc.)
+- [ ] **Recursion / termination?** — if this operation can re-trigger its own precondition
+  (state-sync re-staling itself), spawn more of itself (ATG generating JTBDs, a workflow
+  spawning workflows, a verifier verifying the verifier), or climb meta-levels (generalizing
+  a generalization — including *this checklist*), does it have an **explicit terminating
+  condition**? (fixpoint · depth cap · gated terminal step · N-consecutive-no-change ·
+  diminishing-returns stop). Unbounded self-reference is a liveness bug, not just an
+  inefficiency. Proven live: the snapshot-sync loop re-staled itself until a gated terminal
+  step broke it. Corollary: the "Local or global?" item above must be bounded — stop climbing
+  altitude when the class is broad enough to be actionable, not when you reach the top.
 
 An ADR that cannot check a box must state the residual risk explicitly (naming the gap is
 conformant; hiding it is not).
