@@ -48,10 +48,11 @@ was explicitly chosen.
 
 ## Consequences
 
-- **Trust/privacy copy updated in the same change** (so code matches claims): `/trust` §01 gains a
-  "sharing an anonymous bearing" carve-out — the bearing rides in the link, still nothing on our servers,
-  opens once per device, treat like any message; `/privacy` gains a row saying a shared bearing travels in
-  the link (URL fragment), not the DB, with a functional per-device one-view flag.
+- **Canonical contract amended in the same change** (source of truth first, per its own header):
+  `_CANON/trust-contract.md` → **v1.3**, §1 gains the "Sharing an anonymous bearing" carve-out + amendment-log
+  row + a MEMORY.md entry. The derived pages then match it: `/trust` §01 carve-out (footer bumped to v1.3);
+  `/privacy` row (footer bumped to v1.1). Wording avoids overclaiming — the one-view flag is per-device/soft,
+  not "enforced."
 - **Server-side claims unchanged** — no DB row, no reversal of ADR-032. A `privacy-review` pass verifies
   code-vs-claims before merge.
 - **Soft one-time:** cannot be enforced across devices/cache-clears (no server state). Accepted.

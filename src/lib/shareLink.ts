@@ -84,7 +84,12 @@ export function decodeShare(fragment: string): CompassResult | null {
           emotions: clampText(fated.emotions, 1500),
           direction: clampText(fated.direction, 1500),
         },
-        paths: Array.isArray(r.paths) ? (r.paths.slice(0, 6) as CompassResult["reasoning"]["paths"]) : undefined,
+        paths: Array.isArray(r.paths)
+          ? r.paths.slice(0, 6).map((p) => {
+              const pp = (p ?? {}) as Record<string, unknown>
+              return { id: clampText(pp.id, 80), title: clampText(pp.title, 200), detail: clampText(pp.detail, 1500), tag: clampText(pp.tag, 80), status: clampText(pp.status, 40) }
+            }) as CompassResult["reasoning"]["paths"]
+          : undefined,
         court_verdict: typeof r.court_verdict === "string" ? clampText(r.court_verdict, 1500) : undefined,
       } as CompassResult["reasoning"],
     }

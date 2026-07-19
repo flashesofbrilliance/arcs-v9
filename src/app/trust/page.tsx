@@ -185,7 +185,7 @@ export default function TrustPage() {
         {/* Footer links */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.1 · last updated 2026-06-23</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.3 · last updated 2026-07-19</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <button onClick={() => router.push('/privacy')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Privacy policy</button>
             <button onClick={() => router.push('/terms')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Terms of service</button>
