@@ -68,7 +68,17 @@ export default function SharedBriefPage() {
             This link carries the sender&rsquo;s bearing inside the URL itself — nothing was stored on our servers. It opens <strong style={{ color: text.primary }}>once on this device</strong>, then becomes a sign-in page. Sign in to keep and revisit briefs of your own.
           </div>
         </div>
-        <Button variant="gold" size="sm" onClick={() => router.push("/compass?next=/dashboard&shared=1")}>Sign in to keep</Button>
+        <Button variant="gold" size="sm" onClick={() => {
+          // "Keep" = persist post-auth. Stash the recomposed bearing exactly the
+          // way the ephemeral receipt page does (arcs_pending_save), so the
+          // root-layout ClaimAnonymousReceipts consumer saves it after sign-in
+          // and lands the user ON their own /receipt/<id> — not the generic
+          // dashboard. Without this, "Sign in to keep" kept nothing and dropped
+          // the viewer at app.arcs.care. The shared payload carries no prep;
+          // /api/receipts/save handles a null prep context fine.
+          try { localStorage.setItem("arcs_pending_save", JSON.stringify({ savedAt: Date.now(), bearing: result })) } catch {}
+          router.push("/compass?shared=1")
+        }}>Sign in to keep</Button>
         </div>
       </div>
 
