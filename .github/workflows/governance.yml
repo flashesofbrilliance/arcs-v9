@@ -1,4 +1,4 @@
-# Monthly governance heartbeat (ADR-033). The CI ledger gate only fires when
+# Monthly governance heartbeat (ADR-034). The CI ledger gate only fires when
 # someone pushes; this fires on the calendar, so a quiet month can't silently
 # age findings past SLA. Opens a GitHub issue when the ledger is delinquent.
 name: Governance
@@ -32,4 +32,4 @@ jobs:
           gh issue create \
             --title "Governance: enforcement-parity ledger delinquent ($(date +%Y-%m))" \
             --label governance \
-            --body "$(printf 'The monthly ledger check found delinquent findings (ADR-033).\n\n```\n%s\n```\n\nClose each with a mechanism (test/ci/guard) or a dated waiver in _PATTERNS/ledger.json.' "$(cat ledger-report.txt)")"
+            --body "$(printf 'The monthly ledger check found delinquent findings (ADR-034).\n\n```\n%s\n```\n\nClose each with a mechanism (test/ci/guard) or a dated waiver in _PATTERNS/ledger.json.' "$(cat ledger-report.txt)")"

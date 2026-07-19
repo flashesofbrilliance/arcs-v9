@@ -1,5 +1,5 @@
 {
-  "_doc": "Enforcement-parity ledger (ADR-033). Every audit finding must exit via one of: test | ci | guard | waiver. exit.type='open' entries age against severity SLAs (high=30d, medium=60d, low=90d from 'filed'). scripts/ledger_check.py fails CI on delinquent entries. Waivers require 'expires' and 'reason'; an expired waiver is delinquent. Do NOT close a finding by deleting it — set its exit and keep the row.",
+  "_doc": "Enforcement-parity ledger (ADR-034). Every audit finding must exit via one of: test | ci | guard | waiver. exit.type='open' entries age against severity SLAs (high=30d, medium=60d, low=90d from 'filed'). scripts/ledger_check.py fails CI on delinquent entries. Waivers require 'expires' and 'reason'; an expired waiver is delinquent. Do NOT close a finding by deleting it — set its exit and keep the row.",
   "slas_days": { "high": 30, "medium": 60, "low": 90 },
   "findings": [
     {

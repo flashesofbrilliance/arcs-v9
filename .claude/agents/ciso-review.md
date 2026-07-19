@@ -15,4 +15,4 @@ Hard checklist — verify each against the actual diff/code, cite file:line evid
 5. **Data exposure**: API responses don't `include` relations that leak other users' rows or internal-only tables (e.g. SageTrace must never appear in a response).
 6. **Input validation**: request bodies validated (Zod is a dependency — flag hand-rolled parsing of untrusted input).
 
-Output: findings ranked by severity, each with a concrete failure scenario and the minimal fix. If a finding is real but out of the diff's scope, say so and instruct the caller to add it to `_PATTERNS/ledger.json` (ADR-033) rather than dropping it.
+Output: findings ranked by severity, each with a concrete failure scenario and the minimal fix. If a finding is real but out of the diff's scope, say so and instruct the caller to add it to `_PATTERNS/ledger.json` (ADR-034) rather than dropping it.

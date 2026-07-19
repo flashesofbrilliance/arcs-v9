@@ -15,4 +15,4 @@ Hard checklist — verify against the diff AND the trust contract, cite evidence
 5. **Third parties**: any new external service receiving user data (email, analytics, storage) is named in the privacy claims; nothing personal in URL params.
 6. **Retention**: new stored data has a stated purpose; flag write-only tables with no read path and no retention rationale.
 
-Output: findings ranked by severity. A published-claim/code mismatch is always HIGH — it is a representation, not a bug. Out-of-scope findings go to `_PATTERNS/ledger.json` (ADR-033).
+Output: findings ranked by severity. A published-claim/code mismatch is always HIGH — it is a representation, not a bug. Out-of-scope findings go to `_PATTERNS/ledger.json` (ADR-034).
