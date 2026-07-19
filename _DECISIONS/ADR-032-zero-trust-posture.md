@@ -77,33 +77,36 @@ extend it to the whole stack.
    apply behavioral checks only to *content*. Never let a cryptographically-valid signature
    imply the *payload* is safe — a trusted actor can still relay a poisoned input.
 
-### Conformance checklist (every ADR + non-trivial implementation must answer)
+### Conformance checklist — hybrid: always-run core + shape-tagged modules
 
-- [ ] **Inputs classified** by trust level (trusted / external-untrusted / cross-agent / self-prior)?
+A single flat list bloats and gets skimmed. So: a small **core** every decision answers, plus
+**modules** that fire only when the problem's *shape* matches. **Router discipline — fail safe:**
+when unsure whether a shape applies, *include* the module. Over-inclusion costs minutes; omission
+is a silent bug (a bad branch fails quiet; a flat list fails loud). Security-critical checks live
+in the core and are **never** branched away.
+
+**CORE — every decision, every shape:**
 - [ ] **Least privilege** — minimum scope, deny by default?
-- [ ] **Egress enumerated** and scoped (not just writes)?
-- [ ] **Untrusted content wrapped** as data-not-instructions?
-- [ ] **Model tier ≥ trust of input** at each boundary?
-- [ ] **Verification screens provenance/tampering**, not just plausibility?
-- [ ] **Blast radius** if this component is fully compromised — bounded and stated?
-- [ ] **Attack/failure path logged** for anti-fragile learning?
-- [ ] **Local or global?** — is this fix specific to the artifact in hand, or does the
-  principle generalize to a *class* (all workflows, all external surfaces, all cached
-  data, all point-in-time artifacts)? Name the class; apply broadly or file it. (This
-  checklist item exists because the session that wrote this ADR repeatedly fixed the local
-  instance and missed the class — chronos-sequencer, the unhardened front door, etc.)
-- [ ] **Recursion / termination?** — if this operation can re-trigger its own precondition
-  (state-sync re-staling itself), spawn more of itself (ATG generating JTBDs, a workflow
-  spawning workflows, a verifier verifying the verifier), or climb meta-levels (generalizing
-  a generalization — including *this checklist*), does it have an **explicit terminating
-  condition**? (fixpoint · depth cap · gated terminal step · N-consecutive-no-change ·
-  diminishing-returns stop). Unbounded self-reference is a liveness bug, not just an
-  inefficiency. Proven live: the snapshot-sync loop re-staled itself until a gated terminal
-  step broke it. Corollary: the "Local or global?" item above must be bounded — stop climbing
-  altitude when the class is broad enough to be actionable, not when you reach the top.
+- [ ] **Egress enumerated** and scoped (not just writes — `WebFetch`/`Bash`/MCP are exfil paths)?
+- [ ] **Blast radius** if fully compromised — bounded and stated?
+- [ ] **Local or global?** — a fix for the artifact in hand, or an instance of a *class*? Name the
+  class; apply broadly or file it. (Bounded: stop when the class is actionable, not at the top.)
+- [ ] **Recursion / termination?** — can it re-trigger its own precondition, spawn more of itself,
+  or climb meta-levels? If so, name the explicit terminating condition. Unbounded self-reference = liveness bug.
 
-An ADR that cannot check a box must state the residual risk explicitly (naming the gap is
-conformant; hiding it is not).
+**MODULES — fire on shape match:**
+- ⟦ **untrusted / external input** ⟧ → inputs classified by trust · content wrapped as data-not-instructions · model tier ≥ trust-of-input · verification screens provenance/tampering, not just plausibility.
+- ⟦ **point-in-time artifact** (handoff / snapshot / ADR / ledger / canon stratum) ⟧ → current-state header first (readOrder) · in-place `[SUPERSEDED]` markers · freshness stamp. (chronos-sequencer)
+- ⟦ **background / long-running task** ⟧ → watchdog with an explicit stop-rule / timeout.
+- ⟦ **multi-agent workflow** ⟧ → per-stage least-privilege scoping · trust-of-input model calibration · no-tools reasoners at the interior.
+- ⟦ **cached / derived surface shown to a viewer** ⟧ → "data as of" freshness stamp (recency ≠ client clock).
+- ⟦ **supply chain** (3rd-party agent / skill / plugin / MCP / OSS) ⟧ → vet · pin · scope · identity-pin (a churning identity is a trust signal).
+- ⟦ **secrets involved** ⟧ → inventory + every rotation home recorded.
+- ⟦ **attack / failure encountered** ⟧ → log to the immune ledger (anti-fragile).
+
+An ADR that cannot check a box must **state the residual risk explicitly** — naming the gap is
+conformant; hiding it is not. (This reorg is itself "prune, don't accrete": net-zero on checks,
+net-positive on signal.)
 
 ## Operational patterns
 
