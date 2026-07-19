@@ -197,7 +197,7 @@
   .pcard .row b { color: var(--text); font-weight: 600; display: block; font-size: 10px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
   .pcard .cpc { font-family: var(--mono); font-size: 10px; color: var(--cyan); letter-spacing: 0.02em; }
 
-  /* Do-not-file bucket */
+  /* Dashed callout bucket */
   .nofile { margin-top: 24px; border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 18px; background: rgba(255,77,109,0.02); }
   .nofile .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
   .nofile ul { margin: 0; padding-left: 18px; columns: 2; column-gap: 28px; }
@@ -378,7 +378,7 @@
       <ul class="zone-list">
         <li class="item"><h4>ADR-015 Case Study Gate</h4><p>Dan Pascone approval → flips CASE_STUDY_APPROVED, starts 30-day Lab clock.</p><span class="tag">human · Zach</span></li>
         <li class="item"><h4>ADR-023 Observability Lattice</h4><p>Goal-lattice DAG over receipts. Gated until 100+ receipts for Zipf baseline.</p><span class="tag">data-gated</span></li>
-        <li class="item"><h4>Preview DATABASE_URL</h4><p>Vercel dashboard add (CLI v53 bug) — preview branches unmigrated.</p><span class="tag">human · dashboard</span></li>
+        <li class="item"><h4>Preview env config</h4><p>Vercel dashboard add — preview branches unmigrated.</p><span class="tag">human · dashboard</span></li>
         <li class="item"><h4>Supabase password rotation</h4><p>Manually-set, not integration-managed. Rotation-drift risk live.</p><span class="tag">human · Zach</span></li>
         <li class="item"><h4>Resend MCP key</h4><p>Stale API key — blocks automated email from sessions.</p><span class="tag">infra · rotate</span></li>
         <li class="item"><h4>Orphaned Supabase tables</h4><p>8 tables, no owning app found. Needs a dashboard glance.</p><span class="tag">audit · #13</span></li>
@@ -674,7 +674,6 @@
             <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>L7 meta-governance engine</span>
             <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-block"></span>Constitutional Court (canon)</span>
             <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-prog"></span>NOTOMATION / drift sentinel</span>
-            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>Strategy bucket · do-not-file (§101)</span>
           </div>
         </div>
       </div>
@@ -699,7 +698,7 @@
   <!-- FOOT -->
   <footer class="foot">
     <span><b>Render scale:</b> fidelity earned by status — SHARP=shipped · GRAIN=next (WORLD.md)</span>
-    <span>Sources: CLAUDE.md handoffs · ARCS Yellow + White papers (internal drafts, not published) · USPTO/CPC + live prior-art · triage for counsel, not legal advice</span>
+    <span>Sources: CLAUDE.md handoffs · ARCS canon + internal specs</span>
   </footer>
 
 </div>
