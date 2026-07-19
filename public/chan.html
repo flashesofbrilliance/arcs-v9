@@ -1585,19 +1585,19 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     if (p.deploy) { set("pl-deploy", String(p.deploy.state).toUpperCase()); set("pl-deploy-when", rel(p.deploy.date)); var e = $("pl-deploy"); if (e) e.style.color = p.deploy.state === "success" ? "var(--green)" : (p.deploy.state === "failure" || p.deploy.state === "error") ? "var(--red)" : "var(--gold)"; }
   }
   async function all() {
-    var via = "cached /api/pulse";
     try {
       var r = await fetch("https://app.arcs.care/api/pulse", { cache: "no-store" });
       if (!r.ok) throw 0;
       var p = await r.json();
       if (!p || p.ok === false) throw 0;
       paint(p);
+      // Show the DATA's generation time (honest recency), not the client clock.
+      var t = p.updated ? new Date(p.updated) : null;
+      set("pulse-foot", (t ? "data as of " + t.toLocaleString() : "updated") + " · cached ≤5 min · checked " + new Date().toLocaleTimeString());
     } catch (e) {
-      via = "public GitHub API (fallback)";
       loadCommits(); loadPRs(); loadDeploy();
+      set("pulse-foot", "live from public GitHub API · checked " + new Date().toLocaleTimeString());
     }
-    var f = $("pulse-foot");
-    if (f) f.textContent = "updated " + new Date().toLocaleTimeString() + " · " + via;
   }
   all();
   var btn = $("pulse-refresh"); if (btn) btn.addEventListener("click", all);
