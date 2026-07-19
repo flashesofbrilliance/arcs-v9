@@ -115,6 +115,10 @@ const LENSES = [
   { key: 'CURATOR', prompt: 'Multi-perspective synthesis — reconcile the other lenses; find the non-obvious throughline.' },
 ]
 const SKEPTICS = 3 // refute-mode verifiers per claim
+// J7: cap the verify fan-out. The validation run produced 31 claims → 93 Opus verifiers,
+// which blew the budget and the clock. Bound it: only the top-N claims per lens (by
+// confidence) are adversarially verified. 4 lenses × 5 × 3 = 60 max, vs 93 uncapped.
+const MAX_CLAIMS_PER_LENS = 5
 
 // ---- 1. Gather (Haiku, parallel roots) ----
 phase('Gather')
@@ -156,6 +160,13 @@ const quarantined = new Set((preScreen.sources || []).filter(s => s.quarantine).
 const clean = gathered.filter(g => !quarantined.has(g.source))
 if (quarantined.size) log(`skeptic quarantined ${quarantined.size} source(s): ${[...quarantined].join(', ')}`)
 
+// J10: MCP connectivity preflight. The validation run built on 2 sources because
+// Gmail/Calendar/LinkedIn came back thin (likely MCP not connected). Warn loudly and
+// flag the report as thin rather than silently synthesizing over near-nothing.
+const thin = clean.length < 2
+if (thin) log(`⚠ PREFLIGHT (J10): only ${clean.length} productive source(s) after screen — ` +
+  `report will be THIN. Verify MCP connectivity (Gmail/Granola/Calendar) before trusting this run.`)
+
 // ---- 2. Profile synthesis (Sonnet, barrier) ----
 phase('Profile')
 const profile = await agent(
@@ -180,7 +191,10 @@ const verified = await pipeline(
   ),
   (result) => {
     const lens = result && result.lens ? result.lens : '?'
-    const claims = (result && result.claims) || []
+    const all = (result && result.claims) || []
+    // J7: verify only the top-N claims per lens by confidence.
+    const claims = all.slice().sort((a, b) => (b.confidence || 0) - (a.confidence || 0)).slice(0, MAX_CLAIMS_PER_LENS)
+    if (all.length > claims.length) log(`lens ${lens}: verifying top ${claims.length}/${all.length} claims (J7 cap)`)
     return parallel(claims.map(c => () =>
       parallel(Array.from({ length: SKEPTICS }, (_, i) => () =>
         agent(
@@ -231,5 +245,6 @@ return {
   confirmed,
   dropped,
   sources: clean.map(g => g.source),
+  thin,
   sentinel: { quarantined: [...quarantined], preScreen: preScreen.sources, postGate },
 }

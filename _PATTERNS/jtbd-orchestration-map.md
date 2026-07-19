@@ -172,6 +172,22 @@ push if local `main` is behind (forces rebase, kills silent clobbers), (b) check
 (require PR, no direct push) — the human half. Root cause: multiple sessions on
 `main` is the "3 logs disagree" pathogen's structural source.
 
+### Post-validation additions (ATG over the recoil-report run, 2026-07-19)
+
+| ID | JTBD | Source | Status |
+|----|------|--------|--------|
+| **J7** | Cap verify fan-out (top-N claims/lens by confidence) | run blew budget: 31 claims → 93 Opus verifiers | **DONE** — `MAX_CLAIMS_PER_LENS=5` |
+| **J8** | Reasoning agents truly no-tools (`recoil-reason tools: []`) | run bled other people's dossiers into the report | **DONE** — validate empty-tools on next run |
+| **J10** | MCP connectivity preflight (warn + `thin` flag) | gather built on 2 of 5 sources silently | **DONE** — preflight warning + `thin` in result |
+
+**Downstream backlog (recommended next paths, not yet started):**
+- **J11** — `/ultrareview` enforces the ADR-032 conformance checklist (makes the doctrine self-enforcing, not aspirational). meta. ~med.
+- **J12** — Wire the Skeptic Sentinel to `pathogen_log` / `immune_sessions` (close the anti-fragile loop — each caught form primes the next). adjacent. ~med.
+- **J13** — Dual-control handshake in code (agent↔agent HMAC on a different model; human via magic-link step-up). From ADR-032 pattern. ~med.
+- **J14** — Global write-lock serializability (the yoav question): branch-protection *trigger* + pre-push *hook* for `main`; a lease *worker* only if the yoav store needs pessimistic locking. Read `operators/arcs_yoav_store.py`, then ADR. Supersedes/absorbs J5. ~med.
+- **J15** — Verify cost, deeper: Sonnet first-pass refutation, Opus only on survivors (further bounds the driver J7 capped). adjacent. ~low.
+- **J16** — Recoil-report gather robustness: reconcile the CURATOR's cross-file reads as an *explicit, consented* input list (per-subject allowlist) rather than filesystem wandering — makes multi-artifact synthesis safe under J8. adjacent. ~med.
+
 **J3 plan:** per top-3 claim (accuracy-scaling, calibration, beats-experts):
 pre-register on OSF → build a time-ordered backtest over the receipt corpus →
 report CI-hit / reliability / win-rate against the kill criteria in §Evals. Gated
