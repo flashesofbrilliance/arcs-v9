@@ -214,7 +214,8 @@ unblocks #6 DEWY commit stamp) remain open from prior sessions.
 
 > **For Claude Code:** active pickup point. v3.7.0 above is preserved for history; v3.6.0 and older were
 > relocated to `_ARCHIVE/handoffs.md` per the lean-file policy this session established.
-> Work is on branch `claude/token-efficiency-audit-ip3l3x` — **NOT yet merged to main.**
+> Branch `claude/token-efficiency-audit-ip3l3x` — **MERGED to main** (verified 2026-07-19: main contains
+> the lean CLAUDE.md ≈3.7k tok + MEMORY.md ≈6.5k tok; branch is an ancestor of `main`).
 
 ## What this session did (17 commits, `c2eaf80`..`117fcf0`)
 
@@ -236,7 +237,7 @@ per-topic detail in the `_PATTERNS/2026-07-19-*` docs.
 
 ## Open items (also in `_QUEUE/PENDING.md`)
 
-- **Merge this branch to main** (first — closes the cloud-snapshot staleness the lean CLAUDE.md depends on).
+- ~~**Merge this branch to main**~~ ✅ DONE 2026-07-19 — merged; lean CLAUDE.md/MEMORY.md confirmed on main.
 - **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Sentinel — DISABLED 2026-07-19; rebuild
   **report-only** from the `arcs-decision-receipts` env using the full recipe in
   `_PATTERNS/sentinel-rebuild-spec.md`. Also: SageTrace RLS (Supabase CLI), connector/env/DNS/key items,
@@ -254,5 +255,5 @@ All compass-side changes are build + typecheck + unit-tested, but **NOT driven v
 
 ## Next session starts at
 
-`/handoff-pickup` → merge `claude/token-efficiency-audit-ip3l3x` → main, then pick an out-of-band item or the
+`/handoff-pickup` → merge is done; pick an out-of-band item (Sentinel rebuild, SageTrace RLS) or the
 B2 cadence/HOLD-gate follow-up.
