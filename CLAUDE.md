@@ -98,53 +98,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 - Spec files — version field in front-matter; `*-v2` only on breaking schema change.
 - Python scripts — never overwrite; create `*_v2.py` for breaking changes.
 
-# Handoff — v3.8.0 (2026-07-19)
-
-> **For Claude Code:** active pickup point. v3.7.0 above is preserved for history; v3.6.0 and older were
-> relocated to `_ARCHIVE/handoffs.md` per the lean-file policy this session established.
-> Branch `claude/token-efficiency-audit-ip3l3x` — **MERGED to main** (verified 2026-07-19: main contains
-> the lean CLAUDE.md ≈3.7k tok + MEMORY.md ≈6.5k tok; branch is an ancestor of `main`).
-
-## What this session did (17 commits, `c2eaf80`..`117fcf0`)
-
-A token/budget efficiency audit that turned into a fix chain. Full narrative in `MEMORY.md [v3.8.0]`;
-per-topic detail in the `_PATTERNS/2026-07-19-*` docs.
-
-- **Audit + Fix #1/#2:** the real #1 token drain was the append-forever CLAUDE.md/MEMORY.md loaded every
-  session (~24.6k–39k tok), not the Sentinel. Split dead history to `_ARCHIVE/`; CLAUDE.md 19.8k→3.6k,
-  MEMORY.md 14.8k→5.8k; amended the append-only policy to lean-working-file + archive.
-- **ADR-035:** ratified the real Commit-NCI rubric (5 lenses); wired `nci-scoring` skill + `/nci-commit` +
-  `/drift-check`. Added `/rca` (triage-gated root-cause command).
-- **Tech-debt batch** (`_PATTERNS/2026-07-19-tech-debt-batch.md`): A1 console cleanup, A5/A6 fixes, B1
-  diagnosed clean, A2/A3/A4 triaged out. **B4** build-red root-caused to shell `NODE_ENV=development` →
-  pinned `NODE_ENV=production` in the build script (use `npm run build`, not bare `npx next build`).
-- **B2:** implemented the spec 5-lens `nci_by_lens`/`nci_grade` (additive), surfaced weak-lens in the brief,
-  added a `stop_reason` truncation guard.
-- **Security:** `_PATTERNS/2026-07-19-threat-assessment.md` + `src/lib/sanitize.ts` (unit-tested 8/8) —
-  trust boundary at every recursive rung against injection cascade.
-
-## Open items (also in `_QUEUE/PENDING.md`)
-
-- ~~**Merge this branch to main**~~ ✅ DONE 2026-07-19 — merged; lean CLAUDE.md/MEMORY.md confirmed on main.
-- **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Sentinel — DISABLED 2026-07-19; rebuild
-  **report-only** from the `arcs-decision-receipts` env using the full recipe in
-  `_PATTERNS/sentinel-rebuild-spec.md`. Also: SageTrace RLS (Supabase CLI), connector/env/DNS/key items,
-  Dan Pascone gate.
-- **In-repo follow-ups:** cadence lens from time-ROM; HOLD gate at NCI<40 (overlaps the Calibrate HOLD gap).
-
-## Honesty flag
-
-All compass-side changes are build + typecheck + unit-tested, but **NOT driven via a live compass call**
-(no `ANTHROPIC_API_KEY` in the cloud session). Verify end-to-end after merge/deploy.
-
-## Last confirmed commit
-
-`117fcf0` — feat(security): trust boundary at every recursive rung.
-
-## Next session starts at
-
-`/handoff-pickup` → merge is done; pick an out-of-band item (Sentinel rebuild, SageTrace RLS) or the
-B2 cadence/HOLD-gate follow-up.
 
 ---
 
@@ -192,3 +145,57 @@ rules). The ADR namespace is lock-free - `ls _DECISIONS/` right before claiming 
 
 `/handoff-pickup` -> live-verify the anon-share flow on the deployed site; then an out-of-band item or the
 B2 cadence / HOLD-gate follow-up.
+
+---
+
+# Handoff — v3.10.0 (2026-07-19)
+
+> **For Claude Code:** active pickup point. v3.9.0 above preserved; v3.8.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. (A tracker drift observed mid-session —
+> CLAUDE.md at v3.8.0 while MEMORY.md was at v3.9.0 — was healed concurrently by the
+> v3.9.0 session's own handoff; noted here because it is a live receipt of the exact
+> pathogen this session codified.) Full detail: `MEMORY.md [v3.10.0]`.
+
+## What changed (this thread, 2026-07-17→19)
+
+**The serialization pathogen family** — codified, ratified, enforced:
+
+- **ADR-033 DECIDED** (`_DECISIONS/ADR-033-serialization-pathogen-family.md`,
+  GREEN/HIGH/REVISIT, ratified by Zach 2026-07-19). One axiom: a serialized belief is a
+  tuple (claim, time, scope, warrant, obligations, dictionary); each family member is one
+  coordinate silently dropped. time→chronos-sequencer · scope→inductive-overfit ·
+  obligation→open-loop decay · warrant→epistemic-sequencer · dictionary→etymology-sequencer.
+  4-part admission gate stops taxonomy sprawl.
+- **`runtime/specs/recoil-modes-v1.md` → v0.4.0** — readOrder + `[SUPERSEDED]` markers +
+  always-current cover (chronos); `validityBounds` {n, conditions, stationarity} with the
+  n-aware regime ladder, tails/edges excepted at any n (inductive-overfit); riskFlags
+  `status` OPEN/DONE/WAIVED — closure is an explicit write, never silence (open-loop).
+- **`runtime/specs/call-brief-hooks-v1.md` → v1.1.0** — read current state first; never
+  quote a stratum without a superseded-marker check.
+- **Detective** (`scripts/receipt_lookup.py`): superseded-skip, n-aware Read,
+  validityBounds surfacing, and **`--sweep`** — first run: **52 open obligations across
+  20 reports, zero ever closed** (oldest 18d; incl. a 10-day-old HIGH).
+- **First documented closure:** enforcement-parity ledger (stranded unmerged 3 days;
+  memory had it serialized as live law) merged as **ADR-034** (PR #63), renumbered per
+  ADR-033's own rule. Jurisdictions: ADR-034 ledger = repo/audit findings; `--sweep` =
+  call-ledger obligations.
+
+## Open from this thread
+
+1. **Sweep backlog** — 52 open riskFlags await owner `DONE`/`WAIVED` writes.
+2. **ADR-032 duplicate** — two files share the number; dedupe/renumber.
+3. **Epistemic + etymology members** — partial mechanisms only; dedicated enforcement
+   (warrant field on banked claims; rename tombstones) not yet built.
+
+## Last confirmed commits (this thread)
+
+`9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ this handoff commit)
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → live-verify anon-share (v3.9.0 honesty flag) or run
+`python3 scripts/receipt_lookup.py --sweep` and start closing the oldest flags.

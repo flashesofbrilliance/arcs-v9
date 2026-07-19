@@ -1513,3 +1513,53 @@ live). Otherwise: julia.arcs.care drill feature OR governance backlog #3 (log co
 unblocks #6 DEWY commit stamp) remain open from prior sessions.
 
 ---
+
+---
+
+# Handoff — v3.8.0 (2026-07-19)
+
+> **For Claude Code:** active pickup point. v3.7.0 above is preserved for history; v3.6.0 and older were
+> relocated to `_ARCHIVE/handoffs.md` per the lean-file policy this session established.
+> Branch `claude/token-efficiency-audit-ip3l3x` — **MERGED to main** (verified 2026-07-19: main contains
+> the lean CLAUDE.md ≈3.7k tok + MEMORY.md ≈6.5k tok; branch is an ancestor of `main`).
+
+## What this session did (17 commits, `c2eaf80`..`117fcf0`)
+
+A token/budget efficiency audit that turned into a fix chain. Full narrative in `MEMORY.md [v3.8.0]`;
+per-topic detail in the `_PATTERNS/2026-07-19-*` docs.
+
+- **Audit + Fix #1/#2:** the real #1 token drain was the append-forever CLAUDE.md/MEMORY.md loaded every
+  session (~24.6k–39k tok), not the Sentinel. Split dead history to `_ARCHIVE/`; CLAUDE.md 19.8k→3.6k,
+  MEMORY.md 14.8k→5.8k; amended the append-only policy to lean-working-file + archive.
+- **ADR-035:** ratified the real Commit-NCI rubric (5 lenses); wired `nci-scoring` skill + `/nci-commit` +
+  `/drift-check`. Added `/rca` (triage-gated root-cause command).
+- **Tech-debt batch** (`_PATTERNS/2026-07-19-tech-debt-batch.md`): A1 console cleanup, A5/A6 fixes, B1
+  diagnosed clean, A2/A3/A4 triaged out. **B4** build-red root-caused to shell `NODE_ENV=development` →
+  pinned `NODE_ENV=production` in the build script (use `npm run build`, not bare `npx next build`).
+- **B2:** implemented the spec 5-lens `nci_by_lens`/`nci_grade` (additive), surfaced weak-lens in the brief,
+  added a `stop_reason` truncation guard.
+- **Security:** `_PATTERNS/2026-07-19-threat-assessment.md` + `src/lib/sanitize.ts` (unit-tested 8/8) —
+  trust boundary at every recursive rung against injection cascade.
+
+## Open items (also in `_QUEUE/PENDING.md`)
+
+- ~~**Merge this branch to main**~~ ✅ DONE 2026-07-19 — merged; lean CLAUDE.md/MEMORY.md confirmed on main.
+- **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Sentinel — DISABLED 2026-07-19; rebuild
+  **report-only** from the `arcs-decision-receipts` env using the full recipe in
+  `_PATTERNS/sentinel-rebuild-spec.md`. Also: SageTrace RLS (Supabase CLI), connector/env/DNS/key items,
+  Dan Pascone gate.
+- **In-repo follow-ups:** cadence lens from time-ROM; HOLD gate at NCI<40 (overlaps the Calibrate HOLD gap).
+
+## Honesty flag
+
+All compass-side changes are build + typecheck + unit-tested, but **NOT driven via a live compass call**
+(no `ANTHROPIC_API_KEY` in the cloud session). Verify end-to-end after merge/deploy.
+
+## Last confirmed commit
+
+`117fcf0` — feat(security): trust boundary at every recursive rung.
+
+## Next session starts at
+
+`/handoff-pickup` → merge is done; pick an out-of-band item (Sentinel rebuild, SageTrace RLS) or the
+B2 cadence/HOLD-gate follow-up.
