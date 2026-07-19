@@ -617,19 +617,20 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
     <div class="section-title">The whole terrain at one glance — shipped, building, blocked, next.</div>
     <div class="section-body">
-      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong>25 shipped · 6 in progress · 8 blocked · 11 next</strong> (50 tracked).</p>
-      <div class="su-bar" role="img" aria-label="Distribution of 50 tracked workstreams: 25 shipped, 6 in progress, 8 blocked, 11 next">
-        <span class="b-green" style="width:50%"></span>
-        <span class="b-gold"  style="width:12%"></span>
-        <span class="b-red"   style="width:16%"></span>
-        <span class="b-cyan"  style="width:22%"></span>
+      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong><span id="su-lead-ship">25</span> shipped · <span id="su-lead-prog">6</span> in progress · <span id="su-lead-block">8</span> blocked · <span id="su-lead-next">11</span> next</strong> (<span id="su-lead-total">50</span> tracked).</p>
+      <div class="su-bar" role="img" aria-label="Distribution of tracked workstreams by status">
+        <span class="b-green" id="su-bar-ship"  style="width:50%"></span>
+        <span class="b-gold"  id="su-bar-prog"  style="width:12%"></span>
+        <span class="b-red"   id="su-bar-block" style="width:16%"></span>
+        <span class="b-cyan"  id="su-bar-next"  style="width:22%"></span>
       </div>
       <div class="su-barlabel">
-        <span><i style="background:var(--green)"></i> Shipped · 25</span>
-        <span><i style="background:var(--gold)"></i> In progress · 6</span>
-        <span><i style="background:var(--red)"></i> Blocked · 8</span>
-        <span><i style="background:var(--cyan)"></i> Next · 11</span>
+        <span><i style="background:var(--green)"></i> Shipped · <b id="su-lab-ship">25</b></span>
+        <span><i style="background:var(--gold)"></i> In progress · <b id="su-lab-prog">6</b></span>
+        <span><i style="background:var(--red)"></i> Blocked · <b id="su-lab-block">8</b></span>
+        <span><i style="background:var(--cyan)"></i> Next · <b id="su-lab-next">11</b></span>
       </div>
+      <div id="su-stamp" style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.04em;margin:-8px 0 16px;">Open work live from GitHub Issues · shipped is cumulative · loading…</div>
       <div class="su-zones">
         <div class="su-zone" style="--zc:var(--green);">
           <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count">25</span></div>
@@ -640,7 +641,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
           <div class="su-zli"><b>Design system Ph.1</b> · CI/CD breakers · 13 subdomains</div>
         </div>
         <div class="su-zone" style="--zc:var(--gold);">
-          <div class="su-zone-h"><span class="su-zone-name">In progress</span><span class="su-zone-count">6</span></div>
+          <div class="su-zone-h"><span class="su-zone-name">In progress</span><span class="su-zone-count" id="su-z-prog">6</span></div>
           <div class="su-zone-sub">Clarity ridge · building</div>
           <div class="su-zli"><b>Compass Kit Phase 2</b> — kit → app</div>
           <div class="su-zli"><b>Panel / Chip</b> design-system atoms</div>
@@ -648,14 +649,14 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
           <div class="su-zli"><b>ADR-013</b> 30-day conversion clock</div>
         </div>
         <div class="su-zone" style="--zc:var(--red);">
-          <div class="su-zone-h"><span class="su-zone-name">Blocked / contested</span><span class="su-zone-count">8</span></div>
+          <div class="su-zone-h"><span class="su-zone-name">Blocked / contested</span><span class="su-zone-count" id="su-z-block">8</span></div>
           <div class="su-zone-sub">Pressure band · awaiting input</div>
           <div class="su-zli"><b>Case-study gate</b> · <b>ADR-023 lattice</b> (100-receipt gate)</div>
           <div class="su-zli"><b>Preview DB URL</b> · password + key rotations</div>
           <div class="su-zli"><b>Orphaned tables</b> · advisor WARNs · vercel.ts</div>
         </div>
         <div class="su-zone" style="--zc:var(--cyan);">
-          <div class="su-zone-h"><span class="su-zone-name">Next / unmapped</span><span class="su-zone-count">11</span></div>
+          <div class="su-zone-h"><span class="su-zone-name">Next / unmapped</span><span class="su-zone-count" id="su-z-next">11</span></div>
           <div class="su-zone-sub">Outer fog · orient only</div>
           <div class="su-zli"><b>Receipt save prompt</b> · <b>Outcome handler</b> (P1 loop-closers)</div>
           <div class="su-zli"><b>ATG</b> · Kairos detection · GIGI · Stripe gate</div>
@@ -1597,6 +1598,22 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     if (s < 86400) return Math.floor(s / 3600) + "h ago";
     return Math.floor(s / 86400) + "d ago";
   }
+  // Curated cumulative baseline: most shipped workstreams (Compass pipeline, P4,
+  // RLS, Book II…) predate the issue tracker, so "shipped" is NOT derived from
+  // closed issues (that would badly undercount). The three OPEN buckets below
+  // are live from GitHub Issues; the stamp declares exactly what's live vs curated.
+  var SHIP_BASELINE = 25;
+  function applyIssues(ip, bl, nx, truncated) {
+    ip = ip || 0; bl = bl || 0; nx = nx || 0;
+    var total = SHIP_BASELINE + ip + bl + nx;
+    set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
+    set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
+    set("su-z-prog", ip); set("su-z-block", bl); set("su-z-next", nx);
+    function seg(id, n) { var e = $(id); if (e) e.style.width = (total ? (n / total * 100).toFixed(1) : 0) + "%"; }
+    seg("su-bar-ship", SHIP_BASELINE); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
+    var floor = truncated ? " (100+ open — floor)" : "";
+    set("su-stamp", "Open work live from GitHub Issues" + floor + " · " + ip + " in progress · " + bl + " blocked · " + nx + " next · shipped (" + SHIP_BASELINE + ") is cumulative · as of " + new Date().toLocaleTimeString());
+  }
   async function loadCommits() {
     try {
       var r = await fetch(API + "/commits?sha=main&per_page=1", H);
@@ -1632,11 +1649,28 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       if (e) e.style.color = state === "success" ? "var(--green)" : (state === "failure" || state === "error") ? "var(--red)" : "var(--gold)";
     } catch (e) { set("pl-deploy", "—"); }
   }
+  async function loadIssues() {
+    try {
+      var r = await fetch(API + "/issues?state=open&per_page=100", H);
+      if (!r.ok) throw 0;
+      var d = await r.json();
+      var has = function (i, l) { return (i.labels || []).some(function (x) { return (typeof x === "string" ? x : x.name) === l; }); };
+      var arr = d.filter(function (i) { return !i.pull_request; });
+      var link = r.headers.get("Link");
+      applyIssues(
+        arr.filter(function (i) { return has(i, "in-progress"); }).length,
+        arr.filter(function (i) { return has(i, "blocked"); }).length,
+        arr.filter(function (i) { return has(i, "next"); }).length,
+        !!(link && /rel="next"/.test(link))
+      );
+    } catch (e) { set("su-stamp", "Live issue sync unavailable · showing last-authored snapshot"); }
+  }
   function paint(p) {
     if (p.commit) { set("pl-commit", p.commit.sha + " · " + (p.commit.message.length > 46 ? p.commit.message.slice(0, 46) + "…" : p.commit.message)); set("pl-commit-when", rel(p.commit.date)); }
     if (typeof p.commitsTotal === "number") { var n = p.commitsTotal.toLocaleString(); set("pl-count", n); set("sv-commits", n); }
     if (typeof p.prsOpen === "number") { set("pl-prs", String(p.prsOpen)); set("pl-prs-sub", p.prTop ? ("#" + p.prTop.number + " " + p.prTop.title.slice(0, 30)) : "none open"); }
     if (p.deploy) { set("pl-deploy", String(p.deploy.state).toUpperCase()); set("pl-deploy-when", rel(p.deploy.date)); var e = $("pl-deploy"); if (e) e.style.color = p.deploy.state === "success" ? "var(--green)" : (p.deploy.state === "failure" || p.deploy.state === "error") ? "var(--red)" : "var(--gold)"; }
+    if (p.issues) applyIssues(p.issues.inProgress, p.issues.blocked, p.issues.next, p.issues.truncated);
   }
   async function all() {
     try {
@@ -1649,7 +1683,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       var t = p.updated ? new Date(p.updated) : null;
       set("pulse-foot", (t ? "data as of " + t.toLocaleString() : "updated") + " · cached ≤5 min · checked " + new Date().toLocaleTimeString());
     } catch (e) {
-      loadCommits(); loadPRs(); loadDeploy();
+      loadCommits(); loadPRs(); loadDeploy(); loadIssues();
       set("pulse-foot", "live from public GitHub API · checked " + new Date().toLocaleTimeString());
     }
   }
