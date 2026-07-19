@@ -26,6 +26,7 @@ Delegation heuristics:
 - A node that **transforms or drafts** → Analyst.
 - A node that **must refute, rank, or ratify** → Judge. Never cheap out here — this is the stage that catches the errors the whole workflow exists to prevent.
 - **Isolation:** any node doing a messy/large read runs in a subagent so the mess stays out of the main context (proven pattern: the `_ARCHIVE` scan commit).
+- **Trust-of-input override (ADR-032 P6):** tier = `difficulty × trust-of-input × blast-radius`, risk-calibrated, never blanket. Bump to a robust model **only** where *untrusted* input meets an egress channel or real consequence; keep the cheapest model where input is trusted **or** blast-radius is bounded (interior no-tools reasoners can't exfil even if poisoned). Worked example (`recoil-report` gather): email + web → Sonnet; calendar/transcripts/git → Haiku; interior reasoners stay quality-tiered. Security budget concentrates at the 2 real trust boundaries — compute efficiency preserved.
 
 ## 2. Token-budget policy
 
