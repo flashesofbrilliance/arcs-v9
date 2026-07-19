@@ -1,20 +1,28 @@
 ---
-version: 0.3.0
+version: 0.4.0
 status: DRAFT — not yet canon-ratified
 ---
 
-# Recoil Protocol — Reverse Listening & Deep Recall modes (v0.3.0)
+# Recoil Protocol — Reverse Listening & Deep Recall modes (v0.4.0)
 
 **Status:** DRAFT — defined this session, not yet canon-ratified. Routed for review,
 not unilaterally declared final (per the standing canon-collision discipline).
 
-**Changelog:** v0.3.0 (2026-07-17) — inductive-overfit risk section added (sibling of
-chronos-sequencer, per Zach's same-evening direction): banked predictive/counterpart
-models MUST carry `validityBounds` with an n-aware regime ladder and an
-always-excepted tails/edges rule. v0.2.0 (2026-07-17) — chronos-sequencer risk
-section added; multi-pass reports now MUST carry a `readOrder` directive, in-place
-superseded markers, and always-current cover fields. v0.1.0 — initial two-pass
-structure.
+**Pathogen family registry:** chronos-sequencer and inductive-overfit (below) are
+two members of the repo-wide serialization pathogen family — the tuple axiom,
+full registry, membership admission gate, and the epistemic-/etymology-sequencer
+members live in `_DECISIONS/ADR-033-serialization-pathogen-family.md`. This spec
+carries only the recoil-local mandates.
+
+**Changelog:** v0.4.0 (2026-07-18) — open-loop decay section added (third family
+member, per ADR-033): riskFlags MUST carry a `status` field; closure is an explicit
+write, never silence; the Detective `--sweep` is the enforcement point. v0.3.0
+(2026-07-17) — inductive-overfit risk section added (sibling of chronos-sequencer,
+per Zach's same-evening direction): banked predictive/counterpart models MUST carry
+`validityBounds` with an n-aware regime ladder and an always-excepted tails/edges
+rule. v0.2.0 (2026-07-17) — chronos-sequencer risk section added; multi-pass
+reports now MUST carry a `readOrder` directive, in-place superseded markers, and
+always-current cover fields. v0.1.0 — initial two-pass structure.
 
 ## Why this exists
 
@@ -176,6 +184,41 @@ carried verbatim, "prep the distribution, not the point estimate."
 advisory (`scripts/receipt_lookup.py`, Task A pre-call generation) must carry the
 n and conditions alongside the conclusion — an advisory stripped of its bounds is
 how an anecdote gets treaded as law.
+
+## Open-loop decay (v0.4.0 — MANDATORY for obligations)
+
+**The pathogen — third family member (full definition: ADR-033).** The inverse of
+chronos-sequencer: not a dead belief read as live, but a live obligation read as
+dead — or never read at all. A stated intent that still owes an action (a risk
+flag's `action`, a next step, a watch trigger) gets written into the ledger,
+never actioned, and never surfaced again. Prose commitments are write-only: the
+ledger has no liveness concept, so "noted" and "owed" look identical, and the
+next session rediscovers the obligation from scratch or not at all.
+
+**The mandate:**
+
+1. **Obligations are structured, not prose.** Every `riskFlags[]` entry MUST
+   carry a `status` field: a string beginning with `OPEN`, `DONE`, or `WAIVED` —
+   the latter two dated, with a one-line reason (e.g.
+   `"DONE (2026-07-18 — commute floor decided pre-offer)"`,
+   `"WAIVED (2026-07-18 — superseded by round-three regime shift)"`).
+   Watch triggers and next steps that must survive the session belong in a
+   riskFlag, not in prose — prose is not sweepable.
+2. **Closure is an event, not an absence.** A loop closes ONLY by an explicit
+   `DONE`/`WAIVED` status write. Silence, session end, or the passage of time
+   close nothing. Ad-hoc prose ("RESOLVED IN PART…") does not close a flag —
+   it belongs in the description; the `status` field is the machine-readable
+   truth.
+3. **Legacy reports are implicitly OPEN.** Flags written before this mandate
+   have no `status`; readers treat them as OPEN until their owner writes one.
+   Do not retrofit another session's report wholesale — append-don't-overwrite;
+   each report's owner closes their own flags.
+
+**Enforcement point:** `scripts/receipt_lookup.py --sweep` enumerates every open
+obligation across the entire ledger, aged, oldest first — the sweeper reads
+state, not text. An obligation that never appears in the sweep is a spec
+violation (it was written as prose); one that appears forever is a decision
+waiting to be made.
 
 ## Output contract
 
