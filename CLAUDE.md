@@ -237,8 +237,10 @@ per-topic detail in the `_PATTERNS/2026-07-19-*` docs.
 ## Open items (also in `_QUEUE/PENDING.md`)
 
 - **Merge this branch to main** (first — closes the cloud-snapshot staleness the lean CLAUDE.md depends on).
-- **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Sentinel rebuild **report-only** (threat
-  §HIGH), SageTrace RLS (Supabase CLI), connector/env/DNS/key items, Dan Pascone gate.
+- **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Sentinel — DISABLED 2026-07-19; rebuild
+  **report-only** from the `arcs-decision-receipts` env using the full recipe in
+  `_PATTERNS/sentinel-rebuild-spec.md`. Also: SageTrace RLS (Supabase CLI), connector/env/DNS/key items,
+  Dan Pascone gate.
 - **In-repo follow-ups:** cadence lens from time-ROM; HOLD gate at NCI<40 (overlaps the Calibrate HOLD gap).
 
 ## Honesty flag

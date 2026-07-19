@@ -21,6 +21,8 @@ Only a human (claude.ai → Settings → Routines toggle) or the owning env/API 
 > human:** claude.ai → Settings → Routines → "ARCS Daily Drift Sentinel + NCI Review" → toggle **off**
 > (stops the 04:00 UTC fire). Reversible. Then rebuild the lean/report-only version below when ready.
 > (One-shot `trig_015a…` recoil watchdog already fired `run_once_fired` — harmless, delete for tidiness.)
+>
+> **Full rebuild recipe (settings + refreshed report-only prompt + cutover):** `_PATTERNS/sentinel-rebuild-spec.md`.
 
 **Cutover steps (from `sentinelrebuild.md`):**
 1. Create a NEW scheduled task from the arcs-decision-receipts environment with:
