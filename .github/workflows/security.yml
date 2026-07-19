@@ -31,6 +31,12 @@ jobs:
     # Same-repo PRs only — never run on forks (prompt-injection surface).
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    env:
+      # secrets context is unavailable in job-level `if`; hoist presence into
+      # an env bool so steps can gate on it. Header note 2 claimed the job
+      # "no-ops safely" without the secret — it actually hard-failed (observed
+      # PR #71, 2026-07-19); this makes the documented behavior real.
+      HAS_KEY: ${{ secrets.ANTHROPIC_API_KEY != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,7 +44,12 @@ jobs:
           fetch-depth: 0
 
       - name: Claude Code security review
+        if: env.HAS_KEY == 'true'
         uses: anthropics/claude-code-security-review@main
         with:
           claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           comment-pr: true
+
+      - name: Skipped — no ANTHROPIC_API_KEY secret
+        if: env.HAS_KEY != 'true'
+        run: echo "::warning::claude-security-review skipped — set ANTHROPIC_API_KEY in repo Settings → Secrets → Actions to activate (see header note 2)."
