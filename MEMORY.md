@@ -6,6 +6,41 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.8.0] 2026-07-19 — Token-efficiency audit + downstream fixes (branch `claude/token-efficiency-audit-ip3l3x`, 17 commits, NOT merged)
+
+**Audit:** re-ranked the prior "Sentinel connector strip = #1" recommendation. Measured this repo: CLAUDE.md
+(@-imports AGENTS+WORLD) auto-loaded ~24.6k tok/session and the orientation chain pulled MEMORY.md for ~39k
+tok before any work — unbounded by the append-only handoff policy (28 handoff sections). That per-session tax
+was the true #1; the Sentinel fix is real but ~10× smaller.
+
+**Fix #1 (context split):** CLAUDE.md 19.8k→3.6k tok, MEMORY.md 14.8k→5.8k. Dead handoffs/memory → `_ARCHIVE/`.
+Amended the append-only policy: CLAUDE.md/MEMORY.md are lean working files, history relocated (never deleted).
+**Fix #2:** replaced the ~40k-tok orientation-chain mandate with a lean one. **Archive safety-scan** (subagent)
+confirmed the cut dropped nothing (open work lives in PENDING.md, not handoff prose). Banked `_PATTERNS/
+durable-gotchas.md`.
+
+**ADR-033:** ratified the real Commit-NCI rubric (5 lenses = 100; the `[NCI:XX]` tag had no rubric + was all
+SKIP). Distinct from the product `nci_score`. Wired `nci-scoring` skill + `/nci-commit` + `/drift-check` to it.
+Added `/rca` (triage-gated root-cause command).
+
+**Tech-debt batch** (backgrounded via subagents): A1 console cleanup [NCI:94]; A5/A6 doc+index fixes; B1
+react-hooks diagnosed clean; A2/A3/A4 triaged out honestly. **B4:** `npx next build` failed on `/_global-error`
+prerender — root-caused to shell `NODE_ENV=development`; fixed by pinning `NODE_ENV=production` in the build
+script + AGENTS.md gotcha (Vercel always built prod → deploys never affected). Added branded `global-error.tsx`.
+
+**B2:** implemented the spec 5-lens `nci_by_lens` + `nci_grade` (schema columns existed, impl never populated),
+additive/backward-compatible (composite semantics unchanged); surfaced the weak-lens grade in `DebriefCard`;
+added a `stop_reason` truncation guard.
+
+**Security:** threat assessment of the model-downgrade trade-offs (`_PATTERNS/2026-07-19-threat-assessment.md`).
+HIGH = the Haiku Sentinel (lethal trifecta → could poison CLAUDE.md). Then hardened the **recursive cascade**
+(`src/lib/sanitize.ts`, unit-tested 8/8): trust boundary at every rung — ingress framing, persist-boundary
+clamps (`clampText`/`clampInt`), tributary-prompt clamp (recursive edge), brief-writer framing. Structural
+defense (delimiter defang), not phrase-matching.
+
+**Honesty note:** compass changes are build+typecheck+unit-tested but NOT driven via a live compass call
+(no `ANTHROPIC_API_KEY` in session). **Next:** merge to main; then out-of-band items in `_QUEUE/PENDING.md`.
+
 ## [v3.7.0] 2026-07-17 — chan.arcs.care built end-to-end + status.arcs.care fork; two real mobile bugs found via device photos and fixed
 
 **Realignment note:** this file was last updated 2026-07-02 (v3.3.1) while `CLAUDE.md` had advanced to v3.6.0 across other sessions in between. Versioning here jumps to v3.7.0 to follow `CLAUDE.md` as the more current tracker, per the same realignment `CLAUDE.md`'s own v3.0.0 entry performed. Full narrative detail lives in `.claude/arcs-session-state.md`, not duplicated here.
