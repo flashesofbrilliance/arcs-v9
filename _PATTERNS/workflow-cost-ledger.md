@@ -15,6 +15,11 @@ drift >25% from projection, update the map's budget for that job and note it her
 
 ### Run notes — `wf_31635888-3f6` (validation, pre-tightening script)
 
+> ⚠ PROVENANCE (claims-skeptic verify, 2026-07-19): the figures below are **journal-sourced,
+> not independently reproducible** — the raw `wf_31635888-3f6` journal was in a transient path,
+> absent from the repo. They survive only across this ledger + the handoff + the snapshot, which
+> cross-cite. Document agreement ≠ proof. Unconfirmed until a journal is produced.
+
 **Coverage reached:** gather 5/5 (only granola + git productive — Gmail/Calendar/LinkedIn
 returned thin/empty, likely MCP not connected) → profile ✓ → 4 lenses ✓ (31 claims: LAB 9,
 SAGE 9, CURATOR 8, BAR 5) → verify **48 of 93** verdicts before the watchdog stopped it →

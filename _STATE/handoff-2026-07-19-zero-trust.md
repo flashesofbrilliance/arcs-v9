@@ -32,7 +32,8 @@
 - **`.claude/workflows/recoil-report.mjs`** — the recoil-report as a real fan-out, hardened:
   risk-calibrated models, scoped gather agents, untrusted-data wrapping, **Skeptic Sentinel**
   (pre + post, 3 modes incl. false-premise/wolf), J7 verify cap, J10 preflight.
-- **`.claude/agents/`** — `recoil-reason` (no tools, J8), `recoil-gather-git` (shell, no net),
+- **`.claude/agents/`** — `recoil-reason` (`tools: Read` — J8; NOTE: `tools: []` was found to mean
+  *inherit all tools*, so it's scoped to Read, not empty. True zero-tools is a residual), `recoil-gather-git` (shell, no net),
   `recoil-gather-web` (fetch one URL, no shell).
 - **OSS vetting** → keep `/ultrareview` + `/dual-bar-raiser` bespoke; adopted
   `anthropics/claude-code-security-review` as a CI scan (`.github/workflows/security.yml`,
@@ -56,6 +57,10 @@ Ran ~60 min on the **pre-tightening broad-permission** script; stopped mid-verif
 stop-rule watchdog. Salvage: gather 5/5 (only **2 productive** — granola+git) → profile ✓ →
 4 lenses (31 claims) → verify **48/93**, **refuted 43** (~90% — skeptic working exactly as
 designed on thin input) → synthesis **never reached**. Three lessons became J7/J8/J10 (done).
+> ⚠ PROVENANCE (claims-skeptic, 2026-07-19): these run numbers are **journal-sourced and NOT
+> independently reproducible** — the raw run journal (`wf_31635888-3f6`) lived in a transient path,
+> not the repo. They survive only across this handoff + snapshot + ledger, which *mutually cite each
+> other* — document agreement is not proof. Treat as unconfirmed until a journal is produced.
 Data-bleed finding: on the broad script the CURATOR lens read *other people's* dossiers into
 Chan's report — the exact risk the tightening now closes.
 
@@ -88,4 +93,5 @@ Chan's report — the exact risk the tightening now closes.
 ## Next session starts at
 Pick from J11 (self-enforcing doctrine), J13 (dual-control), or J14 (serializability — read
 `arcs_yoav_store.py` first). Re-run recoil-report ONLY after confirming MCP connectivity
-(J10) and validating the `tools: []` empty-scope on `recoil-reason` (J8).
+(J10). NOTE (J8 resolved): `tools: []` was found to mean *inherit all tools*; `recoil-reason` is
+now `tools: Read` (an explicit list is honored). True zero-tools remains a residual.
