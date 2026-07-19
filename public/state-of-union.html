@@ -150,7 +150,91 @@
   .foot { margin-top: 48px; border-top: 1px solid var(--border-soft); padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-family: var(--mono); font-size: 10.5px; color: var(--faint); letter-spacing: 0.06em; }
   .foot b { color: var(--muted); font-weight: 500; }
 
+  /* ---- Patent pressure-test section ---- */
+  .patents { margin-top: 54px; border-top: 1px solid var(--border); padding-top: 30px; }
+  .patents h2 { font-size: 13px; font-family: var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed); font-weight: 500; margin: 0 0 6px; }
+  .patents .lead { color: var(--muted); font-size: 13px; max-width: 74ch; margin: 0 0 22px; }
+
+  /* Disclosure-clock alarm banner */
+  .alarm { position: relative; border: 1px solid rgba(255,77,109,0.35); border-radius: 10px; background: linear-gradient(180deg, rgba(255,77,109,0.08), rgba(255,77,109,0.02)); padding: 18px 20px 18px 22px; margin-bottom: 26px; overflow: hidden; }
+  .alarm::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--red); box-shadow: 0 0 14px rgba(255,77,109,0.6); }
+  .alarm .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 8px; }
+  .alarm .k .cd { margin-left: auto; color: #ffd7de; letter-spacing: 0.08em; }
+  .alarm h3 { margin: 8px 0 6px; font-size: 16px; font-weight: 650; color: #ffd7de; letter-spacing: -0.01em; }
+  .alarm p { margin: 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; max-width: 82ch; }
+  .alarm p b { color: #ff8fa3; font-weight: 600; }
+
+  /* Ranking table */
+  .ptable-wrap { overflow-x: auto; border: 1px solid var(--border-soft); border-radius: 10px; }
+  table.ptable { border-collapse: collapse; width: 100%; min-width: 660px; font-size: 12.5px; }
+  table.ptable thead th { text-align: left; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); font-weight: 500; padding: 12px 12px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; }
+  table.ptable thead th.n { text-align: center; width: 42px; }
+  table.ptable tbody td { padding: 11px 12px; border-bottom: 1px solid var(--border-soft); vertical-align: top; }
+  table.ptable tbody tr:last-child td { border-bottom: none; }
+  table.ptable .rank { font-family: var(--mono); font-weight: 700; text-align: center; color: var(--muted); font-variant-numeric: tabular-nums; }
+  table.ptable .cand { color: var(--text); font-weight: 600; }
+  table.ptable .cand small { display: block; font-weight: 400; color: var(--dimmed); font-family: var(--mono); font-size: 10px; letter-spacing: 0.02em; margin-top: 2px; }
+  table.ptable .verd { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.02em; }
+  table.ptable .score { font-family: var(--mono); text-align: center; font-variant-numeric: tabular-nums; color: var(--muted); }
+  /* score heat */
+  .sc { display: inline-block; min-width: 22px; padding: 1px 5px; border-radius: 3px; font-size: 10.5px; }
+  .sc-hi { background: rgba(0,255,157,0.14); color: var(--green); }
+  .sc-md { background: rgba(255,215,0,0.12); color: var(--gold); }
+  .sc-lo { background: rgba(255,77,109,0.12); color: var(--red); }
+  tr.t1 .rank { color: var(--green); }
+  tr.t1 .verd { color: var(--green); }
+  tr.t2 .verd { color: var(--gold); }
+  tr.t3 .verd { color: var(--dimmed); }
+  tr.drop { opacity: 0.6; }
+  tr.drop .verd { color: var(--red); }
+
+  /* Tier-1 formalize cards */
+  .pcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+  .pcard { border: 1px solid rgba(0,255,157,0.2); border-radius: 10px; background: var(--surface); padding: 16px 16px 15px; box-shadow: 0 0 40px rgba(0,255,157,0.04) inset; }
+  .pcard .idx { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); }
+  .pcard h4 { margin: 6px 0 8px; font-size: 14px; font-weight: 650; color: #eafff6; letter-spacing: -0.01em; line-height: 1.25; }
+  .pcard .row { font-size: 11.5px; line-height: 1.5; margin: 7px 0; color: var(--muted); }
+  .pcard .row b { color: var(--text); font-weight: 600; display: block; font-size: 10px; font-family: var(--mono); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+  .pcard .cpc { font-family: var(--mono); font-size: 10px; color: var(--cyan); letter-spacing: 0.02em; }
+
+  /* Do-not-file bucket */
+  .nofile { margin-top: 24px; border: 1px dashed var(--faint); border-radius: 10px; padding: 16px 18px; background: rgba(255,77,109,0.02); }
+  .nofile .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+  .nofile ul { margin: 0; padding-left: 18px; columns: 2; column-gap: 28px; }
+  .nofile li { font-size: 11.5px; color: var(--muted); margin-bottom: 5px; line-height: 1.4; break-inside: avoid; }
+  .nofile li b { color: var(--dimmed); }
+  .nofile .tail { margin-top: 10px; font-size: 11px; color: var(--dimmed); columns: 1; }
+
+  /* ---- Evals + peer review / funding ---- */
+  .evals { margin-top: 54px; border-top: 1px solid var(--border); padding-top: 30px; }
+  .evals h2 { font-size: 13px; font-family: var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed); font-weight: 500; margin: 0 0 6px; }
+  .evals .lead { color: var(--muted); font-size: 13px; max-width: 74ch; margin: 0 0 22px; }
+  .evals h3.sub { font-size: 11px; font-family: var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin: 30px 0 12px; font-weight: 500; }
+
+  table.ptable td.claim { color: var(--text); font-weight: 600; }
+  table.ptable td.metric { font-family: var(--mono); font-size: 11px; color: var(--gold); font-variant-numeric: tabular-nums; }
+  table.ptable td.test { color: var(--muted); font-size: 11.5px; line-height: 1.45; }
+  table.ptable td.kill { color: #ff8fa3; font-size: 11px; font-family: var(--mono); line-height: 1.45; }
+  table.ptable td.kill::before { content: "✗ "; color: var(--red); }
+
+  .prereg { margin-top: 16px; border-left: 2px solid var(--cyan); padding: 4px 0 4px 14px; font-size: 12px; color: var(--muted); line-height: 1.55; max-width: 84ch; }
+  .prereg b { color: var(--cyan); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+
+  .icards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 6px; }
+  .icard { border: 1px solid var(--border); border-radius: 10px; background: var(--surface); padding: 15px 16px; }
+  .icard .cat { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; display: flex; align-items: center; gap: 7px; }
+  .icard .cat::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px rgba(0,240,255,0.6); flex: none; }
+  .icard .why { font-size: 10.5px; color: var(--dimmed); margin: 0 0 11px; line-height: 1.4; }
+  .icard ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .icard li { font-size: 12px; color: var(--text); line-height: 1.35; }
+  .icard li span { display: block; font-size: 10.5px; color: var(--muted); margin-top: 1px; }
+  .icard.fund { border-color: rgba(0,255,157,0.22); }
+  .icard.fund .cat { color: var(--green); }
+  .icard.fund .cat::before { background: var(--green); box-shadow: 0 0 8px rgba(0,255,157,0.6); }
+
   @media (max-width: 900px) {
+    .pcards, .icards { grid-template-columns: 1fr; }
+    .nofile ul { columns: 1; }
     .zones { grid-template-columns: repeat(2, 1fr); }
     .track { grid-template-columns: repeat(3, 1fr); row-gap: 22px; }
     .track::before { display: none; }
@@ -175,8 +259,8 @@
       <p class="thesis">Where the terrain stands right now — <b>what's shipped and locked</b>, what's building on the clarity ridge, what's contested in the pressure band, and what's still fog. Fidelity is earned: crisp cards are done, grainy cards are unmapped.</p>
     </div>
     <div class="stamp">
-      REPORT · 2026-07-18<br>
-      HEAD <span class="lit">8c207d7</span><br>
+      REPORT · 2026-07-19<br>
+      + roadmap · patent triage · evals<br>
       PROD <span class="lit">● app.arcs.care READY</span><br>
       ARC v0.1.0 → v3.7.0
     </div>
@@ -311,10 +395,242 @@
     </div>
   </section>
 
+  <!-- PATENT PRESSURE-TEST -->
+  <section class="patents">
+    <h2>Patent pressure-test — Yellow &amp; White Paper → USPTO</h2>
+    <p class="lead">Candidate inventions from the Yellow Paper (four-pillar architecture) and White Paper v2.1 (11-item portfolio), stack-ranked by filing priority: §101 eligibility and novelty gated first — a claim that dies at <em>Alice</em> or on prior art is worth zero regardless of commercial size. Triage for counsel, not legal advice.</p>
+
+    <div class="alarm">
+      <div class="k"><span>⚠ Disclosure clock — read before anything else</span><span class="cd">US §102(b) bar · ~Oct 17 2026</span></div>
+      <h3>The papers are the biggest threat to the patents.</h3>
+      <p>The Yellow Paper published <b>Oct 17 2025 under CC BY 4.0 (fully public)</b>, disclosing the pillars, abductive prediction, decision receipts, and kairos by mechanism. That starts a <b>one-year US grace period expiring ~Oct 17 2026 (~90 days out)</b> — anything disclosed there and not already filed is then statutorily barred in the US. <b>Ex-US rights (EPO/China absolute novelty) are likely already forfeited</b> unless a priority application predates the release. First action: confirm which of the 11 have filing dates before Oct 17 2025.</p>
+    </div>
+
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr>
+            <th class="n">#</th><th>Candidate — source</th>
+            <th class="n">§101</th><th class="n">Novel</th><th class="n">Enable</th><th class="n">Strat</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="t1">
+            <td class="rank">1</td>
+            <td class="cand">Kairos multi-signal convergence + window-estimation + EV-gated activation<small>YP Pillar 3 + WP #7</small></td>
+            <td class="score"><span class="sc sc-md">3.5</span></td><td class="score"><span class="sc sc-md">3.5</span></td><td class="score"><span class="sc sc-md">3.5</span></td><td class="score"><span class="sc sc-hi">4.5</span></td>
+            <td class="verd">FORMALIZE — strongest</td>
+          </tr>
+          <tr class="t1">
+            <td class="rank">2</td>
+            <td class="cand">Ex-ante decision-receipt lock + outcome reconciliation / attribution<small>WP #2 · YP Pillar 2</small></td>
+            <td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-md">3.0</span></td><td class="score"><span class="sc sc-hi">4.0</span></td><td class="score"><span class="sc sc-hi">5.0</span></td>
+            <td class="verd">FORMALIZE — re-draft off "blockchain"</td>
+          </tr>
+          <tr class="t1">
+            <td class="rank">3</td>
+            <td class="cand">Phase-cancellation multi-campaign scheduler<small>WP #6</small></td>
+            <td class="score"><span class="sc sc-md">3.0</span></td><td class="score"><span class="sc sc-hi">4.0</span></td><td class="score"><span class="sc sc-md">3.5</span></td><td class="score"><span class="sc sc-md">3.5</span></td>
+            <td class="verd">FORMALIZE — best novelty headroom</td>
+          </tr>
+          <tr class="t2">
+            <td class="rank">4</td>
+            <td class="cand">Abductive receipt-weighted prediction + uncertainty quantification<small>YP Pillar 1 / WP #1</small></td>
+            <td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-md">3.5</span></td><td class="score"><span class="sc sc-hi">4.5</span></td>
+            <td class="verd">Narrow claims only</td>
+          </tr>
+          <tr class="t2">
+            <td class="rank">5</td>
+            <td class="cand">Adaptive Coherence Optimization control loop (ARCS Law)<small>WP #1</small></td>
+            <td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-md">3.0</span></td>
+            <td class="verd">Needs a concrete control application</td>
+          </tr>
+          <tr class="t3">
+            <td class="rank">6</td>
+            <td class="cand">Privacy-preserving cross-customer pattern extraction<small>YP Pillar 4</small></td>
+            <td class="score"><span class="sc sc-md">3.0</span></td><td class="score"><span class="sc sc-lo">1.5</span></td><td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-hi">4.0</span></td>
+            <td class="verd">Defensive/narrow — crowded field</td>
+          </tr>
+          <tr class="t3 drop">
+            <td class="rank">7</td>
+            <td class="cand">Real-time 2nd-derivative trend detection<small>WP #4</small></td>
+            <td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-lo">1.5</span></td><td class="score"><span class="sc sc-md">3.0</span></td><td class="score"><span class="sc sc-md">3.0</span></td>
+            <td class="verd">Pressure-test hardest → likely drop</td>
+          </tr>
+          <tr class="t3 drop">
+            <td class="rank">8</td>
+            <td class="cand">Wave-diffusion network reach predictor<small>WP #9</small></td>
+            <td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-lo">1.5</span></td><td class="score"><span class="sc sc-lo">2.5</span></td><td class="score"><span class="sc sc-lo">2.5</span></td>
+            <td class="verd">Likely drop — 20+ yrs prior art</td>
+          </tr>
+          <tr class="t3 drop">
+            <td class="rank">9</td>
+            <td class="cand">Rhetorical compiler / "wavefunction" resonance<small>WP #5 + #11</small></td>
+            <td class="score"><span class="sc sc-lo">1.5</span></td><td class="score"><span class="sc sc-lo">1.5</span></td><td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-md">3.5</span></td>
+            <td class="verd">High-risk — metaphor is a liability</td>
+          </tr>
+          <tr class="t3 drop">
+            <td class="rank">10</td>
+            <td class="cand">Chemical-bonding service composition<small>WP #8</small></td>
+            <td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-lo">2.0</span></td>
+            <td class="verd">Drop</td>
+          </tr>
+          <tr class="t3 drop">
+            <td class="rank">11</td>
+            <td class="cand">Decelerator content-retirement<small>WP #10</small></td>
+            <td class="score"><span class="sc sc-lo">2.0</span></td><td class="score"><span class="sc sc-lo">1.5</span></td><td class="score"><span class="sc sc-md">3.0</span></td><td class="score"><span class="sc sc-lo">1.5</span></td>
+            <td class="verd">Drop — obvious threshold</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tier-1 formalize cards -->
+    <div class="pcards">
+      <div class="pcard">
+        <div class="idx">① Formalize · strongest</div>
+        <h4>Kairos convergence engine</h4>
+        <div class="row"><b>Claim the engineering</b>cross-domain signal convergence (≥3σ) → opportunity-window duration estimate (2–24h) → EV-gated automated activation.</div>
+        <div class="row"><b>Pressure-test</b>pieces are known (KEDA, US11962633). Novelty is the combination — attack §103 obviousness.</div>
+        <div class="row"><b>Cut from claims</b>the Arrhenius / "energetic catalysis" metaphor — §112 + §101 liability.</div>
+        <div class="row"><b>CPC</b><span class="cpc">G06F9/50 · G06F9/5077 · G06Q10/04 · H04L67/10</span></div>
+      </div>
+      <div class="pcard">
+        <div class="idx">② Formalize · highest value</div>
+        <h4>Ex-ante receipt lock + reconciliation</h4>
+        <div class="row"><b>The real hook</b>not "records on a blockchain" — the ex-ante commit of prediction+alternatives+CI <em>before spend</em>, reconciled to actual outcome to attribute decision quality.</div>
+        <div class="row"><b>Pressure-test</b>the §101 minefield. Bprotocol v. Uniswap (2026) + USPTO 9/2025 guidance kill "economic practice on a blockchain." Claim a specific technical verification property only.</div>
+        <div class="row"><b>CPC</b><span class="cpc">G06F21/64 · H04L9/50 · G06Q30/0201</span></div>
+      </div>
+      <div class="pcard">
+        <div class="idx">③ Formalize · cleanest novelty</div>
+        <h4>Phase-cancellation scheduler</h4>
+        <div class="row"><b>Claim</b>detect destructive interference between concurrent campaigns; schedule to minimize it. Relatively uncrowded.</div>
+        <div class="row"><b>Pressure-test</b>§101 (frame as technical resource-scheduling, not "better marketing math"); search ad-pacing / media-scheduling prior art.</div>
+        <div class="row"><b>CPC</b><span class="cpc">G06Q10/0631 · G06Q30/0242</span></div>
+      </div>
+    </div>
+
+    <!-- Do-not-file bucket -->
+    <div class="nofile">
+      <div class="k">Do-not-file — strategy, not inventions (§101-ineligible under Alice)</div>
+      <ul>
+        <li><b>YP §5.1</b> Agency incentive tiering / differential pricing</li>
+        <li><b>YP §5.2</b> Stated-vs-revealed preference via prediction markets</li>
+        <li><b>YP §5.3</b> Gamification / agency leagues / talent passport</li>
+        <li><b>YP §5.4</b> Performance-guarantee structure (only the attribution mechanism = #2 is arguable)</li>
+        <li><b>YP §5.5</b> Regulatory-partnership strategy</li>
+      </ul>
+      <div class="tail">Protect these via trade secret (redacted algorithms), trademark (ARCS + product names), copyright (papers, receipt UI) — not utility patents. Prior-art landmines confirmed live: US9742719B2 (viral prediction), US12160504B2 / US20210143987A1 (privacy-preserving federated learning).</div>
+    </div>
+  </section>
+
+  <!-- EVALS + FALSIFIABILITY + FUNDING -->
+  <section class="evals">
+    <h2>Evals, falsifiability &amp; where to get it validated</h2>
+    <p class="lead">The papers make sharp, numeric claims. That's a gift: each is falsifiable. Below, every headline claim gets a metric, a pre-registered test design, and an explicit <em>kill criterion</em> — the result that would refute it. This is the same evidence discipline the product sells; publishing it turns marketing numbers into defensible science and de-risks both the patents and the raise.</p>
+
+    <h3 class="sub">Falsifiability matrix — claim → test → kill criterion</h3>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr><th>Claim (source)</th><th class="n">Headline metric</th><th>Pre-registered test</th><th>Kill criterion</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="claim">Abductive accuracy scales with receipts<small>YP §2.4 / §3.2</small></td>
+            <td class="metric">68% → 87% CI-hit</td>
+            <td class="test">Time-ordered backtest on held-out receipts at DB sizes 1k/10k/100k; predicted CIs vs actuals.</td>
+            <td class="kill">CI-hit rate flat or &lt;80% at 100k, or no monotonic gain with N</td>
+          </tr>
+          <tr>
+            <td class="claim">Calibration is honest, not false precision<small>YP §2.4</small></td>
+            <td class="metric">χ² p &lt; 0.01</td>
+            <td class="test">Reliability diagram + Brier score; bin predicted-confidence vs observed frequency.</td>
+            <td class="kill">Reliability curve off the diagonal; Brier no better than climatology</td>
+          </tr>
+          <tr>
+            <td class="claim">Beats human experts<small>YP §2.4</small></td>
+            <td class="metric">76% of cases</td>
+            <td class="test">Blinded head-to-head: analysts vs engine on identical unseen briefs; pre-set win metric.</td>
+            <td class="kill">Win rate ≤ 50% (coin-flip) under blinding</td>
+          </tr>
+          <tr>
+            <td class="claim">2nd-derivative predicts viral cascades early<small>WP §2.1</small></td>
+            <td class="metric">78% @ 24h lead</td>
+            <td class="test">Labeled backtest on 10k historical events; precision/recall + lead-time distribution vs velocity-only baseline.</td>
+            <td class="kill">No lift over first-derivative baseline; lead time ≤ 0</td>
+          </tr>
+          <tr>
+            <td class="claim">Phase-cancellation lifts multi-campaign ROAS<small>WP §2.1</small></td>
+            <td class="metric">+35% ROAS</td>
+            <td class="test">Randomized A/B: optimized spacing vs naïve calendar across matched campaign pairs.</td>
+            <td class="kill">CI on ROAS delta crosses zero</td>
+          </tr>
+          <tr>
+            <td class="claim">Rhetorical resonance beats baseline content<small>WP §2.2</small></td>
+            <td class="metric">+65% engagement</td>
+            <td class="test">Pre-registered RCT; resonance-optimized vs human-copy, single primary endpoint, multiplicity-corrected.</td>
+            <td class="kill">Effect vanishes after correction / regresses on replication</td>
+          </tr>
+          <tr>
+            <td class="claim">Network effect: accuracy A(N) is logarithmic<small>YP §6.2</small></td>
+            <td class="metric">λ ≈ 1.2e-5</td>
+            <td class="test">Fit A(N) across real cohort sizes; out-of-sample forecast of a held-out cohort's accuracy.</td>
+            <td class="kill">Fit fails to predict held-out cohort within stated CI</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="prereg">
+      <b>Make the evals credible before you publish</b>
+      Pre-register every design on <strong>OSF</strong> or <strong>AsPredicted</strong> (hypothesis, primary endpoint, stopping rule, kill criterion) <em>before</em> looking at outcomes. Report a single primary endpoint per claim with multiplicity correction; release the backtest harness + a de-identified receipt sample so results replicate. Pre-registration is also the cleanest antidote to the "stated vs revealed preference" critique the Yellow Paper itself raises.
+    </div>
+
+    <h3 class="sub">Peer review, collaborators &amp; funding</h3>
+    <div class="icards">
+      <div class="icard">
+        <div class="cat">Peer review — publish the claims</div>
+        <p class="why">Convert numbers into citable, defensible evidence.</p>
+        <ul>
+          <li>Marketing Science / JMR <span>INFORMS + AMA — abductive marketing, network effects</span></li>
+          <li>KDD · WWW · NeurIPS <span>prediction engine, federated patterns, causal ML</span></li>
+          <li>Management Science / Decision Analysis <span>decision-receipt + uncertainty framing</span></li>
+          <li>arXiv (cs.LG, cs.CY) · SSRN <span>preprint first — establishes dated public record</span></li>
+        </ul>
+      </div>
+      <div class="icard">
+        <div class="cat">Institutes — collaborate &amp; validate</div>
+        <p class="why">Industry-academic bridges with data programs.</p>
+        <ul>
+          <li>Marketing Science Institute (MSI) <span>funds academic marketing research; on-thesis</span></li>
+          <li>Ehrenberg-Bass Institute <span>evidence-based marketing — direct fit</span></li>
+          <li>Wharton Customer Analytics <span>runs corporate-data research competitions</span></li>
+          <li>MIT IDE · Stanford HAI / Digital Economy Lab <span>platform economics + human-AI eval</span></li>
+        </ul>
+      </div>
+      <div class="icard fund">
+        <div class="cat">Funding — non-dilutive &amp; mission</div>
+        <p class="why">Grants that reward exactly this rigor.</p>
+        <ul>
+          <li>NSF SBIR/STTR — "America's Seed Fund" <span>non-dilutive deep-tech; abductive/causal ML</span></li>
+          <li>NSF CISE + Convergence Accelerator <span>research grants w/ academic PI</span></li>
+          <li>Sloan Foundation <span>metascience, economics of digital markets</span></li>
+          <li>Schmidt Sciences · NBER affiliation <span>AI-for-science; working-paper channel</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="prereg" style="border-left-color: var(--gold);">
+      <b style="color: var(--gold);">Sequencing note</b>
+      File the Tier-1 provisionals (or confirm existing filings) <em>before</em> the arXiv/SSRN preprint — a preprint is a public disclosure that restarts the same §102 clock flagged above. Patent first, publish second, then approach institutes and grant programs with a dated filing + a pre-registered eval already in hand.
+    </div>
+  </section>
+
   <!-- FOOT -->
   <footer class="foot">
     <span><b>Render scale:</b> fidelity earned by status — SHARP=shipped · GRAIN=next (WORLD.md)</span>
-    <span>Sources: CLAUDE.md handoffs v0.1→v3.7 · AGENTS.md agent map · git HEAD 8c207d7</span>
+    <span>Sources: CLAUDE.md handoffs · ARCS Yellow Paper v1.0 + White Paper v2.1 · USPTO/CPC + live prior-art · triage for counsel, not legal advice</span>
   </footer>
 
 </div>
