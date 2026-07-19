@@ -1,4 +1,9 @@
-# ADR-035 — Split the repo: public app / private sensitive
+# ADR-036 — Split the repo: public app / private sensitive
+
+> **Renumbered from ADR-035 → ADR-036 (2026-07-19):** a concurrent session
+> claimed ADR-035 for the Commit-NCI Rubric (registered in `index.json`, wired
+> into the `nci-scoring` skill). This is the exact two-systems-drift risk flagged
+> in the issue triage; caught on the same session that created it.
 
 - **Status:** ACCEPTED (owner decision, 2026-07-19) — execution pending
 - **Y-gate:** YELLOW / HIGH / REVISIT — the decision is firm; the *history-rewrite* step is irreversible and must be staged carefully

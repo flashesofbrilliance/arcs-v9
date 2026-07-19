@@ -7,7 +7,7 @@
 # carry INTERNAL text: build/session provenance, model identifiers, secret
 # material, local filesystem paths, internal repo structure, or the
 # pulled-sensitive patent strategy. This is the automated enforcement of that
-# rule and of ADR-035's "no sensitive content reachable from a public surface."
+# rule and of ADR-036's "no sensitive content reachable from a public surface."
 #
 # Properties (ADR-032 conformance):
 #   - Deny-by-default: a NEW public/*.html is scanned automatically (glob), so
@@ -51,7 +51,7 @@ PATTERNS=(
   '_DECISIONS/ADR-'
   '_PATTERNS/'
   '_STATE/snapshot'
-  # class: pulled-sensitive patent strategy (ADR-035 class 3)
+  # class: pulled-sensitive patent strategy (ADR-036 class 3)
   'do-not-file'
   'USPTO'
   'prior[ -]art'

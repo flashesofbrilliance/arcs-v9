@@ -277,5 +277,14 @@
     "stability": "REVISIT",
     "gate": "revisit after ~20 scored commits or first drift flag; confirm commit>merge threshold inversion",
     "file": "ADR-035-commit-nci-rubric.md"
+  },
+  {
+    "id": "ADR-036",
+    "title": "ADR-036 — Split the repo: public app / private sensitive",
+    "status": "ACCEPTED",
+    "y_state": "YELLOW",
+    "stability": "REVISIT",
+    "gate": "decision firm; history-rewrite execution is irreversible and owner-gated — verify private repo complete before any force-push",
+    "file": "ADR-036-repo-split-public-private.md"
   }
 ]
