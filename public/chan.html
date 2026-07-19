@@ -1546,8 +1546,8 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     try {
       var r = await fetch(API + "/commits?sha=main&per_page=1", H);
       if (!r.ok) throw 0;
-      var d = await r.json(), c = d[0], msg = c.commit.message.split("\n")[0];
-      set("pl-commit", c.sha.slice(0, 7) + " · " + (msg.length > 46 ? msg.slice(0, 46) + "…" : msg));
+      var d = await r.json(), c = d[0];
+      set("pl-commit", c.sha.slice(0, 7) + " · on main");
       set("pl-commit-when", rel(c.commit.author.date));
       var link = r.headers.get("Link"), m = link && link.match(/[?&]page=(\d+)>;\s*rel="last"/);
       if (m) { var n = (+m[1]).toLocaleString(); set("pl-count", n); set("sv-commits", n); }
@@ -1559,7 +1559,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       if (!r.ok) throw 0;
       var d = await r.json();
       set("pl-prs", String(d.length));
-      set("pl-prs-sub", d.length ? ("#" + d[0].number + " " + d[0].title.slice(0, 30)) : "none open");
+      set("pl-prs-sub", d.length ? "in flight" : "none open");
     } catch (e) { set("pl-prs", "—"); }
   }
   async function loadDeploy() {
@@ -1576,10 +1576,12 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       if (e) e.style.color = state === "success" ? "var(--green)" : (state === "failure" || state === "error") ? "var(--red)" : "var(--gold)";
     } catch (e) { set("pl-deploy", "—"); }
   }
+  // EXTERNAL surface (prospect-facing): show telemetry shape, not internal
+  // commit/PR text — don't spotlight unreleased roadmap on a prospect's page.
   function paint(p) {
-    if (p.commit) { set("pl-commit", p.commit.sha + " · " + (p.commit.message.length > 46 ? p.commit.message.slice(0, 46) + "…" : p.commit.message)); set("pl-commit-when", rel(p.commit.date)); }
+    if (p.commit) { set("pl-commit", p.commit.sha + " · on main"); set("pl-commit-when", rel(p.commit.date)); }
     if (typeof p.commitsTotal === "number") { var n = p.commitsTotal.toLocaleString(); set("pl-count", n); set("sv-commits", n); }
-    if (typeof p.prsOpen === "number") { set("pl-prs", String(p.prsOpen)); set("pl-prs-sub", p.prTop ? ("#" + p.prTop.number + " " + p.prTop.title.slice(0, 30)) : "none open"); }
+    if (typeof p.prsOpen === "number") { set("pl-prs", String(p.prsOpen)); set("pl-prs-sub", p.prsOpen ? "in flight" : "none open"); }
     if (p.deploy) { set("pl-deploy", String(p.deploy.state).toUpperCase()); set("pl-deploy-when", rel(p.deploy.date)); var e = $("pl-deploy"); if (e) e.style.color = p.deploy.state === "success" ? "var(--green)" : (p.deploy.state === "failure" || p.deploy.state === "error") ? "var(--red)" : "var(--gold)"; }
   }
   async function all() {
