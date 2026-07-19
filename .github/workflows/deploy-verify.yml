@@ -87,7 +87,7 @@ jobs:
 
       - name: Open incident issue
         if: steps.eval.outputs.failed == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           script: |
             const apiOutcome = "${{ steps.api_smoke.outcome }}";
