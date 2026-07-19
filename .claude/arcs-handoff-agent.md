@@ -64,7 +64,8 @@ Required sections in new entry:
   ### Post-handoff commits  (any Claude Code commits that landed after last push)
   ### Cross-repo state      (dependency rules, Kairos Lock status)
   ### Open gaps             (updated ✅/🔴/🟡 status per file)
-  ### Next move             (numbered orientation chain for next session)
+  ### Next move             (the single next action + the ONE file to open if resuming —
+                            NOT a full re-read chain; baseline context auto-loads via CLAUDE.md)
 
 Rule: never delete prior versions. New entry at top only.
 ```
