@@ -87,6 +87,16 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .su-lead strong { color: var(--text); font-weight: 600; }
 .su-sub { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin: 18px 0 10px; }
 
+.su-bar { display: flex; height: 12px; border-radius: 3px; overflow: hidden; border: 1px solid var(--border); background: var(--bg); margin: 0 0 8px; }
+.su-bar span { display: block; height: 100%; }
+.su-bar .b-green { background: linear-gradient(90deg, rgba(0,255,157,0.5), var(--green)); }
+.su-bar .b-gold  { background: linear-gradient(90deg, rgba(255,215,0,0.4), var(--gold)); }
+.su-bar .b-red   { background: linear-gradient(90deg, rgba(255,77,109,0.35), var(--red)); }
+.su-bar .b-cyan  { background: repeating-linear-gradient(45deg, rgba(0,240,255,0.22) 0 6px, rgba(0,240,255,0.08) 6px 12px); }
+.su-barlabel { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.02em; margin-bottom: 16px; }
+.su-barlabel span { display: inline-flex; align-items: center; gap: 6px; }
+.su-barlabel i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
 .su-zones { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 8px; }
 .su-zone { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 15px; border-top: 2px solid var(--zc, var(--faint)); }
 .su-zone-h { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
@@ -900,7 +910,19 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
     <div class="section-title">The whole terrain at one glance — shipped, building, blocked, next.</div>
     <div class="section-body">
-      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong>25 shipped · 6 in progress · 8 blocked · 11 next.</strong></p>
+      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong>25 shipped · 6 in progress · 8 blocked · 11 next</strong> (50 tracked).</p>
+      <div class="su-bar" role="img" aria-label="Distribution of 50 tracked workstreams: 25 shipped, 6 in progress, 8 blocked, 11 next">
+        <span class="b-green" style="width:50%"></span>
+        <span class="b-gold"  style="width:12%"></span>
+        <span class="b-red"   style="width:16%"></span>
+        <span class="b-cyan"  style="width:22%"></span>
+      </div>
+      <div class="su-barlabel">
+        <span><i style="background:var(--green)"></i> Shipped · 25</span>
+        <span><i style="background:var(--gold)"></i> In progress · 6</span>
+        <span><i style="background:var(--red)"></i> Blocked · 8</span>
+        <span><i style="background:var(--cyan)"></i> Next · 11</span>
+      </div>
       <div class="su-zones">
         <div class="su-zone" style="--zc:var(--green);">
           <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count">25</span></div>
