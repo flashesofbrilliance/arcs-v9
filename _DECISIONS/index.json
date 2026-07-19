@@ -1,7 +1,7 @@
 [
   {
     "id": "ADR-001",
-    "title": "ADR-001 \u2014 Auth Gate Strategy: App-Level vs. Supabase RLS",
+    "title": "ADR-001 — Auth Gate Strategy: App-Level vs. Supabase RLS",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -10,7 +10,7 @@
   },
   {
     "id": "ADR-002",
-    "title": "ADR-002 \u2014 Database Strategy: SQLite Dev / Supabase Prod Split",
+    "title": "ADR-002 — Database Strategy: SQLite Dev / Supabase Prod Split",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -19,7 +19,7 @@
   },
   {
     "id": "ADR-003",
-    "title": "ADR-003 \u2014 arcs.care: COCD as First-Class UX Primitive",
+    "title": "ADR-003 — arcs.care: COCD as First-Class UX Primitive",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -28,7 +28,7 @@
   },
   {
     "id": "ADR-004",
-    "title": "ADR-004 \u2014 mcp.arcs.care DNS: Wire Custom Domain to perplexity-mcp",
+    "title": "ADR-004 — mcp.arcs.care DNS: Wire Custom Domain to perplexity-mcp",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -37,7 +37,7 @@
   },
   {
     "id": "ADR-005",
-    "title": "ADR-005 \u2014 Vercel Supabase Integration: Env Var Injection",
+    "title": "ADR-005 — Vercel Supabase Integration: Env Var Injection",
     "status": "DECIDED",
     "y_state": null,
     "stability": "HIGH",
@@ -46,7 +46,7 @@
   },
   {
     "id": "ADR-006",
-    "title": "ADR-006 \u2014 Supabase Branching for Preview Deployments",
+    "title": "ADR-006 — Supabase Branching for Preview Deployments",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -55,7 +55,7 @@
   },
   {
     "id": "ADR-007",
-    "title": "ADR-007 \u2014 Prisma Migration Strategy: db push vs migrate deploy",
+    "title": "ADR-007 — Prisma Migration Strategy: db push vs migrate deploy",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -73,7 +73,7 @@
   },
   {
     "id": "ADR-009",
-    "title": "ADR-009 \u2014 Design System Canonicalization in arcs-v9",
+    "title": "ADR-009 — Design System Canonicalization in arcs-v9",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -91,7 +91,7 @@
   },
   {
     "id": "ADR-011",
-    "title": "ADR-011 \u2014 UI Component Import Strategy: Direct vs. Barrel",
+    "title": "ADR-011 — UI Component Import Strategy: Direct vs. Barrel",
     "status": "DECIDED",
     "y_state": null,
     "stability": "HIGH",
@@ -100,7 +100,7 @@
   },
   {
     "id": "ADR-012",
-    "title": "ADR-012 \u2014 arcs.care PLG Phase 1: Compass Model Swap + Lab Offer Card",
+    "title": "ADR-012 — arcs.care PLG Phase 1: Compass Model Swap + Lab Offer Card",
     "status": "DECIDED",
     "y_state": null,
     "stability": "HIGH",
@@ -109,7 +109,7 @@
   },
   {
     "id": "ADR-013",
-    "title": "ADR-013 \u2014 arcs.care Conversion Architecture: Build Sequence for Founding-10 Acquisition",
+    "title": "ADR-013 — arcs.care Conversion Architecture: Build Sequence for Founding-10 Acquisition",
     "status": "DECIDED",
     "y_state": null,
     "stability": "HIGH",
@@ -118,7 +118,7 @@
   },
   {
     "id": "ADR-014",
-    "title": "ADR-014 \u2014 CI/CD Governance \u2014 NOTOMATION Circuit Breaker Model",
+    "title": "ADR-014 — CI/CD Governance — NOTOMATION Circuit Breaker Model",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -127,7 +127,7 @@
   },
   {
     "id": "ADR-015",
-    "title": "ADR-015 \u2014 arcs.care Week 1 Build Gate: Case Study Content Dependency",
+    "title": "ADR-015 — arcs.care Week 1 Build Gate: Case Study Content Dependency",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -136,7 +136,7 @@
   },
   {
     "id": "ADR-016",
-    "title": "ADR-016 \u2014 arcs-v9 Auth Model \u2014 Anonymous vs. Authenticated Compass",
+    "title": "ADR-016 — arcs-v9 Auth Model — Anonymous vs. Authenticated Compass",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -145,7 +145,7 @@
   },
   {
     "id": "ADR-017",
-    "title": "ADR-017 \u2014 receipt-core Canonical Schema",
+    "title": "ADR-017 — receipt-core Canonical Schema",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -154,7 +154,7 @@
   },
   {
     "id": "ADR-018",
-    "title": "ADR-018 \u2014 /helpful Input Model: Structured Form vs. Raw-Paste Navigator",
+    "title": "ADR-018 — /helpful Input Model: Structured Form vs. Raw-Paste Navigator",
     "status": "DRAFT",
     "y_state": null,
     "stability": null,
@@ -163,7 +163,7 @@
   },
   {
     "id": "ADR-019",
-    "title": "ADR-019 \u2014 receipt-core Python Boundary: ReceiptObject as Wire/Storage Type",
+    "title": "ADR-019 — receipt-core Python Boundary: ReceiptObject as Wire/Storage Type",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -181,7 +181,7 @@
   },
   {
     "id": "ADR-022",
-    "title": "ADR-022 \u2014 User Schema Debt: emailVerified + image Missing from 0_init Migration",
+    "title": "ADR-022 — User Schema Debt: emailVerified + image Missing from 0_init Migration",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -190,7 +190,7 @@
   },
   {
     "id": "ADR-023",
-    "title": "ADR-023 \u2014 Observability as a Superionic Goal Lattice",
+    "title": "ADR-023 — Observability as a Superionic Goal Lattice",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -199,7 +199,7 @@
   },
   {
     "id": "ADR-024",
-    "title": "ADR-024 \u2014 resume.arcs.care Architecture Gates",
+    "title": "ADR-024 — resume.arcs.care Architecture Gates",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": null,
@@ -208,7 +208,7 @@
   },
   {
     "id": "ADR-025",
-    "title": "ADR-025 \u2014 ARCS Go-Live: Provisional Logic for the Public Launch",
+    "title": "ADR-025 — ARCS Go-Live: Provisional Logic for the Public Launch",
     "status": "DRAFT",
     "y_state": null,
     "stability": null,
@@ -217,7 +217,7 @@
   },
   {
     "id": "ADR-025",
-    "title": "ADR-025 \u2014 SAGE Signal Validation Path",
+    "title": "ADR-025 — SAGE Signal Validation Path",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -226,7 +226,7 @@
   },
   {
     "id": "ADR-026",
-    "title": "ADR-026 \u2014 Debrief Delivery Fix",
+    "title": "ADR-026 — Debrief Delivery Fix",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -235,7 +235,7 @@
   },
   {
     "id": "ADR-027",
-    "title": "ADR-027 \u2014 Observatory as a render surface over the git/receipt/ordinal substrate",
+    "title": "ADR-027 — Observatory as a render surface over the git/receipt/ordinal substrate",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
@@ -244,7 +244,7 @@
   },
   {
     "id": "ADR-028",
-    "title": "ADR-028 \u2014 Profile Scan staging route (`/scan`, mock-first, behind `SCAN_ENABLED`)",
+    "title": "ADR-028 — Profile Scan staging route (`/scan`, mock-first, behind `SCAN_ENABLED`)",
     "status": "DECIDED",
     "y_state": null,
     "stability": "HIGH",
@@ -253,7 +253,7 @@
   },
   {
     "id": "ADR-029",
-    "title": "ADR-029 \u2014 Onboarding profile upload (store-only, skippable)",
+    "title": "ADR-029 — Onboarding profile upload (store-only, skippable)",
     "status": "DECIDED",
     "y_state": null,
     "stability": "HIGH",
@@ -262,11 +262,20 @@
   },
   {
     "id": "ADR-030",
-    "title": "ADR-030 \u2014 Nested thread view for tributary follow-ups",
+    "title": "ADR-030 — Nested thread view for tributary follow-ups",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
     "gate": "see content",
     "file": "ADR-030-nested-thread-view.md"
+  },
+  {
+    "id": "ADR-033",
+    "title": "ADR-033 — Commit-NCI Rubric (ratify the [NCI:XX] commit gate)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "REVISIT",
+    "gate": "revisit after ~20 scored commits or first drift flag; confirm commit>merge threshold inversion",
+    "file": "ADR-033-commit-nci-rubric.md"
   }
 ]
