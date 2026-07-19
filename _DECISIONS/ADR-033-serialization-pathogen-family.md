@@ -1,10 +1,10 @@
 # ADR-033 — The Serialization Pathogen Family (tuple axiom + membership registry)
 
-> **Status:** DRAFT — drafted by Claude at Zach's direction (2026-07-18), routed for
-> ratification. Y conviction left unfilled per /dewy-stub rule: conviction is Zach's
-> to declare, not Claude's to guess.
-> **Date:** 2026-07-18
-> **Commit:** (set at merge)
+> **Status:** DECIDED — drafted by Claude at Zach's direction (2026-07-18); tuple
+> axiom concurred and Y ratified by Zach 2026-07-19 (GREEN/HIGH/REVISIT, declared
+> explicitly — not inferred).
+> **Date:** 2026-07-18 (drafted) · 2026-07-19 (ratified)
+> **Commit:** 9ce0dfc (draft + implementation) · 09bb14b (numbering correction)
 >
 > **Numbering note (verified 2026-07-19):** session memory records an "ADR-033
 > enforcement-parity ledger (`_PATTERNS/ledger.json`, CI-gated)" as live law. Ground
@@ -15,9 +15,15 @@
 > **epistemic-sequencer** (memory serialized it as enforced law, warrant stripped).
 > This ADR takes main's 033 slot and **absorbs that design** — its
 > close-only-via-mechanism-or-dated-waiver rule is the Obligation-coordinate
-> mitigation below. If that branch merges, its ADR renumbers to next-free;
-> `_DECISIONS/` already contains TWO ADR-032 files (numbering assigned append-only,
-> no registry check) — do not mint a third duplicate.
+> mitigation below.
+>
+> **Loop CLOSED 2026-07-19:** the stranded branch merged to main as
+> `_DECISIONS/ADR-034-enforcement-parity.md` (PR #63, merge `345091f`), renumbered
+> to next-free exactly per the rule above — closure by explicit event, not
+> silence. The two mechanisms now coexist with distinct jurisdictions:
+> **ADR-034's `_PATTERNS/ledger.json`** (CI-gated) for repo/audit findings,
+> **`receipt_lookup.py --sweep`** for call-ledger obligations. The lingering
+> ADR-032 duplicate remains the standing example of numbering-without-registry.
 
 ## D — The Decision
 
@@ -79,7 +85,7 @@ earns (WORLD.md's render-at-earned-fidelity, applied to the ledger itself).
 |---|---|---|---|---|---|
 | Chronos-sequencer | **time** | stale truth read as live | handoff v3.0.0 tracker drift; stale snapshot.json; chan pass-1 weights | `readOrder` directive + `[SUPERSEDED]` markers + always-current cover (recoil-modes v0.2.0) | Detective skips marked flags; Deeper Strata UI renders authority order |
 | Inductive-overfit | **scope** | true THERE treaded as law HERE | chanModel n=2 near-constant conditions | `validityBounds` {n, conditions, stationarity} + regime ladder + tails/edges exception (v0.3.0) | Detective Read carries n + regime |
-| Open-loop decay | **obligations** | owed action decays unread | v1.9.0 unactioned list; ADR-015 (open since 2026-05-28); Resend key re-discovery; phantom enforcement-parity ledger | riskFlags `status` field (OPEN/DONE/WAIVED, dated); closure is an explicit write, never silence (recoil-modes v0.4.0) | **Detective `--sweep`** (this ADR's implementation) |
+| Open-loop decay | **obligations** | owed action decays unread | v1.9.0 unactioned list; ADR-015 (open since 2026-05-28); Resend key re-discovery; enforcement-parity ledger stranded unmerged 2026-07-16→19 (closed by explicit merge → ADR-034 — the family's first documented closure) | riskFlags `status` field (OPEN/DONE/WAIVED, dated); closure is an explicit write, never silence (recoil-modes v0.4.0); repo/audit findings → ADR-034 ledger | **Detective `--sweep`** (call ledger) + ADR-034 CI gate (repo findings) |
 | Epistemic-sequencer | **warrant** | hypothesis re-read as fact after qualifiers strip in transit | MEMORY.md v1.5.0 hallucination corrections ("RLS ENABLED" — false); withdrawn citation (v3.1.0); the sqrt segment rule (a flagged paraphrase treaded as operative law); phantom ADR-033 memory claim | warrant grade travels with the claim on every re-serialization; generalizes v0.3.0's "advisory stripped of its bounds" clause beyond models | Detective surfaces bounds verbatim; future: warrant field on banked claims |
 | Etymology-sequencer | **dictionary** | wrong dictionary edition applied to a stratum | BAR/KKL CANON_COLLISION (v3.1.0); Y-gate enum migration (EPHEMERAL et al. survive in old strata); "code wins over doc" standing memory | glossary as single source + rename tombstones ("X → renamed Y, date") + Kairos-locked spec versioning | canon-collision escalation discipline (never resolve under write-lock) |
 
@@ -127,9 +133,14 @@ registered honestly as such rather than pretending coverage.
 
 ## Y — Conviction
 
-**Polarity:** [SCRATCH | YELLOW | GREEN | LOCKED] ← Zach to fill at ratification
-**Conviction:** [LOW | MEDIUM | HIGH] ← Zach to fill
-**Stability:** [SHIFTING | CONTESTED | STABLE | REVISIT] ← Zach to fill
+**Polarity:** GREEN
+**Conviction:** HIGH
+**Stability:** REVISIT — standing leash: revisit at the sweep's 100-obligation
+mark (ADR-023 gate) or on any new member candidate hitting the admission gate.
+
+Ratified by Zach 2026-07-19, concurring specifically with the coordinate mapping
+(time → chronos-sequencer · scope → inductive-overfit · obligation → open-loop
+decay · warrant → epistemic-sequencer · dictionary → etymology-sequencer).
 
 **Loki test:** the strongest case against: this ADR is meta-governance about
 governance docs — exactly the kind of artifact that feels like progress while
