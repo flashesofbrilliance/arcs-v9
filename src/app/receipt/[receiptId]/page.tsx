@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, font, border, getWeather, nciColor, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
@@ -110,8 +110,30 @@ export default function ReceiptPage() {
 
   if (error) {
     return (
-      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>
+      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", flexDirection: "column" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem" }}>
+          <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+            <Wordmark section="Decision Receipt" />
+          </button>
+          <Rule style={{ marginTop: "1rem" }} />
+        </div>
+        <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 7rem" }}>
+          <div style={{ width: "100%", maxWidth: 460, background: surface.panel, border: `1px solid ${border.subtle}`, borderRadius: 10, padding: "1.75rem" }}>
+            <div style={{ fontFamily: font.mono, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase", color: isEphemeral ? signal.gold : signal.red, marginBottom: "0.55rem" }}>
+              {isEphemeral ? "Nothing was stored — by design" : "Receipt unavailable"}
+            </div>
+            <h1 style={{ fontFamily: font.sans, fontSize: "1.25rem", fontWeight: 600, color: text.primary, margin: "0 0 0.55rem", lineHeight: 1.3, letterSpacing: "-0.01em" }}>
+              {isEphemeral ? "This bearing didn’t travel here" : "Couldn’t load this receipt"}
+            </h1>
+            <p style={{ fontFamily: font.sans, fontSize: "0.88rem", color: text.secondary, lineHeight: 1.6, margin: "0 0 1.5rem" }}>{error}</p>
+            <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
+              <Button variant="primary" size="sm" onClick={() => router.push("/dashboard")}>Run the compass</Button>
+              {isEphemeral
+                ? <Button variant="ghost" size="sm" onClick={() => router.push("/compass?next=/dashboard")}>Sign in to keep bearings</Button>
+                : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Your ledger</Button>}
+            </div>
+          </div>
+        </div>
       </main>
     )
   }
