@@ -24,6 +24,23 @@ Real risk or a product call — do not hand to an unattended agent.
 | B2 | **`nci_score` impl ≠ spec** | `runtime/flows/question-compass-to-dewy.md:223`: impl collapses NCI to a single int; the DEWY spec (`dewy-receipt-schema-v1.md`) defines a 5-lens object w/ per-lens breakdown. Product decision: build the 5-lens or amend the spec. |
 | B3 | **`SageTrace` RLS disabled** | Security, but **out-of-band**: Supabase project is invisible to the MCP (wrong org) — needs the `supabase` CLI. Lives in `_PATTERNS/2026-07-19-out-of-band-actions.md` §D, not this batch. |
 
+## Batch outcome (2026-07-19)
+
+| Item | Result |
+|------|--------|
+| A1 console cleanup | ✅ DONE `913ee15` — 3 removed, 4 dev-gated, error logs kept. NCI 94. |
+| A2 circular @imports | ⏭️ SKIPPED — loader dedupes (~0 tokens); removing risks standalone-load contexts. |
+| A3 `_STATE` sprawl | ⏭️ SKIPPED — on-demand files, ~0 load-time cost; hygiene not token-saving. |
+| A4 permission rot | ⏭️ NO-OP — 0 exact duplicates (56/56 unique); UUID prune would re-add prompts. |
+| A5 prose-audit fix | ✅ DONE `a8d5030` — finding remediated-since, corrected. |
+| A6 ADR-025 dup id | ✅ DONE `a8d5030` — split to 025a/025b. |
+| B1 react-hooks | ✅ DIAGNOSED — all 3 SAFE/justified, no real bugs, no fix. |
+| B2 nci_score 5-lens | ⏳ OPEN — product decision (build 5-lens vs amend spec). |
+| B3 SageTrace RLS | ⏳ OPEN — out-of-band (Supabase CLI). |
+| **B4 (NEW)** prod build red | ⏳ OPEN — `npx next build` exits non-zero on error-page prerender (`/_global-error`, `/_not-found`: `useContext`/`useState` null). Pre-existing (fails on clean tree), compile/typecheck itself passes, app deploys on Vercel. Latent — investigate whether it's a Next-16 error-page quirk, a missing local env, or a real bug Vercel tolerates. |
+
+**Honest triage takeaway:** the "6-item green batch" was really **3 real fixes** (A1, A5, A6) + **1 diagnosis** (B1); A2/A3/A4 evaporated on scrutiny (zero token value or nonexistent). Padding avoided.
+
 ## How to run Tier A cheaply
 Fan out A1–A6 as **parallel background subagents**, one per item, each: make the edit → `npx next build`
 (where it touches code) → commit to `claude/token-efficiency-audit-ip3l3x` with `[NCI:SKIP <reason>]`
