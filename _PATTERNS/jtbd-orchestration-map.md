@@ -16,13 +16,20 @@ Spend the strong models only where judgment or refutation actually happens.
 
 | Tier | Model | Use for | Effort |
 |------|-------|---------|--------|
-| **Grunt** | `claude-haiku-4-5` | mechanical extraction, gathering, formatting, single-fact lookups, fan-out leaves | low |
+| **Scout** | `claude-haiku-4-5` | attentive gathering, extraction, formatting, single-fact lookups, fan-out leaves — bounded scope, *not* bounded care | low |
 | **Analyst** | `claude-sonnet-5` | synthesis, drafting, multi-lens analysis, most build/edit work | medium |
 | **Judge** | `claude-opus-4-8` | adversarial verification, final synthesis, architecture calls, anything where being wrong is expensive | high / xhigh |
 | **Wide/creative** | `claude-fable-5` | divergent generation, many-angle ideation when breadth matters more than rigor | medium |
 
+**Mindful execution (every tier).** The cheap tier is *Scout*, never "grunt." A small model does
+a simple task *well* when it's prompted to — observant, noting nuance, flagging uncertainty
+rather than dumping. Prompt Haiku stages to gather *thoughtfully*: "note what's surprising or
+inconsistent, mark low-confidence, don't fabricate to fill a field." A simpleton done well, not
+a mindless extractor. Framing the tier as disposable produces disposable work — and disrespects
+the labor. Bounded scope ≠ bounded care.
+
 Delegation heuristics:
-- A node that **reads a lot and decides little** → Grunt. (repo scans, log reads, signal gathering)
+- A node that **reads a lot and decides little** → Scout. (repo scans, log reads, signal gathering — done attentively)
 - A node that **transforms or drafts** → Analyst.
 - A node that **must refute, rank, or ratify** → Judge. Never cheap out here — this is the stage that catches the errors the whole workflow exists to prevent.
 - **Isolation:** any node doing a messy/large read runs in a subagent so the mess stays out of the main context (proven pattern: the `_ARCHIVE` scan commit).
