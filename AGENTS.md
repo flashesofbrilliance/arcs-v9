@@ -171,6 +171,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 5. **SQLite in dev, Postgres in prod** — don't use Prisma `Json` type until datasource is Postgres.
 6. **`git worktree list`** before any git operation — active worktree changes between sessions.
 7. **Commit style:** `type(scope): imperative [NCI:XX]` + `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
+8. **Deeper environment gotchas** (Supabase MCP blind spot, Prisma-7 adapter, Vercel CLI/env quirks, domain→project verify-live, subdomain hosting, concurrency discipline, HEIC/`sips`): see `_PATTERNS/durable-gotchas.md` — on-demand, open when the task touches that area.
 
 ---
 
