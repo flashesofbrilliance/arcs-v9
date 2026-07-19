@@ -5,6 +5,11 @@
 // client-side (shareLink.ts) — nothing is fetched from or written to the server.
 // One-time on this device: a localStorage flag flips the link to the sign-in onramp
 // after the first view. We NEVER read location.hash into analytics/logs.
+//
+// PRIVACY ASSUMPTION (pinned): Vercel <Analytics/>/<SpeedInsights/> (mounted globally in
+// layout.tsx) record pathname only, NOT the URL fragment — so the payload is never captured.
+// If analytics config ever switches to full-URL capture, this page's fragment would leak;
+// keep this page path-only and never pass location.hash to any tracker.
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
