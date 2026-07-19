@@ -325,6 +325,17 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       return NextResponse.json({ error: "Claude returned empty text content", raw }, { status: 502 })
     }
 
+    // Truncation guard: a response cut off at max_tokens yields invalid JSON, which
+    // would otherwise surface as a confusing "non-JSON response". Report it precisely
+    // so it's observable — QUICKMOVE (2048) is the tightest budget and the 5-lens
+    // nci_by_lens/nci_grade fields marginally increased output size.
+    if (message.stop_reason === "max_tokens") {
+      return NextResponse.json(
+        { error: "Model response truncated at max_tokens — retry, or use a lower mode / shorter question", raw },
+        { status: 502 },
+      )
+    }
+
     const cleaned = raw.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim()
     parsed = JSON.parse(cleaned)
   } catch (err) {

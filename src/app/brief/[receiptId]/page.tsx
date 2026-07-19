@@ -216,6 +216,7 @@ export default function BriefPage() {
             question={String(receipt.decision ?? "")}
             trueNorth={String(receipt.trueNorth ?? "")}
             nciScore={Number(receipt.nciScore ?? 0)}
+            nciGrade={typeof receipt.nciGrade === "string" ? receipt.nciGrade : undefined}
             createdAt={String(receipt.createdAt ?? new Date().toISOString())}
             protecting={(() => { try { return JSON.parse(receipt.protecting as string) } catch { return [] } })()}
           />
