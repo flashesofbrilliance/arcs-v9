@@ -17,6 +17,7 @@ const ALWAYS = [
 
 const SOMETIMES = [
   { what: 'Receipts stored', trigger: 'Only when you sign in' },
+  { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link — content is encoded in the URL fragment (never sent to us); a per-device flag flips it to a sign-in page after the first view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
   { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion — we notify you if permitted' },
   { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging — purged after 30 days' },
@@ -191,7 +192,7 @@ export default function PrivacyPage() {
         {/* Footer */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.0 · effective 2026-06-30</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Privacy policy v1.1 · effective 2026-07-19</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <button onClick={() => router.push('/trust')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Trust contract</button>
             <button onClick={() => router.push('/terms')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Terms of service</button>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { surface, text, signal, font, getWeather, nciColor, contentContainer } from "@/ui/tokens"
+import { surface, text, signal, font, border, getWeather, nciColor, contentContainer } from "@/ui/tokens"
 import { useVw } from "@/ui/useVw"
 import { Wordmark } from "@/ui/Wordmark"
 import { Rule } from "@/ui/Rule"
@@ -13,6 +13,7 @@ import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult } from "@/lib/mockCompass"
+import { encodeShare } from "@/lib/shareLink"
 
 function safeParse<T>(v: unknown, fallback: T): T {
   if (typeof v !== "string") return (v as T) ?? fallback
@@ -57,6 +58,7 @@ export default function ReceiptPage() {
   // /api/brief/[receiptId] already recovers tributaries from the receipt's
   // stored rawResponse (see that route) — just wasn't read here before.
   const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
+  const [shareCopied, setShareCopied] = useState(false)
 
   useEffect(() => {
     if (isEphemeral) {
@@ -108,8 +110,30 @@ export default function ReceiptPage() {
 
   if (error) {
     return (
-      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ fontFamily: font.sans, color: signal.red, fontSize: "0.9rem" }}>{error}</div>
+      <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary, display: "flex", flexDirection: "column" }}>
+        <div style={{ ...contentContainer(vw), paddingTop: "2rem", paddingBottom: "1rem" }}>
+          <button onClick={() => router.push("/")} style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+            <Wordmark section="Decision Receipt" />
+          </button>
+          <Rule style={{ marginTop: "1rem" }} />
+        </div>
+        <div style={{ flex: 1, display: "flex", alignItems: vw < 640 ? "flex-start" : "center", justifyContent: "center", padding: vw < 640 ? "1.5rem 1rem 6rem" : "2rem 1.5rem 7rem" }}>
+          <div style={{ width: "100%", maxWidth: 460, background: surface.panel, border: `1px solid ${border.subtle}`, borderRadius: 10, padding: "1.75rem" }}>
+            <div style={{ fontFamily: font.mono, fontSize: "0.62rem", letterSpacing: "0.14em", textTransform: "uppercase", color: isEphemeral ? signal.gold : signal.red, marginBottom: "0.55rem" }}>
+              {isEphemeral ? "Nothing was stored — by design" : "Receipt unavailable"}
+            </div>
+            <h1 style={{ fontFamily: font.sans, fontSize: "1.25rem", fontWeight: 600, color: text.primary, margin: "0 0 0.55rem", lineHeight: 1.3, letterSpacing: "-0.01em" }}>
+              {isEphemeral ? "This bearing didn’t travel here" : "Couldn’t load this receipt"}
+            </h1>
+            <p style={{ fontFamily: font.sans, fontSize: "0.88rem", color: text.secondary, lineHeight: 1.6, margin: "0 0 1.5rem" }}>{error}</p>
+            <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
+              <Button variant="primary" size="sm" onClick={() => router.push("/dashboard")}>Run the compass</Button>
+              {isEphemeral
+                ? <Button variant="ghost" size="sm" onClick={() => router.push("/compass?next=/dashboard")}>Sign in to keep bearings</Button>
+                : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Your ledger</Button>}
+            </div>
+          </div>
+        </div>
       </main>
     )
   }
@@ -155,6 +179,18 @@ export default function ReceiptPage() {
     },
   }
 
+  // One-time stateless share (ADR-037): encode the bearing into a URL fragment so it
+  // recomposes in the recipient's browser with NO server write. Only offered for
+  // ephemeral (anonymous) bearings — persisted receipts already have a real /brief link.
+  const shareOneTime = async () => {
+    try {
+      const url = `${window.location.origin}/brief/share#${encodeShare(compassResult)}`
+      await navigator.clipboard.writeText(url)
+      setShareCopied(true)
+      setTimeout(() => setShareCopied(false), 3000)
+    } catch { /* clipboard blocked — no-op */ }
+  }
+
   const page = (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Header — Wordmark + Rule, matching home/history/brief pattern */}
@@ -164,6 +200,7 @@ export default function ReceiptPage() {
             {isEphemeral
               ? <Button variant="ghost" size="sm" onClick={() => router.push("/dashboard")}>← Compass</Button>
               : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>}
+            {isEphemeral && <Button variant="ghost" size="sm" onClick={shareOneTime}>{shareCopied ? "One-time link copied ✓" : "Share ↗"}</Button>}
             {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
           </div>
         </div>

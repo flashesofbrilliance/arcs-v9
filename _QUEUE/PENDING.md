@@ -67,6 +67,10 @@ These don't have a number in the table above because no ADR exists for them — 
 - 🟡 Connector hygiene (claude.ai settings), Vercel preview `DATABASE_URL`, `DATABASE_URL` rotation reminder,
   Resend MCP key rotation, DMARC `p=reject` — all itemized in the out-of-band checklist.
 - 🟡 **Dan Pascone case-study gate** (ADR-015) — human decision, still open.
+- 🟢 **Disable the Vercel platform toolbar on production** — Vercel → Project (arcs-v9 / arcs) → Settings →
+  Toolbar → off. The app code already gates its own toolbar to ⌘+. (`VercelToolbarToggle`); what shows "by
+  default" is Vercel's platform-injected toolbar, visible only to logged-in team members (not visitors).
+  Dashboard-only; no code lever.
 
 **In-repo follow-ups (started this session, safe to continue):**
 - **B2 depth:** source the `nci_by_lens.cadence` lens from `time-quality-attribution-rom.json` (currently
