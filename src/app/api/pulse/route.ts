@@ -13,15 +13,17 @@ import { NextResponse } from "next/server";
  * repo); it works without one, just closer to the free ceiling under load.
  */
 
-export const dynamic = "force-dynamic";
+// ISR: the route response is cached and regenerated at most once per window.
+// 300s keeps GitHub calls (~4 per regeneration) under the unauthenticated
+// 60 req/hr ceiling even with zero traffic-shaping. Set GITHUB_TOKEN to lift
+// the origin to 5000/hr, after which this can safely drop to 60.
+export const revalidate = 300;
 
 const REPO = "flashesofbrilliance/arcs-v9";
 const GH = `https://api.github.com/repos/${REPO}`;
 
 const CORS: Record<string, string> = {
   "Access-Control-Allow-Origin": "*",
-  // CDN caches the response ~60s and serves stale up to 5 min while it revalidates.
-  "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
 };
 
 function ghHeaders(): Record<string, string> {
@@ -36,9 +38,9 @@ function ghHeaders(): Record<string, string> {
 }
 
 function gh(path: string): Promise<Response> {
-  // no-store here: freshness is gated by the CDN Cache-Control above, so we
-  // don't want Next's data cache layered on top (one cache, one mental model).
-  return fetch(`${GH}${path}`, { headers: ghHeaders(), cache: "no-store" });
+  // Align the data-cache window with the route's ISR window so the whole
+  // response regenerates as one unit (one cache, one mental model).
+  return fetch(`${GH}${path}`, { headers: ghHeaders(), next: { revalidate: 300 } });
 }
 
 interface CommitApi {
