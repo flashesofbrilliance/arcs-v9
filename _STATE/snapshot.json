@@ -2,10 +2,12 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "92c01ea",
-    "head_message": "fix(mobile): apply iOS zoom-stuck-after-password-gate fix to daniel/jalaja/danny",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "6dca11c",
+    "head_message": "feat(governance): ADR-033 enforcement parity \u2014 ledger gate, rate limit, deletion path, reviewer agents [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -143,5 +145,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-16T15:49:21Z"
+  "git_refreshed_at": "2026-07-19T03:31:11Z"
 }

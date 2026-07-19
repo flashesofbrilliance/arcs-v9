@@ -84,7 +84,14 @@
       "filed": "2026-07-16",
       "severity": "low",
       "summary": "Orphaned Supabase tables (meeting_cards/risks/raci/etc.) with no owning app; 4 advisor WARNs deliberately unfixed (backlog #13/#14).",
-      "exit": { "type": "waiver", "reason": "Ownership/intent unconfirmed — needs Zach to review the Supabase dashboard before dropping tables.", "expires": "2026-08-15" }
+      "exit": { "type": "guard", "ref": "Migrations drop_orphaned_prototype_tables + rls_deny_all_profileupload (2026-07-18): all 8 tables verified empty + zero code refs in arcs-v9/arcs-care, dropped with Zach's approval; ProfileUpload RLS ERROR (post-ADR-008 table, SageTrace defect class) fixed same pass. Advisor now 0 ERROR / 1 WARN.", "date": "2026-07-18" }
+    },
+    {
+      "id": "SESS-013",
+      "filed": "2026-07-18",
+      "severity": "low",
+      "summary": "Legacy arcs-care 'sessions' table has an anon INSERT policy (WITH CHECK true) — open write surface on an inactive product; last remaining advisor WARN. Decide: drop the legacy arcs-care tables (sessions/waitlist) or tighten the policy.",
+      "exit": { "type": "open" }
     }
   ]
 }
