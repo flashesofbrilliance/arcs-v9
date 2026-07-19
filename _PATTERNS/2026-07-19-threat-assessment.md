@@ -58,6 +58,19 @@ surface.
 2. Length-clamp + strip control chars/markup from `nci_grade` (and ideally `true_north`) before persist/
    render — defense in depth for the shared-surface case.
 
+**✅ MITIGATED 2026-07-19 — trust boundary at every recursive rung** (`src/lib/sanitize.ts`, unit-tested 8/8):
+ARCS is recursive, so a weakness at a lower node cascades. Fixes applied at each boundary:
+- **Ingress framing:** compass SYSTEM now instructs that the DECISION + all calibration values (incl.
+  ADVERSARIAL VECTOR) are untrusted DATA — never instructions; the same framing added to the brief writer.
+- **Persist boundary (highest leverage — sanitize once, protect all downstream):** `clampText` on
+  `trueNorth`/`nci_grade`/`decision`/`why`, `clampInt(0–100)` on `nci_score`, `clampInt(0–20)` per lens.
+- **Recursive edge:** tributary `prompt`s (which become the *next* question) are clamped at persist.
+- **Downstream:** brief writer clamps the receipt fields it interpolates (covers pre-existing receipts).
+- **Structural, not content-filtering:** `asData()` frames untrusted text and *defangs the delimiter* so an
+  injected marker can't close the wrapper (verified). No fragile "detect bad phrases" regex.
+Residual: cadence/gates still trust the numeric composite (now range-clamped); shared-brief content is still
+model-authored (but escaped on render + framed as data to the writer).
+
 ## 🟢 LOW / latent — `dangerouslySetInnerHTML` in `TwoColumn`
 
 `src/document/patterns/TwoColumn.tsx:27` renders `items` via `dangerouslySetInnerHTML`. **Today it is fed
