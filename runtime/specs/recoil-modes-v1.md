@@ -1,7 +1,20 @@
-# Recoil Protocol — Reverse Listening & Deep Recall modes (v0.1.0)
+---
+version: 0.3.0
+status: DRAFT — not yet canon-ratified
+---
+
+# Recoil Protocol — Reverse Listening & Deep Recall modes (v0.3.0)
 
 **Status:** DRAFT — defined this session, not yet canon-ratified. Routed for review,
 not unilaterally declared final (per the standing canon-collision discipline).
+
+**Changelog:** v0.3.0 (2026-07-17) — inductive-overfit risk section added (sibling of
+chronos-sequencer, per Zach's same-evening direction): banked predictive/counterpart
+models MUST carry `validityBounds` with an n-aware regime ladder and an
+always-excepted tails/edges rule. v0.2.0 (2026-07-17) — chronos-sequencer risk
+section added; multi-pass reports now MUST carry a `readOrder` directive, in-place
+superseded markers, and always-current cover fields. v0.1.0 — initial two-pass
+structure.
 
 ## Why this exists
 
@@ -45,6 +58,124 @@ adopted here is simpler and avoids that algebra trap: **segment the transcript i
 `max(3, round(sqrt(duration_minutes)))` chunks**, each independently run through both
 passes. This is the working definition; flagged for Zach to correct if "1/(duration)" meant
 something more literal that this paraphrase missed.
+
+## Chronos-sequencer risk (v0.2.0 — MANDATORY for multi-pass reports)
+
+**The pathogen.** Recoil reports are append-don't-overwrite ledgers: each analytical
+pass (base read, overlay, diamond-cut, post-send revision) is a new stratum written
+after the last, and earlier strata are preserved rather than rewritten. That
+preservation is deliberate — strata are provenance, the audit trail of how a belief
+formed. But it means **write order preserves superseded beliefs as live-looking
+text.** Any chronological or prefix reader serializes dead state as if it were
+current: pass-1 scenario weights that a post-send revision overturned, a conviction
+read the second-pass overlay reversed, a follow-up prescription already discharged.
+
+Known chronological/prefix readers this bites:
+- `scripts/receipt_lookup.py` (the Detective) — aggregates fields across the ledger
+- Task A pre-call generation (`runtime/specs/call-brief-hooks-v1.md`) — reads prior
+  reports to scope the next call
+- Token-truncated LLM reads — truncation keeps the file **prefix**, i.e. exactly the
+  oldest strata, and silently discards the corrections
+- Human skims — top-of-file reads left-to-right in write order
+
+This is not a hypothetical: the same pathogen has already bitten this repo twice in
+other clothing — the three-way handoff-tracker version drift (CLAUDE.md Handoff
+v3.0.0 note: three "latest" versions live simultaneously) and the stale
+`_STATE/snapshot.json` open-items that had silently resolved. Append-only memory
+plus a naive reader equals confidently wrong state.
+
+**The mandate.** Any recoil report that accumulates more than one analytical pass
+(any second stratum: overlay, revision, post-send update) MUST carry all three of:
+
+1. **`readOrder` directive near the file head** — a top-level key placed early
+   enough to survive prefix truncation, declaring the authority order explicitly:
+   current-state header (`cover`) first, consolidated current state
+   (`recapitulation`) second, in-place-revised sections next, and the base-pass
+   strata **last, as provenance only**. This is the *anachronistic tread*: the top
+   layer is truth, lower layers are how the truth got here. The directive should
+   also enumerate `knownSupersededStrata` (what was overturned, by what) and
+   `consumers` (who must honor this order).
+2. **In-place `[SUPERSEDED — see X]` markers** on every overturned stratum, at the
+   point of the dead text itself — not only in the directive. A reader who lands
+   mid-file on a superseded finding must hit the marker before the finding. The
+   overturned text stays (provenance); the marker makes it unquotable-as-current.
+3. **Cover fields maintained in-place as always-current.** `cover`
+   (Y-gate/conviction/NCI/headline) is the one section that is *overwritten*, never
+   appended — it is the current-state header every reader may trust without
+   archaeology. If a later pass changes the read, the change lands in `cover` in
+   the same write that adds the stratum.
+
+**Reader-side rule (mirrored in `call-brief-hooks-v1.md`):** read
+`cover`/`recapitulation`/`readOrder`-designated current state FIRST; never quote a
+stratum without checking it for a superseded marker.
+
+**Worked example:** `runtime/recoil/generated/2026-07-17-chan-suh.json` — top-level
+`readOrder` with directive/knownSupersededStrata/consumers, `[⚠ SUPERSEDED — …]`
+markers inline (e.g. the callWalk seg-7 "cooler than Mike" divergence, overturned by
+the second-pass nonverbal overlay), scenario weights revised in-place with explicit
+`REVISED 45→55` annotations, and `cover` + `recapitulation` carrying the current
+state.
+
+## Inductive-overfit risk (v0.3.0 — MANDATORY for banked models)
+
+**The pathogen — sibling of chronos-sequencer.** Chronos-sequencer is *temporal*: a
+belief that WAS true, read after it stopped being true. Inductive-overfit is
+*scope-transfer*: a belief validated THERE, treaded as causal law HERE. Causation ≠
+correlation; past results don't guarantee future success. Concrete instance: a
+counterpart model banked in a recoil report predicts well at n=2 under
+near-constant conditions (same format, same register, same stakes) — two hits under
+constant conditions correlate with the *conditions* as much as with the model. And
+the append-only ledger **amplifies** the error: each banked confirmation makes the
+model read more authoritative to the next chronological tread, but confirmation
+count is not causal warrant. Conditions shift between rounds (new evaluator axis,
+panel vs 1:1, decision-stakes vs discovery) and hit-rate does not transfer.
+
+**The mandate.** Any predictive model or counterpart-model banked in a report MUST
+carry explicit **`validityBounds`** stating, at minimum:
+
+1. **n** — the sample size behind the model (calls, observations, confirmations).
+2. **conditions** — the regime the n was drawn under (format, register, stakes,
+   who was in the room), so a reader can see whether the next use is in-regime.
+3. **stationarity note** — whether those conditions still hold, and a
+   **re-verify-per-round rule**: the model earns its keep each conversation or
+   gets revised; it is never treaded as law.
+
+**Sample-size regime ladder — warrant scales with n; the bounds are n-aware, not
+uniformly skeptical:**
+
+| Regime | n | Warrant |
+|---|---|---|
+| Anecdote | ≈ single digits | No transfer warrant. Re-verify per round; prep the branch distribution, not the point estimate. |
+| Directional prior | moderate | Condition-bounded prior — usable as a lean, not a load-bearing assumption. |
+| Central-mass default | large **and** stationary | Law-of-large-numbers convergence: the model is a legitimate default, and refusing it is the *opposite* epistemic error. Permanent distrust of a well-validated model is not rigor. |
+
+In-repo precedent for the minimum-n principle: **ADR-023** gates
+distributional/lattice claims at 100+ receipts — cite it rather than inventing a
+new threshold.
+
+**Always excepted — tails/edges, regardless of n.** LLN protection fails three
+distinct ways, and edge/ruin assessment therefore runs at ANY n:
+
+- **Fat tails** — the distribution was never normal; central mass says nothing
+  about the tail that decides the outcome.
+- **Non-stationarity** — the regime shifted; the n was drawn from a distribution
+  that no longer exists.
+- **Consequence asymmetry** — correct-on-average is still wrong where wrong is
+  unsurvivable. Ruin doesn't average.
+
+This is BAR's jurisdiction in the operator library
+(`operators/arcs_operators_bar.py`) and WORLD.md's hidden-weak-layer physics: you
+don't ride because the bowl looks good on the last two runs.
+
+**Worked example:** `runtime/recoil/generated/2026-07-17-chan-suh.json` →
+`recapitulation.chanModel.validityBounds` — n=2 under near-constant conditions,
+round-three regime shift enumerated, regime ladder and tails/edges exception
+carried verbatim, "prep the distribution, not the point estimate."
+
+**Reader-side rule:** any consumer surfacing a banked model or a history-derived
+advisory (`scripts/receipt_lookup.py`, Task A pre-call generation) must carry the
+n and conditions alongside the conclusion — an advisory stripped of its bounds is
+how an anecdote gets treaded as law.
 
 ## Output contract
 

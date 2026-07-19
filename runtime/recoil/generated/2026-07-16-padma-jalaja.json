@@ -1,0 +1,164 @@
+{
+  "reportId": "2026-07-16-padma-jalaja",
+  "meta": {
+    "callTitle": "Zach Jalaja - intro Zoom Meeting",
+    "counterpart": "Padma Jalaja",
+    "counterpartRole": "Ex-Amazon (5 yrs, internal AI since 2022); founder of an AI-upskilling cohort course (hands-on technical + product thinking); LinkedIn-sourced intro call",
+    "callDate": "2026-07-16",
+    "callTime": "1:45 PM EDT",
+    "durationMinutes": 30,
+    "segmentCount": 5,
+    "protocol": "Reverse Listening + Deep Recall · 5 segments · max(3, round(sqrt(30)))",
+    "prePrepSession": null,
+    "note": "No PrepSession or pre-call note existed for this counterpart — cold LinkedIn-sourced intro, first contact per the internal ledger."
+  },
+  "cover": {
+    "yGate": "FORK",
+    "conviction": "MEDIUM",
+    "stability": "WATCH",
+    "renderState": "DEGRADED",
+    "nci": 54,
+    "headline": "Discovery call that became a monologue — real GTM need surfaced late, engagement shape still undefined.",
+    "subline": "Padma asked for a growth strategy to acquire 20 paying customers for cohort 1. Zach spent roughly the first two-thirds of the call on his own background and ARCS before turning to her specifics. She ended by asking for a written proposal with revenue-share terms — the ask exists, the shape of the engagement does not."
+  },
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
+  "loadBearingQuote": {
+    "text": "So if this is to be true, if I have to get those 20 people... what is that strategy that I need to do, and what are the things that I need to do so that I have those 20 paying customers?",
+    "attribution": "GRANOLA TRANSCRIPT · PADMA JALAJA · JUL 16, 2026",
+    "significance": "This is the actual, concrete, answerable question Padma had for the entire call — and it arrives at minute ~24 of 30, after two long ARCS-narrative blocks from Zach. It's specific, numeric, and falsifiable (20 paying customers, cohort 1). Everything before it was preamble; this sentence is what the call should have been organized around from minute 3."
+  },
+  "callWalk": [
+    {
+      "segment": 1,
+      "label": "MUTUAL INTRO SETUP",
+      "time": "0–3 min",
+      "direction": "FORWARD",
+      "summary": "Padma proposes format: intros first, then find synergies, then next steps. Zach agrees, defers to her going first.",
+      "divergenceFlag": "LOW."
+    },
+    {
+      "segment": 2,
+      "label": "PADMA'S BACKGROUND + PROBLEM STATEMENT",
+      "time": "3–10 min",
+      "direction": "FORWARD",
+      "summary": "Ex-Amazon AI work since 2022, noticed a real skill gap around hands-on AI + product thinking (not just technical courses), started informally sharing notes, got organic pull, now formalizing into paid cohorts. Two cohorts run so far: 4 people, then 16 people, both from her existing network, both paying customers.",
+      "divergenceFlag": "LOW — clear, coherent problem statement with real traction data (two paid cohorts) delivered efficiently in under 7 minutes."
+    },
+    {
+      "segment": 3,
+      "label": "ZACH'S BACKGROUND + FULL ARCS NARRATIVE",
+      "time": "10–20 min",
+      "direction": "FORWARD",
+      "summary": "Extended monologue: career arc, Grayscale digital-asset launch, the ex-ante-receipt origin story, hindsight-bias/amnesia framing, Question Compass, arts-vs-consulting philosophy on 'radical self-sovereignty,' generic go-to-market advice on ICP-narrowing without yet knowing Padma's specific numbers.",
+      "divergenceFlag": "HIGH — this is the same rehearsed ARCS block that recurs in the Danny and Prophet calls the same day. In a peer catch-up (Danny) that's fine; in a discovery call where the other party asked a specific, answerable question ('20 paying customers, what's the strategy'), leading with 10 minutes of self-narrative before addressing her problem is a real cost — it's the interview-pivot-to-self-promotion pattern showing up outside an interview context."
+    },
+    {
+      "segment": 4,
+      "label": "TACTICAL Q&A — GATING, SEGMENTATION, PROOF",
+      "time": "20–26 min",
+      "direction": "FORWARD",
+      "summary": "Zach finally engages Padma's specifics: no waitlist/gating on her site (she confirms, 'I should fix that'), suggests behavioral-screening tiers (novice/intermediate/advanced), asks about her cohort segment breakdown and whether prior 'graduates' were paying customers (yes, in finance). Padma names her actual numeric ask directly (load-bearing quote).",
+      "divergenceFlag": "LOW — once Zach engages her specifics directly, the exchange sharpens noticeably and produces concrete, actionable observations (missing waitlist gate, no explicit money-back guarantee language, unclear ICP segmentation)."
+    },
+    {
+      "segment": 5,
+      "label": "SCOPE + PROPOSAL ASK — TIME-BOXED CLOSE",
+      "time": "26–30 min",
+      "direction": "REVERSE",
+      "summary": "Zach asks what her budget/bandwidth constraint is; Padma commits '50% of my time until August.' Zach explicitly states he doesn't work on a performance/success-fee basis and floats a lighter advisory engagement. Padma asks for a written proposal including revenue-share terms — a direct contradiction of what Zach just said. Call ends abruptly on Zach's next-meeting time constraint (2:30, matching the Prophet interview start time exactly) before this gap gets resolved.",
+      "divergenceFlag": "HIGH — read backward, the call ends on an unresolved fee-model mismatch (Zach: not performance-based; Padma: asking about revenue-share) that never got surfaced or corrected in the room. Whatever proposal follows needs to explicitly restate the fee model or it will land as a surprise."
+    }
+  ],
+  "signalThreads": [
+    {
+      "id": "CONCRETE_ASK_LATE",
+      "label": "Real, Answerable Ask — Arrived Late",
+      "color": "green",
+      "strength": "HARD_YES",
+      "description": "'20 paying customers, cohort 1, what's the strategy' is a genuinely good, scoped GTM brief. It just took 24 of 30 minutes to surface because the first two-thirds of the call ran as background-exchange rather than discovery."
+    },
+    {
+      "id": "SELF_NARRATIVE_COST",
+      "label": "ARCS Monologue Crowded Out Discovery Time",
+      "color": "orange",
+      "strength": "DIRECTIONAL",
+      "description": "Same rehearsed ex-ante-receipt/hindsight-bias narrative block as the Danny and Prophet calls the same afternoon, delivered here in a context where it had a real opportunity cost — roughly 10 minutes that could have gone toward understanding Padma's cohort economics, pricing test results, or churn before proposing anything."
+    },
+    {
+      "id": "FEE_MODEL_MISMATCH",
+      "label": "Unresolved Fee-Model Contradiction at Close",
+      "color": "red",
+      "strength": "WATCH",
+      "description": "Zach stated plainly he doesn't work on a performance basis; Padma, in the very next breath, asked for a proposal covering 'how do we share our revenue.' Neither party corrected the mismatch before the call ended. If the follow-up proposal doesn't explicitly re-anchor the fee model, it risks reading as either a bait-and-switch or a misunderstanding."
+    },
+    {
+      "id": "NO_GATING_ON_LANDING_PAGE",
+      "label": "Concrete, Fixable Site Gap Surfaced",
+      "color": "cyan",
+      "strength": "HARD_YES",
+      "description": "Padma confirmed her site has an open apply form with no waitlist/pre-qual gate and no stated money-back guarantee — both directly actionable, low-effort fixes independent of any larger engagement."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "A",
+      "probability": 40,
+      "label": "Proposal sent, fee-model gap surfaces friction",
+      "description": "Zach sends a light-advisory proposal; Padma expected revenue-share language and either pushes back or the conversation stalls on terms neither fully articulated live.",
+      "trigger": "Proposal delivery without first re-confirming the fee model in writing.",
+      "watch": "Address the fee-model mismatch explicitly and first, before scope, in whatever gets sent."
+    },
+    {
+      "id": "B",
+      "probability": 35,
+      "label": "Light advisory engagement locked",
+      "description": "Fee model gets clarified, a scoped light-touch engagement (strategy + a few of the concrete site fixes) gets agreed, low-cost, low-risk for both sides.",
+      "trigger": "Zach proactively clarifies terms in the proposal rather than waiting for Padma to raise it again.",
+      "watch": "Keep scope tight — Padma is time-constrained (50% bandwidth until August) and price-sensitive (bootstrapped solo cohort business)."
+    },
+    {
+      "id": "C",
+      "probability": 25,
+      "label": "No follow-through, goes cold",
+      "description": "Cold LinkedIn intro, no prior relationship, no urgency on either side — could simply fade if the proposal doesn't land quickly while the conversation is warm.",
+      "trigger": "No proposal sent within ~1 week.",
+      "watch": "Speed matters more than polish here given no existing relationship equity to draw on."
+    }
+  ],
+  "riskFlags": [
+    {
+      "id": "FEE_MODEL_MISMATCH",
+      "severity": "MED",
+      "label": "Revenue-share expectation not corrected in the room",
+      "description": "Padma's proposal ask explicitly referenced revenue-sharing immediately after Zach stated he doesn't do performance-based work. This was never reconciled live.",
+      "action": "Re-state the fee model explicitly and first in any written follow-up — don't let it surface as a surprise mid-negotiation."
+    },
+    {
+      "id": "DISCOVERY_TIME_BUDGET",
+      "severity": "LOW",
+      "label": "Self-narrative ran long relative to discovery",
+      "description": "~10 of 30 minutes went to Zach's own background/ARCS pitch before Padma's specific numbers (cohort sizes, pricing, ICP) were drawn out.",
+      "action": "For future first-contact discovery calls with a real, scoped ask on the table, lead with 2–3 discovery questions before background — this is the same pattern flagged in the Prophet interview report the same day, worth tracking across calls, not just within one."
+    }
+  ],
+  "protocol": {
+    "passes": [
+      {
+        "name": "Reverse Listening",
+        "direction": "End → Start",
+        "keyFinding": "The call ends on an unresolved contradiction (no performance fee vs. revenue-share ask) rather than a clean close. Working backward, that gap traces directly to the imbalance earlier in the call — the concrete numeric ask (20 customers) only got 4–6 minutes of real engagement out of 30."
+      },
+      {
+        "name": "Deep Recall",
+        "direction": "Start → End",
+        "prePrepNote": "No PrepSession; scored against the stated agenda ('intros, then synergies, then next steps') only.",
+        "keyFinding": "The stated agenda was followed structurally (intro → synergy discussion → next-steps ask) but the synergy-discussion phase was dominated by one-directional narrative rather than mutual discovery. The 'next steps' phase surfaced a real ask (proposal) but closed on an unresolved term (fee model) — the agenda was honored in shape, not in balance."
+      }
+    ],
+    "immediateActions": [
+      "Before sending any proposal, explicitly restate the fee model (not performance/revenue-share based) to close the gap from the call",
+      "Lead the proposal with the concrete, answerable brief Padma gave (20 paying customers, cohort 1, by ~August) rather than general GTM framework language",
+      "Include the two concrete, low-cost fixes surfaced live (waitlist/pre-qual gate, explicit guarantee language) regardless of whether a larger engagement proceeds — cheap goodwill, already scoped"
+    ]
+  }
+}

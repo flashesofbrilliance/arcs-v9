@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Zach Harris — Resume</title>
+  <title>Zach Harris · Resume</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -313,7 +313,7 @@ function Steps({ labels, current }) {
 }
 
 // ── Role tab bar — ARCS / GRAYSCALE / CTF / WTA / CONSULTING ─────────────────
-function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onConsultingToggle }) {
+function RoleTabs({ selectedNode, onSelect, onSelectClient, onConsultingScroll }) {
   const [hovered, setHovered] = useState(null);
   return (
     <div style={{ display:'flex', alignItems:'stretch', borderBottom:`1px solid ${T.border}` }}>
@@ -344,23 +344,23 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onCo
           </button>
         );
       })}
-      {/* CONSULTING tab — same mechanics, toggles section 02 */}
+      {/* CONSULTING tab — scrolls to section 02; never reshapes section 01 */}
       <button type="button"
-        onClick={() => { onSelect(null); onSelectClient(null); onConsultingToggle(); }}
+        onClick={onConsultingScroll}
         onMouseEnter={() => setHovered('consulting')}
         onMouseLeave={() => setHovered(null)}
         style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center',
           padding:'10px 4px 7px', background:'transparent', border:'none',
-          borderBottom: consultingOpen ? `2px solid ${T.steel}` : '2px solid transparent',
+          borderBottom:'2px solid transparent',
           marginBottom:-1, cursor:'pointer', transition:'all .15s',
-          opacity: consultingOpen ? 1 : hovered==='consulting' ? 0.75 : 0.45 }}>
+          opacity: hovered==='consulting' ? 0.75 : 0.45 }}>
         <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, letterSpacing:'0.08em',
-          color: consultingOpen ? T.steel : hovered==='consulting' ? T.fg1 : T.fg3,
+          color: hovered==='consulting' ? T.fg1 : T.fg3,
           transition:'color .15s', whiteSpace:'nowrap' }}>
-          CONSULTING
+          CONSULTING ↓
         </span>
-        <span style={{ fontFamily:T.mono, fontSize:7.5, color: consultingOpen ? T.steel : T.fg4,
-          letterSpacing:'0.04em', marginTop:3, opacity: consultingOpen ? 0.75 : 0.5 }}>
+        <span style={{ fontFamily:T.mono, fontSize:7.5, color:T.fg4,
+          letterSpacing:'0.04em', marginTop:3, opacity:0.5 }}>
           2019–24
         </span>
       </button>
@@ -369,24 +369,16 @@ function RoleTabs({ selectedNode, onSelect, onSelectClient, consultingOpen, onCo
 }
 
 // ── 02 Select Consulting Work ─────────────────────────────────────────────────
-// Closed: ultra-compressed spine cards (mirrors FT catalogue mode)
-// Open:   full TribTiles with expand/collapse
-function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
+// Always visible: collapsed TribTiles, same expand/collapse pattern as FT roles
+function ConsultingSection({ selectedClient, onSelectClient }) {
   return (
-    <div style={{ marginTop:8 }}>
-      {/* Header row — always visible, clickable to toggle */}
-      <div onClick={onToggle}
-        style={{ display:'flex', alignItems:'center', padding:'10px 0 8px',
-          borderTop:`1px solid ${T.border}`, cursor:'pointer' }}
-        onMouseEnter={e => e.currentTarget.style.opacity='0.8'}
-        onMouseLeave={e => e.currentTarget.style.opacity='1'}>
+    <div id="consulting-section" style={{ marginTop:8, scrollMarginTop:90 }}>
+      <div style={{ display:'flex', alignItems:'center', padding:'10px 0 8px',
+        borderTop:`1px solid ${T.border}` }}>
         <SectionLabel index="02">Select Consulting Work</SectionLabel>
       </div>
 
-      {/* OPEN — full TribTiles */}
-      {open && (
-        <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:6,
-          animation:'slideDown .15s ease both' }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:6, paddingTop:6 }}>
           {CONSULTING_CLIENTS.map(c => (
             <TribTile key={c.id} label={c.label.toUpperCase()} glyph={c.glyph} color={T.steel}
               meta={`${c.domain} · ${c.dates}`}
@@ -410,8 +402,7 @@ function ConsultingSection({ selectedClient, onSelectClient, open, onToggle }) {
               {c.summary}
             </TribTile>
           ))}
-        </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -436,25 +427,25 @@ function NCICount({ target=87 }) {
 // figma = practitioner depth in dev tools / visual-to-production workflow
 // ds    = quantitative / analytical / instrumentation depth
 const ROLES = [
-  { id:'arcs', glyph:'◈', label:'ARCS — Decision Intelligence Platform', color:T.cyan,
+  { id:'arcs', glyph:'◈', label:'ARCS · Decision Intelligence Platform', color:T.cyan,
     dates:'2025–Present', role:'Founder',
     summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and compounding feedback loops that make each subsequent decision measurably sharper.',
     metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
-    compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units — and what\'s the right first wedge to prove the model?',
+    compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what\'s the right first wedge to prove the model?',
     bullets:[
       { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
       { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
-      { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions — compounding institutional memory', v:['all','ds'] },
-      { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy — breadth is the product', v:['all'] },
+      { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions, compounding institutional memory', v:['all','ds'] },
+      { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product', v:['all'] },
     ] },
   { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
     dates:'2024–2025', role:'Product Lead, Go-To-Market',
     summary:'Cross-BU growth intelligence layer for 10 regulated investment products across $7B AUM. Behavioral event taxonomy, personalization data model, and lifecycle/CRM strategy for investor portal at SEC/FINRA compliance.',
     metric:'$7B', metricLabel:'AUM ACROSS INSTRUMENTED PRODUCTS',
-    compassPrompt:'How do you build behavioral instrumentation for ten regulated investment products where a single taxonomy error becomes a compliance incident — and what does the governance architecture look like before you touch the first event?',
+    compassPrompt:'How do you build behavioral instrumentation for ten regulated investment products where a single taxonomy error becomes a compliance incident, and what does the governance architecture look like before you touch the first event?',
     bullets:[
       { t:'Architected cross-product growth intelligence layer: CDP, behavioral event taxonomy, segmentation schema, and personalization data model across 10 regulated products', v:['all','ds'] },
-      { t:'Led lifecycle/CRM strategy — behavioral signals → content recommendations; AI-driven personalization with measurable engagement lift', v:['all','figma'] },
+      { t:'Led lifecycle/CRM strategy: behavioral signals → content recommendations; AI-driven personalization with measurable engagement lift', v:['all','figma'] },
       { t:'Reduced release cycle time by 35% through automated QA instrumentation; data governance at SEC/FINRA compliance thresholds', v:['all','ds'] },
       { t:'Translated regulatory constraints into data governance architecture covering collection, storage, and usage across all investor surfaces', v:['all','ds'] },
     ] },
@@ -462,22 +453,22 @@ const ROLES = [
     dates:'2018–2019', role:'Sr. Director, Data & CRM Strategy',
     summary:'Enterprise growth intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation engine across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.',
     metric:'20%', metricLabel:'NET-NEW REVENUE VIA DATA PERSONALIZATION',
-    compassPrompt:'When a mission-driven org needs to shift from intuition-led to data-led fundraising, what\'s the right sequence — and how do you get program teams to act on the signal before the next campaign launches?',
+    compassPrompt:'When a mission-driven org needs to shift from intuition-led to data-led fundraising, what\'s the right sequence, and how do you get program teams to act on the signal before the next campaign launches?',
     bullets:[
       { t:'Built enterprise growth intelligence infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation', v:['all','ds'] },
-      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units — first intelligence layer any of these teams had', v:['all','ds'] },
+      { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units; the first intelligence layer any of these teams had', v:['all','ds'] },
       { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and cross-BU growth instrumentation', v:['all','figma'] },
     ] },
   { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
     dates:'2016–2018', role:'Product & Partnerships Lead',
-    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue. The live commerce drop model is structurally the same problem — same high-stakes window, same intent capture, same personalized delivery.',
+    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue. The live commerce drop model is structurally the same problem: same high-stakes window, same intent capture, same personalized delivery.',
     metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
-    compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously — what does the pre/post-event capture loop look like?',
+    compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously, and what does the pre/post-event capture loop look like?',
     bullets:[
-      { t:'Led CDP evaluation and selection for global consumer sports platform; built real-time fan behavior scoring at <120ms — personalized offers served during live events', v:['all','ds'] },
-      { t:'Designed first commercial partnerships with Twitter and Facebook — behavioral data flows, attribution models, event-driven revenue; $850K+ year-one', v:['all','figma'] },
+      { t:'Led CDP evaluation and selection for global consumer sports platform; built real-time fan behavior scoring at <120ms, serving personalized offers during live events', v:['all','ds'] },
+      { t:'Designed first commercial partnerships with Twitter and Facebook: behavioral data flows, attribution models, event-driven revenue; $850K+ year-one', v:['all','figma'] },
       { t:'Pre/post-event intelligence loop: pre-tournament fan segmentation → in-event scoring → post-event outcome capture. Applied before "growth intelligence" was a category.', v:['all','ds'] },
-      { t:'Platform load simulation and reliability engineering ahead of Women\'s Finals — data-informed capacity decisions, not guesses', v:['all','ds'] },
+      { t:'Platform load simulation and reliability engineering ahead of Women\'s Finals: data-informed capacity decisions, not guesses', v:['all','ds'] },
     ] },
 ];
 
@@ -492,7 +483,7 @@ const TRAJ = [
 // ── Consulting clients — shown via dropdown picker on the 5th pseudo-tab ─────
 const CONSULTING_CLIENTS = [
   { id:'squat',   glyph:'◉', label:'Squat New York',   dates:'2019–20', domain:'Behavioral Health',
-    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition — sole tech partner from discovery through QA and handoff.',
+    summary:'Delivered seven-figure embedded product engagement for $350M ARR behavioral health company post-PE acquisition; sole tech partner from discovery through QA and handoff.',
     metric:'7-FIG', metricLabel:'ENGAGEMENT VALUE · $350M ARR CLIENT',
     bullets:[
       { t:'Owned product roadmap, backlog, and sprint planning; headless CMS retooling and full CX overhaul', v:['all','ds'] },
@@ -531,12 +522,12 @@ const CONSULTING_CLIENTS = [
 
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
-  all:   { heading:'APPLIED AI · DECISION INTELLIGENCE',
-    text:'Growth executive and system builder with two decades across creative, tech, marketing, data, and commercial operations — in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.' },
+  all:   { heading:'BUILDING AT THE EDGE · APPLIED AI · DECISION INTELLIGENCE',
+    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.' },
   figma: { heading:'GROWTH DEPTH',
-    text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch — no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
+    text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch: no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
   ds:    { heading:'SYSTEMS DEPTH',
-    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production — not experiments.' },
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production, not experiments.' },
 };
 
 const SKILLS = [
@@ -566,11 +557,11 @@ const SKILLS = [
 // ─────────────────────────────────────────────────────────────────────────────
 function GrainResume() {
   const roles = [
-    { co:'ARCS — Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
+    { co:'ARCS · Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
       metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
       bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
                '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude + ChatGPT Enterprise with MCP server — AI-native in production, not experiments'] },
+               'Running on Claude + ChatGPT Enterprise with MCP server: AI-native in production, not experiments'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
       metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
       bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
@@ -594,8 +585,8 @@ function GrainResume() {
       {/* Summary */}
       <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
         maxWidth:680, marginBottom:24 }}>
-        Growth executive and system builder with two decades across creative, tech, marketing, data,
-        and commercial operations — in sports, finance, health, and consumer. Builds the intelligence
+        Creative technologist and builder with two decades across tech, marketing, data,
+        and commercial operations in sports, finance, health, and consumer. Builds the intelligence
         layer before the category for it exists: structured pre-decision framing, AI-native analysis
         pipelines, and compounding feedback loops that make each decision sharper than the last.
         Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
@@ -663,7 +654,7 @@ function GrainResume() {
           ['MIT xPRO','AI: Business Strategy','Certificate']].map(([inst,deg,yr],i) => (
           <div key={i}>
             <span style={{ fontFamily:T.sans, fontSize:12.5, fontWeight:600, color:T.fg1 }}>{inst}</span>
-            <span style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg3 }}> — {deg}</span>
+            <span style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg3 }}> · {deg}</span>
             <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, marginLeft:10 }}>{yr}</span>
           </div>
         ))}
@@ -677,7 +668,6 @@ function GrainResume() {
 // ─────────────────────────────────────────────────────────────────────────────
 function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClient }) {
   const [manualExpanded,   setManualExpanded]   = useState(null);
-  const [consultingOpen,   setConsultingOpen]   = useState(false);
 
   const expanded = selectedNode
     ? (TRAJ.find(n=>n.id===selectedNode)?.roleId || null)
@@ -692,13 +682,10 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
     }
   };
 
-  // When consulting opens, clear any expanded FT role
-  const toggleConsulting = () => {
-    setConsultingOpen(o => !o);
-    if (!consultingOpen) { onSelectNode(null); setManualExpanded(null); }
+  // CONSULTING tab = scroll to section 02; section 01 never changes shape
+  const scrollToConsulting = () => {
+    document.getElementById('consulting-section')?.scrollIntoView({ block:'start' });
   };
-
-  const client = CONSULTING_CLIENTS.find(c => c.id === selectedClient);
 
   return (
     <div style={{ animation:'fadeUp .3s ease both' }}>
@@ -707,31 +694,10 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
       {/* 01 — FT Experience */}
       <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
       <RoleTabs selectedNode={selectedNode} onSelect={onSelectNode} onSelectClient={onSelectClient}
-        consultingOpen={consultingOpen} onConsultingToggle={toggleConsulting} />
+        onConsultingScroll={scrollToConsulting} />
       <div style={{ marginBottom:8 }} />
-      {/* When consulting is open: FT roles collapse to spine labels */}
-      <div style={{ display:'flex', flexDirection:'column', gap: consultingOpen ? 3 : 6, marginBottom:10 }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:10 }}>
         {ROLES.map(r => {
-          // CATALOGUE MODE — consulting open: ultra-compressed spine card
-          if (consultingOpen) return (
-            <div key={r.id}
-              onClick={() => { setConsultingOpen(false); toggle(r.id); }}
-              style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 14px',
-                borderRadius:7, cursor:'pointer', transition:'all .15s',
-                border:`1px solid ${r.color}22`,
-                background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
-                opacity:0.7 }}
-              onMouseEnter={e => e.currentTarget.style.opacity='1'}
-              onMouseLeave={e => e.currentTarget.style.opacity='0.7'}>
-              <span style={{ color:r.color, fontSize:11 }}>{r.glyph}</span>
-              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700,
-                letterSpacing:'0.08em', color:r.color, textTransform:'uppercase' }}>
-                {r.label}
-              </span>
-              <span style={{ marginLeft:'auto', fontFamily:T.mono, fontSize:8, color:T.fg4 }}>{r.dates}</span>
-            </div>
-          );
-          // NORMAL MODE — full TribTile
           return (
             <TribTile key={r.id} label={r.label} glyph={r.glyph} color={r.color}
               meta={r.dates}
@@ -769,8 +735,7 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
       </div>
 
       {/* 02 — Select Consulting Work */}
-      <ConsultingSection selectedClient={selectedClient} onSelectClient={onSelectClient}
-        open={consultingOpen} onToggle={toggleConsulting} />
+      <ConsultingSection selectedClient={selectedClient} onSelectClient={onSelectClient} />
 
       {/* 03 — Skills */}
       <SectionLabel index="03" style={{ marginBottom:10, marginTop:20 }}>Skills</SectionLabel>
@@ -786,7 +751,7 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
       <SectionLabel index="04" style={{ marginBottom:10 }}>Education</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:20 }}>
         {[
-          { inst:'Oberlin College', degree:'BA, Honors Studio Art', year:'2002–2006', note:'Design-first foundation — aesthetic intuition applied to data visualization and developer experience analytics.' },
+          { inst:'Oberlin College', degree:'BA, Honors Studio Art', year:'2002–2006', note:'Design-first foundation: aesthetic intuition applied to data visualization and developer experience analytics.' },
           { inst:'MIT xPRO', degree:'AI: Business Strategy', year:'Certificate', note:'AI strategy, product instrumentation, and ML system design for enterprise and product contexts.' },
         ].map((e,i) => (
           <div key={i} style={{ borderRadius:8, overflow:'hidden', border:`1px solid ${T.border}` }}>
@@ -831,7 +796,7 @@ function DeepScan() {
 
       {/* Core Strengths — TrueNorthPanel, cyan is the only signal in this section */}
       <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:16 }}>
-        Builds the intelligence layer before the category for it exists — then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in growth intelligence hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
+        Builds the intelligence layer before the category for it exists, then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in growth intelligence hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
       </TrueNorthPanel>
 
       {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
@@ -841,8 +806,8 @@ function DeepScan() {
           <div style={{ paddingRight: m ? 0 : 20 }}>
             <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
               color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Activates</div>
-            {['First instrumentation layer — no playbook, invent the taxonomy',
-              'Cross-domain synthesis — connecting what specialists keep separate',
+            {['First instrumentation layer: no playbook, invent the taxonomy',
+              'Cross-domain synthesis: connecting what specialists keep separate',
               'High-stakes contexts where measurement actually matters',
               'The moment instrumentation reveals what the team did not know to ask',
               'Building the thing, then becoming its first analyst',
@@ -856,7 +821,7 @@ function DeepScan() {
           <div style={{ paddingLeft: m ? 0 : 20, borderLeft: m ? 'none' : '1px solid rgba(255,255,255,.06)', borderTop: m ? '1px solid rgba(255,255,255,.06)' : 'none', paddingTop: m ? 16 : 0 }}>
             <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
               color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Depletes</div>
-            {['Pure optimization once built and proven — attention drops',
+            {['Pure optimization once built and proven: attention drops',
               'ML / stat work disconnected from product decisions (no "so what")',
               'Siloed contexts where cross-domain synthesis is not valued',
               'Work that lives permanently in presentations, never ships',
@@ -875,7 +840,7 @@ function DeepScan() {
       <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
-          { id:'ci1', glyph:'⊗', label:'Sports fan monetization × live commerce drops — same architecture',
+          { id:'ci1', glyph:'⊗', label:'Sports fan monetization × live commerce drops: same architecture',
             meta:'WTA <120ms fan scoring · live drops · 10-year gap',
             summary:'WTA live-event fan scoring at <120ms and live commerce drops are the same architecture: user in a high-stakes, time-compressed purchase window; personalized signal needs to land before the window closes. Built the first version in 2016.',
             detail:<>
@@ -888,21 +853,21 @@ function DeepScan() {
             </> },
           { id:'ci2', glyph:'⊗', label:'Studio Art × Cross-Domain Intelligence',
             meta:'Oberlin 2006 × breadth career',
-            summary:'Aesthetic intelligence applied to system architecture — intelligence products that get used because they\'re designed to be understood, not just accurate. Creative judgment that holds across product categories and industries.',
+            summary:'Aesthetic intelligence applied to system architecture: intelligence products that get used because they\'re designed to be understood, not just accurate. Creative judgment that holds across product categories and industries.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously — the same skill that makes a cross-domain intelligence layer actually work instead of producing reports no one reads.
+                Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously; the same skill that makes a cross-domain intelligence layer actually work instead of producing reports no one reads.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
                 Applied AI and forward-deployed engineering require the same skill: translating between what the system can do, what the customer needs, and what the data is actually showing. That translation is a creative act as much as a technical one.
               </p>
             </> },
-          { id:'ci3', glyph:'⊗', label:'AI-Native in Production — Not in Demos',
+          { id:'ci3', glyph:'⊗', label:'AI-Native in Production, Not in Demos',
             meta:'Claude + ChatGPT Enterprise + MCP Server · ARCS',
-            summary:'ARCS is built on Claude and ChatGPT Enterprise with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" — it\'s "here\'s what the pattern in your data is already telling us."',
+            summary:'ARCS is built on Claude and ChatGPT Enterprise with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" but "here\'s what the pattern in your data is already telling us."',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Applied AI roles require fluency with the actual production stack — not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), ChatGPT Enterprise, a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
+                Applied AI roles require fluency with the actual production stack, not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), ChatGPT Enterprise, a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
                 Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept.
@@ -937,25 +902,19 @@ function DeepScan() {
         ))}
       </div>
 
-      {/* Role Fit — glass cards targeting Applied AI / FDE / Decision Intelligence / Product Eng / AI Strategist */}
+      {/* Role Fit — 3 stacked glass cards: FDE / Decision Intelligence / Commercial */}
       <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
-      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap:8, marginBottom:20 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr', gap:8, marginBottom:20 }}>
         {[
           { id:'A', label:'Forward Deployed · Applied AI Engineering',
-            desc:'Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context — without needing to be hand-held through the problem.',
+            desc:'Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context, without needing to be hand-held through the problem.',
             why:'ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.' },
           { id:'B', label:'Decision Intelligence · AI Strategist',
-            desc:'Not just measuring outcomes — designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
+            desc:'Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
             why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: CDP across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
-          { id:'C', label:'Applied AI Engineering · Product Engineer',
-            desc:'Fluent with the production AI stack — not conceptually familiar with it. Claude API (tool use, extended thinking), ChatGPT Enterprise, MCP server, agentic pipelines. Ships, not demos.',
-            why:'ARCS runs this stack in production across a full decision lifecycle. The architecture is the proof of concept. Most candidates at this level talk about these tools; fewer have deployed them end-to-end.' },
-          { id:'D', label:'Commercial layer alongside analytical depth',
-            desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for — and being able to run the commercial decision, not just report on it.',
+          { id:'C', label:'Commercial layer alongside analytical depth',
+            desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for, and being able to run the commercial decision, not just report on it.',
             why:'WTA: $850K year-one from first commercial partnerships. Grayscale: lifecycle strategy with measurable engagement lift. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.' },
-          { id:'E', label:'Live commerce · Sports platform growth',
-            desc:'Fan behavior in a live-drop window is a distinct problem class: time-compressed, high-intent, personalized signal that has to land before the window closes. Requires pre-drop hypothesis capture, in-event scoring, and post-event outcome loop.',
-            why:'WTA: built real-time fan behavior scoring at <120ms for a global sports platform — CDP architecture, live-event personalization, first commercial partnerships. The Instant Rips drop model is the same architecture applied to a different product.' },
         ].map(j => (
           <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
             <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
@@ -980,7 +939,7 @@ function DeepScan() {
 
       {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
       <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
-        Most candidates for Applied AI / FDE / Decision Intelligence roles have depth in one lane — analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name — and the first questions aren't about onboarding. They're about what's already in the data.
+        Most candidates for Applied AI / FDE / Decision Intelligence roles have depth in one lane: analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name, and the first questions aren't about onboarding. They're about what's already in the data.
       </TrueNorthPanel>
 
     </div>
@@ -1014,7 +973,7 @@ function Resume() {
   }, []);
 
   const showRich   = true;
-  const showDeep   = false;
+  const showDeep   = true;
   const showSimple = false;
   const [resumeCollapsed, setResumeCollapsed] = useState(false);
 
@@ -1037,6 +996,9 @@ function Resume() {
             <h1 style={{ fontFamily:T.sans, fontSize: isMobile ? '1.55rem' : '2.1rem', fontWeight:700, letterSpacing:'-0.02em', color:T.fg1, lineHeight:1 }}>
               Zach Harris
             </h1>
+            <div style={{ fontFamily:T.mono, fontSize: isMobile ? 8.5 : 9.5, fontWeight:700, color:T.fg2, marginTop: isMobile ? 6 : 9, letterSpacing:'0.18em' }}>
+              BUILDING AT THE EDGE
+            </div>
             <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
               <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>

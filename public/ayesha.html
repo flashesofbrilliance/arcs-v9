@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Recoil Report — Ayesha Khan · Jul 17</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 32px 24px 80px; }
+.page { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.card-body { padding: 20px; }
+
+/* HEADER */
+.header { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; position: relative; }
+.header::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--gold); }
+.header-inner { padding: 20px 24px 20px 28px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 24px; }
+.header-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 6px; }
+.header-name { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.1; }
+.header-sub { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 4px; }
+.header-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.receipt-id { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(255,215,0,0.35); background: rgba(255,215,0,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.nci-val { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; text-align: right; }
+.nci-label { font-family: var(--mono); font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; text-align: right; }
+
+/* NOTICE */
+.notice { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--r-md); padding: 12px 16px; display: flex; gap: 12px; align-items: flex-start; }
+.notice-icon { font-family: var(--mono); font-size: 11px; color: var(--gold); flex-shrink: 0; margin-top: 1px; }
+.notice-text { font-family: var(--mono); font-size: 11px; color: var(--gold); line-height: 1.5; }
+
+/* LOAD-BEARING QUOTE */
+.lbq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px 32px; position: relative; overflow: hidden; }
+.lbq::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--cyan), transparent); }
+.lbq-text { font-family: var(--sans); font-size: 19px; font-weight: 500; color: var(--text); line-height: 1.55; letter-spacing: -0.01em; font-style: italic; margin-bottom: 16px; }
+.lbq-text::before { content: '\201C'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-right: 4px; }
+.lbq-text::after { content: '\201D'; color: var(--cyan); font-size: 28px; font-style: normal; line-height: 0; vertical-align: -0.3em; margin-left: 4px; }
+.lbq-attr { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+.lbq-sig { font-family: var(--sans); font-size: 12px; color: var(--dimmed); margin-top: 10px; line-height: 1.5; border-top: 1px solid var(--border); padding-top: 12px; }
+
+/* SEGMENTS */
+.segments { display: flex; flex-direction: column; gap: 0; }
+.seg { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.seg:last-child { border-bottom: none; }
+.seg-time { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; gap: 4px; border-right: 1px solid var(--border); }
+.seg-num { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--dimmed); line-height: 1; }
+.seg-ts { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.seg-dir { font-family: var(--mono); font-size: 8px; color: var(--dimmed); letter-spacing: 0.08em; }
+.seg-body { padding: 16px 14px; border-right: 1px solid var(--border); }
+.seg-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px; }
+.seg-summary { font-family: var(--sans); font-size: 12px; color: var(--text); line-height: 1.6; }
+.seg-flag { padding: 16px 14px; }
+.seg-flag-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 6px; }
+.seg-flag-text { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.55; }
+
+/* SIGNAL THREADS */
+.signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.sig { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; position: relative; overflow: hidden; }
+.sig::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px; }
+.sig-green::before { background: var(--green); }
+.sig-cyan::before { background: var(--cyan); }
+.sig-gold::before { background: var(--gold); }
+.sig-red::before { background: var(--red); }
+.sig-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-left: 8px; }
+.sig-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.sig-green .sig-name { color: var(--green); }
+.sig-cyan .sig-name { color: var(--cyan); }
+.sig-gold .sig-name { color: var(--gold); }
+.sig-red .sig-name { color: var(--red); }
+.sig-strength { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 3px; }
+.strength-hard { background: rgba(0,255,157,0.1); color: var(--green); border: 1px solid rgba(0,255,157,0.2); }
+.strength-dir { background: rgba(0,240,255,0.08); color: var(--cyan); border: 1px solid rgba(0,240,255,0.2); }
+.strength-watch { background: rgba(255,77,109,0.08); color: var(--red); border: 1px solid rgba(255,77,109,0.2); }
+.sig-desc { font-family: var(--sans); font-size: 11px; color: var(--muted); line-height: 1.6; padding-left: 8px; }
+
+/* SCENARIOS */
+.scenario-rows { display: flex; flex-direction: column; gap: 0; }
+.scenario { display: grid; grid-template-columns: 56px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.scenario:last-child { border-bottom: none; }
+.scenario-prob { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 4px; }
+.prob-val { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); line-height: 1; }
+.prob-pct { font-family: var(--mono); font-size: 9px; color: var(--dimmed); }
+.scenario-body { padding: 16px 18px; }
+.scenario-id { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 4px; }
+.scenario-label { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: 0.04em; }
+.scenario-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+.scenario-trigger { font-family: var(--mono); font-size: 10px; color: var(--dimmed); margin-bottom: 4px; }
+.scenario-trigger::before { content: 'TRIGGER → '; color: var(--cyan); }
+.scenario-watch { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+.scenario-watch::before { content: 'WATCH → '; color: var(--gold); }
+
+/* RISK FLAGS */
+.risk-rows { display: flex; flex-direction: column; gap: 0; }
+.risk { display: grid; grid-template-columns: 80px 1fr; gap: 0; border-bottom: 1px solid var(--border); }
+.risk:last-child { border-bottom: none; }
+.risk-sev { padding: 16px 14px 16px 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; border-right: 1px solid var(--border); gap: 6px; }
+.sev-badge { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; text-align: center; }
+.sev-high { background: rgba(255,77,109,0.1); color: var(--red); border: 1px solid rgba(255,77,109,0.3); }
+.sev-med { background: rgba(255,215,0,0.08); color: var(--gold); border: 1px solid rgba(255,215,0,0.25); }
+.sev-low { background: rgba(30,41,59,0.5); color: var(--muted); border: 1px solid var(--border); }
+.risk-body { padding: 16px 18px; }
+.risk-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; }
+.risk-desc { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+.risk-action { font-family: var(--mono); font-size: 10px; color: var(--cyan); line-height: 1.5; background: rgba(0,240,255,0.04); border: 1px solid rgba(0,240,255,0.12); border-radius: var(--r-sm); padding: 8px 12px; }
+.risk-action::before { content: 'ACTION → '; }
+
+/* PROTOCOL */
+.protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pass-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 18px; }
+.pass-name { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin-bottom: 4px; }
+.pass-dir { font-family: var(--mono); font-size: 9px; color: var(--dimmed); margin-bottom: 12px; }
+.pass-body { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.65; }
+
+/* IMMEDIATE ACTIONS */
+.action-rows { display: flex; flex-direction: column; gap: 0; }
+.action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.action-row:last-child { border-bottom: none; }
+.action-num { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--cyan); flex-shrink: 0; width: 20px; }
+.action-text { font-family: var(--sans); font-size: 13px; color: var(--text); line-height: 1.55; }
+
+/* FOOTER STOP-LOSS */
+.stop-loss { background: rgba(255,77,109,0.06); border: 1px solid rgba(255,77,109,0.25); border-radius: var(--r-md); padding: 14px 18px; display: flex; align-items: center; gap: 14px; }
+.sl-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); flex-shrink: 0; }
+.sl-text { font-family: var(--mono); font-size: 11px; color: var(--red); line-height: 1.5; }
+
+/* PASSWORD GATE */
+#pw-gate { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+#pw-gate.hidden { display: none; }
+.pw-mark { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; color: var(--muted); }
+.pw-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.pw-form { display: flex; gap: 10px; align-items: center; }
+.pw-input { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--mono); font-size: 16px; padding: 10px 16px; outline: none; width: 160px; letter-spacing: 0.06em; transition: border-color 0.15s; }
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+.pw-btn { background: rgba(0,240,255,0.08); border: 1px solid rgba(0,240,255,0.25); border-radius: 6px; color: var(--cyan); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 10px 18px; cursor: pointer; transition: background 0.15s; }
+.pw-btn:hover { background: rgba(0,240,255,0.14); }
+.pw-hint { font-family: var(--mono); font-size: 10px; color: var(--dimmed); }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+
+@media (max-width: 640px) {
+  .header-inner { grid-template-columns: 1fr; gap: 12px; }
+  .header-meta { align-items: flex-start; }
+  .nci-val, .nci-label { text-align: left; }
+  .seg { grid-template-columns: 1fr; }
+  .seg-time, .seg-body { border-right: none; border-bottom: 1px solid var(--border); }
+  .signal-grid { grid-template-columns: 1fr; }
+  .protocol-grid { grid-template-columns: 1fr; }
+  .scenario, .risk { grid-template-columns: 1fr; }
+  .scenario-prob, .risk-sev { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; }
+}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · PRIVATE RECOIL REPORT</div>
+  <div class="pw-title">Ayesha Khan</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris</div>
+</div>
+
+<script>
+if (sessionStorage.getItem('ayesha-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'ayesha') {
+    sessionStorage.setItem('ayesha-auth', '1');
+    document.getElementById('pw-input').blur();
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function() { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPw();
+});
+</script>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div>
+        <div class="header-mark">RECOIL REPORT · BOARDY PEER INTRO</div>
+        <div class="header-name">Ayesha Khan</div>
+        <div class="header-sub">Marketing leader, Toronto · 30 Min Connect · Jul 17, 2026 · 11:30 AM EDT</div>
+      </div>
+      <div class="header-meta">
+        <div class="receipt-id">2026-07-17-ayesha-khan-toronto</div>
+        <div class="ygate-badge"><div class="ygate-dot"></div>FORK / MEDIUM / STABLE</div>
+        <div>
+          <div class="nci-val">55</div>
+          <div class="nci-label">NCI Score (baseline)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIVATE NOTICE -->
+  <div class="notice">
+    <div class="notice-icon">⚠</div>
+    <div class="notice-text">PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD · Reverse Listening + Deep Recall · 5 segments · Detective: COLD (0 prior records — this report is the baseline)</div>
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="card">
+    <div class="card-body" style="padding: 22px 24px;">
+      <div class="label" style="margin-bottom: 10px;">Call verdict</div>
+      <div style="font-size: 16px; font-weight: 600; color: var(--text); line-height: 1.5; letter-spacing: -0.01em;">Warm first contact, no near-term business. She named it cleanly: her priority is a corporate re-entry and funding — not decision tooling.</div>
+      <div style="font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6;">A Boardy "unique fit" intro that produced genuine marketer-to-marketer rapport and a lot of Zach-gifted coaching, but zero next action and weak reciprocity. Real value here is latent: if she lands an AI-enablement role at a bank she becomes a warm internal champion for ARCS's exact ICP.</div>
+    </div>
+  </div>
+
+  <!-- LOAD-BEARING QUOTE -->
+  <div class="lbq">
+    <div class="lbq-text">I don't know how I could help you. I'm just trying to think, because for me, my main priority is just I need to get into, back into the corporate world.</div>
+    <div class="lbq-attr">GRANOLA TRANSCRIPT · AYESHA KHAN · JUL 17, 2026</div>
+    <div class="lbq-sig">The constraint sentence — stated plainly, unprompted, right after she'd said the product was "really cool." It converts an ambiguous "unique fit" (Boardy's framing) into a structural read: interest is real, but her scarce resource is a paycheck, not a pilot. Closes the discovery question honestly — she is a warm network node, not a near-term client — and pretending otherwise would have burned goodwill on a first contact.</div>
+  </div>
+
+  <!-- CALL WALK -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Call Walk — 5 Segments</div>
+      <div class="label">Reverse Listening + Deep Recall</div>
+    </div>
+    <div class="segments">
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">01</div>
+          <div class="seg-ts">0–6 min</div>
+          <div class="seg-dir">FORWARD</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--red);">Wildfire Open + the Real Headline</div>
+          <div class="seg-summary">Small talk on air quality / northern-Ontario wildfires, happy Friday, camera fumbling. Ayesha names what she's on: an agentic-AI business, and "trying to go back to work, which is kind of crazy." ~18 months self-funded, "costing more money than I had anticipated — I didn't know I needed a buffer for my buffer." Zach mirrors: also 18 months, self-funded, bootstrapping ARCS.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+          <div class="seg-flag-text">The headline lands in the first six minutes and never changes: she is going back to work because the business is bleeding cash. Everything downstream is footnotes to a decision she has effectively already made. Heard forward it reads as scene-setting; heard backward it is the whole call.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">02</div>
+          <div class="seg-ts">6–12 min</div>
+          <div class="seg-dir">FORWARD</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--gold);">Background Exchange + First Verbosity</div>
+          <div class="seg-summary">Ayesha's background: full-stack marketing (traditional, social, branding, value prop, product launches — "I don't do tactics, I always had teams"), out of wealth management and banking. Job targets named: Equiton (REIT), the big banks. Zach returns a long TLDR: builder / founder / senior embedded consultant, Grayscale $7B digital-assets launch, JPMorgan/Connexus recruiter pain, an alts + OCC-charter + DeFi-rails riff.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--gold);">Divergence · MED</div>
+          <div class="seg-flag-text">She is unmistakably framing herself as a job-seeker, not a buyer. Zach's TLDR ran long against a precall advisory that said listen first, frame ARCS later. First verbosity instance.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">03</div>
+          <div class="seg-ts">12–18 min</div>
+          <div class="seg-dir">FORWARD</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--gold);">Marketer Common Ground + ARCS Pitch #1</div>
+          <div class="seg-summary">Genuine resonance: Ayesha loves product launches, campaign strategy, value-prop work; venting about resource-starved marketing roles, "sticker shock," sales teams that don't understand marketing cost. Open to AI business-enablement at banks. Zach pivots into the ARCS origin story + Question Compass. A 911 Apple-Watch misdial briefly interrupts — noise, not signal.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--gold);">Divergence · MED</div>
+          <div class="seg-flag-text">"I love talking to another marketer who gets it" is the warmest moment of the call, but Zach again takes the wheel into a long ARCS monologue (self-flagged: "I don't want to monopolize the whole conversation"). Second verbosity instance → pattern, not one-off.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">04</div>
+          <div class="seg-ts">18–24 min</div>
+          <div class="seg-dir">REVERSE</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--red);">ARCS Deep Dive + the Constraint</div>
+          <div class="seg-summary">Zach explains decision receipts, ex-ante/premortem, best-base-worst, constitutional guardrails, ROI/attribution framing for marketing budgets, energizers/drainers/zone-of-genius. Ayesha engages warmly — then: "I don't know how I could help you... my main priority is I need to get back into the corporate world." Zach names the Boardy "unique fit" rationale for the intro.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+          <div class="seg-flag-text">The constraint sentence. Boardy predicted a unique fit; Ayesha politely reports she can't see how she helps and that her priority is a job. The near-term-opportunity hypothesis deflates precisely here, at the point of peak rapport.</div>
+        </div>
+      </div>
+
+      <div class="seg">
+        <div class="seg-time">
+          <div class="seg-num">05</div>
+          <div class="seg-ts">24–30 min</div>
+          <div class="seg-dir">REVERSE</div>
+        </div>
+        <div class="seg-body">
+          <div class="seg-label" style="color: var(--cyan);">Developer Saga + Coaching + Fork Close</div>
+          <div class="seg-summary">Ayesha's real pains surface: a first developer signed NDAs then "tried to steal it" (~$15K, headed to court), new developers quoted ~$60-75K, project on pause, partner friction over a UI she doesn't like. Zach pivots to heavy coaching: learn Claude Code, Magic Patterns → Figma, build it yourself, "fuck around and find out." Warm mutual "use me as a resource"; she: "I'm at a fork in the road... but to go that direction I do need funding." Nothing scheduled.</div>
+        </div>
+        <div class="seg-flag">
+          <div class="seg-flag-label" style="color: var(--red);">Divergence · HIGH</div>
+          <div class="seg-flag-text">Read backward, the close is the call: a Boardy peer intro that produced rapport plus a stack of Zach-gifted coaching and offers with zero concrete next action and weak reciprocity. Her actual needs — a job, funding, a trustworthy developer — are orthogonal to ARCS.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIGNAL THREADS -->
+  <div>
+    <div class="label" style="margin-bottom: 12px;">Signal Threads</div>
+    <div class="signal-grid">
+
+      <div class="sig sig-green">
+        <div class="sig-header">
+          <div class="sig-name">Constraint Named Cleanly</div>
+          <div class="sig-strength strength-hard">HARD YES</div>
+        </div>
+        <div class="sig-desc">"I don't know how I could help you; my priority is getting back into the corporate world," reinforced by "to go that direction I do need funding." She names, unprompted, that she is neither a near-term client nor a reciprocity-rich node right now. Removes the wishful middle where a first contact stays "directionally interesting" forever.</div>
+      </div>
+
+      <div class="sig sig-cyan">
+        <div class="sig-header">
+          <div class="sig-name">Latent Internal-Champion Channel</div>
+          <div class="sig-strength strength-dir">DIRECTIONAL</div>
+        </div>
+        <div class="sig-desc">Genuine marketer-to-marketer rapport, and her background is precisely ARCS-adjacent: wealth-management + banking marketing, now openly targeting AI business-enablement roles at big banks. If she lands one, she is a warm internal champion inside ARCS's exact ICP. Real, but latent — activates only after she is re-employed.</div>
+      </div>
+
+      <div class="sig sig-gold">
+        <div class="sig-header">
+          <div class="sig-name">Enthusiasm-Activation Gap</div>
+          <div class="sig-strength strength-watch">WATCH</div>
+        </div>
+        <div class="sig-desc">Stated: "open to it," "happy to take a look," "your idea is cool." Revealed: didn't open the earlier Spiral link, "I'll look at it" on both Compass and Claude Code without commitment, business on pause. Enthusiasm does not equal usage — the channel that works for her is a single finished nudge, not a self-serve product invitation.</div>
+      </div>
+
+      <div class="sig sig-red">
+        <div class="sig-header">
+          <div class="sig-name">Give/Get Asymmetry + Verbosity</div>
+          <div class="sig-strength strength-watch">WATCH</div>
+        </div>
+        <div class="sig-desc">Zach carried most of the airtime and left the call having offered the Compass link, a review of her tech/roadmap, builder intros, and Claude Code coaching — four open-ended gifts to someone cash-constrained and job-hunting, with no scope and no next step. The coachable finding: in discovery, withhold the ARCS explanation until the counterpart has stated their objective twice.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Probability Tree — 3 Scenarios</div>
+    </div>
+    <div class="scenario-rows">
+
+      <div class="scenario">
+        <div class="scenario-prob">
+          <div class="prob-val">45</div>
+          <div class="prob-pct">%</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-id">Scenario A</div>
+          <div class="scenario-label">Bank AI-Enablement Role → Warm Internal Champion</div>
+          <div class="scenario-desc">Ayesha re-enters corporate (Equiton, a big bank, or similar) into a marketing or AI business-enablement seat, remembers ARCS warmly, and opens an internal-champion / referral door into a regulated-FS pilot.</div>
+          <div class="scenario-trigger">She announces a new role (watch LinkedIn) or posts the AI article she mentioned.</div>
+          <div class="scenario-watch">Timing is 3–9 months and out of Zach's control. Anchor any revisit to her landing a role, not to a vague "someday."</div>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-prob">
+          <div class="prob-val">40</div>
+          <div class="prob-pct">%</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-id">Scenario B</div>
+          <div class="scenario-label">Warm but Dormant Peer Tie</div>
+          <div class="scenario-desc">She stays heads-down job-hunting; the tie persists as an occasional idea-swap with a candid, capable marketer, but no engagement materializes in either direction.</div>
+          <div class="scenario-trigger">Default path if the job search absorbs her bandwidth, which she signaled it will.</div>
+          <div class="scenario-watch">Free-coaching creep — the tech-review offer + builder intros + Claude Code hand-holding quietly becoming a standing unpaid advisory relationship.</div>
+        </div>
+      </div>
+
+      <div class="scenario">
+        <div class="scenario-prob">
+          <div class="prob-val">15</div>
+          <div class="prob-pct">%</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-id">Scenario C</div>
+          <div class="scenario-label">Unpaid CTO-Advisory Drain</div>
+          <div class="scenario-desc">She takes Zach up on "take a peek at your tech / connect you to builders," and it snowballs into ongoing free advisory on a paused, cash-negative, orthogonal startup.</div>
+          <div class="scenario-trigger">She sends the repo or asks for a builder intro and it is answered open-endedly rather than scoped.</div>
+          <div class="scenario-watch">If she asks, scope it hard: one tech-look OR one named builder intro, not standing help.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RISK FLAGS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Risk Flags</div>
+    </div>
+    <div class="risk-rows">
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-med">MED</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">Closed warm with nothing on the calendar</div>
+          <div class="risk-desc">The call ended on mutual goodwill and a "fork in the road / I need funding" line, but with zero concrete next step — the DRIFT signature (rapport as motion, no artifact). Acceptable on a cold first contact with weak near-term value, but silently downgrades to "acquaintance" if left un-triggered.</div>
+          <div class="risk-action">Send exactly one async touchpoint (Compass link + the single Claude-Code nudge) and let it rest. Do NOT manufacture a follow-up meeting. If nothing returns in ~2 weeks, log as dormant network tie, not pipeline.</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-med">MED</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">Four open-ended gifts to a cash-constrained job-seeker</div>
+          <div class="risk-desc">Compass link + tech/roadmap review + "cracked builder" intros + Claude Code coaching were all offered with no scope. She is explicitly out of money. The mode becomes permanent and unreciprocated if it's never named.</div>
+          <div class="risk-action">Cap the gift budget consciously. The Compass link is the gift. A single tech-look is the ceiling; a builder intro is a specific name or an honest "nobody fits yet," not standing advisory.</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-med">MED</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">ARCS/Claude-Code monologues monopolized the call</div>
+          <div class="risk-desc">Zach held the majority of airtime across three long monologues, self-flagged the tendency once, and continued. This behavioral pattern recurs across recoil reports and here it partially overrode the precall advisory to listen before framing the ARCS angle.</div>
+          <div class="risk-action">Mechanical fix: in discovery calls, withhold the ARCS explanation until the counterpart has stated their objective twice; open with one sentence, expand only on explicit ask.</div>
+        </div>
+      </div>
+
+      <div class="risk">
+        <div class="risk-sev">
+          <div class="sev-badge sev-low">LOW</div>
+        </div>
+        <div class="risk-body">
+          <div class="risk-label">Boardy "unique fit" over-promised</div>
+          <div class="risk-desc">Boardy framed this as a unique fit; the call revealed the fit is latent at best — she's a job-seeker with a paused, orthogonal startup, not a buyer or near-term collaborator. Not a wasted call, but the intro's confidence over-indexed the near-term.</div>
+          <div class="risk-action">Down-weight Boardy "unique fit" signals to "worth one call," and grade them on revealed reciprocity in the call, not on the intro's stated confidence.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PROTOCOL -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Recoil Protocol</div>
+      <div class="label">5 segments · 30 min call</div>
+    </div>
+    <div class="card-body">
+      <div class="protocol-grid">
+        <div class="pass-card">
+          <div class="pass-name">Reverse Listening</div>
+          <div class="pass-dir">End → Start</div>
+          <div class="pass-body">The close — warm mutual "use me as a resource," "I'm at a fork in the road but I need funding," nothing scheduled — reveals a Boardy peer intro that produced rapport and a stack of Zach-gifted coaching but no motion. Working backward, the "I don't know how I could help you" constraint at ~min 20 was fully foreshadowed in the first six minutes, when she named going back to work because the business was "costing more money than anticipated." The backward read is the true one.</div>
+        </div>
+        <div class="pass-card">
+          <div class="pass-name">Deep Recall</div>
+          <div class="pass-dir">Start → End · vs precall advisory</div>
+          <div class="pass-body">Scored against the precall advisory (Detective COLD, "treat as discovery/connect; listen for what she's actually optimizing for before framing any ARCS angle"). What she is optimizing for surfaced clearly: a corporate re-entry, funding for a paused startup, and a trustworthy developer — all orthogonal to what ARCS sells. The advisory was only partially honored. Constraint named cleanly, which is the clean-close win.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMMEDIATE ACTIONS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Immediate Actions</div>
+    </div>
+    <div class="action-rows">
+      <div class="action-row">
+        <div class="action-num">1</div>
+        <div class="action-text">Send one async recap: the Question Compass link + the single highest-leverage nudge (learn Claude Code — her professor already primed this, so it lands as reinforcement not a pitch). One message, no follow-up-meeting ask.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">2</div>
+        <div class="action-text">Set a light revisit trigger: if she announces a new role (watch LinkedIn) OR ~Sept 1, 2026, whichever comes first — reopen as a warm internal-champion conversation, not a sales touch.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">3</div>
+        <div class="action-text">Cap the gift budget: Compass link is the gift; a single tech-look is the ceiling; a builder intro is one specific name or an honest "nobody fits yet," never standing free advisory.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">4</div>
+        <div class="action-text">Bank the profile: candid marketer, wealth-management + banking background, agentic-AI-curious — log as a latent referral node for ARCS's regulated-FS ICP, to activate once she is re-employed.</div>
+      </div>
+      <div class="action-row">
+        <div class="action-num">5</div>
+        <div class="action-text">Self-note (carry into next discovery call): withhold the ARCS monologue until the counterpart states their objective twice; lead with one sentence, expand only on ask. Verbosity flagged again — treat as a mechanical drill.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STOP-LOSS -->
+  <div class="stop-loss">
+    <div class="sl-label">Stop-Loss</div>
+    <div class="sl-text">If nothing returns within ~2 weeks of the single async touchpoint, log as dormant network tie, not pipeline — do not manufacture a follow-up meeting. If she asks for more than one tech-look or one named builder intro, scope it explicitly before giving anything further; this is a cash-constrained counterpart and the gift budget must stay capped.</div>
+  </div>
+
+</div>
+</body>
+</html>

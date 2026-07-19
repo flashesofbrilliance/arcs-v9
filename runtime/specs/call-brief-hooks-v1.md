@@ -1,6 +1,10 @@
 ---
-version: 1.0.0
+version: 1.1.0
 status: DRAFT — ROM candidate, not canon-ratified
+changelog: >
+  1.1.0 (2026-07-17) — chronos-sequencer reading discipline added to Task A/B:
+  read readOrder/recapitulation-designated current state first, never quote a
+  stratum without checking for a superseded marker. 1.0.0 — initial.
 ---
 
 # Pre-Call / Post-Call Brief Hooks — v1
@@ -47,6 +51,32 @@ the 2026-07-09 session: nothing previously queried history before spending
 call time. It is deliberately advisory, not a gate — it surfaces the pattern,
 it does not block the call.
 
+The Detective honors the chronos-sequencer discipline (below): it reads each
+report's `cover` (always-current) for NCI/Y-gate, surfaces `recapitulation`
+where present, and skips risk flags carrying a superseded marker rather than
+re-serializing overturned strata as live findings.
+
+## Reading prior reports — chronos-sequencer discipline
+
+Ledger files are append-don't-overwrite: later analytical passes correct
+earlier ones without deleting them, so a chronological/prefix read serializes
+superseded beliefs as live text (full definition and the authoring-side
+mandate: `runtime/specs/recoil-modes-v1.md` §Chronos-sequencer risk; worked
+example: `runtime/recoil/generated/2026-07-17-chan-suh.json`). Whenever Task A
+or Task B (or any hook, or any human) reads a prior report:
+
+1. **Read the designated current state FIRST**: the `readOrder` directive if
+   present, then `cover` (always-current header) and `recapitulation`
+   (consolidated final state). Only then descend into strata, and only as
+   provenance.
+2. **Never quote a stratum without checking it for a superseded marker**
+   (`[SUPERSEDED — see X]` or the `⚠ SUPERSEDED` inline form). A finding,
+   scenario weight, conviction read, or prescription from a stratum is
+   quotable only after confirming no later stratum or marker overturned it.
+3. If a report predates the `readOrder` mandate (no directive present),
+   treat everything outside `cover` as potentially stale and prefer the
+   newest report's `cover` over any older report's body.
+
 ## Task A — Pre-call brief poller
 
 **Cadence:** recurring, every 15 min, weekdays business hours (jitter is
@@ -80,7 +110,10 @@ firings, two free-formed slugs, neither firing checked for the other).
    Detective lookup), since the lookup is the expensive/token-costing step
    this whole check exists to avoid repeating.
 4. For each surviving match: run `scripts/receipt_lookup.py` against the
-   attendee's name/email.
+   attendee's name/email. If this step (or any enrichment beyond the
+   Detective digest) opens a prior report file directly, apply the
+   chronos-sequencer discipline above: `readOrder`/`cover`/`recapitulation`
+   first, no stratum quoted without a superseded-marker check.
 5. Write an internal pre-call note to the ledger convention
    `runtime/recoil/generated/precall-<slug>-<date>.json` — reusing the
    `RecoilReportData` shape's `meta`/`cover`/`loadBearingQuote` fields at
@@ -113,9 +146,16 @@ firings, two free-formed slugs, neither firing checked for the other).
    re-transcription, no re-write, no notification.
 4. If no transcript is available yet, skip silently (it may appear on a
    later tick — Granola processing lag is normal).
+5. If prior reports for this counterpart inform the read (scoring against
+   ex-ante expectation, belief-shift continuity), apply the
+   chronos-sequencer discipline above when reading them — current state
+   from `cover`/`recapitulation`, strata as provenance only.
 6. Run the full `/recoil-report` procedure (`runtime/specs/recoil-modes-v1.md`):
    segment count `max(3, round(sqrt(duration_minutes)))`, Reverse Listening
-   + Deep Recall passes, merge into `RecoilReportData`.
+   + Deep Recall passes, merge into `RecoilReportData`. If the report will
+   accumulate multiple passes, it MUST carry the `readOrder` directive,
+   in-place superseded markers, and always-current `cover` per that spec's
+   chronos-sequencer mandate.
 7. Include a stated-vs-revealed section explicitly (this is now a standard
    part of the merge, not optional — see the LaBella report's ledger
    section as the template).

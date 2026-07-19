@@ -1454,3 +1454,115 @@ cf8b084 — chore(consolidation): port arcs-decision-receipts unique content [NC
 ## Next session starts at
 
 `/handoff-pickup` → `/init-state-sync` to refresh stale snapshot → then: julia.arcs.care drill feature OR governance backlog #3 (log consolidation, unblocks #6).
+
+---
+
+# Handoff — v3.7.0 (2026-07-17)
+
+> **For Claude Code:** active pickup point. v3.6.0 above is preserved for history.
+
+## What changed since v3.6.0
+
+### chan.arcs.care built end-to-end — Prophet/Chan Suh discovery-call artifact
+
+Iterated across ~20 commits in one session, starting from an `/ultrareview`-style audit of
+the existing page against the Mike Lemon recoil report:
+
+- **Player/Coach/Pacecar** identity frame + prior-terrain (pre-ARCS) résumé receipts, visually
+  separated from the ARCS-build era
+- **Instrument-panel section** — 12 design principles (traceability, anti-hallucination,
+  anti-sycophancy, provenance, etc.), each stating where it's actually enforced, plus a
+  hand-authored SVG of the real compounding architecture loop (question → L0–L5 pipeline →
+  receipt → outcome → calibration → sharper next decision)
+- **Conductor-lane telemetry** — real git-trailer data (which Claude model authored each
+  week's commits) as a tabbed view against commit cadence, with click-to-unlock narrative
+  cards (the 5 quiet design weeks; "building at the edge" model-rotation story)
+- **16-slide presentation mode** — SEEN/HEARD/VIBE-CHECK discovery structure, provenance-graded
+  per slide (glow = confidence, using the canonical `--glow-*` tokens), Maya Lin-style
+  pointer-terraformed moiré topography, 2.5D isometric floor, a left-edge "fathom" progress
+  rail, chrome that auto-hides after 2.6s idle, right-click on the closing slide as an escape
+  hatch back to slide 1. A wireframe Möbius-strip opening flight was built, then **removed**
+  on explicit budget-conscious direction — land-the-plane took priority over the animation.
+- **Full design-system conformance pass** — pulled the canonical token file
+  (`colors_and_type.css`) live from the "ARCS OS - Design System" Claude Design project via
+  `DesignSync`, migrated all 81 freehand font-sizes onto the canonical 8-step `--text-*`
+  scale, swapped fonts to Inter + JetBrains Mono (the only two the project's own adherence
+  linter permits), tokenized radii to the canonical 3/6/10/16/999 scale
+- **Progressive disclosure** — FOCUS-mode-by-default (only section 1 open, rest collapsed to
+  headline + one-line TL;DR), EXPAND ALL as the alternate control
+- **PII removed** (email + phone from the footer); `noindex, nofollow` confirmed already
+  present, no `robots.txt` override exists on either domain
+
+### status.arcs.care — standalone fork
+
+Forked from `chan.html` via anchor-based excision (not hand-editing): Prophet-specific
+content (echo-map, Player/Coach/Pacecar frame, prior-terrain creds) and the entire
+presentation deck (~250 lines of JS/DOM/CSS) surgically removed; sections renumbered 01–07.
+Routed via `next.config.ts`. **Gotcha:** the deploy script's domain pre-flight reported
+`status.arcs.care` already assigned when it wasn't — had to attach it to the Vercel project
+directly via the API (`POST /v10/projects/{id}/domains`) before it would resolve.
+
+### Two real mobile bugs — found only from actual device photos, not simulator resizing
+
+The user sent 3 HEIC screenshots from a real iPhone. **The Read tool cannot render HEIC
+directly** (returns raw container metadata) — converted via `sips -s format png` first, every
+time, before they could actually be viewed.
+
+1. `.echo-mid`'s mobile rule used `transform: rotate(90deg)` on a full-width flex box to turn
+   "↔" into "↕" on the stacked single-column mobile layout. **CSS transforms repaint an
+   element in its rotated orientation but do not change its layout footprint** — the rotated
+   glyph + its border lines visually overflowed above/below the short-wide box they still
+   occupied, reading as a disconnected floating icon with odd gaps. Fixed by dropping the
+   rotation entirely and swapping the glyph via `font-size:0` + `::after` content instead.
+2. The architecture-loop SVG diagram is legitimately wider than a phone screen and
+   horizontally scrollable (`overflow-x: auto`), but mobile Safari hides scrollbars until an
+   active drag, so the hard-truncated right edge read as broken content. Added a right-edge
+   fade mask + explicit "SWIPE FOR THE FULL LOOP" hint, mobile-only, gated so it only shows
+   when the container is actually scrollable.
+
+Also fixed in the same pass (caught from a desktop screenshot, before the mobile-photo
+round): presentation chrome (top/bottom bars) was drifting left/right slide-to-slide because
+`flex; justify-content: space-between` centers the middle block *relative to the width of its
+flanking siblings*, not true viewport center — act-labels and chips vary a lot in text length
+slide to slide, so the centered readout visibly jumped. Converted both bars to CSS grid
+(`1fr auto 1fr`) with **explicit `grid-column` pins** — required because mobile hides some
+children via `display:none`, and grid auto-placement would otherwise shove the survivors into
+the wrong column. Verified across all 16 slides: identical center x-coordinate every time.
+Also: the isometric floor's `perspective(560px)` was a fixed px value that broke down on an
+ultrawide monitor and at high browser zoom (a fixed focal length against a much-wider element
+swings the far edges out past the frame) — changed to `perspective(70vh)` so it scales with
+viewport height regardless of width or zoom.
+
+## Session pattern worth repeating
+
+Every fix in this session was verified against the **live production domain** via direct
+`curl` grep for the specific CSS rule / string that changed — not just "deploy succeeded."
+Several deploys landed on a stale `main` mid-session because another concurrent session
+pushed commits in between fetch and merge; the fix each time was `git fetch origin main -q
+&& git rebase origin/main` on the feature branch before re-attempting the fast-forward merge,
+never a force-push over the other session's work.
+
+## File status
+
+```
+public/chan.html    ✅ ~20 commits, fully verified live on chan.arcs.care
+public/status.html  ✅ NEW — forked from chan.html, verified live on status.arcs.care
+next.config.ts      ✅ status.arcs.care route added
+```
+
+## Last confirmed commit (arcs-v9 main)
+
+`c536792` — fix(chan): mobile echo-mid connector no longer overflows its row; scroll cue on
+the architecture diagram [NCI:SKIP]
+
+## Blocking
+
+NONE. Two untracked files sit in the main worktree from unrelated prior work
+(`_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md`, `test_prisma_direct.js`) — not
+touched this session, flagged for whoever owns that thread to commit or discard.
+
+## Next session starts at
+
+`/handoff-pickup` → no open thread on chan/status.arcs.care (last ask was mobile QA, verified
+live). Otherwise: julia.arcs.care drill feature OR governance backlog #3 (log consolidation,
+unblocks #6 DEWY commit stamp) remain open from prior sessions.
