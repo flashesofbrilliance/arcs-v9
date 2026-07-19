@@ -74,6 +74,13 @@ These don't have a number in the table above because no ADR exists for them — 
   malformed-question HOLD gate" item above. See `_PATTERNS/2026-07-19-tech-debt-batch.md` B2.
 - ~~**Merge** `claude/token-efficiency-audit-ip3l3x` → main~~ ✅ DONE 2026-07-19 — merged; lean
   CLAUDE.md/MEMORY.md confirmed live on main, cloud-snapshot staleness closed.
+- **Plain-language VOICE rules for the L0–L5 prompts** (NEW 2026-07-19, not yet started). Add a VOICE block
+  banning em/en-dashes, semicolon splices, and invented world-metaphor in user-facing output; force plain,
+  concise register. Applies to the SYSTEM prompt in `src/app/api/compass/route.ts` (~line 48, after PIPELINE,
+  before RULES) AND the brief + guide prompts (`src/app/api/brief/[receiptId]/route.ts`,
+  `src/app/api/guide/[receiptId]/route.ts`). Do this on a fresh branch `claude/plain-language-voice-rules`,
+  one commit, PR to main. Motivating example + full spec + gotchas (don't em-dash the rule text; SYSTEM is
+  prompt-cached = one-time miss; no API key in cloud = can't verify register live) are in the pickup prompt.
 
 ---
 
