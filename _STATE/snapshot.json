@@ -2,8 +2,8 @@
   "captured_at": "2026-07-19T04:20:05Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "9fc1762",
-    "head_message": "fix+docs: J8 empty-tools bug, Scout reframe, hybrid checklist [NCI:SKIP]",
+    "head_sha": "d9a8d6c",
+    "head_message": "docs: apply claims-skeptic findings to handoff + ledger [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -35,23 +35,23 @@
     ]
   },
   "active_briefs": {
-    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
-    "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 proposal $1,500 fixed, email sent Jul 2",
-    "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
+    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
+    "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 proposal $1,500 fixed, email sent Jul 2",
+    "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
     "ADR-031 (secrets inventory + rotation)",
-    "ADR-032 (Zero-Trust Posture — GOVERNING; conformance checklist for all future ADRs)",
-    "ADR-026 (untracked — debrief calendar invite vs email, not this session's work)"
+    "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
+    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)"
   ],
   "nci_counter": 226,
-  "session_summary": "Zero-Trust & Orchestration session. Started as a 'state of the union' graphic, ended as a governing security posture. Shipped: /state-of-union.html (roadmap/patents/evals/L0-L7 archaeology) + status.arcs.care sections 08-11 + chan.arcs.care Live Pulse (sanitized, J1); cached GET /api/pulse (ISR, CORS, verified HIT); corrected the false 'papers published' claim (internal drafts; public-repo = §102 question). Built the JTBD orchestration map (risk-calibrated model delegation), the recoil-report multi-agent workflow (least-privilege agent scoping, untrusted-data wrapping, bidirectional Skeptic Sentinel with false-premise/wolf mode, J7 verify cap, J10 preflight), and OSS vetting (kept /ultrareview bespoke; adopted claude-code-security-review CI, fork-guarded). ADR-031 secrets inventory; ADR-032 Zero-Trust Posture (10 principles incl. crypto/ZK proves identity not intent, egress-is-a-control, trust-of-input drives model tier; patterns: Skeptic Sentinel, dual-control handshake, step-up auth = magic-link primary/TOTP optional/WebAuthn endgame). Ran the recoil-report validation (wf_31635888-3f6): watchdog-stopped mid-verify; adversarial verify refuted 43/48 (~90%, working as designed on thin input); found the verify fan-out cost blowout + a cross-person data-bleed -> fixed as J7/J8/J10. J1/J2(audit)/J4/J6/J7/J8/J10 done. [post-handoff: J17 Fork Lineage added (rebrand init-state-sync -> provenance record; make snapshot-sync a mandatory /handoff step 0); Live-Pulse foot now shows honest 'data as of' generation time (ISR-cached ~5 min) rather than the client clock. Handoff: _STATE/handoff-2026-07-19-zero-trust.md. HEAD 30c7e4f.] [terminal: chronos-sequencer risk generalized in ADR-032 as a governing discipline — any point-in-time artifact read later as current serializes dead state unless it carries readOrder + superseded markers + a freshness stamp; recency is not currency. State-sync run as the gated terminal step per J17. No further commits after this.]",
-  "next_action": "Pick from J11 (/ultrareview enforces the ADR-032 conformance checklist), J13 (dual-control handshake in code), or J14 (write-lock serializability — read operators/arcs_yoav_store.py then ADR; absorbs J5). Re-run recoil-report ONLY after confirming MCP connectivity (J10) and validating the tools:[] empty-scope on recoil-reason (J8). Full session handoff: _STATE/handoff-2026-07-19-zero-trust.md (fold into CLAUDE.md as Handoff v3.8.0 once the concurrent handoff refactor settles).",
+  "session_summary": "Zero-Trust & Orchestration session. Started as a 'state of the union' graphic, ended as a governing security posture. Shipped: /state-of-union.html (roadmap/patents/evals/L0-L7 archaeology) + status.arcs.care sections 08-11 + chan.arcs.care Live Pulse (sanitized, J1); cached GET /api/pulse (ISR, CORS, verified HIT); corrected the false 'papers published' claim (internal drafts; public-repo = \u00a7102 question). Built the JTBD orchestration map (risk-calibrated model delegation), the recoil-report multi-agent workflow (least-privilege agent scoping, untrusted-data wrapping, bidirectional Skeptic Sentinel with false-premise/wolf mode, J7 verify cap, J10 preflight), and OSS vetting (kept /ultrareview bespoke; adopted claude-code-security-review CI, fork-guarded). ADR-031 secrets inventory; ADR-032 Zero-Trust Posture (10 principles incl. crypto/ZK proves identity not intent, egress-is-a-control, trust-of-input drives model tier; patterns: Skeptic Sentinel, dual-control handshake, step-up auth = magic-link primary/TOTP optional/WebAuthn endgame). Ran the recoil-report validation (wf_31635888-3f6): watchdog-stopped mid-verify; adversarial verify refuted 43/48 (~90%, working as designed on thin input); found the verify fan-out cost blowout + a cross-person data-bleed -> fixed as J7/J8/J10. J1/J2(audit)/J4/J6/J7/J8/J10 done. [post-handoff: J17 Fork Lineage added (rebrand init-state-sync -> provenance record; make snapshot-sync a mandatory /handoff step 0); Live-Pulse foot now shows honest 'data as of' generation time (ISR-cached ~5 min) rather than the client clock. Handoff: _STATE/handoff-2026-07-19-zero-trust.md. HEAD 30c7e4f.] [terminal: chronos-sequencer risk generalized in ADR-032 as a governing discipline \u2014 any point-in-time artifact read later as current serializes dead state unless it carries readOrder + superseded markers + a freshness stamp; recency is not currency. State-sync run as the gated terminal step per J17. No further commits after this.]",
+  "next_action": "Pick from J11 (/ultrareview enforces the ADR-032 conformance checklist), J13 (dual-control handshake in code), or J14 (write-lock serializability \u2014 read operators/arcs_yoav_store.py then ADR; absorbs J5). Re-run recoil-report ONLY after confirming MCP connectivity (J10) and validating the tools:[] empty-scope on recoil-reason (J8). Full session handoff: _STATE/handoff-2026-07-19-zero-trust.md (fold into CLAUDE.md as Handoff v3.8.0 once the concurrent handoff refactor settles).",
   "blocking": "NONE for next session to start. Human-only actions pending: (1) J2 repo-privacy decision (named dossiers + papers public); (2) GITHUB_TOKEN -> Vercel (tighten /api/pulse to 60s); (3) ANTHROPIC_API_KEY -> GitHub Actions Secrets + 'require approval for outside collaborators' (so security.yml runs); (4) rotate Supabase DB password + Resend key (ADR-031); (5) branch-protection on main (the trigger half of J14).",
   "memory_shards": {
     "location": "_MEMORY/",
-    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
+    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
     "files": [
       "feedback_engagement_style.md",
       "project_arcs_book_ii_audit_protocol.md",
@@ -61,8 +61,8 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
-    "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
+    "_note": "This section added 2026-07-08 \u2014 previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "authoring_workflow": "copy public/templates/call-brief-template.html \u2192 fill {{PLACEHOLDERS}} \u2192 add beforeFiles rewrite to next.config.ts \u2192 commit on main (frosty-kepler-b69f51 worktree) \u2192 push \u2192 auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
       {
@@ -135,17 +135,17 @@
       {
         "file": "public/chan.html",
         "subdomain": "chan.arcs.care",
-        "person": "Mike Lemon / Chan Suh (CDO) / Prophet — discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
+        "person": "Mike Lemon / Chan Suh (CDO) / Prophet \u2014 discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
       },
       {
         "file": "public/status.html",
         "subdomain": "status.arcs.care",
-        "person": "N/A — standalone build-status fork of chan.html with Prophet content and presentation mode removed"
+        "person": "N/A \u2014 standalone build-status fork of chan.html with Prophet content and presentation mode removed"
       },
       {
         "file": "public/state-of-union.html",
         "subdomain": "app.arcs.care/state-of-union.html",
-        "person": "N/A — internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
+        "person": "N/A \u2014 internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
       }
     ],
     "ui_kit": {
@@ -162,5 +162,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T04:14:48Z"
+  "git_refreshed_at": "2026-07-19T12:14:20Z"
 }
