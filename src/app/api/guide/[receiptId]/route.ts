@@ -42,6 +42,13 @@ OUTCOME TARGET RULES:
 - kpi_label: noun phrase, 5–8 words max (not a sentence)
 - failure_signal: starts with a verb ("Asks for...", "Redirects to...", "Goes silent on...")
 
+VOICE (applies to EVERY human-readable string in the output — titles, questionCompass, stageJTBD, testingAboutThem, agenda and preWork items, kycLens, midcurveTripwire, writesIntoNextTable, artifact titles/abstracts, and every outcome_target string):
+- Use plain, straightforward language. Short words. Short sentences. Write for a smart, busy person who wants the point, not a performance.
+- NEVER use an em-dash or an en-dash in output text. Use a period, a comma, or "and" or "but" instead.
+- Do not splice two clauses with a semicolon. Write two sentences.
+- Say the concrete thing. Do not invent metaphors or reach for elevated phrasing.
+- Do not use ARCS terms of art or world-metaphor (bearing, terrain, fog, manifold, ridge, nucleus) unless the operator used the word first.
+
 Return ONLY this JSON (no markdown, no preamble):
 {
   "guide_title": "string",

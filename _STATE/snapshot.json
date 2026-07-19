@@ -2,13 +2,10 @@
   "captured_at": "2026-07-19T22:12:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "486472e",
-    "head_message": "chore(state): SessionStart snapshot refresh (mechanical) [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": [
-      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, other thread)",
-      "test_prisma_direct.js (untracked, other thread)"
-    ]
+    "head_sha": "faab93e",
+    "head_message": "chore(handoff): session handoff v3.10.0 \u2014 pathogen family arc closed, trackers realigned [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -166,5 +163,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T21:15:29Z"
+  "git_refreshed_at": "2026-07-19T22:12:51Z"
 }
