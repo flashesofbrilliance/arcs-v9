@@ -11,11 +11,12 @@ export interface DebriefCardProps {
   question: string
   trueNorth: string
   nciScore: number
+  nciGrade?: string
   createdAt: string
   protecting?: string[]
 }
 
-export function DebriefCard({ receiptId, question, trueNorth, nciScore, createdAt, protecting = [] }: DebriefCardProps) {
+export function DebriefCard({ receiptId, question, trueNorth, nciScore, nciGrade, createdAt, protecting = [] }: DebriefCardProps) {
   const router = useRouter()
   const now = new Date()
   const created = new Date(createdAt)
@@ -36,7 +37,7 @@ export function DebriefCard({ receiptId, question, trueNorth, nciScore, createdA
 
 True North: "${tnTruncated}"
 
-Conviction: ${nciScore}/100
+Conviction: ${nciScore}/100${nciGrade ? ` — ${nciGrade}` : ""}
 Days elapsed: ${daysElapsed}d
 
 The shoe has dropped. Did it land where the compass pointed? Log your outcome at:
@@ -69,6 +70,9 @@ ${typeof window !== "undefined" ? window.location.origin : ""}/debrief/${receipt
             <div>
               <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Conviction</span>
               <div style={{ fontWeight: 700, color: text.primary, marginTop: "0.2rem" }}>{nciScore}/100</div>
+              {nciGrade ? (
+                <div style={{ color: text.muted, fontSize: "0.65rem", marginTop: "0.15rem", maxWidth: 200, lineHeight: 1.3 }}>{nciGrade}</div>
+              ) : null}
             </div>
             <div>
               <span style={{ color: text.muted, fontFamily: font.mono, fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Days elapsed</span>
