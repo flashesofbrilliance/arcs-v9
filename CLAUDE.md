@@ -98,63 +98,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 - Spec files — version field in front-matter; `*-v2` only on breaking schema change.
 - Python scripts — never overwrite; create `*_v2.py` for breaking changes.
 
-# Handoff — v3.6.0 (2026-07-08)
-
-> **For Claude Code:** active pickup point. v3.5.0 above is preserved for history.
-
-## What changed since v3.5.0
-
-### Consolidation audit — arcs-decision-receipts → arcs-v9 COMPLETE
-
-Two commits on main:
-
-**`cf8b084`** — initial consolidation:
-- `runtime/specs/field-os/` — 9 field OS spec files from arcs-decision-receipts (artifacts 01–07, jtbd-master-map, arcs-thread-master-report, DRIFT_LOG)
-- `next.config.ts` — added missing fanatics.arcs.care and token.arcs.care subdomain rewrites
-- `public/templates/call-brief-template.html` — canonical parameterized template with `{{PLACEHOLDERS}}` and authoring workflow comment header
-- `_STATE/snapshot.json` — added `ui_artifacts` section (13 active call briefs + ui-kit inventory) and `memory_shards` section
-
-**`b7883fb`** — bar-raiser corrections (3 flags resolved):
-- `scripts/kryptonite_scorer.py` → `operators/kryptonite_scorer.py` (atomic decision component, not utility; operator contract header added)
-- `scripts/waveform_optimizer.py` → `operators/waveform_optimizer.py` (same)
-- `_CANON/arcs-v9-additional/{4 docs}` → `_CANON/living/` (primary doctrine promoted out of supplement folder)
-- `_MEMORY/` created with 5 git-tracked product intelligence shards (replaces `~/.claude/projects/` which is machine-local / invisible to cloud sessions)
-
-### Decisions locked (bar-raiser review)
-
-- **monomath-compiler** + **gold-coast**: separate standalone repos, NOT arcs-v9 (different products, would balloon monorepo scope)
-- **index.html / deep-activate.html**: audit provenance before porting — unknown active use case
-- **field-os specs**: `runtime/specs/field-os/` (not `_ARCHIVE/`) — still-relevant reference spec, not dead history
-- **arcs-decision-receipts**: do NOT archive yet — confirm nothing missed first
-
-## File status
-
-```
-public/templates/call-brief-template.html       ✅ NEW — canonical template with {{PLACEHOLDERS}}
-runtime/specs/field-os/                          ✅ NEW — 9 field OS spec files
-_CANON/living/ARCS-v9-Canon-Operational.md      ✅ PROMOTED (was arcs-v9-additional/)
-_CANON/living/ARCS-Codex-v8.5.md               ✅ PROMOTED
-_CANON/living/ARCS-Positioning-JTBD.md          ✅ PROMOTED
-_CANON/living/ARCS-Technical-Overview-April2026.md ✅ PROMOTED
-_MEMORY/                                         ✅ NEW — 5 git-tracked intelligence shards
-operators/kryptonite_scorer.py                   ✅ MOVED from scripts/
-operators/waveform_optimizer.py                  ✅ MOVED from scripts/
-_STATE/snapshot.json                             ⚠️ 6 DAYS STALE — run /init-state-sync
-```
-
-## Last confirmed commits (arcs-v9 main)
-
-```
-b7883fb — chore(consolidation): bar-raiser corrections — operators/, _CANON/living/, _MEMORY/ [NCI:SKIP]
-cf8b084 — chore(consolidation): port arcs-decision-receipts unique content [NCI:SKIP]
-```
-
-## Next session starts at
-
-`/handoff-pickup` → `/init-state-sync` to refresh stale snapshot → then: julia.arcs.care drill feature OR governance backlog #3 (log consolidation, unblocks #6).
-
----
-
 # Handoff — v3.7.0 (2026-07-17)
 
 > **For Claude Code:** active pickup point. v3.6.0 above is preserved for history.
@@ -264,3 +207,50 @@ touched this session, flagged for whoever owns that thread to commit or discard.
 `/handoff-pickup` → no open thread on chan/status.arcs.care (last ask was mobile QA, verified
 live). Otherwise: julia.arcs.care drill feature OR governance backlog #3 (log consolidation,
 unblocks #6 DEWY commit stamp) remain open from prior sessions.
+
+---
+
+# Handoff — v3.8.0 (2026-07-19)
+
+> **For Claude Code:** active pickup point. v3.7.0 above is preserved for history; v3.6.0 and older were
+> relocated to `_ARCHIVE/handoffs.md` per the lean-file policy this session established.
+> Work is on branch `claude/token-efficiency-audit-ip3l3x` — **NOT yet merged to main.**
+
+## What this session did (17 commits, `c2eaf80`..`117fcf0`)
+
+A token/budget efficiency audit that turned into a fix chain. Full narrative in `MEMORY.md [v3.8.0]`;
+per-topic detail in the `_PATTERNS/2026-07-19-*` docs.
+
+- **Audit + Fix #1/#2:** the real #1 token drain was the append-forever CLAUDE.md/MEMORY.md loaded every
+  session (~24.6k–39k tok), not the Sentinel. Split dead history to `_ARCHIVE/`; CLAUDE.md 19.8k→3.6k,
+  MEMORY.md 14.8k→5.8k; amended the append-only policy to lean-working-file + archive.
+- **ADR-033:** ratified the real Commit-NCI rubric (5 lenses); wired `nci-scoring` skill + `/nci-commit` +
+  `/drift-check`. Added `/rca` (triage-gated root-cause command).
+- **Tech-debt batch** (`_PATTERNS/2026-07-19-tech-debt-batch.md`): A1 console cleanup, A5/A6 fixes, B1
+  diagnosed clean, A2/A3/A4 triaged out. **B4** build-red root-caused to shell `NODE_ENV=development` →
+  pinned `NODE_ENV=production` in the build script (use `npm run build`, not bare `npx next build`).
+- **B2:** implemented the spec 5-lens `nci_by_lens`/`nci_grade` (additive), surfaced weak-lens in the brief,
+  added a `stop_reason` truncation guard.
+- **Security:** `_PATTERNS/2026-07-19-threat-assessment.md` + `src/lib/sanitize.ts` (unit-tested 8/8) —
+  trust boundary at every recursive rung against injection cascade.
+
+## Open items (also in `_QUEUE/PENDING.md`)
+
+- **Merge this branch to main** (first — closes the cloud-snapshot staleness the lean CLAUDE.md depends on).
+- **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Sentinel rebuild **report-only** (threat
+  §HIGH), SageTrace RLS (Supabase CLI), connector/env/DNS/key items, Dan Pascone gate.
+- **In-repo follow-ups:** cadence lens from time-ROM; HOLD gate at NCI<40 (overlaps the Calibrate HOLD gap).
+
+## Honesty flag
+
+All compass-side changes are build + typecheck + unit-tested, but **NOT driven via a live compass call**
+(no `ANTHROPIC_API_KEY` in the cloud session). Verify end-to-end after merge/deploy.
+
+## Last confirmed commit
+
+`117fcf0` — feat(security): trust boundary at every recursive rung.
+
+## Next session starts at
+
+`/handoff-pickup` → merge `claude/token-efficiency-audit-ip3l3x` → main, then pick an out-of-band item or the
+B2 cadence/HOLD-gate follow-up.

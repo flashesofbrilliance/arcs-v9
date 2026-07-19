@@ -49,4 +49,29 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ---
 
-*Last updated: 2026-07-01 22:41 UTC (auto-generated)*
+## Open backlog from the token-efficiency audit session (2026-07-19)
+
+> Branch `claude/token-efficiency-audit-ip3l3x` (not yet merged). Full detail in the `_PATTERNS/2026-07-19-*`
+> docs. The in-repo fixes are done + pushed; what remains is out-of-band (other environments) or follow-on.
+
+**Out-of-band — need an environment this cloud session can't reach** (see `_PATTERNS/2026-07-19-out-of-band-actions.md`):
+- 🔴 **Sentinel rebuild (fix #3) + security guardrail** — recreate from the `arcs-decision-receipts` env
+  (ownership rule): zero MCP connectors, Haiku model, push on. **AND make it report-only** — drop `Write`/
+  `Edit`, never let it `Edit` `CLAUDE.md`; see the lethal-trifecta write-up in
+  `_PATTERNS/2026-07-19-threat-assessment.md` §HIGH.
+- 🔴 **`SageTrace` RLS** — enable + deny-all policy via the Supabase **CLI** (project invisible to the MCP,
+  wrong org).
+- 🟡 Connector hygiene (claude.ai settings), Vercel preview `DATABASE_URL`, `DATABASE_URL` rotation reminder,
+  Resend MCP key rotation, DMARC `p=reject` — all itemized in the out-of-band checklist.
+- 🟡 **Dan Pascone case-study gate** (ADR-015) — human decision, still open.
+
+**In-repo follow-ups (started this session, safe to continue):**
+- **B2 depth:** source the `nci_by_lens.cadence` lens from `time-quality-attribution-rom.json` (currently
+  Claude-estimated), and decide the **HOLD gate at NCI < 40** — which overlaps the existing "Calibrate-surface
+  malformed-question HOLD gate" item above. See `_PATTERNS/2026-07-19-tech-debt-batch.md` B2.
+- **Merge** `claude/token-efficiency-audit-ip3l3x` → main (closes the cloud-snapshot staleness the lean
+  CLAUDE.md/MEMORY.md changes depend on).
+
+---
+
+*Last updated: 2026-07-19 (token-efficiency audit session); prior auto-gen 2026-07-01 22:41 UTC*

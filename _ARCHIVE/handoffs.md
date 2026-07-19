@@ -1340,3 +1340,61 @@ All v3.2.0 open items (#2–14) carried forward unchanged. See `.claude/arcs-ses
 
 ---
 
+
+
+---
+
+# Handoff — v3.6.0 (2026-07-08)
+
+> **For Claude Code:** active pickup point. v3.5.0 above is preserved for history.
+
+## What changed since v3.5.0
+
+### Consolidation audit — arcs-decision-receipts → arcs-v9 COMPLETE
+
+Two commits on main:
+
+**`cf8b084`** — initial consolidation:
+- `runtime/specs/field-os/` — 9 field OS spec files from arcs-decision-receipts (artifacts 01–07, jtbd-master-map, arcs-thread-master-report, DRIFT_LOG)
+- `next.config.ts` — added missing fanatics.arcs.care and token.arcs.care subdomain rewrites
+- `public/templates/call-brief-template.html` — canonical parameterized template with `{{PLACEHOLDERS}}` and authoring workflow comment header
+- `_STATE/snapshot.json` — added `ui_artifacts` section (13 active call briefs + ui-kit inventory) and `memory_shards` section
+
+**`b7883fb`** — bar-raiser corrections (3 flags resolved):
+- `scripts/kryptonite_scorer.py` → `operators/kryptonite_scorer.py` (atomic decision component, not utility; operator contract header added)
+- `scripts/waveform_optimizer.py` → `operators/waveform_optimizer.py` (same)
+- `_CANON/arcs-v9-additional/{4 docs}` → `_CANON/living/` (primary doctrine promoted out of supplement folder)
+- `_MEMORY/` created with 5 git-tracked product intelligence shards (replaces `~/.claude/projects/` which is machine-local / invisible to cloud sessions)
+
+### Decisions locked (bar-raiser review)
+
+- **monomath-compiler** + **gold-coast**: separate standalone repos, NOT arcs-v9 (different products, would balloon monorepo scope)
+- **index.html / deep-activate.html**: audit provenance before porting — unknown active use case
+- **field-os specs**: `runtime/specs/field-os/` (not `_ARCHIVE/`) — still-relevant reference spec, not dead history
+- **arcs-decision-receipts**: do NOT archive yet — confirm nothing missed first
+
+## File status
+
+```
+public/templates/call-brief-template.html       ✅ NEW — canonical template with {{PLACEHOLDERS}}
+runtime/specs/field-os/                          ✅ NEW — 9 field OS spec files
+_CANON/living/ARCS-v9-Canon-Operational.md      ✅ PROMOTED (was arcs-v9-additional/)
+_CANON/living/ARCS-Codex-v8.5.md               ✅ PROMOTED
+_CANON/living/ARCS-Positioning-JTBD.md          ✅ PROMOTED
+_CANON/living/ARCS-Technical-Overview-April2026.md ✅ PROMOTED
+_MEMORY/                                         ✅ NEW — 5 git-tracked intelligence shards
+operators/kryptonite_scorer.py                   ✅ MOVED from scripts/
+operators/waveform_optimizer.py                  ✅ MOVED from scripts/
+_STATE/snapshot.json                             ⚠️ 6 DAYS STALE — run /init-state-sync
+```
+
+## Last confirmed commits (arcs-v9 main)
+
+```
+b7883fb — chore(consolidation): bar-raiser corrections — operators/, _CANON/living/, _MEMORY/ [NCI:SKIP]
+cf8b084 — chore(consolidation): port arcs-decision-receipts unique content [NCI:SKIP]
+```
+
+## Next session starts at
+
+`/handoff-pickup` → `/init-state-sync` to refresh stale snapshot → then: julia.arcs.care drill feature OR governance backlog #3 (log consolidation, unblocks #6).
