@@ -135,6 +135,22 @@ needed. WebAuthn/passkeys remain the eventual endgame.
    phishing-resistant MFA. This is the single answer to "MFA / passkey / YubiKey / Touch ID /
    Face ID," not five services.
 
+**Chronos-sequencer discipline (general — not just recoil specs).** Any point-in-time
+artifact that a later reader consumes as *current state* — handoff, snapshot, ADR, canon
+stratum, memory log, any append-only ledger — becomes **dead state wearing a live face** the
+moment work continues past it. A chronological/prefix reader (next session, token-truncated
+LLM read, human skim) will serialize the superseded version. Originally caught in recoil
+multi-pass reports; it is **general**. This is P1 (never trust, always verify) applied to
+*time*: recency and position are not currency. Every such artifact must carry:
+1. a **current-state header first** (readOrder — authority order, not chronological);
+2. in-place **`[SUPERSEDED — see X]`** markers on overturned strata (never silently leave
+   dead text looking live);
+3. a **freshness/provenance stamp** so a reader can tell how stale it is before trusting it
+   (the "data as of" fix on the Live Pulse is the same principle at the UI layer).
+Fork Lineage (J17) is the *provenance* half of the remedy; readOrder is the *ordering* half.
+Proven live this session: the handoff drifted the instant work continued past it — which is
+why state-sync must be a *gated final step*, not a remembered one.
+
 ## Consequences
 
 - ADR authoring gains the checklist above; the `/ultrareview` gate should enforce it.
