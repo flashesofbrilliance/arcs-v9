@@ -1,6 +1,18 @@
 @AGENTS.md
 @WORLD.md
 
+# Session orientation — read this much, and no more
+
+This file (+ its `@`-imports AGENTS.md and WORLD.md) already loads automatically. That is your
+baseline context. **Do not read further to "orient."**
+
+- **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
+  Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **On-demand only** (do NOT read to orient — open only when the task actually needs them):
+  `MEMORY.md`, `SKILL.md`, `_ARCHIVE/handoffs.md`, `_ARCHIVE/memory-archive.md`, `_STATE/*`.
+- There is no "read MEMORY→SKILL→WORLD→AGENTS in order" chain anymore. That mandate cost ~40k
+  tokens per session and was retired 2026-07-19; open a specific file only when a task points to it.
+
 # Project Map (read this before exploring)
 
 ## Stack
