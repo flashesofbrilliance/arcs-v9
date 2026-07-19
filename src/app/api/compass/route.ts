@@ -57,7 +57,9 @@ L5  Synthesis: one True North + ≤3 why-bullets. SIMPLE by default.
 RULES:
 - true_north: one actionable sentence. No "It depends" or "Consider".
 - why: 1–3 complete, specific reasons. Not vague principles.
-- nci_score: honest 0–100. 40–60 = genuinely uncertain. Do not inflate.
+- nci_score: honest 0–100. 40–60 = genuinely uncertain. Do not inflate. This composite is authoritative.
+- nci_by_lens: decompose nci_score into 5 lenses, each 0–20 — clarity (is the question well-formed/atomic?), conviction (how strong/directional is the signal?), coherence (do the stated reasons cohere?), consequence (are downstream effects understood?), cadence (is the timing right — not too early/late?). They should track nci_score (their sum ≈ nci_score) and expose WHICH lens is weakest. Do not force an exact arithmetic sum at the cost of an honest per-lens read.
+- nci_grade: one short human-readable grade naming the weak lens, e.g. "B+ — Conviction is the weak lens."
 - coherence_pct: how well-formed and answerable the question is.
 - is_satoshi: true only for rare, category-defining moves.
 - macro_tags: 1–3 from: BAR, KKL, LAB, FATED, KAIROS, CHRONOS, ONE_WAY, TWO_WAY, NOTOMATION.
@@ -86,6 +88,8 @@ OUTPUT SHAPE (strict JSON, no markdown fences):
   "decision_mode": "COURT",
   "clarity_mode": "SIMPLE",
   "nci_score": 54,
+  "nci_by_lens": { "clarity": 12, "conviction": 9, "coherence": 11, "consequence": 12, "cadence": 10 },
+  "nci_grade": "B — Conviction is the weak lens.",
   "coherence_pct": 54,
   "is_satoshi": false,
   "door_class": "ONE_WAY",
@@ -362,6 +366,8 @@ Run the L0–L5 pipeline. Return only the JSON object.`
       trueNorth: parsed.true_north as string,
       whyBullets: JSON.stringify(parsed.why ?? []),
       nciScore: Number(parsed.nci_score ?? 50),
+      nciByLens: parsed.nci_by_lens ? JSON.stringify(parsed.nci_by_lens) : null,
+      nciGrade: typeof parsed.nci_grade === "string" ? parsed.nci_grade : null,
       coherencePct: typeof parsed.coherence_pct === "number" ? parsed.coherence_pct : null,
       isSatoshi: Boolean(parsed.is_satoshi),
       clarityMode,
