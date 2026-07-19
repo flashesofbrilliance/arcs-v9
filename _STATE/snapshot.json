@@ -2,9 +2,9 @@
   "captured_at": "2026-07-19T04:20:05Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "fa5b332",
-    "head_message": "chore(state): SessionStart snapshot refresh (mechanical) [NCI:SKIP]",
-    "in_sync_with_origin": true,
+    "head_sha": "0e19a69",
+    "head_message": "feat(status): live day-count from T0 (retire hardcoded '98')",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_STATE/snapshot.json"
     ]
@@ -164,5 +164,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T17:18:19Z"
+  "git_refreshed_at": "2026-07-19T21:15:29Z"
 }
