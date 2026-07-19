@@ -270,12 +270,12 @@
     "file": "ADR-030-nested-thread-view.md"
   },
   {
-    "id": "ADR-033",
-    "title": "ADR-033 — Commit-NCI Rubric (ratify the [NCI:XX] commit gate)",
+    "id": "ADR-035",
+    "title": "ADR-035 — Commit-NCI Rubric (ratify the [NCI:XX] commit gate)",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "REVISIT",
     "gate": "revisit after ~20 scored commits or first drift flag; confirm commit>merge threshold inversion",
-    "file": "ADR-033-commit-nci-rubric.md"
+    "file": "ADR-035-commit-nci-rubric.md"
   }
 ]

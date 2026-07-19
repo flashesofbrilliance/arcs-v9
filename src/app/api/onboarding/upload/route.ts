@@ -14,7 +14,12 @@ export async function GET() {
   const session = await auth()
   const userId = session?.user?.id
   if (!userId) {
-    return NextResponse.json({ error: "unauthorized" }, { status: 401 })
+    // Read-only status probe, fired from the dashboard for every visitor.
+    // 200-with-nothing instead of 401: an anonymous visitor has no profile by
+    // definition, and a 4xx here logs a browser console error on every page
+    // view (which also trips the fe-smoke zero-console-errors gate). POST
+    // (the mutation) keeps its 401.
+    return NextResponse.json({ anonymous: true, hasPdf: false, hasExport: false, skipped: true, seen: false })
   }
 
   const upload = await prisma.profileUpload.findUnique({ where: { userId } })

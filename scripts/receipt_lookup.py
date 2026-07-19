@@ -26,9 +26,17 @@ directional prior / central-mass — thresholds per ADR-023's 100-receipt
 precedent), and any banked counterpart model's `validityBounds` is surfaced
 alongside the conclusion, never silently dropped.
 
+Open-loop-decay discipline (same spec §Open-loop decay; family registry in
+ADR-033): riskFlags carry a `status` field (OPEN/DONE/WAIVED, dated). Closure
+is an explicit write, never silence — DONE/WAIVED flags leave the live
+aggregation, legacy flags without a status are implicitly OPEN, and `--sweep`
+enumerates every open obligation across the whole ledger, aged, oldest first.
+The sweeper reads state, not text.
+
 Usage:
     python3 scripts/receipt_lookup.py "<name or email fragment>"
     python3 scripts/receipt_lookup.py --all          # dump every counterpart on file
+    python3 scripts/receipt_lookup.py --sweep        # every OPEN obligation, ledger-wide, aged
 
 Stdlib only, per repo convention (see AGENTS.md — Foundation section).
 """
@@ -36,6 +44,7 @@ import json
 import sys
 import glob
 import os
+from datetime import date
 
 LEDGER_DIR = os.path.join(os.path.dirname(__file__), "..", "runtime", "recoil", "generated")
 
@@ -77,6 +86,80 @@ def is_superseded(flag):
     return any(m in text for m in SUPERSEDED_MARKERS)
 
 
+def flag_state(flag):
+    # Open-loop-decay mandate (recoil-modes-v1.md §Open-loop decay): `status`
+    # is a string beginning with OPEN, DONE, or WAIVED. Legacy flags without
+    # one are implicitly OPEN — closure is an explicit write, never silence.
+    # Prose in description ("RESOLVED IN PART…") does NOT close a flag.
+    status = str(flag.get("status", "")).strip().upper()
+    for state in ("DONE", "WAIVED", "OPEN"):
+        if status.startswith(state):
+            return state
+    return "OPEN"
+
+
+def flag_age_days(call_date):
+    try:
+        return (date.today() - date.fromisoformat(str(call_date)[:10])).days
+    except (ValueError, TypeError):
+        return None
+
+
+def sweep(records):
+    """Enumerate every OPEN obligation ledger-wide, aged, oldest first.
+
+    The enforcement point for open-loop decay: an obligation that never
+    appears here was written as prose (spec violation); one that appears
+    forever is a decision waiting to be made.
+    """
+    open_flags = []
+    closed = 0
+    superseded = 0
+    prose_items = 0
+    for r in records:
+        meta = r.get("meta", {})
+        call_date = meta.get("callDate")
+        counterpart = meta.get("counterpart", "?").split("—")[0].split(",")[0].strip()
+        for rf in r.get("riskFlags", []):
+            if is_superseded(rf):
+                superseded += 1
+                continue
+            if flag_state(rf) in ("DONE", "WAIVED"):
+                closed += 1
+                continue
+            open_flags.append({
+                "age": flag_age_days(call_date),
+                "date": call_date,
+                "file": r.get("_file", "?"),
+                "counterpart": counterpart,
+                "severity": rf.get("severity", "?"),
+                "id": rf.get("id", "?"),
+                "label": rf.get("label", ""),
+                "action": rf.get("action", ""),
+            })
+        recap = r.get("recapitulation")
+        if isinstance(recap, dict):
+            oi = recap.get("openItems")
+            if isinstance(oi, list):
+                prose_items += len(oi)
+
+    open_flags.sort(key=lambda f: (-(f["age"] if f["age"] is not None else -1), f["date"] or ""))
+
+    print(f"=== OPEN-LOOP SWEEP — {len(open_flags)} open obligation(s) across {len(records)} report(s) ===")
+    print(f"(closed by explicit status: {closed} · superseded: {superseded})\n")
+    for f in open_flags:
+        age = f"{f['age']}d" if f["age"] is not None else "?d"
+        print(f"[{age:>4} open] {f['severity']:<4} {f['counterpart']} — {f['label']}")
+        print(f"           {f['file']} · {f['id']}")
+        if f["action"]:
+            print(f"           owed: {f['action']}")
+        print()
+    if prose_items:
+        print(f"⚠ {prose_items} prose item(s) in recapitulation.openItems across the ledger are NOT")
+        print("  sweepable — prose is write-only. Obligations that must survive the session")
+        print("  belong in riskFlags with a status field (recoil-modes-v1.md §Open-loop decay).")
+
+
 def regime(n):
     # Sample-size regime ladder, recoil-modes-v1.md §Inductive-overfit risk.
     # Central-mass threshold reuses ADR-023's 100-receipt gate rather than
@@ -116,6 +199,7 @@ def digest(records, query):
     ygate_trend = []
     all_risk_flags = []
     superseded_skipped = 0
+    closed_skipped = 0
 
     for r in hits:
         meta = r.get("meta", {})
@@ -127,6 +211,9 @@ def digest(records, query):
         for rf in r.get("riskFlags", []):
             if is_superseded(rf):
                 superseded_skipped += 1
+                continue
+            if flag_state(rf) in ("DONE", "WAIVED"):
+                closed_skipped += 1
                 continue
             all_risk_flags.append((meta.get("callDate"), rf.get("severity"), rf.get("label")))
         print(f"[{meta.get('callDate')}] {meta.get('callTitle')} — {meta.get('counterpartRole', '')}")
@@ -141,8 +228,9 @@ def digest(records, query):
             print(f"    {excerpt}")
         print()
 
-    if superseded_skipped:
-        print(f"({superseded_skipped} superseded risk flag(s) skipped — provenance, not live state)\n")
+    if superseded_skipped or closed_skipped:
+        print(f"({superseded_skipped} superseded flag(s) skipped — provenance; "
+              f"{closed_skipped} closed by explicit DONE/WAIVED status)\n")
 
     print("--- NCI trend ---")
     print("  " + " -> ".join(f"{d}:{n}" for d, n in nci_trend))
@@ -187,6 +275,9 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)
+    if sys.argv[1] == "--sweep":
+        sweep(load_all())
+        sys.exit(0)
     if sys.argv[1] == "--all":
         recs = load_all()
         seen = set()

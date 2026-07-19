@@ -1,0 +1,44 @@
+# Anthropic's own claude-code-security-review — semantic vuln scan on the PR diff.
+# Adopted 2026-07-19 per the OSS agent vetting (_PATTERNS/jtbd-orchestration-map.md §8b).
+# This is ADDITIVE to /ultrareview + /dual-bar-raiser (those stay the primary,
+# ARCS-aware, manual gate); this is the automated CI-time layer they don't cover.
+#
+# ⚠ SECURITY GATES (do not remove):
+#   1. The action is NOT hardened against prompt injection. This repo is PUBLIC,
+#      so the job below is guarded to run ONLY on same-repo PRs (never on forks),
+#      via the `if:` on the job. Do not loosen that guard.
+#   2. Requires an `ANTHROPIC_API_KEY` in repo → Settings → Secrets and variables →
+#      Actions. Until that secret exists, the job no-ops on the auth step — safe.
+#   3. Also set repo → Settings → Actions → "Require approval for all outside
+#      collaborators" so no fork workflow can ever run with secrets.
+#
+# NOTE: verify the action's input names against its README before relying on it
+# (https://github.com/anthropics/claude-code-security-review) — pinned to a tag
+# rather than @main once you've confirmed the version you want.
+
+name: security-review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  claude-security-review:
+    # Same-repo PRs only — never run on forks (prompt-injection surface).
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude Code security review
+        uses: anthropics/claude-code-security-review@main
+        with:
+          claude-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
+          comment-pr: true

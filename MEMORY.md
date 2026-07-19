@@ -19,7 +19,7 @@ Amended the append-only policy: CLAUDE.md/MEMORY.md are lean working files, hist
 confirmed the cut dropped nothing (open work lives in PENDING.md, not handoff prose). Banked `_PATTERNS/
 durable-gotchas.md`.
 
-**ADR-033:** ratified the real Commit-NCI rubric (5 lenses = 100; the `[NCI:XX]` tag had no rubric + was all
+**ADR-035:** ratified the real Commit-NCI rubric (5 lenses = 100; the `[NCI:XX]` tag had no rubric + was all
 SKIP). Distinct from the product `nci_score`. Wired `nci-scoring` skill + `/nci-commit` + `/drift-check` to it.
 Added `/rca` (triage-gated root-cause command).
 

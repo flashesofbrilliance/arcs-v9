@@ -1,6 +1,6 @@
 ---
 name: nci-scoring
-description: Score a code change/commit/diff against the ARCS Commit-NCI rubric (ADR-033) and its thresholds. Use when the user asks to "score this," "what's the NCI," rate a diff/commit/PR before committing or merging, or references NCI, drift, or the >=50/>=45 thresholds. Scores CODE CHANGES, not compass decisions (that is the product nci_score, a different thing).
+description: Score a code change/commit/diff against the ARCS Commit-NCI rubric (ADR-035) and its thresholds. Use when the user asks to "score this," "what's the NCI," rate a diff/commit/PR before committing or merging, or references NCI, drift, or the >=50/>=45 thresholds. Scores CODE CHANGES, not compass decisions (that is the product nci_score, a different thing).
 ---
 
 # NCI Scoring (Commit-NCI)
@@ -8,7 +8,7 @@ description: Score a code change/commit/diff against the ARCS Commit-NCI rubric 
 Makes the ARCS **Commit-NCI** gate portable: any surface — chat, Cowork, Claude Code — scores a code
 change the same way, so numbers stay comparable to `[NCI:XX]` history and the drift sentinel.
 
-> **Source of truth:** `_DECISIONS/ADR-033-commit-nci-rubric.md`. The rubric below is a MIRROR of that
+> **Source of truth:** `_DECISIONS/ADR-035-commit-nci-rubric.md`. The rubric below is a MIRROR of that
 > ADR. If they ever disagree, the ADR wins — update this file from it, never the reverse.
 
 > **Do not confuse with the product `nci_score`.** Commit-NCI scores a *code change*. The product's
@@ -22,7 +22,7 @@ The user wants a change scored: "score this diff," "what's the NCI on this," "is
 commit or merge, or any mention of NCI / drift / the thresholds. If no change is in front of you, get it
 first (`git diff --cached` when staged, else ask for the diff).
 
-## The rubric (mirror of ADR-033 — 0–100)
+## The rubric (mirror of ADR-035 — 0–100)
 
 | Lens | Weight | What earns points |
 |---|---|---|
