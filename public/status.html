@@ -609,10 +609,66 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <span class="fb-label" style="color:var(--faint);">click any section header to fold it</span>
   </div>
 
-  <!-- 02 INSTRUMENT PANEL -->
+  <!-- 08 STATE OF THE UNION -->
   <div class="section">
     <div class="section-head">
       <div class="section-n">01</div>
+      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">STATE OF THE UNION</div>
+    </div>
+    <div class="section-title">The whole terrain at one glance — shipped, building, blocked, next.</div>
+    <div class="section-body">
+      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong>25 shipped · 6 in progress · 8 blocked · 11 next</strong> (50 tracked).</p>
+      <div class="su-bar" role="img" aria-label="Distribution of 50 tracked workstreams: 25 shipped, 6 in progress, 8 blocked, 11 next">
+        <span class="b-green" style="width:50%"></span>
+        <span class="b-gold"  style="width:12%"></span>
+        <span class="b-red"   style="width:16%"></span>
+        <span class="b-cyan"  style="width:22%"></span>
+      </div>
+      <div class="su-barlabel">
+        <span><i style="background:var(--green)"></i> Shipped · 25</span>
+        <span><i style="background:var(--gold)"></i> In progress · 6</span>
+        <span><i style="background:var(--red)"></i> Blocked · 8</span>
+        <span><i style="background:var(--cyan)"></i> Next · 11</span>
+      </div>
+      <div class="su-zones">
+        <div class="su-zone" style="--zc:var(--green);">
+          <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count">25</span></div>
+          <div class="su-zone-sub">Superionic · full resolution</div>
+          <div class="su-zli"><b>Compass L0–L5 pipeline</b> — the core engine</div>
+          <div class="su-zli"><b>P4 Vercel production</b> — Prisma 7 + Supabase, 9 tables</div>
+          <div class="su-zli"><b>RLS deny-all</b> · Book II canon I–VI · Observatory</div>
+          <div class="su-zli"><b>Design system Ph.1</b> · CI/CD breakers · 13 subdomains</div>
+        </div>
+        <div class="su-zone" style="--zc:var(--gold);">
+          <div class="su-zone-h"><span class="su-zone-name">In progress</span><span class="su-zone-count">6</span></div>
+          <div class="su-zone-sub">Clarity ridge · building</div>
+          <div class="su-zli"><b>Compass Kit Phase 2</b> — kit → app</div>
+          <div class="su-zli"><b>Panel / Chip</b> design-system atoms</div>
+          <div class="su-zli"><b>Drift Sentinel</b> · log consolidation · DEWY commit stamp</div>
+          <div class="su-zli"><b>ADR-013</b> 30-day conversion clock</div>
+        </div>
+        <div class="su-zone" style="--zc:var(--red);">
+          <div class="su-zone-h"><span class="su-zone-name">Blocked / contested</span><span class="su-zone-count">8</span></div>
+          <div class="su-zone-sub">Pressure band · awaiting input</div>
+          <div class="su-zli"><b>Case-study gate</b> · <b>ADR-023 lattice</b> (100-receipt gate)</div>
+          <div class="su-zli"><b>Preview DB URL</b> · password + key rotations</div>
+          <div class="su-zli"><b>Orphaned tables</b> · advisor WARNs · vercel.ts</div>
+        </div>
+        <div class="su-zone" style="--zc:var(--cyan);">
+          <div class="su-zone-h"><span class="su-zone-name">Next / unmapped</span><span class="su-zone-count">11</span></div>
+          <div class="su-zone-sub">Outer fog · orient only</div>
+          <div class="su-zli"><b>Receipt save prompt</b> · <b>Outcome handler</b> (P1 loop-closers)</div>
+          <div class="su-zli"><b>ATG</b> · Kairos detection · GIGI · Stripe gate</div>
+          <div class="su-zli"><b>L6–L7 engine</b> · Vector Collision · operators wire-in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 INSTRUMENT PANEL -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">02</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">THE INSTRUMENT PANEL</div>
     </div>
     <div class="section-title">Twelve design principles, set before the first feature. Each one enforced, not aspirational.</div>
@@ -666,7 +722,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 03 BUILD EXPLORER -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">02</div>
+      <div class="section-n">03</div>
       <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">THE BUILD, DAY 0 TO TODAY</div>
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
@@ -717,7 +773,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 03 LESSONS -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">03</div>
+      <div class="section-n">04</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">SIX LESSONS THE BUILD PAID FOR</div>
     </div>
     <div class="section-title">Where I was wrong, and what changed because of it.</div>
@@ -752,7 +808,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 04 RISK REGISTER -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">04</div>
+      <div class="section-n">05</div>
       <div class="section-label" style="color:var(--red);border-color:rgba(255,77,109,0.35);background:rgba(255,77,109,0.06);">RISK REGISTER, CURRENT AND HONEST</div>
     </div>
     <div class="section-title">What I would tell a board about this system today.</div>
@@ -802,7 +858,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 05 ROADMAP -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">05</div>
+      <div class="section-n">06</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">ROADMAP: NOW, NEXT, LATER</div>
     </div>
     <div class="section-title">One backlog, three horizons. Nothing moves up on enthusiasm alone.</div>
@@ -831,7 +887,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 06 DEPENDENCY MAP -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">06</div>
+      <div class="section-n">07</div>
       <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>
     </div>
     <div class="section-title">The whole roadmap hangs on one dependency. It shipped this week.</div>
@@ -882,7 +938,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 07 LEGEND -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">07</div>
+      <div class="section-n">08</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">LEGEND: THE TERMS, IN PLAIN WORDS</div>
     </div>
     <div class="section-title">Every piece of product vocabulary on this page, translated.</div>
@@ -902,110 +958,10 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
   </div>
 
-  <!-- 08 STATE OF THE UNION -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-n">08</div>
-      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">STATE OF THE UNION</div>
-    </div>
-    <div class="section-title">The whole terrain at one glance — shipped, building, blocked, next.</div>
-    <div class="section-body">
-      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong>25 shipped · 6 in progress · 8 blocked · 11 next</strong> (50 tracked).</p>
-      <div class="su-bar" role="img" aria-label="Distribution of 50 tracked workstreams: 25 shipped, 6 in progress, 8 blocked, 11 next">
-        <span class="b-green" style="width:50%"></span>
-        <span class="b-gold"  style="width:12%"></span>
-        <span class="b-red"   style="width:16%"></span>
-        <span class="b-cyan"  style="width:22%"></span>
-      </div>
-      <div class="su-barlabel">
-        <span><i style="background:var(--green)"></i> Shipped · 25</span>
-        <span><i style="background:var(--gold)"></i> In progress · 6</span>
-        <span><i style="background:var(--red)"></i> Blocked · 8</span>
-        <span><i style="background:var(--cyan)"></i> Next · 11</span>
-      </div>
-      <div class="su-zones">
-        <div class="su-zone" style="--zc:var(--green);">
-          <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count">25</span></div>
-          <div class="su-zone-sub">Superionic · full resolution</div>
-          <div class="su-zli"><b>Compass L0–L5 pipeline</b> — the core engine</div>
-          <div class="su-zli"><b>P4 Vercel production</b> — Prisma 7 + Supabase, 9 tables</div>
-          <div class="su-zli"><b>RLS deny-all</b> · Book II canon I–VI · Observatory</div>
-          <div class="su-zli"><b>Design system Ph.1</b> · CI/CD breakers · 13 subdomains</div>
-        </div>
-        <div class="su-zone" style="--zc:var(--gold);">
-          <div class="su-zone-h"><span class="su-zone-name">In progress</span><span class="su-zone-count">6</span></div>
-          <div class="su-zone-sub">Clarity ridge · building</div>
-          <div class="su-zli"><b>Compass Kit Phase 2</b> — kit → app</div>
-          <div class="su-zli"><b>Panel / Chip</b> design-system atoms</div>
-          <div class="su-zli"><b>Drift Sentinel</b> · log consolidation · DEWY commit stamp</div>
-          <div class="su-zli"><b>ADR-013</b> 30-day conversion clock</div>
-        </div>
-        <div class="su-zone" style="--zc:var(--red);">
-          <div class="su-zone-h"><span class="su-zone-name">Blocked / contested</span><span class="su-zone-count">8</span></div>
-          <div class="su-zone-sub">Pressure band · awaiting input</div>
-          <div class="su-zli"><b>Case-study gate</b> · <b>ADR-023 lattice</b> (100-receipt gate)</div>
-          <div class="su-zli"><b>Preview DB URL</b> · password + key rotations</div>
-          <div class="su-zli"><b>Orphaned tables</b> · advisor WARNs · vercel.ts</div>
-        </div>
-        <div class="su-zone" style="--zc:var(--cyan);">
-          <div class="su-zone-h"><span class="su-zone-name">Next / unmapped</span><span class="su-zone-count">11</span></div>
-          <div class="su-zone-sub">Outer fog · orient only</div>
-          <div class="su-zli"><b>Receipt save prompt</b> · <b>Outcome handler</b> (P1 loop-closers)</div>
-          <div class="su-zli"><b>ATG</b> · Kairos detection · GIGI · Stripe gate</div>
-          <div class="su-zli"><b>L6–L7 engine</b> · Vector Collision · operators wire-in</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 09 PATENT PRESSURE-TEST -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-n">09</div>
-      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">PATENT PRESSURE-TEST</div>
-    </div>
-    <div class="section-title">What to formalize with the USPTO — and the clock that's running.</div>
-    <div class="section-body">
-      <div class="su-alarm">
-        <div class="k"><span>⚠ Disclosure status — resolve before filing</span><span class="cd">US §102 · unresolved</span></div>
-        <h4>The papers are internal drafts — not published.</h4>
-        <p><b>Correction:</b> the Yellow/White papers have <b>not been publicly released</b> — the "Public Release · CC BY 4.0" header inside the Yellow Paper is an aspirational draft label, not an actual publication. <b>But they sit in a public GitHub repo</b>, and a publicly-accessible repo file can itself count as a §102 public-accessibility event — a question for counsel keyed to when the files first went public. Action: file the Tier-1 provisionals <b>before any actual publication</b>, and have counsel date the first public-repo appearance. Until resolved, treat the repo as sensitive.</p>
-      </div>
-      <p class="su-lead">11 candidates from the Yellow &amp; White papers, stack-ranked by filing priority — §101 eligibility and novelty gated first. Triage for counsel, not legal advice.</p>
-      <div class="su-tw">
-        <table class="su-t">
-          <thead><tr><th class="n">#</th><th>Candidate</th><th class="n">§101</th><th class="n">Novel</th><th class="n">Strat</th><th>Verdict</th></tr></thead>
-          <tbody>
-            <tr><td class="rk">1</td><td class="c">Kairos convergence + window + EV-gate<small>YP Pillar 3 + WP #7</small></td><td class="sc su-md">3.5</td><td class="sc su-md">3.5</td><td class="sc su-hi">4.5</td><td class="su-v1">FORMALIZE — strongest</td></tr>
-            <tr><td class="rk">2</td><td class="c">Ex-ante receipt lock + reconciliation<small>WP #2</small></td><td class="sc su-lo">2.5</td><td class="sc su-md">3.0</td><td class="sc su-hi">5.0</td><td class="su-v1">FORMALIZE — off "blockchain"</td></tr>
-            <tr><td class="rk">3</td><td class="c">Phase-cancellation scheduler<small>WP #6</small></td><td class="sc su-md">3.0</td><td class="sc su-hi">4.0</td><td class="sc su-md">3.5</td><td class="su-v1">FORMALIZE — best novelty</td></tr>
-            <tr><td class="rk">4</td><td class="c">Abductive prediction + uncertainty<small>YP Pillar 1</small></td><td class="sc su-lo">2.0</td><td class="sc su-lo">2.0</td><td class="sc su-hi">4.5</td><td class="su-v2">Narrow claims only</td></tr>
-            <tr><td class="rk">5</td><td class="c">Adaptive coherence (ARCS Law)<small>WP #1</small></td><td class="sc su-lo">2.5</td><td class="sc su-lo">2.5</td><td class="sc su-md">3.0</td><td class="su-v2">Needs concrete control app</td></tr>
-            <tr><td class="rk">6</td><td class="c">Privacy cross-customer learning<small>YP Pillar 4</small></td><td class="sc su-md">3.0</td><td class="sc su-lo">1.5</td><td class="sc su-hi">4.0</td><td class="su-v3">Defensive — crowded</td></tr>
-            <tr><td class="rk">7</td><td class="c">2nd-derivative trend detection<small>WP #4</small></td><td class="sc su-lo">2.5</td><td class="sc su-lo">1.5</td><td class="sc su-md">3.0</td><td class="su-v3">Pressure hardest → drop</td></tr>
-            <tr><td class="rk">8–11</td><td class="c">Wave-diffusion · rhetorical/wavefunction · chemical-bonding · decelerator<small>WP #9/#5/#11/#8/#10</small></td><td class="sc su-lo">≤2</td><td class="sc su-lo">≤2</td><td class="sc su-lo">low</td><td class="su-v3">Likely drop</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="su-cards">
-        <div class="su-card"><div class="ix">① strongest</div><h5>Kairos convergence engine</h5><div class="r"><b>Claim</b>cross-domain convergence (≥3σ) → window estimate → EV-gated activation.</div><div class="r"><b>Cut</b>the "energetic catalysis" metaphor — §112/§101 liability.</div><div class="r cpc">G06F9/50 · G06Q10/04 · H04L67/10</div></div>
-        <div class="su-card"><div class="ix">② highest value</div><h5>Ex-ante receipt lock</h5><div class="r"><b>Real hook</b>commit prediction before spend, reconcile to outcome — not "records on a blockchain."</div><div class="r"><b>Test</b>§101: Bprotocol v. Uniswap (2026) kills economic-practice-on-chain.</div><div class="r cpc">G06F21/64 · H04L9/50</div></div>
-        <div class="su-card"><div class="ix">③ cleanest novelty</div><h5>Phase-cancellation scheduler</h5><div class="r"><b>Claim</b>detect destructive interference between concurrent campaigns; schedule to minimize.</div><div class="r"><b>Test</b>frame as technical scheduling; search ad-pacing prior art.</div><div class="r cpc">G06Q10/0631 · G06Q30/0242</div></div>
-      </div>
-      <div class="su-nofile">
-        <div class="k">Do-not-file — strategy, not inventions (§101-ineligible)</div>
-        <ul>
-          <li><b>YP §5.1–5.5</b> agency tiering · prediction-market preference detection · gamification/passport · performance-guarantee structure · regulatory-partnership strategy</li>
-        </ul>
-        <div class="su-tail">Protect via trade secret (redacted algorithms), trademark (ARCS + names), copyright (papers). Prior-art landmines confirmed live: US9742719B2 (viral prediction), US12160504B2 / US20210143987A1 (federated learning).</div>
-      </div>
-    </div>
-  </div>
-
   <!-- 10 EVALS & FALSIFIABILITY -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">10</div>
+      <div class="section-n">09</div>
       <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">EVALS &amp; FALSIFIABILITY</div>
     </div>
     <div class="section-title">Every headline claim, with the result that would kill it.</div>
@@ -1053,7 +1009,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <!-- 11 THE ARCHAEOLOGY -->
   <div class="section">
     <div class="section-head">
-      <div class="section-n">11</div>
+      <div class="section-n">10</div>
       <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">THE ARCHAEOLOGY</div>
     </div>
     <div class="section-title">Where every pattern lies in the L0–L7 stack.</div>
