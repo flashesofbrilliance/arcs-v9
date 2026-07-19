@@ -176,6 +176,25 @@ pre-register on OSF → build a time-ordered backtest over the receipt corpus �
 report CI-hit / reliability / win-rate against the kill criteria in §Evals. Gated
 on ≥100 real receipts (same gate as ADR-023) — until then, harness scaffolding only.
 
+## 8d. Least-privilege agent scoping (standing rule for all workflows)
+
+A complex fan-out must not hand every agent full read/write/shell/MCP/spawn access.
+Scope each stage to the minimum via `agentType`:
+
+- **Reasoning stages** (synthesis, lenses, judges, verifiers — usually the *majority*
+  of agents) → a **no-tools** agent type (`recoil-reason`: `tools: Read` only). They
+  reason over prompt text; they cannot write, run shell, call MCP, reach the network,
+  or spawn subagents. This is the biggest, safest surface reduction.
+- **Gather / collect stages** that genuinely must touch external systems → the built-in
+  **`Explore`** (read-only: keeps Bash/WebFetch/MCP for collecting, but no Write/Edit
+  and cannot spawn subagents).
+- **Never** run a many-agent workflow on the default `*` agent. Reserve write-capable or
+  worktree-isolated agents for stages that actually mutate files, and only those.
+
+Applied in `recoil-report.mjs`: only the 5 gather agents can touch external systems
+(read-only); all 8+ reasoning agents (profile, 4 lenses, N verifiers, synth) have
+`tools: Read` and nothing else.
+
 ## 8. Guardrails
 
 - Strong-model nodes are the minority of node *count* but the majority of
