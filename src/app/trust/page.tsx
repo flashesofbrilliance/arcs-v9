@@ -69,6 +69,9 @@ export default function TrustPage() {
             body: <>
               Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it. Want to keep one? Sign in and save it — the write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content — only request metadata (timestamps, response codes).
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
+                <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server) — still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
+              </span>
+              <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
                 <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section — 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
               </span>
             </>,
@@ -182,7 +185,7 @@ export default function TrustPage() {
         {/* Footer links */}
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.5rem' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.1 · last updated 2026-06-23</span>
+          <span style={{ fontFamily: mono, fontSize: '0.75rem', color: text.muted }}>Trust contract v1.3 · last updated 2026-07-19</span>
           <div style={{ display: 'flex', gap: '1.25rem' }}>
             <button onClick={() => router.push('/privacy')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Privacy policy</button>
             <button onClick={() => router.push('/terms')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: mono, fontSize: '0.75rem', color: text.muted, textDecoration: 'underline', padding: 0 }}>Terms of service</button>

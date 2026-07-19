@@ -6,6 +6,24 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.9.0] 2026-07-19 — Stateless anonymous brief sharing (ADR-037) + trust-contract v1.3
+
+Anonymous bearings are never persisted (trust contract). Made them shareable **without a server write** by
+encoding the bearing in the URL **fragment** (`/brief/share#<payload>`) — browsers never send it to the
+server, so the recipient recomposes client-side. Preserves "nothing stored / no write path"; does NOT reverse
+ADR-032. Rejected the server-token alternative precisely because it would have.
+
+- `src/lib/shareLink.ts` (encode/decode; **decodeShare sanitizes every field** incl. `reasoning.paths` — the
+  `#payload` is attacker-controllable), `src/app/brief/share/page.tsx` (recipient view, one-view localStorage
+  gate → `/compass?shared=1`, never reads hash into analytics), receipt-page "Share ↗" (ephemeral only),
+  compass `?shared=1` banner.
+- **Governance:** amended the CANONICAL `_CANON/trust-contract.md` → v1.3 (§1 share carve-out + amendment log),
+  then the derived pages (`/trust` v1.3, `/privacy` v1.1). Caught by the `privacy-review` agent, which flagged
+  that the first pass updated only the derived pages — fixed before merge.
+- Branch `claude/anon-share-stateless` (NOT merged). ADR-037 (037 claimed via live `ls`; 035=commit-nci,
+  036=concurrent session's repo-split — no collision). Build+typecheck pass; not yet driven live.
+
+---
 ## [v3.8.0] 2026-07-19 — Token-efficiency audit + downstream fixes (branch `claude/token-efficiency-audit-ip3l3x`, 17 commits, NOT merged)
 
 **Audit:** re-ranked the prior "Sentinel connector strip = #1" recommendation. Measured this repo: CLAUDE.md
