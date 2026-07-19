@@ -82,6 +82,103 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .section-body { font-size: var(--text-md); color: var(--muted); line-height: 1.65; }
 .section-body strong { color: var(--text); font-weight: 600; }
 
+/* ===== State-of-Union movements (sections 08–11) ===== */
+.su-lead { font-size: var(--text-md); color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+.su-lead strong { color: var(--text); font-weight: 600; }
+.su-sub { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan); margin: 18px 0 10px; }
+
+.su-zones { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-top: 8px; }
+.su-zone { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); padding: 13px 15px; border-top: 2px solid var(--zc, var(--faint)); }
+.su-zone-h { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.su-zone-name { font-size: var(--text-md); font-weight: 700; color: var(--zc, var(--text)); }
+.su-zone-count { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--zc); }
+.su-zone-sub { font-family: var(--mono); font-size: 9.5px; color: var(--dimmed); text-transform: uppercase; letter-spacing: 0.08em; margin: 3px 0 8px; }
+.su-zli { font-size: var(--text-sm); color: var(--muted); line-height: 1.4; padding: 5px 0; border-top: 1px solid rgba(30,41,59,0.5); }
+.su-zli:first-of-type { border-top: none; }
+.su-zli b { color: var(--text); font-weight: 600; }
+@media (max-width: 640px){ .su-zones { grid-template-columns: 1fr; } }
+
+.su-alarm { border: 1px solid rgba(255,77,109,0.35); border-left: 3px solid var(--red); border-radius: var(--r-md); background: rgba(255,77,109,0.05); padding: 14px 16px; margin-bottom: 14px; }
+.su-alarm .k { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); display: flex; gap: 8px; flex-wrap: wrap; }
+.su-alarm .k .cd { margin-left: auto; color: #ffb3c1; }
+.su-alarm h4 { font-size: var(--text-md); color: #ffd7de; margin: 7px 0 5px; font-weight: 700; }
+.su-alarm p { font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.su-alarm b { color: #ff8fa3; }
+
+.su-tw { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r-md); margin-top: 6px; }
+table.su-t { border-collapse: collapse; width: 100%; min-width: 560px; font-size: var(--text-sm); }
+table.su-t th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); font-weight: 700; padding: 9px 10px; border-bottom: 1px solid var(--border); background: var(--surface); }
+table.su-t th.n, table.su-t td.sc { text-align: center; }
+table.su-t td { padding: 9px 10px; border-bottom: 1px solid rgba(30,41,59,0.5); vertical-align: top; color: var(--muted); line-height: 1.4; }
+table.su-t tr:last-child td { border-bottom: none; }
+table.su-t td.c { color: var(--text); font-weight: 600; }
+table.su-t td.c small { display: block; font-family: var(--mono); font-size: 9px; color: var(--dimmed); font-weight: 400; margin-top: 2px; }
+table.su-t .rk { font-family: var(--mono); font-weight: 700; text-align: center; color: var(--muted); }
+table.su-t td.sc { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+table.su-t td.kill { color: #ff8fa3; font-family: var(--mono); font-size: 10px; }
+table.su-t td.kill::before { content: "✗ "; color: var(--red); }
+table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 10px; }
+.su-hi { color: var(--green); } .su-md { color: var(--gold); } .su-lo { color: var(--red); }
+.su-v1 { color: var(--green); font-family: var(--mono); font-size: 10px; }
+.su-v2 { color: var(--gold); font-family: var(--mono); font-size: 10px; }
+.su-v3 { color: var(--dimmed); font-family: var(--mono); font-size: 10px; }
+
+.su-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 12px; }
+.su-card { border: 1px solid rgba(0,255,157,0.22); border-radius: var(--r-md); background: var(--surface2); padding: 12px 13px; }
+.su-card .ix { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
+.su-card h5 { font-size: var(--text-sm); color: #eafff6; margin: 4px 0 7px; font-weight: 700; }
+.su-card .r { font-size: var(--text-xs); color: var(--muted); line-height: 1.45; margin: 5px 0; }
+.su-card .r b { display: block; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); margin-bottom: 1px; }
+.su-card .cpc { font-family: var(--mono); font-size: 9px; color: var(--cyan); }
+@media (max-width: 640px){ .su-cards { grid-template-columns: 1fr; } }
+
+.su-nofile { border: 1px dashed var(--faint); border-radius: var(--r-md); padding: 12px 14px; margin-top: 12px; }
+.su-nofile .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 7px; }
+.su-nofile li { font-size: var(--text-xs); color: var(--muted); margin: 4px 0 4px 16px; line-height: 1.4; }
+.su-nofile li b { color: var(--dimmed); font-family: var(--mono); }
+.su-tail { font-size: var(--text-xs); color: var(--dimmed); margin-top: 8px; line-height: 1.5; }
+
+.su-note { border-left: 2px solid var(--cyan); padding: 3px 0 3px 12px; margin-top: 12px; font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.su-note b { display: block; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 3px; }
+.su-note.gold { border-left-color: var(--gold); }
+.su-note.gold b { color: var(--gold); }
+
+.su-icards { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 6px; }
+.su-ic { border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface2); padding: 12px 13px; }
+.su-ic .cat { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 7px; }
+.su-ic.fund { border-color: rgba(0,255,157,0.22); }
+.su-ic.fund .cat { color: var(--green); }
+.su-ic ul { list-style: none; }
+.su-ic li { font-size: var(--text-xs); color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+.su-ic li span { display: block; font-size: 9.5px; color: var(--dimmed); margin-top: 1px; }
+@media (max-width: 640px){ .su-icards { grid-template-columns: 1fr; } }
+
+.su-core { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; margin-top: 8px; background: linear-gradient(180deg,#060b12,#020408); }
+.su-str { display: grid; grid-template-columns: 96px 1fr; border-bottom: 1px solid rgba(30,41,59,0.6); }
+.su-str:last-child { border-bottom: none; }
+.su-sg { padding: 12px 10px 12px 14px; border-right: 1px solid rgba(30,41,59,0.5); position: relative; }
+.su-sg::before { content:""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acc,#64748b); }
+.su-sl { font-family: var(--mono); font-weight: 700; font-size: var(--text-md); color: var(--acc,#cbd5e1); }
+.su-snm { font-size: 10px; color: var(--text); font-weight: 600; margin-top: 2px; line-height: 1.2; }
+.su-sdp { font-family: var(--mono); font-size: 8.5px; color: var(--faint); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 5px; }
+.su-sb { padding: 11px 14px; opacity: var(--fid,1); }
+.su-sgloss { font-size: 10.5px; color: var(--dimmed); margin-bottom: 8px; line-height: 1.4; }
+.su-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.su-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 10.5px; padding: 4px 8px; border-radius: var(--r-sm); border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+.su-chip .tt { font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.05em; padding: 1px 3px; border-radius: 3px; }
+.tt-p { background: rgba(0,240,255,0.14); color: var(--cyan); }
+.tt-m { background: rgba(148,163,184,0.14); color: #94a3b8; }
+.tt-e { background: rgba(255,215,0,0.14); color: var(--gold); }
+.su-chip .d { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.d-s { background: var(--green); } .d-p { background: var(--gold); } .d-b { background: var(--red); } .d-n { background: var(--cyan); } .d-x { background: var(--faint); }
+.su-str.unx .su-sg { border-right-style: dashed; }
+.su-str.unx .su-chip { border-style: dashed; }
+.su-unx { display: inline-block; font-family: var(--mono); font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dimmed); border: 1px dashed var(--faint); border-radius: 3px; padding: 1px 5px; margin-bottom: 7px; }
+.su-leg { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 12px; font-family: var(--mono); font-size: 9px; color: var(--muted); }
+.su-leg span { display: inline-flex; align-items: center; gap: 5px; }
+.su-leg i { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+@media (max-width: 640px){ .su-str { grid-template-columns: 74px 1fr; } }
+
 /* ECHO MAP */
 .echo-rows { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
 .echo-row { display: grid; grid-template-columns: 1fr 34px 1fr; gap: 0; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r-md); }
@@ -762,6 +859,244 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <div class="legend-item"><div class="legend-term">Self-grading loop</div><div class="legend-def">Automation that compares each prediction to the actual outcome and files the result. No human has to remember to run it.</div></div>
       <div class="legend-item"><div class="legend-term">Calibration data</div><div class="legend-def">The growing set of decisions plus scored outcomes. It is the evidence base that tunes the scoring and unlocks the gated features.</div></div>
       <div class="legend-item"><div class="legend-term">Live goal map</div><div class="legend-def">A self-updating picture of what the work is actually driving toward, inferred from real decisions instead of declared in a slide.</div></div>
+    </div>
+  </div>
+
+  <!-- 08 STATE OF THE UNION -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">08</div>
+      <div class="section-label" style="color:var(--green);border-color:rgba(0,255,157,0.35);background:rgba(0,255,157,0.06);">STATE OF THE UNION</div>
+    </div>
+    <div class="section-title">The whole terrain at one glance — shipped, building, blocked, next.</div>
+    <div class="section-body">
+      <p class="su-lead">Section 05 is the short Now/Next/Later. This is the depth: every tracked workstream placed in the fog-to-nucleus terrain. <strong>25 shipped · 6 in progress · 8 blocked · 11 next.</strong></p>
+      <div class="su-zones">
+        <div class="su-zone" style="--zc:var(--green);">
+          <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count">25</span></div>
+          <div class="su-zone-sub">Superionic · full resolution</div>
+          <div class="su-zli"><b>Compass L0–L5 pipeline</b> — the core engine</div>
+          <div class="su-zli"><b>P4 Vercel production</b> — Prisma 7 + Supabase, 9 tables</div>
+          <div class="su-zli"><b>RLS deny-all</b> · Book II canon I–VI · Observatory</div>
+          <div class="su-zli"><b>Design system Ph.1</b> · CI/CD breakers · 13 subdomains</div>
+        </div>
+        <div class="su-zone" style="--zc:var(--gold);">
+          <div class="su-zone-h"><span class="su-zone-name">In progress</span><span class="su-zone-count">6</span></div>
+          <div class="su-zone-sub">Clarity ridge · building</div>
+          <div class="su-zli"><b>Compass Kit Phase 2</b> — kit → app</div>
+          <div class="su-zli"><b>Panel / Chip</b> design-system atoms</div>
+          <div class="su-zli"><b>Drift Sentinel</b> · log consolidation · DEWY commit stamp</div>
+          <div class="su-zli"><b>ADR-013</b> 30-day conversion clock</div>
+        </div>
+        <div class="su-zone" style="--zc:var(--red);">
+          <div class="su-zone-h"><span class="su-zone-name">Blocked / contested</span><span class="su-zone-count">8</span></div>
+          <div class="su-zone-sub">Pressure band · awaiting input</div>
+          <div class="su-zli"><b>Case-study gate</b> · <b>ADR-023 lattice</b> (100-receipt gate)</div>
+          <div class="su-zli"><b>Preview DB URL</b> · password + key rotations</div>
+          <div class="su-zli"><b>Orphaned tables</b> · advisor WARNs · vercel.ts</div>
+        </div>
+        <div class="su-zone" style="--zc:var(--cyan);">
+          <div class="su-zone-h"><span class="su-zone-name">Next / unmapped</span><span class="su-zone-count">11</span></div>
+          <div class="su-zone-sub">Outer fog · orient only</div>
+          <div class="su-zli"><b>Receipt save prompt</b> · <b>Outcome handler</b> (P1 loop-closers)</div>
+          <div class="su-zli"><b>ATG</b> · Kairos detection · GIGI · Stripe gate</div>
+          <div class="su-zli"><b>L6–L7 engine</b> · Vector Collision · operators wire-in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 PATENT PRESSURE-TEST -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">09</div>
+      <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">PATENT PRESSURE-TEST</div>
+    </div>
+    <div class="section-title">What to formalize with the USPTO — and the clock that's running.</div>
+    <div class="section-body">
+      <div class="su-alarm">
+        <div class="k"><span>⚠ Disclosure clock — read first</span><span class="cd">US §102(b) · ~Oct 17 2026</span></div>
+        <h4>The papers are the biggest threat to the patents.</h4>
+        <p>The Yellow Paper published <b>Oct 17 2025 under CC BY 4.0 (public)</b> — starting a one-year US grace period expiring ~Oct 17 2026 (~90 days out). Anything disclosed and not already filed is then barred in the US; <b>ex-US rights (EPO/China absolute novelty) are likely already forfeited</b> unless a priority filing predates the release.</p>
+      </div>
+      <p class="su-lead">11 candidates from the Yellow &amp; White papers, stack-ranked by filing priority — §101 eligibility and novelty gated first. Triage for counsel, not legal advice.</p>
+      <div class="su-tw">
+        <table class="su-t">
+          <thead><tr><th class="n">#</th><th>Candidate</th><th class="n">§101</th><th class="n">Novel</th><th class="n">Strat</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td class="rk">1</td><td class="c">Kairos convergence + window + EV-gate<small>YP Pillar 3 + WP #7</small></td><td class="sc su-md">3.5</td><td class="sc su-md">3.5</td><td class="sc su-hi">4.5</td><td class="su-v1">FORMALIZE — strongest</td></tr>
+            <tr><td class="rk">2</td><td class="c">Ex-ante receipt lock + reconciliation<small>WP #2</small></td><td class="sc su-lo">2.5</td><td class="sc su-md">3.0</td><td class="sc su-hi">5.0</td><td class="su-v1">FORMALIZE — off "blockchain"</td></tr>
+            <tr><td class="rk">3</td><td class="c">Phase-cancellation scheduler<small>WP #6</small></td><td class="sc su-md">3.0</td><td class="sc su-hi">4.0</td><td class="sc su-md">3.5</td><td class="su-v1">FORMALIZE — best novelty</td></tr>
+            <tr><td class="rk">4</td><td class="c">Abductive prediction + uncertainty<small>YP Pillar 1</small></td><td class="sc su-lo">2.0</td><td class="sc su-lo">2.0</td><td class="sc su-hi">4.5</td><td class="su-v2">Narrow claims only</td></tr>
+            <tr><td class="rk">5</td><td class="c">Adaptive coherence (ARCS Law)<small>WP #1</small></td><td class="sc su-lo">2.5</td><td class="sc su-lo">2.5</td><td class="sc su-md">3.0</td><td class="su-v2">Needs concrete control app</td></tr>
+            <tr><td class="rk">6</td><td class="c">Privacy cross-customer learning<small>YP Pillar 4</small></td><td class="sc su-md">3.0</td><td class="sc su-lo">1.5</td><td class="sc su-hi">4.0</td><td class="su-v3">Defensive — crowded</td></tr>
+            <tr><td class="rk">7</td><td class="c">2nd-derivative trend detection<small>WP #4</small></td><td class="sc su-lo">2.5</td><td class="sc su-lo">1.5</td><td class="sc su-md">3.0</td><td class="su-v3">Pressure hardest → drop</td></tr>
+            <tr><td class="rk">8–11</td><td class="c">Wave-diffusion · rhetorical/wavefunction · chemical-bonding · decelerator<small>WP #9/#5/#11/#8/#10</small></td><td class="sc su-lo">≤2</td><td class="sc su-lo">≤2</td><td class="sc su-lo">low</td><td class="su-v3">Likely drop</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="su-cards">
+        <div class="su-card"><div class="ix">① strongest</div><h5>Kairos convergence engine</h5><div class="r"><b>Claim</b>cross-domain convergence (≥3σ) → window estimate → EV-gated activation.</div><div class="r"><b>Cut</b>the "energetic catalysis" metaphor — §112/§101 liability.</div><div class="r cpc">G06F9/50 · G06Q10/04 · H04L67/10</div></div>
+        <div class="su-card"><div class="ix">② highest value</div><h5>Ex-ante receipt lock</h5><div class="r"><b>Real hook</b>commit prediction before spend, reconcile to outcome — not "records on a blockchain."</div><div class="r"><b>Test</b>§101: Bprotocol v. Uniswap (2026) kills economic-practice-on-chain.</div><div class="r cpc">G06F21/64 · H04L9/50</div></div>
+        <div class="su-card"><div class="ix">③ cleanest novelty</div><h5>Phase-cancellation scheduler</h5><div class="r"><b>Claim</b>detect destructive interference between concurrent campaigns; schedule to minimize.</div><div class="r"><b>Test</b>frame as technical scheduling; search ad-pacing prior art.</div><div class="r cpc">G06Q10/0631 · G06Q30/0242</div></div>
+      </div>
+      <div class="su-nofile">
+        <div class="k">Do-not-file — strategy, not inventions (§101-ineligible)</div>
+        <ul>
+          <li><b>YP §5.1–5.5</b> agency tiering · prediction-market preference detection · gamification/passport · performance-guarantee structure · regulatory-partnership strategy</li>
+        </ul>
+        <div class="su-tail">Protect via trade secret (redacted algorithms), trademark (ARCS + names), copyright (papers). Prior-art landmines confirmed live: US9742719B2 (viral prediction), US12160504B2 / US20210143987A1 (federated learning).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 EVALS & FALSIFIABILITY -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">10</div>
+      <div class="section-label" style="color:var(--gold);border-color:rgba(255,215,0,0.35);background:rgba(255,215,0,0.06);">EVALS &amp; FALSIFIABILITY</div>
+    </div>
+    <div class="section-title">Every headline claim, with the result that would kill it.</div>
+    <div class="section-body">
+      <p class="su-lead">The papers make sharp numeric claims — so each is falsifiable. Publishing the tests turns marketing numbers into defensible science and de-risks both the patents and the raise.</p>
+      <div class="su-tw">
+        <table class="su-t">
+          <thead><tr><th>Claim</th><th class="n">Metric</th><th>Pre-registered test</th><th>Kill criterion</th></tr></thead>
+          <tbody>
+            <tr><td class="c">Accuracy scales with receipts<small>YP §2.4</small></td><td class="metric">68→87%</td><td>Time-ordered backtest at 1k/10k/100k; CI vs actuals</td><td class="kill">flat or &lt;80% at 100k</td></tr>
+            <tr><td class="c">Honest calibration<small>YP §2.4</small></td><td class="metric">χ² p&lt;.01</td><td>Reliability diagram + Brier score</td><td class="kill">curve off diagonal</td></tr>
+            <tr><td class="c">Beats human experts<small>YP §2.4</small></td><td class="metric">76%</td><td>Blinded head-to-head on unseen briefs</td><td class="kill">win rate ≤ 50%</td></tr>
+            <tr><td class="c">2nd-deriv predicts cascades<small>WP §2.1</small></td><td class="metric">78%@24h</td><td>Labeled backtest, 10k events vs velocity baseline</td><td class="kill">no lift; lead ≤ 0</td></tr>
+            <tr><td class="c">Phase-cancel lifts ROAS<small>WP §2.1</small></td><td class="metric">+35%</td><td>Randomized A/B: optimized vs naïve spacing</td><td class="kill">ROAS delta CI crosses 0</td></tr>
+            <tr><td class="c">Network effect A(N) log<small>YP §6.2</small></td><td class="metric">λ≈1.2e-5</td><td>Fit across cohorts; forecast held-out cohort</td><td class="kill">fails held-out within CI</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="su-note"><b>Make evals credible before publishing</b>Pre-register each design on OSF or AsPredicted (hypothesis, primary endpoint, kill criterion) before looking at outcomes; one endpoint per claim, multiplicity-corrected; release the backtest harness + de-identified receipts so results replicate.</div>
+      <div class="su-sub">Peer review · collaborators · funding</div>
+      <div class="su-icards">
+        <div class="su-ic"><div class="cat">Peer review</div><ul>
+          <li>Marketing Science / JMR<span>abductive marketing, network effects</span></li>
+          <li>KDD · WWW · NeurIPS<span>prediction, federated, causal ML</span></li>
+          <li>Management Science<span>decision-receipt framing</span></li>
+          <li>arXiv · SSRN<span>preprint — dated public record</span></li>
+        </ul></div>
+        <div class="su-ic"><div class="cat">Institutes</div><ul>
+          <li>Marketing Science Institute<span>funds academic marketing research</span></li>
+          <li>Ehrenberg-Bass<span>evidence-based marketing — direct fit</span></li>
+          <li>Wharton Customer Analytics<span>corporate-data competitions</span></li>
+          <li>MIT IDE · Stanford HAI<span>platform economics + AI eval</span></li>
+        </ul></div>
+        <div class="su-ic fund"><div class="cat">Funding — non-dilutive</div><ul>
+          <li>NSF SBIR/STTR<span>America's Seed Fund; deep tech</span></li>
+          <li>NSF CISE / Convergence<span>research grant w/ academic PI</span></li>
+          <li>Sloan Foundation<span>metascience, digital economics</span></li>
+          <li>Schmidt Sciences · NBER<span>AI-for-science; working papers</span></li>
+        </ul></div>
+      </div>
+      <div class="su-note gold"><b>Sequencing</b>File the Tier-1 provisionals (or confirm existing filings) <strong>before</strong> the arXiv/SSRN preprint — a preprint is a public disclosure that restarts the same §102 clock. Patent first, publish second, then approach institutes and grant programs with a dated filing + a pre-registered eval in hand.</div>
+    </div>
+  </div>
+
+  <!-- 11 THE ARCHAEOLOGY -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-n">11</div>
+      <div class="section-label" style="color:var(--steel);border-color:rgba(125,211,252,0.35);background:rgba(125,211,252,0.06);">THE ARCHAEOLOGY</div>
+    </div>
+    <div class="section-title">Where every pattern lies in the L0–L7 stack.</div>
+    <div class="section-body">
+      <p class="su-lead">The patterns aren't at one depth. This is the core sample: each pattern — patent, roadmap item, or eval — embedded at the L-stratum it operates in, from atomic signal at the surface to the unexcavated meta-governance mantle. Fidelity is earned; L6–L7 not yet excavated.</p>
+      <div class="su-core">
+        <div class="su-str" style="--acc:#00F0FF;--fid:1;">
+          <div class="su-sg"><div class="su-sl">L0</div><div class="su-snm">Atomic signal</div><div class="su-sdp">Topsoil</div></div>
+          <div class="su-sb"><div class="su-sgloss">Raw derivatives — velocity, acceleration.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-p"></span>Derivative primitives</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-x"></span>2nd-deriv detect · drop</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Cascade 78%@24h</span>
+          </div></div>
+        </div>
+        <div class="su-str" style="--acc:#35E0D0;--fid:1;">
+          <div class="su-sg"><div class="su-sl">L1</div><div class="su-snm">Coherence</div><div class="su-sdp">Subsoil</div></div>
+          <div class="su-sb"><div class="su-sgloss">Does a single signal hold together? The Y-gate's first read.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>Y-gate engine</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>Design system</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-p"></span>Adaptive coherence · narrow</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Calibration χ²</span>
+          </div></div>
+        </div>
+        <div class="su-str" style="--acc:#45D0A0;--fid:.97;">
+          <div class="su-sg"><div class="su-sl">L2</div><div class="su-snm">Path survivability</div><div class="su-sdp">Sediment</div></div>
+          <div class="su-sb"><div class="su-sgloss">Does the move survive being wrong? Risk, ruin, the BAR edge.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>RLS gate</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>BAR / ruin</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>CI/CD breakers</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Stripe / COURT gate</span>
+          </div></div>
+        </div>
+        <div class="su-str" style="--acc:#00FF9D;--fid:.95;">
+          <div class="su-sg"><div class="su-sl">L3</div><div class="su-snm">Cascade</div><div class="su-sdp">Bedrock approach</div></div>
+          <div class="su-sb"><div class="su-sgloss">How signals propagate, interfere, and cancel across a network.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Phase-cancellation · formalize</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-x"></span>Wave-diffusion · drop</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Phase-cancel A/B</span>
+          </div></div>
+        </div>
+        <div class="su-str" style="--acc:#9BE85C;--fid:.92;">
+          <div class="su-sg"><div class="su-sl">L4</div><div class="su-snm">Cross-domain</div><div class="su-sdp">Deep rock</div></div>
+          <div class="su-sb"><div class="su-sgloss">Timing and isomorphism across domains — kairos, orthogonal echo.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Kairos convergence · #1</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>ATG tributaries</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Kairos detect · gated</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Orthogonal Echo</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Vector Collision</span>
+          </div></div>
+        </div>
+        <div class="su-str" style="--acc:#FFD700;--fid:.9;">
+          <div class="su-sg"><div class="su-sl">L5</div><div class="su-snm">Global coherence</div><div class="su-sdp">Mantle boundary</div></div>
+          <div class="su-sb"><div class="su-sgloss">The receipt layer — decisions locked, reconciled, compounded. The moat lives here.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-n"></span>Ex-ante receipt · #2</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-p"></span>Abductive · narrow</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-b"></span>Privacy learning · defensive</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>Compass pipeline</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-s"></span>Observatory</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Receipt save prompt</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>Outcome handler</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>ADR-023 lattice · gated</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Accuracy 68→87%</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Network A(N)</span>
+            <span class="su-chip"><span class="tt tt-e">EVAL</span><span class="d d-n"></span>Beats experts</span>
+          </div></div>
+        </div>
+        <div class="su-str unx" style="--acc:#64748b;--fid:.62;">
+          <div class="su-sg"><div class="su-sl">L6</div><div class="su-snm">Ecosystem</div><div class="su-sdp">Unexcavated</div></div>
+          <div class="su-sb"><span class="su-unx">Not yet excavated</span><div class="su-sgloss">Multi-party coherence — the ecosystem beyond one decider.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>L6 ecosystem engine</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>GIGI substrate</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Shared Court (canon)</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-x"></span>Rhetorical/wavefunction · drop</span>
+          </div></div>
+        </div>
+        <div class="su-str unx" style="--acc:#475569;--fid:.5;">
+          <div class="su-sg"><div class="su-sl">L7</div><div class="su-snm">Meta-governance</div><div class="su-sdp">Mantle</div></div>
+          <div class="su-sb"><span class="su-unx">Not yet excavated</span><div class="su-sgloss">The constitution — what governs the governor. NOTOMATION lives here.</div><div class="su-chips">
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-n"></span>L7 meta-governance</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-b"></span>Constitutional Court</span>
+            <span class="su-chip"><span class="tt tt-m">MAP</span><span class="d d-p"></span>NOTOMATION / drift sentinel</span>
+            <span class="su-chip"><span class="tt tt-p">PAT</span><span class="d d-x"></span>Strategy · do-not-file</span>
+          </div></div>
+        </div>
+      </div>
+      <div class="su-leg">
+        <span><span class="tt tt-p" style="padding:1px 3px;border-radius:3px;">PAT</span> patent</span>
+        <span><span class="tt tt-m" style="padding:1px 3px;border-radius:3px;">MAP</span> roadmap</span>
+        <span><span class="tt tt-e" style="padding:1px 3px;border-radius:3px;">EVAL</span> test</span>
+        <span><i class="d-s"></i> shipped</span>
+        <span><i class="d-p"></i> in progress / narrow</span>
+        <span><i class="d-b"></i> blocked / gated</span>
+        <span><i class="d-n"></i> next / formalize</span>
+        <span><i class="d-x"></i> drop</span>
+      </div>
     </div>
   </div>
 
