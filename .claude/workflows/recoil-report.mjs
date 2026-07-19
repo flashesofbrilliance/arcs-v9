@@ -83,7 +83,9 @@ const gathered = (await parallel(GATHER.map(g => () =>
     `Gather signals about ${subject} from ${g.tool}. Focus: ${g.what}. ` +
     `Use ToolSearch to load the tool if needed. If the source is unavailable or empty, return available:false — do not fabricate. ` +
     `Return raw observed signals only, no interpretation.`,
-    { label: `gather:${g.key}`, phase: 'Gather', model: 'haiku', effort: 'low', schema: SIGNALS }
+    // Least-privilege: gather must read external systems (MCP/git/web) but is
+    // scoped read-only — Explore has no Write/Edit and cannot spawn subagents.
+    { label: `gather:${g.key}`, phase: 'Gather', agentType: 'Explore', model: 'haiku', effort: 'low', schema: SIGNALS }
   ).then(r => (r ? { ...r, source: g.key } : null))
 ))).filter(Boolean).filter(r => r.available)
 
@@ -95,7 +97,7 @@ const profile = await agent(
   `Merge these blind, independently-gathered signal sets about ${subject} into one coherent read. ` +
   `Note where sources corroborate vs conflict. Do not over-interpret single-source signals.\n\n` +
   JSON.stringify(gathered, null, 2),
-  { label: 'profile', phase: 'Profile', model: 'sonnet', effort: 'medium', schema: PROFILE }
+  { label: 'profile', phase: 'Profile', agentType: 'recoil-reason', model: 'sonnet', effort: 'medium', schema: PROFILE }
 )
 
 // ---- 3. Lenses (Sonnet, parallel) → 4. Verify (Opus, per claim) ----
@@ -105,7 +107,7 @@ const verified = await pipeline(
   lens => agent(
     `Analyze ${subject} through the ${lens.key} lens: ${lens.prompt}\n\nProfile:\n${JSON.stringify(profile)}\n\n` +
     `Produce specific, falsifiable claims with evidence. Confidence 0-1. No flattery, no hedging.`,
-    { label: `lens:${lens.key}`, phase: 'Lenses', model: 'sonnet', effort: 'high', schema: CLAIMS }
+    { label: `lens:${lens.key}`, phase: 'Lenses', agentType: 'recoil-reason', model: 'sonnet', effort: 'high', schema: CLAIMS }
   ),
   (result) => {
     const lens = result && result.lens ? result.lens : '?'
@@ -115,7 +117,7 @@ const verified = await pipeline(
         agent(
           `Try hard to REFUTE this claim about ${subject}. Default to refuted:true if the evidence is thin, single-source, ` +
           `affect-driven, or an over-generalization. Claim: "${c.claim}"\nEvidence: "${c.evidence}"`,
-          { label: `verify:${lens}#${i}`, phase: 'Verify', model: 'opus', effort: 'high', schema: VERDICT }
+          { label: `verify:${lens}#${i}`, phase: 'Verify', agentType: 'recoil-reason', model: 'opus', effort: 'high', schema: VERDICT }
         )
       )).then(votes => {
         const refutations = votes.filter(Boolean).filter(v => v.refuted).length
@@ -137,7 +139,7 @@ const report = await agent(
   `refutation attempts. Render at earned fidelity: state confidence, cite which lens and evidence backs each point, and ` +
   `explicitly note what was dropped and why. Tone: calm, precise, instrument-register (WORLD.md).\n\n` +
   `CONFIRMED:\n${JSON.stringify(confirmed, null, 2)}\n\nDROPPED (for the audit trail):\n${JSON.stringify(dropped, null, 2)}`,
-  { label: 'synthesize', phase: 'Synthesize', model: 'opus', effort: 'high' }
+  { label: 'synthesize', phase: 'Synthesize', agentType: 'recoil-reason', model: 'opus', effort: 'high' }
 )
 
 return { subject, report, confirmed, dropped, sources: gathered.map(g => g.source) }
