@@ -147,9 +147,14 @@ rather than as a gate that can HOLD the pipeline before synthesis.
 L4 (in impl): NCI meta-review — honest epistemic confidence 0–100.
 ```
 
-IMPL NOTE: The implementation collapses NCI to a single integer (`nci_score: 0–100`) generated
-by Claude's self-assessment. There is no per-lens breakdown, no cadence lens sourced from
-the time-quality-attribution-rom.json, and no HOLD gate at NCI < 40. The score is used
+IMPL NOTE (updated 2026-07-19): The implementation now emits BOTH the composite `nci_score` (0–100,
+Claude's holistic self-assessment — authoritative) AND the spec's 5-lens `nci_by_lens`
+(clarity/conviction/coherence/consequence/cadence, 0–20 each) + `nci_grade`, persisted to the
+`nciByLens`/`nciGrade` columns. `composite` is authoritative and `by_lens` tracks it (sum ≈ composite)
+rather than being an exact sum — see the schema-doc amendment for why (avoids shifting live composite
+semantics). Still deferred: the cadence lens is Claude-estimated, NOT yet sourced from
+time-quality-attribution-rom.json; and there is no HOLD gate at NCI < 40 (a separate pipeline-behavior
+decision). The composite is used
 for `render_resolution` calculation but does not gate the pipeline. NCI is at stage L4 in the
 implementation (one slot later than spec).
 
@@ -220,7 +225,9 @@ Receipt persisted with full DEWY fields. render_resolution computed from yGate.
 IMPL NOTE: Receipt persistence is implemented and covers the majority of the spec schema.
 The `dewy-receipt-schema-v1.json` is the source of truth; Prisma schema was aligned in Issue #2.
 Gaps vs. spec:
-- `nci_score` is a single integer, not the per-lens object the spec defines
+- `nci_score` composite + the 5-lens `nci_by_lens`/`nci_grade` are now BOTH emitted and persisted
+  (2026-07-19); remaining gap is only that the cadence lens is Claude-estimated, not yet sourced from
+  `time-quality-attribution-rom.json`
 - `inferred_fields[]` not populated (would require L0–L2 HOLD logic to be wired)
 - `collision_fields[]` not populated
 - `macros_run[]` not populated (implied from `macroTags` but not the same field)

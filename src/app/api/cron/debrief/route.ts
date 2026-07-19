@@ -132,7 +132,5 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  console.log(`[CRON DEBRIEF] swept ${candidates.length} candidates, ${results.filter((r) => r.ok).length} sent/scheduled`)
-
   return NextResponse.json({ ok: true, swept: candidates.length, results })
 }

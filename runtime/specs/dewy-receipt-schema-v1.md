@@ -316,7 +316,7 @@ A PASS receipt at SHARP resolution looks like:
 - [ ] HOLD receipts carry only: `receipt_id`, `surface`, `version`, `validation_state`, `hold_reason`, `blocking_question`, `session_ts`
 - [ ] REJECT receipts carry only: `receipt_id`, `surface`, `version`, `validation_state`, `reject_reason`, `session_ts`
 - [ ] `render_resolution` (top-level) === `y_gate_score.render_resolution` on all receipts
-- [ ] `nci_score.composite` is the arithmetic sum of the five `by_lens` values
+- [ ] `nci_score.composite` tracks the five `by_lens` values (sum ≈ composite). **Amended 2026-07-19:** the impl treats `composite` (Claude's holistic 0–100) as authoritative and `by_lens` as an honest decomposition that tracks it, rather than forcing an exact arithmetic sum — an exact-sum constraint would have changed the live composite's semantics/distribution (render_resolution, thresholds, historical comparability). See ADR reconciliation note in the flow doc.
 - [ ] All array fields are stored as JSON-stringified TEXT in SQLite (never as Prisma `Json` type)
 - [ ] `receipt_id` matches the pattern `ARCS-ORIENT-[ISO8601]-[8-char hash]`
 - [ ] `loki` is always present on PASS receipts regardless of PrepSession state
