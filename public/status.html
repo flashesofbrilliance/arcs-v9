@@ -633,7 +633,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div id="su-stamp" style="font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:0.04em;margin:-8px 0 16px;">Open work live from GitHub Issues · shipped is cumulative · loading…</div>
       <div class="su-zones">
         <div class="su-zone" style="--zc:var(--green);">
-          <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count">25</span></div>
+          <div class="su-zone-h"><span class="su-zone-name">Shipped &amp; locked</span><span class="su-zone-count" id="su-z-ship">25</span></div>
           <div class="su-zone-sub">Superionic · full resolution</div>
           <div class="su-zli"><b>Compass L0–L5 pipeline</b> — the core engine</div>
           <div class="su-zli"><b>P4 Vercel production</b> — Prisma 7 + Supabase, 9 tables</div>
@@ -1598,21 +1598,21 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     if (s < 86400) return Math.floor(s / 3600) + "h ago";
     return Math.floor(s / 86400) + "d ago";
   }
-  // Curated cumulative baseline: most shipped workstreams (Compass pipeline, P4,
-  // RLS, Book II…) predate the issue tracker, so "shipped" is NOT derived from
-  // closed issues (that would badly undercount). The three OPEN buckets below
-  // are live from GitHub Issues; the stamp declares exactly what's live vs curated.
-  var SHIP_BASELINE = 25;
-  function applyIssues(ip, bl, nx, truncated) {
-    ip = ip || 0; bl = bl || 0; nx = nx || 0;
-    var total = SHIP_BASELINE + ip + bl + nx;
-    set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
-    set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
-    set("su-z-prog", ip); set("su-z-block", bl); set("su-z-next", nx);
+  // Every bucket is live from GitHub Issues: shipped = closed-completed issues,
+  // the other three = open issues by status label. SHIP_FALLBACK is only used if
+  // the pulse payload lacks a shipped count (older cache / API hiccup) so the bar
+  // never renders empty.
+  var SHIP_FALLBACK = 25;
+  function applyIssues(shipped, ip, bl, nx, truncated) {
+    shipped = (shipped == null ? SHIP_FALLBACK : shipped); ip = ip || 0; bl = bl || 0; nx = nx || 0;
+    var total = shipped + ip + bl + nx;
+    set("su-lead-ship", shipped); set("su-lead-prog", ip); set("su-lead-block", bl); set("su-lead-next", nx); set("su-lead-total", total);
+    set("su-lab-ship", shipped); set("su-lab-prog", ip); set("su-lab-block", bl); set("su-lab-next", nx);
+    set("su-z-ship", shipped); set("su-z-prog", ip); set("su-z-block", bl); set("su-z-next", nx);
     function seg(id, n) { var e = $(id); if (e) e.style.width = (total ? (n / total * 100).toFixed(1) : 0) + "%"; }
-    seg("su-bar-ship", SHIP_BASELINE); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
-    var floor = truncated ? " (100+ open — floor)" : "";
-    set("su-stamp", "Open work live from GitHub Issues" + floor + " · " + ip + " in progress · " + bl + " blocked · " + nx + " next · shipped (" + SHIP_BASELINE + ") is cumulative · as of " + new Date().toLocaleTimeString());
+    seg("su-bar-ship", shipped); seg("su-bar-prog", ip); seg("su-bar-block", bl); seg("su-bar-next", nx);
+    var floor = truncated ? " · 100+ issues (floor)" : "";
+    set("su-stamp", "Whole board live from GitHub Issues" + floor + " · " + shipped + " shipped · " + ip + " in progress · " + bl + " blocked · " + nx + " next · as of " + new Date().toLocaleTimeString());
   }
   async function loadCommits() {
     try {
@@ -1651,16 +1651,19 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   }
   async function loadIssues() {
     try {
-      var r = await fetch(API + "/issues?state=open&per_page=100", H);
+      var r = await fetch(API + "/issues?state=all&per_page=100", H);
       if (!r.ok) throw 0;
       var d = await r.json();
       var has = function (i, l) { return (i.labels || []).some(function (x) { return (typeof x === "string" ? x : x.name) === l; }); };
       var arr = d.filter(function (i) { return !i.pull_request; });
+      var openArr = arr.filter(function (i) { return i.state === "open"; });
+      var shipped = arr.filter(function (i) { return i.state === "closed" && i.state_reason !== "not_planned"; }).length;
       var link = r.headers.get("Link");
       applyIssues(
-        arr.filter(function (i) { return has(i, "in-progress"); }).length,
-        arr.filter(function (i) { return has(i, "blocked"); }).length,
-        arr.filter(function (i) { return has(i, "next"); }).length,
+        shipped,
+        openArr.filter(function (i) { return has(i, "in-progress"); }).length,
+        openArr.filter(function (i) { return has(i, "blocked"); }).length,
+        openArr.filter(function (i) { return has(i, "next"); }).length,
         !!(link && /rel="next"/.test(link))
       );
     } catch (e) { set("su-stamp", "Live issue sync unavailable · showing last-authored snapshot"); }
@@ -1670,7 +1673,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
     if (typeof p.commitsTotal === "number") { var n = p.commitsTotal.toLocaleString(); set("pl-count", n); set("sv-commits", n); }
     if (typeof p.prsOpen === "number") { set("pl-prs", String(p.prsOpen)); set("pl-prs-sub", p.prTop ? ("#" + p.prTop.number + " " + p.prTop.title.slice(0, 30)) : "none open"); }
     if (p.deploy) { set("pl-deploy", String(p.deploy.state).toUpperCase()); set("pl-deploy-when", rel(p.deploy.date)); var e = $("pl-deploy"); if (e) e.style.color = p.deploy.state === "success" ? "var(--green)" : (p.deploy.state === "failure" || p.deploy.state === "error") ? "var(--red)" : "var(--gold)"; }
-    if (p.issues) applyIssues(p.issues.inProgress, p.issues.blocked, p.issues.next, p.issues.truncated);
+    if (p.issues) applyIssues(p.issues.shipped, p.issues.inProgress, p.issues.blocked, p.issues.next, p.issues.truncated);
   }
   async function all() {
     try {
