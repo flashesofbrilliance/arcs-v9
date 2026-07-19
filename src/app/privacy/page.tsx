@@ -17,6 +17,7 @@ const ALWAYS = [
 
 const SOMETIMES = [
   { what: 'Receipts stored', trigger: 'Only when you sign in' },
+  { what: 'A shared bearing travels in the link, not our DB', trigger: 'Only if you create a one-time share link — content is encoded in the URL fragment (never sent to us); a functional flag on the recipient device enforces one view' },
   { what: 'Email contact', trigger: 'Only if you provided an address' },
   { what: 'Legal disclosure of your data', trigger: 'Only under valid legal compulsion — we notify you if permitted' },
   { what: 'Session logs (request metadata, no content)', trigger: 'Standard infra logging — purged after 30 days' },

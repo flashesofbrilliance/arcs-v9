@@ -13,6 +13,7 @@ import { ConvictionSidebar } from "@/molecules/ConvictionSidebar"
 import { SequenceLoader } from "@/molecules/SequenceLoader"
 import { ReflectLayer } from "@/organisms/ReflectLayer"
 import type { CompassResult } from "@/lib/mockCompass"
+import { encodeShare } from "@/lib/shareLink"
 
 function safeParse<T>(v: unknown, fallback: T): T {
   if (typeof v !== "string") return (v as T) ?? fallback
@@ -57,6 +58,7 @@ export default function ReceiptPage() {
   // /api/brief/[receiptId] already recovers tributaries from the receipt's
   // stored rawResponse (see that route) — just wasn't read here before.
   const [tributaries, setTributaries] = useState<CompassResult["tributaries"]>([])
+  const [shareCopied, setShareCopied] = useState(false)
 
   useEffect(() => {
     if (isEphemeral) {
@@ -155,6 +157,18 @@ export default function ReceiptPage() {
     },
   }
 
+  // One-time stateless share (ADR-037): encode the bearing into a URL fragment so it
+  // recomposes in the recipient's browser with NO server write. Only offered for
+  // ephemeral (anonymous) bearings — persisted receipts already have a real /brief link.
+  const shareOneTime = async () => {
+    try {
+      const url = `${window.location.origin}/brief/share#${encodeShare(compassResult)}`
+      await navigator.clipboard.writeText(url)
+      setShareCopied(true)
+      setTimeout(() => setShareCopied(false), 3000)
+    } catch { /* clipboard blocked — no-op */ }
+  }
+
   const page = (
       <main style={{ minHeight: "100vh", background: surface.bg, color: text.primary }}>
         {/* Header — Wordmark + Rule, matching home/history/brief pattern */}
@@ -164,6 +178,7 @@ export default function ReceiptPage() {
             {isEphemeral
               ? <Button variant="ghost" size="sm" onClick={() => router.push("/dashboard")}>← Compass</Button>
               : <Button variant="ghost" size="sm" onClick={() => router.push("/history")}>← Ledger</Button>}
+            {isEphemeral && <Button variant="ghost" size="sm" onClick={shareOneTime}>{shareCopied ? "One-time link copied ✓" : "Share ↗"}</Button>}
             {hasBrief && <Button variant="ghost" size="sm" onClick={() => router.push(`/brief/${receiptId}`)}>Brief →</Button>}
           </div>
         </div>
