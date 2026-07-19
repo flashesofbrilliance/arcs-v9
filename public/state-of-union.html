@@ -232,6 +232,58 @@
   .icard.fund .cat { color: var(--green); }
   .icard.fund .cat::before { background: var(--green); box-shadow: 0 0 8px rgba(0,255,157,0.6); }
 
+  /* ---- Strata / archaeology cross-section ---- */
+  .strata { margin-top: 54px; border-top: 1px solid var(--border); padding-top: 30px; }
+  .strata h2 { font-size: 13px; font-family: var(--mono); letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed); font-weight: 500; margin: 0 0 6px; }
+  .strata .lead { color: var(--muted); font-size: 13px; max-width: 76ch; margin: 0 0 8px; }
+  .strata .axis-note { font-family: var(--mono); font-size: 10.5px; color: var(--faint); letter-spacing: 0.04em; margin: 0 0 20px; display: flex; align-items: center; gap: 8px; }
+  .strata .axis-note b { color: var(--cyan); font-weight: 500; }
+
+  .core { border: 1px solid var(--border-soft); border-radius: 12px; overflow: hidden; background: linear-gradient(180deg, #060b12 0%, #04070d 55%, #020408 100%); }
+  .stratum { position: relative; display: grid; grid-template-columns: 116px 1fr; gap: 0; border-bottom: 1px solid rgba(30,41,59,0.6); }
+  .stratum:last-child { border-bottom: none; }
+  /* grain overlay, intensifies with depth via per-layer opacity var */
+  .stratum::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 3px);
+    opacity: var(--grain, 0); }
+
+  .st-gutter { padding: 15px 12px 15px 16px; border-right: 1px solid rgba(30,41,59,0.5); position: relative; }
+  .st-gutter::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--acc, #64748b); box-shadow: 0 0 12px -2px var(--acc, transparent); }
+  .st-l { font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--acc, #cbd5e1); letter-spacing: 0.04em; }
+  .st-name { font-size: 11px; color: var(--text); font-weight: 600; margin-top: 2px; line-height: 1.25; }
+  .st-depth { font-family: var(--mono); font-size: 9px; color: var(--faint); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+
+  .st-body { padding: 13px 16px 14px; opacity: var(--fid, 1); }
+  .st-gloss { font-size: 11px; color: var(--dimmed); margin: 0 0 10px; line-height: 1.4; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; line-height: 1.2; padding: 5px 9px 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); }
+  .chip .tt { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; padding: 1px 4px; border-radius: 3px; font-weight: 700; }
+  .tt-pat { background: rgba(0,240,255,0.14); color: var(--cyan); }
+  .tt-map { background: rgba(148,163,184,0.14); color: #94a3b8; }
+  .tt-eval { background: rgba(255,215,0,0.14); color: var(--gold); }
+  /* status dot on chips */
+  .chip .sd { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+  .sd-ship { background: var(--green); box-shadow: 0 0 6px rgba(0,255,157,0.6); }
+  .sd-prog { background: var(--gold); box-shadow: 0 0 6px rgba(255,215,0,0.5); }
+  .sd-block{ background: var(--red);  box-shadow: 0 0 6px rgba(255,77,109,0.5); }
+  .sd-next { background: var(--cyan); }
+  .sd-drop { background: var(--faint); }
+
+  .stratum.unex { }
+  .stratum.unex .st-gutter { border-right-style: dashed; }
+  .stratum.unex .st-body { }
+  .stratum.unex .chip { border-style: dashed; opacity: 0.85; }
+  .unex-tag { display: inline-block; font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dimmed); border: 1px dashed var(--faint); border-radius: 3px; padding: 2px 6px; margin-bottom: 9px; }
+
+  .strata-legend { display: flex; flex-wrap: wrap; gap: 16px 22px; margin-top: 16px; font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.02em; }
+  .strata-legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+  @media (max-width: 700px) {
+    .stratum { grid-template-columns: 84px 1fr; }
+    .st-gutter { padding: 12px 8px 12px 12px; }
+    .st-l { font-size: 13px; }
+  }
+
   @media (max-width: 900px) {
     .pcards, .icards { grid-template-columns: 1fr; }
     .nofile ul { columns: 1; }
@@ -624,6 +676,151 @@
     <div class="prereg" style="border-left-color: var(--gold);">
       <b style="color: var(--gold);">Sequencing note</b>
       File the Tier-1 provisionals (or confirm existing filings) <em>before</em> the arXiv/SSRN preprint — a preprint is a public disclosure that restarts the same §102 clock flagged above. Patent first, publish second, then approach institutes and grant programs with a dated filing + a pre-registered eval already in hand.
+    </div>
+  </section>
+
+  <!-- STRATA / ARCHAEOLOGY CROSS-SECTION -->
+  <section class="strata">
+    <h2>The archaeology — where every pattern lies in the stack</h2>
+    <p class="lead">The patterns aren't at one depth. A flat table hides that. This is the core sample: each pattern — patent, roadmap item, or eval — embedded at the L-stratum it actually operates in, from atomic signal at the surface down to the unexcavated meta-governance mantle.</p>
+    <p class="axis-note"><b>Depth axis:</b> the ARCS L0–L7 cognition stack &nbsp;·&nbsp; fidelity is earned — sharp topsoil, grain at depth &nbsp;·&nbsp; L6–L7 not yet excavated</p>
+
+    <div class="core">
+
+      <!-- L0 -->
+      <div class="stratum" style="--acc:#00F0FF; --fid:1; --grain:0;">
+        <div class="st-gutter"><div class="st-l">L0</div><div class="st-name">Atomic signal</div><div class="st-depth">Topsoil · 0m</div></div>
+        <div class="st-body">
+          <p class="st-gloss">Raw derivatives — velocity, acceleration. The rawest read of change.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-prog"></span>Derivative primitive stack</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>Compass L0 signal ingest</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>2nd-derivative trend detect · drop</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>Decelerator retirement · drop</span>
+            <span class="chip"><span class="tt tt-eval">EVAL</span><span class="sd sd-next"></span>Viral cascade 78%@24h</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L1 -->
+      <div class="stratum" style="--acc:#35E0D0; --fid:1; --grain:0.15;">
+        <div class="st-gutter"><div class="st-l">L1</div><div class="st-name">Coherence</div><div class="st-depth">Subsoil</div></div>
+        <div class="st-body">
+          <p class="st-gloss">Does a single signal hold together? The Y-gate's first read.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>Y-gate coherence engine</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>Design system (tokens/atoms)</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-prog"></span>Adaptive coherence (ARCS Law) · narrow</span>
+            <span class="chip"><span class="tt tt-eval">EVAL</span><span class="sd sd-next"></span>Calibration χ² p&lt;0.01</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L2 -->
+      <div class="stratum" style="--acc:#45D0A0; --fid:0.97; --grain:0.25;">
+        <div class="st-gutter"><div class="st-l">L2</div><div class="st-name">Path survivability</div><div class="st-depth">Sediment</div></div>
+        <div class="st-body">
+          <p class="st-gloss">Does the move survive being wrong? Risk, ruin, the BAR edge.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>RLS deny-all gate</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>BAR / ruin edge (operators)</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>CI/CD circuit breakers</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>Stripe / COURT gate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L3 -->
+      <div class="stratum" style="--acc:#00FF9D; --fid:0.95; --grain:0.35;">
+        <div class="st-gutter"><div class="st-l">L3</div><div class="st-name">Cascade</div><div class="st-depth">Bedrock approach</div></div>
+        <div class="st-body">
+          <p class="st-gloss">How signals propagate, interfere, and cancel across a network.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-next"></span>Phase-cancellation scheduler · formalize</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>Wave-diffusion reach · drop</span>
+            <span class="chip"><span class="tt tt-eval">EVAL</span><span class="sd sd-next"></span>Phase-cancel +35% ROAS A/B</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L4 -->
+      <div class="stratum" style="--acc:#9BE85C; --fid:0.92; --grain:0.45;">
+        <div class="st-gutter"><div class="st-l">L4</div><div class="st-name">Cross-domain</div><div class="st-depth">Deep rock</div></div>
+        <div class="st-body">
+          <p class="st-gloss">Timing and isomorphism across domains — kairos, orthogonal echo.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-next"></span>Kairos convergence engine · #1 formalize</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>ATG tributaries (3 live)</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-block"></span>Kairos detection · gated 100 receipts</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-block"></span>Orthogonal Echo (RC-OPS-001)</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>Vector Collision µsvc</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L5 -->
+      <div class="stratum" style="--acc:#FFD700; --fid:0.9; --grain:0.55;">
+        <div class="st-gutter"><div class="st-l">L5</div><div class="st-name">Global coherence</div><div class="st-depth">Mantle boundary</div></div>
+        <div class="st-body">
+          <p class="st-gloss">The receipt layer — decisions locked, reconciled, and compounded across the whole base. The moat lives here.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-next"></span>Ex-ante decision receipt · #2 formalize</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-prog"></span>Abductive prediction · narrow</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-block"></span>Privacy network learning · defensive</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>Compass L0–L5 pipeline</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-ship"></span>Observatory</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>Receipt save prompt</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>Outcome handler</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-block"></span>ADR-023 lattice · gated</span>
+            <span class="chip"><span class="tt tt-eval">EVAL</span><span class="sd sd-next"></span>Accuracy scaling 68→87%</span>
+            <span class="chip"><span class="tt tt-eval">EVAL</span><span class="sd sd-next"></span>Network effect A(N) log</span>
+            <span class="chip"><span class="tt tt-eval">EVAL</span><span class="sd sd-next"></span>Beats experts 76%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L6 -->
+      <div class="stratum unex" style="--acc:#64748b; --fid:0.6; --grain:0.8;">
+        <div class="st-gutter"><div class="st-l">L6</div><div class="st-name">Ecosystem</div><div class="st-depth">Unexcavated</div></div>
+        <div class="st-body">
+          <span class="unex-tag">Not yet excavated</span>
+          <p class="st-gloss">Multi-party coherence — the ecosystem beyond one decider.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>L6 ecosystem engine</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>GIGI substrate client</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-block"></span>Shared Court (canon, no engine)</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>Rhetorical / wavefunction · high-risk</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>Chemical-bonding compose · drop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- L7 -->
+      <div class="stratum unex" style="--acc:#475569; --fid:0.5; --grain:1;">
+        <div class="st-gutter"><div class="st-l">L7</div><div class="st-name">Meta-governance</div><div class="st-depth">Mantle</div></div>
+        <div class="st-body">
+          <span class="unex-tag">Not yet excavated</span>
+          <p class="st-gloss">The constitution — what governs the governor. NOTOMATION lives here.</p>
+          <div class="chips">
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-next"></span>L7 meta-governance engine</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-block"></span>Constitutional Court (canon)</span>
+            <span class="chip"><span class="tt tt-map">MAP</span><span class="sd sd-prog"></span>NOTOMATION / drift sentinel</span>
+            <span class="chip"><span class="tt tt-pat">PAT</span><span class="sd sd-drop"></span>Strategy bucket · do-not-file (§101)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="strata-legend">
+      <span><span class="tt tt-pat" style="font-size:8.5px;padding:1px 4px;border-radius:3px;">PAT</span> patent</span>
+      <span><span class="tt tt-map" style="font-size:8.5px;padding:1px 4px;border-radius:3px;">MAP</span> roadmap</span>
+      <span><span class="tt tt-eval" style="font-size:8.5px;padding:1px 4px;border-radius:3px;">EVAL</span> falsifiability test</span>
+      <span><i class="dot d-green" style="width:7px;height:7px;"></i> shipped</span>
+      <span><i class="dot d-gold" style="width:7px;height:7px;"></i> in progress / narrow</span>
+      <span><i class="dot d-red" style="width:7px;height:7px;"></i> blocked / gated</span>
+      <span><i class="dot d-cyan" style="width:7px;height:7px;"></i> next / formalize</span>
+      <span><i class="dot" style="width:7px;height:7px;background:var(--faint);"></i> drop</span>
     </div>
   </section>
 
