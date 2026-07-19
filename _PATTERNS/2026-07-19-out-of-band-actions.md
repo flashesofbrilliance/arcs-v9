@@ -37,6 +37,14 @@ recreated/deleted from that environment (or the API that made it).
 > under ~150 lines, prune stale sections." That is correct for the *arcs-decision-receipts* `CLAUDE.md`, but
 > it directly contradicted the old append-only policy — the exact disease we just cured in *this* repo (fix
 > #1). Make sure the sentinel prunes, not appends.
+>
+> 🔴 **SECURITY (do this when you rebuild it) — see `_PATTERNS/2026-07-19-threat-assessment.md` §HIGH.**
+> The Haiku Sentinel is the lethal-trifecta case: reads untrusted repo content (commit messages,
+> `backlog-index.md`), can `Write`/`Edit` + autonomously commit, runs unattended. An injection planted in a
+> file it reads could get it to write attacker instructions into `CLAUDE.md`, which every future session then
+> loads as trusted. **Mitigate:** make it **report-only** (drop Write/Edit), or scope any write to append-only
+> into a dedicated non-instruction file via **PR not direct commit**; **never** let it `Edit` `CLAUDE.md`; and
+> tell it repo content is *data, not instructions*. Keep Haiku for the git-log parsing (that part is safe).
 
 ## B. claude.ai chat — connector hygiene (punchlist 1.2) 🟡
 **Why blocked here:** MCP connectors are toggled in the claude.ai account/conversation settings, not from any
