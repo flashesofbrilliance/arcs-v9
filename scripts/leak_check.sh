@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# scripts/leak_check.sh — External-surface leak check (J24).
+#
+# Policy, not a per-page fix (J1 was per-page; this is the class). Every
+# prospect-facing surface under public/*.html is subdomain-mapped in
+# next.config.ts and served to people ARCS did not author. None of them may
+# carry INTERNAL text: build/session provenance, model identifiers, secret
+# material, local filesystem paths, internal repo structure, or the
+# pulled-sensitive patent strategy. This is the automated enforcement of that
+# rule and of ADR-035's "no sensitive content reachable from a public surface."
+#
+# Properties (ADR-032 conformance):
+#   - Deny-by-default: a NEW public/*.html is scanned automatically (glob), so
+#     a new prospect page cannot opt out of the check by existing.
+#   - Fail-safe: if the glob matches nothing (surfaces moved/renamed), that is
+#     treated as a misconfiguration (exit 2), never a silent pass.
+#   - Terminating: a bounded grep over a bounded file set. No loop, no network.
+#   - Escape hatch: genuine false positives go in scripts/.leakignore (one
+#     extended-regex per line); they are excluded AND reported so an allow is
+#     never silent.
+#
+# Exit codes: 0 = clean · 1 = leak(s) found · 2 = cannot scan (treat as unsafe).
+#
+# Usage: bash scripts/leak_check.sh   (run from repo root; CI runs it in ci.yml)
+set -euo pipefail
+
+SURFACE_GLOB="public/*.html"
+IGNORE_FILE="scripts/.leakignore"
+
+# ── Denylist ─────────────────────────────────────────────────────────────────
+# Each entry: unambiguously internal — never legitimate on a prospect page.
+# Grouped by class for triage; matched case-insensitively as one alternation.
+PATTERNS=(
+  # class: build/session provenance leakage (git trailers, session URLs)
+  'Co-Authored-By'
+  'Claude-Session'
+  'claude\.ai/code/session'
+  # class: model identifiers (WORLD.md model-identity rule — never in artifacts)
+  'claude-(opus|sonnet|haiku|fable)-[0-9]'
+  # class: secret material (shapes, not values — a value would be worse)
+  'sk-ant-'
+  're_[A-Za-z0-9]{12,}'
+  'SUPABASE_SERVICE_ROLE'
+  'service_role'
+  'AUTH_SECRET'
+  'DATABASE_URL'
+  # class: local filesystem paths (dev-machine leakage)
+  '/Users/[a-z]'
+  '/home/user/'
+  # class: internal repo structure surfaced on a rendered page
+  '_DECISIONS/ADR-'
+  '_PATTERNS/'
+  '_STATE/snapshot'
+  # class: pulled-sensitive patent strategy (ADR-035 class 3)
+  'do-not-file'
+  'USPTO'
+  'prior[ -]art'
+)
+
+# Join into one extended-regex alternation.
+ALT="$(IFS='|'; echo "${PATTERNS[*]}")"
+
+# ── Scan ─────────────────────────────────────────────────────────────────────
+shopt -s nullglob
+FILES=( $SURFACE_GLOB )
+shopt -u nullglob
+
+if [ "${#FILES[@]}" -eq 0 ]; then
+  echo "⚠ J24: no files match '$SURFACE_GLOB' — external surfaces moved/renamed?"
+  echo "  Treating as a misconfiguration, not a pass. Update SURFACE_GLOB if intended."
+  exit 2
+fi
+
+echo "=== J24 external-surface leak check — ${#FILES[@]} surface(s) ==="
+
+# grep -n -E -i across all surfaces. -H forces filename even for a single file.
+RAW="$(grep -H -n -E -i "$ALT" "${FILES[@]}" || true)"
+
+# Apply the ignore file (reported, never silent).
+IGNORED=""
+if [ -f "$IGNORE_FILE" ] && [ -n "$RAW" ]; then
+  # Keep lines that DO match an ignore pattern (for reporting) ...
+  IGNORED="$(echo "$RAW" | grep -E -f "$IGNORE_FILE" || true)"
+  # ... and drop them from the failing set.
+  RAW="$(echo "$RAW" | grep -E -v -f "$IGNORE_FILE" || true)"
+fi
+
+if [ -n "$IGNORED" ]; then
+  IGN_COUNT="$(echo "$IGNORED" | grep -c . || true)"
+  echo ""
+  echo "  ℹ ${IGN_COUNT} match(es) allowed via ${IGNORE_FILE} (shown, not failing):"
+  echo "$IGNORED" | sed 's/^/      /'
+fi
+
+if [ -n "$RAW" ]; then
+  HIT_COUNT="$(echo "$RAW" | grep -c . || true)"
+  echo ""
+  echo "  ✘ LEAK: ${HIT_COUNT} internal marker(s) on prospect-facing surface(s):"
+  echo "$RAW" | sed 's/^/      /'
+  echo ""
+  echo "  Each line is file:line:match. Remove the internal text, or — if it is a"
+  echo "  genuine false positive — add a narrow extended-regex to ${IGNORE_FILE}."
+  exit 1
+fi
+
+echo "  ✔ clean — no internal markers on any external surface."
+exit 0

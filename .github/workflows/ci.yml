@@ -17,6 +17,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Hard gate — external-surface leak check (J24). Fast, bash-only, no deps, so
+  # it runs standalone in parallel with the build. Blocks merge if any
+  # prospect-facing public/*.html carries internal text (provenance, model IDs,
+  # secrets, local paths, patent strategy). Policy + check, not a per-page fix.
+  leak-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: External-surface leak check
+        run: bash scripts/leak_check.sh
+
   smoke:
     runs-on: ubuntu-latest
     env:
