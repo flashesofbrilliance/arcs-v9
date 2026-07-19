@@ -36,6 +36,7 @@
 **Known queue issues (not yet fixed, flagging rather than silently resolving):**
 - Two ADRs are both filed as "025" (`ADR-025-arcs-go-live-provisional-logic.md` and `ADR-025-sage-signal-validation-path.md`) — disambiguated above as 025a/025b. Renumbering one would require updating cross-references; not done here.
 - No `ADR-021` exists — numbering gap, unexplained. Not necessarily a problem, just noting it for whoever investigates next.
+- **Verify (surfaced 2026-07-19 from archive scan):** the NCI<40 / UNDEFINED-W-field **HOLD gate** (original Issue #4 "Compass → DEWY flow" scope) is not visibly branched in `src/app/api/compass/route.ts` — the prompt names the 40–60 uncertainty band but there's no explicit HOLD/REJECT branch. May be intentionally deferred under the anonymous-first model (ADR-016) or handled downstream in `ygate.ts`. Confirm whether still wanted before treating as debt; not a prod blocker (app is live at 184 receipts without it).
 
 ---
 
