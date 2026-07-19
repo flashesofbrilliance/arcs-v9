@@ -1655,15 +1655,31 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       if (e) e.style.color = state === "success" ? "var(--green)" : (state === "failure" || state === "error") ? "var(--red)" : "var(--gold)";
     } catch (e) { set("pl-deploy", "—"); }
   }
-  function all() {
-    loadCommits(); loadPRs(); loadDeploy();
+  function paint(p) {
+    if (p.commit) { set("pl-commit", p.commit.sha + " · " + (p.commit.message.length > 46 ? p.commit.message.slice(0, 46) + "…" : p.commit.message)); set("pl-commit-when", rel(p.commit.date)); }
+    if (typeof p.commitsTotal === "number") { var n = p.commitsTotal.toLocaleString(); set("pl-count", n); set("sv-commits", n); }
+    if (typeof p.prsOpen === "number") { set("pl-prs", String(p.prsOpen)); set("pl-prs-sub", p.prTop ? ("#" + p.prTop.number + " " + p.prTop.title.slice(0, 30)) : "none open"); }
+    if (p.deploy) { set("pl-deploy", String(p.deploy.state).toUpperCase()); set("pl-deploy-when", rel(p.deploy.date)); var e = $("pl-deploy"); if (e) e.style.color = p.deploy.state === "success" ? "var(--green)" : (p.deploy.state === "failure" || p.deploy.state === "error") ? "var(--red)" : "var(--gold)"; }
+  }
+  async function all() {
+    var via = "cached /api/pulse";
+    try {
+      var r = await fetch("https://app.arcs.care/api/pulse", { cache: "no-store" });
+      if (!r.ok) throw 0;
+      var p = await r.json();
+      if (!p || p.ok === false) throw 0;
+      paint(p);
+    } catch (e) {
+      via = "public GitHub API (fallback)";
+      loadCommits(); loadPRs(); loadDeploy();
+    }
     var f = $("pulse-foot");
-    if (f) f.textContent = "updated " + new Date().toLocaleTimeString() + " · public GitHub API · on load / focus / 5 min";
+    if (f) f.textContent = "updated " + new Date().toLocaleTimeString() + " · " + via;
   }
   all();
   var btn = $("pulse-refresh"); if (btn) btn.addEventListener("click", all);
   document.addEventListener("visibilitychange", function () { if (!document.hidden) all(); });
-  setInterval(all, 300000);
+  setInterval(all, 120000);
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
