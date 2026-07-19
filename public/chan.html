@@ -488,11 +488,11 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
   </div>
 
-  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>THE ARCS BUILD · DAY 0 → DAY 98 · APR–JUL 2026 · AS FOUNDER</div>
+  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>THE ARCS BUILD · DAY 0 → DAY <span id="era-day">98</span> · SINCE APR 2026 · AS FOUNDER</div>
 
   <div class="stats">
     <div class="stat"><div class="stat-val accent" id="sv-commits">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
-    <div class="stat"><div class="stat-val">98</div><div class="stat-label">Days · first commit to now</div></div>
+    <div class="stat"><div class="stat-val" id="stat-days">98</div><div class="stat-label">Days · first commit to now</div></div>
     <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
@@ -1599,6 +1599,12 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       set("pulse-foot", "live from public GitHub API · checked " + new Date().toLocaleTimeString());
     }
   }
+  // Live day-count from T0 (first commit, 2026-04-09). Self-updating — the old
+  // hardcoded "98" had already gone stale by 3 days. Pure date math, no network.
+  (function () {
+    var days = Math.max(0, Math.floor((Date.now() - Date.parse("2026-04-09T11:39:09-04:00")) / 86400000));
+    set("stat-days", days); set("era-day", days);
+  })();
   all();
   var btn = $("pulse-refresh"); if (btn) btn.addEventListener("click", all);
   document.addEventListener("visibilitychange", function () { if (!document.hidden) all(); });
