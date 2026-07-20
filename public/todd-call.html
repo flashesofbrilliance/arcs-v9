@@ -978,90 +978,79 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     <div class="section-eyebrow">Phase 1 · For Your Sales Manager</div>
     <div class="section-title">Questions to hand your sales manager</div>
     <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
-      These decide <strong style="color:var(--text)">what the chatbot asks a visitor</strong> and <strong style="color:var(--text)">how a lead reaches him</strong> — about a 10-minute conversation. Copy them as plain text for your email, or just send him this page to refer back to.
+      Written for <strong style="color:var(--text)">him</strong> — plain language, framed around saving him time, no tech-speak. About 10 minutes. Copy them as plain text for your email, or just send him this page to refer back to.
     </p>
 
     <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--green);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;box-shadow:var(--green-glow);transition:opacity .15s;">
       <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy questions as plain text</span>
     </button>
 
+    <div style="background:linear-gradient(135deg,rgba(0,255,157,.06),rgba(0,240,255,.04));border:1px solid rgba(0,255,157,.25);border-radius:var(--r);padding:16px 18px;margin-bottom:14px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">For the sales manager — the idea in one line</div>
+      <div style="font-size:13px;color:var(--text);line-height:1.65;">A friendly assistant on the website that handles the boring first step for you — it chats with visitors, gets their info, screens out the tire-kickers, and hands your reps only the good leads, already sorted. These questions just make sure we build it around how <em>you</em> work — not another gadget to babysit.</div>
+    </div>
+
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">How you qualify today</div>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">The leads you get</div>
       <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">Today, how does a lead get <strong style="color:var(--text);font-weight:600;">qualified before a rep works it</strong> — is anyone screening for fit, timing, or intent, or is it mostly routing to the right rep? We want the chatbot to match (and tighten) what actually works.</li>
-        <li>In SugarCRM, <strong style="color:var(--text);font-weight:600;">when does a lead become an opportunity</strong> — what has to be true for it to convert? That tells us exactly what "qualified enough" looks like, so the chatbot can capture it.</li>
+        <li style="margin-bottom:9px;">When a good inquiry comes in, <strong style="color:var(--text);font-weight:600;">what do you most want to know about it right away?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> — we'll have the chatbot ask for exactly that, and nothing extra.</span></li>
+        <li style="margin-bottom:9px;">What tells you a lead is <strong style="color:var(--text);font-weight:600;">worth a rep's time versus a waste of it?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> — so the bot can quietly weed out the time-wasters before they ever reach a rep.</span></li>
+        <li>Most of your buyers are engineers — anything you always wish they'd tell you up front, <strong style="color:var(--text);font-weight:600;">like what they're making or the resin they use now?</strong></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">What makes a lead worth a rep's time</div>
-      <ol start="3" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">From the product-development / application-discovery form your reps already use, what are the <strong style="color:var(--text);font-weight:600;">1–2 fields that matter most</strong> — the minimum you'd want captured for a lead to be worth acting on?</li>
-        <li style="margin-bottom:9px;">Beyond name / email / phone, is <strong style="color:var(--text);font-weight:600;">application</strong> + <strong style="color:var(--text);font-weight:600;">resin currently in use</strong> the right core to capture, or is something else more telling?</li>
-        <li>What makes a lead an obvious <strong style="color:var(--text);font-weight:600;">good fit</strong> vs. <strong style="color:var(--text);font-weight:600;">not worth pursuing</strong>? Any hard disqualifiers?</li>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's reaching out</div>
+      <ol start="4" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:9px;">Are the people reaching out <strong style="color:var(--text);font-weight:600;">almost always engineers</strong>, or do you also hear from purchasing or others?</li>
+        <li>Some folks are ready to talk; some are just researching. <strong style="color:var(--text);font-weight:600;">How do you tell them apart?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> — we can send researchers a helpful page and only pass you the ready ones.</span></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's actually asking</div>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Before they'll share their info</div>
       <ol start="6" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">Is the person inquiring almost always the <strong style="color:var(--text);font-weight:600;">engineer</strong>, or do you also hear from purchasing / others — and would they need different questions?</li>
-        <li>How do you tell someone <strong style="color:var(--text);font-weight:600;">just researching</strong> from someone <strong style="color:var(--text);font-weight:600;">ready for a rep</strong>? (If there's a spec sheet or guide we can point researchers to, we'll route them there instead of to a rep.)</li>
+        <li>What do people usually <strong style="color:var(--text);font-weight:600;">ask — or push back on</strong> — before they'll hand over their contact info?<span style="color:rgba(0,255,157,.6);font-style:italic;"> — the chatbot can answer those up front so more people follow through.</span></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Questions &amp; objections, up front</div>
-      <ol start="8" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">What are the <strong style="color:var(--text);font-weight:600;">most common questions</strong> prospects ask <em>before</em> they'll share their info?</li>
-        <li>What <strong style="color:var(--text);font-weight:600;">objections</strong> do you hear early, before they're comfortable giving contact details?</li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Routing &amp; handoff</div>
-      <ol start="10" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">How should a new lead be <strong style="color:var(--text);font-weight:600;">routed</strong> — by territory / region? What does the chatbot need to capture (e.g., location) so it lands with the right rep?</li>
-        <li>When a lead reaches you, what <strong style="color:var(--text);font-weight:600;">format</strong> is easiest to act on fast — a SugarCRM lead, an email, both? Any fields you always want filled in?</li>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Getting the lead to you</div>
+      <ol start="7" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:9px;">When a new lead comes in, <strong style="color:var(--text);font-weight:600;">how would you most like to get it</strong> — a quick email, straight into your system, or both?</li>
+        <li>Should it go <strong style="color:var(--text);font-weight:600;">by territory to the right rep automatically?</strong> What does the bot need to grab for that, like their location?</li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Win / loss &amp; speed</div>
-      <ol start="12" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">Any patterns in <strong style="color:var(--text);font-weight:600;">why deals win or lose</strong> — especially around how fast the rep follows up? Even a rough read helps us decide what the chatbot should prioritize (and sets up a close-won / close-loss view later).</li>
-        <li>You aim to respond within ~4 hours — should the chatbot <strong style="color:var(--text);font-weight:600;">set that expectation</strong> with the prospect, and is it worth tracking win/loss against callback speed down the road?</li>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Making your reps look good</div>
+      <ol start="9" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li>Ever <strong style="color:var(--text);font-weight:600;">lose a deal just because a rep didn't call back fast enough?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> — if so, the bot can promise the customer a quick reply and flag the lead as time-sensitive.</span></li>
       </ol>
     </div>
 
-    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Questions for the sales manager — PRL Resins chatbot (Phase 1)
+    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Questions for the sales manager — PRL Resins website chatbot
 
-These decide what the chatbot asks a visitor and how a lead reaches you. About a 10-minute conversation.
+The idea: a friendly assistant on the website that handles the boring first step for you. It chats with visitors, gets their info, screens out the tire-kickers, and hands your reps only the good leads — already sorted. These questions just make sure we build it around how you work, not another gadget to babysit. About 10 minutes.
 
-HOW YOU QUALIFY TODAY
-1. Today, how does a lead get qualified before a rep works it — is anyone screening for fit, timing, or intent, or is it mostly routing to the right rep? We want the chatbot to match (and tighten) what actually works.
-2. In SugarCRM, when does a lead become an opportunity — what has to be true for it to convert? That tells us exactly what "qualified enough" looks like, so the chatbot can capture it.
+THE LEADS YOU GET
+1. When a good inquiry comes in, what do you most want to know about it right away? (We'll have the chatbot ask for exactly that — nothing extra.)
+2. What tells you a lead is worth a rep's time versus a waste of it? (So the bot can quietly weed out the time-wasters before they reach a rep.)
+3. Most of your buyers are engineers — anything you always wish they'd tell you up front, like what they're making or the resin they use now?
 
-WHAT MAKES A LEAD WORTH A REP'S TIME
-3. From the product-development / application-discovery form your reps already use, what are the 1–2 fields that matter most — the minimum you'd want captured for a lead to be worth acting on?
-4. Beyond name / email / phone, is application + resin currently in use the right core to capture, or is something else more telling?
-5. What makes a lead an obvious good fit vs. not worth pursuing? Any hard disqualifiers?
+WHO'S REACHING OUT
+4. Are the people reaching out almost always engineers, or do you also hear from purchasing or others?
+5. Some folks are ready to talk; some are just researching. How do you tell them apart? (We can send researchers a helpful page and only pass you the ready ones.)
 
-WHO'S ACTUALLY ASKING
-6. Is the person inquiring almost always the engineer, or do you also hear from purchasing / others — and would they need different questions?
-7. How do you tell someone just researching from someone ready for a rep? (If there's a spec sheet or guide we can point researchers to, we'll route them there instead of to a rep.)
+BEFORE THEY'LL SHARE THEIR INFO
+6. What do people usually ask — or push back on — before they'll hand over their contact info? (The chatbot can answer those up front so more people follow through.)
 
-QUESTIONS & OBJECTIONS, UP FRONT
-8. What are the most common questions prospects ask before they'll share their info?
-9. What objections do you hear early, before they're comfortable giving contact details?
+GETTING THE LEAD TO YOU
+7. When a new lead comes in, how would you most like to get it — a quick email, straight into your system, or both?
+8. Should it go by territory to the right rep automatically? What does the bot need to grab for that, like their location?
 
-ROUTING & HANDOFF
-10. How should a new lead be routed — by territory / region? What does the chatbot need to capture (e.g., location) so it lands with the right rep?
-11. When a lead reaches you, what format is easiest to act on fast — a SugarCRM lead, an email, both? Any fields you always want filled in?
-
-WIN / LOSS & SPEED
-12. Any patterns in why deals win or lose — especially around how fast the rep follows up? Even a rough read helps us decide what the chatbot should prioritize (and sets up a close-won / close-loss view later).
-13. You aim to respond within ~4 hours — should the chatbot set that expectation with the prospect, and is it worth tracking win/loss against callback speed down the road?</textarea>
+MAKING YOUR REPS LOOK GOOD
+9. Ever lose a deal just because a rep didn't call back fast enough? (If so, the bot can promise the customer a quick reply and flag the lead as time-sensitive.)</textarea>
   </section>
 
   <div class="stop-loss">
