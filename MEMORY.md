@@ -6,6 +6,26 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.11.0] 2026-07-20 — Anon-share persist fix + design-system glow tuning (live)
+
+First **interactive/local** deploy session after a run of cloud sessions (which couldn't deploy).
+
+- **Anon-share "Sign in to keep" persist fix** (PR #121, `403d109`) — closes the v3.9.0 honesty
+  flag's core gap: the shared bearing recomposed one-time but sign-in kept nothing. Onramp now
+  writes `arcs_pending_save`; `ClaimAnonymousReceipts` claims it post-auth → `/receipt/<id>`.
+- **Glow tuning, two passes** (`8429f2e`, `cfbc483`) — operator: too hot across the board.
+  `signalGlow()` alphas halved (~.28), bloom blur cut ~33% then eased back on the gauge; accent
+  card glow reduced; `TrueNorthPanel` given real glassmorphism (backdrop-blur(14px) + translucent
+  blue); Field/select untouched (confirmed correct). All verified via **live computed styles**, not
+  by eye — extends the "verify render, don't claim it" discipline to the design system.
+- **Deploy discipline receipt:** merged to main + git-push (NOT `vercel --prod` from a worktree) →
+  all **29 subdomain aliases intact** (app/arcs.care + every brief). The long INITIALIZING was
+  queue time; build itself ~46s.
+- **Operator-approved, not started:** ledger management (archive/reset before hard-delete);
+  authenticated `/recoil` index (index documents first, DB-backed later). Standby: production
+  auth-loop test (Gmail connector) to fully close v3.9.0; sweep stray hardcoded glows.
+
+---
 ## [v3.10.0] 2026-07-19 — Serialization pathogen family: ADR-033 ratified + Detective --sweep
 
 > Tracker note: mid-session, CLAUDE.md's handoff chain read v3.8.0 while this file was at

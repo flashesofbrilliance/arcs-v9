@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-07-19T22:12:00Z",
+  "captured_at": "2026-07-20T12:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "486472e",
-    "head_message": "chore(state): SessionStart snapshot refresh (mechanical) [NCI:SKIP]",
+    "head_sha": "efc836a",
+    "head_message": "docs(meta-audit): retire Hard Fork #06 [NCI:SKIP] (other thread; this session's deliverables: 403d109 persist fix + 8429f2e/cfbc483 glow)",
     "in_sync_with_origin": true,
     "dirty_files": [
       "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, other thread)",
@@ -12,7 +12,7 @@
   },
   "vercel": {
     "project": "arcs-v9",
-    "latest_deploy_url": "https://arcs-v9-oxmvo7d6i-arcs-care.vercel.app",
+    "latest_deploy_url": "https://arcs-v9-2sanichf6-arcs-care.vercel.app",
     "latest_deploy_status": "Ready",
     "production_alias": "https://app.arcs.care",
     "env_vars_present": [
@@ -50,8 +50,8 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Serialization pathogen family session: chronos-sequencer + inductive-overfit + open-loop decay codified in recoil-modes-v1.md (v0.1.0->v0.4.0) and call-brief-hooks (v1.1.0); ADR-033 tuple axiom (claim/time/scope/warrant/obligations/dictionary) RATIFIED GREEN/HIGH/REVISIT; Detective gained superseded-skip, n-aware regime read, validityBounds surfacing, and --sweep (first run: 52 open obligations / 20 reports / 0 ever closed). Enforcement-parity loop closed via ADR-034 merge (PR #63).",
-  "next_action": "Act on the --sweep backlog (52 open riskFlags; oldest 18d, incl. a 10d-old HIGH) \u2014 owners write DONE/WAIVED statuses; then dedupe the two ADR-032 files; epistemic/etymology members still need their own enforcement points (registered with existing partial mechanisms only).",
+  "session_summary": "Anon-share 'Sign in to keep' persist fix (PR #121, 403d109) \u2014 shared bearing now carried through magic-link auth via arcs_pending_save + ClaimAnonymousReceipts, lands on /receipt/<id>. Two-pass glow tuning of the design system (8429f2e halve signal-glow intensity + cut bloom ~33%; cfbc483 gauge +bloom, accent card -glow, TrueNorthPanel backdrop-blur glassmorphism + translucent blue). Verified live via computed styles + design-test render; deployed Ready with all 29 subdomains intact.",
+  "next_action": "Two operator-approved builds queued: (1) ledger management \u2014 archive+reset receipts/reflections before hard-delete; (2) authenticated /recoil index \u2014 index existing brief documents first, DB-backed later. Plus standby: run the production auth-loop test (Gmail connector) to close the v3.9.0 honesty flag, and sweep stray hardcoded glows (neutral gauge / observatory / receipt widget) to match the new tokens.",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
