@@ -1,14 +1,11 @@
 {
-  "captured_at": "2026-07-20T12:55:00Z",
+  "captured_at": "2026-07-20T18:11:19Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "efc836a",
-    "head_message": "docs(meta-audit): retire Hard Fork #06 [NCI:SKIP] (other thread; this session's deliverables: 403d109 persist fix + 8429f2e/cfbc483 glow)",
+    "head_sha": "63480e3",
+    "head_message": "style(todd-call): move \"to start\" callout to full-width bar below deal+payment [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "_DECISIONS/ADR-026-debrief-calendar-invite-vs-email.md (untracked, other thread)",
-      "test_prisma_direct.js (untracked, other thread)"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -50,9 +47,35 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Anon-share 'Sign in to keep' persist fix (PR #121, 403d109) \u2014 shared bearing now carried through magic-link auth via arcs_pending_save + ClaimAnonymousReceipts, lands on /receipt/<id>. Two-pass glow tuning of the design system (8429f2e halve signal-glow intensity + cut bloom ~33%; cfbc483 gauge +bloom, accent card -glow, TrueNorthPanel backdrop-blur glassmorphism + translucent blue). Verified live via computed styles + design-test render; deployed Ready with all 29 subdomains intact.",
-  "next_action": "Two operator-approved builds queued: (1) ledger management \u2014 archive+reset receipts/reflections before hard-delete; (2) authenticated /recoil index \u2014 index existing brief documents first, DB-backed later. Plus standby: run the production auth-loop test (Gmail connector) to close the v3.9.0 honesty flag, and sweep stray hardcoded glows (neutral gauge / observatory / receipt widget) to match the new tokens.",
+  "session_summary": "Open-source resumeware: extracted the /rca skill from ARCS commands, scrubbed it fully generic (0 leaks, 0 em-dashes), ran a full BAR/LAB/KKL/COURT/Funhouse gauntlet on it (only catch = em-dashes, fixed), and shipped it as a standalone public repo github.com/flashesofbrilliance/rca-skill (skill at repo root for git-clone-into-.claude/skills install). Kept open-source/rca/ in the worktree as the tracking/staging area for future candidates.",
+  "next_action": "Continue the open-source queue: (1) NCI trio (nci-scoring + nci-commit + drift-check) \u2014 inline the ADR-035 rubric so it is self-contained, then extract; (2) teardown gauntlet + teardown_eval.py \u2014 heaviest scrub (real client names, arcs.care deploy mechanics, first-name password-gate scheme) before it can ship. Product-side backlog unchanged (ledger management, authenticated /recoil index, v3.9.0 auth-loop test).",
   "blocking": "NONE",
+  "open_source": {
+    "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
+    "shipped": [
+      {
+        "repo": "github.com/flashesofbrilliance/rca-skill",
+        "local": "/Users/zharris/rca-skill",
+        "visibility": "public",
+        "date": "2026-07-20"
+      }
+    ],
+    "staging_dir": "open-source/",
+    "queue": [
+      "NCI trio (nci-scoring + nci-commit + drift-check) \u2014 inline ADR-035 rubric first",
+      "teardown gauntlet + teardown_eval.py \u2014 heavy client-data/secret scrub required first"
+    ],
+    "do_not_publish": [
+      "handoff",
+      "handoff-pickup",
+      "init-state-sync",
+      "dewy-stub",
+      "receipt-book-curator",
+      "arcs-research",
+      "fix-toolbar-comments",
+      "arcs-brand-manager (fork of Anthropic brand-guidelines)"
+    ]
+  },
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -166,5 +189,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-19T21:15:29Z"
+  "git_refreshed_at": "2026-07-20T17:32:51Z"
 }
