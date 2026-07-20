@@ -196,7 +196,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   <div class="crumb-inner">
     <span class="crumb-root">PRL Resins · Todd Hotes</span>
     <span class="crumb-sep">/</span>
-    <a class="crumb-seg other" href="/">← Recoil Report</a>
+    <a class="crumb-seg other" href="/">← Findings & Proposal</a>
     <span class="crumb-seg current">Marketing Teardown</span>
   </div>
 </div>
@@ -219,7 +219,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
   <div class="cover">
     <div class="cover-kicker">Marketing Function Teardown · Built from calls Jul 2 + Jul 9</div>
     <h1>You're running marketing for a $100M company with the instruments turned off.</h1>
-    <div class="cover-sub">Everything below comes from what you shared across two calls — nothing invented. The teardown grades each instrument, the roadmap sequences the fixes, and the protocol is what we each do this week.</div>
+    <div class="cover-sub">Everything below comes from what you shared across two calls — nothing invented. <b style="color:var(--text)">The one move that changes the most, fastest, is a chatbot that captures leads and hands them to your sales manager.</b> That's step 1. Everything else here is the roadmap behind it.</div>
     <div class="cover-meta">
       <div class="cm">Prepared for <b>Todd Hotes</b></div>
       <div class="cm">Company <b>PRL Resins · ~$100M rev</b></div>
@@ -242,12 +242,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <div class="eyebrow">The scoreboard</div>
     <h2>Instrument panel, graded</h2>
     <div class="scoreboard">
+      <div class="score-tile"><div class="score-label">Web → CRM</div><div class="score-val v-red">NONE</div><div class="score-note">Phone-only intake — the chatbot gap</div></div>
+      <div class="score-tile"><div class="score-label">SugarCRM</div><div class="score-val v-green">SOLID</div><div class="score-note">Staying · direct connection open</div></div>
+      <div class="score-tile"><div class="score-label">Sales motion</div><div class="score-val v-cyan">READY</div><div class="score-note">Sales manager runs close/loss</div></div>
       <div class="score-tile"><div class="score-label">GA4</div><div class="score-val v-red">DARK</div><div class="score-note">No reliable traffic read</div></div>
       <div class="score-tile"><div class="score-label">GTM</div><div class="score-val v-red">STALE</div><div class="score-note">Tags unmaintained</div></div>
-      <div class="score-tile"><div class="score-label">PPC / Unbounce</div><div class="score-val v-gold">BLIND</div><div class="score-note">Spend without attribution</div></div>
-      <div class="score-tile"><div class="score-label">Web → CRM</div><div class="score-val v-red">NONE</div><div class="score-note">Phone-only intake</div></div>
-      <div class="score-tile"><div class="score-label">SugarCRM</div><div class="score-val v-green">SOLID</div><div class="score-note">Staying · REST API open</div></div>
-      <div class="score-tile"><div class="score-label">Sales motion</div><div class="score-val v-cyan">READY</div><div class="score-note">SM already runs close/loss</div></div>
+      <div class="score-tile"><div class="score-label">Ads / Unbounce</div><div class="score-val v-gold">BLIND</div><div class="score-note">Spend without measurement</div></div>
     </div>
   </div>
 
@@ -273,26 +273,26 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 
   <div class="section">
     <div class="finding">
-      <div class="finding-head"><span class="sev sev-critical">Critical</span><span class="finding-title">1 · GA4 is dark — you're spending on PPC with no attribution</span></div>
+      <div class="finding-head"><span class="sev sev-critical">Critical · the move</span><span class="finding-title">1 · The website can't capture a lead — this is the chatbot gap</span></div>
       <div class="finding-body">
-        <p>You're paying for traffic to Unbounce landers and can't see what happens after the click. At $100M revenue, even a small paid budget deserves a working read on cost-per-lead. Right now the answer to "is PPC working?" is a shrug.</p>
+        <p>Right now the site generates zero leads on its own. A buyer who finds prlresins.com at 9pm has no way to start a conversation — they have to already know to pick up the phone. In a 6–12 month sales cycle, the vendor who captures the inquiry first usually wins it. <b>This is exactly what the chatbot fixes</b>, and it's the piece you asked to start with.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Rebuild GA4 property + GTM container from scratch (faster than auditing the stale one)</div></div>
-        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">1 session</div></div>
-        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Cost-per-lead by channel; baseline for everything else</div></div>
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v hl">Tidio chatbot → creates a lead in SugarCRM, routed straight to the sales manager</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v">3 sessions · ~$1,500</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">24/7 lead capture; the visible win; the foundation for the AI vision</div></div>
       </div>
     </div>
 
     <div class="finding">
-      <div class="finding-head"><span class="sev sev-critical">Critical</span><span class="finding-title">2 · No web-to-CRM path — every lead must already know to call</span></div>
+      <div class="finding-head"><span class="sev sev-critical">Critical</span><span class="finding-title">2 · You're spending on ads with no way to measure them</span></div>
       <div class="finding-body">
-        <p>The website generates zero structured leads. A buyer who finds prlresins.com at 9pm has no way to start a conversation — and in a 6–12 month sales cycle, the vendor who captures the inquiry first usually keeps it. This is the gap the chatbot closes.</p>
+        <p>You pay for traffic to your Unbounce landing pages but can't see what happens after the click — your analytics (GA4) is dark and the tag setup is stale. At $100M revenue, even a small ad budget deserves a working read on what each lead costs. Right now the answer to "are the ads working?" is a shrug.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Tidio chatbot → SugarCRM lead via REST API, routed straight to the sales manager</div></div>
-        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">3 sessions (agreed scope)</div></div>
-        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">24/7 lead capture; the "wow" demo; Phase 5 foundation</div></div>
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Rebuild the analytics from scratch (faster than fixing the stale setup)</div></div>
+        <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">1 session</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Cost-per-lead by channel — comes right after the chatbot</div></div>
       </div>
     </div>
 
@@ -302,7 +302,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
         <p>Three CS reps in Farmington field inbound and relay to sales. They're good at service — but as a routing layer they add latency and lose context. <b>You already made this call on Jul 9:</b> route chatbot leads directly to the sales manager. This finding just makes it official for all inbound, not only the bot.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">SM becomes the single routing point; CS keeps service, loses triage</div></div>
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">The sales manager becomes the single routing point; customer service keeps service, drops triage</div></div>
         <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Decision, not a build</div></div>
         <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Faster first-touch; one accountable owner for lead follow-up</div></div>
       </div>
@@ -314,9 +314,9 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
         <p>Your buyers split cleanly: <b>Scenario A</b> knows the resin they need and wants to transact; <b>Scenario B</b> has an application problem and needs formulation help. Today both get the same brochure site and the same phone number. The A buyer wants speed; the B buyer wants expertise. Serving them identically underserves both.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Branch logic in the chatbot: A → qualify + route fast; B → capture application details for SM</div></div>
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Two paths in the chatbot: A → qualify + route fast; B → capture application details for the sales manager</div></div>
         <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Inside chatbot scope</div></div>
-        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Better-qualified leads; the branch design IS the real work</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Better-qualified leads; designing those two paths IS the real work</div></div>
       </div>
     </div>
 
@@ -335,10 +335,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <div class="finding">
       <div class="finding-head"><span class="sev sev-opportunity">Opportunity</span><span class="finding-title">6 · The PD form archive is an unmined moat</span></div>
       <div class="finding-body">
-        <p>Years of product-development forms encode which formulations solved which application problems. That's training data no competitor has. It's also the one asset that requires care: <b>NDA first</b> (your call, and the right one), then structure the taxonomy, then build the recommendation layer on top of a chatbot that's already working.</p>
+        <p>Years of product-development forms record which formulations solved which application problems. That's training data no competitor has. The path: organize the forms, then build the recommendation AI on top of a chatbot that's already working. An NDA is optional here — happy to sign one if you'd like, but it's not required to start.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">NDA → PD form data dump → taxonomy pass → Claude-powered recommendation engine (Phase 5)</div></div>
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Export the forms → organize them → build the recommendation AI on top (the later phase)</div></div>
         <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Months, staged</div></div>
         <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">The digital formulator — the thing you actually described wanting</div></div>
       </div>
@@ -347,10 +347,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <div class="finding">
       <div class="finding-head"><span class="sev sev-opportunity">Opportunity</span><span class="finding-title">7 · Zapier free tier is a ceiling — but you don't need to raise it</span></div>
       <div class="finding-body">
-        <p>The free plan can't be the automation backbone. Good news: it doesn't need to be. SugarCRM's REST API means the chatbot writes leads directly — no middleman, no monthly automation tax, one less thing that silently breaks.</p>
+        <p>The free plan can't be the thing everything runs through. Good news: it doesn't need to be. SugarCRM's built-in connection lets the chatbot write leads directly — no middleman, no monthly automation fee, one less thing that silently breaks.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Direct REST integration; keep Zapier free for incidentals</div></div>
+        <div class="fix-cell"><div class="fix-k">Fix</div><div class="fix-v">Connect the chatbot to SugarCRM directly; keep Zapier free for odds and ends</div></div>
         <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">Inside chatbot scope</div></div>
         <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">$0/mo automation cost; fewer failure points</div></div>
       </div>
@@ -359,19 +359,19 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <div class="finding">
       <div class="finding-head"><span class="sev sev-strength">Strength</span><span class="finding-title">8 · The sales manager already runs close/loss analysis</span></div>
       <div class="finding-body">
-        <p>Most companies your size have nobody doing win/loss discipline. Yours does it unprompted. That makes the SM the natural owner of chatbot-sourced leads — and the person whose 30 minutes of input will make the branch logic real instead of guessed. Build around this strength.</p>
+        <p>Most companies your size have nobody doing win/loss discipline. Yours does it unprompted. That makes the sales manager the natural owner of chatbot leads — and the person whose 30 minutes of input will make the question flow real instead of guessed. Build around this strength.</p>
       </div>
       <div class="fix-row">
-        <div class="fix-cell"><div class="fix-k">Action</div><div class="fix-v">30-min SM call before branch-logic session 1</div></div>
+        <div class="fix-cell"><div class="fix-k">Action</div><div class="fix-v">30-min sales-manager call before we design the question flow</div></div>
         <div class="fix-cell"><div class="fix-k">Effort</div><div class="fix-v hl">One calendar invite</div></div>
-        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">Branch logic grounded in real close/loss patterns</div></div>
+        <div class="fix-cell"><div class="fix-k">Unlocks</div><div class="fix-v">A question flow grounded in real close/loss patterns</div></div>
       </div>
     </div>
 
     <div class="finding">
       <div class="finding-head"><span class="sev sev-strength">Strength</span><span class="finding-title">9 · WordPress 7.0 + SugarCRM = boring, compatible, perfect</span></div>
       <div class="finding-body">
-        <p>An up-to-date WordPress and a CRM with an open REST API is exactly the stack you want under this: every serious chatbot vendor supports it natively, and nothing here requires a replatform. The foundation is fine — it's the instruments bolted to it that were missing.</p>
+        <p>An up-to-date WordPress and a CRM that connects easily is exactly the setup you want: every serious chatbot works with it out of the box, and nothing here needs rebuilding. The foundation is fine — it's the tools bolted to it that were missing.</p>
       </div>
       <div class="fix-row">
         <div class="fix-cell"><div class="fix-k">Action</div><div class="fix-v">Nothing. Don't let anyone sell you a replatform.</div></div>
@@ -394,20 +394,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <div class="phase">
       <div class="phase-num">P1</div>
       <div class="phase-body">
-        <div class="phase-title">Chatbot MVP — the wow <span class="phase-status ps-now">Now</span></div>
-        <div class="phase-desc">Tidio on WordPress, A/B branch logic designed with the SM's close/loss input, leads written directly into SugarCRM via REST, routed to the sales manager by territory.</div>
-        <div class="phase-meta"><span class="pm">Effort <b>3 sessions</b></span><span class="pm">Calendar <b>~2 weeks</b></span><span class="pm">Needs <b>SM call + WP admin access</b></span></div>
-        <div class="phase-unlock"><b>Unlocks:</b> first structured leads ever; the internal demo moment; proof the direct-to-SM routing works.</div>
+        <div class="phase-title">The chatbot — the visible win <span class="phase-status ps-now">Now</span></div>
+        <div class="phase-desc">Tidio on WordPress, the A/B question flow designed with the sales manager's close/loss input, leads written straight into SugarCRM, routed to the sales manager by territory.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>3 sessions</b></span><span class="pm">Calendar <b>~2 weeks</b></span><span class="pm">Needs <b>sales-manager call + WordPress access</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> your first real leads from the website; the demo moment; proof the direct-to-sales-manager routing works.</div>
       </div>
     </div>
 
     <div class="phase">
       <div class="phase-num">P2</div>
       <div class="phase-body">
-        <div class="phase-title">Instrument panel — GA4 + GTM rebuild <span class="phase-status ps-next">Next</span></div>
-        <div class="phase-desc">Fresh GA4 property, clean GTM container, conversion events on chatbot interactions and Unbounce landers. Now PPC spend has a denominator.</div>
-        <div class="phase-meta"><span class="pm">Effort <b>1–2 sessions</b></span><span class="pm">Needs <b>GA/GTM + Unbounce access</b></span></div>
-        <div class="phase-unlock"><b>Unlocks:</b> cost-per-lead by channel; you can finally kill or scale PPC with numbers instead of vibes.</div>
+        <div class="phase-title">Turn the instruments back on — analytics rebuild <span class="phase-status ps-next">Next</span></div>
+        <div class="phase-desc">Fresh analytics, clean tracking, and conversion events on the chatbot and your landing pages. Now your ad spend has a number behind it.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>1–2 sessions</b></span><span class="pm">Needs <b>analytics + Unbounce access</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> cost-per-lead by channel; you can finally kill or scale ad spend with numbers instead of guesswork.</div>
       </div>
     </div>
 
@@ -416,7 +416,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <div class="phase-body">
         <div class="phase-title">Re-engagement layer <span class="phase-status ps-next">Next</span></div>
         <div class="phase-desc">Email capture in every bot path, lead-status hygiene in SugarCRM, a simple follow-up cadence so 6–12 month buyers don't evaporate.</div>
-        <div class="phase-meta"><span class="pm">Effort <b>1–2 sessions</b></span><span class="pm">Depends on <b>P1 live + real lead flow</b></span></div>
+        <div class="phase-meta"><span class="pm">Effort <b>1–2 sessions</b></span><span class="pm">Depends on <b>the chatbot live + real leads</b></span></div>
         <div class="phase-unlock"><b>Unlocks:</b> pipeline that compounds across the long cycle instead of resetting every quarter.</div>
       </div>
     </div>
@@ -424,10 +424,10 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
     <div class="phase">
       <div class="phase-num">P4</div>
       <div class="phase-body">
-        <div class="phase-title">PD data foundation <span class="phase-status ps-later">Later</span></div>
-        <div class="phase-desc">NDA signed → PD forms + application sheets exported → taxonomy built (resin family × application × outcome). Unglamorous, and the whole moat depends on it.</div>
-        <div class="phase-meta"><span class="pm">Effort <b>staged, weeks</b></span><span class="pm">Gate <b>NDA (your call, correct)</b></span></div>
-        <div class="phase-unlock"><b>Unlocks:</b> the training corpus for P5. No taxonomy, no recommendation engine.</div>
+        <div class="phase-title">Organize the formulation data <span class="phase-status ps-later">Later</span></div>
+        <div class="phase-desc">Product-development forms + application sheets exported → organized (resin family × application × outcome). Unglamorous, and the whole moat depends on it.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>staged, weeks</b></span><span class="pm">Gate <b>your go-ahead</b></span></div>
+        <div class="phase-unlock"><b>Unlocks:</b> the training data for the recommendation AI. Without it, there's nothing to recommend from.</div>
       </div>
     </div>
 
@@ -435,8 +435,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
       <div class="phase-num">P5</div>
       <div class="phase-body">
         <div class="phase-title">The digital formulator <span class="phase-status ps-later">Later</span></div>
-        <div class="phase-desc">Claude-powered recommendation engine on top of the P4 taxonomy: "I'm molding X for application Y" → suggested formulation family + routed to the right human. The Scenario-B buyer's dream, and yours.</div>
-        <div class="phase-meta"><span class="pm">Effort <b>the real project</b></span><span class="pm">Depends on <b>P1 traffic + P4 data</b></span></div>
+        <div class="phase-desc">The recommendation AI, built on the organized data: "I'm molding X for application Y" → a suggested formulation + routed to the right person. The formulation-help buyer's dream, and yours.</div>
+        <div class="phase-meta"><span class="pm">Effort <b>the real project</b></span><span class="pm">Depends on <b>the chatbot live + the data organized</b></span></div>
         <div class="phase-unlock"><b>Unlocks:</b> the thing no competitor can copy — twenty years of formulation judgment, awake 24/7 on your website.</div>
       </div>
     </div>
@@ -452,38 +452,38 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); font
 <div id="protocol" class="page-block">
   <div class="cover" style="padding-bottom:0">
     <div class="cover-kicker">This week</div>
-    <h1 style="font-size:clamp(22px,4vw,30px)">Six items between here and a live chatbot.</h1>
-    <div class="cover-sub">Split by owner. Nothing on your list takes more than 15 minutes.</div>
+    <h1 style="font-size:clamp(22px,4vw,30px)">Three things between here and a live chatbot.</h1>
+    <div class="cover-sub">Your whole list is about 45 minutes. I handle everything else.</div>
   </div>
 
   <div class="section">
     <div class="protocol">
-      <div class="proto-head you">Todd sends / schedules</div>
+      <div class="proto-head you">Todd — your 3 things · ~45 min total</div>
       <div class="proto-items">
-        <div class="proto-item"><span class="proto-check">☐</span><span><b>WordPress admin access</b> (or a plugin-install-capable login) for prlresins.com</span></div>
-        <div class="proto-item"><span class="proto-check">☐</span><span><b>SugarCRM API credentials</b> — a user with lead-create permission is enough</span></div>
-        <div class="proto-item"><span class="proto-check">☐</span><span><b>30 min with the sales manager</b> — close/loss patterns feed the branch logic directly</span></div>
-        <div class="proto-item"><span class="proto-check">☐</span><span><b>NDA draft</b> whenever ready — gates P4/P5 only, nothing this month waits on it</span></div>
+        <div class="proto-item"><span class="proto-check">1</span><span><b>WordPress login</b> — so I can install the chatbot. ~5 min to send.</span></div>
+        <div class="proto-item"><span class="proto-check">2</span><span><b>SugarCRM login</b> — a user that can create leads is enough. ~5 min to send.</span></div>
+        <div class="proto-item"><span class="proto-check">3</span><span><b>30 minutes with your sales manager</b> — one short call so the chatbot's questions match how he actually works.</span></div>
       </div>
     </div>
 
     <div class="protocol">
-      <div class="proto-head me">Zach builds</div>
+      <div class="proto-head me">Zach — I handle everything else</div>
       <div class="proto-items">
-        <div class="proto-item"><span class="proto-check">☐</span><span><b>Branch-logic map v1</b> — Scenario A and B conversation trees, drafted before the SM call so the call refines rather than starts from blank</span></div>
-        <div class="proto-item"><span class="proto-check">☐</span><span><b>Session 1 scheduled</b> — Tidio install + SugarCRM REST wiring, same week access lands</span></div>
+        <div class="proto-item"><span class="proto-check">→</span><span>Install and set up the chatbot, connect it to SugarCRM, build the two question paths, and send you a one-page scope to confirm before we start. <b>Live in about a week.</b></span></div>
       </div>
     </div>
+
+    <p class="section-sub" style="margin-top:14px;font-size:12px;color:var(--muted);">Later — <em>only</em> when we start the "recommend a formulation" AI — we'll want your product-development form fields. An NDA is optional if you'd ever want one, but it's not required. <b style="color:var(--sub);">Nothing this month waits on that.</b></p>
   </div>
 
   <div class="section">
     <div class="eyebrow">Standing note</div>
-    <h2>Whatever happens Wednesday</h2>
-    <p class="section-sub" style="margin-top:8px">The Laz conversation doesn't change this plan — it strengthens the case for shipping P1 fast. If you stay, PRL gets its lead engine. If you go, you leave behind a working system with your fingerprints on it and walk into the next thing with a live AI deployment story. Either way, the chatbot is yours.</p>
+    <h2>Why ship the chatbot fast</h2>
+    <p class="section-sub" style="margin-top:8px">The sooner the chatbot is live, the sooner PRL has a real lead engine instead of a phone number — and the sooner you have hard numbers to point to. It's a fast, visible win with your fingerprints on it: a working AI deployment that starts paying off in weeks, not quarters.</p>
   </div>
 
   <div class="footer">
-    <span>ARCS · <b>Recoil-derived teardown</b></span>
+    <span>ARCS · <b>PRL marketing teardown</b></span>
     <span>Source: <b>Calls Jul 2 + Jul 9, 2026</b></span>
     <span><b>arcs.care</b></span>
   </div>
