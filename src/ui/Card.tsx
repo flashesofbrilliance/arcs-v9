@@ -24,7 +24,7 @@ export function Card({ accent, padding = 'default', style, children, ...props }:
     ? {
         border: `1px solid ${accent}45`,
         background: `linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01) 38%, rgba(0,0,0,.18)), linear-gradient(165deg, ${accent}1c, #0a1620)`,
-        boxShadow: `inset 0 1px 0 ${accent}80, inset 0 -11px 17px -11px ${accent}55, 0 0 12px ${accent}26, 0 5px 16px rgba(0,0,0,.5)`,
+        boxShadow: `inset 0 1px 0 ${accent}80, inset 0 -11px 17px -11px ${accent}55, 0 0 8px ${accent}26, 0 5px 16px rgba(0,0,0,.5)`,
       }
     : {
         border: '1px solid #1c2738',
