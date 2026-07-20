@@ -23,10 +23,11 @@
   --gold-bg:   rgba(255, 215,   0, 0.07);
   --red-bg:    rgba(255,  77, 109, 0.07);
 
-  /* Glow */
-  --cyan-glow:  0 0 12px rgba(0,240,255,0.35), 0 0 4px rgba(0,240,255,0.6);
-  --green-glow: 0 0 12px rgba(0,255,157,0.35), 0 0 4px rgba(0,255,157,0.6);
-  --red-glow:   0 0 12px rgba(255,77,109,0.35);
+  /* Glow — dialed down 2026-07-19: blur 12px→8px, inner double-glow layer
+     dropped, outer alpha 0.35→0.22. The prior stacked bloom read as too hot. */
+  --cyan-glow:  0 0 5px rgba(0,240,255,0.22);
+  --green-glow: 0 0 5px rgba(0,255,157,0.22);
+  --red-glow:   0 0 5px rgba(255,77,109,0.22);
 
   /* Radius */
   --r-sm: 4px;

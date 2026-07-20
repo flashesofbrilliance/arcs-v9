@@ -172,13 +172,16 @@ export const resStyle: Record<string, React.CSSProperties> = {
 export const nciColor = (s: number): string =>
   s >= 70 ? signal.green : s >= 45 ? signal.gold : signal.red
 
-// glow tint for a signal color (used by instrument readouts)
+// glow tint for a signal color (used by instrument readouts).
+// Alphas roughly halved 2026-07-19 — the prior .55–.6 read as too hot across
+// the board (per operator feedback); dialed to ~.28 for a present-but-restrained
+// bloom. Single knob: every boxShadow/textShadow that calls signalGlow() inherits this.
 export const signalGlow = (c: string): string =>
-  c === signal.green ? 'rgba(0,255,157,.6)'
-  : c === signal.gold ? 'rgba(255,215,0,.55)'
-  : c === signal.red  ? 'rgba(255,77,109,.55)'
-  : c === signal.cyan ? 'rgba(0,240,255,.55)'
-  : 'rgba(160,180,210,.35)'
+  c === signal.green ? 'rgba(0,255,157,.28)'
+  : c === signal.gold ? 'rgba(255,215,0,.26)'
+  : c === signal.red  ? 'rgba(255,77,109,.26)'
+  : c === signal.cyan ? 'rgba(0,240,255,.26)'
+  : 'rgba(160,180,210,.18)'
 
 // ─── Canonical door_class vocabulary (F9) ────────────────────────────────────
 // Live /api/compass emits ONE_WAY | TWO_WAY. The kit mock's legacy "REVERSIBLE"
