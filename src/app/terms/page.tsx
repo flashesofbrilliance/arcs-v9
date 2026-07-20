@@ -12,12 +12,12 @@ const COVENANT = [
     group: 'On the product itself',
     rows: [
       {
-        arcs: 'Operate the compass to provide genuine directional clarity — not to optimize for engagement, retention, or repeat usage',
+        arcs: 'Operate the compass to provide genuine directional clarity, not to optimize for engagement, retention, or repeat usage',
         you: 'Use the compass for real decisions with genuine stakes, not to benchmark, scrape, or reverse-engineer the system',
       },
       {
-        arcs: "Surface honest limits when the terrain doesn't support confidence — ARCS won't fake certainty",
-        you: "Bring honest questions — the compass doesn't work if the framing is a rationalization",
+        arcs: "Surface honest limits when the terrain doesn't support confidence. ARCS won't fake certainty",
+        you: "Bring honest questions. The compass doesn't work if the framing is a rationalization",
       },
       {
         arcs: 'Never design dark patterns that make exiting harder than entering',
@@ -34,7 +34,7 @@ const COVENANT = [
       },
       {
         arcs: 'Delete your data within 30 days of request, permanently, without conditions',
-        you: "Understand that deletion is one-way — we can't restore what you asked us to remove",
+        you: "Understand that deletion is one-way. We can't restore what you asked us to remove",
       },
       {
         arcs: 'Tell you 30 days before any material change to how your data is handled',
@@ -51,7 +51,7 @@ const COVENANT = [
       },
       {
         arcs: 'Not hold you to loyalty we did not earn through demonstrated reciprocity',
-        you: "Not claim ARCS guarantees outcomes — the compass navigates, it doesn't decide",
+        you: "Not claim ARCS guarantees outcomes. The compass navigates, it doesn't decide",
       },
       {
         arcs: 'Keep the source code public so you can verify our architecture claims yourself',
@@ -108,7 +108,7 @@ export default function TermsPage() {
         <Rule style={{ marginBottom: '2rem' }} />
 
         <p style={{ fontFamily: mono, fontSize: '0.8125rem', color: text.muted, lineHeight: 1.6, margin: '0 0 1.75rem', letterSpacing: '0.01em' }}>
-          Most terms of service are written to protect the company from you. These are written as a mutual agreement — what ARCS commits to, what you commit to, and what happens when either side breaks the covenant.
+          Most terms of service are written to protect the company from you. These are written as a mutual agreement: what ARCS commits to, what you commit to, and what happens when either side breaks the covenant.
         </p>
 
         <h1 style={{ fontFamily: sans, fontSize: '1.6rem', fontWeight: 600, color: text.primary, margin: '0 0 0.5rem', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
@@ -144,7 +144,7 @@ export default function TermsPage() {
 
         {/* Axiom */}
         <div style={{ borderLeft: `2px solid ${signal.cyan}40`, paddingLeft: '1rem', marginBottom: '2rem' }}>
-          <div style={{ fontFamily: sans, fontSize: '0.9375rem', color: text.primary, fontWeight: 500, lineHeight: 1.4 }}>Loyalty is earned through demonstrated reciprocity — not demanded through terms.</div>
+          <div style={{ fontFamily: sans, fontSize: '0.9375rem', color: text.primary, fontWeight: 500, lineHeight: 1.4 }}>Loyalty is earned through demonstrated reciprocity, not demanded through terms.</div>
           <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.muted, marginTop: '0.25rem' }}>If ARCS breaks this covenant, you are released from it. If you break it, we may terminate your access. Either side can walk away.</div>
         </div>
 
@@ -154,7 +154,7 @@ export default function TermsPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 01 · What using ARCS means" title="The relationship in plain terms" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75, marginTop: '0.5rem' }}>
-            ARCS is a decision navigation instrument. You bring a real question; ARCS produces a directional bearing, a conviction grade, and a set of tributaries — adjacent questions worth asking. <strong style={{ color: text.primary }}>ARCS does not make decisions.</strong> The bearing is an input to your judgment, not a replacement for it. Using ARCS means understanding this distinction.
+            ARCS is a decision navigation instrument. You bring a real question. ARCS produces a directional bearing, a conviction grade, and a set of tributaries: adjacent questions worth asking. <strong style={{ color: text.primary }}>ARCS does not make decisions.</strong> The bearing is an input to your judgment, not a replacement for it. Using ARCS means understanding this distinction.
           </div>
         </div>
 
@@ -164,7 +164,7 @@ export default function TermsPage() {
         <div style={{ marginBottom: '1.75rem' }}>
           <SectionHeader n="§ 02 · Honest limits" title="What ARCS is not responsible for" />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75, marginTop: '0.5rem' }}>
-            ARCS is not a licensed advisor — not legal, financial, medical, or professional. A bearing graded GREEN is a coherence signal, not a guarantee of outcome. The NCI score reflects pattern coherence in the analysis, not outcome probability in the real world.{' '}
+            ARCS is not a licensed advisor. Not legal, financial, medical, or professional. A bearing graded GREEN is a coherence signal, not a guarantee of outcome. The NCI score reflects pattern coherence in the analysis, not outcome probability in the real world.{' '}
             <strong style={{ color: text.primary }}>Decisions with irreversible consequences should be validated against domain expertise, not just the compass.</strong>
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function TermsPage() {
         <div style={{ marginBottom: '2rem' }}>
           <SectionHeader n="§ 04 · Sovereignty clause" title="You own your expertise. ARCS doesn't." />
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.75, marginTop: '0.5rem' }}>
-            Your professional judgment, your decision logic, your frameworks for solving problems — these are yours before, during, and after using ARCS. ARCS facilitates reasoning; it doesn't claim ownership of the insight that emerges. Receipts stored in your account are records of your thinking process.{' '}
+            Your professional judgment, your decision logic, your frameworks for solving problems. These are yours before, during, and after using ARCS. ARCS facilitates reasoning. It doesn't claim ownership of the insight that emerges. Receipts stored in your account are records of your thinking process.{' '}
             <strong style={{ color: text.primary }}>They're yours.</strong>
           </div>
         </div>

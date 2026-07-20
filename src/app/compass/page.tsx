@@ -52,7 +52,7 @@ function CompassInner() {
             <div style={{ borderLeft: `2px solid ${signal.gold}`, paddingLeft: "0.85rem", marginBottom: "1.25rem" }}>
               <div style={{ fontFamily: font.mono, fontSize: "0.6rem", letterSpacing: "0.12em", textTransform: "uppercase", color: signal.gold, marginBottom: "0.3rem" }}>Shared bearing viewed</div>
               <div style={{ fontFamily: font.sans, fontSize: "0.8rem", color: text.secondary, lineHeight: 1.55 }}>
-                That link was one-time — it opened once and isn&rsquo;t stored anywhere. Sign in to keep your own bearings and revisit their briefs.
+                That link was one-time. It opened once and isn&rsquo;t stored anywhere. Sign in to keep your own bearings and revisit their briefs.
               </div>
             </div>
           )}
@@ -60,13 +60,13 @@ function CompassInner() {
             Save receipts. Share briefs.
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.75rem", lineHeight: 1.6 }}>
-            One magic link — no password. Your questions, prep, and briefs land under your account, and your shared briefs stay yours.
+            One magic link, no password. Your questions, prep, and briefs land under your account, and your shared briefs stay yours.
           </p>
 
           {sent ? (
             <div style={{ paddingLeft: "1rem", borderLeft: `2px solid ${signal.cyan}`, marginTop: "0.5rem" }}>
               <div style={{ fontFamily: font.mono, fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", color: text.muted, marginBottom: "0.35rem" }}>Link sent</div>
-              <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.primary, lineHeight: 1.5 }}>Check your email — sent to <span style={{ color: signal.cyan }}>{email}</span></div>
+              <div style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.primary, lineHeight: 1.5 }}>Check your email. Sent to <span style={{ color: signal.cyan }}>{email}</span></div>
             </div>
           ) : (
             <form onSubmit={handleMagicLink} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

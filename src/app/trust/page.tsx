@@ -19,9 +19,9 @@ const CHIPS = [
 ]
 
 const GRADES = [
-  { key: 'GREEN', color: signal.green, body: 'Coherent, well-supported bearing. Move — but stay alert to new information.' },
+  { key: 'GREEN', color: signal.green, body: 'Coherent, well-supported bearing. Move, but stay alert to new information.' },
   { key: 'YELLOW', color: signal.gold, body: 'Contested terrain. Cross-check your assumptions before committing.' },
-  { key: 'SCRATCH / FORK', color: text.muted, body: "Ground isn't stable. Don't decide yet — probe the terrain first." },
+  { key: 'SCRATCH / FORK', color: text.muted, body: "Ground isn't stable. Don't decide yet. Probe the terrain first." },
   { key: 'PARADOX', color: signal.red, body: 'Premature. The question needs more time or a different framing.' },
 ]
 
@@ -42,7 +42,7 @@ export default function TrustPage() {
 
         {/* Lede */}
         <p style={{ fontFamily: mono, fontSize: '0.8125rem', color: text.muted, lineHeight: 1.6, margin: '0 0 1.75rem', letterSpacing: '0.01em' }}>
-          Before you run the compass — what you're agreeing to, what we store, and what we won't do. Plain language. No buried terms.
+          Before you run the compass: what you're agreeing to, what we store, and what we won't do. Plain language. No buried terms.
         </p>
 
         <h1 style={{ fontFamily: sans, fontSize: '1.6rem', fontWeight: 600, color: text.primary, margin: '0 0 0.5rem', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
@@ -67,25 +67,25 @@ export default function TrustPage() {
           {
             n: '§ 01', title: 'What we store and what we don\'t',
             body: <>
-              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it. Want to keep one? Sign in and save it — the write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content — only request metadata (timestamps, response codes).
+              Anonymous sessions: <strong style={{ color: text.primary }}>nothing is stored.</strong> Your question and the bearing live only in your browser tab and disappear when you close it. Want to keep one? Sign in and save it. The write happens only after you authenticate. If you sign in, your receipts are stored so you can return to them. System logs don't contain your decision content, only request metadata (timestamps, response codes).
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server) — still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
+                <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
               </span>
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section — 48 existed when found. Fixed the same day (commit 8b486e8; the repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them; they carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
+                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section. 48 existed when found. Fixed the same day (commit 8b486e8. The repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them. They carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
               </span>
             </>,
           },
           {
             n: '§ 02', title: 'We don\'t train on your input',
             body: <>
-              ARCS runs through the Anthropic API. Per Anthropic's API terms, inputs are not used to train models. Your questions are not data collection — they're compass queries.
+              ARCS runs through the Anthropic API. Per Anthropic's API terms, inputs are not used to train models. Your questions are not data collection. They're compass queries.
             </>,
           },
           {
             n: '§ 03', title: 'Export and delete',
             body: <>
-              <strong style={{ color: text.primary }}>Delete:</strong> request within 30 days, one-way — receipts are gone, history can't be restored.{' '}
+              <strong style={{ color: text.primary }}>Delete:</strong> request within 30 days, one-way. Receipts are gone, history can't be restored.{' '}
               <strong style={{ color: text.primary }}>Export:</strong> on the roadmap, not yet live. If you need your data before export is built, reach out directly.
             </>,
           },
@@ -175,7 +175,7 @@ export default function TrustPage() {
           <div style={{ background: surface.panel, border: `0.5px solid ${border.subtle}`, borderRadius: 8, padding: '0.9rem 1.1rem' }}>
             <div style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.4rem' }}>Current state</div>
             <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.secondary, lineHeight: 1.65 }}>
-              Kairos detection — the system that flags momentum building toward a decision point — is on the roadmap, not live yet.{' '}
+              Kairos detection, the system that flags momentum building toward a decision point, is on the roadmap, not live yet.{' '}
               <strong style={{ color: text.primary }}>Right now, ARCS surfaces the terrain. You bring the awareness of where you are in the decision arc.</strong>{' '}
               The compass can't yet tell you "you're about to override a YELLOW with no new data." That's a gap we're naming, not hiding.
             </div>

@@ -58,19 +58,19 @@ function AdvisoryInner() {
           Bring ARCS into the room.
         </h1>
         <p style={{ fontFamily: font.sans, fontSize: "0.9rem", color: text.muted, margin: "0 0 2rem", lineHeight: 1.6 }}>
-          Advisory, fixed-term, and ongoing support available for teams who need more
-          hands-on service — available on request.
+          Advisory, fixed-term, and ongoing support for teams who need more
+          hands-on service. Available on request.
         </p>
 
         <Card accent={signal.gold}>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: "0 0 1.25rem", lineHeight: 1.6 }}>
             Tell us what your team is trying to decide. We&apos;ll figure out the right
-            format — one-day session, multi-day workshop, or focused sprint — and map
+            format (one-day session, multi-day workshop, or focused sprint) and map
             out the right approach together.
           </p>
           {sent ? (
             <div style={{ padding: "1rem", border: `1px solid ${signal.green}`, borderRadius: 8, color: signal.green, fontSize: "0.85rem", fontFamily: font.sans, lineHeight: 1.6 }}>
-              Got it — we&apos;ll be in touch.
+              Got it. We&apos;ll be in touch.
               {booking && (
                 <>{" "}Prefer to grab a slot now?{" "}
                   <a href={booking} target="_blank" rel="noopener noreferrer" style={{ color: signal.cyan, textDecoration: "underline" }}>Book your session →</a>
