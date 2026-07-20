@@ -31,6 +31,8 @@ No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inlin
 | `AUTH_SECRET` | Auth.js v5 session signing |
 | `AUTH_RESEND_KEY` | Magic link emails via Resend |
 | `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |
+| `RECOIL_PASSWORD` | Shared cookie gate for the whole `/recoil*` tree (`src/proxy.ts`, private-alpha) |
+| `ADMIN_EMAILS` | Comma-separated admin allowlist — interim RBAC for the internal `/recoil` index + reports (`src/lib/admin.ts`). Prod fail-closed if unset; dev passes through |
 
 ---
 
