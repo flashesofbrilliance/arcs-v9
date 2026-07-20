@@ -9,7 +9,7 @@ Example:
 
 import sys
 
-# ── defaults (generic example contact) ──────────────────────────────────────────
+# ── defaults (generic example contact) ────────────────────────
 DEFAULT_NAME    = "Jane Doe"
 DEFAULT_TITLE   = "VP of Partnerships"
 DEFAULT_COMPANY = "Acme Corp"
