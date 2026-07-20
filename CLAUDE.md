@@ -253,3 +253,44 @@ NONE.
 
 `/handoff-pickup` → continue the open-source queue (NCI trio next), or return to the product
 backlog (ledger-management / authenticated `/recoil` index / v3.9.0 auth-loop test).
+
+---
+
+# Handoff — v3.13.0 (2026-07-20)
+
+> **For Claude Code:** active pickup point. Same branch/session as v3.12.0 — round 2 of the
+> open-source track. v3.12.0 above preserved (this branch may not merge to main yet; PR #122
+> open). Full detail: auto-memory `project-open-source-skills-queue.md` + `_STATE/snapshot.json
+> → open_source`.
+
+## What shipped this round
+
+- **`fix-toolbar-comments-skill` LIVE** —
+  github.com/flashesofbrilliance/fix-toolbar-comments-skill, same extract→scrub→gauntlet→publish
+  pattern as `rca-skill`. Only catch: em-dashes (fixed, same as last time — worth checking by
+  default on every future candidate).
+- **Sauce-aware queue rerank.** Reassessed the whole open-source queue against "helpful to others
+  + doesn't leak ARCS's proprietary method" instead of pure portfolio-craft:
+  - **Upgraded:** state-sync bundle (`init-state-sync` + `handoff` + `handoff-pickup`) — most
+    broadly useful, zero product IP once the DEWY-specific snapshot fields are genericized. Next
+    candidate.
+  - **Downgraded to HOLD:** the NCI trio (`nci-scoring`/`nci-commit`/`drift-check`) — these ARE
+    the ADR-035 rubric (weights/thresholds), not a pattern that merely uses it. Previously
+    recommended as the strong second release; that recommendation is reversed.
+  - **Confirmed HOLD:** teardown/precall-brief/recoil-report family (client data + gauntlet
+    operators are sauce), arcs-research/dewy-stub/receipt-book-curator (DEWY receipt shape is
+    sauce; only a genericized-to-plain-ADR version would be safe).
+
+## Last confirmed commits (this thread)
+
+`966bce1` (this round's staging + snapshot). `36a2b8e`/`0f961ee` from the prior round. PR #122
+(main ← this branch) still open from the prior round.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → genericize + extract the state-sync bundle, or merge PR #122 first if that
+hasn't happened yet.
