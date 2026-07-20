@@ -49,40 +49,40 @@ interface Layer { id:string;findings:Finding[] }
 type LedgerItem = (Event|Risk) & {kind:"event"|"risk";left:number}
 
 const EVENTS: Event[] = [
-  {id:"ev-0",date:"2026-04-09",alt:"L3",type:"genesis",peak:true, label:"Genesis — Next.js 16 + Prisma 7 + Auth.js v5 scaffold",sha:"471d573",desc:"First commit: the spec-first scaffold — Next.js 16 App Router, Prisma 7, Auth.js v5.",conf:90},
-  {id:"ev-1",date:"2026-05-26",alt:"L4",type:"canon",          label:"Book II Parts V & VI → CANONICAL v1.0.0",sha:"b6e59e4",desc:"Canon promoted to v1.0.0 — the written world the running code executes.",conf:93},
-  {id:"ev-2",date:"2026-05-27",alt:"L2",type:"feat",            label:"Design-system bootstrap — tokens + Badge",sha:"924fd10",desc:"Token layer + first Badge primitive land — the cockpit's visual grammar.",conf:88},
-  {id:"ev-3",date:"2026-05-27",alt:"L4",type:"security",        label:"RLS deny-all on all 9 Supabase tables",sha:"9970c3f",desc:"Row-level security set to deny-all across every table — closes the open-data hole.",conf:92},
+  {id:"ev-0",date:"2026-04-09",alt:"L3",type:"genesis",peak:true, label:"Genesis: Next.js 16 + Prisma 7 + Auth.js v5 scaffold",sha:"471d573",desc:"First commit: the spec-first scaffold, Next.js 16 App Router, Prisma 7, Auth.js v5.",conf:90},
+  {id:"ev-1",date:"2026-05-26",alt:"L4",type:"canon",          label:"Book II Parts V & VI → CANONICAL v1.0.0",sha:"b6e59e4",desc:"Canon promoted to v1.0.0. The written world the running code executes.",conf:93},
+  {id:"ev-2",date:"2026-05-27",alt:"L2",type:"feat",            label:"Design-system bootstrap: tokens + Badge",sha:"924fd10",desc:"Token layer + first Badge primitive land, the cockpit's visual grammar.",conf:88},
+  {id:"ev-3",date:"2026-05-27",alt:"L4",type:"security",        label:"RLS deny-all on all 9 Supabase tables",sha:"9970c3f",desc:"Row-level security set to deny-all across every table, closes the open-data hole.",conf:92},
   {id:"ev-4",date:"2026-05-27",alt:"L4",type:"security",        label:"Soft-guard all API routes (ADR-001 auth gate)",sha:"25e76e8",desc:"Every API route gated behind the ADR-001 auth check.",conf:90},
-  {id:"ev-5",date:"2026-05-27",alt:"L1",type:"fix",             label:"Prisma 7 adapter fix (PrismaPg) — unblocks deploy",sha:"11ba2fc",desc:"PrismaPg adapter swap clears P1012 and unblocks the first deploy.",conf:85},
-  {id:"ev-6",date:"2026-05-28",alt:"L3",type:"milestone",peak:true,label:"P4 — first READY Vercel+Supabase deploy (ADR-002 closed)",sha:"dfce59d",desc:"First fully-READY production deploy on Vercel + Supabase; ADR-002 closed.",conf:94},
+  {id:"ev-5",date:"2026-05-27",alt:"L1",type:"fix",             label:"Prisma 7 adapter fix (PrismaPg), unblocks deploy",sha:"11ba2fc",desc:"PrismaPg adapter swap clears P1012 and unblocks the first deploy.",conf:85},
+  {id:"ev-6",date:"2026-05-28",alt:"L3",type:"milestone",peak:true,label:"P4: first READY Vercel+Supabase deploy (ADR-002 closed)",sha:"dfce59d",desc:"First fully-READY production deploy on Vercel + Supabase. ADR-002 closed.",conf:94},
   {id:"ev-7",date:"2026-05-29",alt:"L3",type:"feat",            label:"Auth.js v5 magic link wired (Resend + PrismaAdapter)",sha:"935759f",desc:"Passwordless magic-link auth via Resend + the Prisma adapter.",conf:90},
   {id:"ev-8",date:"2026-06-03",alt:"L1",type:"security",        label:"Secrets purged from all git history",sha:"11a0fe7",desc:"git history rewritten to remove every committed secret.",conf:95},
-  {id:"ev-9",date:"2026-06-03",alt:"L5",type:"kairos",peak:true,label:"ADR-016 Option C — anonymous compass + receipt claim (funnel opened)",sha:"6a5b856",desc:"The kairos move: anonymous compass + later receipt-claim opens the PLG funnel.",conf:92},
+  {id:"ev-9",date:"2026-06-03",alt:"L5",type:"kairos",peak:true,label:"ADR-016 Option C: anonymous compass + receipt claim (funnel opened)",sha:"6a5b856",desc:"The kairos move: anonymous compass + later receipt-claim opens the PLG funnel.",conf:92},
   {id:"ev-10",date:"2026-06-04",alt:"L2",type:"feat",           label:"Forensic analytics + observatory",sha:"b44fbac",desc:"This layer: forensic analytics + the zero-JS observability deck.",conf:88},
 ]
 const RISKS: Risk[] = [
-  {id:"risk-0",date:"2026-06-03",risk:"Credentials committed to git history",sev:"RUIN",status:"AVERTED", sha:"11a0fe7",how:"history rewrite + secret rotation",note:"API keys reached git history; purged before exploitation. Ruin-class — single exposure is unrecoverable."},
-  {id:"risk-1",date:"2026-06-04",risk:"Free-solo decision (zero reversibility)",sev:"RUIN",status:"MITIGATED",sha:null,how:"ADR governance + reversibility gate",note:"Solo author, no review surface. Mitigated by ADR discipline; structurally standing."},
-  {id:"risk-2",date:"2026-05-27",risk:"Unauthenticated data access (no RLS)",sev:"HIGH",status:"AVERTED", sha:"9970c3f",how:"RLS deny-all on all 9 tables",note:"Tables briefly readable without auth; closed by deny-all RLS."},
+  {id:"risk-0",date:"2026-06-03",risk:"Credentials committed to git history",sev:"RUIN",status:"AVERTED", sha:"11a0fe7",how:"history rewrite + secret rotation",note:"API keys reached git history. Purged before exploitation. Ruin-class: single exposure is unrecoverable."},
+  {id:"risk-1",date:"2026-06-04",risk:"Free-solo decision (zero reversibility)",sev:"RUIN",status:"MITIGATED",sha:null,how:"ADR governance + reversibility gate",note:"Solo author, no review surface. Mitigated by ADR discipline. Structurally standing."},
+  {id:"risk-2",date:"2026-05-27",risk:"Unauthenticated data access (no RLS)",sev:"HIGH",status:"AVERTED", sha:"9970c3f",how:"RLS deny-all on all 9 tables",note:"Tables briefly readable without auth. Closed by deny-all RLS."},
   {id:"risk-3",date:"2026-06-03",risk:"Cross-user data leakage",sev:"HIGH",status:"MITIGATED",sha:"6a5b856",how:"anonymous + scoped receipt-claim",note:"Receipt-claim flow scoped per session to prevent cross-user reads."},
-  {id:"risk-4",date:"2026-05-28",risk:"DATABASE_URL silent rotation",sev:"HIGH",status:"OPEN",sha:"dfce59d",how:"needs alerting + pinned secret",note:"Provider can rotate the URL silently; no alert wired yet. Open."},
-  {id:"risk-5",date:"2026-05-27",risk:"Prisma 7 P1012 — deploy blocked",sev:"MED",status:"AVERTED",sha:"11ba2fc",how:"PrismaPg adapter fix",note:"Schema/engine mismatch blocked deploy; resolved by adapter swap."},
+  {id:"risk-4",date:"2026-05-28",risk:"DATABASE_URL silent rotation",sev:"HIGH",status:"OPEN",sha:"dfce59d",how:"needs alerting + pinned secret",note:"Provider can rotate the URL silently. No alert wired yet. Open."},
+  {id:"risk-5",date:"2026-05-27",risk:"Prisma 7 P1012: deploy blocked",sev:"MED",status:"AVERTED",sha:"11ba2fc",how:"PrismaPg adapter fix",note:"Schema/engine mismatch blocked deploy. Resolved by adapter swap."},
   {id:"risk-6",date:"2026-06-04",risk:"computeYGate unaudited logic",sev:"MED",status:"OPEN",sha:null,how:"needs unit coverage + audit",note:"Core gate logic ships without test coverage. Open."},
 ]
 const LAYERS: Layer[] = [
   {id:"L5",findings:[
     {id:"s-L5-0",lab:"Compass → Receipt",grade:"A",conf:96,risk:"LOW",kind:"CLASS",desc:"The product: a posed decision runs a 6-stage Claude pipeline and returns one bearing + a graded receipt.",prov:[["Product = compass pipeline","src/app/api/compass/route.ts:105-258","POST handler → receipt","P09"]]},
     {id:"s-L5-1",lab:"Solo · pre-revenue",grade:"A",conf:95,risk:"LOW",kind:"INSTANCE",desc:"One author; no external contributors; no PRs; one star.",prov:[["Single contributor","git log --format='%an' | sort -u","Zach Harris","P04"],["No PRs / 1 star","mcp github list_pull_requests","stars:1, PRs:[]","P21/P24"]]},
-    {id:"s-L5-2",lab:"Spec-first world",grade:"A",conf:92,risk:"LOW",kind:"CLASS",desc:"Canon is the substrate; running code is the thinnest executable slice of a written world.",prov:[["Canon precedes code","WORLD.md + canon/","Book II v1.0.0","P02"]]},
+    {id:"s-L5-2",lab:"Spec-first world",grade:"A",conf:92,risk:"LOW",kind:"CLASS",desc:"Canon is the substrate. Running code is the thinnest executable slice of a written world.",prov:[["Canon precedes code","WORLD.md + canon/","Book II v1.0.0","P02"]]},
     {id:"s-L5-3",lab:"Traction unproven",grade:"D",conf:88,risk:"MED",kind:"INSTANCE",desc:"No revenue, one star, no external usage signal yet.",prov:[["No traction signal","mcp github search_repositories","stars:1","P24"]]},
   ]},
   {id:"L4",findings:[
     {id:"s-L4-0",lab:"Dev/prod DB split",grade:"A",conf:94,risk:"LOW",kind:"INSTANCE",desc:"Separate dev and prod databases, cleanly externalized.",prov:[["Split confirmed",".env + supabase config","2 projects","P11"]]},
     {id:"s-L4-1",lab:"3-way externalization",grade:"A",conf:93,risk:"LOW",kind:"CLASS",desc:"Secrets, data, and deploy all externalized from the repo.",prov:[["Externalized","vercel + supabase + resend","3 providers","P12"]]},
-    {id:"s-L4-2",lab:"ADR governance",grade:"A",conf:90,risk:"LOW",kind:"CLASS",desc:"Architecture decisions recorded as ADRs; reversibility is explicit.",prov:[["ADRs present","docs/adr/","ADR-001…016","P15"]]},
+    {id:"s-L4-2",lab:"ADR governance",grade:"A",conf:90,risk:"LOW",kind:"CLASS",desc:"Architecture decisions recorded as ADRs. Reversibility is explicit.",prov:[["ADRs present","docs/adr/","ADR-001…016","P15"]]},
     {id:"s-L4-3",lab:"App-layer auth",grade:"C",conf:85,risk:"MED",kind:"INSTANCE",desc:"Auth enforced at the app layer rather than the data layer alone.",prov:[["Soft-guard routes","src/app/api/**","ADR-001","P17"]]},
-    {id:"s-L4-4",lab:"Cross-repo ADRs",grade:"D",conf:70,risk:"MED",kind:"INSTANCE",desc:"Some ADRs live in sibling repos; provenance is split.",prov:[["Split ADRs","arcs-canon + arcs-v9","2 repos","P18"]]},
+    {id:"s-L4-4",lab:"Cross-repo ADRs",grade:"D",conf:70,risk:"MED",kind:"INSTANCE",desc:"Some ADRs live in sibling repos. Provenance is split.",prov:[["Split ADRs","arcs-canon + arcs-v9","2 repos","P18"]]},
   ]},
   {id:"L3",findings:[
     {id:"s-L3-0",lab:"Compass request path",grade:"A",conf:95,risk:"LOW",kind:"CLASS",desc:"The full request path from compass POST to rendered receipt.",prov:[["Request path","src/app/api/compass/route.ts","POST→receipt","P09"]]},
@@ -92,9 +92,9 @@ const LAYERS: Layer[] = [
     {id:"s-L3-4",lab:"exports/ freshness",grade:"D",conf:55,risk:"MED",kind:"INSTANCE",desc:"Generated exports/ can drift from source.",prov:[["Freshness risk","exports/","stale possible","P20"]]},
   ]},
   {id:"L2",findings:[
-    {id:"s-L2-0",lab:"compass route 258",grade:"A",conf:98,risk:"LOW",kind:"INSTANCE",desc:"The compass route is 258 lines — the heaviest single handler.",prov:[["258 lines","src/app/api/compass/route.ts","L1-258","P09"]]},
+    {id:"s-L2-0",lab:"compass route 258",grade:"A",conf:98,risk:"LOW",kind:"INSTANCE",desc:"The compass route is 258 lines, the heaviest single handler.",prov:[["258 lines","src/app/api/compass/route.ts","L1-258","P09"]]},
     {id:"s-L2-1",lab:"arcs_core / cli",grade:"C",conf:97,risk:"MED",kind:"INSTANCE",desc:"Core logic + CLI share a small surface; coupling risk.",prov:[["Shared surface","arcs_core/","core+cli","P13"]]},
-    {id:"s-L2-2",lab:"src/ = UI over tiny logic",grade:"A",conf:94,risk:"LOW",kind:"CLASS",desc:"src/ is mostly UI over a small logic core — thin executable slice.",prov:[["UI-heavy","src/","UI ≫ logic","P14"]]},
+    {id:"s-L2-2",lab:"src/ = UI over tiny logic",grade:"A",conf:94,risk:"LOW",kind:"CLASS",desc:"src/ is mostly UI over a small logic core, thin executable slice.",prov:[["UI-heavy","src/","UI ≫ logic","P14"]]},
     {id:"s-L2-3",lab:"ygate.ts 248",grade:"B",conf:88,risk:"MED",kind:"INSTANCE",desc:"ygate.ts is 248 lines and carries the core gate logic.",prov:[["248 lines","src/lib/ygate.ts","L1-248","P10"]]},
     {id:"s-L2-4",lab:"network scanner ×2",grade:"D",conf:75,risk:"LOW",kind:"INSTANCE",desc:"Two network scanners present; low impact.",prov:[["2 scanners","scripts/","×2","P22"]]},
   ]},
@@ -299,10 +299,10 @@ function Legend({open}:{open:boolean}){
           <div>
             <p style={{color:C.gold,fontSize:10,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 5px"}}>The 4 encoded dimensions</p>
             <div style={{color:"#8593a6",lineHeight:2.0}}>
-              <div><b style={{color:C.gold}}>1 Altitude</b> — Exec → Surgical · audience zoom</div>
-              <div><b style={{color:C.gold}}>2 Hue</b> — grade{sw(C.green)}A{sw(C.cyan)}B{sw(C.gold)}C{sw(C.orange)}D{sw(C.red)}F</div>
-              <div><b style={{color:C.gold}}>3 Glow</b> — confidence · brighter = surer</div>
-              <div><b style={{color:C.gold}}>4 Border</b> — risk · solid · dashed · pulsing</div>
+              <div><b style={{color:C.gold}}>1 Altitude</b> · Exec → Surgical · audience zoom</div>
+              <div><b style={{color:C.gold}}>2 Hue</b> · grade{sw(C.green)}A{sw(C.cyan)}B{sw(C.gold)}C{sw(C.orange)}D{sw(C.red)}F</div>
+              <div><b style={{color:C.gold}}>3 Glow</b> · confidence · brighter = surer</div>
+              <div><b style={{color:C.gold}}>4 Border</b> · risk · solid · dashed · pulsing</div>
             </div>
           </div>
         </div>
@@ -793,7 +793,7 @@ function ChainOfEvents({focus,query,current,setCurrent,onOpen}:{focus:string;que
       boxShadow:"inset 0 1px 0 rgba(255,255,255,.08),inset 0 -2px 8px rgba(0,0,0,.5),0 5px 16px rgba(0,0,0,.4)"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:6}}>
         <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:C.green,fontWeight:700}}>CHAIN OF EVENTS</span>
-        <span style={{fontSize:10,color:"#8593a6"}}>Exec → Surgical — lanes are altitude · x is uniform build order · ★ kairos punctuated · tap a node → card</span>
+        <span style={{fontSize:10,color:"#8593a6"}}>Exec → Surgical · lanes are altitude · x is uniform build order · ★ kairos punctuated · tap a node → card</span>
       </div>
       <div style={{overflowX:"auto"}}>
         <div style={{position:"relative",minWidth:680,height:H}}>
@@ -933,7 +933,7 @@ function RiskLanes({query,sel=0,setSel,sevFocus="all",win=14,onOpen}:{query:stri
             return(
               <div key={r.id}>
                 {selected&&!dim&&<span style={{position:"absolute",left:`${xp(r.date)}%`,top:sevCenter(r.sev),width:sz+13,height:sz+13,marginLeft:-(sz+13)/2,marginTop:-(sz+13)/2,borderRadius:"50%",border:`1.5px solid ${C.cyan}`,boxShadow:`0 0 11px -1px ${C.cyan}`,pointerEvents:"none"}}/>}
-                <button onClick={()=>{setSel(idx);onOpen(LEDGER[li])}} title={`${r.sev} · ${r.status} — ${r.risk}`}
+                <button onClick={()=>{setSel(idx);onOpen(LEDGER[li])}} title={`${r.sev} · ${r.status} · ${r.risk}`}
                   data-pulse={r.status==="OPEN"?"":undefined}
                   style={{position:"absolute",left:`${xp(r.date)}%`,top:sevCenter(r.sev),width:sz,height:sz,marginLeft:-sz/2,marginTop:-sz/2,
                     borderRadius:2,cursor:"pointer",padding:0,transform:"rotate(45deg)",
@@ -985,7 +985,7 @@ function RiskByLane({sevFocus="all",query,onOpen}:{sevFocus:string;query:string;
       boxShadow:"inset 0 1px 0 rgba(255,255,255,.08),inset 0 -2px 8px rgba(0,0,0,.5),0 5px 16px rgba(0,0,0,.4)"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:10}}>
         <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:C.red,fontWeight:700}}>RISK REGISTER</span>
-        <span style={{fontSize:10,color:"#8593a6"}}>by lane — ring = status · tap → card</span>
+        <span style={{fontSize:10,color:"#8593a6"}}>by lane · ring = status · tap → card</span>
       </div>
       <div style={{display:"flex",flexDirection:"column",gap:8}}>
         {SEV_ORDER.map(sev=>{
@@ -1125,7 +1125,7 @@ export default function ObservatoryPage(){
               <h1 style={{fontSize:14,letterSpacing:".04em",margin:0,fontWeight:600,color:C.cyan}}>
                 ARCS v9 <span style={{color:"#475569"}}>·</span> <span style={{color:"#e2e8f0"}}>OBSERVATORY</span>
               </h1>
-              <span style={{color:"#8593a6",fontSize:11}}>Forensic reconstruction — 5 altitudes · scored · provenance-cited · reusable</span>
+              <span style={{color:"#8593a6",fontSize:11}}>Forensic reconstruction · 5 altitudes · scored · provenance-cited · reusable</span>
             </header>
             <ControlBar mode={mode} setMode={setMode} focus={focus} setFocus={setFocus} sevFocus={sevFocus} setSevFocus={setSevFocus}
               view={view} setView={setView} riskWin={riskWin} setRiskWin={setRiskWin}

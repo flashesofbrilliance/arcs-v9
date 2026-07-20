@@ -59,7 +59,7 @@ ${darkLockHead(C)}</head>
         </div>
 
         <div class="arcs-body" style="font-family:${C.sans};font-size:15px;line-height:1.7;color:${C.body};padding:0 0 26px 0;max-width:420px;">
-          You're in. Nothing's been decided yet — that's the point. Bring the one decision that won't wait, and the compass renders your first bearing.
+          You're in. Nothing's been decided yet. That's the point. Bring the one decision that won't wait, and the compass renders your first bearing.
         </div>
 
         <table role="presentation" cellpadding="0" cellspacing="0"><tr>
