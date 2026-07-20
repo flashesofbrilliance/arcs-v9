@@ -50,7 +50,7 @@
 - **COURT:** NOTOMATION **PASS** (compass never decides). Honesty **PASS** (gaps disclosed in-product). Consistency **TENSION** — stale canon claims (§3) violate "the map must not lie about the terrain." Remedy = truth-sync commit.
 - **LAB (Loki):** Strongest objection: *two engines, no benchmark* — you can't justify the operators' existence or wire them without an eval harness. Second: the 100-receipt gates may never fire at organic traffic; distribution is the binding constraint, not features. Third: roadmap currently steered by n=1 (Vic).
 - **KKL (timing):** Kairos window is OPEN on the artifact wedge (live interview loops, Fanatics/Tribe, Tallin) — it pays and compounds testimony. Window on enterprise/SOC2 is CLOSED — do not force.
-- **FUN HOUSE (mirror):** ARCS's biggest unnamed fork is about itself: **product-led compass vs. artifact-led consultancy.** The corpus orbits this fork without filing a receipt on it. Kryptonite: writing canon faster than closing loops — complexity as comfort. Fate if unaddressed: a beautiful atlas of a territory nobody walks.
+- **FUN HOUSE (mirror):** *[Superseded 2026-07-20 — see §8 v2.10.0.]* The prior mirror finding — "biggest unnamed fork is product-led compass vs. artifact-led consultancy" — was a **category error**, corrected by Zach: ARCS is the **engine**; **Mañana** is the consultancy; **ARCS-powered Sprints** (B2B) and **ARCS Question Compass** (B2C) are products on the engine. A portfolio, not a fork — the lanes were never rivals. Standing kryptonite still holds independently: writing canon faster than closing loops — complexity as comfort.
 
 ## 5. Chi · Ma · Wuwei
 
@@ -67,14 +67,18 @@
 | 3 | Close the debrief loop for first users (T+N outcome nudge via existing cron) | M | YELLOW/MED | Accumulation embryo → organ |
 | 4 | Eval harness: prompt-engine vs operators on ~20 canned decisions | M | YELLOW/MED | Gate for ever wiring `/svc/sage`; kills or crowns the orphan |
 | 5 | Kairos v0 as breadcrumbs on receipts (not an engine) | S | YELLOW/MED | Honest roadmap promise, cheap |
-| 6 | **HARD FORK (file the receipt):** product-led vs artifact-led — run ARCS on ARCS, prep + court mode, log it | S effort, L consequence | FORK | The unnamed fork taxing every other decision |
-| 7 | Stripe/monetization rail | M | RED until #6 | Rail depends on fork outcome |
+| 6 | **Portfolio articulation** (fork retired 2026-07-20): name the stack — ARCS (engine) → **Mañana** (consultancy) · **ARCS-powered Sprints** (B2B) · **ARCS Question Compass** (B2C, first of several) — then *sequence/resource* across lanes | S | GREEN/HIGH | The old "product-vs-consultancy fork" was a category error; the frame is settled. Residual open item is portfolio sequencing, not either/or |
+| 7 | Stripe/monetization rail | M | YELLOW/MED | Depends on which product surface (Sprints B2B vs Compass B2C) goes paid first; Mañana already monetizes as services. No longer gated on a fork |
 
 ## 7. Scheduled loop
 
 **Drift Sentry** — daily 08:00 ET routine: check new commits/handoffs/memory since last epoch → append §8 inchworm entry → re-grade parity table if code changed → flag drift (work without receipts, receipts without outcomes, canon claims contradicted by code) → surface top-1 next move. Batched into one daily run (the economy is the batching itself — scheduled runs carry no special token discount).
 
 ## 8. Golden Inchworm log (append-only, newest first)
+
+- **2026-07-20 · v2.10.0 · epoch `4bf8043`** — **Frame correction, not a code epoch** (no new commits since `4bf8043`). Zach retired **Hard Fork #06** outright as a category error: ARCS is the **engine**; **Mañana** is the consultancy (the artifact wedge = a real revenue arm, not a rival to the compass); **ARCS-powered Sprints** is a B2B product; **ARCS Question Compass** is a B2C surface, first of several — a portfolio on one engine, not product-vs-consultancy. **Supersedes** the four prior "Next move: file the Hard Fork" lines (2026-07-16→19) and the §4 FUN HOUSE "unnamed fork" finding — all rested on the false dichotomy. §6 #06 reframed FORK → portfolio articulation (GREEN); #07 rail de-gated from the fork; §4 mirror struck. Prior §8 entries left intact (append-only history). Recorded to memory (`arcs-product-architecture-not-a-fork`) to stop the recurrence.
+
+**Next move:** With the false fork dissolved, the honestly-highest moves revert to the cheap actionable ones it was overshadowing — canon truth-sync #2 (ATG + outcome-handler stale lines, one commit) and the 52-flag `--sweep` backlog. Portfolio *sequencing* (which lane to resource next) is now a clean question to run through ARCS on its own terms, no longer blocked behind a nonexistent either/or.
 
 - **2026-07-19 · v2.9.0 · epoch `cfbc483`** — 3 substantive commits since last epoch (`0aefa82`), all receipt-tagged — a quiet product-lane epoch, no new ADRs/patterns/handoffs/ROM candidates. `403d109` (NCI:95, #121) closes a real gap in the anon-share onramp: "Sign in to keep" wrote no `arcs_pending_save`, so the post-auth claim consumer had nothing to land — now stashes the recomposed bearing like the ephemeral receipt page, verified in-browser to the auth boundary. `8429f2e`/`cfbc483` (NCI:70/68) are a two-pass signal-glow tuning of the ui-kit tokens (halve intensity + cut bloom ~33%, then gauge/accent/True-North glass refinement). **§3 re-grade:** none — all touch already-PARITY surfaces (anon-share ADR-037 is now functionally complete end-to-end, not merely present; glow is cosmetic). **Drift (b):** clean — 0/3 untagged. **Drift (a):** stack-rank #2 STILL OPEN, verbatim-unchanged — `CLAUDE.md:68/72` ATG "backlog" and `AGENTS.md:119` outcome handler "P1 backlog" survive while `src/app/api/receipts/[receiptId]/outcome/route.ts` ships. **Drift (c):** the 52-flag `--sweep` backlog untouched this epoch; **Hard Fork (#06) still unfiled — 9 days.**
 
