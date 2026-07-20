@@ -574,6 +574,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <a class="doc-tab" href="#mvp">Options & Price</a>
       <a class="doc-tab" href="#protocol">Next Steps</a>
       <a class="doc-tab" href="#sm-questions">Discovery</a>
+      <a class="doc-tab" href="#howitworks">How It Works</a>
     </nav>
   </div>
 </div>
@@ -1070,6 +1071,53 @@ Todd answered the discovery questions, thank you. To finalize the chatbot's fiel
 4. Optional: a handful of the most common questions the bot should be ready to answer up front.</textarea>
   </section>
 
+  <!-- ── HOW IT WORKS ── -->
+  <div class="divider" id="howitworks"></div>
+  <section>
+    <div class="section-eyebrow">Phase 1 · How it works</div>
+    <div class="section-title">How the chatbot will work</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
+      Based on what you told me, here is the conversation your visitors will have. It stays short so people actually finish it, and it hands your reps a clean, qualified lead.
+    </p>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It greets and sorts the visitor</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">The assistant pops up and asks what brings them in, then offers three quick paths. This screens out the tire-kickers before they reach a rep.</div>
+        <div style="font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px;">
+          &bull; They know the resin or spec they want<br>
+          &bull; They need help finding the right resin<br>
+          &bull; Something else, like a general question
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It asks only what a rep needs</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">Depending on the path, it gathers the useful basics: the resin or spec, the application, what they use now, and any requirements. Then name, email, phone, company, and their location. Short and painless, since your buyers usually already have a need.</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It hands your rep a clean lead</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">It creates a lead in SugarCRM, emails the notification, and routes it to the right rep by territory (to the sales manager for the first version). The customer hears that someone will reach out within a few hours.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:6px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
+      <strong style="color:var(--cyan);">No lost leads:</strong> if someone leaves halfway, the assistant remembers them. When they come back it picks up where they left off, so a half-finished form does not become a lost lead.
+    </div>
+
+    <div style="margin-top:14px;padding:14px 18px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);font-size:13px;color:var(--sub);line-height:1.65;">
+      <strong style="color:var(--gold);">To finalize:</strong> three inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields, the territory map, and your resin list. Everything else is ready to build whenever you give the go.
+    </div>
+  </section>
+
   <div class="stop-loss">
     <div class="pulse"></div>
     <div class="sl-text">The safety net: even if the data takes longer than expected, we still ship the chatbot ($1,500) from what you've already told me. We don't wait for perfect data to get something live and working.</div>
@@ -1115,7 +1163,7 @@ function copySmQuestions(){
 }
 
 // Update active tab on scroll
-const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions'];
+const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions','howitworks'];
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
