@@ -74,8 +74,10 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         // jalaja.arcs.care → public/jalaja.html (Jalaja Padma / theTrueAI pre-call brief, internal, pw-gated "padma")
         { source: "/:path*", destination: "/jalaja.html", has: [{ type: "host", value: "jalaja.arcs.care" }] },
-        // thetrueai.arcs.care → public/thetrueai.html (external-facing theTrueAI teardown, addressed to Jalaja, pw-gated "jalaja")
-        { source: "/:path*", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
+        // thetrueai.arcs.care/proposal → public/thetrueai-proposal.html (post-call content-strategy sprint proposal, pw-gated "jalaja")
+        { source: "/proposal", destination: "/thetrueai-proposal.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
+        // thetrueai.arcs.care root/anything-else (except /proposal) → public/thetrueai.html (external-facing theTrueAI teardown, addressed to Jalaja, pw-gated "jalaja")
+        { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         // chan.arcs.care → public/chan.html (ARCS product mission/architecture/roadmap hub for Prophet CDO show-and-tell, ungated)
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         // status.arcs.care → public/status.html (standalone ARCS build-status fork of chan, no Prophet/presentation, ungated)
