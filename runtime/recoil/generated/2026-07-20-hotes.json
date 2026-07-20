@@ -1,0 +1,43 @@
+{
+  "cover": {
+    "badges": ["PRL Resins · Todd Hotes", "Phase 1 · Verbal Go"],
+    "title": "Recoil Report — Jul 20 Call",
+    "subtitle": "Proposal walkthrough → Phase 1 chatbot confirmed at $1,500, routed to the sales manager. The real substance: Todd generated the Phase 1 data model himself and opened a wide Phase 2+ surface.",
+    "meta": "Call: Jul 20, 2026 · ~35 min · phone (Todd en route to airport)",
+    "actions": ["Send SM questions (today)", "Send Stripe link + W-9"]
+  },
+  "loadBearingQuote": {
+    "text": "Let's start with this chatbot. And just keep it simple, routed to the sales manager. Then take it from there — getting the rest of the team involved in the technology is going to be a huge pain in the ass.",
+    "attribution": "Todd Hotes · Jul 20, 2026"
+  },
+  "callWalk": [
+    { "label": "Open", "title": "Personal catch-up", "body": "Caught up first (date night, family, Zach's job search). Todd joined from the car heading to the airport — warm, low-friction, ready to move." },
+    { "label": "Walkthrough", "title": "The proposal, in ~3 minutes", "body": "Zach walked the simplified page: chatbot first, route to the sales manager, rent Tidio on WordPress → SugarCRM, three tiers. Phase 1 = 3 sessions / ~1 week / $1,500. Todd tracked it easily." },
+    { "label": "Turn", "title": "Todd generates the Phase 1 data model", "body": "Todd's move: take the product-development / application-discovery form the reps use and build a 'light version' as the chatbot's capture fields — contact info + application + resin currently in use. Zach's guardrail: keep required fields minimal to avoid form-fatigue; capture the 1–2 must-haves, not the whole form.", "peak": true },
+    { "label": "Reframe", "title": "Buyers are engineers, not budgets", "body": "Todd: inquiries are almost always engineers; budget isn't the driver (occasionally a purchasing manager). CS reps are just a switchboard — no real pre-qualification today. Confirms qualifying on technical fit and routing straight to the sales manager." },
+    { "label": "Expansion", "title": "A wide Phase 2+ surface", "body": "Todd lit up on rep-assist ideas: a voice agent (11labs) to populate SugarCRM by phone, photo/voice-to-text for handwritten field notes, real-time translation for China/Vietnam/Malaysia deals, and an IT-triage agent. All genuinely wanted — all flagged 'later.'" },
+    { "label": "Close", "title": "Verbal go + logistics", "body": "Phase 1 approved, 'keep it simple.' $1,500 via Stripe link or check + 1099. Todd will email the SM the questions today (sees him Wed at the Imagine meeting), gather WordPress + SugarCRM credentials, and intro Zach to the web-dev host for a sandbox." }
+  ],
+  "signalThreads": [
+    { "label": "SCOPE", "accent": "gold", "title": "Phase 1 must stay boxed", "body": "Todd's own instinct — 'keep it simple' — is the guardrail. The bigger vision (voice agents, transcription, translation, IT triage) is real and exciting but is Phase 2+. Ship the lead-capture chatbot first; log the rest.", "note": "Todd said it, not us — reinforce it." },
+    { "label": "DATA", "accent": "cyan", "title": "The product-dev form IS the Phase 1 spec", "body": "The chatbot's fields come from a 'light version' of the reps' application-discovery form; the SM defines the 1–2 must-haves. Until that lands, build on contact-info + generic qualification and swap the refined fields in." },
+    { "label": "PEOPLE", "accent": "red", "title": "Field reps are tech-resistant", "body": "Reps are 55–60, old-school, no calendars/booking links, 'pulling teeth' to update SugarCRM. Phase 1 correctly avoids them by routing to the SM. Any future rep-facing phase is change-management, not a plugin." },
+    { "label": "SPEED", "accent": "green", "title": "4-hour callback = a metric worth owning", "body": "Todd targets ~4h response and has lost deals to slow callback. A close-won/close-loss view on callback speed is a strong data-driven wedge — note for Phase 2." }
+  ],
+  "scenarios": {
+    "best": { "title": "Fast path — live in ~1 week", "body": "Todd emails the SM the questions today; SM answers around Wed's Imagine meeting; credentials + web-dev sandbox land this week. Build starts immediately; $1,500 paid.", "note": "Everything Todd committed to lands on time." },
+    "base": { "title": "Staged — live in ~1.5–2 weeks", "body": "SM input trickles in after Wed. Zach ships the contact-info + generic qualification flow first, then swaps in the refined application fields once the light form arrives.", "note": "Most likely." },
+    "worst": { "title": "Access-blocked — ship anyway", "body": "SM slow / web-dev access delayed. Mitigation: build locally on a contact-info-only flow, push it live, iterate. Don't wait on perfect fields.", "note": "Stop-loss: something live beats nothing." }
+  },
+  "riskFlags": [
+    { "variant": "caution", "label": "Scope creep (benign, self-generated)", "body": "Todd is producing Phase 2/3 ideas faster than Phase 1 is built. Capture them; don't build them. Keep the invoice and the first build to the $1,500 lead-capture chatbot." },
+    { "variant": "info", "label": "Sales-manager dependency", "body": "The final question flow depends on the SM's 'light form' fields. He's traveling; Todd sees him Wed. De-risk by starting the build on generic fields now." },
+    { "variant": "warning", "label": "Field-rep adoption (future phases)", "body": "Any phase asking the reps to change behavior faces heavy resistance. Design future work as invisible/assistive or it won't stick." }
+  ],
+  "protocol": [
+    { "label": "Zach · today", "title": "Send Todd the sales-manager questions", "body": "The list is short enough for a 5–10 min SM chat. Todd emails them to the SM today and discusses Wed at the Imagine meeting.", "active": true },
+    { "label": "Zach · this week", "title": "Send Stripe link + W-9", "body": "$1,500, itemized to the Phase 1 scope; provide W-9 / 1099 info so Todd's AP person can process it." },
+    { "label": "Zach · this week", "title": "Get access + a sandbox", "body": "WordPress login (Todd's or via the web-dev host), SugarCRM (the SM has access), and an intro to the web-dev company for a lower/sandbox environment to build safely before going live." },
+    { "label": "Todd · today→Wed", "title": "Email the SM + gather credentials", "body": "Send the questions today; discuss Wed. Pull together WordPress + SugarCRM credentials and connect Zach with the web-dev host." }
+  ]
+}
