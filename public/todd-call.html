@@ -566,6 +566,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
       <a class="doc-tab" href="#mvp">Options & Price</a>
       <a class="doc-tab" href="#protocol">Next Steps</a>
+      <a class="doc-tab" href="#sm-questions">SM Questions</a>
     </nav>
   </div>
 </div>
@@ -971,6 +972,84 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     <p style="font-size:12px;color:var(--muted);line-height:1.65;margin-top:14px;max-width:660px;">Later — <em>only</em> when we start the "recommend a formulation" AI — we'll want your product-development form fields and a website traffic report. An NDA is optional if you'd ever want one, but it's not required. <strong style="color:var(--sub);">Nothing this month waits on any of that.</strong></p>
   </section>
 
+  <!-- ── SALES-MANAGER QUESTIONS ── -->
+  <div class="divider" id="sm-questions"></div>
+  <section>
+    <div class="section-eyebrow">Phase 1 · For Your Sales Manager</div>
+    <div class="section-title">Questions to hand your sales manager</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
+      These decide <strong style="color:var(--text)">what the chatbot asks a visitor</strong> and <strong style="color:var(--text)">how a lead reaches him</strong> — about a 5–10 minute conversation. Copy them as plain text for your email, or just send him this page to refer back to.
+    </p>
+
+    <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--green);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;box-shadow:var(--green-glow);transition:opacity .15s;">
+      <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy questions as plain text</span>
+    </button>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">What makes a lead worth a rep's time</div>
+      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:9px;">From the product-development / application-discovery form your reps already use, what are the <strong style="color:var(--text);font-weight:600;">1–2 fields that matter most</strong> — the minimum you'd want captured for a lead to be worth acting on?</li>
+        <li style="margin-bottom:9px;">Beyond name / email / phone, is <strong style="color:var(--text);font-weight:600;">application</strong> + <strong style="color:var(--text);font-weight:600;">resin currently in use</strong> the right core to capture, or is something else more telling?</li>
+        <li>What makes a lead an obvious <strong style="color:var(--text);font-weight:600;">good fit</strong> vs. <strong style="color:var(--text);font-weight:600;">not worth pursuing</strong>? Any hard disqualifiers?</li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's actually asking</div>
+      <ol start="4" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:9px;">Is the person inquiring almost always the <strong style="color:var(--text);font-weight:600;">engineer</strong>, or do you also hear from purchasing / others — and would they need different questions?</li>
+        <li>How do you tell someone <strong style="color:var(--text);font-weight:600;">just researching</strong> from someone <strong style="color:var(--text);font-weight:600;">ready for a rep</strong>? (If there's a spec sheet or guide we can point researchers to, we'll route them there instead of to a rep.)</li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Questions &amp; objections, up front</div>
+      <ol start="6" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:9px;">What are the <strong style="color:var(--text);font-weight:600;">most common questions</strong> prospects ask <em>before</em> they'll share their info?</li>
+        <li>What <strong style="color:var(--text);font-weight:600;">objections</strong> do you hear early, before they're comfortable giving contact details?</li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Routing &amp; handoff</div>
+      <ol start="8" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:9px;">How should a new lead be <strong style="color:var(--text);font-weight:600;">routed</strong> — by territory / region? What does the chatbot need to capture (e.g., location) so it lands with the right rep?</li>
+        <li>When a lead reaches you, what <strong style="color:var(--text);font-weight:600;">format</strong> is easiest to act on fast — a SugarCRM lead, an email, both? Any fields you always want filled in?</li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Speed — optional, sets up a later win</div>
+      <ol start="10" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li>You aim to respond within ~4 hours — should the chatbot <strong style="color:var(--text);font-weight:600;">set that expectation</strong> with the prospect? And is it worth tracking win/loss against callback speed down the road?</li>
+      </ol>
+    </div>
+
+    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Questions for the sales manager — PRL Resins chatbot (Phase 1)
+
+These decide what the chatbot asks a visitor and how a lead reaches you. About a 5–10 minute conversation.
+
+WHAT MAKES A LEAD WORTH A REP'S TIME
+1. From the product-development / application-discovery form your reps already use, what are the 1–2 fields that matter most — the minimum you'd want captured for a lead to be worth acting on?
+2. Beyond name / email / phone, is application + resin currently in use the right core to capture, or is something else more telling?
+3. What makes a lead an obvious good fit vs. not worth pursuing? Any hard disqualifiers?
+
+WHO'S ACTUALLY ASKING
+4. Is the person inquiring almost always the engineer, or do you also hear from purchasing / others — and would they need different questions?
+5. How do you tell someone just researching from someone ready for a rep? (If there's a spec sheet or guide we can point researchers to, we'll route them there instead of to a rep.)
+
+QUESTIONS & OBJECTIONS, UP FRONT
+6. What are the most common questions prospects ask before they'll share their info?
+7. What objections do you hear early, before they're comfortable giving contact details?
+
+ROUTING & HANDOFF
+8. How should a new lead be routed — by territory / region? What does the chatbot need to capture (e.g., location) so it lands with the right rep?
+9. When a lead reaches you, what format is easiest to act on fast — a SugarCRM lead, an email, both? Any fields you always want filled in?
+
+SPEED (OPTIONAL)
+10. You aim to respond within ~4 hours — should the chatbot set that expectation with the prospect? And is it worth tracking win/loss against callback speed down the road?</textarea>
+  </section>
+
   <div class="stop-loss">
     <div class="pulse"></div>
     <div class="sl-text">The safety net: even if the data takes longer than expected, we still ship the chatbot ($1,500) from what you've already told me. We don't wait for perfect data to get something live and working.</div>
@@ -991,8 +1070,32 @@ document.querySelectorAll('.doc-tab').forEach(tab => {
   });
 });
 
+// Copy the sales-manager questions as plain text (email-ready)
+function copySmQuestions(){
+  var ta = document.getElementById('smPlain');
+  var label = document.getElementById('copySmLabel');
+  if (!ta) return;
+  var flash = function(msg){
+    if (!label) return;
+    var prev = 'Copy questions as plain text';
+    label.textContent = msg;
+    setTimeout(function(){ label.textContent = prev; }, 2000);
+  };
+  var fallback = function(){
+    ta.select(); ta.setSelectionRange(0, ta.value.length);
+    try { document.execCommand('copy'); flash('Copied ✓'); }
+    catch (e) { flash('Press ⌘/Ctrl+C'); }
+    window.getSelection().removeAllRanges();
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ta.value).then(function(){ flash('Copied ✓'); }, fallback);
+  } else {
+    fallback();
+  }
+}
+
 // Update active tab on scroll
-const sections = ['reverse','recall','chatbot','mvp','protocol'];
+const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions'];
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
