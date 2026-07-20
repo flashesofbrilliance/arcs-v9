@@ -43,8 +43,8 @@ const COVENANT_GROUPS = [
   {
     group: 'On the product',
     rows: [
-      { arcs: 'Directional clarity — not engagement optimization', you: 'Real questions with real stakes' },
-      { arcs: "Surface honest limits when the terrain doesn't support confidence", you: 'Bring honest questions — rationalization breaks the compass' },
+      { arcs: 'Directional clarity, not engagement optimization', you: 'Real questions with real stakes' },
+      { arcs: "Surface honest limits when the terrain doesn't support confidence", you: 'Bring honest questions. Rationalization breaks the compass' },
     ],
   },
   {
@@ -57,7 +57,7 @@ const COVENANT_GROUPS = [
   {
     group: 'On the relationship',
     rows: [
-      { arcs: 'Source code stays public — verify our claims yourself', you: "Don't extract from this community using our open source" },
+      { arcs: 'Source code stays public. Verify our claims yourself', you: "Don't extract from this community using our open source" },
     ],
   },
 ]
@@ -72,7 +72,7 @@ const FULL_SECTIONS = [
 const PHILOSOPHY_SECTIONS = [
   { n: '§ I', head: 'On sovereignty', body: 'Your data is yours. Your thoughts are yours. Your decisions are yours. A navigation tool does not own the navigator.' },
   { n: '§ II', head: 'On clarity', body: 'Fog is real. Pretending it isn\'t is worse than admitting it. The best compass is one that says "terrain unknown" when it means it.' },
-  { n: '§ III', head: 'On coherence', body: 'Better outcomes don\'t come from optimization—they come from alignment. Coherence measures how well your decision works with reality, constraints, and values.' },
+  { n: '§ III', head: 'On coherence', body: 'Better outcomes don\'t come from optimization. They come from alignment. Coherence measures how well your decision works with reality, constraints, and values.' },
 ]
 
 const BILL_OF_RIGHTS_SECTIONS = [
@@ -83,8 +83,8 @@ const BILL_OF_RIGHTS_SECTIONS = [
 ]
 
 const MANIFESTO_SECTIONS = [
-  { n: '§ I', head: 'The problem', body: 'Decision frameworks fail because they\'re built on deductive or inductive reasoning. 80% of real decisions require abductive reasoning—finding the best explanation when information is incomplete.' },
-  { n: '§ II', head: 'The thesis', body: 'Coherence, not certainty. There are many viable solutions with different trade-offs. The goal isn\'t finding "optimal"—it\'s finding coherent: aligned with your context, values, and constraints.' },
+  { n: '§ I', head: 'The problem', body: 'Decision frameworks fail because they\'re built on deductive or inductive reasoning. 80% of real decisions require abductive reasoning, finding the best explanation when information is incomplete.' },
+  { n: '§ II', head: 'The thesis', body: 'Coherence, not certainty. There are many viable solutions with different trade-offs. The goal isn\'t finding "optimal". It\'s finding coherent: aligned with your context, values, and constraints.' },
   { n: '§ III', head: 'The law', body: 'Coherence = Alignment - Entropy + Useful Work. A sub-optimal solution with low friction often outperforms an optimal solution with high entropy.' },
   { n: '§ IV', head: 'The wager', body: 'In a complex, uncertain, rapidly changing world, coherence > certainty. Even if imperfect, multi-operator reasoning is less wrong than unaided human cognition for complex decisions.' },
 ]
@@ -329,7 +329,7 @@ export function EyebrowToast() {
 
                     {/* Axiom */}
                     <div style={{ borderLeft: `2px solid ${signal.cyan}33`, paddingLeft: '0.75rem', marginBottom: '1rem' }}>
-                      <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, lineHeight: 1.4 }}>Loyalty is earned through demonstrated reciprocity — not demanded through terms.</div>
+                      <div style={{ fontFamily: sans, fontSize: 13, fontWeight: 500, color: text.primary, lineHeight: 1.4 }}>Loyalty is earned through reciprocity, not demanded through terms.</div>
                       <div style={{ fontFamily: sans, fontSize: 11, color: text.muted, marginTop: '0.2rem' }}>If ARCS breaks this covenant, you are released from it immediately.</div>
                     </div>
 

@@ -123,7 +123,7 @@ export default function ReceiptPage() {
               {isEphemeral ? "Nothing was stored, by design" : "Receipt unavailable"}
             </div>
             <h1 style={{ fontFamily: font.sans, fontSize: "1.25rem", fontWeight: 600, color: text.primary, margin: "0 0 0.55rem", lineHeight: 1.3, letterSpacing: "-0.01em" }}>
-              {isEphemeral ? "This bearing didn’t travel here" : "Couldn’t load this receipt"}
+              {isEphemeral ? "Nothing to show here" : "Couldn’t load this receipt"}
             </h1>
             <p style={{ fontFamily: font.sans, fontSize: "0.88rem", color: text.secondary, lineHeight: 1.6, margin: "0 0 1.5rem" }}>{error}</p>
             <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>

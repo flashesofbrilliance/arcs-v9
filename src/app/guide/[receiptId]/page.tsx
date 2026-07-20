@@ -588,7 +588,7 @@ function DecideHeader({
                 {/* Tactical+: tripwire */}
                 {density >= 4 && (
                   <div style={{ background: `${s.gold}0d`, border: `1px solid ${s.gold}33`, borderRadius: 6, padding: "0.625rem 0.75rem" }}>
-                    <div style={{ fontSize: "0.6rem", color: s.gold, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>⚠ Midcurve Tripwire</div>
+                    <div style={{ fontSize: "0.6rem", color: s.gold, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: "0.25rem" }}>⚠ Where this goes sideways</div>
                     <div style={{ fontSize: "0.8rem", color: s.text, lineHeight: 1.5 }}>{stage.midcurveTripwire}</div>
                   </div>
                 )}
@@ -812,7 +812,7 @@ export default function GuidePage() {
 
         {/* Agenda — Operational+ */}
         {density >= 3 && (
-        <CollapsibleBand title="Agenda: In My Head" isOpen={agendaOpen} onToggle={() => setAgendaOpen(o => !o)} accentColor={s.cyan}>
+        <CollapsibleBand title="Agenda" isOpen={agendaOpen} onToggle={() => setAgendaOpen(o => !o)} accentColor={s.cyan}>
           <ul style={{ margin: 0, paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             {activeStage.agenda.map((item, i) => (
               <li key={i} style={{ fontSize: "0.85rem", color: s.text, lineHeight: 1.5 }}>{item}</li>

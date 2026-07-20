@@ -20,8 +20,8 @@ const CHIPS = [
 
 const GRADES = [
   { key: 'GREEN', color: signal.green, body: 'Coherent, well-supported bearing. Move, but stay alert to new information.' },
-  { key: 'YELLOW', color: signal.gold, body: 'Contested terrain. Cross-check your assumptions before committing.' },
-  { key: 'SCRATCH / FORK', color: text.muted, body: "Ground isn't stable. Don't decide yet. Probe the terrain first." },
+  { key: 'YELLOW', color: signal.gold, body: 'The situation is contested. Cross-check your assumptions before committing.' },
+  { key: 'SCRATCH / FORK', color: text.muted, body: "Ground isn't stable. Don't decide yet. Probe first." },
   { key: 'PARADOX', color: signal.red, body: 'Premature. The question needs more time or a different framing.' },
 ]
 
@@ -72,7 +72,7 @@ export default function TrustPage() {
                 <strong style={{ color: text.primary }}>Sharing an anonymous bearing:</strong> if you create a one-time share link, the bearing is encoded <em>inside the link itself</em> (in the URL fragment, which browsers never send to a server). Still nothing on ours. The link opens once on the recipient's device, then becomes a sign-in page. Because the content rides in the link, treat it like any message you send: anyone you give it to can read it.
               </span>
               <span style={{ display: 'block', marginTop: '0.75rem', fontSize: '0.85em', opacity: 0.85 }}>
-                <strong style={{ color: text.primary }}>Repair seam (2026-07-13), kept visible on purpose:</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section. 48 existed when found. Fixed the same day (commit 8b486e8. The repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them. They carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
+                <strong style={{ color: text.primary }}>A fix we're keeping visible on purpose (2026-07-13):</strong> until this date, a defect stored anonymous receipts server-side, contrary to this section. 48 existed when found. Fixed the same day (commit 8b486e8. The repo is public, so this is verifiable, not just claimed). The pre-fix receipts were kept rather than deleted because shared receipt links reference them. They carry no account identity. Sign in from the same browser to claim yours, or request deletion via the inquiry link below.
               </span>
             </>,
           },
@@ -160,7 +160,7 @@ export default function TrustPage() {
           </div>
           <div style={{ borderLeft: `2px solid ${signal.cyan}40`, paddingLeft: '1rem' }}>
             <div style={{ fontFamily: sans, fontSize: '0.9375rem', color: text.primary, fontWeight: 500, lineHeight: 1.4 }}>ARCS does not make decisions. You do.</div>
-            <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.muted, marginTop: '0.25rem' }}>The compass shows terrain. The navigator chooses the line.</div>
+            <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.muted, marginTop: '0.25rem' }}>The compass shows the situation. You choose the direction.</div>
           </div>
         </div>
 
@@ -168,7 +168,7 @@ export default function TrustPage() {
         <div style={{ height: 1, background: border.subtle, marginBottom: '1.75rem' }} />
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ fontFamily: mono, fontSize: '0.625rem', color: text.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.3rem' }}>§ 08</div>
-          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>How ARCS catches you at the fork</div>
+          <div style={{ fontFamily: sans, fontSize: '0.9375rem', fontWeight: 500, color: text.primary, marginBottom: '0.5rem' }}>How ARCS catches you at a decision point</div>
           <div style={{ fontFamily: sans, fontSize: '0.875rem', color: text.secondary, lineHeight: 1.7, marginBottom: '0.75rem' }}>
             You might expect the system to detect when you're about to override a clear signal. Here's what's honest:
           </div>
@@ -176,7 +176,7 @@ export default function TrustPage() {
             <div style={{ fontFamily: mono, fontSize: '0.625rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: text.muted, marginBottom: '0.4rem' }}>Current state</div>
             <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.secondary, lineHeight: 1.65 }}>
               Kairos detection, the system that flags momentum building toward a decision point, is on the roadmap, not live yet.{' '}
-              <strong style={{ color: text.primary }}>Right now, ARCS surfaces the terrain. You bring the awareness of where you are in the decision arc.</strong>{' '}
+              <strong style={{ color: text.primary }}>Right now, ARCS shows you the situation. You bring the awareness of where you are in the decision.</strong>{' '}
               The compass can't yet tell you "you're about to override a YELLOW with no new data." That's a gap we're naming, not hiding.
             </div>
           </div>

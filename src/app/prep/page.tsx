@@ -100,10 +100,10 @@ function PrepInner() {
 
         <div style={{ marginBottom: "2rem" }}>
           <h1 style={{ fontFamily: font.sans, fontSize: "1.5rem", fontWeight: 600, color: text.primary, margin: "0 0 0.5rem", lineHeight: 1.25, letterSpacing: "-0.01em" }}>
-            2 minutes. Sharper terrain.
+            2 minutes. A clearer picture.
           </h1>
           <p style={{ fontFamily: font.sans, fontSize: "0.85rem", color: text.muted, margin: 0, lineHeight: 1.6 }}>
-            These signals tell the compass which mode to run, what to protect, and who else is in the terrain.
+            These signals tell the compass which mode to run, what to protect, and who else is affected.
           </p>
           {question.trim() && (
             <div style={{ marginTop: "1rem", padding: "0.75rem 0.9rem", border: `1px solid ${border.subtle}`, borderRadius: 8, background: surface.elevated }}>
@@ -136,13 +136,13 @@ function PrepInner() {
             <div style={{ flex: 1, height: 1, background: surface.panel }} />
           </div>
 
-          <Field label="Who else is in this terrain?" value={entity} onChange={(e) => setEntity(e.target.value)} placeholder="person, company, stakeholder, panel…" />
-          <Field label="Strongest case against your instinct" value={adversarial} onChange={(e) => setAdversarial(e.target.value)} placeholder="One sentence. The Loki vector." />
+          <Field label="Who else is affected by this?" value={entity} onChange={(e) => setEntity(e.target.value)} placeholder="person, company, stakeholder, panel…" />
+          <Field label="Strongest case against your instinct" value={adversarial} onChange={(e) => setAdversarial(e.target.value)} placeholder="One sentence. The strongest argument you'd least want to be true." />
           <Field label="When will you know if it worked?" value={outcomeHorizon} onChange={(e) => setOutcomeHorizon(e.target.value)} placeholder="not when you decide, but when the outcome shows up: end of Q3, when we close the hire, 30 days…" />
 
           <div style={{ position: "sticky", bottom: 0, background: surface.bg, borderTop: `0.5px solid ${border.subtle}`, padding: "1rem 0 1.25rem", marginTop: "0.5rem" }}>
             <Button type="submit" variant="primary" size="lg" glyph={loading ? "~" : "⊕"} disabled={loading} style={{ width: "100%" }}>
-              {loading ? "Loading terrain…" : <>Enter the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></>}
+              {loading ? "Loading…" : <>Enter the compass&nbsp;<span style={{ fontFamily: font.sans, fontWeight: 500, opacity: 0.75 }}>→</span></>}
             </Button>
           </div>
         </form>

@@ -37,7 +37,7 @@ export function DebriefCard({ receiptId, question, trueNorth, nciScore, nciGrade
 
 True North: "${tnTruncated}"
 
-Conviction: ${nciScore}/100${nciGrade ? ` — ${nciGrade}` : ""}
+Conviction: ${nciScore}/100${nciGrade ? `. ${nciGrade}` : ""}
 Days elapsed: ${daysElapsed}d
 
 The shoe has dropped. Did it land where the compass pointed? Log your outcome at:

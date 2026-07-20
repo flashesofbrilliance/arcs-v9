@@ -16,7 +16,7 @@ const COVENANT = [
         you: 'Use the compass for real decisions with genuine stakes, not to benchmark, scrape, or reverse-engineer the system',
       },
       {
-        arcs: "Surface honest limits when the terrain doesn't support confidence. ARCS won't fake certainty",
+        arcs: "Surface honest limits when the situation doesn't support confidence. ARCS won't fake certainty",
         you: "Bring honest questions. The compass doesn't work if the framing is a rationalization",
       },
       {
@@ -50,7 +50,7 @@ const COVENANT = [
         you: 'Report discrepancies between what we claim and what you observe in the source code',
       },
       {
-        arcs: 'Not hold you to loyalty we did not earn through demonstrated reciprocity',
+        arcs: 'Not hold you to loyalty we did not earn through reciprocity',
         you: "Not claim ARCS guarantees outcomes. The compass navigates, it doesn't decide",
       },
       {
@@ -144,7 +144,7 @@ export default function TermsPage() {
 
         {/* Axiom */}
         <div style={{ borderLeft: `2px solid ${signal.cyan}40`, paddingLeft: '1rem', marginBottom: '2rem' }}>
-          <div style={{ fontFamily: sans, fontSize: '0.9375rem', color: text.primary, fontWeight: 500, lineHeight: 1.4 }}>Loyalty is earned through demonstrated reciprocity, not demanded through terms.</div>
+          <div style={{ fontFamily: sans, fontSize: '0.9375rem', color: text.primary, fontWeight: 500, lineHeight: 1.4 }}>Loyalty is earned through reciprocity, not demanded through terms.</div>
           <div style={{ fontFamily: sans, fontSize: '0.8125rem', color: text.muted, marginTop: '0.25rem' }}>If ARCS breaks this covenant, you are released from it. If you break it, we may terminate your access. Either side can walk away.</div>
         </div>
 

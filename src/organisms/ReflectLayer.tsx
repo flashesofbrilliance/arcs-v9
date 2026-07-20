@@ -764,7 +764,7 @@ export function ReflectLayer({
                           {a.body}
                         </div>
                         <div style={{ fontFamily: font.mono, fontSize: 10, color: "rgba(71,85,105,.45)", lineHeight: 1.45, marginTop: 4 }}>
-                          — "{a.anchorText.slice(0, 60)}{a.anchorText.length > 60 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          "{a.anchorText.slice(0, 60)}{a.anchorText.length > 60 ? "…" : ""}" · {new Date(a.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                         </div>
                         {/* Collapsed kernel preview */}
                         {!isOpen && cleanKernel && (
