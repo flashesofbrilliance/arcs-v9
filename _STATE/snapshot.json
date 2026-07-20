@@ -1,10 +1,10 @@
 {
-  "captured_at": "2026-07-20T18:11:19Z",
+  "captured_at": "2026-07-20T18:56:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "63480e3",
-    "head_message": "style(todd-call): move \"to start\" callout to full-width bar below deal+payment [NCI:SKIP]",
-    "in_sync_with_origin": true,
+    "head_sha": "36a2b8e",
+    "head_message": "docs(handoff): v3.12.0 \u2014 open-source resumeware track + rca-skill shipped [NCI:SKIP handoff]",
+    "in_sync_with_origin": false,
     "dirty_files": []
   },
   "vercel": {
@@ -47,8 +47,8 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Open-source resumeware: extracted the /rca skill from ARCS commands, scrubbed it fully generic (0 leaks, 0 em-dashes), ran a full BAR/LAB/KKL/COURT/Funhouse gauntlet on it (only catch = em-dashes, fixed), and shipped it as a standalone public repo github.com/flashesofbrilliance/rca-skill (skill at repo root for git-clone-into-.claude/skills install). Kept open-source/rca/ in the worktree as the tracking/staging area for future candidates.",
-  "next_action": "Continue the open-source queue: (1) NCI trio (nci-scoring + nci-commit + drift-check) \u2014 inline the ADR-035 rubric so it is self-contained, then extract; (2) teardown gauntlet + teardown_eval.py \u2014 heaviest scrub (real client names, arcs.care deploy mechanics, first-name password-gate scheme) before it can ship. Product-side backlog unchanged (ledger management, authenticated /recoil index, v3.9.0 auth-loop test).",
+  "session_summary": "Open-source resumeware, round 2: shipped fix-toolbar-comments-skill (github.com/flashesofbrilliance/fix-toolbar-comments-skill) alongside rca-skill \u2014 same scrub+gauntlet pattern (only catch both times: em-dashes, fixed). Also ran a sauce-aware reranking of the whole open-source queue: upgraded the state-sync bundle (init-state-sync+handoff+handoff-pickup) as most broadly useful/zero-IP; reversed the prior NCI-trio recommendation to a HOLD since those skills ARE the proprietary ADR-035 rubric, not just a pattern using it.",
+  "next_action": "Next open-source candidate: the state-sync bundle (init-state-sync + handoff + handoff-pickup) \u2014 genericize the DEWY-specific snapshot.json fields to a plain schema, then extract to its own repo. NCI trio and teardown/precall-brief/recoil-report/dewy-stub family stay on HOLD (sauce risk) per _STATE/snapshot.json \u2192 open_source.hold_sauce_risk. Product-side backlog unchanged (ledger management, authenticated /recoil index, v3.9.0 auth-loop test).",
   "blocking": "NONE",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
@@ -58,22 +58,26 @@
         "local": "/Users/zharris/rca-skill",
         "visibility": "public",
         "date": "2026-07-20"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/fix-toolbar-comments-skill",
+        "local": "/Users/zharris/fix-toolbar-comments-skill",
+        "visibility": "public",
+        "date": "2026-07-20"
       }
     ],
     "staging_dir": "open-source/",
     "queue": [
-      "NCI trio (nci-scoring + nci-commit + drift-check) \u2014 inline ADR-035 rubric first",
-      "teardown gauntlet + teardown_eval.py \u2014 heavy client-data/secret scrub required first"
+      "State-sync bundle (init-state-sync + handoff + handoff-pickup) \u2014 genericize the DEWY-specific snapshot fields to a plain schema, then extract. Reranked UP this session \u2014 most broadly useful, zero product IP once stripped."
+    ],
+    "hold_sauce_risk": [
+      "NCI trio (nci-scoring + nci-commit + drift-check) \u2014 reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
+      "teardown gauntlet + teardown_eval.py \u2014 heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
+      "precall-brief, recoil-report \u2014 same client-data + gauntlet-operator sauce as teardown",
+      "arcs-research, dewy-stub, receipt-book-curator \u2014 built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
     ],
     "do_not_publish": [
-      "handoff",
-      "handoff-pickup",
-      "init-state-sync",
-      "dewy-stub",
-      "receipt-book-curator",
-      "arcs-research",
-      "fix-toolbar-comments",
-      "arcs-brand-manager (fork of Anthropic brand-guidelines)"
+      "arcs-brand-manager (fork of Anthropic's own brand-guidelines skill)"
     ]
   },
   "memory_shards": {
@@ -189,5 +193,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-20T17:32:51Z"
+  "git_refreshed_at": "2026-07-20T18:49:50Z"
 }
