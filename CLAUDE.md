@@ -208,3 +208,48 @@ NONE.
 
 `/handoff-pickup` → start ledger-management (archive/reset) or the authenticated `/recoil` index;
 or run the standby auth-loop test to close the v3.9.0 flag.
+
+---
+
+# Handoff — v3.12.0 (2026-07-20)
+
+> **For Claude Code:** active pickup point. Meta/open-source session, on the
+> `claude/code-skills-open-source-36bde4` worktree branch (NOT main) — did not touch the ARCS
+> product. v3.11.0 above preserved. Lean-policy archive-shuffle of v3.10.0 deliberately skipped
+> (this branch may not merge; shuffling CLAUDE.md's hot path here is conflict risk, not value).
+> Full detail: auto-memory `project-open-source-skills-queue.md` + `_STATE/snapshot.json → open_source`.
+
+## What shipped (this thread, 2026-07-20)
+
+- **Resumeware track opened.** Surveyed all ~19 ARCS Claude Code skills/commands for open-source
+  fitness (craft × generalizes × safe-to-publish). Ranked; picked `rca` as the fast win.
+- **`rca-skill` LIVE** — extracted `/rca` (originally `.claude/commands/rca.md`), scrubbed fully
+  generic (0 internal-ref leaks, 0 em-dashes per the no-em-dash rule), ran a full
+  **BAR/LAB/KKL/COURT/Funhouse gauntlet** on it (only real catch = em-dashes → en-dashes),
+  repackaged as a standalone root-level repo (skill at repo root → `git clone <url>
+  ~/.claude/skills/rca` installs it), README with use-cases + how-to + sample run. Shipped public:
+  **github.com/flashesofbrilliance/rca-skill** (local: `/Users/zharris/rca-skill`).
+- **Staging convention.** `open-source/rca/` kept in this worktree (committed `0f961ee`) as the
+  tracking area for future candidates.
+
+## Open from this thread (the open-source queue)
+
+1. **NCI trio** — `nci-scoring` + `nci-commit` + `drift-check`. Inline the ADR-035 rubric so it is
+   self-contained, then extract as its own repo.
+2. **teardown gauntlet + `scripts/teardown_eval.py`** — highest craft signal, heaviest scrub:
+   real client names, arcs.care deploy mechanics, and the first-name password-gate scheme must all
+   come out before it can ship.
+
+## Last confirmed commits (this thread)
+
+`0f961ee` (staging + snapshot; on the code-skills-open-source branch). The rca-skill repo has its
+own history (`dea608e` initial) at `/Users/zharris/rca-skill`, pushed to GitHub.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → continue the open-source queue (NCI trio next), or return to the product
+backlog (ledger-management / authenticated `/recoil` index / v3.9.0 auth-loop test).
