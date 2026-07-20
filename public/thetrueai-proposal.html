@@ -48,6 +48,8 @@
   a{color:var(--cyan)}
   .backlink{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);text-decoration:none}
   .backlink:hover{color:var(--cyan)}
+  .emailbtn{display:inline-block;margin-top:4px;background:rgba(0,255,157,.09);border:1px solid rgba(0,255,157,.35);border-radius:6px;color:var(--green);font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;padding:12px 20px;text-decoration:none;transition:background .15s}
+  .emailbtn:hover{background:rgba(0,255,157,.16)}
   .footer{margin-top:56px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
   #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
   #pw-gate.hidden{display:none}
@@ -149,7 +151,8 @@ document.getElementById('pw-input').addEventListener('keydown', function(e) {
 
 <section id="next">
   <div class="card stripe green"><div class="cardtop"><h3>Next step</h3><span class="tag green">Your move</span></div>
-  <p>Tell me your budget and how much time you can give it. That is all I need to set the hours and start. Two fixes from the pre-read, the security headers and the Apply button, are worth doing on their own, with or without me.</p></div>
+  <p>Tell me your budget and how much time you can give it. That is all I need to set the hours and start. Two fixes from the pre-read, the security headers and the Apply button, are worth doing on their own, with or without me.</p>
+  <a class="emailbtn" href="mailto:zach.harris@gmail.com?subject=Re%3A%20theTrueAI%20content%20strategy%20sprint&body=Hi%20Zach%2C%0A%0AHere%20are%20my%20thoughts%20on%20the%20proposal%3A%0A%0A%0AA%20rough%20budget%20I%20have%20in%20mind%3A%0A%0ATime%20I%20can%20give%20it%20before%20August%3A%0A%0AThe%20one%20thing%20I%27d%20want%20to%20start%20with%3A%0A%0A%0ATalk%20soon%2C%0APadma">Reply with your thoughts →</a></div>
 </section>
 
 <div class="footer">Prepared by Zach Harris · ARCS · Proposal added after our call, Jul 20 2026 · The rate is a rough range until you share a budget · Shared privately with Jalaja Padma</div>
