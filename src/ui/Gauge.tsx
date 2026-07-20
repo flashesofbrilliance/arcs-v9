@@ -50,7 +50,7 @@ export function Gauge({
       {value !== undefined && value !== null && (
         <div style={{ position: 'relative', marginTop: 4, borderRadius: 8, padding: '4px 2px',
           boxShadow: 'inset 0 2px 5px rgba(0,0,0,.6), inset 0 -1px 0 rgba(255,255,255,.05)' }}>
-          <div style={{ position: 'relative', fontSize: valueSize, fontWeight: 700, lineHeight: 1, color, textShadow: `0 0 11px ${glow}` }}>{value}</div>
+          <div style={{ position: 'relative', fontSize: valueSize, fontWeight: 700, lineHeight: 1, color, textShadow: `0 0 13px ${glow}` }}>{value}</div>
         </div>
       )}
       {sub && <div style={{ position: 'relative', fontSize: 11, color: text.muted, marginTop: 4 }}>{sub}</div>}
