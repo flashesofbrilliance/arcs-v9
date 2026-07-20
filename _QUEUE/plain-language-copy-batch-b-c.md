@@ -1,12 +1,43 @@
-# Handoff — plain-language copy pass, Batch B + C (pending)
+# Handoff — plain-language copy pass (COMPLETE)
 
-**Status:** open. Batch A (safe mechanical fixes) is DONE and shipped on branch
-`claude/arcs-plain-language-voice-000f32` (PR #120), commit
-`style(copy): plain-language pass on static UI copy (Batch A, safe fixes)`.
+**Status:** DONE. All batches (A, A2, B, C) executed on branch
+`claude/arcs-plain-language-voice-000f32` (PR #120). This doc is now a record of
+what was done and the small set of deliberate leaves, not a to-do list.
 
-This doc holds the remaining two batches. It is self-contained — you do not need
-the originating conversation. Line numbers were captured against the worktree at
-handoff time; re-grep before editing (Batch A already shifted some lines).
+## What shipped
+- **Batch A** — safe mechanical fixes on 12 visitor-facing pages (trust, privacy,
+  terms, compass, onboarding, prep, advisory, scan, dashboard, receipt, guide, debrief).
+- **Batch A2** — shared component layer (CompassForm, Home landing, HorizonStakesRow,
+  CompassError, ResultView, Brief, ReflectLayer, DebriefCard, EyebrowToast).
+- **Batch B** — elevated-phrasing rewrites + world-metaphor strip on plain surfaces
+  (trust, terms, prep), per the two rulings below.
+- **Batch C** — demo/document layer + emails (recoil, observatory, document/screens/*,
+  receiptEmail/debriefEmail/welcomeEmail/lib/emails.ts).
+
+## Rulings applied (confirmed by Zach)
+- **Ruling 1** = keep product nouns (compass, bearing, True North, tributaries)
+  everywhere; strip world-metaphor (terrain, fog, navigator/line, fork-as-metaphor,
+  decision arc) on PLAIN surfaces only (trust/terms/prep). Interior cockpit surfaces
+  (observatory, recoil, brief-render loader, guide/receipt/debrief) KEEP the metaphor.
+- **Ruling 2** = clean the demo/sample data too (recoil + observatory + document screens).
+
+## Deliberate leaves (not defects)
+- `L0-L5` house tokens and box-drawing chars (─ │) kept as-is.
+- List-fragment semicolons (not two independent clauses) kept.
+- `src/document/screens/RecoilReport.tsx` lone `'—'` = empty-value UI glyph, kept.
+- Interior/cockpit world-metaphor kept per Ruling 1 (see above).
+
+## Still unverified (deploy-gated)
+The compass/brief/guide PROMPT VOICE rules (PR #120 first commit) still need a live
+call with ANTHROPIC_API_KEY set — no local key, so /api/compass returns 503 in dev.
+Static copy is browser-verified; the model-output register is not.
+
+---
+
+## (Historical) original per-batch itemization follows
+
+Line numbers were captured against the worktree at handoff time; re-grep before
+editing (batches shifted some lines).
 
 ## Origin
 
