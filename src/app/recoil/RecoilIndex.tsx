@@ -30,7 +30,12 @@ const kindColor: Record<string, string> = {
 
 function fmtDate(d: string | null): string {
   if (!d) return "—"
-  const parsed = new Date(d)
+  // Bare YYYY-MM-DD parses as UTC midnight, which renders as the prior day in
+  // any timezone behind UTC (e.g. EDT). Pin the parts to local time instead.
+  const ymd = d.match(/^(\d{4})-(\d{2})-(\d{2})/)
+  const parsed = ymd
+    ? new Date(Number(ymd[1]), Number(ymd[2]) - 1, Number(ymd[3]))
+    : new Date(d)
   return isNaN(parsed.getTime()) ? d : parsed.toLocaleDateString()
 }
 
