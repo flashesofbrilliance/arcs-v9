@@ -54,6 +54,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         // daniel.arcs.care → public/daniel.html (Crabtree recoil + fractional.city teardown)
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
+        // joe.arcs.care → public/joe.html (Joe Kim / HypeLab 6-month decision map, pw-gated "joe")
+        { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two
