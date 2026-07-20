@@ -35,7 +35,7 @@ export function Gauge({
   const bezel: React.CSSProperties = accent
     ? {
         border: `1px solid ${accent}40`,
-        boxShadow: `inset 0 1px 0 ${accent}73, inset 0 -2px 6px rgba(0,0,0,.55), 0 0 14px ${accent}2e, 0 5px 14px rgba(0,0,0,.5)`,
+        boxShadow: `inset 0 1px 0 ${accent}73, inset 0 -2px 6px rgba(0,0,0,.55), 0 0 9px ${accent}2e, 0 5px 14px rgba(0,0,0,.5)`,
       }
     : {
         border: '1px solid #2a3647',
@@ -50,7 +50,7 @@ export function Gauge({
       {value !== undefined && value !== null && (
         <div style={{ position: 'relative', marginTop: 4, borderRadius: 8, padding: '4px 2px',
           boxShadow: 'inset 0 2px 5px rgba(0,0,0,.6), inset 0 -1px 0 rgba(255,255,255,.05)' }}>
-          <div style={{ position: 'relative', fontSize: valueSize, fontWeight: 700, lineHeight: 1, color, textShadow: `0 0 16px ${glow}` }}>{value}</div>
+          <div style={{ position: 'relative', fontSize: valueSize, fontWeight: 700, lineHeight: 1, color, textShadow: `0 0 11px ${glow}` }}>{value}</div>
         </div>
       )}
       {sub && <div style={{ position: 'relative', fontSize: 11, color: text.muted, marginTop: 4 }}>{sub}</div>}
