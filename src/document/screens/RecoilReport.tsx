@@ -289,7 +289,7 @@ function normalizeRecoilReport(raw: RecoilReportRaw): RecoilReportData {
 
 const STRATA_CANONICAL = new Set([
   'reportId', 'notice', 'cover', 'loadBearingQuote', 'callWalk',
-  'signalThreads', 'scenarios', 'riskFlags', 'protocol',
+  'signalThreads', 'scenarios', 'riskFlags', 'protocol', 'receiptLifecycle',
 ])
 const STRATA_AUTHORITY = ['recapitulation', 'diamondCutPass', 'nonverbalOverlay', 'statedVsRevealed', 'readOrder']
 const STRATA_SUBSTRATE = 'meta'
@@ -421,9 +421,119 @@ function DeepStrata({ raw }: { raw: RecoilReportRaw }) {
   )
 }
 
+// ─── Receipt lifecycle — the meeting object (ex-ante open → ex-post close) ──
+// Prototype (2026-07-20) of product surface #2's core object: a meeting is an
+// ARCS receipt that OPENS on a hypothesis before contact and CLOSES on the
+// revealed reality, where the stated-vs-revealed diff IS the belief update.
+// Renders only when a report carries a `receiptLifecycle` key — existing
+// reports have none, so this is a zero-regression addition. When state=OPEN
+// the revealed/belief cells render PENDING; they're filled in post-call and
+// the state flips to CLOSED. See memory: recoil-as-second-product-surface.
+interface LifecycleDiffRow { expecting: string; revealed?: string | null; beliefUpdate?: string | null }
+interface Lifecycle {
+  state: 'OPEN' | 'CLOSED'
+  opened?: string
+  closed?: string
+  hypothesis: string
+  statedPreference: string
+  agenda?: string[]
+  diff: LifecycleDiffRow[]
+  closeNote?: string
+}
+
+function readLifecycle(raw: RecoilReportRaw): Lifecycle | null {
+  const lc = raw.receiptLifecycle
+  if (!isRecord(lc)) return null
+  const diff = (Array.isArray(lc.diff) ? lc.diff : []).filter(isRecord).map((r) => ({
+    expecting: str(r.expecting),
+    revealed: typeof r.revealed === 'string' ? r.revealed : null,
+    beliefUpdate: typeof r.beliefUpdate === 'string' ? r.beliefUpdate : null,
+  }))
+  return {
+    state: lc.state === 'CLOSED' ? 'CLOSED' : 'OPEN',
+    opened: str(lc.opened) || undefined,
+    closed: str(lc.closed) || undefined,
+    hypothesis: str(lc.hypothesis),
+    statedPreference: str(lc.statedPreference),
+    agenda: (Array.isArray(lc.agenda) ? lc.agenda.filter((a): a is string => typeof a === 'string') : undefined),
+    diff,
+    closeNote: str(lc.closeNote) || undefined,
+  }
+}
+
+function ReceiptLifecycle({ lc }: { lc: Lifecycle }) {
+  const open = lc.state === 'OPEN'
+  const stateColor = open ? T.cyan : T.green
+  const label = (t: string) => (
+    <div style={{ fontFamily: T.mono, fontSize: 9, fontWeight: 700, color: T.fg4, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 4 }}>{t}</div>
+  )
+  return (
+    <Sec id="r-lifecycle" idx="00" label="Receipt Lifecycle" title="Meeting Object — Ex-Ante Open / Ex-Post Close" accent={stateColor}>
+      {/* state chip + timestamps */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
+        <span style={{ fontFamily: T.mono, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: stateColor, border: `1px solid ${stateColor}55`, borderRadius: 4, padding: '3px 8px' }}>
+          RECEIPT · {lc.state}
+        </span>
+        {lc.opened && <span style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4 }}>opened {lc.opened}</span>}
+        {lc.closed && <span style={{ fontFamily: T.mono, fontSize: 10, color: T.fg4 }}>closed {lc.closed}</span>}
+      </div>
+
+      {/* ex-ante — the frozen bearing */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
+        <div style={{ borderLeft: `2px solid ${T.cyan}`, paddingLeft: 12 }}>
+          {label('Hypothesis · ex-ante bearing')}
+          <p style={{ fontFamily: T.sans, fontSize: 13.5, color: T.fg1, lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{lc.hypothesis}</p>
+        </div>
+        <div style={{ borderLeft: `2px solid ${T.gold}`, paddingLeft: 12 }}>
+          {label('Stated preference · desired outcome')}
+          <p style={{ fontFamily: T.sans, fontSize: 13.5, color: T.fg1, lineHeight: 1.65, margin: 0, whiteSpace: 'pre-wrap' }}>{lc.statedPreference}</p>
+        </div>
+        {lc.agenda && lc.agenda.length > 0 && (
+          <div style={{ borderLeft: `2px solid ${T.steel}`, paddingLeft: 12 }}>
+            {label('Agenda · what gets tested in the room')}
+            <ul style={{ margin: 0, paddingLeft: 16 }}>
+              {lc.agenda.map((a, i) => (
+                <li key={i} style={{ fontFamily: T.sans, fontSize: 13, color: T.fg2, lineHeight: 1.6 }}>{a}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      {/* the diff — stated/expected vs revealed = belief update */}
+      {label('Stated-vs-revealed diff · the close')}
+      <div style={{ border: `1px solid ${T.border}`, borderRadius: 8, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', background: T.shell, borderBottom: `1px solid ${T.border}` }}>
+          {['Expecting to see', 'Revealed', 'Δ Belief'].map((h) => (
+            <div key={h} style={{ fontFamily: T.mono, fontSize: 9.5, fontWeight: 700, letterSpacing: '0.1em', color: T.fg3, textTransform: 'uppercase', padding: '8px 12px' }}>{h}</div>
+          ))}
+        </div>
+        {lc.diff.map((row, i) => (
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: i < lc.diff.length - 1 ? `1px solid ${T.border}` : 'none' }}>
+            <div style={{ fontFamily: T.sans, fontSize: 12.5, color: T.fg1, lineHeight: 1.55, padding: '10px 12px', borderRight: `1px solid ${T.border}` }}>{row.expecting}</div>
+            <div style={{ fontFamily: T.sans, fontSize: 12.5, lineHeight: 1.55, padding: '10px 12px', borderRight: `1px solid ${T.border}`, color: row.revealed ? T.fg1 : T.fg4, fontStyle: row.revealed ? 'normal' : 'italic' }}>
+              {row.revealed ?? 'PENDING · fill post-call'}
+            </div>
+            <div style={{ fontFamily: T.sans, fontSize: 12.5, lineHeight: 1.55, padding: '10px 12px', color: row.beliefUpdate ? T.green : T.fg4, fontStyle: row.beliefUpdate ? 'normal' : 'italic' }}>
+              {row.beliefUpdate ?? '—'}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {lc.closeNote && (
+        <div style={{ marginTop: 14 }}>
+          <AsideBox variant={open ? 'info' : 'success'} label={open ? 'To close' : 'Closed'}>{lc.closeNote}</AsideBox>
+        </div>
+      )}
+    </Sec>
+  )
+}
+
 export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
   const A = T.cyan
   const d = normalizeRecoilReport(raw)
+  const lifecycle = readLifecycle(raw)
   const notice = str(raw.notice)
   const significance = isRecord(raw.loadBearingQuote) ? str(raw.loadBearingQuote.significance) : ''
   return (
@@ -435,6 +545,8 @@ export function RecoilReportFromData({ data: raw }: { data: RecoilReportRaw }) {
           <AsideBox variant="warning" label="Notice">{notice}</AsideBox>
         </div>
       )}
+
+      {lifecycle && <ReceiptLifecycle lc={lifecycle} />}
 
       <Sec id="r-quote" idx="01" label="Signal Quote" title="The Most Load-Bearing Moment" accent={A}>
         <QuoteBlock accent={A} attribution={d.loadBearingQuote.attribution}>
