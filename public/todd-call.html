@@ -544,6 +544,12 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   th { padding: 8px 10px; }
   td { padding: 9px 10px; }
 }
+
+/* ── DEAL + PAYMENT TWO-COLUMN ── */
+.buy-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: start; margin-top: 28px; }
+.buy-pay { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.buy-pay stripe-buy-button { width: 100%; }
+@media (max-width: 768px) { .buy-row { grid-template-columns: 1fr; } }
 </style>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 </head>
@@ -587,28 +593,33 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
   </div>
 
-  <!-- STRIPE BUY BUTTON -->
-  <div style="margin-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;">
-    <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);">Ready to start · secure checkout</div>
-    <stripe-buy-button
-      buy-button-id="buy_btn_1TvJmUItTVVJFC6Z4qmJtcLq"
-      publishable-key="pk_live_51TvJIJItTVVJFC6ZMElBfoY85vRzbw6mCH4kXQZXi51EXTxdFxPlItri0QRQKRNltp18VlIIdpmXQAZ8PmTvnZ3400A5KLtzAJ">
-    </stripe-buy-button>
-  </div>
+  <!-- DEAL + PAYMENT (two columns) -->
+  <div class="buy-row">
 
-  <!-- THE DEAL, IN ONE LOOK -->
-  <div class="rec-box" style="margin-top:28px;">
-    <div class="rec-box-label">The deal, in one look</div>
-    <div class="rec-box-title" style="font-size:17px;line-height:1.45;">A chatbot on your website that captures leads 24/7 and sends each one straight to your sales manager.</div>
-    <div class="rec-box-body" style="margin-top:6px;">We rent a proven tool (Tidio), install it on your WordPress site, and connect it to SugarCRM. No custom software. Nothing rebuilt.</div>
-    <div class="stack-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
-      <div class="stack-chip ok"><div class="stack-chip-label">Cost</div><div class="stack-chip-value" style="font-size:17px;">$1,500</div></div>
-      <div class="stack-chip ok"><div class="stack-chip-label">Time to live</div><div class="stack-chip-value" style="font-size:17px;">~1 week</div></div>
-      <div class="stack-chip ok"><div class="stack-chip-label">Your effort</div><div class="stack-chip-value" style="font-size:17px;">~45 min</div></div>
+    <!-- THE DEAL, IN ONE LOOK -->
+    <div class="rec-box" style="margin:0;">
+      <div class="rec-box-label">The deal, in one look</div>
+      <div class="rec-box-title" style="font-size:17px;line-height:1.45;">A chatbot on your website that captures leads 24/7 and sends each one straight to your sales manager.</div>
+      <div class="rec-box-body" style="margin-top:6px;">We rent a proven tool (Tidio), install it on your WordPress site, and connect it to SugarCRM. No custom software. Nothing rebuilt.</div>
+      <div class="stack-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
+        <div class="stack-chip ok"><div class="stack-chip-label">Cost</div><div class="stack-chip-value" style="font-size:17px;">$1,500</div></div>
+        <div class="stack-chip ok"><div class="stack-chip-label">Time to live</div><div class="stack-chip-value" style="font-size:17px;">~1 week</div></div>
+        <div class="stack-chip ok"><div class="stack-chip-label">Your effort</div><div class="stack-chip-value" style="font-size:17px;">~45 min</div></div>
+      </div>
+      <div style="margin-top:14px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
+        <strong style="color:var(--cyan);">To start, you do one thing:</strong> send me WordPress + SugarCRM access and book 30 minutes for me with your sales manager. I build it from there.
+      </div>
     </div>
-    <div style="margin-top:14px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
-      <strong style="color:var(--cyan);">To start, you do one thing:</strong> send me WordPress + SugarCRM access and book 30 minutes for me with your sales manager. I build it from there.
+
+    <!-- STRIPE BUY BUTTON -->
+    <div class="buy-pay">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);">Ready to start · secure checkout</div>
+      <stripe-buy-button
+        buy-button-id="buy_btn_1TvJmUItTVVJFC6Z4qmJtcLq"
+        publishable-key="pk_live_51TvJIJItTVVJFC6ZMElBfoY85vRzbw6mCH4kXQZXi51EXTxdFxPlItri0QRQKRNltp18VlIIdpmXQAZ8PmTvnZ3400A5KLtzAJ">
+      </stripe-buy-button>
     </div>
+
   </div>
 
   <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
