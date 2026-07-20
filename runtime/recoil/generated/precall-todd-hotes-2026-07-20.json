@@ -1,0 +1,72 @@
+{
+  "reportId": "precall-todd-hotes-2026-07-20",
+  "cover": {
+    "badges": ["Pre-Call Receipt", "OPEN · Ex-Ante"],
+    "title": "Todd Hotes × Zach — Land the Phase 1 Plan",
+    "subtitle": "Open receipt for a 10:00 AM call. The deal is already warm and price-agreed; today is a depth-and-convert pass, not a cold close. This receipt freezes the hypothesis before contact so the post-call diff is honest.",
+    "meta": "ARCS RECEIPT · Jul 20, 2026 · 10:00 AM EST · PRL Resins · todd-call.arcs.care",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+
+  "receiptLifecycle": {
+    "state": "OPEN",
+    "opened": "2026-07-20, pre-call",
+    "hypothesis": "This is not an evaluation and not a first pitch — it is a co-design pass on an already-warm, already-price-agreed engagement. Todd wanting to \"explain in detail\" is a buy signal, not an objection: he is picturing the build and wants to hand over PRL's real context (sales process, SM routing by geography, the Phase 4/5 resin-recommendation vision). The binding constraint on \"landing the plan\" is NOT price or willingness — it is alignment on scope + Todd's split attention (fleet/NTSB, the standing Laz opportunity). So \"land the plan\" should resolve to a concrete first working session / start date, not a signature.",
+    "statedPreference": "Land the Phase 1 plan on todd-call.arcs.care: converge on scope and walk away with a calendared first working session or an agreed start date — not \"sounds good.\"",
+    "agenda": [
+      "Walk the todd-call.arcs.care plan at Todd's pace; let him drive where he has questions.",
+      "Draw out his detailed context — sales process, SM routing, the resin-rec vision — and reflect it back as scope.",
+      "Surface and answer every open question in the room; don't leave one unresolved.",
+      "Confirm the SugarCRM → Sales-Manager routing assumption is real and that the SM has (or will) see the plan.",
+      "Convert: name a concrete first session / start date before the call ends."
+    ],
+    "diff": [
+      { "expecting": "Todd opens warm and collaborative — treats this as building together, not judging a vendor.", "revealed": null, "beliefUpdate": null },
+      { "expecting": "His \"questions\" are how-it-works / scope clarifications, NOT doubts about value or price.", "revealed": null, "beliefUpdate": null },
+      { "expecting": "He volunteers PRL detail (sales flow, SM-by-geography, Phase 4/5 resin-rec) — a sign he's already picturing the build.", "revealed": null, "beliefUpdate": null },
+      { "expecting": "The real constraint that surfaces is attention / start-timing (fleet, Laz), not budget.", "revealed": null, "beliefUpdate": null },
+      { "expecting": "\"Landing the plan\" converts to a calendared session or start date — or reveals a missing stakeholder (the Sales Manager) who hasn't seen it yet.", "revealed": null, "beliefUpdate": null }
+    ],
+    "closeNote": "Immediately after the call: fill REVEALED for each row and write the Δ belief. A FALSIFIED expectation is the highest-signal update — if his questions were actually value doubts, or price surfaced, or the SM turns out to be an unconsulted blocker, flag it loudly; that reshapes the engagement, not just this call. Signal threshold to count as \"landed\": a calendared session date. \"Sounds good\" does not count. Then flip state → CLOSED."
+  },
+
+  "loadBearingQuote": {
+    "text": "Yes, for sure!",
+    "attribution": "Todd Hotes · iMessage, 2026-07-13 — confirming the friends-and-family price",
+    "significance": "This is why today is a depth pass, not a pitch. The price is already agreed and the relationship is live; re-selling the deal would misread the room. The job is to convert warmth into a dated first session."
+  },
+
+  "callWalk": [
+    { "label": "Open · warm", "title": "Enter as co-builder, not vendor", "body": "Skip the re-pitch. Open on what you're building together and hand him the floor. He asked to explain in detail — let him, early." },
+    { "label": "Depth · his context", "title": "Let Todd explain — and convert it to scope", "body": "As he walks the PRL detail (sales process, SM routing, resin-rec vision), reflect each piece back as a scope line on todd-call.arcs.care. His detail IS the spec.", "peak": true },
+    { "label": "Resolve · questions", "title": "Clear every open question in the room", "body": "Answer each question fully before moving on. An unresolved question becomes a post-call stall — and a friend won't chase you to reopen it." },
+    { "label": "Convert · the ask", "title": "Name a date before you hang up", "body": "The close is not 'yes/no' — it's 'when.' Propose a concrete first working session. A dated session is the only thing that counts as landed.", "peak": true }
+  ],
+
+  "signalThreads": [
+    { "label": "Relationship", "accent": "green", "title": "Warm, live, price-agreed", "body": "Close friend; effective CMO/CFO/Comptroller with full spend discretion at a $100M family office. The friends-and-family price is already confirmed. No sales pressure is needed or appropriate." },
+    { "label": "Buy signal", "accent": "cyan", "title": "'Wants to explain in detail' = engaged, not resistant", "body": "Requesting depth is someone picturing the build. Treat his detail as the spec hand-off, not as friction to overcome." },
+    { "label": "Constraint", "accent": "gold", "title": "Attention, not budget", "body": "Todd's attention is split — an NTSB fleet matter and a standing Laz opportunity. The risk to 'landing' is timing and follow-through, so the move is to make the next step small, dated, and easy to say yes to." },
+    { "label": "Alignment gap", "accent": "orange", "title": "Has the Sales Manager seen it?", "body": "The chatbot routes to the Sales Manager in SugarCRM. If the SM was never looped in, internal misalignment can stall the build regardless of Todd's authority. Confirm today." }
+  ],
+
+  "scenarios": {
+    "best": { "title": "Dated first session", "body": "Todd's questions resolve as scope clarifications, he hands over PRL context, and you leave with a calendared first working session and confirmed SugarCRM routing.", "note": "This is 'landed.' File the receipt closed with a start date." },
+    "base": { "title": "Scope converged, soft next step", "body": "Good depth conversation, scope aligns, but the concrete date slips to 'let me check the week.' Real progress, not yet landed.", "note": "Close the receipt anyway — the belief update is that timing/attention is the true gate, so pre-propose two specific slots by EOD." },
+    "worst": { "title": "Deferred on a blocker", "body": "Either a genuine value/price question surfaces, or the Sales Manager turns out to be an unconsulted stakeholder, and the plan can't land until that's resolved.", "note": "Highest-signal outcome — the diff reshapes the engagement. Name the blocker explicitly and make resolving it the next step." }
+  },
+
+  "riskFlags": [
+    { "variant": "caution", "label": "SM never consulted (F2)", "body": "The chatbot routes to the Sales Manager. If the SM hasn't seen todd-call.arcs.care, budget authority alone won't move the build. Ask directly whether the SM has seen the plan." },
+    { "variant": "warning", "label": "Over-explain, under-convert", "body": "The failure mode of a warm call is a great conversation with no dated next step. Protect the last five minutes for the convert. A dated session is the only proof it landed." },
+    { "variant": "info", "label": "Attention / Laz timing", "body": "Todd's situation could change (Laz). Frame any gentle urgency around building something he's proud of while he's still the one holding the relationship — never as extraction." },
+    { "variant": "success", "label": "Nothing to re-sell", "body": "Price and willingness are already settled. Don't reopen them. The only open variable is 'when we start.'" }
+  ],
+
+  "protocol": [
+    { "label": "Run 01", "title": "Hand him the floor early", "body": "He asked to explain in detail — let him, in the first few minutes. Listen for scope, not for a place to pitch.", "active": true },
+    { "label": "Run 02", "title": "Reflect detail back as scope", "body": "Every piece of PRL context he gives, restate as a line on the plan. Make him watch the plan become his." },
+    { "label": "Run 03", "title": "Ask the SM question", "body": "Confirm whether the Sales Manager has seen the routing plan. Do it as a build question, not a gate." },
+    { "label": "Close", "title": "Name a date", "body": "Before you hang up, propose a concrete first session. Then open this receipt and fill the diff while it's fresh." }
+  ]
+}
