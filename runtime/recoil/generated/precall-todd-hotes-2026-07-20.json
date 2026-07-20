@@ -1,16 +1,17 @@
 {
   "reportId": "precall-todd-hotes-2026-07-20",
   "cover": {
-    "badges": ["Pre-Call Receipt", "OPEN · Ex-Ante"],
+    "badges": ["Meeting Receipt", "CLOSED · Ex-Post"],
     "title": "Todd Hotes × Zach — Land the Phase 1 Plan",
-    "subtitle": "Open receipt for a 10:00 AM call. The deal is already warm and price-agreed; today is a depth-and-convert pass, not a cold close. This receipt freezes the hypothesis before contact so the post-call diff is honest.",
-    "meta": "ARCS RECEIPT · Jul 20, 2026 · 10:00 AM EST · PRL Resins · todd-call.arcs.care",
+    "subtitle": "Opened as an ex-ante receipt before a 10:00 AM call; closed against the Granola transcript. The deal landed — phase-1 chatbot → Sales Manager at $1,500 — short of a dated build session but with scope, price, and next-step ownership agreed. The ex-ante below is preserved verbatim; every update lives in the diff.",
+    "meta": "ARCS RECEIPT · Jul 20, 2026 · 10:00 AM EDT · PRL Resins · todd-call.arcs.care",
     "actions": ["Open Receipt", "File to Prep Book"]
   },
 
   "receiptLifecycle": {
-    "state": "OPEN",
+    "state": "CLOSED",
     "opened": "2026-07-20, pre-call",
+    "closed": "2026-07-20, post-call (Granola transcript)",
     "hypothesis": "This is not an evaluation and not a first pitch — it is a co-design pass on an already-warm, already-price-agreed engagement. Todd wanting to \"explain in detail\" is a buy signal, not an objection: he is picturing the build and wants to hand over PRL's real context (sales process, SM routing by geography, the Phase 4/5 resin-recommendation vision). The binding constraint on \"landing the plan\" is NOT price or willingness — it is alignment on scope + Todd's split attention (fleet/NTSB, the standing Laz opportunity). So \"land the plan\" should resolve to a concrete first working session / start date, not a signature.",
     "statedPreference": "Land the Phase 1 plan on todd-call.arcs.care: converge on scope and walk away with a calendared first working session or an agreed start date — not \"sounds good.\"",
     "agenda": [
@@ -21,19 +22,19 @@
       "Convert: name a concrete first session / start date before the call ends."
     ],
     "diff": [
-      { "expecting": "Todd opens warm and collaborative — treats this as building together, not judging a vendor.", "revealed": null, "beliefUpdate": null },
-      { "expecting": "His \"questions\" are how-it-works / scope clarifications, NOT doubts about value or price.", "revealed": null, "beliefUpdate": null },
-      { "expecting": "He volunteers PRL detail (sales flow, SM-by-geography, Phase 4/5 resin-rec) — a sign he's already picturing the build.", "revealed": null, "beliefUpdate": null },
-      { "expecting": "The real constraint that surfaces is attention / start-timing (fleet, Laz), not budget.", "revealed": null, "beliefUpdate": null },
-      { "expecting": "\"Landing the plan\" converts to a calendared session or start date — or reveals a missing stakeholder (the Sales Manager) who hasn't seen it yet.", "revealed": null, "beliefUpdate": null }
+      { "expecting": "Todd opens warm and collaborative — treats this as building together, not judging a vendor.", "revealed": "Warm and collaborative throughout — but mobile and distracted: he took the call from the car en route to the airport and never looked at the screen. The depth happened by voice, not by walking the site.", "beliefUpdate": "Confirmed. Add: his engagement is real but his attention is divided — the artifact has to survive being heard, not read." },
+      { "expecting": "His \"questions\" are how-it-works / scope clarifications, NOT doubts about value or price.", "revealed": "Confirmed — zero value or price doubt. He'd barely reviewed the site; his input was forward expansion (capture application/resin data), not clarification. Asked the total fresh, accepted $1,500 on the spot ('keep it simple'), even offered a check + 1099.", "beliefUpdate": "Confirmed, stronger: the proposal was never in question. Note the ex-ante was slightly off — price was re-confirmed live, not pre-agreed — but it cleared instantly." },
+      { "expecting": "He volunteers PRL detail (sales flow, SM-by-geography, Phase 4/5 resin-rec) — a sign he's already picturing the build.", "revealed": "Strongly confirmed. Volunteered the full picture: product-dev/application-discovery form, CS-as-switchboard, engineers (not budget) as the buyers, 4-hr lead SLA, lost deals, old-school reps, an 18-yr IT generalist, China/Vietnam/Malaysia. Actively co-designed phase 2+ (voice agents, transcription, photo-to-text).", "beliefUpdate": "Upgraded. Not just picturing phase 1 — he's scoping a multi-phase sales-automation roadmap. The opportunity is larger than the chatbot." },
+      { "expecting": "The real constraint that surfaces is attention / start-timing (fleet, Laz), not budget.", "revealed": "Confirmed and sharpened. 'Budget really isn't the driver.' The real constraint is the sales REPS' tech-resistance — 55-60-somethings with paper agendas, 'turning a cruise ship.' Todd gated scope himself: 'keep it simple... getting the rest of the team involved is a huge pain in the ass.'", "beliefUpdate": "Refined: the binding constraint isn't Todd's attention — it's rep adoption. Phase 1 (customer-facing) correctly sidesteps it; phase 2 must be designed around it." },
+      { "expecting": "\"Landing the plan\" converts to a calendared session or start date — or reveals a missing stakeholder (the Sales Manager) who hasn't seen it yet.", "revealed": "Both. NOT a calendared build session. DID land as: $1,500 accepted + payment path agreed + sequenced next steps owned by both sides. And the SM surfaced as the gating stakeholder — Todd forwards phase-1 questions to him and sees him Wednesday at the 'Imagine' meeting.", "beliefUpdate": "Partially falsified: 'dated session = landed' was too strict for this relationship. Real 'landed' signal here = price cleared + next-action ownership + credential handoff in motion. F2 was right — the SM is the real dependency." }
     ],
-    "closeNote": "Immediately after the call: fill REVEALED for each row and write the Δ belief. A FALSIFIED expectation is the highest-signal update — if his questions were actually value doubts, or price surfaced, or the SM turns out to be an unconsulted blocker, flag it loudly; that reshapes the engagement, not just this call. Signal threshold to count as \"landed\": a calendared session date. \"Sounds good\" does not count. Then flip state → CLOSED."
+    "closeNote": "CLOSED — the deal landed (better than the base scenario, short of a dated build session). Outcome: phase-1 chatbot → Sales Manager confirmed at $1,500, scope held deliberately simple; a larger multi-phase automation roadmap surfaced, but Todd is correctly sequencing 'this first.' Open dependency: the Sales Manager (credentials + phase-1 questions), routed through Todd (sees him Wed). Zach's next actions: (1) send Todd a short SM question list today; (2) send an itemized $1,500 Stripe link — or check + W-9/1099; (3) get the WordPress login + web-dev-company contact for a sandbox/lower environment; (4) coffee this week. Highest-signal update: the adoption constraint is rep tech-resistance, not budget — it reshapes phase 2, not phase 1."
   },
 
   "loadBearingQuote": {
-    "text": "Yes, for sure!",
-    "attribution": "Todd Hotes · iMessage, 2026-07-13 — confirming the friends-and-family price",
-    "significance": "This is why today is a depth pass, not a pitch. The price is already agreed and the relationship is live; re-selling the deal would misread the room. The job is to convert warmth into a dated first session."
+    "text": "Let's start with this chatbot, and just keep it simple, routed to the sales manager — and then take it from there, because again, getting the rest of the team involved in the technology is going to be a huge pain in the ass.",
+    "attribution": "Todd Hotes · Jul 20, 2026 — committing to phase 1",
+    "significance": "One line carries the whole call: the commit AND the constraint, in the same breath. He said yes to phase 1 and named exactly why it's scoped to the customer-facing chatbot — the sales reps' tech-resistance is the real adoption risk, so the wedge that avoids them is the right first build. Everything else he floated (voice agents, transcription, translation) is phase 2, gated on that same constraint."
   },
 
   "callWalk": [
