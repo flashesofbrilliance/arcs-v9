@@ -109,6 +109,48 @@ strictly, normalize to `L0-L5` / "3 to 5", but confirm as a consistency call.
 
 ---
 
+## BATCH A2 — component layer (NEWLY FOUND, review gap)
+
+The Batch A pass and the whole review scanned only `src/app/*` page files. Browser
+testing on 2026-07-19 caught an em-dash in `src/organisms/CompassForm.tsx` (renders
+on the home/compass entry), proving hand-written copy also lives in the COMPONENT
+layer that was never scanned: `src/organisms`, `src/molecules`, `src/ui`,
+`src/components`, `src/document/screens`, `src/emails`.
+
+Already fixed in this session (folded into Batch A, safe mechanical, browser-verified):
+- `src/organisms/CompassForm.tsx` L82 `Add context —` -> `Add context:` (first screen)
+- `src/molecules/HorizonStakesRow.tsx` L14 `1–3 years` -> `1 to 3 years` (renders on /prep)
+- `src/molecules/CompassError.tsx` L24 `fork is held — nothing was lost` -> two sentences
+- `src/organisms/Home.tsx` L23, L25, L49 (demo fallback), L109 — landing hero + how-it-works
+  em-dashes (verified clean live on `/`). Brand words `terrain`/`fork` kept for Batch B.
+
+STILL OPEN in the component layer (re-grep `find src -name '*.tsx' -not -path '*/app/*'`
+`| xargs grep -nE '—|–'` before editing):
+
+Interactive / dynamic separators (safe, do in an A2 commit):
+- `src/organisms/ResultView.tsx` L127, L139 — `{c.name} — {c.detail}` and
+  `{pct}% — {rationale}` separators; use `:` / period. (L115 `L0–L5` house token — leave.)
+- `src/organisms/Brief.tsx` L110 — same `{c.name} — {c.detail}` separator -> `:`.
+- `src/organisms/ReflectLayer.tsx` L767 — leading `— "quote"` decoration -> drop dash.
+- `src/molecules/DebriefCard.tsx` L40 — share-text `Conviction: X/100 — {grade}` -> `. {grade}`.
+
+Marketing / explainer copy (overlaps Batch B judgment — brand terms + longer prose):
+- `src/ui/EyebrowToast.tsx` — heaviest: L46, L47, L60, L332 spaced em-dashes; L75, L86,
+  L87 UNSPACED em-dashes glued between words (`optimization—they`, `reasoning—finding`,
+  `"optimal"—it's`). Marketing explainer overlay. L36 `L0–L5` token — leave. L332 dupes
+  the terms.tsx "demonstrated reciprocity" line.
+
+Document/demo layer (treat like recoil/observatory sample data — Ruling 2):
+- `src/document/screens/ProfileScan.tsx` (~31), `RecoilReport.tsx` (~23),
+  `PrepDoc.tsx` (~8), `Brief.tsx` (~8), `Receipt.tsx` (~4). Mostly hardcoded
+  sample/document content.
+
+Transactional emails (user-facing, not yet scanned): `src/emails/*` — check
+`receiptEmail`, `debriefEmail` for em-dashes in the rendered HTML/text bodies.
+
+House tokens `L0–L5` recur across components — normalize to `L0-L5` only if you
+decide the en-dash ban applies to house tokens (consistency call, same as observatory).
+
 ## Sequencing when rulings land
 1. B1 (elevated) — safe, do first, one commit.
 2. B2 (metaphor strip) — only if Ruling 1 = strip; one commit.

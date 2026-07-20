@@ -11,7 +11,7 @@ const HORIZON_OPTS = [
   { value: 'TODAY', label: 'Today' },
   { value: 'THIS_WEEK', label: 'This week' },
   { value: 'THIS_QUARTER', label: 'This quarter' },
-  { value: 'ONE_TO_THREE_YEARS', label: '1–3 years' },
+  { value: 'ONE_TO_THREE_YEARS', label: '1 to 3 years' },
 ]
 
 const STAKE_OPTS = [
