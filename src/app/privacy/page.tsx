@@ -120,7 +120,7 @@ export default function PrivacyPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.7rem 1rem', background: surface.panel, borderBottom: `0.5px solid ${border.subtle}` }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: signal.red, flexShrink: 0 }} />
             <span style={{ fontFamily: mono, fontSize: '0.6875rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: signal.red }}>Never</span>
-            <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Scout's honor. Enforced by architecture and covenant, not just policy.</span>
+            <span style={{ fontFamily: sans, fontSize: '0.8rem', color: text.muted }}>Enforced by architecture and covenant, not just policy.</span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: `0.5px solid ${border.subtle}` }}>
             <div style={{ padding: '0.45rem 1rem', fontFamily: mono, fontSize: '0.625rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: text.muted, borderRight: `0.5px solid ${border.subtle}` }}>What we won't do</div>

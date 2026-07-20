@@ -209,7 +209,7 @@ export default function DebriefPage() {
       {recapCard}
 
       <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: text.primary, lineHeight: 1.55, margin: "0 0 1.5rem", maxWidth: 540 }}>
-        The shoe has dropped. A receipt can&apos;t close itself. Only the outcome can. Tell ARCS what actually happened.
+        The outcome is in. A receipt can&apos;t close itself. Only the outcome can. Tell ARCS what actually happened.
       </div>
 
       <Card style={{ marginBottom: "1.25rem" }}>
