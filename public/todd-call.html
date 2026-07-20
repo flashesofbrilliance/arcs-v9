@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRL Resins · Recoil Report · Calls Jul 2 + Jul 9</title>
+<title>PRL Resins · Chatbot Findings & Proposal · Todd Hotes</title>
 <style>
 :root {
   --bg: #020408;
@@ -553,19 +553,19 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="crumb-inner">
     <span class="crumb-root">PRL Resins · Todd Hotes</span>
     <span class="crumb-sep">/</span>
-    <span class="crumb-seg current">Recoil Report</span>
+    <span class="crumb-seg current">Findings & Proposal</span>
     <a class="crumb-seg other" href="/teardown">Marketing Teardown →</a>
   </div>
 </div>
 <div class="doc-header">
   <div class="doc-header-inner">
-    <div class="doc-mark">Recoil Report · PRL Resins</div>
+    <div class="doc-mark">PRL Resins · Chatbot Proposal</div>
     <nav class="doc-tabs">
-      <a class="doc-tab active" href="#reverse">Reverse</a>
-      <a class="doc-tab" href="#recall">Deep Recall</a>
-      <a class="doc-tab" href="#chatbot">Chatbot Analysis</a>
-      <a class="doc-tab" href="#mvp">MVP Scenarios</a>
-      <a class="doc-tab" href="#protocol">Protocol</a>
+      <a class="doc-tab active" href="#reverse">Recap</a>
+      <a class="doc-tab" href="#recall">What I Found</a>
+      <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
+      <a class="doc-tab" href="#mvp">Options & Price</a>
+      <a class="doc-tab" href="#protocol">Next Steps</a>
     </nav>
   </div>
 </div>
@@ -576,8 +576,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="cover">
     <div class="cover-meta">
       <div class="cover-company">PRL Resins · Todd Hotes</div>
-      <div class="cover-title">Recoil Report</div>
-      <div class="cover-sub">Calls: Jul 2, 2026 (75 min) + Jul 9, 2026 (45 min) · 9 + 7 segments</div>
+      <div class="cover-title">Chatbot Findings & Proposal</div>
+      <div class="cover-sub">Follow-up from our two calls — Jul 2 and Jul 9, 2026. Everything here comes from what you shared; nothing invented.</div>
     </div>
     <div class="status-pill">
       <div class="pulse"></div>
@@ -585,241 +585,143 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
   </div>
 
+  <!-- THE DEAL, IN ONE LOOK -->
+  <div class="rec-box" style="margin-top:28px;">
+    <div class="rec-box-label">The deal, in one look</div>
+    <div class="rec-box-title" style="font-size:17px;line-height:1.45;">A chatbot on your website that captures leads 24/7 and sends each one straight to your sales manager.</div>
+    <div class="rec-box-body" style="margin-top:6px;">We rent a proven tool (Tidio), install it on your WordPress site, and connect it to SugarCRM. No custom software. Nothing rebuilt.</div>
+    <div class="stack-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
+      <div class="stack-chip ok"><div class="stack-chip-label">Cost</div><div class="stack-chip-value" style="font-size:17px;">$1,500</div></div>
+      <div class="stack-chip ok"><div class="stack-chip-label">Time to live</div><div class="stack-chip-value" style="font-size:17px;">~1 week</div></div>
+      <div class="stack-chip ok"><div class="stack-chip-label">Your effort</div><div class="stack-chip-value" style="font-size:17px;">~45 min</div></div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
+      <strong style="color:var(--cyan);">To start, you do one thing:</strong> send me WordPress + SugarCRM access and book 30 minutes for me with your sales manager. I build it from there.
+    </div>
+  </div>
+
   <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
   <div class="lbq">
-    <div class="lbq-label">Todd Hotes · Close of Call 1 · Jul 2, 2026</div>
+    <div class="lbq-label">Todd Hotes · Jul 2, 2026</div>
     <div class="lbq-text">There's very limited friction because really, nobody else knows about any type of technology. So if this works, go for it.</div>
     <div class="lbq-attr">Todd Hotes · PRL Resins CFO / Comptroller</div>
-    <div class="lbq-decode">DECODE → Lone decision maker. Budget not a blocker. Zero internal approval required. Low tolerance for process drag — wants to see working prototype before committing further.</div>
+    <div class="lbq-decode">This is the operating condition everything below is designed around: fast to decide, easy to move — so the plan favors a quick, visible win you can see working before committing further.</div>
   </div>
 
   <!-- CONFIRMED STACK -->
   <div class="divider" id="stack"></div>
   <section>
-    <div class="section-eyebrow">Confirmed Stack</div>
-    <div class="section-title">Current technology environment</div>
+    <div class="section-eyebrow">The setup</div>
+    <div class="section-title">What the chatbot plugs into</div>
     <div class="stack-grid">
       <div class="stack-chip ok">
-        <div class="stack-chip-label">CMS</div>
+        <div class="stack-chip-label">Website</div>
         <div class="stack-chip-value">WordPress 7.0</div>
       </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">PPC / Landing</div>
-        <div class="stack-chip-value">Unbounce</div>
+      <div class="stack-chip ok">
+        <div class="stack-chip-label">Where leads land</div>
+        <div class="stack-chip-value">SugarCRM</div>
       </div>
       <div class="stack-chip flag">
         <div class="stack-chip-label">Automation</div>
         <div class="stack-chip-value">Zapier FREE ⚠</div>
       </div>
-      <div class="stack-chip ok">
-        <div class="stack-chip-label">CRM</div>
-        <div class="stack-chip-value">SugarCRM (long-term)</div>
-      </div>
       <div class="stack-chip flag">
-        <div class="stack-chip-label">Analytics</div>
-        <div class="stack-chip-value">GA4 (dark) ⚠</div>
-      </div>
-      <div class="stack-chip flag">
-        <div class="stack-chip-label">Tag Mgmt</div>
-        <div class="stack-chip-value">GTM (stale tags) ⚠</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">Collab</div>
-        <div class="stack-chip-value">Email / Phone</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">Booking</div>
-        <div class="stack-chip-value">None — phone only</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">SEO / SEM</div>
-        <div class="stack-chip-value">External agency (HS friend)</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">Sales cycle</div>
-        <div class="stack-chip-value">6–12 months</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">CS team</div>
-        <div class="stack-chip-value">3 reps · Farmington CT</div>
-      </div>
-      <div class="stack-chip">
-        <div class="stack-chip-label">Sales team</div>
-        <div class="stack-chip-value">9 reps · territory-based</div>
+        <div class="stack-chip-label">Today's intake</div>
+        <div class="stack-chip-value">Phone only ⚠</div>
       </div>
     </div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:12px;max-width:640px;">The rest of the marketing stack — analytics, ad tracking, SEO — is covered in the <strong style="color:var(--sub)">Marketing Teardown</strong>. This page stays on the chatbot.</p>
   </section>
 
   <!-- ── REVERSE LISTENING PASS ── -->
   <div class="divider" id="reverse"></div>
   <section>
-    <div class="section-eyebrow">Protocol Pass 1</div>
-    <div class="section-title">Reverse Listening · Adaptive Time Dilation</div>
+    <div class="section-eyebrow">Recap</div>
+    <div class="section-title">What we agreed</div>
 
     <div class="pass-header">
-      <span class="pass-mode reverse">Reverse · Jul 9 Call</span>
-      <span class="pass-segments">7 segments · read end → start</span>
+      <span class="pass-mode reverse">Jul 9 call</span>
+      <span class="pass-segments">Three things, then the plan</span>
     </div>
 
     <div class="segments">
 
       <div class="seg">
-        <div class="seg-num"><span class="n">S7</span><span class="dir">CLOSE</span></div>
+        <div class="seg-num"><span class="n">1</span></div>
         <div class="seg-body">
-          <div class="seg-beat">Warm close — relationship layer confirmed</div>
-          <div class="seg-detail">"Let's figure out when we can hang. Fire pit, no kids." Personal layer activated at close. Zach commits to follow up: build/buy/rent research + MVP scope. Todd: "I'll text you later." No explicit price agreement — scope deferred.</div>
-          <span class="seg-signal sig-green">Relationship: WARM</span>
+          <div class="seg-beat">Start with the chatbot</div>
+          <div class="seg-detail">"I'd love to start with the chatbot — that's going to create the biggest bang on the business side." The most visible, highest-impact piece first; the behind-the-scenes marketing cleanup comes later.</div>
+          <span class="seg-signal sig-cyan">Priority: chatbot first</span>
         </div>
       </div>
 
       <div class="seg">
-        <div class="seg-num"><span class="n">S6</span><span class="dir">↑</span></div>
+        <div class="seg-num"><span class="n">2</span></div>
         <div class="seg-body">
-          <div class="seg-beat">Architectural unlock — skip CS, route to sales manager directly</div>
-          <div class="seg-detail">Zach surfaces the skip: "Why would customer service even need to be in the mix if the chatbot handed off directly to the sales manager?" Todd: "That could be an option too. Yeah... that's probably the way to go." This is the key decision of the call — not yet captured in any scope doc.</div>
-          <span class="seg-signal sig-cyan">Decision: LOCKED</span>
+          <div class="seg-beat">Route each lead straight to the sales manager</div>
+          <div class="seg-detail">Not through the three customer-service reps — the chatbot creates one lead in SugarCRM and the sales manager assigns it to the right territory. Your call on Jul 9: "That's probably the way to go." It simplifies every option below.</div>
+          <span class="seg-signal sig-green">Decided: direct to sales manager</span>
         </div>
       </div>
 
       <div class="seg">
-        <div class="seg-num"><span class="n">S5</span><span class="dir">↑</span></div>
+        <div class="seg-num"><span class="n">3</span></div>
         <div class="seg-body">
-          <div class="seg-beat">Org structure mapped — CS / territory / routing logic clarified</div>
-          <div class="seg-detail">3 CS reps each assigned to 3 salespeople (9 total). Territory-based routing by geography. Sales manager does close/loss analysis. No booking system — phone is CTA. CS currently receives inbound via email from forms. IP geofencing or address input are the routing vectors.</div>
-          <span class="seg-signal sig-green">Ops: CLEAR</span>
+          <div class="seg-beat">This page is the follow-up you asked for</div>
+          <div class="seg-detail">The build / buy / rent options and a scoped first version, with a clear recommendation. The bigger "AI that recommends a formulation" idea is real — it's sequenced for later so we don't try to build everything at once.</div>
+          <span class="seg-signal sig-green">Agreed: research + scope</span>
         </div>
       </div>
 
-      <div class="seg">
-        <div class="seg-num"><span class="n">S4</span><span class="dir">↑</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">Live G2 research session — Intercom, Zendesk, WP Bot surfaced</div>
-          <div class="seg-detail">WordPress 7.0 confirmed (Intercom compat). Zapier revealed as FREE plan — critical constraint change. Todd: "Maybe we do that — maybe we see what makes the most sense." Build/buy/rent framing accepted. Todd suggested WordPress plugin approach. Drift/SalesLoft explored but priced for enterprise.</div>
-          <span class="seg-signal sig-gold">Zapier: FREE — blocks automation backbone</span>
-        </div>
-      </div>
-
-      <div class="seg">
-        <div class="seg-num"><span class="n">S3</span><span class="dir">↑</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">Full vision revealed — AI trained on PD form data, plastics textbook</div>
-          <div class="seg-detail">"Could we train this agent on essentially a plastics engineering textbook?" Todd's true north: customer inputs application need → chatbot recommends resin formulation → sends tear sheet → CS follows up. This is Phase 4/5, not MVP scope. Product dev forms + application sheets = the training data trove. NDA required before access.</div>
-          <span class="seg-signal sig-gold">Scope creep risk: Phase 4 vision embedded in Phase 3 ask</span>
-        </div>
-      </div>
-
-      <div class="seg">
-        <div class="seg-num"><span class="n">S2</span><span class="dir">↑</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">Phase pivot — chatbot confirmed as priority over Phase 1 table stakes</div>
-          <div class="seg-detail">"I'd love to start with the chatbots. That's going to create the biggest bang on the business side. It's gonna hit harder." WOW factor is an explicit buying signal — Todd needs something demonstrable internally, not just technically correct. Zach tried Phase 1 first; Todd redirected immediately. Phase sequencing decision made in first 5 minutes.</div>
-          <span class="seg-signal sig-cyan">Priority: Chatbot first</span>
-        </div>
-      </div>
-
-      <div class="seg">
-        <div class="seg-num"><span class="n">S1</span><span class="dir">OPEN</span></div>
-        <div class="seg-body">
-          <div class="seg-beat">Personal rapport + Laz signal — potential churn event on Wednesday</div>
-          <div class="seg-detail">Nora sick (summer virus). Costa Rica musing. Then: Laz opportunity has a Wednesday meeting. "I would jump ship for that." If Laz materializes, Todd leaves PRL. Urgency to close this engagement before his situation changes. Also: Todd's boss history ("15 years of bullshit") — motivation to build something that gives him a win before he exits.</div>
-          <span class="seg-signal sig-red">Churn risk: Laz meeting Wednesday</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="divergence">
-      <div class="divergence-label">↕ Divergence — Forward expectation vs. backward landing</div>
-      <div class="divergence-body">
-        <strong>What the call seemed to be building toward (forward):</strong> A structured scoping conversation walking through the todd-call.arcs.care proposal page, phase by phase, arriving at a Phase 1 sprint agreement.<br><br>
-        <strong>Where it actually landed (backward):</strong> Todd had already decided Phase 3 before the call started. The proposal review lasted under 3 minutes before he redirected to "let's build out an AI agent." The real conversation was discovery inside Todd's AI vision, not scoping against the proposal. The architectural insight (skip CS → sales manager direct) emerged organically from ops mapping, not from a prepared scope question.<br><br>
-        <strong>Implication:</strong> The next engagement offer shouldn't be a Phase 1 proposal — it should be a Phase 3 chatbot MVP spec that acknowledges the direct-to-sales-manager routing architecture.
-      </div>
     </div>
   </section>
 
   <!-- ── DEEP RECALL PASS ── -->
   <div class="divider" id="recall"></div>
   <section>
-    <div class="section-eyebrow">Protocol Pass 2</div>
-    <div class="section-title">Deep Recall · Both Calls — Jul 2 + Jul 9</div>
+    <div class="section-eyebrow">What I Found</div>
+    <div class="section-title">What I confirmed, and what surprised me</div>
 
     <div class="pass-header">
-      <span class="pass-mode deep">Deep Recall · Cross-call</span>
-      <span class="pass-segments">9 + 7 segments · start → end, scored against expectation</span>
+      <span class="pass-mode deep">Both calls · Jul 2 + Jul 9</span>
+      <span class="pass-segments">The things that shape the plan</span>
     </div>
 
-    <div class="section-eyebrow" style="margin-top: 16px; margin-bottom: 10px;">Confirmed vs. Surprising vs. Contradicted</div>
+    <div class="section-eyebrow" style="margin-top: 16px; margin-bottom: 10px;">The four that shape the chatbot</div>
     <div class="surprises">
       <div class="surprise">
         <div class="surprise-dot confirm"></div>
-        <div class="surprise-text"><strong>SugarCRM long-term:</strong> "Probably here to stay for at least the time I'll be here." Stable integration target confirmed. Had PipeDrive before, moved to Sugar. Not moving again.</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot new"></div>
-        <div class="surprise-text"><strong>Zapier is FREE plan — not paid.</strong> Call 1 assumed Zapier was the automation backbone. It's the free tier, which has hard limits on tasks/month and no multi-step Zaps. This eliminates Zapier as the SugarCRM bridge without upgrading ($19.99/mo) or replacing it entirely.</div>
+        <div class="surprise-text"><strong>WordPress 7.0 is current and clean.</strong> Every serious chatbot plugin works with it — nothing about your website needs to be rebuilt or replaced.</div>
       </div>
       <div class="surprise">
         <div class="surprise-dot confirm"></div>
-        <div class="surprise-text"><strong>WordPress 7.0</strong> — higher than expected, clean for any modern chatbot plugin. Intercom, Tidio, WP-Bot all confirmed compatible at WP 4.2+.</div>
+        <div class="surprise-text"><strong>SugarCRM is staying.</strong> "Probably here to stay for at least the time I'll be here." It's a stable place to send leads, and it has a direct connection the chatbot can write to.</div>
       </div>
       <div class="surprise">
         <div class="surprise-dot new"></div>
-        <div class="surprise-text"><strong>No booking system at all.</strong> Salespeople are reachable by phone only — no calendar scheduling. Eliminates Cal.com / Calendly integration as a chatbot CTA. CTA is: phone number, email routing, or SugarCRM lead creation.</div>
+        <div class="surprise-text"><strong>Zapier is on the free plan.</strong> That plan is too limited to reliably pass leads along — so the chatbot writes to SugarCRM directly instead, which is actually simpler and cheaper (no monthly middle-man).</div>
       </div>
       <div class="surprise">
         <div class="surprise-dot new"></div>
-        <div class="surprise-text"><strong>Sales manager = the actual quarterback.</strong> Sits above CS in the lead flow. Does close/loss analysis. If the chatbot routes leads directly to the SM instead of 3 CS reps, it simplifies the integration target dramatically — one SugarCRM endpoint, not three email addresses.</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot new"></div>
-        <div class="surprise-text"><strong>Product dev forms + application sheets exist</strong> as the training data corpus. NDA required before access. This is the data that powers Todd's Phase 4 vision (resin recommendation by application). Can't build the ML layer without it — nor should we try in MVP.</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot risk"></div>
-        <div class="surprise-text"><strong>Todd may leave PRL.</strong> Laz opportunity has a Wednesday meeting. "I would jump ship for that." Engagement timeline is implicitly compressed by this personal variable — the chatbot needs to be built and delivering before he exits or his motivation changes.</div>
-      </div>
-      <div class="surprise">
-        <div class="surprise-dot confirm"></div>
-        <div class="surprise-text"><strong>Scenario A / B buyer archetypes held.</strong> Call 1 framing confirmed: "knows what they need" vs "needs formulation research." Session 3 vision (AI recommendation by application) is the long-form B-path extension. MVP branch logic only needs to capture name / email / phone / application type / formulation stage.</div>
+        <div class="surprise-text"><strong>The sales manager is the natural destination.</strong> He already runs win/loss analysis, so routing each lead to him — instead of three customer-service inboxes — means one clear owner and faster follow-up.</div>
       </div>
     </div>
 
-    <div class="section-eyebrow" style="margin-top: 28px; margin-bottom: 10px;">Signal threads — persistent across both calls</div>
+    <div class="section-eyebrow" style="margin-top: 28px; margin-bottom: 10px;">What that means for the build</div>
     <div class="threads">
       <div class="thread">
-        <div class="thread-icon risk">⚠</div>
+        <div class="thread-icon caution">📐</div>
         <div>
-          <div class="thread-title">Scope creep — Phase 4 vision embedded in Phase 3 ask</div>
-          <div class="thread-body">Todd's stated MVP is <strong>actually a 3–6 month build</strong> once you add AI formulation recommendation. Chatbot MVP = branch logic + lead capture + SugarCRM handoff. Phase 4 = ML recommendation engine trained on PD form data. Conflating them blows the budget and the timeline. Needs explicit de-scoping conversation.</div>
+          <div class="thread-title">Keep the first version focused</div>
+          <div class="thread-body">Two different sizes of project. <strong>The chatbot</strong> — question flow, lead capture, hand-off to SugarCRM — is a matter of days. <strong>The AI that recommends formulations</strong> is a much bigger effort (a 3–6 month build on your product-development data). Doing the chatbot first keeps cost and timeline predictable, and gives the bigger build a working foundation to sit on.</div>
         </div>
       </div>
       <div class="thread">
-        <div class="thread-icon caution">🔒</div>
+        <div class="thread-icon signal">🚀</div>
         <div>
-          <div class="thread-title">Data dependency — NDA gates the real asset</div>
-          <div class="thread-body">Until Todd executes the NDA and shares product dev form fields, <strong>branch logic can only be designed at a conceptual level</strong>. Can't build Scenario B without knowing what fields CS/sales actually needs. Discovery calls with sales manager and CS rep are the unblocking action.</div>
-        </div>
-      </div>
-      <div class="thread">
-        <div class="thread-icon risk">🚨</div>
-        <div>
-          <div class="thread-title">Churn risk — Laz meeting Wednesday Jul 9</div>
-          <div class="thread-body">If Laz closes, Todd exits PRL. No clear successor contact identified. <strong>Close the engagement quickly</strong>. Get NDA and access before that happens. The chatbot MVP also becomes Todd's portfolio piece if he does leave — frame it that way.</div>
-        </div>
-      </div>
-      <div class="thread">
-        <div class="thread-icon caution">💸</div>
-        <div>
-          <div class="thread-title">Zapier FREE blocks the standard automation playbook</div>
-          <div class="thread-body">Zapier free = 100 tasks/month, 5-minute update frequency, single-step Zaps only. Cannot use as a chatbot→SugarCRM bridge at any real volume. Options: <strong>upgrade Zapier ($19.99/mo)</strong>, use SugarCRM REST API directly (free, documented), or use n8n as replacement automation layer.</div>
-        </div>
-      </div>
-      <div class="thread">
-        <div class="thread-icon signal">📶</div>
-        <div>
-          <div class="thread-title">WOW factor = internal justification signal</div>
-          <div class="thread-body">"It's gonna hit harder." Todd needs something demonstrable to justify spend to ownership (the family office). The chatbot is a visible artifact — it shows on the homepage, it logs leads, it has a before/after. <strong>The proof document from the MVP is as important as the chatbot itself.</strong> Build reporting into the scope.</div>
+          <div class="thread-title">Start lean, expand with real leads</div>
+          <div class="thread-body">The fastest way to value is to ship a working chatbot from what you've already told me, then let real leads reveal what to add. <strong>You don't have to get everything perfect before starting</strong> — the first version pays for itself and shows exactly where the next dollar should go.</div>
         </div>
       </div>
     </div>
@@ -828,13 +730,34 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <!-- ── CHATBOT ANALYSIS ── -->
   <div class="divider" id="chatbot"></div>
   <section>
-    <div class="section-eyebrow">5-Verb Analysis</div>
-    <div class="section-title">Chatbot Build / Buy / Rent — SMB WordPress + SugarCRM</div>
+    <div class="section-eyebrow">Build / Buy / Rent</div>
+    <div class="section-title">How to get the chatbot — three ways, in plain English</div>
+
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:4px;max-width:680px;">
+      There are three ways to put a chatbot on your site. Think of it like getting a delivery van for the business:
+    </p>
+    <div class="stack-grid" style="grid-template-columns:1fr;gap:8px;margin-bottom:4px;">
+      <div class="stack-chip">
+        <div class="stack-chip-label" style="color:var(--red)">Build — custom from scratch</div>
+        <div class="stack-chip-value" style="font-weight:400;color:var(--sub);font-size:12px;">Like having a van built to order. Exactly what you want, but the most time, the most money, and you own every repair. Weeks of developer work.</div>
+      </div>
+      <div class="stack-chip">
+        <div class="stack-chip-label" style="color:var(--gold)">Buy — own a platform license</div>
+        <div class="stack-chip-value" style="font-weight:400;color:var(--sub);font-size:12px;">Like buying the van outright. More control than renting, but a bigger upfront commitment and you're responsible for upkeep.</div>
+      </div>
+      <div class="stack-chip ok">
+        <div class="stack-chip-label" style="color:var(--green)">Rent — subscribe to a ready tool</div>
+        <div class="stack-chip-value" style="font-weight:400;color:var(--text);font-size:12px;">Like leasing the van. A proven product for a low monthly fee, running in days, upgrades and fixes handled by the vendor. Best fit for the first version.</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;margin-bottom:4px;max-width:680px;">
+      For the first version, <strong style="color:var(--text)">renting is the clear winner</strong> — fastest to a live result, lowest cost, and nothing to maintain. The real work isn't the software; it's designing the conversation (what the bot asks and where each answer goes). We can always move to Build later if the bigger AI vision needs it.
+    </p>
 
     <div class="arch-callout">
-      <div class="arch-callout-label">Architecture Decision · Locked this call</div>
-      <div class="arch-callout-title">Skip CS → route chatbot leads directly to Sales Manager in SugarCRM</div>
-      <div class="arch-callout-body">Todd confirmed this on Jul 9. Integration target = <strong>one SugarCRM lead record</strong> assigned to the correct territory rep via the SM, not three CS email addresses. This simplifies every option below. Chatbot creates lead → SM reviews + routes → territory rep follows up by phone.</div>
+      <div class="arch-callout-label">Decided on the Jul 9 call</div>
+      <div class="arch-callout-title">Chatbot sends each lead straight to the sales manager</div>
+      <div class="arch-callout-body">Instead of routing through the three customer-service reps, the chatbot creates <strong>one lead in SugarCRM</strong> and the sales manager assigns it to the right territory rep. Simpler, faster, and one clear owner for follow-up. In short: <strong>chatbot captures the lead → sales manager reviews and routes it → the rep follows up by phone.</strong></div>
     </div>
 
     <div class="cb-table-wrap">
@@ -842,20 +765,20 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
         <thead>
           <tr>
             <th>Option</th>
-            <th>Type</th>
-            <th>WP Integration</th>
-            <th>SugarCRM</th>
-            <th>Monthly Cost</th>
-            <th>Build Time</th>
-            <th>Maintainability</th>
+            <th>Approach</th>
+            <th>Works with WordPress</th>
+            <th>Connects to SugarCRM</th>
+            <th>Monthly cost</th>
+            <th>Time to launch</th>
+            <th>Who can maintain it</th>
           </tr>
         </thead>
         <tbody>
           <tr class="recommended">
             <td><strong style="color:var(--text)">Tidio AI</strong><span class="rec-badge">RECOMMENDED</span></td>
             <td>Rent</td>
-            <td class="cost-lo">Native plugin</td>
-            <td>REST API (direct) or Zapier+</td>
+            <td class="cost-lo">Built-in plugin</td>
+            <td>Direct, or via connector</td>
             <td class="cost-lo">$29–49</td>
             <td>1–2 days</td>
             <td class="cost-lo">Easy — visual builder</td>
@@ -863,8 +786,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           <tr>
             <td><strong style="color:var(--text)">WP-Bot</strong></td>
             <td>Rent</td>
-            <td class="cost-lo">Native plugin</td>
-            <td>Webhook / Zapier+</td>
+            <td class="cost-lo">Built-in plugin</td>
+            <td>Via connector</td>
             <td class="cost-lo">$15–30</td>
             <td>1 day</td>
             <td class="cost-lo">Easy — limited AI</td>
@@ -872,35 +795,17 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           <tr>
             <td><strong style="color:var(--text)">Intercom</strong></td>
             <td>Rent</td>
-            <td style="color:var(--sub)">JS embed / plugin</td>
-            <td>API / 3rd party</td>
+            <td style="color:var(--sub)">Add a snippet</td>
+            <td>Via connector</td>
             <td class="cost-med">$74–139</td>
             <td>2–3 days</td>
             <td style="color:var(--sub)">Medium</td>
           </tr>
           <tr>
-            <td><strong style="color:var(--text)">Botpress Cloud</strong></td>
-            <td>Rent / Build</td>
-            <td style="color:var(--sub)">Embed JS</td>
-            <td>REST API</td>
-            <td style="color:var(--sub)">$25–50</td>
-            <td>1–2 weeks</td>
-            <td style="color:var(--sub)">Medium</td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--text)">n8n + Typeform</strong></td>
-            <td>Rent</td>
-            <td style="color:var(--sub)">Form embed</td>
-            <td>n8n → SugarCRM</td>
-            <td class="cost-lo">~$20</td>
-            <td>3–5 days</td>
-            <td style="color:var(--sub)">Medium (requires n8n)</td>
-          </tr>
-          <tr>
-            <td><strong style="color:var(--text)">Custom (Claude API)</strong></td>
+            <td><strong style="color:var(--text)">Custom build</strong></td>
             <td>Build</td>
-            <td style="color:var(--sub)">Embed JS</td>
-            <td>Direct REST API</td>
+            <td style="color:var(--sub)">Add a snippet</td>
+            <td>Direct connection</td>
             <td class="cost-hi">$50–200 API</td>
             <td>3–6 weeks</td>
             <td class="cost-hi">High — requires dev</td>
@@ -910,12 +815,12 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
 
     <div class="rec-box">
-      <div class="rec-box-label">Recommendation — MVP</div>
-      <div class="rec-box-title">Tidio AI on WordPress · SugarCRM via REST API · Zapier upgraded if API access blocked</div>
+      <div class="rec-box-label">Recommendation — first version</div>
+      <div class="rec-box-title">Rent Tidio, install it on WordPress, and connect it directly to SugarCRM</div>
       <div class="rec-box-body">
-        <strong>Why Tidio:</strong> WordPress native plugin (5-min install on WP 7.0), visual conversation flow builder that Todd's team can maintain without a developer, built-in AI fallback for unmatched queries, session memory for return visitors (critical for a 6–12 month sales cycle), documented SugarCRM integration via REST API. Starts at $29/mo — lowest friction, lowest cost, and the flow builder makes the branch logic visible and editable by Todd.<br><br>
-        <strong>SugarCRM bridge:</strong> Use SugarCRM REST API v8 directly (no Zapier required). Tidio supports webhook output → Node function → SugarCRM POST /Leads. If direct API is blocked, upgrade Zapier to Starter ($19.99/mo) as backup.<br><br>
-        <strong>Do not build custom for MVP.</strong> The branch logic design is where 80% of the value is, not the chatbot platform. Platform can be swapped in Phase 4 when the AI recommendation layer is ready.
+        <strong>Why Tidio:</strong> It installs on your WordPress site in about five minutes. The conversation is built with a drag-and-drop editor — so your team can tweak the questions later without a developer. It remembers returning visitors (which matters for a 6–12 month buying cycle), and it has built-in AI to handle questions the script doesn't cover. It starts around <strong>$29/month</strong> — the lowest cost and the fastest path to something live.<br><br>
+        <strong>How leads reach SugarCRM:</strong> Tidio can send each new lead straight into SugarCRM automatically — no middle-man tool, no extra monthly fee, one less thing that can break. (If your SugarCRM setup doesn't allow that direct connection, the fallback is a $20/month connector — still cheap.)<br><br>
+        <strong>Why not build it custom:</strong> A custom bot costs far more and takes weeks. The value isn't in the software — it's in <strong>designing the right conversation</strong>: what the bot asks, and where each answer goes. We nail that on a rented tool now, and can move to something custom later if the bigger AI vision calls for it.
       </div>
     </div>
   </section>
@@ -923,13 +828,13 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <!-- ── MVP SCENARIOS ── -->
   <div class="divider" id="mvp"></div>
   <section>
-    <div class="section-eyebrow">Engagement Scoping</div>
-    <div class="section-title">Best / Base / Worst Case MVP</div>
+    <div class="section-eyebrow">Options & Price</div>
+    <div class="section-title">Three levels — start small, expand as it proves out</div>
 
     <div class="scenarios">
       <div class="scenario best">
         <div class="scenario-header">
-          <div class="scenario-label">Best Case</div>
+          <div class="scenario-label">Start here · the chatbot</div>
           <div class="scenario-price">$1,500</div>
         </div>
         <div class="scenario-body">
@@ -939,26 +844,26 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           </div>
           <div class="scenario-row">
             <strong>Scope</strong>
-            Tidio install + Scenario A/B branch logic (verbal from Todd, not NDA data) + SugarCRM lead creation + email notification to SM + territory routing field
+            Tidio installed + the Scenario A/B question flow (from what you've already told me) + creates a lead in SugarCRM + emails the sales manager + tags the right territory
           </div>
           <div class="scenario-row">
             <strong>Trigger</strong>
-            Todd confirms this week, shares GTM/SugarCRM access immediately, SM available for 30-min call before Session 1
+            You confirm this week and share website + SugarCRM access; the sales manager is free for one 30-minute call before we start
           </div>
           <div class="scenario-row">
             <strong>Outcome</strong>
-            Live chatbot in 7–10 days. Leads flowing to SM. Proof document ready.
+            Live chatbot in 7–10 days, leads flowing to the sales manager, and a short results summary ready
           </div>
           <div class="scenario-row">
             <strong>Risk</strong>
-            Branch logic based on verbal spec — real leads may reveal edge cases. Low-fidelity Scenario B without NDA/PD form data.
+            The question flow is built from our calls, so real leads may surface a few edge cases to tune. The deeper "needs formulation help" path stays light until your form data is in hand.
           </div>
         </div>
       </div>
 
       <div class="scenario base">
         <div class="scenario-header">
-          <div class="scenario-label">Base Case</div>
+          <div class="scenario-label">Then expand</div>
           <div class="scenario-price">$3,000–3,500</div>
         </div>
         <div class="scenario-body">
@@ -968,26 +873,26 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           </div>
           <div class="scenario-row">
             <strong>Scope</strong>
-            NDA + product dev form field mapping + CS/SM discovery calls + Tidio + SugarCRM API integration + territory routing + GA4 chatbot event tracking + handoff documentation
+            Your product-development form fields mapped, short discovery calls with the sales manager and a CS rep, deeper SugarCRM integration, territory routing, chatbot analytics, and a handoff doc your team can manage
           </div>
           <div class="scenario-row">
             <strong>Trigger</strong>
-            NDA executed within 1 week. Data + discovery calls within 2 weeks. Todd still at PRL.
+            Data and discovery calls lined up within two weeks
           </div>
           <div class="scenario-row">
             <strong>Outcome</strong>
-            Production-grade chatbot with informed branch logic, measurable lead flow, and a clean handoff doc the team can manage.
+            A production-grade chatbot with a smarter question flow, measurable lead flow, and a clean handoff doc your team can manage
           </div>
           <div class="scenario-row">
             <strong>Risk</strong>
-            Timeline slips if data collection is delayed. Laz meeting creates churn risk mid-engagement.
+            Timeline can slip if the data and discovery calls take longer to line up. The fix: we start the chatbot build in parallel so something is always moving.
           </div>
         </div>
       </div>
 
       <div class="scenario worst">
         <div class="scenario-header">
-          <div class="scenario-label">Worst Case</div>
+          <div class="scenario-label">Full vision · later</div>
           <div class="scenario-price">$6,000–8,000</div>
         </div>
         <div class="scenario-body">
@@ -997,19 +902,19 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           </div>
           <div class="scenario-row">
             <strong>Scope</strong>
-            Everything in base + custom Claude API recommendation engine trained on PD form taxonomy + resin catalog metadata + session persistence with email re-engagement + email/SMS notifications + sub-agent SDR routing per territory
+            Everything above, plus the AI that recommends a formulation — trained on your product-development data and resin catalog — with follow-up emails/texts and automatic routing to the right rep by territory
           </div>
           <div class="scenario-row">
             <strong>Trigger</strong>
-            Todd's Phase 4 vision approved as scope. Clean structured training data provided. Retainer model established.
+            The full "recommend a formulation" vision is approved as scope, with clean, organized training data provided and an ongoing arrangement in place.
           </div>
           <div class="scenario-row">
             <strong>Outcome</strong>
-            AI-powered formulation recommendation chatbot. Todd's full vision realized.
+            An AI that recommends formulations on your website — your full vision realized.
           </div>
           <div class="scenario-row">
             <strong>Risk</strong>
-            High. Requires clean metadata on resin catalog. Long timeline for an SMB without a tech team. Todd may exit before completion. Most of the value in the ML layer requires months of lead data feedback loop to calibrate.
+            High. Needs clean, well-organized data on your resin catalog, and it's a long timeline. Most of the value in the AI layer only shows up after months of real lead data to learn from — which is exactly why we'd do the smaller versions first.
           </div>
         </div>
       </div>
@@ -1018,7 +923,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     <div class="divergence" style="margin-top: 20px;">
       <div class="divergence-label">↗ Recommended path</div>
       <div class="divergence-body">
-        <strong>Start at Best Case ($1,500).</strong> Ship a live chatbot. Let real leads reveal what's missing. Expand to Base Case in Month 2–3 once the NDA is executed and discovery calls happen. This also gives Todd a visible win before any Laz decision crystallizes — and a portfolio artifact he owns regardless of where he lands.
+        <strong>Start with the chatbot ($1,500).</strong> Get it live on the site and let real leads show us what's missing. Then expand in month 2–3, once we've had the short discovery calls. You get a visible win fast, and every next dollar is spent on what the real leads tell us matters.
       </div>
     </div>
   </section>
@@ -1027,66 +932,48 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="divider" id="protocol"></div>
   <section>
     <div class="section-eyebrow">Next Steps</div>
-    <div class="section-title">Protocol — Action items by party</div>
+    <div class="section-title">To get the chatbot live — here's all it takes</div>
 
     <div class="protocol">
       <div class="protocol-party">
         <div class="protocol-party-header">
-          <div class="protocol-party-name">Zach (This week)</div>
+          <div class="protocol-party-name" style="color:var(--gold);">Todd — your 3 things · about 45 minutes total</div>
         </div>
         <div class="protocol-items">
           <div class="proto-item">
-            <div class="proto-arrow">→</div>
-            <div class="proto-text"><strong>Send this recoil report + chatbot analysis to Todd</strong> — the report itself is the deliverable he asked for ("do some research and homework"). Include the Tidio recommendation and the direct-to-SM routing decision.</div>
+            <div class="proto-arrow gold">1</div>
+            <div class="proto-text"><strong>WordPress login</strong> — so I can install the chatbot. ~5 min to send.</div>
           </div>
           <div class="proto-item">
-            <div class="proto-arrow">→</div>
-            <div class="proto-text"><strong>Draft NDA</strong> — simple mutual NDA covering PRL product dev form data + application sheets. DocuSign ready to send.</div>
+            <div class="proto-arrow gold">2</div>
+            <div class="proto-text"><strong>SugarCRM login</strong> — a user that can create leads, so the chatbot can drop them straight in. ~5 min to send.</div>
           </div>
           <div class="proto-item">
-            <div class="proto-arrow">→</div>
-            <div class="proto-text"><strong>Draft MVP scope doc</strong> — Phase 3 chatbot, Best Case path ($1,500), 3 sessions, Tidio on WordPress, SugarCRM via API, direct to SM architecture. One-pager, no jargon.</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow">→</div>
-            <div class="proto-text"><strong>Confirm SugarCRM REST API v8 access</strong> — verify whether Todd's SugarCRM instance exposes the /Leads endpoint and what auth model is required (OAuth2 or username/password). This determines whether direct API or Zapier upgrade is needed.</div>
+            <div class="proto-arrow gold">3</div>
+            <div class="proto-text"><strong>30 minutes with your sales manager</strong> — one short call so the chatbot's questions match how he actually works.</div>
           </div>
         </div>
       </div>
 
       <div class="protocol-party">
         <div class="protocol-party-header">
-          <div class="protocol-party-name">Todd (Next 7 days)</div>
+          <div class="protocol-party-name" style="color:var(--green);">Zach — I handle everything else</div>
         </div>
         <div class="protocol-items">
           <div class="proto-item">
-            <div class="proto-arrow gold">→</div>
-            <div class="proto-text"><strong>Execute NDA</strong> — before sharing product dev forms or application sheets. Unblocks Phase 4 design.</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow gold">→</div>
-            <div class="proto-text"><strong>Share product dev form fields + application sheet template</strong> — the branch logic for Scenario B depends on what fields CS/sales actually captures today.</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow gold">→</div>
-            <div class="proto-text"><strong>Schedule 30-min discovery call with sales manager</strong> — pain points, biggest time sinks, what data from inbound leads he actually uses vs. ignores. Record with Granola.</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow gold">→</div>
-            <div class="proto-text"><strong>Pull GA4 traffic report</strong> — homepage + Unbounce pages, last 90 days. (Requested in Call 1, still outstanding.)</div>
-          </div>
-          <div class="proto-item">
-            <div class="proto-arrow dim">→</div>
-            <div class="proto-text"><strong>Confirm SugarCRM access credentials</strong> — API key or admin login needed to wire the chatbot integration. Can be shared post-NDA.</div>
+            <div class="proto-arrow">→</div>
+            <div class="proto-text">Install and set up the chatbot, connect it to SugarCRM, build the two question paths, and send you a one-page scope to confirm before we start. <strong>Live in about a week.</strong></div>
           </div>
         </div>
       </div>
     </div>
+
+    <p style="font-size:12px;color:var(--muted);line-height:1.65;margin-top:14px;max-width:660px;">Later — <em>only</em> when we start the "recommend a formulation" AI — we'll want your product-development form fields and a website traffic report. An NDA is optional if you'd ever want one, but it's not required. <strong style="color:var(--sub);">Nothing this month waits on any of that.</strong></p>
   </section>
 
   <div class="stop-loss">
     <div class="pulse"></div>
-    <div class="sl-text">Stop-loss — if NDA is not executed within 2 weeks and no data is shared, pause Phase 4 design work and deliver Best Case scope ($1,500) from verbal spec alone. Don't wait for perfect data to start.</div>
+    <div class="sl-text">The safety net: even if the data takes longer than expected, we still ship the chatbot ($1,500) from what you've already told me. We don't wait for perfect data to get something live and working.</div>
     <div class="sl-ts">JUL 9, 2026</div>
   </div>
 
