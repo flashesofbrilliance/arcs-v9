@@ -30,9 +30,9 @@ const res = { opacity: 0.85 as number, fontWeight: 400 as number, letterSpacing:
 // ─── Static receipt ───────────────────────────────────────────────────────────
 
 const SECTIONS = [
-  { id: "decision",    label: "D — Decision" },
-  { id: "entities",   label: "E — Entities" },
-  { id: "window",     label: "W — Window" },
+  { id: "decision",    label: "D: Decision" },
+  { id: "entities",   label: "E: Entities" },
+  { id: "window",     label: "W: Window" },
   { id: "ygate",      label: "Y-Gate Shift" },
   { id: "delta",      label: "Signal Delta" },
   { id: "receipt",    label: "Ex-Ante Receipt" },
@@ -44,21 +44,21 @@ const SECTIONS = [
 
 const ENTITIES = [
   { role: "Candidate",         name: "Zach Harris" },
-  { role: "Recruiter",         name: "Hayden — Figma (joined Mar 2026, split eng/data)" },
-  { role: "Hiring Manager",    name: "Name unconfirmed — 'Code' org lead" },
-  { role: "Org Target",        name: "Figma 'Code' — Dev Mode · Code Connect · MCP" },
-  { role: "Alt A",             name: "Deloitte FDE — Fortune 100 / frontier tech" },
-  { role: "Alt B",             name: "JPMorgan DeFi infra — $10T/day capital" },
+  { role: "Recruiter",         name: "Hayden, Figma (joined Mar 2026, split eng/data)" },
+  { role: "Hiring Manager",    name: "Name unconfirmed, 'Code' org lead" },
+  { role: "Org Target",        name: "Figma 'Code', Dev Mode · Code Connect · MCP" },
+  { role: "Alt A",             name: "Deloitte FDE, Fortune 100 / frontier tech" },
+  { role: "Alt B",             name: "JPMorgan DeFi infra, $10T/day capital" },
 ]
 
 const SIGNAL_DELTAS = [
-  { signal: "Role shape",             expected: "Internal FDE, strategic cross-functional layer",         actual: "✅ Confirmed — Code org spans product/eng/design",              delta: "MATCH",    dc: t.green },
-  { signal: "Greenfield opportunity", expected: "Significant — inflection point, not routine",            actual: "✅ 'New things that may not even exist today'",                  delta: "MATCH",    dc: t.green },
-  { signal: "HM interest",            expected: "Unknown — cold sourcing",                                actual: "✅ the HM proactively sourced LinkedIn before screen",           delta: "SURPRISE", dc: t.cyan  },
-  { signal: "Interview process",      expected: "Standard tech screen → case study",                     actual: "⚠️ No-AI coding assessment required — policy in transition",     delta: "MISS",     dc: t.red   },
-  { signal: "AI culture",             expected: "Forward-leaning, AI-native",                             actual: "⚠️ AI encouraged on the job; blocked in assessments",            delta: "PARTIAL",  dc: t.gold  },
-  { signal: "Senior IC track",        expected: "Available",                                              actual: "🔲 Data science org framing — seniority unclear",               delta: "UNCLEAR",  dc: t.muted },
-  { signal: "Strategic latitude",     expected: "High — war room, board-level",                          actual: "✅ Roadmap influence confirmed; 'shape what this looks like'",    delta: "MATCH",    dc: t.green },
+  { signal: "Role shape",             expected: "Internal FDE, strategic cross-functional layer",         actual: "✅ Confirmed. Code org spans product/eng/design",              delta: "MATCH",    dc: t.green },
+  { signal: "Greenfield opportunity", expected: "Significant, inflection point, not routine",            actual: "✅ 'New things that may not even exist today'",                  delta: "MATCH",    dc: t.green },
+  { signal: "HM interest",            expected: "Unknown, cold sourcing",                                actual: "✅ the HM proactively sourced LinkedIn before screen",           delta: "SURPRISE", dc: t.cyan  },
+  { signal: "Interview process",      expected: "Standard tech screen → case study",                     actual: "⚠️ No-AI coding assessment required, policy in transition",     delta: "MISS",     dc: t.red   },
+  { signal: "AI culture",             expected: "Forward-leaning, AI-native",                             actual: "⚠️ AI encouraged on the job. Blocked in assessments",            delta: "PARTIAL",  dc: t.gold  },
+  { signal: "Senior IC track",        expected: "Available",                                              actual: "🔲 Data science org framing, seniority unclear",               delta: "UNCLEAR",  dc: t.muted },
+  { signal: "Strategic latitude",     expected: "High, war room, board-level",                          actual: "✅ Roadmap influence confirmed: 'shape what this looks like'",    delta: "MATCH",    dc: t.green },
 ]
 
 const CONFIDENCE = [
@@ -72,9 +72,9 @@ const CONFIDENCE = [
 const NEXT_STEPS = [
   { n: 1, rev: 10, color: t.green,  label: "WAIT",                   body: "Hold all activity until recruiter returns. Deadline: nudge Jun 16 if no contact. Cost: zero." },
   { n: 2, rev: 9,  color: t.green,  label: "EXPLORE ALT ROLES",      body: "Ask about strategy/ops, Dylan's org, or any roles without rigid assessment. Frame as fit-finding." },
-  { n: 3, rev: 7,  color: t.gold,   label: "BUILD CASE STUDY NOW",   body: "Grayscale A/B sprint = perfect experimentation story. ~3–4 hrs. Dual-use for Deloitte too." },
+  { n: 3, rev: 7,  color: t.gold,   label: "BUILD CASE STUDY NOW",   body: "Grayscale A/B sprint = perfect experimentation story. ~3 to 4 hrs. Dual-use for Deloitte too." },
   { n: 4, rev: 6,  color: t.gold,   label: "DECLINE GRACEFULLY",     body: "If assessment stays rigid: warm exit. Keep the HM's attention for better timing window." },
-  { n: 5, rev: 4,  color: t.muted,  label: "SPEEDRUN W/ AI IF OK",   body: "Only if recruiter confirms AI tools allowed. Offer already made — don't repeat unprompted." },
+  { n: 5, rev: 4,  color: t.muted,  label: "SPEEDRUN W/ AI IF OK",   body: "Only if recruiter confirms AI tools allowed. Offer already made. Don't repeat unprompted." },
 ]
 
 // ─── Micro-components ─────────────────────────────────────────────────────────
@@ -276,17 +276,17 @@ export default function RecoilPage() {
 
           {/* ── D — Decision ──────────────────────────────────────────────── */}
           <SectionAnchor id="decision" />
-          <SectionHead label="D — Decision" />
+          <SectionHead label="D: Decision" />
           <p style={{ fontSize: "0.9rem", lineHeight: 1.7, color: t.text, marginBottom: "0.75rem", ...res }}>
             Should I invest further time in Figma's interview process given the no-AI coding assessment constraint, my active pipeline, and the confirmed role shape?
           </p>
           <p style={{ fontSize: "0.75rem", color: t.dimmed, fontStyle: "italic", marginBottom: "2rem" }}>
-            Atomic form: Proceed, hold, or redirect — and at what cost?
+            Atomic form: Proceed, hold, or redirect, and at what cost?
           </p>
 
           {/* ── E — Entities ──────────────────────────────────────────────── */}
           <SectionAnchor id="entities" />
-          <SectionHead label="E — Entities" />
+          <SectionHead label="E: Entities" />
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "0.75rem", marginBottom: "2rem" }}>
             {ENTITIES.map((e, i) => (
               <AsideBox key={i} color={i < 4 ? t.cyan : t.gold}>
@@ -298,11 +298,11 @@ export default function RecoilPage() {
 
           {/* ── W — Window ────────────────────────────────────────────────── */}
           <SectionAnchor id="window" />
-          <SectionHead label="W — Window" />
+          <SectionHead label="W: Window" />
           <div style={{ display: "flex", gap: "0.75rem", marginBottom: "2rem", flexWrap: "wrap" }}>
             {[
-              { label: "Acute", detail: "3–7 days — wait for recruiter/HM feedback", color: t.red },
-              { label: "Medium", detail: "2–4 weeks — assessment + case study if proceeding", color: t.gold },
+              { label: "Acute", detail: "3 to 7 days, wait for recruiter/HM feedback", color: t.red },
+              { label: "Medium", detail: "2 to 4 weeks, assessment + case study if proceeding", color: t.gold },
               { label: "Hard constraint", detail: "Deloitte + JPMorgan pipelines active now", color: t.muted },
             ].map((w, i) => (
               <AsideBox key={i} color={w.color}>
@@ -328,7 +328,7 @@ export default function RecoilPage() {
             </AsideBox>
           </div>
           <p style={{ fontSize: "0.78rem", color: t.dimmed, lineHeight: 1.6, marginBottom: "0.5rem" }}>
-            <strong style={{ color: t.text, ...res }}>What moved the gate down:</strong> No-AI assessment is a genuine blocker. Role sits formally in data science — strategic latitude may be bounded. Recruiter openly uncertain about path forward. Two active alternatives at stronger pipeline stages.
+            <strong style={{ color: t.text, ...res }}>What moved the gate down:</strong> No-AI assessment is a genuine blocker. Role sits formally in data science. Strategic latitude may be bounded. Recruiter openly uncertain about path forward. Two active alternatives at stronger pipeline stages.
           </p>
           <p style={{ fontSize: "0.78rem", color: t.dimmed, lineHeight: 1.6, marginBottom: "2rem" }}>
             <strong style={{ color: t.text, ...res }}>What held it from RED:</strong> the HM's proactive sourcing is a real signal. Recruiter committed to HM consult + alt role exploration.
@@ -336,7 +336,7 @@ export default function RecoilPage() {
 
           {/* ── Signal Delta ──────────────────────────────────────────────── */}
           <SectionAnchor id="delta" />
-          <SectionHead label="Signal Delta — Expected vs. Actual" />
+          <SectionHead label="Signal Delta: Expected vs. Actual" />
           <div style={{ overflowX: "auto", marginBottom: "2rem" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.76rem" }}>
               <thead>
@@ -368,10 +368,10 @@ export default function RecoilPage() {
               <span style={{ fontSize: "0.7rem", color: t.dimmed }}>Zero-cost option preservation</span>
             </div>
             <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.7, marginBottom: "1rem", ...res }}>
-              The bet on the table: 8–15 hours in Figma's assessment + case study pipeline vs. redirecting energy to Deloitte/JPMorgan which are further along and frictionless.
+              The bet on the table: 8 to 15 hours in Figma's assessment + case study pipeline vs. redirecting energy to Deloitte/JPMorgan which are further along and frictionless.
             </p>
             <p style={{ fontSize: "0.78rem", color: t.dimmed, lineHeight: 1.6, marginBottom: "1.25rem" }}>
-              Do not invest assessment bandwidth until recruiter returns with HM's position on coding assessment flexibility and whether alternative roles exist outside data science.
+              Do not invest time until recruiter returns with HM's position on coding assessment flexibility and whether alternative roles exist outside data science.
             </p>
             <div style={{ borderTop: `1px solid ${t.border}`, paddingTop: "1rem" }}>
               <div style={{ fontSize: "0.58rem", letterSpacing: "0.12em", color: t.muted, textTransform: "uppercase", marginBottom: "0.625rem" }}>Unlock conditions</div>
@@ -393,7 +393,7 @@ export default function RecoilPage() {
             {CONFIDENCE.map((c, i) => <ConfidenceBar key={i} {...c} />)}
             <AsideBox color={t.red}>
               <p style={{ fontSize: "0.72rem", color: t.red, lineHeight: 1.5 }}>
-                40% confidence on "time well-spent vs. alternatives" is below the HOLD threshold. The bet does not clear the survivability bar at current information state.
+                40% confidence on "time well-spent vs. alternatives" is below the HOLD threshold. With what we know now, this bet isn't worth it.
               </p>
             </AsideBox>
           </div>
@@ -422,7 +422,7 @@ export default function RecoilPage() {
           <SectionAnchor id="analysis" />
           <SectionHead label="Recoil Analysis" />
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
-            The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer — straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP — is precisely the kind of inflection-point surface worth engaging. the HM's proactive LinkedIn sourcing is not noise; it means the fit signal is real from the hiring side.
+            The call confirmed the role shape hypothesis almost exactly. The "Code" org as a net-new cross-functional layer, straddling product, engineering, design, and roadmap influence across Dev Mode, Code Connect, and MCP, is precisely the kind of inflection-point surface worth engaging. the HM's proactive LinkedIn sourcing is not noise. It means the fit signal is real from the hiring side.
           </p>
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
             The process friction is the only genuine blocker. The recruiter acknowledged it directly:
@@ -431,14 +431,14 @@ export default function RecoilPage() {
             "We're at this crossroads where we don't allow AI tools in the interview process and yet we talk to so many people who say this is my everyday."
           </QuoteBlock>
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
-            That sentence means the policy is in transition — not a fixed wall. The risk is investing 8–15 hours in a traditional coding assessment that produces a false negative for both sides.
+            That sentence means the policy is in transition, not a fixed wall. The risk is investing 8 to 15 hours in a traditional coding assessment that produces a false negative for both sides.
           </p>
           <p style={{ fontSize: "0.85rem", color: t.text, lineHeight: 1.75, marginBottom: "1rem", ...res }}>
-            Secondary watch: formal data science org placement may constrain strategic latitude. A strategy/ops path or different team might be a stronger surface match — worth surfacing explicitly in the follow-up.
+            Secondary watch: formal data science org placement may constrain strategic latitude. A strategy/ops path or different team might be a stronger surface match, worth surfacing explicitly in the follow-up.
           </p>
           <AsideBox color={t.gold}>
             <p style={{ fontSize: "0.82rem", color: t.gold, lineHeight: 1.65, fontWeight: 500 }}>
-              At 40% confidence on "time well-spent vs. alternatives," the answer is HOLD. Not reject, not proceed. Wait for the information that changes the probability tree.
+              At 40% confidence on "time well-spent vs. alternatives," the answer is HOLD. Not reject, not proceed. Wait for the information that changes the odds.
             </p>
           </AsideBox>
           <div style={{ height: "2rem" }} />
@@ -470,7 +470,7 @@ export default function RecoilPage() {
           {/* Footer */}
           <div style={{ borderTop: `1px solid ${t.border}`, paddingTop: "1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
             <span style={{ fontSize: "0.58rem", color: t.dimmed, letterSpacing: "0.08em" }}>ARCS FIELD OS · ORIENT SURFACE · ARCS-ORIENT-2026-06-08T14:30:00Z-figma-r001</span>
-            <span style={{ fontSize: "0.58rem", color: t.dimmed, letterSpacing: "0.08em" }}>W: ACUTE · Jun 8–16, 2026</span>
+            <span style={{ fontSize: "0.58rem", color: t.dimmed, letterSpacing: "0.08em" }}>W: ACUTE · Jun 8 to 16, 2026</span>
           </div>
 
         </main>

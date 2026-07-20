@@ -13,7 +13,7 @@ export interface PrepDocProps { data?: Partial<typeof PREP_SAMPLE> }
 export const PREP_SAMPLE = {
   cover: {
     badges: ['Prep Doc', 'Tactical · Walk-In Protocol'],
-    title: 'Panel of 2 — Walk-In Protocol',
+    title: 'Panel of 2: Walk-In Protocol',
     subtitle: 'Tactical sequence for the second-round panel. This is the behavioral protocol, not the strategy. The strategy lives in the Brief. This is execution.',
     meta: 'ARCS PREP · Jun 2026 · PANEL OF 2 · 60 MIN',
     actions: ['Simulate', 'Open Brief'],
@@ -33,7 +33,7 @@ export function PrepDoc({ data }: PrepDocProps = {}) {
           { label: 'Duration', color: A, title: '60 min', body: 'Likely 5 min intro, 45 min questions, 10 min your questions. Time is compressed versus the screen.' },
           { label: 'Tone', color: A, title: 'Warmer Screen → Harder Panel', body: 'Jon was warm. The panel will be calibrated. Harder clock. Less charitable on verbosity.' },
           { label: 'Fix', color: T.red, title: 'Lead-With-The-Point', body: 'Answer in ≤2 sentences first. Pause. Offer to expand. Do not expand unless asked.' },
-          { label: 'Signal', color: T.green, title: 'Builder Archetype', body: '"Opinion earns a seat at the table." Demonstrate this — don\'t claim it. Stack walk worked; repeat the pattern.' },
+          { label: 'Signal', color: T.green, title: 'Builder Archetype', body: '"Opinion earns a seat at the table." Demonstrate this. Don\'t claim it. Stack walk worked. Repeat the pattern.' },
           { label: 'Ask', color: T.cyan, title: 'One Disambiguating Question', body: '"Is this role defining the measurement strategy, or implementing an existing one?" Her answer locates the scenario.' },
         ]} />
       </Sec>
@@ -42,8 +42,8 @@ export function PrepDoc({ data }: PrepDocProps = {}) {
         <ProcessSteps accent={A} steps={[
           { label: 'Phase 01', title: 'Open at Executive Altitude', body: 'Demonstrate you understand the strategic frame: the design graph, the intent graph, the AI choke point. Don\'t anchor to scope until you\'ve established altitude.', active: true },
           { label: 'Phase 02', title: 'Let the Interviewer Calibrate', body: 'Pause after every substantive answer. Read the signal. Don\'t anchor on the base case before you know if the best case is on the table.' },
-          { label: 'Phase 03', title: 'Drop the Disambiguating Question', body: '"Is this role defining the measurement strategy, or implementing an existing one?" Drop it when there\'s natural space — don\'t force it. Her answer tells you which scenario you\'re in.' },
-          { label: 'Phase 04', title: 'Land at the Scenario You\'re Actually In', body: 'Map the response to best/base/worst. Adjust depth, altitude, and investment accordingly. Close with the builder sequence — not the strategist sequence.' },
+          { label: 'Phase 03', title: 'Drop the Disambiguating Question', body: '"Is this role defining the measurement strategy, or implementing an existing one?" Drop it when there\'s natural space. Don\'t force it. Her answer tells you which scenario you\'re in.' },
+          { label: 'Phase 04', title: 'Land at the Scenario You\'re Actually In', body: 'Map the response to best/base/worst. Adjust depth, altitude, and investment accordingly. Close with the builder sequence, not the strategist sequence.' },
           { label: 'Phase 05', title: 'Close with Conviction', body: 'One clear ask: "I\'d like to understand the timeline for next steps." Don\'t soften it. Don\'t add qualifiers. State it and wait.' },
         ]} />
       </Sec>
@@ -52,16 +52,16 @@ export function PrepDoc({ data }: PrepDocProps = {}) {
         <DataTable
           columns={['Name', 'Role', 'Known Signal', 'Watch For']}
           rows={[
-            ['Interviewer A', 'DS Lead or PM', 'Unknown — research before call', 'Calibrate: strategic vs. execution orientation'],
-            ['Interviewer B', 'Unknown', 'Unknown', 'May be the real decision-maker — treat symmetrically'],
-            ['Jon Smyrl', 'Recruiter (screen)', 'Warm, fast, concision-rewarded', 'Not in the room — his read shaped the invite'],
+            ['Interviewer A', 'DS Lead or PM', 'Unknown. Research before call', 'Calibrate: strategic vs. execution orientation'],
+            ['Interviewer B', 'Unknown', 'Unknown', 'May be the real decision-maker. Treat symmetrically'],
+            ['Jon Smyrl', 'Recruiter (screen)', 'Warm, fast, concision-rewarded', 'Not in the room. His read shaped the invite'],
           ]}
         />
       </Sec>
 
       <Sec id="pp-watch" idx="04" label="Watch For" title="Behavioral Triggers" accent={A}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <AsideBox variant="warning" label="Stop Signal">If interviewer interrupts or completes your sentence: that is a hard stop. Not a politeness cue — a behavioral read. Stop immediately.</AsideBox>
+          <AsideBox variant="warning" label="Stop Signal">If interviewer interrupts or completes your sentence: that is a hard stop. Not a politeness cue, a behavioral read. Stop immediately.</AsideBox>
           <AsideBox variant="caution" label="Verbosity Trigger">Open prompts (&quot;Tell me about yourself&quot;, &quot;Walk me through&quot;) are the highest-risk moments. Answer in ≤2 sentences first. Full stop. Offer to expand.</AsideBox>
           <AsideBox variant="success" label="Builder Sequence">Stack walk + stateful file system + decision-receipt logic = the sequence that closed the screen warmly. Have it ready. It will close this too.</AsideBox>
         </div>

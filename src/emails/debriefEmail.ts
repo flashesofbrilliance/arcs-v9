@@ -94,14 +94,14 @@ ${q}
 TRUE NORTH (the bearing we set)
 ${trueNorth}
 ${protectingLine}
-The shoe has dropped. A receipt can't close itself — only the outcome can.
+The shoe has dropped. A receipt can't close itself. Only the outcome can.
 Did it land where the compass pointed?
 
 Log how it landed →
 ${debriefUrl}
 ${showOptIn ? `
 This is the only check-in we send without asking first. Want future ones like\nit? Turn on reminders →\n${opts.optInUrl}\n` : ''}
-—
+---
 ARCS Field OS · render through the fog to earned clarity`
 
   // ── HTML ─────────────────────────────────────────────────────────────────
@@ -141,7 +141,7 @@ ${darkLockHead(C)}</head>
         </div>
 
         <div class="arcs-body" style="font-family:${C.sans};font-size:15px;line-height:1.7;color:${C.body};padding:0 0 24px 0;max-width:430px;">
-          A receipt can't close itself — only the outcome can. Here's the call you logged. Tell ARCS what actually happened, and the loop closes.
+          A receipt can't close itself. Only the outcome can. Here's the call you logged. Tell ARCS what actually happened, and the loop closes.
         </div>
 
         <!-- Recap strip: the original bearing -->
@@ -167,7 +167,7 @@ ${darkLockHead(C)}</head>
         </tr></table>
 
         <div class="arcs-muted" style="border-top:1px solid ${C.border};margin:26px 0 0 0;padding:14px 0 0 0;font-family:${C.serif};font-style:italic;font-size:14px;color:${C.muted};">
-          On track, drifting, or landed — name it, and the next call starts from clearer ground.
+          On track, drifting, or landed. Name it, and the next call starts from clearer ground.
         </div>
 
         ${showOptIn ? `<div class="arcs-muted" style="margin:18px 0 0 0;padding:14px 16px;border:1px solid ${C.border};border-radius:10px;font-family:${C.sans};font-size:13px;line-height:1.6;color:${C.muted};">

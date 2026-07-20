@@ -87,7 +87,7 @@ ${metaText}
 Decision brief →
 ${briefUrl}
 
-—
+---
 ARCS Field OS · your judgment, sharper`
 
   // ── HTML ─────────────────────────────────────────────────────────────────
