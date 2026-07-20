@@ -17,7 +17,7 @@ export default function ScanPage() {
           letterSpacing: '0.08em', textTransform: 'uppercase', color: '#FFD700',
           border: '1px solid #FFD70035', borderRadius: 6, padding: '5px 10px',
         }}>
-          ◆ Illustrative — generation pipeline not yet wired (ADR-028)
+          ◆ Illustrative. Generation pipeline not yet wired (ADR-028)
         </div>
         <ScanClient />
       </div>

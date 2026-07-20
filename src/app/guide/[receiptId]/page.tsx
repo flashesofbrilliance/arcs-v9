@@ -379,9 +379,9 @@ function ModeSelector({
   const [entityInput, setEntityInput] = useState("")
 
   const modes = [
-    { id: "RECON", label: "Recon", time: "5 min", color: s.cyan, description: "Quick orientation — 1 stage, minimal artifact. For fast context before a conversation." },
-    { id: "ACTIVE", label: "Active", time: "20 min", color: s.gold, description: "Full prep sequence — 2 stages, agenda + KYC lens. For structured meeting prep." },
-    { id: "LEAD", label: "Lead", time: "60 min", color: s.gold, description: "Deep intelligence build — 3–5 stages, full artifact suite. For high-stakes first contact." },
+    { id: "RECON", label: "Recon", time: "5 min", color: s.cyan, description: "Quick orientation. 1 stage, minimal artifact. For fast context before a conversation." },
+    { id: "ACTIVE", label: "Active", time: "20 min", color: s.gold, description: "Full prep sequence. 2 stages, agenda plus KYC lens. For structured meeting prep." },
+    { id: "LEAD", label: "Lead", time: "60 min", color: s.gold, description: "Deep intelligence build. 3 to 5 stages, full artifact suite. For high-stakes first contact." },
   ]
 
   return (
@@ -471,7 +471,7 @@ function DensityToggle({ density, onChange }: { density: Density; onChange: (d: 
           <button
             key={d.level}
             onClick={() => onChange(d.level)}
-            title={`${d.label} — ${d.time}`}
+            title={`${d.label}: ${d.time}`}
             style={{
               padding: "0.2rem 0.5rem", borderRadius: 4, border: `1px solid`,
               borderColor: active ? d.color : s.border,
@@ -519,7 +519,7 @@ function DecideHeader({
         style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.75rem 1rem", background: s.surface, border: "none", cursor: "pointer" }}
       >
         <span style={{ fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: s.text }}>
-          {stage.id} — {stage.title}
+          {stage.id}: {stage.title}
         </span>
         <span style={{ fontSize: "0.75rem", color: s.dimmed }}>{open ? "▲" : "▼"}</span>
       </button>
@@ -781,7 +781,7 @@ export default function GuidePage() {
         <span style={{ color: s.text, fontWeight: 600 }}>{guide.totalPrepHours} hrs</span>
         <span style={{ color: s.border }}>|</span>
         <span style={{ color: s.muted }}>Stage:</span>
-        <span style={{ color: s.text, fontWeight: 600 }}>{activeStage.id} — {activeStage.shortLabel}</span>
+        <span style={{ color: s.text, fontWeight: 600 }}>{activeStage.id}: {activeStage.shortLabel}</span>
       </div>
 
       {/* Outcome Target Card — pinned between eyebrow and spine */}
@@ -812,7 +812,7 @@ export default function GuidePage() {
 
         {/* Agenda — Operational+ */}
         {density >= 3 && (
-        <CollapsibleBand title="Agenda — In My Head" isOpen={agendaOpen} onToggle={() => setAgendaOpen(o => !o)} accentColor={s.cyan}>
+        <CollapsibleBand title="Agenda: In My Head" isOpen={agendaOpen} onToggle={() => setAgendaOpen(o => !o)} accentColor={s.cyan}>
           <ul style={{ margin: 0, paddingLeft: "1.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             {activeStage.agenda.map((item, i) => (
               <li key={i} style={{ fontSize: "0.85rem", color: s.text, lineHeight: 1.5 }}>{item}</li>

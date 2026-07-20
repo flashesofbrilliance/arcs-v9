@@ -45,7 +45,7 @@ export default function OnboardingPage() {
       if (!res.ok) throw new Error("upload failed")
       router.push("/dashboard")
     } catch {
-      setError("Upload failed — you can try again from the dashboard later.")
+      setError("Upload failed. You can try again from the dashboard later.")
       setBusy(false)
     }
   }
@@ -70,7 +70,7 @@ export default function OnboardingPage() {
           Set up your profile
         </h1>
         <p style={{ fontSize: 14, color: text.secondary, lineHeight: 1.6, margin: "0 0 24px" }}>
-          Takes under 30 seconds. Add your LinkedIn profile PDF — the full data export is
+          Takes under 30 seconds. Add your LinkedIn profile PDF. The full data export is
           optional and can be added anytime, including later from the dashboard. Skip now and
           do this anytime from the dashboard.
         </p>
@@ -81,7 +81,7 @@ export default function OnboardingPage() {
               LinkedIn profile PDF{!pdfAlreadyOnFile && <span style={{ color: "#FF4D6D" }}> *</span>}
             </div>
             <div style={{ fontSize: 12, color: text.dimmed, marginBottom: pdf ? 8 : 0 }}>
-              {pdf ? pdf.name : pdfAlreadyOnFile ? "Already on file — upload again to replace it" : "From LinkedIn → your profile → “Save to PDF”"}
+              {pdf ? pdf.name : pdfAlreadyOnFile ? "Already on file. Upload again to replace it" : "From LinkedIn → your profile → “Save to PDF”"}
             </div>
             <input
               type="file"

@@ -162,7 +162,7 @@ export default function DebriefPage() {
           </div>
           {done && !o ? (
             <div style={{ fontFamily: font.sans, fontSize: "0.95rem", color: text.secondary, lineHeight: 1.6 }}>
-              The loop is complete. This call now feeds the pattern layer — the next decision starts from clearer ground.
+              The loop is complete. This call now feeds the pattern layer, so the next decision starts from clearer ground.
             </div>
           ) : o ? (
             <>
@@ -209,7 +209,7 @@ export default function DebriefPage() {
       {recapCard}
 
       <div style={{ fontFamily: font.sans, fontSize: "1.05rem", color: text.primary, lineHeight: 1.55, margin: "0 0 1.5rem", maxWidth: 540 }}>
-        The shoe has dropped. A receipt can&apos;t close itself — only the outcome can. Tell ARCS what actually happened.
+        The shoe has dropped. A receipt can&apos;t close itself. Only the outcome can. Tell ARCS what actually happened.
       </div>
 
       <Card style={{ marginBottom: "1.25rem" }}>
@@ -238,7 +238,7 @@ export default function DebriefPage() {
       </Card>
 
       <Card style={{ marginBottom: "1.25rem" }}>
-        <SectionLabel index="03" color={signal.gold} style={{ marginBottom: "0.75rem" }}>Looking back — any regret?</SectionLabel>
+        <SectionLabel index="03" color={signal.gold} style={{ marginBottom: "0.75rem" }}>Looking back, any regret?</SectionLabel>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "0.4rem" }}>
           {REGRET.map(({ v, label }) => {
             const on = regret === v
