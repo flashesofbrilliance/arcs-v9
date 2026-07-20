@@ -1563,3 +1563,50 @@ All compass-side changes are build + typecheck + unit-tested, but **NOT driven v
 
 `/handoff-pickup` → merge is done; pick an out-of-band item (Sentinel rebuild, SageTrace RLS) or the
 B2 cadence/HOLD-gate follow-up.
+
+---
+
+# Handoff — v3.9.0 (2026-07-19)
+
+> Relocated from CLAUDE.md 2026-07-20 (lean-file policy). Detail: `MEMORY.md [v3.9.0]`.
+> Two feature PRs shipped to main this session (both MERGED).
+
+## What shipped
+
+- **Token-efficiency audit (PR #62) - MERGED.** Detail: `MEMORY.md [v3.8.0]` + `_PATTERNS/2026-07-19-*`.
+  CLAUDE.md/MEMORY.md lean split; ADR-035 Commit-NCI rubric + `nci-scoring` skill + `/nci-commit` +
+  `/drift-check` + `/rca`; tech-debt batch; B4 NODE_ENV build fix; B2 5-lens `nci_by_lens`; recursive
+  trust-boundary sanitizer (`src/lib/sanitize.ts`).
+- **Stateless anonymous brief sharing (PR #100, ADR-037) - MERGED.** Detail: `MEMORY.md [v3.9.0]`. Anon
+  bearings shareable via URL-fragment payload (zero server write); recipient recomposes client-side;
+  one-view localStorage gate -> `/compass?shared=1` onramp. `src/lib/shareLink.ts` (sanitizes the
+  attacker-controllable payload), `/brief/share`, receipt-page "Share" (ephemeral only). Trust-contract
+  **v1.3** amended canonical-first (`_CANON/trust-contract.md`), then derived /trust + /privacy. A
+  `privacy-review` agent gated it (caught that the canonical doc hadn't been amended - fixed before merge).
+- **Branded receipt error/fallback page** (part of #100) - replaced bare red text with Wordmark + card +
+  adaptive CTAs (anon-not-here vs load failure).
+
+## Honesty flag (carry forward — CLOSED by v3.11.0 persist fix `403d109`)
+
+Compass-side changes (B2 5-lens, sanitizer, anon-share) are build + typecheck + unit-tested but **NOT driven
+via a live compass call** (no `ANTHROPIC_API_KEY` in the cloud session). **Verify after deploy:** run the
+compass anonymously -> Share -> open the link in another browser -> confirm one-time recompose -> onramp.
+
+## Open items (also in `_QUEUE/PENDING.md`)
+
+- **Out-of-band** (`_PATTERNS/2026-07-19-out-of-band-actions.md`): Drift Sentinel disabled by operator
+  2026-07-19, rebuild report-only (`_PATTERNS/sentinel-rebuild-spec.md`); SageTrace RLS (Supabase CLI);
+  **Vercel platform toolbar** -> disable in dashboard (Settings -> Toolbar); connector/env/key hygiene.
+- **In-repo:** B2 cadence lens from time-ROM; HOLD gate at NCI<40 (overlaps Calibrate HOLD gap); the
+  Receipt-save-prompt PLG gap.
+
+## Concurrency note
+
+A second session ran on main this whole session (J-items: leak-check gate, watchdog, status board, VOICE
+rules). The ADR namespace is lock-free - `ls _DECISIONS/` right before claiming a number (035=commit-nci,
+036=repo-split, 037=anon-share). Rebase on origin/main before any push.
+
+## Next session starts at
+
+`/handoff-pickup` -> live-verify the anon-share flow on the deployed site; then an out-of-band item or the
+B2 cadence / HOLD-gate follow-up.
