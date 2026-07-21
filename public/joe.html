@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>HypeLab × ARCS – A Six-Month Decision Map</title>
+<style>
+  /* Canonical ARCS instrument tokens – matches the other *.arcs.care briefs
+     (see public/jeben.html, WORLD.md design tokens). Dark-only by design. */
+  :root{
+    --bg:#020408; --surface:#0d1117; --surface2:#111827; --border:#1e293b; --border-soft:#16202e;
+    --text:#e2e8f0; --muted:#8b9bb0; --faint:#64748b; --steel:#94a3b8;
+    --accent:#00F0FF; --accent-dim:rgba(0,240,255,.07);
+    --gold:#FFD700; --gold-dim:rgba(255,215,0,.07);
+    --green:#00FF9D; --green-dim:rgba(0,255,157,.07);
+    --red:#FF4D6D; --red-dim:rgba(255,77,109,.07);
+    --shadow:none;
+    --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg); -webkit-text-size-adjust:100%; text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--sans);
+    font-size:16px; line-height:1.6; margin:0; padding:0; overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:730px; margin:0 auto; padding:56px 22px 90px}
+  @media (min-width:860px){
+    body{
+      background:
+        radial-gradient(ellipse 1000px 460px at 50% -180px, rgba(0,240,255,.05), transparent),
+        radial-gradient(rgba(148,163,184,.05) 1px, transparent 1.4px),
+        var(--bg);
+      background-size:auto, 30px 30px, auto;
+    }
+    .wrap{
+      max-width:820px;
+      padding:64px 60px 96px;
+      background:rgba(8,13,20,.72);
+      border-left:1px solid var(--border-soft);
+      border-right:1px solid var(--border-soft);
+      box-shadow:0 0 60px rgba(0,0,0,.5);
+    }
+  }
+  .sans{font-family:var(--sans)}
+  .mono{font-family:var(--mono)}
+  h1,h2,h3,h4{font-family:var(--sans); text-wrap:balance; margin:0}
+  h1{font-size:clamp(30px,6vw,42px); font-weight:700; letter-spacing:-.015em; line-height:1.08}
+  h2{font-size:23px; font-weight:700; letter-spacing:-.01em; margin-bottom:6px}
+  h3{font-size:16.5px; font-weight:600}
+  p{margin:0 0 14px}
+  a{color:var(--accent); text-decoration:none}
+  a:hover,a:focus-visible{text-decoration:underline}
+  a:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 10px;
+  }
+  .dek{font-size:18.5px; color:var(--muted); line-height:1.55; margin-top:16px}
+  .meta{font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:22px; line-height:1.9}
+  section{margin-top:64px}
+  .rule{border:0; border-top:1px solid var(--border); margin:0 0 26px}
+  .lede{font-size:17.5px}
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:20px 22px; box-shadow:var(--shadow);
+  }
+  .note{
+    border-left:3px solid var(--accent); background:var(--accent-dim);
+    padding:14px 18px; font-size:15.5px; margin:18px 0;
+  }
+  .note.gold{border-left-color:var(--gold); background:var(--gold-dim)}
+  .note.red{border-left-color:var(--red); background:var(--red-dim)}
+  .note.green{border-left-color:var(--green); background:var(--green-dim)}
+  .chip{
+    font-family:var(--mono);
+    display:inline-block; font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    padding:3px 9px 2px; border:1px solid var(--border); border-radius:3px; color:var(--muted); white-space:nowrap;
+  }
+  .chip.hot{color:var(--gold); border-color:var(--gold); background:var(--gold-dim)}
+  .chip.live{color:var(--green); border-color:var(--green); background:var(--green-dim)}
+  .chip.hold{color:var(--muted)}
+  .chip.risk{color:var(--red); border-color:var(--red); background:var(--red-dim)}
+  /* timeline */
+  .tl{list-style:none; margin:0; padding:0; border-left:2px solid var(--border)}
+  .tl li{padding:0 0 26px 22px; position:relative}
+  .tl li:last-child{padding-bottom:4px}
+  .tl li::before{
+    content:''; position:absolute; left:-6px; top:8px; width:10px; height:10px;
+    background:var(--nc); border-radius:50%;
+  }
+  .tl .when{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint)}
+  .tl li{scroll-margin-top:24px}
+  /* signal waveform */
+  .waveform-wrap{margin:4px 0 34px}
+  .waveform{width:100%;display:block;overflow:visible}
+  .wf-label{font-family:var(--mono);font-size:7px;letter-spacing:.1em;fill:var(--faint)}
+  .wf-spike:hover .wf-label,.wf-spike:focus .wf-label{fill:var(--text)}
+  .wf-halo{transform-box:fill-box;transform-origin:center;animation:wf-halo 2.2s ease-in-out infinite}
+  @keyframes wf-halo{0%,100%{opacity:0;transform:scale(.45)}50%{opacity:.4;transform:scale(1.25)}}
+  .wf-led{animation:wf-led 2.2s ease-in-out infinite}
+  @keyframes wf-led{0%,100%{opacity:.72}50%{opacity:1}}
+  #wf-1 .wf-halo,#wf-1 .wf-led{animation-duration:2.1s}
+  #wf-2 .wf-halo,#wf-2 .wf-led{animation-duration:2.6s}
+  #wf-3 .wf-halo,#wf-3 .wf-led{animation-duration:1.9s}
+  #wf-4 .wf-halo,#wf-4 .wf-led{animation-duration:2.3s}
+  .tl li{--nc:#94a3b8}
+  .tl li.peak{--nc:#00F0FF}
+  #tl-3{--nc:#00F0FF}
+  .tl li::before{animation:tl-led 2.4s ease-in-out infinite}
+  .tl li:nth-child(2n)::before{animation-duration:2.8s}
+  .tl li:nth-child(3n)::before{animation-duration:2.1s}
+  @keyframes tl-led{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 7px 2px var(--nc)}}
+  @media (max-width:520px){.wf-label{display:none}.waveform{height:52px !important}}
+  .tl h3{margin:3px 0 5px}
+  .tl p{font-size:15.5px; color:var(--muted); margin:0}
+  /* ledger */
+  .thread{border:1px solid var(--border); border-radius:6px; overflow:hidden; background:var(--surface); box-shadow:var(--shadow); margin-bottom:14px}
+  .thread .head{display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:8px 12px; padding:15px 18px 0}
+  .thread .body{padding:8px 18px 16px}
+  .thread .body p{font-size:15.5px; color:var(--muted); margin:0 0 10px}
+  .thread .next{
+    font-size:14.5px; padding:10px 18px; border-top:1px solid var(--border-soft);
+    color:var(--text);
+  }
+  .thread .next b{font-family:var(--mono); font-weight:600; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-right:8px}
+  .qt{
+    font-style:italic; color:var(--text); border-left:3px solid var(--gold);
+    padding:2px 0 2px 16px; margin:14px 0; font-size:16px;
+  }
+  .qt .who{display:block; font-style:normal; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); margin-top:6px}
+  /* tables */
+  .tblwrap{
+    overflow-x:auto; border-radius:6px; border:1px solid var(--border); background:var(--surface); box-shadow:var(--shadow);
+    scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+  }
+  .tblwrap::-webkit-scrollbar{height:8px}
+  .tblwrap::-webkit-scrollbar-track{background:transparent}
+  .tblwrap::-webkit-scrollbar-thumb{background:var(--border); border-radius:4px}
+  .tblwrap::-webkit-scrollbar-thumb:hover{background:var(--accent)}
+  table{border-collapse:collapse; width:100%; font-size:14.5px; min-width:560px}
+  th{
+    font-family:var(--sans);
+    font-size:11px; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+    text-align:left; color:var(--faint); padding:12px 14px; border-bottom:1px solid var(--border);
+    white-space:nowrap;
+  }
+  td{padding:11px 14px; border-bottom:1px solid var(--border-soft); vertical-align:top; color:var(--muted)}
+  td:first-child, th:first-child{
+    color:var(--text); font-weight:500;
+    position:sticky; left:0; background:var(--surface);
+    box-shadow:1px 0 0 var(--border);
+  }
+  th:first-child{color:var(--faint); font-weight:600}
+  tr:last-child td{border-bottom:0}
+  @media (max-width:640px){
+    table{font-size:13px}
+    th,td{padding:9px 10px}
+  }
+  .num{font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap}
+  .good{color:var(--green)} .warn{color:var(--gold)} .bad{color:var(--red)}
+  /* five grid */
+  .five{display:grid; grid-template-columns:1fr; gap:14px; margin-top:18px}
+  .five .card h3{color:var(--accent); font-size:13px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:10px}
+  .five ol{margin:0; padding-left:18px; font-size:14.5px; color:var(--muted)}
+  .five li{margin-bottom:7px}
+  .five li b{color:var(--text); font-weight:600}
+  /* scenarios */
+  .scen{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:14px; margin-top:18px}
+  .scen .card{border-top:3px solid var(--border)}
+  .scen .card.best{border-top-color:var(--green)}
+  .scen .card.base{border-top-color:var(--accent)}
+  .scen .card.worst{border-top-color:var(--red)}
+  .scen h3{margin-bottom:8px}
+  .scen p{font-size:14.5px; color:var(--muted)}
+  .scen .tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin:18px 0}
+  .stat{background:var(--surface); border-radius:6px; border:1px solid var(--border); padding:14px 16px; box-shadow:var(--shadow)}
+  .stat .k{font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+  .stat .v{font-family:var(--sans); font-size:24px; font-weight:700; letter-spacing:-.01em; margin-top:4px; font-variant-numeric:tabular-nums}
+  .stat .s{font-size:12.5px; color:var(--muted); margin-top:3px; line-height:1.45}
+  .fine{font-size:13px; color:var(--faint); line-height:1.6}
+  .toc{display:flex; flex-wrap:wrap; gap:8px 8px; margin-top:26px}
+  ul.clean{margin:0; padding-left:20px}
+  ul.clean li{margin-bottom:8px; font-size:15.5px; color:var(--muted)}
+  ul.clean li b{color:var(--text)}
+  @media (prefers-reduced-motion: no-preference){
+    html{scroll-behavior:smooth}
+  }
+  /* PASSWORD GATE – same pattern as the other *.arcs.care private briefs */
+  #pw-gate{position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:0 24px;text-align:center}
+  #pw-gate.hidden{display:none}
+  .pw-mark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--faint);text-transform:uppercase}
+  .pw-title{font-family:var(--sans);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.01em;max-width:26ch;text-wrap:balance}
+  .pw-form{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+  .pw-input{background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:16px;padding:10px 16px;outline:none;width:160px;letter-spacing:.06em;transition:border-color .15s}
+  .pw-input:focus{border-color:var(--accent)}
+  .pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
+  .pw-btn{background:rgba(0,240,255,.08);border:1px solid rgba(0,240,255,.25);border-radius:6px;color:var(--accent);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;padding:10px 18px;cursor:pointer;transition:background .15s}
+  .pw-btn:hover{background:rgba(0,240,255,.14)}
+  .pw-hint{font-family:var(--mono);font-size:10px;color:var(--faint)}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  @media (prefers-reduced-motion: reduce){.pw-input.shake{animation:none}}
+</style>
+</head>
+<body>
+<div id="pw-gate">
+  <div class="pw-mark">ARCS · Private Brief</div>
+  <div class="pw-title">HypeLab × ARCS – A Six-Month Decision Map</div>
+  <div class="pw-form">
+    <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+    <button class="pw-btn" onclick="checkPw()">ENTER</button>
+  </div>
+  <div class="pw-hint">shared by Zach Harris · hint: your first name</div>
+</div>
+<script>
+if (sessionStorage.getItem('joe-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+function checkPw() {
+  var val = document.getElementById('pw-input').value.trim().toLowerCase();
+  if (val === 'joe') {
+    sessionStorage.setItem('joe-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    var inp = document.getElementById('pw-input');
+    inp.classList.add('shake');
+    inp.value = '';
+    setTimeout(function () { inp.classList.remove('shake'); }, 350);
+  }
+}
+document.getElementById('pw-input').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') checkPw();
+});
+</script>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Prepared for Joe · Built from our October calls · July 2026</p>
+  <h1>HypeLab × ARCS<br>A Six-Month Decision Map</h1>
+  <p class="dek">Everything you and Ed walked me through last fall, pulled from our four calls and turned into the handful of real decisions in front of HypeLab, plus a concrete way I could be useful on them. This is what I have been building since we spoke.</p>
+  <p class="meta">SOURCES · 4 calls (Oct 6 → Oct 29, 2025) · Joe Kim (CEO) &amp; Ed Weng (CTO) · Synthesized with the ARCS decision engine</p>
+  <nav class="toc" aria-label="Contents">
+    <a class="chip" href="#read">The one read</a>
+    <a class="chip" href="#where">Where we left it</a>
+    <a class="chip" href="#calls">The four calls</a>
+    <a class="chip" href="#decisions">The roadmap as decisions</a>
+    <a class="chip" href="#grid">The triage grid</a>
+    <a class="chip" href="#arcs">What ARCS is</a>
+    <a class="chip" href="#try">The lowest-risk way to try it</a>
+    <a class="chip" href="#notes">Honest notes</a>
+    <a class="chip" href="#next">Next</a>
+  </nav>
+</header>
+
+<section id="read">
+  <p class="eyebrow">01 · The One Read</p>
+  <hr class="rule">
+  <p class="lede">Strip away the specifics and one pattern runs under all four of our conversations:</p>
+  <div class="note gold">
+    <b>HypeLab is very good at building demand-side targeting and closing blue-chip logos, and it has a stack of high-stakes growth bets in front of it with no independent way to pressure-test them before committing.</b> You said it yourself: the thing you most wanted was someone you could hand a question to and trust to go validate it, because there was no one inside the company you could point at a market and say "go figure this out."
+  </div>
+  <p>That gap, between strong instincts and unexamined bets, is exactly what I have spent the last nine months building a tool for. Not to make the call for you, but to make each big bet <b>write down its assumptions, its risks, and its exit rule before the resources move</b>, then score it against what actually happened. Everything below reframes your own roadmap through that lens.</p>
+</section>
+
+<section id="where">
+  <p class="eyebrow">02 · Where We Left It – HypeLab, In Your Words</p>
+  <hr class="rule">
+  <p>A clean read of where the company was last fall, straight from what you and Ed described. If any of this has moved, that is a good conversation for Wednesday.</p>
+  <div class="stats">
+    <div class="stat"><div class="k">Model</div><div class="v">Crypto-native</div><div class="s">Ad network on Web3 publishers, wallet-level targeting (chains, wallet value, on-chain history) plus contextual.</div></div>
+    <div class="stat"><div class="k">Revenue</div><div class="v">~$4–5M</div><div class="s">Profitable, not raising. Near-term goal $10M; you saw $20–50M as reachable.</div></div>
+    <div class="stat"><div class="k">Team</div><div class="v">~8 FT</div><div class="s">Thin on the business side; an inbound-heavy motion, outbound described as ad-hoc.</div></div>
+    <div class="stat"><div class="k">Ambition</div><div class="v">Toward a DSP</div><div class="s">Move from audience-extension and nascent SSP work toward planned agency and trading-desk budgets.</div></div>
+  </div>
+  <p>The proof points you were proud of were real: Circle, Uniswap, Consensys, Coinbase-class advertisers, and long-running accounts like the crypto-casino book. The honest counterweight Ed named was just as clear: the biggest budgets of the cycle were not being captured, and the growth engine was still relationship-led rather than systematic. That is not a product problem. It is a decision problem, which is the good kind to have.</p>
+</section>
+
+<section id="calls">
+  <p class="eyebrow">03 · The Four Calls – A Short Record</p>
+  <hr class="rule">
+  <div class="waveform-wrap">
+    <svg class="waveform" viewBox="0 0 640 62" xmlns="http://www.w3.org/2000/svg" style="height:62px" role="img" aria-label="Our four conversations, October 6 to October 29, 2025. Click a node to jump to it.">
+      <line x1="0" y1="44" x2="640" y2="44" stroke="#1e293b" stroke-width="1"/>
+      <a href="#c-1"><g class="wf-spike" id="wf-1" style="cursor:pointer">
+        <line x1="90" y1="44" x2="90" y2="26" stroke="#94a3b8" stroke-width="2"/>
+        <circle class="wf-halo" cx="90" cy="26" r="7" fill="#94a3b8" opacity="0"/>
+        <circle class="wf-led" cx="90" cy="26" r="3" fill="#94a3b8"/>
+        <text x="90" y="57" text-anchor="middle" class="wf-label">OCT 6 INTRO</text>
+      </g></a>
+      <a href="#c-2"><g class="wf-spike" id="wf-2" style="cursor:pointer">
+        <line x1="260" y1="44" x2="260" y2="20" stroke="#00F0FF" stroke-width="2"/>
+        <circle class="wf-halo" cx="260" cy="20" r="7" fill="#00F0FF" opacity="0"/>
+        <circle class="wf-led" cx="260" cy="20" r="3" fill="#00F0FF"/>
+        <text x="260" y="57" text-anchor="middle" class="wf-label">OCT 14 AD-TECH</text>
+      </g></a>
+      <a href="#c-3"><g class="wf-spike" id="wf-3" style="cursor:pointer">
+        <line x1="430" y1="44" x2="430" y2="8" stroke="#00F0FF" stroke-width="2"/>
+        <circle class="wf-halo" cx="430" cy="8" r="7" fill="#00F0FF" opacity="0"/>
+        <circle class="wf-led" cx="430" cy="8" r="3.5" fill="#00F0FF"/>
+        <line x1="408" y1="44" x2="452" y2="44" stroke="#00F0FF" stroke-width="1" opacity="0.2"/>
+        <text x="430" y="57" text-anchor="middle" class="wf-label">OCT 21 STRATEGY</text>
+      </g></a>
+      <a href="#c-4"><g class="wf-spike" id="wf-4" style="cursor:pointer">
+        <line x1="580" y1="44" x2="580" y2="24" stroke="#00FF9D" stroke-width="2"/>
+        <circle class="wf-halo" cx="580" cy="24" r="7" fill="#00FF9D" opacity="0"/>
+        <circle class="wf-led" cx="580" cy="24" r="3" fill="#00FF9D"/>
+        <text x="580" y="57" text-anchor="middle" class="wf-label">OCT 29 ED</text>
+      </g></a>
+    </svg>
+  </div>
+  <ul class="tl">
+    <li id="c-1">
+      <span class="when">Oct 6 · Call 1 – Intro</span>
+      <h3>The thesis conversation</h3>
+      <p>The origin story: HypeLab started as a permissionless, decentralized network and pivoted to a traditionally-built one once it was clear the ideologues were not the spenders. We traded views on the intention economy and on-chain advertising, and you were candid that the crypto-native version is a vision, not the present product.</p>
+    </li>
+    <li id="c-2" class="peak">
+      <span class="when">Oct 14 · Call 2 – Ad-tech deep dive</span>
+      <h3>Publisher and advertiser mechanics</h3>
+      <p>The real texture of the business: near-full fill, direct advertisers, the reality that most crypto marketers want performance and the ones with brand budgets route through agencies. We got into where a systematic go-to-market could wedge in earlier, before media planning rather than after.</p>
+    </li>
+    <li id="c-3" class="peak">
+      <span class="when">Oct 21 · Call 3 – Strategy</span>
+      <h3>Where the leverage is</h3>
+      <p>The most substantive call. Team, revenue, the $10M goal, the supply partners, and the honest founder-bottleneck: you wanted off day-to-day sales and onto the 10x moves, and you did not have anyone you could trust to independently validate a market or an owned-property idea. That is the need this page answers.</p>
+    </li>
+    <li id="c-4">
+      <span class="when">Oct 29 · Call 4 – With Ed</span>
+      <h3>The roadmap gaps, named plainly</h3>
+      <p>Ed laid out the three big open lanes without flinching: the non-English, ex-US long tail; native mobile for 2026; and the TradFi and prediction-market budgets nobody had captured. He also named the measurement gap. Those four lanes are the spine of the decisions below.</p>
+    </li>
+  </ul>
+</section>
+
+<section id="decisions">
+  <p class="eyebrow">04 · The Roadmap As Decisions – Your Next Six Months</p>
+  <hr class="rule">
+  <p>Each roadmap item you and Ed flagged, reframed as what it actually is: a fork with a real cost of being wrong. This is the shape ARCS is built to sit on.</p>
+
+  <div class="thread">
+    <div class="head"><h3>1 · Geography – which long-tail market first, and how to enter</h3><span class="chip hot">Ed's #1 miss</span></div>
+    <div class="body">
+      <p>Ed called out a whole bucket of spend being missed: non-English, ex-US, ex-Western-Europe, so Southeast Asia, South Asia, Africa, LATAM, with the same traffic already hitting translated pages. The decision is not "should we," it is "which one first, and do we build it ourselves or use local rep firms." That is a real one-way-door: the first market sets the playbook, the partner relationships, and the ops load.</p>
+      <div class="qt">"We could actually use the same playbook we have today, just in different geographies. In some ways I feel like that is easier."<span class="who">Ed · Oct 29</span></div>
+    </div>
+    <div class="next"><b>Decision</b>First market and entry model (owned vs. rep firm). Testable cheaply before any headcount, because the inventory and demand signals already exist.</div>
+  </div>
+
+  <div class="thread">
+    <div class="head"><h3>2 · Mobile – build the native SDK, or partner for it</h3><span class="chip hot">2026 bet</span></div>
+    <div class="body">
+      <p>You are web-only today, and Ed was clear that staying there is a missed 2026. The open question is the expensive one: build a native mobile SDK in-house, or partner or acquire the capability, on the app-install playbook the big mobile networks were built on. This is the single largest resource commitment on the roadmap, which is exactly the kind of bet that should carry a written exit rule.</p>
+    </div>
+    <div class="next"><b>Decision</b>Build vs. partner vs. wait, with a pre-agreed kill line so a nine-month build cannot quietly become a two-year one.</div>
+  </div>
+
+  <div class="thread">
+    <div class="head"><h3>3 · TradFi and non-endemic – which accounts, and can your network convert them</h3><span class="chip risk">$7B narrative, captured at zero</span></div>
+    <div class="body">
+      <p>The biggest narrative of the cycle, the ETF and digital-asset-treasury money, was, in Ed's words, captured at zero. Robinhood, Kalshi, the prediction markets, and the institutional issuers all spend heavily and simply do not know the network. The decision is account selection and sequencing: endemic vs. non-endemic, long agency sales cycles vs. direct, and which relationships are genuinely convertible rather than just warm.</p>
+    </div>
+    <div class="next"><b>Decision</b>The target list and the order to work it, scored on real convert-ability, not just logo appeal.</div>
+  </div>
+
+  <div class="thread">
+    <div class="head"><h3>4 · Outbound and proof – what to systematize first</h3><span class="chip live">Founder-bottleneck fix</span></div>
+    <div class="body">
+      <p>Two linked gaps you both named: outbound is ad-hoc rather than a repeatable process, and there is no brand-lift study or shoppable case study to put in front of a skeptical buyer. Fixing either frees you from being the sales bottleneck. The decision is sequence and depth: which motion to document and instrument first so the engine runs without you in every deal.</p>
+    </div>
+    <div class="next"><b>Decision</b>Which piece of the commercial engine to build first, measured against the founder-time it actually returns.</div>
+  </div>
+
+  <div class="thread">
+    <div class="head"><h3>5 · MarketingOS – what to build, and whether to build now</h3><span class="chip hold">Big, not urgent</span></div>
+    <div class="body">
+      <p>The longer-horizon moat you sketched had four pieces: an AI creative-optimization layer, cryptographic wallet-to-conversion attribution, a benchmark index, and a tokenized referral program. Real vision, and a classic trap: four things at once, from a team already stretched. The decision is ruthless sequencing, which single piece earns its keep first, and whether any of it should start before the four lanes above are moving.</p>
+    </div>
+    <div class="next"><b>Decision</b>One component to prototype, or an explicit "not yet," so the vision does not quietly tax the core.</div>
+  </div>
+</section>
+
+<section id="grid">
+  <p class="eyebrow">05 · The Triage Grid – One Way To Rank Them</p>
+  <hr class="rule">
+  <p>The five decisions, scored 1–5 on the tests that usually decide what to touch first (5 = strongest case to act now). These are my outside read from our calls, not gospel. The point of the method is that your real inputs re-rank it in minutes, and you can see exactly why the order changed.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Decision</th><th class="num">$ upside</th><th class="num">Urgency</th><th class="num">Ease to start</th><th class="num">Evidence in hand</th><th class="num">Reversibility</th><th class="num">Total /25</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Geography first-market</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">3</td><td class="num good">20</td></tr>
+      <tr><td>3 · TradFi target list</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num good">20</td></tr>
+      <tr><td>4 · Outbound + proof</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num good">21</td></tr>
+      <tr><td>2 · Mobile build vs. partner</td><td class="num">5</td><td class="num">3</td><td class="num">2</td><td class="num">3</td><td class="num">2</td><td class="num warn">15</td></tr>
+      <tr><td>5 · MarketingOS first piece</td><td class="num">5</td><td class="num">2</td><td class="num">3</td><td class="num">2</td><td class="num">4</td><td class="num warn">16</td></tr>
+    </tbody>
+  </table></div>
+  <p class="fine" style="margin-top:6px">Read it as a starting hypothesis, not a verdict. Lower "reversibility" means a wrong call is more expensive to unwind, which is precisely where a written decision receipt earns the most.</p>
+</section>
+
+<section id="arcs">
+  <p class="eyebrow">06 · What ARCS Is</p>
+  <hr class="rule">
+  <p>ARCS is a decision-intelligence tool. On any high-stakes, hard-to-reverse call, it does three things:</p>
+  <ul class="clean">
+    <li><b>Frames the bet before the spend.</b> Options on the table, the assumptions each one rests on, and the single fact that would prove the thesis wrong.</li>
+    <li><b>Writes a receipt.</b> A one-page record: the recommended path, the risks, and a pre-agreed kill-or-scale line, signed before resources move.</li>
+    <li><b>Scores it later.</b> Weeks on, the receipt is graded against what actually happened, so the next bet starts from a real record instead of a rewritten memory.</li>
+  </ul>
+  <div class="note green"><b>Why it fits what you asked for.</b> The thing you said you lacked was a trusted, independent validator you could point at a market and say "go figure it out." That is the job ARCS does, and it leaves a written artifact your board would take as a sign of discipline rather than a slide.</div>
+</section>
+
+<section id="try">
+  <p class="eyebrow">07 · The Lowest-Risk Way To Try It</p>
+  <hr class="rule">
+  <p>No retainer, no platform tour. Pick the one decision above that is most live for you right now, and we run it through the full loop as a single sprint. You judge the output, not the pitch.</p>
+  <ul class="clean">
+    <li><b>The session.</b> Sixty to ninety minutes on one decision, say the geography first-market or the TradFi target list. Output is a one-page receipt: options, assumptions, what would break the thesis, the recommended path, and the kill-or-scale line.</li>
+    <li><b>The read.</b> You keep the receipt either way. If it is not obviously worth more than the hour it took, that is the honest end of it, and you have lost nothing but the hour.</li>
+  </ul>
+  <div class="note"><b>The whole idea is stop-loss.</b> Today a wrong bet on mobile or a mis-sequenced geography play is uncapped: it can eat a year of build or a quarter of the team. A sprint converts that into one small, known cost with an exit rule attached. The tool carries the same tripwire it installs.</div>
+</section>
+
+<section id="notes">
+  <p class="eyebrow">08 · Honest Notes</p>
+  <hr class="rule">
+  <div class="note red">
+    <b>This is nine months old.</b> Everything here is built from our October calls. You may have already shipped mobile, cracked a geography, or landed the TradFi budgets, in which case parts of this are pleasantly out of date. Treat the roadmap items as what you flagged then, not a claim about today. Correcting them is half the value of catching up.
+  </div>
+  <div class="note gold">
+    <b>What I did not put here.</b> No unit economics, no contract terms, nothing about the company I would only know from your books. Every figure on this page is either something you said on a call or clearly labeled as my outside read.
+  </div>
+</section>
+
+<section id="next">
+  <p class="eyebrow">09 · Next</p>
+  <hr class="rule">
+  <div class="scen">
+    <div class="card best">
+      <span class="tag">If something is live</span>
+      <h3>Run one on Wednesday</h3>
+      <p>If any of the five decisions is actually in front of you right now, we can spend part of the catch-up running it. You walk away with a receipt, and you see exactly what the tool does on your own problem.</p>
+    </div>
+    <div class="card base">
+      <span class="tag">If it is just a catch-up</span>
+      <h3>Then it is just a catch-up</h3>
+      <p>Genuinely no agenda. It has been too long, I wanted to show you what I have been building, and hearing where HypeLab is now is more than enough. No pitch attached.</p>
+    </div>
+    <div class="card worst">
+      <span class="tag">Either way</span>
+      <h3>The door stays open</h3>
+      <p>This page is yours to keep. If one of these decisions goes live in a month, the offer of a single no-strings sprint stands whenever it is useful.</p>
+    </div>
+  </div>
+</section>
+
+<section id="sources">
+  <p class="eyebrow">10 · Sources</p>
+  <hr class="rule">
+  <div class="tblwrap"><table>
+    <thead><tr><th>Date</th><th>Source</th><th>What it contributed</th></tr></thead>
+    <tbody>
+      <tr><td class="num">Oct 6</td><td>Call – Joe &amp; Zach</td><td>Origin and pivot, wallet-detection targeting, profitable / not-raising posture, the intention-economy thread.</td></tr>
+      <tr><td class="num">Oct 14</td><td>Call – Ad-tech deep dive</td><td>Publisher and advertiser mechanics, fill dynamics, where a systematic GTM wedges in earlier.</td></tr>
+      <tr><td class="num">Oct 21</td><td>Call – Strategy</td><td>Team, revenue, the $10M goal, supply partners, and the founder-bottleneck / independent-validator need.</td></tr>
+      <tr><td class="num">Oct 29</td><td>Call – With Ed Weng</td><td>The three roadmap lanes (geography, mobile, TradFi) and the measurement gap.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="fine" style="margin-top:16px">Synthesized from our four conversations with the ARCS decision engine. Quotes are as said on the calls; anything not in quotes and not a stated figure is my outside read, offered for discussion.</p>
+</section>
+
+</div>
+</body>
+</html>

@@ -54,6 +54,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         // daniel.arcs.care → public/daniel.html (Crabtree recoil + fractional.city teardown)
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
+        // joe.arcs.care → public/joe.html (Joe Kim / HypeLab 6-month decision map, pw-gated "joe")
+        { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two
@@ -61,11 +63,20 @@ const nextConfig: NextConfig = {
         { source: "/debrief", destination: "/jeben-debrief.html", has: [{ type: "host", value: "jeben.arcs.care" }] },
         // jeben.arcs.care root/anything-else (except /debrief) → public/jeben.html (Louisville Brands Thread Book, pw-gated)
         { source: "/:path((?!.*debrief).*)", destination: "/jeben.html", has: [{ type: "host", value: "jeben.arcs.care" }] },
-        // resume.arcs.care → public/resume.html
+        // resume.arcs.care/google (+ /google-gtm) → public/resume-google-gtm.html (Google Principal GTM AI Tools variant)
+        // Same exact-path-vs-wildcard shape as todd/teardown, julia/runtime, jeben/debrief above.
+        // NOTE: /google is the primary share path. /google-gtm was the original slug but its edge
+        // routing-decision cache got poisoned (requested before its rule went live, during deploy
+        // propagation) and Vercel's CDN has no purge API + redeploys don't clear it; kept here so it
+        // resolves correctly once that stale entry finally expires. The wildcard below excludes BOTH
+        // via a single "starts-with-google" negative-lookahead so neither can collide with the wildcard.
+        { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        // resume.arcs.care root/anything-else (except /google*) → public/resume.html
         // NOTE: this rule previously existed ONLY inside the live deployment (deployed from a
         // dirty tree, never committed) — verified 2026-07-09 via x-matched-path. Committed here
         // so a clean redeploy from main cannot drop resume.arcs.care routing.
-        { source: "/:path*", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         // lewoof.arcs.care → public/lewoof.html (Hila / Le Woof Faire setup call recoil, pw-gated "hila")
         { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
         // danny.arcs.care → public/danny.html (Danny Quick / Kiko pre-call brief + teardown, pw-gated "quick")

@@ -1,13 +1,11 @@
 {
-  "captured_at": "2026-07-20T18:56:00Z",
+  "captured_at": "2026-07-20T19:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "37bf5d5",
-    "head_message": "chore(open-source): stage token-savings-bank skill [NCI:SKIP]",
-    "in_sync_with_origin": false,
-    "dirty_files": [
-      "_STATE/snapshot.json"
-    ]
+    "head_sha": "84e73a3",
+    "head_message": "docs(handoff): refresh arcs-session-state.md for v3.12.0 [NCI:SKIP]",
+    "in_sync_with_origin": true,
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -38,7 +36,7 @@
   },
   "active_briefs": {
     "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
-    "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 proposal $1,500 fixed, email sent Jul 2",
+    "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
     "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
     "chris-intro.arcs.care": "Chris intro brief"
   },
@@ -49,59 +47,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Open-source resumeware, round 2: shipped fix-toolbar-comments-skill (github.com/flashesofbrilliance/fix-toolbar-comments-skill) alongside rca-skill — same scrub+gauntlet pattern (only catch both times: em-dashes, fixed). Also ran a sauce-aware reranking of the whole open-source queue: upgraded the state-sync bundle (init-state-sync+handoff+handoff-pickup) as most broadly useful/zero-IP; reversed the prior NCI-trio recommendation to a HOLD since those skills ARE the proprietary ADR-035 rubric, not just a pattern using it.",
-  "next_action": "Next open-source candidate: the state-sync bundle (init-state-sync + handoff + handoff-pickup) — genericize the DEWY-specific snapshot.json fields to a plain schema, then extract to its own repo. NCI trio and teardown/precall-brief/recoil-report/dewy-stub family stay on HOLD (sauce risk) per _STATE/snapshot.json → open_source.hold_sauce_risk. Product-side backlog unchanged (ledger management, authenticated /recoil index, v3.9.0 auth-loop test).",
-  "blocking": "NONE",
-  "open_source": {
-    "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
-    "shipped": [
-      {
-        "repo": "github.com/flashesofbrilliance/rca-skill",
-        "local": "/Users/zharris/rca-skill",
-        "visibility": "public",
-        "date": "2026-07-20"
-      },
-      {
-        "repo": "github.com/flashesofbrilliance/fix-toolbar-comments-skill",
-        "local": "/Users/zharris/fix-toolbar-comments-skill",
-        "visibility": "public",
-        "date": "2026-07-20"
-      },
-      {
-        "repo": "github.com/flashesofbrilliance/state-sync-skill",
-        "local": "/Users/zharris/state-sync-skill",
-        "visibility": "public",
-        "date": "2026-07-20"
-      },
-      {
-        "repo": "github.com/flashesofbrilliance/token-savings-bank",
-        "local": "/Users/zharris/token-savings-bank",
-        "visibility": "public",
-        "date": "2026-07-21",
-        "note": "budget-mode skill; renamed from 'tokenmining' (read as crypto); 2-round adversarial gauntlet"
-      },
-      {
-        "repo": "github.com/flashesofbrilliance/linkedin-connections-toolkit",
-        "local": "/Users/zharris/linkedin-connections-toolkit",
-        "visibility": "public",
-        "date": "2026-07-21",
-        "note": "authored-fresh (not extracted) generic Connections.csv parser+analyzer; stdlib-only; 3-agent code gauntlet + confirming pass, 5 correctness bugs fixed pre-ship"
-      }
-    ],
-    "staging_dir": "open-source/",
-    "queue": [],
-    "hold_sauce_risk": [
-      "NCI trio (nci-scoring + nci-commit + drift-check) — reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
-      "teardown gauntlet + teardown_eval.py — heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
-      "precall-brief, recoil-report — same client-data + gauntlet-operator sauce as teardown",
-      "arcs-research, dewy-stub, receipt-book-curator — built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
-    ],
-    "do_not_publish": [
-      "arcs-brand-manager (fork of Anthropic's own brand-guidelines skill)"
-    ],
-    "queue_note": "Empty as of 2026-07-21. Teleport-brief items 1 (tokenmining->token-savings-bank) and 2 (linkedin-connections-toolkit) both shipped this session. State-sync bundle was already shipped 2026-07-20. Remaining candidates all sit in hold_sauce_risk.",
-    "last_updated": "2026-07-21"
-  },
+  "session_summary": "Todd Hotes / PRL Resins chatbot proposal: sanitized + rewrote todd-call.html/todd-teardown.html plain-English + chatbot-foregrounded, added Discovery section with Todd's own Jul-20 answers folded in (\"TODD →\"), added client-facing How It Works section (3-step flow), embedded a live Stripe buy button ($1,500) in a 2-column deal+payment lockup, swept all em-dashes per new writing rule, drafted+sent SM discovery questions email, published a branch-logic-tree v1 build spec (git + Claude Artifact https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13). Chatbot BUILD itself not started — Todd wants internal sales-team buy-in first (Wed SM meeting), gated on his go + payment.",
+  "next_action": "Wait for Todd's post-Wednesday reply (SM buy-in meeting + Imagine mtg). On his go+payment: confirm SM identity (possibly William Galla, unconfirmed), get WordPress + SugarCRM access, then build the Tidio flow per runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md. Do not touch his WordPress/SugarCRM or start the bot build before payment lands.",
+  "blocking": "NONE (waiting on Todd, not blocked internally)",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -215,5 +163,55 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-21T18:13:29Z"
+  "git_refreshed_at": "2026-07-21T13:16:54Z",
+  "open_source": {
+    "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
+    "shipped": [
+      {
+        "repo": "github.com/flashesofbrilliance/rca-skill",
+        "local": "/Users/zharris/rca-skill",
+        "visibility": "public",
+        "date": "2026-07-20"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/fix-toolbar-comments-skill",
+        "local": "/Users/zharris/fix-toolbar-comments-skill",
+        "visibility": "public",
+        "date": "2026-07-20"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/state-sync-skill",
+        "local": "/Users/zharris/state-sync-skill",
+        "visibility": "public",
+        "date": "2026-07-20"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/token-savings-bank",
+        "local": "/Users/zharris/token-savings-bank",
+        "visibility": "public",
+        "date": "2026-07-21",
+        "note": "budget-mode skill; renamed from 'tokenmining' (read as crypto); 2-round adversarial gauntlet"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/linkedin-connections-toolkit",
+        "local": "/Users/zharris/linkedin-connections-toolkit",
+        "visibility": "public",
+        "date": "2026-07-21",
+        "note": "authored-fresh (not extracted) generic Connections.csv parser+analyzer; stdlib-only; 3-agent code gauntlet + confirming pass, 5 correctness bugs fixed pre-ship"
+      }
+    ],
+    "staging_dir": "open-source/",
+    "queue": [],
+    "hold_sauce_risk": [
+      "NCI trio (nci-scoring + nci-commit + drift-check) — reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
+      "teardown gauntlet + teardown_eval.py — heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
+      "precall-brief, recoil-report — same client-data + gauntlet-operator sauce as teardown",
+      "arcs-research, dewy-stub, receipt-book-curator — built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
+    ],
+    "do_not_publish": [
+      "arcs-brand-manager (fork of Anthropic's own brand-guidelines skill)"
+    ],
+    "queue_note": "Empty as of 2026-07-21. Teleport-brief items 1 (tokenmining->token-savings-bank) and 2 (linkedin-connections-toolkit) both shipped this session. State-sync bundle was already shipped 2026-07-20. Remaining candidates all sit in hold_sauce_risk.",
+    "last_updated": "2026-07-21"
+  }
 }

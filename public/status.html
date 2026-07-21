@@ -567,7 +567,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 <div class="page">
 
   <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
-  <h1>Day 0: one empty commit.<br>Day 98: a live product that grades itself.</h1>
+  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">98</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the public repository · July 2026</div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
@@ -576,7 +576,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     below lets you read the story at whatever depth you want: the one page version, or all the way down to the code.
   </div>
 
-  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">98</span> · SINCE APR 2026</div>
+  <div class="era-head" style="color:var(--green);"><span class="era-tick" style="background:var(--green);"></span>BUILD TELEMETRY · DAY 0 → DAY <span id="era-day">98</span> · SINCE APR 2026 · AS OF <span id="et-now">—</span></div>
 
   <div class="stats">
     <div class="stat"><div class="stat-val accent" id="sv-commits">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
@@ -1690,11 +1690,26 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       set("pulse-foot", "live from public GitHub API · checked " + new Date().toLocaleTimeString());
     }
   }
-  // Live day-count from T0 (first commit, 2026-04-09). Self-updating — the old
-  // hardcoded "98" had already gone stale by 3 days. Pure date math, no network.
+  // Live day-count from T0 (first commit day, 2026-04-09), counted in CALENDAR
+  // days on America/New_York (ET) so it rolls over at ET midnight regardless of
+  // the viewer's timezone — not at the commit's time of day. Pure date math, no
+  // network. Also stamps the current ET wall-clock next to the era head.
   (function () {
-    var days = Math.max(0, Math.floor((Date.now() - Date.parse("2026-04-09T11:39:09-04:00")) / 86400000));
-    set("stat-days", days); set("era-day", days);
+    function etYMD(d) {
+      // "YYYY-MM-DD" for the given instant in ET (handles EST/EDT automatically)
+      return new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York",
+        year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+    }
+    var todayET = etYMD(new Date());
+    var t0 = Date.parse("2026-04-09T00:00:00Z");
+    var today = Date.parse(todayET + "T00:00:00Z");
+    var days = Math.max(0, Math.round((today - t0) / 86400000));
+    set("stat-days", days); set("era-day", days); set("hero-day", days);
+    var stamp = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York",
+      month: "short", day: "numeric", year: "numeric",
+      hour: "numeric", minute: "2-digit" }).format(new Date());
+    // Intl gives the correct EST/EDT offset; label it "ET" so we're never wrong.
+    set("et-now", stamp + " ET");
   })();
   all();
   var btn = $("pulse-refresh"); if (btn) btn.addEventListener("click", all);

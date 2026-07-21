@@ -1,9 +1,18 @@
 # ARCS Session State
 
-**Last updated:** 2026-07-20 (v3.11.0)
-**Environment:** Claude Code (local, interactive), worktree `nice-lalande-653c79`, committed via main worktree `frosty-kepler-b69f51`
+**Last updated:** 2026-07-20 (v3.12.0)
+**Environment:** Claude Code (local, interactive), worktree `todd-call-proposal-clarity-1a9ed2`, committed via main worktree `frosty-kepler-b69f51`
 **Branch:** `main`, pushed to `origin/main`
-**Last commits (this thread):** `403d109` (PR #121) · `8429f2e` · `cfbc483` (+ handoff commit)
+**Last commits (this thread):** `57ae693`..`11830d8` (Todd Hotes chatbot proposal, cherry-picked to main) + `e79f641` (handoff)
+
+## v3.12.0 delta — see MEMORY.md [v3.12.0] and `project_todd_hotes_prl_resins.md` for full detail
+
+Todd Hotes / PRL Resins Phase 1 chatbot proposal build-out. Todd verbally agreed ($1,500) and
+answered discovery questions himself. This thread built the proposal page out for his internal
+buy-in — Discovery section (his answers folded in), How It Works section, live Stripe buy
+button, branch-logic-tree v1 spec (git + Claude Artifact). **Explicit hold:** don't touch his
+WordPress/SugarCRM or start the Tidio build until his go + payment — page updates are NOT held.
+See CLAUDE.md Handoff v3.12.0 for full detail.
 
 ## v3.11.0 delta — see MEMORY.md [v3.11.0] for full detail
 

@@ -1610,3 +1610,109 @@ rules). The ADR namespace is lock-free - `ls _DECISIONS/` right before claiming 
 
 `/handoff-pickup` -> live-verify the anon-share flow on the deployed site; then an out-of-band item or the
 B2 cadence / HOLD-gate follow-up.
+
+---
+
+# Handoff — v3.10.0 (2026-07-19)
+
+> **For Claude Code:** active pickup point. v3.9.0 above preserved; v3.8.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. (A tracker drift observed mid-session —
+> CLAUDE.md at v3.8.0 while MEMORY.md was at v3.9.0 — was healed concurrently by the
+> v3.9.0 session's own handoff; noted here because it is a live receipt of the exact
+> pathogen this session codified.) Full detail: `MEMORY.md [v3.10.0]`.
+
+## What changed (this thread, 2026-07-17→19)
+
+**The serialization pathogen family** — codified, ratified, enforced:
+
+- **ADR-033 DECIDED** (`_DECISIONS/ADR-033-serialization-pathogen-family.md`,
+  GREEN/HIGH/REVISIT, ratified by Zach 2026-07-19). One axiom: a serialized belief is a
+  tuple (claim, time, scope, warrant, obligations, dictionary); each family member is one
+  coordinate silently dropped. time→chronos-sequencer · scope→inductive-overfit ·
+  obligation→open-loop decay · warrant→epistemic-sequencer · dictionary→etymology-sequencer.
+  4-part admission gate stops taxonomy sprawl.
+- **`runtime/specs/recoil-modes-v1.md` → v0.4.0** — readOrder + `[SUPERSEDED]` markers +
+  always-current cover (chronos); `validityBounds` {n, conditions, stationarity} with the
+  n-aware regime ladder, tails/edges excepted at any n (inductive-overfit); riskFlags
+  `status` OPEN/DONE/WAIVED — closure is an explicit write, never silence (open-loop).
+- **`runtime/specs/call-brief-hooks-v1.md` → v1.1.0** — read current state first; never
+  quote a stratum without a superseded-marker check.
+- **Detective** (`scripts/receipt_lookup.py`): superseded-skip, n-aware Read,
+  validityBounds surfacing, and **`--sweep`** — first run: **52 open obligations across
+  20 reports, zero ever closed** (oldest 18d; incl. a 10-day-old HIGH).
+- **First documented closure:** enforcement-parity ledger (stranded unmerged 3 days;
+  memory had it serialized as live law) merged as **ADR-034** (PR #63), renumbered per
+  ADR-033's own rule. Jurisdictions: ADR-034 ledger = repo/audit findings; `--sweep` =
+  call-ledger obligations.
+
+## Open from this thread
+
+1. **Sweep backlog** — 52 open riskFlags await owner `DONE`/`WAIVED` writes.
+2. **ADR-032 duplicate** — two files share the number; dedupe/renumber.
+3. **Epistemic + etymology members** — partial mechanisms only; dedicated enforcement
+   (warrant field on banked claims; rename tombstones) not yet built.
+
+## Last confirmed commits (this thread)
+
+`9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ this handoff commit)
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → live-verify anon-share (v3.9.0 honesty flag) or run
+`python3 scripts/receipt_lookup.py --sweep` and start closing the oldest flags.
+
+
+---
+
+# Handoff — v3.11.0 (2026-07-20)
+
+> **For Claude Code:** archived 2026-07-21 per lean-file policy — superseded by v3.12.1's
+> closure of the standby auth-loop test. Full detail: `MEMORY.md [v3.11.0]`.
+> Interactive (local Claude Code) session — deployed live, unlike the prior cloud sessions.
+
+## What shipped (this thread, 2026-07-20)
+
+- **Anon-share "Sign in to keep" persist fix (PR #121, `403d109`).** The v3.9.0 honesty-flag
+  follow-up: the shared bearing was recomposed one-time but NOT carried through sign-in — "keep"
+  kept nothing. Now the onramp writes `arcs_pending_save` and `ClaimAnonymousReceipts` claims it
+  post-auth → user lands on `/receipt/<id>` with the bearing saved. (One-time link + recompose
+  verified live by operator; the full magic-link auth leg is the standby test below.)
+- **Design-system glow tuning, two passes** (`8429f2e` then `cfbc483`). Operator feedback: glow
+  too hot across the board. Pass 1 — `signalGlow()` alphas halved (.55–.6 → ~.28) + bloom blur
+  cut ~33% (Gauge 16→11px, Card/Badge 12→8px, recoil `_tokens.css` 12→5px). Pass 2 (eyeball) —
+  gauge bloom eased back 11→13px, accent card glow reduced, `TrueNorthPanel` given real
+  glassmorphism (`backdrop-filter: blur(14px)` + translucent blue fill), Field/select left as-is
+  (operator confirmed correct). Every change verified against **live computed styles**, not by eye.
+
+## Open items (operator-approved, not started)
+
+1. **Ledger management** — give users archive + reset-reflection before hard-delete. Build order
+   confirmed: **archive/reset first, hard-delete last** (WORLD.md: receipts are frozen positions;
+   soft-retire preserves Observatory/lineage, true erasure is the explicit escalation).
+2. **Authenticated `/recoil` index** — a ledger of internal recoil/precall briefs behind OAuth.
+   Build order confirmed: **index the existing brief documents first** (data already in
+   `snapshot.json → ui_artifacts`), DB-backed entities later. Also improves security posture over
+   the current per-name password gates.
+
+## Standby (needs operator go) — RESOLVED 2026-07-21, see v3.12.1
+
+- **Production auth-loop test** — drive "Sign in to keep" end-to-end via the Gmail connector
+  (read the magic-link email, click it, confirm `/receipt/<id>`). Closes the v3.9.0 honesty flag.
+  Needs explicit go + confirm `zach.harris@gmail.com`. Authenticates a session + writes one
+  `EPHEMERAL_SAVE` test receipt.
+- **Glow strays** — sweep hardcoded glows the tokens didn't reach (neutral `∞` gauge still at
+  rgba(160,180,210,.35), observatory page, receipt widget, loaders) for full consistency.
+
+## Concurrency note
+
+Another thread committed on main during/after this session (`4bf8043` sentry inchworm, `efc836a`
+meta-audit) plus two untracked strays (`_DECISIONS/ADR-026-*.md`, `test_prisma_direct.js`) — NOT
+this session's, left untouched. `ls _DECISIONS/` + rebase on origin/main before any push.
+
+## Blocking
+
+NONE.

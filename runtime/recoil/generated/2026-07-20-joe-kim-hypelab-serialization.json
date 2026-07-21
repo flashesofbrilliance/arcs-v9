@@ -1,0 +1,173 @@
+{
+  "reportId": "2026-07-20-joe-kim-hypelab-serialization",
+  "notice": "PRIVATE · ZACH INTERNAL ONLY · DO NOT FORWARD",
+  "cover": {
+    "badges": ["Recoil Report", "Serialized · 4 Calls · HypeLab"],
+    "title": "Joe Kim × Zach — HypeLab Thread Serialization",
+    "subtitle": "Reverse Listening + Deep Recall across the full Oct 6–29, 2025 candidacy arc, the Feb-2026 GTM deck, and the Jul-2026 reopen. Honest read: the rapport was real and the skills-fit was rare, but the role was never a funded opening — it was 'purely opportunistic,' gated on Ed's buy-in and on Zach pre-proving revenue, and priced under his target. The 60-day-pilot deck was never activated; the Jan-2026 FTE date lapsed into nine months of silence. The Jul-2026 reconnect is Joe's casual 'shoot the shit,' not a hiring re-open. Re-entry: show up as a peer with something new to show (ARCS), not a candidate re-pitching a job.",
+    "meta": "ARCS RECOIL · Jul 20, 2026 · 4 calls, Oct 6–29 2025 · Joe Kim (CEO / co-founder, HypeLab) + Ed Weng (CTO / co-founder)",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "receiptLifecycle": {
+    "state": "OPEN",
+    "opened": "Jul 20, 2026",
+    "hypothesis": "Casual, Zach-initiated reconnect that Joe answered warmly and on low-agenda terms ('let's catch up… hear what's new… just shoot the shit… maybe Friday'). Low probability of a live commercial way to 'jam.' Best use is a peer-to-peer relationship refresh with an optional, no-pressure reveal of what Zach has been building (ARCS) — planting a seed, not pitching a role.",
+    "statedPreference": "Leave Joe warm and current on Zach's arc; surface whether any genuine thread exists (ARCS design-partner, a crypto-network intro, a future BD angle) — without re-opening the lapsed HypeLab job or reading the catch-up as a hiring signal.",
+    "agenda": [
+      "Reconnect as peers; hear HypeLab's last nine months — did the Oct-2025 gaps (geographic long-tail, mobile SDK, the $7B TradFi/ETF narrative) get worked? Team? Revenue vs the $10M goal?",
+      "Show ARCS only if it lands naturally — as 'what I've been cooking,' never a pitch",
+      "Read for genuine pull vs. politeness; note any unprompted, specific ask",
+      "Do not raise the old comp/role unless Joe raises it first"
+    ],
+    "diff": [
+      { "expecting": "Casual catch-up, no concrete commercial thread surfaces" },
+      { "expecting": "Joe warm but no urgency — same low-stakes posture as Oct 2025" },
+      { "expecting": "HypeLab still small and inbound-led; the Oct-2025 gaps likely still open" },
+      { "expecting": "ARCS reveal draws intellectual interest but no immediate 'let's work together'" }
+    ],
+    "closeNote": "Fill the revealed column right after Wednesday's call. The one belief worth updating: does Joe pull toward ARCS on his own, or is this purely a friendly check-in? That answer decides whether HypeLab is a relationship to maintain or a thread to actively work."
+  },
+  "loadBearingQuote": {
+    "text": "You would be an outlier, not someone that we're inserting into like a role... it is a purely opportunistic role, not something that I've pitched I needed at the moment. So I need to make a case for why I need it.",
+    "attribution": "Joe Kim, on the role · Oct 21, 2025",
+    "significance": "This one line explains the entire nine-month silence. The role was never a funded opening — it was a maybe Joe would have had to sell internally, gated on his co-founder Ed's buy-in and on Zach pre-proving revenue (the companion tell: 'close a $2M Grayscale budget and you've got the job'). Nothing failed and nothing was rejected; the thread simply never had the structural weight to convert, and both sides let it lapse. Any re-entry that treats the Jul-2026 catch-up as a revived job conversation misreads what this always was."
+  },
+  "callWalk": [
+    {
+      "label": "Oct 1–6 · Inbound + Intro",
+      "title": "First contact — high enthusiasm, near-zero commitment",
+      "body": "Joe (CEO/co-founder) connects via LinkedIn Oct 1; the real anchor is Brian Wong, a former office-mate (Selectable Media / Kiip). Call 1 (Oct 6) is peer rapport — both dads, mid-career, fluent in crypto — plus Zach's Intention Economy thesis. Joe reveals the load-bearing posture: HypeLab pivoted from a decentralized/permissionless ad network to a traditionally-built one (the ideologues weren't the ones spending), runs on wallet-detection targeting, and is profitable and not raising. He affirms warmly but downgrades every frontier idea Zach floats as premature or sub-scale. Real interest, recreational stakes."
+    },
+    {
+      "label": "Oct 14 · Candidate Interview",
+      "title": "Door opened, then immediately hedged",
+      "body": "Joe explicitly raises working together — then hedges: 'I'm not 100% sure you'd be interested in what we're currently doing' (traditional network, not the decentralized vision). A deep two-way ad-tech jam follows: publisher existential threat, getting in before media-planning, workshops-as-hook, Wirecutter-style affiliate. Joe's reality checks land hard: crypto companies lack Web2 budgets; the ones that have them use agencies; marketers want $30-per-conversion performance, not brand buys; fill rates already near 100%. Warm, substantive, no ask. Scheduled 'part three.'"
+    },
+    {
+      "label": "Oct 21 · Role + Comp",
+      "title": "PEAK — numbers on the table, but an un-owned seat",
+      "body": "The substantive turn. Joe floats comp unprompted (a real buying signal): $120–200K base + 50–100 bps equity. Zach targets $180–250K — a gap at Joe's ceiling, which Joe admits he'd have to fight the board to fund. Joe frames the role as 'purely opportunistic,' not a pitched need; hiring was otherwise paused to Q1. His single most unhedged moment is transactional: 'close a $2M Grayscale budget and you've got the job.' The genuine unmet need underneath: an independent strategic validator he can trust to 'go figure it out.' Zach de-risks with an advisory → fractional → FTE ladder and a paid segmentation exercise. Metrics: team ~8, revenue ~$4–5M → $10M goal, $4M seed, BC Game / Rainbet as anchor advertisers.",
+      "peak": true
+    },
+    {
+      "label": "Oct 21 · The Artifact",
+      "title": "The 60-day-pilot deck — a conversion machine, built once",
+      "body": "Zach builds hypelab-gtm-system: a polished 30-card, board-facing Gamma engineered to convert an 'opportunistic maybe' into a funded seat. People/Process/Tools; a 'Zero-Knowledge-Proof' approach turning founder hunches into pass/fail-gated tests; tripwire de-risking (Day 10/21/35/50/60 with Go/Pivot/Exit ramps); a '$45–60K retained value even if it doesn't convert' risk-reversal; and the long-horizon MarketingOS moat (HypeScore, ChainAttribution, HypeLab Index, AdBounty). Hard financials left as placeholders ($X / $Y / $Z), pending a terms conversation that never happened."
+    },
+    {
+      "label": "Oct 29 · Co-founder Gate (Ed Weng)",
+      "title": "Warm screening, sign-off gate — decision routed back to Joe",
+      "body": "Ed (CTO co-founder, himself going fractional/advisor) runs a warm fit call and praises the rare ads+crypto combo. He opens up on HypeLab's real gaps — a huge ex-US / non-English long-tail (SE Asia, South Asia, Africa, LATAM) ignored; mobile SDK a 2026 must (web-only today); and the $7B DAT/ETF/TradFi narrative captured at 'zero.' No brand-lift case studies exist. A part-time GTM hire (Bruno) is already ramping in December. Ed's only commitment: 'I'll definitely talk to Joe, and I'll catch up with him after.' The gate routes back to Joe — and never visibly cleared."
+    },
+    {
+      "label": "Nov 2025 – Jun 2026 · Silence",
+      "title": "The thread deflates — no rejection, no owner",
+      "body": "The pilot never launched. FTE Jan 1, 2026 never happened. No calls for ~9 months. The deck's Feb-2026 timestamp is a light edit, not a rework — never updated with Ed's Oct-29 intel, never reset for the lapsed timeline. Read backward: an opportunistic role with no internal sponsor, priced under target, gated on a revenue proof Zach was asked to deliver before being hired. It didn't die — it deflated. The polished artifact could not manufacture the internal ownership that never existed."
+    },
+    {
+      "label": "Jul 2026 · Reopen",
+      "title": "Zach's ping → Joe's casual 'shoot the shit'",
+      "body": "Zach pings Joe with the ARCS site on Telegram. Joe: 'oh nice… let's catch up later this week… would love to hear what's new… just shoot the shit… https://tidycal.com/joekim… maybe Friday or something.' Warm, low-agenda, relationship-maintenance in tone. Zach's own read is honest: casual, no likely way to jam, but maybe worth showing what he's been cooking behind the scenes. This is the live edge — a reconnect on the relationship, not on the role."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "Coherence",
+      "accent": "#00F0FF",
+      "title": "Real rapport and a rare fit-of-mind — but never a real opening",
+      "body": "Across four calls the chemistry was genuine ('we could talk for hours') and both Joe and Ed prized the rare ads + crypto + regulated-finance hybrid. Yet the role stayed 'opportunistic' the entire time — never funded, never owned internally, gated on a co-founder who was himself stepping back. The relationship is coherent; the job never was. That distinction is the whole report."
+    },
+    {
+      "label": "Recoil Zone 1",
+      "accent": "#FF4D6D",
+      "title": "The role was gated on a proof and priced under target",
+      "body": "Joe's real buying signal was conditional and transactional: '$2M Grayscale budget = the job.' Comp topped out at $200K against Zach's $180–250K, and Joe had to fight the board to fund even that. The structure asked Zach to pre-deliver the revenue that would justify hiring him — a chicken-and-egg gate that could never resolve inside a hiring conversation.",
+      "note": "The silence was not rejection. It was an un-ownable role quietly lapsing."
+    },
+    {
+      "label": "Recoil Zone 2",
+      "accent": "#FFD700",
+      "title": "The big artifact was never activated",
+      "body": "The 60-day-pilot deck was a polished, board-ready conversion machine — and it appears to have never been run. Its Jan-2026 FTE date passed; Ed's Oct-29 intelligence never made it in; the Feb-2026 touch was cosmetic. A persuasion artifact cannot create internal sponsorship that doesn't exist.",
+      "note": "Do not re-send or re-pitch this deck into a casual catch-up. It belongs to a job conversation that has closed."
+    },
+    {
+      "label": "Recovery",
+      "accent": "#00FF9D",
+      "title": "The asset that survived is the relationship, not the role",
+      "body": "Joe re-engaged warmly and on his own tonal terms — the door to Joe-as-person is wide open. The highest-value re-entry treats him as a warm long-term ally and a possible ARCS node / design-partner: someone to keep current and occasionally route to, not an employer to re-approach. Notably, the exact capability Joe said he lacked — an independent validator to 'go figure it out' on a live decision — is now literally what ARCS does."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "Joe pulls toward ARCS on his own",
+      "body": "Zach shows ARCS as 'what I've been cooking.' Joe — a systematic-GTM believer who explicitly wanted an independent decision-validator — sees the fit and asks to go deeper: a design-partner conversation, an intro into his crypto network, or a small paid pilot on a live HypeLab decision. The relationship converts into a right-priced, right-shaped thread the old role never was.",
+      "note": "Signal to watch: Joe asks an unprompted, specific question about using ARCS — not just 'that's cool.'"
+    },
+    "base": {
+      "title": "Warm reconnect, seed planted, no immediate thread",
+      "body": "A genuine peer catch-up. Joe is glad to see what Zach's building; they trade nine-month updates; nothing concrete emerges — but the relationship is refreshed and Zach is back on Joe's radar as the ads + crypto + decision-intelligence person. The correct default: low effort, positive-sum, zero downside.",
+      "note": "This is the most likely outcome and a good one. Do not force it past itself."
+    },
+    "worst": {
+      "title": "Zach over-reads the catch-up and re-pitches",
+      "body": "Treating 'let's catch up' as a revived hiring or sales thread and bringing the old role/deck energy into a 'shoot the shit.' Risks turning a warm ally into someone who screens Zach's messages — spending relationship capital to chase a seat that already proved it has no internal owner.",
+      "note": "The only unforced error available here is bringing a pitch to a casual catch-up. Show up curious, not selling."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "caution",
+      "label": "This is a catch-up, not a hiring re-open",
+      "body": "Joe's language was explicitly casual — 'shoot the shit,' 'hear what's new,' 'maybe Friday.' Nothing signals a revived role. Enter as a peer with something new to show, and let any commercial thread be Joe's to raise."
+    },
+    {
+      "variant": "warning",
+      "label": "The old role math has not changed",
+      "body": "If HypeLab hiring comes up, assume the Oct-2025 constraints still hold: an opportunistic seat, a ~$200K ceiling under Zach's target, a revenue-proof gate, and Ed's sign-off. Don't re-enter that structure on the same terms. The ARCS angle (design partner / paid decision pilot) is the better-priced door if any door opens."
+    },
+    {
+      "variant": "info",
+      "label": "Verify HypeLab's last nine months — don't assume",
+      "body": "The Oct-2025 gaps (geographic long-tail, mobile SDK, the $7B TradFi capture) may be solved or may be exactly where they were. Ask. The answer also tells you whether Joe has a live decision ARCS could sit on."
+    },
+    {
+      "variant": "info",
+      "label": "The date is soft",
+      "body": "Confirmed Wednesday (Jul 22) with Joe, though his Telegram framing was loose ('maybe Friday'). If anything shifts, reconfirm the slot via tidycal.com/joekim before prepping day-of."
+    },
+    {
+      "variant": "info",
+      "label": "Brian Wong is the relationship substrate",
+      "body": "The whole thread routed through Brian Wong (the Selectable / Kiip office-mate). He's the durable connector — worth keeping warm independent of Joe."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "Step 1",
+      "title": "Confirm the slot, keep the frame casual",
+      "body": "Confirmed for Wednesday (Jul 22) via tidycal.com/joekim. Go in as a peer catch-up — no agenda doc, no deck. The frame is Joe's: reconnect and trade updates.",
+      "active": true
+    },
+    {
+      "label": "Step 2",
+      "title": "Lead with genuine curiosity about HypeLab",
+      "body": "Ask what's changed in nine months: did the geographic / mobile / TradFi gaps get worked? Team? Revenue against the $10M goal? Did the part-time GTM hire stick? This refreshes rapport and surfaces any live decision ARCS could sit on."
+    },
+    {
+      "label": "Step 3",
+      "title": "Show ARCS only if it lands — as what you've built, not a pitch",
+      "body": "If the moment is right, walk one artifact (a receipt, or a recoil brief like this one) as 'here's what I've been cooking.' Watch for genuine pull vs. politeness. Do not tie it to the old role or the old deck."
+    },
+    {
+      "label": "Step 4",
+      "title": "Let the thread be Joe's to open",
+      "body": "If he pulls toward ARCS — design partner, an intro, a small paid decision pilot — follow it. If not, leave it as a warm reconnect: you're back on his radar, and that's the win. Never force a commercial ask into a 'shoot the shit.'"
+    },
+    {
+      "label": "Step 5",
+      "title": "Log the close, update the belief",
+      "body": "Right after the call, fill this receipt's revealed column: did Joe pull toward ARCS, or was it purely friendly? That single answer decides whether HypeLab is a relationship to maintain or a thread to actively work."
+    }
+  ]
+}

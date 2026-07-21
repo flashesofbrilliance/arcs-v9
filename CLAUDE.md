@@ -101,48 +101,108 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.10.0 (2026-07-19)
+# Handoff — v3.12.0 (2026-07-20)
 
-> **For Claude Code:** active pickup point. v3.9.0 above preserved; v3.8.0 relocated to
-> `_ARCHIVE/handoffs.md` per the lean-file policy. (A tracker drift observed mid-session —
-> CLAUDE.md at v3.8.0 while MEMORY.md was at v3.9.0 — was healed concurrently by the
-> v3.9.0 session's own handoff; noted here because it is a live receipt of the exact
-> pathogen this session codified.) Full detail: `MEMORY.md [v3.10.0]`.
+> **For Claude Code:** v3.11.0 relocated to `_ARCHIVE/handoffs.md` per the lean-file policy
+> (archived 2026-07-21, its standby item closed by v3.12.1 below). Full detail:
+> `MEMORY.md [v3.12.0]` and `project_todd_hotes_prl_resins.md` (full engagement history).
 
-## What changed (this thread, 2026-07-17→19)
+## What shipped (this thread, 2026-07-20 evening)
 
-**The serialization pathogen family** — codified, ratified, enforced:
+**Todd Hotes / PRL Resins — Phase 1 chatbot proposal build-out.** Todd verbally agreed to
+the $1,500 chatbot on a Jul 20 call and answered the sales-manager discovery questions
+himself by email that evening ("I know the answers lol"). This thread turned that into a
+buy-in-ready proposal page, while explicitly NOT starting the actual bot build:
 
-- **ADR-033 DECIDED** (`_DECISIONS/ADR-033-serialization-pathogen-family.md`,
-  GREEN/HIGH/REVISIT, ratified by Zach 2026-07-19). One axiom: a serialized belief is a
-  tuple (claim, time, scope, warrant, obligations, dictionary); each family member is one
-  coordinate silently dropped. time→chronos-sequencer · scope→inductive-overfit ·
-  obligation→open-loop decay · warrant→epistemic-sequencer · dictionary→etymology-sequencer.
-  4-part admission gate stops taxonomy sprawl.
-- **`runtime/specs/recoil-modes-v1.md` → v0.4.0** — readOrder + `[SUPERSEDED]` markers +
-  always-current cover (chronos); `validityBounds` {n, conditions, stationarity} with the
-  n-aware regime ladder, tails/edges excepted at any n (inductive-overfit); riskFlags
-  `status` OPEN/DONE/WAIVED — closure is an explicit write, never silence (open-loop).
-- **`runtime/specs/call-brief-hooks-v1.md` → v1.1.0** — read current state first; never
-  quote a stratum without a superseded-marker check.
-- **Detective** (`scripts/receipt_lookup.py`): superseded-skip, n-aware Read,
-  validityBounds surfacing, and **`--sweep`** — first run: **52 open obligations across
-  20 reports, zero ever closed** (oldest 18d; incl. a 10-day-old HIGH).
-- **First documented closure:** enforcement-parity ledger (stranded unmerged 3 days;
-  memory had it serialized as live law) merged as **ADR-034** (PR #63), renumbered per
-  ADR-033's own rule. Jurisdictions: ADR-034 ledger = repo/audit findings; `--sweep` =
-  call-ledger obligations.
+- Sanitized + rewrote `public/todd-call.html` / `public/todd-teardown.html`: plain-English,
+  chatbot-foregrounded, zero em-dashes (new standing rule, see `writing-avoid-emdashes-plain-language`
+  memory).
+- **Discovery section** — Todd's own answers folded under each question ("TODD →"), plus a
+  gold "Still needed from your sales manager" box (exact form fields, territory map, resin
+  nomenclature) with its own copy-as-plain-text button.
+- **How It Works section** (new) — plain-language 3-step client-facing flow, built
+  specifically so Todd has something concrete for his internal sales-team buy-in
+  conversation before Wednesday.
+- **Live Stripe buy button** embedded top of page (`$1,500 · Pay Invoice`), iterated 3x on
+  visual feedback into a 2-column deal+payment lockup with a full-width "to start" bar below.
+  Todd says by text he'll likely call the payment in instead.
+- **Branch-logic tree v1** (the actual Tidio conversation design) drafted from Todd's
+  answers and preserved in three places: git spec
+  (`runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md`), the live How It
+  Works section, and a published Claude Artifact
+  (`https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13`, private).
+- Drafted + sent the sales-manager discovery-questions email to Todd (Gmail).
+
+**Explicit distinction held throughout:** "on hold" means don't touch Todd's
+WordPress/SugarCRM and don't start the Tidio build — it does NOT mean stop updating the
+proposal page. The page keeps getting built out for his internal buy-in use; the actual
+bot build waits for his go **and** payment.
 
 ## Open from this thread
 
-1. **Sweep backlog** — 52 open riskFlags await owner `DONE`/`WAIVED` writes.
-2. **ADR-032 duplicate** — two files share the number; dedupe/renumber.
-3. **Epistemic + etymology members** — partial mechanisms only; dedicated enforcement
-   (warrant field on banked claims; rename tombstones) not yet built.
+1. **Awaiting Todd** — his Wednesday sales-manager ("Imagine") meeting for internal buy-in,
+   then he "reaches back out." Tentative cadence: Wed SM call (Zach may join, busy
+   10:30–11 / 2:30–3) → Thursday ~10am regroup.
+2. **SM identity unconfirmed** — possibly William Galla (VP Sales, Polymer Resources); kept
+   off the live page, only briefly used in an early (superseded) email draft.
+3. **Payment method** — Todd prefers to call in a card rather than click Stripe; may want a
+   secure upload link for W-9/tax info later.
+4. **Do not start the build** (WordPress/SugarCRM access, Tidio flow) until Todd's go +
+   payment land.
 
-## Last confirmed commits (this thread)
+## Blocking
 
-`9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ this handoff commit)
+NONE (waiting on the client, not internally blocked).
+
+## Next session starts at
+
+`/handoff-pickup` → check for a reply from Todd post-Wednesday. If he's given the go and
+paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
+Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
+client-facing is already live and current.
+
+---
+
+# Handoff — v3.12.1 (2026-07-21)
+
+> **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
+> v3.9.0 standby auth-loop test — full history now in `_ARCHIVE/handoffs.md`.
+
+## What shipped (this thread, 2026-07-21)
+
+**Production auth-loop test — closed, verified live, full loop.** The standby item from
+v3.11.0 (drive "Sign in to keep" end-to-end, confirm the anon-share persist fix from PR
+#121 actually lands a user on `/receipt/<id>`) is done:
+
+- First attempt used the Claude Browser pane + the Gmail MCP connector. Auth itself worked
+  (operator clicked the real email link, landed on `/dashboard`), but the Gmail MCP tool's
+  text extraction **deterministically corrupts the `=` immediately before the `token=`
+  query param** on every send (verified twice, reproducible, unrelated to token content —
+  looks like a quoted-printable line-wrap decoding bug in that connector, not an
+  arcs.care/Resend send-side defect). This broke the magic-link URL and, separately,
+  because the operator opened the link in a different browser context than the one that
+  viewed the share link, the `arcs_pending_save` localStorage flag wasn't present there
+  either — so that run only proved auth, not the claim path.
+- Full reproduction done via the **Claude-in-Chrome MCP** (operator's real Chrome, already
+  signed into Gmail) instead: visited the `/brief/share#...` link → "Sign in to keep" →
+  entered email → sent magic link → opened Gmail natively (no text-extraction step,
+  clicked the real DOM anchor) → landed authenticated on
+  **`/receipt/cmrupjbyk000104ljq1swek49`**, rendering the exact shared test bearing.
+  Same-tab-group continuity kept `arcs_pending_save` intact, so `ClaimAnonymousReceipts`
+  (`src/components/ClaimAnonymousReceipts.tsx`) fired correctly end-to-end — confirms PR
+  #121 works exactly as designed, not just by code inspection.
+- **Note for anyone touching Gmail-via-MCP for arcs.care emails going forward:** prefer
+  driving Gmail through a real browser tool (Claude-in-Chrome or the operator's own client)
+  over parsing email body text through the Gmail MCP connector when a URL/token in the
+  body matters — the corruption above is silent (no error, just wrong characters) and easy
+  to miss.
+
+## Open from prior handoffs (untouched this thread)
+
+- v3.11.0 items 1–2 (ledger management archive/reset-first; authenticated `/recoil` index)
+  — still open, operator-approved, not started.
+- v3.11.0 "glow strays" sweep — still open.
+- Todd Hotes / PRL Resins (v3.12.0) — still awaiting his post-Wednesday reply, untouched.
 
 ## Blocking
 
@@ -150,204 +210,6 @@ NONE.
 
 ## Next session starts at
 
-`/handoff-pickup` → live-verify anon-share (v3.9.0 honesty flag) or run
-`python3 scripts/receipt_lookup.py --sweep` and start closing the oldest flags.
-
----
-
-# Handoff — v3.11.0 (2026-07-20)
-
-> **For Claude Code:** active pickup point. v3.10.0 above preserved; v3.9.0 relocated to
-> `_ARCHIVE/handoffs.md` per the lean-file policy. Full detail: `MEMORY.md [v3.11.0]`.
-> Interactive (local Claude Code) session — deployed live, unlike the prior cloud sessions.
-
-## What shipped (this thread, 2026-07-20)
-
-- **Anon-share "Sign in to keep" persist fix (PR #121, `403d109`).** The v3.9.0 honesty-flag
-  follow-up: the shared bearing was recomposed one-time but NOT carried through sign-in — "keep"
-  kept nothing. Now the onramp writes `arcs_pending_save` and `ClaimAnonymousReceipts` claims it
-  post-auth → user lands on `/receipt/<id>` with the bearing saved. (One-time link + recompose
-  verified live by operator; the full magic-link auth leg is the standby test below.)
-- **Design-system glow tuning, two passes** (`8429f2e` then `cfbc483`). Operator feedback: glow
-  too hot across the board. Pass 1 — `signalGlow()` alphas halved (.55–.6 → ~.28) + bloom blur
-  cut ~33% (Gauge 16→11px, Card/Badge 12→8px, recoil `_tokens.css` 12→5px). Pass 2 (eyeball) —
-  gauge bloom eased back 11→13px, accent card glow reduced, `TrueNorthPanel` given real
-  glassmorphism (`backdrop-filter: blur(14px)` + translucent blue fill), Field/select left as-is
-  (operator confirmed correct). Every change verified against **live computed styles**, not by eye.
-
-## Open items (operator-approved, not started)
-
-1. **Ledger management** — give users archive + reset-reflection before hard-delete. Build order
-   confirmed: **archive/reset first, hard-delete last** (WORLD.md: receipts are frozen positions;
-   soft-retire preserves Observatory/lineage, true erasure is the explicit escalation).
-2. **Authenticated `/recoil` index** — a ledger of internal recoil/precall briefs behind OAuth.
-   Build order confirmed: **index the existing brief documents first** (data already in
-   `snapshot.json → ui_artifacts`), DB-backed entities later. Also improves security posture over
-   the current per-name password gates.
-
-## Standby (needs operator go)
-
-- **Production auth-loop test** — drive "Sign in to keep" end-to-end via the Gmail connector
-  (read the magic-link email, click it, confirm `/receipt/<id>`). Closes the v3.9.0 honesty flag.
-  Needs explicit go + confirm `zach.harris@gmail.com`. Authenticates a session + writes one
-  `EPHEMERAL_SAVE` test receipt.
-- **Glow strays** — sweep hardcoded glows the tokens didn't reach (neutral `∞` gauge still at
-  rgba(160,180,210,.35), observatory page, receipt widget, loaders) for full consistency.
-
-## Concurrency note
-
-Another thread committed on main during/after this session (`4bf8043` sentry inchworm, `efc836a`
-meta-audit) plus two untracked strays (`_DECISIONS/ADR-026-*.md`, `test_prisma_direct.js`) — NOT
-this session's, left untouched. `ls _DECISIONS/` + rebase on origin/main before any push.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → start ledger-management (archive/reset) or the authenticated `/recoil` index;
-or run the standby auth-loop test to close the v3.9.0 flag.
-
----
-
-# Handoff — v3.12.0 (2026-07-20)
-
-> **For Claude Code:** active pickup point. Meta/open-source session, on the
-> `claude/code-skills-open-source-36bde4` worktree branch (NOT main) — did not touch the ARCS
-> product. v3.11.0 above preserved. Lean-policy archive-shuffle of v3.10.0 deliberately skipped
-> (this branch may not merge; shuffling CLAUDE.md's hot path here is conflict risk, not value).
-> Full detail: auto-memory `project-open-source-skills-queue.md` + `_STATE/snapshot.json → open_source`.
-
-## What shipped (this thread, 2026-07-20)
-
-- **Resumeware track opened.** Surveyed all ~19 ARCS Claude Code skills/commands for open-source
-  fitness (craft × generalizes × safe-to-publish). Ranked; picked `rca` as the fast win.
-- **`rca-skill` LIVE** — extracted `/rca` (originally `.claude/commands/rca.md`), scrubbed fully
-  generic (0 internal-ref leaks, 0 em-dashes per the no-em-dash rule), ran a full
-  **BAR/LAB/KKL/COURT/Funhouse gauntlet** on it (only real catch = em-dashes → en-dashes),
-  repackaged as a standalone root-level repo (skill at repo root → `git clone <url>
-  ~/.claude/skills/rca` installs it), README with use-cases + how-to + sample run. Shipped public:
-  **github.com/flashesofbrilliance/rca-skill** (local: `/Users/zharris/rca-skill`).
-- **Staging convention.** `open-source/rca/` kept in this worktree (committed `0f961ee`) as the
-  tracking area for future candidates.
-
-## Open from this thread (the open-source queue)
-
-1. **NCI trio** — `nci-scoring` + `nci-commit` + `drift-check`. Inline the ADR-035 rubric so it is
-   self-contained, then extract as its own repo.
-2. **teardown gauntlet + `scripts/teardown_eval.py`** — highest craft signal, heaviest scrub:
-   real client names, arcs.care deploy mechanics, and the first-name password-gate scheme must all
-   come out before it can ship.
-
-## Last confirmed commits (this thread)
-
-`0f961ee` (staging + snapshot; on the code-skills-open-source branch). The rca-skill repo has its
-own history (`dea608e` initial) at `/Users/zharris/rca-skill`, pushed to GitHub.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → continue the open-source queue (NCI trio next), or return to the product
-backlog (ledger-management / authenticated `/recoil` index / v3.9.0 auth-loop test).
-
----
-
-# Handoff — v3.13.0 (2026-07-20)
-
-> **For Claude Code:** active pickup point. Same branch/session as v3.12.0 — round 2 of the
-> open-source track. v3.12.0 above preserved (this branch may not merge to main yet; PR #122
-> open). Full detail: auto-memory `project-open-source-skills-queue.md` + `_STATE/snapshot.json
-> → open_source`.
-
-## What shipped this round
-
-- **`fix-toolbar-comments-skill` LIVE** —
-  github.com/flashesofbrilliance/fix-toolbar-comments-skill, same extract→scrub→gauntlet→publish
-  pattern as `rca-skill`. Only catch: em-dashes (fixed, same as last time — worth checking by
-  default on every future candidate).
-- **Sauce-aware queue rerank.** Reassessed the whole open-source queue against "helpful to others
-  + doesn't leak ARCS's proprietary method" instead of pure portfolio-craft:
-  - **Upgraded:** state-sync bundle (`init-state-sync` + `handoff` + `handoff-pickup`) — most
-    broadly useful, zero product IP once the DEWY-specific snapshot fields are genericized. Next
-    candidate.
-  - **Downgraded to HOLD:** the NCI trio (`nci-scoring`/`nci-commit`/`drift-check`) — these ARE
-    the ADR-035 rubric (weights/thresholds), not a pattern that merely uses it. Previously
-    recommended as the strong second release; that recommendation is reversed.
-  - **Confirmed HOLD:** teardown/precall-brief/recoil-report family (client data + gauntlet
-    operators are sauce), arcs-research/dewy-stub/receipt-book-curator (DEWY receipt shape is
-    sauce; only a genericized-to-plain-ADR version would be safe).
-
-## Last confirmed commits (this thread)
-
-`966bce1` (this round's staging + snapshot). `36a2b8e`/`0f961ee` from the prior round. PR #122
-(main ← this branch) still open from the prior round.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → genericize + extract the state-sync bundle, or merge PR #122 first if that
-hasn't happened yet.
-
----
-
-# Handoff — v3.14.0 (2026-07-21)
-
-> **For Claude Code:** active pickup point. Same `claude/code-skills-open-source-36bde4` branch
-> (PR #122 open) — round 3 of the open-source track + closed the own-data PII scrub. v3.13.0 above
-> preserved; append-only on this branch (may not merge; no archive-shuffle). Durable state:
-> auto-memory `project-open-source-skills-queue.md` + `_STATE/snapshot.json → open_source` +
-> `_STATE/teleport-brief.md` (both PENDING tasks now marked DONE).
-
-## What shipped this round
-
-- **`token-savings-bank` LIVE** — github.com/flashesofbrilliance/token-savings-bank. Budget-mode
-  operating skill (model-tier routing / batch / inline-vs-subagent / explicit checkpoint).
-  **Authored fresh, zero extraction.** Renamed from "tokenmining" (Zach: reads as crypto). Ran a
-  2-round adversarial gauntlet (3 agents → FIX-THEN-SHIP → 8 fixes incl. a SECURITY guardrail
-  against checkpointing secrets; confirming pass caught a README regression). Local:
-  `/Users/zharris/token-savings-bank`.
-- **`linkedin-connections-toolkit` LIVE** — github.com/flashesofbrilliance/linkedin-connections-toolkit.
-  Generic `Connections.csv` parser + plain analysis (years/companies/seniority/staleness), CLI +
-  library, stdlib-only, synthetic sample. **Authored fresh (NOT extract-and-redact** — the private
-  LinkedIn mining suite's method IS the sauce). 3-agent code gauntlet + confirming pass; one agent
-  failed on first run (transient, zero tool calls) and was re-run; **5 real correctness bugs caught
-  and fixed pre-ship** (substring seniority misclassification, vice-president bucket, staleness
-  off-by-one, locale-dependent date parsing, loose header detection). Local:
-  `/Users/zharris/linkedin-connections-toolkit`.
-- **Own-data PII scrub (was a separate pending task): DONE on `main`** (frosty-kepler worktree,
-  `0343dfb`, pushed). 5 scripts → placeholders + env-driven `CONNECTIONS_CSV`; report counts made
-  dynamic; new `scripts/README.md` (how-to / runtime / deps / arcs_cli passthrough params). Current
-  state only, no history rewrite. `deploy-prod.sh` local paths left intentionally.
-- **Staging + state:** `open-source/token-savings-bank/` + `open-source/linkedin-connections-toolkit/`
-  committed (`37bf5d5`, `a269159`), branch pushed. snapshot `open_source` now lists 5 shipped,
-  queue `[]`.
-
-## Open-source queue: EMPTY
-
-All teleport-brief items shipped. Remaining candidates all sit in `hold_sauce_risk` (NCI trio,
-teardown/precall/recoil family, arcs-research/dewy-stub/receipt-book-curator, arcs-brand-manager,
-the scanner suite) — do NOT publish without a genuine genericization pass; several ARE the sauce.
-
-## Ship-recipe lesson reinforced this round
-
-The confirming pass after the main gauntlet earns its cost (caught a README regression on the skill;
-confirmed the toolkit fixes held). And the model's own quick self-verify can miss a bug the gauntlet
-then catches (a plausible-looking seniority count hid a misclassification). Gauntlet code toolkits by
-*running* them, not just reading.
-
-## Blocking
-
-NONE. PR #122 still open (main ← this branch); merge when ready, or continue product backlog
-(ledger-management / authenticated `/recoil` index / v3.9.0 auth-loop test — all on `main`).
-
-## Next session starts at
-
-`/handoff-pickup` → open-source queue is empty; either merge PR #122 or return to the product
-backlog on `main`.
+`/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
+gating work; ledger-management and the authenticated `/recoil` index remain the next
+build-ready items whenever picked up.

@@ -18,7 +18,7 @@ import csv
 import sys
 import os
 
-CSV_PATH = "/Users/zharris/Downloads/Basic_LinkedInDataExport_05-20-2026.zip/Connections.csv"
+CSV_PATH = os.environ.get("CONNECTIONS_CSV", "Connections.csv")
 OUT_DIR  = os.path.join(os.path.dirname(__file__), "../exports")
 
 RECENT_YEARS = {2023, 2024, 2025, 2026}

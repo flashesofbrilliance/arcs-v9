@@ -9,16 +9,16 @@ Example:
 
 import sys
 
-# ── defaults (generic example contact) ──────────────────────────────────────────
+# ── defaults (generic example contact) ────────────────────────
 DEFAULT_NAME    = "Jane Doe"
 DEFAULT_TITLE   = "VP of Partnerships"
 DEFAULT_COMPANY = "Acme Corp"
 DEFAULT_YEAR    = 2025
 
 # ── subject whose network this is ────────────────────────────
-SUBJECT_NAME  = "Zach Harris"
+SUBJECT_NAME  = "Network Owner"
 SUBJECT_STACK = "Builder → Navigator → Chartist"
-NETWORK_SIZE  = 11177
+NETWORK_SIZE  = 10000
 
 # ── scoring constants ─────────────────────────────────────────
 RECENT = {2025, 2026}

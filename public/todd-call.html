@@ -573,7 +573,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
       <a class="doc-tab" href="#mvp">Options & Price</a>
       <a class="doc-tab" href="#protocol">Next Steps</a>
-      <a class="doc-tab" href="#sm-questions">SM Questions</a>
+      <a class="doc-tab" href="#sm-questions">Discovery</a>
+      <a class="doc-tab" href="#howitworks">How It Works</a>
     </nav>
   </div>
 </div>
@@ -998,82 +999,123 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <!-- ── SALES-MANAGER QUESTIONS ── -->
   <div class="divider" id="sm-questions"></div>
   <section>
-    <div class="section-eyebrow">Phase 1 · For Your Sales Manager</div>
-    <div class="section-title">Questions to hand your sales manager</div>
+    <div class="section-eyebrow">Phase 1 · Discovery</div>
+    <div class="section-title">Discovery answers, and what's still needed</div>
     <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
-      Written for <strong style="color:var(--text)">him</strong>, in plain language with no tech-speak, framed around saving him time. About 10 minutes. Copy them as plain text for your email, or just send him this page to refer back to.
+      <strong style="color:var(--text)">Todd answered these himself on Jul 20</strong> (thank you). His answers are folded in below and shape the chatbot's fields and routing. A few specifics still need your sales manager or the product data to finalize the build. That short list is at the top, and the button copies it.
     </p>
 
-    <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--green);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;box-shadow:var(--green-glow);transition:opacity .15s;">
-      <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy questions as plain text</span>
+    <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;transition:opacity .15s;">
+      <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy what's still needed</span>
     </button>
 
-    <div style="background:linear-gradient(135deg,rgba(0,255,157,.06),rgba(0,240,255,.04));border:1px solid rgba(0,255,157,.25);border-radius:var(--r);padding:16px 18px;margin-bottom:14px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">For the sales manager: the idea in one line</div>
-      <div style="font-size:13px;color:var(--text);line-height:1.65;">A friendly assistant on your website that handles the boring first step for you. It chats with visitors, gets their info, screens out the tire-kickers, and hands your reps only the good leads, already sorted. These questions just make sure we build it around how <em>you</em> work, not another gadget to babysit.</div>
+    <!-- STILL NEEDED (outstanding for the sales manager) -->
+    <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);padding:16px 18px;margin-bottom:20px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Still needed from your sales manager</div>
+      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.65;">
+        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">product-development / application-discovery form</strong> (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.</li>
+        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">territory map</strong>: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.</li>
+        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">resin product list and nomenclature</strong>, so the bot recognizes when someone names a resin you sell.</li>
+        <li style="color:var(--muted);">Optional: a handful of the most common questions the bot should be ready to answer up front.</li>
+      </ol>
     </div>
+
+    <div class="section-eyebrow" style="margin-bottom:12px;">What Todd already answered</div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
       <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">The leads you get</div>
       <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">When a good inquiry comes in, <strong style="color:var(--text);font-weight:600;">what do you most want to know about it right away?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> That way the chatbot asks for exactly that, and nothing extra.</span></li>
-        <li style="margin-bottom:9px;">What tells you a lead is <strong style="color:var(--text);font-weight:600;">worth a rep's time, or just a waste of it?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> Then the bot can quietly weed out the time-wasters before they reach a rep.</span></li>
-        <li>Most of your buyers are engineers. Anything you always wish they'd tell you up front, <strong style="color:var(--text);font-weight:600;">like what they're making or the resin they use now?</strong></li>
+        <li style="margin-bottom:12px;">When a good inquiry comes in, <strong style="color:var(--text);font-weight:600;">what do you most want to know right away?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Contact info, the material they use now or need, the application, and any requirements or specs.</div></li>
+        <li style="margin-bottom:12px;">What tells you a lead is <strong style="color:var(--text);font-weight:600;">worth a rep's time, or just a waste of it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They usually name a resin we sell (our product nomenclatures for the base resins). That signals a real lead.</div></li>
+        <li>Most of your buyers are engineers. <strong style="color:var(--text);font-weight:600;">Anything you always wish they'd tell you up front?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>The application or spec, an alternative resin they want to replace, or a specific resin they're after.</div></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
       <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's reaching out</div>
       <ol start="4" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">Are the people reaching out <strong style="color:var(--text);font-weight:600;">almost always engineers</strong>, or do you also hear from purchasing or others?</li>
-        <li>Some folks are ready to talk. Some are just researching. <strong style="color:var(--text);font-weight:600;">How do you tell them apart?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> We can send the researchers a helpful page and only pass you the ready ones.</span></li>
+        <li style="margin-bottom:12px;">Are the people reaching out <strong style="color:var(--text);font-weight:600;">almost always engineers</strong>, or also purchasing or others?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Purchasing, procurement, engineers, chemists, and press operators.</div></li>
+        <li>Some are ready to talk. Some are just researching. <strong style="color:var(--text);font-weight:600;">How do you tell them apart?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>When they give specifics, they're actively looking to spec a resin.</div></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
       <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Before they'll share their info</div>
       <ol start="6" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li>What do people usually <strong style="color:var(--text);font-weight:600;">ask, or push back on,</strong> before they'll hand over their contact info?<span style="color:rgba(0,255,157,.6);font-style:italic;"> The chatbot can answer those up front so more people follow through.</span></li>
+        <li>What do people usually <strong style="color:var(--text);font-weight:600;">ask, or push back on,</strong> before they'll hand over their contact info?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They tend to share it quickly. People searching for us usually already have a need, either replacing an alternative or matching a spec or print.</div></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
       <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Getting the lead to you</div>
       <ol start="7" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:9px;">When a new lead comes in, <strong style="color:var(--text);font-weight:600;">how would you most like to get it:</strong> a quick email, straight into your system, or both?</li>
-        <li>Should it go <strong style="color:var(--text);font-weight:600;">by territory to the right rep automatically?</strong> What does the bot need to know for that, like their location?</li>
+        <li style="margin-bottom:12px;">When a new lead comes in, <strong style="color:var(--text);font-weight:600;">how would you most like to get it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Both. Email and straight into the system.</div></li>
+        <li>Should it go <strong style="color:var(--text);font-weight:600;">by territory to the right rep automatically?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Ideally yes, auto-routed to the rep and geolocated by territory. Routing to the sales manager works for now. <span style="color:var(--gold);">(Needs the territory map above.)</span></div></li>
       </ol>
     </div>
 
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;">
       <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Making your reps look good</div>
       <ol start="9" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li>Ever <strong style="color:var(--text);font-weight:600;">lose a deal just because a rep didn't call back fast enough?</strong><span style="color:rgba(0,255,157,.6);font-style:italic;"> If so, the bot can promise the customer a quick reply and flag the lead as time-sensitive.</span></li>
+        <li>Ever <strong style="color:var(--text);font-weight:600;">lose a deal because a rep didn't call back fast enough?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Probably, but hard to tell.</div></li>
       </ol>
     </div>
 
-    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Questions for the sales manager (PRL Resins website chatbot)
+    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Still needed from your sales manager (PRL Resins chatbot)
 
-The idea: a friendly assistant on your website that handles the boring first step for you. It chats with visitors, gets their info, screens out the tire-kickers, and hands your reps only the good leads, already sorted. These questions just make sure we build it around how you work, not another gadget to babysit. About 10 minutes.
+Todd answered the discovery questions, thank you. To finalize the chatbot's fields and routing, we still need a few specifics from you or the product data:
 
-THE LEADS YOU GET
-1. When a good inquiry comes in, what do you most want to know about it right away? That way the chatbot asks for exactly that, and nothing extra.
-2. What tells you a lead is worth a rep's time, or just a waste of it? Then the bot can quietly weed out the time-wasters before they reach a rep.
-3. Most of your buyers are engineers. Anything you always wish they'd tell you up front, like what they're making or the resin they use now?
+1. The product-development / application-discovery form (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.
+2. The territory map: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.
+3. The resin product list and nomenclature, so the bot recognizes when someone names a resin you sell.
+4. Optional: a handful of the most common questions the bot should be ready to answer up front.</textarea>
+  </section>
 
-WHO'S REACHING OUT
-4. Are the people reaching out almost always engineers, or do you also hear from purchasing or others?
-5. Some folks are ready to talk. Some are just researching. How do you tell them apart? We can send the researchers a helpful page and only pass you the ready ones.
+  <!-- ── HOW IT WORKS ── -->
+  <div class="divider" id="howitworks"></div>
+  <section>
+    <div class="section-eyebrow">Phase 1 · How it works</div>
+    <div class="section-title">How the chatbot will work</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
+      Based on what you told me, here is the conversation your visitors will have. It stays short so people actually finish it, and it hands your reps a clean, qualified lead.
+    </p>
 
-BEFORE THEY'LL SHARE THEIR INFO
-6. What do people usually ask, or push back on, before they'll hand over their contact info? The chatbot can answer those up front so more people follow through.
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It greets and sorts the visitor</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">The assistant pops up and asks what brings them in, then offers three quick paths. This screens out the tire-kickers before they reach a rep.</div>
+        <div style="font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px;">
+          &bull; They know the resin or spec they want<br>
+          &bull; They need help finding the right resin<br>
+          &bull; Something else, like a general question
+        </div>
+      </div>
+    </div>
 
-GETTING THE LEAD TO YOU
-7. When a new lead comes in, how would you most like to get it: a quick email, straight into your system, or both?
-8. Should it go by territory to the right rep automatically? What does the bot need to know for that, like their location?
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It asks only what a rep needs</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">Depending on the path, it gathers the useful basics: the resin or spec, the application, what they use now, and any requirements. Then name, email, phone, company, and their location. Short and painless, since your buyers usually already have a need.</div>
+      </div>
+    </div>
 
-MAKING YOUR REPS LOOK GOOD
-9. Ever lose a deal just because a rep didn't call back fast enough? If so, the bot can promise the customer a quick reply and flag the lead as time-sensitive.</textarea>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It hands your rep a clean lead</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">It creates a lead in SugarCRM, emails the notification, and routes it to the right rep by territory (to the sales manager for the first version). The customer hears that someone will reach out within a few hours.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:6px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
+      <strong style="color:var(--cyan);">No lost leads:</strong> if someone leaves halfway, the assistant remembers them. When they come back it picks up where they left off, so a half-finished form does not become a lost lead.
+    </div>
+
+    <div style="margin-top:14px;padding:14px 18px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);font-size:13px;color:var(--sub);line-height:1.65;">
+      <strong style="color:var(--gold);">To finalize:</strong> three inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields, the territory map, and your resin list. Everything else is ready to build whenever you give the go.
+    </div>
   </section>
 
   <div class="stop-loss">
@@ -1103,7 +1145,7 @@ function copySmQuestions(){
   if (!ta) return;
   var flash = function(msg){
     if (!label) return;
-    var prev = 'Copy questions as plain text';
+    var prev = "Copy what's still needed";
     label.textContent = msg;
     setTimeout(function(){ label.textContent = prev; }, 2000);
   };
@@ -1121,7 +1163,7 @@ function copySmQuestions(){
 }
 
 // Update active tab on scroll
-const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions'];
+const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions','howitworks'];
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
