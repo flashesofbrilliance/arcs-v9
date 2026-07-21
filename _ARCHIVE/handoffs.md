@@ -1610,3 +1610,58 @@ rules). The ADR namespace is lock-free - `ls _DECISIONS/` right before claiming 
 
 `/handoff-pickup` -> live-verify the anon-share flow on the deployed site; then an out-of-band item or the
 B2 cadence / HOLD-gate follow-up.
+
+---
+
+# Handoff — v3.10.0 (2026-07-19)
+
+> **For Claude Code:** active pickup point. v3.9.0 above preserved; v3.8.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. (A tracker drift observed mid-session —
+> CLAUDE.md at v3.8.0 while MEMORY.md was at v3.9.0 — was healed concurrently by the
+> v3.9.0 session's own handoff; noted here because it is a live receipt of the exact
+> pathogen this session codified.) Full detail: `MEMORY.md [v3.10.0]`.
+
+## What changed (this thread, 2026-07-17→19)
+
+**The serialization pathogen family** — codified, ratified, enforced:
+
+- **ADR-033 DECIDED** (`_DECISIONS/ADR-033-serialization-pathogen-family.md`,
+  GREEN/HIGH/REVISIT, ratified by Zach 2026-07-19). One axiom: a serialized belief is a
+  tuple (claim, time, scope, warrant, obligations, dictionary); each family member is one
+  coordinate silently dropped. time→chronos-sequencer · scope→inductive-overfit ·
+  obligation→open-loop decay · warrant→epistemic-sequencer · dictionary→etymology-sequencer.
+  4-part admission gate stops taxonomy sprawl.
+- **`runtime/specs/recoil-modes-v1.md` → v0.4.0** — readOrder + `[SUPERSEDED]` markers +
+  always-current cover (chronos); `validityBounds` {n, conditions, stationarity} with the
+  n-aware regime ladder, tails/edges excepted at any n (inductive-overfit); riskFlags
+  `status` OPEN/DONE/WAIVED — closure is an explicit write, never silence (open-loop).
+- **`runtime/specs/call-brief-hooks-v1.md` → v1.1.0** — read current state first; never
+  quote a stratum without a superseded-marker check.
+- **Detective** (`scripts/receipt_lookup.py`): superseded-skip, n-aware Read,
+  validityBounds surfacing, and **`--sweep`** — first run: **52 open obligations across
+  20 reports, zero ever closed** (oldest 18d; incl. a 10-day-old HIGH).
+- **First documented closure:** enforcement-parity ledger (stranded unmerged 3 days;
+  memory had it serialized as live law) merged as **ADR-034** (PR #63), renumbered per
+  ADR-033's own rule. Jurisdictions: ADR-034 ledger = repo/audit findings; `--sweep` =
+  call-ledger obligations.
+
+## Open from this thread
+
+1. **Sweep backlog** — 52 open riskFlags await owner `DONE`/`WAIVED` writes.
+2. **ADR-032 duplicate** — two files share the number; dedupe/renumber.
+3. **Epistemic + etymology members** — partial mechanisms only; dedicated enforcement
+   (warrant field on banked claims; rename tombstones) not yet built.
+
+## Last confirmed commits (this thread)
+
+`9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ this handoff commit)
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → live-verify anon-share (v3.9.0 honesty flag) or run
+`python3 scripts/receipt_lookup.py --sweep` and start closing the oldest flags.
+

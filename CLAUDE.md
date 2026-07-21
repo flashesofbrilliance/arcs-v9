@@ -101,64 +101,10 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.10.0 (2026-07-19)
-
-> **For Claude Code:** active pickup point. v3.9.0 above preserved; v3.8.0 relocated to
-> `_ARCHIVE/handoffs.md` per the lean-file policy. (A tracker drift observed mid-session —
-> CLAUDE.md at v3.8.0 while MEMORY.md was at v3.9.0 — was healed concurrently by the
-> v3.9.0 session's own handoff; noted here because it is a live receipt of the exact
-> pathogen this session codified.) Full detail: `MEMORY.md [v3.10.0]`.
-
-## What changed (this thread, 2026-07-17→19)
-
-**The serialization pathogen family** — codified, ratified, enforced:
-
-- **ADR-033 DECIDED** (`_DECISIONS/ADR-033-serialization-pathogen-family.md`,
-  GREEN/HIGH/REVISIT, ratified by Zach 2026-07-19). One axiom: a serialized belief is a
-  tuple (claim, time, scope, warrant, obligations, dictionary); each family member is one
-  coordinate silently dropped. time→chronos-sequencer · scope→inductive-overfit ·
-  obligation→open-loop decay · warrant→epistemic-sequencer · dictionary→etymology-sequencer.
-  4-part admission gate stops taxonomy sprawl.
-- **`runtime/specs/recoil-modes-v1.md` → v0.4.0** — readOrder + `[SUPERSEDED]` markers +
-  always-current cover (chronos); `validityBounds` {n, conditions, stationarity} with the
-  n-aware regime ladder, tails/edges excepted at any n (inductive-overfit); riskFlags
-  `status` OPEN/DONE/WAIVED — closure is an explicit write, never silence (open-loop).
-- **`runtime/specs/call-brief-hooks-v1.md` → v1.1.0** — read current state first; never
-  quote a stratum without a superseded-marker check.
-- **Detective** (`scripts/receipt_lookup.py`): superseded-skip, n-aware Read,
-  validityBounds surfacing, and **`--sweep`** — first run: **52 open obligations across
-  20 reports, zero ever closed** (oldest 18d; incl. a 10-day-old HIGH).
-- **First documented closure:** enforcement-parity ledger (stranded unmerged 3 days;
-  memory had it serialized as live law) merged as **ADR-034** (PR #63), renumbered per
-  ADR-033's own rule. Jurisdictions: ADR-034 ledger = repo/audit findings; `--sweep` =
-  call-ledger obligations.
-
-## Open from this thread
-
-1. **Sweep backlog** — 52 open riskFlags await owner `DONE`/`WAIVED` writes.
-2. **ADR-032 duplicate** — two files share the number; dedupe/renumber.
-3. **Epistemic + etymology members** — partial mechanisms only; dedicated enforcement
-   (warrant field on banked claims; rename tombstones) not yet built.
-
-## Last confirmed commits (this thread)
-
-`9748048` · `15d71d8` · `9ce0dfc` · `09bb14b` · `5f181fc` (+ this handoff commit)
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → live-verify anon-share (v3.9.0 honesty flag) or run
-`python3 scripts/receipt_lookup.py --sweep` and start closing the oldest flags.
-
----
-
 # Handoff — v3.11.0 (2026-07-20)
 
-> **For Claude Code:** active pickup point. v3.10.0 above preserved; v3.9.0 relocated to
-> `_ARCHIVE/handoffs.md` per the lean-file policy. Full detail: `MEMORY.md [v3.11.0]`.
+> **For Claude Code:** active pickup point. v3.10.0 relocated to `_ARCHIVE/handoffs.md`
+> per the lean-file policy. Full detail: `MEMORY.md [v3.11.0]`.
 > Interactive (local Claude Code) session — deployed live, unlike the prior cloud sessions.
 
 ## What shipped (this thread, 2026-07-20)
@@ -208,3 +154,64 @@ NONE.
 
 `/handoff-pickup` → start ledger-management (archive/reset) or the authenticated `/recoil` index;
 or run the standby auth-loop test to close the v3.9.0 flag.
+
+---
+
+# Handoff — v3.12.0 (2026-07-20)
+
+> **For Claude Code:** active pickup point. v3.11.0 above preserved. Full detail:
+> `MEMORY.md [v3.12.0]` and `project_todd_hotes_prl_resins.md` (full engagement history).
+
+## What shipped (this thread, 2026-07-20 evening)
+
+**Todd Hotes / PRL Resins — Phase 1 chatbot proposal build-out.** Todd verbally agreed to
+the $1,500 chatbot on a Jul 20 call and answered the sales-manager discovery questions
+himself by email that evening ("I know the answers lol"). This thread turned that into a
+buy-in-ready proposal page, while explicitly NOT starting the actual bot build:
+
+- Sanitized + rewrote `public/todd-call.html` / `public/todd-teardown.html`: plain-English,
+  chatbot-foregrounded, zero em-dashes (new standing rule, see `writing-avoid-emdashes-plain-language`
+  memory).
+- **Discovery section** — Todd's own answers folded under each question ("TODD →"), plus a
+  gold "Still needed from your sales manager" box (exact form fields, territory map, resin
+  nomenclature) with its own copy-as-plain-text button.
+- **How It Works section** (new) — plain-language 3-step client-facing flow, built
+  specifically so Todd has something concrete for his internal sales-team buy-in
+  conversation before Wednesday.
+- **Live Stripe buy button** embedded top of page (`$1,500 · Pay Invoice`), iterated 3x on
+  visual feedback into a 2-column deal+payment lockup with a full-width "to start" bar below.
+  Todd says by text he'll likely call the payment in instead.
+- **Branch-logic tree v1** (the actual Tidio conversation design) drafted from Todd's
+  answers and preserved in three places: git spec
+  (`runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md`), the live How It
+  Works section, and a published Claude Artifact
+  (`https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13`, private).
+- Drafted + sent the sales-manager discovery-questions email to Todd (Gmail).
+
+**Explicit distinction held throughout:** "on hold" means don't touch Todd's
+WordPress/SugarCRM and don't start the Tidio build — it does NOT mean stop updating the
+proposal page. The page keeps getting built out for his internal buy-in use; the actual
+bot build waits for his go **and** payment.
+
+## Open from this thread
+
+1. **Awaiting Todd** — his Wednesday sales-manager ("Imagine") meeting for internal buy-in,
+   then he "reaches back out." Tentative cadence: Wed SM call (Zach may join, busy
+   10:30–11 / 2:30–3) → Thursday ~10am regroup.
+2. **SM identity unconfirmed** — possibly William Galla (VP Sales, Polymer Resources); kept
+   off the live page, only briefly used in an early (superseded) email draft.
+3. **Payment method** — Todd prefers to call in a card rather than click Stripe; may want a
+   secure upload link for W-9/tax info later.
+4. **Do not start the build** (WordPress/SugarCRM access, Tidio flow) until Todd's go +
+   payment land.
+
+## Blocking
+
+NONE (waiting on the client, not internally blocked).
+
+## Next session starts at
+
+`/handoff-pickup` → check for a reply from Todd post-Wednesday. If he's given the go and
+paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
+Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
+client-facing is already live and current.
