@@ -294,3 +294,60 @@ NONE.
 
 `/handoff-pickup` → genericize + extract the state-sync bundle, or merge PR #122 first if that
 hasn't happened yet.
+
+---
+
+# Handoff — v3.14.0 (2026-07-21)
+
+> **For Claude Code:** active pickup point. Same `claude/code-skills-open-source-36bde4` branch
+> (PR #122 open) — round 3 of the open-source track + closed the own-data PII scrub. v3.13.0 above
+> preserved; append-only on this branch (may not merge; no archive-shuffle). Durable state:
+> auto-memory `project-open-source-skills-queue.md` + `_STATE/snapshot.json → open_source` +
+> `_STATE/teleport-brief.md` (both PENDING tasks now marked DONE).
+
+## What shipped this round
+
+- **`token-savings-bank` LIVE** — github.com/flashesofbrilliance/token-savings-bank. Budget-mode
+  operating skill (model-tier routing / batch / inline-vs-subagent / explicit checkpoint).
+  **Authored fresh, zero extraction.** Renamed from "tokenmining" (Zach: reads as crypto). Ran a
+  2-round adversarial gauntlet (3 agents → FIX-THEN-SHIP → 8 fixes incl. a SECURITY guardrail
+  against checkpointing secrets; confirming pass caught a README regression). Local:
+  `/Users/zharris/token-savings-bank`.
+- **`linkedin-connections-toolkit` LIVE** — github.com/flashesofbrilliance/linkedin-connections-toolkit.
+  Generic `Connections.csv` parser + plain analysis (years/companies/seniority/staleness), CLI +
+  library, stdlib-only, synthetic sample. **Authored fresh (NOT extract-and-redact** — the private
+  LinkedIn mining suite's method IS the sauce). 3-agent code gauntlet + confirming pass; one agent
+  failed on first run (transient, zero tool calls) and was re-run; **5 real correctness bugs caught
+  and fixed pre-ship** (substring seniority misclassification, vice-president bucket, staleness
+  off-by-one, locale-dependent date parsing, loose header detection). Local:
+  `/Users/zharris/linkedin-connections-toolkit`.
+- **Own-data PII scrub (was a separate pending task): DONE on `main`** (frosty-kepler worktree,
+  `0343dfb`, pushed). 5 scripts → placeholders + env-driven `CONNECTIONS_CSV`; report counts made
+  dynamic; new `scripts/README.md` (how-to / runtime / deps / arcs_cli passthrough params). Current
+  state only, no history rewrite. `deploy-prod.sh` local paths left intentionally.
+- **Staging + state:** `open-source/token-savings-bank/` + `open-source/linkedin-connections-toolkit/`
+  committed (`37bf5d5`, `a269159`), branch pushed. snapshot `open_source` now lists 5 shipped,
+  queue `[]`.
+
+## Open-source queue: EMPTY
+
+All teleport-brief items shipped. Remaining candidates all sit in `hold_sauce_risk` (NCI trio,
+teardown/precall/recoil family, arcs-research/dewy-stub/receipt-book-curator, arcs-brand-manager,
+the scanner suite) — do NOT publish without a genuine genericization pass; several ARE the sauce.
+
+## Ship-recipe lesson reinforced this round
+
+The confirming pass after the main gauntlet earns its cost (caught a README regression on the skill;
+confirmed the toolkit fixes held). And the model's own quick self-verify can miss a bug the gauntlet
+then catches (a plausible-looking seniority count hid a misclassification). Gauntlet code toolkits by
+*running* them, not just reading.
+
+## Blocking
+
+NONE. PR #122 still open (main ← this branch); merge when ready, or continue product backlog
+(ledger-management / authenticated `/recoil` index / v3.9.0 auth-loop test — all on `main`).
+
+## Next session starts at
+
+`/handoff-pickup` → open-source queue is empty; either merge PR #122 or return to the product
+backlog on `main`.

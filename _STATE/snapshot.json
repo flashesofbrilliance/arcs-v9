@@ -2,10 +2,12 @@
   "captured_at": "2026-07-20T18:56:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "36a2b8e",
-    "head_message": "docs(handoff): v3.12.0 \u2014 open-source resumeware track + rca-skill shipped [NCI:SKIP handoff]",
+    "head_sha": "37bf5d5",
+    "head_message": "chore(open-source): stage token-savings-bank skill [NCI:SKIP]",
     "in_sync_with_origin": false,
-    "dirty_files": []
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -35,20 +37,20 @@
     ]
   },
   "active_briefs": {
-    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
-    "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 proposal $1,500 fixed, email sent Jul 2",
-    "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
+    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
+    "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 proposal $1,500 fixed, email sent Jul 2",
+    "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
     "ADR-031 (secrets inventory + rotation)",
-    "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
-    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
+    "ADR-032 (Zero-Trust Posture — GOVERNING; conformance checklist for all future ADRs)",
+    "ADR-026 (untracked — debrief calendar invite vs email, not this session's work)",
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Open-source resumeware, round 2: shipped fix-toolbar-comments-skill (github.com/flashesofbrilliance/fix-toolbar-comments-skill) alongside rca-skill \u2014 same scrub+gauntlet pattern (only catch both times: em-dashes, fixed). Also ran a sauce-aware reranking of the whole open-source queue: upgraded the state-sync bundle (init-state-sync+handoff+handoff-pickup) as most broadly useful/zero-IP; reversed the prior NCI-trio recommendation to a HOLD since those skills ARE the proprietary ADR-035 rubric, not just a pattern using it.",
-  "next_action": "Next open-source candidate: the state-sync bundle (init-state-sync + handoff + handoff-pickup) \u2014 genericize the DEWY-specific snapshot.json fields to a plain schema, then extract to its own repo. NCI trio and teardown/precall-brief/recoil-report/dewy-stub family stay on HOLD (sauce risk) per _STATE/snapshot.json \u2192 open_source.hold_sauce_risk. Product-side backlog unchanged (ledger management, authenticated /recoil index, v3.9.0 auth-loop test).",
+  "session_summary": "Open-source resumeware, round 2: shipped fix-toolbar-comments-skill (github.com/flashesofbrilliance/fix-toolbar-comments-skill) alongside rca-skill — same scrub+gauntlet pattern (only catch both times: em-dashes, fixed). Also ran a sauce-aware reranking of the whole open-source queue: upgraded the state-sync bundle (init-state-sync+handoff+handoff-pickup) as most broadly useful/zero-IP; reversed the prior NCI-trio recommendation to a HOLD since those skills ARE the proprietary ADR-035 rubric, not just a pattern using it.",
+  "next_action": "Next open-source candidate: the state-sync bundle (init-state-sync + handoff + handoff-pickup) — genericize the DEWY-specific snapshot.json fields to a plain schema, then extract to its own repo. NCI trio and teardown/precall-brief/recoil-report/dewy-stub family stay on HOLD (sauce risk) per _STATE/snapshot.json → open_source.hold_sauce_risk. Product-side backlog unchanged (ledger management, authenticated /recoil index, v3.9.0 auth-loop test).",
   "blocking": "NONE",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
@@ -64,25 +66,45 @@
         "local": "/Users/zharris/fix-toolbar-comments-skill",
         "visibility": "public",
         "date": "2026-07-20"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/state-sync-skill",
+        "local": "/Users/zharris/state-sync-skill",
+        "visibility": "public",
+        "date": "2026-07-20"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/token-savings-bank",
+        "local": "/Users/zharris/token-savings-bank",
+        "visibility": "public",
+        "date": "2026-07-21",
+        "note": "budget-mode skill; renamed from 'tokenmining' (read as crypto); 2-round adversarial gauntlet"
+      },
+      {
+        "repo": "github.com/flashesofbrilliance/linkedin-connections-toolkit",
+        "local": "/Users/zharris/linkedin-connections-toolkit",
+        "visibility": "public",
+        "date": "2026-07-21",
+        "note": "authored-fresh (not extracted) generic Connections.csv parser+analyzer; stdlib-only; 3-agent code gauntlet + confirming pass, 5 correctness bugs fixed pre-ship"
       }
     ],
     "staging_dir": "open-source/",
-    "queue": [
-      "State-sync bundle (init-state-sync + handoff + handoff-pickup) \u2014 genericize the DEWY-specific snapshot fields to a plain schema, then extract. Reranked UP this session \u2014 most broadly useful, zero product IP once stripped."
-    ],
+    "queue": [],
     "hold_sauce_risk": [
-      "NCI trio (nci-scoring + nci-commit + drift-check) \u2014 reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
-      "teardown gauntlet + teardown_eval.py \u2014 heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
-      "precall-brief, recoil-report \u2014 same client-data + gauntlet-operator sauce as teardown",
-      "arcs-research, dewy-stub, receipt-book-curator \u2014 built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
+      "NCI trio (nci-scoring + nci-commit + drift-check) — reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
+      "teardown gauntlet + teardown_eval.py — heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
+      "precall-brief, recoil-report — same client-data + gauntlet-operator sauce as teardown",
+      "arcs-research, dewy-stub, receipt-book-curator — built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
     ],
     "do_not_publish": [
       "arcs-brand-manager (fork of Anthropic's own brand-guidelines skill)"
-    ]
+    ],
+    "queue_note": "Empty as of 2026-07-21. Teleport-brief items 1 (tokenmining->token-savings-bank) and 2 (linkedin-connections-toolkit) both shipped this session. State-sync bundle was already shipped 2026-07-20. Remaining candidates all sit in hold_sauce_risk.",
+    "last_updated": "2026-07-21"
   },
   "memory_shards": {
     "location": "_MEMORY/",
-    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
+    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
     "files": [
       "feedback_engagement_style.md",
       "project_arcs_book_ii_audit_protocol.md",
@@ -92,8 +114,8 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 \u2014 previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
-    "authoring_workflow": "copy public/templates/call-brief-template.html \u2192 fill {{PLACEHOLDERS}} \u2192 add beforeFiles rewrite to next.config.ts \u2192 commit on main (frosty-kepler-b69f51 worktree) \u2192 push \u2192 auto-deploy",
+    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
       {
@@ -166,17 +188,17 @@
       {
         "file": "public/chan.html",
         "subdomain": "chan.arcs.care",
-        "person": "Mike Lemon / Chan Suh (CDO) / Prophet \u2014 discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
+        "person": "Mike Lemon / Chan Suh (CDO) / Prophet — discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
       },
       {
         "file": "public/status.html",
         "subdomain": "status.arcs.care",
-        "person": "N/A \u2014 standalone build-status fork of chan.html with Prophet content and presentation mode removed"
+        "person": "N/A — standalone build-status fork of chan.html with Prophet content and presentation mode removed"
       },
       {
         "file": "public/state-of-union.html",
         "subdomain": "app.arcs.care/state-of-union.html",
-        "person": "N/A \u2014 internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
+        "person": "N/A — internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
       }
     ],
     "ui_kit": {
@@ -193,5 +215,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-20T18:49:50Z"
+  "git_refreshed_at": "2026-07-21T18:13:29Z"
 }
