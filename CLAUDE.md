@@ -101,72 +101,11 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.12.0 (2026-07-20)
-
-> **For Claude Code:** v3.11.0 relocated to `_ARCHIVE/handoffs.md` per the lean-file policy
-> (archived 2026-07-21, its standby item closed by v3.12.1 below). Full detail:
-> `MEMORY.md [v3.12.0]` and `project_todd_hotes_prl_resins.md` (full engagement history).
-
-## What shipped (this thread, 2026-07-20 evening)
-
-**Todd Hotes / PRL Resins — Phase 1 chatbot proposal build-out.** Todd verbally agreed to
-the $1,500 chatbot on a Jul 20 call and answered the sales-manager discovery questions
-himself by email that evening ("I know the answers lol"). This thread turned that into a
-buy-in-ready proposal page, while explicitly NOT starting the actual bot build:
-
-- Sanitized + rewrote `public/todd-call.html` / `public/todd-teardown.html`: plain-English,
-  chatbot-foregrounded, zero em-dashes (new standing rule, see `writing-avoid-emdashes-plain-language`
-  memory).
-- **Discovery section** — Todd's own answers folded under each question ("TODD →"), plus a
-  gold "Still needed from your sales manager" box (exact form fields, territory map, resin
-  nomenclature) with its own copy-as-plain-text button.
-- **How It Works section** (new) — plain-language 3-step client-facing flow, built
-  specifically so Todd has something concrete for his internal sales-team buy-in
-  conversation before Wednesday.
-- **Live Stripe buy button** embedded top of page (`$1,500 · Pay Invoice`), iterated 3x on
-  visual feedback into a 2-column deal+payment lockup with a full-width "to start" bar below.
-  Todd says by text he'll likely call the payment in instead.
-- **Branch-logic tree v1** (the actual Tidio conversation design) drafted from Todd's
-  answers and preserved in three places: git spec
-  (`runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md`), the live How It
-  Works section, and a published Claude Artifact
-  (`https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13`, private).
-- Drafted + sent the sales-manager discovery-questions email to Todd (Gmail).
-
-**Explicit distinction held throughout:** "on hold" means don't touch Todd's
-WordPress/SugarCRM and don't start the Tidio build — it does NOT mean stop updating the
-proposal page. The page keeps getting built out for his internal buy-in use; the actual
-bot build waits for his go **and** payment.
-
-## Open from this thread
-
-1. **Awaiting Todd** — his Wednesday sales-manager ("Imagine") meeting for internal buy-in,
-   then he "reaches back out." Tentative cadence: Wed SM call (Zach may join, busy
-   10:30–11 / 2:30–3) → Thursday ~10am regroup.
-2. **SM identity unconfirmed** — possibly William Galla (VP Sales, Polymer Resources); kept
-   off the live page, only briefly used in an early (superseded) email draft.
-3. **Payment method** — Todd prefers to call in a card rather than click Stripe; may want a
-   secure upload link for W-9/tax info later.
-4. **Do not start the build** (WordPress/SugarCRM access, Tidio flow) until Todd's go +
-   payment land.
-
-## Blocking
-
-NONE (waiting on the client, not internally blocked).
-
-## Next session starts at
-
-`/handoff-pickup` → check for a reply from Todd post-Wednesday. If he's given the go and
-paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
-Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
-client-facing is already live and current.
-
----
-
 # Handoff — v3.12.1 (2026-07-21)
 
-> **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
-> v3.9.0 standby auth-loop test — full history now in `_ARCHIVE/handoffs.md`.
+> **For Claude Code:** v3.12.0 relocated to `_ARCHIVE/handoffs.md` per the lean-file policy
+> (archived 2026-07-21). Closes the v3.11.0 / v3.9.0 standby auth-loop test — full history now
+> in `_ARCHIVE/handoffs.md`.
 
 ## What shipped (this thread, 2026-07-21)
 
@@ -213,3 +152,59 @@ NONE.
 `/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
 gating work; ledger-management and the authenticated `/recoil` index remain the next
 build-ready items whenever picked up.
+
+---
+
+# Handoff — v3.12.2 (2026-07-21)
+
+> **For Claude Code:** active pickup point. v3.12.1 above preserved.
+
+## What shipped (this thread, 2026-07-21 — worktree `mobile-portrait-button-wrap-d05201`)
+
+**Home page tributary-button mobile wrap fix + a real regression test for it.**
+Zach flagged that the "Where to navigate next" button row (META / CHALLENGE / ADJACENT /
+BRIEF →) on the home page wasn't sitting cleanly on one line at mobile portrait widths the
+way it does on desktop.
+
+- Fix: added `flexWrap: 'wrap'` to the tributary button row container in
+  `src/organisms/Home.tsx:140`. Verified visually in the Browser pane at 375×812 — row
+  renders on one line; the wrap is now a safety net for narrower widths or longer labels.
+- Zach asked for the broader gap: no test in this repo caught mobile-viewport layout bugs
+  (existing `tests/smoke.spec.ts` only checks console errors / non-empty body at one
+  default desktop viewport). Added:
+  - `playwright.config.ts` — new `mobile-portrait` project (375×812, Chromium — not
+    `devices['iPhone 13']`, which pulls in WebKit and needs a separate browser install)
+    alongside the existing default `desktop` project.
+  - `tests/layout.spec.ts` — asserts the tributary/brief buttons stay within the viewport's
+    bounding box, run against both projects.
+  - No CI change needed: `npm run test:smoke` (`playwright test`, no `--project` filter)
+    already runs every configured project, so this runs automatically in the existing
+    `fe-smoke` gate in `.github/workflows/ci.yml`.
+- Verified locally: both `desktop` and `mobile-portrait` projects pass; confirmed the test
+  is a real invariant (not a tautology) by round-tripping the `flexWrap` fix out and back in
+  — note this particular fixture (3 short tributary labels) didn't actually overflow 375px
+  even without the fix, so the test is a defensive regression guard for future/longer labels
+  rather than a reproduction of the exact reported bug.
+- Committed (`c791168`) and pushed; opened **PR #127**
+  (`https://github.com/flashesofbrilliance/arcs-v9/pull/127`) against `main` from this
+  worktree branch (`claude/mobile-portrait-button-wrap-d05201`). `npm run build` passed via
+  the pre-push hook.
+
+## Open from prior handoffs (untouched this thread)
+
+- v3.11.0 items 1–2 (ledger management archive/reset-first; authenticated `/recoil` index)
+  — still open, operator-approved, not started.
+- v3.11.0 "glow strays" sweep — still open.
+- Todd Hotes / PRL Resins (v3.12.0, archived) — still awaiting his post-Wednesday reply,
+  untouched this thread.
+
+## Blocking
+
+NONE — PR #127 is open and unmerged; waiting on review/merge, not on any internal blocker.
+
+## Next session starts at
+
+`/handoff-pickup` → check PR #127 status. If merged: nothing further needed, the fix and
+its regression test are live. If still open: review/merge it (or address CI feedback if the
+`fe-smoke` job flags anything). Also check for a reply from Todd post-Wednesday (see
+archived v3.12.0) and the ledger-management / authenticated `/recoil` index items above.
