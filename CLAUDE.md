@@ -101,65 +101,10 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.11.0 (2026-07-20)
-
-> **For Claude Code:** active pickup point. v3.10.0 relocated to `_ARCHIVE/handoffs.md`
-> per the lean-file policy. Full detail: `MEMORY.md [v3.11.0]`.
-> Interactive (local Claude Code) session — deployed live, unlike the prior cloud sessions.
-
-## What shipped (this thread, 2026-07-20)
-
-- **Anon-share "Sign in to keep" persist fix (PR #121, `403d109`).** The v3.9.0 honesty-flag
-  follow-up: the shared bearing was recomposed one-time but NOT carried through sign-in — "keep"
-  kept nothing. Now the onramp writes `arcs_pending_save` and `ClaimAnonymousReceipts` claims it
-  post-auth → user lands on `/receipt/<id>` with the bearing saved. (One-time link + recompose
-  verified live by operator; the full magic-link auth leg is the standby test below.)
-- **Design-system glow tuning, two passes** (`8429f2e` then `cfbc483`). Operator feedback: glow
-  too hot across the board. Pass 1 — `signalGlow()` alphas halved (.55–.6 → ~.28) + bloom blur
-  cut ~33% (Gauge 16→11px, Card/Badge 12→8px, recoil `_tokens.css` 12→5px). Pass 2 (eyeball) —
-  gauge bloom eased back 11→13px, accent card glow reduced, `TrueNorthPanel` given real
-  glassmorphism (`backdrop-filter: blur(14px)` + translucent blue fill), Field/select left as-is
-  (operator confirmed correct). Every change verified against **live computed styles**, not by eye.
-
-## Open items (operator-approved, not started)
-
-1. **Ledger management** — give users archive + reset-reflection before hard-delete. Build order
-   confirmed: **archive/reset first, hard-delete last** (WORLD.md: receipts are frozen positions;
-   soft-retire preserves Observatory/lineage, true erasure is the explicit escalation).
-2. **Authenticated `/recoil` index** — a ledger of internal recoil/precall briefs behind OAuth.
-   Build order confirmed: **index the existing brief documents first** (data already in
-   `snapshot.json → ui_artifacts`), DB-backed entities later. Also improves security posture over
-   the current per-name password gates.
-
-## Standby (needs operator go)
-
-- **Production auth-loop test** — drive "Sign in to keep" end-to-end via the Gmail connector
-  (read the magic-link email, click it, confirm `/receipt/<id>`). Closes the v3.9.0 honesty flag.
-  Needs explicit go + confirm `zach.harris@gmail.com`. Authenticates a session + writes one
-  `EPHEMERAL_SAVE` test receipt.
-- **Glow strays** — sweep hardcoded glows the tokens didn't reach (neutral `∞` gauge still at
-  rgba(160,180,210,.35), observatory page, receipt widget, loaders) for full consistency.
-
-## Concurrency note
-
-Another thread committed on main during/after this session (`4bf8043` sentry inchworm, `efc836a`
-meta-audit) plus two untracked strays (`_DECISIONS/ADR-026-*.md`, `test_prisma_direct.js`) — NOT
-this session's, left untouched. `ls _DECISIONS/` + rebase on origin/main before any push.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → start ledger-management (archive/reset) or the authenticated `/recoil` index;
-or run the standby auth-loop test to close the v3.9.0 flag.
-
----
-
 # Handoff — v3.12.0 (2026-07-20)
 
-> **For Claude Code:** active pickup point. v3.11.0 above preserved. Full detail:
+> **For Claude Code:** v3.11.0 relocated to `_ARCHIVE/handoffs.md` per the lean-file policy
+> (archived 2026-07-21, its standby item closed by v3.12.1 below). Full detail:
 > `MEMORY.md [v3.12.0]` and `project_todd_hotes_prl_resins.md` (full engagement history).
 
 ## What shipped (this thread, 2026-07-20 evening)
@@ -215,3 +160,56 @@ NONE (waiting on the client, not internally blocked).
 paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
 Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
 client-facing is already live and current.
+
+---
+
+# Handoff — v3.12.1 (2026-07-21)
+
+> **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
+> v3.9.0 standby auth-loop test — full history now in `_ARCHIVE/handoffs.md`.
+
+## What shipped (this thread, 2026-07-21)
+
+**Production auth-loop test — closed, verified live, full loop.** The standby item from
+v3.11.0 (drive "Sign in to keep" end-to-end, confirm the anon-share persist fix from PR
+#121 actually lands a user on `/receipt/<id>`) is done:
+
+- First attempt used the Claude Browser pane + the Gmail MCP connector. Auth itself worked
+  (operator clicked the real email link, landed on `/dashboard`), but the Gmail MCP tool's
+  text extraction **deterministically corrupts the `=` immediately before the `token=`
+  query param** on every send (verified twice, reproducible, unrelated to token content —
+  looks like a quoted-printable line-wrap decoding bug in that connector, not an
+  arcs.care/Resend send-side defect). This broke the magic-link URL and, separately,
+  because the operator opened the link in a different browser context than the one that
+  viewed the share link, the `arcs_pending_save` localStorage flag wasn't present there
+  either — so that run only proved auth, not the claim path.
+- Full reproduction done via the **Claude-in-Chrome MCP** (operator's real Chrome, already
+  signed into Gmail) instead: visited the `/brief/share#...` link → "Sign in to keep" →
+  entered email → sent magic link → opened Gmail natively (no text-extraction step,
+  clicked the real DOM anchor) → landed authenticated on
+  **`/receipt/cmrupjbyk000104ljq1swek49`**, rendering the exact shared test bearing.
+  Same-tab-group continuity kept `arcs_pending_save` intact, so `ClaimAnonymousReceipts`
+  (`src/components/ClaimAnonymousReceipts.tsx`) fired correctly end-to-end — confirms PR
+  #121 works exactly as designed, not just by code inspection.
+- **Note for anyone touching Gmail-via-MCP for arcs.care emails going forward:** prefer
+  driving Gmail through a real browser tool (Claude-in-Chrome or the operator's own client)
+  over parsing email body text through the Gmail MCP connector when a URL/token in the
+  body matters — the corruption above is silent (no error, just wrong characters) and easy
+  to miss.
+
+## Open from prior handoffs (untouched this thread)
+
+- v3.11.0 items 1–2 (ledger management archive/reset-first; authenticated `/recoil` index)
+  — still open, operator-approved, not started.
+- v3.11.0 "glow strays" sweep — still open.
+- Todd Hotes / PRL Resins (v3.12.0) — still awaiting his post-Wednesday reply, untouched.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
+gating work; ledger-management and the authenticated `/recoil` index remain the next
+build-ready items whenever picked up.

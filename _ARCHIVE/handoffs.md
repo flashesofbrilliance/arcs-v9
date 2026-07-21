@@ -1665,3 +1665,54 @@ NONE.
 `/handoff-pickup` → live-verify anon-share (v3.9.0 honesty flag) or run
 `python3 scripts/receipt_lookup.py --sweep` and start closing the oldest flags.
 
+
+---
+
+# Handoff — v3.11.0 (2026-07-20)
+
+> **For Claude Code:** archived 2026-07-21 per lean-file policy — superseded by v3.12.1's
+> closure of the standby auth-loop test. Full detail: `MEMORY.md [v3.11.0]`.
+> Interactive (local Claude Code) session — deployed live, unlike the prior cloud sessions.
+
+## What shipped (this thread, 2026-07-20)
+
+- **Anon-share "Sign in to keep" persist fix (PR #121, `403d109`).** The v3.9.0 honesty-flag
+  follow-up: the shared bearing was recomposed one-time but NOT carried through sign-in — "keep"
+  kept nothing. Now the onramp writes `arcs_pending_save` and `ClaimAnonymousReceipts` claims it
+  post-auth → user lands on `/receipt/<id>` with the bearing saved. (One-time link + recompose
+  verified live by operator; the full magic-link auth leg is the standby test below.)
+- **Design-system glow tuning, two passes** (`8429f2e` then `cfbc483`). Operator feedback: glow
+  too hot across the board. Pass 1 — `signalGlow()` alphas halved (.55–.6 → ~.28) + bloom blur
+  cut ~33% (Gauge 16→11px, Card/Badge 12→8px, recoil `_tokens.css` 12→5px). Pass 2 (eyeball) —
+  gauge bloom eased back 11→13px, accent card glow reduced, `TrueNorthPanel` given real
+  glassmorphism (`backdrop-filter: blur(14px)` + translucent blue fill), Field/select left as-is
+  (operator confirmed correct). Every change verified against **live computed styles**, not by eye.
+
+## Open items (operator-approved, not started)
+
+1. **Ledger management** — give users archive + reset-reflection before hard-delete. Build order
+   confirmed: **archive/reset first, hard-delete last** (WORLD.md: receipts are frozen positions;
+   soft-retire preserves Observatory/lineage, true erasure is the explicit escalation).
+2. **Authenticated `/recoil` index** — a ledger of internal recoil/precall briefs behind OAuth.
+   Build order confirmed: **index the existing brief documents first** (data already in
+   `snapshot.json → ui_artifacts`), DB-backed entities later. Also improves security posture over
+   the current per-name password gates.
+
+## Standby (needs operator go) — RESOLVED 2026-07-21, see v3.12.1
+
+- **Production auth-loop test** — drive "Sign in to keep" end-to-end via the Gmail connector
+  (read the magic-link email, click it, confirm `/receipt/<id>`). Closes the v3.9.0 honesty flag.
+  Needs explicit go + confirm `zach.harris@gmail.com`. Authenticates a session + writes one
+  `EPHEMERAL_SAVE` test receipt.
+- **Glow strays** — sweep hardcoded glows the tokens didn't reach (neutral `∞` gauge still at
+  rgba(160,180,210,.35), observatory page, receipt widget, loaders) for full consistency.
+
+## Concurrency note
+
+Another thread committed on main during/after this session (`4bf8043` sentry inchworm, `efc836a`
+meta-audit) plus two untracked strays (`_DECISIONS/ADR-026-*.md`, `test_prisma_direct.js`) — NOT
+this session's, left untouched. `ls _DECISIONS/` + rebase on origin/main before any push.
+
+## Blocking
+
+NONE.
