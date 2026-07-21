@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 ARCS v9 Deep Forensic Scan
-Five detection lenses applied to the full 11,177-contact network.
+Five detection lenses applied to the full contact network.
 
 DETECTIVE  — finds anomalies: title/company mismatch, stacked identity, transition signals
 CURATOR    — selects on notability + aesthetic fit + creative-capital alignment
@@ -15,7 +15,7 @@ Final verdict = contacts surfacing in 3+ lenses. These are the write-lock activa
 import csv, json, re, os, collections, math
 from datetime import datetime
 
-CSV_PATH = "/Users/zharris/Downloads/Basic_LinkedInDataExport_05-20-2026.zip/Connections.csv"
+CSV_PATH = os.environ.get("CONNECTIONS_CSV", "Connections.csv")
 OUT_DIR  = os.path.join(os.path.dirname(__file__), "../exports")
 OUT_MD   = os.path.join(os.path.dirname(__file__), "../forensic_scan.md")
 OUT_JSON = os.path.join(os.path.dirname(__file__), "../forensic_scan.json")
@@ -361,7 +361,7 @@ def render_md(results, by_lens):
     lines = []
     lines.append("# ARCS v9 Deep Forensic Scan")
     lines.append("**Mode:** Detective × Curator × Librarian × Sentry × Accountant")
-    lines.append(f"**Corpus:** 11,177 contacts  |  **Date:** 2026-05-25")
+    lines.append(f"**Corpus:** {len(results):,} contacts")
     lines.append("")
     lines.append("---")
     lines.append("")

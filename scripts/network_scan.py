@@ -19,7 +19,7 @@ import anthropic
 # ─────────────────────────────────────────────────────────────
 # PATHS
 # ─────────────────────────────────────────────────────────────
-CSV_PATH  = "/Users/zharris/Downloads/Basic_LinkedInDataExport_05-20-2026.zip/Connections.csv"
+CSV_PATH  = os.environ.get("CONNECTIONS_CSV", "Connections.csv")
 OUT_JSON  = os.path.join(os.path.dirname(__file__), "../network_scan.json")
 OUT_MD    = os.path.join(os.path.dirname(__file__), "../network_scan.md")
 

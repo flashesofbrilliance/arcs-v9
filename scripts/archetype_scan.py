@@ -19,7 +19,7 @@ import networkx as nx
 # ─────────────────────────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────────────────────────
-CSV_PATH    = "/Users/zharris/Downloads/Basic_LinkedInDataExport_05-20-2026.zip/Connections.csv"
+CSV_PATH    = os.environ.get("CONNECTIONS_CSV", "Connections.csv")
 OUT_HTML    = os.path.join(os.path.dirname(__file__), "../network_archetype_viz.html")
 OUT_JSON    = os.path.join(os.path.dirname(__file__), "../network_archetype.json")
 OUT_MD      = os.path.join(os.path.dirname(__file__), "../network_archetype.md")
@@ -553,7 +553,7 @@ def build_viz(contacts: list[dict], stats: dict) -> go.Figure:
 def render_md(contacts: list[dict], stats: dict) -> str:
     lines = []
     lines.append("# ARCS Archetype Resonance Scan")
-    lines.append("**Subject stack:** Builder → Navigator → Chartist  |  **Total:** 11,177  |  **Date:** 2026-05-20")
+    lines.append(f"**Subject stack:** Builder → Navigator → Chartist  |  **Total:** {len(contacts):,}")
     lines.append("")
 
     lines.append("## Archetype Distribution")
