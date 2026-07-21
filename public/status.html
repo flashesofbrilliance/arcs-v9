@@ -567,7 +567,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 <div class="page">
 
   <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
-  <h1>Day 0: one empty commit.<br>Day 98: a live product that grades itself.</h1>
+  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">98</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the public repository · July 2026</div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
@@ -1694,7 +1694,7 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   // hardcoded "98" had already gone stale by 3 days. Pure date math, no network.
   (function () {
     var days = Math.max(0, Math.floor((Date.now() - Date.parse("2026-04-09T11:39:09-04:00")) / 86400000));
-    set("stat-days", days); set("era-day", days);
+    set("stat-days", days); set("era-day", days); set("hero-day", days);
   })();
   all();
   var btn = $("pulse-refresh"); if (btn) btn.addEventListener("click", all);
