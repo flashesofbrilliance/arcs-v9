@@ -590,7 +590,20 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 
   </div><!-- /card wrapper -->
 
-  <div style="max-width:680px;margin:20px auto 0;padding:14px 18px;border:1px solid var(--border);border-radius:10px;background:var(--surface);">
+  <div style="max-width:680px;margin:20px auto 0;padding:16px 18px;border:1px solid rgba(0,240,255,0.25);border-radius:10px;background:var(--surface);">
+    <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">Reproducibility &#183; generated from source</div>
+    <div style="font-size:12.5px;line-height:1.6;color:var(--muted);">
+      The Belief Log and the measured kinematics above are not hand-typed. They project from one source-of-truth file, and the kinematics are computed by <span style="font-family:var(--mono);color:var(--cyan);">arcs_kinematics.py</span>. Regenerate the data core with:
+    </div>
+    <div style="margin-top:10px;font-family:var(--mono);font-size:10.5px;line-height:1.7;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 13px;overflow-x:auto;white-space:pre;">python scripts/recoil_brief.py \
+  --data runtime/recoil/generated/2026-07-22-elsamadisi.json \
+  --audience internal        # or: external  (drops 14 internal fields + prints redaction report)
+  --format md|json           # pass-through
+  --set meta.key=value       # pass-through override</div>
+    <div style="margin-top:10px;font-size:11px;color:var(--dimmed);line-height:1.55;">Verified match: CLI output equals the figures rendered here (belief log, kinematics D1-D3, NCI 58 to 68). Honest boundary: this HTML is still a downstream hand-authored view; the data core is CLI-reproducible, full HTML-from-source render is the open next step.</div>
+  </div>
+
+  <div style="max-width:680px;margin:16px auto 0;padding:14px 18px;border:1px solid var(--border);border-radius:10px;background:var(--surface);">
     <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;">Build Ledger &#183; T0 &#8594; TNow</div>
     <div style="font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--muted);">
       T0 &nbsp;2026-07-22 14:24 ET &nbsp;&#183;&nbsp; TNow &nbsp;17:06 ET &nbsp;&#183;&nbsp; span ~2h41m<br>
