@@ -132,10 +132,24 @@ ul.plain li { display: flex; gap: 11px; align-items: flex-start; font-size: 14px
     </div>
   </div>
 
+  <div class="card">
+    <h2>5. The adversarial pass</h2>
+    <p>A read is not trusted until it has survived an attempt to break it. Before anything is reported, each conclusion runs a short adversarial loop against itself.</p>
+    <ul class="plain">
+      <li><span class="dot c"></span><div><b>Red-team:</b> assume the read is wrong, and argue the opposite from the same evidence.</div></li>
+      <li><span class="dot c"></span><div><b>Pre-mortem:</b> assume it already failed, and work backward to the most likely cause.</div></li>
+      <li><span class="dot"></span><div><b>Ruin check:</b> separate failure modes that are recoverable from ones that are not, and bias toward the path that survives being wrong.</div></li>
+      <li><span class="dot"></span><div><b>Independent refuter:</b> a separate pass whose only job is to disprove the read, not confirm it.</div></li>
+      <li><span class="dot g"></span><div><b>Survivor rule:</b> only reads that hold up get reported. The rest are downgraded or dropped, with the reason kept on the record.</div></li>
+    </ul>
+    <p>This is why a read that sounds plausible but cannot be defended under attack gets marked down instead of shipped. The number you end up seeing is the one that already survived being argued against.</p>
+    <p style="font-size:12.5px;"><em>The specific operators and their scoring are held back here. What is shown is the shape, not the weights.</em></p>
+  </div>
+
   <div class="sec-label">Watch it work — traced on our own call</div>
 
   <div class="card">
-    <h2>5. A worked example</h2>
+    <h2>6. A worked example</h2>
     <p>Two claims tracked across the five segments of our call. One of them is a belief of mine that collapsed, which is the honest part. The engine caught the correction instead of hiding it.</p>
     <div class="chart-wrap">
       <svg viewBox="0 0 360 150" width="100%" style="max-width:420px;display:block;margin:6px auto 0;" font-family="ui-monospace,monospace">
@@ -169,13 +183,13 @@ ul.plain li { display: flex; gap: 11px; align-items: flex-start; font-size: 14px
   </div>
 
   <div class="card">
-    <h2>6. Why being wrong is the point</h2>
+    <h2>7. Why being wrong is the point</h2>
     <p>The value is not that the model was right. It is that a falsified prior is the highest-information event in the whole log, and the system is built to capture it rather than smooth it over. It gets sharper from being wrong.</p>
     <p>That is the same property your one table has. Every activity you append makes it more answerable, not more brittle. This does that for decisions, and it is why the honest diff is worth more than a flattering summary.</p>
   </div>
 
   <div class="card">
-    <h2>7. The same model, both directions</h2>
+    <h2>8. The same model, both directions</h2>
     <div class="chart-wrap">
     <table class="tbl">
       <tr><th>Your world</th><th>This engine</th></tr>
