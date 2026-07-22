@@ -6,6 +6,18 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.13.0] 2026-07-22 — ROM #6 Exogenous Forge: inscribed, dogfooded, committed
+
+A `harness-engineering` repo scout excavated a constitutional invariant instead of a build. **ROM
+Primitive #6 (Exogenous Forge)** added to CLAUDE.md + `_DECISIONS/ADR-038` (always/sometimes/never
+guardrails). Disease named: groundlessness + trained helpfulness-compulsion (symptom → mechanism
+(proxy-reward-hacking) → disease; tell = recurrence-in-new-costumes). **Dogfood PASS:** forged the
+domain-topology claim against `get_deployment(arcs.care)`, caught omission-drift (~30 live aliases
+vs 4 documented). New `/thread-recoil` skill (session belief-update ledger, `simple|rich|deep`,
+self-guards against the disease). 3 auto-memories banked (control-integrity, division-of-labor
+lattice, external-artifact-eval); 2 live Artifacts (architecture diagram + belief ledger). Committed
+`902fb86`, pushed to feature branch (preview-only, not merged, not deployed).
+
 ## [v3.11.0] 2026-07-20 — Anon-share persist fix + design-system glow tuning (live)
 
 First **interactive/local** deploy session after a run of cloud sessions (which couldn't deploy).

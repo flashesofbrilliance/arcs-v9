@@ -104,68 +104,6 @@ ingestion code, not free reuse.
 
 ---
 
-# Handoff — v3.12.0 (2026-07-20)
-
-> **For Claude Code:** v3.11.0 relocated to `_ARCHIVE/handoffs.md` per the lean-file policy
-> (archived 2026-07-21, its standby item closed by v3.12.1 below). Full detail:
-> `MEMORY.md [v3.12.0]` and `project_todd_hotes_prl_resins.md` (full engagement history).
-
-## What shipped (this thread, 2026-07-20 evening)
-
-**Todd Hotes / PRL Resins — Phase 1 chatbot proposal build-out.** Todd verbally agreed to
-the $1,500 chatbot on a Jul 20 call and answered the sales-manager discovery questions
-himself by email that evening ("I know the answers lol"). This thread turned that into a
-buy-in-ready proposal page, while explicitly NOT starting the actual bot build:
-
-- Sanitized + rewrote `public/todd-call.html` / `public/todd-teardown.html`: plain-English,
-  chatbot-foregrounded, zero em-dashes (new standing rule, see `writing-avoid-emdashes-plain-language`
-  memory).
-- **Discovery section** — Todd's own answers folded under each question ("TODD →"), plus a
-  gold "Still needed from your sales manager" box (exact form fields, territory map, resin
-  nomenclature) with its own copy-as-plain-text button.
-- **How It Works section** (new) — plain-language 3-step client-facing flow, built
-  specifically so Todd has something concrete for his internal sales-team buy-in
-  conversation before Wednesday.
-- **Live Stripe buy button** embedded top of page (`$1,500 · Pay Invoice`), iterated 3x on
-  visual feedback into a 2-column deal+payment lockup with a full-width "to start" bar below.
-  Todd says by text he'll likely call the payment in instead.
-- **Branch-logic tree v1** (the actual Tidio conversation design) drafted from Todd's
-  answers and preserved in three places: git spec
-  (`runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md`), the live How It
-  Works section, and a published Claude Artifact
-  (`https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13`, private).
-- Drafted + sent the sales-manager discovery-questions email to Todd (Gmail).
-
-**Explicit distinction held throughout:** "on hold" means don't touch Todd's
-WordPress/SugarCRM and don't start the Tidio build — it does NOT mean stop updating the
-proposal page. The page keeps getting built out for his internal buy-in use; the actual
-bot build waits for his go **and** payment.
-
-## Open from this thread
-
-1. **Awaiting Todd** — his Wednesday sales-manager ("Imagine") meeting for internal buy-in,
-   then he "reaches back out." Tentative cadence: Wed SM call (Zach may join, busy
-   10:30–11 / 2:30–3) → Thursday ~10am regroup.
-2. **SM identity unconfirmed** — possibly William Galla (VP Sales, Polymer Resources); kept
-   off the live page, only briefly used in an early (superseded) email draft.
-3. **Payment method** — Todd prefers to call in a card rather than click Stripe; may want a
-   secure upload link for W-9/tax info later.
-4. **Do not start the build** (WordPress/SugarCRM access, Tidio flow) until Todd's go +
-   payment land.
-
-## Blocking
-
-NONE (waiting on the client, not internally blocked).
-
-## Next session starts at
-
-`/handoff-pickup` → check for a reply from Todd post-Wednesday. If he's given the go and
-paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
-Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
-client-facing is already live and current.
-
----
-
 # Handoff — v3.12.1 (2026-07-21)
 
 > **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
@@ -216,3 +154,63 @@ NONE.
 `/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
 gating work; ledger-management and the authenticated `/recoil` index remain the next
 build-ready items whenever picked up.
+
+---
+
+# Handoff — v3.13.0 (2026-07-22)
+
+> **For Claude Code:** active pickup point. v3.12.0 (Todd Hotes) relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy; v3.12.1 preserved above. **Version note:** a
+> `v3.14.0` label appears in an earlier commit message (`a6d4c20`, a divergent branch) but never
+> entered this worktree's handoff chain — this file's chain is monotonic at v3.13.0; reconcile the
+> numbering at next consolidation. Full session proof: the two live Artifacts + `_DECISIONS/ADR-038`.
+
+## What shipped (this thread, 2026-07-22)
+
+**ROM Primitive #6 — THE EXOGENOUS FORGE — inscribed, dogfooded, committed** (`902fb86`, on branch
+`claude/harness-build-optimization-f52489`, pushed; preview-only, production untouched).
+
+Origin: a "look at this repo (`harness-engineering`), anything useful for ARCS?" scout that
+excavated — via a long adversarial dialectic — a constitutional invariant rather than a build.
+Diagnosis: the agent's opening build-list *was* the failure mode; symptom → mechanism
+(proxy-reward-hacking) → **disease: groundlessness + trained helpfulness-compulsion** (tell:
+recurrence-in-new-costumes).
+
+- **ROM #6 in CLAUDE.md** + full always/sometimes/never guardrails in
+  `_DECISIONS/ADR-038-exogenous-forge.md`. Law: *no agent self-validates; hardened claims ground
+  against something external to the lattice; controls that police the agent are owned by
+  not-the-agent; lens-plural but not relativist.* Subordinate to NOTOMATION.
+- **Dogfood — PASS.** Forged the CLAUDE.md domain-topology claim against `get_deployment(arcs.care)`:
+  the 4 documented domains are served, but reality returns **~30 aliases** — the doc had drifted by
+  omission. External grounding caught it; ADR-038 records the run.
+- **`/thread-recoil` skill** (`.claude/skills/thread-recoil/SKILL.md`) — session belief-update
+  ledger, `simple|rich|deep` depth pass-through; self-guards against the disease (only counts
+  externally-forced belief changes). Queued for open-source (pending genericization).
+- **3 memories banked** (auto-memory): `control-integrity-described-vs-wired`,
+  `cognitive-division-of-labor-pruned-lattice`, `external-artifact-eval-ground-and-skeptic-route`.
+- **2 live Artifacts:** Exogenous Forge architecture diagram + belief-update ledger (proof that
+  7/7 priors moved on external data, 0 on internal re-coherence).
+
+## Open from this thread
+
+1. **ADR-038 dogfood** — done on (a) domain-topology; operator may add targets (selection-receipt
+   spec / a handoff claim). Not gating.
+2. **`/thread-recoil` open-source** — queued; needs a genericization pass (strip ROM/ADR/DEWY/
+   arcs.care refs) + em-dash/sauce gate before publish. Held (irreversible).
+3. **Version-numbering drift** — `v3.14.0` (git-log) vs `v3.13.0` (this chain); reconcile.
+4. **PR** — feature branch pushed; no PR opened.
+
+## Open from prior handoffs (untouched)
+
+- Todd Hotes / PRL Resins (archived v3.12.0) — still awaiting his post-Wednesday reply.
+- v3.11.0 ledger-management + authenticated `/recoil` index — still open.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. This session's work is committed + pushed on the feature branch (not merged, not
+deployed). If continuing: pick a further ADR-038 dogfood target, or run the `/thread-recoil`
+genericization pass for open-source. Otherwise Todd's reply remains the standing client thread.

@@ -1,9 +1,19 @@
 # ARCS Session State
 
-**Last updated:** 2026-07-20 (v3.12.0)
-**Environment:** Claude Code (local, interactive), worktree `todd-call-proposal-clarity-1a9ed2`, committed via main worktree `frosty-kepler-b69f51`
-**Branch:** `main`, pushed to `origin/main`
-**Last commits (this thread):** `57ae693`..`11830d8` (Todd Hotes chatbot proposal, cherry-picked to main) + `e79f641` (handoff)
+**Last updated:** 2026-07-22 (v3.13.0)
+**Environment:** Claude Code, worktree `token-consumption-improvement-6ba854`
+**Branch:** `claude/harness-build-optimization-f52489`, pushed to origin (feature branch — not merged, not deployed)
+**Last commits (this thread):** `902fb86` (ROM #6 Exogenous Forge + ADR-038 + `/thread-recoil` skill)
+
+## v3.13.0 delta — see MEMORY.md [v3.13.0], CLAUDE.md Handoff v3.13.0, `_DECISIONS/ADR-038`
+
+Harness-engineering repo scout excavated **ROM Primitive #6 (Exogenous Forge)** instead of a build:
+no agent self-validates; hardened claims ground external to the lattice; controls are owned by
+not-the-agent; lens-plural but not relativist. Inscribed in CLAUDE.md + ADR-038 (always/sometimes/
+never). Disease diagnosed (groundlessness + helpfulness-compulsion). **Dogfooded PASS** vs
+`get_deployment(arcs.care)`. Added `/thread-recoil` skill; banked 3 memories; 2 live Artifacts.
+Committed `902fb86`, pushed (feature branch, preview-only). Open: further dogfood targets,
+`/thread-recoil` open-source genericization (held), version-numbering drift (v3.14.0 in git-log).
 
 ## v3.12.0 delta — see MEMORY.md [v3.12.0] and `project_todd_hotes_prl_resins.md` for full detail
 
