@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- Ahmed-facing EXTERNAL version. Sanitized: no ARCS jargon, no internal red-team/strategy. Safe to share. -->
+<!-- Ahmed-facing EXTERNAL version. Exec summary + method drill-down (war-room RIGOR only).
+     Safe: shows the engine's method + Zach's own self-corrections. NO strategy-about-Ahmed
+     (no intent-scoring, no channel critique, no Loki, no role-assignment). -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -8,7 +10,7 @@
 <title>Recoil Report — Zach × Ahmed</title>
 <style>
 :root {
-  --bg: #020408; --surface: #0d1117; --border: #1e293b;
+  --bg: #020408; --surface: #0d1117; --surface2: #111820; --border: #1e293b;
   --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b;
   --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700;
   --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
@@ -16,24 +18,37 @@
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 48px 24px 96px; line-height: 1.62; }
-.page { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.page { max-width: 660px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
 .eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dimmed); }
 h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-top: 8px; }
 .sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
 .rule { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; margin: 4px 0; }
+.sec-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dimmed); margin: 6px 2px -6px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; }
 .card h2 { font-size: 12px; font-family: var(--mono); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; }
 .card p { font-size: 14.5px; color: var(--text); margin-bottom: 10px; }
 .card p:last-child { margin-bottom: 0; }
 .card strong { font-weight: 600; }
-ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+ul { list-style: none; display: flex; flex-direction: column; gap: 13px; }
 li { display: flex; gap: 11px; align-items: flex-start; font-size: 14px; line-height: 1.55; }
 .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 7px; }
 .dot.g { background: var(--gold); }
 .dot.c { background: var(--cyan); }
+.upd { display: flex; flex-direction: column; gap: 4px; padding: 13px 0; border-bottom: 1px solid rgba(30,41,59,0.6); }
+.upd:last-child { border-bottom: none; }
+.upd .exp { font-size: 13px; color: var(--dimmed); }
+.upd .exp s { color: var(--dimmed); }
+.upd .saw { font-size: 14px; color: var(--text); }
+.upd .saw strong { color: var(--green); font-weight: 600; }
+.upd .moment { font-size: 12px; color: var(--muted); font-style: italic; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl td { padding: 10px 12px; border-bottom: 1px solid rgba(30,41,59,0.6); vertical-align: top; line-height: 1.45; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl .yours { color: var(--muted); width: 46%; }
+.tbl .mine { color: var(--text); }
+.arrow { color: var(--cyan); font-family: var(--mono); }
 .pilot { border-color: rgba(0,240,255,0.35); background: rgba(0,240,255,0.04); }
-.foot { font-size: 13px; color: var(--muted); text-align: center; padding-top: 6px; }
-.foot a { color: var(--cyan); }
+.foot { font-size: 13px; color: var(--muted); text-align: center; padding-top: 6px; line-height: 1.6; }
 em { color: var(--muted); font-style: italic; }
 </style>
 </head>
@@ -43,23 +58,16 @@ em { color: var(--muted); font-style: italic; }
   <div>
     <div class="eyebrow">The demo you asked for</div>
     <h1>Recoil Report — our call</h1>
-    <div class="sub">Run on our own conversation, Jul 22. This is the same analysis I would run on one of your customers' call timelines.</div>
+    <div class="sub">Run on our own conversation, Jul 22. The same analysis I would run on one of your customers' sales-call timelines. A short read up top, and the engine's actual work underneath.</div>
   </div>
   <div class="rule"></div>
+
+  <div class="sec-label">The short version</div>
 
   <div class="card">
     <h2>What this is, in your language</h2>
     <p>You model raw data into one activity table, then query it for any answer. This does the same thing for a conversation. It turns a call into a time-ordered record of what each side believed, and how those beliefs moved as new information landed.</p>
-    <p>Expected versus actual, joined on time. Your temporal join, applied to a decision instead of a row.</p>
-  </div>
-
-  <div class="card">
-    <h2>Our call, read back</h2>
-    <ul>
-      <li><span class="dot c"></span><div>We came in to catch up and see what jumps out. It landed on a real overlap: <strong>same customers, same problem, from two sides.</strong> Your words, not mine.</div></li>
-      <li><span class="dot"></span><div>The through-line we both hit: you want to standardize how context is shared so AI can act on it well. I do the same thing for how a decision gets made. <strong>Context not content, applied to a person.</strong></div></li>
-      <li><span class="dot"></span><div>Same shape from opposite ends. Your model is one human reviewing the work of many AIs, end to end. Mine is one human steering a decision engine. We landed on the same operating model independently.</div></li>
-    </ul>
+    <p>Two things get tracked per read: how likely it is true, and how settled that is. Expected versus actual, joined on time. Your temporal join, applied to a decision instead of a row.</p>
   </div>
 
   <div class="card">
@@ -68,10 +76,53 @@ em { color: var(--muted); font-style: italic; }
     <p>Your data may be the less interesting part. Your customers' need is the interesting part, and it is a strong fit.</p>
   </div>
 
+  <div class="sec-label">Now watch it work — the same engine, run on us</div>
+
+  <div class="card">
+    <h2>How the engine read our call</h2>
+    <p>Rather than describe it, here is the recoil run on our own conversation. The honest test of an engine like this is not whether it flatters you. It is whether it catches and logs the places it was <em>wrong</em>. Here are three reads it updated, including two where it corrected me.</p>
+    <div style="margin-top:6px;">
+      <div class="upd">
+        <div class="exp">Expected: <s>your media proposal was the headline you wanted to work on</s></div>
+        <div class="saw">Saw: <strong>you corrected it fast</strong> — the media pitch is a side project, Polyform is the main event.</div>
+        <div class="moment">Logged as a belief I had to drop. High confidence, and settled the moment you said it.</div>
+      </div>
+      <div class="upd">
+        <div class="exp">Expected: the overlap between us would be fuzzy and hard to name</div>
+        <div class="saw">Saw: <strong>you sharpened it</strong> — same customers, same problems, and the point that your customers' need is the interesting part, not the data.</div>
+        <div class="moment">Upgraded from a guess to a high-confidence read, on your words.</div>
+      </div>
+      <div class="upd">
+        <div class="exp">Expected: <s>I would pitch you a decision-science gauntlet</s></div>
+        <div class="saw">Saw: <strong>a better idea came from you</strong> — run it on your customers' calls as a sponsored analysis.</div>
+        <div class="moment">The engine re-pointed the next step around your framing, not mine.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Why being wrong is the point</h2>
+    <p>The useful part is not that the engine was right. It is that when I was wrong, it caught the correction and booked it, instead of quietly editing it out. It gets sharper from being wrong.</p>
+    <p>That is the same property your one table has. Every activity you append makes it more answerable, not more brittle. This does that for decisions.</p>
+  </div>
+
+  <div class="card">
+    <h2>The same model, both directions</h2>
+    <p style="margin-bottom:14px;">The reason this maps to how you already think is that it is the same structure, pointed at decisions instead of data.</p>
+    <table class="tbl">
+      <tr><td class="yours">One activity table, queried for any answer</td><td class="mine"><span class="arrow">→</span> one receipt table, queried for any bearing</td></tr>
+      <tr><td class="yours">Temporal join (time + entity, no foreign keys)</td><td class="mine"><span class="arrow">→</span> expected versus actual on the same decision</td></tr>
+      <tr><td class="yours">Bayesian update on the entity's state</td><td class="mine"><span class="arrow">→</span> belief recalibrated from the diff</td></tr>
+      <tr><td class="yours">Single source of truth</td><td class="mine"><span class="arrow">→</span> one answer, not a pile of dashboards</td></tr>
+    </table>
+  </div>
+
+  <div class="sec-label">A concrete first step</div>
+
   <div class="card pilot">
-    <h2>A concrete first step</h2>
-    <p>The cleanest pilot: pick one of your customers with a lot of sales calls. We take their existing customer-journey timeline, run the recoil analysis on it, and produce <strong>one sponsored report with your name on it.</strong> One customer, existing export, no new integration.</p>
-    <p>A fixed pilot fee, scoped to one customer. I will put the number on it the moment we pick who, so it stays honest to the real scope. Free single run per company, then they talk to me. Your idea, and a good one. If it lands, it becomes a repeatable add-on you can offer across your book.</p>
+    <h2>The pilot</h2>
+    <p>Pick one of your customers with a lot of sales calls. We take their existing customer-journey timeline, run the recoil analysis on it, and produce <strong>one sponsored report with your name on it.</strong> One customer, existing export, no new integration.</p>
+    <p>A fixed pilot fee, scoped to that one customer. I will put the number on it the moment we pick who, so it stays honest to the real scope. Free single run per company, then they talk to me. Your idea, and a good one. If it lands, it becomes a repeatable add-on across your book.</p>
   </div>
 
   <div class="card">
