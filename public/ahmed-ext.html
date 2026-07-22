@@ -126,7 +126,7 @@ ul.plain li { display: flex; gap: 11px; align-items: flex-start; font-size: 14px
     <div class="pipe">
       <div class="pipe-step"><div class="pipe-n">A</div><div class="pipe-t"><b>Reverse listening</b> reads end to start. It takes where the call actually landed, then flags divergence between where it seemed to be heading and where it went.</div></div>
       <div class="pipe-step"><div class="pipe-n">B</div><div class="pipe-t"><b>Deep recall</b> reads start to end, scored against the pre-call expectation, so you get an honest diff instead of a tidy narrative.</div></div>
-      <div class="pipe-step"><div class="pipe-n">C</div><div class="pipe-t"><b>Segment count</b> scales with length, <code style="font-family:var(--mono);color:var(--cyan);font-size:12px;">max(3, round(sqrt(minutes)))</code>. Our call ran about 25 minutes, so 5 segments.</div></div>
+      <div class="pipe-step"><div class="pipe-n">C</div><div class="pipe-t"><b>Segment count</b> scales sub-linearly with call length, so a longer call gets a finer read without over-slicing a short one. Ours ran about 25 minutes, so roughly five segments.</div></div>
       <div class="pipe-step"><div class="pipe-n">D</div><div class="pipe-t"><b>Semantic layer</b> on top: hedging and commitment language are detected, so a shift in how something is said registers as signal, not just what is said.</div></div>
       <div class="pipe-step"><div class="pipe-n">E</div><div class="pipe-t"><b>Output</b> is a topography that gains resolution as the log grows, not a flat transcript summary. More calls make it sharper, the same way more activities make your table more answerable.</div></div>
     </div>
