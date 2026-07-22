@@ -113,6 +113,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       <button class="tab-btn" onclick="switchTab('forge')">Forge</button>
       <button class="tab-btn" onclick="switchTab('post')">Recoil</button>
       <button class="tab-btn" onclick="switchTab('wargame')">War Game</button>
+      <button class="tab-btn" onclick="switchTab('defense')">Defensibility</button>
     </div>
 
     <!-- PRE-CALL TAB -->
@@ -417,6 +418,109 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
     </div><!-- /tab-wargame -->
+
+    <!-- DEFENSIBILITY / EXHIBIT 5 TAB -->
+    <div id="tab-defense" class="tab-pane">
+
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">Exhibit 5 — Defensibility &amp; Antifragility, in his register</div></div>
+        <div style="padding:16px 20px;font-size:12.5px;line-height:1.6;color:var(--muted);">
+          Ahmed grades on trust, accuracy, reliability. So this exhibit does two things: it <strong style="color:var(--text);">translates the ARCS engine losslessly into his native register</strong> (Activity Schema, temporal joins, single-source-of-truth), then <strong style="color:var(--text);">stress-tests each of the five verbs</strong> against four failure environments. Altitude: pitched at his data-model altitude, zoomable exec↔operational. Fidelity: reported at earned resolution only. No claim runs hotter than its evidence.
+        </div>
+      </div>
+
+      <!-- ROSETTA -->
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Rosetta — ARCS ↔ Activity Schema (his native model)</div></div>
+        <div style="padding:12px 20px 4px;font-size:12px;line-height:1.55;color:var(--muted);">
+          The translation is not a metaphor. It is a structural isomorphism: a Decision Receipt <em>is</em> an activity-schema row.
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="ftable">
+            <thead><tr><th>ARCS primitive</th><th>His register</th><th>Why it maps 1:1</th></tr></thead>
+            <tbody>
+              <tr><td class="claim">Decision Receipt</td><td class="src"><strong style="color:var(--text);">An activity row</strong> (entity = decision · timestamp · attributes)</td><td class="src">Both are an immutable event keyed to one entity at one time.</td></tr>
+              <tr><td class="claim">Receipt ledger / history</td><td class="src"><strong style="color:var(--text);">The single long time-series table</strong></td><td class="src">Same "model once, answer everything on top" shape he built.</td></tr>
+              <tr><td class="claim">Ex-ante → post-call recoil</td><td class="src"><strong style="color:var(--text);">A temporal join</strong> (expected-vs-actual on the same entity + time)</td><td class="src">His exact join primitive: time + entity, no foreign keys needed.</td></tr>
+              <tr><td class="claim">Belief-update / NCI recalibration</td><td class="src"><strong style="color:var(--text);">Bayesian update on the entity's state</strong></td><td class="src">He named it on the call: "Bayesian simulations of what you think will happen."</td></tr>
+              <tr><td class="claim">DEWY decomposition</td><td class="src"><strong style="color:var(--text);">Modeling raw signal into activities</strong></td><td class="src">Both turn unstructured input into a queryable structure once.</td></tr>
+              <tr><td class="claim">True North / bearing</td><td class="src"><strong style="color:var(--text);">The single answer the model returns</strong></td><td class="src">Single-source-of-truth query result, not a pile of dashboards.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- DEFENSIBILITY MATRIX -->
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Defensibility Matrix — 5 verbs × 4 proofings</div></div>
+        <div style="padding:12px 20px 4px;font-size:11.5px;line-height:1.5;color:var(--muted);">
+          <strong style="color:var(--cyan);">Air-gap</strong> = grounded external to itself, no self-citation ·
+          <strong style="color:var(--cyan);">Water-proof</strong> = survives messy/missing input ·
+          <strong style="color:var(--cyan);">Fire-proof</strong> = survives adversarial scrutiny ·
+          <strong style="color:var(--cyan);">Bomb-proof</strong> = antifragile — being wrong makes it sharper.
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="ftable">
+            <thead><tr><th>Verb</th><th>Air-gap</th><th>Water-proof</th><th>Fire-proof</th><th>Bomb-proof</th></tr></thead>
+            <tbody>
+              <tr>
+                <td class="claim"><strong>Analyze</strong><br><span class="src">decompose signal</span></td>
+                <td class="src">Decomposes only what's in the transcript/PDF; provenance tagged per field.</td>
+                <td class="src">Hedge-word + partial-signal tolerant; missing dims marked, not invented.</td>
+                <td class="src">Every extracted claim is quotable back to source.</td>
+                <td class="src">A missed dimension surfaces as a new activity row, not a silent gap.</td>
+              </tr>
+              <tr>
+                <td class="claim"><strong>Assess</strong><br><span class="src">weigh / ground</span></td>
+                <td class="src">The Forge (Ex-2): no claim stands on lattice coherence; skeptic is not-the-author.</td>
+                <td class="src">Single-source claims are labelled single-source, not upgraded.</td>
+                <td class="src">Ran a live red-team; struck its own overreach ("not a sales call").</td>
+                <td class="src">A false-flag ("Slack") was logged as a process defect, improving the method.</td>
+              </tr>
+              <tr>
+                <td class="claim"><strong>Evaluate</strong><br><span class="src">score vs rubric</span></td>
+                <td class="src">Y-gate scored against a fixed enum, not vibes (polarity×conviction×stability).</td>
+                <td class="src">Degrades render fidelity when coherence is low — never fakes SHARP.</td>
+                <td class="src">The rubric is published (Ex-4), so the score is auditable, not asserted.</td>
+                <td class="src">A wrong gate is a labelled DELTA, feeding the next evaluation.</td>
+              </tr>
+              <tr>
+                <td class="claim"><strong>Synthesize</strong><br><span class="src">converge to bearing</span></td>
+                <td class="src">Bearing built only from surviving claims; struck ones excluded.</td>
+                <td class="src">Holds a FORK open rather than forcing a false GREEN under noise.</td>
+                <td class="src">Red/blue/steel-manned (Ex-4) before any single path is recommended.</td>
+                <td class="src">If the bearing is wrong, the recoil re-joins expected vs actual and re-converges.</td>
+              </tr>
+              <tr>
+                <td class="claim"><strong>Recapitulate</strong><br><span class="src">close the loop</span></td>
+                <td class="src">Post-call recoil grounded in the Granola transcript, not memory.</td>
+                <td class="src">Logged its own ex-ante misses (media-proposal demotion) honestly.</td>
+                <td class="src">Each belief-shift cites the external datum that forced it.</td>
+                <td class="src"><strong style="color:var(--green);">This is the antifragile core</strong> — wrong predictions are the fuel; the ledger gains resolution from them.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ANTIFRAGILE CORE -->
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">The Antifragile Core — why being wrong is the feature</div></div>
+        <div style="padding:16px 20px;font-size:13px;line-height:1.65;color:var(--text);">
+          A brittle analysis is one that must be right to survive. This one is built to <strong>gain from being wrong.</strong> Exhibit 3 is the proof, not the claim: the ex-ante receipt (Ex-1) made three predictions, the call falsified two of them, and instead of hiding the misses the ledger booked them as belief-updates with the external datum that forced each one. That is the same loop Ahmed already believes in ("a place to keep what you thought would happen vs. what actually happened, and update from the diff"). The engine does not degrade when a prediction fails. It is <em>designed to be fed by failure</em>, exactly the way his single time-series table gets more answerable with every activity appended.
+          <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--dimmed);letter-spacing:0.04em;">Fidelity honesty: this dossier reports FORK/DEGRADED where the signal is soft (register, channel volume) and GREEN only where two substrates agree. Nothing renders SHARP that the evidence renders GRAIN. That restraint is the defensibility.</div>
+        </div>
+      </div>
+
+      <!-- LOSSLESS TRANSLATION CLOSE -->
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Lossless-Translation Test — say it in his words</div></div>
+        <div style="padding:16px 20px;font-size:13px;line-height:1.65;color:var(--text);">
+          If the analysis survives being restated entirely in his register with zero loss, it is defensible to him. The restatement: <em>"You model raw data into one activity table, then query it for any answer. I model raw decisions into one receipt table, then query it for any bearing. Your temporal join of what-you-expected against what-happened is my recoil. Your Bayesian update is my belief recalibration. Neither of us trusts a dashboard that can't show its own provenance, and neither of us gets worse when a prediction is wrong."</em> Nothing in that sentence needs ARCS jargon to hold. That is the lossless test passing.
+        </div>
+      </div>
+
+    </div><!-- /tab-defense -->
 
   </div><!-- /card wrapper -->
 </div><!-- /page -->
