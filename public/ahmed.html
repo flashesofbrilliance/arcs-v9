@@ -111,7 +111,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       <button class="tab-btn active" onclick="switchTab('pre')">Pre-Call</button>
       <button class="tab-btn" onclick="switchTab('receipt')">Ex-Ante</button>
       <button class="tab-btn" onclick="switchTab('forge')">Forge</button>
-      <button class="tab-btn" onclick="switchTab('post')">Post-Call</button>
+      <button class="tab-btn" onclick="switchTab('post')">Recoil</button>
     </div>
 
     <!-- PRE-CALL TAB -->
@@ -257,24 +257,78 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
     </div><!-- /tab-forge -->
 
-    <!-- POST-CALL TAB -->
+    <!-- POST-CALL / RECOIL / EXHIBIT 3 TAB -->
     <div id="tab-post" class="tab-pane">
+
       <div class="card" style="margin:16px 16px 0;">
-        <div class="card-header"><div class="card-title">What Happened</div></div>
-        <div class="conf-rows">
-          <div class="conf-row"><div class="conf-key">Outcome</div><div class="conf-val"><em>Fill after call</em></div></div>
-          <div class="conf-row"><div class="conf-key">Y-Gate</div><div class="conf-val"><em>Updated gate post-call</em></div></div>
-          <div class="conf-row"><div class="conf-key">Surprise</div><div class="conf-val"><em>What you didn't see coming</em></div></div>
-          <div class="conf-row"><div class="conf-key">Fork hit</div><div class="conf-val"><em>(a) referral / (b) gauntlet / (c) friendship-only</em></div></div>
+        <div class="card-header"><div class="card-title">Exhibit 3 — Recoil Report (post-call belief-update)</div></div>
+        <div style="padding:16px 20px;font-size:12.5px;line-height:1.6;color:var(--muted);">
+          Reverse-listening + deep-recall pass on the ~25-min Jul 22 call, scored against Exhibit 1. Read backward from the actual close, then forward against the ex-ante hypothesis. <strong style="color:var(--text);">Loop-closing note:</strong> Ahmed consented on the call to Zach using this exact transcript as the recoil demo — so <em>this report is the deliverable Zach promised to send.</em>
         </div>
       </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Receipt Closed — Ex-Ante vs. Actual</div></div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key">Predicted</div><div class="conf-val">YELLOW / FORK — real signal, unresolved; forks into partnership / referral / gauntlet / soft biz-dev / friendship-only.</div></div>
+          <div class="conf-row"><div class="conf-key">Actual</div><div class="conf-val"><strong style="color:var(--green);">GREEN-leaning.</strong> The fork collapsed toward active, mutually-named collaboration with a concrete commercial mechanic and two committed next steps. Not friendship-only, not recruiting.</div></div>
+          <div class="conf-row"><div class="conf-key">Fork hit</div><div class="conf-val"><strong>(a)+(d) fused</strong> — reciprocal channel/referral: run Zach's recoil analysis on Polyform's customers' sales-call data, packaged as a "sponsored presentation" / advanced-analysis upcharge / "free trial once per company, then talk to Zach." The forge-flagged "soft biz-dev" fork was real — but <em>bidirectional</em>, not him selling to you.</div></div>
+          <div class="conf-row"><div class="conf-key">Buy-signal</div><div class="conf-val">He asked pricing unprompted ("how much you charge for this") and spontaneously designed your PLG funnel for you. Mid-funnel, not top.</div></div>
+          <div class="conf-row"><div class="conf-key">Load-bearing</div><div class="conf-val" style="font-style:italic;color:var(--cyan);">"This is already really really good for me because we're targeting a very similar set of customers and a very similar set of problems."</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Belief-Update Ledger — what moved, and what moved it</div></div>
+        <div class="receipt">
+          <div class="rk">Prior → Posterior · 1</div>
+          <span style="text-decoration:line-through;color:var(--muted);">"Don't pitch; let the gauntlet be the only artifact; book a follow-up only if he pulls the thread."</span> → He pulled multiple threads himself and proposed a productized deal. The restraint was right, but the fork resolved far more actively than predicted. <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">[EXTERNAL: his close]</span>
+          <div class="rk">Prior → Posterior · 2</div>
+          <span style="text-decoration:line-through;color:var(--muted);">"The media proposal is his live fire — the thing he most wants to talk about."</span> → He demoted it himself: <em>"the media company pitch is a separate side project — the main company I run is Polyform."</em> The real heat was on running recoil against his customers' data. Ex-ante miss, honestly logged. <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">[EXTERNAL: his words]</span>
+          <div class="rk">Prior → Posterior · 3</div>
+          <span style="text-decoration:line-through;color:var(--muted);">"Overlap may be thinner in practice than the symmetry suggests." (forge caution)</span> → Overlap is real and he operationalized it into a specific mechanic within the call. The non-obvious correction: the overlap is the <strong>customer, not the product</strong> — his words: "our data is less interesting but our customers' need is probably way more interesting." <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">[EXTERNAL: his proposal]</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Kairos — peak resonance / constructive interference</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>"Context not content" convergence.</strong> His blog thesis ("the future gold rush is context, not content, for AI models") landed exactly on your decision-science framing — and <em>he</em> closed the loop: "which is kind of what you're doing for a human being." Two different substrates (data standardization vs. decision governance) recognizing they're the same shape. The strongest interference peak of the call.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>The Raytheon echo held.</strong> You played the forge's orthogonal-echo card ("ballistic missile trajectories… like the stuff you did at Raytheon") and it landed clean — he didn't deflect it. The Exhibit-2 intel converted directly into rapport.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>Same primitive from opposite ends — "human on the bike."</strong> You articulated NOTOMATION (human-on-the-bike, not in-the-loop); his entire Polyform model is "the human is doing the review, not the execution — one person supports three, four, five companies." You are both building <em>one human supervising many AIs end-to-end</em>, arrived at independently.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>Finishing each other's sentences.</strong> Statefulness/staleness ("downstream decisions strand upstream context, the loop never closes" → "that's exactly what it is"); institutional amnesia is expensive when you don't bank patterns. Sentence-completion is the tell of genuine constructive interference, not politeness.</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Quiet Signals &amp; Hidden Patterns</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>Generosity as the real interest-meter.</strong> He gated his time ("only have you a couple more minutes") but gave abundant assets: three warm intros (Robert / decision-ROI, the coral pharma CEO, ladderworks), his customer channel, and a pricing conversation. High concrete-offer density = genuine interest, not courtesy.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>He assigned you a role.</strong> Designing "free trial once per company, then talk to Zach" means he's already modeling you as a productized vendor he can channel-partner — not a peer to admire from a distance. That's a promotion in his mental model, and it's the fork the forge told you to watch for.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>Shared-enemy opening built the trust.</strong> The first five minutes bonded hard over AI slop, the dead internet, cold-outbound futility, "communication became so cheap you get bombarded with junk." That shared adversary — <em>entropy masquerading as motion</em>, literally the ARCS enemy — is what made the commercial talk frictionless later. Not small talk; it was the load-bearing rapport.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--cyan);"></div><div class="intel-text"><strong>The call was the product.</strong> It followed the recoil topography itself — diffuse venting → converging to a concrete deal shape by the end, resolution increasing as the log grew. You demoed the mechanic live without naming it.</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Risk Flags — honest</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--red);"></div><div class="intel-text"><strong>Ball is in your court, no date.</strong> Next step gates on you sending the demo. No firm commitment or timeline was set — deliverable risk sits with you.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--red);"></div><div class="intel-text"><strong>His channel is unproven.</strong> Polyform's own sales hire started two weeks ago with zero meetings booked. The "run it across our customers" channel may not have live volume yet.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--red);"></div><div class="intel-text"><strong>Idea diffusion.</strong> He floated many surfaces (media, coral, Robert, customer channel, ICP pressure-test, sales-guy enablement). His energy generates optionality; the ruin is a spin-cycle. Pick <em>one</em> and land it — your own Drift-Sentinel discipline applies to you here.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--red);"></div><div class="intel-text"><strong>Unscoped data mechanics.</strong> "Run recoil on customers' journey timelines" carries data-access/privacy complexity he waved past ("don't know if it works with one or multiple, let's just see"). Undefined.</div></div>
+        </div>
+      </div>
+
       <div class="card" style="margin:0 16px 16px;">
         <div class="card-header"><div class="card-title">Next Steps</div></div>
         <div class="next-rows">
-          <div class="next-row"><div class="next-owner" style="color:var(--cyan);">Zach</div><div class="next-text"><em>action item</em></div></div>
-          <div class="next-row"><div class="next-owner" style="color:var(--gold);">Ahmed</div><div class="next-text"><em>action item</em></div></div>
+          <div class="next-row"><div class="next-owner" style="color:var(--cyan);">Zach</div><div class="next-text"><strong>Send the demo — and make it this call.</strong> He consented; the strongest possible demo is a recoil report of the conversation you just had. This page is that artifact. Send it, and pick the <em>single</em> highest-leverage surface to name concretely (recommend: sales-call recoil across one Polyform customer as a "sponsored analysis" pilot).</div></div>
+          <div class="next-row"><div class="next-owner" style="color:var(--cyan);">Zach</div><div class="next-text">Take the Robert intro (decision-ROI company) — he offered to connect once he finds the info. Nudge if it doesn't come.</div></div>
+          <div class="next-row"><div class="next-owner" style="color:var(--gold);">Ahmed</div><div class="next-text">Presenting his media proposal to "people ink" in a couple of days; will float the sales-call analysis to a couple of Polyform customers; sending Robert's info.</div></div>
         </div>
       </div>
+
     </div><!-- /tab-post -->
 
   </div><!-- /card wrapper -->
