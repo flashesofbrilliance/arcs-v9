@@ -213,3 +213,51 @@ NONE.
 `/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
 gating work; ledger-management and the authenticated `/recoil` index remain the next
 build-ready items whenever picked up.
+
+---
+
+# Handoff — v3.16.0 (2026-07-22)
+
+> **For Claude Code:** active pickup point. Version jumped to 3.16.0 to clear the known
+> v3.13–v3.14 cross-branch numbering drift (flagged in prior handoffs) — do not read into the gap.
+
+## What shipped (this thread, 2026-07-22)
+
+**Ahmed Elsamadisi / Polyform AI — full reconnect-call loop, then mechanized the air gap.**
+
+- **Internal war-room** `ahmed.arcs.care` (pw `ahmed`), 6 tabs: Pre-Call · Ex-Ante receipt ·
+  **Forge** (ROM #6 Exogenous Forge pressure-test via claims-skeptic, struck "not a sales
+  call") · **Recoil** (post-call, Granola transcript `e8648395`, belief-update ledger +
+  **Belief Log v2** using confidence × conviction, NOT per-belief NCI) · **War Game**
+  (kinematic manifold now **MEASURED** via `arcs_kinematics.py v1.3` — D1–D3 valid, D5–D12
+  honestly labeled coherence-zone, not fabricated) · **Defensibility** (5-verb × 4-proofing +
+  Activity-Schema Rosetta).
+- **External counterpart-facing twin** `ahmed-ext.arcs.care` (open link, sanitized). Iterated
+  from exec-summary → deep technical appendix → **competitor-safe strip** (architecture-not-
+  weights; dropped schema DDL, mechanics, kinematics derivatives, `sqrt` sampling formula).
+  Send-ready; draft note (LinkedIn + email) is in this session's transcript.
+- **Air gap mechanized:** SSOT `runtime/recoil/generated/2026-07-22-elsamadisi.json` +
+  `scripts/recoil_brief.py` — computes kinematics reproducibly and projects internal-vs-external
+  by dropping `audience`-tagged fields (external run drops 14 fields + prints a redaction report).
+- **2 memories banked:** `confidence-conviction-nci-operational-definitions` (confidence/conviction
+  for beliefs, NCI for decisions only) and `internal-external-artifact-air-gap` (3 rules:
+  own-updates-not-their-scores · method-crosses-subject-doesn't · architecture-not-weights).
+
+## Open / next
+
+1. **Ahmed (Zach-owned, not blocked):** set the pilot price (a number, once a customer is
+   picked) + name one Polyform customer, then send `ahmed-ext.arcs.care`. Optionally take the
+   Robert (decision-ROI) intro.
+2. **Optional build:** render the `ahmed` HTML pages FROM the SSOT JSON so editing = editing
+   data (full loop closure; deliberately not done this session).
+3. Prior open items untouched: Todd Hotes post-Wednesday reply; v3.11.0 ledger-management +
+   authenticated `/recoil` index.
+
+## Blocking
+
+NONE (waiting on Zach's send decision + price).
+
+## Next session starts at
+
+`/handoff-pickup` → if Zach has picked a customer + price, send the ext page; else the SSOT→HTML
+render is the next build-ready item.

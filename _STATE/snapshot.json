@@ -1,11 +1,11 @@
 {
-  "captured_at": "2026-07-20T19:55:00Z",
+  "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "84e73a3",
-    "head_message": "docs(handoff): refresh arcs-session-state.md for v3.12.0 [NCI:SKIP]",
+    "head_sha": "883cf50",
+    "head_message": "feat(recoil): SSOT engagement data + CLI generator w/ audience projection [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": ["_DECISIONS/ADR-026-... (untracked, pre-existing)", "test_prisma_direct.js (untracked, pre-existing)"]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -35,6 +35,8 @@
     ]
   },
   "active_briefs": {
+    "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI — reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
+    "ahmed-ext.arcs.care": "Ahmed-FACING sanitized demo (open link, no pw). Competitor-safe: capability-level only, schema/mechanics/kinematics-derivatives redacted, all strategy-about-him removed. This is the send-ready artifact. Next: Zach sets pilot price + names one customer, then send.",
     "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
     "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
     "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
@@ -47,9 +49,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Todd Hotes / PRL Resins chatbot proposal: sanitized + rewrote todd-call.html/todd-teardown.html plain-English + chatbot-foregrounded, added Discovery section with Todd's own Jul-20 answers folded in (\"TODD →\"), added client-facing How It Works section (3-step flow), embedded a live Stripe buy button ($1,500) in a 2-column deal+payment lockup, swept all em-dashes per new writing rule, drafted+sent SM discovery questions email, published a branch-logic-tree v1 build spec (git + Claude Artifact https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13). Chatbot BUILD itself not started — Todd wants internal sales-team buy-in first (Wed SM meeting), gated on his go + payment.",
-  "next_action": "Wait for Todd's post-Wednesday reply (SM buy-in meeting + Imagine mtg). On his go+payment: confirm SM identity (possibly William Galla, unconfirmed), get WordPress + SugarCRM access, then build the Tidio flow per runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md. Do not touch his WordPress/SugarCRM or start the bot build before payment lands.",
-  "blocking": "NONE (waiting on Todd, not blocked internally)",
+  "session_summary": "Ahmed Elsamadisi / Polyform AI reconnect: built forge-hardened pre-call brief (ahmed.arcs.care), ran the call, then closed the full decision loop across 6 tabs — ex-ante receipt, Exogenous Forge (ROM#6) pressure-test via claims-skeptic, post-call Recoil (Granola transcript e8648395) with belief-update ledger, quantified Belief Log v2 (confidence x conviction, NOT per-belief NCI), War Game (kinematic manifold now MEASURED via arcs_kinematics.py v1.3 — D1-D3 valid, D5-D12 honestly labeled coherence-zone, not fabricated), and Defensibility (5-verb x 4-proofing + Activity-Schema Rosetta). Built a SANITIZED counterpart-facing twin (ahmed-ext.arcs.care) through several depth iterations, then stripped it competitor-safe (architecture-not-weights). Mechanized the air gap: SSOT JSON (runtime/recoil/generated/2026-07-22-elsamadisi.json) + scripts/recoil_brief.py CLI that computes kinematics reproducibly and projects internal-vs-external by dropping audience-tagged fields (external run drops 14 fields w/ redaction report). Banked 2 memories (confidence/conviction/NCI defs; internal-external air-gap 3-rule).",
+  "next_action": "Ahmed: Zach to set the pilot price (a number, once a customer is picked) + name one Polyform customer, then send ahmed-ext.arcs.care (draft note ready, both LinkedIn + email variants, in this session's transcript). Optional next build: render the ahmed HTML pages FROM the SSOT JSON so editing = editing data (full loop closure; not done this session).",
+  "blocking": "NONE (waiting on Zach's send decision + price, not blocked internally)",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -66,6 +68,16 @@
     "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
+      {
+        "file": "public/ahmed.html",
+        "subdomain": "ahmed.arcs.care",
+        "person": "Ahmed Elsamadisi / Polyform AI — INTERNAL 6-tab war-room (pw 'ahmed'); measured kinematics; NEVER send"
+      },
+      {
+        "file": "public/ahmed-ext.html",
+        "subdomain": "ahmed-ext.arcs.care",
+        "person": "Ahmed Elsamadisi — EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
+      },
       {
         "file": "public/labella.html",
         "subdomain": "labella.arcs.care",
