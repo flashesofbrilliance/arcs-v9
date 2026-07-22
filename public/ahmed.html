@@ -293,6 +293,51 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
       <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Belief Log v2 — confidence × NCI × net-new data</div></div>
+        <div style="padding:12px 20px 4px;font-size:11.5px;line-height:1.5;color:var(--muted);">
+          Priors from Exhibit 1, scored against what the call revealed. Confidence = calibrated directional estimate anchored to cited evidence, not a measured probability. <strong style="color:var(--cyan);">EXP</strong> = he said it explicitly · <strong style="color:var(--cyan);">IMP</strong> = inferred from behavior. NCI = coherence grade (ADR-035 floor ≥50).
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="ftable">
+            <thead><tr><th>Prior (expected)</th><th>Net-new data (saw)</th><th>Inf</th><th>Conf Δ</th><th>NCI Δ</th><th>Verdict</th></tr></thead>
+            <tbody>
+              <tr><td class="claim">P1 · Media proposal is his live fire</td><td class="src">"The media pitch is a separate side project — the main company is Polyform"</td><td class="src">EXP</td><td class="src">.70→.25</td><td class="src">62→38</td><td><span class="rule-tag rt-red">FALSIFIED</span></td></tr>
+              <tr><td class="claim">P2 · He probes to place, not buy</td><td class="src">Asked pricing unprompted; designed your funnel</td><td class="src">EXP</td><td class="src">.65→.35</td><td class="src">60→44</td><td><span class="rule-tag rt-gold">DOWNGRADE</span></td></tr>
+              <tr><td class="claim">P3 · If overlap real, he names it first</td><td class="src">"Targeting a very similar set of customers and problems"</td><td class="src">EXP</td><td class="src">.60→.90</td><td class="src">58→82</td><td><span class="rule-tag rt-green">UPGRADE</span></td></tr>
+              <tr><td class="claim">P4 · Warm peer, "not a sales call"</td><td class="src">Warm AND bidirectional biz-dev</td><td class="src">EXP+IMP</td><td class="src">.50→.28</td><td class="src">55→40</td><td><span class="rule-tag rt-gold">DOWNGRADE</span></td></tr>
+              <tr><td class="claim">P5 · Y-gate YELLOW/FORK</td><td class="src">GREEN-leaning on collab; FORK on tributary</td><td class="src">IMP</td><td class="src">.60→.72</td><td class="src">57→66</td><td><span class="rule-tag rt-gold">PARTIAL</span></td></tr>
+              <tr><td class="claim">P6 · (forge) fork = soft biz-dev / channel</td><td class="src">Confirmed + dominant: sponsored analysis, "free trial then talk to Zach"</td><td class="src">EXP</td><td class="src">.40→.82</td><td class="src">46→78</td><td><span class="rule-tag rt-green">UPGRADE</span></td></tr>
+              <tr><td class="claim">N1 · (new) his channel lacks live volume</td><td class="src">Sales hire 2 wks in, 0 meetings booked</td><td class="src">EXP</td><td class="src">— →.75</td><td class="src">— →70</td><td><span class="rule-tag rt-gold">NEW</span></td></tr>
+              <tr><td class="claim">N2 · (new) overlap is the customer, not product</td><td class="src">"Our data is less interesting but our customers' need is way more interesting"</td><td class="src">EXP</td><td class="src">— →.80</td><td class="src">— →76</td><td><span class="rule-tag rt-green">NEW</span></td></tr>
+              <tr><td class="claim">N3 · (new) warmest surface = his sales hire</td><td class="src">Adjacent tributary; low-scope, helps him personally</td><td class="src">IMP</td><td class="src">— →.55</td><td class="src">— →52</td><td><span class="rule-tag rt-gold">NEW</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);font-size:12.5px;line-height:1.6;color:var(--text);">
+          <strong>Opportunity NCI:</strong> ex-ante <strong>58</strong> (speculative, single-substrate) → post-call <strong style="color:var(--green);">68</strong> (grounded, two-substrate). Capped below a SHARP ~80 by the un-committed FORK — the 12-point gap <em>is</em> the diffusion risk.
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">How the moved priors re-point the next steps</div></div>
+        <div style="overflow-x:auto;">
+          <table class="ftable">
+            <thead><tr><th>Prior that moved</th><th>Ex-ante step</th><th>Modified step (post-recoil)</th></tr></thead>
+            <tbody>
+              <tr><td class="claim">P1 falsified</td><td class="src">Offer to gauntlet his media proposal</td><td class="src">Drop as the lead — he demoted it. Lead with the sales-call recoil pilot.</td></tr>
+              <tr><td class="claim">P2 + P6 upgraded</td><td class="src">Don't pitch; gauntlet as only artifact</td><td class="src">Include a concrete flat pilot price. Buy-intent is live; ambiguity is the risk now, not pushiness.</td></tr>
+              <tr><td class="claim">P3 + N2 upgraded</td><td class="src">Generic "find where we interlock"</td><td class="src">Name the specific overlap: his customers' decisions, not the product.</td></tr>
+              <tr><td class="claim">N1 (channel unproven)</td><td class="src">Lean on his customer channel</td><td class="src">Hedge it. Add direct intros (Robert / coral) + his sales hire as faster parallel paths.</td></tr>
+              <tr><td class="claim">N3 (adjacent)</td><td class="src">—</td><td class="src">Offer an ICP pressure-test for his new sales hire as the low-scope warm entry.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);font-size:12.5px;line-height:1.6;color:var(--text);">
+          <strong style="color:var(--cyan);">Net:</strong> ex-ante posture "curiosity + gauntlet, don't pitch" → post-recoil "send the demo (this page) in 48h with one flat pilot price + one named customer; offer the sales-hire ICP test as the warm wedge." Highest-ΔNCI move = commit one tributary — that's what carries 68 toward SHARP.
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
         <div class="card-header"><div class="card-title">Kairos — peak resonance / constructive interference</div></div>
         <div class="intel-rows">
           <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>"Context not content" convergence.</strong> His blog thesis ("the future gold rush is context, not content, for AI models") landed exactly on your decision-science framing — and <em>he</em> closed the loop: "which is kind of what you're doing for a human being." Two different substrates (data standardization vs. decision governance) recognizing they're the same shape. The strongest interference peak of the call.</div></div>
