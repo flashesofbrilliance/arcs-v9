@@ -4,12 +4,12 @@
     "date": "2026-07-22",
     "counterpart": "Ahmed Elsamadisi",
     "company": "Polyform AI",
-    "call_duration_min": 25,
+    "call_duration_min": 35,
     "segments": 5,
     "transcript_source": "granola:e8648395-7edf-4111-be42-661b1ff409e1",
     "provenance": {
       "audience": "both",
-      "captured": "our call, 2026-07-22, ~25 min, 5 segments",
+      "captured": "our call, 2026-07-22, ~35 min, 5 segments",
       "rule": "every read anchored to a line he said, cleaned of filler, never paraphrased. In quotes = his words. Not in quotes = labeled as Zach's read.",
       "load_bearing_quote": "this is already really really good for me because... we're targeting a very similar set of customers and we're targeting a very similar set of problems"
     }
