@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!-- ARCS CALL BRIEF — Ahmed Elsamadisi / Polyform AI · pw = ahmed -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Ahmed Elsamadisi / Polyform AI — ARCS Brief</title>
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #475569; --dimmed: #64748b;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+  --r-sm: 4px; --r-md: 8px; --r-lg: 12px;
+  --mono: ui-monospace,'SF Mono','Cascadia Code','Fira Code','Courier New',monospace;
+  --sans: -apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 40px 24px 80px; }
+.page { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.card-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.masthead { text-align: center; padding-bottom: 4px; }
+.masthead-eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.masthead-name { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+.masthead-sub { font-size: 13px; color: var(--muted); }
+.rule-glow { height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.3; }
+.tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; background: var(--surface); }
+.tab-btn {
+  flex: 1; padding: 11px 16px; background: none; border: none; cursor: pointer;
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); border-bottom: 2px solid transparent;
+  margin-bottom: -1px; transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.tab-btn.active { color: var(--cyan); border-bottom-color: var(--cyan); }
+.tab-btn:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.04); }
+.tab-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: -2px; }
+.tab-pane { display: none; flex-direction: column; gap: 16px; padding-top: 4px; }
+.tab-pane.active { display: flex; }
+.conf-rows { display: flex; flex-direction: column; }
+.conf-row { display: flex; align-items: flex-start; gap: 14px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.conf-row:last-child { border-bottom: none; }
+.conf-key { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--dimmed); flex-shrink: 0; width: 80px; padding-top: 2px; }
+.conf-val { font-size: 13px; color: var(--text); line-height: 1.5; }
+.conf-val strong { font-weight: 600; }
+.intel-rows { display: flex; flex-direction: column; }
+.intel-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.intel-row:last-child { border-bottom: none; }
+.intel-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.intel-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.intel-text strong { font-weight: 600; }
+.q-rows { display: flex; flex-direction: column; }
+.q-row { padding: 16px 20px; border-bottom: 1px solid rgba(30,41,59,0.4); }
+.q-row:last-child { border-bottom: none; }
+.q-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
+.q-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dimmed); flex-shrink: 0; width: 18px; margin-top: 1px; }
+.q-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+.q-look { font-family: var(--mono); font-size: 10px; color: var(--dimmed); line-height: 1.5; letter-spacing: 0.02em; padding-left: 30px; }
+.next-rows { display: flex; flex-direction: column; }
+.next-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 20px; border-bottom: 1px solid rgba(30,41,59,0.5); }
+.next-row:last-child { border-bottom: none; }
+.next-owner { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; width: 52px; padding-top: 1px; }
+.next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+.ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(255,215,0,0.35); background: rgba(255,215,0,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; }
+.ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.receipt { padding: 16px 20px; font-size: 13px; line-height: 1.6; color: var(--text); }
+.receipt .rk { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 3px; margin-top: 14px; }
+.receipt .rk:first-child { margin-top: 0; }
+#pw-gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; flex-direction: column; gap: 16px; }
+#pw-gate.hidden { display: none; }
+.pw-label { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.pw-input { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-md); color: var(--text); font-size: 16px; padding: 10px 16px; outline: none; width: 200px; text-align: center; letter-spacing: 0.1em; }
+.pw-input:focus { border-color: var(--cyan); }
+.pw-input.shake { animation: shake 0.3s ease; border-color: var(--red); }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-6px); }
+  40%,80% { transform: translateX(6px); }
+}
+</style>
+</head>
+<body>
+
+<div id="pw-gate">
+  <div class="pw-label">ARCS · Private Brief</div>
+  <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
+</div>
+
+<div class="page">
+  <div class="masthead">
+    <div class="masthead-eyebrow">ARCS · Pre-Call Brief</div>
+    <div class="masthead-name">Ahmed Elsamadisi</div>
+    <div class="masthead-sub">Polyform AI · Samplify.ai — reconnect after ~6 yrs</div>
+  </div>
+  <div class="rule-glow"></div>
+
+  <div class="card">
+    <div id="tab-datestamp" style="font-family:var(--mono);font-size:9px;color:var(--dimmed);letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:12px 0 0;">JUL 22, 2026 · PRE-CALL</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('pre')">Pre-Call</button>
+      <button class="tab-btn" onclick="switchTab('receipt')">Ex-Ante</button>
+      <button class="tab-btn" onclick="switchTab('post')">Post-Call</button>
+    </div>
+
+    <!-- PRE-CALL TAB -->
+    <div id="tab-pre" class="tab-pane active">
+
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">True North</div></div>
+        <div style="padding:16px 20px;font-size:14px;line-height:1.6;color:var(--text);">
+          Warm reconnect with a peer founder who is scouting for overlap. Lead with curiosity about his work, receive his GTM learnings, and leave exactly one concrete artifact on the table: run his media proposal through the ARCS gauntlet. Do not pitch.
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Context</div></div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key">Date</div><div class="conf-val">Jul 22, 2026 · 30 min</div></div>
+          <div class="conf-row"><div class="conf-key">Register</div><div class="conf-val"><strong>Warm peer</strong> — he reached out first, moved his calendar to fit. Not a sales call.</div></div>
+          <div class="conf-row"><div class="conf-key">His goal</div><div class="conf-val">"Understand what you're up to" + share GTM learnings + "we shall see what jumps out." Scouting for collaboration under a catch-up frame.</div></div>
+          <div class="conf-row"><div class="conf-key">Y-Gate</div><div class="conf-val"><div class="ygate-badge"><div class="ygate-dot"></div>YELLOW / FORK / REVISIT</div></div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Intel — Who He Is Now</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--red);"></div><div class="intel-text"><strong>Narrator</strong> — his activity-schema data startup, grew then collapsed, closed 2025. He has real go-to-market scars. Don't re-eulogize it (you already did once in the thread — twice is salt).</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--cyan);"></div><div class="intel-text"><strong>Polyform AI</strong> — "we are your data team." Slack + weekly human meeting + bring-our-own-tools, end-to-end. This is literally the Forward-Deployed Data Team he confirmed back to you. Clients: Levi's, Match.com, lots of Series A / low-tech / media.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>Samplify.ai</strong> — Polyform pointed at procurement. Emailer that knows a company's whole stack, does feature comparison, pushes teams to use what they own and cut what they don't. Clients: Dell, Cisco, VW, Primark.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>His live fire</strong> — a media-company proposal to "standardize selling <em>context</em> not <em>content</em> for AI." This is his Narrator activity-schema instinct reborn for the AI-context era. It's the thing he most wants to talk about.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--dimmed);"></div><div class="intel-text"><strong>Back in NYC</strong> ~2 months (Austin → SF → NYC). Deep data-modeling conviction; systems thinker — match him, don't out-talk him.</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Where You Interlock</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--cyan);"></div><div class="intel-text"><strong>He enables the data layer AI runs on. You govern the decision the AI informs.</strong> Complementary, not competitive — he drew this line himself.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--green);"></div><div class="intel-text"><strong>Referral lane</strong> — his clients making high-stakes calls off his data are exactly ARCS's ICP. His weekly-meeting motion is a natural distribution channel.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>The gauntlet as a taste</strong> — you already offered to run his media proposal through ARCS (premortem / red-team / wargame). Best card: specific, a gift not a pitch, maps onto the thing he's most excited about.</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Three Moves + Landmines</div></div>
+        <div class="q-rows">
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">1</div><div class="q-text">Ask about the media proposal first — "standardize selling context not content." Get him talking. It's his fire.</div></div>
+            <div class="q-look">Look for: how far along it is, who the media partner is, what he thinks the hard part is.</div>
+          </div>
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">2</div><div class="q-text">Take his GTM learnings. He offered — receiving well is the relationship move.</div></div>
+            <div class="q-look">Look for: what killed Narrator's GTM vs. what's working for Polyform's weekly-meeting motion.</div>
+          </div>
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">3</div><div class="q-text">Let the gauntlet be the only concrete thing you leave: "Send me the proposal, I'll run the premortem."</div></div>
+            <div class="q-look">Look for: does he pull the thread? If yes → book follow-up. If no → ARCS is friendship-only, that's fine.</div>
+          </div>
+          <div class="q-row">
+            <div class="q-top"><div class="q-n">!</div><div class="q-text" style="color:var(--red);">Landmines: don't pitch ARCS. Don't solve his proposal live. Don't monologue — one clean sentence on ARCS, then back to him.</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-pre -->
+
+    <!-- EX-ANTE RECEIPT TAB -->
+    <div id="tab-receipt" class="tab-pane">
+      <div class="card" style="margin:16px 16px 16px;">
+        <div class="card-header"><div class="card-title">Ex-Ante Decision Receipt — filed before the call</div></div>
+        <div class="receipt">
+          <div class="rk">D — Sharpened Question</div>
+          Is there a real collaboration surface with Ahmed, or is this warm-reconnect maintenance only — and which do I optimize the call for?
+          <div class="rk">E — Entity</div>
+          Ahmed — two-company founder (Polyform, Samplify), Narrator post-mortem, deep data-modeling conviction, back in NYC, in generous-peer mode.
+          <div class="rk">W — Window</div>
+          This 30 min. No forcing function, no deadline. Slow lane.
+          <div class="rk">Hypothesis / Expecting To See</div>
+          He spends most airtime on the media / "context-not-content" proposal and his GTM learnings. He probes ARCS to place it relative to his own work, not to buy. If genuine overlap exists, <em>he</em> names it first (already started to).
+          <div class="rk">Predicted Y-Gate — YELLOW / FORK</div>
+          Real signal, contested resolution. Forks into (a) referral partnership, (b) he wants the gauntlet run, (c) pure friendship, nothing operational. Don't force a GREEN.
+          <div class="rk">Pre-Committed Move</div>
+          Lead with curiosity about the proposal, accept his GTM-learnings offer, let the gauntlet offer stand as the one concrete artifact. Do not pitch. Do not solve live. Book a follow-up only if he pulls the gauntlet thread.
+          <div class="rk">Belief Most Likely To Update</div>
+          That the overlap is "obvious" — it may be thinner in practice than the symmetry suggests, or he may be scouting for a role / contractor slot rather than a peer partnership.
+          <div class="rk">Falsifier</div>
+          He steers hard toward "what are you looking for / are you available" (→ soft recruiting call), or shows zero interest in the gauntlet (→ ARCS doesn't land, friendship-only).
+        </div>
+      </div>
+    </div><!-- /tab-receipt -->
+
+    <!-- POST-CALL TAB -->
+    <div id="tab-post" class="tab-pane">
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">What Happened</div></div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key">Outcome</div><div class="conf-val"><em>Fill after call</em></div></div>
+          <div class="conf-row"><div class="conf-key">Y-Gate</div><div class="conf-val"><em>Updated gate post-call</em></div></div>
+          <div class="conf-row"><div class="conf-key">Surprise</div><div class="conf-val"><em>What you didn't see coming</em></div></div>
+          <div class="conf-row"><div class="conf-key">Fork hit</div><div class="conf-val"><em>(a) referral / (b) gauntlet / (c) friendship-only</em></div></div>
+        </div>
+      </div>
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Next Steps</div></div>
+        <div class="next-rows">
+          <div class="next-row"><div class="next-owner" style="color:var(--cyan);">Zach</div><div class="next-text"><em>action item</em></div></div>
+          <div class="next-row"><div class="next-owner" style="color:var(--gold);">Ahmed</div><div class="next-text"><em>action item</em></div></div>
+        </div>
+      </div>
+    </div><!-- /tab-post -->
+
+  </div><!-- /card wrapper -->
+</div><!-- /page -->
+
+<script>
+(function() {
+  var KEY = 'ahmed-auth';
+  var PW  = 'ahmed';
+  if (sessionStorage.getItem(KEY) === '1') {
+    document.getElementById('pw-gate').classList.add('hidden');
+    return;
+  }
+  var inp = document.getElementById('pw-input');
+  inp.addEventListener('keydown', function(e) {
+    if (e.key !== 'Enter') return;
+    if (inp.value.toLowerCase() === PW) {
+      sessionStorage.setItem(KEY, '1');
+      document.getElementById('pw-gate').classList.add('hidden');
+    } else {
+      inp.classList.add('shake');
+      inp.value = '';
+      setTimeout(function() { inp.classList.remove('shake'); }, 350);
+    }
+  });
+})();
+function switchTab(id) {
+  document.querySelectorAll('.tab-pane').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
