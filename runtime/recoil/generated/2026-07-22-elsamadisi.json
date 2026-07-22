@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "report_id": "2026-07-22-elsamadisi",
+    "date": "2026-07-22",
+    "counterpart": "Ahmed Elsamadisi",
+    "company": "Polyform AI",
+    "call_duration_min": 25,
+    "segments": 5,
+    "transcript_source": "granola:e8648395-7edf-4111-be42-661b1ff409e1"
+  },
+  "opportunity": {
+    "audience": "internal",
+    "nci_prior": 58,
+    "nci_post": 68,
+    "y_state": "FORK",
+    "conviction": "MED_HIGH",
+    "stability": "CONTESTED",
+    "topology": "DIVERGENT",
+    "note": "NCI is a decision-level coherence grade (higher=better). Never applied per-belief."
+  },
+  "beliefs": [
+    {"id": "P1", "audience": "internal", "claim": "Media proposal is his live fire", "evidence": "'the media pitch is a separate side project, the main company is Polyform'", "inference": "EXP", "confidence": [0.70, 0.25], "conviction": "HIGH", "verdict": "FALSIFIED"},
+    {"id": "P2", "audience": "internal", "claim": "He probes to place, not buy", "evidence": "asked pricing unprompted; designed the funnel", "inference": "EXP", "confidence": [0.65, 0.35], "conviction": "MED", "verdict": "DOWNGRADE"},
+    {"id": "P3", "audience": "internal", "claim": "If overlap is real, he names it first", "evidence": "'targeting a very similar set of customers and problems'", "inference": "EXP", "confidence": [0.60, 0.90], "conviction": "HIGH", "verdict": "UPGRADE"},
+    {"id": "P4", "audience": "internal", "claim": "Warm peer, not a sales call", "evidence": "warm AND bidirectional biz-dev", "inference": "EXP+IMP", "confidence": [0.50, 0.28], "conviction": "HIGH", "verdict": "DOWNGRADE"},
+    {"id": "P5", "audience": "internal", "claim": "Y-gate YELLOW/FORK", "evidence": "GREEN-leaning on collab; FORK on tributary", "inference": "IMP", "confidence": [0.60, 0.72], "conviction": "MED", "verdict": "PARTIAL"},
+    {"id": "P6", "audience": "internal", "claim": "Fork = soft biz-dev / channel (forge-added)", "evidence": "confirmed + dominant: sponsored analysis, 'free trial then talk to Zach'", "inference": "EXP", "confidence": [0.40, 0.82], "conviction": "HIGH", "verdict": "UPGRADE"},
+    {"id": "N1", "audience": "internal", "claim": "His channel lacks live volume", "evidence": "sales hire 2 wks in, 0 meetings booked", "inference": "EXP", "confidence": [null, 0.75], "conviction": "MED", "verdict": "NEW"},
+    {"id": "N2", "audience": "internal", "claim": "Overlap is the customer, not the product", "evidence": "'our data is less interesting but our customers need is way more interesting'", "inference": "EXP", "confidence": [null, 0.80], "conviction": "HIGH", "verdict": "NEW"},
+    {"id": "N3", "audience": "internal", "claim": "Warmest surface is his new sales hire", "evidence": "adjacent tributary; low-scope, helps him personally", "inference": "IMP", "confidence": [null, 0.55], "conviction": "LOW", "verdict": "NEW"}
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {"key": "overlap_belief", "audience": "both", "label": "our customers overlap", "color": "#00FF9D", "points": [0.60, 0.60, 0.62, 0.85, 0.90]},
+      {"key": "media_belief", "audience": "both", "label": "media pitch is his focus", "color": "#00F0FF", "points": [0.70, 0.70, 0.72, 0.30, 0.25]}
+    ]
+  },
+  "next_steps": [
+    {"audience": "internal", "owner": "Zach", "text": "Send the demo (ext page) in 48h with one flat pilot price + one named customer."},
+    {"audience": "internal", "owner": "Zach", "text": "Take the Robert intro (decision-ROI company)."},
+    {"audience": "internal", "owner": "Ahmed", "text": "Presenting media proposal to 'people ink'; floating sales-call analysis to customers; sending Robert's info."}
+  ],
+  "redaction_policy": {
+    "external_keeps": ["kinematic_series.points (trajectory only)", "rosetta", "capabilities (high-level)", "pilot"],
+    "internal_only": ["beliefs (strategy-about-counterpart)", "next_steps", "kinematic derivatives", "opportunity.nci"],
+    "rules": [
+      "Method can cross; subject-about-them cannot.",
+      "Show your own belief-updates, never their intent-scores.",
+      "Architecture crosses; weights (schema, operators, exact params) do not."
+    ]
+  }
+}
