@@ -420,12 +420,18 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
           </table>
         </div>
         <div style="padding:14px 20px;border-top:1px solid var(--border);font-size:12.5px;line-height:1.6;color:var(--text);">
-          <strong>Derivatives (the motion, not the position):</strong><br>
-          <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">D0 position</span> mid-funnel: mutual interest confirmed, one commercial mechanic named. &nbsp;
-          <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">D1 velocity</span> <span style="color:var(--green);">positive</span> — catch-up → deal-shape in a single call. &nbsp;
-          <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">D2 acceleration</span> <span style="color:var(--red);">decaying</span> — no date set; ball in your court; velocity trends to zero if untouched. &nbsp;
-          <span style="color:var(--dimmed);font-family:var(--mono);font-size:10px;">D5+ coherence</span> strong attractor (context-not-content, human-on-the-bike substrate overlap) <em>vs.</em> a divergence term (his ICP = positive-unit-economics SMB; yours = regulated high-burden — overlap is the <strong>customer</strong>, not the product).<br>
-          <strong style="color:var(--cyan);">Manifold verdict:</strong> high-polarity, positive-sum, but DIVERGENT. The single control variable is <em>path-commitment</em> — pick one tributary and D2 flips back positive.
+          <strong>Derivatives — measured, not narrated.</strong> Computed via <code style="font-family:var(--mono);color:var(--cyan);font-size:11px;">arcs_kinematics.py v1.3</code> on the two belief-confidence series from the recoil (dt = 1 segment).
+          <div style="overflow-x:auto;margin-top:10px;">
+            <table class="ftable">
+              <thead><tr><th>Signal</th><th>D1 velocity peak / terminal</th><th>D2 accel terminal</th><th>Reading</th></tr></thead>
+              <tbody>
+                <tr><td class="claim">Overlap belief (rising)</td><td class="src">+0.140 / +0.050</td><td class="src">−0.090</td><td class="src"><strong style="color:var(--green);">Convergent</strong> — rising but decelerating into a settled ceiling; accel opposes velocity → HIGH conviction, safe to act on.</td></tr>
+                <tr><td class="claim">Media belief (collapsing)</td><td class="src">0.235 / −0.050</td><td class="src">+0.185</td><td class="src"><strong style="color:var(--gold);">Collapse-and-settle</strong> — sharp velocity spike at the correction, decelerating into a low floor; HIGH conviction it is false.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--dimmed);line-height:1.55;">Honesty note: n=5 segments → D1–D2 valid, D3 marginal, D4+ undersampled. Per the impl's own header the D5–D12 band is a coherence-operator zone (noise-dominated past ~D4; D5–D10 not yet reformulated), so it is NOT reported as derivatives. Reporting 12 numbers would fabricate precision the engine itself disclaims.</div>
+          <div style="margin-top:10px;"><strong style="color:var(--cyan);">Manifold verdict:</strong> both terminal beliefs are convergent / high-conviction, but the <em>opportunity</em> stays FORK/DIVERGENT at the decision level — many tributaries, none committed. Control variable = path-commitment.</div>
         </div>
       </div>
 
