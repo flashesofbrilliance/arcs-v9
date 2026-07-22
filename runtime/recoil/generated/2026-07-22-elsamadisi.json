@@ -42,6 +42,13 @@
       {"key": "media_belief", "audience": "both", "label": "media pitch is his focus", "color": "#00F0FF", "points": [0.70, 0.70, 0.72, 0.30, 0.25], "grounding_quote": "the media company pitch is like a separate side project but the main company I run is polyform"}
     ]
   },
+  "insights": [
+    {"audience": "both", "plane": "idea", "title": "Context not content, one layer apart", "text": "You standardize the context AI acts on. I standardize the decision a human commits to. Same move, one layer up. You said it yourself on the call: what I do for a person is what you do for the data."},
+    {"audience": "both", "plane": "operating-model", "title": "The same architecture, from opposite ends", "text": "Yours is one human reviewing the work of many AIs, end to end. Mine is one human steering a decision engine. Neither of us set out to copy the other, and we landed in the same place."},
+    {"audience": "both", "plane": "market-thesis", "title": "The shared bet", "text": "Under both companies is one wager: structured, portable context beats more compute. Your one activity table and my one receipt table are the same bet, that the bottleneck is not model quality, it is context that can move."},
+    {"audience": "both", "plane": "technical", "title": "The quiet one: statefulness", "text": "Most orgs never close the loop between a decision made downstream and the context it leaves stale upstream. Both our systems exist because that loop is open."},
+    {"audience": "internal", "plane": "counterpart", "title": "[internal only] generosity / role / channel reads", "text": "Interest-meter, role-assignment, channel-volume reads live in the internal war-room only. Never cross."}
+  ],
   "next_steps": [
     {"audience": "internal", "owner": "Zach", "text": "Send the demo (ext page) in 48h with one flat pilot price + one named customer."},
     {"audience": "internal", "owner": "Zach", "text": "Take the Robert intro (decision-ROI company)."},
