@@ -58,6 +58,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
         // ahmed.arcs.care → public/ahmed.html (Ahmed Elsamadisi / Polyform AI reconnect brief, pw-gated "ahmed")
         { source: "/:path*", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed.arcs.care" }] },
+        // ahmed-ext.arcs.care → public/ahmed-ext.html (sanitized Ahmed-facing recoil demo — safe to share)
+        { source: "/:path*", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two
