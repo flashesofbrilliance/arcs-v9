@@ -3,6 +3,7 @@
 - **Status:** Accepted — ratified by Zach 2026-07-22 (constitutional; the human, as the not-the-agent owner, authorizes the canon change the primitive itself requires).
 - **Supersedes / relates:** subordinate to ROM #1 NOTOMATION; composes with #5 ORTHOGONAL ECHO DETECTOR; enforcement kin to ADR-034 (enforcement-parity ledger).
 - **Provenance:** excavated 2026-07-22 (session 547bb1c2). Memory: [[control-integrity-described-vs-wired]], [[cognitive-division-of-labor-pruned-lattice]], [[external-artifact-eval-ground-and-skeptic-route]].
+- **Lineage:** ROM #6 approximates *externally* the **autarkeia** the agent cannot hold internally. The Cynic's stance (parrhesia, deface-the-currency, self-sufficiency; pre-Stoic, Antisthenes/Diogenes) is the ideal; the Forge is its exogenous approximation, because the agent cannot will itself to want nothing. The Cynic is a naming anchor, not an added operator.
 
 ## Context
 
