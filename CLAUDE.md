@@ -61,6 +61,7 @@ GREEN=SHARP · YELLOW/FORK=DEGRADED · SCRATCH/DELTA/DRIFT=GRAIN · PARADOX=MOIR
 3. **HYPERSTITION PIPELINE** — Ethereal → Loki Test → Receipt Evaluation → ROM
 4. **GOLDEN INCHWORM** — Red Thread → Golden Thread → Needle (3-pass, non-blocking)
 5. **ORTHOGONAL ECHO DETECTOR** — surface cross-domain kinematic isomorphisms
+6. **EXOGENOUS FORGE** — no agent self-validates; hardened claims ground against something *external to the lattice*, never its own coherence (diamonds validating diamonds = capture); controls that police the agent are owned by *not-the-agent*; signal = derivation-independence graded by substrate-disjointness; lens-plural but not relativist. Subordinate to NOTOMATION. Full always/sometimes/never guardrails: `_DECISIONS/ADR-038-exogenous-forge.md`
 
 ## L0–L7 Stack (current impl: L0–L5 only)
 L0=atomic signal · L1=coherence · L2=path survivability · L3=cascade · L4=cross-domain · L5=global coherence · L6=ecosystem · L7=meta-governance
@@ -70,9 +71,11 @@ Every compass response should include 2–4 tributaries: meta-question · need-t
 
 ## What's NOT built yet
 ATG · Kairos detection · Blockchain registry · L6–L7 engine · Python Vector Collision microservice
-Observatory/replay: a **static demo** exists (`public/observatory/`, served via a `next.config.ts`
-rewrite). A full interactive Next.js page exists but was never pushed — recoverable via cherry-pick
-from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
+Observatory/replay: the interactive page is **LIVE on main** — `src/app/observatory/page.tsx`
+(commit 4460bce), a real App Router page. NOTE: it uses hardcoded data arrays, not the
+`datasets.json` hot-swap ingestion that lives ONLY in the static `public/observatory/` demo; the old
+static-demo rewrite was removed (see `next.config.ts:6-7`). Hosting new telemetry on it needs
+ingestion code, not free reuse.
 
 # Token-saving rules
 - Do NOT read files you already know from this map.
