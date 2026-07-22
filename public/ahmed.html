@@ -65,6 +65,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 .next-text { font-size: 13px; color: var(--text); line-height: 1.5; }
 .ygate-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: var(--r-sm); border: 1px solid rgba(255,215,0,0.35); background: rgba(255,215,0,0.06); font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: 0.1em; }
 .ygate-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.ftable { width: 100%; border-collapse: collapse; font-size: 12px; }
+.ftable th, .ftable td { text-align: left; padding: 9px 12px; border-bottom: 1px solid rgba(30,41,59,0.6); vertical-align: top; line-height: 1.45; }
+.ftable th { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--dimmed); }
+.ftable td.claim { color: var(--text); }
+.ftable td.src { color: var(--muted); font-size: 11px; }
+.rule-tag { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 2px 6px; border-radius: 3px; white-space: nowrap; }
+.rt-green { color: var(--green); background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.3); }
+.rt-gold { color: var(--gold); background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.3); }
+.rt-red { color: var(--red); background: rgba(255,77,109,0.08); border: 1px solid rgba(255,77,109,0.3); }
 .receipt { padding: 16px 20px; font-size: 13px; line-height: 1.6; color: var(--text); }
 .receipt .rk { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dimmed); margin-bottom: 3px; margin-top: 14px; }
 .receipt .rk:first-child { margin-top: 0; }
@@ -101,6 +110,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('pre')">Pre-Call</button>
       <button class="tab-btn" onclick="switchTab('receipt')">Ex-Ante</button>
+      <button class="tab-btn" onclick="switchTab('forge')">Forge</button>
       <button class="tab-btn" onclick="switchTab('post')">Post-Call</button>
     </div>
 
@@ -178,7 +188,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
     <!-- EX-ANTE RECEIPT TAB -->
     <div id="tab-receipt" class="tab-pane">
       <div class="card" style="margin:16px 16px 16px;">
-        <div class="card-header"><div class="card-title">Ex-Ante Decision Receipt — filed before the call</div></div>
+        <div class="card-header"><div class="card-title">Exhibit 1 — Ex-Ante Decision Receipt (filed before the call)</div></div>
         <div class="receipt">
           <div class="rk">D — Sharpened Question</div>
           Is there a real collaboration surface with Ahmed, or is this warm-reconnect maintenance only — and which do I optimize the call for?
@@ -201,6 +211,51 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
         </div>
       </div>
     </div><!-- /tab-receipt -->
+
+    <!-- FORGE / EXHIBIT 2 TAB -->
+    <div id="tab-forge" class="tab-pane">
+      <div class="card" style="margin:16px 16px 0;">
+        <div class="card-header"><div class="card-title">Exhibit 2 — Exogenous Forge Pressure-Test</div></div>
+        <div style="padding:16px 20px;font-size:12.5px;line-height:1.6;color:var(--muted);">
+          <strong style="color:var(--text);">Method.</strong> Every load-bearing claim in this brief was run through ROM #6 (the Exogenous Forge, ADR-038): a claim only stands if something <em>external to the author's own reasoning</em> forces it. Grounded against two disjoint substrates — Ahmed's own message thread + his LinkedIn profile PDF — and adjudicated by an <strong style="color:var(--text);">independent claims-skeptic</strong>, because the primitive forbids an agent grading its own output (N1/N3). Rulings below: <span class="rule-tag rt-green">GROUNDED</span> two-substrate or primary-source forced · <span class="rule-tag rt-gold">INFERENCE</span> author's read, not source-forced · <span class="rule-tag rt-red">STRUCK</span> overreach corrected in the brief.
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Claim Adjudication</div></div>
+        <div style="overflow-x:auto;">
+          <table class="ftable">
+            <thead><tr><th>Claim</th><th>Ruling</th><th>Source force</th></tr></thead>
+            <tbody>
+              <tr><td class="claim">Polyform / Samplify + client rosters (Levi's, Match, Dell, Cisco, VW, Primark)</td><td><span class="rule-tag rt-green">GROUNDED</span></td><td class="src">Thread (his words) + profile PDF. Two-substrate.</td></tr>
+              <tr><td class="claim">Samplify = procurement/SaaS-rationalization</td><td><span class="rule-tag rt-green">GROUNDED</span></td><td class="src">Thread verbatim; PDF "rationalization decisions."</td></tr>
+              <tr><td class="claim">Media proposal "sell context not content for AI"</td><td><span class="rule-tag rt-green">GROUNDED</span></td><td class="src">Thread verbatim.</td></tr>
+              <tr><td class="claim">Intent = scouting collaboration ("we shall see what jumps out")</td><td><span class="rule-tag rt-green">GROUNDED</span></td><td class="src">Thread verbatim.</td></tr>
+              <tr><td class="claim">Complementarity: he owns the data layer / you own the decision — he drew the line</td><td><span class="rule-tag rt-green">GROUNDED</span></td><td class="src">He stated the distinction himself; phrasing is the brief's.</td></tr>
+              <tr><td class="claim">Media proposal = his "Activity-Schema instinct reborn"</td><td><span class="rule-tag rt-gold">INFERENCE</span></td><td class="src">Neither source links the proposal to Activity Schema. Relabeled as author inference.</td></tr>
+              <tr><td class="claim">Register = warm peer, "not a sales call"</td><td><span class="rule-tag rt-red">STRUCK</span></td><td class="src">Warmth grounded; the negative is not — he volunteered client rosters + a GTM pitch. Downgraded to a live fork (soft biz-dev).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Omission-Drift — intel the un-forged brief missed</div></div>
+        <div class="intel-rows">
+          <div class="intel-row"><div class="intel-dot" style="background:var(--cyan);"></div><div class="intel-text"><strong>Creator of the Activity Schema™</strong> (Forbes 30u30, YC S19) — his flagship IP, and the un-forged brief never named it.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--gold);"></div><div class="intel-text"><strong>Raytheon → your gauntlet (orthogonal echo).</strong> His first career was AI for missile defense: ICBM "tracking and discrimination." Same metaphor as your "ballistic grade premortems." Best card, and it was absent.</div></div>
+          <div class="intel-row"><div class="intel-dot" style="background:var(--dimmed);"></div><div class="intel-text"><strong>Tensions to confirm live:</strong> profile still reads SF vs. thread's "back in NYC"; both companies started Mar 2025, one month after Narrator closed; OpLevel→Polyform rebrand still settling (Calendly is <em>ahmed-oplevel</em>).</div></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px 16px;">
+        <div class="card-header"><div class="card-title">Verdict</div></div>
+        <div style="padding:16px 20px;font-size:13px;line-height:1.6;color:var(--text);">
+          Solid on <strong>what he does</strong> — company/product/client claims are two-substrate corroborated and safe to lean on. Soft and inference-heavy on <strong>why he's calling</strong> — register and intent are single-source reads, not facts. The live call is the external ground that settles them.
+          <div style="margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--dimmed);letter-spacing:0.04em;">Honesty note: an early skeptic pass false-flagged "Slack" as invented because the author handed it a lossy copy of the thread (Ahmed did say "slack + weekly meetings"). Logged as the exact lattice-self-citation risk the forge exists to police.</div>
+        </div>
+      </div>
+    </div><!-- /tab-forge -->
 
     <!-- POST-CALL TAB -->
     <div id="tab-post" class="tab-pane">
