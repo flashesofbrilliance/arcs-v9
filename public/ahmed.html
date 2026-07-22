@@ -293,9 +293,24 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
       </div>
 
       <div class="card" style="margin:0 16px;">
-        <div class="card-header"><div class="card-title">Belief Log v2 — confidence × NCI × net-new data</div></div>
+        <div class="card-header"><div class="card-title">Operating Definitions — three objects, never conflated</div></div>
+        <div style="padding:14px 20px;font-size:12.5px;line-height:1.6;color:var(--text);">
+          The whole quantified layer rests on keeping three things separate. They live at three different altitudes and answer three different questions.
+        </div>
+        <div class="conf-rows">
+          <div class="conf-row"><div class="conf-key" style="color:var(--cyan);">Confidence</div><div class="conf-val"><strong>How likely a belief is true.</strong> 0–1, evidence-anchored, directional. It is about <em>the world</em>. Moves when new evidence changes the odds. <span style="color:var(--dimmed);">His register: the posterior probability.</span></div></div>
+          <div class="conf-row"><div class="conf-key" style="color:var(--cyan);">Conviction</div><div class="conf-val"><strong>How stable that confidence is</strong> — would a reasonable amount of new data still move it? LOW / MED / HIGH. It is about <em>the estimate</em>, not the world. You can hold HIGH conviction that something is <em>false</em> (high conviction ≠ high confidence). <span style="color:var(--dimmed);">His register: the precision — tightness/variance — of the posterior.</span></div></div>
+          <div class="conf-row"><div class="conf-key" style="color:var(--cyan);">NCI</div><div class="conf-val"><strong>How coherent the whole opportunity is</strong> — signal clarity + cross-substrate agreement + path-commitment. 0–100, higher is better, reported <em>once</em> at the decision level, never per belief. It is about <em>the decision</em>. <span style="color:var(--dimmed);">His register: model fit — how answerable the query is off the table.</span></div></div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid var(--border);font-size:12.5px;line-height:1.55;color:var(--text);">
+          <strong style="color:var(--cyan);">One line:</strong> confidence is about the belief · conviction is about the confidence · NCI is about the decision. A belief's confidence falling is often <em>good news</em> (a wrong prior correctly killed at HIGH conviction) — which is exactly why NCI never rides on a single belief.
+        </div>
+      </div>
+
+      <div class="card" style="margin:0 16px;">
+        <div class="card-header"><div class="card-title">Belief Log v2 — confidence × conviction × net-new data</div></div>
         <div style="padding:12px 20px 4px;font-size:11.5px;line-height:1.5;color:var(--muted);">
-          Priors from Exhibit 1, scored against what the call revealed. <strong style="color:var(--cyan);">Confidence</strong> = calibrated credence the belief is true (directional, evidence-anchored, not a measured probability). <strong style="color:var(--cyan);">Conviction</strong> = how settled that credence is — would more data still move it (LOW/MED/HIGH). <strong style="color:var(--cyan);">EXP</strong> = explicit · <strong style="color:var(--cyan);">IMP</strong> = inferred. NCI (coherence) is reported once, at the opportunity level, not per belief — a single belief's confidence dropping is often <em>good</em> (a wrong prior correctly killed), so per-belief coherence would mislead.
+          Priors from Exhibit 1, scored against what the call revealed, per the definitions above. <strong style="color:var(--cyan);">EXP</strong> = he said it explicitly · <strong style="color:var(--cyan);">IMP</strong> = inferred from behavior.
         </div>
         <div style="overflow-x:auto;">
           <table class="ftable">
