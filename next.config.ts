@@ -17,11 +17,11 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
         { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
-        // todd-call.arcs.care/teardown + /logic-tree → todd-teardown.html / todd-logic-tree.html
+        // todd-call.arcs.care/teardown + /logictree → todd-teardown.html / todd-logictree.html
         // FIX HISTORY, read before touching this host's rules again:
         // 2026-07-13: exact "/teardown" + wildcard both matched `/teardown`;
         // fixed by excluding "teardown" from the wildcard's regex.
-        // 2026-07-23: added a third exact rule ("/logic-tree", tried as
+        // 2026-07-23: added a third exact rule ("/logictree", tried as
         // "/build-spec" first too) alongside root "/" + wildcard = 4 total rule
         // objects sharing an identical `has:[{host:todd-call.arcs.care}]`
         // condition. That combination reproducibly resolved wrong on Vercel's
@@ -39,11 +39,11 @@ const nextConfig: NextConfig = {
         // back down to 2 rule objects total for this host, matching the only
         // proven-reliable shape. If a THIRD path is ever needed here, do not
         // just add a third rule object; extend this capture group instead
-        // (e.g. `/:seg(teardown|logic-tree|newpath)` -> `/todd-:seg.html`) and
+        // (e.g. `/:seg(teardown|logictree|newpath)` -> `/todd-:seg.html`) and
         // keep the filename convention (`todd-<seg>.html`) so the dynamic
         // destination keeps working without a 1:1 lookup table.
-        { source: "/:seg(teardown|logic-tree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        { source: "/:path((?!.*teardown|.*logic-tree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)

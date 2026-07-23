@@ -26,9 +26,9 @@
       "destination": "/todd-teardown.html"
     },
     {
-      "source": "/logic-tree",
+      "source": "/logictree",
       "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
-      "destination": "/todd-logic-tree.html"
+      "destination": "/todd-logictree.html"
     },
     {
       "source": "/runtime",
