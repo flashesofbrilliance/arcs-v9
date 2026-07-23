@@ -60,6 +60,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/joe-war.html", has: [{ type: "host", value: "joe-war.arcs.care" }] },
         // joe-ext.arcs.care → public/joe-ext.html (Joe-facing forward recoil, generated, pw-gated "joe" — safe to share)
         { source: "/:path*", destination: "/joe-ext.html", has: [{ type: "host", value: "joe-ext.arcs.care" }] },
+        // yuri-war.arcs.care → public/yuri-war.html (Yuri Kleban / Google INTERNAL pre-call war-room, pw-gated "sextant" — NEVER share)
+        { source: "/:path*", destination: "/yuri-war.html", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
         // ahmed.arcs.care → public/ahmed.html (Ahmed Elsamadisi / Polyform AI reconnect brief, pw-gated "ahmed")
         { source: "/:path*", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed.arcs.care" }] },
         // ahmed-ext.arcs.care → public/ahmed-ext.html (sanitized Ahmed-facing recoil demo — safe to share)
