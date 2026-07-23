@@ -28,7 +28,7 @@
     {
       "source": "/logic-tree",
       "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
-      "destination": "/todd-branch-logic.html"
+      "destination": "/todd-logic-tree.html"
     },
     {
       "source": "/runtime",

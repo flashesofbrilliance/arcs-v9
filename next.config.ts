@@ -43,7 +43,7 @@ const nextConfig: NextConfig = {
         // resolution. If this route ever breaks again, re-verify with
         // .next/routes-manifest.json before assuming it's a regex bug — last time
         // the regex was already correct and the bug was elsewhere in the platform.
-        { source: "/logic-tree", destination: "/todd-branch-logic.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        { source: "/logic-tree", destination: "/todd-logic-tree.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care root → public/todd-call.html
         { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care/anything-else (except /teardown or /logic-tree) → public/todd-call.html
