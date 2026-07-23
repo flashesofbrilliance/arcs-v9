@@ -2,8 +2,8 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "329f599",
-    "head_message": "Recoil brief tool now SELF-CONTAINED: scripts/recoil bash wrapper (needs only python3, brew-friendly), recoil_brief.py kinematics degrade to zero-dep stdlib fallback (identical D1-D3 to numpy canonical engine). SSOT->HTML render shipped (ahmed-ext.html generated, audience-projected). Ext fact-checked + provenance + insights + 35-min + em-dash-swept. Gmail draft (not sent) to ahmed@oplevel.ai. Session tooling: SSOT JSON + recoil_brief.py + scripts/recoil.",
+    "head_sha": "d50eadb",
+    "head_message": "Joe Kim / HypeLab multi-call recoil (5 calls Oct 2025 -> Jul 2026) built via the SSOT+CLI pipeline. recoil_brief.py now supports --format html generation + per-audience password gate. joe-war.arcs.care (pw cartography, INTERNAL, NEVER share): full candidacy trajectory; enriched with gmail + gamma + all 3 large transcripts read from disk -> key finding: the GTM role was ALREADY FILLED (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; war-room shows evidence-vs-behavior divergence. joe-ext.arcs.care (pw joe, safe): forward-facing, candidacy fully air-gapped out (verified 0 leaks). Also this session: ahmed-ext generated from SSOT, self-contained scripts/recoil wrapper, Gmail draft to ahmed@oplevel.ai.",
     "in_sync_with_origin": true,
     "dirty_files": ["_DECISIONS/ADR-026-... (untracked, pre-existing)", "test_prisma_direct.js (untracked, pre-existing)"]
   },
@@ -35,6 +35,8 @@
     ]
   },
   "active_briefs": {
+    "joe-war.arcs.care": "Joe Kim / HypeLab INTERNAL multi-call recoil war-room (pw 'cartography', NEVER share). 5 calls Oct 2025->Jul 2026 + gmail + gamma. Key finding: GTM role was already filled (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; shows evidence-vs-behavior overconfidence divergence. Generated from runtime/recoil/generated/2026-07-22-kim-multicall.json.",
+    "joe-ext.arcs.care": "Joe-facing forward recoil (pw 'joe', safe to share). Shows only Zach's own venture->lifestyle read + ARV-sprint/gauntlet offers. Candidacy fully air-gapped out. joe.arcs.care (the older Oct decision-map) already shared with Joe Jul 20.",
     "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI — reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
     "ahmed-ext.arcs.care": "Ahmed-FACING sanitized demo (open link, no pw). Competitor-safe: capability-level only, schema/mechanics/kinematics-derivatives redacted, all strategy-about-him removed. This is the send-ready artifact. Next: Zach sets pilot price + names one customer, then send.",
     "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
