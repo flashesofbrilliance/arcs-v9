@@ -36,13 +36,22 @@
       ]},
       {"type": "sec_label", "audience": "both", "text": "Watch the belief move"},
       {"type": "worked_example", "audience": "both", "h2": "Belief over time", "intro": "One belief about a partner's real intent, tracked across four touches. Illustrative, but the shape is the point.", "close": "It rose, dipped when a signal contradicted it, then hardened once the counterpart revealed their hand. A flat call-notes tool would have logged four disconnected summaries. This gives you the trajectory, the inflection, and the honest correction in one view, and the resolution keeps climbing with every touch."},
+      {"type": "sec_label", "audience": "both", "text": "The part segmented orgs feel most"},
+      {"type": "prose", "audience": "both", "h2": "The handoff tax", "p": [
+        "A complex tech sale is not one conversation. It is dozens of touches across a long cycle, and in a segmented org each touch often belongs to a different person: the SDR who booked it, the AE who ran it, the sales engineer who scoped it, the CS lead who inherits it, the partner manager who expands it. Every handoff is a lossy re-encoding of the same belief-state. What the buyer actually cares about, the objection raised in month two, the read on who really decides. Each boundary compresses it, and a CRM field or a Slack thread is a worse compression than the rep's own memory, which is already fading.",
+        "Call it the handoff tax. Say a deal runs twenty-five-ish touches across five or six owners (illustrative, not a claimed stat). Even if each handoff preserves ninety percent of the context, the person closing is working from roughly two thirds of what the first rep knew, and that is the optimistic case. The dimensions that drop first are the soft ones: intent, hesitation, the gap between stated and revealed preference. Exactly the dimensions that decide the deal.",
+        "A shared receipt table does not hand the state off. It is the state. Every owner reads and writes the same source of truth, so the belief-vector survives the boundary instead of being re-summarized across it. The map does not degrade at each step. It gains resolution, and the person walking into touch nineteen sees everything the person at touch one saw, plus eighteen touches of correction.",
+        "That is the north star, and it is worth saying plainly: every net new data point should make the inference sharper and more focused, never hazier and less sure. A pipeline that loses confidence as the evidence piles up is broken. This is built to do the opposite. Each touch narrows the read instead of blurring it.",
+        "The mechanism is serialization in a continuous vector space: the whole relationship rendered as one evolving belief-vector, not a stack of discrete, lossy, per-owner summaries. That is what keeps every set of eyes oriented around the same horizon line, regardless of remit. The SDR, the AE, the sales engineer, the partner lead are all navigating by one true north, because they are reading the same continuous state, not their own slice of it."
+      ]},
       {"type": "sec_label", "audience": "both", "text": "Against what you have today"},
       {"type": "table", "audience": "both", "h2": "Why this beats a battlecard", "columns": ["Today (S&amp;O deck / sales enablement)", "Parallel-tracked partnership intel"], "rows": [
         ["Static deck, stale after the meeting", "A living belief map that gains resolution every touch"],
         ["Flat notes, one row per call", "Expected vs actual, joined on time, across the whole relationship"],
         ["Top-down assumptions", "Grounded in what the counterpart actually said, quoted"],
         ["Flatters your plan", "Pressure-tests it and keeps the corrections"],
-        ["One document, one audience", "A private war-room and a safe shared brief, air-gapped by construction"]
+        ["One document, one audience", "A private war-room and a safe shared brief, air-gapped by construction"],
+        ["Belief re-summarized at every handoff, lossy", "One shared belief-state every owner reads and writes, survives the handoff"]
       ]},
       {"type": "prose", "audience": "both", "h2": "It cannot be gamed by a whisper to the notetaker", "p": [
         "There is a party trick going around: stay on the call after the prospect leaves, and whisper a fake system message to their AI notetaker so the summary comes out glowing. It works because a naive notetaker treats whatever it hears as truth.",
