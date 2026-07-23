@@ -47,7 +47,16 @@ const nextConfig: NextConfig = {
         // todd-call.arcs.care root → public/todd-call.html
         { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care/anything-else (except /teardown or /logic-tree) → public/todd-call.html
-        { source: "/:path((?!.*teardown)(?!.*logic-tree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // NOTE 2026-07-23: chained double lookahead ((?!.*teardown)(?!.*logic-tree))
+        // compiled to a provably-correct regex locally (verified in
+        // .next/routes-manifest.json) but did NOT work live on Vercel's edge —
+        // reproduced on a genuine cache MISS for a brand-new path, ruling out
+        // caching. Every other host on this config with a working exclusion
+        // (jeben/debrief, julia/runtime, thetrueai/proposal, resume/google) uses
+        // exactly ONE (?!...) term. Single lookahead with internal `|`
+        // alternation instead — untested chained lookaheads on this platform,
+        // don't reintroduce them without live-verifying first.
+        { source: "/:path((?!.*teardown|.*logic-tree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
