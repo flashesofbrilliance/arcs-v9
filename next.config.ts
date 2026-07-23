@@ -36,7 +36,12 @@ const nextConfig: NextConfig = {
         // todd-call.arcs.care root → public/todd-call.html
         { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care/anything-else (except /teardown or /build-spec) → public/todd-call.html
-        { source: "/:path((?!.*teardown|.*build-spec).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // FIX 2026-07-23: a single lookahead with `|` alternation
+        // ((?!.*teardown|.*build-spec)) did NOT reliably exclude /build-spec in
+        // production (x-matched-path came back /todd-call.html, verified live).
+        // Chained single-term lookaheads instead — same pattern proven to work
+        // for every other exact-path-vs-wildcard host on this config.
+        { source: "/:path((?!.*teardown)(?!.*build-spec).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
