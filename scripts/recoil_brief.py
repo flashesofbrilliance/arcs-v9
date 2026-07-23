@@ -49,26 +49,54 @@ def visible(item, audience):
     return item.get("audience") == "both"
 
 
+def _grad(f, dt=1.0):
+    """Central-difference gradient (edge_order=1), the np.gradient behavior, in stdlib."""
+    n = len(f)
+    if n < 2:
+        return [0.0] * n
+    g = [0.0] * n
+    g[0] = (f[1] - f[0]) / dt
+    g[-1] = (f[-1] - f[-2]) / dt
+    for i in range(1, n - 1):
+        g[i] = (f[i + 1] - f[i - 1]) / (2.0 * dt)
+    return g
+
+
+def _derivatives(pts, dt):
+    """D1-D3. Uses the canonical arcs_kinematics.py engine if numpy is present,
+    else a pure-stdlib fallback. Both produce identical D1-D3 (same central difference),
+    so the tool has ZERO required third-party deps."""
+    try:
+        import numpy as np  # noqa: F401
+        sys.path.insert(0, os.path.abspath(OPERATORS))
+        from arcs_kinematics import KinematicManifold
+        km = KinematicManifold(np.array(pts, dtype=float), dt=dt)
+        v = [float(x) for x in km.velocity()]
+        a = [float(x) for x in km.acceleration()]
+        j = [float(x) for x in km.jerk()]
+        return v, a, j, "arcs_kinematics.py v1.3 (numpy)"
+    except Exception:
+        v = _grad(pts, dt); a = _grad(v, dt); j = _grad(a, dt)
+        return v, a, j, "stdlib finite-difference"
+
+
 def compute_kinematics(series_block):
-    """Compute D1-D3 per series via the canonical engine. Reproducible."""
-    sys.path.insert(0, os.path.abspath(OPERATORS))
-    import numpy as np
-    from arcs_kinematics import KinematicManifold
+    """Compute D1-D3 per series. Reproducible; canonical engine when available, else stdlib."""
     dt = series_block.get("dt", 1.0)
     out = []
+    engine = "stdlib finite-difference"
     for s in series_block["series"]:
-        pts = np.array(s["points"], dtype=float)
-        km = KinematicManifold(pts, dt=dt)
-        v, a, j = km.velocity(), km.acceleration(), km.jerk()
+        pts = [float(x) for x in s["points"]]
+        v, a, j, engine = _derivatives(pts, dt)
         out.append({
             "key": s["key"], "label": s["label"], "audience": s.get("audience", "both"),
             "points": s["points"],
-            "D1_velocity": {"peak": round(float(np.max(np.abs(v))), 3), "terminal": round(float(v[-1]), 3)},
-            "D2_acceleration": {"terminal": round(float(a[-1]), 3)},
-            "D3_jerk": {"terminal": round(float(j[-1]), 3)},
+            "D1_velocity": {"peak": round(max(abs(x) for x in v), 3), "terminal": round(v[-1], 3)},
+            "D2_acceleration": {"terminal": round(a[-1], 3)},
+            "D3_jerk": {"terminal": round(j[-1], 3)},
         })
     n = len(series_block["series"][0]["points"]) if series_block["series"] else 0
-    note = (f"n={n} points -> D1-D2 valid, D3 marginal, D4+ undersampled. "
+    note = (f"n={n} points -> D1-D2 valid, D3 marginal, D4+ undersampled. engine={engine}. "
             "D5-D12 = coherence-operator zone (noise past ~D4 per arcs_kinematics.py "
             "header); NOT reported as derivatives.")
     return out, note
