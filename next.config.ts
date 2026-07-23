@@ -17,45 +17,32 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
         { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
-        // todd-call.arcs.care/teardown → public/todd-teardown.html
-        // FIX 2026-07-13: this rule and the wildcard below previously both
-        // matched `/teardown` (same host, overlapping `/:path*` source) with
-        // this one declared first on the theory that beforeFiles respects
-        // array order. Verified live in production that it does NOT reliably
-        // — the wildcard was winning (x-matched-path: /todd-call.html on a
-        // fresh, uncached request). Fixed structurally instead of by
-        // reordering: the wildcard's source now excludes "teardown" via a
-        // negative-lookahead regex, so only one rule can ever match a given
-        // path — no ambiguity for the router to resolve either way. See
-        // MEMORY.md and the identical fix below for julia.arcs.care/runtime,
-        // the only other host with this specific-path+wildcard shape.
-        { source: "/teardown", destination: "/todd-teardown.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care/logic-tree → public/todd-branch-logic.html (same structural-exclusion
-        // fix as /teardown above — the catch-all below must exclude this path too)
-        // NOTE 2026-07-23: this route was originally /build-spec. Local next build
-        // compiled a provably-correct exclusion regex (verified with a fresh
-        // `next build` + inspecting .next/routes-manifest.json directly) but the
-        // LIVE Vercel edge kept resolving /build-spec to /todd-call.html anyway
-        // (x-matched-path, reproduced across 2 separate deploys + cache-busting
-        // query params + no-cache headers). Renamed to rule out the word "build"
-        // colliding with something Vercel treats specially, and to guarantee a
-        // cache-key that was never previously requested under the old, broken
-        // resolution. If this route ever breaks again, re-verify with
-        // .next/routes-manifest.json before assuming it's a regex bug — last time
-        // the regex was already correct and the bug was elsewhere in the platform.
-        { source: "/logic-tree", destination: "/todd-logic-tree.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care root → public/todd-call.html
-        { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care/anything-else (except /teardown or /logic-tree) → public/todd-call.html
-        // NOTE 2026-07-23: chained double lookahead ((?!.*teardown)(?!.*logic-tree))
-        // compiled to a provably-correct regex locally (verified in
-        // .next/routes-manifest.json) but did NOT work live on Vercel's edge —
-        // reproduced on a genuine cache MISS for a brand-new path, ruling out
-        // caching. Every other host on this config with a working exclusion
-        // (jeben/debrief, julia/runtime, thetrueai/proposal, resume/google) uses
-        // exactly ONE (?!...) term. Single lookahead with internal `|`
-        // alternation instead — untested chained lookaheads on this platform,
-        // don't reintroduce them without live-verifying first.
+        // todd-call.arcs.care/teardown + /logic-tree → todd-teardown.html / todd-logic-tree.html
+        // FIX HISTORY, read before touching this host's rules again:
+        // 2026-07-13: exact "/teardown" + wildcard both matched `/teardown`;
+        // fixed by excluding "teardown" from the wildcard's regex.
+        // 2026-07-23: added a third exact rule ("/logic-tree", tried as
+        // "/build-spec" first too) alongside root "/" + wildcard = 4 total rule
+        // objects sharing an identical `has:[{host:todd-call.arcs.care}]`
+        // condition. That combination reproducibly resolved wrong on Vercel's
+        // edge (x-matched-path: /todd-call.html) despite the regex compiling
+        // provably correctly locally every time (fresh `next build` +
+        // .next/routes-manifest.json inspection), on genuine cache MISSes, and
+        // after 60s+ of propagation wait. The file itself deployed fine (served
+        // correctly from a different host with no competing wildcard). Root
+        // cause never fully confirmed, but every host on this config with a
+        // reliable single exact-path exception (jeben/debrief, julia/runtime,
+        // thetrueai/proposal) has exactly 2 rule objects sharing its `has`
+        // condition, never 3+. Fix: merged the two exact paths into one rule
+        // via a capture group + dynamic destination, and dropped the separate
+        // root "/" rule (the wildcard's `.*` already matches empty/root) —
+        // back down to 2 rule objects total for this host, matching the only
+        // proven-reliable shape. If a THIRD path is ever needed here, do not
+        // just add a third rule object; extend this capture group instead
+        // (e.g. `/:seg(teardown|logic-tree|newpath)` -> `/todd-:seg.html`) and
+        // keep the filename convention (`todd-<seg>.html`) so the dynamic
+        // destination keeps working without a 1:1 lookup table.
+        { source: "/:seg(teardown|logic-tree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logic-tree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
