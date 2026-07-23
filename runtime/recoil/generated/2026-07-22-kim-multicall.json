@@ -1,0 +1,98 @@
+{
+  "meta": {
+    "report_id": "2026-07-22-kim-multicall",
+    "date": "2026-07-22",
+    "counterpart": "Joe Kim",
+    "company": "HypeLab",
+    "call_count": 5,
+    "span": "Oct 6 2025 -> Jul 22 2026 (9 months, incl. a long gap)",
+    "segments": 5,
+    "transcript_source": "granola:91fbab9c,3023b99e,300ac7bc,175e3e47(Ed),2717d1e7",
+    "gate": {"internal": "cartography", "external": "joe"},
+    "provenance": {
+      "audience": "both",
+      "captured": "five calls with you and Ed, Oct 6 2025 through Jul 22 2026",
+      "rule": "every read anchored to a line you said, cleaned of filler, never paraphrased. In quotes = your words. Not in quotes = labeled as my read.",
+      "load_bearing_quote": "Is there any way to like monetize it somehow? I almost feel like that could be like a startup in itself."
+    }
+  },
+  "opportunity": {
+    "audience": "internal",
+    "y_state": "DELTA",
+    "topology": "CONVERGENT",
+    "note": "9-month arc: a role candidacy that rose then lapsed over the gap, replaced by a peer/product relationship. The Jul reconnect never revisited hiring."
+  },
+  "beliefs": [
+    {"id": "B1", "audience": "internal", "claim": "A role at HypeLab materializes", "evidence": "Oct 14 Joe: 'what it would look like if we were to work together'; Oct 29 Ed: 'bring on more talented folks like yourself'", "inference": "EXP", "confidence": [0.40, 0.10], "conviction": "HIGH", "verdict": "FALSIFIED (lapsed over the gap)"},
+    {"id": "B2", "audience": "internal", "claim": "HypeLab's permissionless/decentralized ads vision is the opportunity", "evidence": "Oct: heavy O&O / affiliate / upstream-media discussion; Jul: reframed to small market", "inference": "IMP", "confidence": [0.55, 0.25], "conviction": "MED", "verdict": "DOWNGRADE"},
+    {"id": "B3", "audience": "internal", "claim": "Joe stays profitable, disciplined, not raising", "evidence": "Oct: 'profitable, not raising'; Jul: consistent, $7-8M topline", "inference": "EXP", "confidence": [0.60, 0.90], "conviction": "HIGH", "verdict": "CONFIRMED"},
+    {"id": "B4", "audience": "internal", "claim": "HypeLab becomes an owned lifestyle business; Joe buys out investors 1:1", "evidence": "Jul Joe: 'more of like a lifestyle business'; buying out investors, dividend later", "inference": "EXP", "confidence": [null, 0.80], "conviction": "HIGH", "verdict": "NEW"},
+    {"id": "B5", "audience": "internal", "claim": "The relationship inverts: Joe becomes curious about / advises on ARCS", "evidence": "Jul Joe: 'could be a startup in itself', 'would you be interested in commercializing this', gave raise-or-bootstrap advice", "inference": "EXP", "confidence": [null, 0.85], "conviction": "HIGH", "verdict": "NEW"},
+    {"id": "B6", "audience": "internal", "claim": "The live overlap is ARCS-as-product, not me-as-HypeLab-hire", "evidence": "trajectory across the 5 calls", "inference": "IMP", "confidence": [0.10, 0.70], "conviction": "MED", "verdict": "UPGRADE"}
+  ],
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {"key": "role_hypelab", "audience": "internal", "label": "a role at HypeLab", "color": "#FF4D6D", "points": [0.40, 0.70, 0.70, 0.75, 0.10], "grounding_quote": "what it would look like if we were to work together in whatever capacity, I'd like to explore that"},
+      {"key": "product_overlap", "audience": "internal", "label": "overlap is my product, not a role there", "color": "#00FF9D", "points": [0.10, 0.15, 0.20, 0.25, 0.70], "grounding_quote": "would you be interested in commercializing this?"},
+      {"key": "venture_vs_lifestyle", "audience": "both", "label": "my read: HypeLab is a venture-scale play", "color": "#00F0FF", "points": [0.60, 0.55, 0.50, 0.45, 0.20], "grounding_quote": "it becomes less of a venture backed type business and more of like a lifestyle business, top line around seven to eight million dollars"}
+    ]
+  },
+  "insights": [
+    {"audience": "internal", "plane": "relationship", "title": "The candidacy lapsed, it did not close", "text": "Oct was an active exploration of working together, vetted through Ed. The Jul reconnect never revisited it. Play it as a peer reconnect, not a hiring re-open."},
+    {"audience": "both", "plane": "strategy", "title": "You chose discipline over scale, on purpose", "text": "$7-8M topline in a small crypto-ad market, buying out investors 1:1, dividends later. That is a deliberate lifestyle-business choice, not a fallback, and it is a good one."},
+    {"audience": "both", "plane": "thesis", "title": "We both circled the same endgame", "text": "Content and destinations are commoditizing toward a headless, LLM-answered web. The moat is owned relationships and portable context, not another ad unit. You said it on the first call and again on the last."},
+    {"audience": "both", "plane": "forward", "title": "Two concrete places I could be useful", "text": "An ARV sprint on the investor-buyout decision you are weighing (one-way door, material consequences), and the gauntlet on any investment memo or thesis you want pressure-tested."},
+    {"audience": "internal", "plane": "counterpart", "title": "Joe as sounding board, not employer", "text": "He now advises Zach (raise big or bootstrap, be profitable day one) and is curious to commercialize ARCS. Peer dynamic, not candidacy."}
+  ],
+  "next_steps": [
+    {"audience": "internal", "owner": "Zach", "text": "Send Joe the forward-facing recoil (joe-ext). Offer the ARV sprint on the buyout as the concrete hook."},
+    {"audience": "internal", "owner": "Joe", "text": "Considering commercializing ARCS help; weighing investor buyout in the next 1-2 years."}
+  ],
+  "redaction_policy": {
+    "external_keeps": ["venture_vs_lifestyle series (my own read)", "strategy/thesis/forward insights", "provenance", "capability prose"],
+    "internal_only": ["candidacy beliefs + role/product trajectory", "relationship insights", "next_steps"],
+    "rules": [
+      "The candidacy collapse is a read about Joe and NEVER crosses; show it only internally.",
+      "External shows Zach's OWN read updating (venture -> lifestyle) on Joe's words, not any score of Joe.",
+      "Method/capability can cross; the relationship arc cannot."
+    ]
+  },
+  "page": {
+    "header": {
+      "eyebrow": "Five calls, one map",
+      "title": "Recoil Report, our conversations",
+      "sub": "Your four calls with me and Ed last fall, plus our July catch-up, serialized into one rising-resolution map. The same engine, now updated through today."
+    },
+    "blocks": [
+      {"type": "sec_label", "audience": "both", "text": "The short version"},
+      {"type": "prose", "audience": "both", "h2": "What this is",
+       "p": ["This is the map you already saw, now carried forward through our July call. It turns a series of conversations into a time-ordered model of what each side believed and how those beliefs moved as new information landed. Each new call raises the resolution, the same way each new activity makes a warehouse table more answerable."]},
+      {"type": "provenance", "audience": "both"},
+      {"type": "sec_label", "audience": "both", "text": "What it does"},
+      {"type": "list", "audience": "both", "h2": "The capability, at a high level",
+       "intro": "Enough to see the shape. The specific model and operators are held back.",
+       "items": [
+         {"dot": "c", "html": "Serializes many calls into one belief timeline, not a flat per-call summary. Resolution climbs with every call added."},
+         {"dot": "", "html": "<strong>It pressure-tests its own reads before trusting them,</strong> and only reports what survives. It also keeps its corrections instead of smoothing them over, which is the honest part."},
+         {"dot": "g", "html": "It tracks confidence and how settled that confidence is over time, so you can tell a belief that has locked in from one still in motion."}
+       ]},
+      {"type": "belief_log", "audience": "internal", "h2": "Belief Log (confidence x conviction)"},
+      {"type": "kinematics_table", "audience": "internal", "h2": "Kinematics (measured, across the 5 calls)"},
+      {"type": "sec_label", "audience": "both", "text": "Watch it work, across our five calls"},
+      {"type": "worked_example", "audience": "both", "h2": "A worked example",
+       "intro": "One of my own reads, tracked across the five calls. It is a belief of mine that moved as you clarified where HypeLab actually is, which is the honest part.",
+       "close": "The line is a read I carried early, that HypeLab was a venture-scale play. It stepped down each time you framed the reality more precisely, and settled when you said it plainly in July: a disciplined, profitable, roughly seven to eight million dollar business you would rather own than dilute. The engine kept my correction on the record instead of pretending I had it right the whole time."},
+      {"type": "sec_label", "audience": "both", "text": "What it surfaced"},
+      {"type": "insights", "audience": "both", "h2": "A few things worth naming",
+       "intro": "Not the obvious summary, the quiet signals underneath, across a few different planes."},
+      {"type": "sec_label", "audience": "both", "text": "Where I could be useful"},
+      {"type": "pilot", "audience": "both", "h2": "Two concrete things",
+       "p": ["The investor buyout you are weighing is exactly the shape this is built for: a one-way door with material consequences and a one-to-two year horizon. I would run an <strong>ARV sprint</strong> on it, a structured premortem that surfaces the paths, the risks, and the considerations that are easy to miss when a decision has been marinating internally for a while.",
+             "Separately, if you ever want an investment memo or thesis pressure-tested, the <strong>gauntlet</strong> red-teams it hard and hands back the weak spots. Low scope, fast, and useful whether or not anything else comes of it."]},
+      {"type": "prose", "audience": "both", "h2": "Either way",
+       "p": ["Great to be back in touch. Take a look, and if the buyout sprint is useful, say the word and I will scope it to exactly that one decision."]},
+      {"type": "stamp", "audience": "both", "text": "Compiled from five calls &#183; Oct 2025 to Jul 2026 &#183; every read traces to your words"}
+    ]
+  }
+}
