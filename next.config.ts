@@ -30,10 +30,13 @@ const nextConfig: NextConfig = {
         // MEMORY.md and the identical fix below for julia.arcs.care/runtime,
         // the only other host with this specific-path+wildcard shape.
         { source: "/teardown", destination: "/todd-teardown.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // todd-call.arcs.care/build-spec → public/todd-branch-logic.html (same structural-exclusion
+        // fix as /teardown above — the catch-all below must exclude this path too)
+        { source: "/build-spec", destination: "/todd-branch-logic.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care root → public/todd-call.html
         { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care/anything-else (except /teardown) → public/todd-call.html
-        { source: "/:path((?!.*teardown).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // todd-call.arcs.care/anything-else (except /teardown or /build-spec) → public/todd-call.html
+        { source: "/:path((?!.*teardown|.*build-spec).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
