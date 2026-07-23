@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "report_id": "2026-07-23-kleban-ext",
+    "date": "2026-07-23",
+    "counterpart": "Yuri Kleban",
+    "company": "Google",
+    "segments": 4,
+    "gate": {"external": "yuri"},
+    "provenance": {"audience": "both", "captured": "a taste, built for our call", "load_bearing_quote": "better partnership intel than a battlecard: a tracked decision, not a transcript"}
+  },
+  "kinematic_series": {"dt": 1.0, "series": [
+    {"key": "partner_intent", "audience": "both", "label": "illustrative: a partner's real intent, read over 4 touches", "color": "#00F0FF", "points": [0.40, 0.55, 0.50, 0.82], "grounding_quote": "illustrative only, not a real partner -- the shape is the point: resolution climbs, and the read gets corrected as the record grows"}
+  ]},
+  "insights": [
+    {"audience": "both", "plane": "method", "title": "Two documents, one source", "text": "Every meeting produces a private war-room (your real read, strategy, and premortem) and a counterpart-safe brief, projected from the same source of truth. They can never drift, and the private side can never leak, because the redaction is a code path, not a discipline someone has to remember."},
+    {"audience": "both", "plane": "method", "title": "Belief over time, not notes per call", "text": "A partnership is a multi-touch decision under uncertainty. This tracks what you expected vs what actually happened, joined on time, and the resolution climbs with every touch. The diff between stated and revealed preference is where partnerships are won or lost, and it is exactly what flat call notes throw away."},
+    {"audience": "both", "plane": "honesty", "title": "It corrects itself on the record", "text": "When a read is wrong, it keeps the correction instead of quietly editing it out. A battlecard flatters your plan; this pressure-tests it and books the miss. That is what makes it trustworthy in a real negotiation."}
+  ],
+  "page": {
+    "header": {"eyebrow": "Partnership intelligence", "title": "Meeting intel, tracked like a decision", "sub": "A short taste, built for our call. What partnership intel looks like when it is a tracked decision instead of a transcript or a battlecard."},
+    "blocks": [
+      {"type": "sec_label", "audience": "both", "text": "The short version"},
+      {"type": "prose", "audience": "both", "h2": "The gap most partnership intel leaves open", "p": ["Strategy and operations hands you a top-down deck that is stale the day after the meeting. Sales enablement hands you a flat battlecard and CRM notes, one row per call. Neither tracks the thing that actually moves a partnership: what you believed going in, what the counterpart revealed, and how your read of them changed across four, six, ten touches.", "That belief trajectory is where deals are won or lost. This treats it as a decision under uncertainty and tracks it like one."]},
+      {"type": "prose", "audience": "both", "h2": "Two documents, in parallel, from one source", "p": ["For every partnership meeting you keep two linked artifacts. A <strong>private war-room</strong>: your real read of the counterpart, the strategy, the risks, an honest premortem of how the deal dies. And a <strong>counterpart-safe brief</strong>: what you actually hand them.", "Both are projected from a single source of truth, so they never drift, and the private side can never accidentally leak into the shared one. The redaction is mechanical, not a discipline someone has to remember at 11pm before a QBR."]},
+      {"type": "list", "audience": "both", "h2": "The private twin: six disciplines you never see", "intro": "The shared brief you are reading is the calm surface. Behind every one sits a private war-room with six disciplines. You do not see its contents, but this is the shape of the rigor underneath the intel.", "items": [
+        {"dot": "c", "html": "<strong>Pre-Call</strong>: orient before contact: the read on register, intent, and the landmines to avoid."},
+        {"dot": "c", "html": "<strong>Ex-Ante</strong>: a decision receipt filed <em>before</em> the meeting: the falsifiable hypothesis, so the read can be scored later instead of rationalized."},
+        {"dot": "g", "html": "<strong>Forge</strong>: every load-bearing claim pressure-tested against external evidence by an independent skeptic. Grounded, inference, or struck."},
+        {"dot": "", "html": "<strong>Recoil</strong>: after the meeting, the belief-update ledger: what moved, by how much, and the exact line that moved it."},
+        {"dot": "", "html": "<strong>War Game</strong>: the adversarial pass: a premortem walking the critical path against the counterpart's real objections."},
+        {"dot": "g", "html": "<strong>Defensibility</strong>: the whole thing translated into the counterpart's own register, and stress-tested to survive their scrutiny."}
+      ]},
+      {"type": "sec_label", "audience": "both", "text": "Watch the belief move"},
+      {"type": "worked_example", "audience": "both", "h2": "Belief over time", "intro": "One belief about a partner's real intent, tracked across four touches. Illustrative, but the shape is the point.", "close": "It rose, dipped when a signal contradicted it, then hardened once the counterpart revealed their hand. A flat call-notes tool would have logged four disconnected summaries. This gives you the trajectory, the inflection, and the honest correction in one view, and the resolution keeps climbing with every touch."},
+      {"type": "sec_label", "audience": "both", "text": "Against what you have today"},
+      {"type": "table", "audience": "both", "h2": "Why this beats a battlecard", "columns": ["Today (S&amp;O deck / sales enablement)", "Parallel-tracked partnership intel"], "rows": [
+        ["Static deck, stale after the meeting", "A living belief map that gains resolution every touch"],
+        ["Flat notes, one row per call", "Expected vs actual, joined on time, across the whole relationship"],
+        ["Top-down assumptions", "Grounded in what the counterpart actually said, quoted"],
+        ["Flatters your plan", "Pressure-tests it and keeps the corrections"],
+        ["One document, one audience", "A private war-room and a safe shared brief, air-gapped by construction"]
+      ]},
+      {"type": "prose", "audience": "both", "h2": "This is not a mockup", "p": ["I already run this discipline in public. My forensic audit of the Apple fault-line was 35 exhibits with a full belief ledger, corrections left in on the record, not quietly edited out. The engine that graded itself day by day is at status.arcs.care. The same machinery that tracks a public market thesis tracks a partnership."]},
+      {"type": "pilot", "audience": "both", "h2": "A taste", "p": ["If it is ever useful: pick one partnership you are actively navigating, and I will run a single parallel-tracked brief on it, the private war-room plus the shareable version, so you can feel the difference against what your strategy and sales-enablement teams hand you today.", "Low scope, fast, and genuinely useful whether or not anything else comes of it. No ask attached."]},
+      {"type": "foot", "audience": "both", "text": "Great to finally connect. Congrats on the new arrival.<br>If any of this lives rent-free for a day or two, that is the whole point."},
+      {"type": "stamp", "audience": "both", "text": "A taste &#183; built for our Jul 23 call &#183; the private twin stays private"}
+    ]
+  }
+}
