@@ -2,8 +2,8 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "e8de855",
-    "head_message": "back-propagate faithful quote + 35-min + em-dash sweep + cost ledgers; ext page fact-checked, provenance + cross-plane insights added; Gmail draft created (not sent) to ahmed@oplevel.ai; SSOT+CLI air-gap; 3 memories banked this session",
+    "head_sha": "32334e1",
+    "head_message": "SSOT->HTML render SHIPPED: ahmed-ext.html now generated from SSOT via recoil_brief.py --format html (audience-projected, chart from data); internal ahmed.html references the CLI (reproducibility block) but stays hand-authored. Ext fact-checked, provenance + cross-plane insights, 35-min, em-dash-swept. Gmail draft (not sent) to ahmed@oplevel.ai. 3 memories banked.",
     "in_sync_with_origin": true,
     "dirty_files": ["_DECISIONS/ADR-026-... (untracked, pre-existing)", "test_prisma_direct.js (untracked, pre-existing)"]
   },
