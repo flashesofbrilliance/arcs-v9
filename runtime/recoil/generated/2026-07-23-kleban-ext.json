@@ -59,6 +59,19 @@
         "This does not, by construction. Every load-bearing read is grounded in a verbatim line and adjudicated by an independent skeptic before it is trusted, and a claim with no source does not survive. You cannot prompt-inject a record that only counts what was actually said and can point to where it was said."
       ]},
       {"type": "prose", "audience": "both", "h2": "This is not a mockup", "p": ["I already run this discipline in public. My forensic audit of the Apple fault-line was 35 exhibits with a full belief ledger, corrections left in on the record, not quietly edited out. The engine that graded itself day by day is at status.arcs.care. The same machinery that tracks a public market thesis tracks a partnership."]},
+      {"type": "sec_label", "audience": "both", "text": "Answered before you ask"},
+      {"type": "prose", "audience": "both", "h2": "The deal-breakers, up front", "p": [
+        "For a team inside Google the first questions are not about the method. They are about models, data, and control. The short version: it runs on your models, on your infrastructure, on data you own, and nothing leaves the building. The model underneath is swappable; the discipline is the point. Here is the longer version, answered before you have to ask."
+      ]},
+      {"type": "table", "audience": "both", "h2": "What a reviewer asks first", "columns": ["The question", "The answer"], "rows": [
+        ["Does it run on a competitor's model?", "No. Model-agnostic by design. It runs on Gemini through a gateway (a Vercel AI Gateway, for instance), on your own stack. The model is a swappable dependency, not the product."],
+        ["Does our data leave the building?", "No. Local-first and air-gapped. On your infrastructure nothing is routed to an external API, and the demo runs on public data only."],
+        ["Are we locked into ARCS?", "No. The source of truth is plain JSON you own and the render is a script. The method is the value, not a black box you cannot leave."],
+        ["Is this a new system we have to integrate?", "No. It is a thinking aid that runs as a one-off artifact on data you already have. No integration, no procurement, no new system of record."],
+        ["Who owns the output and the IP?", "You do. The private war-room, the shared brief, and the belief-state are yours."],
+        ["Compliance and material non-public info?", "Public filings and high-signal inference only. It never touches anything material and non-public. A hard line, not a preference."],
+        ["Will security review take six months?", "It needs no data egress and no new system, so it can run inside your existing controls as an artifact, not a procured tool."]
+      ]},
       {"type": "sec_label", "audience": "both", "text": "The forward case, if you ever want to run it"},
       {"type": "prose", "audience": "both", "h2": "The most plausible path (abductive, public signal only)", "p": [
         "A bet, stated with conviction, because naming a coherent future is how you earn the right to test it. The orgs that win the AI era will not be the ones with the best model. They will be the ones that decide best: fastest, with the least institutional amnesia. Partnerships are the sharpest test of that. High stakes, multi-touch, one-way doors, and today they run on decks and battlecards that forget everything between meetings.",
@@ -82,10 +95,6 @@
       {"type": "prose", "audience": "both", "h2": "Highest survivable path (war-gamed)", "p": [
         "Simulate the adoption paths and the survivable one is the smallest: one team, one live partnership, champion-run, on public and already-available data, with a pre-agreed success metric and a thirty-day horizon. The private war-room stays with the champion. The shared brief is the only thing that circulates.",
         "The paths that die are the big ones: org-wide rollout, tool procurement, top-down mandate. Start where survival is cheapest, prove one deal, let the atlas compound from there."
-      ]},
-      {"type": "prose", "audience": "both", "h2": "It runs on your models", "p": [
-        "The engine is model-agnostic by design. The reasoning layer is decoupled from any one provider, so through a gateway (a Vercel AI Gateway, for instance) it can run on Gemini instead of an external model without touching the method.",
-        "That matters for an internal pilot. It would live entirely on your own stack: your models, your infrastructure, nothing routed to a competitor's API and nothing leaving the building. The discipline is the product. The model underneath is a swappable dependency, not the point."
       ]},
       {"type": "table", "audience": "both", "h2": "Risk register, up front", "columns": ["Risk", "Likelihood", "Mitigation"], "rows": [
         ["Compliance / material non-public info", "Low by design", "Public filings and high-signal inference only. Never touches anything material and non-public. A hard line, not a preference."],
