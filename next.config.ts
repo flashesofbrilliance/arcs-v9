@@ -30,18 +30,24 @@ const nextConfig: NextConfig = {
         // MEMORY.md and the identical fix below for julia.arcs.care/runtime,
         // the only other host with this specific-path+wildcard shape.
         { source: "/teardown", destination: "/todd-teardown.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care/build-spec → public/todd-branch-logic.html (same structural-exclusion
+        // todd-call.arcs.care/logic-tree → public/todd-branch-logic.html (same structural-exclusion
         // fix as /teardown above — the catch-all below must exclude this path too)
-        { source: "/build-spec", destination: "/todd-branch-logic.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // NOTE 2026-07-23: this route was originally /build-spec. Local next build
+        // compiled a provably-correct exclusion regex (verified with a fresh
+        // `next build` + inspecting .next/routes-manifest.json directly) but the
+        // LIVE Vercel edge kept resolving /build-spec to /todd-call.html anyway
+        // (x-matched-path, reproduced across 2 separate deploys + cache-busting
+        // query params + no-cache headers). Renamed to rule out the word "build"
+        // colliding with something Vercel treats specially, and to guarantee a
+        // cache-key that was never previously requested under the old, broken
+        // resolution. If this route ever breaks again, re-verify with
+        // .next/routes-manifest.json before assuming it's a regex bug — last time
+        // the regex was already correct and the bug was elsewhere in the platform.
+        { source: "/logic-tree", destination: "/todd-branch-logic.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // todd-call.arcs.care root → public/todd-call.html
         { source: "/", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // todd-call.arcs.care/anything-else (except /teardown or /build-spec) → public/todd-call.html
-        // FIX 2026-07-23: a single lookahead with `|` alternation
-        // ((?!.*teardown|.*build-spec)) did NOT reliably exclude /build-spec in
-        // production (x-matched-path came back /todd-call.html, verified live).
-        // Chained single-term lookaheads instead — same pattern proven to work
-        // for every other exact-path-vs-wildcard host on this config.
-        { source: "/:path((?!.*teardown)(?!.*build-spec).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // todd-call.arcs.care/anything-else (except /teardown or /logic-tree) → public/todd-call.html
+        { source: "/:path((?!.*teardown)(?!.*logic-tree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
