@@ -43,6 +43,7 @@
         {"dot": "", "html": "<strong>Lead with stories, not the ask.</strong> He offered 'share stories' -- take him up on it. Ask what he's building / excited about at Google. Let him drive."},
         {"dot": "", "html": "<strong>Offer ONE light taste, then stop.</strong> The gauntlet or a single decision-sprint premortem -- concrete, low-commitment. Don't dump the teams-ideas list; that reads as pushing."},
         {"dot": "g", "html": "<strong>Let him surface the help.</strong> He twice offered to help; ask what a warm intro or internal champion looks like from his seat, but let him volunteer it."},
+        {"dot": "c", "html": "<strong>If he asks 'is this on Claude?': it is model-agnostic.</strong> The reasoning layer is decoupled; via a gateway (Vercel AI Gateway) it can run on Gemini, on Google's own stack. An internal pilot would touch no competitor API and nothing leaves the building. Strong answer for a Google audience -- but only if he raises it."},
         {"dot": "", "html": "<span style='color:var(--red)'>Landmine 1 &#183; MNPI.</span> He is close to the Apple/Gemini rollout and guards it. You already promised not to ask. Keep that promise absolutely -- one wrong question costs the trust."},
         {"dot": "", "html": "<span style='color:var(--red)'>Landmine 2 &#183; over-pursuit.</span> He said 'nothing to sell/ask.' If you push a Google engagement hard, you push past his stated frame. Yield to his low-agenda energy (active listening > magical thinking)."}
       ]},

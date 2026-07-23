@@ -83,8 +83,13 @@
         "Simulate the adoption paths and the survivable one is the smallest: one team, one live partnership, champion-run, on public and already-available data, with a pre-agreed success metric and a thirty-day horizon. The private war-room stays with the champion. The shared brief is the only thing that circulates.",
         "The paths that die are the big ones: org-wide rollout, tool procurement, top-down mandate. Start where survival is cheapest, prove one deal, let the atlas compound from there."
       ]},
+      {"type": "prose", "audience": "both", "h2": "It runs on your models", "p": [
+        "The engine is model-agnostic by design. The reasoning layer is decoupled from any one provider, so through a gateway (a Vercel AI Gateway, for instance) it can run on Gemini instead of an external model without touching the method.",
+        "That matters for an internal pilot. It would live entirely on your own stack: your models, your infrastructure, nothing routed to a competitor's API and nothing leaving the building. The discipline is the product. The model underneath is a swappable dependency, not the point."
+      ]},
       {"type": "table", "audience": "both", "h2": "Risk register, up front", "columns": ["Risk", "Likelihood", "Mitigation"], "rows": [
         ["Compliance / material non-public info", "Low by design", "Public filings and high-signal inference only. Never touches anything material and non-public. A hard line, not a preference."],
+        ["Model or vendor lock-in", "Low", "Model-agnostic by design. Swap to Gemini or any model through a gateway; an internal pilot runs on your own stack, not a competitor's API."],
         ["Data security", "Low", "Local-first, air-gapped, nothing leaves. The demo runs on public data."],
         ["Champion overload", "Medium", "One partnership, one month, one artifact."],
         ["No measurable win", "Medium", "A pre-agreed, falsifiable success metric, set before the pilot."],
