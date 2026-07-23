@@ -206,7 +206,20 @@ ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-hei
 .swatch{width:14px;height:3px;border-radius:2px;display:inline-block;}
 .pilot{border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.04);}
 .foot{font-size:13px;color:var(--muted);text-align:center;padding-top:6px;line-height:1.6;}
-.stamp{text-align:center;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);}"""
+.stamp{text-align:center;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);}
+.tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:10;margin-bottom:4px;}
+.tab-btn{flex:1;min-width:88px;padding:11px 10px;background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--dimmed);border-bottom:2px solid transparent;margin-bottom:-1px;}
+.tab-btn.active{color:var(--cyan);border-bottom-color:var(--cyan);}
+.tab-btn:hover:not(.active){color:var(--text);}
+.tab-pane{display:none;flex-direction:column;gap:22px;}
+.tab-pane.active{display:flex;}
+.rk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:3px;margin-top:14px;}
+.rk:first-child{margin-top:0;}
+.rv{font-size:13.5px;line-height:1.6;color:var(--text);}
+.kv{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(30,41,59,0.5);}
+.kv:last-child{border-bottom:none;}
+.kv .k{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.06em;color:var(--dimmed);width:92px;flex-shrink:0;padding-top:2px;}
+.kv .v{font-size:13.5px;color:var(--text);line-height:1.5;}"""
 
 
 def _chart_svg(series):
@@ -255,13 +268,75 @@ GATE_CSS = ("#pw-gate{position:fixed;inset:0;background:#020408;display:flex;ali
             "@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}")
 
 
+def _render_block(b, data, audience, series, insights, prov):
+    """Render one page block to HTML. Returns '' for a block that produced nothing."""
+    t = b["type"]
+    if t == "sec_label":
+        return f'<div class="sec-label">{b["text"]}</div>'
+    if t == "prose":
+        ps = "".join(f"<p>{p}</p>" for p in b["p"])
+        return f'<div class="card"><h2>{b["h2"]}</h2>{ps}</div>'
+    if t == "pilot":
+        ps = "".join(f"<p>{p}</p>" for p in b["p"])
+        return f'<div class="card pilot"><h2>{b["h2"]}</h2>{ps}</div>'
+    if t == "list":
+        items = "".join(f'<li><span class="dot {i.get("dot","")}"></span><div>{i["html"]}</div></li>' for i in b["items"])
+        intro = f'<p style="margin-bottom:14px;">{b["intro"]}</p>' if b.get("intro") else ""
+        return f'<div class="card"><h2>{b["h2"]}</h2>{intro}<ul class="plain">{items}</ul></div>'
+    if t == "receipt":                       # labeled-field receipt (Ex-Ante, Receipt-closed)
+        body = "".join(f'<div class="rk">{f["label"]}</div><div class="rv">{f["value"]}</div>' for f in b["fields"])
+        return f'<div class="card"><h2>{b["h2"]}</h2>{body}</div>'
+    if t == "keyvalue":                      # Context conf-rows
+        rows = "".join(f'<div class="kv"><div class="k">{r["k"]}</div><div class="v">{r["v"]}</div></div>' for r in b["rows"])
+        return f'<div class="card"><h2>{b["h2"]}</h2>{rows}</div>'
+    if t == "table":                         # generic N-column table (Forge / War Game / Defensibility)
+        head = "".join(f"<th>{c}</th>" for c in b["columns"])
+        rows = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in row) + "</tr>" for row in b["rows"])
+        intro = f'<p style="margin-bottom:12px;">{b["intro"]}</p>' if b.get("intro") else ""
+        note = f'<p style="font-size:11px;color:var(--dimmed);margin-top:10px;">{b["note"]}</p>' if b.get("note") else ""
+        return f'<div class="card"><h2>{b["h2"]}</h2>{intro}<div class="chart-wrap"><table class="tbl"><tr>{head}</tr>{rows}</table></div>{note}</div>'
+    if t == "rosetta":
+        rows = "".join(f'<tr><td class="yours">{a}</td><td class="mine"><span class="arrow">&#8594;</span> {c}</td></tr>' for a, c in b["rows"])
+        left = b.get("left", "Your world"); right = b.get("right", "This engine")
+        return f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>{left}</th><th>{right}</th></tr>{rows}</table></div></div>'
+    if t == "provenance":
+        return (f'<div class="card" style="border-color:rgba(255,215,0,0.28);"><h2 style="color:var(--gold);">Source &amp; provenance</h2>'
+                f'<p>Everything here traces to {prov.get("captured","our call")}. Each read is anchored to a line you said, cleaned of filler but never paraphrased. <strong>If it is in quotes, it is your words. If it is my read, it is labeled as mine.</strong></p>'
+                f'<div style="margin-top:14px;padding:14px 16px;border-left:2px solid var(--gold);background:var(--surface2);border-radius:0 8px 8px 0;">'
+                f'<div style="font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;">Load-bearing line &#183; your words</div>'
+                f'<div style="font-size:15px;line-height:1.5;color:var(--text);font-style:italic;">"{prov.get("load_bearing_quote","")}"</div></div>'
+                f'<div style="margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);">PROVENANCE &#183; call {data["meta"]["date"]} &#183; {data["meta"].get("segments","")} segments &#183; verbatim-anchored</div></div>')
+    if t == "worked_example":
+        return f'<div class="card"><h2>{b["h2"]}</h2><p>{b["intro"]}</p>{_chart_svg(series)}<p style="margin-top:16px;">{b["close"]}</p>{_ground_quotes(series)}</div>'
+    if t == "insights":
+        items = "".join(f'<li><span class="dot {["c","","g",""][k%4]}"></span><div><strong>{i["title"]}.</strong> {i["text"]}</div></li>' for k, i in enumerate(insights))
+        return f'<div class="card"><h2>{b["h2"]}</h2><p style="margin-bottom:14px;">{b["intro"]}</p><ul class="plain">{items}</ul></div>'
+    if t == "belief_log":
+        rows = ""
+        for be in [x for x in data.get("beliefs", []) if visible(x, audience)]:
+            c = be["confidence"]; cs = f'{c[0] if c[0] is not None else "--"}&#8594;{c[1]}'
+            rows += f'<tr><td>{be["id"]}</td><td>{be["claim"]}</td><td>{be["inference"]}</td><td>{cs}</td><td>{be["conviction"]}</td><td>{be["verdict"]}</td></tr>'
+        return f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>id</th><th>claim</th><th>inf</th><th>conf</th><th>conviction</th><th>verdict</th></tr>{rows}</table></div></div>'
+    if t == "kinematics_table":
+        kin, note = compute_kinematics(data["kinematic_series"])
+        rows = "".join(f'<tr><td>{k["label"]}</td><td>{k["D1_velocity"]["peak"]} / {k["D1_velocity"]["terminal"]}</td><td>{k["D2_acceleration"]["terminal"]}</td><td>{k["D3_jerk"]["terminal"]}</td></tr>' for k in kin)
+        return f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>signal</th><th>D1 peak/term</th><th>D2 term</th><th>D3 term</th></tr>{rows}</table></div><p style="font-size:11px;color:var(--dimmed);margin-top:10px;">{note}</p></div>'
+    if t == "foot":
+        return f'<div class="foot">{b["text"]}</div>'
+    if t == "stamp":
+        return f'<div class="stamp">{b["text"]}</div>'
+    return ""
+
+
 def render_html(data, audience):
-    series = [s for s in data["kinematic_series"]["series"] if visible(s, audience)]
+    series = [s for s in data["kinematic_series"]["series"] if visible(s, audience)] if data.get("kinematic_series") else []
     insights = [i for i in data.get("insights", []) if visible(i, audience)]
     prov = data["meta"].get("provenance", {})
-    hdr = data["page"]["header"]
+    page = data["page"]
+    hdr = page["header"]
     gate_pw = (data["meta"].get("gate") or {}).get(audience)
     gate_css = GATE_CSS if gate_pw else ""
+    tabbed = page.get("layout") == "tabs"
     out = [f'<!DOCTYPE html><!-- generated by recoil_brief.py from SSOT; do not hand-edit -->',
            f'<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">',
            f'<meta name="robots" content="noindex, nofollow"><title>Recoil Report</title><style>{CSS}{gate_css}</style></head><body>']
@@ -270,51 +345,23 @@ def render_html(data, audience):
                    '<input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>')
     out.append('<div class="page">')
     out.append(f'<div><div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><div class="sub">{hdr["sub"]}</div></div><div class="rule"></div>')
-    for b in data["page"]["blocks"]:
-        if not visible(b, audience):
-            continue
-        t = b["type"]
-        if t == "sec_label":
-            out.append(f'<div class="sec-label">{b["text"]}</div>')
-        elif t == "prose":
-            ps = "".join(f"<p>{p}</p>" for p in b["p"])
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2>{ps}</div>')
-        elif t == "pilot":
-            ps = "".join(f"<p>{p}</p>" for p in b["p"])
-            out.append(f'<div class="card pilot"><h2>{b["h2"]}</h2>{ps}</div>')
-        elif t == "list":
-            items = "".join(f'<li><span class="dot {i.get("dot","")}"></span><div>{i["html"]}</div></li>' for i in b["items"])
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2><p style="margin-bottom:14px;">{b["intro"]}</p><ul class="plain">{items}</ul></div>')
-        elif t == "rosetta":
-            rows = "".join(f'<tr><td class="yours">{a}</td><td class="mine"><span class="arrow">&#8594;</span> {c}</td></tr>' for a, c in b["rows"])
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>Your world</th><th>This engine</th></tr>{rows}</table></div></div>')
-        elif t == "provenance":
-            out.append(f'<div class="card" style="border-color:rgba(255,215,0,0.28);"><h2 style="color:var(--gold);">Source &amp; provenance</h2>'
-                       f'<p>Everything here traces to {prov.get("captured","our call")}. Each read is anchored to a line you said, cleaned of filler but never paraphrased. <strong>If it is in quotes, it is your words. If it is my read, it is labeled as mine.</strong></p>'
-                       f'<div style="margin-top:14px;padding:14px 16px;border-left:2px solid var(--gold);background:var(--surface2);border-radius:0 8px 8px 0;">'
-                       f'<div style="font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;">Load-bearing line &#183; your words</div>'
-                       f'<div style="font-size:15px;line-height:1.5;color:var(--text);font-style:italic;">"{prov.get("load_bearing_quote","")}"</div></div>'
-                       f'<div style="margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);">PROVENANCE &#183; call {data["meta"]["date"]} &#183; {data["meta"]["segments"]} segments &#183; verbatim-anchored</div></div>')
-        elif t == "worked_example":
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2><p>{b["intro"]}</p>{_chart_svg(series)}<p style="margin-top:16px;">{b["close"]}</p>{_ground_quotes(series)}</div>')
-        elif t == "insights":
-            items = "".join(f'<li><span class="dot {["c","","g",""][k%4]}"></span><div><strong>{i["title"]}.</strong> {i["text"]}</div></li>' for k, i in enumerate(insights))
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2><p style="margin-bottom:14px;">{b["intro"]}</p><ul class="plain">{items}</ul></div>')
-        elif t == "belief_log":
-            rows = ""
-            for be in [x for x in data.get("beliefs", []) if visible(x, audience)]:
-                c = be["confidence"]; cs = f'{c[0] if c[0] is not None else "--"}&#8594;{c[1]}'
-                rows += f'<tr><td>{be["id"]}</td><td>{be["claim"]}</td><td>{be["inference"]}</td><td>{cs}</td><td>{be["conviction"]}</td><td>{be["verdict"]}</td></tr>'
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>id</th><th>claim</th><th>inf</th><th>conf</th><th>conviction</th><th>verdict</th></tr>{rows}</table></div></div>')
-        elif t == "kinematics_table":
-            kin, note = compute_kinematics(data["kinematic_series"])
-            rows = "".join(f'<tr><td>{k["label"]}</td><td>{k["D1_velocity"]["peak"]} / {k["D1_velocity"]["terminal"]}</td><td>{k["D2_acceleration"]["terminal"]}</td><td>{k["D3_jerk"]["terminal"]}</td></tr>' for k in kin)
-            out.append(f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>signal</th><th>D1 peak/term</th><th>D2 term</th><th>D3 term</th></tr>{rows}</table></div><p style="font-size:11px;color:var(--dimmed);margin-top:10px;">{note}</p></div>')
-        elif t == "foot":
-            out.append(f'<div class="foot">{b["text"]}</div>')
-        elif t == "stamp":
-            out.append(f'<div class="stamp">{b["text"]}</div>')
+    vblocks = [b for b in page["blocks"] if visible(b, audience)]
+    if tabbed:
+        # keep only tabs that have at least one visible block for this audience
+        tabs = [tb for tb in page["tabs"] if any(b.get("tab") == tb["id"] for b in vblocks)]
+        btns = "".join(f'<button class="tab-btn{" active" if k==0 else ""}" onclick="switchTab(\'{tb["id"]}\')">{tb["label"]}</button>' for k, tb in enumerate(tabs))
+        out.append(f'<div class="tabs">{btns}</div>')
+        for k, tb in enumerate(tabs):
+            panes = "".join(_render_block(b, data, audience, series, insights, prov) for b in vblocks if b.get("tab") == tb["id"])
+            out.append(f'<div id="pane-{tb["id"]}" class="tab-pane{" active" if k==0 else ""}">{panes}</div>')
+    else:
+        for b in vblocks:
+            out.append(_render_block(b, data, audience, series, insights, prov))
     out.append("</div>")
+    if tabbed:
+        out.append("<script>function switchTab(id){document.querySelectorAll('.tab-pane').forEach(function(p){p.classList.remove('active');});"
+                   "document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active');});"
+                   "document.getElementById('pane-'+id).classList.add('active');event.currentTarget.classList.add('active');}</script>")
     if gate_pw:
         key = f'{data["meta"]["report_id"]}-{audience}-auth'
         out.append("<script>(function(){var K='" + key + "',P='" + gate_pw + "';"
