@@ -56,6 +56,17 @@
         {"label": "Pre-committed move", "value": "Match his warmth, share stories, let him name where he can help, offer one light taste (gauntlet / single premortem). Do NOT dump the teams list, push an engagement, or fish for anything material. Book a follow-up only if HE pulls."},
         {"label": "Belief most likely to update", "value": "That there is a near-term engagement. More likely outcome: relationship banked + a possible warm intro he offers on his own timeline."},
         {"label": "Falsifier", "value": "He proactively pulls toward a concrete engagement or offers a specific intro (-> real surface, upgrade). Or he keeps it purely social with no follow-through on his help-offer (-> bank it, no active work)."}
+      ]},
+      {"tab": "recoil", "type": "keyvalue", "audience": "internal", "h2": "Receipt closed &#183; ex-ante vs actual", "rows": [
+        {"k": "Predicted", "v": "YELLOW/warm; relationship to bank, no near-term deal; if a surface exists it is him as champion/connector."},
+        {"k": "Actual", "v": "<strong>GREEN-leaning.</strong> The falsifier's UPGRADE branch fired: he pulled (offered to help, asked what I need) AND revealed he RUNS the exact team. Ex-ante right on register, undershot the fit by a mile."},
+        {"k": "Fork hit", "v": "Champion + connector + potential investor-path, and the ICP himself, not a referral to one."}
+      ]},
+      {"tab": "recoil", "type": "prose", "audience": "internal", "h2": "The big update", "p": ["He runs a ~20-person team at Google building internal pre-meeting exec briefs for the partnerships org, stitching first- and third-party data. He built the Sundar brief automation. This is not a fan who knows a buyer; he IS the ICP and the practitioner. The abstract capability doc did not land live; he asked for the real before/after (built: yuri-recoil.arcs.care) and to see the internal war room (redacted: yuri-sample.arcs.care)."]},
+      {"tab": "recoil", "type": "list", "audience": "internal", "h2": "Next steps (internal)", "intro": "Real surface now, but he still gave 'nothing to sell' energy. Stay warm, let him drive the pace.", "items": [
+        {"dot": "", "html": "<strong>Send the before/after</strong> (yuri-recoil, pw yuri) + the redacted war-room sample. Both are exactly what he asked to see."},
+        {"dot": "g", "html": "<strong>Part two follow-up post-Hawaii</strong> (after ~Aug 5). He explicitly wants it: 'part two of where this goes.' He offered to help move it forward; let him name the intro or next step."},
+        {"dot": "", "html": "<strong>Zach-floated surfaces to develop:</strong> a GCP + Firebase build -> Google Ventures / gradient -> internal dogfood; his ex-UBS partner for investment-memo, diligence, M&A, corp-dev pressure-testing. Lunch at Google NY when in town."}
       ]}
     ]
   }
