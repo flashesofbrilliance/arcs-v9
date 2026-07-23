@@ -38,7 +38,9 @@
       {"key": "role_hypelab", "audience": "internal", "label": "a role at HypeLab (evidence-warranted)", "color": "#FF4D6D", "points": [0.40, 0.70, 0.30, 0.25, 0.10], "grounding_quote": "we also hired another person on the business team only a few weeks ago, to do some of the go to market engineering (Joe, Oct 21) -- the role was already being filled"},
       {"key": "role_belief_behavioral", "audience": "internal", "label": "how hard I actually pitched (behavioral)", "color": "#FFD700", "points": [0.40, 0.70, 0.85, 0.80, 0.10], "grounding_quote": "built the GTM deck Oct 21 and sent the Day-1 self-pitch Oct 22, the day AFTER Joe told me the GTM role was filled"},
       {"key": "product_overlap", "audience": "internal", "label": "overlap is my product, not a role there", "color": "#00FF9D", "points": [0.10, 0.15, 0.20, 0.25, 0.70], "grounding_quote": "would you be interested in commercializing this?"},
-      {"key": "venture_vs_lifestyle", "audience": "both", "label": "my read: HypeLab is a venture-scale play", "color": "#00F0FF", "points": [0.60, 0.55, 0.50, 0.45, 0.20], "grounding_quote": "it becomes less of a venture backed type business and more of like a lifestyle business, top line around seven to eight million dollars"}
+      {"key": "venture_vs_lifestyle", "audience": "both", "label": "my early read: HypeLab is venture-scale", "color": "#00F0FF", "points": [0.60, 0.55, 0.50, 0.45, 0.20], "grounding_quote": "it becomes less of a venture backed type business and more of like a lifestyle business, top line around seven to eight million dollars"},
+      {"key": "headless_web", "audience": "both", "label": "shared thesis: attention is going headless (straight to LLMs)", "color": "#00FF9D", "points": [0.50, 0.55, 0.62, 0.70, 0.90], "grounding_quote": "a lot of people don't visit websites, they're gonna go straight to the LLMs... there's no ad revenue... it's a death spiral"},
+      {"key": "small_but_winning", "audience": "both", "label": "the crypto-ad market: small, and you are winning the sliver", "color": "#FFD700", "points": [0.40, 0.50, 0.60, 0.70, 0.85], "grounding_quote": "it's a tiny market... there's not that much advertising dollars going into crypto marketing, and we're just kind of getting a small sliver of that"}
     ]
   },
   "insights": [
@@ -84,9 +86,9 @@
       {"type": "belief_log", "audience": "internal", "h2": "Belief Log (confidence x conviction)"},
       {"type": "kinematics_table", "audience": "internal", "h2": "Kinematics (measured, across the 5 calls)"},
       {"type": "sec_label", "audience": "both", "text": "Watch it work, across our five calls"},
-      {"type": "worked_example", "audience": "both", "h2": "A worked example",
-       "intro": "One of my own reads, tracked across the five calls. It is a belief of mine that moved as you clarified where HypeLab actually is, which is the honest part.",
-       "close": "The line is a read I carried early, that HypeLab was a venture-scale play. It stepped down each time you framed the reality more precisely, and settled when you said it plainly in July: a disciplined, profitable, roughly seven to eight million dollar business you would rather own than dilute. The engine kept my correction on the record instead of pretending I had it right the whole time."},
+      {"type": "worked_example", "audience": "both", "h2": "Bankable learnings, tracked across five calls",
+       "intro": "Three reads about your market, each one a line, tracked from our first call to our last. This is the point of serializing conversations: a belief is not a single moment, it is a trajectory, and you can see which ones hardened and which one I had to correct.",
+       "close": "Two of these climbed as the record grew. The shared thesis that attention is going headless, straight to the LLMs, hardened every call. So did the read that crypto ads are a small but defensible market you are quietly winning. The third is a correction of mine: I came in reading HypeLab as a venture-scale play, and stepped it down each time you framed the reality more precisely, until you said it plainly in July, a disciplined, profitable, roughly seven to eight million dollar business you would rather own than dilute. The honest part is that the engine kept my wrong read on the record instead of pretending I had it right the whole time. That is what makes the learning bankable: it compounds, and it does not flatter."},
       {"type": "sec_label", "audience": "both", "text": "What it surfaced"},
       {"type": "insights", "audience": "both", "h2": "A few things worth naming",
        "intro": "Not the obvious summary, the quiet signals underneath, across a few different planes."},
