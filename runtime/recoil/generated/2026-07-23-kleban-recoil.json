@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "report_id": "2026-07-23-kleban-recoil",
+    "date": "2026-07-23",
+    "counterpart": "Yuri Kleban",
+    "company": "Google",
+    "segments": 2,
+    "doc_title": "Before & After",
+    "gate": {"external": "yuri"},
+    "provenance": {"audience": "both", "captured": "our call, Jul 23, recorded with your OK", "load_bearing_quote": "it'd be great to see your hypothesis on me before and what happened after our conversation, that's the magic"}
+  },
+  "kinematic_series": {"dt": 1.0, "series": []},
+  "page": {
+    "header": {"eyebrow": "The thing you asked to see", "title": "Before and after: our call", "sub": "You asked for the real magic, not the abstract doc: what I predicted before we spoke, and what actually changed once we did. All of it from what you shared, with your OK to record. Nothing redacted here."},
+    "blocks": [
+      {"type": "sec_label", "audience": "both", "text": "Before &#183; the bet I filed before we spoke"},
+      {"type": "prose", "audience": "both", "h2": "What this is", "p": ["The engine starts every meeting by writing down a falsifiable bet before the meeting happens, so it can be scored honestly afterward instead of rationalized. Here is the one I actually filed on you, built from your public profile and our short exchange. It is not flattering by design. It is just what I thought."]},
+      {"type": "receipt", "audience": "both", "h2": "My ex-ante receipt (filed before the call)", "fields": [
+        {"label": "The question I was deciding", "value": "Is there a real Google surface here, or is this a warm peer relationship to bank, and which do I optimize the call for?"},
+        {"label": "My read on you, going in", "value": "A genuine ARCS fan reaching out with no agenda. Warm, generous, curious. Probably non-committal."},
+        {"label": "Hypothesis / what I expected", "value": "You came to share stories, not to buy or hire. If a real surface existed, I bet it was you as an internal champion or connector to a Google team, not a deal today."},
+        {"label": "Predicted gate", "value": "YELLOW / warm. Strong relationship signal, no committed action expected."},
+        {"label": "My pre-committed move", "value": "Match your warmth, let you drive, offer one light taste, do not push a Google engagement or fish for anything you cannot share."},
+        {"label": "The belief I flagged as most likely to be wrong", "value": "That the overlap was thin or hypothetical."}
+      ]},
+
+      {"type": "sec_label", "audience": "both", "text": "After &#183; what actually changed, and the line that changed it"},
+      {"type": "prose", "audience": "both", "h2": "The headline: I under-read the fit by a mile", "p": ["The one belief I flagged as most likely wrong is the one that broke hardest, in the best direction. I read you as a fan who might know a team that could use this. You run the team. That is not a small correction. It is the whole picture flipping."]},
+      {"type": "table", "audience": "both", "h2": "Belief updates (before, what you revealed, after)", "columns": ["What I believed before", "The line that moved it (your words)", "Where it landed"], "rows": [
+        ["Maybe a Google team could use this, someday", "\"a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it together into briefs for execs before they meet people\"", "You are the exact buyer and builder of this. Confidence in a real fit went from a hedge to near-certain."],
+        ["Warm but non-committal, no near-term pull", "\"I want to help move you toward Zach direction... be selfish, what would get you to the next step\"", "Warmer and more active than I bet. You pulled, I did not have to push."],
+        ["The capability doc will land and do the selling", "\"it's very different than what I had in mind... it'd be great to see a real example of both\"", "It did not land live. You found it abstract and asked for the real before and after. You were right. This page is the correction."],
+        ["I am pitching a skeptic I need to convince", "\"Sundar has 30 people just writing briefs... I automated it with data science, no AI in 2020... his mind was blown, he didn't know it was mostly non-humans\"", "You already built this thesis by hand and proved it at the top of Google. You are not a skeptic. You are a practitioner who lived it."]
+      ]},
+
+      {"type": "sec_label", "audience": "both", "text": "Where it resonated"},
+      {"type": "list", "audience": "both", "h2": "The threads that crossed", "intro": "The moments the call sharpened, not blurred.", "items": [
+        {"dot": "g", "html": "<strong>Your Sundar brief is the ARCS thesis, five years early.</strong> Stitching first and third party signal into an exec brief so the receiver's mind is blown, and they cannot tell it was mostly non-human. That is the product, and you shipped it in 2020 without the AI."},
+        {"dot": "c", "html": "<strong>Staff of chiefs, not a chief of staff.</strong> You described 30 people briefing Sundar. The engine inverts that: one round table of divergent perspectives that converge, so everyone is oriented around the same horizon line regardless of remit. You felt where that goes immediately."},
+        {"dot": "", "html": "<strong>The consent and data-ethics stance landed.</strong> \"You're doing the right thing.\" The inverse of shrink-wrap legalese, plain-language and honest about stated versus revealed preference, is not a side note for you. It is table stakes, and it is how ARCS is built."},
+        {"dot": "", "html": "<strong>Human provenance.</strong> Both sleep-deprived dads, both a little tin-foil about deepfakes and double opt-in. The Turing-test jokes were the warm part, and they were real."}
+      ]},
+
+      {"type": "sec_label", "audience": "both", "text": "What you asked for next"},
+      {"type": "pilot", "audience": "both", "h2": "The next step, in your own framing", "p": ["You said be selfish and tell you what I need. Here is the honest answer, and where you offered to help. First, you wanted to see the real internal war room, not just this client-facing side. The redacted shape of it is here: <a href=\"https://yuri-sample.arcs.care\">yuri-sample.arcs.care</a> (same password), structure shown, method withheld. Second, the concrete paths we named: a build on GCP with Firebase that could open a Google Ventures and gradient conversation and eventually an internal dogfood, and your UBS partner for pressure-testing investment memos, diligence, and M and A or corp dev in a consolidating market.", "None of it is an ask today. You offered to help move this forward, and the most useful next move is simply the follow-up you suggested: part two of where this goes, whenever you are back from Hawaii."]},
+      {"type": "prose", "audience": "both", "h2": "The honest line", "p": ["The theory under the hood, the operators, the scoring, the data model, stays under the hood, and some of it is patentable. What crosses is the magic you asked to see: a real bet, filed before we talked, scored honestly against what you actually said. Every net new thing you shared sharpened the read instead of blurring it. That is the whole point, and you are the rare person who already knows why it matters."]},
+      {"type": "stamp", "audience": "both", "text": "Before and after &#183; our call, Jul 23 &#183; recorded with your consent &#183; every read traces to your words"}
+    ]
+  }
+}

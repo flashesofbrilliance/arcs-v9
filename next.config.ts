@@ -76,6 +76,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri-ext.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
         // yuri-sample.arcs.care → public/yuri-sample.html (redacted 6-tab war-room sample — structure shown, method withheld, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-sample.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
+        // yuri-recoil.arcs.care → public/yuri-recoil.html (real before/after recoil of the Jul 23 call, consented, pw-gated "yuri" — the "magic" Yuri asked to see)
+        { source: "/:path*", destination: "/yuri-recoil.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
         // ahmed.arcs.care → public/ahmed.html (Ahmed Elsamadisi / Polyform AI reconnect brief, pw-gated "ahmed")
         { source: "/:path*", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed.arcs.care" }] },
         // ahmed-ext.arcs.care → public/ahmed-ext.html (sanitized Ahmed-facing recoil demo — safe to share)
