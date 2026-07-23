@@ -145,17 +145,151 @@ def render_md(p):
     return "\n".join(L)
 
 
+# ---------------------------------------------------------------------------
+# HTML renderer -- generates the full styled page FROM the SSOT (audience-projected)
+# ---------------------------------------------------------------------------
+CSS = """:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:48px 24px 96px;line-height:1.62;}
+.page{max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:22px;}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
+h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;}
+.sub{font-size:14px;color:var(--muted);margin-top:6px;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.3;margin:4px 0;}
+.sec-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dimmed);margin:10px 2px -6px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
+.card h2{font-size:12px;font-family:var(--mono);font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;}
+.card p{font-size:14.5px;color:var(--text);margin-bottom:10px;}
+.card p:last-child{margin-bottom:0;}
+.card strong{font-weight:600;}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:13px;}
+ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.55;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:7px;}
+.dot.c{background:var(--cyan);}.dot.g{background:var(--gold);}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl td,.tbl th{padding:10px 12px;border-bottom:1px solid rgba(30,41,59,0.6);vertical-align:top;line-height:1.45;text-align:left;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl th{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--dimmed);}
+.tbl .yours{color:var(--muted);width:46%;}.tbl .mine{color:var(--text);}
+.arrow{color:var(--cyan);font-family:var(--mono);}
+.chart-wrap{overflow-x:auto;}
+.legend{display:flex;gap:18px;margin-top:10px;font-size:11px;color:var(--muted);font-family:var(--mono);flex-wrap:wrap;}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.swatch{width:14px;height:3px;border-radius:2px;display:inline-block;}
+.pilot{border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.04);}
+.foot{font-size:13px;color:var(--muted);text-align:center;padding-top:6px;line-height:1.6;}
+.stamp{text-align:center;margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);}"""
+
+
+def _chart_svg(series):
+    n = len(series[0]["points"])
+    def x(i): return 40 + i * (275.0 / (n - 1))
+    def y(v): return 95 - v * 80
+    lines = []
+    worst = (0.0, None, None)  # (delta, xend, yend)
+    for s in series:
+        pts = s["points"]
+        poly = " ".join(f"{x(i):.1f},{y(v):.1f}" for i, v in enumerate(pts))
+        lines.append(f'<polyline points="{poly}" fill="none" stroke="{s["color"]}" stroke-width="2"/>')
+        lines.append(f'<circle cx="{x(n-1):.1f}" cy="{y(pts[-1]):.1f}" r="3" fill="{s["color"]}"/>')
+        for i in range(1, n):
+            d = pts[i] - pts[i-1]
+            if d < worst[0]:
+                worst = (d, x(i), y(pts[i]))
+    marker = ""
+    if worst[1] is not None:
+        marker = (f'<circle cx="{worst[1]:.1f}" cy="{worst[2]:.1f}" r="4" fill="#FF4D6D"/>'
+                  f'<text x="{worst[1]:.1f}" y="{worst[2]+17:.1f}" fill="#FF4D6D" font-size="8.5" text-anchor="middle">correction</text>')
+    leg = " ".join(f'<span><span class="swatch" style="background:{s["color"]};"></span> "{s["label"]}" &nbsp;{s["points"][0]} &#8594; {s["points"][-1]}</span>' for s in series)
+    return (f'<div class="chart-wrap"><svg viewBox="0 0 360 150" width="100%" style="max-width:420px;display:block;margin:6px auto 0;" font-family="ui-monospace,monospace">'
+            f'<line x1="40" y1="15" x2="340" y2="15" stroke="#1e293b"/><line x1="40" y1="55" x2="340" y2="55" stroke="#1e293b" stroke-dasharray="2 3"/><line x1="40" y1="95" x2="340" y2="95" stroke="#1e293b"/>'
+            f'<text x="32" y="18" fill="#64748b" font-size="9" text-anchor="end">1.0</text><text x="32" y="58" fill="#64748b" font-size="9" text-anchor="end">0.5</text><text x="32" y="98" fill="#64748b" font-size="9" text-anchor="end">0.0</text>'
+            f'<text x="190" y="128" fill="#94a3b8" font-size="9" text-anchor="middle">call time</text>'
+            + "".join(lines) + marker + f'</svg></div><div class="legend">{leg}</div>')
+
+
+def _ground_quotes(series):
+    out = []
+    for s in series:
+        gq = s.get("grounding_quote")
+        if gq:
+            out.append(f'<div style="padding:11px 14px;border-left:2px solid {s["color"]};background:var(--surface2);border-radius:0 8px 8px 0;">'
+                       f'<div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);margin-bottom:4px;">grounded in &#183; your words</div>'
+                       f'<div style="font-size:13.5px;line-height:1.5;color:var(--text);font-style:italic;">"{gq}"</div></div>')
+    return '<div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;">' + "".join(out) + "</div>"
+
+
+def render_html(data, audience):
+    series = [s for s in data["kinematic_series"]["series"] if visible(s, audience)]
+    insights = [i for i in data.get("insights", []) if visible(i, audience)]
+    prov = data["meta"].get("provenance", {})
+    hdr = data["page"]["header"]
+    out = [f'<!DOCTYPE html><!-- generated by recoil_brief.py from SSOT; do not hand-edit -->',
+           f'<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">',
+           f'<meta name="robots" content="noindex, nofollow"><title>Recoil Report</title><style>{CSS}</style></head><body><div class="page">',
+           f'<div><div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><div class="sub">{hdr["sub"]}</div></div><div class="rule"></div>']
+    for b in data["page"]["blocks"]:
+        if not visible(b, audience):
+            continue
+        t = b["type"]
+        if t == "sec_label":
+            out.append(f'<div class="sec-label">{b["text"]}</div>')
+        elif t == "prose":
+            ps = "".join(f"<p>{p}</p>" for p in b["p"])
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2>{ps}</div>')
+        elif t == "pilot":
+            ps = "".join(f"<p>{p}</p>" for p in b["p"])
+            out.append(f'<div class="card pilot"><h2>{b["h2"]}</h2>{ps}</div>')
+        elif t == "list":
+            items = "".join(f'<li><span class="dot {i.get("dot","")}"></span><div>{i["html"]}</div></li>' for i in b["items"])
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2><p style="margin-bottom:14px;">{b["intro"]}</p><ul class="plain">{items}</ul></div>')
+        elif t == "rosetta":
+            rows = "".join(f'<tr><td class="yours">{a}</td><td class="mine"><span class="arrow">&#8594;</span> {c}</td></tr>' for a, c in b["rows"])
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>Your world</th><th>This engine</th></tr>{rows}</table></div></div>')
+        elif t == "provenance":
+            out.append(f'<div class="card" style="border-color:rgba(255,215,0,0.28);"><h2 style="color:var(--gold);">Source &amp; provenance</h2>'
+                       f'<p>Everything here traces to {prov.get("captured","our call")}. Each read is anchored to a line you said, cleaned of filler but never paraphrased. <strong>If it is in quotes, it is your words. If it is my read, it is labeled as mine.</strong></p>'
+                       f'<div style="margin-top:14px;padding:14px 16px;border-left:2px solid var(--gold);background:var(--surface2);border-radius:0 8px 8px 0;">'
+                       f'<div style="font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px;">Load-bearing line &#183; your words</div>'
+                       f'<div style="font-size:15px;line-height:1.5;color:var(--text);font-style:italic;">"{prov.get("load_bearing_quote","")}"</div></div>'
+                       f'<div style="margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:0.06em;color:var(--dimmed);">PROVENANCE &#183; call {data["meta"]["date"]} &#183; {data["meta"]["segments"]} segments &#183; verbatim-anchored</div></div>')
+        elif t == "worked_example":
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2><p>{b["intro"]}</p>{_chart_svg(series)}<p style="margin-top:16px;">{b["close"]}</p>{_ground_quotes(series)}</div>')
+        elif t == "insights":
+            items = "".join(f'<li><span class="dot {["c","","g",""][k%4]}"></span><div><strong>{i["title"]}.</strong> {i["text"]}</div></li>' for k, i in enumerate(insights))
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2><p style="margin-bottom:14px;">{b["intro"]}</p><ul class="plain">{items}</ul></div>')
+        elif t == "belief_log":
+            rows = ""
+            for be in [x for x in data.get("beliefs", []) if visible(x, audience)]:
+                c = be["confidence"]; cs = f'{c[0] if c[0] is not None else "--"}&#8594;{c[1]}'
+                rows += f'<tr><td>{be["id"]}</td><td>{be["claim"]}</td><td>{be["inference"]}</td><td>{cs}</td><td>{be["conviction"]}</td><td>{be["verdict"]}</td></tr>'
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>id</th><th>claim</th><th>inf</th><th>conf</th><th>conviction</th><th>verdict</th></tr>{rows}</table></div></div>')
+        elif t == "kinematics_table":
+            kin, note = compute_kinematics(data["kinematic_series"])
+            rows = "".join(f'<tr><td>{k["label"]}</td><td>{k["D1_velocity"]["peak"]} / {k["D1_velocity"]["terminal"]}</td><td>{k["D2_acceleration"]["terminal"]}</td><td>{k["D3_jerk"]["terminal"]}</td></tr>' for k in kin)
+            out.append(f'<div class="card"><h2>{b["h2"]}</h2><div class="chart-wrap"><table class="tbl"><tr><th>signal</th><th>D1 peak/term</th><th>D2 term</th><th>D3 term</th></tr>{rows}</table></div><p style="font-size:11px;color:var(--dimmed);margin-top:10px;">{note}</p></div>')
+        elif t == "foot":
+            out.append(f'<div class="foot">{b["text"]}</div>')
+        elif t == "stamp":
+            out.append(f'<div class="stamp">{b["text"]}</div>')
+    out.append("</div></body></html>")
+    return "".join(out)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Single-source recoil brief generator.")
     ap.add_argument("--data", required=True)
     ap.add_argument("--audience", choices=["internal", "external"], default="internal")
-    ap.add_argument("--format", choices=["md", "json"], default="md")
+    ap.add_argument("--format", choices=["md", "json", "html"], default="md")
     ap.add_argument("--set", action="append", default=[], help="pass-through override key.path=value")
     a = ap.parse_args()
 
     data = apply_overrides(load(a.data), a.set)
-    proj = project(data, a.audience)
-    print(render_md(proj) if a.format == "md" else json.dumps(proj, indent=2))
+    if a.format == "html":
+        print(render_html(data, a.audience))
+    else:
+        proj = project(data, a.audience)
+        print(render_md(proj) if a.format == "md" else json.dumps(proj, indent=2))
 
 
 if __name__ == "__main__":
