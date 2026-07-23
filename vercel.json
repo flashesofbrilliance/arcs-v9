@@ -26,6 +26,11 @@
       "destination": "/todd-teardown.html"
     },
     {
+      "source": "/logic-tree",
+      "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
+      "destination": "/todd-branch-logic.html"
+    },
+    {
       "source": "/runtime",
       "has": [{ "type": "host", "value": "julia.arcs.care" }],
       "destination": "/julia-runtime.html"
