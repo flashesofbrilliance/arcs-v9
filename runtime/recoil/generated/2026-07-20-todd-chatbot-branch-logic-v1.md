@@ -48,8 +48,23 @@ Quick-reply buttons:
 - "Company?" → `company`
 - Location for routing: geolocate by IP silently if available; otherwise ask "What state or region are you in?" → `territory`
 
+### ICP / fit gating (open, pending SM input)
+Sits right before handoff, after the core fields (A/B) are captured. Not a hard gate: the bot
+never refuses to submit a lead. It's a soft tag that helps the sales manager triage what lands
+in his inbox, matching how he described qualification today (screening, not blocking).
+- Compare the captured fields (application, current resin, company, requirements) against the
+  SM's ideal-vs-poor-fit criteria once he gives them: things like company size, industry,
+  order volume, or geography.
+- Tag the lead `fit: ideal`, `fit: uncertain`, or `fit: poor` on the SugarCRM record. A
+  poor-fit tag does not block the lead or change what the visitor sees, it just tells the rep
+  where to spend attention first.
+- **Blocked until the SM answers:** what "ideal" and "poor fit" actually look like. This is now
+  its own open dependency (see below), not just a nice-to-have. Until it's answered, every lead
+  ships untagged and goes to the sales manager exactly as today.
+
 ### Handoff / close
-- Create a **SugarCRM lead** with every captured field + the branch tag + `lead_source = website chatbot` + timestamp.
+- Create a **SugarCRM lead** with every captured field + the branch tag + the fit tag (once
+  defined) + `lead_source = website chatbot` + timestamp.
 - **Email** the notification to the rep for that territory, or to the sales manager for the MVP.
 - Set expectation: "Thanks. One of our resin specialists will reach out shortly, usually within a few hours."
 - Optional (later phase): "Want the spec or tear sheet emailed while you wait?"
@@ -68,17 +83,20 @@ Quick-reply buttons:
 | application | A3 / B1 | what they're making |
 | requirements | A4 / B2 | specs, properties, regulatory |
 | territory | contact capture | for routing |
+| fit | ICP gate (pending) | `ideal` / `uncertain` / `poor` — triage only, never blocks |
 | lead_source | fixed = "website chatbot" | attribution |
 | created_at | system | for the fast-reply clock |
 
 ## Routing logic
 - **MVP:** every lead → SugarCRM + email to the sales manager. He assigns to the rep by territory (his current process).
 - **Target:** geolocate (IP or the asked state) → look up the rep for that territory → assign directly. Requires the territory map.
+- **Fit tag (once defined):** rides along on the same lead, does not change routing destination or speed. It's a triage signal for the rep/SM, not a filter.
 
 ## Open dependencies (the "still needed from the SM" list)
 1. **Exact fields** (required vs optional) from the product-development / application-discovery form. Todd gave the concepts; the form confirms the precise set (and any spec properties like durometer, color, UL, temperature).
 2. **Territory map** (rep → states/regions) to turn on auto-routing. Until then, route to the SM.
 3. **Resin product list + nomenclature** so the bot can recognize (and optionally autocomplete) a resin name the visitor gives.
-4. **FAQ content** for Branch C (optional).
+4. **ICP / poor-fit criteria:** what makes a prospect ideal versus a poor fit, company size, industry, order volume, or anything else the SM uses to prioritize. Until answered, no fit tag ships and every lead is treated the same.
+5. **FAQ content** for Branch C (optional).
 
-_Version: v1 · 2026-07-20 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts._
+_Version: v1.1 · 2026-07-23 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts. v1.1 adds ICP/poor-fit gating as a soft triage tag, pending SM criteria._
