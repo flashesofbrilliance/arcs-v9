@@ -548,11 +548,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 /* ── DEAL + PAYMENT TWO-COLUMN ── */
 .buy-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: start; margin-top: 28px; }
 .buy-pay { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-.buy-pay stripe-buy-button { width: 100%; }
 @media (max-width: 768px) { .buy-row { grid-template-columns: 1fr; } }
-</style>
-<script async src="https://js.stripe.com/v3/buy-button.js"></script>
-</head>
+</style></head>
 <body>
 
 <!-- STICKY HEADER -->
@@ -609,13 +606,15 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       </div>
     </div>
 
-    <!-- STRIPE BUY BUTTON -->
+    <!-- STRIPE INVOICE -->
     <div class="buy-pay">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);">Ready to start · secure checkout</div>
-      <stripe-buy-button
-        buy-button-id="buy_btn_1TvJmUItTVVJFC6Z4qmJtcLq"
-        publishable-key="pk_live_51TvJIJItTVVJFC6ZMElBfoY85vRzbw6mCH4kXQZXi51EXTxdFxPlItri0QRQKRNltp18VlIIdpmXQAZ8PmTvnZ3400A5KLtzAJ">
-      </stripe-buy-button>
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Ready to start · secure checkout</div>
+      <div style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px 20px;text-align:center;">
+        <div style="font-size:14px;color:var(--text);margin-bottom:4px;">Chat Bot for PRL Resins</div>
+        <div style="font-size:26px;font-weight:700;color:var(--text);margin-bottom:18px;">$1,500</div>
+        <a href="https://invoice.stripe.com/i/acct_1TvJIJItTVVJFC6Z/live_YWNjdF8xVHZKSUpJdFRWVkpGQzZaLF9Vd0diNWZ3UGJmZ3dqbGZoOExQYzlHVTFiZ1hUUTl1LDE3NTM1OTUzNQ02007XQtDI3W?s=db" target="_blank" rel="noopener noreferrer" style="display:block;width:100%;background:var(--surface-hi);border:1px solid var(--border-hi);border-radius:6px;padding:13px 18px;color:var(--text);font-size:15px;font-weight:600;text-decoration:none;box-sizing:border-box;">Pay Invoice</a>
+        <div style="font-size:10px;color:var(--muted);margin-top:14px;">Secure checkout hosted by Stripe</div>
+      </div>
     </div>
 
   </div>
