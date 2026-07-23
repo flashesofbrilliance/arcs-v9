@@ -261,3 +261,44 @@ NONE (waiting on Zach's send decision + price).
 
 `/handoff-pickup` → if Zach has picked a customer + price, send the ext page; else the SSOT→HTML
 render is the next build-ready item.
+
+---
+
+# Handoff — v3.17.0 (2026-07-23)
+
+> **For Claude Code:** active pickup point. The recoil pipeline matured into a reusable system this
+> session; three live engagements (Ahmed, Joe, Yuri) run on it.
+
+## What shipped (2026-07-23)
+
+**The recoil pipeline is now a closed-loop, self-contained, parameterized system.**
+- **4 composable skills** (`.claude/skills/recoil-{new,prep,close,ship}`) over one SSOT-per-counterpart
+  JSON; `scripts/recoil` (zero-dep bash wrapper, needs only python3) renders; `--format html` +
+  per-audience password gate + `meta.doc_title`.
+- **6-tab war-room parameterized** as `runtime/recoil/templates/war-room-6tab.template.json`
+  (Pre-Call/Ex-Ante/Forge/Recoil/War Game/Defensibility; self-documenting `_METHOD` + per-block `_doc`).
+  New generic blocks: `receipt`, `keyvalue`, `table`; tabbed layout with empty-tab auto-hide.
+- **Yuri Kleban / Google** (warm first call, Jul 23 1pm EST) — first live run of the skills. `yuri-war`
+  (pw `sextant`) + `yuri-ext` "Intel Brief" (pw `yuri`): parallel-tracking capability seed with the
+  handoff-tax, the north star (each datapoint sharpens not blurs), serialization-in-a-continuous-vector-
+  space, notetaker-injection immunity, a hyperstition champion-kit, and an "answered before you ask"
+  deal-breaker band (LLM-agnostic / runs-on-Gemini-via-gateway is the key lever). See
+  [[project_yuri_kleban_google]].
+- **Memories:** [[active-listening-over-magical-thinking]], [[project_yuri_kleban_google]] added.
+  Ahmed + Joe engagements from earlier this session remain (Ahmed Gmail draft unsent; Joe joe-war/joe-ext).
+
+## Open / next
+
+1. **Yuri:** post-call, `/recoil-close` on `2026-07-23-kleban.json` (score the ex-ante); share the Intel
+   Brief only if he pulled. Do not over-pursue (he said "nothing to sell").
+2. **Ahmed:** Gmail draft still unsent (his call, set pilot price first).
+3. **Joe:** joe-ext ready if wanted; joe-war internal-only.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check for post-call follow-through on Yuri/Ahmed/Joe. The recoil skills are the
+reusable path for any new counterpart: `/recoil-new` → `/recoil-prep` → [call] → `/recoil-close` → `/recoil-ship`.

@@ -2,8 +2,8 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "f19ce1a",
-    "head_message": "6-TAB WAR-ROOM parameterized as a reproducible CLI template (runtime/recoil/templates/war-room-6tab.template.json): the disciplined method behind ahmed.arcs.care (Pre-Call/Ex-Ante/Forge/Recoil/War Game/Defensibility). Generator gained tabbed-layout mode + receipt/keyvalue/table block types; audience projection + empty-tab-hiding intact. Joe multi-call recoil (internal joe-war pw cartography + external joe-ext pw joe, bankable-learnings-over-time chart) shipped. Earlier: Joe Kim / HypeLab multi-call recoil (5 calls Oct 2025 -> Jul 2026) built via the SSOT+CLI pipeline. recoil_brief.py now supports --format html generation + per-audience password gate. joe-war.arcs.care (pw cartography, INTERNAL, NEVER share): full candidacy trajectory; enriched with gmail + gamma + all 3 large transcripts read from disk -> key finding: the GTM role was ALREADY FILLED (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; war-room shows evidence-vs-behavior divergence. joe-ext.arcs.care (pw joe, safe): forward-facing, candidacy fully air-gapped out (verified 0 leaks). Also this session: ahmed-ext generated from SSOT, self-contained scripts/recoil wrapper, Gmail draft to ahmed@oplevel.ai.",
+    "head_sha": "ccc1e84",
+    "head_message": "Yuri Kleban / Google warm first-call (Jul 23 1pm EST): first live run of the closed-loop recoil skills -> yuri-war (pw sextant) + yuri-ext Intel Brief (pw yuri). Session built: 4 composable recoil skills (recoil-new/prep/close/ship), 6-tab war-room parameterized as a template, self-contained scripts/recoil, SSOT->HTML render, per-audience gates + doc_title. Three live engagements (Ahmed, Joe, Yuri) on the pipeline.",
     "in_sync_with_origin": true,
     "dirty_files": ["_DECISIONS/ADR-026-... (untracked, pre-existing)", "test_prisma_direct.js (untracked, pre-existing)"]
   },
@@ -35,6 +35,8 @@
     ]
   },
   "active_briefs": {
+    "yuri-war.arcs.care": "Yuri Kleban / Google INTERNAL pre-call war-room (pw 'sextant', NEVER share). Warm first-call fan-not-buyer, Jul 23 1pm EST. Pre-Call + Ex-Ante filled; back 4 tabs auto-hidden until /recoil-close. SSOT: runtime/recoil/generated/2026-07-23-kleban.json.",
+    "yuri-ext.arcs.care": "Yuri-facing 'Intel Brief' (pw 'yuri', safe to share, NOT sent). Parallel-tracking capability seed: handoff-tax + north-star + serialization + notetaker-immunity + hyperstition champion-kit + 'answered before you ask' deal-breaker band (LLM-agnostic/runs-on-Gemini). Offer only if he pulls (he said 'nothing to sell').",
     "joe-war.arcs.care": "Joe Kim / HypeLab INTERNAL multi-call recoil war-room (pw 'cartography', NEVER share). 5 calls Oct 2025->Jul 2026 + gmail + gamma. Key finding: GTM role was already filled (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; shows evidence-vs-behavior overconfidence divergence. Generated from runtime/recoil/generated/2026-07-22-kim-multicall.json.",
     "joe-ext.arcs.care": "Joe-facing forward recoil (pw 'joe', safe to share). Shows only Zach's own venture->lifestyle read + ARV-sprint/gauntlet offers. Candidacy fully air-gapped out. joe.arcs.care (the older Oct decision-map) already shared with Joe Jul 20.",
     "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI — reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
