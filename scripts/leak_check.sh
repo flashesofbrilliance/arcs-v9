@@ -104,4 +104,20 @@ if [ -n "$RAW" ]; then
 fi
 
 echo "  ✔ clean — no internal markers on any external surface."
+
+# Analytics-coverage gate (added 2026-07-24): every external surface must carry
+# the Vercel Web Analytics snippet, so counterpart page-opens are always visible
+# in the dashboard. Templates dir excluded from serving but held to the same bar.
+MISSING="$(grep -R -L -E '_vercel/insights|va\.vercel-scripts|@vercel/analytics' public --include='*.html' || true)"
+if [ -n "$MISSING" ]; then
+  MISS_COUNT="$(echo "$MISSING" | grep -c . || true)"
+  echo ""
+  echo "  ✘ ANALYTICS: ${MISS_COUNT} public page(s) missing the Web Analytics snippet:"
+  echo "$MISSING" | sed 's/^/      /'
+  echo ""
+  echo "  Add: <script defer src=\"/_vercel/insights/script.js\"></script> before </head>."
+  exit 1
+fi
+
+echo "  ✔ analytics — every public page carries the Web Analytics snippet."
 exit 0

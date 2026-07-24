@@ -144,7 +144,7 @@
 .toast-dismiss span{font-family:var(--mono); font-size:10px; color:var(--faint)}
 @media (max-width:520px){ .toast-label{font-size:9.5px; padding:0 40px} }
 </style>
-</head>
+<script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 <div id="pw-gate">
   <div class="pw-mark">ARCS · Private Debrief</div>
@@ -310,5 +310,5 @@ function dismissToast(e) {
 </section>
 
 </div>
-</body>
+<script>/* ARCS section-dwell -> Vercel custom events */(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
 </html>

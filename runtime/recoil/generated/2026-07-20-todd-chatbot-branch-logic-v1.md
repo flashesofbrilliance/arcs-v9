@@ -73,6 +73,36 @@ in his inbox, matching how he described qualification today (screening, not bloc
 - If the visitor gives a name or email then leaves, save the partial lead.
 - On return: "Welcome back. Want to pick up where we left off?"
 
+## Resin catalog + nomenclature (received Jul 23, from the Product Selection Guide 2025)
+
+Todd sent the Product Selection Guide, which satisfies the resin-list dependency. The bot can now
+recognize a resin name the visitor types, validate it, and even recognize when someone names a
+competitor grade instead. Three usable layers:
+
+**1. Product families (what PRL sells).** The prefix codes the bot should recognize:
+- `PC` Polycarbonate · `ABS` · `ASA` · `PEI` (Ultem-class) · `PPX` Modified PPE (Noryl-class) ·
+  `NY6` Nylon 6 · `NY66` Nylon 6/6 · `TP` PBT (polyester)
+- Blends: `PC/ABS` · `PC/PBT` (PC/TP) · `ABS/PBT` · `PC/ASA` · `PPX/Nylon`
+
+**2. Nomenclature grammar (so the bot can parse a grade string).** Pattern is
+`FAMILY - MODIFIER + COLOR-SERIES - SUFFIX`, e.g. `PC-FRUV2-7001-1` = Polycarbonate, flame-retardant
++ UV-stabilized, black, with release.
+- **Modifiers:** GP general purpose · FR flame retardant · G glass fiber · SF structural foam ·
+  EN extrusion · UV UV-stabilized · MF mineral filled · IM impact modified · FD FDA feedstock ·
+  TFE lubricated · HH/HM/HG/HF heat/modulus/alloy/flow · S sustainable/recycled
+- **Color series:** 1000 transparent · 2000 blue · 3000 green · 4000 yellow/orange · 5000 brown/tan ·
+  6000 red · 7000 black/gray · 8000 white
+- **Suffix:** -1 release · -2 lubricant · -3 UV · -4 UV+release · -5 FDA · -6 FDA+release · -7 low-gloss+UV
+
+**3. Competitor cross-reference (recognize a resin PRL does not brand).** The guide maps PRL grades to
+common competitor products, so when a visitor names one, the bot recognizes it as a real resin ask and
+tags it for the rep. Families to watch for: Lexan (PC), Makrolon (PC), Calibre (PC), Ultem (PEI),
+Noryl (PPE), Lustran/Cycolac (ABS), Valox (PBT), Zytel/Vydyne/Akulon (nylon).
+
+_Build note:_ ship the family-prefix recognizer + competitor-name recognizer first (cheap, high value).
+Full grade-string autocomplete is a fast-follow. The injection-molding troubleshooting guide in the same
+PDF is a ready FAQ source for Branch C in a later phase.
+
 ## Fields → SugarCRM lead
 | Field | Source | Notes |
 |---|---|---|
@@ -95,8 +125,8 @@ in his inbox, matching how he described qualification today (screening, not bloc
 ## Open dependencies (the "still needed from the SM" list)
 1. **Exact fields** (required vs optional) from the product-development / application-discovery form. Todd gave the concepts; the form confirms the precise set (and any spec properties like durometer, color, UL, temperature).
 2. **Territory map** (rep → states/regions) to turn on auto-routing. Until then, route to the SM.
-3. **Resin product list + nomenclature** so the bot can recognize (and optionally autocomplete) a resin name the visitor gives.
+3. ~~**Resin product list + nomenclature** so the bot can recognize (and optionally autocomplete) a resin name the visitor gives.~~ **SATISFIED Jul 23** — Todd sent the Product Selection Guide 2025. See the "Resin catalog + nomenclature" section above.
 4. **ICP / poor-fit criteria:** what makes a prospect ideal versus a poor fit, company size, industry, order volume, or anything else the SM uses to prioritize. Until answered, no fit tag ships and every lead is treated the same.
 5. **FAQ content** for Branch C (optional).
 
-_Version: v1.1 · 2026-07-23 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts. v1.1 adds ICP/poor-fit gating as a soft triage tag, pending SM criteria._
+_Version: v1.2 · 2026-07-24 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts + Product Selection Guide 2025. v1.1 added ICP/poor-fit gating as a soft triage tag. v1.2 folds in the resin catalog + nomenclature and marks that dependency satisfied._
