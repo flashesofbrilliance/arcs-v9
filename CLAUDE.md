@@ -101,121 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.12.0 (2026-07-20)
-
-> **For Claude Code:** v3.11.0 relocated to `_ARCHIVE/handoffs.md` per the lean-file policy
-> (archived 2026-07-21, its standby item closed by v3.12.1 below). Full detail:
-> `MEMORY.md [v3.12.0]` and `project_todd_hotes_prl_resins.md` (full engagement history).
-
-## What shipped (this thread, 2026-07-20 evening)
-
-**Todd Hotes / PRL Resins — Phase 1 chatbot proposal build-out.** Todd verbally agreed to
-the $1,500 chatbot on a Jul 20 call and answered the sales-manager discovery questions
-himself by email that evening ("I know the answers lol"). This thread turned that into a
-buy-in-ready proposal page, while explicitly NOT starting the actual bot build:
-
-- Sanitized + rewrote `public/todd-call.html` / `public/todd-teardown.html`: plain-English,
-  chatbot-foregrounded, zero em-dashes (new standing rule, see `writing-avoid-emdashes-plain-language`
-  memory).
-- **Discovery section** — Todd's own answers folded under each question ("TODD →"), plus a
-  gold "Still needed from your sales manager" box (exact form fields, territory map, resin
-  nomenclature) with its own copy-as-plain-text button.
-- **How It Works section** (new) — plain-language 3-step client-facing flow, built
-  specifically so Todd has something concrete for his internal sales-team buy-in
-  conversation before Wednesday.
-- **Live Stripe buy button** embedded top of page (`$1,500 · Pay Invoice`), iterated 3x on
-  visual feedback into a 2-column deal+payment lockup with a full-width "to start" bar below.
-  Todd says by text he'll likely call the payment in instead.
-- **Branch-logic tree v1** (the actual Tidio conversation design) drafted from Todd's
-  answers and preserved in three places: git spec
-  (`runtime/recoil/generated/2026-07-20-todd-chatbot-branch-logic-v1.md`), the live How It
-  Works section, and a published Claude Artifact
-  (`https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13`, private).
-- Drafted + sent the sales-manager discovery-questions email to Todd (Gmail).
-
-**Explicit distinction held throughout:** "on hold" means don't touch Todd's
-WordPress/SugarCRM and don't start the Tidio build — it does NOT mean stop updating the
-proposal page. The page keeps getting built out for his internal buy-in use; the actual
-bot build waits for his go **and** payment.
-
-## Open from this thread
-
-1. **Awaiting Todd** — his Wednesday sales-manager ("Imagine") meeting for internal buy-in,
-   then he "reaches back out." Tentative cadence: Wed SM call (Zach may join, busy
-   10:30–11 / 2:30–3) → Thursday ~10am regroup.
-2. **SM identity unconfirmed** — possibly William Galla (VP Sales, Polymer Resources); kept
-   off the live page, only briefly used in an early (superseded) email draft.
-3. **Payment method** — Todd prefers to call in a card rather than click Stripe; may want a
-   secure upload link for W-9/tax info later.
-4. **Do not start the build** (WordPress/SugarCRM access, Tidio flow) until Todd's go +
-   payment land.
-
-## Blocking
-
-NONE (waiting on the client, not internally blocked).
-
-## Next session starts at
-
-`/handoff-pickup` → check for a reply from Todd post-Wednesday. If he's given the go and
-paid: confirm the sales-manager's identity, get WordPress + SugarCRM access, and build the
-Tidio flow per the branch-logic-tree v1 spec. If not yet: no action needed, everything
-client-facing is already live and current.
-
----
-
-# Handoff — v3.12.1 (2026-07-21)
-
-> **For Claude Code:** active pickup point. v3.12.0 above preserved. Closes the v3.11.0 /
-> v3.9.0 standby auth-loop test — full history now in `_ARCHIVE/handoffs.md`.
-
-## What shipped (this thread, 2026-07-21)
-
-**Production auth-loop test — closed, verified live, full loop.** The standby item from
-v3.11.0 (drive "Sign in to keep" end-to-end, confirm the anon-share persist fix from PR
-#121 actually lands a user on `/receipt/<id>`) is done:
-
-- First attempt used the Claude Browser pane + the Gmail MCP connector. Auth itself worked
-  (operator clicked the real email link, landed on `/dashboard`), but the Gmail MCP tool's
-  text extraction **deterministically corrupts the `=` immediately before the `token=`
-  query param** on every send (verified twice, reproducible, unrelated to token content —
-  looks like a quoted-printable line-wrap decoding bug in that connector, not an
-  arcs.care/Resend send-side defect). This broke the magic-link URL and, separately,
-  because the operator opened the link in a different browser context than the one that
-  viewed the share link, the `arcs_pending_save` localStorage flag wasn't present there
-  either — so that run only proved auth, not the claim path.
-- Full reproduction done via the **Claude-in-Chrome MCP** (operator's real Chrome, already
-  signed into Gmail) instead: visited the `/brief/share#...` link → "Sign in to keep" →
-  entered email → sent magic link → opened Gmail natively (no text-extraction step,
-  clicked the real DOM anchor) → landed authenticated on
-  **`/receipt/cmrupjbyk000104ljq1swek49`**, rendering the exact shared test bearing.
-  Same-tab-group continuity kept `arcs_pending_save` intact, so `ClaimAnonymousReceipts`
-  (`src/components/ClaimAnonymousReceipts.tsx`) fired correctly end-to-end — confirms PR
-  #121 works exactly as designed, not just by code inspection.
-- **Note for anyone touching Gmail-via-MCP for arcs.care emails going forward:** prefer
-  driving Gmail through a real browser tool (Claude-in-Chrome or the operator's own client)
-  over parsing email body text through the Gmail MCP connector when a URL/token in the
-  body matters — the corruption above is silent (no error, just wrong characters) and easy
-  to miss.
-
-## Open from prior handoffs (untouched this thread)
-
-- v3.11.0 items 1–2 (ledger management archive/reset-first; authenticated `/recoil` index)
-  — still open, operator-approved, not started.
-- v3.11.0 "glow strays" sweep — still open.
-- Todd Hotes / PRL Resins (v3.12.0) — still awaiting his post-Wednesday reply, untouched.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup` → check for a reply from Todd post-Wednesday (see v3.12.0). No other
-gating work; ledger-management and the authenticated `/recoil` index remain the next
-build-ready items whenever picked up.
-
----
-
 # Handoff — v3.16.0 (2026-07-22)
 
 > **For Claude Code:** active pickup point. Version jumped to 3.16.0 to clear the known
@@ -302,3 +187,54 @@ NONE.
 
 `/handoff-pickup` → check for post-call follow-through on Yuri/Ahmed/Joe. The recoil skills are the
 reusable path for any new counterpart: `/recoil-new` → `/recoil-prep` → [call] → `/recoil-close` → `/recoil-ship`.
+
+---
+
+# Handoff — v3.18.0 (2026-07-24)
+
+> **For Claude Code:** active pickup point. This was a security/IP-hardening session, not a
+> counterpart engagement. Full detail in the three new memories linked below.
+
+## What shipped (2026-07-24) — IP-leak hardening, all merged to main (PRs #128, #129)
+
+**The problem:** everything in `public/` was world-readable by filename on every arcs.care
+host (verified live: `www.arcs.care/yuri-war.html` → 200 with full internal content). The JS
+password gates were theater (pw in plaintext source).
+
+- **9 internal docs moved out of `public/`** → `runtime/warroom/`, served by the new
+  admin-gated `src/app/warroom/[slug]/route.ts` (Auth.js session + `ADMIN_EMAILS`, fail-closed,
+  404-not-redirect to unauth). Host rewrites in `next.config.ts` repointed;
+  `outputFileTracingIncludes` ships the files. (yuri-war, joe-war, ahmed, danny, ayesha,
+  jalaja, labella, peter, kelly-interview). CISO-reviewed: mechanism PASS.
+- **Repo flipped PRIVATE** — closed the raw.githubusercontent.com exposure that app gating
+  can't touch. See [[arcs-v9-repo-now-private-status-links-broken]].
+- **Preview deployments SSO-gated** (were public to anyone with the URL).
+- **Analytics coverage:** was live but 21 counterpart pages shipped uninstrumented. All 34
+  public pages now carry the WA snippet + an inlined section-dwell tracker (page_dwell +
+  top-5 section_dwell custom events); `recoil_brief.py` + call-brief template emit both;
+  J24 `leak_check.sh` now hard-fails any public page missing analytics. Identity = subdomain.
+- **Generator provenance leak fixed:** `generated by recoil_brief.py` comment is now
+  internal-audience-only + stripped from ext pages + gated in leak_check.sh.
+- **Deploy-waste fixed:** stale `arcs` Vercel project unlinked (was building every push, 0
+  domains); ignored-build-step skips docs-only commits; Vercel Agent auto-code-review toggled
+  OFF (the credit burn). See [[vercel-deploy-efficiency-rules]], [[vercel-config-via-cli-token-rest-api]].
+
+## Open / next
+
+1. **Showcase mirror** for status.arcs.care — its commit links now 404 (repo private).
+   Needs Zach's curation call on what code becomes public. Parked.
+2. **"Investigate Anomalies Automatically"** still ON in Vercel Team Settings → Agent (same
+   on-demand billing as code review); toggle if zero-surprise Agent spend is wanted.
+3. Counterpart passwords are decorative now (identity-gated) but sit in git history — treat
+   as disclosed; rotate meaning to zero.
+4. Prior open items untouched: Todd Hotes post-Wednesday; ledger-management + authenticated
+   `/recoil` index; Yuri/Ahmed/Joe post-call follow-through.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memories: [[static-public-files-worldreadable-client-gates-theater]],
+[[arcs-v9-repo-now-private-status-links-broken]], [[vercel-config-via-cli-token-rest-api]].

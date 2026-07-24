@@ -2,8 +2,8 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "9a8e0ed",
-    "head_message": "feat(todd): fold resin nomenclature into build spec, mark dependency satisfied [NCI:SKIP]",
+    "head_sha": "4c216df",
+    "head_message": "docs(handoff): v3.18.0 IP-leak hardening; archive v3.12.x [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": []
   },
@@ -179,7 +179,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-24T14:04:53Z",
+  "git_refreshed_at": "2026-07-24T17:21:12Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
