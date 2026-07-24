@@ -549,6 +549,9 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 .buy-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: start; margin-top: 28px; }
 .buy-pay { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 @media (max-width: 768px) { .buy-row { grid-template-columns: 1fr; } }
+.status-grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.status-tl4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
+@media (max-width: 768px) { .status-grid3 { grid-template-columns: 1fr; } .status-tl4 { grid-template-columns: 1fr 1fr; } }
 </style></head>
 <body>
 
@@ -565,7 +568,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="doc-header-inner">
     <div class="doc-mark">PRL Resins · Chatbot Proposal</div>
     <nav class="doc-tabs">
-      <a class="doc-tab active" href="#reverse">Recap</a>
+      <a class="doc-tab active" href="#status">Status</a>
+      <a class="doc-tab" href="#reverse">Recap</a>
       <a class="doc-tab" href="#recall">What I Found</a>
       <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
       <a class="doc-tab" href="#mvp">Options & Price</a>
@@ -606,14 +610,14 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       </div>
     </div>
 
-    <!-- STRIPE INVOICE -->
+    <!-- PAID / KICKED OFF -->
     <div class="buy-pay">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Ready to start · secure checkout</div>
-      <div style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:22px 20px;text-align:center;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Paid · we're building</div>
+      <div style="width:100%;background:rgba(0,255,157,.05);border:1px solid rgba(0,255,157,.3);border-radius:var(--r);padding:22px 20px;text-align:center;">
+        <div style="font-size:28px;line-height:1;margin-bottom:8px;">✓</div>
         <div style="font-size:14px;color:var(--text);margin-bottom:4px;">Chat Bot for PRL Resins</div>
-        <div style="font-size:26px;font-weight:700;color:var(--text);margin-bottom:18px;">$1,552.50</div>
-        <a href="https://invoice.stripe.com/i/acct_1TvJIJItTVVJFC6Z/live_YWNjdF8xVHZKSUpJdFRWVkpGQzZaLF9Vd0diNWZ3UGJmZ3dqbGZoOExQYzlHVTFiZ1hUUTl1LDE3NTM1OTUzNQ02007XQtDI3W?s=db" target="_blank" rel="noopener noreferrer" style="display:block;width:100%;background:var(--surface-hi);border:1px solid var(--border-hi);border-radius:6px;padding:13px 18px;color:var(--text);font-size:15px;font-weight:600;text-decoration:none;box-sizing:border-box;">Pay Invoice</a>
-        <div style="font-size:10px;color:var(--muted);margin-top:14px;">Secure checkout hosted by Stripe</div>
+        <div style="font-size:15px;font-weight:600;color:var(--green);margin-bottom:2px;">Payment received</div>
+        <div style="font-size:11px;color:var(--muted);">Paid July 24, 2026 · thank you</div>
       </div>
     </div>
 
@@ -621,8 +625,77 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 
   <!-- TO START (full-width lockup below the two columns) -->
   <div style="margin-top:16px;padding:14px 18px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
-    <strong style="color:var(--cyan);">To start, you do one thing:</strong> send me WordPress + SugarCRM access and book 30 minutes for me with your sales manager. I build it from there.
+    <strong style="color:var(--cyan);">You're paid up and we've kicked off.</strong> Two things left on your side: a SugarCRM login that can create leads, and 30 minutes for me with your sales manager. Live status is in <a href="#status" style="color:var(--cyan);font-weight:600;">Where things stand</a> below. I build it from there.
   </div>
+
+  <!-- ── WHERE THINGS STAND (SSOT status) ── -->
+  <div class="divider" id="status"></div>
+  <section>
+    <div class="section-eyebrow" style="color:var(--green);">Live status · updated July 24, 2026</div>
+    <div class="section-title">Where things stand</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:18px;">
+      This is the one place to see the whole project at a glance. I keep it current as pieces land, so you and your team always know exactly where we are without asking.
+    </p>
+
+    <div class="status-grid3">
+
+      <!-- DONE -->
+      <div style="background:rgba(0,255,157,.05);border:1px solid rgba(0,255,157,.3);border-radius:var(--r);padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green);margin-bottom:12px;">Done</div>
+        <ul style="list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--sub);line-height:1.5;">
+          <li style="margin-bottom:10px;"><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Payment</strong> received (July 24)</li>
+          <li style="margin-bottom:10px;"><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Your discovery answers</strong> (fields, qualifier, routing)</li>
+          <li style="margin-bottom:10px;"><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Resin list and nomenclature</strong> (Product Guide)</li>
+          <li><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Chatbot conversation design</strong> (the build spec)</li>
+        </ul>
+      </div>
+
+      <!-- IN MOTION -->
+      <div style="background:rgba(0,240,255,.05);border:1px solid rgba(0,240,255,.3);border-radius:var(--r);padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px;">In motion</div>
+        <ul style="list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--sub);line-height:1.5;">
+          <li style="margin-bottom:10px;"><span style="color:var(--cyan);">→</span> <strong style="color:var(--text);">WordPress access</strong> being set up by Josh's team</li>
+          <li style="margin-bottom:10px;"><span style="color:var(--cyan);">→</span> <strong style="color:var(--text);">GitHub</strong> project repo + my access (we may set this up together)</li>
+          <li><span style="color:var(--cyan);">→</span> <strong style="color:var(--text);">Chatbot tool pricing</strong>: the vendor rep is sending tier options by volume</li>
+        </ul>
+      </div>
+
+      <!-- NEEDED FROM YOU -->
+      <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);padding:16px 18px;">
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Needed from you</div>
+        <ul style="list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--sub);line-height:1.5;">
+          <li style="margin-bottom:10px;"><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">SugarCRM login</strong> that can create leads</li>
+          <li style="margin-bottom:10px;"><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">30 minutes with your sales manager</strong></li>
+          <li><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">A safe copy of the site</strong> (staging) from Josh, so I never touch the live site while building</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- TIMELINE -->
+    <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">Projected build timeline · Tidio on WordPress → SugarCRM</div>
+      <div class="status-tl4">
+        <div style="border-left:2px solid var(--green);padding-left:12px;">
+          <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px;">This week</div>
+          <div style="font-size:12px;color:var(--sub);line-height:1.5;">Lock the tool tier, get access, and stand up a safe working copy of the site.</div>
+        </div>
+        <div style="border-left:2px solid var(--cyan);padding-left:12px;">
+          <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:4px;">Week 1</div>
+          <div style="font-size:12px;color:var(--sub);line-height:1.5;">Build the chat flow: the three paths and the contact capture, tested on the copy.</div>
+        </div>
+        <div style="border-left:2px solid var(--cyan);padding-left:12px;">
+          <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:4px;">Week 2</div>
+          <div style="font-size:12px;color:var(--sub);line-height:1.5;">Connect SugarCRM and email, route each lead to your sales manager, add resin recognition.</div>
+        </div>
+        <div style="border-left:2px solid var(--gold);padding-left:12px;">
+          <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:4px;">Week 3</div>
+          <div style="font-size:12px;color:var(--sub);line-height:1.5;">Test it with you and your sales manager, then flip it live on the site.</div>
+        </div>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.6;">The build itself is about a week of my time. The calendar above assumes the access above lands promptly and we get one round of review. The two things that set the pace: the SugarCRM login and the safe site copy.</p>
+    </div>
+  </section>
 
   <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
   <div class="lbq">
