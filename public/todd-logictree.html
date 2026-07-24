@@ -158,7 +158,7 @@ footer b { color: var(--muted); }
     <div class="cover-title">Chatbot Branch-Logic Tree</div>
     <div class="cover-sub">The conversation design behind the Phase 1 chatbot: what it asks, how it branches, what it captures, and where each lead goes. Built from Todd's own discovery answers. This is the detailed version behind the plain-language <a href="/#howitworks" style="color:var(--cyan)">How It Works</a> section on the main proposal.</div>
     <div class="chips">
-      <span class="chip">Source <b>Todd's Jul 20 answers + Jul 2/9 calls</b></span>
+      <span class="chip">Source <b>Todd's Jul 20 answers + Jul 2/9 calls + Product Guide</b></span>
       <span class="chip">Platform <b>Tidio on WordPress → SugarCRM</b></span>
       <span class="chip hold">Status <b>Specced · build on Todd's go</b></span>
     </div>
@@ -330,6 +330,42 @@ footer b { color: var(--muted); }
 
   <div class="divider"></div>
   <section>
+    <div class="section-eyebrow">Resin recognition</div>
+    <div class="section-title">The bot can now recognize a resin by name</div>
+    <p class="lede">Todd sent the Product Selection Guide, so this dependency is met. The bot can recognize a PRL resin the visitor types, understand the grade code, and even catch when someone names a competitor's resin instead.</p>
+    <div class="paths">
+      <div class="card">
+        <span class="card-tag tag-cyan">What PRL sells</span>
+        <h3>Product families</h3>
+        <div class="who">the prefixes the bot recognizes</div>
+        <ol class="steps">
+          <li><strong>PC</strong> polycarbonate, <strong>ABS</strong>, <strong>ASA</strong>, <strong>PEI</strong> (Ultem class), <strong>PPX</strong> modified PPE (Noryl class), <strong>NY6</strong> / <strong>NY66</strong> nylon, <strong>TP</strong> PBT.</li>
+          <li>Blends: PC/ABS, PC/PBT, ABS/PBT, PC/ASA, PPX/Nylon.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <span class="card-tag tag-cyan">How grades are named</span>
+        <h3>Nomenclature it can read</h3>
+        <div class="who">family + modifier + color + suffix</div>
+        <ol class="steps">
+          <li>Example: <strong>PC-FRUV2-7001-1</strong> means polycarbonate, flame-retardant and UV-stabilized, black, with release.</li>
+          <li>Modifiers (FR, glass, UV, FDA), a color-series number, and a finishing suffix. The bot can parse and confirm the code.</li>
+        </ol>
+      </div>
+      <div class="card full">
+        <span class="card-tag tag-cyan">Competitor names</span>
+        <h3>It catches resins PRL does not brand</h3>
+        <div class="who">from the guide's cross-reference</div>
+        <ol class="steps">
+          <li>When a visitor names a competitor grade (Lexan, Makrolon, Ultem, Noryl, Lustran, Valox, Zytel), the bot recognizes it as a real resin ask and flags it for the rep with the PRL equivalent.</li>
+        </ol>
+        <p style="margin-top:12px"><span class="cap">Build order: family + competitor recognition first, full grade-code autocomplete as a fast-follow.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+  <section>
     <div class="needed">
       <div class="lbl">Open dependencies</div>
       <div class="section-title" style="margin-bottom:4px;">Still needed to finalize</div>
@@ -337,7 +373,7 @@ footer b { color: var(--muted); }
       <ol>
         <li><strong>The product-development / application-discovery form</strong> (or a light version), to lock the exact fields: application, spec or properties, current resin, desired resin.</li>
         <li><strong>The territory map</strong> (rep → states or regions), to turn on auto-routing instead of routing everything to the sales manager.</li>
-        <li><strong>The resin product list and nomenclature</strong>, so the bot recognizes and can autocomplete a resin name the visitor types.</li>
+        <li style="color:var(--green)"><strong style="color:var(--green)">✓ The resin product list and nomenclature</strong>. Received. Todd sent the Product Selection Guide, so the bot can recognize a resin by name (see the section above).</li>
         <li class="new"><strong>ICP / poor-fit criteria</strong>: what makes a prospect ideal versus a poor fit, company size, industry, order volume, or anything else the sales manager uses to prioritize. This gates the fit tag above.</li>
         <li class="opt">Optional: a handful of the most common questions the bot should answer up front (Path C).</li>
       </ol>
@@ -345,9 +381,9 @@ footer b { color: var(--muted); }
   </section>
 
   <footer>
-    <span>Branch-Logic Tree · <b>v1.1</b></span>
+    <span>Branch-Logic Tree · <b>v1.2</b></span>
     <span>PRL Resins · <b>Phase 1 chatbot</b></span>
-    <span><b>Internal build spec</b> · updated 2026-07-23</span>
+    <span><b>Internal build spec</b> · updated 2026-07-24</span>
   </footer>
 
 </div>
