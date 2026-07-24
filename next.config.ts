@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
         // vishal.arcs.care → public/vishal-combined.html
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
-        { source: "/:path*", destination: "/kelly-interview.html", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/kelly-interview", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         // todd-call.arcs.care/teardown + /logictree → todd-teardown.html / todd-logictree.html
         // FIX HISTORY, read before touching this host's rules again:
         // 2026-07-13: exact "/teardown" + wildcard both matched `/teardown`;
@@ -50,11 +50,11 @@ const nextConfig: NextConfig = {
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         // labella.arcs.care → public/labella.html
-        { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labella.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
-        { source: "/:path*", destination: "/labella.html", has: [{ type: "host", value: "labelle.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labelle.arcs.care" }] },
         // peter.arcs.care → public/peter.html
-        { source: "/:path*", destination: "/peter.html", has: [{ type: "host", value: "peter.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/peter", has: [{ type: "host", value: "peter.arcs.care" }] },
         // julia.arcs.care/runtime → public/julia-runtime.html
         // FIX 2026-07-13: same shape as the todd-call.arcs.care/teardown fix
         // above — the wildcard was winning over this exact-path rule despite
@@ -112,11 +112,11 @@ const nextConfig: NextConfig = {
         // lewoof.arcs.care → public/lewoof.html (Hila / Le Woof Faire setup call recoil, pw-gated "hila")
         { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
         // danny.arcs.care → public/danny.html (Danny Quick / Kiko pre-call brief + teardown, pw-gated "quick")
-        { source: "/:path*", destination: "/danny.html", has: [{ type: "host", value: "danny.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/danny", has: [{ type: "host", value: "danny.arcs.care" }] },
         // kiko.arcs.care → public/kiko.html (external-facing Kiko teardown + gift, addressed to Danny, pw-gated "danny")
         { source: "/:path*", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
         // jalaja.arcs.care → public/jalaja.html (Jalaja Padma / theTrueAI pre-call brief, internal, pw-gated "padma")
-        { source: "/:path*", destination: "/jalaja.html", has: [{ type: "host", value: "jalaja.arcs.care" }] },
+        { source: "/:path*", destination: "/warroom/jalaja", has: [{ type: "host", value: "jalaja.arcs.care" }] },
         // thetrueai.arcs.care/proposal → public/thetrueai-proposal.html (post-call content-strategy sprint proposal, pw-gated "jalaja")
         { source: "/proposal", destination: "/thetrueai-proposal.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         // thetrueai.arcs.care root/anything-else (except /proposal) → public/thetrueai.html (external-facing theTrueAI teardown, addressed to Jalaja, pw-gated "jalaja")

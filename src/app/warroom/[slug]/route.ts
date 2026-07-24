@@ -14,7 +14,8 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  if (process.env.NODE_ENV === "production") {
+  // Inverted (skip only in explicit dev) so an unset/odd NODE_ENV fails closed.
+  if (process.env.NODE_ENV !== "development") {
     const session = await auth()
     if (!isAdmin(session)) {
       // 404, not a sign-in redirect: don't confirm to outsiders that a
