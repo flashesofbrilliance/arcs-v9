@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Internal war-room HTML (served by src/app/warroom/[slug]/route.ts, admin-gated).
+  // Explicit trace include so the files ship inside the serverless function bundle.
+  outputFileTracingIncludes: {
+    "/warroom/[slug]": ["./runtime/warroom/**"],
+  },
   // /compass-kit → the static Compass UI kit preview (cosmetic; mock pipeline, no backend)
   //
   // /observatory used to rewrite here too, to a static demo at public/observatory/index.html.
@@ -66,20 +71,21 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         // joe.arcs.care → public/joe.html (Joe Kim / HypeLab 6-month decision map, pw-gated "joe")
         { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
-        // joe-war.arcs.care → public/joe-war.html (Joe INTERNAL multi-call recoil war-room, pw-gated "cartography" — NEVER share)
-        { source: "/:path*", destination: "/joe-war.html", has: [{ type: "host", value: "joe-war.arcs.care" }] },
+        // joe-war.arcs.care → /warroom/joe-war (Joe INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24)
+        { source: "/:path*", destination: "/warroom/joe-war", has: [{ type: "host", value: "joe-war.arcs.care" }] },
         // joe-ext.arcs.care → public/joe-ext.html (Joe-facing forward recoil, generated, pw-gated "joe" — safe to share)
         { source: "/:path*", destination: "/joe-ext.html", has: [{ type: "host", value: "joe-ext.arcs.care" }] },
-        // yuri-war.arcs.care → public/yuri-war.html (Yuri Kleban / Google INTERNAL pre-call war-room, pw-gated "sextant" — NEVER share)
-        { source: "/:path*", destination: "/yuri-war.html", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
+        // yuri-war.arcs.care → /warroom/yuri-war (Yuri INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24)
+        { source: "/:path*", destination: "/warroom/yuri-war", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
         // yuri-ext.arcs.care → public/yuri-ext.html (Yuri-facing capability seed — parallel-tracking taste, pw-gated "yuri" — safe to share)
         { source: "/:path*", destination: "/yuri-ext.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
         // yuri-sample.arcs.care → public/yuri-sample.html (redacted 6-tab war-room sample — structure shown, method withheld, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-sample.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
         // yuri-recoil.arcs.care → public/yuri-recoil.html (real before/after recoil of the Jul 23 call, consented, pw-gated "yuri" — the "magic" Yuri asked to see)
         { source: "/:path*", destination: "/yuri-recoil.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
-        // ahmed.arcs.care → public/ahmed.html (Ahmed Elsamadisi / Polyform AI reconnect brief, pw-gated "ahmed")
-        { source: "/:path*", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed.arcs.care" }] },
+        // ahmed.arcs.care → /warroom/ahmed (Ahmed INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24.
+        // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
+        { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },
         // ahmed-ext.arcs.care → public/ahmed-ext.html (sanitized Ahmed-facing recoil demo — safe to share)
         { source: "/:path*", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
