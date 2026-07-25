@@ -20,7 +20,8 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // omakase.arcs.care → public/omakase/ (一夜 One Evening — Louisville canon site, Gospel XXIV; open, no gate)
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
-        { source: "/:path*", destination: "/omakase/:path*", has: [{ type: "host", value: "omakase.arcs.care" }] },
+        // negative lookahead prevents beforeFiles chaining (rule above already lands in /omakase/)
+        { source: "/:path((?!omakase/).*)", destination: "/omakase/:path", has: [{ type: "host", value: "omakase.arcs.care" }] },
         // vishal.arcs.care → public/vishal-combined.html
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
