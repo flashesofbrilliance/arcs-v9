@@ -24,6 +24,8 @@
     padding:16px 20px;background:rgba(11,11,12,.94);backdrop-filter:blur(6px)}
   .lantern{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .8s,box-shadow .8s}
   .lantern.lit{background:var(--gold);box-shadow:0 0 8px rgba(201,162,39,.5)}
+  .lantern.now{animation:lpulse 1.7s ease-in-out infinite}
+  @keyframes lpulse{0%,100%{box-shadow:0 0 6px rgba(201,162,39,.4)}50%{box-shadow:0 0 16px rgba(201,162,39,.95);background:#E8D48A}}
 
   .evening{max-width:680px;margin:0 auto;padding:8vh 22px 14vh;text-align:center}
 
@@ -264,7 +266,10 @@
       if(el.offsetTop <= mid) cur = i;
     }
     var n = Math.min(cur, LANTERN_COUNT);
-    for(var k=0;k<LANTERN_COUNT;k++) lanterns[k].classList.toggle("lit", k<n);
+    for(var k=0;k<LANTERN_COUNT;k++){
+      lanterns[k].classList.toggle("lit", k<n);
+      lanterns[k].classList.toggle("now", k===n-1); // the guest's current station breathes
+    }
   }
   window.addEventListener("scroll", paint, {passive:true});
   window.addEventListener("resize", paint);
