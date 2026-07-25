@@ -306,6 +306,38 @@
     });
   });
 
+
+  // desktop hotkeys — ↓/→ snap to the next piece (or serve it at the frontier); ↑/← snap back.
+  function currentIdx(){
+    var mid = window.scrollY + window.innerHeight * 0.5, best = 0, bd = Infinity;
+    SCENES.forEach(function(id, i){
+      var el = document.getElementById(id);
+      if(i > 0 && !el.classList.contains("on")) return;
+      var d = Math.abs(el.offsetTop + el.offsetHeight/2 - mid);
+      if(d < bd){ bd = d; best = i; }
+    });
+    return best;
+  }
+  document.addEventListener("keydown", function(e){
+    if(e.altKey || e.ctrlKey || e.metaKey) return;
+    var k = e.key;
+    if(k !== "ArrowDown" && k !== "ArrowRight" && k !== "ArrowUp" && k !== "ArrowLeft") return;
+    var a = document.activeElement;
+    if(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName)) return;
+    e.preventDefault();
+    var i = currentIdx();
+    if(k === "ArrowDown" || k === "ArrowRight"){
+      if(!entered){ enter(); return; }
+      var next = i + 1 < SCENES.length ? document.getElementById(SCENES[i+1]) : null;
+      if(next && next.classList.contains("on")){ next.scrollIntoView({behavior:"smooth", block:"center"}); }
+      else {
+        var btn = document.getElementById(SCENES[i]).querySelector(".step button:not(:disabled)");
+        if(btn) btn.click();
+      }
+    } else if(i > 0){
+      document.getElementById(SCENES[i-1]).scrollIntoView({behavior:"smooth", block:"center"});
+    }
+  });
 })();
 </script>
 </body>
