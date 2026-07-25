@@ -49,7 +49,9 @@ The mechanism a neighboring product could not truthfully copy: ARCS **scaffolds 
 - **Name:** ARCS. Taglines: *Navigate to clarity. Survive the pressure. Find the flow.* / *Render through the fog.*
 - **Voice:** calm, precise, serious play; instruments in skilled hands, not SaaS onboarding. Copy does not explain what the reader already understands and never implies the system decides for them (reinforces user agency).
 - **Plain language, no em-dashes** in deliverables: short, uncomplicated sentences; translate jargon; audience is often non-technical.
-- **Dark-cockpit design system is binding** across surfaces: the canonical ARCS visual world (dark palette `#020408`/`#0d1117`, JetBrains Mono + Inter, 2.5D isometric decision-observatory register, earned-fidelity render scale) governs. Full physics spec in `WORLD.md`; tokens are canonical in `colors_and_type.css` / the design-system bundle. (Impeccable `document` can record it as DESIGN.md later; this file does not.)
+- **Dark-cockpit design system binds product surfaces** (app, dashboard, briefs, status): the canonical ARCS visual world (dark palette `#020408`/`#0d1117`, JetBrains Mono + Inter, 2.5D isometric decision-observatory register, earned-fidelity render scale) governs. Full physics spec in `WORLD.md`; tokens are canonical in `colors_and_type.css` / the design-system bundle. (Impeccable `document` can record it as DESIGN.md later; this file does not.)
+- **Per-engagement canon families may carry their own locked visual world** (confirmed 2026-07-25): e.g. the Louisville omakase family at `public/omakase/` runs its canon-locked house grammar (case `#0B0B0C` / dial `#E8E4DA` / gold `#C9A227` / vermillion `#E34F1C`, Helvetica voice + SF Mono serialization, "color is never ornament"). Each such world is recorded per surface and is binding within its family; it does not leak into product surfaces.
+- **No em-dashes, anywhere, without exception** (reaffirmed 2026-07-25): the plain-language rule wins even over authored canon voice. Counterpart-facing canon artifacts are swept the same as business deliverables; prefer commas, colons, periods, or the house interpunct.
 
 ## Evidence on Hand
 
@@ -67,4 +69,6 @@ The mechanism a neighboring product could not truthfully copy: ARCS **scaffolds 
 
 ## Accessibility & Inclusion
 
-Plain-language requirement (above) is partly an accessibility commitment: surfaces must be legible to non-technical, tech-weary readers without insider vocabulary. No formal WCAG level has been set as a binding product standard yet (open decision).
+Plain-language requirement (above) is partly an accessibility commitment: surfaces must be legible to non-technical, tech-weary readers without insider vocabulary.
+
+**WCAG 2.1 AA is the target for product surfaces** (confirmed 2026-07-25). Experience/canon artifacts meet AA where feasible (contrast, visible focus, reduced-motion support, keyboard paths) without flattening their committed aesthetic; deliberate sub-AA moments in an experience artifact are recorded as intentional exceptions, not defects.
