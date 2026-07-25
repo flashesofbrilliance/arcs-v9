@@ -1,0 +1,442 @@
+{
+ "meta": {
+  "project": "Louisville Brands × ARCS",
+  "kernel": {
+   "url": "https://jeben.arcs.care/",
+   "serial": "I",
+   "mark": "◉"
+  },
+  "clock": {
+   "meeting": "2026-07-31T13:00:00-04:00",
+   "score_back": "2026-07-31T14:00:00-04:00",
+   "day30": "read",
+   "day90": "receipts scored"
+  },
+  "serialized": "2026-07-25",
+  "seal": "The tree is the seed and the seed is the tree · 師は求める者に現れる",
+  "authority": "corrections from the operator or Jeben supersede everything"
+ },
+ "tokens": {
+  "case": "#0B0B0C",
+  "panel": "#131315",
+  "panel2": "#17171A",
+  "line": "#232326",
+  "dial": "#E8E4DA",
+  "graphite": "#7A7A80",
+  "faint": "#4A4A4F",
+  "red": {
+   "hex": "#B4342A",
+   "semantic": "through-line"
+  },
+  "gold": {
+   "hex": "#C9A227",
+   "semantic": "kintsugi seam"
+  },
+  "verm": {
+   "hex": "#E34F1C",
+   "semantic": "commit/gate — definition X, logged open"
+  },
+  "ok": "#5C8A4E"
+ },
+ "parameters": {
+  "stratum": {
+   "domain": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "names": [
+    "EXEC",
+    "STRATEGIC",
+    "OPERATIONAL",
+    "TACTICAL",
+    "SURGICAL"
+   ],
+   "rules": [
+    "serial-coherence: visible set is a numeric prefix",
+    "no-plateau: every stop changes the render",
+    "flash: depth granted by readiness"
+   ]
+  },
+  "register": {
+   "domain": [
+    "zach",
+    "jeben",
+    "justin",
+    "stanley"
+   ],
+   "layout": "2x2 brigade: KITCHEN(chef zach, server jeben) / DINERS(justin, stanley)",
+   "caps": {
+    "jeben": {
+     "max_stratum": 3,
+     "omissions": "sponsor-recalibration evidence",
+     "order": "JB-CAP 2026-07-25",
+     "logged": true
+    }
+   },
+   "fence": {
+    "front": [
+     "justin",
+     "stanley"
+    ],
+    "back": [
+     "jeben"
+    ],
+    "workshop": [
+     "zach"
+    ],
+    "rule": "withholding counted and logged; table-safe face = braid JUSTIN register only (G-2)"
+   }
+  },
+  "card_state": {
+   "domain": [
+    "headline",
+    "+lede",
+    "+abstract",
+    "+body",
+    "+appendix"
+   ],
+   "derivation": "lede=sentence 1, abstract=sentences 1-3, from body at runtime"
+  },
+  "grades": {
+   "domain": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "X"
+   ],
+   "rules": [
+    "hearsay in A-source grades referent B/F",
+    "E load-bearing only labeled",
+    "X held at gate, seatable by operator definition"
+   ]
+  },
+  "load": {
+   "domain": [
+    "AX",
+    "SZ",
+    "BENT"
+   ],
+   "test": "strip SZ; claim must stand",
+   "philosophized_thinking": "axiom leads, label welded, falsifier attached, then flourish"
+  },
+  "receipt": {
+   "fields": [
+    "decision",
+    "options",
+    "assumptions",
+    "breaks_thesis",
+    "path",
+    "kill_scale",
+    "signatures",
+    "score_back"
+   ],
+   "min": [
+    "expecting",
+    "breaks_thesis",
+    "kill_scale",
+    "score_back"
+   ],
+   "scar_rule": "written at the fracture point, before the harden-or-ruin fork"
+  },
+  "acetate": {
+   "model": "isometric transparencies: base sheet = core narrative; overlays = qualifiers/citations/implications/theses/meta",
+   "axes": {
+    "floor": "per-persona: which sheets exist in the compiled surface",
+    "zoom": "stratum excavation within the floor (EXEC→SURGICAL)"
+   },
+   "rbac_rule": "client-side hiding is display, not access control — table-facing surfaces are compiled per persona; withheld sheets are never shipped",
+   "invisibility_rule": "the machinery of omission is back-of-house: no counters, no dials, no visible fence on a guest surface; the omission log lives in the operator build and this manifest"
+  }
+ },
+ "classes": {
+  "codex": {
+   "organs": [
+    "how-to-read",
+    "kernel-0K",
+    "canon-ledger",
+    "personae",
+    "kifu",
+    "lexicon",
+    "grades",
+    "numbers",
+    "open",
+    "redactions",
+    "search",
+    "receipt"
+   ]
+  },
+  "memo": {
+   "organs": [
+    "note",
+    "window",
+    "move",
+    "economics-worst-first",
+    "discipline",
+    "honest-holes",
+    "what-remains",
+    "receipt"
+   ]
+  },
+  "filter": {
+   "organs": [
+    "claim",
+    "translator",
+    "conservation-law",
+    "dials",
+    "firewall-register",
+    "load-register"
+   ]
+  },
+  "play": {
+   "organs": [
+    "playbill",
+    "cast",
+    "acts-x3",
+    "fate-gates-x2",
+    "chorus",
+    "rules",
+    "epilogue",
+    "receipt"
+   ]
+  },
+  "braid": {
+   "organs": [
+    "fact-check",
+    "gauntlet",
+    "strands",
+    "babel",
+    "stratum",
+    "receipt"
+   ],
+   "rule": "view only — codex canonical"
+  },
+  "box": {
+   "organs": [
+    "spec-table",
+    "sequenced-reveal-2x2-clockwise",
+    "omotenashi-ledger",
+    "receipt"
+   ]
+  },
+  "omakase": {
+   "organs": [
+    "seating",
+    "courses-sequenced",
+    "dessert-seal",
+    "take-home-memo"
+   ]
+  },
+  "enso": {
+   "organs": [
+    "line-and-circle",
+    "ring-9-stations",
+    "dual-mode-internal-service",
+    "receipt"
+   ]
+  }
+ },
+ "instances": [
+  {
+   "serial": "I",
+   "title": "Thread Book (SSOT)",
+   "file": "jeben.arcs.care",
+   "kernel": true
+  },
+  {
+   "serial": "II",
+   "title": "Jul 15 Debrief",
+   "file": "jeben.arcs.care/debrief"
+  },
+  {
+   "serial": "III",
+   "title": "Call Record",
+   "file": "Granola Mar5-Jul15",
+   "grade": "A"
+  },
+  {
+   "serial": "IV",
+   "title": "Minimum Bible",
+   "file": "louisville-minimum-bible.md",
+   "superseded_by": {
+    "commit6": "VII"
+   }
+  },
+  {
+   "serial": "V",
+   "title": "Gauntlet",
+   "file": "louisville-gauntlet.md"
+  },
+  {
+   "serial": "VI",
+   "title": "Forensic Ladder",
+   "file": "louisville-forensic-ladder.md",
+   "grade": "E"
+  },
+  {
+   "serial": "VII",
+   "title": "Fact-Check & Premortem",
+   "file": "louisville-factcheck-premortem.md"
+  },
+  {
+   "serial": "VIII",
+   "title": "Meta-Audit",
+   "file": "louisville-meta-audit.md"
+  },
+  {
+   "serial": "IX",
+   "title": "Go Board",
+   "file": "louisville-go-board.md"
+  },
+  {
+   "serial": "X",
+   "title": "Diamond",
+   "file": "louisville-diamond.md"
+  },
+  {
+   "serial": "XI",
+   "title": "Notomation",
+   "file": "louisville-notomation.md"
+  },
+  {
+   "serial": "XII",
+   "title": "War Room",
+   "file": "louisville-war-room.html",
+   "bent_into": "XX"
+  },
+  {
+   "serial": "XIII",
+   "title": "Pre-Call Brief",
+   "file": "louisville-precall-brief.md"
+  },
+  {
+   "serial": "XIV",
+   "title": "Resonance Filter",
+   "file": "louisville-resonance-filter.html",
+   "receipt": "RF-01"
+  },
+  {
+   "serial": "XV",
+   "title": "The Fifteenth Rock (Play)",
+   "file": "louisville-staged-play.html",
+   "receipt": "SP-01"
+  },
+  {
+   "serial": "XVI",
+   "title": "The Braid",
+   "file": "louisville-braid.html",
+   "receipt": "BR-01",
+   "conditions": [
+    "G-1",
+    "G-2",
+    "G-3"
+   ]
+  },
+  {
+   "serial": "XVII",
+   "title": "The Box",
+   "file": "louisville-box.html",
+   "receipt": "BOX-01"
+  },
+  {
+   "serial": "XVIII",
+   "title": "Pre-Read Memo",
+   "file": "louisville-exec-memo.md",
+   "receipt": "EM-01",
+   "table_safe": true
+  },
+  {
+   "serial": "XIX",
+   "title": "Omakase",
+   "file": "louisville-omakase.html"
+  },
+  {
+   "serial": "XX",
+   "title": "Ensō",
+   "file": "louisville-enso.html",
+   "receipt": "ENSO-01"
+  },
+  {
+   "serial": "XXI",
+   "title": "Glass Box (this manifest)",
+   "file": "louisville-canon-manifest.json",
+   "receipt": "GB-01"
+  },
+  {
+   "serial": "XXIII",
+   "title": "The ROM (ROM-001)",
+   "file": "arcs-rom-louisville-session.md",
+   "receipt": "ROM-01",
+   "status": "CANDIDATE — write-locked; ratification by canon creator promotes to ROM"
+  }
+ ],
+ "doctrines": [
+  "the Note",
+  "the Fence",
+  "the Flash (Pardes)",
+  "the Scar Rule",
+  "omotenashi",
+  "the Throttle Gate",
+  "kernel/seed/seal",
+  "the Shokunin Triad (rice·polish·ground)",
+  "serial-coherence",
+  "no-plateau",
+  "the line and the circle",
+  "the Acetate (floors × excavation; compiled surfaces; invisible omission)",
+  "the Plié (yield and coil before the spring; the ma as ballon; landing = next plié)"
+ ],
+ "anti_distortion_contract": {
+  "every_claim_graded": true,
+  "falsifier_required": true,
+  "worst_case_first": true,
+  "redactions_visible": true,
+  "sizzle_never_load_bearing": true,
+  "self_grades_provisional_until_countersigned": true,
+  "urgency_never_manufactured": true,
+  "comps_barred_until_scale_matched": true,
+  "incentives_disclosed_unprompted": true,
+  "statement": "Flattery has no field to live in: a claim without a grade, source, and falsifier is structurally unrepresentable in this schema."
+ },
+ "receipt_GB01": {
+  "expecting": "any session or system can load, verify, extend, and translate the canon from this manifest",
+  "breaks_thesis": "an instance missing from the codex ledger, or a parameter here contradicting rendered behavior",
+  "kill_scale": "drift resolves from the codex; the manifest is re-emitted, never hand-patched",
+  "score_back": "first external load of the bundle"
+ },
+ "compilation_targets": {
+  "zach": {
+   "floor": 5,
+   "sheets": "all",
+   "controls": "all dials + audit machinery",
+   "note": "the workshop build"
+  },
+  "jeben": {
+   "floor": 3,
+   "omitted": [
+    "deep forensic sheets",
+    "sponsor-recalibration evidence (JB-CAP)"
+   ],
+   "controls": "zoom within floor only"
+  },
+  "justin": {
+   "floor": 2,
+   "omitted": [
+    "everything beyond the front of the fence"
+   ],
+   "controls": "none — the surface is whole",
+   "source": "braid JUSTIN register content only"
+  },
+  "stanley": {
+   "floor": 2,
+   "omitted": [
+    "same as justin"
+   ],
+   "delivery": "via justin (T2), never cold"
+  }
+ }
+}

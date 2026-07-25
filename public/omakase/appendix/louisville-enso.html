@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE ENSŌ · 円相 · The War Room, Bent Into a Circle</title>
+<style>
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .bar .sub{font-size:10px;letter-spacing:.18em;color:var(--graphite)}
+  .modes{display:flex;gap:4px}
+  .modes button{background:none;border:1px solid var(--line);color:var(--graphite);font-family:var(--mono);
+    font-size:10px;letter-spacing:.16em;padding:5px 12px;border-radius:3px}
+  .modes button[aria-pressed=true]{color:var(--gold);border-color:var(--gold)}
+  .bar .count{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--dial)}
+  .bar .count b{color:var(--verm);font-weight:600}
+
+  .board{max-width:960px;margin:0 auto;padding:28px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:2px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:22px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative}
+  .panel::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .panel[data-th="red"]::before{background:var(--red)}
+  .panel[data-th="gold"]::before{background:var(--gold)}
+  .panel[data-th="verm"]::before{background:var(--verm)}
+  .ph{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ph h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ph .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .pb{padding:16px 18px}
+  .note{font-size:20px;line-height:1.5;font-weight:700;letter-spacing:.005em}
+  .note .accent{color:var(--verm)}
+  .note-sub{margin-top:10px;color:var(--graphite);font-size:13px}
+  .receiptbox{margin-top:14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dial)}
+  .receiptbox b{color:var(--gold);font-weight:600}
+
+  /* ===== the stroke and the circle ===== */
+  .hero{padding:24px 18px 8px;text-align:center}
+  .hero svg{width:100%;max-width:640px;height:auto}
+  .hero .cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--graphite);margin-top:10px;line-height:1.9}
+  .hero .cap b{color:var(--gold)}
+
+  /* ===== the ring ===== */
+  .ringwrap{position:relative;width:min(560px,92vw);height:min(560px,92vw);margin:10px auto}
+  .ringwrap svg{position:absolute;inset:0;width:100%;height:100%}
+  .rnode{position:absolute;transform:translate(-50%,-50%);background:var(--panel2);border:1px solid var(--line);
+    border-radius:4px;padding:6px 9px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--graphite);
+    cursor:pointer;white-space:nowrap;z-index:2}
+  .rnode b{display:block;color:var(--dial);font-size:10px;letter-spacing:.14em}
+  .rnode[aria-pressed=true]{border-color:var(--verm);color:var(--dial)}
+  .rnode.now{border-color:var(--verm)}
+  .rnode.now b{color:var(--verm)}
+  .ringcenter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:56%}
+  .ringcenter .k{font-size:34px;color:var(--gold)}
+  .ringcenter p{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--faint);line-height:2}
+
+  .phasecard{background:var(--panel2);border:1px solid var(--line);border-left:2px solid var(--verm);border-radius:4px;
+    padding:14px 16px;margin-top:6px;min-height:150px}
+  .phasecard .pt{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--verm);margin-bottom:6px;font-weight:600}
+  .phasecard h3{font-size:14px;letter-spacing:.03em;margin-bottom:8px}
+  .phasecard p{font-size:13px;line-height:1.62;color:var(--dial)}
+  .phasecard .svc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:4px}
+  @media(max-width:700px){.phasecard .svc{grid-template-columns:1fr}}
+  .phasecard .svc div{border:1px dashed var(--line);border-radius:4px;padding:9px 11px}
+  .phasecard .svc .h{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;margin-bottom:5px}
+  .phasecard .svc .vis .h{color:var(--ok)}
+  .phasecard .svc .kit .h{color:var(--red)}
+  .phasecard .svc .sea .h{color:var(--gold)}
+  .phasecard .svc p{font-size:11.5px;color:var(--graphite)}
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){.stack{margin-left:34px}.spine{left:10px}.panel::before{left:-22px;width:22px}footer{margin-left:34px}.bar .sub{display:none}}
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+<div class="bar" role="banner">
+  <span class="pglyph" title="THE STROKE — mastery draws the circle">🖌️</span><span class="sig">ARCS <em>//</em> ENSŌ</span>
+  <span class="sub">円相 · THE WAR ROOM, BENT INTO A CIRCLE · GOSPEL XX · SERIALIZED 25 JUL 2026</span>
+  <div class="modes" role="group" aria-label="Mode">
+    <button aria-pressed="true" data-mode="internal">INTERNAL · T-TOOL</button>
+    <button aria-pressed="false" data-mode="service">SERVICE · MENU PEEK</button>
+  </div>
+  <span class="count" id="count" aria-live="off">—</span>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- 00 THE LINE AND THE CIRCLE -->
+    <section class="panel" data-th="red">
+      <div class="ph"><span class="eyebrow">00 · THE LINE AND THE CIRCLE</span><h2>His stroke, our ensō</h2><span class="tag">METAPHORICAL AND LITERAL</span></div>
+      <div class="hero">
+        <svg viewBox="0 0 640 300" role="img" aria-label="A horizontal brush stroke crossed by an open circle">
+          <!-- the line — his banner stroke: the maker's vector -->
+          <path d="M60 160 C 180 138, 420 132, 585 150 C 480 158, 300 168, 150 172 C 110 172, 80 168, 60 160 Z"
+                fill="var(--dial)" opacity="0.92"/>
+          <path d="M70 158 C 200 144, 400 140, 560 150" stroke="var(--dial)" stroke-width="3" fill="none" opacity=".5"/>
+          <!-- the enso — drawn around it, open at the upper right -->
+          <circle cx="320" cy="150" r="118" fill="none" stroke="var(--gold)" stroke-width="13"
+                  stroke-linecap="round" stroke-dasharray="640 120" transform="rotate(-58 320 150)" opacity=".95"/>
+          <circle cx="320" cy="150" r="118" fill="none" stroke="var(--gold)" stroke-width="5"
+                  stroke-linecap="round" stroke-dasharray="600 160" transform="rotate(-52 320 150)" opacity=".45"/>
+        </svg>
+        <div class="cap">THE LINE IS HIS — the banner stroke on his own profile: the maker's vector, velocity with direction, sub-minute sellouts.<br>
+        THE CIRCLE IS OURS — <b>the ensō drawn around the line</b>: decide → test → read → return. It does not replace the stroke; it closes the loop the stroke opens.<br>
+        THE GAP STAYS OPEN — a true ensō is never sealed: the next decision enters where the brush lifted.</div>
+      </div>
+      <div class="pb">
+        <p class="note-sub" style="margin-top:0">One instrument, two faces. <b style="color:var(--dial)">INTERNAL</b> — the war room's board bent into a T-minus → T-now ring: every station of the campaign, workshop resolution, countdown live. <b style="color:var(--dial)">SERVICE</b> — the same ring as omakase service design: for each moment, what prep is <b style="color:var(--ok)">visible on demand</b>, what craftsmanship <b style="color:var(--red)">doesn't serve the guest and stays kitchen</b>, and the <b style="color:var(--gold)">seasoning</b> — the right amount, temperature, and taste to inch to the next sublime piece.</p>
+      </div>
+    </section>
+
+    <!-- 01 THE RING -->
+    <section class="panel" data-th="gold">
+      <div class="ph"><span class="eyebrow">01 · THE RING</span><h2>T−6D → T+90D · nine stations, one circle</h2><span class="tag" id="modetag">MODE: INTERNAL</span></div>
+      <div class="pb">
+        <div class="ringwrap" id="ring">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="41" fill="none" stroke="var(--gold)" stroke-width="1.6"
+                    stroke-linecap="round" stroke-dasharray="238 20" transform="rotate(-78 50 50)" opacity=".55"/>
+          </svg>
+          <div class="ringcenter"><div class="k">円相</div><p id="centerp">THE MEETING IS A POINT<br>ON A CIRCLE, NOT THE END<br>OF A LINE</p></div>
+        </div>
+        <div class="phasecard" id="pcard" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- 02 RECEIPT -->
+    <section class="panel" data-th="verm">
+      <div class="ph"><span class="eyebrow">02 · THE CLOSING STROKE</span><h2>What the circle claims</h2><span class="tag">ENSO-01</span></div>
+      <div class="pb">
+        <p class="note" style="font-size:16px">The war room prepared for a meeting. The ensō prepares for a <span class="accent">relationship</span> — the same stations, but each one returns. The guest tastes a sequence; the kitchen runs a circle; and the craftsmanship that doesn't serve the guest is not discarded — it is what makes the served pieces feel inevitable.</p>
+        <div class="receiptbox"><b>ENSŌ RECEIPT · ENSO-01 · GOSPEL XX</b><br>EXPECTING — the ring serves as the internal T-tool through Friday and the service-design reference after; the gap admits the next decision on any lap<br>BREAKS THESIS — a station whose service view leaks kitchen material · a lap where the score-back is skipped · the circle treated as a line with a bend in it<br>KILL/SCALE — leaks re-fence per F4/G-2; a skipped score-back reopens the throttle gate<br>SCORE-BACK — Fri Jul 31 · 2:00 PM · then every lap</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · THE ENSŌ · 円相 · GOSPEL XX · SUPERSEDES NOTHING — IT BENDS XII (THE WAR ROOM) WITHOUT BREAKING IT<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE TREE IS THE SEED AND THE SEED IS THE TREE · 師は求める者に現れる<br>
+    THE LINE IS HIS · THE CIRCLE IS OURS · THE GAP STAYS OPEN — CORRECTIONS SUPERSEDE.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // Countdown to Fri Jul 31 2026 1:00 PM EDT (from the war room, unchanged)
+  var target = new Date("2026-07-31T13:00:00-04:00").getTime();
+  var el = document.getElementById("count");
+  function tick(){
+    var d = target - Date.now();
+    if(d <= 0){ el.innerHTML = "<b>THE RING PASSES T·NOW</b>"; return; }
+    var days = Math.floor(d/864e5), h = Math.floor(d%864e5/36e5), m = Math.floor(d%36e5/6e4);
+    el.innerHTML = "T−" + days + "D <b>" + String(h).padStart(2,"0") + ":" + String(m).padStart(2,"0") + "</b> → FRI 1:00 PM";
+    setTimeout(tick, 30000);
+  }
+  tick();
+
+  // Nine stations, clockwise from the top; the enso gap sits before station 1.
+  var PH = [
+    {t:"T−6D", n:"THE GATE", now:false,
+     i:"Ping Jeben (accuracy read · round status · key count). Fork the pre-read. DR-GATE-01 filed. The threads stay severed until all three close — the weave does not continue past an open gate.",
+     v:"Nothing yet. The invitation is the only dish served.", k:"Everything — the whole gate is prep.", s:"Patience. The kitchen preps in silence; the guest should not smell the stock."},
+    {t:"T−2D", n:"THE PRE-READ", now:false,
+     i:"Forked Justin-edition out Wednesday, one-line cover. Kill line Thursday noon → fallback: overview + blank stub (the sim says sufficient).",
+     v:"The one-page picture, on demand — written to go straight to him.", k:"The unforked edition. The symptom chart. The diagnosis language.", s:"One line of cover, no push. Aroma, not a plate."},
+    {t:"T−1D", n:"THE PROPS", now:false,
+     i:"Print the blank receipt stub, the tripwire card (draft-for-counsel), the calibration snapshot (eyes only). Rehearse nothing new.",
+     v:"Nothing. Props appear only when reached for.", k:"The snapshot. The rehearsal. The premortem, armed.", s:"Cold tools, warm hands."},
+    {t:"T−0:15", n:"PRE-CALL", now:false,
+     i:"Two-minute overview rehearsed once. ONE way chosen for the live walk (default: Way 1). The other two named, not opened. Conductor watches tempo from minute one.",
+     v:"Composure — the only visible prep is that none is visible.", k:"The agenda grid, the objection rack, the cabinet's standing orders.", s:"The chef breathes before the first cut."},
+    {t:"T·NOW", n:"THE ROOM · FRI 1:00", now:true,
+     i:"His bottlenecks first (10) · 2-min overview (2) · Pumps as THEIR evidence + one waterfall walk (15) · the offer (10) · THE ASK, two candidate times — then the ma. Whoever fills the silence first loses the frame.",
+     v:"The 2-minute overview. The blank stub. Worst case first. Served at his tempo — rubato.", k:"The masks. The countermeasures. The sim. Everything below wisdom on the ladder.", s:"The ma. The silence is the palate cleanser before his answer — the most seasoned moment of the meal is the one with nothing on the plate."},
+    {t:"T+1H", n:"SCORE-BACK · 2:00", now:false,
+     i:"XA-1…5 graded in cold chronos. Overconfidence and underconfidence both logged — hindsight cannot syncopate what was written.",
+     v:"Nothing. The guest never sees the scales.", k:"The whole weighing.", s:"Whatever the room said, the kitchen tastes its own cooking first."},
+    {t:"T+≤2WK", n:"THE SESSION", now:false,
+     i:"90 minutes, one live decision, Justin + Stanley + Zach. Ends in a signed receipt or it failed — same rule as everything.",
+     v:"One page being written together — the first course cooked at the table, guest's hands on the knife.", k:"The facilitation frame. The gap analysis ranking which number to demand first.", s:"Small portion, real fish: one decision, whole attention."},
+    {t:"T+30D", n:"THE READ", now:false,
+     i:"The test data clears the pre-agreed line or it doesn't. Either branch scores as system success — the system is indifferent to which.",
+     v:"The result and the line it crossed or didn't — delivered to him privately before any room.", k:"The analysis pipeline. The premortem's postmortem.", s:"Serve the read at temperature — immediately, unseasoned, before anyone else tastes it."},
+    {t:"T+90D", n:"THE RECEIPT SCORED", now:false,
+     i:"FR-1…3 against ex-ante. The pedal tone: the one event with a 100% survival rate — the record survives every branch.",
+     v:"The take-home: the scored record, theirs to keep either way.", k:"Nothing — at day 90 the kitchen opens. That is the point.", s:"The last taste contains the first bite. Then the gap: the next decision enters where the brush lifted."}
+  ];
+
+  var ring = document.getElementById("ring"), card = document.getElementById("pcard");
+  var mode = "internal", cur = 4, peeked = false; // the gears unlock only after the circle completes (T+90 in service mode)
+  // place nodes clockwise from top, leaving the enso gap before station 1
+  var N = PH.length, startA = -68, span = 322;
+  PH.forEach(function(p, i){
+    var a = (startA + span * (i/(N-1))) * Math.PI/180;
+    var x = 50 + 44.5*Math.cos(a), y = 50 + 44.5*Math.sin(a);
+    var b = document.createElement("button");
+    b.className = "rnode" + (p.now ? " now" : "");
+    b.style.left = x + "%"; b.style.top = y + "%";
+    b.innerHTML = "<b>" + p.t + "</b>" + p.n;
+    b.setAttribute("aria-pressed", i === cur);
+    b.addEventListener("click", function(){ cur = i; render(); });
+    ring.appendChild(b);
+  });
+  function render(){
+    var p = PH[cur];
+    ring.querySelectorAll(".rnode").forEach(function(n, i){ n.setAttribute("aria-pressed", i === cur); });
+    document.getElementById("modetag").textContent = "MODE: " + mode.toUpperCase();
+    if(mode === "internal"){
+      card.innerHTML = '<div class="pt">' + p.t + ' · ' + p.n + ' · WORKSHOP RESOLUTION</div><p>' + p.i + '</p>';
+    } else {
+      if(cur === PH.length-1 && !peeked){
+        peeked = true; // the kitchen opens at day 90 — now the gears may be admired
+      }
+      var gears = peeked
+        ? '<div class="kit"><div class="h">THE GEARS BEHIND — REVEALED, NOW THAT THE MEAL IS COMPLETE</div><p>' + p.k + '</p></div>'
+        : '<div class="kit"><div class="h">THE GEARS TURN UNSEEN</div><p>Enjoy the piece in front of you. Complete the circle — at T+90 the kitchen opens, and every station will show you its gears.</p></div>';
+      card.innerHTML = '<div class="pt">' + p.t + ' · ' + p.n + ' · SERVICE DESIGN' + (peeked ? ' · 舞台裏 OPEN' : '') + '</div>' +
+        '<div class="svc">' +
+        '<div class="vis"><div class="h">WHAT THE GUEST TASTES</div><p>' + p.v + '</p></div>' +
+        gears +
+        '<div class="sea"><div class="h">THE SEASONING — TO THE NEXT PIECE</div><p>' + p.s + '</p></div>' +
+        '</div>';
+    }
+  }
+  document.querySelectorAll(".modes button").forEach(function(b){
+    b.addEventListener("click", function(){
+      mode = b.dataset.mode;
+      document.querySelectorAll(".modes button").forEach(function(x){ x.setAttribute("aria-pressed", x === b); });
+      render();
+    });
+  });
+  render();
+})();
+</script>
+<a class="onramp" href="louisville-omakase.html" title="NEXT · THE PRESENTATION — the counter is set">🥢</a>
+</body>
+</html>

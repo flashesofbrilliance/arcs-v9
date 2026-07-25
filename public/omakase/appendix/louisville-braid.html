@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BRAID · Louisville Universe · Fact-Checked · Gauntlet-Tested · Babel-Dialed</title>
+<style>
+  /* ATOMS — inherited from the Louisville Codex (canon-locked) */
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .dialset{display:flex;gap:4px;align-items:center}
+  .dialset .dl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--faint);margin-right:2px}
+  .dialset button{background:none;border:1px solid var(--line);color:var(--graphite);font-family:var(--mono);
+    font-size:10px;letter-spacing:.14em;padding:4px 10px;border-radius:3px}
+  .dialset button[aria-pressed=true]{color:var(--dial);border-color:var(--verm)}
+  .dialset.reg button[aria-pressed=true]{border-color:var(--gold);color:var(--gold)}
+  .fwcount{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--red)}
+
+  .board{max-width:1000px;margin:0 auto;padding:28px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:2px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:22px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative}
+  .panel::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .panel[data-th="red"]::before{background:var(--red)}
+  .panel[data-th="gold"]::before{background:var(--gold)}
+  .panel[data-th="verm"]::before{background:var(--verm)}
+  .ph{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ph h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ph .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .pb{padding:16px 18px}
+  .note{font-size:20px;line-height:1.5;font-weight:700;letter-spacing:.005em}
+  .note .accent{color:var(--verm)}
+  .note-sub{margin-top:10px;color:var(--graphite);font-size:13px}
+  .callout{margin-top:12px;padding:10px 12px;border-left:2px solid var(--verm);background:var(--panel);font-size:13px}
+  .receiptbox{margin-top:14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dial)}
+  .receiptbox b{color:var(--gold);font-weight:600}
+  .grade{font-family:var(--mono);font-size:10px;padding:1px 6px;border:1px solid var(--faint);border-radius:3px;color:var(--graphite)}
+  .grade.A{color:var(--dial);border-color:var(--dial)}
+  .grade.E{color:var(--gold);border-color:var(--gold)}
+  .grade.X{color:var(--red);border-color:var(--red)}
+  .redact{color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+  .lc{font-family:var(--mono);font-size:9px;letter-spacing:.12em;padding:1px 6px;border-radius:3px;border:1px solid;margin-right:6px}
+  .lc.ax{color:var(--dial);border-color:var(--dial)}
+  .lc.sz{color:var(--verm);border-color:var(--verm)}
+  .lc.bent{color:var(--red);border-color:var(--red)}
+
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:10px;letter-spacing:.18em;color:var(--graphite);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:7px 8px;border-bottom:1px dashed var(--line);vertical-align:top}
+  td.mono{font-family:var(--mono);font-size:11px;color:var(--graphite)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:12px}
+  .card .n{font-size:10px;letter-spacing:.2em;color:var(--graphite);margin-bottom:6px;font-weight:600}
+  .card p{font-size:12px;color:var(--graphite);line-height:1.55}
+  .card p b{color:var(--dial);font-weight:600}
+  .card .src{margin-top:8px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint)}
+  .card[data-th="red"]{border-left:2px solid var(--red)}
+  .card[data-th="gold"]{border-left:2px solid var(--gold)}
+  .card[data-th="verm"]{border-left:2px solid var(--verm)}
+
+  /* ===== five-stratum slider: EXEC(1) STRATEGIC(2) OPERATIONAL(3) TACTICAL(4) SURGICAL(5) — the artifact waterfall, applied to the page ===== */
+  body.lv1 .rich, body.lv1 .deep{display:none}
+  body.lv2 .deep, body.lv3 .deep, body.lv4 .deep{display:none}
+  .stnote{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);padding:4px 0}
+  .lvslider{display:flex;gap:10px;align-items:center}
+  .lvslider input[type=range]{width:120px;accent-color:var(--gold)}
+  .lvslider .lvname{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);width:96px}
+
+  /* ===== register firewall: table-facing registers hide barred panels ===== */
+  body.reg-justin .fw-barred, body.reg-stanley .fw-barred{display:none}
+  /* JB-CAP (operator order Jul 25): the JEBEN register caps at RICH — deep withheld, logged */
+  body.reg-jeben .deep{display:none}
+  .dialset button:disabled{opacity:.35;cursor:not-allowed}
+  /* ===== card disclosure: headline(1) → +lede(2) → +abstract(3) → +body(4) → +appendix(5) ===== */
+  .card .lede, .card .abstract{display:none;font-size:12px;color:var(--graphite);line-height:1.55;font-style:italic}
+  body.lv2 .card .cfull, body.lv2 .card .src, body.lv2 .card .abstract{display:none}
+  body.lv2 .card .lede{display:block}
+  body.lv3 .card .cfull, body.lv3 .card .src, body.lv3 .card .lede{display:none}
+  body.lv3 .card .abstract{display:block}
+  body.lv4 .card .src{display:none}
+
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){.stack{margin-left:34px}.spine{left:10px}.panel::before{left:-22px;width:22px}footer{margin-left:34px}}
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lv5 reg-zach">
+
+<div class="bar" role="banner">
+  <span class="pglyph" title="THE AUDIT — the demon tastes everything first">👹</span><span class="sig">ARCS <em>//</em> THE BRAID</span>
+  <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
+    <span class="dl">STRATUM</span>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="5" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">SURGICAL</span></div>
+  </div>
+  <div class="dialset reg" role="group" aria-label="Register — the Babel dial">
+    <span class="dl">BABEL</span>
+    <button aria-pressed="true" data-reg="zach">ZACH</button>
+    <button aria-pressed="false" data-reg="justin">JUSTIN</button>
+    <button aria-pressed="false" data-reg="stanley">STANLEY</button>
+    <button aria-pressed="false" data-reg="jeben">JEBEN</button>
+  </div>
+  <span class="fwcount" id="fwcount">FIREWALL · 0 WITHHELD</span>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- 00 THE BRAID -->
+    <section class="panel" data-th="red">
+      <div class="ph"><span class="eyebrow">00 · THE BRAID</span><h2>Three strands, two dials, one weave</h2><span class="tag">GOSPEL XVI · SERIALIZED 25 JUL 2026</span></div>
+      <div class="pb">
+        <p class="note bx" data-k="claim"></p>
+        <p class="note-sub rich"><b>STRATUM</b> is a five-stop slider — the artifact waterfall applied to the page: <b>EXEC</b> (headline) → <b>STRATEGIC</b> (+lede) → <b>OPERATIONAL</b> (+abstract) → <b>TACTICAL</b> (+body) → <b>SURGICAL</b> (+appendix: provenance, receipts, the forensic panels). Sliding down hides; it never deletes — the weave is identical underneath. Depth is luminous, not archival — <b style="color:var(--dial)">how hot the flash of brilliance burns</b>: EXEC is the plain light anyone reads by; TACTICAL and SURGICAL are the <i>sod</i>, entered with sufficient wisdom or it induces vertigo (the Pardes rule; THE FLASH, codex lexicon). JB-CAP caps the JEBEN register at OPERATIONAL — the joinery, never the shop floor. <b>BABEL</b> sets the register — the Resonance Filter applied globally. Zach and Jeben see everything; Justin and Stanley are <i>table-facing</i> registers — they are owed the <b style="color:var(--dial)">front of the fence</b>: beautiful, load-bearing, protective, cone-of-silence preserving; the taste and the value from the first bite, never the recipe. Jeben, craftsman, is shown the <b style="color:var(--dial)">back of the fence</b> — the joinery, not the shop floor. Withheld panels are <b style="color:var(--red)">counted in the bar above</b>, because governed loss is redaction with a receipt. The Babel claim, honestly bounded: one meaning, many tongues, every withholding logged.</p>
+        <p class="stnote deep">CANON RULE: THE BRAID IS A VIEW. THE CODEX REMAINS CANONICAL FOR DATA — A CONFLICT BETWEEN THEM IS RESOLVED FROM THE CODEX, NEVER FROM MEMORY. (GAUNTLET CONDITION G-1, BELOW.)</p>
+      </div>
+    </section>
+
+    <!-- 01 THE NOTE -->
+    <section class="panel" data-th="red">
+      <div class="ph"><span class="eyebrow">01 · STRAND ZERO · THE NOTE</span><h2 class="bx" data-k="noteh"></h2><span class="tag">THE CARBON UNDER ALL THREE STRANDS</span></div>
+      <div class="pb">
+        <p class="note bx" data-k="note"></p>
+        <p class="note-sub rich bx" data-k="notesub"></p>
+      </div>
+    </section>
+
+    <!-- 02 THE MOVE -->
+    <section class="panel" data-th="gold">
+      <div class="ph"><span class="eyebrow">02 · THE MOVE</span><h2 class="bx" data-k="moveh"></h2><span class="tag">ONE SESSION · ONE DECISION · ONE RECEIPT</span></div>
+      <div class="pb">
+        <p class="note" style="font-size:17px"><span class="bx" data-k="ask"></span></p>
+        <div class="grid rich" style="margin-top:14px">
+          <div class="card" data-th="gold"><div class="n">PUMPS</div><p class="bx" data-k="pumps"></p></div>
+          <div class="card" data-th="verm"><div class="n">THE TEST</div><p class="bx" data-k="mango"></p></div>
+          <div class="card" data-th="red"><div class="n">THE COST</div><p class="bx" data-k="econ"></p></div>
+          <div class="card" data-th="gold"><div class="n">THE PRODUCT</div><p class="bx" data-k="product"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 THE THREE STRANDS -->
+    <section class="panel rich" data-th="verm">
+      <div class="ph"><span class="eyebrow">03 · THE STRANDS</span><h2 class="bx" data-k="strandh"></h2><span class="tag">XIV + XV + THE CODEX, CROSSED</span></div>
+      <div class="pb">
+        <div class="grid">
+          <div class="card" data-th="red"><div class="n">STRAND I · THE RECORD (CODEX)</div><p class="bx" data-k="strand1"></p><div class="src deep">FULL CANON INDEXED · GRADES · KIFU · REDACTIONS</div></div>
+          <div class="card" data-th="gold"><div class="n">STRAND II · THE VOICE (FILTER)</div><p class="bx" data-k="strand2"></p><div class="src deep">7 DIALS · 4 REGISTERS · LOAD REGISTER (AX/SZ/BENT)</div></div>
+          <div class="card fw-barred" data-th="verm"><div class="n">STRAND III · THE CONDUCT (PLAY)</div><p class="bx" data-k="strand3"></p><div class="src deep">3 ACTS · 2 FATE GATES · 8 RULES · THE MA</div></div>
+        </div>
+        <p class="callout rich bx" data-k="weave"></p>
+      </div>
+    </section>
+
+    <!-- 04 FACT-CHECK -->
+    <section class="panel deep fw-barred" data-th="red">
+      <div class="ph"><span class="eyebrow">04 · THE FACT-CHECK</span><h2>The three artifacts, audited against their own corpus</h2><span class="tag">SIX FINDINGS · ALL LOGGED</span></div>
+      <div class="pb">
+        <table>
+          <thead><tr><th>#</th><th>Finding</th><th>Verdict + repair</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">F1</td><td><b>Cross-serialization conflict, self-inflicted.</b> The War Room's gospel ledger runs I–VII with "Meta-Audit · Fact-Check &amp; Premortem" combined as VII; the Codex split them (VII, VIII) and renumbered through XIII. Two ledgers, two numberings — the exact 45-vs-47 pattern the corpus logs elsewhere.</td><td>⚠ Logged as a seam. Codex numbering declared working-canonical (it is the index); the War Room's ledger stands as historical. Operator call supersedes.</td></tr>
+            <tr><td class="mono">F2</td><td><b>Fidelity drop in the Play.</b> O5's response says "a seventy-billion fund" — the corpus says <i>$70B UK fund</i>. One word lost in translation.</td><td>✔ Corrected here; the Play's line reads with "UK" restored in the next edit cycle.</td></tr>
+            <tr><td class="mono">F3</td><td><b>The Filter's Stanley renderings were under-specified.</b> They are scripted-via-Justin (T2: nothing reaches Stanley cold from us) but were displayed like direct speech.</td><td>🟡 Repaired: Stanley's register is now explicitly a <i>suggested framing carried by Justin</i>, never our mouth. The firewall line existed; the display now honors it.</td></tr>
+            <tr><td class="mono">F4</td><td><b>Distribution firewall was implicit, never stated.</b> All three artifacts contain conduct analysis, objection anticipation, and firewall content. None may cross the table in any form.</td><td>✔ Now standing rule: <b>the Braid's JUSTIN register is the only table-safe view in the entire artifact family</b> — that is what the Babel dial is for.</td></tr>
+            <tr><td class="mono">F5</td><td><b>Self-grading bias.</b> The Codex assigned B-grades to its own artifact family — the author grading the author, the incentive-bias mirror again.</td><td>⚠ Disclosed: grades on gospels XII–XVI are provisional until the operator countersigns. The corpus gospels (I–XI) keep their earned grades.</td></tr>
+            <tr><td class="mono">F6</td><td><b>Frame velocity.</b> Seven dials, ten cast seats, philosophized thinking, and the load register entered canon in one day — while gate items 1–2 (Jeben ping, forked pre-read) sit untouched. The Fact-Check gospel's own Throttle Gate rule names this pattern precisely.</td><td>🔴 The Sentry's warning, carried forward — see the ruling's condition G-3.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 05 GAUNTLET -->
+    <section class="panel deep fw-barred" data-th="gold">
+      <div class="ph"><span class="eyebrow">05 · THE GAUNTLET</span><h2>The braid itself, run through the stations</h2><span class="tag">CONDENSED · ALL SIX STATIONS</span></div>
+      <div class="pb">
+        <table>
+          <thead><tr><th>Station</th><th>Attack</th><th>What survived</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">TENET</td><td>"Lossless translation" overclaims — meaning always shears in translation.</td><td>🟡 Repaired to its precise form: <b>invariants conserved, withholdings logged.</b> Lossless describes the load-bearing structure (falsifier, kill line, grade, attribution, score-back), not every word. The claim is now falsifiable: find a rendering whose invariant is missing.</td></tr>
+            <tr><td class="mono">DEFENSE</td><td>Why a braid at all? Three artifacts already exist; a fourth restates them — the free alternative is "just read the codex."</td><td>🟠 The braid is the only artifact with a <b>table-safe face</b> (the Justin register) and the only one that joins record, voice, and conduct in one navigation. 🔴 Honest hole: braiding duplicates content → version-drift risk. Repaired by G-1: the braid is a view; the codex stays canonical.</td></tr>
+            <tr><td class="mono">INVERT</td><td>How would we guarantee this fails?</td><td>Ship the deep stratum across the table (barred — F4) · treat OP-provisional seats as grounded (barred — SP-01) · let the simple stratum's punch outrun its axioms (barred — every simple line is AX-anchored by construction; strip the sizzle and it still stands).</td></tr>
+            <tr><td class="mono">CYNIC v STOIC</td><td><b>CYNIC:</b> The recursion is the product now. Four meta-artifacts in two days; Friday approaches at constant velocity; the magnet is admiring its own filings.</td><td><b>STOIC:</b> Which is why the braid ends the build phase. Everything left is human: ping Jeben, fork the pre-read, walk in, ask, go silent. 🟡 The Cynic's acid becomes condition G-3 — the build-phase kill line.</td></tr>
+            <tr><td class="mono">TABLE</td><td>Quick chairs, one condition each.</td><td>CFO 4 (no new artifact spend before Friday) · CoS 5 (the braid's simple stratum is the 12:45 pre-call read — nothing else) · Counsel 4 (Justin register carries the draft-for-counsel marks through) · Fund 3 (self-grades stay provisional, F5). Consensus: proceed.</td></tr>
+            <tr><td class="mono">COURT</td><td>Does the braid obey the constitution it rides on?</td><td><b>PASSES with three binding conditions:</b> <b>G-1</b> the braid is a view — the codex is canonical for data. <b>G-2</b> the JUSTIN register is the only face that ever crosses the table, and only if the operator chooses to show anything at all. <b>G-3</b> the build phase is CLOSED: no new frames or artifacts until gate items 1–2 are done or Friday passes — whichever comes first. The weave continues through human moves now.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 06 SENTRY + RECEIPT -->
+    <section class="panel deep fw-barred" data-th="verm">
+      <div class="ph"><span class="eyebrow">06 · THE SENTRY'S LAST WORD</span><h2>The gate, restated in braid-time</h2><span class="tag">G-3 IN FORCE</span></div>
+      <div class="pb">
+        <p class="note" style="font-size:16px">Four instruments now exist to serve two human actions that still haven't happened. <span class="accent">Ping Jeben. Fork the pre-read.</span> The braid holds until then — it does not grow.</p>
+        <div class="receiptbox"><b>BRAID RECEIPT · BR-01</b><br>EXPECTING — the braid serves as the single navigable face of gospels XII–XV; the simple stratum works as the 12:45 pre-call read; the Justin register survives the only test that matters (could it sit on the table?)<br>BREAKS THESIS — a braid/codex conflict resolved from memory · any barred panel visible in a table-facing register · a fifth meta-artifact before gate items 1–2 close<br>KILL/SCALE — drift → re-serialize from the codex; violation of G-3 → the Sentry seals the build until Friday's score-back<br>SCORE-BACK — Fri Jul 31 · 2:00 PM · with XA-1…5</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · THE BRAID · GOSPEL XVI · SERIALIZED 25 JUL 2026<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE ARTICULATED DISCOVERY KERNEL<br>
+    SIMPLE / RICH / DEEP × ZACH / JUSTIN / STANLEY / JEBEN — ONE MEANING, MANY TONGUES, EVERY WITHHOLDING LOGGED<br>
+    TRACEABLE · TRANSPARENT · COMPOSABLE · FALSIFIABLE — THE BUILD PHASE CLOSES HERE. THE HUMAN MOVES REMAIN.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // ===== BABEL TEXT MATRIX — invariants conserved in every cell =====
+  var T = {
+    claim:{
+      zach:"Three instruments braided — the record, the voice, the conduct — fact-checked, gauntlet-run, and dialed: depth by stratum, tongue by register.",
+      justin:"One page: what we'd do together, what it costs at worst, and the first bite — free.",
+      stanley:"The plan, the worst-case price, and the written record it leaves behind — one page. <i>(Framing carried by Justin — nothing reaches this register cold.)</i>",
+      jeben:"The three threads braided at last — record, voice, conduct — seams left showing, exactly as the canon you corrected demands."},
+    noteh:{zach:"The carbon under everything",justin:"Where this starts",stanley:"Why now",jeben:"The magnet, still holding"},
+    note:{
+      zach:"Louisville Brands is very good at <span class='accent'>making things</span> and unproven at <span class='accent'>deciding which things to make</span>. ARCS makes every big bet write down its assumptions, risks, and exit rule before a dollar moves.",
+      justin:"You're elite at making — eighteen-second sellouts, number one at Whole Foods. The one muscle nobody your size has built is <span class='accent'>choosing what to make next</span>, before the money moves. That's the whole thing.",
+      stanley:"The hits prove the making. The next chapter needs the big choices <span class='accent'>written down before the spend</span> — so what you two built is protected by a record, not just by memory.",
+      jeben:"The magnet's held since March: <span class='accent'>making proven, deciding unproven</span>. Every thread runs between those poles — which is why nothing ever had to be forced."},
+    notesub:{
+      zach:"Grade B · validated ×4 verbatim · zero contradictions across seven calls. Every panel below is this note in a different key.",
+      justin:"One change to how the big bets happen. Nothing touches how you invent.",
+      stanley:"Every sized bet gets one page: what we're choosing, what we're assuming, what would prove us wrong, and where it ends.",
+      jeben:"Validated four times verbatim against your own record — the strongest claim we hold, and it was yours first."},
+    moveh:{zach:"E5 · the zero-slack node",justin:"The offer",stanley:"The session",jeben:"The single move it all compressed to"},
+    ask:{
+      zach:"One free 60–90 min session on the next-bag decision → signed receipt → $2–5K market test → day-30 read. The ask, then the ma. p(session) outweighs every economic parameter — conversion beats economics.",
+      justin:"First session's free, on the next-bag decision — what does late next week look like for you and Stanley?",
+      stanley:"Ninety minutes on the next bag, first one free, ends in a one-page written bet we both sign. It works better with you in the room.",
+      jeben:"One session, one decision, one receipt — inside the window your reintroduction opened. Then the ma: the silence is the space his yes needs."},
+    pumps:{
+      zach:"A-grade, Mar 5: built ~100%, shipped with shells, rebuilt. Reframed from counterfactual to fact: a $2–5K test was available and unpurchased.",
+      justin:"Pumps is your evidence, not mine. The market told you about the shells after the run. Only change: the test runs before the spend.",
+      stanley:"The company already paid for that lesson once. This keeps the lesson bought — the same test, run before the money moves.",
+      jeben:"Their own gold seam — the crack that funded the lesson. Kintsugi in the room, never a gotcha."},
+    mango:{
+      zach:"3 concepts × 100–200 real c-store buyers · Court #3: mango competes fairly, constitutionally · results to Justin privately first · either branch scores (FR-2).",
+      justin:"Mango goes in as a full contender — if it wins, the record credits your instinct in writing, to the board.",
+      stanley:"Every concept enters on equal footing, Justin's included. Real c-store buyers decide, and you two see results first.",
+      jeben:"The test design is the diplomacy — and its indifference to which branch wins is exactly what makes it safe for him to run."},
+    econ:{
+      zach:"Median $628, insurance-shaped; EV +$25.8K in the tails; sim brackets scenarios. $20K/mo is the only permitted anchor. Worst-first, always.",
+      justin:"Worst case first: session's free, test is two to five, and if month one isn't obviously worth it, it ends at ten and you keep everything.",
+      stanley:"Capped, known worst case — insurance spend. It pays for itself the first time it stops one bad run or one bad vendor year.",
+      jeben:"The Cynic stripped it to one sentence and it held: pays for itself the first time it stops one bad run or one bad vendor year."},
+    product:{
+      zach:"The outside read, embodied in an artifact that can fail — the receipt. Attribution conserved: the fifteenth rock is Jeben's image, credited every use.",
+      justin:"A one-page receipt: what we're choosing, what we're assuming, what would prove us wrong, and the line where we kill it or scale it.",
+      stanley:"A standing outside read the inside can't produce — one page, signed, scored ninety days later.",
+      jeben:"Your rock garden, named back to you: fourteen visible from any angle. ARCS is the fifteenth — and it's told that way, credited."},
+    strandh:{zach:"Record · Voice · Conduct",justin:"How it stays honest",stanley:"The system behind it",jeben:"The three threads, crossed"},
+    strand1:{
+      zach:"The Codex: the full canon indexed, graded, kifu-locked, redactions visible. Canonical for all data — the braid defers to it.",
+      justin:"Everything we'd claim traces to a source you could check — and what doesn't hold gets struck, visibly.",
+      stanley:"Every figure and claim carries its evidence class. The record can't be edited after the fact — that's the point of it.",
+      jeben:"The library you unlocked, shelved: every thread, every grade, every strike visible. Your corrections supersede all of it."},
+    strand2:{
+      zach:"The Resonance Filter: seven dials, four registers, conservation law, load register. This page's Babel dial IS the filter, applied globally.",
+      justin:"Plain words, your terms, worst case first — and anything we can't back, we don't say.",
+      stanley:"The same facts, told at the right depth for whoever's listening — with nothing load-bearing lost between tellings.",
+      jeben:"The weave-work itself: each payload re-voiced to its listener's register, seams conserved, sizzle never bearing load."},
+    strand3:{
+      zach:"The Play: rules of rhetoric staged — ethos before logos, the seven masks, the ma, the fate gates. Conduct, rehearsed. NEVER crosses the table.",
+      justin:"", stanley:"",
+      jeben:"The rehearsal hall: Loki wearing the objection masks, the chorus singing the chiefs' orders, the silence practiced until it holds."},
+    weave:{
+      zach:"<b style='color:var(--gold)'>The weave:</b> the record earns the right to speak (ethos) → the voice tunes it to the listener (the filter) → the conduct delivers it and goes silent (the play) → the outcome files back into the record (the kifu). The braid is that loop, drawn once.",
+      justin:"<b style='color:var(--gold)'>The loop:</b> write the bet down → test it small → read the result → the record gets smarter. Every cycle.",
+      stanley:"<b style='color:var(--gold)'>The loop:</b> receipt → test → read → record. Each pass leaves the company's judgment better documented than the last.",
+      jeben:"<b style='color:var(--gold)'>The weave:</b> record to voice to conduct and back to record — chronology and resonance cross-validating, the two serializations agreeing. Notomation, closed-loop."}
+  };
+  var FW_NOTE = {justin:"FRONT OF THE FENCE · {n} WITHHELD · LOGGED",stanley:"FRONT OF THE FENCE · {n} WITHHELD · LOGGED",zach:"THE WORKSHOP · FULL RESOLUTION",jeben:"BACK OF THE FENCE · CAPPED AT OPERATIONAL (JB-CAP)"};
+  var curReg="zach";
+  function apply(){
+    document.querySelectorAll(".bx").forEach(function(el){
+      var v = T[el.dataset.k]; if(!v) return;
+      el.innerHTML = v[curReg] || v.zach;
+    });
+    var barred = document.querySelectorAll(".fw-barred").length;
+    var n = (curReg==="justin"||curReg==="stanley") ? barred : 0;
+    document.getElementById("fwcount").textContent = FW_NOTE[curReg].replace("{n}", n);
+    if(window.cardAbs) cardAbs();
+  }
+  var LVN = ["","EXEC","STRATEGIC","OPERATIONAL","TACTICAL","SURGICAL"];
+  var lvs = document.getElementById("lvs"), lvname = document.getElementById("lvname");
+  function setLv(n){
+    n = Math.max(1, Math.min(curReg==="jeben" ? 3 : 5, n));
+    lvs.value = n;
+    document.body.className = document.body.className.replace(/\blv\d\b/, "lv"+n);
+    lvname.textContent = LVN[n] + (curReg==="jeben" && n===3 ? " ⌈CAP⌉" : "");
+  }
+  lvs.addEventListener("input", function(){ setLv(+lvs.value); });
+  function jbcap(){
+    if(curReg==="jeben"){ lvs.max = 3; setLv(Math.min(+lvs.value, 3)); }
+    else { lvs.max = 5; setLv(+lvs.value); }
+  }
+  document.querySelectorAll(".dialset.reg button").forEach(function(b){
+    b.addEventListener("click",function(){
+      curReg=b.dataset.reg;
+      document.body.classList.remove("reg-zach","reg-justin","reg-stanley","reg-jeben");
+      document.body.classList.add("reg-"+curReg);
+      document.querySelectorAll(".dialset.reg button").forEach(function(x){x.setAttribute("aria-pressed",x===b)});
+      jbcap();
+      apply();
+    });
+  });
+
+  // ===== card collapse init: derive the abstract (lede sentence) from each card body =====
+  function cardInit(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var p=c.querySelector("p"); if(!p||p.classList.contains("abstract"))return;
+      p.classList.add("cfull");
+      if(!c.querySelector(".abstract")){
+        var a=document.createElement("p");a.className="abstract";
+        p.parentNode.insertBefore(a,p);
+      }
+      if(!c.querySelector(".lede")){
+        var l=document.createElement("p");l.className="lede";
+        p.parentNode.insertBefore(l,c.querySelector(".abstract"));
+      }
+    });
+    cardAbs();
+  }
+  function cardAbs(){
+    document.querySelectorAll(".card").forEach(function(c){
+      var p=c.querySelector(".cfull"), a=c.querySelector(".abstract"), l=c.querySelector(".lede");
+      if(!p)return;
+      var t=p.textContent.trim();
+      var sents=t.match(/[^.!?\u2026]+[.!?\u2026]+["')\]]*(?:\s+|$)/g)||[t];
+      if(l) l.textContent=(sents[0]||t).trim();
+      if(a) a.textContent=sents.slice(0,3).join("").replace(/\s+/g," ").trim();
+    });
+  }
+  window.cardAbs = cardAbs;
+  cardInit();
+  apply();
+})();
+</script>
+<a class="onramp" href="louisville-box.html" title="NEXT · THE JOINERY — the box is cut without nails">🍱</a>
+</body>
+</html>

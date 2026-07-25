@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOX · 指物 · 秘密箱 · The Louisville Thread, Formalized</title>
+<style>
+  /* ATOMS — inherited from the Louisville Codex (canon-locked) */
+  :root{
+    --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+    --dial:#E8E4DA; --graphite:#7A7A80; --faint:#4A4A4F;
+    --red:#B4342A; --gold:#C9A227; --verm:#E34F1C; --ok:#5C8A4E;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-y:scroll;scrollbar-gutter:stable}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+  body{background:var(--case);color:var(--dial);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold);text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+  .bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    padding:10px 20px;background:rgba(11,11,12,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .bar .sig{font-weight:700;letter-spacing:.22em;font-size:12px}
+  .bar .sig em{font-style:normal;color:var(--verm)}
+  .bar .sub{font-size:10px;letter-spacing:.18em;color:var(--graphite)}
+  .bar .state{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--gold);letter-spacing:.14em}
+
+  .board{max-width:960px;margin:0 auto;padding:28px 20px 80px;position:relative}
+  .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
+  .spine i{position:absolute;top:0;bottom:0;width:2px;opacity:.85}
+  .spine .t-red{left:0;background:var(--red)}
+  .spine .t-gold{left:9px;background:var(--gold)}
+  .spine .t-verm{left:18px;background:var(--verm)}
+  .stack{margin-left:52px;display:flex;flex-direction:column;gap:22px}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;position:relative}
+  .panel::before{content:"";position:absolute;left:-30px;top:26px;width:30px;height:1px;background:var(--faint)}
+  .panel[data-th="red"]::before{background:var(--red)}
+  .panel[data-th="gold"]::before{background:var(--gold)}
+  .panel[data-th="verm"]::before{background:var(--verm)}
+  .ph{display:flex;align-items:baseline;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ph .eyebrow{font-size:10px;letter-spacing:.24em;color:var(--graphite);font-weight:600}
+  .ph h2{font-size:15px;font-weight:700;letter-spacing:.04em}
+  .ph .tag{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite)}
+  .pb{padding:16px 18px}
+  .note{font-size:20px;line-height:1.5;font-weight:700;letter-spacing:.005em}
+  .note .accent{color:var(--verm)}
+  .note-sub{margin-top:10px;color:var(--graphite);font-size:13px}
+  .callout{margin-top:12px;padding:10px 12px;border-left:2px solid var(--verm);background:var(--panel);font-size:13px}
+  .receiptbox{margin-top:14px;background:var(--panel2);border:1px dashed var(--gold);border-radius:4px;
+    padding:12px 14px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--dial)}
+  .receiptbox b{color:var(--gold);font-weight:600}
+  .redact{color:var(--red);font-family:var(--mono);font-size:10px;letter-spacing:.1em}
+
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-size:10px;letter-spacing:.18em;color:var(--graphite);text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+  td{padding:7px 8px;border-bottom:1px dashed var(--line);vertical-align:top}
+  td.mono{font-family:var(--mono);font-size:11px;color:var(--graphite);white-space:nowrap}
+
+  /* ===== five-stratum waterfall: SERIAL-COHERENT, NO PLATEAUS: EXEC 00–01 · STRATEGIC +02 spec · OPERATIONAL +03 omotenashi · TACTICAL +callouts · SURGICAL +receipts ===== */
+  .dialset{display:flex;gap:4px;align-items:center}
+  .dialset .dl{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--faint);margin-right:2px}
+  .lvslider{display:flex;gap:10px;align-items:center}
+  .lvslider input[type=range]{width:120px;accent-color:var(--gold)}
+  .lvslider .lvname{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gold);width:96px}
+  body.lv1 #spec{display:none}
+  body.lv1 #omotenashi, body.lv2 #omotenashi{display:none}
+  body.lv1 .callout, body.lv2 .callout, body.lv3 .callout{display:none}
+  body.lv1 .receiptbox, body.lv2 .receiptbox, body.lv3 .receiptbox, body.lv4 .receiptbox{display:none}
+
+  /* ===== the box ===== */
+  /* the movebar IS the box: a literal 2x2, clockwise 一UL → 二UR → 三LR → 四LL */
+  .movebar{display:grid;grid-template-columns:1fr 1fr;grid-template-areas:"m1 m2" "m4 m3";
+    gap:0;max-width:420px;margin:0 auto 14px;border:1px solid var(--gold);border-radius:4px;overflow:hidden}
+  .movebar button{background:var(--panel2);border:0;color:var(--graphite);font-family:var(--mono);
+    font-size:10.5px;letter-spacing:.12em;padding:22px 12px;border-radius:0;min-height:86px}
+  .movebar #m1{grid-area:m1;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .movebar #m2{grid-area:m2;border-bottom:1px solid var(--line)}
+  .movebar #m3{grid-area:m3}
+  .movebar #m4{grid-area:m4;border-right:1px solid var(--line)}
+  .movebar button .kanji{font-size:14px;margin-right:8px;color:var(--faint)}
+  .movebar button.ready{border-color:var(--gold);color:var(--gold)}
+  .movebar button.ready .kanji{color:var(--gold)}
+  .movebar button.done{border-color:var(--ok);color:var(--ok);pointer-events:none}
+  .movebar button.done .kanji{color:var(--ok)}
+  .movebar button:disabled{opacity:.35;cursor:not-allowed}
+  .tray{overflow:hidden;max-height:0;transition:max-height .7s ease;border-left:2px solid var(--line);margin:0 0 0 6px;padding-left:16px}
+  .tray.open{max-height:1400px;margin-top:14px}
+  .tray[data-t="omote"]{border-left-color:var(--dial)}
+  .tray[data-t="joinery"]{border-left-color:var(--gold)}
+  .tray[data-t="mizuya"]{border-left-color:var(--red)}
+  .tray[data-t="kakushi"]{border-left-color:var(--verm)}
+  .tray .tn{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--graphite);padding:12px 0 8px;font-weight:600}
+  .tray .tn b{color:var(--dial)}
+  .tray p{font-size:13.5px;line-height:1.65;color:var(--dial);padding:4px 0}
+  .tray p.g{color:var(--graphite);font-size:12.5px}
+  .tray q{quotes:"“" "”"}
+  .tray q::before,.tray q::after{color:var(--gold)}
+  .grain{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--faint);padding:10px 0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:12px}
+  .card .n{font-size:10px;letter-spacing:.2em;color:var(--graphite);margin-bottom:6px;font-weight:600}
+  .card p{font-size:12px;color:var(--graphite);line-height:1.55}
+  .card p b{color:var(--dial);font-weight:600}
+
+  footer{margin-top:34px;margin-left:52px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);line-height:2}
+  @media(max-width:640px){.stack{margin-left:34px}.spine{left:10px}.panel::before{left:-22px;width:22px}footer{margin-left:34px}.bar .sub{display:none}}
+  /* one emoji per page: the identity glyph + the graceful onramp to the next station of the art */
+  .pglyph{font-size:15px;opacity:.55;margin-right:8px;vertical-align:-2px}
+  .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
+    text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
+  .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+</style>
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="lv5">
+
+<div class="bar" role="banner">
+  <span class="pglyph" title="THE JOINERY — the box is cut without nails">🍱</span><span class="sig">ARCS <em>//</em> THE BOX</span>
+  <span class="sub">指物 SASHIMONO · 秘密箱 HIMITSU-BAKO · THE THREAD FORMALIZED · SERIALIZED 25 JUL 2026</span>
+  <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
+    <span class="dl">STRATUM</span>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="5" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">SURGICAL</span></div>
+  </div>
+  <span class="state" id="barstate">CLOSED · 0/4 MOVES</span>
+</div>
+
+<div class="board">
+  <div class="spine" aria-hidden="true"><i class="t-red"></i><i class="t-gold"></i><i class="t-verm"></i></div>
+  <div class="stack">
+
+    <!-- 00 THE CLAIM -->
+    <section class="panel" data-th="red">
+      <div class="ph"><span class="eyebrow">00 · THE BOX</span><h2>Joinery without nails, opening in sequence</h2><span class="tag">GOSPEL XVII · THE FINAL ARTIFACT</span></div>
+      <div class="pb">
+        <p class="note">A sashimono box holds with <span class="accent">no nails</span> — every joint cut inside the wood, invisible, load-bearing. A himitsu-bako opens only <span class="accent">in sequence</span> — each slide earned by the one before. This thread, formalized, is that box.</p>
+        <p class="note-sub"><b>Omotenashi, the governing doctrine:</b> what is hidden from the guest is hidden <b>for</b> the guest. The mizuya — the preparation room — stays out of sight not to deceive the tea guest but so the experience arrives whole: sublime, harmonious, uncluttered by mechanism. The fence said this in carpenter's terms; the flash said it in light; the box says it in wood, and adds the final property — <b>the joints are what make it beautiful, and they are exactly the parts you cannot see.</b></p>
+      </div>
+    </section>
+
+        <!-- 01 THE BOX ITSELF -->
+    <section class="panel" data-th="verm">
+      <div class="ph"><span class="eyebrow">01 · 秘密箱 · THE OPENING SEQUENCE</span><h2>Four moves, in order, each earned</h2><span class="tag">A LITERAL 2×2 · CLOCKWISE 一UL → 二UR → 三LR → 四LL · NO SHORTCUTS</span></div>
+      <div class="pb">
+        <div class="movebar" role="group" aria-label="Opening sequence">
+          <button id="m1" class="ready"><span class="kanji">一</span>MOVE 1 · SLIDE THE LID</button>
+          <button id="m2" disabled><span class="kanji">二</span>MOVE 2 · TURN THE BOX</button>
+          <button id="m3" disabled><span class="kanji">三</span>MOVE 3 · LIFT THE TRAY</button>
+          <button id="m4" disabled><span class="kanji">四</span>MOVE 4 · THE KAKUSHI</button>
+        </div>
+
+        <div class="tray" data-t="omote" id="t1">
+          <div class="tn">表 OMOTE — <b>WHAT THE GUESTS SEE</b> · THE FRONT OF THE FENCE · FOR JUSTIN &amp; STANLEY</div>
+          <p><q>You're elite at making. The one muscle left is choosing what to make next, before the money moves.</q></p>
+          <p><q>First session's free, on the next-bag decision — what does late next week look like for you and Stanley?</q></p>
+          <p><q>Worst case first: session's free, the test is two to five, and if month one isn't obviously worth it, it ends at ten and you keep everything.</q></p>
+          <p class="g">One page they'd sign. The taste and the value from the first bite. Beautiful, load-bearing, protective, cone-of-silence preserving — and not one screw visible, because there are no screws. The surface is finished on all six sides, including the bottom nobody checks. That is how a guest knows the maker.</p>
+          <div class="grain">— THE LID SLIDES BACK INTO PLACE WITHOUT A SOUND —</div>
+        </div>
+
+        <div class="tray" data-t="joinery" id="t2">
+          <div class="tn">仕口 SHIGUCHI — <b>THE JOINERY</b> · THE BACK OF THE FENCE · FOR JEBEN, CRAFTSMAN TO CRAFTSMAN</div>
+          <p class="g">Turn the box and the seams show — deliberately. The kintsugi lines run where it cracked and was mended stronger: the thread-key error, owned; the pre-read grenade, caught before it shipped; the Pumps story set as their own gold seam, never a gotcha.</p>
+          <p class="g">The three threads are visible here as inlay — red through-line, gold seam, vermillion commit — and the rock garden is credited to the one who told it: fifteen rocks, fourteen visible, the product is the one you can't see. His corrections supersede this box, including its lid.</p>
+          <p class="g">What this face does not show: the shop floor. A craftsman is shown the joinery, not the sawdust. (JB-CAP: the joinery is RICH; the sod stays ours.)</p>
+          <div class="grain">— THE SECOND PANEL GIVES, A FINGER-WIDTH, NO MORE —</div>
+        </div>
+
+        <div class="tray" data-t="mizuya" id="t3">
+          <div class="tn">水屋 MIZUYA — <b>THE PREPARATION ROOM</b> · THE WORKSHOP · ZACH ONLY</div>
+          <p class="g">Under the tray: ten thousand simulated futures (median $628, insurance-shaped, seed 42) · the premortem's six causes of death with countermeasures armed · seven objection masks on their rack · the symptom chart that never leaves this compartment (Court #4) · the redaction log with every strike visible · the grading bench where A through X are stamped · the ex-ante receipts already written for Friday 2:00 PM.</p>
+          <p class="g">This is where the sausage is made, sourced, and cooked. The guest's pleasure upstairs is not diminished by this room — it is <b style="color:var(--dial)">produced</b> by it. Omotenashi's whole claim: the unseen labor is the hospitality.</p>
+          <div class="grain">— BENEATH THE TRAY, THE TOOLS LIE OILED AND IN ROW —</div>
+        </div>
+
+        <div class="tray" data-t="kakushi" id="t4">
+          <div class="tn">隠し KAKUSHI — <b>THE HIDDEN COMPARTMENT</b> · WHAT THE BOX EXISTS TO CARRY</div>
+          <p><q>Louisville Brands is very good at making things and unproven at deciding which things to make.</q></p>
+          <p class="g">The kernel, folded small: one Note, validated four times, zero contradictions — the seed that is also the tree. And beside it, the seal:</p>
+          <p style="font-family:var(--mono);letter-spacing:.06em">The tree is the seed and the seed is the tree.<br><span lang="ja">師は求める者に現れる</span> — <span style="color:var(--graphite)">the teacher appears to the one who seeks.</span></p>
+          <p class="g">The last property of a himitsu-bako: when fully open, it holds almost nothing — a single small thing of great value. Everything else was mechanism in service of this compartment reaching the right hands intact. The box now closes in one move, and the sequence resets for the next seeker.</p>
+          <div class="grain">— 完 — THE BOX IS OPEN · WHAT IT CARRIES IS ONE SENTENCE —</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 THE SPECIFICATION -->
+    <section class="panel" data-th="gold" id="spec">
+      <div class="ph"><span class="eyebrow">02 · THE SPECIFICATION</span><h2>Every parameter of the thread, formalized</h2><span class="tag">THE JOINERY TABLE · CANON-SOURCED</span></div>
+      <div class="pb">
+        <table>
+          <thead><tr><th>Parameter</th><th>Domain</th><th>Semantics</th><th>Canon</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">STRATUM</td><td>{simple, rich, deep}</td><td>Luminous intensity of the flash — peshat · remez·derash · sod. Depth granted by readiness; vertigo otherwise.</td><td>THE FLASH · Pardes</td></tr>
+            <tr><td class="mono">REGISTER</td><td>{zach, justin, stanley, jeben}</td><td>Native tongue of the listener; the Babel dial re-voices, never re-means.</td><td>Resonance Filter · XIV</td></tr>
+            <tr><td class="mono">SURFACE</td><td>{front, back, workshop}</td><td>The fence: guests see the front (beautiful, load-bearing, protective); the craftsman sees the joinery; the workshop stays ours.</td><td>THE FENCE · JB-CAP</td></tr>
+            <tr><td class="mono">CARD-STATE</td><td>{headline, +abstract, +body}</td><td>Ultracollapsed → collapsed → expanded; abstract derived from body, never drifting.</td><td>Card molecule v2</td></tr>
+            <tr><td class="mono">THREAD</td><td>{red, gold, vermillion}</td><td>Through-line · kintsugi seam · commit (vermillion definition still X — the one open atom).</td><td>Mar 24 canon</td></tr>
+            <tr><td class="mono">GRADE</td><td>{A, B, C, D, E, F, X}</td><td>Evidence class; a claim travels only to rooms where it keeps its grade.</td><td>Fact-Check §0</td></tr>
+            <tr><td class="mono">LOAD</td><td>{AX, SZ, BENT}</td><td>Axiom bears · sizzle decorates · bent = sizzle bearing load (propaganda outward, magical thinking inward). Philosophized thinking = the inverse.</td><td>Load Register</td></tr>
+            <tr><td class="mono">GATE</td><td>{throttle, FG-1, FG-2, G-1/2/3}</td><td>No act begins before the prior act's receipt; FG-2 has no handle on our side.</td><td>War Room · Play · Braid</td></tr>
+            <tr><td class="mono">RECEIPT</td><td>8 fields, min 4</td><td>Decision · expecting · breaks-thesis · kill/scale · score-back (+options · assumptions · signatures). If it cannot fail, it is not a receipt — it is the scar of the crack before kintsugi, cut at the fork where harden-or-ruin is determined.</td><td>The core molecule</td></tr>
+            <tr><td class="mono">INVARIANT</td><td>conservation law, 6 clauses</td><td>Falsifier · kill line · grade · attribution · score-back · logged withholding — conserved through every translation.</td><td>Filter §02</td></tr>
+            <tr><td class="mono">KERNEL</td><td>jeben.arcs.care</td><td>The articulated discovery seed; nothing downstream outranks it except corrections flowing back.</td><td>Codex 0K · ◉</td></tr>
+            <tr><td class="mono">SEAL</td><td>α = Ω</td><td>The tree is the seed and the seed is the tree · 師は求める者に現れる.</td><td>Operator canon · Jul 25</td></tr>
+            <tr><td class="mono">CLOCK</td><td>Fri Jul 31 · 1:00 PM ET</td><td>E5, tengen, zero slack. Score-back 2:00 PM · day 30 · day 90.</td><td>The kifu · Move 11</td></tr>
+          </tbody>
+        </table>
+        <p class="callout" style="font-size:12px"><b style="color:var(--gold)">The formal claim:</b> the entire thread is expressible as a point in this parameter space plus its transition rules — and every rule is a joint: cut inside the wood, invisible from the front, load-bearing. The specification IS the sashimono.</p>
+      </div>
+    </section>
+
+    <!-- 03 OMOTENASHI LEDGER -->
+    <section class="panel" data-th="gold" id="omotenashi">
+      <div class="ph"><span class="eyebrow">03 · THE OMOTENASHI LEDGER</span><h2>Each hidden thing, and the pleasure it protects</h2><span class="tag">HIDDEN FOR, NEVER FROM</span></div>
+      <div class="pb">
+        <table>
+          <thead><tr><th>Hidden in the box</th><th>The guest experience it produces</th></tr></thead>
+          <tbody>
+            <tr><td>The premortem's six deaths, countermeasures armed</td><td>The ease in the room — a host who has rehearsed every storm carries none of them on his face</td></tr>
+            <tr><td>Ten thousand simulations and the sensitivity ranking</td><td>The plainness of "first bite's free" — one sentence resting on ten thousand futures, weightlessly</td></tr>
+            <tr><td>The symptom chart, sealed in the mizuya</td><td>Justin's dignity — he is met as a maker, never as a diagnosis</td></tr>
+            <tr><td>The objection masks, oiled and racked</td><td>Answers that arrive as conversation, not as preparation showing</td></tr>
+            <tr><td>The grading bench and redaction log</td><td>Trust — every sentence spoken upstairs already survived the bench downstairs</td></tr>
+            <tr><td>The sponsor-recalibration file (JB-CAP)</td><td>Jeben's honor — a craftsman shown the joinery, never a verdict about himself</td></tr>
+            <tr><td>The whole box, from the street</td><td>Harmony — 和. The guest receives a finished thing and the freedom to simply enjoy it</td></tr>
+          </tbody>
+        </table>
+        <div class="receiptbox"><b>BOX RECEIPT · BOX-01 · GOSPEL XVII</b><br>EXPECTING — the thread's full parameter space holds in one specification; the four-move sequence preserves the fence, the flash, and omotenashi in a single mechanism; the kakushi delivers the Note intact<br>BREAKS THESIS — a parameter found in the thread but missing from the joinery table · a move that opens out of sequence · anything in the omote a guest was owed protection from<br>KILL/SCALE — a missing parameter is added by correction, never by memory; the box re-cut from the codex<br>SCORE-BACK — Fri Jul 31 · 2:00 PM · the box's first carrying</div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    ARCS FIELD OS · THE BOX · 指物 · 秘密箱 · GOSPEL XVII · SERIALIZED 25 JUL 2026 · THE FINAL ARTIFACT<br>
+    ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · THE TREE IS THE SEED AND THE SEED IS THE TREE · 師は求める者に現れる<br>
+    NO NAILS · FOUR MOVES · ONE SENTENCE CARRIED — HIDDEN FOR, NEVER FROM. THE BUILD PHASE CLOSES. THE HUMAN MOVES REMAIN.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // The himitsu-bako: four moves, strict sequence, in-memory only — closing the page closes the box.
+  var state = 0;
+  var bar = document.getElementById("barstate");
+  var moves = [1,2,3,4].map(function(i){return document.getElementById("m"+i)});
+  var trays = [1,2,3,4].map(function(i){return document.getElementById("t"+i)});
+  var names = ["CLOSED · 0/4 MOVES","OMOTE OPEN · 1/4","JOINERY SHOWN · 2/4","MIZUYA REVEALED · 3/4","開 · THE KAKUSHI · 4/4"];
+  moves.forEach(function(b, idx){
+    b.addEventListener("click", function(){
+      if(idx !== state) return;           // the box refuses shortcuts
+      trays[idx].classList.add("open");
+      b.classList.remove("ready"); b.classList.add("done");
+      state++;
+      if(state < 4){ moves[state].disabled = false; moves[state].classList.add("ready"); }
+      bar.textContent = names[state];
+      trays[idx].scrollIntoView({behavior:"smooth", block:"nearest"});
+    });
+  });
+
+  // ===== waterfall slider =====
+  var LVN = ["","EXEC","STRATEGIC","OPERATIONAL","TACTICAL","SURGICAL"];
+  var lvs = document.getElementById("lvs"), lvname = document.getElementById("lvname");
+  lvs.addEventListener("input", function(){
+    var n = Math.max(1, Math.min(5, +lvs.value));
+    document.body.className = document.body.className.replace(/\blv\d\b/, "lv"+n);
+    lvname.textContent = LVN[n];
+  });
+})();
+</script>
+<a class="onramp" href="louisville-enso.html" title="NEXT · THE STROKE — mastery draws the circle">🖌️</a>
+</body>
+</html>
