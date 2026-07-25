@@ -104,6 +104,9 @@
   .gact:hover,.gact:focus-visible{background:var(--gold);color:var(--case);text-decoration:none}
   .gact.verm{border-color:var(--verm);color:var(--verm)}
   .gact.verm:hover,.gact.verm:focus-visible{background:var(--verm);color:var(--case)}
+  /* silk — scroll-choreographed brush-dash field behind the evening */
+  #silk{position:fixed;inset:0;z-index:0;pointer-events:none}
+  .lanterns,.evening,footer{position:relative;z-index:1}
   /* 間 — the pause between courses; the last taste lingers before the next */
   .ma{margin-bottom:36px}
   .ma .mjp{display:block;font-size:15px;letter-spacing:.28em;color:var(--gold);opacity:.55;line-height:2}
@@ -124,6 +127,7 @@
 </head>
 <body>
 
+<canvas id="silk" aria-hidden="true"></canvas>
 <div class="lanterns" aria-hidden="true" id="lanterns"></div>
 
 <div class="evening">
@@ -363,6 +367,58 @@
     }
   });
 })();
+  // silk choreography — concentric brush-dashes orbiting the center; the page scroll is the conductor.
+  (function(){
+    var cv = document.getElementById("silk"), cx = cv.getContext("2d");
+    var reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var P = [], W, H, dpr;
+    function size(){
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      cv.style.width = W + "px"; cv.style.height = H + "px";
+      cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function seed(){
+      P = [];
+      for(var i = 0; i < 110; i++){
+        P.push({ ring: 0.22 + (i % 5) * 0.16 + Math.sin(i * 7.13) * 0.03,
+                 a0: (i * 2.399963),            // golden-angle spread
+                 len: 0.05 + ((i * 37) % 11) / 140,
+                 w: 0.6 + ((i * 13) % 7) / 9,
+                 drift: 0.05 + ((i * 29) % 13) / 60 });
+      }
+    }
+    var t = 0;
+    function draw(){
+      var doc = document.documentElement;
+      var prog = scrollY / Math.max(1, doc.scrollHeight - innerHeight); // 0..1 through the evening
+      var fade = Math.max(0.12, 0.5 - prog * 0.5);                       // strongest at the opening
+      cx.clearRect(0, 0, W, H);
+      var R = Math.min(W, H) * 0.62, ox = W / 2, oy = H * 0.44;
+      for(var i = 0; i < P.length; i++){
+        var p = P[i];
+        var a = p.a0 + prog * 6.28318 * p.drift * 4 + t * (reduce ? 0 : p.drift * 0.12);
+        var r = p.ring * R * (1 + Math.sin(prog * 9 + i) * 0.02);
+        cx.beginPath();
+        cx.arc(ox, oy, r, a, a + p.len);
+        cx.strokeStyle = "rgba(201,162,39," + (fade * (0.10 + p.w * 0.05)).toFixed(3) + ")";
+        cx.lineWidth = p.w;
+        cx.stroke();
+      }
+    }
+    var raf = null;
+    function loop(){ t += 1; draw(); raf = requestAnimationFrame(loop); }
+    size(); seed(); draw();
+    addEventListener("resize", function(){ size(); draw(); });
+    if(reduce){ addEventListener("scroll", draw, {passive:true}); }
+    else { loop(); }
+    document.addEventListener("visibilitychange", function(){
+      if(document.hidden){ if(raf) cancelAnimationFrame(raf), raf = null; }
+      else if(!reduce && !raf){ loop(); }
+    });
+  })();
+
 </script>
 </body>
 </html>
