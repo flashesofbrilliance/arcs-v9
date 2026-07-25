@@ -33,7 +33,7 @@
   .scene.on{max-height:1600px;opacity:1;padding:7vh 0}
   .scene:first-of-type{max-height:none;opacity:1;padding:7vh 0}
 
-  .jp{display:block;font-size:44px;color:var(--gold);font-weight:700;letter-spacing:.04em;line-height:1.3}
+  .jp{display:block;color:var(--gold);font-weight:700;letter-spacing:.04em;line-height:1.3}
   .en{font-size:13px;letter-spacing:.32em;color:var(--graphite);font-family:var(--mono);margin-top:14px;line-height:2.2}
   .voice{font-size:19px;line-height:1.75;color:var(--dial);max-width:560px;margin:26px auto 0}
   .voice i{color:var(--graphite)}
@@ -104,6 +104,14 @@
   .gact:hover,.gact:focus-visible{background:var(--gold);color:var(--case);text-decoration:none}
   .gact.verm{border-color:var(--verm);color:var(--verm)}
   .gact.verm:hover,.gact.verm:focus-visible{background:var(--verm);color:var(--case)}
+  /* 間 — the pause between courses; the last taste lingers before the next */
+  .ma{margin-bottom:36px}
+  .ma .mjp{display:block;font-size:15px;letter-spacing:.28em;color:var(--gold);opacity:.55;line-height:2}
+  .ma .men{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;color:var(--faint);margin-top:7px;line-height:1.9}
+  /* CJK display text obeys Japanese line-breaking, never western word-wrap */
+  [lang="ja"],.jp,.kanji-big,.ma .mjp{word-break:keep-all;line-break:strict;overflow-wrap:normal;
+    font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans)}
+  .jp{font-size:clamp(30px,9.5vw,44px)}
   footer{padding:0 22px 60px;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);line-height:2.1}
   /* dark instrument scrollbar, independent of OS theme */
   html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
@@ -122,7 +130,7 @@
 
   <!-- 0 · こんにちは -->
   <section class="scene on" id="sc0">
-    <span class="jp">こんにちは</span>
+    <span class="jp" lang="ja">こんにちは</span>
     <p class="en">GOOD EVENING · A SIDE STREET · AN UNMARKED DOOR</p>
     <div class="norenwrap" id="noren" role="button" tabindex="0" aria-label="Part the curtain and enter">
       <div class="rail"></div>
@@ -137,7 +145,7 @@
 
   <!-- 1 · いらっしゃいませ -->
   <section class="scene" id="sc1">
-    <span class="jp">いらっしゃいませ</span>
+    <span class="jp" lang="ja">いらっしゃいませ</span>
     <div style="font-size:44px;line-height:1;margin-top:18px" aria-hidden="true">🧧</div>
     <p class="en" style="margin-top:8px">WELCOME IN</p>
     <p class="voice">One counter. No menu. The oshibori is warm; the cutting board is clean; the record behind this kitchen is write-locked. <i>Tonight the house chooses, and the house has been preparing for longer than you know.</i></p>
@@ -146,6 +154,7 @@
 
   <!-- 2 · the first bite -->
   <section class="scene" id="sc2">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">一口に　今宵のすべて　灯りけり</span><span class="men">IN ONE BITE, ALL OF TONIGHT IS LIT</span></p>
     <span class="kanji-big">先</span>
     <p class="en">THE CHEF SAYS NOTHING · PLACES ONE THING BEFORE YOU</p>
     <div class="morsel"><p class="note">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
@@ -156,6 +165,7 @@
 
   <!-- 3 · the kernel -->
   <section class="scene" id="sc3">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">種の中　眠れる森が　夢を見る</span><span class="men">INSIDE THE SEED, A SLEEPING FOREST DREAMS</span></p>
     <span class="kanji-big">種</span>
     <p class="en">THE SEED COURSE</p>
     <p class="voice">Everything served tonight grew from one articulated seed — seven conversations of wild evidence, pulled into one place: what's live, what's parked, what it's worth, what happens next. <span class="accent">The tree is the seed and the seed is the tree.</span> Every later course is this one, unfolded.</p>
@@ -165,6 +175,7 @@
 
   <!-- 4 · the cellar -->
   <section class="scene" id="sc4">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">蔵深く　年月は酒と　なりにけり</span><span class="men">DEEP IN THE CELLAR, THE YEARS HAVE BECOME WINE</span></p>
     <span class="kanji-big">蔵</span>
     <p class="en">THE CELLAR COURSE</p>
     <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open, a timeline that cannot be rewritten after the pour. <i>You taste none of the bookkeeping — you taste that nothing served tonight has ever needed to lie.</i></p>
@@ -174,6 +185,7 @@
 
   <!-- 5 · one dish, four ways -->
   <section class="scene" id="sc5">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">同じ月　四つの窓に　別の顔</span><span class="men">ONE MOON · IN FOUR WINDOWS, FOUR FACES</span></p>
     <span class="kanji-big">四</span>
     <p class="en">ONE DISH · FOUR WAYS</p>
     <p class="voice">The same truth, cut for each palate at the table — the maker hears making, the steward hears stewardship, the craftsman is shown the joinery — <i>and not a gram of what the dish is survives differently in any telling.</i> The kitchen calls this the conservation law.</p>
@@ -183,6 +195,7 @@
 
   <!-- 6 · the box -->
   <section class="scene" id="sc6">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">箱の中　小さきものの　重さかな</span><span class="men">WITHIN THE BOX, THE WEIGHT OF ONE SMALL THING</span></p>
     <span class="kanji-big">箱</span>
     <p class="en">THE LACQUERED COURSE · 秘密箱</p>
     <p class="voice">A box with no nails — every joint cut inside the wood, invisible, load-bearing. It opens only in sequence, and when fully open it holds almost nothing: <span class="accent">one small thing of great value</span>, carried intact to the right hands. You have been tasting its contents all evening.</p>
@@ -192,6 +205,7 @@
 
   <!-- 7 · the ring -->
   <section class="scene" id="sc7">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">筆離れ　円は残りて　息づけり</span><span class="men">THE BRUSH LIFTS · THE CIRCLE STAYS, STILL BREATHING</span></p>
     <span class="kanji-big">円</span>
     <p class="en">THE RING COURSE</p>
     <p class="voice">This meal is not a line with an end — it is a circle with a gap. The meeting, the test, the read, the scored record: each returns. <i>The landing of one course is the plié of the next.</i></p>
@@ -203,6 +217,7 @@
 
   <!-- 8 · dessert · the seal -->
   <section class="scene" id="sc8">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">甘きもの　終わり近きゆえ　なお甘し</span><span class="men">SWEETNESS, SWEETER FOR BEING NEAR THE END</span></p>
     <span class="kanji-big">甘</span>
     <p class="en">DESSERT · SWEET · SMALL · IT CONTAINS THE FIRST BITE</p>
     <div class="morsel"><p class="note" style="font-family:var(--mono);font-size:15px;letter-spacing:.06em;line-height:2.2">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></p></div>
@@ -213,15 +228,17 @@
 
   <!-- 9 · the bow -->
   <section class="scene" id="sc9">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">露の世は　露の世ながら　さりながら</span><span class="men">THIS DEWDROP WORLD IS A DEWDROP WORLD — AND YET, AND YET · ISSA</span></p>
     <p class="voice"><i>the guest, quietly —</i></p>
-    <span class="jp" style="font-size:30px">とても美味しかったです。ごちそうさまでした。</span>
+    <span class="jp" lang="ja" style="font-size:30px">とても美味しかったです。ごちそうさまでした。</span>
     <p class="voice" style="margin-top:34px"><i>the house bows —</i></p>
-    <span class="jp">ありがとうございました</span>
+    <span class="jp" lang="ja">ありがとうございました</span>
     <div class="step"><button data-next="sc10">深いお辞儀 · THE BOW COMPLETES — AND THE BRUSH LIFTS AGAIN</button></div>
   </section>
 
   <!-- 10 · the new stroke — the peek, as the next movement, never a fork -->
   <section class="scene" id="sc10">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">散る花の　下に根の闇　深きかな</span><span class="men">BENEATH THE SCATTERING BLOSSOM, THE DARK OF ROOTS RUNS DEEP</span></p>
     <p class="en">A NEW STROKE BEGINS · THE KIMONO PARTS ONLY AFTER THE BOW · DESCENDING NOW</p>
     <div class="newstroke" aria-hidden="true"><svg viewBox="0 0 460 120"><path d="M28 68 C 130 46, 320 42, 434 58" fill="none" stroke="var(--dial)" stroke-width="16" stroke-linecap="round" opacity=".9"/></svg></div>
     <div class="depth t0"><div class="t">T0 · THE SURFACE</div><p>The evening you just tasted — eleven scenes, nine lanterns, <b>one sentence</b>. It felt inevitable. Inevitability is a finish, not an accident.</p></div>
@@ -233,7 +250,8 @@
 
   <!-- 11 · さようなら -->
   <section class="scene" id="sc11">
-    <span class="jp">さようなら</span>
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">暖簾揺れ　客も一夜も　夢の跡</span><span class="men">THE CURTAIN SWAYS · GUEST AND EVENING BOTH, TRACES OF A DREAM</span></p>
+    <span class="jp" lang="ja">さようなら</span>
     <p class="en">THE STREET AGAIN · THE CURTAIN STILL · THE CIRCLE OPEN</p>
     <p class="voice"><i>The noren hangs exactly where you found it. The gap in the circle waits for your next decision. Come hungry again.</i></p>
     <div class="gift">
