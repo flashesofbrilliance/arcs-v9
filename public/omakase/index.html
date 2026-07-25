@@ -65,47 +65,23 @@
     font-size:11px;letter-spacing:.28em;padding:14px 34px;border-radius:3px;transition:background .3s,color .3s}
   .step button:hover{background:var(--gold);color:var(--case)}
   .step button:disabled{border-color:var(--faint);color:var(--faint);cursor:default;background:none}
-  .quiet{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--faint);margin-top:16px}
+  .quiet{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--graphite);margin-top:16px}
 
-  .newstroke svg{width:min(460px,84vw);height:auto;display:block;margin:10px auto 24px}
-  .newstroke path{stroke-dasharray:640;stroke-dashoffset:640;transition:stroke-dashoffset 2.4s ease .4s}
-  .scene.on .newstroke path{stroke-dashoffset:0}
-  .depth{border:1px dashed var(--line);border-radius:4px;padding:16px 20px;margin:14px auto 0;max-width:580px;text-align:left}
-  .depth .t{font-family:var(--mono);font-size:10px;letter-spacing:.26em;margin-bottom:6px}
-  .depth p{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--graphite);line-height:2}
-  .depth p b{color:var(--dial)}
-  .depth.t0{border-color:var(--dial)} .depth.t0 .t{color:var(--dial)}
-  .depth.t14{border-color:var(--gold)} .depth.t14 .t{color:var(--gold)}
-  .depth.t25{border-color:var(--verm)} .depth.t25 .t{color:var(--verm)}
-  .peekbox{border:1px dashed var(--verm);border-radius:4px;padding:20px 24px;margin:24px auto 0;max-width:580px;text-align:left}
-  .peekbox p{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--graphite);line-height:2.1}
-  .peekbox b{color:var(--dial)}
 
   /* easter eggs: visible only after 完, faint until sought (the teacher appears to the one who seeks) */
   /* walk-through doors: every course opens into the room it was cooked in */
-  .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.5;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
+  .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
   .door:hover,.door:focus-visible{opacity:1;border-color:var(--gold);text-decoration:none}
-  .eggs{display:flex;justify-content:center;gap:26px;margin-top:44px;opacity:0;transition:opacity 3s ease 2s}
-  .scene.on .eggs{opacity:1}
-  .egg{display:inline-block;text-decoration:none;font-size:22px;opacity:.16;filter:grayscale(.6);transition:opacity .5s,filter .5s,transform .3s;padding:6px}
-  .egg:hover,.egg:focus-visible{opacity:1;filter:none;transform:translateY(-3px);text-decoration:none}
-  .eggcard{overflow:hidden;max-height:0;opacity:0;transition:max-height .8s ease,opacity .6s ease;margin:10px auto 0;max-width:560px}
-  .eggcard.open{max-height:300px;opacity:1}
-  .eggcard div{border:1px dashed var(--faint);border-radius:4px;padding:14px 18px;text-align:left}
-  .eggcard .en2{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--verm);margin-bottom:6px}
-  .eggcard p{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--graphite);line-height:1.9}
-  .eggcard b{color:var(--dial)}
-  .eggcard .fn{color:var(--gold)}
 
   /* the take-home: 土産: what the lacquered box was built to carry, handed at the door */
   .gift{margin-top:44px}
   .glbl{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gold)}
-  .gacts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px auto 0;max-width:580px}
-  @media(max-width:520px){.gacts{grid-template-columns:1fr}}
-  .gact{display:block;text-align:center;text-decoration:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.22em;padding:12px 18px;border-radius:3px;transition:background .3s,color .3s}
-  .gact:hover,.gact:focus-visible{background:var(--gold);color:var(--case);text-decoration:none}
-  .gact.verm{border-color:var(--verm);color:var(--verm)}
-  .gact.verm:hover,.gact.verm:focus-visible{background:var(--verm);color:var(--case)}
+  .cta{display:block;max-width:580px;margin:18px auto 0;text-align:center;text-decoration:none;border:1px solid var(--verm);color:var(--verm);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;padding:16px 20px;border-radius:3px;transition:background .3s,color .3s}
+  .cta:hover,.cta:focus-visible{background:var(--verm);color:var(--case);text-decoration:none}
+  .assure{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--graphite);margin-top:12px;line-height:1.9;max-width:580px;margin-left:auto;margin-right:auto}
+  .qlinks{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--faint);margin-top:16px}
+  .qlinks a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)}
+  .qlinks a:hover,.qlinks a:focus-visible{border-bottom-color:var(--gold)}
   /* silk: scroll-choreographed brush-dash field behind the evening */
   #silk{position:fixed;inset:0;z-index:0;pointer-events:none}
   .lanterns,.evening,footer{position:relative;z-index:1}
@@ -136,7 +112,7 @@
 
   <!-- 0 · こんにちは -->
   <section class="scene on" id="sc0">
-    <span class="jp" lang="ja">こんにちは</span>
+    <span class="jp" lang="ja">こんばんは</span>
     <p class="en">GOOD EVENING · A SIDE STREET · AN UNMARKED DOOR</p>
     <div class="norenwrap" id="noren" role="button" tabindex="0" aria-label="Part the curtain and enter">
       <div class="rail"></div>
@@ -147,6 +123,7 @@
       </div>
     </div>
     <p class="quiet">暖簾 · A CLOTH WITH A CIRCLE ON IT · PART IT</p>
+    <p class="voice" style="font-size:14px;color:var(--graphite);max-width:470px;margin-top:30px">Inside, one sentence is waiting: <i>Louisville Brands is very good at making things and unproven at deciding which things to make.</i></p>
   </section>
 
   <!-- 1 · いらっしゃいませ -->
@@ -175,37 +152,17 @@
     <span class="kanji-big">種</span>
     <p class="en">THE SEED COURSE</p>
     <p class="voice">Everything served tonight grew from one articulated seed: seven conversations of wild evidence, pulled into one place: what's live, what's parked, what it's worth, what happens next. <span class="accent">The tree is the seed and the seed is the tree.</span> Every later course is this one, unfolded.</p>
-    <p class="quiet" style="margin-top:18px"><a href="appendix/louisville-kernel.html" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint)">種 · TASTE THE SEED ITSELF · THE THREAD BOOK</a></p>
+    <div><a class="door" href="appendix/louisville-kernel.html" target="_blank" rel="noopener">◉ TASTE THE SEED ITSELF · THE THREAD BOOK</a></div>
     <div class="step"><button data-next="sc4">THE NEXT PIECE</button></div>
   </section>
 
-  <!-- 4 · the cellar -->
+  <!-- 4 · the cellar: one record, three rooms -->
   <section class="scene" id="sc4">
     <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">蔵深く　年月は酒と　なりにけり</span><span class="men">DEEP IN THE CELLAR, THE YEARS HAVE BECOME WINE</span></p>
     <span class="kanji-big">蔵</span>
-    <p class="en">THE CELLAR COURSE</p>
-    <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open, a timeline that cannot be rewritten after the pour. <i>You taste none of the bookkeeping. You taste that nothing served tonight has ever needed to lie.</i></p>
-    <div><a class="door" href="appendix/louisville-codex.html" target="_blank" rel="noopener">🏯 WALK THE CELLAR · THE CODEX</a></div>
-    <div class="step"><button data-next="sc5">THE NEXT PIECE</button></div>
-  </section>
-
-  <!-- 5 · one dish, four ways -->
-  <section class="scene" id="sc5">
-    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">同じ月　四つの窓に　別の顔</span><span class="men">ONE MOON · IN FOUR WINDOWS, FOUR FACES</span></p>
-    <span class="kanji-big">四</span>
-    <p class="en">ONE DISH · FOUR WAYS</p>
-    <p class="voice">The same truth, cut for each palate at the table: the maker hears making, the steward hears stewardship, the craftsman is shown the joinery. <i>Not a gram of what the dish is survives differently in any telling.</i> The kitchen calls this the conservation law.</p>
-    <div><a class="door" href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener">🍣 TASTE ALL FOUR · THE FILTER</a></div>
-    <div class="step"><button data-next="sc6">THE NEXT PIECE</button></div>
-  </section>
-
-  <!-- 6 · the box -->
-  <section class="scene" id="sc6">
-    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">箱の中　小さきものの　重さかな</span><span class="men">WITHIN THE BOX, THE WEIGHT OF ONE SMALL THING</span></p>
-    <span class="kanji-big">箱</span>
-    <p class="en">THE LACQUERED COURSE · 秘密箱</p>
-    <p class="voice">A box with no nails: every joint cut inside the wood, invisible, load-bearing. It opens only in sequence, and when fully open it holds almost nothing: <span class="accent">one small thing of great value</span>, carried intact to the right hands. You have been tasting its contents all evening.</p>
-    <div><a class="door" href="appendix/louisville-box.html" target="_blank" rel="noopener">🍱 OPEN THE JOINERY · THE BOX</a></div>
+    <p class="en">THE CELLAR COURSE · ONE RECORD, THREE ROOMS</p>
+    <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open. The same truth is cut for each palate at the table, and a lacquered box carries <span class="accent">one small thing of great value</span> intact to the right hands. <i>You taste none of the bookkeeping. You taste that nothing served tonight has ever needed to lie.</i></p>
+    <div><a class="door" href="appendix/louisville-codex.html" target="_blank" rel="noopener">🏯 THE CODEX</a> <a class="door" href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener">🍣 THE FILTER</a> <a class="door" href="appendix/louisville-box.html" target="_blank" rel="noopener">🍱 THE BOX</a></div>
     <div class="step"><button data-next="sc7">THE NEXT PIECE</button></div>
   </section>
 
@@ -239,19 +196,7 @@
     <span class="jp" lang="ja" style="font-size:30px">とても美味しかったです。ごちそうさまでした。</span>
     <p class="voice" style="margin-top:34px"><i>the house bows…</i></p>
     <span class="jp" lang="ja">ありがとうございました</span>
-    <div class="step"><button data-next="sc10">深いお辞儀 · THE BOW COMPLETES · THE BRUSH LIFTS AGAIN</button></div>
-  </section>
-
-  <!-- 10 · the new stroke: the peek, as the next movement, never a fork -->
-  <section class="scene" id="sc10">
-    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">散る花の　下に根の闇　深きかな</span><span class="men">BENEATH THE SCATTERING BLOSSOM, THE DARK OF ROOTS RUNS DEEP</span></p>
-    <p class="en">A NEW STROKE BEGINS · THE KIMONO PARTS ONLY AFTER THE BOW · DESCENDING NOW</p>
-    <div class="newstroke" aria-hidden="true"><svg viewBox="0 0 460 120"><path d="M28 68 C 130 46, 320 42, 434 58" fill="none" stroke="var(--dial)" stroke-width="16" stroke-linecap="round" opacity=".9"/></svg></div>
-    <div class="depth t0"><div class="t">T0 · THE SURFACE</div><p>The evening you just tasted: eleven scenes, nine lanterns, <b>one sentence</b>. It felt inevitable. Inevitability is a finish, not an accident.</p></div>
-    <div class="depth t14"><div class="t">T14 · THE ACCRETION · FOURTEEN LAYERS BENEATH</div><p><b>Seven calls read verbatim</b> · every claim graded A–X · <b>ten thousand simulated futures</b> · the premortem, countermeasures armed · seven objection masks, oiled and racked · the rehearsal timed to the second of silence · <b>receipts written before outcomes</b>, scored after · the cracks mended in gold, left showing.</p></div>
-    <div class="depth t25"><div class="t">T25 · THE FORGE · JULY 25</div><p>The day the layers themselves were made: <b>twenty-four gospels serialized in one sitting</b>, a skill passed through ten times, eight bugs turned into eight laws, a ROM write-locked. The kitchen has a kitchen, and now you have seen both. <b>The novice sees fish and rice; the teacher sees twenty-five years</b>, and that invisible mass is the entire distance between F-tier and S-tier, because on the plate they look almost the same.</p></div>
-    <p class="quiet" style="margin-top:22px">THE MAGIC WAS ENGINEERED · THE SECOND GIFT · THE FIFTEENTH ROCK WAS THE GROUND ALL EVENING</p>
-    <div class="step"><button data-next="sc11">さようなら</button></div>
+    <div class="step"><button data-next="sc11">深いお辞儀 · THE BOW COMPLETES · THE BRUSH LIFTS AGAIN</button></div>
   </section>
 
   <!-- 11 · さようなら -->
@@ -262,24 +207,13 @@
     <p class="voice"><i>Thank you for dining at <span style="color:var(--gold)">Dojo Kuchisabishii</span> <span lang="ja" style="color:var(--gold)">口寂しい</span>, the lonely mouth: the name for wanting one more taste after the meal is done. The noren hangs exactly where you found it. The gap in the circle waits for your next decision. Come again soon, and come hungry.</i></p>
     <div class="gift">
       <p class="glbl">土産 · THE TAKE-HOME · WHAT THE BOX WAS BUILT TO CARRY</p>
-      <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.<br><span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--graphite);font-weight:400">ONE FREE SESSION → ONE SIGNED RECEIPT → ONE $2–5K TEST → ONE DAY-30 READ</span></p></div>
-      <div class="gacts">
-        <a class="gact" href="appendix/louisville-gift.html" target="_blank" rel="noopener">THE GIFT</a>
-        <a class="gact verm" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">THE SESSION</a>
-        <a class="gact" href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">THE FEEDBACK</a>
-      </div>
+      <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
+      <a class="cta" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">RSVP · BOOK THE SESSION</a>
+      <p class="assure">THE SESSION IS $0 · A MONTH-ONE EXIT CAPS YOUR WORST CASE AT $10K · YOU KEEP THE RECEIPTS AND THE TEST DATA EITHER WAY</p>
+      <p class="qlinks"><a href="appendix/louisville-gift.html" target="_blank" rel="noopener">THE GIFT · THE PRE-READ</a> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
     </div>
     <p class="quiet" style="margin-top:34px">完</p>
-    <nav class="eggs" aria-label="Hidden appendixes: for the guest who lingers">
-      <a class="egg" href="appendix/louisville-braid.html" target="_blank" rel="noopener" title="👹 The Oni · the Braid: the adversary's audit. The demon is on staff.">👹</a>
-      <a class="egg" href="appendix/louisville-codex.html" target="_blank" rel="noopener" title="🏯 The Keep · the Codex: twenty-four gospels behind castle walls.">🏯</a>
-      <a class="egg" href="appendix/louisville-box.html" target="_blank" rel="noopener" title="🍱 The Lacquered Box · 指物: thirteen joints, four clockwise moves.">🍱</a>
-      <a class="egg" href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener" title="🍣 One Dish, Four Ways · the Filter: the conservation law.">🍣</a>
-      <a class="egg" href="appendix/louisville-staged-play.html" target="_blank" rel="noopener" title="👺 The Tengu · the Play: the seven masks. Never crosses the table.">👺</a>
-      <a class="egg" href="appendix/louisville-enso.html" target="_blank" rel="noopener" title="🖌️ The Ensō · the war room, bent into a brushed circle. The line is his; the circle is ours.">🖌️</a>
-      <a class="egg" href="appendix/louisville-omakase.html" target="_blank" rel="noopener" title="🥢 The Presentation · the canon, coursed and plated: nine courses in the chef's order.">🥢</a>
-    </nav>
-    <p class="quiet" style="margin-top:14px;opacity:.5">SEVEN APPENDIXES · FAINT UNTIL SOUGHT · EACH OPENS A ROOM</p>
+    <div><a class="door" href="appendix/louisville-entrance.html" target="_blank" rel="noopener">🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</a></div>
   </section>
 
 </div>
@@ -291,8 +225,8 @@
 <script>
 (function(){
   // One evening: nine lanterns, one-way stages, guest-paced (the plié: nothing advances itself).
-  var SCENES = ["sc0","sc1","sc2","sc3","sc4","sc5","sc6","sc7","sc8","sc9","sc10","sc11"];
-  var LANTERN_COUNT = 9; // the courses of the evening, lit as passed
+  var SCENES = ["sc0","sc1","sc2","sc3","sc4","sc7","sc8","sc9","sc11"];
+  var LANTERN_COUNT = 8; // one lantern per station after the street
   var lan = document.getElementById("lanterns");
   for(var i=0;i<LANTERN_COUNT;i++){ var d=document.createElement("span"); d.className="lantern"; lan.appendChild(d); }
   var lanterns = lan.children;
@@ -321,11 +255,28 @@
     setTimeout(function(){ show("sc1"); }, 800);
   }
   noren.addEventListener("click", enter);
+  // resume: an interrupted evening picks up where it left off, without replaying the theater
+  try{
+    var saved = sessionStorage.getItem("omk-scene");
+    var si = SCENES.indexOf(saved);
+    if(si > 0){
+      entered = true;
+      cloth.style.transition = "none"; cloth.classList.add("parted");
+      for(var r = 1; r <= si; r++){
+        var sc = document.getElementById(SCENES[r]);
+        sc.classList.add("on"); sc.style.maxHeight = "none";
+        var pb = document.getElementById(SCENES[r-1]).querySelector(".step button");
+        if(pb) pb.disabled = true;
+      }
+      paint();
+    }
+  }catch(e){}
   noren.addEventListener("keydown", function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); enter(); } });
 
   function show(id){
     var el = document.getElementById(id);
     el.classList.add("on");
+    try{ sessionStorage.setItem("omk-scene", id); }catch(e){}
     setTimeout(function(){ el.style.maxHeight = "none"; }, 1500); // release the reveal cap: tall scenes never clip
     paint();
     el.scrollIntoView({behavior:"smooth", block:"center"});
@@ -410,12 +361,21 @@
         cx.stroke();
       }
     }
-    var raf = null;
-    function loop(){ t += 1; draw(); raf = requestAnimationFrame(loop); }
+    var raf = null, lastActive = Date.now();
+    function wake(){ lastActive = Date.now(); if(!reduce && !raf && !document.hidden){ loop(); } }
+    function loop(){
+      if(Date.now() - lastActive > 10000){ raf = null; return; } // sleep when the room is still
+      t += 1; draw(); raf = requestAnimationFrame(loop);
+    }
     size(); seed(); draw();
     addEventListener("resize", function(){ size(); draw(); });
     if(reduce){ addEventListener("scroll", draw, {passive:true}); }
-    else { loop(); }
+    else {
+      loop();
+      addEventListener("scroll", wake, {passive:true});
+      addEventListener("pointermove", wake, {passive:true});
+      addEventListener("keydown", wake);
+    }
     document.addEventListener("visibilitychange", function(){
       if(document.hidden){ if(raf) cancelAnimationFrame(raf), raf = null; }
       else if(!reduce && !raf){ loop(); }
