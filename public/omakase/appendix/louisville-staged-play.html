@@ -150,14 +150,14 @@
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="lv5 reg-zach">
+<body class="lv1 reg-zach">
 
 <div class="bar" role="banner">
   <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE REHEARSAL — seven masks, the silence timed">👺</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> STAGED PLAY</span>
   <span class="sub">THE RULES OF RHETORIC · THREE ACTS · FATE-GATED · SERIALIZED 25 JUL 2026</span>
   <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
     <span class="dl">STRATUM</span>
-    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">SURGICAL</span></div>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">EXEC</span></div>
   </div>
   <div class="dialset reg" role="group" aria-label="Register — the Babel dial">
     <span class="dl">BABEL</span>
@@ -420,6 +420,7 @@
     });
   }
   cardInit();
+  setLv(+lvs.value);
 })();
 </script>
 <a class="onramp" href="louisville-braid.html" title="NEXT · THE AUDIT — the demon tastes everything first">👹</a>

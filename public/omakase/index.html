@@ -80,6 +80,9 @@
   .peekbox b{color:var(--dial)}
 
   /* easter eggs — visible only after 完, faint until sought (the teacher appears to the one who seeks) */
+  /* walk-through doors — every course opens into the room it was cooked in */
+  .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.5;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
+  .door:hover,.door:focus-visible{opacity:1;border-color:var(--gold);text-decoration:none}
   .eggs{display:flex;justify-content:center;gap:26px;margin-top:44px;opacity:0;transition:opacity 3s ease 2s}
   .scene.on .eggs{opacity:1}
   .egg{display:inline-block;text-decoration:none;font-size:22px;opacity:.16;filter:grayscale(.6);transition:opacity .5s,filter .5s,transform .3s;padding:6px}
@@ -139,6 +142,7 @@
     <p class="en">THE CHEF SAYS NOTHING · PLACES ONE THING BEFORE YOU</p>
     <div class="morsel"><p class="note">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
     <p class="quiet">ONE SENTENCE · EVERYTHING TONIGHT IS THIS BITE, RE-TASTED</p>
+    <div><a class="door" href="appendix/louisville-exec-memo.md" target="_blank" rel="noopener">🥡 POCKET THE NOTE · THE PRE-READ</a></div>
     <div class="step"><button data-next="sc3">THE NEXT PIECE</button></div>
   </section>
 
@@ -156,6 +160,7 @@
     <span class="kanji-big">蔵</span>
     <p class="en">THE CELLAR COURSE</p>
     <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open, a timeline that cannot be rewritten after the pour. <i>You taste none of the bookkeeping — you taste that nothing served tonight has ever needed to lie.</i></p>
+    <div><a class="door" href="appendix/louisville-codex.html" target="_blank" rel="noopener">🏯 WALK THE CELLAR · THE CODEX</a></div>
     <div class="step"><button data-next="sc5">THE NEXT PIECE</button></div>
   </section>
 
@@ -164,6 +169,7 @@
     <span class="kanji-big">四</span>
     <p class="en">ONE DISH · FOUR WAYS</p>
     <p class="voice">The same truth, cut for each palate at the table — the maker hears making, the steward hears stewardship, the craftsman is shown the joinery — <i>and not a gram of what the dish is survives differently in any telling.</i> The kitchen calls this the conservation law.</p>
+    <div><a class="door" href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener">🍣 TASTE ALL FOUR · THE FILTER</a></div>
     <div class="step"><button data-next="sc6">THE NEXT PIECE</button></div>
   </section>
 
@@ -172,6 +178,7 @@
     <span class="kanji-big">箱</span>
     <p class="en">THE LACQUERED COURSE · 秘密箱</p>
     <p class="voice">A box with no nails — every joint cut inside the wood, invisible, load-bearing. It opens only in sequence, and when fully open it holds almost nothing: <span class="accent">one small thing of great value</span>, carried intact to the right hands. You have been tasting its contents all evening.</p>
+    <div><a class="door" href="appendix/louisville-box.html" target="_blank" rel="noopener">🍱 OPEN THE JOINERY · THE BOX</a></div>
     <div class="step"><button data-next="sc7">THE NEXT PIECE</button></div>
   </section>
 
@@ -182,6 +189,7 @@
     <p class="voice">This meal is not a line with an end — it is a circle with a gap. The meeting, the test, the read, the scored record: each returns. <i>The landing of one course is the plié of the next.</i></p>
     <div class="ringmark"><svg viewBox="0 0 300 220" role="img" aria-label="An open circle over a horizontal stroke"><path d="M40 118 C 110 104, 210 102, 268 112 C 210 118, 120 124, 70 124 Z" fill="var(--dial)" opacity=".85"/><circle cx="150" cy="112" r="72" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="392 66" transform="rotate(-58 150 112)" opacity=".95"/></svg></div>
     <p class="quiet">THE LINE IS HIS · THE CIRCLE IS OURS · THE GAP STAYS OPEN</p>
+    <div><a class="door" href="appendix/louisville-enso.html" target="_blank" rel="noopener">🖌️ ENTER THE WAR ROOM · THE ENSŌ</a></div>
     <div class="step"><button data-next="sc8">THE LAST BITE</button></div>
   </section>
 
@@ -191,6 +199,7 @@
     <p class="en">DESSERT · SWEET · SMALL · IT CONTAINS THE FIRST BITE</p>
     <div class="morsel"><p class="note" style="font-family:var(--mono);font-size:15px;letter-spacing:.06em;line-height:2.2">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></p></div>
     <p class="quiet">THE MEAL ENDS WHERE IT BEGAN · ONE OCTAVE HIGHER</p>
+    <div><a class="door" href="appendix/louisville-omakase.html" target="_blank" rel="noopener">🥢 SEE THE MEAL PLATED · THE MENU</a></div>
     <div class="step"><button data-next="sc9">RISE FROM THE COUNTER</button></div>
   </section>
 

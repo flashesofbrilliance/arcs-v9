@@ -214,10 +214,11 @@
 @media(max-width:640px){table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
   .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
   .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
+@media(max-width:640px){.row,.typerow{flex-wrap:wrap}.row .slack,.typerow .slack{margin-left:0;text-align:left;flex-basis:100%}}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body class="lv5 reg-zach">
+<body class="lv1 reg-zach">
 
 <div class="bar" role="banner">
   <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE KEEP — where prep begins: every ingredient archived and graded">🏯</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> CODEX</span>
@@ -225,7 +226,7 @@
   <input type="search" id="q" placeholder="SEARCH THE CANON…" aria-label="Search the canon">
   <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
     <span class="dl">STRATUM</span>
-    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">SURGICAL</span></div>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">EXEC</span></div>
   </div>
   <div class="dialset reg reggrid" role="group" aria-label="Register — the Babel dial, service brigade">
     <span class="rl">KITCHEN</span>
@@ -687,6 +688,7 @@
   }
   cardInit();
   fwapply();
+  setLv(+lvs.value);
 })();
 </script>
 <a class="onramp" href="louisville-resonance-filter.html" title="NEXT · THE PALATE — one dish, four ways">🍣</a>
