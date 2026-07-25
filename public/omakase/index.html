@@ -90,6 +90,14 @@
   .eggcard b{color:var(--dial)}
   .eggcard .fn{color:var(--gold)}
 
+  /* the take-home — 土産: what the lacquered box was built to carry, handed at the door */
+  .gift{margin-top:44px}
+  .glbl{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gold)}
+  .gacts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .gact{display:inline-block;text-decoration:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.22em;padding:12px 18px;border-radius:3px;transition:background .3s,color .3s}
+  .gact:hover,.gact:focus-visible{background:var(--gold);color:var(--case);text-decoration:none}
+  .gact.verm{border-color:var(--verm);color:var(--verm)}
+  .gact.verm:hover,.gact.verm:focus-visible{background:var(--verm);color:var(--case)}
   footer{padding:0 22px 60px;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);line-height:2.1}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -208,6 +216,15 @@
     <span class="jp">さようなら</span>
     <p class="en">THE STREET AGAIN · THE CURTAIN STILL · THE CIRCLE OPEN</p>
     <p class="voice"><i>The noren hangs exactly where you found it. The gap in the circle waits for your next decision. Come hungry again.</i></p>
+    <div class="gift">
+      <p class="glbl">土産 · THE TAKE-HOME · WHAT THE BOX WAS BUILT TO CARRY</p>
+      <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.<br><span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--graphite);font-weight:400">ONE FREE SESSION → ONE SIGNED RECEIPT → ONE $2–5K TEST → ONE DAY-30 READ</span></p></div>
+      <div class="gacts">
+        <a class="gact" href="appendix/louisville-exec-memo.md" target="_blank" rel="noopener">READ THE PRE-READ</a>
+        <a class="gact verm" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">BOOK THE SESSION</a>
+        <a class="gact" href="mailto:zach.harris@gmail.com?subject=Omakase%20·%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a>
+      </div>
+    </div>
     <p class="quiet" style="margin-top:34px">完</p>
     <nav class="eggs" aria-label="Hidden appendixes — for the guest who lingers">
       <a class="egg" href="appendix/louisville-braid.html" target="_blank" rel="noopener" title="👹 The Oni — the Braid: the adversary's audit. The demon is on staff.">👹</a>
@@ -222,7 +239,7 @@
 </div>
 
 <footer>
-  ARCS OMAKASE · 一夜 ONE EVENING · GOSPEL XXIV · SERIALIZED 25 JUL 2026<br>
+  ARCS <b><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></b> OMAKASE · 一夜 ONE EVENING · GOSPEL XXIV · SERIALIZED 25 JUL 2026<br>
   ◉ SEEDED BY THE THREAD BOOK · JEBEN.ARCS.CARE · こんにちは → さようなら · ONE-WAY, LIKE AN EVENING<br>
   NEITHER PUSH NOR PULL — PLIÉ · CORRECTIONS SUPERSEDE, EVEN THE FAREWELL
 </footer>
@@ -234,14 +251,26 @@
   var LANTERN_COUNT = 9; // the courses of the evening, lit as passed
   var lan = document.getElementById("lanterns");
   for(var i=0;i<LANTERN_COUNT;i++){ var d=document.createElement("span"); d.className="lantern"; lan.appendChild(d); }
-  var lanterns = lan.children, lit = 0;
-  function light(){ if(lit < LANTERN_COUNT){ lanterns[lit].classList.add("lit"); lit++; } }
+  var lanterns = lan.children;
+  // lanterns follow the guest's actual position: scroll back up and they dim again.
+  function paint(){
+    var mid = window.scrollY + window.innerHeight * 0.55;
+    var cur = 0;
+    for(var i=0;i<SCENES.length;i++){
+      var el = document.getElementById(SCENES[i]);
+      if(i>0 && !el.classList.contains("on")) break;
+      if(el.offsetTop <= mid) cur = i;
+    }
+    var n = Math.min(cur, LANTERN_COUNT);
+    for(var k=0;k<LANTERN_COUNT;k++) lanterns[k].classList.toggle("lit", k<n);
+  }
+  window.addEventListener("scroll", paint, {passive:true});
+  window.addEventListener("resize", paint);
 
   var noren = document.getElementById("noren"), cloth = document.getElementById("cloth"), entered = false;
   function enter(){
     if(entered) return; entered = true;
     cloth.classList.add("parted");
-    light();
     setTimeout(function(){ show("sc1"); }, 800);
   }
   noren.addEventListener("click", enter);
@@ -250,12 +279,12 @@
   function show(id){
     var el = document.getElementById(id);
     el.classList.add("on");
+    paint();
     el.scrollIntoView({behavior:"smooth", block:"center"});
   }
   document.querySelectorAll(".step button[data-next]").forEach(function(b){
     b.addEventListener("click", function(){
       b.disabled = true;
-      light();
       show(b.dataset.next);
     });
   });

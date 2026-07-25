@@ -34,7 +34,7 @@
 
   .board{max-width:1000px;margin:0 auto;padding:28px 20px 80px;position:relative}
   .spine{position:absolute;left:20px;top:0;bottom:0;width:26px;pointer-events:none}
-  .spine i{position:absolute;top:0;bottom:0;width:2px;opacity:.85}
+  .spine i{position:absolute;top:0;bottom:0;width:1px;opacity:.85}
   .spine .t-red{left:0;background:var(--red)}
   .spine .t-gold{left:9px;background:var(--gold)}
   .spine .t-verm{left:18px;background:var(--verm)}
@@ -111,16 +111,18 @@
   .onramp{position:fixed;right:18px;bottom:16px;font-size:22px;opacity:.14;filter:grayscale(.5);
     text-decoration:none;transition:opacity .5s,filter .5s,transform .3s;z-index:60}
   .onramp:hover,.onramp:focus-visible{opacity:1;filter:none;transform:translateY(-4px);text-decoration:none}
+  .ev-return{font-family:var(--mono);font-size:12px;color:var(--gold);text-decoration:none;border:1px solid var(--line);border-radius:3px;padding:3px 9px;transition:background .3s,color .3s,border-color .3s}
+  .ev-return:hover,.ev-return:focus-visible{background:var(--gold);color:var(--case);border-color:var(--gold);text-decoration:none}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body class="lv5 reg-zach">
 
 <div class="bar" role="banner">
-  <span class="pglyph" title="THE AUDIT — the demon tastes everything first">👹</span><span class="sig">ARCS <em>//</em> THE BRAID</span>
+  <a class="ev-return" href="../index.html" title="RETURN — 一夜 · the evening">← 一夜</a><span class="pglyph" title="THE AUDIT — the demon tastes everything first">👹</span><span class="sig">ARCS <em><span style="color:var(--red)">/</span><span style="color:var(--gold)">/</span><span style="color:var(--verm)">/</span></em> THE BRAID</span>
   <div class="dialset st" role="group" aria-label="Stratum — the waterfall slider">
     <span class="dl">STRATUM</span>
-    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="5" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">SURGICAL</span></div>
+    <div class="lvslider"><input type="range" id="lvs" min="1" max="5" step="1" value="1" aria-label="Stratum: 1 EXEC to 5 SURGICAL"><span class="lvname" id="lvname">SURGICAL</span></div>
   </div>
   <div class="dialset reg" role="group" aria-label="Register — the Babel dial">
     <span class="dl">BABEL</span>
