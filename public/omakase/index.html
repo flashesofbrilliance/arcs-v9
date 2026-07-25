@@ -98,8 +98,9 @@
   /* the take-home — 土産: what the lacquered box was built to carry, handed at the door */
   .gift{margin-top:44px}
   .glbl{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--gold)}
-  .gacts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
-  .gact{display:inline-block;text-decoration:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.22em;padding:12px 18px;border-radius:3px;transition:background .3s,color .3s}
+  .gacts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px auto 0;max-width:580px}
+  @media(max-width:520px){.gacts{grid-template-columns:1fr}}
+  .gact{display:block;text-align:center;text-decoration:none;border:1px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.22em;padding:12px 18px;border-radius:3px;transition:background .3s,color .3s}
   .gact:hover,.gact:focus-visible{background:var(--gold);color:var(--case);text-decoration:none}
   .gact.verm{border-color:var(--verm);color:var(--verm)}
   .gact.verm:hover,.gact.verm:focus-visible{background:var(--verm);color:var(--case)}
@@ -232,9 +233,9 @@
       <p class="glbl">土産 · THE TAKE-HOME · WHAT THE BOX WAS BUILT TO CARRY</p>
       <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.<br><span style="font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--graphite);font-weight:400">ONE FREE SESSION → ONE SIGNED RECEIPT → ONE $2–5K TEST → ONE DAY-30 READ</span></p></div>
       <div class="gacts">
-        <a class="gact" href="appendix/louisville-gift.html" target="_blank" rel="noopener">UNFOLD THE GIFT · THE PRE-READ</a>
-        <a class="gact verm" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">BOOK THE SESSION</a>
-        <a class="gact" href="mailto:zach.harris@gmail.com?subject=Omakase%20·%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a>
+        <a class="gact" href="appendix/louisville-gift.html" target="_blank" rel="noopener">THE GIFT</a>
+        <a class="gact verm" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">THE SESSION</a>
+        <a class="gact" href="mailto:zach.harris@gmail.com?subject=Omakase%20·%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">THE FEEDBACK</a>
       </div>
     </div>
     <p class="quiet" style="margin-top:34px">完</p>
