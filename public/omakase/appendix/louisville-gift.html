@@ -63,8 +63,29 @@
   .ract.verm:hover,.ract.verm:focus-visible{background:var(--verm);color:var(--case)}
 
   @page{size:11in 8.5in;margin:0.45in}
+  .pfoot{display:none}
+  @media print{
+    .pfoot{display:block;margin-top:16px;padding-top:8px;border-top:1px solid #ccc;font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:#666;text-align:center}
+    .pfoot a{color:#8a6d00;text-decoration:none}
+  }
   @media print{
     .bar,.rsvp,.carry{display:none}
+    /* two-page landscape artifact: A-side ends at THE ECONOMICS, B-side opens on THE DISCIPLINE */
+    .bside{break-before:page;page-break-before:always}
+    body{font-size:12.5px;line-height:1.45}
+    .fold{max-width:none;padding:0 10px 0}
+    .origata{margin-bottom:8px}
+    .origata .jp{font-size:20px}
+    h1{font-size:15px}
+    .dek{margin-bottom:10px;font-size:8px}
+    .sect{margin:10px 0}
+    .sect p{font-size:12px}
+    .morsel{padding:10px 14px}
+    .morsel p{font-size:13.5px}
+    .movebox{padding:9px 12px;font-size:12px}
+    .receiptline{margin-top:14px;font-size:9.5px;line-height:1.7}
+    .seal{margin-top:14px;font-size:9px}
+    .sh{font-size:9px;margin-bottom:5px}
     body{background:#fff;color:#111}
     .fold{padding-bottom:20px}
     .sect p,.movebox{color:#111}
@@ -119,7 +140,7 @@
     <p>Session $0 · test $2–5K · month-one exit caps the pilot's worst case at <b>$10K</b>, and they keep the receipts and the test data either way. The one load-bearing sentence, Cynic-stripped: <i>the fee pays for itself the first time it stops one bad production run or one bad vendor year.</i> Median simulated outcome ≈ $628 — insurance-shaped; the tails carry it. The 8× best case is never spoken first.</p>
   </div>
 
-  <div class="sect">
+  <div class="sect bside">
     <div class="sh">THE DISCIPLINE <span class="g">— why this canon can be trusted</span></div>
     <p>Every claim graded A–X and the F/X material redacted <i>visibly</i> · receipts pre-registered before outcomes (XA-1…5 scored Friday 2:00 PM; FR-1…3 at day 90) · comps barred from ROI math until comps exist at this scale · the seller's incentive disclosed aloud, unprompted · the engagement obeys its own stop-loss. <span class="load">If it cannot fail, it is not a receipt.</span></p>
   </div>
@@ -146,6 +167,12 @@
   </div>
 
   <p class="seal">THE TREE IS THE SEED AND THE SEED IS THE TREE · <span class="jp" lang="ja">師は求める者に現れる</span></p>
+  <div class="pfoot">
+    ARCS <b><span style="color:#B4342A">/</span><span style="color:#8a6d00">/</span><span style="color:#E34F1C">/</span></b> OMAKASE — navigate to clarity ·
+    <a href="mailto:zach.harris@gmail.com">zach.harris@gmail.com</a> ·
+    <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59">book the session</a> ·
+    <a href="https://omakase.arcs.care/">omakase.arcs.care</a>
+  </div>
 </div>
 
 <nav class="rsvp" aria-label="Respond to the gift">
