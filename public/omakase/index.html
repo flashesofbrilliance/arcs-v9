@@ -51,9 +51,9 @@
     border-radius:0 0 4px 4px;position:relative;transition:transform 1.2s cubic-bezier(.6,.05,.3,1),opacity 1.2s}
   .drape svg{position:absolute;inset:0;width:300%;height:100%}
   .drape.d1 svg{left:0}.drape.d2 svg{left:-100%}.drape.d3 svg{left:-200%}
-  .parted .d1{transform:translateX(-86%) rotate(-2deg)}
-  .parted .d2{transform:translateY(-8%) scaleY(.1);opacity:.3}
-  .parted .d3{transform:translateX(86%) rotate(2deg)}
+  /* entering = walking through: the camera pushes forward through the cloth */
+  .cloth{transition:transform 1.3s cubic-bezier(.5,.05,.2,1),opacity 1.1s ease,filter 1.2s ease;transform-origin:50% 46%}
+  .parted{transform:scale(3);opacity:0;filter:blur(3px)}
 
   /* the ring gap */
   .ringmark svg{width:min(300px,70vw);height:auto;margin:20px auto 0;display:block}
