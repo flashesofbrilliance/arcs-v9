@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>物の哀れ /// MONO NO AWARE</title>
+<meta name="description" content="The Louisville canon, served as one evening. An interactive omakase by ARCS — nine courses, guest-paced, chef's order.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏮</text></svg>">
 <style>
   :root{
     --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
@@ -30,7 +32,7 @@
   .evening{max-width:680px;margin:0 auto;padding:8vh 22px 14vh;text-align:center}
 
   .scene{min-height:10px;overflow:hidden;max-height:0;opacity:0;transition:max-height 1.4s ease,opacity 1.1s ease}
-  .scene.on{max-height:1600px;opacity:1;padding:7vh 0}
+  .scene.on{max-height:3200px;opacity:1;padding:7vh 0}
   .scene:first-of-type{max-height:none;opacity:1;padding:7vh 0}
 
   .jp{display:block;color:var(--gold);font-weight:700;letter-spacing:.04em;line-height:1.3}
@@ -46,13 +48,13 @@
   /* the noren */
   .norenwrap{width:min(440px,86vw);margin:34px auto 6px;cursor:pointer}
   .rail{height:5px;background:var(--panel2);border:1px solid var(--line);border-radius:3px}
-  .cloth{display:flex;gap:4px;height:min(270px,52vw);overflow:hidden}
+  .cloth{display:flex;gap:4px;height:min(270px,52vw);overflow:hidden;
+    transition:transform 1.3s cubic-bezier(.5,.05,.2,1),opacity 1.1s ease,filter 1.2s ease;transform-origin:50% 46%}
   .drape{flex:1;background:linear-gradient(180deg,#15151a,#101013);border:1px solid var(--line);border-top:0;
     border-radius:0 0 4px 4px;position:relative;transition:transform 1.2s cubic-bezier(.6,.05,.3,1),opacity 1.2s}
   .drape svg{position:absolute;inset:0;width:300%;height:100%}
   .drape.d1 svg{left:0}.drape.d2 svg{left:-100%}.drape.d3 svg{left:-200%}
   /* entering = walking through: the camera pushes forward through the cloth */
-  .cloth{transition:transform 1.3s cubic-bezier(.5,.05,.2,1),opacity 1.1s ease,filter 1.2s ease;transform-origin:50% 46%}
   .parted{transform:scale(3);opacity:0;filter:blur(3px)}
 
   /* the ring gap */
@@ -109,8 +111,8 @@
   .lanterns,.evening,footer{position:relative;z-index:1}
   /* 間 — the pause between courses; the last taste lingers before the next */
   .ma{margin-bottom:36px}
-  .ma .mjp{display:block;font-size:15px;letter-spacing:.28em;color:var(--gold);opacity:.55;line-height:2}
-  .ma .men{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;color:var(--faint);margin-top:7px;line-height:1.9}
+  .ma .mjp{display:block;font-size:15px;letter-spacing:.28em;color:var(--gold);opacity:.7;line-height:2}
+  .ma .men{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--graphite);margin-top:7px;line-height:1.9}
   /* CJK display text obeys Japanese line-breaking, never western word-wrap */
   [lang="ja"],.jp,.kanji-big,.ma .mjp{word-break:keep-all;line-break:strict;overflow-wrap:normal;
     font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans)}
@@ -324,6 +326,7 @@
   function show(id){
     var el = document.getElementById(id);
     el.classList.add("on");
+    setTimeout(function(){ el.style.maxHeight = "none"; }, 1500); // release the reveal cap — tall scenes never clip
     paint();
     el.scrollIntoView({behavior:"smooth", block:"center"});
   }
@@ -398,7 +401,7 @@
       var R = Math.min(W, H) * 0.62, ox = W / 2, oy = H * 0.44;
       for(var i = 0; i < P.length; i++){
         var p = P[i];
-        var a = p.a0 + prog * 6.28318 * p.drift * 4 + t * (reduce ? 0 : p.drift * 0.12);
+        var a = p.a0 + prog * 6.28318 * p.drift * 4 + t * (reduce ? 0 : p.drift * 0.055);
         var r = p.ring * R * (1 + Math.sin(prog * 9 + i) * 0.02);
         cx.beginPath();
         cx.arc(ox, oy, r, a, a + p.len);
