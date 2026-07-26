@@ -93,6 +93,17 @@
   [lang="ja"],.jp,.kanji-big,.ma .mjp{word-break:keep-all;line-break:strict;overflow-wrap:normal;
     font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",var(--sans)}
   .jp{font-size:clamp(30px,9.5vw,44px)}
+  /* 路地: the alleys, rabbit holes off the welcome, ordered by depth; the map re-cuts itself */
+  .alley{margin-top:38px}
+  .alleyk{background:none;border:none;font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--graphite);opacity:.65;cursor:pointer;padding:8px 12px;transition:opacity .4s,color .4s}
+  .alleyk:hover,.alleyk:focus-visible{opacity:1;color:var(--gold)}
+  .alleymap{overflow:hidden;max-height:0;opacity:0;transition:max-height .9s ease,opacity .7s ease;max-width:600px;margin:0 auto}
+  .alleymap.open{max-height:900px;opacity:1;padding-top:14px}
+  .ao{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--graphite);line-height:2.4;margin-top:10px}
+  .ao b{display:block;color:var(--faint);letter-spacing:.26em;font-weight:600;font-size:8.5px}
+  .ao a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint);margin:0 7px;white-space:nowrap}
+  .ao a:hover,.ao a:focus-visible{border-bottom-color:var(--gold)}
+  .an{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
   footer{padding:0 22px 60px;text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--faint);line-height:2.1}
   /* dark instrument scrollbar, independent of OS theme */
   html{color-scheme:dark;scrollbar-color:#232326 #0B0B0C}
