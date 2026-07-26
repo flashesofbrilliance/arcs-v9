@@ -116,6 +116,7 @@
 </head>
 <body>
 
+<div id="loader" aria-hidden="true"><svg viewBox="0 0 200 200"><circle class="stroke" cx="100" cy="100" r="76" transform="rotate(-58 100 100)"/></svg></div>
 <canvas id="silk" aria-hidden="true"></canvas>
 <div class="lanterns" aria-hidden="true" id="lanterns"></div>
 
@@ -268,6 +269,12 @@
   window.addEventListener("scroll", paint, {passive:true});
   window.addEventListener("resize", paint);
 
+  // the loading stroke plays once per session; a returning guest walks straight in
+  try{
+    var ld = document.getElementById("loader");
+    if(sessionStorage.getItem("omk-stroke")){ ld.classList.add("skip"); }
+    else { sessionStorage.setItem("omk-stroke","1"); }
+  }catch(e){}
   var noren = document.getElementById("noren"), cloth = document.getElementById("cloth"), entered = false;
   function enter(){
     if(entered) return; entered = true;
