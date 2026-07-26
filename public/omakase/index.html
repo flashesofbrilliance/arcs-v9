@@ -133,6 +133,15 @@
     <p class="en" style="margin-top:8px">WELCOME IN</p>
     <p class="voice">One counter. No menu. The oshibori is warm; the cutting board is clean; the record behind this kitchen is write-locked. <i>Tonight the house chooses, and the house has been preparing for longer than you know.</i></p>
     <div class="step"><button data-next="sc2">TAKE YOUR SEAT</button></div>
+    <div class="alley">
+      <button class="alleyk" id="alleyk" aria-expanded="false" aria-controls="alleymap">路地 · THE SIDE STREETS · EVERY ROOM OPENS ON AN ALLEY</button>
+      <div class="alleymap" id="alleymap">
+        <p class="ao"><b>2ND ORDER · THE ROOMS</b><a href="appendix/louisville-kernel.html" target="_blank" rel="noopener">◉ the seed</a><a href="appendix/louisville-gift.html" target="_blank" rel="noopener">🥡 the gift</a><a href="appendix/louisville-omakase.html" target="_blank" rel="noopener">🥢 the menu</a></p>
+        <p class="ao"><b>3RD ORDER · THE BACK ROOMS</b><a href="appendix/louisville-codex.html" target="_blank" rel="noopener">🏯 the codex</a><a href="appendix/louisville-resonance-filter.html" target="_blank" rel="noopener">🍣 the filter</a><a href="appendix/louisville-box.html" target="_blank" rel="noopener">🍱 the box</a><a href="appendix/louisville-enso.html" target="_blank" rel="noopener">🖌️ the war room</a></p>
+        <p class="ao"><b>4TH ORDER · THE KITCHEN'S KITCHEN</b><a href="appendix/louisville-braid.html" target="_blank" rel="noopener">👹 the audit</a><a href="appendix/louisville-staged-play.html" target="_blank" rel="noopener">👺 the rehearsal</a><a href="appendix/louisville-entrance.html" target="_blank" rel="noopener">🏮 the entrance</a></p>
+        <p class="an">THE MAP IS A FOLKSONOMY, NOT A MENU: EVERY NET NEW DATA POINT RE-CUTS THE TERRAIN, AND THE ALLEYS MOVE WITH IT. THE DEEPEST SUBCULTURE IS ALWAYS ONE DOOR FURTHER.</p>
+      </div>
+    </div>
   </section>
 
   <!-- 2 · the first bite -->
@@ -254,6 +263,13 @@
     cloth.classList.add("parted");
     setTimeout(function(){ show("sc1"); }, 800);
   }
+
+  // 路地 — the alleys unfold only for the one who seeks
+  var ak = document.getElementById("alleyk"), am = document.getElementById("alleymap");
+  ak.addEventListener("click", function(){
+    var open = am.classList.toggle("open");
+    ak.setAttribute("aria-expanded", open ? "true" : "false");
+  });
   noren.addEventListener("click", enter);
   // resume: an interrupted evening picks up where it left off, without replaying the theater
   try{
