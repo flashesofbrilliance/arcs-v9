@@ -14,10 +14,10 @@
     --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;print-color-adjust:exact;-webkit-print-color-adjust:exact}
-  @page{size:4.25in 7.66in;margin:0}
+  @page{size:7.66in 4.25in;margin:0}
   html,body{background:var(--case);font-family:var(--sans);color:var(--dial)}
-  .page{width:4.25in;background:var(--case);position:relative;page-break-after:always;margin:0 auto}
-  .lid.page{height:7.66in;overflow:hidden}
+  .page{width:7.66in;background:var(--case);position:relative;page-break-after:always;margin:0 auto}
+  .lid.page{height:4.25in;overflow:hidden}
   .page:last-child{page-break-after:auto}
 
   /* lacquer frame: double gold hairline inset like a box edge */
@@ -29,33 +29,33 @@
   /* ---------- PAGE 1 · THE LID ---------- */
   .lid{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
   .lid .enso{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);opacity:.16}
-  .lid .miyage{font-size:34px;color:var(--gold);font-weight:700;letter-spacing:.06em}
-  .lid .eyebrow{font-family:var(--mono);font-size:7.5px;letter-spacing:.24em;color:var(--graphite);margin-top:14px}
-  .lid h1{font-size:15px;font-weight:700;letter-spacing:.04em;margin-top:22px;padding:0 .3in}
-  .lid .serial{font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;padding:0 .3in;color:var(--faint);margin-top:10px;line-height:2}
-  .lid .morsel{border:1.5px dashed var(--gold);border-radius:6px;padding:16px 18px;margin:24px .28in 0;max-width:none;background:rgba(19,19,21,.6)}
-  .lid .morsel p{font-size:13px;line-height:1.65;font-weight:700}
+  .lid .miyage{font-size:28px;color:var(--gold);font-weight:700;letter-spacing:.06em}
+  .lid .eyebrow{font-family:var(--mono);font-size:7.5px;letter-spacing:.24em;color:var(--graphite);margin-top:8px}
+  .lid h1{font-size:15px;font-weight:700;letter-spacing:.04em;margin-top:12px;padding:0 .5in}
+  .lid .serial{font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;padding:0 .3in;color:var(--faint);margin-top:6px;line-height:1.9}
+  .lid .morsel{border:1.5px dashed var(--gold);border-radius:6px;padding:12px 20px;margin:14px .6in 0;max-width:none;background:rgba(19,19,21,.6)}
+  .lid .morsel p{font-size:12px;line-height:1.65;font-weight:700}
   .lid .morsel .accent{color:var(--verm)}
-  .lid .knot{margin-top:18px;font-family:var(--mono);font-size:6.5px;letter-spacing:.2em;color:var(--graphite)}
-  .lid .band{position:absolute;left:0.16in;right:0.16in;bottom:0.3in;display:flex;justify-content:center;gap:14px;
+  .lid .knot{margin-top:12px;font-family:var(--mono);font-size:6.5px;letter-spacing:.2em;color:var(--graphite)}
+  .lid .band{position:absolute;left:0.16in;right:0.16in;bottom:0.22in;display:flex;justify-content:center;gap:14px;
     font-family:var(--mono);font-size:6.5px;letter-spacing:.14em;color:var(--graphite)}
   .lid .band b{font-weight:700;color:var(--dial);letter-spacing:.22em}
 
   /* ---------- PAGE 2 · THE TRAY ---------- */
-  .tray{padding:0.3in 0.24in 0.35in}
+  .tray{padding:0.28in 0.32in 0.32in}
   .th{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
   .th .k{font-size:20px;color:var(--gold);font-weight:700}
   .th .t{font-family:var(--mono);font-size:7px;letter-spacing:.18em;color:var(--graphite)}
   .th .r{margin-left:auto;font-family:var(--mono);font-size:6.5px;letter-spacing:.2em;color:var(--faint)}
-  .grid{display:grid;grid-template-columns:1fr;gap:10px}
-  .cell{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:14px 15px;position:relative;break-inside:avoid;page-break-inside:avoid}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cell{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:12px 14px;position:relative;break-inside:avoid;page-break-inside:avoid}
   .cell::before{content:"";position:absolute;left:0;top:0;right:0;height:2px;border-radius:5px 5px 0 0;background:var(--line)}
   .cell.gold::before{background:var(--gold)}
   .cell.verm::before{background:var(--verm)}
   .cell.red::before{background:var(--red)}
   .ch{font-family:var(--mono);font-size:8.5px;letter-spacing:.26em;color:var(--gold);font-weight:700;margin-bottom:7px}
   .ch span{color:var(--faint);letter-spacing:.1em;font-weight:400}
-  .cell p{font-size:11px;line-height:1.65;color:var(--dial)}
+  .cell p{font-size:10.4px;line-height:1.6;color:var(--dial)}
   .cell p i{color:var(--graphite)}
   .cell p b{color:var(--dial)}
   .cell p .accent{color:var(--verm)}
@@ -64,8 +64,9 @@
   .movecell .flow b{color:var(--gold)}
   .movecell .load{margin-top:7px;font-size:11px}
   .receipt{grid-column:1 / -1;background:var(--pan2,var(--panel2));border:1px dashed var(--gold);border-radius:5px;padding:12px 14px;break-inside:avoid;page-break-inside:avoid;
-    font-family:var(--mono);font-size:8.6px;letter-spacing:.02em;line-height:1.75;color:var(--graphite)}
+    font-family:var(--mono);font-size:8.2px;letter-spacing:.02em;line-height:1.7;color:var(--graphite)}
   .receipt b{color:var(--gold)}
+  .endblock{break-inside:avoid;page-break-inside:avoid}
   .tfoot{margin-top:14px;display:block;text-align:center;line-height:2.2;
     font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:var(--graphite)}
   .tfoot .sig b{color:var(--dial)}
@@ -78,7 +79,7 @@
 <!-- PAGE 1 · THE LID -->
 <div class="page lid">
   <div class="frame"></div>
-  <svg class="enso" width="620" height="620" viewBox="0 0 620 620" style="width:330px;height:330px" aria-hidden="true">
+  <svg class="enso" width="620" height="620" viewBox="0 0 620 620" style="width:300px;height:300px" aria-hidden="true">
     <circle cx="310" cy="310" r="240" fill="none" stroke="#C9A227" stroke-width="22" stroke-linecap="round" stroke-dasharray="1310 200" transform="rotate(-58 310 310)"/>
   </svg>
   <span class="miyage" lang="ja">土産</span>
@@ -136,10 +137,10 @@
 
     <div class="receipt"><b>PRE-READ RECEIPT · EM-01</b> · EXPECTING: a cold reader reaches fluency in this canon from this card plus the kernel, in under ten minutes. BREAKS THESIS: any claim above found ungraded, or contradicting the corpus. KILL/SCALE: contradictions resolve from the codex, never from memory. SCORE-BACK: FRI JUL 31 · 2:00 PM.</div>
   </div>
-  <div class="tfoot">
+  <div class="endblock"><div class="tfoot">
     <span class="sig">ARCS <b><span class="s1">/</span><span class="s2">/</span><span class="s3">/</span></b> OMAKASE · <span lang="ja">物の哀れ</span></span>
     <span>THE TREE IS THE SEED AND THE SEED IS THE TREE · <span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></span>
-  </div>
+  </div></div>
 </div>
 
 </body>
