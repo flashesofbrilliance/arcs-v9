@@ -32,7 +32,27 @@
       "Bash(gh pr merge *)",
       "Bash(git push *)",
       "Bash(git worktree list)",
-      "Bash(git worktree list *)"
+      "Bash(git worktree list *)",
+      "Bash(git fetch *)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(curl -s \"https://todd-call.arcs.care/teardown\" --max-time 30)",
+      "mcp__2b0178fa-6784-466d-8362-2fdd16318cb3__list_events",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_deployment",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__get_runtime_logs",
+      "mcp__b00f7942-66d7-49ec-8ed2-ed4e61c5688b__search_vercel_documentation",
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__list_meetings",
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__get_meeting_transcript",
+      "mcp__4d6d56fb-d727-457a-833d-2b8bf136e475__query_granola_meetings",
+      "mcp__Claude_Browser__read_console_messages",
+      "mcp__Claude_Browser__read_page",
+      "mcp__Claude_Browser__get_page_text",
+      "mcp__Claude_Browser__read_network_requests",
+      "mcp__Claude_Browser__preview_logs",
+      "mcp__Claude_Browser__find",
+      "mcp__89f60db2-46c4-43d3-9d2a-b546039cd3da__get_gammas",
+      "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__search_threads",
+      "mcp__5d045ae7-5b09-4c7e-b3fe-e9e52a6b74ba__get_thread",
+      "mcp__Read_and_Send_iMessages__search_contacts"
     ]
   },
   "hooks": {

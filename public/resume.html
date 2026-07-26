@@ -65,14 +65,6 @@ const T = {
   sans:"'Inter',system-ui,sans-serif", mono:"'JetBrains Mono','IBM Plex Mono',monospace",
 };
 
-// ── Depth config ─────────────────────────────────────────────────────────────
-// GRAIN = Simple / SHARP = Rich / SUPERIONIC = Deep
-const DEPTHS = [
-  { value:'grain',      label:'SKETCH',        accent:'steel',  desc:'ATS-ready · printable · essential signal only' },
-  { value:'sharp',      label:'WIREFRAME',     accent:'cyan',   desc:'Full interactive resume · expandable roles · live skills filter' },
-  { value:'superionic', label:'PIXEL PERFECT', accent:'green',  desc:'Resume + deep profile · strengths · role fit' },
-];
-
 const FOCUS_VIEWS = [
   { value:'all',   label:'FULL',        accent:'cyan' },
   { value:'figma', label:'GROWTH',      accent:'green', desc:'Growth marketing · lifecycle · commercial depth' },
@@ -89,90 +81,6 @@ function SectionLabel({ index, children, color=T.fg4, style }) {
   );
 }
 function Rule({ color=T.border, style }) { return <div style={{ height:1, background:color, ...style }} />; }
-
-// ── Depth selector (the volume wheel) ────────────────────────────────────────
-function DepthWheel({ value, onChange }) {
-  const idx = DEPTHS.findIndex(d => d.value === value);
-  const current = DEPTHS[idx];
-  const accentMap = { steel:T.steel, cyan:T.cyan, green:T.green };
-  const accent = accentMap[current.accent];
-
-  return (
-    <div style={{ display:'flex', flexDirection:'column', gap:8, padding:'16px 18px', borderRadius:14,
-      border:`1px solid ${accent}30`,
-      background:`linear-gradient(160deg,rgba(255,255,255,.04),rgba(0,0,0,.18)), linear-gradient(165deg,${accent}0c,#080c10)`,
-      boxShadow:`inset 0 1px 0 ${accent}22, 0 4px 14px rgba(0,0,0,.5)` }}>
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-        <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-          <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.12em', textTransform:'uppercase' }}>RENDER DEPTH</span>
-          <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, color:accent, letterSpacing:'0.08em', textShadow:`0 0 8px ${accent}66` }}>{current.label}</span>
-        </div>
-        <span style={{ fontFamily:T.sans, fontSize:11, color:T.fg3 }}>{current.desc}</span>
-      </div>
-      {/* Track */}
-      <div style={{ position:'relative', display:'flex', alignItems:'center', gap:0 }}>
-        {/* Track line */}
-        <div style={{ position:'absolute', left:12, right:12, height:2, borderRadius:1,
-          background:`linear-gradient(90deg, ${T.steel}44, ${T.cyan}44, ${T.green}44)` }} />
-        {/* Progress fill */}
-        <div style={{ position:'absolute', left:12, height:2, borderRadius:1,
-          width:`calc(${idx * 50}% - ${idx===0?0:0}px)`,
-          background:`linear-gradient(90deg, ${T.steel}, ${accent})`,
-          boxShadow:`0 0 6px ${accent}`, transition:'width .3s ease' }} />
-        {/* Nodes */}
-        {DEPTHS.map((d,i) => {
-          const ac = accentMap[d.accent];
-          const active = i <= idx;
-          return (
-            <div key={d.value} onClick={() => onChange(d.value)}
-              style={{ position:'relative', zIndex:2, flex:1, display:'flex', flexDirection:'column', alignItems: i===0?'flex-start':i===2?'flex-end':'center', gap:8, cursor:'pointer' }}>
-              <div style={{ width:20, height:20, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center',
-                border:`2px solid ${active ? ac : T.border}`,
-                background: active ? `${ac}22` : T.surface,
-                boxShadow: i===idx ? `0 0 12px ${ac}66, inset 0 0 6px ${ac}22` : 'none',
-                transition:'all .2s', animation: i===idx ? 'scanPulse 2s ease-in-out infinite' : 'none' }}>
-                <div style={{ width:6, height:6, borderRadius:'50%', background: active ? ac : T.border, transition:'background .2s' }} />
-              </div>
-              <span style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.1em',
-                color: active ? ac : T.fg4, transition:'color .2s' }}>{d.label}</span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-// ── Segmented slider ──────────────────────────────────────────────────────────
-const SEG_A = {
-  steel:{ bd:`${T.steel}55`, bloom2:`${T.steel}22`, ink:T.fg2 },
-  cyan: { bd:`${T.cyan}55`,  bloom2:`${T.cyan}2b`,  ink:'#b9e8f4' },
-  green:{ bd:`${T.green}55`, bloom2:`${T.green}33`, ink:'#bdf2dc' },
-  gold: { bd:`${T.gold}55`,  bloom2:`${T.gold}2b`,  ink:'#f0e4ba' },
-};
-function SegSlider({ options, value, onChange, style }) {
-  const idx = Math.max(0, options.findIndex(o => o.value === value));
-  const a = SEG_A[options[idx]?.accent] || SEG_A.cyan;
-  return (
-    <div style={{ position:'relative', display:'grid', gridTemplateColumns:`repeat(${options.length},1fr)`,
-      padding:5, borderRadius:10,
-      background:'linear-gradient(180deg,#090d12,#0c1219)',
-      boxShadow:'inset 0 2px 6px rgba(0,0,0,.7), inset 0 -1px 0 rgba(255,255,255,.04)', ...style }}>
-      <div style={{ position:'absolute', top:5, bottom:5, left:5, width:`calc((100% - 10px) / ${options.length})`,
-        borderRadius:7, transform:`translateX(${idx*100}%)`, transition:'transform .22s cubic-bezier(.4,0,.2,1)',
-        border:`1px solid ${a.bd}`, background:'linear-gradient(180deg,#0d141c,#0f1822)',
-        boxShadow:`inset 0 2px 4px rgba(0,0,0,.5), inset 0 -7px 11px -7px ${a.bloom2}` }} />
-      {options.map((o,i) => (
-        <button key={o.value} type="button" onClick={() => onChange(o.value)}
-          style={{ position:'relative', zIndex:1, background:'transparent', border:'none', padding:'8px 0',
-            fontFamily:T.mono, fontWeight:700, fontSize:10, letterSpacing:'0.05em',
-            color: i===idx ? a.ink : T.fg4, transition:'color .18s' }}>
-          {o.label}
-        </button>
-      ))}
-    </div>
-  );
-}
 
 // ── Chip — governance tag shape: full pill, mono, no glyph ───────────────────
 function Chip({ label, selected, accent=T.green, dim=false }) {
@@ -289,25 +197,6 @@ function Bar({ value=0, color=T.cyan, height=5, style }) {
         background:`linear-gradient(90deg,#1ec3d4,${color})`,
         boxShadow:`0 0 8px -1px ${color}, inset 0 1px 0 rgba(255,255,255,.3)`, transition:'width .6s ease' }}>
         <div data-shimmer style={{ position:'absolute', inset:0, borderRadius:999, background:'linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)', transform:'translateX(-100%)' }} />
-      </div>
-    </div>
-  );
-}
-
-// ── Steps — used in DeepScan pipeline visualization ──────────────────────────
-function Steps({ labels, current }) {
-  return (
-    <div>
-      <div style={{ display:'flex', gap:4 }}>
-        {labels.map((_,i) => {
-          const done=i<current, now=i===current;
-          return <div key={i}  style={{ flex:1, height:4, borderRadius:3,
-            background: done?`linear-gradient(90deg,#1ec3d4,${T.cyan})`:now?`linear-gradient(90deg,#0a4a52,${T.cyan})`:'linear-gradient(180deg,#0a0f15,#0d141c)',
-            boxShadow: done?`0 0 7px -2px ${T.cyan}`:'inset 0 1px 2px rgba(0,0,0,.6)', transition:'background .3s' }} />;
-        })}
-      </div>
-      <div style={{ display:'flex', justifyContent:'space-between', fontFamily:T.mono, fontSize:8, color:T.fg4, letterSpacing:'0.05em', marginTop:5 }}>
-        {labels.map((l,i) => <span key={l} style={{ color:i===current?T.cyan:i<current?T.fg2:T.fg4, fontWeight:i===current?700:400 }}>{l}</span>)}
       </div>
     </div>
   );
@@ -562,118 +451,6 @@ const SKILLS = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SKETCH — minimal, distilled, typographically considered
-// Dark ground. Single cyan rule. Pure hierarchy. Nothing decorative.
-// ─────────────────────────────────────────────────────────────────────────────
-function GrainResume() {
-  const roles = [
-    { co:'ARCS — Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
-      metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
-      bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
-               '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude + ChatGPT Enterprise with MCP server — AI-native in production, not experiments'] },
-    { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
-      metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
-      bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
-               'Behavioral event taxonomy and instrumentation layer for investor portal; 35% release cycle reduction'] },
-    { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
-      metrics:'Seven-figure engagement  ·  $350M ARR client  ·  5 verticals',
-      bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition',
-               'Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
-    { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
-      metrics:'20% revenue lift  ·  CDP + CRM architecture  ·  Salesforce modernization',
-      bullets:['Enterprise CDP and CRM strategy end-to-end; segmentation engine across marketing, fundraising, and clinical ops',
-               '20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
-    { co:"Women's Tennis Association", role:'Product & Partnerships Lead', dates:'2016–2018',
-      metrics:'<120ms latency  ·  $850K year-one revenue  ·  global consumer platform',
-      bullets:['Real-time fan behavior forecasting infrastructure at <120ms latency; CDP selection for global sports platform',
-               '$850K+ year-one revenue from first social distribution partnerships (Twitter, Facebook)'] },
-  ];
-
-  return (
-    <div style={{ animation:'fadeUp .3s ease both' }}>
-      {/* Summary */}
-      <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
-        maxWidth:680, marginBottom:24 }}>
-        Growth executive and system builder with two decades across creative, tech, marketing, data,
-        and commercial operations — in sports, finance, health, and consumer. Builds the intelligence
-        layer before the category for it exists: structured pre-decision framing, AI-native analysis
-        pipelines, and compounding feedback loops that make each decision sharper than the last.
-        Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
-      </p>
-
-      {/* Thin cyan gradient rule — the one graphic element */}
-      <div style={{ height:1, background:`linear-gradient(90deg,${T.cyan},${T.cyan}00)`,
-        marginBottom:28, width:'55%' }} />
-
-      {/* Experience */}
-      <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
-        textTransform:'uppercase', color:T.fg4, marginBottom:18 }}>Experience</div>
-
-      <div style={{ display:'flex', flexDirection:'column' }}>
-        {roles.map((r,i) => (
-          <div key={i} style={{ paddingBottom:20, marginBottom:20,
-            borderBottom: i < roles.length-1 ? `1px solid ${T.border}22` : 'none' }}>
-            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:2 }}>
-              <span style={{ fontFamily:T.sans, fontSize:13.5, fontWeight:600, color:T.fg1,
-                letterSpacing:'-0.01em' }}>{r.co}</span>
-              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, letterSpacing:'0.06em',
-                flexShrink:0, marginLeft:16 }}>{r.dates}</span>
-            </div>
-            <div style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg3, marginBottom:6,
-              letterSpacing:'0.01em' }}>{r.role}</div>
-            <div style={{ fontFamily:T.mono, fontSize:9, color:`${T.cyan}88`,
-              letterSpacing:'0.07em', marginBottom:10 }}>{r.metrics}</div>
-            {r.bullets.map((b,j) => (
-              <div key={j} style={{ display:'flex', gap:10, marginBottom:4 }}>
-                <span style={{ color:`${T.cyan}44`, fontSize:11, marginTop:1, flexShrink:0 }}>—</span>
-                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6 }}>{b}</span>
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-
-      <div style={{ height:1, background:`linear-gradient(90deg,${T.border},transparent)`,
-        margin:'8px 0 20px' }} />
-
-      {/* Skills */}
-      <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.16em',
-        textTransform:'uppercase', color:T.fg4, marginBottom:14 }}>Technical Proficiency</div>
-      <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
-        {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
-          ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
-          ['AI & Tools',        'Claude · ChatGPT Enterprise · MCP Server · Glean · Agentic AI pipelines · GitHub'],
-          ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
-        ].map(([label,val],i) => (
-          <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
-            <span style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, color:T.fg4,
-              letterSpacing:'0.08em', flexShrink:0, minWidth:116,
-              textTransform:'uppercase' }}>{label}</span>
-            <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{val}</span>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ height:1, background:`linear-gradient(90deg,${T.border},transparent)`,
-        margin:'18px 0 16px' }} />
-
-      {/* Education */}
-      <div style={{ display:'flex', gap:36, flexWrap:'wrap' }}>
-        {[['Oberlin College','BA, Honors Studio Art','2002–2006'],
-          ['MIT xPRO','AI: Business Strategy','Certificate']].map(([inst,deg,yr],i) => (
-          <div key={i}>
-            <span style={{ fontFamily:T.sans, fontSize:12.5, fontWeight:600, color:T.fg1 }}>{inst}</span>
-            <span style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg3 }}> — {deg}</span>
-            <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4, marginLeft:10 }}>{yr}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // SHARP — full interactive resume
 // ─────────────────────────────────────────────────────────────────────────────
 function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClient }) {
@@ -704,6 +481,16 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
   return (
     <div style={{ animation:'fadeUp .3s ease both' }}>
 
+      {/* Summary */}
+      <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
+        maxWidth:680, marginBottom:24 }}>
+        Builder and founder with two decades operating as a senior individual contributor across
+        creative, tech, marketing, data, and commercial functions — in sports, finance, health, and
+        consumer. Builds the intelligence layer before the category for it exists: structured
+        pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make
+        each decision sharper than the last. Currently: ARCS, a decision intelligence platform built
+        on Claude and ChatGPT Enterprise.
+      </p>
 
       {/* 01 — FT Experience */}
       <SectionLabel index="01" style={{ marginBottom:10 }}>Experience</SectionLabel>
@@ -805,194 +592,9 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DEEP — ARCS profile scan (zones of genius, constructive interference, JTBD)
-// ─────────────────────────────────────────────────────────────────────────────
-function DeepScan() {
-  const m = useMobile();
-  const [open, setOpen] = useState(null);
-  const tog = id => setOpen(o => o===id ? null : id);
-
-  // Glass card — premium hardware container from design system
-  const glass = (extra={}) => ({
-    borderRadius:10,
-    border:'1px solid rgba(255,255,255,.08)',
-    background:'linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)), #0d1117',
-    boxShadow:'inset 0 1px 0 rgba(255,255,255,.09), inset 0 -1px 1px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.45)',
-    ...extra
-  });
-
-  return (
-    <div style={{ marginTop:28, animation:'fadeUp .4s ease both' }}>
-      {/* Scan header — matches 01 EXPERIENCE pattern */}
-      <div style={{ paddingTop:20, borderTop:`1px solid ${T.border}`, marginBottom:16 }}>
-        <SectionLabel index="02">Deep Profile</SectionLabel>
-      </div>
-
-      <div style={{ height:1, background:`linear-gradient(90deg,${T.cyan}44,${T.border}22)`, marginBottom:20 }} />
-
-      {/* Core Strengths — TrueNorthPanel, cyan is the only signal in this section */}
-      <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:16 }}>
-        Builds the intelligence layer before the category for it exists — then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in growth intelligence hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
-      </TrueNorthPanel>
-
-      {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
-      <SectionLabel style={{ marginBottom:10 }}>ENERGY PROFILE</SectionLabel>
-      <div style={{ ...glass({ padding:'16px 18px', marginBottom:20 }) }}>
-        <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap: m ? 16 : 0 }}>
-          <div style={{ paddingRight: m ? 0 : 20 }}>
-            <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
-              color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Activates</div>
-            {['First instrumentation layer — no playbook, invent the taxonomy',
-              'Cross-domain synthesis — connecting what specialists keep separate',
-              'High-stakes contexts where measurement actually matters',
-              'The moment instrumentation reveals what the team did not know to ask',
-              'Building the thing, then becoming its first analyst',
-            ].map((e,i) => (
-              <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
-                <span style={{ color:T.fg4, fontSize:9, marginTop:2, flexShrink:0 }}>—</span>
-                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
-              </div>
-            ))}
-          </div>
-          <div style={{ paddingLeft: m ? 0 : 20, borderLeft: m ? 'none' : '1px solid rgba(255,255,255,.06)', borderTop: m ? '1px solid rgba(255,255,255,.06)' : 'none', paddingTop: m ? 16 : 0 }}>
-            <div style={{ fontFamily:T.mono, fontSize:8.5, fontWeight:700, letterSpacing:'0.14em',
-              color:T.fg4, textTransform:'uppercase', marginBottom:10 }}>Depletes</div>
-            {['Pure optimization once built and proven — attention drops',
-              'ML / stat work disconnected from product decisions (no "so what")',
-              'Siloed contexts where cross-domain synthesis is not valued',
-              'Work that lives permanently in presentations, never ships',
-              'Bureaucratic consensus without clear decision authority',
-            ].map((e,i) => (
-              <div key={i} style={{ display:'flex', gap:8, marginBottom:6 }}>
-                <span style={{ color:T.fg4, fontSize:9, marginTop:2, flexShrink:0 }}>—</span>
-                <span style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.55 }}>{e}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Compound Advantages — TribTile, all steel (no rainbow) */}
-      <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
-      <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
-        {[
-          { id:'ci1', glyph:'⊗', label:'Sports fan monetization × live commerce drops — same architecture',
-            meta:'WTA <120ms fan scoring · live drops · 10-year gap',
-            summary:'WTA live-event fan scoring at <120ms and live commerce drops are the same architecture: user in a high-stakes, time-compressed purchase window; personalized signal needs to land before the window closes. Built the first version in 2016.',
-            detail:<>
-              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                At WTA (2016–2018): fan at a live event → behavioral signal → personalized offer under 120ms. The system had to read intent and deliver without friction because a delayed offer during a match moment was worthless. Built the real-time architecture, the behavioral taxonomy, and the commercial partnership layer ($850K+ year-one from Twitter and Facebook).
-              </p>
-              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Live commerce drops are the same problem class: user in a purchase window → behavioral signal → post-event intelligence feeds the next drop. The WTA architecture is a direct ancestor. The isomorphism is structural, not superficial.
-              </p>
-            </> },
-          { id:'ci2', glyph:'⊗', label:'Studio Art × Cross-Domain Intelligence',
-            meta:'Oberlin 2006 × breadth career',
-            summary:'Aesthetic intelligence applied to system architecture — intelligence products that get used because they\'re designed to be understood, not just accurate. Creative judgment that holds across product categories and industries.',
-            detail:<>
-              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
-                Most intelligence layers are built by people who think in one domain. The Oberlin Studio Art background is a breadth signal: trained to hold composition, material, narrative, and intent simultaneously — the same skill that makes a cross-domain intelligence layer actually work instead of producing reports no one reads.
-              </p>
-              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Applied AI and forward-deployed engineering require the same skill: translating between what the system can do, what the customer needs, and what the data is actually showing. That translation is a creative act as much as a technical one.
-              </p>
-            </> },
-          { id:'ci3', glyph:'⊗', label:'AI-Native in Production — Not in Demos',
-            meta:'Claude + ChatGPT Enterprise + MCP Server · ARCS',
-            summary:'ARCS is built on Claude and ChatGPT Enterprise with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" — it\'s "here\'s what the pattern in your data is already telling us."',
-            detail:<>
-              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Applied AI roles require fluency with the actual production stack — not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), ChatGPT Enterprise, a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
-              </p>
-              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
-                Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept.
-              </p>
-            </> },
-        ].map(t => (
-          <TribTile key={t.id} glyph={t.glyph} label={t.label} color={T.steel} meta={t.meta}
-            expanded={open===t.id ? t.detail : null}
-            onClick={() => tog(t.id)}>
-            {t.summary}
-          </TribTile>
-        ))}
-      </div>
-
-      {/* Productive Tensions — instrument gauge cards, uniform steel palette */}
-      <SectionLabel style={{ marginBottom:10 }}>PRODUCTIVE TENSIONS</SectionLabel>
-      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr 1fr', gap:8, marginBottom:20 }}>
-        {[
-          { label:'Builder ↔ Analyst',
-            desc:'Must build to analyze well. Must analyze to build better. Breaks most job descriptions. Generates practitioner insight no pure analyst has.' },
-          { label:'Aesthetic ↔ Rigor',
-            desc:'"This metric is ugly therefore unused" fires before statistical validation confirms it. Aesthetic judgment accelerates the analytical loop.' },
-          { label:'Pioneer ↔ Production',
-            desc:'Drawn to new territory but has the regulated-environment discipline to ship in high-stakes contexts. Valuable where new products need to be production-grade from day one.' },
-        ].map((d,i) => (
-          <div key={i} style={{ ...glass({ padding:'14px 16px' }) }}>
-            <div style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.1em',
-              textTransform:'uppercase', color:T.fg3, marginBottom:8,
-              paddingBottom:8, borderBottom:'1px solid rgba(255,255,255,.06)' }}>{d.label}</div>
-            <div style={{ fontFamily:T.sans, fontSize:12, color:T.fg2, lineHeight:1.6 }}>{d.desc}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Role Fit — glass cards targeting Applied AI / FDE / Decision Intelligence / Product Eng / AI Strategist */}
-      <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
-      <div style={{ display:'grid', gridTemplateColumns: m ? '1fr' : '1fr 1fr', gap:8, marginBottom:20 }}>
-        {[
-          { id:'A', label:'Forward Deployed · Applied AI Engineering',
-            desc:'Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context — without needing to be hand-held through the problem.',
-            why:'ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.' },
-          { id:'B', label:'Decision Intelligence · AI Strategist',
-            desc:'Not just measuring outcomes — designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
-            why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: CDP across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
-          { id:'C', label:'Applied AI Engineering · Product Engineer',
-            desc:'Fluent with the production AI stack — not conceptually familiar with it. Claude API (tool use, extended thinking), ChatGPT Enterprise, MCP server, agentic pipelines. Ships, not demos.',
-            why:'ARCS runs this stack in production across a full decision lifecycle. The architecture is the proof of concept. Most candidates at this level talk about these tools; fewer have deployed them end-to-end.' },
-          { id:'D', label:'Commercial layer alongside analytical depth',
-            desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for — and being able to run the commercial decision, not just report on it.',
-            why:'WTA: $850K year-one from first commercial partnerships. Grayscale: lifecycle strategy with measurable engagement lift. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.' },
-          { id:'E', label:'Live commerce · Sports platform growth',
-            desc:'Fan behavior in a live-drop window is a distinct problem class: time-compressed, high-intent, personalized signal that has to land before the window closes. Requires pre-drop hypothesis capture, in-event scoring, and post-event outcome loop.',
-            why:'WTA: built real-time fan behavior scoring at <120ms for a global sports platform — CDP architecture, live-event personalization, first commercial partnerships. The Instant Rips drop model is the same architecture applied to a different product.' },
-        ].map(j => (
-          <div key={j.id} style={{ ...glass({ padding:'14px 16px' }) }}>
-            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
-              <span style={{ fontFamily:T.mono, fontSize:10, fontWeight:700, color:T.fg3,
-                width:20, height:20, borderRadius:'50%', border:'1.5px solid rgba(255,255,255,.15)',
-                display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>{j.id}</span>
-              <span style={{ fontFamily:T.mono, fontSize:9.5, fontWeight:700, color:T.fg2,
-                letterSpacing:'0.05em' }}>{j.label}</span>
-            </div>
-            <p style={{ fontFamily:T.sans, fontSize:12, color:T.fg3, lineHeight:1.6, marginBottom:10 }}>{j.desc}</p>
-            <div style={{ padding:'8px 10px', borderRadius:7,
-              background:'linear-gradient(180deg,#090d12,#0c1219)',
-              boxShadow:'inset 0 2px 4px rgba(0,0,0,.6)',
-              border:'1px solid rgba(255,255,255,.06)' }}>
-              <span style={{ fontFamily:T.mono, fontSize:8, color:T.cyan, letterSpacing:'0.08em',
-                textTransform:'uppercase', marginRight:6 }}>IN PRACTICE ▲</span>
-              <span style={{ fontFamily:T.sans, fontSize:11.5, color:T.fg1 }}>{j.why}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
-      <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
-        Most candidates for Applied AI / FDE / Decision Intelligence roles have depth in one lane — analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name — and the first questions aren't about onboarding. They're about what's already in the data.
-      </TrueNorthPanel>
-
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // ROOT
 // ─────────────────────────────────────────────────────────────────────────────
 function Resume() {
-  const [depth,          setDepth]          = useState('sharp');
   const [selectedNode,   setSelectedNode]   = useState('arcs');
   const [selectedClient, setSelectedClient] = useState(null);
   const [headerH,  setHeaderH]  = useState(0);
@@ -1015,12 +617,6 @@ function Resume() {
     mq.addEventListener('change', handler);
     return () => mq.removeEventListener('change', handler);
   }, []);
-
-  const showRich   = depth === 'sharp' || depth === 'superionic';
-  const showDeep   = depth === 'superionic';
-  const showSimple = depth === 'grain';
-  const [resumeCollapsed, setResumeCollapsed] = useState(false);
-  useEffect(() => { if (depth !== 'superionic') setResumeCollapsed(false); }, [depth]);
 
   return (
     <div className="page">
@@ -1045,9 +641,11 @@ function Resume() {
               Fairfield, CT  ·  <a href="tel:+12038072976" style={{ color:T.fg3, textDecoration:'none' }}>203-807-2976</a>  ·  <a href="mailto:zach.harris@gmail.com" style={{ color:T.fg3, textDecoration:'none' }}>zach.harris@gmail.com</a>  ·  <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>
           </div>
-          {/* Depth selector */}
-          <div className="no-print">
-            <SegSlider options={DEPTHS} value={depth} onChange={setDepth} />
+          <div style={{ display:'inline-flex', alignItems:'center', padding:'8px 14px', borderRadius:8,
+            border:`1px solid ${T.cyan}44`,
+            background:'linear-gradient(180deg,#0d141c,#0f1822)',
+            boxShadow:`inset 0 2px 4px rgba(0,0,0,.5), inset 0 -7px 11px -7px ${T.cyan}22` }}>
+            <span style={{ fontFamily:T.mono, fontWeight:700, fontSize:10, letterSpacing:'0.05em', color:'#b9e8f4' }}>WIREFRAME</span>
           </div>
         </div>
       </div>
@@ -1056,30 +654,8 @@ function Resume() {
       {!isMobile && <div style={{ height: headerH + 20 }} />}
 
       {/* ── Scrollable content ───────────────────────────────────────────── */}
-      {showSimple && <GrainResume />}
-
-      {/* WIREFRAME — collapsible when PIXEL PERFECT is active */}
-      {showRich && (
-        <div>
-          {showDeep && (
-            <button type="button" onClick={() => setResumeCollapsed(r => !r)}
-              style={{ display:'flex', alignItems:'center', gap:8, width:'100%', padding:'8px 0',
-                background:'transparent', border:'none', borderBottom:`1px solid ${T.border}`,
-                marginBottom:16, cursor:'pointer' }}>
-              <span style={{ fontFamily:T.mono, fontSize:9, fontWeight:700, letterSpacing:'0.12em',
-                color:T.fg3, textTransform:'uppercase' }}>RESUME</span>
-              <span style={{ fontFamily:T.mono, fontSize:9, color:T.fg4,
-                marginLeft:'auto' }}>{resumeCollapsed ? '▼ expand' : '▲ collapse'}</span>
-            </button>
-          )}
-          {!resumeCollapsed && (
-            <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
-              selectedClient={selectedClient} onSelectClient={setSelectedClient} />
-          )}
-        </div>
-      )}
-
-      {showDeep && <DeepScan />}
+      <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
+        selectedClient={selectedClient} onSelectClient={setSelectedClient} />
 
       {/* ── Contact — always visible ──────────────────────────────────── */}
       <div style={{ marginTop:28, padding:'14px 16px', borderRadius:10, border:`1px solid ${T.border}`,
