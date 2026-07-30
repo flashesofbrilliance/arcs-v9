@@ -103,6 +103,57 @@ _Build note:_ ship the family-prefix recognizer + competitor-name recognizer fir
 Full grade-string autocomplete is a fast-follow. The injection-molding troubleshooting guide in the same
 PDF is a ready FAQ source for Branch C in a later phase.
 
+## SM intake form mapping (QATF001 New Opportunity Form v1.1, received Jul 30)
+
+The sales manager confirmed the "need to have" fields by sending his actual intake form,
+QATF001. It is a detailed internal sales form (it even has a "Filled Out During Production
+Meeting" section). The bot must NOT reproduce all of it. Todd's #1 rule was keep it short. So
+the bot captures a lightweight qualifying subset, and every field it captures maps to a QATF001
+field, so the lead the rep receives has the top of the form already filled in. The rep collects
+the rest (full property checklist, pricing, addresses, sample logistics) on the callback.
+
+**Bot captures now → QATF001 field:**
+| Bot question | QATF001 field | Notes |
+|---|---|---|
+| name | Customer Contact | |
+| email | Email | |
+| phone (optional) | Phone | |
+| company | Customer Name | |
+| job title (optional) | Job Title | one quick ask |
+| state / region | (routing + Shipping Address region) | |
+| "using a material now?" Yes/No | Currently Buying Material | |
+| current_resin | Current Grade | |
+| current supplier (optional) | Current Supplier | |
+| reason for change (optional) | Reason for Change | |
+| desired_resin_or_spec | (opportunity context) | drives rep read |
+| application | Application Details / Problem to be solved | |
+| requirements (free text) | Special Tests or Requirements | |
+| indoor / outdoor (optional) | End Use Environment | quick toggle |
+| potential volume (optional) | Potential Volume | volume = fit signal |
+
+**Rep fills on callback (bot does NOT ask):** Billing/Shipping Address, Current Price, Est.
+Selling Price, Est. Prod. Order Date, Release Quantities, the full Material Properties checklist
+(Impact/Flexural/Tensile/HDT/Shrinkage/UL/Halogen/Wear/Electrical/Chemical/UV/etc.), Color
+match, all Sample Information, and the entire Product Recommendation section.
+
+**Still open (dropdown option lists):** QATF001 uses "Choose an item." dropdowns for
+**Opportunity Type**, **Opportunity Sub-Type**, and **Problem to be solved**. We need those
+option lists from the SM to pre-tag the lead precisely. Until then the bot passes free text.
+
+## Material selection matrix (received Jul 30) — Branch B recommender source
+
+The SM also sent an Engineering Thermoplastics Material Selection Matrix (Good/Better/Best across
+12 features for 12 families: PC, ABS, ASA, PBT, PEI, PPO/PPE, PA6, PA66, PC/ABS, PC/ASA, PC/PBT,
+PPE/PA). It rates each family Best/Better/Good on Impact, Stiffness, Heat, Dimensional Stability,
+Moisture, Chemical, UV, Electrical, Flame, Surface, Processability, Cost, plus a one-line primary
+application advantage per family.
+
+**Use:** in Branch B (help me choose), when a visitor names a driving requirement (for example
+"outdoor + UV" or "high heat" or "lowest cost"), the bot can surface a Good/Better/Best family
+suggestion from this matrix and tag it for the rep. A small rules table, not AI, is enough for a
+first pass (for example UV-critical → ASA "Best"; high heat → PEI/PPO "Best"; lowest cost → ABS
+"Best"). Full recommendation AI stays a later phase.
+
 ## Fields → SugarCRM lead
 | Field | Source | Notes |
 |---|---|---|
@@ -123,10 +174,10 @@ PDF is a ready FAQ source for Branch C in a later phase.
 - **Fit tag (once defined):** rides along on the same lead, does not change routing destination or speed. It's a triage signal for the rep/SM, not a filter.
 
 ## Open dependencies (the "still needed from the SM" list)
-1. **Exact fields** (required vs optional) from the product-development / application-discovery form. Todd gave the concepts; the form confirms the precise set (and any spec properties like durometer, color, UL, temperature).
+1. ~~**Exact fields** (required vs optional) from the product-development / application-discovery form.~~ **SATISFIED Jul 30** — the SM sent QATF001 New Opportunity Form v1.1. See "SM intake form mapping" above. Sub-item still open: the dropdown option lists (Opportunity Type, Sub-Type, Problem to be solved).
 2. **Territory map** (rep → states/regions) to turn on auto-routing. Until then, route to the SM.
 3. ~~**Resin product list + nomenclature** so the bot can recognize (and optionally autocomplete) a resin name the visitor gives.~~ **SATISFIED Jul 23** — Todd sent the Product Selection Guide 2025. See the "Resin catalog + nomenclature" section above.
-4. **ICP / poor-fit criteria:** what makes a prospect ideal versus a poor fit, company size, industry, order volume, or anything else the SM uses to prioritize. Until answered, no fit tag ships and every lead is treated the same.
+4. **ICP / poor-fit criteria:** what makes a prospect ideal versus a poor fit. Partial signal now from QATF001 (Potential Volume, Release Quantities = half/full truckloads, Est. Selling Price) but the SM has not stated explicit ideal-vs-poor thresholds. Until answered, no fit tag ships and every lead is treated the same.
 5. **FAQ content** for Branch C (optional).
 
-_Version: v1.2 · 2026-07-24 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts + Product Selection Guide 2025. v1.1 added ICP/poor-fit gating as a soft triage tag. v1.2 folds in the resin catalog + nomenclature and marks that dependency satisfied._
+_Version: v1.3 · 2026-07-30 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts + Product Selection Guide 2025 + QATF001 New Opportunity Form v1.1 + Engineering Thermoplastics Material Selection Matrix (both from the SM, Jul 30). v1.1 added ICP/poor-fit gating. v1.2 folded in the resin catalog + nomenclature. v1.3 folds in the SM intake-form field mapping and the material-selection matrix, and marks the exact-fields dependency satisfied._
