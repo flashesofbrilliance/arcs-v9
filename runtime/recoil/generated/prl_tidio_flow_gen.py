@@ -162,8 +162,20 @@ def build_full():
         ("I know what I need", "a1"),
         ("Help me choose", "b1"),
         ("Have someone call me", "cb1"),
+        ("Guides and resources", "res1"),
         ("Something else", "c1"),
     ])
+
+    # Resources path (C-in-menu): clickable links to real prlresins.com resources
+    fb.message("res1",
+        "Here are some quick resources:\n"
+        "- Product Selection Guide: https://prlresins.com/polymer-product-catalog/\n"
+        "- Browse our resins: https://prlresins.com/products/\n"
+        "- Quality guarantee: https://prlresins.com/quality-guarantee/\n"
+        "- Find us / contact: https://prlresins.com/contact/", nxt="res2")
+    fb.message("res2",
+        "Prefer to talk to a person? Call 1-800-243-5176, or head back and pick "
+        "'Have someone call me' and we'll reach out fast.")
 
     # Branch A - knows what they need
     fb.ask("a1", "Great. Which resin or spec are you after?", "desired_resin_or_spec", "a2")
