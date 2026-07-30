@@ -188,21 +188,23 @@ def build_full():
         ("Yes, please", "cap_name"), ("No thanks", "c_end")])
     fb.message("c_end", "No problem. You can reach us anytime at (800) 243-5176.")
 
-    # Callback path - fast human  (name/phone -> built-in contact properties)
-    fb.ask("cb1", "You got it. What's your name?", "name", "cb2", save_property=True)
-    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone", save_property=True)
+    # Callback path - fast human  (all session variables -> carried in webhook, no property binding)
+    fb.ask("cb1", "You got it. What's your name?", "name", "cb2")
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone")
     fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
     fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
                "few hours. No phone trees.")
 
     # Shared contact capture (A, B, and C-yes converge here)
-    fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email",
-           save_property=True)
+    # All capture fields are session variables (carried in webhook). Contact-property binding
+    # is avoided because Tidio's system properties (name) enforce validation rules and non-system
+    # names (company) don't exist -> both cause activation errors. Add Update-contact-property
+    # nodes later if we want name/email/phone on the Tidio record itself.
+    fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email")
     fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
-           error="Hmm, that doesn't look like an email. Mind trying again?", save_property=True)
-    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone",
-           save_property=True)
-    fb.ask("cap_company", "And your company?", "company", "cap_terr", save_property=True)
+           error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone")
+    fb.ask("cap_company", "And your company?", "company", "cap_terr")
     fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
     fb.message("cap_close", "Thanks! One of our resin specialists will reach out shortly, usually "
                "within a few hours. A real person, no phone trees.")
