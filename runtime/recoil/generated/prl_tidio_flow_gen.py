@@ -1,130 +1,220 @@
 #!/usr/bin/env python3
 """
-Generate an importable Tidio Flow JSON for the PRL Resins chatbot.
+Generate an importable Tidio Flow JSON for the PRL Resins Phase-1 lead-capture chatbot.
 
-Tidio's flow format uses a dual-id system:
-  - payload.id      : small sequential canvas id (1,2,3...)   -> used in connections + decision route nodes
-  - id / dbNodeId   : big unique node id                       -> used in button.destination, getUserInput.passedNode/failedNode, edges
-  - edges[]         : big-id from->to pairs with a routeId (uuid)
-This generator tracks all of that automatically so the ids always line up.
+Tidio's flow format uses a dual-id system that this generator wires automatically:
+  - payload.id      : small sequential canvas id (1,2,3...)  -> used in connections + decision routes
+  - id / dbNodeId   : big unique node id                      -> used in button.destination, getUserInput.passedNode, edges
+  - edges[]         : big-id from->to pairs, each with a routeId (uuid)
 
-v1 = MINIMAL validation flow: onFirstVisit -> greeting card with 4 buttons -> a short message per button.
-Once this imports + renders, we extend to full capture (getUserInput chains).
+Model: define nodes in a graph (each node names its next node[s] by key); a build pass assigns
+ids and emits connections + edges + passedNode + button destinations consistently.
+
+Node kinds:
+  trigger  -> onFirstVisit
+  message  -> sendChatMessagesToVisitor         (next=key)
+  input    -> getUserInput (saves to a variable) (next=key, optional validation)
+  decision -> decisionCardMessages (short title + buttons) (buttons=[(label, next_key)...])
+
+Learned limits: decision card TITLE and button labels are short-only; long copy goes in message nodes.
 """
 import json, uuid, argparse
+
 
 class FlowBuilder:
     def __init__(self, name, category="generate_leads"):
         self.name = name
         self.category = category
-        self.nodes = []
-        self.edges = []
-        self._small = 0
-        self._big = 200000000
-        self.x = 10000
-        self.y = 700
+        self.specs = []          # ordered list of node specs (dicts)
+        self.by_key = {}
+        self._edge_id = 300000000
 
-    def _ids(self):
-        self._small += 1
-        self._big += 1
-        return self._small, self._big
+    # ---- graph definition API ----
+    def trigger(self, key, nxt):
+        self._add(key, "trigger", next=nxt)
 
-    def add(self, ntype, payload, x=None, y=None):
-        sid, bid = self._ids()
-        payload = dict(payload)
-        payload["id"] = sid
-        payload["x"] = x if x is not None else self.x
-        payload["y"] = y if y is not None else self.y
-        payload.setdefault("customName", "")
-        payload.setdefault("connections", {"top": [], "left": [], "right": [], "bottom": []})
-        node = {"id": bid, "dbNodeId": bid, "type": ntype, "payload": payload}
-        self.nodes.append(node)
-        return node
+    def message(self, key, text, nxt=None):
+        self._add(key, "message", text=text, next=nxt)
 
-    def small(self, node): return node["payload"]["id"]
-    def big(self, node):   return node["id"]
+    def ask(self, key, message, variable, nxt, validation="none", error=None, save_property=False):
+        # save_property=True binds to a contact property (must exist; use only for built-ins
+        # name/email/phone/company). False => answer kept as a session variable only, so no
+        # custom property needs to pre-exist (clears Tidio's "Can't be empty" binding error).
+        self._add(key, "input", message=message, variable=variable, next=nxt,
+                  validation=validation, error=error, save_property=save_property)
 
-    def connect(self, frm, to):
-        """Wire a simple top/bottom connection + an edge (big ids)."""
-        frm["payload"]["connections"]["bottom"].append({"nodeId": self.small(to), "direction": "from"})
-        to["payload"]["connections"]["top"].append({"nodeId": self.small(frm), "direction": "to"})
-        self.edges.append({
-            "from_node_id": self.big(frm), "to_node_id": self.big(to),
-            "id": self._next_edge(), "dbEdgeId": self._edge_last, "routeId": str(uuid.uuid4()),
-        })
+    def decision(self, key, title, buttons):
+        # buttons: list of (label, next_key)
+        self._add(key, "decision", title=title, buttons=buttons)
 
-    _edge_last = 300000000
-    def _next_edge(self):
-        FlowBuilder._edge_last = getattr(FlowBuilder, "_edge_last") + 1
-        self._edge_last = FlowBuilder._edge_last
-        return self._edge_last
+    def _add(self, key, kind, **kw):
+        spec = {"key": key, "kind": kind}
+        spec.update(kw)
+        self.specs.append(spec)
+        self.by_key[key] = spec
 
-    def to_dict(self, first_trigger="onFirstVisit"):
+    # ---- build ----
+    def build(self, first_trigger="onFirstVisit"):
+        # assign ids by declaration order
+        small = {}
+        big = {}
+        for i, s in enumerate(self.specs):
+            small[s["key"]] = i + 1
+            big[s["key"]] = 200000001 + i
+
+        nodes = []
+        edges = []
+        # layout helpers
+        depth = {}
+        # simple layout: y grows with index, x staggers by column hint
+        def pos(i):
+            return (10000 + (i % 4) * 340, 700 + i * 150)
+
+        # pre-create node dicts with empty connections
+        node_by_key = {}
+        for i, s in enumerate(self.specs):
+            x, y = pos(i)
+            payload = {"id": small[s["key"]], "x": x, "y": y, "customName": "",
+                       "connections": {"top": [], "left": [], "right": [], "bottom": []}}
+            node = {"id": big[s["key"]], "dbNodeId": big[s["key"]],
+                    "type": None, "payload": payload}
+            node_by_key[s["key"]] = node
+            nodes.append(node)
+
+        def add_edge(frm_key, to_key):
+            self._edge_id += 1
+            edges.append({"from_node_id": big[frm_key], "to_node_id": big[to_key],
+                          "id": self._edge_id, "dbEdgeId": self._edge_id,
+                          "routeId": str(uuid.uuid4())})
+
+        def add_top(to_key, frm_key):
+            node_by_key[to_key]["payload"]["connections"]["top"].append(
+                {"nodeId": small[frm_key], "direction": "to"})
+
+        for s in self.specs:
+            node = node_by_key[s["key"]]
+            p = node["payload"]
+            k = s["kind"]
+
+            if k == "trigger":
+                node["type"] = "onFirstVisit"
+                nxt = s["next"]
+                p["connections"]["bottom"].append({"nodeId": small[nxt], "direction": "from"})
+                add_top(nxt, s["key"]); add_edge(s["key"], nxt)
+
+            elif k == "message":
+                node["type"] = "sendChatMessagesToVisitor"
+                p["messages"] = [{"type": "text", "content": s["text"]}]
+                if s.get("next"):
+                    nxt = s["next"]
+                    p["connections"]["bottom"].append({"nodeId": small[nxt], "direction": "from"})
+                    add_top(nxt, s["key"]); add_edge(s["key"], nxt)
+
+            elif k == "input":
+                node["type"] = "getUserInput"
+                nxt = s["next"]
+                p.update({
+                    "message": s["message"],
+                    "failedNode": None,
+                    "passedNode": big[nxt],
+                    "validation": s.get("validation", "none"),
+                    "error_message": s.get("error") or "Sorry, that doesn't look right. Mind trying again?",
+                    "variable_name": s["variable"],
+                    "number_of_repeats": 1,
+                    "answer_to_variable": bool(s.get("save_property", False)),
+                })
+                p["connections"]["bottom"].append({"route": "success", "nodeId": small[nxt], "direction": "from"})
+                add_top(nxt, s["key"]); add_edge(s["key"], nxt)
+
+            elif k == "decision":
+                node["type"] = "decisionCardMessages"
+                buttons = []
+                for i, (label, tkey) in enumerate(s["buttons"]):
+                    buttons.append({"id": i + 1, "type": "action", "title": label,
+                                    "destination": big[tkey]})
+                    p[f"1_{i+1}Node"] = small[tkey]
+                    p["connections"]["bottom"].append(
+                        {"route": f"1_{i+1}", "nodeId": small[tkey], "direction": "from"})
+                    add_top(tkey, s["key"]); add_edge(s["key"], tkey)
+                p["cards"] = [{
+                    "id": 1, "url": "", "imageUrl": "", "subtitle": "",
+                    "title": s["title"], "buttons": buttons,
+                    "showTitleIndicator": True, "dataSyncedWithStore": False,
+                }]
+                p["transferToOperatorMessageActive"] = False
+
         return {
             "name": self.name, "category": self.category,
             "firstTrigger": first_trigger, "template": "", "sandbox": 0,
             "color": "", "draftFromTemplate": 0, "type": "conversationAutomation",
-            "nodes": self.nodes, "edges": self.edges, "sessionVariables": [],
+            "nodes": nodes, "edges": edges, "sessionVariables": [],
         }
 
 
-def build_minimal():
-    fb = FlowBuilder("PRL Resins - Lead Capture (v1 test)")
+def build_full():
+    fb = FlowBuilder("PRL Resins - Lead Capture")
 
-    trigger = fb.add("onFirstVisit", {}, x=10300, y=700)
+    fb.trigger("t", "hello")
+    fb.message("hello",
+        "Hi, thanks for stopping by. Looking for a resin, a spec match, or an alternative to "
+        "what you're running now? I'll get you to the right person fast.", nxt="menu")
+    fb.decision("menu", "What brings you in?", [
+        ("I know what I need", "a1"),
+        ("Help me choose", "b1"),
+        ("Have someone call me", "cb1"),
+        ("Something else", "c1"),
+    ])
 
-    # Greeting as a message node (long text allowed here, unlike the card title)
-    hello = fb.add("sendChatMessagesToVisitor", {
-        "messages": [{"type": "text",
-            "content": "Hi, thanks for stopping by. Looking for a resin, a spec match, or an "
-                       "alternative to what you're running now? I'll get you to the right "
-                       "person fast."}],
-    }, x=10300, y=880)
-    fb.connect(trigger, hello)
+    # Branch A - knows what they need
+    fb.ask("a1", "Great. Which resin or spec are you after?", "desired_resin_or_spec", "a2")
+    fb.decision("a2", "Are you replacing a resin you run now?", [
+        ("Yes", "a2y"), ("No", "a3")])
+    fb.ask("a2y", "What are you using today?", "current_resin", "a3")
+    fb.ask("a3", "What are you making with it?", "application", "a4")
+    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+           "requirements", "cap_name")
 
-    # Decision card: SHORT title (has a char limit) + 4 quick-reply buttons
-    greeting = fb.add("decisionCardMessages", {
-        "cards": [{
-            "id": 1, "url": "", "imageUrl": "", "subtitle": "",
-            "title": "What brings you in?",
-            "buttons": [],
-            "showTitleIndicator": True, "dataSyncedWithStore": False,
-        }],
-        "transferToOperatorMessageActive": False,
-    }, x=10300, y=1060)
-    fb.connect(hello, greeting)
+    # Branch B - help me choose
+    fb.ask("b1", "No problem, that's what we're here for. What are you making?", "application", "b2")
+    fb.ask("b2", "What matters most? For example heat, impact, UV for outdoor, chemical resistance, "
+           "color, or cost.", "requirements", "b3")
+    fb.decision("b3", "Running a resin now you'd want to match or improve on?", [
+        ("Yes", "b3y"), ("No", "cap_name")])
+    fb.ask("b3y", "What are you running now?", "current_resin", "cap_name")
 
-    # One short message per branch (validation stubs; replaced by full capture in v2)
-    # Button labels kept short to respect Tidio's quick-reply length limit.
-    msgs = []
-    labels = [
-        ("I know what I need", "Great. Let's get the details to a specialist."),
-        ("Help me choose", "No problem, that's what we're here for."),
-        ("Have someone call me", "You got it. We'll grab your number next."),
-        ("Something else", "Happy to help. Tell us what you need."),
-    ]
-    for i, (btn, text) in enumerate(labels):
-        m = fb.add("sendChatMessagesToVisitor", {
-            "messages": [{"type": "text", "content": text}],
-        }, x=10000 + i * 360, y=1320)
-        msgs.append(m)
-        fb.connect(greeting, m)
+    # Branch C - something else
+    fb.ask("c1", "Happy to help. What can I point you to?", "question", "c_ask")
+    fb.decision("c_ask", "Want someone to follow up?", [
+        ("Yes, please", "cap_name"), ("No thanks", "c_end")])
+    fb.message("c_end", "No problem. You can reach us anytime at (800) 243-5176.")
 
-    # Fill button destinations (big ids) + decision route small-id map
-    card = greeting["payload"]["cards"][0]
-    for i, (btn, _) in enumerate(labels):
-        card["buttons"].append({"id": i + 1, "type": "action", "title": btn,
-                                "destination": fb.big(msgs[i])})
-        greeting["payload"][f"1_{i+1}Node"] = fb.small(msgs[i])
+    # Callback path - fast human  (name/phone -> built-in contact properties)
+    fb.ask("cb1", "You got it. What's your name?", "name", "cb2", save_property=True)
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone", save_property=True)
+    fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
+    fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
+               "few hours. No phone trees.")
 
-    return fb.to_dict()
+    # Shared contact capture (A, B, and C-yes converge here)
+    fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email",
+           save_property=True)
+    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+           error="Hmm, that doesn't look like an email. Mind trying again?", save_property=True)
+    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone",
+           save_property=True)
+    fb.ask("cap_company", "And your company?", "company", "cap_terr", save_property=True)
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
+    fb.message("cap_close", "Thanks! One of our resin specialists will reach out shortly, usually "
+               "within a few hours. A real person, no phone trees.")
+
+    return fb.build()
 
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("-o", "--out", default="prl-chatbot-flow-v1.json")
+    ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
     args = ap.parse_args()
-    data = build_minimal()
+    data = build_full()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
     print(f"wrote {args.out}: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
