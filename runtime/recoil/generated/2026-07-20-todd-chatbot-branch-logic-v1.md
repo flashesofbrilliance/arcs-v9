@@ -184,6 +184,22 @@ resin-recognition layer. Give those pages a **page-specific greeting** via a Tid
 to the URL, for example: "Looking to replace a SABIC grade? Tell me which one and I'll match it."
 That drops the visitor straight into Branch A with the competitor already recognized.
 
+## Integration architecture — Tidio webhooks, not the paid API (confirmed Jul 30)
+
+Operator preference (from the Tidio sales-rep call, and on cost grounds): use **Tidio webhooks**,
+not the expensive Pro/API integration tier. Ref: developers.tidio.com/docs/webhooks-introduction.
+
+Flow: Tidio fires a **webhook** on lead completion → a small endpoint we host receives the JSON
+payload (all captured attributes) → the endpoint (a) creates the **SugarCRM lead** and (b) sends
+the **email notification**. Cheap, standard, and it keeps us off the paid API tier.
+
+**MVP simplification (operator preference):** skip territory auto-routing at first. The endpoint
+just emails every lead to **one fielding inbox** (the VP of National Sales or a shared address),
+who assigns as they do today. Territory auto-routing is a later upgrade once the map is confirmed.
+
+Cost note: webhook receiver can run as a single serverless function; no standing infra, no
+per-seat API fees. Fits the pre-revenue cost posture.
+
 ## Routing logic
 - **MVP:** every lead → SugarCRM + email to the sales manager. He assigns to the rep by territory (his current process).
 - **Target:** geolocate (IP or the asked state) → look up the rep for that territory → assign directly. Requires the territory map.
@@ -191,9 +207,9 @@ That drops the visitor straight into Branch A with the competitor already recogn
 
 ## Open dependencies (the "still needed from the SM" list)
 1. ~~**Exact fields** (required vs optional) from the product-development / application-discovery form.~~ **SATISFIED Jul 30** — the SM sent QATF001 New Opportunity Form v1.1. See "SM intake form mapping" above. Sub-item still open: the dropdown option lists (Opportunity Type, Sub-Type, Problem to be solved).
-2. **Territory map** (rep → states/regions) to turn on auto-routing. Until then, route to the SM.
+2. **Territory map** (rep → states/regions) to turn on auto-routing. **Draft available Jul 30** from the public /our-team/ territories (see personas-routing doc), but MVP is a single fielding inbox, so auto-routing is deferred and the draft needs the VP's confirmation before use.
 3. ~~**Resin product list + nomenclature** so the bot can recognize (and optionally autocomplete) a resin name the visitor gives.~~ **SATISFIED Jul 23** — Todd sent the Product Selection Guide 2025. See the "Resin catalog + nomenclature" section above.
 4. **ICP / poor-fit criteria:** what makes a prospect ideal versus a poor fit. Partial signal now from QATF001 (Potential Volume, Release Quantities = half/full truckloads, Est. Selling Price) but the SM has not stated explicit ideal-vs-poor thresholds. Until answered, no fit tag ships and every lead is treated the same.
 5. **FAQ content** for Branch C (optional).
 
-_Version: v1.3 · 2026-07-30 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts + Product Selection Guide 2025 + QATF001 New Opportunity Form v1.1 + Engineering Thermoplastics Material Selection Matrix (both from the SM, Jul 30). v1.1 added ICP/poor-fit gating. v1.2 folded in the resin catalog + nomenclature. v1.3 folds in the SM intake-form field mapping and the material-selection matrix, and marks the exact-fields dependency satisfied._
+_Version: v1.4 · 2026-07-30 · source: Todd Hotes Jul 20 email answers + Jul 2/9 call transcripts + Product Selection Guide 2025 + QATF001 New Opportunity Form v1.1 + Engineering Thermoplastics Material Selection Matrix + live site pages (/products/, /markets/, /policies/, /our-team/). v1.1 added ICP/poor-fit gating. v1.2 folded in the resin catalog + nomenclature. v1.3 folds in the SM intake-form field mapping and the material matrix. v1.4 adds the two-platform hosting architecture (WP + Unbounce SEM), the Tidio-webhook integration (not paid API) with a single-inbox MVP, and a drafted territory map. Companion docs: voice script v1, triggers+picker v1, personas-routing-persona v1._
