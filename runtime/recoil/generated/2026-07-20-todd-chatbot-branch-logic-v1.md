@@ -168,6 +168,22 @@ first pass (for example UV-critical → ASA "Best"; high heat → PEI/PPO "Best"
 | lead_source | fixed = "website chatbot" | attribution |
 | created_at | system | for the fast-reply clock |
 
+## Hosting architecture + where the bot must be installed (confirmed Jul 30)
+
+prlresins.com is served by TWO platforms, so the widget has to be installed in two places:
+- **Main site = WordPress (WP Engine).** Install the Tidio plugin → covers the whole site.
+- **PPC / SEM landing pages = Unbounce** (for example `/sabic-alternatives/`), mapped under the
+  prlresins.com domain. The WordPress plugin does NOT reach these. Add the Tidio JS snippet in
+  **Unbounce → Script Manager** (or the page's custom-HTML/JavaScript box) so the same bot loads
+  on the landing pages too.
+
+**Why the Unbounce pages matter most:** they are the paid-search entry points, so the intent is
+the highest on the site. A visitor on `/sabic-alternatives/` is explicitly trying to leave SABIC,
+and SABIC's brands (Lexan, Ultem, Noryl, Valox, Cycolac) are exactly the competitor names in our
+resin-recognition layer. Give those pages a **page-specific greeting** via a Tidio trigger scoped
+to the URL, for example: "Looking to replace a SABIC grade? Tell me which one and I'll match it."
+That drops the visitor straight into Branch A with the competitor already recognized.
+
 ## Routing logic
 - **MVP:** every lead → SugarCRM + email to the sales manager. He assigns to the rep by territory (his current process).
 - **Target:** geolocate (IP or the asked state) → look up the rep for that territory → assign directly. Requires the territory map.
