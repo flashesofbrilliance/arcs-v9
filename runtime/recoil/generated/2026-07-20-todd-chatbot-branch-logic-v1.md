@@ -151,8 +151,33 @@ application advantage per family.
 **Use:** in Branch B (help me choose), when a visitor names a driving requirement (for example
 "outdoor + UV" or "high heat" or "lowest cost"), the bot can surface a Good/Better/Best family
 suggestion from this matrix and tag it for the rep. A small rules table, not AI, is enough for a
-first pass (for example UV-critical → ASA "Best"; high heat → PEI/PPO "Best"; lowest cost → ABS
-"Best"). Full recommendation AI stays a later phase.
+first pass. Full recommendation AI stays a later phase.
+
+**Requirement → best-fit family (deterministic lookup, derived from Todd's Good/Better/Best
+overlay email).** This is the buildable recommender table. Each row = the families rated "Best"
+on that requirement; the bot suggests from here and the rep confirms.
+
+| If the visitor's priority is... | Suggest (rated Best) |
+|---|---|
+| Impact / toughness | PC, PC/ABS, PC/ASA, PC/PBT |
+| Stiffness | PBT, PEI, PPO/PPE, PA6, PA66, PC/PBT, PPE/PA |
+| Heat resistance | PEI, PPO/PPE, PA66, PPE/PA |
+| Dimensional stability | PC, PBT, PEI, PPO/PPE, PC blends |
+| Moisture resistance | PC, ABS, ASA, PBT, PEI, PPO/PPE, PC blends |
+| Chemical resistance | PBT, PA6, PA66, PC/PBT, PPE/PA |
+| UV / outdoor weatherability | ASA, PC/ASA |
+| Electrical insulation | PC, PBT, PEI, PPO/PPE, PC blends, PPE/PA |
+| Flame retardance | PEI, PPO/PPE, PC/ABS, PC/ASA, PC/PBT, PPE/PA |
+| Surface appearance | PC, ABS, ASA, PC blends |
+| Processability | ABS, ASA, PBT, PA6, PC/ABS, PC/ASA |
+| Lowest cost | ABS, PA6 |
+
+Cross-references: the market personas (personas-routing doc) map each of PRL's five markets to
+its typical priorities, which resolve to families through this same table. Source of record for
+the full 12x12 Best/Better/Good grid: the material-selection matrix PDF Todd emailed Jul 30
+(staged with the project). The competitor grade-level cross-reference (Lexan/Makrolon/Calibre →
+exact PRL grade) lives in the Product Selection Guide as page images; OCR extraction is a
+fast-follow to enrich the recognizer beyond family level.
 
 ## Fields → SugarCRM lead
 | Field | Source | Notes |
