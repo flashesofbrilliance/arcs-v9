@@ -20,12 +20,21 @@ to make it deliver leads is **lead delivery (email + SugarCRM via Zapier)**, whi
 - Lyro AI OFF; default subscribe/newsletter flow OFF.
 - Local sandbox (Docker/OrbStack) at http://localhost:8080 + pixel-perfect homepage at
   /prl-home.html (pulls live theme assets). Manage: `cd ~/prl-resins-local && ~/.orbstack/bin/docker compose start`.
-- Tidio plugin installed on the WP dev site (wfaprlredev26); Todd invited to Tidio (Chat Agent).
+- **Bot LIVE on the WP dev site** (wfaprlredev26): Tidio plugin connected to the account (key
+  ...gqsxeu), branded bot renders + greets on the real PRL theme, dev-only. Verified in-page + screenshot.
+- Todd invited to Tidio (Chat Agent, invite pending acceptance).
+- Widget welcome image switched from "Agents collage" (was showing 2 blank agent avatars after Todd
+  was added = the "double profile image") to "Your logo" — single image. Logo file staged
+  (`~/Downloads/prl-hexagon-logo.png`, PRL hexagon from site favicon); UPLOAD is a manual click [Zach].
+- Resources-button flow regenerated (5-button menu incl. "Guides and resources" → live prlresins.com
+  links). File `~/Downloads/prl-chatbot-flow.json` ready; not yet reimported/activated (active flow
+  is still the 4-button version).
 - Zapier: draft Zap "Send PRL website chatbot lead emails to Gmail" (Catch Hook + Gmail) built.
 
 **BLOCKED / PENDING (owner)**
 - **Tidio webhook action = PAID** → upgrade needed before Tidio can POST to Zapier. [Zach + rep]
-- Connect Tidio plugin to the existing account on the dev site (log in, not create). [Zach]
+- Upload the hexagon logo in Welcome image → Upload logo (native picker). [Zach]
+- Reimport + activate the 5-button (resources) flow. [Zach]
 - Gmail OAuth connect in the Zapier Zap + copy the Catch Hook webhook URL. [Zach]
 - Wire the Tidio webhook node to the Zapier hook (post-upgrade). [Claude]
 - SugarCRM Create-Lead step (copy the existing Unbounce→Sugar mapping). [Zach + Claude]
