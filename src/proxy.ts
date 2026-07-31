@@ -30,17 +30,14 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Recoil cookie gate — private alpha, single user
-  if (pathname.startsWith('/recoil') && pathname !== '/recoil/unlock') {
-    const session = request.cookies.get('recoil_session')?.value
-    const secret = process.env.RECOIL_PASSWORD
-    if (!secret || session !== secret) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/recoil/unlock'
-      url.searchParams.set('next', pathname)
-      return NextResponse.redirect(url)
-    }
-  }
+  // Recoil identity gate is now enforced per-route via Auth.js session +
+  // ADMIN_EMAILS (src/lib/admin.ts) on every /recoil surface:
+  //   /recoil, /recoil/[reportId], /recoil/figma-r001 (server-wrapped),
+  //   /recoil/html/[slug]. That is the real gate: per-user, revocable,
+  //   fail-closed. The old shared RECOIL_PASSWORD cookie gate was a coarser
+  //   second lock (and sat disclosed in git history), so it was removed here,
+  //   along with the now-dead /recoil/unlock + /api/recoil/unlock endpoints.
+  //   Gates are fail-closed (NODE_ENV !== "development"), matching /warroom.
 
   const hostname = request.headers.get('host') || ''
   const sub = hostname.split('.')[0]
