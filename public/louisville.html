@@ -100,7 +100,7 @@
   .stage2{position:relative;height:100%;overflow:hidden;
     background:radial-gradient(800px 460px at 50% 6%, rgba(201,162,39,.05), transparent 62%)}
   .rail{display:flex;height:100%;transition:transform .5s cubic-bezier(.2,.72,.2,1)}
-  .plate{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;padding:34px 28px 92px;overflow-y:auto}
+  .plate{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;padding:56px 28px 72px;overflow-y:auto}
   .plate .inner{width:100%;max-width:620px;margin:auto;text-align:center}
   .p-kj{font-size:52px;color:var(--gold);opacity:.2;line-height:1;margin-bottom:10px}
   .p-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--graphite);margin-bottom:12px}
@@ -128,7 +128,9 @@
   @media(max-width:560px){.nav.prev{left:8px}.nav.next{right:8px}.p-title{font-size:24px}}
 
   /* ── booking overlay ── */
-  @media (min-width:1500px){ html{zoom:1.25} }
+  /* zoom grid content for screen-share legibility, but NOT present mode —
+     CSS zoom miscomputes 100dvh and throws off the present vertical centering */
+  @media (min-width:1500px){ body:not(.present){zoom:1.25} }
   @media print{body{background-image:none}.tile{break-inside:avoid}#presentview{display:none!important}}
 </style>
 <script defer src="/_vercel/insights/script.js"></script>
