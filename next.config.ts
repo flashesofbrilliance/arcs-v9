@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   // Explicit trace include so the files ship inside the serverless function bundle.
   outputFileTracingIncludes: {
     "/warroom/[slug]": ["./runtime/warroom/**"],
+    // Dynamic recoil reports read runtime/recoil/generated/<id>.json at request time;
+    // trace-include the dir so the JSON ships inside the serverless function bundle.
+    "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },
   // /compass-kit → the static Compass UI kit preview (cosmetic; mock pipeline, no backend)
   //
