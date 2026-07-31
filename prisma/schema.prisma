@@ -491,3 +491,36 @@ model ScanFeedback {
   @@index([deltaGateDecision])
   @@index([createdAt])
 }
+
+// ── Louisville / composable session receipts (Phase 2) ──────────────────────
+// Decoupled from the DEWY Receipt model. Tenant-scoped session receipts for
+// counterpart working sessions (jeben → louisvillebrands). Receipt → agenda →
+// session → receipt, serialized.
+model SessionReceipt {
+  id             String   @id @default(cuid())
+  tenant         String                      // "jeben"
+  brand          String                      // "louisvillebrands"
+  sessionId      String                      // groups a working session
+  author         String                      // JUSTIN | JEBEN | ZACH (human authors)
+  bet            String                      // the decision
+  assumptions    String?
+  falsifier      String                      // required: "if it can't fail it isn't a receipt"
+  killScale      String?
+  atRisk         String?
+  scoreBackDate  DateTime                    // required
+  status         String   @default("OPEN")   // OPEN | SCORED | KILLED | SCALED
+  outcome        String?
+  variance       String?
+  lesson         String?
+  parentId       String?                     // lineage: this receipt seeded from another
+  parent         SessionReceipt?  @relation("lineage", fields: [parentId], references: [id])
+  children       SessionReceipt[] @relation("lineage")
+  seedsSessionId String?                     // the next session this receipt seeds into
+  payload        Json?                       // full receipt + derived board reads
+  userId         String?                     // set on auth (ADR-016 claim); null when anon
+  createdAt      DateTime @default(now())
+  sealedAt       DateTime?
+
+  @@index([tenant, brand, sessionId])
+  @@index([scoreBackDate])
+}
