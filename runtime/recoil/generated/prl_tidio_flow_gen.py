@@ -30,8 +30,8 @@ class FlowBuilder:
         self._edge_id = 300000000
 
     # ---- graph definition API ----
-    def trigger(self, key, nxt):
-        self._add(key, "trigger", next=nxt)
+    def trigger(self, key, nxt, ttype="onFirstVisit", extra=None):
+        self._add(key, "trigger", next=nxt, ttype=ttype, extra=extra or {})
 
     def message(self, key, text, nxt=None):
         self._add(key, "message", text=text, next=nxt)
@@ -97,7 +97,9 @@ class FlowBuilder:
             k = s["kind"]
 
             if k == "trigger":
-                node["type"] = "onFirstVisit"
+                node["type"] = s.get("ttype", "onFirstVisit")
+                for kk, vv in (s.get("extra") or {}).items():
+                    p[kk] = vv
                 nxt = s["next"]
                 p["connections"]["bottom"].append({"nodeId": small[nxt], "direction": "from"})
                 add_top(nxt, s["key"]); add_edge(s["key"], nxt)
@@ -224,11 +226,42 @@ def build_full():
     return fb.build()
 
 
+def build_sem_onramp():
+    """URL-triggered onramp for the SABIC-alternatives SEM landing page (Unbounce).
+    Fires when the visitor is on a URL containing 'sabic-alternatives'; opens with a
+    SABIC-specific greeting and captures a high-intent replacement lead. All session
+    variables (ride the webhook, same as the main flow)."""
+    fb = FlowBuilder("PRL Resins - SEM Onramp (SABIC alternatives)")
+
+    fb.trigger("t", "hello", ttype="onUrlOpened",
+               extra={"url": "sabic-alternatives", "match": "partial", "frequency": "once24"})
+    fb.message("hello",
+        "Looking to move off a SABIC grade? Tell me which one you're running (Lexan, Ultem, "
+        "Noryl, Valox) and I'll match it to a PRL equivalent and get you to a specialist fast.",
+        nxt="s1")
+    fb.ask("s1", "Which SABIC grade are you replacing?", "current_resin", "s2")
+    fb.ask("s2", "What are you making with it?", "application", "s3")
+    fb.ask("s3", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+           "requirements", "cap_name")
+    fb.ask("cap_name", "Great. Who should we get this to?", "name", "cap_email")
+    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+           error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone")
+    fb.ask("cap_company", "And your company?", "company", "cap_terr")
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
+    fb.message("cap_close",
+        "Thanks! A PRL resin specialist will reach out shortly with a match, usually within a "
+        "few hours. A real person, no phone trees.")
+
+    return fb.build(first_trigger="onUrlOpened")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
+    ap.add_argument("--flow", choices=["full", "sem"], default="full")
     args = ap.parse_args()
-    data = build_full()
+    data = build_sem_onramp() if args.flow == "sem" else build_full()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
     print(f"wrote {args.out}: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
