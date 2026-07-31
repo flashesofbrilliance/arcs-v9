@@ -45,6 +45,7 @@
   .tile{position:relative;display:flex;flex-direction:column;min-height:150px;background:linear-gradient(180deg,#141416,#0f0f11);
     border:1px solid var(--line);border-radius:12px;padding:17px 17px 15px;overflow:hidden;cursor:pointer;transition:transform .25s,border-color .25s,box-shadow .25s}
   .tile:hover{transform:translateY(-3px);border-color:rgba(201,162,39,.5);box-shadow:0 22px 44px -32px #000}
+  .tile.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 22px 44px -32px #000;transform:translateY(-2px)}
   .fliptri{position:absolute;right:0;bottom:0;z-index:3;display:flex;align-items:center;gap:7px;border:0;cursor:pointer;
     background:linear-gradient(135deg,transparent 48%,rgba(201,162,39,.14) 50%);padding:22px 13px 11px 26px;border-radius:0 0 12px 0;
     color:var(--gold);font-family:var(--mono);font-size:9px;letter-spacing:.14em;opacity:0;transform:translateY(4px);transition:opacity .2s,transform .2s,background .2s}
@@ -251,12 +252,41 @@
     if(on){ document.body.classList.add('present'); render(); }
     else document.body.classList.remove('present');
   }
+  function reqFS(){ try{ var el=document.documentElement; if(el.requestFullscreen && !document.fullscreenElement){ el.requestFullscreen().catch(function(){}); } }catch(_){} }
+  function exitFS(){ try{ if(document.fullscreenElement && document.exitFullscreen){ document.exitFullscreen().catch(function(){}); } }catch(_){} }
+  // Esc exits fullscreen natively; treat that as "back to grid" per the mouseless model.
+  document.addEventListener('fullscreenchange', function(){
+    if(!document.fullscreenElement && document.body.classList.contains('present')){
+      try{ if(typeof closeLedger==='function') closeLedger(); if(typeof closeViewer==='function') closeViewer(); }catch(_){}
+      setPresent(false);
+    }
+  });
   document.getElementById('viewtoggle').addEventListener('click',function(e){
     var b=e.target.closest('button[data-view]'); if(!b) return;
-    setPresent(b.dataset.view==='present');
+    var toPresent = b.dataset.view==='present';
+    setPresent(toPresent);
+    if(toPresent) reqFS(); else exitFS();
     try{ b.blur(); }catch(_){}   // return keyboard focus to the deck, not the toggle
   });
   try{ if(sessionStorage.getItem('lv_present')==='1') setPresent(true); }catch(_){}
+
+  // ── mouseless GRID nav: arrows move a selection across the tiles, Enter opens ──
+  var gridSel=-1;
+  function gTiles(){ return [].slice.call(document.querySelectorAll('#grid .tile')); }
+  function gCols(){ return window.matchMedia('(max-width:520px)').matches ? 1 : 2; }
+  function setGridSel(i){ var t=gTiles(); if(!t.length){ return; } gridSel=((i%t.length)+t.length)%t.length; t.forEach(function(el,k){ el.classList.toggle('sel', k===gridSel); }); }
+  document.addEventListener('keydown', function(e){
+    if(document.body.classList.contains('present')) return;
+    var vw=document.getElementById('viewer'), lg=document.getElementById('ledger'), sv2=document.getElementById('stockview');
+    if((vw&&vw.classList.contains('open'))||(lg&&lg.classList.contains('open'))||(sv2&&sv2.classList.contains('open'))) return;
+    var t=gTiles(); if(!t.length) return;
+    var k=e.key, c=gCols();
+    if(k==='ArrowRight'||k==='Right'){ e.preventDefault(); setGridSel(gridSel<0?0:gridSel+1); }
+    else if(k==='ArrowLeft'||k==='Left'){ e.preventDefault(); setGridSel(gridSel<0?0:gridSel-1); }
+    else if(k==='ArrowDown'||k==='Down'){ e.preventDefault(); setGridSel(gridSel<0?0:gridSel+c); }
+    else if(k==='ArrowUp'||k==='Up'){ e.preventDefault(); setGridSel(gridSel<0?0:gridSel-c); }
+    else if(k==='Enter'&&gridSel>=0){ e.preventDefault(); t[gridSel].click(); }
+  });
 
   // booking: every [data-book] entry point links straight out to the scheduler
   var BOOK_URL="https://calendar.app.google/SYTb2JAjpgAfBipS7";
@@ -345,6 +375,7 @@
   document.addEventListener('keydown',function(e){
     if(/^(INPUT|TEXTAREA)$/.test((document.activeElement||{}).tagName)) return;
     if(e.key==='Escape'){ closeStock(); return; }
+    if(e.key==='~'||e.key==='`'){ e.preventDefault(); openStock(); return; }
     if(e.key&&e.key.length===1){ buf=(buf+e.key.toLowerCase()).slice(-6);
       if(buf.endsWith('stock')) openStock();
       else if(buf.endsWith('kin')) toggleKin();
