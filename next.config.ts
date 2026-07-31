@@ -100,7 +100,9 @@ const nextConfig: NextConfig = {
         // jeben.arcs.care root/anything-else (except /debrief) → public/jeben.html (Louisville Brands Thread Book, pw-gated)
         { source: "/:path((?!.*debrief).*)", destination: "/jeben.html", has: [{ type: "host", value: "jeben.arcs.care" }] },
         // louisville.arcs.care → public/louisville.html (Louisville Brands pitch suite · open, no gate)
-        { source: "/:path*", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
+        // Wildcard excludes /api/* via negative lookahead (same shape as jeben/debrief above) —
+        // without it the rewrite swallows the suite's own /api/louisville/* persistence calls.
+        { source: "/:path((?!api/).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
         // resume.arcs.care/google (+ /google-gtm) → public/resume-google-gtm.html (Google Principal GTM AI Tools variant)
         // Same exact-path-vs-wildcard shape as todd/teardown, julia/runtime, jeben/debrief above.
         // NOTE: /google is the primary share path. /google-gtm was the original slug but its edge
