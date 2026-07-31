@@ -26,7 +26,10 @@ const CreateSchema = z.object({
   falsifier: FIELD.min(1),
   killScale: FIELD.optional().nullable(),
   atRisk: FIELD.optional().nullable(),
-  scoreBackDate: z.coerce.date().refine((d) => d.getFullYear() >= 2020 && d.getFullYear() <= 2100, "scoreBackDate out of range"),
+  scoreBackDate: z.coerce
+    .date()
+    .refine((d) => d.getFullYear() >= 2020 && d.getFullYear() <= 2100, "scoreBackDate out of range")
+    .refine((d) => d.getTime() > Date.now() - 86_400_000, "scoreBackDate must be in the future"),
   parentId: FIELD.optional().nullable(),
   payload: z.unknown().optional(),
 })
@@ -63,7 +66,12 @@ const PUBLIC_SELECT = {
 } as const
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown"
+  // x-real-ip is set by the Vercel proxy and cannot be spoofed by the client;
+  // x-forwarded-for's first hop is attacker-controllable, so it is only a fallback.
+  const ip =
+    req.headers.get("x-real-ip")?.trim() ||
+    req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ||
+    "unknown"
   if (throttled(ip)) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429 })
   }
