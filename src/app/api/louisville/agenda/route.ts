@@ -26,6 +26,8 @@ export async function GET(req: NextRequest) {
     take: 100,
   })
 
+  // Cross-session by design (the agenda composes the whole tenant's open loop),
+  // but field-allowlisted: no payload, no userId.
   const now = new Date()
   const items = open.map((r) => ({
     id: r.id,
