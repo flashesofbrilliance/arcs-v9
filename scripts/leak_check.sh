@@ -123,4 +123,23 @@ if [ -n "$MISSING" ]; then
 fi
 
 echo "  ✔ analytics — every public page carries the Web Analytics snippet."
+
+# Stray-source gate (added 2026-07-31, ADR-034 finding IP-014): everything under
+# public/ is served world-readable by filename. The HTML checks above only cover
+# *.html; a source/doctrine file (*.py, *.md) sitting in public/ is served in the
+# clear yet never scanned. Two ARCS recoil files (arcs_recoil_canvas.py with real
+# counterpart PII + arcs_recoil_philosophy.md method doctrine) leaked exactly this
+# way. Source/doc files belong in runtime/ or docs/, never in public/.
+STRAY="$(find public -maxdepth 1 -type f \( -name '*.py' -o -name '*.md' \) 2>/dev/null || true)"
+if [ -n "$STRAY" ]; then
+  STRAY_COUNT="$(echo "$STRAY" | grep -c . || true)"
+  echo ""
+  echo "  ✘ STRAY SOURCE: ${STRAY_COUNT} source/doc file(s) served world-readable in public/:"
+  echo "$STRAY" | sed 's/^/      /'
+  echo ""
+  echo "  Move them out of public/ (runtime/ or docs/). public/ is for served assets only."
+  exit 1
+fi
+
+echo "  ✔ no-stray-source — public/ holds no world-readable *.py/*.md files."
 exit 0

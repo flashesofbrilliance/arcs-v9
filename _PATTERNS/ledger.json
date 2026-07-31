@@ -92,6 +92,13 @@
       "severity": "low",
       "summary": "Legacy arcs-care 'sessions' table has an anon INSERT policy (WITH CHECK true) — open write surface on an inactive product; last remaining advisor WARN. Decide: drop the legacy arcs-care tables (sessions/waitlist) or tighten the policy.",
       "exit": { "type": "open" }
+    },
+    {
+      "id": "IP-014",
+      "filed": "2026-07-31",
+      "severity": "high",
+      "summary": "public/arcs_recoil_canvas.py + public/arcs_recoil_philosophy.md were served world-readable by filename on every arcs.care host (same exposure class as the 2026-07-24 war-room HTML move). canvas.py hardcoded real Fanatics counterpart names + private per-person assessments + recoil stop-loss/NCI method; philosophy.md is the internal Forensic Cartography method doctrine. The J24 leak_check only scanned public/*.html, so these non-HTML source/doc files slipped the gate.",
+      "exit": { "type": "guard", "ref": "Both files git-mv'd public/ -> runtime/recoil/ (unserved). scripts/leak_check.sh hardened with a stray-source gate that fails CI on any *.py/*.md directly under public/, closing the recurrence class.", "date": "2026-07-31" }
     }
   ]
 }
