@@ -146,35 +146,14 @@
 </style>
 <script defer src="/_vercel/insights/script.js"></script></head>
 <body>
-<div id="pw-gate">
-  <div class="pw-mark">ARCS · Private Debrief</div>
-  <div class="pw-title">Jeben × ARCS – Call Debrief</div>
+<div class="pw-title">Jeben × ARCS – Call Debrief</div>
   <div class="pw-form">
     <input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" />
     <button class="pw-btn" onclick="checkPw()">ENTER</button>
   </div>
   <div class="pw-hint">shared by Zach Harris</div>
 </div>
-<script>
-if (sessionStorage.getItem('jeben-auth') === '1') {
-  document.getElementById('pw-gate').classList.add('hidden');
-}
-function checkPw() {
-  var val = document.getElementById('pw-input').value.trim().toLowerCase();
-  if (val === 'berg') {
-    sessionStorage.setItem('jeben-auth', '1');
-    document.getElementById('pw-gate').classList.add('hidden');
-  } else {
-    var inp = document.getElementById('pw-input');
-    inp.classList.add('shake');
-    inp.value = '';
-    setTimeout(function () { inp.classList.remove('shake'); }, 350);
-  }
-}
-document.getElementById('pw-input').addEventListener('keydown', function (e) {
-  if (e.key === 'Enter') checkPw();
-});
-</script>
+
 
 <div id="call-toast" role="banner" onclick="goToLanding()">
   <div class="toast-label">← Back to the Louisville Brands Thread Book</div>

@@ -99,9 +99,15 @@ const nextConfig: NextConfig = {
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two
         // rules can never both match the same request.
-        { source: "/debrief", destination: "/jeben-debrief.html", has: [{ type: "host", value: "jeben.arcs.care" }] },
-        // jeben.arcs.care root/anything-else (except /debrief) → public/jeben.html (Louisville Brands Thread Book, pw-gated)
-        { source: "/:path((?!.*debrief).*)", destination: "/jeben.html", has: [{ type: "host", value: "jeben.arcs.care" }] },
+        // MOVED 2026-07-31 (gauntlet RUIN finding): both were world-readable in public/
+        // behind a client-side plaintext "berg" gate (theater: the page shipped in full,
+        // verified live 200 on www.arcs.care/jeben.html). They carry confidential material
+        // (plant closing, ~20 local jobs, third-party financials, candid counterpart reads),
+        // so they now live in runtime/warroom/ and serve through the admin-gated
+        // /warroom/[slug] route (Auth.js session + ADMIN_EMAILS, fail-closed, 404-on-unauth).
+        // Treat "berg" as disclosed: it sat in git history and in the served JS.
+        { source: "/debrief", destination: "/warroom/jeben-debrief", has: [{ type: "host", value: "jeben.arcs.care" }] },
+        { source: "/:path((?!.*debrief).*)", destination: "/warroom/jeben", has: [{ type: "host", value: "jeben.arcs.care" }] },
         // louisville.arcs.care → public/louisville.html (Louisville Brands pitch suite · open, no gate)
         // Wildcard excludes /api/* via negative lookahead (same shape as jeben/debrief above) —
         // without it the rewrite swallows the suite's own /api/louisville/* persistence calls.

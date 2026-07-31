@@ -142,4 +142,45 @@ if [ -n "$STRAY" ]; then
 fi
 
 echo "  ✔ no-stray-source — public/ holds no world-readable *.py/*.md files."
+
+# Client-gate theater check (added 2026-07-31, gauntlet RUIN finding): a
+# client-side password in a public/ page hides a div, it does not gate the page.
+# public/jeben.html shipped its full confidential Thread Book behind val==='berg'
+# and served 200 to anyone. Internal surfaces belong in runtime/warroom/ behind
+# the admin-gated /warroom/[slug] route (Auth.js + ADMIN_EMAILS), never here.
+# Counterpart-facing deliverables (ext/proposal/intro pages) may carry a decorative
+# soft gate: they are meant to be shared, so the gate is a velvet rope, not a lock.
+# The hard failure is reserved for INTERNAL-class pages (thread book, war room,
+# recoil, debrief) whose content must never be world-readable.
+THEATER="$(grep -rlE "val ?=== ?'[a-z]+'|checkPw\(\)" public --include='*.html' 2>/dev/null || true)"
+INTERNAL_THEATER="$(echo "$THEATER" | grep -iE "thread|war|recoil|debrief|jeben" || true)"
+if [ -n "$INTERNAL_THEATER" ]; then
+  echo ""
+  echo "  ✘ CLIENT-GATE THEATER on an INTERNAL page (a client gate is not a gate):"
+  echo "$INTERNAL_THEATER" | sed 's/^/      /'
+  echo ""
+  echo "  Move it to runtime/warroom/ and serve via /warroom/[slug] (Auth.js + ADMIN_EMAILS)."
+  exit 1
+fi
+if [ -n "$THEATER" ]; then
+  THEATER_N="$(echo "$THEATER" | grep -c . || true)"
+  echo "  ⚠ soft-gate note — ${THEATER_N} counterpart-facing page(s) use a decorative client gate (shareable by design; treat those passwords as disclosed)."
+fi
+echo "  ✔ no-internal-client-gate-theater — no internal page hides behind a fake gate."
+
+# Redaction-policy disclosure check (gauntlet HIGH finding): an OPEN surface may
+# state THAT withholding happens and its policy, but must never name the withheld
+# subject content about a counterpart (that tells them what is being said about
+# them). The cellar leaked "symptom chart" / "Jeben-on-Justin verbatim" this way.
+DISCLOSE="$(grep -rliE "symptom chart|-on-[A-Z][a-z]+ verbatim|diagnosis aimed at" public --include='*.html' 2>/dev/null || true)"
+if [ -n "$DISCLOSE" ]; then
+  echo ""
+  echo "  ✘ REDACTION DISCLOSURE: open page(s) name withheld subject-about-them content:"
+  echo "$DISCLOSE" | sed 's/^/      /'
+  echo ""
+  echo "  Abstract to role-generic (\"prep-side reads about the person, withheld\")."
+  echo "  The specific loss log belongs in the gated back of house."
+  exit 1
+fi
+echo "  ✔ no-redaction-disclosure — no open page names what is withheld about a counterpart."
 exit 0
