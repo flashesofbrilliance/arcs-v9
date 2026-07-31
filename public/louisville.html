@@ -60,6 +60,22 @@
   .tile.book{background:linear-gradient(180deg,rgba(201,162,39,.10),rgba(201,162,39,.03));border-color:rgba(201,162,39,.55)}
   .tile.book h3,.tile.book .no{color:var(--gold)}
   .tile.book .kj{color:var(--gold);opacity:.12}
+  .offer{max-width:940px;margin:34px auto 0;border-top:1px solid var(--line);padding-top:30px}
+  .offer-head{text-align:center;max-width:60ch;margin:0 auto 22px}
+  .offer-kick{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--gold);opacity:.9}
+  .offer-line{margin:12px auto 10px;font-size:clamp(20px,1.4vw + 13px,27px);font-weight:700;letter-spacing:-.012em;line-height:1.22;max-width:24ch;text-wrap:balance}
+  .offer-line .g{color:var(--gold)}
+  .offer-sub{color:var(--graphite);font-size:14px;line-height:1.6;max-width:56ch;margin:0 auto;text-wrap:pretty}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+  @media(max-width:620px){.tiers{grid-template-columns:1fr}}
+  .tier{border:1px solid var(--line);border-radius:11px;padding:18px 16px 16px;text-align:center;background:linear-gradient(180deg,#131315,#0e0e10)}
+  .tier.mid{border-color:rgba(201,162,39,.5)}
+  .tier-name{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--graphite)}
+  .tier-price{font-size:28px;font-weight:700;letter-spacing:-.02em;color:var(--dial);margin:8px 0 4px}
+  .tier-price span{font-size:13px;font-weight:400;color:var(--graphite);letter-spacing:0}
+  .tier.mid .tier-price{color:var(--gold)}
+  .tier-scope{font-size:12.5px;color:var(--graphite);line-height:1.5;text-wrap:pretty}
+  .offer-foot{text-align:center;margin-top:16px;color:var(--faint);font-size:12px;line-height:1.6;font-family:var(--mono);letter-spacing:.02em}
   .polite{text-align:center;margin-top:22px;color:var(--graphite);font-size:13px;line-height:1.6}
   .polite b{color:var(--dial)}
   .polite a{color:var(--gold);border-bottom:1px solid rgba(201,162,39,.4);cursor:pointer}
@@ -125,6 +141,33 @@
       <div class="ask">One working session on the next bag, before a dollar moves. <b>Four cards, one bet</b>: the argument, where to point it, a live receipt, and a time to talk.</div>
     </div>
     <div class="grid" id="grid"></div>
+
+    <section class="offer" aria-label="The offer">
+      <div class="offer-head">
+        <span class="offer-kick">為 · THE OFFER, IN ONE BREATH</span>
+        <h2 class="offer-line">A monthly decision sprint. One real bet per session, written down and scored <span class="g">before a dollar moves.</span></h2>
+        <p class="offer-sub">Not software to roll out. Not a consultant. A fractional decision partner: we run the call live, seal a receipt you both sign, and score it against what actually happened. One session a month, on the lane that matters.</p>
+      </div>
+      <div class="tiers" role="table" aria-label="90-day pilot tiers">
+        <div class="tier">
+          <div class="tier-name">LIGHT</div>
+          <div class="tier-price">$5K<span>/mo</span></div>
+          <div class="tier-scope">One lane · up to 2 decisions a month</div>
+        </div>
+        <div class="tier mid">
+          <div class="tier-name">MEDIUM</div>
+          <div class="tier-price">$10K<span>/mo</span></div>
+          <div class="tier-scope">Two lanes · up to 4 decisions a month</div>
+        </div>
+        <div class="tier">
+          <div class="tier-name">HEAVY</div>
+          <div class="tier-price">$15K<span>/mo</span></div>
+          <div class="tier-scope">All three lanes · up to 6 a month, plus a quarterly Executive Council</div>
+        </div>
+      </div>
+      <p class="offer-foot">A 90-day pilot. Unused sessions roll over inside the 90 days. Start Light on one live call; step up only if the discipline earns it.</p>
+    </section>
+
     <p class="polite">No pressure, and nothing to sign. When the timing's right, <a data-book>grab a time</a>. The first session runs <b>before a dollar moves</b> and ends in one page you both sign.</p>
     <footer>
       ARCS · FIELD OS · LOUISVILLE · <span class="g">EVERY TILE RETURNS TO THE SAME BET.</span><br>
@@ -168,6 +211,12 @@
     +'<h1 class="p-title">Louisville is great at making things. The open question is <span class="g">which to make next.</span></h1>'
     +'<p class="p-lede">One working session on the next bag, before a dollar moves. Swipe through the argument, where to point it, a live receipt, and a time to talk.</p>'
     +'</div></section>';
+  var offerPlate='<section class="plate"><div class="inner">'
+    +'<div class="p-kj" aria-hidden="true">為</div>'
+    +'<div class="p-kicker"><span class="n">◆</span> · THE OFFER</div>'
+    +'<h2 class="p-title">A monthly decision sprint. <span class="g">One bet, sealed before spend.</span></h2>'
+    +'<p class="p-lede">Light $5K · one lane, 2 a month. Medium $10K · two lanes, 4 a month. Heavy $15K · all three lanes, 6 a month plus a quarterly Executive Council. A 90-day pilot; start on the one call that matters.</p>'
+    +'</div></section>';
   var plates=ITEMS.map(function(it){
     var openattr = it.book ? 'data-book' : 'data-page="'+it.page+'"';
     var kick = it.book?'NEXT STEPS':(it.cls==='who'?'OTHER ROOM':it.tag);
@@ -179,7 +228,12 @@
       +'<div><button class="p-open" '+openattr+'>'+(it.book?'RESERVE A TIME →':'OPEN →')+'</button></div>'
       +'</div></section>';
   }).join('');
-  var rail=document.getElementById('rail'); rail.innerHTML = hero+plates;
+  // insert the offer plate just before the book (last) plate
+  var bookMarker='<section class="plate"><div class="inner"><div class="p-kj" aria-hidden="true">予</div>';
+  var railHTML = plates.indexOf(bookMarker)>=0
+    ? hero + plates.slice(0,plates.indexOf(bookMarker)) + offerPlate + plates.slice(plates.indexOf(bookMarker))
+    : hero + plates + offerPlate;
+  var rail=document.getElementById('rail'); rail.innerHTML = railHTML;
 
   // deck controller
   var plateEls=rail.children, N=plateEls.length, idx=0;
@@ -227,6 +281,7 @@
   document.getElementById('viewtoggle').addEventListener('click',function(e){
     var b=e.target.closest('button[data-view]'); if(!b) return;
     setPresent(b.dataset.view==='present');
+    try{ b.blur(); }catch(_){}   // return keyboard focus to the deck, not the toggle
   });
   try{ if(sessionStorage.getItem('lv_present')==='1') setPresent(true); }catch(_){}
 
