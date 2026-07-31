@@ -74,7 +74,7 @@
   .stage2{position:relative;height:100%;overflow:hidden;
     background:radial-gradient(800px 460px at 50% 6%, rgba(201,162,39,.05), transparent 62%)}
   .rail{display:flex;height:100%;transition:transform .5s cubic-bezier(.2,.72,.2,1)}
-  .plate{flex:0 0 100vw;height:100%;display:flex;align-items:center;justify-content:center;padding:34px 28px 92px;overflow-y:auto}
+  .plate{flex:0 0 100%;height:100%;display:flex;align-items:center;justify-content:center;padding:34px 28px 92px;overflow-y:auto}
   .plate .inner{width:100%;max-width:620px;margin:auto;text-align:center}
   .p-kj{font-size:52px;color:var(--gold);opacity:.2;line-height:1;margin-bottom:10px}
   .p-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.26em;color:var(--graphite);margin-bottom:12px}
@@ -187,7 +187,7 @@
       dotsWrap=document.getElementById('dots'), counter=document.getElementById('counter');
   for(var d=0; d<N; d++){ var b=document.createElement('button'); b.className='dot'; (function(k){ b.addEventListener('click',function(){ go(k); }); })(d); dotsWrap.appendChild(b); }
   var dots=dotsWrap.children;
-  function render(){ rail.style.transform='translateX('+(-idx*100)+'vw)';
+  function render(){ rail.style.transform='translateX('+(-idx*100)+'%)';
     counter.textContent=String(idx+1).padStart(2,'0')+' / '+String(N).padStart(2,'0');
     prev.disabled=(idx===0); next.disabled=(idx===N-1);
     for(var k=0;k<N;k++) dots[k].setAttribute('aria-current', k===idx); }
