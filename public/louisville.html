@@ -264,6 +264,10 @@
   .stockcard .sbody b{color:var(--dial)}
   .stockcard .sbody .g{color:var(--gold)}
   .stockcard .sfoot{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--faint);padding:0 20px 18px}
+  .skeys{display:flex;gap:10px;padding:0 20px 14px}
+  .skey{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;border:1px solid var(--line);border-radius:100px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--graphite);text-decoration:none;transition:border-color .2s,color .2s,background .2s}
+  .skey:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,.07)}
   .eggrow{position:fixed;right:16px;bottom:14px;z-index:70;display:flex;gap:4px;align-items:center;
     padding:5px 8px;border:1px solid var(--line);border-radius:100px;background:rgba(11,11,12,.72);backdrop-filter:blur(5px);
     box-shadow:0 10px 30px -18px #000;animation:eggfloat 4s ease-in-out infinite}
@@ -286,6 +290,10 @@
     <div class="sbody">
       What's under the hood, the pattern-detection and <b>confidence-reweighting</b> that grades each piece of evidence, is <span class="g">the still, not the pour</span>. It's for craftsmen and master distillers, and it <b>compounds with every receipt</b> Louisville files: your own corpus, sharpening its own reads.
       <br><br>This is the <b>roadmap</b>, not the pitch. The front of house is the one page you sign. Ask if you want to see the still.
+    </div>
+    <div class="skeys">
+      <a class="skey" href="https://omakase.arcs.care" target="_blank" rel="noopener" title="The omakase · the coursed tasting">🔒<span>THE LOCK</span></a>
+      <a class="skey" href="https://jeben.arcs.care" target="_blank" rel="noopener" title="The thread book · password protected">🗝️<span>THE KEY</span></a>
     </div>
     <div class="sfoot">為 · YOUR CORPUS, YOUR CANON · IT COMPOUNDS TENANT-SIDE, NEVER SHARED.</div>
   </div>
