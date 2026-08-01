@@ -79,6 +79,8 @@
   /* walk-through doors: every course opens into the room it was cooked in */
   .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
   .door.locked{cursor:default;color:var(--faint);opacity:.55}
+  .door.tea{opacity:.85}
+  .door.tea:hover,.door.tea:focus-visible{opacity:1;border-color:var(--gold);border-style:solid}
 
   /* the take-home: 土産: what the lacquered box was built to carry, handed at the door */
   .gift{margin-top:44px}
@@ -255,6 +257,7 @@
     <div class="morsel"><p class="note" style="font-family:var(--mono);font-size:15px;letter-spacing:.06em;line-height:2.2">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></p></div>
     <p class="quiet">THE MEAL ENDS WHERE IT BEGAN · ONE OCTAVE HIGHER</p>
     <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥢 SEE THE MEAL PLATED · THE MENU</span></div>
+    <div><a class="door tea" href="/omakase/atom" title="After the meal, tea · the seed told whole">🍵 お茶 · TEA IS OFFERED · THE TEA HOUSE IS OPEN</a></div>
     <div class="step"><button data-next="sc9">RISE FROM THE COUNTER</button></div>
   </section>
 
