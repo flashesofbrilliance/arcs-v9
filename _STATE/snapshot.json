@@ -1,9 +1,10 @@
 {
-  "captured_at": "2026-07-22T19:30:00Z",
+  "captured_at": "2026-08-01T06:00:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "4c216df",
-    "head_message": "docs(handoff): v3.18.0 IP-leak hardening; archive v3.12.x [NCI:SKIP]",
+    "head_sha": "b6cc871",
+    "head_message": "feat(recoil): Shannon x Zach catch-up report \u2014 ICP-in-survival-mode grounding case [NCI:SKIP]",
+    "branch": "claude/decision-geometry-logo-81fb56 (NOT main \u2014 no upstream set; Shannon report + v3.21.0 handoff ride into main on merge)",
     "in_sync_with_origin": false,
     "dirty_files": []
   },
@@ -53,9 +54,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Ahmed Elsamadisi / Polyform AI reconnect: built forge-hardened pre-call brief (ahmed.arcs.care), ran the call, then closed the full decision loop across 6 tabs \u2014 ex-ante receipt, Exogenous Forge (ROM#6) pressure-test via claims-skeptic, post-call Recoil (Granola transcript e8648395) with belief-update ledger, quantified Belief Log v2 (confidence x conviction, NOT per-belief NCI), War Game (kinematic manifold now MEASURED via arcs_kinematics.py v1.3 \u2014 D1-D3 valid, D5-D12 honestly labeled coherence-zone, not fabricated), and Defensibility (5-verb x 4-proofing + Activity-Schema Rosetta). Built a SANITIZED counterpart-facing twin (ahmed-ext.arcs.care) through several depth iterations, then stripped it competitor-safe (architecture-not-weights). Mechanized the air gap: SSOT JSON (runtime/recoil/generated/2026-07-22-elsamadisi.json) + scripts/recoil_brief.py CLI that computes kinematics reproducibly and projects internal-vs-external by dropping audience-tagged fields (external run drops 14 fields w/ redaction report). Banked 2 memories (confidence/conviction/NCI defs; internal-external air-gap 3-rule).",
-  "next_action": "Ahmed: Zach to set the pilot price (a number, once a customer is picked) + name one Polyform customer, then send ahmed-ext.arcs.care (draft note ready, both LinkedIn + email variants, in this session's transcript). Optional next build: render the ahmed HTML pages FROM the SSOT JSON so editing = editing data (full loop closure; not done this session).",
-  "blocking": "NONE (waiting on Zach's send decision + price, not blocked internally)",
+  "session_summary": "Strategy + one recoil report (no product code). (1) Positioning thread from a Logo-origin question \u2014 crystallized 'ARCS = Logo for the AI Era' as the recognition line and 'you learn the terrain by moving through it and leaving a trace' as the public promise; ICP = high-agency 20+yr-career golden-handcuff escapees, the felt Logo/legible-machine cohort (Oregon Trail/Pong/HyperCard nostalgia = legibility restored, not decoration). (2) Derived 'ICP is a STATE not a segment': same person is unreachable in-the-fire (horizon=0, files you as vendor) vs receptive in caught-breath; in survival mode remove noise don't add horizon; catching the window is a Kairos problem. (3) Ran /recoil-report on the Jul 31 10:30 Shannon (Usersnap) catch-up \u2014 committed runtime/recoil/generated/2026-07-31-shannon.json (YELLOW/DEGRADED NCI 60; clean soft-no, timing miss not fit miss; she is the grounding case for the ICP-state memory). Stopped before Gamma/deploy/email per cost. Banked 2 new auto-memories + compacted the memory index + flagged LaBella/AssemblyAI dormant.",
+  "next_action": "Shannon: do NOT pursue (active-listening alarm \u2014 she stated no bandwidth). Only move is her one bounded offer: post something substantive on LinkedIn so she can repost; re-approach ~Sept when her horizon reopens, leading with a load-removing hook not the ARCS architecture. Bigger thread left open: catching the caught-breath window is a Kairos (timing) problem = the unbuilt ARCS primitive; the detector that senses 'this person just caught their breath' is the same engine the compass needs.",
+  "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -179,7 +180,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-24T17:21:12Z",
+  "git_refreshed_at": "2026-08-01T05:44:06Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

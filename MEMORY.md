@@ -6,6 +6,27 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.21.0] 2026-08-01 — Positioning spine + Shannon recoil (strategy session, no code)
+
+A Logo-origin question ("did learning Logo seed the decision-geometry frame?") became a coherent
+GTM spine, then got field-tested by a real call.
+
+- **Positioning:** "ARCS = Logo for the AI Era" (recognition line) + "you learn the terrain by
+  moving through it and leaving a trace" (public promise). ICP = high-agency, 20+yr-career,
+  golden-handcuff escapees seeking self-sovereignty; the felt Logo / legible-machine cohort
+  (Oregon Trail / Pong / HyperCard nostalgia = legibility restored). Small-batch specificity is the
+  moat. 3 auto-memories banked (in `~/.claude/projects/.../memory/`, not this repo).
+- **ICP is a STATE, not a segment:** same person unreachable in-the-fire (horizon=0, files you as
+  "vendor") vs receptive in caught-breath; in survival mode remove noise, don't add horizon;
+  catching the window is a **Kairos problem** (the unbuilt ARCS primitive).
+- **Shannon recoil:** `/recoil-report` on the Jul 31 10:30 Shannon (Usersnap) catch-up →
+  `runtime/recoil/generated/2026-07-31-shannon.json` (`b6cc871`). YELLOW/DEGRADED, NCI 60 — clean
+  soft-no, timing miss not fit miss; the grounding case for the ICP-state memory. Stopped before
+  Gamma/deploy/email per cost.
+- On branch `claude/decision-geometry-logo-81fb56` (not main). Next: do NOT pursue Shannon (active-
+  listening alarm); take her LinkedIn-repost offer; re-approach ~Sept. Sit with the Kairos thread.
+
+---
 ## [v3.11.0] 2026-07-20 — Anon-share persist fix + design-system glow tuning (live)
 
 First **interactive/local** deploy session after a run of cloud sessions (which couldn't deploy).

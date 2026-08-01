@@ -335,3 +335,62 @@ NONE.
 
 `/handoff-pickup`. New load-bearing memory: [[deploy-antipattern-grep-verified-ui]] (screenshot
 before push; stop when done; don't build verification machinery for what one look answers).
+
+---
+
+# Handoff — v3.21.0 (2026-08-01)
+
+> **For Claude Code:** active pickup point. This was a STRATEGY session (positioning + one recoil
+> report), not product code. On branch `claude/decision-geometry-logo-81fb56`, not main — the one
+> commit + this handoff ride into main on merge. Default posture: STOP (Shannon is a do-not-pursue).
+> **Housekeeping debt:** CLAUDE.md now carries 6 live handoff blocks (v3.16–v3.21); policy is 1–2,
+> so next session should relocate v3.16–v3.19 into `_ARCHIVE/handoffs.md` (deferred this session to
+> keep the edit low-risk).
+
+## What happened (2026-08-01) — positioning crystallized + Shannon recoil
+
+**A Logo-origin question turned into a coherent GTM spine, then got field-tested by a real call.**
+
+- **Positioning (3 auto-memories banked, in `~/.claude/projects/.../memory/`):**
+  - [[arcs-logo-lineage-positioning]] — decision-geometry frame may seed from learning Logo (turtle
+    = navigator node on the manifold). "ARCS — Logo for the AI Era" = the *recognition* line;
+    "you learn the terrain by moving through it and leaving a trace" = the *public promise*. Widened
+    to the whole legible-machine era (Oregon Trail / Pong / HyperCard / BASIC / TI-99 / Apple //e) —
+    nostalgia is the *aesthetic*, legibility-restored is the *substance*. Graded with a skeptic's
+    caveat (could be an Orthogonal-Echo retrofit, not a true seed).
+  - [[icp-is-a-state-not-a-segment-catch-in-caught-breath]] — the ICP is a STATE, not a demographic:
+    same high-agency person is unreachable in-the-fire (horizon=0, files you as "vendor") vs
+    receptive in caught-breath. In acute survival mode **remove one unit of noise, don't add
+    horizon**. Catching the window is a **Kairos problem** — the unbuilt ARCS primitive.
+  - ICP framing: high-agency, 20+yr (often corporate) careers, golden-handcuff/calendar-vice-grip,
+    seeking a self-sovereignty escape hatch; early-adopters for whom Logo is a felt memory. Small-
+    batch specificity is the moat, not a limit. (Corrects an earlier wrong "audience decay" flag.)
+
+- **Shannon recoil** — ran `/recoil-report` on the Jul 31 10:30 AM "Shannon x Zach // Catch up"
+  Granola call (Shannon = product lead at Usersnap; known Zach from the BlaBlaCar/Blake era).
+  Committed `runtime/recoil/generated/2026-07-31-shannon.json` (`b6cc871`). **YELLOW/DEGRADED, NCI
+  60**: clean soft-no, timing miss not fit miss. She recited every ICP symptom then said she has
+  zero bandwidth ("I don't have time to pilot") — the grounding case for the ICP-state memory.
+  Stopped before Gamma draft / Vercel deploy / email per cost (Zach chose "stop here").
+
+- **Memory hygiene:** compacted the auto-memory index (verbose entries → one line each; was near
+  its read limit), flagged LaBella + AssemblyAI projects **dormant** (dates passed, silent weeks).
+
+## Open / next
+
+1. **Shannon: do NOT pursue.** Active-listening alarm — she stated a disqualifying fact. Only move
+   is her one bounded offer: post something substantive on LinkedIn so she can repost. Re-approach
+   ~September when her horizon reopens, leading with a load-removing hook, not the ARCS architecture.
+2. **The deep thread:** catching the caught-breath window is a Kairos/timing detection problem =
+   the same engine the compass needs. Product implication, not just positioning. Sit with it.
+3. **Housekeeping:** relocate v3.16–v3.19 handoff blocks to `_ARCHIVE/handoffs.md`.
+4. Prior untouched: Todd Hotes Zapier (blocked on Tidio plan), Ahmed ext send, showcase mirror.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. Load-bearing new memories: [[arcs-logo-lineage-positioning]],
+[[icp-is-a-state-not-a-segment-catch-in-caught-breath]].
