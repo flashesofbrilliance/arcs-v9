@@ -156,7 +156,6 @@
     <div class="grid" id="grid"></div>
 
 
-    <p class="polite">No pressure, and nothing to sign. When the timing's right, <a data-book>grab a time</a>. The first session runs <b>before a dollar moves</b> and ends in one page you both sign.</p>
     <footer>
       ARCS · FIELD OS · LOUISVILLE · <span class="g">EVERY TILE RETURNS TO THE SAME BET.</span><br>
       PREPARED FOR LOUISVILLE BRANDS · EVERYTHING HERE IS YOURS TO CORRECT.<br>
@@ -364,6 +363,19 @@
   <button id="egg-lantern" type="button" title="Risk Register · fewer bad decisions, faster">🏮</button>
   <button id="egg-envelope" type="button" title="Private Stock · under lock &amp; key">🧧</button>
   <button id="egg-pine" type="button" title="Golden Seam · faults healed in gold">🎍</button>
+  <button id="egg-note" type="button" title="The Foreword · in place of a thank-you note">🧾</button>
+</div>
+<div class="stockview" id="noteview" aria-hidden="true">
+  <div class="stockcard">
+    <div class="stop"><span class="lk">序</span><span>THE FOREWORD · IN PLACE OF A THANK-YOU NOTE</span><span class="x" id="notex" role="button" aria-label="Close">✕</span></div>
+    <div class="sbody">
+      Most thank-you notes thank the calendar, not the conversation. This meeting was a long time coming and met the anticipation, so it gets <b>a different kind of acknowledgement</b>. On the call you said that being on camera made you slow down and focus, that you are usually multi-tasking and this time you were not. Everything here is <span class="g">that moment, returned in kind</span>: the hour, slowed down, focused, and arranged so you can walk it at your own pace. It is not a recap and it is not a pitch. It is the conversation, continued in a form that keeps.
+    </div>
+    <div class="skeys">
+      <a class="skey" href="/omakase/atom" style="text-decoration:none">🍵<span>READ IT WHOLE · THE TEA HOUSE</span></a>
+    </div>
+    <div class="sfoot">WITH GRATITUDE · Z</div>
+  </div>
 </div>
 <div class="stockview" id="stockview" aria-hidden="true">
   <div class="stockcard">
@@ -389,6 +401,12 @@
   function bosu(){ body.classList.add('kintsugi'); var c=document.querySelector('.kintcap'); if(c) c.textContent='小さく賭けろ · bet small, seal it, score it'; }
   var elL=document.getElementById('egg-lantern'); if(elL) elL.addEventListener('click',function(){ if(typeof openLedger==='function') openLedger('risk'); });
   var elE=document.getElementById('egg-envelope'); if(elE) elE.addEventListener('click',openStock);
+  var nv=document.getElementById('noteview');
+  function openNote(){ nv.classList.add('open'); nv.setAttribute('aria-hidden','false'); }
+  function closeNote(){ nv.classList.remove('open'); nv.setAttribute('aria-hidden','true'); }
+  var elN=document.getElementById('egg-note'); if(elN) elN.addEventListener('click',openNote);
+  var nx=document.getElementById('notex'); if(nx) nx.addEventListener('click',closeNote);
+  nv.addEventListener('click',function(e){ if(e.target===nv) closeNote(); });
   document.querySelectorAll('[data-open-thread]').forEach(function(b){ b.addEventListener('click',function(){ closeStock(); if(typeof openPage==='function') openPage('louisville-threadbook.html','The Thread Book'); }); });
   var elP=document.getElementById('egg-pine'); if(elP) elP.addEventListener('click',function(){ if(typeof openLedger==='function') openLedger('seam'); });
   document.getElementById('stockx').addEventListener('click',closeStock);
@@ -396,6 +414,7 @@
   document.addEventListener('keydown',function(e){
     if(/^(INPUT|TEXTAREA)$/.test((document.activeElement||{}).tagName)) return;
     if(e.key==='Escape'){ closeStock(); return; }
+    if(e.key==='Escape'){ closeNote(); }
     if(e.key==='~'||e.key==='`'){ e.preventDefault(); openStock(); return; }
     if(e.key&&e.key.length===1){ buf=(buf+e.key.toLowerCase()).slice(-6);
       if(buf.endsWith('stock')) openStock();
