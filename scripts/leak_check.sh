@@ -260,6 +260,21 @@ if [ -n "$HARSH" ]; then
 fi
 echo "  ✔ seed-sentence — Louisville surfaces carry the canonical softened form."
 
+# Orphan gate (2026-08-01): every sub-door in the Louisville universe must carry a
+# visible return path to its parent (L3 -> L2 -> L1). A page a guest can enter but
+# not walk back out of is an orphan; the pattern holds across ALL sub doors.
+ORPHANS=""
+for f in public/omakase/*.html; do
+  [ "$f" = "public/omakase/index.html" ] && REQ='louisville.arcs.care' || REQ='href="/omakase"'
+  grep -qF "$REQ" "$f" || ORPHANS="$ORPHANS$f\n"
+done
+if [ -n "$ORPHANS" ]; then
+  echo "  ✘ ORPHANED SUB-DOOR: page(s) with no return path to their parent:"
+  printf "$ORPHANS" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ no-orphans — every omakase sub-door carries a return path to its parent."
+
 # Dead-anchor theater gate (gauntlet fix): an href=\"#\" on a guest surface is
 # either broken or a fake gate; gated things must LOOK locked (span.locked).
 DEADANCHOR="$(grep -n 'href="#"' public/omakase/index.html 2>/dev/null || true)"

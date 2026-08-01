@@ -30,7 +30,7 @@
   .lanterns .subnav .here{color:var(--gold)}
   .lanterns .subnav b{color:var(--faint);font-weight:400}
   .lanterns{position:sticky}
-  @media(max-width:640px){.lanterns .subnav{display:none}}
+  @media(max-width:640px){.lanterns{flex-wrap:wrap;row-gap:8px}.lanterns .subnav{position:static;transform:none;width:100%;text-align:center}}
   .lantern{width:7px;height:7px;border-radius:50%;background:var(--line);transition:background .8s,box-shadow .8s}
   .lantern.lit{background:var(--gold);box-shadow:0 0 8px rgba(201,162,39,.5)}
   .lantern.now{animation:lpulse 1.7s ease-in-out infinite}
