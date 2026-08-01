@@ -32,39 +32,24 @@
 
   /* chapter rail */
   .rail{position:sticky;top:0;z-index:50;background:rgba(2,4,8,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  .rail-in{max-width:860px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-width:0}
+  .rail-in{max-width:860px;margin:0 auto;padding:11px 26px 10px;display:grid;grid-template-areas:"wm crumb" "dots dots";grid-template-columns:auto 1fr;align-items:center;gap:9px 14px}
+  .wordmark{grid-area:wm}
+  .crumb{grid-area:crumb;justify-self:end;text-align:right}
   .wordmark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--text)}
   .wordmark b{color:var(--cyan)}
-  .dots{display:flex;gap:4px;align-items:center;flex:1;justify-content:center;min-width:0;flex-wrap:wrap}
+  .dots{grid-area:dots;display:flex;gap:4px;align-items:center;justify-content:center}
   .dots a{width:20px;height:20px;padding:6px;border-radius:50%;background:var(--line);background-clip:content-box;display:inline-block;transition:background .4s,box-shadow .4s}
   .dots a.on{background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.5)}
   .dots a:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
-  .keys{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--dim)}
   .crumb{font-family:var(--mono);font-size:8.5px;letter-spacing:.13em;white-space:nowrap}
   .crumb a{color:var(--muted);text-decoration:none;border-bottom:1px dashed var(--line)}
   .crumb a:hover,.crumb a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
   .crumb .here{color:var(--gold)}
   .crumb b{color:var(--dim);font-weight:400}
-  .mode{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
-  .mode button{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;background:none;border:none;color:var(--dim);padding:7px 11px;cursor:pointer}
-  .mode button + button{border-left:1px solid var(--line)}
-  .mode button.on{background:rgba(255,215,0,.12);color:var(--gold)}
-  .mode button:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
   @media(max-width:640px){
-    .keys{display:none}
-    .crumb{white-space:normal;line-height:2}
-    .rail-in{gap:8px 12px}
+    .crumb{white-space:normal;line-height:1.9}
+    .rail-in{gap:7px 10px}
   }
-  /* ── present mode: fullscreen chapters, one per screen, centered, scaled for the room.
-     Scale lives on font sizes, never html zoom (the 100dvh miscompute lesson). No scroll
-     snap: chapters taller than the viewport (crew, demo) must stay reachable. */
-  body.present .chap, body.present .top{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:24px;padding-bottom:24px;scroll-margin-top:0}
-  body.present .lede{font-size:18px}
-  body.present .top .sub{font-size:19px}
-  body.present .chap h2{font-size:clamp(28px,3vw + 14px,42px)}
-  body.present .tgt p,body.present .op p{font-size:14px}
-  body.present .rcp .rv{font-size:15px}
-  body.present .foot{display:none}
 
   .chap{padding:72px 0 20px;scroll-margin-top:64px}
   .knum{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--cyan);text-transform:uppercase}
@@ -78,7 +63,6 @@
   .fw-k{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);margin-bottom:10px}
   .fw-p{font-size:15.5px;line-height:1.68;color:#c8d2dc;max-width:60ch}
   .fw-s{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--dim);margin-top:12px}
-  body.present .fw-p{font-size:17px}
 
   /* hero */
   .top{padding:64px 0 8px}
@@ -190,8 +174,6 @@
       <span class="wordmark"><b>ARCS</b> · THE SEED, TOLD WHOLE</span>
       <span class="dots" id="dots"></span>
       <span class="crumb"><a href="https://louisville.arcs.care">⛩ SUITE</a> <b>›</b> <a href="/omakase">一夜 EVENING</a> <b>›</b> <span class="here">🍵 TEA HOUSE</span></span>
-      <span class="mode" role="group" aria-label="View mode"><button type="button" data-m="scroll" class="on">SCROLL</button><button type="button" data-m="present">PRESENT</button></span>
-      <span class="keys">ARROWS OR DOTS · SEVEN CHAPTERS</span>
     </div>
   </nav>
 
@@ -206,7 +188,7 @@
       </div>
       <div class="knum">ARCS · FIELD OS · ONE STORY, SEVEN CHAPTERS</div>
       <h1>One sealed decision is a <span class="c">seed.</span> Everything else is that seed, <span class="go">arranged.</span></h1>
-      <p class="sub">This is one story told whole: the atom, the one you cut yourself, the lossless cut, the crew that cuts it, the table it feeds, the ladder it climbs, and the loop that closes. <b>Nothing new is invented as it scales.</b> Arrow keys walk it, PRESENT fills the room, or just scroll.</p>
+      <p class="sub">This is one story told whole: the atom, the one you cut yourself, the lossless cut, the crew that cuts it, the table it feeds, the ladder it climbs, and the loop that closes. <b>Nothing new is invented as it scales.</b> Arrow keys walk it, or just scroll.</p>
       <a class="begin" href="#ch1">BEGIN · THE ATOM</a>
     </header>
 
@@ -414,30 +396,6 @@
     var nxt = Math.min(CH.length - 1, Math.max(0, current() + (fwd ? 1 : -1)));
     var el = document.getElementById(CH[nxt]);
     if (el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
-  });
-
-  // Present mode: fullscreen, one chapter per screen, arrows step (already wired above).
-  var modeBtns = document.querySelectorAll('.mode button');
-  function setMode(m){
-    var present = (m === 'present');
-    document.body.classList.toggle('present', present);
-    modeBtns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-m') === m); });
-    if (present){
-      if (document.documentElement.requestFullscreen && !document.fullscreenElement){
-        document.documentElement.requestFullscreen().catch(function(){});
-      }
-      var el = document.getElementById(CH[current()]);
-      if (el) el.scrollIntoView({behavior:'auto', block:'start'});
-    } else if (document.fullscreenElement && document.exitFullscreen){
-      document.exitFullscreen().catch(function(){});
-    }
-  }
-  modeBtns.forEach(function(b){ b.addEventListener('click', function(){ setMode(b.getAttribute('data-m')); }); });
-  document.addEventListener('fullscreenchange', function(){
-    if (!document.fullscreenElement && document.body.classList.contains('present')) setMode('scroll');
-  });
-  addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && document.body.classList.contains('present') && !document.fullscreenElement) setMode('scroll');
   });
 
   // Chapter 2: hold the receipt. Runtime save when granted; plain data-URL fallback otherwise.
