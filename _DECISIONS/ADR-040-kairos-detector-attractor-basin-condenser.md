@@ -64,6 +64,30 @@ render scale as a gain rule). Amplify signal, never past the evidence. This is t
 as the condenser's over-pull guard, applied to projection: the map never lies about how certain it
 is, and neither does the amp.
 
+**Recoil is the gain stage (the middle, not a door).** The condenser and blower are only the
+transducers at the ends; **recoil is what runs between them** — the actual amplification. Wire a mic
+straight to a speaker and you get feedback, not signal; the middle stage is what makes it an amp. In
+the messy middle between recipe (ex-ante priors) and receipt (ex-post posteriors), recoil runs the
+five-verb loop (analyze → assess → evaluate → synthesize → recapitulate; `scripts/arcs_cli.py`) and
+**reweights beliefs by Bayesian inference update**. **Chain of custody is how gain-staging is
+enforced:** every belief update must cite its provenance — *this belief moved because of this
+evidence, received here, from this source* — unbroken and tamper-evident. **No custody → no update →
+no gain.** This is the mechanism behind "never amplify past the evidence," and simultaneously the
+anti-hindsight / anti-revisionism engine: you cannot rewrite *why* a belief changed because the
+custody chain is already on the record. Full loop: recipe → condenser → **recoil (5-verb +
+custody-traced reweighting)** → blower → receipt (confirmed received-as-intended).
+
+**Recoil is also the resistor and the circuit breaker (the safety layer).** As a **resistor** it
+regulates the current continuously — limiting the rate/voltage of belief-updates so the amp cannot
+run hotter than the evidence allows (gain-staging as an always-in-line component). As a **circuit
+breaker** it *trips* at the commit gate: any commit that would violate **global serializability**
+(the WRITE_LOCK / Yoav commitment window in `arcs_operator_kairos.py`), break custody (an update
+with no provenance), or hit a ruin fault (BAR) breaks the circuit — halt, no commit. Pass or trip:
+only a serializable, custody-clean, non-faulted belief-state reaches the receipt. (Resolving *under*
+the write-lock is what breaks serializability — the canon-collision rule — so the breaker's charter
+is: no commit that breaks the serial order.) The honesty standard those rods enforce is lifted to
+**ADR-041** (atomic GAAP/non-GAAP belief reconciliation).
+
 ## E — Entity
 
 A new operator, `arcs_kairos_detector.py`, composing the existing KAIROS operator + the QS method +
