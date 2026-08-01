@@ -6,6 +6,23 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.23.0] 2026-08-01 (PM) — The Tao: visualized, deployed, planned
+
+Same thread, afternoon: the Tao became a full visual family + complete oral history + product plan.
+
+- **Oral history complete:** back-propagated proverbs to ALL ADRs 001-038 (7 parallel agents, +165,
+  anti-padding honored). SSOT `runtime/tao/proverbs.json` now **241 proverbs**.
+- **4 SSOT-generated surfaces** (`scripts/gen_tao_{views,corpus,alchemist}.py`): Amplifier grid,
+  Views of the Corpus (Hokusai + ma, 40 grid-faces), The Tao entire (browsable 241, filterable),
+  The Alchemist (drag-drop reaction chamber, deep synthesis `~`-stubbed). + verse cards (accent top).
+- **All 4 deployed** as Claude Artifacts (Amplifier 5e505614, Views 93f9a41c, Corpus 170b3ed3,
+  Alchemist 2e97f776).
+- **North-star SEED:** [[tao-as-object-level-taxonomy-of-problem-space]] — Tao as coordinate system
+  for problem field-shape; the wisdom-corpus-to-product bridge (kept an open folksonomy).
+- **Plan:** `_STATE/tao-implementation-plan-v1.md` (3 phases), DEFERRED to reserve budget for Todd.
+  Next sitting = Todd/PRL (Zapier blocked on Tidio plan upgrade).
+
+---
 ## [v3.22.0] 2026-08-01 — The ARCS "house" architecture + brand, one marathon thread
 
 From a Logo-origin question to a formalized brand system and a compounding proverb engine. All

@@ -462,3 +462,52 @@ NONE.
 `/handoff-pickup`. New load-bearing memories: [[reflexiveness-is-prepaid-prep-as-enrichment]],
 [[arcs-core-function-opportunity-sizing-prep-shaping]], [[arcs-logo-mobius-horizon-mark]]. New skills:
 `forge-kit`, `tao-mint`, `tool-forge`. New docs: DESIGN.md, ADR-039/040/041.
+
+---
+
+# Handoff — v3.23.0 (2026-08-01, Saturday PM)
+
+> **For Claude Code:** active pickup point. Same marathon thread, afternoon/evening: the Tao became
+> a full deployed visual family + a complete oral history + a product plan. Branch
+> `claude/decision-geometry-logo-81fb56`. **Housekeeping debt persists** (8 live handoff blocks
+> v3.16–v3.23; policy 1–2). Relocate v3.16–v3.20 to `_ARCHIVE/handoffs.md` next session.
+
+## What shipped (2026-08-01 PM) — the Tao, visualized, deployed, and planned
+
+- **Oral history completed:** back-propagated proverbs to **ALL ADRs 001–038** via 7 parallel
+  agents (+165, anti-padding honored — thin infra ADRs minted 1–2, rich governance filled grids).
+  **SSOT `runtime/tao/proverbs.json` now 241 proverbs**, all custody-tagged, no em-dashes, unique.
+- **4 visual surfaces, SSOT-generated (the microservices):** `scripts/gen_tao_views.py`,
+  `gen_tao_corpus.py`, `gen_tao_alchemist.py` → **Amplifier grid** (one ADR, 5×5), **Views of the
+  Corpus** (Hokusai + ma: 40 grid-faces, density = weight, empty cells = intentional negative
+  space), **The Tao entire** (browsable 241, filter by aspect/verb/source), **The Alchemist**
+  (drag-drop reaction chamber; resonance vs transmutation; deep synthesis honestly `~`-stubbed as
+  the offstage enricher). Plus verse cards (accent moved left→top per Zach). All in `_ARTIFACTS/`.
+- **All 4 deployed** as private Claude Artifacts: Amplifier `5e505614`, Views `93f9a41c`, Corpus
+  `170b3ed3`, Alchemist `2e97f776`.
+- **North-star seed banked:** [[tao-as-object-level-taxonomy-of-problem-space]] — the Tao (D/R/W/C/H
+  × verbs) as a coordinate system for a problem's field-shape; tag an artifact by its cells, the
+  cell's proverbs are the lenses. The bridge from wisdom-corpus to product. Graded a SEED, kept an
+  open folksonomy (orphans = net-new aspects).
+- **Implementation plan:** `_STATE/tao-implementation-plan-v1.md` — 3 phases (in-app `/tao` routes ·
+  live `POST /api/alchemist` enricher · taxonomy bridge). **DEFERRED to reserve budget for Todd.**
+  Spec = the shipped artifacts (a port, not a redesign).
+
+## Open / next
+
+1. **Todd/PRL — the next sitting (separate).** Zapier lead delivery is blocked on the Tidio plan
+   upgrade (paid webhooks); verify the plan was upgraded before sinking time. Master state:
+   `runtime/recoil/generated/2026-07-30-todd-MASTER-HANDOFF.md`.
+2. **Tao is parked**, fully spec'd by the plan. When resumed, Phase 2 (live Alchemist API) is the
+   high-value piece.
+3. **Ratify** ADR-039/040/041 (RC-PROPOSED). Validate the taxonomy seed on real artifacts.
+4. Housekeeping: relocate v3.16–v3.20 handoffs to `_ARCHIVE/handoffs.md`.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memory: [[tao-as-object-level-taxonomy-of-problem-space]].
+New generators: `scripts/gen_tao_{views,corpus,alchemist}.py`. Plan: `_STATE/tao-implementation-plan-v1.md`.

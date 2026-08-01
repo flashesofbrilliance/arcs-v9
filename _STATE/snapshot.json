@@ -1,14 +1,12 @@
 {
-  "captured_at": "2026-08-01T15:40:00Z",
+  "captured_at": "2026-08-01T22:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "fdc1fcf",
-    "head_message": "feat(tao): mint 25 net-new proverbs from ADR-040 (full D/R/W/C/H x 5-verb grid) [NCI:SKIP]",
+    "head_sha": "aea06bd",
+    "head_message": "docs(plan): Tao artifacts -> product implementation plan (deferred; budget to Todd) [NCI:SKIP]",
     "branch": "claude/decision-geometry-logo-81fb56 (NOT main; forge/brand/tao build rides in on merge)",
     "in_sync_with_origin": false,
-    "dirty_files": [
-      "_STATE/snapshot.json"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -56,8 +54,8 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Marathon architecture + brand session (from a Logo-origin question). Built and committed: ADR-039 (instance->class build loop) + tool-forge skill; recoil-report self-contained CLI package; forge-kit skill (4-station macro construction + intake + fish-finder); ADR-040 (Kairos detector / attractor-basin condenser + blower = the decision amplifier: condenser->recoil[gain/resistor/breaker]->blower, Tesla-discharge-at-peak, recipe->receipt bridge, overfit+gain-staging+custody control rods); ADR-041 (atomic GAAP/non-GAAP honesty + considered molt + recapitulate=deep-kairos scan/audit/distill + the 5x5 proverb grid D/R/W/C/H x 5 verbs); the Tao of ARCS front-of-house (_ARTIFACTS/arcs-tao.html, 32 verses); DESIGN.md + .impeccable/design.json (brand mark + visual grammar formalized via /impeccable, North Star \"Render Through the Fog\", the Mobius=tilde-extruded mark); tao-mint skill + runtime/tao/proverbs.json SSOT; and the first mint: 25 net-new ADR-040 proverbs (full grid, no padding). All ADRs RC-PROPOSED. ~7 auto-memories added/edited (Logo lineage, ICP-as-state, cult-of-busy, Mananas-tilde, Mobius-extrusion, reflexiveness-prepaid, arcs-core-function).",
-  "next_action": "Phase 2 of brand->marketing: render the Tao/proverbs (runtime/tao/proverbs.json, 40 proverbs) into S-tier visual cards through the now-formalized DESIGN.md grammar; then Phase 3 (motion/video + content marketing off the codex). Also open: mint remaining ADR grids (/tao-mint ADR-039 full, ADR-041 partial per anti-padding); ratify ADR-039/040/041 (RC-PROPOSED -> ACCEPT); wire tao-mint hook on new ADRs; ADR-040 due a considered molt-pass once its concrete cures. Shannon still do-not-pursue.",
+  "session_summary": "Saturday: turned the Tao into a full deployed visual family + completed the oral history. (1) Back-propagated proverbs to ALL ADRs 001-038 via 7 parallel agents (+165, anti-padding honored; thin infra ADRs minted 1-2, rich governance filled grids; SSOT now 241). (2) Built + deployed 4 visual surfaces generated from the SSOT (scripts/gen_tao_{views,corpus,alchemist}.py): Amplifier grid, Views of the Corpus (Hokusai/ma contact sheet of 40 grid-faces), The Tao entire (browsable 241, filterable), The Alchemist (drag-drop reaction chamber; deep synthesis honestly ~-stubbed as the offstage enricher); + verse cards (accent-on-top). All 4 published as private Claude Artifacts (Amplifier 5e505614, Views 93f9a41c, Corpus 170b3ed3, Alchemist 2e97f776). (3) Banked the Tao-as-object-level-taxonomy north-star seed. (4) Wrote _STATE/tao-implementation-plan-v1.md (3 phases) and DEFERRED it to reserve budget for Todd.",
+  "next_action": "Todd/PRL is the next sitting (separate) - Zapier lead delivery blocked on Tidio plan upgrade, verify the plan was upgraded first. Tao parked with a costed plan: Phase 1 in-app /tao routes (cheap port), Phase 2 live POST /api/alchemist enricher (high value, grounds ADR-040 Alchemist, NOTOMATION-clean), Phase 3 taxonomy bridge. Ratify ADR-039/040/041 (RC-PROPOSED). Validate the Tao-as-taxonomy seed on real artifacts.",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -182,7 +180,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-01T13:36:00Z",
+  "git_refreshed_at": "2026-08-01T22:37:22Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
