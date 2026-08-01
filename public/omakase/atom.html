@@ -32,11 +32,11 @@
 
   /* chapter rail */
   .rail{position:sticky;top:0;z-index:50;background:rgba(2,4,8,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  .rail-in{max-width:860px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .rail-in{max-width:860px;margin:0 auto;padding:12px 26px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-width:0}
   .wordmark{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.22em;color:var(--text)}
   .wordmark b{color:var(--cyan)}
-  .dots{display:flex;gap:8px;align-items:center;flex:1;justify-content:center}
-  .dots a{width:8px;height:8px;border-radius:50%;background:var(--line);display:inline-block;transition:background .4s,box-shadow .4s}
+  .dots{display:flex;gap:4px;align-items:center;flex:1;justify-content:center;min-width:0;flex-wrap:wrap}
+  .dots a{width:20px;height:20px;padding:6px;border-radius:50%;background:var(--line);background-clip:content-box;display:inline-block;transition:background .4s,box-shadow .4s}
   .dots a.on{background:var(--gold);box-shadow:0 0 8px rgba(255,215,0,.5)}
   .dots a:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
   .keys{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:var(--dim)}
@@ -45,13 +45,11 @@
   .crumb a:hover,.crumb a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
   .crumb .here{color:var(--gold)}
   .crumb b{color:var(--dim);font-weight:400}
-  .mode{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .mode{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
   .mode button{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;background:none;border:none;color:var(--dim);padding:7px 11px;cursor:pointer}
   .mode button + button{border-left:1px solid var(--line)}
   .mode button.on{background:rgba(255,215,0,.12);color:var(--gold)}
   .mode button:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
-  .rail-in{min-width:0}
-  .dots{min-width:0;flex-wrap:wrap}
   @media(max-width:640px){
     .keys{display:none}
     .crumb{white-space:normal;line-height:2}
@@ -75,6 +73,13 @@
   .lede b{color:var(--text)}
   .lede + .lede{margin-top:12px}
 
+  /* the foreword: handed inside the door, before the story */
+  .fw{border:1px dashed rgba(255,215,0,.35);border-radius:14px;padding:20px 22px;margin-bottom:34px;background:linear-gradient(180deg,rgba(255,215,0,.04),transparent 70%);max-width:640px}
+  .fw-k{font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);margin-bottom:10px}
+  .fw-p{font-size:15.5px;line-height:1.68;color:#c8d2dc;max-width:60ch}
+  .fw-s{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--dim);margin-top:12px}
+  body.present .fw-p{font-size:17px}
+
   /* hero */
   .top{padding:64px 0 8px}
   .top h1{font-size:clamp(32px,3.8vw + 14px,50px);line-height:1.05;margin:16px 0 14px;max-width:17ch}
@@ -85,14 +90,14 @@
 
   /* token + receipt cards */
   .token{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel),var(--panel2));
-    padding:18px 20px;position:relative;overflow:hidden;margin-top:22px;max-width:560px}
+    padding:18px 20px;position:relative;overflow:hidden;margin-top:20px;max-width:560px}
   .token .tk{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--cyan);margin-bottom:11px}
   .token pre{font-family:var(--mono);font-size:11.5px;line-height:1.62;color:#9fb4c9;white-space:pre;overflow-x:auto}
   .token .k{color:var(--cyan)} .token .s{color:var(--green)} .token .n{color:var(--gold)} .token .cm{color:var(--dim)}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
   .chip{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cyan);border:1px solid rgba(0,240,255,.3);border-radius:100px;padding:4px 10px}
 
-  .rcp{max-width:640px;margin-top:22px;border:1px solid rgba(201,162,39,.4);border-radius:13px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px}
+  .rcp{max-width:640px;margin-top:20px;border:1px solid rgba(201,162,39,.4);border-radius:12px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px}
   .rcp .rk{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px}
   .rcp .rrow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:9px 0;border-top:1px dashed rgba(201,162,39,.25)}
   .rcp .rrow:first-of-type{border-top:0}
@@ -108,7 +113,7 @@
   /* dials */
   .dials{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
   @media(max-width:680px){.dials{grid-template-columns:1fr}}
-  .dial{border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,var(--panel),var(--panel2));padding:16px 18px}
+  .dial{border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,var(--panel),var(--panel2));padding:16px 18px}
   .dial .dk{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--cyan);margin-bottom:8px}
   .dial h3{font-size:16px;margin-bottom:6px}
   .dial p{font-size:12.5px;color:#9fb0c0;line-height:1.55}
@@ -150,7 +155,7 @@
 
   /* ladder */
   .mag{display:flex;flex-direction:column;gap:8px;margin-top:20px}
-  .mrow{display:grid;grid-template-columns:118px 1fr 92px;gap:12px;align-items:center;border:1px solid var(--line);border-radius:11px;
+  .mrow{display:grid;grid-template-columns:118px 1fr 92px;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;
     background:linear-gradient(90deg,rgba(154,111,208,.05),transparent 60%);padding:12px 15px}
   @media(max-width:560px){.mrow{grid-template-columns:1fr;gap:5px}.mrow .fid{text-align:left}}
   .mrow .lv{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ac)}
@@ -194,10 +199,10 @@
 
     <header class="top" id="ch0">
       <p style="font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--dim);margin-bottom:18px">躙口 · THE CRAWL DOOR · EVERY GUEST ENTERS LOW, SWORDS STAY OUTSIDE</p>
-      <div style="border:1px dashed rgba(255,215,0,.35);border-radius:14px;padding:20px 22px;margin-bottom:34px;background:linear-gradient(180deg,rgba(255,215,0,.04),transparent 70%);max-width:640px">
-        <p style="font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);margin-bottom:10px">序 · A FOREWORD · IN PLACE OF A THANK-YOU NOTE</p>
-        <p style="font-size:15.5px;line-height:1.68;color:#c8d2dc;max-width:60ch">Most thank-you notes thank the calendar, not the conversation. This meeting was a long time coming and met the anticipation, so it gets a different kind of acknowledgement. On the call you said that being on camera made you slow down and focus, that you are usually multi-tasking and this time you were not. What you are holding is that moment, returned in kind: everything the hour set in motion, slowed down, focused, and arranged so you can walk it at your own pace. It is not a recap and it is not a pitch. It is the conversation, continued in a form that keeps.</p>
-        <p style="font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--dim);margin-top:12px">WITH GRATITUDE · Z</p>
+      <div class="fw">
+        <p class="fw-k">序 · A FOREWORD · IN PLACE OF A THANK-YOU NOTE</p>
+        <p class="fw-p">Most thank-you notes thank the calendar, not the conversation. This meeting was a long time coming and met the anticipation, so it gets a different kind of acknowledgement. On the call you said that being on camera made you slow down and focus, that you are usually multi-tasking and this time you were not. What you are holding is that moment, returned in kind: everything the hour set in motion, slowed down, focused, and arranged so you can walk it at your own pace. It is not a recap and it is not a pitch. It is the conversation, continued in a form that keeps.</p>
+        <p class="fw-s">WITH GRATITUDE · Z</p>
       </div>
       <div class="knum">ARCS · FIELD OS · ONE STORY, SEVEN CHAPTERS</div>
       <h1>One sealed decision is a <span class="c">seed.</span> Everything else is that seed, <span class="go">arranged.</span></h1>
