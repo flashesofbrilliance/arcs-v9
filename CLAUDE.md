@@ -238,3 +238,60 @@ NONE.
 
 `/handoff-pickup`. New load-bearing memories: [[static-public-files-worldreadable-client-gates-theater]],
 [[arcs-v9-repo-now-private-status-links-broken]], [[vercel-config-via-cli-token-rest-api]].
+
+---
+
+# Handoff — v3.19.0 (2026-07-31)
+
+> **For Claude Code:** active pickup point. Louisville Brands engagement universe shipped end to
+> end this session (pitch suite + persistence + security + recoil + skill), then gauntlet-hardened.
+
+## What shipped (2026-07-31)
+
+**Louisville Brands (Justin Delaney / Stanley / Jeben) — the full three-surface universe.**
+
+- **`louisville.arcs.care`** — target-tuned pitch suite, one file (`public/louisville.html`,
+  7 inlined subpages): 4 two-sided cards w/ segmented side-toggle, The Offer as 4th card,
+  Test→Pilot→Scale (scoped pricing, no fixed dollar figures), foil-seal CTAs, kanji top-right,
+  global PRESENT mode (fullscreen, arrows/Enter, `~` eggs, up/down side-toggle), 1.25x screen-share
+  scale, ultrawide fixes, Vercel Analytics + section-dwell. Builder lives in session scratchpad.
+- **Phase 2 persistence:** `SessionReceipt` (Prisma + Supabase, RLS enabled, tenant-pinned
+  `louisville_app` role, tenant=jeben/brand=louisvillebrands), hardened
+  `/api/louisville/receipts` (Zod, 32KB body cap, 100-row session cap, IP throttle, lineage
+  check), auth-gated `/api/louisville/agenda`. Proven live end to end.
+- **RUIN leak closed (the big one):** `www.arcs.care/jeben.html` was 200 to anyone behind
+  client-side pw theater — full thread book incl. plant closing, ~20 jobs, third-party
+  financials, candid Jeben-on-Justin reads. Moved to `runtime/warroom/` (admin-gated
+  `/warroom/[slug]`), verified 404 live. Omakase appendix (15 files) same. Open cellar no
+  longer names what is withheld. `leak_check.sh` + client-gate-theater + redaction-disclosure
+  regression gates. `RECOIL_PASSWORD` cookie gate removed; all recoil gates fail-closed.
+- **Recoil on the Jul 31 Justin/Jeben call:** SSOT `runtime/recoil/generated/2026-07-31-delaney.json`
+  (load-bearing quote, 7-step call walk, kairos memory bookmarks, kinematic manifold) +
+  `scripts/gen_recoil_artifact.py` renderer + **ADR-038** (bookmark peak/park/probe primitive,
+  RC-PROPOSED). Socialize artifact (Justin/Jeben/Stanley blended register) in scratchpad.
+- **Pipeline codified:** `.claude/skills/omakase-pipeline/SKILL.md` — jeben (back of house) →
+  omakase (cellar) → louisville (front of house) lifted instance→class: 3 surfaces × 3 dials,
+  5 lossless invariants (honestly labeled grep-backstop vs mechanical), 6-operator cutting crew,
+  7-step pipeline, anti-goals.
+- **Hardening:** two full multi-agent gauntlets + lens gauntlet applied; inline Funhouse pass
+  (dead cellar links → locked labels; skill "mechanically" overclaim corrected, `7df645a`);
+  fanned multi-agent Funhouse launched once spend limit lifted (end of session).
+
+## Open / next
+
+1. **Funhouse survivors** (if any) from run `wf_2b23bfca-d19` → apply, commit, deploy.
+2. **justin-war SSOT** (6-tab war-room loop for Justin) — pattern exists, not instantiated.
+3. **justin-ext sanitized recoil twin** — decided, not built. ADR-038 renderer on gated
+   `/recoil/[id]` page — bookmarks/manifold in JSON + artifact, not on the page.
+4. Pre-call brief/ex-ante for Justin deferred by Zach ("separate project, after the call").
+5. Prior open items untouched: Todd Hotes Zapier (blocked on Tidio plan), showcase mirror,
+   Yuri/Ahmed follow-through.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check Funhouse workflow results first; then justin-war SSOT or the ADR-038
+renderer are the build-ready items.
