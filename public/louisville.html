@@ -360,9 +360,7 @@
 </style>
 <div class="kintcap" aria-hidden="true">金継ぎ · repairs shown in gold · nothing sanded over</div>
 <div class="eggrow" role="group" aria-label="Extras">
-  <button id="egg-lantern" type="button" title="Risk Register · fewer bad decisions, faster">🏮</button>
   <button id="egg-envelope" type="button" title="Private Stock · under lock &amp; key">🧧</button>
-  <button id="egg-pine" type="button" title="Golden Seam · faults healed in gold">🎍</button>
   <button id="egg-note" type="button" title="The Foreword · in place of a thank-you note">🧾</button>
 </div>
 <div class="stockview" id="noteview" aria-hidden="true">
@@ -399,7 +397,6 @@
   function toggleKin(){ body.classList.toggle('kintsugi'); }
   // discreet affordances
   function bosu(){ body.classList.add('kintsugi'); var c=document.querySelector('.kintcap'); if(c) c.textContent='小さく賭けろ · bet small, seal it, score it'; }
-  var elL=document.getElementById('egg-lantern'); if(elL) elL.addEventListener('click',function(){ if(typeof openLedger==='function') openLedger('risk'); });
   var elE=document.getElementById('egg-envelope'); if(elE) elE.addEventListener('click',openStock);
   var nv=document.getElementById('noteview');
   function openNote(){ nv.classList.add('open'); nv.setAttribute('aria-hidden','false'); }
@@ -408,7 +405,6 @@
   var nx=document.getElementById('notex'); if(nx) nx.addEventListener('click',closeNote);
   nv.addEventListener('click',function(e){ if(e.target===nv) closeNote(); });
   document.querySelectorAll('[data-open-thread]').forEach(function(b){ b.addEventListener('click',function(){ closeStock(); if(typeof openPage==='function') openPage('louisville-threadbook.html','The Thread Book'); }); });
-  var elP=document.getElementById('egg-pine'); if(elP) elP.addEventListener('click',function(){ if(typeof openLedger==='function') openLedger('seam'); });
   document.getElementById('stockx').addEventListener('click',closeStock);
   // hidden typed words: "stock" opens the still, "kin" flips kintsugi, "bosu" a small spark
   document.addEventListener('keydown',function(e){
