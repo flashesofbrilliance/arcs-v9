@@ -249,6 +249,17 @@ PYEOF
 fi
 echo "  ✔ decoded-payloads — no banned term inside louisville.html inlined subpages."
 
+# Louisville seed-sentence consonance (Zach's ruling 2026-08-01): the canonical open form
+# is "Louisville is great at making things. The open question is which to make next."
+# The retired harsh form must not recur on any Louisville-facing surface.
+HARSH="$(grep -rlF 'unproven at deciding' public/louisville.html public/omakase/ 2>/dev/null || true)"
+if [ -n "$HARSH" ]; then
+  echo "  ✘ SEED-SENTENCE DRIFT: retired harsh form back on a Louisville surface:"
+  echo "$HARSH" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ seed-sentence — Louisville surfaces carry the canonical softened form."
+
 # Dead-anchor theater gate (gauntlet fix): an href=\"#\" on a guest surface is
 # either broken or a fake gate; gated things must LOOK locked (span.locked).
 DEADANCHOR="$(grep -n 'href="#"' public/omakase/index.html 2>/dev/null || true)"

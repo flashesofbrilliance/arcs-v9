@@ -25,8 +25,10 @@ const nextConfig: NextConfig = {
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
         // L3 · the atom story (tea-house room off the cellar) — extensionless on the omakase host
         { source: "/atom", destination: "/omakase/atom.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
-        // negative lookahead prevents beforeFiles chaining (rule above already lands in /omakase/)
-        { source: "/:path((?!omakase/).*)", destination: "/omakase/:path", has: [{ type: "host", value: "omakase.arcs.care" }] },
+        // Lookahead excludes ALL omakase-prefixed paths (prevents beforeFiles chaining AND lets
+        // /omakase + /omakase/atom fall through to the host-agnostic rules below — per the
+        // todd-call FIX HISTORY, keep this host at 3 rule objects, do not add more exact paths).
+        { source: "/:path((?!omakase).*)", destination: "/omakase/:path", has: [{ type: "host", value: "omakase.arcs.care" }] },
         // L1→L2→L3 path pattern, host-agnostic: /omakase/atom works on louisville + www + app
         { source: "/omakase/atom", destination: "/omakase/atom.html" },
         { source: "/omakase", destination: "/omakase/index.html" },
