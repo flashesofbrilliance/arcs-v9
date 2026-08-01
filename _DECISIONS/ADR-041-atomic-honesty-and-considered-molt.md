@@ -55,6 +55,24 @@ GAAP/non-GAAP (custody-backed vs assessed-formwork), *distill* to the load-beari
 polish). This is why the molt is a consolidation step, not a live one — it requires kairos depth, and
 kairos depth requires the concrete to have set.
 
+**What recapitulate EMITS — the 5×5 proverb grid (compounds the Tao / oral history).** Each filed ADR
+distills up to **25 proverbs**: five aspects × the five verbs (Analyze · Assess · Evaluate ·
+Synthesize · Recapitulate). The five aspects (the "kimonos" a proverb is worn through):
+
+| Aspect | Meaning |
+|---|---|
+| **D — Decision** | the sharp DEWY-D question; carried by a receipt whose type is a floating, interoperable field-OS object (Wisdom / Alexandria / … — extensible over time) |
+| **R — Risk / Ruin** | the gauntlet family (BAR · LAB · COURT · KKL · Funhouse) → Stakes · Threat Vectors · Failure Modes · De-Risks |
+| **W — Window** | heading · bearing · orientation + the bounded entry window; the *safe-vs-dangerous conditions* to proceed down one path vs another (not only why-now) |
+| **C — Clarity** | Clarity · Confidence · Coherence · Cohesion · Conviction (the certainty cluster) |
+| **H — Horizon** | time · capital · opportunity cost · leverage · reward (the economics) |
+
+**Anti-padding rule (this is ADR-041's own honesty clause applied to itself):** 25 is the grid, not a
+quota. Fill only the cells the ADR *genuinely* populates; **tilde the empty cells**. A proverb
+manufactured to complete the grid is a non-GAAP line in GAAP's clothes — the exact dishonesty above.
+The considered molt keeps what is load-bearing; a proverb kept for being quotable is sediment, not
+signal. The proverbs flow up into the Tao (front of house); the ADR (cellar) keeps the custody.
+
 ## E — Entity
 
 Governs every durable artifact (ADRs, skills, specs, canon, memory). The reconciliation clause is
