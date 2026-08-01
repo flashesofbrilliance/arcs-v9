@@ -1834,3 +1834,202 @@ gating work; ledger-management and the authenticated `/recoil` index remain the 
 build-ready items whenever picked up.
 
 ---
+
+# Handoff — v3.16.0 (2026-07-22)
+
+> **For Claude Code:** active pickup point. Version jumped to 3.16.0 to clear the known
+> v3.13–v3.14 cross-branch numbering drift (flagged in prior handoffs) — do not read into the gap.
+
+## What shipped (this thread, 2026-07-22)
+
+**Ahmed Elsamadisi / Polyform AI — full reconnect-call loop, then mechanized the air gap.**
+
+- **Internal war-room** `ahmed.arcs.care` (pw `ahmed`), 6 tabs: Pre-Call · Ex-Ante receipt ·
+  **Forge** (ROM #6 Exogenous Forge pressure-test via claims-skeptic, struck "not a sales
+  call") · **Recoil** (post-call, Granola transcript `e8648395`, belief-update ledger +
+  **Belief Log v2** using confidence × conviction, NOT per-belief NCI) · **War Game**
+  (kinematic manifold now **MEASURED** via `arcs_kinematics.py v1.3` — D1–D3 valid, D5–D12
+  honestly labeled coherence-zone, not fabricated) · **Defensibility** (5-verb × 4-proofing +
+  Activity-Schema Rosetta).
+- **External counterpart-facing twin** `ahmed-ext.arcs.care` (open link, sanitized). Iterated
+  from exec-summary → deep technical appendix → **competitor-safe strip** (architecture-not-
+  weights; dropped schema DDL, mechanics, kinematics derivatives, `sqrt` sampling formula).
+  Send-ready; draft note (LinkedIn + email) is in this session's transcript.
+- **Air gap mechanized:** SSOT `runtime/recoil/generated/2026-07-22-elsamadisi.json` +
+  `scripts/recoil_brief.py` — computes kinematics reproducibly and projects internal-vs-external
+  by dropping `audience`-tagged fields (external run drops 14 fields + prints a redaction report).
+- **2 memories banked:** `confidence-conviction-nci-operational-definitions` (confidence/conviction
+  for beliefs, NCI for decisions only) and `internal-external-artifact-air-gap` (3 rules:
+  own-updates-not-their-scores · method-crosses-subject-doesn't · architecture-not-weights).
+
+## Open / next
+
+1. **Ahmed (Zach-owned, not blocked):** set the pilot price (a number, once a customer is
+   picked) + name one Polyform customer, then send `ahmed-ext.arcs.care`. Optionally take the
+   Robert (decision-ROI) intro.
+2. **Optional build:** render the `ahmed` HTML pages FROM the SSOT JSON so editing = editing
+   data (full loop closure; deliberately not done this session).
+3. Prior open items untouched: Todd Hotes post-Wednesday reply; v3.11.0 ledger-management +
+   authenticated `/recoil` index.
+
+## Blocking
+
+NONE (waiting on Zach's send decision + price).
+
+## Next session starts at
+
+`/handoff-pickup` → if Zach has picked a customer + price, send the ext page; else the SSOT→HTML
+render is the next build-ready item.
+
+---
+
+# Handoff — v3.17.0 (2026-07-23)
+
+> **For Claude Code:** active pickup point. The recoil pipeline matured into a reusable system this
+> session; three live engagements (Ahmed, Joe, Yuri) run on it.
+
+## What shipped (2026-07-23)
+
+**The recoil pipeline is now a closed-loop, self-contained, parameterized system.**
+- **4 composable skills** (`.claude/skills/recoil-{new,prep,close,ship}`) over one SSOT-per-counterpart
+  JSON; `scripts/recoil` (zero-dep bash wrapper, needs only python3) renders; `--format html` +
+  per-audience password gate + `meta.doc_title`.
+- **6-tab war-room parameterized** as `runtime/recoil/templates/war-room-6tab.template.json`
+  (Pre-Call/Ex-Ante/Forge/Recoil/War Game/Defensibility; self-documenting `_METHOD` + per-block `_doc`).
+  New generic blocks: `receipt`, `keyvalue`, `table`; tabbed layout with empty-tab auto-hide.
+- **Yuri Kleban / Google** (warm first call, Jul 23 1pm EST) — first live run of the skills. `yuri-war`
+  (pw `sextant`) + `yuri-ext` "Intel Brief" (pw `yuri`): parallel-tracking capability seed with the
+  handoff-tax, the north star (each datapoint sharpens not blurs), serialization-in-a-continuous-vector-
+  space, notetaker-injection immunity, a hyperstition champion-kit, and an "answered before you ask"
+  deal-breaker band (LLM-agnostic / runs-on-Gemini-via-gateway is the key lever). See
+  [[project_yuri_kleban_google]].
+- **Memories:** [[active-listening-over-magical-thinking]], [[project_yuri_kleban_google]] added.
+  Ahmed + Joe engagements from earlier this session remain (Ahmed Gmail draft unsent; Joe joe-war/joe-ext).
+
+## Open / next
+
+1. **Yuri:** post-call, `/recoil-close` on `2026-07-23-kleban.json` (score the ex-ante); share the Intel
+   Brief only if he pulled. Do not over-pursue (he said "nothing to sell").
+2. **Ahmed:** Gmail draft still unsent (his call, set pilot price first).
+3. **Joe:** joe-ext ready if wanted; joe-war internal-only.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check for post-call follow-through on Yuri/Ahmed/Joe. The recoil skills are the
+reusable path for any new counterpart: `/recoil-new` → `/recoil-prep` → [call] → `/recoil-close` → `/recoil-ship`.
+
+---
+
+# Handoff — v3.18.0 (2026-07-24)
+
+> **For Claude Code:** active pickup point. This was a security/IP-hardening session, not a
+> counterpart engagement. Full detail in the three new memories linked below.
+
+## What shipped (2026-07-24) — IP-leak hardening, all merged to main (PRs #128, #129)
+
+**The problem:** everything in `public/` was world-readable by filename on every arcs.care
+host (verified live: `www.arcs.care/yuri-war.html` → 200 with full internal content). The JS
+password gates were theater (pw in plaintext source).
+
+- **9 internal docs moved out of `public/`** → `runtime/warroom/`, served by the new
+  admin-gated `src/app/warroom/[slug]/route.ts` (Auth.js session + `ADMIN_EMAILS`, fail-closed,
+  404-not-redirect to unauth). Host rewrites in `next.config.ts` repointed;
+  `outputFileTracingIncludes` ships the files. (yuri-war, joe-war, ahmed, danny, ayesha,
+  jalaja, labella, peter, kelly-interview). CISO-reviewed: mechanism PASS.
+- **Repo flipped PRIVATE** — closed the raw.githubusercontent.com exposure that app gating
+  can't touch. See [[arcs-v9-repo-now-private-status-links-broken]].
+- **Preview deployments SSO-gated** (were public to anyone with the URL).
+- **Analytics coverage:** was live but 21 counterpart pages shipped uninstrumented. All 34
+  public pages now carry the WA snippet + an inlined section-dwell tracker (page_dwell +
+  top-5 section_dwell custom events); `recoil_brief.py` + call-brief template emit both;
+  J24 `leak_check.sh` now hard-fails any public page missing analytics. Identity = subdomain.
+- **Generator provenance leak fixed:** `generated by recoil_brief.py` comment is now
+  internal-audience-only + stripped from ext pages + gated in leak_check.sh.
+- **Deploy-waste fixed:** stale `arcs` Vercel project unlinked (was building every push, 0
+  domains); ignored-build-step skips docs-only commits; Vercel Agent auto-code-review toggled
+  OFF (the credit burn). See [[vercel-deploy-efficiency-rules]], [[vercel-config-via-cli-token-rest-api]].
+
+## Open / next
+
+1. **Showcase mirror** for status.arcs.care — its commit links now 404 (repo private).
+   Needs Zach's curation call on what code becomes public. Parked.
+2. **"Investigate Anomalies Automatically"** still ON in Vercel Team Settings → Agent (same
+   on-demand billing as code review); toggle if zero-surprise Agent spend is wanted.
+3. Counterpart passwords are decorative now (identity-gated) but sit in git history — treat
+   as disclosed; rotate meaning to zero.
+4. Prior open items untouched: Todd Hotes post-Wednesday; ledger-management + authenticated
+   `/recoil` index; Yuri/Ahmed/Joe post-call follow-through.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memories: [[static-public-files-worldreadable-client-gates-theater]],
+[[arcs-v9-repo-now-private-status-links-broken]], [[vercel-config-via-cli-token-rest-api]].
+
+---
+
+# Handoff — v3.19.0 (2026-07-31)
+
+> **For Claude Code:** active pickup point. Louisville Brands engagement universe shipped end to
+> end this session (pitch suite + persistence + security + recoil + skill), then gauntlet-hardened.
+
+## What shipped (2026-07-31)
+
+**Louisville Brands (Justin Delaney / Stanley / Jeben) — the full three-surface universe.**
+
+- **`louisville.arcs.care`** — target-tuned pitch suite, one file (`public/louisville.html`,
+  7 inlined subpages): 4 two-sided cards w/ segmented side-toggle, The Offer as 4th card,
+  Test→Pilot→Scale (scoped pricing, no fixed dollar figures), foil-seal CTAs, kanji top-right,
+  global PRESENT mode (fullscreen, arrows/Enter, `~` eggs, up/down side-toggle), 1.25x screen-share
+  scale, ultrawide fixes, Vercel Analytics + section-dwell. Builder lives in session scratchpad.
+- **Phase 2 persistence:** `SessionReceipt` (Prisma + Supabase, RLS enabled, tenant-pinned
+  `louisville_app` role, tenant=jeben/brand=louisvillebrands), hardened
+  `/api/louisville/receipts` (Zod, 32KB body cap, 100-row session cap, IP throttle, lineage
+  check), auth-gated `/api/louisville/agenda`. Proven live end to end.
+- **RUIN leak closed (the big one):** `www.arcs.care/jeben.html` was 200 to anyone behind
+  client-side pw theater — full thread book incl. plant closing, ~20 jobs, third-party
+  financials, candid Jeben-on-Justin reads. Moved to `runtime/warroom/` (admin-gated
+  `/warroom/[slug]`), verified 404 live. Omakase appendix (15 files) same. Open cellar no
+  longer names what is withheld. `leak_check.sh` + client-gate-theater + redaction-disclosure
+  regression gates. `RECOIL_PASSWORD` cookie gate removed; all recoil gates fail-closed.
+- **Recoil on the Jul 31 Justin/Jeben call:** SSOT `runtime/recoil/generated/2026-07-31-delaney.json`
+  (load-bearing quote, 7-step call walk, kairos memory bookmarks, kinematic manifold) +
+  `scripts/gen_recoil_artifact.py` renderer + **ADR-038** (bookmark peak/park/probe primitive,
+  RC-PROPOSED). Socialize artifact (Justin/Jeben/Stanley blended register) in scratchpad.
+- **Pipeline codified:** `.claude/skills/omakase-pipeline/SKILL.md` — jeben (back of house) →
+  omakase (cellar) → louisville (front of house) lifted instance→class: 3 surfaces × 3 dials,
+  5 lossless invariants (honestly labeled grep-backstop vs mechanical), 6-operator cutting crew,
+  7-step pipeline, anti-goals.
+- **Hardening:** two full multi-agent gauntlets + lens gauntlet applied; inline Funhouse pass
+  (dead cellar links → locked labels; skill "mechanically" overclaim corrected, `7df645a`);
+  fanned multi-agent Funhouse launched once spend limit lifted (end of session).
+
+## Open / next
+
+1. **Funhouse survivors** (if any) from run `wf_2b23bfca-d19` → apply, commit, deploy.
+2. **justin-war SSOT** (6-tab war-room loop for Justin) — pattern exists, not instantiated.
+3. **justin-ext sanitized recoil twin** — decided, not built. ADR-038 renderer on gated
+   `/recoil/[id]` page — bookmarks/manifold in JSON + artifact, not on the page.
+4. Pre-call brief/ex-ante for Justin deferred by Zach ("separate project, after the call").
+5. Prior open items untouched: Todd Hotes Zapier (blocked on Tidio plan), showcase mirror,
+   Yuri/Ahmed follow-through.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup` → check Funhouse workflow results first; then justin-war SSOT or the ADR-038
+renderer are the build-ready items.
+
+---
+
+---
