@@ -1,12 +1,14 @@
 {
-  "captured_at": "2026-08-01T06:00:00Z",
+  "captured_at": "2026-08-01T15:40:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b6cc871",
-    "head_message": "feat(recoil): Shannon x Zach catch-up report \u2014 ICP-in-survival-mode grounding case [NCI:SKIP]",
-    "branch": "claude/decision-geometry-logo-81fb56 (NOT main \u2014 no upstream set; Shannon report + v3.21.0 handoff ride into main on merge)",
+    "head_sha": "fdc1fcf",
+    "head_message": "feat(tao): mint 25 net-new proverbs from ADR-040 (full D/R/W/C/H x 5-verb grid) [NCI:SKIP]",
+    "branch": "claude/decision-geometry-logo-81fb56 (NOT main; forge/brand/tao build rides in on merge)",
     "in_sync_with_origin": false,
-    "dirty_files": []
+    "dirty_files": [
+      "_STATE/snapshot.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -40,26 +42,26 @@
     "yuri-ext.arcs.care": "Yuri-facing 'Intel Brief' (pw 'yuri', safe to share, NOT sent). Parallel-tracking capability seed: handoff-tax + north-star + serialization + notetaker-immunity + hyperstition champion-kit + 'answered before you ask' deal-breaker band (LLM-agnostic/runs-on-Gemini). Offer only if he pulls (he said 'nothing to sell').",
     "joe-war.arcs.care": "Joe Kim / HypeLab INTERNAL multi-call recoil war-room (pw 'cartography', NEVER share). 5 calls Oct 2025->Jul 2026 + gmail + gamma. Key finding: GTM role was already filled (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; shows evidence-vs-behavior overconfidence divergence. Generated from runtime/recoil/generated/2026-07-22-kim-multicall.json.",
     "joe-ext.arcs.care": "Joe-facing forward recoil (pw 'joe', safe to share). Shows only Zach's own venture->lifestyle read + ARV-sprint/gauntlet offers. Candidacy fully air-gapped out. joe.arcs.care (the older Oct decision-map) already shared with Joe Jul 20.",
-    "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI \u2014 reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
+    "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI — reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
     "ahmed-ext.arcs.care": "Ahmed-FACING sanitized demo (open link, no pw). Competitor-safe: capability-level only, schema/mechanics/kinematics-derivatives redacted, all strategy-about-him removed. This is the send-ready artifact. Next: Zach sets pilot price + names one customer, then send.",
-    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
-    "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
-    "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
+    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
+    "todd-call.arcs.care": "Todd Hotes / PRL Resins — Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
+    "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
     "ADR-031 (secrets inventory + rotation)",
-    "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
-    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
+    "ADR-032 (Zero-Trust Posture — GOVERNING; conformance checklist for all future ADRs)",
+    "ADR-026 (untracked — debrief calendar invite vs email, not this session's work)",
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Strategy + one recoil report (no product code). (1) Positioning thread from a Logo-origin question \u2014 crystallized 'ARCS = Logo for the AI Era' as the recognition line and 'you learn the terrain by moving through it and leaving a trace' as the public promise; ICP = high-agency 20+yr-career golden-handcuff escapees, the felt Logo/legible-machine cohort (Oregon Trail/Pong/HyperCard nostalgia = legibility restored, not decoration). (2) Derived 'ICP is a STATE not a segment': same person is unreachable in-the-fire (horizon=0, files you as vendor) vs receptive in caught-breath; in survival mode remove noise don't add horizon; catching the window is a Kairos problem. (3) Ran /recoil-report on the Jul 31 10:30 Shannon (Usersnap) catch-up \u2014 committed runtime/recoil/generated/2026-07-31-shannon.json (YELLOW/DEGRADED NCI 60; clean soft-no, timing miss not fit miss; she is the grounding case for the ICP-state memory). Stopped before Gamma/deploy/email per cost. Banked 2 new auto-memories + compacted the memory index + flagged LaBella/AssemblyAI dormant.",
-  "next_action": "Shannon: do NOT pursue (active-listening alarm \u2014 she stated no bandwidth). Only move is her one bounded offer: post something substantive on LinkedIn so she can repost; re-approach ~Sept when her horizon reopens, leading with a load-removing hook not the ARCS architecture. Bigger thread left open: catching the caught-breath window is a Kairos (timing) problem = the unbuilt ARCS primitive; the detector that senses 'this person just caught their breath' is the same engine the compass needs.",
+  "session_summary": "Marathon architecture + brand session (from a Logo-origin question). Built and committed: ADR-039 (instance->class build loop) + tool-forge skill; recoil-report self-contained CLI package; forge-kit skill (4-station macro construction + intake + fish-finder); ADR-040 (Kairos detector / attractor-basin condenser + blower = the decision amplifier: condenser->recoil[gain/resistor/breaker]->blower, Tesla-discharge-at-peak, recipe->receipt bridge, overfit+gain-staging+custody control rods); ADR-041 (atomic GAAP/non-GAAP honesty + considered molt + recapitulate=deep-kairos scan/audit/distill + the 5x5 proverb grid D/R/W/C/H x 5 verbs); the Tao of ARCS front-of-house (_ARTIFACTS/arcs-tao.html, 32 verses); DESIGN.md + .impeccable/design.json (brand mark + visual grammar formalized via /impeccable, North Star \"Render Through the Fog\", the Mobius=tilde-extruded mark); tao-mint skill + runtime/tao/proverbs.json SSOT; and the first mint: 25 net-new ADR-040 proverbs (full grid, no padding). All ADRs RC-PROPOSED. ~7 auto-memories added/edited (Logo lineage, ICP-as-state, cult-of-busy, Mananas-tilde, Mobius-extrusion, reflexiveness-prepaid, arcs-core-function).",
+  "next_action": "Phase 2 of brand->marketing: render the Tao/proverbs (runtime/tao/proverbs.json, 40 proverbs) into S-tier visual cards through the now-formalized DESIGN.md grammar; then Phase 3 (motion/video + content marketing off the codex). Also open: mint remaining ADR grids (/tao-mint ADR-039 full, ADR-041 partial per anti-padding); ratify ADR-039/040/041 (RC-PROPOSED -> ACCEPT); wire tao-mint hook on new ADRs; ADR-040 due a considered molt-pass once its concrete cures. Shannon still do-not-pursue.",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
-    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
+    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
     "files": [
       "feedback_engagement_style.md",
       "project_arcs_book_ii_audit_protocol.md",
@@ -69,19 +71,19 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 \u2014 previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
-    "authoring_workflow": "copy public/templates/call-brief-template.html \u2192 fill {{PLACEHOLDERS}} \u2192 add beforeFiles rewrite to next.config.ts \u2192 commit on main (frosty-kepler-b69f51 worktree) \u2192 push \u2192 auto-deploy",
+    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
       {
         "file": "public/ahmed.html",
         "subdomain": "ahmed.arcs.care",
-        "person": "Ahmed Elsamadisi / Polyform AI \u2014 INTERNAL 6-tab war-room (pw 'ahmed'); measured kinematics; NEVER send"
+        "person": "Ahmed Elsamadisi / Polyform AI — INTERNAL 6-tab war-room (pw 'ahmed'); measured kinematics; NEVER send"
       },
       {
         "file": "public/ahmed-ext.html",
         "subdomain": "ahmed-ext.arcs.care",
-        "person": "Ahmed Elsamadisi \u2014 EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
+        "person": "Ahmed Elsamadisi — EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
       },
       {
         "file": "public/labella.html",
@@ -153,17 +155,17 @@
       {
         "file": "public/chan.html",
         "subdomain": "chan.arcs.care",
-        "person": "Mike Lemon / Chan Suh (CDO) / Prophet \u2014 discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
+        "person": "Mike Lemon / Chan Suh (CDO) / Prophet — discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
       },
       {
         "file": "public/status.html",
         "subdomain": "status.arcs.care",
-        "person": "N/A \u2014 standalone build-status fork of chan.html with Prophet content and presentation mode removed"
+        "person": "N/A — standalone build-status fork of chan.html with Prophet content and presentation mode removed"
       },
       {
         "file": "public/state-of-union.html",
         "subdomain": "app.arcs.care/state-of-union.html",
-        "person": "N/A \u2014 internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
+        "person": "N/A — internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
       }
     ],
     "ui_kit": {
@@ -180,7 +182,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-01T05:44:06Z",
+  "git_refreshed_at": "2026-08-01T13:36:00Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
@@ -220,10 +222,10 @@
     "staging_dir": "open-source/",
     "queue": [],
     "hold_sauce_risk": [
-      "NCI trio (nci-scoring + nci-commit + drift-check) \u2014 reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
-      "teardown gauntlet + teardown_eval.py \u2014 heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
-      "precall-brief, recoil-report \u2014 same client-data + gauntlet-operator sauce as teardown",
-      "arcs-research, dewy-stub, receipt-book-curator \u2014 built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
+      "NCI trio (nci-scoring + nci-commit + drift-check) — reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
+      "teardown gauntlet + teardown_eval.py — heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
+      "precall-brief, recoil-report — same client-data + gauntlet-operator sauce as teardown",
+      "arcs-research, dewy-stub, receipt-book-curator — built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
     ],
     "do_not_publish": [
       "arcs-brand-manager (fork of Anthropic's own brand-guidelines skill)"

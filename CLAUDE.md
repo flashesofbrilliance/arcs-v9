@@ -394,3 +394,71 @@ NONE.
 
 `/handoff-pickup`. Load-bearing new memories: [[arcs-logo-lineage-positioning]],
 [[icp-is-a-state-not-a-segment-catch-in-caught-breath]].
+
+---
+
+# Handoff — v3.22.0 (2026-08-01)
+
+> **For Claude Code:** active pickup point. A single marathon thread that ran from a Logo-origin
+> question all the way to a formalized brand system + a compounding proverb engine. On branch
+> `claude/decision-geometry-logo-81fb56` (not main); everything rides in on merge. All ADRs
+> **RC-PROPOSED** (need Zach's ACCEPT). **Housekeeping debt persists:** CLAUDE.md now carries 7 live
+> handoff blocks (v3.16–v3.22); policy is 1–2. Relocate v3.16–v3.20 to `_ARCHIVE/handoffs.md` next
+> session (deferred here to keep the edit low-risk).
+
+## What shipped (2026-08-01) — the ARCS "house" architecture + brand, one thread
+
+A conversation that started at "did learning Logo seed the decision-geometry frame?" became a full
+coherent architecture. All committed (`3c8bee5` → `fdc1fcf`).
+
+- **Build spine (instance→class):** **ADR-039** (instance→class self-promotion as the preferred
+  build loop) + **`tool-forge`** skill (micro: one CLI) → **`tools/recoil-report/`** (the first
+  self-contained CLI cast: deps/args/passthrough/schema/README) → **`forge-kit`** skill (macro: the
+  4-station engagement construction — food/experience/tuned-explanation/gift — with an intake
+  front-door and a fish-finder mode classifier: deep-sea / fly / spear).
+- **The decision amplifier:** **ADR-040** (Kairos detector / attractor-basin **condenser** + **blower**
+  = a decision amplifier; **recoil** is the middle: gain-stage + resistor + circuit-breaker for global
+  serializability; Tesla-discharge at peak conversion potential; recipe→receipt bridge; control rods =
+  overfit multi-stream guard + gain-staging + custody). Grounds the recurring "unbuilt Kairos
+  primitive." Rich; **due a considered molt-pass once its concrete cures** (it accreted 5 metaphor
+  layers).
+- **Honesty + growth:** **ADR-041** (atomic **GAAP/non-GAAP** belief reconciliation: tilde=label,
+  custody=reconcile, gain-staging=prominence; the **considered molt**: strip formwork after the
+  concrete sets, considered not generic; **recapitulate = deep-KAIROS scan/audit/distill**; and the
+  **5×5 proverb grid** — aspects **D/R/W/C/H** × verbs **Analyze/Assess/Evaluate/Synthesize/
+  Recapitulate**, anti-padding = tilde empty cells).
+- **Brand formalized (via `/impeccable`):** **DESIGN.md** + **.impeccable/design.json** — North Star
+  **"Render Through the Fog"**, the mark documented as **the tilde extruded → Möbius/fog/horizon**,
+  named rules (Semantic Color · One Voice · Glow-Not-Shadow · Three-Voice · Graded-Legend), the
+  render-scale as the signature. (PRODUCT.md already existed; DESIGN.md was the missing half.)
+- **The oral history + its engine:** **the Tao of ARCS** front-of-house (`_ARTIFACTS/arcs-tao.html`,
+  32 verses, public-safe) → **`tao-mint`** skill + **`runtime/tao/proverbs.json`** SSOT (compounding,
+  custody-tagged, net-new dedup, feeds visual engineering) → **first mint: 25 net-new ADR-040
+  proverbs** (full grid, no padding). SSOT now 40 proverbs.
+- **~7 auto-memories** added/edited: [[arcs-logo-lineage-positioning]], [[icp-is-a-state-not-a-segment-catch-in-caught-breath]],
+  [[reflexiveness-is-prepaid-prep-as-enrichment]], [[arcs-core-function-opportunity-sizing-prep-shaping]],
+  [[arcs-logo-mobius-horizon-mark]] (Möbius = tilde extruded; ARCS = instrument/vessel/substrate),
+  [[arcs-product-architecture-not-a-fork]] (Mañana's logo IS the tilde; tomorrow = non-GAAP).
+
+## Open / next
+
+1. **Phase 2 brand→marketing:** render the 40 proverbs into S-tier visual cards through the
+   DESIGN.md grammar (first real visual-engineering artifact). Then Phase 3 (motion/video via
+   Figma/Canva export + content marketing off the codex; honest video-production limits flagged).
+2. **Mint the remaining ADR grids:** `/tao-mint ADR-039` (rich, full grid), `ADR-041` (will honestly
+   come back partial — silent on Horizon — proving the anti-padding rule).
+3. **Ratify** ADR-039/040/041 (RC-PROPOSED → ACCEPT, the two-way door at dawn).
+4. **ADR-040 considered molt-pass** once its concrete cures. Optional: wire a `tao-mint` hook on new
+   `_DECISIONS/ADR-*.md`.
+5. Prior untouched: Shannon do-not-pursue (LinkedIn repost only); Todd Zapier (Tidio plan); Ahmed
+   ext send; showcase mirror.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memories: [[reflexiveness-is-prepaid-prep-as-enrichment]],
+[[arcs-core-function-opportunity-sizing-prep-shaping]], [[arcs-logo-mobius-horizon-mark]]. New skills:
+`forge-kit`, `tao-mint`, `tool-forge`. New docs: DESIGN.md, ADR-039/040/041.

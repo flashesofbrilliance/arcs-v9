@@ -6,6 +6,24 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+## [v3.22.0] 2026-08-01 — The ARCS "house" architecture + brand, one marathon thread
+
+From a Logo-origin question to a formalized brand system and a compounding proverb engine. All
+committed on `claude/decision-geometry-logo-81fb56` (`3c8bee5`→`fdc1fcf`); ADRs RC-PROPOSED.
+
+- **Build spine:** ADR-039 (instance→class) + `tool-forge` → `tools/recoil-report/` (first CLI cast)
+  → `forge-kit` (macro construction: food/experience/tuned-explanation/gift + intake + fish-finder).
+- **Decision amplifier:** ADR-040 — Kairos detector = condenser + recoil(gain/resistor/breaker) +
+  blower; Tesla-discharge at peak; recipe→receipt; overfit+gain-staging+custody rods. Due a molt-pass.
+- **Honesty+growth:** ADR-041 — GAAP/non-GAAP (tilde/custody/gain-staging) + considered molt +
+  recapitulate=deep-kairos + the 5×5 proverb grid (D/R/W/C/H × 5 verbs, anti-padding).
+- **Brand:** DESIGN.md + .impeccable/design.json via /impeccable — North Star "Render Through the
+  Fog", mark = tilde extruded → Möbius/fog/horizon, named rules, render-scale signature.
+- **Oral history + engine:** Tao (`_ARTIFACTS/arcs-tao.html`, 32 verses) → `tao-mint` skill +
+  `runtime/tao/proverbs.json` SSOT → first mint: 25 net-new ADR-040 proverbs (full grid). SSOT=40.
+- Next: Phase 2 (render proverbs → visual cards via DESIGN.md); mint ADR-039/041 grids; ratify ADRs.
+
+---
 ## [v3.21.0] 2026-08-01 — Positioning spine + Shannon recoil (strategy session, no code)
 
 A Logo-origin question ("did learning Logo seed the decision-geometry frame?") became a coherent
