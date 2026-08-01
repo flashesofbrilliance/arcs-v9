@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "title": "The Tao of ARCS — proverb SSOT",
+    "north_star": "Render Through the Fog",
+    "governed_by": "ADR-041 (5x5 grid, recapitulate = deep-kairos distill, anti-padding)",
+    "minted_by": ".claude/skills/tao-mint",
+    "renders_to": ["_ARTIFACTS/arcs-tao.html (front of house)", "Phase-2/3 visual engineering"],
+    "aspects": { "D": "Decision", "R": "Risk/Ruin", "W": "Window", "C": "Clarity", "H": "Horizon" },
+    "verbs": ["analyze", "assess", "evaluate", "synthesize", "recapitulate"],
+    "note": "Founding batch (source 'founding-v1') predates the 5x5 grid and carries movement only; aspect/verb are ~ (unassigned) for these. ADR-minted proverbs carry full custody {aspect, verb, source}. The remaining founding verses live in _ARTIFACTS/arcs-tao.html and backfill here on render-wiring."
+  },
+  "proverbs": [
+    { "id": "f-field-01", "movement": "I · The Field", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "A decision is a position under pressure, not an event on a timeline." },
+    { "id": "f-field-02", "movement": "I · The Field", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Busy is magnitude without a bearing.", "gloss": "From the inside, sprinting the wrong way feels exactly like sprinting the right way." },
+    { "id": "f-size-01", "movement": "II · The Sizing", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Size the opportunity before you shape the work. Sometimes the work is none." },
+    { "id": "f-size-02", "movement": "II · The Sizing", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Cook the whole menu so your hands are sure. Serve only what the guest can eat." },
+    { "id": "f-window-01", "movement": "III · The Window", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "The opportune moment is not later. It is over there, when the gap aligns." },
+    { "id": "f-window-02", "movement": "III · The Window", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "To one who is drowning, more horizon is only more noise. Remove a weight instead." },
+    { "id": "f-lens-01", "movement": "IV · The Lens", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Clear the lens before you read the terrain. Some fog is on the world; some is on your own eye." },
+    { "id": "f-lens-02", "movement": "IV · The Lens", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "The first judgment ego clouds is your read of whether another's is clouded." },
+    { "id": "f-forge-01", "movement": "V · The Forge", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Do not build tools. Build the thing that casts them." },
+    { "id": "f-forge-02", "movement": "V · The Forge", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "The recipe and the receipt are one word: the instruction you take, and the record of what you received." },
+    { "id": "f-echo-01", "movement": "VI · The Echo", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "An echo is signal only if it was independent before it was linked." },
+    { "id": "f-echo-02", "movement": "VI · The Echo", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Three axes bracing one point make a structure. One axis makes a story." },
+    { "id": "f-reactor-01", "movement": "VII · The Reactor", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "The leap is the fuel. The landing is the discipline." },
+    { "id": "f-reactor-02", "movement": "VII · The Reactor", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Reflexiveness is prepaid. It is never free." },
+    { "id": "f-coda", "movement": "Coda", "aspect": "~", "verb": "~", "source": "founding-v1", "minted": "2026-08-01", "text": "Render through the fog to earned clarity." }
+  ]
+}
