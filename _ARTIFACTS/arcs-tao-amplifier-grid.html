@@ -1,10 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>The Amplifier — 25 Proverbs · The Tao of ARCS</title>
 <style>
   /* Built to DESIGN.md: "Render Through the Fog". Obsidian, single theme.
      Semantic color per aspect (row). Serif=canon, mono=instrument. Glow, not shadow. */
@@ -26,8 +19,9 @@
 
   /* ── header ── */
   header{padding:4.5rem 0 1rem;border-bottom:1px solid var(--border);margin-bottom:2.5rem}
-  .mark{font-size:1.7rem;color:var(--gold);display:inline-block;transition:transform 2s cubic-bezier(.22,1,.36,1)}
-  header:hover .mark{transform:rotate(360deg)}
+  .mark{font-size:1.7rem;color:var(--gold);display:inline-block;animation:markdrift 100s linear infinite}
+  @keyframes markdrift{to{transform:rotate(360deg)}}
+  header:hover .mark{animation-duration:6s}
   .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.28em;color:var(--text);margin-left:.28em}
   .wordmark b{color:var(--cyan)}
   h1{font-family:var(--serif);font-size:clamp(1.6rem,4vw,2.3rem);font-weight:500;letter-spacing:-.02em;margin:1.1rem 0 .5rem;line-height:1.15}
@@ -51,6 +45,9 @@
   .card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.9rem 1rem 1rem;
     display:flex;flex-direction:column;min-height:150px;transition:border-color .25s,box-shadow .25s}
   .card:hover{border-color:var(--ac);box-shadow:0 0 30px var(--glow)}
+  /* fog-clear reveal: cards resolve grain -> sharp on scroll-in (render-scale as motion) */
+  .card{opacity:0;filter:blur(5px) grayscale(.35);transform:translateY(10px)}
+  .card.lit{opacity:1;filter:blur(0) grayscale(0);transform:none;transition:opacity .6s ease,filter .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
   .verb{font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-bottom:.6rem}
   .prov{font-family:var(--serif);font-size:.94rem;line-height:1.4;color:var(--text);margin:0;text-wrap:pretty}
   .tick{width:14px;height:2px;background:var(--ac);margin-top:auto;border-radius:2px;opacity:.7}
@@ -66,8 +63,7 @@
   footer{margin-top:3.5rem;border-top:1px solid var(--border);padding-top:1.3rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
   @media print{body{background:#fff;color:#111}.card{background:#fff}.prov{color:#111}}
 </style>
-</head>
-<body>
+
 <div class="wrap">
 
   <header>
@@ -150,5 +146,22 @@
   </footer>
 
 </div>
-</body>
-</html>
+<script>
+  // fog-clear reveal: each card resolves grain -> sharp as it enters (DESIGN.md render-scale as motion)
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = document.querySelectorAll('.card');
+  if (reduce || !('IntersectionObserver' in window)) {
+    cards.forEach(function(c){ c.classList.add('lit'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          var el = e.target;
+          setTimeout(function(){ el.classList.add('lit'); }, (el.dataset.d||0)*80);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12 });
+    cards.forEach(function(c, i){ c.dataset.d = i % 5; io.observe(c); });
+  }
+</script>

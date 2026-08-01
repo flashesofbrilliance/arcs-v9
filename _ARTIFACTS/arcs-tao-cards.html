@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>The Tao of ARCS — Verse Cards</title>
+<style>
+  /* Built to DESIGN.md: "Render Through the Fog". Shareable social-format cards. */
+  :root{
+    --bg:#020408; --panel:#0d1117; --border:#1e293b;
+    --text:#e2e8f0; --sec:#94a3b8; --dim:#64748b; --mut:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --violet:#A78BFA;
+    --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --serif:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:3.5rem 1.25rem 6rem}
+
+  .intro{margin:0 0 2.6rem}
+  .mark{font-size:1.5rem;color:var(--gold);display:inline-block}
+  .wordmark{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.26em;color:var(--text);margin-left:.26em}
+  .wordmark b{color:var(--cyan)}
+  .intro h1{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.1rem);font-weight:500;margin:.9rem 0 .3rem;letter-spacing:-.02em}
+  .intro p{font-size:.88rem;color:var(--sec);max-width:56ch;margin:0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.1rem}
+
+  /* the shareable card: ~square, self-contained */
+  .card{position:relative;aspect-ratio:1/1;background:
+      radial-gradient(120% 90% at 50% 0%, rgba(255,255,255,.015), transparent 60%),
+      var(--panel);
+    border:1px solid var(--border);border-radius:10px;padding:1.7rem 1.6rem;
+    display:flex;flex-direction:column;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+  .card:hover{border-color:var(--ac);box-shadow:0 0 44px var(--glow)}
+  .card::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ac);opacity:.8}
+  .card .kick{font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ac)}
+  .card .verse{font-family:var(--serif);font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.28;color:var(--text);margin:auto 0;text-wrap:pretty;font-weight:500}
+  .card .foot{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  .card .foot .glyph{color:var(--gold);font-size:.85rem}
+
+  /* fog-clear entrance: cards resolve from grain to sharp (DESIGN.md render-scale as motion) */
+  .card{opacity:0;filter:blur(6px) grayscale(.4);transform:translateY(14px)}
+  .card.lit{opacity:1;filter:blur(0) grayscale(0);transform:none;transition:opacity .7s ease,filter .7s ease,transform .7s cubic-bezier(.22,1,.36,1)}
+
+  @media (max-width:560px){.wrap{padding-top:2.5rem}.grid{grid-template-columns:1fr}}
+  @media print{.card{opacity:1;filter:none;transform:none;break-inside:avoid}body{background:#fff}.card{background:#fff}.card .verse{color:#111}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="intro">
+    <div><span class="mark">⊕</span><span class="wordmark"><b>ARCS</b> · THE TAO</span></div>
+    <h1>Verse Cards</h1>
+    <p>The load-bearing proverbs, each shaped to be carried in the mouth to the next person. Rendered through the fog to earned clarity.</p>
+  </div>
+
+  <div class="grid" id="grid">
+    <div class="card" style="--ac:var(--cyan);--glow:rgba(0,240,255,.12)"><span class="kick">The Promise</span><p class="verse">You learn the terrain by moving through it, and leaving a trace.</p><div class="foot"><span>The Field</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--gold);--glow:rgba(255,215,0,.12)"><span class="kick">The Field</span><p class="verse">Busy is magnitude without a bearing.</p><div class="foot"><span>Motion is not direction</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--green);--glow:rgba(0,255,157,.12)"><span class="kick">The Sizing</span><p class="verse">Do not omakase a Tuesday lunch.</p><div class="foot"><span>Right-sized effort</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--green);--glow:rgba(0,255,157,.12)"><span class="kick">The Sizing</span><p class="verse">Cook the whole menu so your hands are sure. Serve only what the guest can eat.</p><div class="foot"><span>Prep to stakes, plate to appetite</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--violet);--glow:rgba(167,139,250,.14)"><span class="kick">The Lens</span><p class="verse">Clear the lens before you read the terrain.</p><div class="foot"><span>Some fog is on your own eye</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--cyan);--glow:rgba(0,240,255,.12)"><span class="kick">The Forge</span><p class="verse">Do not build tools. Build the thing that casts them.</p><div class="foot"><span>Instance to class</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--gold);--glow:rgba(255,215,0,.12)"><span class="kick">The Echo</span><p class="verse">An echo is signal only if it was independent before it was linked.</p><div class="foot"><span>Guard against overfit</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--red);--glow:rgba(255,77,109,.12)"><span class="kick">The Reactor</span><p class="verse">Reflexiveness is prepaid. It is never free.</p><div class="foot"><span>The effortless is bought offstage</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--green);--glow:rgba(0,255,157,.12)"><span class="kick">The Reactor</span><p class="verse">The leap is the fuel. The landing is the discipline.</p><div class="foot"><span>A hunch, contained</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--cyan);--glow:rgba(0,240,255,.12)"><span class="kick">The Amplifier</span><p class="verse">A decision is a discharge: it fires when the potential peaks and the gap aligns, not when the clock says so.</p><div class="foot"><span>ADR-040</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--green);--glow:rgba(0,255,157,.12)"><span class="kick">The Amplifier</span><p class="verse">Custody is how honesty is enforced. No belief moves without citing what moved it.</p><div class="foot"><span>No custody, no gain</span><span class="glyph">⊕</span></div></div>
+
+    <div class="card" style="--ac:var(--gold);--glow:rgba(255,215,0,.14)"><span class="kick">The Coda</span><p class="verse">Render through the fog to earned clarity.</p><div class="foot"><span>甘 · one octave higher</span><span class="glyph">⊕</span></div></div>
+  </div>
+
+</div>
+
+<script>
+  // fog-clear reveal: cards resolve grain -> sharp as they enter (DESIGN.md render-scale as motion)
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cards = document.querySelectorAll('.card');
+  if (reduce || !('IntersectionObserver' in window)) {
+    cards.forEach(function(c){ c.classList.add('lit'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e, i){
+        if (e.isIntersecting){
+          var el = e.target;
+          setTimeout(function(){ el.classList.add('lit'); }, (el.dataset.d||0)*90);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15 });
+    cards.forEach(function(c, i){ c.dataset.d = i % 3; io.observe(c); });
+  }
+</script>
+</body>
+</html>
