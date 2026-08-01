@@ -1,0 +1,154 @@
+{
+  "_doc": "DRAFT serialization-grade ledger. LLM-drafted (extraction only); scoring is deterministic via scripts/serialize_grade.py. Every row is locked:false until Zach reviews. Two opposing passes: taxonomic_claims = Jeben's explicit briefing predictions (deductive/fidelity); emergent_tags = load-bearing signals the OUTCOME surfaced with no briefing parent (abductive/folksonomy/coverage). Orphan emergent tags are the net-new Justin tributaries to fork. Lock by setting locked:true (and correcting verdict/parent) per row, or override with --set.",
+  "meta": {
+    "title": "Jeben's Louisville serialization vs. the Justin call",
+    "briefing": [
+      "runtime/recoil/generated/2026-07-10-jeben-louisville-serialization.json",
+      "runtime/recoil/generated/2026-07-15-jeben.json"
+    ],
+    "outcome": "runtime/recoil/generated/2026-07-31-delaney.json"
+  },
+  "lineage": {
+    "parent": "2026-07-10-jeben-louisville-serialization",
+    "child": "2026-07-31-delaney",
+    "fork": "justin-delaney"
+  },
+  "taxonomic_claims": [
+    {
+      "id": "T0",
+      "statement": "Every LB pain point maps 1:1 onto the ARCS offer as priced; nothing needs re-positioning, only re-activation.",
+      "source": "serialization thread 0",
+      "confidence": 0.85,
+      "load_bearing": true,
+      "verdict": "confirmed",
+      "evidence": "Justin resonated deeply and co-built a receipt live on his own decision; product fit held without re-positioning (delaney signalThread 'he built one live with real numbers').",
+      "locked": false
+    },
+    {
+      "id": "T1",
+      "statement": "Re-entry should lead with a polished, professionally formatted page (presentation quality), not a re-pitch.",
+      "source": "serialization thread 1",
+      "confidence": 0.7,
+      "load_bearing": false,
+      "verdict": "confirmed",
+      "evidence": "The polished Louisville suite was the artifact of record; the call engaged on substance, not a re-argued pitch.",
+      "locked": false
+    },
+    {
+      "id": "T2",
+      "statement": "Jeben has stepped back from the client (reduced standing/patience); weight him lightly, give a forwardable artifact rather than ask him to re-argue in person.",
+      "source": "serialization thread 2",
+      "confidence": 0.75,
+      "load_bearing": true,
+      "verdict": "diverged",
+      "direction": "amplify",
+      "evidence": "Reality inverted this FAVORABLY: Jeben actively brokered the call, texted same-day 'he and I will discuss', and widened scope beyond Louisville. His claim was wrong (fidelity miss) but wrong in the good direction (amplifying). Note: the 'widened past Louisville' half was itself anticipated by the Jul-15 briefing's PE/institutional thread — see E4.",
+      "locked": false
+    },
+    {
+      "id": "T3",
+      "statement": "The clean re-entry decision is the 'next bag' (mango vs. alternatives); one free studio session on THAT decision converts the record into a first receipt.",
+      "source": "serialization thread 3",
+      "confidence": 0.7,
+      "load_bearing": true,
+      "verdict": "partial",
+      "evidence": "The MECHANISM held (one live decision -> a co-built receipt) but the REFERENT diverged: the decision Justin actually operated was the national sales-team vendor tripwire ($12K/mo, October gate), not the mango bag.",
+      "locked": false
+    },
+    {
+      "id": "T4",
+      "statement": "Best case: Justin commits an hour, a receipt + $2-5K pretest lands inside the funding window, and a Medium pilot ($10K/mo, two lanes) starts with board visibility.",
+      "source": "serialization scenario BEST",
+      "confidence": 0.35,
+      "load_bearing": false,
+      "verdict": "diverged",
+      "direction": "dampen",
+      "evidence": "No pilot started and no pretest was commissioned; the thread parked behind a stated focus gate.",
+      "locked": false
+    },
+    {
+      "id": "T5",
+      "statement": "Base case: one no-cost studio session first, tier decision deferred until Justin holds the receipt.",
+      "source": "serialization scenario BASE",
+      "confidence": 0.5,
+      "load_bearing": true,
+      "verdict": "confirmed",
+      "evidence": "This is essentially what happened: a working session, a receipt in hand, decision deferred. Base case is playing out.",
+      "locked": false
+    },
+    {
+      "id": "T6",
+      "statement": "Worst case risk: timing stays wrong (family, or the round/Yokai consume all attention); do not chase.",
+      "source": "serialization scenario WORST",
+      "confidence": 0.4,
+      "load_bearing": true,
+      "verdict": "partial",
+      "direction": "dampen",
+      "evidence": "A binding timing gate did materialize ('heads-down on Japan, let's just focus on this') even though engagement was warm; the constraint the worst case gestured at is real, though the cause (Japan JV) was named more specifically by reality.",
+      "locked": false
+    },
+    {
+      "id": "T7",
+      "statement": "The Jul-10 'underused-capacity / next-bag (mango)' framing is stale — the live decision has moved off the mango bag.",
+      "source": "2026-07-15-jeben.json thread TRACKER_NOW_STALE (line 74) + scenario C 'Louisville closes for real' (line 130)",
+      "confidence": 0.6,
+      "load_bearing": true,
+      "verdict": "confirmed",
+      "direction": "amplify",
+      "evidence": "HELD: the live decision Justin operated was the sales-team tripwire (delaney line 44), not the mango next-bag, so the 'next bag is no longer the live decision' call is confirmed and supersedes T3's referent. (Counter-signal, folded not scored: the same Jul-15 framing's pessimistic 'highest-leverage entry may have passed' diverged — engagement was warm, the entry had not passed.)",
+      "locked": false
+    },
+    {
+      "id": "T8",
+      "statement": "The Louisville plant is closing (manufacturing moving to Wisconsin, ~20 layoffs) — the fact Jeben chose to lead with.",
+      "source": "2026-07-15-jeben.json loadBearingQuote (line 26)",
+      "confidence": 0.9,
+      "load_bearing": true,
+      "verdict": "unaddressed",
+      "evidence": "The plant closure never surfaced in the Justin call — delaney.json does not mention it. Reality did not test this prediction, so it is unaddressed (not a fidelity miss, not a confirm). Carry it into the next touch as an open, load-bearing fact.",
+      "locked": false
+    }
+  ],
+  "emergent_tags": [
+    {
+      "id": "E0",
+      "tag": "The sake / seimaibuai connoisseur wedge is the resonance channel",
+      "outcome_evidence": "Justin is a serious sake/whiskey connoisseur with a Japan contract-distilling angle; the register that lands is constructive interference (seimaibuai, no false binaries), not pitch. Absent from the briefing entirely.",
+      "load_bearing": true,
+      "briefing_parent": null,
+      "locked": false
+    },
+    {
+      "id": "E1",
+      "tag": "The real job-to-be-done is emotional: candid outside read without looking weak",
+      "outcome_evidence": "'It'd be nice to know what the objectivity is based on' — objectivity vs. emotion, a candid outside read that doesn't cost face. The briefing framed fit as feature/pain-point mapping, not this emotional job.",
+      "load_bearing": true,
+      "briefing_parent": null,
+      "locked": false
+    },
+    {
+      "id": "E2",
+      "tag": "Buyer self-served the product live on his OWN numbers",
+      "outcome_evidence": "Justin operated ARCS himself, building a tripwire with his own figures — stronger than the briefing's predicted 'demo the mango decision for him'. The strongest product signal, and it was on a decision the briefing didn't name.",
+      "load_bearing": true,
+      "briefing_parent": "T3",
+      "locked": false
+    },
+    {
+      "id": "E3",
+      "tag": "The camera/focus moment — he chose the slow lane against his own default",
+      "outcome_evidence": "He said he had skipped video because he planned to work on the Japan JV while half-listening ('I usually do two things at once') — yet on the call he chose focus instead. The product's promise (structure over distracted instinct) happened live. NOTE: 'multitask' is ARCS's summary word, not his; do not quote it as his. Not anticipated by either briefing; also a caution (the slow lane is not his default).",
+      "load_bearing": true,
+      "briefing_parent": null,
+      "locked": false
+    },
+    {
+      "id": "E4",
+      "tag": "Champion self-initiated a new academic lead-gen funnel (the genuinely-new sliver)",
+      "outcome_evidence": "Jeben broadened ARCS beyond Louisville, confirmed by same-day text. The STRUCTURAL 'widen past Louisville into larger/better-funded orgs' half was NOT a blind spot — the Jul-15 briefing already carried it as a self-initiated PE/institutional thread (parent). Only the specific academic-lead-gen-funnel angle is genuinely new; that narrow sliver is the orphan. Re-parented so the one champion event is not double-charged (it was already penalized once as T2 diverged).",
+      "load_bearing": true,
+      "briefing_parent": "Jul-15 PE_THREAD_NEW (self-initiated widening; briefed but ungraded source signal, line 89)",
+      "locked": false
+    }
+  ]
+}
