@@ -71,7 +71,7 @@
   /* easter eggs: visible only after 完, faint until sought (the teacher appears to the one who seeks) */
   /* walk-through doors: every course opens into the room it was cooked in */
   .door{display:inline-block;margin-top:20px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;color:var(--gold);opacity:.65;text-decoration:none;border:1px dashed var(--faint);border-radius:3px;padding:9px 14px;transition:opacity .4s,border-color .4s,background .3s}
-  .door:hover,.door:focus-visible{opacity:1;border-color:var(--gold);text-decoration:none}
+  .door.locked{cursor:default;color:var(--faint);opacity:.55}
 
   /* the take-home: 土産: what the lacquered box was built to carry, handed at the door */
   .gift{margin-top:44px}
@@ -177,7 +177,7 @@
     <p class="en">THE CHEF SAYS NOTHING · PLACES ONE THING BEFORE YOU</p>
     <div class="morsel"><p class="note">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
     <p class="quiet">ONE SENTENCE · EVERYTHING TONIGHT IS THIS BITE, RE-TASTED</p>
-    <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🥡 POCKET THE NOTE · THE PRE-READ</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥡 POCKET THE NOTE · THE PRE-READ</span></div>
     <div class="step"><button data-next="sc3">THE NEXT PIECE</button></div>
   </section>
 
@@ -187,7 +187,7 @@
     <span class="kanji-big">種</span>
     <p class="en">THE SEED COURSE</p>
     <p class="voice">Everything served tonight grew from one articulated seed: seven conversations of wild evidence, pulled into one place: what's live, what's parked, what it's worth, what happens next. <span class="accent">The tree is the seed and the seed is the tree.</span> Every later course is this one, unfolded.</p>
-    <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">◉ TASTE THE SEED ITSELF · THE THREAD BOOK</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 ◉ TASTE THE SEED ITSELF · THE THREAD BOOK</span></div>
     <div class="step"><button data-next="sc4">THE NEXT PIECE</button></div>
   </section>
 
@@ -197,7 +197,7 @@
     <span class="kanji-big">蔵</span>
     <p class="en">THE CELLAR COURSE · ONE RECORD, THREE ROOMS</p>
     <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open. The same truth is cut for each palate at the table, and a lacquered box carries <span class="accent">one small thing of great value</span> intact to the right hands. <i>You taste none of the bookkeeping. You taste that nothing served tonight has ever needed to lie.</i></p>
-    <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🏯 THE CODEX</a> <a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🍣 THE FILTER</a> <a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🍱 THE BOX</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏯 THE CODEX</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍣 THE FILTER</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍱 THE BOX</span></div>
     <div class="step"><button data-next="sc7">THE NEXT PIECE</button></div>
   </section>
 
@@ -209,7 +209,7 @@
     <p class="voice">This meal is not a line with an end. It is a circle with a gap. The meeting, the test, the read, the scored record: each returns. <i>The landing of one course is the plié of the next.</i></p>
     <div class="ringmark"><svg viewBox="0 0 300 220" role="img" aria-label="An open circle over a horizontal stroke"><path d="M40 118 C 110 104, 210 102, 268 112 C 210 118, 120 124, 70 124 Z" fill="var(--dial)" opacity=".85"/><circle cx="150" cy="112" r="72" fill="none" stroke="var(--gold)" stroke-width="9" stroke-linecap="round" stroke-dasharray="392 66" transform="rotate(-58 150 112)" opacity=".95"/></svg></div>
     <p class="quiet">THE LINE IS HIS · THE CIRCLE IS OURS · THE GAP STAYS OPEN</p>
-    <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🖌️ ENTER THE WAR ROOM · THE ENSŌ</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🖌️ ENTER THE WAR ROOM · THE ENSŌ</span></div>
     <div class="step"><button data-next="sc8">THE LAST BITE</button></div>
   </section>
 
@@ -220,7 +220,7 @@
     <p class="en">DESSERT · SWEET · SMALL · IT CONTAINS THE FIRST BITE</p>
     <div class="morsel"><p class="note" style="font-family:var(--mono);font-size:15px;letter-spacing:.06em;line-height:2.2">THE TREE IS THE SEED AND THE SEED IS THE TREE<br><span lang="ja" style="color:var(--gold)">師は求める者に現れる</span></p></div>
     <p class="quiet">THE MEAL ENDS WHERE IT BEGAN · ONE OCTAVE HIGHER</p>
-    <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🥢 SEE THE MEAL PLATED · THE MENU</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🥢 SEE THE MEAL PLATED · THE MENU</span></div>
     <div class="step"><button data-next="sc9">RISE FROM THE COUNTER</button></div>
   </section>
 
@@ -248,7 +248,7 @@
       <p class="qlinks"><span class="locked" title="Back of house · gated (ask for access)">🔒 THE GIFT · THE PRE-READ</span> · <span class="locked" title="Back of house · gated (ask for access)">🔒 THE POCKET CARD · PDF</span> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
     </div>
     <p class="quiet" style="margin-top:34px">完</p>
-    <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</a></div>
+    <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</span></div>
   </section>
 
 </div>

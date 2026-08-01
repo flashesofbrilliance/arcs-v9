@@ -24,7 +24,10 @@
 # Usage: bash scripts/leak_check.sh   (run from repo root; CI runs it in ci.yml)
 set -euo pipefail
 
-SURFACE_GLOB="public/*.html"
+# Recursive (gauntlet fix wf_2b23bfca-d19): public/*.html missed every
+# subdirectory surface (omakase/, compass-kit/, observatory/) — the blindness
+# that let canon-manifest.json ship world-readable. templates/ is excluded
+# (not subdomain-served) but held to the analytics bar below.
 IGNORE_FILE="scripts/.leakignore"
 
 # ── Denylist ─────────────────────────────────────────────────────────────────
@@ -64,13 +67,20 @@ PATTERNS=(
 ALT="$(IFS='|'; echo "${PATTERNS[*]}")"
 
 # ── Scan ─────────────────────────────────────────────────────────────────────
-shopt -s nullglob
-FILES=( $SURFACE_GLOB )
-shopt -u nullglob
+FILES=()
+while IFS= read -r f; do FILES+=("$f"); done < <(find public -name '*.html' -type f ! -path 'public/templates/*' | sort)
 
 if [ "${#FILES[@]}" -eq 0 ]; then
-  echo "⚠ J24: no files match '$SURFACE_GLOB' — external surfaces moved/renamed?"
-  echo "  Treating as a misconfiguration, not a pass. Update SURFACE_GLOB if intended."
+  echo "⚠ J24: no *.html files found under public/ — external surfaces moved/renamed?"
+  echo "  Treating as a misconfiguration, not a pass."
+  exit 2
+fi
+
+# Meta-assertion: the scanned set must equal the full recursive census, so a
+# future re-narrowing of the file list cannot pass silently.
+CENSUS="$(find public -name '*.html' -type f ! -path 'public/templates/*' | wc -l | tr -d ' ')"
+if [ "${#FILES[@]}" != "$CENSUS" ]; then
+  echo "✘ J24 meta: scanned ${#FILES[@]} surfaces but census says ${CENSUS} — surface list narrowed?"
   exit 2
 fi
 
@@ -130,7 +140,15 @@ echo "  ✔ analytics — every public page carries the Web Analytics snippet."
 # clear yet never scanned. Two ARCS recoil files (arcs_recoil_canvas.py with real
 # counterpart PII + arcs_recoil_philosophy.md method doctrine) leaked exactly this
 # way. Source/doc files belong in runtime/ or docs/, never in public/.
-STRAY="$(find public -maxdepth 1 -type f \( -name '*.py' -o -name '*.md' \) 2>/dev/null || true)"
+# Recursive since the gauntlet fix: canon-manifest.json (a *.json holding the
+# per-counterpart withholding plan) sat in public/omakase/docs/ untouched by the
+# old maxdepth-1 *.py/*.md gate. Dangerous classes are py/md/sh/json anywhere
+# under public/. Known intentionally-served exceptions are allowlisted here,
+# visibly, with why:
+#   - public/observatory/*.json      demo datasets the static observatory loads
+#   - public/compass-kit/README.md   published design-kit doc, part of the kit
+STRAY_ALLOW='^public/(observatory/(data\.[a-z0-9.-]+\.json|datasets\.json)|compass-kit/README\.md)$'
+STRAY="$(find public -type f \( -name '*.py' -o -name '*.md' -o -name '*.sh' -o -name '*.json' \) 2>/dev/null | grep -vE "$STRAY_ALLOW" || true)"
 if [ -n "$STRAY" ]; then
   STRAY_COUNT="$(echo "$STRAY" | grep -c . || true)"
   echo ""
@@ -172,7 +190,7 @@ echo "  ✔ no-internal-client-gate-theater — no internal page hides behind a 
 # state THAT withholding happens and its policy, but must never name the withheld
 # subject content about a counterpart (that tells them what is being said about
 # them). The cellar leaked "symptom chart" / "Jeben-on-Justin verbatim" this way.
-DISCLOSE="$(grep -rliE "symptom chart|-on-[A-Z][a-z]+ verbatim|diagnosis aimed at" public --include='*.html' 2>/dev/null || true)"
+DISCLOSE="$(grep -rliE "symptom chart|-on-[A-Z][a-z]+ verbatim|diagnosis aimed at" public --include='*.html' --include='*.json' --include='*.js' --include='*.txt' --include='*.svg' 2>/dev/null || true)"
 if [ -n "$DISCLOSE" ]; then
   echo ""
   echo "  ✘ REDACTION DISCLOSURE: open page(s) name withheld subject-about-them content:"
@@ -183,4 +201,60 @@ if [ -n "$DISCLOSE" ]; then
   exit 1
 fi
 echo "  ✔ no-redaction-disclosure — no open page names what is withheld about a counterpart."
+
+# Withholding-plan vocabulary gate (gauntlet fix): the canon-manifest leak
+# published fence/omission machinery by name. None of these strings is ever
+# legitimate on a served surface.
+PLANVOCAB="$(grep -rlF -e 'JB-CAP' -e 'compilation_targets' -e '"omissions"' -e '"fence"' public 2>/dev/null || true)"
+if [ -n "$PLANVOCAB" ]; then
+  echo ""
+  echo "  ✘ WITHHOLDING-PLAN VOCAB served under public/:"
+  echo "$PLANVOCAB" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ no-withholding-plan-vocab — no fence/omission machinery on a served surface."
+
+# Decoded-payload gate (gauntlet fix): louisville.html inlines subpages as
+# base64, so raw-byte greps never see their text — 'the plant is moving'
+# shipped exactly this way. Denylist must run on DECODED payload text.
+if [ -f public/louisville.html ]; then
+  DECODED_HITS="$(python3 - << 'PYEOF'
+import re, base64, json, sys
+raw = open('public/louisville.html', encoding='utf-8').read()
+m = re.search(r'PAGES\s*=\s*(\{.*?\});', raw, re.S)
+if not m:
+    print('PAYLOAD-GATE-MISCONFIG: PAGES map not found'); sys.exit(0)
+text = ''.join(base64.b64decode(v).decode('utf-8', 'replace')
+               for v in json.loads(m.group(1)).values()).lower()
+banned = ['plant is moving', 'plant closing', 'wisconsin', 'jobs affected',
+          '20 jobs', 'symptom chart', 'magical thinking', 'the tiers,']
+for t in banned:
+    if t in text:
+        print(f'louisville.html decoded payload contains banned term: {t!r}')
+PYEOF
+)"
+  if [ -n "$DECODED_HITS" ]; then
+    echo ""
+    echo "  ✘ DECODED PAYLOAD LEAK in louisville.html inlined subpages:"
+    echo "$DECODED_HITS" | sed 's/^/      /'
+    exit 1
+  fi
+  # Retired-framing guard on the shell (raw bytes; payload side covered above).
+  if grep -qiF 'the tiers,' public/louisville.html; then
+    echo "  ✘ RETIRED FRAMING: 'the tiers' back in louisville.html shell copy."
+    exit 1
+  fi
+fi
+echo "  ✔ decoded-payloads — no banned term inside louisville.html inlined subpages."
+
+# Dead-anchor theater gate (gauntlet fix): an href=\"#\" on a guest surface is
+# either broken or a fake gate; gated things must LOOK locked (span.locked).
+DEADANCHOR="$(grep -n 'href="#"' public/omakase/index.html 2>/dev/null || true)"
+if [ -n "$DEADANCHOR" ]; then
+  echo ""
+  echo "  ✘ DEAD ANCHOR on the omakase guest surface (convert to span.locked):"
+  echo "$DEADANCHOR" | sed 's/^/      /'
+  exit 1
+fi
+echo "  ✔ no-dead-anchors — no hollow href=\"#\" on the cellar surface."
 exit 0
