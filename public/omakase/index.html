@@ -103,6 +103,7 @@
   .ao b{display:block;color:var(--faint);letter-spacing:.26em;font-weight:600;font-size:8.5px}
   .ao a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint);margin:0 7px;white-space:nowrap}
   .ao a:hover,.ao a:focus-visible{border-bottom-color:var(--gold)}
+  .ao .locked{color:var(--faint);margin:0 7px;white-space:nowrap;cursor:default;opacity:.6;font-size:9px}
   .an{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
   /* the loading stroke: one enso draws itself in ink, breathes, and dissolves into the street.
      Pure CSS timeline (self-clearing without JS); shown once per session; reduced-motion skips it. */
@@ -161,9 +162,9 @@
     <div class="alley">
       <button class="alleyk" id="alleyk" aria-expanded="false" aria-controls="alleymap">路地 · THE SIDE STREETS · EVERY ROOM OPENS ON AN ALLEY</button>
       <div class="alleymap" id="alleymap">
-        <p class="ao"><b>2ND ORDER · THE ROOMS</b><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">◉ the seed</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🥡 the gift</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🥢 the menu</a></p>
-        <p class="ao"><b>3RD ORDER · THE BACK ROOMS</b><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🏯 the codex</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🍣 the filter</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🍱 the box</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🖌️ the war room</a></p>
-        <p class="ao"><b>4TH ORDER · THE KITCHEN'S KITCHEN</b><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">👹 the audit</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">👺 the rehearsal</a><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🏮 the entrance</a></p>
+        <p class="ao"><b>2ND ORDER · THE ROOMS</b><span class="locked" title="Back of house · gated (ask for access)">🔒 ◉ the seed</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🥡 the gift</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🥢 the menu</span></p>
+        <p class="ao"><b>3RD ORDER · THE BACK ROOMS</b><span class="locked" title="Back of house · gated (ask for access)">🔒 🏯 the codex</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🍣 the filter</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🍱 the box</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🖌️ the war room</span></p>
+        <p class="ao"><b>4TH ORDER · THE KITCHEN'S KITCHEN</b><span class="locked" title="Back of house · gated (ask for access)">🔒 👹 the audit</span><span class="locked" title="Back of house · gated (ask for access)">🔒 👺 the rehearsal</span><span class="locked" title="Back of house · gated (ask for access)">🔒 🏮 the entrance</span></p>
         <p class="an">THE MAP IS A FOLKSONOMY, NOT A MENU: EVERY NET NEW DATA POINT RE-CUTS THE TERRAIN, AND THE ALLEYS MOVE WITH IT. THE DEEPEST SUBCULTURE IS ALWAYS ONE DOOR FURTHER.</p>
       </div>
     </div>
@@ -244,7 +245,7 @@
       <div class="morsel" style="margin:16px 0 6px"><p class="note" style="font-size:16px;line-height:1.7">Louisville Brands is very good at <span class="accent">making things</span> and unproven at <span class="accent">deciding which things to make</span>.</p></div>
       <a class="cta" href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener">RSVP · BOOK THE SESSION</a>
       <p class="assure">THE SESSION IS $0 · A MONTH-ONE EXIT CAPS YOUR WORST CASE AT $10K · YOU KEEP THE RECEIPTS AND THE TEST DATA EITHER WAY</p>
-      <p class="qlinks"><a href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">THE GIFT · THE PRE-READ</a> · <a href="#" data-gated="appendix" title="Back of house, gated" download>THE POCKET CARD · PDF</a> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
+      <p class="qlinks"><span class="locked" title="Back of house · gated (ask for access)">🔒 THE GIFT · THE PRE-READ</span> · <span class="locked" title="Back of house · gated (ask for access)">🔒 THE POCKET CARD · PDF</span> · <a href="mailto:zach.harris@gmail.com?subject=Omakase%20%C2%B7%20my%20thoughts&body=Zach%2C%0A%0AWhat%20landed%3A%0A%0AWhat%20didn%27t%3A%0A%0AThe%20one%20thing%20I%27d%20start%20with%3A%0A">SEND YOUR THOUGHTS</a></p>
     </div>
     <p class="quiet" style="margin-top:34px">完</p>
     <div><a class="door" href="#" data-gated="appendix" title="Back of house, gated" target="_blank" rel="noopener">🏮 THE KITCHEN · SEVEN ROOMS, FOR THE GUEST WHO LINGERS</a></div>

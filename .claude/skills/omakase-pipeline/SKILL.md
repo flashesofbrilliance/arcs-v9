@@ -30,13 +30,13 @@ not a dumber back of house; it is the same corpus milled to its essence (seimaib
 
 ## The invariants (the lossless guarantee)
 
-Enforce these on every surface, mechanically:
+Enforce these on every surface. Invariants 1, 2, 4, 5 are checked by Step 5's grep pass (the manual backstop); the loss log in #3 is mechanical ONLY for SSOT-authored surfaces (recoil_brief.py emits `_redaction_report`), and manual for hand-authored ones:
 1. **Nothing load-bearing lost.** The falsifier, the line/exit, and the decision survive
    every altitude. The Elder guards this.
 2. **Attribution rides through.** "per Jeben" stays "per Jeben" in every voice. Credit is
    load-bearing, never sanded off.
 3. **Withholding is printed, never silent.** What a surface cannot carry goes to a loss
-   report (`redaction_policy` in the SSOT), so nothing drops in the dark.
+   log. This is mechanical (`_redaction_report`) only when the surface is rendered from the SSOT via recoil_brief.py; hand-authored surfaces (the louisville pattern) have no auto loss log, so Step 5's grep is the only backstop and MUST be run. `redaction_policy` in the SSOT is a human-readable intent note, not a wired control.
 4. **Consonance, not contradiction.** No surface may contradict another. If two registers
    disagree, the translation failed, not the reader. The Skeptic guards this.
 5. **Air gap ([[internal-external-artifact-air-gap]]):** show your own updates not their
