@@ -54,6 +54,51 @@
     { "id": "adr040-H-assess", "movement": "ADR-040 · The Amplifier", "aspect": "H", "verb": "assess", "source": "ADR-040", "minted": "2026-08-01", "text": "Weigh the condenser against the blower: a system that only listens hoards, and one that only projects lies." },
     { "id": "adr040-H-evaluate", "movement": "ADR-040 · The Amplifier", "aspect": "H", "verb": "evaluate", "source": "ADR-040", "minted": "2026-08-01", "text": "Leverage is the gain stage. The same weak signal, amplified honestly, moves what the whisper could not." },
     { "id": "adr040-H-synthesize", "movement": "ADR-040 · The Amplifier", "aspect": "H", "verb": "synthesize", "source": "ADR-040", "minted": "2026-08-01", "text": "The reactor compounds; the bomb spends. Contained fission is the only fusion that pays over time." },
-    { "id": "adr040-H-recapitulate", "movement": "ADR-040 · The Amplifier", "aspect": "H", "verb": "recapitulate", "source": "ADR-040", "minted": "2026-08-01", "text": "Every discharge that lands clean lowers the cost of the next. Received-as-intended is how the horizon widens." }
+    { "id": "adr040-H-recapitulate", "movement": "ADR-040 · The Amplifier", "aspect": "H", "verb": "recapitulate", "source": "ADR-040", "minted": "2026-08-01", "text": "Every discharge that lands clean lowers the cost of the next. Received-as-intended is how the horizon widens." },
+
+    { "id": "adr039-D-analyze", "movement": "ADR-039 · The Cast", "aspect": "D", "verb": "analyze", "source": "ADR-039", "minted": "2026-08-01", "text": "The decision is not what to build. It is whether this will be built again." },
+    { "id": "adr039-D-assess", "movement": "ADR-039 · The Cast", "aspect": "D", "verb": "assess", "source": "ADR-039", "minted": "2026-08-01", "text": "Judge a build by whether the second case would fork it or reuse it." },
+    { "id": "adr039-D-evaluate", "movement": "ADR-039 · The Cast", "aspect": "D", "verb": "evaluate", "source": "ADR-039", "minted": "2026-08-01", "text": "A one-off earns no mold. Promote on the second real case, not the first." },
+    { "id": "adr039-D-synthesize", "movement": "ADR-039 · The Cast", "aspect": "D", "verb": "synthesize", "source": "ADR-039", "minted": "2026-08-01", "text": "Instance, then class: solve it once concretely, then cast the mold the second case asks for." },
+    { "id": "adr039-D-recapitulate", "movement": "ADR-039 · The Cast", "aspect": "D", "verb": "recapitulate", "source": "ADR-039", "minted": "2026-08-01", "text": "What you built twice by hand, you should have built once as a mold." },
+
+    { "id": "adr039-R-analyze", "movement": "ADR-039 · The Cast", "aspect": "R", "verb": "analyze", "source": "ADR-039", "minted": "2026-08-01", "text": "Silent fork-drift is the slow ruin: three copies that no longer agree, and no one chose it." },
+    { "id": "adr039-R-assess", "movement": "ADR-039 · The Cast", "aspect": "R", "verb": "assess", "source": "ADR-039", "minted": "2026-08-01", "text": "A one-off packaged too early is speculative generality, the waste that hides as foresight." },
+    { "id": "adr039-R-evaluate", "movement": "ADR-039 · The Cast", "aspect": "R", "verb": "evaluate", "source": "ADR-039", "minted": "2026-08-01", "text": "Weigh the fork against the mold: copy-paste is cheap today and dear at the tenth spoon." },
+    { "id": "adr039-R-synthesize", "movement": "ADR-039 · The Cast", "aspect": "R", "verb": "synthesize", "source": "ADR-039", "minted": "2026-08-01", "text": "The promotion compulsion is its own drift: packaging for the pleasure of packaging." },
+    { "id": "adr039-R-recapitulate", "movement": "ADR-039 · The Cast", "aspect": "R", "verb": "recapitulate", "source": "ADR-039", "minted": "2026-08-01", "text": "Every drifted shape was a mold you refused to cut when the second case arrived." },
+
+    { "id": "adr039-W-analyze", "movement": "ADR-039 · The Cast", "aspect": "W", "verb": "analyze", "source": "ADR-039", "minted": "2026-08-01", "text": "The window to promote opens on the second use, not the first and not the tenth." },
+    { "id": "adr039-W-assess", "movement": "ADR-039 · The Cast", "aspect": "W", "verb": "assess", "source": "ADR-039", "minted": "2026-08-01", "text": "Do not cast the mold while the shape is still moving. Wait for the second case to name it." },
+    { "id": "adr039-W-evaluate", "movement": "ADR-039 · The Cast", "aspect": "W", "verb": "evaluate", "source": "ADR-039", "minted": "2026-08-01", "text": "Rule of three is the ceiling, not the target: promote at two when the second is already in hand." },
+    { "id": "adr039-W-synthesize", "movement": "ADR-039 · The Cast", "aspect": "W", "verb": "synthesize", "source": "ADR-039", "minted": "2026-08-01", "text": "Promote too early and you abstract before you understand; too late and every case is a fork." },
+    { "id": "adr039-W-recapitulate", "movement": "ADR-039 · The Cast", "aspect": "W", "verb": "recapitulate", "source": "ADR-039", "minted": "2026-08-01", "text": "The moment to cut the mold was the moment the copy-paste began." },
+
+    { "id": "adr039-C-analyze", "movement": "ADR-039 · The Cast", "aspect": "C", "verb": "analyze", "source": "ADR-039", "minted": "2026-08-01", "text": "A class is only as clear as its contract: deps, args, params, resources, schema, the manifest." },
+    { "id": "adr039-C-assess", "movement": "ADR-039 · The Cast", "aspect": "C", "verb": "assess", "source": "ADR-039", "minted": "2026-08-01", "text": "If the shape cannot be stated as one fixed contract, it is not yet ready to be a class." },
+    { "id": "adr039-C-evaluate", "movement": "ADR-039 · The Cast", "aspect": "C", "verb": "evaluate", "source": "ADR-039", "minted": "2026-08-01", "text": "Prefer subtraction on promotion: the class keeps only what is load-bearing across cases." },
+    { "id": "adr039-C-synthesize", "movement": "ADR-039 · The Cast", "aspect": "C", "verb": "synthesize", "source": "ADR-039", "minted": "2026-08-01", "text": "A schema is how tools validate each other instead of drifting apart." },
+    { "id": "adr039-C-recapitulate", "movement": "ADR-039 · The Cast", "aspect": "C", "verb": "recapitulate", "source": "ADR-039", "minted": "2026-08-01", "text": "The mold that made the tenth spoon identical to the first was the contract, not the care that night." },
+
+    { "id": "adr039-H-analyze", "movement": "ADR-039 · The Cast", "aspect": "H", "verb": "analyze", "source": "ADR-039", "minted": "2026-08-01", "text": "The cost of a fork is paid later, at every case that must be changed in parallel." },
+    { "id": "adr039-H-assess", "movement": "ADR-039 · The Cast", "aspect": "H", "verb": "assess", "source": "ADR-039", "minted": "2026-08-01", "text": "Cheap promotion is what makes the loop compound; an expensive mold is never cut." },
+    { "id": "adr039-H-evaluate", "movement": "ADR-039 · The Cast", "aspect": "H", "verb": "evaluate", "source": "ADR-039", "minted": "2026-08-01", "text": "The mold is the leverage: cut it once, and every casting after comes nearly free." },
+    { "id": "adr039-H-synthesize", "movement": "ADR-039 · The Cast", "aspect": "H", "verb": "synthesize", "source": "ADR-039", "minted": "2026-08-01", "text": "Instance to class to class-of-the-class: each promotion lowers the cost of the next." },
+    { "id": "adr039-H-recapitulate", "movement": "ADR-039 · The Cast", "aspect": "H", "verb": "recapitulate", "source": "ADR-039", "minted": "2026-08-01", "text": "The mold pays for itself on the second casting and profits on every one after." },
+
+    { "id": "adr041-C-analyze", "movement": "ADR-041 · The Molt", "aspect": "C", "verb": "analyze", "source": "ADR-041", "minted": "2026-08-01", "text": "Before you trust a number, look for its tilde or its custody; a value with neither is not yet real." },
+    { "id": "adr041-C-assess", "movement": "ADR-041 · The Molt", "aspect": "C", "verb": "assess", "source": "ADR-041", "minted": "2026-08-01", "text": "The only dishonesty is the assessed worn as the audited. The tilde is the whole safeguard." },
+    { "id": "adr041-C-evaluate", "movement": "ADR-041 · The Molt", "aspect": "C", "verb": "evaluate", "source": "ADR-041", "minted": "2026-08-01", "text": "Coherence is not agreement. It is a body of drops holding tension without going flat." },
+    { "id": "adr041-C-synthesize", "movement": "ADR-041 · The Molt", "aspect": "C", "verb": "synthesize", "source": "ADR-041", "minted": "2026-08-01", "text": "Confidence is the posterior, conviction is its stability. Fuse them into one loud number and you have lied twice." },
+    { "id": "adr041-C-recapitulate", "movement": "ADR-041 · The Molt", "aspect": "C", "verb": "recapitulate", "source": "ADR-041", "minted": "2026-08-01", "text": "Keep the load-bearing grain; a line kept for being quotable is sediment, not signal." },
+
+    { "id": "adr041-D-analyze", "movement": "ADR-041 · The Molt", "aspect": "D", "verb": "analyze", "source": "ADR-041", "minted": "2026-08-01", "text": "A decision carries two numbers, the audited and the assessed. Never let the second wear the first's clothes." },
+    { "id": "adr041-D-synthesize", "movement": "ADR-041 · The Molt", "aspect": "D", "verb": "synthesize", "source": "ADR-041", "minted": "2026-08-01", "text": "An empty cell is not a failure. It is a stub: a place kept for a proverb not yet earned." },
+    { "id": "adr041-D-recapitulate", "movement": "ADR-041 · The Molt", "aspect": "D", "verb": "recapitulate", "source": "ADR-041", "minted": "2026-08-01", "text": "A filed decision that keeps its tildes can be trusted years later; one that hid them cannot." },
+
+    { "id": "adr041-R-assess", "movement": "ADR-041 · The Molt", "aspect": "R", "verb": "assess", "source": "ADR-041", "minted": "2026-08-01", "text": "Unlabeled non-GAAP presented as GAAP is what quietly rots a house." },
+    { "id": "adr041-R-recapitulate", "movement": "ADR-041 · The Molt", "aspect": "R", "verb": "recapitulate", "source": "ADR-041", "minted": "2026-08-01", "text": "A grid that comes back full is the tell of padding. The empty cells are the honesty." },
+
+    { "id": "adr041-W-recapitulate", "movement": "ADR-041 · The Molt", "aspect": "W", "verb": "recapitulate", "source": "ADR-041", "minted": "2026-08-01", "text": "Strip the formwork only after the concrete sets. Pull it while curing and the structure falls." }
   ]
 }
