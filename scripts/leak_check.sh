@@ -227,7 +227,9 @@ if not m:
 text = ''.join(base64.b64decode(v).decode('utf-8', 'replace')
                for v in json.loads(m.group(1)).values()).lower()
 banned = ['plant is moving', 'plant closing', 'wisconsin', 'jobs affected',
-          '20 jobs', 'symptom chart', 'magical thinking', 'the tiers,']
+          '20 jobs', 'symptom chart', 'magical thinking', 'the tiers,',
+          # third-party broker terms, genericized 2026-07-31 (Zach's call, no waiver)
+          '$20k', '$240k', '300–500 stores', '300-500 stores']
 for t in banned:
     if t in text:
         print(f'louisville.html decoded payload contains banned term: {t!r}')
