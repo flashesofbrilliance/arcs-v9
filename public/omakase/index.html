@@ -104,6 +104,13 @@
   .ao a{color:var(--gold);text-decoration:none;border-bottom:1px dashed var(--faint);margin:0 7px;white-space:nowrap}
   .ao a:hover,.ao a:focus-visible{border-bottom-color:var(--gold)}
   .ao .locked{color:var(--faint);margin:0 7px;white-space:nowrap;cursor:default;opacity:.6;font-size:9px}
+  .rcp{max-width:620px;margin:26px auto 0;border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,rgba(201,162,39,.05),transparent 70%);padding:20px 22px;text-align:left}
+  .rcp .rk{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--gold);margin-bottom:14px;text-align:center}
+  .rcp .rrow{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:9px 0;border-top:1px dashed rgba(201,162,39,.25)}
+  .rcp .rrow:first-of-type{border-top:0}
+  .rcp .rl{font-family:var(--mono);font-size:8.5px;letter-spacing:.16em;color:var(--faint);padding-top:3px}
+  .rcp .rv{font-size:13.5px;color:var(--dial);line-height:1.65}
+  @media(max-width:560px){.rcp .rrow{grid-template-columns:1fr;gap:3px}}
   .an{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;color:var(--faint);line-height:2;margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto}
   /* the loading stroke: one enso draws itself in ink, breathes, and dissolves into the street.
      Pure CSS timeline (self-clearing without JS); shown once per session; reduced-motion skips it. */
@@ -198,6 +205,26 @@
     <p class="en">THE CELLAR COURSE · ONE RECORD, THREE ROOMS</p>
     <p class="voice">Beneath the counter, a cellar: every claim labeled with its vintage and grade, every strike recorded in the open. The same truth is cut for each palate at the table, and a lacquered box carries <span class="accent">one small thing of great value</span> intact to the right hands. <i>You taste none of the bookkeeping. You taste that nothing served tonight has ever needed to lie.</i></p>
     <div><span class="door locked" title="Back of house · gated (ask for access)">🔒 🏯 THE CODEX</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍣 THE FILTER</span> <span class="door locked" title="Back of house · gated (ask for access)">🔒 🍱 THE BOX</span></div>
+    <div class="step"><button data-next="scR">THE NEXT PIECE</button></div>
+  </section>
+
+  <!-- R · the guest's course: the receipt Justin cut live on the first call.
+       Figures milled for the open room (seimaibuai); the full-fidelity original
+       lives in the gated record. Source: runtime/recoil/generated/2026-07-31-delaney.json -->
+  <section class="scene" id="scR">
+    <p class="ma" aria-label="interstitial haiku"><span class="mjp" lang="ja">客の手が　庖丁を取り　一皿成る</span><span class="men">THE GUEST TAKES THE KNIFE · ONE DISH APPEARS</span></p>
+    <span class="kanji-big">客</span>
+    <p class="en">THE GUEST'S COURSE · THE DISH YOU CUT YOURSELF</p>
+    <p class="voice">On the first call, the guest stepped behind the counter. A live decision, his own numbers, and he articulated the tripwire himself, then sharpened it past binary before the chef could. <span class="accent">This is that dish, plated as it was cut</span>, figures milled for the open room the way rice is milled for daiginjo. The unmilled original keeps in the cellar.</p>
+    <div class="rcp">
+      <p class="rk">領収書 · A DECISION RECEIPT · CUT LIVE · JUL 31 2026 · MINUTES 34 TO 42</p>
+      <div class="rrow"><span class="rl">THE BET</span><span class="rv">Keep the national sales team at its five-figure monthly retainer through the October gate, held to a six-figure monthly incrementality line.</span></div>
+      <div class="rrow"><span class="rl">THE BANDS</span><span class="rv">His own, graduated, not binary: below the line, end-of-year notice · at the line, re-compete it · above it, <i>"we let it roll, maybe a bonus."</i></span></div>
+      <div class="rrow"><span class="rl">THE SHARPEN</span><span class="rv">Then he cut it finer unprompted: lower the fixed retainer, raise the commission, focus the two regions that actually win.</span></div>
+      <div class="rrow"><span class="rl">STATUS</span><span class="rv"><span style="color:var(--verm)">UNSEALED</span> · the October gate is on the calendar and waiting for a signature.</span></div>
+    </div>
+    <p class="quiet">THE HOUSE DID NOT COOK THIS ONE · THE GUEST DID · THE HOUSE ONLY KEPT THE RECEIPT</p>
+    <p class="ao" style="margin-top:18px"><a href="data:application/json;charset=utf-8,%7B%0A%20%20%22kind%22%3A%20%22arcs.receipt%22%2C%0A%20%20%22id%22%3A%20%22lvb-2026-07-31-vendor-tripwire%22%2C%0A%20%20%22author%22%3A%20%22Justin%20Delaney%22%2C%0A%20%20%22createdLive%22%3A%20%222026-07-31%2C%20first%20call%2C%20minutes%2034%20to%2042%22%2C%0A%20%20%22bet%22%3A%20%22Keep%20the%20national%20sales%20team%20at%20its%20five-figure%20monthly%20retainer%20through%20the%20October%20renewal%20gate%2C%20held%20to%20a%20six-figure%20monthly%20incrementality%20line%22%2C%0A%20%20%22line%22%3A%20%22A%20six-figure%20monthly%20incrementality%20floor%2C%20measured%2C%20not%20recalled%22%2C%0A%20%20%22bands%22%3A%20%7B%0A%20%20%20%20%22belowTheLine%22%3A%20%22end-of-year%20notice%22%2C%0A%20%20%20%20%22atTheLine%22%3A%20%22re-compete%20it%20%28RFP%29%22%2C%0A%20%20%20%20%22aboveTheLine%22%3A%20%22let%20it%20roll%2C%20maybe%20a%20bonus%22%0A%20%20%7D%2C%0A%20%20%22sharpen%22%3A%20%22Lower%20the%20fixed%20retainer%2C%20raise%20the%20commission%2C%20focus%20the%20two%20regions%20that%20actually%20win%22%2C%0A%20%20%22gate%22%3A%20%22October%20renewal%22%2C%0A%20%20%22status%22%3A%20%22UNSEALED%22%2C%0A%20%20%22provenance%22%3A%20%22Co-built%20live%20by%20Justin%20on%20the%20Jul%2031%202026%20call%3B%20figures%20milled%20for%20the%20open%20page%20%28seimaibuai%29%2C%20full-fidelity%20original%20in%20the%20gated%20record%22%2C%0A%20%20%22next%22%3A%20%22Seal%20it%3A%20sign%2C%20date%2C%20and%20put%20the%20score-back%20on%20the%20calendar%20for%20the%20October%20gate%22%0A%7D" id="rcpdl" download="lvb-receipt-2026-07-31.json">⬇ TAKE IT WITH YOU · THE RECEIPT AS JSON</a><a href="https://claude.ai/code/artifact/2546f3a7-88f5-4c73-afc6-034d04fb4b4d" target="_blank" rel="noopener">⚛ WHY THE RECEIPT IS THE ATOM · THE ARCHITECTURE</a></p>
     <div class="step"><button data-next="sc7">THE NEXT PIECE</button></div>
   </section>
 
@@ -260,8 +287,8 @@
 <script>
 (function(){
   // One evening: nine lanterns, one-way stages, guest-paced (the plié: nothing advances itself).
-  var SCENES = ["sc0","sc1","sc2","sc3","sc4","sc7","sc8","sc9","sc11"];
-  var LANTERN_COUNT = 8; // one lantern per station after the street
+  var SCENES = ["sc0","sc1","sc2","sc3","sc4","scR","sc7","sc8","sc9","sc11"];
+  var LANTERN_COUNT = 9; // one lantern per station after the street
   var lan = document.getElementById("lanterns");
   for(var i=0;i<LANTERN_COUNT;i++){ var d=document.createElement("span"); d.className="lantern"; lan.appendChild(d); }
   var lanterns = lan.children;
