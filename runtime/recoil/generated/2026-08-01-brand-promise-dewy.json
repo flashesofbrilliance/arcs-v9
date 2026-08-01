@@ -1,0 +1,23 @@
+{
+  "schema": "dewy.receipt/v1",
+  "id": "dewy_brand_overclaim_2026-08-01",
+  "kind": "brand-positioning",
+  "stage": "thesis",
+  "createdAt": "2026-08-01",
+  "dewy": {
+    "D": "How does ARCS position what it does and does not promise on irreversible decisions?",
+    "E": ["ARCS", "the decision-maker", "the counterparty who reads the receipt", "future-you (the forensic reader)"],
+    "W": "canonical / standing — governs all copy and surfaces going forward",
+    "Y": "GREEN — high conviction; RC-grade, canonized across ADR-039 + Tao + memory"
+  },
+  "true_north": "The refusal to overclaim IS the product: survivability, not immunity.",
+  "facts": {
+    "promise": "fewer blind fragilities + slips that survive being wrong (BAR)",
+    "never": "protection / immunity / 'we've got you covered'",
+    "spine": "physics (Lyapunov horizon) -> product (defer/confidence-floor/BAR) -> terms (covenant not shield)",
+    "corollary": "the record is the survivor — cockroach receipt: durable/immutable/content-hashed/signed so ruin reconstructs witness-free; durability = core promise not B2B upsell"
+  },
+  "nci_score": 91,
+  "reasoning": "Consistent from physics to terms; wired, not just asserted (defer/confidence/BAR/terms). Overclaiming protection = false safety = the actual ruin, so the honest claim is also the safer one.",
+  "lineage": { "adr": "ADR-039", "memory": "brand-promise-refusal-to-overclaim", "tao": "cellar -> promote to front" }
+}

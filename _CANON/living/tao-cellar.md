@@ -52,6 +52,9 @@ xi, xii, xiii, xvii, xx, xxi, xxii, xxiii, xxv, xxvi, xxvii, xxviii, xxx, xxxi.
 - **A mild pull gathers; a strong pull traps.** *Ruin is a well deep enough that the fall cannot be climbed. Keep every descent reversible.*
 - **You buy the right to float by building what holds the floor.** *The free point needs a funded field; revenue is the field's power supply.*
 - **A wait without a date is drift wearing patience.** *Name the re-check, and stillness becomes a position instead of a stall.*
+- **[RC-grade · ADR-039]** **We do not sell shields. We sell survivable slips.** *Never immunity — fewer blind fragilities and a fall you can climb back from. Overclaimed protection is false safety, worse than known exposure. The refusal to overclaim is the product.*
+- **[RC-grade · ADR-039]** **One honesty, three altitudes: horizon, survivability, covenant.** *Physics says there is a Lyapunov edge; product says survive-don't-shield; terms say covenant-not-liability-shield. The map never lies about how certain it is.*
+- **The record is the survivor.** *On a long enough horizon the survival rate is zero — so build the receipt to be the cockroach: durable, sealed, witness-free, so the ruin can be read after everyone who saw it is gone.*
 
 ## Promotion protocol
 
