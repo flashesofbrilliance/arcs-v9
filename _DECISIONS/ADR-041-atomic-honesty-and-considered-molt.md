@@ -48,6 +48,13 @@ Two rules make the molt safe and right-sized:
   grain's core — chosen per-artifact, right-sized (the 25th-polish essence), never a uniform
   mass-polish that over-strips some things and under-strips others.
 
+**The molt is operationalized by RECAPITULATE (the 5-verb terminal, ADR-040), run in deep KAIROS
+mode.** Recapitulate is not a chronos summary; it is the high-coherence-depth pass (`TimeMode.KAIROS`)
+that executes the molt as **scan → audit → distill**: *scan* the whole field at depth, *audit*
+GAAP/non-GAAP (custody-backed vs assessed-formwork), *distill* to the load-bearing grain (the sake
+polish). This is why the molt is a consolidation step, not a live one — it requires kairos depth, and
+kairos depth requires the concrete to have set.
+
 ## E — Entity
 
 Governs every durable artifact (ADRs, skills, specs, canon, memory). The reconciliation clause is
