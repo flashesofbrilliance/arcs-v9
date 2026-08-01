@@ -1,47 +1,44 @@
-# ARCS Session State — v3.19.0 (2026-07-31)
+# ARCS Session State — v3.20.0 (2026-08-01)
 
 **Environment:** Claude Code (local, interactive), committed via main worktree `frosty-kepler-b69f51`
 **Branch:** `main`, pushed to `origin/main`
-**Head:** `7df645a` — polish(funhouse): kill dead cellar links + correct skill 'mechanically' overclaim
+**Head:** `47b5700` — tea house door leaves the guest course (last commit of the Louisville build)
 
 ## Current sprint snapshot
 
-**Just shipped:** Louisville Brands full engagement universe (Justin/Stanley/Jeben) — pitch suite,
-persistence, security hardening, recoil, and the pipeline codified as a skill.
+**Just shipped + SENT:** Louisville Brands (Justin Delaney) follow-up. The three-surface
+universe is live and self-hosted, and the thank-you email is sent.
 
-- `louisville.arcs.care` — single-file pitch suite (4 two-sided cards, Test→Pilot→Scale, foil-seal
-  CTAs, global PRESENT mode w/ mouseless nav, `~` eggs, Vercel Analytics). Source builder in
-  session scratchpad (`build-home.mjs`); built artifact `public/louisville.html`.
-- **Persistence:** `SessionReceipt` model + tenant-pinned RLS (`louisville_app` role, tenant=jeben)
-  on Supabase; hardened `POST/GET /api/louisville/receipts` (Zod, body cap, row cap, throttle).
-- **RUIN leak closed:** `public/jeben.html` (plant closing, jobs, third-party financials, candid
-  Jeben-on-Justin reads) was world-readable behind client-side pw theater → moved to
-  `runtime/warroom/`, admin-gated, verified 404 live. Omakase appendix (15 files) likewise gated.
-  `leak_check.sh` grew regression gates for client-gate theater + redaction-policy disclosure.
-- **Recoil:** `runtime/recoil/generated/2026-07-31-delaney.json` (Justin call, kairos bookmarks,
-  kinematics) + `scripts/gen_recoil_artifact.py` + ADR-038 (bookmark primitive, RC-PROPOSED).
-- **Skill:** `.claude/skills/omakase-pipeline/SKILL.md` — the jeben→omakase→louisville
-  instance lifted to class (3 surfaces, 5 lossless invariants, 6-operator crew, 7-step pipeline).
-- **Gauntlets:** two multi-agent gauntlets + lens gauntlet applied earlier; final fanned Funhouse
-  (6 distortion lenses → adversarial verify → distill) launched this session after spend limit lifted.
+- **L1/L2/L3 self-hosted on arcs.care:** louisville.arcs.care (suite) → /omakase (the
+  evening) → /omakase/atom (the tea house = "The Seed, Told Whole", 7 chapters). Host-agnostic
+  rewrites in next.config.ts; also on omakase.arcs.care. Navigable both ways (breadcrumb +
+  footer returns), orphan-gated in leak_check.
+- **The tea house** opens with 序 foreword (acknowledgement in place of a thank-you), carries
+  Justin's live receipt (milled figures, JSON download), and closes with the seal-before-October
+  CTA. Scroll + arrows, no present mode (removed).
+- **The evening** offers tea after dessert (one open door among locked ones → the tea house);
+  seed sentence aligned to the suite's softened canonical form.
+- **The suite** egg row distilled to 🧧 (private stock) + 🧾 (the foreword cover note).
+- **Email SENT** to delaney@louisvillebrands.com, subject "One evening": 4-sentence body,
+  いらっしゃいませ links the evening, "gift at the end is one you made", P.S. "Welcome to the
+  Lonely Mouth Social Club" (kuchisabishii = the house name = his rebuy customer = his receipt's
+  falsifier; the deep-listen golden thread). Zach hand-edited a variant in Gmail before sending;
+  lowered model to opus 4.8 to iterate it.
+- **SIGNAL:** Justin accepted the LinkedIn invite within minutes of the send.
 
 ## Next action
 
-Funhouse workflow results → apply surviving fixes → commit/deploy. Then optionally: justin-war
-SSOT (6-tab loop), sanitized justin-ext recoil twin, ADR-038 renderer on gated /recoil page.
+NONE assigned. Let it breathe (recoil protocol: one dated hook, then stop pursuing). If Justin
+replies or proposes a time, run /recoil-close on the ex-ante when the session happens. Do not
+self-assign follow-ups.
 
 ## Blocking
 
-NONE (spend limit was lifted; multi-agent fan-out working again).
+NONE.
 
-## New durable memories this session
+## Process lesson banked this session
 
-- (prior sessions') air-gap + confidence/conviction memories exercised heavily; no net-new files banked this session.
-
----
-
-## Prior — v3.16.0 (2026-07-22)
-
-Ahmed Elsamadisi / Polyform AI reconnect: internal war-room `ahmed.arcs.care` (6 tabs, measured
-kinematics), external twin `ahmed-ext.arcs.care` send-ready, SSOT + `scripts/recoil_brief.py`
-audience projection. Ahmed next step (Zach-owned): set pilot price + name customer → send ext page.
+- [[deploy-antipattern-grep-verified-ui]] — never claim UI polish from greps; screenshot before
+  push (omakase-static local server); probes key on the change; artifacts are deploys too; and
+  STOP when done (credit burn came from not stopping, not from any one task). Occam's razor over
+  mechanical bias: look at the thing, infer from evidence, end the turn.
