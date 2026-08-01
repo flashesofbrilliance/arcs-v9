@@ -23,8 +23,13 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // omakase.arcs.care → public/omakase/ (一夜 One Evening — Louisville canon site, Gospel XXIV; open, no gate)
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
+        // L3 · the atom story (tea-house room off the cellar) — extensionless on the omakase host
+        { source: "/atom", destination: "/omakase/atom.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
         // negative lookahead prevents beforeFiles chaining (rule above already lands in /omakase/)
         { source: "/:path((?!omakase/).*)", destination: "/omakase/:path", has: [{ type: "host", value: "omakase.arcs.care" }] },
+        // L1→L2→L3 path pattern, host-agnostic: /omakase/atom works on louisville + www + app
+        { source: "/omakase/atom", destination: "/omakase/atom.html" },
+        { source: "/omakase", destination: "/omakase/index.html" },
         // vishal.arcs.care → public/vishal-combined.html
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
         // kelly-interview.arcs.care → public/kelly-interview.html
@@ -111,7 +116,9 @@ const nextConfig: NextConfig = {
         // louisville.arcs.care → public/louisville.html (Louisville Brands pitch suite · open, no gate)
         // Wildcard excludes /api/* via negative lookahead (same shape as jeben/debrief above) —
         // without it the rewrite swallows the suite's own /api/louisville/* persistence calls.
-        { source: "/:path((?!api/).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
+        // /omakase* excluded: the L2 evening + L3 atom story live as subpages of the suite
+        // (louisville.arcs.care/omakase, /omakase/atom) via the host-agnostic rules above.
+        { source: "/:path((?!api/|omakase).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
         // resume.arcs.care/google (+ /google-gtm) → public/resume-google-gtm.html (Google Principal GTM AI Tools variant)
         // Same exact-path-vs-wildcard shape as todd/teardown, julia/runtime, jeben/debrief above.
         // NOTE: /google is the primary share path. /google-gtm was the original slug but its edge
