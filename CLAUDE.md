@@ -511,3 +511,81 @@ NONE.
 
 `/handoff-pickup`. New load-bearing memory: [[tao-as-object-level-taxonomy-of-problem-space]].
 New generators: `scripts/gen_tao_{views,corpus,alchemist}.py`. Plan: `_STATE/tao-implementation-plan-v1.md`.
+
+---
+
+# Handoff — v3.24.0 (2026-08-01, Sat night)
+
+> **For Claude Code:** active pickup point. This was a **philosophy → product → purpose marathon**,
+> banked almost entirely into **user-level auto-memory** (`~/.claude/projects/-Users-zharris-arcs-v9/memory/`,
+> NOT repo-visible from a cloud session). Two small repo commits + one in-chat design prompt. Branch
+> `claude/decision-geometry-logo-81fb56`. **Housekeeping debt persists** (now 9 handoff blocks
+> v3.16–v3.24; policy 1–2 — relocate v3.16–v3.20 to `_ARCHIVE/handoffs.md` next session).
+
+## What happened (2026-08-01 PM/night) — the spine of the whole thing
+
+A Logo-origin question ("did the turtle seed the decision-geometry frame?") unspooled into a coherent
+**philosophy → product → purpose spine**, banked across ~9 auto-memories. The three pillars:
+
+- **Design north-star — [[met-at-your-level-onramp-design-principle]]:** *met at your level → suspend
+  disbelief → transported by your own interactivity → flow.* Doorway not tutorial; never render above
+  altitude; sensor-suite (lidar/radar/sonar = match modality to fog); *sine ira et studio* + non-dual
+  (verdict dropped, gravity kept); firm-footing-in-fog; rock-balancing/cairn; boat-sail-compass-wind
+  harbor-to-harbor. **The TELOS: reflect the geometry, "say it without saying it."** Apophatic def =
+  *helps shape without saying / being / pushing / pulling.* Symbol lineage **~ → Mañana → Ark → ARCS**
+  (`~` not `=`). Universal span: pre-K ↔ wise luddite elder (accessibility == inheritability).
+- **Architecture/moat — [[context-manifold-as-model-agnostic-attractor-basin]]:** the manifold is an
+  **authored (not learned) state space** = a model-agnostic attractor basin; any predictor (LLM/JEPA)
+  plugs in. **Falsifiability is the invariant fulcrum for both FMs** (failure-modes FP/FN *and*
+  foundation-models). Self-correcting gospel = **custody not clergy** (secular-monk/annalist role);
+  Tao-vs-Tetragrammaton fork (authorless-by-truth vs by-holiness); Ark = **recovered-not-invented**,
+  vessel-not-reliquary; net-new is **DEEMED not CLAIMED** via a Librarian/Alchemist/Skeptic/Loki
+  judging panel (a buildable `tao-mint` gate). A decision is a **point**; horizon + orientation
+  promote it to a **vector**.
+- **Purpose (the WHY under it all) — [[arcs-purpose-inherit-tacit-wisdom-first-author-not-last]]:**
+  make tacit wisdom portable so it's **inherited**; Zach = **first author, not last**; the son picks up
+  the pen at the page left off, after death. **Unify the 3 severed legacies** (digital/physical/
+  generational) into one openable custody-welded vessel **by subtraction** (bonsai of a life), not a
+  sealed archive. **Knowledge work = a compounding CRAFT, not a commodity** (AI commoditizes the typing,
+  not the taste). Concrete vault feature: the **opportunity-cost investment bank** (bank the tuition;
+  reweight on process not outcome; opportunity cost is `~` not `=`; heir gets the calibration + the
+  right to re-weigh it). Keystone image: *"the turtle, like the redwood, is still walking far after I am
+  not."*
+
+## What shipped to the repo (small; the heavy work was memory)
+
+- `3a80376` — **meta-audit** `_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md` (why deductive
+  taxonomies can't hold a live synthesis thread) + minted the **"white water" proverb** to the Tao SSOT
+  (`field-2026-08-01-R-assess`, corpus now **242**).
+- `7e56a7b` — **Views of the Corpus upgrade:** every cell (lit + empty) reveals its state-space
+  coordinate on hover/focus; lit = the proverb, empty = its *ma* ("intentionally silent"); styled
+  tooltip + full **keyboard walk** (Tab + arrows across faces). `scripts/gen_tao_views.py`. Verified
+  local (DOM + computed styles), **no deploy** (JIT loop).
+
+## Delivered in-chat, not filed
+
+A ready-to-paste **Claude-design prompt** for a 60–75s **product-marketing video** of the three-planes /
+legacy-vault (fog→sharp "snap into focus", brand grammar, no-narration telos). It's in this session's
+transcript. Build a storyboard/Gamma from it only on Zach's go (budget-gated for the Todd week).
+
+## Open / next
+
+1. **Cost-leak fix** (separate session): version the Vercel build-skip as `vercel.json` `ignoreCommand`
+   (PATH-based, NOT `[NCI:SKIP]`) + a tripwire.
+2. **Todd/PRL** — Zapier lead delivery blocked on the Tidio plan upgrade (verify before sinking time).
+3. **New build-ready from tonight:** the **legacy-vault + opportunity-cost investment bank** (Outcome
+   handler + recoil loop + portfolio/risk view over receipt history). And the marketing video (prompt
+   in transcript).
+4. Tao hosting at `tao.arcs.care` via the JIT loop; ratify ADR-039/040/041.
+5. Housekeeping: relocate v3.16–v3.20 handoffs to `_ARCHIVE/handoffs.md`. Two auto-memories are large
+   (`context-manifold-basin` ~22KB, `met-at-your-level` ~20KB) — split if they near the 24.4KB read cap.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memories: [[met-at-your-level-onramp-design-principle]],
+[[context-manifold-as-model-agnostic-attractor-basin]], [[arcs-purpose-inherit-tacit-wisdom-first-author-not-last]],
+[[fight-or-flight-inverts-signal-noise-classifier]], [[arcs-assumes-stateful-human-memory-needs-rewarming]].

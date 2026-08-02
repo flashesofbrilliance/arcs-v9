@@ -1,44 +1,28 @@
-# ARCS Session State — v3.20.0 (2026-08-01)
+# ARCS Session State — v3.24.0 (2026-08-01, Sat night)
 
-**Environment:** Claude Code (local, interactive), committed via main worktree `frosty-kepler-b69f51`
-**Branch:** `main`, pushed to `origin/main`
-**Head:** `47b5700` — tea house door leaves the guest course (last commit of the Louisville build)
+**Branch:** `claude/decision-geometry-logo-81fb56` (NOT main) · **HEAD:** `7e56a7b` · **Blocking:** NONE
 
-## Current sprint snapshot
+## This session (philosophy → product → purpose marathon; mostly user-level memory)
 
-**Just shipped + SENT:** Louisville Brands (Justin Delaney) follow-up. The three-surface
-universe is live and self-hosted, and the thank-you email is sent.
+A Logo-origin riff became a coherent spine, banked across ~9 auto-memories (`~/.claude/projects/-Users-zharris-arcs-v9/memory/`, NOT repo-visible):
 
-- **L1/L2/L3 self-hosted on arcs.care:** louisville.arcs.care (suite) → /omakase (the
-  evening) → /omakase/atom (the tea house = "The Seed, Told Whole", 7 chapters). Host-agnostic
-  rewrites in next.config.ts; also on omakase.arcs.care. Navigable both ways (breadcrumb +
-  footer returns), orphan-gated in leak_check.
-- **The tea house** opens with 序 foreword (acknowledgement in place of a thank-you), carries
-  Justin's live receipt (milled figures, JSON download), and closes with the seal-before-October
-  CTA. Scroll + arrows, no present mode (removed).
-- **The evening** offers tea after dessert (one open door among locked ones → the tea house);
-  seed sentence aligned to the suite's softened canonical form.
-- **The suite** egg row distilled to 🧧 (private stock) + 🧾 (the foreword cover note).
-- **Email SENT** to delaney@louisvillebrands.com, subject "One evening": 4-sentence body,
-  いらっしゃいませ links the evening, "gift at the end is one you made", P.S. "Welcome to the
-  Lonely Mouth Social Club" (kuchisabishii = the house name = his rebuy customer = his receipt's
-  falsifier; the deep-listen golden thread). Zach hand-edited a variant in Gmail before sending;
-  lowered model to opus 4.8 to iterate it.
-- **SIGNAL:** Justin accepted the LinkedIn invite within minutes of the send.
+- **Design north-star** [[met-at-your-level-onramp-design-principle]] — met-at-level → suspend disbelief → transported by own interactivity → flow; telos = **reflect the geometry, say-it-without-saying-it**; apophatic ("helps shape without saying/being/pushing/pulling"); `~ → Mañana → Ark → ARCS`; sensor-suite; cairn; boat/harbor; pre-K↔luddite-elder span.
+- **Architecture/moat** [[context-manifold-as-model-agnostic-attractor-basin]] — authored-not-learned state space = model-agnostic basin (LLM/JEPA); falsifiability = invariant fulcrum for both FMs; custody-not-clergy self-correcting gospel; Ark recovered-not-invented; net-new DEEMED-not-CLAIMED via judging panel; point→vector.
+- **Purpose** [[arcs-purpose-inherit-tacit-wisdom-first-author-not-last]] — inherit tacit wisdom, first author not last; unify 3 severed legacies by subtraction; knowledge work = compounding craft; legacy-vault + opportunity-cost investment bank.
 
-## Next action
+## Repo commits (small)
 
-NONE assigned. Let it breathe (recoil protocol: one dated hook, then stop pursuing). If Justin
-replies or proposes a time, run /recoil-close on the ex-ante when the session happens. Do not
-self-assign follow-ups.
+- `3a80376` — meta-audit `_PATTERNS/2026-08-01-nonlinear-thread-meta-audit.md` + "white water" proverb (SSOT → 242).
+- `7e56a7b` — Views of the Corpus tooltip + keyboard-walk (`scripts/gen_tao_views.py`; verified local, no deploy).
 
-## Blocking
+## In-chat, not filed
 
-NONE.
+Claude-design prompt for a 60–75s product-marketing video (3-planes/legacy-vault, fog→sharp snap-into-focus). In transcript. Build only on Zach's go (budget-gated).
 
-## Process lesson banked this session
+## Next (unchanged priorities + new)
 
-- [[deploy-antipattern-grep-verified-ui]] — never claim UI polish from greps; screenshot before
-  push (omakase-static local server); probes key on the change; artifacts are deploys too; and
-  STOP when done (credit burn came from not stopping, not from any one task). Occam's razor over
-  mechanical bias: look at the thing, infer from evidence, end the turn.
+1. Cost-leak fix (separate session): `vercel.json` `ignoreCommand` PATH-based + tripwire.
+2. Todd/PRL — Zapier blocked on Tidio plan upgrade.
+3. **New build-ready:** legacy-vault + opportunity-cost investment bank (Outcome handler + recoil loop + portfolio view); marketing video.
+4. Tao hosting via JIT loop; ratify ADR-039/040/041.
+5. Housekeeping: relocate v3.16–v3.20 handoffs to `_ARCHIVE/handoffs.md`; watch mega-memory sizes (basin ~22KB, met-at-level ~20KB).
