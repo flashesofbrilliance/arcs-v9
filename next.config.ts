@@ -101,7 +101,12 @@ const nextConfig: NextConfig = {
         // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },
         // ahmed-ext.arcs.care → public/ahmed-ext.html (sanitized Ahmed-facing recoil demo — safe to share)
-        { source: "/:path*", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
+        // L1→L2→L3 omakase-pipeline family for this host: recoil report (L1, root) → the method
+        // (L2, /evening) → the seed (L3, /seed). Exact-path rules first, wildcard excludes both
+        // via negative lookahead — same shape as the jeben/debrief and louisville/omakase rules above.
+        { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
+        { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
+        { source: "/:path((?!.*evening|.*seed).*)", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two

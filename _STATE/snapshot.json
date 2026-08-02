@@ -2,9 +2,9 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "4c216df",
-    "head_message": "docs(handoff): v3.18.0 IP-leak hardening; archive v3.12.x [NCI:SKIP]",
-    "in_sync_with_origin": false,
+    "head_sha": "213a62e",
+    "head_message": "feat(skills): add /meta-audit; componentize omakase critique into assembly rules; code-verify ADR-040 [NCI:SKIP]",
+    "in_sync_with_origin": true,
     "dirty_files": []
   },
   "vercel": {
@@ -40,7 +40,7 @@
     "joe-war.arcs.care": "Joe Kim / HypeLab INTERNAL multi-call recoil war-room (pw 'cartography', NEVER share). 5 calls Oct 2025->Jul 2026 + gmail + gamma. Key finding: GTM role was already filled (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; shows evidence-vs-behavior overconfidence divergence. Generated from runtime/recoil/generated/2026-07-22-kim-multicall.json.",
     "joe-ext.arcs.care": "Joe-facing forward recoil (pw 'joe', safe to share). Shows only Zach's own venture->lifestyle read + ARV-sprint/gauntlet offers. Candidacy fully air-gapped out. joe.arcs.care (the older Oct decision-map) already shared with Joe Jul 20.",
     "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI \u2014 reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
-    "ahmed-ext.arcs.care": "Ahmed-FACING sanitized demo (open link, no pw). Competitor-safe: capability-level only, schema/mechanics/kinematics-derivatives redacted, all strategy-about-him removed. This is the send-ready artifact. Next: Zach sets pilot price + names one customer, then send.",
+    "ahmed-ext.arcs.care": "Ahmed-FACING sanitized suite (open link, no pw), now a 3-surface omakase-pipeline family per Ahmed's response asking to see how ARCS benefits him + his clients: root = recoil report (unchanged, competitor-safe), /evening = 'The Method' (canon-forge, the seed/serialized-recap, the per-customer + aggregate channel offer), /seed = 'The Seed' (5-chapter distilled thesis). Routed via src/proxy.ts MULTI_PATH_MAP (primary) + next.config.ts backstop (both fixed 2026-08-02: wildcard exclusion needed .*evening|.*seed substring-anywhere match, not prefix-only, per the same re-catch bug documented for todd-call/julia). Air-gap grepped clean (no beliefs/nci/y_state/next_steps). Still gated on Zach setting pilot price + naming one customer before send.",
     "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
     "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
     "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
@@ -179,7 +179,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-24T17:21:12Z",
+  "git_refreshed_at": "2026-08-02T15:07:00Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
