@@ -121,7 +121,94 @@
   .inch{font-family:var(--mono);font-size:.78rem;color:var(--sec);border:1px dashed var(--border);border-radius:6px;padding:.9rem 1.1rem}
   .inch b{color:var(--gold)}
   footer{margin-top:3rem;font-family:var(--mono);font-size:.62rem;color:var(--mut);letter-spacing:.08em}
-  @media print{.deck{position:static}.tl-scroll,.tbl-scroll{overflow:visible}body{background:#fff;color:#111}}
+  /* ── print-only masthead (the deck is interactive chrome; paper gets a stamp instead) ── */
+  .print-head{display:none}
+
+  /* ══ PRINT · silkscreen on paper ═══════════════════════════════════════════
+     The cockpit is dark because screens emit; paper reflects. Same instrument,
+     inverted substrate. Accents are re-mixed to ink densities that survive a
+     laser printer — not the emissive #00F0FF/#FFD700, which vanish on white. */
+  @page{margin:14mm 13mm 15mm}
+
+  @media print{
+    :root{
+      --bg:#fff; --surface:#fff; --surface2:#fbfcfd; --border:#c3ccd6;
+      --text:#0a0e13; --sec:#28313c; --dim:#57616d; --mut:#68727e;
+      --cyan:#04616f; --green:#046040; --gold:#6f5200; --red:#a2102c; --steel:#1c5478;
+      /* fidelity engine is a screen instrument — paper always prints SHARP */
+      --fid-opacity:1; --fid-blur:0px; --fid-gray:0; --fid-track:0em; --fid-scan:0; --fid-pw:450;
+    }
+    html,body{background:#fff}
+    body{color:var(--text);font-size:10.5pt;line-height:1.5}
+    .wrap{filter:none;opacity:1;letter-spacing:normal;padding:0;max-width:none}
+    body::before{display:none}            /* scanline overlay */
+    .deck{display:none}                   /* sliders, buttons, altitude picker */
+
+    .print-head{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;
+      border-bottom:1.5px solid var(--text);padding-bottom:.45rem;margin-bottom:1.1rem}
+    .print-head .pm{font-family:var(--mono);font-size:8.5pt;font-weight:700;letter-spacing:.18em}
+    .print-head .pm b{color:var(--cyan)}
+    .print-head .ps{font-family:var(--mono);font-size:6.8pt;letter-spacing:.12em;color:var(--mut);text-transform:uppercase}
+
+    /* ── typography + rhythm ── */
+    .hero{padding-top:0}
+    .hero h1{font-size:20pt;line-height:1.14}
+    h2{font-size:12pt;break-after:avoid}
+    h2+p,.lbl{break-after:avoid}
+    p{font-size:9.8pt;max-width:none;color:var(--sec)}
+    .rule{margin:1.5rem 0 1rem;break-after:avoid}
+    a{color:var(--cyan);text-decoration:none}
+
+    /* ── keep instruments whole across the fold ── */
+    .panel,.gcard,.gauge,.move,.tl-scroll,.tbl-scroll,.note{break-inside:avoid}
+    tr,.trip .panel{break-inside:avoid}
+    thead{display:table-header-group}
+    /* inchworm entries routinely exceed one page — let them flow, but never
+       strand a line or two alone; avoid-inside here would push a full blank page */
+    .inch{break-inside:auto;orphans:4;widows:4}
+    section{break-before:auto}
+
+    /* ── solid-fill badges become outlines (printers strip backgrounds) ── */
+    .chip,.ybadge{background:none;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+    .y-g{color:var(--green);border:1px solid var(--green)}
+    .y-y{color:var(--gold);border:1px solid var(--gold)}
+    .c-ok{color:var(--green)} .c-part{color:var(--gold)} .c-stale{color:var(--red)}
+    .c-gate{color:var(--steel)} .c-gap{color:var(--dim)}
+
+    /* ── parity table: drop the 680px min-width that forced the squeeze ── */
+    table{min-width:0}
+    th{font-size:6.4pt;padding:.4rem .5rem}
+    td{font-size:8.6pt;padding:.38rem .5rem}
+    .tbl-scroll,.tl-scroll{overflow:visible}
+
+    /* ── timeline: absolute positioning collides at page width (labels landed
+         on the axis and read as strikethrough). On paper it becomes a list. ── */
+    .tl{position:static;height:auto;min-width:0}
+    .tl-axis,.ep .dot{display:none}
+    .ep{position:static;width:auto;transform:none;display:grid;
+      grid-template-columns:4.6rem 1fr;gap:.55rem;align-items:baseline;
+      padding:.3rem 0;border-bottom:1px dotted var(--border)}
+    .ep:last-child{border-bottom:none}
+    .ep .d,.ep .t,.ep:nth-child(odd) .d,.ep:nth-child(odd) .t{
+      position:static;top:auto;bottom:auto;width:auto;text-align:left;font-size:8.4pt}
+    .ep.k .d{font-weight:700}
+
+    /* ── gauntlet: 3-up is unreadable at 6in; pair them ── */
+    .gcards{grid-template-columns:1fr 1fr}
+
+    /* ── inchworm log: the densest block on paper ── */
+    .inch{font-size:7.6pt;line-height:1.5;padding:.7rem .85rem}
+
+    /* ── disclose the altitude the page was rendered at, so the artifact does
+         not silently hide ranked items from a reader holding only paper ── */
+    body.alt-exec .wrap::after,body.alt-op .wrap::after{
+      display:block;margin-top:1.4rem;padding-top:.5rem;border-top:1px solid var(--border);
+      font-family:var(--mono);font-size:6.8pt;letter-spacing:.06em;color:var(--mut)}
+    body.alt-exec .wrap::after{content:"RENDERED AT GALACTIC ALTITUDE — OPERATOR- AND SURGICAL-DEPTH ITEMS ARE HIDDEN; RANK NUMBERS MAY SKIP. PRINT AT A DEEPER FIDELITY FOR THE FULL SET."}
+    body.alt-op .wrap::after{content:"RENDERED AT OPERATOR ALTITUDE — SURGICAL-DEPTH ITEMS ARE HIDDEN."}
+
+    footer{margin-top:1.6rem;border-top:1px solid var(--border);padding-top:.5rem;font-size:6.6pt}
+  }
 </style>
 
 <div class="deck"><div class="deck-in">
@@ -140,6 +227,11 @@
 </div></div>
 
 <div class="wrap">
+
+<div class="print-head">
+  <span class="pm"><b>ARCS</b>&nbsp;· META-AUDIT</span>
+  <span class="ps">Recoil Protocol · v1.0.0 · Golden Inchworm live</span>
+</div>
 
 <section class="hero">
   <div class="stamp">

@@ -171,10 +171,25 @@ before push; stop when done; don't build verification machinery for what one loo
   (agent toggles ARE API-readable — corrected "dashboard-only"), [[cost-efficiency-global-goal]]
   (path-not-message rule + local-iteration rule).
 
+## Also cleaned up (leftover main-worktree working state, 2026-08-01)
+
+Reviewed the three uncommitted items that had been sitting in the `main` worktree:
+- **`ADR-026-debrief-calendar-invite-vs-email.md`** (untracked DRAFT, collided with tracked
+  ADR-026 Debrief Delivery Fix) → renumbered to **ADR-040**, cross-linked, added to index. Still
+  DRAFT (Decision pending Zach; calendar-invite-vs-email-only for the debrief close-the-loop).
+- **`_ARTIFACTS/arcs-meta-audit-roadmap.html`** (+93 lines) → committed: a print-only "silkscreen
+  on paper" stylesheet (inverts the dark cockpit to ink densities that survive a laser printer,
+  forces SHARP fidelity on paper). Extends [[souvenir-ship-ritual]] to the roadmap deck.
+- **`.impeccable/critique/…omakase.md`** (dual-agent critique, 18/36) → durable lesson banked as
+  [[author-cosmology-over-guest-design-risk]]; its P0/P1 items were already resolved in the
+  v3.20.0 omakase distillation. Critique file committed as the dated record.
+
 ## Open / next
 
 1. **Tao hosting work** — now safe to iterate; the leak that made every push a build is closed.
-2. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
+2. **ADR-040 is DRAFT** — decide calendar-invite vs email-only once there are ≥20 real (non-dev-test)
+   debrief opportunities to measure completion rate against.
+3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
    Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
 
 ## Blocking

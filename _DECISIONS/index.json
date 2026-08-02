@@ -304,5 +304,14 @@
     "stability": "STABLE",
     "gate": "revisit when a new non-shipping file class enters the repo",
     "file": "ADR-039-deploy-cost-guardrail-ignored-build-step.md"
+  },
+  {
+    "id": "ADR-040",
+    "title": "ADR-040 \u2014 Debrief Close-the-Loop: Calendar Invite vs. Email Only",
+    "status": "DRAFT",
+    "y_state": "SCRATCH",
+    "stability": "SHIFTING",
+    "gate": "revisit at >=20 real (non-dev-test) debrief opportunities",
+    "file": "ADR-040-debrief-calendar-invite-vs-email.md"
   }
 ]
