@@ -4,6 +4,8 @@
 > **Date:** 2026-06-21
 > **Commit:** (set at merge)
 > **Note:** Drafted 2026-06-21 as "ADR-026" but never tracked; renumbered to ADR-040 on 2026-08-01 to resolve a collision with the tracked ADR-026 (Debrief Delivery Fix). Still DRAFT — Decision section pending Zach's call.
+>
+> **Code-verified state (2026-08-01):** the close-the-loop JTBD is **already shipped as Option C, Stage 1** — the loop closes today without any calendar mechanism. Built & hardened: the in-app debrief surface (`src/app/debrief/[receiptId]/page.tsx` + `src/app/api/receipts/[receiptId]/outcome/route.ts` writing `Outcome`, status→LOGGED, driftState LANDED/DRIFTING), the `DebriefCard` prompt, compass-time scheduled Resend send (`api/compass/route.ts:509–582`, loud logging, opt-in gating), and the long-horizon cron sweep for the >30-day Resend ceiling (`api/cron/debrief/route.ts`). **Not built:** `.ics` attachment (Option A's calendar half) and Google Calendar API / OAuth (Option B) — no `googleapis` dep, no Google provider, `Account` token columns unused. So this ADR's live question narrows to: *is a calendar mechanism worth adding on top of the shipped email+in-app loop?* — lower urgency than the original 0.4%-completion framing implied, since the loop is no longer email-only-and-broken.
 
 ---
 

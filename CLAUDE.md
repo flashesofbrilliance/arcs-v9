@@ -184,11 +184,31 @@ Reviewed the three uncommitted items that had been sitting in the `main` worktre
   [[author-cosmology-over-guest-design-risk]]; its P0/P1 items were already resolved in the
   v3.20.0 omakase distillation. Critique file committed as the dated record.
 
+## Also built this session (skills + code-verified ADR)
+
+- **`/meta-audit` skill** (`.claude/skills/meta-audit/SKILL.md`) — codifies the 8-section Drift
+  Sentry protocol from `_STATE/meta-audit-roadmap-v1.md` so any session runs one epoch
+  consistently (Recoil → code-verified parity → gauntlets → Chi/Ma/Wuwei → stack-rank → append
+  §8). Bakes in the hard-won non-negotiables (main-reachable epoch anchor, honesty gauge,
+  weekly-and-small, verify-parity-from-code). Chose skill only; routine/workflow deferred.
+- **Omakase critique → assembly rules.** Folded the omakase dual-agent critique into
+  `.claude/skills/omakase-pipeline/SKILL.md` as a "Composition & assembly rules (the guest test)"
+  section + wired into Step 4 (assemble against them) and Step 7 (guest-test lens) + anti-goal.
+  The critique is now reusable rules, not a one-off. See [[author-cosmology-over-guest-design-risk]].
+- **ADR-040 code-verified.** The debrief close-the-loop JTBD is **already shipped** (Option C,
+  Stage 1): in-app `/debrief/[receiptId]` + `/api/receipts/[receiptId]/outcome` + scheduled
+  Resend send (compass-time + long-horizon cron, loud logging, opt-in). NOT built: `.ics`,
+  Google Calendar API. ADR-040 corrected to reflect this — the live question is only whether to
+  add a calendar mechanism on top, at lower urgency than the original framing.
+
 ## Open / next
 
 1. **Tao hosting work** — now safe to iterate; the leak that made every push a build is closed.
-2. **ADR-040 is DRAFT** — decide calendar-invite vs email-only once there are ≥20 real (non-dev-test)
-   debrief opportunities to measure completion rate against.
+2. **ADR-040 is DRAFT** — the loop already closes via email+in-app; decide whether a calendar
+   mechanism (.ics or Google Calendar) is worth adding, once there are ≥20 real (non-dev-test)
+   debrief opportunities to measure against.
+3. **Optional: schedule `/meta-audit` as a weekly routine** — deferred (needs a human toggle;
+   a prior claude.ai "Drift Sentinel" routine was DECIDED-disabled; scheduled runs add spend).
 3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
    Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
 
