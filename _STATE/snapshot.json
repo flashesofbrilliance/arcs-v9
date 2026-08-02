@@ -1,14 +1,14 @@
 {
-  "captured_at": "2026-08-02T00:07:05Z",
+  "captured_at": "2026-08-02T01:44:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "3515757",
-    "head_message": "feat(grader): serialize_grade.py + delaney forkgrade ledger (adversarially audited)",
+    "head_sha": "8e75763",
+    "head_message": "handoff v3.23.0: arcs-mini estate live (4 surfaces) + ADR-039 brand promise; pickup=arcs-mini/HANDOFF.md [NCI:SKIP]",
     "branch": "claude/elastic-rubin-f22a6e",
     "in_sync_with_origin": false,
     "dirty_files": [
-      "_STATE/snapshot.json",
-      ".claude/launch.json"
+      ".claude/launch.json",
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -54,8 +54,8 @@
     "ADR-039 (accepted, brand positioning)"
   ],
   "nci_counter": 226,
-  "session_summary": "Built the arcs-mini estate (SEPARATE repo): 4 live surfaces (tripwire/meeting-vector/grader/corpus.arcs.care, all 200), zero-trust BYO corpus, kairos+wave-spotter+atlas, @arcs/kit PLG trio (unwired). arcs-v9 canon: ADR-039 (refusal-to-overclaim IS the product) + DEWY receipt + Tao cellar + serialize_grade.py/forkgrade ledger.",
-  "next_action": "PRIMARY PICKUP = ~/arcs-mini/HANDOFF.md. Wire PlgFooter into 4 surfaces + build B2B Vault sister app. Waiting on Zach: Stripe link + Fri 2026-08-07 omakase re-check (routine trig_01HXQpweUrnFNxMeUvzifPT8).",
+  "session_summary": "Built arcs-mini estate (4 live surfaces + zero-trust BYO corpus + kairos/wave-spotter/atlas + @arcs/kit PLG trio); imported the canonical 'ARCS OS' design system (claude.ai/design be620c0c) into @arcs/theme (glass/underlit grammar, Inter/JetBrains) + @arcs/kit atoms bank (TrueNorthPanel/WeatherBar/...); canon: ADR-039 refusal-to-overclaim + DEWY + Tao cellar + serialize_grade.",
+  "next_action": "PRIMARY PICKUP = ~/arcs-mini/HANDOFF.md. JIT: wire PlgFooter into 4 surfaces; adopt composite atoms across 3 un-refactored surfaces; B2B Vault sister app. Waiting on Zach: Stripe link + Fri 2026-08-07 omakase re-check (trig_01HXQpweUrnFNxMeUvzifPT8).",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -180,7 +180,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-01T22:37:09Z",
+  "git_refreshed_at": "2026-08-02T01:44:02Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
