@@ -1,11 +1,15 @@
 {
-  "captured_at": "2026-07-22T19:30:00Z",
+  "captured_at": "2026-08-02T00:07:05Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "4c216df",
-    "head_message": "docs(handoff): v3.18.0 IP-leak hardening; archive v3.12.x [NCI:SKIP]",
+    "head_sha": "3515757",
+    "head_message": "feat(grader): serialize_grade.py + delaney forkgrade ledger (adversarially audited)",
+    "branch": "claude/elastic-rubin-f22a6e",
     "in_sync_with_origin": false,
-    "dirty_files": []
+    "dirty_files": [
+      "_STATE/snapshot.json",
+      ".claude/launch.json"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -47,15 +51,12 @@
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
-    "ADR-031 (secrets inventory + rotation)",
-    "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
-    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
-    "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
+    "ADR-039 (accepted, brand positioning)"
   ],
   "nci_counter": 226,
-  "session_summary": "Ahmed Elsamadisi / Polyform AI reconnect: built forge-hardened pre-call brief (ahmed.arcs.care), ran the call, then closed the full decision loop across 6 tabs \u2014 ex-ante receipt, Exogenous Forge (ROM#6) pressure-test via claims-skeptic, post-call Recoil (Granola transcript e8648395) with belief-update ledger, quantified Belief Log v2 (confidence x conviction, NOT per-belief NCI), War Game (kinematic manifold now MEASURED via arcs_kinematics.py v1.3 \u2014 D1-D3 valid, D5-D12 honestly labeled coherence-zone, not fabricated), and Defensibility (5-verb x 4-proofing + Activity-Schema Rosetta). Built a SANITIZED counterpart-facing twin (ahmed-ext.arcs.care) through several depth iterations, then stripped it competitor-safe (architecture-not-weights). Mechanized the air gap: SSOT JSON (runtime/recoil/generated/2026-07-22-elsamadisi.json) + scripts/recoil_brief.py CLI that computes kinematics reproducibly and projects internal-vs-external by dropping audience-tagged fields (external run drops 14 fields w/ redaction report). Banked 2 memories (confidence/conviction/NCI defs; internal-external air-gap 3-rule).",
-  "next_action": "Ahmed: Zach to set the pilot price (a number, once a customer is picked) + name one Polyform customer, then send ahmed-ext.arcs.care (draft note ready, both LinkedIn + email variants, in this session's transcript). Optional next build: render the ahmed HTML pages FROM the SSOT JSON so editing = editing data (full loop closure; not done this session).",
-  "blocking": "NONE (waiting on Zach's send decision + price, not blocked internally)",
+  "session_summary": "Built the arcs-mini estate (SEPARATE repo): 4 live surfaces (tripwire/meeting-vector/grader/corpus.arcs.care, all 200), zero-trust BYO corpus, kairos+wave-spotter+atlas, @arcs/kit PLG trio (unwired). arcs-v9 canon: ADR-039 (refusal-to-overclaim IS the product) + DEWY receipt + Tao cellar + serialize_grade.py/forkgrade ledger.",
+  "next_action": "PRIMARY PICKUP = ~/arcs-mini/HANDOFF.md. Wire PlgFooter into 4 surfaces + build B2B Vault sister app. Waiting on Zach: Stripe link + Fri 2026-08-07 omakase re-check (routine trig_01HXQpweUrnFNxMeUvzifPT8).",
+  "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -179,7 +180,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-24T17:21:12Z",
+  "git_refreshed_at": "2026-08-01T22:37:09Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

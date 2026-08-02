@@ -238,3 +238,38 @@ NONE.
 
 `/handoff-pickup`. New load-bearing memories: [[static-public-files-worldreadable-client-gates-theater]],
 [[arcs-v9-repo-now-private-status-links-broken]], [[vercel-config-via-cli-token-rest-api]].
+
+---
+
+# Handoff — v3.23.0 (2026-08-01)
+
+> **Primary pickup is NOT this repo** — the session's build lives in `~/arcs-mini`
+> (private, `flashesofbrilliance/arcs-mini`). Start at **`~/arcs-mini/HANDOFF.md`**.
+
+## What shipped (2026-08-01)
+Built the **arcs-mini estate**: 4 live surfaces — tripwire · meeting-vector · grader ·
+corpus.arcs.care (all HTTP 200), each 3 faces (UI/REST/MCP) on a shared receipt spine.
+**Zero-trust BYO corpus** (`storeFor(req)`, no key custody), **Kairos + wave-spotter + Atlas**,
+and `@arcs/kit` PLG trio (built, unwired). Deployed via Vercel Hobby (free; concurrentBuilds:1 →
+deploy sequentially).
+
+**arcs-v9 canon this session** (branch `claude/elastic-rubin-f22a6e`, HEAD `3515757`):
+ADR-039 (refusal-to-overclaim IS the product), DEWY receipt `2026-08-01-brand-promise-dewy.json`,
+Tao **cellar** (3 RC-grade candidates awaiting front-of-house lock), `scripts/serialize_grade.py`
++ delaney forkgrade ledger (adversarially audited).
+
+## Open / next (see arcs-mini/HANDOFF.md for JIT tasks)
+1. Wire `PlgFooter` into the 4 surfaces (batched, sequential deploy).
+2. Build the **B2B/Vault sister app** — circle-of-trust + multisig + KYC/KYB/KYT/KYR, regtech
+   WORM/10yr durability bar. Hedge: B2C short + B2B long, one substrate.
+
+## Waiting on Zach
+Stripe link (`NEXT_PUBLIC_STRIPE_LINK` → $99 live) · Fri **2026-08-07** omakase re-check
+(cloud routine `trig_01HXQpweUrnFNxMeUvzifPT8`) · lock the 3 Tao verses to front-of-house.
+
+## Blocking
+NONE.
+
+## Next session starts at
+`~/arcs-mini/HANDOFF.md` (JIT anchor). New memories: build-reusable-decomposable-interoperable-default,
+brand-promise-refusal-to-overclaim, hedged-parallel-path-b2c-b2b, plan-generalize-omakase-site.
