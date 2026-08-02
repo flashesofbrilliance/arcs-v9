@@ -2,9 +2,9 @@
   "captured_at": "2026-07-22T19:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "4c216df",
-    "head_message": "docs(handoff): v3.18.0 IP-leak hardening; archive v3.12.x [NCI:SKIP]",
-    "in_sync_with_origin": false,
+    "head_sha": "213a62e",
+    "head_message": "feat(skills): add /meta-audit; componentize omakase critique into assembly rules; code-verify ADR-040 [NCI:SKIP]",
+    "in_sync_with_origin": true,
     "dirty_files": []
   },
   "vercel": {
@@ -179,7 +179,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-24T17:21:12Z",
+  "git_refreshed_at": "2026-08-02T15:07:00Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
