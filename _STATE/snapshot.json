@@ -1,8 +1,8 @@
 {
-  "captured_at": "2026-07-22T19:30:00Z",
+  "captured_at": "2026-08-03T18:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "880a7e8",
+    "head_sha": "736f9c0",
     "head_message": "fix(deploy): version the ignored-build-step as vercel.json ignoreCommand [ADR-039]",
     "in_sync_with_origin": true,
     "dirty_files": []
@@ -53,9 +53,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "Ahmed Elsamadisi / Polyform AI reconnect: built forge-hardened pre-call brief (ahmed.arcs.care), ran the call, then closed the full decision loop across 6 tabs \u2014 ex-ante receipt, Exogenous Forge (ROM#6) pressure-test via claims-skeptic, post-call Recoil (Granola transcript e8648395) with belief-update ledger, quantified Belief Log v2 (confidence x conviction, NOT per-belief NCI), War Game (kinematic manifold now MEASURED via arcs_kinematics.py v1.3 \u2014 D1-D3 valid, D5-D12 honestly labeled coherence-zone, not fabricated), and Defensibility (5-verb x 4-proofing + Activity-Schema Rosetta). Built a SANITIZED counterpart-facing twin (ahmed-ext.arcs.care) through several depth iterations, then stripped it competitor-safe (architecture-not-weights). Mechanized the air gap: SSOT JSON (runtime/recoil/generated/2026-07-22-elsamadisi.json) + scripts/recoil_brief.py CLI that computes kinematics reproducibly and projects internal-vs-external by dropping audience-tagged fields (external run drops 14 fields w/ redaction report). Banked 2 memories (confidence/conviction/NCI defs; internal-external air-gap 3-rule).",
-  "next_action": "Ahmed: Zach to set the pilot price (a number, once a customer is picked) + name one Polyform customer, then send ahmed-ext.arcs.care (draft note ready, both LinkedIn + email variants, in this session's transcript). Optional next build: render the ahmed HTML pages FROM the SSOT JSON so editing = editing data (full loop closure; not done this session).",
-  "blocking": "NONE (waiting on Zach's send decision + price, not blocked internally)",
+  "session_summary": "PRL/Todd chatbot: Zapier MCP now exposes PRL's live SugarCRM (+Unbounce, LeadConnector) for direct read/write, removing the long-standing 'need a SugarCRM login' blocker. Ran a read-only config audit (Leads schema + 100 real records): phone_work is REQUIRED but the bot treats it optional; no chatbot lead_source value exists; location_c uses FULL state names not the abbreviations the schema declares (corrects an earlier claim); 95% of existing leads have no email (the project's strongest value proof); 92% route to Bill Galla; all records sit on team Global so a test lead cannot be made private. Nothing written to SugarCRM. Direct Tidio->Sugar REST researched and rejected (OAuth2 two-step); keeping Zapier for retry+audit trail. todd-call.arcs.care distilled 11 tabs -> 6 via /impeccable, fixing a mobile nav that was display:none and a page still opening with a price box 10 days after payment.",
+  "next_action": "Todd owes three decisions before lead delivery is wired: (1) phone required in chat or placeholder, (2) add a 'Chatbot' Lead Source value or accept 'Web Site', (3) approve one labelled test lead (or confirm a Sugar sandbox exists). Then wire the Tidio flow's API call node -> Zapier -> SugarCRM Create Record (Leads) and send one real test lead end to end.",
+  "blocking": "NONE (three client decisions outstanding, but nothing internally blocked)",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",

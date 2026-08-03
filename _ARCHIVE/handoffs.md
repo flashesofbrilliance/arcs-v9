@@ -2033,3 +2033,45 @@ renderer are the build-ready items.
 ---
 
 ---
+
+---
+
+# Handoff — v3.20.0 (2026-08-01)
+
+> **For Claude Code:** active pickup point. Louisville build is DONE and the email is SENT.
+> Default posture now is STOP, not continue. Read [[deploy-antipattern-grep-verified-ui]].
+
+## What shipped (2026-08-01) — Louisville universe complete + follow-up sent
+
+Full three-surface family, self-hosted on arcs.care (main @ `47b5700`):
+- **L1** louisville.arcs.care (pitch suite) → **L2** /omakase (the evening, 9 courses) →
+  **L3** /omakase/atom ("The Seed, Told Whole", 7 chapters). Host-agnostic rewrites; also
+  omakase.arcs.care. Navigable both directions; leak_check orphan-gate enforces it.
+- Tea house: 序 foreword (acknowledgement, not thank-you), Justin's milled live receipt +
+  JSON download, seal-before-October CTA. Scroll+arrows (present mode removed).
+- Evening: tea offered after dessert (the one open door), receipt in the take-home box.
+- Suite eggs distilled to 🧧 + 🧾. Broker figures milled; canon-manifest pulled off public
+  (RUIN leak, earlier commit); seed sentence consonant across surfaces.
+- **Email SENT** to Justin, subject "One evening" (Zach edited a variant + sent). Deep-listen
+  golden thread = "Lonely Mouth Social Club" P.S. (kuchisabishii). **Justin accepted the
+  LinkedIn invite within minutes.**
+
+`leak_check.sh` now carries ~13 gates, each a scar from a real incident this session
+(withholding-vocab, decoded-payload, dead-anchor, orphan, seed-sentence, etc.).
+
+## Open / next
+
+1. **Louisville: let it breathe.** No follow-up assigned. If Justin replies / proposes a time,
+   /recoil-close the ex-ante at the session. Do NOT pursue or self-assign polish.
+2. Prior untouched: Todd Hotes Zapier (blocked on Tidio plan), Ahmed ext send, showcase mirror.
+
+## Blocking
+
+NONE.
+
+## Next session starts at
+
+`/handoff-pickup`. New load-bearing memory: [[deploy-antipattern-grep-verified-ui]] (screenshot
+before push; stop when done; don't build verification machinery for what one look answers).
+
+---
