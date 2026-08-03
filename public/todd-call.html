@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PRL Resins · Chatbot Findings & Proposal · Todd Hotes</title>
+<title>PRL Resins · Chatbot Build · Todd Hotes</title>
 <style>
 :root {
   --bg: #020408;
@@ -516,7 +516,9 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 
 /* ── TABLET (≤768px) ── */
 @media (max-width: 768px) {
-  .doc-tabs { display: none; }
+  .doc-tabs { gap: 14px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .doc-tabs::-webkit-scrollbar { display: none; }
+  .doc-tab { white-space: nowrap; flex: 0 0 auto; }
   .scenarios { grid-template-columns: 1fr 1fr; }
   .stop-loss { flex-direction: column; align-items: flex-start; gap: 8px; }
   .sl-ts { white-space: normal; }
@@ -557,7 +559,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 .rm-track { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 18px; }
 @media (max-width: 768px) { .rm-track { grid-template-columns: 1fr; } }
 .rm-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 18px 20px; position: relative; overflow: hidden; }
-.rm-col::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; }
+.rm-col::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px; }
 .rm-col.now::before { background: var(--green); }
 .rm-col.next::before { background: var(--cyan); }
 .rm-col.later::before { background: var(--gold); }
@@ -599,6 +601,45 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 .ea-text b { color: var(--text); font-weight: 600; }
 .ea-do { margin: 12px 18px 14px; padding-top: 11px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--sub); line-height: 1.6; }
 .ea-do b { color: var(--green); font-weight: 650; }
+
+/* ── ANCHORS clear the sticky header ── */
+[id] { scroll-margin-top: 104px; }
+
+/* ── HERO: where we are + what I need ── */
+.hero { padding: 30px 0 4px; max-width: 72ch; }
+.hero-state { font-size: 21px; line-height: 1.35; font-weight: 600; color: var(--text); letter-spacing: -.015em; text-wrap: balance; }
+.hero-sub { font-size: 14.5px; line-height: 1.65; color: var(--sub); margin-top: 12px; }
+.hero-asks { margin-top: 26px; border-top: 1px solid rgba(255,215,0,.35); padding-top: 18px; }
+.hero-asks-lbl { font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.hero-asks ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 11px; }
+.hero-asks li { font-size: 13.5px; line-height: 1.6; color: var(--sub); }
+.hero-asks li b { color: var(--text); font-weight: 600; }
+.hero-asks-foot { font-size: 12.5px; color: var(--muted); margin-top: 16px; }
+.hero-asks-foot a { color: var(--cyan); text-decoration: none; font-weight: 600; }
+.hero-asks-foot a:hover { text-decoration: underline; }
+
+/* ── SECTION LEDE ── */
+.sec-lede { font-size: 13px; color: var(--sub); line-height: 1.7; max-width: 68ch; margin-bottom: 4px; }
+
+/* ── TRADEOFFS ── */
+.tro { margin-top: 20px; display: flex; flex-direction: column; }
+.tro-row { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding: 17px 0; border-top: 1px solid var(--border); }
+.tro-row:last-child { border-bottom: 1px solid var(--border); }
+.tro-q { font-size: 13.5px; font-weight: 650; color: var(--text); line-height: 1.45; }
+.tro-a { font-size: 13px; color: var(--sub); line-height: 1.7; }
+@media (max-width: 768px) { .tro-row { grid-template-columns: 1fr; gap: 7px; } }
+
+/* ── BACKGROUND (collapsed reference) ── */
+.bg { border-top: 1px solid var(--border); padding-top: 22px; }
+.bg-sum { cursor: pointer; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.bg-sum::-webkit-details-marker { display: none; }
+.bg-sum-t { font-size: 14px; font-weight: 650; color: var(--sub); }
+.bg-sum-t::before { content: "+ "; color: var(--muted); font-weight: 400; }
+.bg[open] .bg-sum-t::before { content: "\2013 "; }
+.bg-sum:hover .bg-sum-t { color: var(--text); }
+.bg-sum-h { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.bg-in { margin-top: 8px; opacity: .82; }
+.bg-in .divider { margin: 32px 0 0; }
 </style><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 
@@ -607,25 +648,20 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="crumb-inner">
     <span class="crumb-root">PRL Resins · Todd Hotes</span>
     <span class="crumb-sep">/</span>
-    <span class="crumb-seg current">Findings & Proposal</span>
+    <span class="crumb-seg current">Build</span>
     <a class="crumb-seg other" href="/teardown">Marketing Teardown →</a>
   </div>
 </div>
 <div class="doc-header">
   <div class="doc-header-inner">
-    <div class="doc-mark">PRL Resins · Chatbot Proposal</div>
-    <nav class="doc-tabs">
-      <a class="doc-tab active" href="#status">Status</a>
-      <a class="doc-tab" href="#progress">Progress</a>
-      <a class="doc-tab" href="#roadmap">Roadmap</a>
-      <a class="doc-tab" href="#crmcheck">CRM Check</a>
-      <a class="doc-tab" href="#reverse">Recap</a>
-      <a class="doc-tab" href="#recall">What I Found</a>
-      <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
-      <a class="doc-tab" href="#mvp">Options & Price</a>
-      <a class="doc-tab" href="#protocol">Next Steps</a>
-      <a class="doc-tab" href="#sm-questions">Discovery</a>
-      <a class="doc-tab" href="#howitworks">How It Works</a>
+    <div class="doc-mark">PRL Resins · Chatbot Build</div>
+        <nav class="doc-tabs">
+      <a class="doc-tab active" href="#status">Where we are</a>
+      <a class="doc-tab" href="#tradeoffs">Tradeoffs</a>
+      <a class="doc-tab" href="#crmcheck">Plan vs reality</a>
+      <a class="doc-tab" href="#roadmap">What is next</a>
+      <a class="doc-tab" href="#howitworks">How it works</a>
+      <a class="doc-tab" href="#progress">History</a>
     </nav>
   </div>
 </div>
@@ -636,8 +672,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="cover">
     <div class="cover-meta">
       <div class="cover-company">PRL Resins · Todd Hotes</div>
-      <div class="cover-title">Chatbot Findings & Proposal</div>
-      <div class="cover-sub">Follow-up from our two calls on Jul 2 and Jul 9, 2026. Everything here comes from what you shared; nothing invented.</div>
+      <div class="cover-title">Chatbot Build</div>
+      <div class="cover-sub">Where the build stands, what needs a decision from you, and where it goes next. I keep this current as pieces land, so you and your team can check here instead of asking.</div>
     </div>
     <div class="status-pill">
       <div class="pulse"></div>
@@ -645,40 +681,22 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
   </div>
 
-  <!-- DEAL + PAYMENT (two columns) -->
-  <div class="buy-row">
+  <!-- WHERE WE ARE (hero) -->
+  <div class="hero">
+    <p class="hero-state">The chatbot is built, branded, and answering on a safe copy of your site.</p>
+    <p class="hero-sub">Lead delivery into SugarCRM is wired and ready to switch on. Three short decisions from you and it can go live.</p>
 
-    <!-- THE DEAL, IN ONE LOOK -->
-    <div class="rec-box" style="margin:0;">
-      <div class="rec-box-label">The deal, in one look</div>
-      <div class="rec-box-title" style="font-size:17px;line-height:1.45;">A chatbot on your website that captures leads 24/7 and sends each one straight to your sales manager.</div>
-      <div class="rec-box-body" style="margin-top:6px;">We rent a proven tool (Tidio), install it on your WordPress site, and connect it to SugarCRM. No custom software. Nothing rebuilt.</div>
-      <div class="stack-grid" style="grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;">
-        <div class="stack-chip ok"><div class="stack-chip-label">Cost</div><div class="stack-chip-value" style="font-size:17px;">$1,552.50</div></div>
-        <div class="stack-chip ok"><div class="stack-chip-label">Time to live</div><div class="stack-chip-value" style="font-size:17px;">~1 week</div></div>
-        <div class="stack-chip ok"><div class="stack-chip-label">Your effort</div><div class="stack-chip-value" style="font-size:17px;">~45 min</div></div>
-      </div>
+    <div class="hero-asks">
+      <div class="hero-asks-lbl">What I need from you</div>
+      <ol>
+        <li><b>Phone number.</b> Your CRM requires one on every lead. Do we ask for it in the chat, or let people skip it?</li>
+        <li><b>Labelling.</b> Can we add a "Chatbot" option to your Lead Source list, so these can be counted separately later?</li>
+        <li><b>One test lead.</b> May I create a single clearly marked test record and delete it right after? I have not created anything yet.</li>
+      </ol>
+      <p class="hero-asks-foot">The reasoning behind all three is in <a href="#crmcheck">Plan vs reality</a>.</p>
     </div>
-
-    <!-- PAID / KICKED OFF -->
-    <div class="buy-pay">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">Paid · we're building</div>
-      <div style="width:100%;background:rgba(0,255,157,.05);border:1px solid rgba(0,255,157,.3);border-radius:var(--r);padding:22px 20px;text-align:center;">
-        <div style="font-size:28px;line-height:1;margin-bottom:8px;">✓</div>
-        <div style="font-size:14px;color:var(--text);margin-bottom:4px;">Chat Bot for PRL Resins</div>
-        <div style="font-size:15px;font-weight:600;color:var(--green);margin-bottom:2px;">Payment received</div>
-        <div style="font-size:11px;color:var(--muted);">Paid July 24, 2026 · thank you</div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- TO START (full-width lockup below the two columns) -->
-  <div style="margin-top:16px;padding:14px 18px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
-    <strong style="color:var(--cyan);">You're paid up and we've kicked off.</strong> Two things left on your side: a SugarCRM login that can create leads, and 30 minutes for me with your sales manager. Live status is in <a href="#status" style="color:var(--cyan);font-weight:600;">Where things stand</a> below. I build it from there.
-  </div>
-
-  <!-- ── WHERE THINGS STAND (SSOT status) ── -->
   <div class="divider" id="status"></div>
   <section>
     <div class="section-eyebrow" style="color:var(--green);">Live status · updated July 30, 2026</div>
@@ -702,7 +720,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           <li style="margin-bottom:10px;"><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Chatbot built and running</strong> on the test copy: all three paths and contact capture, styled to your brand (maroon and gold), tested start to finish</li>
           <li><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Now live on a safe copy of your actual website</strong> (the test site), branded with your logo and colors, so you and Todd can try the real thing</li>
           <li><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Confirmed with the vendor rep (Jul 31 call): no plan upgrade needed</strong> to send leads to SugarCRM and email. Wiring that up now on the plan you already have.</li>
-          <li><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Chat tool plan upgraded with a 10% lifetime discount</strong> (Aug 3) — both the AI assistant and the automation flows are on.</li>
+          <li><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Chat tool plan upgraded with a 10% lifetime discount</strong> (Aug 3). Both the AI assistant and the automation flows are on.</li>
         </ul>
       </div>
 
@@ -736,11 +754,11 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
           <div style="font-size:11px;font-weight:700;color:var(--green);margin-bottom:4px;">This week</div>
           <div style="font-size:12px;color:var(--sub);line-height:1.5;">Working copy of the site is up. Building the chat flow on it and locking the tool tier.</div>
         </div>
-        <div style="border-left:2px solid var(--cyan);padding-left:12px;">
+        <div style="border-left:1px solid rgba(0,240,255,.45);padding-left:12px;">
           <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:4px;">Week 1</div>
           <div style="font-size:12px;color:var(--sub);line-height:1.5;">Build the chat flow: the three paths and the contact capture, tested on the copy.</div>
         </div>
-        <div style="border-left:2px solid var(--cyan);padding-left:12px;">
+        <div style="border-left:1px solid rgba(0,240,255,.45);padding-left:12px;">
           <div style="font-size:11px;font-weight:700;color:var(--cyan);margin-bottom:4px;">Week 2</div>
           <div style="font-size:12px;color:var(--sub);line-height:1.5;">Connect SugarCRM and email, route each lead to your sales manager, add resin recognition.</div>
         </div>
@@ -753,55 +771,102 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
   </section>
 
-  <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
-  <div class="lbq">
-    <div class="lbq-label">Todd Hotes · Jul 2, 2026</div>
-    <div class="lbq-text">There's very limited friction because really, nobody else knows about any type of technology. So if this works, go for it.</div>
-    <div class="lbq-attr">Todd Hotes · PRL Resins CFO / Comptroller</div>
-    <div class="lbq-decode">This is the operating condition everything below is designed around: fast to decide, easy to move, so the plan favors a quick, visible win you can see working before committing further.</div>
-  </div>
 
-  <!-- CONFIRMED STACK -->
-  <div class="divider" id="progress"></div>
+  <div class="divider" id="tradeoffs"></div>
   <section>
-    <div class="section-eyebrow" style="color:var(--gold);">Working agenda · updated August 3, 2026</div>
-    <div class="section-title">Progress log</div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:20px;">A running record of what moved and when, plus what is next. I keep this current as pieces land, so you and your team always have the picture without asking.</p>
+    <div class="section-title">Tradeoffs worth knowing about</div>
+    <p class="sec-lede">Every choice here has a cost on the other side. These are the ones I think you should weigh rather than have me decide quietly.</p>
 
-    <div style="display:flex;flex-direction:column;border-left:2px solid var(--border);margin-left:6px;padding-left:18px;">
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700;padding-top:1px;">Aug 3</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">The chat tool's rep came back with a 10% lifetime discount.</strong> We switched the account to the fuller plan (both the AI assistant and the automation flows) to take it, so this happened sooner than planned but on good terms. Waiting on his confirmation the change landed on his side, plus a clean invoice and getting you set as the billing contact.</div>
+    <div class="tro">
+      <div class="tro-row">
+        <div class="tro-q">Asking for a phone number</div>
+        <div class="tro-a">Requiring it means every lead saves cleanly and your reps can call straight away. It also adds one more question, and some visitors will drop out rather than answer it. Letting people skip it keeps the chat short, but then we fill a placeholder and your team sees a blank where a number should be.</div>
       </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 31</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Good news from the 2:30 call with the vendor rep.</strong> We do not need to upgrade the plan to start sending leads to SugarCRM. There is a way to connect the two on what you already have, so I am wiring that up now instead of waiting on anything. The rep is also checking with his manager on a discount for later, once we do want the fuller AI features, and he is arranging admin access for you.</div>
+      <div class="tro-row">
+        <div class="tro-q">Labelling chatbot leads</div>
+        <div class="tro-a">If we add a "Chatbot" source you will be able to show, later, how many of these turned into real business. If we use the existing "Web Site" label instead, nothing breaks, but the chatbot's leads blend in with everything else and that number is gone.</div>
       </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 30</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Bot built and live on a safe copy of your site.</strong> Branded in your colors and logo, plain human voice. Your sales manager's intake form and material guide folded in, so it captures the right fields. You were added to the chat tool. A landing-page version was drafted for your paid-search pages.</div>
+      <div class="tro-row">
+        <div class="tro-q">Testing in your live system</div>
+        <div class="tro-a">Without a separate practice environment, proving the connection works means writing one record into the real system. It would be clearly marked and deleted straight after. The alternative is switching it on for real customers without ever having seen it work end to end, which I would not recommend.</div>
       </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 24</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Payment received.</strong> Build kicked off.</div>
+      <div class="tro-row">
+        <div class="tro-q">Using a connector in the middle</div>
+        <div class="tro-a">Sending leads through a connector rather than straight into SugarCRM costs a small monthly fee and one extra hop. In exchange, if something fails it retries automatically and leaves a visible record. A direct connection would be cheaper and would drop a failed lead silently, which is the one outcome this project exists to prevent.</div>
       </div>
-      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 20</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Discovery captured and scope confirmed:</strong> a Phase 1 lead-capture chatbot.</div>
+      <div class="tro-row">
+        <div class="tro-q">Going live on the real site</div>
+        <div class="tro-a">The bot currently runs on a copy, so nothing customers see has changed. Moving it to prlresins.com is visible immediately. Worth picking a quiet window and having you and your sales manager watch the first day.</div>
       </div>
     </div>
+  </section>
 
-    <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Right now</div>
-      <ul style="list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--sub);line-height:1.6;">
-        <li style="margin-bottom:9px;"><strong style="color:var(--green);">Working.</strong> The bot captures a qualified lead start to finish (tested).</li>
-        <li style="margin-bottom:9px;"><strong style="color:var(--green);">Done.</strong> Chat tool plan upgraded (AI assistant + automation flows both on) with a 10% lifetime discount applied.</li>
-        <li style="margin-bottom:9px;"><strong style="color:var(--cyan);">In motion.</strong> Connecting the bot to SugarCRM and email so every lead lands automatically.</li>
-        <li style="margin-bottom:9px;"><strong style="color:var(--cyan);">New to weigh.</strong> A few answers from your sales manager (dropdown lists and what an ideal customer looks like), and how the bot sits alongside your existing landing-page forms.</li>
-        <li><strong style="color:var(--text);">Needed from you.</strong> Nothing new right now. I will flag it here the moment there is.</li>
-      </ul>
-      <p style="font-size:11.5px;color:var(--muted);margin-top:12px;">The full current snapshot is in <a href="#status" style="color:var(--cyan);font-weight:600;">Where things stand</a>.</p>
+  <div class="divider" id="crmcheck"></div>
+  <section>
+    <div class="section-eyebrow" style="color:var(--cyan);">Checked against your live system &middot; August 3</div>
+    <div class="section-title">What we expected, and what your CRM actually does</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:6px;">Before connecting the chatbot to SugarCRM, I read your live setup and a sample of a hundred real leads to check that what we designed will actually work. Nothing was changed. Here is where our assumptions held up, where they did not, and what needs your call.</p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;">Three of these need a quick decision from you. Three are already settled.</p>
+
+    <div class="ea">
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Email addresses</span><span class="ea-verdict win">Better than expected</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">Most leads coming in today would already have an email address on them.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Only <b>5 out of 100</b> do. Almost every lead in your system today is phone only.</div></div>
+        </div>
+        <div class="ea-do"><b>What this means:</b> the chatbot asks for an email every time, so every lead it sends you will have one. This is the single biggest gain from the project. It changes what follow up is even possible, not just how fast it happens.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Phone number</span><span class="ea-verdict gap">Needs your call</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To ask for a phone number but keep it optional, so the conversation stays short.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Your CRM <b>requires</b> a phone number on every lead. All 100 records have one. A lead without it cannot be saved.</div></div>
+        </div>
+        <div class="ea-do"><b>Your call:</b> require the phone number in the chat, which means cleaner records but one more question, or let people skip it and fill a placeholder. I lean toward requiring it, since your team clearly works by phone.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Labelling chatbot leads</span><span class="ea-verdict gap">Needs your call</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To mark each chatbot lead with its own source, so you could count them separately.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">The Lead Source list has no chatbot option. Today <b>91 of 100</b> leads are marked "Other".</div></div>
+        </div>
+        <div class="ea-do"><b>Your call:</b> add a "Chatbot" option to that list, or accept "Web Site". I would add it. It is the only way to later show how many chatbot leads turned into real business, which is the number that proves this worked.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Testing it safely</span><span class="ea-verdict gap">Needs your call</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To create a private test lead that only you could see, to prove the connection works.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Every record sits on one shared team, so <b>nothing can be hidden</b> from the rest of the group.</div></div>
+        </div>
+        <div class="ea-do"><b>Your call:</b> if you have a SugarCRM sandbox we test there and this goes away. If not, I would like your approval to create one clearly labelled test lead and delete it right after. I have not created anything yet.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Where leads go</span><span class="ea-verdict match">Confirmed</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To send every chatbot lead to your sales manager, who assigns it from there.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Exactly how it already works. <b>92 of 100</b> leads are assigned to him, and every record comes in marked "New".</div></div>
+        </div>
+        <div class="ea-do"><b>Settled:</b> chatbot leads will arrive the same way, in the same place, marked the same. Nobody has to learn anything new.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">How the details get written</span><span class="ea-verdict match">Confirmed</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To put the resin, application and requirements somewhere your reps would actually read.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">The Notes field is filled on <b>all 100</b> records, holding everything from one line to a full specification.</div></div>
+        </div>
+        <div class="ea-do"><b>Settled:</b> the chatbot writes what it captures into that same Notes field, in plain readable lines. It fits how your team already works.</div>
+      </div>
+
     </div>
+
+    <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This was a read only check. Nothing in your CRM was created, changed or deleted.</p>
   </section>
 
   <div class="divider" id="roadmap"></div>
@@ -844,74 +909,103 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This is the plan, not a promise of dates. Next only starts once Now is proven working, and Later only once Next earns it.</p>
   </section>
 
-  <div class="divider" id="crmcheck"></div>
+  <div class="divider" id="howitworks"></div>
   <section>
-    <div class="section-eyebrow" style="color:var(--cyan);">Checked against your live system &middot; August 3</div>
-    <div class="section-title">What we expected, and what your CRM actually does</div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:6px;">Before connecting the chatbot to SugarCRM, I read your live setup and a sample of a hundred real leads to check that what we designed will actually work. Nothing was changed. Here is where our assumptions held up, where they did not, and what needs your call.</p>
-    <p style="font-size:12px;color:var(--muted);line-height:1.6;">Three of these need a quick decision from you. Three are already settled.</p>
+    <div class="section-eyebrow">Phase 1 · How it works</div>
+    <div class="section-title">How the chatbot will work</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
+      Based on what you told me, here is the conversation your visitors will have. It stays short so people actually finish it, and it hands your reps a clean, qualified lead.
+    </p>
 
-    <div class="ea">
-
-      <div class="ea-row">
-        <div class="ea-head"><span class="ea-n">01</span><span class="ea-topic">Email addresses</span><span class="ea-verdict win">Better than expected</span></div>
-        <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">Most leads coming in today would already have an email address on them.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Only <b>5 out of 100</b> do. Almost every lead in your system today is phone only.</div></div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It greets and sorts the visitor</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">The assistant pops up and asks what brings them in, then offers three quick paths. This screens out the tire-kickers before they reach a rep.</div>
+        <div style="font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px;">
+          &bull; They know the resin or spec they want<br>
+          &bull; They need help finding the right resin<br>
+          &bull; Something else, like a general question
         </div>
-        <div class="ea-do"><b>What this means:</b> the chatbot asks for an email every time, so every lead it sends you will have one. This is the single biggest gain from the project. It changes what follow up is even possible, not just how fast it happens.</div>
       </div>
-
-      <div class="ea-row">
-        <div class="ea-head"><span class="ea-n">02</span><span class="ea-topic">Phone number</span><span class="ea-verdict gap">Needs your call</span></div>
-        <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To ask for a phone number but keep it optional, so the conversation stays short.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Your CRM <b>requires</b> a phone number on every lead. All 100 records have one. A lead without it cannot be saved.</div></div>
-        </div>
-        <div class="ea-do"><b>Your call:</b> require the phone number in the chat, which means cleaner records but one more question, or let people skip it and fill a placeholder. I lean toward requiring it, since your team clearly works by phone.</div>
-      </div>
-
-      <div class="ea-row">
-        <div class="ea-head"><span class="ea-n">03</span><span class="ea-topic">Labelling chatbot leads</span><span class="ea-verdict gap">Needs your call</span></div>
-        <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To mark each chatbot lead with its own source, so you could count them separately.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">The Lead Source list has no chatbot option. Today <b>91 of 100</b> leads are marked "Other".</div></div>
-        </div>
-        <div class="ea-do"><b>Your call:</b> add a "Chatbot" option to that list, or accept "Web Site". I would add it. It is the only way to later show how many chatbot leads turned into real business, which is the number that proves this worked.</div>
-      </div>
-
-      <div class="ea-row">
-        <div class="ea-head"><span class="ea-n">04</span><span class="ea-topic">Testing it safely</span><span class="ea-verdict gap">Needs your call</span></div>
-        <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To create a private test lead that only you could see, to prove the connection works.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Every record sits on one shared team, so <b>nothing can be hidden</b> from the rest of the group.</div></div>
-        </div>
-        <div class="ea-do"><b>Your call:</b> if you have a SugarCRM sandbox we test there and this goes away. If not, I would like your approval to create one clearly labelled test lead and delete it right after. I have not created anything yet.</div>
-      </div>
-
-      <div class="ea-row">
-        <div class="ea-head"><span class="ea-n">05</span><span class="ea-topic">Where leads go</span><span class="ea-verdict match">Confirmed</span></div>
-        <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To send every chatbot lead to your sales manager, who assigns it from there.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Exactly how it already works. <b>92 of 100</b> leads are assigned to him, and every record comes in marked "New".</div></div>
-        </div>
-        <div class="ea-do"><b>Settled:</b> chatbot leads will arrive the same way, in the same place, marked the same. Nobody has to learn anything new.</div>
-      </div>
-
-      <div class="ea-row">
-        <div class="ea-head"><span class="ea-n">06</span><span class="ea-topic">How the details get written</span><span class="ea-verdict match">Confirmed</span></div>
-        <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To put the resin, application and requirements somewhere your reps would actually read.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">The Notes field is filled on <b>all 100</b> records, holding everything from one line to a full specification.</div></div>
-        </div>
-        <div class="ea-do"><b>Settled:</b> the chatbot writes what it captures into that same Notes field, in plain readable lines. It fits how your team already works.</div>
-      </div>
-
     </div>
 
-    <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This was a read only check. Nothing in your CRM was created, changed or deleted.</p>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It asks only what a rep needs</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">Depending on the path, it gathers the useful basics: the resin or spec, the application, what they use now, and any requirements. Then name, email, phone, company, and their location. Short and painless, since your buyers usually already have a need.</div>
+      </div>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
+      <div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It hands your rep a clean lead</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;">It creates a lead in SugarCRM, emails the notification, and routes it to the right rep by territory (to the sales manager for the first version). The customer hears that someone will reach out within a few hours.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:6px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:1px solid rgba(0,240,255,.45);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
+      <strong style="color:var(--cyan);">No lost leads:</strong> if someone leaves halfway, the assistant remembers them. When they come back it picks up where they left off, so a half-finished form does not become a lost lead.
+    </div>
+
+    <div style="margin-top:14px;padding:14px 18px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);font-size:13px;color:var(--sub);line-height:1.65;">
+      <strong style="color:var(--gold);">To finalize:</strong> a few inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields, the territory map, and what makes a prospect a good fit versus a poor one. Everything else is ready to build whenever you give the go.
+    </div>
+    <p style="margin-top:14px;font-size:12px;color:var(--muted);">Want the full technical version, every question the bot asks, the fields, and how leads get tagged? See the <a href="https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">full build spec</a>.</p>
   </section>
 
+  <div class="divider" id="progress"></div>
+  <section>
+    <div class="section-eyebrow" style="color:var(--gold);">Working agenda · updated August 3, 2026</div>
+    <div class="section-title">Progress log</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:20px;">A running record of what moved and when, plus what is next. I keep this current as pieces land, so you and your team always have the picture without asking.</p>
+
+    <div style="display:flex;flex-direction:column;border-left:2px solid var(--border);margin-left:6px;padding-left:18px;">
+      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--green);font-weight:700;padding-top:1px;">Aug 3</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">The chat tool's rep came back with a 10% lifetime discount.</strong> We switched the account to the fuller plan (both the AI assistant and the automation flows) to take it, so this happened sooner than planned but on good terms. Waiting on his confirmation the change landed on his side, plus a clean invoice and getting you set as the billing contact.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 31</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Good news from the 2:30 call with the vendor rep.</strong> We do not need to upgrade the plan to start sending leads to SugarCRM. There is a way to connect the two on what you already have, so I am wiring that up now instead of waiting on anything. The rep is also checking with his manager on a discount for later, once we do want the fuller AI features, and he is arranging admin access for you.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 30</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Bot built and live on a safe copy of your site.</strong> Branded in your colors and logo, plain human voice. Your sales manager's intake form and material guide folded in, so it captures the right fields. You were added to the chat tool. A landing-page version was drafted for your paid-search pages.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;padding-bottom:16px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 24</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Payment received.</strong> Build kicked off.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:64px 1fr;gap:14px;">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:700;padding-top:1px;">Jul 20</div>
+        <div style="font-size:13px;color:var(--sub);line-height:1.6;"><strong style="color:var(--text);">Discovery captured and scope confirmed:</strong> a Phase 1 lead-capture chatbot.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Right now</div>
+      <ul style="list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--sub);line-height:1.6;">
+        <li style="margin-bottom:9px;"><strong style="color:var(--green);">Working.</strong> The bot captures a qualified lead start to finish (tested).</li>
+        <li style="margin-bottom:9px;"><strong style="color:var(--green);">Done.</strong> Chat tool plan upgraded (AI assistant + automation flows both on) with a 10% lifetime discount applied.</li>
+        <li style="margin-bottom:9px;"><strong style="color:var(--cyan);">In motion.</strong> Connecting the bot to SugarCRM and email so every lead lands automatically.</li>
+        <li style="margin-bottom:9px;"><strong style="color:var(--cyan);">New to weigh.</strong> A few answers from your sales manager (dropdown lists and what an ideal customer looks like), and how the bot sits alongside your existing landing-page forms.</li>
+        <li><strong style="color:var(--text);">Needed from you.</strong> Nothing new right now. I will flag it here the moment there is.</li>
+      </ul>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:12px;">The full current snapshot is in <a href="#status" style="color:var(--cyan);font-weight:600;">Where things stand</a>.</p>
+    </div>
+  </section>
+
+  <div class="divider" id="background"></div>
+  <section>
+    <details class="bg">
+      <summary class="bg-sum">
+        <span class="bg-sum-t">Background and original proposal</span>
+        <span class="bg-sum-h">The research, options and pricing from before we started. Kept for reference.</span>
+      </summary>
+      <div class="bg-in">
   <div class="divider" id="stack"></div>
   <section>
     <div class="section-eyebrow">The setup</div>
@@ -938,6 +1032,93 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   </section>
 
   <!-- ── REVERSE LISTENING PASS ── -->
+  <div class="divider" id="sm-questions"></div>
+  <section>
+    <div class="section-eyebrow">Phase 1 · Discovery</div>
+    <div class="section-title">Discovery answers, and what's still needed</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
+      <strong style="color:var(--text)">Todd answered these himself on Jul 20</strong> (thank you). His answers are folded in below and shape the chatbot's fields and routing. A few specifics still need your sales manager or the product data to finalize the build. That short list is at the top, and the button copies it.
+    </p>
+
+    <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;transition:opacity .15s;">
+      <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy what's still needed</span>
+    </button>
+
+    <!-- STILL NEEDED (outstanding for the sales manager) -->
+    <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);padding:16px 18px;margin-bottom:20px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Still needed from your sales manager</div>
+      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.65;">
+        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">product-development / application-discovery form</strong> (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.</li>
+        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">territory map</strong>: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.</li>
+        <li style="margin-bottom:9px;color:var(--green);"><strong style="color:var(--green);font-weight:600;">✓ The resin product list and nomenclature</strong>. Got it. You sent the Product Selection Guide, so the bot can already recognize a resin (or a competitor's resin) when someone names one. Nothing needed here.</li>
+        <li style="margin-bottom:9px;">What an <strong style="color:var(--text);font-weight:600;">ideal prospect</strong> looks like versus a <strong style="color:var(--text);font-weight:600;">poor fit</strong>: company size, industry, order volume, or anything else that tells the bot who to prioritize and who to politely screen out.</li>
+        <li style="color:var(--muted);">Optional: a handful of the most common questions the bot should be ready to answer up front.</li>
+      </ol>
+    </div>
+
+    <div class="section-eyebrow" style="margin-bottom:12px;">What Todd already answered</div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">The leads you get</div>
+      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:12px;">When a good inquiry comes in, <strong style="color:var(--text);font-weight:600;">what do you most want to know right away?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Contact info, the material they use now or need, the application, and any requirements or specs.</div></li>
+        <li style="margin-bottom:12px;">What tells you a lead is <strong style="color:var(--text);font-weight:600;">worth a rep's time, or just a waste of it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They usually name a resin we sell (our product nomenclatures for the base resins). That signals a real lead.</div></li>
+        <li>Most of your buyers are engineers. <strong style="color:var(--text);font-weight:600;">Anything you always wish they'd tell you up front?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>The application or spec, an alternative resin they want to replace, or a specific resin they're after.</div></li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's reaching out</div>
+      <ol start="4" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:12px;">Are the people reaching out <strong style="color:var(--text);font-weight:600;">almost always engineers</strong>, or also purchasing or others?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Purchasing, procurement, engineers, chemists, and press operators.</div></li>
+        <li>Some are ready to talk. Some are just researching. <strong style="color:var(--text);font-weight:600;">How do you tell them apart?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>When they give specifics, they're actively looking to spec a resin.</div></li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Before they'll share their info</div>
+      <ol start="6" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li>What do people usually <strong style="color:var(--text);font-weight:600;">ask, or push back on,</strong> before they'll hand over their contact info?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They tend to share it quickly. People searching for us usually already have a need, either replacing an alternative or matching a spec or print.</div></li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Getting the lead to you</div>
+      <ol start="7" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li style="margin-bottom:12px;">When a new lead comes in, <strong style="color:var(--text);font-weight:600;">how would you most like to get it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Both. Email and straight into the system.</div></li>
+        <li>Should it go <strong style="color:var(--text);font-weight:600;">by territory to the right rep automatically?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Ideally yes, auto-routed to the rep and geolocated by territory. Routing to the sales manager works for now. <span style="color:var(--gold);">(Needs the territory map above.)</span></div></li>
+      </ol>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;">
+      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Making your reps look good</div>
+      <ol start="9" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
+        <li>Ever <strong style="color:var(--text);font-weight:600;">lose a deal because a rep didn't call back fast enough?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Probably, but hard to tell.</div></li>
+      </ol>
+    </div>
+
+    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Still needed from your sales manager (PRL Resins chatbot)
+
+Todd answered the discovery questions, thank you. To finalize the chatbot's fields and routing, we still need a few specifics from you or the product data:
+
+1. The product-development / application-discovery form (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.
+2. The territory map: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.
+3. What an ideal prospect looks like versus a poor fit: company size, industry, order volume, or anything else that tells the bot who to prioritize and who to politely screen out.
+4. Optional: a handful of the most common questions the bot should be ready to answer up front.
+
+(The resin product list and nomenclature is already covered by the Product Selection Guide, so no action is needed there.)</textarea>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <!-- LOAD-BEARING QUOTE (Cal 1 close) -->
+  <div class="lbq">
+    <div class="lbq-label">Todd Hotes · Jul 2, 2026</div>
+    <div class="lbq-text">There's very limited friction because really, nobody else knows about any type of technology. So if this works, go for it.</div>
+    <div class="lbq-attr">Todd Hotes · PRL Resins CFO / Comptroller</div>
+    <div class="lbq-decode">This is the operating condition everything below is designed around: fast to decide, easy to move, so the plan favors a quick, visible win you can see working before committing further.</div>
+  </div>
+
+  <!-- CONFIRMED STACK -->
   <div class="divider" id="reverse"></div>
   <section>
     <div class="section-eyebrow">Recap</div>
@@ -1275,136 +1456,15 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   </section>
 
   <!-- ── SALES-MANAGER QUESTIONS ── -->
-  <div class="divider" id="sm-questions"></div>
-  <section>
-    <div class="section-eyebrow">Phase 1 · Discovery</div>
-    <div class="section-title">Discovery answers, and what's still needed</div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
-      <strong style="color:var(--text)">Todd answered these himself on Jul 20</strong> (thank you). His answers are folded in below and shape the chatbot's fields and routing. A few specifics still need your sales manager or the product data to finalize the build. That short list is at the top, and the button copies it.
-    </p>
-
-    <button id="copySmBtn" type="button" onclick="copySmQuestions()" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--gold);border:none;border-radius:5px;padding:11px 18px;cursor:pointer;margin-bottom:20px;transition:opacity .15s;">
-      <span aria-hidden="true">⧉</span><span id="copySmLabel">Copy what's still needed</span>
-    </button>
-
-    <!-- STILL NEEDED (outstanding for the sales manager) -->
-    <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);padding:16px 18px;margin-bottom:20px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Still needed from your sales manager</div>
-      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.65;">
-        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">product-development / application-discovery form</strong> (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.</li>
-        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">territory map</strong>: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.</li>
-        <li style="margin-bottom:9px;color:var(--green);"><strong style="color:var(--green);font-weight:600;">✓ The resin product list and nomenclature</strong>. Got it. You sent the Product Selection Guide, so the bot can already recognize a resin (or a competitor's resin) when someone names one. Nothing needed here.</li>
-        <li style="margin-bottom:9px;">What an <strong style="color:var(--text);font-weight:600;">ideal prospect</strong> looks like versus a <strong style="color:var(--text);font-weight:600;">poor fit</strong>: company size, industry, order volume, or anything else that tells the bot who to prioritize and who to politely screen out.</li>
-        <li style="color:var(--muted);">Optional: a handful of the most common questions the bot should be ready to answer up front.</li>
-      </ol>
-    </div>
-
-    <div class="section-eyebrow" style="margin-bottom:12px;">What Todd already answered</div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">The leads you get</div>
-      <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:12px;">When a good inquiry comes in, <strong style="color:var(--text);font-weight:600;">what do you most want to know right away?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Contact info, the material they use now or need, the application, and any requirements or specs.</div></li>
-        <li style="margin-bottom:12px;">What tells you a lead is <strong style="color:var(--text);font-weight:600;">worth a rep's time, or just a waste of it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They usually name a resin we sell (our product nomenclatures for the base resins). That signals a real lead.</div></li>
-        <li>Most of your buyers are engineers. <strong style="color:var(--text);font-weight:600;">Anything you always wish they'd tell you up front?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>The application or spec, an alternative resin they want to replace, or a specific resin they're after.</div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Who's reaching out</div>
-      <ol start="4" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:12px;">Are the people reaching out <strong style="color:var(--text);font-weight:600;">almost always engineers</strong>, or also purchasing or others?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Purchasing, procurement, engineers, chemists, and press operators.</div></li>
-        <li>Some are ready to talk. Some are just researching. <strong style="color:var(--text);font-weight:600;">How do you tell them apart?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>When they give specifics, they're actively looking to spec a resin.</div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Before they'll share their info</div>
-      <ol start="6" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li>What do people usually <strong style="color:var(--text);font-weight:600;">ask, or push back on,</strong> before they'll hand over their contact info?<div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>They tend to share it quickly. People searching for us usually already have a need, either replacing an alternative or matching a spec or print.</div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:10px;">Getting the lead to you</div>
-      <ol start="7" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li style="margin-bottom:12px;">When a new lead comes in, <strong style="color:var(--text);font-weight:600;">how would you most like to get it?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Both. Email and straight into the system.</div></li>
-        <li>Should it go <strong style="color:var(--text);font-weight:600;">by territory to the right rep automatically?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Ideally yes, auto-routed to the rep and geolocated by territory. Routing to the sales manager works for now. <span style="color:var(--gold);">(Needs the territory map above.)</span></div></li>
-      </ol>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;">
-      <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Making your reps look good</div>
-      <ol start="9" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.6;">
-        <li>Ever <strong style="color:var(--text);font-weight:600;">lose a deal because a rep didn't call back fast enough?</strong><div style="margin-top:4px;font-size:12.5px;color:var(--sub);"><span style="color:var(--green);font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;">TODD → </span>Probably, but hard to tell.</div></li>
-      </ol>
-    </div>
-
-    <textarea id="smPlain" readonly aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:0;width:1px;height:1px;opacity:0;">Still needed from your sales manager (PRL Resins chatbot)
-
-Todd answered the discovery questions, thank you. To finalize the chatbot's fields and routing, we still need a few specifics from you or the product data:
-
-1. The product-development / application-discovery form (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.
-2. The territory map: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.
-3. What an ideal prospect looks like versus a poor fit: company size, industry, order volume, or anything else that tells the bot who to prioritize and who to politely screen out.
-4. Optional: a handful of the most common questions the bot should be ready to answer up front.
-
-(The resin product list and nomenclature is already covered by the Product Selection Guide, so no action is needed there.)</textarea>
-  </section>
-
-  <!-- ── HOW IT WORKS ── -->
-  <div class="divider" id="howitworks"></div>
-  <section>
-    <div class="section-eyebrow">Phase 1 · How it works</div>
-    <div class="section-title">How the chatbot will work</div>
-    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:16px;">
-      Based on what you told me, here is the conversation your visitors will have. It stays short so people actually finish it, and it hands your reps a clean, qualified lead.
-    </p>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It greets and sorts the visitor</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;">The assistant pops up and asks what brings them in, then offers three quick paths. This screens out the tire-kickers before they reach a rep.</div>
-        <div style="font-size:12.5px;color:var(--sub);line-height:1.7;margin-top:8px;">
-          &bull; They know the resin or spec they want<br>
-          &bull; They need help finding the right resin<br>
-          &bull; Something else, like a general question
-        </div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--cyan);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It asks only what a rep needs</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;">Depending on the path, it gathers the useful basics: the resin or spec, the application, what they use now, and any requirements. Then name, email, phone, company, and their location. Short and painless, since your buyers usually already have a need.</div>
-      </div>
-    </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;">
-      <div style="width:26px;height:26px;border-radius:50%;background:var(--green);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
-      <div>
-        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;">It hands your rep a clean lead</div>
-        <div style="font-size:13px;color:var(--sub);line-height:1.6;">It creates a lead in SugarCRM, emails the notification, and routes it to the right rep by territory (to the sales manager for the first version). The customer hears that someone will reach out within a few hours.</div>
-      </div>
-    </div>
-
-    <div style="margin-top:6px;padding:12px 16px;background:rgba(0,240,255,.05);border-left:2px solid var(--cyan);border-radius:0 var(--r) var(--r) 0;font-size:13px;color:var(--text);line-height:1.6;">
-      <strong style="color:var(--cyan);">No lost leads:</strong> if someone leaves halfway, the assistant remembers them. When they come back it picks up where they left off, so a half-finished form does not become a lost lead.
-    </div>
-
-    <div style="margin-top:14px;padding:14px 18px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);font-size:13px;color:var(--sub);line-height:1.65;">
-      <strong style="color:var(--gold);">To finalize:</strong> a few inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields, the territory map, and what makes a prospect a good fit versus a poor one. Everything else is ready to build whenever you give the go.
-    </div>
-    <p style="margin-top:14px;font-size:12px;color:var(--muted);">Want the full technical version, every question the bot asks, the fields, and how leads get tagged? See the <a href="https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">full build spec</a>.</p>
-  </section>
-
   <div class="stop-loss">
     <div class="pulse"></div>
     <div class="sl-text">The safety net: even if the data takes longer than expected, we still ship the chatbot ($1,552.50) from what you've already told me. We don't wait for perfect data to get something live and working.</div>
     <div class="sl-ts">JUL 9, 2026</div>
   </div>
+
+      </div>
+    </details>
+  </section>
 
 </div>
 
@@ -1445,7 +1505,7 @@ function copySmQuestions(){
 }
 
 // Update active tab on scroll
-const sections = ['reverse','recall','chatbot','mvp','protocol','sm-questions','howitworks'];
+const sections = ['status','tradeoffs','crmcheck','roadmap','howitworks','progress'];
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
