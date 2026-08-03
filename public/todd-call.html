@@ -576,6 +576,29 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 .rm-item-body strong { color: var(--text); font-weight: 600; }
 .rm-connector { display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 18px; }
 @media (max-width: 768px) { .rm-connector { transform: rotate(90deg); margin: -6px 0; } }
+
+/* ── EXPECTED VS ACTUAL (CRM check) ── */
+.ea { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+.ea-row { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+.ea-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; padding: 13px 18px 0; }
+.ea-n { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--dim); }
+.ea-topic { font-size: 14px; font-weight: 650; color: var(--text); }
+.ea-verdict { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-left: auto; }
+.ea-verdict.match { color: var(--green); background: rgba(0,255,157,.08); border: 1px solid rgba(0,255,157,.3); }
+.ea-verdict.gap { color: var(--gold); background: rgba(255,215,0,.08); border: 1px solid rgba(255,215,0,.3); }
+.ea-verdict.win { color: var(--cyan); background: rgba(0,240,255,.08); border: 1px solid rgba(0,240,255,.3); }
+.ea-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 12px 18px 0; }
+@media (max-width: 768px) { .ea-grid { grid-template-columns: 1fr; gap: 12px; } }
+.ea-cell { padding-right: 18px; }
+.ea-cell + .ea-cell { padding-right: 0; padding-left: 18px; border-left: 1px solid var(--border); }
+@media (max-width: 768px) { .ea-cell + .ea-cell { padding-left: 0; border-left: none; border-top: 1px solid var(--border); padding-top: 12px; } }
+.ea-lbl { font-family: var(--mono); font-size: 8.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.ea-lbl.exp { color: var(--muted); }
+.ea-lbl.act { color: var(--cyan); }
+.ea-text { font-size: 12.5px; color: var(--sub); line-height: 1.6; }
+.ea-text b { color: var(--text); font-weight: 600; }
+.ea-do { margin: 12px 18px 14px; padding-top: 11px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--sub); line-height: 1.6; }
+.ea-do b { color: var(--green); font-weight: 650; }
 </style><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 
@@ -595,6 +618,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <a class="doc-tab active" href="#status">Status</a>
       <a class="doc-tab" href="#progress">Progress</a>
       <a class="doc-tab" href="#roadmap">Roadmap</a>
+      <a class="doc-tab" href="#crmcheck">CRM Check</a>
       <a class="doc-tab" href="#reverse">Recap</a>
       <a class="doc-tab" href="#recall">What I Found</a>
       <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
@@ -818,6 +842,74 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
 
     <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This is the plan, not a promise of dates. Next only starts once Now is proven working, and Later only once Next earns it.</p>
+  </section>
+
+  <div class="divider" id="crmcheck"></div>
+  <section>
+    <div class="section-eyebrow" style="color:var(--cyan);">Checked against your live system &middot; August 3</div>
+    <div class="section-title">What we expected, and what your CRM actually does</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:6px;">Before connecting the chatbot to SugarCRM, I read your live setup and a sample of a hundred real leads to check that what we designed will actually work. Nothing was changed. Here is where our assumptions held up, where they did not, and what needs your call.</p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;">Three of these need a quick decision from you. Three are already settled.</p>
+
+    <div class="ea">
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-n">01</span><span class="ea-topic">Email addresses</span><span class="ea-verdict win">Better than expected</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">Most leads coming in today would already have an email address on them.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Only <b>5 out of 100</b> do. Almost every lead in your system today is phone only.</div></div>
+        </div>
+        <div class="ea-do"><b>What this means:</b> the chatbot asks for an email every time, so every lead it sends you will have one. This is the single biggest gain from the project. It changes what follow up is even possible, not just how fast it happens.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-n">02</span><span class="ea-topic">Phone number</span><span class="ea-verdict gap">Needs your call</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To ask for a phone number but keep it optional, so the conversation stays short.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Your CRM <b>requires</b> a phone number on every lead. All 100 records have one. A lead without it cannot be saved.</div></div>
+        </div>
+        <div class="ea-do"><b>Your call:</b> require the phone number in the chat, which means cleaner records but one more question, or let people skip it and fill a placeholder. I lean toward requiring it, since your team clearly works by phone.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-n">03</span><span class="ea-topic">Labelling chatbot leads</span><span class="ea-verdict gap">Needs your call</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To mark each chatbot lead with its own source, so you could count them separately.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">The Lead Source list has no chatbot option. Today <b>91 of 100</b> leads are marked "Other".</div></div>
+        </div>
+        <div class="ea-do"><b>Your call:</b> add a "Chatbot" option to that list, or accept "Web Site". I would add it. It is the only way to later show how many chatbot leads turned into real business, which is the number that proves this worked.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-n">04</span><span class="ea-topic">Testing it safely</span><span class="ea-verdict gap">Needs your call</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To create a private test lead that only you could see, to prove the connection works.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Every record sits on one shared team, so <b>nothing can be hidden</b> from the rest of the group.</div></div>
+        </div>
+        <div class="ea-do"><b>Your call:</b> if you have a SugarCRM sandbox we test there and this goes away. If not, I would like your approval to create one clearly labelled test lead and delete it right after. I have not created anything yet.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-n">05</span><span class="ea-topic">Where leads go</span><span class="ea-verdict match">Confirmed</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To send every chatbot lead to your sales manager, who assigns it from there.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Exactly how it already works. <b>92 of 100</b> leads are assigned to him, and every record comes in marked "New".</div></div>
+        </div>
+        <div class="ea-do"><b>Settled:</b> chatbot leads will arrive the same way, in the same place, marked the same. Nobody has to learn anything new.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-n">06</span><span class="ea-topic">How the details get written</span><span class="ea-verdict match">Confirmed</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">To put the resin, application and requirements somewhere your reps would actually read.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">The Notes field is filled on <b>all 100</b> records, holding everything from one line to a full specification.</div></div>
+        </div>
+        <div class="ea-do"><b>Settled:</b> the chatbot writes what it captures into that same Notes field, in plain readable lines. It fits how your team already works.</div>
+      </div>
+
+    </div>
+
+    <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This was a read only check. Nothing in your CRM was created, changed or deleted.</p>
   </section>
 
   <div class="divider" id="stack"></div>
