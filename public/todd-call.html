@@ -552,6 +552,30 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 .status-grid3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
 .status-tl4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
 @media (max-width: 768px) { .status-grid3 { grid-template-columns: 1fr; } .status-tl4 { grid-template-columns: 1fr 1fr; } }
+
+/* ── ROADMAP (customer-journey horizons) ── */
+.rm-track { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 18px; }
+@media (max-width: 768px) { .rm-track { grid-template-columns: 1fr; } }
+.rm-col { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 18px 20px; position: relative; overflow: hidden; }
+.rm-col::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; }
+.rm-col.now::before { background: var(--green); }
+.rm-col.next::before { background: var(--cyan); }
+.rm-col.later::before { background: var(--gold); }
+.rm-col-eyebrow { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
+.rm-col.now .rm-col-eyebrow { color: var(--green); }
+.rm-col.next .rm-col-eyebrow { color: var(--cyan); }
+.rm-col.later .rm-col-eyebrow { color: var(--gold); }
+.rm-col-title { font-size: 14px; font-weight: 650; color: var(--text); margin-bottom: 12px; line-height: 1.4; }
+.rm-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+.rm-item:last-child { margin-bottom: 0; }
+.rm-item-dot { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.rm-col.now .rm-item-dot { background: var(--green); }
+.rm-col.next .rm-item-dot { background: var(--cyan); }
+.rm-col.later .rm-item-dot { background: var(--gold); }
+.rm-item-body { font-size: 12.5px; color: var(--sub); line-height: 1.6; }
+.rm-item-body strong { color: var(--text); font-weight: 600; }
+.rm-connector { display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 18px; }
+@media (max-width: 768px) { .rm-connector { transform: rotate(90deg); margin: -6px 0; } }
 </style><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 
@@ -570,6 +594,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     <nav class="doc-tabs">
       <a class="doc-tab active" href="#status">Status</a>
       <a class="doc-tab" href="#progress">Progress</a>
+      <a class="doc-tab" href="#roadmap">Roadmap</a>
       <a class="doc-tab" href="#reverse">Recap</a>
       <a class="doc-tab" href="#recall">What I Found</a>
       <a class="doc-tab" href="#chatbot">Build / Buy / Rent</a>
@@ -753,6 +778,46 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       </ul>
       <p style="font-size:11.5px;color:var(--muted);margin-top:12px;">The full current snapshot is in <a href="#status" style="color:var(--cyan);font-weight:600;">Where things stand</a>.</p>
     </div>
+  </section>
+
+  <div class="divider" id="roadmap"></div>
+  <section>
+    <div class="section-eyebrow" style="color:var(--cyan);">From our July 31 call</div>
+    <div class="section-title">Where this goes, from a visitor's point of view</div>
+    <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:6px;">You walked me through your own picture of this on our call: not just a form, but something that gets smarter the more a visitor tells it. Here is that picture laid out as three stages, in order, so you can see what a visitor experiences today, what changes next, and where the fuller vision goes.</p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:4px;">Nothing in Later needs building before Phase 1 proves itself. It is here so the direction is shared, not so it starts now.</p>
+
+    <div class="rm-track">
+      <div class="rm-col now">
+        <div class="rm-col-eyebrow">Now</div>
+        <div class="rm-col-title">A visitor gets sorted and captured</div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">The bot greets them, sorts them into the right path, and asks only what a rep needs.</div></div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">It recognizes a real resin ask, <strong>including a competitor's name</strong> (Lexan, Ultem, Noryl, Valox), not just your own product names.</div></div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">Every lead lands as one clean record, routed to your sales manager.</div></div>
+      </div>
+
+      <div class="rm-connector">&rarr;</div>
+
+      <div class="rm-col next">
+        <div class="rm-col-eyebrow">Next</div>
+        <div class="rm-col-title">The site itself gets smarter</div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">Turn the product guide into <strong>a page for every material and use case</strong> (electrical, medical, outdoor), the way you described it on the call. A visitor searching for the right material lands on exactly the right page.</div></div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">That does two things at once: a real SEO lift, and a clean source the bot can read to <strong>match a need to a material family on its own</strong>, instead of a person doing that lookup by hand.</div></div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">Each paid-search ad opens its own tailored conversation, the way the SABIC page already does, and we can finally measure which ads turn into leads.</div></div>
+      </div>
+
+      <div class="rm-connector">&rarr;</div>
+
+      <div class="rm-col later">
+        <div class="rm-col-eyebrow">Later</div>
+        <div class="rm-col-title">The fuller vision you described</div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">A visitor types a competitor's grade and the bot <strong>suggests your equivalent on the spot</strong>, checked against your Good, Better, Best matrix, before a person ever gets involved.</div></div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">A trained specialist assistant for each major landing page or persona, the way you put it: not one generic bot, but the right expert for who showed up.</div></div>
+        <div class="rm-item"><div class="rm-item-dot"></div><div class="rm-item-body">Beyond the chatbot: agents that help each rep with email, quotes, and Sugar entry, and eventually the same approach applied elsewhere in the business, the phases from your team email.</div></div>
+      </div>
+    </div>
+
+    <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This is the plan, not a promise of dates. Next only starts once Now is proven working, and Later only once Next earns it.</p>
   </section>
 
   <div class="divider" id="stack"></div>
