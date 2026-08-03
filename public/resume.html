@@ -429,12 +429,14 @@ function NCICount({ target=87 }) {
 const ROLES = [
   { id:'arcs', glyph:'◈', label:'ARCS · Decision Intelligence Platform', color:T.cyan,
     dates:'2025–Present', role:'Founder',
-    summary:'Built a decision intelligence platform from scratch: structured pre/post-decision capture, AI-native analysis pipeline (Claude, MCP), and compounding feedback loops that make each subsequent decision measurably sharper.',
+    summary:'Took a decision-intelligence product 0 → 1. Built and still run the whole thing: the product, the measurement, and the code. It captures each decision before and after, runs it through an AI analysis pipeline, and learns from past calls so the next one comes out sharper.',
     metric:'60%', metricLabel:'DECISION NOISE REDUCTION',
     compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what\'s the right first wedge to prove the model?',
     bullets:[
-      { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
-      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
+      { t:'Cut decision noise by 60% and reached insight 3 to 5 times faster, by structuring how evidence gets weighed before a call', v:['all','ds'] },
+      { t:'Sole builder: coded the whole thing by hand with Claude Code, no engineering team. A live web app and a 19,000-line library of analysis code, running in production', v:['all','figma'] },
+      { t:'Wired together best-in-class tools (Claude, Supabase, Vercel, MagicPatterns) into one working pipeline, plus custom Claude Code tools I built and open-sourced', v:['all','figma'] },
+      { t:'Built the guardrails too: automated checks that hold the AI-assisted work to a standard on every change. Real discipline, not vibe-coding', v:['all','ds'] },
       { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions, compounding institutional memory', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product', v:['all'] },
     ] },
@@ -522,19 +524,26 @@ const CONSULTING_CLIENTS = [
 
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
-  all:   { heading:'BUILDING AT THE EDGE · APPLIED AI · DECISION INTELLIGENCE',
-    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.' },
+  all:   { heading:'END-TO-END PRODUCT · 0 → 1 + GTM · REGULATED INDUSTRIES',
+    text:'Two decades of end-to-end product development (0 → 1 and go-to-market), much of it in regulated industries: SEC/FINRA-governed investment products, HIPAA-regulated digital health, GDPR consumer data. Builds the whole arc: product from scratch, the instrumentation to measure it, and the commercial motion to grow it. Currently: ARCS, a decision-intelligence platform built hands-on through AI-native harness engineering on Claude, Supabase, Vercel, and MagicPatterns.' },
   figma: { heading:'GROWTH DEPTH',
     text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch: no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
   ds:    { heading:'SYSTEMS DEPTH',
-    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production, not experiments.' },
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native harness engineering in production, not experiments.' },
 };
 
 const SKILLS = [
-  { id:'claude',   label:'Claude / ChatGPT Enterprise', accent:T.cyan,  views:['all','figma'] },
-  { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
+  { id:'claudecode',label:'Claude Code',               accent:T.cyan,  views:['all','figma'] },
+  { id:'harness',  label:'AI-Native Harness Eng',       accent:T.cyan,  views:['all','figma'] },
+  { id:'claude',   label:'Claude',                      accent:T.cyan,  views:['all','figma'] },
+  { id:'mcp',      label:'MCP Server Authoring',        accent:T.cyan,  views:['all','figma'] },
+  { id:'skills',   label:'Custom Skills / Subagents',   accent:T.cyan,  views:['all','figma'] },
   { id:'agentic',  label:'Agentic AI Pipelines',        accent:T.cyan,  views:['all','figma'] },
+  { id:'multiagent',label:'Multi-Agent Systems',        accent:T.cyan,  views:['all','figma'] },
+  { id:'evals',    label:'LLM Evaluation',              accent:T.cyan,  views:['all','figma'] },
+  { id:'govci',    label:'CI Governance (ADR / NCI)',   accent:T.cyan,  views:['all','figma'] },
   { id:'glean',    label:'Glean',                       accent:T.cyan,  views:['all','figma'] },
+  { id:'roadmap',  label:'Roadmap / Instrumentation',   accent:T.green, views:['all','figma'] },
   { id:'growth',   label:'Growth Marketing',            accent:T.green, views:['all','figma'] },
   { id:'lifecycle',label:'Lifecycle / CRM',             accent:T.green, views:['all','figma'] },
   { id:'gtm',      label:'GTM Strategy',                accent:T.green, views:['all','figma'] },
@@ -558,10 +567,10 @@ const SKILLS = [
 function GrainResume() {
   const roles = [
     { co:'ARCS · Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
-      metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
-      bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
-               '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude + ChatGPT Enterprise with MCP server: AI-native in production, not experiments'] },
+      metrics:'60% less decision noise  ·  built by hand with Claude Code  ·  3–5× faster to insight',
+      bullets:['Sole builder: shipped and still run a live web app with an AI analysis pipeline that learns from past decisions',
+               '60% less decision noise by structuring how evidence gets weighed before a call',
+               'Built by hand with Claude Code (Claude, Supabase, Vercel, MagicPatterns), plus custom tools I open-sourced: in production, not experiments'] },
     { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
       metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
       bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
@@ -585,11 +594,12 @@ function GrainResume() {
       {/* Summary */}
       <p style={{ fontFamily:T.sans, fontSize:13.5, color:T.fg2, lineHeight:1.75,
         maxWidth:680, marginBottom:24 }}>
-        Creative technologist and builder with two decades across tech, marketing, data,
-        and commercial operations in sports, finance, health, and consumer. Builds the intelligence
-        layer before the category for it exists: structured pre-decision framing, AI-native analysis
-        pipelines, and compounding feedback loops that make each decision sharper than the last.
-        Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
+        Two decades of end-to-end product development (0 → 1 and go-to-market), much of it in
+        regulated industries: SEC/FINRA-governed investment products, HIPAA-regulated digital health,
+        GDPR consumer data. Builds the whole arc: product from scratch, the instrumentation to
+        measure it, and the commercial motion to grow it.
+        Currently: ARCS, a decision-intelligence platform built hands-on through AI-native
+        harness engineering on Claude, Supabase, Vercel, and MagicPatterns.
       </p>
 
       {/* Thin cyan gradient rule — the one graphic element */}
@@ -633,7 +643,8 @@ function GrainResume() {
       <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
         {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
           ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
-          ['AI & Tools',        'Claude · ChatGPT Enterprise · MCP Server · Glean · Agentic AI pipelines · GitHub'],
+          ['AI Harness Eng',    'Claude · Claude Code · Supabase · Vercel · MagicPatterns · custom MCP servers · authored + open-sourced skills'],
+          ['AI Systems',        'Subagent orchestration · agentic analysis pipelines · LLM evaluation · CI-gated governance · production LLM tool-use'],
           ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
         ].map(([label,val],i) => (
           <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
@@ -863,14 +874,17 @@ function DeepScan() {
               </p>
             </> },
           { id:'ci3', glyph:'⊗', label:'AI-Native in Production, Not in Demos',
-            meta:'Claude + ChatGPT Enterprise + MCP Server · ARCS',
-            summary:'ARCS is built on Claude and ChatGPT Enterprise with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" but "here\'s what the pattern in your data is already telling us."',
+            meta:'Claude Code · open-sourced tools · production guardrails · ARCS',
+            summary:'ARCS is a live system built by one person with Claude Code: a full web app, custom AI tools, and the guardrails around them. The onboarding question isn\'t "what can AI do?" but "here\'s what the pattern in your data is already telling us."',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Applied AI roles require fluency with the actual production stack, not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), ChatGPT Enterprise, a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
+                Applied AI roles want people who have actually shipped, not just talked about it. ARCS is a live web app built by hand with Claude Code (plus Claude, Supabase, Vercel, MagicPatterns) and an AI pipeline that analyzes each decision before and after. That's the work most Applied AI candidates describe and few have done.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
-                Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept.
+                The build itself is the differentiator: someone from a non-engineering background using Claude Code at real depth. Built and open-sourced custom tools, set up specialized AI helpers to check the work (security, fact-checking), and wrapped it all in automated guardrails that hold every change to a standard. Real discipline around AI-assisted work, not vibe-coding.
+              </p>
+              <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
+                Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept. It's live, not a slide.
               </p>
             </> },
         ].map(t => (
@@ -906,9 +920,9 @@ function DeepScan() {
       <SectionLabel style={{ marginBottom:10 }}>ROLE FIT</SectionLabel>
       <div style={{ display:'grid', gridTemplateColumns:'1fr', gap:8, marginBottom:20 }}>
         {[
-          { id:'A', label:'Forward Deployed · Applied AI Engineering',
-            desc:'Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context, without needing to be hand-held through the problem.',
-            why:'ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.' },
+          { id:'A', label:'End-to-End Product · 0 → 1',
+            desc:'Takes a product from nothing to shipped: owns the problem framing, the build, the instrumentation, and the go-to-market, without needing to be hand-held through any layer of it.',
+            why:'ARCS was built 0 → 1 by definition: no spec, no inherited infrastructure, no eng team. Every architectural and product decision was made hands-on, on contact with the real problem, and shipped to production.' },
           { id:'B', label:'Decision Intelligence · AI Strategist',
             desc:'Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
             why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: CDP across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
@@ -939,7 +953,7 @@ function DeepScan() {
 
       {/* The Differentiator — TrueNorthPanel closes the section, cyan bookends the whole thing */}
       <TrueNorthPanel heading="THE DIFFERENTIATOR" color={T.cyan} style={{ marginBottom:16 }}>
-        Most candidates for Applied AI / FDE / Decision Intelligence roles have depth in one lane: analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name, and the first questions aren't about onboarding. They're about what's already in the data.
+        Most candidates for end-to-end product / Applied AI / decision-intelligence roles have depth in one lane: analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at VP level and still do the work. Add AI-native in production (not in demos), a working decision intelligence platform built from scratch, and a consistent pattern of building the intelligence layer before it had a name, and the first questions aren't about onboarding. They're about what's already in the data.
       </TrueNorthPanel>
 
     </div>
