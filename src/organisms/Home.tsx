@@ -137,7 +137,7 @@ export function Home({ onOpen, onCalibrate, demo, demoLabel, onBrief }: HomeProp
           {d.tributaries && d.tributaries.length > 0 && (
             <div style={{ marginTop: '0.9rem' }}>
               <SectionLabel style={{ marginBottom: '0.5rem' }}>Where to navigate next</SectionLabel>
-              <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.35rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
                 {d.tributaries.map((t, i) => {
                   const c = tribColor(t.type)
                   return (
