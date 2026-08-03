@@ -88,4 +88,22 @@ These don't have a number in the table above because no ADR exists for them — 
 
 ---
 
-*Last updated: 2026-07-19 (token-efficiency audit session); prior auto-gen 2026-07-01 22:41 UTC*
+---
+
+## Worktree hold branches — ADR number collision (2026-08-03)
+
+Three branches have genuinely unintegrated commits that cannot be merged to main without
+renumbering their ADRs first. Do NOT remove these worktrees — they are the only copy of
+the work. Gate: renumber each to the next available ADR slot before merge.
+
+| Branch | Worktree | Commits | Blocker | Key content |
+|--------|----------|---------|---------|-------------|
+| `claude/harness-build-optimization-f52489` | `token-consumption-improvement-6ba854` | 3 | ADR-038 collision: branch has `exogenous-forge`, main has `recoil-bookmark-primitive` | ROM #6 Exogenous Forge (`_DECISIONS/ADR-038-exogenous-forge.md`), `/thread-recoil` skill (`.claude/skills/thread-recoil/SKILL.md`), Cynic lineage |
+| `claude/elastic-rubin-f22a6e` | `elastic-rubin-f22a6e` | 5 | ADR-039 collision: branch has `refusal-to-overclaim`, main has `deploy-cost-guardrail` | Tao Cellar canon, `ADR-039` brand-promise, `serialize_grade.py` |
+| `claude/decision-geometry-logo-81fb56` | `decision-geometry-logo-81fb56` | 26 | ADR-039/040/041 all collide | Full Tao proverb system (241 proverbs), Tao viz tools, Forge kit, ADR-039/040/041 brand + grid |
+
+**How to unblock:** Check the next available ADR number (`ls _DECISIONS/ | sort`), then renumber
+the collision files in each branch before cherry-picking or rebasing onto main. The three branches
+are independent of each other — renumber in any order.
+
+*Last updated: 2026-08-03 (worktree audit + cleanup session)*
