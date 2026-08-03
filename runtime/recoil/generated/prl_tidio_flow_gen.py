@@ -256,12 +256,62 @@ def build_sem_onramp():
     return fb.build(first_trigger="onUrlOpened")
 
 
+def build_ai_handoff():
+    """AI -> flow delivery bridge (v2, added 2026-08-03 after the Lyro purchase).
+
+    WHY THIS EXISTS
+    ---------------
+    On the Jul 31 call Daniel confirmed a hard product boundary: the FLOW-level webhook
+    works on any plan, but the AI (Lyro) pushing a captured lead to SugarCRM on its own
+    requires the higher Tidio+ tier. PRL bought Flows + Lyro, NOT Tidio+.
+
+    So with Lyro enabled, a visitor who converses only with the AI is qualified and then
+    goes nowhere: no Sugar lead is created. That is a lead-loss path, the exact failure
+    this project exists to prevent.
+
+    This flow closes it. Lyro's job ends at HANDOFF, not at capture. The AI answers and
+    qualifies, then steers the visitor into this short flow, whose webhook delivers the
+    lead through the already-proven flow path. The rep also has the full AI transcript in
+    the Tidio inbox, so this only needs to capture what SugarCRM structurally requires.
+
+    TRIGGER: must be set in the Tidio UI. The correct trigger-type string for a keyword or
+    quick-reply match was NOT verified against a Tidio export, so it is deliberately left
+    as onFirstVisit here and MUST be changed after import, or it will collide with the main
+    flow. Confirm the mechanism with Tidio support: whether Lyro can hand off to a flow
+    directly, or whether it must steer the visitor to click a quick reply.
+
+    NOTE ON PHONE: kept required, not optional. The SugarCRM audit (2026-08-03) found
+    phone_work is a required field on Leads, filled on 100/100 live records. If Todd
+    decides to allow blank phones, relax this here AND in build_full()/build_sem_onramp().
+    """
+    fb = FlowBuilder("PRL Resins - AI Handoff (lead delivery bridge)")
+
+    fb.trigger("t", "hello")  # <-- CHANGE TRIGGER IN TIDIO UI BEFORE ACTIVATING
+    fb.message("hello",
+        "Happy to get a specialist on this. Just a few details so the right person can pick "
+        "it up, and they will have everything you have already told me.", nxt="h_need")
+    fb.ask("h_need", "In one line, what do you need? A resin, a spec, or a replacement.",
+           "desired_resin_or_spec", "cap_name")
+    fb.ask("cap_name", "Who should we get this to?", "name", "cap_email")
+    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+           error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
+    fb.ask("cap_company", "And your company?", "company", "cap_terr")
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
+    fb.message("cap_close",
+        "Thanks. A PRL resin specialist will follow up shortly, usually within a few hours. "
+        "A real person, no phone trees.")
+
+    return fb.build()
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
-    ap.add_argument("--flow", choices=["full", "sem"], default="full")
+    ap.add_argument("--flow", choices=["full", "sem", "ai"], default="full")
     args = ap.parse_args()
-    data = build_sem_onramp() if args.flow == "sem" else build_full()
+    data = {"sem": build_sem_onramp, "ai": build_ai_handoff,
+            "full": build_full}[args.flow]()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
     print(f"wrote {args.out}: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
