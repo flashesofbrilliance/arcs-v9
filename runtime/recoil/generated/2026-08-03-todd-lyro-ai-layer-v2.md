@@ -127,12 +127,36 @@ The last one should route straight into the flow, not the AI.
 
 ---
 
+## 4b. Where the AI actually belongs (the point of the upgrade)
+
+The improvisation capability, not the decision tree, is the reason for the upgrade. v1 funnels
+every visitor through the rigid tree first, so almost nobody would ever reach Lyro. That inverts
+the value of what was bought.
+
+The split that fixes it: **rigid where speed wins, AI where judgment wins.**
+
+| Menu option | Path | Why |
+|---|---|---|
+| I know what I need | Rigid | They already know the grade. Four questions and out. |
+| Have someone call me | Rigid | Pure capture, no judgment needed. |
+| **Help me choose** | **AI** | Someone describing a part and its requirements is having a conversation. A three question form is the wrong instrument. This is where improvisation earns the money. |
+| **Something else** | **AI** | Open ended by definition. |
+| Guides and resources | Rigid, then open | Links, then invite a question. |
+
+Implemented as `build_full_ai()` (`--flow full-ai`, 22 nodes). **`build_full()` is untouched and
+remains what is live**, so this is a comparison, not a replacement.
+
+**The tradeoff, stated plainly:** AI-path visitors never pass through the capture form, so their
+lead reaches SugarCRM only through `build_ai_handoff()`. That makes the handoff mechanism
+load-bearing in this variant. **Do not activate it until the handoff is verified working**, or
+"Help me choose" quietly becomes a lead-loss path, which is worse than the rigid tree it replaced.
+
 ## 5. Build changes made
 
-- `prl_tidio_flow_gen.py`: added `build_ai_handoff()`, exposed as `--flow ai`.
-  Generates 9 nodes / 8 edges. `build_full` and `build_sem_onramp` are unchanged
-  (27 and 11 nodes respectively), so there is no regression to the live flow.
-- Generate with: `python3 prl_tidio_flow_gen.py --flow ai -o prl-ai-handoff.json`
+- `prl_tidio_flow_gen.py`: added `build_ai_handoff()` (`--flow ai`, 9 nodes) and
+  `build_full_ai()` (`--flow full-ai`, 22 nodes). `build_full` (27) and `build_sem_onramp` (11)
+  are unchanged, so there is no regression to the live flow.
+- Generate: `python3 prl_tidio_flow_gen.py --flow ai|full-ai|full|sem -o <file>.json`
 
 ## 6. Order of operations
 

@@ -305,13 +305,102 @@ def build_ai_handoff():
     return fb.build()
 
 
+def build_full_ai():
+    """Main flow, AI-forward variant (v2, 2026-08-03). Non-destructive: build_full() is
+    untouched and remains what is live.
+
+    WHY
+    ---
+    v1 funnels every visitor through the rigid decision tree, so Lyro is only reached by
+    people who escape it. That inverts the value of the Flows + Lyro purchase: the
+    improvisation capability is the reason for the upgrade, and almost nobody would meet it.
+
+    The split below keeps a rigid path where SPEED wins and hands to the AI where JUDGMENT
+    wins. Someone who already knows their grade wants four questions and out. Someone
+    describing a part and its requirements is having a conversation, and a three-question
+    form is the wrong instrument for that.
+
+    MECHANISM
+    ---------
+    Per Daniel (Jul 31): the flow runs first and Lyro takes over when the flow ends or is
+    interrupted. So "hand to AI" is implemented as ending the flow on an open invitation,
+    not as a special node type. Lyro then picks up the conversation.
+
+    DELIVERY
+    --------
+    AI-path visitors do NOT pass through the capture form, so their lead reaches SugarCRM
+    only via build_ai_handoff(). That makes the handoff mechanism load-bearing in this
+    variant. Do not activate this variant until the handoff is verified working, or
+    "Help me choose" becomes a lead-loss path.
+    """
+    fb = FlowBuilder("PRL Resins - Lead Capture (AI-forward)")
+
+    fb.trigger("t", "hello")
+    fb.message("hello",
+        "Hi, thanks for stopping by. Looking for a resin, a spec match, or an alternative to "
+        "what you're running now? I'll get you to the right person fast.", nxt="menu")
+    fb.decision("menu", "What brings you in?", [
+        ("I know what I need", "a1"),        # rigid: speed
+        ("Help me choose", "ai_choose"),     # AI: judgment
+        ("Have someone call me", "cb1"),     # rigid: pure capture
+        ("Guides and resources", "res1"),
+        ("Something else", "ai_open"),       # AI: open ended
+    ])
+
+    # --- AI handoff points: flow ends, Lyro takes over ---
+    fb.message("ai_choose",
+        "Happy to help you narrow it down. Tell me what you're making and what the part has "
+        "to stand up to. Heat, impact, outdoor exposure, chemicals, a regulatory listing, "
+        "whatever matters most. I'll work through it with you.")
+    fb.message("ai_open",
+        "Go ahead and ask. If it's something I can't answer I'll get you to a specialist.")
+
+    # Resources path
+    fb.message("res1",
+        "Here are some quick resources:\n"
+        "- Product Selection Guide: https://prlresins.com/polymer-product-catalog/\n"
+        "- Browse our resins: https://prlresins.com/products/\n"
+        "- Quality guarantee: https://prlresins.com/quality-guarantee/\n"
+        "- Find us / contact: https://prlresins.com/contact/", nxt="res2")
+    fb.message("res2",
+        "Anything you want to dig into, just ask. Or call 1-800-243-5176 to reach a person.")
+
+    # Branch A - knows what they need (rigid, unchanged from v1)
+    fb.ask("a1", "Great. Which resin or spec are you after?", "desired_resin_or_spec", "a2")
+    fb.decision("a2", "Are you replacing a resin you run now?", [
+        ("Yes", "a2y"), ("No", "a3")])
+    fb.ask("a2y", "What are you using today?", "current_resin", "a3")
+    fb.ask("a3", "What are you making with it?", "application", "a4")
+    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+           "requirements", "cap_name")
+
+    # Callback path (rigid, unchanged)
+    fb.ask("cb1", "You got it. What's your name?", "name", "cb2")
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone")
+    fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
+    fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
+               "few hours. No phone trees.")
+
+    # Shared contact capture
+    fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email")
+    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+           error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
+    fb.ask("cap_company", "And your company?", "company", "cap_terr")
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
+    fb.message("cap_close", "Thanks! One of our resin specialists will reach out shortly, usually "
+               "within a few hours. A real person, no phone trees.")
+
+    return fb.build()
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
-    ap.add_argument("--flow", choices=["full", "sem", "ai"], default="full")
+    ap.add_argument("--flow", choices=["full", "full-ai", "sem", "ai"], default="full")
     args = ap.parse_args()
     data = {"sem": build_sem_onramp, "ai": build_ai_handoff,
-            "full": build_full}[args.flow]()
+            "full-ai": build_full_ai, "full": build_full}[args.flow]()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
     print(f"wrote {args.out}: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
