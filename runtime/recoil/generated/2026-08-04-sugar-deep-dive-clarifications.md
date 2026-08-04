@@ -82,3 +82,65 @@ so treat every rate below as directional, not settled, until confirmed on real w
 - True web-era conversion, because the sample is mostly imported.
 - Closed-won vs closed-lost (all 100 are status "New"), so ICP still cannot be derived from data.
 - Anything about the ERP (IQMS); Sugar is downstream of it.
+
+---
+
+# Addendum — Opportunity + Order-History reports (reviewed 2026-08-04)
+
+Screenshots of the live SugarCRM reports (Opportunities, Order History, competitor-grade
+report, lead-source dashboards) substantially update the picture. These are the real sales
+substance, not the 100-lead Leads snapshot. What changed:
+
+## R1. The competitor cross-reference ALREADY EXISTS in Sugar, structured  [reverses a prior claim]
+- **Data:** report "Oppty's with Competitor Grade" = **231 opportunities** each carrying a named
+  competitor grade mapped to a PRL grade: 357U, FR3010, PC-10FR, Cycolac FR-15, LG AF312A,
+  AF366, TRISTAR PC-10GFR, RTP 2099, LG ABSFR, MG47/GPM5500, etc.
+- **Why it reverses R-earlier:** I told Todd the "what's your equivalent to Lexan 141" data was
+  trapped as images in the Product Selection Guide PDF. The COMMERCIAL cross-reference (competitor
+  grade to PRL grade) is already machine-readable in the CRM. The spec datasheets are still in
+  PDF, but the lookup the chatbot most needs is structured data we can ground on today.
+- **Action:** reframe the "comparison tables are pictures" agenda item. The PDF is still the
+  barrier for detailed spec Q&A, but a "we make an equivalent to X" answer can be grounded on
+  these 231 records now. This is a stronger, more concrete build story.
+
+## R2. $26.56M in closed-won revenue has NO lead source  [the real pain]
+- **Data:** report "Opportunities - Closed Won with No Lead Source" = $26.56M, all "Undefined".
+- **Why it matters:** this is the attribution black hole. They cannot tell what marketing
+  actually produces revenue. The chatbot tagging every lead with a source (the C3/labeling
+  decision) is not housekeeping, it directly attacks a $26.56M blind spot. This is the number
+  worth showing his team, alongside the four-hour callback metric.
+
+## R3. Web-source leads DO carry email  [softens the "5% have email" headline]
+- **Data:** lead "Art Browning" (Fab Tex Innovations) is lead_source = Web Site and has
+  art@fabtexinnovations.com. The lead-source dashboard also shows an "Email" source and real
+  web/AdWord pipeline.
+- **Why it matters:** the "5 of 100 have email" figure was dragged down by the 92 imports. Real
+  web leads already capture email through the form. **Do not lead with "the site captures almost
+  no email" in front of Todd** — he can open his own CRM and see web leads with emails, and it
+  costs credibility. Reposition the chatbot value from "captures an email" to "captures
+  qualification depth (resin + application + competitor grade) AND a clean source tag" — which is
+  both true and more valuable given R1 and R2.
+
+## R4. AdWord is the best-converting paid source  [validates the SEM onramps]
+- **Data:** lead-source dashboard — Won revenue by source: AdWord $645k, Other $315k; Web Site
+  $6M total pipeline but $3.08M of it Closed Lost; Email only $68k total. "Lead Forensics" (a
+  paid website visitor de-anonymization tool) is also a source at $913k.
+- **Why it matters:** the 5 competitor SEM onramps (SABIC/Lexan/Ultem/Noryl/Valox) point exactly
+  at the traffic that already converts best. That is a data-backed reason to turn them on, not a
+  nice-to-have. Also: they already pay for Lead Forensics, so "de-anonymize + qualify the visitor"
+  is a concept Todd already buys into.
+
+## R5. Scale + margin context (for pricing the retainer)
+- **Data:** $86.5M shipped since Jan 2025 (32.9M lbs); $8.07M in opportunities created in the
+  LAST 30 DAYS; $10.25M open pipeline next 90 days; 39,504 order-history line items; a sample
+  order shows ~40% gross margin (unit $4.98 / cost $2.97). Open pipeline product mix: PC dominant,
+  then PC/ABS, TP, PPX, ABS.
+- **Why it matters:** this is a serious, high-margin business, not a small shop. It supports
+  pricing the engagement against pipeline impact, not against hours. One recovered lost deal
+  covers a year of retainer many times over.
+
+## Corrections to the earlier list
+- **C2 (which 5 have email):** answered. Web leads carry email; the 5/100 was an import artifact.
+  Retire the "site captures no email" framing.
+- **C4 (demand mix):** confirmed and extended — open-opportunity mix is PC-dominant, then PC/ABS,
+  TP, PPX, ABS. Build PC + PC/ABS cross-refs first.
