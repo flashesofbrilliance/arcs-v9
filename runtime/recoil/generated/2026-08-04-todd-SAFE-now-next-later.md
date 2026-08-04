@@ -99,8 +99,10 @@ Two ways to run it, your call:
 - **Commit the full path:** one commitment for all four phases if you would rather lock the momentum and
   not revisit it. Same $18,000, still stop-anytime.
 
-If phases run back to back, the whole path is roughly a **5 to 6 week** stretch. Tool costs (ZoomInfo,
-email, etc.) are billed to PRL directly and sit outside these numbers.
+**Timeline, honestly (best / base / worst).** Back to back with everything flowing, the whole path is a
+**5 to 6 week best case**. Base case runs a bit longer, and it stretches further if access, decisions, or
+new dependencies slow a phase. When that happens the **date moves, the per-phase price does not**. Tool
+costs (ZoomInfo, email, etc.) are billed to PRL directly and sit outside these numbers.
 
 ## How the price stays fair as we go (the receipt check)
 
