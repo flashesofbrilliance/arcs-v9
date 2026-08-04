@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRL Chatbot — Where We Are, What's Next</title>
+<style>
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --maroon:#7A1F2B; --red:#d0546b;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:11px 22px;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav a{color:var(--muted);font-size:12.5px;font-weight:600;white-space:nowrap;
+    padding:6px 11px;border-radius:8px;letter-spacing:.02em}
+  nav a:hover{color:var(--text);background:var(--surface)}
+  nav a.on{color:var(--bg);background:var(--gold)}
+
+  /* hero */
+  header{padding:64px 0 40px;border-bottom:1px solid var(--border)}
+  .kick{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  h1{font-size:33px;line-height:1.2;margin:14px 0 8px;font-weight:700;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:16px;max-width:640px}
+  .oneline{margin-top:26px;padding:16px 18px;background:var(--surface);border:1px solid var(--border);
+    border-left:3px solid var(--gold);border-radius:10px;color:var(--text);font-size:15px}
+
+  section{padding:44px 0;border-bottom:1px solid var(--border)}
+  .phase-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 10px;border-radius:20px;margin-bottom:14px}
+  .t-now{background:rgba(63,185,80,.14);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+  .t-next{background:rgba(201,162,39,.14);color:var(--gold-soft);border:1px solid rgba(201,162,39,.3)}
+  .t-later{background:rgba(139,152,169,.12);color:var(--muted);border:1px solid var(--border)}
+  h2{font-size:24px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
+  h2 .num{color:var(--gold);font-variant-numeric:tabular-nums}
+  .lede{color:var(--muted);font-size:15px;margin:6px 0 22px;max-width:660px}
+  h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:24px 0 10px;font-weight:700}
+
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:7px 0 7px 26px;position:relative;color:var(--text);font-size:15px}
+  ul.clean li:before{content:"";position:absolute;left:4px;top:14px;width:6px;height:6px;border-radius:50%;
+    background:var(--gold)}
+  li.done{color:var(--muted)}
+  li.done:before{content:"✓";background:none;color:var(--green);left:2px;top:6px;font-size:14px;font-weight:700}
+  li.todo:before{background:none;border:1.5px solid var(--dim);width:9px;height:9px;left:3px;top:11px}
+
+  table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  td:first-child{font-weight:600;white-space:nowrap}
+  .bbw td:first-child{color:var(--gold-soft)}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  .price{font-size:15px;font-weight:700;color:var(--text)}
+  .pill{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:20px;
+    padding:3px 11px;font-size:12.5px;color:var(--muted);margin:2px 4px 2px 0}
+  .pill b{color:var(--gold-soft)}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin:14px 0}
+  .card.warm{border-left:3px solid var(--gold)}
+  .note{color:var(--muted);font-size:14px}
+  .note b{color:var(--text)}
+
+  .rhythm{display:grid;grid-template-columns:1fr;gap:12px}
+  .rhythm .card{margin:0}
+  .rhythm h4{margin:0 0 4px;font-size:15px}
+  .rhythm p{margin:0;color:var(--muted);font-size:14px}
+
+  footer{padding:40px 0 70px;color:var(--dim);font-size:13px}
+  @media(min-width:640px){ h1{font-size:40px} .rhythm{grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a href="#top" class="on">Overview</a>
+  <a href="#now">Now · 1.1</a>
+  <a href="#next">Next · 1.2</a>
+  <a href="#later">Later · 1.3–1.5</a>
+  <a href="#pay">Payment</a>
+  <a href="#surprises">No surprises</a>
+</div></nav>
+
+<header id="top"><div class="wrap">
+  <div class="kick">PRL Resins · Chatbot Program</div>
+  <h1>Where we are, and what's next.</h1>
+  <p class="sub">A calm, phase-by-phase picture: what is done now, what is next, and what comes later —
+  with clear numbers, honest ranges, and no surprises.</p>
+  <div class="oneline"><b>How we work, in one line:</b> boring and predictable. Nothing touches your live
+  site or live CRM until it is proven in a safe copy first. Every phase stands on its own, you pay per
+  phase, and you can stop at any clean stopping point.</div>
+</div></header>
+
+<!-- NOW -->
+<section id="now"><div class="wrap">
+  <span class="phase-tag t-now">Now · in flight</span>
+  <h2><span class="num">1.1</span> &nbsp;Go Live — the chatbot itself</h2>
+  <p class="lede">The bot is built, branded in your colors, and tested on a private copy of your site.
+  One step left: turning on lead delivery into SugarCRM.</p>
+
+  <h3>What "done" looks like</h3>
+  <ul class="clean">
+    <li>A test lead runs all the way through and lands in SugarCRM, complete, tagged as Chatbot.</li>
+    <li>It routes to your sales manager (auto-routing by territory ready to switch on later).</li>
+    <li>Safety checks pass, and it goes live on the real site in a window you pick.</li>
+    <li>Nothing on the plant floor, and nothing in any rep's routine, has changed.</li>
+  </ul>
+
+  <h3>Burn-down — what is left to land it</h3>
+  <ul class="clean">
+    <li class="done">Bot built, branded, tested on a private copy</li>
+    <li class="done">Phone required + "Chatbot" label decided</li>
+    <li class="todo"><b>Sandboxed copy of SugarCRM</b> — the one thing on the critical path</li>
+    <li class="todo">Wire lead delivery + the instant notification</li>
+    <li class="todo">30-minute session with your sales manager + reports person</li>
+    <li class="todo">Flip live, in your chosen window</li>
+  </ul>
+
+  <h3>Best / base / worst — time to live</h3>
+  <div class="scroller"><table class="bbw">
+    <tr><th>Case</th><th>Time to live</th><th>What drives it</th></tr>
+    <tr><td>Best</td><td>~2–3 days</td><td>Sandbox access lands this week; session booked fast</td></tr>
+    <tr><td>Base</td><td>~1 week</td><td>Normal back-and-forth on access + one scheduling round</td></tr>
+    <tr><td>Worst</td><td>2–3 weeks</td><td>Access stalls, or a holiday / work-trip window</td></tr>
+  </table></div>
+
+  <div class="card"><span class="note"><b>Payment:</b> already paid. Phase 1.1 was the original
+  engagement — nothing further owed to finish it.</span></div>
+</div></section>
+
+<!-- NEXT -->
+<section id="next"><div class="wrap">
+  <span class="phase-tag t-next">Next · recommended kickoff Monday</span>
+  <h2><span class="num">1.2</span> &nbsp;Reliable delivery + your four-hour number</h2>
+  <p class="lede">Make lead delivery rock-solid, fill in missing business emails automatically, send the
+  prospect an instant acknowledgment, and start showing time-to-first-touch — the four-hour number you
+  manage to — with a baseline to prove what the chatbot adds.</p>
+
+  <h3>Running in parallel right now (so Monday is a running start)</h3>
+  <ul class="clean">
+    <li>Lining up the data session with your SM + reports person.</li>
+    <li>Preparing the baseline, so we can prove what the chatbot adds cleanly.</li>
+    <li>Mapping the assumptions and unknowns now, so none surprise us mid-phase.</li>
+  </ul>
+
+  <h3>Best / base / worst</h3>
+  <div class="scroller"><table class="bbw">
+    <tr><th>Case</th><th>Time</th><th>What drives it</th></tr>
+    <tr><td>Best</td><td>a few days</td><td>Your CRM already stamps first-touch; baseline pulls clean</td></tr>
+    <tr><td>Base</td><td>~1–1.5 weeks</td><td>Normal setup + one data session + enrichment wiring</td></tr>
+    <tr><td>Worst</td><td>~2 weeks</td><td>CRM doesn't capture first-touch (we use an automatic proxy) or messy baseline</td></tr>
+  </table></div>
+
+  <div class="card warm">
+    <span class="price">$4,500</span> &nbsp;<span class="note">fixed for the phase · paid before Monday kickoff</span><br>
+    <span class="pill">best case: <b>same price, sooner</b></span>
+    <span class="pill">worst case: <b>still $4,500</b> — the fixed price is the cap</span>
+    <div class="note" style="margin-top:10px">Tool costs (ZoomInfo, email) are billed to PRL directly, outside this number.</div>
+  </div>
+</div></section>
+
+<!-- LATER -->
+<section id="later"><div class="wrap">
+  <span class="phase-tag t-later">Later · each its own decision</span>
+  <h2>What comes after — 1.3, 1.4, 1.5</h2>
+  <p class="lede">You greenlight and pay for each only when you are ready. Each ends at a clean, usable
+  stopping point.</p>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.3</span> &nbsp;Smarter lead recognition &nbsp;<span class="price">· $4,000</span></h2>
+    <p class="note">The bot recognizes the resins and competitor grades you actually sell — straight from
+    data already in your CRM — and never guesses a spec or a price.</p>
+    <span class="pill">best <b>~few days</b></span><span class="pill">base <b>~1 wk</b></span><span class="pill">worst <b>~1.5 wks</b></span>
+    <span class="pill">de-risk: <b>data is already in your system</b></span>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.4</span> &nbsp;Your paid landing pages (SEM) &nbsp;<span class="price">· $6,000</span></h2>
+    <p class="note">Each ad campaign page gets its own chatbot opening, tuned to why the visitor came,
+    wired to your CRM — and the bot shows each visitor what fits their job.</p>
+    <span class="pill">best <b>~1 wk</b></span><span class="pill">base <b>~1.5–2 wks</b></span><span class="pill">worst <b>~2.5–3 wks</b></span>
+    <span class="pill">may open a <b>separate ongoing SEM service</b></span>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.5</span> &nbsp;A smarter assistant (AI) &nbsp;<span class="price">· $3,500</span></h2>
+    <p class="note">The bot handles open-ended "help me choose" conversations in its own words — turned on
+    only after its handoff into your CRM is proven, so a good conversation can never fall through.</p>
+    <span class="pill">best <b>~few days</b></span><span class="pill">base <b>~1 wk</b></span><span class="pill">worst <b>~1.5 wks</b></span>
+    <span class="pill">de-risk: <b>stays off until proven</b></span>
+  </div>
+</div></section>
+
+<!-- PAYMENT -->
+<section id="pay"><div class="wrap">
+  <span class="phase-tag t-next">Payment</span>
+  <h2>The schedule, so there are no surprises</h2>
+  <p class="lede">Simple rule: each phase is paid just before it kicks off. You always know the number
+  ahead of time, and never pay for a phase you have not greenlit.</p>
+  <div class="scroller"><table>
+    <tr><th>Phase</th><th>What you get</th><th>Amount</th><th>Paid</th><th>Kicks off</th></tr>
+    <tr><td>1.2</td><td>Reliable delivery + the 4-hour number</td><td class="price">$4,500</td><td>by Fri</td><td>Mon</td></tr>
+    <tr><td>1.3</td><td>Smarter lead recognition</td><td class="price">$4,000</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>1.4</td><td>Your paid landing pages</td><td class="price">$6,000</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>1.5</td><td>A smarter assistant</td><td class="price">$3,500</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>—</td><td><b>Full path 1.2 → 1.5</b></td><td class="price">$18,000</td><td></td><td></td></tr>
+  </table></div>
+  <div class="card"><span class="note"><b>Two ways to run it, your call.</b>
+  &nbsp;<span class="pill"><b>Pay-as-you-go</b> (recommended) — pay each phase before it kicks; stop clean at any boundary.</span>
+  <span class="pill"><b>Commit the full path</b> — one commitment, same $18,000, still stop-anytime.</span>
+  <div style="margin-top:10px">Back to back, the whole path is roughly a <b>5–6 week</b> stretch. Tool
+  costs sit outside these numbers, billed to PRL directly.</div></span></div>
+</div></section>
+
+<!-- NO SURPRISES -->
+<section id="surprises"><div class="wrap">
+  <span class="phase-tag t-later">No surprises</span>
+  <h2>Where costs could move — and how we keep them boring</h2>
+  <p class="lede">The fixed price is the number. Here is the honest picture of what could change it, and
+  how each is contained before it ever reaches you.</p>
+
+  <h3>The min-cost path (always available)</h3>
+  <ul class="clean">
+    <li>If the historical data can't support the full analysis, we ship the live four-hour number and
+    skip the historical chart — no added spend.</li>
+    <li>If sandbox access is slow, we prove everything on one labelled test lead you approve — no new spend.</li>
+    <li>If the AI economics don't check out in 1.5, we simply don't turn it on. The rest stands on its own.</li>
+  </ul>
+
+  <h3>Where it could bubble (and how it's contained)</h3>
+  <ul class="clean">
+    <li><b>Out-of-scope requests</b> (rebuilding CRM reports, full page redesigns, ongoing campaign
+    management) — always a named, priced change order first, never silently absorbed.</li>
+    <li><b>Tool costs</b> (ZoomInfo lookups, a higher chat tier for AI volume) — capped and surfaced up
+    front, billed to PRL directly, decided by you with the numbers in hand.</li>
+    <li><b>Calendar</b> (a holiday or work trip) — shifts the date, not the scope or the price.</li>
+  </ul>
+
+  <div class="rhythm" style="margin-top:22px">
+    <div class="card"><h4>Sandbox-first</h4><p>Nothing blind on your live site or CRM, ever. We prove it in a copy first.</p></div>
+    <div class="card"><h4>Kill switch + rollback</h4><p>If anything looks off, one toggle stops it, and every change is reversible.</p></div>
+    <div class="card"><h4>Phase-gated</h4><p>You always know the number, always get a working result, and can stop clean at any boundary.</p></div>
+    <div class="card"><h4>Pay before kickoff</h4><p>Keeps the momentum honest on both sides — exactly like Monday / Friday.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  PRL Resins Chatbot Program · phase-by-phase · kept current.<br>
+  Prepared for Todd. Questions on any number here are welcome — the whole point is that none of it is a surprise.
+</div></footer>
+
+<script>
+  // scroll-spy: highlight the nav item for the section in view
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  function onscroll(){
+    var y=window.scrollY+120, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')==='#'+cur.id); });
+  }
+  window.addEventListener('scroll',onscroll,{passive:true}); onscroll();
+</script>
+</body>
+</html>
