@@ -102,6 +102,21 @@ Two ways to run it, your call:
 If phases run back to back, the whole path is roughly a **5 to 6 week** stretch. Tool costs (ZoomInfo,
 email, etc.) are billed to PRL directly and sit outside these numbers.
 
+## How the price stays fair as we go (the receipt check)
+
+The numbers for 1.3, 1.4 and 1.5 are today's best estimate. They get re-checked against reality before
+each one starts, so you are never locked into a guess.
+- Each phase ends with a short **receipt**: what we expected versus what it actually took.
+- That receipt sets the next phase's number, always inside the best-to-worst range you already saw.
+  Nothing ever lands outside a range you have not seen.
+- Easier than expected, the next number comes down. More to it, the receipt shows exactly why, and it
+  moves only within that same known range.
+- The phase you are in is a fixed cap. A phase never costs more than its quote. Only the next number moves.
+- **If it goes faster than expected, that surplus is yours.** You either take the next number down, or,
+  if you would rather, we put that saved ground toward **more work past 1.5**. The better we go, the more
+  we can do together.
+- Each phase makes the next estimate sharper, so the further we go, the more predictable it gets.
+
 ## The rhythm that keeps this boring (and moving)
 - **Sandbox-first.** Nothing blind on your live site or live CRM, ever. We prove it in a copy first.
 - **Kill switch + rollback on everything.** If anything looks off, one toggle stops it, and every change

@@ -34,10 +34,19 @@ Scope tracking 🔒 · Budget/hours burn 🔒. Each has value + green/amber/red 
 budget crosses 100% → a one-line CWO naming what + why, approved before any work. (Mechanical answer
 to "cost bubbling after the first crack.")
 
-## Pricing (fixed-per-de-risked-phase, phase-gated)
+## Pricing (fixed-per-de-risked-phase, phase-gated) + RECEIPT-CALIBRATED loop
 Estimate best/base/worst hours per phase; price fixed with the pre-mortem buffer included; gate each
 phase (stop-anytime). Open hours bubble; a de-risked fixed price is the cap. Vendor/tool costs are the
 client's, pass-through, outside the fee. Sequence highest-value + lowest-client-dependency first.
+
+**Receipt-calibrated phase pricing (the self-correcting loop — ARCS receipt applied to price):** each
+phase closes with a receipt (expected best/base/worst vs ACTUAL). That receipt sets the NEXT phase's
+number, always WITHIN the pre-disclosed best-to-worst range (never outside a range the client already
+saw = predictable). Symmetric (easier → next down; harder → up within range, receipt shows why). Current
+phase is a fixed cap; only the next number moves. Iterates, sharpening each estimate (kaizen). **Upside
+lever:** a phase that comes in well under banks surplus the client can either take as a lower next number
+OR reinvest into more scope past the last planned phase ("move more dirt"). Fixes the classic
+under-estimate-and-eat-it failure. The post-flight debrief IS the receipt; the budget/hours gauge feeds it.
 
 ## Non-negotiables (learned the hard way)
 - **The never-share line is counterpart-profiling, not strategy.** The psychographic model of the
