@@ -226,32 +226,74 @@ def build_full():
     return fb.build()
 
 
-def build_sem_onramp():
-    """URL-triggered onramp for the SABIC-alternatives SEM landing page (Unbounce).
-    Fires when the visitor is on a URL containing 'sabic-alternatives'; opens with a
-    SABIC-specific greeting and captures a high-intent replacement lead. All session
-    variables (ride the webhook, same as the main flow)."""
-    fb = FlowBuilder("PRL Resins - SEM Onramp (SABIC alternatives)")
+# The five SEM onramps scoped in the build spec. Each is triggered by its own URL slug,
+# so they never collide with each other or with the onFirstVisit main flow.
+SEM_ONRAMPS = {
+    "sabic": dict(
+        slug="sabic-alternatives",
+        label="SABIC alternatives",
+        hello="Looking to move off a SABIC grade? Tell me which one you're running (Lexan, "
+              "Ultem, Noryl, Valox) and I'll get you to a specialist who can match it.",
+        ask="Which SABIC grade are you replacing?"),
+    "lexan": dict(
+        slug="lexan",
+        label="Lexan / Makrolon polycarbonate",
+        hello="Need a Lexan-class polycarbonate? We compound PC to match. Tell me the grade "
+              "or the spec you have to hit.",
+        ask="Which polycarbonate grade are you running today?"),
+    "ultem": dict(
+        slug="ultem",
+        label="Ultem PEI",
+        hello="Looking for an Ultem-class PEI? Tell me the grade or the spec and I'll get you "
+              "to someone who can match it.",
+        ask="Which PEI grade or spec are you working to?"),
+    "noryl": dict(
+        slug="noryl",
+        label="Noryl modified PPE",
+        hello="Need a Noryl-class PPE? Tell me the grade or what the part has to do.",
+        ask="Which Noryl grade are you replacing?"),
+    "valox": dict(
+        slug="valox",
+        label="Valox PBT",
+        hello="Replacing a Valox PBT? Tell me the grade or the requirement driving it.",
+        ask="Which Valox grade are you running today?"),
+}
+
+
+def build_sem_onramp(key="sabic"):
+    """URL-triggered onramp for a paid-search landing page (Unbounce).
+
+    Fires when the visitor is on a URL containing this onramp's slug, opens with a
+    competitor-specific greeting, and captures a high-intent replacement lead. All fields are
+    session variables, so they ride the webhook exactly like the main flow.
+
+    NOTE: the Unbounce landing pages sit on the LIVE prlresins.com domain. Adding the Tidio
+    snippet there is a production change and needs Todd's go-ahead. The flow itself is safe to
+    import and leave inactive until then.
+
+    NOTE: these ask for the grade and conditions but deliberately never offer a match. Per the
+    Aug 3 audit the cross-reference tables are page images, so nothing can look up an
+    equivalent yet. The onramp's job is to capture intent and route, not to answer.
+    """
+    cfg = SEM_ONRAMPS[key]
+    fb = FlowBuilder(f"PRL Resins - SEM Onramp ({cfg['label']})")
 
     fb.trigger("t", "hello", ttype="onUrlOpened",
-               extra={"url": "sabic-alternatives", "match": "partial", "frequency": "once24"})
-    fb.message("hello",
-        "Looking to move off a SABIC grade? Tell me which one you're running (Lexan, Ultem, "
-        "Noryl, Valox) and I'll match it to a PRL equivalent and get you to a specialist fast.",
-        nxt="s1")
-    fb.ask("s1", "Which SABIC grade are you replacing?", "current_resin", "s2")
+               extra={"url": cfg["slug"], "match": "partial", "frequency": "once24"})
+    fb.message("hello", cfg["hello"], nxt="s1")
+    fb.ask("s1", cfg["ask"], "current_resin", "s2")
     fb.ask("s2", "What are you making with it?", "application", "s3")
-    fb.ask("s3", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
-           "requirements", "cap_name")
-    fb.ask("cap_name", "Great. Who should we get this to?", "name", "cap_email")
-    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+    fb.ask("s3", "What does the part have to stand up to? Temperature range, outdoor exposure, "
+           "chemicals, or a listing you need to hold.", "requirements", "cap_name")
+    fb.ask("cap_name", "Great. Who should we put this together for?", "name", "cap_email")
+    fb.ask("cap_email", "Where should we send it?", "email", "cap_phone", validation="email",
            error="Hmm, that doesn't look like an email. Mind trying again?")
-    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
     fb.ask("cap_company", "And your company?", "company", "cap_terr")
     fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
     fb.message("cap_close",
-        "Thanks! A PRL resin specialist will reach out shortly with a match, usually within a "
-        "few hours. A real person, no phone trees.")
+        "Thanks. A PRL resin specialist will follow up shortly with a match for your "
+        "conditions, usually within a few hours. A real person, no phone trees.")
 
     return fb.build(first_trigger="onUrlOpened")
 
@@ -406,10 +448,13 @@ def build_full_ai():
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
-    ap.add_argument("--flow", choices=["full", "full-ai", "sem", "ai"], default="full")
+    ap.add_argument("--flow", choices=["full", "full-ai", "sem", "ai"] + [f"sem:{k}" for k in SEM_ONRAMPS], default="full")
     args = ap.parse_args()
-    data = {"sem": build_sem_onramp, "ai": build_ai_handoff,
-            "full-ai": build_full_ai, "full": build_full}[args.flow]()
+    if args.flow.startswith("sem:"):
+        data = build_sem_onramp(args.flow.split(":", 1)[1])
+    else:
+        data = {"sem": build_sem_onramp, "ai": build_ai_handoff,
+                "full-ai": build_full_ai, "full": build_full}[args.flow]()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
     print(f"wrote {args.out}: {len(data['nodes'])} nodes, {len(data['edges'])} edges")
