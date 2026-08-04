@@ -80,9 +80,51 @@
 
   footer{padding:40px 0 70px;color:var(--dim);font-size:13px}
   @media(min-width:640px){ h1{font-size:40px} .rhythm{grid-template-columns:1fr 1fr} }
+
+  /* receipts */
+  .receipt{border:1px solid var(--border);border-radius:12px;margin:16px 0;overflow:hidden;background:var(--surface)}
+  .receipt.tpl{opacity:.92}
+  .rhead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 18px;
+    background:var(--surface2);border-bottom:1px solid var(--border);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;letter-spacing:.08em;color:var(--gold-soft)}
+  .rstatus{color:var(--green)}
+  .receipt.tpl .rstatus{color:var(--dim)}
+  .rrow{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 18px;border-bottom:1px solid var(--border);font-size:14px}
+  .rrow:last-child{border-bottom:0}
+  .rrow b{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px;font-weight:700}
+  .rrow span{color:var(--text)}
+  a.cal{display:inline-block;margin-top:8px;color:var(--gold-soft);text-decoration:none;
+    border:1px solid rgba(201,162,39,.4);border-radius:8px;padding:5px 11px;font-size:12.5px;font-weight:600}
+  a.cal:hover{background:rgba(201,162,39,.1)}
+  @media(max-width:520px){ .rrow{grid-template-columns:1fr;gap:2px} }
+
+  /* presentation mode */
+  .present-btn{position:fixed;top:10px;right:14px;z-index:20;background:var(--gold);color:var(--bg);
+    border:0;border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .present-ctrl{display:none}
+  body.presenting nav,body.presenting .present-btn{display:none}
+  body.presenting .slide{position:fixed;inset:0;overflow-y:auto;padding:6vh 6vw;background:var(--bg);
+    opacity:0;pointer-events:none;transition:opacity .16s;border:0!important}
+  body.presenting .slide.active{opacity:1;pointer-events:auto;z-index:5}
+  body.presenting .slide>.wrap{max-width:920px;margin:0 auto}
+  body.presenting section,body.presenting header{padding:0}
+  body.presenting footer{display:none}
+  .present-ctrl{position:fixed;bottom:14px;right:14px;gap:8px;z-index:21;align-items:center}
+  body.presenting .present-ctrl{display:flex}
+  .present-ctrl button{background:var(--surface2);color:var(--text);border:1px solid var(--border);
+    border-radius:8px;padding:6px 13px;font-size:15px;cursor:pointer;line-height:1}
+  .present-ctrl .count{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums;padding:0 4px}
 </style>
 </head>
 <body>
+
+<button class="present-btn" onclick="enterPresent()">▶ Present</button>
+<div class="present-ctrl">
+  <button onclick="pshow(pidx-1)" aria-label="previous">‹</button>
+  <span class="count" id="pcount"></span>
+  <button onclick="pshow(pidx+1)" aria-label="next">›</button>
+  <button onclick="exitPresent()">✕ Exit</button>
+</div>
 
 <nav><div class="wrap">
   <a href="#top" class="on">Overview</a>
@@ -91,6 +133,7 @@
   <a href="#later">Later · 1.3 to 1.5</a>
   <a href="#pay">Payment</a>
   <a href="#surprises">No surprises</a>
+  <a href="#receipts">Receipts</a>
 </div></nav>
 
 <header id="top"><div class="wrap">
@@ -276,12 +319,69 @@
   </div>
 </div></section>
 
+<!-- RECEIPTS -->
+<section id="receipts"><div class="wrap">
+  <span class="phase-tag t-next">Receipts</span>
+  <h2>The receipt for each phase</h2>
+  <p class="lede">Before a phase starts, we both agree on what we expect. At the check-in we measure what
+  actually happened, and that sets the next phase's number. The check-in date <b>moves with the phase</b>:
+  if we find the data fast it comes earlier, if access or blockers slow us it pushes out. Add it to your
+  calendar so the loop always closes.</p>
+
+  <div class="receipt">
+    <div class="rhead"><span>RECEIPT · PHASE 1.2</span><span class="rstatus">EX-ANTE · OPEN</span></div>
+    <div class="rrow"><b>The bet</b><span>Reliable delivery + enrichment + the four-hour metric + baseline, at $4,500, about 20 hours of work, kicking Monday Aug 10.</span></div>
+    <div class="rrow"><b>Assumptions</b><span>Your CRM stamps first-touch · the baseline pulls clean · ZoomInfo and Mailgun access in hand.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>actual effort lands outside 12 to 30 hours, or the four-hour metric cannot be built from data you already have.</span></div>
+    <div class="rrow"><b>At risk</b><span>the $4,500 cap and the go-live timeline.</span></div>
+    <div class="rrow"><b>Check-in</b><span>target Monday Aug 24, and it moves with the phase (earlier if the data comes fast, later if access or blockers slow it). We measure expected vs actual, bank the result, and set the 1.3 number.<br>
+    <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.2+receipt&amp;dates=20260824/20260825&amp;details=Measure+expected+vs+actual+for+Phase+1.2%2C+bank+the+result%2C+set+the+1.3+number.+Date+may+shift+with+the+phase.+prl.arcs.care">Add reminder to Google Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.3</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>Smarter lead recognition, at $4,000, about 18 hours. Number confirmed against the 1.2 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the recognition data in your CRM needs heavy clean-up, or the rep know-how session takes several rounds.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.3 kicks off, cascading from the 1.2 close-loop.<br>
+    <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.3+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.3%2C+bank+the+result%2C+set+the+1.4+number.">Add reminder to Google Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.4</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>Your paid landing pages, at $6,000, about 26 hours. Number confirmed against the 1.3 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the pages need real rebuilds rather than a chatbot opening, or the access grants lag.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.4 kicks off, cascading from 1.3.<br>
+    <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.4+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.4%2C+bank+the+result%2C+set+the+1.5+number.">Add reminder to Google Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.5</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>A smarter assistant, at $3,500, about 14 hours. Number confirmed against the 1.4 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the AI handoff needs a workaround, or the chat plan's conversation cap forces a change.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.5 kicks off, cascading from 1.4.<br>
+    <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.5+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.5%2C+bank+the+result.">Add reminder to Google Calendar</a></span></div>
+  </div>
+</div></section>
+
 <footer><div class="wrap">
   PRL Resins Chatbot Program · phase-by-phase · kept current.<br>
   Prepared for Todd. Questions on any number here are welcome, the whole point is that none of it is a surprise.
 </div></footer>
 
 <script>
+  // ---- presentation mode ----
+  var slides=[].slice.call(document.querySelectorAll('header, section'));
+  var pidx=0;
+  function pshow(i){pidx=(i+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle('active',j===pidx);});var c=document.getElementById('pcount');if(c)c.textContent=(pidx+1)+' / '+slides.length;slides[pidx].scrollTop=0;}
+  function enterPresent(){document.body.classList.add('presenting');slides.forEach(function(s){s.classList.add('slide');});pshow(0);}
+  function exitPresent(){document.body.classList.remove('presenting');slides.forEach(function(s){s.classList.remove('slide','active');});}
+  window.enterPresent=enterPresent;window.exitPresent=exitPresent;window.pshow=pshow;
+  Object.defineProperty(window,'pidx',{get:function(){return pidx;}});
+  document.addEventListener('keydown',function(e){if(!document.body.classList.contains('presenting'))return;
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();pshow(pidx+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();pshow(pidx-1);}
+    else if(e.key==='Escape'){exitPresent();}});
+
   // scroll-spy: highlight the nav item for the section in view
   var links=[].slice.call(document.querySelectorAll('nav a'));
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
