@@ -287,20 +287,29 @@ def build_ai_handoff():
     fb = FlowBuilder("PRL Resins - AI Handoff (lead delivery bridge)")
 
     fb.trigger("t", "hello")  # <-- CHANGE TRIGGER IN TIDIO UI BEFORE ACTIVATING
+    # VALUE EXCHANGE, not a form ask. The side-by-side PRL gates behind qualification is the
+    # single best thing to trade for contact details, and the trade self-qualifies: someone
+    # who gives an email to receive a named-grade comparison has told us what they run, that
+    # they are actively evaluating, and that they are serious. That is Todd's own qualifier
+    # ("a real lead names a resin PRL sells") arriving for free.
+    # It also asks for CONDITIONS, which is the field a specialist most needs and the one a
+    # generic form never captures.
     fb.message("hello",
-        "Happy to get a specialist on this. Just a few details so the right person can pick "
-        "it up, and they will have everything you have already told me.", nxt="h_need")
-    fb.ask("h_need", "In one line, what do you need? A resin, a spec, or a replacement.",
+        "Good news, we compound an equivalent to that. Our specialists can put a side by side "
+        "in front of you, tested against the conditions your part actually sees.", nxt="h_need")
+    fb.ask("h_need", "Which grade are you running today, and what does the part have to stand "
+           "up to? Temperature range, outdoor exposure, chemicals, any listing you need to hold.",
            "desired_resin_or_spec", "cap_name")
-    fb.ask("cap_name", "Who should we get this to?", "name", "cap_email")
-    fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
+    fb.ask("cap_name", "Great. Who should we put this together for?", "name", "cap_email")
+    fb.ask("cap_email", "Where should we send it?", "email", "cap_phone", validation="email",
            error="Hmm, that doesn't look like an email. Mind trying again?")
-    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
+    fb.ask("cap_phone", "Best number, in case a question comes up while they build it?",
+           "phone", "cap_company", validation="phone")
     fb.ask("cap_company", "And your company?", "company", "cap_terr")
     fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
     fb.message("cap_close",
-        "Thanks. A PRL resin specialist will follow up shortly, usually within a few hours. "
-        "A real person, no phone trees.")
+        "Done. A PRL resin specialist will send that over shortly, usually within a few "
+        "hours. A real person, no phone trees.")
 
     return fb.build()
 
