@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-08-03T18:30:00Z",
+  "captured_at": "2026-08-04T00:39:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "db4d5a6",
-    "head_message": "docs(handoff): v3.22.0 — Zapier MCP direct SugarCRM access, config audit, site distill [NCI:SKIP]",
+    "head_sha": "bd97977",
+    "head_message": "feat(todd): add AI-forward flow variant, put Lyro where judgment is needed [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": []
   },
@@ -40,7 +40,7 @@
     "joe-war.arcs.care": "Joe Kim / HypeLab INTERNAL multi-call recoil war-room (pw 'cartography', NEVER share). 5 calls Oct 2025->Jul 2026 + gmail + gamma. Key finding: GTM role was already filled (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; shows evidence-vs-behavior overconfidence divergence. Generated from runtime/recoil/generated/2026-07-22-kim-multicall.json.",
     "joe-ext.arcs.care": "Joe-facing forward recoil (pw 'joe', safe to share). Shows only Zach's own venture->lifestyle read + ARV-sprint/gauntlet offers. Candidacy fully air-gapped out. joe.arcs.care (the older Oct decision-map) already shared with Joe Jul 20.",
     "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI \u2014 reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
-    "ahmed-ext.arcs.care": "Ahmed-FACING sanitized suite (open link, no pw), now a 3-surface omakase-pipeline family per Ahmed's response asking to see how ARCS benefits him + his clients: root = recoil report (unchanged, competitor-safe), /evening = 'The Method' (canon-forge, the seed/serialized-recap, the per-customer + aggregate channel offer), /seed = 'The Seed' (5-chapter distilled thesis). Routed via src/proxy.ts MULTI_PATH_MAP (primary) + next.config.ts backstop (both fixed 2026-08-02: wildcard exclusion needed .*evening|.*seed substring-anywhere match, not prefix-only, per the same re-catch bug documented for todd-call/julia). Air-gap grepped clean (no beliefs/nci/y_state/next_steps). Still gated on Zach setting pilot price + naming one customer before send.",
+    "ahmed-ext.arcs.care": "Ahmed-FACING sanitized suite (open link, no pw), now a 3-surface omakase-pipeline family per Ahmed's response asking to see how ARCS benefits him + his clients: root = recoil report (unchanged, competitor-safe), /evening = 'The Method' (canon-forge, the seed/serialized-recap, the per-customer + aggregate channel offer), /seed = 'The Seed' (5-chapter distilled thesis). Routed via src/proxy.ts MULTI_PATH_MAP (primary) + next.config.ts backstop (both fixed 2026-08-02: wildcard exclusion needed .*evening|.*seed substring-anywhere match, not prefix-only, per the same re-catch bug documented for todd-call/julia). Air-gap grepped clean (no beliefs/nci/y_state/next_steps). SENT Jul 22; Ahmed 'hard to follow' Jul 28; Zach replied Aug 3 (call/Loom/format?), ball in Ahmed's court. Consumability fix designed not built: '60-Second Read' chronograph onramp spec parked in _ARTIFACTS/sixty-second-read.html, behind Todd.",
     "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
     "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
     "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
@@ -50,12 +50,13 @@
     "ADR-031 (secrets inventory + rotation)",
     "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
     "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
-    "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
+    "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)",
+    "ADR-041 DECIDED 2026-08-03 (durable deliverables -> _ARTIFACTS/ local-first, GREEN/HIGH/STABLE)"
   ],
   "nci_counter": 226,
-  "session_summary": "PRL/Todd chatbot: Zapier MCP now exposes PRL's live SugarCRM (+Unbounce, LeadConnector) for direct read/write, removing the long-standing 'need a SugarCRM login' blocker. Ran a read-only config audit (Leads schema + 100 real records): phone_work is REQUIRED but the bot treats it optional; no chatbot lead_source value exists; location_c uses FULL state names not the abbreviations the schema declares (corrects an earlier claim); 95% of existing leads have no email (the project's strongest value proof); 92% route to Bill Galla; all records sit on team Global so a test lead cannot be made private. Nothing written to SugarCRM. Direct Tidio->Sugar REST researched and rejected (OAuth2 two-step); keeping Zapier for retry+audit trail. todd-call.arcs.care distilled 11 tabs -> 6 via /impeccable, fixing a mobile nav that was display:none and a page still opening with a price box 10 days after payment.",
-  "next_action": "Todd owes three decisions before lead delivery is wired: (1) phone required in chat or placeholder, (2) add a 'Chatbot' Lead Source value or accept 'Web Site', (3) approve one labelled test lead (or confirm a Sugar sandbox exists). Then wire the Tidio flow's API call node -> Zapier -> SugarCRM Create Record (Leads) and send one real test lead end to end.",
-  "blocking": "NONE (three client decisions outstanding, but nothing internally blocked)",
+  "session_summary": "Ahmed thread corrected from live Gmail (memory was stale): the recoil demo was already SENT Jul 22; Ahmed replied Jul 28 'lots of information, hard to follow'; Zach replied Aug 3 offering call/Loom/format-map, so the ball is now in Ahmed's court (do NOT send a new note). Diagnosed the real block as consumability, not cadence, and designed (not built) a '60-Second Read' chronograph onramp: an analog dial whose three 20s wedges = three reading steps, hand advances on scroll (progress not a countdown), no auto-run, reduced-motion honored. Produced a full spec deck + working SVG animatic. Delivery hit a claude.ai Cloudflare block (all claude.ai content, not just artifacts), so the deck was saved local-first to _ARTIFACTS/sixty-second-read.html (git-tracked, build-excluded, renders with no external dependency). Formalized that preference as ADR-041 and banked it + the claude.ai-block triage as memory.",
+  "next_action": "Todd is the plane this week (unchanged: wire Tidio flow API node -> Zapier -> SugarCRM Create Record (Leads), send one real test lead; Todd still owes phone-required/lead-source/test-lead-approval decisions). Ahmed onramp is PARKED behind Todd: implement the chronograph onramp from _ARTIFACTS/sixty-second-read.html (6-step plan, 5 local + ONE build) only when Ahmed replies or in a spare local session.",
+  "blocking": "NONE (Ahmed ball-in-his-court on call/Loom/format; Todd's three client decisions outstanding; nothing internally blocked)",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -179,7 +180,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-03T22:21:20Z",
+  "git_refreshed_at": "2026-08-04T00:08:04Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

@@ -313,5 +313,14 @@
     "stability": "SHIFTING",
     "gate": "revisit at >=20 real (non-dev-test) debrief opportunities",
     "file": "ADR-040-debrief-calendar-invite-vs-email.md"
+  },
+  {
+    "id": "ADR-041",
+    "title": "ADR-041 — Durable Deliverable Artifacts Live in _ARTIFACTS/, Local-First",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if _ARTIFACTS/ starts holding shippable files, or claude.ai artifact hosting becomes reliably reachable",
+    "file": "ADR-041-durable-artifacts-to-local-artifacts-dir.md"
   }
 ]

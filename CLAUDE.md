@@ -101,88 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.21.0 (2026-08-01)
-
-> **For Claude Code:** active pickup point. Short, surgical session: closed a Vercel
-> build-cost leak, generalized it, and formalized it as ADR-039. No counterpart work.
-
-## What shipped (2026-08-01)
-
-**Vercel deploy-cost leak closed + generalized + ADR'd.**
-
-- **Root cause:** every commit to `main` was building — including docs-only. Logic was NOT
-  inverted this time (that was the Jul-25 incident); the `commandForIgnoringBuildStep` exclude
-  list was just **incomplete**. `docs(handoff)` commits touch `.claude/arcs-session-state.md`,
-  and `.claude/` wasn't excluded (confirmed: `953effc docs(handoff): v3.20.0` built READY).
-- **Fix:** added `":(exclude).claude"` to the ignore-step via `PATCH /v9/projects`. Full
-  excludes now: `_MEMORY _PATTERNS _ARCHIVE _STATE .claude CLAUDE.md MEMORY.md AGENTS.md WORLD.md`.
-- **Verified live:** docs-only commit `a1fed75` (`_PATTERNS/` only) → deployment **CANCELED**
-  (skipped, no build); `public/` changes still build **READY**. Kept path-based, not
-  `[NCI:SKIP]`-based — a `[NCI:SKIP]` polish commit can still touch shippable `public/`.
-- **Vercel Agent audit:** both on-demand billing burners already OFF, read via
-  `GET /v2/teams/<id>`: `agent.codeReview.auto.enabled=false`, `alertInvestigation.enabled=false`
-  ("Investigate Anomalies Automatically" — the v3.18.0 "still ON" flag is now stale/corrected).
-- **Generalized** into the impeccable skill as cost-discipline (SKILL.md → Cost discipline,
-  v4.1.0; reference/init.md captures deploy-cost into PRODUCT.md; reference/live.md frames local
-  iteration as the cost-correct loop).
-- **ADR-039** (DECIDED, GREEN) — path-based ignored-build-step guardrail; index.json updated.
-- **Memories consolidated** (updated, not duplicated): [[vercel-ignored-build-step-was-inverted]]
-  (added the `.claude/` incident + live verification), [[vercel-config-via-cli-token-rest-api]]
-  (agent toggles ARE API-readable — corrected "dashboard-only"), [[cost-efficiency-global-goal]]
-  (path-not-message rule + local-iteration rule).
-
-## Also cleaned up (leftover main-worktree working state, 2026-08-01)
-
-Reviewed the three uncommitted items that had been sitting in the `main` worktree:
-- **`ADR-026-debrief-calendar-invite-vs-email.md`** (untracked DRAFT, collided with tracked
-  ADR-026 Debrief Delivery Fix) → renumbered to **ADR-040**, cross-linked, added to index. Still
-  DRAFT (Decision pending Zach; calendar-invite-vs-email-only for the debrief close-the-loop).
-- **`_ARTIFACTS/arcs-meta-audit-roadmap.html`** (+93 lines) → committed: a print-only "silkscreen
-  on paper" stylesheet (inverts the dark cockpit to ink densities that survive a laser printer,
-  forces SHARP fidelity on paper). Extends [[souvenir-ship-ritual]] to the roadmap deck.
-- **`.impeccable/critique/…omakase.md`** (dual-agent critique, 18/36) → durable lesson banked as
-  [[author-cosmology-over-guest-design-risk]]; its P0/P1 items were already resolved in the
-  v3.20.0 omakase distillation. Critique file committed as the dated record.
-
-## Also built this session (skills + code-verified ADR)
-
-- **`/meta-audit` skill** (`.claude/skills/meta-audit/SKILL.md`) — codifies the 8-section Drift
-  Sentry protocol from `_STATE/meta-audit-roadmap-v1.md` so any session runs one epoch
-  consistently (Recoil → code-verified parity → gauntlets → Chi/Ma/Wuwei → stack-rank → append
-  §8). Bakes in the hard-won non-negotiables (main-reachable epoch anchor, honesty gauge,
-  weekly-and-small, verify-parity-from-code). Chose skill only; routine/workflow deferred.
-- **Omakase critique → assembly rules.** Folded the omakase dual-agent critique into
-  `.claude/skills/omakase-pipeline/SKILL.md` as a "Composition & assembly rules (the guest test)"
-  section + wired into Step 4 (assemble against them) and Step 7 (guest-test lens) + anti-goal.
-  The critique is now reusable rules, not a one-off. See [[author-cosmology-over-guest-design-risk]].
-- **ADR-040 code-verified.** The debrief close-the-loop JTBD is **already shipped** (Option C,
-  Stage 1): in-app `/debrief/[receiptId]` + `/api/receipts/[receiptId]/outcome` + scheduled
-  Resend send (compass-time + long-horizon cron, loud logging, opt-in). NOT built: `.ics`,
-  Google Calendar API. ADR-040 corrected to reflect this — the live question is only whether to
-  add a calendar mechanism on top, at lower urgency than the original framing.
-
-## Open / next
-
-1. **Tao hosting work** — now safe to iterate; the leak that made every push a build is closed.
-2. **ADR-040 is DRAFT** — the loop already closes via email+in-app; decide whether a calendar
-   mechanism (.ics or Google Calendar) is worth adding, once there are ≥20 real (non-dev-test)
-   debrief opportunities to measure against.
-3. **Optional: schedule `/meta-audit` as a weekly routine** — deferred (needs a human toggle;
-   a prior claude.ai "Drift Sentinel" routine was DECIDED-disabled; scheduled runs add spend).
-3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
-   Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup`. New: ADR-039 (deploy cost guardrail). The ignored-build-step exclude list is
-path-based — add a path when a new non-shipping file class enters the repo.
-
----
-
 # Handoff — v3.22.0 (2026-08-03)
 
 > **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to
@@ -249,3 +167,50 @@ source; approve one labelled test lead or confirm a sandbox), but nothing is int
 Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
 full state names, status "New", assign Bill Galla, details into `description`), then send one real
 test lead end to end. Do not write to SugarCRM before Todd approves.
+
+---
+
+# Handoff — v3.23.0 (2026-08-03)
+
+> **For Claude Code:** active pickup point. v3.22.0 above preserved; v3.21.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. Design/planning session on the Ahmed
+> consumability fix; no product code shipped, one ADR added.
+
+## Headline: Ahmed thread was stale in memory — corrected from live Gmail
+
+The recoil demo was **already sent Jul 22** (not "un-shipped" as memory claimed). Ahmed replied
+Jul 28: *"lots of information, hard to follow."* Zach replied Aug 3 offering call / Loom /
+map-to-his-format and asked what's most useful. **Ball is in Ahmed's court — do NOT send a new
+note; it would step on that open question.** If silent ~4-5 biz days, a one-line nudge (holding the
+untaken Robert intro as the reason to re-open) is fair. Root problem is **consumability, not
+cadence.**
+
+## Built: "60-Second Read" chronograph onramp — SPEC ONLY, parked behind Todd
+
+Designed (not implemented) a self-teaching onramp for `ahmed-ext.arcs.care`: an analog
+**chronograph** whose three 20-second wedges = three reading steps, hand advances on scroll
+(progress, not a countdown that pressures), no auto-run, honors `prefers-reduced-motion`. Plus a
+legend anchored to the first chart, the illustrative sample report moved below the pilot ask, and a
+"you-are-here" line atop `/evening` + `/seed`. Refinement in the incumbent dark-cockpit world, NOT
+a redesign. Full spec deck + working SVG animatic (design specs, product reqs, creative direction,
+cut list + music brief, wireframes, 6-step low-budget impl plan = 5 local + ONE build) lives at
+**`_ARTIFACTS/sixty-second-read.html`**. Implementation not started; nothing deployed.
+
+## Delivery hit a claude.ai Cloudflare block → ADR-041 (local-first artifacts)
+
+Publishing to a claude.ai Artifact URL failed for Zach with a Cloudflare block page ("you have been
+blocked"), affecting all claude.ai content, unfixable agent-side. Scratchpad file rendered but is
+session-temporary. Resolution: save durable self-contained HTML to **`_ARTIFACTS/`** (git-tracked,
+already build-excluded per ADR-039, renders locally with zero external dependency). Formalized as
+**ADR-041** (DECIDED/GREEN/STABLE) and banked as memory `deliverable-durability-local-first-not-hosted`.
+
+## Blocking
+
+NONE. Todd is the plane this week; Ahmed onramp is parked behind it.
+
+## Next session starts at
+
+`/handoff-pickup`. Todd unchanged (wire Tidio -> Zapier -> SugarCRM Create Record, one real test
+lead; Todd owes phone-required / lead-source / test-lead decisions). Ahmed: implement the onramp
+from `_ARTIFACTS/sixty-second-read.html` only when Ahmed replies or in a spare local session. New:
+ADR-041 (durable deliverables -> `_ARTIFACTS/`, local-first).
