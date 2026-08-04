@@ -640,6 +640,41 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 .bg-sum-h { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
 .bg-in { margin-top: 8px; opacity: .82; }
 .bg-in .divider { margin: 32px 0 0; }
+
+/* ── AGENDA (shared meeting agenda, jump links into detail) ── */
+.ag { margin-top: 18px; }
+.ag-goal { background: rgba(0,255,157,.05); border: 1px solid rgba(0,255,157,.3); border-radius: var(--r); padding: 16px 18px; margin-bottom: 20px; }
+.ag-goal-l { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+.ag-goal p { font-size: 13.5px; color: var(--sub); line-height: 1.7; margin: 0; }
+.ag-goal b { color: var(--text); font-weight: 650; }
+.ag-row { display: grid; grid-template-columns: 30px 1fr; gap: 14px; padding: 15px 0; border-top: 1px solid var(--border); }
+.ag-row:last-child { border-bottom: 1px solid var(--border); }
+.ag-n { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--dim); padding-top: 2px; }
+.ag-t { font-size: 14px; font-weight: 650; color: var(--text); margin-bottom: 4px; }
+.ag-b { font-size: 13px; color: var(--sub); line-height: 1.65; }
+.ag-b b { color: var(--text); font-weight: 600; }
+.ag-b a { color: var(--cyan); text-decoration: none; font-weight: 600; }
+.ag-b a:hover { text-decoration: underline; }
+.ag-b .you { display: block; margin-top: 6px; color: var(--gold); font-weight: 600; }
+.ag-meter { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--r); margin-top: 10px; }
+.ag-meter table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 380px; }
+.ag-meter th, .ag-meter td { text-align: left; padding: 9px 13px; border-bottom: 1px solid var(--border); }
+.ag-meter thead th { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: var(--surface-hi); }
+.ag-meter tbody td { color: var(--sub); }
+.ag-meter tbody tr:last-child td { border-bottom: none; }
+.ag-meter td b { color: var(--text); font-weight: 650; }
+.ag-meter td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mo { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin-top: 20px; border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; }
+@media (max-width: 768px) { .mo { grid-template-columns: 1fr; } }
+.mo-col { padding: 18px 18px 20px; }
+.mo-col + .mo-col { border-left: 1px solid var(--border); }
+@media (max-width: 768px) { .mo-col + .mo-col { border-left: none; border-top: 1px solid var(--border); } }
+.mo-h { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--green); margin-bottom: 5px; }
+.mo-s { font-size: 14.5px; font-weight: 650; color: var(--text); margin-bottom: 9px; line-height: 1.35; }
+.mo-b { font-size: 12.5px; color: var(--sub); line-height: 1.65; }
+.ph { margin-top: 9px; padding-left: 10px; border-left: 1px solid var(--border); font-size: 12px; line-height: 1.55; }
+.ph b { color: var(--text); font-weight: 650; }
+.mo-d { margin-top: 11px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); line-height: 1.6; }
 </style><script defer src="/_vercel/insights/script.js"></script></head>
 <body>
 
@@ -656,7 +691,8 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
   <div class="doc-header-inner">
     <div class="doc-mark">PRL Resins · Chatbot Build</div>
         <nav class="doc-tabs">
-      <a class="doc-tab active" href="#status">Where we are</a>
+      <a class="doc-tab active" href="#agenda">Today</a>
+      <a class="doc-tab" href="#status">Where we are</a>
       <a class="doc-tab" href="#tradeoffs">Tradeoffs</a>
       <a class="doc-tab" href="#crmcheck">Plan vs reality</a>
       <a class="doc-tab" href="#roadmap">What is next</a>
@@ -696,6 +732,115 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <p class="hero-asks-foot">The reasoning behind all three is in <a href="#crmcheck">Plan vs reality</a>.</p>
     </div>
   </div>
+
+  <div class="divider" id="agenda"></div>
+  <section>
+    <div class="section-eyebrow" style="color:var(--green);">Today</div>
+    <div class="section-title">What we will cover</div>
+
+    <div class="ag">
+      <div class="ag-goal">
+        <div class="ag-goal-l">The goal for today</div>
+        <p><b>Land the plan.</b> Settle the three open decisions so leads can start flowing into SugarCRM, then talk about what comes after that.</p>
+      </div>
+
+      <div class="ag-row">
+        <div class="ag-n">01</div>
+        <div>
+          <div class="ag-t">Where things stand</div>
+          <div class="ag-b">The bot is built and answering on a safe copy of your site. Twelve conversations through it so far. The plan is sorted with a 10 percent lifetime discount, and I checked everything against your live CRM before connecting anything. <a href="#status">Full status</a> and <a href="#progress">history</a>.</div>
+        </div>
+      </div>
+
+      <div class="ag-row">
+        <div class="ag-n">02</div>
+        <div>
+          <div class="ag-t">Three decisions, then leads start flowing</div>
+          <div class="ag-b">Phone number, how we label chatbot leads, and permission for one test lead. Each one is short, and together they are the only thing between here and live delivery. Reasoning for all three is in <a href="#crmcheck">Plan vs reality</a>, and the cost of each choice is in <a href="#tradeoffs">Tradeoffs</a>.
+          <span class="you">These are the three I need from you today.</span></div>
+        </div>
+      </div>
+
+      <div class="ag-row">
+        <div class="ag-n">03</div>
+        <div>
+          <div class="ag-t">The number worth showing your team</div>
+          <div class="ag-b">You mentioned keeping callback inside <b>four hours</b>, and losing deals when it slips. Once leads are flowing we can timestamp each one and show time to first touch against close won and close lost, using data already in Sugar. Close to free to set up.
+          <span class="you">Worth turning on from day one?</span></div>
+        </div>
+      </div>
+
+      <div class="ag-row">
+        <div class="ag-n">04</div>
+        <div>
+          <div class="ag-t">A bonus that is already built</div>
+          <div class="ag-b">Five paid search onramps are ready, one per competitor page: SABIC, Lexan, Ultem, Noryl, Valox. Someone arriving from a SABIC ad gets greeted about SABIC instead of a generic hello. No extra cost, it runs on the plan you already have.
+          <span class="you">Which of those landing pages actually exist? And can I add the snippet, since Unbounce sits on the live domain?</span></div>
+        </div>
+      </div>
+
+      <div class="ag-row">
+        <div class="ag-n">05</div>
+        <div>
+          <div class="ag-t">Keeping the monthly cost flat</div>
+          <div class="ag-b">We dropped the Starter plan, so there is no customer service seat cost. Two meters left and only one is tight.
+            <div class="ag-meter">
+              <table>
+                <thead><tr><th>What the plan meters</th><th class="n">Included</th><th>Read</th></tr></thead>
+                <tbody>
+                  <tr><td>Scripted chat conversations</td><td class="n">2,000 / mo</td><td>Effectively unlimited at your volume</td></tr>
+                  <tr><td><b>AI assistant conversations</b></td><td class="n"><b>50 / mo</b></td><td><b>The scarce one, about 1.7 a day</b></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top:10px;">My recommendation is to run the scripted chat as the default path and keep the AI assistant as a fallback for what the script does not cover. Same experience for almost everyone, and it keeps you inside the allowance rather than creeping up a tier.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ag-row">
+        <div class="ag-n">06</div>
+        <div>
+          <div class="ag-t">Then: the next three months</div>
+          <div class="ag-b">Phase 1 is nearly done. Below is what I would do with August, September and October if you want to keep going. Each month ends with something you can show your team, which is the part that matters given what you said about projects getting looked past.</div>
+        </div>
+      </div>
+
+    <div class="mo">
+      <div class="mo-col">
+        <div class="mo-h">August</div>
+        <div class="mo-s">Finish and prove it</div>
+        <div class="mo-b">Four pieces, all chatbot work, all past what we first scoped in July:
+          <div class="ph"><b>1.1 CRM integration.</b> Wired to your real Sugar fields rather than a generic form, after checking the live schema.</div>
+          <div class="ph"><b>1.2 The AI assistant.</b> Not in the original plan. Set up, guided, and kept inside safe limits.</div>
+          <div class="ph"><b>1.3 Safety testing.</b> 74 tests so it never guesses a grade or a spec. Re run whenever the vendor changes something.</div>
+          <div class="ph"><b>1.4 Paid search onramps.</b> Five landing page openings, plus going live on the real site.</div>
+        </div>
+        <div class="mo-d">You can show: real leads arriving with an email on every one, and how fast they get picked up.</div>
+      </div>
+      <div class="mo-col">
+        <div class="mo-h">September</div>
+        <div class="mo-s">Build the data foundation</div>
+        <div class="mo-b">Two small things. Turn the product selection guide into a real searchable table instead of a PDF of pictures, which is yours to keep whatever happens after. And a first win for the sales team: a simple digest of new leads so nobody has to go hunting in Sugar.</div>
+        <div class="mo-d">You can show: reps getting leads without chasing them, and a material table you own.</div>
+      </div>
+      <div class="mo-col">
+        <div class="mo-h">October</div>
+        <div class="mo-s">Try one path, then decide</div>
+        <div class="mo-b">Rather than redoing the site, pilot the idea on a single product family: one route organised around who is arriving and what the part has to do. Measure whether it actually performs better, then decide about the rest with real numbers instead of an opinion.</div>
+        <div class="mo-d">You can show: a like for like comparison on one family, and a decision you can defend.</div>
+      </div>
+    </div>
+
+    <div class="ag-goal" style="margin-top:18px;background:rgba(0,240,255,.04);border-color:rgba(0,240,255,.28);">
+      <div class="ag-goal-l" style="color:var(--cyan);">How to run it</div>
+      <p>Scoping each of these separately means three proposals and three approvals for work that is really one arc. If the cadence is useful, it is simpler to set it up as <b>a standing monthly arrangement</b>: one shipped improvement a month, the measurement to go with it, and a working session with you. Easier for you to budget, and it means I am not stopping to re-sell every few weeks.</p>
+      <p style="margin-top:8px;"><b>On August specifically.</b> What we agreed in July was a chatbot that routes to your sales manager. Some of the four pieces above came from things we found once we looked properly, like your CRM requiring fields the bot was treating as optional, and some came from you adding the AI assistant on the third. All of it is worth having and none of it was padding, but it is meaningfully more than the original scope, so it is worth a short conversation about that rather than me quietly absorbing it and pushing the rest out.</p>
+      <p style="margin-top:8px;"><b>Each month stands on its own, and any of them is a reasonable place to stop.</b> Nothing here depends on committing to the whole thing, and I would rather do one useful piece well than start something that stalls halfway.</p>
+      <p style="margin-top:8px;">Happy either way. Worth deciding once Phase 1 is actually delivering, so you are buying from something you have seen work rather than a plan.</p>
+    </div>
+    </div>
+  </section>
 
   <div class="divider" id="status"></div>
   <section>
@@ -1505,7 +1650,7 @@ function copySmQuestions(){
 }
 
 // Update active tab on scroll
-const sections = ['status','tradeoffs','crmcheck','roadmap','howitworks','progress'];
+const sections = ['agenda','status','tradeoffs','crmcheck','roadmap','howitworks','progress'];
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
