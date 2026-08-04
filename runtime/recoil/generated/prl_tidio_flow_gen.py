@@ -204,7 +204,9 @@ def build_full():
 
     # Callback path - fast human  (all session variables -> carried in webhook, no property binding)
     fb.ask("cb1", "You got it. What's your name?", "name", "cb2")
-    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone")
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb_email", validation="phone")
+    fb.ask("cb_email", "And your email, in case we can't catch you by phone?", "email", "cb3",
+           validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
     fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
     fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
                "few hours. No phone trees.")
@@ -217,7 +219,7 @@ def build_full():
     fb.ask("cap_name", "Last thing and you're set. Who should we get this to?", "name", "cap_email")
     fb.ask("cap_email", "Best email?", "email", "cap_phone", validation="email",
            error="Hmm, that doesn't look like an email. Mind trying again?")
-    fb.ask("cap_phone", "Phone? (optional)", "phone", "cap_company", validation="phone")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_company", validation="phone")
     fb.ask("cap_company", "And your company?", "company", "cap_terr")
     fb.ask("cap_terr", "What state or region are you in?", "territory", "cap_close")
     fb.message("cap_close", "Thanks! One of our resin specialists will reach out shortly, usually "
@@ -427,7 +429,9 @@ def build_full_ai():
 
     # Callback path (rigid, unchanged)
     fb.ask("cb1", "You got it. What's your name?", "name", "cb2")
-    fb.ask("cb2", "Best number to reach you?", "phone", "cb3", validation="phone")
+    fb.ask("cb2", "Best number to reach you?", "phone", "cb_email", validation="phone")
+    fb.ask("cb_email", "And your email, in case we can't catch you by phone?", "email", "cb3",
+           validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
     fb.ask("cb3", "When's a good time to reach you? (optional)", "requirements", "cb_end")
     fb.message("cb_end", "Done. Someone from our team will call you shortly, usually within a "
                "few hours. No phone trees.")
