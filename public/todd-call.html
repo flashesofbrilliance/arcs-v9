@@ -951,17 +951,17 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     <div class="section-eyebrow" style="color:var(--cyan);">Checked against your live system &middot; August 3</div>
     <div class="section-title">What we expected, and what your CRM actually does</div>
     <p style="font-size:13px;color:var(--sub);line-height:1.7;max-width:680px;margin-bottom:6px;">Before connecting the chatbot to SugarCRM, I read your live setup and a sample of a hundred real leads to check that what we designed will actually work. Nothing was changed. Here is where our assumptions held up, where they did not, and what needs your call.</p>
-    <p style="font-size:12px;color:var(--muted);line-height:1.6;">Three of these need a quick decision from you. Three are already settled.</p>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;">Three of these need a quick decision from you. The rest are either already settled or things we found in your own data worth knowing.</p>
 
     <div class="ea">
 
       <div class="ea-row">
-        <div class="ea-head"><span class="ea-topic">Email addresses</span><span class="ea-verdict win">Better than expected</span></div>
+        <div class="ea-head"><span class="ea-topic">A complete lead every time</span><span class="ea-verdict win">Confirmed gain</span></div>
         <div class="ea-grid">
-          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">Most leads coming in today would already have an email address on them.</div></div>
-          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Only <b>5 out of 100</b> do. Almost every lead in your system today is phone only.</div></div>
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">Most records in the system would already carry an email and full detail.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Most of the sample is older, imported, phone-era records, so only <b>5 of 100</b> carry an email. Your live website leads do capture email, but they are a small slice of the whole.</div></div>
         </div>
-        <div class="ea-do"><b>What this means:</b> the chatbot asks for an email every time, so every lead it sends you will have one. This is the single biggest gain from the project. It changes what follow up is even possible, not just how fast it happens.</div>
+        <div class="ea-do"><b>What this means:</b> the chatbot guarantees a complete lead every time, email plus current and needed resin, application, and a clean source tag, not just a name and a phone number. That consistency is the gain: richer and more uniform than what comes in today.</div>
       </div>
 
       <div class="ea-row">
@@ -1009,9 +1009,36 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
         <div class="ea-do"><b>Settled:</b> the chatbot writes what it captures into that same Notes field, in plain readable lines. It fits how your team already works.</div>
       </div>
 
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Answering competitor questions</span><span class="ea-verdict win">Bigger than expected</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">That the "what is your equivalent to grade X" answers were locked inside the printed product guide.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">Your CRM already holds <b>231 opportunities</b> tagged with the competitor grade they were replacing (Cycolac, LG, Tristar and others), each mapped to your equivalent.</div></div>
+        </div>
+        <div class="ea-do"><b>What this means:</b> the chatbot can answer equivalence questions from your own real sales data, and every one of those becomes a captured lead. We do not have to wait on the printed guide to make this useful.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">Knowing what actually brings in business</span><span class="ea-verdict gap">Opportunity</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">That most revenue could be traced back to where the lead came from.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text">About <b>$26.5M</b> of closed-won revenue has no lead source recorded, so today it is hard to tell what marketing is actually working.</div></div>
+        </div>
+        <div class="ea-do"><b>What this means:</b> because the chatbot tags every lead with its source, over time you get a clean read on how much revenue the website and each campaign really produce. That is the number that proves the project paid for itself.</div>
+      </div>
+
+      <div class="ea-row">
+        <div class="ea-head"><span class="ea-topic">What people ask for most</span><span class="ea-verdict match">Confirmed</span></div>
+        <div class="ea-grid">
+          <div class="ea-cell"><div class="ea-lbl exp">We expected</div><div class="ea-text">A wide spread of resins across the inquiries.</div></div>
+          <div class="ea-cell"><div class="ea-lbl act">What we found</div><div class="ea-text"><b>Polycarbonate and ABS</b> dominate the inquiries, with Lexan the most-named competitor grade.</div></div>
+        </div>
+        <div class="ea-do"><b>What this means:</b> we build the chatbot's resin matching for polycarbonate and ABS first, so it is strongest exactly where your demand actually is.</div>
+      </div>
+
     </div>
 
-    <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This was a read only check. Nothing in your CRM was created, changed or deleted.</p>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:16px;">This was a read only check. Nothing in your CRM was created, changed or deleted. Sales figures are drawn from your own SugarCRM reports.</p>
   </section>
 
   <div class="divider" id="roadmap"></div>

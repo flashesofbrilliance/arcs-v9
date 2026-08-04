@@ -63,6 +63,8 @@ const nextConfig: NextConfig = {
         // destination keeps working without a 1:1 lookup table.
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
+        // prl.arcs.care → public/todd-call.html (memorable alias to the same SSOT proposal/status page; single wildcard rule = the proven-reliable shape)
+        { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
