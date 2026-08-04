@@ -44,5 +44,39 @@ Bonus quick one: the bot should also **require Company and State** (Sugar needs 
 2. Send **one labelled test lead** end-to-end; confirm it lands (Bill Galla, status New).
 3. Flip on for real. Go-live to the public site happens via GTM (covers WordPress + Unbounce at once).
 
+## 7. Demo plan (how to actually show it)
+**Reality check:** Tidio runs **one active flow at a time** — the versions below are separate
+configs, NOT one unified chat. You can't show all three live in one widget. Two clean ways:
+- **Hero (full realism):** publish your best version as the active flow, show it on the **local
+  sandbox** `http://localhost:8080/prl-home.html` (pixel-perfect PRL homepage). Todd experiences it
+  as a real visitor on his own site. This is the money shot.
+- **Compare the rest:** use **Tidio's flow-editor Preview/Test mode** to step through the other
+  versions without publishing. Do NOT hot-swap the active flow live — clunky.
+
+**Three versions on the table** (`~/Downloads/`):
+- `prl-chatbot-flow-v1.json` — original 4-button (superseded)
+- `prl-chatbot-flow.json` — 5-button + Guides & Resources (fullest)
+- `prl-chatbot-flow-ai-forward.json` — newest (Aug 3), AI-forward angle
+→ **Pick the hero before the meeting** and publish it so sandbox + dev site both show it.
+
+**Pre-demo setup (before Todd arrives):**
+- [ ] Start the sandbox (it's currently DOWN): `cd ~/prl-resins-local && ~/.orbstack/bin/docker compose start`
+- [ ] Confirm `localhost:8080/prl-home.html` loads and the widget greets.
+- [ ] Publish the hero flow in Tidio; open the other two in the editor for preview.
+- [ ] Have the WP dev site tab ready as the "and here it is on your real site" proof.
+
+## 8. Scope — Now / Next / Later (the "this is the scope for now" message)
+Land this explicitly so Phase 1 stays bounded and future work is sized on its own.
+- **Now (this engagement, Phase 1):** the lead-capture chatbot — branded, routes to the Sales
+  Manager, delivers to SugarCRM + email. Goal: ship it, land the first real live lead. **Close this out.**
+- **Next (near-term, scoped + priced separately):** pick + polish the winning flow version;
+  GA4/GTM cleanup (analytics are currently dark); measure chatbot-sourced leads; extend to the
+  Unbounce landing pages.
+- **Later (Phase 4/5 — its own project, pricing, and NDA):** the AI agent trained on
+  product-development data to recommend resin formulations by application. Big, separate, NDA-gated.
+
+**The line to say:** "Phase 1 is this scope — let's ship it and get you live leads. Next and Later
+are real, and we'll scope each as its own step." (Bounds now; opens appropriately-sized future phases.)
+
 ---
-_Decisions to leave with: phone (required/placeholder) · lead source (Chatbot/Web Site) · test-lead OK · Tidio upgrade approved._
+_Decisions to leave with: hero flow version · phone (required/placeholder) · lead source (Chatbot/Web Site) · test-lead OK · Tidio upgrade approved · agree Now/Next/Later scope._
