@@ -883,9 +883,9 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <div style="background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);padding:16px 18px;">
         <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Needed from you</div>
         <ul style="list-style:none;margin:0;padding:0;font-size:12.5px;color:var(--sub);line-height:1.5;">
-          <li style="margin-bottom:10px;"><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">SugarCRM login</strong> that can create leads</li>
-          <li style="margin-bottom:10px;"><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">A few short answers from your sales manager</strong>: the dropdown lists (opportunity type, problem type) and what an ideal customer looks like</li>
-          <li><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">The territory list</strong> (which rep covers which region) for automatic routing</li>
+          <li style="margin-bottom:10px;"><span style="color:var(--green);">✓</span> <strong style="color:var(--text);">SugarCRM login</strong> received. <span style="color:var(--green);">✓</span> <strong style="color:var(--text);">Territory map</strong> received (Aug 4, all 50 states).</li>
+          <li style="margin-bottom:10px;"><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">A few short answers from your sales manager</strong>: the dropdown lists (opportunity type, problem type) and what an ideal customer looks like versus a poor one.</li>
+          <li><span style="color:var(--gold);">•</span> <strong style="color:var(--text);">Two quick routing calls</strong>: for the 12 states served by distribution (no direct rep), and how NY / PA split between reps.</li>
         </ul>
       </div>
 
@@ -1096,7 +1096,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
     </div>
 
     <div style="margin-top:14px;padding:14px 18px;background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.3);border-radius:var(--r);font-size:13px;color:var(--sub);line-height:1.65;">
-      <strong style="color:var(--gold);">To finalize:</strong> a few inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields, the territory map, and what makes a prospect a good fit versus a poor one. Everything else is ready to build whenever you give the go.
+      <strong style="color:var(--gold);">To finalize:</strong> a few inputs from your sales manager complete the picture (see the <strong style="color:var(--text)">Discovery</strong> section above): the exact fields and what makes a prospect a good fit versus a poor one. (The territory map is in.) Everything else is ready to build whenever you give the go.
     </div>
     <p style="margin-top:14px;font-size:12px;color:var(--muted);">Want the full technical version, every question the bot asks, the fields, and how leads get tagged? See the <a href="https://claude.ai/code/artifact/e459357f-af02-4c0a-b58d-e9d1b4d7fe13" target="_blank" rel="noopener noreferrer" style="color:var(--cyan)">full build spec</a>.</p>
   </section>
@@ -1194,7 +1194,7 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
       <div style="font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Still needed from your sales manager</div>
       <ol start="1" style="margin:0;padding-left:22px;color:var(--sub);font-size:13px;line-height:1.65;">
         <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">product-development / application-discovery form</strong> (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.</li>
-        <li style="margin-bottom:9px;">The <strong style="color:var(--text);font-weight:600;">territory map</strong>: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.</li>
+        <li style="margin-bottom:9px;"><span style="color:var(--green);">✓</span> The <strong style="color:var(--text);font-weight:600;">territory map</strong> is in (received Aug 4, all 50 states). Two small routing calls remain for Todd: the 12 distribution-served states, and the NY / PA east/west split.</li>
         <li style="margin-bottom:9px;color:var(--green);"><strong style="color:var(--green);font-weight:600;">✓ The resin product list and nomenclature</strong>. Got it. You sent the Product Selection Guide, so the bot can already recognize a resin (or a competitor's resin) when someone names one. Nothing needed here.</li>
         <li style="margin-bottom:9px;">What an <strong style="color:var(--text);font-weight:600;">ideal prospect</strong> looks like versus a <strong style="color:var(--text);font-weight:600;">poor fit</strong>: company size, industry, order volume, or anything else that tells the bot who to prioritize and who to politely screen out.</li>
         <li style="color:var(--muted);">Optional: a handful of the most common questions the bot should be ready to answer up front.</li>
@@ -1247,7 +1247,6 @@ tr.recommended td:first-child { border-left: 2px solid var(--green); }
 Todd answered the discovery questions, thank you. To finalize the chatbot's fields and routing, we still need a few specifics from you or the product data:
 
 1. The product-development / application-discovery form (or a light version of it), so we lock the exact fields to capture: application, spec or properties, current resin, and the resin they want.
-2. The territory map: which rep covers which states or regions, so the bot can auto-route a lead by the visitor's location.
 3. What an ideal prospect looks like versus a poor fit: company size, industry, order volume, or anything else that tells the bot who to prioritize and who to politely screen out.
 4. Optional: a handful of the most common questions the bot should be ready to answer up front.
 
