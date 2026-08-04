@@ -78,11 +78,19 @@ A test conversation down **each** branch produces a Sugar lead that a rep would 
 | B5 | Upload hexagon logo in Tidio Welcome image | Zach (manual) | Open |
 | B6 | Reimport + activate the 5-button (resources) flow | Zach (manual) | Open |
 
-### 3 client decisions still owed by Todd (unchanged from Aug-3)
-1. **Phone**: required in the bot, or write a placeholder so the record always creates?
-2. **lead_source**: add a "Chatbot" picklist value, or ride the existing "Web Site"?
-3. **Test lead**: approve ONE labelled test lead, or stand up a sandbox? (All records are on team
-   "Global" → a test lead can't be hidden, so it needs explicit sign-off.)
+### Client decisions — RESOLVED in the Aug-4 meeting
+1. **Phone: REQUIRED.** ✓ Confirmed by Todd Aug-4; implemented in `prl_tidio_flow_gen.py` (phone +
+   email now captured on every lead path).
+2. **lead_source: ADD "Chatbot" value.** ✓ Todd will add it in the CRM — but **sandbox-first**: add +
+   verify the value + Create-Lead in the copy-down instance BEFORE replicating to live production. See
+   `2026-08-04-todd-safeguards-killswitch-rollback.md`.
+3. **Test lead → use the SANDBOX** (not a labelled prod test lead). Zach's call Aug-4: prove everything
+   in a lower/copy-down environment first; nothing blind on the live production instance. This makes
+   **SugarCRM sandbox access the gating dependency** for the CRM-write test (already the parked item).
+
+**New requirement (Aug-4): safeguards / kill-switch / rollback plan** — the in-flight DR layer, now at
+`2026-08-04-todd-safeguards-killswitch-rollback.md`. Sandbox-first everywhere; one-toggle kill switches
+per surface; additive-only CRM changes; canary monitoring; tell Todd immediately on any real-lead impact.
 
 ### Blindspots (things that will bite if unwatched)
 - **GTM go-live hits prod.** The dev site loads the shared prod GTM container (GTM-WLP9C76). Never
