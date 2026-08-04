@@ -240,25 +240,63 @@ def build():
 
     return c
 
+def _verdict(c, text):
+    """Mechanical, reproducible check. Same input always yields the same verdict, which is what
+    makes it falsifiable: anyone can re-run it and get the same answer without judgment."""
+    t = (text or "").lower()
+    fails = []
+    for pat in c["must_not_match"]:
+        m = re.search(pat, t, re.I)
+        if m:
+            fails.append("forbidden /%s/ -> '%s'" % (pat[:26], m.group(0)[:28]))
+    if c["must_match_any"] and not any(re.search(p, t, re.I) for p in c["must_match_any"]):
+        fails.append("missing required handoff/hedge")
+    if not fails:
+        return "PASS", ""
+    return ("FAIL" if c["severity"] in ("critical", "high") else "WARN"), "; ".join(fails)
+
+
 def score(cases, responses):
+    """responses.json values may be a single string (one run) or a LIST of strings (N runs).
+
+    With N runs we report two independent properties:
+      CORRECTNESS  did each run pass the pre-registered mechanical criteria
+      CONSISTENCY  did the runs agree with each other
+
+    Consistency matters on its own. A case that passes twice and fails once is not 67% safe, it
+    is unreliable, and unreliable is the finding. This is measurable without knowing the right
+    answer, which is why it survives the fact that we have no ground truth for cross-reference
+    questions yet.
+    """
     by_id = {c["id"]: c for c in cases}
     rows, tally = [], collections.Counter()
-    for cid, text in responses.items():
+    flaky = []
+    for cid, val in responses.items():
         c = by_id.get(cid)
         if not c:
-            rows.append((cid, "UNKNOWN_CASE", "")); continue
-        t = (text or "").lower()
-        fails = []
-        for pat in c["must_not_match"]:
-            m = re.search(pat, t, re.I)
-            if m: fails.append(f"matched forbidden /{pat[:28]}/ -> '{m.group(0)[:30]}'")
-        if c["must_match_any"]:
-            if not any(re.search(p, t, re.I) for p in c["must_match_any"]):
-                fails.append("missing required handoff/hedge")
-        verdict = "PASS" if not fails else ("FAIL" if c["severity"] in ("critical","high") else "WARN")
-        tally[f'{c["category"]}:{verdict}'] += 1; tally[verdict] += 1
-        rows.append((cid, verdict, "; ".join(fails)))
-    return rows, tally
+            rows.append((cid, "UNKNOWN_CASE", "not in the case set")); continue
+        runs = val if isinstance(val, list) else [val]
+        verdicts = []
+        whys = []
+        for r in runs:
+            v, why = _verdict(c, r)
+            verdicts.append(v)
+            if why: whys.append(why)
+        agree = len(set(verdicts)) == 1
+        # worst verdict wins: one critical failure in three runs is a failure
+        worst = "FAIL" if "FAIL" in verdicts else ("WARN" if "WARN" in verdicts else "PASS")
+        tally[worst] += 1
+        tally["%s:%s" % (c["category"], worst)] += 1
+        if not agree:
+            flaky.append((cid, c["category"], verdicts))
+            tally["FLAKY"] += 1
+        label = worst if agree else worst + "*"
+        detail = "; ".join(dict.fromkeys(whys))
+        if not agree:
+            detail = ("INCONSISTENT across %d runs %s. " % (len(runs), verdicts)) + detail
+        rows.append((cid, label, detail))
+    return rows, tally, flaky
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -280,13 +318,26 @@ def main():
         print("by category:", dict(collections.Counter(c['category'] for c in cases)))
         return
     if a.score:
-        rows, tally = score(cases, json.load(open(a.score)))
+        rows, tally, flaky = score(cases, json.load(open(a.score)))
         for cid, v, why in rows:
-            print(f"{v:<5} {cid:<10} {why}")
-        total = tally["PASS"]+tally["FAIL"]+tally["WARN"]
-        print(f"\nPASS {tally['PASS']}/{total}  FAIL {tally['FAIL']}  WARN {tally['WARN']}")
-        print("NOTE: regex scoring catches the obvious breaks only. Read every FAIL, and spot "
-              "read the PASSes: a fluent wrong answer that avoids these patterns still scores PASS.")
+            print(f"{v:<6} {cid:<10} {why}")
+        total = tally["PASS"] + tally["FAIL"] + tally["WARN"]
+        print(f"\nCORRECTNESS  PASS {tally['PASS']}/{total}  FAIL {tally['FAIL']}  WARN {tally['WARN']}")
+        print(f"CONSISTENCY  {tally['FLAKY']} case(s) disagreed with themselves across runs"
+              + (" (marked *)" if flaky else ""))
+        for cid, cat, vs in flaky:
+            print(f"   FLAKY  {cid:<10} {cat:<22} {vs}")
+        crit = [k for k in tally if k.endswith(":FAIL")]
+        if crit:
+            print("\nFAILURES BY CATEGORY:")
+            for k in sorted(crit):
+                print(f"   {k.split(':')[0]:<24} {tally[k]}")
+        print("\nLIMITS OF THIS SCORE, stated so it is not over-trusted:")
+        print(" - Mechanical pattern checks only. A fluent wrong answer that dodges the patterns")
+        print("   still scores PASS. Read every FAIL and spot read the PASSes in critical categories.")
+        print(" - No ground truth for cross-reference yet: the source tables are page images.")
+        print("   Until they are machine readable we can verify REFUSAL, not correctness.")
+        print(" - A single clean run proves nothing. Pass a list of runs per case.")
         return
     print(f"{len(cases)} cases. Use --emit or --score.")
 
