@@ -57,6 +57,25 @@ for call, labs in [("C1", "Call 1"), ("C2", "Call 2"), ("C3", "Call 3")]:
         </div>''' for b in groups[call])
     bm_html += f'<div class="bmgroup"><div class="bmg">{labs}</div><div class="bmcards">{cards}</div></div>'
 
+fl = wl.get("flags")
+flags_html = ""
+if fl:
+    items = "".join(f'''
+        <div class="flag" style="--fc:{i['c']}"><div class="flagk">{E(i['k'])}</div><p>{E(i['d'])}</p></div>''' for i in fl["items"])
+    flags_html = f'''
+    <div class="flagsblock"><div class="flagsh">{E(fl['title'])}</div><p class="flagsintro">{E(fl['intro'])}</p><div class="flags">{items}</div></div>'''
+
+tr = d.get("trust")
+tr_html = ""
+if tr:
+    prows = "".join(f'''
+        <div class="prow"><div class="pwho">{E(pp['who'])}</div><div class="pbody"><p class="pobj">&ldquo;{E(pp['obj'])}&rdquo;</p><p class="pans">{E(pp['ans'])}</p></div></div>''' for pp in tr["personas"])
+    tr_html = f'''
+  <section class="mv trust"><div class="mvk">{E(tr['k'])}</div><h2>{E(tr['title'])}</h2>
+    <p class="mvintro">{E(tr['intro'])}</p>
+    <div class="prows">{prows}</div>
+  </section>'''
+
 comp = d.get("composition")
 comp_html = ""
 if comp:
@@ -83,17 +102,25 @@ if comp:
                f"DTSTART:{rv['start']}\r\nDTEND:{rv['end']}\r\nSUMMARY:{rv['title']}\r\n"
                f"DESCRIPTION:{rv['description']}\r\nEND:VEVENT\r\nEND:VCALENDAR")
         ihref = "data:text/calendar;charset=utf-8," + urllib.parse.quote(ics)
+        rc = outp["receipt"]
+        rows = f'<div class="rcrow"><div class="rck">The bet</div><div class="rcv">{E(rc["bet"])}</div></div>'
+        for pr in rc["predictions"]:
+            rows += f'<div class="rcrow"><div class="rck">{int(pr["confidence"]*100)}% odds</div><div class="rcv">{E(pr["claim"])}</div></div>'
+        rows += f'<div class="rcrow"><div class="rck">Filed</div><div class="rcv">Aug 5, 2026</div></div>'
+        rows += f'<div class="rcrow"><div class="rck">Score-back</div><div class="rcv">{E(rc["revisit"])}</div></div>'
         extras = f'''
-      <div class="rcpt">
-        <div class="rcpth">This bet, as a file you can keep</div>
-        <div class="rcptrow"><a class="rbtn json" download="robin-precall-receipt.json" href="{jhref}">&#8681;&nbsp; Download the receipt (JSON)</a></div>
-        <div class="rcpth" style="margin-top:15px">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</div>
-        <div class="rcptrow">
-          <a class="rbtn" href="{gcal}" target="_blank" rel="noopener">Google Calendar</a>
-          <a class="rbtn" href="{outlook}" target="_blank" rel="noopener">Outlook</a>
-          <a class="rbtn" download="arcs-revisit.ics" href="{ihref}">.ics download</a>
-        </div>
-      </div>'''
+      <div class="rcard">
+        <div class="rctop"><span class="rcid">RECEIPT &middot; PRE-CALL BRIEF</span><span class="rcst">WRITTEN BEFORE &middot; SCORED AFTER</span></div>
+        {rows}
+        <div class="rcseal">WRITTEN BEFORE THE CALL &middot; SCORED AFTER &middot; IF IT CANNOT FAIL, IT ISN'T A RECEIPT</div>
+      </div>
+      <div class="rcptrow">
+        <a class="rbtn json" download="robin-precall-receipt.json" href="{jhref}">&#8681;&nbsp; Keep the receipt (JSON)</a>
+        <a class="rbtn" href="{gcal}" target="_blank" rel="noopener">Google Calendar</a>
+        <a class="rbtn" href="{outlook}" target="_blank" rel="noopener">Outlook</a>
+        <a class="rbtn" download="arcs-revisit.ics" href="{ihref}">.ics</a>
+      </div>
+      <p class="rcpthint">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</p>'''
     comp_html = f'''
   <section class="mv comp"><div class="mvk">{E(comp['k'])}</div><h2>{E(comp['title'])}</h2>
     <p class="mvintro">{E(comp['intro'])}</p>
@@ -191,6 +218,30 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .need h3{font-size:14px;color:#fff;white-space:nowrap}
 .need p{font-size:13px;color:var(--muted);line-height:1.5}
 .needclose{font-size:14px;color:var(--text);line-height:1.6}
+.flagsblock{margin-top:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.flagsh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.flagsintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.flags{display:grid;gap:9px}
+.flag{border-left:3px solid var(--fc);background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:9px;padding:12px 15px}
+.flagk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:6px}
+.flag p{font-size:13px;color:var(--muted);line-height:1.55}
+.rcard{border:1px solid var(--border);border-radius:11px;background:#0b0f16;overflow:hidden;margin-top:6px}
+.rctop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04)}
+.rcid{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
+.rcst{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--dimmed)}
+.rcrow{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(30,41,59,.5)}
+.rck{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--dimmed);padding-top:2px}
+.rcv{font-size:13px;color:var(--text);line-height:1.45}
+.rcseal{padding:9px 15px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--dimmed);text-align:center;background:rgba(0,240,255,.03)}
+.rcpthint{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:8px}
+.trust{border-color:rgba(148,163,184,.25)}
+.trust .mvk{color:var(--muted)}
+.prows{display:grid;gap:9px}
+.prow{display:grid;grid-template-columns:130px 1fr;gap:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.pwho{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);padding-top:2px}
+.pobj{font-size:13.5px;font-style:italic;color:var(--text);margin-bottom:6px}
+.pans{font-size:13px;color:var(--muted);line-height:1.55}
+@media(max-width:560px){.rcrow{grid-template-columns:1fr;gap:3px}.prow{grid-template-columns:1fr;gap:5px}}
 @media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}}
 .cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
 .cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
@@ -229,12 +280,14 @@ body = f'''<div class="page">
     <div class="manifold">{manifold_svg}</div>
     <p class="mcap">{E(m['caption'])}</p>
     {bm_html}
+    {flags_html}
   </section>
   {comp_html}
   <section class="mv corpus"><div class="mvk">{E(cp['k'])}</div><h2>{E(cp['title'])}</h2>{corpus_cards}</section>
   {hz_html}
   {st_html}
-  <div class="foot">ARCS &middot; ONE DOOR &middot; SEED &rarr; GRAVITY WELL &rarr; CORPUS &middot; MOVE AT YOUR OWN PACE</div>
+  {tr_html}
+  <div class="foot">ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE &middot; NOTHING HERE ASKS YOU FOR ANYTHING</div>
 </div>'''
 
 GATE = '''<div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>'''

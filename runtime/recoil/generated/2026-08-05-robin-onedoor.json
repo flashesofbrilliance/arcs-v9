@@ -106,7 +106,7 @@
           "note": "You asked how it plugs in"
         },
         {
-          "t": "C3 kairos",
+          "t": "C3 high point",
           "v": 97,
           "kind": "kairos",
           "note": "A coach you wish you had"
@@ -198,7 +198,7 @@
         "tag": "your own pattern",
         "color": "#FFD700",
         "label": "The marathon wall",
-        "lesson": "You named your own overconfidence pattern. The exoskeleton mirrors your patterns back."
+        "lesson": "You named your own overconfidence pattern. It mirrors your own patterns back to you."
       },
       {
         "call": "C3",
@@ -207,7 +207,38 @@
         "label": "‘Let me get back to you’",
         "lesson": "A soft close after real engagement is a yes waiting, not a no. You meant more than you said."
       }
-    ]
+    ],
+    "flags": {
+      "title": "Every idea was a volley.",
+      "intro": "I floated a kernel, you built on it or reframed it or challenged the premise, and I either caught your polish or sailed off to intergalactic. This is that give-and-take, flagged. Read another way, it is you coaching me across three calls, and the AI catching every nudge. Call three landed because I finally took your notes.",
+      "items": [
+        {
+          "k": "Where I veered",
+          "c": "#FF4D6D",
+          "d": "Drifting off your wavelength. Call 1: I went to Huxley. Call 2: I opened on physics. Call 3: I caught it myself and pulled back."
+        },
+        {
+          "k": "Where you nudged me",
+          "c": "#00FF9D",
+          "d": "Your corrections, gentle and exact. 'Pick one and nail it.' 'Hard to put you in a box.' The corrections were the whole gift."
+        },
+        {
+          "k": "Where I lost you",
+          "c": "#FF4D6D",
+          "d": "The signal going flat. Call 2, your replies fell to one word: 'Close. Ly. Follow.' That is the sound of a carrier dropping."
+        },
+        {
+          "k": "What was dead on arrival",
+          "c": "#94a3b8",
+          "d": "Threads that crash-landed: the everything-platform, the physics, the ask to champion it. Your call-1 'pick one' was the kill signal I already had and ignored."
+        },
+        {
+          "k": "How you told me to switch",
+          "c": "#FFD700",
+          "d": "When you went quiet, that thread was dead. When you named your own market back ('a coach you wish you had'), that was the one to keep. You never had to say it outright."
+        }
+      ]
+    }
   },
   "composition": {
     "k": "03 · how the brief is built",
@@ -237,7 +268,7 @@
       "h": "The pre-call brief (a bet, written down first)",
       "b": "Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.",
       "receipt": {
-        "receipt_type": "pre-call brief (ex-ante)",
+        "receipt_type": "pre-call brief (written before the call)",
         "counterpart": "Robin Daniels",
         "filed": "2026-08-05",
         "bet": "Lead with one narrow thing in his register; name his own advice back; invite rather than ask; let him take it further.",
@@ -272,12 +303,12 @@
     "title": "How it works, and how it scales.",
     "cards": [
       {
-        "h": "Cognitive exoskeleton, not digital twin",
-        "b": "It does not copy you or replace your judgment. It augments it. You still drive. This is your own thesis, that AI is not the outcome, just another input, given a body."
+        "h": "A tool that sharpens you, not a copy of you",
+        "b": "It does not copy you or replace your judgment. It makes you sharper at your own job, and you still drive. It is the simple idea you already believe: AI is an input, not the answer."
       },
       {
         "h": "The instrument, under the hood",
-        "b": "The four states it listens for, the evals that keep a read honest, and the fence. The taste in full, the recipe stays mine.",
+        "b": "The four things it listens for, the checks that keep a read honest, and where I draw the line. You get the whole taste; the recipe stays mine.",
         "cta": {
           "label": "See the instrument",
           "href": "https://robin-codex.arcs.care#instrument"
@@ -304,7 +335,7 @@
       },
       {
         "h": "The world is not flat",
-        "b": "It has a terrain of ridges, fog, and weak layers. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives."
+        "b": "It has a terrain of high ground, fog, and hidden weak spots. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives."
       },
       {
         "h": "A record versus a leading indicator",
@@ -331,5 +362,42 @@
       }
     ],
     "close": "That is it. From those three, I build the pre-call brief and the read, free, no integration, yours to keep."
+  },
+  "trust": {
+    "k": "07 · for the room",
+    "title": "The objections, answered before they are raised.",
+    "intro": "If you socialize this, here is the same reassurance in each chief's language. The short version: it reads recordings you already have, nothing is stored or sent, nothing touches your systems. Fuller trust summary at arcs.care.",
+    "personas": [
+      {
+        "who": "Security / CISO",
+        "obj": "Where does our call data go?",
+        "ans": "Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. It can run air-gapped on your own stack, so nothing leaves Zensai."
+      },
+      {
+        "who": "Finance / CFO",
+        "obj": "What is the cost and the lock-in?",
+        "ans": "The pilot is free and there is nothing to integrate or maintain. One call proves the value. No contract, no lock-in."
+      },
+      {
+        "who": "Revenue / CRO",
+        "obj": "Will it slow my team down?",
+        "ans": "It is invisible. It reads recordings after the fact, so there is zero behavior change and nothing for a rep to learn or click."
+      },
+      {
+        "who": "People / CHSO",
+        "obj": "Is this surveillance?",
+        "ans": "The opposite. What gets scored is the rep's own performance, to help them, opt-in. It is coaching, not a scorecard. Your own human-first idea, applied."
+      },
+      {
+        "who": "CEO",
+        "obj": "Does this advance our position?",
+        "ans": "It is the coaching layer in the category you are already moving into, and it strengthens the human-success story rather than bolting something on."
+      },
+      {
+        "who": "Legal",
+        "obj": "Consent and ownership?",
+        "ans": "Consent-first, nothing leaves, and you keep the file and the data. The read is yours; the method stays mine."
+      }
+    ]
   }
 }
