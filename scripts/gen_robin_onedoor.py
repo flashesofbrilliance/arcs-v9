@@ -19,12 +19,13 @@ xs = [PL + (W - PL - PR) * (i / (n - 1)) for i in range(n)]
 ys = [PT + (H - PT - PB) * (1 - (p["v"] / 100)) for p in pts]
 line = " ".join(f"{'M' if i==0 else 'L'}{xs[i]:.1f},{ys[i]:.1f}" for i in range(n))
 area = f"M{xs[0]:.1f},{H-PB} " + " ".join(f"L{xs[i]:.1f},{ys[i]:.1f}" for i in range(n)) + f" L{xs[-1]:.1f},{H-PB} Z"
-dots = ""
+dots = hits = ""
 for i, p in enumerate(pts):
     c = KIND.get(p["kind"], "#64748b")
     r = 6 if p["kind"] in ("kairos", "peak", "park") else 3.2
-    dots += (f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5">'
-             f'<title>{E(p["t"])}</title></circle>')
+    dots += (f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5"/>')
+    hits += (f'<circle class="hit" cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="16" fill="transparent" '
+             f'data-tip data-c="{c}" data-t="{E(p["t"])}" data-n="{E(p.get("note",""))}"/>')
 # dividers + call labels
 divs = ""
 bounds = [PL] + [ (xs[i-1]+xs[i])/2 for i in m["dividers"] ] + [W-PR]
@@ -38,7 +39,7 @@ manifold_svg = f'''<svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="
   <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity="0.14"/><stop offset="1" stop-color="#00F0FF" stop-opacity="0"/></linearGradient></defs>
   <line x1="{PL}" y1="{H-PB}" x2="{W-PR}" y2="{H-PB}" stroke="#1e293b" stroke-width="1"/>
   {divs}<path d="{area}" fill="url(#g)"/>
-  <path d="{line}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>{dots}
+  <path d="{line}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>{dots}{hits}
 </svg>'''
 
 # bookmarks grouped by call
@@ -95,6 +96,7 @@ CSS = '''<style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:48px 22px 96px}
 .page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
 .eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
 h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18}
 .sub{font-size:15px;color:var(--muted);margin-top:10px;max-width:64ch}
@@ -148,6 +150,12 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 @media(max-width:560px){.cinputs{grid-template-columns:1fr}}
 .foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
 @media(max-width:560px){.bmcards{grid-template-columns:1fr}}
+.hit{cursor:pointer}
+#tip{position:fixed;z-index:80;max-width:min(280px,88vw);pointer-events:none;opacity:0;transition:opacity .12s;background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;padding:11px 13px;box-shadow:0 8px 30px rgba(0,0,0,.55)}
+#tip.on{opacity:1}
+#tip .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,#94a3b8);margin-bottom:6px}
+#tip .tn{font-size:13px;color:var(--text);line-height:1.45}
+@media(hover:none){.hit{cursor:default}}
 #pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}#pw-gate.hidden{display:none}
 .pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#475569}
 .pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
@@ -175,7 +183,19 @@ body = f'''<div class="page">
 </div>'''
 
 GATE = '''<div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>'''
+TIP = '''<div id="tip"></div>'''
+TIPJS = '''<script>(function(){var tip=document.getElementById('tip');if(!tip)return;
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function show(el,e){var c=el.getAttribute('data-c')||'#94a3b8';tip.style.setProperty('--tc',c);
+tip.innerHTML='<div class="tt">'+esc(el.getAttribute('data-t'))+'</div><div class="tn">'+esc(el.getAttribute('data-n'))+'</div>';
+tip.classList.add('on');move(e);}
+function move(e){var w=tip.offsetWidth,h=tip.offsetHeight,x=e.clientX+16,y=e.clientY+16;if(x+w>window.innerWidth-8)x=e.clientX-w-16;if(y+h>window.innerHeight-8)y=e.clientY-h-16;tip.style.left=x+'px';tip.style.top=y+'px';}
+function hide(){tip.classList.remove('on');}
+document.querySelectorAll('[data-tip]').forEach(function(el){
+el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);
+el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});
+document.addEventListener('click',hide);})();</script>'''
 GATEJS = '''<script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>'''
-DOC = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title>{CSS}</head><body>{GATE}{body}{GATEJS}</body></html>'''
+DOC = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title>{CSS}</head><body>{GATE}{body}{TIP}{TIPJS}{GATEJS}</body></html>'''
 open(out, "w").write(DOC)
 print("wrote", out, len(DOC), "bytes | em-dashes:", DOC.count("—"))

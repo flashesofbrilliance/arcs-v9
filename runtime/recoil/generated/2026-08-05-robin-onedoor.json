@@ -30,77 +30,92 @@
         {
           "t": "C1 open",
           "v": 70,
-          "kind": "base"
+          "kind": "base",
+          "note": "Warm reconnect"
         },
         {
           "t": "C1 peak",
           "v": 93,
-          "kind": "peak"
+          "kind": "peak",
+          "note": "The Holy Grail moment"
         },
         {
           "t": "C1 gift",
           "v": 87,
-          "kind": "kairos"
+          "kind": "kairos",
+          "note": "You gave me the strategy: pick one"
         },
         {
           "t": "C1 ikigai",
           "v": 82,
-          "kind": "base"
+          "kind": "base",
+          "note": "Shared history, Ikigai"
         },
         {
           "t": "C1 veer",
           "v": 54,
-          "kind": "park"
+          "kind": "park",
+          "note": "First time I lost you"
         },
         {
           "t": "C2 ask",
           "v": 46,
-          "kind": "rising"
+          "kind": "rising",
+          "note": "I asked you to champion it"
         },
         {
           "t": "C2 entropy",
           "v": 31,
-          "kind": "park"
+          "kind": "park",
+          "note": "I opened on physics"
         },
         {
           "t": "C2 demo",
           "v": 28,
-          "kind": "base"
+          "kind": "base",
+          "note": "A long demo I carried"
         },
         {
           "t": "C2 exit",
           "v": 18,
-          "kind": "park"
+          "kind": "park",
+          "note": "The lowest point, a flat exit"
         },
         {
           "t": "C3 warm",
           "v": 70,
-          "kind": "base"
+          "kind": "base",
+          "note": "Warm from the first minute"
         },
         {
           "t": "C3 advice",
           "v": 83,
-          "kind": "rising"
+          "kind": "rising",
+          "note": "I named your advice back"
         },
         {
           "t": "C3 how",
           "v": 86,
-          "kind": "rising"
+          "kind": "rising",
+          "note": "You asked how it works"
         },
         {
           "t": "C3 deploy",
           "v": 89,
-          "kind": "rising"
+          "kind": "rising",
+          "note": "You asked how it plugs in"
         },
         {
           "t": "C3 kairos",
           "v": 97,
-          "kind": "kairos"
+          "kind": "kairos",
+          "note": "A coach you wish you had"
         },
         {
           "t": "C3 close",
           "v": 75,
-          "kind": "base"
+          "kind": "base",
+          "note": "Warm: let me get back to you"
         }
       ],
       "dividers": [
@@ -112,7 +127,7 @@
         "Call 2 · Nov 13",
         "Call 3 · Aug 5"
       ],
-      "caption": "The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3 kairos) are the same relationship three weeks and nine months apart. That delta is the coachable story."
+      "caption": "The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3, when you called it a coach you wish you had) are the same relationship three weeks and nine months apart. That delta is the coachable story."
     },
     "bookmarks": [
       {
