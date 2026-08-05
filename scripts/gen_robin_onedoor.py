@@ -49,23 +49,35 @@ for b in wl["bookmarks"]:
 bm_html = ""
 for call, labs in [("C1", "Call 1"), ("C2", "Call 2"), ("C3", "Call 3")]:
     if call not in groups: continue
-    cards = "".join(f'''
-        <div class="bm" style="--bc:{b['color']}">
-          <div class="bmtop"><span class="bmt">{E(b['tag'].replace('-',' ').upper())}</span></div>
+    grp = groups[call]; cards = ""
+    for idx, b in enumerate(grp):
+        last = idx == len(grp) - 1
+        cls = "bm unlock" if last else "bm"
+        bc = "#FFD700" if last else b['color']
+        tag = "&#8627; THE UNLOCK" if last else E(b['tag'].replace('-', ' ').upper())
+        cards += f'''
+        <div class="{cls}" style="--bc:{bc}">
+          <div class="bmtop"><span class="bmt">{tag}</span></div>
           <div class="bml">{E(b['label'])}</div>
           <p class="bmles">{E(b['lesson'])}</p>
-        </div>''' for b in groups[call])
+        </div>'''
     bm_html += f'<div class="bmgroup"><div class="bmg">{labs}</div><div class="bmcards">{cards}</div></div>'
 
 vy = wl.get("volley")
 flags_html = ""
 if vy:
-    quads = "".join(f'''
-        <div class="quad" style="--qc:{q['c']}"><div class="quadl">{E(q['lab'])}</div><p>{E(q['d'])}</p></div>''' for q in vy["quadrants"])
+    qs = vy["quadrants"]
+    def _cell(q):
+        sub = q['lab'].split('·', 1)[-1].strip() if '·' in q['lab'] else q['lab']
+        return f'''<div class="quad" style="--qc:{q['c']}"><div class="quadl">{E(sub)}</div><p>{E(q['d'])}</p></div>'''
+    rows = ""
+    for who, pair, wc in [("ME", qs[0:2], "#64748b"), ("YOU", qs[2:4], "#00F0FF")]:
+        cells = "".join(_cell(q) for q in pair)
+        rows += f'''<div class="vrow"><div class="vrl" style="--vlc:{wc}">{who} &rarr;</div><div class="vrcells">{cells}</div></div>'''
     flags_html = f'''
     <div class="flagsblock"><div class="flagsh">{E(vy['title'])}</div><p class="flagsintro">{E(vy['intro'])}</p>
-      <div class="quads">{quads}</div>
-      <div class="shouldhave"><span class="shk">WHAT I SHOULD HAVE HEARD, IF I WAS ACTIVELY LISTENING</span><p>{E(vy['shouldHave'])}</p></div></div>'''
+      {rows}
+      <div class="shouldhave"><span class="shk">&darr; THE LEARNING &middot; WHAT I SHOULD HAVE HEARD, HAD I BEEN LISTENING</span><p>{E(vy['shouldHave'])}</p></div></div>'''
 
 tr = d.get("trust")
 tr_html = ""
@@ -86,6 +98,7 @@ if comp:
         <div class="cintag">{E(i['type'])}</div>
         <div class="cinh">{E(i['h'])}</div>
         <p>{E(i['b'])}</p>
+        {f'<a class="cinlink" href="{E(i["href"])}" target="_blank" rel="noopener">&#8599; {E(i.get("linklabel","see it"))}</a>' if i.get('href') else ''}
       </div>''' for i in comp["inputs"])
     outp = comp["output"]
     extras = ""
@@ -215,6 +228,8 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .bmg{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:9px}
 .bmcards{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .bm{border:1px solid var(--border);border-left:3px solid var(--bc);border-radius:10px;background:var(--surface2);padding:13px 15px}
+.bm.unlock{grid-column:1 / -1;background:linear-gradient(180deg,rgba(255,215,0,.07),transparent 70%)}
+.bm.unlock .bml{color:#fff}
 .bmtop{margin-bottom:6px}
 .bmt{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--bc)}
 .bml{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px}
@@ -254,6 +269,10 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .flagk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:6px}
 .flag p{font-size:13px;color:var(--muted);line-height:1.55}
 .quads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.vrow{display:grid;grid-template-columns:46px 1fr;gap:12px;align-items:start;margin-bottom:10px}
+.vrl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--vlc);padding-top:15px;text-align:right}
+.vrcells{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.vrow{grid-template-columns:1fr;gap:6px}.vrl{text-align:left;padding-top:0}.vrcells{grid-template-columns:1fr}}
 .quad{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:10px;background:var(--surface);padding:14px 15px}
 .quad:last-child{background:linear-gradient(180deg,rgba(255,215,0,.06),transparent)}
 .quadl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
@@ -304,6 +323,8 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
 .cinh{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
 .cin p{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.cinlink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--cyan);text-decoration:none}
+.cinlink:hover{text-decoration:underline}
 .cmerge{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:14px 0}
 .cout{border:1px solid rgba(0,240,255,.3);border-radius:11px;background:linear-gradient(180deg,rgba(0,240,255,.06),transparent);padding:16px 18px}
 .couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
@@ -348,7 +369,7 @@ body = f'''<div class="page">
 
 GATE = '''<div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>'''
 ANALYTICS_HEAD = '''<script defer src="/_vercel/insights/script.js"></script>'''
-AJS = '''<script>document.querySelectorAll('.cta,.cclink,.rbtn').forEach(function(a){a.addEventListener('click',function(){try{if(window.va)va('event',{name:'studio_click',data:{label:(a.textContent||'').trim().slice(0,40)}});}catch(e){}});});</script>'''
+AJS = '''<script>document.querySelectorAll('.cta,.cclink,.rbtn,.cinlink').forEach(function(a){a.addEventListener('click',function(){try{if(window.va)va('event',{name:'studio_click',data:{label:(a.textContent||'').trim().slice(0,40)}});}catch(e){}});});</script>'''
 TIP = '''<div id="tip"></div>'''
 TIPJS = '''<script>(function(){var tip=document.getElementById('tip');if(!tip)return;
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}

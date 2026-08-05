@@ -134,13 +134,6 @@
         "call": "C1",
         "tag": "your coaching",
         "color": "#00FF9D",
-        "label": "Pick one, nail it",
-        "lesson": "Your own coaching move: compress to one wedge. Training signal, not just advice."
-      },
-      {
-        "call": "C1",
-        "tag": "your coaching",
-        "color": "#00FF9D",
         "label": "Hard to put you in a box",
         "lesson": "Naming the constraint as a compliment. Your signature reframe."
       },
@@ -150,6 +143,13 @@
         "color": "#FF4D6D",
         "label": "The nod-along",
         "lesson": "Filler agreement is the earliest disengagement tell. Drop altitude when you hear it."
+      },
+      {
+        "call": "C1",
+        "tag": "your coaching",
+        "color": "#00FF9D",
+        "label": "Pick one, nail it",
+        "lesson": "Your own coaching move: compress to one wedge. Training signal, not just advice."
       },
       {
         "call": "C2",
@@ -188,13 +188,6 @@
       },
       {
         "call": "C3",
-        "tag": "the moment",
-        "color": "#FFD700",
-        "label": "‘A coach you wish you had’",
-        "lesson": "You named the category and the frame. When they own it, stop pitching."
-      },
-      {
-        "call": "C3",
         "tag": "your own pattern",
         "color": "#FFD700",
         "label": "The marathon wall",
@@ -206,6 +199,13 @@
         "color": "#00FF9D",
         "label": "‘Let me get back to you’",
         "lesson": "A soft close after real engagement is a yes waiting, not a no. You meant more than you said."
+      },
+      {
+        "call": "C3",
+        "tag": "the moment",
+        "color": "#FFD700",
+        "label": "‘A coach you wish you had’",
+        "lesson": "You named the category and the frame. When they own it, stop pitching."
       }
     ],
     "volley": {
@@ -251,13 +251,17 @@
         "type": "OUR OCTOBER CALL",
         "color": "#00FF9D",
         "h": "The October call",
-        "b": "Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley."
+        "b": "Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley.",
+        "href": "https://robin-codex.arcs.care#read",
+        "linklabel": "see the actual read"
       },
       {
         "type": "OUR NOVEMBER CALL",
         "color": "#FF4D6D",
         "h": "The November call",
-        "b": "Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early."
+        "b": "Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early.",
+        "href": "https://robin-codex.arcs.care#read",
+        "linklabel": "see the actual read"
       }
     ],
     "output": {
