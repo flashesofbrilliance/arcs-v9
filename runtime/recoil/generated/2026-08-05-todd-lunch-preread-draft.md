@@ -1,58 +1,54 @@
-# Draft to Todd — lunch pre-read (recommend-first, ranked, skimmable). GMAIL DRAFT = live version.
-_2026-08-05 · 🤝 · Aug-6 12pm lunch. Two Gmail drafts exist: THIS skimmable one (r-67447136...) is the keeper;_
-_the earlier prose one (r-8268526...) can be deleted. Plain register, no em-dashes, decide-together framing._
+# Draft to Todd — lunch pre-read (now/next/later/TBD framing) + after-lunch recap. GMAIL drafts live.
+_2026-08-05 · 🤝 · Aug-6 12pm lunch. Two Gmail drafts: BEFORE (r-67447136... now/next/later) + AFTER (r5073120...  adaptive recap)._
+_Earlier prose draft (r-8268526...) can be deleted. Plain, no em-dashes, honest, decide-together._
 
-**Subject:** Before lunch // the quick version
+## BEFORE — Subject: Before lunch // now, next, later
 
 Hi Todd -
 
-Quick version to skim before noon. The bot is ready. One thing unlocks go-live: sandbox access. Four calls to
-make. I lead with my recommendation on each, then the other options ranked, so you can see the why.
+Quick version to skim before noon. I organized it as now, next, later, and a few things we will only know after
+we look. So you can see what is decided, what is coming, and what depends on what we find together.
 
-**1. Getting to live**
-- Recommend: sandbox copy from your CRM team. Safe, zero risk to your live system. Build: your team spins up a sandbox, we test, we flip it live.
-- If sandbox is slow: one labeled test lead on live, created and deleted with your sign-off. One controlled touch, faster.
-- Avoid: going live untested. Fastest, but a bad first lead on your live site is not worth it.
+**NOW** (this week, and the calls for lunch)
+- The unlock: the bot is built and tested. To turn on real leads it needs a safe way into your CRM. Recommend a
+  sandbox copy; if that is slow, one labeled test lead we create and delete together. Securing one of these is the
+  single most important thing we do at lunch.
+- Competitor cross-reference: recommend we gate it behind a quick contact capture, so every "what is your
+  equivalent to Lexan" becomes a qualified lead and competitors cannot scrape it.
+- UL data: recommend you point me to where your certification file numbers live, so the bot can lead with your edge.
 
-**2. Competitor cross-reference (your best answer)**
-- Recommend: gate it behind a quick contact capture. You get a qualified lead, they get the match, competitors cannot scrape it. Build: the answer sits behind the contact step.
-- Also fine: specialist-only. The bot flags the competitor grade and routes to a rep without stating the equivalent. Safest, but loses the instant answer.
-- Avoid: leaving it open. Most helpful, but your positioning is free for any competitor to pull.
+**NEXT** (once I have access)
+- Wire lead delivery, prove one lead end to end, flip it live. Nothing touches your live system until it is tested.
+- Then a proper look at your CRM data so we can finally show your four-hour number.
 
-**3. UL yellow card data**
-- Recommend: point me to where your UL file numbers live, then the bot can lead with your biggest edge. Build: add a certification source the bot cites.
-- Until then: the bot defers to a specialist on any certification question. Safe, no wrong claims. Build: this is already how it behaves.
-- Never: let the bot guess a certification. A wrong one costs the customer and exposes PRL.
+**LATER** (once the basics prove out, each its own decision)
+- Smarter recognition (it already knows your grades and competitor equivalents), your paid landing pages, the AI assistant.
 
-**4. How the bot handles "not sure"**
-- Recommend: it hands off to a specialist instead of guessing. Every "not sure" becomes a captured lead, and it never gives a wrong spec or cert. Build: it answers only when it is sure and sourced.
-- Avoid: a bot that answers everything. Flashier, but one confident wrong answer is a real cost.
+**STILL TO FIGURE OUT** (we will know after we look)
+- How your CRM connects an OEM to the molder who actually buys. Shapes routing and credit; I cannot design it until I see it.
+- Whether your system captures when a lead was first worked, which is what the four-hour number needs.
+- Where your UL approvals live.
 
-Everything else is ready, and the full detail is at prl.arcs.care. See you at noon.
+The full plan and the numbers are at prl.arcs.care. The one thing that unlocks everything is the CRM access. See you at noon.
 
 With gratitude,
 Zach
 
 ---
 
-## AFTER-LUNCH RECAP (Gmail draft r5073120... — ADAPTIVE template, fill post-lunch)
-Bookends the meeting (recoil close-the-loop). Adaptive on purpose: lunch may surface new intel that renders
-some tradeoffs moot or not-yet-important, so it has "New from lunch" + "Parked for now" slots, not a fixed recap.
-
-**Subject:** After lunch // the tl;dr recap
+## AFTER — Subject: After lunch // the tl;dr recap (ADAPTIVE, fill post-lunch)
 
 Hi Todd -
 
-Good sitting down. Quick recap so the calls are in writing and nothing slips. [Fill from what we actually
-cover; some items below may drop or change.]
+Good sitting down. Quick recap so the calls are in writing and nothing slips. [Fill from what we actually cover; some items may drop or change.]
 
-**What we landed on** (keep only what we decided; delete the rest)
+**What we landed on** (keep only what we decided)
 - Getting to live: [sandbox, or the single test lead].
 - Competitor cross-reference: [gated behind contact capture].
 - UL yellow card data: [where your UL file numbers live].
 - How the bot handles "not sure": [defers to a specialist].
 
-**New from lunch** — [any intel that changed the picture, or made something not worth doing yet].
+**New from lunch** — [intel that changed the picture, or made something not worth doing yet].
 **Parked for now** — [anything we agreed is not important yet].
 **Next:** You: [___] · Me: [___] · The unlock is the sandbox; once I have it, go-live is days.
 
