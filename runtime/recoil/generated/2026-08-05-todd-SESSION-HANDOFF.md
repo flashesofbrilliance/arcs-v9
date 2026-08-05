@@ -66,8 +66,9 @@ feeds the persona routing + the 1.2 CRM data-model design.
 The plan's two structural risks are the SAME thing: the sandbox gate, and building around it instead of
 pushing on it. Carry these: (1) **sandbox escape hatch + escalation** — name a date, else go-live on one
 Todd-signed labelled test lead; (2) **no new build until 1.1 ships or sandbox lands** (feature ideas →
-backlog); (3) **cert/spec = deterministic hard block + refusal eval is a go-live gate** (0% hallucination
-is only real if refusal is enforced, not prompted); (4) **competitor gating built + verified BEFORE the
+backlog); (3) **anti-fabrication = deterministic hard block (unsourced categories) + confidence-threshold off-ramp
+that defers to a human/delegated specialist rather than making something up; the eval gates BOTH** (0%
+hallucination = when not grounded + confident, hand off, never invent); (4) **competitor gating built + verified BEFORE the
 data touches the live bot**; (5) **G/B/B = options-to-confirm, never a directive**; (6) **Tidio support
 review = hard gate before Lyro; ZoomInfo spend cap prerequisite**; (7) receipt tripwire on coordination
 overrun (re-price, don't eat); (8) verify iOS present-mode fallback; (9) confirm prl.arcs.care link audience.

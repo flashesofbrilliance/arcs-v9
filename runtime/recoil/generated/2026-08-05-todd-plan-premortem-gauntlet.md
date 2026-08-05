@@ -22,9 +22,15 @@ backlog entries, not this-week work.
 ## FM3 — The bot hallucinates a certification (the $30K/safety error). [CONFIRMED · Med × Extreme]
 **Proof:** LLMs hallucinate; the KB has NO UL-yellow-card/cert data; refusal is currently a prompt guardrail
 (soft). A single invented "yes, that grade is UL-listed / FDA-compliant" is a $30K or safety/liability error.
-**De-risk (HARDEN):** make cert/spec statements a **deterministic hard block**, not a prompt hope — Lyro must
-be structurally unable to assert a cert value; it recognizes the question and hands off. The 1.3 eval's
-**refusal test is a go-live gate**, not a nice-to-have. No cert claim without a source row, enforced.
+**De-risk (two complementary layers):**
+- **(a) Deterministic hard block** on categories the KB structurally cannot source (UL-file/RTI/NSF/cert
+  values it does not have) — Lyro is structurally unable to assert them, recognizes the question, hands off.
+- **(b) Confidence-threshold off-ramp** on *everything else* — below a set confidence the bot defers to a
+  human specialist (or a delegated specialist agent) rather than guessing. This catches the harder failure:
+  the **wrong-but-plausible / over-confident** answer (the "ass-kissing / margin of error" case), not just the
+  unsourced one. The bot answers only when grounded AND above threshold; otherwise it captures + hands off.
+The **1.3 eval is a go-live gate and tests BOTH**: refusal on unsourced categories, and off-ramp below the
+confidence threshold. No claim without a source row *and* sufficient confidence.
 
 ## FM4 — Competitor cross-reference leaks. [CONFIRMED · Med × High]
 **Proof:** it's PRL's competitive positioning; if uploaded open to Tidio (against the gating rec) or if the
@@ -77,7 +83,9 @@ predictable so it reads as transparency, not a number to negotiate. Accept if Za
 1. **Sandbox escape hatch + escalation** — name a date; if it stalls, go-live on one Todd-signed labelled test
    lead. Make the sandbox ask its own escalated item (FM1).
 2. **Hard re-anchor / no new build until 1.1 ships or sandbox lands** — feature ideas → backlog, not this week (FM2).
-3. **Cert/spec = deterministic hard block + the refusal eval is a go-live gate** (FM3).
+3. **Anti-fabrication = two layers: deterministic hard block (unsourced categories) + confidence-threshold
+   off-ramp that defers to a human / delegated specialist rather than making something up; the eval gates
+   BOTH (refusal + off-ramp)** (FM3). The rule: when not grounded + confident, hand off, never invent.
 4. **Competitor gating built + verified BEFORE the data touches the live bot; competitor PDF out of Tidio till then** (FM4).
 5. **G/B/B = "options to confirm with a specialist," never a directive** (FM5).
 6. **Tidio support review = hard gate before Lyro; ZoomInfo spend cap as prerequisite** (FM6).
