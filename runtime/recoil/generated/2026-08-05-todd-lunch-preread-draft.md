@@ -32,3 +32,29 @@ Everything else is ready, and the full detail is at prl.arcs.care. See you at no
 
 With gratitude,
 Zach
+
+---
+
+## AFTER-LUNCH RECAP (Gmail draft r5073120... — ADAPTIVE template, fill post-lunch)
+Bookends the meeting (recoil close-the-loop). Adaptive on purpose: lunch may surface new intel that renders
+some tradeoffs moot or not-yet-important, so it has "New from lunch" + "Parked for now" slots, not a fixed recap.
+
+**Subject:** After lunch // the tl;dr recap
+
+Hi Todd -
+
+Good sitting down. Quick recap so the calls are in writing and nothing slips. [Fill from what we actually
+cover; some items below may drop or change.]
+
+**What we landed on** (keep only what we decided; delete the rest)
+- Getting to live: [sandbox, or the single test lead].
+- Competitor cross-reference: [gated behind contact capture].
+- UL yellow card data: [where your UL file numbers live].
+- How the bot handles "not sure": [defers to a specialist].
+
+**New from lunch** — [any intel that changed the picture, or made something not worth doing yet].
+**Parked for now** — [anything we agreed is not important yet].
+**Next:** You: [___] · Me: [___] · The unlock is the sandbox; once I have it, go-live is days.
+
+With gratitude,
+Zach
