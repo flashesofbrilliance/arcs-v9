@@ -23,7 +23,11 @@ Upload these to Tidio → Lyro → Knowledge. All at `runtime/recoil/generated/p
 sent to Zach as files:
 1. `PRL-Product-Catalog-2025.pdf` — 150 grades + specs. **Upload (safe, public).**
 2. `PRL-Material-Selection-Good-Better-Best.pdf` — the "which material for which need" recommender. **Upload (safe).**
-3. `PRL-Competitor-Cross-Reference.pdf` — competitor→PRL grade mappings. **Upload only with Todd's nod** (proprietary competitive intel on a 3rd-party server).
+3. `PRL-Competitor-Cross-Reference.pdf` — competitor→PRL grade mappings. **DO NOT upload as an open KB source
+   yet.** Pending Todd's approval + a handling decision (approval/disclosure draft: `2026-08-05-todd-competitor-
+   data-approval-draft.md`). **Default (pending Todd): gate the competitor match behind lead capture** (contact
+   first, then answer) — turns the most valuable answer into a lead magnet + screens anonymous competitor fishing.
+   So it lives behind the capture flow, not as an always-open KB doc.
 Format note: prose PDFs (index better in Lyro than CSVs). CSV versions also exist in scratchpad if needed.
 
 ## PENDING / PARKED (with the sandbox budget)
