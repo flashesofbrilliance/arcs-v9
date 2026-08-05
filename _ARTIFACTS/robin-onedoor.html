@@ -65,6 +65,33 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .flag{border-left:3px solid var(--fc);background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:9px;padding:12px 15px}
 .flagk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:6px}
 .flag p{font-size:13px;color:var(--muted);line-height:1.55}
+.quads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.quad{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:10px;background:var(--surface);padding:14px 15px}
+.quad:last-child{background:linear-gradient(180deg,rgba(255,215,0,.06),transparent)}
+.quadl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
+.quad p{font-size:12.5px;color:var(--muted);line-height:1.5}
+.shouldhave{border:1px solid rgba(255,215,0,.32);border-radius:11px;background:linear-gradient(180deg,rgba(255,215,0,.06),transparent);padding:15px 17px}
+.shk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--gold);display:block;margin-bottom:8px}
+.shouldhave p{font-size:14px;color:#e4ded4;line-height:1.6}
+.ledger,.boardblock{margin-top:14px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.ledgerh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.ledgerintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.lrows{display:grid;gap:10px}
+.lrow{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:13px 15px}
+.lbel{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:8px}
+.lpair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.lt0,.lt1{font-size:12.5px;color:var(--muted);line-height:1.4}
+.ltk{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--dimmed);border:1px solid var(--border);border-radius:4px;padding:1px 4px;margin-right:4px}
+.lpct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed)}
+.lpct.up{color:var(--green)}
+.larrow{color:var(--cyan);font-size:16px;text-align:center}
+.lmoved{font-size:12px;color:var(--dimmed);line-height:1.5;border-top:1px solid var(--border);padding-top:7px}
+.ledgernote{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px;font-style:italic}
+.chiefs{display:grid;gap:9px;margin-bottom:14px}
+.chief{border-left:3px solid var(--cc);background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:9px;padding:12px 15px}
+.chiefw{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cc);margin-bottom:6px}
+.chief p{font-size:12.5px;color:var(--muted);line-height:1.55}
+@media(max-width:560px){.quads{grid-template-columns:1fr}.lpair{grid-template-columns:1fr;gap:4px}.larrow{transform:rotate(90deg)}}
 .rcard{border:1px solid var(--border);border-radius:11px;background:#0b0f16;overflow:hidden;margin-top:6px}
 .rctop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04)}
 .rcid{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
@@ -179,12 +206,13 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
           <p class="bmles">A soft close after real engagement is a yes waiting, not a no. You meant more than you said.</p>
         </div></div></div>
     
-    <div class="flagsblock"><div class="flagsh">Every idea was a volley.</div><p class="flagsintro">I floated a kernel, you built on it or reframed it or challenged the premise, and I either caught your polish or sailed off to intergalactic. This is that give-and-take, flagged. Read another way, it is you coaching me across three calls, and the AI catching every nudge. Call three landed because I finally took your notes.</p><div class="flags">
-        <div class="flag" style="--fc:#FF4D6D"><div class="flagk">Where I veered</div><p>Drifting off your wavelength. Call 1: I went to Huxley. Call 2: I opened on physics. Call 3: I caught it myself and pulled back.</p></div>
-        <div class="flag" style="--fc:#00FF9D"><div class="flagk">Where you nudged me</div><p>Your corrections, gentle and exact. &#x27;Pick one and nail it.&#x27; &#x27;Hard to put you in a box.&#x27; The corrections were the whole gift.</p></div>
-        <div class="flag" style="--fc:#FF4D6D"><div class="flagk">Where I lost you</div><p>The signal going flat. Call 2, your replies fell to one word: &#x27;Close. Ly. Follow.&#x27; That is the sound of a carrier dropping.</p></div>
-        <div class="flag" style="--fc:#94a3b8"><div class="flagk">What was dead on arrival</div><p>Threads that crash-landed: the everything-platform, the physics, the ask to champion it. Your call-1 &#x27;pick one&#x27; was the kill signal I already had and ignored.</p></div>
-        <div class="flag" style="--fc:#FFD700"><div class="flagk">How you told me to switch</div><p>When you went quiet, that thread was dead. When you named your own market back (&#x27;a coach you wish you had&#x27;), that was the one to keep. You never had to say it outright.</p></div></div></div>
+    <div class="flagsblock"><div class="flagsh">Every idea was a volley. Here it is in four boxes.</div><p class="flagsintro">I floated a kernel, you built on it or reframed it, and I either caught your polish or sailed off to intergalactic. Read another way, this is you coaching me, and the whole lesson lives in the bottom-right box.</p>
+      <div class="quads">
+        <div class="quad" style="--qc:#64748b"><div class="quadl">ME · what I put out</div><p>A kernel, usually too big. The everything-platform. The coherence engine. Five use cases in one breath, then physics.</p></div>
+        <div class="quad" style="--qc:#64748b"><div class="quadl">ME · what I was going for</div><p>Your buy-in. I wanted you to see the whole thing at once and carry it inside for me.</p></div>
+        <div class="quad" style="--qc:#00F0FF"><div class="quadl">YOU · what you said</div><p>Short and generous on call one: &#x27;Holy Grail... pick one and nail it.&#x27; Shorter and flatter on call two: &#x27;Close. Ly. Follow.&#x27;</p></div>
+        <div class="quad" style="--qc:#FFD700"><div class="quadl">YOU · what you meant</div><p>Call one: the idea is real, now narrow it. Call two: you have lost me, and I am too polite to say it outright.</p></div></div>
+      <div class="shouldhave"><span class="shk">WHAT I SHOULD HAVE HEARD, IF I WAS ACTIVELY LISTENING</span><p>What I should have heard, if I had been actively listening: your word count was the whole message. When you got shorter, the thread was already dead. When you got specific and generous (&#x27;pick one, nail it&#x27;), that was the one to keep. You told me every time. I just kept talking.</p></div></div>
   </section>
   
   <section class="mv comp"><div class="mvk">03 · how the brief is built</div><h2>The pre-call brief is composed, not guessed.</h2>
@@ -219,6 +247,39 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
         <a class="rbtn" download="arcs-revisit.ics" href="data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0D%0AVERSION%3A2.0%0D%0APRODID%3A-//ARCS//revisit//EN%0D%0ABEGIN%3AVEVENT%0D%0AUID%3Arobin-revisit-20260826T160000Z%40arcs.care%0D%0ADTSTAMP%3A20260805T000000Z%0D%0ADTSTART%3A20260826T160000Z%0D%0ADTEND%3A20260826T163000Z%0D%0ASUMMARY%3AARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29%0D%0ADESCRIPTION%3ARevisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care%0D%0AEND%3AVEVENT%0D%0AEND%3AVCALENDAR">.ics</a>
       </div>
       <p class="rcpthint">Set a time to revisit and score it &middot; a suggested time, adjust to whatever you two agree</p></div>
+    
+    <div class="ledger"><div class="ledgerh">Receipts compound. The belief ledger, T0 to T1.</div><p class="ledgerintro">One receipt is a snapshot. The value is the ledger: each call is evidence, and the beliefs update. Here is what our last call moved, from the prior I held before it (T0) to the belief after it (T1).</p>
+      <div class="lrows">
+        <div class="lrow">
+          <div class="lbel">The wedge for you</div>
+          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> hiring / people-tech <span class="lpct">60%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> coaching <span class="lpct up">85%</span></div></div>
+          <p class="lmoved">You named the coaching category yourself. The prior flipped.</p>
+        </div>
+        <div class="lrow">
+          <div class="lbel">Your stance</div>
+          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> warm but slow, a soft maybe <span class="lpct">55%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> warm, real interest, a deferred yes <span class="lpct up">78%</span></div></div>
+          <p class="lmoved">Buy-signal questions, and you mapped it to Zensai&#x27;s own strategy.</p>
+        </div>
+        <div class="lrow">
+          <div class="lbel">Said vs meant</div>
+          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> unknown <span class="lpct">50%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> you mean more than you say <span class="lpct up">80%</span></div></div>
+          <p class="lmoved">Your soft close sat on top of real engagement underneath.</p>
+        </div>
+        <div class="lrow">
+          <div class="lbel">My altitude risk</div>
+          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> likely to open too high and lose you <span class="lpct">75%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> held; I caught my own drift <span class="lpct up">30%</span></div></div>
+          <p class="lmoved">I felt the jargon coming and pulled back mid-sentence.</p>
+        </div></div>
+      <p class="ledgernote">That is Bayesian in plain terms: a prior, then evidence, then an updated belief, logged so the next call starts sharper than this one did. Hindsight stops being the only place clarity lives.</p></div>
+    
+    <div class="boardblock"><div class="ledgerh">The staff of chiefs reads the receipt.</div><p class="ledgerintro">A receipt scored by the person who filed it is worth little; you are attached to it working. So before the read is cut, a small board of advisors argues over it. Their divergent takes are the correction for your own bias, blind spots, revisionist memory, and love of the project.</p>
+      <div class="chiefs">
+        <div class="chief" style="--cc:#94a3b8"><div class="chiefw">The Skeptic</div><p>&#x27;Warm but slow&#x27; is hard to lose. Sharpen the falsifier: name the exact thing that would prove the bet wrong, or it isn&#x27;t a receipt.</p></div>
+        <div class="chief" style="--cc:#FF4D6D"><div class="chiefw">Loki</div><p>You already decided call three went well. Are you filing a bet, or blessing a memory? If the score-back can&#x27;t move you, this is theater.</p></div>
+        <div class="chief" style="--cc:#FFD700"><div class="chiefw">The Sentry</div><p>You are grading your own predictions and you want them right. The first trust gate is self-skepticism, not challenged conviction. Flag the emotional attachment.</p></div>
+        <div class="chief" style="--cc:#00FF9D"><div class="chiefw">The Accountant</div><p>Two calls of relationship equity on the books. Over-reading a soft yes spends it. Price the downside, not just the upside case.</p></div>
+        <div class="chief" style="--cc:#00F0FF"><div class="chiefw">The Elder</div><p>This is a years-long peer relationship. Score it honestly, then let it breathe. The receipt matters less than the friendship it is filed against.</p></div></div>
+      <div class="shouldhave"><span class="shk">HOW THE CUT IS MADE</span><p>None of them cuts the analysis alone. Where they agree, conviction hardens. Where they diverge, the disagreement is the signal. The five-verb loop, analyze, assess, evaluate, synthesize, recapitulate, is where those voices get weighed into one honest read, corrected for the bias of the person who filed it.</p></div></div>
   </section>
   <section class="mv corpus"><div class="mvk">04 · how it works</div><h2>How it works, and how it scales.</h2>
       <div class="cc">

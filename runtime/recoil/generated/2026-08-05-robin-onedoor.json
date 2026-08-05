@@ -208,36 +208,32 @@
         "lesson": "A soft close after real engagement is a yes waiting, not a no. You meant more than you said."
       }
     ],
-    "flags": {
-      "title": "Every idea was a volley.",
-      "intro": "I floated a kernel, you built on it or reframed it or challenged the premise, and I either caught your polish or sailed off to intergalactic. This is that give-and-take, flagged. Read another way, it is you coaching me across three calls, and the AI catching every nudge. Call three landed because I finally took your notes.",
-      "items": [
+    "volley": {
+      "title": "Every idea was a volley. Here it is in four boxes.",
+      "intro": "I floated a kernel, you built on it or reframed it, and I either caught your polish or sailed off to intergalactic. Read another way, this is you coaching me, and the whole lesson lives in the bottom-right box.",
+      "quadrants": [
         {
-          "k": "Where I veered",
-          "c": "#FF4D6D",
-          "d": "Drifting off your wavelength. Call 1: I went to Huxley. Call 2: I opened on physics. Call 3: I caught it myself and pulled back."
+          "lab": "ME · what I put out",
+          "c": "#64748b",
+          "d": "A kernel, usually too big. The everything-platform. The coherence engine. Five use cases in one breath, then physics."
         },
         {
-          "k": "Where you nudged me",
-          "c": "#00FF9D",
-          "d": "Your corrections, gentle and exact. 'Pick one and nail it.' 'Hard to put you in a box.' The corrections were the whole gift."
+          "lab": "ME · what I was going for",
+          "c": "#64748b",
+          "d": "Your buy-in. I wanted you to see the whole thing at once and carry it inside for me."
         },
         {
-          "k": "Where I lost you",
-          "c": "#FF4D6D",
-          "d": "The signal going flat. Call 2, your replies fell to one word: 'Close. Ly. Follow.' That is the sound of a carrier dropping."
+          "lab": "YOU · what you said",
+          "c": "#00F0FF",
+          "d": "Short and generous on call one: 'Holy Grail... pick one and nail it.' Shorter and flatter on call two: 'Close. Ly. Follow.'"
         },
         {
-          "k": "What was dead on arrival",
-          "c": "#94a3b8",
-          "d": "Threads that crash-landed: the everything-platform, the physics, the ask to champion it. Your call-1 'pick one' was the kill signal I already had and ignored."
-        },
-        {
-          "k": "How you told me to switch",
+          "lab": "YOU · what you meant",
           "c": "#FFD700",
-          "d": "When you went quiet, that thread was dead. When you named your own market back ('a coach you wish you had'), that was the one to keep. You never had to say it outright."
+          "d": "Call one: the idea is real, now narrow it. Call two: you have lost me, and I am too polite to say it outright."
         }
-      ]
+      ],
+      "shouldHave": "What I should have heard, if I had been actively listening: your word count was the whole message. When you got shorter, the thread was already dead. When you got specific and generous ('pick one, nail it'), that was the one to keep. You told me every time. I just kept talking."
     }
   },
   "composition": {
@@ -296,6 +292,77 @@
         "description": "Revisit the pre-call brief filed 2026-08-05 and score it against what actually happened. The full read: robin.arcs.care",
         "label": "a suggested time, adjust to whatever you two agree"
       }
+    },
+    "board": {
+      "title": "The staff of chiefs reads the receipt.",
+      "intro": "A receipt scored by the person who filed it is worth little; you are attached to it working. So before the read is cut, a small board of advisors argues over it. Their divergent takes are the correction for your own bias, blind spots, revisionist memory, and love of the project.",
+      "chiefs": [
+        {
+          "who": "The Skeptic",
+          "c": "#94a3b8",
+          "d": "'Warm but slow' is hard to lose. Sharpen the falsifier: name the exact thing that would prove the bet wrong, or it isn't a receipt."
+        },
+        {
+          "who": "Loki",
+          "c": "#FF4D6D",
+          "d": "You already decided call three went well. Are you filing a bet, or blessing a memory? If the score-back can't move you, this is theater."
+        },
+        {
+          "who": "The Sentry",
+          "c": "#FFD700",
+          "d": "You are grading your own predictions and you want them right. The first trust gate is self-skepticism, not challenged conviction. Flag the emotional attachment."
+        },
+        {
+          "who": "The Accountant",
+          "c": "#00FF9D",
+          "d": "Two calls of relationship equity on the books. Over-reading a soft yes spends it. Price the downside, not just the upside case."
+        },
+        {
+          "who": "The Elder",
+          "c": "#00F0FF",
+          "d": "This is a years-long peer relationship. Score it honestly, then let it breathe. The receipt matters less than the friendship it is filed against."
+        }
+      ],
+      "cut": "None of them cuts the analysis alone. Where they agree, conviction hardens. Where they diverge, the disagreement is the signal. The five-verb loop, analyze, assess, evaluate, synthesize, recapitulate, is where those voices get weighed into one honest read, corrected for the bias of the person who filed it."
+    },
+    "ledger": {
+      "title": "Receipts compound. The belief ledger, T0 to T1.",
+      "intro": "One receipt is a snapshot. The value is the ledger: each call is evidence, and the beliefs update. Here is what our last call moved, from the prior I held before it (T0) to the belief after it (T1).",
+      "rows": [
+        {
+          "belief": "The wedge for you",
+          "t0": "hiring / people-tech",
+          "p0": 60,
+          "t1": "coaching",
+          "p1": 85,
+          "moved": "You named the coaching category yourself. The prior flipped."
+        },
+        {
+          "belief": "Your stance",
+          "t0": "warm but slow, a soft maybe",
+          "p0": 55,
+          "t1": "warm, real interest, a deferred yes",
+          "p1": 78,
+          "moved": "Buy-signal questions, and you mapped it to Zensai's own strategy."
+        },
+        {
+          "belief": "Said vs meant",
+          "t0": "unknown",
+          "p0": 50,
+          "t1": "you mean more than you say",
+          "p1": 80,
+          "moved": "Your soft close sat on top of real engagement underneath."
+        },
+        {
+          "belief": "My altitude risk",
+          "t0": "likely to open too high and lose you",
+          "p0": 75,
+          "t1": "held; I caught my own drift",
+          "p1": 30,
+          "moved": "I felt the jargon coming and pulled back mid-sentence."
+        }
+      ],
+      "note": "That is Bayesian in plain terms: a prior, then evidence, then an updated belief, logged so the next call starts sharper than this one did. Hindsight stops being the only place clarity lives."
     }
   },
   "corpus": {

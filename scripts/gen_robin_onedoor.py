@@ -57,13 +57,15 @@ for call, labs in [("C1", "Call 1"), ("C2", "Call 2"), ("C3", "Call 3")]:
         </div>''' for b in groups[call])
     bm_html += f'<div class="bmgroup"><div class="bmg">{labs}</div><div class="bmcards">{cards}</div></div>'
 
-fl = wl.get("flags")
+vy = wl.get("volley")
 flags_html = ""
-if fl:
-    items = "".join(f'''
-        <div class="flag" style="--fc:{i['c']}"><div class="flagk">{E(i['k'])}</div><p>{E(i['d'])}</p></div>''' for i in fl["items"])
+if vy:
+    quads = "".join(f'''
+        <div class="quad" style="--qc:{q['c']}"><div class="quadl">{E(q['lab'])}</div><p>{E(q['d'])}</p></div>''' for q in vy["quadrants"])
     flags_html = f'''
-    <div class="flagsblock"><div class="flagsh">{E(fl['title'])}</div><p class="flagsintro">{E(fl['intro'])}</p><div class="flags">{items}</div></div>'''
+    <div class="flagsblock"><div class="flagsh">{E(vy['title'])}</div><p class="flagsintro">{E(vy['intro'])}</p>
+      <div class="quads">{quads}</div>
+      <div class="shouldhave"><span class="shk">WHAT I SHOULD HAVE HEARD, IF I WAS ACTIVELY LISTENING</span><p>{E(vy['shouldHave'])}</p></div></div>'''
 
 tr = d.get("trust")
 tr_html = ""
@@ -121,12 +123,36 @@ if comp:
         <a class="rbtn" download="arcs-revisit.ics" href="{ihref}">.ics</a>
       </div>
       <p class="rcpthint">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</p>'''
+    led = comp.get("ledger")
+    ledger_html = ""
+    if led:
+        lrows = "".join(f'''
+        <div class="lrow">
+          <div class="lbel">{E(r['belief'])}</div>
+          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> {E(r['t0'])} <span class="lpct">{r['p0']}%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> {E(r['t1'])} <span class="lpct up">{r['p1']}%</span></div></div>
+          <p class="lmoved">{E(r['moved'])}</p>
+        </div>''' for r in led["rows"])
+        ledger_html = f'''
+    <div class="ledger"><div class="ledgerh">{E(led['title'])}</div><p class="ledgerintro">{E(led['intro'])}</p>
+      <div class="lrows">{lrows}</div>
+      <p class="ledgernote">{E(led['note'])}</p></div>'''
+    bd = comp.get("board")
+    board_html = ""
+    if bd:
+        chiefs = "".join(f'''
+        <div class="chief" style="--cc:{ch['c']}"><div class="chiefw">{E(ch['who'])}</div><p>{E(ch['d'])}</p></div>''' for ch in bd["chiefs"])
+        board_html = f'''
+    <div class="boardblock"><div class="ledgerh">{E(bd['title'])}</div><p class="ledgerintro">{E(bd['intro'])}</p>
+      <div class="chiefs">{chiefs}</div>
+      <div class="shouldhave"><span class="shk">HOW THE CUT IS MADE</span><p>{E(bd['cut'])}</p></div></div>'''
     comp_html = f'''
   <section class="mv comp"><div class="mvk">{E(comp['k'])}</div><h2>{E(comp['title'])}</h2>
     <p class="mvintro">{E(comp['intro'])}</p>
     <div class="cinputs">{inputs}</div>
     <div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div>
     <div class="cout"><div class="couth">{E(outp['h'])}</div><p>{E(outp['b'])}</p>{extras}</div>
+    {ledger_html}
+    {board_html}
   </section>'''
 
 hz = d.get("horizon")
@@ -225,6 +251,33 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .flag{border-left:3px solid var(--fc);background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:9px;padding:12px 15px}
 .flagk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:6px}
 .flag p{font-size:13px;color:var(--muted);line-height:1.55}
+.quads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.quad{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:10px;background:var(--surface);padding:14px 15px}
+.quad:last-child{background:linear-gradient(180deg,rgba(255,215,0,.06),transparent)}
+.quadl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
+.quad p{font-size:12.5px;color:var(--muted);line-height:1.5}
+.shouldhave{border:1px solid rgba(255,215,0,.32);border-radius:11px;background:linear-gradient(180deg,rgba(255,215,0,.06),transparent);padding:15px 17px}
+.shk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--gold);display:block;margin-bottom:8px}
+.shouldhave p{font-size:14px;color:#e4ded4;line-height:1.6}
+.ledger,.boardblock{margin-top:14px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.ledgerh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.ledgerintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.lrows{display:grid;gap:10px}
+.lrow{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:13px 15px}
+.lbel{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:8px}
+.lpair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.lt0,.lt1{font-size:12.5px;color:var(--muted);line-height:1.4}
+.ltk{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--dimmed);border:1px solid var(--border);border-radius:4px;padding:1px 4px;margin-right:4px}
+.lpct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed)}
+.lpct.up{color:var(--green)}
+.larrow{color:var(--cyan);font-size:16px;text-align:center}
+.lmoved{font-size:12px;color:var(--dimmed);line-height:1.5;border-top:1px solid var(--border);padding-top:7px}
+.ledgernote{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px;font-style:italic}
+.chiefs{display:grid;gap:9px;margin-bottom:14px}
+.chief{border-left:3px solid var(--cc);background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:9px;padding:12px 15px}
+.chiefw{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cc);margin-bottom:6px}
+.chief p{font-size:12.5px;color:var(--muted);line-height:1.55}
+@media(max-width:560px){.quads{grid-template-columns:1fr}.lpair{grid-template-columns:1fr;gap:4px}.larrow{transform:rotate(90deg)}}
 .rcard{border:1px solid var(--border);border-radius:11px;background:#0b0f16;overflow:hidden;margin-top:6px}
 .rctop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04)}
 .rcid{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
