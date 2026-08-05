@@ -36,17 +36,40 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .cc p{font-size:14px;color:var(--muted);line-height:1.6;max-width:68ch}
 .cclink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none}
 .cclink:hover{text-decoration:underline}
+.horizon{border-color:rgba(255,215,0,.22)}
+.horizon .mvk{color:var(--gold)}
+.seeds{display:grid;gap:11px}
+.seed{border-left:3px solid var(--gold);background:var(--surface2);border:1px solid var(--border);border-left-width:3px;border-radius:10px;padding:15px 17px}
+.seed h3{font-size:15px;margin-bottom:6px;color:#fff}
+.seed p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.comp{border-color:rgba(148,163,184,.25)}
+.comp .mvk{color:var(--muted)}
+.cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
+.cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
+.cinh{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.cin p{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.cmerge{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:14px 0}
+.cout{border:1px solid rgba(0,240,255,.3);border-radius:11px;background:linear-gradient(180deg,rgba(0,240,255,.06),transparent);padding:16px 18px}
+.couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
+.cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+@media(max-width:560px){.cinputs{grid-template-columns:1fr}}
 .foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
 @media(max-width:560px){.bmcards{grid-template-columns:1fr}}
-</style></head><body><div class="page">
-  <div><div class="eyebrow">Robin · one door</div><h1>One line, your whole arc, and the coach it turned into.</h1><p class="sub">Three movements. The read you already saw, then your three calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything.</p></div>
+#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}#pw-gate.hidden{display:none}
+.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#475569}
+.pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
+.pw-input:focus{border-color:#00F0FF}.pw-input.shake{animation:shk .3s ease;border-color:#FF4D6D}
+@keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+</style></head><body><div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page">
+  <div><div class="eyebrow">Robin · one door</div><h1>One line, our recent arc, and the coach it turned into.</h1><p class="sub">Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything.</p></div>
   <div class="rule"></div>
-  <section class="mv seed"><div class="mvk">01 · the seed</div><h2>The taste you already have.</h2>
+  <section class="mv seed"><div class="mvk">01 · the one line</div><h2>The taste you already have.</h2>
     <div class="lbq"><blockquote>&ldquo;Pick a use case and then go hard at that. Pick one, and fucking nail that one.&rdquo;</blockquote><div class="attr">You, Oct 23. The whole strategy in one line. I ran ARCS on our own calls and served it back.</div></div>
     <a class="cta" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">Open the read &rarr;</a>
   </section>
-  <section class="mv well"><div class="mvk">02 · the gravity well</div><h2>Your three calls, as one arc.</h2>
-    <p class="mvintro">This is the part you cannot get anywhere else: not one call, but the trajectory across all three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.</p>
+  <section class="mv well"><div class="mvk">02 · the whole story</div><h2>Three of our calls, as one arc.</h2>
+    <p class="mvintro">This is the part you cannot get anywhere else: not one call, but the trajectory across these three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.</p>
     <div class="manifold"><svg viewBox="0 0 720 220" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Three calls as one arc">
   <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity="0.14"/><stop offset="1" stop-color="#00F0FF" stop-opacity="0"/></linearGradient></defs>
   <line x1="16" y1="174" x2="704" y2="174" stroke="#1e293b" stroke-width="1"/>
@@ -56,62 +79,84 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
     <p class="mcap">The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3 kairos) are the same relationship three weeks and nine months apart. That delta is the coachable story.</p>
     <div class="bmgroup"><div class="bmg">Call 1</div><div class="bmcards">
         <div class="bm" style="--bc:#00FF9D">
-          <div class="bmtop"><span class="bmt">ROBIN AS COACH</span></div>
+          <div class="bmtop"><span class="bmt">YOUR COACHING</span></div>
           <div class="bml">Pick one, nail it</div>
           <p class="bmles">Your own coaching move: compress to one wedge. Training signal, not just advice.</p>
         </div>
         <div class="bm" style="--bc:#00FF9D">
-          <div class="bmtop"><span class="bmt">ROBIN AS COACH</span></div>
+          <div class="bmtop"><span class="bmt">YOUR COACHING</span></div>
           <div class="bml">Hard to put you in a box</div>
           <p class="bmles">Naming the constraint as a compliment. Your signature reframe.</p>
         </div>
         <div class="bm" style="--bc:#FF4D6D">
-          <div class="bmtop"><span class="bmt">PATHOGEN</span></div>
+          <div class="bmtop"><span class="bmt">THE TELL</span></div>
           <div class="bml">The nod-along</div>
           <p class="bmles">Filler agreement is the earliest disengagement tell. Drop altitude when you hear it.</p>
         </div></div></div><div class="bmgroup"><div class="bmg">Call 2</div><div class="bmcards">
         <div class="bm" style="--bc:#FF4D6D">
-          <div class="bmtop"><span class="bmt">PATHOGEN</span></div>
+          <div class="bmtop"><span class="bmt">THE TELL</span></div>
           <div class="bml">The one-word collapse</div>
           <p class="bmles">‘Close. Ly. Follow.’ Word-count collapse is the loudest silence. Yield, do not push.</p>
         </div>
         <div class="bm" style="--bc:#94a3b8">
-          <div class="bmtop"><span class="bmt">RECOVERY</span></div>
+          <div class="bmtop"><span class="bmt">THE RECOVERY</span></div>
           <div class="bml">The coffee-maker joke</div>
           <p class="bmles">When the pitch channel is dead, the human channel is still open. Pivot to human.</p>
         </div>
         <div class="bm" style="--bc:#94a3b8">
-          <div class="bmtop"><span class="bmt">SOFT NO</span></div>
+          <div class="bmtop"><span class="bmt">A SOFT NO</span></div>
           <div class="bml">The clean exit</div>
-          <p class="bmles">An exit with no ‘send me more’ is a soft no. Revealed below stated.</p>
+          <p class="bmles">An exit with no ‘send me more’ is a soft no. The warmth was politeness, not interest.</p>
         </div></div></div><div class="bmgroup"><div class="bmg">Call 3</div><div class="bmcards">
         <div class="bm" style="--bc:#00F0FF">
-          <div class="bmtop"><span class="bmt">BUY SIGNAL</span></div>
+          <div class="bmtop"><span class="bmt">BUYING SIGNAL</span></div>
           <div class="bml">‘How does it do this?’</div>
           <p class="bmles">A how-does-it-work question is an invitation. It means value already landed.</p>
         </div>
         <div class="bm" style="--bc:#00F0FF">
-          <div class="bmtop"><span class="bmt">BUY SIGNAL</span></div>
+          <div class="bmtop"><span class="bmt">BUYING SIGNAL</span></div>
           <div class="bml">‘Can it tap into Zoom/Teams?’</div>
           <p class="bmles">Pricing the how. They bought the what. Move to integration.</p>
         </div>
         <div class="bm" style="--bc:#FFD700">
-          <div class="bmtop"><span class="bmt">KAIROS</span></div>
+          <div class="bmtop"><span class="bmt">THE MOMENT</span></div>
           <div class="bml">‘A coach you wish you had’</div>
           <p class="bmles">You named the category and the frame. When they own it, stop pitching.</p>
         </div>
         <div class="bm" style="--bc:#FFD700">
-          <div class="bmtop"><span class="bmt">MIRROR</span></div>
+          <div class="bmtop"><span class="bmt">YOUR OWN PATTERN</span></div>
           <div class="bml">The marathon wall</div>
           <p class="bmles">You named your own overconfidence pattern. The exoskeleton mirrors your patterns back.</p>
         </div>
         <div class="bm" style="--bc:#00FF9D">
-          <div class="bmtop"><span class="bmt">DEFERRED YES</span></div>
+          <div class="bmtop"><span class="bmt">A YES, WAITING</span></div>
           <div class="bml">‘Let me get back to you’</div>
-          <p class="bmles">Soft close after strong engagement is deferred interest, not a no. Revealed above stated.</p>
+          <p class="bmles">A soft close after real engagement is a yes waiting, not a no. You meant more than you said.</p>
         </div></div></div>
   </section>
-  <section class="mv corpus"><div class="mvk">03 · the corpus</div><h2>How it works, and how it scales.</h2>
+  
+  <section class="mv comp"><div class="mvk">03 · how the brief is built</div><h2>The pre-call brief is composed, not guessed.</h2>
+    <p class="mvintro">Before a call, the seed is built by merging two kinds of source input: a read of the public profile, and a read of each prior call. Nothing is invented. Here is what actually went into yours.</p>
+    <div class="cinputs">
+      <div class="cin" style="--ic:#FFD700">
+        <div class="cintag">YOUR PROFILE</div>
+        <div class="cinh">Your enriched profile</div>
+        <p>Storyteller-operator, elevator-pitch champion. Resonates with personal pain, one narrow retellable idea, movement over features, humor. Two registers: tactical GTM craft and high-altitude roadmap-for-life meaning. Read: meet him at ground altitude, let him climb.</p>
+      </div>
+      <div class="cin" style="--ic:#00FF9D">
+        <div class="cintag">OUR OCTOBER CALL</div>
+        <div class="cinh">The October call</div>
+        <p>Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley.</p>
+      </div>
+      <div class="cin" style="--ic:#FF4D6D">
+        <div class="cintag">OUR NOVEMBER CALL</div>
+        <div class="cinh">The November call</div>
+        <p>Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early.</p>
+      </div></div>
+    <div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div>
+    <div class="cout"><div class="couth">The pre-call brief (a bet, written down first)</div><p>Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.</p></div>
+  </section>
+  <section class="mv corpus"><div class="mvk">04 · how it works</div><h2>How it works, and how it scales.</h2>
       <div class="cc">
         <h3>Cognitive exoskeleton, not digital twin</h3><p>It does not copy you or replace your judgment. It augments it. You still drive. This is your own thesis, that AI is not the outcome, just another input, given a body.</p>
         
@@ -128,5 +173,13 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
         <h3>The one thing I would do next</h3><p>A Coach’s Game-Day Tape on one real Zensai call. Free, non-invasive, receipts are JSON. Nothing touches your systems. Then you decide.</p>
         
       </div></section>
+  
+  <section class="mv horizon"><div class="mvk">05 · where it goes</div><h2>The map sharpens with every read.</h2>
+    <p class="mvintro">A note-taker hands you a flat transcript at the same focal length every time. This is the opposite bet: a terrain that gains resolution with each conversation and each cut. A few places it goes, once there are enough reads to correlate against. Forward-looking, not built yet, but this is the direction.</p>
+    <div class="seeds">
+      <div class="seed"><h3>Overlay the outcomes</h3><p>Put closed-won and closed-lost on the same timescale as these reads. The leading and lagging indicators of account health and deal jeopardy start to surface, the ones a flat note-taker never catches because it is not looking for topography, only transcribing words.</p></div>
+      <div class="seed"><h3>The world is not flat</h3><p>It has a terrain of ridges, fog, and weak layers. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives.</p></div>
+      <div class="seed"><h3>A record versus a leading indicator</h3><p>Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it.</p></div></div>
+  </section>
   <div class="foot">ARCS &middot; ONE DOOR &middot; SEED &rarr; GRAVITY WELL &rarr; CORPUS &middot; MOVE AT YOUR OWN PACE</div>
-</div></body></html>
+</div><script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script></body></html>

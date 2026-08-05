@@ -56,6 +56,34 @@ for call, labs in [("C1", "Call 1"), ("C2", "Call 2"), ("C3", "Call 3")]:
         </div>''' for b in groups[call])
     bm_html += f'<div class="bmgroup"><div class="bmg">{labs}</div><div class="bmcards">{cards}</div></div>'
 
+comp = d.get("composition")
+comp_html = ""
+if comp:
+    inputs = "".join(f'''
+      <div class="cin" style="--ic:{i['color']}">
+        <div class="cintag">{E(i['type'])}</div>
+        <div class="cinh">{E(i['h'])}</div>
+        <p>{E(i['b'])}</p>
+      </div>''' for i in comp["inputs"])
+    comp_html = f'''
+  <section class="mv comp"><div class="mvk">{E(comp['k'])}</div><h2>{E(comp['title'])}</h2>
+    <p class="mvintro">{E(comp['intro'])}</p>
+    <div class="cinputs">{inputs}</div>
+    <div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div>
+    <div class="cout"><div class="couth">{E(comp['output']['h'])}</div><p>{E(comp['output']['b'])}</p></div>
+  </section>'''
+
+hz = d.get("horizon")
+hz_html = ""
+if hz:
+    seeds = "".join(f'''
+      <div class="seed"><h3>{E(s['h'])}</h3><p>{E(s['b'])}</p></div>''' for s in hz["seeds"])
+    hz_html = f'''
+  <section class="mv horizon"><div class="mvk">{E(hz['k'])}</div><h2>{E(hz['title'])}</h2>
+    <p class="mvintro">{E(hz['intro'])}</p>
+    <div class="seeds">{seeds}</div>
+  </section>'''
+
 corpus_cards = "".join(f'''
       <div class="cc">
         <h3>{E(c['h'])}</h3><p>{E(c['b'])}</p>
@@ -100,8 +128,31 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .cc p{font-size:14px;color:var(--muted);line-height:1.6;max-width:68ch}
 .cclink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none}
 .cclink:hover{text-decoration:underline}
+.horizon{border-color:rgba(255,215,0,.22)}
+.horizon .mvk{color:var(--gold)}
+.seeds{display:grid;gap:11px}
+.seed{border-left:3px solid var(--gold);background:var(--surface2);border:1px solid var(--border);border-left-width:3px;border-radius:10px;padding:15px 17px}
+.seed h3{font-size:15px;margin-bottom:6px;color:#fff}
+.seed p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.comp{border-color:rgba(148,163,184,.25)}
+.comp .mvk{color:var(--muted)}
+.cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
+.cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
+.cinh{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.cin p{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.cmerge{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:14px 0}
+.cout{border:1px solid rgba(0,240,255,.3);border-radius:11px;background:linear-gradient(180deg,rgba(0,240,255,.06),transparent);padding:16px 18px}
+.couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
+.cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+@media(max-width:560px){.cinputs{grid-template-columns:1fr}}
 .foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
 @media(max-width:560px){.bmcards{grid-template-columns:1fr}}
+#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}#pw-gate.hidden{display:none}
+.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#475569}
+.pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
+.pw-input:focus{border-color:#00F0FF}.pw-input.shake{animation:shk .3s ease;border-color:#FF4D6D}
+@keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 </style>'''
 
 body = f'''<div class="page">
@@ -117,10 +168,14 @@ body = f'''<div class="page">
     <p class="mcap">{E(m['caption'])}</p>
     {bm_html}
   </section>
+  {comp_html}
   <section class="mv corpus"><div class="mvk">{E(cp['k'])}</div><h2>{E(cp['title'])}</h2>{corpus_cards}</section>
+  {hz_html}
   <div class="foot">ARCS &middot; ONE DOOR &middot; SEED &rarr; GRAVITY WELL &rarr; CORPUS &middot; MOVE AT YOUR OWN PACE</div>
 </div>'''
 
-DOC = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title>{CSS}</head><body>{body}</body></html>'''
+GATE = '''<div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>'''
+GATEJS = '''<script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>'''
+DOC = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title>{CSS}</head><body>{GATE}{body}{GATEJS}</body></html>'''
 open(out, "w").write(DOC)
 print("wrote", out, len(DOC), "bytes | em-dashes:", DOC.count("—"))

@@ -8,11 +8,11 @@
   },
   "hook": {
     "eyebrow": "Robin · one door",
-    "title": "One line, your whole arc, and the coach it turned into.",
-    "sub": "Three movements. The read you already saw, then your three calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything."
+    "title": "One line, our recent arc, and the coach it turned into.",
+    "sub": "Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything."
   },
   "seed": {
-    "k": "01 · the seed",
+    "k": "01 · the one line",
     "title": "The taste you already have.",
     "quote": "Pick a use case and then go hard at that. Pick one, and fucking nail that one.",
     "attribution": "You, Oct 23. The whole strategy in one line. I ran ARCS on our own calls and served it back.",
@@ -22,9 +22,9 @@
     }
   },
   "well": {
-    "k": "02 · the gravity well",
-    "title": "Your three calls, as one arc.",
-    "intro": "This is the part you cannot get anywhere else: not one call, but the trajectory across all three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.",
+    "k": "02 · the whole story",
+    "title": "Three of our calls, as one arc.",
+    "intro": "This is the part you cannot get anywhere else: not one call, but the trajectory across these three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.",
     "manifold": {
       "points": [
         {
@@ -117,85 +117,114 @@
     "bookmarks": [
       {
         "call": "C1",
-        "tag": "robin-as-coach",
+        "tag": "your coaching",
         "color": "#00FF9D",
         "label": "Pick one, nail it",
         "lesson": "Your own coaching move: compress to one wedge. Training signal, not just advice."
       },
       {
         "call": "C1",
-        "tag": "robin-as-coach",
+        "tag": "your coaching",
         "color": "#00FF9D",
         "label": "Hard to put you in a box",
         "lesson": "Naming the constraint as a compliment. Your signature reframe."
       },
       {
         "call": "C1",
-        "tag": "pathogen",
+        "tag": "the tell",
         "color": "#FF4D6D",
         "label": "The nod-along",
         "lesson": "Filler agreement is the earliest disengagement tell. Drop altitude when you hear it."
       },
       {
         "call": "C2",
-        "tag": "pathogen",
+        "tag": "the tell",
         "color": "#FF4D6D",
         "label": "The one-word collapse",
         "lesson": "‘Close. Ly. Follow.’ Word-count collapse is the loudest silence. Yield, do not push."
       },
       {
         "call": "C2",
-        "tag": "recovery",
+        "tag": "the recovery",
         "color": "#94a3b8",
         "label": "The coffee-maker joke",
         "lesson": "When the pitch channel is dead, the human channel is still open. Pivot to human."
       },
       {
         "call": "C2",
-        "tag": "soft-no",
+        "tag": "a soft no",
         "color": "#94a3b8",
         "label": "The clean exit",
-        "lesson": "An exit with no ‘send me more’ is a soft no. Revealed below stated."
+        "lesson": "An exit with no ‘send me more’ is a soft no. The warmth was politeness, not interest."
       },
       {
         "call": "C3",
-        "tag": "buy-signal",
+        "tag": "buying signal",
         "color": "#00F0FF",
         "label": "‘How does it do this?’",
         "lesson": "A how-does-it-work question is an invitation. It means value already landed."
       },
       {
         "call": "C3",
-        "tag": "buy-signal",
+        "tag": "buying signal",
         "color": "#00F0FF",
         "label": "‘Can it tap into Zoom/Teams?’",
         "lesson": "Pricing the how. They bought the what. Move to integration."
       },
       {
         "call": "C3",
-        "tag": "kairos",
+        "tag": "the moment",
         "color": "#FFD700",
         "label": "‘A coach you wish you had’",
         "lesson": "You named the category and the frame. When they own it, stop pitching."
       },
       {
         "call": "C3",
-        "tag": "mirror",
+        "tag": "your own pattern",
         "color": "#FFD700",
         "label": "The marathon wall",
         "lesson": "You named your own overconfidence pattern. The exoskeleton mirrors your patterns back."
       },
       {
         "call": "C3",
-        "tag": "deferred-yes",
+        "tag": "a yes, waiting",
         "color": "#00FF9D",
         "label": "‘Let me get back to you’",
-        "lesson": "Soft close after strong engagement is deferred interest, not a no. Revealed above stated."
+        "lesson": "A soft close after real engagement is a yes waiting, not a no. You meant more than you said."
       }
     ]
   },
+  "composition": {
+    "k": "03 · how the brief is built",
+    "title": "The pre-call brief is composed, not guessed.",
+    "intro": "Before a call, the seed is built by merging two kinds of source input: a read of the public profile, and a read of each prior call. Nothing is invented. Here is what actually went into yours.",
+    "inputs": [
+      {
+        "type": "YOUR PROFILE",
+        "color": "#FFD700",
+        "h": "Your enriched profile",
+        "b": "Storyteller-operator, elevator-pitch champion. Resonates with personal pain, one narrow retellable idea, movement over features, humor. Two registers: tactical GTM craft and high-altitude roadmap-for-life meaning. Read: meet him at ground altitude, let him climb."
+      },
+      {
+        "type": "OUR OCTOBER CALL",
+        "color": "#00FF9D",
+        "h": "The October call",
+        "b": "Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley."
+      },
+      {
+        "type": "OUR NOVEMBER CALL",
+        "color": "#FF4D6D",
+        "h": "The November call",
+        "b": "Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early."
+      }
+    ],
+    "output": {
+      "h": "The pre-call brief (a bet, written down first)",
+      "b": "Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held."
+    }
+  },
   "corpus": {
-    "k": "03 · the corpus",
+    "k": "04 · how it works",
     "title": "How it works, and how it scales.",
     "cards": [
       {
@@ -217,6 +246,25 @@
       {
         "h": "The one thing I would do next",
         "b": "A Coach’s Game-Day Tape on one real Zensai call. Free, non-invasive, receipts are JSON. Nothing touches your systems. Then you decide."
+      }
+    ]
+  },
+  "horizon": {
+    "k": "05 · where it goes",
+    "title": "The map sharpens with every read.",
+    "intro": "A note-taker hands you a flat transcript at the same focal length every time. This is the opposite bet: a terrain that gains resolution with each conversation and each cut. A few places it goes, once there are enough reads to correlate against. Forward-looking, not built yet, but this is the direction.",
+    "seeds": [
+      {
+        "h": "Overlay the outcomes",
+        "b": "Put closed-won and closed-lost on the same timescale as these reads. The leading and lagging indicators of account health and deal jeopardy start to surface, the ones a flat note-taker never catches because it is not looking for topography, only transcribing words."
+      },
+      {
+        "h": "The world is not flat",
+        "b": "It has a terrain of ridges, fog, and weak layers. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives."
+      },
+      {
+        "h": "A record versus a leading indicator",
+        "b": "Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it."
       }
     ]
   }
