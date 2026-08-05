@@ -235,7 +235,36 @@
     ],
     "output": {
       "h": "The pre-call brief (a bet, written down first)",
-      "b": "Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held."
+      "b": "Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.",
+      "receipt": {
+        "receipt_type": "pre-call brief (ex-ante)",
+        "counterpart": "Robin Daniels",
+        "filed": "2026-08-05",
+        "bet": "Lead with one narrow thing in his register; name his own advice back; invite rather than ask; let him take it further.",
+        "predictions": [
+          {
+            "claim": "He engages with the coaching frame",
+            "confidence": 0.8
+          },
+          {
+            "claim": "Most likely outcome: warm but slow, a soft yes",
+            "confidence": 0.55
+          },
+          {
+            "claim": "Good case: he retells it in his own words",
+            "confidence": 0.4
+          }
+        ],
+        "revisit": "about two weeks after the call, to score this against what actually happened",
+        "note": "A receipt is just a JSON object. You file the bet before, score it after, and the gap is the learning."
+      },
+      "revisit": {
+        "title": "ARCS revisit: score the pre-call bet (Robin + Zach)",
+        "start": "20260826T160000Z",
+        "end": "20260826T163000Z",
+        "description": "Revisit the pre-call brief filed 2026-08-05 and score it against what actually happened. The full read: robin.arcs.care",
+        "label": "a suggested time, adjust to whatever you two agree"
+      }
     }
   },
   "corpus": {
@@ -282,5 +311,25 @@
         "b": "Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it."
       }
     ]
+  },
+  "start": {
+    "k": "06 · how to start",
+    "title": "What it takes to run this on one of your calls.",
+    "intro": "The whole point is that it is a tiny, non-invasive lift. You send three things, I send back a zero-point knowledge drop: the enriched starting read, like this one, on a call that matters to you. Nothing touches your systems.",
+    "needs": [
+      {
+        "h": "1 · a call transcript",
+        "b": "A text or CSV export from whatever you already use, Granola, Gong, Fathom, Zoom, or Teams. One call is enough to start."
+      },
+      {
+        "h": "2 · the LinkedIn profile",
+        "b": "The other person's profile as a PDF. That is the enriched-profile input you saw feed the brief above."
+      },
+      {
+        "h": "3 · any intel (optional)",
+        "b": "Whatever GTM context you already have: CRM notes, deal stage, who was in the room. Optional, it just sharpens the read."
+      }
+    ],
+    "close": "That is it. From those three, I build the pre-call brief and the read, free, no integration, yours to keep."
   }
 }

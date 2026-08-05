@@ -2,7 +2,7 @@
 """Robin one-door: sequenced seed -> gravity well -> corpus. Cockpit grammar (matches
 robin-codex.arcs.care). 3-call meta-manifold with coachable-moment bookmark pins.
 Usage: python3 scripts/gen_robin_onedoor.py <reportId> <out.html>"""
-import json, html, sys
+import json, html, sys, urllib.parse
 reportId = sys.argv[1] if len(sys.argv) > 1 else "2026-08-05-robin-onedoor"
 out = sys.argv[2] if len(sys.argv) > 2 else "_ARTIFACTS/robin-onedoor.html"
 d = json.load(open(f"runtime/recoil/generated/{reportId}.json"))
@@ -66,12 +66,40 @@ if comp:
         <div class="cinh">{E(i['h'])}</div>
         <p>{E(i['b'])}</p>
       </div>''' for i in comp["inputs"])
+    outp = comp["output"]
+    extras = ""
+    if outp.get("receipt"):
+        rjson = json.dumps(outp["receipt"], indent=2)
+        jhref = "data:application/json;charset=utf-8," + urllib.parse.quote(rjson)
+        rv = outp["revisit"]
+        gt, gd = urllib.parse.quote(rv["title"]), urllib.parse.quote(rv["description"])
+        gcal = f"https://calendar.google.com/calendar/render?action=TEMPLATE&text={gt}&dates={rv['start']}/{rv['end']}&details={gd}"
+        iso = lambda z: f"{z[0:4]}-{z[4:6]}-{z[6:8]}T{z[9:11]}:{z[11:13]}:{z[13:15]}Z"
+        outlook = (f"https://outlook.office.com/calendar/0/deeplink/compose?subject={gt}"
+                   f"&startdt={urllib.parse.quote(iso(rv['start']))}&enddt={urllib.parse.quote(iso(rv['end']))}"
+                   f"&body={gd}&path=/calendar/action/compose&rru=addevent")
+        ics = ("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//ARCS//revisit//EN\r\nBEGIN:VEVENT\r\n"
+               f"UID:robin-revisit-{rv['start']}@arcs.care\r\nDTSTAMP:20260805T000000Z\r\n"
+               f"DTSTART:{rv['start']}\r\nDTEND:{rv['end']}\r\nSUMMARY:{rv['title']}\r\n"
+               f"DESCRIPTION:{rv['description']}\r\nEND:VEVENT\r\nEND:VCALENDAR")
+        ihref = "data:text/calendar;charset=utf-8," + urllib.parse.quote(ics)
+        extras = f'''
+      <div class="rcpt">
+        <div class="rcpth">This bet, as a file you can keep</div>
+        <div class="rcptrow"><a class="rbtn json" download="robin-precall-receipt.json" href="{jhref}">&#8681;&nbsp; Download the receipt (JSON)</a></div>
+        <div class="rcpth" style="margin-top:15px">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</div>
+        <div class="rcptrow">
+          <a class="rbtn" href="{gcal}" target="_blank" rel="noopener">Google Calendar</a>
+          <a class="rbtn" href="{outlook}" target="_blank" rel="noopener">Outlook</a>
+          <a class="rbtn" download="arcs-revisit.ics" href="{ihref}">.ics download</a>
+        </div>
+      </div>'''
     comp_html = f'''
   <section class="mv comp"><div class="mvk">{E(comp['k'])}</div><h2>{E(comp['title'])}</h2>
     <p class="mvintro">{E(comp['intro'])}</p>
     <div class="cinputs">{inputs}</div>
     <div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div>
-    <div class="cout"><div class="couth">{E(comp['output']['h'])}</div><p>{E(comp['output']['b'])}</p></div>
+    <div class="cout"><div class="couth">{E(outp['h'])}</div><p>{E(outp['b'])}</p>{extras}</div>
   </section>'''
 
 hz = d.get("horizon")
@@ -83,6 +111,18 @@ if hz:
   <section class="mv horizon"><div class="mvk">{E(hz['k'])}</div><h2>{E(hz['title'])}</h2>
     <p class="mvintro">{E(hz['intro'])}</p>
     <div class="seeds">{seeds}</div>
+  </section>'''
+
+st = d.get("start")
+st_html = ""
+if st:
+    needs = "".join(f'''
+      <div class="need"><h3>{E(n['h'])}</h3><p>{E(n['b'])}</p></div>''' for n in st["needs"])
+    st_html = f'''
+  <section class="mv start"><div class="mvk">{E(st['k'])}</div><h2>{E(st['title'])}</h2>
+    <p class="mvintro">{E(st['intro'])}</p>
+    <div class="needs">{needs}</div>
+    <p class="needclose">{E(st['close'])}</p>
   </section>'''
 
 corpus_cards = "".join(f'''
@@ -132,12 +172,26 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .cclink:hover{text-decoration:underline}
 .horizon{border-color:rgba(255,215,0,.22)}
 .horizon .mvk{color:var(--gold)}
+.start{border-color:rgba(0,255,157,.3)}
+.start .mvk{color:var(--green)}
 .seeds{display:grid;gap:11px}
 .seed{border-left:3px solid var(--gold);background:var(--surface2);border:1px solid var(--border);border-left-width:3px;border-radius:10px;padding:15px 17px}
 .seed h3{font-size:15px;margin-bottom:6px;color:#fff}
 .seed p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
 .comp{border-color:rgba(148,163,184,.25)}
 .comp .mvk{color:var(--muted)}
+.rcpt{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.rcpth{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:8px}
+.rcptrow{display:flex;flex-wrap:wrap;gap:8px}
+.rbtn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:10px 13px;background:var(--surface2);transition:color .15s,border-color .15s}
+.rbtn:hover{color:var(--text);border-color:var(--cyan)}
+.rbtn.json{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+.needs{display:grid;gap:10px;margin-bottom:14px}
+.need{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.need h3{font-size:14px;color:#fff;white-space:nowrap}
+.need p{font-size:13px;color:var(--muted);line-height:1.5}
+.needclose{font-size:14px;color:var(--text);line-height:1.6}
+@media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}}
 .cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
 .cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
 .cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
@@ -179,10 +233,13 @@ body = f'''<div class="page">
   {comp_html}
   <section class="mv corpus"><div class="mvk">{E(cp['k'])}</div><h2>{E(cp['title'])}</h2>{corpus_cards}</section>
   {hz_html}
+  {st_html}
   <div class="foot">ARCS &middot; ONE DOOR &middot; SEED &rarr; GRAVITY WELL &rarr; CORPUS &middot; MOVE AT YOUR OWN PACE</div>
 </div>'''
 
 GATE = '''<div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>'''
+ANALYTICS_HEAD = '''<script defer src="/_vercel/insights/script.js"></script>'''
+AJS = '''<script>document.querySelectorAll('.cta,.cclink,.rbtn').forEach(function(a){a.addEventListener('click',function(){try{if(window.va)va('event',{name:'studio_click',data:{label:(a.textContent||'').trim().slice(0,40)}});}catch(e){}});});</script>'''
 TIP = '''<div id="tip"></div>'''
 TIPJS = '''<script>(function(){var tip=document.getElementById('tip');if(!tip)return;
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -195,7 +252,7 @@ document.querySelectorAll('[data-tip]').forEach(function(el){
 el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);
 el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});
 document.addEventListener('click',hide);})();</script>'''
-GATEJS = '''<script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>'''
-DOC = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title>{CSS}</head><body>{GATE}{body}{TIP}{TIPJS}{GATEJS}</body></html>'''
+GATEJS = '''<script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>'''
+DOC = f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title>{CSS}{ANALYTICS_HEAD}</head><body>{GATE}{body}{TIP}{TIPJS}{AJS}{GATEJS}</body></html>'''
 open(out, "w").write(DOC)
 print("wrote", out, len(DOC), "bytes | em-dashes:", DOC.count("—"))
