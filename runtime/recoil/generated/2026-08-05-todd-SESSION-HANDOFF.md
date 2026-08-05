@@ -62,6 +62,16 @@ objective = Zach as lowest-threat/highest-force-multiplier. Full profile in the 
 recoil-close / a Granola deep-recall and append the new durable facts here. It compounds the ICP model and
 feeds the persona routing + the 1.2 CRM data-model design.
 
+## PRE-MORTEM REFINEMENTS (must-carry) — `2026-08-05-todd-plan-premortem-gauntlet.md`
+The plan's two structural risks are the SAME thing: the sandbox gate, and building around it instead of
+pushing on it. Carry these: (1) **sandbox escape hatch + escalation** — name a date, else go-live on one
+Todd-signed labelled test lead; (2) **no new build until 1.1 ships or sandbox lands** (feature ideas →
+backlog); (3) **cert/spec = deterministic hard block + refusal eval is a go-live gate** (0% hallucination
+is only real if refusal is enforced, not prompted); (4) **competitor gating built + verified BEFORE the
+data touches the live bot**; (5) **G/B/B = options-to-confirm, never a directive**; (6) **Tidio support
+review = hard gate before Lyro; ZoomInfo spend cap prerequisite**; (7) receipt tripwire on coordination
+overrun (re-price, don't eat); (8) verify iOS present-mode fallback; (9) confirm prl.arcs.care link audience.
+
 ## NEXT SESSION STARTS AT
 Send Todd the UL yellow-card ask (draft ready) if batching a note to him. Otherwise: wait on sandbox; when it
 lands, run the 1.2 CRM Data Reality audit (resolve OEM↔molder model + territory) and build 1.3 recognition + eval.
