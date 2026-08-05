@@ -14,6 +14,15 @@ h1{font-size:27px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;line-hei
 .tabs button.active .th{color:var(--cyan);}
 .tabpane{display:none;flex-direction:column;gap:18px;}
 .tabpane.on{display:flex;}
+.subnav{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 0;}
+.subnav a{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:color .15s,border-color .15s,background .15s;}
+.subnav a:hover{color:var(--text);border-color:var(--border);}
+.subnav a .nt{color:var(--dimmed);}
+.subnav a.read{border-color:rgba(255,215,0,.18);}
+.subnav a.hood{border-color:rgba(0,240,255,.16);}
+.scroll-margin{scroll-margin-top:14px;}
+.readnote{font-size:13px;line-height:1.55;color:var(--muted);background:rgba(255,215,0,.045);border:1px solid rgba(255,215,0,.22);border-radius:10px;padding:12px 15px;}
+.readnote strong{color:var(--text);font-weight:600;}
 .seclead{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:12px 2px 0;}
 .seclead .n{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--dimmed);}
 .seclead .k{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--dimmed);}
@@ -98,20 +107,30 @@ ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-hei
 <div class="rule"></div>
 
 <div class="tabs">
-  <button id="tab-read" class="active" onclick="showTab('read')"><span class="th">Tab 1 &#183; front of house</span>The Read</button>
-  <button id="tab-hood" onclick="showTab('hood')"><span class="th">Tab 2 &#183; peek under the hood</span>The Instrument</button>
+  <button id="tab-read" onclick="showTab('read')"><span class="th">the 2-call prep read</span>The Read</button>
+  <button id="tab-hood" class="active" onclick="showTab('hood')"><span class="th">how it works &#183; timeless</span>The Instrument</button>
 </div>
 
-<!-- ================= TAB 1 : THE READ ================= -->
-<div id="pane-read" class="tabpane on">
+<nav class="subnav">
+  <a class="read" data-tab="read" data-to="s-line"><span class="nt">Read &#183;</span> The line</a>
+  <a class="read" data-tab="read" data-to="s-beats"><span class="nt">Read &#183;</span> Vibe / veer</a>
+  <a class="read" data-tab="read" data-to="s-offer"><span class="nt">Read &#183;</span> The offer</a>
+  <a class="hood" data-tab="hood" data-to="s-inst"><span class="nt">Hood &#183;</span> The instrument</a>
+  <a class="hood" data-tab="hood" data-to="s-brief"><span class="nt">Hood &#183;</span> The briefing</a>
+</nav>
 
-  <div class="card"><h3 style="color:var(--gold);">The line you gave me</h3>
+<!-- ================= TAB 1 : THE READ ================= -->
+<div id="pane-read" class="tabpane">
+
+  <div class="readnote">This read covers our <strong>first two calls</strong> (Oct 23 and Nov 13). It is the one I used to prep the pre-call brief for our third call, so treat it as the historical seed, not the current state. The full three-call arc lives in the studio.</div>
+
+  <div class="card scroll-margin" id="s-line"><h3 style="color:var(--gold);">The line you gave me</h3>
     <p>On call one you got it in about four seconds. Then you told me exactly what to do, twice, and I have thought about it every day since.</p>
     <div class="said"><div class="qk">You &#183; Oct 23</div><div class="qv">"Pick a use case and then go hard at that. It's very hard to sell something that can solve it for marketing or for hiring or for... pick one, and fucking nail that one."</div></div>
     <p style="margin-top:12px;">That is the whole strategy. My game-day take, replaying the tape: on call two I did the opposite of it in three different places. Here is where we were on the same wavelength, and here is where I veered.</p>
   </div>
 
-  <div class="legend">
+  <div class="legend scroll-margin" id="s-beats">
     <span class="lgi"><span class="lgd" style="background:var(--gold);"></span>In phase, amplifying</span>
     <span class="lgi"><span class="lgd" style="background:var(--cyan);"></span>Humor / human</span>
     <span class="lgi"><span class="lgd" style="background:var(--green);"></span>You pushed, it sharpened me</span>
@@ -200,7 +219,7 @@ ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-hei
     <p class="bread">Same shape all three times. You asked for the one-line version in your register, and I answered in three verses in mine. That is the pattern, and naming it is the point of this page.</p>
   </div>
 
-  <div class="card offer"><h3>So here is me taking your advice</h3>
+  <div class="card offer scroll-margin" id="s-offer"><h3>So here is me taking your advice</h3>
     <p>One thing, narrow, in your language. Not a platform that does everything. A <strong>resonance read of a call</strong>: where the other person is on your wavelength, and the exact second you lose them. You already told me the pain it solves.</p>
     <div class="said you"><div class="qk">You &#183; Nov 13</div><div class="qv">"the pre-meeting briefing is something that is yet to be perfected in our society... especially when you're back to back."</div></div>
     <p style="margin-top:12px;">You live in back-to-back briefings. This is that briefing. And the proof is the page you are reading: I ran it on our own two calls, which you were there for, so you can check it against your own memory instead of taking my word.</p>
@@ -215,9 +234,9 @@ ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-hei
 </div>
 
 <!-- ================= TAB 2 : UNDER THE HOOD ================= -->
-<div id="pane-hood" class="tabpane">
+<div id="pane-hood" class="tabpane on">
 
-  <div class="card"><h3>What you are looking at</h3>
+  <div class="card scroll-margin" id="s-inst"><h3>What you are looking at</h3>
     <p>This is the instrument, run on <strong>my own tape</strong>. Everything scored on this tab is a read of my performance on our two calls, not yours. That is deliberate. The method crosses freely, the subject stays me. You get the whole machine, pointed at myself.</p>
     <p>The idea is simple: a conversation is a pair of waves. When two people are on the same wavelength the signal amplifies, when they are not it goes lossy. ARCS listens to a recorded call and maps that, beat by beat, into four states.</p>
   </div>
@@ -242,7 +261,7 @@ ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-hei
     </ul>
   </div>
 
-  <div class="card"><h3>The pre-meeting briefing, made real</h3>
+  <div class="card scroll-margin" id="s-brief"><h3>The pre-meeting briefing, made real</h3>
     <p>Run forward instead of backward, the same instrument is the thing you said nobody has perfected. Before a call: here is the person, here is the wavelength to meet them on, here is the altitude to open at. After: here is where it actually landed, and the honest diff against what you expected.</p>
     <p>For your world that is a <strong>resonance read across a GTM team's calls</strong>: which reps land, which moments go lossy, where a deal quietly falls out of phase before anyone names it. Nothing to wire up to start. It reads recordings that already exist.</p>
   </div>
@@ -273,8 +292,11 @@ function showTab(t){
   document.getElementById('pane-hood').classList.toggle('on',t==='hood');
   document.getElementById('tab-read').classList.toggle('active',t==='read');
   document.getElementById('tab-hood').classList.toggle('active',t==='hood');
+  try{history.replaceState(null,'',t==='read'?'#read':'#instrument');}catch(e){}
   window.scrollTo({top:0,behavior:'smooth'});
 }
+/* deep-link: #read opens the read; anything else (incl. #instrument, bare URL) opens the instrument */
+(function(){var h=(location.hash||'').toLowerCase();showTab(h==='#read'?'read':'hood');})();
 (function(){var K='robin-codex-external-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();
 
 /* mid-curve tooltips: stated vs revealed on each timestamp */
@@ -289,8 +311,14 @@ tip.innerHTML='<div class="tt"><span>'+esc(el.getAttribute('data-t'))+'</span><s
 tip.classList.add('on');move(e);}
 function move(e){var w=tip.offsetWidth,h=tip.offsetHeight,x=e.clientX+16,y=e.clientY+16;if(x+w>window.innerWidth-8)x=e.clientX-w-16;if(y+h>window.innerHeight-8)y=e.clientY-h-16;tip.style.left=x+'px';tip.style.top=y+'px';}
 function hide(){tip.classList.remove('on');}
-document.querySelectorAll('[data-tip]').forEach(function(el){el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);});
+document.querySelectorAll('[data-tip]').forEach(function(el){
+el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);
+el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});
+document.addEventListener('click',hide);
 })();
+
+/* unified nav: switch tab, then scroll to section */
+(function(){document.querySelectorAll('.subnav a').forEach(function(a){a.addEventListener('click',function(){if(typeof showTab==='function')showTab(a.getAttribute('data-tab'));var t=document.getElementById(a.getAttribute('data-to'));if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'});},60);});});})();
 
 /* present mode */
 (function(){var slides=[
