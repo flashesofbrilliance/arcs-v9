@@ -1,0 +1,65 @@
+{
+  "meta": {"reportId": "2026-08-05-robin-onedoor", "counterpart": "Robin Daniels", "kind": "sequenced-one-door", "audience": "external", "generated": "2026-08-05"},
+  "hook": {
+    "eyebrow": "Robin · one door",
+    "title": "One line, your whole arc, and the coach it turned into.",
+    "sub": "Three movements. The read you already saw, then your three calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything."
+  },
+  "seed": {
+    "k": "01 · the seed",
+    "title": "The taste you already have.",
+    "quote": "Pick a use case and then go hard at that. Pick one, and fucking nail that one.",
+    "attribution": "You, Oct 23. The whole strategy in one line. I ran ARCS on our own calls and served it back.",
+    "cta": {"label": "Open the read", "href": "https://robin-codex.arcs.care"}
+  },
+  "well": {
+    "k": "02 · the gravity well",
+    "title": "Your three calls, as one arc.",
+    "intro": "This is the part you cannot get anywhere else: not one call, but the trajectory across all three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.",
+    "manifold": {
+      "points": [
+        {"t": "C1 open", "v": 70, "kind": "base"},
+        {"t": "C1 peak", "v": 93, "kind": "peak"},
+        {"t": "C1 gift", "v": 87, "kind": "kairos"},
+        {"t": "C1 ikigai", "v": 82, "kind": "base"},
+        {"t": "C1 veer", "v": 54, "kind": "park"},
+        {"t": "C2 ask", "v": 46, "kind": "rising"},
+        {"t": "C2 entropy", "v": 31, "kind": "park"},
+        {"t": "C2 demo", "v": 28, "kind": "base"},
+        {"t": "C2 exit", "v": 18, "kind": "park"},
+        {"t": "C3 warm", "v": 70, "kind": "base"},
+        {"t": "C3 advice", "v": 83, "kind": "rising"},
+        {"t": "C3 how", "v": 86, "kind": "rising"},
+        {"t": "C3 deploy", "v": 89, "kind": "rising"},
+        {"t": "C3 kairos", "v": 97, "kind": "kairos"},
+        {"t": "C3 close", "v": 75, "kind": "base"}
+      ],
+      "dividers": [5, 9],
+      "callLabels": ["Call 1 · Oct 23", "Call 2 · Nov 13", "Call 3 · Aug 5"],
+      "caption": "The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3 kairos) are the same relationship three weeks and nine months apart. That delta is the coachable story."
+    },
+    "bookmarks": [
+      {"call": "C1", "tag": "robin-as-coach", "color": "#00FF9D", "label": "Pick one, nail it", "lesson": "Your own coaching move: compress to one wedge. Training signal, not just advice."},
+      {"call": "C1", "tag": "robin-as-coach", "color": "#00FF9D", "label": "Hard to put you in a box", "lesson": "Naming the constraint as a compliment. Your signature reframe."},
+      {"call": "C1", "tag": "pathogen", "color": "#FF4D6D", "label": "The nod-along", "lesson": "Filler agreement is the earliest disengagement tell. Drop altitude when you hear it."},
+      {"call": "C2", "tag": "pathogen", "color": "#FF4D6D", "label": "The one-word collapse", "lesson": "‘Close. Ly. Follow.’ Word-count collapse is the loudest silence. Yield, do not push."},
+      {"call": "C2", "tag": "recovery", "color": "#94a3b8", "label": "The coffee-maker joke", "lesson": "When the pitch channel is dead, the human channel is still open. Pivot to human."},
+      {"call": "C2", "tag": "soft-no", "color": "#94a3b8", "label": "The clean exit", "lesson": "An exit with no ‘send me more’ is a soft no. Revealed below stated."},
+      {"call": "C3", "tag": "buy-signal", "color": "#00F0FF", "label": "‘How does it do this?’", "lesson": "A how-does-it-work question is an invitation. It means value already landed."},
+      {"call": "C3", "tag": "buy-signal", "color": "#00F0FF", "label": "‘Can it tap into Zoom/Teams?’", "lesson": "Pricing the how. They bought the what. Move to integration."},
+      {"call": "C3", "tag": "kairos", "color": "#FFD700", "label": "‘A coach you wish you had’", "lesson": "You named the category and the frame. When they own it, stop pitching."},
+      {"call": "C3", "tag": "mirror", "color": "#FFD700", "label": "The marathon wall", "lesson": "You named your own overconfidence pattern. The exoskeleton mirrors your patterns back."},
+      {"call": "C3", "tag": "deferred-yes", "color": "#00FF9D", "label": "‘Let me get back to you’", "lesson": "Soft close after strong engagement is deferred interest, not a no. Revealed above stated."}
+    ]
+  },
+  "corpus": {
+    "k": "03 · the corpus",
+    "title": "How it works, and how it scales.",
+    "cards": [
+      {"h": "Cognitive exoskeleton, not digital twin", "b": "It does not copy you or replace your judgment. It augments it. You still drive. This is your own thesis, that AI is not the outcome, just another input, given a body."},
+      {"h": "The instrument, under the hood", "b": "The four states it listens for, the evals that keep a read honest, and the fence. The taste in full, the recipe stays mine.", "cta": {"label": "See the instrument", "href": "https://robin-codex.arcs.care"}},
+      {"h": "1 to Few to Many", "b": "One: your own tape. Few: your team gets the read before and after every call. Many: the coaching category you named, Gong and Salesloft and the rest. Your judgment, made portable and compounding."},
+      {"h": "The one thing I would do next", "b": "A Coach’s Game-Day Tape on one real Zensai call. Free, non-invasive, receipts are JSON. Nothing touches your systems. Then you decide."}
+    ]
+  }
+}
