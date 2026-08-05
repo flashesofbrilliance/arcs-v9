@@ -39,12 +39,26 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .cclink:hover{text-decoration:underline}
 .horizon{border-color:rgba(255,215,0,.22)}
 .horizon .mvk{color:var(--gold)}
+.start{border-color:rgba(0,255,157,.3)}
+.start .mvk{color:var(--green)}
 .seeds{display:grid;gap:11px}
 .seed{border-left:3px solid var(--gold);background:var(--surface2);border:1px solid var(--border);border-left-width:3px;border-radius:10px;padding:15px 17px}
 .seed h3{font-size:15px;margin-bottom:6px;color:#fff}
 .seed p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
 .comp{border-color:rgba(148,163,184,.25)}
 .comp .mvk{color:var(--muted)}
+.rcpt{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
+.rcpth{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:8px}
+.rcptrow{display:flex;flex-wrap:wrap;gap:8px}
+.rbtn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:10px 13px;background:var(--surface2);transition:color .15s,border-color .15s}
+.rbtn:hover{color:var(--text);border-color:var(--cyan)}
+.rbtn.json{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+.needs{display:grid;gap:10px;margin-bottom:14px}
+.need{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.need h3{font-size:14px;color:#fff;white-space:nowrap}
+.need p{font-size:13px;color:var(--muted);line-height:1.5}
+.needclose{font-size:14px;color:var(--text);line-height:1.6}
+@media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}}
 .cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
 .cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
 .cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
@@ -68,7 +82,7 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
 .pw-input:focus{border-color:#00F0FF}.pw-input.shake{animation:shk .3s ease;border-color:#FF4D6D}
 @keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-</style></head><body><div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page">
+</style><script defer src="/_vercel/insights/script.js"></script></head><body><div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page">
   <div><div class="eyebrow">Robin · one door</div><h1>One line, our recent arc, and the coach it turned into.</h1><p class="sub">Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything.</p></div>
   <div class="rule"></div>
   <section class="mv seed"><div class="mvk">01 · the one line</div><h2>The taste you already have.</h2>
@@ -161,7 +175,17 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
         <p>Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early.</p>
       </div></div>
     <div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div>
-    <div class="cout"><div class="couth">The pre-call brief (a bet, written down first)</div><p>Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.</p></div>
+    <div class="cout"><div class="couth">The pre-call brief (a bet, written down first)</div><p>Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.</p>
+      <div class="rcpt">
+        <div class="rcpth">This bet, as a file you can keep</div>
+        <div class="rcptrow"><a class="rbtn json" download="robin-precall-receipt.json" href="data:application/json;charset=utf-8,%7B%0A%20%20%22receipt_type%22%3A%20%22pre-call%20brief%20%28ex-ante%29%22%2C%0A%20%20%22counterpart%22%3A%20%22Robin%20Daniels%22%2C%0A%20%20%22filed%22%3A%20%222026-08-05%22%2C%0A%20%20%22bet%22%3A%20%22Lead%20with%20one%20narrow%20thing%20in%20his%20register%3B%20name%20his%20own%20advice%20back%3B%20invite%20rather%20than%20ask%3B%20let%20him%20take%20it%20further.%22%2C%0A%20%20%22predictions%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22He%20engages%20with%20the%20coaching%20frame%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.8%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22Most%20likely%20outcome%3A%20warm%20but%20slow%2C%20a%20soft%20yes%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.55%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22Good%20case%3A%20he%20retells%20it%20in%20his%20own%20words%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.4%0A%20%20%20%20%7D%0A%20%20%5D%2C%0A%20%20%22revisit%22%3A%20%22about%20two%20weeks%20after%20the%20call%2C%20to%20score%20this%20against%20what%20actually%20happened%22%2C%0A%20%20%22note%22%3A%20%22A%20receipt%20is%20just%20a%20JSON%20object.%20You%20file%20the%20bet%20before%2C%20score%20it%20after%2C%20and%20the%20gap%20is%20the%20learning.%22%0A%7D">&#8681;&nbsp; Download the receipt (JSON)</a></div>
+        <div class="rcpth" style="margin-top:15px">Set a time to revisit and score it &middot; a suggested time, adjust to whatever you two agree</div>
+        <div class="rcptrow">
+          <a class="rbtn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=ARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29&dates=20260826T160000Z/20260826T163000Z&details=Revisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care" target="_blank" rel="noopener">Google Calendar</a>
+          <a class="rbtn" href="https://outlook.office.com/calendar/0/deeplink/compose?subject=ARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29&startdt=2026-08-26T16%3A00%3A00Z&enddt=2026-08-26T16%3A30%3A00Z&body=Revisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care&path=/calendar/action/compose&rru=addevent" target="_blank" rel="noopener">Outlook</a>
+          <a class="rbtn" download="arcs-revisit.ics" href="data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0D%0AVERSION%3A2.0%0D%0APRODID%3A-//ARCS//revisit//EN%0D%0ABEGIN%3AVEVENT%0D%0AUID%3Arobin-revisit-20260826T160000Z%40arcs.care%0D%0ADTSTAMP%3A20260805T000000Z%0D%0ADTSTART%3A20260826T160000Z%0D%0ADTEND%3A20260826T163000Z%0D%0ASUMMARY%3AARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29%0D%0ADESCRIPTION%3ARevisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care%0D%0AEND%3AVEVENT%0D%0AEND%3AVCALENDAR">.ics download</a>
+        </div>
+      </div></div>
   </section>
   <section class="mv corpus"><div class="mvk">04 · how it works</div><h2>How it works, and how it scales.</h2>
       <div class="cc">
@@ -188,6 +212,15 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
       <div class="seed"><h3>The world is not flat</h3><p>It has a terrain of ridges, fog, and weak layers. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives.</p></div>
       <div class="seed"><h3>A record versus a leading indicator</h3><p>Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it.</p></div></div>
   </section>
+  
+  <section class="mv start"><div class="mvk">06 · how to start</div><h2>What it takes to run this on one of your calls.</h2>
+    <p class="mvintro">The whole point is that it is a tiny, non-invasive lift. You send three things, I send back a zero-point knowledge drop: the enriched starting read, like this one, on a call that matters to you. Nothing touches your systems.</p>
+    <div class="needs">
+      <div class="need"><h3>1 · a call transcript</h3><p>A text or CSV export from whatever you already use, Granola, Gong, Fathom, Zoom, or Teams. One call is enough to start.</p></div>
+      <div class="need"><h3>2 · the LinkedIn profile</h3><p>The other person&#x27;s profile as a PDF. That is the enriched-profile input you saw feed the brief above.</p></div>
+      <div class="need"><h3>3 · any intel (optional)</h3><p>Whatever GTM context you already have: CRM notes, deal stage, who was in the room. Optional, it just sharpens the read.</p></div></div>
+    <p class="needclose">That is it. From those three, I build the pre-call brief and the read, free, no integration, yours to keep.</p>
+  </section>
   <div class="foot">ARCS &middot; ONE DOOR &middot; SEED &rarr; GRAVITY WELL &rarr; CORPUS &middot; MOVE AT YOUR OWN PACE</div>
 </div><div id="tip"></div><script>(function(){var tip=document.getElementById('tip');if(!tip)return;
 function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
@@ -199,4 +232,4 @@ function hide(){tip.classList.remove('on');}
 document.querySelectorAll('[data-tip]').forEach(function(el){
 el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);
 el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});
-document.addEventListener('click',hide);})();</script><script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script></body></html>
+document.addEventListener('click',hide);})();</script><script>document.querySelectorAll('.cta,.cclink,.rbtn').forEach(function(a){a.addEventListener('click',function(){try{if(window.va)va('event',{name:'studio_click',data:{label:(a.textContent||'').trim().slice(0,40)}});}catch(e){}});});</script><script>(function(){var K='robin-onedoor-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script></body></html>
