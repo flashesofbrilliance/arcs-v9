@@ -1,0 +1,120 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; the profile read</title><style>
+:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:44px 22px 96px}
+.page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;margin-bottom:2px}.uplink:hover{color:var(--cyan)}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18}
+.sub{font-size:14.5px;color:var(--muted);margin-top:10px;max-width:66ch;line-height:1.6}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
+.mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:24px}
+.mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
+.mv h2{font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.lede{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px;max-width:68ch}
+.headline{font-size:17px;color:#fff;font-weight:700;margin-bottom:14px;max-width:44ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.reg{border:1px solid var(--border);border-top:2px solid var(--ac);border-radius:11px;background:var(--surface2);padding:16px 18px}
+.regh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px}
+.regn{font-size:15px;font-weight:700;color:#fff}
+.regalt{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ac)}
+.regcues{font-size:12px;color:var(--dimmed);line-height:1.5;margin-bottom:10px}
+.regq{font-size:13px;color:#d2d0c8;font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding-top:9px}
+.regsrc{display:block;font-style:normal;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:#c0beb6;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 9px}
+.ladder{display:grid;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.rung{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:14px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+.rung:first-child{border-top:0;background:linear-gradient(90deg,rgba(0,255,157,.08),transparent 60%)}
+.rung:last-child{background:linear-gradient(90deg,rgba(255,77,109,.08),transparent 60%)}
+.rlvl{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;padding-top:2px}
+.rb p{font-size:13px;color:#c4c2ba;line-height:1.5}.rt{color:var(--dimmed) !important;font-size:12px !important;margin-top:5px}.rt b{color:var(--text)}
+.rmap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rcol{border:1px solid var(--border);border-radius:11px;padding:16px 18px;background:var(--surface2)}
+.rcol.l{border-top:2px solid var(--green)}.rcol.x{border-top:2px solid var(--red)}
+.rmk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;margin-bottom:11px}
+.rcol.l .rmk{color:var(--green)}.rcol.x .rmk{color:var(--red)}
+.rcol ul{list-style:none;display:grid;gap:8px}.rcol li{font-size:12.5px;color:#c0beb6;line-height:1.5;padding-left:14px;position:relative}
+.rcol.l li::before{content:"+";position:absolute;left:0;color:var(--green);font-weight:700}
+.rcol.x li::before{content:"\2212";position:absolute;left:0;color:var(--red);font-weight:700}
+.scards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.scard{border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:13px 15px}
+.sh{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:5px}.scard p{font-size:12px;color:var(--muted);line-height:1.5}
+.csub{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:16px 0 8px}
+.stg{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--border)}
+.stg:first-of-type{border-top:0}
+.stn{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--cyan);opacity:.5;line-height:1}
+.sts{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.stb p{font-size:13px;color:var(--muted);line-height:1.5}.stb a{color:var(--cyan);text-decoration:none;font-family:var(--mono);font-size:11px}.stb a:hover{text-decoration:underline}
+.close{font-size:15px;color:#e4ded4;line-height:1.6;border-left:3px solid var(--gold);padding:4px 0 4px 16px}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
+#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}#pw-gate.hidden{display:none}
+.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#475569}
+.pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
+.pw-input:focus{border-color:#00F0FF}.pw-input.shake{animation:shk .3s ease;border-color:#FF4D6D}
+@keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+@media(max-width:560px){.two,.rmap,.scards{grid-template-columns:1fr}.rung{grid-template-columns:1fr;gap:4px}}
+</style><script defer src="/_vercel/insights/script.js"></script></head><body><div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page">
+  <div><a class="uplink" href="https://robin.arcs.care">&#8593; the studio</a><div class="eyebrow">Robin · the profile read</div><h1>How I read you, so I could meet you where you are.</h1><p class="sub">Before the calls, I read your public voice, your site, your podcasts, your talks, and tuned everything to it. This is that read. It is why the rest of the studio lands in your register and not mine. Built only from things you have said in public.</p></div>
+  <div class="rule"></div>
+  <section class="mv"><div class="mvk">01 &middot; your voice</div><h2>Two registers, one person.</h2>
+    <p class="headline">The reflective operator-CMO who coaches focus and resonates with meaning.</p><div class="two">
+  <div class="reg" style="--ac:#00FF9D">
+    <div class="regh"><span class="regn">Operator / GTM craft</span><span class="regalt">GROUND</span></div>
+    <p class="regcues">storytelling as the core marketing act · “building a movement” over selling features · focus: pick one, nail it · go all in or don’t go at all</p>
+    <p class="regq">&ldquo;Pick a use case and then go hard at that … pick one, and fucking nail that one.&rdquo;<span class="regsrc">Call 1 · Oct 23, 2025</span></p>
+  </div>
+  <div class="reg" style="--ac:#FFD700">
+    <div class="regh"><span class="regn">Human / meaning</span><span class="regalt">SKY</span></div>
+    <p class="regcues">“roadmap for life” · purpose, positivity, Ikigai · people as the #1 growth driver · human-first, AI as enabler</p>
+    <p class="regq">&ldquo;AI is not the outcome. It’s just another input.&rdquo;<span class="regsrc">Zensai / Human Success Playbook launch, 2026</span></p>
+  </div></div><div class="chips"><span class="chip">Human Success</span><span class="chip">Human-first operating model</span><span class="chip">building a movement</span><span class="chip">roadmap for life</span><span class="chip">agentic AI as input not outcome</span><span class="chip">Endless Enthusiast · Seeking The Epic</span><span class="chip">Shadow CEO</span><span class="chip">go all in or don’t go at all</span></div></section>
+  <section class="mv"><div class="mvk">02 &middot; adaptive altitude</div><h2>Meet you at the ground, let you climb.</h2>
+    <p class="lede">The tell of the two calls is altitude, not warmth. Robin flexes between two heights fluently, but he only flexes UP after the ground floor is nailed. Call 1 stayed at his resonant altitude (felt pain + one narrow idea). Call 2 launched straight to maximum altitude (universal physics, org-wide platform, IPO governance) before the wedge existed, and he could not feel it or retell it, so he left.</p><div class="ladder">
+  <div class="rung"><div class="rlvl">GROUND, one felt story</div><div class="rb"><p>Leans in, finishes your sentences, names the pain back to you, coaches</p><p class="rt"><b>Trigger:</b> A single narrow idea tied to a real person’s pain (his own LinkedIn/job-fit story)</p></div></div>
+  <div class="rung"><div class="rlvl">MID, the movement</div><div class="rb"><p>Reframes it as a category or movement, connects to market comps and his own portfolio</p><p class="rt"><b>Trigger:</b> Once the wedge is obvious, he elevates it to “why this matters”</p></div></div>
+  <div class="rung"><div class="rlvl">SKY, meaning / purpose</div><div class="rb"><p>Goes philosophical: roadmap for life, human-first, purpose</p><p class="rt"><b>Trigger:</b> Trust + a landed idea; he ascends to meaning, never opens there with a pitch</p></div></div>
+  <div class="rung"><div class="rlvl">STRATOSPHERE, abstraction</div><div class="rb"><p>Disengages: one-word replies, checks the clock, exits</p><p class="rt"><b>Trigger:</b> Physics, jargon, everything-platform framing before a concrete wedge, exactly Call 2</p></div></div></div></section>
+  <section class="mv"><div class="mvk">03 &middot; what lands, what loses you</div><h2>The resonance map.</h2>
+    <div class="rmap"><div class="rcol l"><div class="rmk">&#9650; LANDS</div><ul><li>One narrow use case, named as a wedge (“we do X for Y”), not a platform that does everything</li><li>A felt, personal-pain story, ideally his own (LinkedIn can’t match me; I didn’t want to be just the CMO)</li><li>“Movement / category” framing over feature or mechanism framing</li><li>Concrete market proof (Gloat, Eightfold, Beamery, Gartner numbers), he lives in this category</li><li>Being asked a sharpening question, then given a crisp answer (“is it a platform or an algorithm?”, answer it in one line)</li></ul></div><div class="rcol x"><div class="rmk">&#9660; LOSES YOU</div><ul><li>Physics / entropy / “coherence engine” abstraction with no product on the other end</li><li>Everything-platform sprawl across marketing + hiring + ad-tech + M&amp;A in one breath</li><li>An ask to be an internal champion before there is a single, dead-simple thing to champion</li><li>Long monologue / screen-share with little back-and-forth (he is a dialogue thinker)</li><li>Jargon that cannot be retold in a sentence to a cross-functional stakeholder</li></ul></div></div></section>
+  <section class="mv"><div class="mvk">04 &middot; the evidence</div><h2>Tuned on your own words.</h2>
+    <p class="lede">The read is tuned on your own words. A sample of what it listened to:</p><div class="scards"><div class="scard"><div class="sh">robindaniels.co</div><p>your personal site, plus the AI clone (talk to AI Robin)</p></div><div class="scard"><div class="sh">The Human Success Playbook</div><p>your book with Rasmus and Nina, part manual, part fable</p></div><div class="scard"><div class="sh">roadmap-life-love-happiness</div><p>your LinkedIn newsletter, the life-and-meaning thread</p></div></div>
+    <div class="csub">Podcasts</div><div class="chips" style="margin-top:0"><span class="chip">Spin It (Stephynie Malik)</span><span class="chip">Inside the Ohana (Dan Darcy)</span><span class="chip">The Marketing Millennials (Daniel Murray)</span><span class="chip">1:1 (Dave Gerhardt)</span><span class="chip">Demand Gen Visionaries (Ian Faison)</span><span class="chip">CMO Conversations (Tricia Gellman)</span><span class="chip">Rep Your Brand (Nick Bennett)</span><span class="chip">The Changemakers (Dave Corlett)</span><span class="chip">Champagne Strategy (John James)</span><span class="chip">Combustion Chronicles (Shawn Nason)</span><span class="chip">Reboot for Connection (Jorgen Aaboe)</span><span class="chip">Nonlinear (David Fano)</span></div>
+    <div class="csub">Talks</div><div class="chips" style="margin-top:0"><span class="chip">The Importance of Investing in People</span><span class="chip">Lessons from Scaling Hypergrowth Companies</span><span class="chip">The Right Strategy Before Going to Market</span><span class="chip">How Relationships Built My Career</span><span class="chip">The Secret to Sparking Joy in the Workplace</span><span class="chip">How to Be an Effective Tech CMO</span></div></section>
+  <section class="mv"><div class="mvk">05 &middot; the whole loop</div><h2>The whole loop, and where each piece lives.</h2>
+    <p class="lede">This profile read is step one. The rest of the loop is already built, across the studio and the read. Nothing here is theory; every stage points to something you can open.</p>
+  <div class="stg">
+    <div class="stn">1</div>
+    <div class="stb"><div class="sts">Profile the person</div><p>this page: your voice, your two registers, your altitude</p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">2</div>
+    <div class="stb"><div class="sts">Profile the situation</div><p>the call and what was at stake</p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">3</div>
+    <div class="stb"><div class="sts">Contextualize person in situation</div><p>meeting you at the ground, in your words</p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">4</div>
+    <div class="stb"><div class="sts">Establish the hypothesis</div><p>the pre-call brief (a bet, written down first) &middot; <a href="https://robin.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">5</div>
+    <div class="stb"><div class="sts">Build conviction with evidence</div><p>the read, plus a board of advisors that argue with me &middot; <a href="https://robin.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">6</div>
+    <div class="stb"><div class="sts">Measure expected vs actual</div><p>the recoil of our calls &middot; <a href="https://robin-codex.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">7</div>
+    <div class="stb"><div class="sts">Update beliefs</div><p>the belief ledger, before and after &middot; <a href="https://robin.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div>
+  </div>
+  <div class="stg">
+    <div class="stn">8</div>
+    <div class="stb"><div class="sts">Repeat</div><p>receipts compound; the read sharpens every time</p></div>
+  </div><p class="close" style="margin-top:16px">That is the whole engine. Profile, position, bet, evidence, score, update, repeat.</p></section>
+  <p class="close">Two registers, one person. The whole studio is just this read, applied: meet you at the ground, in your words, and let you be the one to climb.</p>
+  <div class="foot">ARCS &middot; THE PROFILE READ &middot; STEP ONE OF THE LOOP &middot; BUILT FROM YOUR PUBLIC VOICE</div>
+</div><script>(function(){var K='robin-profile-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin-profile'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script></body></html>
