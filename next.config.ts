@@ -103,6 +103,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri-codex.html", has: [{ type: "host", value: "yuri-codex.arcs.care" }] },
         // robin-codex.arcs.care -> public/robin-codex.html (2-tab resonance codex: The Read + The Instrument, mid-curve tooltips, present mode, pw-gated "robin")
         { source: "/:path*", destination: "/robin-codex.html", has: [{ type: "host", value: "robin-codex.arcs.care" }] },
+        // robin.arcs.care -> public/robin.html (one-door studio: seed -> whole story -> how the brief is built -> how it works -> where it goes, pw "robin")
+        { source: "/:path*", destination: "/robin.html", has: [{ type: "host", value: "robin.arcs.care" }] },
         // yuri-demo.arcs.care -> public/yuri-demo.html (meta-cognitive inference-ledger MVP, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-demo.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         // yuri.arcs.care -> public/yuri.html (unified sequenced landing / one door, ungated index)
