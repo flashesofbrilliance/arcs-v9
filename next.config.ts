@@ -101,6 +101,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri-recoil.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
         // yuri-codex.arcs.care -> public/yuri-codex.html (5-altitude org-scale codex + presentation mode, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-codex.html", has: [{ type: "host", value: "yuri-codex.arcs.care" }] },
+        // yuri-demo.arcs.care -> public/yuri-demo.html (meta-cognitive inference-ledger MVP, pw-gated "yuri")
+        { source: "/:path*", destination: "/yuri-demo.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         // ahmed.arcs.care → /warroom/ahmed (Ahmed INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24.
         // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },

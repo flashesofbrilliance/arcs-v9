@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>How I read you, and how sure I am</title><style>:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--steel:#94a3b8;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:48px 24px 96px;line-height:1.6;}
+.page{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
+h1{font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;line-height:1.2;}
+.sub{font-size:14px;color:var(--muted);margin-top:8px;}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.3;margin:2px 0;}
+.disc{background:rgba(255,215,0,.05);border:1px solid rgba(255,215,0,.22);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--text);line-height:1.55;}
+.disc b{color:var(--gold);}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 2px;}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.seg button{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);background:none;border:none;padding:7px 12px;cursor:pointer;border-right:1px solid var(--border);}
+.seg button:last-child{border-right:none;}
+.seg button.on{color:var(--bg);background:var(--cyan);}
+.exp{margin-left:auto;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);background:rgba(0,240,255,.06);border:1px solid rgba(0,240,255,.3);border-radius:8px;padding:7px 12px;cursor:pointer;}
+.sec-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dimmed);margin:12px 2px -4px;}
+.row{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:15px 17px;}
+.row.pub{border-color:rgba(0,240,255,.28);}
+.row.res{border-color:rgba(255,215,0,.28);}
+.rtop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.concl{font-size:15px;font-weight:600;line-height:1.4;color:var(--text);}
+.bandtag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;}
+.bandtag.pub{color:var(--cyan);border:1px solid rgba(0,240,255,.35);}
+.bandtag.res{color:var(--gold);border:1px solid rgba(255,215,0,.35);}
+.meters{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:11px;}
+.mtr{display:flex;flex-direction:column;gap:4px;min-width:130px;flex:1;}
+.mtr .ml{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dimmed);display:flex;justify-content:space-between;gap:8px;}
+.mtr .mv{font-variant-numeric:tabular-nums;}
+.bar{height:4px;border-radius:2px;background:rgba(148,163,184,.16);overflow:hidden;}
+.bar>i{display:block;height:100%;border-radius:2px;}
+.conv{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:5px;align-self:center;}
+.conv.stable{color:var(--green);border:1px solid rgba(0,255,157,.3);}
+.conv.shifting{color:var(--gold);border:1px solid rgba(255,215,0,.3);}
+.conv.flat{color:var(--dimmed);border:1px solid var(--border);}
+.chain{margin-top:13px;display:none;flex-direction:column;gap:9px;}
+.row.open .chain{display:flex;}
+.step{display:flex;gap:10px;font-size:13px;line-height:1.5;}
+.step .sk{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmed);flex-shrink:0;width:64px;padding-top:2px;}
+.step .sv{color:var(--text);}
+.step.clue .sv{font-style:italic;color:var(--muted);}
+.src{font-family:var(--mono);font-size:9px;color:var(--dimmed);margin-top:3px;font-style:normal;}
+.discl{font-size:12.5px;line-height:1.5;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;margin-top:2px;}
+.discl b{color:var(--gold);font-weight:600;}
+.togg{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);cursor:pointer;margin-top:11px;display:inline-block;}
+.evo{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.evo h3{font-size:14px;font-weight:600;margin-bottom:4px;}
+.evo .eb{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+.tl{display:flex;flex-direction:column;gap:0;}
+.tp{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(30,41,59,.5);}
+.tp:last-child{border-bottom:none;}
+.tp .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmed);width:74px;flex-shrink:0;padding-top:2px;}
+.tp .tc{flex:1;font-size:13px;line-height:1.5;}
+.tp .tcf{font-family:var(--mono);font-size:11px;font-variant-numeric:tabular-nums;flex-shrink:0;}
+.fence{background:rgba(255,215,0,.04);border:1px solid rgba(255,215,0,.25);border-radius:12px;padding:16px 18px;font-size:13.5px;line-height:1.55;}
+.fence b{color:var(--gold);}
+.foot{font-size:13px;color:var(--muted);text-align:center;padding-top:6px;line-height:1.6;}
+.stamp{text-align:center;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dimmed);}
+a{color:var(--cyan);}
+#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px;}#pw-gate.hidden{display:none;}.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#475569;}.pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em;}.pw-input:focus{border-color:#00F0FF;}.pw-input.shake{animation:shake .3s ease;border-color:#FF4D6D;}@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}</style><script defer src="/_vercel/insights/script.js"></script></head><body><div id="pw-gate"><div class="pw-label">ARCS &#183; Private Brief</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page">
+
+<div><div class="eyebrow">Meta-cognitive explainer &#183; run on you</div><h1>How I read you, and how sure I am</h1><div class="sub">Every read below is shown as a chain: the clue I saw, the inference I made, the conclusion I drew, with a confidence and a conviction on each. The reads are split into what is publicly observable and what I am inferring. This is the engine showing its work, on you, so you can check where I jumped and regrade it.</div></div>
+<div class="rule"></div>
+
+<div class="disc"><b>Disclosure.</b> Everything here is built from two sources only: your public LinkedIn and our recorded call, Jul 23. Where I quote you, confidence is high. Where I infer, it is labelled a read and scored lower. <b>Nothing here is a claim about your private beliefs</b>, only what public signal projects plus what I inferred from it. More sources (GitHub, other socials) would raise the resolution, and only with your OK.</div>
+
+<div class="controls"><span class="seg" id="bandseg"><button data-b="all" class="on">Both bands</button><button data-b="pub">Public</button><button data-b="res">Inferred</button></span><button class="exp" id="expall">Expand all chains</button></div>
+
+<div class="sec-label">The reads</div>
+<div id="ledger"></div>
+
+<div class="sec-label">How a belief moved over time</div>
+<div id="beliefs"></div>
+
+<div class="controls" style="margin-top:6px;"><button class="exp" id="export" style="margin-left:0;">&#8595; Export as JSON (ARCS schema)</button></div>
+
+<div class="fence"><b>The fence.</b> You are seeing the reads, the clues they came from, and how sure I am. What you are not seeing is how the transform actually parses meaning and scores it, that stays on my side. The taste and the value, not the recipe.</div>
+
+<div class="foot">Read-only diagnostic. The next version lets you regrade a weight and watch the belief move. Built from your public profile + our call, every read traces to one of them.</div>
+<div class="stamp">Meta-cognitive explainer &#183; public projection vs inferred read &#183; you are the ground truth</div>
+</div>
+<script>
+var DATA={
+ meta:{counterpart:"Yuri Kleban",company:"Google / Alphabet",date:"2026-08-05",sources:["public LinkedIn","recorded call 2026-07-23"],resolution:"public-only",caveat:"Reads are labelled; nothing asserts private beliefs. Dial up with more sources, with consent."},
+ reads:[
+  {id:"icp",band:"pub",conclusion:"He is the ICP and a practitioner, not a fan.",confidence:0.92,conviction:"stable",clue:"Global Product Lead Manager, Partnerships. Leads a team of ~20 building internal infrastructure for the partnerships org across all of Alphabet.",source:"LinkedIn profile",inference:"He owns the exact surface ARCS serves, the pre-meeting exec brief.",disclosure:"Directly stated on public LinkedIn. High confidence, little inference."},
+  {id:"category",band:"pub",conclusion:"His whole career is the ARCS category.",confidence:0.9,conviction:"stable",clue:"15 years at Google: Ads to Cloud to Partnerships. Reduced internal tools ~55%, deprecated ~30%, measured on productivity per person, $ per rep, CSAT.",source:"LinkedIn profile",inference:"Every role is internal tools that empower teams, scored on the same metrics ARCS is.",disclosure:"Observed across the timeline. High confidence."},
+  {id:"proved",band:"pub",conclusion:"Not a skeptic to convince, a practitioner who lived it.",confidence:0.88,conviction:"stable",clue:"\"Sundar has thirty some people just writing briefs. I automated it with data science, no AI in 2020. His mind was blown, he didn't know it was mostly non-humans.\"",source:"call, his words",inference:"He built and proved the ARCS thesis by hand, at the top of Google.",disclosure:"His own words. High confidence."},
+  {id:"agentum",band:"pub",conclusion:"Model-agnostic and agent-loop framing will resonate.",confidence:0.78,conviction:"shifting",clue:"Agentum (theagentum.com): bring technical and non-technical people to use agents for productivity.",source:"LinkedIn DM + site",inference:"He is building agent tooling now, so the loop-and-gateway framing is native to him.",disclosure:"Stated in DM; product specifics inferred from the site. Newer signal, still settling."},
+  {id:"channel",band:"pub",conclusion:"A real path exists in diligence and M&A pressure-testing.",confidence:0.68,conviction:"flat",clue:"Venture Partner at Purpose Built, plus an ex-UBS-president business partner in NY for pre-IPO companies.",source:"LinkedIn + call",inference:"He has an investment and corp-dev channel ARCS could serve.",disclosure:"Roles are observed; the ARCS fit is my inference, not his ask."},
+  {id:"register",band:"res",conclusion:"His register is champion and peer, not buyer-today.",confidence:0.64,conviction:"shifting",clue:"\"Be selfish, what would get you to the next step, I want to help move you forward.\" No percentage, no ask connector energy.",source:"call",inference:"He pulls rather than pushes; the relationship is relational, not transactional.",disclosure:"A read on his intent, not stated outright. Could be a genuine open door or warm-but-noncommittal. Watch the next interaction."},
+  {id:"ethics",band:"res",conclusion:"Trust and consent are gating values for him, not nice-to-haves.",confidence:0.72,conviction:"stable",clue:"\"You're doing the right thing.\" Says his parents read every terms-and-conditions.",source:"call",inference:"Data ethics sits at the identity level, so consent-first design is a requirement, not a feature.",disclosure:"Strongly signalled but self-reported. Inferred value, medium-high confidence."},
+  {id:"mnpi",band:"res",conclusion:"He likely holds material non-public information; never ask him to cross it.",confidence:0.5,conviction:"flat",clue:"Prior context suggests proximity to a frontier-model rollout.",source:"prior context, not this call",inference:"He guards sensitive roadmap information.",disclosure:"Low confidence. From earlier context, not confirmed on this call. Reserved and cautious by default."},
+  {id:"bridge",band:"res",conclusion:"Translating across contexts is native to his temperament.",confidence:0.4,conviction:"flat",clue:"Born USSR, then Israel ten years, then Chicago. Trilingual. \"The countries always on the news.\"",source:"call",inference:"A life spent code-switching maps onto the cross-swim-lane translation the codex is about.",disclosure:"Speculative read on temperament. Low confidence. This is exactly the kind of read more sources would sharpen or kill."},
+  {id:"gap",band:"res",conclusion:"His own tenure and exit intent at Google are unknown.",confidence:0.15,conviction:"flat",clue:"No public signal on this.",source:"none available",inference:"None. This is a gap, not a read.",disclosure:"No public signal at all. Pure unknown. Needs a source or your own input, and I would rather flag the hole than fill it."}
+ ],
+ beliefs:[
+  {label:"Is there a real Google surface here, or is this a warm relationship to bank?",moved_by:"He described running the exact team that builds exec briefs.",points:[
+    {t:"pre-call",note:"Warm fan reaching out, maybe knows a team that could use this. Probably non-committal.",conf:0.4},
+    {t:"segment 2",note:"Held flat while he did his intro.",conf:0.42},
+    {t:"segment 3",note:"\"A team of 20... we stitch first and third party data into briefs for execs before they meet people.\" He is the exact buyer and builder.",conf:0.9}
+  ]},
+  {label:"The capability doc I sent will land and do the selling.",moved_by:"He said it was too abstract and asked for the real before and after.",points:[
+    {t:"pre-call",note:"The intel brief will land live and start the conversation.",conf:0.7},
+    {t:"segment 4",note:"\"It's very different than what I had in mind... it'd be great to see a real example.\" It did not land. A correct prior, killed.",conf:0.2}
+  ]}
+ ]
+};
+function cc(v){return v>=0.8?'var(--green)':v>=0.55?'var(--gold)':v>=0.35?'var(--steel)':'var(--red)';}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function renderLedger(){var h='';DATA.reads.forEach(function(r){var pct=Math.round(r.confidence*100);
+ h+='<div class="row '+(r.band==='pub'?'pub':'res')+'" data-band="'+r.band+'" style="margin-bottom:10px;">'
+ +'<div class="rtop"><div class="concl">'+esc(r.conclusion)+'</div><span class="bandtag '+(r.band==='pub'?'pub':'res')+'">'+(r.band==='pub'?'Public':'Inferred')+'</span></div>'
+ +'<div class="meters"><div class="mtr"><div class="ml"><span>Confidence</span><span class="mv">'+r.confidence.toFixed(2)+'</span></div><div class="bar"><i style="width:'+pct+'%;background:'+cc(r.confidence)+';"></i></div></div>'
+ +'<span class="conv '+r.conviction+'">'+r.conviction+'</span></div>'
+ +'<span class="togg" data-t>Show the chain &#43;</span>'
+ +'<div class="chain"><div class="step clue"><span class="sk">Clue</span><span class="sv">'+esc(r.clue)+'<span class="src">'+esc(r.source)+'</span></span></div>'
+ +'<div class="step"><span class="sk">Inference</span><span class="sv">'+esc(r.inference)+'</span></div>'
+ +'<div class="step"><span class="sk">Conclusion</span><span class="sv">'+esc(r.conclusion)+'</span></div>'
+ +'<div class="discl"><b>Disclosure.</b> '+esc(r.disclosure)+'</div></div></div>';});
+ document.getElementById('ledger').innerHTML=h;
+ document.querySelectorAll('.togg[data-t]').forEach(function(t){t.addEventListener('click',function(){var row=t.closest('.row');row.classList.toggle('open');t.innerHTML=row.classList.contains('open')?'Hide the chain &#8722;':'Show the chain &#43;';});});
+}
+function renderBeliefs(){var h='';DATA.beliefs.forEach(function(b){h+='<div class="evo" style="margin-bottom:10px;"><h3>'+esc(b.label)+'</h3><div class="eb">Moved by: '+esc(b.moved_by)+'</div><div class="tl">';
+ b.points.forEach(function(p){h+='<div class="tp"><span class="tt">'+esc(p.t)+'</span><span class="tc">'+esc(p.note)+'</span><span class="tcf" style="color:'+cc(p.conf)+';">'+p.conf.toFixed(2)+'</span></div>';});
+ h+='</div></div>';});document.getElementById('beliefs').innerHTML=h;}
+renderLedger();renderBeliefs();
+document.querySelectorAll('#bandseg button').forEach(function(btn){btn.addEventListener('click',function(){document.querySelectorAll('#bandseg button').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');var f=btn.getAttribute('data-b');document.querySelectorAll('#ledger .row').forEach(function(row){row.style.display=(f==='all'||row.getAttribute('data-band')===f)?'':'none';});});});
+document.getElementById('expall').addEventListener('click',function(){var any=document.querySelector('#ledger .row:not(.open)');document.querySelectorAll('#ledger .row').forEach(function(r){if(any)r.classList.add('open');else r.classList.remove('open');});document.querySelectorAll('.togg[data-t]').forEach(function(t){var o=t.closest('.row').classList.contains('open');t.innerHTML=o?'Hide the chain &#8722;':'Show the chain &#43;';});this.textContent=any?'Collapse all chains':'Expand all chains';});
+document.getElementById('export').addEventListener('click',function(){var blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});var u=URL.createObjectURL(blob);var a=document.createElement('a');a.href=u;a.download='kleban-reads.json';a.click();URL.revokeObjectURL(u);});
+</script>
+<script>(function(){var K='2026-07-23-kleban-demo-external-auth',P='yuri';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>
+</body></html>
