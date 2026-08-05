@@ -122,7 +122,8 @@ if comp:
         <a class="rbtn" href="{outlook}" target="_blank" rel="noopener">Outlook</a>
         <a class="rbtn" download="arcs-revisit.ics" href="{ihref}">.ics</a>
       </div>
-      <p class="rcpthint">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</p>'''
+      <p class="rcpthint">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</p>
+      <p class="rcpthint">Illustrative: this one is filled in by hand to show the shape.</p>'''
     led = comp.get("ledger")
     ledger_html = ""
     if led:
@@ -144,6 +145,7 @@ if comp:
         board_html = f'''
     <div class="boardblock"><div class="ledgerh">{E(bd['title'])}</div><p class="ledgerintro">{E(bd['intro'])}</p>
       <div class="chiefs">{chiefs}</div>
+      {f'<p class="boardopen">{E(bd["open"])}</p>' if bd.get('open') else ''}
       <div class="shouldhave"><span class="shk">HOW THE CUT IS MADE</span><p>{E(bd['cut'])}</p></div></div>'''
     comp_html = f'''
   <section class="mv comp"><div class="mvk">{E(comp['k'])}</div><h2>{E(comp['title'])}</h2>
@@ -273,6 +275,7 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .larrow{color:var(--cyan);font-size:16px;text-align:center}
 .lmoved{font-size:12px;color:var(--dimmed);line-height:1.5;border-top:1px solid var(--border);padding-top:7px}
 .ledgernote{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px;font-style:italic}
+.boardopen{font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;margin-bottom:14px}
 .chiefs{display:grid;gap:9px;margin-bottom:14px}
 .chief{border-left:3px solid var(--cc);background:var(--surface);border:1px solid var(--border);border-left-width:3px;border-radius:9px;padding:12px 15px}
 .chiefw{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cc);margin-bottom:6px}
