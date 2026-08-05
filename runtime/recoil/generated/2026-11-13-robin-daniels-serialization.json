@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "reportId": "2026-11-13-robin-daniels-serialization",
+    "counterpart": "Robin Daniels",
+    "kind": "serialized-recoil + enriched-profile-seed",
+    "calls": 2,
+    "window": "2025-10-23 to 2025-11-13",
+    "purpose": "Seed input for the Robin Daniels deck",
+    "audience": "internal",
+    "generated": "2026-08-05"
+  },
+  "cover": {
+    "title": "Robin Daniels, Serialized Recoil + Resonance Seed",
+    "subtitle": "Two calls, three weeks apart. He peaked on “the Holy Grail of hiring” and handed you the whole map in one line: pick one use case and nail it. The second call is the sound of that advice not being taken. This is the diamond cut, the enriched profile, and the seed for the deck.",
+    "meta": "COUNTERPART: ROBIN DANIELS · CBO / “SHADOW CEO” @ ZENSAI · 3x CMO · US NATIONAL ELEVATOR PITCH CHAMPION\nCALLS: OCT 23 2025 (WARM, 30m) + NOV 13 2025 (COOLED, 15m) · SOURCE: GRANOLA + PUBLIC CORPUS\nMODE: REVERSE LISTENING + DEEP RECALL · SERIALIZED ACROSS BOTH CALLS",
+    "badges": ["Serialized · 2 calls", "Deep Recall", "Rhetorical Resonance", "Adaptive Altitude", "Deck Seed", "Internal"]
+  },
+  "dossier": {
+    "headline": "The reflective operator-CMO who coaches focus and resonates with meaning.",
+    "arc": "Made in Denmark, forged in California. Self-taught coder to 3x CMO (Matterport, WeWork, Vera) across Salesforce, LinkedIn, and Box. 2.5 IPOs. Now Chief Business Officer / self-described “Shadow CEO” at Zensai, running Marketing, Product, and Partnerships. byFounders / Stage 2 Capital / Sequoia LP and advisor. Co-author of The Human Success Playbook. Dad, runner, film nerd.",
+    "facts": [
+      "Chief Business Officer at Zensai (agentic-AI “Human Success Platform” for the Microsoft ecosystem); co-founded the role with CEO Rasmus Holst because he did not want “to be just the marketing guy” again.",
+      "US National Elevator Pitch Champion, pitch compression is his home turf, which is exactly why a sprawling pitch reads to him as unfinished.",
+      "3x CMO / 2.5x IPO operator: took Matterport public (Jul 23, 2021), 500% subscriber growth; led ~400-person marketing org at WeWork; scaled Box and LinkedIn Talent Solutions.",
+      "Active angel / LP / advisor across ~20 companies incl. Beamery (talent), N26, Singulate, Lattice-adjacent HR-tech, he has literally invested in this exact category.",
+      "Co-author, The Human Success Playbook: A Leadership Tale for the Age of AI (with Rasmus Holst + Nina Carøe). Part strategic manual, part business fable.",
+      "Personal register runs deep: LinkedIn newsletter “roadmap-life-love-happiness,” bio reads “Endless Enthusiast · Purpose-Driven · Seeking The Epic.”"
+    ]
+  },
+  "loadBearingQuote": {
+    "text": "Pick a use case and then go hard at that. It’s very hard to sell something that can solve it for marketing or for hiring or for … pick one, and fucking nail that one.",
+    "attribution": "Robin Daniels, Call 1, Oct 23, 2025. He said this at his peak. Call 2 is what it sounds like when it is not followed."
+  },
+  "kinematics": {
+    "points": [
+      {"t": "C1·open", "v": 68, "kind": "rising", "note": "Warm re-entry: new baby Nora, Milo, genuine catch-up"},
+      {"t": "C1·pitch", "v": 73, "kind": "rising", "note": "Broken-ATS / deductive-logic framing lands"},
+      {"t": "C1·peak", "v": 93, "kind": "peak", "note": "“This is the Holy Grail of hiring”, LinkedIn can’t match ME"},
+      {"t": "C1·coach", "v": 86, "kind": "kairos", "note": "Load-bearing advice: pick ONE use case, nail it"},
+      {"t": "C1·ikigai", "v": 82, "kind": "base", "note": "Ikigai / dharma / personal pain, his home register"},
+      {"t": "C1·close", "v": 78, "kind": "base", "note": "“Send me what you have”, door open"},
+      {"t": "C2·open", "v": 57, "kind": "base", "note": "Cooler but friendly reconnect"},
+      {"t": "C2·ask", "v": 46, "kind": "rising", "note": "Asks Robin to champion / incubate it inside Zensai"},
+      {"t": "C2·entropy", "v": 31, "kind": "park", "note": "Physics / entropy / “coherence engine”, replies collapse to one word"},
+      {"t": "C2·demo", "v": 28, "kind": "base", "note": "Long Kanban screen-share monologue, little dialogue"},
+      {"t": "C2·flat", "v": 30, "kind": "base", "note": "“Yeah, makes sense”, polite, disengaged"},
+      {"t": "C2·park", "v": 18, "kind": "park", "note": "“Customer reading I have to prepare for in a couple of minutes”, abrupt exit"}
+    ],
+    "caption": "Same relationship, two very different signals. Call 1 climbed to a genuine peak on a narrow, personal-pain framing and his own coaching to focus. Call 2 opened cooler, dropped the moment the pitch widened into physics and an ask to be an internal champion, and parked early. The gradient is not about Robin cooling on you. It is the pitch moving away from the exact altitude that resonated."
+  },
+  "callWalk": [
+    {"label": "CALL 1 · Oct 23 · warm", "title": "The reconnect that actually clicked", "body": "You opened on parenthood and history, then presented the deck: 75% of candidates rejected by deductive ATS logic, abductive/energy-alignment matching, “cognitive synthesizers” as a $50B overlooked segment. Robin leaned all the way in.", "peak": false},
+    {"label": "CALL 1 · PEAK", "title": "“This is the Holy Grail of hiring”", "body": "His genuine peak was personal, not technical: LinkedIn knows more about him than anyone and still cannot match him to great jobs. He named the real problem back to you, hiring rewards past over future potential, and told you his own story of not wanting to be “just the CMO” again. Resonance was highest where the idea touched a felt pain.", "peak": true},
+    {"label": "CALL 1 · the gift", "title": "He handed you the map: narrow it", "body": "Unprompted, twice: pick one use case and go hard. He grounded it in the real market (Gloat, Eightfold, the killed Flux project, Gartner’s talent-marketplace forecast) and asked the sharpening question you should keep: “Is it a platform? Is it an algorithm? What is it?” Then: “send me what you have.”", "peak": false},
+    {"label": "CALL 2 · Nov 13 · cooled", "title": "The re-pitch, one altitude too high", "body": "Three weeks later you widened instead of narrowing: entropy and the second law, a “coherence engine,” atomic decision receipts, a CMO-CFO accountability bridge, and an IPO-governance framing, wrapped in an ask for Robin to advocate for it internally at Zensai. His replies compressed to “Close,” “Ly,” “Follow,” “Interesting.”", "peak": false},
+    {"label": "CALL 2 · PARK", "title": "The polite early exit", "body": "After a long Kanban demo carried almost entirely by you, he closed with “Yeah, makes sense” and “customer reading I have to prepare for in a couple of minutes.” No door held open this time, no “send me more.” Read backward, the whole call was drifting toward that exit from the moment the pitch left the ground.", "peak": false}
+  ],
+  "interference": {
+    "summary": "Robin writes about energy, so read the two calls as waves. When your frequency matched his, the signal amplified: he finished your sentences, told stories back, laughed. When you climbed past his register, the waves went out of phase and the signal went lossy: paragraphs in, one word out. Four states show up. CONSTRUCTIVE (in phase, amplifying), HARMONIC (humor and human warmth, the overtone that carries), PRODUCTIVE DISCORD (he pushes back and it sharpens you), and DISSONANT / LOSSY (out of phase, meaning lost). The mid-curves are the dissonant beats, and they are all the same move: you were asked for the headline in his register and you answered with three verses in yours.",
+    "legend": [
+      {"phase": "constructive", "color": "#C9A227", "label": "Constructive · in phase, amplifying"},
+      {"phase": "harmonic", "color": "#00F0FF", "label": "Harmonic · humor / human overtone"},
+      {"phase": "discord", "color": "#5C8A4E", "label": "Productive discord · pushback that sharpens"},
+      {"phase": "dissonant", "color": "#E34F1C", "label": "Dissonant / lossy · out of phase, signal lost"}
+    ],
+    "calls": [
+      {
+        "id": "Call 1 · Oct 23",
+        "verdict": "Mostly in phase. One early mid-curve.",
+        "spark": [
+          {"phase": "harmonic", "v": 72},
+          {"phase": "constructive", "v": 95},
+          {"phase": "discord", "v": 88},
+          {"phase": "constructive", "v": 90},
+          {"phase": "harmonic", "v": 85},
+          {"phase": "discord", "v": 87},
+          {"phase": "dissonant", "v": 54}
+        ],
+        "beats": [
+          {"phase": "harmonic", "zach": "Feels a little bit like those circus jugglers where you have one spinning plate and then they put another one on and you have to keep the one spinning.", "robin": "Oh, my God. That’s funny.", "read": "Humor lands first. The room warms before a single slide. This is the overtone that carries everything after it."},
+          {"phase": "constructive", "zach": "There’s this term called cognitive synthesizers, systematically overlooked in applicant tracking, about a 50 billion dollar untapped market.", "robin": "This is like the Holy Grail of hiring. LinkedIn, who knows probably more about me than anybody else, they can’t do a better job of matching me with great jobs.", "read": "Peak constructive interference. He does not just agree, he amplifies it with his own felt pain. Same wavelength, full amplitude."},
+          {"phase": "discord", "zach": "(the non-linear, multidisciplinary background)", "robin": "You’re like a Renaissance man that can do so much. But it also makes it very hard to put you in a box.", "read": "Productive discord. He names the exact problem with the pitch (breadth) as a compliment. The friction is the gift."},
+          {"phase": "constructive", "zach": "I am the end user here. I’ve experienced such a hard time finding my right path, my dharma, my ikigai.", "robin": "The best startups start from personal pain, and I think this comes from your own personal pain.", "read": "His thesis meets yours. Constructive. The personal story is the carrier frequency he tunes to."},
+          {"phase": "harmonic", "zach": "Imagine if this was like a compass.", "robin": "It reminds me of some of the conversations you and I had, which I really enjoyed, around Ikigai.", "read": "Shared history as a resonant overtone. He reaches back to a prior wavelength you two already found."},
+          {"phase": "discord", "zach": "So where I am right now, I have a yellow paper, a white paper, all these use cases.", "robin": "Pick a use case and then go hard at that. Pick one, and fucking nail that one.", "read": "The load-bearing productive discord. He pushes back on the breadth and hands you the whole strategy in one line. Gold friction."},
+          {"phase": "dissonant", "zach": "The Huxley book Doors of Perception, the right width of the aperture, the right focal length of the lens, pre-framing before brainstorming even happens.", "robin": "Yeah. Yeah. Y-eah. But I know it. But I have no idea. Yes.", "read": "The first mid-curve, and the tell for Call 2. You went up to Huxley and optics; his reply degraded to nod-along filler. Paragraph in, no signal out. Same move that blows up three weeks later."}
+        ]
+      },
+      {
+        "id": "Call 2 · Nov 13",
+        "verdict": "Mostly out of phase. One human spike, and it was a joke.",
+        "spark": [
+          {"phase": "dissonant", "v": 32},
+          {"phase": "harmonic", "v": 48},
+          {"phase": "dissonant", "v": 28},
+          {"phase": "dissonant", "v": 34},
+          {"phase": "dissonant", "v": 16}
+        ],
+        "beats": [
+          {"phase": "dissonant", "zach": "Entropy is the second law, foundationally in the universe. The whole idea of what I’m building is this coherence engine. So how do you actively reduce entropy?", "robin": "Close.", "read": "Opening the call in the stratosphere. You asked for engagement with physics; you got one word. Fully out of phase from the first beat."},
+          {"phase": "harmonic", "zach": "Is that your desk? Do you have a coffee maker in the background? I wasn’t sure if you had one of those new robot drones or whatever.", "robin": "(the levity briefly breaks through)", "read": "The single human spike of the whole call, and it is a joke, not the pitch. The one moment you two were on the same wavelength in Call 2 had nothing to do with ARCS."},
+          {"phase": "dissonant", "zach": "(the long Kanban / arcs discovery-engine walkthrough)", "robin": "Ly. … Follow.", "read": "A monologue carried almost entirely by you. His replies are tracking-tokens, not thoughts. Maximum effort in, minimum signal out."},
+          {"phase": "dissonant", "zach": "Why not just start with the deal-breaker and cut your losses sooner? There’s opportunity cost in the decision.", "robin": "Interesting. … Yeah, makes sense.", "read": "The closest Call 2 comes to a spark, and it is still flat. This is the honest ceiling of the receipts idea with him so far: mild, not sold."},
+          {"phase": "dissonant", "zach": "(still going)", "robin": "Customer reading I have to prepare for in a couple of minutes.", "read": "The park. A hard cutoff, no door held open, no ‘send me more.’ The wave flatlines and he steps off the call."}
+        ]
+      }
+    ],
+    "midcurves": "Three mid-curves, one pattern. (1) Call 1, Doors of Perception: he wanted the compass idea, you gave him Huxley and optics. (2) Call 2 open, the coherence engine: he wanted to know what it is, you gave him the second law of thermodynamics. (3) Call 2 demo, the Kanban walk: he wanted the headline, you gave him the full architecture. Every mid-curve is the same shape. He asked for the one-line version in his register, and you answered in three verses in yours."
+  },
+  "rhetoricalFingerprint": {
+    "summary": "Robin is a storyteller-operator. He wins rooms by compressing a big idea into one felt, human line (he is a literal elevator-pitch champion), then anchoring it in a movement, not a mechanism. He argues from story, pain, and purpose, and he disengages, visibly and fast, from abstraction and jargon. His resonance is a proxy for one question: can I feel this, and can I retell it in a sentence?",
+    "registers": [
+      {"name": "Operator / GTM craft", "altitude": "GROUND", "cues": ["storytelling as the core marketing act", "“building a movement” over selling features", "focus: pick one, nail it", "go all in or don’t go at all"], "quote": "Pick a use case and then go hard at that … pick one, and fucking nail that one.", "source": "Call 1 · Oct 23, 2025"},
+      {"name": "Human / meaning", "altitude": "SKY", "cues": ["“roadmap for life”", "purpose, positivity, Ikigai", "people as the #1 growth driver", "human-first, AI as enabler"], "quote": "AI is not the outcome. It’s just another input.", "source": "Zensai / Human Success Playbook launch, 2026"}
+    ],
+    "vocab": ["Human Success", "Human-first operating model", "building a movement", "roadmap for life", "agentic AI as input not outcome", "Endless Enthusiast · Seeking The Epic", "Shadow CEO", "go all in or don’t go at all"]
+  },
+  "adaptiveAltitude": {
+    "summary": "The tell of the two calls is altitude, not warmth. Robin flexes between two heights fluently, but he only flexes UP after the ground floor is nailed. Call 1 stayed at his resonant altitude (felt pain + one narrow idea). Call 2 launched straight to maximum altitude (universal physics, org-wide platform, IPO governance) before the wedge existed, and he could not feel it or retell it, so he left.",
+    "ladder": [
+      {"alt": "GROUND, one felt story", "whatHeDoes": "Leans in, finishes your sentences, names the pain back to you, coaches", "trigger": "A single narrow idea tied to a real person’s pain (his own LinkedIn/job-fit story)"},
+      {"alt": "MID, the movement", "whatHeDoes": "Reframes it as a category or movement, connects to market comps and his own portfolio", "trigger": "Once the wedge is obvious, he elevates it to “why this matters”"},
+      {"alt": "SKY, meaning / purpose", "whatHeDoes": "Goes philosophical: roadmap for life, human-first, purpose", "trigger": "Trust + a landed idea; he ascends to meaning, never opens there with a pitch"},
+      {"alt": "STRATOSPHERE, abstraction", "whatHeDoes": "Disengages: one-word replies, checks the clock, exits", "trigger": "Physics, jargon, everything-platform framing before a concrete wedge, exactly Call 2"}
+    ],
+    "mismatch": "You opened Call 2 in the stratosphere (entropy, coherence engine) and asked him to carry it internally. He coaches from the ground. Match his altitude on entry and let him be the one to elevate."
+  },
+  "resonanceMap": {
+    "lands": [
+      "One narrow use case, named as a wedge (“we do X for Y”), not a platform that does everything",
+      "A felt, personal-pain story, ideally his own (LinkedIn can’t match me; I didn’t want to be just the CMO)",
+      "“Movement / category” framing over feature or mechanism framing",
+      "Concrete market proof (Gloat, Eightfold, Beamery, Gartner numbers), he lives in this category",
+      "Being asked a sharpening question, then given a crisp answer (“is it a platform or an algorithm?”, answer it in one line)"
+    ],
+    "loses": [
+      "Physics / entropy / “coherence engine” abstraction with no product on the other end",
+      "Everything-platform sprawl across marketing + hiring + ad-tech + M&A in one breath",
+      "An ask to be an internal champion before there is a single, dead-simple thing to champion",
+      "Long monologue / screen-share with little back-and-forth (he is a dialogue thinker)",
+      "Jargon that cannot be retold in a sentence to a cross-functional stakeholder"
+    ]
+  },
+  "operators": [
+    {"name": "ALCHEMIST", "glyph": "☉", "verdict": "The raw material (Renaissance-man, non-linear background) is the gold, but only once transmuted into ONE narrow wedge. Robin already told you the reaction: pick one, nail it. Stop presenting the ore; present the ring."},
+    {"name": "CURATOR", "glyph": "◈", "verdict": "Curation failed in Call 2. You showed the whole collection (5 use cases, physics, receipts, governance). Curate to the single piece Robin can hang on one wall: hiring / people-tech, his lived category."},
+    {"name": "SAGE", "glyph": "◐", "verdict": "The disengagement was somatic before it was epistemic, the one-word replies came before any objection. Read the body, not the words. When his sentences shrink, stop climbing and get concrete."},
+    {"name": "LIBRARIAN", "glyph": "☷", "verdict": "His index is public and consistent: storytelling, movement-not-features, human-first, roadmap-for-life. Speak in his catalog. Frame the seed as a movement with a human story, and he can retrieve and retell it."},
+    {"name": "WEAVER", "glyph": "✥", "verdict": "The strongest thread is his own belief that ‘the best startups start from personal pain.’ Weave your ikigai / job-fit pain directly into that, you are the end user. That thread carried Call 1 to its peak."},
+    {"name": "JEWELER", "glyph": "◆", "verdict": "One facet to cut: narrowing. Everything else is polish. The diamond is a single-sentence wedge in the hiring/people-tech register, at ground altitude, with a personal-pain story set into it."},
+    {"name": "LOKI", "glyph": "⚝", "verdict": "Red-team: the pitch’s failure mode is its own ambition. ‘It can do everything’ reads as ‘it does nothing yet.’ The most likely refutation of the whole deck is breadth. Kill four of the five use cases before the next contact."},
+    {"name": "DETECTIVE", "glyph": "⌕", "verdict": "The evidence is in the word counts. Call 1: Robin talks in paragraphs, tells stories, gives comps. Call 2: ‘Close.’ ‘Ly.’ ‘Follow.’ ‘Interesting.’ The collapse is measurable and it maps exactly to the altitude jump."},
+    {"name": "SENTRY", "glyph": "⛨", "verdict": "Drift alarm: rising effort against falling signal. You did more of the talking and the demo work as his engagement fell. That is the classic tell to yield in real time, not push harder. It fired mid-Call-2 and was not caught."},
+    {"name": "FOLKSONOMIST", "glyph": "♾", "verdict": "The orphan worth testing is the CMO-CFO accountability bridge / decision-receipts idea for a public board. Honest correction from the quote-level re-listen: in Call 2 the ‘whoa’ was YOURS (reacting to his coffee maker) and ‘that’s exactly it’ was you continuing your own thought, not him. His one engaged token there was a flat ‘Interesting.’ Receipts still speak his CFO/board language and are a distinct product from the hiring engine, so treat it as a hypothesis to probe, not a validated wedge."},
+    {"name": "AUDITOR", "glyph": "⚖", "verdict": "Parity check: did Call 2 honor Call 1’s explicit guidance? No. He said narrow; you widened. He asked ‘what is it?’; you answered ‘a coherence engine.’ Enforcement failure. The fix is to visibly take his advice next contact."},
+    {"name": "ACCOUNTANT", "glyph": "◱", "verdict": "Ledger: two warm calls of relationship equity, drawn down in Call 2 by an ask that arrived before value was legible. Balance is still positive (he is not a detractor) but do not withdraw again until you deposit something concrete and small."},
+    {"name": "ELDER", "glyph": "◎", "verdict": "Long horizon: this is a years-long peer relationship with real affection, not a deal to close this quarter. Protect it. One dated, narrow, low-ask hook, then let it breathe. Do not make the third contact another pitch."}
+  ],
+  "signalThreads": [
+    {"label": "SIGNAL · the peak was personal", "title": "His resonance is a pain sensor, not a tech meter", "body": "The single highest point across both calls was his own job-fit frustration, not any feature. He believes the best startups start from personal pain. Your non-linear path IS the story.", "accent": "#C9A227", "note": "Lead the deck with the human, not the algorithm."},
+    {"label": "SIGNAL · he already told you the answer", "title": "‘Pick one and nail it’ is the whole strategy", "body": "He said it twice, unprompted, and grounded it in the market. This is not generic advice; it is the exact correction for the exact failure that then happened in Call 2.", "accent": "#00F0FF", "note": "Show him you took it. Open next contact with the one wedge."},
+    {"label": "SIGNAL · the untested facet", "title": "The receipts / accountability bridge is a hypothesis, not a win", "body": "Correcting the record on a close re-listen: the ‘whoa’ and ‘that’s exactly it’ in Call 2 were YOURS, not his. His actual token after the receipts riff was a flat ‘Interesting.’ The idea still speaks his CFO-facing, board-facing language, which is why it is worth probing, but he has not bought it.", "accent": "#5C8A4E", "note": "Test it as its own narrow thing and let HIM react. Do not assume prior buy-in."},
+    {"label": "RISK · the ask outran the value", "title": "Championing before legibility", "body": "Asking him to advocate internally before there was one dead-simple thing to advocate for put the relationship, not the product, on the line. He deflected softly and left.", "accent": "#E34F1C", "note": "Earn the internal champion with a landed idea, don’t request it."}
+  ],
+  "scenarios": {
+    "best": {"title": "You send one narrow thing and it travels", "body": "Next contact is a single-wedge, one-page thing in his register (people-tech OR the receipts/board idea), framed as a movement with your personal-pain story. He can retell it in a sentence, so he floats it to one stakeholder unprompted.", "note": "Trigger: he retells it back to you in his own words."},
+    "base": {"title": "Warm, slow, no motion yet", "body": "He stays friendly and available but does not act, because there is still nothing small enough to carry. The relationship holds; the opportunity idles. Most likely outcome absent a change in how it is framed.", "note": "This is where you are now. It is fine. Do not push it into the worst case."},
+    "worst": {"title": "A third pitch converts warmth into avoidance", "body": "A third high-altitude, broad ask makes the pattern legible to him and he starts to manage the relationship at arm’s length. The cost is not the deal; it is a genuine multi-year peer friendship.", "note": "Avoid by making the next contact low-ask and concrete, or purely personal."}
+  },
+  "riskFlags": [
+    {"variant": "warning", "label": "Breadth is the ruin vector", "body": "The everything-platform framing is the single highest-probability reason the whole thing gets a soft pass. It reads as pre-product. Narrowing is not a compromise; it is the product decision."},
+    {"variant": "caution", "label": "Altitude mismatch on entry", "body": "Opening in the stratosphere (physics, coherence engine) before a concrete wedge reliably loses him. Enter at ground level and let him elevate it."},
+    {"variant": "caution", "label": "Relationship spent as currency", "body": "Two consecutive contacts have been pitches, the second with an internal-advocacy ask. A third risks re-coding the friendship as a sales relationship."},
+    {"variant": "info", "label": "He is a buyer-adjacent expert, not just a friend", "body": "He has invested in Beamery and lives in HR/talent-tech. His ‘narrow it’ is category-insider advice, not politeness. Weight it accordingly."}
+  ],
+  "protocol": [
+    {"label": "NOW · the one hook", "title": "Send ONE narrow thing, in his register", "body": "Lead with the people-tech hiring wedge: it is the one that genuinely peaked him in Call 1 (‘the Holy Grail of hiring’) and his lived category. Hold the CMO-CFO receipts idea as a secondary probe in his CFO/board language, not a claimed win. One page. A movement framing. Your personal-pain story up front. No ask.", "active": true},
+    {"label": "NEXT · show you listened", "title": "Name his own advice back to him", "body": "Open with a version of: ‘You told me to pick one and nail it, so here is the one.’ That single move repairs the Call-2 parity gap and signals you are coachable, which he values."},
+    {"label": "THEN · let it breathe", "title": "One dated touch, then silence", "body": "Do not make the third contact a pitch. If he does not bite, the next contact is personal (kids, running, a film), not product. Protect the multi-year relationship over the near-term opportunity."},
+    {"label": "HOLD · do not re-ask", "title": "Earn the internal champion, never request it again", "body": "The advocacy ask only works once there is a legible, small thing already moving. Withhold it until he has retold your idea in his own words at least once."}
+  ],
+  "deckSeed": {
+    "thesis": "Build the Robin deck as a MOVEMENT with a human at the center, pitched at ground altitude, around ONE wedge. Everything Robin resonated with says the same thing: narrow, personal, retellable in a sentence. Everything he disengaged from says: not physics, not everything-at-once, not an ask.",
+    "slides": [
+      {"n": "01", "title": "The human, not the algorithm", "beat": "Open on the personal pain (yours = his): the most-instrumented profiles on earth still cannot match a non-linear person to their path. Make him feel it in one line."},
+      {"n": "02", "title": "One wedge, named", "beat": "State the single use case as a movement (‘we do X for Y’). Answer his own question up front: it is not a platform, it is this one thing."},
+      {"n": "03", "title": "Why now / why this category", "beat": "Ground in the market he lives in (Gloat, Eightfold, Beamery, Gartner). Show you know the terrain he already invested in."},
+      {"n": "04", "title": "The receipts idea (a facet to test)", "beat": "The CMO-CFO decision-receipt / board-accountability bridge. Correct the record: his Call-2 ‘whoa’ was actually yours. Offer this in his CFO/board language and let HIM react, rather than presenting it as already-won."},
+      {"n": "05", "title": "The proof it works in one place", "beat": "Not five use cases. One, shown working, with a single measurable outcome. Depth over breadth."},
+      {"n": "06", "title": "The invitation, not the ask", "beat": "Close by inviting his reaction, not his advocacy. ‘Tell me where this is wrong’ beats ‘go to bat for me.’ Let him choose to elevate it."}
+    ]
+  },
+  "wedge": {
+    "recommendation": "The Call Resonance Read",
+    "not_this": "Not A/B testing. Too tactical, commoditized, and pitched in an analytical register Robin does not live in.",
+    "this": "Serialize his GTM team's calls into a per-call resonance sparkline: where the prospect was on the rep's wavelength, and the exact moment the signal went lossy. His lived domain, his energy / storytelling register, tied straight to the 2026 IPO revenue push, and it needs nothing from him to start.",
+    "why_survivable": [
+      "Zero-credential, zero-integration to begin: it reads recordings that already exist. Nothing to buy, wire, or risk.",
+      "Lowest downside: if a read is wrong, it is a fun conversation, not a failure. A single missed hold cannot hurt him.",
+      "Highest confidence: it is exactly what this artifact already demonstrates working on real calls.",
+      "In his register: energy, wavelength, human, retellable in a sentence, not generic analytics.",
+      "He named the pain himself. In Call 2 you said the pre-meeting briefing is ‘yet to be perfected, especially back-to-back.’ Robin lives in back-to-back briefings."
+    ],
+    "the_taste": "This very artifact is the taste. The recoil of your own two calls, which he was present for and can verify against his own memory, is the highest-credibility demo you own. He does not have to believe a claim. He can check it.",
+    "ladder": [
+      {"rung": "1 · zero-ask", "ask": "He just reads the self-effacing recoil of your two calls. Nothing required."},
+      {"rung": "2 · tiny yes", "ask": "‘Send me one Zensai call you’re comfortable with and I’ll run a free resonance read.’ One call, his choice, no integration."},
+      {"rung": "3 · small yes", "ask": "Run it across a handful of his team’s calls: a team resonance pattern of which moments land and where deals go lossy."},
+      {"rung": "4 · the well", "ask": "A pre-call resonance briefing for his GTM team into the IPO. He named the pain; you close the loop."}
+    ],
+    "gravity_well": "Once he sees a real conversation mapped as a wavelength, he wants it before every call. That is the well: ARCS as the pre-call briefing he already told you nobody has perfected."
+  },
+  "redaction_policy": {
+    "audience": "internal",
+    "note": "Internal war-room seed. Contains Zach’s strategic read of Robin’s disengagement and relationship risk. NOT for external send. An external version would drop the kinematics, operator verdicts, risk register, and resonance-loses list, and keep only the shared-language / movement framing."
+  }
+}
