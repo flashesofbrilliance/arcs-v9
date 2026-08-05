@@ -127,14 +127,14 @@ p{text-wrap:pretty}
   <a class="uplink" href="https://robin.arcs.care">&#8593; the fuller picture</a>
   <div class="eyebrow">Robin &#183; both sides of the coin</div>
   <h1>Two calls, one line, and the machine that heard both.</h1>
-  <p class="sub">Robin, this is the instrument I walked you through, plus the read that prepped our call. It opens on <strong>The Instrument</strong>, how the read is actually made, run on my own tape, not yours.</p>
-  <p class="sub"><strong>The Read</strong>, one tab over, is the two-call version: the game-day tape of where we were on the same wavelength and where I mid-curved. Move between them up top.</p>
+  <p class="sub">Robin, this is the read of our calls, plus the instrument that made it. It opens on <strong>The Read</strong>: the game-day tape of where we were on the same wavelength and where I mid-curved.</p>
+  <p class="sub"><strong>The Instrument</strong>, one tab over, is how the read is actually made, run on my own tape, not yours. Move between them up top.</p>
 </div>
 <div class="rule"></div>
 
 <div class="tabs">
-  <button id="tab-read" onclick="showTab('read')"><span class="th">the 2-call prep read</span>The Read</button>
-  <button id="tab-hood" class="active" onclick="showTab('hood')"><span class="th">how it works &#183; timeless</span>The Instrument</button>
+  <button id="tab-read" class="active" onclick="showTab('read')"><span class="th">the 2-call prep read</span>The Read</button>
+  <button id="tab-hood" onclick="showTab('hood')"><span class="th">how it works &#183; timeless</span>The Instrument</button>
 </div>
 
 <nav class="subnav">
@@ -146,7 +146,7 @@ p{text-wrap:pretty}
 </nav>
 
 <!-- ================= TAB 1 : THE READ ================= -->
-<div id="pane-read" class="tabpane">
+<div id="pane-read" class="tabpane on">
 
   <div class="readnote">This read covers <strong>two of our calls</strong>, October 23 and November 13. On this tab, "call one" means the October call and "call two" means the November one. I used it to prep for our next conversation, so treat it as an earlier snapshot, not the whole story, and I will walk you through the fuller picture.</div>
 
@@ -260,7 +260,7 @@ p{text-wrap:pretty}
 </div>
 
 <!-- ================= TAB 2 : UNDER THE HOOD ================= -->
-<div id="pane-hood" class="tabpane on">
+<div id="pane-hood" class="tabpane">
 
   <div class="card scroll-margin" id="s-inst"><h3>What you are looking at</h3>
     <p>This is the instrument, run on <strong>my own tape</strong>. Everything scored on this tab is a read of my performance on our two calls, not yours. That is deliberate. The method crosses freely, the subject stays me. You get the whole machine, pointed at myself.</p>
@@ -323,7 +323,7 @@ function showTab(t){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 /* deep-link: #read opens the read; anything else (incl. #instrument, bare URL) opens the instrument */
-(function(){var h=(location.hash||'').toLowerCase();showTab(h==='#read'?'read':'hood');})();
+(function(){var h=(location.hash||'').toLowerCase();showTab(h==='#instrument'?'hood':'read');})();
 (function(){var K='robin-codex-external-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin-codex'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();
 
 /* mid-curve tooltips: stated vs revealed on each timestamp */

@@ -124,7 +124,7 @@ if comp:
         rows += f'<div class="rcrow"><div class="rck">Filed</div><div class="rcv">Aug 5, 2026</div></div>'
         rows += f'<div class="rcrow"><div class="rck">Score-back</div><div class="rcv">{E(rc["revisit"])}</div></div>'
         extras = f'''
-      <div class="rcard">
+      <div class="rcard scroll-margin" id="s-receipt">
         <div class="rctop"><span class="rcid">RECEIPT &middot; PRE-CALL BRIEF</span><span class="rcst">WRITTEN BEFORE &middot; SCORED AFTER</span></div>
         {rows}
         <div class="rcseal">WRITTEN BEFORE THE CALL &middot; SCORED AFTER &middot; IF IT CANNOT FAIL, IT ISN'T A RECEIPT</div>
@@ -147,7 +147,7 @@ if comp:
           <p class="lmoved">{E(r['moved'])}</p>
         </div>''' for r in led["rows"])
         ledger_html = f'''
-    <div class="ledger"><div class="ledgerh">{E(led['title'])}</div><p class="ledgerintro">{E(led['intro'])}</p>
+    <div class="ledger scroll-margin" id="s-ledger"><div class="ledgerh">{E(led['title'])}</div><p class="ledgerintro">{E(led['intro'])}</p>
       <div class="lrows">{lrows}</div>
       <p class="ledgernote">{E(led['note'])}</p></div>'''
     bd = comp.get("board")
@@ -204,9 +204,14 @@ faces_html = ""
 if fc:
     items = ""
     for i in fc["items"]:
-        opentag = f'<a class="face" href="{E(i["href"])}" target="_blank" rel="noopener">' if i.get('href') else '<div class="face here">'
-        closetag = '</a>' if i.get('href') else '</div>'
-        meta = f' &middot; <b>{E(i["cta"])}</b>' if i.get('cta') else (' &middot; you are here' if i.get('here') else '')
+        h = i.get("href", "")
+        anchor = h.startswith("#")
+        if h:
+            tgt = "" if anchor else ' target="_blank" rel="noopener"'
+            opentag = f'<a class="face" href="{E(h)}"{tgt}>'; closetag = "</a>"
+        else:
+            opentag = '<div class="face here">'; closetag = "</div>"
+        meta = f' &middot; <b>{E(i["cta"])}</b>' if i.get('cta') else (' &middot; further down this page' if anchor else '')
         items += f'''{opentag}<span class="facen">{E(i['n'])}</span><span class="faceb"><span class="facet">{E(i['t'])}{meta}</span><span class="faced">{E(i['d'])}</span></span>{closetag}'''
     faces_html = f'''<div class="facesnav"><div class="facesl">{E(fc['label'])}</div>{items}</div>'''
 
@@ -341,6 +346,7 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
 .cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
 @media(max-width:560px){.cinputs{grid-template-columns:1fr}}
+.scroll-margin{scroll-margin-top:14px}
 .facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
 .facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
 .face{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text)}

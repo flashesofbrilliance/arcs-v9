@@ -12,26 +12,32 @@
     "sub": "Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything."
   },
   "faces": {
-    "label": "Three reads, meant in this order",
+    "label": "Four reads, each one feeds the next",
     "items": [
       {
         "n": "1",
         "t": "The read of you",
-        "d": "built from your own talks and writing",
+        "d": "who you are, built from your own voice",
         "href": "https://robin-profile.arcs.care",
         "cta": "start here"
       },
       {
         "n": "2",
-        "t": "This studio",
-        "d": "the arc of our calls, and the brief",
-        "here": true
+        "t": "The recoil of our calls",
+        "d": "the bigger picture: what actually happened, moment by moment",
+        "href": "https://robin-codex.arcs.care#read"
       },
       {
         "n": "3",
-        "t": "The recoil",
-        "d": "our calls, scored moment by moment",
-        "href": "https://robin-codex.arcs.care"
+        "t": "The receipt, before and after",
+        "d": "the bet I filed, then scored against reality",
+        "href": "#s-receipt"
+      },
+      {
+        "n": "4",
+        "t": "The belief log update",
+        "d": "what the last call moved, and what it teaches the next",
+        "href": "#s-ledger"
       }
     ]
   },
