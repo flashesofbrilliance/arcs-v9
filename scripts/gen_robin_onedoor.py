@@ -199,6 +199,17 @@ corpus_cards = "".join(f'''
         {f'<a class="cclink" href="{E(c["cta"]["href"])}" target="_blank" rel="noopener">{E(c["cta"]["label"])} &rarr;</a>' if c.get('cta') else ''}
       </div>''' for c in cp["cards"])
 
+fc = d.get("faces")
+faces_html = ""
+if fc:
+    items = ""
+    for i in fc["items"]:
+        opentag = f'<a class="face" href="{E(i["href"])}" target="_blank" rel="noopener">' if i.get('href') else '<div class="face here">'
+        closetag = '</a>' if i.get('href') else '</div>'
+        meta = f' &middot; <b>{E(i["cta"])}</b>' if i.get('cta') else (' &middot; you are here' if i.get('here') else '')
+        items += f'''{opentag}<span class="facen">{E(i['n'])}</span><span class="faceb"><span class="facet">{E(i['t'])}{meta}</span><span class="faced">{E(i['d'])}</span></span>{closetag}'''
+    faces_html = f'''<div class="facesnav"><div class="facesl">{E(fc['label'])}</div>{items}</div>'''
+
 CSS = '''<style>
 :root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,"SF Mono","Fira Code",monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -330,6 +341,14 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
 .cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
 @media(max-width:560px){.cinputs{grid-template-columns:1fr}}
+.facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
+.facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
+.face{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text)}
+a.face:hover{background:var(--surface)}.face.here{opacity:.65}
+.facen{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--cyan)}
+.faceb{display:flex;flex-direction:column;gap:2px}
+.facet{font-size:14.5px;font-weight:700;color:#fff}.facet b{color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.06em;font-weight:700}
+.faced{font-size:12px;color:var(--muted)}
 .foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
 @media(max-width:560px){.bmcards{grid-template-columns:1fr}}
 .hit{cursor:pointer}
@@ -348,6 +367,7 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 body = f'''<div class="page">
   <div><div class="eyebrow">{E(hk['eyebrow'])}</div><h1>{E(hk['title'])}</h1><p class="sub">{E(hk['sub'])}</p></div>
   <div class="rule"></div>
+  {faces_html}
   <section class="mv seed"><div class="mvk">{E(sd['k'])}</div><h2>{E(sd['title'])}</h2>
     <div class="lbq"><blockquote>&ldquo;{E(sd['quote'])}&rdquo;</blockquote><div class="attr">{E(sd['attribution'])}</div></div>
     <a class="cta" href="{E(sd['cta']['href'])}" target="_blank" rel="noopener">{E(sd['cta']['label'])} &rarr;</a>

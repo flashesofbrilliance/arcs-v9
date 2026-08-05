@@ -11,6 +11,30 @@
     "title": "One line, our recent arc, and the coach it turned into.",
     "sub": "Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything."
   },
+  "faces": {
+    "label": "Three reads, meant in this order",
+    "items": [
+      {
+        "n": "1",
+        "t": "The read of you",
+        "d": "built from your own talks and writing",
+        "href": "https://robin-profile.arcs.care",
+        "cta": "start here"
+      },
+      {
+        "n": "2",
+        "t": "This studio",
+        "d": "the arc of our calls, and the brief",
+        "here": true
+      },
+      {
+        "n": "3",
+        "t": "The recoil",
+        "d": "our calls, scored moment by moment",
+        "href": "https://robin-codex.arcs.care"
+      }
+    ]
+  },
   "seed": {
     "k": "01 · the one line",
     "title": "The taste you already have.",
