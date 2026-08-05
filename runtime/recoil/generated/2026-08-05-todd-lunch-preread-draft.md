@@ -1,42 +1,34 @@
-# Draft to Todd — lunch pre-read (honest risks/rewards/tradeoffs). Gmail draft created.
-_2026-08-05 · 🤝 client-facing · for the Aug-6 12pm lunch. Plain register, no em-dashes. Decide together, not for him._
+# Draft to Todd — lunch pre-read (recommend-first, ranked, skimmable). GMAIL DRAFT = live version.
+_2026-08-05 · 🤝 · Aug-6 12pm lunch. Two Gmail drafts exist: THIS skimmable one (r-67447136...) is the keeper;_
+_the earlier prose one (r-8268526...) can be deleted. Plain register, no em-dashes, decide-together framing._
 
-**Subject:** Before lunch tomorrow // a few tradeoffs worth a look
+**Subject:** Before lunch // the quick version
 
 Hi Todd -
 
-Looking forward to lunch at noon. I want to be straight with you on where things stand, including the
-tradeoffs, so we make the calls together rather than me deciding for you. A few things worth turning over
-beforehand.
+Quick version to skim before noon. The bot is ready. One thing unlocks go-live: sandbox access. Four calls to
+make. I lead with my recommendation on each, then the other options ranked, so you can see the why.
 
-1. Getting to live: safe versus fast. The bot is built and tested. To turn on real leads it has to write
-into your CRM, and I do not want to do that blind on your live system. The safe path is a sandbox copy from
-your CRM team. If that is slow, the faster path is one clearly labeled test lead that we create and delete
-together, with your sign-off. Reward: we go live sooner. Tradeoff: one controlled touch on the live system.
-My lean: sandbox if your team can turn it around quickly, otherwise the single test lead.
+**1. Getting to live**
+- Recommend: sandbox copy from your CRM team. Safe, zero risk to your live system. Build: your team spins up a sandbox, we test, we flip it live.
+- If sandbox is slow: one labeled test lead on live, created and deleted with your sign-off. One controlled touch, faster.
+- Avoid: going live untested. Fastest, but a bad first lead on your live site is not worth it.
 
-2. Your competitor cross-reference: your best card, and your most sensitive. The bot can answer the question
-your buyers care about most, "what is your equivalent to Lexan or Ultem." That is powerful. It is also your
-competitive positioning, so I do not want it sitting in the open for a competitor to scrape. My lean: put it
-behind a quick contact capture. The visitor gives their name and company first, then gets the answer. You get
-a qualified lead, they get the match, and it is not free for anyone to pull. Worth deciding: open, gated, or
-keep it specialist only.
+**2. Competitor cross-reference (your best answer)**
+- Recommend: gate it behind a quick contact capture. You get a qualified lead, they get the match, competitors cannot scrape it. Build: the answer sits behind the contact step.
+- Also fine: specialist-only. The bot flags the competitor grade and routes to a rep without stating the equivalent. Safest, but loses the instant answer.
+- Avoid: leaving it open. Most helpful, but your positioning is free for any competitor to pull.
 
-3. Your biggest edge is missing from the data. Your UL yellow card approvals save a customer months and real
-money, and that is exactly what we want the bot to lead with. But those approvals are not in your product
-guide or any file I have. If you can point me to where your UL file numbers live, I will fold them in. Until
-then, the bot says "a specialist will confirm the certification" rather than guess.
+**3. UL yellow card data**
+- Recommend: point me to where your UL file numbers live, then the bot can lead with your biggest edge. Build: add a certification source the bot cites.
+- Until then: the bot defers to a specialist on any certification question. Safe, no wrong claims. Build: this is already how it behaves.
+- Never: let the bot guess a certification. A wrong one costs the customer and exposes PRL.
 
-4. How honest the bot is, on purpose. I built it so that when it is not sure, it hands the person to a
-specialist instead of making something up. It is less flashy than a bot that answers everything, but it will
-never give a wrong spec or certification that costs a customer or puts PRL on the hook. That is a deliberate
-tradeoff, trust over showmanship. I think it is the right one for your business, but I want you to know it is
-a choice, not an accident.
+**4. How the bot handles "not sure"**
+- Recommend: it hands off to a specialist instead of guessing. Every "not sure" becomes a captured lead, and it never gives a wrong spec or cert. Build: it answers only when it is sure and sourced.
+- Avoid: a bot that answers everything. Flashier, but one confident wrong answer is a real cost.
 
-The full plan, the phases, and the numbers are all in one place at prl.arcs.care if you want a look before we
-sit down. The one thing that unlocks the rest is the sandbox access. Everything else is ready.
-
-See you at noon.
+Everything else is ready, and the full detail is at prl.arcs.care. See you at noon.
 
 With gratitude,
 Zach
