@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "reportId": "2026-08-05-robin-profile",
+    "counterpart": "Robin Daniels",
+    "kind": "enriched-profile-read",
+    "audience": "external",
+    "generated": "2026-08-05"
+  },
+  "hook": {
+    "eyebrow": "Robin · the profile read",
+    "title": "How I read you, so I could meet you where you are.",
+    "sub": "Before the calls, I read your public voice, your site, your podcasts, your talks, and tuned everything to it. This is that read. It is why the rest of the studio lands in your register and not mine. Built only from things you have said in public."
+  },
+  "headline": "The reflective operator-CMO who coaches focus and resonates with meaning.",
+  "registers": [
+    {
+      "name": "Operator / GTM craft",
+      "altitude": "GROUND",
+      "cues": [
+        "storytelling as the core marketing act",
+        "“building a movement” over selling features",
+        "focus: pick one, nail it",
+        "go all in or don’t go at all"
+      ],
+      "quote": "Pick a use case and then go hard at that … pick one, and fucking nail that one.",
+      "source": "Call 1 · Oct 23, 2025"
+    },
+    {
+      "name": "Human / meaning",
+      "altitude": "SKY",
+      "cues": [
+        "“roadmap for life”",
+        "purpose, positivity, Ikigai",
+        "people as the #1 growth driver",
+        "human-first, AI as enabler"
+      ],
+      "quote": "AI is not the outcome. It’s just another input.",
+      "source": "Zensai / Human Success Playbook launch, 2026"
+    }
+  ],
+  "vocab": [
+    "Human Success",
+    "Human-first operating model",
+    "building a movement",
+    "roadmap for life",
+    "agentic AI as input not outcome",
+    "Endless Enthusiast · Seeking The Epic",
+    "Shadow CEO",
+    "go all in or don’t go at all"
+  ],
+  "altitude": {
+    "summary": "The tell of the two calls is altitude, not warmth. Robin flexes between two heights fluently, but he only flexes UP after the ground floor is nailed. Call 1 stayed at his resonant altitude (felt pain + one narrow idea). Call 2 launched straight to maximum altitude (universal physics, org-wide platform, IPO governance) before the wedge existed, and he could not feel it or retell it, so he left.",
+    "ladder": [
+      {
+        "alt": "GROUND, one felt story",
+        "whatHeDoes": "Leans in, finishes your sentences, names the pain back to you, coaches",
+        "trigger": "A single narrow idea tied to a real person’s pain (his own LinkedIn/job-fit story)"
+      },
+      {
+        "alt": "MID, the movement",
+        "whatHeDoes": "Reframes it as a category or movement, connects to market comps and his own portfolio",
+        "trigger": "Once the wedge is obvious, he elevates it to “why this matters”"
+      },
+      {
+        "alt": "SKY, meaning / purpose",
+        "whatHeDoes": "Goes philosophical: roadmap for life, human-first, purpose",
+        "trigger": "Trust + a landed idea; he ascends to meaning, never opens there with a pitch"
+      },
+      {
+        "alt": "STRATOSPHERE, abstraction",
+        "whatHeDoes": "Disengages: one-word replies, checks the clock, exits",
+        "trigger": "Physics, jargon, everything-platform framing before a concrete wedge, exactly Call 2"
+      }
+    ]
+  },
+  "resonance": {
+    "lands": [
+      "One narrow use case, named as a wedge (“we do X for Y”), not a platform that does everything",
+      "A felt, personal-pain story, ideally his own (LinkedIn can’t match me; I didn’t want to be just the CMO)",
+      "“Movement / category” framing over feature or mechanism framing",
+      "Concrete market proof (Gloat, Eightfold, Beamery, Gartner numbers), he lives in this category",
+      "Being asked a sharpening question, then given a crisp answer (“is it a platform or an algorithm?”, answer it in one line)"
+    ],
+    "loses": [
+      "Physics / entropy / “coherence engine” abstraction with no product on the other end",
+      "Everything-platform sprawl across marketing + hiring + ad-tech + M&A in one breath",
+      "An ask to be an internal champion before there is a single, dead-simple thing to champion",
+      "Long monologue / screen-share with little back-and-forth (he is a dialogue thinker)",
+      "Jargon that cannot be retold in a sentence to a cross-functional stakeholder"
+    ]
+  },
+  "corpus": {
+    "intro": "The read is tuned on your own words. A sample of what it listened to:",
+    "site": [
+      {
+        "h": "robindaniels.co",
+        "d": "your personal site, plus the AI clone (talk to AI Robin)"
+      },
+      {
+        "h": "The Human Success Playbook",
+        "d": "your book with Rasmus and Nina, part manual, part fable"
+      },
+      {
+        "h": "roadmap-life-love-happiness",
+        "d": "your LinkedIn newsletter, the life-and-meaning thread"
+      }
+    ],
+    "podcasts": [
+      "Spin It (Stephynie Malik)",
+      "Inside the Ohana (Dan Darcy)",
+      "The Marketing Millennials (Daniel Murray)",
+      "1:1 (Dave Gerhardt)",
+      "Demand Gen Visionaries (Ian Faison)",
+      "CMO Conversations (Tricia Gellman)",
+      "Rep Your Brand (Nick Bennett)",
+      "The Changemakers (Dave Corlett)",
+      "Champagne Strategy (John James)",
+      "Combustion Chronicles (Shawn Nason)",
+      "Reboot for Connection (Jorgen Aaboe)",
+      "Nonlinear (David Fano)"
+    ],
+    "talks": [
+      "The Importance of Investing in People",
+      "Lessons from Scaling Hypergrowth Companies",
+      "The Right Strategy Before Going to Market",
+      "How Relationships Built My Career",
+      "The Secret to Sparking Joy in the Workplace",
+      "How to Be an Effective Tech CMO"
+    ]
+  },
+  "close": "Two registers, one person. The whole studio is just this read, applied: meet you at the ground, in your words, and let you be the one to climb.",
+  "loop": {
+    "title": "The whole loop, and where each piece lives.",
+    "intro": "This profile read is step one. The rest of the loop is already built, across the studio and the read. Nothing here is theory; every stage points to something you can open.",
+    "stages": [
+      {
+        "n": "1",
+        "s": "Profile the person",
+        "w": "this page: your voice, your two registers, your altitude"
+      },
+      {
+        "n": "2",
+        "s": "Profile the situation",
+        "w": "the call and what was at stake"
+      },
+      {
+        "n": "3",
+        "s": "Contextualize person in situation",
+        "w": "meeting you at the ground, in your words"
+      },
+      {
+        "n": "4",
+        "s": "Establish the hypothesis",
+        "w": "the pre-call brief (a bet, written down first)",
+        "href": "https://robin.arcs.care"
+      },
+      {
+        "n": "5",
+        "s": "Build conviction with evidence",
+        "w": "the read, plus a board of advisors that argue with me",
+        "href": "https://robin.arcs.care"
+      },
+      {
+        "n": "6",
+        "s": "Measure expected vs actual",
+        "w": "the recoil of our calls",
+        "href": "https://robin-codex.arcs.care"
+      },
+      {
+        "n": "7",
+        "s": "Update beliefs",
+        "w": "the belief ledger, before and after",
+        "href": "https://robin.arcs.care"
+      },
+      {
+        "n": "8",
+        "s": "Repeat",
+        "w": "receipts compound; the read sharpens every time"
+      }
+    ],
+    "note": "That is the whole engine. Profile, position, bet, evidence, score, update, repeat."
+  }
+}
