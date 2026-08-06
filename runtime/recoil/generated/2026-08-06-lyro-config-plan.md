@@ -45,6 +45,38 @@ Deferred to their sold phases (do NOT build under 1.5):
 - **OEM vs molder persona branching/tagging** → **1.4** ($6,000).
 - **Lead-delivery webhook + business-email enrichment + the 4-hour baseline** → **1.1 / 1.2**.
 
+## First-principles: why this order, not out of order
+The one law under the whole sequence, in Todd's language: **each phase kills a variance source before the
+next phase is allowed to depend on it.** Building out of order means standing on ground you haven't proven —
+which is turbulence, the exact thing he is paying for predictability to avoid. The order is not
+project-management taste; it is the order in which uncertainty actually collapses.
+
+- **1.1 / 1.2 must be first — prove the pipe, and set the baseline.** Every later phase only produces *leads*.
+  A lead that cannot reliably reach the CRM is a lead lost, so a smarter bot or better recognition built on an
+  unproven pipe is a more sophisticated machine feeding a broken pipe: more capability, zero captured value,
+  and an *invisible* failure that looks like it is working (the exact failure mode the gauntlet flagged). And
+  1.2 sets the **before-number**. You cannot measure what any later phase *adds* (net-new attributable
+  revenue) without it — so measure-first is a hard precondition, not a nicety.
+- **1.3 (knowledge) before 1.5 (the voice that speaks it).** Lyro answers *from* the knowledge base. Turn the
+  AI on before that KB is curated and verified and it fabricates or mis-answers from thin, unvetted content —
+  the one true ruin risk here: a wrong spec or cert handed to a customer. Knowledge must be built and proven
+  before the assistant that speaks from it is switched on. Knowledge before voice.
+- **1.4 (who arrives + what they see) before/with 1.5.** 1.4 shapes traffic quality and the OEM-vs-molder
+  split. Driving *paid* traffic (real money per click) into an unproven funnel burns spend on a leaky system;
+  and the persona structure built in 1.4 is what lets 1.5's assistant tailor answers at all. Funnel before
+  traffic; persona structure before persona-aware AI.
+- **1.5 last, and optional (kill-switch).** Lyro is the highest-variance, highest-cost-risk, most-dependent,
+  lowest-floor piece: per-conversation billing (cost variance), and it needs delivery + KB + personas all
+  already true. Put the most uncertain and most cost-variable bet **last** and three things fall out: (a)
+  every input it relies on is already proven, (b) there is real traffic to measure its economics against
+  before committing, and (c) if the economics do not check out, you kill it and *everything below still
+  stands*. Last = maximum information before the least-certain bet, minimum blast radius if it fails.
+
+There is also a mechanical reason the order is load-bearing: the **receipt-calibrated pricing chain** re-prices
+each phase from the *actual* of the one before it. Run them out of order and the calibration breaks — you would
+be pricing 1.5 against a 1.2 that has not happened yet. The sequence is what makes "no number ever lands
+outside a range you already saw" true.
+
 ---
 
 ## The 1.5 build (scoped, in-account-gated)
