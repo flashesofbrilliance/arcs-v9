@@ -136,7 +136,7 @@ if comp:
         <a class="rbtn" download="arcs-revisit.ics" href="{ihref}">.ics</a>
       </div>
       <p class="rcpthint">Set a time to revisit and score it &middot; {E(rv.get('label',''))}</p>
-      <p class="rcpthint">Illustrative: this one is filled in by hand to show the shape.</p>'''
+      <p class="rcpthint">Illustrative: this one is filled in by hand to show the shape.</p>{f'<a class="cinlink" href="{E(outp["deepHref"])}" target="_blank" rel="noopener">&#8599; zoom in to full resolution</a>' if outp.get('deepHref') else ''}'''
     led = comp.get("ledger")
     ledger_html = ""
     if led:
