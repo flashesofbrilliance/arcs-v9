@@ -107,6 +107,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/robin.html", has: [{ type: "host", value: "robin.arcs.care" }] },
         // robin-profile.arcs.care -> public/robin-profile.html (enriched profile read, step 1 of the loop, pw "robin")
         { source: "/:path*", destination: "/robin-profile.html", has: [{ type: "host", value: "robin-profile.arcs.care" }] },
+        // robin-receipt.arcs.care -> public/robin-receipt.html (proton-microscope forensic receipt-close, full resolution)
+        { source: "/:path*", destination: "/robin-receipt.html", has: [{ type: "host", value: "robin-receipt.arcs.care" }] },
         // yuri-demo.arcs.care -> public/yuri-demo.html (meta-cognitive inference-ledger MVP, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-demo.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         // yuri.arcs.care -> public/yuri.html (unified sequenced landing / one door, ungated index)
