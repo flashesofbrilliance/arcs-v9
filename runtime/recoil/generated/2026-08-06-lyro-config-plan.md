@@ -1,97 +1,127 @@
-# PRL Lyro Configuration Plan — 80% capability, lean + extensible
-_2026-08-06 · Token-efficient, not overengineered, structured for reuse. Grounded in a sourced Tidio/Lyro
-research pass (see §Research basis) + the PRL KB we already collected + the anti-fabrication design._
+# PRL Lyro Configuration Plan — v2 (post-gauntlet, de-risked)
+_2026-08-06 · Rewritten after a 3-lens ARCS gauntlet (scope-fidelity, Todd-preference, technical FM).
+v1 (03e8f50) was a "configure 80% of Lyro now" bundle; the gauntlet proved that unfaithful to the sold
+phase-gates and quietly spec-fabrication-prone. This version is scoped to **Phase 1.5 only**, gated, capped._
 
-## The one design fact everything hangs on
-Lyro is **answer-from-knowledge-only**: if the answer is not in your curated content, Lyro **auto-forwards
-to a human** rather than inventing. That native behavior *is* the anti-hallucination guarantee. So the build
-is mostly **curation + routing**, not custom guardrail engineering. This is why 80% of the value is cheap.
-
-Corollary: **the knowledge base is the guardrail.** Keep unverified specs/certs/prices OUT of it. What is
-not in the KB becomes a handoff, which is the correct, safe failure.
-
----
-
-## The 5 config surfaces (this is the whole 80%)
-
-### 1. Knowledge base (Knowledge → Data Sources)
-- **Load, verified only:** Product Catalog PDF, Good/Better/Best matrix, Competitor cross-reference
-  (Todd approved open/ungated), the market/application **sell sheets** (EE, Medical, Transportation,
-  Building, Consumer, Sustainability, Structural Foam), the **UL 94/746 explainer** (`UL-Jun16.pdf` — good
-  for "what does V-0 mean," NOT per-grade file numbers), and the site URL crawl (**caps at 60 pages** —
-  point it at the product-capability pages).
-- **Hold out until sourced:** per-grade UL yellow-card file numbers (not in any asset we have), live
-  pricing, lead-time promises. These route to a human by design.
-- **Grade tech sheets:** the 11 representative datasheet PDFs are Tidio-uploadable (direct PDFs). The full
-  per-grade set (IDES `I=73811`) is the extensible-20% crawl, queued.
-- Cadence: review the **Suggestions** report (unanswered questions) monthly; each unanswered question is a
-  KB gap to close, never a reason to loosen the guardrail.
-
-### 2. Guidance prompt (Behavior → Guidance)
-Controls tone + the never-invent rule. Draft (drop-in, edit in-account):
-> You are the assistant for Polymer Resources (PRL), a US specialty resin manufacturer. Audience: injection
-> molders and OEM engineers. Be concise, plain, technical-but-friendly; no emoji. Answer **only** from PRL's
-> knowledge base. **Never state a specific property value, UL/certification status, file number, price, or
-> lead time unless it appears verbatim in the knowledge base.** If a question needs a value you do not have,
-> or you are unsure, say so plainly and offer to connect them to a PRL specialist, then capture their contact.
-> When someone names a competitor grade (e.g. "equivalent to Lexan"), give PRL's cross-reference family if it
-> is in the knowledge base, and offer the specialist for a confirmed match.
-
-### 3. Flows ↔ Lyro split
-- **Enabling Lyro auto-disables your "Visitor says" Flows** — so the split must be deliberate, not accidental.
-- **Deterministic Flow** owns: the lead-capture form (name, company, **phone `phone_work` is required in
-  Sugar**, email, application/grade interest) and the **webhook → Zapier → SugarCRM**. Keep lead delivery
-  in the Flow, not a Lyro Action — Lyro Actions are not rolled back on failure, so the irreversible CRM write
-  stays in the tested deterministic path for MVP.
-- **Lyro** owns: open-ended Q&A from the KB, competitor cross-reference lookups, "which family for my market."
-- **Persona tag:** ask one early qualifying question ("Are you specifying a material, or sourcing one you
-  already spec?") → branch/tag OEM vs molder. Do **not** rely on Lyro to auto-classify user type (it won't
-  reliably). Tag now, use the tag for routing/attribution later.
-
-### 4. Handoff / off-ramp (Configure → Conversation handoff)
-- Set **online vs offline** behavior separately so off-hours leads still get captured (ticket + contact form).
-- Triggers: (a) Lyro lacks the answer (automatic), (b) visitor asks for a human, (c) any specs/cert/price/
-  lead-time question (route by policy). Capture email/phone **at the handoff point** so the lead lands even
-  with no agent online. This is the "confidence off-ramp to a specialist" made concrete.
-
-### 5. Analytics / baseline (the attribution wedge)
-- Instrument from day one: **resolution rate, handoff rate, leads captured, Suggestions volume.** These are
-  the baseline that later proves "net-new revenue attributable to the chatbot channel." Vendor case studies
-  cite up to ~85% automation — treat as a ceiling, measure the real number.
+## What the gauntlet changed (read this first)
+The v1 plan failed three hard tests. All three fixes are now baked in below:
+1. **Scope:** v1 folded 1.3 (competitor recognition), 1.4 (OEM/molder persona), and 1.1/1.2 (webhook/baseline)
+   into the last, optional, $3,500 phase — collapsing the phase-gated ladder Todd is paying predictability for.
+   → v2 is **Lyro-only**; everything else is tagged "deferred to its sold phase."
+2. **Fabrication:** loading grade tech-sheet PDFs + the UL explainer as free KB *licenses* Lyro to answer
+   spec/cert questions — the exact opposite of the never-fabricate requirement, with a fabricated-cert path.
+   → v2 keeps **all specs/certs/prices/lead-times OUT of the KB**, so they route to a human by construction.
+3. **Architecture:** the Lyro→capture-Flow→webhook handoff is unproven (enabling Lyro auto-disables Flows).
+   → v2 makes that the **first in-account verification gate**; no build starts until it's confirmed.
 
 ---
 
-## What is explicitly NOT in scope now (the extensible 20%, each its own later decision)
-- **Lyro Actions** for live CRM/inventory lookups mid-chat (needs a safe tested integration; irreversible-write
-  caution).
-- **Audiences tab** per-persona knowledge/guidance scoping (start with one tag + one guidance; split only if
-  the data shows OEM vs molder need genuinely different answers).
-- **Per-grade cert answers** (blocked on the UL yellow-card source from Todd).
-- **Full per-grade datasheet KB** via the IDES `I=73811` crawl.
-- **SEM/Unbounce page-specific onramps** (Phase 1.4).
+## Gauntlet ledger (ranked, cross-lens)
+| # | class | finding | sev | mitigation (now in plan) | gate/owner |
+|---|---|---|---|---|---|
+| 1 | fabrication | KB loading spec sheets + UL explainer licenses spec/cert answers; UL+grade → fabricated cert | **Crit** | Specs/certs/UL/price/lead-time never in KB; hard-route to human; test the adversarial prompt in staging | Go-live gate |
+| 2 | architecture | Lyro front door auto-disables Flows; the handoff that fires the webhook is unverified | **Crit** | Verify Lyro→Flow handoff + tag propagation in-account before any build | Build gate (in-account) |
+| 3 | scope | Plan bundled 1.3+1.4+1.1/1.2 into the 1.5 envelope, undercutting the phase ladder | **Crit** | Re-scoped to 1.5-only; xref→1.3, persona→1.4, webhook/baseline→1.1/1.2 | Zach (re-scope) |
+| 4 | cost-bubble | Per-conversation billing, quota 50, "burns fast"; v1 offered only a soft routing heuristic | High | Hard cap: disable overage auto-buy; fall back to Flow/handoff at quota; alert Todd first | Config gate |
+| 5 | friend-not-foe | Lyro scoped to answer the exact Qs reps own + channel attribution reads as rep-scoreboard | High | Reposition as after-hours/overflow catcher that hands the lead TO a named rep; attribution channel-level + rep-anonymous, in writing | Positioning (hard) |
+| 6 | dependency | File-import (PDF) tier gating unverified; whole KB approach assumes it's available | High | Confirm file-import tier in-account before build (go/no-go) | Build gate (Tidio review) |
+| 7 | dependency | phone_work required in Sugar but bot treats it optional → silent CRM-write failure | High | Make phone required in the Flow form OR approved placeholder; no live write until sandbox/test-lead | Todd decision + sandbox |
+| 8 | sequencing | 1.5 sold as LAST + kill-switch ("if AI economics don't check out, we don't turn it on") — absent in v1 | High | Restated as the go-live gate header below | — |
+| 9 | staleness | 2021-dated sheets / "Jun16" UL doc presented as current if loaded | Med | Excluded from KB (see fix #1); manifest is a dated ledger | — |
+| 10 | tempo | Scattered "waiting-on-Todd" gates = off-tempo stress for a linear pilot | Med | All Todd inputs batched into ONE checklist (bottom) | Zach |
+| 11 | guardrail-integrity | Guidance char limit undocumented; never-fabricate clause could be truncated | Med | Put never-fabricate clause FIRST; verify saved prompt reads back complete | Config gate |
+| 12 | failure-net | Webhook "success" shown to user even if Sugar write fails | Low | Zapier retry/task-history + email-the-lead fallback on error | 1.2 build |
+| 13 | perception | Jargon (wedge/SSOT/attribution) leaks and raises Zach's perceived threat | Low | File stays internal; translate to Todd's words (boring/after-hours/nobody-replaced/capped) | Comms |
 
-## Cost discipline (matches the pre-revenue rule)
-- Lyro is billed **per conversation, not per message**, and quota-metered (Free/Starter = 50; overage
-  ~$39/50). A public site can burn the quota fast → **route low-intent/non-qualified traffic to Flows**, spend
-  Lyro conversations on real Q&A. Confirm the plan's quota + file-import tier **in-account** (already waiting
-  on the Tidio support review).
+---
 
-## Config as a versioned artifact (why this is extensible, not click-only)
-Keep the SSOT in the repo so config is reproducible and diff-able, not trapped in the Tidio UI:
+## Scope boundary (what 1.5 IS and is NOT)
+**1.5 "A smarter assistant" ($3,500, ~14h) = Lyro Q&A on non-sensitive, application-level content, plus its
+guardrails, handoff, and cost cap.** It runs **only after the 1.2 receipt closes** (delivery + handoff proven),
+and it is **gated by the AI-economics kill-switch: if the numbers don't check out, we don't turn it on.**
+
+Deferred to their sold phases (do NOT build under 1.5):
+- **Competitor cross-reference recognition** → **1.3** ($4,000).
+- **OEM vs molder persona branching/tagging** → **1.4** ($6,000).
+- **Lead-delivery webhook + business-email enrichment + the 4-hour baseline** → **1.1 / 1.2**.
+
+---
+
+## The 1.5 build (scoped, in-account-gated)
+
+### A. Knowledge base — application-level only (the guardrail is what's ABSENT)
+- **Load:** what PRL makes at the family/market level (the resin families, the markets they serve), the
+  application **sell sheets** (EE, Medical, Transportation, Building, Consumer, Sustainability, Structural
+  Foam), general company/process info. Site crawl capped at 60 pages → point it at the market/capability pages.
+- **Never load (routes to human by construction):** per-grade **property values / datasheets**, **UL /
+  certification status or file numbers**, **prices**, **lead times**. This is what makes never-fabricate
+  structural, not a prompt promise. The 11 grade tech-sheet PDFs and the UL explainer stay in the repo for
+  human reference, **out of Lyro's KB.**
+- Staleness: nothing dated/superseded goes in; the KB manifest is a dated ledger.
+
+### B. Guidance prompt (never-fabricate clause FIRST, in case of truncation)
+> Never state a specific property value, UL or certification status, file number, price, or lead time. If
+> asked for any of these, say you'll connect them to a PRL specialist and capture their contact. [then tone:]
+> You are the after-hours assistant for Polymer Resources. Be concise, plain, friendly; no emoji. Answer only
+> from PRL's knowledge base. You catch questions when the team is unavailable and hand every real lead to a
+> PRL rep — you do not replace them.
+
+### C. Flow ↔ Lyro architecture (VERIFY IN-ACCOUNT BEFORE BUILDING)
+- Confirm the exact primitive by which a Lyro conversation hands off to capture + fires the webhook, given
+  Lyro auto-disables "Visitor says" Flows. Confirm a tag set in Lyro reaches the webhook payload.
+- If no clean handoff exists: capture lives in Lyro's **native handoff/contact form**, or the qualifying
+  question + capture sit in a **Flow in front of Lyro**. Decide from what the account actually supports —
+  do not assume.
+- The irreversible **CRM write stays in the deterministic/Zapier path** (retry + visible task history), never
+  a Lyro Action.
+
+### D. Handoff / off-ramp
+- Online vs offline behavior set separately so off-hours leads are still captured. Every specs/cert/price/
+  lead-time question, and every low-confidence answer, routes to a human with contact capture. Hand the lead
+  to a **named rep** (friend-not-foe), not an anonymous queue.
+
+### E. Cost cap (hard, not a heuristic)
+- Disable Lyro overage auto-purchase. Set Lyro to fall back to Flow/handoff when the quota is hit. Alert Todd
+  **before** any spend. Gate Lyro activation behind the qualifying step so bots/tire-kickers never open a
+  billable Lyro conversation. Confirm the plan's real quota in-account.
+
+### F. Measurement (rep-anonymous, channel-level)
+- Track resolution rate, handoff rate, leads captured **at the channel level only**. Never per-rep. Framed to
+  Todd as "what the after-hours channel adds," never "bot vs rep." (Baseline/4-hour attribution is a **1.2**
+  deliverable, not 1.5.)
+
+---
+
+## Config as versioned artifact (extensible)
 ```
 runtime/recoil/generated/prl-lyro/
-  guidance-prompt.md          # §2 verbatim, versioned
-  kb-manifest.md              # what's loaded, what's held out + why (the guardrail ledger)
-  qualifying-flow.md          # the OEM/molder branch + capture fields + webhook contract
-  handoff-policy.md           # online/offline + escalation triggers
+  guidance-prompt.md     # §B verbatim, never-fabricate clause first
+  kb-manifest.md         # loaded vs held-out + WHY (the guardrail ledger; dated)
+  handoff-policy.md      # online/offline + escalation + rep-anonymous attribution rule
+  costcap-policy.md      # overage off, quota fallback, alert threshold
 ```
-Adding a capability = add a file + a KB source, not a rebuild. That is the "extensible" test.
+(No qualifying-flow.md here — persona branching is 1.4.)
 
 ---
 
-## Research basis (verify hard numbers in-account before quoting Todd)
-Sourced pass over Tidio/Lyro docs (2025–2026). Ambiguous/unverified, flagged: exact language count (docs say
-45/47/48), Guidance character limit (undocumented), per-plan Lyro quotas above Starter (undocumented),
-file-import tier (cited as Plus). Native guardrail (answer-from-KB + auto-forward) is the well-sourced,
-load-bearing fact. Full reference retained in session; key sources: help.tidio.com Data-sources / Lyro
-Guidance / flows-Lyro-agents / Lyro Actions, tidio.com/blog/lyro-ai-training, chatimize Tidio review.
+## In-account verification gates (all must pass before 1.5 build; most need the pending Tidio review)
+1. Lyro→Flow handoff primitive + tag propagation exist (#2). 2. File-import (PDF) tier available (#6).
+3. Guidance char limit ≥ the prompt, never-fabricate clause survives (#11). 4. Real Lyro quota + overage
+controls (#4).
+
+## Blocked-until (dependencies)
+- **SugarCRM sandbox / one approved labelled test lead** — no live CRM write before this.
+- **Tidio account/support review** — gates 1-4 above.
+- **phone_work decision** (required-in-form vs placeholder) — Todd's call (#7).
+
+## Single batched Todd checklist (one predictable ask, not scattered gates)
+1. Phone: require it in the form, or approve a placeholder value? 2. Confirm after-hours-catcher positioning
+(bot hands leads to a named rep, nobody replaced). 3. Sandbox or one labelled test lead to prove delivery.
+(UL/cert source is a **1.3+** ask, not needed for 1.5 — kept off this list on purpose.)
+
+---
+## Research basis
+Sourced Tidio/Lyro pass (2025-26). Native guardrail (answer-from-KB + auto-forward-to-human) is well-sourced
+and load-bearing. Unverified, now promoted to in-account gates: language count, Guidance char limit, per-plan
+quotas, file-import tier. Key sources: help.tidio.com Data-sources / Lyro Guidance / flows-Lyro-agents / Lyro
+Actions; tidio.com/blog/lyro-ai-training; chatimize review.
