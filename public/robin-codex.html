@@ -318,7 +318,7 @@ function showTab(t){
 }
 /* deep-link: #read opens the read; anything else (incl. #instrument, bare URL) opens the instrument */
 (function(){var h=(location.hash||'').toLowerCase();showTab(h==='#instrument'?'hood':'read');})();
-(function(){var K='robin-codex-external-auth',P='robin';if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin-codex'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();
+(function(){var K='robin-codex-external-auth',P='robin';if(localStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){localStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin-codex'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();
 
 /* mid-curve tooltips: stated vs revealed on each timestamp */
 (function(){var tip=document.getElementById('tip');if(!tip)return;
