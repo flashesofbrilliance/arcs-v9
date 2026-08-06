@@ -132,7 +132,10 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .scroll-margin{scroll-margin-top:14px}
 .facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
 .facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
-.face{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text)}
+.face{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text);cursor:pointer;transition:background .15s}
+.face::after{content:"\2197";font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dimmed);align-self:center;transition:color .15s,transform .15s}
+.face:hover::after{color:var(--cyan);transform:translate(2px,-2px)}
+@media(prefers-reduced-motion:reduce){.face::after{transition:none}}
 a.face:hover{background:var(--surface)}.face.here{opacity:.65}
 .facen{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--cyan)}
 .facen.led{display:inline-block;width:7px;height:7px;border-radius:50%;align-self:start;margin-top:5px;background:rgb(var(--rgb));animation:ledpulse 1.8s ease-in-out infinite}
