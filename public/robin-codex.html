@@ -305,12 +305,6 @@ p{text-wrap:pretty}
 </div>
 
 <div id="tip"></div>
-<button id="present-btn">&#9654; Present</button>
-<div id="present">
-  <div class="phint">&#8592; &#8594; or space to move &#183; Esc to exit &#183; the tour walks both tabs</div>
-  <div class="pn"></div><div class="ph"></div><div class="pl"></div>
-  <div class="pbar"><button class="pbtn" data-a="prev">Prev</button><span class="pcount"></span><button class="pbtn" data-a="next">Next</button></div>
-</div>
 
 <script>
 function showTab(t){
@@ -347,26 +341,5 @@ document.addEventListener('click',hide);
 /* unified nav: switch tab, then scroll to section */
 (function(){document.querySelectorAll('.subnav a').forEach(function(a){a.addEventListener('click',function(){if(typeof showTab==='function')showTab(a.getAttribute('data-tab'));var t=document.getElementById(a.getAttribute('data-to'));if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'});},60);});});})();
 
-/* present mode */
-(function(){var slides=[
-{tab:'read',n:'Read &#183; 00',h:'Two calls, one line',l:'You handed me the whole answer on call one. This is what I did with it.'},
-{tab:'read',n:'Read &#183; 01',h:'The line you gave me',l:'Pick a use case and go hard. Pick one, and nail that one.'},
-{tab:'read',n:'Read &#183; 02',h:'The peak was personal',l:'The Holy Grail of hiring. You amplified it with your own frustration.'},
-{tab:'read',n:'Read &#183; 03',h:'Where I mid-curved, three times',l:'You wanted the compass. I gave you Huxley. Same shape on call two, twice more.'},
-{tab:'read',n:'Read &#183; 04',h:'The one human spike was a joke',l:'The only beat we clicked on call two was a coffee maker. The human channel was open.'},
-{tab:'read',n:'Read &#183; 05',h:'So here is me taking your advice',l:'One narrow thing: a read of a call. The briefing you said nobody has perfected.'},
-{tab:'hood',n:'Hood &#183; 06',h:'The instrument, on my own tape',l:'A conversation is a pair of waves. Four states: in sync, human, useful pushback, out of sync.'},
-{tab:'hood',n:'Hood &#183; 07',h:'The pre-meeting briefing, made real',l:'Run it forward: who they are, the wavelength to meet them on, the altitude to open at.'},
-{tab:'hood',n:'Hood &#183; 08',h:'The taste, not the recipe',l:'You get the whole shape and the whole value. The transform underneath stays mine.'}];
-var ov=document.getElementById('present'),btn=document.getElementById('present-btn');if(!ov||!btn)return;
-var pn=ov.querySelector('.pn'),ph=ov.querySelector('.ph'),pl=ov.querySelector('.pl'),pc=ov.querySelector('.pcount');var i=0,on=false;
-function render(){var s=slides[i];pn.innerHTML=s.n;ph.textContent=s.h;pl.textContent=s.l;pc.textContent=(i+1)+' / '+slides.length;if(typeof showTab==='function')showTab(s.tab);}
-function open(){on=true;ov.classList.add('on');document.body.style.overflow='hidden';render();try{if(window.va)va('event',{name:'codex_present'});}catch(e){}}
-function close(){on=false;ov.classList.remove('on');document.body.style.overflow='';}
-function go(d){i=Math.max(0,Math.min(slides.length-1,i+d));render();}
-btn.addEventListener('click',open);
-ov.addEventListener('click',function(e){var a=e.target.getAttribute&&e.target.getAttribute('data-a');if(a==='prev')go(-1);else if(a==='next')go(1);});
-document.addEventListener('keydown',function(e){if(!on)return;var k=e.key;if(k==='ArrowRight'||k==='ArrowDown'||k===' '){e.preventDefault();go(1);}else if(k==='ArrowLeft'||k==='ArrowUp'){e.preventDefault();go(-1);}else if(k==='Escape'){close();}});
-})();
 </script>
 </body></html>
