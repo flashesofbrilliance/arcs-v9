@@ -82,5 +82,11 @@
       "note": "This is a closed receipt, not a closed deal. The belief I flagged as most likely wrong broke hardest, in the best direction, and that is the receipt doing its job."
     }
   },
+  "studio": {
+    "tenant": "yuri",
+    "author": "ZACH",
+    "title": "File your own bet",
+    "desc": "The receipt above was filed by hand to show the shape. This is the live tool, on Google's own instance: file a bet before your next call, score it after. A receipt is just JSON, the bet plus the falsifier plus the score-back date. It cannot be closed as a memory, only scored against what actually happened. Everything stays in your browser session; export the JSON any time."
+  },
   "foot": "ARCS &middot; FIELD OS &middot; RECEIPT CLOSE &middot; YURI KLEBAN, FIRST CALL<br><b>FILE THE BET &middot; SCORE AGAINST REALITY &middot; LET THE MISS TEACH YOU THE FIT</b>"
 }

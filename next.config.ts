@@ -118,8 +118,10 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
         // yuri-profile.arcs.care -> public/yuri-profile.html (enriched profile read, step 1, pw-gated? open like robin-profile)
         { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
-        // yuri-receipt.arcs.care -> public/yuri-receipt.html (forge_counterpart.py receipt-close: ex-ante kleban scored vs kleban-recoil, single-call, pw-gated "yuri")
-        { source: "/:path*", destination: "/yuri-receipt.html", has: [{ type: "host", value: "yuri-receipt.arcs.care" }] },
+        // yuri-receipt.arcs.care -> public/yuri-receipt.html (forge receipt-close + live Receipt Studio,
+        // yuri tenant). Negative lookahead excludes /api so the Studio's fetch to /api/receipts/studio/yuri
+        // is not swallowed by the rewrite (same fix as louisville/robin-receipt). pw-gated "yuri".
+        { source: "/:path((?!api/).*)", destination: "/yuri-receipt.html", has: [{ type: "host", value: "yuri-receipt.arcs.care" }] },
         // ahmed.arcs.care → /warroom/ahmed (Ahmed INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24.
         // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },

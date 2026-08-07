@@ -112,7 +112,7 @@
       "filed": "2026-08-07",
       "severity": "low",
       "summary": "In-memory per-instance throttle Map on the studio route (and its louisville precedent) is bounded only by instance lifetime x unique IPs — a rotating-IP scraper can grow it. SRE review finding F3, 2026-08-07.",
-      "exit": { "type": "guard", "ref": "src/app/api/receipts/studio/[tenant]/route.ts throttled() now opportunistically evicts expired entries when hits.size>5000. The louisville copy (src/app/api/louisville/receipts/route.ts) remains unswept — fold in when that route is next touched.", "date": "2026-08-07" }
+      "exit": { "type": "guard", "ref": "Both anon routes now opportunistically evict expired entries when hits.size>5000: src/app/api/receipts/studio/[tenant]/route.ts and src/app/api/louisville/receipts/route.ts throttled(). Bounded.", "date": "2026-08-07" }
     }
   ]
 }

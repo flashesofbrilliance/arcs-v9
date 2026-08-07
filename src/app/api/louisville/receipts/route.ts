@@ -34,10 +34,15 @@ const CreateSchema = z.object({
   payload: z.unknown().optional(),
 })
 
-// Best-effort per-instance throttle (serverless-local; row caps are the real bound)
+// Best-effort per-instance throttle (serverless-local; row caps are the real
+// bound). Opportunistically swept so a rotating-IP scraper cannot grow the Map
+// for the instance lifetime (ledger STU-016; mirrors the studio route).
 const hits = new Map<string, { n: number; t: number }>()
 function throttled(ip: string): boolean {
   const now = Date.now()
+  if (hits.size > 5000) {
+    for (const [k, v] of hits) if (now - v.t > 60_000) hits.delete(k)
+  }
   const h = hits.get(ip)
   if (!h || now - h.t > 60_000) {
     hits.set(ip, { n: 1, t: now })
