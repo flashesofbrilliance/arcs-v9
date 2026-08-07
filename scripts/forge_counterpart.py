@@ -27,7 +27,7 @@ Usage:
       --data runtime/recoil/generated/<id>-receipt.json --out public/<name>-receipt.html
   python3 scripts/forge_counterpart.py --verify-only --file public/<name>-receipt.html
 """
-import argparse, html, json, os, re, sys
+import argparse, html, json, os, re, sys, urllib.parse
 
 E = lambda s: html.escape(str(s), quote=True)
 # Attribute encoder for authored values that may already carry HTML entities
@@ -912,7 +912,8 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
 .mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:26px 26px 28px;position:relative}
 .mv.seed{border-color:rgba(255,215,0,.25)}.mv.well{border-color:rgba(0,240,255,.28)}.mv.corpus{border-color:rgba(0,255,157,.22)}
-.mv.horizon{border-color:rgba(255,215,0,.22)}.mv.start{border-color:rgba(0,255,157,.3)}.mv.trust{border-color:rgba(148,163,184,.25)}
+.mv.horizon{border-color:rgba(255,215,0,.22)}.mv.start{border-color:rgba(0,255,157,.3)}.mv.trust{border-color:rgba(148,163,184,.25)}.mv.comp{border-color:rgba(148,163,184,.25)}
+.mv.comp .mvk{color:var(--muted)}
 .mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
 .mv.seed .mvk{color:var(--gold)}.mv.well .mvk{color:var(--cyan)}.mv.corpus .mvk{color:var(--green)}
 .mv.horizon .mvk{color:var(--gold)}.mv.start .mvk{color:var(--green)}.mv.trust .mvk{color:var(--muted)}
@@ -961,11 +962,141 @@ a.face:hover{background:var(--surface)}.face.here{opacity:.65}
 .faced{font-size:12px;color:var(--muted)}
 .foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
 @media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}.prow{grid-template-columns:1fr;gap:5px}}
+/* --- bespoke one-door blocks (manifold / beat-meta / volley / compose / receipt-card / download / ledger / board) --- */
+.mcap{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.bmgroup{margin-bottom:14px}
+.bmg{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:9px}
+.bmcards{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.bm{border:1px solid var(--bmb,var(--border));border-radius:10px;background:var(--surface2);padding:13px 15px}
+.bm.unlock{grid-column:1 / -1;background:linear-gradient(180deg,var(--gold-bg),transparent 70%)}
+.bm.unlock .bml{color:#fff}
+.bmt{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--bc);margin-bottom:6px;display:block}
+.bml{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px}
+.bmles{font-size:12.5px;color:var(--muted);line-height:1.5}
+@media(max-width:560px){.bmcards{grid-template-columns:1fr}}
+.vrow{display:grid;grid-template-columns:46px 1fr;gap:12px;align-items:start;margin-bottom:10px}
+.vrl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--vlc);padding-top:15px;text-align:right}
+.vrcells{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quad{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:10px;background:var(--surface);padding:14px 15px}
+.quadl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
+.quad p{font-size:12.5px;color:var(--muted);line-height:1.5}
+@media(max-width:560px){.vrow{grid-template-columns:1fr;gap:6px}.vrl{text-align:left;padding-top:0}.vrcells{grid-template-columns:1fr}}
+.flagsblock{margin-top:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.flagsh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.flagsintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.shouldhave{border:1px solid rgba(255,215,0,.32);border-radius:11px;background:linear-gradient(180deg,var(--gold-bg),transparent);padding:15px 17px;margin-top:14px}
+.shk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--gold);display:block;margin-bottom:8px}
+.shouldhave p{font-size:14px;color:#e4ded4;line-height:1.6}
+.cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
+.cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
+.cinh{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.cin p{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.cinlink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--cyan);text-decoration:none}.cinlink:hover{text-decoration:underline}
+@media(max-width:560px){.cinputs{grid-template-columns:1fr}}
+.cmerge{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:14px 0}
+.cout{border:1px solid rgba(0,240,255,.3);border-radius:11px;background:linear-gradient(180deg,var(--cyan-bg),transparent);padding:16px 18px}
+.couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
+.cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.rcard{border:1px solid var(--border);border-radius:11px;background:#0b0f16;overflow:hidden;margin-top:6px}
+.rctop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border);background:var(--cyan-bg)}
+.rcid{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
+.rcst{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--dimmed)}
+.rcrow{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(30,41,59,.5)}
+.rck{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--dimmed);padding-top:2px}
+.rcv{font-size:13px;color:var(--text);line-height:1.45}
+.rcseal{padding:9px 15px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--dimmed);text-align:center;background:rgba(0,240,255,.03)}
+.rcpthint{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:8px}
+.rcptrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.rbtn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:10px 13px;background:var(--surface2)}
+.rbtn:hover{color:var(--text);border-color:var(--cyan)}.rbtn.json{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+@media(max-width:560px){.rcrow{grid-template-columns:1fr;gap:3px}}
+.ledger,.boardblock{margin-top:14px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.ledgerh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.ledgerintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.lrows{display:grid;gap:10px}
+.lrow{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:13px 15px}
+.lbel{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:8px}
+.lpair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.lt0,.lt1{font-size:12.5px;color:var(--muted);line-height:1.4}
+.ltk{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--dimmed);border:1px solid var(--border);border-radius:4px;padding:1px 4px;margin-right:4px}
+.lpct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed)}.lpct.up{color:var(--green)}
+.larrow{color:var(--cyan);font-size:16px;text-align:center}
+.lmoved{font-size:12px;color:var(--dimmed);line-height:1.5;border-top:1px solid var(--border);padding-top:7px}
+.ledgernote{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px;font-style:italic}
+.boardopen{font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;margin-bottom:14px}
+.chiefs{display:grid;gap:9px;margin-bottom:14px}
+.chief{border:1px solid var(--ccb,var(--border));border-radius:9px;background:var(--surface);padding:12px 15px}
+.chiefw{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cc);margin-bottom:6px}
+.chief p{font-size:12.5px;color:var(--muted);line-height:1.55}
+@media(max-width:560px){.lpair{grid-template-columns:1fr;gap:4px}.larrow{transform:rotate(90deg)}}
 """
 
 # belief-flip card accent by verdict/direction
 FLIP_ACC = {"up": ("var(--green)", "rgba(0,255,157,.30)"), "flip": ("var(--gold)", "rgba(255,215,0,.30)"),
             "down": ("var(--red)", "rgba(255,77,109,.30)"), "hold": ("var(--cyan)", "rgba(0,240,255,.28)")}
+
+
+def _manifold_multi(mf):
+    """Multi-call arc SVG for the one-door 'whole story' (blueprint: robin section 02).
+    points[{v(0..100), color, r?, tip:{t,n}}]; dividers=[point-index] where a new call
+    starts; call_labels=[{label, from, to}] (point-index span, centered). Base #tip."""
+    pts = mf["points"]
+    n = len(pts)
+    W, H, base, top, PL, PR = 720, 220, 174, 26, 16, 16
+    xs = [PL + (W - PL - PR) * (i / (n - 1)) for i in range(n)]
+    ys = [top + (base - top) * (1 - float(p.get("v", 50)) / 100.0) for p in pts]
+    line = "M" + " L".join(f"{xs[i]:.1f},{ys[i]:.1f}" for i in range(n))
+    area = f"M{xs[0]:.1f},{base} L" + " L".join(f"{xs[i]:.1f},{ys[i]:.1f}" for i in range(n)) + f" L{xs[-1]:.1f},{base} Z"
+    grid = ""
+    for idx in mf.get("dividers", []):
+        dx = (xs[idx - 1] + xs[idx]) / 2
+        grid += f'<line x1="{dx:.1f}" y1="{top}" x2="{dx:.1f}" y2="{base}" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 4"/>'
+    for cl in mf.get("call_labels", []):
+        cx = (xs[cl["from"]] + xs[cl["to"]]) / 2
+        grid += (f'<text x="{cx:.1f}" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" '
+                 f'font-size="8.5" letter-spacing="0.1em">{cl["label"]}</text>')
+    dots, hits = "", ""
+    for i, p in enumerate(pts):
+        c = p.get("color", "#64748b")
+        r = p.get("r", 3.2)
+        dots += f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5"/>'
+        tp = p.get("tip", {})
+        hits += (f'<circle class="hit" cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="16" fill="transparent" data-tip '
+                 f'data-c="{c}" data-t="{A(tp.get("t",""))}" data-n="{A(tp.get("n",""))}"/>')
+    return (f'<div class="manifold"><svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Calls as one arc">'
+            f'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity="0.14"/>'
+            f'<stop offset="1" stop-color="#00F0FF" stop-opacity="0"/></linearGradient></defs>'
+            f'<line x1="{PL}" y1="{base}" x2="{W-PR}" y2="{base}" stroke="#1e293b" stroke-width="1"/>{grid}'
+            f'<path d="{area}" fill="url(#g)"/><path d="{line}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+            f'{dots}{hits}</svg></div>')
+
+
+def _download_buttons(dl):
+    """The receipt download row: portable JSON (data-URI) + Google/Outlook/.ics
+    revisit links. Revisit datetimes are SSOT-supplied as YYYYMMDDTHHMMSSZ."""
+    q = urllib.parse.quote
+    rj = json.dumps(dl["receipt"], indent=2)
+    json_href = "data:application/json;charset=utf-8," + q(rj)
+    rv = dl.get("revisit", {})
+    title, details = rv.get("title", "ARCS revisit"), rv.get("details", "")
+    start, end = rv.get("start", ""), rv.get("end", "")
+    gcal = (f'https://calendar.google.com/calendar/render?action=TEMPLATE&text={q(title)}'
+            f'&dates={start}/{end}&details={q(details)}')
+    # Outlook wants ISO datetimes; derive from the compact form
+    def iso(s):
+        return f"{s[0:4]}-{s[4:6]}-{s[6:8]}T{s[9:11]}:{s[11:13]}:{s[13:15]}Z" if len(s) >= 15 else s
+    outlook = (f'https://outlook.office.com/calendar/0/deeplink/compose?subject={q(title)}'
+               f'&startdt={q(iso(start))}&enddt={q(iso(end))}&body={q(details)}&path=/calendar/action/compose&rru=addevent')
+    ics = ("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//ARCS//revisit//EN\r\nBEGIN:VEVENT\r\n"
+           f"UID:{dl.get('uid','arcs-revisit')}@arcs.care\r\nDTSTART:{start}\r\nDTEND:{end}\r\n"
+           f"SUMMARY:{title}\r\nDESCRIPTION:{details}\r\nEND:VEVENT\r\nEND:VCALENDAR")
+    ics_href = "data:text/calendar;charset=utf-8," + q(ics)
+    return (f'<div class="rcptrow">'
+            f'<a class="rbtn json" download="{E(dl.get("filename","receipt.json"))}" href="{json_href}">&#8681;&nbsp; Keep the receipt (JSON)</a>'
+            f'<a class="rbtn" href="{gcal}" target="_blank" rel="noopener">Google Calendar</a>'
+            f'<a class="rbtn" href="{outlook}" target="_blank" rel="noopener">Outlook</a>'
+            f'<a class="rbtn" download="arcs-revisit.ics" href="{ics_href}">.ics</a></div>')
 
 
 def _onedoor_block(b):
@@ -1019,6 +1150,72 @@ def _onedoor_block(b):
         return (f'<section class="mv trust"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
                 + (f'<p class="mvintro">{b["intro"]}</p>' if b.get("intro") else "")
                 + f'<div class="prows">{prows}</div></section>')
+    if t == "whole_story":
+        man = _manifold_multi(b["manifold"]) if b.get("manifold") else ""
+        mcap = f'<p class="mcap">{b["caption"]}</p>' if b.get("caption") else ""
+        bmeta = ""
+        for g in b.get("beat_meta", []):
+            cards = ""
+            for c in g["cards"]:
+                unlock = " unlock" if c.get("unlock") else ""
+                cards += (f'<div class="bm{unlock}" style="--bc:{c["bc"]}"><span class="bmt">{c["tag"]}</span>'
+                          f'<div class="bml">{c["label"]}</div><p class="bmles">{c["lesson"]}</p></div>')
+            bmeta += f'<div class="bmgroup"><div class="bmg">{E(g["group"])}</div><div class="bmcards">{cards}</div></div>'
+        volley = ""
+        v = b.get("volley")
+        if v:
+            rows = ""
+            for r in v["rows"]:
+                cells = "".join(f'<div class="quad" style="--qc:{c["qc"]}"><div class="quadl">{E(c["quadl"])}</div><p>{c["text"]}</p></div>' for c in r["cells"])
+                rows += f'<div class="vrow"><div class="vrl" style="--vlc:{r["vlc"]}">{r["label"]}</div><div class="vrcells">{cells}</div></div>'
+            sh = v.get("shouldhave", {})
+            volley = (f'<div class="flagsblock"><div class="flagsh">{v["h"]}</div><p class="flagsintro">{v["intro"]}</p>{rows}'
+                      + (f'<div class="shouldhave"><span class="shk">{sh["label"]}</span><p>{sh["text"]}</p></div>' if sh else "") + '</div>')
+        return (f'<section class="mv well"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                + (f'<p class="mvintro">{b["intro"]}</p>' if b.get("intro") else "")
+                + man + mcap + bmeta + volley + '</section>')
+    if t == "compose":
+        inputs = ""
+        for c in b.get("inputs", []):
+            link = f'<a class="cinlink" href="{A(c["link"]["href"])}" target="_blank" rel="noopener">&#8599; {c["link"]["label"]}</a>' if c.get("link") else ""
+            inputs += (f'<div class="cin" style="--ic:{c["ic"]}"><div class="cintag">{E(c["tag"])}</div>'
+                       f'<div class="cinh">{c["h"]}</div><p>{c["p"]}</p>{link}</div>')
+        out = b.get("out", {})
+        rc = b.get("receipt")
+        rcard = ""
+        if rc:
+            rows = "".join(f'<div class="rcrow"><div class="rck">{E(r["k"])}</div><div class="rcv">{r["v"]}</div></div>' for r in rc["rows"])
+            rcard = (f'<div class="rcard"><div class="rctop"><span class="rcid">{rc["id"]}</span><span class="rcst">{rc["status"]}</span></div>'
+                     f'{rows}<div class="rcseal">{rc.get("seal","")}</div></div>')
+        dl = _download_buttons(b["download"]) if b.get("download") else ""
+        hints = "".join(f'<p class="rcpthint">{h}</p>' for h in b.get("receipt_hint", []))
+        rlink = f'<a class="cinlink" href="{A(b["receipt_link"]["href"])}" target="_blank" rel="noopener">&#8599; {b["receipt_link"]["label"]}</a>' if b.get("receipt_link") else ""
+        cout = f'<div class="cout"><div class="couth">{out.get("h","")}</div><p>{out.get("p","")}</p>{rcard}{dl}{hints}{rlink}</div>' if out or rcard else ""
+        lg = b.get("ledger")
+        ledger = ""
+        if lg:
+            lrows = ""
+            for r in lg["rows"]:
+                up = " up" if r["t1"].get("up") else ""
+                lrows += (f'<div class="lrow"><div class="lbel">{r["label"]}</div><div class="lpair">'
+                          f'<div class="lt0"><span class="ltk">T0</span> {r["t0"]["text"]} <span class="lpct">{r["t0"]["pct"]}</span></div>'
+                          f'<div class="larrow">&rarr;</div>'
+                          f'<div class="lt1"><span class="ltk">T1</span> {r["t1"]["text"]} <span class="lpct{up}">{r["t1"]["pct"]}</span></div></div>'
+                          f'<p class="lmoved">{r["moved"]}</p></div>')
+            ledger = (f'<div class="ledger"><div class="ledgerh">{lg["h"]}</div><p class="ledgerintro">{lg["intro"]}</p>'
+                      f'<div class="lrows">{lrows}</div>' + (f'<p class="ledgernote">{lg["note"]}</p>' if lg.get("note") else "") + '</div>')
+        bd = b.get("board")
+        board = ""
+        if bd:
+            chiefs = "".join(f'<div class="chief" style="--cc:{c["cc"]}"><div class="chiefw">{E(c["who"])}</div><p>{c["text"]}</p></div>' for c in bd["chiefs"])
+            cut = bd.get("cut", {})
+            board = (f'<div class="boardblock"><div class="ledgerh">{bd["h"]}</div><p class="ledgerintro">{bd["intro"]}</p>'
+                     f'<div class="chiefs">{chiefs}</div><p class="boardopen">{bd["open"]}</p>'
+                     + (f'<div class="shouldhave"><span class="shk">{cut["label"]}</span><p>{cut["text"]}</p></div>' if cut else "") + '</div>')
+        merge = f'<div class="cmerge">{b["merge"]}</div>' if b.get("merge") else ""
+        return (f'<section class="mv comp"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                + (f'<p class="mvintro">{b["intro"]}</p>' if b.get("intro") else "")
+                + (f'<div class="cinputs">{inputs}</div>' if inputs else "") + merge + cout + ledger + board + '</section>')
     return ""
 
 
