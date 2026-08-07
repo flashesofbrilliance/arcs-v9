@@ -130,9 +130,15 @@ def main():
     ap.add_argument("--sig", action="store_true")
     ap.add_argument("--subject", action="store_true")
     ap.add_argument("--changed-since")
+    ap.add_argument("--mark-sent", help="write {signature,sent} snapshot to this path")
+    ap.add_argument("--sent-date", default="", help="date stamp to record with --mark-sent")
     a = ap.parse_args()
     b = load()
 
+    if a.mark_sent:
+        with open(a.mark_sent, "w") as f:
+            json.dump({"signature": signature(b), "sent": a.sent_date}, f)
+        print("marked"); return
     if a.sig:
         print(signature(b)); return
     if a.subject:
