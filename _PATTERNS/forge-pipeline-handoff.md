@@ -22,7 +22,16 @@ write on FAIL):
 - SSOTs: `runtime/recoil/generated/2026-08-05-daniels-{receipt,profile,codex}.json` (Robin) +
   `2026-07-23-kleban-{receipt,profile,onedoor}.json` (Yuri).
 
+**Receipt Studio — SHIPPED + LIVE (2026-08-07).** Interactive file/score/close at
+`robin-receipt.arcs.care` -> `/api/receipts/studio/[tenant]` (registry route, robin_app RLS applied to
+prod, `ROBIN_DATABASE_URL` set Production). CISO+SRE reviewed, findings fixed, STU-015/016 ledgered,
+live round-trip verified. Details + go-live gotchas in [[counterpart-forge-pipeline]] memory.
+
 **REMAINING (optional / lower priority):**
+0. **Receipt Studio follow-ups:** set `ROBIN_DATABASE_URL` for Preview too (currently Production-only);
+   fold the throttle-sweep (STU-016) into the louisville route when next touched; onboard more tenants by
+   adding a registry row + a `<tenant>_app` RLS migration + secret (never generalize the sessionId
+   write-bearer to a sensitive tenant, STU-015).
 1. **yuri-codex** via the dual-tab renderer (the existing 5-altitude `yuri-codex` + `yuri-demo` are now
    correctly RE-TIERED as the deeper how-it-scales layer, linked from the one-door, not top-level; the
    clean triad profile->recoil->receipt is the entry). A dual-tab yuri-codex on the single Jul-23 call is
