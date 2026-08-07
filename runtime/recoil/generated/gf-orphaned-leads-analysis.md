@@ -6,10 +6,16 @@ file (they live in the GF export Todd owns, handed over directly, never committe
 ## Headline
 - The site's main lead form is **96% spam** (2,990 of 3,126 entries) - it has **no spam protection at all**
   (Eric-Jones bot spam, XRumer signatures, etc.). The spam **buries every real lead**.
-- Under the spam: **~36 genuine, high-intent purchase/quote inquiries** (Dec 2022 → May 2026).
-- Matched against Sugar: **only 2 of 38 unique real leads are in the CRM. 36 are ORPHANED** - captured by the
-  form, never delivered, never worked. (The GF→Zapier delivery is off; a rep manually entered the 2 that made
-  it.)
+- Under the spam: **~38 genuine, high-intent purchase/quote inquiries** (Dec 2022 → May 2026).
+- Matched against Sugar by **email AND name AND company** across Leads, Contacts, and Accounts:
+  **6 of 38 are already in the CRM** as a Lead/Contact (Halstead/DT Mfg, D.Fernandez/Munchmeyer, Summers/
+  Sentinel, Blair/New Concept, Bohrer/Excel Tool, Windsor/Inoac); **3 more have their company as a known
+  Account** (David Wolfe Design, 3C Telemetry, PLS GmbH/the Tesla lead) but the person is not in the CRM;
+  **~29 are truly orphaned** (person and company both absent), never delivered, never worked.
+- **Method note (verified):** an *email-only* match falsely showed "36 orphaned" because **most Sugar records
+  have no email** - it could not see the name-only records. The multi-key match corrected it. The Account
+  name-match is exact-string, so known-company relationships under slightly different names may still be
+  undercounted; treat ~29 as the upper bound on net-new orphaned.
 
 ## What was left on the table (orphaned, recoverable - company · intent · date)
 Real companies, most naming a specific PRL grade or a competitor grade to replace:
@@ -33,6 +39,11 @@ Real companies, most naming a specific PRL grade or a competitor grade to replac
 
 That is competitor-conquest and real purchase intent from named industrial buyers, sitting unworked for up to
 3.5 years because the form is a spam magnet and nothing delivered the leads to the CRM.
+
+_Verification note: the table above is the full genuine-lead list, NOT the net-new-orphaned subset. Per the
+multi-key match, PLS GmbH / David Wolfe / 3C Telemetry are known Accounts, and Excel Tool / New Concept /
+Sentinel / Inoac already have a Lead or Contact. The corrected figures are in the Headline: 6 in CRM, 3
+account-only, ~29 truly orphaned._
 
 ## Recommendation 1 - spam/noise protection for the forms (for Todd)
 Turn the form from 96% noise into clean signal:
@@ -61,6 +72,46 @@ The GF data is a free blueprint for the bot:
   means no future lead orphans the way these 36 did. Frame 1.1/1.2 to Todd as "this stops the leak."
 - **Baseline/attribution:** these 36 orphaned leads are the "before." The bot's measurable value is capturing,
   delivering, and working inquiries that used to vanish.
+
+## Root cause of the spam (from the form config, exact)
+The "Material Alternative" form config shows precisely why it is 96% spam:
+- **Honeypot is OFF** (`enableHoneypot: false`).
+- **The CAPTCHA field exists but is not configured** (`captchaType: ""`, carries a `label_setting` error) - it is
+  not actually challenging bots. Same on "Contact Us".
+- **No blacklist/keyword filter** on this form (the older "PDF Form" carries the `bsk_gfbl` blacklist plugin
+  fields; "Material Alternative" does not).
+So bots walk straight in. Exact fixes:
+1. Set **`enableHoneypot: true`** (one toggle).
+2. Configure the existing CAPTCHA field with real **reCAPTCHA v3 / Cloudflare Turnstile keys** (it is present,
+   it just has no keys) - or swap in Turnstile.
+3. Apply the **blacklist/keyword rules** already on the PDF Form (block "eric", "xrumer", URLs in the material
+   field).
+4. Make the material field **reject URLs/HTML + enforce a min length**.
+5. All forms currently notify only `info@...` and **nothing writes to the CRM** - wire delivery so real leads
+   cannot orphan again.
+Scope note from the configs: **"Apply Now" (885) is a job-application form** (Position + Resume), not sales
+leads - exclude it. **"Contact Us" (708) is a sales-lead form** - analyze next, same method.
+
+## Recognition cross-reference (competitor work x real leads)
+Ran our recognition layer over the 36 orphaned intents:
+- **2 auto-mapped as competitor-conquest**: David Wolfe (Lexan 500R -> **PC-HM-FR1**), Excel Tool (Valox 325 ->
+  **TP-GP1**). Plus 4 named a PRL grade, 9 a family, **21 needed a human read**.
+- The 21 misses are a **gold finding for 1.3**: real buyers write **en-dashes** ("ABS–G15"), **grade suffixes**
+  ("PEI-GP1-7001", "PPX-FR2-8382"), and **alphanumeric competitor grades** ("Sabic Lexan 940A/945", "Makrolon
+  6455", "Lustran 433") that the recognizer does not yet catch. These 36 real intents are the **test set to
+  harden it** - adding en-dash handling, suffix-stripping, and competitor-alphanumeric matching would lift
+  auto-recognition from ~40% to most.
+This validates the competitor cross-reference (real conquest leads exist across Lexan, Valox, Makrolon, Lustran)
+AND gives the exact tuning targets.
+
+## Carry into 1.1 - 1.5 (refined)
+- **1.1 capture:** handle these real phrasings; email-validate + deliver = the permanent fix for orphaning.
+- **1.2 delivery/enrichment:** recover these 36 into the CRM (with Todd's OK); they are the measurable "before".
+- **1.3 recognition:** harden against the 36 real intents (en-dash, suffixes, competitor alphanumerics). Real
+  data beats synthetic - this is a free, high-quality eval set.
+- **1.4 SEM:** buyers literally search "alternative to Lexan / Valox" - validates the competitor-conquest SEM
+  onramp flows already drafted in Tidio.
+- **1.5 Lyro:** recognize + route conquest inquiries to a specialist, never guessing a spec.
 
 ## Provenance / handling
 Source: GF export `material-alternative-2026-08-07.csv` (Todd's data) matched to Sugar via read-only API. No
