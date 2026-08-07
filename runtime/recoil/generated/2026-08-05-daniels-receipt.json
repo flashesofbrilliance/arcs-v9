@@ -88,5 +88,11 @@
       "note": "This is a closed receipt, not a closed deal. The loop closed on the prediction, and the prediction taught me the real wedge. That is the receipt doing its job."
     }
   },
+  "studio": {
+    "tenant": "robin",
+    "author": "ZACH",
+    "title": "File your own bet",
+    "desc": "The receipt above was filed by hand to show the shape. This is the live tool: file a bet before your next call, score it after. A receipt is just JSON, the bet plus the falsifier plus the score-back date. It cannot be closed as a memory, only scored against what actually happened. Everything stays in your browser session; export the JSON any time."
+  },
   "foot": "ARCS &middot; FIELD OS &middot; FORENSIC RECEIPT CLOSE &middot; ROBIN DANIELS, CALL 3<br><b>FILE THE BET &middot; SCORE AGAINST REALITY &middot; LET THE RECEIPT TEACH YOU THE WEDGE</b>"
 }

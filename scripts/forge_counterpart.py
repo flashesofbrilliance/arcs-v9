@@ -97,6 +97,88 @@ GATE_CSS = ("#pw-gate{position:fixed;inset:0;background:var(--bg);display:flex;a
 
 VERCEL = '<script defer src="/_vercel/insights/script.js"></script>'
 
+# ---------------------------------------------------------------------------
+# Receipt Studio panel (blueprint sec 7) -- the interactive file/score/close
+# loop, wired to the registry route /api/receipts/studio/<tenant>. Rendered on a
+# receipt surface when its SSOT carries a `studio` block. Same-origin fetch works
+# only because the counterpart subdomain rewrite excludes /api (negative
+# lookahead, mirroring louisville.arcs.care). The route fail-closes until the
+# tenant's DB secret is set, so the panel shows a friendly error until then.
+# Portable JSON: the export button downloads the receipt as JSON that round-trips
+# to `forge_counterpart.py --surface receipt`.
+# ---------------------------------------------------------------------------
+STUDIO_CSS = (
+    ".studio{border:1px solid rgba(0,240,255,.28);border-radius:12px;background:var(--surface);padding:20px 22px;margin-top:16px}"
+    ".studio h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}"
+    ".studio .sdesc{font-size:13px;color:var(--muted);line-height:1.55;margin-bottom:16px}"
+    ".sfield{display:flex;flex-direction:column;gap:5px;margin-bottom:11px}"
+    ".sfield label{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}"
+    ".sfield input,.sfield textarea,.sfield select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--sans);font-size:13.5px;padding:9px 12px;outline:none;width:100%}"
+    ".sfield textarea{min-height:56px;resize:vertical}.sfield input:focus,.sfield textarea:focus,.sfield select:focus{border-color:var(--cyan)}"
+    ".sbtn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);background:var(--cyan-bg);border:1px solid rgba(0,240,255,.35);border-radius:8px;padding:10px 15px;cursor:pointer}"
+    ".sbtn:hover{background:rgba(0,240,255,.12)}.sbtn.ghost{color:var(--muted);background:none;border-color:var(--border)}"
+    ".smsg{font-family:var(--mono);font-size:10px;letter-spacing:.04em;margin-top:10px;min-height:14px}"
+    ".smsg.ok{color:var(--green)}.smsg.err{color:var(--red)}"
+    ".slist{display:grid;gap:9px;margin-top:16px}"
+    ".sr{border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:13px 15px}"
+    ".srh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}"
+    ".srb{font-size:13px;color:var(--text);line-height:1.45}"
+    ".srst{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:100px;border:1px solid var(--sc);color:var(--sc);flex:none}"
+    ".srmeta{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--dimmed);margin-top:6px}"
+    ".srclose{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:none}.sr.open .srclose{display:block}"
+    ".srrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}"
+)
+
+
+def _studio_panel(st):
+    tenant = st["tenant"]
+    author = st.get("author", "ZACH")
+    title = st.get("title", "Receipt Studio")
+    desc = st.get("desc", "File a bet before the call, score it after. A receipt is just JSON: the bet, the falsifier, the score-back date. It cannot be closed as a memory, only scored against reality.")
+    base = f"/api/receipts/studio/{tenant}"
+    # The JS is deliberately vanilla + inline (external JS cannot load on a
+    # wildcard-rewrite subdomain). sessionId lives in localStorage = the bearer token.
+    js = (
+        "(function(){var BASE='" + base + "',AUTHOR='" + author + "';"
+        "var KEY='studio-" + tenant + "-session';"
+        "var sid=localStorage.getItem(KEY);if(!sid){sid=(self.crypto&&crypto.randomUUID?crypto.randomUUID():'s'+Math.random().toString(36).slice(2)+Date.now());localStorage.setItem(KEY,sid);}"
+        "var $=function(id){return document.getElementById(id);};"
+        "function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}"
+        "function msg(t,cls){var m=$('st-msg');m.textContent=t;m.className='smsg '+(cls||'');}"
+        "var SC={OPEN:'#FFD700',SCORED:'#00FF9D',KILLED:'#FF4D6D',SCALED:'#00F0FF'};"
+        "function receiptJSON(r){return {receipt_type:'session receipt',tenant:'" + tenant + "',sessionId:r.sessionId,author:r.author,bet:r.bet,falsifier:r.falsifier,assumptions:r.assumptions,atRisk:r.atRisk,scoreBackDate:r.scoreBackDate,status:r.status,outcome:r.outcome,variance:r.variance,lesson:r.lesson,filed:r.createdAt};}"
+        "function dl(r){var blob=new Blob([JSON.stringify(receiptJSON(r),null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='receipt-'+(r.id||'draft')+'.json';a.click();}"
+        "function render(rows){var L=$('st-list');if(!rows.length){L.innerHTML='';return;}L.innerHTML=rows.map(function(r){var sc=SC[r.status]||'#94a3b8';var open=r.status==='OPEN';"
+        "return '<div class=\"sr'+(open?' open':'')+'\" data-id=\"'+esc(r.id)+'\"><div class=\"srh\"><div class=\"srb\">'+esc(r.bet)+'</div><span class=\"srst\" style=\"--sc:'+sc+'\">'+esc(r.status)+'</span></div>'"
+        "+'<div class=\"srmeta\">falsifier: '+esc(r.falsifier)+' &middot; score-back '+esc((r.scoreBackDate||'').slice(0,10))+'</div>'"
+        "+(r.outcome?'<div class=\"srmeta\" style=\"color:var(--text)\">outcome: '+esc(r.outcome)+(r.lesson?' &middot; lesson: '+esc(r.lesson):'')+'</div>':'')"
+        "+'<div class=\"srclose\"><div class=\"sfield\"><label>Observed outcome</label><textarea data-f=\"outcome\"></textarea></div>'"
+        "+'<div class=\"sfield\"><label>Variance / lesson</label><input data-f=\"lesson\"></div>'"
+        "+'<div class=\"srrow\"><button class=\"sbtn\" data-act=\"score\" data-v=\"SCORED\">Score it</button><button class=\"sbtn ghost\" data-act=\"score\" data-v=\"KILLED\">Kill</button></div></div>'"
+        "+'<div class=\"srrow\"><button class=\"sbtn ghost\" data-act=\"export\">Export JSON</button></div></div>';}).join('');bind(rows);}"
+        "function bind(rows){var by={};rows.forEach(function(r){by[r.id]=r;});"
+        "$('st-list').querySelectorAll('[data-act]').forEach(function(b){b.addEventListener('click',function(){var card=b.closest('.sr'),id=card.getAttribute('data-id'),r=by[id];"
+        "if(b.getAttribute('data-act')==='export'){dl(r);return;}"
+        "var outcome=(card.querySelector('[data-f=outcome]')||{}).value||'';var lesson=(card.querySelector('[data-f=lesson]')||{}).value||'';"
+        "fetch(BASE,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sid,id:id,status:b.getAttribute('data-v'),outcome:outcome,lesson:lesson})}).then(function(x){return x.json();}).then(function(d){if(d.error){msg(d.error,'err');return;}msg('Scored.','ok');load();}).catch(function(){msg('Network error scoring.','err');});});});}"
+        "function load(){fetch(BASE+'?sessionId='+encodeURIComponent(sid)).then(function(x){return x.json();}).then(function(d){if(d.error){msg(d.error,'err');return;}if(d.receipts)render(d.receipts);}).catch(function(){msg('Could not load your receipts. If you just filed one, do not re-file; reload in a moment.','err');});}"
+        "$('st-file').addEventListener('click',function(){var bet=$('st-bet').value.trim(),fal=$('st-fal').value.trim(),sb=$('st-sb').value;"
+        "if(!bet||!fal||!sb){msg('Bet, falsifier, and score-back date are all required.','err');return;}"
+        "fetch(BASE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sid,author:AUTHOR,bet:bet,falsifier:fal,scoreBackDate:sb,assumptions:$('st-ass').value.trim()||null})})"
+        ".then(function(x){return x.json();}).then(function(d){if(d.error){msg(d.error,'err');return;}msg('Sealed. The bet is filed and cannot be un-filed.','ok');$('st-bet').value='';$('st-fal').value='';$('st-ass').value='';load();}).catch(function(){msg('Network error filing.','err');});});"
+        "load();})();"
+    )
+    return (
+        f'<section class="sec"><div class="studio"><h3>{E(title)}</h3><p class="sdesc">{desc}</p>'
+        f'<div class="sfield"><label>The bet (a decision that can be wrong)</label><textarea id="st-bet" placeholder="Lead with one narrow thing in his register, name his own advice back..."></textarea></div>'
+        f'<div class="sfield"><label>The falsifier (what would prove it wrong)</label><textarea id="st-fal" placeholder="If it cannot fail, it is not a receipt."></textarea></div>'
+        f'<div class="sfield"><label>Assumptions (optional)</label><input id="st-ass"></div>'
+        f'<div class="sfield"><label>Score-back date</label><input id="st-sb" type="date"></div>'
+        f'<div class="srrow"><button id="st-file" class="sbtn">File the bet</button></div>'
+        f'<div id="st-msg" class="smsg"></div><div id="st-list" class="slist"></div></div>'
+        f'<script>{js}</script></section>'
+    )
+
 
 # ===========================================================================
 # RECEIPT-CLOSE SURFACE  (blueprint sec 9: robin-receipt = the crispest proof)
@@ -251,7 +333,8 @@ def render_receipt(d):
     L.append('<meta name="viewport" content="width=device-width, initial-scale=1">')
     L.append(f'<meta name="robots" content="noindex, nofollow"><title>{E(m.get("doc_title", m["counterpart"] + " · Receipt Close"))}</title>')
     gate_pw = (m.get("gate") or {}).get("external") or (m.get("gate") or {}).get("view")
-    L.append(f'<style>{RECEIPT_CSS}{TIP_CSS}{GATE_CSS if gate_pw else ""}</style>{VERCEL}</head><body>')
+    studio_css = STUDIO_CSS if d.get("studio") else ""
+    L.append(f'<style>{RECEIPT_CSS}{TIP_CSS}{studio_css}{GATE_CSS if gate_pw else ""}</style>{VERCEL}</head><body>')
     if gate_pw:
         L.append('<div id="pw-gate"><div class="pw-label">ARCS &#183; Private Receipt</div>'
                  '<input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>')
@@ -344,6 +427,8 @@ def render_receipt(d):
                  f'<p>{E(g["what"])} &mdash; would sharpen with: {E(g["inputs"])}.</p></div>'.replace("&mdash;", "&#8212;"))
     L.append('</section>')
 
+    if d.get("studio"):
+        L.append(_studio_panel(d["studio"]))
     L.append(f'<footer class="foot">{d.get("foot", "ARCS &middot; FIELD OS &middot; RECEIPT CLOSE")}</footer>')
     L.append('</div></div><div id="tip"></div>')
     L.append(f'<script>{TIP_JS}</script>')
