@@ -2,10 +2,14 @@
   "captured_at": "2026-08-03T18:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "db4d5a6",
-    "head_message": "docs(handoff): v3.22.0 — Zapier MCP direct SugarCRM access, config audit, site distill [NCI:SKIP]",
-    "in_sync_with_origin": true,
-    "dirty_files": []
+    "head_sha": "228a434",
+    "head_message": "docs(todd): step-by-step site/IT task list + Sugar as-built-vs-current analysis [NCI:SKIP]",
+    "in_sync_with_origin": false,
+    "dirty_files": [
+      "_ARTIFACTS/prl-roadmap-deck.html",
+      "_STATE/snapshot.json",
+      "runtime/recoil/generated/prl-kb/sugar-schema/build-vs-current-state.md"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -53,9 +57,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "PRL/Todd chatbot: Zapier MCP now exposes PRL's live SugarCRM (+Unbounce, LeadConnector) for direct read/write, removing the long-standing 'need a SugarCRM login' blocker. Ran a read-only config audit (Leads schema + 100 real records): phone_work is REQUIRED but the bot treats it optional; no chatbot lead_source value exists; location_c uses FULL state names not the abbreviations the schema declares (corrects an earlier claim); 95% of existing leads have no email (the project's strongest value proof); 92% route to Bill Galla; all records sit on team Global so a test lead cannot be made private. Nothing written to SugarCRM. Direct Tidio->Sugar REST researched and rejected (OAuth2 two-step); keeping Zapier for retry+audit trail. todd-call.arcs.care distilled 11 tabs -> 6 via /impeccable, fixing a mobile nav that was display:none and a page still opening with a price box 10 days after payment.",
-  "next_action": "Todd owes three decisions before lead delivery is wired: (1) phone required in chat or placeholder, (2) add a 'Chatbot' Lead Source value or accept 'Web Site', (3) approve one labelled test lead (or confirm a Sugar sandbox exists). Then wire the Tidio flow's API call node -> Zapier -> SugarCRM Create Record (Leads) and send one real test lead end to end.",
-  "blocking": "NONE (three client decisions outstanding, but nothing internally blocked)",
+  "session_summary": "PRL chatbot: shipped daily exec-status routine (scheduled task prl-daily-status, weekdays 9:31, draft-on-change); confirmed Tidio Lyro/Flows architecture in writing (Flows->Lyro->Human, no Lyro-in-Flow, only Visitor-Says conflicts, Simple Actions only in-Lyro logic); reframed Tidio email config as Tidio-support not IT; sent Todd weekend recap + Daniel/Tidio clarification; updated prl.arcs.care (For-your-team copy-paste blocks, IT reframe, 1.5 confirmed-order callout).",
+  "next_action": "Verify first status-routine run Mon 2026-08-10 9:31 (Run now to pre-approve Gmail tool). Await Todd on specs-vs-route, handoff fix, safe CRM test path. On greenlight, wire Tidio->Zapier->SugarCRM Create Record (do not write before approval).",
+  "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -179,7 +183,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-03T22:21:20Z",
+  "git_refreshed_at": "2026-08-07T19:38:02Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

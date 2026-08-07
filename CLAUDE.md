@@ -101,88 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.21.0 (2026-08-01)
-
-> **For Claude Code:** active pickup point. Short, surgical session: closed a Vercel
-> build-cost leak, generalized it, and formalized it as ADR-039. No counterpart work.
-
-## What shipped (2026-08-01)
-
-**Vercel deploy-cost leak closed + generalized + ADR'd.**
-
-- **Root cause:** every commit to `main` was building — including docs-only. Logic was NOT
-  inverted this time (that was the Jul-25 incident); the `commandForIgnoringBuildStep` exclude
-  list was just **incomplete**. `docs(handoff)` commits touch `.claude/arcs-session-state.md`,
-  and `.claude/` wasn't excluded (confirmed: `953effc docs(handoff): v3.20.0` built READY).
-- **Fix:** added `":(exclude).claude"` to the ignore-step via `PATCH /v9/projects`. Full
-  excludes now: `_MEMORY _PATTERNS _ARCHIVE _STATE .claude CLAUDE.md MEMORY.md AGENTS.md WORLD.md`.
-- **Verified live:** docs-only commit `a1fed75` (`_PATTERNS/` only) → deployment **CANCELED**
-  (skipped, no build); `public/` changes still build **READY**. Kept path-based, not
-  `[NCI:SKIP]`-based — a `[NCI:SKIP]` polish commit can still touch shippable `public/`.
-- **Vercel Agent audit:** both on-demand billing burners already OFF, read via
-  `GET /v2/teams/<id>`: `agent.codeReview.auto.enabled=false`, `alertInvestigation.enabled=false`
-  ("Investigate Anomalies Automatically" — the v3.18.0 "still ON" flag is now stale/corrected).
-- **Generalized** into the impeccable skill as cost-discipline (SKILL.md → Cost discipline,
-  v4.1.0; reference/init.md captures deploy-cost into PRODUCT.md; reference/live.md frames local
-  iteration as the cost-correct loop).
-- **ADR-039** (DECIDED, GREEN) — path-based ignored-build-step guardrail; index.json updated.
-- **Memories consolidated** (updated, not duplicated): [[vercel-ignored-build-step-was-inverted]]
-  (added the `.claude/` incident + live verification), [[vercel-config-via-cli-token-rest-api]]
-  (agent toggles ARE API-readable — corrected "dashboard-only"), [[cost-efficiency-global-goal]]
-  (path-not-message rule + local-iteration rule).
-
-## Also cleaned up (leftover main-worktree working state, 2026-08-01)
-
-Reviewed the three uncommitted items that had been sitting in the `main` worktree:
-- **`ADR-026-debrief-calendar-invite-vs-email.md`** (untracked DRAFT, collided with tracked
-  ADR-026 Debrief Delivery Fix) → renumbered to **ADR-040**, cross-linked, added to index. Still
-  DRAFT (Decision pending Zach; calendar-invite-vs-email-only for the debrief close-the-loop).
-- **`_ARTIFACTS/arcs-meta-audit-roadmap.html`** (+93 lines) → committed: a print-only "silkscreen
-  on paper" stylesheet (inverts the dark cockpit to ink densities that survive a laser printer,
-  forces SHARP fidelity on paper). Extends [[souvenir-ship-ritual]] to the roadmap deck.
-- **`.impeccable/critique/…omakase.md`** (dual-agent critique, 18/36) → durable lesson banked as
-  [[author-cosmology-over-guest-design-risk]]; its P0/P1 items were already resolved in the
-  v3.20.0 omakase distillation. Critique file committed as the dated record.
-
-## Also built this session (skills + code-verified ADR)
-
-- **`/meta-audit` skill** (`.claude/skills/meta-audit/SKILL.md`) — codifies the 8-section Drift
-  Sentry protocol from `_STATE/meta-audit-roadmap-v1.md` so any session runs one epoch
-  consistently (Recoil → code-verified parity → gauntlets → Chi/Ma/Wuwei → stack-rank → append
-  §8). Bakes in the hard-won non-negotiables (main-reachable epoch anchor, honesty gauge,
-  weekly-and-small, verify-parity-from-code). Chose skill only; routine/workflow deferred.
-- **Omakase critique → assembly rules.** Folded the omakase dual-agent critique into
-  `.claude/skills/omakase-pipeline/SKILL.md` as a "Composition & assembly rules (the guest test)"
-  section + wired into Step 4 (assemble against them) and Step 7 (guest-test lens) + anti-goal.
-  The critique is now reusable rules, not a one-off. See [[author-cosmology-over-guest-design-risk]].
-- **ADR-040 code-verified.** The debrief close-the-loop JTBD is **already shipped** (Option C,
-  Stage 1): in-app `/debrief/[receiptId]` + `/api/receipts/[receiptId]/outcome` + scheduled
-  Resend send (compass-time + long-horizon cron, loud logging, opt-in). NOT built: `.ics`,
-  Google Calendar API. ADR-040 corrected to reflect this — the live question is only whether to
-  add a calendar mechanism on top, at lower urgency than the original framing.
-
-## Open / next
-
-1. **Tao hosting work** — now safe to iterate; the leak that made every push a build is closed.
-2. **ADR-040 is DRAFT** — the loop already closes via email+in-app; decide whether a calendar
-   mechanism (.ics or Google Calendar) is worth adding, once there are ≥20 real (non-dev-test)
-   debrief opportunities to measure against.
-3. **Optional: schedule `/meta-audit` as a weekly routine** — deferred (needs a human toggle;
-   a prior claude.ai "Drift Sentinel" routine was DECIDED-disabled; scheduled runs add spend).
-3. Prior untouched: Louisville let-it-breathe (no follow-up unless Justin replies); Todd Hotes
-   Zapier (blocked on Tidio plan); Ahmed ext send; showcase mirror.
-
-## Blocking
-
-NONE.
-
-## Next session starts at
-
-`/handoff-pickup`. New: ADR-039 (deploy cost guardrail). The ignored-build-step exclude list is
-path-based — add a path when a new non-shipping file class enters the repo.
-
----
-
 # Handoff — v3.22.0 (2026-08-03)
 
 > **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to
@@ -249,3 +167,47 @@ source; approve one labelled test lead or confirm a sandbox), but nothing is int
 Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
 full state names, status "New", assign Bill Galla, details into `description`), then send one real
 test lead end to end. Do not write to SugarCRM before Todd approves.
+
+---
+
+# Handoff — v3.23.0 (2026-08-07)
+
+> **For Claude Code:** active pickup point. PRL chatbot session: daily status routine shipped, Tidio
+> Lyro/Flows architecture confirmed in writing, client + vendor emails sent, prl.arcs.care updated.
+
+## What shipped (2026-08-07)
+- **Daily exec-status routine** (scheduled task `prl-daily-status`, weekdays 9:31 local + jitter): reads a
+  status-board SSOT, drafts an exec email to Todd **only when the board changed**. Draft-only (the Gmail
+  connector has create_draft but **no send API**; true auto-send needs the Resend connector authorized, which
+  would send from a verified domain, not Zach's Gmail). SSOT = `~/.claude/scheduled-tasks/prl-daily-status/
+  board.json` (stable path); versioned copy `runtime/recoil/generated/prl-status/`. First run **Mon 2026-08-10**
+  — hit "Run now" once to pre-approve the Gmail tool + confirm headless can reach it.
+- **Tidio Lyro/Flows architecture CONFIRMED** (support, in writing): order is **Flows -> Lyro -> Human**,
+  sequential, **never nested**; **no Lyro node inside a Flow**; only **"Visitor Says" flows conflict**
+  (button/attribute flows coexist); **Simple Actions** is the only in-Lyro logic (legacy, plan-gated). Banked
+  into `2026-08-06-lyro-config-plan.md` + `prl-lyro/handoff-policy.md` (resolves gauntlet #2/#6). 1.5 design:
+  capture = a **non-input-triggered Flow** (runs first), Lyro = free-text fallback.
+- **Tidio email config = Tidio-support, not IT.** Domain + info@ complete in Tidio; dashboard still says
+  "contact support" -> Zach emailed support w/ screenshots. Site IT block + task doc reframed (IT only confirms
+  SPF/DKIM/DMARC + M365 forwarding + info@ monitoring).
+- **Emails sent:** weekend recap to Todd (w/ Stripe 1.2 kickoff link); Lyro clarification to Daniel
+  (d.triana@tidio.net) CC support — support confirmed our finding.
+- **prl.arcs.care:** added "For your team" copy-paste blocks (site maintainer + IT), reframed IT/Tidio split,
+  1.5 callout now notes the confirmed Flows->Lyro->Human order.
+
+## Open / next
+1. **First status-routine run Mon 9:31** — verify it drafts; "Run now" to pre-approve the Gmail tool.
+2. **Todd decisions:** specs-vs-route (rec: route), after-hours handoff fix (rec: yes), safe CRM test path
+   (sandbox or one labeled test lead), phone_work required-vs-placeholder, add "Chatbot" lead source. Nothing
+   internally blocked.
+3. **Tidio email-config** awaiting a human at Tidio support (screenshots sent).
+4. **On Todd's greenlight:** wire Tidio flow -> Zapier Catch Hook -> SugarCRM Create Record (Leads, full state
+   names, status New, assign Bill Galla, email1). Do NOT write to Sugar before Todd approves.
+5. Optional: authorize **Resend** to flip the status routine from draft to true auto-send.
+
+## Blocking
+NONE.
+
+## Next session starts at
+`/handoff-pickup`. Status routine SSOT = `~/.claude/scheduled-tasks/prl-daily-status/board.json`. Full PRL
+detail in machine-local memory `project_todd_hotes_prl_resins.md` (2026-08-07 entries).
