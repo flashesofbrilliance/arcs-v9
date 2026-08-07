@@ -1,84 +1,122 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin &middot; one door</title><style>
-:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,"SF Mono","Fira Code",monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Robin · one door</title><style>:root{
+  --bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--elevated:#111827;--border:#1e293b;
+  --text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;
+  --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+  --cyan-bg:rgba(0,240,255,.07);--green-bg:rgba(0,255,157,.07);--gold-bg:rgba(255,215,0,.07);--red-bg:rgba(255,77,109,.07);
+  --r-sm:4px;--r-md:8px;--r-lg:12px;
+  --mono:'GeistMono','JetBrains Mono','IBM Plex Mono',ui-monospace,monospace;
+  --sans:'InstrumentSans','Work Sans',system-ui,-apple-system,sans-serif;
+  --display:'BricolageGrotesque','Work Sans',system-ui,sans-serif;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:48px 22px 96px}
 .page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
 h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
 .eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
-h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18}
-.sub{font-size:15px;color:var(--muted);margin-top:10px;}
+h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18;font-family:var(--display)}
+.sub{font-size:15px;color:var(--muted);margin-top:10px}
 .rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
 .mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:26px 26px 28px;position:relative}
-.mv.seed{border-color:rgba(255,215,0,.25)}
-.mv.well{border-color:rgba(0,240,255,.28)}
-.mv.corpus{border-color:rgba(0,255,157,.22)}
+.mv.seed{border-color:rgba(255,215,0,.25)}.mv.well{border-color:rgba(0,240,255,.28)}.mv.corpus{border-color:rgba(0,255,157,.22)}
+.mv.horizon{border-color:rgba(255,215,0,.22)}.mv.start{border-color:rgba(0,255,157,.3)}.mv.trust{border-color:rgba(148,163,184,.25)}.mv.comp{border-color:rgba(148,163,184,.25)}
+.mv.comp .mvk{color:var(--muted)}
 .mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
 .mv.seed .mvk{color:var(--gold)}.mv.well .mvk{color:var(--cyan)}.mv.corpus .mvk{color:var(--green)}
+.mv.horizon .mvk{color:var(--gold)}.mv.start .mvk{color:var(--green)}.mv.trust .mvk{color:var(--muted)}
 .mv h2{font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
-.mvintro{font-size:14.5px;color:var(--muted);line-height:1.6;margin-bottom:18px;}
-.lbq{border:1px solid rgba(255,215,0,.28);border-radius:11px;background:rgba(255,215,0,.05);padding:16px 18px;margin:4px 0 16px}
+.mvintro{font-size:14.5px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.lbq{border:1px solid rgba(255,215,0,.30);border-radius:11px;background:var(--gold-bg);padding:16px 18px;margin:4px 0 16px}
 .lbq blockquote{font-size:19px;font-weight:600;line-height:1.4;color:#fff}
 .lbq .attr{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dimmed);margin-top:10px;line-height:1.6}
 .cta{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,215,0,.4);border-radius:8px;padding:11px 18px;text-decoration:none;transition:background .15s}
-.cta:hover{background:rgba(255,215,0,.08)}
+.cta:hover{background:var(--gold-bg)}
 .manifold{border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:14px 14px 8px;margin-bottom:14px}
-.mcap{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;}
+.mcap{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.flip{display:grid;gap:10px}
+.flipcard{border:1px solid var(--fcb,var(--border));border-radius:11px;background:var(--surface2);padding:15px 17px}
+.flipk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc,var(--dimmed));margin-bottom:8px}
+.flipb{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:8px}.flipb b{color:var(--text)}
+.flipq{font-size:13.5px;font-style:italic;color:var(--text);line-height:1.5;border-top:1px solid var(--border);padding-top:9px;margin-bottom:8px}
+.flipa{font-size:13px;color:var(--text);line-height:1.55}.flipa b{color:var(--green)}
+.cc{border-top:1px solid var(--border);padding:16px 0}.cc:first-of-type{border-top:0;padding-top:2px}
+.cc h3{font-size:16px;margin-bottom:6px}.cc p{font-size:14px;color:var(--muted);line-height:1.6}
+.cclink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none}
+.cclink:hover{text-decoration:underline}
+.seeds{display:grid;gap:11px}
+.seedc{border:1px solid rgba(255,215,0,.24);border-radius:10px;background:var(--surface2);padding:15px 17px}
+.seedc h3{font-size:15px;margin-bottom:6px;color:#fff}.seedc p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.needs{display:grid;gap:10px;margin-bottom:14px}
+.need{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.need h3{font-size:14px;color:#fff;white-space:nowrap}.need p{font-size:13px;color:var(--muted);line-height:1.5}
+.needclose{font-size:14px;color:var(--text);line-height:1.6}
+.prows{display:grid;gap:9px}
+.prow{display:grid;grid-template-columns:130px 1fr;gap:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.pwho{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);padding-top:2px}
+.pobj{font-size:13.5px;font-style:italic;color:var(--text);margin-bottom:6px}.pans{font-size:13px;color:var(--muted);line-height:1.55}
+.facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
+.facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
+.face{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text);cursor:pointer;transition:background .15s}
+.face::after{content:"\2197";font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dimmed);align-self:center;transition:color .15s,transform .15s}
+.face:hover::after{color:var(--cyan);transform:translate(2px,-2px)}
+a.face:hover{background:var(--surface)}.face.here{opacity:.65}
+.facen.led{display:inline-block;width:8px;height:8px;border-radius:50%;align-self:start;margin-top:5px;background:rgb(var(--rgb));animation:ledpulse 1.8s ease-in-out infinite}
+.led.g{--rgb:0,255,157}.led.o{--rgb:255,159,28}.led.r{--rgb:255,77,109}.led.c{--rgb:0,240,255}
+@keyframes ledpulse{0%,100%{opacity:.5}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.facen.led{animation:none;opacity:1}.face::after{transition:none}}
+.faceb{display:flex;flex-direction:column;gap:2px}
+.facet{font-size:14.5px;font-weight:700;color:#fff}.facet b{color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.06em;font-weight:700}
+.faced{font-size:12px;color:var(--muted)}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
+@media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}.prow{grid-template-columns:1fr;gap:5px}}
+/* --- bespoke one-door blocks (manifold / beat-meta / volley / compose / receipt-card / download / ledger / board) --- */
+.mcap{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
 .bmgroup{margin-bottom:14px}
 .bmg{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:9px}
 .bmcards{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.bm{border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:13px 15px}
-.bm.unlock{grid-column:1 / -1;background:linear-gradient(180deg,rgba(255,215,0,.07),transparent 70%)}
+.bm{border:1px solid var(--bmb,var(--border));border-radius:10px;background:var(--surface2);padding:13px 15px}
+.bm.unlock{grid-column:1 / -1;background:linear-gradient(180deg,var(--gold-bg),transparent 70%)}
 .bm.unlock .bml{color:#fff}
-.bmtop{margin-bottom:6px}
-.bmt{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--bc)}
+.bmt{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.12em;color:var(--bc);margin-bottom:6px;display:block}
 .bml{font-size:14px;font-weight:700;color:#fff;margin-bottom:5px}
 .bmles{font-size:12.5px;color:var(--muted);line-height:1.5}
-.cc{border-top:1px solid var(--border);padding:16px 0}
-.cc:first-of-type{border-top:0;padding-top:2px}
-.cc h3{font-size:16px;margin-bottom:6px}
-.cc p{font-size:14px;color:var(--muted);line-height:1.6;}
-.cclink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none}
-.cclink:hover{text-decoration:underline}
-.horizon{border-color:rgba(255,215,0,.22)}
-.horizon .mvk{color:var(--gold)}
-.start{border-color:rgba(0,255,157,.3)}
-.start .mvk{color:var(--green)}
-.seeds{display:grid;gap:11px}
-.seed{background:var(--surface2);border:1px solid rgba(255,215,0,.22);border-radius:10px;padding:15px 17px}
-.seed h3{font-size:15px;margin-bottom:6px;color:#fff}
-.seed p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
-.comp{border-color:rgba(148,163,184,.25)}
-.comp .mvk{color:var(--muted)}
-.rcpt{margin-top:14px;border-top:1px solid var(--border);padding-top:14px}
-.rcpth{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:8px}
-.rcptrow{display:flex;flex-wrap:wrap;gap:8px}
-.rbtn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:10px 13px;background:var(--surface2);transition:color .15s,border-color .15s}
-.rbtn:hover{color:var(--text);border-color:var(--cyan)}
-.rbtn.json{color:var(--cyan);border-color:rgba(0,240,255,.35)}
-.needs{display:grid;gap:10px;margin-bottom:14px}
-.need{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
-.need h3{font-size:14px;color:#fff;white-space:nowrap}
-.need p{font-size:13px;color:var(--muted);line-height:1.5}
-.needclose{font-size:14px;color:var(--text);line-height:1.6}
-.flagsblock{margin-top:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
-.flagsh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
-.flagsintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
-.flags{display:grid;gap:9px}
-.flag{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:12px 15px}
-.flagk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc);margin-bottom:6px}
-.flag p{font-size:13px;color:var(--muted);line-height:1.55}
-.quads{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+@media(max-width:560px){.bmcards{grid-template-columns:1fr}}
 .vrow{display:grid;grid-template-columns:46px 1fr;gap:12px;align-items:start;margin-bottom:10px}
 .vrl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--vlc);padding-top:15px;text-align:right}
 .vrcells{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:560px){.vrow{grid-template-columns:1fr;gap:6px}.vrl{text-align:left;padding-top:0}.vrcells{grid-template-columns:1fr}}
 .quad{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:10px;background:var(--surface);padding:14px 15px}
-.quad:last-child{background:linear-gradient(180deg,rgba(255,215,0,.06),transparent)}
 .quadl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
 .quad p{font-size:12.5px;color:var(--muted);line-height:1.5}
-.shouldhave{border:1px solid rgba(255,215,0,.32);border-radius:11px;background:linear-gradient(180deg,rgba(255,215,0,.06),transparent);padding:15px 17px}
+@media(max-width:560px){.vrow{grid-template-columns:1fr;gap:6px}.vrl{text-align:left;padding-top:0}.vrcells{grid-template-columns:1fr}}
+.flagsblock{margin-top:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.flagsh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.flagsintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.shouldhave{border:1px solid rgba(255,215,0,.32);border-radius:11px;background:linear-gradient(180deg,var(--gold-bg),transparent);padding:15px 17px;margin-top:14px}
 .shk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;color:var(--gold);display:block;margin-bottom:8px}
 .shouldhave p{font-size:14px;color:#e4ded4;line-height:1.6}
+.cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
+.cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
+.cinh{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
+.cin p{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
+.cinlink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--cyan);text-decoration:none}.cinlink:hover{text-decoration:underline}
+@media(max-width:560px){.cinputs{grid-template-columns:1fr}}
+.cmerge{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:14px 0}
+.cout{border:1px solid rgba(0,240,255,.3);border-radius:11px;background:linear-gradient(180deg,var(--cyan-bg),transparent);padding:16px 18px}
+.couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
+.cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.rcard{border:1px solid var(--border);border-radius:11px;background:#0b0f16;overflow:hidden;margin-top:6px}
+.rctop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border);background:var(--cyan-bg)}
+.rcid{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
+.rcst{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--dimmed)}
+.rcrow{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(30,41,59,.5)}
+.rck{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--dimmed);padding-top:2px}
+.rcv{font-size:13px;color:var(--text);line-height:1.45}
+.rcseal{padding:9px 15px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--dimmed);text-align:center;background:rgba(0,240,255,.03)}
+.rcpthint{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:8px}
+.rcptrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.rbtn{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:10px 13px;background:var(--surface2)}
+.rbtn:hover{color:var(--text);border-color:var(--cyan)}.rbtn.json{color:var(--cyan);border-color:rgba(0,240,255,.35)}
+@media(max-width:560px){.rcrow{grid-template-columns:1fr;gap:3px}}
 .ledger,.boardblock{margin-top:14px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
 .ledgerh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
 .ledgerintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
@@ -88,280 +126,14 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .lpair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:8px}
 .lt0,.lt1{font-size:12.5px;color:var(--muted);line-height:1.4}
 .ltk{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--dimmed);border:1px solid var(--border);border-radius:4px;padding:1px 4px;margin-right:4px}
-.lpct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed)}
-.lpct.up{color:var(--green)}
+.lpct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed)}.lpct.up{color:var(--green)}
 .larrow{color:var(--cyan);font-size:16px;text-align:center}
 .lmoved{font-size:12px;color:var(--dimmed);line-height:1.5;border-top:1px solid var(--border);padding-top:7px}
 .ledgernote{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px;font-style:italic}
 .boardopen{font-size:13px;color:var(--muted);line-height:1.6;font-style:italic;margin-bottom:14px}
 .chiefs{display:grid;gap:9px;margin-bottom:14px}
-.chief{background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:12px 15px}
+.chief{border:1px solid var(--ccb,var(--border));border-radius:9px;background:var(--surface);padding:12px 15px}
 .chiefw{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--cc);margin-bottom:6px}
 .chief p{font-size:12.5px;color:var(--muted);line-height:1.55}
-@media(max-width:560px){.quads{grid-template-columns:1fr}.lpair{grid-template-columns:1fr;gap:4px}.larrow{transform:rotate(90deg)}}
-.rcard{border:1px solid var(--border);border-radius:11px;background:#0b0f16;overflow:hidden;margin-top:6px}
-.rctop{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04)}
-.rcid{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--cyan)}
-.rcst{font-family:var(--mono);font-size:8px;letter-spacing:.1em;color:var(--dimmed)}
-.rcrow{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 15px;border-bottom:1px solid rgba(30,41,59,.5)}
-.rck{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--dimmed);padding-top:2px}
-.rcv{font-size:13px;color:var(--text);line-height:1.45}
-.rcseal{padding:9px 15px;font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--dimmed);text-align:center;background:rgba(0,240,255,.03)}
-.rcpthint{font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:8px}
-.trust{border-color:rgba(148,163,184,.25)}
-.trust .mvk{color:var(--muted)}
-.prows{display:grid;gap:9px}
-.prow{display:grid;grid-template-columns:130px 1fr;gap:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
-.pwho{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);padding-top:2px}
-.pobj{font-size:13.5px;font-style:italic;color:var(--text);margin-bottom:6px}
-.pans{font-size:13px;color:var(--muted);line-height:1.55}
-@media(max-width:560px){.rcrow{grid-template-columns:1fr;gap:3px}.prow{grid-template-columns:1fr;gap:5px}}
-@media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}}
-.cinputs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
-.cin{border:1px solid var(--border);border-top:2px solid var(--ic);border-radius:10px;background:var(--surface2);padding:14px 15px}
-.cintag{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;color:var(--ic);margin-bottom:7px}
-.cinh{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px}
-.cin p{font-size:12px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere}
-.cinlink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;color:var(--cyan);text-decoration:none}
-.cinlink:hover{text-decoration:underline}
-.cmerge{text-align:center;font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin:14px 0}
-.cout{border:1px solid rgba(0,240,255,.3);border-radius:11px;background:linear-gradient(180deg,rgba(0,240,255,.06),transparent);padding:16px 18px}
-.couth{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
-.cout p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
-@media(max-width:560px){.cinputs{grid-template-columns:1fr}}
-.scroll-margin{scroll-margin-top:14px}
-.facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
-.facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
-.face{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text);cursor:pointer;transition:background .15s}
-.face::after{content:"\2197";font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dimmed);align-self:center;transition:color .15s,transform .15s}
-.face:hover::after{color:var(--cyan);transform:translate(2px,-2px)}
-@media(prefers-reduced-motion:reduce){.face::after{transition:none}}
-a.face:hover{background:var(--surface)}.face.here{opacity:.65}
-.facen{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--cyan)}
-.facen.led{display:inline-block;width:7px;height:7px;border-radius:50%;align-self:start;margin-top:5px;background:rgb(var(--rgb));animation:ledpulse 1.8s ease-in-out infinite}
-.led.g{--rgb:0,255,157}.led.o{--rgb:255,159,28}.led.r{--rgb:255,77,109}
-@keyframes ledpulse{0%,100%{opacity:.5}50%{opacity:1}}
-@media(prefers-reduced-motion:reduce){.facen.led{animation:none;opacity:1}}
-.faceb{display:flex;flex-direction:column;gap:2px}
-.facet{font-size:14.5px;font-weight:700;color:#fff}.facet b{color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.06em;font-weight:700}
-.faced{font-size:12px;color:var(--muted)}
-.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
-@media(max-width:560px){.bmcards{grid-template-columns:1fr}}
-.hit{cursor:pointer}
-#tip{position:fixed;z-index:80;max-width:min(280px,88vw);pointer-events:none;opacity:0;transition:opacity .12s;background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;padding:11px 13px;box-shadow:0 8px 30px rgba(0,0,0,.55)}
-#tip.on{opacity:1}
-#tip .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,#94a3b8);margin-bottom:6px}
-#tip .tn{font-size:13px;color:var(--text);line-height:1.45}
-@media(hover:none){.hit{cursor:default}}
-#pw-gate{position:fixed;inset:0;background:#020408;display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}#pw-gate.hidden{display:none}
-.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#475569}
-.pw-input{background:#0d1117;border:1px solid #1e293b;border-radius:8px;color:#e2e8f0;font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
-.pw-input:focus{border-color:#00F0FF}.pw-input.shake{animation:shk .3s ease;border-color:#FF4D6D}
-@keyframes shk{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-</style><script defer src="/_vercel/insights/script.js"></script></head><body><div id="pw-gate"><div class="pw-label">ARCS &middot; Private &middot; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page">
-  <div><div class="eyebrow">Robin · one door</div><h1>One line, our recent arc, and the coach it turned into.</h1><p class="sub">Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything.</p></div>
-  <div class="rule"></div>
-  <div class="facesnav"><div class="facesl">Three reads, each one feeds the next</div><a class="face" href="https://robin-profile.arcs.care" target="_blank" rel="noopener"><span class="facen led g" aria-hidden="true"></span><span class="faceb"><span class="facet">The read of you</span><span class="faced">who you are, built from your own voice</span></span></a><a class="face" href="https://robin-codex.arcs.care" target="_blank" rel="noopener"><span class="facen led o" aria-hidden="true"></span><span class="faceb"><span class="facet">The recoil of our calls</span><span class="faced">the serialized October and November calls, moment by moment</span></span></a><a class="face" href="https://robin-receipt.arcs.care" target="_blank" rel="noopener"><span class="facen led r" aria-hidden="true"></span><span class="faceb"><span class="facet">The receipt of our last call &middot; <b>in full resolution</b></span><span class="faced">today's call: the bet I filed before it, then scored against what actually happened</span></span></a></div>
-  <section class="mv seed"><div class="mvk">01 · the one line</div><h2>The taste you already have.</h2>
-    <div class="lbq"><blockquote>&ldquo;Pick a use case and then go hard at that. Pick one, and fucking nail that one.&rdquo;</blockquote><div class="attr">You, Oct 23. The whole strategy in one line. I ran ARCS on our own calls and served it back.</div></div>
-    <a class="cta" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">Open the read &rarr;</a>
-  </section>
-  <section class="mv well"><div class="mvk">02 · the whole story</div><h2>Three of our calls, as one arc.</h2>
-    <p class="mvintro">This is the part you cannot get anywhere else: not one call, but the trajectory across these three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.</p>
-    <div class="manifold"><svg viewBox="0 0 720 220" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Three calls as one arc">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity="0.14"/><stop offset="1" stop-color="#00F0FF" stop-opacity="0"/></linearGradient></defs>
-  <line x1="16" y1="174" x2="704" y2="174" stroke="#1e293b" stroke-width="1"/>
-  <line x1="237.1" y1="26" x2="237.1" y2="174" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 4"/><line x1="433.7" y1="26" x2="433.7" y2="174" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 4"/><text x="126.6" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="0.1em">Call 1 · Oct 23</text><text x="335.4" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="0.1em">Call 2 · Nov 13</text><text x="568.9" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="0.1em">Call 3 · Aug 5</text><path d="M16.0,174 L16.0,76.0 L65.1,43.8 L114.3,52.2 L163.4,59.2 L212.6,98.4 L261.7,109.6 L310.9,130.6 L360.0,134.8 L409.1,148.8 L458.3,76.0 L507.4,57.8 L556.6,53.6 L605.7,49.4 L654.9,38.2 L704.0,69.0 L704.0,174 Z" fill="url(#g)"/>
-  <path d="M16.0,76.0 L65.1,43.8 L114.3,52.2 L163.4,59.2 L212.6,98.4 L261.7,109.6 L310.9,130.6 L360.0,134.8 L409.1,148.8 L458.3,76.0 L507.4,57.8 L556.6,53.6 L605.7,49.4 L654.9,38.2 L704.0,69.0" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16.0" cy="76.0" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="65.1" cy="43.8" r="6" fill="#00FF9D" stroke="#020408" stroke-width="1.5"/><circle cx="114.3" cy="52.2" r="6" fill="#FFD700" stroke="#020408" stroke-width="1.5"/><circle cx="163.4" cy="59.2" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="212.6" cy="98.4" r="6" fill="#FF4D6D" stroke="#020408" stroke-width="1.5"/><circle cx="261.7" cy="109.6" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="310.9" cy="130.6" r="6" fill="#FF4D6D" stroke="#020408" stroke-width="1.5"/><circle cx="360.0" cy="134.8" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="409.1" cy="148.8" r="6" fill="#FF4D6D" stroke="#020408" stroke-width="1.5"/><circle cx="458.3" cy="76.0" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="507.4" cy="57.8" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="556.6" cy="53.6" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="605.7" cy="49.4" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="654.9" cy="38.2" r="6" fill="#FFD700" stroke="#020408" stroke-width="1.5"/><circle cx="704.0" cy="69.0" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle class="hit" cx="16.0" cy="76.0" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C1 open" data-n="Warm reconnect"/><circle class="hit" cx="65.1" cy="43.8" r="16" fill="transparent" data-tip data-c="#00FF9D" data-t="C1 peak" data-n="The Holy Grail moment"/><circle class="hit" cx="114.3" cy="52.2" r="16" fill="transparent" data-tip data-c="#FFD700" data-t="C1 gift" data-n="You gave me the strategy: pick one"/><circle class="hit" cx="163.4" cy="59.2" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C1 ikigai" data-n="Shared history, Ikigai"/><circle class="hit" cx="212.6" cy="98.4" r="16" fill="transparent" data-tip data-c="#FF4D6D" data-t="C1 veer" data-n="First time I lost you"/><circle class="hit" cx="261.7" cy="109.6" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C2 ask" data-n="I asked you to champion it"/><circle class="hit" cx="310.9" cy="130.6" r="16" fill="transparent" data-tip data-c="#FF4D6D" data-t="C2 entropy" data-n="I opened on physics"/><circle class="hit" cx="360.0" cy="134.8" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C2 demo" data-n="A long demo I carried"/><circle class="hit" cx="409.1" cy="148.8" r="16" fill="transparent" data-tip data-c="#FF4D6D" data-t="C2 exit" data-n="The lowest point, a flat exit"/><circle class="hit" cx="458.3" cy="76.0" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C3 warm" data-n="Warm from the first minute"/><circle class="hit" cx="507.4" cy="57.8" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C3 advice" data-n="I named your advice back"/><circle class="hit" cx="556.6" cy="53.6" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C3 how" data-n="You asked how it works"/><circle class="hit" cx="605.7" cy="49.4" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C3 deploy" data-n="You asked how it plugs in"/><circle class="hit" cx="654.9" cy="38.2" r="16" fill="transparent" data-tip data-c="#FFD700" data-t="C3 high point" data-n="A coach you wish you had"/><circle class="hit" cx="704.0" cy="69.0" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C3 close" data-n="Warm: let me get back to you"/>
-</svg></div>
-    <p class="mcap">The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3, when you called it a coach you wish you had) are the same relationship three weeks and nine months apart. That delta is the coachable story.</p>
-    <div class="bmgroup"><div class="bmg">Call 1</div><div class="bmcards">
-        <div class="bm" style="--bc:#00FF9D">
-          <div class="bmtop"><span class="bmt">YOUR COACHING</span></div>
-          <div class="bml">Hard to put you in a box</div>
-          <p class="bmles">Naming the constraint as a compliment. Your signature reframe.</p>
-        </div>
-        <div class="bm" style="--bc:#FF4D6D">
-          <div class="bmtop"><span class="bmt">THE TELL</span></div>
-          <div class="bml">The nod-along</div>
-          <p class="bmles">Filler agreement is the earliest disengagement tell. Drop altitude when you hear it.</p>
-        </div>
-        <div class="bm unlock" style="--bc:#FFD700">
-          <div class="bmtop"><span class="bmt">&#8627; THE UNLOCK</span></div>
-          <div class="bml">Pick one, nail it</div>
-          <p class="bmles">Your own coaching move: compress to one wedge. Training signal, not just advice.</p>
-        </div></div></div><div class="bmgroup"><div class="bmg">Call 2</div><div class="bmcards">
-        <div class="bm" style="--bc:#FF4D6D">
-          <div class="bmtop"><span class="bmt">THE TELL</span></div>
-          <div class="bml">The one-word collapse</div>
-          <p class="bmles">‘Close. Ly. Follow.’ Word-count collapse is the loudest silence. Yield, do not push.</p>
-        </div>
-        <div class="bm" style="--bc:#94a3b8">
-          <div class="bmtop"><span class="bmt">THE RECOVERY</span></div>
-          <div class="bml">The coffee-maker joke</div>
-          <p class="bmles">When the pitch channel is dead, the human channel is still open. Pivot to human.</p>
-        </div>
-        <div class="bm unlock" style="--bc:#FFD700">
-          <div class="bmtop"><span class="bmt">&#8627; THE UNLOCK</span></div>
-          <div class="bml">The clean exit</div>
-          <p class="bmles">An exit with no ‘send me more’ is a soft no. The warmth was politeness, not interest.</p>
-        </div></div></div><div class="bmgroup"><div class="bmg">Call 3</div><div class="bmcards">
-        <div class="bm" style="--bc:#00F0FF">
-          <div class="bmtop"><span class="bmt">BUYING SIGNAL</span></div>
-          <div class="bml">‘How does it do this?’</div>
-          <p class="bmles">A how-does-it-work question is an invitation. It means value already landed.</p>
-        </div>
-        <div class="bm" style="--bc:#00F0FF">
-          <div class="bmtop"><span class="bmt">BUYING SIGNAL</span></div>
-          <div class="bml">‘Can it tap into Zoom/Teams?’</div>
-          <p class="bmles">Pricing the how. They bought the what. Move to integration.</p>
-        </div>
-        <div class="bm" style="--bc:#FFD700">
-          <div class="bmtop"><span class="bmt">YOUR OWN PATTERN</span></div>
-          <div class="bml">The marathon wall</div>
-          <p class="bmles">You named your own overconfidence pattern. It mirrors your own patterns back to you.</p>
-        </div>
-        <div class="bm" style="--bc:#00FF9D">
-          <div class="bmtop"><span class="bmt">A YES, WAITING</span></div>
-          <div class="bml">‘Let me get back to you’</div>
-          <p class="bmles">A soft close after real engagement is a yes waiting, not a no. You meant more than you said.</p>
-        </div>
-        <div class="bm unlock" style="--bc:#FFD700">
-          <div class="bmtop"><span class="bmt">&#8627; THE UNLOCK</span></div>
-          <div class="bml">‘A coach you wish you had’</div>
-          <p class="bmles">You named the category and the frame. When they own it, stop pitching.</p>
-        </div></div></div>
-    
-    <div class="flagsblock"><div class="flagsh">Every idea was a volley. Here it is in four boxes.</div><p class="flagsintro">I floated a kernel, you built on it or reframed it, and I either caught your polish or sailed off to intergalactic. Read another way, this is you coaching me, and the whole lesson lives in the bottom-right box.</p>
-      <div class="vrow"><div class="vrl" style="--vlc:#64748b">ME &rarr;</div><div class="vrcells"><div class="quad" style="--qc:#64748b"><div class="quadl">what I put out</div><p>A kernel, usually too big. The everything-platform. The coherence engine. Five use cases in one breath, then physics.</p></div><div class="quad" style="--qc:#64748b"><div class="quadl">what I was going for</div><p>Your buy-in. I wanted you to see the whole thing at once and carry it inside for me.</p></div></div></div><div class="vrow"><div class="vrl" style="--vlc:#00F0FF">YOU &rarr;</div><div class="vrcells"><div class="quad" style="--qc:#00F0FF"><div class="quadl">what you said</div><p>Short and generous on call one: &#x27;Holy Grail... pick one and nail it.&#x27; Shorter and flatter on call two: &#x27;Close. Ly. Follow.&#x27;</p></div><div class="quad" style="--qc:#FFD700"><div class="quadl">what you meant</div><p>Call one: the idea is real, now narrow it. Call two: you have lost me, and I am too polite to say it outright.</p></div></div></div>
-      <div class="shouldhave"><span class="shk">&darr; THE LEARNING &middot; WHAT I SHOULD HAVE HEARD, HAD I BEEN LISTENING</span><p>What I should have heard, if I had been actively listening: your word count was the whole message. When you got shorter, the thread was already dead. When you got specific and generous (&#x27;pick one, nail it&#x27;), that was the one to keep. You told me every time. I just kept talking.</p></div></div>
-  </section>
-  
-  <section class="mv comp"><div class="mvk">03 · how the brief is built</div><h2>The pre-call brief is composed, not guessed.</h2>
-    <p class="mvintro">Before a call, the seed is built by merging two kinds of source input: a read of the public profile, and a read of each prior call. Nothing is invented. Here is what actually went into yours.</p>
-    <div class="cinputs">
-      <div class="cin" style="--ic:#FFD700">
-        <div class="cintag">YOUR PROFILE</div>
-        <div class="cinh">Your enriched profile</div>
-        <p>Storyteller-operator, elevator-pitch champion. Resonates with personal pain, one narrow retellable idea, movement over features, humor. Two registers: tactical GTM craft and high-altitude roadmap-for-life meaning. Read: meet him at ground altitude, let him climb.</p>
-        <a class="cinlink" href="https://robin-profile.arcs.care" target="_blank" rel="noopener">&#8599; see the profile read</a>
-      </div>
-      <div class="cin" style="--ic:#00FF9D">
-        <div class="cintag">OUR OCTOBER CALL</div>
-        <div class="cinh">The October call</div>
-        <p>Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley.</p>
-        <a class="cinlink" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">&#8599; see the actual read</a>
-      </div>
-      <div class="cin" style="--ic:#FF4D6D">
-        <div class="cintag">OUR NOVEMBER CALL</div>
-        <div class="cinh">The November call</div>
-        <p>Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early.</p>
-        <a class="cinlink" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">&#8599; see the actual read</a>
-      </div></div>
-    <div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div>
-    <div class="cout"><div class="couth">The pre-call brief (a bet, written down first)</div><p>Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.</p>
-      <div class="rcard scroll-margin" id="s-receipt">
-        <div class="rctop"><span class="rcid">RECEIPT &middot; PRE-CALL BRIEF</span><span class="rcst">WRITTEN BEFORE &middot; SCORED AFTER</span></div>
-        <div class="rcrow"><div class="rck">The bet</div><div class="rcv">Lead with one narrow thing in his register; name his own advice back; invite rather than ask; let him take it further.</div></div><div class="rcrow"><div class="rck">80% odds</div><div class="rcv">He engages with the coaching frame</div></div><div class="rcrow"><div class="rck">55% odds</div><div class="rcv">Most likely outcome: warm but slow, a soft yes</div></div><div class="rcrow"><div class="rck">40% odds</div><div class="rcv">Good case: he retells it in his own words</div></div><div class="rcrow"><div class="rck">Filed</div><div class="rcv">Aug 5, 2026</div></div><div class="rcrow"><div class="rck">Score-back</div><div class="rcv">about two weeks after the call, to score this against what actually happened</div></div>
-        <div class="rcseal">WRITTEN BEFORE THE CALL &middot; SCORED AFTER &middot; IF IT CANNOT FAIL, IT ISN'T A RECEIPT</div>
-      </div>
-      <div class="rcptrow">
-        <a class="rbtn json" download="robin-precall-receipt.json" href="data:application/json;charset=utf-8,%7B%0A%20%20%22receipt_type%22%3A%20%22pre-call%20brief%20%28written%20before%20the%20call%29%22%2C%0A%20%20%22counterpart%22%3A%20%22Robin%20Daniels%22%2C%0A%20%20%22filed%22%3A%20%222026-08-05%22%2C%0A%20%20%22bet%22%3A%20%22Lead%20with%20one%20narrow%20thing%20in%20his%20register%3B%20name%20his%20own%20advice%20back%3B%20invite%20rather%20than%20ask%3B%20let%20him%20take%20it%20further.%22%2C%0A%20%20%22predictions%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22He%20engages%20with%20the%20coaching%20frame%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.8%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22Most%20likely%20outcome%3A%20warm%20but%20slow%2C%20a%20soft%20yes%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.55%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22Good%20case%3A%20he%20retells%20it%20in%20his%20own%20words%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.4%0A%20%20%20%20%7D%0A%20%20%5D%2C%0A%20%20%22revisit%22%3A%20%22about%20two%20weeks%20after%20the%20call%2C%20to%20score%20this%20against%20what%20actually%20happened%22%2C%0A%20%20%22note%22%3A%20%22A%20receipt%20is%20just%20a%20JSON%20object.%20You%20file%20the%20bet%20before%2C%20score%20it%20after%2C%20and%20the%20gap%20is%20the%20learning.%22%0A%7D">&#8681;&nbsp; Keep the receipt (JSON)</a>
-        <a class="rbtn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=ARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29&dates=20260826T160000Z/20260826T163000Z&details=Revisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care" target="_blank" rel="noopener">Google Calendar</a>
-        <a class="rbtn" href="https://outlook.office.com/calendar/0/deeplink/compose?subject=ARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29&startdt=2026-08-26T16%3A00%3A00Z&enddt=2026-08-26T16%3A30%3A00Z&body=Revisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care&path=/calendar/action/compose&rru=addevent" target="_blank" rel="noopener">Outlook</a>
-        <a class="rbtn" download="arcs-revisit.ics" href="data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0D%0AVERSION%3A2.0%0D%0APRODID%3A-//ARCS//revisit//EN%0D%0ABEGIN%3AVEVENT%0D%0AUID%3Arobin-revisit-20260826T160000Z%40arcs.care%0D%0ADTSTAMP%3A20260805T000000Z%0D%0ADTSTART%3A20260826T160000Z%0D%0ADTEND%3A20260826T163000Z%0D%0ASUMMARY%3AARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29%0D%0ADESCRIPTION%3ARevisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care%0D%0AEND%3AVEVENT%0D%0AEND%3AVCALENDAR">.ics</a>
-      </div>
-      <p class="rcpthint">Set a time to revisit and score it &middot; a suggested time, adjust to whatever you two agree</p>
-      <p class="rcpthint">Illustrative: this one is filled in by hand to show the shape.</p><a class="cinlink" href="https://robin-receipt.arcs.care" target="_blank" rel="noopener">&#8599; zoom in to full resolution</a></div>
-    
-    <div class="ledger scroll-margin" id="s-ledger"><div class="ledgerh">Receipts compound. The belief ledger, T0 to T1.</div><p class="ledgerintro">One receipt is a snapshot. The value is the ledger: each call is evidence, and the beliefs update. Here is what our last call moved, from the prior I held before it (T0) to the belief after it (T1).</p>
-      <div class="lrows">
-        <div class="lrow">
-          <div class="lbel">The wedge for you</div>
-          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> hiring / people-tech <span class="lpct">60%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> coaching <span class="lpct up">85%</span></div></div>
-          <p class="lmoved">You named the coaching category yourself. The prior flipped.</p>
-        </div>
-        <div class="lrow">
-          <div class="lbel">Your stance</div>
-          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> warm but slow, a soft maybe <span class="lpct">55%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> warm, real interest, a deferred yes <span class="lpct up">78%</span></div></div>
-          <p class="lmoved">Buy-signal questions, and you mapped it to Zensai&#x27;s own strategy.</p>
-        </div>
-        <div class="lrow">
-          <div class="lbel">Said vs meant</div>
-          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> unknown <span class="lpct">50%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> you mean more than you say <span class="lpct up">80%</span></div></div>
-          <p class="lmoved">Your soft close sat on top of real engagement underneath.</p>
-        </div>
-        <div class="lrow">
-          <div class="lbel">My altitude risk</div>
-          <div class="lpair"><div class="lt0"><span class="ltk">T0</span> likely to open too high and lose you <span class="lpct">75%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> held; I caught my own drift <span class="lpct up">30%</span></div></div>
-          <p class="lmoved">I felt the jargon coming and pulled back mid-sentence.</p>
-        </div></div>
-      <p class="ledgernote">That is Bayesian in plain terms: a prior, then evidence, then an updated belief, logged so the next call starts sharper than this one did. Hindsight stops being the only place clarity lives.</p></div>
-    
-    <div class="boardblock"><div class="ledgerh">The staff of chiefs reads the receipt.</div><p class="ledgerintro">A receipt scored by the person who filed it is worth little; you are attached to it working. So before the read is cut, a small board of advisors argues over it. Their divergent takes are the correction for your own bias, blind spots, revisionist memory, and love of the project.</p>
-      <div class="chiefs">
-        <div class="chief" style="--cc:#94a3b8"><div class="chiefw">The Skeptic</div><p>&#x27;Warm but slow&#x27; is hard to lose. Sharpen the falsifier: name the exact thing that would prove the bet wrong, or it isn&#x27;t a receipt.</p></div>
-        <div class="chief" style="--cc:#FF4D6D"><div class="chiefw">Loki</div><p>You already decided call three went well. Are you filing a bet, or blessing a memory? If the score-back can&#x27;t move you, this is theater.</p></div>
-        <div class="chief" style="--cc:#FFD700"><div class="chiefw">The Sentry</div><p>You are grading your own predictions and you want them right. The first trust gate is self-skepticism, not challenged conviction. Flag the emotional attachment.</p></div>
-        <div class="chief" style="--cc:#00FF9D"><div class="chiefw">The Accountant</div><p>Two calls of relationship equity on the books. Over-reading a soft yes spends it. Price the downside, not just the upside case.</p></div>
-        <div class="chief" style="--cc:#00F0FF"><div class="chiefw">The Elder</div><p>This is a years-long peer relationship. Score it honestly, then let it breathe. The receipt matters less than the friendship it is filed against.</p></div></div>
-      <p class="boardopen">This board is open and configurable. Each chief is a subagent with a delegated point of view, all tuned to the same decision from a different vantage. Five here; there could be fifty. You compose the ones the problem needs, and swap them as its shape changes.</p>
-      <div class="shouldhave"><span class="shk">HOW THE CUT IS MADE</span><p>None of them cuts the analysis alone. Where they agree, conviction hardens. Where they diverge, the disagreement is the signal. The five-verb loop, analyze, assess, evaluate, synthesize, recapitulate, is where those voices get weighed into one honest read, corrected for the bias of the person who filed it.</p></div></div>
-  </section>
-  <section class="mv corpus"><div class="mvk">04 · how it works</div><h2>How it works, and how it scales.</h2>
-      <div class="cc">
-        <h3>A tool that sharpens you, not a copy of you</h3><p>It does not copy you or replace your judgment. It makes you sharper at your own job, and you still drive. It is the simple idea you already believe: AI is an input, not the answer.</p>
-        
-      </div>
-      <div class="cc">
-        <h3>The instrument, under the hood</h3><p>The four things it listens for, the checks that keep a read honest, and where I draw the line. You get the whole taste; the recipe stays mine.</p>
-        <a class="cclink" href="https://robin-codex.arcs.care#instrument" target="_blank" rel="noopener">See the instrument &rarr;</a>
-      </div>
-      <div class="cc">
-        <h3>1 to Few to Many</h3><p>One: your own tape. Few: your team gets the read before and after every call. Many: the coaching category you named, Gong and Salesloft and the rest. Your judgment, made portable and compounding.</p>
-        
-      </div>
-      <div class="cc">
-        <h3>The one thing I would do next</h3><p>A Coach’s Game-Day Tape on one real Zensai call. Free, non-invasive, receipts are JSON. Nothing touches your systems. Then you decide.</p>
-        
-      </div></section>
-  
-  <section class="mv horizon"><div class="mvk">05 · where it goes</div><h2>The map sharpens with every read.</h2>
-    <p class="mvintro">A note-taker hands you a flat transcript at the same focal length every time. This is the opposite bet: a terrain that gains resolution with each conversation and each cut. A few places it goes, once there are enough reads to correlate against. Forward-looking, not built yet, but this is the direction.</p>
-    <div class="seeds">
-      <div class="seed"><h3>Overlay the outcomes</h3><p>Put closed-won and closed-lost on the same timescale as these reads. The leading and lagging indicators of account health and deal jeopardy start to surface, the ones a flat note-taker never catches because it is not looking for topography, only transcribing words.</p></div>
-      <div class="seed"><h3>The world is not flat</h3><p>It has a terrain of high ground, fog, and hidden weak spots. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives.</p></div>
-      <div class="seed"><h3>A record versus a leading indicator</h3><p>Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it.</p></div></div>
-  </section>
-  
-  <section class="mv start"><div class="mvk">06 · how to start</div><h2>What it takes to run this on one of your calls.</h2>
-    <p class="mvintro">The whole point is that it is a tiny, non-invasive lift. You send three things, I send back a zero-point knowledge drop: the enriched starting read, like this one, on a call that matters to you. Nothing touches your systems.</p>
-    <div class="needs">
-      <div class="need"><h3>1 · a call transcript</h3><p>A text or CSV export from whatever you already use, Granola, Gong, Fathom, Zoom, or Teams. One call is enough to start.</p></div>
-      <div class="need"><h3>2 · the LinkedIn profile</h3><p>The other person&#x27;s profile as a PDF. That is the enriched-profile input you saw feed the brief above.</p></div>
-      <div class="need"><h3>3 · any intel (optional)</h3><p>Whatever GTM context you already have: CRM notes, deal stage, who was in the room. Optional, it just sharpens the read.</p></div></div>
-    <p class="needclose">That is it. From those three, I build the pre-call brief and the read, free, no integration, yours to keep.</p>
-  </section>
-  
-  <section class="mv trust"><div class="mvk">07 · for the room</div><h2>The objections, answered before they are raised.</h2>
-    <p class="mvintro">If you socialize this, here is the same reassurance in each chief&#x27;s language. The short version: it reads recordings you already have, nothing is stored or sent, nothing touches your systems. Fuller trust summary at arcs.care.</p>
-    <div class="prows">
-        <div class="prow"><div class="pwho">Security / CISO</div><div class="pbody"><p class="pobj">&ldquo;Where does our call data go?&rdquo;</p><p class="pans">Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. It can run air-gapped on your own stack, so nothing leaves Zensai.</p></div></div>
-        <div class="prow"><div class="pwho">Finance / CFO</div><div class="pbody"><p class="pobj">&ldquo;What is the cost and the lock-in?&rdquo;</p><p class="pans">The pilot is free and there is nothing to integrate or maintain. One call proves the value. No contract, no lock-in.</p></div></div>
-        <div class="prow"><div class="pwho">Revenue / CRO</div><div class="pbody"><p class="pobj">&ldquo;Will it slow my team down?&rdquo;</p><p class="pans">It is invisible. It reads recordings after the fact, so there is zero behavior change and nothing for a rep to learn or click.</p></div></div>
-        <div class="prow"><div class="pwho">People / CHSO</div><div class="pbody"><p class="pobj">&ldquo;Is this surveillance?&rdquo;</p><p class="pans">The opposite. What gets scored is the rep&#x27;s own performance, to help them, opt-in. It is coaching, not a scorecard. Your own human-first idea, applied.</p></div></div>
-        <div class="prow"><div class="pwho">CEO</div><div class="pbody"><p class="pobj">&ldquo;Does this advance our position?&rdquo;</p><p class="pans">It is the coaching layer in the category you are already moving into, and it strengthens the human-success story rather than bolting something on.</p></div></div>
-        <div class="prow"><div class="pwho">Legal</div><div class="pbody"><p class="pobj">&ldquo;Consent and ownership?&rdquo;</p><p class="pans">Consent-first, nothing leaves, and you keep the file and the data. The read is yours; the method stays mine.</p></div></div></div>
-  </section>
-  <div class="foot">ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE &middot; NOTHING HERE ASKS YOU FOR ANYTHING</div>
-</div><div id="tip"></div><script>(function(){var tip=document.getElementById('tip');if(!tip)return;
-function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-function show(el,e){var c=el.getAttribute('data-c')||'#94a3b8';tip.style.setProperty('--tc',c);
-tip.innerHTML='<div class="tt">'+esc(el.getAttribute('data-t'))+'</div><div class="tn">'+esc(el.getAttribute('data-n'))+'</div>';
-tip.classList.add('on');move(e);}
-function move(e){var w=tip.offsetWidth,h=tip.offsetHeight,x=e.clientX+16,y=e.clientY+16;if(x+w>window.innerWidth-8)x=e.clientX-w-16;if(y+h>window.innerHeight-8)y=e.clientY-h-16;tip.style.left=x+'px';tip.style.top=y+'px';}
-function hide(){tip.classList.remove('on');}
-document.querySelectorAll('[data-tip]').forEach(function(el){
-el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);
-el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});
-document.addEventListener('click',hide);})();</script><script>document.querySelectorAll('.cta,.cclink,.rbtn,.cinlink').forEach(function(a){a.addEventListener('click',function(){try{if(window.va)va('event',{name:'studio_click',data:{label:(a.textContent||'').trim().slice(0,40)}});}catch(e){}});});</script><script>(function(){var K='robin-onedoor-auth',P='robin';if(localStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){localStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');try{if(window.va)va('event',{name:'unlock',data:{page:'robin'}});}catch(e){}}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script></body></html>
+@media(max-width:560px){.lpair{grid-template-columns:1fr;gap:4px}.larrow{transform:rotate(90deg)}}
+.hit{cursor:pointer}#tip{position:fixed;z-index:80;max-width:min(280px,88vw);pointer-events:none;opacity:0;transition:opacity .12s;background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;padding:11px 13px;box-shadow:0 8px 30px rgba(0,0,0,.55)}#tip.on{opacity:1}#tip .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,#94a3b8);margin-bottom:6px}#tip .tn{font-size:13px;color:var(--text);line-height:1.45}@media(hover:none){.hit{cursor:default}}#pw-gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px;}#pw-gate.hidden{display:none;}.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed);}.pw-input{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em;}.pw-input:focus{border-color:var(--cyan);}.pw-input.shake{animation:shake .3s ease;border-color:var(--red);}@keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-6px);}40%,80%{transform:translateX(6px);}}</style><script defer src="/_vercel/insights/script.js"></script></head><body><div id="pw-gate"><div class="pw-label">ARCS &#183; Private &#183; for Robin</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div><div class="page"><div><div class="eyebrow">Robin · one door</div><h1>One line, our recent arc, and the coach it turned into.</h1><p class="sub">Three movements. The read you already saw, then three of our calls as one arc with the moments I would coach, then how it works and how it scales. Move at your own pace. Nothing here asks you for anything.</p></div><div class="rule"></div><div class="facesnav"><div class="facesl">Three reads, each one feeds the next</div><a class="face" href="https://robin-profile.arcs.care" target="_blank" rel="noopener"><span class="facen led g" aria-hidden="true"></span><span class="faceb"><span class="facet">The read of you</span><span class="faced">who you are, built from your own voice</span></span></a><a class="face" href="https://robin-codex.arcs.care" target="_blank" rel="noopener"><span class="facen led o" aria-hidden="true"></span><span class="faceb"><span class="facet">The recoil of our calls</span><span class="faced">the serialized October and November calls, moment by moment</span></span></a><a class="face" href="https://robin-receipt.arcs.care" target="_blank" rel="noopener"><span class="facen led r" aria-hidden="true"></span><span class="faceb"><span class="facet">The receipt of our last call &middot; <b>in full resolution</b></span><span class="faced">today&rsquo;s call: the bet I filed before it, then scored against what actually happened</span></span></a></div><section class="mv seed"><div class="mvk">01 · the one line</div><h2>The taste you already have.</h2><div class="lbq"><blockquote>&ldquo;Pick a use case and then go hard at that. Pick one, and fucking nail that one.&rdquo;</blockquote><div class="attr">You, Oct 23. The whole strategy in one line. I ran ARCS on our own calls and served it back.</div></div><a class="cta" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">Open the read &rarr;</a></section><section class="mv well"><div class="mvk">02 · the whole story</div><h2>Three of our calls, as one arc.</h2><p class="mvintro">This is the part you cannot get anywhere else: not one call, but the trajectory across these three, with the exact moments a coach would bookmark. The line is where we were on the same wavelength. The pins are the teachable moments. Read it and you are looking at the coach you wish you had, trained on your own tape.</p><div class="manifold"><svg viewBox="0 0 720 220" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Calls as one arc"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#00F0FF" stop-opacity="0.14"/><stop offset="1" stop-color="#00F0FF" stop-opacity="0"/></linearGradient></defs><line x1="16" y1="174" x2="704" y2="174" stroke="#1e293b" stroke-width="1"/><line x1="237.1" y1="26" x2="237.1" y2="174" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 4"/><line x1="433.7" y1="26" x2="433.7" y2="174" stroke="#1e293b" stroke-width="1" stroke-dasharray="3 4"/><text x="114.3" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="0.1em">Call 1 &middot; Oct 23</text><text x="335.4" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="0.1em">Call 2 &middot; Nov 13</text><text x="581.1" y="20" text-anchor="middle" fill="#64748b" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="0.1em">Call 3 &middot; Aug 5</text><path d="M16.0,174 L16.0,76.0 L65.1,43.8 L114.3,52.2 L163.4,59.2 L212.6,98.4 L261.7,109.6 L310.9,130.6 L360.0,134.8 L409.1,148.8 L458.3,76.0 L507.4,57.8 L556.6,53.5 L605.7,49.4 L654.9,38.1 L704.0,69.1 L704.0,174 Z" fill="url(#g)"/><path d="M16.0,76.0 L65.1,43.8 L114.3,52.2 L163.4,59.2 L212.6,98.4 L261.7,109.6 L310.9,130.6 L360.0,134.8 L409.1,148.8 L458.3,76.0 L507.4,57.8 L556.6,53.5 L605.7,49.4 L654.9,38.1 L704.0,69.1" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><circle cx="16.0" cy="76.0" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="65.1" cy="43.8" r="6" fill="#00FF9D" stroke="#020408" stroke-width="1.5"/><circle cx="114.3" cy="52.2" r="6" fill="#FFD700" stroke="#020408" stroke-width="1.5"/><circle cx="163.4" cy="59.2" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="212.6" cy="98.4" r="6" fill="#FF4D6D" stroke="#020408" stroke-width="1.5"/><circle cx="261.7" cy="109.6" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="310.9" cy="130.6" r="6" fill="#FF4D6D" stroke="#020408" stroke-width="1.5"/><circle cx="360.0" cy="134.8" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="409.1" cy="148.8" r="6" fill="#FF4D6D" stroke="#020408" stroke-width="1.5"/><circle cx="458.3" cy="76.0" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle cx="507.4" cy="57.8" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="556.6" cy="53.5" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="605.7" cy="49.4" r="3.2" fill="#94a3b8" stroke="#020408" stroke-width="1.5"/><circle cx="654.9" cy="38.1" r="6" fill="#FFD700" stroke="#020408" stroke-width="1.5"/><circle cx="704.0" cy="69.1" r="3.2" fill="#64748b" stroke="#020408" stroke-width="1.5"/><circle class="hit" cx="16.0" cy="76.0" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C1 open" data-n="Warm reconnect"/><circle class="hit" cx="65.1" cy="43.8" r="16" fill="transparent" data-tip data-c="#00FF9D" data-t="C1 peak" data-n="The Holy Grail moment"/><circle class="hit" cx="114.3" cy="52.2" r="16" fill="transparent" data-tip data-c="#FFD700" data-t="C1 gift" data-n="You gave me the strategy: pick one"/><circle class="hit" cx="163.4" cy="59.2" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C1 ikigai" data-n="Shared history, Ikigai"/><circle class="hit" cx="212.6" cy="98.4" r="16" fill="transparent" data-tip data-c="#FF4D6D" data-t="C1 veer" data-n="First time I lost you"/><circle class="hit" cx="261.7" cy="109.6" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C2 ask" data-n="I asked you to champion it"/><circle class="hit" cx="310.9" cy="130.6" r="16" fill="transparent" data-tip data-c="#FF4D6D" data-t="C2 entropy" data-n="I opened on physics"/><circle class="hit" cx="360.0" cy="134.8" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C2 demo" data-n="A long demo I carried"/><circle class="hit" cx="409.1" cy="148.8" r="16" fill="transparent" data-tip data-c="#FF4D6D" data-t="C2 exit" data-n="The lowest point, a flat exit"/><circle class="hit" cx="458.3" cy="76.0" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C3 warm" data-n="Warm from the first minute"/><circle class="hit" cx="507.4" cy="57.8" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C3 advice" data-n="I named your advice back"/><circle class="hit" cx="556.6" cy="53.5" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C3 how" data-n="You asked how it works"/><circle class="hit" cx="605.7" cy="49.4" r="16" fill="transparent" data-tip data-c="#94a3b8" data-t="C3 deploy" data-n="You asked how it plugs in"/><circle class="hit" cx="654.9" cy="38.1" r="16" fill="transparent" data-tip data-c="#FFD700" data-t="C3 high point" data-n="A coach you wish you had"/><circle class="hit" cx="704.0" cy="69.1" r="16" fill="transparent" data-tip data-c="#64748b" data-t="C3 close" data-n="Warm: let me get back to you"/></svg></div><p class="mcap">The floor drops in Call 2 and never in Call 3. The lowest point (Call 2 exit) and the highest (Call 3, when you called it a coach you wish you had) are the same relationship three weeks and nine months apart. That delta is the coachable story.</p><div class="bmgroup"><div class="bmg">Call 1</div><div class="bmcards"><div class="bm" style="--bc:#00FF9D"><span class="bmt">YOUR COACHING</span><div class="bml">Hard to put you in a box</div><p class="bmles">Naming the constraint as a compliment. Your signature reframe.</p></div><div class="bm" style="--bc:#FF4D6D"><span class="bmt">THE TELL</span><div class="bml">The nod-along</div><p class="bmles">Filler agreement is the earliest disengagement tell. Drop altitude when you hear it.</p></div><div class="bm unlock" style="--bc:#FFD700"><span class="bmt">&#8627; THE UNLOCK</span><div class="bml">Pick one, nail it</div><p class="bmles">Your own coaching move: compress to one wedge. Training signal, not just advice.</p></div></div></div><div class="bmgroup"><div class="bmg">Call 2</div><div class="bmcards"><div class="bm" style="--bc:#FF4D6D"><span class="bmt">THE TELL</span><div class="bml">The one-word collapse</div><p class="bmles">&lsquo;Close. Ly. Follow.&rsquo; Word-count collapse is the loudest silence. Yield, do not push.</p></div><div class="bm" style="--bc:#94a3b8"><span class="bmt">THE RECOVERY</span><div class="bml">The coffee-maker joke</div><p class="bmles">When the pitch channel is dead, the human channel is still open. Pivot to human.</p></div><div class="bm unlock" style="--bc:#FFD700"><span class="bmt">&#8627; THE UNLOCK</span><div class="bml">The clean exit</div><p class="bmles">An exit with no &lsquo;send me more&rsquo; is a soft no. The warmth was politeness, not interest.</p></div></div></div><div class="bmgroup"><div class="bmg">Call 3</div><div class="bmcards"><div class="bm" style="--bc:#00F0FF"><span class="bmt">BUYING SIGNAL</span><div class="bml">&lsquo;How does it do this?&rsquo;</div><p class="bmles">A how-does-it-work question is an invitation. It means value already landed.</p></div><div class="bm" style="--bc:#00F0FF"><span class="bmt">BUYING SIGNAL</span><div class="bml">&lsquo;Can it tap into Zoom/Teams?&rsquo;</div><p class="bmles">Pricing the how. They bought the what. Move to integration.</p></div><div class="bm" style="--bc:#FFD700"><span class="bmt">YOUR OWN PATTERN</span><div class="bml">The marathon wall</div><p class="bmles">You named your own overconfidence pattern. It mirrors your own patterns back to you.</p></div><div class="bm" style="--bc:#00FF9D"><span class="bmt">A YES, WAITING</span><div class="bml">&lsquo;Let me get back to you&rsquo;</div><p class="bmles">A soft close after real engagement is a yes waiting, not a no. You meant more than you said.</p></div><div class="bm unlock" style="--bc:#FFD700"><span class="bmt">&#8627; THE UNLOCK</span><div class="bml">&lsquo;A coach you wish you had&rsquo;</div><p class="bmles">You named the category and the frame. When they own it, stop pitching.</p></div></div></div><div class="flagsblock"><div class="flagsh">Every idea was a volley. Here it is in four boxes.</div><p class="flagsintro">I floated a kernel, you built on it or reframed it, and I either caught your polish or sailed off to intergalactic. Read another way, this is you coaching me, and the whole lesson lives in the bottom-right box.</p><div class="vrow"><div class="vrl" style="--vlc:#64748b">ME &rarr;</div><div class="vrcells"><div class="quad" style="--qc:#64748b"><div class="quadl">what I put out</div><p>A kernel, usually too big. The everything-platform. The coherence engine. Five use cases in one breath, then physics.</p></div><div class="quad" style="--qc:#64748b"><div class="quadl">what I was going for</div><p>Your buy-in. I wanted you to see the whole thing at once and carry it inside for me.</p></div></div></div><div class="vrow"><div class="vrl" style="--vlc:#00F0FF">YOU &rarr;</div><div class="vrcells"><div class="quad" style="--qc:#00F0FF"><div class="quadl">what you said</div><p>Short and generous on call one: &lsquo;Holy Grail... pick one and nail it.&rsquo; Shorter and flatter on call two: &lsquo;Close. Ly. Follow.&rsquo;</p></div><div class="quad" style="--qc:#FFD700"><div class="quadl">what you meant</div><p>Call one: the idea is real, now narrow it. Call two: you have lost me, and I am too polite to say it outright.</p></div></div></div><div class="shouldhave"><span class="shk">&darr; THE LEARNING &middot; WHAT I SHOULD HAVE HEARD, HAD I BEEN LISTENING</span><p>What I should have heard, if I had been actively listening: your word count was the whole message. When you got shorter, the thread was already dead. When you got specific and generous (&lsquo;pick one, nail it&rsquo;), that was the one to keep. You told me every time. I just kept talking.</p></div></div></section><section class="mv comp"><div class="mvk">03 · how the brief is built</div><h2>The pre-call brief is composed, not guessed.</h2><p class="mvintro">Before a call, the seed is built by merging two kinds of source input: a read of the public profile, and a read of each prior call. Nothing is invented. Here is what actually went into yours.</p><div class="cinputs"><div class="cin" style="--ic:#FFD700"><div class="cintag">YOUR PROFILE</div><div class="cinh">Your enriched profile</div><p>Storyteller-operator, elevator-pitch champion. Resonates with personal pain, one narrow retellable idea, movement over features, humor. Two registers: tactical GTM craft and high-altitude roadmap-for-life meaning. Read: meet him at ground altitude, let him climb.</p><a class="cinlink" href="https://robin-profile.arcs.care" target="_blank" rel="noopener">&#8599; see the profile read</a></div><div class="cin" style="--ic:#00FF9D"><div class="cintag">OUR OCTOBER CALL</div><div class="cinh">The October call</div><p>Warm, mostly in phase. Peaked on the Holy Grail of hiring and you handed over the strategy: pick one and nail it. One early mid-curve when the pitch climbed to Huxley.</p><a class="cinlink" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">&#8599; see the actual read</a></div><div class="cin" style="--ic:#FF4D6D"><div class="cintag">OUR NOVEMBER CALL</div><div class="cinh">The November call</div><p>Cooled and lossy. Opened too high on entropy and a coherence engine, and asked to be an internal champion before the value was legible. Replies collapsed to one word, parked early.</p><a class="cinlink" href="https://robin-codex.arcs.care#read" target="_blank" rel="noopener">&#8599; see the actual read</a></div></div><div class="cmerge">&#8595;&nbsp;&nbsp;they merge into&nbsp;&nbsp;&#8595;</div><div class="cout"><div class="couth">The pre-call brief (a bet, written down first)</div><p>Those inputs merge into one clear bet, written down before the next call: lead with one narrow thing in his register, name his own advice back, invite rather than ask, and let him take it further. Predicted the most likely outcome, warm but slow. Predicted the good case, he retells it in his own words. Then the real call shows whether the bet held.</p><div class="rcard"><div class="rctop"><span class="rcid">RECEIPT &middot; PRE-CALL BRIEF</span><span class="rcst">WRITTEN BEFORE &middot; SCORED AFTER</span></div><div class="rcrow"><div class="rck">The bet</div><div class="rcv">Lead with one narrow thing in his register; name his own advice back; invite rather than ask; let him take it further.</div></div><div class="rcrow"><div class="rck">80% odds</div><div class="rcv">He engages with the coaching frame</div></div><div class="rcrow"><div class="rck">55% odds</div><div class="rcv">Most likely outcome: warm but slow, a soft yes</div></div><div class="rcrow"><div class="rck">40% odds</div><div class="rcv">Good case: he retells it in his own words</div></div><div class="rcrow"><div class="rck">Filed</div><div class="rcv">Aug 5, 2026</div></div><div class="rcrow"><div class="rck">Score-back</div><div class="rcv">about two weeks after the call, to score this against what actually happened</div></div><div class="rcseal">WRITTEN BEFORE THE CALL &middot; SCORED AFTER &middot; IF IT CANNOT FAIL, IT ISN&rsquo;T A RECEIPT</div></div><div class="rcptrow"><a class="rbtn json" download="robin-precall-receipt.json" href="data:application/json;charset=utf-8,%7B%0A%20%20%22receipt_type%22%3A%20%22pre-call%20brief%20%28written%20before%20the%20call%29%22%2C%0A%20%20%22counterpart%22%3A%20%22Robin%20Daniels%22%2C%0A%20%20%22filed%22%3A%20%222026-08-05%22%2C%0A%20%20%22bet%22%3A%20%22Lead%20with%20one%20narrow%20thing%20in%20his%20register%3B%20name%20his%20own%20advice%20back%3B%20invite%20rather%20than%20ask%3B%20let%20him%20take%20it%20further.%22%2C%0A%20%20%22predictions%22%3A%20%5B%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22He%20engages%20with%20the%20coaching%20frame%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.8%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22Most%20likely%20outcome%3A%20warm%20but%20slow%2C%20a%20soft%20yes%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.55%0A%20%20%20%20%7D%2C%0A%20%20%20%20%7B%0A%20%20%20%20%20%20%22claim%22%3A%20%22Good%20case%3A%20he%20retells%20it%20in%20his%20own%20words%22%2C%0A%20%20%20%20%20%20%22confidence%22%3A%200.4%0A%20%20%20%20%7D%0A%20%20%5D%2C%0A%20%20%22revisit%22%3A%20%22about%20two%20weeks%20after%20the%20call%2C%20to%20score%20this%20against%20what%20actually%20happened%22%2C%0A%20%20%22note%22%3A%20%22A%20receipt%20is%20just%20a%20JSON%20object.%20You%20file%20the%20bet%20before%2C%20score%20it%20after%2C%20and%20the%20gap%20is%20the%20learning.%22%0A%7D">&#8681;&nbsp; Keep the receipt (JSON)</a><a class="rbtn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=ARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29&dates=20260826T160000Z/20260826T163000Z&details=Revisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care" target="_blank" rel="noopener">Google Calendar</a><a class="rbtn" href="https://outlook.office.com/calendar/0/deeplink/compose?subject=ARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29&startdt=2026-08-26T16%3A00%3A00Z&enddt=2026-08-26T16%3A30%3A00Z&body=Revisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care&path=/calendar/action/compose&rru=addevent" target="_blank" rel="noopener">Outlook</a><a class="rbtn" download="arcs-revisit.ics" href="data:text/calendar;charset=utf-8,BEGIN%3AVCALENDAR%0D%0AVERSION%3A2.0%0D%0APRODID%3A-//ARCS//revisit//EN%0D%0ABEGIN%3AVEVENT%0D%0AUID%3Arobin-revisit-20260826T160000Z%40arcs.care%0D%0ADTSTART%3A20260826T160000Z%0D%0ADTEND%3A20260826T163000Z%0D%0ASUMMARY%3AARCS%20revisit%3A%20score%20the%20pre-call%20bet%20%28Robin%20%2B%20Zach%29%0D%0ADESCRIPTION%3ARevisit%20the%20pre-call%20brief%20filed%202026-08-05%20and%20score%20it%20against%20what%20actually%20happened.%20The%20full%20read%3A%20robin.arcs.care%0D%0AEND%3AVEVENT%0D%0AEND%3AVCALENDAR">.ics</a></div><p class="rcpthint">Set a time to revisit and score it &middot; a suggested time, adjust to whatever you two agree</p><p class="rcpthint">Illustrative: this one is filled in by hand to show the shape.</p><a class="cinlink" href="https://robin-receipt.arcs.care" target="_blank" rel="noopener">&#8599; zoom in to full resolution</a></div><div class="ledger"><div class="ledgerh">Receipts compound. The belief ledger, T0 to T1.</div><p class="ledgerintro">One receipt is a snapshot. The value is the ledger: each call is evidence, and the beliefs update. Here is what our last call moved, from the prior I held before it (T0) to the belief after it (T1).</p><div class="lrows"><div class="lrow"><div class="lbel">The wedge for you</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> hiring / people-tech <span class="lpct">60%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> coaching <span class="lpct up">85%</span></div></div><p class="lmoved">You named the coaching category yourself. The prior flipped.</p></div><div class="lrow"><div class="lbel">Your stance</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> warm but slow, a soft maybe <span class="lpct">55%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> warm, real interest, a deferred yes <span class="lpct up">78%</span></div></div><p class="lmoved">Buy-signal questions, and you mapped it to Zensai&rsquo;s own strategy.</p></div><div class="lrow"><div class="lbel">Said vs meant</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> unknown <span class="lpct">50%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> you mean more than you say <span class="lpct up">80%</span></div></div><p class="lmoved">Your soft close sat on top of real engagement underneath.</p></div><div class="lrow"><div class="lbel">My altitude risk</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> likely to open too high and lose you <span class="lpct">75%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T1</span> held; I caught my own drift <span class="lpct up">30%</span></div></div><p class="lmoved">I felt the jargon coming and pulled back mid-sentence.</p></div></div><p class="ledgernote">That is Bayesian in plain terms: a prior, then evidence, then an updated belief, logged so the next call starts sharper than this one did. Hindsight stops being the only place clarity lives.</p></div><div class="boardblock"><div class="ledgerh">The staff of chiefs reads the receipt.</div><p class="ledgerintro">A receipt scored by the person who filed it is worth little; you are attached to it working. So before the read is cut, a small board of advisors argues over it. Their divergent takes are the correction for your own bias, blind spots, revisionist memory, and love of the project.</p><div class="chiefs"><div class="chief" style="--cc:#94a3b8"><div class="chiefw">The Skeptic</div><p>&lsquo;Warm but slow&rsquo; is hard to lose. Sharpen the falsifier: name the exact thing that would prove the bet wrong, or it isn&rsquo;t a receipt.</p></div><div class="chief" style="--cc:#FF4D6D"><div class="chiefw">Loki</div><p>You already decided call three went well. Are you filing a bet, or blessing a memory? If the score-back can&rsquo;t move you, this is theater.</p></div><div class="chief" style="--cc:#FFD700"><div class="chiefw">The Sentry</div><p>You are grading your own predictions and you want them right. The first trust gate is self-skepticism, not challenged conviction. Flag the emotional attachment.</p></div><div class="chief" style="--cc:#00FF9D"><div class="chiefw">The Accountant</div><p>Two calls of relationship equity on the books. Over-reading a soft yes spends it. Price the downside, not just the upside case.</p></div><div class="chief" style="--cc:#00F0FF"><div class="chiefw">The Elder</div><p>This is a years-long peer relationship. Score it honestly, then let it breathe. The receipt matters less than the friendship it is filed against.</p></div></div><p class="boardopen">This board is open and configurable. Each chief is a subagent with a delegated point of view, all tuned to the same decision from a different vantage. Five here; there could be fifty. You compose the ones the problem needs, and swap them as its shape changes.</p><div class="shouldhave"><span class="shk">HOW THE CUT IS MADE</span><p>None of them cuts the analysis alone. Where they agree, conviction hardens. Where they diverge, the disagreement is the signal. The five-verb loop, analyze, assess, evaluate, synthesize, recapitulate, is where those voices get weighed into one honest read, corrected for the bias of the person who filed it.</p></div></div></section><section class="mv corpus"><div class="mvk">04 · how it works</div><h2>How it works, and how it scales.</h2><div class="cc"><h3>A tool that sharpens you, not a copy of you</h3><p>It does not copy you or replace your judgment. It makes you sharper at your own job, and you still drive. It is the simple idea you already believe: AI is an input, not the answer.</p></div><div class="cc"><h3>The instrument, under the hood</h3><p>The four things it listens for, the checks that keep a read honest, and where I draw the line. You get the whole taste; the recipe stays mine.</p><a class="cclink" href="https://robin-codex.arcs.care#instrument" target="_blank" rel="noopener">See the instrument &rarr;</a></div><div class="cc"><h3>1 to Few to Many</h3><p>One: your own tape. Few: your team gets the read before and after every call. Many: the coaching category you named, Gong and Salesloft and the rest. Your judgment, made portable and compounding.</p></div><div class="cc"><h3>The one thing I would do next</h3><p>A Coach&rsquo;s Game-Day Tape on one real Zensai call. Free, non-invasive, receipts are JSON. Nothing touches your systems. Then you decide.</p></div></section><section class="mv horizon"><div class="mvk">05 · where it goes</div><h2>The map sharpens with every read.</h2><p class="mvintro">A note-taker hands you a flat transcript at the same focal length every time. This is the opposite bet: a terrain that gains resolution with each conversation and each cut. A few places it goes, once there are enough reads to correlate against. Forward-looking, not built yet, but this is the direction.</p><div class="seeds"><div class="seedc"><h3>Overlay the outcomes</h3><p>Put closed-won and closed-lost on the same timescale as these reads. The leading and lagging indicators of account health and deal jeopardy start to surface, the ones a flat note-taker never catches because it is not looking for topography, only transcribing words.</p></div><div class="seedc"><h3>The world is not flat</h3><p>It has a terrain of high ground, fog, and hidden weak spots. Each read and each cut sharpens it. The focal length does not stay fixed. It earns more resolution the more honest reads you feed it, so hindsight stops being the only place clarity lives.</p></div><div class="seedc"><h3>A record versus a leading indicator</h3><p>Most intel tools give you a faithful record of what was said. The compounding value is a map of the account across calls: where conviction is climbing, where a deal is quietly falling out of sync before anyone names it.</p></div></div></section><section class="mv start"><div class="mvk">06 · how to start</div><h2>What it takes to run this on one of your calls.</h2><p class="mvintro">The whole point is that it is a tiny, non-invasive lift. You send three things, I send back a zero-point knowledge drop: the enriched starting read, like this one, on a call that matters to you. Nothing touches your systems.</p><div class="needs"><div class="need"><h3>1 &middot; a call transcript</h3><p>A text or CSV export from whatever you already use, Granola, Gong, Fathom, Zoom, or Teams. One call is enough to start.</p></div><div class="need"><h3>2 &middot; the LinkedIn profile</h3><p>The other person&rsquo;s profile as a PDF. That is the enriched-profile input you saw feed the brief above.</p></div><div class="need"><h3>3 &middot; any intel (optional)</h3><p>Whatever GTM context you already have: CRM notes, deal stage, who was in the room. Optional, it just sharpens the read.</p></div></div><p class="needclose">That is it. From those three, I build the pre-call brief and the read, free, no integration, yours to keep.</p></section><section class="mv trust"><div class="mvk">07 · for the room</div><h2>The objections, answered before they are raised.</h2><p class="mvintro">If you socialize this, here is the same reassurance in each chief&rsquo;s language. The short version: it reads recordings you already have, nothing is stored or sent, nothing touches your systems. Fuller trust summary at arcs.care.</p><div class="prows"><div class="prow"><div class="pwho">Security / CISO</div><div class="pbody"><p class="pobj">&ldquo;Where does our call data go?&rdquo;</p><p class="pans">Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. It can run air-gapped on your own stack, so nothing leaves Zensai.</p></div></div><div class="prow"><div class="pwho">Finance / CFO</div><div class="pbody"><p class="pobj">&ldquo;What is the cost and the lock-in?&rdquo;</p><p class="pans">The pilot is free and there is nothing to integrate or maintain. One call proves the value. No contract, no lock-in.</p></div></div><div class="prow"><div class="pwho">Revenue / CRO</div><div class="pbody"><p class="pobj">&ldquo;Will it slow my team down?&rdquo;</p><p class="pans">It is invisible. It reads recordings after the fact, so there is zero behavior change and nothing for a rep to learn or click.</p></div></div><div class="prow"><div class="pwho">People / CHSO</div><div class="pbody"><p class="pobj">&ldquo;Is this surveillance?&rdquo;</p><p class="pans">The opposite. What gets scored is the rep&rsquo;s own performance, to help them, opt-in. It is coaching, not a scorecard. Your own human-first idea, applied.</p></div></div><div class="prow"><div class="pwho">CEO</div><div class="pbody"><p class="pobj">&ldquo;Does this advance our position?&rdquo;</p><p class="pans">It is the coaching layer in the category you are already moving into, and it strengthens the human-success story rather than bolting something on.</p></div></div><div class="prow"><div class="pwho">Legal</div><div class="pbody"><p class="pobj">&ldquo;Consent and ownership?&rdquo;</p><p class="pans">Consent-first, nothing leaves, and you keep the file and the data. The read is yours; the method stays mine.</p></div></div></div></section><div class="foot">ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE &middot; NOTHING HERE ASKS YOU FOR ANYTHING</div></div><div id="tip"></div><script>(function(){var tip=document.getElementById('tip');if(!tip)return;function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}function show(el,e){var c=el.getAttribute('data-c')||'#94a3b8';tip.style.setProperty('--tc',c);tip.innerHTML='<div class="tt">'+esc(el.getAttribute('data-t'))+'</div><div class="tn">'+esc(el.getAttribute('data-n'))+'</div>';tip.classList.add('on');move(e);}function move(e){var w=tip.offsetWidth,h=tip.offsetHeight,x=e.clientX+16,y=e.clientY+16;if(x+w>window.innerWidth-8)x=e.clientX-w-16;if(y+h>window.innerHeight-8)y=e.clientY-h-16;tip.style.left=x+'px';tip.style.top=y+'px';}function hide(){tip.classList.remove('on');}document.querySelectorAll('[data-tip]').forEach(function(el){el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});document.addEventListener('click',hide);})();</script><script>(function(){var K='2026-08-05-daniels-onedoor-view-auth',P='robin';if(localStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){localStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script></body></html>
