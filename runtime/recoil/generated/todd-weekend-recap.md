@@ -67,6 +67,10 @@ delete together, which is the big unlock), cleaning up the form spam (we would t
 a quick call on the phone field, adding a "Chatbot" lead source, recovering those orphaned leads, and
 reconnecting the enrichment feed.
 
+And when you are ready to kick off 1.2, the invoice is right here:
+https://invoice.stripe.com/i/acct_1TvJIJItTVVJFC6Z/live_YWNjdF8xVHZKSUpJdFRWVkpGQzZaLF9WMWFoQ0VidmllZWlPbEs2U2RmaWNONDNWVWNHM0JPLDE3NjY2OTk0MQ0200NVVSnAJT?s=db
+It is the same $4,500 we scoped, and paying it books the Monday kickoff.
+
 Give me the green light on the test path and the two calls above, and 1.1 goes live within days, with 1.2 right
 behind it.
 
