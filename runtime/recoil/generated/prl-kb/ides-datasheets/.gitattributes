@@ -1,0 +1,3 @@
+# raw gathered HTML: preserve as-is, no line-ending conversion
+raw/*.html -text
+_company-listing-*.html -text
