@@ -205,8 +205,10 @@ VERDICT_COLOR = {"HIT": "#00FF9D", "MISS": "#FF4D6D", "PARTIAL": "#FFD700"}
 
 def _waveform_svg(wf):
     """Compute the resonance waveform SVG from points[{key,label,tip,v(0..100),kairos}].
-    Deterministic geometry; each point carries a native <title> tooltip. v is the
-    resonance height 0..100 (100 = top of chart)."""
+    Deterministic geometry. Each point drives the CANONICAL #tip component (blueprint
+    sec 10): a visible dot + a transparent r=16 hit overlay carrying data-tip so every
+    arc chart gets the same working hover + touch-tap tooltip (not a native <title>).
+    v is the resonance height 0..100 (100 = top of chart)."""
     pts = wf["points"]
     n = len(pts)
     W, H, PT, PB, PL, PR = 720, 200, 28, 48, 16, 16
@@ -215,13 +217,14 @@ def _waveform_svg(wf):
     line = "M" + " L".join(f"{xs[i]:.1f},{ys[i]:.1f}" for i in range(n))
     area = (f"M{xs[0]:.1f},{H-PB:.1f} L" + " L".join(f"{xs[i]:.1f},{ys[i]:.1f}" for i in range(n))
             + f" L{xs[-1]:.1f},{H-PB:.1f} Z")
-    dots, labels = "", ""
+    dots, hits, labels = "", "", ""
     for i, p in enumerate(pts):
         kairos = bool(p.get("kairos"))
         c = "#00F0FF" if kairos else ("#94a3b8" if p.get("v", 50) >= 55 else "#64748b")
         r = 6.5 if kairos else 3.5
-        dots += (f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5">'
-                 f'<title>{E(p.get("key",""))}: {p.get("tip","")}</title></circle>')
+        dots += f'<circle cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5"/>'
+        hits += (f'<circle class="hit" cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="16" fill="transparent" data-tip '
+                 f'data-c="{c}" data-t="{A(p.get("key",""))}" data-n="{A(p.get("tip",""))}"/>')
         if kairos:
             labels += (f'<text x="{xs[i]:.1f}" y="{ys[i]-14:.1f}" text-anchor="middle" fill="#00F0FF" '
                        f'font-family="ui-monospace,monospace" font-size="9.5" letter-spacing="0.05em">KAIROS</text>')
@@ -234,7 +237,7 @@ def _waveform_svg(wf):
             f'<line x1="{PL}" y1="{H-PB:.0f}" x2="{W-PR}" y2="{H-PB:.0f}" stroke="#1e293b" stroke-width="1"/>'
             f'<path d="{area}" fill="url(#mf)"/>'
             f'<path d="{line}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
-            f'{dots}{labels}</svg></div>')
+            f'{dots}{labels}{hits}</svg></div>')
 
 
 def render_receipt(d):
