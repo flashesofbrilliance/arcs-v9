@@ -16,9 +16,12 @@ import { Pool } from "pg"
 // this module is additive. Fail-closed: a tenant whose <dbEnvVar> is unset throws,
 // so the route errors rather than silently using the superuser connection.
 
+// `close` = the role has UPDATE and may score/close a receipt. jeben's
+// louisville_app is INSERT-only, so PATCH is rejected up front with a 405
+// (CISO finding D) rather than failing deep at the DB grant layer.
 export const STUDIO_TENANTS = {
-  jeben: { brand: "louisvillebrands", dbEnvVar: "LOUISVILLE_DATABASE_URL", viewerEnvVar: "LOUISVILLE_VIEWER_EMAILS" },
-  robin: { brand: "zensai", dbEnvVar: "ROBIN_DATABASE_URL", viewerEnvVar: "ROBIN_VIEWER_EMAILS" },
+  jeben: { brand: "louisvillebrands", dbEnvVar: "LOUISVILLE_DATABASE_URL", viewerEnvVar: "LOUISVILLE_VIEWER_EMAILS", close: false },
+  robin: { brand: "zensai", dbEnvVar: "ROBIN_DATABASE_URL", viewerEnvVar: "ROBIN_VIEWER_EMAILS", close: true },
 } as const
 
 export type StudioTenant = keyof typeof STUDIO_TENANTS
@@ -30,6 +33,14 @@ export function isStudioTenant(t: string): t is StudioTenant {
 // Per-tenant Prisma client, lazily built and cached on globalThis (serverless
 // reuse). Same manual URL parse + explicit Pool as db.ts/db-louisville.ts —
 // pg's parser mishandles special chars and PrismaPg needs the Pool for SSL.
+//
+// Connection ceiling (SRE finding F4): each tenant opens its own Pool (max:3),
+// so this registry scales as 3 x N tenants per serverless instance against the
+// Supabase pooler, on top of the main + louisville clients. Fine at N=2; keep
+// this bound conscious before onboarding many tenants. Also: a set-but-WRONG
+// connection string is cached after buildClient() succeeds (Pool connects
+// lazily), so fixing the env var needs an instance recycle / redeploy, not just
+// a var change — same caveat as the louisville proxy client.
 const globalForStudio = globalThis as unknown as { studioClients?: Record<string, PrismaClient> }
 
 function buildClient(dbEnvVar: string): PrismaClient {

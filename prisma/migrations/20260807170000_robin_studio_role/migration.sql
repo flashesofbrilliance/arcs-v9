@@ -10,7 +10,7 @@
 -- applies, provision the credential and set ROBIN_DATABASE_URL, e.g.
 --     ALTER ROLE robin_app WITH LOGIN PASSWORD '<generated>';
 -- Until then this is a harmless NOLOGIN shell role and the route fail-closes
--- (db-robin.ts throws if ROBIN_DATABASE_URL is unset).
+-- (src/lib/receipt-studio.ts throws if ROBIN_DATABASE_URL is unset).
 
 DO $$
 BEGIN
@@ -21,7 +21,11 @@ END
 $$;
 
 GRANT USAGE ON SCHEMA "public" TO robin_app;
-GRANT SELECT, INSERT, UPDATE ON TABLE "SessionReceipt" TO robin_app;
+GRANT SELECT, INSERT ON TABLE "SessionReceipt" TO robin_app;
+-- Column-scoped UPDATE (CISO finding C): the close/score path only writes these
+-- five columns, so the DB-layer floor for a fully-compromised route is "mutate
+-- the scoring fields", NOT "overwrite userId/bet/falsifier/scoreBackDate/parentId".
+GRANT UPDATE (status, outcome, variance, lesson, payload) ON TABLE "SessionReceipt" TO robin_app;
 
 -- Tenant-pinned policies, scoped to this role only (anon/authenticated stay deny-all).
 DROP POLICY IF EXISTS "robin_app_select" ON "SessionReceipt";

@@ -161,7 +161,7 @@ def _studio_panel(st):
         "if(b.getAttribute('data-act')==='export'){dl(r);return;}"
         "var outcome=(card.querySelector('[data-f=outcome]')||{}).value||'';var lesson=(card.querySelector('[data-f=lesson]')||{}).value||'';"
         "fetch(BASE,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sid,id:id,status:b.getAttribute('data-v'),outcome:outcome,lesson:lesson})}).then(function(x){return x.json();}).then(function(d){if(d.error){msg(d.error,'err');return;}msg('Scored.','ok');load();}).catch(function(){msg('Network error scoring.','err');});});});}"
-        "function load(){fetch(BASE+'?sessionId='+encodeURIComponent(sid)).then(function(x){return x.json();}).then(function(d){if(d.receipts)render(d.receipts);}).catch(function(){});}"
+        "function load(){fetch(BASE+'?sessionId='+encodeURIComponent(sid)).then(function(x){return x.json();}).then(function(d){if(d.error){msg(d.error,'err');return;}if(d.receipts)render(d.receipts);}).catch(function(){msg('Could not load your receipts. If you just filed one, do not re-file; reload in a moment.','err');});}"
         "$('st-file').addEventListener('click',function(){var bet=$('st-bet').value.trim(),fal=$('st-fal').value.trim(),sb=$('st-sb').value;"
         "if(!bet||!fal||!sb){msg('Bet, falsifier, and score-back date are all required.','err');return;}"
         "fetch(BASE,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:sid,author:AUTHOR,bet:bet,falsifier:fal,scoreBackDate:sb,assumptions:$('st-ass').value.trim()||null})})"

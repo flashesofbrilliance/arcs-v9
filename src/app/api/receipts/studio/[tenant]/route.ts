@@ -14,11 +14,16 @@ export const dynamic = "force-dynamic"
 //
 //   POST  file a bet (seal)
 //   GET   ?sessionId=  read this session's receipts (bearer-token model)
-//   PATCH close/score a receipt: OPEN -> SCORED|KILLED|SCALED (robin_app has UPDATE)
+//   PATCH close/score a receipt: OPEN -> SCORED|KILLED|SCALED (needs UPDATE grant)
 //
 // A receipt should be scored by external signal that arrives after T0 (§5.1);
 // like the debrief outcome route, v1 does not hard-enforce a different-session
 // check — the session's random id is the ownership gate.
+//
+// CISO/SRE review (2026-08-07): the sessionId bearer now grants WRITE (PATCH) and
+// travels in the GET query string — acceptable for this tenant (Zach's own demo
+// receipts) but must NOT generalize to a sensitive/user-attributable tenant
+// without moving the token to a header/cookie (logged to the ADR-034 ledger).
 
 const FIELD = z.string().max(4096)
 
@@ -48,10 +53,15 @@ const UpdateSchema = z.object({
   payload: z.unknown().optional(),
 })
 
-// Best-effort per-instance throttle (serverless-local; row caps are the real bound).
+// Best-effort per-instance throttle (serverless-local; row caps are the real
+// bound). Opportunistically swept so a rotating-IP scraper cannot grow the Map
+// for the instance lifetime (SRE finding F3).
 const hits = new Map<string, { n: number; t: number }>()
 function throttled(ip: string): boolean {
   const now = Date.now()
+  if (hits.size > 5000) {
+    for (const [k, v] of hits) if (now - v.t > STUDIO_LIMITS.THROTTLE_WINDOW_MS) hits.delete(k)
+  }
   const h = hits.get(ip)
   if (!h || now - h.t > STUDIO_LIMITS.THROTTLE_WINDOW_MS) {
     hits.set(ip, { n: 1, t: now })
@@ -71,14 +81,23 @@ function clientIp(req: NextRequest): string {
   )
 }
 
-async function resolveTenant(params: Promise<{ tenant: string }>) {
+// Cheap tenant validation (no DB client build, so it cannot throw). The client
+// is built inside each handler's try/catch, so an unset secret surfaces as a
+// logged 503 rather than an opaque, un-instrumented 500 (SRE finding F2).
+async function tenantConfig(params: Promise<{ tenant: string }>) {
   const { tenant } = await params
   if (!isStudioTenant(tenant)) return null
-  return { tenant, brand: STUDIO_TENANTS[tenant].brand, prisma: studioPrisma(tenant) }
+  const cfg = STUDIO_TENANTS[tenant]
+  return { tenant, brand: cfg.brand, close: cfg.close }
+}
+
+function unavailable(tenant: string, op: string, err: unknown) {
+  console.error(`[studio ${op} ${tenant}]`, err instanceof Error ? err.message : String(err))
+  return NextResponse.json({ error: "Studio temporarily unavailable" }, { status: 503 })
 }
 
 export async function POST(req: NextRequest, ctx: { params: Promise<{ tenant: string }> }) {
-  const t = await resolveTenant(ctx.params)
+  const t = await tenantConfig(ctx.params)
   if (!t) return NextResponse.json({ error: "Unknown tenant" }, { status: 404 })
   if (throttled(clientIp(req))) return NextResponse.json({ error: "Too many requests" }, { status: 429 })
 
@@ -94,69 +113,81 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ tenant: st
     return NextResponse.json({ error: msg }, { status: 400 })
   }
 
-  const rowCount = await t.prisma.sessionReceipt.count({
-    where: { tenant: t.tenant, brand: t.brand, sessionId: parsed.sessionId },
-  })
-  if (rowCount >= STUDIO_LIMITS.MAX_ROWS_PER_SESSION) {
-    return NextResponse.json({ error: "Session receipt limit reached" }, { status: 429 })
-  }
+  try {
+    const prisma = studioPrisma(t.tenant)
 
-  // Lineage: parent must exist in the same tenant/brand/session — no cross-session grafts.
-  let parentId: string | null = null
-  if (parsed.parentId) {
-    const parent = await t.prisma.sessionReceipt.findFirst({
-      where: { id: parsed.parentId, tenant: t.tenant, brand: t.brand, sessionId: parsed.sessionId },
-      select: { id: true },
+    const rowCount = await prisma.sessionReceipt.count({
+      where: { tenant: t.tenant, brand: t.brand, sessionId: parsed.sessionId },
     })
-    if (!parent) return NextResponse.json({ error: "parentId not found in this session" }, { status: 400 })
-    parentId = parent.id
+    if (rowCount >= STUDIO_LIMITS.MAX_ROWS_PER_SESSION) {
+      return NextResponse.json({ error: "Session receipt limit reached" }, { status: 429 })
+    }
+
+    // Lineage: parent must exist in the same tenant/brand/session — no cross-session grafts.
+    let parentId: string | null = null
+    if (parsed.parentId) {
+      const parent = await prisma.sessionReceipt.findFirst({
+        where: { id: parsed.parentId, tenant: t.tenant, brand: t.brand, sessionId: parsed.sessionId },
+        select: { id: true },
+      })
+      if (!parent) return NextResponse.json({ error: "parentId not found in this session" }, { status: 400 })
+      parentId = parent.id
+    }
+
+    const session = await auth()
+    const userId = session?.user?.id ?? null
+
+    const receipt = await prisma.sessionReceipt.create({
+      data: {
+        tenant: t.tenant,
+        brand: t.brand,
+        sessionId: parsed.sessionId,
+        author: parsed.author,
+        bet: parsed.bet,
+        assumptions: parsed.assumptions ?? null,
+        falsifier: parsed.falsifier,
+        killScale: parsed.killScale ?? null,
+        atRisk: parsed.atRisk ?? null,
+        scoreBackDate: parsed.scoreBackDate,
+        parentId,
+        payload: parsed.payload === undefined ? undefined : (parsed.payload as object),
+        userId,
+        sealedAt: new Date(),
+      },
+      select: { id: true, status: true, sealedAt: true },
+    })
+    return NextResponse.json(receipt)
+  } catch (e) {
+    return unavailable(t.tenant, "POST", e)
   }
-
-  const session = await auth()
-  const userId = session?.user?.id ?? null
-
-  const receipt = await t.prisma.sessionReceipt.create({
-    data: {
-      tenant: t.tenant,
-      brand: t.brand,
-      sessionId: parsed.sessionId,
-      author: parsed.author,
-      bet: parsed.bet,
-      assumptions: parsed.assumptions ?? null,
-      falsifier: parsed.falsifier,
-      killScale: parsed.killScale ?? null,
-      atRisk: parsed.atRisk ?? null,
-      scoreBackDate: parsed.scoreBackDate,
-      parentId,
-      payload: parsed.payload === undefined ? undefined : (parsed.payload as object),
-      userId,
-      sealedAt: new Date(),
-    },
-    select: { id: true, status: true, sealedAt: true },
-  })
-
-  return NextResponse.json(receipt)
 }
 
 export async function GET(req: NextRequest, ctx: { params: Promise<{ tenant: string }> }) {
-  const t = await resolveTenant(ctx.params)
+  const t = await tenantConfig(ctx.params)
   if (!t) return NextResponse.json({ error: "Unknown tenant" }, { status: 404 })
   const sessionId = req.nextUrl.searchParams.get("sessionId")
   if (!sessionId) return NextResponse.json({ error: "sessionId is required" }, { status: 400 })
 
-  const receipts = await t.prisma.sessionReceipt.findMany({
-    where: { tenant: t.tenant, brand: t.brand, sessionId },
-    select: PUBLIC_SELECT,
-    orderBy: { createdAt: "desc" },
-    take: 200,
-  })
-
-  return NextResponse.json({ receipts })
+  try {
+    const prisma = studioPrisma(t.tenant)
+    const receipts = await prisma.sessionReceipt.findMany({
+      where: { tenant: t.tenant, brand: t.brand, sessionId },
+      select: PUBLIC_SELECT,
+      orderBy: { createdAt: "desc" },
+      take: 200,
+    })
+    return NextResponse.json({ receipts })
+  } catch (e) {
+    return unavailable(t.tenant, "GET", e)
+  }
 }
 
 export async function PATCH(req: NextRequest, ctx: { params: Promise<{ tenant: string }> }) {
-  const t = await resolveTenant(ctx.params)
+  const t = await tenantConfig(ctx.params)
   if (!t) return NextResponse.json({ error: "Unknown tenant" }, { status: 404 })
+  // Reject close/score for tenants whose DB role has no UPDATE grant, up front
+  // with a 405, instead of failing deep at the grant layer as a 500 (CISO D).
+  if (!t.close) return NextResponse.json({ error: "This tenant is file-only" }, { status: 405 })
   if (throttled(clientIp(req))) return NextResponse.json({ error: "Too many requests" }, { status: 429 })
 
   const raw = await req.text()
@@ -171,24 +202,34 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ tenant: s
     return NextResponse.json({ error: msg }, { status: 400 })
   }
 
-  // Ownership gate: the receipt must exist in this tenant/brand AND this session.
-  const existing = await t.prisma.sessionReceipt.findFirst({
-    where: { id: parsed.id, tenant: t.tenant, brand: t.brand, sessionId: parsed.sessionId },
-    select: { id: true, status: true },
-  })
-  if (!existing) return NextResponse.json({ error: "receipt not found in this session" }, { status: 404 })
+  try {
+    const prisma = studioPrisma(t.tenant)
 
-  const updated = await t.prisma.sessionReceipt.update({
-    where: { id: existing.id },
-    data: {
-      status: parsed.status,
-      outcome: parsed.outcome ?? null,
-      variance: parsed.variance ?? null,
-      lesson: parsed.lesson ?? null,
-      payload: parsed.payload === undefined ? undefined : (parsed.payload as object),
-    },
-    select: PUBLIC_SELECT,
-  })
+    // Ownership gate: the receipt must exist in this tenant/brand AND this session.
+    const existing = await prisma.sessionReceipt.findFirst({
+      where: { id: parsed.id, tenant: t.tenant, brand: t.brand, sessionId: parsed.sessionId },
+      select: { id: true, status: true },
+    })
+    if (!existing) return NextResponse.json({ error: "receipt not found in this session" }, { status: 404 })
+    // Append-only: a receipt is scored ONCE. Re-scoring would let a filed bet be
+    // rewritten into a flattering outcome, defeating the whole contract (CISO A).
+    if (existing.status !== "OPEN") {
+      return NextResponse.json({ error: "receipt already scored" }, { status: 409 })
+    }
 
-  return NextResponse.json({ receipt: updated })
+    const updated = await prisma.sessionReceipt.update({
+      where: { id: existing.id },
+      data: {
+        status: parsed.status,
+        outcome: parsed.outcome ?? null,
+        variance: parsed.variance ?? null,
+        lesson: parsed.lesson ?? null,
+        payload: parsed.payload === undefined ? undefined : (parsed.payload as object),
+      },
+      select: PUBLIC_SELECT,
+    })
+    return NextResponse.json({ receipt: updated })
+  } catch (e) {
+    return unavailable(t.tenant, "PATCH", e)
+  }
 }
