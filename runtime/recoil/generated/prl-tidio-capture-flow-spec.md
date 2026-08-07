@@ -24,7 +24,7 @@ TRIGGER: visitor opens chat / clicks a conversation starter
 | First name | yes | |
 | Last name | yes | |
 | Company | yes | maps to `account_name` |
-| **Phone** | **decision** | Sugar expects `phone_work`; require it OR use a placeholder (Todd's call) |
+| **Phone** | **yes (required)** | DECIDED 2026-08-07 (Todd): required, not optional. Maps to Sugar `phone_work` (also required). Enforced by the getUserInput node (visitor must answer) + phone validation. |
 | **Email** | yes | THE differentiator: capture every time; maps to `email1` (the fix) |
 | Application / grade interest | yes | free text → `description`; run the recognizer later (1.3) |
 | Market (optional dropdown) | no | EE / Medical / Transportation / Building / Consumer / Sustainability |

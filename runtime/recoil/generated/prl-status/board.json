@@ -8,26 +8,77 @@
     {
       "phase": "1.1 Go Live",
       "items": [
-        { "name": "Chatbot built and branded", "status": "done", "note": "Live on a private copy of the site, in your colors.", "owner": "us" },
-        { "name": "Email capture fix", "status": "acceptance_testing", "refinement_needed": true, "note": "Root cause found and fix staged; needs the go-live delivery test to confirm.", "owner": "us" },
-        { "name": "CRM lead delivery (chatbot to SugarCRM)", "status": "troubleshooting", "note": "Waiting on a safe way to test delivery: a sandbox, or one labeled test lead we create and delete together.", "owner": "todd" },
-        { "name": "Answer specs vs route to specialist", "status": "pending_review", "note": "Your call: keep the bot answering specs, or have it recognize and route them. We recommend routing.", "owner": "todd" },
-        { "name": "After-hours handoff fix", "status": "pending_review", "note": "Your call: switch the dead-end to collect details and follow up. We recommend yes.", "owner": "todd" }
+        {
+          "name": "Chatbot built and branded",
+          "status": "done",
+          "note": "Live on a private copy of the site, in your colors.",
+          "owner": "us"
+        },
+        {
+          "name": "Email capture fix",
+          "status": "acceptance_testing",
+          "refinement_needed": true,
+          "note": "Root cause found and fix staged; needs the go-live delivery test to confirm.",
+          "owner": "us"
+        },
+        {
+          "name": "CRM lead delivery (chatbot to SugarCRM)",
+          "status": "troubleshooting",
+          "note": "Waiting on a safe way to test delivery: a sandbox, or one labeled test lead we create and delete together.",
+          "owner": "todd"
+        },
+        {
+          "name": "Answer specs vs route to specialist",
+          "status": "pending_review",
+          "note": "Your call: keep the bot answering specs, or have it recognize and route them. We recommend routing.",
+          "owner": "todd"
+        },
+        {
+          "name": "After-hours handoff fix",
+          "status": "pending_review",
+          "note": "Your call: switch the dead-end to collect details and follow up. We recommend yes.",
+          "owner": "todd"
+        }
       ]
     },
     {
       "phase": "1.2 Kickoff",
       "items": [
-        { "name": "1.2 kickoff (invoice)", "status": "not_started", "note": "Pending payment of the scoped invoice; paying it books the Monday kickoff.", "owner": "todd" }
+        {
+          "name": "1.2 kickoff (invoice)",
+          "status": "not_started",
+          "note": "Pending payment of the scoped invoice; paying it books the Monday kickoff.",
+          "owner": "todd"
+        }
       ]
     },
     {
       "phase": "Recommended (handed off, awaiting go-ahead)",
       "items": [
-        { "name": "Form spam protection", "status": "not_started", "note": "Steps handed to your site maintainer; we would apply on staging first. Not started, awaiting approval.", "owner": "josh" },
-        { "name": "Email deliverability and DNS", "status": "not_started", "note": "SPF/DKIM/DMARC and the pending forwarding change handed to IT.", "owner": "it" },
-        { "name": "Recover orphaned leads", "status": "not_started", "note": "About 29 real, unworked inquiries ready to recover on your go-ahead.", "owner": "todd" },
-        { "name": "Reconnect enrichment feed", "status": "not_started", "note": "Later item; the connection had expired.", "owner": "us" }
+        {
+          "name": "Form spam protection",
+          "status": "not_started",
+          "note": "Steps handed to your site maintainer; we would apply on staging first. Not started, awaiting approval.",
+          "owner": "josh"
+        },
+        {
+          "name": "Email deliverability and DNS",
+          "status": "not_started",
+          "note": "SPF/DKIM/DMARC and the pending forwarding change handed to IT.",
+          "owner": "it"
+        },
+        {
+          "name": "Recover orphaned leads",
+          "status": "not_started",
+          "note": "About 29 real, unworked inquiries ready to recover on your go-ahead.",
+          "owner": "todd"
+        },
+        {
+          "name": "Reconnect enrichment feed",
+          "status": "not_started",
+          "note": "Later item; the connection had expired.",
+          "owner": "us"
+        }
       ]
     }
   ]
