@@ -59,3 +59,21 @@ never fabricate interiority about named people ([[internal-external-artifact-air
 3. If org-scale matters, build Codex (C) grounded in their org.
 4. If they want to feel it, build the meta-cognitive demo (D).
 5. Sequence per §3, grammar per §2, fence per §4. Deploy once per surface.
+
+## 7. Forge pipeline — expanded scope (queued into task_56561b51)
+Land each first-shot, no overengineering. The forge pipeline (`/forge`) should carry these:
+- **The page IS the end-to-end loop mechanism.** Parameterize / componentize / templatize / atomize the
+  robin one-door (the current platinum master, `public/robin.html` + `robin-profile.html`) as the internal
+  decision loop: **seed -> canon -> forge -> gauntlet -> closed receipt.** That chain is the templating spine;
+  every counterpart page is that loop instantiated on one SSOT.
+- **Interactive receipt builder, per-tenant.** Wire a **robin tenant of the louisville receipt builder** —
+  the API-backed interactive receipt-close tool. Refs: `src/app/api/louisville/receipts/route.ts`,
+  `scripts/gen_receipt_close.py`, `scripts/receipt_lookup.py`, `public/robin-receipt.html` (forensic close).
+  Goal: file/close a receipt interactively (bet -> score -> JSON), not a hand-authored card. Keep receipts
+  portable JSON (interoperable), stateful RLS air-gapped tenant deferred to engagement-live (D6).
+- **Gauntlet-hardened visual cleanup pass.** Before shipping any generated surface, run the gauntlet
+  (BAR / COURT / LAB / Funhouse) + the mechanical verify (impeccable detector, 0 em-dashes,
+  fabrication/air-gap scan, attribution check). Ref: `_ARCHIVE/handoffs.md` "gauntlet-hardened". This is
+  the automated quality floor for the assembly line, not a manual afterthought.
+- **Efficiency note:** run the fresh forge session model-efficiently (cheaper tier for mechanical stages,
+  higher only for synthesis/verify). Quality floor is non-negotiable; overengineering is the anti-goal.
