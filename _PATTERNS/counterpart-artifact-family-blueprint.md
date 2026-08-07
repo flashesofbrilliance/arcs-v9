@@ -105,3 +105,29 @@ ramp-up time. ARCS attacks both, all on the same staff-of-chiefs substrate. Buil
 **All four share one substrate** (the staff-of-chiefs / subagent fan) and together attack both terms of
 Brooks's Law. This is the org-scale product horizon for the coordination-intelligence surface; build it
 in the forge/roadmap, not by bloating a counterpart page.
+
+## 9. Robin = the platinum-master templates (extract, parameterize, regenerate)
+Robin's 4 live surfaces ARE the componentized master. The crispness gap on any HAND-built counterpart
+(Yuri was built one-off this session and drifted from the bar) is the case FOR the pipeline: parameterize
+Robin, pass the counterpart's SSOTs as args, regenerate to this bar. Do not hand-fix; generate.
+- **The 4 templates (`public/robin*.html`):**
+  - `robin.html` — the ONE-DOOR: facesnav ("N reads that feed each other") + one-line seed + **the concrete
+    real-call story** + how-it-works + where-it-goes + how-to-start + for-the-room. Leads with the STORY, not a diagram.
+  - `robin-profile.html` — THE READ OF YOU (registers / altitude / resonance / quiet-signals / loop), enriched from crawl.
+  - `robin-codex.html` — THE RECOIL, **dual-tab**: The Read (game-day tape: the line, vibe/veer, the offer) +
+    The Instrument (how the read is made, run on Zach's own tape, not the counterpart's). Two views, one thing.
+  - `robin-receipt.html` — THE RECEIPT CLOSE: bet filed BEFORE (in the codex) -> scored AFTER, reverse-listening +
+    deep recall, Kairos write-locked, status-at-open -> status-at-close, priors updated. The crispest proof.
+- **Crispness rules (encode as generation constraints):** real-call story + quotes over abstract diagrams;
+  the receipt-close is FIRST-CLASS (predicted-before vs actual-after, scored); a clean **3-read triad**
+  (profile -> recoil -> receipt), not 4+ top-level surfaces; dual Read+Instrument on the recoil.
+- **Method = runtime:** crawl -> profile; serialize transcript -> recoil; ex-ante + reverse-listen -> receipt-close.
+  Pass-through args = the counterpart SSOTs (`<date>-<name>-{profile,recoil,precall}.json`). Scripts:
+  `gen_recoil_artifact.py`, `recoil_brief.py`, `receipt_lookup.py`, + a `gen_receipt_close.py`. UI kit = the
+  shared CSS grammar in §2, extracted to partials once.
+- **N-call adaptivity:** Robin = multi-call arc; single-call counterparts (Yuri) render single-call recoil +
+  receipt-close, no arc. Template branches on call count.
+- **FIRST VALIDATION TARGET: regenerate Yuri to this bar** (profile already regrounded; add a yuri-receipt from
+  the ex-ante `kleban.json` scored against `kleban-recoil.json`; restructure `yuri.html` to lead with the real
+  belief-flip story, not the loop diagram; re-tier codex+demo as the deeper how-it-scales layer). Proving the
+  pipeline ON Yuri, matching Robin's crispness, is the acceptance test.
