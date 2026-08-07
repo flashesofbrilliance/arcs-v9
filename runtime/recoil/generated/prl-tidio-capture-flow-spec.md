@@ -55,9 +55,25 @@ a write error never drops a lead silently (1.2).
 - [ ] Webhook action after successful capture.
 - [ ] Confirmation message.
 
+## Verify capture NOW (no Sugar, no Zapier, no domain)
+Tidio captures and stores every lead itself, so capture is fully verifiable today by three independent means:
+1. **Connected-email notification** - Tidio emails the captured lead to a connected inbox on submit (works
+   before the domain is connected). Confirms capture + that the email field is captured.
+2. **Tidio Leads / Contacts panel** - the lead appears in Tidio directly.
+3. **Export CSV / JSON** - download the captured leads straight from Tidio and inspect them.
+
+Test procedure: build the flow -> submit 2-3 test leads (with and without optional fields) -> confirm each
+appears via the three means above, with `email` populated every time. This proves the differentiator (email
+captured on every lead) with no external system.
+
+**Bonus value:** leads are safe and exportable in Tidio the moment the flow is live, even before any CRM
+integration - so nothing is lost while Sugar delivery is still gated. Early leads can be handed to the team via
+the CSV/JSON export in the interim.
+
 ## What's Sugar-gated (do NOT block on it)
-Only the live **Create Record write** + the **labelled test lead**. Build + test the whole flow and the webhook
-payload now; finish the last Zap step when Todd approves.
+Only the live **Create Record write** + the **labelled test lead**. Capture and the webhook payload are
+verifiable now (above); finish the last Zap step (the Sugar write) when Todd approves. The Zapier Catch Hook is
+optional for verifying capture - Tidio's own email/export already proves it.
 
 ## Parked (not this flow)
 Persona branching (1.4 / `audiences.md`), the Lyro AI answers (1.5), competitor recognition surfacing (1.3).
