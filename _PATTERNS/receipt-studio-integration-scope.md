@@ -52,6 +52,22 @@ The goal is the loop, not another hardcode. Louisville's route pins `TENANT="jeb
   [[supabase-rls-hides-rows-from-new-roles]]. Internal scoring (NCI, conviction values, kinematics) never
   crosses into the Studio's `PUBLIC_SELECT`.
 
+## Onboarding automation (no HITL for the credential) — SHIPPED 2026-08-07
+`scripts/provision_studio_tenant.mjs <tenant> <brand> [--no-preview] [--redeploy] [--write-migration] [--dry-run]`
+collapses the runtime half (the part that used to need a human): it applies the RLS role+policies
+(idempotent), generates the login password locally, `ALTER ROLE`s it (via Node `pg`, no psql / no
+SQL-editor / no clipboard-drift), and writes `<TENANT>_DATABASE_URL` to Vercel **Production + Preview**
+in one command. The password is generated on the operator's machine and never logged. Requires
+`STUDIO_ADMIN_DATABASE_URL` (Supabase Direct/Session string with ALTER ROLE privilege); project ref /
+pooler host / port / vercel scope have project defaults, overridable via env.
+
+**Deliberately NOT scripted:** the registry row in `src/lib/receipt-studio.ts`. That is the security
+allowlist — keep it a reviewed code edit, not an auto-generated one. Full onboarding is therefore:
+(1) add the registry row + `/api` rewrite + studio block in the SSOT (reviewed edits), commit, deploy;
+(2) `node scripts/provision_studio_tenant.mjs <tenant> <brand> --redeploy` (the credential, no HITL).
+Re-running the provisioner is also how you add Preview to an already-provisioned tenant (regenerates
+the password, sets both environments, re-ALTERs — atomic, no drift).
+
 ## Cost + verify discipline
 - One route, registry-driven; no per-counterpart file. Local iteration; one deploy from the main worktree.
 - The Studio write path touches auth + schema + an external DB, so it goes through **ciso-review +
