@@ -27,21 +27,18 @@ write on FAIL):
 prod, `ROBIN_DATABASE_URL` set Production). CISO+SRE reviewed, findings fixed, STU-015/016 ledgered,
 live round-trip verified. Details + go-live gotchas in [[counterpart-forge-pipeline]] memory.
 
-**REMAINING (optional / lower priority):**
-0. **Receipt Studio follow-ups:** set `ROBIN_DATABASE_URL` for Preview too (currently Production-only);
-   fold the throttle-sweep (STU-016) into the louisville route when next touched; onboard more tenants by
-   adding a registry row + a `<tenant>_app` RLS migration + secret (never generalize the sessionId
-   write-bearer to a sensitive tenant, STU-015).
-1. **yuri-codex** via the dual-tab renderer (the existing 5-altitude `yuri-codex` + `yuri-demo` are now
-   correctly RE-TIERED as the deeper how-it-scales layer, linked from the one-door, not top-level; the
-   clean triad profile->recoil->receipt is the entry). A dual-tab yuri-codex on the single Jul-23 call is
-   nice-to-have, not blocking.
-2. **Receipt Studio integration** — interactive file/close a receipt: see
-   `_PATTERNS/receipt-studio-integration-scope.md` (Robin tenant of the Louisville Studio + reuse; D6 defers
-   RLS to engagement-live). Touches auth+schema -> ciso/sre review before ship. This is the real next build.
-3. Robin's bespoke one-door blocks (belief-ledger, advisory board, volley quadrants, download-receipt card)
-   are NOT in `render_onedoor` yet — robin.html keeps them hand-authored. Add as optional typed blocks if a
-   counterpart needs them.
+**ALL FOLLOW-UPS DONE + LIVE (2026-08-07 later session):**
+- **yuri-codex dual-tab** shipped (Read = belief-flip beats + spark, Instrument); one-door facesnav/CTA
+  point to the codex as the recoil surface.
+- **robin.html now GENERATED** through `render_onedoor` (8 bespoke block types: multi-call manifold,
+  beat-meta, volley 2x2, compose, receipt-card, download row, belief-ledger, advisory board). SSOT:
+  `2026-08-05-daniels-onedoor.json`. Pipeline thesis closed: every counterpart surface is SSOT -> generator.
+- **Second Studio tenant (yuri)** live + verified: registry row + `yuri_app` RLS (pinned yuri/google) +
+  `YURI_DATABASE_URL`; robin and yuri operate isolated. Registry generalization proven.
+- **louisville throttle sweep** folded (STU-016 fully closed).
+- Open only: `ROBIN_DATABASE_URL`/`YURI_DATABASE_URL` for Preview (dashboard tick; Production-only now,
+  studio serves from prod so low priority). 3rd tenant = registry row + `<t>_app` migration + secret
+  (never generalize the sessionId write-bearer to a sensitive tenant, STU-015).
 
 Encoders (learned this session): authored prose fields carry HTML entities -> insert RAW; attribute
 values -> `A()` (escapes " and < only, preserves entities); only machine/plain values -> `E()`. Running
