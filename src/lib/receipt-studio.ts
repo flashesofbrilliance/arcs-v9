@@ -22,6 +22,7 @@ import { Pool } from "pg"
 export const STUDIO_TENANTS = {
   jeben: { brand: "louisvillebrands", dbEnvVar: "LOUISVILLE_DATABASE_URL", viewerEnvVar: "LOUISVILLE_VIEWER_EMAILS", close: false },
   robin: { brand: "zensai", dbEnvVar: "ROBIN_DATABASE_URL", viewerEnvVar: "ROBIN_VIEWER_EMAILS", close: true },
+  yuri: { brand: "google", dbEnvVar: "YURI_DATABASE_URL", viewerEnvVar: "YURI_VIEWER_EMAILS", close: true },
 } as const
 
 export type StudioTenant = keyof typeof STUDIO_TENANTS

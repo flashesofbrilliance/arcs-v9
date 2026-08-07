@@ -14,13 +14,13 @@
   "blocks": [
     {"type": "facesnav", "label": "Three reads, each one feeds the next", "faces": [
       {"href": "https://yuri-profile.arcs.care", "led": "g", "title": "The read of you", "desc": "who you are, built from your public voice, honest about how much it can see"},
-      {"href": "https://yuri-recoil.arcs.care", "led": "o", "title": "The before and after of our call", "desc": "the bet I filed before we spoke, and what actually changed once we did"},
+      {"href": "https://yuri-codex.arcs.care", "led": "o", "title": "The before and after of our call", "desc": "the bet I filed before we spoke and what changed, plus the instrument that made the read"},
       {"href": "https://yuri-receipt.arcs.care", "led": "r", "title": "The receipt of our call", "tag": "in full resolution", "desc": "the ex-ante bet, scored line by line against what you said"}
     ]},
     {"type": "seed", "k": "01 · the one line", "h2": "The thing you asked to see.",
      "quote": "it&rsquo;d be great to see your hypothesis on me before and what happened after our conversation, that&rsquo;s the magic",
      "attr": "You, Jul 23. You named the deliverable yourself: the before and after. This door opens on exactly that.",
-     "cta": {"href": "https://yuri-recoil.arcs.care", "label": "Open the before and after &rarr;"}},
+     "cta": {"href": "https://yuri-codex.arcs.care#read", "label": "Open the before and after &rarr;"}},
     {"type": "story", "k": "02 · the belief that flipped", "h2": "I filed a bet on you before we talked. The one I flagged as most likely wrong broke hardest.",
      "intro": "Before the call I wrote down a falsifiable bet, and I flagged the belief I thought was most likely to be wrong: that the overlap between us was thin. It was the one that broke, in the best possible direction. Here is each belief, the line of yours that moved it, and where it landed. Single call, no arc, just the flip.",
      "beats": [
