@@ -1,58 +1,133 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="robots" content="noindex, nofollow"><title>For Yuri, start here</title><style>:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:56px 24px 96px;line-height:1.6;}
-.page{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
-.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--dimmed);}
-h1{font-size:27px;font-weight:700;letter-spacing:-0.02em;margin-top:8px;line-height:1.2;}
-.sub{font-size:14.5px;color:var(--muted);margin-top:8px;line-height:1.55;}
-.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.3;margin:4px 0 6px;}
-.step{display:flex;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 20px;text-decoration:none;color:inherit;transition:border-color .15s,transform .15s;}
-.step:hover{border-color:var(--cyan);transform:translateY(-1px);}
-.step .num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--dimmed);flex-shrink:0;width:34px;line-height:1;padding-top:2px;}
-.step .body{flex:1;}
-.chip{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:5px;display:inline-block;margin-bottom:8px;}
-.chip.start{color:var(--green);border:1px solid rgba(0,255,157,.35);}
-.chip.unlock{color:var(--cyan);border:1px solid rgba(0,240,255,.32);}
-.step h2{font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.25;}
-.step .what{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
-.step .why{font-size:13px;color:var(--text);margin-top:9px;line-height:1.5;}
-.step .unl{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dimmed);margin-top:11px;display:flex;align-items:center;gap:7px;}
-.step .unl b{color:var(--cyan);font-weight:700;}
-.step .go{font-family:var(--mono);font-size:12px;color:var(--cyan);margin-left:auto;align-self:center;}
-.foot{font-size:13px;color:var(--muted);text-align:center;padding-top:8px;line-height:1.6;}
-.stamp{text-align:center;margin-top:4px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dimmed);}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Yuri &middot; one door</title><style>
+:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,"SF Mono","Fira Code",monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:48px 22px 96px}
+.page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18}
+.sub{font-size:15px;color:var(--muted);margin-top:10px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
+.mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:26px 26px 28px}
+.mv.seed{border-color:rgba(255,215,0,.25)}.mv.well{border-color:rgba(0,240,255,.28)}.mv.corpus{border-color:rgba(0,255,157,.22)}.mv.horizon{border-color:rgba(255,215,0,.22)}.mv.trust{border-color:rgba(148,163,184,.25)}
+.mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
+.mv.seed .mvk{color:var(--gold)}.mv.well .mvk{color:var(--cyan)}.mv.corpus .mvk{color:var(--green)}.mv.horizon .mvk{color:var(--gold)}.mv.trust .mvk{color:var(--muted)}
+.mv h2{font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+.mvintro{font-size:14.5px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.lbq{border-left:3px solid var(--gold);padding:6px 0 6px 16px;margin:4px 0 16px}
+.lbq blockquote{font-size:19px;font-weight:600;line-height:1.4;color:#fff}
+.lbq .attr{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dimmed);margin-top:10px;line-height:1.6}
+.cta{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,215,0,.4);border-radius:8px;padding:11px 18px;text-decoration:none;transition:background .15s}
+.cta:hover{background:rgba(255,215,0,.08)}
+.facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
+.facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
+.face{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text);transition:background .15s}
+.face::after{content:"\2197";font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dimmed);align-self:center;transition:color .15s,transform .15s}
+.face:hover::after{color:var(--cyan);transform:translate(2px,-2px)}
+a.face:hover{background:var(--surface)}
+.facen{display:inline-block;width:7px;height:7px;border-radius:50%;align-self:start;margin-top:6px;background:rgb(var(--rgb));animation:ledpulse 1.8s ease-in-out infinite}
+.led.g{--rgb:0,255,157}.led.o{--rgb:255,159,28}.led.c{--rgb:0,240,255}.led.v{--rgb:148,163,184}
+@keyframes ledpulse{0%,100%{box-shadow:0 0 0 0 rgba(var(--rgb),.5),0 0 4px 1px rgba(var(--rgb),.5)}50%{box-shadow:0 0 0 4px rgba(var(--rgb),0),0 0 8px 2px rgba(var(--rgb),.95)}}
+@media(prefers-reduced-motion:reduce){.facen{animation:none;box-shadow:0 0 5px 1px rgba(var(--rgb),.7)}.face::after{transition:none}}
+.faceb{display:flex;flex-direction:column;gap:2px}
+.facet{font-size:14.5px;font-weight:700;color:#fff}.facet b{color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.06em}
+.faced{font-size:12px;color:var(--muted)}
+.loop{border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:16px}
+.arch{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.stagerow{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+@media(max-width:640px){.stagerow{grid-template-columns:1fr 1fr}}
+.stage{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:11px 11px;position:relative}
+.stage .sn{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.08em;color:var(--dimmed);margin-bottom:5px}
+.stage .st{font-size:12.5px;font-weight:700;color:#fff;margin-bottom:4px;line-height:1.25}
+.stage .sd{font-size:11px;color:var(--muted);line-height:1.4}
+.stage.cap{border-color:rgba(255,215,0,.4)}.stage.cap .sn{color:var(--gold)}
+.stage.live{border-color:rgba(0,240,255,.4)}.stage.live .sn{color:var(--cyan)}
+.rescore{margin-top:9px;border:1px dashed rgba(0,255,157,.35);border-radius:10px;background:linear-gradient(180deg,rgba(0,255,157,.05),transparent);padding:12px 14px;font-size:13px;color:var(--text);line-height:1.55}
+.rescore b{color:var(--green)}
+.ledger{margin-top:16px;border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px}
+.ledgerh{font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.ledgerintro{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.lrows{display:grid;gap:10px}
+.lrow{border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:13px 15px}
+.lbel{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:8px}
+.lpair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.lt0,.lt1{font-size:12.5px;color:var(--muted);line-height:1.4}
+.ltk{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;color:var(--dimmed);border:1px solid var(--border);border-radius:4px;padding:1px 4px;margin-right:4px}
+.lpct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed)}.lpct.up{color:var(--green)}.lpct.down{color:var(--red)}
+.larrow{color:var(--cyan);font-size:16px;text-align:center}
+.lmoved{font-size:12px;color:var(--dimmed);line-height:1.5;border-top:1px solid var(--border);padding-top:7px}
+.ledgernote{font-size:13px;color:var(--muted);line-height:1.6;margin-top:14px;font-style:italic}
+@media(max-width:560px){.lpair{grid-template-columns:1fr;gap:4px}.larrow{transform:rotate(90deg)}}
+.cc{border-top:1px solid var(--border);padding:16px 0}.cc:first-of-type{border-top:0;padding-top:2px}
+.cc h3{font-size:16px;margin-bottom:6px}.cc p{font-size:14px;color:var(--muted);line-height:1.6}
+.cclink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none}.cclink:hover{text-decoration:underline}
+.prows{display:grid;gap:9px}
+.prow{display:grid;grid-template-columns:150px 1fr;gap:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.pwho{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);padding-top:2px}
+.pobj{font-size:13.5px;font-style:italic;color:var(--text);margin-bottom:6px}
+.pans{font-size:13px;color:var(--muted);line-height:1.55}
+@media(max-width:560px){.prow{grid-template-columns:1fr;gap:5px}}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
 </style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
 
-<div><div class="eyebrow">For Yuri &#183; start here</div><h1>Three ways in, in order</h1><div class="sub">You asked a fair question: how do I read this. So here is the path, not a pile of links. Start with the loop on our own call, then how it scales across your org, then watch it run on you. Each one earns the next. Same password on all three, the one I sent you.</div></div>
+<div><div class="eyebrow">Yuri &middot; one door</div><h1>One call, the loop it runs, and how it scales.</h1><p class="sub">You asked a fair question: how do I read this, and who is it for. So here is the whole thing in one place, in order. The read of you, then the loop run on our own call, then how it scales across your org, then run it on yourself. Move at your own pace. Nothing here asks you for anything.</p></div>
 <div class="rule"></div>
 
-<a class="step" href="https://yuri-recoil.arcs.care">
-<div class="num">01</div>
-<div class="body"><span class="chip start">Start here</span>
-<h2>Before and after, our call</h2>
-<div class="what">The engine run on one real conversation, ours. The bet I filed on you before we spoke, and what actually changed once we did. The magic you asked to see.</div>
-<div class="why">Read this first. In ten minutes you will feel how the loop works, on real ground you already know.</div>
-<div class="unl">Unlocks &#8594; <b>how it works</b></div></div>
-<div class="go">&#8594;</div></a>
+<div class="facesnav"><div class="facesl">Four reads, each one feeds the next</div>
+<a class="face" href="https://yuri-profile.arcs.care" target="_blank" rel="noopener"><span class="facen led g"></span><span class="faceb"><span class="facet">The read of you</span><span class="faced">who you are, built from public signal, with the caveats named</span></span></a>
+<a class="face" href="https://yuri-recoil.arcs.care" target="_blank" rel="noopener"><span class="facen led c"></span><span class="faceb"><span class="facet">The loop, on our call</span><span class="faced">the bet I filed before we spoke, scored against what changed</span></span></a>
+<a class="face" href="https://yuri-codex.arcs.care" target="_blank" rel="noopener"><span class="facen led o"></span><span class="faceb"><span class="facet">How it scales &middot; <b>your org</b></span><span class="faced">one decision, five altitudes, across departments, no broken telephone</span></span></a>
+<a class="face" href="https://yuri-demo.arcs.care" target="_blank" rel="noopener"><span class="facen led v"></span><span class="faceb"><span class="facet">The engine, run on you</span><span class="faced">every read as clue, inference, conclusion, and how sure I am</span></span></a>
+</div>
 
-<a class="step" href="https://yuri-codex.arcs.care">
-<div class="num">02</div>
-<div class="body"><span class="chip unlock">Then unlock</span>
-<h2>One decision, five altitudes</h2>
-<div class="what">The same signal, carried from executive to surgical and across departments, without broken telephone. The cabinet roll-up, the RBAC gating, the fidelity checks. Has a presentation mode.</div>
-<div class="why">Once the loop makes sense, this is how it scales across a place the size of your org.</div>
-<div class="unl">Unlocks &#8594; <b>how it scales</b></div></div>
-<div class="go">&#8594;</div></a>
+<section class="mv seed"><div class="mvk">01 &middot; the one line</div><h2>The magic you asked to see.</h2>
+<div class="lbq"><blockquote>&ldquo;It'd be great to see your hypothesis on me before, and what happened after our conversation. That's the magic.&rdquo;</blockquote><div class="attr">You, Jul 23. So I ran ARCS on our own call and served it back. Start with the loop.</div></div>
+<a class="cta" href="https://yuri-recoil.arcs.care" target="_blank" rel="noopener">Open the loop &rarr;</a>
+</section>
 
-<a class="step" href="https://yuri-demo.arcs.care">
-<div class="num">03</div>
-<div class="body"><span class="chip unlock">Then unlock</span>
-<h2>How I read you, and how sure I am</h2>
-<div class="what">The engine showing its work, on you: every read as clue, inference, conclusion, with a confidence and a conviction, split into what is public and what I inferred. Exportable. You can check where I jumped.</div>
-<div class="why">Last, because it only lands once you have felt the loop and seen it scale. This is where you regrade me.</div>
-<div class="unl">Unlocks &#8594; <b>run it on you</b></div></div>
-<div class="go">&#8594;</div></a>
+<section class="mv well"><div class="mvk">02 &middot; the shape</div><h2>The loop, end to end.</h2>
+<p class="mvintro">This is the shape everything runs on. A meeting is an arch between two points in time: what I expected before it, and what actually happened. The gap between those two end caps is the whole product. Nothing here is guessed; each stage is built from real signal.</p>
+<div class="loop"><div class="arch"><span>&larr; expected (before)</span><span>actual (after) &rarr;</span></div>
+<div class="stagerow">
+<div class="stage"><div class="sn">01</div><div class="st">Pre-meeting</div><div class="sd">Orient before contact. What is this call for.</div></div>
+<div class="stage"><div class="sn">02</div><div class="st">Recon</div><div class="sd">People and situation. Who is in the room, the terrain.</div></div>
+<div class="stage cap"><div class="sn">03 &middot; T0</div><div class="st">Ex-ante</div><div class="sd">The bet, filed before. What I expect, and the belief most likely wrong.</div></div>
+<div class="stage"><div class="sn">04</div><div class="st">Brief</div><div class="sd">The pre-meeting brief, composed from recon and the bet.</div></div>
+<div class="stage live"><div class="sn">05</div><div class="st">Recoil</div><div class="sd">The live meeting, replayed moment by moment.</div></div>
+<div class="stage cap"><div class="sn">06 &middot; T-end</div><div class="st">Receipt close</div><div class="sd">Expected versus actual, scored honestly.</div></div>
+<div class="stage"><div class="sn">07</div><div class="st">Debrief</div><div class="sd">The quiet signals and failure modes, banked.</div></div>
+</div>
+<div class="rescore"><b>Then the rescore.</b> On the new signal from the meeting, every belief is updated and its confidence and conviction are re-scored. The learnings and patterns get banked, and the closed loop becomes the seed for the next meeting. That is what makes the sequence compound instead of starting cold.</div>
+</div>
+</section>
 
-<div class="foot">Three surfaces, one engine. Read them in order and each one earns the next.<br>When you are back and have time, that is part two.</div>
-<div class="stamp">For Yuri &#183; start at 01 &#183; same password throughout</div>
+<section class="mv corpus"><div class="mvk">03 &middot; what a loop moves</div><h2>The belief ledger, from before to after.</h2>
+<p class="mvintro">One receipt is a snapshot. The value is the ledger: what our call actually moved, from the prior I held before it to the belief after. This is the real one, from our Jul 23 call.</p>
+<div class="ledger"><div class="ledgerh">Our call &middot; T0 to T-end</div>
+<div class="lrows">
+<div class="lrow"><div class="lbel">Is there a real Google surface here?</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> warm fan, maybe knows a team <span class="lpct">40%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T-end</span> the exact buyer and builder <span class="lpct up">90%</span></div></div><p class="lmoved">You described running the team of twenty that builds the exec briefs. The prior flipped.</p></div>
+<div class="lrow"><div class="lbel">The capability doc will land and do the selling</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> the brief lands live <span class="lpct">70%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T-end</span> too abstract, show the real thing <span class="lpct down">20%</span></div></div><p class="lmoved">You said it did not land and asked for the real before and after. A correct prior, killed. This page is the fix.</p></div>
+<div class="lrow"><div class="lbel">Your stance</div><div class="lpair"><div class="lt0"><span class="ltk">T0</span> warm but non-committal <span class="lpct">55%</span></div><div class="larrow">&rarr;</div><div class="lt1"><span class="ltk">T-end</span> you pulled, warmer than I bet <span class="lpct up">82%</span></div></div><p class="lmoved">&ldquo;Be selfish, what would get you to the next step.&rdquo; You pulled; I did not have to push.</p></div>
+</div>
+<p class="ledgernote">That is Bayesian in plain terms: a prior, then evidence, then an updated belief, logged so the next call starts sharper than this one did. Hindsight stops being the only place clarity lives.</p></div>
+</section>
+
+<section class="mv corpus"><div class="mvk">04 &middot; how it works</div><h2>How it works, and how it scales.</h2>
+<div class="cc"><h3>A tool that sharpens you, not a copy of you</h3><p>It does not copy you or replace your judgment. It makes you sharper at the exact job your team already does by hand, the pre-meeting brief, and you still drive. It is the idea you already proved with the Sundar briefs: the machine does the stitching, the human owns the read.</p></div>
+<div class="cc"><h3>The instrument, under the hood</h3><p>What it listens for, the fidelity checks that keep a read honest, and where the line sits. You get the whole taste; the transform stays mine. Some of it is patentable.</p><a class="cclink" href="https://yuri-codex.arcs.care#fence" target="_blank" rel="noopener">See the fence &rarr;</a></div>
+<div class="cc"><h3>1 to Few to Many</h3><p>One: our own call. Few: your team gets the brief and the score before and after every exec meeting. Many: the same signal rolled up losslessly from every line of business to the office of the CEO. Your judgment, made portable and compounding.</p><a class="cclink" href="https://yuri-codex.arcs.care" target="_blank" rel="noopener">See how it scales &rarr;</a></div>
+<div class="cc"><h3>The one thing I would do next</h3><p>An internal, air-gapped tenant on your own stack, powered by Gemini, nothing leaving Google. Start with your remit, briefs for the partnerships org, and fan out from there. Receipts are portable JSON, so nothing is ever locked in.</p></div>
+</section>
+
+<section class="mv trust"><div class="mvk">05 &middot; for the room</div><h2>The objections, answered before they are raised.</h2>
+<p class="mvintro">If you socialize this, here is the same reassurance in each seat's language. The short version: it reads recordings you already have, nothing is stored or sent, and the internal version runs on your own stack.</p>
+<div class="prows">
+<div class="prow"><div class="pwho">Security</div><div><p class="pobj">&ldquo;Where does our data go?&rdquo;</p><p class="pans">Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. The internal version runs air-gapped on Gemini, so nothing leaves Google.</p></div></div>
+<div class="prow"><div class="pwho">Finance</div><div><p class="pobj">&ldquo;Cost and lock-in?&rdquo;</p><p class="pans">The pilot is free, nothing to integrate or maintain, receipts are JSON you keep. One call proves it. No contract, no lock-in.</p></div></div>
+<div class="prow"><div class="pwho">Legal / Trust</div><div><p class="pobj">&ldquo;Consent and ownership?&rdquo;</p><p class="pans">Consent-first, nothing leaves, you keep the file and the data. The read is yours; the method stays mine. Model-agnostic, so no vendor dependency.</p></div></div>
+<div class="prow"><div class="pwho">CEO / office</div><div><p class="pobj">&ldquo;Does this advance our position?&rdquo;</p><p class="pans">It is the loop your team already runs for the exec briefs, made lossless and scored, on your own frontier model. It strengthens what you built rather than bolting something on.</p></div></div>
+</div>
+</section>
+
+<div class="foot">ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE &middot; NOTHING HERE ASKS YOU FOR ANYTHING</div>
 </div></body></html>

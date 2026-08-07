@@ -94,9 +94,9 @@ const nextConfig: NextConfig = {
         // yuri-war.arcs.care → /warroom/yuri-war (Yuri INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24)
         { source: "/:path*", destination: "/warroom/yuri-war", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
         // yuri-ext.arcs.care → public/yuri-ext.html (Yuri-facing capability seed — parallel-tracking taste, pw-gated "yuri" — safe to share)
-        { source: "/:path*", destination: "/yuri-ext.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
+        { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
         // yuri-sample.arcs.care → public/yuri-sample.html (redacted 6-tab war-room sample — structure shown, method withheld, pw-gated "yuri")
-        { source: "/:path*", destination: "/yuri-sample.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
+        { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
         // yuri-recoil.arcs.care → public/yuri-recoil.html (real before/after recoil of the Jul 23 call, consented, pw-gated "yuri" — the "magic" Yuri asked to see)
         { source: "/:path*", destination: "/yuri-recoil.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
         // yuri-codex.arcs.care -> public/yuri-codex.html (5-altitude org-scale codex + presentation mode, pw-gated "yuri")
@@ -113,6 +113,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri-demo.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         // yuri.arcs.care -> public/yuri.html (unified sequenced landing / one door, ungated index)
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
+        // yuri-profile.arcs.care -> public/yuri-profile.html (enriched profile read, step 1, pw-gated? open like robin-profile)
+        { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
         // ahmed.arcs.care → /warroom/ahmed (Ahmed INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24.
         // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },

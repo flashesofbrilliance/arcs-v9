@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex, nofollow"><title>Yuri &middot; the profile read</title><style>
+:root{--bg:#020408;--surface:#0d1117;--surface2:#0a0f16;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono','Fira Code',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0}h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:44px 22px 96px}
+.page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;margin-bottom:2px}.uplink:hover{color:var(--cyan)}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18}
+.sub{font-size:14.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
+.cav{border:1px solid rgba(255,215,0,.28);border-radius:12px;background:rgba(255,215,0,.05);padding:15px 17px;font-size:13.5px;color:var(--text);line-height:1.55}
+.cav b{color:var(--gold)}
+.mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:24px}
+.mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
+.mv h2{font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.lede{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.headline{font-size:17px;color:#fff;font-weight:700;margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.reg{border:1px solid var(--border);border-top:2px solid var(--ac);border-radius:11px;background:var(--surface2);padding:16px 18px}
+.regh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px}
+.regn{font-size:15px;font-weight:700;color:#fff}
+.regalt{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ac)}
+.regcues{font-size:12px;color:var(--dimmed);line-height:1.5;margin-bottom:10px}
+.regq{font-size:13px;color:#d2d0c8;font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding-top:9px}
+.regsrc{display:block;font-style:normal;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:#c0beb6;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 9px}
+.ladder{display:grid;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.rung{display:grid;grid-template-columns:180px 1fr;gap:14px;padding:14px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+.rung:first-child{border-top:0;background:linear-gradient(90deg,rgba(0,255,157,.08),transparent 60%)}
+.rung:last-child{background:linear-gradient(90deg,rgba(255,77,109,.08),transparent 60%)}
+.rlvl{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;padding-top:2px}
+.rb p{font-size:13px;color:#c4c2ba;line-height:1.5}.rt{color:var(--dimmed) !important;font-size:12px !important;margin-top:5px}.rt b{color:var(--text)}
+.rmap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rcol{border:1px solid var(--border);border-radius:11px;padding:16px 18px;background:var(--surface2)}
+.rcol.l{border-top:2px solid var(--green)}.rcol.x{border-top:2px solid var(--red)}
+.rmk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;margin-bottom:11px}
+.rcol.l .rmk{color:var(--green)}.rcol.x .rmk{color:var(--red)}
+.rcol ul{list-style:none;display:grid;gap:8px}.rcol li{font-size:12.5px;color:#c0beb6;line-height:1.5;padding-left:14px;position:relative}
+.rcol.l li::before{content:"+";position:absolute;left:0;color:var(--green);font-weight:700}
+.rcol.x li::before{content:"\2212";position:absolute;left:0;color:var(--red);font-weight:700}
+.scards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.scard{border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:13px 15px}
+.sh{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:5px}.scard p{font-size:12px;color:var(--muted);line-height:1.5}
+.qgrid{display:grid;gap:10px}
+.qcard{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:11px;background:var(--surface2);padding:15px 17px}
+.qtag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
+.qh{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
+.qcard p{font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:7px}
+.qcard .qso{color:#d2d0c8;border-top:1px solid var(--border);padding-top:8px;margin-bottom:0}
+.qcard .qso b{color:var(--gold);font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+.stg{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--border)}
+.stg:first-of-type{border-top:0}
+.stn{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--cyan);opacity:.5;line-height:1}
+.sts{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.stb p{font-size:13px;color:var(--muted);line-height:1.5}.stb a{color:var(--cyan);text-decoration:none;font-family:var(--mono);font-size:11px}.stb a:hover{text-decoration:underline}
+.close{font-size:15px;color:#e4ded4;line-height:1.6;border-left:3px solid var(--gold);padding:4px 0 4px 16px}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
+@media(max-width:560px){.two,.rmap,.scards{grid-template-columns:1fr}.rung{grid-template-columns:1fr;gap:4px}}
+</style><script defer src="/_vercel/insights/script.js"></script></head><body><div class="page">
+  <div><a class="uplink" href="https://yuri.arcs.care">&#8593; the studio</a><div class="eyebrow">Yuri &middot; the profile read</div><h1>How I read you, so I could meet you where you are.</h1><p class="sub">Before we spoke, I read your public voice and tuned everything to it. This is that read, and it is why the rest of the studio lands in your register. It is also the most honest one to start with, because it names exactly how much it can and cannot see.</p></div>
+  <div class="rule"></div>
+
+  <div class="cav"><b>Resolution: public LinkedIn only.</b> This is a first diagnostic, not the full terrain. Every read below is bounded by that, and I would rather flag the limit than overclaim. Give me a GitHub, an X, a personal site, and the resolution goes up fast. Only with your OK.</div>
+
+  <section class="mv"><div class="mvk">01 &middot; your voice</div><h2>Two registers, one person.</h2>
+    <p class="headline">The builder-operator who ships internal tools, and the warm connector who guards consent.</p><div class="two">
+      <div class="reg" style="--ac:#00FF9D">
+        <div class="regh"><span class="regn">Builder / operator</span><span class="regalt">GROUND</span></div>
+        <p class="regcues">internal tools that empower teams &middot; productivity per person, $ per rep, CSAT &middot; self-taught engineer &middot; agents for real work, not demos</p>
+        <p class="regq">&ldquo;We take first party and third party data and stitch it together into briefs for execs before they meet people.&rdquo;<span class="regsrc">Our call &middot; Jul 23</span></p>
+      </div>
+      <div class="reg" style="--ac:#FFD700">
+        <div class="regh"><span class="regn">Connector / humanist</span><span class="regalt">SKY</span></div>
+        <p class="regcues">warm connector, no percentage, no ask &middot; consent-first, double opt-in &middot; help people move forward &middot; family, foodie, future-of-food</p>
+        <p class="regq">&ldquo;Be selfish. What would get you to the next step. I want to help move you forward.&rdquo;<span class="regsrc">Our call &middot; Jul 23</span></p>
+      </div></div>
+    <div class="chips"><span class="chip">tools for the partnerships org across Alphabet</span><span class="chip">automated the Sundar brief, 2020</span><span class="chip">Agentum, agents for productivity</span><span class="chip">model-agnostic, Claude or other LLMs</span><span class="chip">consent-first, double opt-in</span><span class="chip">connector, no percentage</span><span class="chip">Venture Partner</span><span class="chip">Cultured Meat Symposium</span><span class="chip">new dad, foodie</span></div></section>
+
+  <section class="mv"><div class="mvk">02 &middot; adaptive altitude</div><h2>Meet you as the practitioner, climb to the org.</h2>
+    <p class="lede">You move across four heights fluently, because you have actually sat at each. You were the self-taught engineer, then the product lead, then the person running the team that briefs the execs. The read is to meet you as the builder who already proved this, not to explain the value back to someone who invented it.</p><div class="ladder">
+      <div class="rung"><div class="rlvl">SURGICAL, the pipeline</div><div class="rb"><p>You built the stitching yourself: first and third party data into a brief, with data science before there was AI</p><p class="rt"><b>Trigger:</b> a concrete mechanism, jobs-to-be-done, the actual data model</p></div></div>
+      <div class="rung"><div class="rlvl">STRATEGIC, the team</div><div class="rb"><p>You run the twenty-person org that builds the tools for the whole partnerships function</p><p class="rt"><b>Trigger:</b> how it scales, the portfolio, the roll-up across business units</p></div></div>
+      <div class="rung"><div class="rlvl">EXEC, the brief</div><div class="rb"><p>You brief Sundar-level readers; the Demis pre-meeting brief is your live example</p><p class="rt"><b>Trigger:</b> the five bullets, the one-way door, what the office of the CEO actually reads</p></div></div>
+      <div class="rung"><div class="rlvl">STRATOSPHERE, pure theory</div><div class="rb"><p>Disengages: a coherence engine with no concrete output, a pitch after you said nothing-to-sell</p><p class="rt"><b>Trigger:</b> abstraction with no product on the other end, exactly the doc you found too abstract</p></div></div></div></section>
+
+  <section class="mv"><div class="mvk">03 &middot; what lands, what loses you</div><h2>The resonance map.</h2>
+    <div class="rmap"><div class="rcol l"><div class="rmk">&#9650; LANDS</div><ul><li>The real before and after, concrete on our actual call, not the theory</li><li>Model-agnostic, runs on Gemini, nothing leaves Google, you own the file</li><li>Consent-first, provenance clean, honest about stated versus revealed preference</li><li>Agent-loop framing, one human steering, the shape you are building with Agentum</li><li>Your own examples reflected back, Sundar and Demis, in your words</li></ul></div><div class="rcol x"><div class="rmk">&#9660; LOSES YOU</div><ul><li>Abstract theory or a coherence engine with no concrete output</li><li>A pitch or an ask when you have signalled nothing-to-sell</li><li>Any story where data leaves Google or a vendor locks you in</li><li>Anything that asks you to cross the line on non-public information</li><li>Over-pursuit; being pushed rather than invited</li></ul></div></div></section>
+
+  <section class="mv"><div class="mvk">04 &middot; the evidence</div><h2>Tuned on two sources, and honest about it.</h2>
+    <p class="lede">Robin's read had a whole library: site, podcasts, talks, a book. Yours has two sources, and the read says so out loud rather than pretending to more.</p>
+    <div class="scards"><div class="scard"><div class="sh">Your public LinkedIn</div><p>15 years at Google, Ads to Cloud to Partnerships, the internal-tools thread</p></div><div class="scard"><div class="sh">Our call, Jul 23</div><p>recorded with your OK, the ground truth for every read here</p></div><div class="scard"><div class="sh">Agentum + DMs</div><p>theagentum.com and our LinkedIn exchange, the newest signal</p></div></div>
+    <p class="lede" style="margin-top:16px;margin-bottom:0">To dial the resolution up: GitHub for what you actually build, X for real-time interests, a personal site or Crunchbase for the investing side. Each independent source raises confidence. Consent-first, only if you want.</p></section>
+
+  <section class="mv"><div class="mvk">05 &middot; the quiet signals</div><h2>What the surface does not say.</h2>
+    <p class="lede">Anyone can read your resume. These are the deeper tells, computed from the pattern across your own words. This is the engine deriving meaning, not amplifying signal.</p>
+    <div class="qgrid">
+      <div class="qcard" style="--qc:#00FF9D"><div class="qtag">Practitioner, not fan</div><div class="qh">You built this five years early, by hand.</div><p>You automated the Sundar brief with data science before there was AI. Your curiosity is a builder's, not an admirer's. You are not evaluating whether the thesis is real; you proved it.</p><p class="qso"><b>so</b>Meet you as a peer who lived it. Never explain the value you already shipped.</p></div>
+      <div class="qcard" style="--qc:#00F0FF"><div class="qtag">Model-agnostic is identity</div><div class="qh">Lock-in is the thing you design against.</div><p>Agentum runs on Claude or other LLMs. That is not a spec line, it is a value. A single-vendor story reads to you as a trap.</p><p class="qso"><b>so</b>Lead with runs-on-Gemini, nothing leaves Google. That is the deal-maker, not a footnote.</p></div>
+      <div class="qcard" style="--qc:#FFD700"><div class="qtag">Consent is a gating value</div><div class="qh">Data ethics sits at the identity level.</div><p>&ldquo;You're doing the right thing.&rdquo; Your parents read every terms-and-conditions. Consent-first is not a feature to you, it is table stakes.</p><p class="qso"><b>so</b>A data-egress story ends the conversation. Provenance-clean and opt-in is the price of entry.</p></div>
+      <div class="qcard" style="--qc:#FF9F1C"><div class="qtag">The connector economy</div><div class="qh">You give intros with no percentage, no ask.</div><p>Reciprocity is your currency, not equity. You connect people and take nothing, because the value is the connection.</p><p class="qso"><b>so</b>Your help is real and freely given. Honor it as a gift; do not try to transact it.</p></div>
+      <div class="qcard" style="--qc:#94a3b8"><div class="qtag">Pull, not push</div><div class="qh">You open the door; you are not pushed through it.</div><p>&ldquo;Be selfish, what would get you to the next step.&rdquo; You invite the next move rather than being sold on it. You gave nothing-to-sell energy and meant it.</p><p class="qso"><b>so</b>Let you name the next step. Over-pursuit reads as not listening.</p></div>
+    </div></section>
+
+  <section class="mv"><div class="mvk">06 &middot; the whole loop</div><h2>The whole loop, and where each piece lives.</h2>
+    <p class="lede">This profile read is step one. The rest of the loop is already built. Every stage points to something you can open.</p>
+    <div class="stg"><div class="stn">1</div><div class="stb"><div class="sts">Profile the person</div><p>this page: your voice, your registers, your altitude</p></div></div>
+    <div class="stg"><div class="stn">2</div><div class="stb"><div class="sts">Profile the situation</div><p>the call and what was at stake</p></div></div>
+    <div class="stg"><div class="stn">3</div><div class="stb"><div class="sts">File the bet, before</div><p>the ex-ante receipt on our call &middot; <a href="https://yuri-recoil.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div></div>
+    <div class="stg"><div class="stn">4</div><div class="stb"><div class="sts">Recoil the live call</div><p>replay it moment by moment &middot; <a href="https://yuri-recoil.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div></div>
+    <div class="stg"><div class="stn">5</div><div class="stb"><div class="sts">Score expected vs actual, update beliefs</div><p>the belief ledger, before and after &middot; <a href="https://yuri.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div></div>
+    <div class="stg"><div class="stn">6</div><div class="stb"><div class="sts">Scale it across the org</div><p>one decision, five altitudes, the cabinet &middot; <a href="https://yuri-codex.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div></div>
+    <div class="stg"><div class="stn">7</div><div class="stb"><div class="sts">Run it on yourself, regrade me</div><p>every read, and how sure I am &middot; <a href="https://yuri-demo.arcs.care" target="_blank" rel="noopener">open &#8599;</a></p></div></div>
+    <p class="close" style="margin-top:16px">That is the whole engine. Profile, bet, recoil, score, update, scale, repeat.</p></section>
+
+  <p class="close">Two registers, one person, read from public signal alone. The whole studio is just this read, applied: meet you as the builder who proved it, in your words, and let you be the one to take it further.</p>
+  <div class="foot">ARCS &middot; THE PROFILE READ &middot; STEP ONE OF THE LOOP &middot; PUBLIC SIGNAL ONLY</div>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="http"]');if(a&&window.va){try{va('event',{name:'profile_click',data:{to:a.hostname}});}catch(_){}}});</script></body></html>
