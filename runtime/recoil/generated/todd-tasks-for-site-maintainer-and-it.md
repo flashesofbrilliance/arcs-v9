@@ -34,15 +34,19 @@ steps 1 and 2.
 
 ## For IT: email deliverability and DNS
 **1. Email authentication (so form and chatbot emails do not go to spam).**
-   - Add or confirm SPF, DKIM, and DMARC DNS records for prlresins.com.
+   - Confirm SPF, DKIM, and DMARC DNS records exist for prlresins.com.
 
-**2. Finish the changes that did not take.**
-   - A Microsoft 365 email forwarding rule and a domain / DNS change were attempted but have not applied yet.
-     Please confirm and complete them.
+**2. Microsoft 365 forwarding.**
+   - Confirm the forwarding rule set up last week is active and delivering.
 
 **3. info@prlresins.com routing.**
    - Confirm this inbox is monitored, and decide where chatbot and form notifications should land so real leads
      are seen quickly.
+
+**Not an IT task (handled by us with Tidio support):** the Tidio email setup (domain added, info@prlresins.com
+added) is complete on our side. The Tidio dashboard still says "contact support" for email config even though
+both boxes are checked, so that last step sits with Tidio support. Zach has emailed them with screenshots to
+finish it. Tracking it there, not with IT.
 
 ## How this fits
 None of this blocks our chatbot work, and we can do most of it alongside you. It is flagged here so the right
