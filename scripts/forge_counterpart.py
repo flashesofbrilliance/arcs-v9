@@ -808,7 +808,165 @@ def render_codex(d):
     return "".join(L)
 
 
-SURFACES = {"receipt": render_receipt, "profile": render_profile, "codex": render_codex}
+# ===========================================================================
+# ONE-DOOR SURFACE  (blueprint sec 9: robin.html = THE ONE-DOOR, the entry)
+# facesnav (N reads that feed each other) + one-line seed + the concrete
+# real-call STORY + how-it-works + where-it-goes + how-to-start + for-the-room.
+# Crispness rule: LEAD WITH THE STORY, not a diagram. Single-call counterparts
+# lead with the belief-flip narrative (no multi-call loop diagram). Canonical
+# tokens; base #tip; side-tabs converted to compliant full borders.
+# ===========================================================================
+ONEDOOR_CSS = TOKENS + """
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:48px 22px 96px}
+.page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18;font-family:var(--display)}
+.sub{font-size:15px;color:var(--muted);margin-top:10px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
+.mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:26px 26px 28px;position:relative}
+.mv.seed{border-color:rgba(255,215,0,.25)}.mv.well{border-color:rgba(0,240,255,.28)}.mv.corpus{border-color:rgba(0,255,157,.22)}
+.mv.horizon{border-color:rgba(255,215,0,.22)}.mv.start{border-color:rgba(0,255,157,.3)}.mv.trust{border-color:rgba(148,163,184,.25)}
+.mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
+.mv.seed .mvk{color:var(--gold)}.mv.well .mvk{color:var(--cyan)}.mv.corpus .mvk{color:var(--green)}
+.mv.horizon .mvk{color:var(--gold)}.mv.start .mvk{color:var(--green)}.mv.trust .mvk{color:var(--muted)}
+.mv h2{font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+.mvintro{font-size:14.5px;color:var(--muted);line-height:1.6;margin-bottom:18px}
+.lbq{border:1px solid rgba(255,215,0,.30);border-radius:11px;background:var(--gold-bg);padding:16px 18px;margin:4px 0 16px}
+.lbq blockquote{font-size:19px;font-weight:600;line-height:1.4;color:#fff}
+.lbq .attr{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dimmed);margin-top:10px;line-height:1.6}
+.cta{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(255,215,0,.4);border-radius:8px;padding:11px 18px;text-decoration:none;transition:background .15s}
+.cta:hover{background:var(--gold-bg)}
+.manifold{border:1px solid var(--border);border-radius:12px;background:var(--surface2);padding:14px 14px 8px;margin-bottom:14px}
+.mcap{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.flip{display:grid;gap:10px}
+.flipcard{border:1px solid var(--fcb,var(--border));border-radius:11px;background:var(--surface2);padding:15px 17px}
+.flipk{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fc,var(--dimmed));margin-bottom:8px}
+.flipb{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:8px}.flipb b{color:var(--text)}
+.flipq{font-size:13.5px;font-style:italic;color:var(--text);line-height:1.5;border-top:1px solid var(--border);padding-top:9px;margin-bottom:8px}
+.flipa{font-size:13px;color:var(--text);line-height:1.55}.flipa b{color:var(--green)}
+.cc{border-top:1px solid var(--border);padding:16px 0}.cc:first-of-type{border-top:0;padding-top:2px}
+.cc h3{font-size:16px;margin-bottom:6px}.cc p{font-size:14px;color:var(--muted);line-height:1.6}
+.cclink{display:inline-block;margin-top:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);text-decoration:none}
+.cclink:hover{text-decoration:underline}
+.seeds{display:grid;gap:11px}
+.seedc{border:1px solid rgba(255,215,0,.24);border-radius:10px;background:var(--surface2);padding:15px 17px}
+.seedc h3{font-size:15px;margin-bottom:6px;color:#fff}.seedc p{font-size:13px;color:var(--muted);line-height:1.6;overflow-wrap:anywhere}
+.needs{display:grid;gap:10px;margin-bottom:14px}
+.need{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.need h3{font-size:14px;color:#fff;white-space:nowrap}.need p{font-size:13px;color:var(--muted);line-height:1.5}
+.needclose{font-size:14px;color:var(--text);line-height:1.6}
+.prows{display:grid;gap:9px}
+.prow{display:grid;grid-template-columns:130px 1fr;gap:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:14px 16px}
+.pwho{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);padding-top:2px}
+.pobj{font-size:13.5px;font-style:italic;color:var(--text);margin-bottom:6px}.pans{font-size:13px;color:var(--muted);line-height:1.55}
+.facesnav{border:1px solid rgba(0,240,255,.22);border-radius:12px;background:var(--surface2);padding:14px 16px;display:grid;gap:2px}
+.facesl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-bottom:6px}
+.face{display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:baseline;padding:9px 8px;border-radius:8px;text-decoration:none;color:var(--text);cursor:pointer;transition:background .15s}
+.face::after{content:"\\2197";font-family:var(--mono);font-size:13px;font-weight:700;color:var(--dimmed);align-self:center;transition:color .15s,transform .15s}
+.face:hover::after{color:var(--cyan);transform:translate(2px,-2px)}
+a.face:hover{background:var(--surface)}.face.here{opacity:.65}
+.facen.led{display:inline-block;width:8px;height:8px;border-radius:50%;align-self:start;margin-top:5px;background:rgb(var(--rgb));animation:ledpulse 1.8s ease-in-out infinite}
+.led.g{--rgb:0,255,157}.led.o{--rgb:255,159,28}.led.r{--rgb:255,77,109}.led.c{--rgb:0,240,255}
+@keyframes ledpulse{0%,100%{opacity:.5}50%{opacity:1}}
+@media(prefers-reduced-motion:reduce){.facen.led{animation:none;opacity:1}.face::after{transition:none}}
+.faceb{display:flex;flex-direction:column;gap:2px}
+.facet{font-size:14.5px;font-weight:700;color:#fff}.facet b{color:var(--gold);font-family:var(--mono);font-size:10px;letter-spacing:.06em;font-weight:700}
+.faced{font-size:12px;color:var(--muted)}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
+@media(max-width:560px){.need{grid-template-columns:1fr;gap:4px}.prow{grid-template-columns:1fr;gap:5px}}
+"""
+
+# belief-flip card accent by verdict/direction
+FLIP_ACC = {"up": ("var(--green)", "rgba(0,255,157,.30)"), "flip": ("var(--gold)", "rgba(255,215,0,.30)"),
+            "down": ("var(--red)", "rgba(255,77,109,.30)"), "hold": ("var(--cyan)", "rgba(0,240,255,.28)")}
+
+
+def _onedoor_block(b):
+    t = b["type"]
+    if t == "facesnav":
+        faces = ""
+        for f in b["faces"]:
+            tag = f' &middot; <b>{f["tag"]}</b>' if f.get("tag") else ""
+            here = " here" if f.get("here") else ""
+            faces += (f'<a class="face{here}" href="{A(f["href"])}" target="_blank" rel="noopener">'
+                      f'<span class="facen led {f.get("led","c")}" aria-hidden="true"></span>'
+                      f'<span class="faceb"><span class="facet">{f["title"]}{tag}</span>'
+                      f'<span class="faced">{f["desc"]}</span></span></a>')
+        return f'<div class="facesnav"><div class="facesl">{b.get("label","")}</div>{faces}</div>'
+    if t == "seed":
+        cta = f'<a class="cta" href="{A(b["cta"]["href"])}" target="_blank" rel="noopener">{b["cta"]["label"]}</a>' if b.get("cta") else ""
+        return (f'<section class="mv seed"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                f'<div class="lbq"><blockquote>&ldquo;{b["quote"]}&rdquo;</blockquote><div class="attr">{b["attr"]}</div></div>{cta}</section>')
+    if t == "story":
+        cards = ""
+        for c in b["beats"]:
+            fc, fcb = FLIP_ACC.get(c.get("dir", "flip"), FLIP_ACC["flip"])
+            q = f'<p class="flipq">&ldquo;{c["quote"]}&rdquo;</p>' if c.get("quote") else ""
+            before = f'<p class="flipb"><b>Before:</b> {c["before"]}</p>' if c.get("before") else ""
+            after = f'<p class="flipa"><b>After:</b> {c["after"]}</p>' if c.get("after") else ""
+            cards += (f'<div class="flipcard" style="--fc:{fc};--fcb:{fcb}"><div class="flipk">{E(c["k"])}</div>'
+                      f'{before}{q}{after}</div>')
+        return (f'<section class="mv well"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                f'<p class="mvintro">{b["intro"]}</p><div class="flip">{cards}</div>'
+                + (f'<p class="mcap" style="margin-top:16px">{b["caption"]}</p>' if b.get("caption") else "") + '</section>')
+    if t == "howitworks":
+        cards = ""
+        for c in b["cards"]:
+            link = f'<a class="cclink" href="{A(c["link"]["href"])}" target="_blank" rel="noopener">{c["link"]["label"]} &rarr;</a>' if c.get("link") else ""
+            cards += f'<div class="cc"><h3>{c["h3"]}</h3><p>{c["p"]}</p>{link}</div>'
+        return f'<section class="mv corpus"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>{cards}</section>'
+    if t == "horizon":
+        seeds = "".join(f'<div class="seedc"><h3>{s["h3"]}</h3><p>{s["p"]}</p></div>' for s in b["seeds"])
+        return (f'<section class="mv horizon"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                + (f'<p class="mvintro">{b["intro"]}</p>' if b.get("intro") else "")
+                + f'<div class="seeds">{seeds}</div></section>')
+    if t == "start":
+        needs = "".join(f'<div class="need"><h3>{n["h3"]}</h3><p>{n["p"]}</p></div>' for n in b["needs"])
+        close = f'<p class="needclose">{b["close"]}</p>' if b.get("close") else ""
+        return (f'<section class="mv start"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                + (f'<p class="mvintro">{b["intro"]}</p>' if b.get("intro") else "")
+                + f'<div class="needs">{needs}</div>{close}</section>')
+    if t == "trust":
+        prows = "".join(f'<div class="prow"><div class="pwho">{E(p["who"])}</div><div class="pbody">'
+                        f'<p class="pobj">&ldquo;{p["obj"]}&rdquo;</p><p class="pans">{p["ans"]}</p></div></div>' for p in b["prows"])
+        return (f'<section class="mv trust"><div class="mvk">{b["k"]}</div><h2>{b["h2"]}</h2>'
+                + (f'<p class="mvintro">{b["intro"]}</p>' if b.get("intro") else "")
+                + f'<div class="prows">{prows}</div></section>')
+    return ""
+
+
+def render_onedoor(d):
+    m = d["meta"]
+    hdr = d["header"]
+    gate_pw = (m.get("gate") or {}).get("external") or (m.get("gate") or {}).get("view")
+    L = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
+         '<meta name="viewport" content="width=device-width, initial-scale=1">',
+         f'<meta name="robots" content="noindex, nofollow"><title>{E(m.get("doc_title", m["counterpart"] + " · one door"))}</title>',
+         f'<style>{ONEDOOR_CSS}{TIP_CSS}{GATE_CSS if gate_pw else ""}</style>{VERCEL}</head><body>']
+    if gate_pw:
+        L.append('<div id="pw-gate"><div class="pw-label">ARCS &#183; Private &#183; for ' + E(m["counterpart"].split()[0]) + '</div>'
+                 '<input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>')
+    L.append('<div class="page">')
+    L.append(f'<div><div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><p class="sub">{hdr["sub"]}</p></div><div class="rule"></div>')
+    for b in d["blocks"]:
+        L.append(_onedoor_block(b))
+    L.append(f'<div class="foot">{d.get("foot","ARCS &middot; ONE DOOR")}</div>')
+    L.append('</div><div id="tip"></div>')
+    L.append(f'<script>{TIP_JS}</script>')
+    if gate_pw:
+        key = f'{m["report_id"]}-view-auth'
+        L.append("<script>(function(){var K='" + key + "',P='" + gate_pw + "';"
+                 "if(localStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}"
+                 "var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;"
+                 "if(i.value.toLowerCase()===P){localStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}"
+                 "else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>")
+    L.append('</body></html>')
+    return "".join(L)
+
+
+SURFACES = {"receipt": render_receipt, "profile": render_profile, "codex": render_codex, "onedoor": render_onedoor}
 
 
 # ===========================================================================
