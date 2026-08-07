@@ -3,13 +3,15 @@ _2026-08-07 · Built from the public SchemaSpy docs (apidocs.sugarcrm.com/schema
 credentials. This is the webhook/lead-delivery contract, ready to wire the moment sandbox access lands.
 Compact column refs: `leads-columns.tsv` (106), `opportunities-columns.tsv` (55)._
 
-## FINDING 1 — why emails aren't populating in the CRM (likely root cause)
-The `leads` table has **no `email` column**. Sugar stores email addresses in a **separate relationship**:
-`email_addresses` + the `email_addr_bean_rel` join (bean_module='Leads'). A webhook that writes `email` onto a
-lead record **silently drops it** — the field doesn't exist, so the value is lost with no error. This matches
-the audit finding that "95% of leads have no email." **Fix:** the lead-delivery flow must create/link the email
-via the email relationship (or via the API's `email` array on the Leads module), not as a lead field.
-→ To confirm in sandbox: create one lead with an email through the intended path, then read it back.
+## FINDING 1 — why emails aren't populating (CONFIRMED live 2026-08-07)
+The `leads` table has **no `email` column** (Sugar stores email in the `email_addresses` relationship). BUT the
+API exposes **`email1`** (flattened primary) and **`email`** (the array) as **writable fields** — write to
+`email1` and Sugar maintains the relationship. **Live read-only audit confirmed the mechanism:** a rep-entered
+Web Site lead had `email1` populated (email works when supplied); a fresh Unbounce-import lead created by the
+"Importer" system user had `email1` empty. So the field is fine — **the automated capture paths just don't send
+email.** **Fix (validated):** the lead-delivery webhook writes the captured email to **`email1`** on the Leads
+module. This is exactly the gap the chatbot closes by capturing email at inquiry. See
+`audit-findings-2026-08-07.md`.
 
 ## FINDING 2 — enrichment: Sugar has NATIVE "Hint" fields
 Leads carry `hint_account_size, hint_account_industry, hint_account_location, hint_account_founded_year,
