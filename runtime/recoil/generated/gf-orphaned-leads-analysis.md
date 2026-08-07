@@ -4,14 +4,14 @@ against SugarCRM (Leads + Contacts). Business-level intelligence only; personal 
 file (they live in the GF export Todd owns, handed over directly, never committed)._
 
 ## Headline
-- The site's main lead form is **96% spam** (2,990 of 3,126 entries) — it has **no spam protection at all**
+- The site's main lead form is **96% spam** (2,990 of 3,126 entries) - it has **no spam protection at all**
   (Eric-Jones bot spam, XRumer signatures, etc.). The spam **buries every real lead**.
 - Under the spam: **~36 genuine, high-intent purchase/quote inquiries** (Dec 2022 → May 2026).
-- Matched against Sugar: **only 2 of 38 unique real leads are in the CRM. 36 are ORPHANED** — captured by the
+- Matched against Sugar: **only 2 of 38 unique real leads are in the CRM. 36 are ORPHANED** - captured by the
   form, never delivered, never worked. (The GF→Zapier delivery is off; a rep manually entered the 2 that made
   it.)
 
-## What was left on the table (orphaned, recoverable — company · intent · date)
+## What was left on the table (orphaned, recoverable - company · intent · date)
 Real companies, most naming a specific PRL grade or a competitor grade to replace:
 | Company | Inquiry | Date |
 |---|---|---|
@@ -34,7 +34,7 @@ Real companies, most naming a specific PRL grade or a competitor grade to replac
 That is competitor-conquest and real purchase intent from named industrial buyers, sitting unworked for up to
 3.5 years because the form is a spam magnet and nothing delivered the leads to the CRM.
 
-## Recommendation 1 — spam/noise protection for the forms (for Todd)
+## Recommendation 1 - spam/noise protection for the forms (for Todd)
 Turn the form from 96% noise into clean signal:
 1. **Bot challenge:** enable **Cloudflare Turnstile or reCAPTCHA v3** on every Gravity Form (invisible, no UX cost).
 2. **Honeypot:** turn on Gravity Forms' built-in **anti-spam honeypot** (free, one toggle).
@@ -47,17 +47,17 @@ Turn the form from 96% noise into clean signal:
 Effect: real leads become visible AND deliverable. This alone likely recovers more revenue than the chatbot in
 year one.
 
-## Recommendation 2 — insights for the chatbot (1.1 / 1.2)
+## Recommendation 2 - insights for the chatbot (1.1 / 1.2)
 The GF data is a free blueprint for the bot:
-- **The "which material are you looking for?" free-text field is gold** — it carries grade + competitor intent
+- **The "which material are you looking for?" free-text field is gold** - it carries grade + competitor intent
   on nearly every real lead. The chatbot must capture the same (its application/grade-interest field) and run
   it through our **recognition layer** (which already maps "alternative to Lexan", "PRL PC-GP2-D", "Valox 325"
   → the right PRL family/grade). This is direct validation of the 1.3 recognition + competitor cross-ref work.
-- **Real buyers name specific grades and competitor grades to replace** — exactly the ICP and conquest angle we
+- **Real buyers name specific grades and competitor grades to replace** - exactly the ICP and conquest angle we
   built for. Route those to a specialist (1.3/handoff).
-- **Spam protection matters for the bot too** — a qualifying step + email validation (the 1.1 fix we just made)
+- **Spam protection matters for the bot too** - a qualifying step + email validation (the 1.1 fix we just made)
   keeps junk out of Lyro (cost) and the CRM (quality).
-- **The chatbot IS the permanent fix for this whole failure** — capture email every time + reliable delivery
+- **The chatbot IS the permanent fix for this whole failure** - capture email every time + reliable delivery
   means no future lead orphans the way these 36 did. Frame 1.1/1.2 to Todd as "this stops the leak."
 - **Baseline/attribution:** these 36 orphaned leads are the "before." The bot's measurable value is capturing,
   delivering, and working inquiries that used to vanish.
@@ -65,5 +65,5 @@ The GF data is a free blueprint for the bot:
 ## Provenance / handling
 Source: GF export `material-alternative-2026-08-07.csv` (Todd's data) matched to Sugar via read-only API. No
 writes. Full contact details (name/email/phone) stay in the GF export Todd owns; only business-level intent is
-recorded here. The other lead forms (Contact Us 708, Apply Now 885) have not yet been analyzed — same method
+recorded here. The other lead forms (Contact Us 708, Apply Now 885) have not yet been analyzed - same method
 applies.
