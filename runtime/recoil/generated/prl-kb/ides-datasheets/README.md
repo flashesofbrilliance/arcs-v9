@@ -3,15 +3,25 @@ _Gathered 2026-08-07 · source: catalog.ides.com company id **I=73811** (Polymer
 curl + grep enum, no LLM parsing. **Gathered now to avoid a second crawl later; NOT yet reviewed.**_
 
 ## What this is
-- `raw/E<id>.html` — 20 per-grade technical datasheet pages, raw HTML, one per PRL grade listed on IDES.
-- `_company-listing-I73811.html` — the IDES company listing (the full enumeration source).
-- `index.tsv` — E_id → grade code → material, for the 20 grades (see below).
+- `raw/E<id>.html` (+ `.txt` sidecar) — 28 per-grade technical datasheet pages, raw HTML + extracted text.
+- `_company-listing-I73811.html` — the IDES company listing (one enumeration source).
+- `index.tsv` — E_id → grade code, for all 28 grades.
 
-## The 20 grades (mostly ABS, plus NY66 + ASA)
-ABS-FR, ABS-FR-AMB, ABS-FR-UV-(f2), ABS-G5, ABS-G10, ABS-G15, ABS-G20, ABS-G25, ABS-G30, ABS-GP1,
-ABS-GP1-(color)-EP, ABS-GP1-(color)-UV, ABS-GP-HH, ABS-GP-IM, ABS-G5-(color)-3, ABS/PBT GP1-M, ABS/PC-GP1,
-ASA-GP1, NY66-EX1, NY66-G13. (This is PRL's **public IDES listing** — a subset of the 150-grade internal
-catalog in `../prl-product-catalog-2025.json`, not the whole thing.)
+## The 28 grades (all families covered)
+ABS-FR, ABS-FR-AMB, ABS-FR-UV-(f2), ABS-G5, ABS-G5-(color)-3, ABS-G10, ABS-G15, ABS-G20, ABS-G25, ABS-G30,
+ABS-GP1, ABS-GP1-(color)-EP, ABS-GP1-(color)-UV, ABS-GP-HH, ABS-GP-IM, ABS/PBT GP1-M, ABS/PC-GP1, ASA-GP1,
+NY6-G13, NY66-EX1, NY66-G13, PC/ABS GP1, PC/ASA FR1, PC/TP-FR2, PEI-G10, PPX-EN-FR3, TP-FR2 (+1 unparsed grade
+name, content intact).
+
+## Completeness (checked 2026-08-07)
+Two-source sweep: (1) the bare company listing `xquery.aspx?I=73811` returned 20 grades, ABS-heavy; (2)
+crawling every `prlresins.com/products/*` page for its embedded IDES link added 8 more family representatives
+(PC, nylon-6, PBT-blend, PC/ABS, PC/ASA, PC/TP, PEI, PPX, TP). Union = **28**, now covering every family PRL
+makes. The full per-family IDES search (`xquery.aspx?I=73811&QM=82152:<N>`) is **JS/session-gated** — curl only
+gets a 2KB shell, so a handful of extra per-family variants may exist behind it (browser-render needed to
+enumerate). **The authoritative complete grade universe is Todd's 150-grade internal catalog**
+(`../prl-product-catalog-2025.json`), already in the repo; these 28 IDES sheets are the public-datasheet
+supplement (test values as published on IDES), not the source of truth for which grades exist.
 
 ## IMPORTANT — do NOT load into the Lyro KB
 These pages contain per-grade **property values and UL/cert data**. Per the anti-fabrication design
