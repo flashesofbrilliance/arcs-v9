@@ -249,3 +249,36 @@ source; approve one labelled test lead or confirm a sandbox), but nothing is int
 Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
 full state names, status "New", assign Bill Galla, details into `description`), then send one real
 test lead end to end. Do not write to SugarCRM before Todd approves.
+
+---
+
+# Handoff — v3.25.0 (2026-08-07)
+
+> **Active pickup point.** Supersedes v3.22.0 (Todd) as the current thread. The counterpart
+> artifact family (Robin, Yuri) is now ready to be **parameterized into a CLI forge**. This
+> session hand-built Yuri and it drifted from Robin's crispness bar; the fix is generation, not
+> more hand-patching.
+
+## Next session starts at — build + run the parameterized counterpart-forge CLI
+
+**Read first:** `_PATTERNS/forge-pipeline-handoff.md`, then `_PATTERNS/counterpart-artifact-family-blueprint.md` (§1-11). Those are the full spec; do not re-derive.
+
+**The order of work (from the handoff):**
+1. **True up the UI kit first** — canonical tokens `src/ui-kit/recoil-report/_tokens.css` == `src/document/tokens.ts` (ADR-009/031, one DS). Regenerate `public/robin-receipt.html` off its omakase drift onto canon; make the `#tip` data-vis hover/tap tooltip a canonical kit component.
+2. **Extract Robin's 4 surfaces** (`public/robin{,-profile,-codex,-receipt}.html`) as parameterized templates; the crispness rules are generation constraints (lead with the real-call STORY not a diagram; dual Read+Instrument codex; receipt-close first-class; clean 3-read triad).
+3. **Build** `scripts/forge_counterpart.py` (SSOT->render) + the `/forge` skill (gather->synth->generate->verify->deploy), reusing recoil-new/prep/close/ship.
+4. **Gates:** verify (impeccable detector, 0 em-dashes, fabrication/attribution Me=Zach/Them=counterpart) + honesty (insufficient signal -> flag `additional enrichment source inputs required`, never fabricate).
+5. **Acceptance test:** regenerate Yuri to Robin's bar (add `yuri-receipt` from ex-ante `kleban.json` scored vs `kleban-recoil.json`; lead `yuri.html` with the real belief-flip story; re-tier codex+demo; single-call, no arc).
+
+**Deploy:** main worktree only; Vercel CLI auto-refreshes its token (`vercel domains add <domain>`, project `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9`). Run model-efficiently.
+
+## Shipped this session (2026-08-07) — all live
+Robin the platinum master (one-door + profile + codex + receipt); `robin-profile` quiet-signals polish.
+Yuri suite live + sequenced at `yuri.arcs.care`: one-door rebuild, `yuri-profile` (regrounded on a
+net-new web scan, honest public-only caveat), `yuri-recoil`, `yuri-codex` (+ "08 · synchronization tax"
+anti-Brooks's-Law beat), `yuri-demo`; `yuri-ext`/`yuri-sample` decluttered (redirect to the door). The
+anti-Brooks's-Law roadmap suite (auditor/composer/sage/gauntlet-casting) banked in the blueprint §8.
+
+## Blocking
+NONE. The forge task `task_56561b51` predates blueprint §7-11 — restart it or have it re-read the blueprint.
+Gmail reply draft to Yuri sits in Drafts awaiting Zach's send.
