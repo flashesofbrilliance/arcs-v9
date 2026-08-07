@@ -26,15 +26,20 @@ no sandbox was needed just to understand it. And we pulled your website form dat
 against the CRM safely, without changing anything.
 
 **What we found and got done**
-- **The chatbot is already capturing leads, and we fixed a real gap.** Emails were not landing in your CRM
-  because the automated paths were not sending them. We fixed the capture so it grabs the email on every lead.
-  In practice: a lead that used to arrive as a dead record, with no way to reach the person, now arrives
-  complete and ready for your team to follow up.
+- **We found why leads have been landing in your CRM with no email, and the fix is staged.** We checked your
+  CRM directly, read only. The proof: a lead a person enters by hand arrives with the email, while a lead from
+  an automated path arrives with none, even though the email field works fine when a value is supplied. So the
+  gap is simply that the automated paths are not sending the email. In practice that is the difference between a
+  dead record and a contact your team can actually reach. The fix is straightforward and already staged (capture
+  the email at the point of inquiry and map it to the right field on delivery). We have not switched it on live
+  yet; that happens at go-live, once we have a safe way to test delivery into your CRM.
 - **The bigger find: your main website form is mostly spam, and real leads got buried under it.** Beneath about
-  96 percent automated spam, we found roughly 29 genuine, high-value inquiries from the last few years that
-  never reached your CRM. In practice these are real quote and purchase requests: one tied to a Tesla program,
-  an 876 kg order, a 1,500 pound order, and several asking us to match competitor materials like Lexan and
-  Valox. They came in, and no one ever saw them. They are recoverable.
+  96 percent automated spam, we found roughly 38 genuine, high-value inquiries from the last few years. We
+  checked each one against your CRM carefully. About 29 never reached it at all: real quote and purchase
+  requests from names like Siemens and OtterBox, an 876 kg order, a 1,500 pound order, and several asking us to
+  match a competitor material like Lexan. A handful more came from companies you already work with, but the
+  specific new inquiry was never logged or worked, including a program tied to Tesla. Either way, the inquiries
+  came in and no one acted on them. They are recoverable.
 - **We pinned down the exact spam fixes, and to be clear we have NOT changed your live forms.** Nothing on your
   site has been touched. The form simply has no working spam protection today (the anti-spam is off and the bot
   check is not set up). We are flagging the fix as a recommended action we would apply on the staging copy
