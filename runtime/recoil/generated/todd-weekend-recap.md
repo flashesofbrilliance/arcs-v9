@@ -26,15 +26,23 @@ no sandbox was needed just to understand it. And we pulled your website form dat
 against the CRM safely, without changing anything.
 
 **What we found and got done**
-- The chatbot is already capturing leads. We traced why emails were not landing in your CRM (the automated
-  paths were not sending them) and fixed the capture so it grabs the email on every lead.
-- The bigger find: your main website lead form is mostly automated spam right now, with no protection, and
-  underneath it are about 29 real, high-value inquiries from the last few years that never made it into your
-  CRM. That includes a program tied to Tesla and quote requests from names like Siemens and OtterBox. Those are
-  recoverable.
-- We pinned down the exact, quick fixes to clean up the form spam.
-- We built the knowledge and guardrails the smarter phases will use, and updated your roadmap at prl.arcs.care
-  with the business case and what we learned at each stage.
+- **The chatbot is already capturing leads, and we fixed a real gap.** Emails were not landing in your CRM
+  because the automated paths were not sending them. We fixed the capture so it grabs the email on every lead.
+  In practice: a lead that used to arrive as a dead record, with no way to reach the person, now arrives
+  complete and ready for your team to follow up.
+- **The bigger find: your main website form is mostly spam, and real leads got buried under it.** Beneath about
+  96 percent automated spam, we found roughly 29 genuine, high-value inquiries from the last few years that
+  never reached your CRM. In practice these are real quote and purchase requests: one tied to a Tesla program,
+  an 876 kg order, a 1,500 pound order, and several asking us to match competitor materials like Lexan and
+  Valox. They came in, and no one ever saw them. They are recoverable.
+- **We pinned down the exact spam fixes, and to be clear we have NOT changed your live forms.** Nothing on your
+  site has been touched. The form simply has no working spam protection today (the anti-spam is off and the bot
+  check is not set up). We are flagging the fix as a recommended action we would apply on the staging copy
+  first, review with you, and then put to production when we roll everything live, so real inquiries stop
+  getting buried.
+- **We built the knowledge and guardrails the smarter phases will use**, and updated your roadmap at
+  prl.arcs.care with the business case and what we learned at each stage, so you can see the logic behind every
+  step.
 
 **Calls we need you to make (and our recommendation)**
 A couple of these are genuinely yours to decide, so here they are plainly, with what we would recommend.
