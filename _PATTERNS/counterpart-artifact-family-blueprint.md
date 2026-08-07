@@ -131,3 +131,29 @@ Robin, pass the counterpart's SSOTs as args, regenerate to this bar. Do not hand
   the ex-ante `kleban.json` scored against `kleban-recoil.json`; restructure `yuri.html` to lead with the real
   belief-flip story, not the loop diagram; re-tier codex+demo as the deeper how-it-scales layer). Proving the
   pipeline ON Yuri, matching Robin's crispness, is the acceptance test.
+
+## 10. UI-kit truing (canonical tokens, one source, no drift) — do FIRST in the CLI session
+Per ADR-009 (canonicalization) + ADR-031 (reconciliation, DECIDED: one DS, use `tokens.ts` exclusively,
+extend not fork). The parameterized generator must consume ONE token SSOT so no surface drifts again.
+- **Canonical token source:** `src/ui-kit/recoil-report/_tokens.css` (== `src/document/tokens.ts`) — the
+  standard ARCS dark-cockpit (#020408 / cyan-green-gold / Geist+Instrument+Bricolage). This is the UI kit
+  the templates import; extract §2 grammar into it, do not re-declare `:root` per page.
+- **Existing componentized kit to true up:** `src/ui-kit/recoil-report/` (01-header … 13-90day-build +
+  `_tokens.css`, example instances chris-lamontagne / cj-brief / chase-intro). The forge renders these
+  components from the counterpart SSOT; they are the recoil-report molecules.
+- **Drift to reconcile:** `public/robin-receipt.html` uses OMAKASE tokens (#0B0B0C / #C9A227 / Helvetica),
+  off-canon. Regenerate it from the canonical kit (omakase house style stays scoped to the omakase/louisville
+  family only, never the counterpart recoil family). Same check across public/ for other counterpart pages.
+- **Data-vis hover-state tooltips:** make the arc/graph tooltip (the `#tip` follow-cursor component in
+  robin.html: `data-tip`/`data-t`/`data-n`, touch-tap fallback, viewport-clamped) a canonical kit component
+  so every recoil/arc chart gets the same working hover + tap behavior. Currently hand-inlined per page.
+
+## 11. Generation honesty gate (non-negotiable)
+When public signal is insufficient to enrich a field or make an assertion confidently, DO NOT fabricate
+and DO NOT import a claim from the master template to fill the gap. Emit an explicit flag:
+**`additional enrichment source inputs required`**, naming the specific inputs that would raise confidence
+(GitHub, X, personal site, Crunchbase, podcasts/talks, prior call transcripts, etc.). Low resolution is
+stated, never hidden. This is D4 (atomic-confidence calibration) + the resolution caveat, made a hard gate:
+a read ships only if it traces to a source; otherwise it ships as a labeled gap with the inputs needed to
+close it. `yuri-profile` is the reference implementation (public-only caveat + first-class dial-up inputs;
+imported Robin reads were struck rather than left asserting).
