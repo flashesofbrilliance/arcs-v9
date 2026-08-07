@@ -6,9 +6,9 @@
     "doc_title": "Yuri · the profile read",
     "uplink": {"href": "https://yuri.arcs.care", "label": "the studio"},
     "resolution": {
-      "level": "low — public LinkedIn + one call only",
-      "caveat": "public-only scan; no public corpus of talks/podcasts/writing to tune on",
-      "dial_up_inputs": ["GitHub (what he actually builds vs describes)", "X / @yurikleban (real-time interests)", "personal site / blog / Substack (stated thesis in his words)", "Crunchbase / AngelList (the investing side)"]
+      "level": "medium — public multi-source + one call",
+      "caveat": "tuned on public sources (LinkedIn, Agentum, GitHub siryuri, X @yurikleban, Purpose Built, Crunchbase) plus the Jul 23 call; still public-only, no private data",
+      "dial_up_inputs": ["your long-form writing or product thesis in your own words", "the Twin venture (named on LinkedIn, not yet public)", "a prior call transcript to serialize a multi-call arc"]
     },
     "gate": {"external": "yuri"}
   },
@@ -17,7 +17,7 @@
     "title": "How I read you, so I could meet you where you are.",
     "sub": "Before we spoke, I read your public voice and tuned everything to it. This is that read, and it is why the rest of the studio lands in your register. It is also the most honest one to start with, because it names exactly how much it can and cannot see."
   },
-  "caveat": "<b>Resolution: low, and I will not pretend otherwise.</b> I read your public LinkedIn, ran a web scan, and used our call. The scan confirmed there is no public corpus of talks, podcasts, or writing to tune on, unlike some reads I build. So this is grounded in your career arc, your own words on our call, and your public affiliations, and it says out loud where it is inference. A GitHub, your X (@yurikleban), or anything you write would raise it fast. Only with your OK.",
+  "caveat": "<b>Resolution: medium, and built in the open.</b> This is tuned on more than a resume: your public LinkedIn and career arc, your product Agentum, your GitHub (siryuri), your posts on X (@yurikleban), your Purpose Built and cultured-meat work, and our call on Jul 23. It is still public-only, no private data, and it says out loud where a line is inference. Your long-form writing or a prior call would sharpen it further.",
   "voice": {
     "k": "01 &middot; the arc",
     "h2": "A storyteller who taught himself to build.",
@@ -65,14 +65,17 @@
   },
   "evidence": {
     "k": "04 &middot; the evidence",
-    "h2": "Tuned on two sources, and honest about it.",
-    "lede": "Robin&rsquo;s read had a whole library: site, podcasts, talks, a book. Yours has two sources, and the read says so out loud rather than pretending to more.",
+    "h2": "Tuned on your own trail, in the open.",
+    "lede": "This is not a resume scrape. It is tuned on the trail you have left in public, your product, your code, your posts, your investing, plus our call. Here is what it listened to, and it says out loud where a read is inference.",
     "sources": [
+      {"h": "Agentum, your product", "p": "theagentum.com: a private, local AI agent, a command layer over calendar, email, and relationships with a MyVault store and daily briefings. Model-agnostic, runs on your machine, you own the code."},
+      {"h": "Your GitHub, siryuri", "p": "the self-taught-builder trail: an open-source tooltip library, early web apps. The same handle as your Facebook. The engineer under the PM."},
+      {"h": "X, @yurikleban", "p": "your real-time interests and who you engage, in your own voice"},
       {"h": "Your public LinkedIn", "p": "15 years at Google, Ads to Cloud to Partnerships, the internal-tools thread"},
-      {"h": "Our call, Jul 23", "p": "recorded with your OK, the ground truth for every read here"},
-      {"h": "Agentum + DMs", "p": "theagentum.com and our LinkedIn exchange, the newest signal"}
+      {"h": "Purpose Built + cultured meat", "p": "Venture Partner at Miles Lasater&rsquo;s firm, and co-organizer of the Cultured Meat Symposium. The investor and connector."},
+      {"h": "Our call, Jul 23", "p": "recorded with your OK, the ground truth for every read here"}
     ],
-    "note": "To dial the resolution up: GitHub for what you actually build, X for real-time interests, a personal site or Crunchbase for the investing side. Each independent source raises confidence. Consent-first, only if you want."
+    "note": "Still public-only, no private data, and consent-first. What would sharpen it further: your long-form writing, the Twin venture you name on LinkedIn, and a prior call transcript to serialize the arc."
   },
   "quiet_signals": {
     "k": "05 &middot; the quiet signals",
@@ -80,7 +83,7 @@
     "lede": "Anyone can read your resume. These are the deeper tells, computed from the pattern across your own words. This is the engine deriving meaning, not amplifying signal.",
     "cards": [
       {"tag": "Practitioner, not fan", "qc": "#00FF9D", "headline": "You built this five years early, by hand.", "body": "You automated the Sundar brief with data science before there was AI. Your curiosity is a builder&rsquo;s, not an admirer&rsquo;s. You are not evaluating whether the thesis is real; you proved it.", "so": "Meet you as a peer who lived it. Never explain the value you already shipped."},
-      {"tag": "Model-agnostic is identity", "qc": "#00F0FF", "headline": "Lock-in is the thing you design against.", "body": "Agentum runs on Claude or other LLMs. That is not a spec line, it is a value. A single-vendor story reads to you as a trap.", "so": "Lead with runs-on-Gemini, nothing leaves Google. That is the deal-maker, not a footnote."},
+      {"tag": "Model-agnostic is identity", "qc": "#00F0FF", "headline": "Lock-in is the thing you design against.", "body": "Agentum runs on Claude, Gemini, or DeepSeek, on your own machine, one-time purchase, you own the code. That is not a spec sheet, it is a value. A single-vendor, data-leaves-the-building story reads to you as a trap.", "so": "Lead with runs-on-Gemini, nothing leaves Google, you own the file. That is the deal-maker, not a footnote."},
       {"tag": "Consent is a gating value", "qc": "#FFD700", "headline": "Data ethics sits at the identity level.", "body": "&ldquo;You&rsquo;re doing the right thing.&rdquo; Your parents read every terms-and-conditions. Consent-first is not a feature to you, it is table stakes.", "so": "A data-egress story ends the conversation. Provenance-clean and opt-in is the price of entry."},
       {"tag": "The connector economy", "qc": "#ff9d3c", "headline": "You give intros with no percentage, no ask.", "body": "Reciprocity is your currency, not equity. You connect people and take nothing, because the value is the connection.", "so": "Your help is real and freely given. Honor it as a gift; do not try to transact it."},
       {"tag": "Pull, not push", "qc": "#94a3b8", "headline": "You open the door; you are not pushed through it.", "body": "&ldquo;Be selfish, what would get you to the next step.&rdquo; You invite the next move rather than being sold on it. You gave nothing-to-sell energy and meant it.", "so": "Let you name the next step. Over-pursuit reads as not listening."}
