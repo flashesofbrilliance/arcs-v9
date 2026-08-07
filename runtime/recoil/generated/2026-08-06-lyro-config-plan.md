@@ -57,19 +57,25 @@ project-management taste; it is the order in which uncertainty actually collapse
   and an *invisible* failure that looks like it is working (the exact failure mode the gauntlet flagged). And
   1.2 sets the **before-number**. You cannot measure what any later phase *adds* (net-new attributable
   revenue) without it — so measure-first is a hard precondition, not a nicety.
-- **1.3 (knowledge) before 1.5 (the voice that speaks it).** Lyro answers *from* the knowledge base. Turn the
-  AI on before that KB is curated and verified and it fabricates or mis-answers from thin, unvetted content —
-  the one true ruin risk here: a wrong spec or cert handed to a customer. Knowledge must be built and proven
-  before the assistant that speaks from it is switched on. Knowledge before voice.
+- **1.3 (recognition) enriches, but 1.5's hard precondition is the proven pipe, not 1.3.** 1.3 makes the bot
+  better at *recognizing* which resin/competitor grade a lead is asking about, from data already in the CRM.
+  That sharpens the AI but is not what it *speaks from*. (Correction over an earlier draft: the knowledge base
+  Lyro answers from is curated *inside* 1.5, not in 1.3 — so "knowledge before voice" is a **within-1.5**
+  discipline, below, not a 1.3→1.5 dependency.) 1.5's true blocking precondition is 1.1/1.2: the delivery
+  handoff must be proven first, so a good AI conversation can never fall through the floor. Recognition (1.3)
+  is an enricher that can precede or follow, not a gate.
+- **Within 1.5: knowledge before voice.** The application-level KB is curated and firewall-tested *before* the
+  assistant is switched on. Turn the AI on before its KB is curated and it fabricates or mis-answers from thin,
+  unvetted content — the one true ruin risk here, a wrong spec or cert to a customer. This is a 1.5-internal
+  ordering, not a cross-phase one.
 - **1.4 (who arrives + what they see) before/with 1.5.** 1.4 shapes traffic quality and the OEM-vs-molder
-  split. Driving *paid* traffic (real money per click) into an unproven funnel burns spend on a leaky system;
-  and the persona structure built in 1.4 is what lets 1.5's assistant tailor answers at all. Funnel before
-  traffic; persona structure before persona-aware AI.
+  split. Driving *paid* traffic (real money per click) into an unproven funnel burns spend on a leaky system.
+  Persona branching is a **1.4** deliverable; 1.5's assistant stays persona-generic (funnel before traffic).
 - **1.5 last, and optional (kill-switch).** Lyro is the highest-variance, highest-cost-risk, most-dependent,
-  lowest-floor piece: per-conversation billing (cost variance), and it needs delivery + KB + personas all
-  already true. Put the most uncertain and most cost-variable bet **last** and three things fall out: (a)
-  every input it relies on is already proven, (b) there is real traffic to measure its economics against
-  before committing, and (c) if the economics do not check out, you kill it and *everything below still
+  lowest-floor piece: per-conversation billing (cost variance), and it needs the delivery pipe proven and its
+  own KB curated first. Put the most uncertain and most cost-variable bet **last** and three things fall out:
+  (a) its blocking input (proven delivery) is already true, (b) there is real traffic to measure its economics
+  against before committing, and (c) if the economics do not check out, you kill it and *everything below still
   stands*. Last = maximum information before the least-certain bet, minimum blast radius if it fails.
 
 There is also a mechanical reason the order is load-bearing: the **receipt-calibrated pricing chain** re-prices
@@ -85,6 +91,12 @@ outside a range you already saw" true.
 - **Load:** what PRL makes at the family/market level (the resin families, the markets they serve), the
   application **sell sheets** (EE, Medical, Transportation, Building, Consumer, Sustainability, Structural
   Foam), general company/process info. Site crawl capped at 60 pages → point it at the market/capability pages.
+- **Sell-sheet scrub (mandatory before load):** sell sheets are marketing but routinely carry a stray UL
+  "yellow card"/RTI callout, a temperature/HDT figure, or a named grade code in the body copy. Loading them
+  whole would smuggle a spec/cert value past the "no numbers" wall. So **extract to plain application prose
+  only** — strip every numeric property, UL mark, and specific grade code — and a human checks the extracted
+  text against the never-load list before it is staged. Do not bulk-upload the sell-sheet PDFs. (See
+  `kb-manifest.md` scrub checklist.)
 - **Never load (routes to human by construction):** per-grade **property values / datasheets**, **UL /
   certification status or file numbers**, **prices**, **lead times**. This is what makes never-fabricate
   structural, not a prompt promise. The 11 grade tech-sheet PDFs and the UL explainer stay in the repo for
@@ -125,12 +137,20 @@ outside a range you already saw" true.
 ---
 
 ## Config as versioned artifact (extensible)
+> **Build-now vs activate-later boundary (explicit):** the config `.md` artifacts below, the curated/scrubbed
+> KB text, the conversation starters, and the firewall test-prompt list **may all be authored now** — they are
+> repo files, they touch no account and no CRM. "No build starts until the gates pass" refers to anything that
+> **enters the Tidio account** (uploading KB, wiring the handoff/webhook, running the playground) — that waits
+> on gates 1-4 + the 1.2 receipt. Authoring the SSOT is safe and is the work in front of us now.
 ```
 runtime/recoil/generated/prl-lyro/
-  guidance-prompt.md     # §B verbatim, never-fabricate clause first
-  kb-manifest.md         # loaded vs held-out + WHY (the guardrail ledger; dated)
-  handoff-policy.md      # online/offline + escalation + rep-anonymous attribution rule
-  costcap-policy.md      # overage off, quota fallback, alert threshold
+  guidance-prompt.md        # §B verbatim, never-fabricate clause first
+  kb-manifest.md            # loaded vs held-out + WHY + sell-sheet scrub checklist (dated ledger)
+  handoff-policy.md         # online/offline + escalation + rep-anonymous attribution rule
+  costcap-policy.md         # overage off, quota fallback, alert threshold
+  conversation-starters.md  # market-level openers (no specs)
+  firewall-test-prompts.md  # adversarial spec/cert/price probes to run in the playground before go-live
+  kb-content/               # scrubbed application prose, one file per market (the actual KB text)
 ```
 (No qualifying-flow.md here — persona branching is 1.4.)
 
