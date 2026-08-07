@@ -111,7 +111,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/robin-receipt.html", has: [{ type: "host", value: "robin-receipt.arcs.care" }] },
         // yuri-demo.arcs.care -> public/yuri-demo.html (meta-cognitive inference-ledger MVP, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-demo.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
-        // yuri.arcs.care -> public/yuri.html (unified sequenced landing / one door, ungated index)
+        // yuri.arcs.care -> public/yuri.html (one-door: forge_counterpart.py onedoor surface, LEADS with the
+        // belief-flip story; pw-gated "yuri" as of 2026-08-07 to match the rest of the Yuri family — real quotes/reads)
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
         // yuri-profile.arcs.care -> public/yuri-profile.html (enriched profile read, step 1, pw-gated? open like robin-profile)
         { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
