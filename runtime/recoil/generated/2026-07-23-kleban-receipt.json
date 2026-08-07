@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "report_id": "2026-07-23-kleban-receipt",
+    "date": "2026-07-23",
+    "counterpart": "Yuri Kleban",
+    "company": "Google",
+    "call_label": "First call",
+    "doc_title": "Yuri Kleban · Receipt Close · Before and After",
+    "glyph": "&#20214;",
+    "badges": ["Receipt Close", "Ex-Ante Scored", "Single Call", "Priors Updated", "Consented Recording"],
+    "meta_lines": [
+      "RECEIPT: 2026-07-23-YURI-KLEBAN · STATUS AT OPEN: YELLOW / WARM PREDICTED · STATUS AT CLOSE: GREEN-LEANING, FIT UNDER-READ BY A MILE",
+      "CALL: JUL 23 2026, ~30m · SOURCE: GRANOLA, RECORDED WITH HIS OK · MODE: EX-ANTE SCORED, SINGLE CALL, NO ARC",
+      "EX-ANTE FILED: THE WAR-ROOM RECEIPT, BEFORE THE CALL"
+    ],
+    "resolution": {"level": "full", "caveat": "single consented call, verbatim-anchored to his words"},
+    "gate": {"external": "yuri"}
+  },
+  "lede_cover": "You asked to see the magic, not the abstract doc: the bet I filed on you before we spoke, scored honestly against what actually happened once we did. Everything scored here is my own prediction, not yours. Every line that moved a belief is in your own words, with your OK to record. Nothing redacted. One register call was right; the fit I under-read by a mile.",
+  "ex_ante": {
+    "lede": "This is the bet as it stood in the war-room before the call. Not hindsight. It was built from your public profile and our short exchange, and it is not flattering by design. It is just what I thought.",
+    "bet": "You came to say kudos and share stories, not to buy or hire. Match your warmth, let you drive, offer one light taste, and do not push a Google engagement or fish for anything you cannot share. If a real surface exists, I bet it is you as an internal champion or connector to a team, not a deal today.",
+    "predictions": [
+      {"pct": 70, "claim": "You came to share stories, warm and generous, and stay non-committal", "meta": "high &middot; your stated frame: nothing to sell or ask, just kudos"},
+      {"pct": 65, "claim": "YELLOW / warm gate: real relationship signal, no committed action today", "meta": "most likely &middot; predicted Y-gate"},
+      {"pct": 55, "claim": "If a surface exists, you are a champion or connector to a team, not the buyer yourself", "meta": "directional &middot; the war-room hypothesis"},
+      {"pct": 50, "claim": "The capability doc lands and carries the selling", "meta": "uncertain &middot; the pre-committed play"},
+      {"pct": 40, "claim": "FLAGGED MOST LIKELY WRONG: the overlap is thin or hypothetical", "meta": "the belief I bet against myself on"}
+    ],
+    "kairos_pre": "The bet flagged in advance that the whole read turned on one question I could not answer from the outside: how close the overlap actually was. I bet it was thin. Watch for the moment the picture of who you are flips."
+  },
+  "waveform": {
+    "label": "first call, Jul 23",
+    "points": [
+      {"key": "open", "label": "open", "v": 46, "tip": "Consent to record asked first. Your mom, the United ordeal, the newborn. Human before agenda"},
+      {"key": "stories", "label": "stories", "v": 54, "tip": "Google stories, what you are building and excited about. Warm, generous, low agenda"},
+      {"key": "reveal", "label": "reveal", "v": 80, "kairos": true, "tip": "A team of 20 building internal exec briefs for the partnerships org. The picture flips"},
+      {"key": "pull", "label": "pull", "v": 71, "tip": "Be selfish, what would get you to the next step. You pulled, I did not have to push"},
+      {"key": "doc-miss", "label": "doc-miss", "v": 57, "tip": "It is very different than what I had in mind. You asked for the real before and after"},
+      {"key": "consent", "label": "consent", "v": 64, "tip": "You are doing the right thing. The plain-language, honest-about-preference stance landed"},
+      {"key": "paths", "label": "paths", "v": 60, "tip": "GCP plus Firebase, a Google Ventures conversation, your ex-UBS partner for diligence. Floated back"},
+      {"key": "close", "label": "close", "v": 66, "tip": "Part two of where this goes, after Hawaii. That is the magic. Warm and forward"}
+    ],
+    "caption": "A single call with no floor drop. It opens human, climbs through Google stories, then spikes at the reveal: you run the exact team this was built for. The rest is you pulling it forward. It lands on a warm, forward close where you name the follow-up yourself. The register I called right; the height of that spike I did not see coming."
+  },
+  "reverse_listening": {
+    "lede": "Read from the close backward, resolution spent where the signal is. The banter is compressed, the reveal is dilated. The question is always the same: where did the read actually break, working back from the close.",
+    "beats": [
+      {"tag": "CLOSE", "dilation": "real", "label": "Where it landed", "quote": "it'd be great to see your hypothesis on me before and what happened after our conversation, that's the magic", "read": "Read backward, the close is not a soft defer. It is a specific request and a name for what mattered: the before and after. You asked for the receipt itself. This page is that request answered."},
+      {"tag": "REVEAL", "dilation": "dilated", "label": "The moment the read broke", "quote": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it together into briefs for execs before they meet people", "read": "This is the write-locked moment. Dilate all the way in. I filed a bet that you might know a team that could use this. In one sentence that collapsed: you run the team, you built the thesis, you are the exact buyer and builder. The one belief I flagged as most likely wrong is the one that broke hardest, in the best direction."},
+      {"tag": "PULL", "dilation": "dilated", "label": "Warmer than I bet", "quote": "I want to help move you toward Zach direction... be selfish, what would get you to the next step", "read": "The leading indicator I under-weighted. I predicted warm-but-non-committal. You pulled, actively, and asked me to be selfish about the next step. Working backward, the relationship was never going to sit still; I bet it would."},
+      {"tag": "PROOF", "dilation": "real", "label": "Not a skeptic, a practitioner", "quote": "Sundar has 30 people just writing briefs... I automated it with data science, no AI in 2020... his mind was blown, he didn't know it was mostly non-humans", "read": "I went in braced to convince a skeptic. Backward, that was the wrong posture entirely. You already built this thesis by hand and proved it at the top of Google. You lived the product five years before I named it."},
+      {"tag": "MISS", "dilation": "real", "label": "The doc did not land", "quote": "it's very different than what I had in mind... it'd be great to see a real example of both", "read": "The abstract capability doc did not do the selling I bet it would. You found it abstract and asked for the real thing. You were right, and this before-and-after is the correction."},
+      {"tag": "BANTER", "dilation": "compressed", "label": "The human carrier wave", "quote": "Two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in, the Turing-test jokes.", "read": "Compressed, not filler. It held low receipt-information but kept the human channel open, which is why the business turn landed soft. The consent-first open was the same move: warmth as the carrier."}
+    ]
+  },
+  "kairos_lock": {
+    "label": "First call, the fit reveal",
+    "quote": "we take first and third party data and stitch it together into briefs for execs before they meet people",
+    "prose": "Write-locked because it is the single highest-information moment of the call, and it rewrites the entire read. You did not react to a feature. You described the product I am building, as something you already run at Google, for the partnerships org, at exec scale. A kairos is a moment that will not come again on the same terms. This is the one to build the next move on."
+  },
+  "close": {
+    "status": "CLOSED",
+    "status_note": "The register call was right and the fit read was wrong in the most useful way possible. Four predictions missed productively; all four moved toward a far stronger fit than I bet. The one belief I flagged as most likely wrong is the net-new prior.",
+    "scorecard": [
+      {"verdict": "HIT", "predicted": "YELLOW / warm register: generous, curious, real relationship signal", "observed": "Warm and generous throughout, human-first, consent-aware", "delta": "register right, the one clean hit"},
+      {"verdict": "MISS", "predicted": "If a surface exists, you are a champion or connector to a team, not the buyer", "observed": "a team of 20... briefs for execs before they meet people", "delta": "the productive miss: you ARE the buyer and builder"},
+      {"verdict": "MISS", "predicted": "Warm but non-committal, no near-term pull", "observed": "be selfish, what would get you to the next step", "delta": "warmer and more active than bet; you pulled"},
+      {"verdict": "MISS", "predicted": "The capability doc lands and carries the selling", "observed": "it's very different than what I had in mind... a real example of both", "delta": "it did not land; you asked for the real before and after"},
+      {"verdict": "MISS", "predicted": "I am pitching a skeptic I need to convince", "observed": "Sundar has 30 people writing briefs... I automated it in 2020... his mind was blown", "delta": "you are a practitioner who lived it, not a skeptic"}
+    ],
+    "net_new": [
+      {"signal": "You are the ICP and the practitioner, not a referral to one", "quote": "a team of 20... we build internal infrastructure for the partnerships org... briefs for execs before they meet people", "update": "Collapse the whole fit read. This is not a fan who knows a buyer; you built the Sundar brief automation by hand and proved it at the top of Google. Confidence in a real fit went from a hedge to near-certain. The surface is an internal Google tenant or dogfood, downstream of the relationship, on your timeline."},
+      {"signal": "You pulled the relationship forward yourself", "quote": "I want to help move you toward Zach direction... be selfish, what would get you to the next step", "update": "Treat the pace as yours to set, warmly. You asked for the next step rather than waiting to be pushed. The most useful move is the part-two follow-up you named, after Hawaii, not a chase."},
+      {"signal": "The consent and data-ethics stance is table stakes for you", "quote": "you're doing the right thing", "update": "The plain-language, honest-about-stated-versus-revealed-preference stance is not a side note for you. It is how you evaluate. Keep it first-class, never buried."},
+      {"signal": "The before-and-after receipt is what crosses", "quote": "it'd be great to see your hypothesis on me before and what happened after, that's the magic", "update": "You named the deliverable. What crosses is the magic you asked to see: a real bet, filed before we talked, scored honestly against what you actually said. The theory under the hood stays under the hood; the receipt is the thing that travels."}
+    ],
+    "posterior": {
+      "wedge": "You are the ICP and the practitioner. The surface is an internal Google tenant or dogfood of the Call Resonance Read and the pre-meeting brief, built on GCP and Firebase, downstream of a real relationship and on your timeline, not a deal today.",
+      "status": "GREEN-leaning, warm, ball in your court. Not a close, far better than the base case, and no longer a concept sale. Part two after Hawaii, which you asked for.",
+      "register": "Your words, your frame: that's the magic, a real bet filed before we talked, scored honestly after. Positioned inside the exact problem you already solved for Sundar.",
+      "note": "This is a closed receipt, not a closed deal. The belief I flagged as most likely wrong broke hardest, in the best direction, and that is the receipt doing its job."
+    }
+  },
+  "foot": "ARCS &middot; FIELD OS &middot; RECEIPT CLOSE &middot; YURI KLEBAN, FIRST CALL<br><b>FILE THE BET &middot; SCORE AGAINST REALITY &middot; LET THE MISS TEACH YOU THE FIT</b>"
+}
