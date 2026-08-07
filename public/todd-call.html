@@ -298,6 +298,52 @@
   </div>
 </div></section>
 
+
+<!-- TEAM TASKS -->
+<section id="team"><div class="wrap">
+  <span class="phase-tag t-later">For your team</span>
+  <h2>A few hand-off tasks for your site and IT people</h2>
+  <p class="lede">None of this blocks our work, and we can do most of it with them. These pieces just belong
+  to whoever maintains your site and your email. Copy a block and send it along. Staging first, then production.</p>
+  <h3>For your site maintainer</h3>
+  <pre style="background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;color:#cbd5e1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;margin-top:8px;user-select:all">FOR THE SITE MAINTAINER: Gravity Forms spam protection
+Do these on the staging copy first, then production.
+
+1. Turn on the honeypot
+   WP Admin > Forms > "Material Alternative" > Settings > Form Settings
+   Turn ON "Anti-spam honeypot". Save. Repeat for "Contact Us".
+
+2. Turn on a bot check (reCAPTCHA v3 or Cloudflare Turnstile)
+   WP Admin > Forms > Settings > reCAPTCHA
+   Enter the Site Key and Secret Key (free from the Google reCAPTCHA admin, v3). Save.
+   Open each form, set the CAPTCHA field type to reCAPTCHA. Save.
+   (The CAPTCHA field is already on the form, it just has no keys, so today it does nothing.)
+
+3. Add keyword / blacklist filtering
+   The old "PDF Form" already has the blacklist rules. Copy them to "Material Alternative"
+   and "Contact Us". Block terms like "eric" and "xrumer", and reject any link in the material field.
+
+4. Tighten the material field
+   Make "Which material alternative are you looking for?" required, add a minimum length, reject links / HTML.
+
+5. Confirm the chatbot widget fires on production when we go live.
+
+Highest value: steps 1 and 2.</pre>
+  <h3>For IT</h3>
+  <pre style="background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;color:#cbd5e1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;margin-top:8px;user-select:all">FOR IT: email deliverability and DNS
+
+1. Email authentication (so form and chatbot emails do not go to spam)
+   Add or confirm SPF, DKIM, and DMARC DNS records for prlresins.com.
+
+2. Finish the changes that did not take
+   A Microsoft 365 forwarding rule and a domain / DNS change were attempted but have not applied yet.
+   Please confirm and complete them.
+
+3. info@prlresins.com routing
+   Confirm this inbox is monitored, and decide where chatbot and form notifications should land
+   so real leads are seen quickly.</pre>
+</div></section>
+
 <!-- PAYMENT -->
 <section id="pay"><div class="wrap">
   <span class="phase-tag t-next">Payment</span>
