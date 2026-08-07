@@ -3,6 +3,40 @@
 _2026-08-07. Start here for the fresh session that builds and runs the parameterized/componentized
 counterpart forge with args / depts / runtime configs._
 
+## STATUS (updated 2026-08-07, later session) — 3 of 4 surfaces shipped
+
+`scripts/forge_counterpart.py` is live and gate-hardened. Shipped + deployed (canonical tokens,
+0 em-dash, 0 side-tab, detector-clean, honesty+attribution gates that refuse to write on FAIL):
+- **receipt** (`--surface receipt`): robin-receipt (trued off omakase) + yuri-receipt (acceptance:
+  ex-ante `kleban.json` scored vs `kleban-recoil.json`, single-call, leads with the belief-flip). LIVE.
+- **profile** (`--surface profile`): robin-profile (side-tab fixed) + yuri-profile (public-only caveat
+  + dial-up inputs honesty flag; loop re-tiered to point at yuri-receipt). LIVE.
+- **codex** (`--surface codex`): dual-tab Read+Instrument, extended 5-field #tip, computed spark arcs,
+  phase-color-coded beats. robin-codex regenerated onto canon (side-tabs fixed). LIVE.
+- Companion: `scripts/gen_receipt_close.py` (scaffolds a receipt SSOT from a recoil, grounds every
+  scorecard row in a verbatim belief-update). `.claude/skills/forge/SKILL.md` (`/forge`).
+- SSOTs: `runtime/recoil/generated/2026-08-05-daniels-{receipt,profile,codex}.json` (Robin master)
+  + `2026-07-23-kleban-{receipt,profile}.json` (Yuri).
+
+**REMAINING (the next tranche):**
+1. **one-door** renderer (`robin.html` = 48KB master: faces-nav + SVG manifold w/ #tip + advisory board +
+   download buttons + 7 numbered sections). Then regenerate robin.html and **restructure yuri.html to
+   LEAD with the belief-flip story** (fan -> he runs the exact team), not the loop diagram. The generator's
+   block spine + the base `#tip` (TIP_JS) already exist; this is the largest surface renderer.
+2. **yuri-codex** via the dual-tab renderer (acceptance for codex): Read = the Jul-23 belief-flip beats,
+   Instrument = how the read is made. Then re-tier the existing 5-altitude `yuri-codex` + `yuri-demo` as
+   the DEEPER how-it-scales layer under the clean 3-read triad (profile -> recoil/codex -> receipt).
+3. **Receipt Studio integration** — interactive file/close a receipt: see
+   `_PATTERNS/receipt-studio-integration-scope.md` (Robin tenant of the Louisville Studio + reuse; D6 defers
+   RLS to engagement-live). Touches auth+schema -> ciso/sre review before ship.
+
+Encoders (learned this session): authored prose fields carry HTML entities -> insert RAW; attribute
+values -> `A()` (escapes " and < only, preserves entities); only machine/plain values -> `E()`. Running
+`E()` on an entity-bearing authored field double-escapes it (visible as literal `&middot;`).
+
+---
+### Original spec (below) — still the SSOT for the remaining work
+
 ## Read first (the full spec)
 `_PATTERNS/counterpart-artifact-family-blueprint.md` — §1-11. It carries the floor plan, component
 grammar, decision log, roadmap suite, the Robin platinum-master extraction, the UI-kit truing, and the
