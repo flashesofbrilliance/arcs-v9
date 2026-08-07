@@ -30,6 +30,11 @@ Usage:
 import argparse, html, json, os, re, sys
 
 E = lambda s: html.escape(str(s), quote=True)
+# Attribute encoder for authored values that may already carry HTML entities
+# (e.g. &rsquo;, &#183;): make them attribute-safe (escape " and <) WITHOUT
+# re-escaping the & of an existing entity. Text-content authored fields are
+# inserted raw; only machine/plain values go through E().
+A = lambda s: str(s).replace("<", "&lt;").replace('"', "&quot;")
 
 # ---------------------------------------------------------------------------
 # CANONICAL TOKENS -- the single source. Mirrors src/ui-kit/recoil-report/_tokens.css.
@@ -351,7 +356,456 @@ def render_receipt(d):
     return "".join(L)
 
 
-SURFACES = {"receipt": render_receipt}
+# ===========================================================================
+# PROFILE SURFACE  (blueprint sec 9: robin-profile = THE READ, step 1 of the loop)
+# The read of the counterpart -- registers / altitude / resonance / quiet-signals
+# / loop, enriched from the public crawl. Canonical tokens. Every section is
+# optional: a counterpart with thinner signal renders fewer sections + the
+# honesty flag (blueprint sec 11), never a fabricated one.
+# ===========================================================================
+PROFILE_CSS = TOKENS + """
+*{box-sizing:border-box;margin:0;padding:0}h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;padding:44px 22px 96px}
+.page{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;margin-bottom:2px}.uplink:hover{color:var(--cyan)}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.18;font-family:var(--display)}
+.sub{font-size:14.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3}
+.cav{border:1px solid rgba(255,215,0,.28);border-radius:12px;background:var(--gold-bg);padding:15px 17px;font-size:13.5px;color:var(--text);line-height:1.55}.cav b{color:var(--gold)}
+.note{font-size:14px;color:var(--muted);line-height:1.6;margin-top:16px}.note b{color:var(--gold)}
+.mv{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:24px}
+.mvk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-bottom:10px}
+.mv h2{font-size:20px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px;font-family:var(--display)}
+.lede{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.headline{font-size:17px;color:#fff;font-weight:700;margin-bottom:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.reg{border:1px solid var(--border);border-top:2px solid var(--ac);border-radius:11px;background:var(--surface2);padding:16px 18px}
+.regh{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px}
+.regn{font-size:15px;font-weight:700;color:#fff}
+.regalt{font-family:var(--mono);font-size:9px;letter-spacing:.14em;color:var(--ac)}
+.regcues{font-size:12px;color:var(--dimmed);line-height:1.5;margin-bottom:10px}
+.regq{font-size:13px;color:#d2d0c8;font-style:italic;line-height:1.5;border-top:1px solid var(--border);padding-top:9px}
+.regsrc{display:block;font-style:normal;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--dimmed);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:#c0beb6;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 9px}
+.ladder{display:grid;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.rung{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:14px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+.rung:first-child{border-top:0;background:linear-gradient(90deg,rgba(0,255,157,.08),transparent 60%)}
+.rung:last-child{background:linear-gradient(90deg,rgba(255,77,109,.08),transparent 60%)}
+.rlvl{font-family:var(--mono);font-size:11px;font-weight:700;color:#fff;padding-top:2px}
+.rb p{font-size:13px;color:#c4c2ba;line-height:1.5}.rt{color:var(--dimmed) !important;font-size:12px !important;margin-top:5px}.rt b{color:var(--text)}
+.rmap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rcol{border:1px solid var(--border);border-radius:11px;padding:16px 18px;background:var(--surface2)}
+.rcol.l{border-top:2px solid var(--green)}.rcol.x{border-top:2px solid var(--red)}
+.rmk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;margin-bottom:11px}
+.rcol.l .rmk{color:var(--green)}.rcol.x .rmk{color:var(--red)}
+.rcol ul{list-style:none;display:grid;gap:8px}.rcol li{font-size:12.5px;color:#c0beb6;line-height:1.5;padding-left:14px;position:relative}
+.rcol.l li::before{content:"+";position:absolute;left:0;color:var(--green);font-weight:700}
+.rcol.x li::before{content:"\\2212";position:absolute;left:0;color:var(--red);font-weight:700}
+.scards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:6px}
+.scard{border:1px solid var(--border);border-radius:10px;background:var(--surface2);padding:13px 15px}
+.sh{font-size:13.5px;font-weight:700;color:#fff;margin-bottom:5px}.scard p{font-size:12px;color:var(--muted);line-height:1.5}
+.csub{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);margin:16px 0 8px}
+.stg{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:12px 0;border-top:1px solid var(--border)}
+.stg:first-of-type{border-top:0}
+.stn{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--cyan);opacity:.5;line-height:1}
+.sts{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.stb p{font-size:13px;color:var(--muted);line-height:1.5}.stb a{color:var(--cyan);text-decoration:none;font-family:var(--mono);font-size:11px}.stb a:hover{text-decoration:underline}
+.close{font-size:15px;color:#e4ded4;line-height:1.6;border:1px solid rgba(255,215,0,.28);border-radius:11px;background:var(--gold-bg);padding:14px 16px}
+.gapflag{border:1px dashed var(--gold);border-radius:12px;background:var(--gold-bg);padding:18px 20px}
+.gapflag .gk{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:9px}
+.gapflag p{font-size:13.5px;color:var(--text);opacity:.9;line-height:1.55;margin-bottom:8px}
+.gapflag ul{list-style:none;display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.gapflag li{font-family:var(--mono);font-size:10px;color:var(--gold);background:var(--gold-bg);border:1px solid rgba(255,215,0,.3);border-radius:6px;padding:4px 9px}
+.foot{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--dimmed);text-align:center;padding-top:8px;line-height:2}
+@media(max-width:560px){.two,.rmap,.scards{grid-template-columns:1fr}.rung{grid-template-columns:1fr;gap:4px}}
+.qgrid{display:grid;gap:10px}
+.qcard{border:1px solid var(--border);border-top:2px solid var(--qc);border-radius:11px;background:var(--surface2);padding:15px 17px}
+.qtag{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--qc);margin-bottom:7px}
+.qh{font-size:15px;font-weight:700;color:#fff;margin-bottom:7px}
+.qcard p{font-size:12.5px;color:var(--muted);line-height:1.55;margin-bottom:7px}
+.qcard .qso{color:#d2d0c8;border-top:1px solid var(--border);padding-top:8px;margin-bottom:0}
+.qcard .qso b{color:var(--gold);font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-right:6px}
+"""
+
+
+def _resolution_flag(res):
+    """Honesty gate (blueprint sec 11): render low resolution as a visible flag
+    naming the specific enrichment inputs, never hide it."""
+    lvl = (res or {}).get("level", "")
+    if not lvl or lvl.lower().startswith(("full", "high")):
+        return ""
+    inputs = "".join(f"<li>{E(i)}</li>" for i in res.get("dial_up_inputs", []))
+    caveat = res.get("caveat", "")
+    return (f'<section class="gapflag"><div class="gk">additional enrichment source inputs required</div>'
+            f'<p><b>Resolution: {E(lvl)}.</b> {caveat}</p>'
+            + (f'<p>These sources would raise the resolution, with consent:</p><ul>{inputs}</ul>' if inputs else "")
+            + '</section>')
+
+
+def render_profile(d):
+    m = d["meta"]
+    hdr = d["header"]
+    gate_pw = (m.get("gate") or {}).get("external") or (m.get("gate") or {}).get("view")
+    L = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
+         '<meta name="viewport" content="width=device-width, initial-scale=1">',
+         f'<meta name="robots" content="noindex, nofollow"><title>{E(m.get("doc_title", m["counterpart"] + " · the profile read"))}</title>',
+         f'<style>{PROFILE_CSS}{GATE_CSS if gate_pw else ""}</style>{VERCEL}</head><body>']
+    if gate_pw:
+        L.append('<div id="pw-gate"><div class="pw-label">ARCS &#183; Private Read</div>'
+                 '<input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>')
+    L.append('<div class="page">')
+    up = m.get("uplink")
+    up_html = f'<a class="uplink" href="{E(up["href"])}">&#8593; {E(up["label"])}</a>' if up else ""
+    L.append(f'<div>{up_html}<div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1><div class="sub">{hdr["sub"]}</div></div>')
+    L.append('<div class="rule"></div>')
+    if d.get("caveat"):
+        L.append(f'<div class="cav">{d["caveat"]}</div>')
+
+    def _note(sec):
+        return f'<p class="note">{sec["note"]}</p>' if sec.get("note") else ""
+
+    v = d.get("voice")
+    if v:
+        regs = ""
+        for r in v["registers"]:
+            regs += (f'<div class="reg" style="--ac:{r["ac"]}"><div class="regh"><span class="regn">{r["name"]}</span>'
+                     f'<span class="regalt">{E(r["alt"])}</span></div><p class="regcues">{r["cues"]}</p>'
+                     f'<p class="regq">&ldquo;{r["quote"]}&rdquo;<span class="regsrc">{r.get("source","")}</span></p></div>')
+        chips = "".join(f'<span class="chip">{c}</span>' for c in v.get("chips", []))
+        L.append(f'<section class="mv"><div class="mvk">{v["k"]}</div><h2>{v["h2"]}</h2>'
+                 f'<p class="headline">{v["headline"]}</p><div class="two">{regs}</div>'
+                 + (f'<div class="chips">{chips}</div>' if chips else "") + _note(v) + '</section>')
+
+    al = d.get("altitude")
+    if al:
+        rungs = "".join(f'<div class="rung"><div class="rlvl">{E(r["level"])}</div><div class="rb"><p>{r["body"]}</p>'
+                        + (f'<p class="rt"><b>Trigger:</b> {r["trigger"]}</p>' if r.get("trigger") else "")
+                        + '</div></div>' for r in al["rungs"])
+        L.append(f'<section class="mv"><div class="mvk">{al["k"]}</div><h2>{al["h2"]}</h2>'
+                 + (f'<p class="lede">{al["lede"]}</p>' if al.get("lede") else "")
+                 + f'<div class="ladder">{rungs}</div>' + _note(al) + '</section>')
+
+    rm = d.get("resonance")
+    if rm:
+        lands = "".join(f"<li>{x}</li>" for x in rm["lands"])
+        loses = "".join(f"<li>{x}</li>" for x in rm["loses"])
+        L.append(f'<section class="mv"><div class="mvk">{rm["k"]}</div><h2>{rm["h2"]}</h2><div class="rmap">'
+                 f'<div class="rcol l"><div class="rmk">&#9650; LANDS</div><ul>{lands}</ul></div>'
+                 f'<div class="rcol x"><div class="rmk">&#9660; LOSES YOU</div><ul>{loses}</ul></div></div></section>')
+
+    ev = d.get("evidence")
+    if ev:
+        cards = "".join(f'<div class="scard"><div class="sh">{E(s["h"])}</div><p>{s["p"]}</p></div>' for s in ev.get("sources", []))
+        groups = ""
+        for g in ev.get("groups", []):
+            gchips = "".join(f'<span class="chip">{c}</span>' for c in g["chips"])
+            groups += f'<div class="csub">{E(g["label"])}</div><div class="chips" style="margin-top:0">{gchips}</div>'
+        L.append(f'<section class="mv"><div class="mvk">{ev["k"]}</div><h2>{ev["h2"]}</h2>'
+                 + (f'<p class="lede">{ev["lede"]}</p>' if ev.get("lede") else "")
+                 + (f'<div class="scards">{cards}</div>' if cards else "") + groups + _note(ev) + '</section>')
+
+    qs = d.get("quiet_signals")
+    if qs:
+        cards = ""
+        for c in qs["cards"]:
+            cards += (f'<div class="qcard" style="--qc:{c["qc"]}"><div class="qtag">{E(c["tag"])}</div>'
+                      f'<div class="qh">{c["headline"]}</div><p>{c["body"]}</p>'
+                      f'<p class="qso"><b>so</b>{c["so"]}</p></div>')
+        L.append(f'<section class="mv"><div class="mvk">{qs["k"]}</div><h2>{qs["h2"]}</h2>'
+                 + (f'<p class="lede">{qs["lede"]}</p>' if qs.get("lede") else "")
+                 + f'<div class="qgrid">{cards}</div></section>')
+
+    lp = d.get("loop")
+    if lp:
+        steps = ""
+        for i, s in enumerate(lp["steps"], 1):
+            link = f' &middot; <a href="{E(s["link"])}" target="_blank" rel="noopener">open &#8599;</a>' if s.get("link") else ""
+            steps += (f'<div class="stg"><div class="stn">{i}</div><div class="stb"><div class="sts">{s["title"]}</div>'
+                      f'<p>{s["body"]}{link}</p></div></div>')
+        L.append(f'<section class="mv"><div class="mvk">{lp["k"]}</div><h2>{lp["h2"]}</h2>'
+                 + (f'<p class="lede">{lp["lede"]}</p>' if lp.get("lede") else "")
+                 + steps + (f'<p class="close" style="margin-top:16px">{lp["close"]}</p>' if lp.get("close") else "") + '</section>')
+
+    # bottom resolution flag only if no top caveat carried it (avoid duplicate)
+    if not d.get("caveat"):
+        L.append(_resolution_flag(m.get("resolution")))
+    if d.get("close"):
+        L.append(f'<p class="close">{d["close"]}</p>')
+    L.append(f'<div class="foot">{d.get("foot", "ARCS &middot; THE PROFILE READ &middot; STEP ONE OF THE LOOP")}</div>')
+    L.append('</div>')
+    if gate_pw:
+        key = f'{m["report_id"]}-view-auth'
+        L.append("<script>(function(){var K='" + key + "',P='" + gate_pw + "';"
+                 "if(sessionStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}"
+                 "var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;"
+                 "if(i.value.toLowerCase()===P){sessionStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}"
+                 "else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>")
+    L.append("<script>document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^=\"http\"]');if(a&&window.va){try{va('event',{name:'profile_click',data:{to:a.hostname}});}catch(_){}}});</script>")
+    L.append('</body></html>')
+    return "".join(L)
+
+
+# ===========================================================================
+# CODEX SURFACE  (blueprint sec 9: robin-codex = THE RECOIL, dual-tab)
+# Two views of one thing: The Read (game-day tape -- the line, vibe/veer, the
+# offer, on the counterpart's own calls) + The Instrument (how the read is made,
+# run on Zach's OWN tape, not theirs). Canonical tokens. Extended #tip (5-field
+# stated-vs-revealed payload). N-call adaptive: single-call renders one spark.
+# ===========================================================================
+# extended tooltip (stated vs revealed) -- the codex spark variant of #tip.
+TIP_CSS_EXT = (".hit{cursor:pointer}"
+    "#tip{position:fixed;z-index:80;max-width:min(300px,88vw);pointer-events:none;opacity:0;transition:opacity .12s;"
+    "background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;padding:12px 14px;box-shadow:0 8px 30px rgba(0,0,0,.55)}"
+    "#tip.on{opacity:1}"
+    "#tip .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,#94a3b8);display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}"
+    "#tip .tq{font-size:13px;font-style:italic;color:var(--text);line-height:1.45;margin-bottom:10px}"
+    "#tip .tr{display:grid;grid-template-columns:58px 1fr;gap:8px;font-size:11.5px;line-height:1.4;margin-top:5px}"
+    "#tip .trk{font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--dimmed);padding-top:1px}"
+    "#tip .trv{color:var(--muted)}"
+    "#tip .gap{margin-top:9px;padding-top:8px;border-top:1px solid #1e293b;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--tc,#94a3b8)}"
+    "@media(hover:none){.hit{cursor:default}}")
+
+TIP_JS_EXT = ("(function(){var tip=document.getElementById('tip');if(!tip)return;"
+    "function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}"
+    "function show(el,e){var c=el.getAttribute('data-c')||'#94a3b8';tip.style.setProperty('--tc',c);"
+    "tip.innerHTML='<div class=\"tt\"><span>'+esc(el.getAttribute('data-t'))+'</span><span style=\"color:'+c+'\">'+esc(el.getAttribute('data-ph'))+'</span></div>'"
+    "+'<div class=\"tq\">&ldquo;'+esc(el.getAttribute('data-q'))+'&rdquo;</div>'"
+    "+'<div class=\"tr\"><span class=\"trk\">My move</span><span class=\"trv\">'+esc(el.getAttribute('data-s'))+'</span></div>'"
+    "+'<div class=\"tr\"><span class=\"trk\">How it landed</span><span class=\"trv\">'+esc(el.getAttribute('data-r'))+'</span></div>'"
+    "+'<div class=\"gap\">'+esc(el.getAttribute('data-g'))+'</div>';"
+    "tip.classList.add('on');move(e);}"
+    "function move(e){var w=tip.offsetWidth,h=tip.offsetHeight,x=e.clientX+16,y=e.clientY+16;if(x+w>window.innerWidth-8)x=e.clientX-w-16;if(y+h>window.innerHeight-8)y=e.clientY-h-16;tip.style.left=x+'px';tip.style.top=y+'px';}"
+    "function hide(){tip.classList.remove('on');}"
+    "document.querySelectorAll('[data-tip]').forEach(function(el){"
+    "el.addEventListener('mouseenter',function(e){show(el,e);});el.addEventListener('mousemove',move);el.addEventListener('mouseleave',hide);"
+    "el.addEventListener('click',function(e){e.stopPropagation();var r=el.getBoundingClientRect();show(el,{clientX:r.left+r.width/2,clientY:r.top+r.height/2});});});"
+    "document.addEventListener('click',hide);})();")
+
+# phase -> colors. Solid for the tag/label (--pc), alpha for the compliant full
+# border (--pcb) -- the codex beat's old border-left:3px side-tab, made craft-floor clean.
+PHASE_HEX = {"in_sync": "#FFD700", "human": "#00F0FF", "push": "#00FF9D", "out": "#FF4D6D"}
+PHASE_TAG = {"in_sync": "var(--gold)", "human": "var(--cyan)", "push": "var(--green)", "out": "var(--red)"}
+PHASE_BORDER = {"in_sync": "rgba(255,215,0,.30)", "human": "rgba(0,240,255,.30)", "push": "rgba(0,255,157,.30)", "out": "rgba(255,77,109,.30)"}
+
+CODEX_CSS = TOKENS + """
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);padding:40px 24px 96px;line-height:1.62}
+.page{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
+h1{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-height:1.2;font-family:var(--display)}
+.sub{font-size:14.5px;color:var(--muted);margin-top:10px;line-height:1.6}.sub strong{color:var(--text);font-weight:600}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:.3;margin:2px 0}
+.uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;margin-bottom:2px}.uplink:hover{color:var(--cyan)}
+.tabs{display:flex;gap:6px;margin:4px 0 2px}
+.tabs button{flex:1;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed);background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px 10px;cursor:pointer;transition:color .15s,border-color .15s,background .15s;line-height:1.3}
+.tabs button .th{display:block;font-size:9px;letter-spacing:.14em;color:var(--dimmed);margin-bottom:3px}
+.tabs button.active{color:var(--text);border-color:rgba(0,240,255,.4);background:rgba(0,240,255,.06)}
+.tabs button.active .th{color:var(--cyan)}
+.tabpane{display:none;flex-direction:column;gap:18px}.tabpane.on{display:flex}
+.subnav{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 0}
+.subnav a{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;padding:6px 10px;border-radius:6px;border:1px solid transparent;cursor:pointer;transition:color .15s,border-color .15s,background .15s}
+.subnav a:hover{color:var(--text);border-color:var(--border)}
+.subnav a .nt{color:var(--dimmed)}.subnav a.read{border-color:rgba(255,215,0,.18)}.subnav a.hood{border-color:rgba(0,240,255,.16)}
+.scroll-margin{scroll-margin-top:14px}
+.readnote{font-size:13px;line-height:1.55;color:var(--muted);background:var(--gold-bg);border:1px solid rgba(255,215,0,.22);border-radius:10px;padding:12px 15px}
+.readnote strong{color:var(--text);font-weight:600}
+.shl{font-size:18px;font-weight:700;letter-spacing:-.01em;color:var(--text);margin:6px 2px 0;line-height:1.25}
+.lede{font-size:14.5px;color:var(--muted);margin:6px 2px 0;line-height:1.52}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-top:10px}
+.card h3{font-size:12px;font-family:var(--mono);font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.card p{font-size:14.5px;color:var(--text);margin-bottom:10px}.card p:last-child{margin-bottom:0}.card strong{font-weight:600}
+.said{margin-top:14px;padding:12px 15px;background:var(--cyan-bg);border:1px solid rgba(0,240,255,.2);border-radius:8px}
+.said.you{background:rgba(148,163,184,.06);border-color:rgba(148,163,184,.25)}
+.said .qk{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:5px}
+.said.you .qk{color:var(--muted)}
+.said .qv{font-size:14px;line-height:1.5;color:var(--text);font-style:italic}
+ul.plain{list-style:none;display:flex;flex-direction:column;gap:11px;margin-top:4px}
+ul.plain li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.55}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:7px}
+.spark-wrap{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px 16px 10px;margin-top:12px}
+.spark-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:2px}
+.spark-h .sn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--text)}
+.spark-h .sv{font-family:var(--mono);font-size:9.5px;color:var(--gold)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin:10px 2px 0}
+.lgi{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--dimmed)}
+.lgd{width:8px;height:8px;border-radius:50%;flex:none}
+.beat{border:1px solid var(--pcb,var(--border));background:var(--surface);border-radius:9px;padding:13px 15px;margin-top:9px}
+.bph{font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;font-weight:700;color:var(--pc);margin-bottom:8px}
+.bqp{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:baseline;margin-bottom:5px}
+.bql{font-family:var(--mono);font-size:8px;letter-spacing:.08em;color:var(--dimmed)}
+.bqp p{font-size:13.5px;color:var(--text);line-height:1.48;font-style:italic}
+.bread{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);line-height:1.55}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+@media(max-width:560px){.two{grid-template-columns:1fr}.bqp{grid-template-columns:1fr;gap:2px}}
+.mini{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.mini h4{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.mini p{font-size:13px;line-height:1.55;color:var(--text)}
+.fence{border-color:rgba(255,215,0,.3);background:var(--gold-bg)}.fence h3{color:var(--gold)}
+.offer{border-color:rgba(0,255,157,.3);background:var(--green-bg)}.offer h3{color:var(--green)}
+.ladder{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.lrung{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:baseline;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:11px 14px}
+.lrk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--green)}
+.lrung p{font-size:13px;color:var(--text);line-height:1.5}
+@media(max-width:560px){.lrung{grid-template-columns:1fr;gap:3px}}
+.foot{font-size:13px;color:var(--muted);text-align:center;padding-top:10px;line-height:1.6}
+.stamp{text-align:center;margin-top:6px;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--dimmed)}
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+.sub,.said .qv,.bqp p,.bread,.card p,.mini p,.beat p,.readnote,.lrung p,.bqp .bql{overflow-wrap:anywhere}
+@media(max-width:820px){.page{max-width:100%}}
+@media(max-width:680px){.two{grid-template-columns:1fr}}
+@media(max-width:560px){body{padding:32px 16px 80px}.tabs{flex-direction:column}.tabs button{padding:12px 14px}.subnav{gap:4px}.said{padding:11px 13px}}
+"""
+
+
+def _spark_svg(sp):
+    """Compute a call-arc spark from points[{phase, v(0..100), r?, tip:{t,ph,q,s,r,g}}].
+    Deterministic geometry; each point carries the extended stated-vs-revealed #tip payload."""
+    pts = sp["points"]
+    n = len(pts)
+    W, H, base, top = 640, 96, 76, 16
+    xs = [14 + (W - 28) * (i / (n - 1)) for i in range(n)]
+    ys = [base - (float(p.get("v", 50)) / 100.0) * (base - top) for p in pts]
+    path = "M" + " L".join(f"{xs[i]:.0f},{ys[i]:.0f}" for i in range(n))
+    dots, hits = "", ""
+    for i, p in enumerate(pts):
+        c = PHASE_HEX.get(p.get("phase", "human"), "#94a3b8")
+        r = p.get("r", 5.5)
+        dots += f'<circle cx="{xs[i]:.0f}" cy="{ys[i]:.0f}" r="{r}" fill="{c}" stroke="#020408" stroke-width="1.5"/>'
+        t = p.get("tip", {})
+        hits += (f'<circle class="hit" cx="{xs[i]:.0f}" cy="{ys[i]:.0f}" r="16" fill="transparent" data-tip data-c="{c}" '
+                 f'data-t="{A(t.get("t",""))}" data-ph="{A(t.get("ph",""))}" data-q="{A(t.get("q",""))}" '
+                 f'data-s="{A(t.get("s",""))}" data-r="{A(t.get("r",""))}" data-g="{A(t.get("g",""))}"/>')
+    return (f'<div class="spark-wrap"><div class="spark-h"><span class="sn">{sp["name"]}</span>'
+            f'<span class="sv">{sp.get("note","")}</span></div>'
+            f'<svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="{A(sp.get("name",""))} arc">'
+            f'<line x1="14" y1="{base}" x2="{W-14}" y2="{base}" stroke="#1e293b" stroke-width="1"/>'
+            f'<path d="{path}" fill="none" stroke="#33415580" stroke-width="1.5" stroke-linejoin="round"/>'
+            f'{dots}{hits}</svg></div>')
+
+
+def _codex_read_block(b):
+    t = b["type"]
+    idattr = f' id="{b["id"]}"' if b.get("id") else ""
+    scm = " scroll-margin" if b.get("id") else ""
+    if t == "readnote":
+        return f'<div class="readnote{scm}"{idattr}>{b["html"]}</div>'
+    if t == "line":
+        s = b["said"]
+        cls = "said you" if s.get("speaker") == "you" else "said"
+        pb = f'<p>{b["p_before"]}</p>' if b.get("p_before") else ""
+        pa = f'<p style="margin-top:12px;">{b["p_after"]}</p>' if b.get("p_after") else ""
+        h3c = f' style="color:{b["h3color"]};"' if b.get("h3color") else ""
+        return (f'<div class="card{scm}"{idattr}><h3{h3c}>{b["h3"]}</h3>{pb}'
+                f'<div class="{cls}"><div class="qk">{s["qk"]}</div><div class="qv">"{s["qv"]}"</div></div>{pa}</div>')
+    if t == "legend":
+        items = "".join(f'<span class="lgi"><span class="lgd" style="background:{i["color"]};"></span>{i["label"]}</span>' for i in b["items"])
+        return f'<div class="legend{scm}"{idattr}>{items}</div>'
+    if t == "spark":
+        return _spark_svg(b)
+    if t == "beat":
+        ph = b.get("phase", "human")
+        pc, pcb = PHASE_TAG.get(ph, "var(--cyan)"), PHASE_BORDER.get(ph, "var(--border)")
+        pairs = "".join(f'<div class="bqp"><span class="bql">{p["who"]}</span><p>{p["text"]}</p></div>' for p in b["pairs"])
+        bread = f'<p class="bread">{b["bread"]}</p>' if b.get("bread") else ""
+        return f'<div class="beat" style="--pc:{pc};--pcb:{pcb}"><div class="bph">{b["bph"]}</div>{pairs}{bread}</div>'
+    if t == "offer":
+        s = b.get("said")
+        said = ""
+        if s:
+            cls = "said you" if s.get("speaker") == "you" else "said"
+            said = f'<div class="{cls}"><div class="qk">{s["qk"]}</div><div class="qv">"{s["qv"]}"</div></div>'
+        pb = f'<p>{b["p_before"]}</p>' if b.get("p_before") else ""
+        pa = f'<p style="margin-top:12px;">{b["p_mid"]}</p>' if b.get("p_mid") else ""
+        ladder = "".join(f'<div class="lrung"><span class="lrk">{r["k"]}</span><p>{r["p"]}</p></div>' for r in b.get("ladder", []))
+        pc = f'<p style="margin-top:14px;">{b["p_close"]}</p>' if b.get("p_close") else ""
+        return (f'<div class="card offer{scm}"{idattr}><h3>{b["h3"]}</h3>{pb}{said}{pa}'
+                f'<div class="ladder">{ladder}</div>{pc}</div>')
+    return ""
+
+
+def _codex_hood_block(b):
+    t = b["type"]
+    idattr = f' id="{b["id"]}"' if b.get("id") else ""
+    scm = " scroll-margin" if b.get("id") else ""
+    fence = " fence" if b.get("fence") else ""
+    h3c = f' style="color:{b["h3color"]};"' if b.get("h3color") else ""
+    if t == "card":
+        ps = "".join(f'<p>{p}</p>' for p in b["ps"])
+        return f'<div class="card{fence}{scm}"{idattr}><h3{h3c}>{b["h3"]}</h3>{ps}</div>'
+    if t == "states":
+        minis = "".join(f'<div class="mini"><h4 style="color:{mm["color"]};">{mm["h4"]}</h4><p>{mm["p"]}</p></div>' for mm in b["minis"])
+        pa = f'<p style="margin-top:14px;">{b["p_after"]}</p>' if b.get("p_after") else ""
+        return f'<div class="card"><h3{h3c}>{b["h3"]}</h3><div class="two">{minis}</div>{pa}</div>'
+    if t == "checks":
+        items = "".join(f'<li><span class="dot"></span><div><strong>{i["strong"]}</strong> {i["rest"]}</div></li>' for i in b["items"])
+        intro = f'<p>{b["p_intro"]}</p>' if b.get("p_intro") else ""
+        return f'<div class="card{scm}"{idattr}><h3{h3c}>{b["h3"]}</h3>{intro}<ul class="plain">{items}</ul></div>'
+    return ""
+
+
+def render_codex(d):
+    m = d["meta"]
+    hdr = d["header"]
+    gate_pw = (m.get("gate") or {}).get("external") or (m.get("gate") or {}).get("view")
+    subs = "".join(f'<p class="sub">{s}</p>' for s in hdr.get("subs", []))
+    L = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">',
+         '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+         f'<meta name="robots" content="noindex, nofollow"><title>{E(m.get("doc_title", m["counterpart"] + " · the codex"))}</title>',
+         f'<style>{CODEX_CSS}{TIP_CSS_EXT}{GATE_CSS if gate_pw else ""}</style>{VERCEL}</head><body>']
+    if gate_pw:
+        L.append('<div id="pw-gate"><div class="pw-label">ARCS &#183; Private Codex</div>'
+                 '<input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>')
+    L.append('<div class="page"><div>')
+    up = m.get("uplink")
+    if up:
+        L.append(f'<a class="uplink" href="{E(up["href"])}">&#8593; {E(up["label"])}</a>')
+    L.append(f'<div class="eyebrow">{hdr["eyebrow"]}</div><h1>{hdr["title"]}</h1>{subs}</div><div class="rule"></div>')
+    tb = d["tabs"]
+    L.append(f'<div class="tabs"><button id="tab-read" class="active" onclick="showTab(\'read\')">'
+             f'<span class="th">{tb["read_th"]}</span>{tb["read_label"]}</button>'
+             f'<button id="tab-hood" onclick="showTab(\'hood\')">'
+             f'<span class="th">{tb["hood_th"]}</span>{tb["hood_label"]}</button></div>')
+    if d.get("subnav"):
+        links = "".join(f'<a class="{l["side"]}" data-tab="{"read" if l["side"]=="read" else "hood"}" data-to="{A(l["to"])}">'
+                        f'<span class="nt">{l["nt"]}</span> {l["label"]}</a>' for l in d["subnav"])
+        L.append(f'<nav class="subnav">{links}</nav>')
+    L.append('<div id="pane-read" class="tabpane on">')
+    for b in d["read"]:
+        L.append(_codex_read_block(b))
+    L.append('</div><div id="pane-hood" class="tabpane">')
+    for b in d["hood"]:
+        L.append(_codex_hood_block(b))
+    L.append('</div>')
+    L.append(f'<div class="foot">{d.get("foot","")}</div>')
+    if d.get("stamp"):
+        L.append(f'<div class="stamp">{d["stamp"]}</div>')
+    L.append('</div><div id="tip"></div><script>')
+    L.append("function showTab(t){document.getElementById('pane-read').classList.toggle('on',t==='read');"
+             "document.getElementById('pane-hood').classList.toggle('on',t==='hood');"
+             "document.getElementById('tab-read').classList.toggle('active',t==='read');"
+             "document.getElementById('tab-hood').classList.toggle('active',t==='hood');"
+             "try{history.replaceState(null,'',t==='read'?'#read':'#instrument');}catch(e){}"
+             "try{if(window.va)va('event',{name:'codex_tab',data:{tab:t}});}catch(e){}"
+             "window.scrollTo({top:0,behavior:'smooth'});}"
+             "(function(){var h=(location.hash||'').toLowerCase();showTab(h==='#instrument'?'hood':'read');})();")
+    if gate_pw:
+        key = f'{m["report_id"]}-view-auth'
+        L.append("(function(){var K='" + key + "',P='" + gate_pw + "';"
+                 "if(localStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}"
+                 "var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;"
+                 "if(i.value.toLowerCase()===P){localStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}"
+                 "else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();")
+    L.append(TIP_JS_EXT)
+    L.append("(function(){document.querySelectorAll('.subnav a').forEach(function(a){a.addEventListener('click',function(){"
+             "if(typeof showTab==='function')showTab(a.getAttribute('data-tab'));"
+             "var t=document.getElementById(a.getAttribute('data-to'));if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'});},60);});});})();")
+    L.append('</script></body></html>')
+    return "".join(L)
+
+
+SURFACES = {"receipt": render_receipt, "profile": render_profile, "codex": render_codex}
 
 
 # ===========================================================================
@@ -409,18 +863,27 @@ def honesty_and_attribution(ssot):
     findings = []
     m = ssot.get("meta", {})
     cp = m.get("counterpart", "")
-    # every net-new signal must carry a verbatim quote (grounding, not fabrication)
-    for nn in ssot.get("close", {}).get("net_new", []):
-        if not nn.get("quote", "").strip():
-            findings.append(("FAIL", "honesty", f"net-new signal {nn.get('signal','?')!r} has no verbatim quote -- ungrounded assertion"))
-    # scorecard rows need both predicted and observed
-    for r in ssot.get("close", {}).get("scorecard", []):
-        if not r.get("observed", "").strip():
-            findings.append(("FAIL", "honesty", f"scorecard row {r.get('predicted','?')[:40]!r} has no observed outcome"))
-    # honesty gate: if the SSOT flags low resolution but no gaps are declared, fail
-    if m.get("resolution", {}).get("level") in ("low", "public-only") and not ssot.get("resolution_gaps"):
+    # receipt-shaped checks only apply when close is the receipt close-block.
+    close = ssot.get("close")
+    if isinstance(close, dict):
+        # every net-new signal must carry a verbatim quote (grounding, not fabrication)
+        for nn in close.get("net_new", []):
+            if not nn.get("quote", "").strip():
+                findings.append(("FAIL", "honesty", f"net-new signal {nn.get('signal','?')!r} has no verbatim quote -- ungrounded assertion"))
+        # scorecard rows need both predicted and observed
+        for r in close.get("scorecard", []):
+            if not r.get("observed", "").strip():
+                findings.append(("FAIL", "honesty", f"scorecard row {r.get('predicted','?')[:40]!r} has no observed outcome"))
+    # honesty gate: if the SSOT flags low resolution it must name the enrichment
+    # inputs -- either a top-level resolution_gaps (receipt) or
+    # meta.resolution.dial_up_inputs (profile). A bare low-res claim with no
+    # inputs named is a hidden gap, which fails (blueprint sec 11).
+    lvl = (m.get("resolution", {}).get("level") or "").lower()
+    is_low = bool(lvl) and not lvl.startswith(("full", "high"))
+    has_inputs = bool(ssot.get("resolution_gaps")) or bool(m.get("resolution", {}).get("dial_up_inputs"))
+    if is_low and not has_inputs:
         findings.append(("FAIL", "honesty",
-            "meta.resolution is low/public-only but no resolution_gaps declared -- must emit "
+            f"meta.resolution is '{lvl}' but no enrichment inputs named -- must emit "
             "'additional enrichment source inputs required' with the specific inputs (blueprint sec 11)"))
     # attribution: counterpart name must be present (a receipt with no subject is a smell)
     if not cp:

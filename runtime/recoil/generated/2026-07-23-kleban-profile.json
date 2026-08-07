@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "report_id": "2026-07-23-kleban-profile",
+    "counterpart": "Yuri Kleban",
+    "company": "Google / Alphabet",
+    "doc_title": "Yuri · the profile read",
+    "uplink": {"href": "https://yuri.arcs.care", "label": "the studio"},
+    "resolution": {
+      "level": "low — public LinkedIn + one call only",
+      "caveat": "public-only scan; no public corpus of talks/podcasts/writing to tune on",
+      "dial_up_inputs": ["GitHub (what he actually builds vs describes)", "X / @yurikleban (real-time interests)", "personal site / blog / Substack (stated thesis in his words)", "Crunchbase / AngelList (the investing side)"]
+    },
+    "gate": {"external": "yuri"}
+  },
+  "header": {
+    "eyebrow": "Yuri &middot; the profile read",
+    "title": "How I read you, so I could meet you where you are.",
+    "sub": "Before we spoke, I read your public voice and tuned everything to it. This is that read, and it is why the rest of the studio lands in your register. It is also the most honest one to start with, because it names exactly how much it can and cannot see."
+  },
+  "caveat": "<b>Resolution: low, and I will not pretend otherwise.</b> I read your public LinkedIn, ran a web scan, and used our call. The scan confirmed there is no public corpus of talks, podcasts, or writing to tune on, unlike some reads I build. So this is grounded in your career arc, your own words on our call, and your public affiliations, and it says out loud where it is inference. A GitHub, your X (@yurikleban), or anything you write would raise it fast. Only with your OK.",
+  "voice": {
+    "k": "01 &middot; the arc",
+    "h2": "A storyteller who taught himself to build.",
+    "headline": "Advertising and film, then self-taught engineer, then the person who builds the tools that brief the execs.",
+    "registers": [
+      {"name": "The builder", "alt": "GROUNDED", "ac": "#00FF9D",
+       "cues": "BS in advertising and a filmmaker, then self-taught engineer at Google, then PM &middot; internal tools that empower teams &middot; productivity per person, $ per rep, CSAT",
+       "quote": "We take first party and third party data and stitch it together into briefs for execs before they meet people.", "source": "Our call &middot; Jul 23"},
+      {"name": "The connector", "alt": "GROUNDED", "ac": "#FFD700",
+       "cues": "growth-hacker and advisor to six-plus startups, no percentage &middot; &ldquo;please reach out if that&rsquo;s you&rdquo; &middot; trilingual global bridge &middot; family, foodie, future-of-food",
+       "quote": "Be selfish. What would get you to the next step. I want to help move you forward.", "source": "Our call &middot; Jul 23"}
+    ],
+    "chips": ["tools for the partnerships org across Alphabet", "automated the Sundar brief, 2020", "grew the Advertiser Community in 10 languages", "native Hebrew, English, Russian", "Agentum, agents for productivity", "model-agnostic, Claude or other LLMs", "Venture Partner, Purpose Built", "Cultured Meat Symposium, 8 years", "new dad, foodie"],
+    "note": "<b>Inference, flagged:</b> I read the storyteller-to-builder arc as the through-line, and consent-first as a value, from your career and one call. Both are reads, not things you said in those words. The facts above are yours; the shape is mine."
+  },
+  "altitude": {
+    "k": "02 &middot; adaptive altitude",
+    "h2": "Meet you as the practitioner, climb to the org.",
+    "lede": "You move across the whole range fluently, because you have actually sat at each height, and on our call you moved through all of them in one conversation. The read, from that call and your career: meet you as the builder who already proved this, not explain the value back to the person who invented it.",
+    "rungs": [
+      {"level": "SURGICAL, the pipeline", "body": "You built the stitching yourself: first and third party data into a brief, with data science before there was AI", "trigger": "a concrete mechanism, jobs-to-be-done, the actual data model"},
+      {"level": "STRATEGIC, the team", "body": "You run the twenty-person org that builds the tools for the whole partnerships function", "trigger": "how it scales, the portfolio, the roll-up across business units"},
+      {"level": "EXEC, the brief", "body": "You brief Sundar-level readers; the Demis pre-meeting brief is your live example", "trigger": "the five bullets, the one-way door, what the office of the CEO actually reads"},
+      {"level": "GLOBAL, across languages", "body": "You grew the Advertiser Community in ten languages, and you are native in three. Translating context across regions is literally your background, not a metaphor", "trigger": "the same lossless translation this engine runs across altitudes, applied across Google&rsquo;s regions and languages"}
+    ],
+    "note": "<b>Source:</b> this read leans on the forensic recoil of our call, the reverse-listening pass, more than on the resume. The resume gave the arc; the call gave the register."
+  },
+  "resonance": {
+    "k": "03 &middot; what lands, what loses you",
+    "h2": "The resonance map.",
+    "lands": [
+      "The real before and after, concrete on our actual call, not the theory",
+      "Model-agnostic, runs on Gemini, nothing leaves Google, you own the file",
+      "Consent-first, provenance clean, honest about stated versus revealed preference",
+      "Agent-loop framing, one human steering, the shape you are building with Agentum",
+      "Your own examples reflected back, Sundar and Demis, in your words"
+    ],
+    "loses": [
+      "Abstract theory or a coherence engine with no concrete output",
+      "A pitch or an ask when you have signalled nothing-to-sell",
+      "Any story where data leaves Google or a vendor locks you in",
+      "Anything that asks you to cross the line on non-public information",
+      "Over-pursuit; being pushed rather than invited"
+    ]
+  },
+  "evidence": {
+    "k": "04 &middot; the evidence",
+    "h2": "Tuned on two sources, and honest about it.",
+    "lede": "Robin&rsquo;s read had a whole library: site, podcasts, talks, a book. Yours has two sources, and the read says so out loud rather than pretending to more.",
+    "sources": [
+      {"h": "Your public LinkedIn", "p": "15 years at Google, Ads to Cloud to Partnerships, the internal-tools thread"},
+      {"h": "Our call, Jul 23", "p": "recorded with your OK, the ground truth for every read here"},
+      {"h": "Agentum + DMs", "p": "theagentum.com and our LinkedIn exchange, the newest signal"}
+    ],
+    "note": "To dial the resolution up: GitHub for what you actually build, X for real-time interests, a personal site or Crunchbase for the investing side. Each independent source raises confidence. Consent-first, only if you want."
+  },
+  "quiet_signals": {
+    "k": "05 &middot; the quiet signals",
+    "h2": "What the surface does not say.",
+    "lede": "Anyone can read your resume. These are the deeper tells, computed from the pattern across your own words. This is the engine deriving meaning, not amplifying signal.",
+    "cards": [
+      {"tag": "Practitioner, not fan", "qc": "#00FF9D", "headline": "You built this five years early, by hand.", "body": "You automated the Sundar brief with data science before there was AI. Your curiosity is a builder&rsquo;s, not an admirer&rsquo;s. You are not evaluating whether the thesis is real; you proved it.", "so": "Meet you as a peer who lived it. Never explain the value you already shipped."},
+      {"tag": "Model-agnostic is identity", "qc": "#00F0FF", "headline": "Lock-in is the thing you design against.", "body": "Agentum runs on Claude or other LLMs. That is not a spec line, it is a value. A single-vendor story reads to you as a trap.", "so": "Lead with runs-on-Gemini, nothing leaves Google. That is the deal-maker, not a footnote."},
+      {"tag": "Consent is a gating value", "qc": "#FFD700", "headline": "Data ethics sits at the identity level.", "body": "&ldquo;You&rsquo;re doing the right thing.&rdquo; Your parents read every terms-and-conditions. Consent-first is not a feature to you, it is table stakes.", "so": "A data-egress story ends the conversation. Provenance-clean and opt-in is the price of entry."},
+      {"tag": "The connector economy", "qc": "#ff9d3c", "headline": "You give intros with no percentage, no ask.", "body": "Reciprocity is your currency, not equity. You connect people and take nothing, because the value is the connection.", "so": "Your help is real and freely given. Honor it as a gift; do not try to transact it."},
+      {"tag": "Pull, not push", "qc": "#94a3b8", "headline": "You open the door; you are not pushed through it.", "body": "&ldquo;Be selfish, what would get you to the next step.&rdquo; You invite the next move rather than being sold on it. You gave nothing-to-sell energy and meant it.", "so": "Let you name the next step. Over-pursuit reads as not listening."}
+    ]
+  },
+  "loop": {
+    "k": "06 &middot; the whole loop",
+    "h2": "The whole loop, and where each piece lives.",
+    "lede": "This profile read is step one. The rest of the loop is already built. Every stage points to something you can open.",
+    "steps": [
+      {"title": "Profile the person", "body": "this page: your voice, your registers, your altitude"},
+      {"title": "Profile the situation", "body": "the call and what was at stake"},
+      {"title": "File the bet, before", "body": "the ex-ante receipt on our call", "link": "https://yuri-receipt.arcs.care"},
+      {"title": "Recoil the live call", "body": "replay it moment by moment", "link": "https://yuri-recoil.arcs.care"},
+      {"title": "Score expected vs actual, update beliefs", "body": "the receipt close, before and after", "link": "https://yuri-receipt.arcs.care"},
+      {"title": "Scale it across the org", "body": "one decision, five altitudes, the cabinet", "link": "https://yuri-codex.arcs.care"},
+      {"title": "Run it on yourself, regrade me", "body": "every read, and how sure I am", "link": "https://yuri-demo.arcs.care"}
+    ],
+    "close": "That is the whole engine. Profile, bet, recoil, score, update, scale, repeat."
+  },
+  "close": "Two registers, one person, read from public signal alone. The whole studio is just this read, applied: meet you as the builder who proved it, in your words, and let you be the one to take it further.",
+  "foot": "ARCS &middot; THE PROFILE READ &middot; STEP ONE OF THE LOOP &middot; PUBLIC SIGNAL ONLY"
+}
