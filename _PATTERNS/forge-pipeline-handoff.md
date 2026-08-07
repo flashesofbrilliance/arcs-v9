@@ -3,32 +3,36 @@
 _2026-08-07. Start here for the fresh session that builds and runs the parameterized/componentized
 counterpart forge with args / depts / runtime configs._
 
-## STATUS (updated 2026-08-07, later session) — 3 of 4 surfaces shipped
+## STATUS (updated 2026-08-07, later session) — ALL 4 surfaces shipped + live
 
-`scripts/forge_counterpart.py` is live and gate-hardened. Shipped + deployed (canonical tokens,
-0 em-dash, 0 side-tab, detector-clean, honesty+attribution gates that refuse to write on FAIL):
-- **receipt** (`--surface receipt`): robin-receipt (trued off omakase) + yuri-receipt (acceptance:
-  ex-ante `kleban.json` scored vs `kleban-recoil.json`, single-call, leads with the belief-flip). LIVE.
-- **profile** (`--surface profile`): robin-profile (side-tab fixed) + yuri-profile (public-only caveat
-  + dial-up inputs honesty flag; loop re-tiered to point at yuri-receipt). LIVE.
+`scripts/forge_counterpart.py` is live and gate-hardened. All 4 surfaces shipped + deployed (canonical
+tokens, 0 em-dash, 0 side-tab, 0 dark-glow, detector-clean, honesty+attribution gates that refuse to
+write on FAIL):
+- **receipt** (`--surface receipt`): robin-receipt (trued off omakase; waveform uses the canonical #tip,
+  not native <title>) + yuri-receipt (acceptance: ex-ante `kleban.json` scored vs `kleban-recoil.json`,
+  single-call, belief-flip). LIVE.
+- **profile** (`--surface profile`): robin-profile + yuri-profile (public-only caveat + dial-up honesty
+  flag; loop re-tiered to yuri-receipt). LIVE.
 - **codex** (`--surface codex`): dual-tab Read+Instrument, extended 5-field #tip, computed spark arcs,
-  phase-color-coded beats. robin-codex regenerated onto canon (side-tabs fixed). LIVE.
-- Companion: `scripts/gen_receipt_close.py` (scaffolds a receipt SSOT from a recoil, grounds every
-  scorecard row in a verbatim belief-update). `.claude/skills/forge/SKILL.md` (`/forge`).
-- SSOTs: `runtime/recoil/generated/2026-08-05-daniels-{receipt,profile,codex}.json` (Robin master)
-  + `2026-07-23-kleban-{receipt,profile}.json` (Yuri).
+  phase-color-coded beats. robin-codex onto canon. LIVE.
+- **onedoor** (`--surface onedoor`): facesnav -> seed -> STORY-led -> how-it-works -> where-it-goes ->
+  how-to-start -> for-the-room. **yuri.html LEADS with the belief-flip story** (fan -> he runs the exact
+  team), clean 3-read triad, gated "yuri". robin.html master cleaned in place (5 side-tabs + LED glow). LIVE.
+- Companion: `scripts/gen_receipt_close.py` + `.claude/skills/forge/SKILL.md` (`/forge`).
+- SSOTs: `runtime/recoil/generated/2026-08-05-daniels-{receipt,profile,codex}.json` (Robin) +
+  `2026-07-23-kleban-{receipt,profile,onedoor}.json` (Yuri).
 
-**REMAINING (the next tranche):**
-1. **one-door** renderer (`robin.html` = 48KB master: faces-nav + SVG manifold w/ #tip + advisory board +
-   download buttons + 7 numbered sections). Then regenerate robin.html and **restructure yuri.html to
-   LEAD with the belief-flip story** (fan -> he runs the exact team), not the loop diagram. The generator's
-   block spine + the base `#tip` (TIP_JS) already exist; this is the largest surface renderer.
-2. **yuri-codex** via the dual-tab renderer (acceptance for codex): Read = the Jul-23 belief-flip beats,
-   Instrument = how the read is made. Then re-tier the existing 5-altitude `yuri-codex` + `yuri-demo` as
-   the DEEPER how-it-scales layer under the clean 3-read triad (profile -> recoil/codex -> receipt).
-3. **Receipt Studio integration** — interactive file/close a receipt: see
+**REMAINING (optional / lower priority):**
+1. **yuri-codex** via the dual-tab renderer (the existing 5-altitude `yuri-codex` + `yuri-demo` are now
+   correctly RE-TIERED as the deeper how-it-scales layer, linked from the one-door, not top-level; the
+   clean triad profile->recoil->receipt is the entry). A dual-tab yuri-codex on the single Jul-23 call is
+   nice-to-have, not blocking.
+2. **Receipt Studio integration** — interactive file/close a receipt: see
    `_PATTERNS/receipt-studio-integration-scope.md` (Robin tenant of the Louisville Studio + reuse; D6 defers
-   RLS to engagement-live). Touches auth+schema -> ciso/sre review before ship.
+   RLS to engagement-live). Touches auth+schema -> ciso/sre review before ship. This is the real next build.
+3. Robin's bespoke one-door blocks (belief-ledger, advisory board, volley quadrants, download-receipt card)
+   are NOT in `render_onedoor` yet — robin.html keeps them hand-authored. Add as optional typed blocks if a
+   counterpart needs them.
 
 Encoders (learned this session): authored prose fields carry HTML entities -> insert RAW; attribute
 values -> `A()` (escapes " and < only, preserves entities); only machine/plain values -> `E()`. Running
