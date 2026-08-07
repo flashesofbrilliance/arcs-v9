@@ -36,13 +36,31 @@ against the CRM safely, without changing anything.
 - We built the knowledge and guardrails the smarter phases will use, and updated your roadmap at prl.arcs.care
   with the business case and what we learned at each stage.
 
-**Kicking off 1.2, pending a few quick approvals**
-The one thing that unlocks the most is a safe way to prove delivery into your CRM: a sandbox copy, or one
-clearly labeled test lead we create and delete together. Alongside that, a short list: your OK to clean up the
-form spam (we would test on the staging copy first), a quick call on the phone field, adding a "Chatbot" lead
-source, recovering those orphaned leads, and reconnecting the enrichment feed.
+**Calls we need you to make (and our recommendation)**
+A couple of these are genuinely yours to decide, so here they are plainly, with what we would recommend.
 
-Give me the green light on the test path and 1.1 goes live within days, with 1.2 right behind it.
+1. Should the chatbot answer detailed specs and certification ratings, or connect people to a specialist for
+   those? Right now it is quoting exact property values and UL ratings straight from your catalog. That looks
+   impressive, but if any value is out of date it becomes a customer-facing error, and stating certification
+   ratings carries the most risk for a manufacturer.
+   - Option A: keep it answering specs, and we verify the data is current, add a safety note on certifications,
+     and clean up the formatting.
+   - Option B, our recommendation: the bot recognizes what someone is asking about and helps, but points the
+     detailed specs and certifications to your specialist and the official data sheet, and captures the lead.
+     Safer for you, and it still gets the right person involved fast.
+
+2. A quick handoff fix, and our recommendation is yes. Right now, when no one is available to chat, a visitor
+   who asks to talk to a person hits a dead end and the conversation simply ends, so that lead is lost. We
+   recommend switching it to collect their details and follow up, so no after-hours lead slips away.
+
+**The go-ahead items from before, whenever you are ready**
+A safe way to prove delivery into your CRM (a sandbox copy, or one clearly labeled test lead we create and
+delete together, which is the big unlock), cleaning up the form spam (we would test on the staging copy first),
+a quick call on the phone field, adding a "Chatbot" lead source, recovering those orphaned leads, and
+reconnecting the enrichment feed.
+
+Give me the green light on the test path and the two calls above, and 1.1 goes live within days, with 1.2 right
+behind it.
 
 With gratitude,
 Zach
