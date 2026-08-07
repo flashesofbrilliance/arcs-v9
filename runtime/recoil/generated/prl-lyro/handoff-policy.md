@@ -3,6 +3,15 @@ _2026-08-07 · The non-CRM half of the handoff. The lead-delivery webhook → Za
 blocked on the Sugar sandbox; this file covers only what needs no Sugar: when Lyro escalates, how it captures
 the contact, and the rep-anonymous measurement rule (the gauntlet's friend-not-foe fix)._
 
+## Architecture (confirmed by Tidio support 2026-08-07) — build to this
+Order is **Flows -> Lyro -> Human**, run sequentially, never nested. There is **no Lyro node inside a Flow.**
+Only **"Visitor Says" (input-based) flows** conflict with Lyro and get disabled; **button/attribute-triggered
+flows still run.** So: build the lead-capture as a **Flow with a non-input trigger** (it runs first and always),
+and let **Lyro be the free-text fallback** that recognizes intent, then hands off/captures per the rules below.
+"Simple Actions" (Lyro AI Agent -> Behavior -> Actions) is the only in-Lyro logic path (legacy, plan-gated,
+successor "Smart Actions" pending) — confirm on Todd's plan before relying on it. See the config plan's
+"Confirmed Tidio architecture" section.
+
 ## When Lyro hands off to a person
 Escalate and capture contact on any of:
 - A request for a specific property, spec, test value, UL/cert status, price, lead time, or a firm material
