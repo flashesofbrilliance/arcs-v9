@@ -1,4 +1,4 @@
-# PRL Chatbot — running list for Todd
+# PRL Chatbot: running list for Todd
 _A living list, updated as we go. What we have confirmed, what we are seeing, what needs your input, and any
 corrections. Plain and honest, so there are no surprises. Pairs with prl.arcs.care._
 _Last updated: 2026-08-07_
