@@ -1,4 +1,4 @@
-# PRL Tidio capture-flow spec (1.1) — configure now, no Sugar needed
+# PRL Tidio capture-flow spec (1.1): configure now, no Sugar needed
 _2026-08-07 · The lead-capture flow to build/refine in Tidio right now. Everything here is configurable with
 current Tidio access; the ONLY Sugar-gated step is the final Create Record write (build up to it, test the
 webhook payload against a Zapier Catch Hook, leave the live write off until Todd approves). Persona-generic for
@@ -18,14 +18,14 @@ TRIGGER: visitor opens chat / clicks a conversation starter
   → OPTIONAL: live handoff if an agent is online
 ```
 
-## Capture form — fields (the contract)
+## Capture form: fields (the contract)
 | Field | Required? | Notes |
 |---|---|---|
 | First name | yes | |
 | Last name | yes | |
 | Company | yes | maps to `account_name` |
 | **Phone** | **decision** | Sugar expects `phone_work`; require it OR use a placeholder (Todd's call) |
-| **Email** | yes | THE differentiator — capture every time; maps to `email1` (the fix) |
+| **Email** | yes | THE differentiator: capture every time; maps to `email1` (the fix) |
 | Application / grade interest | yes | free text → `description`; run the recognizer later (1.3) |
 | Market (optional dropdown) | no | EE / Medical / Transportation / Building / Consumer / Sustainability |
 
