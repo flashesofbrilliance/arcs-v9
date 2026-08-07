@@ -77,3 +77,31 @@ Land each first-shot, no overengineering. The forge pipeline (`/forge`) should c
   the automated quality floor for the assembly line, not a manual afterthought.
 - **Efficiency note:** run the fresh forge session model-efficiently (cheaper tier for mechanical stages,
   higher only for synthesis/verify). Quality floor is non-negotiable; overengineering is the anti-goal.
+
+## 8. Roadmap capabilities (product horizon, surfaced in the Yuri session 2026-08-07)
+The anti-Brooks's-Law family. Brooks's Law bites on two terms: communication (O(n^2) channels) and
+ramp-up time. ARCS attacks both, all on the same staff-of-chiefs substrate. Built into the codex as
+"08 · The synchronization tax" is the diagnostic; these are the generative capabilities to build:
+- **The coordination-cost auditor** (partly shipped in codex §08). Audit every meeting/workstream,
+  challenge each meeting's premise, RACI required-vs-optional, price each at time x loaded rate, run
+  cost-benefit on the program architecture. Prices and prunes the existing coordination graph.
+- **The Composer / Conductor.** The generative twin: given a project heading (desired outcome), design
+  the cadence, beats, pre-work, and outcome-tuned agenda for the most survivable line. Built from
+  existing primitives: staff-of-chiefs (subagent fan) proposes/critiques the rhythm, ROM selects the
+  survivable path, an ex-ante receipt per meeting (if it can't fail it isn't worth holding), phase-lock +
+  harmonics keep the signal consonant across altitudes, inverted-Parkinson's sets outcome-shape first.
+- **The Sage / supercapacitor (ramp-up counter).** The team's old growth (long-tenured, holding the
+  context that reorgs evaporate) become Sage training agents (`arcs_operators_sage.py`) that reorient
+  net-new members down the specialized operator tributaries. Context lives in receipts + the Sage agent,
+  not one person's head, so it survives the reorg and discharges fast (supercapacitor, not slow battery),
+  collapsing onboarding from months to a rapid transfer.
+- **The Gauntlet casting (bias-as-asset).** Cast real team members onto the gauntlet / staff-of-chiefs
+  roles by temperament instead of fighting their biases. The negativity-bias people and habitual devil's
+  advocates become the natural Loki / red-team / blue-team / steel-man / straw-man leads; their
+  contrarian stance is put to productive work arguing the anti-thesis. The choreography graph plays to
+  actual strengths and biases, so the person who always finds the problem leads the pre-mortem, and
+  productive discord is staffed by disposition, not assigned at random.
+
+**All four share one substrate** (the staff-of-chiefs / subagent fan) and together attack both terms of
+Brooks's Law. This is the org-scale product horizon for the coordination-intelligence surface; build it
+in the forge/roadmap, not by bloating a counterpart page.
