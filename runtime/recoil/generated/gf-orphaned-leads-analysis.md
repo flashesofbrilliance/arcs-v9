@@ -3,6 +3,15 @@ _2026-08-07 · Read-only analysis of the site's main lead form ("Material Altern
 against SugarCRM (Leads + Contacts). Business-level intelligence only; personal names/emails are NOT in this
 file (they live in the GF export Todd owns, handed over directly, never committed)._
 
+## Full enumerated review sheet (2026-08-07)
+The complete genuine-lead list (not a sample) was enumerated for Todd to validate: **37 genuine inquiries,
+28 orphaned (20 HIGH-confidence, naming a specific PRL or competitor grade), 9 already in CRM or a known
+account.** This confirms the ~29 estimate from the multi-key match below. Todd-facing sheet (with the actual
+contact details he owns) is kept local at `~/Downloads/prl-orphaned-leads-FULL-2026-08-07.md`, NOT committed
+(PII). The "recover orphaned leads" action = Todd marks each ORPHANED row real/worked/recover; the HIGH ones
+are the priority worklist. Method: genuine = material field names a specific resin/competitor/PRL grade or a
+real quote/SDS/purchase request; bot spam and off-topic pitches filtered.
+
 ## Headline
 - The site's main lead form is **96% spam** (2,990 of 3,126 entries) - it has **no spam protection at all**
   (Eric-Jones bot spam, XRumer signatures, etc.). The spam **buries every real lead**.
