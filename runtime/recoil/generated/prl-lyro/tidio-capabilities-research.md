@@ -346,3 +346,27 @@ Lyro cannot be given a hard "never output a numeric spec" guarantee purely via p
    summaries because `help.tidio.com` blocked direct fetch (403). Confirm labels in-app.
 7. **Copilot Chrome extension vs in-app Copilot** scope differences - not fully explored; not needed
    for the routing/spec/delivery decisions above.
+
+---
+## Live-doc verification (2026-08-08, via the built-in browser)
+
+IMPORTANT ACCESS NOTE: help.tidio.com is readable ONLY via the built-in Browser pane
+(mcp__Claude_Browser__ + preview_start). It 403s WebFetch and is ExtensionsSettings-policy-blocked for the
+claude-in-chrome extension. Use the built-in browser pane to read Tidio docs.
+
+CONFIRMED against the live Lyro - AI Agent section (help.tidio.com/hc/en-us/sections/12154776323612):
+- **Audience-scoped data sources is a real, documented feature.** The "Data sources - Lyro's knowledge base"
+  article (/articles/14543666652316) has a dedicated section: **"How to use custom audiences for data
+  sources."** This is the master lever for the qualified-vs-unqualified dual experience. [CONFIRMED]
+- Data-source management lives under **Lyro AI Agent > Knowledge > Data sources**; add via Website URL / Add
+  manually / CSV-PDF import / Zendesk / webstore sync; three-dot menu deletes a Q&A pair or website. [CONFIRMED]
+- Bulk data-source upload/export via **OpenAPI requires the Plus package**. [CONFIRMED]
+- The Lyro section documents these design-relevant articles (verify specifics in-app before live changes):
+  Lyro Guidance, Lyro Actions, **Lyro Simple Actions (legacy)**, Lyro Proactive roles, The Lyro AI agent limit,
+  Data sources, Copilot. URLs: guidance/actions/limit are under /hc/en-us/articles/ in that section.
+- Key article URLs: Data sources /articles/14543666652316 ; AI agent limit /articles/13924459295900 ;
+  conversational agent /articles/9003475527196.
+
+STILL TO VERIFY IN-APP (labels/plan-gating): the per-source "Used by" Copilot-only toggle exact control; whether
+Guidance is audience-targetable in THIS account's UI; the Flow "API call (HTTP request)" node availability on
+this plan; the "PRO" badge -> current tier mapping.
