@@ -36,13 +36,13 @@
       {"color": "var(--red)", "label": "Where I under-read"}
     ]},
     {"type": "spark", "name": "First call &#183; Jul 23", "note": "no floor drop &#183; one reveal that flipped the whole read", "points": [
-      {"phase": "human", "v": 46, "tip": {"t": "open", "ph": "Human", "q": "consent to record, your mom, the newborn", "s": "human before agenda", "r": "warm from beat one", "g": "the carrier wave was open the whole call"}},
+      {"phase": "human", "v": 46, "tip": {"t": "open", "ph": "Human", "q": "consent to record, your mom, the newborn", "s": "human before agenda", "r": "warm from beat one", "g": "the human channel was open the whole call"}},
       {"phase": "human", "v": 54, "tip": {"t": "stories", "ph": "Human", "q": "what you are building and excited about at Google", "s": "I asked, you drove", "r": "generous, low agenda", "g": "stated: nothing to sell; revealed: warm and forthcoming"}},
       {"phase": "in_sync", "v": 80, "r": 6, "tip": {"t": "reveal", "ph": "The flip", "q": "a team of 20... briefs for execs before they meet people", "s": "I filed you as maybe-a-connector", "r": "you are the exact buyer and builder", "g": "the belief I flagged as most likely wrong broke here, best direction"}},
       {"phase": "push", "v": 71, "tip": {"t": "pull", "ph": "You pulled", "q": "be selfish, what would get you to the next step", "s": "I predicted warm but non-committal", "r": "you pulled; I did not have to push", "g": "revealed exceeded stated"}},
       {"phase": "out", "v": 57, "tip": {"t": "doc-miss", "ph": "Under-read", "q": "it is very different than what I had in mind", "s": "I bet the capability doc would sell it", "r": "it did not land; you asked for the real thing", "g": "the productive miss; this page is the correction"}},
       {"phase": "in_sync", "v": 64, "tip": {"t": "consent", "ph": "In sync", "q": "you're doing the right thing", "s": "the plain-language, opt-in stance", "r": "table stakes for you, not a side note", "g": "the data-ethics stance landed hard"}},
-      {"phase": "human", "v": 60, "tip": {"t": "paths", "ph": "Human", "q": "GCP + Firebase, your ex-UBS partner for diligence", "s": "I floated paths back", "r": "none of it an ask today", "g": "invitation over ask"}},
+      {"phase": "human", "v": 60, "tip": {"t": "paths", "ph": "Human", "q": "GCP + Firebase, a diligence partner", "s": "I floated paths back", "r": "none of it an ask today", "g": "invitation over ask"}},
       {"phase": "in_sync", "v": 66, "tip": {"t": "close", "ph": "In sync", "q": "part two of where this goes, after Hawaii", "s": "you named the follow-up", "r": "warm and forward, on your timeline", "g": "a yes waiting, not a defer"}}
     ]},
     {"type": "beat", "phase": "in_sync", "bph": "THE REVEAL &#183; THE FLIP", "pairs": [
@@ -53,17 +53,17 @@
       {"who": "ME", "text": "warm but non-committal; no near-term pull"},
       {"who": "YOU", "text": "I want to help move you toward Zach direction... be selfish, what would get you to the next step"}
     ], "bread": "I predicted you would keep it social. You pulled it forward yourself and asked me to be selfish about the next step. Warmer and more active than I bet; I did not have to push."},
-    {"type": "beat", "phase": "in_sync", "bph": "NOT A SKEPTIC, A PRACTITIONER", "pairs": [
+    {"type": "beat", "phase": "in_sync", "bph": "A PRACTITIONER WHO LIVED IT", "pairs": [
       {"who": "ME", "text": "I am pitching a skeptic I need to convince"},
-      {"who": "YOU", "text": "Sundar has 30 people just writing briefs... I automated it with data science, no AI in 2020... his mind was blown, he didn&rsquo;t know it was mostly non-humans"}
-    ], "bread": "Wrong posture entirely. You built this thesis by hand and proved it at the top of Google, five years before I named it. Not a skeptic to convince, a practitioner who lived it."},
+      {"who": "YOU", "text": "I automated it with data science, no AI, in 2020"}
+    ], "bread": "Wrong posture entirely. You built this thesis by hand and proved it at the top of the org, five years before I named it. Not a skeptic to convince, a practitioner who lived it."},
     {"type": "beat", "phase": "out", "bph": "WHERE I UNDER-READ", "pairs": [
       {"who": "ME", "text": "the capability doc will land and do the selling"},
       {"who": "YOU", "text": "it&rsquo;s very different than what I had in mind... it&rsquo;d be great to see a real example of both"}
     ], "bread": "The abstract doc did not do the selling I bet it would. You found it abstract and asked for the real before and after. You were right, and this is the correction, in your register."},
     {"type": "offer", "id": "s-offer", "h3": "So here is the magic you asked for",
      "p_before": "One thing, concrete, in your language: not the abstract capability doc, the real bet, filed before we talked, scored honestly against what you actually said. Every net-new thing you shared sharpened the read instead of blurring it.",
-     "said": {"speaker": "you", "qk": "You &#183; Jul 23", "qv": "be selfish, what would get you to the next step. I want to help move you forward."},
+     "said": {"speaker": "you", "qk": "You &#183; Jul 23", "qv": "I want to help move you toward Zach direction... be selfish, what would get you to the next step."},
      "p_mid": "The most useful next move is the one you named yourself: part two of where this goes, after Hawaii. None of it is an ask today. And it runs model-agnostic, on Gemini through a gateway, so nothing leaves Google.",
      "ladder": [
        {"k": "Zero ask", "p": "You just read this. The before and after you wanted to see. Nothing required."},
@@ -71,19 +71,19 @@
        {"k": "If it is real", "p": "An internal dogfood on GCP and Firebase, runs on Gemini, receipts as JSON, nothing leaves the building."}
      ],
      "p_close": "No ask, no pitch. You already know why it matters; you shipped it by hand five years ago."},
-    {"type": "beat", "phase": "human", "bph": "THE HUMAN CARRIER WAVE", "pairs": [
+    {"type": "beat", "phase": "human", "bph": "THE HUMAN CHANNEL, KEPT OPEN", "pairs": [
       {"who": "ME", "text": "two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in"},
       {"who": "YOU", "text": "the Turing-test jokes, the consent-first stance: you're doing the right thing"}
-    ], "bread": "The human channel was open the whole call, which is why the business turn landed soft. The consent-first open was the same move: warmth as the carrier, table stakes for you."}
+    ], "bread": "The human channel was open the whole call, which is why the business turn landed soft. The consent-first open was the same move: warmth keeping the channel open, table stakes for you."}
   ],
   "hood": [
     {"type": "card", "id": "s-inst", "h3": "What you are looking at", "ps": [
       "This is the instrument, run on <strong>my own tape</strong>. Everything scored on this tab is a read of my own performance and predictions, not yours. The method crosses freely, the subject stays me. You get the whole machine, pointed at myself.",
-      "The idea is simple: a conversation is a pair of waves. When two people are on the same wavelength the signal builds; when they are not it fades. ARCS listens to a recorded call and maps that, beat by beat, into four states, and files a falsifiable bet before the call so it can be scored honestly after."
+      "The idea is simple: two people on a call are either tracking each other or they are not, and you can hear which on the tape. ARCS listens to a recorded call and maps that, beat by beat, into four states, and files a falsifiable bet before the call so it can be scored honestly after."
     ]},
     {"type": "states", "h3": "The four states it hears", "h3color": "var(--green)", "minis": [
       {"h4": "The flip", "color": "var(--gold)", "p": "A belief breaks and the whole read updates. The highest-information moment; the one to build the next move on."},
-      {"h4": "Human", "color": "var(--cyan)", "p": "Humor and warmth. The carrier wave that keeps a call open even when the content is thin."},
+      {"h4": "Human", "color": "var(--cyan)", "p": "Humor and warmth. The thing that keeps a call open even when the content is thin."},
       {"h4": "You pulled", "color": "var(--green)", "p": "They push the thing forward and it sharpens the read. Motion that adds, not noise."},
       {"h4": "Under-read", "color": "var(--red)", "p": "Where my prediction was wrong. The place the receipt is supposed to catch, and score, honestly."}
     ], "p_after": "Tab 1 is that map, drawn on our one call. The gold and green beats are where the read sharpened; the red beat is where I under-read the fit. Same four states, run on any call."},
@@ -95,8 +95,8 @@
       {"strong": "It admits mistakes.", "rest": "The belief I flagged as most likely wrong is the one it scored as a miss, in writing, and moved the wedge. The instrument corrects the person who filed it."}
     ]},
     {"type": "card", "id": "s-brief", "h3": "The pre-meeting briefing, made real", "ps": [
-      "Run forward instead of backward, the same instrument is the exec brief you already build by hand. Before a call: here is the person, the wavelength to meet them on, the altitude to open at. After: here is where it actually landed, and the honest diff against what you predicted.",
-      "For your world that is the Sundar brief, closed and scored: first and third party signal stitched into a read, then a receipt that says whether the read held. It reads recordings that already exist, and it runs <strong>model-agnostic on Gemini</strong>, so nothing leaves Google."
+      "Run forward instead of backward, the same instrument is the exec brief you already build by hand. Before a call: here is the person, the register to meet them on, the altitude to open at. After: here is where it actually landed, and the honest diff against what you predicted.",
+      "For your world that is the exec brief, closed and scored: first and third party signal stitched into a read, then a receipt that says whether the read held. It reads recordings that already exist, and it runs <strong>model-agnostic on Gemini</strong>, so nothing leaves Google."
     ]},
     {"type": "card", "fence": true, "h3": "The taste, not the recipe", "ps": [
       "You are a builder and Google-resourced, so you will want to know how the back is made, and I respect that. Straight about the line: what crosses to you is the whole shape and the whole value, the four states, the ex-ante receipt, the map on our real call, nothing dumbed down. What stays on my side is the transform, how it reads register and intent off the parse, and the scoring underneath. Some of it is patentable. You get the taste and the full value from the first bite, not the sourcing.",
