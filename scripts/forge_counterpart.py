@@ -63,7 +63,7 @@ TOKENS = """:root{
 TIP_CSS = (".hit{cursor:pointer}"
     "#tip{position:fixed;z-index:80;max-width:min(280px,88vw);pointer-events:none;opacity:0;"
     "transition:opacity .12s;background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;"
-    "padding:11px 13px;box-shadow:0 8px 30px rgba(0,0,0,.55)}"
+    "padding:11px 13px;font-family:var(--sans);box-shadow:0 8px 30px rgba(0,0,0,.55)}"
     "#tip.on{opacity:1}"
     "#tip .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;"
     "color:var(--tc,#94a3b8);margin-bottom:6px}"
@@ -188,7 +188,7 @@ def _studio_panel(st):
 # ===========================================================================
 RECEIPT_CSS = TOKENS + """
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg)}
+body{background:var(--bg);font-family:var(--sans)}
 .recoil{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5;
   background-image:radial-gradient(1200px 640px at 50% -8%,rgba(0,240,255,.06),transparent 62%);min-height:100%;padding:0 0 90px}
 .recoil ::selection{background:rgba(0,240,255,.24);color:#fff}
@@ -645,7 +645,7 @@ def render_profile(d):
 # extended tooltip (stated vs revealed) -- the codex spark variant of #tip.
 TIP_CSS_EXT = (".hit{cursor:pointer}"
     "#tip{position:fixed;z-index:80;max-width:min(300px,88vw);pointer-events:none;opacity:0;transition:opacity .12s;"
-    "background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;padding:12px 14px;box-shadow:0 8px 30px rgba(0,0,0,.55)}"
+    "background:#0b0f16;border:1px solid var(--tc,#1e293b);border-radius:10px;padding:12px 14px;font-family:var(--sans);box-shadow:0 8px 30px rgba(0,0,0,.55)}"
     "#tip.on{opacity:1}"
     "#tip .tt{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tc,#94a3b8);display:flex;justify-content:space-between;gap:10px;margin-bottom:8px}"
     "#tip .tq{font-size:13px;font-style:italic;color:var(--text);line-height:1.45;margin-bottom:10px}"
