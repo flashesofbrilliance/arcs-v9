@@ -370,3 +370,29 @@ CONFIRMED against the live Lyro - AI Agent section (help.tidio.com/hc/en-us/sect
 STILL TO VERIFY IN-APP (labels/plan-gating): the per-source "Used by" Copilot-only toggle exact control; whether
 Guidance is audience-targetable in THIS account's UI; the Flow "API call (HTTP request)" node availability on
 this plan; the "PRO" badge -> current tier mapping.
+
+## Lyro Tasks + quota model (CONFIRMED via The-Lyro-AI-agent-limit article, 2026-08-08)
+
+**Lyro Tasks = flows built INSIDE Lyro's config** that "never interrupt Lyro's current conversation - they
+become a part of it." They do everything regular flows do. This is the current, non-legacy way to put
+flow-logic inside Lyro (the "Simple Actions (legacy)" article now redirects to the help home - deprecated, as
+support implied; successor is Tasks/Smart-Actions). [CONFIRMED]
+
+**Quota - the big levers:**
+- 1 Lyro conversation = the FIRST time Lyro responds in a new thread. Multiple replies in one thread = still 1.
+  A thread closes after 15 min inactivity; a new visitor message then starts a new (counted) thread. [CONFIRMED]
+- **Immediate handoff costs ZERO quota** - "nothing will be deducted if Lyro immediately performs handoff
+  (e.g. transfers to a live agent)." So the qualified -> route-to-specialist path is quota-free. [CONFIRMED]
+- **Lyro Tasks use NEITHER the flows quota NOR the Lyro quota.** Quota-free structured behavior inside Lyro.
+  [CONFIRMED]
+- Free Lyro = 50 non-renewable conversations. Paid packages 50 to 1,000/mo; more via Plus/custom. [CONFIRMED]
+
+**Design implications (big):**
+- The **unqualified/answer** experience can do its lead-capture + qualification as a **Lyro Task** (quota-free)
+  INSIDE the Lyro conversation - one coherent thread, no jarring flow<->Lyro switch, and it does not burn the
+  Lyro conversation quota beyond the single conversation count. This is a cleaner "consistent experience" than
+  a separate flow handing to Lyro.
+- The **qualified/route** experience should **hand off immediately** -> zero quota cost, hot lead to a human.
+- Net: cost exposure is much lower than feared. The expensive case is only a genuine multi-turn Lyro Q&A that
+  does not hand off; capture-as-Task and route-as-handoff are both effectively free.
+- Revisit "Lyro Tasks" as the primary capture mechanism for the Lyro-led experience (vs the onFirstVisit flow).
