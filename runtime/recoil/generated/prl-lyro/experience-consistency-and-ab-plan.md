@@ -34,9 +34,12 @@ Each experience is internally consistent (flow and Lyro behave the same way with
   scoped out; guidance enforces route-and-capture. Paired with the standard capture flow ("PRL Resins - Lead
   Capture", already active). Never-fabricate by construction.
 
-**Concurrency via Audiences/Personas (the better answer).** Lyro's guidance is account-global, but DATA SOURCES
-carry an **Audience** field, and flows target audiences/triggers - so we route the two experiences by
-qualification instead of flipping profiles:
+**Concurrency via Audiences/Personas (CONFIRMED feasible - see tidio-capabilities-research.md).** Tidio
+"Audiences" are the master lever: they scope Lyro **data sources, Guidance, AND handoff** per segment (Guidance
+is NOT account-global as first assumed). So we can run both experiences concurrently as ONE Lyro configured per
+audience plus a routing flow (not two isolated brains; Flows->Lyro->Human stays sequential/never-nested). A
+qualification flow stamps a contact property/tag (e.g. `qualified=true`) via Update Contact Property, then the
+audience condition applies the right knowledge/Guidance/handoff. Route the two experiences by qualification:
 - **Qualified prospect -> Experience B (route to specialist).** Signals: names a specific PRL/competitor grade,
   engineering/purchasing/quality role, target industry (EE / medical / transportation / building / consumer),
   real volume or a purchase/quote/SDS ask. A hot lead reaches a human fast, fully captured. Don't make a real
