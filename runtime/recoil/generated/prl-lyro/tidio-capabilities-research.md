@@ -396,3 +396,23 @@ support implied; successor is Tasks/Smart-Actions). [CONFIRMED]
 - Net: cost exposure is much lower than feared. The expensive case is only a genuine multi-turn Lyro Q&A that
   does not hand off; capture-as-Task and route-as-handoff are both effectively free.
 - Revisit "Lyro Tasks" as the primary capture mechanism for the Lyro-led experience (vs the onFirstVisit flow).
+
+## Actual account entitlements (CONFIRMED in-app via Usage and plan, 2026-08-08)
+The account is base tier + two PAID add-ons; NOT Plus. The "PRO" badge is cosmetic/legacy, not the entitlement.
+- **Live chat (Customer service):** 100 billable conversations/mo (0 used; resets Aug 31).
+- **Lyro AI Agent [Paid]:** **50 AI conversations/mo** (1 used; resets Aug 30). This is the entry paid Lyro tier.
+- **Flows [Paid]:** 2,000 visitors reached/mo (15 used; resets Aug 29).
+- **NOT Plus:** custom branding is gated ("available on the Plus plan"). So Plus-only features are OUT:
+  OpenAPI bulk data-source upload/export is unavailable; the Flow "API call (HTTP request)" node is likely
+  gated (verify; fallback = "Send to Zapier" action); custom-audience data-source scoping MAY be gated - THIS
+  is the key remaining in-app check for the dual-experience design.
+
+**Cost implication (the 50/mo Lyro cap is the real constraint):**
+- Only 50 genuine Lyro AI conversations per month. So lean hard on the quota-free levers:
+  qualified -> IMMEDIATE handoff (0 quota), capture-as-Lyro-Task (0 quota). Reserve the 50 for real Q&A.
+- Flows have ample headroom (2,000/mo), so the onFirstVisit capture flow is effectively free at PRL's volume.
+- This makes the "route by qualification" design not just cleaner but cost-optimal: route/handoff the qualified
+  (free) and let only genuine long-tail questions consume the 50 Lyro conversations.
+
+**Remaining in-app checks (gated-or-not on THIS non-Plus plan):** custom-audience scoping for data sources +
+audience-targetable Guidance; the Copilot-only per-source toggle; presence of Lyro Tasks; the Flow API-call node.
