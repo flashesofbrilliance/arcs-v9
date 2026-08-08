@@ -2,11 +2,10 @@
   "captured_at": "2026-08-03T18:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "228a434",
-    "head_message": "docs(todd): step-by-step site/IT task list + Sugar as-built-vs-current analysis [NCI:SKIP]",
+    "head_sha": "93115ba",
+    "head_message": "docs(todd): note full enumerated orphaned-lead review (37 genuine/28 orphaned/20 HIGH) [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
-      "_ARTIFACTS/prl-roadmap-deck.html",
       "_STATE/snapshot.json",
       "runtime/recoil/generated/prl-kb/sugar-schema/build-vs-current-state.md"
     ]
@@ -183,7 +182,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-07T19:38:02Z",
+  "git_refreshed_at": "2026-08-08T20:26:45Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

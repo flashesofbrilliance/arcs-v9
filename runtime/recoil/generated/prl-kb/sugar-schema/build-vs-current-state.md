@@ -24,7 +24,7 @@ state observed read-only this week. Corrects several earlier assumptions. Intern
   ai_icp_fit_*/ai_lead_conv_* (native AI scoring), sf_lastactivity (Salesfusion), market_score. Mostly NULL on
   direct leads.
 - **Broken/decayed:** ZoomInfo writeback OAuth **expired**; GF->Zapier **inactive**; ZoomInfo import just
-  re-enabled. **IQMS daily sync and the Outlook plugin are unconfirmed post-upgrade — worth verifying they
+  re-enabled. **IQMS daily sync and the Outlook plugin are unconfirmed post-upgrade - worth verifying they
   survived 25.2.**
 - **Email gap is a byproduct of later automation:** build assumed manual entry (rep types email); automated
   paths omit it; Leads have no email column (uses email_addresses / email1).
@@ -33,13 +33,13 @@ state observed read-only this week. Corrects several earlier assumptions. Intern
 - **lead_source:** add a **"Chatbot"** picklist value (build-consistent; mirrors Unbounce via campaign_name).
   Until then use "Web Site" + stamp campaign_name.
 - **Write plain Lead fields + email1** (via the email_addresses relationship). **Do NOT** populate
-  hint_/mkto_/ai_/sf_ — those are connector-owned; leave them for downstream enrichment.
-- **Email capture is the differentiator** — it closes a gap that has existed since the 2020 build.
+  hint_/mkto_/ai_/sf_ - those are connector-owned; leave them for downstream enrichment.
+- **Email capture is the differentiator** - it closes a gap that has existed since the 2020 build.
 - **Forecast/IQMS:** the chatbot touches **Leads only**, which sit entirely outside the forecast machinery
   (forecast rolls up Order History LIs + Opportunity RLIs on Accounts). No forecast wiring needed. But a
   converted chatbot Account must eventually get an **IQMS Ship-To / Customer #** to enter the forecast.
 - **Routing:** no territory model exists; assign to a **named rep** (Bill Galla per MVP), not territory rules.
-- **The 4-hour SLA is NET-NEW** — the original build specifies no response-time SLA. Position it as an
+- **The 4-hour SLA is NET-NEW** - the original build specifies no response-time SLA. Position it as an
   improvement we are adding, not something the build called for.
 
 ## Durable facts (for memory)
