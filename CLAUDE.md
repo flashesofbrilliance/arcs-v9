@@ -173,16 +173,28 @@ detail in machine-local memory `project_todd_hotes_prl_resins.md` (2026-08-07 en
   support" state; re-verify before telling Todd IT still needs it. **1,696 unassigned tickets** (mailbox-sync
   backlog) - triage parked.
 
-## Next session - sequence set by Zach (B -> checkpoint -> A)
-1. **B: map + /impeccable the CURRENT chatbot journey** (read-only baseline).
-2. **CHECKPOINT: Zach reviews design spec + product requirements + implementation plan** before any build.
-3. **A: build the two-experience audience routing** on staging (create Molder/OEM audiences; qualification
-   branch; spec PDFs -> Copilot-only; per-persona handoff) - ONLY after checkpoint approval. Backup-first,
-   reversible. No live change has Zach's go yet.
+## Next session - START HERE: build A (checkpoint APPROVED, backup DONE)
+B is done and the CHECKPOINT is **APPROVED by Zach (2026-08-09)**. Backup is **DONE**. Next session executes A.
+- **Plan to follow (the approved spec/PRD/impl):** `runtime/recoil/generated/prl-lyro/CHECKPOINT-review-before-build.md`
+- **Backup / rollback point:** `runtime/recoil/generated/prl-lyro/backups/` (live flow export
+  `live-flow-lead-capture-2026-08-09.json` = the active flow, 27 nodes/30 edges; `CONFIG-STATE-2026-08-09.md` =
+  full data-source/audience/flow/widget state + rollback procedure). Backup was via the Tidio flow **Export**
+  (three-dot -> Export -> downloads JSON); **Clone** is also available for an in-account copy.
+- **A build order (from the CHECKPOINT doc):** 1) spec PDFs -> Copilot-only (kills fabrication; verify in
+  Playground the UL94/HDT prompt now ROUTES) 2) Guidance = never-state-a-spec (capture current Guidance text
+  first, for rollback) 3) create Molder + OEM audiences 4) qualification branch (opening Q -> Update Contact
+  Property -> Condition) 5) capture (Lyro Task, quota-free; phone REQUIRED) 6) per-persona handoff (molder->
+  territory rep, OEM->OEM rep; after-hours = capture) 7) acceptance test R1-R6 + screen-cap both journeys +
+  side-by-side /impeccable vs baseline. **Do NOT activate live until acceptance passes and Zach signs off.**
+- **Baseline to beat:** `prl-lyro/current-journey-audit-baseline.md` (Lyro currently states UL94 V-0 + HDT as
+  fact, no capture, no route).
+- **Design detail:** `prl-lyro/icp-audiences-molder-vs-oem.md` (molder fast-lane vs OEM consultative) +
+  `prl-lyro/tidio-capabilities-research.md` (what the account can do). Tidio docs read via built-in Browser pane.
 
-Parked: 1,696-ticket triage (Tidio auto-Spam folder helps; best = mailbox export for offline analysis like the
-GF data, or search-driven surface; dedupe vs the 37 GF genuine). info@ re-verify. Manual Tidio flow import.
-CRM delivery (1.1/1.2) still gated on Todd's safe test path.
+Need from Todd (batched, non-blocking): rep routing (territory map + 2 OEM rep names) for R3 - build with
+placeholder (Bill Galla) and swap. Parked: 1,696-ticket triage (Tidio auto-Spam + mailbox export / search
+surface; dedupe vs the 37 GF genuine); info@ re-verify (shows green now); manual flow import; CRM delivery
+(1.1/1.2, gated on Todd's safe test path).
 
 ## Blocking
-NONE internally. Zach checkpoint-gates the build (A).
+NONE. A is APPROVED + backed up; execute step 1. Only gate is Zach's final sign-off before activating live.
