@@ -181,6 +181,15 @@ reading the pages. The sharp finds, all fixed + live (`main 519219f`):
 - **Plain-language**: receipt KAIROS/POSTERIOR/reverse-listening labels -> plain, via a new
   `meta.labels` override in `render_receipt` (Robin defaults preserved; robin-receipt byte-identical).
 - **Craft**: `.close` inline links now gold, not UA-default blue.
+- **Diamond cut** (`main f258a8e`, live `yuri-diamond.arcs.care`): a new `--surface diamond` — the
+  forensic, earned-fidelity T0→TEnd trajectory of the real call. Two defensible dimensions (Sync +
+  self-scored Conviction), verbatim-anchored, the gap-between-the-lines closing at the reveal is the
+  read; NOT a maximal 12D manifold (that would overclaim off one call, self-refuting vs earned-
+  fidelity). Wired **opt-in**: a soft "the deep cut, if you want the machine" card in the one-door §03;
+  the plain codex stays the front door. Design principle banked: [[earned-fidelity-not-maximal-diamond-cut]].
+  Domain attached via `vercel domains add yuri-diamond.arcs.care --scope arcs-care` (single-arg form
+  once the project is linked; `*.arcs.care` is wildcard DNS but NOT wildcard project-domains, so each
+  subdomain needs explicit adding).
 
 ## Gate: REMOVED, not migrated (Zach's call, main 05b7630)
 
