@@ -37,8 +37,11 @@ for fam, blk in MAT['families'].items():
     for a in blk['aliases']:
         _FAM_IDX.setdefault(a, fam)
 
+_EDGE_PUNCT = '?.!,;:"\'`()[]{}*'  # stripped from token EDGES only; keeps internal 6,6 and 6/6
+
 def _grams(text, n_max=3):
-    toks = norm(text).replace('/', ' / ').split()
+    toks = [t.strip(_EDGE_PUNCT) for t in norm(text).replace('/', ' / ').split()]
+    toks = [t for t in toks if t]
     out = []
     for n in range(n_max, 0, -1):
         for i in range(len(toks) - n + 1):
@@ -72,6 +75,20 @@ def recognize(text):
             seen.add(('fam', fam))
             hits.append({'type': 'family', 'family': fam,
                          'family_name': MAT['product_families'].get(fam, fam), 'matched': gm})
+    # 4) bare generic material term -> route to family (ONLY if nothing more specific matched, so
+    #    "nylon 6" still pins NY6 but bare "nylon" surfaces both and defers 6-vs-66 to a specialist)
+    if not hits:
+        GENERIC = {'NYLON': ['NY6', 'NY66'], 'POLYAMIDE': ['NY6', 'NY66']}
+        gramset = set(grams)
+        for term, fams in GENERIC.items():
+            if term in gramset:
+                for fam in fams:
+                    if ('fam', fam) not in seen:
+                        seen.add(('fam', fam))
+                        hits.append({'type': 'family', 'family': fam,
+                                     'family_name': MAT['product_families'].get(fam, fam),
+                                     'matched': term, 'generic': True})
+                break
     return hits
 
 def normalize_state(value):
@@ -93,6 +110,12 @@ if __name__ == '__main__':
         ("do you have polycarbonate",      'family'),
         ("nylon 6/6 glass filled",         'family'),
         ("random unrelated question",      None),
+        # --- regression cases from the 2026-08-09 end-to-end sim (punctuation + bare family) ---
+        ("Do you have an equivalent to Lexan 141? Need a quote.", 'competitor_equiv'),  # trailing '?'
+        ("Makrolon 3105, please",          'competitor_equiv'),   # trailing ','
+        ("(Ultem 1000)",                   'competitor_equiv'),   # wrapping parens
+        ("glass-filled nylon",             'family'),             # bare generic family
+        ("we need nylon",                  'family'),             # bare generic family
     ]
     ok = 0
     for text, expect in tests:
