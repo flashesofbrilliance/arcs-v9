@@ -165,9 +165,20 @@ splitter that sends 50/50 of visitors down variant A vs B of a flow.
 - **Immediate effect:** docs describe the toggle as the live on/off control for whether Lyro/Copilot
   may use that knowledge; treated as effective for subsequent conversations. Exact propagation
   latency is not stated verbatim. [likely]
-- **Scope a source to human agents (Copilot) only, not customer-facing Lyro:** YES. The **Used by**
-  column shows **Lyro** and **Copilot** tags per Q&A pair. You can toggle a source on for Copilot
-  while leaving it off for Lyro (and vice versa), so a source can be human-agent-only. [confirmed]
+- **Scope a source to human agents (Copilot) only, not customer-facing Lyro:** YES, but **per Q&A
+  entry only — there is NO source-level or bulk toggle.** [VERIFIED IN-APP 2026-08-09, live account]
+  The Lyro/Copilot **Used by** toggles live inside each individual Q&A entry's Edit panel
+  (`Data sources > [PDF] > [entry] > Edit`, "USED BY: Lyro AI Agent / Copilot"). At the source-list
+  level the Lyro/Copilot column checkmarks are **read-only status** (clicking does nothing); the
+  source **Manage** menu offers only Download file / Set audience / Delete; and the multi-select bar
+  (both at the source-list level and inside a source's entry list) offers only **Set audience /
+  Delete** — never a "Used by" change. Audience also cannot separate them: the entry editor states
+  "Lyro AI Agent and Copilot will use the same audience." **Consequence:** making the 5 spec PDFs
+  Copilot-only means flipping Lyro off on every entry by hand (109 in Competitor-Cross alone,
+  ~150 in Product-Catalog, plus 3 more PDFs = several hundred toggles, and one miss defeats the
+  guardrail). The only clean bulk path is **Delete the source from Lyro** (removes it from Lyro AND
+  Copilot; reversible via repo re-import). This supersedes the earlier "[confirmed] you can toggle a
+  source on for Copilot while leaving it off for Lyro" reading — that is true per-entry, false per-source.
 - **Answer-from-knowledge vs handoff:** Lyro answers from its data sources when it has the knowledge;
   when it **lacks the required knowledge** or the **visitor requests a live agent**, it enters
   handoff. Handoff behavior is configurable separately for **online vs offline** hours, and per

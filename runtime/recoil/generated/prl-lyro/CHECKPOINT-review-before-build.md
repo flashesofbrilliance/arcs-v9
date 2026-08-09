@@ -46,6 +46,13 @@ in-app label as we go (docs paths are [likely], not confirmed - help.tidio.com 4
 1. **Kill the fabrication (universal fix):** set the 5 spec PDFs (Product Catalog/150 Q&As, Material-Selection,
    Competitor-Cross-Ref, Engineering-Thermoplastics, Polymer-Resources-Pro) to **Copilot-only** (off for
    customer Lyro). Keep the public prlresins.com pages on for Lyro. Verify in Playground: UL94 prompt now routes.
+   > **BLOCKED / needs Zach's call (verified in-app 2026-08-09):** Tidio has **no source-level or bulk "Used by"
+   > toggle** — the Lyro/Copilot switch exists only inside each Q&A entry's Edit panel. So true "Copilot-only" =
+   > flipping Lyro off on several hundred entries by hand (109 Competitor + ~150 Catalog + 3 more PDFs), one miss
+   > defeats R1. The only clean bulk path is **Delete the 5 PDFs from Lyro** (removes Lyro + Copilot; reversible
+   > via repo re-import; PRL reps aren't using Copilot). Zach chose **HOLD** on 2026-08-09 — knowledge sources
+   > left untouched pending his decision (delete-from-Lyro vs per-entry Lyro-off). Account still matches the
+   > 2026-08-09 backup. See tidio-capabilities-research.md §5 for the full verification. Steps 2-7 unaffected.
 2. **Guidance:** write the never-state-a-spec + recognize/route/capture rule in Lyro's voice, matching the flow.
 3. **Audiences:** create "Molder" and "OEM" audiences; scope guidance/handoff (and any KB) per audience.
 4. **Qualification branch:** opening question -> Update Contact Property (qualified/persona) -> Condition branch.

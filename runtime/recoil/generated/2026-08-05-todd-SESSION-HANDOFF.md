@@ -73,6 +73,46 @@ data touches the live bot**; (5) **G/B/B = options-to-confirm, never a directive
 review = hard gate before Lyro; ZoomInfo spend cap prerequisite**; (7) receipt tripwire on coordination
 overrun (re-price, don't eat); (8) verify iOS present-mode fallback; (9) confirm prl.arcs.care link audience.
 
+## SESSION 2026-08-09 — moves + corrections (anti-amnesia; append)
+
+Ran the /handoff-pickup on Todd, attempted Build A, ran a serialized recoil, and banked an ADR. Moves:
+
+1. **Build A step 1 attempted live, then HELD (Zach's call).** Tidio has **no bulk/source-level Lyro↔Copilot
+   "Used by" toggle** — it's **per-Q&A-entry only** (verified in-app; parent checkmarks read-only, Manage =
+   Download/Set-audience/Delete, multi-select = Set-audience/Delete). So "5 PDFs → Copilot-only" = hundreds of
+   manual toggles, OR delete the source. Zach chose HOLD; **Lyro account untouched, matches the 2026-08-09 backup**
+   (`prl-lyro/backups/`). Detail: `prl-lyro/tidio-capabilities-research.md` §5 + `CHECKPOINT-...md` step 1.
+2. **Serialized recoil on the last 4 calls** → `2026-08-09-todd-serialized-recoil.md`. Kairos locks (launch=the
+   close · family-office succession · year-end $15K displacement · "tomorrow"=intent) + field-level ambition read
+   (Todd's win = a clean, defensible, narratable modernization to carry *upward* into the family-office CEO seat;
+   near-zero drama; single-inbox simple).
+3. **ADR-PRL-001 (governed answering, not silence)** → `prl-lyro/ADR-PRL-001-governed-answering.md`. Promotes the
+   Aug-5 pre-mortem pt(3) to an explicit per-category posture, eval-gated. The bot MAY state a spec when
+   grounded+eval-passed+fresh; HARD-routes cert/yellow-card until sourced; competitor = gate-behind-capture; price
+   = never. Reconciles the stale 1.3 DoD ("no path where the bot states a spec as fact" → "…an UNGROUNDED spec").
+
+**Corrections banked (the amnesia this session caught):**
+- **IDES** (not "IDS"; catalog.ides.com, company I=73811, e.g. `Datasheet.aspx?I=73811&E=32892`) crawl +
+  reverse-lookup are **already built** (Aug 7): 28 datasheets scraped + `normalize.py` (895 competitor keys,
+  self-test 10/10). **IDES bulk-export is a freshness upgrade, NOT a launch gate** (earlier session-notes wrongly
+  called it the gate).
+- **Eval harness already built** — `prl_lyro_eval.py`, 74 cases. Needs live responses scored, not building.
+- **1.3 ground truth already delivered + verified** (150-grade catalog, specs 100% vs source).
+- The one real Todd-sourced data gap = **UL yellow-cards** (~$30K/6mo differentiator, in no file).
+- **Launch centerpiece reframed:** governed spec/data-sheet answering + capture, NOT spec-silence.
+- **Sandbox unblocked** (Aug-9 email, case 589806): free, one already exists, Sugar Sell Advanced allows 2. Ball
+  with SugarAI support / Todd for access to the existing one.
+
+**FRAGMENTATION / amnesia risk (flag):** all Todd work lives on branch `claude/chatbot-1-1-jtbd-blockers` (this
+session ran from the `yuri-ahmed-communication` worktree). The **main `CLAUDE.md` handoff is Yuri/forge-focused
+and does not point here** — a pickup from the main chain gets Todd amnesia. THIS file is the Todd pickup; the
+machine-local memory (`project_todd_hotes_prl_resins.md`) + `_STATE/snapshot.json` should point at it.
+
+**Uncommitted as of 2026-08-09:** this handoff append, ADR-PRL-001, the serialized recoil, `todd-always-sometimes-
+never.md` (Todd decision aid, NOT sent), and the tidio-capabilities/checkpoint annotations.
+
 ## NEXT SESSION STARTS AT
-Send Todd the UL yellow-card ask (draft ready) if batching a note to him. Otherwise: wait on sandbox; when it
-lands, run the 1.2 CRM Data Reality audit (resolve OEM↔molder model + territory) and build 1.3 recognition + eval.
+Todd decision aid (`prl-lyro/todd-always-sometimes-never.md`, reframed to governed-not-silenced) is drafted, NOT
+sent — decide send vs hold for Todd's Friday reply. Then: (1) get sandbox access (unblocked, ball with support/
+Todd); (2) collect+score live eval responses to flip governed categories; (3) when sandbox lands, run the 1.2 CRM
+Data Reality audit (OEM↔molder model + territory). Build A step 1 still pending Zach's delete-vs-per-entry call.
