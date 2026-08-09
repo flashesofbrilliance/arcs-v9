@@ -41,7 +41,7 @@
       {"phase": "in_sync", "v": 80, "r": 6, "tip": {"t": "reveal", "ph": "The flip", "q": "a team of 20... briefs for execs before they meet people", "s": "I filed you as maybe-a-connector", "r": "you are the exact buyer and builder", "g": "the belief I flagged as most likely wrong broke here, best direction"}},
       {"phase": "push", "v": 71, "tip": {"t": "pull", "ph": "You pulled", "q": "be selfish, what would get you to the next step", "s": "I predicted warm but non-committal", "r": "you pulled; I did not have to push", "g": "revealed exceeded stated"}},
       {"phase": "out", "v": 57, "tip": {"t": "doc-miss", "ph": "Under-read", "q": "it is very different than what I had in mind", "s": "I bet the capability doc would sell it", "r": "it did not land; you asked for the real thing", "g": "the productive miss; this page is the correction"}},
-      {"phase": "in_sync", "v": 64, "tip": {"t": "consent", "ph": "In sync", "q": "you're doing the right thing", "s": "the plain-language, opt-in stance", "r": "table stakes for you, not a side note", "g": "the data-ethics stance landed hard"}},
+      {"phase": "human", "v": 64, "tip": {"t": "asked", "ph": "Human", "q": "you're doing the right thing, one of the few who ask", "s": "I asked to record", "r": "you appreciated it, warm not precious", "g": "you trust people; the scruples were mine, not yours"}},
       {"phase": "human", "v": 60, "tip": {"t": "paths", "ph": "Human", "q": "GCP + Firebase, a diligence partner", "s": "I floated paths back", "r": "none of it an ask today", "g": "invitation over ask"}},
       {"phase": "in_sync", "v": 66, "tip": {"t": "close", "ph": "In sync", "q": "part two of where this goes, after Hawaii", "s": "you named the follow-up", "r": "warm and forward, on your timeline", "g": "a yes waiting, not a defer"}}
     ]},
@@ -73,8 +73,8 @@
      "p_close": "No ask, no pitch. You already know why it matters; you shipped it by hand five years ago."},
     {"type": "beat", "phase": "human", "bph": "THE HUMAN CHANNEL, KEPT OPEN", "pairs": [
       {"who": "ME", "text": "two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in"},
-      {"who": "YOU", "text": "the Turing-test jokes, the consent-first stance: you're doing the right thing"}
-    ], "bread": "The human channel was open the whole call, which is why the business turn landed soft. The consent-first open was the same move: warmth keeping the channel open, table stakes for you."}
+      {"who": "YOU", "text": "the Turing-test jokes, and you're doing the right thing, one of the few who ask"}
+    ], "bread": "The human channel was open the whole call, which is why the business turn landed soft. You warmed to being asked to record, one of the few who ask; that same warmth, not any policy, kept the channel open."}
   ],
   "hood": [
     {"type": "card", "id": "s-inst", "h3": "What you are looking at", "ps": [

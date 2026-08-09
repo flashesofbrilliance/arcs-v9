@@ -14,7 +14,13 @@
       "EX-ANTE FILED: THE WAR-ROOM RECEIPT, BEFORE THE CALL"
     ],
     "resolution": {"level": "full", "caveat": "single consented call, verbatim-anchored to his words"},
-    "gate": {"external": "yuri"}
+    "gate": {"external": "yuri"},
+    "labels": {
+      "kairos_pre_k": "CALLED IN ADVANCE &nbsp;&middot;&nbsp; the one question I flagged up front",
+      "reverse_k": "Read from the end backward &nbsp;&middot;&nbsp; where the signal actually was",
+      "kairos_lock_k": "&#9679; THE MOMENT IT TURNED",
+      "posterior_k": "WHERE I LANDED &nbsp;&middot;&nbsp; what the call updated"
+    }
   },
   "lede_cover": "You asked to see the magic, not the abstract doc: the bet I filed on you before we spoke, scored honestly against what actually happened once we did. Everything scored here is my own prediction, not yours. Every line that moved a belief is in your own words, with your OK to record. Nothing redacted. One register call was right; the fit I under-read by a mile.",
   "ex_ante": {
@@ -31,13 +37,14 @@
   },
   "waveform": {
     "label": "first call, Jul 23",
+    "kairos_marker": "THE FLIP",
     "points": [
       {"key": "open", "label": "open", "v": 46, "tip": "Consent to record asked first. Your mom, the United ordeal, the newborn. Human before agenda"},
       {"key": "stories", "label": "stories", "v": 54, "tip": "Google stories, what you are building and excited about. Warm, generous, low agenda"},
       {"key": "reveal", "label": "reveal", "v": 80, "kairos": true, "tip": "A team of 20 building internal exec briefs for the partnerships org. The picture flips"},
       {"key": "pull", "label": "pull", "v": 71, "tip": "Be selfish, what would get you to the next step. You pulled, I did not have to push"},
       {"key": "doc-miss", "label": "doc-miss", "v": 57, "tip": "It is very different than what I had in mind. You asked for the real before and after"},
-      {"key": "consent", "label": "consent", "v": 64, "tip": "You are doing the right thing. The plain-language, honest-about-preference stance landed"},
+      {"key": "asked", "label": "asked", "v": 64, "tip": "You are doing the right thing, one of the few who ask. You appreciated being asked to record, warm about it, not precious"},
       {"key": "paths", "label": "paths", "v": 60, "tip": "GCP plus Firebase, a Google Ventures conversation, a diligence partner. Floated back"},
       {"key": "close", "label": "close", "v": 66, "tip": "Part two of where this goes, after Hawaii. That is the magic. Warm and forward"}
     ],
@@ -46,24 +53,24 @@
   "reverse_listening": {
     "lede": "Read from the close backward, detail spent where the signal is: the banter skimmed, the reveal read closely. The question is always the same: where did the read actually break, working back from the close.",
     "beats": [
-      {"tag": "CLOSE", "dilation": "real", "label": "Where it landed", "quote": "it'd be great to see your hypothesis on me before and what happened after our conversation, that's the magic", "read": "Read backward, the close is not a soft defer. It is a specific request and a name for what mattered: the before and after. You asked for the receipt itself. This page is that request answered."},
-      {"tag": "REVEAL", "dilation": "dilated", "label": "The moment the read broke", "quote": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it together into briefs for execs before they meet people", "read": "This is the moment that rewrote everything. Read it closely. I filed a bet that you might know a team that could use this. In one sentence that collapsed: you run the team, you built the thesis, you are the exact buyer and builder. The one belief I flagged as most likely wrong is the one that broke hardest, in the best direction."},
-      {"tag": "PULL", "dilation": "dilated", "label": "Warmer than I bet", "quote": "I want to help move you toward Zach direction... be selfish, what would get you to the next step", "read": "The leading indicator I under-weighted. I predicted warm-but-non-committal. You pulled, actively, and asked me to be selfish about the next step. Working backward, the relationship was never going to sit still; I bet it would."},
-      {"tag": "PROOF", "dilation": "real", "label": "Not a skeptic, a practitioner", "quote": "I automated it with data science, no AI, in 2020", "read": "I went in braced to convince a skeptic. Backward, that was the wrong posture entirely. You already built this thesis by hand and proved it at the top of Google. You lived the product five years before I named it."},
-      {"tag": "MISS", "dilation": "real", "label": "The doc did not land", "quote": "it's very different than what I had in mind... it'd be great to see a real example of both", "read": "The abstract capability doc did not do the selling I bet it would. You found it abstract and asked for the real thing. You were right, and this before-and-after is the correction."},
-      {"tag": "BANTER", "dilation": "compressed", "label": "The human channel, kept open", "quote": "Two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in, the Turing-test jokes.", "read": "Compressed, not filler. It held little for the receipt but kept the human channel open, which is why the business turn landed soft. The consent-first open was the same move: warmth kept the channel open."}
+      {"tag": "CLOSE", "dilation": "real", "dilation_tag": "CLOSE READ", "label": "Where it landed", "quote": "it'd be great to see your hypothesis on me before and what happened after our conversation, that's the magic", "read": "Read backward, the close is not a soft defer. It is a specific request and a name for what mattered: the before and after. You asked for the receipt itself. This page is that request answered."},
+      {"tag": "REVEAL", "dilation": "dilated", "dilation_tag": "THE KEY MOMENT", "label": "The moment the read broke", "quote": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it together into briefs for execs before they meet people", "read": "This is the moment that rewrote everything. Read it closely. I filed a bet that you might know a team that could use this. In one sentence that collapsed: you run the team, you built the thesis, you are the exact buyer and builder. The one belief I flagged as most likely wrong is the one that broke hardest, in the best direction."},
+      {"tag": "PULL", "dilation": "dilated", "dilation_tag": "THE KEY MOMENT", "label": "Warmer than I bet", "quote": "I want to help move you toward Zach direction... be selfish, what would get you to the next step", "read": "The leading indicator I under-weighted. I predicted warm-but-non-committal. You pulled, actively, and asked me to be selfish about the next step. Working backward, the relationship was never going to sit still; I bet it would."},
+      {"tag": "PROOF", "dilation": "real", "dilation_tag": "CLOSE READ", "label": "Not a skeptic, a practitioner", "quote": "I automated it with data science, no AI, in 2020", "read": "I went in braced to convince a skeptic. Backward, that was the wrong posture entirely. You already built this thesis by hand and proved it at the top of Google. You lived the product five years before I named it."},
+      {"tag": "MISS", "dilation": "real", "dilation_tag": "CLOSE READ", "label": "The doc did not land", "quote": "it's very different than what I had in mind... it'd be great to see a real example of both", "read": "The abstract capability doc did not do the selling I bet it would. You found it abstract and asked for the real thing. You were right, and this before-and-after is the correction."},
+      {"tag": "BANTER", "dilation": "compressed", "dilation_tag": "SKIMMED", "label": "The human channel, kept open", "quote": "Two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in, the Turing-test jokes.", "read": "Skimmed, not filler. It held little for the receipt but kept the human channel open, which is why the business turn landed soft. You warmed to being asked to record, one of the few who ask, and that same warmth kept the channel open."}
     ]
   },
   "kairos_lock": {
     "label": "First call, the fit reveal",
     "quote": "we take first and third party data and stitch it together into briefs for execs before they meet people",
-    "prose": "Write-locked because it is the single highest-information moment of the call, and it rewrites the entire read. You did not react to a feature. You described the product I am building, as something you already run at Google, for the partnerships org, at exec scale. A kairos is a moment that will not come again on the same terms. This is the one to build the next move on."
+    "prose": "Locked because it is the single highest-information moment of the call, and it rewrites the entire read. You did not react to a feature. You described the product I am building, as something you already run at Google, for the partnerships org, at exec scale. It is a moment that will not come again on the same terms. This is the one to build the next move on."
   },
   "close": {
     "status": "CLOSED",
     "status_note": "The register call was right and the fit read was wrong in the most useful way possible. Four predictions missed productively; all four moved toward a far stronger fit than I bet. The one belief I flagged as most likely wrong is the net-new prior.",
     "scorecard": [
-      {"verdict": "HIT", "predicted": "YELLOW / warm register: generous, curious, real relationship signal", "observed": "Warm and generous throughout, human-first, consent-aware", "delta": "register right, the one clean hit"},
+      {"verdict": "HIT", "predicted": "YELLOW / warm register: generous, curious, real relationship signal", "observed": "Warm and generous throughout, human-first, quick to trust", "delta": "register right, the one clean hit"},
       {"verdict": "MISS", "predicted": "If a surface exists, you are a champion or connector to a team, not the buyer", "observed": "a team of 20... briefs for execs before they meet people", "delta": "the productive miss: you ARE the buyer and builder"},
       {"verdict": "MISS", "predicted": "Warm but non-committal, no near-term pull", "observed": "be selfish, what would get you to the next step", "delta": "warmer and more active than bet; you pulled"},
       {"verdict": "MISS", "predicted": "The capability doc lands and carries the selling", "observed": "it's very different than what I had in mind... a real example of both", "delta": "it did not land; you asked for the real before and after"},
@@ -72,7 +79,7 @@
     "net_new": [
       {"signal": "You are the buyer and the builder, not a referral to one", "quote": "a team of 20... we build internal infrastructure for the partnerships org... briefs for execs before they meet people", "update": "Collapse the whole fit read. This is not a fan who knows a buyer; you built the exec-brief automation by hand and proved it at the top of the org. Confidence in a real fit went from a hedge to near-certain. The surface is an internal Google tenant or dogfood, downstream of the relationship, on your timeline."},
       {"signal": "You pulled the relationship forward yourself", "quote": "I want to help move you toward Zach direction... be selfish, what would get you to the next step", "update": "Treat the pace as yours to set, warmly. You asked for the next step rather than waiting to be pushed. The most useful move is the part-two follow-up you named, after Hawaii; nothing here is waiting on you."},
-      {"signal": "The consent and data-ethics stance is table stakes for you", "quote": "you're doing the right thing", "update": "The plain-language, honest-about-stated-versus-revealed-preference stance is not a side note for you. You led with it, unprompted, which told me it is not a side note for you."},
+      {"signal": "You are not the privacy hawk I half-expected, you are pragmatic about it", "quote": "I could care less", "update": "I came in half-expecting a consent stickler and mirrored some of that back. You waved it off: you appreciated being asked, one of the few who ask, but you trust the people you talk to and take the data world as it is. The scruples are mine, not yours. Correction logged, and this is the receipt catching my own miss."},
       {"signal": "The before-and-after receipt is what crosses", "quote": "it'd be great to see your hypothesis on me before and what happened after, that's the magic", "update": "You named the deliverable. What crosses is the magic you asked to see: a real bet, filed before we talked, scored honestly against what you actually said. The theory under the hood stays under the hood; the receipt is the thing that travels."}
     ],
     "posterior": {

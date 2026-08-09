@@ -308,8 +308,9 @@ def _waveform_svg(wf):
         hits += (f'<circle class="hit" cx="{xs[i]:.1f}" cy="{ys[i]:.1f}" r="16" fill="transparent" data-tip '
                  f'data-c="{c}" data-t="{A(p.get("key",""))}" data-n="{A(p.get("tip",""))}"/>')
         if kairos:
+            marker = E(wf.get("kairos_marker", "KAIROS"))
             labels += (f'<text x="{xs[i]:.1f}" y="{ys[i]-14:.1f}" text-anchor="middle" fill="#00F0FF" '
-                       f'font-family="ui-monospace,monospace" font-size="9.5" letter-spacing="0.05em">KAIROS</text>')
+                       f'font-family="ui-monospace,monospace" font-size="9.5" letter-spacing="0.05em">{marker}</text>')
         labels += (f'<text x="{xs[i]:.1f}" y="{H-PB+15:.1f}" text-anchor="middle" fill="#64748b" '
                    f'font-family="ui-monospace,monospace" font-size="8">{E(p.get("label", p.get("key","")))}</text>')
     return (f'<div class="manifold"><svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="xMidYMid meet" '
@@ -326,6 +327,9 @@ def render_receipt(d):
     m = d["meta"]
     title = m.get("title") or f'{m["counterpart"]}, Receipt Close' + (f', {m["call_label"]}' if m.get("call_label") else "")
     m = {**m, "title": title}
+    # Optional per-surface label overrides (plain-language variant, e.g. Yuri).
+    # Defaults preserve the canonical labels so surfaces without `labels` (Robin) are byte-identical.
+    LBL = d["meta"].get("labels", {})
     badges = "".join(f'<span class="badge">{E(b)}</span>' for b in m.get("badges", []))
     meta_line = "<br>".join(E(x) for x in m.get("meta_lines", []))
     L = []
@@ -361,7 +365,7 @@ def render_receipt(d):
                  f'<div class="predbody"><p class="predclaim">{p["claim"]}</p><p class="predmeta">{p.get("meta","")}</p></div></div>')
     L.append('</div>')
     if ea.get("kairos_pre"):
-        L.append(f'<div class="kairoslock pre"><span class="klk">KAIROS, CALLED IN ADVANCE</span><p>{ea["kairos_pre"]}</p></div>')
+        L.append(f'<div class="kairoslock pre"><span class="klk">{LBL.get("kairos_pre_k", "KAIROS, CALLED IN ADVANCE")}</span><p>{ea["kairos_pre"]}</p></div>')
     L.append('</section>')
 
     # 2. waveform
@@ -374,7 +378,7 @@ def render_receipt(d):
     # 3. reverse listening
     rl = d.get("reverse_listening")
     if rl:
-        L.append('<section class="sec"><div class="eyebrow"><b>&#9633;</b> Reverse listening &nbsp;&middot;&nbsp; read from the close, resolution spent on the signal</div>')
+        L.append('<section class="sec"><div class="eyebrow"><b>&#9633;</b> ' + LBL.get("reverse_k", "Reverse listening &nbsp;&middot;&nbsp; read from the close, resolution spent on the signal") + '</div>')
         L.append(f'<p class="lede">{rl["lede"]}</p><div class="rlwalk">')
         for b in rl["beats"]:
             dil = b.get("dilation", "real")
@@ -392,7 +396,7 @@ def render_receipt(d):
     # 4. kairos write-lock
     kl = d.get("kairos_lock")
     if kl:
-        L.append('<section class="sec"><div class="kairoslock"><span class="klk">&#9679; KAIROS, WRITE-LOCKED &nbsp;&middot;&nbsp; ' + E(kl["label"]) + '</span>')
+        L.append('<section class="sec"><div class="kairoslock"><span class="klk">' + LBL.get("kairos_lock_k", "&#9679; KAIROS, WRITE-LOCKED") + ' &nbsp;&middot;&nbsp; ' + E(kl["label"]) + '</span>')
         L.append(f'<blockquote>&ldquo;{kl["quote"]}&rdquo;</blockquote><p>{kl["prose"]}</p></div></section>')
 
     # 5. auto-close scorecard
@@ -416,7 +420,7 @@ def render_receipt(d):
         L.append('</div>')
     po = cl.get("posterior")
     if po:
-        L.append('<div class="posterior"><span class="pok">THE POSTERIOR &nbsp;&middot;&nbsp; what the receipt taught me</span>')
+        L.append('<div class="posterior"><span class="pok">' + LBL.get("posterior_k", "THE POSTERIOR &nbsp;&middot;&nbsp; what the receipt taught me") + '</span>')
         L.append(f'<p class="powedge"><b>Wedge:</b> {po["wedge"]}</p>')
         L.append(f'<p><b>Status:</b> {po["status"]}</p>')
         L.append(f'<p><b>Register:</b> {po["register"]}</p>')
@@ -501,6 +505,7 @@ h1{font-size:27px;font-weight:700;letter-spacing:-.02em;margin-top:8px;line-heig
 .sts{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
 .stb p{font-size:13px;color:var(--muted);line-height:1.5}.stb a{color:var(--cyan);text-decoration:none;font-family:var(--mono);font-size:11px}.stb a:hover{text-decoration:underline}
 .close{font-size:15px;color:#e4ded4;line-height:1.6;border:1px solid rgba(255,215,0,.28);border-radius:11px;background:var(--gold-bg);padding:14px 16px}
+.close a{color:var(--gold);text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px;font-weight:600;transition:color .15s}.close a:hover{color:#ffe89a}
 .gapflag{border:1px dashed var(--gold);border-radius:12px;background:var(--gold-bg);padding:18px 20px}
 .gapflag .gk{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:9px}
 .gapflag p{font-size:13.5px;color:var(--text);opacity:.9;line-height:1.55;margin-bottom:8px}
