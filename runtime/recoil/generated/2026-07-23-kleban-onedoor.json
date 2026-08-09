@@ -109,6 +109,14 @@
         {
           "h3": "The one thing I would do next",
           "p": "A real before and after on one call that matters to you, model-agnostic, runs on Gemini, nothing leaves Google, receipts are JSON. Then you decide. The part-two follow-up you named, on your timeline."
+        },
+        {
+          "h3": "The deep cut, if you want the machine",
+          "p": "Optional, and only if you are the kind of builder who wants to see it run: our whole call as one trajectory, hello to goodbye, every point traced to a line we actually said. Two lines, honest that it is one call. Not the thing to read first; the thing to read if the rest made you curious how it moves.",
+          "link": {
+            "href": "https://yuri-diamond.arcs.care",
+            "label": "See the whole call, mapped"
+          }
         }
       ]
     },
