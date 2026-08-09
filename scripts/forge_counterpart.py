@@ -1253,7 +1253,137 @@ def render_onedoor(d):
     return "".join(L)
 
 
-SURFACES = {"receipt": render_receipt, "profile": render_profile, "codex": render_codex, "onedoor": render_onedoor}
+# ---------------------------------------------------------------------------
+# DIAMOND CUT -- the forensic, earned-fidelity trajectory of a single call,
+# T0 -> TEnd. NOT a full 12D manifold: two defensible dimensions only (Sync +
+# my Conviction-in-fit), every beat verbatim-anchored, the gap between the two
+# lines filled because the gap IS the story. Renders at the resolution one call
+# deserves and says so (WORLD.md earned-fidelity; never overclaim). Shows the
+# OUTPUT trajectory, not the transform (the fence holds).
+# ---------------------------------------------------------------------------
+DIAMOND_CSS = ("*{margin:0;padding:0;box-sizing:border-box}"
+    "body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;"
+    "-webkit-font-smoothing:antialiased}"
+    ".wrap{max-width:820px;margin:0 auto;padding:56px 24px 72px}"
+    ".eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed);margin-bottom:14px}"
+    ".eyebrow b{color:var(--cyan)}"
+    "h1{font-family:var(--display);font-size:clamp(24px,3.2vw+8px,34px);font-weight:700;line-height:1.18;letter-spacing:-.01em;color:#fff;margin-bottom:16px}"
+    ".lede{font-size:15px;color:var(--muted);line-height:1.62;max-width:64ch}.lede strong{color:var(--text);font-weight:600}"
+    ".legend{display:flex;flex-wrap:wrap;gap:20px;margin:26px 0 8px}"
+    ".lg{display:flex;gap:9px;align-items:flex-start;max-width:340px}"
+    ".lg .sw{width:22px;height:3px;border-radius:2px;margin-top:8px;flex:none}"
+    ".lg .lk{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text)}"
+    ".lg .lp{font-size:12.5px;color:var(--dimmed);line-height:1.4}"
+    ".chart{margin:14px 0 6px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(180deg,var(--surface),var(--surface2));padding:18px 16px 10px}"
+    ".onenum{border:1px solid rgba(255,215,0,.28);border-radius:12px;background:var(--gold-bg);padding:18px 20px;margin:22px 0}"
+    ".onenum .onk{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block}"
+    ".onenum h2{font-family:var(--display);font-size:19px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:8px}"
+    ".onenum p{font-size:14px;color:var(--text);opacity:.92;line-height:1.56}"
+    ".rail{margin:26px 0 0}"
+    ".railhead{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:4px}"
+    ".drow{display:grid;grid-template-columns:96px 1fr;gap:16px;padding:15px 0;border-top:1px solid var(--border)}"
+    ".drow.flip{background:linear-gradient(90deg,var(--gold-bg),transparent 70%);border-top-color:rgba(255,215,0,.3);margin:0 -12px;padding-left:12px;padding-right:12px;border-radius:8px}"
+    ".dts{display:flex;flex-direction:column;gap:4px}"
+    ".dt{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.03em}"
+    ".dlab{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}"
+    ".drow.flip .dlab{color:var(--gold)}"
+    ".dq{font-size:14px;color:var(--text);line-height:1.5;font-style:italic;margin-bottom:6px}"
+    ".dq::before{content:'\\201C'}.dq::after{content:'\\201D'}"
+    ".dr{font-size:13px;color:var(--muted);line-height:1.52}"
+    ".fid{border:1px dashed var(--border);border-radius:12px;background:var(--surface2);padding:18px 20px;margin:28px 0 0}"
+    ".fid .fk{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed);margin-bottom:8px;display:block}"
+    ".fid p{font-size:13px;color:var(--muted);line-height:1.6}"
+    ".foot{margin-top:36px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed);text-align:center;line-height:1.9}")
+
+
+def _trajectory_svg(tj):
+    """Dual-line forensic trajectory: Sync (cyan) + Conviction-in-fit (gold) over
+    T0->TEnd, with the gap between them filled (the gap is the story) and a
+    per-beat hit column carrying the verbatim line via the canonical #tip."""
+    bs = tj["beats"]
+    n = len(bs)
+    W, H, PT, PB, PL, PR = 760, 300, 40, 54, 22, 22
+    xs = [PL + (W - PL - PR) * (i / (n - 1)) for i in range(n)]
+    def y(v): return PT + (H - PT - PB) * (1 - float(v) / 100.0)
+    ys_s = [y(b["sync"]) for b in bs]
+    ys_c = [y(b["conv"]) for b in bs]
+    sync_line = "M" + " L".join(f"{xs[i]:.1f},{ys_s[i]:.1f}" for i in range(n))
+    conv_line = "M" + " L".join(f"{xs[i]:.1f},{ys_c[i]:.1f}" for i in range(n))
+    gap = ("M" + " L".join(f"{xs[i]:.1f},{ys_s[i]:.1f}" for i in range(n))
+           + " L" + " L".join(f"{xs[i]:.1f},{ys_c[i]:.1f}" for i in range(n - 1, -1, -1)) + " Z")
+    dots = guide = hits = ""
+    for i, b in enumerate(bs):
+        kair = bool(b.get("kairos"))
+        if kair:
+            guide += (f'<line x1="{xs[i]:.1f}" y1="{PT-6}" x2="{xs[i]:.1f}" y2="{H-PB}" stroke="#FFD700" '
+                      f'stroke-width="1" stroke-dasharray="3 3" opacity="0.5"/>'
+                      f'<text x="{xs[i]:.1f}" y="{PT-12}" text-anchor="middle" fill="#FFD700" '
+                      f'font-family="ui-monospace,monospace" font-size="9" font-weight="700" letter-spacing="0.1em">THE FLIP</text>')
+        rs = 6 if kair else 3.6
+        dots += f'<circle cx="{xs[i]:.1f}" cy="{ys_s[i]:.1f}" r="{rs}" fill="#00F0FF" stroke="#020408" stroke-width="1.5"/>'
+        dots += f'<circle cx="{xs[i]:.1f}" cy="{ys_c[i]:.1f}" r="{rs}" fill="#FFD700" stroke="#020408" stroke-width="1.5"/>'
+        col = (W - PL - PR) / (n - 1)
+        hx = xs[i] - col / 2
+        hits += (f'<rect class="hit" x="{hx:.1f}" y="{PT-6}" width="{col:.1f}" height="{H-PB-PT+6:.1f}" '
+                 f'fill="transparent" data-tip data-c="{"#FFD700" if kair else "#00F0FF"}" '
+                 f'data-t="{A(b["label"])} &#183; {A(b["t"])}" data-n="{A(b["quote"])}"/>')
+    return (f'<div class="chart"><svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="xMidYMid meet" '
+            f'role="img" aria-label="Call trajectory: sync and conviction over time">'
+            f'<defs><linearGradient id="gap" x1="0" y1="0" x2="0" y2="1">'
+            f'<stop offset="0" stop-color="#FFD700" stop-opacity="0.10"/><stop offset="1" stop-color="#00F0FF" stop-opacity="0.05"/></linearGradient></defs>'
+            f'<line x1="{PL}" y1="{H-PB:.0f}" x2="{W-PR}" y2="{H-PB:.0f}" stroke="#1e293b" stroke-width="1"/>'
+            f'<path d="{gap}" fill="url(#gap)"/>{guide}'
+            f'<path d="{conv_line}" fill="none" stroke="#FFD700" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+            f'<path d="{sync_line}" fill="none" stroke="#00F0FF" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+            f'{dots}'
+            f'<text x="{xs[0]:.1f}" y="{H-PB+16:.0f}" text-anchor="start" fill="#64748b" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em">{E(tj.get("t0","T0"))} &#8594;</text>'
+            f'<text x="{xs[-1]:.1f}" y="{H-PB+16:.0f}" text-anchor="end" fill="#64748b" font-family="ui-monospace,monospace" font-size="9" letter-spacing="0.08em">{E(tj.get("tend","TEnd"))}</text>'
+            f'{hits}</svg></div>')
+
+
+def render_diamond(d):
+    m = d["meta"]
+    h = d["header"]
+    L = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
+         '<meta name="viewport" content="width=device-width, initial-scale=1">',
+         f'<meta name="robots" content="noindex, nofollow"><title>{E(m.get("doc_title", m["counterpart"] + " · Diamond Cut"))}</title>',
+         f'<style>{TOKENS}{DIAMOND_CSS}{TIP_CSS}</style>{VERCEL}</head><body>',
+         '<div class="wrap">']
+    L.append(f'<div class="eyebrow">{h["eyebrow"]}</div>')
+    L.append(f'<h1>{h["title"]}</h1>')
+    L.append(f'<p class="lede">{h["lede"]}</p>')
+    # legend
+    L.append('<div class="legend">')
+    for lg in d.get("legend", []):
+        L.append(f'<div class="lg"><span class="sw" style="background:{lg["color"]}"></span>'
+                 f'<div><div class="lk">{lg["k"]}</div><div class="lp">{lg["p"]}</div></div></div>')
+    L.append('</div>')
+    # the trajectory
+    L.append(_trajectory_svg(d["trajectory"]))
+    # the one number
+    on = d.get("the_one_number")
+    if on:
+        L.append(f'<div class="onenum"><span class="onk">{on["k"]}</span>'
+                 f'<h2>{on["headline"]}</h2><p>{on["body"]}</p></div>')
+    # the verbatim rail
+    L.append('<div class="rail"><div class="railhead">Every point, in your words or mine &#183; the substance behind the chart</div>')
+    for b in d["trajectory"]["beats"]:
+        flip = " flip" if b.get("kairos") else ""
+        L.append(f'<div class="drow{flip}"><div class="dts"><span class="dt">{E(b["t"])}</span>'
+                 f'<span class="dlab">{b["label"]}</span></div>'
+                 f'<div><p class="dq">{b["quote"]}</p><p class="dr">{b["read"]}</p></div></div>')
+    L.append('</div>')
+    # fidelity
+    fi = d.get("fidelity")
+    if fi:
+        L.append(f'<div class="fid"><span class="fk">{fi["k"]}</span><p>{fi["body"]}</p></div>')
+    L.append(f'<div class="foot">{d.get("foot","")}</div>')
+    L.append('</div><div id="tip"></div>')
+    L.append(f'<script>{TIP_JS}</script></body></html>')
+    return "\n".join(L)
+
+
+SURFACES = {"receipt": render_receipt, "profile": render_profile, "codex": render_codex, "onedoor": render_onedoor, "diamond": render_diamond}
 
 
 # ===========================================================================

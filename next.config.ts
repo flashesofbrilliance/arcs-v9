@@ -101,6 +101,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri-recoil.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
         // yuri-codex.arcs.care -> public/yuri-codex.html (5-altitude org-scale codex + presentation mode, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-codex.html", has: [{ type: "host", value: "yuri-codex.arcs.care" }] },
+        // yuri-diamond.arcs.care -> public/yuri-diamond.html (forensic diamond cut: the Jul 23 call as one T0->TEnd trajectory, verbatim-anchored + earned-fidelity; opt-in deep cut, linked softly from the one-door, ungated)
+        { source: "/:path*", destination: "/yuri-diamond.html", has: [{ type: "host", value: "yuri-diamond.arcs.care" }] },
         // robin-codex.arcs.care -> public/robin-codex.html (2-tab resonance codex: The Read + The Instrument, mid-curve tooltips, present mode, pw-gated "robin")
         { source: "/:path*", destination: "/robin-codex.html", has: [{ type: "host", value: "robin-codex.arcs.care" }] },
         // robin.arcs.care -> public/robin.html (one-door studio: seed -> whole story -> how the brief is built -> how it works -> where it goes, pw "robin")
