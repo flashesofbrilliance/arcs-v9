@@ -2158,3 +2158,73 @@ NONE.
 path-based — add a path when a new non-shipping file class enters the repo.
 
 ---
+
+
+# Handoff — v3.22.0 (2026-08-03)
+
+> **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to
+> `_ARCHIVE/handoffs.md` per the lean-file policy. Full detail:
+> `~/.claude/projects/-Users-zharris-arcs-v9/memory/project_todd_hotes_prl_resins.md`
+> (machine-local, PRL section, entries dated 2026-08-03).
+
+## Headline: Zapier MCP gives direct read/write on PRL's live SugarCRM
+
+`inspect_zapier_actions` exposes three of the client's own systems: **SugarCRM**
+(`SugarCRMCLIAPI`, connection "SugarCRM 7+ Importer"), **Unbounce**, **LeadConnector**.
+Create/Update/Find Record plus raw API requests are all available. **This removes the
+long-standing "we need a SugarCRM login from Todd" blocker entirely.** No new credentials
+needed. Treat writes to that instance as production changes to a *client's* system.
+
+## Read-only config audit (Leads schema + 100 live records). Nothing was written.
+
+- `phone_work` is **required**, filled 100/100. The chatbot treats phone as optional, so any
+  lead skipping it currently fails to create. Unresolved.
+- `lead_source` is a fixed picklist with **no chatbot value** ("Other" 91/100, "Web Site" 8/100).
+- **Correction:** `location_c` declares state abbreviations in schema but every live record uses
+  **full state names**. Earlier guidance in artifacts saying "use MI not Michigan" was wrong and
+  has been superseded. The existing Unbounce->Sugar zaps are correct.
+- **95% of existing leads have no email address.** The bot captures it every time. Strongest
+  value proof available for this engagement.
+- 92/100 assigned to Bill Galla, status "New" 100/100 (confirms MVP routing design).
+- All records on team **"Global"**: no record-level privacy, so a test lead cannot be hidden.
+
+## Direct Tidio -> SugarCRM was researched and rejected
+
+Sugar cloud REST is OAuth2 `password`/`refresh_token` only (1h token, no static key, no native
+inbound webhook), so a single fire-and-forget flow node cannot authenticate. The one
+unauthenticated path (legacy Web-to-Lead entry point) is license-gated to editions including
+Campaigns and needs a form-encoded body Tidio may not send. **Keep Zapier in the middle** for
+retry + visible task history.
+
+## todd-call.arcs.care restructured (`736f9c0`) — read before editing that file
+
+`/impeccable distill`: 11 nav tabs -> 6, **section ids changed**. Live: hero / `#status` /
+`#tradeoffs` (new) / `#crmcheck` / `#roadmap` / `#howitworks` / `#progress`. All pre-sale
+sections (`#reverse` `#recall` `#chatbot` `#mvp` `#protocol` `#sm-questions` `#stack`, quote,
+stop-loss) moved inside a collapsed `<details class="bg">` at `#background`. Nothing deleted.
+Fixed: nav was `display:none` under 768px (client reads on iOS), and the page still opened with
+a price box 10 days after payment.
+
+**Two traps if you script against this file:** "LOAD-BEARING QUOTE" appears as both a CSS comment
+(~line 167) and an HTML comment (~line 756) — matching the first swallows the whole document head.
+And `#howitworks` carries the `.page`-closing `</div>` plus the scroll-spy `<script>`, so slicing
+to it naively closes the container early and later sections render full-bleed.
+
+## Tooling status
+
+Gmail MCP `search_threads` **is broken** (every query errors) though other Gmail MCP tools work;
+use claude-in-chrome on mail.google.com instead. iMessage MCP times out even with Automation
+granted. claude-in-chrome rejects `file://` (prefixes https://) so serve locally for visual QA.
+
+## Blocking
+
+NONE. Three client decisions outstanding (phone required vs placeholder; add a "Chatbot" lead
+source; approve one labelled test lead or confirm a sandbox), but nothing is internally blocked.
+
+## Next session starts at
+
+Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
+full state names, status "New", assign Bill Galla, details into `description`), then send one real
+test lead end to end. Do not write to SugarCRM before Todd approves.
+
+---

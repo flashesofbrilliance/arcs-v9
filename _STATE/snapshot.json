@@ -2,12 +2,11 @@
   "captured_at": "2026-08-03T18:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "93115ba",
-    "head_message": "docs(todd): note full enumerated orphaned-lead review (37 genuine/28 orphaned/20 HIGH) [NCI:SKIP]",
+    "head_sha": "fd2cf09",
+    "head_message": "docs(todd): audience-scoping CONFIRMED available; info@ shows green [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
-      "_STATE/snapshot.json",
-      "runtime/recoil/generated/prl-kb/sugar-schema/build-vs-current-state.md"
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -56,9 +55,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 226,
-  "session_summary": "PRL chatbot: shipped daily exec-status routine (scheduled task prl-daily-status, weekdays 9:31, draft-on-change); confirmed Tidio Lyro/Flows architecture in writing (Flows->Lyro->Human, no Lyro-in-Flow, only Visitor-Says conflicts, Simple Actions only in-Lyro logic); reframed Tidio email config as Tidio-support not IT; sent Todd weekend recap + Daniel/Tidio clarification; updated prl.arcs.care (For-your-team copy-paste blocks, IT reframe, 1.5 confirmed-order callout).",
-  "next_action": "Verify first status-routine run Mon 2026-08-10 9:31 (Run now to pre-approve Gmail tool). Await Todd on specs-vs-route, handoff fix, safe CRM test path. On greenlight, wire Tidio->Zapier->SugarCRM Create Record (do not write before approval).",
-  "blocking": "NONE",
+  "session_summary": "PRL chatbot 1.5 experience-design: CONFIRMED Tidio account capabilities (Flows 2k + Lyro 50/mo paid, NOT Plus; audience-scoping AVAILABLE via 'Set audience'; Lyro Tasks + handoff quota-free); grounded two-ICP audience design (injection molder fast-lane vs OEM consultative) in Todd's Granola calls; confirmed live fabrication risk (150 spec Q&As active in Lyro). No live Tidio changes made.",
+  "next_action": "Run B: map + /impeccable the current chatbot journey (read-only). Then produce design spec + PRD + implementation plan for Zach's CHECKPOINT review. Only after approval, A: build Molder/OEM audience routing on staging (backup-first). Parked: 1696-ticket triage, info@ re-verify, manual flow import.",
+  "blocking": "NONE (Zach checkpoint-gates the build)",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -182,7 +181,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-08T20:26:45Z",
+  "git_refreshed_at": "2026-08-09T15:13:37Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

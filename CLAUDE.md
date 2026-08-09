@@ -101,75 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.22.0 (2026-08-03)
-
-> **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to
-> `_ARCHIVE/handoffs.md` per the lean-file policy. Full detail:
-> `~/.claude/projects/-Users-zharris-arcs-v9/memory/project_todd_hotes_prl_resins.md`
-> (machine-local, PRL section, entries dated 2026-08-03).
-
-## Headline: Zapier MCP gives direct read/write on PRL's live SugarCRM
-
-`inspect_zapier_actions` exposes three of the client's own systems: **SugarCRM**
-(`SugarCRMCLIAPI`, connection "SugarCRM 7+ Importer"), **Unbounce**, **LeadConnector**.
-Create/Update/Find Record plus raw API requests are all available. **This removes the
-long-standing "we need a SugarCRM login from Todd" blocker entirely.** No new credentials
-needed. Treat writes to that instance as production changes to a *client's* system.
-
-## Read-only config audit (Leads schema + 100 live records). Nothing was written.
-
-- `phone_work` is **required**, filled 100/100. The chatbot treats phone as optional, so any
-  lead skipping it currently fails to create. Unresolved.
-- `lead_source` is a fixed picklist with **no chatbot value** ("Other" 91/100, "Web Site" 8/100).
-- **Correction:** `location_c` declares state abbreviations in schema but every live record uses
-  **full state names**. Earlier guidance in artifacts saying "use MI not Michigan" was wrong and
-  has been superseded. The existing Unbounce->Sugar zaps are correct.
-- **95% of existing leads have no email address.** The bot captures it every time. Strongest
-  value proof available for this engagement.
-- 92/100 assigned to Bill Galla, status "New" 100/100 (confirms MVP routing design).
-- All records on team **"Global"**: no record-level privacy, so a test lead cannot be hidden.
-
-## Direct Tidio -> SugarCRM was researched and rejected
-
-Sugar cloud REST is OAuth2 `password`/`refresh_token` only (1h token, no static key, no native
-inbound webhook), so a single fire-and-forget flow node cannot authenticate. The one
-unauthenticated path (legacy Web-to-Lead entry point) is license-gated to editions including
-Campaigns and needs a form-encoded body Tidio may not send. **Keep Zapier in the middle** for
-retry + visible task history.
-
-## todd-call.arcs.care restructured (`736f9c0`) — read before editing that file
-
-`/impeccable distill`: 11 nav tabs -> 6, **section ids changed**. Live: hero / `#status` /
-`#tradeoffs` (new) / `#crmcheck` / `#roadmap` / `#howitworks` / `#progress`. All pre-sale
-sections (`#reverse` `#recall` `#chatbot` `#mvp` `#protocol` `#sm-questions` `#stack`, quote,
-stop-loss) moved inside a collapsed `<details class="bg">` at `#background`. Nothing deleted.
-Fixed: nav was `display:none` under 768px (client reads on iOS), and the page still opened with
-a price box 10 days after payment.
-
-**Two traps if you script against this file:** "LOAD-BEARING QUOTE" appears as both a CSS comment
-(~line 167) and an HTML comment (~line 756) — matching the first swallows the whole document head.
-And `#howitworks` carries the `.page`-closing `</div>` plus the scroll-spy `<script>`, so slicing
-to it naively closes the container early and later sections render full-bleed.
-
-## Tooling status
-
-Gmail MCP `search_threads` **is broken** (every query errors) though other Gmail MCP tools work;
-use claude-in-chrome on mail.google.com instead. iMessage MCP times out even with Automation
-granted. claude-in-chrome rejects `file://` (prefixes https://) so serve locally for visual QA.
-
-## Blocking
-
-NONE. Three client decisions outstanding (phone required vs placeholder; add a "Chatbot" lead
-source; approve one labelled test lead or confirm a sandbox), but nothing is internally blocked.
-
-## Next session starts at
-
-Wire the Tidio flow's API call node -> Zapier Catch Hook -> SugarCRM Create Record (module Leads,
-full state names, status "New", assign Bill Galla, details into `description`), then send one real
-test lead end to end. Do not write to SugarCRM before Todd approves.
-
----
-
 # Handoff — v3.23.0 (2026-08-07)
 
 > **For Claude Code:** active pickup point. PRL chatbot session: daily status routine shipped, Tidio
@@ -211,3 +142,47 @@ NONE.
 ## Next session starts at
 `/handoff-pickup`. Status routine SSOT = `~/.claude/scheduled-tasks/prl-daily-status/board.json`. Full PRL
 detail in machine-local memory `project_todd_hotes_prl_resins.md` (2026-08-07 entries).
+
+---
+
+# Handoff — v3.24.0 (2026-08-09)
+
+> **For Claude Code:** active pickup point. PRL chatbot 1.5 experience-design session. Confirmed Tidio account
+> capabilities end to end, grounded the two-ICP audience design in Todd's calls, set the build sequence.
+> **NO live Tidio account changes were made** - all research/design, committed to `runtime/recoil/generated/prl-lyro/`.
+
+## What landed (research/design only; nothing on the live Tidio account changed)
+- **Account capabilities CONFIRMED (in-app + docs):** base tier + paid **Flows (2,000 visitors/mo)** + paid
+  **Lyro (50 AI conversations/mo)**; **NOT Plus** ("PRO" badge is cosmetic). **Audience-scoping of Lyro data
+  sources IS available** ("Set audience" in each source's Manage menu, not Plus-gated) -> the dual-experience
+  design is a GO. **Lyro Tasks + immediate-handoff are quota-free.** No native Tidio<->Sugar/ZoomInfo (Zapier in
+  the middle). No doc-backed native A/B. Tidio help docs read ONLY via the built-in Browser pane (WebFetch 403s;
+  claude-in-chrome is policy-blocked on help.tidio.com). Full ref: `prl-lyro/tidio-capabilities-research.md`.
+- **Two-ICP audience design (from Todd's Granola calls):** **Molder** (knows the grade, transactional -> fast
+  lane to a territory rep) vs **OEM/engineer** (has an application, consultative -> the 2 dedicated OEM reps).
+  Both route + never-fabricate; differ by destination + tone. Opening qualification question stamps a contact
+  property and branches. Doc: `prl-lyro/icp-audiences-molder-vs-oem.md`. Markets page = separate application axis.
+- **Confirmed live fabrication risk:** the Product Catalog is exploded into **150 active "specifications" Q&A
+  pairs** in Lyro (+4 spec PDFs), all audience=Everyone. Universal fix = set the spec PDFs **Copilot-only**.
+- **Lyro flow JSON regenerated** (`prl-chatbot-flow.json`, onFirstVisit + phone required-by-construction); phone
+  decision **LOCKED = required** (Todd). Import blocked by Tidio's native OS file picker (browser automation
+  cannot drive it); staged for manual import at `~/Downloads/prl-chatbot-flow.json`.
+- **Full orphaned-lead review** enumerated for Todd: **37 genuine / 28 orphaned (20 HIGH)**. Local PII sheet
+  `~/Downloads/prl-orphaned-leads-FULL-2026-08-07.md` (not committed).
+- **info@prlresins.com shows GREEN on the dashboard** (mailbox connected) - may be resolved since the "contact
+  support" state; re-verify before telling Todd IT still needs it. **1,696 unassigned tickets** (mailbox-sync
+  backlog) - triage parked.
+
+## Next session - sequence set by Zach (B -> checkpoint -> A)
+1. **B: map + /impeccable the CURRENT chatbot journey** (read-only baseline).
+2. **CHECKPOINT: Zach reviews design spec + product requirements + implementation plan** before any build.
+3. **A: build the two-experience audience routing** on staging (create Molder/OEM audiences; qualification
+   branch; spec PDFs -> Copilot-only; per-persona handoff) - ONLY after checkpoint approval. Backup-first,
+   reversible. No live change has Zach's go yet.
+
+Parked: 1,696-ticket triage (Tidio auto-Spam folder helps; best = mailbox export for offline analysis like the
+GF data, or search-driven surface; dedupe vs the 37 GF genuine). info@ re-verify. Manual Tidio flow import.
+CRM delivery (1.1/1.2) still gated on Todd's safe test path.
+
+## Blocking
+NONE internally. Zach checkpoint-gates the build (A).
