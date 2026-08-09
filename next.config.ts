@@ -97,8 +97,11 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
         // yuri-sample.arcs.care → public/yuri-sample.html (redacted 6-tab war-room sample — structure shown, method withheld, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
-        // yuri-recoil.arcs.care → public/yuri-recoil.html (real before/after recoil of the Jul 23 call, consented, pw-gated "yuri" — the "magic" Yuri asked to see)
-        { source: "/:path*", destination: "/yuri-recoil.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
+        // yuri-recoil.arcs.care → /yuri.html (DECLUTTERED 2026-08-09). The old hand-built yuri-recoil.html
+        // (Aug 7, gated, pre-heal framing) was superseded by the forge family: the before/after now lives
+        // in the codex, the scored close in the receipt, the full T0→TEnd trajectory in the diamond cut.
+        // Old "primary thing to send" links now land on the current, ungated one-door (same as ext/sample).
+        { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
         // yuri-codex.arcs.care -> public/yuri-codex.html (5-altitude org-scale codex + presentation mode, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-codex.html", has: [{ type: "host", value: "yuri-codex.arcs.care" }] },
         // yuri-diamond.arcs.care -> public/yuri-diamond.html (forensic diamond cut: the Jul 23 call as one T0->TEnd trajectory, verbatim-anchored + earned-fidelity; opt-in deep cut, linked softly from the one-door, ungated)
