@@ -182,28 +182,36 @@ reading the pages. The sharp finds, all fixed + live (`main 519219f`):
   `meta.labels` override in `render_receipt` (Robin defaults preserved; robin-receipt byte-identical).
 - **Craft**: `.close` inline links now gold, not UA-default blue.
 
-## Next session starts at — the server-side gate (the ONLY open item)
+## Gate: REMOVED, not migrated (Zach's call, main 05b7630)
 
-Content + honesty are fully healed and live. The one remaining fix from the pre-mortem is the
-**client-side pw-gate -> server-side** migration (BAR-ranked highest; it is the send-blocker, and it
-covers Robin's LIVE pages too). Yuri literally hit this on the call: *"the password... I couldn't get
-in... I was trying to crack the code."* Scoped approach (do NOT rush the live cutover):
-1. Counterpart HTML is world-readable in `public/` (`curl <file>.html` returns full content behind the
-   client overlay). Move robin+yuri surfaces to a non-public dir (`runtime/counterpart/`).
-2. New `src/app/counterpart/[slug]/route.ts`: signed-cookie password gate (HMAC over `AUTH_SECRET`,
-   timing-safe compare); GET serves form-or-html by cookie, POST validates + sets HttpOnly cookie.
-   Cookie keyed by counterpart family so one entry unlocks all their surfaces.
-3. Rewrite the domains to the route; **preserve the `/api` negative-lookahead** so the Receipt Studio
-   fetch still reaches `/api/receipts/studio/[tenant]`.
-4. Add a forge `--server-gated` flag to omit the now-redundant client gate.
-5. **Dev-server test + ciso-review before the production cutover** (it gates real people's access).
-6. One product decision for Zach: how Yuri receives the password (still his first name, or a stronger
-   token in the email).
+The pre-mortem's server-side-gate plan was **superseded**. Zach's call: keep it simple — the Yuri
+pages are a before/after of a *consented* call he asked to see, so a password is friction, not
+protection (he bounced off the gate live: *"I couldn't get in... trying to crack the code"*), and the
+demo should *start a conversation, not close a door*. All four Yuri surfaces are now ungated
+(`meta.gate={}`), still `noindex/nofollow` (link-only). **Robin's family still carries its client gate
+— untouched; decide separately.** No server-gate build remains.
+
+## Next session starts at — the post-Google-hedge repositioning + send to Yuri
+
+**Strategic read (Zach, 2026-08-09): Yuri is the hedge for life after Google.** On the call he said,
+repeatedly, he has been *"trying to escape Google for 15-16 years but they keep throwing fun things to
+do."* With Google RIF risk, the durable relationship is his **portable, out-of-Google surface** —
+Agentum (his own product), **Purpose Built** (VC, Miles Lasater), his **ex-UBS-president NY partner**
+doing pre-IPO / M&A / DD — not a Google-internal tenant (seat-dependent, procurement-heavy,
+RIF-fragile). Zach already floated ARCS for investment-memo + diligence pressure-testing on the call,
+so it is grounded, not a stretch.
+
+- **Open decision (proposed, not applied):** reweight the offer sections (codex ladder, receipt
+  posterior/wedge, one-door §03) to *elevate the portable path* ("yours to carry, not tied to a seat")
+  alongside the Google-internal one. Grounded in Zach's own call words. **Do NOT say "for when you
+  leave Google"** on a page he reads — that projects instability (same error class as the consent
+  misread). Keep it light; he is a warm buyer who already offered help. See
+  [[project_yuri_kleban_google]].
+- **Send to Yuri:** the Gmail reply draft still awaits Zach's send; point him to `yuri.arcs.care`.
 
 ## Blocking
-NONE internally. The gate is the one build gating the send of the Yuri suite.
+NONE. Send is unblocked (gate removed). The offer-reweight is a positioning decision, not a blocker.
 
 ## Deploy note
 Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
-The gate touches server routes + config -> it will need a real build; deploy it through the normal
-Vercel build, not a `--no-verify` content push.
+All this session's work was content-only (public/*.html + runtime/*.json + docs).
