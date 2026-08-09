@@ -4,8 +4,11 @@
     "counterpart": "Yuri Kleban",
     "company": "Google",
     "doc_title": "One call, one belief that flipped, both sides of the coin",
-    "uplink": {"href": "https://yuri.arcs.care", "label": "the fuller picture"},
-    "gate": {"external": "yuri"}
+    "uplink": {
+      "href": "https://yuri.arcs.care",
+      "label": "the fuller picture"
+    },
+    "gate": {}
   },
   "header": {
     "eyebrow": "Yuri &#183; both sides of the coin",
@@ -15,93 +18,375 @@
       "<strong>The Instrument</strong> is how the read is actually made, run on my own tape, not yours. Two views of the same thing. Switch anytime."
     ]
   },
-  "tabs": {"read_label": "The Read", "read_th": "the before / after", "hood_label": "The Instrument", "hood_th": "how it works &#183; timeless"},
+  "tabs": {
+    "read_label": "The Read",
+    "read_th": "the before / after",
+    "hood_label": "The Instrument",
+    "hood_th": "how it works &#183; timeless"
+  },
   "subnav": [
-    {"side": "hood", "to": "s-inst", "nt": "Instrument &#183;", "label": "How it works"},
-    {"side": "hood", "to": "s-brief", "nt": "Instrument &#183;", "label": "The briefing"},
-    {"side": "read", "to": "s-line", "nt": "Read &#183;", "label": "The line"},
-    {"side": "read", "to": "s-beats", "nt": "Read &#183;", "label": "The flip"},
-    {"side": "read", "to": "s-offer", "nt": "Read &#183;", "label": "The offer"}
+    {
+      "side": "hood",
+      "to": "s-inst",
+      "nt": "Instrument &#183;",
+      "label": "How it works"
+    },
+    {
+      "side": "hood",
+      "to": "s-brief",
+      "nt": "Instrument &#183;",
+      "label": "The briefing"
+    },
+    {
+      "side": "read",
+      "to": "s-line",
+      "nt": "Read &#183;",
+      "label": "The line"
+    },
+    {
+      "side": "read",
+      "to": "s-beats",
+      "nt": "Read &#183;",
+      "label": "The flip"
+    },
+    {
+      "side": "read",
+      "to": "s-offer",
+      "nt": "Read &#183;",
+      "label": "The offer"
+    }
   ],
   "read": [
-    {"type": "readnote", "html": "This covers <strong>one call</strong>, July 23, recorded with your OK. Single call, no arc yet, just the bet I filed before it and the lines of yours that moved it. It is not flattering by design; it is what I actually thought, scored against what you actually said."},
-    {"type": "line", "id": "s-line", "h3": "The line you gave me", "h3color": "var(--gold)",
-     "p_before": "You named the deliverable yourself, at the end of the call. Not the abstract doc, the real thing.",
-     "said": {"speaker": "you", "qk": "You &#183; Jul 23", "qv": "it&rsquo;d be great to see your hypothesis on me before and what happened after our conversation, that&rsquo;s the magic."},
-     "p_after": "So here it is: the bet, filed before we spoke, and the four beliefs your own words moved. The one I flagged as most likely wrong is the one that broke hardest."},
-    {"type": "legend", "id": "s-beats", "items": [
-      {"color": "var(--gold)", "label": "The flip"},
-      {"color": "var(--cyan)", "label": "Human / warm"},
-      {"color": "var(--green)", "label": "You pulled, it sharpened me"},
-      {"color": "var(--red)", "label": "Where I under-read"}
-    ]},
-    {"type": "spark", "name": "First call &#183; Jul 23", "note": "no floor drop &#183; one reveal that flipped the whole read", "points": [
-      {"phase": "human", "v": 46, "tip": {"t": "open", "ph": "Human", "q": "consent to record, your mom, the newborn", "s": "human before agenda", "r": "warm from beat one", "g": "the human channel was open the whole call"}},
-      {"phase": "human", "v": 54, "tip": {"t": "stories", "ph": "Human", "q": "what you are building and excited about at Google", "s": "I asked, you drove", "r": "generous, low agenda", "g": "stated: nothing to sell; revealed: warm and forthcoming"}},
-      {"phase": "in_sync", "v": 80, "r": 6, "tip": {"t": "reveal", "ph": "The flip", "q": "a team of 20... briefs for execs before they meet people", "s": "I filed you as maybe-a-connector", "r": "you are the exact buyer and builder", "g": "the belief I flagged as most likely wrong broke here, best direction"}},
-      {"phase": "push", "v": 71, "tip": {"t": "pull", "ph": "You pulled", "q": "be selfish, what would get you to the next step", "s": "I predicted warm but non-committal", "r": "you pulled; I did not have to push", "g": "revealed exceeded stated"}},
-      {"phase": "out", "v": 57, "tip": {"t": "doc-miss", "ph": "Under-read", "q": "it is very different than what I had in mind", "s": "I bet the capability doc would sell it", "r": "it did not land; you asked for the real thing", "g": "the productive miss; this page is the correction"}},
-      {"phase": "human", "v": 64, "tip": {"t": "asked", "ph": "Human", "q": "you're doing the right thing, one of the few who ask", "s": "I asked to record", "r": "you appreciated it, warm not precious", "g": "you trust people; the scruples were mine, not yours"}},
-      {"phase": "human", "v": 60, "tip": {"t": "paths", "ph": "Human", "q": "GCP + Firebase, a diligence partner", "s": "I floated paths back", "r": "none of it an ask today", "g": "invitation over ask"}},
-      {"phase": "in_sync", "v": 66, "tip": {"t": "close", "ph": "In sync", "q": "part two of where this goes, after Hawaii", "s": "you named the follow-up", "r": "warm and forward, on your timeline", "g": "a yes waiting, not a defer"}}
-    ]},
-    {"type": "beat", "phase": "in_sync", "bph": "THE REVEAL &#183; THE FLIP", "pairs": [
-      {"who": "I BET", "text": "maybe a Google team could use this someday; if a surface exists you are a champion or connector to one"},
-      {"who": "YOU SAID", "text": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it into briefs for execs before they meet people"}
-    ], "bread": "The whole read flipped in one sentence. Not a fan who knows a buyer, you ARE the buyer and the builder. Confidence in a real fit went from a hedge to near-certain. This is the moment the bet broke, in the best direction."},
-    {"type": "beat", "phase": "push", "bph": "YOU PULLED, IT SHARPENED ME", "pairs": [
-      {"who": "I BET", "text": "warm but non-committal; no near-term pull"},
-      {"who": "YOU SAID", "text": "I want to help move you toward Zach direction... be selfish, what would get you to the next step"}
-    ], "bread": "I predicted you would keep it social. You pulled it forward yourself and asked me to be selfish about the next step. Warmer and more active than I bet; I did not have to push."},
-    {"type": "beat", "phase": "in_sync", "bph": "A PRACTITIONER WHO LIVED IT", "pairs": [
-      {"who": "I BET", "text": "I am pitching a skeptic I need to convince"},
-      {"who": "YOU SAID", "text": "I automated it with data science, no AI, in 2020"}
-    ], "bread": "Wrong posture entirely. You built this thesis by hand and proved it at the top of Google, automating the brief for Sundar's office, five years before I named it. Not a skeptic to convince, a practitioner who lived it."},
-    {"type": "beat", "phase": "out", "bph": "WHERE I UNDER-READ", "pairs": [
-      {"who": "I BET", "text": "the capability doc will land and do the selling"},
-      {"who": "YOU SAID", "text": "it&rsquo;s very different than what I had in mind... it&rsquo;d be great to see a real example of both"}
-    ], "bread": "The abstract doc did not do the selling I bet it would. You found it abstract and asked for the real before and after. You were right, and this is the correction, in your register."},
-    {"type": "offer", "id": "s-offer", "h3": "So here is the magic you asked for",
-     "p_before": "One thing, concrete, in your language: not the abstract capability doc, the real bet, filed before we talked, scored honestly against what you actually said. Every net-new thing you shared sharpened the read instead of blurring it.",
-     "said": {"speaker": "you", "qk": "You &#183; Jul 23", "qv": "I want to help move you toward Zach direction... be selfish, what would get you to the next step."},
-     "p_mid": "The most useful next move is the one you named yourself: part two of where this goes, after Hawaii. None of it is an ask today. And it runs model-agnostic, on Gemini through a gateway, so nothing leaves Google.",
-     "ladder": [
-       {"k": "Zero ask", "p": "You just read this. The before and after you wanted to see. Nothing required."},
-       {"k": "Part two", "p": "The follow-up you named, on your timeline, once you are back from Hawaii."},
-       {"k": "If it is real", "p": "An internal dogfood on GCP and Firebase, runs on Gemini, receipts as JSON, nothing leaves the building."}
-     ],
-     "p_close": "No ask, no pitch. You already know why it matters; you shipped it by hand five years ago."},
-    {"type": "beat", "phase": "human", "bph": "THE HUMAN CHANNEL, KEPT OPEN", "pairs": [
-      {"who": "ME", "text": "two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in"},
-      {"who": "YOU", "text": "the Turing-test jokes, and you're doing the right thing, one of the few who ask"}
-    ], "bread": "The human channel was open the whole call, which is why the business turn landed soft. You warmed to being asked to record, one of the few who ask; that same warmth, not any policy, kept the channel open."}
+    {
+      "type": "readnote",
+      "html": "This covers <strong>one call</strong>, July 23, recorded with your OK. Single call, no arc yet, just the bet I filed before it and the lines of yours that moved it. It is not flattering by design; it is what I actually thought, scored against what you actually said."
+    },
+    {
+      "type": "line",
+      "id": "s-line",
+      "h3": "The line you gave me",
+      "h3color": "var(--gold)",
+      "p_before": "You named the deliverable yourself, at the end of the call. Not the abstract doc, the real thing.",
+      "said": {
+        "speaker": "you",
+        "qk": "You &#183; Jul 23",
+        "qv": "it&rsquo;d be great to see your hypothesis on me before and what happened after our conversation, that&rsquo;s the magic."
+      },
+      "p_after": "So here it is: the bet, filed before we spoke, and the four beliefs your own words moved. The one I flagged as most likely wrong is the one that broke hardest."
+    },
+    {
+      "type": "legend",
+      "id": "s-beats",
+      "items": [
+        {
+          "color": "var(--gold)",
+          "label": "The flip"
+        },
+        {
+          "color": "var(--cyan)",
+          "label": "Human / warm"
+        },
+        {
+          "color": "var(--green)",
+          "label": "You pulled, it sharpened me"
+        },
+        {
+          "color": "var(--red)",
+          "label": "Where I under-read"
+        }
+      ]
+    },
+    {
+      "type": "spark",
+      "name": "First call &#183; Jul 23",
+      "note": "no floor drop &#183; one reveal that flipped the whole read",
+      "points": [
+        {
+          "phase": "human",
+          "v": 46,
+          "tip": {
+            "t": "open",
+            "ph": "Human",
+            "q": "consent to record, your mom, the newborn",
+            "s": "human before agenda",
+            "r": "warm from beat one",
+            "g": "the human channel was open the whole call"
+          }
+        },
+        {
+          "phase": "human",
+          "v": 54,
+          "tip": {
+            "t": "stories",
+            "ph": "Human",
+            "q": "what you are building and excited about at Google",
+            "s": "I asked, you drove",
+            "r": "generous, low agenda",
+            "g": "stated: nothing to sell; revealed: warm and forthcoming"
+          }
+        },
+        {
+          "phase": "in_sync",
+          "v": 80,
+          "r": 6,
+          "tip": {
+            "t": "reveal",
+            "ph": "The flip",
+            "q": "a team of 20... briefs for execs before they meet people",
+            "s": "I filed you as maybe-a-connector",
+            "r": "you are the exact buyer and builder",
+            "g": "the belief I flagged as most likely wrong broke here, best direction"
+          }
+        },
+        {
+          "phase": "push",
+          "v": 71,
+          "tip": {
+            "t": "pull",
+            "ph": "You pulled",
+            "q": "be selfish, what would get you to the next step",
+            "s": "I predicted warm but non-committal",
+            "r": "you pulled; I did not have to push",
+            "g": "revealed exceeded stated"
+          }
+        },
+        {
+          "phase": "out",
+          "v": 57,
+          "tip": {
+            "t": "doc-miss",
+            "ph": "Under-read",
+            "q": "it is very different than what I had in mind",
+            "s": "I bet the capability doc would sell it",
+            "r": "it did not land; you asked for the real thing",
+            "g": "the productive miss; this page is the correction"
+          }
+        },
+        {
+          "phase": "human",
+          "v": 64,
+          "tip": {
+            "t": "asked",
+            "ph": "Human",
+            "q": "you're doing the right thing, one of the few who ask",
+            "s": "I asked to record",
+            "r": "you appreciated it, warm not precious",
+            "g": "you trust people; the scruples were mine, not yours"
+          }
+        },
+        {
+          "phase": "human",
+          "v": 60,
+          "tip": {
+            "t": "paths",
+            "ph": "Human",
+            "q": "GCP + Firebase, a diligence partner",
+            "s": "I floated paths back",
+            "r": "none of it an ask today",
+            "g": "invitation over ask"
+          }
+        },
+        {
+          "phase": "in_sync",
+          "v": 66,
+          "tip": {
+            "t": "close",
+            "ph": "In sync",
+            "q": "part two of where this goes, after Hawaii",
+            "s": "you named the follow-up",
+            "r": "warm and forward, on your timeline",
+            "g": "a yes waiting, not a defer"
+          }
+        }
+      ]
+    },
+    {
+      "type": "beat",
+      "phase": "in_sync",
+      "bph": "THE REVEAL &#183; THE FLIP",
+      "pairs": [
+        {
+          "who": "I BET",
+          "text": "maybe a Google team could use this someday; if a surface exists you are a champion or connector to one"
+        },
+        {
+          "who": "YOU SAID",
+          "text": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it into briefs for execs before they meet people"
+        }
+      ],
+      "bread": "The whole read flipped in one sentence. Not a fan who knows a buyer, you ARE the buyer and the builder. Confidence in a real fit went from a hedge to near-certain. This is the moment the bet broke, in the best direction."
+    },
+    {
+      "type": "beat",
+      "phase": "push",
+      "bph": "YOU PULLED, IT SHARPENED ME",
+      "pairs": [
+        {
+          "who": "I BET",
+          "text": "warm but non-committal; no near-term pull"
+        },
+        {
+          "who": "YOU SAID",
+          "text": "I want to help move you toward Zach direction... be selfish, what would get you to the next step"
+        }
+      ],
+      "bread": "I predicted you would keep it social. You pulled it forward yourself and asked me to be selfish about the next step. Warmer and more active than I bet; I did not have to push."
+    },
+    {
+      "type": "beat",
+      "phase": "in_sync",
+      "bph": "A PRACTITIONER WHO LIVED IT",
+      "pairs": [
+        {
+          "who": "I BET",
+          "text": "I am pitching a skeptic I need to convince"
+        },
+        {
+          "who": "YOU SAID",
+          "text": "I automated it with data science, no AI, in 2020"
+        }
+      ],
+      "bread": "Wrong posture entirely. You built this thesis by hand and proved it at the top of Google, automating the brief for Sundar's office, five years before I named it. Not a skeptic to convince, a practitioner who lived it."
+    },
+    {
+      "type": "beat",
+      "phase": "out",
+      "bph": "WHERE I UNDER-READ",
+      "pairs": [
+        {
+          "who": "I BET",
+          "text": "the capability doc will land and do the selling"
+        },
+        {
+          "who": "YOU SAID",
+          "text": "it&rsquo;s very different than what I had in mind... it&rsquo;d be great to see a real example of both"
+        }
+      ],
+      "bread": "The abstract doc did not do the selling I bet it would. You found it abstract and asked for the real before and after. You were right, and this is the correction, in your register."
+    },
+    {
+      "type": "offer",
+      "id": "s-offer",
+      "h3": "So here is the magic you asked for",
+      "p_before": "One thing, concrete, in your language: not the abstract capability doc, the real bet, filed before we talked, scored honestly against what you actually said. Every net-new thing you shared sharpened the read instead of blurring it.",
+      "said": {
+        "speaker": "you",
+        "qk": "You &#183; Jul 23",
+        "qv": "I want to help move you toward Zach direction... be selfish, what would get you to the next step."
+      },
+      "p_mid": "The most useful next move is the one you named yourself: part two of where this goes, after Hawaii. None of it is an ask today. And it runs model-agnostic, on Gemini through a gateway, so nothing leaves Google.",
+      "ladder": [
+        {
+          "k": "Zero ask",
+          "p": "You just read this. The before and after you wanted to see. Nothing required."
+        },
+        {
+          "k": "Part two",
+          "p": "The follow-up you named, on your timeline, once you are back from Hawaii."
+        },
+        {
+          "k": "If it is real",
+          "p": "An internal dogfood on GCP and Firebase, runs on Gemini, receipts as JSON, nothing leaves the building."
+        }
+      ],
+      "p_close": "No ask, no pitch. You already know why it matters; you shipped it by hand five years ago."
+    },
+    {
+      "type": "beat",
+      "phase": "human",
+      "bph": "THE HUMAN CHANNEL, KEPT OPEN",
+      "pairs": [
+        {
+          "who": "ME",
+          "text": "two sleep-deprived dads, a little tin-foil about deepfakes and double opt-in"
+        },
+        {
+          "who": "YOU",
+          "text": "the Turing-test jokes, and you're doing the right thing, one of the few who ask"
+        }
+      ],
+      "bread": "The human channel was open the whole call, which is why the business turn landed soft. You warmed to being asked to record, one of the few who ask; that same warmth, not any policy, kept the channel open."
+    }
   ],
   "hood": [
-    {"type": "card", "id": "s-inst", "h3": "What you are looking at", "ps": [
-      "This is the instrument, run on <strong>my own tape</strong>. Everything scored on this tab is a read of my own performance and predictions, not yours. The method crosses freely, the subject stays me. You get the whole machine, pointed at myself.",
-      "The idea is simple: two people on a call are either tracking each other or they are not, and you can hear which on the tape. ARCS listens to a recorded call and maps that, beat by beat, into four states, and files a falsifiable bet before the call so it can be scored honestly after."
-    ]},
-    {"type": "states", "h3": "The four states it hears", "h3color": "var(--green)", "minis": [
-      {"h4": "The flip", "color": "var(--gold)", "p": "A belief breaks and the whole read updates. The highest-information moment; the one to build the next move on."},
-      {"h4": "Human", "color": "var(--cyan)", "p": "Humor and warmth. The thing that keeps a call open even when the content is thin."},
-      {"h4": "You pulled", "color": "var(--green)", "p": "They push the thing forward and it sharpens the read. Motion that adds, not noise."},
-      {"h4": "Under-read", "color": "var(--red)", "p": "Where my prediction was wrong. The place the receipt is supposed to catch, and score, honestly."}
-    ], "p_after": "Tab 1 is that map, drawn on our one call. The gold and green beats are where the read sharpened; the red beat is where I under-read the fit. Same four states, run on any call."},
-    {"type": "checks", "h3": "The checks that keep a read honest",
-     "p_intro": "Reading energy off a transcript is easy to fake, so the read has to survive a few evals before it ships. These cross the fence; the recipe underneath does not.", "items": [
-      {"strong": "It is traceable.", "rest": "Every beat traces to a real line in the transcript. If it is an inference, it is labelled one. Your words are in quotes; my read is labelled mine."},
-      {"strong": "It files a bet first.", "rest": "The ex-ante receipt is written before the call, so the read is scored against reality afterward, not rationalized. If it cannot fail, it is not a receipt."},
-      {"strong": "It meets you at your level.", "rest": "It checks the register each person was speaking at. Meeting you as the practitioner who built this, not explaining the value to the person who invented it."},
-      {"strong": "It admits mistakes.", "rest": "The belief I flagged as most likely wrong is the one it scored as a miss, in writing, and moved the wedge. The instrument corrects the person who filed it."}
-    ]},
-    {"type": "card", "id": "s-brief", "h3": "The pre-meeting briefing, made real", "ps": [
-      "Run forward instead of backward, the same instrument is the exec brief you already build by hand. Before a call: here is the person, the register to meet them on, the altitude to open at. After: here is where it actually landed, and the honest diff against what you predicted.",
-      "For your world that is the exec brief, closed and scored: first and third party signal stitched into a read, then a receipt that says whether the read held. It reads recordings that already exist, and it runs <strong>model-agnostic on Gemini</strong>, so nothing leaves Google."
-    ]},
-    {"type": "card", "fence": true, "h3": "The taste, not the recipe", "ps": [
-      "You are a builder and Google-resourced, so you will want to know how the back is made, and I respect that. Straight about the line: what crosses to you is the whole shape and the whole value, the four states, the ex-ante receipt, the map on our real call, nothing dumbed down. What stays on my side is the transform, how it reads register and intent off the parse, and the scoring underneath. Some of it is patentable. You get the taste and the full value from the first bite, not the sourcing.",
-      "And over coffee sometime, I will happily walk you further back than a shared page ever should."
-    ]}
+    {
+      "type": "card",
+      "id": "s-inst",
+      "h3": "What you are looking at",
+      "ps": [
+        "This is the instrument, run on <strong>my own tape</strong>. Everything scored on this tab is a read of my own performance and predictions, not yours. The method crosses freely, the subject stays me. You get the whole machine, pointed at myself.",
+        "The idea is simple: two people on a call are either tracking each other or they are not, and you can hear which on the tape. ARCS listens to a recorded call and maps that, beat by beat, into four states, and files a falsifiable bet before the call so it can be scored honestly after."
+      ]
+    },
+    {
+      "type": "states",
+      "h3": "The four states it hears",
+      "h3color": "var(--green)",
+      "minis": [
+        {
+          "h4": "The flip",
+          "color": "var(--gold)",
+          "p": "A belief breaks and the whole read updates. The highest-information moment; the one to build the next move on."
+        },
+        {
+          "h4": "Human",
+          "color": "var(--cyan)",
+          "p": "Humor and warmth. The thing that keeps a call open even when the content is thin."
+        },
+        {
+          "h4": "You pulled",
+          "color": "var(--green)",
+          "p": "They push the thing forward and it sharpens the read. Motion that adds, not noise."
+        },
+        {
+          "h4": "Under-read",
+          "color": "var(--red)",
+          "p": "Where my prediction was wrong. The place the receipt is supposed to catch, and score, honestly."
+        }
+      ],
+      "p_after": "Tab 1 is that map, drawn on our one call. The gold and green beats are where the read sharpened; the red beat is where I under-read the fit. Same four states, run on any call."
+    },
+    {
+      "type": "checks",
+      "h3": "The checks that keep a read honest",
+      "p_intro": "Reading energy off a transcript is easy to fake, so the read has to survive a few evals before it ships. These cross the fence; the recipe underneath does not.",
+      "items": [
+        {
+          "strong": "It is traceable.",
+          "rest": "Every beat traces to a real line in the transcript. If it is an inference, it is labelled one. Your words are in quotes; my read is labelled mine."
+        },
+        {
+          "strong": "It files a bet first.",
+          "rest": "The ex-ante receipt is written before the call, so the read is scored against reality afterward, not rationalized. If it cannot fail, it is not a receipt."
+        },
+        {
+          "strong": "It meets you at your level.",
+          "rest": "It checks the register each person was speaking at. Meeting you as the practitioner who built this, not explaining the value to the person who invented it."
+        },
+        {
+          "strong": "It admits mistakes.",
+          "rest": "The belief I flagged as most likely wrong is the one it scored as a miss, in writing, and moved the wedge. The instrument corrects the person who filed it."
+        }
+      ]
+    },
+    {
+      "type": "card",
+      "id": "s-brief",
+      "h3": "The pre-meeting briefing, made real",
+      "ps": [
+        "Run forward instead of backward, the same instrument is the exec brief you already build by hand. Before a call: here is the person, the register to meet them on, the altitude to open at. After: here is where it actually landed, and the honest diff against what you predicted.",
+        "For your world that is the exec brief, closed and scored: first and third party signal stitched into a read, then a receipt that says whether the read held. It reads recordings that already exist, and it runs <strong>model-agnostic on Gemini</strong>, so nothing leaves Google."
+      ]
+    },
+    {
+      "type": "card",
+      "fence": true,
+      "h3": "The taste, not the recipe",
+      "ps": [
+        "You are a builder and Google-resourced, so you will want to know how the back is made, and I respect that. Straight about the line: what crosses to you is the whole shape and the whole value, the four states, the ex-ante receipt, the map on our real call, nothing dumbed down. What stays on my side is the transform, how it reads register and intent off the parse, and the scoring underneath. Some of it is patentable. You get the taste and the full value from the first bite, not the sourcing.",
+        "And over coffee sometime, I will happily walk you further back than a shared page ever should."
+      ]
+    }
   ],
   "foot": "Built from two sources: your enriched public profile and our July 23 call, recorded with your consent. Every quote traces to one of them. Anything scored is my own prediction, not yours.",
   "stamp": "one call &#183; the belief that flipped &#183; the taste, not the recipe"

@@ -4,13 +4,20 @@
     "counterpart": "Yuri Kleban",
     "company": "Google / Alphabet",
     "doc_title": "Yuri · the profile read",
-    "uplink": {"href": "https://yuri.arcs.care", "label": "the studio"},
+    "uplink": {
+      "href": "https://yuri.arcs.care",
+      "label": "the studio"
+    },
     "resolution": {
       "level": "medium — public multi-source + one call",
       "caveat": "tuned on public sources (LinkedIn, Agentum + its docs, X @yurikleban, Purpose Built) plus the Jul 23 call; still public-only, no private data",
-      "dial_up_inputs": ["your long-form writing or product thesis in your own words", "the Twin venture you list on LinkedIn", "a prior call transcript to serialize a multi-call arc"]
+      "dial_up_inputs": [
+        "your long-form writing or product thesis in your own words",
+        "the Twin venture you list on LinkedIn",
+        "a prior call transcript to serialize a multi-call arc"
+      ]
     },
-    "gate": {"external": "yuri"}
+    "gate": {}
   },
   "header": {
     "eyebrow": "Yuri &middot; the profile read",
@@ -23,14 +30,34 @@
     "h2": "A storyteller who taught himself to build.",
     "headline": "Advertising and film, then self-taught engineer, then the person who builds the tools that brief the execs.",
     "registers": [
-      {"name": "The builder", "alt": "GROUNDED", "ac": "#00FF9D",
-       "cues": "BS in advertising and a filmmaker, then self-taught engineer at Google, then PM &middot; internal tools that empower teams &middot; productivity per person, $ per rep, CSAT",
-       "quote": "We take first party and third party data and stitch it together into briefs for execs before they meet people.", "source": "Our call &middot; Jul 23"},
-      {"name": "The connector", "alt": "GROUNDED", "ac": "#FFD700",
-       "cues": "growth-hacker and advisor to several startups &middot; &ldquo;please reach out if that&rsquo;s you&rdquo; &middot; trilingual global bridge &middot; family, foodie, future-of-food",
-       "quote": "Be selfish. What would get you to the next step.", "source": "Our call &middot; Jul 23"}
+      {
+        "name": "The builder",
+        "alt": "GROUNDED",
+        "ac": "#00FF9D",
+        "cues": "BS in advertising and a filmmaker, then self-taught engineer at Google, then PM &middot; internal tools that empower teams &middot; productivity per person, $ per rep, CSAT",
+        "quote": "We take first party and third party data and stitch it together into briefs for execs before they meet people.",
+        "source": "Our call &middot; Jul 23"
+      },
+      {
+        "name": "The connector",
+        "alt": "GROUNDED",
+        "ac": "#FFD700",
+        "cues": "growth-hacker and advisor to several startups &middot; &ldquo;please reach out if that&rsquo;s you&rdquo; &middot; trilingual global bridge &middot; family, foodie, future-of-food",
+        "quote": "Be selfish. What would get you to the next step.",
+        "source": "Our call &middot; Jul 23"
+      }
     ],
-    "chips": ["tools for the partnerships org across Alphabet", "automated the Sundar brief, 2020", "grew the Advertiser Community in 10 languages", "native Hebrew, English, Russian", "Agentum, agents for productivity", "model-agnostic, Claude or other LLMs", "Venture Partner, Purpose Built", "Cultured Meat Symposium co-organizer", "new dad, foodie"],
+    "chips": [
+      "tools for the partnerships org across Alphabet",
+      "automated the Sundar brief, 2020",
+      "grew the Advertiser Community in 10 languages",
+      "native Hebrew, English, Russian",
+      "Agentum, agents for productivity",
+      "model-agnostic, Claude or other LLMs",
+      "Venture Partner, Purpose Built",
+      "Cultured Meat Symposium co-organizer",
+      "new dad, foodie"
+    ],
     "note": "<b>Inference, flagged:</b> I read the storyteller-to-builder arc as the through-line, from your career and one call. It is a read, not something you said in those words. The facts above are yours; the shape is mine."
   },
   "altitude": {
@@ -38,10 +65,26 @@
     "h2": "Meet you as the practitioner, climb to the org.",
     "lede": "You move across the whole range fluently, because you have actually sat at each height, and on our call you moved through all of them in one conversation. The read, from that call and your career: meet you as the builder who already proved this, not explain the value back to the person who invented it.",
     "rungs": [
-      {"level": "SURGICAL, the pipeline", "body": "You built the stitching yourself: first and third party data into a brief, with data science before there was AI", "trigger": "a concrete mechanism, jobs-to-be-done, the actual data model"},
-      {"level": "STRATEGIC, the team", "body": "You run the twenty-person org that builds the tools for the whole partnerships function", "trigger": "how it scales, the portfolio, the roll-up across business units"},
-      {"level": "EXEC, the brief", "body": "You brief Sundar-level readers; the exec brief you automated in 2020 is your live example", "trigger": "the five bullets, the one-way door, what the office of the CEO actually reads"},
-      {"level": "GLOBAL, across languages", "body": "You grew the Advertiser Community in ten languages, and you are native in three. Translating context across regions is literally your background, not a metaphor", "trigger": "context that survives translation across regions and languages, the way you have actually done it"}
+      {
+        "level": "SURGICAL, the pipeline",
+        "body": "You built the stitching yourself: first and third party data into a brief, with data science before there was AI",
+        "trigger": "a concrete mechanism, jobs-to-be-done, the actual data model"
+      },
+      {
+        "level": "STRATEGIC, the team",
+        "body": "You run the twenty-person org that builds the tools for the whole partnerships function",
+        "trigger": "how it scales, the portfolio, the roll-up across business units"
+      },
+      {
+        "level": "EXEC, the brief",
+        "body": "You brief Sundar-level readers; the exec brief you automated in 2020 is your live example",
+        "trigger": "the five bullets, the one-way door, what the office of the CEO actually reads"
+      },
+      {
+        "level": "GLOBAL, across languages",
+        "body": "You grew the Advertiser Community in ten languages, and you are native in three. Translating context across regions is literally your background, not a metaphor",
+        "trigger": "context that survives translation across regions and languages, the way you have actually done it"
+      }
     ],
     "note": "<b>Source:</b> this read leans more on the recording of our call than on the resume. The resume gave the arc; the call gave the register."
   },
@@ -68,11 +111,26 @@
     "h2": "Tuned on your own trail, in the open.",
     "lede": "It is tuned on what you have made public, your product and its docs, your posts, your public affiliations, plus our one call. Here is what it listened to, and it says where a read is inference.",
     "sources": [
-      {"h": "Agentum, your product + docs", "p": "theagentum.com: a private AI agent that runs on your own Mac (remote access via an outbound-only Cloudflare tunnel, everything-else-404-at-the-edge, nothing transits Agentum&rsquo;s servers). Bring-your-own key across Claude / Gemini / DeepSeek / MiniMax, with the coding harness decoupled too (Claude Code or Codex). A command layer over calendar, email, and relationships with daily briefings. You own the code."},
-      {"h": "X, @yurikleban", "p": "your public posts, in your own voice"},
-      {"h": "Your public LinkedIn", "p": "15 years at Google, Ads to Cloud to Partnerships, the internal-tools thread"},
-      {"h": "Purpose Built + cultured meat", "p": "Venture Partner at Miles Lasater&rsquo;s firm, and co-organizer of the Cultured Meat Symposium. The investor and connector."},
-      {"h": "Our call, Jul 23", "p": "recorded with your OK, the ground truth for every read here"}
+      {
+        "h": "Agentum, your product + docs",
+        "p": "theagentum.com: a private AI agent that runs on your own Mac (remote access via an outbound-only Cloudflare tunnel, everything-else-404-at-the-edge, nothing transits Agentum&rsquo;s servers). Bring-your-own key across Claude / Gemini / DeepSeek / MiniMax, with the coding harness decoupled too (Claude Code or Codex). A command layer over calendar, email, and relationships with daily briefings. You own the code."
+      },
+      {
+        "h": "X, @yurikleban",
+        "p": "your public posts, in your own voice"
+      },
+      {
+        "h": "Your public LinkedIn",
+        "p": "15 years at Google, Ads to Cloud to Partnerships, the internal-tools thread"
+      },
+      {
+        "h": "Purpose Built + cultured meat",
+        "p": "Venture Partner at Miles Lasater&rsquo;s firm, and co-organizer of the Cultured Meat Symposium. The investor and connector."
+      },
+      {
+        "h": "Our call, Jul 23",
+        "p": "recorded with your OK, the ground truth for every read here"
+      }
     ],
     "note": "Still public-only, no private data. What would sharpen it further: your long-form writing, the Twin venture you name on LinkedIn, and a prior call transcript to serialize the arc."
   },
@@ -81,11 +139,41 @@
     "h2": "What the surface does not say.",
     "lede": "A few reads that go past the facts on the page. Each one is my inference, not your words; the &lsquo;so&rsquo; is what I would actually do about it.",
     "cards": [
-      {"tag": "You proved it, five years early", "qc": "#00FF9D", "headline": "You built this by hand, before there was AI.", "body": "You automated the Sundar brief with data science in 2020. You are not evaluating whether the thesis is real; you shipped it.", "so": "So I am not going to explain your own value back to you; I am meeting you as a peer who lived it."},
-      {"tag": "Model-agnostic is identity", "qc": "#00F0FF", "headline": "Lock-in is the thing you design against.", "body": "In Agentum you decoupled not just the chat model (Claude, Gemini, DeepSeek, MiniMax, bring your own key) but the coding harness too (Claude Code or Codex, mix them freely). Anti-lock-in is not a slogan for you, it is the architecture. A single-vendor, data-leaves-the-building story reads as a trap.", "so": "So I lead with what matters to you: it runs on Gemini, nothing leaves Google, you own the file."},
-      {"tag": "Clean by design, not precious", "qc": "#FFD700", "headline": "Your product is least-exposure; you personally are relaxed about it.", "body": "Agentum is built clean: outbound-only, everything-else-404-at-the-edge, the dashboard bound to localhost, bring-your-own-key, nothing transiting your servers. And yet on our call you waved off recording, you &lsquo;could care less,&rsquo; and said you trust the people you talk to. So I read the privacy as engineering discipline, not personal anxiety: you build least-exposure because it is the right way to build, not because you are worried.", "so": "So I keep this provenance-clean and bring-your-own-key because that is how you build, and I do not mistake it for a consent-hawk identity, because you told me plainly it is not."},
-      {"tag": "The connector energy", "qc": "#ff9d3c", "headline": "You offered to help before I asked.", "body": "On our call you gave nothing-to-sell energy and meant it: &lsquo;be selfish, what would get you to the next step.&rsquo; You opened a door without asking for anything back.", "so": "So I am treating your help as a gift, not a transaction, and letting you set the pace."},
-      {"tag": "Pull, not push", "qc": "#94a3b8", "headline": "You open the door; you are not pushed through it.", "body": "&ldquo;Be selfish, what would get you to the next step.&rdquo; You invite the next move rather than being sold on it. You gave nothing-to-sell energy and meant it.", "so": "So I am letting you name the next step, not pushing you through the door."}
+      {
+        "tag": "You proved it, five years early",
+        "qc": "#00FF9D",
+        "headline": "You built this by hand, before there was AI.",
+        "body": "You automated the Sundar brief with data science in 2020. You are not evaluating whether the thesis is real; you shipped it.",
+        "so": "So I am not going to explain your own value back to you; I am meeting you as a peer who lived it."
+      },
+      {
+        "tag": "Model-agnostic is identity",
+        "qc": "#00F0FF",
+        "headline": "Lock-in is the thing you design against.",
+        "body": "In Agentum you decoupled not just the chat model (Claude, Gemini, DeepSeek, MiniMax, bring your own key) but the coding harness too (Claude Code or Codex, mix them freely). Anti-lock-in is not a slogan for you, it is the architecture. A single-vendor, data-leaves-the-building story reads as a trap.",
+        "so": "So I lead with what matters to you: it runs on Gemini, nothing leaves Google, you own the file."
+      },
+      {
+        "tag": "Clean by design, not precious",
+        "qc": "#FFD700",
+        "headline": "Your product is least-exposure; you personally are relaxed about it.",
+        "body": "Agentum is built clean: outbound-only, everything-else-404-at-the-edge, the dashboard bound to localhost, bring-your-own-key, nothing transiting your servers. And yet on our call you waved off recording, you &lsquo;could care less,&rsquo; and said you trust the people you talk to. So I read the privacy as engineering discipline, not personal anxiety: you build least-exposure because it is the right way to build, not because you are worried.",
+        "so": "So I keep this provenance-clean and bring-your-own-key because that is how you build, and I do not mistake it for a consent-hawk identity, because you told me plainly it is not."
+      },
+      {
+        "tag": "The connector energy",
+        "qc": "#ff9d3c",
+        "headline": "You offered to help before I asked.",
+        "body": "On our call you gave nothing-to-sell energy and meant it: &lsquo;be selfish, what would get you to the next step.&rsquo; You opened a door without asking for anything back.",
+        "so": "So I am treating your help as a gift, not a transaction, and letting you set the pace."
+      },
+      {
+        "tag": "Pull, not push",
+        "qc": "#94a3b8",
+        "headline": "You open the door; you are not pushed through it.",
+        "body": "&ldquo;Be selfish, what would get you to the next step.&rdquo; You invite the next move rather than being sold on it. You gave nothing-to-sell energy and meant it.",
+        "so": "So I am letting you name the next step, not pushing you through the door."
+      }
     ]
   },
   "close": "This is the before: the picture I built of you from public signal, ahead of our call. What actually happened when we talked, scored against this bet, is the before and after you asked for: <a href='https://yuri-codex.arcs.care'>the before and after</a>, then <a href='https://yuri-receipt.arcs.care'>the receipt</a> in full.",
