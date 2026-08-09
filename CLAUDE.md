@@ -101,39 +101,6 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.25.0 (2026-08-07)
-
-> **Active pickup point.** Supersedes v3.22.0 (Todd) as the current thread. The counterpart
-> artifact family (Robin, Yuri) is now ready to be **parameterized into a CLI forge**. This
-> session hand-built Yuri and it drifted from Robin's crispness bar; the fix is generation, not
-> more hand-patching.
-
-## Next session starts at — build + run the parameterized counterpart-forge CLI
-
-**Read first:** `_PATTERNS/forge-pipeline-handoff.md`, then `_PATTERNS/counterpart-artifact-family-blueprint.md` (§1-11). Those are the full spec; do not re-derive.
-
-**The order of work (from the handoff):**
-1. **True up the UI kit first** — canonical tokens `src/ui-kit/recoil-report/_tokens.css` == `src/document/tokens.ts` (ADR-009/031, one DS). Regenerate `public/robin-receipt.html` off its omakase drift onto canon; make the `#tip` data-vis hover/tap tooltip a canonical kit component.
-2. **Extract Robin's 4 surfaces** (`public/robin{,-profile,-codex,-receipt}.html`) as parameterized templates; the crispness rules are generation constraints (lead with the real-call STORY not a diagram; dual Read+Instrument codex; receipt-close first-class; clean 3-read triad).
-3. **Build** `scripts/forge_counterpart.py` (SSOT->render) + the `/forge` skill (gather->synth->generate->verify->deploy), reusing recoil-new/prep/close/ship.
-4. **Gates:** verify (impeccable detector, 0 em-dashes, fabrication/attribution Me=Zach/Them=counterpart) + honesty (insufficient signal -> flag `additional enrichment source inputs required`, never fabricate).
-5. **Acceptance test:** regenerate Yuri to Robin's bar (add `yuri-receipt` from ex-ante `kleban.json` scored vs `kleban-recoil.json`; lead `yuri.html` with the real belief-flip story; re-tier codex+demo; single-call, no arc).
-
-**Deploy:** main worktree only; Vercel CLI auto-refreshes its token (`vercel domains add <domain>`, project `prj_aKmLj1UvT2oaDSH4KIAqEPaULqx9`). Run model-efficiently.
-
-## Shipped this session (2026-08-07) — all live
-Robin the platinum master (one-door + profile + codex + receipt); `robin-profile` quiet-signals polish.
-Yuri suite live + sequenced at `yuri.arcs.care`: one-door rebuild, `yuri-profile` (regrounded on a
-net-new web scan, honest public-only caveat), `yuri-recoil`, `yuri-codex` (+ "08 · synchronization tax"
-anti-Brooks's-Law beat), `yuri-demo`; `yuri-ext`/`yuri-sample` decluttered (redirect to the door). The
-anti-Brooks's-Law roadmap suite (auditor/composer/sage/gauntlet-casting) banked in the blueprint §8.
-
-## Blocking
-NONE. The forge task `task_56561b51` predates blueprint §7-11 — restart it or have it re-read the blueprint.
-Gmail reply draft to Yuri sits in Drafts awaiting Zach's send.
-
----
-
 # Handoff — v3.26.0 (2026-08-08)
 
 > **Active pickup point.** v3.25.0 preserved above; v3.21.0 / v3.22.0 relocated to `_ARCHIVE/handoffs.md`
@@ -185,3 +152,58 @@ Deploy from the main worktree only. This session's temp main-wt was pruned mid-s
 `main-wt2`. A fresh main worktree has NO `node_modules`, so the pre-push build hook fails on environment — a
 **content-only** push (public/*.html + runtime/*.json + docs, no compiled files) is safe with
 `git push --no-verify`.
+
+---
+
+# Handoff — v3.27.0 (2026-08-09)
+
+> **Active pickup point.** v3.26.0 preserved above; v3.25.0 relocated to `_ARCHIVE/handoffs.md`.
+> This session ground the whole Yuri family against the **actual Jul 23 Granola transcript** (not
+> memory of it) and against a **counterpart-vantage pre-mortem** (role-play as Yuri). Both caught
+> trust-breakers the impeccable detector and the register gauntlet had passed clean.
+
+## Headline: transcript-grounded heal of the Yuri family — all deployed
+
+Pulled the real transcript (`Yuri x Zach // 1-1`, Jul 23, via Granola MCP) and role-played Yuri
+reading the pages. The sharp finds, all fixed + live (`main 519219f`):
+
+- **Consent/data-ethics was a fabrication** attributed to Yuri across receipt/codex/profile
+  ("data-ethics stance is table stakes", "led with it unprompted"). The tape refutes it: Yuri says
+  *"I don't think that's me, I could care less"* and *"I trust the people I speak with."* That was
+  **Zach's** value projected onto him. Reframed to (a) an honest receipt self-correction ("the
+  scruples are mine, not yours"), (b) a profile card "clean by design, not precious" that keeps the
+  **real** Agentum least-exposure signal but reconciles it with his own words. **The detector AND the
+  gauntlet both passed this clean — only re-reading the primary transcript caught it.**
+- **Profile reframed** as "the before / the bet I filed going in", not "step one, the read of you".
+- **One-door** leads with the before/after he named (his verbatim ask), not the belief-flip abstraction.
+- **Codex** flip beats relabeled ME/YOU -> **I BET / YOU SAID** (his bite-size, one-liner register).
+- **Sundar restored** consistently across all three surfaces (his own volunteered story).
+- **Plain-language**: receipt KAIROS/POSTERIOR/reverse-listening labels -> plain, via a new
+  `meta.labels` override in `render_receipt` (Robin defaults preserved; robin-receipt byte-identical).
+- **Craft**: `.close` inline links now gold, not UA-default blue.
+
+## Next session starts at — the server-side gate (the ONLY open item)
+
+Content + honesty are fully healed and live. The one remaining fix from the pre-mortem is the
+**client-side pw-gate -> server-side** migration (BAR-ranked highest; it is the send-blocker, and it
+covers Robin's LIVE pages too). Yuri literally hit this on the call: *"the password... I couldn't get
+in... I was trying to crack the code."* Scoped approach (do NOT rush the live cutover):
+1. Counterpart HTML is world-readable in `public/` (`curl <file>.html` returns full content behind the
+   client overlay). Move robin+yuri surfaces to a non-public dir (`runtime/counterpart/`).
+2. New `src/app/counterpart/[slug]/route.ts`: signed-cookie password gate (HMAC over `AUTH_SECRET`,
+   timing-safe compare); GET serves form-or-html by cookie, POST validates + sets HttpOnly cookie.
+   Cookie keyed by counterpart family so one entry unlocks all their surfaces.
+3. Rewrite the domains to the route; **preserve the `/api` negative-lookahead** so the Receipt Studio
+   fetch still reaches `/api/receipts/studio/[tenant]`.
+4. Add a forge `--server-gated` flag to omit the now-redundant client gate.
+5. **Dev-server test + ciso-review before the production cutover** (it gates real people's access).
+6. One product decision for Zach: how Yuri receives the password (still his first name, or a stronger
+   token in the email).
+
+## Blocking
+NONE internally. The gate is the one build gating the send of the Yuri suite.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
+The gate touches server routes + config -> it will need a real build; deploy it through the normal
+Vercel build, not a `--no-verify` content push.
