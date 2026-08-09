@@ -108,6 +108,18 @@ session ran from the `yuri-ahmed-communication` worktree). The **main `CLAUDE.md
 and does not point here** — a pickup from the main chain gets Todd amnesia. THIS file is the Todd pickup; the
 machine-local memory (`project_todd_hotes_prl_resins.md`) + `_STATE/snapshot.json` should point at it.
 
+**Recognizer VERIFICATION (2026-08-09, committed on branch):** built + ran a staged end-to-end lead sim
+(`prl-lyro/simulate_lead_e2e.py`) + two exhaustive deterministic sweeps — `coverage_sweep.py`
+(895/895 competitors, 150/150 grades, 50/50 states, 64/64 field-gate perms, 297/297 punctuation) and
+`full_grid_sweep.py` (**150 grades × 50 states × 3 branches = 22,500, all invariants hold**). These caught +
+fixed two recognizer bugs the 15-case self-test hid (trailing punctuation killed the competitor cross-ref;
+parenthesized grade codes + sentence punct). No fuzzy/typo correction by design (exact-or-route). Net-new:
+`prl_lyro_eval.py` gained an `input_hygiene` category (74→80 cases, for live scoring). The three sweeps are
+the recognizer regression suite — re-run after any dictionary/normalize change.
+
+**PARKED for prl.arcs.care (client-facing):** update the "74 safety checks pass clean" line → 80 + the
+22,500-combination recognizer verification (proposed wording pending Zach; deploy from MAIN worktree only).
+
 **Uncommitted as of 2026-08-09:** this handoff append, ADR-PRL-001, the serialized recoil, `todd-always-sometimes-
 never.md` (Todd decision aid, NOT sent), and the tidio-capabilities/checkpoint annotations.
 

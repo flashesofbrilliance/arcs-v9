@@ -24,8 +24,10 @@ _kb-manifest, the guidance-prompt, and the Todd-facing shared KB. Consolidates t
 - **Ground truth EXISTS + verified:** 150-grade internal catalog, specs 100% verified vs source
   (`prl-kb/prl-product-catalog-2025.json`). IDES 28-sheet public scrape (`prl-kb/ides-datasheets/`) is a
   supplement, NOT the gate. Todd's IDES bulk export = freshness/completeness upgrade only.
-- **Reverse-lookup BUILT + passing:** `prl-lyro/normalization/normalize.py`, competitor→PRL (895 keys),
-  self-test 10/10 (verified 2026-08-09). Recognition is done.
+- **Reverse-lookup BUILT + grid-verified:** `prl-lyro/normalization/normalize.py`, competitor→PRL (895 keys).
+  Deterministic sweeps (2026-08-09, `coverage_sweep.py` + `full_grid_sweep.py`): 895/895 competitors,
+  150/150 grades, 50/50 states, **22,500-combination grid (150×50×3 branches) all invariants hold.** No
+  fuzzy/typo correction by design (exact-or-route, never a wrong grade). Recognition is done.
 - **Eval harness BUILT:** `prl_lyro_eval.py`, 74 cases (XREF blind-spot, SPEC_CLAIM, HANDOFF, HEDGE). Needs live
   responses collected ≥3×/case and scored. This is the gate mechanism, not a thing to build.
 - **UL yellow-card data:** the ~$30K/6mo differentiator, **NOT in any file we hold** — Todd to source. Until
