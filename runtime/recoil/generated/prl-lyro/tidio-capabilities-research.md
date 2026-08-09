@@ -416,3 +416,15 @@ The account is base tier + two PAID add-ons; NOT Plus. The "PRO" badge is cosmet
 
 **Remaining in-app checks (gated-or-not on THIS non-Plus plan):** custom-audience scoping for data sources +
 audience-targetable Guidance; the Copilot-only per-source toggle; presence of Lyro Tasks; the Flow API-call node.
+
+## Audience availability CONFIRMED on this plan + info@ status (in-app, 2026-08-09)
+- **"Set audience" is present** in each data source's Manage menu (alongside Download file / Delete), NOT
+  Plus-gated. So audience-scoping of Lyro knowledge IS available on this Flows+Lyro (non-Plus) account. Today
+  only the "Everyone" audience exists (the Audiences filter lists just "Everyone"); we would create the
+  "Molder" and "OEM" audiences. Exact audience-creation entry point (likely Contacts/Segments) still to pin,
+  but the per-source scoping control exists. => the dual-experience (molder vs OEM) design is a GO on this plan.
+- **info@prlresins.com shows GREEN/connected on the Dashboard "Project status"** (Chat Widget, Mailbox
+  info@prlresins.com, Domains prlresins.com all green). This is newer than the "contact support for email
+  config" state we flagged to Todd - the mailbox appears connected now. Re-verify the specific email-config
+  screen before telling Todd IT still needs to act; the earlier blocker may be resolved.
+- Also noted: 1,696 unassigned tickets (mailbox sync backlog), 1 active Flow, 11 leads acquired (Jul11-Aug9).
