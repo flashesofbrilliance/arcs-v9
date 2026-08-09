@@ -1265,6 +1265,7 @@ DIAMOND_CSS = ("*{margin:0;padding:0;box-sizing:border-box}"
     "body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;"
     "-webkit-font-smoothing:antialiased}"
     ".wrap{max-width:820px;margin:0 auto;padding:56px 24px 72px}"
+    ".uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);text-decoration:none;margin-bottom:18px}.uplink:hover{color:var(--cyan)}"
     ".eyebrow{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed);margin-bottom:14px}"
     ".eyebrow b{color:var(--cyan)}"
     "h1{font-family:var(--display);font-size:clamp(24px,3.2vw+8px,34px);font-weight:700;line-height:1.18;letter-spacing:-.01em;color:#fff;margin-bottom:16px}"
@@ -1349,6 +1350,9 @@ def render_diamond(d):
          f'<meta name="robots" content="noindex, nofollow"><title>{E(m.get("doc_title", m["counterpart"] + " · Diamond Cut"))}</title>',
          f'<style>{TOKENS}{DIAMOND_CSS}{TIP_CSS}</style>{VERCEL}</head><body>',
          '<div class="wrap">']
+    up = m.get("uplink")
+    if up:
+        L.append(f'<a class="uplink" href="{A(up["href"])}">&#8593; {up["label"]}</a>')
     L.append(f'<div class="eyebrow">{h["eyebrow"]}</div>')
     L.append(f'<h1>{h["title"]}</h1>')
     L.append(f'<p class="lede">{h["lede"]}</p>')
