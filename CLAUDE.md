@@ -161,6 +161,12 @@ Deploy from the main worktree only. This session's temp main-wt was pruned mid-s
 > This session ground the whole Yuri family against the **actual Jul 23 Granola transcript** (not
 > memory of it) and against a **counterpart-vantage pre-mortem** (role-play as Yuri). Both caught
 > trust-breakers the impeccable detector and the register gauntlet had passed clean.
+>
+> **Parallel active thread — Todd/PRL (separate from this Yuri work):** lives on branch
+> `claude/chatbot-1-1-jtbd-blockers` + machine memory `project_todd_hotes_prl_resins.md`. Pickup =
+> `runtime/recoil/generated/2026-08-05-todd-SESSION-HANDOFF.md` (read its **2026-08-09 entry**). Todd is
+> PAID, in 1.1/1.2 build; governed-answering posture = `prl-lyro/ADR-PRL-001`. Do NOT re-derive the IDES
+> scrape / reverse-lookup / eval harness / 1.3 ground truth — all already built.
 
 ## Headline: transcript-grounded heal of the Yuri family — all deployed
 
