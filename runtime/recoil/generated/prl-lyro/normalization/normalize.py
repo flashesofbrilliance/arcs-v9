@@ -37,15 +37,23 @@ for fam, blk in MAT['families'].items():
     for a in blk['aliases']:
         _FAM_IDX.setdefault(a, fam)
 
-_EDGE_PUNCT = '?.!,;:"\'`()[]{}*'  # stripped from token EDGES only; keeps internal 6,6 and 6/6
+_SENT_PUNCT = '?.!,;:"\'`'          # sentence punctuation (NOT brackets)
+_EDGE_PUNCT = _SENT_PUNCT + '()[]{}*'  # everything strippable from token edges
 
 def _grams(text, n_max=3):
-    toks = [t.strip(_EDGE_PUNCT) for t in norm(text).replace('/', ' / ').split()]
+    raw = norm(text).replace('/', ' / ').split()
+    toks = [t.strip(_EDGE_PUNCT) for t in raw]
     toks = [t for t in toks if t]
     out = []
     for n in range(n_max, 0, -1):
         for i in range(len(toks) - n + 1):
             out.append(' '.join(toks[i:i+n]).replace(' / ', '/'))
+    # per-token alternates so a grade code with INTERNAL brackets survives trailing sentence punct:
+    # 'ABS-FR-UV(F2)?' -> strip only sentence punct -> 'ABS-FR-UV(F2)' (keeps the parens) matches.
+    for r in raw:
+        for cand in (r, r.strip(_SENT_PUNCT)):
+            if cand and cand not in out:
+                out.append(cand)
     return out
 
 def recognize(text):

@@ -23,7 +23,28 @@ spec, price, or UL status** (those route to a human; the anti-fabrication rule h
 Self-test: **10/10** including the real audit inputs (`PA66 for fiber extrusion` → NY66; `Lexan 141` →
 PC-GP2-D). Run `python3 normalize.py`.
 
+## Verification (2026-08-09) — deterministic sweeps, no CRM writes
+Three runnable harnesses in `../` prove coverage far past the curated self-test (which had hidden a
+punctuation bug — `Lexan 141?` silently missed):
+- `simulate_lead_e2e.py` — staged end-to-end walk-through (recognize → governed decision → Sugar payload → route → gate).
+- `coverage_sweep.py` — **895/895 competitor keys, 150/150 grade codes, 50/50 states, 297/297 punctuation-wraps, 64/64 field-gate perms.**
+- `full_grid_sweep.py` — **22,500 combinations (150 grades × 50 states × 3 branches): all invariants hold.**
+Re-run all three after any dictionary or `normalize.py` change.
+
+## Typos / fuzzy input — NO spell-correction, BY DESIGN
+Recognition is exact-alias lookup; there is deliberately **no fuzzy matching**, because a fuzzy match
+could assert the WRONG grade — the exact fabrication risk this system exists to prevent. Behavior on a
+typo: if a recognizable exact sub-token survives (e.g. the numeric grade in `Lxan 141` → still resolves
+via `141`), it recognizes; otherwise it returns empty → **capture the lead + route to a specialist**.
+A typo therefore never produces a wrong answer; worst case it loses the auto-recognition pre-fill. The
+LLM layer (Lyro) is the fuzzy front-end that can catch a typo conversationally and confirm; this
+deterministic layer is the guardrail that refuses to assert a wrong grade. Live-model coverage:
+`prl_lyro_eval.py` category `input_hygiene` (added 2026-08-09).
+
 ## Known limitations (honest; these are the eval's job to track)
+- **Space-form slash-blend aliases** (`PC/ABS GP2` vs canonical `PC/ABS-GP2`): the space form does not
+  pin the exact grade; it **degrades gracefully to the blend family** (`PC/ABS` + `PC` + `ABS`) and
+  routes to a specialist. Not a silent drop (17 such aliases; canonical dash-form + families all resolve).
 - **`6/6` splits.** "nylon 6/6" currently matches NY6, not NY66, because `/` tokenizes. Fix: pre-map
   `6/6`,`6,6`→`66` before gramming. Tracked; low-harm (still surfaces nylon + routes to specialist).
 - **Bare competitor numbers are ambiguous.** "3105" alone can map to >1 PRL grade (35 such collisions);
