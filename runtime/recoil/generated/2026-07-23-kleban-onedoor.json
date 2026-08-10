@@ -8,19 +8,19 @@
   },
   "header": {
     "eyebrow": "Yuri · one door",
-    "title": "One call, one belief that flipped, and the read that caught it.",
-    "sub": "It is the pre-meeting brief your team already builds, but closed and scored: the bet I filed on you before we talked, graded against what actually changed after. That is the before and after you asked for. A few short reads plus an optional deep cut, at your own pace."
+    "title": "One call, and the one belief it flipped.",
+    "sub": "It's the pre-meeting brief your team already builds, but closed and scored: the bet I filed on you before we talked, graded against what actually changed after. That's the before and after you asked to see. Two quick reads, at your own pace, and nothing here asks you for anything."
   },
   "blocks": [
     {
       "type": "facesnav",
-      "label": "Four ways in. Start with the before and after, or the machine if you build.",
+      "label": "Start with the before and after. The deep cut is there if you want to see the machine.",
       "faces": [
         {
           "href": "https://yuri-codex.arcs.care",
           "led": "o",
           "title": "The before and after of our call",
-          "desc": "the bet I filed before we spoke and what changed, plus the instrument",
+          "desc": "the bet I filed before we spoke and what changed. this is the one you asked for",
           "tag": "start here"
         },
         {
@@ -29,19 +29,6 @@
           "title": "The whole call, mapped",
           "tag": "the deep cut, for builders",
           "desc": "our call as one line, moment by moment, and the sentence the bet flipped on"
-        },
-        {
-          "href": "https://yuri-receipt.arcs.care",
-          "led": "r",
-          "title": "Every line, scored",
-          "tag": "the receipt",
-          "desc": "the bet I filed, graded line by line against what you said"
-        },
-        {
-          "href": "https://yuri-profile.arcs.care",
-          "led": "g",
-          "title": "The read of you",
-          "desc": "who you are, built from your public voice, honest about how much it can see"
         }
       ]
     },
@@ -70,7 +57,7 @@
           "after": "You already run this problem, the one I'm building for. Confidence in a real fit went from a hedge to near-certain."
         }
       ],
-      "caption": "Three more beliefs moved too, warmer than I bet, practitioner not skeptic, and the doc-miss you caught. The rest is next door, and every line is scored in the receipt."
+      "caption": "Three more beliefs moved too: warmer than I bet, practitioner not skeptic, and the doc-miss you caught. They're all in the before and after."
     },
     {
       "type": "howitworks",
