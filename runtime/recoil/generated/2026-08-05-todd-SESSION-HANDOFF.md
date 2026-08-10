@@ -156,6 +156,17 @@ negative keywords/anti-ICP). Now awaiting Todd's replies on those two.
 **Todd owes:** written sandbox approval · negative keywords + garbage-lead examples · territory map (Bill) ·
 ZoomInfo contact · (optional) 30-min with Bill. [George/Jorge's email = DONE, looped with Tidio.]
 
+**Anti-ICP / spam engine BUILT (Aug 10):** `prl-lyro/normalization/exclusions.json` (extensible SSOT, seeded
+with Todd's "sheet" signal + form spam) + `exclusions.py` (self-test 8/8) + `gravity_forms_blocklist()`
+generator + `prl-gravity-forms-cleanup.md` spec. ONE source shared by chatbot + form; Todd's list drops into
+`todd_provided` with no code change. **Applying in WP staging** (honeypot + form-factor field via clicks;
+Turnstile needs the add-on+keys; keyword blocklist needs a snippet — noted in the spec).
+
+**Stripe decision (Aug 10):** **skip Connect** for the engagement — it's for platforms onboarding other
+merchants; Zach just invoices clients → standard account + instant payout is correct. Connect only fits IF ARCS
+productizes as a platform (e.g. Receipt Studio tenants selling, ARCS taking a fee). Instant payout: check
+Available vs Pending in the Dashboard; new-account holds may keep today's $4.5k pending.
+
 **Meta minted:** ADR-043 + memory `[[adaptive-rhetorical-resonance]]`. **Parked (Zach to greenlight):** a
 calendar-auto-prep routine (run `recoil-prep` ahead of counterpart calls) + an ADR/DEWY candidate watcher hook.
 
