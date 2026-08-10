@@ -123,8 +123,44 @@ the recognizer regression suite — re-run after any dictionary/normalize change
 **Uncommitted as of 2026-08-09:** this handoff append, ADR-PRL-001, the serialized recoil, `todd-always-sometimes-
 never.md` (Todd decision aid, NOT sent), and the tidio-capabilities/checkpoint annotations.
 
+## SESSION 2026-08-10 — kickoff call + artifact family + the parallel 1.1-UAT / 1.2-kickoff plan
+
+**Where we landed (Aug 10 walk-through call · recoil `2026-08-10-todd-recoil-close.md`):** 1.2 PAID + kicked off.
+Warm, high-trust call. **Go-live is now gated only on two Todd-owned unblocks:** (1) **written sandbox approval**
+(verbal to Long on the Aug 11 3:00pm call, then in writing), and (2) the **info@ email fix — IN MOTION** (Zach
+looped **Jorge/IT** in with Tidio support). **Bill** (not Nicole) runs Sugar = the lead verifier + territory owner.
+
+**Artifact family (all committed / published):**
+- **4 shareable claude.ai artifacts** (private → Zach shares from each menu): Go-live evidence
+  `1daae3aa`, 1.2 kickoff+doc-tracker `1ea25934`, UAT sign-off `9713ddbb`, Sugar call agenda `b98f7dfc`
+  (**SENT to Long** + support, cc Todd).
+- **prl.arcs.care deck** — live + current (sandbox = in-progress / prod copy-down pending Todd).
+- **Repo (branch `claude/chatbot-1-1-jtbd-blockers`):** recoil-close, `SPRINT-2-1.2-kickoff.md` (SSOT),
+  `SUGAR-call-prep-2026-08-11.md`, `PREMORTEM-user-experience.md`, `TEST-PLAN-go-live.md`, `ADR-PRL-001`
+  (governed answering), `ADR-043` + DEWY receipt (adaptive rhetorical resonance); the recognizer + 3 sweeps
+  (self-test 34/34, coverage, 22,500-grid) + `prl_lyro_eval.py` (84 cases) + the **capture-first flow**
+  (name→email→phone→company→state, validated) + the `~/Downloads/prl-tidio-flows` bundle.
+
+**Recap email:** drafted + current in Gmail Drafts (`r-955185512124381138`), awaiting Zach's send. Fill the 4
+link URLs after sharing each artifact. Asks reduced to: written sandbox approval + negative keywords/anti-ICP.
+
+**THE PARALLEL PLAN — 1.1 UAT and 1.2 kickoff run together:**
+- **1.1 critical path (UAT):** info email fixed (Tidio/Jorge) → sandbox access (Todd approval + prod copy-down)
+  → wire delivery (Zapier) → **lead lands in CRM** → **routing logic** (territory assignment via Bill's map) →
+  notification (rep + prospect autoresponder + the new **4-hour escalation nudge**) → **verify received
+  (UAT: Todd + Bill sign off)** → flip live. Both gates Todd-owned; our work is days once either lands.
+- **1.2 kickoff (parallel):** baseline prep, ZoomInfo enrichment (needs a Zoom contact), Mailgun, the **4-hour
+  escalation nudge** build, the **anti-ICP / negative-keyword** filter (garbage "sheet" leads) + Gravity Forms
+  spam fix (Zach cleared, staging→live), CRM data-reality session (Bill), net-new/dedup clarification.
+
+**Todd owes:** written sandbox approval · negative keywords + garbage-lead examples · territory map (Bill) ·
+ZoomInfo contact · (optional) 30-min with Bill. [George/Jorge's email = DONE, looped with Tidio.]
+
+**Meta minted:** ADR-043 + memory `[[adaptive-rhetorical-resonance]]`. **Parked (Zach to greenlight):** a
+calendar-auto-prep routine (run `recoil-prep` ahead of counterpart calls) + an ADR/DEWY candidate watcher hook.
+
 ## NEXT SESSION STARTS AT
-Todd decision aid (`prl-lyro/todd-always-sometimes-never.md`, reframed to governed-not-silenced) is drafted, NOT
-sent — decide send vs hold for Todd's Friday reply. Then: (1) get sandbox access (unblocked, ball with support/
-Todd); (2) collect+score live eval responses to flip governed categories; (3) when sandbox lands, run the 1.2 CRM
-Data Reality audit (OEM↔molder model + territory). Build A step 1 still pending Zach's delete-vs-per-entry call.
+Send the recap email (Zach) → run the **Aug 11 3pm Long/SugarAI call** (sandbox approval + the tech-question
+agenda) → on unblock (sandbox creds + info@ receiving): **import the capture-first flow to staging, wire
+delivery to Sugar, run the 1.1 UAT** (lead lands → routing → verify received → sign off), while starting 1.2
+(enrichment, 4-hr nudge, anti-ICP filter, baseline). Chase Todd's: keywords/examples, territory map, Zoom contact.
