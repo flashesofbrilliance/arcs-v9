@@ -191,6 +191,21 @@ reading the pages. The sharp finds, all fixed + live (`main 519219f`):
   once the project is linked; `*.arcs.care` is wildcard DNS but NOT wildcard project-domains, so each
   subdomain needs explicit adding).
 
+## Persona-gauntlet pass (2026-08-09, main 4b1bde4) — deepest gauntlet, all healed
+
+After the family was register-clean, an orchestrated **6-facet Yuri simulation + adversarial verifier**
+(the `yuri-persona-gauntlet` Workflow) found 15 verified cracks, no surviving pathogen. Healed + live:
+the no-ask connector was relabeled **"the exact buyer" ~6x** (killed → recognition framing); a
+**"across Alphabet, compounding" rollout slide** off one call (cut → capped at what he said + HIS
+portable rung); a **"4/5 misses all productive" ratchet** (→ keep the one self-falsifying 40% bet);
+**codex chart byte-identical to the receipt waveform** with conflicting beat order (de-duped + reordered
+to the tape: doc-miss before pull); §04 intake funnel → "you already saw one"; **"patentable" ×3** →
+"the part I keep closed"; named the differentiator once (the *after* nobody builds = the scored closed
+loop); jargon finish; profile battlecard labels (Trigger:/LOSES YOU) → plain via `meta.labels` (Robin
+byte-identical); diamond rounded to 5-pt steps + dropped the placeholder beat. Verifier rejected 4
+over-flags. Spine protected (self-scoring, fence, the one honest bet). Lesson banked:
+[[gauntlet-tuned-to-register-catches-what-detector-cannot]] escalation 3.
+
 ## Gate: REMOVED, not migrated (Zach's call, main 05b7630)
 
 The pre-mortem's server-side-gate plan was **superseded**. Zach's call: keep it simple — the Yuri
