@@ -99,7 +99,7 @@
       "Your own example reflected back, the Sundar brief, in your words"
     ],
     "loses": [
-      "Abstract theory or a coherence engine with no concrete output",
+      "Abstract theory with no concrete output",
       "A pitch or an ask when you have signalled nothing-to-sell",
       "Any story where data leaves Google or a vendor locks you in",
       "Anything that asks you to cross the line on non-public information",
@@ -137,42 +137,35 @@
   "quiet_signals": {
     "k": "05 &middot; the quiet signals",
     "h2": "What the surface does not say.",
-    "lede": "A few reads that go past the facts on the page. Each one is my inference, not your words; the &lsquo;so&rsquo; is what I would actually do about it.",
+    "lede": "A few reads that go past the facts on the page. Each is my inference, not your words.",
     "cards": [
       {
         "tag": "You proved it, five years early",
         "qc": "#00FF9D",
         "headline": "You built this by hand, before there was AI.",
         "body": "You automated the Sundar brief with data science in 2020. You are not evaluating whether the thesis is real; you shipped it.",
-        "so": "So I am not going to explain your own value back to you; I am meeting you as a peer who lived it."
+        "so": "So this meets you as the peer who lived it, not someone who needs the value explained."
       },
       {
         "tag": "Model-agnostic is identity",
         "qc": "#00F0FF",
         "headline": "Lock-in is the thing you design against.",
-        "body": "In Agentum you decoupled not just the chat model (Claude, Gemini, DeepSeek, MiniMax, bring your own key) but the coding harness too (Claude Code or Codex, mix them freely). Anti-lock-in is not a slogan for you, it is the architecture. A single-vendor, data-leaves-the-building story reads as a trap.",
-        "so": "So I lead with what matters to you: it runs on Gemini, nothing leaves Google, you own the file."
+        "body": "In Agentum you decoupled the model (bring your own key) and the coding harness both. Anti-lock-in is not a slogan for you, it is the architecture. A single-vendor, data-leaves-the-building story reads as a trap.",
+        "so": "So the shape that fits: it runs on Gemini, nothing leaves Google, you own the file."
       },
       {
         "tag": "Clean by design, not precious",
         "qc": "#FFD700",
         "headline": "Your product is least-exposure; you personally are relaxed about it.",
-        "body": "Agentum is built clean: outbound-only, everything-else-404-at-the-edge, the dashboard bound to localhost, bring-your-own-key, nothing transiting your servers. And yet on our call you waved off recording, you &lsquo;could care less,&rsquo; and said you trust the people you talk to. So I read the privacy as engineering discipline, not personal anxiety: you build least-exposure because it is the right way to build, not because you are worried.",
-        "so": "So I keep this provenance-clean and bring-your-own-key because that is how you build, and I do not mistake it for a consent-hawk identity, because you told me plainly it is not."
-      },
-      {
-        "tag": "The connector energy",
-        "qc": "#ff9d3c",
-        "headline": "You offered to help before I asked.",
-        "body": "On our call you gave nothing-to-sell energy and meant it: &lsquo;be selfish, what would get you to the next step.&rsquo; You opened a door without asking for anything back.",
-        "so": "So I am treating your help as a gift, not a transaction, and letting you set the pace."
+        "body": "Agentum is built clean: outbound-only, bring-your-own-key, nothing transiting your servers. And yet on our call you waved off recording, you &lsquo;could care less,&rsquo; and said you trust the people you talk to. I read the privacy as engineering discipline, not personal anxiety.",
+        "so": "So it stays provenance-clean because that is how you build, and I do not read it as a consent-hawk identity, because you told me plainly it is not."
       },
       {
         "tag": "Pull, not push",
-        "qc": "#94a3b8",
-        "headline": "You open the door; you are not pushed through it.",
-        "body": "&ldquo;Be selfish, what would get you to the next step.&rdquo; You invite the next move rather than being sold on it. You gave nothing-to-sell energy and meant it.",
-        "so": "So I am letting you name the next step, not pushing you through the door."
+        "qc": "#ff9d3c",
+        "headline": "You offered to help before I asked, and you invite rather than sell.",
+        "body": "&ldquo;Be selfish, what would get you to the next step.&rdquo; You opened a door and asked for nothing back, inviting the next move rather than being sold on it. That is the nothing-to-sell energy, and you meant it.",
+        "so": "So the only thing on this page is the before and after you asked to see, with no ask attached."
       }
     ]
   },

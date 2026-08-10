@@ -314,7 +314,7 @@ def _waveform_svg(wf):
         labels += (f'<text x="{xs[i]:.1f}" y="{H-PB+15:.1f}" text-anchor="middle" fill="#64748b" '
                    f'font-family="ui-monospace,monospace" font-size="8">{E(p.get("label", p.get("key","")))}</text>')
     return (f'<div class="manifold"><svg viewBox="0 0 {W} {H}" width="100%" preserveAspectRatio="xMidYMid meet" '
-            f'role="img" aria-label="Resonance waveform">'
+            f'role="img" aria-label="the call over time">'
             f'<defs><linearGradient id="mf" x1="0" y1="0" x2="0" y2="1">'
             f'<stop offset="0" stop-color="#00F0FF" stop-opacity="0.16"/><stop offset="1" stop-color="#00F0FF" stop-opacity="0"/></linearGradient></defs>'
             f'<line x1="{PL}" y1="{H-PB:.0f}" x2="{W-PR}" y2="{H-PB:.0f}" stroke="#1e293b" stroke-width="1"/>'
@@ -371,7 +371,7 @@ def render_receipt(d):
     # 2. waveform
     wf = d.get("waveform")
     if wf:
-        L.append('<section class="sec"><div class="eyebrow"><b>&#9633;</b> The call, as a waveform &nbsp;&middot;&nbsp; ' + E(wf.get("label", "")) + '</div>')
+        L.append('<section class="sec"><div class="eyebrow"><b>&#9633;</b> ' + LBL.get("waveform_k", "The call, as a waveform") + ' &nbsp;&middot;&nbsp; ' + E(wf.get("label", "")) + '</div>')
         L.append(_waveform_svg(wf))
         L.append(f'<p class="mcap">{wf["caption"]}</p></section>')
 
@@ -421,7 +421,7 @@ def render_receipt(d):
     po = cl.get("posterior")
     if po:
         L.append('<div class="posterior"><span class="pok">' + LBL.get("posterior_k", "THE POSTERIOR &nbsp;&middot;&nbsp; what the receipt taught me") + '</span>')
-        L.append(f'<p class="powedge"><b>Wedge:</b> {po["wedge"]}</p>')
+        L.append('<p class="powedge"><b>' + LBL.get("wedge_k", "Wedge:") + '</b> ' + po["wedge"] + '</p>')
         L.append(f'<p><b>Status:</b> {po["status"]}</p>')
         L.append(f'<p><b>Register:</b> {po["register"]}</p>')
         L.append(f'<p class="ponote">{po["note"]}</p></div>')
