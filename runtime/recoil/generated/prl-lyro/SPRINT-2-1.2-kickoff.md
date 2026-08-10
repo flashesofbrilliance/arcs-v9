@@ -85,9 +85,19 @@ Aug 11 3:00 PM ET** (case 589806). Todd is needsAction on the invite; his yes is
 - **info@prlresins.com registered** (email/DNS) — Todd/IT.
 - **CRM integration proven** (the delivery wiring above).
 
-Todd-side dependencies to line up during 1.2 (all whenever-you're-ready, but these are the gates):
-grant sandbox access · register info@ · a 30-minute SM + reports session. If those three land this week,
-1.2 completes on the base timeline and **1.3 opens with zero blockers.**
+Todd-side dependencies (refreshed on the Aug 10 kickoff call — full recoil: `2026-08-10-todd-recoil-close.md`):
+- **Written sandbox approval** (admin + API + prod copy-down) — verbal to Long on the Aug 11 call, then in writing.
+- **George/IT's email** — the real go-live gate: loop him + Tidio support to fix why **info@ is not receiving**.
+- **Negative keywords / exclusions + garbage-lead examples** (the "sheet" seekers) — for the anti-ICP filter.
+- **Bill** runs Sugar (not Nicole): the lead verifier + territory-map owner; clarify **net-new/dedup** logic with him.
+- A **ZoomInfo contact** to thread Zach for 1.3 enrichment (already paid, unused).
+If the first three land this week, 1.2 completes on the base timeline and **1.3 opens with zero blockers.**
+
+**New workstream from the call — anti-ICP / negative keywords.** PRL gets garbage leads (people wanting resin
+*sheets*; PRL makes pellets/compounds). Build a keyword trigger + prequal ("we make X, are you sure?"),
+lead-grading on negative-exclusion signal, an optional form-factor required field, and an SEO "what we do and
+don't make" note — applied in one shot across the chatbot + the site form. Gravity Forms spam fix: approved,
+Zach applies on staging then live.
 
 ## Doc tracker (1.2 deliverables + status)
 
