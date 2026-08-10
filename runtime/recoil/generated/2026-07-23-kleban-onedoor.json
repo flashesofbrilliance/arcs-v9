@@ -52,7 +52,7 @@
       "type": "story",
       "k": "02 · the belief that flipped",
       "h2": "I filed a bet on you before we talked. The one I flagged as most likely wrong broke hardest.",
-      "intro": "Before the call I wrote down a falsifiable bet, and I flagged the belief I thought was most likely to be wrong: that the overlap between us was thin. It was the one that broke, in the best possible direction. Here is each belief, the line of yours that moved it, and where it landed. Single call, no arc, just the flip.",
+      "intro": "Before the call I wrote down a falsifiable bet, and flagged the belief I thought most likely to be wrong: that the overlap between us was thin. It is the one that broke, in the best possible direction. Here is that one.",
       "beats": [
         {
           "dir": "flip",
@@ -60,30 +60,9 @@
           "before": "Maybe a Google team could use this, someday.",
           "quote": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it into briefs for execs before they meet people",
           "after": "You are the exact buyer and the builder. Confidence in a real fit went from a hedge to near-certain."
-        },
-        {
-          "dir": "up",
-          "k": "Warmer than I bet",
-          "before": "Warm but non-committal, no near-term pull.",
-          "quote": "I want to help move you toward Zach direction... be selfish, what would get you to the next step",
-          "after": "You pulled the relationship forward yourself. I did not have to push."
-        },
-        {
-          "dir": "up",
-          "k": "You are the practitioner, not a skeptic",
-          "before": "I am pitching a skeptic I need to convince.",
-          "quote": "I automated it with data science, no AI, in 2020",
-          "after": "You built this thesis by hand and proved it at the top of Google. You lived the product five years before I named it."
-        },
-        {
-          "dir": "down",
-          "k": "The doc did not land (the productive miss)",
-          "before": "The capability doc will land and do the selling.",
-          "quote": "it&rsquo;s very different than what I had in mind... it&rsquo;d be great to see a real example of both",
-          "after": "It did not land. You found it abstract and asked for the real before and after. You were right, and this door is the correction."
         }
       ],
-      "caption": "The register I called right; the fit I under-read by a mile. That gap, the bet versus what you said, is the whole magic you asked to see, scored line by line in the receipt."
+      "caption": "Three more beliefs moved too, warmer than I bet, practitioner not skeptic, and the doc-miss you caught. The full before and after is next door, scored line by line in the receipt."
     },
     {
       "type": "howitworks",
@@ -104,7 +83,7 @@
         },
         {
           "h3": "1 to Few to Many",
-          "p": "One: your own call. Few: your twenty-person org gets the read before and after. Many: the partnerships function across Alphabet. And it is not only a Google surface: the same instrument pressure-tests an investment memo or a diligence read for your Purpose Built and pre-IPO work. Your judgment, made portable and compounding, and yours to carry."
+          "p": "One: your own call. Few: your twenty-person org gets the read before and after. Many: the partnerships function across Alphabet. Your judgment, made portable and compounding."
         },
         {
           "h3": "The one thing I would do next",
@@ -124,7 +103,7 @@
       "type": "start",
       "k": "04 · how to start",
       "h2": "What it takes to run this on one of your calls.",
-      "intro": "The whole point is that it is a tiny, non-invasive lift, and it is model-agnostic, so it can run on Gemini, on your own stack. You send three things, I send back a zero-point knowledge drop on a call that matters to you. Nothing touches your systems.",
+      "intro": "The whole point is that it is a tiny, non-invasive lift, and it is model-agnostic, so it can run on Gemini, on your own stack. You send three things, I send back the before and after on a call that matters to you. Nothing touches your systems.",
       "needs": [
         {
           "h3": "1 · a call transcript",

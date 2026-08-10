@@ -116,8 +116,11 @@ const nextConfig: NextConfig = {
         // Negative lookahead excludes /api so the Studio's same-origin fetch to
         // /api/receipts/studio/robin is NOT swallowed by the rewrite (same fix as louisville.arcs.care).
         { source: "/:path((?!api/).*)", destination: "/robin-receipt.html", has: [{ type: "host", value: "robin-receipt.arcs.care" }] },
-        // yuri-demo.arcs.care -> public/yuri-demo.html (meta-cognitive inference-ledger MVP, pw-gated "yuri")
-        { source: "/:path*", destination: "/yuri-demo.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
+        // yuri-demo.arcs.care -> /yuri.html (DECLUTTERED 2026-08-09). The old yuri-demo.html (Aug 5, pre-heal,
+        // gated) still carried the consent/data-ethics fabrication the Jul-23 transcript heal removed everywhere
+        // else ("gating values… data ethics at the identity level") + the stale "move you forward" verbatim.
+        // Superseded by the forge family; route any old link to the current, ungated, healed one-door.
+        { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         // yuri.arcs.care -> public/yuri.html (one-door: forge_counterpart.py onedoor surface, LEADS with the
         // belief-flip story; pw-gated "yuri" as of 2026-08-07 to match the rest of the Yuri family — real quotes/reads)
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
