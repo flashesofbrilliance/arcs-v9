@@ -2,8 +2,8 @@
   "captured_at": "2026-08-08T20:46:33Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "299dcbf",
-    "head_message": "heal(yuri family): persona-gauntlet pass — de-transactionalize, de-dup, tighten honesty",
+    "head_sha": "39c4332",
+    "head_message": "fix(yuri family): kill false model-agnostic/Gemini claims + rewrite the mislabeled 'magic' offer",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_STATE/snapshot.json"
@@ -57,9 +57,9 @@
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 247,
-  "session_summary": "Built the parameterized counterpart-forge CLI (scripts/forge_counterpart.py: receipt / profile / codex-dual-tab / one-door surfaces, ONE canonical token source, verify+honesty+craft-floor gates that refuse to write on FAIL) — every counterpart surface (Robin master + Yuri) is now SSOT->generator, none hand-authored. Shipped the interactive Receipt Studio: registry route /api/receipts/studio/[tenant] + robin_app & yuri_app RLS roles applied to prod (both live, isolated, CISO/SRE-reviewed, findings ledgered STU-015/016) + scripts/provision_studio_tenant.mjs (one-command, no-HITL credential+env provisioning via Node pg, no psql). Then ran the full adversarial gauntlet (COURT+LAB / BAR-ruin / du  || 2026-08-09 persona-gauntlet: orchestrated a 6-facet Yuri simulation (builder/practitioner/skeptic/connector/hedge/bite-size) + adversarial verifier (the yuri-persona-gauntlet Workflow) — 15 verified cracks, NO surviving pathogen, spine intact. Healed: 'the exact buyer' ~6x -> recognition; 'across Alphabet/compounding' rollout -> capped + his portable rung; '4/5 misses all productive' ratchet -> keep the one self-falsifying bet; de-dup (codex chart == receipt waveform, conflicting beat order -> reordered to tape); §04 funnel, patentable x3, jargon, diamond rounding. Robin byte-identical. main 4b1bde4, deployed+verified live.",
-  "next_action": "The Yuri family is transcript-true, register-tuned, and THREE gauntlets deep (lens + register + 6-facet persona), all healed + live + verified. SEND-READY. Two items wait on Zach (human): (1) draft/send the LinkedIn note + Gmail (drafts prepared this session; Gmail points to yuri.arcs.care, leads with the before/after he asked for, features the diamond as the closed-loop 'after' for the builder, ask = his guidance on positioning/GTM + curiosity about Agentum, NOT a Google deal, out-of-Google balanced not over-steered); (2) if Yuri sent a LinkedIn note, paste it to tune the opener. NOT blocked on me.",
-  "blocking": "NONE. Send is unblocked. The only remaining step is Zach's manual send of the Gmail draft (I don't send on his behalf).",
+  "session_summary": "Yuri counterpart family taken from forge -> lens gauntlet -> register gauntlet -> primary transcript -> 6-facet persona gauntlet -> full LinkedIn-thread VIBE REFIT. Now: warm 2-link one-door (before/after codex + diamond deep-cut; PROFILE REDACTED from send as a dossier), hero opens in his terms ('the pre-meeting brief your team builds, closed and scored'). FALSE model-agnostic/Gemini claim fixed to honest (ARCS runs on Claude today; internal version could run on Gemini) + machine-gated via ADR-044 temporal_provenance gate (caught a 2nd live instance on Robin). Codex sales-ladder-mislabeled-as-magic cut to an understated close. Captured: ADR-044, _STATE/2026-08-10-session-decisions.dewy.json (4 receipts), 2 memories. Two send-ready drafts (LinkedIn reply lead + fuller Gmail). Handoff v3.28.0.",
+  "next_action": "1) A 2nd persona gauntlet is IN FLIGHT (Workflow w6oq90dah / run wf_a88678dc-f66) against the CURRENT pages (context refreshed to the 2-link/warm/honest state) -- when it lands, re-verify each flag vs source, heal only confirmed cracks, redeploy. 2) SEND (Zach, human): LinkedIn reply first, then Gmail, pointed at yuri.arcs.care. Nothing blocked on me.",
+  "blocking": "NONE internally. Persona gauntlet w6oq90dah still running (results via notification; do not assume). Send is Zach's.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -183,7 +183,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-10T15:10:22Z",
+  "git_refreshed_at": "2026-08-10T21:08:43Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
