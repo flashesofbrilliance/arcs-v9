@@ -9,24 +9,26 @@
   "header": {
     "eyebrow": "Yuri · one door",
     "title": "One call, one belief that flipped, and the read that caught it.",
-    "sub": "The bet I filed on you before we talked, and what changed after. That is the before and after you asked for. Three short reads, move at your own pace. Nothing here asks you for anything."
+    "sub": "The bet I filed on you before we talked, and what changed after. That is the before and after you asked for. A few short reads plus an optional deep cut, move at your own pace. Nothing here asks you for anything."
   },
   "blocks": [
     {
       "type": "facesnav",
-      "label": "Three reads, each one feeds the next",
+      "label": "Four ways in. Start with the before and after, or the machine if you build.",
       "faces": [
-        {
-          "href": "https://yuri-profile.arcs.care",
-          "led": "g",
-          "title": "The read of you",
-          "desc": "who you are, built from your public voice, honest about how much it can see"
-        },
         {
           "href": "https://yuri-codex.arcs.care",
           "led": "o",
           "title": "The before and after of our call",
-          "desc": "start here: the bet I filed before we spoke and what changed, plus the instrument"
+          "desc": "the bet I filed before we spoke and what changed, plus the instrument",
+          "tag": "start here"
+        },
+        {
+          "href": "https://yuri-diamond.arcs.care",
+          "led": "c",
+          "title": "The whole call, mapped",
+          "tag": "the deep cut, for builders",
+          "desc": "our call as one line, moment by moment, and the sentence the bet flipped on"
         },
         {
           "href": "https://yuri-receipt.arcs.care",
@@ -34,6 +36,12 @@
           "title": "Every line, scored",
           "tag": "the receipt",
           "desc": "the bet I filed, graded line by line against what you said"
+        },
+        {
+          "href": "https://yuri-profile.arcs.care",
+          "led": "g",
+          "title": "The read of you",
+          "desc": "who you are, built from your public voice, honest about how much it can see"
         }
       ]
     },
@@ -88,14 +96,6 @@
         {
           "h3": "The one thing I would do next",
           "p": "A real before and after on one call that matters to you, model-agnostic, runs on Gemini, nothing leaves Google, receipts are JSON. Then you decide. The part-two follow-up you named, on your timeline."
-        },
-        {
-          "h3": "The deep cut, if you want the machine",
-          "p": "Optional, and only if you are the kind of builder who wants to see it run: our whole call as one trajectory, hello to goodbye, every point traced to a line we actually said. Two lines, honest that it is one call. Not the thing to read first; the thing to read if the rest made you curious how it moves.",
-          "link": {
-            "href": "https://yuri-diamond.arcs.care",
-            "label": "See the whole call, mapped"
-          }
         }
       ]
     },
