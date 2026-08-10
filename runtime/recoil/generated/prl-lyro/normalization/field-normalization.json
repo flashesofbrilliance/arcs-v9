@@ -1,5 +1,5 @@
 {
- "note": "Audit found location_c mixed full-name vs abbrev (New Jersey vs TX). Canonical = 2-letter USPS. But NOTE: existing Unbounce->Sugar zaps use FULL state names; confirm target format with Todd before any write.",
+ "note": "Audit found location_c mixed full-name vs abbrev (New Jersey vs TX). CORRECTED 2026-08-09: canonical = FULL name (Sugar's live records + the territory map are keyed by full name; the old '2-letter USPS' note was backwards and broke routing). resolve_state() in normalize.py accepts abbrev/full/informal/mixed-case and returns the full name; regions/placeholders/unknown return status so the flow re-asks instead of writing garbage. This map is retained as the abbrev<->full lookup source.",
  "state_fullname_to_abbrev": {
   "ALABAMA": "AL",
   "ALASKA": "AK",

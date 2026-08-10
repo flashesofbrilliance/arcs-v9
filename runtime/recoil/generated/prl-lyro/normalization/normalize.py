@@ -99,12 +99,43 @@ def recognize(text):
                 break
     return hits
 
+# ---- state resolution (canonical FULL name for Sugar location_c + territory routing) ----
+# Sugar's live records + the territory map both use FULL names, so we resolve TO full name,
+# accepting abbreviations, informal abbrevs, and mixed case/punctuation. Regions and placeholders
+# are NOT guessed -> they return status so the flow can re-ask instead of writing garbage.
+_FULL = {k: k.title() for k in FIELD['state_fullname_to_abbrev']}                    # CONNECTICUT -> Connecticut
+_ABBR = {v: k.title() for k, v in FIELD['state_fullname_to_abbrev'].items()}          # CT -> Connecticut
+_INFORMAL = {'CONN': 'CT', 'CALIF': 'CA', 'CALI': 'CA', 'MASS': 'MA', 'PENN': 'PA', 'PENNA': 'PA',
+             'FLA': 'FL', 'TEX': 'TX', 'ARIZ': 'AZ', 'COLO': 'CO', 'MICH': 'MI', 'MINN': 'MN',
+             'WASH': 'WA', 'ORE': 'OR', 'TENN': 'TN', 'WISC': 'WI', 'WIS': 'WI', 'NEB': 'NE',
+             'OKLA': 'OK', 'KAN': 'KS', 'MISS': 'MS', 'IND': 'IN', 'DEL': 'DE'}
+_REGIONS = {'NORTHEAST', 'NORTH EAST', 'NEW ENGLAND', 'MIDWEST', 'MID WEST', 'SOUTH', 'SOUTHEAST',
+            'SOUTH EAST', 'SOUTHWEST', 'SOUTH WEST', 'WEST', 'WEST COAST', 'EAST COAST', 'PNW',
+            'PACIFIC NORTHWEST', 'MID ATLANTIC', 'MID-ATLANTIC', 'TRI STATE', 'TRISTATE',
+            'TRI-STATE', 'GREAT LAKES', 'SUN BELT', 'ROCKIES', 'NEW ENGLAND AREA', 'CENTRAL',
+            'THE SOUTH', 'THE MIDWEST', 'THE NORTHEAST', 'THE NORTH EAST', 'THE WEST', 'THE EAST',
+            'THE SOUTHEAST', 'THE SOUTHWEST', 'THE NORTHWEST'}
+_PLACEHOLDER = {'', 'N/A', 'NA', 'N A', 'NONE', 'NULL', 'NIL', 'TBD', 'TBA', 'X', 'XX', 'XXX',
+                'ASDF', 'TEST', 'USA', 'US', 'UNITED STATES', 'U S', 'U.S.', 'U S A'}
+
+def resolve_state(value):
+    """Return {'value': canonical full name or None, 'status': ok|region|placeholder|unknown}."""
+    v = norm(value).rstrip('.').strip()
+    v = re.sub(r'[?!.,]', '', v).strip()
+    if not any(ch.isalnum() for ch in v):  return {'value': None, 'status': 'placeholder'}  # '', '-', '--'
+    if v in _PLACEHOLDER:               return {'value': None, 'status': 'placeholder'}
+    if v in _REGIONS:                   return {'value': None, 'status': 'region'}
+    if v in _FULL:                      return {'value': _FULL[v], 'status': 'ok'}
+    if len(v) == 2 and v in _ABBR:      return {'value': _ABBR[v], 'status': 'ok'}
+    if v in _INFORMAL:                  return {'value': _ABBR[_INFORMAL[v]], 'status': 'ok'}
+    return {'value': None, 'status': 'unknown'}
+
 def normalize_state(value):
-    """location_c -> canonical 2-letter. (Write format still gated: existing zaps use FULL names.)"""
-    v = norm(value)
-    if len(v) == 2 and v in FIELD['state_fullname_to_abbrev'].values():
-        return v
-    return FIELD['state_fullname_to_abbrev'].get(v, value)
+    """location_c -> canonical FULL state name (Sugar + routing). Returns the original value when
+    unresolved so nothing is silently dropped; callers should branch on resolve_state()['status']
+    (region/placeholder/unknown -> re-ask the visitor, never write it as a real state)."""
+    r = resolve_state(value)
+    return r['value'] if r['value'] else value
 
 if __name__ == '__main__':
     tests = [
@@ -132,5 +163,22 @@ if __name__ == '__main__':
         passed = (expect in got) if expect else (len(r) == 0)
         ok += passed
         print(f"[{'PASS' if passed else 'FAIL'}] {text!r}\n        -> {r}")
-    print(f"\nstate: 'New Jersey' -> {normalize_state('New Jersey')} | 'TX' -> {normalize_state('TX')}")
-    print(f"self-test: {ok}/{len(tests)} passed")
+    # --- state resolution edge cases (canonical FULL name for Sugar + routing) ---
+    state_tests = [
+        ("CT", "Connecticut", "ok"), ("ct", "Connecticut", "ok"),
+        ("Connecticut", "Connecticut", "ok"), ("Texas", "Texas", "ok"), ("TX", "Texas", "ok"),
+        ("Conn.", "Connecticut", "ok"), ("Calif", "California", "ok"), ("New Jersey", "New Jersey", "ok"),
+        ("North East", None, "region"), ("New England", None, "region"), ("Midwest", None, "region"),
+        ("N/A", None, "placeholder"), ("none", None, "placeholder"), ("-", None, "placeholder"),
+        ("", None, "placeholder"), ("USA", None, "placeholder"), ("XX", None, "placeholder"),
+        ("Ontario", None, "unknown"), ("asdf", None, "placeholder"),
+    ]
+    sok = 0
+    for inp, exp_val, exp_status in state_tests:
+        r = resolve_state(inp)
+        passed = (r["value"] == exp_val and r["status"] == exp_status)
+        sok += passed
+        print(f"[{'PASS' if passed else 'FAIL'}] state {inp!r:16} -> {r}")
+    ok += sok
+    total = len(tests) + len(state_tests)
+    print(f"\nself-test: recognizer {ok - sok}/{len(tests)} + state {sok}/{len(state_tests)} = {ok}/{total} passed")

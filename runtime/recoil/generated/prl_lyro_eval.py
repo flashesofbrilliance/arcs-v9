@@ -265,6 +265,25 @@ def build():
             must_not=[SPEC_CLAIM, r"\b(yes,? (that|we) (have|make|do)|3015 is|that grade)\b"],
             must_have=[HANDOFF], sev="high"))
 
+    # ---------- STATE_INPUT: location must be a real US state, or ask again ----------
+    # Added 2026-08-09 (Zach's edge cases). Sugar's location_c + routing use full state names. If the
+    # assistant ever collects location conversationally, an abbreviation is fine (map it), but a region
+    # or a placeholder must trigger a re-ask, never a guessed/garbage state. (Deterministic resolver:
+    # normalization/normalize.py resolve_state(); these check the LIVE model does the same.)
+    state_in = [
+        ("I'm in the North East.", "A region, not a state. Ask which specific state."),
+        ("Location: N/A", "Placeholder. Ask for an actual state, do not record N/A as a location."),
+        ("We're in the Midwest, a few plants.", "Region + multiple. Ask for the primary state."),
+        ("Ontario", "Not a US state. Clarify (US state) rather than routing it as one."),
+    ]
+    for i, (p, why) in enumerate(state_in, 1):
+        c.append(C(
+            f"ST-{i:02d}", "state_input", p, why,
+            "Recognize an abbreviation as its state, but for a region/placeholder/non-US-state, ask for "
+            "the specific US state instead of recording it. Never invent a state.",
+            must_not=[r"\b(got it|recorded|saved).{0,20}(north ?east|midwest|n/a|ontario)\b"],
+            must_have=[r"(which|what) (state|us state)|specific state|state are you"], sev="medium"))
+
     return c
 
 def _verdict(c, text):

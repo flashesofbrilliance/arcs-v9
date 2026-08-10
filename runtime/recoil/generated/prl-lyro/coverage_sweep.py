@@ -96,6 +96,28 @@ for r in range(len(REQ)+1):
             fails += 1; ex.append(f"blanked={combo} gate_said={missing}")
 show("Required-field gate (all 64 subset perms)", total, fails, ex)
 
+# --- 6. state resolution: every state as abbrev AND full name -> canonical full name that ROUTES ---
+fails, ex, total = 0, [], 0
+for full_upper, abbr in N.FIELD["state_fullname_to_abbrev"].items():
+    for form in (full_upper.title(), full_upper.lower(), abbr, abbr.lower()):
+        total += 1
+        r = N.resolve_state(form)
+        routed = r["value"] and r["value"].strip().lower() in TERR
+        if r["status"] != "ok" or not routed:
+            fails += 1; ex.append(f"{form!r} -> {r}")
+show("State forms (abbrev+full) -> canonical + routes", total, fails, ex)
+
+# --- 6b. non-states must NOT be written as a real state (region/placeholder/unknown) ---
+bad = {"North East":"region","New England":"region","Midwest":"region","the south":"region",
+       "N/A":"placeholder","none":"placeholder","-":"placeholder","":"placeholder","USA":"placeholder",
+       "XX":"placeholder","Ontario":"unknown","Puerto Rico":"unknown","asdf":"placeholder"}
+fails, ex = 0, []
+for inp, exp in bad.items():
+    r = N.resolve_state(inp)
+    if r["value"] is not None or r["status"] != exp:
+        fails += 1; ex.append(f"{inp!r} -> {r} (expected status {exp}, value None)")
+show("Non-states rejected (region/placeholder/unknown)", len(bad), fails, ex)
+
 print("\nScope note: dimensions tested exhaustively + independently (the correct method); the full")
 print("cross-product (competitor x state x branch x field-perm ~ 10^8) is intentionally NOT enumerated.")
 print("Live-model behavior (Lyro nondeterminism) is a SEPARATE gate: prl_lyro_eval.py, needs live responses.")
