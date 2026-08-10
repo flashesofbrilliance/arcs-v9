@@ -41,7 +41,8 @@ Frame it as the **anti-ICP** (the mirror of the ICP doc). Apply in ONE shot acro
 
 ## What Todd owes (for the follow-up + tracker)
 1. **Written sandbox approval** (admin + API + prod copy-down) — one-line on the Sugar thread or verbal to Long tomorrow.
-2. **George/IT's email** — to loop onto the Tidio thread for the info@ fix (the go-live gate).
+2. ~~**George/IT's email** — to loop onto the Tidio thread for the info@ fix~~ **DONE (Aug 10 eve): Zach
+   looped Jorge in with Tidio support.** The info@ fix is now in motion; nothing further from Todd here.
 3. **Negative keywords / exclusions + a few real "garbage lead" examples** (the sheet-seekers) — for the anti-ICP filter.
 4. **Territory map** from Bill (rep → states) if not already provided — for routing.
 5. **A ZoomInfo contact** to thread Zach — to reconnect enrichment to the sandbox for 1.3 (already paid for, unused).

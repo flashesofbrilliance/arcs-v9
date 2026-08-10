@@ -75,6 +75,9 @@ Aug 11 3:00 PM ET** (case 589806). Todd is needsAction on the invite; his yes is
 3. Wire Mailgun notify + prospect autoresponder; verify both fire within seconds.
 4. Add ZoomInfo enrichment; verify the business email fills.
 5. Stamp arrival + time-to-first-touch (or adopt the documented proxy).
+5b. **Build the 4-hour escalation nudge in Sugar** (Todd's ask, Aug 10): if an assigned lead has **no rep
+    response within 4 hours of assignment**, fire a **second notification** (reminder/escalation) so nothing
+    sits unanswered. This operationalizes the 4-hour metric as an SLA, not just a report.
 6. Run the CRM Data Reality session; produce the baseline.
 
 **Close:** all 4 DoD met + evidence captured → 1.2 accepted.
