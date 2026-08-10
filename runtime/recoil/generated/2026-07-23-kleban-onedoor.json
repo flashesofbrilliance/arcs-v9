@@ -26,14 +26,14 @@
           "href": "https://yuri-codex.arcs.care",
           "led": "o",
           "title": "The before and after of our call",
-          "desc": "the bet I filed before we spoke and what changed, plus the instrument that made the read"
+          "desc": "start here: the bet I filed before we spoke and what changed, plus the instrument"
         },
         {
           "href": "https://yuri-receipt.arcs.care",
           "led": "r",
-          "title": "The receipt of our call",
-          "tag": "the whole thing, scored",
-          "desc": "the ex-ante bet, scored line by line against what you said"
+          "title": "Every line, scored",
+          "tag": "the receipt",
+          "desc": "the bet I filed, graded line by line against what you said"
         }
       ]
     },
@@ -59,15 +59,15 @@
           "k": "The whole read flipped",
           "before": "Maybe a Google team could use this, someday.",
           "quote": "a team of 20... we build internal infrastructure for the partnerships org... we take first and third party data and stitch it into briefs for execs before they meet people",
-          "after": "You are the exact buyer and the builder. Confidence in a real fit went from a hedge to near-certain."
+          "after": "You already run this problem, the one I'm building for. Confidence in a real fit went from a hedge to near-certain."
         }
       ],
-      "caption": "Three more beliefs moved too, warmer than I bet, practitioner not skeptic, and the doc-miss you caught. The full before and after is next door, scored line by line in the receipt."
+      "caption": "Three more beliefs moved too, warmer than I bet, practitioner not skeptic, and the doc-miss you caught. The rest is next door, and every line is scored in the receipt."
     },
     {
       "type": "howitworks",
       "k": "03 · how it works",
-      "h2": "How it works, and how it scales.",
+      "h2": "How it works, and where it could go.",
       "cards": [
         {
           "h3": "A tool that sharpens you, not a copy of you",
@@ -75,15 +75,15 @@
         },
         {
           "h3": "The instrument, under the hood",
-          "p": "The states it listens for, the checks that keep a read honest, and where the fence is. You get the whole taste and the whole value; the transform stays under the hood, and some of it is patentable.",
+          "p": "The states it listens for, the checks that keep a read honest, and where the fence is. You get the whole taste and the whole value; the transform, the scoring underneath, is the part I keep closed for now.",
           "link": {
             "href": "https://yuri-codex.arcs.care",
             "label": "See the instrument"
           }
         },
         {
-          "h3": "1 to Few to Many",
-          "p": "One: your own call. Few: your twenty-person org gets the read before and after. Many: the partnerships function across Alphabet. Your judgment, made portable and compounding."
+          "h3": "A few directions, your call",
+          "p": "One: your own call. Few: your twenty-person org gets the read before and after. Or the one you floated, pressure-testing a memo or a diligence read with your Purpose Built and pre-IPO work, yours to run anywhere."
         },
         {
           "h3": "The one thing I would do next",
@@ -103,7 +103,7 @@
       "type": "start",
       "k": "04 · how to start",
       "h2": "What it takes to run this on one of your calls.",
-      "intro": "The whole point is that it is a tiny, non-invasive lift, and it is model-agnostic, so it can run on Gemini, on your own stack. You send three things, I send back the before and after on a call that matters to you. Nothing touches your systems.",
+      "intro": "You already saw a real one, on you, up top, nothing to do here. But if you ever want one on a call of yours, it is a five-minute lift and nothing touches your systems. Here is all it would take, whenever, no rush.",
       "needs": [
         {
           "h3": "1 · a call transcript",
@@ -118,8 +118,8 @@
           "p": "Whatever context you already have: deal stage, who was in the room, what the relationship is. Optional; it just sharpens the read."
         }
       ],
-      "close": "That is it. From those three, I build the before and the after, free, no integration, yours to keep, on Gemini if you want."
+      "close": "That is the whole lift. I build the before and the after, free, yours to keep, on Gemini if you want. Whenever, or never."
     }
   ],
-  "foot": "ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE &middot; NOTHING HERE ASKS YOU FOR ANYTHING"
+  "foot": "ARCS &middot; ONE DOOR &middot; MOVE AT YOUR OWN PACE"
 }

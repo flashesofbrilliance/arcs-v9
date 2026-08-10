@@ -4,7 +4,10 @@
     "counterpart": "Yuri Kleban",
     "company": "Google",
     "doc_title": "Yuri · the diamond cut · one call, mapped moment by moment",
-    "uplink": {"href": "https://yuri.arcs.care", "label": "the one door"},
+    "uplink": {
+      "href": "https://yuri.arcs.care",
+      "label": "the one door"
+    },
     "gate": {}
   },
   "header": {
@@ -13,34 +16,112 @@
     "lede": "This is our one call, July 23, drawn as a single trajectory from hello to goodbye. Two lines only, because two are all one call can honestly carry: <strong>Sync</strong>, how much we were tracking each other, read off the tape; and <strong>my Conviction in the fit</strong>, my own read of the opportunity, scored against myself, not a score of you. Hover any point for the exact line it traces to."
   },
   "legend": [
-    {"color": "var(--cyan)", "k": "Sync", "p": "were we tracking each other, read off the recording"},
-    {"color": "var(--gold)", "k": "My conviction in the fit", "p": "my own read of the opportunity, scored against myself, not a score of you"}
+    {
+      "color": "var(--cyan)",
+      "k": "Sync",
+      "p": "were we tracking each other, read off the recording"
+    },
+    {
+      "color": "var(--gold)",
+      "k": "My conviction in the fit",
+      "p": "my own read of the opportunity, scored against myself, not a score of you"
+    }
   ],
   "trajectory": {
     "t0": "hello",
     "tend": "goodbye",
     "beats": [
-      {"t": "00:00", "label": "open", "sync": 52, "conv": 30, "quote": "I just wanted to record it for my notes / you&rsquo;re doing the right thing... I could care less", "read": "Warm human open, consent asked and waved off. My fit-read is still only the pre-call hedge: a fan, maybe a connector."},
-      {"t": "~03", "label": "two dads", "sync": 60, "conv": 31, "quote": "soon you and I will be like: is this the real you", "read": "Deepfake and Turing-test banter. The human channel is wide open; there is still no fit signal at all."},
-      {"t": "~08", "label": "his arc", "sync": 63, "conv": 35, "quote": "I&rsquo;ve been trying to escape Google for 15-16 years but they keep throwing fun things to do", "read": "Soviet Union to Israel to Chicago to Google, self-taught engineer to PM. Generous, but I read it as a fan sharing stories."},
-      {"t": "~12", "label": "the gig", "sync": 66, "conv": 45, "quote": "how would you like to build tools for Sundar and the staff", "read": "First sign he sits near the top of the org. Conviction ticks up, but I am still hedging on a real fit."},
-      {"t": "~14", "label": "THE REVEAL", "sync": 83, "conv": 87, "kairos": true, "quote": "a team of 20... we stitch first and third party data into briefs for execs before they meet people", "read": "The turn. He runs the exact team this was built for. Conviction jumps to meet the warmth. The gap between the two lines closes here, in one sentence, and never reopens."},
-      {"t": "~16", "label": "no ask", "sync": 81, "conv": 82, "quote": "I&rsquo;m not asking for anything, no percentage, no money", "read": "Warm connector, confirmed. The register I predicted holds; the fit I under-read is now obvious."},
-      {"t": "~19", "label": "my turn", "sync": 76, "conv": 83, "quote": "[my turn to talk: I gave my background, briefly]", "read": "Mutual. You tracked the regulated-markets throughline without a beat drop, which is why I kept going."},
-      {"t": "~22", "label": "the doc missed", "sync": 62, "conv": 75, "quote": "I&rsquo;m struggling right now... it&rsquo;s very different than what I had in mind", "read": "The honest dip, and the most useful moment on the tape. The abstract doc lost him. Sync drops; my conviction in the fit holds, because the miss was the doc, not the fit."},
-      {"t": "~24", "label": "the magic", "sync": 79, "conv": 85, "quote": "I&rsquo;d love to see what you had as a brief on me before and what happened after... that&rsquo;s the magic", "read": "Recovers. He names the deliverable himself, then tells the Sundar-brief story to show he means it. This page is that request, answered."},
-      {"t": "~27", "label": "the pull", "sync": 83, "conv": 87, "quote": "be selfish, what would get you to the next step", "read": "He pulls it forward himself. I did not have to push. Warmer and more active than the bet I filed."},
-      {"t": "~30", "label": "close", "sync": 81, "conv": 85, "quote": "let&rsquo;s keep going... I would love to do a follow-up", "read": "A warm, forward close on his own timeline. A yes waiting, not a defer. Goodbye."}
+      {
+        "t": "00:00",
+        "label": "open",
+        "sync": 50,
+        "conv": 30,
+        "quote": "I just wanted to record it for my notes / you&rsquo;re doing the right thing... I could care less",
+        "read": "Warm human open, consent asked and waved off. My fit-read is still only the pre-call hedge: a fan, maybe a connector."
+      },
+      {
+        "t": "~03",
+        "label": "two dads",
+        "sync": 60,
+        "conv": 30,
+        "quote": "soon you and I will be like: is this the real you",
+        "read": "Deepfake and Turing-test banter. The human channel is wide open; there is still no fit signal at all."
+      },
+      {
+        "t": "~08",
+        "label": "his arc",
+        "sync": 65,
+        "conv": 35,
+        "quote": "I&rsquo;ve been trying to escape Google for 15-16 years but they keep throwing fun things to do",
+        "read": "Soviet Union to Israel to Chicago to Google, self-taught engineer to PM. Generous, but I read it as a fan sharing stories."
+      },
+      {
+        "t": "~12",
+        "label": "the gig",
+        "sync": 65,
+        "conv": 45,
+        "quote": "how would you like to build tools for Sundar and the staff",
+        "read": "First sign he sits near the top of the org. Conviction ticks up, but I am still hedging on a real fit."
+      },
+      {
+        "t": "~14",
+        "label": "THE REVEAL",
+        "sync": 85,
+        "conv": 85,
+        "kairos": true,
+        "quote": "a team of 20... we stitch first and third party data into briefs for execs before they meet people",
+        "read": "The turn. He runs the exact team this was built for. Conviction jumps to meet the warmth. The gap between the two lines closes here, in one sentence, and never reopens."
+      },
+      {
+        "t": "~16",
+        "label": "no ask",
+        "sync": 80,
+        "conv": 80,
+        "quote": "I&rsquo;m not asking for anything, no percentage, no money",
+        "read": "Warm connector, confirmed. The register I predicted holds; the fit I under-read is now obvious."
+      },
+      {
+        "t": "~22",
+        "label": "the doc missed",
+        "sync": 60,
+        "conv": 75,
+        "quote": "I&rsquo;m struggling right now... it&rsquo;s very different than what I had in mind",
+        "read": "The honest dip, and the most useful moment on the tape. The abstract doc lost him. Sync drops; my conviction in the fit holds, because the miss was the doc, not the fit."
+      },
+      {
+        "t": "~24",
+        "label": "the magic",
+        "sync": 80,
+        "conv": 85,
+        "quote": "I&rsquo;d love to see what you had as a brief on me before and what happened after... that&rsquo;s the magic",
+        "read": "Recovers. He names the deliverable himself, then tells the Sundar-brief story to show he means it. This page is that request, answered."
+      },
+      {
+        "t": "~27",
+        "label": "the pull",
+        "sync": 85,
+        "conv": 85,
+        "quote": "be selfish, what would get you to the next step",
+        "read": "He pulls it forward himself. I did not have to push. Warmer and more active than the bet I filed."
+      },
+      {
+        "t": "~30",
+        "label": "close",
+        "sync": 80,
+        "conv": 85,
+        "quote": "let&rsquo;s keep going... I would love to do a follow-up",
+        "read": "A warm, forward close on his own timeline. A yes waiting, not a defer. Goodbye."
+      }
     ]
   },
   "the_one_number": {
     "k": "the whole story is one gap",
     "headline": "The gap between the two lines is the entire read.",
-    "body": "At hello it is wide: we were warm from the first minute, but I had you filed as a fan who might know a buyer. That gap is the distance between how well we got along and whether there was a real fit. It closes in a single sentence at ~00:14, when you described the exact team this was built for, and it never opens again. Everything after is the two lines moving together."
+    "body": "At hello it is wide: we were warm from the first minute, but I had you filed as a fan who might know someone who could use it. That gap is the distance between how well we got along and whether there was a real fit. It closes in a single sentence at ~00:14, when you described the exact team this was built for, and it never opens again. Everything after is the two lines moving together."
   },
   "fidelity": {
     "k": "how much this can honestly claim",
-    "body": "One call, about thirty minutes, mapped at medium resolution. The shape is real and every point traces to a real line from the transcript, either your words or mine, marked which. The exact heights are my read, not a measurement, and I say so rather than dress inference as precision. Two dimensions only, because two are all one call can support; more would be decoration. What you see is the trajectory. How the parse produces it stays under the hood, and some of that is patentable."
+    "body": "One call, about thirty minutes, mapped at medium resolution. The shape is real and every point traces to a real line from the call. The exact heights are my read, not a measurement, and I say so rather than dress inference as precision. Two dimensions only, because two are all one call can support; more would be decoration. What you see is the trajectory. How the parse produces it stays under the hood."
   },
   "foot": "ARCS &middot; THE DIAMOND CUT &middot; ONE CALL, VERBATIM-ANCHORED &middot; EARNED FIDELITY, NOT MAXIMAL"
 }
