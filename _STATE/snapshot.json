@@ -2,12 +2,10 @@
   "captured_at": "2026-08-08T20:46:33Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "18228be",
-    "head_message": "docs(handoff): v3.26.0 — forge CLI + Receipt Studio + Yuri-family gauntlet heal [NCI:SKIP]",
+    "head_sha": "03ee427",
+    "head_message": "fix(diamond): add uplink back to the one-door — close the navigation loop",
     "in_sync_with_origin": false,
-    "dirty_files": [
-      "_STATE/snapshot.json"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -58,8 +56,8 @@
   ],
   "nci_counter": 247,
   "session_summary": "Built the parameterized counterpart-forge CLI (scripts/forge_counterpart.py: receipt / profile / codex-dual-tab / one-door surfaces, ONE canonical token source, verify+honesty+craft-floor gates that refuse to write on FAIL) — every counterpart surface (Robin master + Yuri) is now SSOT->generator, none hand-authored. Shipped the interactive Receipt Studio: registry route /api/receipts/studio/[tenant] + robin_app & yuri_app RLS roles applied to prod (both live, isolated, CISO/SRE-reviewed, findings ledgered STU-015/016) + scripts/provision_studio_tenant.mjs (one-command, no-HITL credential+env provisioning via Node pg, no psql). Then ran the full adversarial gauntlet (COURT+LAB / BAR-ruin / dual-bar-raiser) + kintsugi on the entire Yuri family + profile, tuned to his register: cut a Demis fabrication, a Robin-quote cross-contamination, a studio data-handling lie, the Sundar/named-CEO confi  || 2026-08-09 heal: pulled the Jul 23 Granola transcript and ran a counterpart-vantage pre-mortem (role-played Yuri). Caught a fabrication the impeccable detector AND the register gauntlet both passed clean: the 'consent/data-ethics stance' attributed to Yuri across receipt/codex/profile was Zach's value projected onto him — the tape has Yuri disowning it ('I could care less', 'I trust the people I speak with'). Reframed to an honest self-correction + a 'clean by design, not precious' read that keeps the real Agentum least-exposure signal. Also: profile reframed as 'the before' not 'step one'; one-door leads with the before/after he named; codex flip beats relabeled I BET/YOU SAID; Sundar restored consistently; receipt section labels plain-languaged via a Robin-safe meta.labels override; .close inline links gold not UA-blue. All deployed (main 519219f). Content pass complete; only the server-side gate remains.",
-  "next_action": "Diamond cut SHIPPED (main f258a8e, live yuri-diamond.arcs.care, domain added via CLI): forensic earned-fidelity T0->TEnd trajectory of the Jul 23 call (scripts/forge_counterpart.py --surface diamond) — 2 defensible dims (Sync + self-scored Conviction), verbatim-anchored, gap-between-lines = the read, fence intact; NOT a maximal 12D manifold (that would overclaim off one call). Wired opt-in: soft 'the deep cut, if you want the machine' card in the one-door §03; plain codex stays the front door. Two open threads carry forward: (1) STRATEGIC — Yuri = hedge for life after Google; prefer out-of-Google asks (Agentum, Purpose Built VC, ex-UBS pre-IPO/M&A/DD partner); light offer-reweight applied. (2) Send to Yuri: Gmail draft awaits Zach; point to yuri.arcs.care. Also open (unchanged): Robin's family still client-gated (decide separately); Sundar named on the now-ungated pages (left per Zach 'keep it simple').",
-  "blocking": "NONE. Send is unblocked (gate removed). The offer-reweight is a positioning decision, not a blocker.",
+  "next_action": "FULL GAUNTLET SURVIVED (main 54ed155, deployed+verified live). Ran 3 independent adversarial lenses (attribution / BAR-register / dual-bar-raiser) grounded in the Jul 23 transcript, verified each flag vs source. Caught + killed a 6th live fabrication surface (yuri-demo.arcs.care, same class as the yuri-recoil miss) + scrubbed the internal recoil-seed landmine. De-museumed the family (net -156 lines): cut profile handling-narration, out-of-Google 'not tied to a seat' whisper 3x->1x, one-door 4 flip beats->1, jargon swaps. Kept (all 3 lenses verified): self-scoring inversion, consent heal, diamond honesty+fence+opt-in. The Yuri family (yuri + profile/codex/receipt/diamond, all ungated, plus recoil/ext/sample/demo redirecting to the door) is send-ready. ONLY remaining action is human: Zach reviews + sends the Gmail draft pointed at yuri.arcs.care.",
+  "blocking": "NONE. Send is unblocked. The only remaining step is Zach's manual send of the Gmail draft (I don't send on his behalf).",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -183,7 +181,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-09T15:25:32Z",
+  "git_refreshed_at": "2026-08-09T23:49:47Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
