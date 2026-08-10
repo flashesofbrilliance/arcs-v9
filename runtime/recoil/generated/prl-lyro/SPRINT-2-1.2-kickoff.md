@@ -63,7 +63,11 @@ Only the last two lines are the acceptance gate; the rest set it up. "Done" = yo
 - Finalize the Zapier Create-Lead field transform (already staged; lock it).
 - Schedule the **CRM Data Reality session** (SM + reports owner) — the long pole.
 
-**Gate: SugarCRM sandbox access (unblocked commercially; needs the grant).**
+**Gate: SugarCRM sandbox access — PENDING TODD'S APPROVAL.** Commercially unblocked (Sugar Sell Advanced =
+2 sandboxes, no charge). A stale sandbox already exists (`prlresinstest.sugarondemand.com`, admin Amy Jaeger);
+SugarAI offered to refresh it to current prod data or spin a 2nd. Finalizing on the **Long Ngo call, Tue
+Aug 11 3:00 PM ET** (case 589806). Todd is needsAction on the invite; his yes is the gate. Full prep:
+`prl-lyro/SUGAR-call-prep-2026-08-11.md`.
 
 **Then — the wiring + proof (needs sandbox):**
 1. Wire Tidio webhook → Zapier Catch Hook → Sugar Create-Record (sandbox).
