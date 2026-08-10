@@ -354,7 +354,7 @@ def render_receipt(d):
 
     # 1. ex-ante receipt
     ea = d["ex_ante"]
-    L.append('<section class="sec"><div class="eyebrow"><b>&#9633;</b> The ex-ante receipt &nbsp;&middot;&nbsp; the bet, filed before the call</div>')
+    L.append('<section class="sec"><div class="eyebrow"><b>&#9633;</b> ' + LBL.get("exante_k", "The ex-ante receipt") + ' &nbsp;&middot;&nbsp; the bet, filed before the call</div>')
     L.append(f'<p class="lede">{ea["lede"]}</p>')
     L.append(f'<div class="betbox"><span class="betk">THE BET</span><p>{ea["bet"]}</p></div>')
     L.append('<div class="preds">')
@@ -413,10 +413,10 @@ def render_receipt(d):
                  f'<div class="scd">{E(r.get("delta",""))}</div></div>')
     L.append('</div>')
     if cl.get("net_new"):
-        L.append('<div class="eyebrow2">Priors updated by net-new information</div><div class="nns-wrap">')
+        L.append('<div class="eyebrow2">' + LBL.get("priors_k", "Priors updated by net-new information") + '</div><div class="nns-wrap">')
         for nn in cl["net_new"]:
-            L.append(f'<div class="nn"><div class="nnk">NET-NEW SIGNAL</div><p class="nns">{E(nn["signal"])}</p>'
-                     f'<p class="nnq">&ldquo;{nn["quote"]}&rdquo;</p><p class="nnu"><b>Prior update:</b> {nn["update"]}</p></div>')
+            L.append(f'<div class="nn"><div class="nnk">' + LBL.get("netnew_k", "NET-NEW SIGNAL") + f'</div><p class="nns">{E(nn["signal"])}</p>'
+                     f'<p class="nnq">&ldquo;{nn["quote"]}&rdquo;</p><p class="nnu"><b>' + LBL.get("priorupd_k", "Prior update:") + f'</b> {nn["update"]}</p></div>')
         L.append('</div>')
     po = cl.get("posterior")
     if po:
