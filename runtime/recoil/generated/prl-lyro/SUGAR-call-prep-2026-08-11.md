@@ -36,6 +36,41 @@ receiving-end proof and all of 1.2 delivery. **Sandbox access is pending Todd's 
 3. **Cost:** confirm no charge (2-sandbox allowance on Sugar Sell Advanced).
 4. **Todd's approval:** get his explicit yes to proceed (he is needsAction on the invite; the whole thing is pending it).
 5. **Timeline:** how long to restore/create + hand over credentials.
+6. **Instance health check / scanning tools.** We already diffed the **scoped solution design** Kim sent (how the
+   CRM was originally built) against **where the instance is today**. Ask Long: does SugarAI have a **scanning /
+   health-check tool** (e.g. the Sugar Health Check / upgrade-readiness scan, Studio customization diagnostics)
+   that assesses the instance against the **current platform** — flagging drift, deprecated customizations, and
+   what actually needs maintaining — so we build the integration on solid ground instead of on tech debt? Frame:
+   we want to know what to maintain based on how it was built vs. where Sugar is now.
+
+## De-risking wishlist — Sugar cleanup + integration (bring to the call)
+
+We already diffed the **scoped solution design (as-built)** vs **the live instance today**. To build the
+integration on solid ground and not on tech debt, ask for:
+
+**A named technical / dev-rel contact (the top ask).** Someone we can go to directly on **schema changes,
+deprecated fields, and API guidance**, instead of the support-case queue. Who owns technical changes on
+SugarAI's side, and who signs off on customization changes on PRL's side (Amy Jaeger as admin)?
+
+**Schema + platform drift:**
+- Which customizations here are **non-standard vs stock**, and which are **at risk on the next upgrade**?
+- Any **deprecated fields / modules / API endpoints** we should not build on?
+- **Upgrade cadence** — is this instance behind? What breaks if it upgrades mid-project?
+- **Sandbox parity** — will the copy-down include all customizations, workflows, and the exact Leads schema?
+
+**Integration surface (what our chatbot writes through):**
+- The Leads **required fields** (`account_name`, `first/last`, `phone_work`, `lead_source`, `location_c`) —
+  any changing/deprecated? Confirm `location_c` canonical format (the audit found full names in live records).
+- **API + auth** (Sugar REST, OAuth2 password/refresh) — any planned changes? **Rate limits / quotas**?
+- Add a **"Chatbot" lead_source** value — best-practice way to do it so it survives upgrades.
+
+**Data model (feeds the 1.2 CRM data-reality session):**
+- The **OEM ↔ molder** relationship + **territory** model — how represented, any planned changes?
+- The **231 competitor-grade-tagged deals** + the **lead_source blind spot** ($26.5M unattributed) — the
+  best-practice fields to use so attribution holds going forward.
+
+**Health check:** confirm whether the Sugar Health Check / upgrade-readiness scan can be run on the instance
+and shared, so "what needs maintaining" is a report, not a guess.
 
 ## Why it matters
 This sandbox is the gate for **1.1's 5th layer** (verify a test lead is received) and **all of 1.2 delivery**. Once access lands with the current data + a login, wiring the lead delivery and running UAT is a matter of days.
