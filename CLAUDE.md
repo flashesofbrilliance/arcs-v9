@@ -133,6 +133,14 @@ doc-miss flicker); receipt over-anchor to internal-Google (two-path, portable-fi
 re his shop; org/VC ladder collapse; not-flattering/free/5x-disclaimer trims. Spine protected (self-scoring,
 fence, hero line, doc-miss, consent, model-hedge).
 
+## Pipeline formalized (back-propagated from the send)
+This session's emergent sequence is now the canonical `/forge` flow, not tacit. The `/forge` skill encodes
+the full 9 phases (gather-incl-full-comms-thread → synth → generate → verify-incl-temporal-gate → deploy →
+**GAUNTLET LADDER → VIBE REFIT → SEND PREP → CAPTURE**), and the persona-facet gauntlet is a REUSABLE
+parameterized Workflow: `.claude/workflows/counterpart-gauntlet.js` (`Workflow({name:'counterpart-gauntlet',
+args:{counterpart, repo, transcript, comms_thread, surfaces, memory, register, already_healed}})`). Robin or
+any new counterpart runs the same battle-tested ladder by construction. See [[counterpart-forge-pipeline]].
+
 ## Captured (ADRs / receipts / memories)
 - **ADR-044** — Temporal-Provenance Gate. `_DECISIONS/`.
 - **DEWY receipts** — `_STATE/2026-08-10-session-decisions.dewy.json` (5: temporal gate, redact-dossier
