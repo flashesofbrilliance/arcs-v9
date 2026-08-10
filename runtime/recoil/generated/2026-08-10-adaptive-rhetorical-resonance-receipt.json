@@ -1,0 +1,20 @@
+{
+  "receipt_id": "2026-08-10-adaptive-rhetorical-resonance",
+  "type": "DEWY_decision_receipt",
+  "created": "2026-08-10",
+  "D_decision": "Should 'adaptive rhetorical resonance' be minted as a named, governed, first-class design axis for counterpart-facing artifacts?",
+  "E_entity": "ARCS method + counterpart-artifact pipeline (forge / recoil-ship); decided by Zach, surfaced during the Todd/PRL session",
+  "W_window": "Now — minted 2026-08-10; applies going forward to every counterpart artifact family",
+  "Y_gate": "GREEN",
+  "true_north": "Mint adaptive rhetorical resonance: tune an artifact's delivery (frame, word, cadence, emphasis) to the counterpart's register read from the recoil, while holding the facts invariant.",
+  "why": "A defensible fact in the counterpart's own idiom lands where the same fact in our idiom bounces. Resonance lowers resistance and raises comprehension without overclaiming. Evidenced across the Todd/PRL family this session, where every surface speaks his register and the spec copy reuses the exact language he was already given.",
+  "tributaries": [
+    {"kind": "meta", "text": "The deeper question: which parts of an artifact are invariant (facts, receipts) versus tunable (rhetoric, framing)? Resonance lives strictly on the tunable layer; the air-gap keeps them separate."},
+    {"kind": "challenge", "text": "The failure mode is resonance sliding into flattery or fabrication. The register gauntlet + honesty gate + verify-against-their-own-words are the load-bearing guards; without them this becomes manipulation."},
+    {"kind": "adjacent", "text": "Cross-domain echo: this is impedance matching — deliver the signal in the medium's own frequency so it transfers instead of reflecting. Same physics as the resonance-gradient north star."}
+  ],
+  "guardrails": ["facts invariant", "register gauntlet + honesty gate", "verify vs their own words", "never flattery"],
+  "adr": "ADR-043",
+  "memory": "adaptive-rhetorical-resonance",
+  "nci_note": "High coherence: names existing implicit practice, bounded by explicit guards, tied to prior canon (ADR-039 refusal-to-overclaim, resonance-gradient north star). Low novelty risk."
+}
