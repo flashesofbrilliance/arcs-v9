@@ -59,7 +59,7 @@
   "read": [
     {
       "type": "readnote",
-      "html": "This covers <strong>one call</strong>, July 23, recorded with your OK. Single call, no arc yet, just the bet I filed before it and the lines of yours that moved it. It is not flattering by design; it is what I actually thought, scored against what you actually said."
+      "html": "This covers <strong>one call</strong>, July 23, recorded with your OK. Single call, no arc yet, just the bet I filed before it and the lines of yours that moved it. It is what I actually thought, scored against what you actually said."
     },
     {
       "type": "line",
@@ -251,7 +251,7 @@
       "id": "s-brief",
       "h3": "The pre-meeting briefing, made real",
       "ps": [
-        "Run it forward instead of backward and it is the exec brief you already build by hand. You automated the before, the pre-meeting read. The half nobody builds, including the teams that write these, is the after: the read scored against what actually happened. That closed loop is the one new thing here, and it is the magic you pointed at.",
+        "Run it forward instead of backward and it is the exec brief you already build by hand. You automated the before, the pre-meeting read. The part I built that I have not seen anywhere, including in my own earlier attempts, is the after: the read scored against what actually happened. That closed loop is the one new thing here, the magic you pointed at, and you would know better than I would whether anyone else closes it.",
         "For your world that is the exec brief, closed and scored: first and third party signal stitched into a read, then a receipt that says whether the read held. It reads recordings that already exist. It runs on Claude today; a version inside Google could run on Gemini instead, so nothing would leave the building."
       ]
     },
