@@ -63,5 +63,12 @@ So the form-factor cleanup and the chatbot filter are the same brain; Todd's fut
   should work IF the key lists `prlresins.com`. Worth a one-line confirm with the site owner that the prod key
   is valid. This is exactly why we layered honeypot + speed check + Akismet as the real, domain-independent
   protection.
+- **CLIENT DECISION for Todd (terse, give him both, rec = A):** reCAPTCHA works on prod, no-op on staging
+  (key domain-locked to prod). NOT CLI-creatable for the classic v2/v3 key GF uses (console-only; Enterprise
+  keys are `gcloud`-creatable but wrong product, need GCP billing, and GF's native field won't accept them).
+  - **Option A (RECOMMENDED): leave as-is.** reCAPTCHA stays live on prod; honeypot + speed check + Akismet do
+    the real, domain-independent work. No action.
+  - **Option B: extend key to staging.** Add `wfaprlredev26.wpenginepowered.com` to the key's allowed-domains
+    in Google reCAPTCHA admin (30 sec, additive/reversible, zero prod risk) to test reCAPTCHA pre-go-live.
 - Waiting on Todd: his negative-keyword / anti-ICP list to extend `todd_provided`. When it lands, the chatbot
   picks it up automatically; the GF blocklist regenerates via `python3 exclusions.py`.
