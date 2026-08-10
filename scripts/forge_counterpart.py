@@ -540,6 +540,7 @@ def _resolution_flag(res):
 def render_profile(d):
     m = d["meta"]
     hdr = d["header"]
+    LBL = m.get("labels", {})  # optional plain-language label overrides; defaults keep Robin byte-identical
     gate_pw = (m.get("gate") or {}).get("external") or (m.get("gate") or {}).get("view")
     L = ['<!doctype html><html lang="en"><head><meta charset="utf-8">',
          '<meta name="viewport" content="width=device-width, initial-scale=1">',
@@ -574,7 +575,7 @@ def render_profile(d):
     al = d.get("altitude")
     if al:
         rungs = "".join(f'<div class="rung"><div class="rlvl">{E(r["level"])}</div><div class="rb"><p>{r["body"]}</p>'
-                        + (f'<p class="rt"><b>Trigger:</b> {r["trigger"]}</p>' if r.get("trigger") else "")
+                        + (f'<p class="rt"><b>' + LBL.get("trigger_k", "Trigger:") + f'</b> {r["trigger"]}</p>' if r.get("trigger") else "")
                         + '</div></div>' for r in al["rungs"])
         L.append(f'<section class="mv"><div class="mvk">{al["k"]}</div><h2>{al["h2"]}</h2>'
                  + (f'<p class="lede">{al["lede"]}</p>' if al.get("lede") else "")
@@ -585,8 +586,8 @@ def render_profile(d):
         lands = "".join(f"<li>{x}</li>" for x in rm["lands"])
         loses = "".join(f"<li>{x}</li>" for x in rm["loses"])
         L.append(f'<section class="mv"><div class="mvk">{rm["k"]}</div><h2>{rm["h2"]}</h2><div class="rmap">'
-                 f'<div class="rcol l"><div class="rmk">&#9650; LANDS</div><ul>{lands}</ul></div>'
-                 f'<div class="rcol x"><div class="rmk">&#9660; LOSES YOU</div><ul>{loses}</ul></div></div></section>')
+                 f'<div class="rcol l"><div class="rmk">&#9650; ' + LBL.get("lands_k", "LANDS") + f'</div><ul>{lands}</ul></div>'
+                 f'<div class="rcol x"><div class="rmk">&#9660; ' + LBL.get("loses_k", "LOSES YOU") + f'</div><ul>{loses}</ul></div></div></section>')
 
     ev = d.get("evidence")
     if ev:

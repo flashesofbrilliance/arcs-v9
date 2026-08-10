@@ -17,7 +17,12 @@
         "a prior call transcript to serialize a multi-call arc"
       ]
     },
-    "gate": {}
+    "gate": {},
+    "labels": {
+      "trigger_k": "You go deep on:",
+      "lands_k": "What lands",
+      "loses_k": "What doesn't land"
+    }
   },
   "header": {
     "eyebrow": "Yuri &middot; the profile read",
@@ -48,7 +53,7 @@
       }
     ],
     "chips": [
-      "tools for the partnerships org across Alphabet",
+      "tools for the partnerships org",
       "automated the Sundar brief, 2020",
       "grew the Advertiser Community in 10 languages",
       "native Hebrew, English, Russian",
@@ -61,7 +66,7 @@
     "note": "<b>Inference, flagged:</b> I read the storyteller-to-builder arc as the through-line, from your career and one call. It is a read, not something you said in those words. The facts above are yours; the shape is mine."
   },
   "altitude": {
-    "k": "02 &middot; adaptive altitude",
+    "k": "02 &middot; meeting you where you are",
     "h2": "Meet you as the practitioner, climb to the org.",
     "lede": "You move across the whole range fluently, because you have actually sat at each height, and on our call you moved through all of them in one conversation. The read, from that call and your career: meet you as the builder who already proved this, not explain the value back to the person who invented it.",
     "rungs": [
@@ -94,7 +99,7 @@
     "lands": [
       "The real before and after, concrete on our actual call, not the theory",
       "Model-agnostic, runs on Gemini, nothing leaves Google, you own the file",
-      "Provenance clean and bring-your-own-key, the least-exposure way you build Agentum",
+      "Nothing leaves your side, bring-your-own-key, the clean way you build Agentum",
       "Agent-loop framing, one human steering, the shape you are building with Agentum",
       "Your own example reflected back, the Sundar brief, in your words"
     ],
