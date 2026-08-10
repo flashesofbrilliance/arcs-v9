@@ -17,7 +17,9 @@
       "why": "The model-agnostic false claim was aspiration leaking into the present tense with nothing to catch it; a technical counterpart catches what we miss.",
       "loki": "Could this false-positive a legit hedged claim? Mitigated by Agentum-exception + generous hedge window + tuneable lists.",
       "bar": "A false capability claim to a builder inverts trust (whole-relationship ruin). Gate caught a 2nd live instance (Robin) on first run.",
-      "horizon": "DURABLE", "stakes": "HIGH", "mode": "COURT",
+      "horizon": "DURABLE",
+      "stakes": "HIGH",
+      "mode": "COURT",
       "adr": "ADR-044"
     },
     {
@@ -35,7 +37,9 @@
       "why": "He said twice it was too abstract and asked for how-to-read / who-for / an example; the read-of-himself was the hardest to judge.",
       "loki": "Does redacting the profile lose the 'read of you' value? No — he asked for the before/after of the CALL, not a portrait of himself.",
       "bar": "Over-building for a busy bite-size reader = he bounces and never gets to the good part.",
-      "horizon": "WEEK", "stakes": "MED", "mode": "STANDARD",
+      "horizon": "WEEK",
+      "stakes": "MED",
+      "mode": "STANDARD",
       "memory": "[[met-at-your-level-onramp-design-principle]]"
     },
     {
@@ -53,7 +57,9 @@
       "why": "A full 12D manifold off one 30-min call self-refutes against earned-fidelity/refusal-to-overclaim; two honest dimensions do not.",
       "loki": "Is it a fancy chart or the real thing? Verbatim-anchored + self-scored + fence = earned, per all gauntlet facets.",
       "bar": "A pixel-precise chart implies measurement it does not have; mitigated by rounding to 5-pt steps + a loud fidelity fence.",
-      "horizon": "DURABLE", "stakes": "MED", "mode": "STANDARD",
+      "horizon": "DURABLE",
+      "stakes": "MED",
+      "mode": "STANDARD",
       "memory": "[[earned-fidelity-not-maximal-diamond-cut]]"
     },
     {
@@ -71,8 +77,31 @@
       "why": "It caught framing/mechanism cracks (buyer-relabeling, the ratchet, chart chronology conflict) the lens + register gauntlets passed clean.",
       "loki": "Over-flagging risk? The verifier rejected 4 over-flags (e.g. 'two lines are really one'); I re-verify each against source.",
       "bar": "Self-review is the weakest check; a builder catches hand-waving in 2s.",
-      "horizon": "DURABLE", "stakes": "MED", "mode": "COURT",
+      "horizon": "DURABLE",
+      "stakes": "MED",
+      "mode": "COURT",
       "memory": "[[gauntlet-tuned-to-register-catches-what-detector-cannot]] (escalation 3)"
+    },
+    {
+      "receipt_id": "2026-08-10-yuri-send-final-structure",
+      "surface": "yuri family / send",
+      "sharp_question": "After 4 gauntlets, what is the final structure sent to Yuri, and is it sent?",
+      "dewy_vector": {
+        "D": "Two-link warm one-door (before/after=codex + diamond-as-a-read); the machine (scored closed-loop + file-your-own-bet = the RECEIPT) chained off the codex close; profile redacted; all honest, machine-gated for overclaim (ADR-044). SENT via Gmail 2026-08-10 after replacing the stale draft that carried the false model-agnostic claim.",
+        "E": "yuri.arcs.care family; Gmail draft r-2135081402185612206 -> sent to siryuri@gmail.com.",
+        "W": "Ball in Yuri's court; part-two / guidance / Agentum threads live.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Deliver the before/after he asked for, in his register, honest, and let him pull.",
+      "why": "He asked for the magic (before/after) + gave the decisive note (too abstract, how do I read it); the family answers that and survived 4 gauntlets.",
+      "loki": "Machine reachable for the builder? Yes (receipt chained off codex). Anything overclaimed? Gated by temporal_provenance.",
+      "bar": "A false claim to a builder = whole-relationship ruin; caught + gated before send.",
+      "horizon": "DONE (sent)",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": "ADR-044",
+      "memory": "[[project_yuri_kleban_google]]"
     }
   ]
 }

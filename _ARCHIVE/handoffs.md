@@ -2407,3 +2407,69 @@ NONE. Send is unblocked (gate removed). The offer-reweight is a positioning deci
 ## Deploy note
 Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
 All this session's work was content-only (public/*.html + runtime/*.json + docs).
+
+
+---
+
+# Handoff — v3.28.0 (2026-08-10)
+
+> **Active pickup point.** v3.26.0 + v3.27.0 relocated to `_ARCHIVE/handoffs.md` (lean-file policy).
+> This block is the whole current picture. The Yuri counterpart family is send-ready and has survived
+> the lens gauntlet, the register gauntlet, the transcript, a 6-facet persona gauntlet, AND a full
+> LinkedIn-thread vibe refit. One more persona gauntlet is IN FLIGHT (see Blocking).
+
+## Headline: the Yuri family is transcript-true, honest, vibe-matched, and machine-gated for overclaim
+
+Everything below is live on `*.arcs.care` (ungated, noindex, link-only), main `39c4332`+.
+
+**The family, refit to his ACTUAL vibe (full LinkedIn thread, not just the call).** Yuri is warm,
+bite-size, no-agenda ("nothing to sell/ask, just kudos"), busy, and BOUNCES OFF ABSTRACTION — he told
+Zach twice the pages were "high level and theoretical / how do I use this." Refit (main `fad2c55`):
+- **one-door** = warm two-link entry. Hero OPENS by saying what it is in his terms ("the pre-meeting
+  brief your team already builds, but closed and scored"). Menu collapsed to TWO: the before/after
+  (codex, "start here") + the diamond ("the deep cut, for builders", face #2). **Profile REDACTED from
+  the send** (unlinked; page still live) — it read as a dossier and was the hardest for him to judge.
+
+**FALSE-CLAIM FIXED + machine-gated (main `b1e4fd0`, `8678392`).** "model-agnostic, runs on Gemini,
+nothing leaves Google" was false present-tense — ARCS runs on **Claude/Anthropic** today. Now honest
+everywhere ("Claude today; a Google-internal version could run on Gemini"), and named that **Agentum** is
+the genuinely model-agnostic one (trust move). Operationalized as **ADR-044 / the `temporal_provenance`
+gate** in `forge_counterpart.py` — refuses to write unhedged aspiration; on first run it caught a 2nd
+live instance (Robin's one-door), now fixed. Whole corpus passes clean.
+
+**The codex "MAGIC YOU ASKED FOR" offer-ladder** (a 4-rung sales menu mislabeled as magic, wobbly POV)
+was cut to an understated no-pitch close.
+
+**Three gauntlets deep + the persona gauntlet (main `4b1bde4`).** The 6-facet Yuri simulation +
+adversarial verifier healed 15 verified cracks (buyer-relabeling → recognition; "across Alphabet"
+rollout → capped; the "4/5 misses all productive" ratchet → the one honest bet; codex chart de-duped +
+beat order fixed to the tape; jargon; diamond rounded to 5-pt steps). Spine protected (self-scoring,
+diamond fence, earned fidelity).
+
+## Captured this session (ADRs / receipts / memories)
+- **ADR-044** — Temporal-Provenance Gate (fact-vs-fiction chain of custody). `_DECISIONS/`.
+- **DEWY receipts** — `_STATE/2026-08-10-session-decisions.dewy.json` (4: temporal gate, redact-dossier
+  refit, diamond earned-fidelity, persona-gauntlet method).
+- **Memories** — [[temporal-chain-of-custody-fact-vs-fiction]], [[earned-fidelity-not-maximal-diamond-cut]],
+  [[counterpart-vantage-premortem]], [[gauntlet-tuned-to-register-catches-what-detector-cannot]] (esc 3).
+
+## The two drafts (ready for Zach to SEND — I do not send)
+Both fulfill the reply Zach already promised on LinkedIn ("something deeper and more self-explanatory")
+and answer his how-to-read / who-for / how-to-use, in his register, pointing only where the page points
+(one-door + diamond; no profile, no model-agnostic claim). **Rec: lead with the LinkedIn reply** (thread
+is live there), Gmail as the fuller follow-up. Full text is in the session transcript.
+
+## Next session starts at — the in-flight gauntlet, then the send
+1. **Verify the in-flight persona gauntlet** (Workflow `w6oq90dah`, run `wf_a88678dc-f66`) against the
+   CURRENT pages; re-verify each flag vs source, heal only confirmed cracks, redeploy. Its context was
+   refreshed to the 2-link/warm/honest state so it should not re-flag fixed items.
+2. **Send** (Zach, human): LinkedIn reply first, then Gmail, pointed at `yuri.arcs.care`.
+
+## Blocking
+NONE internally. The persona gauntlet `w6oq90dah` is still running — its results land via task
+notification; do not assume them. The send is Zach's.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
+`next.config.ts` changes trigger a real Vercel build; content/SSOT/script changes are build-excluded or
+harmless. Robin surfaces regenerate byte-identical unless their SSOT changed (verify with a diff).
