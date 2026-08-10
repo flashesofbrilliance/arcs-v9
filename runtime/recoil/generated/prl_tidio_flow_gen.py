@@ -449,15 +449,92 @@ def build_full_ai():
     return fb.build()
 
 
+def build_full_capture_first():
+    """Capture-first, REQUIRED variant (2026-08-09, Zach's call). Non-destructive: build_full()
+    remains what is live.
+
+    WHY
+    ---
+    Live-staging Layer-2 test (2026-08-09) showed the Lyro-driven capture asked only Name/Email/
+    Phone and SKIPPED company -> a lead with no account_name FAILS Sugar's required field. It also
+    captured only after answering, so a mid-conversation bail loses the lead. This variant fixes
+    both: contact is a REQUIRED flow gate collected UP FRONT, before any qualifying question, so
+      (1) the lead is never lost on bail,
+      (2) anonymous fishing is screened before it consumes answers,
+      (3) capture runs as a quota-free FLOW step before Lyro (saves the 50/mo for real Q&A).
+    All four Sugar-required fields (name, company, phone, email) + state are collected; validation
+    on phone/email blocks junk. Fields are session variables carried in the webhook (no contact-
+    property binding -> no activation errors). getUserInput inherently blocks until answered, which
+    is what makes each field 'required' (the only escape is closing the widget).
+    """
+    fb = FlowBuilder("PRL Resins - Lead Capture (capture-first, required)")
+
+    fb.trigger("t", "hello")
+    fb.message("hello",
+        "Hi, thanks for stopping by. I'll get you to the right resin specialist fast. First, so "
+        "they can follow up, a few quick details.", nxt="cap_name")
+
+    # ---- REQUIRED capture gate (before any questions) ----
+    fb.ask("cap_name", "Who am I speaking with? First and last name.", "name", "cap_company")
+    fb.ask("cap_company", "And your company?", "company", "cap_phone")
+    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_email", validation="phone",
+           error="That doesn't look like a phone number. Mind trying again?")
+    fb.ask("cap_email", "Best email, in case we can't catch you by phone?", "email", "cap_terr",
+           validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
+    fb.ask("cap_terr", "What state or region are you in?", "territory", "menu")
+
+    # ---- intent read + qualifying questions (contact already secured) ----
+    fb.decision("menu", "Thanks! What brings you in today?", [
+        ("I know what I need", "a1"),
+        ("Help me choose", "b1"),
+        ("Just have someone reach out", "done"),
+        ("Guides and resources", "res1"),
+        ("Something else", "c1"),
+    ])
+
+    # Branch A - knows what they need
+    fb.ask("a1", "Which resin or spec are you after?", "desired_resin_or_spec", "a2")
+    fb.decision("a2", "Replacing a resin you run now?", [("Yes", "a2y"), ("No", "a3")])
+    fb.ask("a2y", "What are you using today?", "current_resin", "a3")
+    fb.ask("a3", "What are you making with it?", "application", "a4")
+    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+           "requirements", "done")
+
+    # Branch B - help me choose
+    fb.ask("b1", "What are you making?", "application", "b2")
+    fb.ask("b2", "What matters most? Heat, impact, UV for outdoor, chemical resistance, color, or cost.",
+           "requirements", "b3")
+    fb.decision("b3", "Running a resin now you'd want to match or improve on?", [
+        ("Yes", "b3y"), ("No", "done")])
+    fb.ask("b3y", "What are you running now?", "current_resin", "done")
+
+    # Branch C - something else
+    fb.ask("c1", "Happy to help. What can I point you to?", "question", "done")
+
+    # Resources
+    fb.message("res1",
+        "Here are some quick resources:\n"
+        "- Product Selection Guide: https://prlresins.com/polymer-product-catalog/\n"
+        "- Browse our resins: https://prlresins.com/products/\n"
+        "- Quality guarantee: https://prlresins.com/quality-guarantee/\n"
+        "- Find us / contact: https://prlresins.com/contact/", nxt="done")
+
+    fb.message("done",
+        "Perfect, you're all set. A PRL resin specialist will reach out shortly, usually within a "
+        "few hours. A real person, no phone trees.")
+
+    return fb.build()
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default="prl-chatbot-flow.json")
-    ap.add_argument("--flow", choices=["full", "full-ai", "sem", "ai"] + [f"sem:{k}" for k in SEM_ONRAMPS], default="full")
+    ap.add_argument("--flow", choices=["full", "full-ai", "capture-first", "sem", "ai"] + [f"sem:{k}" for k in SEM_ONRAMPS], default="full")
     args = ap.parse_args()
     if args.flow.startswith("sem:"):
         data = build_sem_onramp(args.flow.split(":", 1)[1])
     else:
-        data = {"sem": build_sem_onramp, "ai": build_ai_handoff,
+        data = {"sem": build_sem_onramp, "ai": build_ai_handoff, "capture-first": build_full_capture_first,
                 "full-ai": build_full_ai, "full": build_full}[args.flow]()
     with open(args.out, "w") as f:
         json.dump(data, f, indent=2)
