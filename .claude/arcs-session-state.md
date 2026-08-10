@@ -1,27 +1,26 @@
 # ARCS session state — sprint snapshot
 
-_Updated 2026-08-10 (handoff v3.28.0). Yuri family send-ready; a 2nd persona gauntlet is in flight._
+_Updated 2026-08-10 (handoff v3.29.0). The Yuri suite is SENT. Nothing pending on our side._
 
-## Shipped this session
-- **Yuri family refit to his ACTUAL vibe** (full LinkedIn thread): warm two-link one-door (before/after
-  codex "start here" + diamond "deep cut" face #2); **profile REDACTED from the send** (dossier, unlinked);
-  hero opens in his terms ("the pre-meeting brief your team builds, closed and scored"). main `fad2c55`.
-- **FALSE model-agnostic claim fixed + machine-gated.** "model-agnostic/runs on Gemini/nothing leaves
-  Google" was false (ARCS runs on Claude today). Honest everywhere + **ADR-044 `temporal_provenance` gate**
-  refuses unhedged aspiration; caught a 2nd live instance on Robin. main `b1e4fd0`,`8678392`.
-- **Codex offer-ladder-mislabeled-as-magic** cut to an understated no-pitch close.
-- **6-facet persona gauntlet** (main `4b1bde4`) healed 15 verified cracks; spine protected.
-- **Captured:** ADR-044; `_STATE/2026-08-10-session-decisions.dewy.json` (4 DEWY receipts); memories
-  [[temporal-chain-of-custody-fact-vs-fiction]], [[earned-fidelity-not-maximal-diamond-cut]].
-- **Two send-ready drafts** (LinkedIn reply lead + fuller Gmail) — in the transcript.
+## Shipped this session (and SENT)
+- **Yuri family SENT 2026-08-10.** Zach tweaked + sent the Gmail (to siryuri@, subj "How to read the thing
+  I sent, and who it's for") pointing to yuri.arcs.care, after replacing the stale draft that carried the
+  false model-agnostic claim. Ball in Yuri's court.
+- **Final structure (live, ungated):** warm two-link one-door — before/after (codex, "start here") +
+  diamond ("the call, moment by moment, a read, not the machine"). The machine (scored closed-loop +
+  "file your own bet" = the RECEIPT) chained off the codex close. Profile redacted. Hero opens in his terms.
+- **False model-agnostic claim killed + machine-gated** (ADR-044 `temporal_provenance` gate; caught a 2nd
+  instance on Robin). ARCS runs on Claude today; internal version could run on Gemini (never present-fact).
+- **Four gauntlets survived** (lens/register/transcript/persona x2); 2nd persona gauntlet healed the
+  diamond-onenum self-contradiction, receipt over-anchor, codex condescension, org/VC ladder, over-disclaim.
+- **Captured:** ADR-044; `_STATE/2026-08-10-session-decisions.dewy.json` (5 DEWY receipts); memories.
 
-## Open (next session)
-1. Verify the in-flight persona gauntlet (Workflow `w6oq90dah`) against current pages; heal confirmed only.
-2. Zach sends (LinkedIn reply first, then Gmail) pointed at yuri.arcs.care.
+## Open
+NONE pending on our side. When Yuri replies: his read on positioning/GTM, Agentum, part-two/GCP, portable
+diligence/M&A. Keep replies short + concrete. See [[project_yuri_kleban_google]].
 
 ## Blocking
-NONE internally. Gauntlet `w6oq90dah` running; send is Zach's.
+NONE. Sent; awaiting Yuri.
 
 ## Pickup
-`/handoff-pickup` -> `_STATE/snapshot.json` + v3.28.0 in `CLAUDE.md`. Deploy content-only from `main-wt2`
-with `--no-verify`.
+`/handoff-pickup` -> `_STATE/snapshot.json` + v3.29.0 in `CLAUDE.md`.
