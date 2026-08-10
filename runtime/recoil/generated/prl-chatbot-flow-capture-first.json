@@ -58,7 +58,7 @@
         "messages": [
           {
             "type": "text",
-            "content": "Hi, thanks for stopping by. I'll get you to the right resin specialist fast. First, so they can follow up, a few quick details."
+            "content": "Hi, thanks for stopping by. I'll get you to the right resin specialist fast. First, a few quick details so they can follow up. We only use these to have someone reach out."
           }
         ]
       }
@@ -125,12 +125,12 @@
             }
           ]
         },
-        "message": "And your company?",
+        "message": "Best email to reach you? A specialist will follow up here.",
         "failedNode": null,
         "passedNode": 200000005,
-        "validation": "none",
-        "error_message": "Sorry, that doesn't look right. Mind trying again?",
-        "variable_name": "company",
+        "validation": "email",
+        "error_message": "Hmm, that doesn't look like an email. Mind trying again?",
+        "variable_name": "email",
         "number_of_repeats": 1,
         "answer_to_variable": false
       }
@@ -161,7 +161,7 @@
             }
           ]
         },
-        "message": "Best number to reach you?",
+        "message": "And the best phone number to reach you?",
         "failedNode": null,
         "passedNode": 200000006,
         "validation": "phone",
@@ -197,12 +197,12 @@
             }
           ]
         },
-        "message": "Best email, in case we can't catch you by phone?",
+        "message": "What company are you with?",
         "failedNode": null,
         "passedNode": 200000007,
-        "validation": "email",
-        "error_message": "Hmm, that doesn't look like an email. Mind trying again?",
-        "variable_name": "email",
+        "validation": "none",
+        "error_message": "Sorry, that doesn't look right. Mind trying again?",
+        "variable_name": "company",
         "number_of_repeats": 1,
         "answer_to_variable": false
       }
@@ -233,7 +233,7 @@
             }
           ]
         },
-        "message": "What state or region are you in?",
+        "message": "And which US state are you in?",
         "failedNode": null,
         "passedNode": 200000008,
         "validation": "none",
@@ -539,7 +539,7 @@
             }
           ]
         },
-        "message": "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+        "message": "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing. Your specialist confirms the exact current numbers so you're never working off a stale spec.",
         "failedNode": null,
         "passedNode": 200000020,
         "validation": "none",
@@ -830,7 +830,7 @@
         "messages": [
           {
             "type": "text",
-            "content": "Perfect, you're all set. A PRL resin specialist will reach out shortly, usually within a few hours. A real person, no phone trees."
+            "content": "Perfect, you're all set. A PRL resin specialist will follow up shortly, usually within a few hours, with the exact current specs and the official data sheet for what you need. A real person, no phone trees."
           }
         ]
       }
@@ -842,175 +842,175 @@
       "to_node_id": 200000002,
       "id": 300000001,
       "dbEdgeId": 300000001,
-      "routeId": "3267579d-3b12-4fd4-9113-3f55ceb41bbb"
+      "routeId": "bc093876-d5bc-41ce-bb0b-161f35b130b7"
     },
     {
       "from_node_id": 200000002,
       "to_node_id": 200000003,
       "id": 300000002,
       "dbEdgeId": 300000002,
-      "routeId": "1a740039-5a66-492d-9896-963609914630"
+      "routeId": "71111587-f3b7-4463-a086-f60d8247c83a"
     },
     {
       "from_node_id": 200000003,
       "to_node_id": 200000004,
       "id": 300000003,
       "dbEdgeId": 300000003,
-      "routeId": "c03663cc-30c3-4a5f-beb0-e9ea19f01b56"
+      "routeId": "f81dfb0d-5f8f-439f-a1b0-4685f848952f"
     },
     {
       "from_node_id": 200000004,
       "to_node_id": 200000005,
       "id": 300000004,
       "dbEdgeId": 300000004,
-      "routeId": "71fd8184-0d41-45f4-8f57-97e597326f6a"
+      "routeId": "53ee24c6-30c0-4d2c-9f71-c5e22f8d46be"
     },
     {
       "from_node_id": 200000005,
       "to_node_id": 200000006,
       "id": 300000005,
       "dbEdgeId": 300000005,
-      "routeId": "c1c87763-7f94-469b-960f-6eb2198caca1"
+      "routeId": "e68277e3-15e8-4012-b5ca-f90cece4ca57"
     },
     {
       "from_node_id": 200000006,
       "to_node_id": 200000007,
       "id": 300000006,
       "dbEdgeId": 300000006,
-      "routeId": "ebe2fe8d-bf53-43df-bfbf-43ab46321874"
+      "routeId": "e054181f-03da-4d3e-b3b9-c3e7c4deba4f"
     },
     {
       "from_node_id": 200000007,
       "to_node_id": 200000008,
       "id": 300000007,
       "dbEdgeId": 300000007,
-      "routeId": "47ad0ad2-0513-4717-b344-02b938b239f3"
+      "routeId": "62e5c50a-7cc0-4439-a8e8-7ce9029a52ef"
     },
     {
       "from_node_id": 200000008,
       "to_node_id": 200000009,
       "id": 300000008,
       "dbEdgeId": 300000008,
-      "routeId": "f7466252-2823-485f-b7e0-4734f100c35a"
+      "routeId": "94ff8f2c-bc81-4aca-a290-627d67931272"
     },
     {
       "from_node_id": 200000008,
       "to_node_id": 200000014,
       "id": 300000009,
       "dbEdgeId": 300000009,
-      "routeId": "90ab2a0b-757b-4970-b567-8e949c897cf4"
+      "routeId": "ab2c5796-2bfb-4a1b-9117-2e8e4cfb37f8"
     },
     {
       "from_node_id": 200000008,
       "to_node_id": 200000020,
       "id": 300000010,
       "dbEdgeId": 300000010,
-      "routeId": "061a55b9-4901-4d90-9d42-4e28c78f45b3"
+      "routeId": "f6918b71-88cb-4bac-81d1-8ac72108eee2"
     },
     {
       "from_node_id": 200000008,
       "to_node_id": 200000019,
       "id": 300000011,
       "dbEdgeId": 300000011,
-      "routeId": "00b1eb95-bc0e-4bb4-b2a0-1991136b2d02"
+      "routeId": "3efdfc3a-2e93-47ff-877c-b41419b6a120"
     },
     {
       "from_node_id": 200000008,
       "to_node_id": 200000018,
       "id": 300000012,
       "dbEdgeId": 300000012,
-      "routeId": "232815e6-ced9-4ee5-89a3-4bae4c526a6f"
+      "routeId": "d334f1f2-320b-4543-87d2-36ea276b0ea4"
     },
     {
       "from_node_id": 200000009,
       "to_node_id": 200000010,
       "id": 300000013,
       "dbEdgeId": 300000013,
-      "routeId": "17ea34ad-039a-4085-b0a0-6e2129967e11"
+      "routeId": "da60f400-2eea-4a0a-9abf-35a365a78041"
     },
     {
       "from_node_id": 200000010,
       "to_node_id": 200000011,
       "id": 300000014,
       "dbEdgeId": 300000014,
-      "routeId": "d01df23b-a094-4330-98f3-a903e38428c9"
+      "routeId": "1c219b09-327a-4a99-a323-6c43198efe44"
     },
     {
       "from_node_id": 200000010,
       "to_node_id": 200000012,
       "id": 300000015,
       "dbEdgeId": 300000015,
-      "routeId": "ed5e6922-8db8-4d9d-9895-4f949b346cfc"
+      "routeId": "3d4c4bb4-ee75-439e-81db-8dd9522623fa"
     },
     {
       "from_node_id": 200000011,
       "to_node_id": 200000012,
       "id": 300000016,
       "dbEdgeId": 300000016,
-      "routeId": "550dc483-bafb-488a-b59e-fda6c1fdf469"
+      "routeId": "ada1218a-16a3-473f-82ad-1e26a55799de"
     },
     {
       "from_node_id": 200000012,
       "to_node_id": 200000013,
       "id": 300000017,
       "dbEdgeId": 300000017,
-      "routeId": "e9149536-8a34-4643-8e14-9a1f157e06dd"
+      "routeId": "65595319-90f8-49d0-bfbc-62f00a44d953"
     },
     {
       "from_node_id": 200000013,
       "to_node_id": 200000020,
       "id": 300000018,
       "dbEdgeId": 300000018,
-      "routeId": "1b3fcb57-c229-4700-bcd7-289923a554b5"
+      "routeId": "e23dd76d-3b96-47d9-b19a-b186d53473b4"
     },
     {
       "from_node_id": 200000014,
       "to_node_id": 200000015,
       "id": 300000019,
       "dbEdgeId": 300000019,
-      "routeId": "881d9cd5-437c-4dff-8354-65b9306f9ab1"
+      "routeId": "f13b26d0-c3d2-4cc9-8156-0e52b043c765"
     },
     {
       "from_node_id": 200000015,
       "to_node_id": 200000016,
       "id": 300000020,
       "dbEdgeId": 300000020,
-      "routeId": "b78b7cbc-80b2-4acd-af22-c902c121a70a"
+      "routeId": "d7cff82c-e357-469a-8f0b-a1f8351745c7"
     },
     {
       "from_node_id": 200000016,
       "to_node_id": 200000017,
       "id": 300000021,
       "dbEdgeId": 300000021,
-      "routeId": "aefbe892-9b4d-4bc6-a9eb-4457ba8128f7"
+      "routeId": "cf3fb9b0-c3bb-497e-b2d3-0f1bac025ca7"
     },
     {
       "from_node_id": 200000016,
       "to_node_id": 200000020,
       "id": 300000022,
       "dbEdgeId": 300000022,
-      "routeId": "9980679b-e102-4afc-8503-8012e5e3a046"
+      "routeId": "1363f86c-f003-481c-85f1-be74f364b64d"
     },
     {
       "from_node_id": 200000017,
       "to_node_id": 200000020,
       "id": 300000023,
       "dbEdgeId": 300000023,
-      "routeId": "dd0fd8e9-9541-4b81-b78b-189f8934df22"
+      "routeId": "d6edb75a-a68b-47b2-a70d-c90b0b53167a"
     },
     {
       "from_node_id": 200000018,
       "to_node_id": 200000020,
       "id": 300000024,
       "dbEdgeId": 300000024,
-      "routeId": "28dfc3b4-537a-42c4-bf0d-335db9e06d43"
+      "routeId": "8039d05a-2f51-41ac-83f1-6813ffe9e91a"
     },
     {
       "from_node_id": 200000019,
       "to_node_id": 200000020,
       "id": 300000025,
       "dbEdgeId": 300000025,
-      "routeId": "92035bc9-db9f-4e2d-b78c-27e408814bbf"
+      "routeId": "50e36d73-20c9-41e0-a6d3-a7f6c27de119"
     }
   ],
   "sessionVariables": []

@@ -471,17 +471,20 @@ def build_full_capture_first():
 
     fb.trigger("t", "hello")
     fb.message("hello",
-        "Hi, thanks for stopping by. I'll get you to the right resin specialist fast. First, so "
-        "they can follow up, a few quick details.", nxt="cap_name")
+        "Hi, thanks for stopping by. I'll get you to the right resin specialist fast. First, a few "
+        "quick details so they can follow up. We only use these to have someone reach out.", nxt="cap_name")
 
     # ---- REQUIRED capture gate (before any questions) ----
-    fb.ask("cap_name", "Who am I speaking with? First and last name.", "name", "cap_company")
-    fb.ask("cap_company", "And your company?", "company", "cap_phone")
-    fb.ask("cap_phone", "Best number to reach you?", "phone", "cap_email", validation="phone",
-           error="That doesn't look like a phone number. Mind trying again?")
-    fb.ask("cap_email", "Best email, in case we can't catch you by phone?", "email", "cap_terr",
+    # Order secures a REACHABLE channel FIRST (email, then phone), so a mid-capture bail still leaves an
+    # actionable lead. Company + state come after. State asks for a US STATE specifically (the resolver
+    # rejects regions/placeholders -> re-ask), and phone/email are format-validated.
+    fb.ask("cap_name", "Who am I speaking with? First and last name.", "name", "cap_email")
+    fb.ask("cap_email", "Best email to reach you? A specialist will follow up here.", "email", "cap_phone",
            validation="email", error="Hmm, that doesn't look like an email. Mind trying again?")
-    fb.ask("cap_terr", "What state or region are you in?", "territory", "menu")
+    fb.ask("cap_phone", "And the best phone number to reach you?", "phone", "cap_company",
+           validation="phone", error="That doesn't look like a phone number. Mind trying again?")
+    fb.ask("cap_company", "What company are you with?", "company", "cap_terr")
+    fb.ask("cap_terr", "And which US state are you in?", "territory", "menu")
 
     # ---- intent read + qualifying questions (contact already secured) ----
     fb.decision("menu", "Thanks! What brings you in today?", [
@@ -497,7 +500,8 @@ def build_full_capture_first():
     fb.decision("a2", "Replacing a resin you run now?", [("Yes", "a2y"), ("No", "a3")])
     fb.ask("a2y", "What are you using today?", "current_resin", "a3")
     fb.ask("a3", "What are you making with it?", "application", "a4")
-    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing.",
+    fb.ask("a4", "Any must-hit specs? Temperature, flame rating, color, or a regulatory listing. "
+           "Your specialist confirms the exact current numbers so you're never working off a stale spec.",
            "requirements", "done")
 
     # Branch B - help me choose
@@ -520,8 +524,9 @@ def build_full_capture_first():
         "- Find us / contact: https://prlresins.com/contact/", nxt="done")
 
     fb.message("done",
-        "Perfect, you're all set. A PRL resin specialist will reach out shortly, usually within a "
-        "few hours. A real person, no phone trees.")
+        "Perfect, you're all set. A PRL resin specialist will follow up shortly, usually within a few "
+        "hours, with the exact current specs and the official data sheet for what you need. A real "
+        "person, no phone trees.")
 
     return fb.build()
 
