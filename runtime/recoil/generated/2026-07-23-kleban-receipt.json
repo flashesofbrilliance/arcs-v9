@@ -16,8 +16,8 @@
     ],
     "meta_lines": [
       "RECEIPT: 2026-07-23-YURI-KLEBAN · STATUS AT OPEN: WARM, NON-COMMITTAL PREDICTED · STATUS AT CLOSE: WARM AND REAL, FIT UNDER-READ BY A MILE",
-      "CALL: JUL 23 2026, ~30m · RECORDED WITH HIS OK · MODE: EX-ANTE SCORED, SINGLE CALL, NO ARC",
-      "EX-ANTE FILED: THE WAR-ROOM RECEIPT, BEFORE THE CALL"
+      "CALL: JUL 23 2026, ~30m · RECORDED WITH HIS OK · MODE: BET FILED BEFORE, SCORED AFTER · SINGLE CALL, NO ARC",
+      "FILED BEFORE THE CALL: THE WAR-ROOM RECEIPT"
     ],
     "resolution": {
       "level": "full",
@@ -30,7 +30,11 @@
       "kairos_lock_k": "&#9679; THE MOMENT IT TURNED",
       "posterior_k": "WHERE I LANDED &nbsp;&middot;&nbsp; what the call updated",
       "waveform_k": "The call, start to finish",
-      "wedge_k": "The fit:"
+      "wedge_k": "The fit:",
+      "exante_k": "The bet I filed before the call",
+      "priors_k": "What the call changed",
+      "priorupd_k": "What this changed:",
+      "netnew_k": "WHAT CHANGED"
     }
   },
   "lede_cover": "You asked to see the magic, not the abstract doc: the bet I filed on you before we spoke, scored honestly against what actually happened once we did. Everything scored here is my own prediction, not yours. Every line that moved a belief is in your own words, with your OK to record. Nothing redacted. One register call was right; the fit I under-read by a mile.",
@@ -120,7 +124,7 @@
         "tip": "Part two of where this goes, after Hawaii. That is the magic. Warm and forward"
       }
     ],
-    "caption": "A single call with no floor drop. It opens human, climbs through Google stories, then spikes at the reveal: you run the exact team this was built for. The rest is you pulling it forward. It lands on a warm, forward close where you name the follow-up yourself. The register I called right; the height of that spike I did not see coming."
+    "caption": "Height is my read of the fit. A single call with no floor drop. It opens human, climbs through Google stories, then spikes at the reveal: you run the exact team this was built for. The rest is you pulling it forward. It lands on a warm, forward close where you name the follow-up yourself. The register I called right; the height of that spike I did not see coming."
   },
   "reverse_listening": {
     "lede": "Read from the close backward, detail spent where the signal is: the banter skimmed, the reveal read closely. The question is always the same: where did the read actually break, working back from the close.",
@@ -219,7 +223,7 @@
       {
         "signal": "You run this problem and built it, not a referral to someone who does",
         "quote": "a team of 20... we build internal infrastructure for the partnerships org... briefs for execs before they meet people",
-        "update": "Collapse the whole fit read. This is not a fan who knows someone; you built the exec-brief automation by hand and proved it at the top of the org. Confidence in a real fit went from a hedge to near-certain. Which surface is yours to pick: the diligence and memo pressure-test with your Purpose Built and pre-IPO work, which travels with you; or an internal dogfood on GCP if that is where you want it. Downstream of the relationship, on your timeline, neither a deal."
+        "update": "The whole fit read flips. Not a fan who knows someone; you built the exec-brief automation by hand and proved it at the top of the org. Confidence in a real fit went from a hedge to near-certain. Which surface is yours to pick: the diligence and memo pressure-test with your Purpose Built and pre-IPO work, which travels with you; or an internal dogfood on GCP if that is where you want it. Downstream of the relationship, on your timeline, neither a deal."
       },
       {
         "signal": "You pulled the relationship forward yourself",
