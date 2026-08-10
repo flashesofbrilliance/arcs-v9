@@ -141,8 +141,8 @@ looped **Jorge/IT** in with Tidio support). **Bill** (not Nicole) runs Sugar = t
   (self-test 34/34, coverage, 22,500-grid) + `prl_lyro_eval.py` (84 cases) + the **capture-first flow**
   (name→email→phone→company→state, validated) + the `~/Downloads/prl-tidio-flows` bundle.
 
-**Recap email:** drafted + current in Gmail Drafts (`r-955185512124381138`), awaiting Zach's send. Fill the 4
-link URLs after sharing each artifact. Asks reduced to: written sandbox approval + negative keywords/anti-ICP.
+**Recap email:** **SENT to Todd (Aug 10)** — the four artifact links + two asks (written sandbox approval +
+negative keywords/anti-ICP). Now awaiting Todd's replies on those two.
 
 **THE PARALLEL PLAN — 1.1 UAT and 1.2 kickoff run together:**
 - **1.1 critical path (UAT):** info email fixed (Tidio/Jorge) → sandbox access (Todd approval + prod copy-down)
