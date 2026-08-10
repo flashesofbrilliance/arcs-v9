@@ -42,5 +42,15 @@ So the form-factor cleanup and the chatbot filter are the same brain; Todd's fut
 ## Status
 - Engine built + tested: `normalization/exclusions.json` + `exclusions.py` (self-test 8/8), seeded with Todd's
   "sheet" signal + common form spam.
-- WordPress application (honeypot/Turnstile/blocklist/field) is the next click-step, on staging first.
-- Waiting on Todd: his negative-keyword / anti-ICP list to extend `todd_provided`.
+- **Applied in staging (`wfaprlredev26`), 2026-08-10:**
+  - Honeypot ON — Contact Us (id 7) + Material Alternative (id 6).
+  - Submission speed check ON, 2000ms / Normal — both forms.
+  - **Akismet integration ON** (Forms &rarr; Settings) — site-wide across all Gravity Forms; the Akismet
+    plugin was already installed + active. This is the no-code, no-PHP spam filter. Chosen over the generated
+    `gform_entry_is_spam` snippet because the site has no Code Snippets / WPCode host and editing Divi's
+    functions.php on a client site carries white-screen risk. The `prl-gf-spam-filter.php` snippet stays in
+    the repo as the fallback if a safe PHP host is added later.
+- **Next click-steps (optional, staging):** form-factor clarifier field (pellets vs sheet/rod/film) on the two
+  lead forms; honeypot on Apply Now (id 4).
+- Waiting on Todd: his negative-keyword / anti-ICP list to extend `todd_provided`. When it lands, the chatbot
+  picks it up automatically; the GF blocklist regenerates via `python3 exclusions.py`.
