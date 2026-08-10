@@ -1474,8 +1474,60 @@ def honesty_and_attribution(ssot):
     return findings
 
 
+# Aspirational capability claims that are true ONLY of a future or internal deployment.
+# ARCS runs on Claude/Anthropic today; these describe a Google-internal Gemini version that
+# does not ship yet. Rendering them in the present tense is fiction wearing non-fiction's
+# clothes (the 2026-08-10 "model-agnostic, runs on Gemini, nothing leaves Google" bug).
+_ASPIRATIONAL_CAPABILITY = [
+    "model-agnostic", "runs on gemini", "run on gemini", "runs model-agnostic",
+    "model-agnostic on gemini", "nothing leaves google", "nothing leaves the building",
+    "nothing leaves your side", "air-gapped",
+]
+# A nearby temporal hedge (marks the claim NOW/NEXT/ASPIRATIONAL) or an attribution to a
+# product that genuinely IS this (Agentum, Yuri's own) clears the claim.
+_TEMPORAL_HEDGES = [
+    "could", "would", "an internal version", "a version inside", "version inside google",
+    "internal google", "internal deployment", "internal pilot", "internal dogfood",
+    "claude today", "runs on claude", "on claude today", "someday", "not yet", "aspiration",
+    "for an internal", "gemini for an internal", "on your stack",
+]
+
+
+def temporal_provenance(htmltext):
+    """Chain-of-custody / fiction-vs-non-fiction gate (temporal placement of a claim).
+
+    A capability claim that is only true of a FUTURE or internal deployment must not be
+    rendered in the present tense without a temporal hedge, or attributed to a product that
+    genuinely is that (Agentum). Fiction/non-fiction is the NOW-vs-not-NOW line; this gate
+    refuses to let aspiration ("model-agnostic / runs on Gemini / nothing leaves Google")
+    ship as present fact, the same way honesty_and_attribution refuses ungrounded assertions.
+    Banked design principle: [[temporal-chain-of-custody-fact-vs-fiction]]."""
+    text = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", htmltext))
+    low = text.lower()
+    findings = []
+    for phrase in _ASPIRATIONAL_CAPABILITY:
+        start = 0
+        while True:
+            i = low.find(phrase, start)
+            if i < 0:
+                break
+            start = i + len(phrase)
+            near = low[max(0, i - 100): i + len(phrase) + 100]
+            if "agentum" in near:                          # claim is about his product, which IS this
+                continue
+            window = low[max(0, i - 140): i + len(phrase) + 140]
+            if any(h in window for h in _TEMPORAL_HEDGES):  # honestly hedged as future/internal
+                continue
+            ctx = text[max(0, i - 55): i + len(phrase) + 55].strip()
+            findings.append(("FAIL", "temporal-provenance",
+                f"aspirational capability {phrase!r} stated as present fact without a temporal hedge "
+                f"(fiction-as-non-fiction; ARCS runs on Claude today). Mark it NOW/NEXT/ASPIRATIONAL "
+                f"or attribute it to a product that is. Near: ...{ctx}..."))
+    return findings
+
+
 def run_gates(htmltext, ssot):
-    findings = verify_html(htmltext, ssot) + honesty_and_attribution(ssot)
+    findings = verify_html(htmltext, ssot) + honesty_and_attribution(ssot) + temporal_provenance(htmltext)
     fails = [f for f in findings if f[0] == "FAIL"]
     return findings, len(fails) == 0
 

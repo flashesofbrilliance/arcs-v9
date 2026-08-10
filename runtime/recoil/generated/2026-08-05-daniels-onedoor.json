@@ -138,7 +138,7 @@
     {"type": "trust", "k": "07 · for the room", "h2": "The objections, answered before they are raised.",
      "intro": "If you socialize this, here is the same reassurance in each chief&rsquo;s language. The short version: it reads recordings you already have, nothing is stored or sent, nothing touches your systems. Fuller trust summary at arcs.care.",
      "prows": [
-       {"who": "Security / CISO", "obj": "Where does our call data go?", "ans": "Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. It can run air-gapped on your own stack, so nothing leaves Zensai."},
+       {"who": "Security / CISO", "obj": "Where does our call data go?", "ans": "Nowhere. It reads a transcript you already have, produces a local JSON file, and stores nothing. It runs on Claude today; an internal version could run air-gapped on your own stack, so nothing would leave Zensai."},
        {"who": "Finance / CFO", "obj": "What is the cost and the lock-in?", "ans": "The pilot is free and there is nothing to integrate or maintain. One call proves the value. No contract, no lock-in."},
        {"who": "Revenue / CRO", "obj": "Will it slow my team down?", "ans": "It is invisible. It reads recordings after the fact, so there is zero behavior change and nothing for a rep to learn or click."},
        {"who": "People / CHSO", "obj": "Is this surveillance?", "ans": "The opposite. What gets scored is the rep&rsquo;s own performance, to help them, opt-in. It is coaching, not a scorecard. Your own human-first idea, applied."},
