@@ -1,0 +1,224 @@
+<title>ARCS · Conviction Ledger</title>
+<style>
+  :root{
+    --paper:#f4f1ea; --sheet:#fffdf8; --ink:#1a1712; --ink-soft:#4a4339; --muted:#6b6154; --faint:#847a6d;
+    --line:#e3ddd1; --hair:#ece6da; --rule:#c9bfad; --maroon:#7a1f2b; --maroon-soft:#9a4049; --gold:#a8791a;
+    --hold:#3b6ea5; --hold-bg:#e7eef6; --tune:#1f7a4d; --tune-bg:#e7f1ea; --gather:#8a5a1f; --gather-bg:#f3e9d9;
+    --update:#a3341f; --update-bg:#f6e7e2;
+    --radius:6px; --maxw:880px;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:Arial,Helvetica,system-ui,-apple-system,sans-serif; --serif:Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --paper:#15120f; --sheet:#1d1a16; --ink:#efe9df; --ink-soft:#c5bdb0; --muted:#a89e90; --faint:#948a7c;
+    --line:#2d2822; --hair:#2a2620; --rule:#4a4238; --maroon:#cc848c; --maroon-soft:#b8646e; --gold:#d6b25c;
+    --hold:#8fb2d6; --hold-bg:#18202a; --tune:#79c99a; --tune-bg:#182620; --gather:#d6b25c; --gather-bg:#2a2413;
+    --update:#e08b7c; --update-bg:#2a1a16;}}
+  :root[data-theme="light"]{--paper:#f4f1ea;--sheet:#fffdf8;--ink:#1a1712;--ink-soft:#4a4339;--muted:#6b6154;--faint:#847a6d;--line:#e3ddd1;--hair:#ece6da;--rule:#c9bfad;--maroon:#7a1f2b;--maroon-soft:#9a4049;--gold:#a8791a;--hold:#3b6ea5;--hold-bg:#e7eef6;--tune:#1f7a4d;--tune-bg:#e7f1ea;--gather:#8a5a1f;--gather-bg:#f3e9d9;--update:#a3341f;--update-bg:#f6e7e2;}
+  :root[data-theme="dark"]{--paper:#15120f;--sheet:#1d1a16;--ink:#efe9df;--ink-soft:#c5bdb0;--muted:#a89e90;--faint:#948a7c;--line:#2d2822;--hair:#2a2620;--rule:#4a4238;--maroon:#cc848c;--maroon-soft:#b8646e;--gold:#d6b25c;--hold:#8fb2d6;--hold-bg:#18202a;--tune:#79c99a;--tune-bg:#182620;--gather:#d6b25c;--gather-bg:#2a2413;--update:#e08b7c;--update-bg:#2a1a16;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:clamp(14px,3vw,36px) auto;padding:0 clamp(14px,3vw,28px)}
+  .head{border-bottom:2px solid var(--maroon);padding-bottom:14px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--maroon);font-weight:700}
+  .wordmark b{color:var(--ink)}
+  .head .meta{font-family:var(--mono);font-size:11px;color:var(--faint)}
+  h1{font-family:var(--serif);font-size:clamp(22px,4vw,30px);font-weight:700;margin:20px 0 .2em;letter-spacing:-.01em}
+  .stand{color:var(--ink-soft);max-width:66ch;margin:.2em 0 0}
+
+  .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin:22px 0 4px}
+  .lg{border:1px solid var(--line);border-left-width:3px;border-radius:4px;padding:9px 12px;font-size:12.5px;background:var(--sheet)}
+  .lg b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px}
+  .lg.hold{border-left-color:var(--hold)} .lg.hold b{color:var(--hold)}
+  .lg.gather{border-left-color:var(--gather)} .lg.gather b{color:var(--gather)}
+  .lg.tune{border-left-color:var(--tune)} .lg.tune b{color:var(--tune)}
+  .lg.update{border-left-color:var(--update)} .lg.update b{color:var(--update)}
+  .lg span{color:var(--muted)}
+
+  .addbet{margin-top:26px;background:var(--sheet);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+  .addbet .row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+  label{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:5px}
+  input,textarea{font-family:var(--sans);font-size:14px;background:var(--paper);border:1px solid var(--rule);border-radius:5px;color:var(--ink);padding:9px 11px;width:100%}
+  input:focus,textarea:focus{outline:2px solid var(--maroon);outline-offset:-1px;border-color:var(--maroon)}
+  textarea{resize:vertical;min-height:44px}
+  .f-name{flex:1 1 200px} .f-fund{flex:2 1 320px} .f-k{flex:0 0 78px}
+  .btn{font-family:var(--sans);font-size:14px;font-weight:600;color:#fff;background:var(--maroon);border:1px solid var(--maroon);border-radius:5px;padding:9px 18px;cursor:pointer;transition:.15s;white-space:nowrap}
+  @media (prefers-color-scheme:dark){.btn{color:#1d1a16}}
+  .btn:hover{background:var(--maroon-soft);border-color:var(--maroon-soft)}
+  .btn.sm{padding:6px 12px;font-size:13px}
+  .btn.ghost{background:transparent;color:var(--maroon)} .btn.ghost:hover{background:color-mix(in srgb,var(--maroon) 10%,transparent);color:var(--maroon)}
+
+  .bets{margin-top:22px;display:flex;flex-direction:column;gap:16px}
+  .bet{background:var(--sheet);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .bet-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:16px 18px 12px;border-bottom:1px solid var(--hair)}
+  .bet-name{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);margin:0}
+  .bet-fund{color:var(--ink-soft);font-size:14px;margin:3px 0 0;max-width:60ch}
+  .bet-k{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:7px}
+  .bet-k b{color:var(--ink)}
+  .verdict{flex:none;text-align:right}
+  .vbadge{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;padding:6px 12px;border-radius:5px;text-transform:uppercase}
+  .vbadge.hold{color:var(--hold);background:var(--hold-bg)}
+  .vbadge.gather{color:var(--gather);background:var(--gather-bg)}
+  .vbadge.tune{color:var(--tune);background:var(--tune-bg)}
+  .vbadge.update{color:var(--update);background:var(--update-bg)}
+  .vwhy{font-size:12px;color:var(--muted);margin-top:6px;max-width:26ch;margin-left:auto}
+
+  .chan-wrap{padding:12px 18px 16px}
+  .chan-lab{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:9px}
+  .chan{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--hair);flex-wrap:wrap}
+  .chan:first-of-type{border-top:0}
+  .chan .cn{flex:1 1 140px;font-size:14px}
+  .pill{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.03em;border:1px solid var(--rule);border-radius:100px;padding:4px 11px;cursor:pointer;user-select:none;background:var(--paper);color:var(--muted);transition:.12s}
+  .pill:hover{border-color:var(--ink)}
+  .pill.orthogonal{color:var(--maroon);border-color:var(--maroon)}
+  .pill.correlated{color:var(--faint)}
+  .pill.landed{color:var(--tune);border-color:var(--tune);background:var(--tune-bg)}
+  .pill.cancelled{color:var(--update);border-color:var(--update);background:var(--update-bg)}
+  .pill.silent{color:var(--gather);border-color:var(--gather);background:var(--gather-bg)}
+  .pill.pending{color:var(--muted)}
+  .xdel{font-family:var(--mono);font-size:13px;color:var(--faint);cursor:pointer;border:none;background:none;padding:2px 6px}
+  .xdel:hover{color:var(--update)}
+  .addchan{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .addchan input{flex:1 1 160px}
+  .silentnote{font-size:12.5px;color:var(--gather);margin-top:10px;font-style:italic}
+
+  .empty{text-align:center;color:var(--muted);padding:40px 20px;border:1px dashed var(--rule);border-radius:var(--radius);margin-top:22px}
+  .empty b{color:var(--ink);font-family:var(--serif);font-size:17px;display:block;margin-bottom:6px}
+  footer{font-family:var(--mono);font-size:11px;color:var(--faint);margin:30px 0 40px;line-height:1.7;border-top:1px solid var(--line);padding-top:14px}
+</style>
+
+<div class="wrap">
+  <div class="head">
+    <div class="wordmark"><b>ARCS</b> &middot; Conviction Ledger</div>
+    <div class="meta" id="stamp"></div>
+  </div>
+
+  <h1>Is it the note, or the tuning?</h1>
+  <p class="stand">Turn "it hasn't landed" from a feeling into a count you can trust. For each live bet, name the
+  fundamental, pre-register the falsifier, and log where you sampled &mdash; tagged correlated or orthogonal.
+  The verdict computes itself, so fear can't move the threshold and attachment can't hide the evidence.</p>
+
+  <div class="legend">
+    <div class="lg gather"><b>Gather orthogonal</b><span>Only correlated samples. N=1 in disguise. Get uncorrelated signal before judging.</span></div>
+    <div class="lg hold"><b>Hold</b><span>Accumulating toward K, not there yet. Keep sampling orthogonally.</span></div>
+    <div class="lg tune"><b>Hold &amp; tune</b><span>It rings on an orthogonal channel. Not a truth problem &mdash; a register or Kairos one.</span></div>
+    <div class="lg update"><b>Update</b><span>K orthogonal channels cancelled. The falsifier tripped. Change the fundamental.</span></div>
+  </div>
+
+  <div class="addbet">
+    <div class="row">
+      <div class="f-name"><label>Bet (short name)</label><input id="b-name" placeholder="e.g. Coaching wedge"></div>
+      <div class="f-k"><label>Falsifier K</label><input id="b-k" type="number" min="1" value="3"></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <div class="f-fund"><label>The fundamental (the note you're sending)</label><textarea id="b-fund" placeholder="The one invariant claim this bet rests on. Hold this; tune everything else."></textarea></div>
+      <button class="btn" id="add-bet">Add bet</button>
+    </div>
+  </div>
+
+  <div id="bets" class="bets"></div>
+  <div id="empty" class="empty" style="display:none"><b>No bets yet</b>The ledger is empty. Add your first bet above &mdash; the note you keep sending that you're not sure is landing.</div>
+
+  <footer>
+    Verdict logic: any orthogonal channel LANDED &rarr; hold &amp; tune (it's a tuning/Kairos problem, not the note). Else K+ orthogonal CANCELLED &rarr; update. Else no orthogonal samples yet &rarr; gather. Else &rarr; hold.<br>
+    Silence is not disconfirmation &mdash; silent channels never count as cancels; they flag an unmeasured read-back. Saved locally in this browser.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="arcs-conviction-ledger-v1";
+  var TYPES=["orthogonal","correlated"];
+  var OUT=["pending","landed","cancelled","silent"];
+  var uid=function(){return Math.random().toString(36).slice(2,9)};
+  var bets=[];
+  try{ var raw=localStorage.getItem(KEY); if(raw) bets=JSON.parse(raw)||[]; }catch(e){}
+  if(!bets.length){
+    bets=[{id:uid(),name:"Coaching wedge (example)",fund:"ARCS lands first as a Call Resonance Read — a coaching exoskeleton, not a dashboard.",k:3,
+      channels:[
+        {id:uid(),name:"Robin (Zensai, CBO)",type:"orthogonal",out:"landed"},
+        {id:uid(),name:"3 cold LinkedIn DMs, same pitch",type:"correlated",out:"silent"},
+        {id:uid(),name:"Todd (PRL, ops buyer)",type:"orthogonal",out:"pending"}
+      ]}];
+  }
+  var save=function(){ try{localStorage.setItem(KEY,JSON.stringify(bets));}catch(e){} };
+
+  function verdict(bet){
+    var orth=bet.channels.filter(function(c){return c.type==="orthogonal";});
+    var cancels=orth.filter(function(c){return c.out==="cancelled";}).length;
+    var lands=orth.filter(function(c){return c.out==="landed";}).length;
+    var silent=bet.channels.filter(function(c){return c.out==="silent";}).length;
+    var v;
+    if(lands>0) v={k:"tune",t:"Hold & tune",why:"It rings on an orthogonal channel. The fundamental is fine; the register or the timing is off."};
+    else if(cancels>=bet.k) v={k:"update",t:"Update",why:cancels+" orthogonal cancels ≥ K="+bet.k+". The falsifier tripped. Change the note."};
+    else if(orth.length===0) v={k:"gather",t:"Gather orthogonal",why:"Only correlated samples. That's N=1 wearing a costume. Get uncorrelated signal."};
+    else v={k:"hold",t:"Hold",why:cancels+"/"+bet.k+" orthogonal cancels. Accumulating, not there. Keep sampling."};
+    v.silent=silent; return v;
+  }
+
+  function render(){
+    var host=document.getElementById("bets");
+    document.getElementById("empty").style.display=bets.length?"none":"block";
+    host.innerHTML="";
+    bets.forEach(function(bet){
+      var v=verdict(bet);
+      var el=document.createElement("div"); el.className="bet"; el.dataset.bet=bet.id;
+      var chans=bet.channels.map(function(c){
+        return '<div class="chan" data-ch="'+c.id+'">'
+          +'<span class="cn">'+esc(c.name)+'</span>'
+          +'<span class="pill '+c.type+'" data-act="type">'+c.type+'</span>'
+          +'<span class="pill '+c.out+'" data-act="out">'+c.out+'</span>'
+          +'<button class="xdel" data-act="delch" title="remove">✕</button></div>';
+      }).join("");
+      el.innerHTML=
+        '<div class="bet-top"><div>'
+          +'<p class="bet-name">'+esc(bet.name)+'</p>'
+          +'<p class="bet-fund">'+esc(bet.fund)+'</p>'
+          +'<div class="bet-k">Falsifier &middot; hold until <b>K='+bet.k+'</b> orthogonal cancels</div>'
+        +'</div><div class="verdict">'
+          +'<span class="vbadge '+v.k+'">'+v.t+'</span>'
+          +'<div class="vwhy">'+esc(v.why)+'</div>'
+        +'</div></div>'
+        +'<div class="chan-wrap"><div class="chan-lab">Channels sampled &middot; click a pill to cycle</div>'
+          +chans
+          +'<div class="addchan"><input placeholder="channel (who / where you sent it)" data-in="ch"><button class="btn sm ghost" data-act="addch">+ channel</button>'
+          +'<button class="btn sm ghost" data-act="delbet" style="margin-left:auto">delete bet</button></div>'
+          +(v.silent?'<div class="silentnote">'+v.silent+' channel'+(v.silent>1?'s':'')+' silent — silence is not a cancel. Get a read-back before you count it.</div>':'')
+        +'</div>';
+      host.appendChild(el);
+    });
+  }
+  function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];});}
+  function findBet(id){return bets.filter(function(b){return b.id===id;})[0];}
+
+  document.getElementById("add-bet").addEventListener("click",function(){
+    var n=document.getElementById("b-name").value.trim();
+    var f=document.getElementById("b-fund").value.trim();
+    var k=Math.max(1,parseInt(document.getElementById("b-k").value,10)||3);
+    if(!n){document.getElementById("b-name").focus();return;}
+    bets.unshift({id:uid(),name:n,fund:f||"(fundamental not yet named)",k:k,channels:[]});
+    document.getElementById("b-name").value="";document.getElementById("b-fund").value="";
+    save();render();
+  });
+
+  document.getElementById("bets").addEventListener("click",function(e){
+    var act=e.target.getAttribute("data-act"); if(!act) return;
+    var betEl=e.target.closest("[data-bet]"); var bet=findBet(betEl.dataset.bet); if(!bet) return;
+    if(act==="delbet"){ bets=bets.filter(function(b){return b.id!==bet.id;}); save();render(); return; }
+    if(act==="addch"){
+      var inp=betEl.querySelector('[data-in="ch"]'); var val=inp.value.trim(); if(!val){inp.focus();return;}
+      bet.channels.push({id:uid(),name:val,type:"orthogonal",out:"pending"}); save();render(); return;
+    }
+    var chEl=e.target.closest("[data-ch]"); if(!chEl) return;
+    var ch=bet.channels.filter(function(c){return c.id===chEl.dataset.ch;})[0]; if(!ch) return;
+    if(act==="delch"){ bet.channels=bet.channels.filter(function(c){return c.id!==ch.id;}); }
+    else if(act==="type"){ ch.type=TYPES[(TYPES.indexOf(ch.type)+1)%TYPES.length]; }
+    else if(act==="out"){ ch.out=OUT[(OUT.indexOf(ch.out)+1)%OUT.length]; }
+    save();render();
+  });
+
+  try{ document.getElementById("stamp").textContent="local ledger · "+bets.length+" live bet"+(bets.length===1?"":"s"); }catch(e){}
+  render();
+})();
+</script>
