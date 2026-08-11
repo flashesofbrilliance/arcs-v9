@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // forge.arcs.care → public/forge-pattern.html (counterpart-forge design pattern; pseudonymized/redacted, public, ungated)
         { source: "/:path*", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
+        // rayan.arcs.care → public/rayan.html (Rayan Saleh / Periscope one-door; real name, pw-gated "rayan", noindex)
+        { source: "/:path*", destination: "/rayan.html", has: [{ type: "host", value: "rayan.arcs.care" }] },
         // omakase.arcs.care → public/omakase/ (一夜 One Evening — Louisville canon site, Gospel XXIV; open, no gate)
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
         // L3 · the atom story (tea-house room off the cellar) — extensionless on the omakase host
