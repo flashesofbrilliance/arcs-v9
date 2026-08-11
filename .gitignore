@@ -87,3 +87,6 @@ operators/_torch_distillation_artifacts/
 .mcp.json
 supabase/
 test-results/
+
+# Generated tier-router / watcher ledgers (runtime audit output, not source)
+_INBOX/*.jsonl
