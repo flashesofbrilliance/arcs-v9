@@ -1,26 +1,24 @@
-# ARCS session state — sprint snapshot
+# ARCS Session State — v3.32.0 (2026-08-11)
 
-_Updated 2026-08-10 (handoff v3.29.0). The Yuri suite is SENT. Nothing pending on our side._
+## Just shipped
+- **Model-tier router (ADR-047)** — `scripts/model_tier_router.py`. Stdlib heuristic classifier that
+  RECOMMENDS Haiku/Sonnet/Opus by reversibility × value. Same shape as the watcher family.
+  Ruin-floor guardrail (never downgrade irreversible work); NOTOMATION (recommend, never switch).
+  10/10 self-test. Commits `efcb386` (router+ADR) + `c61d948` (index), pushed.
+- Locked the operating principle to memory: `[[model-tier-routing-locked-principle]]`.
+- Full `/consolidate-memory` pass — index re-filed + trimmed to 136 lines, reconciles clean.
 
-## Shipped this session (and SENT)
-- **Yuri family SENT 2026-08-10.** Zach tweaked + sent the Gmail (to siryuri@, subj "How to read the thing
-  I sent, and who it's for") pointing to yuri.arcs.care, after replacing the stale draft that carried the
-  false model-agnostic claim. Ball in Yuri's court.
-- **Final structure (live, ungated):** warm two-link one-door — before/after (codex, "start here") +
-  diamond ("the call, moment by moment, a read, not the machine"). The machine (scored closed-loop +
-  "file your own bet" = the RECEIPT) chained off the codex close. Profile redacted. Hero opens in his terms.
-- **False model-agnostic claim killed + machine-gated** (ADR-044 `temporal_provenance` gate; caught a 2nd
-  instance on Robin). ARCS runs on Claude today; internal version could run on Gemini (never present-fact).
-- **Four gauntlets survived** (lens/register/transcript/persona x2); 2nd persona gauntlet healed the
-  diamond-onenum self-contradiction, receipt over-anchor, codex condescension, org/VC ladder, over-disclaim.
-- **Captured:** ADR-044; `_STATE/2026-08-10-session-decisions.dewy.json` (5 DEWY receipts); memories.
+## Branch / deploy
+- Branch: `claude/kind-grothendieck-fd2df4`, in sync with origin.
+- No product code / no `next.config.ts` touched → no build triggered.
+- Optional: open a PR from this branch.
 
-## Open
-NONE pending on our side. When Yuri replies: his read on positioning/GTM, Agentum, part-two/GCP, portable
-diligence/M&A. Keep replies short + concrete. See [[project_yuri_kleban_google]].
+## Carrying forward (not this session's work)
+- Yuri's reply pending — nothing on our side (`[[project_yuri_kleban_google]]`).
+- Todd Sugar sandbox call — gate pending Todd's approval.
 
 ## Blocking
-NONE. Sent; awaiting Yuri.
+NONE.
 
-## Pickup
-`/handoff-pickup` -> `_STATE/snapshot.json` + v3.29.0 in `CLAUDE.md`.
+## Next session
+`/handoff-pickup` — reads `_STATE/snapshot.json` + the latest `# Handoff` block in CLAUDE.md.

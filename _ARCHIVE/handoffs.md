@@ -1,3 +1,59 @@
+<!-- relocated from CLAUDE.md 2026-08-11 on v3.32.0 handoff -->
+# Handoff — v3.31.0 (2026-08-11)
+
+> **Active pickup point.** v3.30.0 relocated to `_ARCHIVE/handoffs.md`. Headline: `/witness`,
+> the live-capture counterpart to `/night-moves`.
+
+## Headline: `/witness` — attest a flash of brilliance at the moment it happens
+
+Zach asked whether a genuine insight mid-conversation deserves a scribe ("can I get a witness —
+the tree did fall, and this is the sound it made"). `/night-moves` (v3.30.0) already covers the
+day; nothing covered the moment.
+
+**Built (ADR-046):**
+- `WORLD.md` → **THE WITNESS** — a new section beside the Drift Sentinel. The behavioral trigger:
+  Claude offers `/witness` unprompted when it notices a principle naming itself, a "wait, that's
+  it," or its own line compressing sharper than the surrounding conversation. Deliberately rare —
+  over-firing means the trigger is mistuned.
+- `.claude/commands/witness.md` — the capture itself. Verbatim quote, timestamp, one honest `y`
+  gut-check (SCRATCH/YELLOW/GREEN). No research, no options-considered, no numbering — the
+  opposite weight of `/dewy-stub`. Appends to `_STATE/witness/<date>.jsonl`.
+
+**The design point:** a witness stub is raw material, not a decision. Promotion to an
+ADR/DEWY/memory is a separate, later, deliberate act — never claim more permanence at capture
+time than the moment earned. Same honesty principle as ADR-044 (temporal-provenance), applied to
+attestation instead of capability claims: reconstructing a "witness" after the fact is the same
+dishonesty as stating aspiration as present fact.
+
+**Proven live, first entry:** `_STATE/witness/2026-08-11.jsonl` — the founding moment itself
+(the "can I get a witness" line), GREEN.
+
+**Not wired into `/night-moves` yet** — intentional. Revisit only after a few days of real
+`/witness` firings show the pattern is worth ingesting into the daily digest.
+
+## Captured (ADRs / receipts / memories)
+- **ADR-046** — Witness Trigger: Live Capture of a Flash of Brilliance. `_DECISIONS/`.
+- **DEWY receipt** — `2026-08-11-witness-trigger-built`, new file
+  `_STATE/2026-08-11-session-decisions.dewy.json`.
+- **Memory** — [[witness-trigger-attest-in-the-moment]]. Also consolidated one orphan into
+  `MEMORY.md`: [[counterpart-pseudonym-key-public-artifacts]].
+
+## Next session starts at
+No blocker from this work. Carrying forward: **Yuri's reply** (nothing pending on our side — see
+[[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint gate
+pending Todd's approval). If `/witness` starts firing, watch for over-triggering — tighten the
+signal in WORLD.md → THE WITNESS if it does.
+
+## Blocking
+NONE.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
+SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
+their SSOT changed (verify with a diff).
+
+---
+
 # ARCS v9 — Handoff Archive (v0.1.0 → v3.5.0)
 
 # Handoff — v3.30.0 (2026-08-10)

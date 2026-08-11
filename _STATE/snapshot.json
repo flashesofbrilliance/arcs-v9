@@ -1,21 +1,11 @@
 {
-  "captured_at": "2026-08-08T20:46:33Z",
+  "captured_at": "2026-08-11T11:08:44Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "696dc19",
-    "head_message": "feat(forge): back-propagate the full pre-send sequence into the canonical pipeline",
+    "head_sha": "f47cdd5",
+    "head_message": "copy(forge): last plain-language swap \u2014 folksonomy 'abductive' \u2192 bottom-up [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "CLAUDE.md",
-      "_ARCHIVE/handoffs.md",
-      "_DECISIONS/index.json",
-      "_STATE/2026-08-10-session-decisions.dewy.json",
-      "_STATE/snapshot.json",
-      ".claude/skills/night-moves/",
-      "_DECISIONS/ADR-045-night-moves-digest-routine.md",
-      "_STATE/night-moves/",
-      "scripts/night_moves_gather.sh"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -62,12 +52,13 @@
     "ADR-031 (secrets inventory + rotation)",
     "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
     "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
-    "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
+    "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)",
+    "ADR-047 DECIDED 2026-08-11 (model-tier routing, GREEN/HIGH/STABLE; scripts/model_tier_router.py)"
   ],
   "nci_counter": 247,
-  "session_summary": "Yuri counterpart family: forge -> 4 gauntlets (lens/register/transcript/persona x2) -> full LinkedIn-thread vibe refit -> SENT 2026-08-10. Final: warm 2-link one-door (before/after codex + diamond-as-a-read); the machine (scored closed-loop + file-your-own-bet = receipt) chained off the codex; profile redacted. False model-agnostic claim killed + machine-gated (ADR-044 temporal_provenance). Gmail draft (had the false claim) replaced with honest version + sent by Zach to siryuri@. Captured: ADR-044, 5 DEWY receipts, memories. Handoff v3.29.0. Ball in Yuri's court.",
-  "next_action": "SENT to Yuri 2026-08-10 (Zach tweaked + sent the Gmail to siryuri@, pointing to yuri.arcs.care). Ball in Yuri's court. NO action pending on our side. When he replies, the live threads: his read on ARCS positioning/GTM, Agentum chat (two builders), part-two/GCP-dogfood, portable diligence/M&A (Purpose Built + ex-UBS partner). Keep replies short + concrete (warm, no-agenda, bite-size, bounces off abstraction).",
-  "blocking": "NONE. Sent; awaiting Yuri.",
+  "session_summary": "Built the model-tier router (ADR-047): scripts/model_tier_router.py, a stdlib heuristic classifier that RECOMMENDS Haiku/Sonnet/Opus by reversibility x value, same shape as the surface/adr_dewy watcher family. Guardrail: ruin/irreversible cues floor at Opus + need human confirm, never downgraded; ambiguity rounds up; NOTOMATION (recommend, never auto-switch). 10/10 self-test + guardrail invariant. Dogfooded on real tasks. Committed efcb386 + index c61d948, pushed. Locked the routing principle to memory [[model-tier-routing-locked-principle]]; ran a full /consolidate-memory pass (re-filed 13 Misc stragglers, dropped 6 dormant job-app pointers from index, files on disk).",
+  "next_action": "No blocker from the router work. Carrying forward: Yuri's reply still pending (nothing on our side, [[project_yuri_kleban_google]]); Todd Sugar sandbox call gate pending Todd's approval. Optional follow-ups on the router: open a PR (branch claude/kind-grothendieck-fd2df4), and/or wire tier recs into the conductor/staff layer (out of scope this session; would flip NOTOMATION posture and need a stronger guardrail proof than a self-test).",
+  "blocking": "NONE.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -191,7 +182,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-11T09:53:32Z",
+  "git_refreshed_at": "2026-08-11T10:50:37Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

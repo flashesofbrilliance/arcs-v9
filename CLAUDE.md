@@ -103,55 +103,54 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.31.0 (2026-08-11)
+# Handoff — v3.32.0 (2026-08-11)
 
-> **Active pickup point.** v3.30.0 relocated to `_ARCHIVE/handoffs.md`. Headline: `/witness`,
-> the live-capture counterpart to `/night-moves`.
+> **Active pickup point.** v3.31.0 relocated to `_ARCHIVE/handoffs.md`. Headline: the **model-tier
+> router** (ADR-047) — recommend Haiku/Sonnet/Opus by reversibility x value, with a ruin-floor guardrail.
 
-## Headline: `/witness` — attest a flash of brilliance at the moment it happens
+## Headline: model-tier router — route by reversibility x value, never downgrade ruin
 
-Zach asked whether a genuine insight mid-conversation deserves a scribe ("can I get a witness —
-the tree did fall, and this is the sound it made"). `/night-moves` (v3.30.0) already covers the
-day; nothing covered the moment.
+Zach wanted to save $$ ASAP by pushing cheap work to cheap models. Built the mechanized form and
+locked the operating principle.
 
-**Built (ADR-046):**
-- `WORLD.md` → **THE WITNESS** — a new section beside the Drift Sentinel. The behavioral trigger:
-  Claude offers `/witness` unprompted when it notices a principle naming itself, a "wait, that's
-  it," or its own line compressing sharper than the surrounding conversation. Deliberately rare —
-  over-firing means the trigger is mistuned.
-- `.claude/commands/witness.md` — the capture itself. Verbatim quote, timestamp, one honest `y`
-  gut-check (SCRATCH/YELLOW/GREEN). No research, no options-considered, no numbering — the
-  opposite weight of `/dewy-stub`. Appends to `_STATE/witness/<date>.jsonl`.
+**Built (ADR-047):**
+- `scripts/model_tier_router.py` — stdlib, zero-dep heuristic classifier, **same shape as the watcher
+  family** (`surface_watch.py` / `adr_dewy_watch.py`: compiled cue lexicons -> score -> recommend,
+  `--self-test` / `--stdin` / `--json` / `--sessions`, dedup JSONL ledger to `_INBOX/` (gitignored)).
+- Routes: routine/deductive/reversible -> **Haiku**; structured-in-guardrails -> **Sonnet**;
+  abductive/high-value/irreversible -> **Opus**.
+- **Guardrail (the whole point):** any ruin/irreversible cue (delete, drop, migration, deploy, prod,
+  payment, auth, secret, publish, send) **floors the rec at Opus + flags `needs_human_confirm`, never
+  downgraded** — even when the task is framed as "quick / just". Ambiguity rounds UP to Sonnet. Ties
+  break toward the more capable tier. NOTOMATION: recommends only, never auto-switches.
+- 10/10 self-test + guardrail invariant assertion. Dogfooded live: building the router itself routed
+  to Sonnet (honest); a typo fix to Haiku; "quick prod redeploy" caught -> Opus.
 
-**The design point:** a witness stub is raw material, not a decision. Promotion to an
-ADR/DEWY/memory is a separate, later, deliberate act — never claim more permanence at capture
-time than the moment earned. Same honesty principle as ADR-044 (temporal-provenance), applied to
-attestation instead of capability claims: reconstructing a "witness" after the fact is the same
-dishonesty as stating aspiration as present fact.
+**The design point:** the cost pressure itself is the ruin vector — the urge to save fast is exactly
+what tempts cutting the corner on the one one-way-door task. The router happily downgrades routine
+work but refuses to downgrade survivability. Locked to memory as a go-forward operating principle:
+[[model-tier-routing-locked-principle]] (governs hand-routing too, not just the script).
 
-**Proven live, first entry:** `_STATE/witness/2026-08-11.jsonl` — the founding moment itself
-(the "can I get a witness" line), GREEN.
+**Not wired into any dispatch layer** — intentional. Wiring tier recs into the conductor/staff layer
+would flip the NOTOMATION posture and needs a stronger guardrail proof than a self-test (noted in ADR-047).
 
-**Not wired into `/night-moves` yet** — intentional. Revisit only after a few days of real
-`/witness` firings show the pattern is worth ingesting into the daily digest.
-
-## Captured (ADRs / receipts / memories)
-- **ADR-046** — Witness Trigger: Live Capture of a Flash of Brilliance. `_DECISIONS/`.
-- **DEWY receipt** — `2026-08-11-witness-trigger-built`, new file
-  `_STATE/2026-08-11-session-decisions.dewy.json`.
-- **Memory** — [[witness-trigger-attest-in-the-moment]]. Also consolidated one orphan into
-  `MEMORY.md`: [[counterpart-pseudonym-key-public-artifacts]].
+## Captured (ADRs / memories)
+- **ADR-047** — Model-Tier Routing by Reversibility x Value. `_DECISIONS/`, indexed in `index.json`.
+- **Memory** — [[model-tier-routing-locked-principle]] (feedback, LOCKED). Ran a full
+  `/consolidate-memory` pass: re-filed the 13 "Misc" stragglers into real sections, dropped 6 dormant
+  July job-app pointers from the index (files kept on disk), index now 136 lines, reconciles clean.
 
 ## Next session starts at
-No blocker from this work. Carrying forward: **Yuri's reply** (nothing pending on our side — see
-[[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint gate
-pending Todd's approval). If `/witness` starts firing, watch for over-triggering — tighten the
-signal in WORLD.md → THE WITNESS if it does.
+No blocker from this work. Optional router follow-ups: open a PR (branch
+`claude/kind-grothendieck-fd2df4`), or wire recs into the staff layer (out of scope; see caveat above).
+Carrying forward: **Yuri's reply** (nothing pending on our side, [[project_yuri_kleban_google]]);
+Todd's Sugar sandbox call gate pending Todd's approval.
 
 ## Blocking
 NONE.
 
 ## Deploy note
-Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
-SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
-their SSOT changed (verify with a diff).
+This session touched only `scripts/`, `_DECISIONS/`, `_STATE/`, `.gitignore`, and `~/.claude/` memory
+— no `next.config.ts`, no product code, so no build triggered. Commits `efcb386` + `c61d948` already
+pushed to `origin/claude/kind-grothendieck-fd2df4`. Content-only pushes from `main-wt2` with
+`git push --no-verify` per prior convention; SSOT/script/doc changes are build-excluded or harmless.
