@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
       beforeFiles: [
         // forge.arcs.care → public/forge-pattern.html (counterpart-forge design pattern; pseudonymized/redacted, public, ungated)
         { source: "/:path*", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
+        // forge-cut.arcs.care → public/forge-cut.html (the deep cut / four-cores view; pseudonymized/redacted, public, ungated; uplinks to forge.arcs.care)
+        { source: "/:path*", destination: "/forge-cut.html", has: [{ type: "host", value: "forge-cut.arcs.care" }] },
         // rayan.arcs.care → public/rayan.html (Rayan Saleh / Periscope one-door; real name, pw-gated "rayan", noindex)
         { source: "/:path*", destination: "/rayan.html", has: [{ type: "host", value: "rayan.arcs.care" }] },
         // omakase.arcs.care → public/omakase/ (一夜 One Evening — Louisville canon site, Gospel XXIV; open, no gate)
