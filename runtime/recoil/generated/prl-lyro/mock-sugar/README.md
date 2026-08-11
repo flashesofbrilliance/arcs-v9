@@ -12,6 +12,14 @@ docker compose up --build          # -> http://localhost:8090
 ```
 Or without Docker: `python3 server.py` (needs nothing but Python 3).
 
+## One-command smoke (no Docker needed)
+```
+./dev-smoke.sh
+```
+Boots the mock, runs `deliver_smoke.py` (OAuth + Create-Lead across branches A/B/C + the failure modes:
+missing-required → 400, abbreviation/email → warnings, no-auth → 401), tears down, exits non-zero on any fail.
+Run it before wiring the real sandbox — it proves the whole delivery loop off-cloud.
+
 ## What it enforces (mirrors the live-instance audit)
 - Required: `account_name`, `first_name`, `last_name`, `phone_work`, `lead_source`, `location_c` → **400** if any missing.
 - `email` supplied without `email1` → warned (Leads have no `email` column; write to `email1`).
