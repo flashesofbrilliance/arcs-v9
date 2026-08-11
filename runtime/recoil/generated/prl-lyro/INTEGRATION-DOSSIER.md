@@ -1,3 +1,4 @@
+<!-- docset: 2026-08-11-postcall.1 · canonical (S1). Registry: SUGAR-DOCS-MANIFEST.md -->
 # PRL Resins — Lead-Capture System Integration Dossier
 
 _2026-08-11 · The formal, full-depth single source of truth for the PRL lead-capture system across all six

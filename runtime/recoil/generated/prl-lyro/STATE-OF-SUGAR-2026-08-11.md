@@ -12,6 +12,15 @@ here is new analysis; it is the scattered truth pulled into one place so the cal
 
 ---
 
+> **⚠ POST-CALL UPDATE (docset 2026-08-11-postcall.1).** This brief was written pre-call. The Aug-11 SugarAI
+> call superseded several items — see `2026-08-11-todd-sugar-recoil-close.md` and `INTEGRATION-DOSSIER.md` §0.
+> Deltas: sandbox → **clean-slate net-new tenant**; access → **scoped API key, not admin**; integration is
+> **out of standard support scope** → SugarCare/PS; enrichment → **reuse existing ZoomInfo bidirectional**;
+> **Mailgun confirmed in the live stack**; contacts Sebastian/Alberto/Long; **immediate blocker = API-permission
+> scoping**. Read the sections below as pre-call context; the recoil + dossier §0 are current.
+
+---
+
 ## 0. The one thing
 
 This sandbox is the gate for **1.1's 5th layer** (verify a real test lead is received, complete, in Sugar)
