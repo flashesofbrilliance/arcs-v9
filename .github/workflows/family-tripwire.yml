@@ -1,0 +1,38 @@
+name: Family Tripwire (prospect-safety gate)
+
+# PR-time drift detector for the public arcs.care front-ends. Grep-only, no
+# browser, seconds to run. Blocks merge if an internal-only fact (a real
+# counterpart name, a dead claude.ai/code link, or insider repo jargon) leaks
+# onto a prospect-facing page in public/. This is the cheap first gate; the
+# live interactive E2E (tests/family.spec.ts) runs post-deploy in
+# deploy-verify.yml, where a failure rolls back + opens an Issue (the receipt).
+#
+# Why a gate and not a lint: a prospect-safety leak is an architecture-decay
+# event (the internal↔external air-gap eroding by neglect). Catching it at the
+# PR is the stitch-in-time; the blocked merge is the receipt that teaches.
+
+on:
+  pull_request:
+    paths:
+      - "public/**"
+      - "next.config.ts"
+      - "scripts/tripwire.sh"
+      - ".github/workflows/family-tripwire.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  tripwire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run prospect-safety tripwire on the PR's changed public pages
+        run: |
+          base='${{ github.event.pull_request.base.sha }}'
+          files=$(git diff --name-only "$base"...HEAD -- 'public/*.html' | tr '\n' ' ')
+          if [ -z "$files" ]; then echo "no public/*.html changed in this PR — nothing to gate"; exit 0; fi
+          echo "gating changed pages: $files"
+          bash scripts/tripwire.sh $files
