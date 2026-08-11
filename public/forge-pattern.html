@@ -1,0 +1,528 @@
+<style>
+  /* ================================================================
+     ARCS · Counterpart-Forge · The invariant beneath the polyform
+     A core sample, read as a log: descend from the headless surface
+     through the CLI strata to the invariant shape, then watch it pump
+     back out. Canonical WORLD.md tokens. Deliberately single-theme:
+     the ARCS field-OS is a dark instrument world.
+     Impeccable: no em-dashes, no colored side-tab rails, canonical tokens.
+     ================================================================ */
+  :root{
+    color-scheme: dark;
+    --bg:#020408; --deep:#01050b; --surface:#0d1117; --surface2:#0a0f16;
+    --elevated:#121820; --border:#1e293b; --border2:#131b28;
+    --text:#e2e8f0; --muted:#64748b; --dimmed:#475569;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
+    --cyan-bg:rgba(0,240,255,.07); --gold-bg:rgba(255,215,0,.07);
+    --cyan-line:rgba(0,240,255,.30); --gold-line:rgba(255,215,0,.30);
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(120% 60% at 50% -8%, #061019 0%, var(--bg) 46%, var(--deep) 100%)}
+  ::selection{background:rgba(0,240,255,.22);color:#fff}
+  a{color:var(--cyan);text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+
+  /* ---- ONE lane, ONE left edge for every section (kills the uneven-left bug) ---- */
+  .lane{max-width:940px;margin:0 auto;padding:0 24px}
+
+  /* ---- shared type ---- */
+  .ey{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--dimmed)}
+  .ey b{color:var(--cyan)}
+  h1{font-weight:800;letter-spacing:-.03em;line-height:1.02;font-size:clamp(40px,8vw,82px);text-wrap:balance}
+  h2{font-weight:750;letter-spacing:-.02em;line-height:1.12;font-size:clamp(23px,3.4vw,33px);text-wrap:balance}
+  h3{font-weight:700;letter-spacing:-.01em;font-size:17px;line-height:1.28}
+  p{color:#b7c2d0}
+  /* ledes span the full lane, same width as their heading (page-wide rule) */
+  .lede{font-size:clamp(15.5px,1.6vw,17.5px);color:#aeb9c7;max-width:none;line-height:1.62}
+  .mono{font-family:var(--mono)}
+
+  /* ---- the depth log (inline dateline; fidelity sharpens with depth) ---- */
+  .log{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;
+    font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dimmed)}
+  .log .dot{width:9px;height:9px;border-radius:50%;background:currentColor;flex:none;
+    box-shadow:0 0 0 3px rgba(255,255,255,.03)}
+  .log .fi{color:var(--dimmed);font-weight:600}
+  .log.f0{color:#3b465a;opacity:.85} .log.f1{color:#4a586c} .log.f2{color:var(--muted)}
+  .log.f3{color:var(--cyan)} .log.f3 .fi{color:#5fb9c4}
+
+  /* ================= HERO ================= */
+  .hero{position:relative;padding:100px 0 30px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;z-index:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='150' height='150' filter='url(%23n)' opacity='0.55'/></svg>");
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 74%);
+    mask-image:linear-gradient(180deg,#000 0%,transparent 74%)}
+  .hero > *{position:relative;z-index:1}
+  .hero h1{margin:20px 0 0}
+  .hero h1 .flip{color:var(--gold)}
+  .hero .lede{margin-top:22px;max-width:none}
+  .hero .thesis{margin-top:14px;font-size:15px;color:var(--muted);max-width:none;line-height:1.6}
+  .hero .thesis b{color:#9fb0c0;font-weight:600}
+
+  /* the invariant glyph, drawn once, reused at the core */
+  .glyph{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;
+    font-weight:700;letter-spacing:.03em;border:1px solid var(--border);border-radius:999px;
+    padding:9px 15px;background:var(--surface2);color:var(--text)}
+  .glyph .bet{color:var(--muted)} .glyph .line{color:var(--gold)} .glyph .up{color:var(--cyan)}
+  .glyph .ar{color:var(--dimmed)}
+  .glyphrow{margin-top:30px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .glyphrow .cap{font-family:var(--mono);font-size:11px;color:var(--dimmed);letter-spacing:.02em}
+
+  /* ================= strata ================= */
+  .stratum{padding:46px 0;border-top:1px solid var(--border2)}
+  .stratum .head{display:flex;flex-direction:column;gap:12px}
+  .stratum h2{margin-top:12px}
+  .stratum .lede{margin-top:14px}
+
+  .reveal{opacity:0;transform:translateY(14px);filter:blur(5px);
+    transition:opacity .7s ease,transform .7s ease,filter .7s ease}
+  .reveal.seen{opacity:1;transform:none;filter:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;filter:none;transition:none}
+    .hero::before{display:none}}
+
+  /* SURFACE outcrops */
+  .outcrops{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;margin-top:24px}
+  @media(min-width:760px){.outcrops{grid-template-columns:repeat(4,1fr)}}
+  .outc{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:16px}
+  .outc .nm{font-weight:750;font-size:15px;letter-spacing:-.01em}
+  .outc .co{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--dimmed);margin-top:3px}
+  .outc .shape{margin-top:12px;font-size:12.5px;color:var(--muted);line-height:1.46}
+  .outc .st{margin-top:13px;display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:6px;
+    border:1px solid var(--border);color:var(--dimmed)}
+  .outc.sent .st{color:var(--green);border-color:rgba(0,255,157,.3)}
+  .outc.master .st{color:var(--cyan);border-color:var(--cyan-line)}
+  .outc.new .st{color:var(--gold);border-color:var(--gold-line)}
+  .exhrow{display:flex;align-items:center;gap:9px}
+  .exh{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--dimmed);
+    border:1px solid var(--border);border-radius:6px;padding:2px 7px;line-height:1.5}
+  .outc.master .exh{color:var(--cyan);border-color:var(--cyan-line)}
+  .outc.sent .exh{color:var(--green);border-color:rgba(0,255,157,.3)}
+  .outc.new .exh{color:var(--gold);border-color:var(--gold-line)}
+  .iter{margin-top:14px;padding-top:12px;border-top:1px solid var(--border2)}
+  .iter .in{font-family:var(--mono);font-size:17px;font-weight:750;color:var(--text);letter-spacing:-.01em;line-height:1;display:block}
+  .iter .il{font-family:var(--mono);font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--dimmed);margin-top:5px;display:block;line-height:1.45}
+
+  /* the compounding curve */
+  .curve{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:end;margin:24px 0 4px;
+    padding:20px 20px 16px;border:1px solid var(--border);border-radius:12px;background:var(--surface);height:210px}
+  .cbar{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:9px}
+  .cbar .bar{width:100%;max-width:70px;border-radius:6px 6px 0 0;border:1px solid var(--border);border-bottom:none}
+  .cbar.a .bar{background:linear-gradient(180deg,rgba(0,240,255,.22),rgba(0,240,255,.04));border-color:var(--cyan-line)}
+  .cbar.b .bar{background:linear-gradient(180deg,rgba(0,255,157,.20),rgba(0,255,157,.04));border-color:rgba(0,255,157,.3)}
+  .cbar.c .bar,.cbar.d .bar{background:linear-gradient(180deg,rgba(255,215,0,.20),rgba(255,215,0,.04));border-color:var(--gold-line)}
+  .cbar .cn{font-family:var(--mono);font-size:15px;font-weight:750;color:var(--text);line-height:1}
+  .cbar .cl{font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--dimmed);line-height:1.4;text-align:center}
+  .cbar .cx{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+
+  /* the serialized timeline */
+  .tl{list-style:none;margin-top:26px}
+  .tlrow{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--border2)}
+  @media(max-width:640px){.tlrow{grid-template-columns:1fr;gap:6px}}
+  .tlrow .when{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--muted);line-height:1.5}
+  .tlrow .when .par{display:block;margin-top:5px;font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.1em}
+  .tlrow .what h3{font-size:15.5px;line-height:1.3}
+  .tlrow.exhibit .what h3{color:#fff}
+  .badge{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.08em;border-radius:6px;
+    padding:2px 8px;margin-right:10px;white-space:nowrap}
+  .tlrow.a .badge{color:var(--cyan);border:1px solid var(--cyan-line)}
+  .tlrow.b .badge{color:var(--green);border:1px solid rgba(0,255,157,.3)}
+  .tlrow.cd .badge{color:var(--gold);border:1px solid var(--gold-line)}
+  .tlrow .what p{font-size:13px;color:#a6b2c0;margin-top:8px;line-height:1.56}
+  .tlrow .banked{margin-top:10px;font-family:var(--mono);font-size:10px;color:var(--dimmed);letter-spacing:.02em;line-height:1.7}
+  .tlrow .banked b{color:var(--muted);font-weight:700}
+  .deepcut{display:inline-block;margin-top:26px;font-family:var(--mono);font-size:12px;font-weight:700;
+    letter-spacing:.03em;color:var(--cyan);border:1px solid var(--cyan-line);border-radius:10px;
+    padding:13px 18px;background:var(--cyan-bg);transition:background .15s ease,border-color .15s ease}
+  .deepcut:hover{background:rgba(0,240,255,.13);border-color:var(--cyan)}
+  .deepcut .dcx{color:var(--dimmed);font-weight:600}
+
+  /* the A/B drill */
+  .drill{display:grid;gap:14px;margin-top:22px}
+  @media(min-width:800px){.drill{grid-template-columns:1fr 1fr}}
+  .term{border:1px solid var(--border);border-radius:12px;background:#05090f;overflow:hidden;
+    font-family:var(--mono);font-size:12.5px;line-height:1.7}
+  .term .bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid var(--border);
+    background:var(--surface2)}
+  .term .d{width:9px;height:9px;border-radius:50%;background:#23303f}
+  .term .who{margin-left:6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmed)}
+  .term.narrator .who b{color:var(--cyan)} .term.mckbox .who b{color:var(--gold)}
+  .term .body{padding:14px 16px;overflow-x:auto}
+  .term pre{white-space:pre;color:#c6d2e0}
+  .term .fl{color:var(--cyan)} .term .val{color:var(--gold)} .term .cm{color:var(--dimmed)}
+
+  /* divergence table */
+  .tblwrap{overflow-x:auto;margin-top:22px;border:1px solid var(--border);border-radius:12px}
+  table{border-collapse:collapse;width:100%;min-width:580px;font-size:13.5px}
+  th,td{text-align:left;padding:13px 16px;vertical-align:top;border-bottom:1px solid var(--border2)}
+  thead th{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--dimmed);background:var(--surface2)}
+  tbody th{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--muted);
+    text-transform:uppercase;white-space:nowrap}
+  td{color:#cdd8e4}
+  tr:last-child td,tr:last-child th{border-bottom:none}
+  tr.spine{background:linear-gradient(90deg,var(--cyan-bg),transparent 82%)}
+  tr.spine th{color:var(--cyan)} tr.spine td{color:#d7e2ee}
+  .caption{font-family:var(--mono);font-size:10px;color:var(--dimmed);letter-spacing:.05em;margin-top:12px;line-height:1.7}
+
+  /* strata layers */
+  .layers{display:grid;gap:12px;margin-top:22px}
+  .layer{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:start;
+    border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:16px 18px}
+  @media(max-width:640px){.layer{grid-template-columns:1fr;gap:8px}}
+  .layer .lk{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .layer .lk .sub{display:block;margin-top:4px;font-size:9px;letter-spacing:.06em;color:var(--dimmed);font-weight:600}
+  .layer.var .lk{color:var(--gold)} .layer.inv .lk{color:var(--cyan)}
+  .layer p{font-size:13.5px;color:#aab6c4}
+  .layer p code{font-family:var(--mono);font-size:12px;color:var(--text);background:var(--surface2);
+    padding:1px 6px;border-radius:5px;border:1px solid var(--border2)}
+  .legend{display:flex;gap:24px;flex-wrap:wrap;margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legend .sw{display:inline-block;width:20px;height:3px;border-radius:2px;vertical-align:middle;margin-right:8px}
+
+  /* the core */
+  .coreband{border:1px solid var(--cyan-line);border-radius:16px;margin-top:22px;padding:30px 26px 28px;
+    background:radial-gradient(120% 140% at 50% 0%, rgba(0,240,255,.06), transparent 58%),var(--surface2)}
+  .coreband h2{color:#fff}
+  .coreband .glyph{font-size:12.5px;padding:11px 18px;margin-top:18px}
+  .ladder{margin-top:24px}
+  .rung{display:grid;grid-template-columns:158px 1fr;gap:18px;align-items:baseline;padding:13px 0;
+    border-top:1px solid var(--border2)}
+  @media(max-width:640px){.rung{grid-template-columns:1fr;gap:3px;padding:11px 0}}
+  .rung .sc{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan)}
+  .rung .sc .z{color:var(--dimmed);display:block;font-size:9px;margin-top:3px;letter-spacing:.06em}
+  .rung .bd{font-size:14px;color:#bcc7d4}
+  .rung .bd em{color:var(--gold);font-style:normal;font-family:var(--mono);font-size:12.5px}
+
+  /* the three motions (the core is a pump) */
+  .motions{padding:52px 0 6px;border-top:1px solid var(--border2)}
+  .motions h2{color:#fff;margin-top:12px}
+  .mgrid{display:grid;gap:14px;margin-top:26px}
+  @media(min-width:760px){.mgrid{grid-template-columns:repeat(3,1fr)}}
+  .m{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:22px 20px}
+  .m .mg{font-family:var(--mono);font-size:34px;line-height:1;font-weight:700}
+  .m.ladder .mg{color:var(--cyan)} .m.cascade .mg{color:var(--gold)} .m.spiral .mg{color:var(--green)}
+  .m .mk{margin-top:15px;font-weight:750;font-size:18px;letter-spacing:-.01em}
+  .m .mt{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dimmed);margin-top:3px}
+  .m p{font-size:13px;color:#a6b2c0;margin-top:13px;line-height:1.56}
+  .m p b{color:#cdd8e4;font-weight:600}
+
+  /* capstone: positioning lightning rod + null->OM->infinite + the vision */
+  .capstone{padding:58px 0 8px;border-top:1px solid var(--border2)}
+  .capstone h2{color:#fff;margin-top:12px;font-size:clamp(27px,4.2vw,42px)}
+  .capstone .lede{margin-top:18px}
+  .triad{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:16px;align-items:start;margin:30px 0;
+    padding:24px 22px;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
+  @media(max-width:720px){.triad{grid-template-columns:1fr;gap:14px}.tsep{display:none}}
+  .tp{display:flex;flex-direction:column;gap:9px}
+  .tp .tk{font-family:var(--mono);font-size:23px;font-weight:750;letter-spacing:.02em;line-height:1}
+  .triad .tp:nth-child(1) .tk{color:var(--muted)}
+  .triad .tp:nth-child(3) .tk{color:var(--gold)}
+  .triad .tp:nth-child(5) .tk{color:var(--cyan)}
+  .tp .tv{font-size:12.5px;color:#9fabb9;line-height:1.5}
+  .tsep{font-family:var(--mono);color:var(--dimmed);font-size:17px;padding-top:4px}
+  .vision{margin-top:8px;font-size:clamp(16px,2vw,20px);color:#dbe4ef;line-height:1.5;font-weight:500;
+    padding-top:22px}
+  .vision::before{content:"";display:block;width:44px;height:2px;margin-bottom:18px;
+    background:linear-gradient(90deg,var(--cyan),var(--gold))}
+  .vision b{color:#fff;font-weight:650}
+
+  /* close */
+  .close{padding:50px 0 26px;border-top:1px solid var(--border2)}
+  .close .card{border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:28px 26px}
+  .close h2{color:#fff;margin-top:12px}
+  .prov{margin-top:22px;border-top:1px solid var(--border2);padding-top:18px;display:grid;gap:12px}
+  .provrow{display:grid;grid-template-columns:104px 1fr;gap:16px;align-items:baseline}
+  @media(max-width:560px){.provrow{grid-template-columns:1fr;gap:3px}}
+  .provrow dt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .provrow dd{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--dimmed)}
+  .footline{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dimmed);padding:34px 0 46px}
+</style>
+
+<div class="lane">
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="ey">ARCS &middot; COUNTERPART-FORGE &middot; <b>DESIGN PATTERN</b></div>
+    <h1>The invariant beneath<br>the <span class="flip">polyform</span>.</h1>
+    <p class="lede">One CLI turns one call into a family of artifacts. Every counterpart gets a different
+      surface, and they are all the same shape underneath. This is how that works, and why it holds.</p>
+    <p class="thesis">Conventional wisdom says pick a lane: this or that, singular, blinders on. ARCS calls
+      that a false premise. The point is not to compose many pieces but to find the one
+      <b>invariant, self-similar shape</b> at the core of the many forms, by pattern-matching below the
+      headless upper surface, down through the strata of ground, until the core.</p>
+    <div class="glyphrow">
+      <span class="glyph"><span class="bet">bet</span><span class="ar">&rarr;</span><span class="line">the line that moved it</span><span class="ar">&rarr;</span><span class="up">update</span></span>
+      <span class="cap">the shape, drawn once. it recurses all the way down.</span>
+    </div>
+  </header>
+
+  <!-- ===================== STRATUM 00 · SURFACE ===================== -->
+  <section class="stratum reveal">
+    <div class="head">
+      <span class="log f0"><span class="dot"></span>00 m &middot; <span class="fi">surface &middot; grain</span></span>
+      <div class="ey">the headless surface</div>
+    </div>
+    <h2>The surface is a polyform. No two outcrops look alike.</h2>
+    <p class="lede">Four counterparts, four artifact families, built by the same generator on different days.
+      There is no taxonomy up here, no crown, only forms, each shaped to the person in front of it. Read across
+      and they seem unrelated. That is the point of the surface.</p>
+    <div class="outcrops">
+      <div class="outc master">
+        <div class="exhrow"><span class="exh">A</span><span class="nm">Robin Arms</span></div>
+        <div class="co">warm &middot; multi-call</div>
+        <div class="shape">Three calls, warm. Multi-call manifold, receipt studio, belief ledger.</div>
+        <div class="iter"><span class="in">the machine</span><span class="il">forged here &middot; 64 commits</span></div>
+        <div class="st">platinum master</div>
+      </div>
+      <div class="outc sent">
+        <div class="exhrow"><span class="exh">B</span><span class="nm">To Sir With &#10084;</span></div>
+        <div class="co">the belief-flip</div>
+        <div class="shape">One door plus diamond. The before and after he asked to see, four gauntlets deep.</div>
+        <div class="iter"><span class="in">4 gauntlets</span><span class="il">to send-worthy &middot; 61 commits</span></div>
+        <div class="st">sent</div>
+      </div>
+      <div class="outc new">
+        <div class="exhrow"><span class="exh">C</span><span class="nm">The Data Narrator</span></div>
+        <div class="co">data-native</div>
+        <div class="shape">Remediation. A dense first artifact lost him; this one is his one-table shape.</div>
+        <div class="iter"><span class="in">1 board pass</span><span class="il">the gate caught the miss &middot; 25 commits</span></div>
+        <div class="st">remediation</div>
+      </div>
+      <div class="outc new">
+        <div class="exhrow"><span class="exh">D</span><span class="nm">McKinsey in a Box</span></div>
+        <div class="co">world-model peer</div>
+        <div class="shape">First contact. A peer&rsquo;s complementary tool, gated to what runs today.</div>
+        <div class="iter"><span class="in">0 heals</span><span class="il">first-pass clean &middot; this session</span></div>
+        <div class="st">first contact</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THE COMPOUNDING THREAD ===================== -->
+  <section class="stratum reveal">
+    <div class="head">
+      <span class="log f1"><span class="dot"></span>T0 &rarr; T&#8734; &middot; <span class="fi">the build, serialized</span></span>
+      <div class="ey">the compounding thread</div>
+    </div>
+    <h2>Read A to D as a timeline: each exhibit cost the harness less than the last.</h2>
+    <p class="lede">Same generator, learning. Robin Arms&rsquo;s column paid to forge the machine; To Sir With &#10084;&rsquo;s to invent
+      the pre-send gauntlet. By The Data Narrator and McKinsey in a Box the corrections had fallen to almost none, because the patterns,
+      gates, and workflows banked along the way now do the work by construction. This is the zero-point knowledge
+      graph accreting: every receipt an edge, every counterpart a fresh airgapped tenant seeded from the last.</p>
+    <div class="curve" role="img" aria-label="Build effort per exhibit, descending from Robin Arms to McKinsey in a Box">
+      <div class="cbar a"><span class="cn">64</span><div class="bar" style="height:120px"></div><span class="cl">commits</span><span class="cx">A &middot; ROBIN ARMS</span></div>
+      <div class="cbar b"><span class="cn">61</span><div class="bar" style="height:114px"></div><span class="cl">commits &middot; 4 gauntlets</span><span class="cx">B &middot; TO SIR</span></div>
+      <div class="cbar c"><span class="cn">25</span><div class="bar" style="height:47px"></div><span class="cl">commits &middot; 1 pass</span><span class="cx">C &middot; THE DATA NARRATOR</span></div>
+      <div class="cbar d"><span class="cn">~0</span><div class="bar" style="height:12px"></div><span class="cl">heals &middot; 1 session</span><span class="cx">D &middot; McKINSEY IN A BOX</span></div>
+    </div>
+    <ol class="tl">
+      <li class="tlrow"><div class="when">2026-05<span class="par">&#8214; foundation</span></div><div class="what"><h3>The substrate</h3><p>DEWY pipeline, Y-gate, the operator library, ADRs 001 to 024, deny-all RLS, the Observatory, the lattice sim. The ARCS engine, before any counterpart existed.</p><div class="banked"><b>banked:</b> the operators &middot; the manifold &middot; the folksonomy (abductive, headless)</div></div></li>
+      <li class="tlrow"><div class="when">2026-06</div><div class="what"><h3>The recoil report is born</h3><p>The first belief-update artifact, run on a recruiter screen. The idea lands: a call is a serialized belief-flip you can render, from a zero-point start.</p><div class="banked"><b>banked:</b> the recoil SSOT &middot; the first render path</div></div></li>
+      <li class="tlrow exhibit a"><div class="when">2026-08-07</div><div class="what"><h3><span class="badge">EXHIBIT A</span>Robin Arms, the machine is forged</h3><p>The counterpart-forge CLI (SSOT to render), all five surfaces, the Receipt Studio with per-tenant RLS, the inline gates. Building Robin Arms built the machine. The iteration cost was paid once, here.</p><div class="banked"><b>invented:</b> forge_counterpart.py &middot; the studio &middot; SSOT&rarr;render as the law</div></div></li>
+      <li class="tlrow exhibit b"><div class="when">2026-08-07<span class="par">to 08-10</span></div><div class="what"><h3><span class="badge">EXHIBIT B</span>To Sir With &#10084;, the gauntlet ladder</h3><p>The machine met a hard counterpart and the pre-send ladder was invented: four gauntlets, lens then register then primary transcript then persona twice. It caught a false model-agnostic claim on tape.</p><div class="banked"><b>invented:</b> the temporal-provenance gate (ADR-044) &middot; the counterpart-vantage pre-mortem &middot; the earned-fidelity diamond &middot; <b>SENT</b></div></div></li>
+      <li class="tlrow"><div class="when">2026-08-10</div><div class="what"><h3>The pipeline is formalized</h3><p>Back-propagated from To Sir With &#10084;: the /forge nine phases and the reusable counterpart-gauntlet workflow. The tacit sequence became a machine anyone can re-run.</p><div class="banked"><b>banked:</b> the /forge skill &middot; counterpart-gauntlet.js</div></div></li>
+      <li class="tlrow exhibit cd"><div class="when">2026-08-10<span class="par">&#8214; parallel</span></div><div class="what"><h3><span class="badge">EXHIBIT C &#8741; D</span>The Data Narrator &amp; McKinsey in a Box, the harness pays off</h3><p>Both run through the board-of-advisors workflow at once. The Data Narrator&rsquo;s dense first artifact had already failed; the harness&rsquo;s own legibility ethos caught it, so one board pass produced a clean remediation. McKinsey in a Box, net-new, rendered gate-clean on the first pass with zero heals. The harness had learned.</p><div class="banked"><b>invented:</b> the deep-recall board workflow &middot; the invariant-shape thesis &middot; the full-width-lede rule</div></div></li>
+    </ol>
+  </section>
+
+  <!-- ===================== STRATUM 01 · THE DRILL ===================== -->
+  <section class="stratum reveal">
+    <div class="head">
+      <span class="log f1"><span class="dot"></span>01 m &middot; <span class="fi">pattern-match</span></span>
+      <div class="ey">two cores, drilled the same day</div>
+    </div>
+    <h2>Same command. Different <span style="color:var(--gold)">--data</span>. That is the whole trick.</h2>
+    <p class="lede">The Data Narrator and McKinsey in a Box diverge on every visible axis: shape, register, seam, ask. The invocation
+      that renders them is byte-for-byte the same but for the SSOT it points at. The variation lives in the
+      argument. The machine does not move.</p>
+    <div class="drill">
+      <div class="term narrator">
+        <div class="bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="who"><b>THE DATA NARRATOR</b> &middot; remediation</span></div>
+        <div class="body"><pre><span class="cm"># the artifact must BE the legible answer</span>
+python3 scripts/forge_counterpart.py \
+  <span class="fl">--surface</span> <span class="val">onedoor</span> \
+  <span class="fl">--data</span> <span class="val">2026-07-22-narrator-onedoor.json</span> \
+  <span class="fl">--out</span> <span class="val">public/narrator.html</span>
+<span class="cm">GATE onedoor  &rarr; clean</span></pre></div>
+      </div>
+      <div class="term mckbox">
+        <div class="bar"><span class="d"></span><span class="d"></span><span class="d"></span><span class="who"><b>McKINSEY IN A BOX</b> &middot; first contact</span></div>
+        <div class="body"><pre><span class="cm"># same generator, same gates, new surface</span>
+python3 scripts/forge_counterpart.py \
+  <span class="fl">--surface</span> <span class="val">onedoor</span> \
+  <span class="fl">--data</span> <span class="val">2026-07-30-mckbox-onedoor.json</span> \
+  <span class="fl">--out</span> <span class="val">public/mckbox.html</span>
+<span class="cm">GATE onedoor  &rarr; clean</span></pre></div>
+      </div>
+    </div>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>&nbsp;</th><th>The Data Narrator</th><th>McKinsey in a Box</th></tr></thead>
+        <tbody>
+          <tr><th>Shape</th><td>Remediation, fix a proven legibility miss</td><td>First contact, apply the lesson from the start</td></tr>
+          <tr><th>Register</th><td>Data-native peer; one time-series table</td><td>AI-lab engineer; world-model builder; subtractive</td></tr>
+          <tr><th>Seam</th><td>GTM channel, parked behind a this-month taste</td><td>Architecture, the one sliver his loop can&rsquo;t do</td></tr>
+          <tr><th>Ask</th><td>Re-earn one read on a cooling thread</td><td>Symmetric peer exchange, zero deal</td></tr>
+          <tr class="spine"><th>Spine</th><td colspan="2">self-scored belief-flip &nbsp;&middot;&nbsp; one door &nbsp;&middot;&nbsp; verbatim anchors &nbsp;&middot;&nbsp; 20 seconds to the point &nbsp;&middot;&nbsp; Claude-today honesty</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="caption">the four rows above are the polyform, they vary per person &nbsp;/&nbsp; the spine row is the invariant, it never does</p>
+  </section>
+
+  <!-- ===================== STRATUM 02 · THE STRATA ===================== -->
+  <section class="stratum reveal">
+    <div class="head">
+      <span class="log f2"><span class="dot"></span>02 m &middot; <span class="fi">strata &middot; clearing</span></span>
+      <div class="ey">the layers of ground</div>
+    </div>
+    <h2>Drill down and the layers sort into two kinds: what varies, what holds.</h2>
+    <p class="lede">The counterpart lives in the top layer. Every layer beneath it is shared by every counterpart
+      who has ever passed through the forge, the generator&rsquo;s global memory. Variation is confined to the
+      surface. The deeper you go, the more invariant it gets.</p>
+    <div class="layers">
+      <div class="layer var">
+        <div class="lk">Args &middot; SSOT<span class="sub">per counterpart &middot; varies</span></div>
+        <p>The only thing that changes between two runs. <code>--surface</code> picks the form; <code>--data</code>
+          is the one JSON that carries this person&rsquo;s belief-flip, seam, register, and ask. This is the polyform.</p>
+      </div>
+      <div class="layer inv">
+        <div class="lk">Render<span class="sub">shared machinery</span></div>
+        <p>Five surface functions, <code>onedoor</code> · <code>receipt</code> · <code>codex</code> ·
+          <code>diamond</code> · <code>profile</code>, and a fixed block grammar. The same code renders Robin Arms,
+          To Sir With &#10084;, The Data Narrator, McKinsey in a Box. Nobody hand-builds a page.</p>
+      </div>
+      <div class="layer inv">
+        <div class="lk">Gates<span class="sub">the floor &middot; refuses to write</span></div>
+        <p>Three gates run on every render: <code>verify_html</code> for voice and canonical tokens,
+          <code>honesty_and_attribution</code> so every claim is anchored, and <code>temporal_provenance</code>
+          (ADR-044) so no unhedged aspiration ships. ARCS runs on Claude today. Fail one, nothing is written.</p>
+      </div>
+      <div class="layer inv">
+        <div class="lk">Operators &middot; Tokens<span class="sub">the core &middot; global memory</span></div>
+        <p>The board that reads the call (Loki · Bayesian · BAR · SAGE · Kairos, conducted by Operator 20), the
+          one canonical token source (<code>_tokens.css</code>, ADR-009/031), the divergence discipline. This is
+          bedrock. It does not know or care which counterpart is above it.</p>
+      </div>
+    </div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--gold)"></span>varies, the polyform surface</span>
+      <span><span class="sw" style="background:var(--cyan)"></span>invariant, the global-memory core</span>
+    </div>
+  </section>
+
+  <!-- ===================== STRATUM 03 · THE CORE ===================== -->
+  <section class="stratum reveal">
+    <div class="head">
+      <span class="log f3"><span class="dot"></span>&#8734; &middot; <span class="fi">core &middot; crystal</span></span>
+      <div class="ey" style="color:var(--cyan)">the invariant</div>
+    </div>
+    <div class="coreband">
+      <h2>One shape. And it is the same shape at every scale.</h2>
+      <p class="lede" style="color:#c3cede">At the bottom of the core sample there is a single recursive form.
+        File a bet, mark the line that moved it, update. It does not change as you zoom. It is the shape of one
+        row, and the shape of a whole career. That self-similarity is why one generator can hold a polyform
+        without losing itself.</p>
+      <span class="glyph"><span class="bet">bet</span><span class="ar">&rarr;</span><span class="line">the line that moved it</span><span class="ar">&rarr;</span><span class="up">update</span></span>
+      <div class="ladder">
+        <div class="rung"><div class="sc">Atom<span class="z">L0 &middot; signal</span></div><div class="bd">One row of a recoil table: <em>a belief &rarr; a quote &rarr; the posterior.</em></div></div>
+        <div class="rung"><div class="sc">Call<span class="z">L1-L2</span></div><div class="bd">One belief-flip, the receipt. The Data Narrator: <em>&ldquo;I thought you were the customer&rdquo; &rarr; the line &rarr; you&rsquo;re the channel.</em></div></div>
+        <div class="rung"><div class="sc">Relationship<span class="z">L3 &middot; cascade</span></div><div class="bd">T0 to now. The whole arc is one bigger flip made of smaller ones.</div></div>
+        <div class="rung"><div class="sc">Stack<span class="z">L0 to L7</span></div><div class="bd">Atomic signal to global coherence. The same shape, re-run by altitude.</div></div>
+        <div class="rung"><div class="sc">Family<span class="z">the surfaces</span></div><div class="bd">One counterpart&rsquo;s onedoor, codex, diamond: the same read, cut at different depths.</div></div>
+        <div class="rung"><div class="sc">Pipeline<span class="z">gather&rarr;forge&rarr;gauntlet</span></div><div class="bd">The forge itself is a receipt: <em>a bet on the read &rarr; the transcript &rarr; the heal.</em></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THE THREE MOTIONS ===================== -->
+  <section class="motions reveal">
+    <div class="ey">the core is a pump, not a floor</div>
+    <h2>Then it reverses. The shape moves.</h2>
+    <p class="lede">Once you hit the invariant it does not sit there. It ladders up and down scale, cascades back
+      and forth through time, and spirals out to seed the next. The descent finds the shape; the shape is alive.</p>
+    <div class="mgrid">
+      <div class="m ladder">
+        <div class="mg">&#8597;</div>
+        <div class="mk">Ladder</div><div class="mt">scale</div>
+        <p>Read the ladder up or down. <b>Atom to pipeline, pipeline to atom</b>, the shape is the same in either
+          direction, so you can zoom to any altitude without re-learning it.</p>
+      </div>
+      <div class="m cascade">
+        <div class="mg">&#8646;</div>
+        <div class="mk">Cascade</div><div class="mt">time</div>
+        <p>The receipt is temporal. Each posterior <b>seeds the next bet forward</b>; replay scrubs the belief
+          back to any T. Conviction peaks and collapses on a timeline you can walk both ways.</p>
+      </div>
+      <div class="m spiral">
+        <div class="mg">&#8635;</div>
+        <div class="mk">Spiral</div><div class="mt">out</div>
+        <p>The invariant reproduces. Today&rsquo;s synthesized seed becomes tomorrow&rsquo;s SSOT; every
+          counterpart is a fresh <b>airgapped tenant</b> with its own growing folksonomy. The core spirals out
+          and seeds the next surface.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CLOSE ===================== -->
+  <section class="close reveal">
+    <div class="card">
+      <div class="ey">consistency in spite of variation</div>
+      <h2>The args are the polyform. The frameworks are the invariant.</h2>
+      <p class="lede">That is the whole design pattern. One CLI, one operator board, one token source, three
+        gates, carried across every counterpart as global memory, so a new person is never a new machine, only a
+        new argument. The surface is free to be wildly different because the core refuses to be. Pattern-matching
+        below the headless surface, all the way down, is what keeps two artifacts that share nothing on top from
+        sharing anything less than everything underneath.</p>
+      <dl class="prov">
+        <div class="provrow"><dt>Grounded in</dt><dd>McKinsey in a Box (call 2026-07-30) &middot; The Data Narrator (call 2026-07-22, email thread to 2026-08-05).</dd></div>
+        <div class="provrow"><dt>Board</dt><dd>Loki &middot; Bayesian &middot; BAR &middot; SAGE &middot; Kairos, conducted by Operator 20, verified against the primary transcripts.</dd></div>
+        <div class="provrow"><dt>Honesty</dt><dd>Every seed claim traces to a verbatim line. ARCS runs on Claude today (ADR-044). Nothing here is deployed or sent.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== CAPSTONE · positioning + vision ===================== -->
+  <section class="capstone reveal">
+    <div class="ey">the lightning rod</div>
+    <h2>Conventional wisdom says pick a lane.</h2>
+    <p class="lede">This or that. One thing or another. Singular. Blinders on, swim lanes drawn. ARCS calls
+      that a false premise. The truth is entangled, non-binary, polyform, and the invariant is what lets you
+      hold the many without collapsing to one. You do not choose the lane. You find the shape under all of them.</p>
+    <div class="triad">
+      <div class="tp"><span class="tk">null</span><span class="tv">the zero point. an empty tenant, no priors, no graph yet.</span></div>
+      <div class="tsep">&rarr;</div>
+      <div class="tp"><span class="tk">OM</span><span class="tv">operational meaning, pulled from signal. the invariant shape, the seed edge of the graph.</span></div>
+      <div class="tsep">&rarr;</div>
+      <div class="tp"><span class="tk">&#8734;</span><span class="tv">the recursion that never closes. the semantic abductive graph, accreting.</span></div>
+    </div>
+    <p class="lede">Between them the graph fills with false premises, distortions, non-binary truths. It inches
+      forward under one lock: nothing enters until it is grounded, collisions escalate instead of resolving in
+      the dark. The gates are that lock.</p>
+    <p class="vision"><b>The vision:</b> ARCS finds the carrier, predicts the swell, and helps you trend-surf
+      the momentum of that potential energy, in the most energy-efficient kinetic substrate available at that
+      moment. Everything above is how the machine earns the right to.</p>
+  </section>
+
+  <div class="footline">ARCS &middot; FIELD OS &middot; ONE SHAPE, ANY SCALE</div>
+</div>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion:reduce)').matches){
+      els.forEach(function(e){e.classList.add('seen')}); return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('seen'); io.unobserve(en.target); } });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
