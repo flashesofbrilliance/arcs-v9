@@ -69,38 +69,53 @@ LEADS = [
      "email":"sam@bayline.io","state":"California","market":"OEM"},
 ]
 
-print("="*88)
-print("STAGED LEAD WALK-THROUGH  (DRY-RUN — nothing written to Tidio, Zapier, or SugarCRM)")
-print("="*88)
-for L in LEADS:
-    recog = N.recognize(L["inquiry"])
-    fn, ln = split_name(L["name"])
-    st_abbrev = N.normalize_state(L["state"])
-    desc_route, assignee = route(L["state"])
-    payload = {
-        "first_name": fn, "last_name": ln, "account_name": L["company"],
-        "phone_work": L["phone"], "email1": L["email"],
-        # NOTE: live records use FULL state names (CRM audit) -> write full, keep abbrev as ref
-        "location_c": L["state"], "location_c_abbrev_ref": st_abbrev,
-        "lead_source": "Chatbot", "status": "New",
-        "description": L["inquiry"], "market": L["market"],
-        "assigned_user_hint": assignee,
-        "recognizer": [ {k:v for k,v in m.items() if k in ("type","prl_grade","family_name","brand")} for m in recog ],
-        "source_url": "https://prlresins.com/products/", "captured_at": "<stamped at write>",
-    }
-    print(f"\n### {L['scenario']}")
-    print(f"Visitor said: \"{L['inquiry']}\"")
-    print(f"BOT DECISION: {governed_reply(recog, L['inquiry'])}")
-    print(f"ROUTING:      {desc_route}")
-    print("SUGAR LEADS PAYLOAD (staged, not sent):")
-    print(json.dumps(payload, indent=2))
-    # required-field gate check
-    req = ["first_name","last_name","account_name","phone_work","location_c","lead_source"]
-    missing = [k for k in req if not payload.get(k)]
-    print(f"REQUIRED-FIELD GATE: {'PASS (all 6 present)' if not missing else 'FAIL missing '+str(missing)}")
+def build_payloads():
+    """Return [{scenario, decision, routing, assignee, payload}] built from the REAL recognizer +
+    capture-field contract + territory map. Reusable by the off-cloud delivery smoke (mock-sugar)."""
+    out = []
+    for L in LEADS:
+        recog = N.recognize(L["inquiry"])
+        fn, ln = split_name(L["name"])
+        st_abbrev = N.normalize_state(L["state"])
+        desc_route, assignee = route(L["state"])
+        payload = {
+            "first_name": fn, "last_name": ln, "account_name": L["company"],
+            "phone_work": L["phone"], "email1": L["email"],
+            # NOTE: live records use FULL state names (CRM audit) -> write full, keep abbrev as ref
+            "location_c": L["state"], "location_c_abbrev_ref": st_abbrev,
+            "lead_source": "Chatbot", "status": "New",
+            "description": L["inquiry"], "market": L["market"],
+            "assigned_user_hint": assignee,
+            "recognizer": [ {k:v for k,v in m.items() if k in ("type","prl_grade","family_name","brand")} for m in recog ],
+            "source_url": "https://prlresins.com/products/", "captured_at": "<stamped at write>",
+        }
+        out.append({"scenario": L["scenario"], "decision": governed_reply(recog, L["inquiry"]),
+                    "routing": desc_route, "assignee": assignee, "payload": payload})
+    return out
 
-print("\n" + "="*88)
-print("Notes: (1) location_c written as FULL name to match live Unbounce->Sugar records (audit).")
-print("       (2) NY/PA split by sub-region (Rob W / Howard E) needs city/zip, not just state.")
-print("       (3) The only step NOT exercised here is the live Create-Record write — needs the sandbox.")
-print("="*88)
+
+def main():
+    print("="*88)
+    print("STAGED LEAD WALK-THROUGH  (DRY-RUN — nothing written to Tidio, Zapier, or SugarCRM)")
+    print("="*88)
+    for row in build_payloads():
+        payload = row["payload"]
+        print(f"\n### {row['scenario']}")
+        print(f"Visitor said: \"{payload['description']}\"")
+        print(f"BOT DECISION: {row['decision']}")
+        print(f"ROUTING:      {row['routing']}")
+        print("SUGAR LEADS PAYLOAD (staged, not sent):")
+        print(json.dumps(payload, indent=2))
+        req = ["first_name","last_name","account_name","phone_work","location_c","lead_source"]
+        missing = [k for k in req if not payload.get(k)]
+        print(f"REQUIRED-FIELD GATE: {'PASS (all 6 present)' if not missing else 'FAIL missing '+str(missing)}")
+
+    print("\n" + "="*88)
+    print("Notes: (1) location_c written as FULL name to match live Unbounce->Sugar records (audit).")
+    print("       (2) NY/PA split by sub-region (Rob W / Howard E) needs city/zip, not just state.")
+    print("       (3) The only step NOT exercised here is the live Create-Record write — needs the sandbox.")
+    print("="*88)
+
+
+if __name__ == "__main__":
+    main()

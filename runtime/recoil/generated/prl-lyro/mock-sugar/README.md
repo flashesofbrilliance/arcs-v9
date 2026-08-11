@@ -20,6 +20,11 @@ Boots the mock, runs `deliver_smoke.py` (OAuth + Create-Lead across branches A/B
 missing-required → 400, abbreviation/email → warnings, no-auth → 401), tears down, exits non-zero on any fail.
 Run it before wiring the real sandbox — it proves the whole delivery loop off-cloud.
 
+**Real recognizer payloads:** when run where `simulate_lead_e2e.py` + `normalization/` exist (the canonical
+branch), the smoke also feeds the **actual** `recognize()` + capture-transform + territory-map output through
+the mock (via `simulate_lead_e2e.build_payloads()`), so it exercises real field-transform output, not a sample
+set. Where those files aren't checked out, it prints a skip note and runs the inline cases only.
+
 ## What it enforces (mirrors the live-instance audit)
 - Required: `account_name`, `first_name`, `last_name`, `phone_work`, `lead_source`, `location_c` → **400** if any missing.
 - `email` supplied without `email1` → warned (Leads have no `email` column; write to `email1`).

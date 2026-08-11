@@ -74,6 +74,24 @@ def main():
         detail = f"{status}" + (f" warns={warns}" if warns else "")
         print(f"[{mark}] {label:<44} -> {detail}")
 
+    # --- real recognizer payloads (when normalize.py + simulate_lead_e2e are present, e.g. -edda33) ---
+    rows = None
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # prl-lyro/
+        import simulate_lead_e2e as SIM
+        rows = SIM.build_payloads()
+    except Exception as e:  # recognizer/harness not in this checkout -> inline cases only
+        print(f"\n[skip] real recognizer payloads unavailable here ({e.__class__.__name__}); ran inline cases only.")
+    if rows:
+        print(f"\n-- real recognizer payloads ({len(rows)}) --")
+        for row in rows:
+            status, resp = _post("/rest/v11/Leads", row["payload"], token)
+            warns = resp.get("warnings", []) if isinstance(resp, dict) else []
+            passed = status == 201
+            ok = ok and passed
+            mark = "PASS" if passed else "FAIL"
+            print(f"[{mark}] REAL {row['scenario'][:42]:<42} -> {status}" + (f" warns={warns}" if warns else ""))
+
     print("\n" + ("ALL GREEN — delivery loop verified off-cloud." if ok else "SMOKE FAILED — see above."))
     return 0 if ok else 1
 

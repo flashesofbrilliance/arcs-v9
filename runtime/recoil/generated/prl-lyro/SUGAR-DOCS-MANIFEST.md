@@ -51,7 +51,7 @@ rendered surface should carry `docset: <version>` in its header so drift is visi
 ## Dev tooling (repo)
 | # | Path | Role | Docset |
 |---|---|---|---|
-| T1 | `prl-lyro/mock-sugar/` | Local stdlib mock of Sugar REST (OrbStack) for the dev loop — mirrors the Leads field contract; build/test the flow off-cloud (saves API quota). `./dev-smoke.sh` = one-command delivery smoke (7 cases, all green). | 2026-08-11-postcall.1 |
+| T1 | `prl-lyro/mock-sugar/` | Local stdlib mock of Sugar REST (OrbStack) for the dev loop — mirrors the Leads field contract; build/test off-cloud (saves API quota). `./dev-smoke.sh` = one-command smoke: 7 inline cases + the **real recognizer payloads** via `simulate_lead_e2e.build_payloads()` (all green). | 2026-08-11-postcall.1 |
 
 ## Open sync gaps (this version)
 **None** — all projections in sync at `2026-08-11-postcall.1`.
