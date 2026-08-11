@@ -1,0 +1,26 @@
+{
+  "project": "arcs-experiments",
+  "domain": "lab.arcs.care",
+  "source": "_ARTIFACTS/lab/",
+  "git_head": "f47cdd5",
+  "deploy_id": "dpl_6JqLC5TLkQEdY3WF6bQJts9WmAg1",
+  "deploy_url": "arcs-experiments-10anzgk3p-arcs-care.vercel.app",
+  "ready": "READY",
+  "surfaces": [
+    {
+      "route": "/briefing-record/",
+      "file": "briefing-record/index.html",
+      "sha": "eb3b1ac8c3b37c16d3b903e1426abddd050cfa96"
+    },
+    {
+      "route": "/conviction-ledger/",
+      "file": "conviction-ledger/index.html",
+      "sha": "907098c4018018ee9cd5d82792e2f5ca011d3c7c"
+    },
+    {
+      "route": "/",
+      "file": "index.html",
+      "sha": "822126a74450a2050d7462d132a79d7965a4e8c0"
+    }
+  ]
+}

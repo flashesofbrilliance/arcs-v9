@@ -1,0 +1,370 @@
+<meta charset="utf-8">
+<title>ARCS · Briefing Record</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root{
+    --bg:#020408; --border:#1e293b; --line:#1c2736; --hair:#141c28; --rule:#2a3647;
+    --fg1:#e2e8f0; --ink-soft:#c8d2e0; --muted:#94a3b8; --faint:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --violet:#A78BFA;
+    --radius:12px; --maxw:920px;
+    --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --glass:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18)),linear-gradient(165deg,#131b23,#0b1117);
+    --well:linear-gradient(180deg,#090d12,#0c1219);
+    --emboss:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -2px 6px rgba(0,0,0,.55),0 5px 14px rgba(0,0,0,.45);
+    --deboss:inset 0 2px 5px rgba(0,0,0,.65),inset 0 -1px 0 rgba(255,255,255,.04);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(1100px 620px at 18% -8%,rgba(0,240,255,.05),transparent 60%),
+      radial-gradient(900px 520px at 94% 108%,rgba(167,139,250,.05),transparent 60%),
+      var(--bg);
+    color:var(--fg1);font-family:var(--sans);line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:clamp(14px,3vw,40px) auto;padding:0 clamp(14px,3vw,28px)}
+  .head{border-bottom:1px solid var(--border);padding-bottom:16px;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);font-weight:700;text-shadow:0 0 10px rgba(0,240,255,.35)}
+  .wordmark a{color:var(--cyan);text-decoration:none}
+  .head .meta{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.06em}
+  h1{font-family:var(--sans);font-size:clamp(24px,4.4vw,34px);font-weight:600;margin:24px 0 .25em;letter-spacing:-.02em}
+  .stand{color:var(--muted);max-width:none;margin:.2em 0 0;line-height:1.7}
+  .stand b{color:var(--ink-soft);font-weight:600}
+
+  /* LEAD: how this works + why it's valuable — the pattern, up top as data-viz */
+  .flow-head{font-family:var(--sans);font-size:clamp(18px,2.6vw,22px);font-weight:600;letter-spacing:-.01em;color:var(--fg1);margin:30px 0 2px;display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+  .flow-head .sub{font-size:13px;font-weight:400;color:var(--faint);letter-spacing:0}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  @media(max-width:640px){.steps{grid-template-columns:1fr}}
+  .step{border-radius:12px;border:1px solid var(--rule);background:var(--glass);box-shadow:var(--emboss);padding:15px 16px}
+  .step .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--faint);width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:7px;background:var(--well);box-shadow:var(--deboss);margin-bottom:10px}
+  .step .st-t{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0}
+  .step.rec .st-t{color:var(--cyan)} .step.receipt .st-t{color:var(--violet)} .step.seed .st-t{color:var(--green)}
+  .step .st-d{color:var(--ink-soft);font-size:13px;margin:6px 0 0;line-height:1.5}
+  .vec{font-family:var(--mono);font-size:11px;color:var(--faint);margin-top:12px;letter-spacing:.02em;line-height:1.7}
+  .vec b{color:var(--muted);font-weight:700}
+  /* progressive disclosure — the System-2 mechanism, pulled open by curiosity, never pushed */
+  details.how{margin-top:28px;border-top:1px solid var(--border);padding-top:8px}
+  details.how summary{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;cursor:pointer;padding:10px 0;list-style:none;user-select:none;transition:color .16s}
+  details.how summary::-webkit-details-marker{display:none}
+  details.how summary::before{content:"▸ ";color:var(--cyan)}
+  details.how[open] summary::before{content:"▾ "}
+  details.how summary:hover{color:var(--ink-soft)}
+  details.how .steps{margin-top:8px}
+  details.mint{margin-top:16px;border:1px solid rgba(0,255,157,.3);border-radius:12px;background:linear-gradient(180deg,rgba(0,255,157,.04),rgba(0,255,157,.01));box-shadow:var(--emboss);padding:0 16px}
+  details.mint summary{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--green);font-weight:700;cursor:pointer;padding:14px 0;list-style:none;user-select:none}
+  details.mint summary::-webkit-details-marker{display:none}
+  details.mint[open]{padding-bottom:16px}
+  .mint-note{font-size:12.5px;color:var(--ink-soft);line-height:1.55;margin:0 0 12px} .mint-note b{color:var(--green)}
+  .mintout{font-family:var(--mono);font-size:11px;color:var(--green);margin-top:12px;word-break:break-all;padding:11px 13px;border-radius:8px;background:var(--well);box-shadow:var(--deboss);line-height:1.6}
+
+  /* RECORD tool — the primary action */
+  .recorder{margin-top:26px;background:var(--glass);border:1px solid var(--rule);border-radius:14px;padding:18px 20px;box-shadow:var(--emboss)}
+  label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:7px;font-weight:700}
+  input,textarea{font-family:var(--sans);font-size:14px;background:var(--well);border:1px solid var(--line);border-radius:8px;color:var(--fg1);padding:10px 12px;width:100%;
+    box-shadow:var(--deboss);transition:box-shadow .16s,border-color .16s}
+  input:focus,textarea:focus{outline:none;border-color:rgba(0,240,255,.4);box-shadow:inset 0 2px 5px rgba(0,0,0,.55),inset 0 -9px 14px -9px rgba(0,240,255,.34),0 0 0 1px rgba(0,240,255,.23)}
+  textarea{resize:vertical;min-height:76px;line-height:1.6}
+  .fld{margin-bottom:13px}
+  .rec-row{display:flex;gap:12px;align-items:center;margin-bottom:13px;flex-wrap:wrap}
+  .btn-rec{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;color:#eafeff;display:inline-flex;align-items:center;gap:9px;
+    background:linear-gradient(180deg,#0b1620,#0a1218);border:1px solid rgba(0,240,255,.45);border-radius:10px;padding:12px 20px;cursor:pointer;white-space:nowrap;
+    box-shadow:inset 0 1px 0 rgba(120,245,255,.3),inset 0 -9px 13px -7px rgba(0,240,255,.42),0 0 13px rgba(0,240,255,.16),0 4px 13px rgba(0,0,0,.45);transition:.16s}
+  .btn-rec:hover{border-color:rgba(0,240,255,.7);box-shadow:inset 0 1px 0 rgba(120,245,255,.45),inset 0 -10px 15px -7px rgba(0,240,255,.58),0 0 18px rgba(0,240,255,.28),0 4px 15px rgba(0,0,0,.5)}
+  .btn-rec .dot{width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 9px var(--red)}
+  .btn-rec.on{border-color:rgba(255,77,109,.6);color:#ffd7de}
+  .btn-rec.on .dot{animation:pulse 1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 9px var(--red)}50%{opacity:.35;box-shadow:0 0 3px var(--red)}}
+  .rec-hint{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.02em}
+  .btn{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.04em;color:#bdf6ff;background:linear-gradient(180deg,#0b1620,#0a1218);border:1px solid rgba(0,240,255,.4);border-radius:8px;padding:10px 18px;cursor:pointer;white-space:nowrap;
+    box-shadow:inset 0 1px 0 rgba(120,245,255,.28),inset 0 -8px 12px -7px rgba(0,240,255,.4),0 0 11px rgba(0,240,255,.14),0 4px 12px rgba(0,0,0,.45);transition:.16s}
+  .btn:hover{color:#eafeff;border-color:rgba(0,240,255,.62)}
+  .btn.sm{padding:7px 13px;font-size:12px}
+  .btn.ghost{background:linear-gradient(180deg,#0c121a,#0e151e);color:var(--cyan);border-color:#232f3e;box-shadow:inset 0 2px 4px rgba(0,0,0,.55),inset 0 -1px 0 rgba(255,255,255,.04)}
+  .btn.ghost:hover{color:#eafeff;border-color:#34435a}
+  .btn.attest{color:#e9ddff;border-color:rgba(167,139,250,.5);background:linear-gradient(180deg,#140f22,#100a1a);box-shadow:inset 0 1px 0 rgba(200,180,255,.28),inset 0 -8px 12px -7px rgba(167,139,250,.42),0 0 11px rgba(167,139,250,.16),0 4px 12px rgba(0,0,0,.45)}
+  .btn.seed{color:#c8f7dd;border-color:rgba(0,255,157,.45);background:linear-gradient(180deg,#08160f,#0a1512);box-shadow:inset 0 1px 0 rgba(140,255,210,.26),inset 0 -8px 12px -7px rgba(0,255,157,.4),0 0 11px rgba(0,255,157,.14),0 4px 12px rgba(0,0,0,.45)}
+
+  /* RECEIPT output — the hero */
+  .recs{margin-top:26px;display:flex;flex-direction:column;gap:18px}
+  .rec{background:var(--glass);border:1px solid var(--rule);border-radius:14px;box-shadow:var(--emboss);padding:18px 20px}
+  .rec.open{border-color:rgba(255,215,0,.34)}
+  .rec.sealed{border-color:rgba(167,139,250,.4)}
+  .rec-status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:7px;margin-bottom:12px}
+  .rec-status.open{color:var(--gold);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.34)}
+  .rec-status.sealed{color:var(--violet);background:rgba(167,139,250,.09);border:1px solid rgba(167,139,250,.36)}
+  .rec-status .led{width:8px;height:8px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+  .rec-assignee{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.03em;margin-left:8px}
+  .rec-intent{font-family:var(--sans);font-size:18px;font-weight:600;color:var(--fg1);margin:0;letter-spacing:-.01em}
+  .rec-verbatim{color:var(--ink-soft);font-size:13.5px;margin:9px 0 0;line-height:1.6;padding:11px 13px;border-radius:8px;background:var(--well);box-shadow:var(--deboss);font-family:var(--mono);white-space:pre-wrap}
+  .rec-verbatim .vl{display:block;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:6px;font-weight:700}
+  /* coordinate readout — hero, not footer */
+  .coord{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .cell{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:8px;padding:8px 12px;background:var(--well);box-shadow:var(--deboss);display:flex;flex-direction:column;gap:3px;min-width:96px}
+  .cell .k{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  .cell .v{font-size:15px;font-weight:700;color:var(--fg1)}
+  .cell .v.cyan{color:var(--cyan)} .cell .v.gold{color:var(--gold)} .cell .v.violet{color:var(--violet)} .cell .v.green{color:var(--green)} .cell .v.red{color:var(--red)}
+  .cell .inf{font-size:8.5px;color:var(--faint);letter-spacing:.04em}
+  .grp{margin-top:14px}
+  .grp-lab{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px;font-weight:700}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{font-family:var(--sans);font-size:13px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--well);box-shadow:var(--deboss);display:flex;align-items:center;gap:8px}
+  .chip.assume{color:var(--gold);border-color:rgba(255,215,0,.3)}
+  .chip.clar{color:var(--cyan);border-color:rgba(0,240,255,.3)}
+  .chip.inferred{opacity:.9}
+  .chip .tagx{font-family:var(--mono);font-size:8px;letter-spacing:.06em;color:var(--faint);border:1px solid var(--line);border-radius:4px;padding:1px 4px}
+  .chip .x{font-family:var(--mono);font-size:12px;color:var(--faint);cursor:pointer}
+  .chip .x:hover{color:var(--red)}
+  .addchip{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+  .addchip input{flex:1 1 220px}
+  .none{font-size:12.5px;color:var(--faint);font-style:italic}
+  .stamp{font-family:var(--mono);font-size:10.5px;margin-top:14px;letter-spacing:.04em}
+  .stamp.sealed{color:var(--violet)} .stamp.open{color:var(--gold)}
+  .acts{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;align-items:center}
+  .seedmsg{font-family:var(--mono);font-size:10.5px;color:var(--green);margin-top:10px;letter-spacing:.03em}
+
+  .empty{text-align:center;color:var(--muted);padding:40px 20px;border:1px dashed var(--rule);border-radius:14px;margin-top:24px;background:var(--glass)}
+  .empty b{color:var(--fg1);font-family:var(--sans);font-size:17px;font-weight:600;display:block;margin-bottom:8px}
+  .seedbanner{margin-top:20px;border:1px solid rgba(0,255,157,.34);background:linear-gradient(180deg,rgba(0,255,157,.06),rgba(0,255,157,.015));border-radius:12px;padding:13px 16px;box-shadow:var(--emboss);font-size:13.5px;color:var(--ink-soft);display:none}
+  .seedbanner b{color:var(--green)}
+  footer{font-family:var(--mono);font-size:11px;color:var(--faint);margin:32px 0 44px;line-height:1.8;border-top:1px solid var(--border);padding-top:16px;letter-spacing:.02em}
+</style>
+
+<div class="wrap">
+  <div class="head">
+    <div class="wordmark"><a href="/">&larr; ARCS Lab</a> &middot; Briefing Record</div>
+    <div class="meta" id="stamp"></div>
+  </div>
+
+  <h1>Catch the brief before it evaporates.</h1>
+  <p class="stand"><b>Hit record and say it out loud.</b> Get a receipt back in about ten seconds &mdash; what you're actually deciding, and the assumptions you're about to make without noticing.</p>
+
+  <div class="recorder">
+    <div class="rec-row">
+      <button class="btn-rec" id="btn-rec"><span class="dot"></span><span id="rec-label">Record brief</span></button>
+      <span class="rec-hint" id="rec-hint">or just type it below</span>
+    </div>
+    <div class="fld"><textarea id="f-verbatim" placeholder="Say or paste the brief as it was actually spoken. Don't tidy it — the rawness is the evidence."></textarea></div>
+    <div class="fld"><input id="f-intent" placeholder="Intent (optional — leave blank and it's inferred for you)"></div>
+    <button class="btn" id="add-brief">Get my receipt &rarr;</button>
+  </div>
+
+  <details class="mint">
+    <summary>◆ Send someone a briefing space (IYKYK link)</summary>
+    <p class="mint-note">Mint an unguessable link that drops a counterpart into their own briefing space, primed with the problem. <b>Use a pseudonym, not a real name</b> — the link is the only key, and nothing you type here is deployed; it rides inside the link itself.</p>
+    <div class="fld"><input id="m-for" placeholder="For (pseudonym) — e.g. Counterpart-A"></div>
+    <div class="fld"><textarea id="m-problem" placeholder="The problem, framed for them — pseudonymized. This becomes the brief they land on."></textarea></div>
+    <button class="btn seed" id="mint-btn">◆ Generate IYKYK link</button>
+    <div class="mintout" id="mintout" style="display:none"></div>
+  </details>
+
+  <div class="seedbanner" id="seedbanner"></div>
+  <div id="recs" class="recs"></div>
+  <div id="empty" class="empty" style="display:none"><b>No receipts yet</b>Hit record and speak your first brief &mdash; capture the words before they evaporate.</div>
+
+  <details class="how">
+    <summary>How this works, and why the receipt holds up</summary>
+    <div class="steps">
+      <div class="step rec"><div class="n">1</div><p class="st-t">Record</p><p class="st-d">Speak the brief or paste it verbatim. The rawness is the evidence &mdash; don't tidy it.</p></div>
+      <div class="step receipt"><div class="n">2</div><p class="st-t">Receipt</p><p class="st-d">It reads the work-shape &mdash; effort, outcome, risk &mdash; and drafts a receipt: scope, assumptions, clarifications. Opens in your review queue.</p></div>
+      <div class="step seed"><div class="n">3</div><p class="st-t">Seed</p><p class="st-d">Attest to seal it. Share the open receipt as a seed &mdash; a link that onramps the next person into their own record.</p></div>
+    </div>
+    <div class="vec">Coordinate vector per receipt: &nbsp;<b>specificity</b> &middot; <b>#assumptions</b> &middot; <b>#clarifications</b> &middot; <b>work-shape</b> (effort/outcome/risk) &middot; <b>status</b> &middot; <b>t-stamp</b>. &nbsp;Each briefing is one point in the field; the trajectory from stated to revealed is what the diff surface reads. The inferred fields are a first guess you review &mdash; never the seal.</div>
+  </details>
+
+  <footer>
+    Attestation is one-way &mdash; once sealed, the verbatim, intent and specificity lock; assumptions and clarifications stay editable. Inferred fields are a first guess you review, never the seal. Saved locally in this browser; a shared seed carries only what's in that one receipt.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY="arcs-briefing-record-v2";
+  var SPEC=["VAGUE","PARTIAL","SPECIFIC"];
+  var uid=function(){return Math.random().toString(36).slice(2,9)};
+  var recs=[];
+  try{ var raw=localStorage.getItem(KEY); if(raw) recs=JSON.parse(raw)||[]; }catch(e){}
+
+  // ── Work-shape inference (RL problem shape → best guess) ───────────────────
+  // Transparent client-side heuristic. Places the brief on three axes from the
+  // verbatim text, then maps the shape → scope specificity + seed assumptions +
+  // clarifications owed. It is a FIRST GUESS the human reviews, never the seal.
+  function classify(text){
+    var t=(" "+text+" ").toLowerCase();
+    var has=function(list){return list.some(function(w){return t.indexOf(w)>=0;});};
+    // Effort: how much pre-work before acting
+    var lowEffort=has([" just "," quick "," asap "," now "," simple "," small "," tweak "," swap "]);
+    var highEffort=has([" research "," investigate "," figure out "," explore "," not sure "," unclear "," scope "," design "," plan "]);
+    var effort=highEffort?"HIGH":lowEffort?"LOW":"MED";
+    // Outcome: single crisp goal vs diffuse
+    var diffuse=has([" something "," some kind "," in some way "," figure out what "," a few "," etc "," and so on "," various "," multiple "]);
+    var outcome=diffuse?"DIFFUSE":"CRISP";
+    // Risk: reversibility / ruin edge
+    var highRisk=has([" delete "," deploy "," production "," public "," publish "," send "," launch "," legal "," money "," payment "," irreversible "," customer "," clobber "," overwrite "]);
+    var risk=highRisk?"HIGH":"LOW";
+    // Map shape → scope specificity
+    var spec="PARTIAL";
+    if(effort==="LOW"&&outcome==="CRISP"&&risk==="LOW") spec="SPECIFIC";
+    else if(effort==="HIGH"||outcome==="DIFFUSE") spec="VAGUE";
+    // Seed assumptions + clarifications from the shape
+    var assumptions=[], clars=[];
+    if(risk==="LOW") assumptions.push("Assumed reversible / low-stakes (bandit-shaped, cheap to be wrong)");
+    else clars.push("Confirm reversibility — this reads as ruin-edge; a single slip may be unrecoverable");
+    if(outcome==="CRISP") assumptions.push("Assumed a single, well-defined outcome");
+    else clars.push("Name the one outcome — the ask reads as diffuse / multi-objective");
+    if(effort==="LOW") assumptions.push("Assumed act-now: little pre-work warranted");
+    else if(effort==="HIGH") clars.push("How much pre-work before committing? This reads as exploration, not execution");
+    return {effort:effort,outcome:outcome,risk:risk,spec:spec,assumptions:assumptions,clarifications:clars};
+  }
+  function inferIntent(text){
+    var s=String(text||"").replace(/\s+/g," ").trim();
+    if(!s) return "(intent not yet named)";
+    var first=s.split(/[.!?\n]/)[0];
+    return (first.length>90?first.slice(0,90)+"…":first);
+  }
+
+  if(!recs.length){
+    var seedText="can we build 3 in parallel to observe e2e planning stated vs revealed preference around scope specificity and intent and pre-work and clarification and assumption statement and attestation for verbal briefing accounts to become a matter of record";
+    var sh=classify(seedText);
+    recs=[{id:uid(),verbatim:seedText,intent:"Observe planning: stated vs revealed preference",
+      spec:sh.spec,effort:sh.effort,outcome:sh.outcome,risk:sh.risk,
+      assumptions:sh.assumptions.map(function(a){return {t:a,inf:true};}),
+      clarifications:sh.clarifications.map(function(c){return {t:c,inf:true};}),
+      status:"OPEN",assignee:"you",attestedAt:null}];
+  }
+  var save=function(){ try{localStorage.setItem(KEY,JSON.stringify(recs));}catch(e){} };
+  function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m];});}
+  function findRec(id){return recs.filter(function(r){return r.id===id;})[0];}
+  function $(id){return document.getElementById(id);}
+
+  // ── Tokenize → onramp: encode one receipt into a shareable seed link ───────
+  function seedLink(r){
+    var seed={v:r.verbatim,i:r.intent,s:r.spec,e:r.effort,o:r.outcome,k:r.risk};
+    var tok=btoa(unescape(encodeURIComponent(JSON.stringify(seed))));
+    return location.origin+location.pathname+"#seed="+tok;
+  }
+  function loadSeed(){
+    var m=location.hash.match(/seed=([^&]+)/); if(!m) return null;
+    try{ return JSON.parse(decodeURIComponent(escape(atob(m[1])))); }catch(e){ return null; }
+  }
+
+  function render(){
+    var host=$("recs");
+    $("empty").style.display=recs.length?"none":"block";
+    host.innerHTML="";
+    recs.forEach(function(r){
+      var sealed=r.status==="SEALED";
+      var el=document.createElement("div"); el.className="rec "+(sealed?"sealed":"open"); el.dataset.rec=r.id;
+      var chip=function(o,cls,i,act){return '<span class="chip '+cls+(o.inf?' inferred':'')+'">'+(o.inf?'<span class="tagx">inferred</span>':'')+esc(o.t)+'<span class="x" data-act="'+act+'" data-i="'+i+'">✕</span></span>';};
+      var assumes=r.assumptions.length? r.assumptions.map(function(o,i){return chip(o,"assume",i,"delassume");}).join("") : '<span class="none">None stated.</span>';
+      var clars=r.clarifications.length? r.clarifications.map(function(o,i){return chip(o,"clar",i,"delclar");}).join("") : '<span class="none">None owed.</span>';
+      var specCls=r.spec==="SPECIFIC"?"green":r.spec==="PARTIAL"?"gold":"cyan";
+      var riskCls=r.risk==="HIGH"?"red":"green";
+      el.innerHTML=
+        '<span class="rec-status '+(sealed?"sealed":"open")+'"><span class="led"></span>'+(sealed?"Sealed · matter of record":"Open · needs review")+'</span>'
+          +(sealed?'':'<span class="rec-assignee">task assigned → '+esc(r.assignee||"you")+'</span>')
+        +'<p class="rec-intent">'+esc(r.intent||"(intent not named)")+'</p>'
+        +'<div class="rec-verbatim"><span class="vl">Verbatim brief</span>'+esc(r.verbatim||"(none)")+'</div>'
+        +'<div class="coord">'
+          +'<div class="cell"><span class="k">Specificity</span><span class="v '+specCls+'">'+r.spec+'</span></div>'
+          +'<div class="cell"><span class="k">Effort</span><span class="v">'+r.effort+'</span><span class="inf">pre-work</span></div>'
+          +'<div class="cell"><span class="k">Outcome</span><span class="v">'+r.outcome+'</span><span class="inf">reward shape</span></div>'
+          +'<div class="cell"><span class="k">Risk</span><span class="v '+riskCls+'">'+r.risk+'</span><span class="inf">reversibility</span></div>'
+          +'<div class="cell"><span class="k">Assumptions</span><span class="v gold">'+r.assumptions.length+'</span></div>'
+          +'<div class="cell"><span class="k">Clar. owed</span><span class="v cyan">'+r.clarifications.length+'</span></div>'
+        +'</div>'
+        +'<div class="grp"><div class="grp-lab">Assumptions made</div><div class="chips">'+assumes+'</div>'
+          +'<div class="addchip"><input placeholder="state an assumption" data-in="assume"><button class="btn sm ghost" data-act="addassume">+ assumption</button></div></div>'
+        +'<div class="grp"><div class="grp-lab">Clarifications owed</div><div class="chips">'+clars+'</div>'
+          +'<div class="addchip"><input placeholder="a question you still owe" data-in="clar"><button class="btn sm ghost" data-act="addclar">+ clarification</button></div></div>'
+        +(sealed
+          ? '<div class="stamp sealed">⬡ Attested &middot; matter of record as of '+esc(r.attestedAt)+'</div>'
+          : '<div class="stamp open">Open receipt &mdash; review the inferred fields, then attest to seal</div>')
+        +'<div class="acts">'
+          +(sealed?'':'<button class="btn attest sm" data-act="attest">⬡ Attest &amp; seal</button>')
+          +'<button class="btn seed sm" data-act="seed">◆ Share as seed</button>'
+          +'<button class="btn sm ghost" data-act="delrec" style="margin-left:auto">delete</button>'
+        +'</div>'
+        +'<div class="seedmsg" data-seedmsg style="display:none"></div>';
+      host.appendChild(el);
+    });
+  }
+
+  function openRecord(verbatim,intent,pre){
+    var sh=classify(verbatim);
+    recs.unshift({id:uid(),verbatim:verbatim,intent:intent||inferIntent(verbatim),
+      spec:pre&&pre.s?pre.s:sh.spec,effort:pre&&pre.e?pre.e:sh.effort,outcome:pre&&pre.o?pre.o:sh.outcome,risk:pre&&pre.k?pre.k:sh.risk,
+      assumptions:sh.assumptions.map(function(a){return {t:a,inf:true};}),
+      clarifications:sh.clarifications.map(function(c){return {t:c,inf:true};}),
+      status:"OPEN",assignee:"you",attestedAt:null});
+    save();render();
+  }
+
+  $("add-brief").addEventListener("click",function(){
+    var v=$("f-verbatim").value.trim(); var it=$("f-intent").value.trim();
+    if(!v){$("f-verbatim").focus();return;}
+    openRecord(v,it); $("f-verbatim").value="";$("f-intent").value="";
+  });
+
+  $("recs").addEventListener("click",function(e){
+    var act=e.target.getAttribute("data-act"); if(!act) return;
+    var recEl=e.target.closest("[data-rec]"); var r=findRec(recEl.dataset.rec); if(!r) return;
+    if(act==="delrec"){ recs=recs.filter(function(x){return x.id!==r.id;}); save();render(); return; }
+    if(act==="attest"){ r.status="SEALED"; r.attestedAt=new Date().toISOString().replace("T"," ").slice(0,19)+" UTC"; save();render(); return; }
+    if(act==="seed"){
+      var link=seedLink(r); var box=recEl.querySelector('[data-seedmsg]');
+      var done=function(ok){ box.style.display="block"; box.textContent=(ok?"◆ Seed link copied — anyone who opens it lands in this tool, primed with this brief.":"◆ Seed link: ")+(ok?"":link); };
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(link).then(function(){done(true);},function(){done(false);}); } else { done(false); }
+      return;
+    }
+    if(act==="addassume"){ var i1=recEl.querySelector('[data-in="assume"]'); var val=i1.value.trim(); if(!val){i1.focus();return;} r.assumptions.push({t:val,inf:false}); save();render(); return; }
+    if(act==="addclar"){ var i2=recEl.querySelector('[data-in="clar"]'); var val2=i2.value.trim(); if(!val2){i2.focus();return;} r.clarifications.push({t:val2,inf:false}); save();render(); return; }
+    if(act==="delassume"){ r.assumptions.splice(parseInt(e.target.getAttribute("data-i"),10),1); save();render(); return; }
+    if(act==="delclar"){ r.clarifications.splice(parseInt(e.target.getAttribute("data-i"),10),1); save();render(); return; }
+  });
+
+  // ── Voice: browser-native Web Speech (free, no key). Graceful fallback. ────
+  (function(){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    var btn=$("btn-rec"), lab=$("rec-label"), hint=$("rec-hint");
+    if(!SR){ btn.style.display="none"; hint.textContent="voice needs Chrome or Edge — type the brief below"; return; }
+    var rec=new SR(); rec.continuous=true; rec.interimResults=true; rec.lang="en-US";
+    var on=false, base="";
+    btn.addEventListener("click",function(){ if(on){rec.stop();return;} base=$("f-verbatim").value?($("f-verbatim").value+" "):""; try{rec.start();}catch(e){} });
+    rec.onstart=function(){ on=true; btn.classList.add("on"); lab.textContent="Stop"; hint.textContent="listening… speak the brief"; };
+    rec.onend=function(){ on=false; btn.classList.remove("on"); lab.textContent="Record brief"; hint.textContent="or type it below"; };
+    rec.onerror=function(ev){ hint.textContent="mic error: "+ev.error+" — you can type instead"; };
+    rec.onresult=function(ev){
+      var txt=""; for(var i=0;i<ev.results.length;i++){ txt+=ev.results[i][0].transcript; }
+      $("f-verbatim").value=base+txt;
+    };
+  })();
+
+  // ── Mint: build an IYKYK link carrying a pseudonymized briefing space ──────
+  // Nothing minted here is deployed — the framing rides inside the link only.
+  (function(){
+    var btn=$("mint-btn"); if(!btn) return;
+    btn.addEventListener("click",function(){
+      var f=$("m-for").value.trim(), p=$("m-problem").value.trim();
+      if(!p){$("m-problem").focus();return;}
+      var seed={v:p,f:f||"you"};
+      var tok=btoa(unescape(encodeURIComponent(JSON.stringify(seed))));
+      var link=location.origin+location.pathname+"#seed="+tok;
+      var out=$("mintout"); out.style.display="block";
+      var show=function(copied){ out.innerHTML=(copied?"◆ Copied — send it. ":"◆ IYKYK link: ")+"<br>"+esc(link); };
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(link).then(function(){show(true);},function(){show(false);}); } else { show(false); }
+    });
+  })();
+
+  // ── Onramp: if opened via a seed link, pre-fill + surface the banner ───────
+  (function(){
+    var s=loadSeed(); if(!s) return;
+    var b=$("seedbanner"); b.style.display="block";
+    var who=s.f?(", "+esc(s.f)):"";
+    b.innerHTML="<b>◆ A briefing space was opened for you"+who+".</b> The problem is below. Say it back in your own words or add to it, then hit <b>Get my receipt</b> &mdash; it's yours to work, and to pass on.";
+    if(s.v) $("f-verbatim").value=s.v; if(s.i) $("f-intent").value=s.i;
+  })();
+
+  try{ $("stamp").textContent="local record · "+recs.length+" receipt"+(recs.length===1?"":"s"); }catch(e){}
+  render();
+})();
+</script>
