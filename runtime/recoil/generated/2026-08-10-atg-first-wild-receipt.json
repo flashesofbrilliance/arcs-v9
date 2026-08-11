@@ -1,0 +1,41 @@
+{
+  "receipt_id": "RCPT-2026-08-10-atg-first-wild",
+  "type": "milestone-observation",
+  "created": "2026-08-10T22:00:00-04:00",
+  "D_decision": "ATG (Adjacent Tributary Generation) fired cleanly and unmechanized for the first clean time in the wild. Record instance #1; hold mechanization until a second real case confirms the mold.",
+  "E_entity": "The ATG feature (WORLD.md compass-response contract: 2-4 tributaries), the agent reasoning loop, the ARCS roadmap, and the forked ATG-skill build task_b3dbc0ac.",
+  "W_window": {
+    "horizon": "QUARTER",
+    "revisit_trigger": "a second clean in-the-wild ATG instance, or when the ATG-skill fork begins mechanization"
+  },
+  "Y_gate": {
+    "state": "GREEN on the observation / YELLOW on mechanization",
+    "polarity": "positive",
+    "conviction": "high (the observation: ATG fired, verifiable)",
+    "stability": "medium (the build timing: held for instance #2)"
+  },
+  "true_north": "The invariant beneath the polyform: one schema, many fluid surfaces, indexed and associatively navigable. ATG is the instrument that surfaces the adjacent primitive connecting them.",
+  "why": "ATG proved real and valuable without being built. The canon's discipline says receive the flash rather than let it go to ground (ADR-040), and cast the mold on the second case, not the first (ADR-039). So the honest move is to record instance #1 and hold the build.",
+  "tributaries": [
+    {
+      "kind": "meta-question",
+      "text": "If ATG is what unifies threads, is the agent's whole job continuous ATG, and does mechanizing it risk NOTOMATION by compressing the revealed preference it exists to surface?"
+    },
+    {
+      "kind": "need-to-hear-branch",
+      "text": "The fiction/fact membrane is crossable only because the receipt is fixed. ATG without the Loki Test / provenance gate is apophenia. The honesty tine is load-bearing, not decoration on ATG."
+    },
+    {
+      "kind": "unnamed-adjacent-primitive",
+      "text": "The invariant beneath the polyform. The adjacent primitive ATG surfaced was the frame itself: watcher, curation, registry, schema, and skill are one system, sense to index to associate to anticipate."
+    }
+  ],
+  "guardrails": [
+    "NOTOMATION: record, don't over-build; the machine surfaces tributaries, the human promotes.",
+    "ADR-039: cast the mold on instance #2, not this one.",
+    "Provenance gate: ATG output is a receipt-verified candidate, never asserted as truth."
+  ],
+  "adr": "ADR-044-atg-demonstrated-in-the-wild",
+  "memory": "[[atg-first-clean-in-the-wild]]",
+  "nci_note": "Milestone-observation receipt, not a code change. Recorded via the ADR/DEWY watcher infrastructure built earlier this same session, closing the self-referential loop: the watcher we built caught the ATG we performed."
+}
