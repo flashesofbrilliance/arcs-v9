@@ -1,27 +1,45 @@
 {
-  "_doc": "DEWY decision receipts for the 2026-08-11 session, dogfooding runtime/specs/dewy-receipt-schema-v1.json (core fields). Hand-filed, not compass-generated. See ADR-046 for the headline decision.",
+  "_doc": "DEWY decision receipts for the 2026-08-11 federated-family + drift-receipt session. Hand-filed. See ADR-050/046/047.",
   "session_ts": "2026-08-11",
   "receipts": [
     {
-      "receipt_id": "2026-08-11-witness-trigger-built",
-      "surface": "meta / tooling",
-      "sharp_question": "When a flash of brilliance crystallizes mid-conversation, how do we attest to it honestly instead of reconstructing it later?",
+      "receipt_id": "2026-08-11-family-airgap",
+      "surface": "deploy",
+      "sharp_question": "How to ship the canon artifacts publicly without leaking the client book?",
       "dewy_vector": {
-        "D": "Build /witness: a one-shot, verbatim, timestamped capture with an honest gut-check Y, appended to _STATE/witness/<date>.jsonl. WORLD.md carries the proactive trigger (THE WITNESS, beside the Drift Sentinel) so Claude offers it unprompted at the moment it notices the signal.",
-        "E": ".claude/commands/witness.md; WORLD.md THE WITNESS section; _STATE/witness/*.jsonl.",
-        "W": "DURABLE. Revisit after a few days of real firings — whether to wire into /night-moves.",
+        "D": "Two layers, one air-gap: SSOT truth feeds prospect-safe faces; meta-audit stays private.",
+        "E": "prospects, counterparts (as names)",
+        "W": "shipped today",
         "Y": "GREEN"
       },
-      "y_gate_score": "GREEN",
-      "true_north": "Attest at the moment it happens, not at handoff — a reconstructed witness is the same dishonesty ADR-044 gates on the aspiration side.",
-      "why": "Zach asked directly whether a flash of brilliance deserves a scribe (\"can I get a witness\"); no existing mechanism captures live, only after-the-fact (DEWY at decision time, night-moves at day's end).",
-      "loki": "A third parallel logging surface fragments 'where do I look'? Mitigated by distinct non-overlapping timescales (moment/decision/day) and explicitly NOT wiring into night-moves yet.",
-      "bar": "Low — an unpromoted witness stub costs nothing; the risk is over-firing (ceremony fatigue), mitigated by 'deliberately rare' instruction in both WORLD.md and the command.",
-      "horizon": "DURABLE",
-      "stakes": "LOW",
-      "mode": "STANDARD",
-      "adr": "ADR-046",
-      "memory": "[[witness-trigger-attest-in-the-moment]]"
+      "source_adr": "ADR-050",
+      "outcome": "4 subdomains live, tripwire-clean, E2E 15/15"
+    },
+    {
+      "receipt_id": "2026-08-11-drift-receipt-gate",
+      "surface": "ci",
+      "sharp_question": "How do we learn from architecture decay, not just block it?",
+      "dewy_vector": {
+        "D": "Every gate is a detector; every failure is a receipt (PR tripwire + deploy rollback+Issue).",
+        "E": "future contributors/agents",
+        "W": "standing",
+        "Y": "GREEN"
+      },
+      "source_adr": "ADR-051",
+      "outcome": "gate live; caught first receipt (forge-page jargon)"
+    },
+    {
+      "receipt_id": "2026-08-11-inchworm-auditor",
+      "surface": "hooks",
+      "sharp_question": "Who keeps an owner-less artifact up to date?",
+      "dewy_vector": {
+        "D": "An inchworm auditor: orient at open, advance at close; regen mechanical, receipt the judgment.",
+        "E": "the machine (NOTOMATION)",
+        "W": "every session boundary",
+        "Y": "GREEN"
+      },
+      "source_adr": "ADR-052",
+      "outcome": "lattice SSOT 32->44; live surface re-embedded + verified"
     }
   ]
 }
