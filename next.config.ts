@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // playground.arcs.care → public/playground.html (Clair de Lune performing-artifact hub; public, tripwire-clean). Performers ride UNDER as sub-pages via capture-group (single-host multi-path shape per todd-call FIX HISTORY: seg rule + one wildcard fallback, no per-path duplicates).
+        { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
+        { source: "/:path((?!.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
+        // monolith.arcs.care → public/monolith.html (3 heads + Moiré filter; meta-audit head dropped for public — stays private/SSOT; tripwire-clean; single wildcard = proven-reliable shape)
+        { source: "/:path*", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
         // forge.arcs.care → public/forge-pattern.html (counterpart-forge design pattern; pseudonymized/redacted, public, ungated)
         { source: "/:path*", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
         // forge-cut.arcs.care → public/forge-cut.html (the deep cut / four-cores view; pseudonymized/redacted, public, ungated; uplinks to forge.arcs.care)

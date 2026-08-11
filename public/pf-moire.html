@@ -1,0 +1,208 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ARCS Moiré</title></head><body>
+<meta charset="utf-8">
+<title>ARCS Moiré — Möbius / Horizon Through Fog</title>
+<style>
+  :root{
+    --bg:#020408; --surface:#0d1117; --border:#1e293b; --text:#e2e8f0; --sec:#94a3b8;
+    --dim:#9aa7b6; --mut:#8a97a8; --cyan:#00F0FF; --gold:#FFD700;
+    --mono:ui-monospace,'JetBrains Mono',SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+  }
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);margin:0;height:100%;overflow:hidden}
+  .lbl{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--mut)}
+  .lbl.cy{color:var(--cyan)} .lbl.gd{color:var(--gold)}
+  .deck{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(2,4,8,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .deck-in{max-width:1180px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  .wordmark{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em}
+  .wordmark b{color:var(--cyan)}
+  .ctl{display:flex;align-items:center;gap:.45rem}
+  input[type=range]{accent-color:var(--cyan);width:104px}
+  #fog{accent-color:#94a3b8} #delta{accent-color:var(--gold)}
+  .btn{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:none;border:1px solid var(--border);border-radius:4px;color:var(--sec);padding:.4rem .65rem;cursor:pointer}
+  .btn.on{border-color:var(--cyan);color:var(--cyan);background:rgba(0,240,255,.08)}
+  .btn:focus-visible{outline:1px solid var(--cyan);outline-offset:-1px}
+  canvas{position:fixed;inset:0;display:block;width:100vw;height:100vh}
+  .cap{position:fixed;left:1.2rem;bottom:1rem;z-index:30;pointer-events:none;max-width:560px;display:flex;flex-direction:column;gap:.3rem}
+  .cap .kv{font-family:var(--mono);font-size:.62rem;color:var(--dim);letter-spacing:.08em;line-height:1.6}
+  .cap .kv b{color:var(--sec)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<canvas id="cv"></canvas>
+
+<div class="deck"><div class="deck-in">
+  <span class="wordmark"><b>ARCS</b> · MOIRÉ / MÖBIUS</span>
+  <div class="ctl"><span class="lbl cy">Strands</span><input id="strands" type="range" min="14" max="90" value="44" aria-label="Strand density"></div>
+  <div class="ctl"><span class="lbl gd">Moiré Δ</span><input id="delta" type="range" min="0" max="60" value="22" aria-label="Interference offset"></div>
+  <div class="ctl"><span class="lbl">Fog</span><input id="fog" type="range" min="0" max="100" value="72" aria-label="Fog density"></div>
+  <div class="ctl"><span class="lbl cy">Phase</span><input id="phase" type="range" min="0" max="628" value="90" aria-label="Rotation phase"></div>
+  <button class="btn" id="drift">drift</button>
+  <button class="btn" id="lune" title="clair de lune drives the fog">🌙 lune</button>
+</div></div>
+
+<div class="cap">
+  <span class="kv"><b style="color:var(--gold)">MOIRE · the PARADOX render state.</b> A Möbius strip is a one-sided surface — the fork that loops back onto itself. Two strand families, offset by Δ, interfere: the pattern you see belongs to neither.</span>
+  <span class="kv">The gold line is the horizon — <b>True North through the fog field</b>. Lower the fog and it is earned, not granted. <i style="color:var(--mut)">"Render through the fog to earned clarity."</i></span>
+</div>
+
+<script>
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let W, H, DPR;
+function resize(){ DPR = devicePixelRatio; W = innerWidth; H = innerHeight; cv.width = W*DPR; cv.height = H*DPR; draw(); }
+addEventListener('resize', resize);
+
+const S = { strands: 44, delta: .022, fog: .72, phase: .9, drift: false };
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ── Möbius parametric → rotated → perspective ──
+function project(u, v, phase, dz) {
+  const R = 1;
+  let x = (R + v*Math.cos(u/2)) * Math.cos(u);
+  let y = (R + v*Math.cos(u/2)) * Math.sin(u);
+  let z = v * Math.sin(u/2);
+  // rotY(phase + dz)
+  const a = phase + dz;
+  let x1 = x*Math.cos(a) + z*Math.sin(a), z1 = -x*Math.sin(a) + z*Math.cos(a);
+  // rotX(tilt)
+  const t = -.52;
+  let y1 = y*Math.cos(t) - z1*Math.sin(t), z2 = y*Math.sin(t) + z1*Math.cos(t);
+  const f = 3.4, s = f/(f+z2);
+  const scale = Math.min(W, H) * .30;
+  return [W/2 + x1*s*scale, H*.46 + y1*s*scale, s];
+}
+function strandPath(vFrac, phase, dz) {
+  const v = (vFrac - .5) * .62;
+  ctx.beginPath();
+  const STEPS = 200;
+  for (let i = 0; i <= STEPS; i++) {
+    const u = i/STEPS * Math.PI*2;
+    const [x, y] = project(u, v, phase, dz);
+    i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+  }
+}
+function draw() {
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.fillStyle = '#020408'; ctx.fillRect(0,0,W,H);
+
+  // ── horizon line (True North) — behind the strip, behind the fog ──
+  const hy = H*.62;
+  const hg = ctx.createLinearGradient(0, hy-70, 0, hy+70);
+  hg.addColorStop(0,'rgba(255,215,0,0)'); hg.addColorStop(.5,'rgba(255,215,0,.20)'); hg.addColorStop(1,'rgba(255,215,0,0)');
+  ctx.fillStyle = hg; ctx.fillRect(0, hy-70, W, 140);
+  ctx.fillStyle = 'rgba(255,215,0,.95)'; ctx.fillRect(0, hy, W, 1.2);
+  // distant terrain hint under the horizon
+  ctx.fillStyle = 'rgba(125,211,252,.05)'; ctx.fillRect(0, hy+1, W, H-hy);
+
+  // ── the strip: two families, additive — interference belongs to neither ──
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.lineWidth = .75;
+  const N = S.strands;
+  for (let s = 0; s < N; s++) {
+    ctx.strokeStyle = 'rgba(0,240,255,.30)';
+    strandPath(s/(N-1), S.phase, 0); ctx.stroke();
+  }
+  for (let s = 0; s < N; s++) {
+    ctx.strokeStyle = 'rgba(255,215,0,.16)';
+    strandPath(s/(N-1), S.phase, S.delta); ctx.stroke();
+  }
+
+  // ── fog field: buries the horizon; clarity is earned by lowering it ──
+  ctx.globalCompositeOperation = 'source-over';
+  const fa = S.fog;
+  for (const [cy, hh, a] of [[hy, 260, .95], [hy-40, 420, .55], [H*.35, 520, .35]]) {
+    const g = ctx.createLinearGradient(0, cy-hh/2, 0, cy+hh/2);
+    g.addColorStop(0, 'rgba(2,4,8,0)');
+    g.addColorStop(.5, `rgba(8,13,20,${a*fa})`);
+    g.addColorStop(1, 'rgba(2,4,8,0)');
+    ctx.fillStyle = g; ctx.fillRect(0, cy-hh/2, W, hh);
+  }
+  // grain in the fog (GRAIN state) — sparse deterministic speckle
+  if (fa > .25) {
+    ctx.fillStyle = `rgba(148,163,184,${.05*fa})`;
+    let seed = 12; const rnd = () => (seed = (seed*16807)%2147483647) / 2147483647;
+    for (let i = 0; i < 900*fa; i++) ctx.fillRect(rnd()*W, hy-140+rnd()*280, 1, 1);
+  }
+  // vignette
+  const vg = ctx.createRadialGradient(W/2, H*.48, Math.min(W,H)*.28, W/2, H*.48, Math.max(W,H)*.75);
+  vg.addColorStop(0,'rgba(2,4,8,0)'); vg.addColorStop(1,'rgba(2,4,8,.88)');
+  ctx.fillStyle = vg; ctx.fillRect(0,0,W,H);
+}
+
+// ── controls ──
+const bind = (id, fn) => document.getElementById(id).addEventListener('input', e => { fn(+e.target.value); if (!S.drift) draw(); });
+bind('strands', v => S.strands = v);
+bind('delta',   v => S.delta = v/1000);
+bind('fog',     v => S.fog = v/100);
+bind('phase',   v => S.phase = v/100);
+const driftBtn = document.getElementById('drift');
+let raf = null;
+function loop(){ S.phase += .0035; document.getElementById('phase').value = Math.round((S.phase*100) % 628); draw(); raf = requestAnimationFrame(loop); }
+driftBtn.addEventListener('click', () => {
+  S.drift = !S.drift; driftBtn.classList.toggle('on', S.drift);
+  if (S.drift) loop(); else { cancelAnimationFrame(raf); raf = null; }
+});
+if (!reduced) { S.drift = true; driftBtn.classList.add('on'); }
+
+// ── LUNE: the music-box reduction of Clair de Lune (Debussy 1905, public domain)
+//    drives the scene — fog parts as the melody swells; the horizon is earned by ear. ──
+let LAC = null, luneRaf = null, luneT0 = 0, luneTimer = null;
+const LU = 0.46, LLOOP = 88;
+const LSCORE = [
+  [0,[77,80],6,.9],[6,[77,80],2,.7],[8,[75,78],3,.75],[11,[73,77],6,.85],
+  [17,[73,77],2,.6],[19,[72,75],3,.7],[22,[70,73],6,.8],[22,[49,56],12,.5],
+  [28,[68,72],8,.85],[36,[68,73],4,.7],[40,[70,75],4,.75],[44,[73,77],6,.85],
+  [44,[54],12,.45],[50,[75,78],2,.6],[52,[77,80],6,.9],
+  [58,[61],1,.5],[59,[65],1,.5],[60,[68],1,.55],[61,[73],1,.6],[62,[77],1,.65],
+  [63,[80],1,.7],[64,[85],1,.8],[65,[80],1,.65],[66,[77],1,.6],[67,[73],1,.55],
+  [68,[68],1,.5],[69,[65],1,.45],
+  [70,[77,80],8,.95],[70,[49,56],14,.5],[78,[73,77],8,.7],
+];
+function lPluck(midis, when, g, dur) {
+  midis.forEach(m => {
+    const f = 440 * Math.pow(2, (m - 69) / 12);
+    const o1 = LAC.createOscillator(), o2 = LAC.createOscillator();
+    const env = LAC.createGain(), g2 = LAC.createGain();
+    o1.type = 'sine'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 3.02; g2.gain.value = .13;
+    o2.connect(g2); g2.connect(env); o1.connect(env); env.connect(LAC.destination);
+    const peak = .082 * g / Math.sqrt(midis.length);
+    env.gain.setValueAtTime(0, when);
+    env.gain.linearRampToValueAtTime(peak, when + .012);
+    env.gain.exponentialRampToValueAtTime(.0004, when + (dur || 1.4));
+    o1.start(when); o2.start(when); o1.stop(when + 4); o2.stop(when + 4);
+  });
+}
+function lSched(k) {
+  const t0 = luneT0 + k * LLOOP * LU;
+  LSCORE.forEach(ev => lPluck(ev[1], t0 + ev[0] * LU, ev[3], ev[2] * LU * 1.5));
+  luneTimer = setTimeout(() => lSched(k + 1), (t0 + LLOOP * LU - LAC.currentTime - 1.5) * 1000);
+}
+function lEnv(ts) {
+  let e = 0;
+  for (const ev of LSCORE) { const d = ts - ev[0] * LU; if (d >= 0) e += ev[3] * Math.exp(-d / 1.1); }
+  return Math.min(1, e * .5);
+}
+document.getElementById('lune').addEventListener('click', () => {
+  const btn = document.getElementById('lune');
+  if (LAC) { clearTimeout(luneTimer); cancelAnimationFrame(luneRaf); LAC.close(); LAC = null; btn.classList.remove('on'); draw(); return; }
+  if (S.drift) document.getElementById('drift').click(); // one conductor at a time
+  LAC = new (window.AudioContext || window.webkitAudioContext)();
+  luneT0 = LAC.currentTime + .2; lSched(0); btn.classList.add('on');
+  const step = () => {
+    const raw = LAC.currentTime - luneT0, ts = raw < 0 ? 0 : raw % (LLOOP * LU);
+    const e = lEnv(ts);
+    S.fog = Math.max(.08, .9 - .85 * e);
+    document.getElementById('fog').value = Math.round(S.fog * 100);
+    S.phase += .0022 + .0065 * e;
+    draw();
+    luneRaf = requestAnimationFrame(step);
+  };
+  luneRaf = requestAnimationFrame(step);
+});
+
+resize();
+if (S.drift) loop();
+</script>
+
+</body></html>
