@@ -87,8 +87,16 @@ export default function DebriefPage() {
         body: JSON.stringify({ matched, what: what.trim(), regretScore: regret, learning: learning.trim() || null }),
       })
       const d = await res.json()
-      if (res.ok && d.ok) setDone({ driftState: d.driftState })
-      else setError(d.error ?? "Could not save outcome")
+      if (res.ok && d.ok) {
+        setDone({ driftState: d.driftState })
+        // Analytics twin of the server's receipt_outcome_matched signal — lands
+        // the loop-close in the Vercel Analytics dashboard (raw va() global, same
+        // pattern as the status surfaces). No new dep; no-ops if analytics is off.
+        ;(window as unknown as { va?: (e: string, p: unknown) => void }).va?.("event", {
+          name: "receipt_outcome_matched",
+          data: { matched: !!matched, drift: d.driftState, regret },
+        })
+      } else setError(d.error ?? "Could not save outcome")
     } catch {
       setError("Could not save outcome")
     } finally {

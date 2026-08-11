@@ -112,5 +112,13 @@ export async function POST(
     data: { status: "LOGGED", driftState },
   })
 
+  // The loop closes here — emit the signal at the one server chokepoint every
+  // close flows through (the "measure expected vs actual" arm producing telemetry,
+  // not just DB state). Server-log convention matches compass's "[COMPASS] …";
+  // greppable in Vercel logs + corpus analytics. Client fires the va() twin.
+  console.log(
+    `[OUTCOME] receipt_outcome_matched receipt=${receiptId} matched=${matched} drift=${driftState} regret=${regretScore} learning=${learning ? "y" : "n"} owner=${receipt.userId ? "user" : "anon"}`,
+  )
+
   return NextResponse.json({ ok: true, outcome, driftState })
 }
