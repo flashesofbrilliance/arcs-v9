@@ -19,6 +19,20 @@ pass 2026-08-11.
 
 ---
 
+## 0. Call outcomes — Aug 11 SugarAI call (supersedes conflicting rows below)
+
+Recoil: `2026-08-11-todd-sugar-recoil-close.md`. Belief events appended to `sugar-alignment-belieflog.jsonl`
+(in_call/post_call). Deltas from pre-call assumptions:
+
+- **Sandbox → clean-slate net-new tenant** (a production clone needs Sugar Identity/IDM re-provision). Free under the 2-sandbox allowance.
+- **Access → scoped API key, NOT admin** (add field types + geographic routing policies only). Exact scope list = §6 of the Google Doc SSOT; **API-permission scoping is the immediate blocker** (Zach specifies → Alberto confirms w/ engineering → provision).
+- **Integration/customization is OUT of standard support scope** → SugarCare / Professional Services (dedicated hours). New commercial track; surface any cost *before* it's incurred (Todd guardrail).
+- **Enrichment → reuse the existing ZoomInfo bidirectional integration** (already wired); Hint is fallback, not new spend. (Supersedes D5.)
+- **Mailgun is in the live stack** (named on the call) → reuse it for notify/autoresponder; the memory-vs-repo discrepancy is reconciled. (Supersedes D6.)
+- **Contacts:** Sebastian (Tech Support Mgr) + Alberto (Support Specialist); Long (Dir CS, bridging for Beeka/CSM); Bill Galla = PRL Sugar owner.
+- **SSOT mechanics:** Sugar tracks work as a **case**; our Google Doc is the intake Sebastian converts to tickets. Postman API ref + public changelog to be shared (Alberto); health-check availability TBC with dev team.
+- **Todd's three guardrails:** don't disrupt Bill's CRM · know costs before incurring · don't overcomplicate (chatbot → leads into Sugar → geo-route to the 8 reps).
+
 ## A. System overview
 
 The system turns an anonymous website visitor into a complete, correctly-routed SugarCRM Lead with a
