@@ -1,0 +1,38 @@
+<meta charset="utf-8">
+<title>ARCS · Onramp preview (Ahmed 60-second read)</title>
+<style>
+  :root{--bg:#020408;--surface:#0d1117;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dimmed:#64748b;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --mono:ui-monospace,'SF Mono','Fira Code','Courier New',monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .page{max-width:720px;margin:0 auto;padding:32px 20px 60vh}
+  .note{font-family:var(--mono);font-size:11px;color:var(--dimmed);letter-spacing:.06em;border:1px dashed var(--border);border-radius:8px;padding:10px 13px;margin-bottom:22px}
+  .sec-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--dimmed);margin:10px 2px -6px;scroll-margin-top:18px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-top:14px}
+  .spacer{height:70vh;display:flex;align-items:center;justify-content:center;color:var(--dimmed);font-family:var(--mono);font-size:11px}
+  .onramp{display:flex;gap:24px;align-items:center;flex-wrap:wrap;}
+  .onramp .chrono-wrap{flex:0 0 128px;}
+  .chrono{width:128px;height:128px;display:block;}
+  .chrono .wedge{opacity:0.22;stroke:var(--dimmed);transition:opacity .35s,stroke .35s;}
+  .chrono .wedge.on{opacity:1;}
+  .chrono .w1.on{stroke:var(--cyan);}.chrono .w2.on{stroke:var(--red);}.chrono .w3.on{stroke:var(--green);}
+  .chrono .hand{stroke:var(--cyan);transition:transform .55s cubic-bezier(.4,0,.2,1);}
+  .chrono .hub{fill:var(--cyan);}
+  .chrono .frac{font-family:var(--mono);font-size:13px;font-weight:700;fill:var(--text);}
+  .onramp .steps{flex:1 1 280px;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;counter-reset:s;}
+  .onramp .steps li{position:relative;padding:12px 15px 12px 42px;border:1px solid var(--border);border-radius:10px;background:rgba(255,255,255,0.012);opacity:0.45;transition:opacity .35s,border-color .35s,color .35s;font-size:13.5px;line-height:1.55;color:var(--muted);}
+  .onramp .steps li.on{opacity:1;border-color:rgba(0,240,255,0.32);color:var(--text);}
+  .onramp .steps li::before{counter-increment:s;content:counter(s);position:absolute;left:15px;top:12px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--dimmed);}
+  .onramp .steps li.on::before{color:var(--cyan);}
+  .onramp .steps li b{color:var(--text);font-weight:700;}
+  @media(prefers-reduced-motion:reduce){.chrono .hand{transition:none;}.onramp .steps li{opacity:1;color:var(--text);}}
+</style>
+<div class="page">
+  <div class="note">PREVIEW HARNESS — this is the 60-second-read onramp built for ahmed-ext.arcs.care, shown here on the ungated lab so it can be eyeballed before the PR merges. Scroll to watch the hand + wedges advance. Not a counterpart-facing URL.</div>
+
+  <div class="sec-label" id="read">How to read this &#183; 60 seconds</div><div class="card onramp"><div class="chrono-wrap"><svg class="chrono" viewBox="0 0 120 120" role="img" aria-label="Three-step reading guide"><circle cx="60" cy="60" r="52" fill="none" stroke="#141c28" stroke-width="1"/><circle class="wedge w1" cx="60" cy="60" r="46" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="88 201" transform="rotate(-90 60 60)"/><circle class="wedge w2" cx="60" cy="60" r="46" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="88 201" transform="rotate(30 60 60)"/><circle class="wedge w3" cx="60" cy="60" r="46" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="88 201" transform="rotate(150 60 60)"/><line class="hand" x1="60" y1="60" x2="60" y2="22" stroke-width="2.5" stroke-linecap="round" transform="rotate(60 60 60)"/><circle class="hub" cx="60" cy="60" r="4"/><text class="frac" x="60" y="88" text-anchor="middle">1/3</text></svg></div><ol class="steps"><li><b>Two beliefs, tracked over time.</b> Each line is one claim. Its height is how strongly it was held, and left to right is the call unfolding.</li><li><b>The correction is the point.</b> Watch for the drop. The red dot is where a prior collapsed, and that break is the signal, not the noise.</li><li><b>Signals, scored at the close.</b> The final positions become the numbers: propensity, urgency, risk. That is the brief.</li></ol></div>
+
+  <div class="spacer">↓ scroll — the chart would sit here, now legible</div>
+</div>
+<script>/* 60-second read: the reader drives the dial (hover/focus/tap a step). No auto-run, no countdown. */(function(){var steps=[].slice.call(document.querySelectorAll('.onramp .steps li'));if(!steps.length)return;var hand=document.querySelector('.chrono .hand'),frac=document.querySelector('.chrono .frac'),wedges=[document.querySelector('.chrono .w1'),document.querySelector('.chrono .w2'),document.querySelector('.chrono .w3')],rot=[60,180,300];function set(i){steps.forEach(function(s,k){s.classList.toggle('on',k===i);});wedges.forEach(function(w,k){if(w)w.classList.toggle('on',k<=i);});if(hand)hand.setAttribute('transform','rotate('+rot[i]+' 60 60)');if(frac)frac.textContent=(i+1)+'/3';}steps.forEach(function(s,i){s.setAttribute('tabindex','0');s.addEventListener('pointerenter',function(){set(i);});s.addEventListener('focus',function(){set(i);});s.addEventListener('click',function(){set(i);});});set(0);})();</script>
