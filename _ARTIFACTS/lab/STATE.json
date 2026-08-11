@@ -2,25 +2,35 @@
   "project": "arcs-experiments",
   "domain": "lab.arcs.care",
   "source": "_ARTIFACTS/lab/",
-  "git_head": "063588a",
-  "deploy_id": "dpl_8kbKozQuLXDb3TD6xgT6dQxtKkTp",
-  "deploy_url": "arcs-experiments-a7d3ileip-arcs-care.vercel.app",
-  "ready": "READY",
+  "git_head": "5f1f424",
+  "deploy_id": "dpl_AHdKXFoALepKeojjX6CLUikbMQ6i",
+  "deploy_url": "arcs-experiments-dbkby09fs-arcs-care.vercel.app",
+  "ready": "INITIALIZING",
   "surfaces": [
     {
       "route": "/briefing-record/",
       "file": "briefing-record/index.html",
-      "sha": "b98691d0e27e1877a495a9491963482c8d5095ba"
+      "sha": "0c2c150727655d2bc7b4e56246929a9bd10a3f9f"
     },
     {
       "route": "/conviction-ledger/",
       "file": "conviction-ledger/index.html",
-      "sha": "bdd9252102d15bf996020def9a3e7c4c93e5e578"
+      "sha": "da000f760f515ce5ba495bdbdaf6991c1feeb247"
     },
     {
       "route": "/",
       "file": "index.html",
-      "sha": "822126a74450a2050d7462d132a79d7965a4e8c0"
+      "sha": "27c82736b00a3b2ad7ea33a41dc62ede386fc6d0"
+    },
+    {
+      "route": "/ro",
+      "file": "rosetta.json",
+      "sha": "3d9461284ac0da1278a0c2f8aec828779439d9e3"
+    },
+    {
+      "route": "/rosetta/",
+      "file": "rosetta/index.html",
+      "sha": "5aac5540bb67678d3085f02575242e44a886280d"
     }
   ]
 }

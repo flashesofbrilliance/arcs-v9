@@ -1,0 +1,103 @@
+{
+  "$schema": "arcs.rosetta/v1",
+  "title": "ARCS Rosetta — operational definitions + artifact vocabulary",
+  "version": "1.0.0",
+  "updated": "2026-08-11",
+  "note": "The single vocabulary the lab surfaces and JSON exports speak. v1: seeded from memory + canon; not exhaustive. Extend, don't fork.",
+
+  "artifacts": {
+    "Receipt": {
+      "what": "A decision state-vector frozen in time — a coordinate on the manifold, not a document. The atom of ARCS.",
+      "shape": ["id", "true_north", "why", "dewy", "y_gate", "nci_score", "created_at", "lineage"],
+      "maps_to": "The DEWY-shaped export below is a Receipt serialized."
+    },
+    "DEWY": {
+      "what": "The receipt schema — the decomposition of a decision into D/E/W/Y.",
+      "shape": {
+        "D": "the sharpened question — what you are actually deciding",
+        "E": "the entity — who/what else is in the terrain",
+        "W": "the window — today / this week / this quarter / years",
+        "Y": "the yellow gate — conviction gradient (GREEN/YELLOW/FORK/SCRATCH/DELTA/PARADOX/DRIFT/RED)"
+      },
+      "maps_to": "ADR (a DEWY decision promoted to an architectural record), Codex (a DEWY receipt entry in the coursed narrative)."
+    },
+    "ADR": {
+      "what": "Architecture Decision Record — a durable, numbered decision promoted from a receipt when it governs how the system is built.",
+      "shape": ["number", "title", "context", "decision", "consequences", "loki_test", "y_gate"],
+      "maps_to": "Promoted from a DEWY receipt; cited in Canon."
+    },
+    "Codex": {
+      "what": "The coursed, searchable narrative surface of an engagement — receipts read as a story, exhibit by exhibit.",
+      "shape": ["engagement", "courses[]", "receipts[]", "kinematics"],
+      "maps_to": "Renders Receipts + Recoil; one of the four polyform exhibits (recoil / codex / receipt-close / diamond)."
+    },
+    "Forge": {
+      "what": "The pattern that mechanizes one SSOT into a family of surfaces (the polyform). The public/redacted method page at forge.arcs.care.",
+      "shape": ["ssot", "exhibits[recoil,codex,receipt-close,diamond]", "invariant_shape"],
+      "maps_to": "Produces Codex, Recoil, Receipt-close, Diamond exhibits from one SSOT."
+    },
+    "Canon": {
+      "what": "The ratified body of ARCS law — ROM primitives, ADRs, operational definitions. What must never be violated.",
+      "shape": ["rom_primitives", "adrs[]", "operational_definitions"],
+      "maps_to": "Composed of ADRs + this Rosetta; the SOT the Corpus is graded against."
+    },
+    "Corpus": {
+      "what": "The full body of source material an engagement is grounded in — calls, notes, emails, decks, docs — before synthesis.",
+      "shape": ["sources[]", "graded_against_canon"],
+      "maps_to": "Refined into Receipts; graded against Canon."
+    },
+    "Recoil": {
+      "what": "The kinematic telemetry of an engagement — the open-to-close diff, conviction peaks/collapses, redacted by tag. Observability of the decision.",
+      "shape": ["trajectory", "kinematics", "open_receipt", "close_receipt", "delta"],
+      "maps_to": "One of the four polyform exhibits; feeds the Observatory dataset."
+    }
+  },
+
+  "operational_definitions": {
+    "confidence": "Belief that a claim is TRUE. (Distinct from conviction.)",
+    "conviction": "STABILITY of a position under pressure — how solid/shifting/flat/entangled the gradient is.",
+    "NCI": "Net Coherence Index — whole-decision coherence, not any single field. The product-side nci_score is a different thing from the Commit-NCI (ADR-035) that grades code changes.",
+    "y_gate": {
+      "GREEN": "coherent / SHARP / high conviction",
+      "YELLOW": "contested / clearing / conviction gradient active",
+      "FORK": "path selection — traversing onto a slab closes options",
+      "SCRATCH": "outer fog — orient only, don't commit",
+      "DELTA": "conviction shift",
+      "PARADOX": "entangled / moire",
+      "DRIFT": "entropy masquerading as motion",
+      "RED": "free-solo topology — any slip unrecoverable; add protection or change the climb"
+    },
+    "earned_fidelity": "Render only at the resolution the data supports, verbatim-anchored. Never render more certainty than the receipt's Y-state deserves.",
+    "NOTOMATION": "Scaffold/sequence cognition; never compress, replace, or overrule revealed preference. Recommend, never act, on any ruin edge."
+  },
+
+  "motions": {
+    "_note": "The three motions of the invariant shape — beautiful operational definitions AND candidate product features (surfaced on forge.arcs.care).",
+    "Ladder": {
+      "axis": "scale",
+      "def": "Read the shape up or down — atom to pipeline, pipeline to atom — same in either direction. Zoom to any altitude without re-learning it.",
+      "feature_candidate": "A zoom control across the Russian-doll nesting (atom → molecule → organism → meta)."
+    },
+    "Cascade": {
+      "axis": "propagation / time",
+      "def": "The shape propagates forward — each application seeds the next, cost dropping each time (A→D each cheaper than the last).",
+      "feature_candidate": "The seed-chain: a receipt seeds the next surface / the next person."
+    },
+    "Spiral": {
+      "axis": "recursion",
+      "def": "The shape reverberates and returns changed — same-at-every-zoom, but the loop advances (record → receipt → update → record).",
+      "feature_candidate": "The compounding loop: outcome-matched receipts feed back to sharpen the next bet."
+    }
+  },
+
+  "master_pattern": {
+    "loop": "Trigger → Action → Receipt(open) → Seed → (Trigger)",
+    "def": "Every ARCS surface is one self-similar loop, nested like Russian dolls at every scale. Value leads as experience (the reward embodies how-to-read); the mechanism is pulled, not pushed.",
+    "sequencing_law": "Design for the arriving cognitive state (System-1, in-fire) — lead with the fire + one action, collapse the mechanism."
+  },
+
+  "scope": {
+    "global": "This registry (artifacts, operational_definitions, master_pattern) is global ARCS canon — applies across every project.",
+    "project_specific": "Engagement Codex/Recoil/Corpus instances are project-specific; they conform to these global shapes but carry their own content. Never embed a real counterpart's data in a global artifact."
+  }
+}

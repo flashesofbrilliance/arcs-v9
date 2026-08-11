@@ -34,10 +34,11 @@ def surfaces():
     out = []
     for dirpath, _, files in os.walk(ROOT):
         for f in files:
-            if f.endswith(".html"):
-                full = os.path.join(dirpath, f)
-                rel = os.path.relpath(full, ROOT).replace(os.sep, "/")
-                out.append((rel, full))
+            if f == "STATE.json":
+                continue                       # state record, not a served asset
+            full = os.path.join(dirpath, f)
+            rel = os.path.relpath(full, ROOT).replace(os.sep, "/")
+            out.append((rel, full))
     return sorted(out)
 
 def git_head():

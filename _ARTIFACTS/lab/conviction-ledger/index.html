@@ -233,6 +233,7 @@
         +'<div class="chan-wrap"><div class="chan-lab">Channels sampled &middot; click a pill to cycle</div>'
           +chans
           +'<div class="addchan"><input placeholder="channel (who / where you sent it)" data-in="ch"><button class="btn sm ghost" data-act="addch">+ channel</button>'
+          +'<button class="btn sm ghost" data-act="export">⤓ Export JSON</button>'
           +'<button class="btn sm ghost" data-act="delbet" style="margin-left:auto">delete bet</button></div>'
           +(v.silent?'<div class="silentnote">'+v.silent+' channel'+(v.silent>1?'s':'')+' silent — silence is not a cancel. Get a read-back before you count it.</div>':'')
         +'</div>';
@@ -256,6 +257,19 @@
     var act=e.target.getAttribute("data-act"); if(!act) return;
     var betEl=e.target.closest("[data-bet]"); var bet=findBet(betEl.dataset.bet); if(!bet) return;
     if(act==="delbet"){ bets=bets.filter(function(b){return b.id!==bet.id;}); save();render(); return; }
+    if(act==="export"){
+      // Interoperability: emit this bet as a DEWY-shaped receipt (arcs.rosetta/v1).
+      var vv=verdict(bet);
+      var out={_schema:"arcs.rosetta/v1",artifact:"Receipt",source:"conviction-ledger",id:bet.id,
+        name:bet.name,fundamental:bet.fund,falsifier_k:bet.k,
+        dewy:{D:bet.fund,E:null,W:null,Y:(vv.k==="tune"?"GREEN":vv.k==="update"?"RED":vv.k==="gather"?"SCRATCH":"YELLOW")},
+        verdict:{state:vv.k,label:vv.t,why:vv.why},
+        channels:bet.channels.map(function(c){return {name:c.name,type:c.type,out:c.out};}),
+        exported_at:new Date().toISOString()};
+      var blob=new Blob([JSON.stringify(out,null,2)],{type:"application/json"});
+      var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="bet-"+bet.id+".dewy.json";a.click();URL.revokeObjectURL(a.href);
+      return;
+    }
     if(act==="addch"){
       var inp=betEl.querySelector('[data-in="ch"]'); var val=inp.value.trim(); if(!val){inp.focus();return;}
       bet.channels.push({id:uid(),name:val,type:"orthogonal",out:"pending"}); save();render(); return;
