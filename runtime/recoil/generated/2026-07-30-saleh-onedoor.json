@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "report_id": "2026-07-30-saleh-onedoor",
+    "counterpart": "Rayan Saleh",
+    "company": "Periscope",
+    "doc_title": "Rayan · one read",
+    "gate": {}
+  },
+  "header": {
+    "eyebrow": "Rayan &middot; one read",
+    "title": "The thing I promised, on our own call.",
+    "sub": "One read, at your pace: the bet I filed on you before we talked, and the one line that flipped it. That&rsquo;s the whole thing, no install and nothing to decode."
+  },
+  "blocks": [
+    {
+      "type": "seed",
+      "k": "01 &middot; the one line",
+      "h2": "You asked what the output actually is. Here it is.",
+      "quote": "what do you see as the output... from an end client&rsquo;s perspective, what would be the result of getting all of this data",
+      "attr": "You, twice, on Jul 30. You asked for the concrete output and I gave you theory. This is the output: one decision, scored."
+    },
+    {
+      "type": "story",
+      "k": "02 &middot; the bet that flipped",
+      "h2": "I filed a bet on you before we talked. The one I flagged most likely wrong broke best.",
+      "intro": "Before the call I wrote down a falsifiable bet and flagged the belief I most expected to be wrong: that a cold inbound AI founder would be another shallow substrate. It broke, in the best direction.",
+      "beats": [
+        {
+          "dir": "flip",
+          "k": "Shallow guess to deep substrate",
+          "before": "Probably another buzzword wrapper, low odds of real architectural depth.",
+          "quote": "we can go from helicopter view to literally down to the clicks... we&rsquo;ve essentially built a world model of the business",
+          "after": "A real substrate. And we found the seam between us in the same breath, you said it before I did."
+        }
+      ],
+      "caption": "This is me scoring my own prediction, not scoring you. The receipt grades the person who filed the bet."
+    },
+    {
+      "type": "howitworks",
+      "k": "03 &middot; where we fit",
+      "h2": "You map the business. ARCS calibrates the people deciding inside it.",
+      "cards": [
+        {
+          "h3": "Your half: the world model",
+          "p": "Periscope maps the business end to end, down to the click, and simulates what changes. You already named the next layer yourself: log the decisions, cross-reference the simulation against what actually happened."
+        },
+        {
+          "h3": "My half: the one thing that loop doesn&rsquo;t do",
+          "p": "Calibrate the human who makes the one-way-door call. File the bet before, measure it against reality, recalibrate that person&rsquo;s blind spots over time, &lsquo;overconfident eight times out of ten.&rsquo; Your model maps the business; this tunes the deciders inside it."
+        },
+        {
+          "h3": "Runs on Claude today",
+          "p": "No new integration, and nothing here is aspirational. The bias calibration is what runs now. The heavier simulation is roadmap, and I&rsquo;ll say so when it comes up rather than let a number float."
+        }
+      ]
+    },
+    {
+      "type": "start",
+      "k": "04 &middot; no ask",
+      "h2": "Two builders, adjacent halves. That&rsquo;s the whole ask.",
+      "intro": "You send the Periscope demo links when you get a sec, this is the example I owed you. No deal, no meeting to book. You&rsquo;re heads-down on the raise and this respects that.",
+      "needs": [
+        {
+          "h3": "You",
+          "p": "Send the demos whenever, I&rsquo;d love to see the day-in-the-life and the what-if simulations you walked me through."
+        },
+        {
+          "h3": "Me",
+          "p": "This read, yours to keep. If a real decision ever comes up worth calibrating, we talk. No rush, no obligation."
+        }
+      ],
+      "close": "Good luck with the raise and the move. Let&rsquo;s keep comparing notes, builder to builder."
+    }
+  ],
+  "foot": "ARCS &middot; ONE READ &middot; AT YOUR OWN PACE"
+}

@@ -177,6 +177,19 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 ---
 
+## Receipt provenance contract (the meta-comprehension layer)
+
+Every receipt an orchestration step or subagent emits (a finding, a stage return, a gate verdict, a DEWY
+receipt, a belief-flip) should be self-describing along three dimensions so it can be verified and **merged
+across lanes/sessions without re-deriving trust**: **provenance** (`derived_from` + `verified_against` primary
+source + `transform`), **attestation** (`attested_by` + `independent` + earned `confidence`), and
+**context-intent** (the hypersphere manifold What/Who/Where-When/Why/Flow-State + `temporal` NOW/NEXT/ASPIRATIONAL).
+Partly enforced today by the `temporal_provenance` + `honesty_and_attribution` gates and the gauntlet's
+verify-vs-source. SSOT + envelope schema: `_PATTERNS/receipt-provenance-attestation-contract.md`. Wiring into
+the 7 `.claude/agents/*.md` + the workflows is a deliberate follow-up, not yet done.
+
+---
+
 ## Connected systems
 
 | System | Repo | Role |

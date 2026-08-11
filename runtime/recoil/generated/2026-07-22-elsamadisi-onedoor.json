@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "report_id": "2026-07-22-elsamadisi-onedoor",
+    "counterpart": "Ahmed Elsamadisi",
+    "company": "Polyform",
+    "doc_title": "Ahmed · one read",
+    "gate": {}
+  },
+  "header": {
+    "eyebrow": "Ahmed &middot; one read",
+    "title": "You asked how to read it. Here&rsquo;s the one-screen version.",
+    "sub": "One timeline, one read: what I believed before, the line that moved it, what I believed after. Built in your one-table shape, one small form repeated down the page, nothing to install or decode."
+  },
+  "blocks": [
+    {
+      "type": "seed",
+      "k": "01 &middot; how to read this",
+      "h2": "One row at a time. A belief, the line that moved it, the updated belief.",
+      "quote": "we standardize all of data into a single table and use that table to answer all the questions",
+      "attr": "You, Jul 22. So this is one shape, repeated: a belief, the line that moved it, the update, the same at a single row or the whole call. One table, the way yours answers everything at any zoom. No topography, no layers to peel."
+    },
+    {
+      "type": "story",
+      "k": "02 &middot; the bet that flipped",
+      "h2": "The bet I got wrong: I thought you were the customer.",
+      "intro": "Before we talked I bet the first move was running this on Polyform&rsquo;s own data. You corrected me in one line.",
+      "beats": [
+        {
+          "dir": "flip",
+          "k": "Buyer to channel",
+          "before": "Run ARCS on Polyform&rsquo;s data, you&rsquo;re the user.",
+          "quote": "I think our data is less interesting, but our customers&rsquo; need is probably way more interesting",
+          "after": "You&rsquo;re not the user, you&rsquo;re the channel. And you&rsquo;d already described the whole loop back to me, so there was never a concept to sell."
+        }
+      ],
+      "caption": "Scoring my own read, not yours. The receipt grades the person who filed the bet."
+    },
+    {
+      "type": "howitworks",
+      "k": "03 &middot; what&rsquo;s useful",
+      "h2": "The thing that helps this month, and the thing for later.",
+      "cards": [
+        {
+          "h3": "Now: your new rep&rsquo;s first meetings",
+          "p": "You said he started two weeks ago with no meetings yet. The quick, useful taste is pressure-testing the ICP and the pre-meeting questions, so his first real calls go in sharp. Small, this week if you want it."
+        },
+        {
+          "h3": "Later: the run-once channel you sketched",
+          "p": "When your customers have the call volume, the sponsored run-once-per-company idea you floated is the real one. It&rsquo;s yours, I kept it warm. No pilot fee to discuss until it&rsquo;s actually useful to you."
+        },
+        {
+          "h3": "Runs on Claude today",
+          "p": "Nothing here is aspirational, and nothing here needs access to your systems. If a capability is roadmap, I&rsquo;ll mark it as roadmap."
+        }
+      ]
+    },
+    {
+      "type": "start",
+      "k": "04 &middot; no homework",
+      "h2": "That&rsquo;s the whole read. No format to pick, nothing owed.",
+      "intro": "You asked what format would be easiest. This is me just building it, so there&rsquo;s nothing on your side to answer.",
+      "needs": [
+        {
+          "h3": "If the rep angle is useful",
+          "p": "Say the word and I&rsquo;ll turn the ICP pressure-test around fast, one page, no lift on your end."
+        },
+        {
+          "h3": "Otherwise",
+          "p": "Back on my feet soon, coffee when I&rsquo;m in the city. Those pay dividends, your words."
+        }
+      ],
+      "close": "Good to be circling the same problem from two sides, you from the data, me from the decision."
+    }
+  ],
+  "foot": "ARCS &middot; ONE SHAPE, ANY SCALE &middot; KEEP EACH OTHER AWARE"
+}
