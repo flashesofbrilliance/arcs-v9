@@ -1,0 +1,109 @@
+---
+name: night-moves
+description: End-of-day work digest. Sweeps the day's commits (all branches/worktrees), net-new tools, ADRs/DEWY receipts, and memory writes, then synthesizes a five-part digest — what shipped · what's next · what we learned · the new shape of tools-for-JTBD · net-new tools built — into a dated markdown log at _STATE/night-moves/YYYY-MM-DD.md. Use at the end of a work session to keep a running record of the day. Manual, subscription-tier, cheap (git + find, no network).
+---
+
+# /night-moves [YYYY-MM-DD] — the nightly work digest
+
+> "This is what shipped. This is what's next. This is what we learned.
+>  This is the new shape of the tools. These are the net-new tools we built."
+
+A calm end-of-day pass that turns a day of scattered commits across ~40 worktrees
+into one legible record. It does NOT commit, deploy, or send anything. It reads,
+synthesizes, and writes one dated markdown file. Run it when you're done for the night.
+
+Defaults to today; pass a date to re-digest a past day (`/night-moves 2026-08-10`).
+
+## Cost + register
+- Subscription tier, interactive. Gather is pure `git log` + `find` (no network, no LLM).
+- Only the synthesis of sections 3–5 costs tokens. Keep it tight. This is a log, not an essay.
+- Voice: WORLD.md register — calm, precise, plain language, no em-dashes (per user memory
+  [[writing-avoid-emdashes-plain-language]]). Earned fidelity: say what the day supports, no more.
+
+## Step 1 — Gather (deterministic, run first)
+
+```bash
+scripts/night_moves_gather.sh [YYYY-MM-DD]
+```
+
+This prints, for the day: SHIPPED (commits deduped by message), NET-NEW TOOLS
+(files added under scripts/ operators/ .claude/{skills,workflows,commands}/ src/lib/),
+DECISIONS (ADRs + `.dewy.json` receipts touched), MEMORY (auto-memory files written),
+and FILES (touched paths bucketed by area — the raw signal for the JTBD-shape read).
+
+Do not re-run git by hand. The script already sweeps `--all` (every branch/worktree
+shares one `.git`) and dedups. Read its output; that IS your source material.
+
+## Step 2 — Synthesize the five sections
+
+Write `_STATE/night-moves/<DAY>.md` using the template below. Rules per section:
+
+1. **What shipped** — group the deduped commits by workstream (the `scope` in
+   `type(scope):` is the natural key: yuri, todd/prl, watcher, forge, ...). One bullet
+   per workstream with the concrete outcome, not a commit-by-commit dump. Lead each with
+   whether it reached the outside world (SENT / deployed / merged) vs internal-only.
+
+2. **What's next** — pull open loops from: the latest `# Handoff` "Next session starts at"
+   + "Blocking" lines, any commit that names a pending gate ("awaiting X", "pending Y
+   approval", "BLOCKED on Z"), and unfinished slices ("slice 1", "1.3 prework only").
+   Each item: the move + what it's waiting on. Do not invent work that isn't in the signal.
+
+3. **What we learned** — the day's durable lessons. Source: ADRs minted today (each ADR is
+   a learning), DEWY receipts, and memory files written today (each memory IS a distilled
+   lesson — read its `description`). Phrase as portable principles, not narrative. Link the
+   backing artifact (`ADR-044`, `[[memory-slug]]`).
+
+4. **The new shape of "tools for JTBD"** — the interpretive read. From the NET-NEW TOOLS +
+   FILES-by-area buckets, name how the *jobs* the toolkit can do shifted today. Not "we added
+   a file" but "the forge JTBD now refuses to ship aspiration as fact (temporal gate), so
+   'stand up a counterpart' is now honesty-gated by construction." One to four of these.
+   This is where the digest earns its keep — connect net-new capability to the job it changes.
+
+5. **Net-new tools we built** — the concrete list from NET-NEW TOOLS. One line each: the
+   tool + the one job it does. Distinguish genuinely new (status A) from extended-existing.
+
+## Step 3 — Write + report
+
+- Write the file. Ensure `_STATE/night-moves/` exists (`mkdir -p`).
+- Do NOT commit or deploy unless the user asks. If they do, land it from the `main` worktree
+  per the deploy rules (`git push --no-verify`; content-only, build-excluded).
+- Report back: the path, the shipped-count, and the single highest-charge line from section 4
+  (the day's most important shape-change). Nothing more.
+
+## Output template
+
+```markdown
+# Night Moves — <DAY> (<weekday>)
+
+> <one-sentence read of the day: the through-line, in plain language>
+
+## 🚢 What shipped
+- **<workstream>** — <outcome>. <SENT/deployed/internal>. `<lead sha>`
+- ...
+_<N> commits across <M> workstreams._
+
+## 🎯 What's next
+- **<move>** — waiting on <gate>. <source: handoff / commit / open slice>
+- ...
+
+## 🧠 What we learned
+- <portable principle> — `ADR-0XX` / [[memory-slug]]
+- ...
+
+## 🔧 The new shape of tools for JTBD
+- **<job>** now <how it changed> — because <net-new capability>.
+- ...
+
+## 🆕 Net-new tools we built
+- `<path>` — <the one job it does>. <new | extends X>
+- ...
+
+---
+_Generated by /night-moves · gather: scripts/night_moves_gather.sh · <timestamp>_
+```
+
+## Notes
+- Re-running the same day overwrites its file (idempotent; the log is one file per day).
+- The gather's author filter defaults to `Zach`; override with `NIGHT_MOVES_AUTHOR=...`.
+- Complements the ADR/DEWY watcher (`scripts/adr_dewy_watch.py`, `surface_watch.py`): the
+  watcher surfaces *candidates* mid-session; night-moves is the *ledger* of what the day was.

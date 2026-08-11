@@ -103,60 +103,52 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.29.0 (2026-08-10)
+# Handoff — v3.30.0 (2026-08-10)
 
-> **Active pickup point.** v3.28.0 relocated to `_ARCHIVE/handoffs.md`. **The Yuri suite is SENT.** This
-> block is the closed-loop final state; there is no pending action on our side.
+> **Active pickup point.** v3.29.0 relocated to `_ARCHIVE/handoffs.md`. Yuri suite remains SENT,
+> ball in his court — nothing new there. This block's headline is a new capability: `/night-moves`.
 
-## Headline: the Yuri family shipped, four gauntlets deep, honest, and SENT
+## Headline: `/night-moves` — the end-of-day work digest routine, built and proven
 
-**SENT 2026-08-10.** Zach tweaked + sent the Gmail (Gmail draft `r-2135081402185612206` -> siryuri@gmail.com,
-subj "How to read the thing I sent, and who it's for"), pointing to `yuri.arcs.care`. The stale Aug-6 draft
-(carried the false model-agnostic claim + a password ref + the old 3-surface structure) was replaced with
-the current honest version first. **Ball is in Yuri's court.**
+Zach asked for a nightly routine that turns the day's scattered work (53 commits across ~40
+parallel worktrees on 2026-08-10) into one digest: **what shipped · what's next · what we
+learned · the new shape of tools for JTBD · net-new tools we built.**
 
-**Final page structure (live, ungated, noindex):** warm two-link one-door — the before/after (codex,
-"start here") + the diamond ("the call, moment by moment · a read, not the machine", face #2). **The
-machine** (the scored HIT/MISS closed loop + the interactive "file your own bet" studio = the RECEIPT) is
-chained off the codex close ("see it scored ->"), so the door stays two links. **Profile redacted** from
-the send (dossier; page still live, unlinked). Hero opens in his terms ("the pre-meeting brief your team
-already builds, but closed and scored").
+**Built as a two-layer skill (ADR-045):**
+- `scripts/night_moves_gather.sh [YYYY-MM-DD]` — deterministic gather, pure git + find, zero LLM
+  cost. Sweeps `git log --all` (dedups the same commit across worktrees), files added under
+  `scripts/`/`operators/`/`.claude/{skills,workflows,commands}/` (net-new tools), ADR/DEWY touches,
+  and auto-memory files written that day.
+- `.claude/skills/night-moves/SKILL.md` — reads the gather output and synthesizes the five
+  interpretive sections into `_STATE/night-moves/<date>.md`. Manual invocation, subscription
+  tier; does not commit or deploy on its own.
 
-**Honest + machine-gated.** ARCS runs on **Claude today**; a Google-internal version *could* run on Gemini
-(never stated as present fact). Enforced by **ADR-044 / the `temporal_provenance` gate** in
-`forge_counterpart.py` (refuses unhedged aspiration; caught a 2nd instance on Robin). Agentum named as the
-genuinely model-agnostic one.
+**Proven live, first run:** `_STATE/night-moves/2026-08-10.md` — 53 commits grouped into 6
+workstreams, 3 net-new tools identified, learnings linked to ADR-043/044 and memory. Caught a real
+edge case immediately: the session ran past midnight, so the OS "today" (08-11) was empty — the
+skill needed an explicit date arg to digest the actual work day. That gotcha is now documented in
+the skill itself.
 
-**Four gauntlets survived** (lens -> register -> primary transcript -> 6-facet persona ×2). The 2nd persona
-gauntlet (main a946c3f/a9b2b8c) fixed: the diamond onenum contradicting its own chart (now admits the
-doc-miss flicker); receipt over-anchor to internal-Google (two-path, portable-first); codex condescension
-re his shop; org/VC ladder collapse; not-flattering/free/5x-disclaimer trims. Spine protected (self-scoring,
-fence, hero line, doc-miss, consent, model-hedge).
-
-## Pipeline formalized (back-propagated from the send)
-This session's emergent sequence is now the canonical `/forge` flow, not tacit. The `/forge` skill encodes
-the full 9 phases (gather-incl-full-comms-thread → synth → generate → verify-incl-temporal-gate → deploy →
-**GAUNTLET LADDER → VIBE REFIT → SEND PREP → CAPTURE**), and the persona-facet gauntlet is a REUSABLE
-parameterized Workflow: `.claude/workflows/counterpart-gauntlet.js` (`Workflow({name:'counterpart-gauntlet',
-args:{counterpart, repo, transcript, comms_thread, surfaces, memory, register, already_healed}})`). Robin or
-any new counterpart runs the same battle-tested ladder by construction. See [[counterpart-forge-pipeline]].
+**Complements, doesn't replace:** `/handoff` is per-session and forward-facing (what the *next*
+session needs to resume). `/night-moves` is a whole-day ledger, run once at the end, independent of
+which sessions or worktrees did the work. Also complements the ADR/DEWY candidate watcher
+(`scripts/adr_dewy_watch.py`) — the watcher surfaces candidates mid-session; night-moves is the
+end-of-day rollup.
 
 ## Captured (ADRs / receipts / memories)
-- **ADR-044** — Temporal-Provenance Gate. `_DECISIONS/`.
-- **DEWY receipts** — `_STATE/2026-08-10-session-decisions.dewy.json` (5: temporal gate, redact-dossier
-  refit, diamond earned-fidelity, persona-gauntlet method, the send).
-- **Memories** — [[temporal-chain-of-custody-fact-vs-fiction]], [[earned-fidelity-not-maximal-diamond-cut]],
-  [[counterpart-vantage-premortem]], [[gauntlet-tuned-to-register-catches-what-detector-cannot]] (esc 3),
-  [[project_yuri_kleban_google]] (SENT).
+- **ADR-045** — Night Moves: End-of-Day Work Digest Routine. `_DECISIONS/`.
+- **DEWY receipt** — `2026-08-10-night-moves-routine-built`, appended to
+  `_STATE/2026-08-10-session-decisions.dewy.json` (now 6 receipts for the day).
+- **Memory** — [[night-moves-daily-digest-routine]].
 
-## Next session starts at — Yuri's reply (nothing pending on our side)
-When Yuri replies, the live threads (all teed up in [[project_yuri_kleban_google]]): his read on ARCS
-positioning/GTM (his offered ask), Agentum chat (two builders), part-two / GCP dogfood, and the portable
-diligence/M&A path (Purpose Built + ex-UBS partner). He is warm, no-agenda, bite-size, bounces off
-abstraction -> keep replies short + concrete; let him pull. Point Claude at his message when it lands.
+## Next session starts at
+No blocker from this work. Carrying forward from v3.29.0: **Yuri's reply** (nothing pending on our
+side — see [[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint
+gate pending Todd's approval). If `/night-moves` is used going forward, remember the midnight
+gotcha — pass an explicit date when a session spans two calendar days.
 
 ## Blocking
-NONE. Sent; awaiting Yuri.
+NONE.
 
 ## Deploy note
 Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;

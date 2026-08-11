@@ -102,6 +102,26 @@
       "mode": "STANDARD",
       "adr": "ADR-044",
       "memory": "[[project_yuri_kleban_google]]"
+    },
+    {
+      "receipt_id": "2026-08-10-night-moves-routine-built",
+      "surface": "meta / tooling",
+      "sharp_question": "How does Zach keep a legible daily record across ~40 parallel worktrees without hand-compiling it?",
+      "dewy_vector": {
+        "D": "Build /night-moves: a deterministic gather script (git log --all + net-new-tool/ADR/DEWY/memory detection, zero LLM cost) + a skill that synthesizes 5 sections (shipped/next/learned/tool-shape/net-new tools) into a dated ledger.",
+        "E": "scripts/night_moves_gather.sh + .claude/skills/night-moves/SKILL.md; writes _STATE/night-moves/<date>.md.",
+        "W": "DURABLE. Revisit if a nightly schedule is added or git/worktree topology changes.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Cheap, repeatable, git-and-memory-grounded daily digest, manually invoked — matches the /handoff capture-then-narrate pattern.",
+      "why": "53 commits landed today across parallel worktrees with no single artifact capturing 'what happened' as distinct from /handoff's per-session resume state.",
+      "loki": "Skipped on a busy night when most valuable? Mitigated by optional date arg — back-fillable next run. Proven live: this session crossed midnight and had to be pointed at 2026-08-10 explicitly.",
+      "bar": "Low — a missed digest loses a record, not a decision; no ruin vector.",
+      "horizon": "DURABLE",
+      "stakes": "LOW",
+      "mode": "STANDARD",
+      "adr": "ADR-045"
     }
   ]
 }

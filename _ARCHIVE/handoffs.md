@@ -1,5 +1,66 @@
 # ARCS v9 — Handoff Archive (v0.1.0 → v3.5.0)
 
+# Handoff — v3.29.0 (2026-08-10)
+
+> **Active pickup point.** v3.28.0 relocated to `_ARCHIVE/handoffs.md`. **The Yuri suite is SENT.** This
+> block is the closed-loop final state; there is no pending action on our side.
+
+## Headline: the Yuri family shipped, four gauntlets deep, honest, and SENT
+
+**SENT 2026-08-10.** Zach tweaked + sent the Gmail (Gmail draft `r-2135081402185612206` -> siryuri@gmail.com,
+subj "How to read the thing I sent, and who it's for"), pointing to `yuri.arcs.care`. The stale Aug-6 draft
+(carried the false model-agnostic claim + a password ref + the old 3-surface structure) was replaced with
+the current honest version first. **Ball is in Yuri's court.**
+
+**Final page structure (live, ungated, noindex):** warm two-link one-door — the before/after (codex,
+"start here") + the diamond ("the call, moment by moment · a read, not the machine", face #2). **The
+machine** (the scored HIT/MISS closed loop + the interactive "file your own bet" studio = the RECEIPT) is
+chained off the codex close ("see it scored ->"), so the door stays two links. **Profile redacted** from
+the send (dossier; page still live, unlinked). Hero opens in his terms ("the pre-meeting brief your team
+already builds, but closed and scored").
+
+**Honest + machine-gated.** ARCS runs on **Claude today**; a Google-internal version *could* run on Gemini
+(never stated as present fact). Enforced by **ADR-044 / the `temporal_provenance` gate** in
+`forge_counterpart.py` (refuses unhedged aspiration; caught a 2nd instance on Robin). Agentum named as the
+genuinely model-agnostic one.
+
+**Four gauntlets survived** (lens -> register -> primary transcript -> 6-facet persona ×2). The 2nd persona
+gauntlet (main a946c3f/a9b2b8c) fixed: the diamond onenum contradicting its own chart (now admits the
+doc-miss flicker); receipt over-anchor to internal-Google (two-path, portable-first); codex condescension
+re his shop; org/VC ladder collapse; not-flattering/free/5x-disclaimer trims. Spine protected (self-scoring,
+fence, hero line, doc-miss, consent, model-hedge).
+
+## Pipeline formalized (back-propagated from the send)
+This session's emergent sequence is now the canonical `/forge` flow, not tacit. The `/forge` skill encodes
+the full 9 phases (gather-incl-full-comms-thread → synth → generate → verify-incl-temporal-gate → deploy →
+**GAUNTLET LADDER → VIBE REFIT → SEND PREP → CAPTURE**), and the persona-facet gauntlet is a REUSABLE
+parameterized Workflow: `.claude/workflows/counterpart-gauntlet.js` (`Workflow({name:'counterpart-gauntlet',
+args:{counterpart, repo, transcript, comms_thread, surfaces, memory, register, already_healed}})`). Robin or
+any new counterpart runs the same battle-tested ladder by construction. See [[counterpart-forge-pipeline]].
+
+## Captured (ADRs / receipts / memories)
+- **ADR-044** — Temporal-Provenance Gate. `_DECISIONS/`.
+- **DEWY receipts** — `_STATE/2026-08-10-session-decisions.dewy.json` (5: temporal gate, redact-dossier
+  refit, diamond earned-fidelity, persona-gauntlet method, the send).
+- **Memories** — [[temporal-chain-of-custody-fact-vs-fiction]], [[earned-fidelity-not-maximal-diamond-cut]],
+  [[counterpart-vantage-premortem]], [[gauntlet-tuned-to-register-catches-what-detector-cannot]] (esc 3),
+  [[project_yuri_kleban_google]] (SENT).
+
+## Next session starts at — Yuri's reply (nothing pending on our side)
+When Yuri replies, the live threads (all teed up in [[project_yuri_kleban_google]]): his read on ARCS
+positioning/GTM (his offered ask), Agentum chat (two builders), part-two / GCP dogfood, and the portable
+diligence/M&A path (Purpose Built + ex-UBS partner). He is warm, no-agenda, bite-size, bounces off
+abstraction -> keep replies short + concrete; let him pull. Point Claude at his message when it lands.
+
+## Blocking
+NONE. Sent; awaiting Yuri.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
+SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
+their SSOT changed (verify with a diff).
+
+
 # Handoff — v3.22.0 (2026-08-03)
 
 > **For Claude Code:** active pickup point. v3.21.0 above preserved; v3.20.0 relocated to

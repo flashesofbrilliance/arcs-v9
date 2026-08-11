@@ -313,5 +313,14 @@
     "stability": "SHIFTING",
     "gate": "revisit at >=20 real (non-dev-test) debrief opportunities",
     "file": "ADR-040-debrief-calendar-invite-vs-email.md"
+  },
+  {
+    "id": "ADR-045",
+    "title": "ADR-045 \u2014 Night Moves: End-of-Day Work Digest Routine",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if a nightly schedule is added or worktree/git topology changes",
+    "file": "ADR-045-night-moves-digest-routine.md"
   }
 ]
