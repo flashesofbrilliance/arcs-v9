@@ -21,6 +21,7 @@ rendered surface should carry `docset: <version>` in its header so drift is visi
 | S3 | `2026-08-11-todd-sugar-recoil-close.md` | Event record — the Aug-11 call recoil | 2026-08-11-postcall.1 |
 | S4 | `prl-lyro/STATE-OF-SUGAR-2026-08-11.md` | Internal walk-in brief | ✅ reconciled (post-call banner → S1 §0/S3) |
 | S5 | `prl-lyro/SUGAR-call-prep-2026-08-11.md` | Pre-call prep (historical; frozen) | precall (archival) |
+| S6 | `prl-lyro/tidio-flows/` | **Importable Tidio flow JSON** (canonical) — `main/` capture-first-REQUIRED · capture-at-end · ai-forward; `sem-onramps/` 5 competitor entries; `ai-bridge/` flow→Lyro handoff. 9 files, all valid. Imported via Tidio dashboard (Flows → Import). **Now git-tracked** (was only in `~/Downloads/prl-tidio-flows`, un-versioned). Supersedes the empty `backups/live-flow-lead-capture-2026-08-09.json`. | 2026-08-11-postcall.1 |
 
 ## Projections — Google Docs (shared folder `PRL Resins — Chatbot`)
 | # | Doc | ID | Source | Status |
