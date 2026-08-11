@@ -187,8 +187,14 @@ const nextConfig: NextConfig = {
         { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
         // chan.arcs.care → public/chan.html (ARCS product mission/architecture/roadmap hub for Prophet CDO show-and-tell, ungated)
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
-        // status.arcs.care → public/status.html (standalone ARCS build-status fork of chan, no Prophet/presentation, ungated)
-        { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // status.arcs.care → public/status.html (standalone ARCS build-status fork of chan).
+        // Now passcode-gated in src/proxy.ts (the "for the real ones" veil). The source
+        // negative-lookahead EXCLUDES the gate cover, the gate/telemetry API routes, and
+        // framework paths — otherwise this platform rewrite pass (which runs AFTER the
+        // middleware) would re-catch the middleware's rewrite to "/status-gate.html" (or the
+        // "/api/gate/*" POST) via the bare "/:path*" and overwrite it back to status.html.
+        // Same double-pass gotcha the todd-call/julia rules document above.
+        { source: "/:path((?!status-gate|api/|_next|_vercel|robots\\.txt).*)", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         // ayesha.arcs.care → public/ayesha-ext.html (sanitized external recap, addressed to Ayesha, pw-gated "ayesha")
         // public/ayesha.html (internal Recoil Report) is committed but deliberately NOT routed to any domain.
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },

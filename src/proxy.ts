@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { verifyGate, GATE_COOKIE } from '@/lib/statusgate'
 
 const SUBDOMAIN_MAP: Record<string, string> = {
   'token':        '/token.html',
@@ -28,8 +29,63 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'ahmed-ext': { '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed-ext.html' },
 }
 
-export default function proxy(request: NextRequest) {
+// Paths that must stay reachable on status.arcs.care even while veiled — the
+// cover page, its unlock/logout routes, framework/asset paths, and the live
+// telemetry endpoints the page polls (telemetry is numbers, not the honest
+// prose the gate protects; /api/pulse is already public + consumed by chan).
+function isStatusOpenPath(pathname: string): boolean {
+  return (
+    pathname === '/status-gate.html' ||
+    pathname.startsWith('/api/gate') ||
+    pathname.startsWith('/api/pulse') ||
+    pathname.startsWith('/api/field') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname === '/favicon.ico' ||
+    pathname === '/robots.txt'
+  )
+}
+
+// JTBD: veil status.arcs.care from passersby + indexers WITHOUT veiling the 40
+//   other *.arcs.care subtenants that share this one Vercel project.
+// TOOL-FIT: host-scoped middleware cookie gate over native Vercel Deployment
+//   Protection — the native option is project-scoped, so it would gate every
+//   subtenant too; a per-domain veil is only reachable in middleware.
+// EX-ANTE: predict this fits — same shape as the proven /recoil + /warroom
+//   per-surface server gates already in this file (fractal-similar job; scored ex-post).
+//   (Decision-provenance receipt; convention in AGENTS.md gotcha 9.)
+//
+// The passcode gate for status.arcs.care. INTERIM (until the MCP veil): a coarse
+// "no passersby, no indexers, not machine-readable" door, not per-person auth.
+// Server-side by design — an unauthenticated request (every bot) is rewritten to
+// the cover page and NEVER receives status.html, which is what actually makes the
+// content machine-unreadable. Fail-closed in prod, pass-through in dev (matches
+// the /recoil + /warroom gate convention). Cookie verified with Web Crypto at the
+// edge (src/lib/statusgate.ts) — no Node crypto, no npm dep. Delete this whole
+// block + the statusgate module when the MCP veil replaces it.
+async function statusGate(request: NextRequest): Promise<NextResponse | null> {
   const { pathname } = request.nextUrl
+  if (isStatusOpenPath(pathname)) return null
+  if (process.env.NODE_ENV === 'development') return null
+
+  const cookie = request.cookies.get(GATE_COOKIE)?.value
+  if (await verifyGate(cookie)) return null
+
+  const url = request.nextUrl.clone()
+  url.pathname = '/status-gate.html'
+  const res = NextResponse.rewrite(url)
+  res.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet')
+  return res
+}
+
+export default async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  const hostForGate = request.headers.get('host') || ''
+  if (hostForGate.split('.')[0] === 'status') {
+    const gated = await statusGate(request)
+    if (gated) return gated
+  }
 
   // Recoil identity gate is now enforced per-route via Auth.js session +
   // ADMIN_EMAILS (src/lib/admin.ts) on every /recoil surface:

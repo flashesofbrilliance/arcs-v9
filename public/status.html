@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>ARCS: Day 0 to Today</title>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<title>ARCS · field state</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -169,6 +169,28 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .pl-sub { font-family: var(--mono); font-size: 9.5px; color: var(--faint); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pulse-foot { padding: 8px 16px; font-family: var(--mono); font-size: 9px; color: var(--faint); letter-spacing: 0.04em; border-top: 1px solid var(--border); }
 @media (max-width: 640px){ .pulse-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* LIVE FIELD BOARD */
+.field { border: 1px solid var(--border); border-radius: var(--r-lg); background: linear-gradient(180deg, rgba(255,215,0,0.03), var(--surface)); overflow: hidden; }
+.field-head { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid var(--border); font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.field-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 8px rgba(255,215,0,0.7); animation: pulse 2.4s ease-in-out infinite; flex: none; }
+.field-src { color: var(--dimmed); font-weight: 500; letter-spacing: 0.06em; }
+.field-deploy { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.fd-badge { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; padding: 4px 9px; border-radius: var(--r-sm); border: 1px solid var(--border); color: var(--muted); }
+.fd-badge.ready { color: var(--green); border-color: rgba(0,255,157,0.4); background: rgba(0,255,157,0.07); }
+.fd-badge.building { color: var(--gold); border-color: rgba(255,215,0,0.4); background: rgba(255,215,0,0.07); }
+.fd-badge.error { color: var(--red); border-color: rgba(255,77,109,0.4); background: rgba(255,77,109,0.07); }
+.fd-sub { font-family: var(--mono); font-size: 10px; color: var(--dimmed); letter-spacing: 0.04em; }
+.fd-count { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.04em; margin-left: auto; }
+.field-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+.fh { background: var(--surface); padding: 9px 12px; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.fh-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+.fh-dot.up { background: var(--green); box-shadow: 0 0 6px rgba(0,255,157,0.6); }
+.fh-dot.down { background: var(--red); box-shadow: 0 0 6px rgba(255,77,109,0.6); }
+.fh-dot.warn { background: var(--gold); }
+.fh-name { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fh-stat { font-family: var(--mono); font-size: 9px; color: var(--faint); margin-left: auto; flex: none; }
+@media (max-width: 640px){ .field-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* ALTITUDE CONTROL */
 .alt-bar { position: sticky; top: 12px; z-index: 30; display: flex; gap: 6px; align-items: center; background: rgba(13,17,23,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--border); border-radius: 10px; padding: 8px; margin-top: 14px; flex-wrap: wrap; }
@@ -379,15 +401,18 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
-  <h1>Day 0: one empty commit.<br>Day 98: a live product that grades itself.</h1>
-  <div class="byline">Live build status, measured directly from the public repository · July 2026</div>
+  <div class="eyebrow"><span class="eyebrow-dot"></span>FOR THE REAL ONES · LIVE FIELD STATE</div>
+  <h1>Day 0: one empty commit.<br>Today: a live product that grades itself — and shows you the seams.</h1>
+  <div class="byline">You're past the veil. This isn't written for a crawler, an index, or a passerby · <a href="/api/gate/logout">re-veil</a></div>
   <div class="lede">
-    This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
-    in production, and <strong>documented from day one so a team could take it over without me in the room</strong>.
-    Every number on this page comes from the repository itself. Every milestone links to real commits. The dial
-    below lets you read the story at whatever depth you want: the one page version, or all the way down to the code.
+    This is the real state of <strong>ARCS</strong>, a decision intelligence platform I built solo, run in
+    production, and <strong>documented from day one so a team could take it over without me in the room</strong>.
+    Everything above the fold is <strong>live</strong> — the repo's own pulse and every hosted surface, read
+    directly, not narrated. Everything below is the honest register: shipped, building, <strong>blocked</strong>,
+    and the archaeology of what it cost. Read it at whatever depth you want — the one-page version, or all the
+    way down to the code.
   </div>
+  <div class="byline" style="color:var(--faint);font-family:var(--mono);font-size:var(--text-xs);letter-spacing:0.04em;">Interim veil · lifts to the MCP one when it lands.</div>
 
   <div class="stats">
     <div class="stat"><div class="stat-val accent" id="sv-commits">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
@@ -399,7 +424,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
   <div class="pulse" id="pulse" style="display:none">
     <div class="pulse-head">
       <span class="pulse-dot"></span>Live pulse
-      <span class="pulse-src">public GitHub API · main</span>
+      <span class="pulse-src">arcs-v9 · main · server-proxied</span>
       <button class="pulse-refresh" id="pulse-refresh" type="button" title="Refresh now" aria-label="Refresh live pulse">↻</button>
     </div>
     <div class="pulse-grid">
@@ -408,7 +433,23 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="pulse-cell"><div class="pl-k">Open PRs</div><div class="pl-v" id="pl-prs">loading…</div><div class="pl-sub" id="pl-prs-sub"></div></div>
       <div class="pulse-cell"><div class="pl-k">Commits · main</div><div class="pl-v" id="pl-count">loading…</div><div class="pl-sub">total, live</div></div>
     </div>
-    <div class="pulse-foot" id="pulse-foot">refreshes on load, on tab focus, and every 5 min · public API, rate-limited</div>
+    <div class="pulse-foot" id="pulse-foot">refreshes on load, on tab focus, and every 60s · server-proxied, cached ≤5 min</div>
+  </div>
+
+  <!-- LIVE FIELD BOARD — subtenant liveness + shared production deploy state -->
+  <div class="field" id="field" style="display:none">
+    <div class="field-head">
+      <span class="field-dot"></span>Field state
+      <span class="field-src">all *.arcs.care · one production deploy → N live aliases</span>
+      <button class="pulse-refresh" id="field-refresh" type="button" title="Refresh now" aria-label="Refresh field state">↻</button>
+    </div>
+    <div class="field-deploy" id="field-deploy">
+      <span class="fd-badge" id="fd-state">—</span>
+      <span class="fd-sub" id="fd-when">reading production deploy…</span>
+      <span class="fd-count" id="fd-count"></span>
+    </div>
+    <div class="field-grid" id="field-grid"></div>
+    <div class="pulse-foot" id="field-foot">liveness pinged server-side · cached ≤5 min</div>
   </div>
 
   <div class="legend-hint">Product terms look <b>like this</b>. Hover or tap for the plain meaning.</div>
@@ -1467,7 +1508,9 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
   }
   async function all() {
     try {
-      var r = await fetch("https://app.arcs.care/api/pulse", { cache: "no-store" });
+      // Same-origin: status.arcs.care is this Vercel app, so /api/pulse is local
+      // (no CORS) and reads the now-private repo via the server's GITHUB_TOKEN.
+      var r = await fetch("/api/pulse", { cache: "no-store" });
       if (!r.ok) throw 0;
       var p = await r.json();
       if (!p || p.ok === false) throw 0;
@@ -1480,11 +1523,80 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       set("pulse-foot", "live from public GitHub API · checked " + new Date().toLocaleTimeString());
     }
   }
-  // Day-count frozen to the snapshot: this is a fixed 98-day window (T0 2026-04-09
-  // → measured 2026-07-16, 859 commits), not a live-ticking counter. The Day 98 /
-  // snapshot values are static in the HTML; no date math runs.
-  // Live pulse disabled: repo is private, so the public GitHub API calls 404.
-  // Panel hidden via #pulse display:none.
+  // Live pulse re-enabled 2026-08: the repo is private, so the browser can no
+  // longer hit the public GitHub API directly (that path 404s and the direct
+  // loadCommits/… fallbacks stay dead). Instead we poll the same-origin
+  // /api/pulse route, which reads the private repo server-side with GITHUB_TOKEN.
+  // Near-real-time by polling: on load, on tab focus, every 60s.
+  var pulseEl = $("pulse");
+  if (pulseEl) pulseEl.style.display = "";
+  var refresh = $("pulse-refresh");
+  if (refresh) refresh.addEventListener("click", all);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) all(); });
+  all();
+  setInterval(function () { if (!document.hidden) all(); }, 60000);
+})();
+</script>
+<script>
+/* Live field board — polls same-origin /api/field for subtenant liveness + the
+   single shared production deploy state. Every *.arcs.care host is a rewrite of
+   one arcs-v9 deployment, so there is ONE deploy badge and N liveness dots. */
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function rel(iso) {
+    if (!iso) return "";
+    var s = Math.max(0, (Date.now() - Date.parse(iso)) / 1000);
+    if (s < 60) return "just now";
+    if (s < 3600) return Math.floor(s / 60) + "m ago";
+    if (s < 86400) return Math.floor(s / 3600) + "h ago";
+    return Math.floor(s / 86400) + "d ago";
+  }
+  function paintDeploy(d) {
+    var badge = $("fd-state"), when = $("fd-when");
+    if (!badge) return;
+    if (!d) { badge.textContent = "DEPLOY —"; badge.className = "fd-badge"; if (when) when.textContent = "deploy state unavailable"; return; }
+    var st = String(d.state || "UNKNOWN").toUpperCase();
+    badge.textContent = st;
+    badge.className = "fd-badge " + (st === "READY" ? "ready" : (st === "ERROR" || st === "CANCELED") ? "error" : "building");
+    if (when) when.textContent = "production" + (d.created ? " · " + rel(new Date(d.created).toISOString()) : "");
+  }
+  function paintHosts(hosts, counts) {
+    var grid = $("field-grid"); if (!grid) return;
+    grid.innerHTML = "";
+    hosts.forEach(function (h) {
+      var cls = h.ok ? (h.status && h.status >= 400 ? "warn" : "up") : "down";
+      var stat = h.status == null ? "—" : String(h.status);
+      var cell = document.createElement("div");
+      cell.className = "fh";
+      var dot = document.createElement("span"); dot.className = "fh-dot " + cls;
+      var name = document.createElement("span"); name.className = "fh-name"; name.textContent = h.label || h.host;
+      var s = document.createElement("span"); s.className = "fh-stat"; s.textContent = stat + (h.ms != null ? " · " + h.ms + "ms" : "");
+      cell.appendChild(dot); cell.appendChild(name); cell.appendChild(s);
+      grid.appendChild(cell);
+    });
+    var c = $("fd-count");
+    if (c && counts) c.textContent = counts.live + "/" + counts.total + " live";
+  }
+  async function load() {
+    try {
+      var r = await fetch("/api/field", { cache: "no-store" });
+      if (!r.ok) throw 0;
+      var p = await r.json();
+      if (!p || p.ok === false) throw 0;
+      var wrap = $("field"); if (wrap) wrap.style.display = "";
+      paintDeploy(p.deploy);
+      paintHosts(p.hosts || [], p.counts);
+      var t = p.updated ? new Date(p.updated) : null;
+      var foot = $("field-foot");
+      if (foot) foot.textContent = (t ? "as of " + t.toLocaleTimeString() : "updated") + " · liveness pinged server-side · cached ≤5 min";
+    } catch (e) {
+      var foot2 = $("field-foot"); if (foot2) foot2.textContent = "field state unavailable · retrying";
+    }
+  }
+  var fr = $("field-refresh"); if (fr) fr.addEventListener("click", load);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) load(); });
+  load();
+  setInterval(function () { if (!document.hidden) load(); }, 60000);
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>

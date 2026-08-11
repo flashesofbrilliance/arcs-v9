@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>ARCS · closed surface</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #020408; --surface: #0d1117; --surface2: #111820;
+  --border: #1e293b; --text: #e2e8f0; --muted: #94a3b8; --dimmed: #64748b; --faint: #475569;
+  --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D; --steel: #7dd3fc;
+  --r-md: 10px; --r-lg: 16px; --r-pill: 999px;
+  --mono: 'JetBrains Mono',ui-monospace,'SF Mono',monospace;
+  --sans: 'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5;
+  min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 32px 22px; }
+.veil { max-width: 460px; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+
+.eyebrow { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
+.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+  animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
+.sub { font-size: 15px; color: var(--muted); line-height: 1.65; }
+.sub strong { color: var(--text); font-weight: 600; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+.card-k { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--dimmed); }
+.field { display: flex; gap: 10px; }
+input[type=password] { flex: 1; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-md); padding: 12px 14px; color: var(--text); font-family: var(--mono);
+  font-size: 14px; letter-spacing: 0.04em; outline: none; }
+input[type=password]:focus { border-color: rgba(0,240,255,0.5); box-shadow: 0 0 0 3px rgba(0,240,255,0.10); }
+button { background: var(--green); color: #04120b; border: none; border-radius: var(--r-md);
+  padding: 12px 18px; font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; cursor: pointer; transition: filter 0.15s; }
+button:hover { filter: brightness(1.08); }
+.err { font-family: var(--mono); font-size: 12px; color: var(--red); letter-spacing: 0.02em; display: none; }
+.err.on { display: block; }
+.foot { font-family: var(--mono); font-size: 10px; color: var(--faint); letter-spacing: 0.06em;
+  line-height: 1.7; }
+.foot a { color: var(--dimmed); text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="veil">
+    <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · CLOSED SURFACE</div>
+    <h1>This one's for the real ones.</h1>
+    <p class="sub">
+      Behind this is the live field state of ARCS, kept <strong>honest</strong> — shipped, building,
+      blocked, and the archaeology of what it cost. Not written for a crawler, an index, or a passerby.
+      If you have the phrase, you're expected.
+    </p>
+    <div class="card">
+      <div class="card-k">Passphrase</div>
+      <form method="POST" action="/api/gate/unlock" class="field">
+        <input type="password" name="passcode" autocomplete="off" autofocus placeholder="the phrase" aria-label="Passphrase">
+        <button type="submit">Enter</button>
+      </form>
+      <div class="err" id="err">Not it. Try again.</div>
+    </div>
+    <div class="foot">
+      Interim veil · lifts to the MCP one when it lands.<br>
+      <a href="https://app.arcs.care">app.arcs.care</a> · the live product is open to everyone.
+    </div>
+  </div>
+  <script>
+    // Show the error line if bounced back with ?e=1 (kept out of the URL bar noise otherwise).
+    if (new URLSearchParams(location.search).get('e')) {
+      var e = document.getElementById('err'); if (e) e.classList.add('on');
+    }
+  </script>
+</body>
+</html>

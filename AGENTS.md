@@ -33,6 +33,9 @@ No Tailwind (removed 2026-07-11; it was an unused Day-1 scaffold remnant). Inlin
 | `DATABASE_URL` | Postgres/Supabase (prod only; SQLite used automatically in dev) |
 | `RECOIL_PASSWORD` | Shared cookie gate for the whole `/recoil*` tree (`src/proxy.ts`, private-alpha) |
 | `ADMIN_EMAILS` | Comma-separated admin allowlist — interim RBAC for the internal `/recoil` index + reports (`src/lib/admin.ts`). Prod fail-closed if unset; dev passes through |
+| `STATUS_GATE_PASSCODE` | Shared passphrase for the `status.arcs.care` "for the real ones" veil (`src/lib/statusgate.ts` + `src/proxy.ts`). Prod fail-closed if unset; dev passes through. Interim until the MCP veil |
+| `GITHUB_TOKEN` | Server-side read of the now-private `arcs-v9` repo for live telemetry (`/api/pulse`, `/api/field`). Fine-grained PAT, read contents+metadata. Without it the pulse widget goes dark |
+| `VERCEL_TOKEN` | *Optional.* Vercel-native production deploy state for the `status.arcs.care` field board (`/api/field`). If unset (or a CLI session token that the REST API rejects), the board falls back to the GitHub Deployments API via `GITHUB_TOKEN` — which is the same Vercel deploy, so the badge works without it. Optional `VERCEL_PROJECT_ID` (default `arcs-v9`) + `VERCEL_TEAM_ID` if team-scoped |
 
 ---
 
@@ -164,6 +167,35 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 
 ---
 
+## Orchestration — the conductor's map (token-efficient choreography)
+
+Every unit above is one of five layers. Picking *which layer conducts and which perform* a given job
+is itself a `JTBD:` / `TOOL-FIT:` / `EX-ANTE:` receipt (gotcha 9) — the same hook, one scale up. The
+**conductor's rule: push each job to the cheapest capable layer; escalate only when the job's shape
+demands it.** A deterministic pipeline beats a model call; a least-privilege staff subagent beats the
+main loop holding everything in one context.
+
+| Layer | Role in the ballet | Members | Spawns? | Cost | Conduct when |
+|---|---|---|---|---|---|
+| **Primitives** | atomic, deterministic units — no model | `src/lib/*` (ygate, statusgate, db, env), `operators/arcs_primitives*.py`, ARCS Law | no | ~0 | a pure function / invariant settles it |
+| **Operators** | single-lens reasoning pass | LAB · BAR · SAGE · CURATOR · KAIROS · CONTRACT (`operators/`) | no | 1 pass | one bounded lens (ruin, timing, synthesis…) is the job |
+| **Meta-operators** | compose operators; phase-gate + heal | OPERATOR20 · KINTSUGI · pipeline · Constitutional Court | no | few passes | a job needs several lenses sequenced + validated |
+| **Chiefs of staff** | conduct: decompose → delegate → synthesize (don't do object-level work) | main loop · Plan agent · a `Workflow` script · `/forge` · `/meta-audit` · `counterpart-gauntlet` | **yes** | high | the job fans out or needs cross-item synthesis |
+| **Staffs of chief** | least-privilege doers, one bounded task each | Explore · recoil-gather-git/web · recoil-reason · claims-skeptic · ciso/sre/privacy-review · general-purpose | no | med | a bounded task is delegable + parallelizable |
+
+**What sorts chief from staff:** authority to *spawn + own synthesis* (chief) vs *bounded, least-privilege,
+no spawning* (staff). The efficiency win is division of labor ([[cognitive-division-of-labor-pruned-lattice]]):
+a chief holds the thin plan; staff hold the heavy context in throwaway windows and return only conclusions.
+
+**Throwaway window ≠ throwaway learning.** The discarded window loses the *context*, never the *learning* —
+especially the expensive **negative results** ("searched X/Y/Z, not there; approach Z dead-ends"). Staff
+return conclusion **+ durable learning-residue** (map built, branches ruled out, precedent), written to a
+greppable store keyed by the job's `JTBD:` shape; a chief **checks the store before spawning** so a
+same-shape job warm-starts from the prior floor, not zero. Learning capitalized once, re-paid never — this
+is the attractor-basin distiller made incremental. See [[throwaway-context-not-throwaway-learning]].
+
+---
+
 ## Gotchas
 
 1. **No new dependencies without asking.**
@@ -174,6 +206,7 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 6. **`git worktree list`** before any git operation — active worktree changes between sessions.
 7. **Commit style:** `type(scope): imperative [NCI:XX]` + `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
 8. **Deeper environment gotchas** (Supabase MCP blind spot, Prisma-7 adapter, Vercel CLI/env quirks, domain→project verify-live, subdomain hosting, concurrency discipline, HEIC/`sips`): see `_PATTERNS/durable-gotchas.md` — on-demand, open when the task touches that area.
+9. **Decision-provenance hooks (greppable).** On any non-obvious tool/architecture pick, leave the receipt at the code site as a greppable couplet: `JTBD:` the job (tool-agnostic, in plain terms) and `TOOL-FIT:` chosen-X over native/obvious-Y because named-constraint-Z. Add an `EX-ANTE:` line when precedent exists — *why* X fits (prior same-shape / fractal-similar decisions) — which makes it a scoreable ex-ante fit-receipt (the watchers score it ex-post: did the tool hold or drift?). It's the ARCS loop dogfooded on the build, and it recurses to the orchestration scale (which agent/operator for which job is the same hook). Every `TOOL-FIT:` should answer a `JTBD:`. Census: `grep -rn "JTBD:\|TOOL-FIT:"`; the meta-audit Drift Sentry (§7) flags orphans and non-obvious picks with neither. Compose with `ADR-NNN` when the decision is heavy.
 
 ---
 

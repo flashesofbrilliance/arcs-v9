@@ -64,9 +64,12 @@ kryptonite). Note immune-system catches.
 **Step 6 — Stack-ranked next moves.** Table: move · size (S/M/L) · Y-gate · why-now. Carry
 prior ranks forward with status (OPEN / PARTIAL / DONE) so persistence is visible.
 
-**Step 7 — Drift flags (the three classes).** (a) canon claims contradicted by code (cross-check
+**Step 7 — Drift flags (the four classes).** (a) canon claims contradicted by code (cross-check
 `state_sync_check.py`); (b) commits without `[NCI:xx]` tags; (c) open recoil `riskFlags` never
-closed (`--sweep`). Report counts and trend vs. last epoch.
+closed (`--sweep`); (d) *decision-provenance* — `grep -rn "JTBD:\|TOOL-FIT:"` (AGENTS.md gotcha 9):
+flag orphan couplets (a `TOOL-FIT:` with no paired `JTBD:` or vice-versa), and where an `EX-ANTE:`
+cited precedent, spot-score fit ex-post (did the chosen tool hold, or drift?). Report all four
+counts and trend vs. last epoch.
 
 **Step 8 — Append the Golden Inchworm entry.** Prepend to §8 (newest first): date · version ·
 epoch hash · what changed · §3 re-grade · §6 re-grade · drift (a)/(b)/(c) · the single **Next
