@@ -1,5 +1,58 @@
 # ARCS v9 — Handoff Archive (v0.1.0 → v3.5.0)
 
+# Handoff — v3.30.0 (2026-08-10)
+
+> **Active pickup point.** v3.29.0 relocated to `_ARCHIVE/handoffs.md`. Yuri suite remains SENT,
+> ball in his court — nothing new there. This block's headline is a new capability: `/night-moves`.
+
+## Headline: `/night-moves` — the end-of-day work digest routine, built and proven
+
+Zach asked for a nightly routine that turns the day's scattered work (53 commits across ~40
+parallel worktrees on 2026-08-10) into one digest: **what shipped · what's next · what we
+learned · the new shape of tools for JTBD · net-new tools we built.**
+
+**Built as a two-layer skill (ADR-045):**
+- `scripts/night_moves_gather.sh [YYYY-MM-DD]` — deterministic gather, pure git + find, zero LLM
+  cost. Sweeps `git log --all` (dedups the same commit across worktrees), files added under
+  `scripts/`/`operators/`/`.claude/{skills,workflows,commands}/` (net-new tools), ADR/DEWY touches,
+  and auto-memory files written that day.
+- `.claude/skills/night-moves/SKILL.md` — reads the gather output and synthesizes the five
+  interpretive sections into `_STATE/night-moves/<date>.md`. Manual invocation, subscription
+  tier; does not commit or deploy on its own.
+
+**Proven live, first run:** `_STATE/night-moves/2026-08-10.md` — 53 commits grouped into 6
+workstreams, 3 net-new tools identified, learnings linked to ADR-043/044 and memory. Caught a real
+edge case immediately: the session ran past midnight, so the OS "today" (08-11) was empty — the
+skill needed an explicit date arg to digest the actual work day. That gotcha is now documented in
+the skill itself.
+
+**Complements, doesn't replace:** `/handoff` is per-session and forward-facing (what the *next*
+session needs to resume). `/night-moves` is a whole-day ledger, run once at the end, independent of
+which sessions or worktrees did the work. Also complements the ADR/DEWY candidate watcher
+(`scripts/adr_dewy_watch.py`) — the watcher surfaces candidates mid-session; night-moves is the
+end-of-day rollup.
+
+## Captured (ADRs / receipts / memories)
+- **ADR-045** — Night Moves: End-of-Day Work Digest Routine. `_DECISIONS/`.
+- **DEWY receipt** — `2026-08-10-night-moves-routine-built`, appended to
+  `_STATE/2026-08-10-session-decisions.dewy.json` (now 6 receipts for the day).
+- **Memory** — [[night-moves-daily-digest-routine]].
+
+## Next session starts at
+No blocker from this work. Carrying forward from v3.29.0: **Yuri's reply** (nothing pending on our
+side — see [[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint
+gate pending Todd's approval). If `/night-moves` is used going forward, remember the midnight
+gotcha — pass an explicit date when a session spans two calendar days.
+
+## Blocking
+NONE.
+
+## Deploy note
+Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
+SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
+their SSOT changed (verify with a diff).
+
+
 # Handoff — v3.29.0 (2026-08-10)
 
 > **Active pickup point.** v3.28.0 relocated to `_ARCHIVE/handoffs.md`. **The Yuri suite is SENT.** This

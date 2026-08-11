@@ -118,6 +118,27 @@ The Drift Sentinel detects this. After 5 turns without a new artifact: *"You've 
 
 ---
 
+## THE WITNESS
+
+The opposite failure mode: a tree falls in the forest and nobody attests to it. A flash of
+brilliance crystallizes mid-conversation — a principle names itself, a "wait, that's it"
+lands — and it either gets folded into whatever gets written hours later (reconstruction,
+not witness) or evaporates entirely.
+
+A receipt filed after the fact, describing itself as having been there when it wasn't, is the
+same dishonesty ADR-044 gates on the aspiration side. The fix isn't a new artifact type. It's
+timing: attest in the moment, not at handoff.
+
+The Witness Trigger fires when Claude notices the signal live — the user's own "wait, that's
+it" / "yes exactly" / a naming moment, or Claude's own insight compressing into something
+sharper than the conversation around it. It doesn't wait to be asked. It surfaces `/witness`
+right there, one line: *"Can I get a witness — should I attest that this just happened?"* A
+`yes` files a verbatim, timestamped stub — the sound the tree made, not a summary of it. That
+stub is upstream of an ADR or DEWY receipt: raw material, promoted later only if it proves
+durable, never dressed up as more than it was in the moment.
+
+---
+
 ## THE PROGRESSION
 
 Receipts earned → fog retreats → terrain readable → nucleus approaches.

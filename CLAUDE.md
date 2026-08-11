@@ -103,49 +103,50 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.30.0 (2026-08-10)
+# Handoff — v3.31.0 (2026-08-11)
 
-> **Active pickup point.** v3.29.0 relocated to `_ARCHIVE/handoffs.md`. Yuri suite remains SENT,
-> ball in his court — nothing new there. This block's headline is a new capability: `/night-moves`.
+> **Active pickup point.** v3.30.0 relocated to `_ARCHIVE/handoffs.md`. Headline: `/witness`,
+> the live-capture counterpart to `/night-moves`.
 
-## Headline: `/night-moves` — the end-of-day work digest routine, built and proven
+## Headline: `/witness` — attest a flash of brilliance at the moment it happens
 
-Zach asked for a nightly routine that turns the day's scattered work (53 commits across ~40
-parallel worktrees on 2026-08-10) into one digest: **what shipped · what's next · what we
-learned · the new shape of tools for JTBD · net-new tools we built.**
+Zach asked whether a genuine insight mid-conversation deserves a scribe ("can I get a witness —
+the tree did fall, and this is the sound it made"). `/night-moves` (v3.30.0) already covers the
+day; nothing covered the moment.
 
-**Built as a two-layer skill (ADR-045):**
-- `scripts/night_moves_gather.sh [YYYY-MM-DD]` — deterministic gather, pure git + find, zero LLM
-  cost. Sweeps `git log --all` (dedups the same commit across worktrees), files added under
-  `scripts/`/`operators/`/`.claude/{skills,workflows,commands}/` (net-new tools), ADR/DEWY touches,
-  and auto-memory files written that day.
-- `.claude/skills/night-moves/SKILL.md` — reads the gather output and synthesizes the five
-  interpretive sections into `_STATE/night-moves/<date>.md`. Manual invocation, subscription
-  tier; does not commit or deploy on its own.
+**Built (ADR-046):**
+- `WORLD.md` → **THE WITNESS** — a new section beside the Drift Sentinel. The behavioral trigger:
+  Claude offers `/witness` unprompted when it notices a principle naming itself, a "wait, that's
+  it," or its own line compressing sharper than the surrounding conversation. Deliberately rare —
+  over-firing means the trigger is mistuned.
+- `.claude/commands/witness.md` — the capture itself. Verbatim quote, timestamp, one honest `y`
+  gut-check (SCRATCH/YELLOW/GREEN). No research, no options-considered, no numbering — the
+  opposite weight of `/dewy-stub`. Appends to `_STATE/witness/<date>.jsonl`.
 
-**Proven live, first run:** `_STATE/night-moves/2026-08-10.md` — 53 commits grouped into 6
-workstreams, 3 net-new tools identified, learnings linked to ADR-043/044 and memory. Caught a real
-edge case immediately: the session ran past midnight, so the OS "today" (08-11) was empty — the
-skill needed an explicit date arg to digest the actual work day. That gotcha is now documented in
-the skill itself.
+**The design point:** a witness stub is raw material, not a decision. Promotion to an
+ADR/DEWY/memory is a separate, later, deliberate act — never claim more permanence at capture
+time than the moment earned. Same honesty principle as ADR-044 (temporal-provenance), applied to
+attestation instead of capability claims: reconstructing a "witness" after the fact is the same
+dishonesty as stating aspiration as present fact.
 
-**Complements, doesn't replace:** `/handoff` is per-session and forward-facing (what the *next*
-session needs to resume). `/night-moves` is a whole-day ledger, run once at the end, independent of
-which sessions or worktrees did the work. Also complements the ADR/DEWY candidate watcher
-(`scripts/adr_dewy_watch.py`) — the watcher surfaces candidates mid-session; night-moves is the
-end-of-day rollup.
+**Proven live, first entry:** `_STATE/witness/2026-08-11.jsonl` — the founding moment itself
+(the "can I get a witness" line), GREEN.
+
+**Not wired into `/night-moves` yet** — intentional. Revisit only after a few days of real
+`/witness` firings show the pattern is worth ingesting into the daily digest.
 
 ## Captured (ADRs / receipts / memories)
-- **ADR-045** — Night Moves: End-of-Day Work Digest Routine. `_DECISIONS/`.
-- **DEWY receipt** — `2026-08-10-night-moves-routine-built`, appended to
-  `_STATE/2026-08-10-session-decisions.dewy.json` (now 6 receipts for the day).
-- **Memory** — [[night-moves-daily-digest-routine]].
+- **ADR-046** — Witness Trigger: Live Capture of a Flash of Brilliance. `_DECISIONS/`.
+- **DEWY receipt** — `2026-08-11-witness-trigger-built`, new file
+  `_STATE/2026-08-11-session-decisions.dewy.json`.
+- **Memory** — [[witness-trigger-attest-in-the-moment]]. Also consolidated one orphan into
+  `MEMORY.md`: [[counterpart-pseudonym-key-public-artifacts]].
 
 ## Next session starts at
-No blocker from this work. Carrying forward from v3.29.0: **Yuri's reply** (nothing pending on our
-side — see [[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint
-gate pending Todd's approval). If `/night-moves` is used going forward, remember the midnight
-gotcha — pass an explicit date when a session spans two calendar days.
+No blocker from this work. Carrying forward: **Yuri's reply** (nothing pending on our side — see
+[[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint gate
+pending Todd's approval). If `/witness` starts firing, watch for over-triggering — tighten the
+signal in WORLD.md → THE WITNESS if it does.
 
 ## Blocking
 NONE.

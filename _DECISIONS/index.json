@@ -322,5 +322,14 @@
     "stability": "STABLE",
     "gate": "revisit if a nightly schedule is added or worktree/git topology changes",
     "file": "ADR-045-night-moves-digest-routine.md"
+  },
+  {
+    "id": "ADR-046",
+    "title": "ADR-046 \u2014 Witness Trigger: Live Capture of a Flash of Brilliance",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "SHIFTING",
+    "gate": "revisit after a few days of real /witness firings",
+    "file": "ADR-046-witness-trigger-live-capture.md"
   }
 ]
