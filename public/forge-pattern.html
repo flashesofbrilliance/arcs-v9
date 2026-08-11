@@ -35,10 +35,10 @@
   .ey b{color:var(--cyan)}
   h1{font-weight:800;letter-spacing:-.03em;line-height:1.02;font-size:clamp(40px,8vw,82px);text-wrap:balance}
   h2{font-weight:750;letter-spacing:-.02em;line-height:1.12;font-size:clamp(23px,3.4vw,33px);text-wrap:balance}
-  h3{font-weight:700;letter-spacing:-.01em;font-size:17px;line-height:1.28}
-  p{color:#b7c2d0}
+  h3{font-weight:700;letter-spacing:-.01em;font-size:17px;line-height:1.28;text-wrap:balance}
+  p{color:#b7c2d0;text-wrap:pretty;overflow-wrap:break-word}
   /* ledes span the full lane, same width as their heading (page-wide rule) */
-  .lede{font-size:clamp(15.5px,1.6vw,17.5px);color:#aeb9c7;max-width:none;line-height:1.62}
+  .lede{font-size:clamp(15.5px,1.6vw,17.5px);color:#aeb9c7;max-width:none;line-height:1.62;text-wrap:pretty}
   .mono{font-family:var(--mono)}
 
   /* ---- the depth log (inline dateline; fidelity sharpens with depth) ---- */
@@ -204,7 +204,7 @@
   .motions h2{color:#fff;margin-top:12px}
   .mgrid{display:grid;gap:14px;margin-top:26px}
   @media(min-width:760px){.mgrid{grid-template-columns:repeat(3,1fr)}}
-  .m{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:22px 20px}
+  .m{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:22px 20px;height:100%}
   .m .mg{font-family:var(--mono);font-size:34px;line-height:1;font-weight:700}
   .m.ladder .mg{color:var(--cyan)} .m.cascade .mg{color:var(--gold)} .m.spiral .mg{color:var(--green)}
   .m .mk{margin-top:15px;font-weight:750;font-size:18px;letter-spacing:-.01em}
@@ -512,6 +512,7 @@ python3 scripts/forge_counterpart.py \
   </section>
 
   <div class="footline">ARCS &middot; FIELD OS &middot; ONE SHAPE, ANY SCALE</div>
+  <div class="footline" style="margin-top:9px"><a href="https://lab.arcs.care/" style="color:var(--cyan);text-decoration:none">&rarr; Try the instruments &middot; lab.arcs.care</a></div>
 </div>
 
 <script>

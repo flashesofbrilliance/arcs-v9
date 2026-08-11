@@ -35,6 +35,11 @@ shareable PLG onramps ([[arcs-plg-onramp-mindset-filter]]).
    you need to re-verify; the canonical tokens are baked into `scaffold.html`. Inter + JetBrains
    Mono, `#020408` void bg, recessed input wells, underlit-LED accents, glass/bevel cards.
    First line of every surface MUST be `<meta charset="utf-8">` (else em-dash/·  mojibake).
+   **Type-wrap contract (always check, across every type/form class — low-metabolic-cost intake):**
+   `h1,h2,h3{text-wrap:balance}` · `p,.lede,prose{text-wrap:pretty;overflow-wrap:break-word}` ·
+   equal-height sibling cards (`height:100%` on grid items when `align-items:stretch` silently no-ops).
+   Inconsistent wrapping/hierarchy raises the reader's metabolic cost — headings balance, prose pretty,
+   cards equal, or the eye has to work. See [[design-for-arriving-cognitive-state]].
 
 2. **The master pattern** — every surface is one self-similar loop, nested like Russian dolls:
    `Trigger → Action → Receipt(open) → Seed → (Trigger)` at every zoom (atom = a coord cell,

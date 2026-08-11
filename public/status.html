@@ -380,7 +380,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 <div class="page">
 
   <div class="eyebrow"><span class="eyebrow-dot"></span>ARCS · LIVE BUILD STATUS</div>
-  <h1>Day 0: one empty commit.<br>Day 98: a live product that grades itself.</h1>
+  <h1>Day 0: one empty commit.<br>Day <span id="hero-day">98</span>: a live product that grades itself.</h1>
   <div class="byline">Live build status, measured directly from the public repository · July 2026</div>
   <div class="lede">
     This is the real build history of <strong>ARCS</strong>, a decision intelligence platform I built solo, run
@@ -391,7 +391,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
   <div class="stats">
     <div class="stat"><div class="stat-val accent" id="sv-commits">859</div><div class="stat-label">Commits · Day 0 to today</div></div>
-    <div class="stat"><div class="stat-val" id="stat-days">98</div><div class="stat-label">Days · first commit to snapshot</div></div>
+    <div class="stat"><div class="stat-val" id="stat-days">98</div><div class="stat-label">Days · first commit to today</div></div>
     <div class="stat"><div class="stat-val">14+</div><div class="stat-label">Client surfaces · hours each</div></div>
     <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production · app.arcs.care</div></div>
   </div>
@@ -629,7 +629,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <tbody>
         <tr>
           <td><strong>One person holds all the context.</strong></td>
-          <td class="hide-m">Everything is written down as it happens: 859 annotated commits, 272 decision records, versioned handoff notes. Built so a team could take over without me in the room.</td>
+          <td class="hide-m">Everything is written down as it happens: 1,400+ annotated commits, 272 decision records, versioned handoff notes. Built so a team could take over without me in the room.</td>
           <td><span class="chip high">HIGH</span></td>
           <td><span class="chip mit">MITIGATED BY DESIGN</span></td>
         </tr>
@@ -898,7 +898,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
   <div class="footer">
     <div><strong>Built by</strong> Zach Harris</div>
-    <div><strong>Source of every number</strong>: git history, github.com/flashesofbrilliance/arcs-v9 (private repo; commit hashes shown as record, not linked), measured 2026-07-16</div>
+    <div><strong>Source of every number</strong>: git history, github.com/flashesofbrilliance/arcs-v9 (private repo; commit hashes shown as record, not linked). Day-count ticks live from first commit; commit total as of 2026-08-11; weekly-cadence chart measured 2026-07-16</div>
     <div><strong>Live product</strong>: <a href="https://app.arcs.care" target="_blank" rel="noopener">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank" rel="noopener">trust contract</a></div>
   </div>
 
@@ -1480,11 +1480,18 @@ window.addEventListener("scroll", function () { if (termActive) hideTermTip(); }
       set("pulse-foot", "live from public GitHub API · checked " + new Date().toLocaleTimeString());
     }
   }
-  // Day-count frozen to the snapshot: this is a fixed 98-day window (T0 2026-04-09
-  // → measured 2026-07-16, 859 commits), not a live-ticking counter. The Day 98 /
-  // snapshot values are static in the HTML; no date math runs.
-  // Live pulse disabled: repo is private, so the public GitHub API calls 404.
-  // Panel hidden via #pulse display:none.
+  // Live day-count: ticks from T0 (first commit, 2026-04-09) so "days" is always
+  // current — no longer a frozen snapshot. Commit total is set to the last measured
+  // main count; live pulse stays disabled while the repo is private (client GitHub
+  // calls 404, and /api/pulse can't read the private repo without a scoped token).
+  (function () {
+    var T0 = Date.UTC(2026, 3, 9);                       // 2026-04-09, first commit
+    var days = Math.floor((Date.now() - T0) / 86400000);
+    var setTxt = function (id, v) { var e = document.getElementById(id); if (e) e.textContent = v; };
+    setTxt("stat-days", String(days));
+    setTxt("hero-day", String(days));
+    setTxt("sv-commits", (1413).toLocaleString());       // last measured main count, 2026-08-11
+  })();
 })();
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
