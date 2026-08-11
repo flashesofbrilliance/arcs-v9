@@ -116,6 +116,8 @@
 
   .empty{text-align:center;color:var(--muted);padding:44px 20px;border:1px dashed var(--rule);border-radius:14px;margin-top:24px;background:var(--glass)}
   .empty b{color:var(--fg1);font-family:var(--sans);font-size:17px;font-weight:600;display:block;margin-bottom:8px}
+  .seedbanner{margin-top:22px;border:1px solid rgba(0,255,157,.34);background:linear-gradient(180deg,rgba(0,255,157,.06),rgba(0,255,157,.015));border-radius:12px;padding:13px 16px;box-shadow:var(--emboss);font-size:13.5px;color:var(--ink-soft);line-height:1.55}
+  .seedbanner b{color:var(--green)}
   footer{font-family:var(--mono);font-size:11px;color:var(--faint);margin:32px 0 44px;line-height:1.8;border-top:1px solid var(--border);padding-top:16px;letter-spacing:.02em}
 </style>
 
@@ -151,6 +153,7 @@
     </div>
   </div>
 
+  <div class="seedbanner" id="betbanner" style="display:none"></div>
   <div id="bets" class="bets"></div>
   <div id="empty" class="empty" style="display:none"><b>No bets yet</b>The ledger is empty. Add your first bet above &mdash; the note you keep sending that you're not sure is landing.</div>
 
@@ -177,6 +180,18 @@
       ]}];
   }
   var save=function(){ try{localStorage.setItem(KEY,JSON.stringify(bets));}catch(e){} };
+
+  // Choreography: ingest a bet seeded from a Briefing Record receipt (#bet=<token>).
+  (function(){
+    var m=location.hash.match(/bet=([^&]+)/); if(!m) return;
+    var s; try{ s=JSON.parse(decodeURIComponent(escape(atob(m[1])))); }catch(e){ return; }
+    if(!s||!s.n) return;
+    bets.unshift({id:uid(),name:String(s.n),fund:String(s.f||"(fundamental not yet named)"),k:Math.max(1,parseInt(s.k,10)||3),channels:[]});
+    save();
+    history.replaceState(null,"",location.pathname);   // so a reload doesn't re-add it
+    var b=document.getElementById("betbanner");
+    if(b){ b.style.display="block"; b.innerHTML="<b>◆ Seeded from a Briefing receipt.</b> A new bet is open from your brief — the intent became the fundamental, and the falsifier K was set from its risk. Name the channels as you sample them."; }
+  })();
 
   function verdict(bet){
     var orth=bet.channels.filter(function(c){return c.type==="orthogonal";});

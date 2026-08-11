@@ -2,20 +2,20 @@
   "project": "arcs-experiments",
   "domain": "lab.arcs.care",
   "source": "_ARTIFACTS/lab/",
-  "git_head": "f47cdd5",
-  "deploy_id": "dpl_6JqLC5TLkQEdY3WF6bQJts9WmAg1",
-  "deploy_url": "arcs-experiments-10anzgk3p-arcs-care.vercel.app",
+  "git_head": "063588a",
+  "deploy_id": "dpl_8kbKozQuLXDb3TD6xgT6dQxtKkTp",
+  "deploy_url": "arcs-experiments-a7d3ileip-arcs-care.vercel.app",
   "ready": "READY",
   "surfaces": [
     {
       "route": "/briefing-record/",
       "file": "briefing-record/index.html",
-      "sha": "eb3b1ac8c3b37c16d3b903e1426abddd050cfa96"
+      "sha": "b98691d0e27e1877a495a9491963482c8d5095ba"
     },
     {
       "route": "/conviction-ledger/",
       "file": "conviction-ledger/index.html",
-      "sha": "907098c4018018ee9cd5d82792e2f5ca011d3c7c"
+      "sha": "bdd9252102d15bf996020def9a3e7c4c93e5e578"
     },
     {
       "route": "/",

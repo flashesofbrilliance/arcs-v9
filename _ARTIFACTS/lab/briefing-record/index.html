@@ -282,6 +282,7 @@
         +'<div class="acts">'
           +(sealed?'':'<button class="btn attest sm" data-act="attest">⬡ Attest &amp; seal</button>')
           +'<button class="btn seed sm" data-act="seed">◆ Share as seed</button>'
+          +'<button class="btn sm ghost" data-act="toledger">→ Track in Conviction Ledger</button>'
           +'<button class="btn sm ghost" data-act="delrec" style="margin-left:auto">delete</button>'
         +'</div>'
         +'<div class="seedmsg" data-seedmsg style="display:none"></div>';
@@ -314,6 +315,15 @@
       var link=seedLink(r); var box=recEl.querySelector('[data-seedmsg]');
       var done=function(ok){ box.style.display="block"; box.textContent=(ok?"◆ Seed link copied — anyone who opens it lands in this tool, primed with this brief.":"◆ Seed link: ")+(ok?"":link); };
       if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(link).then(function(){done(true);},function(){done(false);}); } else { done(false); }
+      return;
+    }
+    if(act==="toledger"){
+      // Choreography seam: hand this receipt off as a Conviction Ledger bet.
+      // Intent → the fundamental you're tracking; risk shapes the falsifier K
+      // (higher risk trips sooner). Nothing but the bet rides in the link.
+      var bet={n:(r.intent||"Brief").slice(0,60),f:r.intent||r.verbatim||"",k:(r.risk==="HIGH"?2:3)};
+      var tok=btoa(unescape(encodeURIComponent(JSON.stringify(bet))));
+      location.href="/conviction-ledger/#bet="+tok;
       return;
     }
     if(act==="addassume"){ var i1=recEl.querySelector('[data-in="assume"]'); var val=i1.value.trim(); if(!val){i1.focus();return;} r.assumptions.push({t:val,inf:false}); save();render(); return; }

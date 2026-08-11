@@ -2,20 +2,10 @@
   "captured_at": "2026-08-08T20:46:33Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "696dc19",
-    "head_message": "feat(forge): back-propagate the full pre-send sequence into the canonical pipeline",
+    "head_sha": "f47cdd5",
+    "head_message": "copy(forge): last plain-language swap \u2014 folksonomy 'abductive' \u2192 bottom-up [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": [
-      "CLAUDE.md",
-      "_ARCHIVE/handoffs.md",
-      "_DECISIONS/index.json",
-      "_STATE/2026-08-10-session-decisions.dewy.json",
-      "_STATE/snapshot.json",
-      ".claude/skills/night-moves/",
-      "_DECISIONS/ADR-045-night-moves-digest-routine.md",
-      "_STATE/night-moves/",
-      "scripts/night_moves_gather.sh"
-    ]
+    "dirty_files": []
   },
   "vercel": {
     "project": "arcs-v9",
@@ -191,7 +181,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-11T09:53:32Z",
+  "git_refreshed_at": "2026-08-11T10:50:40Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
@@ -241,5 +231,19 @@
     ],
     "queue_note": "Empty as of 2026-07-21. Teleport-brief items 1 (tokenmining->token-savings-bank) and 2 (linkedin-connections-toolkit) both shipped this session. State-sync bundle was already shipped 2026-07-20. Remaining candidates all sit in hold_sauce_risk.",
     "last_updated": "2026-07-21"
+  },
+  "lab_factory": {
+    "skill": ".claude/skills/lab-mint/",
+    "source": "_ARTIFACTS/lab/ (git-tracked, build-excluded ADR-041)",
+    "project": "arcs-experiments (isolated; never arcs-v9/arcs.care)",
+    "domain": "lab.arcs.care",
+    "deploy": "python3 .claude/skills/lab-mint/deploy_lab.py",
+    "surfaces": [
+      "/briefing-record/",
+      "/conviction-ledger/",
+      "/"
+    ],
+    "pattern": "record\u2192receipt\u2192seed; seed-chain: briefing receipt \u2192#bet=\u2192 conviction ledger; mint IYKYK counterpart spaces (zero-PII, content in link)",
+    "last_deploy": "dpl_8kbKozQuLXDb3TD6xgT6dQxtKkTp"
   }
 }
