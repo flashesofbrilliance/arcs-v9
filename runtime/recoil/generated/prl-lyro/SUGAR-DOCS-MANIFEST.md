@@ -29,7 +29,7 @@ rendered surface should carry `docset: <version>` in its header so drift is visi
 | G2 | Alignment Brief | `1TGFrFmJAMx-gyeIkxZtkxyI7QaZoXH4MOP_nIfP6OnM` | S1 | ✅ IN SYNC |
 | G3 | POVs & Approaches | `1Uj0CgUmN5NfRBYrRV77RbcKuzDsBCJWMJK6dE9gLuyM` | S1 | ✅ IN SYNC |
 | G4 | Recap & Agenda (completed) | `1EB5Q8Lw3Zdkyf2ljzCDKiPiP6JkkaDVXJX5qbBUeUoc` | S3 | ✅ IN SYNC |
-| G5 | PRL Chatbot — Project Knowledge Base | `1XsFIPm5xhsuRDPjJUqcOVUZEnyB14V8zuB__BAqZfAY` | S1 | ⚠ STALE (pre-Aug; "bot never states a spec") |
+| G5 | PRL Chatbot — Project Knowledge Base | `11M8Wn8LeSsupQLSSSsWXI95b5UzOpsAat63J-_2tA0o` | S1 | ✅ IN SYNC (post-call; governed answering) |
 
 ## Projections — claude.ai artifacts
 | # | Artifact | URL id | Audience | Status |
@@ -46,11 +46,18 @@ rendered surface should carry `docset: <version>` in its header so drift is visi
 | Open Questions (folder, pre-call) | `1vpJQ_AClrDitwY9MuwNa_Ka34H5YrIiRJHmdWj-HfHc` |
 | Open Questions v1 (My Drive root) | `1R_5KrszhixFrxUnDabxGa8gAnqMMhuSJiOwvc3YR1sM` |
 | Open Questions v2 (My Drive root) | `1LNmDNe_PO_YJwmzL-JsV9E9GZiKk-T7ORUD6i7hT1v0` |
+| Project KB (pre-Aug) | `1XsFIPm5xhsuRDPjJUqcOVUZEnyB14V8zuB__BAqZfAY` |
+
+## Dev tooling (repo)
+| # | Path | Role | Docset |
+|---|---|---|---|
+| T1 | `prl-lyro/mock-sugar/` | Local stdlib mock of Sugar REST (OrbStack) for the dev loop — mirrors the Leads field contract; build/test the flow off-cloud (saves API quota). Smoke-tested. | 2026-08-11-postcall.1 |
 
 ## Open sync gaps (this version)
-- **G5 Project KB** — refresh the "never states a spec" line (superseded by governed answering) + confirm Mailgun (now correct). _(only remaining gap)_
+**None** — all projections in sync at `2026-08-11-postcall.1`.
 - ~~S4 STATE-OF-SUGAR~~ — reconciled (post-call banner).
 - ~~A2 client visual~~ — republished with the call outcomes.
+- ~~G5 Project KB~~ — refreshed (governed answering; Mailgun confirmed).
 
 ## Sync procedure (every change, forever)
 1. Edit the **canonical repo SSOT** (S1/S2/S3), never a projection first.
