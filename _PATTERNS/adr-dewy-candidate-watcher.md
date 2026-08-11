@@ -66,6 +66,11 @@ same loop — `recoil-prep` fired ahead of a counterpart call — a separate sch
 
 ## Build order
 
-1. `scripts/adr_dewy_watch.py` + `_INBOX/` ledger + self-test. ← **slice 1 (this session)**
-2. `/adr-dewy-inbox` promote skill (reads ledger → mints ADR/receipt → flips status).
-3. PreCompact + SessionStart hook wiring in `.claude/settings.json` (gated on approval).
+1. `scripts/adr_dewy_watch.py` + `_INBOX/` ledger + self-test. ✅ DONE (+ `--sessions N` sweep, scored `--top N`).
+2. Curation pass (CURATOR meta-operator) over `--top` → `_INBOX/adr-dewy-gems.md`. ✅ DONE (8 gems from 60).
+3. Hook wiring — the first activated ARCS listener. ✅ WIRED (2026-08-10) by extending the existing hook
+   scripts (no `settings.json` structural change): `pre-compact.sh` runs `--sessions 1` to harvest each
+   session's decisions before compaction; `session-start.sh` runs `--list` to surface the pending count at
+   pickup. Both guarded (`|| true`) so the watcher can never fail the hook. Per-worktree ledger (v1).
+4. `/adr-dewy-inbox` promote skill (reads ledger → mints ADR/receipt → flips status). ← next
+5. Central/shared ledger across worktrees (v2 refinement). ← later

@@ -83,6 +83,12 @@ except Exception:
   fi
 fi
 
+# ADR/DEWY watcher — surface pending decision candidates at pickup (non-blocking, local + cloud).
+if [ -f "$CLAUDE_PROJECT_DIR/scripts/adr_dewy_watch.py" ]; then
+  pend=$(cd "$CLAUDE_PROJECT_DIR" && python3 scripts/adr_dewy_watch.py --list 2>/dev/null | head -1 || true)
+  [ -n "${pend:-}" ] && echo "adr-dewy: $pend pending decision candidate(s) — review with 'adr_dewy_watch.py --top'"
+fi
+
 # Only the dependency bootstrap below is remote-only; the grounding above runs everywhere.
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0

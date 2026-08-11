@@ -31,3 +31,10 @@ SCRATCHPAD="${TMPDIR:-/tmp}/arcs-compact-state.md"
 } > "$SCRATCHPAD" 2>/dev/null || true
 
 echo "pre-compact: state snapshot written to $SCRATCHPAD"
+
+# ADR/DEWY watcher — harvest this session's decision candidates before context compression
+# (heuristic, no model; never auto-files; guarded so it can never fail the hook).
+if [ -f "$CLAUDE_PROJECT_DIR/scripts/adr_dewy_watch.py" ]; then
+  ( cd "$CLAUDE_PROJECT_DIR" && python3 scripts/adr_dewy_watch.py --sessions 1 >/dev/null 2>&1 ) || true
+  echo "pre-compact: harvested decision candidates -> _INBOX/adr-dewy-candidates.jsonl"
+fi
