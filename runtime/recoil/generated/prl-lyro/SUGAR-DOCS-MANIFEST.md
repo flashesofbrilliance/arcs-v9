@@ -37,6 +37,7 @@ rendered surface should carry `docset: <version>` in its header so drift is visi
 |---|---|---|---|---|
 | A1 | Integration Dossier (visual) | `a3ea57a1-72d1-4091-9fdf-dfa85b0de189` | internal | ✅ IN SYNC (call banner) |
 | A2 | Alignment (visual) | `0e0280a6-aee9-4948-bfb7-0abd28e97d6a` | client-safe | ✅ IN SYNC (call banner) |
+| A3 | Hosted recoil — **app.arcs.care/recoil/sugar** (gated: admin magic-link) | data: `runtime/recoil/generated/sugar.json` (on **main**) | internal | ✅ IN SYNC (renders `2026-08-11-todd-sugar-recoil-close.md`) |
 
 ## Superseded — TRASH (owner: Zach; delete-by-ID)
 | Doc | ID |
