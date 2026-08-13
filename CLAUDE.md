@@ -103,6 +103,65 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.33.0 (2026-08-13)
+
+> **Active pickup point.** The ARCS-private half of the germinate OSS build session. germinate
+> (the open MIT toolkit at `~/germinate`) is built/committed-local but NOT published — owner-gated.
+> This session canonized what stays *private* to ARCS. PR #136 MERGED to `main`.
+
+## Headline: the Tao of ARCS is canon — dormant seed vs animating spark, and the meter runs only on the spark
+
+The germinate build forced the boundary question: if the seed bank is open MIT, what is ARCS?
+The genesis seed `adam == atom` answers it, and it's now canon.
+
+**Canonized (PR #136, merged `2a6d2ea`):**
+- **ADR-053 — The Tao of ARCS.** A seed is *dormant potential energy* (engineered to survive harsh
+  conditions; never garbage-collect on staleness — dormancy is the feature). ARCS is the **vox
+  animus** — the spark that converts potential→kinetic via *ripeness judgment* at Kairos. The
+  open/private boundary is **one seam, four faces**: bank/spark · public-method/private-rosetta ·
+  dormant/animating · free-to-hold/metered-to-fire. The moat is the spark, so open-sourcing the
+  bank surrenders nothing. Y=GREEN.
+- **ADR-054 — Free to hold, metered to fire.** Free forever (in germinate): mint/plant/water/hold/
+  mechanical-sprout/manifest/handoff. Metered (the gas, ARCS-side): ripeness judgment · Kairos
+  activation · rosetta-primed synthesis. **Bill per activation** (one vox-animus firing) — not per
+  seed/seat/GB. Token fork **DECIDED metaphorical-now** (credits + usage-metered billing); literal
+  on-chain deferred until the blockchain registry + hash-chaining exist AND a cross-party provenance
+  need is shown. Y=YELLOW — willingness-to-pay for the ride is unvalidated.
+- **`_CANON/Tao-of-ARCS.md`** (doctrine, registered in `_CANON/index.md`) + proverb **tao-247**.
+- **`_STATE/2026-08-13-activation-service-kairos-sketch.md`** — kairos (public-good #2, "conditional
+  cron") = the open socket ("could it fire"); ARCS = the private current ("should it, now, for you").
+  Crispness rule: kairos runs fully without ARCS priors; ripeness is a pluggable metered layer on top.
+
+**Boundary discipline held:** nothing was written to `~/germinate`. All ARCS doctrine, the rosetta,
+and ripeness priors live only in arcs-v9 (ADR-053 encodes the no-inline rule).
+
+## Also (housekeeping)
+- `_DECISIONS/index.json`: backfilled ADR-050/051/052 (missing from a prior session) + registered 053/054.
+- Lattice advanced **44→51** via `scripts/lattice_drift_check.py --regenerate` (mechanical countable;
+  judgment layer left human-owned per ADR-052). Next session's session-start hook should read drift-clean.
+
+## Captured
+- **ADR-053 / ADR-054** (`_DECISIONS/`). **DEWY** — `_STATE/2026-08-13-session-decisions.dewy.json` (2).
+- **Memories** — orphans indexed into `MEMORY.md`: [[seed-tao-of-arcs-dormant-potential-vox-animus]]
+  (genesis, now PROMOTED), [[seed-monetization-free-to-hold-metered-to-fire]] (PROMOTED). Both seed
+  files stamped PROMOTED 2026-08-13 so they don't re-promote.
+
+## Next / backlog (designed, not built)
+- The **ARCS activation service** (vox animus / ripeness judgment) and **kairos** (public-good #2) —
+  boundary sketched, interfaces are the open questions in the sketch file.
+- **Do NOT publish germinate** (or any public repo) without explicit owner authorization.
+- ADR-054 care-note: validate WTP for *the ride*, not the bank, before hardening prices / billing infra.
+
+## Blocking
+NONE.
+
+## Deploy note
+This session committed on the worktree branch `claude/elated-hawking-c08b93` and merged via PR #136
+(GitHub merge commit). Canon/ADR/state changes only — no deploy-affecting code. `--no-verify` used on
+push per repo convention.
+
+---
+
 # Handoff — v3.32.0 (2026-08-11)
 
 > **Active pickup point.** Concurrent with the v3.31.0 `/witness` session (kept live below). This
@@ -150,57 +209,4 @@ host rewrites + `vercel domains add <sub> --scope arcs-care`. Write-lock (`rev-l
 before commit — concurrent sibling on main. **ADR numbering drifts across sessions: verify the max on main
 before assigning (this session's ADRs slid 045→050 after a live check).**
 
----
-
-# Handoff — v3.31.0 (2026-08-11)
-
-> **Active pickup point.** v3.30.0 relocated to `_ARCHIVE/handoffs.md`. Headline: `/witness`,
-> the live-capture counterpart to `/night-moves`.
-
-## Headline: `/witness` — attest a flash of brilliance at the moment it happens
-
-Zach asked whether a genuine insight mid-conversation deserves a scribe ("can I get a witness —
-the tree did fall, and this is the sound it made"). `/night-moves` (v3.30.0) already covers the
-day; nothing covered the moment.
-
-**Built (ADR-046):**
-- `WORLD.md` → **THE WITNESS** — a new section beside the Drift Sentinel. The behavioral trigger:
-  Claude offers `/witness` unprompted when it notices a principle naming itself, a "wait, that's
-  it," or its own line compressing sharper than the surrounding conversation. Deliberately rare —
-  over-firing means the trigger is mistuned.
-- `.claude/commands/witness.md` — the capture itself. Verbatim quote, timestamp, one honest `y`
-  gut-check (SCRATCH/YELLOW/GREEN). No research, no options-considered, no numbering — the
-  opposite weight of `/dewy-stub`. Appends to `_STATE/witness/<date>.jsonl`.
-
-**The design point:** a witness stub is raw material, not a decision. Promotion to an
-ADR/DEWY/memory is a separate, later, deliberate act — never claim more permanence at capture
-time than the moment earned. Same honesty principle as ADR-044 (temporal-provenance), applied to
-attestation instead of capability claims: reconstructing a "witness" after the fact is the same
-dishonesty as stating aspiration as present fact.
-
-**Proven live, first entry:** `_STATE/witness/2026-08-11.jsonl` — the founding moment itself
-(the "can I get a witness" line), GREEN.
-
-**Not wired into `/night-moves` yet** — intentional. Revisit only after a few days of real
-`/witness` firings show the pattern is worth ingesting into the daily digest.
-
-## Captured (ADRs / receipts / memories)
-- **ADR-046** — Witness Trigger: Live Capture of a Flash of Brilliance. `_DECISIONS/`.
-- **DEWY receipt** — `2026-08-11-witness-trigger-built`, new file
-  `_STATE/2026-08-11-session-decisions.dewy.json`.
-- **Memory** — [[witness-trigger-attest-in-the-moment]]. Also consolidated one orphan into
-  `MEMORY.md`: [[counterpart-pseudonym-key-public-artifacts]].
-
-## Next session starts at
-No blocker from this work. Carrying forward: **Yuri's reply** (nothing pending on our side — see
-[[project_yuri_kleban_google]]) and Todd's Sugar sandbox call (Aug 11, Long Ngo; sprint gate
-pending Todd's approval). If `/witness` starts firing, watch for over-triggering — tighten the
-signal in WORLD.md → THE WITNESS if it does.
-
-## Blocking
-NONE.
-
-## Deploy note
-Content-only pushes from `main-wt2` with `git push --no-verify`. `next.config.ts` triggers a real build;
-SSOT/script/doc changes are build-excluded or harmless. Robin surfaces regenerate byte-identical unless
-their SSOT changed (verify with a diff).
+> _v3.31.0 (`/witness`) relocated to `_ARCHIVE/handoffs.md` on 2026-08-13._
