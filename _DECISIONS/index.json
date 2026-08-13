@@ -331,5 +331,50 @@
     "stability": "SHIFTING",
     "gate": "revisit after a few days of real /witness firings",
     "file": "ADR-046-witness-trigger-live-capture.md"
+  },
+  {
+    "id": "ADR-050",
+    "title": "ADR-050 — The federated family + the SSOT/front-end air-gap",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if the public-family topology or the SSOT air-gap changes",
+    "file": "ADR-050-federated-family-airgap.md"
+  },
+  {
+    "id": "ADR-051",
+    "title": "ADR-051 — Drift receipts: every gate is a detector, every failure a receipt",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if the tripwire/deploy-verify gates change",
+    "file": "ADR-051-drift-receipt-gate.md"
+  },
+  {
+    "id": "ADR-052",
+    "title": "ADR-052 — Inchworm drift-auditor for orphaned artifacts",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if a new owner-less artifact needs an auditor",
+    "file": "ADR-052-inchworm-drift-auditor.md"
+  },
+  {
+    "id": "ADR-053",
+    "title": "ADR-053 — The Tao of ARCS: dormant potential, the vox animus, and the open/private boundary",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "durable doctrine; revisit only if germinate’s open/private boundary is renegotiated",
+    "file": "ADR-053-tao-of-arcs-dormant-potential-vox-animus.md"
+  },
+  {
+    "id": "ADR-054",
+    "title": "ADR-054 — Free to hold, metered to fire: the ARCS activation pricing model",
+    "status": "DECIDED",
+    "y_state": "YELLOW",
+    "stability": "SHIFTING",
+    "gate": "validate willingness-to-pay for the ride (ripeness/Kairos activation) before hardening prices; revisit token fork when blockchain registry + hash-chaining exist",
+    "file": "ADR-054-free-to-hold-metered-to-fire-pricing.md"
   }
 ]
