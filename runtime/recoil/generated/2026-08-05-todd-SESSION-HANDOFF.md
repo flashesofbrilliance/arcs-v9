@@ -175,3 +175,37 @@ Send the recap email (Zach) → run the **Aug 11 3pm Long/SugarAI call** (sandbo
 agenda) → on unblock (sandbox creds + info@ receiving): **import the capture-first flow to staging, wire
 delivery to Sugar, run the 1.1 UAT** (lead lands → routing → verify received → sign off), while starting 1.2
 (enrichment, 4-hr nudge, anti-ICP filter, baseline). Chase Todd's: keywords/examples, territory map, Zoom contact.
+
+## SESSION 2026-08-11 → 08-13 — Sugar sandbox-call recoil + off-cloud dev loop + version control
+
+**State (post Aug-11 SugarAI call).** Recoil-close done (`2026-08-11-todd-sugar-recoil-close.md`; hosted GATED at
+**app.arcs.care/recoil/sugar**). Belief log = 43 spans (`prl-lyro/sugar-alignment-belieflog.jsonl`, OTel/append-only).
+Consolidated **case-589806 reply SENT** (who creates the sandbox admin user · production-safety confirm ·
+Postman/changelog · SugarCare/PS read) — awaiting Sugar.
+
+**Key shifts (full detail in `prl-lyro/INTEGRATION-DOSSIER.md` §0):**
+- Sandbox = **restore-from-parent** (Alberto restored `prlresinstest` from prod on Aug-11), NOT clean-slate.
+- **UNBLOCK:** Zach now has **Todd's creds for BOTH prod + sandbox**, and both instances are **logged in via the
+  claude-in-chrome extension** → we can **inspect the sandbox directly now**; no longer waiting on the scoped-user invite.
+- Integration/customization work is **out of standard support scope** → SugarCare/PS (commercial; surface cost first).
+- Enrichment = **reuse existing ZoomInfo bidirectional**; **Mailgun confirmed in live stack** (reuse, no new transport).
+- Sugar's SSOT = a **case**; our Google Doc is the intake Sebastian converts to tickets.
+
+**Built this session (committed this branch unless noted):** `INTEGRATION-DOSSIER.md` (master SSOT) ·
+`STATE-OF-SUGAR-2026-08-11.md` · `SUGAR-DOCS-MANIFEST.md` (version-control registry, docset 2026-08-11-postcall.1,
+zero open sync gaps) · `mock-sugar/` (stdlib local Sugar REST + `dev-smoke.sh` one-command off-cloud delivery smoke:
+7 inline + 3 real-recognizer payloads all 201; `simulate_lead_e2e.build_payloads()` bridge) · `tidio-flows/`
+(9 importable flow JSONs, now version-controlled; were only in ~/Downloads) · Google-Drive "PRL Resins — Chatbot"
+folder fully synced post-call (Alignment Brief · POVs & Approaches · Recap&Agenda · **Open Questions + Call Outcomes = live SSOT**
+· Project KB) · `/recoil/sugar` hosted + "Open Doc SSOT" cover button wired (on **main**) · local WordPress/wp-cli fixed
+green (restart policy + mariadb-check shim, `~/prl-resins-local`).
+
+**NEXT SESSION — sandbox readiness check for Tidio→Zapier→Sugar Create-Lead** (efficient; use Todd's SANDBOX creds):
+1. **SANDBOX-ONLY for any write.** Never write to prod with Todd's prod creds (guardrail #1). Instance: `prlresinstest.sugarondemand.com`.
+2. **OAuth for Zapier:** confirm Sugar REST OAuth2 **password grant** works vs the sandbox (client_id default `sugar` + user/pass) — that's exactly what Zapier's SugarCRM connection needs.
+3. **Point the Zapier SugarCRM connection at the SANDBOX URL** (not prod) and authenticate.
+4. **Leads schema in sandbox:** confirm the 6 required fields + `email1` (should match prod, restored). Add the **"Chatbot" `lead_source`** picklist value (Studio dropdown editor).
+5. **Prove Create-Lead:** point `dev-smoke.sh` `BASE` (or a Zapier Catch Hook → Sugar Create Record) at the sandbox REST; create a test Lead down each branch; verify received + correctly routed; delete after.
+6. **Routing:** confirm `assigned_user`/team + territory assignment fields for the 8-rep geo-routing.
+
+**Awaiting Sugar (parallel, non-blocking now):** sandbox admin-user owner, production-safety confirm, Postman/changelog, SugarCare/PS cost read.
