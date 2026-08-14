@@ -20,6 +20,13 @@ apparent canon collision: "C = Clarity" (a prior hypothesis memory) vs "C = Cohe
 (`_CANON/tao-proverbs.jsonl`) are **not rivals — they are adjacent rungs of a transitive-verb ladder**
 (§1.5). What looked like drift was the axis revealing it **floats** — float, not drift (§1.5).
 
+**Purpose (the mission the mechanism serves).** The goal is *a portable, offline-runnable oral tradition
+— a rhetorical resonance engine that keeps itself honest, without propaganda or magical missionaries*
+([[arcs-purpose-honest-resonance-engine-not-propaganda]]). A resonance engine and propaganda are the
+same machinery; only the **falsifier** (§1.7) separates them. Every honesty guard in this ADR — the
+falsifier test, the witness, NOTOMATION, float-not-drift, oral-tradition-not-scripture — is the immune
+system that keeps the engine from degrading into a cult. The mechanism below exists to serve this.
+
 ## Decision
 
 Adopt **the Hypercube Gauntlet** as the canonical model for how ARCS finds the *shape* of a problem,
@@ -96,9 +103,21 @@ in parallel registers that all describe the *same* transition:
 - **epistemic — obfuscated → objectively axiomatic** (fogged → validated foundation; COURT-grade).
 
 **That the framings converge is itself the objectivity check.** A merely felt/subjective consonance
-would not survive restatement across independent registers; surviving it is what earns the strongest
-rung — **objectively axiomatic**, not just self-evident. Convergence of independent framings = the
-orthogonal-echo validation (the mutual-inductance of §2): felt first, *checked-by-triangulation* second.
+would not survive restatement across independent registers — so convergence is a **necessary coherence
+signal**. But it is **not sufficient**: convergence is *confirmation*, and confirmation is weak (three
+framings can be three echoes of one bias — the narrative fallacy below). The **sufficient** test is
+**falsification** (Popper): *objectively axiomatic* is earned not by accumulating agreeing restatements
+but by **forbidding** something and surviving reality's attempt to do the forbidden thing. The stack
+supplies two mechanical falsifiers — **empiricism** (the ex-ante receipt: a prediction ex-post reality
+can break; the Recoil loop is the test) and **write-lock global serializability** (the claim must
+reconcile with all concurrent truth into one serial order; a non-serializable merge — a git non-ff
+reject, a canon collision, a lost update, a drift receipt — **is** a falsification event,
+[[git-is-the-write-lock-untracked-is-the-gap]]) — plus the gauntlet (LAB/BAR/COURT/FUNHOUSE, the
+claims-skeptic) as the adversarial refutation battery. **What survives falsification is what makes it
+true**; even then it is *corroborated, not verified* — it stays falsifiable, held open → **a true axiom
+floats** (revisable under new evidence), never freezes into dogma. This is the **anti-propaganda
+mechanism**: a rhetorical resonance engine *without* a falsifier **is** propaganda — the falsifier is
+the only thing separating resonance-for-truth from resonance-for-persuasion (see Purpose, Context).
 This is the Myst feeling (*"you finally understood what was already there"*) and *"render through the fog
 to earned clarity."* A self-evident/axiomatic truth is **self-grounding** → a new axiom (COURT) → the
 superionic crystal that needs no support; **prepaid reflexiveness** ([[reflexiveness-is-prepaid-prep-as-enrichment]])
@@ -115,6 +134,21 @@ antidote is the **Witness**: attest *in the moment* (anterior) so the backward s
 confabulated (WORLD.md THE WITNESS; ADR-044 temporal-provenance gate). *The dots connect backward only
 honestly if a real forward marker was laid.* This ADR is itself an instance: the two `2026-08-13`
 witness stubs are the forward dots that make its backward account honest, not reconstructed.
+
+**Survivorship, and "bad luck" as the third dishonesty.** "Hindsight is 20/20 — *only when the plans
+work out*." Hindsight is clear only on the **survivors**: failed plans leave no clean backward story
+(or are forgotten), so retrospect looks more legible than the fork was (**survivorship bias**, stacked
+on the narrative fallacy). And when a plan *doesn't* work out, "bad luck" is usually the **luck-
+attribution error** — a self-serving story hiding an un-run **BAR** lens; the ruin was in the field,
+**hiding in plain sight**. The mechanism is exact: a least-resistance current flows *around* ruin (ruin
+= high resistance = off the natural path), so best-fit flow **structurally never samples the ruin cells**
+— present in the field (§2 superposition), absent from the comfortable path. Therefore **BAR must
+importance-sample** the avoided high-resistance region; **prep / the snowpit / the pre-mortem** force
+that sample *ex-ante*, before the slab releases. Three dishonesties, three antidotes: survivorship →
+append-only belief-log keeps the failed welds ([[throwaway-context-not-throwaway-learning]]); narrative
+fallacy → the witness lays a forward marker; luck-attribution → BAR importance-samples ruin ex-ante. A
+falsified plan was broken by a *checkable* ruin — the honest post-mortem finds it in plain sight and
+refuses the word "unlucky."
 
 ### 2. The truth beneath the lattice — a continuous electromagnetic field
 
