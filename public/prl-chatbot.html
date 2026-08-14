@@ -322,7 +322,7 @@
     <p class="note" style="margin-top:12px"><b>Please confirm, deny, or correct, since you set these up:</b></p>
     <ul class="clean">
       <li>Akismet is actually enabled and keyed on the forms.</li>
-      <li>The reCAPTCHA field is present but has no keys, so it does nothing today.</li>
+      <li>reCAPTCHA is active and gating form submissions today (we tested the live form). A "terms changing, take action" warning suggests a legacy or misconfigured key, so please confirm the Site and Secret keys are valid.</li>
       <li>Barracuda's rules: what is allow-listed or blocked, and whether legitimate form mail is being quarantined (only you can see those logs).</li>
       <li>Who owns the Mailgun account, and whether a send-only key can be issued.</li>
       <li>Who controls the prlresins.com DNS zone.</li>
@@ -343,7 +343,7 @@ Do these on the staging copy first, then production.
    WP Admin > Forms > Settings > reCAPTCHA
    Enter the Site Key and Secret Key (free from the Google reCAPTCHA admin, v3). Save.
    Open each form, set the CAPTCHA field type to reCAPTCHA. Save.
-   (The CAPTCHA field is already on the form, it just has no keys, so today it does nothing.)
+   (Note: a reCAPTCHA is already live on the form and is gating submissions today. It shows a "reCAPTCHA is changing its terms, take action" warning, which usually means a legacy or misconfigured key, so please confirm the Site and Secret keys are valid and current.)
 
 3. Add keyword / blacklist filtering
    The old "PDF Form" already has the blacklist rules. Copy them to "Material Alternative"
