@@ -158,6 +158,17 @@ surviving channels carry more current at lower resistance — **the engine stren
 breaks a weld.** One card, two faces: *remember what didn't connect* → **honest** (backward) **and
 anti-fragile** (forward).
 
+**Reflexively, this makes you your own bookie.** Mirror your own blindspots off the **game-day tape**
+(the append-only belief-log, *losses included*) to find your **tell** — the systematic miscalibration
+only the record reveals, invisible from inside the moment — and you price your own conviction honestly
+*without an external judge*. The bookie wins by being **calibrated, not right**
+([[confidence-conviction-nci-operational-definitions]]); the Recoil close (ex-ante vs actual) is the film
+session, the meta-audit finds the tell, the witness keeps the tape from being re-cut into a hero reel
+(**anti-survivorship is the precondition for finding a tell** — a highlight reel has none). Enough tape
+makes the honest line **reflexive** ([[reflexiveness-is-prepaid-prep-as-enrichment]]) — System-1, not
+deliberate. This is also the answer to the compromised-judge problem: self-audit from the tape is the
+solo pass.
+
 ### 2. The truth beneath the lattice — a continuous electromagnetic field
 
 The 3,125 cells are the **lumped-circuit approximation** of a *continuous* field (Maxwell, not
