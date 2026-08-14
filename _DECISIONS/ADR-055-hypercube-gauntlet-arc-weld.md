@@ -150,6 +150,14 @@ fallacy → the witness lays a forward marker; luck-attribution → BAR importan
 falsified plan was broken by a *checkable* ruin — the honest post-mortem finds it in plain sight and
 refuses the word "unlucky."
 
+**Anti-fragility — the other face of the same card.** Keeping the failed welds is not only defensive
+(anti-survivorship / anti-propaganda); it is **generative**. Each banked falsification **retires a
+risk**, and conviction is licensed to rise *as risk retires* (the bet-ledger law: confidence climbing
+while risk stays flat is unearned). Mechanically, a falsified path is marked **open-circuit**, so the
+surviving channels carry more current at lower resistance — **the engine strengthens every time reality
+breaks a weld.** One card, two faces: *remember what didn't connect* → **honest** (backward) **and
+anti-fragile** (forward).
+
 ### 2. The truth beneath the lattice — a continuous electromagnetic field
 
 The 3,125 cells are the **lumped-circuit approximation** of a *continuous* field (Maxwell, not
@@ -214,6 +222,27 @@ seed*. It speaks the verbs end-to-end (seed→plant→water→germinate→sprout
 to, and a new `_SEEDS` entry. Fractal closure: the instrument that finds the best-fit *shape* of a
 problem is itself a best-fit-shaped node in the family it came from ([[arcs-invariant-fractal-shape-of-the-polyform]]).
 
+### 8. Build architecture — the two-stage gate (deterministic cleanroom → abductive chamber)
+
+The penteract runs as **two gates in series**, and the split **is** the germinate↔ARCS boundary
+(ADR-053) made literal:
+
+1. **5⁵ cleanroom — the deterministic gate (first; cheap; fail-fast).** Mechanical falsifiers over the
+   penteract: **serializability · drift-check · conformance fixtures** — countable, no-judgment,
+   reproducible. This is **germinate's** open, deterministic socket. Cheap-tripwire-before-expensive-JTBD:
+   nothing reaches gate 2 until it serializes clean against all concurrent truth (§1.7).
+2. **5⁵ vector-collision detector — the abductive chamber (second; expensive; judgment).** Abductive
+   reasoning over the survivors: the **gauntlet** (LAB/BAR/COURT/FUNHOUSE) as adversarial refuters +
+   **orthogonal-echo / contradiction detection** (the Python Vector Collision microservice). A collision
+   is either a **positive echo** (cross-domain isomorphism = resonance; the mutual-inductance of §2) or a
+   **negative** (contradiction = canon-collision → escalate, never auto-resolve). This is **ARCS's**
+   private vox-animus.
+
+Flow: **felt-first** (the somatic click proposes, §1.6) → **deterministic gate** (does it serialize?) →
+**abductive chamber** (does it cohere or collide across domains?). Falsification runs in both —
+mechanical in gate 1, adversarial in gate 2. The two-stage shape is also the pricing seam: **free-to-hold**
+= the open cleanroom, **metered-to-fire** = the private chamber (ADR-054).
+
 ## Y — Conviction
 
 **Polarity:** GREEN · **Conviction:** HIGH (as a *model*) · **Stability:** STABLE.
@@ -234,6 +263,14 @@ positioning) is the only empirical evidence, and it is N=1.
   per-cell operator fan-out → anterior/posterior verify → synthesize). Natural fit for a Workflow.
 - **welding-station mini-app** — the isometric explorer; a `_SEEDS` Tier-A node + ripe lab candidate.
 - **2.5D isometric cut-through** UI — mock the slice-view first (consult-before-frontend rule).
+- **Safeguards + evals suite (the honesty immune system)** — the falsifier apparatus as concrete
+  detectors, each mapped to a named failure mode: **gauntlet** (LAB/BAR/COURT/FUNHOUSE = adversarial
+  refutation) · **blindspot detection** (un-visited cells §2 + under-sampled ruin, BAR importance-sampling)
+  · **bias detection/correction** (survivorship · narrative-fallacy · luck-attribution, §1.7) · **pathogen
+  detection** (the pathogen catalog, ALTITUDE_MISMATCH et al.) · **adversarial reasoning** (claims-skeptic
+  / refute-by-default). Gate 1 runs the deterministic subset (serializability/drift/conformance); gate 2
+  the abductive subset (gauntlet/collision). Each detector is both a feature-flag and a callable — the
+  L0–L5 pipeline stages.
 
 **Guard:** honor the Loki test. Canonizing the model is cheap and done here; building any of it is
 metered against real demand. The empty penteract cells are the reminder — most of the field stays
