@@ -68,6 +68,22 @@ MUST NOT flag float as drift**, or it fights the mechanism it protects: only a p
 its canonical surface is drift; an aspect moving up its verb-ladder is working as designed. The snap is a
 **float-equilibrium** — a buoyant settle to best-fit ([[sprezzatura-studied-carelessness-buoyant-flow]]).
 
+### 1.6 Consonance is somatic — felt, not rationalized
+
+The top rung is not a computed verdict; it is **felt**, before it is rationalized. The precision of
+alignment between **source and target** is **impedance matching**: a conjugate match → **maximum power
+transfer, minimum reflection**; a mismatch → **standing waves / a beat frequency** the body registers
+(the "wah" of two close tones). At alignment the beats vanish — and *that vanishing is the felt click*,
+the snap sensed from the inside. This is **SAGE's** domain (somatic + epistemic) — the felt readout the
+epistemic operators (KKL et al.) structurally cannot supply; the body is the resonance detector.
+
+**NOTOMATION keystone (load-bearing):** the *human* feels the weld take; ARCS sharpens that felt sense,
+it never computes consonance *for* the person — which is why the welder (H = Human) owns the weld. The
+witness "wait, that's it" **is** this somatic signal firing (so `/witness` triggers on a felt click, not
+a reasoned conclusion). Inverting it — **rationalizing a consonance you did not feel — is magical
+thinking**, the exact failure the 5-verb Assess stage guards against. Felt first, checked second; never
+the reverse.
+
 ### 2. The truth beneath the lattice — a continuous electromagnetic field
 
 The 3,125 cells are the **lumped-circuit approximation** of a *continuous* field (Maxwell, not
