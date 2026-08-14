@@ -394,5 +394,14 @@
     "stability": "SHIFTING",
     "gate": "revisit when the first connectors are rendered in the umbrella/omakase session",
     "file": "ADR-056-arcs-tie-in-connector-pattern.md"
+  },
+  {
+    "id": "ADR-057",
+    "title": "ADR-057 — The sequence oracle: a git-serialized ID + time authority",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "the ADR-id authority going forward; revisit if a real NTP/atomic time source is added",
+    "file": "ADR-057-sequence-oracle.md"
   }
 ]
