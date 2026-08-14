@@ -191,8 +191,30 @@ its own designs, which then propagated to the code** (falsification-not-confirma
    `cache_subject=True` models paying it once. Caching would pull this run from ~177K toward ~145K.
 3. **Flip data is now on the tape.** flip_rate **0.50** (12/24): up-flips confirmed the two existential
    faults *harder* (COURT/FUNHOUSE 1.8→3.0); down-flips killed ε-floor false positives (→0.0). This is
-   the predictor-scoreboard (§2 τ-calibration) with its first real reps — the coarse Haiku surrogate was
-   noisy for this subject, which is itself the calibration signal.
+   the predictor-scoreboard (§2 τ-calibration) with its first real rep.
+
+## Second live run — ADR-053 (2026-08-14, `engine-live-23`), and the calibration finding
+
+A contrasting subject (ADR-053, the Tao of ARCS — GREEN/canonical, vs ADR-060 YELLOW/contested) run
+through the identical cycle: Haiku coarse (20 anchors) → governor (20 escalated) → Sonnet fine → close.
+**156,942 measured tokens.** The fine gate did what BAR importance-sampling is *for*: it surfaced **two
+irreversible ruin cells the coarse pass rated ordinary** — `D.Operational.BAR.synthesize.L3` (doctrine-
+leak into the public MIT repo is a *human* discipline, not a technical control; one slip is irreversible)
+and `R.Operational.BAR.synthesize.L2` (never-GC ⇒ unbounded dormant-seed accumulation, no mitigation).
+Ruin hiding in plain sight — exactly §1.7.
+
+**The calibration finding (two reps, honest):** *both* runs landed at flip_rate **exactly 0.50** (12/24
+and 10/20). The loop mechanically works — it reads the tape, computes per-run + aggregate flip rate,
+and would move τ if the rate left the [0.15, 0.5] band — but two reps pinned at 0.50 is a signal about
+the *metric*, not a tuned τ: with only 20 anchors interpolating over 3,125 cells through a cheap Haiku
+read, **the flip rate is dominated by surrogate NOISE, not by escalation productivity.** Before τ-tuning
+is trustworthy the coarse mesh must be denser (more anchors → less interpolation variance) or the flip
+threshold de-noised. Two honest reps buy *this*, not a dial that's ready. **[E, N=2]**
+
+**Also honest:** the `localized_faults` field is meaningful only for the SyntheticField (where the fault
+coordinates are known); on a real subject it degrades to label-pattern matching (did we escalate any
+cell labelled C-lens / COURT / BAR) and is ~always true — it is NOT a live-run signal. Use flip data and
+the fine-gate notes, not `localized_faults`, to judge a real run.
 
 ## Open questions / what is NOT built (honest)
 
