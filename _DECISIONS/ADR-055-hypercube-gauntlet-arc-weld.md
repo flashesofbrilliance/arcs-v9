@@ -84,6 +84,27 @@ a reasoned conclusion). Inverting it — **rationalizing a consonance you did no
 thinking**, the exact failure the 5-verb Assess stage guards against. Felt first, checked second; never
 the reverse.
 
+### 1.7 The epistemic output — the weld manifests truth
+
+Everything upstream (induced current, impedance match, felt click) exists to do **one** thing, nameable
+in parallel registers that all describe the *same* transition:
+
+- **representational — implicit → explicit** (tacit made portable: the core ARCS purpose,
+  [[arcs-purpose-inherit-tacit-wisdom-first-author-not-last]]; Polanyi's "we know more than we can tell"
+  made tellable),
+- **cognitive — non-obvious → self-evident** (needs-reasoning → felt-obvious; System-2 → System-1),
+- **epistemic — obfuscated → objectively axiomatic** (fogged → validated foundation; COURT-grade).
+
+**That the framings converge is itself the objectivity check.** A merely felt/subjective consonance
+would not survive restatement across independent registers; surviving it is what earns the strongest
+rung — **objectively axiomatic**, not just self-evident. Convergence of independent framings = the
+orthogonal-echo validation (the mutual-inductance of §2): felt first, *checked-by-triangulation* second.
+This is the Myst feeling (*"you finally understood what was already there"*) and *"render through the fog
+to earned clarity."* A self-evident/axiomatic truth is **self-grounding** → a new axiom (COURT) → the
+superionic crystal that needs no support; **prepaid reflexiveness** ([[reflexiveness-is-prepaid-prep-as-enrichment]])
+is what makes it land effortless (the reasoning paid up front, so it arrives obvious). The witness
+"wait, that's it" is the instant the flip fires.
+
 ### 2. The truth beneath the lattice — a continuous electromagnetic field
 
 The 3,125 cells are the **lumped-circuit approximation** of a *continuous* field (Maxwell, not
