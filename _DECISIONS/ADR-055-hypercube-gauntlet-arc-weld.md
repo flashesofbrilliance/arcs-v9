@@ -289,6 +289,10 @@ positioning) is the only empirical evidence, and it is N=1.
 **Unblocks (each a separate, gated build — do NOT auto-build):**
 - `hypercube-gauntlet` **skill** — parameterized, sibling to counterpart-gauntlet (Monte Carlo sample →
   per-cell operator fan-out → anterior/posterior verify → synthesize). Natural fit for a Workflow.
+  Sampling-engine spec + **empirical cost model** (3 runs): `_SPECS/hypercube-gauntlet-sampling-engine-v1.md`
+  — the ~54K/subagent floor makes *agent-count*, not prompt size, the cost driver; a 1-agent coarse pass
+  (54K) re-found the same tell as the 567K gauntlet (~10× cheaper). The two-gate self-audit (this ADR's
+  own downgrade) and the cost probes are the first **N=2 → N=3** empirical reps against §8.
 - **welding-station mini-app** — the isometric explorer; a `_SEEDS` Tier-A node + ripe lab candidate.
 - **2.5D isometric cut-through** UI — mock the slice-view first (consult-before-frontend rule).
 - **Safeguards + evals suite (the honesty immune system)** — the falsifier apparatus as concrete
