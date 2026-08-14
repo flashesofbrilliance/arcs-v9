@@ -105,6 +105,17 @@ superionic crystal that needs no support; **prepaid reflexiveness** ([[reflexive
 is what makes it land effortless (the reasoning paid up front, so it arrives obvious). The witness
 "wait, that's it" is the instant the flip fires.
 
+**The temporal asymmetry (Jobs) and its blade.** "You can't connect the dots looking forward; only
+backward" is the anterior/posterior asymmetry: **forward** the dots don't connect (obfuscated, fog,
+mid-anneal — you act on *trust* under BAR discipline); **backward** they connect self-evidently (the
+Observatory replay *is* connecting dots in retrospect). **But the blade:** backward-connection is also
+the **narrative/hindsight fallacy** — a *false* weld (cold joint) looks obvious in retrospect too;
+a posterior story can rationalize a consonance never felt forward (§1.6's trap, temporal register). The
+antidote is the **Witness**: attest *in the moment* (anterior) so the backward story is witnessed, not
+confabulated (WORLD.md THE WITNESS; ADR-044 temporal-provenance gate). *The dots connect backward only
+honestly if a real forward marker was laid.* This ADR is itself an instance: the two `2026-08-13`
+witness stubs are the forward dots that make its backward account honest, not reconstructed.
+
 ### 2. The truth beneath the lattice — a continuous electromagnetic field
 
 The 3,125 cells are the **lumped-circuit approximation** of a *continuous* field (Maxwell, not
