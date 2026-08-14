@@ -376,5 +376,23 @@
     "stability": "SHIFTING",
     "gate": "validate willingness-to-pay for the ride (ripeness/Kairos activation) before hardening prices; revisit token fork when blockchain registry + hash-chaining exist",
     "file": "ADR-054-free-to-hold-metered-to-fire-pricing.md"
+  },
+  {
+    "id": "ADR-055",
+    "title": "ADR-055 — OSS family: two-tier conformance + the private seed-bank registry",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "revisit if germinate SPEC changes or a repo changes tier",
+    "file": "ADR-055-oss-family-two-tier-conformance.md"
+  },
+  {
+    "id": "ADR-056",
+    "title": "ADR-056 — The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "SHIFTING",
+    "gate": "revisit when the first connectors are rendered in the umbrella/omakase session",
+    "file": "ADR-056-arcs-tie-in-connector-pattern.md"
   }
 ]
