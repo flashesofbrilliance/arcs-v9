@@ -1,0 +1,189 @@
+{
+  "meta": {
+    "report_id": "2026-08-14-kam-recoil",
+    "date": "2026-08-14",
+    "counterpart": "Kamron Palizban",
+    "company": "Ascendancy",
+    "call_count": 1,
+    "span": "Aug 14 2026 (one catch-up call)",
+    "segments": 6,
+    "transcript_source": "granola:6768e503",
+    "doc_title": "Recoil Report - Kam x Zach, Aug 14",
+    "gate": { "internal": "kam" },
+    "provenance": {
+      "captured": "our Aug 14 call",
+      "load_bearing_quote": "This is the product. This is the product bridge... digestible composable components."
+    }
+  },
+  "kinematic_series": {
+    "dt": 1.0,
+    "series": [
+      {
+        "key": "near_buyer",
+        "audience": "internal",
+        "label": "Kam is a near-term ARCS buyer",
+        "color": "#FF4D6D",
+        "points": [0.4, 0.45, 0.55, 0.35, 0.3, 0.15],
+        "grounding_quote": "Four or five months ago would have been interesting to work together. I just hired an incredible head of product."
+      },
+      {
+        "key": "thesis_resonates",
+        "audience": "internal",
+        "label": "The decision-layer thesis resonates",
+        "color": "#FFD700",
+        "points": [0.45, 0.5, 0.8, 0.75, 0.7, 0.75],
+        "grounding_quote": "This is the product. This is the product bridge... digestible composable components."
+      },
+      {
+        "key": "entry_door",
+        "audience": "internal",
+        "label": "Right entry door is 'invisible, one layer up'",
+        "color": "#FFA94D",
+        "points": [0.6, 0.55, 0.4, 0.35, 0.35, 0.35],
+        "grounding_quote": "AI single player is magical and multiplayer is not figured out yet. Like, it's a mess."
+      },
+      {
+        "key": "adoption_objection",
+        "audience": "internal",
+        "label": "Adoption friction is the real objection, not capability",
+        "color": "#00F0FF",
+        "points": [0.2, 0.25, 0.3, 0.75, 0.7, 0.7],
+        "grounding_quote": "It's a whole process for them to follow."
+      },
+      {
+        "key": "referral_channel",
+        "audience": "internal",
+        "label": "Kam is a referral / pattern-match channel",
+        "color": "#00FF9D",
+        "points": [0.3, 0.3, 0.35, 0.4, 0.5, 0.7],
+        "grounding_quote": "I can better pattern match when I run into people that have the gap where you can help sell."
+      },
+      {
+        "key": "orthogonal_echo",
+        "audience": "internal",
+        "label": "Ascendancy is an orthogonal echo of ARCS",
+        "color": "#22D3EE",
+        "points": [0.35, 0.4, 0.5, 0.6, 0.85, 0.85],
+        "grounding_quote": "the world's most well understood, most trusted network... a hypothesis being a core part of the platform."
+      }
+    ]
+  },
+  "beliefs": [
+    {
+      "id": "B1",
+      "audience": "internal",
+      "claim": "Kam buys ARCS in this cycle",
+      "inference": "IMP",
+      "confidence": [0.4, 0.15],
+      "conviction": "settled",
+      "verdict": "MISS"
+    },
+    {
+      "id": "B2",
+      "audience": "internal",
+      "claim": "The automation-under-human thesis resonates with him",
+      "inference": "EXP",
+      "confidence": [0.45, 0.8],
+      "conviction": "settled",
+      "verdict": "HIT"
+    },
+    {
+      "id": "B3",
+      "audience": "internal",
+      "claim": "The winning entry framing is 'invisible, one layer up'",
+      "inference": "EXP",
+      "confidence": [0.6, 0.35],
+      "conviction": "shifting",
+      "verdict": "PARTIAL"
+    },
+    {
+      "id": "B4",
+      "audience": "internal",
+      "claim": "His first objection is adoption process, not capability",
+      "inference": "EXP",
+      "confidence": [0.2, 0.75],
+      "conviction": "settled",
+      "verdict": "FLIPPED-UP"
+    },
+    {
+      "id": "B5",
+      "audience": "internal",
+      "claim": "Kam becomes a referral node into founders with the gap",
+      "inference": "EXP",
+      "confidence": [0.3, 0.7],
+      "conviction": "shifting",
+      "verdict": "HIT"
+    },
+    {
+      "id": "B6",
+      "audience": "internal",
+      "claim": "Ascendancy is the same abductive shape, pointed at people",
+      "inference": "EXP",
+      "confidence": [0.35, 0.85],
+      "conviction": "settled",
+      "verdict": "HIT"
+    }
+  ],
+  "page": {
+    "header": {
+      "eyebrow": "One call, the shape of it",
+      "title": "Recoil Report, our Aug 14 catch-up",
+      "sub": "The catch-up serialized into one map: where the conviction gradient rose at the product-bridge peak, where it settled through the process pushback, and the honest not-now at the end. Internal read, run on my own performance."
+    },
+    "blocks": [
+      { "type": "sec_label", "audience": "internal", "text": "RECEIPT CLOSED" },
+      {
+        "type": "receipt", "audience": "internal", "h2": "The bet, scored",
+        "fields": [
+          { "label": "Predicted (pre-call)", "value": "Warm reconnect; the Invisible thesis resonates; a Google-style 'someday a team could use this' hedge; entry via 'invisible, one layer up.'" },
+          { "label": "Actual", "value": "Thesis landed hard and in his own words; but the door was multiplayer + composability, the real objection was adoption process, and the close was an explicit not-now with a referral offer." },
+          { "label": "Fork hit", "value": "DEGRADED to referral-hold. Engaged, not bought. High-trust, low-urgency." },
+          { "label": "Load-bearing line", "value": "This is the product. This is the product bridge... digestible composable components." }
+        ]
+      },
+      { "type": "sec_label", "audience": "internal", "text": "THE SHAPE OF THE CALL" },
+      {
+        "type": "worked_example", "audience": "internal", "h2": "The kinematic manifold",
+        "intro": "Six load-bearing beliefs, tracked across the six segments of the call (reconnect, the ARCS explainer, the product-bridge peak, the process pushback, his Ascendancy build, the close). This is my own confidence gradient over the conversation, not his.",
+        "close": "The signature of a warm not-now: the thesis line (gold) climbs and holds, the near-buyer line (red) peaks at the product-bridge moment then collapses through the process objection to a terminal low, while the orthogonal-echo and referral lines rise as he talks about his own build. No dramatic betrayal, a calm single-peak arc that resolves into a high-trust hold."
+      },
+      { "type": "kinematics_table", "audience": "internal", "h2": "D1-D3 kinematics (velocity, acceleration, jerk)" },
+      { "type": "sec_label", "audience": "internal", "text": "BELIEF LOG" },
+      { "type": "belief_log", "audience": "internal", "h2": "Priors to posteriors" },
+      { "type": "sec_label", "audience": "internal", "text": "WAR GAME" },
+      {
+        "type": "table", "audience": "internal", "h2": "ATG pre-mortem: assume it is dead in 90 days",
+        "intro": "Walk the critical path backward, each node gated by his actual objection. The bottleneck is the earliest node in my court.",
+        "columns": ["node", "his actual objection", "whose court", "status"],
+        "rows": [
+          ["Kam evaluates ARCS for himself", "heads-down, just hired a head of product, introverted mode", "his", "PARKED, timing"],
+          ["A team follows the loop", "it's a whole process for them to follow", "mine", "BOTTLENECK, answered: receipt is JSON, not a process"],
+          ["Referral to a portfolio founder", "needs the redacted, generalized version to hand over", "mine", "OPEN, pending the shareable artifact"],
+          ["Paid engagement", "four or five months out", "his", "PARKED"]
+        ],
+        "note": "Earliest in-my-court node is the adoption objection. It is already answered on the codex offer (the ex-ante receipt imports as JSON, no process to adopt). The next in-my-court node is the generalized referral artifact."
+      },
+      { "type": "sec_label", "audience": "internal", "text": "DEFENSIBILITY" },
+      {
+        "type": "rosetta", "audience": "internal", "h2": "Say it in Kam's register",
+        "left": "Kam's world", "right": "This engine",
+        "rows": [
+          ["trusted nodes, most trusted network", "an evidence-graded lattice: a node is load-bearing when enough uncorrelated sources connect to it"],
+          ["activate and compound social capital", "the same before/after read, pointed at relationships instead of decisions"],
+          ["digestible composable components", "DEWY receipts: self-contained context windows that stay interoperable across meetings"],
+          ["multiplayer is a mess", "the geometric manifold: individual, dyad, and triad field-states, lossiness narrowed vertically and horizontally"],
+          ["a hypothesis as a core platform primitive", "the ex-ante receipt: a bet filed before, scored against reality after"]
+        ]
+      },
+      {
+        "type": "prose", "audience": "internal", "h2": "The honest call",
+        "p": [
+          "This was a reconnect, not a deal call, and the read reflects that. The highest-information event was the flip on B4: I under-weighted adoption and he named process friction as his first objection, which is more useful than the thesis landing.",
+          "Do not push a purchase. The move is to hold the trust, answer the process objection (done, on the codex), and stage the generalized referral artifact so that when he shifts from introverted to extroverted mode he has something to hand a founder with the gap. Next surface is his call, not mine: keep it at recoil, do not over-build a receipt-and-diamond family for a referral-hold."
+        ]
+      },
+      { "type": "provenance", "audience": "internal" },
+      { "type": "stamp", "audience": "internal", "text": "one call &#183; the bet scored &#183; internal read" }
+    ]
+  }
+}
