@@ -1,5 +1,44 @@
 # ARCS v9 — Handoff Archive (v0.1.0 → v3.5.0)
 
+# Handoff — v3.32.0 (2026-08-11)
+
+> Relocated from CLAUDE.md 2026-08-13 (v3.34.0 handoff). Headline: the public federated family +
+> the drift-receipt system + the inchworm auditor.
+
+## Headline: the family is public on arcs.care, and drift now becomes receipts
+
+**Live, tripwire-clean, E2E-verified (15/15):** `playground.arcs.care` (hub) + 4 performers as sub-pages
+(`/12d-orbital · /knowledge-lattice · /alexandria · /moire`) + `monolith.arcs.care` (3 heads + Moiré
+filter; meta-audit head dropped for public). Joins the sibling's `forge`/`forge-cut`. Two-layer
+architecture (**ADR-050**): SSOT truth (meta-audit · Tao · status · registry) ↔ air-gap (the tripwire) ↔
+prospect-safe public faces.
+
+**Drift-receipt system (ADR-051), on main:** PR-time `scripts/tripwire.sh` + `.github/workflows/family-tripwire.yml`
+(gates the diff); deploy-time `tests/family.spec.ts` in `deploy-verify.yml` (fail → rollback + Issue);
+`.github/pull_request_template.md` + `docs/PROMOTION.md`. It caught its first receipt: jargon in the forge pages.
+
+**Inchworm auditor (ADR-052):** `scripts/lattice_drift_check.py` wired to both hooks — OPEN
+(`session-start`) orients/receipts, CLOSE (`pre-compact`) advances/regenerates countables idempotently.
+Gave the orphaned knowledge-lattice an owner; fixed stale "32 ADRs" → 44 through SSOT → re-embed → redeploy
+→ live-verified.
+
+## Also built
+- **Invariant envelope** (`_STATE/schema.md`) + **artifact registry** (`_STATE/artifact-registry.jsonl`, 52 rows).
+  Tao extracted to `_CANON/tao-proverbs.jsonl` (now **246**; +5 minted from this session's ADRs, tao-242..246).
+  Full-staff gauntlet over the 5 performers (`_INBOX/performer-gauntlet-*`).
+
+## Captured
+- **ADR-050/051/052** (`_DECISIONS/`). **DEWY** — `_STATE/2026-08-11-session-decisions.dewy.json` (3).
+  **Memories** — [[drift-receipt-loop-and-inchworm]], [[per-tenant-field-truth-inward-client-facing]].
+
+## Next / backlog (designed, not built)
+- **Per-tenant field-truth pages** — client-facing counterpart to the internal meta-audit.
+- **HITL calendar-recoil loop** — close loops = send built Ahmed/Rayan seeds / await Yuri.
+- Branch protection: `gh` command in `docs/PROMOTION.md` (needs admin + first PR run of the check).
+
+## Blocking
+NONE.
+
 # Handoff — v3.31.0 (2026-08-11)
 
 > Relocated from CLAUDE.md 2026-08-13 (v3.33.0 handoff). Headline: `/witness`, the live-capture
