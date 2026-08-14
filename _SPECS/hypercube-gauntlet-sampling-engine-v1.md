@@ -148,9 +148,39 @@ justifies, and τ re-prices it from whether the last notch paid off.
 
 ---
 
+## Implementation status — `scripts/hypercube_sampler.py` (2026-08-13)
+
+The `[H]` machinery of this spec is now **built and runs deterministically without an LLM**
+(`scripts/hypercube_sampler.py`, stdlib-only). What moved `[H] → built`:
+
+- **penteract model** (ADR-055 §1 axes), **LHS anchor sampler** (§3, balanced per-axis),
+  **categorical surrogate** with the exactness gate `u = (1−max_w)(√var + β)` (§2 uncertainty),
+  **cost-governor** (`irreversible OR uncertainty×stakes>τ OR rand<ε`, plus coarse top-K, §1.2/§2),
+  **amortized walker** + **two-gate run** (inline coarse, one spawned fine floor, §1/§5),
+  **empirical cost model** (54K Haiku / 81K Opus floors, §0), **tape I/O + τ-calibration** (§2),
+  and the **factorial orthogonality falsifier** (§4).
+- **Falsification-first `--selftest`** (11 checks that try to *break* the claims: surrogate
+  exactness at anchors, factorial detecting a *planted* interaction, ε-floor + irreversible
+  override firing, cost-floor arithmetic) — all pass.
+- **In-silico reproduction of the §5 validation:** a 25-cell inline coarse pass + one amortized
+  Haiku fine spawn (~98K tokens, ~6× under the 567K Opus gauntlet) **re-localizes all three
+  confirmed faults** — C-lens hot, NOTOMATION×COURT contradiction, BAR orthogonality-ruin —
+  on a synthetic ground-truth field built to carry exactly those faults.
+- **Honest result, not rigged:** the built orthogonality falsifier reports **INTERACTION /
+  penteract-collapses** on that field (mae 0.423 > 0.35 tol) — because the faults *are* lens×
+  operator interactions. That is ADR-055's own unresolved MED finding #4 surfacing mechanically,
+  not a pass manufactured by choosing an additive field.
+
 ## Open questions / what is NOT built (honest)
 
-- The surrogate model, the walker, and the τ-calibration loop are **design [H]** — none has run.
+- The **fine-gate judgment is still a seam**, not wired: `LLMGrader` renders the coarse/fine
+  prompt but has no `judge_fn` — the workflow/skill layer must supply the real Claude call. The
+  engine counts the spawn so the cost model stays honest either way. Until that seam is wired to
+  a live model, the only *judged* field is the deterministic `SyntheticField`.
+- **τ-calibration has no tape of engine-runs yet** — the loop is built and tested against a
+  scratch tape, but the real `_STATE/gauntlet-runs.jsonl` needs ≥ a few live reps before τ tunes
+  from anything but its seed. (The 3 grounding rows on the real tape are manual, not engine-runs.)
+- The **surrogate, walker, and τ-calibration loop are built** — superseding the line below.
 - The **~54K floor is harness-specific** and may change with the runtime; re-measure, don't assume.
 - **Field-smoothness is assumed, not verified** — if the field is discontinuous, interpolation
   under-covers; the surrogate's own error must flag where.
