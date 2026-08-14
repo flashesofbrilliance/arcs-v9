@@ -1,4 +1,4 @@
-# ADR-032 — Anonymous Receipt Remediation: Conform Forward, No Retroactive Purge, Opt-In Save
+# ADR-049 — Anonymous Receipt Remediation: Conform Forward, No Retroactive Purge, Opt-In Save
 
 > **Status:** DECIDED
 > **Date:** 2026-07-13

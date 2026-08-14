@@ -16,6 +16,12 @@ echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
 # lattice for drift and emit a receipt; do NOT advance here (regeneration is the
 # CLOSE end, in pre-compact). Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
+
+# Seed-bank inchworm — OPEN end (ADR-055/056). Check the _SEEDS registry invariants
+# (valid JSONL, orphan seeds, broken local paths, staleness, repo-coverage gap) and
+# emit a receipt; curation stays human-owned. Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
+
 MEMDIR="$HOME/.claude/projects/-Users-zharris-arcs-v9/memory"
 if [ -f "$MEMDIR/MEMORY.md" ]; then
   orphans=$(comm -23 \

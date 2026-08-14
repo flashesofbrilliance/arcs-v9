@@ -1,5 +1,5 @@
 ---
-title: "ADR-024: CALIBRATE I.D.E.A. Construction"
+title: "ADR-058: CALIBRATE I.D.E.A. Construction"
 description: "Fuzzy idea → Sharp specification via Alchemist/Curator/Taxonomist/Librarian/Detective meta-operators"
 status: "DRAFT"
 nci: 87
@@ -7,7 +7,7 @@ type: "Product Decision"
 timestamp: "2026-06-16"
 ---
 
-# ADR-024: CALIBRATE — I.D.E.A. Construction via Meta-Operators
+# ADR-058: CALIBRATE — I.D.E.A. Construction via Meta-Operators
 
 **Thesis:** Transform the Wirecutter-for-SaaS fuzzy idea into a high-conviction product specification by applying ARCS meta-operators (Alchemist → Curator → Taxonomist → Librarian → Detective) using hyperstition (narrative as reality-making).
 

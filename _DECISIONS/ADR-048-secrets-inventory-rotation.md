@@ -1,4 +1,4 @@
-# ADR-031 — Secrets Inventory & Rotation
+# ADR-048 — Secrets Inventory & Rotation
 
 **Status:** ACCEPTED · 2026-07-19
 **Y:** YELLOW / MEDIUM / REVISIT (inventory is current-as-of-today; rotation cadence needs a human owner)

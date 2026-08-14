@@ -1,4 +1,4 @@
-# ADR-055 — The Hypercube Gauntlet: decision-shaping as an arc weld
+# ADR-060 — The Hypercube Gauntlet: decision-shaping as an arc weld
 
 **Status:** PROVISIONAL · 2026-08-13 · Y downgraded GREEN→YELLOW by the self-audit gauntlet (see receipt)
 
@@ -310,7 +310,7 @@ un-visited by design.
 
 ## Self-audit receipt — the gauntlet run on this ADR (2026-08-13)
 
-The two-gate hypercube gauntlet was run on ADR-055 *itself* (7 agents; 5 independent operator lenses in
+The two-gate hypercube gauntlet was run on ADR-060 *itself* (7 agents; 5 independent operator lenses in
 separate contexts; run `wf_719c5843-ff0`). It found the ADR's **tell**, and per the doctrine
 (falsification-not-confirmation; anti-fragility: bank the failed weld) the finding **propagates to this
 document** rather than being admired and shelved.

@@ -1,6 +1,6 @@
 # Sampling Engine Spec — the cost-governed hypercube gauntlet (v1)
 
-**Status:** PROVISIONAL · 2026-08-13 · implements ADR-055 §8 (the two-gate architecture)
+**Status:** PROVISIONAL · 2026-08-13 · implements ADR-060 §8 (the two-gate architecture)
 **Grounding:** two real runs, not estimates — `wf_719c5843-ff0` (Opus gauntlet, self-audit) and
 `wf_90b0b237-fe2` (Haiku coarse-ripple, cost probe). Where a claim is measured it is tagged **[E]**
 (empirical); where it is design that has not been run it is tagged **[H]** (hypothesis).
@@ -90,7 +90,7 @@ escalate(cell) = irreversible(cell)                    // hard override — COUR
 - **ε floor — mandatory.** `stakes` and `uncertainty` are the surrogate's *own* estimates, so the gate
   inherits the surrogate's blindspots (the self observing has the blindspots of the self observed). A
   fixed random fraction of fine-probes fires *regardless* of the surrogate — importance-sampling the
-  cells it is confidently-wrong about (ruin in plain sight, ADR-055 §1.7). Without ε the engine is
+  cells it is confidently-wrong about (ruin in plain sight, ADR-060 §1.7). Without ε the engine is
   efficient *and* self-blinding.
 
 **Marginal-stop (when to stop refining a region):** keep probing until Δuncertainty per token drops
@@ -105,7 +105,7 @@ spec are its first entries). Every future gauntlet run appends here; τ-calibrat
 - did fine-gate probes *flip* the coarse verdict? If they rarely do → over-spending → raise τ.
 - did a coarse verdict that *skipped* the fine gate later get falsified? → under-spending → lower τ (and
   check ε wasn't too small).
-τ is a **floating** parameter — declared, tuned, never a magic constant (ADR-055 §1.5 float-not-drift:
+τ is a **floating** parameter — declared, tuned, never a magic constant (ADR-060 §1.5 float-not-drift:
 its ladder is the calibration record). Become-your-own-bookie, made mechanical. **[H — needs a tape of
 ≥ a few runs to calibrate.]**
 
@@ -113,19 +113,19 @@ its ladder is the calibration record). Become-your-own-bookie, made mechanical. 
 
 ## 3. Sampling strategy — the ripple (exploit the field) **[H]**
 
-The penteract is a *continuous field* (ADR-055 §2), so cells are correlated — never enumerate 3,125.
+The penteract is a *continuous field* (ADR-060 §2), so cells are correlated — never enumerate 3,125.
 - **Amortized walker**, not parallel fan: one context evaluates many cells sequentially (one floor).
 - **Latin-hypercube anchors** across the 5 axes (~coarse mesh), then a cheap **surrogate/interpolation**
   fills between them; refine only where surrogate uncertainty or gradient is high (active learning).
 - **Importance-sample the ruin** (BAR): least-resistance flow avoids high-resistance/ruin cells, so they
-  must be probed deliberately (ADR-055 §1.7).
+  must be probed deliberately (ADR-060 §1.7).
 
 ---
 
 ## 4. The factorial pass IS the orthogonality falsifier **[H → cheap to run]**
 
 The main-effects design (5 axes × 5 values ≈ 25 probes) both approximates the space cheaply *and* tests
-ADR-055 finding #4 (axis orthogonality UNPROVEN): run main-effects-only, then predict a few held-out
+ADR-060 finding #4 (axis orthogonality UNPROVEN): run main-effects-only, then predict a few held-out
 *joint* cells. Prediction holds ⇒ axes ~independent, penteract stands, proved for ~25 probes. Prediction
 fails ⇒ axes dependent, penteract (and the 3,125 count) collapses — learned cheaply. **The cost-
 optimization and the falsification are the same move.**
@@ -153,7 +153,7 @@ justifies, and τ re-prices it from whether the last notch paid off.
 The `[H]` machinery of this spec is now **built and runs deterministically without an LLM**
 (`scripts/hypercube_sampler.py`, stdlib-only). What moved `[H] → built`:
 
-- **penteract model** (ADR-055 §1 axes), **LHS anchor sampler** (§3, balanced per-axis),
+- **penteract model** (ADR-060 §1 axes), **LHS anchor sampler** (§3, balanced per-axis),
   **categorical surrogate** with the exactness gate `u = (1−max_w)(√var + β)` (§2 uncertainty),
   **cost-governor** (`irreversible OR uncertainty×stakes>τ OR rand<ε`, plus coarse top-K, §1.2/§2),
   **amortized walker** + **two-gate run** (inline coarse, one spawned fine floor, §1/§5),
@@ -168,12 +168,12 @@ The `[H]` machinery of this spec is now **built and runs deterministically witho
   on a synthetic ground-truth field built to carry exactly those faults.
 - **Honest result, not rigged:** the built orthogonality falsifier reports **INTERACTION /
   penteract-collapses** on that field (mae 0.423 > 0.35 tol) — because the faults *are* lens×
-  operator interactions. That is ADR-055's own unresolved MED finding #4 surfacing mechanically,
+  operator interactions. That is ADR-060's own unresolved MED finding #4 surfacing mechanically,
   not a pass manufactured by choosing an additive field.
 
-## Live run — the real cheap→fine cycle on ADR-055 (2026-08-13, `engine-live-11`)
+## Live run — the real cheap→fine cycle on ADR-060 (2026-08-13, `engine-live-11`)
 
-The fine-gate seam was wired to real models (Agent tool) and the full cycle run on ADR-055 itself.
+The fine-gate seam was wired to real models (Agent tool) and the full cycle run on ADR-060 itself.
 One Haiku coarse spawn (20 LHS anchors) → governor → one Sonnet fine spawn (24 escalated cells) →
 close. It **re-localized all three confirmed faults** (C-lens hot · NOTOMATION×COURT · BAR ruin) for
 **177,002 measured tokens vs the 567K Opus gauntlet (~3.2× cheaper)** — and the run **falsified two of

@@ -27,7 +27,7 @@ export function ClaimAnonymousReceipts() {
     }
 
     const stored = localStorage.getItem("arcs_session_id") ?? readCookie("arcs_session_id")
-    // Phase 2 opt-in save (ADR-032): a bearing stashed by the ephemeral
+    // Phase 2 opt-in save (ADR-049): a bearing stashed by the ephemeral
     // receipt page's "Sign in & save" button, waiting for authentication.
     const rawPending = localStorage.getItem("arcs_pending_save")
     if (!stored && !rawPending) return
@@ -40,7 +40,7 @@ export function ClaimAnonymousReceipts() {
         if (cancelled || !s?.user?.id) return
 
         // (1) Legacy claim — pre-2026-07-13 anonymous receipts (retained per
-        // ADR-032; new anonymous runs persist nothing, so for new sessions
+        // ADR-049; new anonymous runs persist nothing, so for new sessions
         // this is a no-op).
         if (stored) {
           const r = await fetch("/api/receipts/claim", {

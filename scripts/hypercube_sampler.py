@@ -3,7 +3,7 @@
 hypercube_sampler.py — the cost-governed hypercube gauntlet sampling engine (v1)
 
 Implements _SPECS/hypercube-gauntlet-sampling-engine-v1.md, which itself implements
-ADR-055 §8 (the two-gate architecture). This is the code that turns the spec's [H]
+ADR-060 §8 (the two-gate architecture). This is the code that turns the spec's [H]
 (hypothesis / unbuilt) pieces — the surrogate, the walker, the cost-governor, and the
 tau-calibration loop — into something that actually runs.
 
@@ -41,7 +41,7 @@ from itertools import product
 from typing import Callable, Dict, List, Optional, Sequence, Tuple
 
 # ----------------------------------------------------------------------------
-# 0. The penteract — 5 genuinely-orthogonal axes (ADR-055 §1)
+# 0. The penteract — 5 genuinely-orthogonal axes (ADR-060 §1)
 # ----------------------------------------------------------------------------
 
 AXES: Dict[str, List[str]] = {
@@ -110,7 +110,7 @@ Grader = Callable[[Cell], Reading]
 
 class SyntheticField:
     """A deterministic ground-truth impedance field encoding the STRUCTURE the three real
-    runs found (spec §0 tape; ADR-055 self-audit receipt). Not random noise — it is built
+    runs found (spec §0 tape; ADR-060 self-audit receipt). Not random noise — it is built
     to have the exact faults the 567K Opus gauntlet confirmed, so the cheap engine can be
     shown to re-find them (the §5 validation, reproduced in silico):
 
@@ -218,7 +218,7 @@ TASK_TOKENS_PER_CELL = 400  # [E] ~digest+output; dwarfed by the floor (bare cel
 class CostModel:
     """Total ~= Σ_spawned_agents (FLOOR_model + subject_read + task_tokens). Inline pays task
     only — no floor. `subject_read_tokens` is the cost of a spawned agent RE-READING the subject
-    each spawn — a real term the live ADR-055 run exposed (2026-08-13): the modeled cost that
+    each spawn — a real term the live ADR-060 run exposed (2026-08-13): the modeled cost that
     omitted it under-counted by ~2x (85.6K modeled vs 177K measured). It is the SAME cacheable
     prefix across every spawn (grading_prefix()), so with prompt-caching only the first spawn
     pays it — set cache_subject=True to model that."""
@@ -361,7 +361,7 @@ def governor(candidates: Sequence[Cell], surrogate: Surrogate, cfg: GovernorConf
 
     Both top-Ks are RELATIVE (rank + take K), never an absolute cutoff. Spec §1.2, confirmed
     live 2026-08-13: an absolute threshold — on severity (the binary ripple's 25/25) OR on VoI
-    (a real ADR-055 coarse pass escalated 380/400 under `voi > 0.35`) — floods. Severity and
+    (a real ADR-060 coarse pass escalated 380/400 under `voi > 0.35`) — floods. Severity and
     stakes are DIFFERENT axes (a huge fault at low ruin vs a small fault at existential ruin),
     so the gate needs both selectors; bounding each at K keeps the fine gate at ~2K + overrides.
     `tau` is retained only for the marginal-stop / calibration bookkeeping, not as a gate."""
@@ -849,7 +849,7 @@ def selftest() -> int:
 
     # (h) End-to-end: the cheap pass LOCALIZES all three known faults (§5 validation).
     res = run_gauntlet(SyntheticField(), GovernorConfig(model="haiku", top_k=12),
-                       n_anchors=25, seed=7, subject="ADR-055-selftest")
+                       n_anchors=25, seed=7, subject="ADR-060-selftest")
     all_localized = all(res.localized_faults.values())
     check("engine re-finds all 3 known faults from a 25-cell coarse pass",
           all_localized, str(res.localized_faults))
@@ -893,7 +893,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     sub = p.add_subparsers(dest="cmd")
 
     p_run = sub.add_parser("run", help="run the two-gate gauntlet on the synthetic field (deterministic)")
-    p_run.add_argument("--subject", default="ADR-055")
+    p_run.add_argument("--subject", default="ADR-060")
     p_run.add_argument("--anchors", type=int, default=25)
     p_run.add_argument("--model", choices=list(FLOOR), default="haiku")
     p_run.add_argument("--top-k", type=int, default=10)
@@ -911,13 +911,13 @@ def main(argv: Optional[List[str]] = None) -> int:
 
     # --- agent bridge: wire the fine-gate to a real model via stateless JSON ---
     p_anc = sub.add_parser("anchors", help="bridge step 1: emit LHS anchor cells + coarse grading prompt")
-    p_anc.add_argument("--subject", default="ADR-055")
+    p_anc.add_argument("--subject", default="ADR-060")
     p_anc.add_argument("--anchors", type=int, default=25)
     p_anc.add_argument("--seed", type=int, default=0)
 
     p_esc = sub.add_parser("escalate", help="bridge step 3: coarse gradings JSON -> fine escalation set")
     p_esc.add_argument("gradings", help="path to JSON array of coarse gradings")
-    p_esc.add_argument("--subject", default="ADR-055")
+    p_esc.add_argument("--subject", default="ADR-060")
     p_esc.add_argument("--seed", type=int, default=0)
     p_esc.add_argument("--top-k", type=int, default=10)
     p_esc.add_argument("--tau", type=float, default=0.35)
@@ -927,7 +927,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     p_cls = sub.add_parser("close", help="bridge step 5: fine gradings JSON -> flips, cost, tape row")
     p_cls.add_argument("gradings", help="path to JSON array of fine gradings")
     p_cls.add_argument("escalation", help="path to the escalate-step JSON (carries coarse_estimate)")
-    p_cls.add_argument("--subject", default="ADR-055")
+    p_cls.add_argument("--subject", default="ADR-060")
     p_cls.add_argument("--seed", type=int, default=0)
     p_cls.add_argument("--anchors", type=int, default=25)
     p_cls.add_argument("--model", choices=list(FLOOR), default="haiku")

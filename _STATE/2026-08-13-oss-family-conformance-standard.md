@@ -54,6 +54,21 @@ web composes end to end.
   one sentence, not a per-repo ADR.
 - optional: `CHANGELOG.md`, `CONTRIBUTING.md`.
 
+### Tier-B+ — ATG-FAQ coverage (README must answer the anticipated adopter questions)
+A README passes only if a **cold reader** can answer these 5 ATG-anticipated questions *from the
+README alone* (each scored ANSWERED / PARTIAL / MISSING):
+1. **How do I use it?** — concrete install + first-run command from zero.
+2. **Why different than ___?** — names a nearest alternative and why to pick this. *(Portfolio-wide
+   weak axis: PARTIAL/MISSING on both POC repos — nobody names a rival. Highest-leverage adoption line.)*
+3. **What problem does it solve?** — concrete pain, not abstract.
+4. **Who is it for?** — explicit audience.
+5. **How does it relate to the family / ARCS?** — placed in the ecosystem.
+
+ATG may add repo-specific tributaries (e.g. field-scan: "is my data sent anywhere?" — a need-to-hear
+question a privacy-conscious adopter has but won't ask). The eval is the reusable `readme-faq-eval`
+(a cold-reader agent; seed `seed-readme-faq-eval` in `_SEEDS/index.jsonl`).
+POC 2026-08-13: germinate 3/5, arcs-field-scan 1/5. Remaining 6 in progress.
+
 ---
 
 ## Per-repo audit

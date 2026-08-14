@@ -207,8 +207,8 @@
     "file": "ADR-024-resume-arcs-care-architecture-gates.md"
   },
   {
-    "id": "ADR-025a",
-    "title": "ADR-025a — ARCS Go-Live: Provisional Logic for the Public Launch",
+    "id": "ADR-025",
+    "title": "ADR-025 — ARCS Go-Live: Provisional Logic for the Public Launch",
     "status": "DRAFT",
     "y_state": null,
     "stability": null,
@@ -216,13 +216,13 @@
     "file": "ADR-025-arcs-go-live-provisional-logic.md"
   },
   {
-    "id": "ADR-025b",
-    "title": "ADR-025b — SAGE Signal Validation Path",
+    "id": "ADR-059",
+    "title": "ADR-059 — SAGE Signal Validation Path",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
     "gate": "see content",
-    "file": "ADR-025-sage-signal-validation-path.md"
+    "file": "ADR-059-sage-signal-validation-path.md"
   },
   {
     "id": "ADR-026",
@@ -379,11 +379,38 @@
   },
   {
     "id": "ADR-055",
-    "title": "ADR-055 — The Hypercube Gauntlet: decision-shaping as an arc weld",
+    "title": "ADR-055 — OSS family: two-tier conformance + the private seed-bank registry",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",
-    "gate": "model canon; every buildable it implies is a separate gated bet",
-    "file": "ADR-055-hypercube-gauntlet-arc-weld.md"
+    "gate": "revisit if germinate SPEC changes or a repo changes tier",
+    "file": "ADR-055-oss-family-two-tier-conformance.md"
+  },
+  {
+    "id": "ADR-056",
+    "title": "ADR-056 — The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "SHIFTING",
+    "gate": "revisit when the first connectors are rendered in the umbrella/omakase session",
+    "file": "ADR-056-arcs-tie-in-connector-pattern.md"
+  },
+  {
+    "id": "ADR-057",
+    "title": "ADR-057 — The sequence oracle: a git-serialized ID + time authority",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "the ADR-id authority going forward; revisit if a real NTP/atomic time source is added",
+    "file": "ADR-057-sequence-oracle.md"
+  },
+  {
+    "id": "ADR-060",
+    "title": "ADR-060 — The Hypercube Gauntlet: decision-shaping as an arc weld",
+    "status": "PROVISIONAL",
+    "y_state": "YELLOW",
+    "stability": "CONTESTED",
+    "gate": "model canon (self-audited GREEN->YELLOW); every buildable it implies is a separate gated bet. Sampling engine BUILT (scripts/hypercube_sampler.py); renumbered 055->060 via oracle after collision with merged OSS-family ADR-055",
+    "file": "ADR-060-hypercube-gauntlet-arc-weld.md"
   }
 ]
