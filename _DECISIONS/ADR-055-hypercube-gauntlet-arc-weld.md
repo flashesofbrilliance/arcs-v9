@@ -1,6 +1,6 @@
 # ADR-055 — The Hypercube Gauntlet: decision-shaping as an arc weld
 
-**Status:** Accepted · 2026-08-13
+**Status:** PROVISIONAL · 2026-08-13 · Y downgraded GREEN→YELLOW by the self-audit gauntlet (see receipt)
 
 > **⚡ TAO STAMP** — aspect **C · Coherence** × verb **synthesize** · proverb **tao-248** ·
 > penteract self-coordinate `(C · Exec · LAB · synthesize · L5)` — this ADR is itself a cell:
@@ -14,11 +14,12 @@
 
 A GTM/positioning session (OSS umbrella) turned generative and, over one thread, derived a complete,
 self-consistent model of what ARCS *does* at the mechanism level — and it grounded out in the brand
-name itself. The derivation is worth canonizing because every abstract layer terminates in one
-physical act (arc welding), which is the tell that it is structure, not decoration. It also dissolved an
-apparent canon collision: "C = Clarity" (a prior hypothesis memory) vs "C = Coherence"
-(`_CANON/tao-proverbs.jsonl`) are **not rivals — they are adjacent rungs of a transitive-verb ladder**
-(§1.5). What looked like drift was the axis revealing it **floats** — float, not drift (§1.5).
+name itself. The derivation is worth capturing because it is unusually generative and internally consistent — though
+internal consistency and "every layer terminating in one physical act" are **confirmation signals,
+necessary but not sufficient** (§1.7), a point the self-audit receipt turns back on this ADR itself.
+It also *addressed* an apparent canon collision: "C = Clarity" vs "C = Coherence" reframed as adjacent
+rungs of a transitive-verb ladder (§1.5) — but the self-audit flags that the "float, not drift" framing
+was **under-specified and captured** (it told the auditor to stand down); see the §1.5 correction.
 
 **Purpose (the mission the mechanism serves).** The goal is *a portable, offline-runnable oral tradition
 — a rhetorical resonance engine that keeps itself honest, without propaganda or magical missionaries*
@@ -74,6 +75,16 @@ potential floats with the field; some aspects are **grounded** (fixed canon — 
 MUST NOT flag float as drift**, or it fights the mechanism it protects: only a projection diverging from
 its canonical surface is drift; an aspect moving up its verb-ladder is working as designed. The snap is a
 **float-equilibrium** — a buoyant settle to best-fit ([[sprezzatura-studied-carelessness-buoyant-flow]]).
+
+> **[Self-audit correction, 2026-08-13 — HIGH finding.]** As originally written, "the drift auditor MUST
+> NOT flag float as drift" is an **author-invokable exemption with no operational boundary** — it captures
+> the very control meant to catch runaway canon ([[control-integrity-described-vs-wired]]: a control owned
+> by the agent it polices is captured). **Operational boundary (the fix):** float is legitimate *only*
+> when the movement runs along a ladder whose rungs were **declared ex-ante in the SSOT**. Movement to an
+> *undeclared* value — or invoking "it's floating" to dismiss a flagged contradiction *post-hoc* — is
+> **drift**. The auditor **flags regardless**; "float" is a defense the human must ratify by pointing at
+> the pre-declared ladder, **never an automatic stand-down**. The C-ladder qualifies (its five rungs are
+> named here); **H = Horizon/Human does not** — its ladder is unspecified, so it is **drift until declared.**
 
 ### 1.6 Consonance is somatic — felt, not rationalized
 
@@ -256,9 +267,15 @@ mechanical in gate 1, adversarial in gate 2. The two-stage shape is also the pri
 
 ## Y — Conviction
 
-**Polarity:** GREEN · **Conviction:** HIGH (as a *model*) · **Stability:** STABLE.
-The model is self-consistent, grounds every layer in one physical act, terminates in the brand name,
-and corrected a live canon drift on the way — the marks of structure, not analogy.
+**Polarity:** YELLOW · **Conviction:** MEDIUM · **Stability:** CONTESTED.
+*(Downgraded from GREEN·HIGH·STABLE by the self-audit gauntlet, 2026-08-13 — see receipt.)* The
+generative reach is real and the epistemic spine (§1.7) holds. But the prior GREEN rating was justified
+by **confirmation signals** — self-consistency, single-metaphor grounding, brand-name termination,
+drift-correction — which §1.7 *itself* demotes as necessary-but-not-sufficient. Held to its own
+falsification bar, with N=1 evidence and no falsifier yet run against the *mechanism*, the honest resting
+state is **corroborated, not verified**. A true axiom floats: this one is held open, YELLOW, pending a
+build that risks a real prediction (the cheapest: check axis orthogonality against WORLD.md's render
+table — see receipt finding 4).
 
 **Loki test (strongest case against):** it is a beautiful map, not yet a built territory. None of it is
 *shipped* — no penteract sampler, no annealer, no isometric explorer, no welding-station node. The risk
@@ -286,6 +303,43 @@ positioning) is the only empirical evidence, and it is N=1.
 **Guard:** honor the Loki test. Canonizing the model is cheap and done here; building any of it is
 metered against real demand. The empty penteract cells are the reminder — most of the field stays
 un-visited by design.
+
+## Self-audit receipt — the gauntlet run on this ADR (2026-08-13)
+
+The two-gate hypercube gauntlet was run on ADR-055 *itself* (7 agents; 5 independent operator lenses in
+separate contexts; run `wf_719c5843-ff0`). It found the ADR's **tell**, and per the doctrine
+(falsification-not-confirmation; anti-fragility: bank the failed weld) the finding **propagates to this
+document** rather than being admired and shelved.
+
+**The tell:** *ARCS applies its falsification bar to everything except itself; at each self-referential
+juncture it swaps in a consonance/aesthetic signal and relabels the swap as rigor.* Recurred, verbatim
+in structure, across all five lenses.
+
+**Confirmed findings:**
+1. **HIGH — the Y score.** GREEN·HIGH·STABLE was justified by the confirmation signals §1.7 demotes.
+   → **Fixed:** downgraded to YELLOW·MEDIUM·CONTESTED (§Y).
+2. **HIGH — "float, not drift" captured the auditor.** Author-invokable exemption, no operational
+   boundary. → **Fixed:** §1.5 now gives a mechanical boundary (ex-ante-declared ladder; auditor flags
+   regardless; H-ladder is drift-until-declared).
+3. **HIGH — "literal" EM analogy.** Asserted literal on unbuilt machinery; never run backward to a
+   checkable prediction. → **Flagged (standing correction):** the EM frame is a **structural analogy,
+   unfalsified**; "literal" is aspirational until it yields one surprising, checkable prediction. Do not
+   cite it as evidence. (Every physics term currently *relabels* a pre-existing ARCS concept and computes
+   nothing.)
+4. **MED — orthogonality unproven.** Only 2 of 10 axis-pairs shown; WORLD.md defines render-Resolution as
+   a *function* of Y-state, so Resolution may not be independent → the penteract (and the 3,125 count)
+   could collapse. **Checkable against WORLD.md's render-scale table — the cheapest real next falsifier.**
+5. **MED — NOTOMATION has no detector, and collides with ADR-054 billing.** "Never computes consonance
+   for the person" is unfalsifiable as stated; per-activation billing (ADR-054) creates a financial
+   gradient toward *manufacturing* felt clicks. → **Escalate:** needs an operational NOTOMATION detector
+   *before* billing goes live; logged as a cross-canon collision.
+
+**Meaning (the anti-fragile read):** this is **N=2**, and it is the strongest evidence in this ADR that
+the engine is not propaganda — the *built plurality* caught a self-flattery the author had stamped GREEN
+hours earlier, in solo mode. The downgrade is not a defeat; the falsification **retired a risk**, and the
+ADR is stronger YELLOW-and-honest than it was GREEN-and-captured. *Caveat:* the KKL lens received a
+truncated body and reasoned from the claim-list only — its findings were least-weighted and are
+cross-covered by the other four lenses.
 
 ## Linked receipts / ADRs
 
