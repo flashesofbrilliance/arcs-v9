@@ -24,7 +24,7 @@
         "label": "Kam is a near-term ARCS buyer",
         "color": "#FF4D6D",
         "points": [0.4, 0.45, 0.55, 0.35, 0.3, 0.15],
-        "grounding_quote": "Four or five months ago would have been interesting to work together. I just hired an incredible head of product."
+        "grounding_quote": "Four or five months ago would have been interesting to work together... I just hired an incredible head of product..."
       },
       {
         "key": "thesis_resonates",
@@ -40,7 +40,7 @@
         "label": "Right entry door is 'invisible, one layer up'",
         "color": "#FFA94D",
         "points": [0.6, 0.55, 0.4, 0.35, 0.35, 0.35],
-        "grounding_quote": "AI single player is magical and multiplayer is not figured out yet. Like, it's a mess."
+        "grounding_quote": "AI single player is magical and... multiplayer is not figured out yet. Like, it's a mess."
       },
       {
         "key": "adoption_objection",
@@ -56,7 +56,7 @@
         "label": "Kam is a referral / pattern-match channel",
         "color": "#00FF9D",
         "points": [0.3, 0.3, 0.35, 0.4, 0.5, 0.7],
-        "grounding_quote": "I can better pattern match when I run into people that have the gap where you can help sell."
+        "grounding_quote": "I can... better pattern match when I run into people that... have the gap when you can help sell."
       },
       {
         "key": "orthogonal_echo",
@@ -64,7 +64,7 @@
         "label": "Ascendancy is an orthogonal echo of ARCS",
         "color": "#22D3EE",
         "points": [0.35, 0.4, 0.5, 0.6, 0.85, 0.85],
-        "grounding_quote": "the world's most well understood, most trusted network... a hypothesis being a core part of the platform."
+        "grounding_quote": "the world's most well understood, most trusted network... a hypothesis being like a core part of the platform."
       }
     ]
   },
