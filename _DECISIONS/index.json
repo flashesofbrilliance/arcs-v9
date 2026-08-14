@@ -207,8 +207,8 @@
     "file": "ADR-024-resume-arcs-care-architecture-gates.md"
   },
   {
-    "id": "ADR-025a",
-    "title": "ADR-025a \u2014 ARCS Go-Live: Provisional Logic for the Public Launch",
+    "id": "ADR-025",
+    "title": "ADR-025 \u2014 ARCS Go-Live: Provisional Logic for the Public Launch",
     "status": "DRAFT",
     "y_state": null,
     "stability": null,
@@ -216,13 +216,13 @@
     "file": "ADR-025-arcs-go-live-provisional-logic.md"
   },
   {
-    "id": "ADR-025b",
-    "title": "ADR-025b \u2014 SAGE Signal Validation Path",
+    "id": "ADR-059",
+    "title": "ADR-059 \u2014 SAGE Signal Validation Path",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
     "gate": "see content",
-    "file": "ADR-025-sage-signal-validation-path.md"
+    "file": "ADR-059-sage-signal-validation-path.md"
   },
   {
     "id": "ADR-026",
@@ -334,7 +334,7 @@
   },
   {
     "id": "ADR-050",
-    "title": "ADR-050 — The federated family + the SSOT/front-end air-gap",
+    "title": "ADR-050 \u2014 The federated family + the SSOT/front-end air-gap",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",
@@ -343,7 +343,7 @@
   },
   {
     "id": "ADR-051",
-    "title": "ADR-051 — Drift receipts: every gate is a detector, every failure a receipt",
+    "title": "ADR-051 \u2014 Drift receipts: every gate is a detector, every failure a receipt",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",
@@ -352,7 +352,7 @@
   },
   {
     "id": "ADR-052",
-    "title": "ADR-052 — Inchworm drift-auditor for orphaned artifacts",
+    "title": "ADR-052 \u2014 Inchworm drift-auditor for orphaned artifacts",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",
@@ -361,16 +361,16 @@
   },
   {
     "id": "ADR-053",
-    "title": "ADR-053 — The Tao of ARCS: dormant potential, the vox animus, and the open/private boundary",
+    "title": "ADR-053 \u2014 The Tao of ARCS: dormant potential, the vox animus, and the open/private boundary",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",
-    "gate": "durable doctrine; revisit only if germinate’s open/private boundary is renegotiated",
+    "gate": "durable doctrine; revisit only if germinate\u2019s open/private boundary is renegotiated",
     "file": "ADR-053-tao-of-arcs-dormant-potential-vox-animus.md"
   },
   {
     "id": "ADR-054",
-    "title": "ADR-054 — Free to hold, metered to fire: the ARCS activation pricing model",
+    "title": "ADR-054 \u2014 Free to hold, metered to fire: the ARCS activation pricing model",
     "status": "DECIDED",
     "y_state": "YELLOW",
     "stability": "SHIFTING",
@@ -379,7 +379,7 @@
   },
   {
     "id": "ADR-055",
-    "title": "ADR-055 — OSS family: two-tier conformance + the private seed-bank registry",
+    "title": "ADR-055 \u2014 OSS family: two-tier conformance + the private seed-bank registry",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",
@@ -388,7 +388,7 @@
   },
   {
     "id": "ADR-056",
-    "title": "ADR-056 — The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
+    "title": "ADR-056 \u2014 The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "SHIFTING",
@@ -397,7 +397,7 @@
   },
   {
     "id": "ADR-057",
-    "title": "ADR-057 — The sequence oracle: a git-serialized ID + time authority",
+    "title": "ADR-057 \u2014 The sequence oracle: a git-serialized ID + time authority",
     "status": "DECIDED",
     "y_state": "GREEN",
     "stability": "STABLE",

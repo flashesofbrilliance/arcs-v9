@@ -49,7 +49,7 @@
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
-    "ADR-031 (secrets inventory + rotation)",
+    "ADR-048 (secrets inventory + rotation)",
     "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
     "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"

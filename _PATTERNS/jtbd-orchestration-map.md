@@ -167,7 +167,7 @@ all six approved by the operator. Owner "human" = needs a person, not a session.
 | ID | JTBD | Tributary | Owner | Model / budget | Status |
 |----|------|-----------|-------|----------------|--------|
 | **J1** | Sanitize external-surface telemetry (chan shows counts+deploy only; status full) | need-to-hear | session | Sonnet / ~5k | **DONE 2026-07-19** |
-| **J6** | Secrets inventory + rotation ADR | meta-question | session→human | Sonnet / ~10k | doc landed → `_DECISIONS/ADR-031` |
+| **J6** | Secrets inventory + rotation ADR | meta-question | session→human | Sonnet / ~10k | doc landed → `_DECISIONS/ADR-048` |
 | **J2** | Public-repo exposure audit (named dossiers + IP in a public repo) | meta-question | session→human | Opus / ~20k | audit landed → `_PATTERNS/public-repo-exposure-audit.md`; remediation = human call |
 | **J4** | Workflow cost ledger (actual vs projected spend) | adjacent primitive | session | Haiku / ~5k | ledger seeded → `_PATTERNS/workflow-cost-ledger.md` |
 | **J5** | Concurrent-session merge guard (pre-push drift check + branch protection) | need-to-hear | session→human | Sonnet / ~30k | **QUEUED** — plan below |

@@ -216,7 +216,7 @@ export default function ReceiptPage() {
                 NOT STORED — this bearing lives only in this browser tab, per the trust contract. Save it to your ledger by signing in.
               </span>
               <Button variant="ghost" size="sm" onClick={() => {
-                // Opt-in save (ADR-032): stash the bearing in localStorage
+                // Opt-in save (ADR-049): stash the bearing in localStorage
                 // (sessionStorage is tab-scoped — a magic-link click opens a
                 // new tab and would lose it), then route to sign-in. The
                 // post-auth consumer (ClaimAnonymousReceipts) persists it.

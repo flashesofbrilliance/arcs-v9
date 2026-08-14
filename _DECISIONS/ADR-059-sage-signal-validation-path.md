@@ -1,4 +1,4 @@
-# ADR-025 — SAGE Signal Validation Path
+# ADR-059 — SAGE Signal Validation Path
 
 > **Status:** DECIDED
 > **Date:** 2026-06-22
@@ -107,7 +107,7 @@ Option A is not wrong in principle; it’s wrong in sequence. Re-scope as: *buil
 - **Option A deferred** — explicitly not abandoned; re-open when `sage_efficacy.js` produces a result
 - **SAGE advisory status preserved** — no regression
 - **LAB/BAR surface work deferred** — `_extract_sage_fields()` expansion blocked until Option A is validated
-- **Architecture Decision 1 (soft/hard NCI gate)** — deferred; revisit in ADR-025 re-open
+- **Architecture Decision 1 (soft/hard NCI gate)** — deferred; revisit in ADR-059 re-open
 
 **Implementation pointer:** ADR-026 (debrief delivery fix) is the next required ADR.
 

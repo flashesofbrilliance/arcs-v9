@@ -72,7 +72,7 @@ partial mechanisms only (no dedicated enforcement built yet — registered hones
 Anonymous bearings are never persisted (trust contract). Made them shareable **without a server write** by
 encoding the bearing in the URL **fragment** (`/brief/share#<payload>`) — browsers never send it to the
 server, so the recipient recomposes client-side. Preserves "nothing stored / no write path"; does NOT reverse
-ADR-032. Rejected the server-token alternative precisely because it would have.
+ADR-049. Rejected the server-token alternative precisely because it would have.
 
 - `src/lib/shareLink.ts` (encode/decode; **decodeShare sanitizes every field** incl. `reasoning.paths` — the
   `#payload` is attacker-controllable), `src/app/brief/share/page.tsx` (recipient view, one-view localStorage

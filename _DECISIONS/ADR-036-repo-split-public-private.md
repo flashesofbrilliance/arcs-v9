@@ -8,7 +8,7 @@
 - **Status:** ACCEPTED (owner decision, 2026-07-19) — execution pending
 - **Y-gate:** YELLOW / HIGH / REVISIT — the decision is firm; the *history-rewrite* step is irreversible and must be staged carefully
 - **Supersedes question raised in:** `_PATTERNS/public-repo-exposure-audit.md` (J2)
-- **Relates to:** ADR-032 (zero-trust posture), ADR-031 (secrets), Issue #77
+- **Relates to:** ADR-032 (zero-trust posture), ADR-048 (secrets), Issue #77
 
 ---
 
