@@ -98,6 +98,9 @@ below a floor — the ratcheting fan→condense→verify→**floor** pattern
 ([[../_PATTERNS/2026-08-11-distiller-proof-epoch.md]]). N probes that don't move the estimate = stop; the
 Drift Sentinel applied to spend.
 
+**The tape** = `_STATE/gauntlet-runs.jsonl` (append-only, one row per run; the 3 reps that ground this
+spec are its first entries). Every future gauntlet run appends here; τ-calibration reads it.
+
 **τ-calibration (the self-tuning dial):** after each run, score from the tape —
 - did fine-gate probes *flip* the coarse verdict? If they rarely do → over-spending → raise τ.
 - did a coarse verdict that *skipped* the fine gate later get falsified? → under-spending → lower τ (and
