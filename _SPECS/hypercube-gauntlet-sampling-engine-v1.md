@@ -171,6 +171,29 @@ The `[H]` machinery of this spec is now **built and runs deterministically witho
   operator interactions. That is ADR-055's own unresolved MED finding #4 surfacing mechanically,
   not a pass manufactured by choosing an additive field.
 
+## Live run — the real cheap→fine cycle on ADR-055 (2026-08-13, `engine-live-11`)
+
+The fine-gate seam was wired to real models (Agent tool) and the full cycle run on ADR-055 itself.
+One Haiku coarse spawn (20 LHS anchors) → governor → one Sonnet fine spawn (24 escalated cells) →
+close. It **re-localized all three confirmed faults** (C-lens hot · NOTOMATION×COURT · BAR ruin) for
+**177,002 measured tokens vs the 567K Opus gauntlet (~3.2× cheaper)** — and the run **falsified two of
+its own designs, which then propagated to the code** (falsification-not-confirmation, on the tape):
+
+1. **Governor absolute-threshold flood → FIXED.** The first escalate used an *unbounded* `voi > τ` OR
+   and escalated **380/400** — the binary ripple's "25/25, zero discrimination" (§1.2) reappearing at
+   the VoI layer. Fix: the escalation set is a **union of two BOUNDED top-Ks** (severity localizes the
+   biggest faults; VoI spends where a probe cuts regret) + irreversible-override + ε. 380 → **24**.
+   Confirms §1.2 with live data: *no absolute cutoff survives contact — on severity OR on VoI.*
+2. **Cost model under-counted ~2× → FIXED.** Modeled 85.6K vs measured **177K**. The gap: each spawned
+   agent **re-reads the full subject** (~22K Haiku / ~32K Sonnet), which `TASK_TOKENS_PER_CELL` omitted.
+   `CostModel` now carries a `subject_read_tokens` term — and it is the **prompt-caching lever**: the
+   subject-read is the identical cacheable prefix (`grading_prefix()`) across every spawn, so
+   `cache_subject=True` models paying it once. Caching would pull this run from ~177K toward ~145K.
+3. **Flip data is now on the tape.** flip_rate **0.50** (12/24): up-flips confirmed the two existential
+   faults *harder* (COURT/FUNHOUSE 1.8→3.0); down-flips killed ε-floor false positives (→0.0). This is
+   the predictor-scoreboard (§2 τ-calibration) with its first real reps — the coarse Haiku surrogate was
+   noisy for this subject, which is itself the calibration signal.
+
 ## Open questions / what is NOT built (honest)
 
 - The **fine-gate judgment is still a seam**, not wired: `LLMGrader` renders the coarse/fine

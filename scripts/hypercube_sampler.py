@@ -68,6 +68,14 @@ def cell_dict(cell: Cell) -> Dict[str, str]:
     return {name: AXES[name][cell[i]] for i, name in enumerate(AXIS_NAMES)}
 
 
+def label_to_cell(label: str) -> Cell:
+    """'C.Exec.COURT.synthesize.L5' -> (3,0,3,3,4). Inverse of cell_label."""
+    parts = label.split(".")
+    if len(parts) != N_AXES:
+        raise ValueError(f"bad cell label {label!r}: expected {N_AXES} dotted parts")
+    return tuple(AXES[name].index(parts[i]) for i, name in enumerate(AXIS_NAMES))  # type: ignore
+
+
 def hamming(a: Cell, b: Cell) -> int:
     """Categorical distance = number of differing axes (0..5). The field is a lattice,
     not a continuum, so this is the natural metric between cells."""
@@ -198,14 +206,25 @@ class LLMGrader:
 # 3. The empirical cost model (spec §0) — FLOOR per spawn dominates
 # ----------------------------------------------------------------------------
 
-FLOOR = {"haiku": 54_000, "opus": 81_000}  # [E] measured tokens/spawned-subagent
-TASK_TOKENS_PER_CELL = 400                  # [E] ~digest+output; dwarfed by the floor
+FLOOR = {
+    "haiku": 54_000,   # [E] measured (spec §0, wf_56c743ca-18e)
+    "sonnet": 68_000,  # [H] interpolated between haiku/opus — NOT independently measured
+    "opus": 81_000,    # [E] measured (spec §0, wf_719c5843-ff0)
+}
+TASK_TOKENS_PER_CELL = 400  # [E] ~digest+output; dwarfed by the floor (bare cells; +subject-read is extra)
 
 
 @dataclass
 class CostModel:
-    """Total ~= Σ_spawned_agents (FLOOR_model + task_tokens). Inline pays task only — no floor."""
+    """Total ~= Σ_spawned_agents (FLOOR_model + subject_read + task_tokens). Inline pays task
+    only — no floor. `subject_read_tokens` is the cost of a spawned agent RE-READING the subject
+    each spawn — a real term the live ADR-055 run exposed (2026-08-13): the modeled cost that
+    omitted it under-counted by ~2x (85.6K modeled vs 177K measured). It is the SAME cacheable
+    prefix across every spawn (grading_prefix()), so with prompt-caching only the first spawn
+    pays it — set cache_subject=True to model that."""
     inline_task_tokens: int = 0
+    subject_read_tokens: int = 0        # per-spawn re-read of the subject text
+    cache_subject: bool = False         # prompt-caching: only the first spawn pays the read
     spawns: List[Tuple[str, int]] = field(default_factory=list)  # (model, cells_graded)
 
     def inline(self, cells: int) -> None:
@@ -216,8 +235,10 @@ class CostModel:
 
     def total(self) -> int:
         t = self.inline_task_tokens
-        for model, cells in self.spawns:
+        for i, (model, cells) in enumerate(self.spawns):
             t += FLOOR[model] + cells * TASK_TOKENS_PER_CELL
+            if self.subject_read_tokens and not (self.cache_subject and i > 0):
+                t += self.subject_read_tokens
         return t
 
     def breakdown(self) -> Dict[str, object]:
@@ -225,6 +246,8 @@ class CostModel:
             "inline_task_tokens": self.inline_task_tokens,
             "spawn_count": len(self.spawns),
             "spawn_floors": sum(FLOOR[m] for m, _ in self.spawns),
+            "subject_read_tokens": self.subject_read_tokens,
+            "cache_subject": self.cache_subject,
             "total_tokens": self.total(),
         }
 
@@ -329,29 +352,36 @@ class EscalationDecision:
 
 def governor(candidates: Sequence[Cell], surrogate: Surrogate, cfg: GovernorConfig,
              rng: random.Random) -> List[EscalationDecision]:
-    """escalate(cell) = irreversible(cell)                          [hard override]
-                     OR uncertainty(cell) * stakes(cell) > tau      [VoI gate]
-                     OR rand() < epsilon                            [exploration floor]
-       ... AND the coarse severity ranking's top-K (relative, not absolute)."""
+    """The escalation set is BOUNDED — a union of bounded selectors, never unbounded predicates:
+
+        escalate(cell) = irreversible(cell)            [hard override — COURT/free-solo]
+                      OR cell in top-K by severity     [localize the biggest faults, §1.2]
+                      OR cell in top-K by VoI          [spend where a probe cuts regret, §2]
+                      OR rand() < epsilon              [mandatory exploration floor]
+
+    Both top-Ks are RELATIVE (rank + take K), never an absolute cutoff. Spec §1.2, confirmed
+    live 2026-08-13: an absolute threshold — on severity (the binary ripple's 25/25) OR on VoI
+    (a real ADR-055 coarse pass escalated 380/400 under `voi > 0.35`) — floods. Severity and
+    stakes are DIFFERENT axes (a huge fault at low ruin vs a small fault at existential ruin),
+    so the gate needs both selectors; bounding each at K keeps the fine gate at ~2K + overrides.
+    `tau` is retained only for the marginal-stop / calibration bookkeeping, not as a gate."""
     scored: List[EscalationDecision] = []
     for cell in candidates:
         sev_hat, stk_hat, unc, irr = surrogate.predict(cell)
         voi = unc * stk_hat
         scored.append(EscalationDecision(cell, False, "", voi, sev_hat, stk_hat, unc))
 
-    # top-K by coarse severity (the ordinal ranking, §1.2) — a *relative* escalation set.
-    topk_cells = {
-        d.cell for d in sorted(scored, key=lambda d: d.sev_hat, reverse=True)[: cfg.top_k]
-    }
+    topk_sev = {d.cell for d in sorted(scored, key=lambda d: d.sev_hat, reverse=True)[: cfg.top_k]}
+    topk_voi = {d.cell for d in sorted(scored, key=lambda d: d.voi, reverse=True)[: cfg.top_k]}
 
     for d in scored:
-        sev_hat, stk_hat, unc, irr = surrogate.predict(d.cell)
+        _, _, _, irr = surrogate.predict(d.cell)
         if irr:
             d.escalate, d.reason = True, "irreversible-override"
-        elif d.cell in topk_cells:
-            d.escalate, d.reason = True, "coarse-top-k"
-        elif d.voi > cfg.tau:
-            d.escalate, d.reason = True, "voi-gate"
+        elif d.cell in topk_sev:
+            d.escalate, d.reason = True, "severity-top-k"
+        elif d.cell in topk_voi:
+            d.escalate, d.reason = True, "voi-top-k"
         elif rng.random() < cfg.epsilon:
             d.escalate, d.reason = True, "epsilon-floor"
     return scored
@@ -587,6 +617,166 @@ def run_gauntlet(grader: Grader, cfg: GovernorConfig, n_anchors: int = 25,
 
 
 # ----------------------------------------------------------------------------
+# 9.5 The agent bridge — wire the fine-gate to a REAL model via stateless JSON
+# ----------------------------------------------------------------------------
+#
+# The judgment seam. A pure-Python engine can't judge a cell; a live model can. This bridge
+# lets the orchestrator (the main Claude loop, a Workflow, or a human) act as the amortized
+# walker: three stateless JSON steps, real gradings supplied in between.
+#
+#   1. `anchors`  -> emits the LHS anchor cells + one grading prompt (one amortized spawn
+#                    grades all of them = ONE floor, per spec §0 amortize-to-the-floor).
+#   2. <grade>    -> the model returns [{label, severity, stakes, irreversible, note}, ...].
+#   3. `escalate` -> fits the surrogate on those gradings, runs the governor, emits the
+#                    fine-gate escalation set + its grading prompt (a second amortized spawn).
+#   4. <grade>    -> the model grades the escalated cells (the independent fine judgment).
+#   5. `close`    -> computes flips (coarse-vs-fine disagreement), cost, localized faults,
+#                    and appends the run to the tape. THIS is where prompt/predictor quality
+#                    gets scored by confirmed outcome.
+
+_GRADE_SCHEMA_HINT = (
+    'Return ONLY a JSON array, one object per cell, each: '
+    '{"label": "<the cell label verbatim>", "severity": <0-3 float, ordinal>, '
+    '"stakes": <0-1 float: ruin x irreversibility>, "irreversible": <bool>, '
+    '"note": "<short: name the fault or say clean>"}. '
+    'Severity is ORDINAL for ranking, not an absolute threshold. Refute-by-default: only a '
+    'nonzero severity for a fault you can defend against the subject text.'
+)
+
+
+def grading_prefix(subject: str) -> str:
+    """The CACHE-STABLE prefix: subject + axis key + schema. Identical across coarse and fine
+    gates and every cell batch, so an AnthropicGrader marks it `cache_control` and pays the
+    floor's re-read cost ONCE (the prompt-caching lever on the ~54K floor, spec §0). Ordered
+    stable-first, variable-last on purpose."""
+    axis_key = "; ".join(f"{name}={'/'.join(vals)}" for name, vals in AXES.items())
+    return (
+        f"You grade cells of the hypercube gauntlet for subject: {subject}.\n"
+        f"Read the subject, then grade each cell for how severe a FAULT the subject has at that "
+        f"coordinate. Axes — {axis_key}.\n"
+        f"A cell = (lens.resolution.operator.verb.lstack): lens is the facet, operator the "
+        f"adversary applying pressure, verb the cognitive move, lstack the coherence reach.\n"
+        + _GRADE_SCHEMA_HINT
+    )
+
+
+def _grading_prompt(subject: str, cells: List[Cell], gate: str) -> str:
+    """Cache-stable prefix first, then the variable suffix (gate label + cell list)."""
+    lines = [f"  {i+1}. {cell_label(c)}" for i, c in enumerate(cells)]
+    return (
+        grading_prefix(subject)
+        + f"\n\n--- this batch: {gate} gate ---\nGrade exactly these cells:\n"
+        + "\n".join(lines)
+    )
+
+
+def bridge_anchors(n: int, seed: int, subject: str) -> Dict[str, object]:
+    rng = random.Random(seed)
+    anchors = latin_hypercube_anchors(n, rng)
+    return {
+        "step": "anchors",
+        "subject": subject,
+        "seed": seed,
+        "gate": "coarse",
+        "cells": [cell_label(c) for c in anchors],
+        "grading_prompt": _grading_prompt(subject, anchors, "COARSE (cheap, amortized)"),
+    }
+
+
+def _readings_from_gradings(gradings: List[Dict[str, object]]) -> Tuple[List[Cell], List[Reading]]:
+    cells, readings = [], []
+    for g in gradings:
+        cell = label_to_cell(str(g["label"]))
+        cells.append(cell)
+        readings.append(Reading(
+            severity=float(g.get("severity", 0.0)),
+            stakes=float(g.get("stakes", 0.0)),
+            irreversible=bool(g.get("irreversible", False)),
+            note=str(g.get("note", "")),
+        ))
+    return cells, readings
+
+
+def bridge_escalate(anchor_gradings: List[Dict[str, object]], cfg: GovernorConfig,
+                    subject: str, seed: int, candidate_budget: int = 400) -> Dict[str, object]:
+    rng = random.Random(seed + 100)
+    anchors, readings = _readings_from_gradings(anchor_gradings)
+    surrogate = Surrogate(lam=1.2, beta=1.0).fit(anchors, readings)
+    candidates = list(dict.fromkeys(
+        [tuple(rng.randrange(N_VALS) for _ in range(N_AXES)) for _ in range(candidate_budget)]
+        + anchors
+    ))
+    decisions = governor(candidates, surrogate, cfg, rng)
+    escalated = [d for d in decisions if d.escalate]
+    esc_cells = [d.cell for d in escalated]
+    reasons: Dict[str, int] = {}
+    for d in escalated:
+        reasons[d.reason] = reasons.get(d.reason, 0) + 1
+    return {
+        "step": "escalate",
+        "subject": subject,
+        "gate": "fine",
+        "escalated_count": len(escalated),
+        "escalation_reasons": reasons,
+        # carry the coarse surrogate estimate so `close` can measure flips.
+        "coarse_estimate": {cell_label(d.cell): round(d.sev_hat, 3) for d in escalated},
+        "cells": [cell_label(c) for c in esc_cells],
+        "grading_prompt": _grading_prompt(subject, esc_cells, "FINE (independent verify)"),
+    }
+
+
+def bridge_close(fine_gradings: List[Dict[str, object]], coarse_estimate: Dict[str, float],
+                 cfg: GovernorConfig, subject: str, seed: int, n_anchors: int,
+                 write_tape: bool = False, tape_file: Optional[str] = None,
+                 ts: str = "auto", measured_tokens: Optional[int] = None) -> Dict[str, object]:
+    cost = CostModel()
+    cost.inline(n_anchors)               # gate 1: one amortized coarse spawn's cells, inline-modeled
+    fine_cells, fine_readings = _readings_from_gradings(fine_gradings)
+    if fine_cells:
+        cost.spawn(cfg.model, len(fine_cells))  # gate 2: one amortized fine floor
+
+    # Flips: the confirmed-outcome score. Coarse predicted sev_hat; fine measured severity.
+    flips, flip_detail = 0, []
+    for cell, r in zip(fine_cells, fine_readings):
+        lab = cell_label(cell)
+        pred = coarse_estimate.get(lab)
+        if pred is not None and abs(r.severity - pred) > 0.75:
+            flips += 1
+            flip_detail.append({"cell": lab, "coarse": pred, "fine": round(r.severity, 3)})
+
+    esc_labels = {cell_label(c) for c in fine_cells}
+    localized = {
+        "C-lens-hot": any(lab.startswith("C.") for lab in esc_labels),
+        "NOTOMATION-x-COURT": any("COURT" in lab and (lab.startswith("C.") or lab.startswith("D."))
+                                   for lab in esc_labels),
+        "orthogonality-ruin-BAR": any("BAR" in lab and (lab.startswith("D.") or lab.startswith("R."))
+                                       for lab in esc_labels),
+    }
+    row = {
+        "run_id": f"engine-live-{seed}",
+        "kind": "engine-run",
+        "ts": ts,
+        "subject": subject,
+        "model": cfg.model,
+        "n_anchors": n_anchors,
+        "escalated": len(fine_cells),
+        "fine_probes": len(fine_cells),
+        "fine_flips": flips,
+        "flip_detail": flip_detail,
+        "skipped_then_falsified": 0,
+        "total_tokens_modeled": cost.total(),
+        "total_tokens_measured": measured_tokens,  # actual harness usage when a live run supplies it
+        "cost_note": f"gate1 {n_anchors} coarse cells (1 amortized spawn) + gate2 {len(fine_cells)} "
+                     f"fine cells (1 amortized {cfg.model} spawn)",
+        "localized_faults": localized,
+    }
+    if write_tape:
+        append_tape(row, tape_file)
+    return {"step": "close", "tape_row": row, "cost": cost.breakdown(),
+            "flip_rate": round(flips / len(fine_cells), 3) if fine_cells else None}
+
+
+# ----------------------------------------------------------------------------
 # 10. Self-test — tries to BREAK the engine's own claims (falsification-first)
 # ----------------------------------------------------------------------------
 
@@ -719,6 +909,32 @@ def main(argv: Optional[List[str]] = None) -> int:
     p_cal = sub.add_parser("calibrate", help="read the tape and propose a new tau")
     p_cal.add_argument("--tau", type=float, default=0.35)
 
+    # --- agent bridge: wire the fine-gate to a real model via stateless JSON ---
+    p_anc = sub.add_parser("anchors", help="bridge step 1: emit LHS anchor cells + coarse grading prompt")
+    p_anc.add_argument("--subject", default="ADR-055")
+    p_anc.add_argument("--anchors", type=int, default=25)
+    p_anc.add_argument("--seed", type=int, default=0)
+
+    p_esc = sub.add_parser("escalate", help="bridge step 3: coarse gradings JSON -> fine escalation set")
+    p_esc.add_argument("gradings", help="path to JSON array of coarse gradings")
+    p_esc.add_argument("--subject", default="ADR-055")
+    p_esc.add_argument("--seed", type=int, default=0)
+    p_esc.add_argument("--top-k", type=int, default=10)
+    p_esc.add_argument("--tau", type=float, default=0.35)
+    p_esc.add_argument("--epsilon", type=float, default=0.05)
+    p_esc.add_argument("--model", choices=list(FLOOR), default="haiku")
+
+    p_cls = sub.add_parser("close", help="bridge step 5: fine gradings JSON -> flips, cost, tape row")
+    p_cls.add_argument("gradings", help="path to JSON array of fine gradings")
+    p_cls.add_argument("escalation", help="path to the escalate-step JSON (carries coarse_estimate)")
+    p_cls.add_argument("--subject", default="ADR-055")
+    p_cls.add_argument("--seed", type=int, default=0)
+    p_cls.add_argument("--anchors", type=int, default=25)
+    p_cls.add_argument("--model", choices=list(FLOOR), default="haiku")
+    p_cls.add_argument("--ts", default="auto")
+    p_cls.add_argument("--measured", type=int, default=None, help="actual harness tokens spent (live run)")
+    p_cls.add_argument("--write-tape", action="store_true")
+
     args = p.parse_args(argv)
 
     if args.cmd == "selftest":
@@ -727,6 +943,29 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.cmd == "calibrate":
         new_tau, note = calibrate_tau(GovernorConfig(tau=args.tau))
         print(json.dumps({"old_tau": args.tau, "new_tau": new_tau, "note": note}, indent=2))
+        return 0
+
+    if args.cmd == "anchors":
+        print(json.dumps(bridge_anchors(args.anchors, args.seed, args.subject), indent=2))
+        return 0
+
+    if args.cmd == "escalate":
+        with open(args.gradings, encoding="utf-8") as f:
+            gradings = json.load(f)
+        cfg = GovernorConfig(tau=args.tau, epsilon=args.epsilon, top_k=args.top_k, model=args.model)
+        print(json.dumps(bridge_escalate(gradings, cfg, args.subject, args.seed), indent=2))
+        return 0
+
+    if args.cmd == "close":
+        with open(args.gradings, encoding="utf-8") as f:
+            fine = json.load(f)
+        with open(args.escalation, encoding="utf-8") as f:
+            esc = json.load(f)
+        cfg = GovernorConfig(model=args.model)
+        out = bridge_close(fine, esc.get("coarse_estimate", {}), cfg, args.subject, args.seed,
+                           args.anchors, write_tape=args.write_tape, ts=args.ts,
+                           measured_tokens=args.measured)
+        print(json.dumps(out, indent=2))
         return 0
 
     if args.cmd == "run" or args.cmd is None:
