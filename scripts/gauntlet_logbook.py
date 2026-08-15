@@ -19,27 +19,25 @@ import hypercube_sampler as hs  # for dollars() + list-price table (single sourc
 OPUS_BASELINE = 567_370  # the full 7-Opus self-audit gauntlet — the compression baseline
 BASELINE_USD = hs.dollars("opus", OPUS_BASELINE)
 
-# The falsification ledger — the interpretive spine (not derivable from the tape rows alone).
-# Each: what was believed, what tested it, the verdict, and what the code did in response.
-FALSIFICATIONS = [
-    {"claim": "Tight prompts + small inputs = cheap; cost scales with data size.",
-     "test": "cost-ripple probe (6 Haiku agents)", "run": "wf_90b0b237-fe2",
-     "verdict": "FALSIFIED", "delta": "~25K estimate -> 325K actual (13x low)",
-     "fix": "the ~54K/subagent FLOOR dominates; agent-COUNT, not prompt size, is the cost driver"},
-    {"claim": "An absolute value-of-information threshold (uncertainty x stakes > tau) routes coarse -> fine.",
-     "test": "live ADR-060 governor run", "run": "engine-live-11",
-     "verdict": "FALSIFIED", "delta": "escalated 380 / 400 cells (zero discrimination)",
-     "fix": "escalation set = union of two BOUNDED top-Ks (severity + VoI) + irreversible + eps; 380 -> 24"},
-    {"claim": "The empirical cost model is complete.",
-     "test": "live measured vs modeled tokens", "run": "engine-live-11",
-     "verdict": "FALSIFIED", "delta": "85.6K modeled -> 177K measured (~2x low)",
-     "fix": "each spawn RE-READS the subject; added CostModel.subject_read_tokens (the prompt-caching lever)"},
-    {"claim": "The 0.50 flip rate is surrogate interpolation NOISE — a denser mesh will lower it.",
-     "test": "ADR-053 rerun at 60 anchors (vs 20)", "run": "engine-live-60",
-     "verdict": "FALSIFIED", "delta": "flip rate ROSE 0.50 -> 0.59; all 13 flips were DOWN-flips",
-     "fix": "it's a MODEL-TIER recall/precision gap (Haiku hot vs Sonnet strict), not noise; "
-            "tau-calibration now SPLITS flips by direction (up=recall hole -> act; down=healthy)"},
-]
+# The falsification ledger — the repo-wide belief-log, an SSOT file swept from the whole monorepo
+# history (commits, ADR self-audits, forensic verdicts, _PATTERNS post-mortems, red-team memory).
+# The anti-survivorship record ARCS canon calls for: keep the failed welds. Rendered, not hardcoded.
+LEDGER = os.path.join(ROOT, "_STATE", "falsification-ledger.jsonl")
+SCOPE_ORDER = ["gauntlet", "canon", "infra", "deploy", "process", "security", "recoil", "other"]
+SCOPE_LABEL = {"gauntlet": "the gauntlet engine", "canon": "canon & ADRs", "infra": "infrastructure",
+               "deploy": "deploy & preview", "process": "process & controls", "security": "security",
+               "recoil": "recoil / client", "other": "other"}
+
+
+def load_ledger():
+    if not os.path.exists(LEDGER):
+        return []
+    out = []
+    for line in open(LEDGER, encoding="utf-8"):
+        line = line.strip()
+        if line:
+            out.append(json.loads(line))
+    return out
 
 
 def load_runs():
@@ -190,14 +188,14 @@ def render(runs):
             f'<td class="mono num green">{BASELINE_USD/usd:.1f}&times;</td></tr>')
 
     # run ledger rows
-    ledger = []
+    run_rows = []
     for r in runs:
         live = r.get("kind") == "engine-run"
         up, down, und = flip_split(r)
         flip = f'<span class="up">{up}&uarr;</span> / <span class="down">{down}&darr;</span>' if live else "—"
         agents = r.get("n_anchors") if live else r.get("agents", "—")
         acol = "anchors" if live else "agents"
-        ledger.append(
+        run_rows.append(
             f'<tr class="{"live" if live else "base"}">'
             f'<td class="mono">{esc(r.get("run_id","?"))}</td>'
             f'<td>{esc(r.get("subject","?"))}</td>'
@@ -208,18 +206,39 @@ def render(runs):
             f'<td class="mono num">{flip}</td>'
             f'</tr>')
 
+    ledger = load_ledger()
+    n_canon = sum(1 for f in ledger if f.get("canon"))
+    campaign_usd = sum(r["total_usd"] for r in runs if r.get("total_usd") is not None)
+    by_scope = {}
+    for f in ledger:
+        by_scope.setdefault(f.get("scope", "other"), []).append(f)
     fcards = []
-    for i, f in enumerate(FALSIFICATIONS, 1):
+    for scope in SCOPE_ORDER:
+        items = by_scope.get(scope)
+        if not items:
+            continue
         fcards.append(
-            f'<article class="fcard">'
-            f'<div class="fnum">F{i}</div>'
-            f'<div class="fbody">'
-            f'<p class="claim"><span class="lbl">believed</span>{esc(f["claim"])}</p>'
-            f'<p class="test"><span class="lbl">test</span>{esc(f["test"])} '
-            f'<span class="mono dim">{esc(f["run"])}</span></p>'
-            f'<p class="delta"><span class="verdict">{esc(f["verdict"])}</span>{esc(f["delta"])}</p>'
-            f'<p class="fix"><span class="lbl">propagated</span>{esc(f["fix"])}</p>'
-            f'</div></article>')
+            f'<div class="scopehdr">{esc(SCOPE_LABEL.get(scope, scope))}'
+            f'<span class="scopen">{len(items)}</span></div>')
+        for f in items:
+            conf = f.get("confidence", "")
+            refs = f.get("refs") or []
+            ref_chips = "".join(
+                f'<span class="ref {"ref-canon" if r.startswith(("ADR-","DEWY:","tao-")) else ""}">{esc(r)}</span>'
+                for r in refs)
+            canon_badge = '<span class="canon-tag">canon</span>' if f.get("canon") else \
+                          '<span class="nocanon-tag">patterns/memory</span>'
+            fcards.append(
+                f'<article class="fcard">'
+                f'<div class="fnum">{esc(f.get("id", ""))}</div>'
+                f'<div class="fbody">'
+                f'<p class="claim"><span class="lbl">believed</span>{esc(f["claim"])}</p>'
+                f'<p class="test"><span class="lbl">test</span>{esc(f["test"])}</p>'
+                f'<p class="delta"><span class="verdict">{esc(f["verdict"])}</span>{esc(f["delta"])}</p>'
+                f'<p class="fix"><span class="lbl">propagated</span>{esc(f["fix"])}</p>'
+                f'<p class="fmeta">{esc(f.get("ts",""))} &middot; {esc(conf)} confidence '
+                f'{canon_badge} {ref_chips}</p>'
+                f'</div></article>')
 
     return f"""<title>Hypercube Gauntlet &mdash; Experiment Logbook</title>
 <style>
@@ -287,6 +306,17 @@ tr.live .chip {{ border-color:rgba(0,240,255,.35); color:var(--cyan); }}
 .verdict {{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--red);
   border:1px solid rgba(255,77,109,.4); border-radius:4px; padding:1px 6px; margin-right:10px; }}
 .fix {{ color:var(--green); }} .fix .lbl {{ color:var(--dim); }}
+.scopehdr {{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--cyan); opacity:.9; margin:22px 0 4px; display:flex; align-items:center; gap:8px; }}
+.scopehdr:first-child {{ margin-top:0; }}
+.scopen {{ font-size:10px; color:var(--dim); border:1px solid var(--border); border-radius:20px;
+  padding:1px 7px; }}
+.fmeta {{ font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:10px !important;
+  display:flex; flex-wrap:wrap; gap:6px; align-items:center; }}
+.canon-tag {{ color:var(--green); border:1px solid rgba(0,255,157,.35); border-radius:4px; padding:0 5px; }}
+.nocanon-tag {{ color:var(--dim); border:1px solid var(--border); border-radius:4px; padding:0 5px; }}
+.ref {{ color:var(--muted); border:1px solid var(--border); border-radius:4px; padding:0 5px; }}
+.ref-canon {{ color:var(--cyan); border-color:rgba(0,240,255,.3); }}
 .costnote {{ color:var(--muted); font-size:12.5px; margin:16px 0 0; max-width:70ch; line-height:1.55; }}
 .costnote b {{ color:var(--text); font-weight:600; }}
 td.cyan {{ color:var(--cyan); }} td.green {{ color:var(--green); }}
@@ -309,8 +339,8 @@ footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:
       <p class="sub">vs ${BASELINE_USD:.2f} for the full 7-Opus gauntlet</p></div>
     <div class="stat"><p class="k">dollar compression</p><p class="v green">{dollar_x:.1f}&times;</p>
       <p class="sub">exceeds {ratio} token compression &mdash; tier-routing</p></div>
-    <div class="stat"><p class="k">designs falsified</p><p class="v">{len(FALSIFICATIONS)}</p>
-      <p class="sub">and propagated to code</p></div>
+    <div class="stat"><p class="k">falsifications logged</p><p class="v">{len(ledger)}</p>
+      <p class="sub">{n_canon} canon-linked (ADR/DEWY/Tao) &middot; swept from inception</p></div>
   </div>
 
   <section>
@@ -320,6 +350,10 @@ footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:
         <th class="num">token &times;</th><th class="num">dollar &times;</th></tr></thead>
       <tbody>{"".join(cost_rows)}</tbody>
     </table>
+    <p class="costnote"><b>Campaign total &mdash; ${campaign_usd:.2f}</b> is the real capital spent across
+    <b>all</b> metered runs on the tape (the 3 cost-probe workflows that discovered the cost model +
+    the 3 live cheap&rarr;fine cycles). The self-audit alone (the 567K Opus gauntlet) was ${BASELINE_USD:.2f}
+    of it &mdash; the rest of the campaign ran for ${campaign_usd - BASELINE_USD:.2f}.</p>
     <p class="costnote">The <b>dollar</b> compression beats the <b>token</b> compression because the
     engine tier-routes &mdash; a cheap Haiku coarse pass ($1/$5 per Mtok) and a Sonnet fine pass
     ($3/$15) against a 7&times;-Opus baseline ($5/$25). At <b>1,000 audits/month</b> that is
@@ -340,7 +374,7 @@ footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:
     <div class="panel"><table>
       <thead><tr><th>run</th><th>subject</th><th>kind</th><th>model</th><th>scale</th>
         <th class="num">tokens</th><th class="num">flips &uarr;/&darr;</th></tr></thead>
-      <tbody>{"".join(ledger)}</tbody>
+      <tbody>{"".join(run_rows)}</tbody>
     </table></div>
   </section>
 
