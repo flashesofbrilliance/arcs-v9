@@ -482,29 +482,59 @@ def read_tape(path: Optional[str] = None) -> List[Dict[str, object]]:
 
 
 def calibrate_tau(cfg: GovernorConfig, path: Optional[str] = None) -> Tuple[float, str]:
-    """tau-calibration (spec §2): read the tape and nudge tau from whether fine-gate probes
-    earned their keep.
-      - fine probes that rarely FLIP the coarse verdict  -> over-spending -> raise tau
-      - a skipped-fine coarse verdict later FALSIFIED     -> under-spending -> lower tau
-    Only engine-run rows carry the needed fields; older manual rows are skipped. Returns
-    (new_tau, note). This is 'become-your-own-bookie', made mechanical — tau floats, never a
-    magic constant."""
+    """tau-calibration (spec §2) — DIRECTION-SPLIT (corrected by the 60-anchor falsification,
+    2026-08-15). A raw flip rate conflates two opposite signals; splitting fine_flips by
+    direction (from the tape's `flip_detail`, which stores coarse vs fine per flipped cell) is
+    what makes tau move on the RIGHT signal:
+
+      - UP-flip   (fine > coarse): the coarse pass UNDER-rated — it nearly missed a fault the
+                  fine gate found. A recall hole = the dangerous one → lower tau / raise recall.
+      - DOWN-flip (fine < coarse): the coarse pass OVER-rated; the fine gate zeroed a false
+                  positive. This is the two-gate precision filter WORKING — healthy, not a
+                  miscalibration. High down-flip rate does NOT move tau (if anything it argues
+                  for a tighter top-K, handled separately).
+      - near-zero total flips: the fine gate rarely changes anything → over-spending → raise tau.
+      - skipped-fine coarse verdict later FALSIFIED (belief-log) → under-spending → lower tau.
+
+    Only engine-run rows are read; rows without flip_detail fall back to undirected fine_flips
+    (treated conservatively as recall signal). 'Become-your-own-bookie', made mechanical."""
     rows = [r for r in read_tape(path) if r.get("kind") == "engine-run"]
     if not rows:
         return cfg.tau, "no engine-run rows on tape yet — tau unchanged (needs >= a few reps)"
-    flips = sum(int(r.get("fine_flips", 0)) for r in rows)
-    fine = sum(int(r.get("fine_probes", 0)) for r in rows)
+    up = down = undirected = fine = 0
+    THRESH = 0.75  # same materiality bar bridge_close uses to count a flip
+    for r in rows:
+        fine += int(r.get("fine_probes", 0))
+        detail = r.get("flip_detail")
+        if isinstance(detail, list) and detail:
+            for f in detail:
+                try:
+                    d = float(f["fine"]) - float(f["coarse"])
+                except (KeyError, TypeError, ValueError):
+                    undirected += 1
+                    continue
+                if d >= THRESH:
+                    up += 1
+                elif d <= -THRESH:
+                    down += 1
+        else:
+            undirected += int(r.get("fine_flips", 0))  # no direction available
     misses = sum(int(r.get("skipped_then_falsified", 0)) for r in rows)
     tau = cfg.tau
     notes = []
     if fine > 0:
-        flip_rate = flips / fine
-        if flip_rate < 0.15:
-            tau = round(tau * 1.25, 4)
-            notes.append(f"flip_rate={flip_rate:.2f} < .15 -> over-spending -> raise tau")
-        elif flip_rate > 0.5:
+        up_rate = (up + undirected) / fine   # undirected counted as possible recall holes
+        down_rate = down / fine
+        total_rate = (up + down + undirected) / fine
+        if up_rate > 0.15:
             tau = round(tau * 0.85, 4)
-            notes.append(f"flip_rate={flip_rate:.2f} > .5 -> escalations earning keep -> hold/ease")
+            notes.append(f"up-flip_rate={up_rate:.2f} > .15 (coarse missed faults) -> lower tau (raise recall)")
+        elif total_rate < 0.10:
+            tau = round(tau * 1.25, 4)
+            notes.append(f"total_flip_rate={total_rate:.2f} < .10 (fine gate rarely changes verdict) -> raise tau")
+        if down_rate >= 0.30:
+            notes.append(f"down-flip_rate={down_rate:.2f} high but HEALTHY (fine gate killing coarse false-positives); "
+                         f"tau unmoved — consider tighter top-K to shrink the coarse net")
     if misses > 0:
         tau = round(tau * 0.8, 4)
         notes.append(f"{misses} skipped-then-falsified -> under-spending -> lower tau")

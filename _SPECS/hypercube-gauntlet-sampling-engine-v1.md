@@ -203,18 +203,47 @@ leak into the public MIT repo is a *human* discipline, not a technical control; 
 and `R.Operational.BAR.synthesize.L2` (never-GC ⇒ unbounded dormant-seed accumulation, no mitigation).
 Ruin hiding in plain sight — exactly §1.7.
 
-**The calibration finding (two reps, honest):** *both* runs landed at flip_rate **exactly 0.50** (12/24
+**The calibration finding (two reps):** *both* runs landed at flip_rate **exactly 0.50** (12/24
 and 10/20). The loop mechanically works — it reads the tape, computes per-run + aggregate flip rate,
-and would move τ if the rate left the [0.15, 0.5] band — but two reps pinned at 0.50 is a signal about
-the *metric*, not a tuned τ: with only 20 anchors interpolating over 3,125 cells through a cheap Haiku
-read, **the flip rate is dominated by surrogate NOISE, not by escalation productivity.** Before τ-tuning
-is trustworthy the coarse mesh must be denser (more anchors → less interpolation variance) or the flip
-threshold de-noised. Two honest reps buy *this*, not a dial that's ready. **[E, N=2]**
+and would move τ if the rate left the [0.15, 0.5] band — but two reps pinned at 0.50 read, *at the time*,
+as a signal that the flip metric might be **dominated by surrogate interpolation NOISE** (20 anchors over
+3,125 cells), with the proposed fix being a denser coarse mesh. **That hypothesis was then tested and
+FALSIFIED — see the 60-anchor run below.** **[E, N=2 → superseded]**
 
 **Also honest:** the `localized_faults` field is meaningful only for the SyntheticField (where the fault
 coordinates are known); on a real subject it degrades to label-pattern matching (did we escalate any
 cell labelled C-lens / COURT / BAR) and is ~always true — it is NOT a live-run signal. Use flip data and
 the fine-gate notes, not `localized_faults`, to judge a real run.
+
+## Third live run — ADR-053 at 60 anchors (2026-08-15, `engine-live-60`): the noise hypothesis, falsified
+
+The denser-mesh fix proposed above was run: ADR-053 again, **60 LHS anchors** instead of 20, identical
+governor + fine gate. **159,172 measured tokens** — and the coarse pass was **71.7K for 60 cells vs 70K
+for 20** (amortize-to-floor holds beautifully: 3× the cells, ~2% more cost; the floor still dominates).
+
+**Result: the noise hypothesis is FALSIFIED.** A denser mesh did not lower the flip rate — it *rose*,
+0.50 → **0.59** (13/22). If the flips were interpolation noise, more anchors would have cut them. Instead:
+
+- **Every one of the 13 flips was a DOWN-flip** (coarse ~1.2–1.8 → fine **0.0**). The cheap Haiku coarse
+  grader rates *hot*; the careful Sonnet fine grader, judging refute-by-default, zeros cells it finds
+  out-of-scope ("L1 mismatch", "no window claim to falsify", "no human-harm surface"). The disagreement
+  is **systematic model-tier calibration** (Haiku recall-biased vs Sonnet precision-biased), **not
+  surrogate variance** — so a denser mesh, which just interpolates Haiku's over-eagerness across *more*
+  cells, makes it slightly worse, not better.
+- **The reframe (the real finding):** a high **down-flip** rate is *not* miscalibration to tune away — it
+  is the two-gate division of labor **working as designed**: coarse = cheap wide-recall net, fine =
+  expensive precision filter that zeros the false positives. The fine gate zeroing 13/22 coarse
+  escalations **is** the value it adds. Contrast the *sparse* ADR-053 run, whose flips were **up-flips**
+  (coarse *missed* two irreversible ruin cells) — the opposite failure, and the genuinely concerning one.
+
+**Therefore τ-calibration must split the flip rate by direction, not treat it as one scalar:**
+- **down-flips** = fine gate killing coarse false positives = healthy precision. High is *fine*; if
+  anything it argues for a *cheaper/smaller* coarse escalation set (tighter top-K), not a denser mesh.
+- **up-flips** = coarse *missed* a fault the fine gate found = a recall hole = the dangerous one →
+  **lower τ / raise ε / widen recall.** This is the signal that should move the dial.
+The current `calibrate_tau` reads only the aggregate rate; **splitting fine_flips into up/down is the next
+build** (the tape already stores `flip_detail` with both coarse and fine values, so it is a pure
+read-side change). **[E, N=3 — the denser-mesh fix falsified; the up/down split is the corrected design.]**
 
 ## Open questions / what is NOT built (honest)
 
