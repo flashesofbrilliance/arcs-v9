@@ -64,6 +64,9 @@ tr.live .chip { border-color:rgba(0,240,255,.35); color:var(--cyan); }
 .verdict { font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--red);
   border:1px solid rgba(255,77,109,.4); border-radius:4px; padding:1px 6px; margin-right:10px; }
 .fix { color:var(--green); } .fix .lbl { color:var(--dim); }
+.costnote { color:var(--muted); font-size:12.5px; margin:16px 0 0; max-width:70ch; line-height:1.55; }
+.costnote b { color:var(--text); font-weight:600; }
+td.cyan { color:var(--cyan); } td.green { color:var(--green); }
 footer { color:var(--dim); font-size:11px; font-family:var(--mono); border-top:1px solid var(--border);
   padding-top:16px; margin-top:10px; }
 @media (max-width:560px) { h1{font-size:25px} .lbl{width:64px} }
@@ -79,13 +82,29 @@ footer { color:var(--dim); font-size:11px; font-family:var(--mono); border-top:1
   spend, and by falsifying its own designs on the tape.</p>
 
   <div class="readout">
-    <div class="stat"><p class="k">compression</p><p class="v cyan">3.6x</p>
-      <p class="sub">best live run vs 567K Opus baseline</p></div>
-    <div class="stat"><p class="k">live runs</p><p class="v">3</p>
-      <p class="sub">cheap&rarr;fine cycles on the tape</p></div>
-    <div class="stat"><p class="k">designs falsified</p><p class="v green">4</p>
+    <div class="stat"><p class="k">cost / audit</p><p class="v cyan">$0.40</p>
+      <p class="sub">vs $3.40 for the full 7-Opus gauntlet</p></div>
+    <div class="stat"><p class="k">dollar compression</p><p class="v green">8.6&times;</p>
+      <p class="sub">exceeds 3.6x token compression &mdash; tier-routing</p></div>
+    <div class="stat"><p class="k">designs falsified</p><p class="v">4</p>
       <p class="sub">and propagated to code</p></div>
   </div>
+
+  <section>
+    <h2>Capital <span class="h2note">real dollars at Anthropic list price, uncached</span></h2>
+    <div class="panel"><table>
+      <thead><tr><th>run</th><th class="num">tokens</th><th class="num">real $</th>
+        <th class="num">token &times;</th><th class="num">dollar &times;</th></tr></thead>
+      <tbody><tr class="base"><td>full 7-Opus gauntlet</td><td class="mono num">567K</td><td class="mono num">$3.40</td><td class="mono num">1.0&times;</td><td class="mono num">1.0&times;</td></tr><tr class="live"><td>ADR-060</td><td class="mono num">177K</td><td class="mono num cyan">$0.454</td><td class="mono num">3.2&times;</td><td class="mono num green">7.5&times;</td></tr><tr class="live"><td>ADR-053 (20-anchor)</td><td class="mono num">156K</td><td class="mono num cyan">$0.397</td><td class="mono num">3.6&times;</td><td class="mono num green">8.6&times;</td></tr><tr class="live"><td>ADR-053 (60-anchor)</td><td class="mono num">159K</td><td class="mono num cyan">$0.401</td><td class="mono num">3.6&times;</td><td class="mono num green">8.5&times;</td></tr></tbody>
+    </table>
+    <p class="costnote">The <b>dollar</b> compression beats the <b>token</b> compression because the
+    engine tier-routes &mdash; a cheap Haiku coarse pass ($1/$5 per Mtok) and a Sonnet fine pass
+    ($3/$15) against a 7&times;-Opus baseline ($5/$25). At <b>1,000 audits/month</b> that is
+    <b>$454</b> vs <b>$3,404</b>. Spend is input-dominated (the floor
+    is system-prompt + tool schemas + subject-read), so prompt-caching the subject-read cuts it
+    further. Priced from measured per-spawn tokens; list price, no batch/caching discount applied.</p>
+    </div>
+  </section>
 
   <section>
     <h2>Falsification ledger <span class="h2note">what each experiment broke</span></h2>

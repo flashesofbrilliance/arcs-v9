@@ -213,6 +213,35 @@ FLOOR = {
 }
 TASK_TOKENS_PER_CELL = 400  # [E] ~digest+output; dwarfed by the floor (bare cells; +subject-read is extra)
 
+# Real capital cost — Anthropic list price, USD per 1M tokens (input, output).
+# Source: claude-api skill pricing table (cached 2026-06-24). The gauntlet's spend is
+# input-dominated: the ~54-81K floor is system-prompt + tool schemas + subject-read, all INPUT;
+# the graded JSON is the only OUTPUT and is a few K. So the input rate governs the bill — and
+# because the engine tier-routes (cheap Haiku coarse + Sonnet fine) against a 7x-Opus baseline,
+# the DOLLAR compression exceeds the TOKEN compression.
+PRICE_PER_MTOK = {           # (input $/1M, output $/1M)
+    "haiku": (1.00, 5.00),
+    "sonnet": (3.00, 15.00),  # standard; intro $2/$10 through 2026-08-31 — use standard to not under-state
+    "opus": (5.00, 25.00),
+}
+OUTPUT_FRACTION = 0.05  # [H] the graded-JSON output is a small, ~flat share of a run's tokens;
+                        # measured runs land 3-4%. 5% is a slight over-estimate so the $ figure
+                        # is conservative (output is the pricier direction).
+
+
+def dollars(model: str, total_tokens: int, output_fraction: float = OUTPUT_FRACTION,
+            cache_read_fraction: float = 0.0) -> float:
+    """Real capital cost of `total_tokens` on `model`, at list price.
+    Splits total into input/output by `output_fraction`; input is the dominant, cheaper leg.
+    `cache_read_fraction` (0..1) of the INPUT bills at the ~0.1x cache-read rate — the prompt-
+    caching lever on the subject-read (spec §0 / live-run finding). 0 = uncached (what we measured)."""
+    pin, pout = PRICE_PER_MTOK[model]
+    out_tok = total_tokens * output_fraction
+    in_tok = total_tokens - out_tok
+    cached_in = in_tok * cache_read_fraction
+    fresh_in = in_tok - cached_in
+    return (fresh_in * pin + cached_in * pin * 0.1 + out_tok * pout) / 1_000_000
+
 
 @dataclass
 class CostModel:

@@ -9,12 +9,28 @@ is the lab-notebook spine — the honest record of what each experiment BROKE.
 ARCS FieldOS design tokens (CLAUDE.md), committed-dark instrument world (WORLD.md).
 Stdlib only. Usage: python3 scripts/gauntlet_logbook.py [--out PATH]
 """
-import argparse, html, json, os
+import argparse, html, json, os, sys
 
 ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TAPE = os.path.join(ROOT, "_STATE", "gauntlet-runs.jsonl")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import hypercube_sampler as hs  # for dollars() + list-price table (single source of pricing)
 
 OPUS_BASELINE = 567_370  # the full 7-Opus self-audit gauntlet — the compression baseline
+BASELINE_USD = hs.dollars("opus", OPUS_BASELINE)
+
+# Real capital cost per live run — measured PER-SPAWN tokens (coarse Haiku, fine Sonnet), because
+# a mixed-tier run cannot be priced at one model. This is why the tape's single-model row can't
+# price these directly; a per-spawn cost breakdown is the tape's next enrichment.
+COST_RUNS = [  # (subject, coarse_haiku_tokens, fine_sonnet_tokens)
+    ("ADR-060",             76_534, 100_468),
+    ("ADR-053 (20-anchor)", 69_974,  86_968),
+    ("ADR-053 (60-anchor)", 71_708,  87_464),
+]
+
+
+def run_usd(coarse, fine):
+    return hs.dollars("haiku", coarse) + hs.dollars("sonnet", fine)
 
 # The falsification ledger — the interpretive spine (not derivable from the tape rows alone).
 # Each: what was believed, what tested it, the verdict, and what the code did in response.
@@ -155,6 +171,26 @@ def render(runs):
     best = min((tokens_of(r) for r in engine), default=0)
     ratio = f"{OPUS_BASELINE / best:.1f}x" if best else "—"
 
+    # capital: per-audit $, and dollar-vs-token compression
+    cheapest_usd = min((run_usd(c, f) for _, c, f in COST_RUNS), default=0)
+    dollar_x = BASELINE_USD / cheapest_usd if cheapest_usd else 0
+    monthly_engine = 1000 * (run_usd(*COST_RUNS[0][1:]))
+    monthly_base = 1000 * BASELINE_USD
+    cost_rows = []
+    for name, c, f in COST_RUNS:
+        usd = run_usd(c, f); toks = c + f
+        cost_rows.append(
+            f'<tr class="live"><td>{esc(name)}</td>'
+            f'<td class="mono num">{toks//1000}K</td>'
+            f'<td class="mono num cyan">${usd:.3f}</td>'
+            f'<td class="mono num">{OPUS_BASELINE/toks:.1f}&times;</td>'
+            f'<td class="mono num green">{BASELINE_USD/usd:.1f}&times;</td></tr>')
+    cost_rows.insert(0,
+        f'<tr class="base"><td>full 7-Opus gauntlet</td>'
+        f'<td class="mono num">{OPUS_BASELINE//1000}K</td>'
+        f'<td class="mono num">${BASELINE_USD:.2f}</td>'
+        f'<td class="mono num">1.0&times;</td><td class="mono num">1.0&times;</td></tr>')
+
     # run ledger rows
     ledger = []
     for r in runs:
@@ -253,6 +289,9 @@ tr.live .chip {{ border-color:rgba(0,240,255,.35); color:var(--cyan); }}
 .verdict {{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--red);
   border:1px solid rgba(255,77,109,.4); border-radius:4px; padding:1px 6px; margin-right:10px; }}
 .fix {{ color:var(--green); }} .fix .lbl {{ color:var(--dim); }}
+.costnote {{ color:var(--muted); font-size:12.5px; margin:16px 0 0; max-width:70ch; line-height:1.55; }}
+.costnote b {{ color:var(--text); font-weight:600; }}
+td.cyan {{ color:var(--cyan); }} td.green {{ color:var(--green); }}
 footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:1px solid var(--border);
   padding-top:16px; margin-top:10px; }}
 @media (max-width:560px) {{ h1{{font-size:25px}} .lbl{{width:64px}} }}
@@ -268,13 +307,29 @@ footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:
   spend, and by falsifying its own designs on the tape.</p>
 
   <div class="readout">
-    <div class="stat"><p class="k">compression</p><p class="v cyan">{ratio}</p>
-      <p class="sub">best live run vs 567K Opus baseline</p></div>
-    <div class="stat"><p class="k">live runs</p><p class="v">{len(engine)}</p>
-      <p class="sub">cheap&rarr;fine cycles on the tape</p></div>
-    <div class="stat"><p class="k">designs falsified</p><p class="v green">{len(FALSIFICATIONS)}</p>
+    <div class="stat"><p class="k">cost / audit</p><p class="v cyan">${cheapest_usd:.2f}</p>
+      <p class="sub">vs ${BASELINE_USD:.2f} for the full 7-Opus gauntlet</p></div>
+    <div class="stat"><p class="k">dollar compression</p><p class="v green">{dollar_x:.1f}&times;</p>
+      <p class="sub">exceeds {ratio} token compression &mdash; tier-routing</p></div>
+    <div class="stat"><p class="k">designs falsified</p><p class="v">{len(FALSIFICATIONS)}</p>
       <p class="sub">and propagated to code</p></div>
   </div>
+
+  <section>
+    <h2>Capital <span class="h2note">real dollars at Anthropic list price, uncached</span></h2>
+    <div class="panel"><table>
+      <thead><tr><th>run</th><th class="num">tokens</th><th class="num">real $</th>
+        <th class="num">token &times;</th><th class="num">dollar &times;</th></tr></thead>
+      <tbody>{"".join(cost_rows)}</tbody>
+    </table>
+    <p class="costnote">The <b>dollar</b> compression beats the <b>token</b> compression because the
+    engine tier-routes &mdash; a cheap Haiku coarse pass ($1/$5 per Mtok) and a Sonnet fine pass
+    ($3/$15) against a 7&times;-Opus baseline ($5/$25). At <b>1,000 audits/month</b> that is
+    <b>${monthly_engine:,.0f}</b> vs <b>${monthly_base:,.0f}</b>. Spend is input-dominated (the floor
+    is system-prompt + tool schemas + subject-read), so prompt-caching the subject-read cuts it
+    further. Priced from measured per-spawn tokens; list price, no batch/caching discount applied.</p>
+    </div>
+  </section>
 
   <section>
     <h2>Falsification ledger <span class="h2note">what each experiment broke</span></h2>
