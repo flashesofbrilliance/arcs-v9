@@ -2,10 +2,12 @@
   "captured_at": "2026-08-13T17:22:06Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b6f9b4a",
-    "head_message": "chore(state): backfill ADR-050..054 index; advance lattice 44->51 [NCI:SKIP] (merged to main as PR #136, merge 2a6d2ea)",
+    "head_sha": "325d21e",
+    "head_message": "chore(seeds): Phase-2 Tier-B applied (7 repos live) + mint rosetta-shell seed [NCI:SKIP]",
     "in_sync_with_origin": true,
-    "dirty_files": []
+    "dirty_files": [
+      "_INBOX/lattice-drift.jsonl"
+    ]
   },
   "vercel": {
     "project": "arcs-v9",
@@ -58,7 +60,7 @@
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
   "session_summary": "ARCS-private half of the germinate OSS build: canonized the genesis 'adam==atom' doctrine. ADR-053 (Tao of ARCS: seed=dormant potential / ARCS=vox animus; open germinate <-> private ARCS boundary, one seam four faces; moat is the spark) + ADR-054 (free-to-hold/metered-to-fire pricing; bill per activation; token fork DECIDED metaphorical-now, on-chain deferred, Y=YELLOW). _CANON/Tao-of-ARCS.md + tao-247 + activation<->kairos sketch + 2 DEWY receipts. Housekeeping: backfilled ADR-050/051/052 into index.json, advanced lattice 44->51. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "next_action": "germinate remains built/MIT/committed-local but NOT published (owner-gated) — do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
+  "next_action": "germinate remains built/MIT/committed-local but NOT published (owner-gated) \u2014 do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
   "blocking": "NONE.",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -183,7 +185,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-13T16:50:33Z",
+  "git_refreshed_at": "2026-08-13T18:34:26Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
