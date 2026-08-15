@@ -1,0 +1,321 @@
+#!/usr/bin/env python3
+"""gauntlet_logbook.py — render the append-only gauntlet tape into a visual lab-notebook.
+
+SSOT -> render: reads _STATE/gauntlet-runs.jsonl (the experiment tape) and emits a single
+self-contained HTML instrument panel. Regenerate whenever a run lands; it never drifts because
+it is a pure projection of the tape. The falsification ledger (hypotheses tested & overturned)
+is the lab-notebook spine — the honest record of what each experiment BROKE.
+
+ARCS FieldOS design tokens (CLAUDE.md), committed-dark instrument world (WORLD.md).
+Stdlib only. Usage: python3 scripts/gauntlet_logbook.py [--out PATH]
+"""
+import argparse, html, json, os
+
+ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TAPE = os.path.join(ROOT, "_STATE", "gauntlet-runs.jsonl")
+
+OPUS_BASELINE = 567_370  # the full 7-Opus self-audit gauntlet — the compression baseline
+
+# The falsification ledger — the interpretive spine (not derivable from the tape rows alone).
+# Each: what was believed, what tested it, the verdict, and what the code did in response.
+FALSIFICATIONS = [
+    {"claim": "Tight prompts + small inputs = cheap; cost scales with data size.",
+     "test": "cost-ripple probe (6 Haiku agents)", "run": "wf_90b0b237-fe2",
+     "verdict": "FALSIFIED", "delta": "~25K estimate -> 325K actual (13x low)",
+     "fix": "the ~54K/subagent FLOOR dominates; agent-COUNT, not prompt size, is the cost driver"},
+    {"claim": "An absolute value-of-information threshold (uncertainty x stakes > tau) routes coarse -> fine.",
+     "test": "live ADR-060 governor run", "run": "engine-live-11",
+     "verdict": "FALSIFIED", "delta": "escalated 380 / 400 cells (zero discrimination)",
+     "fix": "escalation set = union of two BOUNDED top-Ks (severity + VoI) + irreversible + eps; 380 -> 24"},
+    {"claim": "The empirical cost model is complete.",
+     "test": "live measured vs modeled tokens", "run": "engine-live-11",
+     "verdict": "FALSIFIED", "delta": "85.6K modeled -> 177K measured (~2x low)",
+     "fix": "each spawn RE-READS the subject; added CostModel.subject_read_tokens (the prompt-caching lever)"},
+    {"claim": "The 0.50 flip rate is surrogate interpolation NOISE — a denser mesh will lower it.",
+     "test": "ADR-053 rerun at 60 anchors (vs 20)", "run": "engine-live-60",
+     "verdict": "FALSIFIED", "delta": "flip rate ROSE 0.50 -> 0.59; all 13 flips were DOWN-flips",
+     "fix": "it's a MODEL-TIER recall/precision gap (Haiku hot vs Sonnet strict), not noise; "
+            "tau-calibration now SPLITS flips by direction (up=recall hole -> act; down=healthy)"},
+]
+
+
+def load_runs():
+    if not os.path.exists(TAPE):
+        return []
+    out = []
+    for line in open(TAPE, encoding="utf-8"):
+        line = line.strip()
+        if line:
+            out.append(json.loads(line))
+    return out
+
+
+def flip_split(row):
+    """(up, down, undirected) from flip_detail; up = coarse missed (fine>coarse)."""
+    up = down = und = 0
+    det = row.get("flip_detail")
+    if isinstance(det, list):
+        for f in det:
+            try:
+                d = float(f["fine"]) - float(f["coarse"])
+            except Exception:
+                und += 1; continue
+            if d >= 0.75: up += 1
+            elif d <= -0.75: down += 1
+    return up, down, und
+
+
+def tokens_of(row):
+    return int(row.get("total_tokens_measured") or row.get("tokens") or row.get("total_tokens") or 0)
+
+
+def esc(s):
+    return html.escape(str(s))
+
+
+# ---- inline-SVG charts (no external libs) ----------------------------------
+
+def bar_chart_cost(runs):
+    """Horizontal token-cost bars vs the 567K Opus baseline."""
+    rows = [(r.get("subject", r.get("run_id", "?")), tokens_of(r), r.get("kind", "")) for r in runs]
+    rows = [r for r in rows if r[1] > 0]
+    W, rowh, pad, labelw = 720, 30, 8, 210
+    H = pad * 2 + rowh * (len(rows) + 1)
+    maxv = max([OPUS_BASELINE] + [v for _, v, _ in rows])
+    bw = W - labelw - 90
+    def x(v): return labelw + bw * v / maxv
+    parts = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="token cost per run" '
+             f'style="width:100%;height:auto;font-family:ui-monospace,monospace">']
+    # baseline marker
+    bx = x(OPUS_BASELINE)
+    parts.append(f'<line x1="{bx:.0f}" y1="{pad}" x2="{bx:.0f}" y2="{H-pad}" stroke="#FF4D6D" '
+                 f'stroke-dasharray="3 3" stroke-width="1" opacity="0.7"/>')
+    parts.append(f'<text x="{bx-4:.0f}" y="{pad+9}" text-anchor="end" fill="#FF4D6D" font-size="10">'
+                 f'567K Opus gauntlet</text>')
+    for i, (name, v, kind) in enumerate(rows):
+        y = pad + rowh * (i + 1)
+        live = kind == "engine-run"
+        col = "#00F0FF" if live else "#475569"
+        parts.append(f'<text x="{labelw-8}" y="{y+rowh/2+4:.0f}" text-anchor="end" fill="#e2e8f0" '
+                     f'font-size="11">{esc(name[:30])}</text>')
+        parts.append(f'<rect x="{labelw}" y="{y+5:.0f}" width="{x(v)-labelw:.1f}" height="{rowh-12}" '
+                     f'rx="2" fill="{col}" opacity="{0.9 if live else 0.5}"/>')
+        parts.append(f'<text x="{x(v)+6:.0f}" y="{y+rowh/2+4:.0f}" fill="{col}" font-size="10">'
+                     f'{v//1000}K</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def flip_chart(engine_runs):
+    """Stacked up/down flip bars per engine-run — the recall(up) vs precision(down) split."""
+    if not engine_runs:
+        return "<p class='muted'>no engine-runs yet</p>"
+    W, colw, gap, pad, base = 720, 120, 40, 30, 300
+    H = base + 70
+    maxp = max(int(r.get("fine_probes", 0)) for r in engine_runs) or 1
+    unit = (base - 30) / maxp
+    parts = [f'<svg viewBox="0 0 {W} {H}" role="img" aria-label="flip direction per run" '
+             f'style="width:100%;height:auto;font-family:ui-monospace,monospace">']
+    x0 = pad
+    for r in engine_runs:
+        up, down, und = flip_split(r)
+        probes = int(r.get("fine_probes", 0))
+        clean = probes - up - down - und
+        segs = [("clean", clean, "#1e293b"), ("down (healthy)", down, "#00FF9D"),
+                ("undirected", und, "#FFD700"), ("up (recall hole)", up, "#FF4D6D")]
+        y = base
+        for _lbl, n, col in segs:
+            h = n * unit
+            if h > 0:
+                parts.append(f'<rect x="{x0}" y="{y-h:.1f}" width="{colw}" height="{h:.1f}" fill="{col}"/>')
+                y -= h
+        subj = esc(r.get("subject", "?"))
+        parts.append(f'<text x="{x0+colw/2:.0f}" y="{base+18}" text-anchor="middle" fill="#e2e8f0" '
+                     f'font-size="10">{subj[:16]}</text>')
+        parts.append(f'<text x="{x0+colw/2:.0f}" y="{base+32}" text-anchor="middle" fill="#64748b" '
+                     f'font-size="9">{r.get("n_anchors","?")} anchors · {up}up/{down}down</text>')
+        x0 += colw + gap
+    # legend
+    lx = pad
+    for lbl, col in [("up = coarse missed (recall hole)", "#FF4D6D"),
+                     ("down = fine killed false-positive (healthy)", "#00FF9D"),
+                     ("clean", "#1e293b")]:
+        parts.append(f'<rect x="{lx}" y="{H-14}" width="10" height="10" fill="{col}"/>')
+        parts.append(f'<text x="{lx+14}" y="{H-5}" fill="#94a3b8" font-size="10">{esc(lbl)}</text>')
+        lx += len(lbl) * 6.0 + 34
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+# ---- page -------------------------------------------------------------------
+
+def render(runs):
+    engine = [r for r in runs if r.get("kind") == "engine-run"]
+    total_live = sum(tokens_of(r) for r in engine)
+    best = min((tokens_of(r) for r in engine), default=0)
+    ratio = f"{OPUS_BASELINE / best:.1f}x" if best else "—"
+
+    # run ledger rows
+    ledger = []
+    for r in runs:
+        live = r.get("kind") == "engine-run"
+        up, down, und = flip_split(r)
+        flip = f'<span class="up">{up}&uarr;</span> / <span class="down">{down}&darr;</span>' if live else "—"
+        agents = r.get("n_anchors") if live else r.get("agents", "—")
+        acol = "anchors" if live else "agents"
+        ledger.append(
+            f'<tr class="{"live" if live else "base"}">'
+            f'<td class="mono">{esc(r.get("run_id","?"))}</td>'
+            f'<td>{esc(r.get("subject","?"))}</td>'
+            f'<td><span class="chip">{esc(r.get("kind","?"))}</span></td>'
+            f'<td class="mono">{esc(r.get("model","?"))}</td>'
+            f'<td class="mono num">{agents} <span class="dim">{acol}</span></td>'
+            f'<td class="mono num">{tokens_of(r)//1000}K</td>'
+            f'<td class="mono num">{flip}</td>'
+            f'</tr>')
+
+    fcards = []
+    for i, f in enumerate(FALSIFICATIONS, 1):
+        fcards.append(
+            f'<article class="fcard">'
+            f'<div class="fnum">F{i}</div>'
+            f'<div class="fbody">'
+            f'<p class="claim"><span class="lbl">believed</span>{esc(f["claim"])}</p>'
+            f'<p class="test"><span class="lbl">test</span>{esc(f["test"])} '
+            f'<span class="mono dim">{esc(f["run"])}</span></p>'
+            f'<p class="delta"><span class="verdict">{esc(f["verdict"])}</span>{esc(f["delta"])}</p>'
+            f'<p class="fix"><span class="lbl">propagated</span>{esc(f["fix"])}</p>'
+            f'</div></article>')
+
+    return f"""<title>Hypercube Gauntlet &mdash; Experiment Logbook</title>
+<style>
+:root {{
+  --bg:#020408; --surface:#0d1117; --surface2:#0b1220; --border:#1e293b;
+  --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b; --faint:#475569;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}}
+* {{ box-sizing:border-box; }}
+body {{ margin:0; background:
+  radial-gradient(1200px 600px at 50% -10%, #071019 0%, var(--bg) 60%);
+  color:var(--text); font-family:var(--sans); line-height:1.5;
+  -webkit-font-smoothing:antialiased; }}
+.wrap {{ max-width:940px; margin:0 auto; padding:48px 24px 80px; }}
+.eyebrow {{ font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--cyan); opacity:.85; margin:0 0 14px; }}
+h1 {{ font-size:32px; line-height:1.1; margin:0 0 10px; font-weight:650; text-wrap:balance;
+  letter-spacing:-.01em; }}
+.thesis {{ color:var(--muted); font-size:15px; max-width:62ch; margin:0 0 34px; }}
+.thesis b {{ color:var(--text); font-weight:600; }}
+.readout {{ display:flex; gap:14px; flex-wrap:wrap; margin:0 0 44px; }}
+.stat {{ background:linear-gradient(180deg,var(--surface),var(--surface2));
+  border:1px solid var(--border); border-radius:10px; padding:16px 20px; min-width:150px; flex:1; }}
+.stat .k {{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--dim); margin:0 0 6px; }}
+.stat .v {{ font-family:var(--mono); font-size:26px; font-weight:600; font-variant-numeric:tabular-nums; }}
+.stat .v.cyan {{ color:var(--cyan); }} .stat .v.green {{ color:var(--green); }}
+.stat .sub {{ font-size:11px; color:var(--dim); margin-top:4px; }}
+section {{ margin:0 0 46px; }}
+h2 {{ font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--border); padding-bottom:9px; margin:0 0 20px;
+  font-weight:600; display:flex; justify-content:space-between; align-items:baseline; }}
+h2 .h2note {{ color:var(--dim); letter-spacing:.02em; text-transform:none; font-size:11px; }}
+.panel {{ background:var(--surface); border:1px solid var(--border); border-radius:10px;
+  padding:20px; overflow-x:auto; }}
+table {{ width:100%; border-collapse:collapse; font-size:13px; }}
+th {{ font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--dim); text-align:left; padding:0 12px 10px; font-weight:500; white-space:nowrap; }}
+td {{ padding:9px 12px; border-top:1px solid var(--border); vertical-align:middle; }}
+tr.base td {{ color:var(--faint); }}
+tr.live td {{ color:var(--text); }}
+.mono {{ font-family:var(--mono); }}
+.num {{ text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }}
+.dim {{ color:var(--dim); font-size:10px; }}
+.chip {{ font-family:var(--mono); font-size:10px; padding:2px 7px; border-radius:20px;
+  border:1px solid var(--border); color:var(--muted); white-space:nowrap; }}
+tr.live .chip {{ border-color:rgba(0,240,255,.35); color:var(--cyan); }}
+.up {{ color:var(--red); }} .down {{ color:var(--green); }}
+.charts {{ display:grid; gap:20px; }}
+.fledger {{ display:grid; gap:14px; }}
+.fcard {{ display:flex; gap:16px; background:var(--surface); border:1px solid var(--border);
+  border-left:2px solid var(--red); border-radius:10px; padding:18px 20px; }}
+.fnum {{ font-family:var(--mono); font-size:13px; font-weight:600; color:var(--red);
+  padding-top:1px; }}
+.fbody {{ flex:1; }}
+.fbody p {{ margin:0 0 7px; font-size:13px; }}
+.fbody p:last-child {{ margin-bottom:0; }}
+.lbl {{ font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--dim); display:inline-block; width:78px; }}
+.claim {{ color:var(--muted); }}
+.test {{ color:var(--muted); }}
+.delta {{ color:var(--text); }}
+.verdict {{ font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--red);
+  border:1px solid rgba(255,77,109,.4); border-radius:4px; padding:1px 6px; margin-right:10px; }}
+.fix {{ color:var(--green); }} .fix .lbl {{ color:var(--dim); }}
+footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:1px solid var(--border);
+  padding-top:16px; margin-top:10px; }}
+@media (max-width:560px) {{ h1{{font-size:25px}} .lbl{{width:64px}} }}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS &middot; Hypercube Gauntlet</p>
+  <h1>Experiment Logbook</h1>
+  <p class="thesis">The append-only tape (<span class="mono">_STATE/gauntlet-runs.jsonl</span>),
+  rendered. Every row is one gauntlet run; the spine of this notebook is the
+  <b>falsification ledger</b> &mdash; the hypotheses each experiment <b>broke</b>. The engine
+  earns its keep by finding the same faults as the full 567K Opus gauntlet for a fraction of the
+  spend, and by falsifying its own designs on the tape.</p>
+
+  <div class="readout">
+    <div class="stat"><p class="k">compression</p><p class="v cyan">{ratio}</p>
+      <p class="sub">best live run vs 567K Opus baseline</p></div>
+    <div class="stat"><p class="k">live runs</p><p class="v">{len(engine)}</p>
+      <p class="sub">cheap&rarr;fine cycles on the tape</p></div>
+    <div class="stat"><p class="k">designs falsified</p><p class="v green">{len(FALSIFICATIONS)}</p>
+      <p class="sub">and propagated to code</p></div>
+  </div>
+
+  <section>
+    <h2>Falsification ledger <span class="h2note">what each experiment broke</span></h2>
+    <div class="fledger">{"".join(fcards)}</div>
+  </section>
+
+  <section>
+    <h2>Run ledger <span class="h2note">the tape, newest concepts last</span></h2>
+    <div class="panel"><table>
+      <thead><tr><th>run</th><th>subject</th><th>kind</th><th>model</th><th>scale</th>
+        <th class="num">tokens</th><th class="num">flips &uarr;/&darr;</th></tr></thead>
+      <tbody>{"".join(ledger)}</tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Cost <span class="h2note">measured tokens vs the Opus baseline</span></h2>
+    <div class="panel charts">{bar_chart_cost(runs)}</div>
+  </section>
+
+  <section>
+    <h2>Flip direction <span class="h2note">recall holes (up) vs precision filtering (down)</span></h2>
+    <div class="panel charts">{flip_chart(engine)}</div>
+  </section>
+
+  <footer>Rendered from the tape by scripts/gauntlet_logbook.py · SSOT&rarr;render, regenerates on
+  every run · committed-dark per WORLD.md instrument world</footer>
+</div>
+"""
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--out", default=os.path.join(ROOT, "_ARTIFACTS", "gauntlet-logbook.html"))
+    a = ap.parse_args()
+    runs = load_runs()
+    os.makedirs(os.path.dirname(a.out), exist_ok=True)
+    with open(a.out, "w", encoding="utf-8") as f:
+        f.write(render(runs))
+    print(f"rendered {len(runs)} runs -> {a.out}")
+
+
+if __name__ == "__main__":
+    main()

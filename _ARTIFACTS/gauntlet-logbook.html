@@ -1,0 +1,116 @@
+<title>Hypercube Gauntlet &mdash; Experiment Logbook</title>
+<style>
+:root {
+  --bg:#020408; --surface:#0d1117; --surface2:#0b1220; --border:#1e293b;
+  --text:#e2e8f0; --muted:#94a3b8; --dim:#64748b; --faint:#475569;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:
+  radial-gradient(1200px 600px at 50% -10%, #071019 0%, var(--bg) 60%);
+  color:var(--text); font-family:var(--sans); line-height:1.5;
+  -webkit-font-smoothing:antialiased; }
+.wrap { max-width:940px; margin:0 auto; padding:48px 24px 80px; }
+.eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--cyan); opacity:.85; margin:0 0 14px; }
+h1 { font-size:32px; line-height:1.1; margin:0 0 10px; font-weight:650; text-wrap:balance;
+  letter-spacing:-.01em; }
+.thesis { color:var(--muted); font-size:15px; max-width:62ch; margin:0 0 34px; }
+.thesis b { color:var(--text); font-weight:600; }
+.readout { display:flex; gap:14px; flex-wrap:wrap; margin:0 0 44px; }
+.stat { background:linear-gradient(180deg,var(--surface),var(--surface2));
+  border:1px solid var(--border); border-radius:10px; padding:16px 20px; min-width:150px; flex:1; }
+.stat .k { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--dim); margin:0 0 6px; }
+.stat .v { font-family:var(--mono); font-size:26px; font-weight:600; font-variant-numeric:tabular-nums; }
+.stat .v.cyan { color:var(--cyan); } .stat .v.green { color:var(--green); }
+.stat .sub { font-size:11px; color:var(--dim); margin-top:4px; }
+section { margin:0 0 46px; }
+h2 { font-family:var(--mono); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--muted); border-bottom:1px solid var(--border); padding-bottom:9px; margin:0 0 20px;
+  font-weight:600; display:flex; justify-content:space-between; align-items:baseline; }
+h2 .h2note { color:var(--dim); letter-spacing:.02em; text-transform:none; font-size:11px; }
+.panel { background:var(--surface); border:1px solid var(--border); border-radius:10px;
+  padding:20px; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--dim); text-align:left; padding:0 12px 10px; font-weight:500; white-space:nowrap; }
+td { padding:9px 12px; border-top:1px solid var(--border); vertical-align:middle; }
+tr.base td { color:var(--faint); }
+tr.live td { color:var(--text); }
+.mono { font-family:var(--mono); }
+.num { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.dim { color:var(--dim); font-size:10px; }
+.chip { font-family:var(--mono); font-size:10px; padding:2px 7px; border-radius:20px;
+  border:1px solid var(--border); color:var(--muted); white-space:nowrap; }
+tr.live .chip { border-color:rgba(0,240,255,.35); color:var(--cyan); }
+.up { color:var(--red); } .down { color:var(--green); }
+.charts { display:grid; gap:20px; }
+.fledger { display:grid; gap:14px; }
+.fcard { display:flex; gap:16px; background:var(--surface); border:1px solid var(--border);
+  border-left:2px solid var(--red); border-radius:10px; padding:18px 20px; }
+.fnum { font-family:var(--mono); font-size:13px; font-weight:600; color:var(--red);
+  padding-top:1px; }
+.fbody { flex:1; }
+.fbody p { margin:0 0 7px; font-size:13px; }
+.fbody p:last-child { margin-bottom:0; }
+.lbl { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--dim); display:inline-block; width:78px; }
+.claim { color:var(--muted); }
+.test { color:var(--muted); }
+.delta { color:var(--text); }
+.verdict { font-family:var(--mono); font-size:10px; letter-spacing:.1em; color:var(--red);
+  border:1px solid rgba(255,77,109,.4); border-radius:4px; padding:1px 6px; margin-right:10px; }
+.fix { color:var(--green); } .fix .lbl { color:var(--dim); }
+footer { color:var(--dim); font-size:11px; font-family:var(--mono); border-top:1px solid var(--border);
+  padding-top:16px; margin-top:10px; }
+@media (max-width:560px) { h1{font-size:25px} .lbl{width:64px} }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS &middot; Hypercube Gauntlet</p>
+  <h1>Experiment Logbook</h1>
+  <p class="thesis">The append-only tape (<span class="mono">_STATE/gauntlet-runs.jsonl</span>),
+  rendered. Every row is one gauntlet run; the spine of this notebook is the
+  <b>falsification ledger</b> &mdash; the hypotheses each experiment <b>broke</b>. The engine
+  earns its keep by finding the same faults as the full 567K Opus gauntlet for a fraction of the
+  spend, and by falsifying its own designs on the tape.</p>
+
+  <div class="readout">
+    <div class="stat"><p class="k">compression</p><p class="v cyan">3.6x</p>
+      <p class="sub">best live run vs 567K Opus baseline</p></div>
+    <div class="stat"><p class="k">live runs</p><p class="v">3</p>
+      <p class="sub">cheap&rarr;fine cycles on the tape</p></div>
+    <div class="stat"><p class="k">designs falsified</p><p class="v green">4</p>
+      <p class="sub">and propagated to code</p></div>
+  </div>
+
+  <section>
+    <h2>Falsification ledger <span class="h2note">what each experiment broke</span></h2>
+    <div class="fledger"><article class="fcard"><div class="fnum">F1</div><div class="fbody"><p class="claim"><span class="lbl">believed</span>Tight prompts + small inputs = cheap; cost scales with data size.</p><p class="test"><span class="lbl">test</span>cost-ripple probe (6 Haiku agents) <span class="mono dim">wf_90b0b237-fe2</span></p><p class="delta"><span class="verdict">FALSIFIED</span>~25K estimate -&gt; 325K actual (13x low)</p><p class="fix"><span class="lbl">propagated</span>the ~54K/subagent FLOOR dominates; agent-COUNT, not prompt size, is the cost driver</p></div></article><article class="fcard"><div class="fnum">F2</div><div class="fbody"><p class="claim"><span class="lbl">believed</span>An absolute value-of-information threshold (uncertainty x stakes &gt; tau) routes coarse -&gt; fine.</p><p class="test"><span class="lbl">test</span>live ADR-060 governor run <span class="mono dim">engine-live-11</span></p><p class="delta"><span class="verdict">FALSIFIED</span>escalated 380 / 400 cells (zero discrimination)</p><p class="fix"><span class="lbl">propagated</span>escalation set = union of two BOUNDED top-Ks (severity + VoI) + irreversible + eps; 380 -&gt; 24</p></div></article><article class="fcard"><div class="fnum">F3</div><div class="fbody"><p class="claim"><span class="lbl">believed</span>The empirical cost model is complete.</p><p class="test"><span class="lbl">test</span>live measured vs modeled tokens <span class="mono dim">engine-live-11</span></p><p class="delta"><span class="verdict">FALSIFIED</span>85.6K modeled -&gt; 177K measured (~2x low)</p><p class="fix"><span class="lbl">propagated</span>each spawn RE-READS the subject; added CostModel.subject_read_tokens (the prompt-caching lever)</p></div></article><article class="fcard"><div class="fnum">F4</div><div class="fbody"><p class="claim"><span class="lbl">believed</span>The 0.50 flip rate is surrogate interpolation NOISE — a denser mesh will lower it.</p><p class="test"><span class="lbl">test</span>ADR-053 rerun at 60 anchors (vs 20) <span class="mono dim">engine-live-60</span></p><p class="delta"><span class="verdict">FALSIFIED</span>flip rate ROSE 0.50 -&gt; 0.59; all 13 flips were DOWN-flips</p><p class="fix"><span class="lbl">propagated</span>it&#x27;s a MODEL-TIER recall/precision gap (Haiku hot vs Sonnet strict), not noise; tau-calibration now SPLITS flips by direction (up=recall hole -&gt; act; down=healthy)</p></div></article></div>
+  </section>
+
+  <section>
+    <h2>Run ledger <span class="h2note">the tape, newest concepts last</span></h2>
+    <div class="panel"><table>
+      <thead><tr><th>run</th><th>subject</th><th>kind</th><th>model</th><th>scale</th>
+        <th class="num">tokens</th><th class="num">flips &uarr;/&darr;</th></tr></thead>
+      <tbody><tr class="base"><td class="mono">wf_719c5843-ff0</td><td>ADR-060</td><td><span class="chip">self-audit-gauntlet</span></td><td class="mono">opus</td><td class="mono num">7 <span class="dim">agents</span></td><td class="mono num">567K</td><td class="mono num">—</td></tr><tr class="base"><td class="mono">wf_90b0b237-fe2</td><td>ADR-060 (25-cell Operator x Lens slice)</td><td><span class="chip">cost-ripple</span></td><td class="mono">haiku</td><td class="mono num">6 <span class="dim">agents</span></td><td class="mono num">325K</td><td class="mono num">—</td></tr><tr class="base"><td class="mono">wf_56c743ca-18e</td><td>ADR-060 (25 cells, graded severity 0-3)</td><td><span class="chip">cost-single-pass-threshold</span></td><td class="mono">haiku</td><td class="mono num">1 <span class="dim">agents</span></td><td class="mono num">54K</td><td class="mono num">—</td></tr><tr class="live"><td class="mono">engine-live-11</td><td>ADR-060</td><td><span class="chip">engine-run</span></td><td class="mono">sonnet</td><td class="mono num">20 <span class="dim">anchors</span></td><td class="mono num">177K</td><td class="mono num"><span class="up">2&uarr;</span> / <span class="down">10&darr;</span></td></tr><tr class="live"><td class="mono">engine-live-23</td><td>ADR-053</td><td><span class="chip">engine-run</span></td><td class="mono">sonnet</td><td class="mono num">20 <span class="dim">anchors</span></td><td class="mono num">156K</td><td class="mono num"><span class="up">0&uarr;</span> / <span class="down">10&darr;</span></td></tr><tr class="live"><td class="mono">engine-live-60</td><td>ADR-053 (60-anchor)</td><td><span class="chip">engine-run</span></td><td class="mono">sonnet</td><td class="mono num">60 <span class="dim">anchors</span></td><td class="mono num">159K</td><td class="mono num"><span class="up">0&uarr;</span> / <span class="down">13&darr;</span></td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>Cost <span class="h2note">measured tokens vs the Opus baseline</span></h2>
+    <div class="panel charts"><svg viewBox="0 0 720 226" role="img" aria-label="token cost per run" style="width:100%;height:auto;font-family:ui-monospace,monospace"><line x1="630" y1="8" x2="630" y2="218" stroke="#FF4D6D" stroke-dasharray="3 3" stroke-width="1" opacity="0.7"/><text x="626" y="17" text-anchor="end" fill="#FF4D6D" font-size="10">567K Opus gauntlet</text><text x="202" y="57" text-anchor="end" fill="#e2e8f0" font-size="11">ADR-060</text><rect x="210" y="43" width="420.0" height="18" rx="2" fill="#475569" opacity="0.5"/><text x="636" y="57" fill="#475569" font-size="10">567K</text><text x="202" y="87" text-anchor="end" fill="#e2e8f0" font-size="11">ADR-060 (25-cell Operator x Le</text><rect x="210" y="73" width="240.9" height="18" rx="2" fill="#475569" opacity="0.5"/><text x="457" y="87" fill="#475569" font-size="10">325K</text><text x="202" y="117" text-anchor="end" fill="#e2e8f0" font-size="11">ADR-060 (25 cells, graded seve</text><rect x="210" y="103" width="40.3" height="18" rx="2" fill="#475569" opacity="0.5"/><text x="256" y="117" fill="#475569" font-size="10">54K</text><text x="202" y="147" text-anchor="end" fill="#e2e8f0" font-size="11">ADR-060</text><rect x="210" y="133" width="131.0" height="18" rx="2" fill="#00F0FF" opacity="0.9"/><text x="347" y="147" fill="#00F0FF" font-size="10">177K</text><text x="202" y="177" text-anchor="end" fill="#e2e8f0" font-size="11">ADR-053</text><rect x="210" y="163" width="116.2" height="18" rx="2" fill="#00F0FF" opacity="0.9"/><text x="332" y="177" fill="#00F0FF" font-size="10">156K</text><text x="202" y="207" text-anchor="end" fill="#e2e8f0" font-size="11">ADR-053 (60-anchor)</text><rect x="210" y="193" width="117.8" height="18" rx="2" fill="#00F0FF" opacity="0.9"/><text x="334" y="207" fill="#00F0FF" font-size="10">159K</text></svg></div>
+  </section>
+
+  <section>
+    <h2>Flip direction <span class="h2note">recall holes (up) vs precision filtering (down)</span></h2>
+    <div class="panel charts"><svg viewBox="0 0 720 370" role="img" aria-label="flip direction per run" style="width:100%;height:auto;font-family:ui-monospace,monospace"><rect x="30" y="165.0" width="120" height="135.0" fill="#1e293b"/><rect x="30" y="52.5" width="120" height="112.5" fill="#00FF9D"/><rect x="30" y="30.0" width="120" height="22.5" fill="#FF4D6D"/><text x="90" y="318" text-anchor="middle" fill="#e2e8f0" font-size="10">ADR-060</text><text x="90" y="332" text-anchor="middle" fill="#64748b" font-size="9">20 anchors · 2up/10down</text><rect x="190" y="187.5" width="120" height="112.5" fill="#1e293b"/><rect x="190" y="75.0" width="120" height="112.5" fill="#00FF9D"/><text x="250" y="318" text-anchor="middle" fill="#e2e8f0" font-size="10">ADR-053</text><text x="250" y="332" text-anchor="middle" fill="#64748b" font-size="9">20 anchors · 0up/10down</text><rect x="350" y="198.8" width="120" height="101.2" fill="#1e293b"/><rect x="350" y="52.5" width="120" height="146.2" fill="#00FF9D"/><text x="410" y="318" text-anchor="middle" fill="#e2e8f0" font-size="10">ADR-053 (60-anch</text><text x="410" y="332" text-anchor="middle" fill="#64748b" font-size="9">60 anchors · 0up/13down</text><rect x="30" y="356" width="10" height="10" fill="#FF4D6D"/><text x="44" y="365" fill="#94a3b8" font-size="10">up = coarse missed (recall hole)</text><rect x="256.0" y="356" width="10" height="10" fill="#00FF9D"/><text x="270.0" y="365" fill="#94a3b8" font-size="10">down = fine killed false-positive (healthy)</text><rect x="548.0" y="356" width="10" height="10" fill="#1e293b"/><text x="562.0" y="365" fill="#94a3b8" font-size="10">clean</text></svg></div>
+  </section>
+
+  <footer>Rendered from the tape by scripts/gauntlet_logbook.py · SSOT&rarr;render, regenerates on
+  every run · committed-dark per WORLD.md instrument world</footer>
+</div>
