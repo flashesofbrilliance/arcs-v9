@@ -19,19 +19,6 @@ import hypercube_sampler as hs  # for dollars() + list-price table (single sourc
 OPUS_BASELINE = 567_370  # the full 7-Opus self-audit gauntlet — the compression baseline
 BASELINE_USD = hs.dollars("opus", OPUS_BASELINE)
 
-# Real capital cost per live run — measured PER-SPAWN tokens (coarse Haiku, fine Sonnet), because
-# a mixed-tier run cannot be priced at one model. This is why the tape's single-model row can't
-# price these directly; a per-spawn cost breakdown is the tape's next enrichment.
-COST_RUNS = [  # (subject, coarse_haiku_tokens, fine_sonnet_tokens)
-    ("ADR-060",             76_534, 100_468),
-    ("ADR-053 (20-anchor)", 69_974,  86_968),
-    ("ADR-053 (60-anchor)", 71_708,  87_464),
-]
-
-
-def run_usd(coarse, fine):
-    return hs.dollars("haiku", coarse) + hs.dollars("sonnet", fine)
-
 # The falsification ledger — the interpretive spine (not derivable from the tape rows alone).
 # Each: what was believed, what tested it, the verdict, and what the code did in response.
 FALSIFICATIONS = [
@@ -171,25 +158,36 @@ def render(runs):
     best = min((tokens_of(r) for r in engine), default=0)
     ratio = f"{OPUS_BASELINE / best:.1f}x" if best else "—"
 
-    # capital: per-audit $, and dollar-vs-token compression
-    cheapest_usd = min((run_usd(c, f) for _, c, f in COST_RUNS), default=0)
+    # capital: priced straight from each engine-run's cost_breakdown on the tape (SSOT).
+    priced_runs = [r for r in engine if r.get("total_usd") is not None]
+    any_estimate = any(sp.get("priced") == "estimate"
+                       for r in priced_runs for sp in (r.get("cost_breakdown") or []))
+    est_note = ("An <b>est</b> row was run via the Agent tool, which reports only a token total, so its "
+                "input/output split is estimated (~5% output); an API-path run records the exact split "
+                "and prices to the cent." if any_estimate else
+                "Every row carries an exact input/output split &mdash; priced to the cent.")
+    cheapest_usd = min((r["total_usd"] for r in priced_runs), default=0)
     dollar_x = BASELINE_USD / cheapest_usd if cheapest_usd else 0
-    monthly_engine = 1000 * (run_usd(*COST_RUNS[0][1:]))
+    first_usd = priced_runs[0]["total_usd"] if priced_runs else 0
+    monthly_engine = 1000 * first_usd
     monthly_base = 1000 * BASELINE_USD
-    cost_rows = []
-    for name, c, f in COST_RUNS:
-        usd = run_usd(c, f); toks = c + f
-        cost_rows.append(
-            f'<tr class="live"><td>{esc(name)}</td>'
-            f'<td class="mono num">{toks//1000}K</td>'
-            f'<td class="mono num cyan">${usd:.3f}</td>'
-            f'<td class="mono num">{OPUS_BASELINE/toks:.1f}&times;</td>'
-            f'<td class="mono num green">{BASELINE_USD/usd:.1f}&times;</td></tr>')
-    cost_rows.insert(0,
+    cost_rows = [
         f'<tr class="base"><td>full 7-Opus gauntlet</td>'
         f'<td class="mono num">{OPUS_BASELINE//1000}K</td>'
         f'<td class="mono num">${BASELINE_USD:.2f}</td>'
-        f'<td class="mono num">1.0&times;</td><td class="mono num">1.0&times;</td></tr>')
+        f'<td class="mono num">1.0&times;</td><td class="mono num">1.0&times;</td></tr>']
+    for r in priced_runs:
+        usd = r["total_usd"]; toks = tokens_of(r)
+        tiers = "+".join(sp["model"] for sp in (r.get("cost_breakdown") or []))
+        exact = all(sp.get("priced") == "exact" for sp in (r.get("cost_breakdown") or []))
+        badge = "" if exact else ' <span class="dim">est</span>'
+        cost_rows.append(
+            f'<tr class="live"><td>{esc(r.get("subject","?"))} '
+            f'<span class="dim">{esc(tiers)}</span></td>'
+            f'<td class="mono num">{toks//1000}K</td>'
+            f'<td class="mono num cyan">${usd:.3f}{badge}</td>'
+            f'<td class="mono num">{OPUS_BASELINE/toks:.1f}&times;</td>'
+            f'<td class="mono num green">{BASELINE_USD/usd:.1f}&times;</td></tr>')
 
     # run ledger rows
     ledger = []
@@ -327,7 +325,8 @@ footer {{ color:var(--dim); font-size:11px; font-family:var(--mono); border-top:
     ($3/$15) against a 7&times;-Opus baseline ($5/$25). At <b>1,000 audits/month</b> that is
     <b>${monthly_engine:,.0f}</b> vs <b>${monthly_base:,.0f}</b>. Spend is input-dominated (the floor
     is system-prompt + tool schemas + subject-read), so prompt-caching the subject-read cuts it
-    further. Priced from measured per-spawn tokens; list price, no batch/caching discount applied.</p>
+    further. Each row is priced from its own <b>per-spawn cost breakdown on the tape</b> (list price,
+    no batch/caching discount). {est_note}</p>
     </div>
   </section>
 

@@ -95,14 +95,15 @@ footer { color:var(--dim); font-size:11px; font-family:var(--mono); border-top:1
     <div class="panel"><table>
       <thead><tr><th>run</th><th class="num">tokens</th><th class="num">real $</th>
         <th class="num">token &times;</th><th class="num">dollar &times;</th></tr></thead>
-      <tbody><tr class="base"><td>full 7-Opus gauntlet</td><td class="mono num">567K</td><td class="mono num">$3.40</td><td class="mono num">1.0&times;</td><td class="mono num">1.0&times;</td></tr><tr class="live"><td>ADR-060</td><td class="mono num">177K</td><td class="mono num cyan">$0.454</td><td class="mono num">3.2&times;</td><td class="mono num green">7.5&times;</td></tr><tr class="live"><td>ADR-053 (20-anchor)</td><td class="mono num">156K</td><td class="mono num cyan">$0.397</td><td class="mono num">3.6&times;</td><td class="mono num green">8.6&times;</td></tr><tr class="live"><td>ADR-053 (60-anchor)</td><td class="mono num">159K</td><td class="mono num cyan">$0.401</td><td class="mono num">3.6&times;</td><td class="mono num green">8.5&times;</td></tr></tbody>
+      <tbody><tr class="base"><td>full 7-Opus gauntlet</td><td class="mono num">567K</td><td class="mono num">$3.40</td><td class="mono num">1.0&times;</td><td class="mono num">1.0&times;</td></tr><tr class="live"><td>ADR-060 <span class="dim">haiku+sonnet</span></td><td class="mono num">177K</td><td class="mono num cyan">$0.454 <span class="dim">est</span></td><td class="mono num">3.2&times;</td><td class="mono num green">7.5&times;</td></tr><tr class="live"><td>ADR-053 <span class="dim">haiku+sonnet</span></td><td class="mono num">156K</td><td class="mono num cyan">$0.397 <span class="dim">est</span></td><td class="mono num">3.6&times;</td><td class="mono num green">8.6&times;</td></tr><tr class="live"><td>ADR-053 (60-anchor) <span class="dim">haiku+sonnet</span></td><td class="mono num">159K</td><td class="mono num cyan">$0.401 <span class="dim">est</span></td><td class="mono num">3.6&times;</td><td class="mono num green">8.5&times;</td></tr></tbody>
     </table>
     <p class="costnote">The <b>dollar</b> compression beats the <b>token</b> compression because the
     engine tier-routes &mdash; a cheap Haiku coarse pass ($1/$5 per Mtok) and a Sonnet fine pass
     ($3/$15) against a 7&times;-Opus baseline ($5/$25). At <b>1,000 audits/month</b> that is
     <b>$454</b> vs <b>$3,404</b>. Spend is input-dominated (the floor
     is system-prompt + tool schemas + subject-read), so prompt-caching the subject-read cuts it
-    further. Priced from measured per-spawn tokens; list price, no batch/caching discount applied.</p>
+    further. Each row is priced from its own <b>per-spawn cost breakdown on the tape</b> (list price,
+    no batch/caching discount). An <b>est</b> row was run via the Agent tool, which reports only a token total, so its input/output split is estimated (~5% output); an API-path run records the exact split and prices to the cent.</p>
     </div>
   </section>
 

@@ -229,18 +229,53 @@ OUTPUT_FRACTION = 0.05  # [H] the graded-JSON output is a small, ~flat share of 
                         # is conservative (output is the pricier direction).
 
 
+def dollars_exact(model: str, input_tokens: float, output_tokens: float,
+                  cache_read_input_tokens: float = 0.0) -> float:
+    """Precise capital cost when the real input/output split is known (e.g. the Anthropic API
+    `usage` block). `cache_read_input_tokens` of the input bills at the ~0.1x cache-read rate."""
+    pin, pout = PRICE_PER_MTOK[model]
+    fresh_in = max(0.0, input_tokens - cache_read_input_tokens)
+    return (fresh_in * pin + cache_read_input_tokens * pin * 0.1 + output_tokens * pout) / 1_000_000
+
+
 def dollars(model: str, total_tokens: int, output_fraction: float = OUTPUT_FRACTION,
             cache_read_fraction: float = 0.0) -> float:
-    """Real capital cost of `total_tokens` on `model`, at list price.
-    Splits total into input/output by `output_fraction`; input is the dominant, cheaper leg.
-    `cache_read_fraction` (0..1) of the INPUT bills at the ~0.1x cache-read rate — the prompt-
-    caching lever on the subject-read (spec §0 / live-run finding). 0 = uncached (what we measured)."""
-    pin, pout = PRICE_PER_MTOK[model]
+    """ESTIMATE — capital cost of `total_tokens` on `model` when only the TOTAL is known (the
+    Agent-tool `subagent_tokens` metric gives a single aggregate, not an input/output split).
+    Splits by `output_fraction`; input is the dominant, cheaper leg. When the real split IS known,
+    use `dollars_exact` instead — that is what the tape's per-spawn cost_breakdown enables."""
     out_tok = total_tokens * output_fraction
     in_tok = total_tokens - out_tok
-    cached_in = in_tok * cache_read_fraction
-    fresh_in = in_tok - cached_in
-    return (fresh_in * pin + cached_in * pin * 0.1 + out_tok * pout) / 1_000_000
+    return dollars_exact(model, in_tok, out_tok, in_tok * cache_read_fraction)
+
+
+def price_spawn(spawn: Dict[str, object]) -> float:
+    """Price one spawn from a cost_breakdown entry. Exact when input_tokens/output_tokens are
+    present; falls back to the output_fraction estimate on total_tokens otherwise."""
+    model = str(spawn["model"])
+    if spawn.get("input_tokens") is not None and spawn.get("output_tokens") is not None:
+        return dollars_exact(model, float(spawn["input_tokens"]), float(spawn["output_tokens"]),
+                             float(spawn.get("cache_read_input_tokens") or 0.0))
+    return dollars(model, int(spawn.get("total_tokens") or 0))
+
+
+def parse_spawn(s: str) -> Dict[str, object]:
+    """Parse a --spawn arg: 'model:total' | 'model:input:output' | 'model:input:output:cacheread'.
+    A 2-field form records the aggregate (priced by estimate); 3+ fields record the exact split."""
+    parts = s.split(":")
+    model = parts[0]
+    if model not in PRICE_PER_MTOK:
+        raise ValueError(f"unknown model {model!r}; known: {list(PRICE_PER_MTOK)}")
+    nums = [int(p) for p in parts[1:]]
+    if len(nums) == 1:
+        return {"model": model, "total_tokens": nums[0], "input_tokens": None, "output_tokens": None}
+    if len(nums) >= 2:
+        d = {"model": model, "input_tokens": nums[0], "output_tokens": nums[1],
+             "total_tokens": nums[0] + nums[1]}
+        if len(nums) >= 3:
+            d["cache_read_input_tokens"] = nums[2]
+        return d
+    raise ValueError(f"--spawn needs at least model:total, got {s!r}")
 
 
 @dataclass
@@ -787,7 +822,8 @@ def bridge_escalate(anchor_gradings: List[Dict[str, object]], cfg: GovernorConfi
 def bridge_close(fine_gradings: List[Dict[str, object]], coarse_estimate: Dict[str, float],
                  cfg: GovernorConfig, subject: str, seed: int, n_anchors: int,
                  write_tape: bool = False, tape_file: Optional[str] = None,
-                 ts: str = "auto", measured_tokens: Optional[int] = None) -> Dict[str, object]:
+                 ts: str = "auto", measured_tokens: Optional[int] = None,
+                 cost_breakdown: Optional[List[Dict[str, object]]] = None) -> Dict[str, object]:
     cost = CostModel()
     cost.inline(n_anchors)               # gate 1: one amortized coarse spawn's cells, inline-modeled
     fine_cells, fine_readings = _readings_from_gradings(fine_gradings)
@@ -829,9 +865,22 @@ def bridge_close(fine_gradings: List[Dict[str, object]], coarse_estimate: Dict[s
                      f"fine cells (1 amortized {cfg.model} spawn)",
         "localized_faults": localized,
     }
+    # Precise capital: per-spawn cost breakdown so the run prices ITSELF on the tape instead of
+    # being estimated downstream. Exact when the spawn carried an input/output split.
+    if cost_breakdown:
+        priced = []
+        for sp in cost_breakdown:
+            usd = price_spawn(sp)
+            exact = sp.get("input_tokens") is not None
+            priced.append({**sp, "usd": round(usd, 6), "priced": "exact" if exact else "estimate"})
+        row["cost_breakdown"] = priced
+        row["total_usd"] = round(sum(p["usd"] for p in priced), 6)
+        if measured_tokens is None:
+            row["total_tokens_measured"] = sum(int(p.get("total_tokens") or 0) for p in priced)
     if write_tape:
         append_tape(row, tape_file)
     return {"step": "close", "tape_row": row, "cost": cost.breakdown(),
+            "total_usd": row.get("total_usd"),
             "flip_rate": round(flips / len(fine_cells), 3) if fine_cells else None}
 
 
@@ -992,6 +1041,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     p_cls.add_argument("--model", choices=list(FLOOR), default="haiku")
     p_cls.add_argument("--ts", default="auto")
     p_cls.add_argument("--measured", type=int, default=None, help="actual harness tokens spent (live run)")
+    p_cls.add_argument("--spawn", action="append", default=None, metavar="model:total|model:in:out[:cacheread]",
+                       help="per-spawn cost (repeatable) — records an exact/estimated cost_breakdown on the tape")
     p_cls.add_argument("--write-tape", action="store_true")
 
     args = p.parse_args(argv)
@@ -1021,9 +1072,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         with open(args.escalation, encoding="utf-8") as f:
             esc = json.load(f)
         cfg = GovernorConfig(model=args.model)
+        breakdown = [parse_spawn(s) for s in args.spawn] if args.spawn else None
         out = bridge_close(fine, esc.get("coarse_estimate", {}), cfg, args.subject, args.seed,
                            args.anchors, write_tape=args.write_tape, ts=args.ts,
-                           measured_tokens=args.measured)
+                           measured_tokens=args.measured, cost_breakdown=breakdown)
         print(json.dumps(out, indent=2))
         return 0
 
