@@ -182,12 +182,42 @@ If I have an NDA, ask before including anything specific.</code></pre>
 </footer>
 
 <script>
+  function copyFlash(ok){
+    var b=document.getElementById('cpbtn'); if(!b) return;
+    if(b._t) clearTimeout(b._t); if(!b._o) b._o=b.textContent;
+    b.textContent = ok ? 'copied ✓' : 'select + copy';
+    b.style.color = ok ? '#00FF9D' : '#FFD700';
+    b._t=setTimeout(function(){b.textContent=b._o;b.style.color='';},1800);
+  }
+  function legacyCopy(t){
+    try{
+      var ta=document.createElement('textarea');
+      ta.value=t; ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length);
+      var ok=document.execCommand('copy'); document.body.removeChild(ta);
+      return ok;
+    }catch(e){ return false; }
+  }
+  function selectPrompt(){
+    try{
+      var el=document.getElementById('prompt'), r=document.createRange();
+      r.selectNodeContents(el); var s=window.getSelection();
+      s.removeAllRanges(); s.addRange(r);
+    }catch(e){}
+  }
   function copyPrompt(){
     var t=document.getElementById('prompt').innerText;
-    navigator.clipboard.writeText(t).then(function(){
-      var b=document.getElementById('cpbtn'); var o=b.textContent; b.textContent='copied ✓'; b.style.color='#00FF9D';
-      setTimeout(function(){b.textContent=o;b.style.color='';},1600);
-    });
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(
+        function(){ copyFlash(true); },
+        function(){ if(legacyCopy(t)){copyFlash(true);} else {selectPrompt();copyFlash(false);} }
+      );
+    } else if(legacyCopy(t)){
+      copyFlash(true);
+    } else {
+      selectPrompt(); copyFlash(false);
+    }
   }
 </script>
 </body>
