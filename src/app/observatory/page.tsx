@@ -61,6 +61,16 @@ const GENERATED_AT = _OBS.generated_at
 const HEAD_SHA = _OBS.head_sha
 const SPAN_START = Date.parse(_OBS.span_start), SPAN_DAYS = _OBS.span_days
 const leftPct = (d: string) => Math.round(((Date.parse(d)-SPAN_START)/86400000/SPAN_DAYS)*1000)/10
+// ── Horizon windowing: date-based positioning so a Week/Month/Range zoom de-crowds the dots ──
+const DAY_MS = 86400000
+const LAST_MS = Math.max(SPAN_START, ...EVENTS.map(e=>Date.parse(e.date)), ...RISKS.map(r=>Date.parse(r.date)))
+function winBounds(h:string, winEnd:number, rs:string, re:string):[number,number]{
+  if(h==="all")   return [SPAN_START, LAST_MS]
+  if(h==="range") return [Date.parse(rs), Date.parse(re)+DAY_MS]
+  const days = h==="week"?7:30
+  return [winEnd-days*DAY_MS, winEnd]
+}
+const fmtMD = (ms:number)=>new Date(ms).toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"})
 
 const LEDGER: LedgerItem[] = [
   ...EVENTS.map(e=>({...e,kind:"event" as const,left:leftPct(e.date)})),
@@ -287,13 +297,13 @@ function Legend({open}:{open:boolean}){
 const TYPE_GLYPH: Record<string,string> = {genesis:"✦",canon:"❖",milestone:"★",feat:"⊕",security:"⊘",fix:"✕",kairos:"◇"}
 const MAP_ALTS = ["L5","L4","L3","L2","L1"]
 
-function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;query:string;focus:string;onOpen:(x:LedgerItem)=>void}){
+function TrajectoryMap({visibleCount,query,focus,ws,we,onOpen}:{visibleCount:number;query:string;focus:string;ws:number;we:number;onOpen:(x:LedgerItem)=>void}){
   const laneH=28,riskH=36
   const H=MAP_ALTS.length*laneH+riskH
   const laneCenter=(alt:string)=>MAP_ALTS.indexOf(alt)*laneH+laneH/2
   const riskCenter=MAP_ALTS.length*laneH+riskH/2
   const N=LEDGER.length
-  const xpct=(i:number)=>N<=1?50:1.5+(i/(N-1))*97
+  const xDate=(d:string)=>{const t=Date.parse(d);const span=Math.max(DAY_MS,we-ws);return Math.max(1.5,Math.min(98.5,1.5+((t-ws)/span)*97))}
   const evThread=LEDGER.map((x,i)=>({x,i})).filter(o=>o.x.kind==="event")
   const peaks=LEDGER.map((x,i)=>({x,i})).filter(o=>(o.x as Event).peak)
   const [hv,setHv]=useState<{i:number;x:number;cy:number;item:LedgerItem;isRisk:boolean;accent:string}|null>(null)
@@ -318,13 +328,14 @@ function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;qu
         ))}
         <div style={{position:"absolute",left:0,right:6,top:riskCenter,height:1,background:`linear-gradient(90deg,${C.red}24,${C.red}0a)`,opacity:riskOff?0.25:1,transition:"opacity .3s"}}/>
         <svg viewBox={`0 0 100 ${H}`} preserveAspectRatio="none" style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none"}}>
-          {peaks.map(o=><line key={(o.x as Event).id} x1={xpct(o.i)} x2={xpct(o.i)} y1="2" y2={MAP_ALTS.length*laneH} stroke={C.gold} strokeOpacity=".3" strokeWidth="1" strokeDasharray="2 3" vectorEffect="non-scaling-stroke"/>)}
-          <polyline points={evThread.map(o=>`${xpct(o.i)},${laneCenter((o.x as Event).alt as string)}`).join(" ")} fill="none" stroke={C.cyan} strokeOpacity=".26" strokeWidth="1.2" vectorEffect="non-scaling-stroke"/>
+          {peaks.map(o=><line key={(o.x as Event).id} x1={xDate((o.x as Event).date)} x2={xDate((o.x as Event).date)} y1="2" y2={MAP_ALTS.length*laneH} stroke={C.gold} strokeOpacity=".3" strokeWidth="1" strokeDasharray="2 3" vectorEffect="non-scaling-stroke"/>)}
+          <polyline points={evThread.filter(o=>{const t=Date.parse((o.x as Event).date);return t>=ws&&t<=we}).map(o=>`${xDate((o.x as Event).date)},${laneCenter((o.x as Event).alt as string)}`).join(" ")} fill="none" stroke={C.cyan} strokeOpacity=".26" strokeWidth="1.2" vectorEffect="non-scaling-stroke"/>
         </svg>
         {LEDGER.map((x,i)=>{
           const isRisk=x.kind==="risk"
           const ev=x as Event; const rk=x as Risk
-          const dim=i>=visibleCount||!matchQ(x as unknown as Record<string,unknown>,query)||(isRisk?!!riskOff:laneOff(ev.alt))
+          const outWin=Date.parse(x.date)<ws||Date.parse(x.date)>we
+          const dim=outWin||i>=visibleCount||!matchQ(x as unknown as Record<string,unknown>,query)||(isRisk?!!riskOff:laneOff(ev.alt))
           const accent=isRisk?SEV[rk.sev]:(ALT[ev.alt]?.accent||C.cyan)  // color == altitude row (peaks marked by gold ring, not gold fill)
           const cy=isRisk?riskCenter:laneCenter(ev.alt)
           const glyph=ev.peak?"★":(TYPE_GLYPH[ev.type]||"•")
@@ -333,14 +344,14 @@ function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;qu
           return(
             <button key={x.id} onClick={()=>onOpen(x)} title={`${x.date.slice(5)} · ${(x as Event).label||(x as Risk).risk}`}
               data-pulse={isRisk&&rk.status==="OPEN"?"":undefined}
-              style={{position:"absolute",left:`${xpct(i)}%`,top:cy,width:sz,height:sz,marginLeft:-sz/2,marginTop:-sz/2,
+              style={{position:"absolute",left:`${xDate(x.date)}%`,top:cy,width:sz,height:sz,marginLeft:-sz/2,marginTop:-sz/2,
                 display:"inline-flex",alignItems:"center",justifyContent:"center",padding:0,cursor:"pointer",
                 borderRadius:isRisk?3:"50%",transform:base,
                 border:`${ev.peak?2.5:1.5}px solid ${isRisk?STATUS[rk.status]:(ev.peak?C.gold:"#03060b")}`,background:accent,
                 boxShadow:`0 0 ${ev.peak?10:6}px -1px ${ev.peak?C.gold:accent},inset 0 1px 0 rgba(255,255,255,.4),0 2px 4px rgba(0,0,0,.5)`,
                 opacity:dim?0.15:1,pointerEvents:dim?"none":"auto",transition:"opacity .3s,transform .15s",
                 animation:isRisk&&rk.status==="OPEN"?"obs-pulse 1.8s infinite":"none"}}
-              onMouseEnter={ev_=>{(ev_.currentTarget as HTMLButtonElement).style.transform=`${base==="none"?"":base} scale(1.28)`;setHv({i,x:xpct(i),cy,item:x,isRisk,accent})}}
+              onMouseEnter={ev_=>{(ev_.currentTarget as HTMLButtonElement).style.transform=`${base==="none"?"":base} scale(1.28)`;setHv({i,x:xDate(x.date),cy,item:x,isRisk,accent})}}
               onMouseLeave={ev_=>{(ev_.currentTarget as HTMLButtonElement).style.transform=base;setHv(h=>(h&&h.i===i?null:h))}}>
               {!isRisk&&<span style={{color:"#04070c",fontFamily:"var(--font-mono)",fontSize:ev.peak?11:9,fontWeight:700,lineHeight:1}}>{glyph}</span>}
             </button>
@@ -539,7 +550,7 @@ function Ledger({view,visibleCount,query,onOpen}:{view:string;visibleCount:numbe
   )
 }
 
-function Timeline({replay,setReplay,view,query,face,focus,onOpen}:{replay:"all"|number;setReplay:(v:"all"|number)=>void;view:string;query:string;face:string;focus:string;onOpen:(x:LedgerItem)=>void}){
+function Timeline({replay,setReplay,view,query,face,focus,ws,we,onOpen}:{replay:"all"|number;setReplay:(v:"all"|number)=>void;view:string;query:string;face:string;focus:string;ws:number;we:number;onOpen:(x:LedgerItem)=>void}){
   const [playing,setPlaying]=useState(false)
   const replayRef=useRef(replay); replayRef.current=replay
   useEffect(()=>{
@@ -564,7 +575,7 @@ function Timeline({replay,setReplay,view,query,face,focus,onOpen}:{replay:"all"|
         <span style={{fontSize:10,color:"#8593a6"}}>{onBack?"each altitude as a labelled lane · tap → card":"5 altitude lanes · glyph = type · ★ peak · ⚠ risk band · tap → card"}</span>
       </div>
       {onBack?<FocusedAltitudeStrip focus={focus} visibleCount={visibleCount} query={query} onOpen={onOpen}/>
-        :<TrajectoryMap visibleCount={visibleCount} query={query} focus={focus} onOpen={onOpen}/>}
+        :<TrajectoryMap visibleCount={visibleCount} query={query} focus={focus} ws={ws} we={we} onOpen={onOpen}/>}
       <Scrubber replay={replay} setReplay={setReplay} playing={playing} setPlaying={setPlaying} focus={focus}/>
       <Ledger view={view} visibleCount={visibleCount} query={query} onOpen={onOpen}/>
     </section>
@@ -997,6 +1008,12 @@ export default function ObservatoryPage(){
   const [focus,setFocus]=useState("all")
   const [view,setView]=useState("week")
   const [replay,setReplay]=useState<"all"|number>("all")
+  const [horizon,setHorizon]=useState<"all"|"week"|"month"|"range">("all")
+  const [winEnd,setWinEnd]=useState<number>(LAST_MS)
+  const [rangeStart,setRangeStart]=useState<string>(_OBS.span_start)
+  const [rangeEnd,setRangeEnd]=useState<string>(GENERATED_AT.slice(0,10))
+  const [ws,we]=winBounds(horizon,winEnd,rangeStart,rangeEnd)
+  const winDays=horizon==="week"?7:30
   const [legendOpen,setLegendOpen]=useState(true)
   const [sheet,setSheet]=useState<SheetItem|null>(null)
   const [query,setQuery]=useState("")
@@ -1098,7 +1115,29 @@ export default function ObservatoryPage(){
         <div style={{padding:"18px 0 80px",filter:VIVID(tweaks.vividness),transition:"filter .3s"}}>
           <div style={{width:"min(880px,100%)",margin:"0 auto",padding:"0 16px",boxSizing:"border-box",display:"flex",flexDirection:"column",gap:20}}>
             {mode==="glance"&&<>
-              <Timeline replay={replay} setReplay={setReplay} view={view} query={query} face={face} focus={focus} onOpen={openSheet}/>
+              <div style={{display:"flex",alignItems:"center",gap:7,flexWrap:"wrap",fontFamily:"var(--font-mono)",fontSize:11}}>
+                <span style={{color:"#64748b",fontSize:9.5,letterSpacing:".14em"}}>HORIZON</span>
+                <Ctl active={horizon==="all"} accent={C.steel} onClick={()=>setHorizon("all")}>All</Ctl>
+                <Ctl active={horizon==="week"} accent={C.cyan} onClick={()=>{setHorizon("week");setWinEnd(LAST_MS)}}>Week</Ctl>
+                <Ctl active={horizon==="month"} accent={C.cyan} onClick={()=>{setHorizon("month");setWinEnd(LAST_MS)}}>Month</Ctl>
+                <Ctl active={horizon==="range"} accent={C.gold} onClick={()=>setHorizon("range")}>Range</Ctl>
+                {(horizon==="week"||horizon==="month")&&<>
+                  <Sep/>
+                  <Ctl accent={C.cyan} disabled={ws<=SPAN_START} onClick={()=>setWinEnd(w=>Math.max(SPAN_START+winDays*DAY_MS,w-winDays*DAY_MS))}>‹</Ctl>
+                  <span style={{color:"#94a3b8",minWidth:118,textAlign:"center"}}>{fmtMD(ws)} – {fmtMD(Math.min(we,LAST_MS))}</span>
+                  <Ctl accent={C.cyan} disabled={we>=LAST_MS} onClick={()=>setWinEnd(w=>Math.min(LAST_MS,w+winDays*DAY_MS))}>›</Ctl>
+                </>}
+                {horizon==="range"&&<>
+                  <Sep/>
+                  <input type="date" value={rangeStart} min={_OBS.span_start} max={rangeEnd} onChange={e=>setRangeStart(e.target.value)}
+                    style={{background:"#0d1117",border:"1px solid #1e293b",color:"#e2e8f0",fontFamily:"var(--font-mono)",fontSize:11,borderRadius:5,padding:"2px 6px"}}/>
+                  <span style={{color:"#64748b"}}>→</span>
+                  <input type="date" value={rangeEnd} min={rangeStart} max={GENERATED_AT.slice(0,10)} onChange={e=>setRangeEnd(e.target.value)}
+                    style={{background:"#0d1117",border:"1px solid #1e293b",color:"#e2e8f0",fontFamily:"var(--font-mono)",fontSize:11,borderRadius:5,padding:"2px 6px"}}/>
+                </>}
+                <span style={{marginLeft:"auto",color:"#475569",fontSize:9.5}}>{LEDGER.filter(x=>{const t=Date.parse(x.date);return t>=ws&&t<=we}).length} in view</span>
+              </div>
+              <Timeline replay={replay} setReplay={setReplay} view={view} query={query} face={face} focus={focus} ws={ws} we={we} onOpen={openSheet}/>
               <Deck focus={focus} query={query} onOpen={openSheet as (x:Finding)=>void}/>
             </>}
             {mode==="chain"&&(face==="altitude"
