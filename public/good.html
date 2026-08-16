@@ -82,6 +82,21 @@
   .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
   @media(max-width:820px){.cards{grid-template-columns:1fr 1fr;}}
   @media(max-width:560px){.cards{grid-template-columns:1fr;}}
+  /* Featured tier: fewer, larger cards lead the page. */
+  .cards.featured{grid-template-columns:repeat(2,1fr);gap:18px;}
+  .cards.featured .cbody{padding:20px 20px 8px;}
+  .cards.featured .cname{font-size:16px;}
+  .cards.featured .cline{font-size:13px;}
+  @media(max-width:640px){.cards.featured{grid-template-columns:1fr;}}
+  /* Secondary tier: compact, denser, visually lighter. */
+  .cards.minor{grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:820px){.cards.minor{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.cards.minor{grid-template-columns:1fr;}}
+  .card.compact .cbar{height:2px;}
+  .card.compact .cbody{padding:13px 14px 4px;}
+  .card.compact .cname{font-size:12.5px;}
+  .card.compact .cline{font-size:11.5px;margin-top:7px;}
+  .card.compact .cfoot{padding:10px 14px;}
   .card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.18));transition:.16s;}
   .card:hover{border-color:var(--border2);transform:translateY(-2px);}
   .cbar{height:3px;width:100%;}
@@ -118,8 +133,17 @@
 
 <section>
   <div class="wrap">
-    <div class="sec-lbl"><span class="n">◆</span><h2>Command-line tools</h2><span class="sub">installable · npm + brew</span></div>
-    <div class="cards">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Featured</h2><span class="sub">fully baked · installable today</span></div>
+    <div class="cards featured">
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">resume-tailor</span></div>
+        <p class="cline">Tailor a resume and cover letter to a role, graded by how checkable every line is.</p>
+        <div class="chips"><span class="chip">plugin</span><span class="chip">skill</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://resume-tailor.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/resume-tailor-skill">github</a></div>
+    </div>
     <div class="card" style="">
       <div class="cbar" style="background:linear-gradient(90deg,#A78BFA,#6D8BFF)"></div>
       <div class="cbody">
@@ -138,67 +162,6 @@
       </div>
       <div class="cfoot"><a class="clink" href="https://germinate.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/germinate">github</a></div>
     </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-lbl"><span class="n">◆</span><h2>Claude Code skills</h2><span class="sub">clone · add as a skill</span></div>
-    <div class="cards">
-    <div class="card" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">resume-tailor</span></div>
-        <p class="cline">Tailor a resume and cover letter to a role, graded by how checkable every line is.</p>
-        <div class="chips"><span class="chip">plugin</span><span class="chip">skill</span></div>
-      </div>
-      <div class="cfoot"><a class="clink" href="https://resume-tailor.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/resume-tailor-skill">github</a></div>
-    </div>
-    <div class="card" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">rca-skill</span></div>
-        <p class="cline">A Claude Code skill that turns &quot;something broke&quot; into disciplined root-cause analysis: triage the effort, reproduce the real error, fix the cause not the symptom, verify by driving the failure path, and capture the root cause.</p>
-        <div class="chips"><span class="chip">skill</span></div>
-      </div>
-      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/rca-skill">github ↗</a></div>
-    </div>
-    <div class="card" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">state-sync-skill</span></div>
-        <p class="cline">A Claude Code skill that scaffolds a committed _STATE/snapshot.json so any session restores ground-truth project state from a cheap file read instead of re-deriving it.</p>
-        <div class="chips"><span class="chip">skill</span></div>
-      </div>
-      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/state-sync-skill">github ↗</a></div>
-    </div>
-    <div class="card" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">token-savings-bank</span></div>
-        <p class="cline">A Claude Code skill that installs a budget-mode operating discipline for coding agents: right model tier, batch not drip, small work inline, checkpoint state.</p>
-        <div class="chips"><span class="chip">skill</span></div>
-      </div>
-      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/token-savings-bank">github ↗</a></div>
-    </div>
-    <div class="card" style="">
-      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
-      <div class="cbody">
-        <div class="chead"><span class="cname mono">fix-toolbar-comments-skill</span></div>
-        <p class="cline">A Claude Code skill that clears your Vercel Toolbar feedback queue end to end: fetch every open thread, implement the fix, build, commit, deploy, and resolve each one.</p>
-        <div class="chips"><span class="chip">skill</span></div>
-      </div>
-      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/fix-toolbar-comments-skill">github ↗</a></div>
-    </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-lbl"><span class="n">◆</span><h2>Web apps</h2><span class="sub">clone and run</span></div>
-    <div class="cards">
     <div class="card" style="">
       <div class="cbar" style="background:linear-gradient(90deg,#FFC24D,#FF8A3D)"></div>
       <div class="cbody">
@@ -214,8 +177,48 @@
 
 <section>
   <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Also in the toolkit</h2><span class="sub">smaller Claude Code skills · clone and add</span></div>
+    <div class="cards minor">
+    <div class="card compact" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">rca-skill</span></div>
+        <p class="cline">A Claude Code skill that turns &quot;something broke&quot; into disciplined root-cause analysis: triage the effort, reproduce the real error, fix the cause not the symptom, verify by driving the failure path, and capture the root cause.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/rca-skill">github ↗</a></div>
+    </div>
+    <div class="card compact" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">state-sync-skill</span></div>
+        <p class="cline">A Claude Code skill that scaffolds a committed _STATE/snapshot.json so any session restores ground-truth project state from a cheap file read instead of re-deriving it.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/state-sync-skill">github ↗</a></div>
+    </div>
+    <div class="card compact" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">token-savings-bank</span></div>
+        <p class="cline">A Claude Code skill that installs a budget-mode operating discipline for coding agents: right model tier, batch not drip, small work inline, checkpoint state.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/token-savings-bank">github ↗</a></div>
+    </div>
+    <div class="card compact" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">fix-toolbar-comments-skill</span></div>
+        <p class="cline">A Claude Code skill that clears your Vercel Toolbar feedback queue end to end: fetch every open thread, implement the fix, build, commit, deploy, and resolve each one.</p>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/fix-toolbar-comments-skill">github ↗</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
     <div class="sec-lbl"><span class="n">◆</span><h2>Coming soon</h2><span class="sub">built · not yet published</span></div>
-    <div class="cards">
+    <div class="cards minor">
     <div class="card" style="opacity:.5;filter:saturate(.35);">
       <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
       <div class="cbody">

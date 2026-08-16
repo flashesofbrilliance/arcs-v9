@@ -324,12 +324,11 @@ def first_sentence(s):
     return (s[:i + 1] if i != -1 else s)
 
 
-def _card(name, line, chips, page, gh, group, live=True):
+def _card(name, line, chips, page, gh, group, live=True, variant="full"):
     t = THEMES.get(group, THEMES["skill"])
     accent = f"linear-gradient(90deg,{t['c1']},{t['c2']})"
     dim = "" if live else "opacity:.5;filter:saturate(.35);"
-    chip_html = "".join(
-        f'<span class="chip">{esc(c)}</span>' for c in chips)
+    chip_html = "".join(f'<span class="chip">{esc(c)}</span>' for c in chips)
     if live:
         primary = (f'<a class="clink" href="{esc(page)}">open ↗</a>' if page
                    else f'<a class="clink" href="{esc(gh)}">github ↗</a>')
@@ -339,6 +338,19 @@ def _card(name, line, chips, page, gh, group, live=True):
         primary = f'<a class="clink" href="{esc(gh)}">github ↗</a>'
         gh_link = ""
         tag = '<span class="soon">soon</span>'
+
+    if variant == "compact":
+        # secondary tier: denser, no chip row, single link — visually lighter
+        return (
+            f'    <div class="card compact" style="{dim}">\n'
+            f'      <div class="cbar" style="background:{accent}"></div>\n'
+            f'      <div class="cbody">\n'
+            f'        <div class="chead"><span class="cname mono">{esc(name)}</span>{tag}</div>\n'
+            f'        <p class="cline">{esc(line)}</p>\n'
+            f'      </div>\n'
+            f'      <div class="cfoot">{primary}</div>\n'
+            f'    </div>')
+
     return (
         f'    <div class="card" style="{dim}">\n'
         f'      <div class="cbar" style="background:{accent}"></div>\n'
@@ -351,60 +363,83 @@ def _card(name, line, chips, page, gh, group, live=True):
         f'    </div>')
 
 
+# Information hierarchy: lead with the fully-baked goods, in this order.
+# Everything else live falls to the secondary "also in the toolkit" tier.
+FEATURED_ORDER = ["resume-tailor-skill", "rosetta-shell", "germinate", "arcs-field-scan"]
+
+
 def render_gallery(ssot, blob):
     tools = blob["tools"]
     soon = blob.get("soon", {})
-    groups = {"cli": [], "skill": [], "web": []}
 
-    # rendered tools (deep page if standalone group; else card-only → github)
+    # Build a uniform meta record per live repo (rendered tools + external pages).
+    meta = {}  # repo -> {group, name, line, chips, page, gh}
     for repo, data in tools.items():
         g = data.get("group", "skill")
-        row = ssot.get(repo, {})
-        url = row.get("url", "")
+        url = ssot.get(repo, {}).get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
-        live = live_channels(row)
-        chips = [CHAN_CHIP.get(c, c) for c in live]
+        chips = [CHAN_CHIP.get(c, c) for c in live_channels(ssot.get(repo, {}))]
         if g == "skill":
             chips = ["skill"] + [c for c in chips if c != "clone"]
         page = f"https://{repo}.arcs.care" if g in STANDALONE_GROUPS else ""
-        groups[g].append(_card(repo, first_sentence(data["desc"]), chips, page, gh, g, True))
-
-    # external hand-built pages (resume-tailor) — indexed, not re-rendered
+        meta[repo] = dict(group=g, name=repo, line=first_sentence(data["desc"]),
+                          chips=chips, page=page, gh=gh)
     for repo, ext in EXTERNAL_PAGES.items():
-        row = ssot.get(repo, {})
-        url = row.get("url", "")
+        url = ssot.get(repo, {}).get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
-        chips = ["plugin", "skill"]
-        groups[ext["group"]].insert(0, _card(ext["name"], ext["line"], chips, ext["page"], gh, ext["group"], True))
+        meta[repo] = dict(group=ext["group"], name=ext["name"], line=ext["line"],
+                          chips=["plugin", "skill"], page=ext["page"], gh=gh)
+
+    def card_for(repo, variant="full"):
+        m = meta[repo]
+        return _card(m["name"], m["line"], m["chips"], m["page"], m["gh"],
+                     m["group"], True, variant)
+
+    featured = [card_for(r) for r in FEATURED_ORDER if r in meta]
+    minor_repos = [r for r in meta if r not in FEATURED_ORDER]
+    minor = [card_for(r, "compact") for r in minor_repos]
 
     # soon (ready-not-live) — muted cards, github only, no install claim
     soon_cards = []
     for repo, s in soon.items():
-        row = ssot.get(repo, {})
-        url = row.get("url", "")
+        url = ssot.get(repo, {}).get("url", "")
         gh = ("https://" + url) if url and not url.startswith("http") else url
         soon_cards.append(_card(repo, s["line"], [s["chan"]], "", gh, s.get("group", "skill"), False))
 
-    def block(label, sub, cards):
+    def block(label, sub, cards, grid="cards"):
         if not cards:
             return ""
         return (
             f'<section>\n  <div class="wrap">\n'
             f'    <div class="sec-lbl"><span class="n">◆</span><h2>{esc(label)}</h2>'
             f'<span class="sub">{esc(sub)}</span></div>\n'
-            f'    <div class="cards">\n' + "\n".join(cards) + "\n    </div>\n  </div>\n</section>")
+            f'    <div class="{grid}">\n' + "\n".join(cards) + "\n    </div>\n  </div>\n</section>")
 
     body = "\n\n".join(x for x in [
-        block("Command-line tools", "installable · npm + brew", groups["cli"]),
-        block("Claude Code skills", "clone · add as a skill", groups["skill"]),
-        block("Web apps", "clone and run", groups["web"]),
-        block("Coming soon", "built · not yet published", soon_cards),
+        block("Featured", "fully baked · installable today", featured, "cards featured"),
+        block("Also in the toolkit", "smaller Claude Code skills · clone and add", minor, "cards minor"),
+        block("Coming soon", "built · not yet published", soon_cards, "cards minor"),
     ] if x)
 
     GAL_CSS = """
   .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
   @media(max-width:820px){.cards{grid-template-columns:1fr 1fr;}}
   @media(max-width:560px){.cards{grid-template-columns:1fr;}}
+  /* Featured tier: fewer, larger cards lead the page. */
+  .cards.featured{grid-template-columns:repeat(2,1fr);gap:18px;}
+  .cards.featured .cbody{padding:20px 20px 8px;}
+  .cards.featured .cname{font-size:16px;}
+  .cards.featured .cline{font-size:13px;}
+  @media(max-width:640px){.cards.featured{grid-template-columns:1fr;}}
+  /* Secondary tier: compact, denser, visually lighter. */
+  .cards.minor{grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:820px){.cards.minor{grid-template-columns:1fr 1fr;}}
+  @media(max-width:480px){.cards.minor{grid-template-columns:1fr;}}
+  .card.compact .cbar{height:2px;}
+  .card.compact .cbody{padding:13px 14px 4px;}
+  .card.compact .cname{font-size:12.5px;}
+  .card.compact .cline{font-size:11.5px;margin-top:7px;}
+  .card.compact .cfoot{padding:10px 14px;}
   .card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.18));transition:.16s;}
   .card:hover{border-color:var(--border2);transform:translateY(-2px);}
   .cbar{height:3px;width:100%;}
@@ -473,10 +508,8 @@ def render_gallery(ssot, blob):
     out = os.path.join(OUTDIR, "good.html")
     with open(out, "w") as f:
         f.write(doc)
-    n = sum(len(v) for v in groups.values()) + len(soon_cards)
-    print(f"rendered public/good.html  [{n} cards: "
-          f"{len(groups['cli'])} cli, {len(groups['skill'])} skill, "
-          f"{len(groups['web'])} web, {len(soon_cards)} soon]")
+    print(f"rendered public/good.html  [{len(featured)} featured, "
+          f"{len(minor)} also-in-toolkit, {len(soon_cards)} soon]")
 
 
 def main():
