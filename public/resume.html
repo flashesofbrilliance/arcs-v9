@@ -434,20 +434,20 @@ const ROLES = [
     compassPrompt:'What minimum viable intelligence system does a multi-BU platform need to compound learning across business units, and what\'s the right first wedge to prove the model?',
     bullets:[
       { t:'Reduced decision noise by 60% through structured evidence taxonomy and evidence-gating architecture; accelerated time-to-insight by 3–5×', v:['all','ds'] },
-      { t:'Built AI-native analysis pipeline on Claude + ChatGPT Enterprise; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
+      { t:'Built AI-native analysis pipeline on Claude; MCP server + agentic orchestration layer handles pre/post-decision capture automatically', v:['all','figma'] },
       { t:'Designed experimentation and outcome-capture framework; self-updating models recalibrate scoring weights from prior decisions, compounding institutional memory', v:['all','ds'] },
       { t:'Operating the full stack: go-to-market, growth motion, product development, commercial strategy. Breadth is the product', v:['all'] },
     ] },
   { id:'grayscale', glyph:'▣', label:'Grayscale Investments (DCG)', color:T.steel,
     dates:'2024–2025', role:'Product Lead, Go-To-Market',
-    summary:'Cross-BU growth intelligence layer for 10 regulated investment products across $7B AUM. Behavioral event taxonomy, personalization data model, and lifecycle/CRM strategy for investor portal at SEC/FINRA compliance.',
-    metric:'$7B', metricLabel:'AUM ACROSS INSTRUMENTED PRODUCTS',
-    compassPrompt:'How do you build behavioral instrumentation for ten regulated investment products where a single taxonomy error becomes a compliance incident, and what does the governance architecture look like before you touch the first event?',
+    summary:'Led go-to-market for 10 SEC/FINRA-regulated digital-asset investment products ($7B AUM): positioning, segmentation, and adoption strategy inside regulated controls and governance.',
+    metric:'$7B', metricLabel:'AUM · REGULATED PRODUCT SUITE',
+    compassPrompt:'How do you take ten regulated investment products to market inside SEC/FINRA controls, and what does the governance-first go-to-market sequence look like?',
     bullets:[
-      { t:'Architected cross-product growth intelligence layer: CDP, behavioral event taxonomy, segmentation schema, and personalization data model across 10 regulated products', v:['all','ds'] },
-      { t:'Led lifecycle/CRM strategy: behavioral signals → content recommendations; AI-driven personalization with measurable engagement lift', v:['all','figma'] },
-      { t:'Reduced release cycle time by 35% through automated QA instrumentation; data governance at SEC/FINRA compliance thresholds', v:['all','ds'] },
-      { t:'Translated regulatory constraints into data governance architecture covering collection, storage, and usage across all investor surfaces', v:['all','ds'] },
+      { t:'Led go-to-market and market-expansion strategy across 10 regulated digital-asset products, inside SEC/FINRA controls and governance', v:['all','ds'] },
+      { t:'Owned positioning, segmentation, and adoption strategy across the investor experience', v:['all','figma'] },
+      { t:'Coordinated across product, engineering, legal, risk, and compliance through regulated release gates', v:['all','ds'] },
+      { t:'Translated regulatory requirements into product and go-to-market requirements', v:['all','ds'] },
     ] },
   { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
     dates:'2018–2019', role:'Sr. Director, Data & CRM Strategy',
@@ -523,15 +523,15 @@ const CONSULTING_CLIENTS = [
 // ── True North content per focus view ────────────────────────────────────────
 const TRUE_NORTH = {
   all:   { heading:'BUILDING AT THE EDGE · APPLIED AI · DECISION INTELLIGENCE',
-    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.' },
+    text:'Creative technologist and builder with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: ARCS, a decision intelligence platform built on Claude.' },
   figma: { heading:'GROWTH DEPTH',
     text:'Operated at the growth and commercial layer across five industries: sports fan monetization (WTA), mission-driven fundraising (CTF), regulated investor products (Grayscale), behavioral health (Squat), and SaaS/consumer tech (GoPro, Verizon). Each required building the intelligence layer from scratch: no inherited playbook, no pre-existing measurement framework. The breadth is the product.' },
   ds:    { heading:'SYSTEMS DEPTH',
-    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale CDP across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude + ChatGPT Enterprise in production, not experiments.' },
+    text:'Builds the decision instrument layer end-to-end: pre-decision framing architecture → behavioral event taxonomy → experiment design → post-decision capture → compounding feedback loop. WTA at <120ms real-time prediction. Grayscale GTM across 10 regulated products. ARCS decision observability at 60% noise reduction. AI-native on Claude in production, not experiments.' },
 };
 
 const SKILLS = [
-  { id:'claude',   label:'Claude / ChatGPT Enterprise', accent:T.cyan,  views:['all','figma'] },
+  { id:'claude',   label:'Claude', accent:T.cyan,  views:['all','figma'] },
   { id:'mcp',      label:'MCP Server',                  accent:T.cyan,  views:['all','figma'] },
   { id:'agentic',  label:'Agentic AI Pipelines',        accent:T.cyan,  views:['all','figma'] },
   { id:'glean',    label:'Glean',                       accent:T.cyan,  views:['all','figma'] },
@@ -558,14 +558,14 @@ const SKILLS = [
 function GrainResume() {
   const roles = [
     { co:'ARCS · Decision Intelligence Platform', role:'Founder', dates:'2025–Present',
-      metrics:'60% noise reduction  ·  AI-native: Claude + ChatGPT Enterprise  ·  3–5× time-to-insight',
+      metrics:'60% noise reduction  ·  AI-native: Claude  ·  3–5× time-to-insight',
       bullets:['Built decision intelligence platform from scratch: pre/post-decision capture, AI analysis pipeline, compounding feedback loop',
                '60% decision noise reduction through structured evidence taxonomy and evidence-gating architecture',
-               'Running on Claude + ChatGPT Enterprise with MCP server: AI-native in production, not experiments'] },
-    { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Site', dates:'2024–2025',
-      metrics:'$7B AUM  ·  35% faster release cycles  ·  zero SEC / FINRA violations',
-      bullets:['Architected CDP and personalization data model across 10 regulated investment products ($7B AUM)',
-               'Behavioral event taxonomy and instrumentation layer for investor portal; 35% release cycle reduction'] },
+               'Running on Claude with MCP server: AI-native in production, not experiments'] },
+    { co:'Grayscale Investments (Digital Currency Group)', role:'Product Lead, Go-To-Market', dates:'2024–2025',
+      metrics:'$7B AUM  ·  10 regulated products  ·  SEC / FINRA',
+      bullets:['Led go-to-market for 10 SEC/FINRA-regulated investment products ($7B AUM)',
+               'Positioning, segmentation, and adoption across the investor experience, inside regulated controls'] },
     { co:'Select Consulting + Squat New York', role:'Embedded Product & Solution Lead', dates:'2019–2024',
       metrics:'Seven-figure engagement  ·  $350M ARR client  ·  5 verticals',
       bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition',
@@ -589,7 +589,7 @@ function GrainResume() {
         and commercial operations in sports, finance, health, and consumer. Builds the intelligence
         layer before the category for it exists: structured pre-decision framing, AI-native analysis
         pipelines, and compounding feedback loops that make each decision sharper than the last.
-        Currently: ARCS, a decision intelligence platform built on Claude and ChatGPT Enterprise.
+        Currently: ARCS, a decision intelligence platform built on Claude.
       </p>
 
       {/* Thin cyan gradient rule — the one graphic element */}
@@ -633,7 +633,7 @@ function GrainResume() {
       <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
         {[['Analytics & DS',    'SQL · Python · R · Tableau · Forecasting · A/B & multivariate experimentation · attribution modeling'],
           ['Data Systems',      'Snowflake · Redshift · BigQuery · Segment / mParticle · Salesforce CDP · distributed query systems'],
-          ['AI & Tools',        'Claude · ChatGPT Enterprise · MCP Server · Glean · Agentic AI pipelines · GitHub'],
+          ['AI & Tools',        'Claude · MCP Server · Glean · Agentic AI pipelines · GitHub'],
           ['Instrumentation',   'Event taxonomy · behavioral tracking · product telemetry · data quality · data governance'],
         ].map(([label,val],i) => (
           <div key={i} style={{ display:'flex', gap:16, alignItems:'baseline' }}>
@@ -863,11 +863,11 @@ function DeepScan() {
               </p>
             </> },
           { id:'ci3', glyph:'⊗', label:'AI-Native in Production, Not in Demos',
-            meta:'Claude + ChatGPT Enterprise + MCP Server · ARCS',
-            summary:'ARCS is built on Claude and ChatGPT Enterprise with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" but "here\'s what the pattern in your data is already telling us."',
+            meta:'Claude + MCP Server · ARCS',
+            summary:'ARCS is built on Claude with a live MCP server and agentic orchestration. The onboarding question isn\'t "what can AI do?" but "here\'s what the pattern in your data is already telling us."',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Applied AI roles require fluency with the actual production stack, not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), ChatGPT Enterprise, a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
+                Applied AI roles require fluency with the actual production stack, not conceptual familiarity. ARCS runs Claude (API, tool use, extended thinking), a custom MCP server, and agentic pipelines for pre/post-decision capture. That's the stack most Applied AI / FDE candidates talk about and few have shipped.
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginTop:10 }}>
                 Deployed across a full decision lifecycle: intake → analysis → structured receipt → compounding feedback. The architecture is the proof of concept.
@@ -911,7 +911,7 @@ function DeepScan() {
             why:'ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.' },
           { id:'B', label:'Decision Intelligence · AI Strategist',
             desc:'Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it doesn\'t.',
-            why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: CDP across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
+            why:'60% decision noise reduction, 3–5× time-to-insight at ARCS. Grayscale: GTM across 10 regulated products. WTA: <120ms real-time behavioral scoring. All three required inventing the taxonomy from scratch.' },
           { id:'C', label:'Commercial layer alongside analytical depth',
             desc:'Growth intelligence isn\'t just measurement. It\'s knowing what the measurement is for, and being able to run the commercial decision, not just report on it.',
             why:'WTA: $850K year-one from first commercial partnerships. Grayscale: lifecycle strategy with measurable engagement lift. CTF: 20% net-new revenue from data personalization. The intelligence was always in service of a commercial outcome.' },
