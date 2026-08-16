@@ -479,6 +479,14 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 .ms-commit { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); line-height: 1.5; display: flex; gap: 10px; align-items: baseline; }
 .ms-commit a { color: var(--gold); text-decoration: none; flex-shrink: 0; }
 .ms-commit a:hover { text-decoration: underline; }
+.ms-proof { margin-top: 9px; }
+.ms-verify { font-family: var(--mono); font-size: 10px; font-weight: 600; letter-spacing: .04em;
+  color: var(--cyan); border: 1px solid rgba(0,240,255,.3); border-radius: 5px; padding: 3px 9px;
+  display: inline-block; text-decoration: none; }
+.ms-verify span { color: var(--muted); font-weight: 400; }
+.ms-verify:hover { background: rgba(0,240,255,.06); }
+.ms-selfattest { font-family: var(--mono); font-size: 9.5px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--faint); }
 
 /* LEARNINGS */
 .learn-rows { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
@@ -730,6 +738,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="section-body">
       <strong>The one page read</strong> shows 12 milestones, one plain sentence each. Each level down adds
       more events and more detail, until <strong>Commits</strong> names the commit behind each milestone.
+      Each milestone that a stranger can check without my word carries a <strong>verify</strong> link to the live thing; the internal ones say so.
       Keys 1 to 5 work too.
     </div>
 
@@ -1129,7 +1138,7 @@ var CADENCE = [
 // alt: [one-page, direction, process, detail] narratives; commits shown at the deepest level.
 var MILESTONES = [
   {
-    date: "DAY 0 · APR 9", title: "One commit. An empty scaffold.", rank: 1,
+    date: "DAY 0 · APR 9", title: "One commit. An empty scaffold.", rank: 1, proof: {url:"https://app.arcs.care", label:"the product it became"},
     alt: [
       "The starting line: a blank app skeleton. No product, no data, no users.",
       "The stack was chosen for boredom on purpose: proven web framework, proven database, simple email login. Every interesting risk in this project lives in the product logic, so everything under it had to be unexciting.",
@@ -1141,7 +1150,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 39 · MAY 18", title: "Ignition. The whole working core lands at once.", rank: 1,
+    date: "DAY 39 · MAY 18", title: "Ignition. The whole working core lands at once.", rank: 1, proof: {url:"https://app.arcs.care", label:"the live compass"},
     alt: [
       "After five quiet weeks of design, the full working core arrived in one push: ask a question, get a scored answer, keep the <span class='term' data-def='A short record made before acting: what you expect, what could go wrong, what else you considered. Scored later against what really happened.'>receipt</span>.",
       "The bet was to build the spine end to end before polishing any single part. A thin, complete loop beats a deep, half-connected one, because a complete loop can be tested against reality immediately.",
@@ -1194,7 +1203,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 48 · MAY 27", title: "A design system, from day one.", rank: 3,
+    date: "DAY 48 · MAY 27", title: "A design system, from day one.", rank: 3, proof: {url:"https://app.arcs.care", label:"the design system, live"},
     alt: [
       "",
       "",
@@ -1219,7 +1228,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 82 · JUN 30", title: "The platform merge: 170 files, five subsystems, one day.", rank: 1,
+    date: "DAY 82 · JUN 30", title: "The platform merge: 170 files, five subsystems, one day.", rank: 1, proof: {url:"https://app.arcs.care", label:"the platform, live"},
     alt: [
       "The biggest single integration: legal pages (trust, privacy, terms), an interactive <span class='term' data-def='A viewer for scrubbing back through past decisions like game film: what was known, what was expected, and where confidence peaked or collapsed.'>replay theater</span> for past decisions, and the whole engine re-implemented in plain Python as a vendor hedge. Merged and live in production the same day.",
       "This merge is the line where ARCS stopped being an app and became a platform: legal surfaces, observability, and vendor independence are the prerequisites for putting client traffic on something.",
@@ -1259,7 +1268,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 98 · JUL 16", title: "The loop closes. The system now grades itself.", rank: 1,
+    date: "DAY 98 · JUL 16", title: "The loop closes. The system now grades itself.", rank: 1, proof: {url:"https://app.arcs.care", label:"the product that grades itself"},
     alt: [
       "Since Day 98 the loop closes on a schedule: when a prediction comes due, a daily job emails a debrief automatically, so none is silently forgotten. When the outcome is logged, it is scored against the expectation recorded beforehand and written to an audit trail. The reminder is automatic; logging the outcome is still a human keystroke.",
       "This is the product thesis completing itself: decision receipts only compound if outcomes get scored against them, and outcome scoring only scales if it does not depend on anyone's discipline. It also generates the calibration data every gated feature is waiting on.",
@@ -1271,7 +1280,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 120 · AUG 7", title: "Stop building things by hand. Build the machine that builds them.", rank: 1,
+    date: "DAY 120 · AUG 7", title: "Stop building things by hand. Build the machine that builds them.", rank: 1, proof: {url:"https://good.arcs.care", label:"the generated index"},
     alt: [
       "The work crossed a line from craft to manufacturing: instead of hand-building each page and report, one renderer reads a single source of truth and generates a whole family of surfaces. Change the source once, every surface updates.",
       "Hand-building does not scale and it drifts: ten pages built by hand become ten slightly different pages. A factory keeps them identical by construction and makes the next one nearly free. The bet was to spend the effort once, on the machine, not every time on the output.",
@@ -1315,7 +1324,7 @@ var MILESTONES = [
     ]
   },
   {
-    date: "DAY 129 · AUG 16", title: "The front door opens, and the telemetry goes live.", rank: 1,
+    date: "DAY 129 · AUG 16", title: "The front door opens, and the telemetry goes live.", rank: 1, proof: {url:"https://good.arcs.care", label:"the front door"},
     alt: [
       "A public index of the open tools stood up, and this status page itself became live-computed, reading real numbers from the repository instead of a frozen snapshot. The page you are reading stopped being a photograph and became an instrument.",
       "A body of work only compounds in the open if there is a door into it. The index gives the open tools one address; the live page makes the build legible to anyone, updated on its own rather than by hand.",
@@ -1481,6 +1490,10 @@ function render() {
       '<span class="ms-rank r' + m.rank + '">' + (m.rank === 1 ? "CORE" : m.rank === 2 ? "PLUS" : "DEEP") + '</span>';
     var body = document.createElement("div"); body.className = "ms-body"; body.innerHTML = text;
     card.appendChild(top); card.appendChild(body);
+    var pf = document.createElement("div"); pf.className = "ms-proof";
+    if (m.proof) { pf.innerHTML = '<a class="ms-verify" href="' + m.proof.url + '" target="_blank" rel="noopener">verify ↗ <span>' + m.proof.label + '</span></a>'; }
+    else { pf.innerHTML = '<span class="ms-selfattest">internal · self-attested</span>'; }
+    card.appendChild(pf);
     if (cfg.commits && m.commits && m.commits.length) {
       card.appendChild(buildCommits(m));
     }
