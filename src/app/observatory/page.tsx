@@ -266,7 +266,7 @@ function Legend({open}:{open:boolean}){
             <p style={{color:C.gold,fontSize:10,letterSpacing:".08em",textTransform:"uppercase",margin:"0 0 5px"}}>The 4 encoded dimensions</p>
             <div style={{color:"#8593a6",lineHeight:2.0}}>
               <div><b style={{color:C.gold}}>1 Altitude</b> — Exec → Surgical · audience zoom</div>
-              <div><b style={{color:C.gold}}>2 Hue</b> — grade{sw(C.green)}A{sw(C.cyan)}B{sw(C.gold)}C{sw(C.orange)}D{sw(C.red)}F</div>
+              <div><b style={{color:C.gold}}>2 Hue</b> — event type{sw(C.green)}canon{sw(C.cyan)}build{sw(C.gold)}kairos{sw(C.orange)}fix{sw(C.red)}security</div>
               <div><b style={{color:C.gold}}>3 Glow</b> — confidence · brighter = surer</div>
               <div><b style={{color:C.gold}}>4 Border</b> — risk · solid · dashed · pulsing</div>
             </div>
@@ -336,7 +336,7 @@ function TrajectoryMap({visibleCount,query,focus,ws,we,onOpen}:{visibleCount:num
           const ev=x as Event; const rk=x as Risk
           const outWin=Date.parse(x.date)<ws||Date.parse(x.date)>we
           const dim=outWin||i>=visibleCount||!matchQ(x as unknown as Record<string,unknown>,query)||(isRisk?!!riskOff:laneOff(ev.alt))
-          const accent=isRisk?SEV[rk.sev]:(ALT[ev.alt]?.accent||C.cyan)  // color == altitude row (peaks marked by gold ring, not gold fill)
+          const accent=isRisk?SEV[rk.sev]:(TYPE_COLOR[ev.type]||C.steel)  // color == event TYPE (row already encodes altitude); peaks marked by gold ring
           const cy=isRisk?riskCenter:laneCenter(ev.alt)
           const glyph=ev.peak?"★":(TYPE_GLYPH[ev.type]||"•")
           const sz=ev.peak?20:16
