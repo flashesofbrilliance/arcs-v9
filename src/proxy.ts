@@ -25,7 +25,7 @@ const SUBDOMAIN_MAP: Record<string, string> = {
 const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
-  'ahmed-ext': { '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed-ext.html' },
+  'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
 }
 
 export default function proxy(request: NextRequest) {

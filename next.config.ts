@@ -146,13 +146,19 @@ const nextConfig: NextConfig = {
         // ahmed.arcs.care → /warroom/ahmed (Ahmed INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24.
         // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },
-        // ahmed-ext.arcs.care → public/ahmed-ext.html (sanitized Ahmed-facing recoil demo — safe to share)
-        // L1→L2→L3 omakase-pipeline family for this host: recoil report (L1, root) → the method
-        // (L2, /evening) → the seed (L3, /seed). Exact-path rules first, wildcard excludes both
-        // via negative lookahead — same shape as the jeben/debrief and louisville/omakase rules above.
+        // ahmed-ext.arcs.care → public/ahmed.html (one-door: leads with the belief-flip, Ahmed's register,
+        // the TL;DR he asked for — safe to share, ungated to match the surface he already has the link to).
+        // The older omakase-pipeline family now sits one click down behind the one-door:
+        //   root → the one-door (ahmed.html) · /report → recoil report (L1) · /evening → the method (L2) · /seed → the seed (L3)
+        // Exact-path rules first, wildcard (the one-door) excludes all three via negative lookahead.
         { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        { source: "/:path((?!.*evening|.*seed).*)", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
+        { source: "/report", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
+        // Wildcard = the one-door. Per the omakase idiom (line ~42), exclude the token shared by EVERY
+        // destination file — all four are ahmed*.html — so beforeFiles chaining can never re-catch a
+        // rewritten path (/ahmed.html, /ahmed-ext.html, /ahmed-evening.html, /ahmed-seed.html all contain
+        // "ahmed" → excluded → served as-is). Real user paths (/, /report, /stray) contain no "ahmed".
+        { source: "/:path((?!.*ahmed).*)", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
         // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
         // wildcard's source excludes "debrief" via negative-lookahead regex so the two
