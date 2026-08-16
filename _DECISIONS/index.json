@@ -1,416 +1,425 @@
 [
-  {
-    "id": "ADR-001",
-    "title": "ADR-001 — Auth Gate Strategy: App-Level vs. Supabase RLS",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-001-auth-gate-strategy.md"
-  },
-  {
-    "id": "ADR-002",
-    "title": "ADR-002 — Database Strategy: SQLite Dev / Supabase Prod Split",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-002-database-split.md"
-  },
-  {
-    "id": "ADR-003",
-    "title": "ADR-003 — arcs.care: COCD as First-Class UX Primitive",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "100+ receipts",
-    "file": "ADR-003-arcs-care-cocd-weave.md"
-  },
-  {
-    "id": "ADR-004",
-    "title": "ADR-004 — mcp.arcs.care DNS: Wire Custom Domain to perplexity-mcp",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-004-mcp-arcs-care-dns.md"
-  },
-  {
-    "id": "ADR-005",
-    "title": "ADR-005 — Vercel Supabase Integration: Env Var Injection",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": "HIGH",
-    "gate": "see content",
-    "file": "ADR-005-vercel-supabase-env-injection.md"
-  },
-  {
-    "id": "ADR-006",
-    "title": "ADR-006 — Supabase Branching for Preview Deployments",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-006-supabase-branching-preview-dbs.md"
-  },
-  {
-    "id": "ADR-007",
-    "title": "ADR-007 — Prisma Migration Strategy: db push vs migrate deploy",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "100+ receipts",
-    "file": "ADR-007-prisma-migration-strategy.md"
-  },
-  {
-    "id": "ADR-008",
-    "title": "ADR-008-rls-policy-design.md",
-    "status": "DRAFT",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-008-rls-policy-design.md"
-  },
-  {
-    "id": "ADR-009",
-    "title": "ADR-009 — Design System Canonicalization in arcs-v9",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-009-design-system-canonicalization.md"
-  },
-  {
-    "id": "ADR-010",
-    "title": "ADR-010-arcs-dewy-pkg-rename.md",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-010-arcs-dewy-pkg-rename.md"
-  },
-  {
-    "id": "ADR-011",
-    "title": "ADR-011 — UI Component Import Strategy: Direct vs. Barrel",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": "HIGH",
-    "gate": "see content",
-    "file": "ADR-011-ui-import-strategy.md"
-  },
-  {
-    "id": "ADR-012",
-    "title": "ADR-012 — arcs.care PLG Phase 1: Compass Model Swap + Lab Offer Card",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": "HIGH",
-    "gate": "see content",
-    "file": "ADR-012-arcs-care-plg-phase-1.md"
-  },
-  {
-    "id": "ADR-013",
-    "title": "ADR-013 — arcs.care Conversion Architecture: Build Sequence for Founding-10 Acquisition",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": "HIGH",
-    "gate": "see content",
-    "file": "ADR-013-arcs-care-conversion-architecture.md"
-  },
-  {
-    "id": "ADR-014",
-    "title": "ADR-014 — CI/CD Governance — NOTOMATION Circuit Breaker Model",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-014-arcs-care-ci-cd-governance.md"
-  },
-  {
-    "id": "ADR-015",
-    "title": "ADR-015 — arcs.care Week 1 Build Gate: Case Study Content Dependency",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-015-arcs-care-case-study-content-gate.md"
-  },
-  {
-    "id": "ADR-016",
-    "title": "ADR-016 — arcs-v9 Auth Model — Anonymous vs. Authenticated Compass",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-016-arcs-v9-auth-model.md"
-  },
-  {
-    "id": "ADR-017",
-    "title": "ADR-017 — receipt-core Canonical Schema",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "100+ receipts",
-    "file": "ADR-017-receipt-core-schema.md"
-  },
-  {
-    "id": "ADR-018",
-    "title": "ADR-018 — /helpful Input Model: Structured Form vs. Raw-Paste Navigator",
-    "status": "DRAFT",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-018-helpful-input-model.md"
-  },
-  {
-    "id": "ADR-019",
-    "title": "ADR-019 — receipt-core Python Boundary: ReceiptObject as Wire/Storage Type",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": null,
-    "file": "ADR-019-receipt-core-python-boundary.md"
-  },
-  {
-    "id": "ADR-020",
-    "title": "ADR-020: Tribune Intelligence Layer",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "100+ receipts",
-    "file": "ADR-020-tribune-intelligence-layer.md"
-  },
-  {
-    "id": "ADR-022",
-    "title": "ADR-022 — User Schema Debt: emailVerified + image Missing from 0_init Migration",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": null,
-    "file": "ADR-022-user-schema-emailverified-debt.md"
-  },
-  {
-    "id": "ADR-023",
-    "title": "ADR-023 — Observability as a Superionic Goal Lattice",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "100+ receipts",
-    "file": "ADR-023-observability-goal-lattice.md"
-  },
-  {
-    "id": "ADR-024",
-    "title": "ADR-024 — resume.arcs.care Architecture Gates",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": null,
-    "gate": "100+ receipts",
-    "file": "ADR-024-resume-arcs-care-architecture-gates.md"
-  },
-  {
-    "id": "ADR-025",
-    "title": "ADR-025 — ARCS Go-Live: Provisional Logic for the Public Launch",
-    "status": "DRAFT",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-025-arcs-go-live-provisional-logic.md"
-  },
-  {
-    "id": "ADR-059",
-    "title": "ADR-059 — SAGE Signal Validation Path",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-059-sage-signal-validation-path.md"
-  },
-  {
-    "id": "ADR-026",
-    "title": "ADR-026 — Debrief Delivery Fix",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-026-debrief-delivery-fix.md"
-  },
-  {
-    "id": "ADR-027",
-    "title": "ADR-027 — Observatory as a render surface over the git/receipt/ordinal substrate",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-027-observatory-substrate-seed.md"
-  },
-  {
-    "id": "ADR-028",
-    "title": "ADR-028 — Profile Scan staging route (`/scan`, mock-first, behind `SCAN_ENABLED`)",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": "HIGH",
-    "gate": "see content",
-    "file": "ADR-028-scan-arcs-care-staging.md"
-  },
-  {
-    "id": "ADR-029",
-    "title": "ADR-029 — Onboarding profile upload (store-only, skippable)",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": "HIGH",
-    "gate": "see content",
-    "file": "ADR-029-onboarding-profile-upload.md"
-  },
-  {
-    "id": "ADR-030",
-    "title": "ADR-030 — Nested thread view for tributary follow-ups",
-    "status": "DECIDED",
-    "y_state": null,
-    "stability": null,
-    "gate": "see content",
-    "file": "ADR-030-nested-thread-view.md"
-  },
-  {
-    "id": "ADR-035",
-    "title": "ADR-035 — Commit-NCI Rubric (ratify the [NCI:XX] commit gate)",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "REVISIT",
-    "gate": "revisit after ~20 scored commits or first drift flag; confirm commit>merge threshold inversion",
-    "file": "ADR-035-commit-nci-rubric.md"
-  },
-  {
-    "id": "ADR-036",
-    "title": "ADR-036 — Split the repo: public app / private sensitive",
-    "status": "ACCEPTED",
-    "y_state": "YELLOW",
-    "stability": "REVISIT",
-    "gate": "decision firm; history-rewrite execution is irreversible and owner-gated — verify private repo complete before any force-push",
-    "file": "ADR-036-repo-split-public-private.md"
-  },
-  {
-    "id": "ADR-037",
-    "title": "ADR-037 — Stateless Anonymous Brief Sharing (fragment payload, no server write)",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit for cross-device one-time or share analytics",
-    "file": "ADR-037-stateless-anonymous-share.md"
-  },
-  {
-    "id": "ADR-039",
-    "title": "ADR-039 — Deploy Cost Guardrail: Path-Based Ignored-Build-Step",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit when a new non-shipping file class enters the repo",
-    "file": "ADR-039-deploy-cost-guardrail-ignored-build-step.md"
-  },
-  {
-    "id": "ADR-040",
-    "title": "ADR-040 — Debrief Close-the-Loop: Calendar Invite vs. Email Only",
-    "status": "DRAFT",
-    "y_state": "SCRATCH",
-    "stability": "SHIFTING",
-    "gate": "revisit at >=20 real (non-dev-test) debrief opportunities",
-    "file": "ADR-040-debrief-calendar-invite-vs-email.md"
-  },
-  {
-    "id": "ADR-045",
-    "title": "ADR-045 — Night Moves: End-of-Day Work Digest Routine",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit if a nightly schedule is added or worktree/git topology changes",
-    "file": "ADR-045-night-moves-digest-routine.md"
-  },
-  {
-    "id": "ADR-046",
-    "title": "ADR-046 — Witness Trigger: Live Capture of a Flash of Brilliance",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "SHIFTING",
-    "gate": "revisit after a few days of real /witness firings",
-    "file": "ADR-046-witness-trigger-live-capture.md"
-  },
-  {
-    "id": "ADR-050",
-    "title": "ADR-050 — The federated family + the SSOT/front-end air-gap",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit if the public-family topology or the SSOT air-gap changes",
-    "file": "ADR-050-federated-family-airgap.md"
-  },
-  {
-    "id": "ADR-051",
-    "title": "ADR-051 — Drift receipts: every gate is a detector, every failure a receipt",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit if the tripwire/deploy-verify gates change",
-    "file": "ADR-051-drift-receipt-gate.md"
-  },
-  {
-    "id": "ADR-052",
-    "title": "ADR-052 — Inchworm drift-auditor for orphaned artifacts",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit if a new owner-less artifact needs an auditor",
-    "file": "ADR-052-inchworm-drift-auditor.md"
-  },
-  {
-    "id": "ADR-053",
-    "title": "ADR-053 — The Tao of ARCS: dormant potential, the vox animus, and the open/private boundary",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "durable doctrine; revisit only if germinate’s open/private boundary is renegotiated",
-    "file": "ADR-053-tao-of-arcs-dormant-potential-vox-animus.md"
-  },
-  {
-    "id": "ADR-054",
-    "title": "ADR-054 — Free to hold, metered to fire: the ARCS activation pricing model",
-    "status": "DECIDED",
-    "y_state": "YELLOW",
-    "stability": "SHIFTING",
-    "gate": "validate willingness-to-pay for the ride (ripeness/Kairos activation) before hardening prices; revisit token fork when blockchain registry + hash-chaining exist",
-    "file": "ADR-054-free-to-hold-metered-to-fire-pricing.md"
-  },
-  {
-    "id": "ADR-055",
-    "title": "ADR-055 — OSS family: two-tier conformance + the private seed-bank registry",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "revisit if germinate SPEC changes or a repo changes tier",
-    "file": "ADR-055-oss-family-two-tier-conformance.md"
-  },
-  {
-    "id": "ADR-056",
-    "title": "ADR-056 — The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "SHIFTING",
-    "gate": "revisit when the first connectors are rendered in the umbrella/omakase session",
-    "file": "ADR-056-arcs-tie-in-connector-pattern.md"
-  },
-  {
-    "id": "ADR-057",
-    "title": "ADR-057 — The sequence oracle: a git-serialized ID + time authority",
-    "status": "DECIDED",
-    "y_state": "GREEN",
-    "stability": "STABLE",
-    "gate": "the ADR-id authority going forward; revisit if a real NTP/atomic time source is added",
-    "file": "ADR-057-sequence-oracle.md"
-  },
-  {
-    "id": "ADR-060",
-    "title": "ADR-060 — The Hypercube Gauntlet: decision-shaping as an arc weld",
-    "status": "PROVISIONAL",
-    "y_state": "YELLOW",
-    "stability": "CONTESTED",
-    "gate": "model canon (self-audited GREEN->YELLOW); every buildable it implies is a separate gated bet. Sampling engine BUILT (scripts/hypercube_sampler.py); renumbered 055->060 via oracle after collision with merged OSS-family ADR-055",
-    "file": "ADR-060-hypercube-gauntlet-arc-weld.md"
-  }
+ {
+  "id": "ADR-001",
+  "title": "ADR-001 — Auth Gate Strategy: App-Level vs. Supabase RLS",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-001-auth-gate-strategy.md"
+ },
+ {
+  "id": "ADR-002",
+  "title": "ADR-002 — Database Strategy: SQLite Dev / Supabase Prod Split",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-002-database-split.md"
+ },
+ {
+  "id": "ADR-003",
+  "title": "ADR-003 — arcs.care: COCD as First-Class UX Primitive",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "100+ receipts",
+  "file": "ADR-003-arcs-care-cocd-weave.md"
+ },
+ {
+  "id": "ADR-004",
+  "title": "ADR-004 — mcp.arcs.care DNS: Wire Custom Domain to perplexity-mcp",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-004-mcp-arcs-care-dns.md"
+ },
+ {
+  "id": "ADR-005",
+  "title": "ADR-005 — Vercel Supabase Integration: Env Var Injection",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": "HIGH",
+  "gate": "see content",
+  "file": "ADR-005-vercel-supabase-env-injection.md"
+ },
+ {
+  "id": "ADR-006",
+  "title": "ADR-006 — Supabase Branching for Preview Deployments",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-006-supabase-branching-preview-dbs.md"
+ },
+ {
+  "id": "ADR-007",
+  "title": "ADR-007 — Prisma Migration Strategy: db push vs migrate deploy",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "100+ receipts",
+  "file": "ADR-007-prisma-migration-strategy.md"
+ },
+ {
+  "id": "ADR-008",
+  "title": "ADR-008-rls-policy-design.md",
+  "status": "DRAFT",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-008-rls-policy-design.md"
+ },
+ {
+  "id": "ADR-009",
+  "title": "ADR-009 — Design System Canonicalization in arcs-v9",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-009-design-system-canonicalization.md"
+ },
+ {
+  "id": "ADR-010",
+  "title": "ADR-010-arcs-dewy-pkg-rename.md",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-010-arcs-dewy-pkg-rename.md"
+ },
+ {
+  "id": "ADR-011",
+  "title": "ADR-011 — UI Component Import Strategy: Direct vs. Barrel",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": "HIGH",
+  "gate": "see content",
+  "file": "ADR-011-ui-import-strategy.md"
+ },
+ {
+  "id": "ADR-012",
+  "title": "ADR-012 — arcs.care PLG Phase 1: Compass Model Swap + Lab Offer Card",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": "HIGH",
+  "gate": "see content",
+  "file": "ADR-012-arcs-care-plg-phase-1.md"
+ },
+ {
+  "id": "ADR-013",
+  "title": "ADR-013 — arcs.care Conversion Architecture: Build Sequence for Founding-10 Acquisition",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": "HIGH",
+  "gate": "see content",
+  "file": "ADR-013-arcs-care-conversion-architecture.md"
+ },
+ {
+  "id": "ADR-014",
+  "title": "ADR-014 — CI/CD Governance — NOTOMATION Circuit Breaker Model",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-014-arcs-care-ci-cd-governance.md"
+ },
+ {
+  "id": "ADR-015",
+  "title": "ADR-015 — arcs.care Week 1 Build Gate: Case Study Content Dependency",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-015-arcs-care-case-study-content-gate.md"
+ },
+ {
+  "id": "ADR-016",
+  "title": "ADR-016 — arcs-v9 Auth Model — Anonymous vs. Authenticated Compass",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-016-arcs-v9-auth-model.md"
+ },
+ {
+  "id": "ADR-017",
+  "title": "ADR-017 — receipt-core Canonical Schema",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "100+ receipts",
+  "file": "ADR-017-receipt-core-schema.md"
+ },
+ {
+  "id": "ADR-018",
+  "title": "ADR-018 — /helpful Input Model: Structured Form vs. Raw-Paste Navigator",
+  "status": "DRAFT",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-018-helpful-input-model.md"
+ },
+ {
+  "id": "ADR-019",
+  "title": "ADR-019 — receipt-core Python Boundary: ReceiptObject as Wire/Storage Type",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": null,
+  "file": "ADR-019-receipt-core-python-boundary.md"
+ },
+ {
+  "id": "ADR-020",
+  "title": "ADR-020: Tribune Intelligence Layer",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "100+ receipts",
+  "file": "ADR-020-tribune-intelligence-layer.md"
+ },
+ {
+  "id": "ADR-022",
+  "title": "ADR-022 — User Schema Debt: emailVerified + image Missing from 0_init Migration",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": null,
+  "file": "ADR-022-user-schema-emailverified-debt.md"
+ },
+ {
+  "id": "ADR-023",
+  "title": "ADR-023 — Observability as a Superionic Goal Lattice",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "100+ receipts",
+  "file": "ADR-023-observability-goal-lattice.md"
+ },
+ {
+  "id": "ADR-024",
+  "title": "ADR-024 — resume.arcs.care Architecture Gates",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": null,
+  "gate": "100+ receipts",
+  "file": "ADR-024-resume-arcs-care-architecture-gates.md"
+ },
+ {
+  "id": "ADR-025",
+  "title": "ADR-025 — ARCS Go-Live: Provisional Logic for the Public Launch",
+  "status": "DRAFT",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-025-arcs-go-live-provisional-logic.md"
+ },
+ {
+  "id": "ADR-059",
+  "title": "ADR-059 — SAGE Signal Validation Path",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-059-sage-signal-validation-path.md"
+ },
+ {
+  "id": "ADR-026",
+  "title": "ADR-026 — Debrief Delivery Fix",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-026-debrief-delivery-fix.md"
+ },
+ {
+  "id": "ADR-027",
+  "title": "ADR-027 — Observatory as a render surface over the git/receipt/ordinal substrate",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-027-observatory-substrate-seed.md"
+ },
+ {
+  "id": "ADR-028",
+  "title": "ADR-028 — Profile Scan staging route (`/scan`, mock-first, behind `SCAN_ENABLED`)",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": "HIGH",
+  "gate": "see content",
+  "file": "ADR-028-scan-arcs-care-staging.md"
+ },
+ {
+  "id": "ADR-029",
+  "title": "ADR-029 — Onboarding profile upload (store-only, skippable)",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": "HIGH",
+  "gate": "see content",
+  "file": "ADR-029-onboarding-profile-upload.md"
+ },
+ {
+  "id": "ADR-030",
+  "title": "ADR-030 — Nested thread view for tributary follow-ups",
+  "status": "DECIDED",
+  "y_state": null,
+  "stability": null,
+  "gate": "see content",
+  "file": "ADR-030-nested-thread-view.md"
+ },
+ {
+  "id": "ADR-035",
+  "title": "ADR-035 — Commit-NCI Rubric (ratify the [NCI:XX] commit gate)",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "REVISIT",
+  "gate": "revisit after ~20 scored commits or first drift flag; confirm commit>merge threshold inversion",
+  "file": "ADR-035-commit-nci-rubric.md"
+ },
+ {
+  "id": "ADR-036",
+  "title": "ADR-036 — Split the repo: public app / private sensitive",
+  "status": "ACCEPTED",
+  "y_state": "YELLOW",
+  "stability": "REVISIT",
+  "gate": "decision firm; history-rewrite execution is irreversible and owner-gated — verify private repo complete before any force-push",
+  "file": "ADR-036-repo-split-public-private.md"
+ },
+ {
+  "id": "ADR-037",
+  "title": "ADR-037 — Stateless Anonymous Brief Sharing (fragment payload, no server write)",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit for cross-device one-time or share analytics",
+  "file": "ADR-037-stateless-anonymous-share.md"
+ },
+ {
+  "id": "ADR-039",
+  "title": "ADR-039 — Deploy Cost Guardrail: Path-Based Ignored-Build-Step",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit when a new non-shipping file class enters the repo",
+  "file": "ADR-039-deploy-cost-guardrail-ignored-build-step.md"
+ },
+ {
+  "id": "ADR-040",
+  "title": "ADR-040 — Debrief Close-the-Loop: Calendar Invite vs. Email Only",
+  "status": "DRAFT",
+  "y_state": "SCRATCH",
+  "stability": "SHIFTING",
+  "gate": "revisit at >=20 real (non-dev-test) debrief opportunities",
+  "file": "ADR-040-debrief-calendar-invite-vs-email.md"
+ },
+ {
+  "id": "ADR-045",
+  "title": "ADR-045 — Night Moves: End-of-Day Work Digest Routine",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit if a nightly schedule is added or worktree/git topology changes",
+  "file": "ADR-045-night-moves-digest-routine.md"
+ },
+ {
+  "id": "ADR-046",
+  "title": "ADR-046 — Witness Trigger: Live Capture of a Flash of Brilliance",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "SHIFTING",
+  "gate": "revisit after a few days of real /witness firings",
+  "file": "ADR-046-witness-trigger-live-capture.md"
+ },
+ {
+  "id": "ADR-050",
+  "title": "ADR-050 — The federated family + the SSOT/front-end air-gap",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit if the public-family topology or the SSOT air-gap changes",
+  "file": "ADR-050-federated-family-airgap.md"
+ },
+ {
+  "id": "ADR-051",
+  "title": "ADR-051 — Drift receipts: every gate is a detector, every failure a receipt",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit if the tripwire/deploy-verify gates change",
+  "file": "ADR-051-drift-receipt-gate.md"
+ },
+ {
+  "id": "ADR-052",
+  "title": "ADR-052 — Inchworm drift-auditor for orphaned artifacts",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit if a new owner-less artifact needs an auditor",
+  "file": "ADR-052-inchworm-drift-auditor.md"
+ },
+ {
+  "id": "ADR-053",
+  "title": "ADR-053 — The Tao of ARCS: dormant potential, the vox animus, and the open/private boundary",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "durable doctrine; revisit only if germinate’s open/private boundary is renegotiated",
+  "file": "ADR-053-tao-of-arcs-dormant-potential-vox-animus.md"
+ },
+ {
+  "id": "ADR-054",
+  "title": "ADR-054 — Free to hold, metered to fire: the ARCS activation pricing model",
+  "status": "DECIDED",
+  "y_state": "YELLOW",
+  "stability": "SHIFTING",
+  "gate": "validate willingness-to-pay for the ride (ripeness/Kairos activation) before hardening prices; revisit token fork when blockchain registry + hash-chaining exist",
+  "file": "ADR-054-free-to-hold-metered-to-fire-pricing.md"
+ },
+ {
+  "id": "ADR-055",
+  "title": "ADR-055 — OSS family: two-tier conformance + the private seed-bank registry",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "revisit if germinate SPEC changes or a repo changes tier",
+  "file": "ADR-055-oss-family-two-tier-conformance.md"
+ },
+ {
+  "id": "ADR-056",
+  "title": "ADR-056 — The ARCS tie-in connector: per-tool <tool>.arcs.care = the umbrella head",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "SHIFTING",
+  "gate": "revisit when the first connectors are rendered in the umbrella/omakase session",
+  "file": "ADR-056-arcs-tie-in-connector-pattern.md"
+ },
+ {
+  "id": "ADR-057",
+  "title": "ADR-057 — The sequence oracle: a git-serialized ID + time authority",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "the ADR-id authority going forward; revisit if a real NTP/atomic time source is added",
+  "file": "ADR-057-sequence-oracle.md"
+ },
+ {
+  "id": "ADR-060",
+  "title": "ADR-060 — The Hypercube Gauntlet: decision-shaping as an arc weld",
+  "status": "PROVISIONAL",
+  "y_state": "YELLOW",
+  "stability": "CONTESTED",
+  "gate": "model canon (self-audited GREEN->YELLOW); every buildable it implies is a separate gated bet. Sampling engine BUILT (scripts/hypercube_sampler.py); renumbered 055->060 via oracle after collision with merged OSS-family ADR-055",
+  "file": "ADR-060-hypercube-gauntlet-arc-weld.md"
+ },
+ {
+  "id": "ADR-061",
+  "title": "ADR-061 — Verify every audit/gauntlet flag against the full primary source before applying",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "standing discipline; validated on the Kam codex gauntlet (caught 3 over-flags incl. the synth's own #1). Deterministic checker: provcheck.py. Ledger: _STATE/falsification-ledger.jsonl",
+  "file": "ADR-061-verify-flags-against-full-source.md"
+ }
 ]
