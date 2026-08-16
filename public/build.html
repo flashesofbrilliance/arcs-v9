@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ARCS &#183; The Workshop</title>
 <meta name="description" content="Building in public: the goods we've shipped, the lab in the kitchen, the playground you can try. One front door onto the ARCS flywheel.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#020408; --surface:#0d1117; --elevated:#111827; --obsidian:#0A0C0D;
@@ -22,14 +24,21 @@ body{margin:0;background:var(--bg);color:var(--fg1);font-family:var(--inter);
 .wrap{max-width:1180px;margin:0 auto;padding:54px 22px 90px}
 a{color:inherit;text-decoration:none}
 
-/* ---- masthead ---- */
-.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--cyan);margin:0 0 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--green);
-  box-shadow:0 0 8px 1px rgba(0,255,157,.6)}
-h1{font-family:var(--inter);font-size:clamp(2rem,5vw,2.85rem);line-height:1.08;margin:0 0 16px;
-  font-weight:600;letter-spacing:-.02em;text-wrap:balance}
-.lede{color:var(--fg2);font-size:1.075rem;font-weight:500;line-height:1.55;margin:0;
+/* ---- masthead (ARCS family hero grammar, shared with good.arcs.care) ---- */
+.masthead{position:relative;padding:8px 0 4px}
+.masthead::before{content:"";position:absolute;inset:-54px -60px -10px;z-index:0;pointer-events:none;
+  background:radial-gradient(780px 380px at 15% -25%,rgba(0,240,255,.11),transparent 60%),
+             radial-gradient(640px 340px at 94% -15%,rgba(0,255,157,.075),transparent 55%)}
+.masthead>*{position:relative;z-index:1}
+.kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);
+  border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px}
+.kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+h1{font-family:var(--inter);font-size:clamp(44px,8.5vw,84px);font-weight:800;letter-spacing:-.035em;
+  line-height:.95;margin:22px 0 0;text-wrap:balance}
+h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;
+  background-clip:text;color:transparent}
+.lede{color:var(--fg2);font-size:clamp(16px,2.2vw,20px);font-weight:500;line-height:1.56;margin:24px 0 0;
   text-wrap:pretty;max-width:none}
 .lede b{color:var(--fg1);font-weight:600}
 .asof{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--fg4);
@@ -140,13 +149,15 @@ footer a{color:var(--fg3);border-bottom:1px solid var(--line-2)}
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow"><span class="dot"></span> ARCS &#183; Building in public</p>
-  <h1>The Workshop</h1>
-  <p class="lede">One front door onto the flywheel: the <b>goods</b> we've already shipped as open
-  source, the <b>playground</b> you can walk into right now, and the <b>lab</b> that's still in the
-  kitchen. What's live and actionable leads; the far-right bay is a peek at what's cooking, not a
-  plate yet &#8212; it renders dimmer because it isn't ready, and that's honest.</p>
-  <p class="asof">As of 2026-08-16 <span class="sep">&#183;</span> 7 goods live <span class="sep">&#183;</span> 5 playground surfaces <span class="sep">&#183;</span> 4 in the lab <span class="sep">&#183;</span> @9ead71c</p>
+  <div class="masthead">
+    <span class="kick"><span class="dot"></span> The ARCS family &#183; The Workshop</span>
+    <h1>Everything we build,<br><span class="g">out in the open.</span></h1>
+    <p class="lede">One front door onto the flywheel: the <b>goods</b> we've already shipped as open
+    source, the <b>playground</b> you can walk into right now, and the <b>lab</b> that's still in the
+    kitchen. What's live and actionable leads; the far-right bay is a peek at what's cooking, not a
+    plate yet &#8212; it renders dimmer because it isn't ready, and that's honest.</p>
+    <p class="asof">As of 2026-08-16 <span class="sep">&#183;</span> 7 goods live <span class="sep">&#183;</span> 5 playground surfaces <span class="sep">&#183;</span> 4 in the lab <span class="sep">&#183;</span> @9ead71c</p>
+  </div>
 
   <!-- LIVE PULSE BAND: headline stats + live GitHub pulse, mirrors status.arcs.care.
        Static fallbacks render without JS / when rate-limited; script upgrades them live on-domain. -->
