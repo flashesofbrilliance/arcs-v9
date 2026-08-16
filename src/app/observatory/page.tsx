@@ -1014,7 +1014,7 @@ export default function ObservatoryPage(){
   const [rangeEnd,setRangeEnd]=useState<string>(GENERATED_AT.slice(0,10))
   const [ws,we]=winBounds(horizon,winEnd,rangeStart,rangeEnd)
   const winDays=horizon==="week"?7:30
-  const [legendOpen,setLegendOpen]=useState(true)
+  const [legendOpen,setLegendOpen]=useState(false)  // data-first: chart leads; legend on demand (toggle / Space)
   const [sheet,setSheet]=useState<SheetItem|null>(null)
   const [query,setQuery]=useState("")
   const [face,setFace]=useState("trajectory")
