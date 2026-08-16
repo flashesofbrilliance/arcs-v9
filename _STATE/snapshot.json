@@ -2,11 +2,13 @@
   "captured_at": "2026-08-13T17:22:06Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "325d21e",
-    "head_message": "chore(seeds): Phase-2 Tier-B applied (7 repos live) + mint rosetta-shell seed [NCI:SKIP]",
+    "head_sha": "3385c55",
+    "head_message": "fix(resume-tailor): hero lede spans full width (matches heading) [NCI:SKIP]",
     "in_sync_with_origin": true,
     "dirty_files": [
-      "_INBOX/lattice-drift.jsonl"
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "runtime/specs/knowledge-lattice-v1.json"
     ]
   },
   "vercel": {
@@ -185,7 +187,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-13T18:34:26Z",
+  "git_refreshed_at": "2026-08-16T10:29:53Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

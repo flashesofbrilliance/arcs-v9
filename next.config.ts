@@ -204,14 +204,12 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
         // resume-tailor.arcs.care → public/resume-tailor.html (landing page for the resume-tailor OSS skill/plugin; ADR-056 per-tool subdomain)
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
-        // ADR-056 rendered connector fleet — one <tool>.arcs.care per LIVE public good (registry live:true in _SEEDS/distribution.jsonl).
-        // Pages generated from SSOT by scripts/connector_render.py. Subdomain mirrors the tool/repo name.
+        // ADR-056 rendered connector fleet — one <tool>.arcs.care per LIVE public good that earns a deep page.
+        // Pages generated from SSOT by scripts/connector_render.py; subdomain mirrors the tool/repo name.
+        // Thin git-clone-only Claude skills are NOT standalone pages — they are cards on good.arcs.care.
+        { source: "/:path*", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
-        { source: "/:path*", destination: "/rca-skill.html", has: [{ type: "host", value: "rca-skill.arcs.care" }] },
-        { source: "/:path*", destination: "/state-sync-skill.html", has: [{ type: "host", value: "state-sync-skill.arcs.care" }] },
-        { source: "/:path*", destination: "/token-savings-bank.html", has: [{ type: "host", value: "token-savings-bank.arcs.care" }] },
-        { source: "/:path*", destination: "/fix-toolbar-comments-skill.html", has: [{ type: "host", value: "fix-toolbar-comments-skill.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
         // ayesha.arcs.care → public/ayesha-ext.html (sanitized external recap, addressed to Ayesha, pw-gated "ayesha")
         // public/ayesha.html (internal Recoil Report) is committed but deliberately NOT routed to any domain.

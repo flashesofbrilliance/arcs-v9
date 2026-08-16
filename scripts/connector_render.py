@@ -29,11 +29,36 @@ DIST = os.path.join(ROOT, "_SEEDS/distribution.jsonl")
 DATA = os.path.join(ROOT, "_SEEDS/connectors.json")
 OUTDIR = os.path.join(ROOT, "public")
 
-# ---- frozen house style: byte-for-byte the <style> block from resume-tailor.html ----
+# ---- accent themes by group (group = hue family; leaves resume-tailor.html untouched) ----
+# skill = canonical cyan/green (also what the hand-built resume-tailor.html uses)
+# cli   = violet/indigo (the binary/engine tools)
+# web   = amber/gold (clone-and-run web apps)
+THEMES = {
+    "skill": {"c1": "#00F0FF", "c2": "#00FF9D", "btn2": "#00c8dd", "rgb1": "0,240,255",  "rgb2": "0,255,157"},
+    "cli":   {"c1": "#A78BFA", "c2": "#6D8BFF", "btn2": "#7C6BF0", "rgb1": "167,139,250", "rgb2": "109,139,255"},
+    "web":   {"c1": "#FFC24D", "c2": "#FF8A3D", "btn2": "#F5A623", "rgb1": "255,194,77",  "rgb2": "255,138,61"},
+}
+
+
+def theme_vars(group):
+    """Per-group :root override — only the accent variables change; structure is frozen."""
+    t = THEMES.get(group, THEMES["skill"])
+    r1, r2 = t["rgb1"], t["rgb2"]
+    return (
+        f"--cyan:{t['c1']};--green:{t['c2']};--btn2:{t['btn2']};"
+        f"--glowA:rgba({r1},.11);--glowB:rgba({r2},.075);--kickbrd:rgba({r1},.36);"
+        f"--btnglow:rgba({r1},.5);--glowsoft:rgba({r1},.25);--barbg:rgba({r1},.045);"
+    )
+
+
+# ---- frozen house style: <style> block from resume-tailor.html, accents lifted to vars ----
 CSS = """  :root{
-    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
-    --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#5b6b7d;
-    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
+    --bg:#020408;--surface:#0d1117;--elev:#131a24;--border:#1e293b;--border2:#2b3a4f;
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;--fg4:#4a5a6d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
+    --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
+    --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);
     --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -44,7 +69,7 @@ CSS = """  :root{
   .mono{font-family:var(--mono);}
 
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
-    background:radial-gradient(900px 420px at 20% -10%,rgba(0,240,255,.10),transparent 60%),radial-gradient(700px 380px at 92% 0,rgba(0,255,157,.07),transparent 55%);}
+    background:radial-gradient(900px 420px at 20% -10%,var(--glowA),transparent 60%),radial-gradient(700px 380px at 92% 0,var(--glowB),transparent 55%);}
   .hero{padding:66px 0 58px;}
   .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
   .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
@@ -212,6 +237,7 @@ def render(repo, data, row):
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 {CSS}
+  :root{{{theme_vars(data.get('group','skill'))}}}
 </style>
 </head>
 <body>
@@ -278,17 +304,203 @@ def render(repo, data, row):
     print(f"rendered public/{repo}.html  [{chans}]")
 
 
+# tools that earn a standalone deep page; everyone else is a gallery card only.
+STANDALONE_GROUPS = {"cli", "web"}
+# tools with a hand-built page outside this renderer (do not re-render, but DO index on the gallery)
+EXTERNAL_PAGES = {
+    "resume-tailor-skill": {
+        "slug": "resume-tailor", "group": "skill", "name": "resume-tailor",
+        "line": "Tailor a resume and cover letter to a role, graded by how checkable every line is.",
+        "page": "https://resume-tailor.arcs.care",
+    },
+}
+CHAN_CHIP = {"npm": "npm", "homebrew": "brew", "claude-plugin": "plugin",
+             "pypi": "pip", "github": "clone"}
+
+
+def first_sentence(s):
+    s = s.strip()
+    i = s.find(". ")
+    return (s[:i + 1] if i != -1 else s)
+
+
+def _card(name, line, chips, page, gh, group, live=True):
+    t = THEMES.get(group, THEMES["skill"])
+    accent = f"linear-gradient(90deg,{t['c1']},{t['c2']})"
+    dim = "" if live else "opacity:.5;filter:saturate(.35);"
+    chip_html = "".join(
+        f'<span class="chip">{esc(c)}</span>' for c in chips)
+    if live:
+        primary = (f'<a class="clink" href="{esc(page)}">open ↗</a>' if page
+                   else f'<a class="clink" href="{esc(gh)}">github ↗</a>')
+        gh_link = f'<a class="cgh" href="{esc(gh)}">github</a>' if page else ""
+        tag = ""
+    else:
+        primary = f'<a class="clink" href="{esc(gh)}">github ↗</a>'
+        gh_link = ""
+        tag = '<span class="soon">soon</span>'
+    return (
+        f'    <div class="card" style="{dim}">\n'
+        f'      <div class="cbar" style="background:{accent}"></div>\n'
+        f'      <div class="cbody">\n'
+        f'        <div class="chead"><span class="cname mono">{esc(name)}</span>{tag}</div>\n'
+        f'        <p class="cline">{esc(line)}</p>\n'
+        f'        <div class="chips">{chip_html}</div>\n'
+        f'      </div>\n'
+        f'      <div class="cfoot">{primary}{gh_link}</div>\n'
+        f'    </div>')
+
+
+def render_gallery(ssot, blob):
+    tools = blob["tools"]
+    soon = blob.get("soon", {})
+    groups = {"cli": [], "skill": [], "web": []}
+
+    # rendered tools (deep page if standalone group; else card-only → github)
+    for repo, data in tools.items():
+        g = data.get("group", "skill")
+        row = ssot.get(repo, {})
+        url = row.get("url", "")
+        gh = ("https://" + url) if url and not url.startswith("http") else url
+        live = live_channels(row)
+        chips = [CHAN_CHIP.get(c, c) for c in live]
+        if g == "skill":
+            chips = ["skill"] + [c for c in chips if c != "clone"]
+        page = f"https://{repo}.arcs.care" if g in STANDALONE_GROUPS else ""
+        groups[g].append(_card(repo, first_sentence(data["desc"]), chips, page, gh, g, True))
+
+    # external hand-built pages (resume-tailor) — indexed, not re-rendered
+    for repo, ext in EXTERNAL_PAGES.items():
+        row = ssot.get(repo, {})
+        url = row.get("url", "")
+        gh = ("https://" + url) if url and not url.startswith("http") else url
+        chips = ["plugin", "skill"]
+        groups[ext["group"]].insert(0, _card(ext["name"], ext["line"], chips, ext["page"], gh, ext["group"], True))
+
+    # soon (ready-not-live) — muted cards, github only, no install claim
+    soon_cards = []
+    for repo, s in soon.items():
+        row = ssot.get(repo, {})
+        url = row.get("url", "")
+        gh = ("https://" + url) if url and not url.startswith("http") else url
+        soon_cards.append(_card(repo, s["line"], [s["chan"]], "", gh, s.get("group", "skill"), False))
+
+    def block(label, sub, cards):
+        if not cards:
+            return ""
+        return (
+            f'<section>\n  <div class="wrap">\n'
+            f'    <div class="sec-lbl"><span class="n">◆</span><h2>{esc(label)}</h2>'
+            f'<span class="sub">{esc(sub)}</span></div>\n'
+            f'    <div class="cards">\n' + "\n".join(cards) + "\n    </div>\n  </div>\n</section>")
+
+    body = "\n\n".join(x for x in [
+        block("Command-line tools", "installable · npm + brew", groups["cli"]),
+        block("Claude Code skills", "clone · add as a skill", groups["skill"]),
+        block("Web apps", "clone and run", groups["web"]),
+        block("Coming soon", "built · not yet published", soon_cards),
+    ] if x)
+
+    GAL_CSS = """
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:820px){.cards{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.cards{grid-template-columns:1fr;}}
+  .card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.18));transition:.16s;}
+  .card:hover{border-color:var(--border2);transform:translateY(-2px);}
+  .cbar{height:3px;width:100%;}
+  .cbody{padding:16px 17px 6px;flex:1;}
+  .chead{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .cname{font-size:14px;font-weight:700;color:var(--fg1);letter-spacing:-.01em;}
+  .soon{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg4);border:1px solid var(--border2);border-radius:999px;padding:3px 8px;}
+  .cline{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+  .chip{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg3);border:1px solid var(--border);border-radius:6px;padding:3px 7px;}
+  .cfoot{display:flex;gap:16px;align-items:center;padding:13px 17px;border-top:1px solid var(--border);margin-top:12px;}
+  .clink{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--cyan);}
+  .cgh{font-family:var(--mono);font-size:11px;color:var(--fg4);}
+  .cgh:hover{color:var(--fg2);}
+  .gcount{font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.06em;margin-left:auto;}
+  .compass-tie{border-bottom:1px solid var(--border);
+    background:radial-gradient(700px 300px at 50% -20%,var(--glowA),transparent 60%);}
+  .compass-tie .wrap{padding-top:44px;padding-bottom:44px;text-align:center;}
+  .ct-lede{font-size:clamp(16px,2.4vw,20px);line-height:1.55;color:var(--fg2);max-width:640px;margin:0 auto;}
+  .ct-lede b{color:var(--fg1);font-weight:600;}
+  .ct-link{display:inline-block;margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--cyan);border:1px solid var(--kickbrd);border-radius:9px;padding:11px 18px;transition:.16s;}
+  .ct-link:hover{background:var(--barbg);}"""
+
+    doc = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arcs · public goods</title>
+<meta name="description" content="Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{CSS}
+{GAL_CSS}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>the arcs family · public goods</span>
+    <h1>Open tools, <span class="g">honest by default.</span></h1>
+    <p class="lede">Small, MIT-licensed tools we built for our own work and published as they proved out. The tools are <b>open</b>; the ARCS intelligence that orchestrates them stays private. Nothing here claims an install path that is not live.</p>
+  </div>
+</header>
+
+{body}
+
+<section class="compass-tie">
+  <div class="wrap">
+    <p class="ct-lede">These open tools feed the <b>ARCS compass</b>: the private intelligence that decides when, and for whom, a thing is ready to fire.</p>
+    <a class="ct-link mono" href="https://arcs.care">see the compass →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>a public-goods index by <a href="https://arcs.care">ARCS</a> · MIT</span>
+    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://arcs.care">arcs.care</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
+"""
+    out = os.path.join(OUTDIR, "good.html")
+    with open(out, "w") as f:
+        f.write(doc)
+    n = sum(len(v) for v in groups.values()) + len(soon_cards)
+    print(f"rendered public/good.html  [{n} cards: "
+          f"{len(groups['cli'])} cli, {len(groups['skill'])} skill, "
+          f"{len(groups['web'])} web, {len(soon_cards)} soon]")
+
+
 def main():
     ssot = load_ssot()
     blob = json.load(open(DATA))
     tools = blob["tools"]
-    want = sys.argv[1:] or list(tools.keys())
+    args = sys.argv[1:]
+
+    if args == ["gallery"]:
+        render_gallery(ssot, blob)
+        return
+
+    # standalone deep pages: only tools whose group earns one
+    want = args or [r for r, d in tools.items()
+                    if d.get("group") in STANDALONE_GROUPS]
     for repo in want:
         if repo not in tools:
             raise SystemExit(f"no copy block for '{repo}' in connectors.json")
         if repo not in ssot:
             raise SystemExit(f"'{repo}' not in distribution.jsonl SSOT")
         render(repo, tools[repo], ssot[repo])
+
+    # always refresh the gallery
+    render_gallery(ssot, blob)
 
 
 if __name__ == "__main__":

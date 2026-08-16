@@ -8,9 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
-    --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#5b6b7d;
-    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
+    --bg:#020408;--surface:#0d1117;--elev:#131a24;--border:#1e293b;--border2:#2b3a4f;
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;--fg4:#4a5a6d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
+    --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
+    --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);
     --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -21,7 +24,7 @@
   .mono{font-family:var(--mono);}
 
   header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
-    background:radial-gradient(900px 420px at 20% -10%,rgba(0,240,255,.10),transparent 60%),radial-gradient(700px 380px at 92% 0,rgba(0,255,157,.07),transparent 55%);}
+    background:radial-gradient(900px 420px at 20% -10%,var(--glowA),transparent 60%),radial-gradient(700px 380px at 92% 0,var(--glowB),transparent 55%);}
   .hero{padding:66px 0 58px;}
   .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
   .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
@@ -75,6 +78,7 @@
   footer{padding:34px 0 48px;}
   .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;}
   .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+  :root{--cyan:#A78BFA;--green:#6D8BFF;--btn2:#7C6BF0;--glowA:rgba(167,139,250,.11);--glowB:rgba(109,139,255,.075);--kickbrd:rgba(167,139,250,.36);--btnglow:rgba(167,139,250,.5);--glowsoft:rgba(167,139,250,.25);--barbg:rgba(167,139,250,.045);}
 </style>
 </head>
 <body>

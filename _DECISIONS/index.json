@@ -430,5 +430,14 @@
   "stability": "STABLE",
   "gate": "recursive self-application as the honesty test of any falsifier; demonstrated by F6 + F32 on the falsification ledger. Witnessed 2026-08-16.",
   "file": "ADR-062-ouroboros-recursive-self-falsification.md"
+ },
+ {
+  "id": "ADR-063",
+  "title": "ADR-063 — The public-goods connector fleet is its own locked visual family",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "canon neutrals + Inter/JetBrains; extended accents grouped by tool kind (skill cyan/green, cli violet, web amber), scoped to *.arcs.care connectors only, never product surfaces. Recorded 2026-08-16.",
+  "file": "ADR-063-public-goods-connector-visual-family.md"
  }
 ]

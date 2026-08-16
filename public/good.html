@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>arcs · public goods</title>
+<meta name="description" content="Open, MIT-licensed tools built for our own work and published. The tools are open; the ARCS intelligence that orchestrates them stays private.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* neutrals: canonical ARCS design-system tokens (WORLD.md / colors_and_type) */
+    --bg:#020408;--surface:#0d1117;--elev:#131a24;--border:#1e293b;--border2:#2b3a4f;
+    --fg1:#e2e8f0;--fg2:#94a3b8;--fg3:#64748b;--fg4:#4a5a6d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--btn2:#00c8dd;
+    --glowA:rgba(0,240,255,.11);--glowB:rgba(0,255,157,.075);--kickbrd:rgba(0,240,255,.36);
+    --btnglow:rgba(0,240,255,.5);--glowsoft:rgba(0,240,255,.25);--barbg:rgba(0,240,255,.045);
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+  .mono{font-family:var(--mono);}
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 420px at 20% -10%,var(--glowA),transparent 60%),radial-gradient(700px 380px at 92% 0,var(--glowB),transparent 55%);}
+  .hero{padding:66px 0 58px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(46px,9vw,88px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:22px;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(16px,2.5vw,20px);line-height:1.58;color:var(--fg2);max-width:640px;margin-top:22px;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  /* full-width lede matches heading… hero lede spans the container, not a narrow column */
+  .hero .lede{max-width:none;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  section{padding:52px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:24px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:22px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+
+  .thesis{font-size:clamp(19px,3vw,25px);line-height:1.5;font-weight:500;letter-spacing:-.01em;color:var(--fg1);max-width:780px;}
+  .thesis b{color:var(--green);font-weight:600;}
+  .thesis small{display:block;font-size:13.5px;font-weight:400;color:var(--fg3);margin-top:16px;line-height:1.65;}
+
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;}
+  @media(max-width:720px){.grades{grid-template-columns:1fr;}}
+  .grade{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .grade .g{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);}
+  .grade p{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+
+  .oneshot{position:relative;border:1px solid var(--border2);border-radius:13px;background:linear-gradient(165deg,#0c1219,#080d13);box-shadow:0 12px 34px -18px rgba(0,240,255,.25);overflow:hidden;}
+  .oneshot .bar{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04);}
+  .oneshot .bar .l{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
+  .oneshot .cp{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--fg3);border:1px solid var(--border2);background:var(--elev);border-radius:7px;padding:5px 11px;cursor:pointer;transition:.15s;}
+  .oneshot .cp:hover{color:var(--cyan);border-color:var(--cyan);}
+  .oneshot pre{margin:0;padding:17px 18px;overflow-x:auto;}
+  .oneshot code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--fg1);white-space:pre-wrap;}
+  .oneshot code .v{color:var(--gold);}
+
+  .install-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.install-grid{grid-template-columns:1fr;}}
+  .install-grid.one{grid-template-columns:1fr;max-width:620px;}
+  .chan h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-bottom:8px;}
+
+  pre.blk{background:var(--elev);border:1px solid var(--border);border-radius:11px;padding:15px 17px;overflow-x:auto;}
+  pre.blk code{font-family:var(--mono);font-size:12.5px;color:var(--green);line-height:1.7;white-space:pre-wrap;}
+  .note{font-size:12.5px;line-height:1.55;color:var(--fg3);margin-top:14px;} .note b{color:var(--fg2);font-weight:600;}
+
+  footer{padding:34px 0 48px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:820px){.cards{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.cards{grid-template-columns:1fr;}}
+  .card{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.18));transition:.16s;}
+  .card:hover{border-color:var(--border2);transform:translateY(-2px);}
+  .cbar{height:3px;width:100%;}
+  .cbody{padding:16px 17px 6px;flex:1;}
+  .chead{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .cname{font-size:14px;font-weight:700;color:var(--fg1);letter-spacing:-.01em;}
+  .soon{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--fg4);border:1px solid var(--border2);border-radius:999px;padding:3px 8px;}
+  .cline{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:13px;}
+  .chip{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg3);border:1px solid var(--border);border-radius:6px;padding:3px 7px;}
+  .cfoot{display:flex;gap:16px;align-items:center;padding:13px 17px;border-top:1px solid var(--border);margin-top:12px;}
+  .clink{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--cyan);}
+  .cgh{font-family:var(--mono);font-size:11px;color:var(--fg4);}
+  .cgh:hover{color:var(--fg2);}
+  .gcount{font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.06em;margin-left:auto;}
+  .compass-tie{border-bottom:1px solid var(--border);
+    background:radial-gradient(700px 300px at 50% -20%,var(--glowA),transparent 60%);}
+  .compass-tie .wrap{padding-top:44px;padding-bottom:44px;text-align:center;}
+  .ct-lede{font-size:clamp(16px,2.4vw,20px);line-height:1.55;color:var(--fg2);max-width:640px;margin:0 auto;}
+  .ct-lede b{color:var(--fg1);font-weight:600;}
+  .ct-link{display:inline-block;margin-top:18px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--cyan);border:1px solid var(--kickbrd);border-radius:9px;padding:11px 18px;transition:.16s;}
+  .ct-link:hover{background:var(--barbg);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>the arcs family · public goods</span>
+    <h1>Open tools, <span class="g">honest by default.</span></h1>
+    <p class="lede">Small, MIT-licensed tools we built for our own work and published as they proved out. The tools are <b>open</b>; the ARCS intelligence that orchestrates them stays private. Nothing here claims an install path that is not live.</p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Command-line tools</h2><span class="sub">installable · npm + brew</span></div>
+    <div class="cards">
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#A78BFA,#6D8BFF)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">rosetta-shell</span></div>
+        <p class="cline">Write one script; run it byte-identical across bash 3.2, zsh, POSIX sh, and ksh.</p>
+        <div class="chips"><span class="chip">npm</span><span class="chip">brew</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://rosetta-shell.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/rosetta-shell">github</a></div>
+    </div>
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#A78BFA,#6D8BFF)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">germinate</span></div>
+        <p class="cline">A serializable, provenance-carrying handoff protocol for multi-agent, multi-worktree work.</p>
+        <div class="chips"><span class="chip">npm</span><span class="chip">brew</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://germinate.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/germinate">github</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Claude Code skills</h2><span class="sub">clone · add as a skill</span></div>
+    <div class="cards">
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">resume-tailor</span></div>
+        <p class="cline">Tailor a resume and cover letter to a role, graded by how checkable every line is.</p>
+        <div class="chips"><span class="chip">plugin</span><span class="chip">skill</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://resume-tailor.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/resume-tailor-skill">github</a></div>
+    </div>
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">rca-skill</span></div>
+        <p class="cline">A Claude Code skill that turns &quot;something broke&quot; into disciplined root-cause analysis: triage the effort, reproduce the real error, fix the cause not the symptom, verify by driving the failure path, and capture the root cause.</p>
+        <div class="chips"><span class="chip">skill</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/rca-skill">github ↗</a></div>
+    </div>
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">state-sync-skill</span></div>
+        <p class="cline">A Claude Code skill that scaffolds a committed _STATE/snapshot.json so any session restores ground-truth project state from a cheap file read instead of re-deriving it.</p>
+        <div class="chips"><span class="chip">skill</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/state-sync-skill">github ↗</a></div>
+    </div>
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">token-savings-bank</span></div>
+        <p class="cline">A Claude Code skill that installs a budget-mode operating discipline for coding agents: right model tier, batch not drip, small work inline, checkpoint state.</p>
+        <div class="chips"><span class="chip">skill</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/token-savings-bank">github ↗</a></div>
+    </div>
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">fix-toolbar-comments-skill</span></div>
+        <p class="cline">A Claude Code skill that clears your Vercel Toolbar feedback queue end to end: fetch every open thread, implement the fix, build, commit, deploy, and resolve each one.</p>
+        <div class="chips"><span class="chip">skill</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/fix-toolbar-comments-skill">github ↗</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Web apps</h2><span class="sub">clone and run</span></div>
+    <div class="cards">
+    <div class="card" style="">
+      <div class="cbar" style="background:linear-gradient(90deg,#FFC24D,#FF8A3D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">arcs-field-scan</span></div>
+        <p class="cline">An open Next.js web app: paste a LinkedIn profile or upload a PDF to generate an adaptive ARCS-style scan.</p>
+        <div class="chips"><span class="chip">clone</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://arcs-field-scan.arcs.care">open ↗</a><a class="cgh" href="https://github.com/flashesofbrilliance/arcs-field-scan">github</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">◆</span><h2>Coming soon</h2><span class="sub">built · not yet published</span></div>
+    <div class="cards">
+    <div class="card" style="opacity:.5;filter:saturate(.35);">
+      <div class="cbar" style="background:linear-gradient(90deg,#A78BFA,#6D8BFF)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">arcs-claude-project-scaffold</span><span class="soon">soon</span></div>
+        <p class="cline">Zero-dep npx scaffold that plants a ready ARCS Claude-project structure in one command.</p>
+        <div class="chips"><span class="chip">npm</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/arcs-claude-project-scaffold">github ↗</a></div>
+    </div>
+    <div class="card" style="opacity:.5;filter:saturate(.35);">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">linkedin-connections-toolkit</span><span class="soon">soon</span></div>
+        <p class="cline">Stdlib Python CLI that parses your LinkedIn Connections export into four honest views of your network.</p>
+        <div class="chips"><span class="chip">pip</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/linkedin-connections-toolkit">github ↗</a></div>
+    </div>
+    <div class="card" style="opacity:.5;filter:saturate(.35);">
+      <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
+      <div class="cbody">
+        <div class="chead"><span class="cname mono">blindsat</span><span class="soon">soon</span></div>
+        <p class="cline">A small Python library for privacy-preserving set operations (blind intersection) on data you never reveal.</p>
+        <div class="chips"><span class="chip">pip</span></div>
+      </div>
+      <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/blindsat">github ↗</a></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="compass-tie">
+  <div class="wrap">
+    <p class="ct-lede">These open tools feed the <b>ARCS compass</b>: the private intelligence that decides when, and for whom, a thing is ready to fire.</p>
+    <a class="ct-link mono" href="https://arcs.care">see the compass →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>a public-goods index by <a href="https://arcs.care">ARCS</a> · MIT</span>
+    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://arcs.care">arcs.care</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
