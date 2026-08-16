@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCS &#183; The Workshop</title>
+<meta name="description" content="Building in public: the goods we've shipped, the lab in the kitchen, the playground you can try. One front door onto the ARCS flywheel.">
+<style>
+:root{
+  --bg:#020408; --surface:#0d1117; --elevated:#111827; --obsidian:#0A0C0D;
+  --line:#1e293b; --line-2:#141d2b;
+  --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+  --green:#00FF9D; --cyan:#00F0FF; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+  --steel:#94a3b8; --violet:#A78BFA;
+  --inter:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg1);font-family:var(--inter);
+  line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding:54px 22px 90px}
+a{color:inherit;text-decoration:none}
+
+/* ---- masthead ---- */
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--cyan);margin:0 0 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 8px 1px rgba(0,255,157,.6)}
+h1{font-family:var(--inter);font-size:clamp(2rem,5vw,2.85rem);line-height:1.08;margin:0 0 16px;
+  font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+.lede{color:var(--fg2);font-size:1.075rem;font-weight:500;line-height:1.55;margin:0;
+  text-wrap:pretty;max-width:none}
+.lede b{color:var(--fg1);font-weight:600}
+.asof{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--fg4);
+  margin:20px 0 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.asof .sep{color:var(--line)}
+
+/* ---- live pulse band (mirrors status.arcs.care) ---- */
+.band{margin:40px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background:linear-gradient(180deg,var(--surface),var(--obsidian))}
+.band-head{display:flex;align-items:center;gap:9px;padding:13px 18px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg3)}
+.band-head .dot{width:6px;height:6px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 9px 1px rgba(0,255,157,.7);animation:bp 2.6s ease-in-out infinite}
+@keyframes bp{0%,100%{opacity:.55}50%{opacity:1}}
+.band-head .ship{color:var(--fg1);letter-spacing:.06em;text-transform:none;font-size:12px;font-weight:600;font-family:var(--inter)}
+.band-head .full{margin-left:auto;color:var(--cyan);letter-spacing:.1em;border-bottom:1px solid rgba(0,240,255,.28)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.stat{background:var(--obsidian);padding:18px 18px 16px}
+.stat-val{font-family:var(--mono);font-size:30px;font-weight:600;letter-spacing:-.01em;color:var(--fg1);line-height:1}
+.stat-val.accent{color:var(--green)}
+.stat-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg4);margin:9px 0 0;line-height:1.4}
+.pstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border-top:1px solid var(--line)}
+.pcell{background:var(--surface);padding:13px 16px}
+.pl-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg4);margin:0 0 6px}
+.pl-v{font-family:var(--mono);font-size:13px;color:var(--fg1);font-weight:500;line-height:1.2;word-break:break-word}
+.pl-sub{font-family:var(--mono);font-size:9px;color:var(--fg4);margin:4px 0 0;letter-spacing:.04em}
+.pl-v .ok{color:var(--green)} .pl-v .pend{color:var(--gold)} .pl-v .err{color:var(--red)}
+@media (max-width:820px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .pstrip{grid-template-columns:repeat(2,1fr)}
+  .band-head{flex-wrap:wrap}
+}
+
+/* ---- the gradient rail ---- */
+.rail{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin:44px 0 0;
+  border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--obsidian)}
+.stage{padding:22px 22px 26px;border-right:1px solid var(--line);position:relative;display:flex;flex-direction:column}
+.stage:last-child{border-right:none}
+.stage .head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0 0 3px}
+.stage .name{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.stage .idx{font-family:var(--mono);font-size:10px;color:var(--fg4);letter-spacing:.1em}
+.stage .what{font-size:12.5px;color:var(--fg3);margin:0 0 3px;font-weight:400;min-height:34px}
+.stage .fid{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--fg4);margin:0 0 16px;display:flex;align-items:center;gap:6px}
+.stage .fid .bar{height:3px;width:34px;border-radius:2px;display:inline-block}
+
+/* stage accents = the one signal: readiness */
+.s-goods .name{color:var(--green)}
+.s-goods .fid .bar{background:linear-gradient(90deg,var(--green),rgba(0,255,157,.15))}
+.s-goods{background:linear-gradient(180deg,rgba(0,255,157,.035),transparent 60%)}
+.s-lab .name{color:var(--gold)}
+.s-lab .fid .bar{background:repeating-linear-gradient(90deg,var(--gold) 0 4px,transparent 4px 8px)}
+.s-lab{background:linear-gradient(180deg,rgba(255,215,0,.03),transparent 60%)}
+.s-play .name{color:var(--cyan)}
+.s-play .fid .bar{background:linear-gradient(90deg,var(--cyan),rgba(0,240,255,.15))}
+.s-play{background:linear-gradient(180deg,rgba(0,240,255,.035),transparent 60%)}
+
+/* flow chevrons between stages */
+.stage:not(:last-child)::after{content:"";position:absolute;right:-7px;top:64px;z-index:2;
+  width:12px;height:12px;background:var(--obsidian);border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);transform:rotate(-45deg)}
+
+/* ---- cards ---- */
+.cards{display:flex;flex-direction:column;gap:9px}
+.card{display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:12px 13px;transition:border-color .15s,transform .15s}
+.card .t{font-size:13.5px;font-weight:600;color:var(--fg1);margin:0 0 3px;display:flex;
+  align-items:center;justify-content:space-between;gap:8px}
+.card .t .ar{font-family:var(--mono);font-size:11px;color:var(--fg4);transition:color .15s}
+.card .d{font-size:11.5px;color:var(--fg3);margin:0;line-height:1.4}
+.card .meta{font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--fg4);
+  margin:7px 0 0;display:flex;gap:8px;align-items:center;text-transform:uppercase}
+.chip{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;padding:1px 6px;border-radius:999px;
+  border:1px solid var(--line);color:var(--fg3);text-transform:uppercase}
+
+/* goods: SHARP + linkable */
+.s-goods .card:hover{border-color:rgba(0,255,157,.4);transform:translateY(-1px)}
+.s-goods .card:hover .ar{color:var(--green)}
+
+/* lab: DEGRADED / behind glass */
+.s-lab .card{opacity:.62;border-style:dashed;border-color:var(--line-2);background:transparent;cursor:default}
+.s-lab .card .t{font-weight:400;color:var(--fg2)}
+.s-lab .card .chip{border-color:var(--line-2)}
+.s-lab .glass{font-family:var(--mono);font-size:10px;color:var(--gold);letter-spacing:.06em;
+  border:1px dashed rgba(255,215,0,.32);border-radius:10px;padding:11px 13px;margin:0 0 9px;
+  opacity:.9;display:flex;gap:8px;align-items:center;background:rgba(255,215,0,.02)}
+
+/* play: SHARP */
+.s-play .card:hover{border-color:rgba(0,240,255,.4);transform:translateY(-1px)}
+.s-play .card:hover .ar{color:var(--cyan)}
+.s-play .hub{border-color:rgba(0,240,255,.28);background:linear-gradient(180deg,rgba(0,240,255,.06),var(--surface))}
+
+.held{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;color:var(--fg4);
+  margin:12px 0 0;padding-top:11px;border-top:1px solid var(--line);line-height:1.5}
+.held b{color:var(--fg3);font-weight:500}
+
+footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--fg4);line-height:1.7}
+footer a{color:var(--fg3);border-bottom:1px solid var(--line-2)}
+
+@media (max-width:820px){
+  .rail{grid-template-columns:1fr}
+  .stage{border-right:none;border-bottom:1px solid var(--line)}
+  .stage:last-child{border-bottom:none}
+  .stage:not(:last-child)::after{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow"><span class="dot"></span> ARCS &#183; Building in public</p>
+  <h1>The Workshop</h1>
+  <p class="lede">One front door onto the flywheel: the <b>goods</b> we've already shipped as open
+  source, the <b>playground</b> you can walk into right now, and the <b>lab</b> that's still in the
+  kitchen. What's live and actionable leads; the far-right bay is a peek at what's cooking, not a
+  plate yet &#8212; it renders dimmer because it isn't ready, and that's honest.</p>
+  <p class="asof">As of 2026-08-16 <span class="sep">&#183;</span> 7 goods live <span class="sep">&#183;</span> 5 playground surfaces <span class="sep">&#183;</span> 4 in the lab <span class="sep">&#183;</span> @9ead71c</p>
+
+  <!-- LIVE PULSE BAND: headline stats + live GitHub pulse, mirrors status.arcs.care.
+       Static fallbacks render without JS / when rate-limited; script upgrades them live on-domain. -->
+  <div class="band">
+    <div class="band-head">
+      <span class="dot"></span>Live pulse <span style="color:var(--fg4)">&#183; the work, as it ships</span>
+      <a class="full" href="https://status.arcs.care/" target="_blank" rel="noopener">full status &#8599;</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val accent" id="sv-commits">1,490</div><div class="stat-label">Commits &#183; since T0, the monorepo's birth</div></div>
+      <div class="stat"><div class="stat-val" id="sv-days">128</div><div class="stat-label">Days &#183; T0 = Apr 9, 2026</div></div>
+      <div class="stat"><div class="stat-val">55</div><div class="stat-label">ADRs &#183; decisions logged</div></div>
+      <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production &#183; app.arcs.care</div></div>
+    </div>
+    <div class="pstrip">
+      <div class="pcell"><div class="pl-k">Latest commit</div><div class="pl-v" id="pl-commit">&#8212;</div><div class="pl-sub" id="pl-commit-when">from GitHub, on load</div></div>
+      <div class="pcell"><div class="pl-k">Latest deploy</div><div class="pl-v" id="pl-deploy">&#8212;</div><div class="pl-sub" id="pl-deploy-when"></div></div>
+      <div class="pcell"><div class="pl-k">Open PRs</div><div class="pl-v" id="pl-prs">&#8212;</div><div class="pl-sub">on main</div></div>
+      <div class="pcell"><div class="pl-k">Commits &#183; main</div><div class="pl-v" id="pl-count">&#8212;</div><div class="pl-sub">total, live</div></div>
+    </div>
+  </div>
+
+  <div class="rail">
+
+    <!-- GOODS: sourced from _SEEDS/index.jsonl, liveness-verified anonymously before ship (F25) -->
+    <section class="stage s-goods">
+      <div class="head"><span class="name">Goods</span><span class="idx">01 &#183; shipped</span></div>
+      <p class="what">Open-source tools and skills, live and installable today.</p>
+      <p class="fid"><span class="bar"></span> Fidelity: sharp &#183; earned</p>
+      <div class="cards">
+        <a class="card" href="https://github.com/flashesofbrilliance/germinate" target="_blank" rel="noopener"><span class="t">germinate<span class="ar">github &#8599;</span></span><p class="d">The seed bank + germination engine: append-only belief-log, drift-visible manifest, coal&#8594;diamond handoff.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">v0.1.1</span> MIT</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/arcs-field-scan" target="_blank" rel="noopener"><span class="t">arcs-field-scan<span class="ar">github &#8599;</span></span><p class="d">Turn a profile or PDF into an ARCS energy scan. The clearest PLG onramp.</p><span class="meta"><span class="chip">tier A</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/state-sync-skill" target="_blank" rel="noopener"><span class="t">state-sync-skill<span class="ar">github &#8599;</span></span><p class="d">Committed, drift-visible snapshot.json for Claude Code projects.</p><span class="meta"><span class="chip">tier A</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/rca-skill" target="_blank" rel="noopener"><span class="t">rca-skill<span class="ar">github &#8599;</span></span><p class="d">Root-cause analysis skill: structured five-verb diagnosis loop.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/token-savings-bank" target="_blank" rel="noopener"><span class="t">token-savings-bank<span class="ar">github &#8599;</span></span><p class="d">Track and bank token savings across sessions; tier-descent routing.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/linkedin-connections-toolkit" target="_blank" rel="noopener"><span class="t">linkedin-connections-toolkit<span class="ar">github &#8599;</span></span><p class="d">Parse and reason over your LinkedIn connections export.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/fix-toolbar-comments-skill" target="_blank" rel="noopener"><span class="t">fix-toolbar-comments-skill<span class="ar">github &#8599;</span></span><p class="d">Resolve and repair Vercel toolbar comment threads from the CLI.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
+      </div>
+    </section>
+
+    <!-- PLAYGROUND: playground.arcs.care hub + 4 performers (next.config.ts host rewrites) -->
+    <section class="stage s-play">
+      <div class="head"><span class="name">Playground</span><span class="idx">02 &#183; try it</span></div>
+      <p class="what">Live performing artifacts &#8212; dogfooded surfaces you can open and drive.</p>
+      <p class="fid"><span class="bar"></span> Fidelity: sharp &#183; live</p>
+      <div class="cards">
+        <a class="card hub" href="https://playground.arcs.care/" target="_blank" rel="noopener"><span class="t">Playground hub<span class="ar">open &#8599;</span></span><p class="d">The performing-artifacts gallery &#8212; start here.</p></a>
+        <a class="card" href="https://playground.arcs.care/12d-orbital" target="_blank" rel="noopener"><span class="t">12D Orbital<span class="ar">open &#8599;</span></span><p class="d">Twelve-dimensional decision manifold, orbiting.</p></a>
+        <a class="card" href="https://playground.arcs.care/knowledge-lattice" target="_blank" rel="noopener"><span class="t">Knowledge Lattice<span class="ar">open &#8599;</span></span><p class="d">The lattice of what's known, drift-checked.</p></a>
+        <a class="card" href="https://playground.arcs.care/alexandria" target="_blank" rel="noopener"><span class="t">Alexandria<span class="ar">open &#8599;</span></span><p class="d">The library surface &#8212; canon, browsable.</p></a>
+        <a class="card" href="https://playground.arcs.care/moire" target="_blank" rel="noopener"><span class="t">Moir&#233;<span class="ar">open &#8599;</span></span><p class="d">Interference patterns as a paradox render.</p></a>
+      </div>
+    </section>
+
+    <!-- LAB: behind glass, parked far-right (zero-action). _ARTIFACTS/lab/ is empty (0 minted); candidates are registry lab_candidate flags. -->
+    <section class="stage s-lab">
+      <div class="head"><span class="name">Lab</span><span class="idx">03 &#183; in the kitchen</span></div>
+      <p class="what">Experiments being minted. Not public yet &#8212; you're seeing the counter, not the plate.</p>
+      <p class="fid"><span class="bar"></span> Fidelity: degraded &#183; forming</p>
+      <div class="glass">&#9634; 0 plated &#183; 4 ripening &#8212; nothing linked out until it's cooked.</div>
+      <div class="cards">
+        <div class="card"><span class="t">arcs-field-scan &#8594; interactive</span><span class="meta"><span class="chip">ripe</span></span></div>
+        <div class="card"><span class="t">rca-skill web surface</span><span class="meta"><span class="chip">maybe</span></span></div>
+        <div class="card"><span class="t">linkedin toolkit mini-app</span><span class="meta"><span class="chip">maybe</span></span></div>
+        <div class="card"><span class="t">readme faq-eval</span><span class="meta"><span class="chip">proven poc</span></span></div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>ARCS Field OS grammar &#183; goods sourced from _SEEDS/index.jsonl, liveness-verified &#183; readiness is the render channel: sharp = shipped, degraded = forming &#183; companion to <a href="https://claude.ai/code/artifact/cde55380-6af0-46e0-a7d9-c6a310b4a9be" target="_blank" rel="noopener">the UI Kit</a></footer>
+</div>
+
+<script>
+/* Live pulse: same unauthenticated public GitHub API as status.arcs.care (no token).
+   Best-effort — on rate-limit or offline the static fallbacks above simply stay. */
+(function(){
+  var REPO="flashesofbrilliance/arcs-v9", API="https://api.github.com/repos/"+REPO,
+      H={headers:{Accept:"application/vnd.github+json"}};
+  function set(id,html){var e=document.getElementById(id);if(e)html!=null&&(e.innerHTML=html);}
+  function ago(d){var s=(Date.now()-d)/1000;if(s<3600)return Math.max(1,Math.round(s/60))+"m ago";
+    if(s<86400)return Math.round(s/3600)+"h ago";return Math.round(s/86400)+"d ago";}
+  // days since day 0 (2026-04-09, first commit) — self-updating, never re-goes-stale
+  set("sv-days",String(Math.floor((Date.now()-new Date("2026-04-09T11:39:09-04:00"))/86400000)));
+  // latest commit + total count (via Link rel=last)
+  fetch(API+"/commits?sha=main&per_page=1",H).then(function(r){
+    var link=r.headers.get("Link");
+    if(link){var m=link.match(/&page=(\d+)>;\s*rel="last"/);if(m){set("pl-count",(+m[1]).toLocaleString());set("sv-commits",(+m[1]).toLocaleString());}}
+    return r.json();
+  }).then(function(d){var c=d&&d[0];if(!c)return;
+    set("pl-commit",(c.sha.slice(0,7))+" "+c.commit.message.split("\n")[0].slice(0,42));
+    set("pl-commit-when",c.commit.author&&ago(new Date(c.commit.author.date)));
+  }).catch(function(){});
+  // open PRs
+  fetch(API+"/pulls?state=open&per_page=100",H).then(function(r){return r.json();})
+    .then(function(d){if(Array.isArray(d))set("pl-prs",String(d.length));}).catch(function(){});
+  // latest deploy + state
+  fetch(API+"/deployments?per_page=1",H).then(function(r){return r.json();}).then(function(d){
+    var dep=d&&d[0];if(!dep){set("pl-deploy","none");return;}
+    set("pl-deploy-when",ago(new Date(dep.created_at)));
+    return fetch(API+"/deployments/"+dep.id+"/statuses?per_page=1",H).then(function(s){return s.ok?s.json():[];})
+      .then(function(st){var state=st.length?st[0].state:"pending",
+        cls=state==="success"?"ok":(/fail|error/.test(state)?"err":"pend");
+        set("pl-deploy",'<span class="'+cls+'">'+(state==="success"?"live":state)+'</span>');});
+  }).catch(function(){set("pl-deploy","&#8212;");});
+})();
+</script>
+</body>
+</html>
