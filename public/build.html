@@ -41,6 +41,11 @@ h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-backgr
 .lede{color:var(--fg2);font-size:clamp(16px,2.2vw,20px);font-weight:500;line-height:1.56;margin:24px 0 0;
   text-wrap:pretty;max-width:none}
 .lede b{color:var(--fg1);font-weight:600}
+.lede a.lk{color:var(--fg1);font-weight:600;border-bottom:1px solid rgba(148,163,184,.4);transition:.15s}
+.lede a.lk:hover{color:var(--cyan);border-color:var(--cyan)}
+.lede .soon{color:var(--fg4);font-weight:600;border-bottom:1px dashed var(--line);cursor:not-allowed}
+.lede .soon::after{content:" (not yet)";font-family:var(--mono);font-size:.64em;letter-spacing:.04em;
+  color:var(--fg4);font-weight:500}
 .asof{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--fg4);
   margin:20px 0 0;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .asof .sep{color:var(--line)}
@@ -160,8 +165,8 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
   <div class="masthead">
     <span class="kick"><span class="dot"></span> The ARCS family &#183; The Workshop</span>
     <h1>Everything we build,<br><span class="g">out in the open.</span></h1>
-    <p class="lede">One front door onto the flywheel: the <b>goods</b> we've already shipped as open
-    source, the <b>playground</b> you can walk into right now, and the <b>lab</b> that's still in the
+    <p class="lede">One front door onto the flywheel: the <a class="lk" href="https://good.arcs.care/" target="_blank" rel="noopener">goods</a> we've already shipped as open
+    source, the <a class="lk" href="https://playground.arcs.care/" target="_blank" rel="noopener">playground</a> you can walk into right now, and the <span class="soon" title="not live yet">lab</span> that's still in the
     kitchen. What's live and actionable leads; the far-right bay is a peek at what's cooking, not a
     plate yet &#8212; it renders dimmer because it isn't ready, and that's honest.</p>
     <p class="asof">As of 2026-08-16 <span class="sep">&#183;</span> 7 goods live <span class="sep">&#183;</span> 5 playground surfaces <span class="sep">&#183;</span> 4 in the lab <span class="sep">&#183;</span> @9ead71c</p>
