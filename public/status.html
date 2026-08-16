@@ -728,7 +728,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     </div>
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
-      <strong>The one page read</strong> shows 8 milestones, one plain sentence each. Each level down adds
+      <strong>The one page read</strong> shows 12 milestones, one plain sentence each. Each level down adds
       more events and more detail, until <strong>Commits</strong> links every milestone to the actual code
       in the public repo. Keys 1 to 5 work too.
     </div>
@@ -755,7 +755,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="unlock-chip" id="chip-frontier">⊙ JUL: THE ENSEMBLE ROTATES · TAP</div>
       <div class="unlock-card" id="unlock-frontier">
         <div class="unlock-title">BUILDING AT THE EDGE: WITH THE FRONTIER AS IT MOVES.</div>
-        <div class="unlock-body">In the final two weeks the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline. The seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
+        <div class="unlock-body">In the two weeks up to Day 98 the pen changes hands almost entirely: <strong>Sonnet 5 and Fable 5 take over within days of release</strong>, while the model that wrote most of the build rotates out. Swapping the strongest available intelligence into a live production system without breaking stride is its own discipline. The seams are clean because the receipts, tests, and handbook made every model start oriented, not initiated. The gray lane matters too: <strong>128 commits carry no AI co-author at all.</strong> The conductor still plays.</div>
       </div>
     </div>
 
@@ -842,7 +842,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
         </tr>
         <tr>
           <td><strong>The quality score is still self-graded</strong> until enough outcomes accumulate to calibrate it.</td>
-          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped this week is the correction signal.</td>
+          <td class="hide-m">Every score is logged with its decision, so the calibration data builds up automatically. The outcome-tracking loop that shipped on Day 98 is the correction signal.</td>
           <td><span class="chip low">LOW</span></td>
           <td><span class="chip gated">GATED ON DATA</span></td>
         </tr>
@@ -869,7 +869,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="rm-lanes">
       <div class="rm-lane">
         <div class="rm-lane-head" style="color:var(--green);border-color:rgba(0,255,157,0.3);">NOW · IN PRODUCTION</div>
-        <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped this week. The system now checks its own predictions against what actually happened, automatically, and writes the result to an audit trail.</div></div>
+        <div class="rm-card"><div class="rm-title" style="color:var(--green);">SELF-GRADING LOOP</div><div class="rm-body">Shipped Day 98. When an outcome is logged, the system scores its earlier prediction against what actually happened and writes the result to an audit trail; a daily job sends the reminder so the check is not forgotten.</div></div>
         <div class="rm-card"><div class="rm-title" style="color:var(--green);">CALIBRATION DATA</div><div class="rm-body">Every decision and its outcome accumulates the evidence base the gated features below are waiting for. It builds itself through normal use.</div></div>
       </div>
       <div class="rm-lane">
@@ -891,10 +891,10 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
       <div class="section-n">07</div>
       <div class="section-label" style="color:var(--cyan);border-color:rgba(0,240,255,0.35);background:rgba(0,240,255,0.06);">DEPENDENCY MAP</div>
     </div>
-    <div class="section-title">The whole roadmap hangs on one dependency. It shipped this week.</div>
+    <div class="section-title">The whole roadmap hangs on one dependency. It shipped on Day 98.</div>
     <div class="section-body">
       Almost everything above waits on the same thing: real decisions with scored outcomes. The loop that
-      produces them went live on Day 98. From here, the roadmap unblocks itself through normal use.
+      produces them went live on Day 98. From here the pieces began to compound: the month since is the milestones below, and the next frontier is choreographing them into deep multi-agent orchestration.
     </div>
     <div class="dep-map">
       <div class="dep-node live">
@@ -1235,7 +1235,7 @@ var MILESTONES = [
     date: "DAY 84-90 · JUL 2-8", title: "Client pages become a production line.", rank: 1,
     alt: [
       "The commercial motion, proven live: 14+ branded client-facing pages (briefs, proposals, analyses), each stood up in hours on the same engine, demand tested with real clients, not a deck.",
-      "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in this window, all riding the same engine and design system.",
+      "The productized-consulting motion, proven on real clients: branded, client-facing pages (briefs, proposals, analyses) stood up as their own web addresses in hours each. 14+ went live in that window, all riding the same engine and design system.",
       "A single reusable template with fill-in slots plus a documented publishing routine turned each new client page into a two-hour exercise instead of a project. A consolidation pass then pulled scattered assets from a sibling repository into the main one, with review.",
       "The routine encodes its own past mistakes: which config file actually controls routing, why deploys must run from the main working copy (a wrong-copy deploy once silently dropped every other client page), and how new addresses get attached to the project."
     ],
@@ -1262,13 +1262,71 @@ var MILESTONES = [
   {
     date: "DAY 98 · JUL 16", title: "The loop closes. The system now grades itself.", rank: 1,
     alt: [
-      "As of this week the system checks its own predictions against what actually happened, automatically: it matches calendar events to call transcripts, scores the outcome against the expectation recorded before the call, files an audit record, and sends a one-line summary. No human has to remember to run it.",
+      "Since Day 98 the loop closes on a schedule: when a prediction comes due, a daily job emails a debrief automatically, so none is silently forgotten. When the outcome is logged, it is scored against the expectation recorded beforehand and written to an audit trail. The reminder is automatic; logging the outcome is still a human keystroke.",
       "This is the product thesis completing itself: decision receipts only compound if outcomes get scored against them, and outcome scoring only scales if it does not depend on anyone's discipline. It also generates the calibration data every gated feature is waiting on.",
-      "A scheduled job matches ended calendar events to their transcripts, reads each transcript twice (once backward from the ending, once forward against the pre-call expectation), writes the scored result to a private ledger, and notifies with the deltas. Three real calls were processed autonomously on the first production run, today.",
+      "A scheduled job matches ended calendar events to their transcripts, reads each transcript twice (once backward from the ending, once forward against the pre-call expectation), writes the scored result to a private ledger, and notifies with the deltas. Three real calls were processed autonomously on the first production run, on Day 98.",
       "The job's specification encodes its own failure history: a duplicate-work incident led to a strict naming rule and a check-before-work step, because scheduled runs share no memory with each other. Treating amnesia as a design constraint is what makes unattended automation safe."
     ],
     commits: [
       { sha: "eab39a3", msg: "feat(recoil): first autonomous post-call scoring run, three calls processed" }
+    ]
+  },
+  {
+    date: "DAY 120 · AUG 7", title: "Stop building things by hand. Build the machine that builds them.", rank: 1,
+    alt: [
+      "The work crossed a line from craft to manufacturing: instead of hand-building each page and report, one renderer reads a single source of truth and generates a whole family of surfaces. Change the source once, every surface updates.",
+      "Hand-building does not scale and it drifts: ten pages built by hand become ten slightly different pages. A factory keeps them identical by construction and makes the next one nearly free. The bet was to spend the effort once, on the machine, not every time on the output.",
+      "A client page became generated rather than typed; a reusable design pattern was published; a data-driven milestone renderer and a single-source distribution registry followed. Each is the same shape underneath: one source of truth, one renderer, many surfaces.",
+      "The discipline is composability: small, atomic parts assembled by machine, so a change propagates instead of being re-typed. Several of this page's sibling surfaces are generated exactly this way."
+    ],
+    commits: [
+      { sha: "ac96aa9", msg: "feat(forge): full one-door renderer, the page is now generated" },
+      { sha: "b6b1b76", msg: "feat(forge): publish the reusable design pattern" },
+      { sha: "5ca190b", msg: "feat(milestone): data-driven template + renderer" },
+      { sha: "50aef5e", msg: "feat(seeds): single-source distribution registry" }
+    ]
+  },
+  {
+    date: "DAY 124 · AUG 11", title: "The system learns to catch its own insights.", rank: 1,
+    alt: [
+      "A way to capture a flash of insight the moment it lands, not reconstructed hours later, and file it as a durable note that is promoted only if it proves out. Paired with a written philosophy of how knowledge is held and passed on.",
+      "Insight is perishable: the thought that names itself mid-work is usually gone by the time the notes get written. Catching it live and verbatim, then deciding later whether it was durable, keeps the good ones and discards the rest honestly.",
+      "The witness mechanism attests in the moment; a written doctrine sets down how a dormant idea is stored and when it is allowed to animate; every decision and receipt is minted as a reusable seed with the conditions it needs to germinate.",
+      "This is what makes the opening claim real: the thinking behind the build is captured as it happens, so it is inheritable, not locked in one head."
+    ],
+    commits: [
+      { sha: "d32b7fc", msg: "feat(witness): live capture of a flash of brilliance (ADR-046)" },
+      { sha: "d16b377", msg: "feat(canon): the doctrine for how knowledge is held and passed on" },
+      { sha: "325d21e", msg: "chore(seeds): mint each decision as a reusable seed" }
+    ]
+  },
+  {
+    date: "DAY 126 · AUG 13", title: "The system turns its scrutiny on itself.", rank: 1,
+    alt: [
+      "The machinery that records decisions started policing its own integrity: a sequence authority to stop ID collisions, a gate that refuses to ship an aspiration as a present fact, and a self-audit that downgraded one of its own claims from green to yellow.",
+      "A falsifier that will not turn on itself is just propaganda with footnotes. The real test is whether the honesty system will catch and correct its own errors, in public, at cost to its own story.",
+      "A cross-session sweep traced a family of colliding decision IDs to ground truth with four independent auditors and remapped them in one pass (031 to 048, 032 to 049, and more). An adversarial gauntlet was run against the canon itself.",
+      "The economics are logged, not guessed: 947,000 tokens of self-verification across five gauntlet runs, 32 of its own claims stress-tested to falsified, and a 13x correction to its own cost model once the log proved that agent count, not prompt size, drives the bill."
+    ],
+    commits: [
+      { sha: "e5aa6b8", msg: "feat(oracle): sequence oracle + 30-day cross-session reconciliation" },
+      { sha: "08330a8", msg: "refactor(adr): apply the forensic cross-session ID remap" },
+      { sha: "39a5408", msg: "fix(canon): self-audit downgrades a claim green to yellow" },
+      { sha: "c1b21d8", msg: "canon: a falsifier is only honest if it turns on itself" }
+    ]
+  },
+  {
+    date: "DAY 129 · AUG 16", title: "The front door opens, and the telemetry goes live.", rank: 1,
+    alt: [
+      "A public index of the open tools stood up, and this status page itself became live-computed, reading real numbers from the repository instead of a frozen snapshot. The page you are reading stopped being a photograph and became an instrument.",
+      "A body of work only compounds in the open if there is a door into it. The index gives the open tools one address; the live page makes the build legible to anyone, updated on its own rather than by hand.",
+      "The open tools were grouped behind a single front door, led by the ones that are fully baked, while the private intelligence that orchestrates them was kept deliberately separate. This page was rewired to read its own commit count, day count, and deploy state server-side.",
+      "The number at the top of this page updates itself now. From Day 98 the pieces began to compound; the next frontier is choreographing them into deep multi-agent orchestration, agents nesting several layers deep. That last part is intent, not yet built, and is labeled as such on purpose."
+    ],
+    commits: [
+      { sha: "9098fd4", msg: "feat: first public-goods connector + subdomain" },
+      { sha: "aeaf140", msg: "feat(good): public-goods index, led by the fully-baked tools" },
+      { sha: "db41d40", msg: "feat(seeds): the open-source family the index fronts" }
     ]
   }
 ];
@@ -1471,7 +1529,7 @@ render();
     "Where I was wrong and what changed: delete before you rebuild, enforce don't decorate, honesty over polish.",
     "What I'd tell a board today: single-operator context, gated features, vendor concentration, each with its mitigation.",
     "One backlog, three horizons. Nothing moves up on enthusiasm; every later item has a named condition that promotes it.",
-    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped this week.",
+    "The whole roadmap hangs on one dependency, scored outcomes, and it shipped on Day 98.",
     "Every piece of product vocabulary on this page, translated into plain words."
   ];
   var focusOn = true;
