@@ -1,7 +1,7 @@
 # ADR-061 — Verify every audit/gauntlet flag against the full primary source before applying
 
 **Status:** Accepted · 2026-08-16
-**Allocated by:** the oracle (`oracle next adr` → 61), per ADR-057. First falsification: `_STATE/falsification-ledger.jsonl` entry `EXP-2026-08-14-kam-codex-gauntlet`.
+**Allocated by:** the oracle (`oracle next adr` → 61), per ADR-057. Logged as falsification **F32** in the canonical `_STATE/falsification-ledger.jsonl` (rendered to the published Hypercube Gauntlet Experiment Logbook).
 
 ## Context
 The counterpart-gauntlet (persona facets → adversarial verify → dual-bar-raiser → synthesis) is a strong
@@ -33,9 +33,9 @@ a quote cites an external document, a fetch of that document. Concretely:
    exception is named.
 
 ## Consequences
-- **Both defect classes are recorded, not just one.** The falsification ledger logs `falsified[]` (real
-  defects fixed) AND `over_flags_rejected[]` (where the test itself was proven wrong). The gauntlet's own
-  error rate becomes visible over time.
+- **Both defect classes are recorded as falsifications.** The canonical ledger keeps real defects fixed
+  AND the gauntlet's own over-flags — F32 logs the *test being falsified by its source*, a first-class row
+  on the tape. The gauntlet's error rate becomes visible over time (this ADR's own origin is one such row).
 - **NOTOMATION holds:** the machine surfaces and pressure-tests; the operator adjudicates against ground
   truth and owns what ships. A HOLD from a bar-raiser is an input, not an order.
 - **Cost note (pre-revenue):** a 17-agent gauntlet (~1.8M tokens) is only worth it when a real source
