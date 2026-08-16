@@ -1,0 +1,132 @@
+<title>ARCS Omakase · House Kit</title>
+<style>
+:root{
+  --case:#0B0B0C; --panel:#131315; --panel2:#17171A; --line:#232326;
+  --dial:#E8E4DA; --dial-2:#B7B3AA; --dial-3:#7C7970;
+  --gold:#C9A227; --verm:#E34F1C;
+  --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,Menlo,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--case);color:var(--dial);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding:60px 26px 96px}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);margin:0 0 18px}
+h1{font-size:44px;line-height:1.02;margin:0 0 14px;font-weight:700;letter-spacing:-.02em}
+.thesis{color:var(--dial-2);font-size:16px;max-width:62ch;margin:0 0 6px;font-weight:300}
+.thesis b{color:var(--dial);font-weight:500}
+.rule{height:1px;background:var(--line);margin:40px 0}
+.laws{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0 0}
+.law{flex:1;min-width:240px;border-top:2px solid var(--gold);background:linear-gradient(180deg,var(--panel),var(--panel2));padding:18px 20px}
+.law.cut{border-top-color:var(--verm)}
+.law .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dial-3);margin:0 0 8px}
+.law p{margin:0;font-size:14px;color:var(--dial-2);font-weight:300}
+section{margin:52px 0 0}
+h2{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dial-3);
+  margin:0 0 22px;font-weight:400;display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--line);padding-bottom:11px}
+h2 .n{letter-spacing:.02em;text-transform:none;font-size:12px;color:var(--dial-3);font-family:var(--sans);font-style:italic}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.sw{background:var(--case);padding:0}
+.sw .chip{height:66px}
+.sw .meta{padding:9px 11px;font-family:var(--mono);font-size:10px}
+.sw .nm{color:var(--dial);display:block;letter-spacing:.04em;text-transform:uppercase;font-size:9px;margin-bottom:2px}
+.sw .hx{color:var(--dial-3)}
+.sw .use{color:var(--dial-3);font-size:9px;margin-top:3px;font-family:var(--sans);letter-spacing:.02em}
+.type-row{display:flex;align-items:baseline;gap:20px;padding:12px 0;border-top:1px solid var(--line)}
+.type-row .lbl{font-family:var(--mono);font-size:10px;color:var(--dial-3);width:130px;flex:0 0 130px;letter-spacing:.08em}
+.cut-demo{border:1px solid var(--line);border-left:2px solid var(--verm);background:var(--panel);padding:16px 18px}
+.cut-demo .tag{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--verm);margin:0 0 8px}
+.crew{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.card{background:linear-gradient(180deg,var(--panel),var(--panel2));padding:18px 20px}
+.card .role{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--dial-3);margin:0 0 8px}
+.card h4{margin:0 0 8px;font-size:16px;font-weight:500;color:var(--dial)}
+.card p{margin:0;font-size:12.5px;color:var(--dial-2);font-weight:300}
+.card.mask{border-left:2px solid var(--verm)}
+.seal{font-size:22px;color:var(--verm);float:right;margin:-4px 0 0 10px;line-height:1}
+.token{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--panel),var(--panel2));padding:16px 18px}
+.token .tk{font-family:var(--mono);font-size:9px;letter-spacing:.16em;color:var(--gold);margin-bottom:11px;text-transform:uppercase}
+.token h4{margin:0 0 6px;font-size:15px;font-weight:500}
+.token p{margin:0;font-size:12px;color:var(--dial-2);font-weight:300}
+.dont{display:grid;gap:9px}
+.dont div{font-size:13px;color:var(--dial-2);font-weight:300;padding-left:18px;position:relative}
+.dont div::before{content:"";position:absolute;left:0;top:8px;width:8px;height:8px;background:var(--gold)}
+.dont div.no::before{background:var(--verm)}
+.dont b{color:var(--dial);font-weight:500}
+footer{color:var(--dial-3);font-size:11px;font-family:var(--mono);border-top:1px solid var(--line);padding-top:18px;margin-top:56px;letter-spacing:.04em}
+@media (max-width:560px){h1{font-size:32px}.type-row{flex-direction:column;gap:3px}.type-row .lbl{width:auto}}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS · Omakase Canon Family</p>
+  <h1>House Kit</h1>
+  <p class="thesis">The locked house grammar for the <b>omakase family</b> (louisville, jeben, and
+  their kin). A coursed tasting room, not a dashboard: the maker sequences the reveal, the reader
+  receives it in order. Register: chef's counter, editorial restraint, evidence credited every time.
+  This world is <b>self-contained</b> and does not inherit the Field OS cockpit; each family surface
+  records it per-brief. The one law that governs every mark: <b>color is never ornament</b>.</p>
+
+  <div class="laws">
+    <div class="law"><p class="k">Law 1 · Color is never ornament</p><p>Gold means credit and value.
+      Vermillion means the cut: the adversary, the checkpoint, the thing that earns the spend. If a
+      color is not carrying meaning, it is not on the page.</p></div>
+    <div class="law cut"><p class="k">Law 2 · Coursed, not scrolled</p><p>The work is plated in
+      sequence and paced. Each course lands whole before the next. Restraint is the luxury: white
+      space, one idea per plate, nothing hurried.</p></div>
+  </div>
+
+  <section>
+    <h2>Palette <span class="n">near-black case, paper ink, two meaningful accents</span></h2>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#0B0B0C;border-bottom:1px solid var(--line)"></div><div class="meta"><span class="nm">Case</span><span class="hx">#0B0B0C</span><div class="use">the ground / lacquer</div></div></div>
+      <div class="sw"><div class="chip" style="background:#131315"></div><div class="meta"><span class="nm">Panel</span><span class="hx">#131315</span><div class="use">plates / cards</div></div></div>
+      <div class="sw"><div class="chip" style="background:#232326"></div><div class="meta"><span class="nm">Line</span><span class="hx">#232326</span><div class="use">hairline seams</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E8E4DA"></div><div class="meta"><span class="nm">Dial</span><span class="hx">#E8E4DA</span><div class="use">the ink / primary text</div></div></div>
+      <div class="sw"><div class="chip" style="background:#C9A227"></div><div class="meta"><span class="nm">Gold</span><span class="hx">#C9A227</span><div class="use">credit · value · heraldry</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E34F1C"></div><div class="meta"><span class="nm">Vermillion</span><span class="hx">#E34F1C</span><div class="use">the cut · adversary · seal</div></div></div>
+    </div>
+    <p style="color:var(--dial-3);font-size:11.5px;margin:14px 0 0;max-width:68ch;font-weight:300">Muted, heraldic gold (not the Field OS bright #FFD700) and a single vermillion. Two accents, each with one job. Everything else is case, panel, ink.</p>
+  </section>
+
+  <section>
+    <h2>Typography <span class="n">Helvetica voice, SF Mono serialization</span></h2>
+    <div>
+      <div class="type-row"><span class="lbl">display · 44/-.02</span><span style="font-size:34px;font-weight:700;letter-spacing:-.02em">The seed, told whole</span></div>
+      <div class="type-row"><span class="lbl">heading · 500</span><span style="font-size:20px;font-weight:500">Wild evidence, credited every time</span></div>
+      <div class="type-row"><span class="lbl">body · 300</span><span style="font-size:15px;font-weight:300;color:var(--dial-2)">Helvetica at light weight carries the prose: calm, editorial, unhurried. One idea per plate.</span></div>
+      <div class="type-row"><span class="lbl">serialization</span><span class="mono" style="font-size:12px;letter-spacing:.06em;color:var(--dial-2)">SEAL 仮 · course 03 / 07 · credited: jeben</span></div>
+      <div class="type-row"><span class="lbl">token · +.16em</span><span class="mono" style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)">The lossless cut</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The cut <span class="n">vermillion is the adversary, never decoration</span></h2>
+    <div class="cut-demo">
+      <p class="tag">仮 · Loki · the mask</p>
+      <p style="margin:0;font-size:14px;color:var(--dial-2);font-weight:300">Wears the target's face, then turns adversary: is this resonance, or flattery? A rendering that only pleases is theater with a paper trail. Vermillion marks the one cheap checkpoint before the spend.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Components <span class="n">token · crew card · course seal</span></h2>
+    <div class="crew" style="margin-bottom:16px">
+      <div class="card"><div class="role">For jeben · the craftsman</div><h4 style="color:var(--gold)">Credited every time</h4><p>The back of the fence, the labor behind the refined thing out front. Every image that travels is credited every time it travels.</p></div>
+      <div class="card mask"><span class="seal" aria-hidden="true">仮</span><div class="role">Loki · the mask</div><h4 style="color:var(--verm)">Wears the target's face</h4><p>Dons the register honestly, then turns adversary. Cuts and checks: the mask.</p></div>
+    </div>
+    <div class="token"><div class="tk">Token · atomic unit</div><h4>One sealed decision is a seed</h4><p>The atom, the lossless cut, the crew, the ladder, and the loop, told as one story. Bordered, radiused, plated on panel gradient.</p></div>
+  </section>
+
+  <section>
+    <h2>Do's and don'ts</h2>
+    <div class="dont">
+      <div><b>Do</b> give gold and vermillion a job every time they appear (credit / the cut). Two accents, no more.</div>
+      <div><b>Do</b> course the content: sequence, pace, one idea per plate, generous restraint.</div>
+      <div><b>Do</b> credit the evidence every time it travels.</div>
+      <div class="no"><b>Don't</b> use color as ornament, or add a third accent. If it carries no meaning, remove it.</div>
+      <div class="no"><b>Don't</b> import the Field OS cockpit (cyan, bright gold, Inter, glow). This world is warm, editorial, Helvetica.</div>
+      <div class="no"><b>Don't</b> use em-dashes; prefer commas, colons, or the interpunct (project rule).</div>
+    </div>
+  </section>
+
+  <footer>ARCS Omakase house world · case #0B0B0C · dial #E8E4DA · gold #C9A227 · vermillion #E34F1C ·
+  Helvetica + SF Mono · locked per-family, does not inherit Field OS · companion to the Field OS UI Kit</footer>
+</div>
