@@ -202,6 +202,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
         // status.arcs.care → public/status.html (standalone ARCS build-status fork of chan, no Prophet/presentation, ungated)
         { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
+        // resume-tailor.arcs.care → public/resume-tailor.html (landing page for the resume-tailor OSS skill/plugin; ADR-056 per-tool subdomain)
+        { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         // ayesha.arcs.care → public/ayesha-ext.html (sanitized external recap, addressed to Ayesha, pw-gated "ayesha")
         // public/ayesha.html (internal Recoil Report) is committed but deliberately NOT routed to any domain.
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
