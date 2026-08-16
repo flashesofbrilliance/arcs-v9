@@ -450,18 +450,18 @@ const ROLES = [
       { t:'Translated regulatory requirements into product and go-to-market requirements', v:['all','ds'] },
     ] },
   { id:'ctf', glyph:'◇', label:"Children's Tumor Foundation", color:T.gold,
-    dates:'2018–2019', role:'Sr. Director, Data & CRM Strategy',
-    summary:'Enterprise growth intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation engine across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.',
+    dates:'2018–2019', role:'Sr. Director, Data & Strategy',
+    summary:'Enterprise data and decision-intelligence layer from scratch: CDP architecture, CRM modernization, and segmentation across marketing, fundraising, and clinical. 20% net-new revenue growth through data-driven lifecycle strategy.',
     metric:'20%', metricLabel:'NET-NEW REVENUE VIA DATA PERSONALIZATION',
     compassPrompt:'When a mission-driven org needs to shift from intuition-led to data-led fundraising, what\'s the right sequence, and how do you get program teams to act on the signal before the next campaign launches?',
     bullets:[
-      { t:'Built enterprise growth intelligence infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation', v:['all','ds'] },
+      { t:'Built the enterprise data infrastructure end-to-end: CDP evaluation, CRM modernization (Salesforce Lightning), lifecycle segmentation', v:['all','ds'] },
       { t:'Built segmentation engine and scalable data model supporting marketing, fundraising, and clinical operations across 3 business units; the first intelligence layer any of these teams had', v:['all','ds'] },
       { t:'Drove 20% increase in net-new revenue through data-driven personalization, behavioral segmentation, and cross-BU growth instrumentation', v:['all','figma'] },
     ] },
   { id:'wta', glyph:'△', label:"Women's Tennis Association", color:T.green,
-    dates:'2016–2018', role:'Product & Partnerships Lead',
-    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue. The live commerce drop model is structurally the same problem: same high-stakes window, same intent capture, same personalized delivery.',
+    dates:'2016–2018', role:'Head of Product & Strategic Partnerships',
+    summary:'Built the first fan behavior intelligence layer for a global sports platform: real-time scoring at <120ms, CDP architecture, and $850K+ in year-one commercial revenue.',
     metric:'<120ms', metricLabel:'REAL-TIME FAN BEHAVIOR SCORING',
     compassPrompt:'How do you build commercial intelligence for live events when the decision window is under 120 seconds and behavioral signal arrives asynchronously, and what does the pre/post-event capture loop look like?',
     bullets:[
@@ -515,7 +515,7 @@ const CONSULTING_CLIENTS = [
     summary:'Quantitative opportunity assessments for 5G innovation products; data-informed go/no-go investment recommendations.',
     metric:'5', metricLabel:'5G INNOVATION VENTURES ASSESSED',
     bullets:[
-      { t:'Quantitative opportunity assessments for 5 5G innovation products; market sizing and competitive analysis', v:['all','ds'] },
+      { t:'Quantitative opportunity assessments for five 5G innovation products; market sizing and competitive analysis', v:['all','ds'] },
       { t:'Analyzed market trends to recommend go/no-go decisions on venture investments', v:['all','ds'] },
     ] },
 ];
@@ -570,7 +570,7 @@ function GrainResume() {
       metrics:'Seven-figure engagement  ·  $350M ARR client  ·  5 verticals',
       bullets:['Squat NY (2019–2020): Seven-figure embedded engagement for $350M ARR behavioral health company post-PE acquisition',
                'Axon (GovTech) · Twill Health (HealthTech) · GoPro (Consumer Tech) · Verizon Media (Moonshot)'] },
-    { co:"Children's Tumor Foundation", role:'Sr. Director, Data & CRM Strategy', dates:'2018–2019',
+    { co:"Children's Tumor Foundation", role:'Sr. Director, Data & Strategy', dates:'2018–2019',
       metrics:'20% revenue lift  ·  CDP + CRM architecture  ·  Salesforce modernization',
       bullets:['Enterprise CDP and CRM strategy end-to-end; segmentation engine across marketing, fundraising, and clinical ops',
                '20% increase in net-new revenue through data-driven personalization and behavioral segmentation'] },
@@ -796,7 +796,7 @@ function DeepScan() {
 
       {/* Core Strengths — TrueNorthPanel, cyan is the only signal in this section */}
       <TrueNorthPanel heading="CORE STRENGTHS" color={T.cyan} style={{ marginBottom:16 }}>
-        Builds the intelligence layer before the category for it exists, then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in growth intelligence hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
+        Builds the intelligence layer before the category for it exists, then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, tech, marketing, data, commercial, and security don't live in separate rooms. The rarest thing in this kind of hiring is someone who can hold all of them simultaneously and make decisions that are right across every dimension at once.
       </TrueNorthPanel>
 
       {/* Energy Profile — glass card, two-column, no WeatherBar chrome */}
@@ -840,15 +840,15 @@ function DeepScan() {
       <SectionLabel style={{ marginBottom:10 }}>COMPOUND ADVANTAGES</SectionLabel>
       <div style={{ display:'flex', flexDirection:'column', gap:6, marginBottom:20 }}>
         {[
-          { id:'ci1', glyph:'⊗', label:'Sports fan monetization × live commerce drops: same architecture',
+          { id:'ci1', glyph:'⊗', label:'Real-time behavioral scoring × high-stakes decision windows: same architecture',
             meta:'WTA <120ms fan scoring · live drops · 10-year gap',
-            summary:'WTA live-event fan scoring at <120ms and live commerce drops are the same architecture: user in a high-stakes, time-compressed purchase window; personalized signal needs to land before the window closes. Built the first version in 2016.',
+            summary:'WTA live-event fan scoring at <120ms is the same architecture as any high-stakes, time-compressed decision window: personalized signal has to land before the window closes. Built the first version in 2016.',
             detail:<>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65, marginBottom:10 }}>
                 At WTA (2016–2018): fan at a live event → behavioral signal → personalized offer under 120ms. The system had to read intent and deliver without friction because a delayed offer during a match moment was worthless. Built the real-time architecture, the behavioral taxonomy, and the commercial partnership layer ($850K+ year-one from Twitter and Facebook).
               </p>
               <p style={{ fontFamily:T.sans, fontSize:12.5, color:T.fg1, lineHeight:1.65 }}>
-                Live commerce drops are the same problem class: user in a purchase window → behavioral signal → post-event intelligence feeds the next drop. The WTA architecture is a direct ancestor. The isomorphism is structural, not superficial.
+                High-stakes decision windows are the same problem class: user in a time-boxed window → behavioral signal → post-event intelligence feeds the next decision. The WTA architecture is a direct ancestor. The isomorphism is structural, not superficial.
               </p>
             </> },
           { id:'ci2', glyph:'⊗', label:'Studio Art × Cross-Domain Intelligence',
