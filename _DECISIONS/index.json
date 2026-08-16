@@ -421,5 +421,14 @@
   "stability": "STABLE",
   "gate": "standing discipline; validated on the Kam codex gauntlet (caught 3 over-flags incl. the synth's own #1). Deterministic checker: provcheck.py. Ledger: _STATE/falsification-ledger.jsonl",
   "file": "ADR-061-verify-flags-against-full-source.md"
+ },
+ {
+  "id": "ADR-062",
+  "title": "ADR-062 — The ouroboros: a falsifier is only honest if it turns on itself",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "recursive self-application as the honesty test of any falsifier; demonstrated by F6 + F32 on the falsification ledger. Witnessed 2026-08-16.",
+  "file": "ADR-062-ouroboros-recursive-self-falsification.md"
  }
 ]

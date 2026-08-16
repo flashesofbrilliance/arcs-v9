@@ -1,0 +1,20 @@
+{
+  "_doc": "DEWY receipts for 2026-08-16 — capturing the ouroboros principle that surfaced while banking the Kam gauntlet session. See ADR-062 (recursive self-falsification) and witness stub _STATE/witness/2026-08-16.jsonl (F32 in the falsification ledger is the triggering event).",
+  "session_ts": "2026-08-16",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-16-ouroboros-recursive-self-falsification",
+      "surface": "governance / canon",
+      "sharp_question": "What makes a falsifier honest rather than propaganda wearing a lab coat?",
+      "dewy_vector": {
+        "D": "Canonize ADR-062: recursive self-application is the honesty test of any falsifier/audit/gauntlet/control. No self-exemption; turn the instrument on its own outputs; log self-catches as first-class falsifications; a surface that has never falsified one of its own designs has its external verdicts treated as unproven.",
+        "E": "The falsifier (gauntlet/claims-skeptic/provenance-checker), ADR-061, the honest-resonance-engine mission, the operator, the falsification ledger (F6, F32).",
+        "W": "Standing principle, effective now; a cheap per-control check going forward.",
+        "Y": "GREEN — twice demonstrated on the live tape: F6 (a GREEN ADR that exempted itself) and F32 (ADR-061 catching its own author on day one)."
+      },
+      "why": "A falsifier that only points outward is indistinguishable from a flattering machine. The snake eating its own tail — the discipline catching its own author — is exactly the moment it proved real. Self-exemption is the tell of propaganda.",
+      "nci_score": null,
+      "outcome": "ADR-062 written + registered; witness stub filed (GREEN, promoted->ADR-062); grounded in F6 + F32 on the falsification ledger."
+    }
+  ]
+}
