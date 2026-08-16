@@ -8,6 +8,79 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* @family-tokens:start — generated from public/observatory/colors_and_type.css; edit the SSOT + run scripts/sync_family_tokens.py, not here */
+:root{
+  --bg: #020408;
+  --surface: #0d1117;
+  --elevated: #111827;
+  --obsidian: #0A0C0D;
+  --border: #1e293b;
+  --border-active: rgba(122, 210, 255, 0.38);
+  --border-locked: rgba(255, 210, 120, 0.28);
+  --fg1: #e2e8f0;
+  --fg2: #94a3b8;
+  --fg3: #8593a6;
+  --fg4: #707e92;
+  --cyan: #00F0FF;
+  --green: #00FF9D;
+  --gold: #FFD700;
+  --orange: #ff9d3c;
+  --red: #FF4D6D;
+  --steel: #94a3b8;
+  --violet: #A78BFA;
+  --magenta: #E879F9;
+  --bronze: #BA8F65;
+  --bronze-dim: #9A7755;
+  --jade: #5A9E87;
+  --terracotta: #B8664F;
+  --ivory: #F8F5F0;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --text-xs: 0.625rem;
+  --text-sm: 0.75rem;
+  --text-md: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 2rem;
+  --text-3xl: 3rem;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semi: 600;
+  --weight-bold: 700;
+  --track-tight: -0.02em;
+  --track-base: 0em;
+  --track-wide: 0.04em;
+  --track-wider: 0.08em;
+  --track-widest: 0.14em;
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --shadow-inset: inset 0 4px 8px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.03);
+  --shadow-raised: 0 1px 3px rgba(0,0,0,0.3), 0 -1px 0 rgba(255,255,255,0.03);
+  --shadow-elevated: 0 4px 12px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.15);
+  --shadow-floating: 0 8px 24px rgba(0,0,0,0.3), 0 4px 8px rgba(0,0,0,0.2);
+  --emboss: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+  --deboss: inset 0 2px 4px rgba(0,0,0,0.60), inset 0 -1px 0 rgba(255,255,255,0.06);
+  --glass-surface: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
+  --glow-cyan: inset 0 1px 0 rgba(120,245,255,0.55), inset 0 0 12px rgba(0,240,255,0.22), 0 0 16px rgba(0,240,255,0.45), 0 0 40px rgba(0,240,255,0.22), 0 4px 14px rgba(0,0,0,0.5);
+  --glow-green: inset 0 1px 0 rgba(140,255,210,0.55), inset 0 0 12px rgba(0,255,157,0.24), 0 0 16px rgba(0,255,157,0.48), 0 0 40px rgba(0,255,157,0.24), 0 4px 14px rgba(0,0,0,0.5);
+  --glow-gold: inset 0 1px 0 rgba(255,236,150,0.55), inset 0 0 12px rgba(255,215,0,0.22), 0 0 16px rgba(255,215,0,0.45), 0 0 40px rgba(255,215,0,0.20), 0 4px 14px rgba(0,0,0,0.5);
+  --ease-luxury: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+/* @family-tokens:end */
 :root{
   --bg:#020408; --surface:#0d1117; --elevated:#111827; --obsidian:#0A0C0D;
   --line:#1e293b; --line-2:#141d2b;
