@@ -220,6 +220,8 @@ const nextConfig: NextConfig = {
         // ayesha.arcs.care → public/ayesha-ext.html (sanitized external recap, addressed to Ayesha, pw-gated "ayesha")
         // public/ayesha.html (internal Recoil Report) is committed but deliberately NOT routed to any domain.
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
+        // build.arcs.care → public/build.html (The Workshop: unifying goods→playground→lab front door + live pulse; public, ungated)
+        { source: "/:path*", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
