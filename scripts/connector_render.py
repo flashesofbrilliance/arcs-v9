@@ -1,0 +1,295 @@
+#!/usr/bin/env python3
+"""connector_render — render the ADR-056 <tool>.arcs.care connector fleet from SSOT.
+
+One invariant page shape (frozen below, extracted from public/resume-tailor.html — the
+hand-built REFERENCE), many surfaces. Layout never varies; only the per-tool DATA does.
+Same "freeze layout, vary only the data" discipline as scripts/milestone_render.py.
+
+Two inputs, both git-tracked SSOT — no second source of truth:
+  * _SEEDS/distribution.jsonl  — repo / url / channels[] (channel, install, live, verify)
+  * _SEEDS/connectors.json     — per-tool copy blocks (grounded in each repo's real README)
+
+HONESTY GATE (hard, per the scope brief + ADR-056 air-gap):
+  * A page renders an install channel ONLY if that channel is live:true in distribution.jsonl
+    for the same repo. A copy block referencing a non-live channel is a hard error.
+  * EXCLUDE list (registry live:false repos) can never be rendered — they have no live channel.
+  * Air-gap: only ungated copy from connectors.json reaches the page. Nothing from the private
+    _SEEDS registry internals, rosetta, or ripeness priors is templated in.
+
+Usage:
+  connector_render.py            # render every tool in connectors.json -> public/<repo>.html
+  connector_render.py <repo> …   # render only the named tool(s)
+
+Stdlib only.
+"""
+import json, os, sys, html
+
+ROOT = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+DIST = os.path.join(ROOT, "_SEEDS/distribution.jsonl")
+DATA = os.path.join(ROOT, "_SEEDS/connectors.json")
+OUTDIR = os.path.join(ROOT, "public")
+
+# ---- frozen house style: byte-for-byte the <style> block from resume-tailor.html ----
+CSS = """  :root{
+    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#5b6b7d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px;}
+  .mono{font-family:var(--mono);}
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 420px at 20% -10%,rgba(0,240,255,.10),transparent 60%),radial-gradient(700px 380px at 92% 0,rgba(0,255,157,.07),transparent 55%);}
+  .hero{padding:66px 0 58px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(46px,9vw,88px);font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:22px;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(16px,2.5vw,20px);line-height:1.58;color:var(--fg2);max-width:640px;margin-top:22px;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  /* full-width lede matches heading… hero lede spans the container, not a narrow column */
+  .hero .lede{max-width:none;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  section{padding:52px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:24px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:22px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+
+  .thesis{font-size:clamp(19px,3vw,25px);line-height:1.5;font-weight:500;letter-spacing:-.01em;color:var(--fg1);max-width:780px;}
+  .thesis b{color:var(--green);font-weight:600;}
+  .thesis small{display:block;font-size:13.5px;font-weight:400;color:var(--fg3);margin-top:16px;line-height:1.65;}
+
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px;}
+  @media(max-width:720px){.grades{grid-template-columns:1fr;}}
+  .grade{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .grade .g{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);}
+  .grade p{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+
+  .oneshot{position:relative;border:1px solid var(--border2);border-radius:13px;background:linear-gradient(165deg,#0c1219,#080d13);box-shadow:0 12px 34px -18px rgba(0,240,255,.25);overflow:hidden;}
+  .oneshot .bar{display:flex;align-items:center;justify-content:space-between;padding:11px 15px;border-bottom:1px solid var(--border);background:rgba(0,240,255,.04);}
+  .oneshot .bar .l{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);}
+  .oneshot .cp{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--fg3);border:1px solid var(--border2);background:var(--elev);border-radius:7px;padding:5px 11px;cursor:pointer;transition:.15s;}
+  .oneshot .cp:hover{color:var(--cyan);border-color:var(--cyan);}
+  .oneshot pre{margin:0;padding:17px 18px;overflow-x:auto;}
+  .oneshot code{font-family:var(--mono);font-size:12.5px;line-height:1.7;color:var(--fg1);white-space:pre-wrap;}
+  .oneshot code .v{color:var(--gold);}
+
+  .install-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:720px){.install-grid{grid-template-columns:1fr;}}
+  .install-grid.one{grid-template-columns:1fr;max-width:620px;}
+  .chan h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-bottom:8px;}
+
+  pre.blk{background:var(--elev);border:1px solid var(--border);border-radius:11px;padding:15px 17px;overflow-x:auto;}
+  pre.blk code{font-family:var(--mono);font-size:12.5px;color:var(--green);line-height:1.7;white-space:pre-wrap;}
+  .note{font-size:12.5px;line-height:1.55;color:var(--fg3);margin-top:14px;} .note b{color:var(--fg2);font-weight:600;}
+
+  footer{padding:34px 0 48px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}"""
+
+COPY_JS = """  function copyFlash(b,ok){
+    if(!b) return; if(b._t) clearTimeout(b._t); if(!b._o) b._o=b.textContent;
+    b.textContent = ok ? 'copied ✓' : 'select + copy';
+    b.style.color = ok ? '#00FF9D' : '#FFD700';
+    b._t=setTimeout(function(){b.textContent=b._o;b.style.color='';},1800);
+  }
+  function legacyCopy(t){
+    try{ var ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly','');
+      ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length);
+      var ok=document.execCommand('copy'); document.body.removeChild(ta); return ok;
+    }catch(e){ return false; }
+  }
+  function copyCmd(btn){
+    var t=btn.getAttribute('data-cmd')||'';
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(function(){copyFlash(btn,true);},
+        function(){ copyFlash(btn, legacyCopy(t)); });
+    } else { copyFlash(btn, legacyCopy(t)); }
+  }"""
+
+
+def esc(s):
+    return html.escape(s, quote=True)
+
+
+def load_ssot():
+    rows = {}
+    with open(DIST) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            row = json.loads(line)
+            rows[row["repo"]] = row
+    return rows
+
+
+def live_channels(row):
+    """channel-name -> channel dict, for channels with live is True."""
+    out = {}
+    for ch in row.get("channels", []):
+        if ch.get("live") is True:
+            out[ch["channel"]] = ch
+    return out
+
+
+def render(repo, data, row):
+    live = live_channels(row)
+    if not live:
+        raise SystemExit(f"REFUSED: {repo} has no live:true channel in SSOT — cannot render a connector.")
+
+    # honesty gate: every install block must map to a live SSOT channel
+    for chname in data["install"]:
+        if chname not in live:
+            raise SystemExit(
+                f"REFUSED: {repo} copy references channel '{chname}' which is NOT live:true in SSOT. "
+                f"live channels: {sorted(live)}")
+
+    url = row["url"]
+    gh = "https://" + url if not url.startswith("http") else url
+
+    # hero
+    badge = f"{repo} · {data['badge_kind']}"
+    h1 = f'<span class="g">{esc(data["title_g"])}</span> {esc(data["title_rest"])}'
+
+    # what-it-does cards (2 or 3 col grid — grades class handles both via repeat(3) + wrap)
+    cards = "\n".join(
+        f'      <div class="grade"><div class="g">● {esc(c["t"])}</div><p>{esc(c["p"])}</p></div>'
+        for c in data["what"])
+
+    # install blocks — only live channels, in SSOT order
+    blocks = []
+    for chname, ch in live.items():
+        if chname not in data["install"]:
+            continue
+        spec = data["install"][chname]
+        cmd = spec["cmd"]
+        blocks.append(
+            f'      <div class="chan">\n'
+            f'        <h3>{esc(spec["label"])}</h3>\n'
+            f'        <div class="oneshot">\n'
+            f'          <div class="bar"><span class="l">◈ {esc(chname)}</span>'
+            f'<button class="cp" data-cmd="{esc(cmd)}" onclick="copyCmd(this)">copy</button></div>\n'
+            f'          <pre><code>{esc(cmd)}</code></pre>\n'
+            f'        </div>\n'
+            f'      </div>')
+    grid_cls = "install-grid one" if len(blocks) == 1 else "install-grid"
+    install_html = f'    <div class="{grid_cls}">\n' + "\n".join(blocks) + "\n    </div>"
+
+    # optional usage line
+    usage_html = ""
+    if data.get("usage"):
+        u = data["usage"]
+        usage_html = (
+            f'\n    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;'
+            f'text-transform:uppercase;color:var(--fg4);margin:26px 0 10px;">{esc(u["label"])}</h3>\n'
+            f'    <pre class="blk"><code>{esc(u["code"])}</code></pre>')
+    if data.get("requires"):
+        usage_html += f'\n    <p class="note">{data["requires"]}</p>'
+    if data.get("note_linux"):
+        usage_html += f'\n    <p class="note">{esc(data["note_linux"])}</p>'
+
+    doc = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{esc(repo)} · {esc(data['title_g'].rstrip(',').lower())}</title>
+<meta name="description" content="{esc(data['desc'])}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+{CSS}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>{esc(badge)}</span>
+    <h1>{h1}</h1>
+    <p class="lede">{data['lede']}</p>
+    <div class="cta">
+      <a class="btn p" href="#start">↓ Install</a>
+      <a class="btn s" href="{esc(gh)}">◇ GitHub</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>{esc(data['thesis_label'])}</h2><span class="sub">{esc(data['thesis_sub'])}</span></div>
+    <p class="thesis">{data['thesis']}</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>{esc(data['what_label'])}</h2><span class="sub">{esc(data['what_sub'])}</span></div>
+    <div class="grades">
+{cards}
+    </div>
+  </div>
+</section>
+
+<section id="start">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">03</span><h2>{esc(data['install_label'])}</h2><span class="sub">{esc(data['install_sub'])}</span></div>
+{install_html}{usage_html}
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">04</span><h2>Part of the ARCS family</h2><span class="sub">the tie-in</span></div>
+    <p class="thesis">{esc(data['tie_in'])}</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>{esc(repo)} · a public good by <a href="https://arcs.care">ARCS</a> · MIT</span>
+    <span><a href="{esc(gh)}">github</a> · <a href="https://arcs.care">arcs.care</a></span>
+  </div>
+</footer>
+
+<script>
+{COPY_JS}
+</script>
+</body>
+</html>
+"""
+    out = os.path.join(OUTDIR, f"{repo}.html")
+    with open(out, "w") as f:
+        f.write(doc)
+    chans = ", ".join(f"{c}✓" for c in live if c in data["install"])
+    print(f"rendered public/{repo}.html  [{chans}]")
+
+
+def main():
+    ssot = load_ssot()
+    blob = json.load(open(DATA))
+    tools = blob["tools"]
+    want = sys.argv[1:] or list(tools.keys())
+    for repo in want:
+        if repo not in tools:
+            raise SystemExit(f"no copy block for '{repo}' in connectors.json")
+        if repo not in ssot:
+            raise SystemExit(f"'{repo}' not in distribution.jsonl SSOT")
+        render(repo, tools[repo], ssot[repo])
+
+
+if __name__ == "__main__":
+    main()
