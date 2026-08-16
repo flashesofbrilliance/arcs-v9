@@ -439,5 +439,14 @@
   "stability": "STABLE",
   "gate": "canon neutrals + Inter/JetBrains; extended accents grouped by tool kind (skill cyan/green, cli violet, web amber), scoped to *.arcs.care connectors only, never product surfaces. Recorded 2026-08-16.",
   "file": "ADR-063-public-goods-connector-visual-family.md"
+ },
+ {
+  "id": "ADR-064",
+  "title": "ADR-064 — External corroboration is the milestone gate; impact is the rank",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "external-corroboration (reviewer-clickable proof the author does not custody) gates milestone eligibility; rank = materiality x external-verifiability; witness/echo/oracle stack cut from v1. Survivor of the 14-agent panel that falsified the witnessed-provenance design (F33). 2026-08-16.",
+  "file": "ADR-064-external-corroboration-milestone-gate.md"
  }
 ]
