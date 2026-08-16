@@ -293,11 +293,6 @@
   }
  },
  "soon": {
-  "arcs-claude-project-scaffold": {
-   "group": "cli",
-   "line": "Zero-dep npx scaffold that plants a ready ARCS Claude-project structure in one command.",
-   "chan": "npm"
-  },
   "linkedin-connections-toolkit": {
    "group": "skill",
    "line": "Stdlib Python CLI that parses your LinkedIn Connections export into four honest views of your network.",
