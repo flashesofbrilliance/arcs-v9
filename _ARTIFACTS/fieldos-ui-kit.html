@@ -1,0 +1,177 @@
+<title>ARCS Field OS — UI Kit</title>
+<style>
+:root{
+  --bg:#020408; --surface:#0d1117; --elevated:#111827; --obsidian:#0A0C0D;
+  --border:#1e293b; --border-active:rgba(122,210,255,.38); --border-locked:rgba(255,210,120,.28);
+  --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+  --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+  --steel:#94a3b8; --violet:#A78BFA; --magenta:#E879F9;
+  --bronze:#BA8F65; --jade:#5A9E87; --terracotta:#B8664F; --ivory:#F8F5F0;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --emboss:inset 0 1px 0 rgba(255,255,255,.10),inset 0 -1px 1px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.45);
+  --deboss:inset 0 2px 4px rgba(0,0,0,.60),inset 0 -1px 0 rgba(255,255,255,.06);
+  --glass:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01) 38%,rgba(0,0,0,.18));
+  --glow-cyan:inset 0 1px 0 rgba(120,245,255,.55),inset 0 0 12px rgba(0,240,255,.22),0 0 16px rgba(0,240,255,.45),0 0 40px rgba(0,240,255,.22),0 4px 14px rgba(0,0,0,.5);
+  --glow-green:inset 0 1px 0 rgba(140,255,210,.55),inset 0 0 12px rgba(0,255,157,.24),0 0 16px rgba(0,255,157,.48),0 0 40px rgba(0,255,157,.24),0 4px 14px rgba(0,0,0,.5);
+  --glow-gold:inset 0 1px 0 rgba(255,236,150,.55),inset 0 0 12px rgba(255,215,0,.22),0 0 16px rgba(255,215,0,.45),0 0 40px rgba(255,215,0,.20),0 4px 14px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 820px at 70% -8%,#0a1a10 0%,#04080a 62%),var(--bg);
+  color:var(--fg1);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:52px 24px 90px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);opacity:.85;margin:0 0 14px}
+h1{font-size:34px;line-height:1.1;margin:0 0 10px;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+.thesis{color:var(--fg2);font-size:15px;max-width:64ch;margin:0 0 8px}
+.thesis b{color:var(--fg1);font-weight:600}
+.laws{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 44px}
+.law{flex:1;min-width:230px;background:var(--surface);background-image:var(--glass);border:1px solid var(--border);
+  border-radius:10px;padding:16px 18px;box-shadow:var(--emboss)}
+.law .k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 6px}
+.law p{margin:0;font-size:13px;color:var(--fg2)}
+section{margin:0 0 48px}
+h2{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg2);
+  border-bottom:1px solid var(--border);padding-bottom:9px;margin:0 0 20px;font-weight:600;
+  display:flex;justify-content:space-between;align-items:baseline}
+h2 .n{color:var(--fg4);letter-spacing:.02em;text-transform:none;font-size:11px}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+.sw{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface)}
+.sw .chip{height:52px}
+.sw .meta{padding:7px 9px;font-family:var(--mono);font-size:10px}
+.sw .nm{color:var(--fg1);display:block}
+.sw .hx{color:var(--fg4);letter-spacing:.02em}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--fg4);text-align:left;padding:0 12px 10px;font-weight:500;white-space:nowrap}
+td{padding:9px 12px;border-top:1px solid var(--border);vertical-align:middle;color:var(--fg2)}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle;margin-right:8px;box-shadow:0 0 8px currentColor}
+.mono{font-family:var(--mono)}
+.type-row{display:flex;align-items:baseline;gap:16px;padding:9px 0;border-top:1px solid var(--border)}
+.type-row .lbl{font-family:var(--mono);font-size:10px;color:var(--fg4);width:120px;flex:0 0 120px;letter-spacing:.06em}
+.ladder{display:grid;gap:10px}
+.rung{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 16px}
+.rung .state{font-family:var(--mono);font-size:10px;letter-spacing:.1em;width:120px;flex:0 0 120px;color:var(--fg4)}
+.rung .demo{flex:1;font-family:var(--sans)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.tile{border-radius:10px;padding:14px;font-family:var(--mono);font-size:10px;color:var(--fg3);letter-spacing:.06em}
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.comp{background:var(--surface);background-image:var(--glass);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:var(--emboss)}
+.comp .ct{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg4);margin:0 0 12px}
+.ctl{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--fg2)}
+.ctl.on{background:var(--surface);border-color:var(--border-active);color:var(--cyan)}
+.pill{font-family:var(--mono);font-size:10px;letter-spacing:.14em;padding:2px 8px;border-radius:999px;border:1px solid var(--border-locked);color:var(--gold)}
+.node{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:#04070c;font-weight:700}
+.stat{font-family:var(--mono);font-size:32px;font-weight:600;font-variant-numeric:tabular-nums}
+footer{color:var(--fg4);font-size:11px;font-family:var(--mono);border-top:1px solid var(--border);padding-top:16px;margin-top:12px}
+@media (max-width:560px){h1{font-size:26px}.type-row{flex-direction:column;gap:2px}.type-row .lbl{width:auto}}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS · Field OS</p>
+  <h1>UI Kit</h1>
+  <p class="thesis">The living style guide for the ARCS <b>field instrument</b> — the dark-cockpit
+  visual world that binds the product surfaces (app, dashboard, briefs, status, observatory).
+  Rendered from the canonical tokens in <span class="mono">public/observatory/colors_and_type.css</span>;
+  the machine-readable spec is <span class="mono">DESIGN.md</span>. Register: mission control +
+  geological survey + instant-replay theater. Calm, precise, serious play — Myst, not SaaS.</p>
+
+  <div class="laws">
+    <div class="law"><p class="k">Law 1 · Earned fidelity</p><p>A surface renders only as sharply as
+      its evidence deserves, and never lies about how certain it is. Confidence is a visual channel,
+      not a claim.</p></div>
+    <div class="law"><p class="k">Law 2 · Instrument, not dashboard</p><p>Surface the reading first,
+      detail on demand. Every hue, glow, and motion carries exactly one signal. Cut what does not
+      earn its place.</p></div>
+  </div>
+
+  <section>
+    <h2>Signal ramp <span class="n">one scale of coherence, three registers</span></h2>
+    <div class="panel"><table>
+      <thead><tr><th>hue</th><th>token</th><th>NCI grade</th><th>Y-gate weather</th><th>altitude</th></tr></thead>
+      <tbody>
+        <tr><td><span class="dot" style="color:var(--green)"></span>green</td><td class="mono" style="color:var(--fg3)">#00FF9D</td><td>A · SHARP</td><td>coherent / AVERTED</td><td>L5 Executive</td></tr>
+        <tr><td><span class="dot" style="color:var(--cyan)"></span>cyan</td><td class="mono" style="color:var(--fg3)">#00F0FF</td><td>B</td><td>True North / bearing</td><td>L4 Strategic</td></tr>
+        <tr><td><span class="dot" style="color:var(--gold)"></span>gold</td><td class="mono" style="color:var(--fg3)">#FFD700</td><td>C</td><td>COURT / LOCKED</td><td>L3 Operational</td></tr>
+        <tr><td><span class="dot" style="color:var(--orange)"></span>orange</td><td class="mono" style="color:var(--fg3)">#ff9d3c</td><td>D</td><td>—</td><td>L2 Tactical</td></tr>
+        <tr><td><span class="dot" style="color:var(--red)"></span>red</td><td class="mono" style="color:var(--fg3)">#FF4D6D</td><td>F · GRAIN</td><td>alert / OPEN</td><td>L1 Surgical</td></tr>
+      </tbody>
+    </table>
+    <p style="color:var(--fg4);font-size:11.5px;margin:14px 0 0;max-width:70ch">The ramp is overloaded by design.
+    A surface must never encode two of these registers on the same channel at once (don't color a mark by
+    altitude <i>and</i> grade — pick one, position the other). steel = neutral · violet = conviction shift · magenta = paradox.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Palette <span class="n">surfaces · text · accents</span></h2>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#020408"></div><div class="meta"><span class="nm">bg / void</span><span class="hx">#020408</span></div></div>
+      <div class="sw"><div class="chip" style="background:#0d1117"></div><div class="meta"><span class="nm">surface</span><span class="hx">#0d1117</span></div></div>
+      <div class="sw"><div class="chip" style="background:#111827"></div><div class="meta"><span class="nm">elevated</span><span class="hx">#111827</span></div></div>
+      <div class="sw"><div class="chip" style="background:#1e293b"></div><div class="meta"><span class="nm">border</span><span class="hx">#1e293b</span></div></div>
+      <div class="sw"><div class="chip" style="background:#e2e8f0"></div><div class="meta"><span class="nm">fg1 primary</span><span class="hx">#e2e8f0</span></div></div>
+      <div class="sw"><div class="chip" style="background:#94a3b8"></div><div class="meta"><span class="nm">fg2 · steel</span><span class="hx">#94a3b8</span></div></div>
+      <div class="sw"><div class="chip" style="background:#707e92"></div><div class="meta"><span class="nm">fg4 label</span><span class="hx">#707e92</span></div></div>
+      <div class="sw"><div class="chip" style="background:#A78BFA"></div><div class="meta"><span class="nm">violet</span><span class="hx">#A78BFA</span></div></div>
+      <div class="sw"><div class="chip" style="background:#E879F9"></div><div class="meta"><span class="nm">magenta</span><span class="hx">#E879F9</span></div></div>
+      <div class="sw"><div class="chip" style="background:#BA8F65"></div><div class="meta"><span class="nm">bronze*</span><span class="hx">#BA8F65</span></div></div>
+      <div class="sw"><div class="chip" style="background:#5A9E87"></div><div class="meta"><span class="nm">jade*</span><span class="hx">#5A9E87</span></div></div>
+      <div class="sw"><div class="chip" style="background:#B8664F"></div><div class="meta"><span class="nm">terracotta*</span><span class="hx">#B8664F</span></div></div>
+    </div>
+    <p style="color:var(--fg4);font-size:11px;margin:12px 0 0">* wayfinder accents — luxury / marketing surfaces only; never enter instrument screens.</p>
+  </section>
+
+  <section>
+    <h2>Typography <span class="n">Inter for prose · JetBrains Mono for instrument</span></h2>
+    <div class="panel">
+      <div class="type-row"><span class="lbl">hero · 48/‑.02em</span><span style="font-size:32px;font-weight:600;letter-spacing:-.02em">Render through the fog</span></div>
+      <div class="type-row"><span class="lbl">heading · 22</span><span style="font-size:22px;font-weight:600">Navigate to clarity</span></div>
+      <div class="type-row"><span class="lbl">lead · 18</span><span style="font-size:18px;font-weight:500;color:var(--fg1)">The True North statement — the conclusion line, rendered at earned fidelity.</span></div>
+      <div class="type-row"><span class="lbl">body · 14</span><span style="font-size:14px;color:var(--fg2)">UI body and reading copy sit in Inter at 14–16px, near 65 characters wide.</span></div>
+      <div class="type-row"><span class="lbl">instrument · 12</span><span class="mono" style="font-size:12px;letter-spacing:.08em;color:var(--fg2)">POST /api/compass · 258ms · head e996315</span></div>
+      <div class="type-row"><span class="lbl">label · 10/+.14em</span><span class="mono" style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg4)">L5 Executive · Y-gate GREEN</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Render scale <span class="n">earned fidelity — sharper only as certainty rises</span></h2>
+    <div class="ladder">
+      <div class="rung"><span class="state" style="color:var(--steel)">SCRATCH · GRAIN</span><span class="demo" style="opacity:.70;font-weight:300;letter-spacing:.02em">A read still forming — dim, light, loose.</span></div>
+      <div class="rung"><span class="state" style="color:var(--magenta)">PARADOX · MOIRÉ</span><span class="demo" style="opacity:.60;font-weight:300;letter-spacing:.03em">Contradiction held open — thinnest, faintest.</span></div>
+      <div class="rung"><span class="state" style="color:var(--gold)">YELLOW · DEGRADED</span><span class="demo" style="opacity:.85;font-weight:400;letter-spacing:.01em">Contested but navigable — most of the way there.</span></div>
+      <div class="rung"><span class="state" style="color:var(--green)">GREEN · SHARP</span><span class="demo" style="opacity:1;font-weight:500">Coherent and earned — full contrast, normal tracking.</span></div>
+      <div class="rung"><span class="state" style="color:var(--cyan)">LOCKED · NUCLEUS</span><span class="demo" style="opacity:1;font-weight:600;letter-spacing:-.01em">Post-Court, crystalline — hard edges, tightest.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Elevation &amp; depth <span class="n">lit glass, never flat — glow = confidence</span></h2>
+    <div class="tiles">
+      <div class="tile" style="background:var(--surface);background-image:var(--glass);box-shadow:var(--emboss)">EMBOSS · raised toward light</div>
+      <div class="tile" style="background:var(--elevated);box-shadow:var(--deboss)">DEBOSS · pressed well</div>
+      <div class="tile" style="background:var(--surface);box-shadow:var(--glow-cyan);color:var(--cyan)">GLOW cyan · high conviction</div>
+      <div class="tile" style="background:var(--surface);box-shadow:var(--glow-green);color:var(--green)">GLOW green · SHARP</div>
+      <div class="tile" style="background:var(--surface);box-shadow:var(--glow-gold);color:var(--gold)">GLOW gold · LOCKED</div>
+      <div class="tile" style="background:var(--surface);box-shadow:inset 0 0 6px rgba(0,240,255,.10),0 0 6px rgba(0,240,255,.14);color:var(--fg3)">low glow · honestly uncertain</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Components <span class="n">the cockpit primitives</span></h2>
+    <div class="comp-grid">
+      <div class="comp"><p class="ct">Control · Ctl</p><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="ctl on">At a glance</button><button class="ctl">chain</button><button class="ctl">risk</button></div></div>
+      <div class="comp"><p class="ct">Governance pill</p><div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill">Y · GREEN</span><span class="pill" style="border-color:var(--border-active);color:var(--cyan)">LOCKED</span></div></div>
+      <div class="comp"><p class="ct">Signal node · color=type · glow=conf</p><div style="display:flex;gap:10px;align-items:center">
+        <span class="node" style="background:var(--green);box-shadow:var(--glow-green)">✦</span>
+        <span class="node" style="background:var(--cyan);box-shadow:var(--glow-cyan)">⊕</span>
+        <span class="node" style="background:var(--gold);box-shadow:var(--glow-gold);border:2.5px solid var(--gold)">★</span>
+        <span class="node" style="background:var(--red);box-shadow:0 0 10px var(--red)">⊘</span>
+        <span class="node" style="background:var(--red);border-radius:3px;transform:rotate(45deg)"></span>
+      </div><p style="font-family:var(--mono);font-size:9px;color:var(--fg4);margin:10px 0 0">circle=event · diamond=risk · gold ring=peak</p></div>
+      <div class="comp"><p class="ct">Stat readout</p><div class="stat" style="color:var(--cyan)">$0.40</div><p style="font-family:var(--mono);font-size:9px;color:var(--fg4);margin:2px 0 0;letter-spacing:.1em">COST / AUDIT</p></div>
+    </div>
+  </section>
+
+  <footer>ARCS Field OS · rendered from public/observatory/colors_and_type.css · authority: DESIGN.md ·
+  committed-dark instrument world (WORLD.md) · no em-dashes in copy</footer>
+</div>
