@@ -1151,8 +1151,8 @@ export default function ObservatoryPage(){
 
         <Sheet item={sheet} onClose={()=>setSheet(null)}/>
 
-        {/* tweaks corner */}
-        <div style={{position:"fixed",bottom:16,right:16,zIndex:45,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:8}}>
+        {/* tweaks corner — hidden for now (2026-08-16); tweaks state + phosphor/vividness defaults still apply */}
+        {false && (<div style={{position:"fixed",bottom:16,right:16,zIndex:45,display:"flex",flexDirection:"column",alignItems:"flex-end",gap:8}}>
           <div style={{background:"linear-gradient(180deg,#0e151e,#0a1016)",border:"1px solid #22324d",borderRadius:10,padding:"10px 14px",display:"flex",flexDirection:"column",gap:8}}>
             <span style={{fontFamily:"var(--font-mono)",fontSize:9,letterSpacing:".1em",color:"#707e92",textTransform:"uppercase"}}>Atmosphere</span>
             <div style={{display:"flex",gap:5}}>
@@ -1165,7 +1165,7 @@ export default function ObservatoryPage(){
             <input type="range" min={0} max={100} value={tweaks.vividness} onChange={e=>setTweaks(t=>({...t,vividness:Number(e.target.value)}))}
               style={{width:"100%",accentColor:C.cyan}}/>
           </div>
-        </div>
+        </div>)}
       </div>
     </>
   )
