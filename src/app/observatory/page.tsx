@@ -325,7 +325,7 @@ function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;qu
           const isRisk=x.kind==="risk"
           const ev=x as Event; const rk=x as Risk
           const dim=i>=visibleCount||!matchQ(x as unknown as Record<string,unknown>,query)||(isRisk?!!riskOff:laneOff(ev.alt))
-          const accent=isRisk?SEV[rk.sev]:(ev.peak?C.gold:ALT[ev.alt]?.accent||C.cyan)
+          const accent=isRisk?SEV[rk.sev]:(ALT[ev.alt]?.accent||C.cyan)  // color == altitude row (peaks marked by gold ring, not gold fill)
           const cy=isRisk?riskCenter:laneCenter(ev.alt)
           const glyph=ev.peak?"★":(TYPE_GLYPH[ev.type]||"•")
           const sz=ev.peak?20:16
@@ -336,8 +336,8 @@ function TrajectoryMap({visibleCount,query,focus,onOpen}:{visibleCount:number;qu
               style={{position:"absolute",left:`${xpct(i)}%`,top:cy,width:sz,height:sz,marginLeft:-sz/2,marginTop:-sz/2,
                 display:"inline-flex",alignItems:"center",justifyContent:"center",padding:0,cursor:"pointer",
                 borderRadius:isRisk?3:"50%",transform:base,
-                border:`1.5px solid ${isRisk?STATUS[rk.status]:(ev.peak?"#1a1404":"#03060b")}`,background:accent,
-                boxShadow:`0 0 ${ev.peak?10:6}px -1px ${accent},inset 0 1px 0 rgba(255,255,255,.4),0 2px 4px rgba(0,0,0,.5)`,
+                border:`${ev.peak?2.5:1.5}px solid ${isRisk?STATUS[rk.status]:(ev.peak?C.gold:"#03060b")}`,background:accent,
+                boxShadow:`0 0 ${ev.peak?10:6}px -1px ${ev.peak?C.gold:accent},inset 0 1px 0 rgba(255,255,255,.4),0 2px 4px rgba(0,0,0,.5)`,
                 opacity:dim?0.15:1,pointerEvents:dim?"none":"auto",transition:"opacity .3s,transform .15s",
                 animation:isRisk&&rk.status==="OPEN"?"obs-pulse 1.8s infinite":"none"}}
               onMouseEnter={ev_=>{(ev_.currentTarget as HTMLButtonElement).style.transform=`${base==="none"?"":base} scale(1.28)`;setHv({i,x:xpct(i),cy,item:x,isRisk,accent})}}
@@ -560,7 +560,7 @@ function Timeline({replay,setReplay,view,query,face,focus,onOpen}:{replay:"all"|
     <section style={{position:"relative",border:"1px solid #22324d",borderRadius:12,padding:"12px 14px 14px",
       background:"linear-gradient(180deg,rgba(14,22,38,.92),rgba(9,14,24,.92))"}}>
       <div style={{display:"flex",flexWrap:"wrap",alignItems:"baseline",gap:10,marginBottom:12}}>
-        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:onBack?C.gold:C.cyan,fontWeight:700}}>{onBack?"BY ALTITUDE":"8-WEEK TRAJECTORY"}</span>
+        <span style={{fontFamily:"var(--font-mono)",fontSize:12,letterSpacing:".08em",color:onBack?C.gold:C.cyan,fontWeight:700}}>{onBack?"BY ALTITUDE":`${Math.round(SPAN_DAYS/7)}-WEEK TRAJECTORY`}</span>
         <span style={{fontSize:10,color:"#8593a6"}}>{onBack?"each altitude as a labelled lane · tap → card":"5 altitude lanes · glyph = type · ★ peak · ⚠ risk band · tap → card"}</span>
       </div>
       {onBack?<FocusedAltitudeStrip focus={focus} visibleCount={visibleCount} query={query} onOpen={onOpen}/>
