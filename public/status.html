@@ -729,8 +729,8 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
     <div class="section-title">Pick your depth. The story stays the same, the detail changes.</div>
     <div class="section-body">
       <strong>The one page read</strong> shows 12 milestones, one plain sentence each. Each level down adds
-      more events and more detail, until <strong>Commits</strong> links every milestone to the actual code
-      in the public repo. Keys 1 to 5 work too.
+      more events and more detail, until <strong>Commits</strong> names the commit behind each milestone.
+      Keys 1 to 5 work too.
     </div>
 
     <div class="tele-tabs">
@@ -1110,7 +1110,7 @@ table.su-t td.metric { font-family: var(--mono); color: var(--gold); font-size: 
 
   <div class="footer">
     <div><strong>Built by</strong> Zach Harris</div>
-    <div><strong>Source of every number</strong>: git history, <a href="https://github.com/flashesofbrilliance/arcs-v9" target="_blank" rel="noopener">github.com/flashesofbrilliance/arcs-v9</a>, measured live via /api/pulse</div>
+    <div><strong>Source of every number</strong>: the repository's own git history, surfaced live via /api/pulse</div>
     <div><strong>Live product</strong>: <a href="https://app.arcs.care" target="_blank" rel="noopener">app.arcs.care</a> · <a href="https://arcs.care/trust" target="_blank" rel="noopener">trust contract</a></div>
   </div>
 
@@ -1127,7 +1127,6 @@ var CADENCE = [
 
 // Milestones, Day 0 to today. rank 1 shows on the one-page read; 2 and 3 appear as you go deeper.
 // alt: [one-page, direction, process, detail] narratives; commits shown at the deepest level.
-var GH = "https://github.com/flashesofbrilliance/arcs-v9/commit/";
 var MILESTONES = [
   {
     date: "DAY 0 · APR 9", title: "One commit. An empty scaffold.", rank: 1,
@@ -1455,7 +1454,7 @@ function buildCommits(m) {
   var cwrap = document.createElement("div"); cwrap.className = "ms-commits";
   m.commits.forEach(function (c) {
     var row = document.createElement("div"); row.className = "ms-commit";
-    row.innerHTML = '<a href="' + GH + c.sha + '" target="_blank" rel="noopener">' + c.sha + '</a><span>' + c.msg + '</span>';
+    row.innerHTML = '<span class="msha" style="font-family:var(--mono);color:var(--faint)">' + c.sha + '</span><span>' + c.msg + '</span>';
     cwrap.appendChild(row);
   });
   return cwrap;
