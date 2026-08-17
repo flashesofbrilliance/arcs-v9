@@ -1,4 +1,4 @@
-<title>Web Form Delivery Status</title>
+<title>Web Form Delivery CWO</title>
 <style>
   :root{
     --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
@@ -81,18 +81,68 @@
 
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
-  <h1>Web form delivery status</h1>
-  <div class="meta">Aug 17, 2026 &nbsp;·&nbsp; no site or CRM changes made yet</div>
+  <h1>Web form delivery: change work order</h1>
+  <div class="meta">Addendum 1.2-A &nbsp;·&nbsp; Aug 17, 2026 &nbsp;·&nbsp; no site or CRM changes made yet</div>
 </div></header>
 
 <div class="bluf"><div class="wrap">
-  <p>Your site's contact forms don't create Sugar leads today, and haven't for a while.
-  <strong>We have a fix in mind, but it's a different mechanism than what's there now</strong>, so
-  we want your go-ahead before looping in Jorge or Josh, not after.</p>
+  <p>Your site's contact forms don't create Sugar leads today, and haven't for a while. This is a
+  <strong>change work order</strong>, an adjacent workstream to 1.2, not folded into it silently. It
+  fell directly out of 1.2's own delivery investigation, so it's scoped, priced, and named the same
+  way, not a surprise add-on.</p>
+</div></div>
+
+<div class="ask"><div class="wrap">
+  <div class="label">Scope of work &middot; Addendum 1.2-A</div>
+
+  <div class="yes-line" style="align-items:flex-start">
+    <span class="word" style="background:var(--gold-soft)">$2,000</span>
+    <p>Parent phase: 1.2 (reliable delivery). Priced with real buffer, the estimates across 1.1
+    and 1.2 have both run longer than first thought, so this one reflects that pattern instead of
+    repeating the same optimistic guess.</p>
+  </div>
+
+  <h3 style="margin:20px 0 8px">In scope</h3>
+  <ul style="margin:0 0 14px;padding-left:20px;color:var(--text);font-size:14.5px;line-height:1.6">
+    <li>Generate Sugar's native Web-to-Lead form (Studio) and map its fields to match the six
+    required Sugar fields.</li>
+    <li>Coordinate the snippet's addition to the site with Josh or Jorge, whoever holds template
+    access, we drive this, not you.</li>
+    <li>Sandbox-test the snippet before it touches the live site.</li>
+    <li>Verify a real staging submission creates a correct Sugar lead, then confirm on production.</li>
+  </ul>
+
+  <h3 style="margin:20px 0 8px">Out of scope</h3>
+  <ul style="margin:0 0 14px;padding-left:20px;color:var(--text);font-size:14.5px;line-height:1.6">
+    <li>The CRM routing/territory-assignment finding (separate, unpriced, gated on the Bill call,
+    tracked on <a href="/status/crm">/status/crm</a>).</li>
+    <li>Any Gravity Forms spam-filtering work, that was completed and approved separately on Aug 10.</li>
+    <li>Site or CRM changes beyond this specific form, none have been made and none are proposed here.</li>
+  </ul>
+
+  <div class="scroller" style="margin-top:8px">
+    <table>
+      <thead><tr><th>Case</th><th>Time</th><th>What drives it</th></tr></thead>
+      <tbody>
+        <tr><td>Best</td><td>~1 day</td><td>Field mapping is straightforward, Josh adds the snippet fast</td></tr>
+        <tr><td>Base</td><td>~3-4 days</td><td>Normal coordination round with Josh/Jorge on site access</td></tr>
+        <tr><td>Worst</td><td>~1.5-2 weeks</td><td>Site access stalls, or the snippet needs back-and-forth with Sugar support on field mapping, the pattern that's actually played out on 1.1 and 1.2 so far</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:20px 0 8px">Kicks off when</h3>
+  <p style="font-size:14.5px;color:var(--text);margin:0 0 14px">You reply approving this addendum,
+  same "no surprises" mechanism as every other phase: fixed price is the cap, a short receipt at
+  the end shows expected vs. actual, and nothing here touches your site or CRM until then.</p>
+
+  <p class="why">Why a different mechanism instead of patching the email path further: patching
+    email fixes notifications, not delivery, the lead still wouldn't reach Sugar. The native
+    Web-to-Lead path skips email entirely and is already proven working today.</p>
 </div></div>
 
 <div class="checklist"><div class="wrap">
-  <div class="label">Status</div>
+  <div class="label">Why this is needed</div>
 
   <div class="row">
     <span class="mark stop">✗</span>
@@ -120,33 +170,6 @@
 </div></div>
 
 <div class="ask"><div class="wrap">
-  <div class="label">The ask</div>
-  <p style="font-size:14.5px;color:var(--text);margin:0 0 14px">A nod on the approach, plus a small change order to actually build it, this fell directly out of 1.2's own delivery investigation, so we're treating it as a named add-on to 1.2 rather than folding it in silently.</p>
-
-  <div class="yes-line" style="align-items:flex-start">
-    <span class="word" style="background:var(--gold-soft)">$2,000</span>
-    <p>CWO to Phase 1.2. Covers the Web-to-Lead snippet, field mapping, sandbox test, and
-    verifying it live once Josh (or Jorge) adds it to the site. Not asking you to do anything
-    with them yourself, that's on us once you give the nod. Priced with real buffer this time,
-    the estimates across 1.1 and 1.2 have both run longer than we first thought, so this one
-    reflects the actual pattern instead of repeating the same optimistic guess.</p>
-  </div>
-
-  <div class="scroller" style="margin-top:14px">
-    <table>
-      <thead><tr><th>Case</th><th>Time</th><th>What drives it</th></tr></thead>
-      <tbody>
-        <tr><td>Best</td><td>~1 day</td><td>Field mapping is straightforward, Josh adds the snippet fast</td></tr>
-        <tr><td>Base</td><td>~3-4 days</td><td>Normal coordination round with Josh/Jorge on site access</td></tr>
-        <tr><td>Worst</td><td>~1.5-2 weeks</td><td>Site access stalls, or the snippet needs back-and-forth with Sugar support on field mapping, the pattern that's actually played out on 1.1 and 1.2 so far</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <p class="why" style="margin-top:14px">Why a different mechanism instead of patching the email path further: patching
-    email fixes notifications, not delivery, the lead still wouldn't reach Sugar. The native
-    Web-to-Lead path skips email entirely and is already proven working today.</p>
-
   <details class="brief">
     <summary>Full briefing, for reference</summary>
     <div class="brief-body">
