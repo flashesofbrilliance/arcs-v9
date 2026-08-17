@@ -74,8 +74,15 @@ const nextConfig: NextConfig = {
         // destination keeps working without a 1:1 lookup table.
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // prl.arcs.care → public/todd-call.html (memorable alias to the same SSOT proposal/status page; single wildcard rule = the proven-reliable shape)
-        { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        // prl.arcs.care/status/<seg> → public/prl-status-<seg>.html (one capture-group rule per
+        // the todd-call convention above; add a new segment name here + the matching html file,
+        // never a new rule object). Only "crm" exists today (2026-08-17); tidio/wp/troubleshooting/
+        // build are reserved names, not yet built.
+        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        // prl.arcs.care (everything else) → public/todd-call.html (memorable alias to the same SSOT
+        // proposal/status page). Excludes status/* so it can't re-catch the rewritten destination
+        // (same beforeFiles re-catch bug documented in proxy.ts for todd-call.arcs.care).
+        { source: "/:path((?!status/).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
