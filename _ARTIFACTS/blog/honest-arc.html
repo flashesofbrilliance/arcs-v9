@@ -1,0 +1,406 @@
+<title>The Honest Arc</title>
+<style>
+  :root {
+    --bg: #020408;
+    --surface: #0d1117;
+    --surface-2: #111826;
+    --border: #1e293b;
+    --border-soft: #172033;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --cyan: #00F0FF;
+    --green: #00FF9D;
+    --gold: #FFD700;
+    --red: #FF4D6D;
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 600px at 78% -8%, rgba(0,240,255,0.07), transparent 60%),
+      radial-gradient(900px 520px at 8% 108%, rgba(255,215,0,0.05), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 72px) clamp(20px, 5vw, 40px) 80px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 22px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(38px, 8vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+    text-wrap: balance;
+  }
+  h1 .sub { display: block; font-style: normal; letter-spacing: 0; margin-top: 22px; line-height: 1.1; }
+  h1 .sub .huge { font-family: var(--serif); font-weight: 600; color: var(--text); font-size: clamp(22px, 5vw, 40px); }
+  h1 .sub .arrow { color: var(--dim); font-family: var(--mono); font-size: clamp(13px, 2vw, 18px); margin: 0 0.4em; vertical-align: middle; }
+  h1 .sub .shrinkage { font-family: var(--serif); font-style: italic; color: var(--dim); font-size: clamp(10px, 1.5vw, 13px); vertical-align: middle; letter-spacing: 0.01em; }
+
+  .lede {
+    font-size: clamp(17px, 2.4vw, 20px);
+    color: var(--muted);
+    max-width: 60ch;
+    margin: 0 0 8px;
+  }
+  .lede strong { color: var(--text); font-weight: 600; }
+
+  section { margin-top: clamp(48px, 8vw, 76px); }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin: 0 0 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .section-label .n { color: var(--cyan); }
+  .section-label::after { content: ""; flex: 1; height: 1px; background: var(--border-soft); transform: translateY(-4px); }
+
+  .chart-card {
+    background: linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px clamp(16px, 3vw, 28px) 20px;
+    overflow-x: auto;
+  }
+  .chart-card h2 {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 18px;
+    margin: 0 0 4px;
+  }
+  .chart-card .chart-sub { font-family: var(--mono); font-size: 12.5px; color: var(--dim); margin: 0 0 18px; }
+
+  svg { display: block; width: 100%; height: auto; min-width: 560px; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 14px; font-family: var(--mono); font-size: 12.5px; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); }
+  .swatch { width: 22px; height: 3px; border-radius: 2px; display: inline-block; }
+
+  .caption {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(18px, 2.6vw, 22px);
+    line-height: 1.45;
+    color: var(--text);
+    border-left: 2px solid var(--gold);
+    padding-left: 20px;
+    margin: 26px 0 0;
+    max-width: 56ch;
+  }
+
+  /* fidelity ladder */
+  .ladder { display: flex; flex-wrap: wrap; gap: 10px; }
+  .rung {
+    flex: 1 1 130px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    position: relative;
+  }
+  .rung .stage { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; font-weight: 600; }
+  .rung .meta { font-size: 12.5px; color: var(--dim); margin-top: 4px; }
+  .rung.reached { border-color: rgba(0,255,157,0.4); }
+  .rung.reached .stage { color: var(--green); }
+  .rung.locked { border-style: dashed; opacity: 0.7; }
+  .rung.locked .stage { color: var(--dim); }
+  .rung.here { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan), 0 0 22px rgba(0,240,255,0.12); }
+  .rung.here .stage { color: var(--cyan); }
+  .rung .tag { position: absolute; top: -9px; right: 12px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; }
+  .rung.here .tag { background: var(--cyan); color: #041016; }
+  .rung.locked .tag { background: var(--surface-2); color: var(--red); border: 1px solid var(--red); }
+
+  /* twists */
+  .twists { display: grid; gap: 14px; }
+  .twist {
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+  }
+  .twist .idx { font-family: var(--mono); font-size: 22px; font-weight: 600; color: var(--red); line-height: 1; }
+  .twist h3 { margin: 0 0 6px; font-size: 16.5px; font-weight: 600; }
+  .twist p { margin: 0; color: var(--muted); font-size: 15px; }
+  .twist p .hl { color: var(--text); }
+
+  .verdict {
+    margin-top: clamp(48px, 8vw, 76px);
+    background:
+      linear-gradient(180deg, rgba(255,215,0,0.06), rgba(255,215,0,0.015)),
+      var(--surface);
+    border: 1px solid rgba(255,215,0,0.35);
+    border-radius: 16px;
+    padding: clamp(28px, 5vw, 44px);
+  }
+  .verdict .eyebrow { color: var(--gold); }
+  .verdict .eyebrow::before { background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+  .verdict p { font-family: var(--serif); font-size: clamp(20px, 3.2vw, 28px); line-height: 1.4; margin: 0 0 18px; color: var(--text); }
+  .verdict p:last-child { margin-bottom: 0; }
+  .verdict .plain { font-family: var(--sans); font-size: 16px; line-height: 1.65; color: var(--muted); }
+  .verdict .plain strong { color: var(--gold); font-weight: 600; }
+
+  .files { margin-top: 40px; display: grid; gap: 12px; font-family: var(--mono); font-size: 13px; color: var(--dim); border-top: 1px solid var(--border-soft); padding-top: 24px; }
+  .files b { color: var(--muted); font-weight: 500; }
+  .files .row { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+  .files a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(0,240,255,0.3); transition: border-color 0.15s; }
+  .files a:hover { border-bottom-color: var(--cyan); }
+  .files a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 2px; }
+  .files .desc { color: var(--dim); }
+  .files .lock { color: var(--dim); font-size: 11px; letter-spacing: 0.08em; }
+
+  /* stat tiles */
+  .stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+  .stat { flex: 1 1 96px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; }
+  .stat .v { font-family: var(--mono); font-size: 27px; font-weight: 600; color: var(--cyan); line-height: 1; font-variant-numeric: tabular-nums; }
+  .stat .v.red { color: var(--red); }
+  .stat .v.gold { color: var(--gold); font-size: 19px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .stat .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+
+  /* verdict gauge */
+  .gauge { margin: 8px 0 4px; }
+  .gauge-track { position: relative; height: 12px; border-radius: 7px; border: 1px solid var(--border);
+    background: linear-gradient(90deg, rgba(255,77,109,0.55), rgba(100,116,139,0.22) 52%, rgba(0,255,157,0.6));
+    margin: 42px 0 14px; }
+  .gauge-marker { position: absolute; top: -36px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; }
+  .gauge-marker .lbl { font-family: var(--mono); font-size: 11.5px; color: var(--gold); white-space: nowrap; margin-bottom: 5px; }
+  .gauge-marker .needle { width: 2px; height: 24px; background: var(--gold); box-shadow: 0 0 8px rgba(255,215,0,0.6); }
+  .gauge-marker .gm-dot { width: 13px; height: 13px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 14px var(--gold); margin-top: 4px; }
+  .gauge-ends { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.45; }
+  .gauge-ends i { color: var(--dim); font-style: normal; }
+  .gauge-ends span:last-child { text-align: right; }
+
+  @media (max-width: 560px) {
+    .twist { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .draw { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: draw 1.8s cubic-bezier(.4,0,.1,1) forwards; }
+    .draw.delay { animation-delay: 0.35s; }
+    .dot-in { opacity: 0; animation: fade 0.5s ease forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes fade { to { opacity: 1; } }
+  }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS · Observatory Replay</p>
+  <h1>Flash of brilliance, or fart in the wind?
+    <span class="sub"><span class="huge">Huge claims</span><span class="arrow">&#8594;</span><span class="shrinkage">major shrinkage</span></span>
+  </h1>
+  <p class="lede">A pattern named itself mid-session and felt like a real insight. The honest question is
+  the one everyone skips: <strong>was it?</strong> Not decided by how good it sounded — decided by putting
+  it through four rounds of hostile review and one cold test, and watching where it actually held. Every
+  round made the claim <strong>smaller</strong>. This is the replay of it shrinking to the truth.</p>
+
+  <div class="stats">
+    <div class="stat"><span class="v">4</span><span class="k">epochs</span></div>
+    <div class="stat"><span class="v">18</span><span class="k">gauntlets</span></div>
+    <div class="stat"><span class="v red">3</span><span class="k">claims killed</span></div>
+    <div class="stat"><span class="v red">1</span><span class="k">spine hit</span></div>
+    <div class="stat"><span class="v gold">denied</span><span class="k">crystal grade</span></div>
+  </div>
+
+  <section>
+    <p class="section-label"><span class="n">01</span> The trajectory</p>
+    <div class="chart-card">
+      <h2>Reach of the claim vs. how much it can back</h2>
+      <p class="chart-sub">strength 0–100, per hardening epoch · the two lines cross on the way down</p>
+
+      <svg viewBox="0 0 720 372" role="img" aria-label="Line chart: the reach of the claim falls from 90 to 40 across five epochs while its defensibility rises from 35 to 88; the two lines cross between epoch 1 and epoch 2.">
+        <!-- grid -->
+        <g stroke="#172033" stroke-width="1">
+          <line x1="90" y1="40" x2="660" y2="40"/>
+          <line x1="90" y1="105" x2="660" y2="105"/>
+          <line x1="90" y1="170" x2="660" y2="170"/>
+          <line x1="90" y1="235" x2="660" y2="235"/>
+          <line x1="90" y1="300" x2="660" y2="300"/>
+        </g>
+        <!-- y labels -->
+        <g fill="#475569" font-family="ui-monospace, monospace" font-size="10.5" text-anchor="end">
+          <text x="78" y="44">100</text>
+          <text x="78" y="174">50</text>
+          <text x="78" y="304">0</text>
+        </g>
+
+        <!-- crossover marker -->
+        <line x1="326" y1="40" x2="326" y2="300" stroke="#334155" stroke-width="1" stroke-dasharray="3 4"/>
+        <text x="332" y="52" fill="#94a3b8" font-family="ui-monospace, monospace" font-size="10.5">the crossover</text>
+
+        <!-- Reach (falling) -->
+        <polyline class="draw" fill="none" stroke="#FF4D6D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+          points="90,66 232.5,107.6 375,128.4 517.5,157 660,196"/>
+        <!-- Defensibility (rising) -->
+        <polyline class="draw delay" fill="none" stroke="#00FF9D" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"
+          points="90,209 232.5,157 375,123.2 517.5,97.2 660,71.2"/>
+
+        <!-- dots reach -->
+        <g class="dot-in" style="animation-delay:1.5s">
+          <circle cx="90" cy="66" r="3.5" fill="#FF4D6D"/>
+          <circle cx="232.5" cy="107.6" r="3.5" fill="#FF4D6D"/>
+          <circle cx="375" cy="128.4" r="3.5" fill="#FF4D6D"/>
+          <circle cx="517.5" cy="157" r="3.5" fill="#FF4D6D"/>
+          <circle cx="660" cy="196" r="5.5" fill="#FF4D6D" stroke="#020408" stroke-width="2"/>
+        </g>
+        <!-- dots def -->
+        <g class="dot-in" style="animation-delay:1.7s">
+          <circle cx="90" cy="209" r="3.5" fill="#00FF9D"/>
+          <circle cx="232.5" cy="157" r="3.5" fill="#00FF9D"/>
+          <circle cx="375" cy="123.2" r="3.5" fill="#00FF9D"/>
+          <circle cx="517.5" cy="97.2" r="3.5" fill="#00FF9D"/>
+          <circle cx="660" cy="71.2" r="6" fill="#00FF9D" stroke="#020408" stroke-width="2"/>
+        </g>
+
+        <!-- endpoint labels -->
+        <text x="652" y="214" fill="#FF4D6D" font-family="ui-monospace, monospace" font-size="11" text-anchor="end">claim shrank</text>
+        <text x="652" y="60" fill="#00FF9D" font-family="ui-monospace, monospace" font-size="11" text-anchor="end">now defensible</text>
+
+        <!-- x labels -->
+        <g font-family="ui-monospace, monospace" font-size="11" text-anchor="middle">
+          <g fill="#64748b">
+            <text x="90" y="326">E0</text>
+            <text x="232.5" y="326">E1</text>
+            <text x="375" y="326">E2</text>
+            <text x="517.5" y="326">E3</text>
+            <text x="660" y="326">E4</text>
+          </g>
+          <g fill="#475569" font-size="9.5">
+            <text x="90" y="344">draft</text>
+            <text x="232.5" y="344">fact + voice</text>
+            <text x="375" y="344">pathogen</text>
+            <text x="517.5" y="344">court</text>
+            <text x="660" y="344">falsifier</text>
+          </g>
+        </g>
+      </svg>
+
+      <div class="legend">
+        <span><i class="swatch" style="background:#FF4D6D"></i> Reach of the claim (how big it sounds)</span>
+        <span><i class="swatch" style="background:#00FF9D"></i> How much it can back (defensibility)</span>
+      </div>
+    </div>
+    <p class="caption">A fairy tale ends with the red line climbing to a peak. This one ends with red
+    falling and green rising past it. The impressive claim got cut down; the true one grew into what
+    was left.</p>
+  </section>
+
+  <section>
+    <p class="section-label"><span class="n">02</span> Resolution earned, not assumed</p>
+    <div class="ladder">
+      <div class="rung reached"><span class="stage">GRAIN</span><div class="meta">First draft. Plausible, unpressured.</div></div>
+      <div class="rung reached"><span class="stage">DEGRADED</span><div class="meta">Fact-checked. Overclaims cut.</div></div>
+      <div class="rung here"><span class="tag">You are here</span><span class="stage">SHARP</span><div class="meta">Survived the debate + a court. Sitting on a claim it can defend.</div></div>
+      <div class="rung locked"><span class="tag">Denied</span><span class="stage">CRYSTAL</span><div class="meta">The cold falsifier drew blood. Not earned — and that is the honest outcome.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label"><span class="n">03</span> The three twists</p>
+    <div class="twists">
+      <div class="twist">
+        <div class="idx">1</div>
+        <div>
+          <h3>The fact-check overruled the crowd</h3>
+          <p>Three reviewers wanted to feature one line as the centerpiece. The one reviewer who
+          <span class="hl">checked the actual code</span> proved it false. Sounding right lost to being right.</p>
+        </div>
+      </div>
+      <div class="twist">
+        <div class="idx">2</div>
+        <div>
+          <h3>The same lie, one sentence over</h3>
+          <p>The fix for the first false claim quietly re-anchored on <span class="hl">the very next
+          sentence of the same source</span> — also false. A later, more skeptical pass un-verified an
+          earlier "✓ verified." The document caught its own patch.</p>
+        </div>
+      </div>
+      <div class="twist">
+        <div class="idx">3</div>
+        <div>
+          <h3>A stranger broke the headline</h3>
+          <p>Handed the finished files cold, a fresh AI showed the grand claim ("a different <span class="hl">kind</span>
+          of thing than big AI") rested on a false premise. It collapsed to something smaller and true —
+          catching a mistake an <span class="hl">earlier fix</span> had introduced.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label"><span class="n">04</span> Where it landed</p>
+    <div class="gauge">
+      <div class="gauge-track">
+        <div class="gauge-marker" style="left:33%">
+          <span class="lbl">a small, real thing</span>
+          <span class="needle"></span>
+          <span class="gm-dot"></span>
+        </div>
+      </div>
+      <div class="gauge-ends">
+        <span>fart in the wind<br><i>(nothing — a naming ceremony)</i></span>
+        <span>flash of brilliance<br><i>(a real, new discovery)</i></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="verdict">
+    <p class="eyebrow">The honest ending</p>
+    <p>The claim didn't win. It got smaller until it was true.</p>
+    <p class="plain">What survived: your judgment is never <strong>overruled</strong> by a shortcut, and
+    the results stay as readable files. Not the grand version — "a fundamentally different kind of thing"
+    — which a cold test proved false. A method that can prove its own headline wrong is the opposite of a
+    sales pitch. That is why this reads as honest and not as a fairy tale: <strong>the arc was allowed to
+    end where the evidence stopped, not where the story wanted to.</strong></p>
+  </div>
+
+  <div class="files">
+    <b>The record behind this replay <span class="lock">· private links, yours to share</span></b>
+    <div class="row"><a href="https://claude.ai/code/artifact/b2350011-ac8b-46c2-8826-c9add5792d6d" target="_blank" rel="noopener">the essay</a><span class="desc">— retreated to the claim it can back</span></div>
+    <div class="row"><a href="https://claude.ai/code/artifact/b75fd9de-6aca-43b1-b18c-3e4176cf29f3" target="_blank" rel="noopener">the scar-log</a><span class="desc">— 4 epochs, 18 gauntlets, every belief-move</span></div>
+    <div class="row"><a href="https://claude.ai/code/artifact/293492c2-e8ab-43bd-a46b-69f4fd255ebe" target="_blank" rel="noopener">the plain version</a><span class="desc">— the same story with the jargon removed</span></div>
+    <div class="row"><a href="https://claude.ai/code/artifact/0bcb6ddb-58d0-4981-a411-decb34204447" target="_blank" rel="noopener">the redline</a><span class="desc">— every load-bearing cut, before and after</span></div>
+    <div class="row"><a href="https://claude.ai/code/artifact/2e797375-5963-407a-9b00-eeb0d893b0db" target="_blank" rel="noopener">the method &amp; prompts</a><span class="desc">— the verbatim gauntlet prompts, so the record is auditable</span></div>
+  </div>
+</div>

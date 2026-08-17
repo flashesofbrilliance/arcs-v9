@@ -1,0 +1,131 @@
+<title>The Article, Redlined</title>
+<style>
+  :root {
+    --bg: #020408; --surface: #0d1117; --surface-2: #111826;
+    --border: #1e293b; --border-soft: #172033;
+    --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
+    --cyan: #00F0FF; --green: #00FF9D; --gold: #FFD700; --red: #FF4D6D;
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(1000px 560px at 82% -10%, rgba(255,215,0,0.05), transparent 60%), var(--bg);
+    color: var(--text); font-family: var(--sans); line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; padding: clamp(28px,6vw,68px) clamp(20px,5vw,40px) 80px; }
+
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 10px; margin: 0 0 22px; }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 12px var(--gold); }
+
+  h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(34px,7vw,58px); line-height: 1.03; letter-spacing: -0.02em; margin: 0 0 20px; text-wrap: balance; }
+  .lede { font-size: clamp(16px,2.3vw,19px); color: var(--muted); max-width: 62ch; margin: 0 0 10px; }
+  .lede strong { color: var(--text); font-weight: 600; }
+
+  .note { font-family: var(--mono); font-size: 12.5px; color: var(--dim); background: var(--surface); border: 1px solid var(--border); border-left: 2px solid var(--gold); border-radius: 8px; padding: 14px 16px; margin: 22px 0 0; line-height: 1.55; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; margin: 26px 0 0; font-family: var(--mono); font-size: 13px; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); }
+  .legend del, .legend ins { font-size: 13px; }
+
+  del { color: var(--red); text-decoration: line-through; text-decoration-color: rgba(255,77,109,0.65); }
+  ins { color: var(--green); text-decoration: none; background: rgba(0,255,157,0.09); border-radius: 3px; padding: 0 3px; }
+
+  .block { margin-top: 40px; }
+  .block-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 14px; margin-bottom: 12px; }
+  .loc { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(0,240,255,0.35); border-radius: 5px; padding: 2px 8px; }
+  .tag.kill { color: var(--red); border-color: rgba(255,77,109,0.4); }
+  .redline { font-family: var(--serif); font-size: clamp(16.5px,2.3vw,19px); line-height: 1.62; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .why { font-family: var(--sans); font-size: 14px; color: var(--dim); margin: 12px 2px 0; padding-left: 16px; border-left: 2px solid var(--border); }
+  .why b { color: var(--muted); font-weight: 600; }
+
+  .divider { margin-top: 46px; border: 0; border-top: 1px solid var(--border-soft); }
+  .foot { margin-top: 40px; display: grid; gap: 10px; font-family: var(--mono); font-size: 13px; color: var(--dim); border-top: 1px solid var(--border-soft); padding-top: 24px; }
+  .foot a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid rgba(0,240,255,0.3); }
+  .foot a:hover { border-bottom-color: var(--cyan); }
+  .foot a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 2px; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">ARCS · Redline</p>
+  <h1>The Article, Redlined</h1>
+  <p class="lede">The same post, top to bottom, from <strong>where it started</strong> to
+  <strong>where it landed</strong>. Struck text was cut; highlighted text was added. Each change is
+  tagged with the epoch that made it. Read top to bottom and you watch the claim get smaller and truer.</p>
+
+  <p class="note">Integrity note: intermediate full drafts were not committed as snapshots, so this is not
+  a word-level git diff of the whole essay. It is a faithful redline of the <b>load-bearing passages</b>,
+  reconstructed from the scar-log, which recorded every material change with its before and after.</p>
+
+  <div class="legend">
+    <span><del>struck</del> removed</span>
+    <span><ins>highlighted</ins> added</span>
+    <span style="color:var(--dim)">tag = epoch · scar</span>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">Title</span><span class="tag">E3 · Editorial</span></div>
+    <div class="redline"><del>Gradient Ascent Without the Gradient</del> <ins>The Loop That Never Stops Asking</ins></div>
+    <p class="why"><b>Why:</b> the old title leaned on the very ML metaphor the body spends its length disciplining. The new one names the real thesis, no jargon.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">The RL disclaimer</span><span class="tag">E1 · claims-skeptic</span></div>
+    <div class="redline">Say precisely what <del>RL requires: a reward model, a weight update, a policy gradient</del><ins>the RL story would need here: a parameter update on the model, computed from a reward signal, moving a policy</ins>.</div>
+    <p class="why"><b>Why:</b> a reward <i>model</i> is RLHF-specific and a policy gradient is one RL family — stating them as RL's definition was loose. Tightened so the honesty spine is itself precise.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">Product claim #1</span><span class="tag kill">E1 · killed · S1</span></div>
+    <div class="redline"><del>When you tell it the GREEN decision feels wrong, it records the Y-field as undefined, not GREEN.</del> Your lived experience outranks the inference.</div>
+    <p class="why"><b>Why:</b> false against the code — there is no UNDEFINED state and the field is dead schema. Three reviewers wanted to <i>feature</i> this line; the fact-check killed it. The principle after it stayed.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">Product claim #2</span><span class="tag kill">E2 · pathogen · S9</span></div>
+    <div class="redline">The compass returns a bearing, not a command. <del>It says True North, never "you should." The word choice is constitutional.</del> <ins>That framing is real and it renders, but it is a frame around the answer, not a guard on the answer's words. The system does not forbid "you should" — bearing-not-command lives in the label and the copy today, not in an enforced rule on the text.</ins></div>
+    <p class="why"><b>Why:</b> the same false-claim disease as S1, one sentence over in the same source doc. The code actually <i>demands</i> a direct, actionable sentence. Kept the honest half, cut the enforcement claim.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">The "weights" payoff</span><span class="tag">E1–E2 · BAR + Loki · S2</span></div>
+    <div class="redline">The <del>weights are real. Those artifacts are the literal weights this ascent wrote to. The exemplars are a replay buffer.</del> <ins>gains are real. They are the weights, in the analogy's terms, and the analogy stops at the arithmetic: you cannot average two files or take a step of defined size.</ins></div>
+    <p class="why"><b>Why:</b> "literal weights" / "replay buffer" negated the essay's own "it's an analogy" hedge — borrowed rigor in the climactic line, the exact house-rule violation the piece condemns.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">The bitter-lesson counter</span><span class="tag">E1 · BAR + cold-reader · S4</span></div>
+    <div class="redline">You cannot scale your way to it<del>. You can only ask.</del> <ins>ahead of asking — with no prior trace and a moving target, the first signal has to come from the person.</ins></div>
+    <p class="why"><b>Why:</b> the absolute "you can only ask" was self-contradicted (the essay had already called the trace a dataset). Narrowed to a claim that holds.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">The actionable practice</span><span class="tag">E3–E4 · Court + falsifier · S16/S18</span></div>
+    <div class="redline">When you cut a direction, append it and a one-line reason to the same file. <del>So make it cost nothing. No ceremony.</del> <ins>It is not free — one decision and one line per cut, and it only pays off if you re-read the file before the next attempt. But that is a small, bounded cost against re-buying the same dead end.</ins></div>
+    <p class="why"><b>Why:</b> "costs nothing" was itself a small overclaim. Named the real (small) cost and the discipline it needs.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">The spine (the big one)</span><span class="tag kill">E4 · CRYSTAL falsifier · S19</span></div>
+    <div class="redline"><del>The objective is never distilled into a proxy. There is no sample to train one on, so this differs from RLHF in kind.</del> <ins>The accept/reject trace IS a sample — a proxy could be trained on it. So the real distinction is not "no representation," it is no substitution: the person stays the final judge. The edge is a legible record vs an opaque policy — a pragmatic difference, not a difference in kind.</ins></div>
+    <p class="why"><b>Why:</b> a cold stranger-AI proved the core premise false — and the false line had been <i>introduced by an earlier fix</i>. The headline claim shrank to the one it can defend. This is the drop you see on the trajectory chart.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-head"><span class="loc">New honest edges (added)</span><span class="tag">E3–E4 · Court + Funhouse · S15/S17</span></div>
+    <div class="redline"><ins>A stale artifact is a proxy too. A skill file consulted instead of the person, after their taste has moved, is a stand-in — a legible one, but a stand-in.</ins> &nbsp; <ins>The distinction is regime-bound: everything here holds at N=1, and claims nothing where amortization would pay.</ins></div>
+    <p class="why"><b>Why:</b> insertions, not cuts. The hardening didn't only remove overclaims; it <i>added</i> the limits the first draft was dancing around.</p>
+  </div>
+
+  <hr class="divider">
+  <div class="foot">
+    <span>See also:</span>
+    <span><a href="https://claude.ai/code/artifact/a78f113c-65f0-4b66-8e1b-c4177ea887bf" target="_blank" rel="noopener">The Honest Arc</a> — the trajectory dashboard</span>
+    <span><a href="https://claude.ai/code/artifact/b75fd9de-6aca-43b1-b18c-3e4176cf29f3" target="_blank" rel="noopener">The scar-log</a> — the full record every change here is drawn from</span>
+    <span><a href="https://claude.ai/code/artifact/b2350011-ac8b-46c2-8826-c9add5792d6d" target="_blank" rel="noopener">The essay</a> — where it landed</span>
+    <span><a href="https://claude.ai/code/artifact/2e797375-5963-407a-9b00-eeb0d893b0db" target="_blank" rel="noopener">Method &amp; prompts</a> — the verbatim gauntlet prompts behind every change here</span>
+  </div>
+</div>
