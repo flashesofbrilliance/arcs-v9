@@ -35,6 +35,13 @@ HIGH-BURDEN-OF-PROOF adversarial gauntlet: assume the work is flawed and find wh
 verified — every crack must trace to their actual words (the transcript / comms thread) or a documented
 fact (the memory). Hallucinated or already-healed flags are REJECTED, so do not pad.
 
+PROVENANCE RULE (ADR-064 — external corroboration is the gate): the PRIMARY transcript / comms thread is
+external ground truth (what they actually said). An SSOT, a prior artifact, or a memory that merely
+*asserts* something about them is self-custodied context, not corroboration — never treat a secondary
+artifact's claim as verified just because it is written down; trace it to the primary source or mark it
+unverified. A "verified" crack is provisional: if a later, more skeptical read against the full primary
+source overturns it, that overturn wins (ADR-062, verify-flags-against-full-source / ADR-061).
+
 READ THESE FIRST (ground truth):
 - PRIMARY transcript (the ONLY source for what they actually said): ${A.transcript}
 ${A.comms_thread ? `- FULL comms thread (their real register + vibe, beyond one call): ${A.comms_thread}` : ''}
