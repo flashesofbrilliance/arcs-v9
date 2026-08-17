@@ -1,0 +1,431 @@
+<title>PRL Lead Capture — Diagnostic Runbook & Ownership Map</title>
+<style>
+  :root{
+    --paper:#F1F4F5; --surface:#FFFFFF; --raise:#FBFCFC;
+    --ink:#151B1E; --muted:#57646B; --faint:#8A979D; --line:#D8E0E2;
+    --accent:#0B6E77; --accent-ink:#075660; --accent-wash:#0b6e7714;
+    --ok:#17805A; --ok-wash:#17805a16;
+    --open:#A96A08; --open-wash:#a96a0818;
+    --crit:#B23A32; --crit-wash:#b23a3216;
+    --ruled:#77848A; --ruled-wash:#77848a14;
+    --zach:#0B6E77; --josh:#4A4EAE; --jorge:#A25529; --todd:#3C5566;
+    --shadow:0 1px 2px rgba(20,30,34,.04),0 4px 16px rgba(20,30,34,.06);
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono","Cascadia Code",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --paper:#0D1315; --surface:#141D20; --raise:#18242700;
+      --ink:#E7EDEE; --muted:#95A4AA; --faint:#6C7B81; --line:#25343800;
+      --accent:#41B4BE; --accent-ink:#7FD6DE; --accent-wash:#41b4be1c;
+      --ok:#3FB27E; --ok-wash:#3fb27e1e; --open:#D69B47; --open-wash:#d69b471e;
+      --crit:#E0655C; --crit-wash:#e0655c1e; --ruled:#7E8D93; --ruled-wash:#7e8d9316;
+      --zach:#41B4BE; --josh:#8D90E8; --jorge:#D08A55; --todd:#7C97A8;
+      --line:#26363A; --raise:#182427;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.32);
+    }
+  }
+  :root[data-theme="light"]{
+    --paper:#F1F4F5;--surface:#FFFFFF;--raise:#FBFCFC;--ink:#151B1E;--muted:#57646B;--faint:#8A979D;--line:#D8E0E2;
+    --accent:#0B6E77;--accent-ink:#075660;--accent-wash:#0b6e7714;--ok:#17805A;--ok-wash:#17805a16;--open:#A96A08;--open-wash:#a96a0818;
+    --crit:#B23A32;--crit-wash:#b23a3216;--ruled:#77848A;--ruled-wash:#77848a14;
+    --zach:#0B6E77;--josh:#4A4EAE;--jorge:#A25529;--todd:#3C5566;--shadow:0 1px 2px rgba(20,30,34,.04),0 4px 16px rgba(20,30,34,.06);
+  }
+  :root[data-theme="dark"]{
+    --paper:#0D1315;--surface:#141D20;--raise:#182427;--ink:#E7EDEE;--muted:#95A4AA;--faint:#6C7B81;--line:#26363A;
+    --accent:#41B4BE;--accent-ink:#7FD6DE;--accent-wash:#41b4be1c;--ok:#3FB27E;--ok-wash:#3fb27e1e;--open:#D69B47;--open-wash:#d69b471e;
+    --crit:#E0655C;--crit-wash:#e0655c1e;--ruled:#7E8D93;--ruled-wash:#7e8d9316;
+    --zach:#41B4BE;--josh:#8D90E8;--jorge:#D08A55;--todd:#7C97A8;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.32);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;
+    -webkit-font-smoothing:antialiased;font-size:15px}
+  .wrap{max-width:1040px;margin:0 auto;padding:clamp(20px,4vw,52px) clamp(16px,4vw,40px) 80px}
+  h1,h2,h3{text-wrap:balance;margin:0}
+  .mono{font-family:var(--mono)}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+  a{color:var(--accent-ink)}
+
+  /* header */
+  header{border-bottom:1px solid var(--line);padding-bottom:26px;margin-bottom:30px}
+  .kicker{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .kicker .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-wash)}
+  h1{font-size:clamp(25px,4vw,36px);letter-spacing:-.02em;font-weight:680;line-height:1.12}
+  .sub{color:var(--muted);margin-top:12px;max-width:64ch;font-size:15.5px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--faint)}
+  .meta b{color:var(--muted);font-weight:600}
+
+  /* status strip */
+  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:26px 0 34px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+  .stat .n{font-family:var(--mono);font-size:23px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:7px}
+  .stat.ok .n{color:var(--ok)} .stat.open .n{color:var(--open)} .stat.acc .n{color:var(--accent-ink)} .stat.ruled .n{color:var(--ruled)}
+
+  section{margin:38px 0}
+  .h2{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .h2 h2{font-size:19px;font-weight:660;letter-spacing:-.01em}
+  .h2 .idx{font-family:var(--mono);font-size:12px;color:var(--faint);font-weight:600}
+  .lead{color:var(--muted);max-width:70ch;margin:2px 0 18px}
+
+  /* arrived callout */
+  .arrived{background:var(--accent-wash);border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);
+    border-radius:14px;padding:20px 22px;display:grid;gap:10px}
+  .arrived p{margin:0}
+  .arrived .big{font-size:16.5px;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .arrived ul{margin:2px 0 0;padding-left:0;list-style:none;display:grid;gap:9px}
+  .arrived li{display:flex;gap:10px;align-items:flex-start;font-size:14.5px}
+  .arrived li b{color:var(--accent-ink);font-family:var(--mono);font-size:12.5px;white-space:nowrap;padding-top:1px}
+
+  /* pipeline diagram */
+  .flowrap{overflow-x:auto;padding:4px 0 8px}
+  .flow{display:flex;flex-direction:column;gap:20px;min-width:640px}
+  .track{display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:center}
+  .track .tlab{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;line-height:1.3}
+  .track .tlab b{display:block;color:var(--ink);font-size:12px}
+  .nodes{display:flex;align-items:center;gap:0}
+  .node{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;min-width:96px;
+    text-align:center;box-shadow:var(--shadow);position:relative}
+  .node .nm{font-size:12.5px;font-weight:600}
+  .node .st{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
+  .node.ok{border-color:color-mix(in srgb,var(--ok) 45%,var(--line))} .node.ok .st{color:var(--ok)}
+  .node.brk{border-color:color-mix(in srgb,var(--crit) 45%,var(--line))} .node.brk .st{color:var(--crit)}
+  .node.gap{border-style:dashed;border-color:color-mix(in srgb,var(--open) 55%,var(--line))} .node.gap .st{color:var(--open)}
+  .arw{flex:0 0 34px;height:2px;background:var(--line);position:relative;margin:0 2px}
+  .arw::after{content:"";position:absolute;right:-1px;top:-3px;border:4px solid transparent;border-left-color:var(--line)}
+  .arw.brk{background:repeating-linear-gradient(90deg,var(--crit) 0 5px,transparent 5px 10px);height:2px}
+  .arw.brk::after{border-left-color:var(--crit)}
+  .arw.gap{background:repeating-linear-gradient(90deg,var(--open) 0 4px,transparent 4px 9px)}
+  .arw.gap::after{border-left-color:var(--open)}
+  .leg{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .leg span{display:inline-flex;align-items:center;gap:6px}
+  .leg i{width:20px;height:0;border-top:2px solid;display:inline-block}
+  .leg .l-ok{border-color:var(--ok)} .leg .l-brk{border-color:var(--crit);border-top-style:dashed} .leg .l-gap{border-color:var(--open);border-top-style:dashed}
+
+  /* findings ledger */
+  .ledger{display:grid;gap:10px}
+  .find{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;
+    display:grid;grid-template-columns:auto 1fr;gap:4px 14px;box-shadow:var(--shadow)}
+  .find .chip{grid-row:1/3;align-self:start}
+  .find .ft{font-weight:600;font-size:14.5px;letter-spacing:-.01em}
+  .find .fw{color:var(--muted);font-size:14px}
+  .find .fw b{color:var(--ink);font-weight:600}
+  .find.rule .ft{color:var(--muted)}
+  .find.rule .ft s{text-decoration-color:var(--ruled)}
+  .chip{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    padding:4px 9px;border-radius:100px;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;border:1px solid}
+  .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+  .c-ok{color:var(--ok);background:var(--ok-wash);border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+  .c-root{color:var(--crit);background:var(--crit-wash);border-color:color-mix(in srgb,var(--crit) 30%,transparent)}
+  .c-ruled{color:var(--ruled);background:var(--ruled-wash);border-color:color-mix(in srgb,var(--ruled) 28%,transparent)}
+  .c-open{color:var(--open);background:var(--open-wash);border-color:color-mix(in srgb,var(--open) 32%,transparent)}
+
+  /* next checks */
+  .checks{display:grid;gap:9px}
+  .chk{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--surface);
+    border:1px solid var(--line);border-left:3px solid var(--open);border-radius:10px;padding:11px 15px;box-shadow:var(--shadow)}
+  .chk .id{font-family:var(--mono);font-size:11px;color:var(--open);font-weight:700}
+  .chk .q{font-size:14px}
+  .chk .q b{font-weight:600}
+  .chk .who{font-family:var(--mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+
+  /* ownership lanes */
+  .lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(224px,1fr));gap:14px}
+  .lane{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--lc);border-radius:13px;
+    padding:16px 16px 18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+  .lane.z{--lc:var(--zach)} .lane.j{--lc:var(--josh)} .lane.g{--lc:var(--jorge)} .lane.t{--lc:var(--todd)}
+  .lane .who{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .lane .who .nm{font-size:16px;font-weight:680;letter-spacing:-.01em}
+  .lane .who .rl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--lc);font-weight:600}
+  .acc{font-family:var(--mono);font-size:11px;background:color-mix(in srgb,var(--lc) 12%,transparent);
+    color:var(--lc);border:1px solid color-mix(in srgb,var(--lc) 30%,transparent);border-radius:8px;padding:7px 10px;line-height:1.4}
+  .acc b{font-weight:700;letter-spacing:.03em}
+  .lane .grp{display:grid;gap:5px}
+  .lane .glab{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600}
+  .lane ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+  .lane li{font-size:13.5px;padding-left:16px;position:relative;color:var(--muted)}
+  .lane li b{color:var(--ink);font-weight:600}
+  .lane .do li::before{content:"";position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:2px;background:var(--lc)}
+  .lane .gate li{color:var(--ink)}
+  .lane .gate li::before{content:"→";position:absolute;left:0;top:0;color:var(--open);font-weight:700}
+  .lane .not li{color:var(--muted)}
+  .lane .not li::before{content:"✕";position:absolute;left:1px;top:0;color:var(--ruled);font-size:11px;font-weight:700}
+  .lane .not{border-top:1px dashed var(--line);padding-top:11px}
+
+  /* sequence bar */
+  .seq{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-top:6px}
+  .step{flex:1 1 160px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px;position:relative;box-shadow:var(--shadow)}
+  .step .sn{font-family:var(--mono);font-size:11px;color:var(--faint);font-weight:700}
+  .step .stt{font-weight:600;font-size:13.5px;margin-top:3px}
+  .step .sd{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .step .own{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-top:8px;color:var(--sc);font-weight:600}
+  .step.z{--sc:var(--zach)} .step.j{--sc:var(--josh)} .step.g{--sc:var(--jorge)} .step.t{--sc:var(--todd)}
+  .step.z{border-left:3px solid var(--zach)}.step.j{border-left:3px solid var(--josh)}.step.g{border-left:3px solid var(--jorge)}.step.t{border-left:3px solid var(--todd)}
+
+  .boundary{background:var(--raise);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:16px;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 22px}
+  .boundary .bh{grid-column:1/-1;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-bottom:2px}
+  .boundary div.r{font-size:13.5px;display:flex;gap:9px}
+  .boundary .r b{font-family:var(--mono);font-size:11.5px;color:var(--accent-ink);white-space:nowrap;min-width:88px}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--faint);
+    font-family:var(--mono);font-size:11.5px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+  @media (max-width:560px){.track{grid-template-columns:1fr}.track .tlab{text-align:left}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker"><span class="dot"></span><span class="eyebrow">Diagnostic Runbook · Lead Capture &amp; Email Deliverability</span></div>
+    <h1>PRL lead capture: what we found, what's ruled out, and who owns what next</h1>
+    <p class="sub">A shared map so every moving part lands in one lane. The sending infrastructure is already in place — two small, well-scoped changes finish the job. This page keeps the website, the domain, the CRM pipe, and the decisions from stepping on each other.</p>
+    <div class="meta"><span><b>Scope</b> chatbot leads · website form leads · notifications</span><span><b>Systems</b> Tidio · Zapier · SugarCRM · Gravity Forms · Mailgun · M365 · Barracuda</span><span><b>Status</b> ready to execute</span></div>
+  </header>
+
+  <div class="strip">
+    <div class="stat ok"><div class="n">10</div><div class="l">Findings confirmed from live evidence</div></div>
+    <div class="stat ruled"><div class="n">5</div><div class="l">Hypotheses ruled out (with reason)</div></div>
+    <div class="stat acc"><div class="n">1&nbsp;of&nbsp;2</div><div class="l">Chatbot pipe legs proven (Sugar write ✓)</div></div>
+    <div class="stat open"><div class="n">4</div><div class="l">Cheap checks still open</div></div>
+  </div>
+
+  <div class="arrived">
+    <p class="big">Where we've arrived</p>
+    <p style="margin:0;color:var(--muted);max-width:72ch">The email-authentication stack PRL needs is <b style="color:var(--ink)">already built and correct</b>. Nothing here requires new DNS or a rebuild. Two changes close it:</p>
+    <ul>
+      <li><b>01</b><span>Stand up the chatbot lead pipe (Tidio → Zapier → SugarCRM). <b style="color:var(--ink)">The Zapier → SugarCRM write is now proven in the sandbox</b> — the only piece left is the Tidio flow's delivery node.</span></li>
+      <li><b>02</b><span>Point the website forms at the Mailgun sender that <em>already exists</em> on <span class="mono">mg.prlresins.com</span>, sending as <span class="mono">no-reply@prlresins.com</span>.</span></li>
+    </ul>
+    <p style="margin:8px 0 0;font-family:var(--mono);font-size:12.5px;color:var(--ok);font-weight:600">✓ Proven this session — a chatbot-shaped lead creates a SugarCRM Lead in the sandbox end-to-end (created via a dedicated integration user, verified in-app, deleted). Field-map fix banked: <span style="color:var(--ink)">location = state abbreviations</span> (CT), not full names.</p>
+  </div>
+
+  <div class="arrived" style="background:var(--ok-wash);border-color:color-mix(in srgb,var(--ok) 30%,transparent);margin-top:18px">
+    <p class="big">Update — Aug 14 field test</p>
+    <ul>
+      <li><b>done</b><span><b style="color:var(--ink)">Jorge</b> found and released the Barracuda quarantine and allow-listed the form sender. Per his request, we ran fresh tagged test submissions through the live forms this morning.</span></li>
+      <li><b>new</b><span><b style="color:var(--ink)">Staging is untestable</b> until the reCAPTCHA key covers the staging domain — a Josh item (see the reCAPTCHA row below). The live forms submit fine; staging cannot.</span></li>
+      <li><b>result</b><span>The live test submissions did <b style="color:var(--ink)">not create a CRM lead</b> — re-checked ~1.5 hours later (10:26 EDT), still absent, so this is <b style="color:var(--ink)">not delivery lag</b>. With the cadence context (216 website leads all-time, but only 3 in the last 30 days), it points to the submissions being <b style="color:var(--ink)">spam-filtered</b> or the form not writing to the CRM at all. Josh's Gravity Forms Entries / Spam check (below) tells us which; the inbox-notification side is Jorge's to confirm.</span></li>
+    </ul>
+  </div>
+
+  <div class="arrived" style="margin-top:18px">
+    <p class="big">Update — Aug 17</p>
+    <ul>
+      <li><b>proven+</b><span>A second sandbox proof strengthened the chatbot pipe: the test lead <b style="color:var(--ink)">auto-routed by state (CT) to a territory rep</b>, created by the dedicated integration user. The delivery design is settled — Tidio's native <b style="color:var(--ink)">"Send to Zapier"</b> flow node exists on the account (closes A-8), and wiring is underway. Next artifact: a recorded chat-to-CRM test.</span></li>
+      <li><b>narrowed</b><span><b style="color:var(--ink)">Mailgun ownership</b>: Jorge does not own the account, and Todd had not heard of it — so it almost certainly sits with <b style="color:var(--ink)">Josh / WFA</b>. The send-only-key ask now routes to Josh (see B-6).</span></li>
+      <li><b>process</b><span>Per Todd, Zach and Josh work the website/email fixes directly; Josh re-engaged Aug 17 with SMTP guidance and a call offer.</span></li>
+    </ul>
+  </div>
+
+  <section>
+    <div class="h2"><span class="idx">01</span><h2>What we investigated</h2></div>
+    <p class="lead">Two lead paths and the mailbox they share. Green is working, dashed-red is broken, dashed-amber is a gap with no path built yet.</p>
+    <div class="flowrap"><div class="flow">
+      <div class="track"><div class="tlab"><b>Chatbot lead</b>should reach the CRM</div>
+        <div class="nodes">
+          <div class="node ok"><div class="nm">Tidio / Lyro</div><div class="st">captures</div></div>
+          <div class="arw gap"></div>
+          <div class="node ok"><div class="nm">Zapier</div><div class="st">connection live</div></div>
+          <div class="arw ok"></div>
+          <div class="node ok"><div class="nm">SugarCRM</div><div class="st">write proven</div></div>
+        </div>
+      </div>
+      <div class="track"><div class="tlab"><b>Website form</b>notification to staff</div>
+        <div class="nodes">
+          <div class="node ok"><div class="nm">Gravity Forms</div><div class="st">submits</div></div>
+          <div class="arw brk"></div>
+          <div class="node brk"><div class="nm">wrong sender</div><div class="st">fails auth</div></div>
+          <div class="arw brk"></div>
+          <div class="node brk"><div class="nm">info@ inbox</div><div class="st">filtered</div></div>
+        </div>
+      </div>
+      <div class="track"><div class="tlab"><b>Inbound email</b>to the shared box</div>
+        <div class="nodes">
+          <div class="node ok"><div class="nm">info@ mailbox</div><div class="st">receives</div></div>
+          <div class="arw ok"></div>
+          <div class="node ok"><div class="nm">Tidio tickets</div><div class="st">working</div></div>
+          <div class="arw"></div>
+          <div class="node gap"><div class="nm">+ cold spam</div><div class="st">surfaces here</div></div>
+        </div>
+      </div>
+    </div></div>
+    <div class="leg">
+      <span><i class="l-ok"></i> working</span>
+      <span><i class="l-brk"></i> broken (fails authentication)</span>
+      <span><i class="l-gap"></i> gap — no path built yet</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="h2"><span class="idx">02</span><h2>Findings &amp; what's ruled out</h2></div>
+    <p class="lead">Everything confirmed from live evidence (the CRM, the automation history, the site, and DNS lookups). Ruled-out rows are struck through with the reason they're off the table — so we don't re-litigate them.</p>
+    <div class="ledger">
+
+      <div class="find"><span class="chip c-root">Root cause (narrowed)</span>
+        <div class="ft">Only the Tidio delivery node is missing — the rest is proven</div>
+        <div class="fw">Capture fires (26 runs, but Leads acquired = <b>0</b>), and the <b>Zapier → SugarCRM write is now proven in the sandbox</b>. The single remaining gap: the Tidio flow has <b>no webhook / delivery node</b> to hand the lead off. The "lead delivery bridge" flow is an off draft with no webhook step. <b>(Closes A-2 and A-6.)</b></div></div>
+
+      <div class="find"><span class="chip c-ok">Confirmed</span>
+        <div class="ft">Chatbot → SugarCRM lead creation works end-to-end (sandbox)</div>
+        <div class="fw">A dedicated <span class="mono">zapier.chatbot</span> integration user + a sandbox-pinned connection create a Lead with the full field map. <span class="mono">lead_source = Chatbot</span> is accepted — a value that exists only in the sandbox — and it auto-routes to a rep. Test lead created, verified in-app, and deleted.</div></div>
+
+      <div class="find"><span class="chip c-ok">Confirmed</span>
+        <div class="ft">Field-map correction: Location uses state abbreviations</div>
+        <div class="fw"><span class="mono">location_c</span> takes <b>abbreviations</b> (<span class="mono">CT</span>, <span class="mono">CA</span>, <span class="mono">NY</span>), not full state names. The Zapier transform must map to these exact keys.</div></div>
+
+      <div class="find"><span class="chip c-ok">Confirmed</span>
+        <div class="ft">Sugar's Zapier connection needs a dedicated local user, not an SSO login</div>
+        <div class="fw">An SSO account (e.g. <span class="mono">todd.hotes</span>) can't do the password grant Zapier requires. A dedicated local user (<span class="mono">zapier.chatbot</span>) authenticates cleanly on the <span class="mono">base</span> platform.</div></div>
+
+      <div class="find"><span class="chip c-root">Root cause</span>
+        <div class="ft">The website forms don't use the sender that already exists</div>
+        <div class="fw">Form notifications go out under a <b>previous vendor's domain</b>, so they fail authentication and get filtered — while a fully configured <span class="mono">prlresins.com</span> sender sits unused.</div></div>
+
+      <div class="find"><span class="chip c-ok">Confirmed</span>
+        <div class="ft">The email-authentication stack is already in place and correct</div>
+        <div class="fw">DNS lookups confirm a complete Mailgun sending domain on <span class="mono">mg.prlresins.com</span> (sender policy, signing key, routing, tracking), Mailgun authorized on the root domain, an <b>enforcing</b> domain policy, Microsoft 365 signing, and Barracuda in front of inbound mail. This was set up properly.</div></div>
+
+      <div class="find"><span class="chip c-ok">Confirmed</span>
+        <div class="ft">Inbound mail into Tidio works; the "more spam" is a different surface</div>
+        <div class="fw">Email reaches the shared box and becomes Tidio tickets. The recent noise is <b>inbound cold email</b> to a public address, not website-form spam — so the form spam controls don't touch it.</div></div>
+
+      <div class="find"><span class="chip c-ok">Confirmed</span>
+        <div class="ft">The form spam-controls are on staging, not live yet</div>
+        <div class="fw">The honeypot, speed check, and material-type field exist on the staging copy; the live contact form still shows the old field set.</div></div>
+
+      <div class="find rule"><span class="chip c-ruled">Ruled out</span>
+        <div class="ft"><s>The domain needs new SPF / DKIM / DMARC records</s></div>
+        <div class="fw"><b>Why:</b> all present and correct in DNS. No DNS work is required — touching it would add risk, not remove it.</div></div>
+
+      <div class="find rule"><span class="chip c-ruled">Ruled out</span>
+        <div class="ft"><s>Major domain work is needed before forms can send</s></div>
+        <div class="fw"><b>Why:</b> the sender already exists. The remaining need is a send-only key handed to the site, not new setup.</div></div>
+
+      <div class="find rule"><span class="chip c-ruled">Ruled out</span>
+        <div class="ft"><s>The chatbot pipe is blocked on CRM admin access</s></div>
+        <div class="fw"><b>Why:</b> admin access to the CRM is already in hand (verified by making a live config change in the test environment this week).</div></div>
+
+      <div class="find rule"><span class="chip c-ruled">Ruled out</span>
+        <div class="ft"><s>Emailing the shared box is a safe way to alert on a new lead</s></div>
+        <div class="fw"><b>Why:</b> the enforcing domain policy plus Barracuda would quarantine an unauthenticated alert, and the box is noisy. Alerts must ride the authenticated sender <em>and</em> land somewhere dedicated.</div></div>
+
+      <div class="find rule"><span class="chip c-ruled">Ruled out</span>
+        <div class="ft"><s>The Gravity Forms cleanup will cut the inbox spam Todd sees</s></div>
+        <div class="fw"><b>Why:</b> that spam is inbound email to the shared box, a separate surface. Form controls only screen website submissions.</div></div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="h2"><span class="idx">02b</span><h2>Assumptions to confirm</h2></div>
+    <p class="lead">You built the stack, so you hold ground truth we do not. This is on purpose, not a caveat: we state what we assume so the person accountable for each piece can confirm, deny, or correct it &mdash; a second set of accountable eyes, the same way we checked the CRM side by reading the live system rather than guessing.</p>
+    <div class="ledger">
+      <div class="find"><span class="chip c-ok">Verified</span><div class="ft">Mailgun is configured on mg.prlresins.com</div><div class="fw">Sending policy, signing key, routing, and tracking, read live from DNS. Root SPF includes Mailgun and Outlook; DMARC is set to reject; Microsoft 365 signing is published; Barracuda fronts inbound mail.</div></div>
+      <div class="find"><span class="chip c-ok">Verified</span><div class="ft">Gravity Forms spam changes are on staging, not the live site</div><div class="fw">Read from the live page.</div></div>
+      <div class="find"><span class="chip c-ruled">Confirm?</span><div class="ft">Akismet is actually enabled and keyed on the forms</div><div class="fw">We are inferring it is the intended filter.</div></div>
+      <div class="find"><span class="chip c-root">Confirmed &middot; Josh action</span><div class="ft">reCAPTCHA key is domain-locked to prlresins.com — staging forms cannot be submitted</div><div class="fw">Both live and staging forms use reCAPTCHA v2 with site key <span class="mono">6LfCuOEU…</span>, which is valid only on <span class="mono">prlresins.com</span>. On the staging domain (<span class="mono">wfaprlredev26.wpenginepowered.com</span>) the challenge will not complete, so <b>no staging form can be submitted or tested</b> until this is fixed. <b>Josh:</b> register the staging domain on the reCAPTCHA site key, or disable reCAPTCHA on the staging forms.</div></div>
+      <div class="find"><span class="chip c-ok">Confirmed by Jorge</span><div class="ft">Barracuda was quarantining the form notifications — now released &amp; allow-listed</div><div class="fw">Jorge confirmed <span class="mono">notify@websitesforanything.com</span> was being quarantined, released the held message, and allow-listed that sender. That restores notifications today. The <b>durable</b> fix is still moving the forms to the authenticated Mailgun sender (<span class="mono">no-reply@prlresins.com</span>), which passes SPF/DKIM/DMARC everywhere with no per-sender exception.</div></div>
+      <div class="find"><span class="chip c-open">Narrowed &middot; Aug 17</span><div class="ft">Who owns the Mailgun account — not Jorge, not Todd; likely WFA</div><div class="fw">Jorge confirmed he has no access or ownership info; Todd had not heard of Mailgun before Josh mentioned it. <b>Josh:</b> please confirm WFA holds the account and issue a send-only key.</div></div>
+      <div class="find"><span class="chip c-ruled">Confirm?</span><div class="ft">Who controls the prlresins.com DNS zone</div><div class="fw"></div></div>
+      <div class="find"><span class="chip c-ruled">Confirm?</span><div class="ft">How the site sends mail today, and whether the From can move to a prlresins.com sender</div><div class="fw">Native mail vs an SMTP plugin.</div></div>
+      <div class="find"><span class="chip c-ruled">Confirm?</span><div class="ft">Whether Microsoft 365 has plus-addressing enabled</div><div class="fw"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="h2"><span class="idx">03</span><h2>Cheap checks still open</h2></div>
+    <p class="lead">Minutes each, no build required. They confirm-or-close the last unknowns before the working session.</p>
+    <div class="checks">
+      <div class="chk" style="border-left-color:var(--ok);opacity:.72"><span class="id" style="color:var(--ok)">A-2 ✓</span><span class="q"><b>Closed:</b> capture fires (26 runs); the flow has <b>no delivery node</b> — nothing to fix, a node to add.</span><span class="who">done</span></div>
+      <div class="chk" style="border-left-color:var(--ok);opacity:.72"><span class="id" style="color:var(--ok)">A-6 ✓</span><span class="q"><b>Closed:</b> capture executes on the live flow; Leads acquired = 0 confirms nothing leaves Tidio.</span><span class="who">done</span></div>
+      <div class="chk" style="border-left-color:var(--ok);opacity:.72"><span class="id" style="color:var(--ok)">A-8 ✓</span><span class="q"><b>Closed (Aug 17):</b> Tidio's Flows palette includes a native <b>"Send to Zapier"</b> action node (plus a raw API-call backup) — the delivery leg uses it. No Catch Hook needed.</span><span class="who">done</span></div>
+      <div class="chk"><span class="id">A-7</span><span class="q">How was the chatbot tested — the live site, or Tidio's preview (which never fires the webhook)?</span><span class="who">Todd</span></div>
+      <div class="chk"><span class="id">B-5</span><span class="q">Message-trace a known-good send through Barracuda / M365 to confirm the dedicated alert address is allow-listed.</span><span class="who">Jorge</span></div>
+      <div class="chk"><span class="id">B-6</span><span class="q"><b>Updated Aug 17:</b> Mailgun is not Jorge's and not Todd's — confirm WFA owns the <span class="mono">mg.prlresins.com</span> account and issue a send-only key for the site + the alert.</span><span class="who">Josh</span></div>
+      <div class="chk"><span class="id">B-7</span><span class="q"><b>Trace today's tests:</b> do the <span class="mono">ARCSTEST</span> submissions (~09:05–09:39 EDT, Aug 14) appear in <b>Gravity Forms → Entries</b>, and are any sitting in the <b>Spam</b> tab? Confirms whether the forms saved and whether Akismet held them.</span><span class="who">Josh</span></div>
+      <div class="chk"><span class="id">B-8</span><span class="q"><b>Cadence sanity check:</b> website leads are 216 all-time but only 3 in the last 30 days — is that expected form traffic, or has the form→CRM feed degraded?</span><span class="who">Josh / Jorge</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="h2"><span class="idx">04</span><h2>Who owns what — one lane each</h2></div>
+    <p class="lead">The whole point of this page: each person has a lane, a green light they wait on, and a boundary they don't cross. Nobody edits the same thing twice.</p>
+    <div class="lanes">
+
+      <div class="lane z">
+        <div class="who"><span class="nm">Zach</span><span class="rl">Build · Orchestrate</span></div>
+        <div class="acc"><b>Accountable for:</b> the chatbot lead pipe (fully in our control)</div>
+        <div class="grp do"><span class="glab">Does</span><ul>
+          <li><b style="color:var(--ok)">✓ Done</b> — sandbox connection + <b>Sugar lead-write proven</b></li>
+          <li>Add the <b>delivery node</b> to the Tidio flow (the last leg)</li>
+          <li>Wire the alert through the <b>existing Mailgun</b>, to a dedicated channel (not the shared box)</li>
+          <li>Pre-stage the exact site mailer settings for Josh</li>
+        </ul></div>
+        <div class="grp gate"><span class="glab">Green light</span><ul><li>None — starts now</li></ul></div>
+        <div class="grp not"><span class="glab">Not this lane</span><ul><li>DNS records</li><li>Editing the WordPress mailer (Josh's)</li></ul></div>
+      </div>
+
+      <div class="lane j">
+        <div class="who"><span class="nm">Josh</span><span class="rl">WordPress</span></div>
+        <div class="acc"><b>Owns:</b> the website send path — the critical change</div>
+        <div class="grp do"><span class="glab">Does</span><ul>
+          <li>Point the form mailer at <b>Mailgun</b> (<span class="mono">mg.prlresins.com</span>), from <span class="mono">no-reply@prlresins.com</span></li>
+          <li>Push the form spam-controls <b>staging → live</b></li>
+          <li>Pre-work: current send method + any SMTP plugin installed</li>
+        </ul></div>
+        <div class="grp gate"><span class="glab">Green light</span><ul><li>None — Mailgun key is likely his to issue (confirm ownership, B-6)</li></ul></div>
+        <div class="grp not"><span class="glab">Not this lane</span><ul><li>DNS — already correct, leave it</li><li>The chatbot pipe (Zach's)</li></ul></div>
+      </div>
+
+      <div class="lane g">
+        <div class="who"><span class="nm">Jorge</span><span class="rl">Domain · Mailbox</span></div>
+        <div class="acc"><b>Owns:</b> Mailgun account + Microsoft 365 / Barracuda</div>
+        <div class="grp do"><span class="glab">Does</span><ul>
+          <li><b style="color:var(--ok)">✓ Done</b> — found &amp; cleared the Barracuda quarantine; allow-listed the sender</li>
+          <li>Confirm the released form notifications now land in <span class="mono">info@</span></li>
+          <li>Add the leads filing rule + allow-list the alert sender</li>
+          <li>Confirm plus-addressing is available if we tag by source</li>
+        </ul></div>
+        <div class="grp gate"><span class="glab">Green light</span><ul><li>None — the DNS is done; these are small</li></ul></div>
+        <div class="grp not"><span class="glab">Not this lane</span><ul><li>New DNS records — none needed</li><li>Reconfiguring the site (Josh's)</li></ul></div>
+      </div>
+
+      <div class="lane t">
+        <div class="who"><span class="nm">Todd</span><span class="rl">Decide · Unblock</span></div>
+        <div class="acc"><b>Accountable for:</b> the deliverability outcome (it rides on his team)</div>
+        <div class="grp do"><span class="glab">Does</span><ul>
+          <li>Pick the lead destination (dedicated address vs. chat/text alert)</li>
+          <li>Yes/no on an auto-confirmation to the lead</li>
+          <li>Nothing this week — Zach and Josh are working the website/email legs directly per Todd's note</li>
+        </ul></div>
+        <div class="grp gate"><span class="glab">Green light</span><ul><li>None — decisions gate the rest</li></ul></div>
+        <div class="grp not"><span class="glab">Not this lane</span><ul><li>Hands-on config — that's the other three</li></ul></div>
+      </div>
+
+    </div>
+
+    <div class="boundary">
+      <span class="bh">The no-collision rules</span>
+      <div class="r"><b>DNS</b><span>Nobody touches it. It is already correct; changes only add risk.</span></div>
+      <div class="r"><b>WordPress</b><span>Josh only. One mailer change, staged then promoted.</span></div>
+      <div class="r"><b>Mailgun keys</b><span>Jorge issues, Josh &amp; Zach consume a scoped key. Not shared around.</span></div>
+      <div class="r"><b>Chatbot pipe</b><span>Zach only — Tidio, Zapier, and the CRM write.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="h2"><span class="idx">05</span><h2>Order of play</h2></div>
+    <p class="lead">Two parallel tracks that meet at the test. Zach's track needs no one; the forms track starts the moment Jorge hands over the key.</p>
+    <div class="seq">
+      <div class="step z"><div class="sn">A · now</div><div class="stt">Chatbot pipe built</div><div class="sd">Tidio → Zapier → CRM + authenticated alert, in parallel.</div><div class="own">Zach</div></div>
+      <div class="step g"><div class="sn">B1</div><div class="stt">Key released</div><div class="sd">Send-only Mailgun key + account owner confirmed.</div><div class="own">Jorge</div></div>
+      <div class="step j"><div class="sn">B2</div><div class="stt">Site re-pointed</div><div class="sd">Forms send via Mailgun on staging.</div><div class="own">Josh</div></div>
+      <div class="step z"><div class="sn">C</div><div class="stt">Test on staging</div><div class="sd">Headers show authentication passing; lead lands.</div><div class="own">All, on the call</div></div>
+      <div class="step j"><div class="sn">D</div><div class="stt">Promote to live</div><div class="sd">Same settings on the live site.</div><div class="own">Josh</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>PRL Resins · lead capture &amp; deliverability · internal working runbook</span>
+    <span>Prepared by Zach Harris · draft for review</span>
+  </footer>
+</div>
