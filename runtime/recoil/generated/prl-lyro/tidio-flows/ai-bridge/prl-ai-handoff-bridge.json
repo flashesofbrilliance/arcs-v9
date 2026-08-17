@@ -1,0 +1,370 @@
+{
+  "name": "PRL Resins - AI Handoff (lead delivery bridge)",
+  "category": "generate_leads",
+  "firstTrigger": "onFirstVisit",
+  "template": "",
+  "sandbox": 0,
+  "color": "",
+  "draftFromTemplate": 0,
+  "type": "conversationAutomation",
+  "nodes": [
+    {
+      "id": 200000001,
+      "dbNodeId": 200000001,
+      "type": "onFirstVisit",
+      "payload": {
+        "id": 1,
+        "x": 10000,
+        "y": 700,
+        "customName": "",
+        "connections": {
+          "top": [],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "nodeId": 2,
+              "direction": "from"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 200000002,
+      "dbNodeId": 200000002,
+      "type": "sendChatMessagesToVisitor",
+      "payload": {
+        "id": 2,
+        "x": 10340,
+        "y": 850,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 1,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "nodeId": 3,
+              "direction": "from"
+            }
+          ]
+        },
+        "messages": [
+          {
+            "type": "text",
+            "content": "Good news, we compound an equivalent to that. Our specialists can put a side by side in front of you, tested against the conditions your part actually sees."
+          }
+        ]
+      }
+    },
+    {
+      "id": 200000003,
+      "dbNodeId": 200000003,
+      "type": "getUserInput",
+      "payload": {
+        "id": 3,
+        "x": 10680,
+        "y": 1000,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 2,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "route": "success",
+              "nodeId": 4,
+              "direction": "from"
+            }
+          ]
+        },
+        "message": "Which grade are you running today, and what does the part have to stand up to? Temperature range, outdoor exposure, chemicals, any listing you need to hold.",
+        "failedNode": null,
+        "passedNode": 200000004,
+        "validation": "none",
+        "error_message": "Sorry, that doesn't look right. Mind trying again?",
+        "variable_name": "desired_resin_or_spec",
+        "number_of_repeats": 1,
+        "answer_to_variable": false
+      }
+    },
+    {
+      "id": 200000004,
+      "dbNodeId": 200000004,
+      "type": "getUserInput",
+      "payload": {
+        "id": 4,
+        "x": 11020,
+        "y": 1150,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 3,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "route": "success",
+              "nodeId": 5,
+              "direction": "from"
+            }
+          ]
+        },
+        "message": "Great. Who should we put this together for?",
+        "failedNode": null,
+        "passedNode": 200000005,
+        "validation": "none",
+        "error_message": "Sorry, that doesn't look right. Mind trying again?",
+        "variable_name": "name",
+        "number_of_repeats": 1,
+        "answer_to_variable": false
+      }
+    },
+    {
+      "id": 200000005,
+      "dbNodeId": 200000005,
+      "type": "getUserInput",
+      "payload": {
+        "id": 5,
+        "x": 10000,
+        "y": 1300,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 4,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "route": "success",
+              "nodeId": 6,
+              "direction": "from"
+            }
+          ]
+        },
+        "message": "Where should we send it?",
+        "failedNode": null,
+        "passedNode": 200000006,
+        "validation": "email",
+        "error_message": "Hmm, that doesn't look like an email. Mind trying again?",
+        "variable_name": "email",
+        "number_of_repeats": 1,
+        "answer_to_variable": false
+      }
+    },
+    {
+      "id": 200000006,
+      "dbNodeId": 200000006,
+      "type": "getUserInput",
+      "payload": {
+        "id": 6,
+        "x": 10340,
+        "y": 1450,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 5,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "route": "success",
+              "nodeId": 7,
+              "direction": "from"
+            }
+          ]
+        },
+        "message": "Best number, in case a question comes up while they build it?",
+        "failedNode": null,
+        "passedNode": 200000007,
+        "validation": "phone",
+        "error_message": "Sorry, that doesn't look right. Mind trying again?",
+        "variable_name": "phone",
+        "number_of_repeats": 1,
+        "answer_to_variable": false
+      }
+    },
+    {
+      "id": 200000007,
+      "dbNodeId": 200000007,
+      "type": "getUserInput",
+      "payload": {
+        "id": 7,
+        "x": 10680,
+        "y": 1600,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 6,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "route": "success",
+              "nodeId": 8,
+              "direction": "from"
+            }
+          ]
+        },
+        "message": "And your company?",
+        "failedNode": null,
+        "passedNode": 200000008,
+        "validation": "none",
+        "error_message": "Sorry, that doesn't look right. Mind trying again?",
+        "variable_name": "company",
+        "number_of_repeats": 1,
+        "answer_to_variable": false
+      }
+    },
+    {
+      "id": 200000008,
+      "dbNodeId": 200000008,
+      "type": "getUserInput",
+      "payload": {
+        "id": 8,
+        "x": 11020,
+        "y": 1750,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 7,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": [
+            {
+              "route": "success",
+              "nodeId": 9,
+              "direction": "from"
+            }
+          ]
+        },
+        "message": "What state or region are you in?",
+        "failedNode": null,
+        "passedNode": 200000009,
+        "validation": "none",
+        "error_message": "Sorry, that doesn't look right. Mind trying again?",
+        "variable_name": "territory",
+        "number_of_repeats": 1,
+        "answer_to_variable": false
+      }
+    },
+    {
+      "id": 200000009,
+      "dbNodeId": 200000009,
+      "type": "sendChatMessagesToVisitor",
+      "payload": {
+        "id": 9,
+        "x": 10000,
+        "y": 1900,
+        "customName": "",
+        "connections": {
+          "top": [
+            {
+              "nodeId": 8,
+              "direction": "to"
+            }
+          ],
+          "left": [],
+          "right": [],
+          "bottom": []
+        },
+        "messages": [
+          {
+            "type": "text",
+            "content": "Done. A PRL resin specialist will send that over shortly, usually within a few hours. A real person, no phone trees."
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from_node_id": 200000001,
+      "to_node_id": 200000002,
+      "id": 300000001,
+      "dbEdgeId": 300000001,
+      "routeId": "8ca4967d-d4ac-46b8-8a99-b6a900e17618"
+    },
+    {
+      "from_node_id": 200000002,
+      "to_node_id": 200000003,
+      "id": 300000002,
+      "dbEdgeId": 300000002,
+      "routeId": "517ab92c-a376-4eb2-a741-22014fdb8be7"
+    },
+    {
+      "from_node_id": 200000003,
+      "to_node_id": 200000004,
+      "id": 300000003,
+      "dbEdgeId": 300000003,
+      "routeId": "9e2af097-b207-45d6-b663-2cc8b17b5c80"
+    },
+    {
+      "from_node_id": 200000004,
+      "to_node_id": 200000005,
+      "id": 300000004,
+      "dbEdgeId": 300000004,
+      "routeId": "fa309b2c-a401-4003-8a2f-eb182d96db77"
+    },
+    {
+      "from_node_id": 200000005,
+      "to_node_id": 200000006,
+      "id": 300000005,
+      "dbEdgeId": 300000005,
+      "routeId": "c5945593-2aad-4c6e-a6d6-25b58693dae2"
+    },
+    {
+      "from_node_id": 200000006,
+      "to_node_id": 200000007,
+      "id": 300000006,
+      "dbEdgeId": 300000006,
+      "routeId": "42518ccc-6b0e-4624-b039-7c4f2b589c2a"
+    },
+    {
+      "from_node_id": 200000007,
+      "to_node_id": 200000008,
+      "id": 300000007,
+      "dbEdgeId": 300000007,
+      "routeId": "0d25736c-317a-42b2-8144-54a7c3114749"
+    },
+    {
+      "from_node_id": 200000008,
+      "to_node_id": 200000009,
+      "id": 300000008,
+      "dbEdgeId": 300000008,
+      "routeId": "10aca3bd-7122-4256-8d68-fa631c0ba2ed"
+    }
+  ],
+  "sessionVariables": []
+}
