@@ -57,6 +57,9 @@ Discovered serially, 2026-07-17 → 2026-07-18:
    three-way handoff-tracker drift (Handoff v3.0.0); stale snapshot.json open-items.
 2. **Inductive-overfit** codified (v0.3.0): a belief validated THERE treaded as
    causal law HERE. Receipt: chanModel n=2 under near-constant conditions.
+   *Weld (2026-08-17): reframed as a property of inference in
+   `_CANON/Three-Modes-of-Inference.md` §II — a node-local warrant that breaks when
+   transplanted to a second vantage; corroboration is the arc-weld that fuses two.*
 3. **Open-loop decay** assessed 2026-07-18 (this ADR implements it): a stated
    intent that still owes an action, written, never actioned, never surfaced again.
    Receipts: v1.9.0 "Critical blindspots (unactioned)" list; ADR-015 gate open

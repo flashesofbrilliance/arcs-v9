@@ -348,6 +348,10 @@ cross-covered by the other four lenses.
 ## Linked receipts / ADRs
 
 - Anchors mechanism seed [[arcs-magnetic-best-fit-simulated-annealing]]; promotes witness `2026-08-13`.
+- Weld (2026-08-17): `_CANON/Three-Modes-of-Inference.md` §VII reads the arc weld as the mechanism of
+  corroboration itself — two sufficiently-adjacent vantages fused by the induction-arc into one
+  serialized field-state invariant (a weld is a write-lock). The note, arc-welded to the corpus by the
+  gauntlet that judged it, is a cell in the hypercube it maps.
 - Relates to **ADR-053** (Tao / vox animus — Kairos activation is the resonant-frequency strike here) ·
   **ADR-050** (find the invariant, parameterize the family) · **ADR-052** (drift auditor — this ADR
   surfaced the Clarity↔Coherence question and resolved it as a *ladder*, not a collision; §1.5).

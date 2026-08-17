@@ -24,6 +24,7 @@
 | File | Status | Covers |
 |------|--------|--------|
 | **Tao-of-ARCS.md** | CANONICAL (v1.0.0) | Dormant potential (seed) vs animating spark (vox animus); the open germinate ↔ private ARCS boundary; free-to-hold/metered-to-fire. Genesis seed `adam==atom`. See ADR-053/054. |
+| **Three-Modes-of-Inference.md** | DRAFT (grounded, not yet deemed) | Deduction vs abduction vs "reasoning" by form-factor and function. The A in ARCS = Abductive (Litepaper §2). Deduction can't start on a thing it can't yet name; the human supplies abduction (NOTOMATION protects it), corroboration grades it (ADR-064). |
 
 ## Theories & Manifestos
 
