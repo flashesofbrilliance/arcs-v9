@@ -6,6 +6,20 @@
 > Format: `## [vX.Y.Z] YYYY-MM-DD — <what changed>`
 
 ---
+
+## [v3.35.0] 2026-08-17 — Comet Technical PMM application + resume-tailor skill v0.2 (ATG-in-the-wild)
+
+Tailored Zach's résumé + cover letter + ATS-plain to Comet's **Technical Product Marketing Manager**
+role (VP Marketing Hannah Klemme) in `_ARTIFACTS/resume-comet/` — honesty-graded, voice-tuned from his
+LinkedIn export, and gauntlet-hardened via a 4-facet adversarial panel (recruiter/ATS · hiring-manager
+· technical-peer · reference-check; verdicts **TAKE THE CALL / DEFENSIBLE-WITH-FIXES**). Centerpiece:
+an **orthogonal echo** (his OSS `token-savings-bank` ↔ Opik's AI Spend Tracker, reframed to
+reduction-vs-observability after the gauntlet caught the category error). **ATG offshoots:**
+resume-tailor skill → **v0.2 PUSHED** to `flashesofbrilliance/resume-tailor-skill` main
+(components/params/eval+rubric/exemplar; `resume-tailor@arcs` installs it); the 4-facet gauntlet
+harness; voice-extract + orthogonal-echo memories; blog "NOTOMATION powering gradient ascent" forked
+to its own session. Titles reconciled to the export (Grayscale = Product Lead; Squat = Head of Product
+Innovation & Tech Lead). Open: **ARCS not on Zach's LinkedIn** (reference-check gap). No arcs-v9 code touched.
 ## [v3.11.0] 2026-07-20 — Anon-share persist fix + design-system glow tuning (live)
 
 First **interactive/local** deploy session after a run of cloud sessions (which couldn't deploy).

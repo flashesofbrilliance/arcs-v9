@@ -1,14 +1,14 @@
 {
-  "captured_at": "2026-08-13T17:22:06Z",
+  "captured_at": "2026-08-17T17:24:28Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "3385c55",
-    "head_message": "fix(resume-tailor): hero lede spans full width (matches heading) [NCI:SKIP]",
-    "in_sync_with_origin": true,
+    "head_sha": "6a34040",
+    "head_message": "content(status): forward-propagate Day 98\u2192129 \u2014 4 milestones + honesty batch + reframe",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "runtime/specs/knowledge-lattice-v1.json"
+      "_STATE/snapshot.json"
     ]
   },
   "vercel": {
@@ -61,8 +61,9 @@
   "nci_counter": 247,
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
-  "session_summary": "ARCS-private half of the germinate OSS build: canonized the genesis 'adam==atom' doctrine. ADR-053 (Tao of ARCS: seed=dormant potential / ARCS=vox animus; open germinate <-> private ARCS boundary, one seam four faces; moat is the spark) + ADR-054 (free-to-hold/metered-to-fire pricing; bill per activation; token fork DECIDED metaphorical-now, on-chain deferred, Y=YELLOW). _CANON/Tao-of-ARCS.md + tao-247 + activation<->kairos sketch + 2 DEWY receipts. Housekeeping: backfilled ADR-050/051/052 into index.json, advanced lattice 44->51. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "next_action": "germinate remains built/MIT/committed-local but NOT published (owner-gated) \u2014 do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
+  "session_summary_v3340_germinate": "ARCS-private half of the germinate OSS build: canonized 'adam==atom'. ADR-053 (Tao of ARCS) + ADR-054 (free-to-hold/metered-to-fire). _CANON/Tao-of-ARCS.md + tao-247. PR #136 MERGED to main. Nothing written to ~/germinate.",
+  "session_summary": "v3.35.0 (2026-08-17): tailored Zach's resume + cover letter + ATS-plain to Comet Technical PMM (VP Hannah Klemme) in _ARTIFACTS/resume-comet/ - honesty-graded, voice-tuned from LinkedIn export, gauntlet-hardened via 4-facet adversarial panel (recruiter/hiring-manager/tech-peer/reference-check; TAKE THE CALL). Orthogonal-echo centerpiece (token-savings-bank <-> Opik AI Spend Tracker, reframed reduction-vs-observability). ATG-in-the-wild: bounded task threw off offshoots -> resume-tailor skill v0.2 PUSHED to flashesofbrilliance/resume-tailor-skill main (components/params/eval+rubric/exemplar; resume-tailor@arcs installs it); 4-facet gauntlet harness; voice-extract + orthogonal-echo memories; blog 'NOTOMATION powering gradient ascent' forked to own session. No arcs-v9 code touched.",
+  "next_action": "Comet app is send-ready PENDING Zach squaring the ARCS-on-LinkedIn gap (his current listed role = 'Manana - Product Partner'; resume leads with ARCS Founder) - the one real reference-check snag. Softer flags: Squat $350M/seven-figure self-reported, ARCS 60%/3-5x internal estimates, github-only contact (add email if applying direct), confirm VP Hannah Klemme. Infra aside (not this task): build.arcs.care<->status 1:1 pulse sync not pushed. Titles reconciled to LinkedIn export (Grayscale=Product Lead, Squat=Head of Product Innovation & Tech Lead).",
   "blocking": "NONE.",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -187,7 +188,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-16T10:29:53Z",
+  "git_refreshed_at": "2026-08-17T14:59:17Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
