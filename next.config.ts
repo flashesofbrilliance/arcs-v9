@@ -80,9 +80,12 @@ const nextConfig: NextConfig = {
         // build are reserved names, not yet built.
         { source: "/status/:seg(crm|tidio|wp|troubleshooting|build)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // prl.arcs.care (everything else) → public/todd-call.html (memorable alias to the same SSOT
-        // proposal/status page). Excludes status/* so it can't re-catch the rewritten destination
-        // (same beforeFiles re-catch bug documented in proxy.ts for todd-call.arcs.care).
-        { source: "/:path((?!status/).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        // proposal/status page). Excludes on the REWRITTEN destination substring ("prl-status-"),
+        // not the original path ("status/") — beforeFiles re-runs on a second pass against the
+        // already-rewritten destination filename, and "/prl-status-crm.html" doesn't start with or
+        // contain "status/" (it's "status-"), so a "status/"-based exclusion doesn't stop the
+        // wildcard from re-catching it. Same class of bug as the documented todd-call fix below.
+        { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
