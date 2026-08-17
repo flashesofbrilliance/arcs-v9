@@ -2,13 +2,12 @@
   "captured_at": "2026-08-13T17:22:06Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "3385c55",
-    "head_message": "fix(resume-tailor): hero lede spans full width (matches heading) [NCI:SKIP]",
+    "head_sha": "a442da1",
+    "head_message": "feat(prl): add Vercel Web Analytics to both PRL status pages",
     "in_sync_with_origin": true,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
-      "_INBOX/seedbank-drift.jsonl",
-      "runtime/specs/knowledge-lattice-v1.json"
+      "_INBOX/seedbank-drift.jsonl"
     ]
   },
   "vercel": {
@@ -45,28 +44,28 @@
     "yuri-ext.arcs.care": "Yuri-facing 'Intel Brief' (pw 'yuri', safe to share, NOT sent). Parallel-tracking capability seed: handoff-tax + north-star + serialization + notetaker-immunity + hyperstition champion-kit + 'answered before you ask' deal-breaker band (LLM-agnostic/runs-on-Gemini). Offer only if he pulls (he said 'nothing to sell').",
     "joe-war.arcs.care": "Joe Kim / HypeLab INTERNAL multi-call recoil war-room (pw 'cartography', NEVER share). 5 calls Oct 2025->Jul 2026 + gmail + gamma. Key finding: GTM role was already filled (Joe disclosed Oct 21) before Zach's Oct 22 self-pitch; shows evidence-vs-behavior overconfidence divergence. Generated from runtime/recoil/generated/2026-07-22-kim-multicall.json.",
     "joe-ext.arcs.care": "Joe-facing forward recoil (pw 'joe', safe to share). Shows only Zach's own venture->lifestyle read + ARV-sprint/gauntlet offers. Candidacy fully air-gapped out. joe.arcs.care (the older Oct decision-map) already shared with Joe Jul 20.",
-    "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI \u2014 reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
+    "ahmed.arcs.care": "Ahmed Elsamadisi / Polyform AI — reconnect call DONE Jul 22, landed GREEN-leaning reciprocal-channel deal. 6-tab INTERNAL war-room (pw 'ahmed'): Pre-Call, Ex-Ante, Forge, Recoil+belief-log, War Game (measured kinematics via arcs_kinematics.py), Defensibility. NEVER send this one.",
     "ahmed-ext.arcs.care": "Ahmed-FACING sanitized suite (open link, no pw), now a 3-surface omakase-pipeline family per Ahmed's response asking to see how ARCS benefits him + his clients: root = recoil report (unchanged, competitor-safe), /evening = 'The Method' (canon-forge, the seed/serialized-recap, the per-customer + aggregate channel offer), /seed = 'The Seed' (5-chapter distilled thesis). Routed via src/proxy.ts MULTI_PATH_MAP (primary) + next.config.ts backstop (both fixed 2026-08-02: wildcard exclusion needed .*evening|.*seed substring-anywhere match, not prefix-only, per the same re-catch bug documented for todd-call/julia). Air-gap grepped clean (no beliefs/nci/y_state/next_steps). Still gated on Zach setting pilot price + naming one customer before send.",
-    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) \u2014 post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
-    "todd-call.arcs.care": "Todd Hotes / PRL Resins \u2014 Phase 1 chatbot $1,500 VERBALLY AGREED 7/20; Todd answered discovery himself; page now has Stripe buy button + Discovery (his answers folded in) + How It Works section. BUILD ON HOLD until his go + payment (page updates are NOT held).",
-    "fanatics.arcs.care": "CJ Masopust / Fanatics \u2014 prior brief",
+    "kelly-interview.arcs.care": "Kelly Mullaney / Juniper Square FDE (AI) — post-interview brief, email sent Jul 2, follow Wed Jul 8 if no reply",
+    "todd-call.arcs.care": "Todd Hotes / PRL Resins — phase-by-phase proposal/status doc (1.1-1.5), 1.1 paid, 1.2 paid+underway. Now has sibling status-page family at prl.arcs.care/status/<crm|troubleshooting> for cross-workstream findings (routing mismatch, web-form delivery), separate from this phase doc.",
+    "fanatics.arcs.care": "CJ Masopust / Fanatics — prior brief",
     "chris-intro.arcs.care": "Chris intro brief"
   },
   "open_adrs": [
     "ADR-048 (secrets inventory + rotation)",
-    "ADR-032 (Zero-Trust Posture \u2014 GOVERNING; conformance checklist for all future ADRs)",
-    "ADR-026 (untracked \u2014 debrief calendar invite vs email, not this session's work)",
+    "ADR-032 (Zero-Trust Posture — GOVERNING; conformance checklist for all future ADRs)",
+    "ADR-026 (untracked — debrief calendar invite vs email, not this session's work)",
     "ADR-033 DECIDED 2026-07-19 (serialization pathogen family, GREEN/HIGH/REVISIT)"
   ],
   "nci_counter": 247,
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
-  "session_summary": "ARCS-private half of the germinate OSS build: canonized the genesis 'adam==atom' doctrine. ADR-053 (Tao of ARCS: seed=dormant potential / ARCS=vox animus; open germinate <-> private ARCS boundary, one seam four faces; moat is the spark) + ADR-054 (free-to-hold/metered-to-fire pricing; bill per activation; token fork DECIDED metaphorical-now, on-chain deferred, Y=YELLOW). _CANON/Tao-of-ARCS.md + tao-247 + activation<->kairos sketch + 2 DEWY receipts. Housekeeping: backfilled ADR-050/051/052 into index.json, advanced lattice 44->51. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "next_action": "germinate remains built/MIT/committed-local but NOT published (owner-gated) \u2014 do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
-  "blocking": "NONE.",
+  "session_summary": "PRL 1.1 landing session. Merged prior unmerged branch's capture-first Tidio flows + Layer-0 test suite (22,500-case recognizer, all pass) into main. Mechanically proved the LIVE Tidio flow has zero variable binding + zero delivery node (promises a callback it cannot fulfill). Ran a full 43-state sandbox routing sweep against Sugar: ~49% mismatch vs the territory-map CSV, 2 active reps (Dan Damas, Tim Mulcahy) missing from the list entirely, Distribution category corresponds to no real Sugar rule, 6 states + 7 out-of-enum states land unassigned. Resolved a location_c format contradiction (abbreviation, not full-name) with live evidence. Diagnosed the Gravity-Forms-does-not-deliver-to-Sugar root cause (never wired to Sugar at all, separate from the Barracuda email-quarantine issue Jorge partially fixed) and proposed the native Web-to-Lead fix. Stood up prl.arcs.care/status/<seg> as a durable URL family (crm, troubleshooting live; tidio/wp/build reserved) — hit and fixed the documented beforeFiles re-catch bug class (MULTI_PATH_MAP in proxy.ts as primary, next.config.ts regex as backstop, same shape as todd-call/julia). Added Vercel Web Analytics to both static pages (layout.tsx's <Analytics/> never reaches public/ files). Drafted (not sent) two Gmail drafts for Todd and one mailto for Todd->Bill; Todd sent his two emails + a text to Bill during the session.",
+  "next_action": "Waiting on Todd: (1) his nod + Bill call on CRM routing (mismatch table + agenda live at prl.arcs.care/status/crm), (2) go-ahead on the Web-to-Lead form fix before Jorge/Josh get looped in (prl.arcs.care/status/troubleshooting), (3) the negative-keyword/anti-ICP list he still owes (separate, lower urgency). Nothing to build until one of those lands. Once Todd approves the Web-to-Lead approach: generate the snippet from Sugar Studio, sandbox-test before touching the live site, then draft the Jorge/Josh handoff (not yet written).",
+  "blocking": "Todd's response on both status pages — no build work until he replies.",
   "memory_shards": {
     "location": "_MEMORY/",
-    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 \u2014 ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
+    "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
     "files": [
       "feedback_engagement_style.md",
       "project_arcs_book_ii_audit_protocol.md",
@@ -76,19 +75,19 @@
     ]
   },
   "ui_artifacts": {
-    "_note": "This section added 2026-07-08 \u2014 previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
-    "authoring_workflow": "copy public/templates/call-brief-template.html \u2192 fill {{PLACEHOLDERS}} \u2192 add beforeFiles rewrite to next.config.ts \u2192 commit on main (frosty-kepler-b69f51 worktree) \u2192 push \u2192 auto-deploy",
+    "_note": "This section added 2026-07-08 — previously invisible to cloud sessions. Keep updated when adding/retiring briefs.",
+    "authoring_workflow": "copy public/templates/call-brief-template.html → fill {{PLACEHOLDERS}} → add beforeFiles rewrite to next.config.ts → commit on main (frosty-kepler-b69f51 worktree) → push → auto-deploy",
     "canonical_template": "public/templates/call-brief-template.html",
     "call_briefs": [
       {
         "file": "public/ahmed.html",
         "subdomain": "ahmed.arcs.care",
-        "person": "Ahmed Elsamadisi / Polyform AI \u2014 INTERNAL 6-tab war-room (pw 'ahmed'); measured kinematics; NEVER send"
+        "person": "Ahmed Elsamadisi / Polyform AI — INTERNAL 6-tab war-room (pw 'ahmed'); measured kinematics; NEVER send"
       },
       {
         "file": "public/ahmed-ext.html",
         "subdomain": "ahmed-ext.arcs.care",
-        "person": "Ahmed Elsamadisi \u2014 EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
+        "person": "Ahmed Elsamadisi — EXTERNAL sanitized demo (open link); competitor-safe; send-ready. SSOT: runtime/recoil/generated/2026-07-22-elsamadisi.json + scripts/recoil_brief.py"
       },
       {
         "file": "public/labella.html",
@@ -160,17 +159,27 @@
       {
         "file": "public/chan.html",
         "subdomain": "chan.arcs.care",
-        "person": "Mike Lemon / Chan Suh (CDO) / Prophet \u2014 discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
+        "person": "Mike Lemon / Chan Suh (CDO) / Prophet — discovery-call artifact + 16-slide presentation mode, PII-scrubbed, noindex"
       },
       {
         "file": "public/status.html",
         "subdomain": "status.arcs.care",
-        "person": "N/A \u2014 standalone build-status fork of chan.html with Prophet content and presentation mode removed"
+        "person": "N/A — standalone build-status fork of chan.html with Prophet content and presentation mode removed"
       },
       {
         "file": "public/state-of-union.html",
         "subdomain": "app.arcs.care/state-of-union.html",
-        "person": "N/A \u2014 internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
+        "person": "N/A — internal state-of-the-union (roadmap + patent triage + evals + L0-L7 archaeology). Full/internal; the sanitized subset lives on status/chan."
+      },
+      {
+        "file": "public/prl-status-crm.html",
+        "subdomain": "prl.arcs.care/status/crm",
+        "person": "Todd Hotes / PRL Resins — CRM lead-routing sandbox-test findings, pilot-checklist style. Routed via proxy.ts MULTI_PATH_MAP 'prl' entry (primary) + next.config.ts capture-group backstop."
+      },
+      {
+        "file": "public/prl-status-troubleshooting.html",
+        "subdomain": "prl.arcs.care/status/troubleshooting",
+        "person": "Todd Hotes / PRL Resins — web form (Gravity Forms -> Sugar Web-to-Lead) delivery plan, pre-decision, not yet sent to Jorge/Josh."
       }
     ],
     "ui_kit": {
@@ -187,7 +196,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-16T10:29:53Z",
+  "git_refreshed_at": "2026-08-17T17:25:00Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
@@ -227,15 +236,17 @@
     "staging_dir": "open-source/",
     "queue": [],
     "hold_sauce_risk": [
-      "NCI trio (nci-scoring + nci-commit + drift-check) \u2014 reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
-      "teardown gauntlet + teardown_eval.py \u2014 heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
-      "precall-brief, recoil-report \u2014 same client-data + gauntlet-operator sauce as teardown",
-      "arcs-research, dewy-stub, receipt-book-curator \u2014 built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
+      "NCI trio (nci-scoring + nci-commit + drift-check) — reranked DOWN this session: these ARE the ADR-035 rubric (weights/thresholds), publishing = handing over the proprietary scoring method, not just a pattern",
+      "teardown gauntlet + teardown_eval.py — heavy client-data/secret scrub required, plus the BAR/LAB/KKL/COURT gauntlet operators are sauce",
+      "precall-brief, recoil-report — same client-data + gauntlet-operator sauce as teardown",
+      "arcs-research, dewy-stub, receipt-book-curator — built on the DEWY D/E/W/Y receipt shape; publishable only if genericized to a plain ADR template (loses the distinctive part)"
     ],
     "do_not_publish": [
       "arcs-brand-manager (fork of Anthropic's own brand-guidelines skill)"
     ],
     "queue_note": "Empty as of 2026-07-21. Teleport-brief items 1 (tokenmining->token-savings-bank) and 2 (linkedin-connections-toolkit) both shipped this session. State-sync bundle was already shipped 2026-07-20. Remaining candidates all sit in hold_sauce_risk.",
     "last_updated": "2026-07-21"
-  }
+  },
+  "session_summary_v3341": "ARCS-private half of the germinate OSS build: canonized the genesis 'adam==atom' doctrine. ADR-053 (Tao of ARCS: seed=dormant potential / ARCS=vox animus; open germinate <-> private ARCS boundary, one seam four faces; moat is the spark) + ADR-054 (free-to-hold/metered-to-fire pricing; bill per activation; token fork DECIDED metaphorical-now, on-chain deferred, Y=YELLOW). _CANON/Tao-of-ARCS.md + tao-247 + activation<->kairos sketch + 2 DEWY receipts. Housekeeping: backfilled ADR-050/051/052 into index.json, advanced lattice 44->51. PR #136 MERGED to main. Nothing written to ~/germinate.",
+  "next_action_v3341": "germinate remains built/MIT/committed-local but NOT published (owner-gated) — do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra."
 }

@@ -1,0 +1,111 @@
+{
+  "_doc": "DEWY receipts for 2026-08-17 — PRL 1.1 landing session (Sugar routing ground-truth investigation + web-form delivery diagnosis + prl.arcs.care/status/<seg> URL family). See _ARTIFACTS/prl-1-1-evidence/ for raw evidence and prl.arcs.care/status/{crm,troubleshooting} for the client-facing surfaces.",
+  "session_ts": "2026-08-17",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-17-sugar-routing-ground-truth-gap",
+      "surface": "PRL / SugarCRM lead delivery",
+      "sharp_question": "Does Todd's territory-map CSV actually match how Sugar routes leads today, and is it safe to build chatbot delivery on top of it?",
+      "dewy_vector": {
+        "D": "No. Full 43-state sandbox sweep (create-tagged-lead -> read assigned_user -> delete, lead_source=Chatbot) found ~49% mismatch vs the CSV: several states route to a different rep, every 'Distribution'-tagged state routes elsewhere (that category may correspond to no real Sugar rule), 2 active reps (Dan Damas, Tim Mulcahy) are missing from the CSV roster entirely, and 6 states plus all 7 states outside Sugar's location_c enum land with NO assigned owner at all (worse than misrouted — no queue catches it).",
+        "E": "Todd Hotes (client, decision owner), Bill Galla (Sugar owner + territory-map author, not yet looped in), Jorge/Josh (IT/site, out of scope for this finding)",
+        "W": "Live now — this same gap already affects real 'Web Site'-sourced leads today, confirmed by testing TX under both lead_source values with identical routing. Not introduced by the chatbot.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Neither the CSV nor Sugar's live behavior should be trusted as ground truth until Bill confirms which is right, state by state — build nothing that silently corrects toward either.",
+      "why": "1.1's delivery build was about to inherit routing logic from the CSV. Testing before wiring found the CSV itself was wrong roughly half the time, which would have shipped a chatbot that promises correct geo-routing while actually misrouting or dropping leads.",
+      "loki": "Risk that the sandbox sample doesn't generalize to prod, or that Sugar's sandbox routing config diverges from prod. Mitigated by cross-checking prod's real 'Web Site'-sourced leads (independent evidence, same pattern) and by keeping the ask scoped to alignment, not a unilateral fix.",
+      "bar": "High if ignored (silent lead loss/misroute at scale once chatbot traffic starts); low to de-risk (one 30-min call before building anything on the CSV).",
+      "horizon": "Resolves once Bill confirms per-state ground truth on the proposed call.",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": null,
+      "artifact": "_ARTIFACTS/prl-1-1-evidence/leg1-tidio-flow-map.md",
+      "client_surface": "https://prl.arcs.care/status/crm"
+    },
+    {
+      "receipt_id": "2026-08-17-location-c-format-resolved",
+      "surface": "PRL / SugarCRM field format",
+      "sharp_question": "Does location_c want state abbreviations or full names? Two prior 'verified' sources (today's pickup doc vs. an Aug-11 100-record prod audit) disagreed.",
+      "dewy_vector": {
+        "D": "Abbreviation is correct. Re-verified live: the enum schema defines US states as 2-letter keys; of 15 recent prod records, the 2 sourced via the existing automated 'Web Site' integration both used abbreviations, while the 'Other' (manual/bulk-import) records used full names. The Aug-11 doc's 'full names' finding was a sampling artifact — its 100-record snapshot was 91% manual 'Other' entries, the same skew that doc itself flagged for a different stat two paragraphs earlier.",
+        "E": "delivery pipeline (Zapier -> Sugar create step)",
+        "W": "Resolved, durable — not time-bound.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "When two 'verified' facts conflict, re-verify live against fresh evidence rather than picking a side — the resolution is often that one source's sampling was biased, not that either author was careless.",
+      "why": "Writing the wrong format would have silently broken auto-routing for every state on the very field this session's larger finding is about.",
+      "loki": "Low — resolved with primary evidence (schema + real automated-path records), not inference.",
+      "bar": "Low.",
+      "horizon": "DURABLE",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": null
+    },
+    {
+      "receipt_id": "2026-08-17-selective-merge-not-full-branch-merge",
+      "surface": "engineering / git",
+      "sharp_question": "An unmerged branch (claude/chatbot-1-1-jtbd-blockers-edda33) turned out to already contain a capture-first Tidio flow design + a 22,500-case-verified recognizer test suite. Merge it, or rebuild from scratch?",
+      "dewy_vector": {
+        "D": "Selectively checkout just the relevant path (runtime/recoil/generated/prl-lyro/, 56 files) rather than a full git merge — the two branches had 117 vs 192 commits of unrelated drift since their fork point, so a full merge would have pulled in a large amount of irrelevant history. Re-ran the Layer-0 deterministic tests post-merge to confirm the code was live and correct, not stale, before trusting it.",
+        "E": "this repo's git history, future sessions reading it",
+        "W": "One-time engineering decision, already executed.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Reuse existing, tested work over rebuilding — but verify it's still correct before trusting it, don't just take the file's word for it.",
+      "why": "Closed most of leg 1's flow-mapping scope in one step instead of redoing work that already existed and was better-tested than what would have been rebuilt from scratch this session.",
+      "loki": "Risk the merged code was stale/broken and would be trusted blindly. Mitigated: ran all Layer-0 self-tests post-merge (recognizer 34/34, coverage sweep, 22,500-case grid) before treating any of it as ground truth.",
+      "bar": "Low.",
+      "horizon": "DURABLE",
+      "stakes": "LOW",
+      "mode": "STANDARD",
+      "adr": null,
+      "commit": "06ae515"
+    },
+    {
+      "receipt_id": "2026-08-17-web-form-fix-sequenced-before-jorge-josh",
+      "surface": "PRL / web form delivery + comms sequencing",
+      "sharp_question": "Gravity Forms doesn't deliver leads to Sugar. Jorge already has partial (different) context from an earlier Barracuda-quarantine fix. Fix it and loop Jorge in directly, or get Todd's sign-off on the approach first?",
+      "dewy_vector": {
+        "D": "Get Todd's sign-off first. The recommended fix (Sugar's native Web-to-Lead form, bypassing email/SMTP/Barracuda entirely) is a different mechanism than what Jorge already partially worked on, and neither Jorge nor Josh has any visibility into it. Stood up a dedicated status page (prl.arcs.care/status/troubleshooting) explaining both problems separately (email-notification vs. Sugar-delivery) and drafted (not sent) a summary email to Todd asking only for a nod before anything goes to Jorge/Josh.",
+        "E": "Todd (approval), Jorge (IT/DNS, partial context on the wrong half of the problem), Josh/Websites-For-Anything (likely owns the actual template-edit access needed)",
+        "W": "Open — waiting on Todd's response.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Don't let a vendor/IT contact's partial context on an old fix stand in for the client's approval of a new, different fix — explain the plan to the decision-maker before it reaches the people who'd implement it.",
+      "why": "Jorge's Aug-14 Barracuda fix addressed a real but narrower problem (notification email) than the actual finding (no Sugar delivery mechanism existed at all). Looping him in on the new fix without Todd's context first risked confusing two separate problems and building on an unapproved plan.",
+      "loki": "Low — this just adds one approval step before outreach; no technical risk introduced.",
+      "bar": "Low.",
+      "horizon": "Resolves once Todd replies.",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": null,
+      "client_surface": "https://prl.arcs.care/status/troubleshooting"
+    },
+    {
+      "receipt_id": "2026-08-17-prl-status-url-family-established",
+      "surface": "engineering / routing convention",
+      "sharp_question": "Multiple PRL cross-workstream status pages are coming (CRM, web forms, Tidio, build). What URL pattern, and how to avoid the known beforeFiles re-catch bug this repo already has a name for?",
+      "dewy_vector": {
+        "D": "prl.arcs.care/status/<seg>, one entry per segment. Wired via proxy.ts MULTI_PATH_MAP as the deterministic primary mechanism (same pattern already proven for todd-call.arcs.care and julia.arcs.care), with next.config.ts carrying a capture-group backstop. First attempt used only the next.config.ts approach and shipped with the bug: the exclusion pattern tested the ORIGINAL request path for 'status/', but Vercel's beforeFiles rewrites re-run on a second pass against the REWRITTEN destination filename ('prl-status-crm.html', which contains 'status-' not 'status/'), so the fallback wildcard silently re-caught and overwrote the correct rewrite. Caught by curl header inspection (x-nextjs-rewritten-query showed the correct match; x-matched-path showed the wrong one), fixed by adding proxy.ts as primary + correcting the next.config.ts exclusion to match the destination substring.",
+        "E": "future sessions adding prl.arcs.care/status/* pages (tidio, wp, build reserved but not built)",
+        "W": "DURABLE pattern, now documented in code comments in both files.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "When a codebase already has a documented bug class with a proven fix shape, apply the SAME fix shape exactly — don't half-apply it based on surface-level pattern matching.",
+      "why": "This is the second time this exact bug class has bitten this repo (first for todd-call/julia, now for prl/status). The fix is now in the same proven shape both places, and the segment convention makes adding tidio/wp/build later a one-line change, not new config surgery.",
+      "loki": "Caught the same day via direct curl verification rather than trusting the deploy log, which showed a successful build even though routing was silently wrong.",
+      "bar": "Low.",
+      "horizon": "DURABLE",
+      "stakes": "LOW",
+      "mode": "STANDARD",
+      "adr": null,
+      "commits": ["99548c3", "a67c558", "533487e"]
+    }
+  ]
+}

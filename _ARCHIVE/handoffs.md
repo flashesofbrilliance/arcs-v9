@@ -2674,3 +2674,65 @@ notification; do not assume them. The send is Zach's.
 Content-only pushes from `main-wt2` with `git push --no-verify` (fresh worktree lacks node_modules).
 `next.config.ts` changes trigger a real Vercel build; content/SSOT/script changes are build-excluded or
 harmless. Robin surfaces regenerate byte-identical unless their SSOT changed (verify with a diff).
+
+---
+
+# Handoff — v3.33.0 (2026-08-13)
+
+> **Active pickup point.** The ARCS-private half of the germinate OSS build session. germinate
+> (the open MIT toolkit at `~/germinate`) is built/committed-local but NOT published — owner-gated.
+> This session canonized what stays *private* to ARCS. PR #136 MERGED to `main`.
+
+## Headline: the Tao of ARCS is canon — dormant seed vs animating spark, and the meter runs only on the spark
+
+The germinate build forced the boundary question: if the seed bank is open MIT, what is ARCS?
+The genesis seed `adam == atom` answers it, and it's now canon.
+
+**Canonized (PR #136, merged `2a6d2ea`):**
+- **ADR-053 — The Tao of ARCS.** A seed is *dormant potential energy* (engineered to survive harsh
+  conditions; never garbage-collect on staleness — dormancy is the feature). ARCS is the **vox
+  animus** — the spark that converts potential→kinetic via *ripeness judgment* at Kairos. The
+  open/private boundary is **one seam, four faces**: bank/spark · public-method/private-rosetta ·
+  dormant/animating · free-to-hold/metered-to-fire. The moat is the spark, so open-sourcing the
+  bank surrenders nothing. Y=GREEN.
+- **ADR-054 — Free to hold, metered to fire.** Free forever (in germinate): mint/plant/water/hold/
+  mechanical-sprout/manifest/handoff. Metered (the gas, ARCS-side): ripeness judgment · Kairos
+  activation · rosetta-primed synthesis. **Bill per activation** (one vox-animus firing) — not per
+  seed/seat/GB. Token fork **DECIDED metaphorical-now** (credits + usage-metered billing); literal
+  on-chain deferred until the blockchain registry + hash-chaining exist AND a cross-party provenance
+  need is shown. Y=YELLOW — willingness-to-pay for the ride is unvalidated.
+- **`_CANON/Tao-of-ARCS.md`** (doctrine, registered in `_CANON/index.md`) + proverb **tao-247**.
+- **`_STATE/2026-08-13-activation-service-kairos-sketch.md`** — kairos (public-good #2, "conditional
+  cron") = the open socket ("could it fire"); ARCS = the private current ("should it, now, for you").
+  Crispness rule: kairos runs fully without ARCS priors; ripeness is a pluggable metered layer on top.
+
+**Boundary discipline held:** nothing was written to `~/germinate`. All ARCS doctrine, the rosetta,
+and ripeness priors live only in arcs-v9 (ADR-053 encodes the no-inline rule).
+
+## Also (housekeeping)
+- `_DECISIONS/index.json`: backfilled ADR-050/051/052 (missing from a prior session) + registered 053/054.
+- Lattice advanced **44→51** via `scripts/lattice_drift_check.py --regenerate` (mechanical countable;
+  judgment layer left human-owned per ADR-052). Next session's session-start hook should read drift-clean.
+
+## Captured
+- **ADR-053 / ADR-054** (`_DECISIONS/`). **DEWY** — `_STATE/2026-08-13-session-decisions.dewy.json` (2).
+- **Memories** — orphans indexed into `MEMORY.md`: [[seed-tao-of-arcs-dormant-potential-vox-animus]]
+  (genesis, now PROMOTED), [[seed-monetization-free-to-hold-metered-to-fire]] (PROMOTED). Both seed
+  files stamped PROMOTED 2026-08-13 so they don't re-promote.
+
+## Next / backlog (designed, not built)
+- The **ARCS activation service** (vox animus / ripeness judgment) and **kairos** (public-good #2) —
+  boundary sketched, interfaces are the open questions in the sketch file.
+- **Do NOT publish germinate** (or any public repo) without explicit owner authorization.
+- ADR-054 care-note: validate WTP for *the ride*, not the bank, before hardening prices / billing infra.
+
+## Blocking
+NONE.
+
+## Deploy note
+This session committed on the worktree branch `claude/elated-hawking-c08b93` and merged via PR #136
+(GitHub merge commit). Canon/ADR/state changes only — no deploy-affecting code. `--no-verify` used on
+push per repo convention.
+
+---
+
