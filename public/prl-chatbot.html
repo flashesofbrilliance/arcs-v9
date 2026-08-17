@@ -239,6 +239,18 @@
     <div class="note" style="margin-top:10px">Tool costs (ZoomInfo, email) are billed to PRL directly, outside this number.</div>
     <div style="margin-top:14px;text-align:center"><span style="display:inline-block;background:rgba(63,185,80,.14);color:#3fb950;border:1px solid rgba(63,185,80,.35);font-weight:700;padding:11px 24px;border-radius:8px;font-size:15px">Paid Monday &middot; Phase 1.2 underway</span><div class="note" style="margin-top:7px;font-size:12px">Thank you. Phase 1.2 is greenlit and in progress.</div></div>
   </div>
+
+  <div class="card" style="border-style:dashed">
+    <span class="phase-tag t-later">Optional add-on &middot; fold into 1.2 &middot; scoped together on our call</span>
+    <h3 style="margin-top:8px">Website form, rebuilt on the path that already works</h3>
+    <p class="note">Digging into the form problem surfaced something useful: the good website leads you do get arrive through <b>Sugar's own built-in web form path</b>, not the broken form plugin. So instead of patching the plugin, we retire it from the lead path entirely and point the contact form at the pipe that is already proven, with spam protection built in. Fewer moving parts, one less vendor dependency, nothing new to buy.</p>
+    <ul class="clean">
+      <li><b>Subtract, don't add:</b> the form plugin comes out of the lead path; Sugar's built-in path takes over.</li>
+      <li><b>Spam handled at the door:</b> honeypot plus a modern bot check on the new form.</li>
+      <li><b>Remove single-person bottlenecks:</b> a PRL-owned test mailbox and a PRL-held sending key, so testing and fixes never wait on any one person being available. Everything stays owned by PRL, documented for handoff.</li>
+    </ul>
+    <p class="note" style="margin-top:10px">We scope best / base / worst for this together on our next call, with the investigation evidence in hand. It rides alongside 1.2, and nothing in 1.1 or 1.2 waits on it.</p>
+  </div>
 </div></section>
 
 <!-- LATER -->
@@ -318,12 +330,13 @@
       <li>Mailgun is configured on <b>mg.prlresins.com</b> (sending policy, signing key, routing, tracking), read from DNS.</li>
       <li>The domain's SPF includes Mailgun and Outlook; DMARC is set to reject; Microsoft 365 signing is published; Barracuda fronts inbound mail. All read from DNS.</li>
       <li>The Gravity Forms spam changes are on the staging copy, not the live site yet, read from the live page.</li>
+      <li><b>Website lead cadence:</b> the CRM holds 216 website-sourced leads all-time but only 3 in the last 30 days (0 in the last 7), read live. Our fresh Aug-14 test submissions (per Jorge's request) did <b>not</b> create a CRM lead even ~1.5 hours later, so this is not delivery lag: either the submissions are being spam-filtered or the form is not writing to the CRM. <b>Josh:</b> please check the Gravity Forms Entries / Spam queue for them, so we can tell which.</li>
     </ul>
     <p class="note" style="margin-top:12px"><b>Please confirm, deny, or correct, since you set these up:</b></p>
     <ul class="clean">
       <li>Akismet is actually enabled and keyed on the forms.</li>
-      <li>reCAPTCHA is active and gating form submissions today (we tested the live form). A "terms changing, take action" warning suggests a legacy or misconfigured key, so please confirm the Site and Secret keys are valid.</li>
-      <li>Barracuda's rules: what is allow-listed or blocked, and whether legitimate form mail is being quarantined (only you can see those logs).</li>
+      <li><b>reCAPTCHA (confirmed):</b> the forms use a reCAPTCHA v2 checkbox whose key is registered to <b>prlresins.com only</b>. We confirmed by testing that it blocks submissions on the staging domain, so staging forms cannot currently be submitted or tested. <b>Josh:</b> add the staging domain (<b>wfaprlredev26.wpenginepowered.com</b>) to the site key, or disable reCAPTCHA on the staging forms. Please also confirm the key is current.</li>
+      <li><b>Barracuda (resolved by Jorge):</b> the form notifications from <b>notify@websitesforanything.com</b> were being quarantined. Jorge confirmed this, released the held message, and allow-listed the sender, thank you. That restores notifications today; the durable fix remains moving the forms to the authenticated Mailgun sender, which passes everywhere with no per-sender exception.</li>
       <li>Who owns the Mailgun account, and whether a send-only key can be issued.</li>
       <li>Who controls the prlresins.com DNS zone.</li>
       <li>How the site sends mail today (native vs an SMTP plugin), and whether the From address can move to a prlresins.com sender.</li>
