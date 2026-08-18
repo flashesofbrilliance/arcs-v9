@@ -331,6 +331,30 @@ model Lead {
   @@index([createdAt])
 }
 
+// PRL Resins — web form capture, staged here first so a submission is never
+// lost even if the downstream Zapier->Sugar forward fails or isn't wired up
+// yet. locationRaw is what the visitor typed; locationC is normalized to the
+// 2-letter abbreviation Sugar's routing actually keys off (see prl.arcs.care
+// /status/crm — writing full state names here would silently misroute).
+model PrlWebLead {
+  id           String    @id @default(cuid())
+  firstName    String
+  lastName     String
+  accountName  String
+  phoneWork    String
+  email1       String?
+  locationRaw  String
+  locationC    String?
+  description  String?
+  status       String    @default("pending") // pending | forwarded | failed
+  forwardError String?
+  createdAt    DateTime  @default(now())
+  forwardedAt  DateTime?
+
+  @@index([status])
+  @@index([createdAt])
+}
+
 // ─── Profile Scan — ScanSignal + ScanFeedback ─────────────────────────────────
 //
 // ScanSignal is the living carrier primitive for a person's genome read.
