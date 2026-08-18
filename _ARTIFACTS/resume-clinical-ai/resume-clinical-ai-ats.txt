@@ -1,0 +1,66 @@
+ZACH HARRIS
+AI Product Engineer | Builds LLM-Native & Agentic Systems
+New York City | zach.harris@gmail.com | linkedin.com/in/zharris | github.com/flashesofbrilliance
+Target role: AI Product Engineer (Clinical AI)
+
+SUMMARY
+Product-minded builder of LLM-native, agentic software. I architect and ship end to end: ARCS, a decision-intelligence platform built on Claude with a custom MCP server, agentic pipelines, and human-in-the-loop control by design, plus a family of open-source developer tools in Next.js/TypeScript and Python. Deep healthtech and clinical domain from AI-enabled digital therapeutics under HIPAA. I take ambiguous problems from zero to production and translate hard technical tradeoffs for clinicians and non-technical stakeholders.
+
+EXPERIENCE
+
+ARCS - LLM-Native Decision-Intelligence Platform
+Founder & Builder | 2025-Present
+- Architect and build an agentic platform end to end: context management, tool calling, orchestration, and human-in-the-loop control on Claude, with a Next.js / TypeScript product surface.
+- Built a custom MCP server and agentic pipelines (Claude API, tool use, extended thinking) that run pre/post-decision capture across a full lifecycle: intake, analysis, structured receipt, compounding feedback.
+- Human-in-the-loop by design: the system scaffolds and sequences judgment without overruling it, with evidence-gating and structured decision scoring as the quality layer.
+- Design, ship, and maintain open-source developer tools (good.arcs.care), each with its own conformance suite; work at the application and orchestration layer of LLMs, not model training.
+
+Grayscale Investments (Digital Currency Group)
+Product Lead | 2024-2025
+- Led product for the investor-facing platform behind a $7B, 10-product regulated launch: enforced complex compliance rules in the product itself.
+- Built governance and role-based access (RBAC) workflows and policy-at-the-glass publishing controls into the platform so no unapproved content could ship: a safety-first architecture for a high-consequence domain.
+- Ran the cross-functional release train across 4 time zones and cut release-cycle time 35% with automated QA and a compliance-in-the-loop sprint cadence.
+
+Squat New York (Behavioral Health)
+Head of Product Innovation & Tech Lead | 2019-2020
+- Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff.
+- Owned roadmap and a full content-architecture and CX overhaul (headless CMS); accelerated time-to-interaction as the primary conversion KPI, aligning engineering, design, clinical, and operations to ship on schedule.
+
+Children's Tumor Foundation
+Sr. Director, Data & Strategy | 2018-2019
+- Built the first enterprise data and decision-intelligence layer the organization had, then turned it into revenue.
+- Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue via data-driven personalization.
+
+Women's Tennis Association
+Head of Product & Strategic Partnerships | 2016-2018
+- Closed the first commercial data partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one.
+- Led CDP selection and built real-time fan-behavior scoring at under 120ms for a global consumer sports platform.
+
+SELECT CONSULTING (Advisory, Product & Engineering, 2020-2024)
+Twill Health (HealthTech / Digital Therapeutics, HIPAA) | 2021-2023
+- Product strategy and validation for 3 AI-enabled digital-therapeutics product lines under HIPAA; built the KPI and efficacy frameworks that drove go-forward decisions on two of three.
+Verizon Media (5G Innovation Ventures) | 2020-2021
+- Quantitative opportunity assessments across five 5G product ventures: market sizing, competitive analysis, and go/no-go investment recommendations.
+GoPro (Consumer Tech) | 2020-2021
+- Built the growth and measurement framework for EMEA/APAC expansion, navigating GDPR data-sovereignty across international markets.
+Axon Enterprises (GovTech) | 2023
+- Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder OTT MVP.
+
+OPEN-SOURCE (public, inspectable code -- good.arcs.care, build.arcs.care)
+- token-savings-bank: model-tier routing, batching, and context discipline for AI coding agents.
+- germinate: a serializable, provenance-carrying handoff protocol for multi-agent work.
+- rosetta-shell: lossless shell-script translation across bash, zsh, and POSIX, with a CI portability gate.
+- arcs-field-scan: a Next.js app that renders an adaptive profile-scan from a LinkedIn profile or PDF (local mock scan today).
+
+SKILLS
+Languages & Stack: Python, TypeScript, Next.js, Node, SQL, shell scripting, Git/CI
+LLM & Agentic Systems: Claude (API, tool use, extended thinking), MCP servers, tool calling, multi-agent orchestration, context management, human-in-the-loop control loops
+Quality & Observability: structured decision scoring, evidence-gating, execution tracing, conformance/regression suites, latency & cost awareness
+Healthtech & Regulated: AI-enabled digital therapeutics (HIPAA), clinical workflows, SEC/FINRA, RBAC & compliance-in-the-loop
+Product & Delivery: zero-to-production (0-to-1), end-to-end architecture, rapid prototyping, cross-functional translation (clinical + non-technical)
+Data & Instrumentation: experimentation & A/B, attribution & forecasting, CDP (Segment, Salesforce), Snowflake, event taxonomy
+
+EDUCATION & CREDENTIALS
+Oberlin College - BA, Studio Art (Honors), 2002-2006
+MIT xPRO - AI: Implications for Business Strategy; Designing & Building AI Products & Services (Certificates) - AI strategy, product instrumentation, applied AI product development
+Section4 - Certified Product Strategist (2022) - Credly-verified

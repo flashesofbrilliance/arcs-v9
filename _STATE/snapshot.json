@@ -2,13 +2,25 @@
   "captured_at": "2026-08-17T17:24:28Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "6a34040",
-    "head_message": "content(status): forward-propagate Day 98\u2192129 \u2014 4 milestones + honesty batch + reframe",
+    "head_sha": "8c29af1",
+    "head_message": "content(handoff): v3.35.0 \u2014 Comet Technical PMM app + resume-tailor v0.2 (ATG-in-the-wild)",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
       "_INBOX/seedbank-drift.jsonl",
-      "_STATE/snapshot.json"
+      "_STATE/snapshot.json",
+      "src/document/screens/ProfileScan.tsx",
+      "_ARTIFACTS/hud-print-1.png",
+      "_ARTIFACTS/hud-print-2.png",
+      "_ARTIFACTS/hud-print-3.png",
+      "_ARTIFACTS/hud-print-4.png",
+      "_ARTIFACTS/hud-screen.png",
+      "_ARTIFACTS/profile-scan-hud-print.pdf",
+      "_ARTIFACTS/profile-scan-hud.html",
+      "_ARTIFACTS/resume-clinical-ai/",
+      "_ARTIFACTS/resume-general/",
+      "runtime/scan/",
+      "src/app/scan/[scanId]/"
     ]
   },
   "vercel": {
@@ -188,7 +200,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-17T14:59:17Z",
+  "git_refreshed_at": "2026-08-18T12:50:37Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

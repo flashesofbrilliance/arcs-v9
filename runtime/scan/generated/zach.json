@@ -1,0 +1,108 @@
+{
+  "scanId": "zach",
+  "depth": "deep",
+  "cover": {
+    "badges": ["Profile Scan", "DEEP · Internal · Subject-facing master read"],
+    "title": "Profile Scan · Zach Harris",
+    "subtitle": "The master internal read, assembled from four real data surfaces: the dated LinkedIn data export (01-14-2026), the resume SSOT (resume.arcs.care), and the honesty-graded competency model. It carries the strengths and the real constraints alike · this is the subject's own instrument, not an outward pitch.",
+    "meta": "ARCS PROFILE · Aug 2026 · LinkedIn export 01-14-2026 · resume SSOT · competency-model.json · DEEP / INTERNAL",
+    "actions": []
+  },
+  "notice": "Every block traces to a named source: LinkedIn data export dated 01-14-2026 (Positions/Skills/Endorsement/Recommendations/Certifications/Inferences CSVs), the resume SSOT at resume.arcs.care, and _ARTIFACTS/resume-comet/competency-model.json (honesty-graded). Counts are from the 01-14-2026 export snapshot (100 skills, 756 endorsements, 31 recommendations, 16 dated positions, 10 authored-article files, 8 platform inferences); the spec's larger figures (765 endorsements, 38 articles) are from a later 06-09-2026 export · both real, different snapshots. Three claims are flagged rather than smoothed over: (1) the 'MIT xPRO · AI: Implications for Business Strategy' credential on the resume does NOT appear in the export's Certifications.csv · what the export documents is Emeritus 'Designing and Building AI Products and Services' (Jun 2023) + Section4 Certified Product Strategist (Mar 2022); (2) AUM is stated as '$7B in new asset launches' in the Grayscale position but '$35 Billion AUM' in the profile summary · the $7B figure is used here; (3) the 60% / 3–5× ARCS figures are self-reported (they appear in Zach's own LinkedIn summary), not independently verified. ARCHETYPE is deliberately NOT asserted: per the spec's own method, 3 of the 4 diagnostic channels (Geometry, Somatic Scan, Mirror Test) cannot be sourced from LinkedIn data and require a live Calibration Call · only the Receipts channel is approximable here. See section 04.",
+  "signalRead": {
+    "left": {
+      "heading": "What the Profile States",
+      "items": [
+        "Headline: <b>“Product | GTM Strategy | AI Lead”</b> · a three-token competency label (Profile.csv)",
+        "A single visible anchor: <b>Mañana · Product Partner</b>, the present-tense listed role since Jan 2020 (Positions.csv)",
+        "Self-frame: <b>“I build products in spaces where most PMs see ‘blocked.’”</b> · crypto in regulatory chaos, HealthTech awaiting FDA, real-time sports, first-responder networks (Profile.csv summary)"
+      ],
+      "note": "The headline is a competency summary. The dated export is the actual record · and it reads differently."
+    },
+    "right": {
+      "heading": "What the Full Record Shows",
+      "items": [
+        "<b>16 dated positions</b> spanning 2004 → present (Positions.csv) · a two-decade arc, not a three-line headline",
+        "The “5+ positions” job-hopping read does not survive the dates: <b>7 of the recent entries are concurrent advisory/mentor roles</b> (A.Team, Huddle, FLOC*, Forum Ventures, Le woof, Outlier Ventures, Cornell Tech, 2022–2024) running alongside the Mañana anchor · a portfolio career, not churn",
+        "<b>100 listed skills · 756 endorsements · 31 written recommendations</b> from named colleagues · depth the headline never surfaces (Skills / Endorsement_Received_Info / Recommendations_Received CSVs)",
+        "The recurring genome across every role: <b>take a transformative idea trapped behind regulatory or technical complexity and turn the constraint into the product</b> · consistent from WTA (2016) to Grayscale (2025)"
+      ]
+    }
+  },
+  "threads": [
+    {
+      "label": "Red Thread · Recurring Risk",
+      "accent": "red",
+      "title": "The Flagship Isn't a Listed Position, and a Credential Doesn't Match",
+      "body": "Two reference-check exposures. First: ARCS · the résumé's lead and Zach's current flagship · is NOT a role in Positions.csv; it appears only inside the free-text profile summary. A background check keying on listed positions would not find it. Second: the résumé's 'MIT xPRO · AI: Implications for Business Strategy' credential is absent from the export's Certifications.csv; what the export actually documents is an Emeritus 'Designing and Building AI Products and Services' cert (Jun 2023) and Section4 Certified Product Strategist (Mar 2022).",
+      "note": "Fix: add ARCS as a LinkedIn position; reconcile the AI credential wording to what the export shows. Sources: Positions.csv, Profile.csv, Certifications.csv."
+    },
+    {
+      "label": "Gold Thread · Working Asset",
+      "accent": "gold",
+      "title": "756 Endorsements, 31 Recommendations · Already Banked",
+      "body": "This is surfaced social proof, not a future build. 756 endorsements concentrate on a coherent cluster · Advertising (91), Digital Strategy (71), Marketing (50), Entrepreneurship (49), Strategy (48) · and 31 written recommendations come from named, checkable colleagues, including Inkoo Kang (VP, ETFs, Grayscale), Adam Perlis (CEO, Academy UX), and Margarita Polishchuk (Head of Strategy, Clay).",
+      "note": "Source: Endorsement_Received_Info.csv (756 rows), Recommendations_Received.csv (31 VISIBLE)."
+    },
+    {
+      "label": "Green Thread · Conviction",
+      "accent": "green",
+      "title": "One Coherent Question, Answered for 20 Years",
+      "body": "The load-bearing strength is coherence: every dated role advances the same question · how do you ship a high-stakes product when Legal says 'we can't' and Engineering says 'impossible'? It's documented most concretely at Grayscale (2024–2025): product GTM for $7B in new regulated asset launches, 10 products, SEC Reg D/S, governance-at-the-glass CMS · 'do it right, failure isn't an option' work, not 'move fast and break things.'",
+      "note": "Source: Positions.csv (Grayscale description, self-authored), Profile.csv summary."
+    },
+    {
+      "label": "Vermillion · Constraint",
+      "accent": "orange",
+      "title": "The Packaging Underserves the Signal",
+      "body": "The external signal lags the record. The headline is a competency list; the platform's own ad-targeting model (Inferences_about_you.csv) reads Zach as 'influences financial opinion,' 'interested in technology media,' and 'interested in a new job' · but has no read at all of the AI-native builder identity the résumé leads with. LinkedIn does not yet see the genome the record supports.",
+      "note": "Source: Inferences_about_you.csv (8 inference rows); Profile.csv headline."
+    }
+  ],
+  "evidenceLedger": {
+    "columns": ["Period", "Role", "Organization", "Genome Expression (source: Positions.csv unless noted)"],
+    "rows": [
+      ["2004", "Creative Technology · Internship", "Yahoo", "Earliest dated role in the export"],
+      ["2007–2008", "Strategic Video · Growth Consultant", "VentureBeat", "Media / growth at the video-ad frontier"],
+      ["2010–2011", "GM, Video Ad Network", "Selectable Media", "Ad-tech operating role"],
+      ["2012–2016", "Co-Founder · EVP eCommerce", "IBR Shop (D2C brand)", "First 0→1 founder / commercial build"],
+      ["2016–2018", "Head of Product & Strategic Partnerships", "WTA", "Real-time sports product + first commercial partnerships ($850K y1, self-reported via resume SSOT)"],
+      ["2018–2019", "Sr Director, Data & Strategy", "Children's Tumor Foundation", "Enterprise data/CDP + segmentation for a mission-driven org (20% net-new revenue, self-reported)"],
+      ["2019–2020", "Head of Product Innovation & Tech Lead", "Squat New York", "Embedded product lead, behavioral-health platform"],
+      ["Jan 2020–present", "Product Partner (Innovation, GTM, 0→1)", "Mañana", "The anchor engagement · advisory/fractional/embedded; client work incl. Axon, Twill, GoPro, Verizon Media"],
+      ["2022–2024", "Advisor · Mentor · Builder-in-Residence (concurrent)", "A.Team · Huddle · FLOC* · Forum Ventures · Le woof · Outlier Ventures · Cornell Tech", "The 7 concurrent roles the 'job-hopping' read misclassifies"],
+      ["2024–2025", "Product Lead", "Grayscale Investments (DCG)", "$7B new regulated asset launches · 10 products · SEC Reg D/S · governance-first GTM"],
+      ["2025–present", "Founder", "ARCS (decision intelligence on Claude/MCP)", "Résumé lead + OSS dev-tool family (github.com/flashesofbrilliance). NOTE: appears only in the profile summary, NOT as a listed LinkedIn position"]
+    ]
+  },
+  "capabilityMap": [
+    {
+      "label": "Quadrant A · Core",
+      "color": "green",
+      "title": "Regulated / High-Constraint 0→1 Product & GTM",
+      "body": "The load-bearing, most-documented capability: shipping product and go-to-market inside hard constraints. Grayscale is the anchor proof · $7B in new regulated asset launches, 10 products, SEC Reg D/S, compliance-in-the-loop release cadence (Positions.csv). Twenty years of compounding practice across crypto, health, sports, and govtech."
+    },
+    {
+      "label": "Quadrant B · Compound",
+      "color": "cyan",
+      "title": "Builder-Who-Markets · AI-Native Application Layer",
+      "body": "The rare differentiator: a GTM operator who also ships LLM-native software. ARCS runs on Claude + a custom MCP server + agentic pipelines; a public OSS dev-tool family lives at github.com/flashesofbrilliance (competency-model.json: documented). Speaks the engineer's and the buyer's register with earned credibility · application layer, not model training."
+    },
+    {
+      "label": "Quadrant C · Signal",
+      "color": "gold",
+      "title": "Endorsement & Recommendation Depth",
+      "body": "Banked social proof: 756 endorsements across 82 skills, concentrated on Advertising / Digital Strategy / Marketing / Entrepreneurship / Strategy, plus 31 written recommendations from named colleagues including a Grayscale VP (Endorsement_Received_Info.csv, Recommendations_Received.csv)."
+    },
+    {
+      "label": "Quadrant D · Gap",
+      "color": "orange",
+      "title": "External Packaging + Uncalibrated Archetype",
+      "body": "The genome doesn't project yet: the headline is a competency list and ARCS isn't a listed position. And the archetype field stays OPEN by design · of the canon's 4 diagnostic channels (Geometry, Somatic Scan, Mirror Test, Receipts), only Receipts is approximable from LinkedIn data; the other three need a live Calibration Call. No confident archetype is asserted here. Receipts-approximable, pending calibration."
+    }
+  ],
+  "keyAssertion": {
+    "text": "The record is coherent; the packaging is what lags. For two decades · Yahoo to WTA to Grayscale · the same question is answered in a different substrate each time: how do you ship a transformative product when Legal says you can't, Engineering says it's impossible, and the window is closing? The dated export proves the pattern is real and repeated. What underserves it is the external signal · a three-token headline and a flagship that isn't even a listed role · not the genome underneath.",
+    "attribution": "ARCS Profile Scan · Zach Harris · Thread Analysis (LinkedIn export 01-14-2026 + resume SSOT)"
+  }
+}
