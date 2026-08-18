@@ -42,7 +42,7 @@ def render(md: str) -> str:
         if b == "---":
             out.append(f'<hr style="border:none;border-top:1px solid {TOKENS["border"]};margin:2.5em 0">')
         elif b.startswith("# "):
-            out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;font-family:ui-monospace,monospace;color:{TOKENS["cyan"]}">{inline(b[2:])}</p>')
+            out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-family:ui-monospace,monospace;color:{TOKENS["cyan"]}">{inline(b[2:])}</p>')
         elif b.startswith("## ") and not out or b.startswith("## ") and len([x for x in out if "<h1" in x]) == 0:
             out.append(f'<h1 style="margin:0 0 1.2em;font-size:2rem;line-height:1.25;color:{TOKENS["text"]}">{inline(b[3:])}</h1>')
         elif b.startswith("## "):
