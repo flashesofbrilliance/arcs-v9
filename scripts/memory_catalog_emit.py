@@ -75,6 +75,30 @@ def main():
                 "desc": (s.get("description") or s.get("desc") or "")[:180],
                 "section": "Seed Bank", "age_days": 0, "promoted": bool(s.get("live")),
             })
+    # scars: falsification-ledger entries become PRICED nodes (tuition banking) —
+    # their own `refs` are declared edges, so a scar accrues echo like any holding
+    fl = os.path.join(REPO, "_STATE", "falsification-ledger.jsonl")
+    if os.path.exists(fl):
+        for line in open(fl, encoding="utf-8"):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                s = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            sid = s.get("id", "F?")
+            nodes.append({
+                "id": f"scar:{sid}", "kind": "scar", "type": "problem-shape",
+                "desc": (s.get("claim", "") + " → " + s.get("verdict", ""))[:180],
+                "section": "Falsification Ledger (tuition)",
+                "age_days": 0, "promoted": bool(s.get("canon")),
+                "tuition": s.get("cost") or s.get("tokens") or None,  # honest: mostly absent today
+            })
+            names.add(f"scar:{sid}")
+            for r in s.get("refs", []):
+                # scar cites its ADRs/tao/receipts — declared, from the ledger itself
+                edges.append({"from": f"scar:{sid}", "to": str(r), "rel": "scar-ref"})
     # keep only edges whose endpoints exist (dangling declared links stay out of the render, counted honestly)
     dangling = [e for e in edges if e["to"] not in names]
     edges = [e for e in edges if e["to"] in names]

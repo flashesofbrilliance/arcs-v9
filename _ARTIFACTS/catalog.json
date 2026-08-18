@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-18 09:35",
+ "generated": "2026-08-18 13:52",
  "nodes": [
   {
    "id": "active-listening-over-magical-thinking",
@@ -138,7 +138,7 @@
    "type": "project",
    "desc": "The ARCS logo mark — a Möbius strip with wisps of smoke / a fog veil clearing to reveal a clean horizon line; the physics compressed into one glyph. Rationale for brand work.",
    "section": "User Cognition",
-   "age_days": 16,
+   "age_days": 17,
    "promoted": false
   },
   {
@@ -178,7 +178,7 @@
    "type": "feedback",
    "desc": "ARCS is the engine; Mañana is the consultancy; Sprints (B2B) and Question Compass (B2C) are products on the engine — a portfolio, not an either/or fork.",
    "section": "ARCS Product Context",
-   "age_days": 16,
+   "age_days": 17,
    "promoted": false
   },
   {
@@ -188,7 +188,7 @@
    "type": "project",
    "desc": "ARCS has no zoomed-way-out raison d'être surface — every counterpart gets a gorgeous bespoke read of THEMSELVES but nobody gets \\\"what ARCS OS is / why it exists\\\" without Zach narrating. Proven across Kam, Ahmed, Yuri, Robin.",
    "section": "ARCS Product Context",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -238,7 +238,7 @@
    "type": "project",
    "desc": "arcs-v9 GitHub repo flipped PRIVATE 2026-07-24 (was public). status.arcs.care commit links now 404 for non-owners — showcase-mirror is the open fix. Global CLAUDE.md table calling it public is stale.",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 24,
+   "age_days": 25,
    "promoted": false
   },
   {
@@ -268,7 +268,7 @@
    "type": "feedback",
    "desc": "Repeatable play for hardening an outbound artifact (essay/brief/claim) — run adversarial gauntlet EPOCHS, verify every finding against source, and log the evolution as a kintsugi scar-log with a moving belief ledger + render-fidelity ladder. Each epoch a version bump; publish only after it earns its resolution.",
    "section": "Tooling & Routines",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -288,7 +288,7 @@
    "type": "project",
    "desc": "The 2026-08-17 Comet resume session as ATG-in-the-wild — a bounded task threw off durable, reusable adjacent artifacts",
    "section": "ARCS Product Context",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -378,7 +378,7 @@
    "type": "feedback",
    "desc": "Run the cheapest possible smoketest/tripwire FIRST to de-risk before spending on the expensive action — a $0.02 check that catches a wrong-JTBD before the $2 deploy pays for it. De-risk time-to-value progressively.",
    "section": "User & Process (durable, cross-project)",
-   "age_days": 6,
+   "age_days": 7,
    "promoted": false
   },
   {
@@ -408,7 +408,7 @@
    "type": "feedback",
    "desc": "How Claude and Zach co-produce truth — Claude decomposes/verifies (analysis, pruning); Zach synthesizes/connects (Gestalt, association); neither mode self-validates; knowledge is a pruned reticular lattice, not a tree; only grounded instruments may cut.",
    "section": "Caution (red-team patterns)",
-   "age_days": 26,
+   "age_days": 27,
    "promoted": false
   },
   {
@@ -418,7 +418,7 @@
    "type": "project",
    "desc": "The portable value of the agentic workflows is the compaction+serialization substrate (handoff/belief-log/manifest), not the per-client deliverable; open-sourcing is the release decision that turns a private moat into a public good.",
    "section": "ARCS Product Context",
-   "age_days": 4,
+   "age_days": 5,
    "promoted": false
   },
   {
@@ -468,7 +468,7 @@
    "type": "feedback",
    "desc": "The load-bearing invariant of harness control design — a control owned by the agent it polices is captured; only a not-the-agent owner (human or wired forcing-function) has integrity. ARCS's controls are described in canon but not wired to the default turn.",
    "section": "Caution (red-team patterns)",
-   "age_days": 26,
+   "age_days": 27,
    "promoted": false
   },
   {
@@ -479,6 +479,16 @@
    "desc": "Deterministic LLM tasks (classification, formatting) must run at temperature 0; ARCS's abductive default is a blindspot for deductive routing paths.",
    "section": "User & Process (durable, cross-project)",
    "age_days": 68,
+   "promoted": false
+  },
+  {
+   "id": "corpus-atlas-pilot-louisville",
+   "file": "corpus-atlas-pilot-louisville.md",
+   "kind": "memory",
+   "type": "project",
+   "desc": "The corpus-atlas chain (adapter → catalog → ziggurat atlas → spine → drift receipt) generalized to a client corpus with zero engine changes — Louisville is the pilot exemplar",
+   "section": "ARCS Product Context",
+   "age_days": 0,
    "promoted": false
   },
   {
@@ -508,7 +518,7 @@
    "type": "feedback",
    "desc": "Reusable workflow for turning a counterpart's calls+profile into an internal recoil seed + external resonance-tuned two-tab codex.",
    "section": "User & Process (durable, cross-project)",
-   "age_days": 12,
+   "age_days": 13,
    "promoted": false
   },
   {
@@ -538,7 +548,7 @@
    "type": "feedback",
    "desc": "Before sending a counterpart artifact, role-play AS the counterpart reading it and run a pre-mortem grounded in their actual transcript; it surfaces trust-breakers the detector and gauntlet miss.",
    "section": "Caution (red-team patterns)",
-   "age_days": 8,
+   "age_days": 9,
    "promoted": false
   },
   {
@@ -618,7 +628,7 @@
    "type": "feedback",
    "desc": "Don't assert specific times (\\\"2am\\\", \\\"good night\\\", \\\"the hour\\\", \\\"for the AM\\\") — there's no live per-turn clock; verify with `date` before any time-dependent framing.",
    "section": "Caution (red-team patterns)",
-   "age_days": 54,
+   "age_days": 55,
    "promoted": false
   },
   {
@@ -668,7 +678,7 @@
    "type": "feedback",
    "desc": "TRIGGER SHAPE — when Zach brings an external repo/artifact he scouted and asks \\\"is there anything useful here,\\\" ground in the actual corpus before opining and skeptic-route the conclusion before stating it settled.",
    "section": "Caution (red-team patterns)",
-   "age_days": 26,
+   "age_days": 27,
    "promoted": false
   },
   {
@@ -708,7 +718,7 @@
    "type": "feedback",
    "desc": "Never commit to /Users/zharris/arcs-v9 directly — it's on a feature branch, not main. Use the frosty-kepler worktree for main commits.",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 41,
+   "age_days": 42,
    "promoted": false
   },
   {
@@ -738,7 +748,7 @@
    "type": "feedback",
    "desc": "Never claim a visual/render fix is done without showing the math or proof first. Show the calculation, confirm the approach, then render once.",
    "section": "Caution (red-team patterns)",
-   "age_days": 42,
+   "age_days": 43,
    "promoted": false
   },
   {
@@ -758,7 +768,7 @@
    "type": "feedback",
    "desc": "Positive, publicly-sourced screening criteria to check for the next job opportunity — company-level signals, not individual profiling",
    "section": "Client Engagements & Job Applications",
-   "age_days": 26,
+   "age_days": 27,
    "promoted": false
   },
   {
@@ -768,7 +778,7 @@
    "type": "feedback",
    "desc": "Possible (not confirmed) risk signals from job-search processes, logged prospectively to test for a pattern over multiple processes — not asserted as fact from any single instance",
    "section": "Client Engagements & Job Applications",
-   "age_days": 26,
+   "age_days": 27,
    "promoted": false
   },
   {
@@ -788,7 +798,7 @@
    "type": "feedback",
    "desc": "Deploying from a worktree silently drops subdomains that exist only in main's next.config.ts, and vice versa — always deploy from main, always sync next.config.ts before deploying",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 41,
+   "age_days": 42,
    "promoted": false
   },
   {
@@ -818,7 +828,7 @@
    "type": "feedback",
    "desc": "Operating rule — when a session gets dense/top-heavy, prune and fork to parallel sessions; state stays synced via memory buffer + compact/handoff rules for lossless handoff.",
    "section": "User & Process (durable, cross-project)",
-   "age_days": 6,
+   "age_days": 7,
    "promoted": false
   },
   {
@@ -838,7 +848,7 @@
    "type": "feedback",
    "desc": "Before sending a counterpart artifact, run the adversarial gauntlet tuned to THEIR register; the mechanical detector cannot see the cracks that actually break trust.",
    "section": "Caution (red-team patterns)",
-   "age_days": 7,
+   "age_days": 8,
    "promoted": false
   },
   {
@@ -848,7 +858,7 @@
    "type": "reference",
    "desc": "Cross-session write-lock: for git-tracked files git ALREADY is the enforced serializable lock (rev-list collision-check = optimistic, non-fast-forward push reject = pessimistic). The real gap is UNTRACKED shared state (MEMORY.md, snapshot.json) — there the only guard is judgment.",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 6,
+   "age_days": 7,
    "promoted": false
   },
   {
@@ -888,7 +898,7 @@
    "type": "project",
    "desc": "The ARCS ICP is a STATE (caught-breath vs in-the-fire), not a demographic segment; the zoom-out/sovereignty pitch is structurally unreachable in acute survival mode — remove noise, don't add horizon.",
    "section": "User Cognition",
-   "age_days": 16,
+   "age_days": 17,
    "promoted": false
   },
   {
@@ -938,7 +948,7 @@
    "type": "feedback",
    "desc": "Great leaders see future Ws in present Ls: diagnose and train around the ROOT that caused the L, not the symptom — acknowledge the symptom honestly but never condemn the afflicted for it.",
    "section": "Leadership & Values",
-   "age_days": 3,
+   "age_days": 4,
    "promoted": false
   },
   {
@@ -978,7 +988,7 @@
    "type": "project",
    "desc": "A visual is a faster rehydration + motivation surface than prose. The milestone-artifact engine freezes a pre-verified layout and varies only the data (window.MILESTONE_DATA) so headless/cron renders can't reintroduce layout bugs. Two artifact TYPES on one engine: momentum (wins-map, periodic) and orientation (state-of-ARCS, at handoff = reheat). 4-layer plan; Layer 1 built.",
    "section": "Tooling & Routines",
-   "age_days": 3,
+   "age_days": 4,
    "promoted": false
   },
   {
@@ -1008,7 +1018,7 @@
    "type": "feedback",
    "desc": "Never merge a PR with any failing check — inspect per-check conclusions before gh pr merge; background watchers must gate on conclusions, not just completion. Branch protection can't enforce this (private repo + free GitHub plan).",
    "section": "Caution (red-team patterns)",
-   "age_days": 24,
+   "age_days": 25,
    "promoted": false
   },
   {
@@ -1048,7 +1058,7 @@
    "type": "feedback",
    "desc": "The strongest job-application proof — a shipped artifact that independently solves the target's product problem; frame as converged, not \\\"same problem\\",
    "section": "Tooling & Routines",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1078,7 +1088,7 @@
    "type": "project",
    "desc": "The public repos under github.com/flashesofbrilliance are a family that needs seed-to-harvest conformity — but in TWO tiers, not one. Tier A = interop nodes conforming to germinate's open SPEC (they move seeds/belief-logs/manifests); Tier B = family utilities sharing only presentation (README/LICENSE/topics/attribution). The arcs-v9 _SEEDS/ bank is the private alias-index + append-only ledger over them, feeding lab.arcs.care candidates.",
    "section": "ARCS Product Context",
-   "age_days": 4,
+   "age_days": 5,
    "promoted": false
   },
   {
@@ -1088,7 +1098,7 @@
    "type": "feedback",
    "desc": "Outbound email/DMs default to DRAFT for the human to send; never send bare URLs (Gmail mangles them) — always HTML-anchor links; verify the RENDERED artifact, not just the input.",
    "section": "Decision Vocabulary & Writing Style",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1098,7 +1108,7 @@
    "type": "project",
    "desc": "The client-facing equivalent of the internal Meta-Audit is a per-tenant field-truth page — richer/deeper/unredacted about ONE client, prospect-safe precisely because it is single-tenant",
    "section": "ARCS Product Context",
-   "age_days": 6,
+   "age_days": 7,
    "promoted": false
   },
   {
@@ -1138,7 +1148,7 @@
    "type": "project",
    "desc": "PRL chatbot→SugarCRM pipe — proven Zapier/Sugar sandbox connection facts + the integration gotchas, so we don't re-derive them.",
    "section": "Client Engagements & Job Applications",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1148,7 +1158,7 @@
    "type": "feedback",
    "desc": "The PRL runbook + roadmap artifacts emailed to Josh/Jorge are a coupled pair — any finding update goes to BOTH, always, kept in sync.",
    "section": "Outward-Facing Artifacts",
-   "age_days": 3,
+   "age_days": 4,
    "promoted": false
   },
   {
@@ -1168,7 +1178,7 @@
    "type": "project",
    "desc": "Open-sourcing ARCS Claude Code skills as resumeware; rca-skill is live, NCI trio + teardown are queued; open-source/ is the staging area.",
    "section": "ARCS Product Context",
-   "age_days": 26,
+   "age_days": 27,
    "promoted": false
   },
   {
@@ -1188,7 +1198,7 @@
    "type": "project",
    "desc": "Kam Palizban (Ascendancy/Invisible) — codex SHIPPED 2026-08-16; loop OPEN, watch for reply + codex opens.",
    "section": "Client Engagements & Job Applications",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1258,7 +1268,7 @@
    "type": "project",
    "desc": "The /recoil admin index is the internal dogfood precursor to ARCS's likely second product surface — composable meetings / pre-work / agenda wizard.",
    "section": "ARCS Product Context",
-   "age_days": 28,
+   "age_days": 29,
    "promoted": false
   },
   {
@@ -1288,7 +1298,7 @@
    "type": "feedback",
    "desc": "ARCS encodes meaning by sensing the observer's register (skeptic/imaginative/analytical vs. wants-whitespace) and meeting them there — and the imprint is BIDIRECTIONAL: the fidelity we render them at is the fidelity they read us back at.",
    "section": "Design Principles",
-   "age_days": 6,
+   "age_days": 7,
    "promoted": false
   },
   {
@@ -1298,7 +1308,7 @@
    "type": "project",
    "desc": "The resume-tailor skill was upgraded to v0.2 with componentized stages, parameters, an eval+rubric, and the Comet exemplar — from the 2026-08-17 gradient-ascent session",
    "section": "Tooling & Routines",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1308,7 +1318,7 @@
    "type": "feedback",
    "desc": "Tune a cover letter's voice from the applicant's OWN LinkedIn export (Shares/Comments/Recommendations), not a generic register",
    "section": "Tooling & Routines",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1338,7 +1348,7 @@
    "type": "project",
    "desc": "Every minted unit (ADR / ROM-RC / DEWY receipt / potent memory / situational awareness / problem-shape innovation) should be a SEED = content + germination conditions (soil/triggers/preconditions/care/applications), kept in a global+local seed bank so it re-expresses optimally the moment it's planted in the right context — not just sits in storage.",
    "section": "ARCS Product Context",
-   "age_days": 4,
+   "age_days": 5,
    "promoted": false
   },
   {
@@ -1348,7 +1358,7 @@
    "type": "project",
    "desc": "ARCS monetization model: the seed IS the token (free to mint/hold, carries provenance, grants eligibility to ride but doesn't pre-pay gas); ARCS is the ride (activation/vox-animus); GAS is the metered fee to fire it. Monetize the spark, never the open bank — keeps germinate a friction-free MIT public good while ARCS activation is the revenue. Minted 2026-08-13.",
    "section": "ARCS Product Context",
-   "age_days": 4,
+   "age_days": 5,
    "promoted": true
   },
   {
@@ -1358,7 +1368,7 @@
    "type": "project",
    "desc": "SEED. A physics/field model for documents as an alternative to the file-tree taxonomy: SSOT+revision = frame, derived surfaces = bodies at equilibrium, freshness = tension. Predictive failure taxonomy included.",
    "section": "ARCS Product Context",
-   "age_days": 3,
+   "age_days": 4,
    "promoted": false
   },
   {
@@ -1368,7 +1378,7 @@
    "type": "project",
    "desc": "Tao-of-ARCS canon candidate: a seed carries dormant POTENTIAL ENERGY (survives harsh conditions, never GC'd); ARCS is the VOX ANIMUS / sparkplug that converts potential→kinetic when soil returns. Draws the germinate(open bank+socket) ↔ ARCS(private spark) product boundary. Minted 2026-08-13 from the germinate build session.",
    "section": "ARCS Product Context",
-   "age_days": 4,
+   "age_days": 5,
    "promoted": true
   },
   {
@@ -1398,7 +1408,7 @@
    "type": "project",
    "desc": "Everything in arcs-v9 public/ is world-readable on EVERY arcs.care host by filename; JS password gates are theater (pw in plaintext source). Internal content must be server-gated via /warroom/[slug].",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 24,
+   "age_days": 25,
    "promoted": false
   },
   {
@@ -1418,7 +1428,7 @@
    "type": "project",
    "desc": "For arcs-v9 *.arcs.care subdomain routing, src/proxy.ts is the authoritative router — not next.config.ts",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 0,
+   "age_days": 1,
    "promoted": false
   },
   {
@@ -1428,7 +1438,7 @@
    "type": "reference",
    "desc": "TWO Supabase MCP servers exist with different scopes: the plain `mcp__supabase__*` server IS correctly bound to arcs-v9's live prod DB (xbbpiryokswwvcrcutge) and its execute_sql works read/write with no project_id arg — use it. The UUID-named server (19ba8754-…) is still scoped to the WRONG org (sees only inactive owdiiyvphyifukygvxhg + monomath-compiler). Supabase CLI remains a valid fallback.",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 35,
+   "age_days": 36,
    "promoted": false
   },
   {
@@ -1508,7 +1518,7 @@
    "type": "project",
    "desc": "Vercel Web Analytics IS enabled and live on arcs-v9; the Vercel MCP get_web_analytics tool falsely 404s despite correct team/project scoping — dashboard is ground truth.",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 24,
+   "age_days": 25,
    "promoted": false
   },
   {
@@ -1538,7 +1548,7 @@
    "type": "feedback",
    "desc": "Never run `vercel deploy` for committed+pushed work (Git integration already builds it); stale `arcs` project unlinked 2026-07-24; ignored-build-step skips docs-only commits.",
    "section": "Infrastructure & Gotchas (ARCS-specific)",
-   "age_days": 24,
+   "age_days": 25,
    "promoted": false
   },
   {
@@ -1588,7 +1598,7 @@
    "type": "feedback",
    "desc": "Zach's rule for all written deliverables — no em-dashes, short uncomplicated easy-to-digest sentences",
    "section": "Decision Vocabulary & Writing Style",
-   "age_days": 28,
+   "age_days": 29,
    "promoted": false
   },
   {
@@ -1598,7 +1608,7 @@
    "type": "user",
    "desc": "Zach's actual email writing style — grounded in real sent emails to Chris Lamontagne and Regina Marshall (Fanatics, Jun–Jul 2026). Use this when drafting any outbound email for Zach.",
    "section": "Decision Vocabulary & Writing Style",
-   "age_days": 46,
+   "age_days": 47,
    "promoted": false
   },
   {
@@ -1618,7 +1628,7 @@
    "type": "user",
    "desc": "Zach's epistemic engine: go very theoretical (curiosity-tension makes hypotheses emerge from theory), then test so rigorously the evidence compounds back into theory/wisdom. Theory is generative, not a detour.",
    "section": "User Cognition",
-   "age_days": 3,
+   "age_days": 4,
    "promoted": false
   },
   {
@@ -1628,7 +1638,7 @@
    "type": "user",
    "desc": "Zach's north star — be a free-floating point in infinite vector space, navigating safely by a resonance-gradient field (attraction to right harmonics, repulsion from ruin).",
    "section": "User Cognition",
-   "age_days": 16,
+   "age_days": 17,
    "promoted": false
   },
   {
@@ -1810,6 +1820,336 @@
    "section": "Seed Bank",
    "age_days": 0,
    "promoted": false
+  },
+  {
+   "id": "scar:F1",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "Tight prompts + small inputs = cheap; gauntlet cost scales with data size. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F2",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "An absolute value-of-information threshold (uncertainty x stakes > tau) routes coarse -> fine. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F3",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The empirical cost model is complete. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F4",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The 0.50 flip rate is surrogate interpolation NOISE — a denser mesh will lower it. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F5",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A single-agent graded pass reads faults on an absolute 0-3 severity scale. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F6",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The Hypercube Gauntlet ADR (055/060) is GREEN.HIGH.STABLE — verified doctrine. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F7",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "'Float, not drift' is a safe self-applied exemption for the H-ladder — no boundary needed. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F8",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The EM/physics frame (penteract, field dynamics) is literally true of the mechanism. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F9",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The hypercube's 5 axes are orthogonal, supporting a clean 3,125-cell count. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F10",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "BAR and KKL are single unambiguous canonical terms shared across ADR-020 and arcs-canon. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F11",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "ADR-011's Turbopack tree-shaking claim was confirmed — mark it GREEN. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F12",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "ADR numbers are unique, stable identifiers referenced unambiguously across the corpus. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F13",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A synchronous Haiku-calls-Opus advisor tool in the compass route is real-time-safe. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F14",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A green Next.js production build means the database layer works. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F15",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The SQLite dev schema and the Postgres prod schema are equivalent. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F16",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "`vercel deploy --prod` from a local tree is equivalent to a normal deploy. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F17",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "CLAUDE.md's project table accurately reflects which repo serves a live domain. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F18",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A new Postgres role with GRANT SELECT ON ALL TABLES can see the data it was granted. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F19",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A Vercel MCP get_web_analytics 404 means Web Analytics is not enabled. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F20",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The arcs-v9 Vercel Ignored Build Step correctly skips docs-only commits and builds real code. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F21",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The dashboard ignored-build-step field is a stable, reviewable cost guardrail. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F22",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "preview_start renders the branch/edits of the current session's worktree. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F23",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The debrief-delivery gap was a missing in-app fallback surface (ADR-059 framing). → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F24",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A control described in canon (Drift Sentinel, claims-skeptic) is an active safeguard. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F25",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "Content probes (grep/curl) are sufficient to claim a UI is polished and verified. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F26",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "`gh pr checks --watch && gh pr merge` is a sufficient merge gate. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F27",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "CLAUDE.md's append-only handoff policy keeps context cheap and history preserved. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F28",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "Confident time-framing ('it's late, wind down') tracks the real current time. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F29",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "Password-gated subdomains keep their sensitive HTML confidential. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F30",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A scheduled Sentinel task with all 13 MCP connectors costs little because it runs on a schedule. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F31",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The Todd Hotes pilot-court receipt's premise (11 days of cold silence) was accurate. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
+  },
+  {
+   "id": "scar:F32",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "A counterpart-gauntlet reliably identifies real defects in the artifact it audits. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": true,
+   "tuition": null
+  },
+  {
+   "id": "scar:F33",
+   "kind": "scar",
+   "type": "problem-shape",
+   "desc": "The single-mind kintsugi repair (gate=witnessed-provenance, rank=impact) had hardened the milestone-ranking plan to anti-fragile. → FALSIFIED",
+   "section": "Falsification Ledger (tuition)",
+   "age_days": 0,
+   "promoted": false,
+   "tuition": null
   }
  ],
  "edges": [
@@ -2891,6 +3231,31 @@
   {
    "from": "cook-temp-for-the-job-deductive",
    "to": "surface-affordances-proactively",
+   "rel": "declared-link"
+  },
+  {
+   "from": "corpus-atlas-pilot-louisville",
+   "to": "milestone-artifact-engine",
+   "rel": "declared-link"
+  },
+  {
+   "from": "corpus-atlas-pilot-louisville",
+   "to": "seed-monetization-free-to-hold-metered-to-fire",
+   "rel": "declared-link"
+  },
+  {
+   "from": "corpus-atlas-pilot-louisville",
+   "to": "counterpart-pseudonym-key-public-artifacts",
+   "rel": "declared-link"
+  },
+  {
+   "from": "corpus-atlas-pilot-louisville",
+   "to": "atg-offshoot-artifacts-comet-resume-session",
+   "rel": "declared-link"
+  },
+  {
+   "from": "corpus-atlas-pilot-louisville",
+   "to": "plan-generalize-omakase-site",
    "rel": "declared-link"
   },
   {
@@ -4764,5 +5129,5 @@
    "rel": "declared-link"
   }
  ],
- "dangling_declared": 22
+ "dangling_declared": 68
 }
