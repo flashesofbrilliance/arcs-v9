@@ -1,0 +1,642 @@
+{
+ "generated": "2026-08-18 13:20",
+ "corpus": "louisville",
+ "nodes": [
+  {
+   "id": "2026-07-10-jeben-louisville-serialization",
+   "file": "~/arcs-v9/.claude/worktrees/plugin-marketplace-arcs-skills-9622bd/runtime/recoil/generated/2026-07-10-jeben-louisville-serialization.json",
+   "kind": "ssot",
+   "type": "feedback",
+   "section": "SSOTs & Manifests",
+   "desc": "2026-07-10-jeben-louisville-serialization.json · 1 copy · canonical=~/arcs-v9/.claude/worktrees/plugin-marketplace-arcs-skills-9622bd/runtime/recoil/generated",
+   "age_days": 1,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "2026-07-15-jeben",
+   "file": "~/arcs-v9/.claude/worktrees/plugin-marketplace-arcs-skills-9622bd/runtime/recoil/generated/2026-07-15-jeben.json",
+   "kind": "ssot",
+   "type": "feedback",
+   "section": "SSOTs & Manifests",
+   "desc": "2026-07-15-jeben.json · 1 copy · canonical=~/arcs-v9/.claude/worktrees/plugin-marketplace-arcs-skills-9622bd/runtime/recoil/generated",
+   "age_days": 1,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "canon-forge",
+   "file": "~/Downloads/louisville-canon-bundle/canon-forge.skill",
+   "kind": "canon",
+   "type": "reference",
+   "section": "Canon & Docs",
+   "desc": "canon-forge.skill · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-arcs-care-HANDOFF",
+   "file": "~/Downloads/louisville-arcs-care-HANDOFF.md",
+   "kind": "canon",
+   "type": "reference",
+   "section": "Canon & Docs",
+   "desc": "louisville-arcs-care-HANDOFF.md · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-board",
+   "file": "~/Downloads/louisville-board.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-board.html · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-box",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-box.html",
+   "kind": "canon-surface",
+   "type": "user",
+   "section": "Canon Bundle Surfaces",
+   "desc": "louisville-box.html · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-braid",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-braid.html",
+   "kind": "canon-surface",
+   "type": "user",
+   "section": "Canon Bundle Surfaces",
+   "desc": "louisville-braid.html · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-canon-bundle",
+   "file": "~/Downloads/louisville-canon-bundle_1.zip",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-canon-bundle.zip · 2 copies · canonical=~/Downloads",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "louisville-canon-manifest",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-canon-manifest.json",
+   "kind": "ssot",
+   "type": "feedback",
+   "section": "SSOTs & Manifests",
+   "desc": "louisville-canon-manifest.json · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-case-numbers",
+   "file": "~/Downloads/louisville-case-numbers_1.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-case-numbers.html · 2 copies · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "louisville-codex",
+   "file": "~/Downloads/louisville-codex_1.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-codex.html · 3 copies · canonical=~/Downloads",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 3
+  },
+  {
+   "id": "louisville-enso",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-enso.html",
+   "kind": "canon-surface",
+   "type": "user",
+   "section": "Canon Bundle Surfaces",
+   "desc": "louisville-enso.html · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-exec-memo",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-exec-memo.md",
+   "kind": "canon",
+   "type": "reference",
+   "section": "Canon & Docs",
+   "desc": "louisville-exec-memo.md · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-fold",
+   "file": "~/Downloads/louisville-fold_1.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-fold.html · 2 copies · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "louisville-gift-mobile",
+   "file": "~/Downloads/louisville-gift-mobile (1).pdf",
+   "kind": "print",
+   "type": "performer",
+   "section": "Prints & Gifts",
+   "desc": "louisville-gift-mobile.pdf · 2 copies · canonical=~/Downloads",
+   "age_days": 22,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "louisville-gift",
+   "file": "~/Downloads/louisville-gift (3).pdf",
+   "kind": "print",
+   "type": "performer",
+   "section": "Prints & Gifts",
+   "desc": "louisville-gift.pdf · 4 copies · canonical=~/Downloads",
+   "age_days": 22,
+   "promoted": false,
+   "versions": 4
+  },
+  {
+   "id": "louisville-home",
+   "file": "~/Downloads/louisville-home_2.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-home.html · 3 copies · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 3
+  },
+  {
+   "id": "louisville-omakase",
+   "file": "~/Downloads/louisville-omakase.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-omakase.html · 2 copies · canonical=~/Downloads",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "louisville-pocket-card",
+   "file": "~/Downloads/louisville-pocket-card_1.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-pocket-card.html · 2 copies · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "louisville-receipt-studio",
+   "file": "~/Downloads/louisville-receipt-studio_2.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-receipt-studio.html · 3 copies · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 3
+  },
+  {
+   "id": "louisville-resonance-filter",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-resonance-filter.html",
+   "kind": "canon-surface",
+   "type": "user",
+   "section": "Canon Bundle Surfaces",
+   "desc": "louisville-resonance-filter.html · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-skeptic",
+   "file": "~/Downloads/louisville-skeptic.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-skeptic.html · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-staged-play",
+   "file": "~/Downloads/louisville-canon-bundle/louisville-staged-play.html",
+   "kind": "canon-surface",
+   "type": "user",
+   "section": "Canon Bundle Surfaces",
+   "desc": "louisville-staged-play.html · 1 copy · canonical=~/Downloads/louisville-canon-bundle",
+   "age_days": 24,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-stanley",
+   "file": "~/Downloads/louisville-stanley.html",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-stanley.html · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-suite-src-v2",
+   "file": "~/Downloads/louisville-suite-src-v2.zip",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-suite-src-v2.zip · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-suite-src-v3",
+   "file": "~/Downloads/louisville-suite-src-v3.zip",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-suite-src-v3.zip · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville-suite-src",
+   "file": "~/Downloads/louisville-suite-src.zip",
+   "kind": "surface",
+   "type": "project",
+   "section": "Pitch Surfaces (Downloads)",
+   "desc": "louisville-suite-src.zip · 1 copy · canonical=~/Downloads",
+   "age_days": 18,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "louisville",
+   "file": "~/arcs-v9/.claude/worktrees/plugin-marketplace-arcs-skills-9622bd/public/louisville.html",
+   "kind": "repo-surface",
+   "type": "repo",
+   "section": "Repo Surfaces (live-path)",
+   "desc": "louisville.html · 3 copies · canonical=~/arcs-v9/.claude/worktrees/plugin-marketplace-arcs-skills-9622bd/public",
+   "age_days": 1,
+   "promoted": true,
+   "versions": 3
+  }
+ ],
+ "edges": [
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-stanley",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-board",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-staged-play",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-home",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-resonance-filter",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-omakase",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-exec-memo",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-braid",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-codex",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-enso",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-box",
+   "rel": "declared-manifest"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville-home",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-staged-play",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-resonance-filter",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-omakase",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-braid",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-codex",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-enso",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-bundle",
+   "to": "louisville-box",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-staged-play",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-resonance-filter",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-omakase",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-braid",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-enso",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-canon-manifest",
+   "to": "louisville-box",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-codex",
+   "to": "louisville-staged-play",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-codex",
+   "to": "louisville-resonance-filter",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-codex",
+   "to": "louisville-omakase",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-codex",
+   "to": "louisville-braid",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-codex",
+   "to": "louisville-enso",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-codex",
+   "to": "louisville-box",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-fold",
+   "to": "louisville-stanley",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-fold",
+   "to": "louisville-board",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-fold",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-fold",
+   "to": "louisville-skeptic",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-fold",
+   "to": "louisville-case-numbers",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-fold",
+   "to": "louisville-pocket-card",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-home",
+   "to": "louisville-stanley",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-home",
+   "to": "louisville-board",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-home",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-home",
+   "to": "louisville-skeptic",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-home",
+   "to": "louisville-case-numbers",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-home",
+   "to": "louisville-pocket-card",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-omakase",
+   "to": "louisville-staged-play",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-omakase",
+   "to": "louisville-resonance-filter",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-omakase",
+   "to": "louisville-braid",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-omakase",
+   "to": "louisville-codex",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-omakase",
+   "to": "louisville-enso",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-omakase",
+   "to": "louisville-box",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src-v2",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src-v2",
+   "to": "louisville-fold",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src-v3",
+   "to": "louisville-home",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src-v3",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src-v3",
+   "to": "louisville-fold",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-suite-src",
+   "to": "louisville-fold",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville",
+   "to": "louisville-board",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-href"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville-home",
+   "rel": "declared-roster"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville-receipt-studio",
+   "rel": "declared-roster"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville-suite-src",
+   "rel": "declared-roster"
+  },
+  {
+   "from": "louisville-arcs-care-HANDOFF",
+   "to": "louisville",
+   "rel": "declared-roster"
+  }
+ ],
+ "version_dupes": 17
+}
