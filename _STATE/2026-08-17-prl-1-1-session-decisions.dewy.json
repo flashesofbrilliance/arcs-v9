@@ -146,6 +146,27 @@
       "stakes": "MEDIUM",
       "mode": "STANDARD",
       "adr": null
+    },
+    {
+      "receipt_id": "2026-08-18-zap-published-bar-raiser-protocol-closed",
+      "surface": "PRL / Tidio -> Sugar delivery leg (1.1/1.2 chatbot-only scope)",
+      "sharp_question": "Zapier co-pilot proposed 2 fixes (name-split, CA-fallback removal) against bugs found in live sandbox data. Dual bar-raiser protocol run: Claude as architect/advisor, Zapier co-pilot as implementing agent. Did both fixes actually land correctly, and is the Zap safe to publish?",
+      "dewy_vector": {
+        "D": "Yes, published (v0.4, series_376761228, sandbox-only). Both fixes independently verified by Claude via direct Sugar read (not trusting the co-pilot's self-reported Zapier step-test echo) against record 7b611d4c-9b3f-11f1-b848-0eb473bb02df (2026-08-18 20:00:38 UTC): last_name split correctly to 'O'Kon DDS' (title/suffix preserved, first token dropped per the agreed no-guessing rule), and a state-parse audit trail ('State parse: True | raw input: \"...\"') genuinely persisted in the description field. One real architectural correction made mid-build: location_c is a hard-required Sugar field, so neither 'empty string' nor 'omit the key' could ever work regardless of the enum listing an empty UI choice (confirmed: Sugar's required-field validation rejects empty string at the API layer even when the enum technically allows it in the UI) -- the fix had to keep a real fallback state code and make failures detectable via a SIBLING field (description) instead of trying to make the required field itself signal failure.",
+        "E": "Zapier co-pilot (implementing agent), Claude (architect/advisor -- verify, not trust), Todd (final real-conversation test still pending)",
+        "W": "Live in sandbox now. Blocked on: (1) one real Tidio staging conversation (everything verified so far is still a Zapier step-test replay, not an actual chat), (2) Bill's routing call, (3) production Chatbot enum + auth repoint -- all separately gated, none block this sandbox publish.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "In a dual-agent bar-raiser protocol, the advisor's job is to independently re-verify the implementer's claimed fix against the actual system of record, not accept a step-test's self-reported success -- this caught nothing wrong here, but the discipline is what makes the sign-off meaningful rather than rubber-stamped.",
+      "why": "A schema-breaking fix (empty/omitted required field) would have silently converted a lead-misrouting bug into a lead-loss bug, worse than the original problem. Independent verification before publish confirmed the actual correct redesign (sibling-field audit trail) instead of a plausible-sounding but broken one.",
+      "loki": "Low -- every claim checked against a direct Sugar API read, not inference or trust in the co-pilot's report.",
+      "bar": "Low, now that it's published to sandbox only.",
+      "horizon": "Resolves fully once the real Tidio conversation test lands and is independently re-verified the same way.",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": null,
+      "artifact": "_ARTIFACTS/prl-1-1-evidence/2026-08-18-zapier-copilot-brief.md"
     }
   ]
 }
