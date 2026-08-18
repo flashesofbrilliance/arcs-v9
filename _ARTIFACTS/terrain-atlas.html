@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <!--
-THESIS: the memory corpus as navigable terrain · fog IS staleness (earned fidelity made
-literal), districts ARE index sections, tile height IS echo weight (declared in-degree).
-Refuses the searchable-table default; search here dims the world instead of listing rows.
-OWN-WORLD: ARCS dark cockpit (#020408/#0d1117, cyan bearing, green conviction, gold asset,
-orange constraint, red risk; JetBrains Mono measurement, Inter prose), 2.5D isometric plane.
-STORY: Zach drops into his own atlas, sees which districts glow and which sit in fog,
-clicks a tile, reads its dossier, walks its declared threads. No edge is invented ·
-absent ancestry stays absent.
-FIRST VIEWPORT: HUD rail (search + filters + counts) over the full isometric field,
-districts labeled, navigator pulsing on the last-touched tile.
+THESIS: the corpus as a ZIGGURAT · stratum = echo weight (declared in-degree), so the
+pyramid shape is the data: broad terraces of periphery, an apex of load-bearing canon.
+Fog = staleness. District = azimuth (which face a node sits on). Traversal is the point:
+arrows walk the terrace and CLIMB THE STRONGEST DECLARED EDGE between strata.
+OWN-WORLD: ARCS dark cockpit (#020408/#0d1117, cyan/green/gold/orange/red, JetBrains
+Mono + Inter), true 3D stacking (preserve-3d, per-stratum translateZ + terrace plates).
+STORY: Zach lands on the apex canon node, reads its dossier, and traverses the building
+along declared edges. No edge invented · declared only.
+FIRST VIEWPORT: the full ziggurat, navigator pulsing, HUD rail + keyboard legend.
 FORM: single self-contained file; data baked from catalog.json (memory_catalog_emit.py).
 -->
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>ARCS Terrain Atlas · Memory Corpus</title>
+<title>ARCS Terrain Atlas · Ziggurat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -31,53 +30,46 @@ html,body{height:100%;overflow:hidden}
 body{background:radial-gradient(1200px 600px at 50% -10%,#00F0FF08 0,transparent 60%),var(--bg);
   color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased}
 
-/* HUD rail */
 #hud{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
-  padding:12px 18px;background:linear-gradient(180deg,#020408f2,#020408cc 70%,transparent);}
+  padding:12px 18px;background:linear-gradient(180deg,#020408f2,#020408cc 70%,transparent)}
 #hud .t{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--cyan);text-transform:uppercase;white-space:nowrap}
 #hud .sub{font-family:var(--mono);font-size:8.5px;color:var(--fg4);letter-spacing:.08em;white-space:nowrap}
 #q{background:var(--panel);border:1px solid var(--line-hi);border-radius:6px;color:var(--fg1);
-  font-family:var(--mono);font-size:11px;padding:7px 12px;width:230px;outline:none}
+  font-family:var(--mono);font-size:11px;padding:7px 12px;width:220px;outline:none}
 #q:focus{border-color:var(--cyan);box-shadow:0 0 12px -4px var(--cyan)}
 .chip{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   padding:5px 10px;border-radius:4px;border:1px solid var(--line-hi);color:var(--fg3);cursor:pointer;user-select:none;background:transparent}
 .chip.on{color:var(--c,var(--cyan));border-color:var(--c,var(--cyan));box-shadow:0 0 10px -5px var(--c,var(--cyan))}
 #count{font-family:var(--mono);font-size:9px;color:var(--fg4);letter-spacing:.06em;margin-left:auto;white-space:nowrap}
 
-/* isometric stage */
-#stage{position:absolute;inset:0;overflow:hidden;cursor:grab}
+#stage{position:absolute;inset:0;overflow:hidden;cursor:grab;perspective:2000px}
 #stage.dragging{cursor:grabbing}
-#world{position:absolute;left:50%;top:52%;transform-style:preserve-3d;}
-#plane{position:absolute;transform:rotateX(56deg) rotateZ(45deg);transform-style:preserve-3d;}
-.district{position:absolute;border:1px solid #ffffff10;border-radius:14px;
-  background:linear-gradient(160deg,#ffffff05,#00000030),#0d111766;}
-.district .dl{position:absolute;top:-4px;left:10px;transform:translateY(-100%);
-  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fg3);white-space:nowrap}
-.district .dl b{color:var(--fg4);font-weight:600;margin-left:8px;font-size:9px}
-
+#world{position:absolute;left:50%;top:58%;transform-style:preserve-3d}
+#plane{position:absolute;transform-style:preserve-3d}
+.plate{position:absolute;border-radius:16px;transform-style:preserve-3d;
+  background:linear-gradient(160deg,#ffffff06,#00000038),#0d111799;border:1px solid #ffffff12;
+  box-shadow:0 0 40px -18px #00F0FF22}
+.plate .pl{position:absolute;left:14px;top:8px;font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--fg4);white-space:nowrap}
 .tile{position:absolute;width:26px;height:26px;transform-style:preserve-3d;cursor:pointer}
 .tile .top{position:absolute;inset:0;border-radius:4px;background:var(--panel);border:1px solid var(--tc);
-  transform:translateZ(var(--h));transition:transform .25s,box-shadow .25s;
-  box-shadow:0 0 calc(6px + var(--glow)) -3px var(--tc)}
-.tile .side{position:absolute;inset:0;border-radius:4px;background:#060a12;border:1px solid #ffffff0a;
-  transform:translateZ(2px)}
-.tile:hover .top,.tile.sel .top{transform:translateZ(calc(var(--h) + 10px));box-shadow:0 0 18px -2px var(--tc)}
+  transform:translateZ(10px);transition:transform .22s,box-shadow .22s;
+  box-shadow:0 0 calc(5px + var(--glow)) -3px var(--tc)}
+.tile:hover .top,.tile.sel .top{transform:translateZ(20px);box-shadow:0 0 18px -2px var(--tc)}
 .tile.sel .top{border-width:2px}
-/* fog = staleness */
-.f0 .top{opacity:1}                                   /* SHARP  <14d  */
-.f1 .top{opacity:.78;filter:saturate(.8)}             /* DEGRADED <45d */
-.f2 .top{opacity:.5;filter:saturate(.5) blur(.4px)}   /* GRAIN  <120d */
-.f3 .top{opacity:.28;filter:saturate(.25) blur(1px)}  /* FOG    older */
+.f0 .top{opacity:1}
+.f1 .top{opacity:.78;filter:saturate(.8)}
+.f2 .top{opacity:.5;filter:saturate(.5) blur(.4px)}
+.f3 .top{opacity:.28;filter:saturate(.25) blur(1px)}
 .tile.dim{pointer-events:none}
-.tile.dim .top{opacity:.06;filter:grayscale(1)}
+.tile.dim .top{opacity:.05;filter:grayscale(1)}
 .tile .pin{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:var(--cyan);
-  transform:translate(-50%,-50%) translateZ(calc(var(--h) + 16px));box-shadow:0 0 14px 2px var(--cyan);display:none}
+  transform:translate(-50%,-50%) translateZ(26px);box-shadow:0 0 14px 2px var(--cyan);display:none}
 .tile.sel .pin{display:block;animation:pulse 1.6s ease-out infinite}
 @keyframes pulse{0%{box-shadow:0 0 6px 1px var(--cyan)}50%{box-shadow:0 0 20px 5px var(--cyan)}100%{box-shadow:0 0 6px 1px var(--cyan)}}
 #threads{position:absolute;overflow:visible;pointer-events:none}
-#threads line{stroke-width:1.4;opacity:.85}
+#threads line{stroke-width:1.5;opacity:.9}
 
-/* dossier */
 #dossier{position:fixed;top:64px;right:0;bottom:0;width:340px;z-index:30;transform:translateX(105%);
   transition:transform .3s cubic-bezier(.16,1,.3,1);background:linear-gradient(165deg,#ffffff07,#00000040),var(--panel);
   border-left:1px solid var(--line-hi);padding:20px 22px;overflow-y:auto}
@@ -86,11 +78,12 @@ body{background:radial-gradient(1200px 600px at 50% -10%,#00F0FF08 0,transparent
 #dossier h2{font-size:16px;font-weight:650;letter-spacing:-.01em;text-wrap:balance;line-height:1.3}
 #dossier .desc{font-size:12px;line-height:1.65;color:var(--fg2);margin-top:8px;text-wrap:pretty}
 #dossier .meta{font-family:var(--mono);font-size:9.5px;color:var(--fg3);line-height:2}
-#dossier .edge{display:block;font-family:var(--mono);font-size:10px;color:var(--cyan);padding:3px 0;cursor:pointer;text-decoration:none}
+#dossier .edge{display:block;font-family:var(--mono);font-size:10px;color:var(--cyan);padding:3px 0;cursor:pointer}
 #dossier .edge:hover{text-decoration:underline}
 #dossier .close{position:absolute;top:10px;right:14px;font-family:var(--mono);color:var(--fg3);cursor:pointer;font-size:14px}
 #legend{position:fixed;left:18px;bottom:14px;z-index:30;font-family:var(--mono);font-size:8.5px;color:var(--fg4);letter-spacing:.07em;line-height:1.9}
-#legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px;vertical-align:0}
+#legend i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px}
+#legend b{color:var(--fg3);font-weight:600}
 @media (prefers-reduced-motion:no-preference){
   #plane{animation:resolve 1.1s cubic-bezier(.16,1,.3,1) both}
   @keyframes resolve{from{opacity:.2;filter:blur(8px)}to{opacity:1;filter:none}}
@@ -99,18 +92,17 @@ body{background:radial-gradient(1200px 600px at 50% -10%,#00F0FF08 0,transparent
 </head>
 <body>
 <div id="hud">
-  <span class="t">ARCS Terrain Atlas</span><span class="sub" id="gen"></span>
+  <span class="t">ARCS Terrain Atlas · Ziggurat</span><span class="sub" id="gen"></span>
   <input id="q" placeholder="search the corpus…" autocomplete="off">
   <span id="chips"></span>
   <span id="count"></span>
 </div>
-<div id="stage"><div id="world"><div id="plane">
-  <svg id="threads"></svg>
-</div></div></div>
+<div id="stage"><div id="world"><div id="plane"><svg id="threads"></svg></div></div></div>
 <aside id="dossier"><span class="close" onclick="closeDossier()">×</span><div id="dbody"></div></aside>
 <div id="legend">
-  <i style="background:var(--green)"></i>feedback &nbsp;<i style="background:var(--cyan)"></i>project &nbsp;<i style="background:var(--steel)"></i>reference &nbsp;<i style="background:var(--gold)"></i>user / seed-repo &nbsp;<i style="background:var(--purple)"></i>performer<br>
-  fog = staleness (sharp &lt;14d → fog &gt;120d) · tile lift + glow = echo weight (declared in-degree) · drag to pan · scroll to zoom
+  <i style="background:var(--green)"></i>feedback &nbsp;<i style="background:var(--cyan)"></i>project &nbsp;<i style="background:var(--steel)"></i>reference &nbsp;<i style="background:var(--gold)"></i>user / seed &nbsp;<i style="background:var(--purple)"></i>performer<br>
+  stratum = echo weight (base: uncited → apex: canon) · fog = staleness · district = compass face<br>
+  <b>←→</b> walk terrace · <b>↑</b> climb strongest declared edge · <b>↓</b> descend · <b>[ ]</b> rotate · drag pan · scroll zoom
 </div>
 <script id="data" type="application/json">{
  "generated": "2026-08-18 09:35",
@@ -4884,50 +4876,53 @@ body{background:radial-gradient(1200px 600px at 50% -10%,#00F0FF08 0,transparent
 const CAT = JSON.parse(document.getElementById('data').textContent);
 const COLORS = {feedback:'var(--green)',project:'var(--cyan)',reference:'var(--steel)',user:'var(--gold)',
   repo:'var(--gold)','problem-shape':'var(--orange)',performer:'var(--purple)',unknown:'var(--fg4)'};
-document.getElementById('gen').textContent = '· ' + CAT.nodes.length + ' nodes · ' + CAT.edges.length + ' declared edges · gen ' + CAT.generated;
-
-// echo weight = declared in-degree
-const indeg = {}; CAT.edges.forEach(e => indeg[e.to] = (indeg[e.to]||0)+1);
+const indeg = {}; CAT.edges.forEach(e => indeg[e.to]=(indeg[e.to]||0)+1);
+// pairwise connection strength (either direction) for "strongest edge" traversal
+const strength = {};
+CAT.edges.forEach(e=>{const k=e.from<e.to?e.from+'|'+e.to:e.to+'|'+e.from;strength[k]=(strength[k]||0)+1});
 const fogClass = d => d<14?'f0':d<45?'f1':d<120?'f2':'f3';
+const stratumOf = n => {const d=indeg[n.id]||0; return d===0?0:d<=2?1:d<=5?2:d<=9?3:4};
+document.getElementById('gen').textContent='· '+CAT.nodes.length+' nodes · '+CAT.edges.length+' declared edges · gen '+CAT.generated;
 
-// layout: districts in a spiral grid, tiles in a grid per district
-const bySec = {};
-CAT.nodes.forEach(n => (bySec[n.section] = bySec[n.section]||[]).push(n));
-const secs = Object.entries(bySec).sort((a,b)=>b[1].length-a[1].length);
-const GAP=70, plane=document.getElementById('plane');
-let dx=0, dy=0, rowH=0, X=0, Y=0, maxW=1400;
-const positions={};
-secs.forEach(([sec,nodes],si)=>{
-  const cols=Math.ceil(Math.sqrt(nodes.length*1.6));
-  const rows=Math.ceil(nodes.length/cols);
-  const w=cols*34+28, h=rows*34+28;
-  if(X+w>maxW){X=0;Y+=rowH+GAP;rowH=0}
-  const d=document.createElement('div');
-  d.className='district';
-  d.style.cssText=`left:${X}px;top:${Y}px;width:${w}px;height:${h}px`;
-  d.innerHTML=`<span class="dl">${sec}<b>${nodes.length}</b></span>`;
-  plane.appendChild(d);
-  nodes.sort((a,b)=>(indeg[b.id]||0)-(indeg[a.id]||0));
+// ── ziggurat layout: strata plates, nodes ringed by district azimuth ──────────
+const STEP_Z=52, plane=document.getElementById('plane');
+const strata=[[],[],[],[],[]];
+CAT.nodes.forEach(n=>strata[stratumOf(n)].push(n));
+const secList=[...new Set(CAT.nodes.map(n=>n.section))].sort();
+const secAngle={}; secList.forEach((s,i)=>secAngle[s]=(i/secList.length)*Math.PI*2);
+const positions={}, CX=0, CY=0;
+let maxR=0;
+strata.forEach((nodes,k)=>{
+  if(!nodes.length) return;
+  const R=Math.max(70, nodes.length*34/(2*Math.PI)) + (4-k)*26;
+  maxR=Math.max(maxR,R);
+  const plate=document.createElement('div');
+  plate.className='plate';
+  const pr=R+40;
+  plate.style.cssText=`left:${CX-pr}px;top:${CY-pr}px;width:${pr*2}px;height:${pr*2}px;transform:translateZ(${k*STEP_Z}px)`;
+  plate.innerHTML=`<span class="pl">S${k} · ${['uncited','echo 1-2','echo 3-5','echo 6-9','canon 10+'][k]} · ${nodes.length}</span>`;
+  plane.appendChild(plate);
+  nodes.sort((a,b)=>secAngle[a.section]-secAngle[b.section]||a.id.localeCompare(b.id));
   nodes.forEach((n,i)=>{
-    const cx=X+14+(i%cols)*34, cy=Y+14+Math.floor(i/cols)*34;
-    positions[n.id]=[cx+13,cy+13];
-    const deg=indeg[n.id]||0, h3=4+Math.min(26,deg*2.4), glow=Math.min(14,deg*1.4);
+    const th=(i/nodes.length)*Math.PI*2 - Math.PI/2;
+    const x=CX+R*Math.cos(th), y=CY+R*Math.sin(th);
+    positions[n.id]=[x,y,k*STEP_Z];
+    const deg=indeg[n.id]||0, glow=Math.min(14,deg*1.4);
     const t=document.createElement('div');
     t.className='tile '+fogClass(n.age_days); t.dataset.id=n.id;
-    t.style.cssText=`left:${cx}px;top:${cy}px;--tc:${COLORS[n.type]||COLORS.unknown};--h:${h3}px;--glow:${glow}px`;
-    t.innerHTML='<div class="side"></div><div class="top"></div><div class="pin"></div>';
-    t.title=n.id+(deg?` · echoed ×${deg}`:'');
+    t.style.cssText=`left:${x-13}px;top:${y-13}px;--tc:${COLORS[n.type]||COLORS.unknown};--glow:${glow}px;transform:translateZ(${k*STEP_Z}px)`;
+    t.innerHTML='<div class="top"></div><div class="pin"></div>';
+    t.title=`${n.id} · S${k}${deg?` · echoed ×${deg}`:''}`;
     t.onclick=ev=>{ev.stopPropagation();select(n.id)};
     plane.appendChild(t);
   });
-  X+=w+GAP; rowH=Math.max(rowH,h);
 });
-plane.style.width=maxW+'px'; plane.style.height=(Y+rowH+60)+'px';
-plane.style.marginLeft=-maxW/2+'px'; plane.style.marginTop=-(Y+rowH)/2+'px';
+const EXT=maxR+80;
 const svg=document.getElementById('threads');
-svg.setAttribute('width',maxW); svg.setAttribute('height',Y+rowH+60);
+svg.setAttribute('width',EXT*2);svg.setAttribute('height',EXT*2);
+svg.style.left=(-EXT)+'px';svg.style.top=(-EXT)+'px';
 
-// selection + threads (only the selected node's declared edges · no hairball)
+// ── selection, dossier, threads ───────────────────────────────────────────────
 let SEL=null;
 function select(id){
   SEL=id;
@@ -4935,73 +4930,116 @@ function select(id){
   const el=document.querySelector(`.tile[data-id="${CSS.escape(id)}"]`);
   if(el) el.classList.add('sel');
   svg.innerHTML='';
-  const rel=CAT.edges.filter(e=>e.from===id||e.to===id);
-  rel.forEach(e=>{
-    const a=positions[e.from], b=positions[e.to];
-    if(!a||!b) return;
+  CAT.edges.filter(e=>e.from===id||e.to===id).forEach(e=>{
+    const a=positions[e.from], b=positions[e.to]; if(!a||!b) return;
     const L=document.createElementNS('http://www.w3.org/2000/svg','line');
-    L.setAttribute('x1',a[0]);L.setAttribute('y1',a[1]);L.setAttribute('x2',b[0]);L.setAttribute('y2',b[1]);
-    L.setAttribute('stroke', e.from===id ? '#00F0FF' : '#FFD700');
+    L.setAttribute('x1',a[0]+EXT);L.setAttribute('y1',a[1]+EXT);
+    L.setAttribute('x2',b[0]+EXT);L.setAttribute('y2',b[1]+EXT);
+    L.setAttribute('stroke', e.from===id?'#00F0FF':'#FFD700');
     svg.appendChild(L);
   });
-  const n=CAT.nodes.find(n=>n.id===id);
-  const deg=indeg[id]||0;
+  const n=CAT.nodes.find(n=>n.id===id), deg=indeg[id]||0, k=stratumOf(n);
   const outs=CAT.edges.filter(e=>e.from===id), ins=CAT.edges.filter(e=>e.to===id);
   document.getElementById('dbody').innerHTML=`
     <div class="k">${n.kind} · ${n.type} · ${n.section}</div>
     <h2>${id}</h2>
     <p class="desc">${n.desc||'(no frontmatter description)'}</p>
     <div class="k">Field state</div>
-    <div class="meta">staleness · ${n.age_days}d (${['SHARP','DEGRADED','GRAIN','FOG'][+fogClass(n.age_days)[1]]})<br>
-    echo weight · cited ×${deg} in the corpus${n.promoted?'<br>PROMOTED / live':''}</div>
+    <div class="meta">stratum · S${k} (${['uncited','echo 1-2','echo 3-5','echo 6-9','canon 10+'][k]})<br>
+    staleness · ${n.age_days}d (${['SHARP','DEGRADED','GRAIN','FOG'][+fogClass(n.age_days)[1]]})<br>
+    echo weight · cited ×${deg}${n.promoted?'<br>PROMOTED / live':''}</div>
     ${outs.length?`<div class="k">Declares → (${outs.length})</div>`+outs.map(e=>`<a class="edge" onclick="select('${e.to}')">→ ${e.to}</a>`).join(''):''}
     ${ins.length?`<div class="k">Echoed by ← (${ins.length})</div>`+ins.map(e=>`<a class="edge" onclick="select('${e.from}')">← ${e.from}</a>`).join(''):''}
     <div class="k">Provenance</div>
-    <div class="meta">${n.file||'(_SEEDS bank row)'} · edges are DECLARED only · absent ancestry stays absent</div>`;
+    <div class="meta">${n.file||'(_SEEDS bank row)'} · edges DECLARED only · absent ancestry stays absent</div>`;
   document.getElementById('dossier').classList.add('open');
 }
 function closeDossier(){document.getElementById('dossier').classList.remove('open');svg.innerHTML='';
-  document.querySelectorAll('.tile.sel').forEach(t=>t.classList.remove('sel'));}
+  document.querySelectorAll('.tile.sel').forEach(t=>t.classList.remove('sel'))}
 
-// filters: search dims the world; chips toggle types
+// ── keyboard traversal: terrace walk + strongest-edge climb ──────────────────
+function neighbors(id){return CAT.edges.filter(e=>e.from===id||e.to===id)
+  .map(e=>e.from===id?e.to:e.from)}
+function walk(dir){
+  if(!SEL) return;
+  const n=CAT.nodes.find(x=>x.id===SEL), k=stratumOf(n);
+  const ring=strata[k].map(x=>x.id);
+  const i=ring.indexOf(SEL);
+  select(ring[(i+dir+ring.length)%ring.length]);
+}
+function climb(up){
+  if(!SEL) return;
+  const k=stratumOf(CAT.nodes.find(x=>x.id===SEL));
+  const byId={}; CAT.nodes.forEach(n=>byId[n.id]=n);
+  const cands=neighbors(SEL)
+    .filter(id=>byId[id])
+    .map(id=>({id, k2:stratumOf(byId[id]),
+      s:strength[SEL<id?SEL+'|'+id:id+'|'+SEL]||0}))
+    .filter(c=>up ? c.k2>k : c.k2<k)
+    .sort((a,b)=>b.s-a.s || (indeg[b.id]||0)-(indeg[a.id]||0));
+  if(cands.length){select(cands[0].id);return}
+  // no declared path: step to the spatially nearest tile one stratum away
+  // (an honest camera move, not an invented edge — nothing gets drawn)
+  const k2=up?k+1:k-1;
+  if(k2<0||k2>4||!strata[k2]||!strata[k2].length) return;
+  const p=positions[SEL];
+  const nearest=[...strata[k2]].sort((a,b)=>{
+    const pa=positions[a.id],pb=positions[b.id];
+    return ((pa[0]-p[0])**2+(pa[1]-p[1])**2)-((pb[0]-p[0])**2+(pb[1]-p[1])**2)})[0];
+  select(nearest.id);
+}
+let ROT=45;
+window.addEventListener('keydown',e=>{
+  if(e.target===document.getElementById('q')) return;
+  if(e.key==='ArrowLeft'){e.preventDefault();walk(-1)}
+  else if(e.key==='ArrowRight'){e.preventDefault();walk(1)}
+  else if(e.key==='ArrowUp'){e.preventDefault();climb(true)}
+  else if(e.key==='ArrowDown'){e.preventDefault();climb(false)}
+  else if(e.key==='['){ROT-=15;placePlane()}
+  else if(e.key===']'){ROT+=15;placePlane()}
+  else if(e.key==='Escape'){closeDossier()}
+});
+function placePlane(){plane.style.transform=`rotateX(58deg) rotateZ(${ROT}deg)`}
+placePlane();
+
+// ── filters ──────────────────────────────────────────────────────────────────
 const active=new Set(Object.keys(COLORS));
 const chipbox=document.getElementById('chips');
 Object.entries(COLORS).forEach(([k,c])=>{
   if(k==='unknown')return;
   const s=document.createElement('span');
-  s.className='chip on'; s.style.setProperty('--c',c); s.textContent=k;
-  s.onclick=()=>{s.classList.toggle('on'); s.classList.contains('on')?active.add(k):active.delete(k); apply()};
+  s.className='chip on';s.style.setProperty('--c',c);s.textContent=k;
+  s.onclick=()=>{s.classList.toggle('on');s.classList.contains('on')?active.add(k):active.delete(k);apply()};
   chipbox.appendChild(s);
 });
 const q=document.getElementById('q');
 q.addEventListener('input',apply);
 function apply(){
-  const term=q.value.trim().toLowerCase();
-  let vis=0;
+  const term=q.value.trim().toLowerCase();let vis=0;
   CAT.nodes.forEach(n=>{
     const el=document.querySelector(`.tile[data-id="${CSS.escape(n.id)}"]`);
     if(!el)return;
     const hit=(!term||n.id.includes(term)||(n.desc||'').toLowerCase().includes(term))&&active.has(n.type);
-    el.classList.toggle('dim',!hit); if(hit)vis++;
+    el.classList.toggle('dim',!hit);if(hit)vis++;
   });
   document.getElementById('count').textContent=vis+' / '+CAT.nodes.length+' visible';
 }
 apply();
 
-// pan + zoom
-const world=document.getElementById('world'), stage=document.getElementById('stage');
-let px=0,py=0,zoom=1,drag=null;
+// ── pan + zoom ───────────────────────────────────────────────────────────────
+const world=document.getElementById('world'),stage=document.getElementById('stage');
+let px=0,py=0,zoom=.9,drag=null;
 function place(){world.style.transform=`translate(${px}px,${py}px) scale(${zoom})`}
 stage.addEventListener('pointerdown',e=>{drag=[e.clientX-px,e.clientY-py];stage.classList.add('dragging')});
 window.addEventListener('pointermove',e=>{if(drag){px=e.clientX-drag[0];py=e.clientY-drag[1];place()}});
 window.addEventListener('pointerup',()=>{drag=null;stage.classList.remove('dragging')});
-stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(2.2,Math.max(.35,zoom*(e.deltaY<0?1.08:0.92)));place()},{passive:false});
+stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(2.5,Math.max(.3,zoom*(e.deltaY<0?1.08:0.92)));place()},{passive:false});
 stage.addEventListener('click',closeDossier);
 place();
 
-// navigator opens on the freshest, most-echoed tile
-const fresh=[...CAT.nodes].filter(n=>n.kind==='memory').sort((a,b)=>a.age_days-b.age_days||((indeg[b.id]||0)-(indeg[a.id]||0)))[0];
-if(fresh) select(fresh.id);
+// boot on the apex's most-echoed node (the canon peak)
+const apex=[...CAT.nodes].sort((a,b)=>(indeg[b.id]||0)-(indeg[a.id]||0))[0];
+if(apex) select(apex.id);
 </script>
 </body>
 </html>
