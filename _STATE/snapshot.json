@@ -1,9 +1,9 @@
 {
-  "captured_at": "2026-08-18T17:02:09Z",
+  "captured_at": "2026-08-18T19:32:46Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "b12349f",
-    "head_message": "content(build): ADR stat 59 -> 60 (ADR-065 minted) — tripwire-driven sync [NCI:SKIP]",
+    "head_sha": "2967232",
+    "head_message": "fix(F7): record true tip SHA 03e2439 in the kill receipt [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
@@ -15,7 +15,11 @@
       "_ARTIFACTS/hud-print-3.png",
       "_ARTIFACTS/hud-print-4.png",
       "_ARTIFACTS/hud-screen.png",
-      "_ARTIFACTS/ticket-shot.png"
+      "_ARTIFACTS/lou-atlas-shot.png",
+      "_ARTIFACTS/lou-spine-look-1.png",
+      "_ARTIFACTS/spine-look-1.png",
+      "_ARTIFACTS/ticket-shot.png",
+      "_STATE/witness/2026-08-18.jsonl"
     ]
   },
   "vercel": {
@@ -69,9 +73,9 @@
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
   "session_summary_v3340_germinate": "ARCS-private half of the germinate OSS build: canonized 'adam==atom'. ADR-053 (Tao of ARCS) + ADR-054 (free-to-hold/metered-to-fire). _CANON/Tao-of-ARCS.md + tao-247. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "session_summary": "v3.38.0 (2026-08-18): the self-cataloging arc end to end - memory_index_sync inchworm (hook-wired, frontmatter=SSOT, regex bugfix), memory_catalog_emit (183 nodes/590 declared edges), Terrain Atlas ziggurat (stratum=echo weight, camera orbit/tilt/track, russian-doll ticket export), doll_export/doll_sprout (User0->UserN+1, fail-closed audience gate, epoch stamps, 96-shell round-trip). ADR-065 minted via oracle (corpus=SSOT/induced projection; Infra Compass = ROM CANDIDATE 'Induced Projection') + tao-249. Merge reconcile (v3.37 renumber, PII repos re-privatized), 30-day sweep, memory consolidated 20.9->17.4KB. Tripwire caught ADR-065's own build.html drift - fixed surface, never --no-verify.",
-  "next_action": "Open: roll audience: frontmatter onto externally-cuttable memories; pg/pgvector migration ASK-FIRST (--emit-sql seam); ROM-ratify 'Induced Projection' when earned; Infra Compass L1-L5 synthesis + Activation rows unbuilt; lattice regenerate (human-owned); sweep leftovers (CWO pattern, F33, token-SSOT, marketplace-channel, release runbook). PRL still blocked on Todd (blocking_v3350_prl).",
-  "blocking": "NONE (this track). PRL track blocked on Todd - see blocking_v3350_prl.",
+  "session_summary": "v3.40.0 (2026-08-18, oracle-numbered): Investment Bank v1 (5 airgapped sweeps: drift-book/clients/jobs/product-OSS/folksonomy counter-pass) -> _ARTIFACTS/investment-bank-v1.md + drift-book.json. Scars priced as catalog nodes. Cheap-fix batch: PII repo private, germinate PARADOX reconciled, kelly rewrites cut, Prophet STALLED, clinical-AI memory minted, observatory branch KILLED (tip 03e2439 preserved), lattice 57->60. Merged to main + deployed: /scan/[scanId] live, atlases admin-gated at /warroom/*. Live GREEN witness: falsifier discipline = data-quality instrument. Memory index consolidated (1-1 OK). Prior halves: v3.38.0 self-cataloging arc, v3.37.0 Comet application (archived).",
+  "next_action": "Queue in _ARTIFACTS/investment-bank-v1.md: F3 = Zach's minutes (review USER_PROFILE.md in private scaffold -> 2 secrets + 3 tags ships ready-not-live trio); F6 job-loops.jsonl; F8 capability-parity inchworm; M1-M13 mints (W5 law, NCI:SKIP practice, ex-ante ledger rows, 60-Second Read, demote-dont-delete, M13 engagement-lineage->seedbank). Ask-firsts: audience: rollout, pg/pgvector. Field-notes draft in own session. PRL blocked on Todd.",
+  "blocking": "NONE (this track). PRL blocked on Todd - see blocking fields.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -205,7 +209,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-18T16:59:15Z",
+  "git_refreshed_at": "2026-08-18T19:14:06Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
