@@ -13,7 +13,7 @@ from pathlib import Path
 # Omakase / Louisville variant of the FieldOS design system (public/omakase/index.html tokens).
 # The omakase accent triad (red/gold/verm) IS the essay's braid — same three threads.
 TOKENS = {"bg": "#020408", "surface": "#0d1117", "border": "#1e293b", "text": "#e2e8f0",
-          "muted": "#94a3b8", "dimmed": "#64748b", "cyan": "#00F0FF", "green": "#00FF9D",
+          "muted": "#94a3b8", "dimmed": "#8593a6", "cyan": "#00F0FF", "green": "#00FF9D",
           "gold": "#FFD700", "red": "#FF4D6D", "verm": "#ff9d3c"}
 
 
@@ -56,13 +56,17 @@ def sparkline_svg(text):
     step, y = 118, 56
     W = step * (len(stops) - 1) + 80
     parts = [f'<line x1="40" y1="{y}" x2="{W-40}" y2="{y}" stroke="{TOKENS["border"]}" stroke-width="2"/>']
+    parts.insert(0, '<defs><filter id="underlit" x="-80%" y="-80%" width="260%" height="260%">'
+                    '<feDropShadow dx="0" dy="1.5" stdDeviation="3" flood-opacity="0.55"/></filter></defs>')
     for i, (label, cls) in enumerate(stops):
         x = 40 + i * step
         color = SPARK[cls]
         ly = 24 if i % 2 == 0 else 92
-        parts.append(f'<g><title>{i+1}. {h.escape(label)} ({SPARK_NAME[cls]})</title>'
+        anchor = "start" if i == 0 else ("end" if i == len(stops) - 1 else "middle")
+        glow = f'<circle cx="{x}" cy="{y+3}" r="9" fill="{color}" opacity="0.18" filter="url(#underlit)"/>'
+        parts.append(f'<g><title>{i+1}. {h.escape(label)} ({SPARK_NAME[cls]})</title>{glow}'
                      f'{_node(x, y, cls, color)}'
-                     f'<text x="{x}" y="{ly}" text-anchor="middle" font-family="ui-monospace,monospace" '
+                     f'<text x="{x}" y="{ly}" text-anchor="{anchor}" font-family="ui-monospace,monospace" '
                      f'font-size="10.5" fill="{TOKENS["muted"]}">{h.escape(label)}</text></g>')
     small = {c: _node(6, 6, c, SPARK[c]).replace('r="5.5"', 'r="4.5"') for c in ("r", "g", "v")}
     legend = " &nbsp; ".join(
@@ -90,11 +94,11 @@ def render(md: str) -> str:
         if b == "---":
             out.append(f'<hr style="border:none;border-top:1px solid {TOKENS["border"]};margin:2.5em 0">')
         elif b.startswith("# "):
-            out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-family:ui-monospace,monospace;color:{TOKENS["cyan"]}">{inline(b[2:])}</p>')
+            out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:ui-monospace,monospace;color:{TOKENS["cyan"]}">{inline(b[2:])}</p>')
         elif b.startswith("## ") and not out or b.startswith("## ") and len([x for x in out if "<h1" in x]) == 0:
-            out.append(f'<h1 style="margin:0 0 1.2em;font-size:2rem;line-height:1.25;color:{TOKENS["text"]}">{inline(b[3:])}</h1>')
+            out.append(f'<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,2.6rem);line-height:1.2;letter-spacing:-0.02em;font-weight:600;color:{TOKENS["text"]}">{inline(b[3:])}</h1>')
         elif b.startswith("## "):
-            out.append(f'<h2 style="margin:2.2em 0 .8em;font-size:1.3rem;color:{TOKENS["text"]}">{inline(b[3:])}</h2>')
+            out.append(f'<h2 style="margin:2.2em 0 .8em;font-size:1.375rem;font-weight:600;color:{TOKENS["text"]}">{inline(b[3:])}</h2>')
             if "braid" in b.lower():
                 out.append(BRAID)
         elif b.startswith("— *Sparkline:"):
@@ -129,7 +133,7 @@ def ladder(dst_name: str) -> str:
         else f'<a style="color:{TOKENS["cyan"]};text-decoration:none" href="{href}">{label}</a>'
         for t, label, href in tiers)
     return (f'<nav style="margin:0 0 2.2em;padding:.55em .9em;background:{TOKENS["surface"]};'
-            f'border:1px solid {TOKENS["border"]};border-radius:6px;font-family:ui-monospace,monospace;'
+            f'border:1px solid {TOKENS["border"]};border-radius:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.4);font-family:ui-monospace,monospace;'
             f'font-size:.78rem;color:{TOKENS["muted"]}">depth: {links}</nav>')
 
 
@@ -145,9 +149,13 @@ PAGE = """<!doctype html>
   a:hover {{ color: {text}; }}
   a:focus-visible {{ outline: 2px solid {cyan}; outline-offset: 2px; border-radius: 2px; }}
   ::selection {{ background: rgba(0,240,255,.25); }}
-  .aside, .plain {{ margin: 1.4em 0; padding: .95em 1.15em; background: {surface};
-    border: 1px solid {border}; border-radius: 6px; font-style: italic; color: {muted}; line-height: 1.7; }}
-  .plain {{ border-color: rgba(0,255,157,.28); background: rgba(0,255,157,.04); }}
+  .aside, .plain {{ margin: 1.4em 0; padding: 1em 1.2em; border-radius: 10px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), {surface};
+    border: 1px solid {border};
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+    font-style: italic; color: {muted}; line-height: 1.7; }}
+  .plain {{ border-color: rgba(0,255,157,.22);
+    background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), {surface}; }}
   .stitch {{ margin: 1.5em 0; font-family: ui-monospace, monospace; font-size: .82rem;
     color: {muted}; letter-spacing: .01em; }}
   nav a {{ text-decoration: none; }}
