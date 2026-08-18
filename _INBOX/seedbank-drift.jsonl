@@ -11,3 +11,11 @@
 {"ts": "2026-08-17", "check": "seedbank-drift", "index_rows": 13, "ledger_rows": 39, "stale_days": 2, "drifted": 1, "findings": [{"claim": "coverage-gap", "drift": true, "detail": "account has 15 public repos; 10 catalogued"}], "regenerated": false}
 {"ts": "2026-08-17", "check": "seedbank-drift", "index_rows": 13, "ledger_rows": 39, "stale_days": 2, "drifted": 1, "findings": [{"claim": "coverage-gap", "drift": true, "detail": "account has 15 public repos; 10 catalogued"}], "regenerated": false}
 {"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 13, "ledger_rows": 39, "stale_days": 3, "drifted": 1, "findings": [{"claim": "coverage-gap", "drift": true, "detail": "account has 15 public repos; 10 catalogued"}], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
+{"ts": "2026-08-18", "check": "seedbank-drift", "index_rows": 20, "ledger_rows": 46, "stale_days": 1, "drifted": 0, "findings": [], "regenerated": false}
