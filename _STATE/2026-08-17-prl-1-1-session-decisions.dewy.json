@@ -167,6 +167,26 @@
       "mode": "STANDARD",
       "adr": null,
       "artifact": "_ARTIFACTS/prl-1-1-evidence/2026-08-18-zapier-copilot-brief.md"
+    },
+    {
+      "receipt_id": "2026-08-18-real-wp-staging-test-confirms-1.1-1.2-chatbot-leg-closed",
+      "surface": "PRL / Tidio -> Sugar delivery leg (1.1/1.2 chatbot-only scope)",
+      "sharp_question": "The last gap in the bar-raiser closure was a real (non-synthetic) conversation through WP staging, not a Zapier step-test replay. Does a genuine end-to-end run confirm the fixes hold outside the test harness?",
+      "dewy_vector": {
+        "D": "Yes. Real WP staging conversation produced Sugar Lead 435cee66-9b40-11f1-9cd7-02309379545d (2026-08-18 20:06:13 UTC), independently read (not self-reported): first_name/last_name split cleanly with real data ('Zach'/'Harris'), location_c correctly parsed to 'CT' (a real code, not the CA fallback), description carries the audit trail correctly showing 'State parse: False | raw input: \"CT\"' (False = parsed successfully, confirming the audit trail is symmetric and not just a failure-path artifact), lead_source='Chatbot' as intended. This is the first non-synthetic, non-replay record to complete the chain -- everything before this was either a Zapier step-test or Faker-generated data. 1.1/1.2 chatbot-only scope is now verified end-to-end in staging/sandbox.",
+        "E": "PRL / Todd, Tidio (live sandbox flow), Zapier (series_376761228), Sugar sandbox",
+        "W": "Closed for staging/sandbox. Production cutover remains separately gated (Bill's routing call, prod Chatbot enum, auth repoint) -- untouched, per explicit staging-only scope this session.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "A test harness passing is not the same claim as the real system working -- the bar-raiser protocol's final gate was always the untestable-by-proxy case, and it held.",
+      "why": "Closes the last open item from the 2026-08-18 Zap-publish receipt. 1.1/1.2 (chatbot -> Sugar delivery) is now genuinely done, not just published-and-hoped.",
+      "loki": "Low -- independent Sugar read, real conversation, real data.",
+      "bar": "Low, staging/sandbox scope fully satisfied.",
+      "horizon": "DURABLE for this scope. Production repoint is the next, separately-gated phase.",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": null
     }
   ]
 }
