@@ -32,6 +32,54 @@ def inline(s: str) -> str:
     return s
 
 
+SPARK = {"r": "#FF4D6D", "g": "#FFD700", "v": "#FF6B2C"}  # verm stepped from #ff9d3c for dE (dataviz-validated)
+SPARK_NAME = {"r": "red · gates", "g": "gold · assets", "v": "vermillion · fusion"}
+
+
+def _node(x, y, cls, color):
+    if cls == "r":   # diamond
+        return f'<path d="M{x} {y-6} L{x+6} {y} L{x} {y+6} L{x-6} {y} Z" fill="{color}"/>'
+    if cls == "v":   # square
+        return f'<rect x="{x-5}" y="{y-5}" width="10" height="10" fill="{color}"/>'
+    return f'<circle cx="{x}" cy="{y}" r="5.5" fill="{color}"/>'
+
+
+def sparkline_svg(text):
+    text = re.sub(r"^.*?Sparkline:\s*", "", text)
+    stops = []
+    for part in text.split("\u2192"):
+        m = re.search(r"(.+?)\s*\^([rgv])\s*$", part.strip().rstrip(".*"))
+        if m:
+            stops.append((m.group(1).strip(), m.group(2)))
+    if not stops:
+        return None
+    step, y = 118, 56
+    W = step * (len(stops) - 1) + 80
+    parts = [f'<line x1="40" y1="{y}" x2="{W-40}" y2="{y}" stroke="{TOKENS["border"]}" stroke-width="2"/>']
+    for i, (label, cls) in enumerate(stops):
+        x = 40 + i * step
+        color = SPARK[cls]
+        ly = 24 if i % 2 == 0 else 92
+        parts.append(f'<g><title>{i+1}. {h.escape(label)} ({SPARK_NAME[cls]})</title>'
+                     f'{_node(x, y, cls, color)}'
+                     f'<text x="{x}" y="{ly}" text-anchor="middle" font-family="ui-monospace,monospace" '
+                     f'font-size="10.5" fill="{TOKENS["muted"]}">{h.escape(label)}</text></g>')
+    small = {c: _node(6, 6, c, SPARK[c]).replace('r="5.5"', 'r="4.5"') for c in ("r", "g", "v")}
+    legend = " &nbsp; ".join(
+        f'<svg width="12" height="12" viewBox="0 0 12 12" style="vertical-align:-1px">{small[c]}</svg> {SPARK_NAME[c]}'
+        for c in ("r", "g", "v"))
+    return (f'<figure style="margin:2.2em 0 1.6em" role="img" aria-label="Invention sparkline: {len(stops)} stops from cold DM to witnessed law">'
+            f'<div style="overflow-x:auto;padding-bottom:4px;scrollbar-color:#1e293b #020408"><svg width="{W}" height="112" viewBox="0 0 {W} 112" '
+            f'font-family="ui-monospace,monospace">{"".join(parts)}</svg></div>'
+            f'<figcaption class="stitch" style="margin-top:.4em">{legend}</figcaption></figure>')
+
+
+BRAID = ('<svg width="200" height="36" viewBox="0 0 200 36" aria-hidden="true" style="display:block;margin:.2em 0 1.2em">'
+         f'<path d="M4 8 C 60 8, 80 28, 130 28 S 190 18, 196 18" stroke="{SPARK["r"]}" stroke-width="2.5" fill="none" opacity=".9"/>'
+         f'<path d="M4 18 C 60 18, 80 8, 130 8 S 190 18, 196 18" stroke="{SPARK["g"]}" stroke-width="2.5" fill="none" opacity=".9"/>'
+         f'<path d="M4 28 C 60 28, 80 18, 130 18 S 190 18, 196 18" stroke="{SPARK["v"]}" stroke-width="2.5" fill="none" opacity=".9"/></svg>')
+
+
 def render(md: str) -> str:
     out = []
     P = 'style="margin:0 0 1.15em;line-height:1.75"'
@@ -47,6 +95,11 @@ def render(md: str) -> str:
             out.append(f'<h1 style="margin:0 0 1.2em;font-size:2rem;line-height:1.25;color:{TOKENS["text"]}">{inline(b[3:])}</h1>')
         elif b.startswith("## "):
             out.append(f'<h2 style="margin:2.2em 0 .8em;font-size:1.3rem;color:{TOKENS["text"]}">{inline(b[3:])}</h2>')
+            if "braid" in b.lower():
+                out.append(BRAID)
+        elif b.startswith("— *Sparkline:"):
+            svg = sparkline_svg(b)
+            out.append(svg if svg else f"<p {P}>{inline(b)}</p>")
         elif b.startswith("— *"):
             color = TOKENS["red"] if "Red" in b[:14] else TOKENS["gold"] if "Gold" in b[:14] else TOKENS["verm"]
             out.append(f'<p class="stitch"><span style="color:{color}" aria-hidden="true">&#9473;&#9473;</span> {inline(b[2:])}</p>')

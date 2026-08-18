@@ -21,4 +21,4 @@ Three lessons I'm keeping: receipts or it didn't happen, because the easiest per
 
 The tool that started it all is free: <a href="https://resume-tailor.arcs.care/">resume-tailor.arcs.care</a>. The full field notes, failures included, are one level deeper.
 
-— *Sparkline: cold DM → smoke test → 2-minute run → gauntlet → application sent → offshoots harvested → self-filing index → citation pyramid → travel bundles + gate → storage doctrine → self-audit → this essay → depth ladder → page renderer → provenance manifest → the law, witnessed.*
+— *Sparkline: cold DM ^r → smoke test ^r → 2-minute run ^g → gauntlet ^r → application sent ^g → offshoots harvested ^g → self-filing index ^g → citation pyramid ^g → travel bundles + gate ^r → storage doctrine ^g → self-audit ^v → this essay ^g → depth ladder ^g → page renderer ^g → provenance manifest ^g → the law, witnessed ^v.*
