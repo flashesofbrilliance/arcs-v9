@@ -106,6 +106,26 @@
       "mode": "STANDARD",
       "adr": null,
       "commits": ["99548c3", "a67c558", "533487e"]
+    },
+    {
+      "receipt_id": "2026-08-18-tidio-delivery-leg-uses-zapier-catch-hook-not-api-node",
+      "surface": "PRL / Tidio -> Sugar delivery mechanism (1.1/1.2 chatbot-only scope)",
+      "sharp_question": "Tidio's delivery leg was left open as 'API-call node (per prior research) vs. Zapier Catch Hook' — which one is actually buildable on PRL's current Tidio plan?",
+      "dewy_vector": {
+        "D": "Zapier Catch Hook. Confirmed by the client: PRL's Tidio account is not Pro/Growth tier, so Tidio's webhook/API-call node is not available on this plan. The prior 'API-call node should work per prior research' note was wrong for this account's actual tier and is superseded. This means the flows already imported/merged into this repo (runtime/recoil/generated/prl-lyro/tidio-flows/) will need manual modification to add a Zapier Catch Hook trigger step, and since no MCP tool creates a standing Catch Hook (trigger+public URL+action) headlessly, that hook has to be set up once, manually, in the Zapier web UI before the flow can call it.",
+        "E": "Todd/PRL Tidio account (plan-tier constraint), Zapier (manual one-time Catch Hook setup), next session (executes the flow edit)",
+        "W": "Blocks the 1.1/1.2 delivery-leg build until the Catch Hook exists — this is now the first concrete step of next session, not an open question.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Confirm plan-tier/feature availability against the actual account before designing a delivery mechanism around it — 'should work per prior research' is not the same as verified for this specific account.",
+      "why": "Would have wasted the next session's build time attempting to wire a Tidio API-call node that doesn't exist on this plan; now the correct mechanism (Catch Hook) is locked in before that session starts.",
+      "loki": "Low — this is a direct account-tier fact from the client, not inference.",
+      "bar": "Low.",
+      "horizon": "Resolves once the Catch Hook is manually created and wired into the imported flow.",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": null
     }
   ]
 }
