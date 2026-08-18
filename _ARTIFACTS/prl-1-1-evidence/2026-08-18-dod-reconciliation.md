@@ -38,6 +38,32 @@ Correct the plan so nobody follows it literally.
 - 1.2-A web forms — payment-gated (invoice #NYQRTJPQ-0004 open as of today).
 - Phase discrepancy: client-facing receipt puts enrichment in 1.2; internal sprint doc says 1.3 and calls ZoomInfo "already paid, unused." Reconcile which phase owns it before any Todd-facing "1.2 done" claim.
 
+## Eval process, documented (so this stops being re-derived)
+Two suites, different natures — don't conflate them:
+- **Layer 0 (scripted, free, automated):** from `runtime/recoil/generated/prl-lyro/`:
+  `python3 normalization/normalize.py && python3 coverage_sweep.py && python3 full_grid_sweep.py && python3 simulate_lead_e2e.py`.
+  Covers 895 competitor keys / 150 grades / 50 states / 22,500-case grid / 64 field-gate
+  permutations. Green as of the 2026-08-17 merge. Re-run before ANY dictionary/flow change —
+  this is the "800+ combinations" suite, and it's already fully documented + runnable.
+- **Layer 1 (manual, model-in-the-loop):** 80 cases x3 runs against LIVE Lyro. Cannot be
+  scripted on the current Tidio plan (no API access) — process is: `python3 prl_lyro_eval.py
+  --emit evals.csv --csv`, paste each case into Tidio -> Lyro -> Playground (sandbox, doesn't
+  burn quota), record replies to `responses.json`, score with `--score`. Hard gate: zero
+  critical failures, no flaky cases. STATUS: harness exists and is documented; no run recorded
+  against the currently-live guidance. This row's open item is a RUN (human, ~1-2 hrs), not
+  missing tooling.
+
+**Quota discipline (don't burn account limits testing):**
+- Layer 1 runs in Tidio's PLAYGROUND — per the test plan it does NOT consume the 50/mo Lyro
+  conversation quota. Never run Layer 1 cases as real widget chats.
+- Real staging chats DO consume: a Lyro conversation each + Zapier tasks per Zap run (each
+  chat now fires up to ~8 task steps in Zap 376827315 incl. ZoomInfo enrichment, which also
+  burns a ZoomInfo credit per lookup). Keep live acceptance chats to the planned minimum
+  (2 dedup tests + 2 extra states = 4 total), don't freestyle-test in the widget.
+- Sugar API reads via the Zapier MCP are effectively free at our volume — verify via reads,
+  not by generating more test leads. Batch verification into one read per checkpoint, not one
+  read per question.
+
 ## What "1.1/1.2 honestly done" requires from here (cheapest order)
 1. Fetch `assigned_user_name` on lead 435cee66 (free, next read).
 2. Run the 2 pending Zap acceptance chats + 2 extra states (4 staging chats total, ~10 min human time).

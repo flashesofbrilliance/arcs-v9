@@ -78,7 +78,7 @@ const nextConfig: NextConfig = {
         // the todd-call convention above; add a new segment name here + the matching html file,
         // never a new rule object). Only "crm" exists today (2026-08-17); tidio/wp/troubleshooting/
         // build are reserved names, not yet built.
-        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // prl.arcs.care (everything else) → public/todd-call.html (memorable alias to the same SSOT
         // proposal/status page). Excludes on the REWRITTEN destination substring ("prl-status-"),
         // not the original path ("status/") — beforeFiles re-runs on a second pass against the
