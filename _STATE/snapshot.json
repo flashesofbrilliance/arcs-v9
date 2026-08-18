@@ -1,13 +1,21 @@
 {
-  "captured_at": "2026-08-13T17:22:06Z",
+  "captured_at": "2026-08-18T17:02:09Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "a442da1",
-    "head_message": "feat(prl): add Vercel Web Analytics to both PRL status pages",
-    "in_sync_with_origin": true,
+    "head_sha": "b12349f",
+    "head_message": "content(build): ADR stat 59 -> 60 (ADR-065 minted) — tripwire-driven sync [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
-      "_INBOX/seedbank-drift.jsonl"
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/snapshot.json",
+      "_ARTIFACTS/atlas-shot.png",
+      "_ARTIFACTS/hud-print-1.png",
+      "_ARTIFACTS/hud-print-2.png",
+      "_ARTIFACTS/hud-print-3.png",
+      "_ARTIFACTS/hud-print-4.png",
+      "_ARTIFACTS/hud-screen.png",
+      "_ARTIFACTS/ticket-shot.png"
     ]
   },
   "vercel": {
@@ -60,9 +68,10 @@
   "nci_counter": 247,
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
-  "session_summary": "PRL 1.1 landing session. Merged prior unmerged branch's capture-first Tidio flows + Layer-0 test suite (22,500-case recognizer, all pass) into main. Mechanically proved the LIVE Tidio flow has zero variable binding + zero delivery node (promises a callback it cannot fulfill). Ran a full 43-state sandbox routing sweep against Sugar: ~49% mismatch vs the territory-map CSV, 2 active reps (Dan Damas, Tim Mulcahy) missing from the list entirely, Distribution category corresponds to no real Sugar rule, 6 states + 7 out-of-enum states land unassigned. Resolved a location_c format contradiction (abbreviation, not full-name) with live evidence. Diagnosed the Gravity-Forms-does-not-deliver-to-Sugar root cause (never wired to Sugar at all, separate from the Barracuda email-quarantine issue Jorge partially fixed) and proposed the native Web-to-Lead fix. Stood up prl.arcs.care/status/<seg> as a durable URL family (crm, troubleshooting live; tidio/wp/build reserved) — hit and fixed the documented beforeFiles re-catch bug class (MULTI_PATH_MAP in proxy.ts as primary, next.config.ts regex as backstop, same shape as todd-call/julia). Added Vercel Web Analytics to both static pages (layout.tsx's <Analytics/> never reaches public/ files). Drafted (not sent) two Gmail drafts for Todd and one mailto for Todd->Bill; Todd sent his two emails + a text to Bill during the session.",
-  "next_action": "Waiting on Todd: (1) his nod + Bill call on CRM routing (mismatch table + agenda live at prl.arcs.care/status/crm), (2) go-ahead on the Web-to-Lead form fix before Jorge/Josh get looped in (prl.arcs.care/status/troubleshooting), (3) the negative-keyword/anti-ICP list he still owes (separate, lower urgency). Nothing to build until one of those lands. Once Todd approves the Web-to-Lead approach: generate the snippet from Sugar Studio, sandbox-test before touching the live site, then draft the Jorge/Josh handoff (not yet written).",
-  "blocking": "Todd's response on both status pages — no build work until he replies.",
+  "session_summary_v3340_germinate": "ARCS-private half of the germinate OSS build: canonized 'adam==atom'. ADR-053 (Tao of ARCS) + ADR-054 (free-to-hold/metered-to-fire). _CANON/Tao-of-ARCS.md + tao-247. PR #136 MERGED to main. Nothing written to ~/germinate.",
+  "session_summary": "v3.38.0 (2026-08-18): the self-cataloging arc end to end - memory_index_sync inchworm (hook-wired, frontmatter=SSOT, regex bugfix), memory_catalog_emit (183 nodes/590 declared edges), Terrain Atlas ziggurat (stratum=echo weight, camera orbit/tilt/track, russian-doll ticket export), doll_export/doll_sprout (User0->UserN+1, fail-closed audience gate, epoch stamps, 96-shell round-trip). ADR-065 minted via oracle (corpus=SSOT/induced projection; Infra Compass = ROM CANDIDATE 'Induced Projection') + tao-249. Merge reconcile (v3.37 renumber, PII repos re-privatized), 30-day sweep, memory consolidated 20.9->17.4KB. Tripwire caught ADR-065's own build.html drift - fixed surface, never --no-verify.",
+  "next_action": "Open: roll audience: frontmatter onto externally-cuttable memories; pg/pgvector migration ASK-FIRST (--emit-sql seam); ROM-ratify 'Induced Projection' when earned; Infra Compass L1-L5 synthesis + Activation rows unbuilt; lattice regenerate (human-owned); sweep leftovers (CWO pattern, F33, token-SSOT, marketplace-channel, release runbook). PRL still blocked on Todd (blocking_v3350_prl).",
+  "blocking": "NONE (this track). PRL track blocked on Todd - see blocking_v3350_prl.",
   "memory_shards": {
     "location": "_MEMORY/",
     "_note": "Git-tracked product intelligence. Moved here 2026-07-08 per Bar-Raiser Flag 2 — ~/.claude/projects/ is machine-local; cloud sessions cannot see it.",
@@ -196,7 +205,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-17T17:25:00Z",
+  "git_refreshed_at": "2026-08-18T16:59:15Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
@@ -248,5 +257,8 @@
     "last_updated": "2026-07-21"
   },
   "session_summary_v3341": "ARCS-private half of the germinate OSS build: canonized the genesis 'adam==atom' doctrine. ADR-053 (Tao of ARCS: seed=dormant potential / ARCS=vox animus; open germinate <-> private ARCS boundary, one seam four faces; moat is the spark) + ADR-054 (free-to-hold/metered-to-fire pricing; bill per activation; token fork DECIDED metaphorical-now, on-chain deferred, Y=YELLOW). _CANON/Tao-of-ARCS.md + tao-247 + activation<->kairos sketch + 2 DEWY receipts. Housekeeping: backfilled ADR-050/051/052 into index.json, advanced lattice 44->51. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "next_action_v3341": "germinate remains built/MIT/committed-local but NOT published (owner-gated) — do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra."
+  "next_action_v3341": "germinate remains built/MIT/committed-local but NOT published (owner-gated) — do not publish without explicit authorization. ARCS-side backlog now designed-not-built: (1) the ARCS activation service (vox animus / ripeness judgment), (2) public-good #2 'kairos' (conditional cron), boundary sketched in _STATE/2026-08-13-activation-service-kairos-sketch.md. ADR-054 care-note: validate willingness-to-pay for the ride (ripeness/Kairos activation), NOT the bank, before hardening prices or building billing infra.",
+  "session_summary_v3350_prl": "PRL 1.1 landing session (main's v3.35.0). Merged capture-first Tidio flows + Layer-0 test suite (22,500-case recognizer, all pass). Proved LIVE Tidio flow has zero variable binding + zero delivery node. 43-state sandbox routing sweep vs Sugar: ~49% mismatch, 2 active reps missing, Distribution maps to no real rule, 6+7 states land unassigned. Diagnosed Gravity-Forms-never-wired-to-Sugar; proposed native Web-to-Lead. Stood up prl.arcs.care/status/<seg> family (crm, troubleshooting live); fixed the beforeFiles re-catch bug class; added Vercel Web Analytics to both static pages.",
+  "next_action_v3350_prl": "Waiting on Todd: (1) nod + Bill call on CRM routing (prl.arcs.care/status/crm), (2) go-ahead on Web-to-Lead before Jorge/Josh loop-in, (3) negative-keyword list. Once approved: generate snippet from Sugar Studio, sandbox-test, draft Jorge/Josh handoff.",
+  "blocking_v3350_prl": "Todd's response on both status pages - no PRL build work until he replies."
 }

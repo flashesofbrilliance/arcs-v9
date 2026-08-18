@@ -103,7 +103,11 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.37.0 (2026-08-18)
+# Handoff — v3.39.0 (2026-08-18)
+
+> Minted on main as v3.37.0; renumbered at merge — the SECOND v3.37.0 collision
+> (Comet holds v3.37.0 on this branch). Handoff numbers are now oracle-governed
+> (`scripts/oracle.py next handoff`) to end this collision class.
 
 > **Active pickup point.** Continuation of PRL 1.1: Todd approved the web-forms approach in
 > writing (Aug 17, 19:32 reply — "Makes total sense... it's how the leads from the PPC landing
@@ -198,65 +202,142 @@ Todd's invoice payment should gate starting Addendum 1.2-A work.
 
 ---
 
-# Handoff — v3.36.0 (2026-08-17)
+# Handoff — v3.38.0 (2026-08-18)
 
-> **Active pickup point.** Family public-surface reconcile: good / build / lab / playground are
-> now four renders of one `_SEEDS` bank, guarded by a drift tripwire wired into pre-push. On
-> `main` (head `704a9be`), deployed + curl-verified live. Separate track from v3.35.0 (PRL/Todd).
+> **Active pickup point.** The self-cataloging arc, end to end in one thread:
+> inchworm → catalog → atlas → dolls → doctrine. The corpus now indexes itself,
+> renders itself, polices itself, and travels.
 
-## Headline: one seed bank, four family surfaces, a tripwire that won't let them drift
+## Headline: the memory corpus became a self-cataloging, navigable, portable system — and canonized how it stores itself
 
-good.arcs.care and build.arcs.care had drifted from the repo roster and from each other (build
-omitted rosetta-shell/resume-tailor that good featured; ADR count frozen at 55). Reconciled both,
-then made the fix structural instead of cosmetic:
+- **Self-cataloging index** — `scripts/memory_index_sync.py` (session-start hook, `--append`):
+  orphan memory files auto-catalog into an "Uncurated (auto)" band rendered from their own
+  frontmatter `description` (the SSOT inversion). Fixed the old inline check's regex bug
+  (dotted filenames false-positived ORPHAN forever). Dead links + byte budget stay
+  receipt-only. Index consolidated 20.9→17.4KB, 0 dropped, 0 dead links.
+- **Catalog emitter** — `scripts/memory_catalog_emit.py`: mechanical, declared-edges-only
+  backfill (183 nodes, 590 `[[wiki-link]]` edges, 22 dangling counted honestly).
+- **Terrain Atlas** — `_ARTIFACTS/terrain-atlas.html`: 2.5D ziggurat where **stratum = echo
+  weight** (base uncited → apex canon 10+), fog = staleness, district = azimuth; arrow-key
+  traversal climbs the strongest declared edge; full camera (orbit/tilt/track, presets);
+  per-node **russian-doll nested-ticket export** (cycles = `@ref`, never invented hierarchy).
+  The apex self-identified: `cut-not-add-provable-architecture`, cited ×21.
+- **Dolls (User0 → UserN+1)** — `scripts/doll_export.py` + `doll_sprout.py`: epoch-stamped
+  declared-closure bundles, `--bodies` for true tenant bootstrap, **fail-closed air-gap gate**
+  (`audience:` absent = internal; external cuts name what they held). Sprout never overwrites;
+  the tenant's inchworm self-catalogs. Round-trip tested (96 shells w/ bodies).
+- **ADR-065 minted via oracle** (+ **tao-249**, aspect C): corpus = SSOT, storage = induced
+  projection, 4 serialization invariants, namespace isolation, **Infra Compass = ROM CANDIDATE**
+  ("Induced Projection"; Y-map evidenced by this session's own FORK/PARADOX/DRIFT).
+- **Merge reconcile**: 27 commits behind main resolved; three-way v3.35.0 handoff collision
+  renumbered honestly (ours → v3.37.0); PII repos (`arcs-memory-pipeline`, `arcs-career-fit`)
+  **re-privatized** per their own "pending review" descriptions (a live PARADOX, closed).
+  30-day sweep ran; gauntlet-sampling-engine + dollar-compression minted to memory.
+- **The system ratified itself**: the pre-push tripwire rejected the ADR-065 push because
+  build.html still said 59 ADRs — the drift the mint itself created. Fixed the surface
+  (never `--no-verify`), pushed clean. The Infra Compass worked before it was built.
 
-- **good.arcs.care** — added the family install band (the invisible-until-now `arcs-skills`
-  marketplace one-liner + `brew tap flashesofbrilliance/tap` + npm). Tightened "coming soon" to the
-  honest "repo public · package install pending" — blindsat/linkedin pip is genuinely not live
-  (verified in `distribution.jsonl`); the earlier "not yet published" read as drift but wasn't.
-- **build.arcs.care** — goods rail reconciled to 9 (added rosetta-shell + resume-tailor, tier-A
-  first); ADR 55→59, goods 7→9; new live **"Board"** band (shipped / in-progress / next / blocked)
-  rendered from the *existing* `/api/pulse` issues payload — zero new backend — plus a latest-
-  decisions ADR strip (ADRs named, not linked: arcs-v9 is private).
-- **Playground folded into the bank** — the 4 performers (12d-orbital / knowledge-lattice /
-  alexandria / moire) are now `seed_type=performer` rows in `_SEEDS/index.jsonl` (+ledger receipts).
-  Playground was the one surface living *outside* `_SEEDS`; now germinate's seed format is the shared
-  substrate across all four. `seedbank_drift_check.py` counts `seed_type==repo`, so these don't skew it.
-- **`scripts/sync_family_roster.py`** — the four-surface tripwire. `--check` exits 1 when any surface
-  disagrees with the bank, the playground routing enum (`next.config.ts`), or the ADR/goods/lab counts.
-  Emits `public/family-roster.json`. **Wired into `.git/hooks/pre-push`** before the build (fail-fast,
-  guarded to no-op on branches without it). Negative-tested — it does fail on injected drift.
+## Wisdom receipt (the durable lessons, distilled)
 
-## Architecture to carry forward
-One bank → four renders: **good/build** = published goods (`distribution.jsonl`, live channels); **lab**
-= `lab_candidate ∈ {ripe,maybe,poc}` (`index.jsonl`); **playground** = `seed_type=performer` (cross-checked
-vs the next.config routing enum). The pages are still hand-authored HTML *audited against* the bank —
-NOT yet *rendering from* `family-roster.json` at runtime. A client-side fetch would be swallowed by the
-subdomain host-catch-all rewrites (same trap `sync_family_tokens.py` notes). So "single source" today =
-single-source-of-truth-for-the-auditor, not literal render. Closing that is an open loop below.
+1. **Invert the index**: when a file's frontmatter IS the SSOT for its index line, cataloging
+   becomes mechanical and new knowledge can never silently fall out of the index.
+2. **Declared-only edges are the honesty floor for provenance**: absent ancestry stays absent;
+   a guessed edge is the propaganda version of lineage. (Held everywhere: catalog, atlas,
+   tickets, dolls, ADR-065 invariant 3.)
+3. **The NOTOMATION split scales every inchworm**: mechanical countables automate
+   (append, emit, count); judgment (curation, canon, RED response) stays human. The same
+   cut worked for the index, the seedbank, the snapshot, and the compass design.
+4. **Let the data make the shape**: the ziggurat's pyramid wasn't designed — it emerged from
+   the citation distribution, and its apex independently surfaced the corpus's own governing
+   goal (`cut-not-add`, ×21). Render the structure; don't impose it.
+5. **Fail closed at every boundary**: `audience:` absent = internal; PARADOX resolves to the
+   restrictive assertion + a receipt (the ROM RC). The air-gap gate refused 100% on first
+   run — that's the gate working, not failing.
+6. **Dollar compression in practice**: ~350 lines of stdlib authored once, zero LLM in any
+   runtime path — export/sprout/emit/check run free forever.
+7. **A gate that catches its own minting commit is the proof the gate is real** (tripwire vs
+   ADR-065's own drift).
 
-## Next / open flags (all verified this session)
-- **`resume-tailor-skill` is in `distribution.jsonl` but NOT in `index.jsonl`** as a repo seed — the
-  reference connector tool is missing from the seed index. The two catalogs disagree; add the row.
-- **Coverage-gap, 5 uncatalogued** (`distribution.jsonl`): `resume-tailor-skill`, `arcs-skills` (the
-  marketplace), `homebrew-tap` (the tap), `arcs-career-fit`, `arcs-memory-pipeline`. Profile repo = legit skip.
-- **`arcs-memory-pipeline` + `arcs-career-fit` are PUBLIC but described "Private pending review."** Desc
-  claims "synthetic fixtures, no personal data," yet visibility contradicts the description. Confirm
-  intended-public and fix the stale clause, or flip private. Honesty/privacy loop, given this session's theme.
-- **lab.arcs.care has no route** — lab is a build.html section marked "not yet" (intentional). A real
-  lab.arcs.care (the lab-mint factory) is unbuilt.
-- **Make the pages render from `family-roster.json`** to go from audited-consistency to literal single-
-  source — but solve the host-rewrite-swallow first (an `app.arcs.care/api/roster` endpoint, like `/api/pulse`).
+## Next / open flags
+- Roll `audience:` frontmatter onto any memory that would ever be cut externally (gate is
+  fail-closed until then — correct but total).
+- pg/pgvector migration (**ask-first** per ADR-065); `--emit-sql` on the emitter is the seam.
+- ROM ratification of "Induced Projection" when earned; Infra Compass L1–L5 synthesis unbuilt.
+- Origin-session / cross-session echo enrichment (`Activation` rows) — designed, not built.
+- lattice-drift still fires (ADR count 57 vs 60; epoch stale) — regenerate is human-owned.
+- Sweep leftovers unminted: CWO pattern, status-URL gotcha, F33 panel-as-plan-breaker,
+  family token-SSOT, marketplace-as-channel, release runbook.
+- **Apex Spine → Alexandria**: `_ARTIFACTS/apex-spine.html` (the S4 canon stratum as a print
+  spine, 14 vertebrae) is a candidate resident for the **center reading room of the Library
+  of Alexandria** performer (`_ARTIFACTS/arcs-alexandria.html`) — the corpus's load-bearing
+  canon displayed at the library's heart. Placement idea, not yet integrated.
 
 ## Blocking
-NONE for this track. (v3.35.0 PRL track remains blocked on Todd — unrelated.)
+NONE this track. (PRL remains blocked on Todd — see snapshot `blocking_v3350_prl`.)
 
 ## Deploy note
-Commit `704a9be` pushed straight to `main` from this worktree; pre-push hook ran the new tripwire +
-`npm run build` (no `--no-verify`). Both surfaces confirmed live via `curl` (good marketplace band; build
-"9 goods live" + Board + `x-matched-path: /build.html`, cache HIT) before reporting done — the
-verification bar for static-route changes.
+All work pushed to `claude/plugin-marketplace-arcs-skills-9622bd` (head `b12349f` pre-handoff);
+one public-surface content change (build.html ADR stat 59→60) rode the tripwire-gated push.
+No product deploy. Comet application: SENT (see v3.37.0).
 
 ---
 
-> _v3.35.0 (PRL routing ground-truth) and earlier relocated to `_ARCHIVE/handoffs.md` on 2026-08-18._
+# Handoff — v3.37.0 (2026-08-17)
+
+> Minted in-session as v3.35.0; renumbered at merge — main had already minted its own v3.35.0 (PRL)
+> and v3.36.0 (family surfaces) in parallel. Same collision class ADR-057's oracle governs.
+
+> **Active pickup point.** A resume-tailoring session for Zach that became a live demonstration of
+> **ATG (Adjacent Tributary Generation)**: a bounded deliverable threw off reusable offshoots. No
+> arcs-v9 code touched; the skill work pushed to a separate public repo.
+
+## Headline: tailored the Comet Technical PMM application end-to-end, and the method became a shipped skill
+
+Built Zach's application for **Comet — Technical Product Marketing Manager** (reports to VP Marketing
+Hannah Klemme) in `_ARTIFACTS/resume-comet/`: a print-safe designed résumé (2pp), an ATS-plain
+companion, a matching cover letter, and the honesty-graded `competency-model.json` SSOT. Voice tuned
+from Zach's LinkedIn export (Shares/Comments/Recommendations). Centerpiece: an **orthogonal echo** —
+his open-source `token-savings-bank` independently works the same problem as Opik's AI Spend Tracker,
+reframed honestly to *reduction-side vs observability-side* after the gauntlet caught the category
+error. Framing locked as **builder-who-markets**, not engineer-applying-to-marketing.
+
+**Pre-send gauntlet — 4-facet adversarial panel (subagents):** recruiter/ATS · hiring-manager (Hannah)
+· technical-peer · reference-check. Verdicts: **TAKE THE CALL / PASS-WITH-FIXES / CREDIBLE-WITH-FIXES
+/ DEFENSIBLE-WITH-FIXES.** Survivors applied (all subtractive): echo landed ONCE + reframed;
+"evaluation workflows"→"structured decision scoring" (Opik term-of-art); arcs-field-scan honestly
+labeled (mock); titles reconciled to the LinkedIn export (**Grayscale = Product Lead**, **Squat =
+Head of Product Innovation & Tech Lead**); "nearly two decades." ATS synced.
+
+## ATG offshoots (the reusable surplus)
+- **resume-tailor skill → v0.2, PUSHED** to `flashesofbrilliance/resume-tailor-skill` main
+  (`e8e87d1..e41d30a`): Parameters + Components (voice-extract, orthogonal-echo, proof-link,
+  term-of-art gate, social-proof restraint, layout/print discipline) + Greenhouse JD fast-path +
+  Comet exemplar + `evals/evals.json` + `references/rubric.md`. `resume-tailor@arcs` now installs it.
+- **4-facet pre-send gauntlet** as a reusable adversarial-verification harness.
+- **Blog concept** "NOTOMATION powering gradient ascent" — forked to its own running session.
+- Memories: [[atg-offshoot-artifacts-comet-resume-session]], [[resume-tailor-skill-v0.2-field-tested]],
+  [[resume-tailor-voice-from-linkedin-export]], [[orthogonal-echo-proof-point]].
+
+## Open / candidate-side flags (before the app SENDS)
+- **ARCS not on Zach's LinkedIn** (current listed present-role = "Mañana — Product Partner"). The
+  résumé leads with ARCS Founder — biggest reference-check gap; add to LinkedIn or be ready to explain.
+- Squat "$350M ARR" / "seven-figure" — self-reported, not in export; kept, decide soften/cut.
+- ARCS 60% / 3–5× — labeled internal estimates; Hannah says they invite an audit of the hard numbers.
+- Contact = **github-only** ("Contact via recruiter") — fine if recruiter-routed; add a real email if
+  applying direct (recruiter called it the single biggest odds-mover).
+- Confirm VP name (Hannah Klemme) is the current hiring manager.
+
+## Also flagged (infra, not this task)
+- **build.arcs.care ↔ status 1:1 pulse sync not pushed** — build pulse lags the repo (~55 vs ~58 ADRs).
+  Not a blocker; candidate for its own task.
+
+## Blocking
+NONE.
+
+## Deploy note
+No arcs-v9 code touched — no deploy. Skill push went to `flashesofbrilliance/resume-tailor-skill`
+(separate repo). Résumé artifacts are untracked deliverables in `_ARTIFACTS/resume-comet/`.
+
+---
+
+> _v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._

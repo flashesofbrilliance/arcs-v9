@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f1720;--ink2:#33414f;--ink3:#5b6b7a;--faint:#8a97a4;
+    --line:#dde3ea;--line2:#eef2f6;--paper:#fff;
+    --accent:#0089a8;--steel:#5b7183;--metric:#0089a8;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    background:radial-gradient(1000px 560px at 15% -10%,#e7eef6 0,rgba(231,238,246,0) 60%),#e9eef4;}
+  body{padding:26px 0 60px;}
+  .sheet{width:8.5in;margin:0 auto;padding:0.5in 0.58in;border-radius:14px;
+    background:linear-gradient(168deg,#fff,#f6fafc);box-shadow:0 1px 2px rgba(15,23,32,.05),0 26px 60px -26px rgba(15,23,32,.3);}
+
+  .sec{display:flex;align-items:center;gap:11px;margin:9px 0 7px;}
+  .sec .lv{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);white-space:nowrap;}
+  .sec .lv .n{color:var(--faint);margin-right:7px;}
+  .sec .gloss{font-family:var(--mono);font-size:8px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);white-space:nowrap;}
+  .sec .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),rgba(221,227,234,0));}
+  .sec .dots{display:flex;gap:3px;} .sec .dots i{width:5px;height:5px;border-radius:50%;background:#c7d0da;} .sec .dots i.on{background:var(--accent);}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:13px;border-bottom:2px solid var(--ink);}
+  .name{font-size:32px;font-weight:700;letter-spacing:-.024em;line-height:1;text-wrap:balance;}
+  .tagline{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-top:9px;}
+  .target{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:3px;padding:3px 8px;}
+  .contact{text-align:right;font-family:var(--mono);font-size:9.5px;line-height:1.9;color:var(--ink3);white-space:nowrap;}
+  .contact b{color:var(--ink);font-weight:600;}
+  .thesis{font-size:11.5px;line-height:1.66;color:var(--ink2);margin-top:14px;text-wrap:pretty;}
+  .thesis b{color:var(--ink);font-weight:600;}
+
+  .card{position:relative;margin-top:13px;padding:5px 16px 15px;border-radius:12px;
+    background:linear-gradient(158deg,rgba(255,255,255,.62),rgba(247,251,253,.34));
+    backdrop-filter:blur(10px) saturate(1.15);-webkit-backdrop-filter:blur(10px) saturate(1.15);
+    border:1px solid rgba(255,255,255,.85);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 10px 26px -18px rgba(15,23,32,.22);}
+
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:9px 22px;}
+  .pillar{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:1px solid var(--line2);}
+  .pillar .pt{font-size:10px;line-height:1.42;color:var(--ink2);text-wrap:balance;} .pillar .pt b{color:var(--ink);font-weight:600;font-size:10.5px;}
+  .pillar .fit{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);white-space:nowrap;padding-top:3px;}
+
+  .job{margin-bottom:6px;break-inside:avoid;}
+  .job-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .job-co{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:-.01em;} .job-co .glyph{color:var(--accent);margin-right:7px;font-weight:400;} .job-co .dom{font-weight:500;color:var(--ink3);font-size:10px;}
+  .job-role{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--ink3);letter-spacing:.02em;white-space:nowrap;}
+  .job-sum{font-size:10px;line-height:1.5;color:var(--ink2);margin:4px 0 4px 15px;text-wrap:pretty;} .job-sum b{color:var(--ink);font-weight:600;}
+  ul.bul{list-style:none;margin-left:15px;} ul.bul li{position:relative;padding-left:14px;font-size:10px;line-height:1.48;color:var(--ink2);margin-bottom:1.5px;text-wrap:pretty;}
+  ul.bul li::before{content:"";position:absolute;left:1px;top:6.5px;width:4px;height:4px;border:1px solid var(--accent);border-radius:50%;} ul.bul li b{color:var(--ink);font-weight:600;}
+  .metric{font-family:var(--mono);font-weight:700;color:var(--metric);font-size:9.5px;}
+
+  .skill-row{display:flex;gap:10px;margin-bottom:5px;align-items:baseline;}
+  .skill-k{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);width:118px;flex-shrink:0;padding-top:1px;}
+  .skill-v{font-size:9.5px;line-height:1.5;color:var(--ink2);text-wrap:pretty;}
+  .cc-h{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);margin-bottom:2px;}
+  .cc-lede{font-size:9.5px;line-height:1.48;color:var(--ink2);text-wrap:pretty;} .cc-lede b{color:var(--ink);font-weight:600;}
+  .cardlede{font-size:10px;line-height:1.5;color:var(--ink2);margin:2px 0 11px;text-wrap:pretty;}
+
+  .telem{background:linear-gradient(165deg,#f5fafc,#e9f3f8);border:1px solid #d3e1ea;border-radius:9px;padding:13px 16px 14px;color:var(--ink2);box-shadow:inset 0 1px 0 #fff,0 8px 20px -16px rgba(15,23,32,.2);}
+  .telem-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px;}
+  .telem-top .t{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);} .telem-top .win{font-family:var(--mono);font-size:8.5px;color:var(--faint);}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;} .stat{border-left:1px solid #d3e1ea;padding-left:10px;} .stat:first-child{border-left:none;padding-left:0;}
+  .stat .n{font-family:var(--mono);font-size:18px;font-weight:700;color:var(--ink);line-height:1;} .stat .k{font-family:var(--mono);font-size:7px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-top:6px;line-height:1.4;}
+
+  .edu-line{display:flex;gap:26px;flex-wrap:wrap;font-size:10px;color:var(--ink2);} .edu-line b{color:var(--ink);font-weight:600;} .edu-line .yr{font-family:var(--mono);font-size:8px;color:var(--faint);}
+  footer{margin-top:14px;padding-top:10px;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);}
+
+  .dp-panel{margin-top:13px;padding:12px 15px 13px;border-radius:10px;background:linear-gradient(158deg,#f5fafc,#eaf3f8);border:1px solid #d3e1ea;}
+  .dp-panel .h{font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+  .dp-panel p{font-size:11px;line-height:1.6;color:var(--ink2);text-wrap:pretty;} .dp-panel p b{color:var(--ink);font-weight:600;}
+  .dp-h{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:14px 0 7px;}
+  .dp-2{display:grid;grid-template-columns:1fr 1fr;gap:4px 22px;}
+  .dp-col .k{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
+  .dp-li{position:relative;padding-left:12px;font-size:9.5px;line-height:1.45;color:var(--ink2);margin-bottom:3px;text-wrap:pretty;}
+  .dp-li::before{content:"—";position:absolute;left:0;color:var(--faint);}
+  .dp-adv{border-bottom:1px solid var(--line2);padding-bottom:7px;margin-bottom:7px;overflow:hidden;}
+  .dp-adv .m{font-family:var(--mono);font-size:7.5px;color:var(--faint);float:right;margin-left:8px;}
+  .dp-adv .t{font-size:10px;font-weight:600;color:var(--ink);margin-bottom:2px;text-wrap:balance;}
+  .dp-adv .s{font-size:9.5px;line-height:1.45;color:var(--ink2);text-wrap:pretty;}
+  .dp-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+  .dp-tension{border:1px solid var(--line);border-radius:8px;padding:9px 11px;}
+  .dp-tension .t{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid var(--line2);}
+  .dp-tension .d{font-size:9px;line-height:1.5;color:var(--ink2);text-wrap:pretty;}
+  .dp-role{border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;break-inside:avoid;}
+  .dp-role .rt{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+  .dp-role .badge{font-family:var(--mono);font-size:8.5px;font-weight:700;color:var(--ink3);width:17px;height:17px;border-radius:50%;border:1.5px solid var(--line);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .dp-role .rl{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.03em;color:var(--ink2);}
+  .dp-role .rd{font-size:9.5px;line-height:1.5;color:var(--ink3);margin-bottom:6px;text-wrap:pretty;}
+  .dp-role .ip{background:#f5fafc;border:1px solid #dbe7ee;border-radius:6px;padding:6px 9px;font-size:9.5px;line-height:1.45;color:var(--ink2);text-wrap:pretty;}
+  .dp-role .ip b{font-family:var(--mono);font-size:7px;color:var(--accent);letter-spacing:.06em;text-transform:uppercase;margin-right:6px;}
+  .page-frame{display:none;}
+  @page{size:letter;margin:0.4in;}
+  @media print{
+    html{background:#fff;} body{padding:0;margin:0;}
+    .sheet{width:auto;max-width:none;margin:0;padding:0.26in 0.32in;border-radius:0;background:#fff;box-shadow:none;}
+    .card{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:none;box-shadow:none;border-radius:0;padding:0;margin-top:6px;border-top:1px solid var(--line2);padding-top:6px;}
+    .telem{background:#f5fafc !important;border:1px solid #d3e1ea;}
+    .page-frame{display:block;position:fixed;top:0;left:0;right:0;bottom:0;border:1.4px solid #c2ccd6;border-radius:7px;pointer-events:none;}
+    *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  }
+</style>
+</head>
+<body>
+<div class="page-frame"></div>
+<div class="sheet">
+
+  <!-- EXEC -->
+  <header>
+    <div>
+      <div class="name">Zach Harris</div>
+      <div class="tagline">Building at the Edge</div>
+      <div class="target">Applied AI · Decision Intelligence · Forward-Deployed</div>
+    </div>
+    <div class="contact">
+      New York City (hybrid-ready)<br><b>zach.harris@gmail.com</b><br>
+      linkedin.com/in/<b>zharris</b><br><a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/<b>flashesofbrilliance</b></a>
+    </div>
+  </header>
+  <p class="thesis"><b>Creative technologist and builder</b> with two decades across tech, marketing, data, and commercial operations in sports, finance, health, and consumer. Builds the intelligence layer before the category for it exists: structured pre-decision framing, AI-native analysis pipelines, and compounding feedback loops that make each decision sharper than the last. Currently: <b>ARCS</b>, a decision-intelligence platform built on Claude with a live MCP server and agentic orchestration.</p>
+
+  <!-- 01 STRATEGIC — pillars ranked by jd_relevance -->
+  <section class="card">
+    <div class="sec"><span class="lv"><span class="n">01</span>Strategic</span><span class="gloss">what I own</span><span class="rule"></span><span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="pillars">
+      <div class="pillar"><span class="pt"><b>Agentic systems</b> on Claude: MCP server, tool calling, orchestration, context, human-in-the-loop.</span><span class="fit">primary</span></div>
+      <div class="pillar"><span class="pt"><b>Zero-to-production</b> builder: LLM-native apps and shipped open-source developer tools.</span><span class="fit">primary</span></div>
+      <div class="pillar"><span class="pt"><b>Domain range</b>: regulated finance, digital health (HIPAA), sports, and consumer.</span><span class="fit">strong</span></div>
+      <div class="pillar"><span class="pt"><b>Python &amp; TypeScript</b> across backend logic and Next.js product surfaces.</span><span class="fit">supporting</span></div>
+    </div>
+  </section>
+
+  <!-- 02 OPERATIONAL · EXPERIENCE -->
+  <section class="card">
+    <div class="sec"><span class="lv"><span class="n">02</span>Operational · Experience</span><span class="gloss">full-time &amp; forward-deployed</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> ARCS <span class="dom">— LLM-Native Decision-Intelligence Platform</span></div><div class="job-role">Founder &amp; Builder · 2025&ndash;Present</div></div>
+      <div class="job-sum">Architect and build an <b>agentic platform</b> end to end: context management, tool calling, orchestration, and human-in-the-loop control on Claude, with a Next.js / TypeScript product surface.</div>
+      <ul class="bul">
+        <li>Built a <b>custom MCP server</b> and <b>agentic pipelines</b> (Claude API, tool use, extended thinking) that run pre/post-decision capture across a full lifecycle: intake, analysis, structured receipt, compounding feedback.</li>
+        <li><b>Human-in-the-loop by design:</b> the system scaffolds and sequences judgment without overruling it, with evidence-gating and structured decision scoring as the quality layer.</li>
+        <li>Design, ship, and maintain <b>open-source developer tools</b> (good.arcs.care), each with its own conformance suite; work at the application and orchestration layer of LLMs, not model training.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Grayscale Investments <span class="dom">— Digital Currency Group</span></div><div class="job-role">Product Lead · 2024&ndash;2025</div></div>
+      <div class="job-sum">Led product for the investor-facing platform behind a <span class="metric">$7B</span>, <b>10-product regulated launch</b>: enforced complex compliance rules in the product itself.</div>
+      <ul class="bul">
+        <li>Built governance and <b>role-based access (RBAC)</b> workflows and "policy-at-the-glass" publishing controls into the platform so no unapproved content could ship: a safety-first architecture for a high-consequence domain.</li>
+        <li>Ran the cross-functional release train across 4 time zones and cut release-cycle time <span class="metric">35%</span> with automated QA and a compliance-in-the-loop sprint cadence.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Squat New York <span class="dom">— Behavioral Health ($350M ARR)</span></div><div class="job-role">Head of Product Innovation &amp; Tech Lead · 2019&ndash;2020</div></div>
+      <div class="job-sum">Sole product and technology partner on a <b>seven-figure</b> embedded engagement, discovery through handoff.</div>
+      <ul class="bul">
+        <li>Owned roadmap and a full <b>content-architecture</b> and CX overhaul (headless CMS); accelerated time-to-interaction as the primary conversion KPI, aligning engineering, design, clinical, and operations to ship on schedule.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Children's Tumor Foundation</div><div class="job-role">Sr. Director, Data &amp; Strategy · 2018&ndash;2019</div></div>
+      <div class="job-sum">Built the first enterprise data and decision-intelligence layer this mission-driven org had, then turned it into revenue.</div>
+      <ul class="bul">
+        <li>Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a <span class="metric">20%</span> increase in net-new revenue via data-driven personalization.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9670;</span> Women's Tennis Association</div><div class="job-role">Head of Product &amp; Strategic Partnerships · 2016&ndash;2018</div></div>
+      <ul class="bul">
+        <li>Closed the first commercial data partnerships with Twitter and Facebook (attribution, event-driven revenue): <span class="metric">$850K+</span> in year one.</li>
+        <li>Led CDP selection and built real-time fan-behavior scoring at <span class="metric">&lt;120ms</span> for a global consumer sports platform.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SELECT CONSULTING — distinct advisory band (P2) -->
+  <section class="card" style="break-inside:avoid;">
+    <div class="sec"><span class="lv"><span class="n">03</span>Advisory · Fractional Consulting</span><span class="gloss">product &amp; go-to-market · 2020&ndash;2024</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></div>
+    <div class="job" style="margin-bottom:6px;">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> Twill Health <span class="dom">— HealthTech (HIPAA)</span></div><div class="job-role">2021&ndash;2023</div></div>
+      <ul class="bul"><li>Product strategy and validation for <b>3 AI-enabled digital-therapeutics product lines</b> under HIPAA; built the KPI and efficacy frameworks that drove go-forward decisions on two of three.</li></ul>
+    </div>
+    <div class="job" style="margin-bottom:6px;">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> Verizon Media <span class="dom">— 5G Innovation Ventures</span></div><div class="job-role">2020&ndash;2021</div></div>
+      <ul class="bul"><li>Quantitative opportunity assessments across <b>five 5G product ventures</b>: market sizing, competitive analysis, and go/no-go investment recommendations.</li></ul>
+    </div>
+    <div class="job" style="margin-bottom:6px;">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> GoPro <span class="dom">— Consumer Tech</span></div><div class="job-role">2020&ndash;2021</div></div>
+      <ul class="bul"><li>Built the growth and measurement framework for <b>EMEA/APAC expansion</b>, navigating GDPR data-sovereignty across international markets.</li></ul>
+    </div>
+    <div class="job" style="margin-bottom:0;">
+      <div class="job-head"><div class="job-co"><span class="glyph">&#9671;</span> Axon Enterprises <span class="dom">— GovTech</span></div><div class="job-role">2023</div></div>
+      <ul class="bul"><li>Defined launch strategy, KPI taxonomy, and go-live criteria for a <b>secure first-responder OTT MVP</b>.</li></ul>
+    </div>
+  </section>
+
+  <!-- 03 TACTICAL · SKILLS / CORE COMPETENCIES -->
+  <section class="card" style="break-inside:avoid;">
+    <div class="sec"><span class="lv"><span class="n">04</span>Tactical · Skills</span><span class="gloss">core competencies</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px 24px;">
+      <div>
+        <div class="skill-k" style="width:auto;margin-bottom:3px;">Languages &amp; Stack</div>
+        <div class="skill-v">Python · TypeScript · Next.js · Node · SQL · shell scripting · Git / CI</div>
+      </div>
+      <div>
+        <div class="skill-k" style="width:auto;margin-bottom:3px;">LLM &amp; Agentic Systems</div>
+        <div class="skill-v">Claude (API, tool use, extended thinking) · MCP servers · tool calling · multi-agent orchestration · context management · human-in-the-loop control loops</div>
+      </div>
+      <div>
+        <div class="skill-k" style="width:auto;margin-bottom:3px;">Quality &amp; Observability</div>
+        <div class="skill-v">Structured decision scoring · evidence-gating · execution tracing · conformance / regression suites · latency &amp; cost awareness</div>
+      </div>
+      <div>
+        <div class="skill-k" style="width:auto;margin-bottom:3px;">Domain &amp; Regulated</div>
+        <div class="skill-v">Digital health / DTx (HIPAA) · regulated finance (SEC/FINRA) · RBAC &amp; compliance-in-the-loop · consumer &amp; sports</div>
+      </div>
+      <div>
+        <div class="skill-k" style="width:auto;margin-bottom:3px;">Product &amp; Delivery</div>
+        <div class="skill-v">Zero-to-production (0→1) · end-to-end architecture · rapid prototyping · cross-functional translation (clinical + non-technical)</div>
+      </div>
+      <div>
+        <div class="skill-k" style="width:auto;margin-bottom:3px;">Data &amp; Instrumentation</div>
+        <div class="skill-v">Experimentation &amp; A/B · attribution &amp; forecasting · CDP (Segment, Salesforce) · Snowflake · event taxonomy</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EDUCATION & CREDENTIALS -->
+  <section class="card" style="break-inside:avoid;">
+    <div class="sec"><span class="lv">Education &amp; Credentials</span><span class="rule"></span></div>
+    <div class="edu-line" style="flex-direction:column;gap:5px;">
+      <span><b>Oberlin College</b> — BA, Studio Art (Honors) <span class="yr">2002&ndash;2006</span> · <span style="color:var(--ink3);">design-first foundation applied to developer experience and data visualization</span></span>
+      <span><b>MIT xPRO</b> — AI: Implications for Business Strategy &middot; Designing &amp; Building AI Products &amp; Services <span class="yr">Certificates</span> · <span style="color:var(--ink3);">AI strategy, product instrumentation, applied AI product development</span></span>
+      <span><b>Section4</b> — Certified Product Strategist <span class="yr">2022</span> · <span style="color:var(--ink3);">product strategy &amp; positioning · Credly-verified</span></span>
+    </div>
+  </section>
+
+  <!-- DEEP PROFILE (mirrors resume.arcs.care) -->
+  <section class="card" style="break-inside:avoid;">
+    <div class="sec"><span class="lv"><span class="n">05</span>Deep Profile</span><span class="gloss">how the work actually happens</span><span class="rule"></span><span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+    <div class="dp-panel"><div class="h">Core Strengths</div><p>Builds the intelligence layer before the category for it exists, then becomes the first and most demanding analyst of what he built. Breadth is the weapon: creative, technical, marketing, data, and commercial do not live in separate rooms. The rare thing is someone who can hold all of them at once and make decisions that are right across every dimension.</p></div>
+
+    <div class="dp-h">Energy Profile</div>
+    <div class="dp-2">
+      <div class="dp-col"><div class="k">Activates</div>
+        <div class="dp-li">First instrumentation layer: no playbook, invent the taxonomy</div>
+        <div class="dp-li">Cross-domain synthesis: connecting what specialists keep separate</div>
+        <div class="dp-li">High-stakes contexts where measurement actually matters</div>
+        <div class="dp-li">The moment instrumentation reveals what the team did not know to ask</div>
+        <div class="dp-li">Building the thing, then becoming its first analyst</div>
+      </div>
+      <div class="dp-col"><div class="k">Depletes</div>
+        <div class="dp-li">Pure optimization once something is built and proven</div>
+        <div class="dp-li">ML / stat work disconnected from product decisions (no "so what")</div>
+        <div class="dp-li">Siloed contexts where cross-domain synthesis is not valued</div>
+        <div class="dp-li">Work that lives permanently in slides and never ships</div>
+        <div class="dp-li">Bureaucratic consensus without clear decision authority</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" style="break-inside:avoid;">
+    <div class="dp-h" style="margin-top:2px;">Compound Advantages</div>
+    <div class="dp-adv"><span class="m">WTA &lt;120ms · 2016</span><div class="t">Real-time behavioral scoring × high-stakes decision windows: same architecture</div><div class="s">WTA live-event fan scoring at &lt;120ms is the same architecture as any high-stakes, time-compressed decision window: personalized signal has to land before the window closes. Built the first version in 2016.</div></div>
+    <div class="dp-adv"><span class="m">Oberlin 2006</span><div class="t">Studio Art × cross-domain intelligence</div><div class="s">Aesthetic intelligence applied to system architecture: intelligence products that get used because they are designed to be understood, not just accurate. Creative judgment that holds across categories and industries.</div></div>
+    <div class="dp-adv" style="border-bottom:none;margin-bottom:0;"><span class="m">Claude + MCP</span><div class="t">AI-native in production, not in demos</div><div class="s">ARCS is built on Claude with a live MCP server and agentic orchestration. The onboarding question is not "what can AI do?" but "here is what the pattern in your data is already telling us."</div></div>
+
+    <div class="dp-h">Productive Tensions</div>
+    <div class="dp-3">
+      <div class="dp-tension"><div class="t">Builder ↔ Analyst</div><div class="d">Must build to analyze well. Must analyze to build better. Breaks most job descriptions; generates practitioner insight no pure analyst has.</div></div>
+      <div class="dp-tension"><div class="t">Aesthetic ↔ Rigor</div><div class="d">"This metric is ugly therefore unused" fires before statistical validation confirms it. Aesthetic judgment accelerates the analytical loop.</div></div>
+      <div class="dp-tension"><div class="t">Pioneer ↔ Production</div><div class="d">Drawn to new territory, with the regulated-environment discipline to ship in high-stakes contexts, production-grade from day one.</div></div>
+    </div>
+  </section>
+
+  <section class="card" style="break-inside:avoid;">
+    <div class="dp-h" style="margin-top:2px;">Role Fit</div>
+    <div class="dp-role"><div class="rt"><span class="badge">A</span><span class="rl">Forward Deployed · Applied AI Engineering</span></div><div class="rd">Sits with customers or internal stakeholders, understands their actual workflow, and ships something useful in their context without being hand-held through the problem.</div><div class="ip"><b>In practice</b>ARCS was built forward-deployed by definition: no customer, no spec, no inherited infrastructure. Every architectural decision was made on contact with the real problem.</div></div>
+    <div class="dp-role"><div class="rt"><span class="badge">B</span><span class="rl">Decision Intelligence · AI Strategist</span></div><div class="rd">Not just measuring outcomes: designing the pre-decision capture, evidence taxonomy, and feedback loop that makes the next decision sharper. The intelligence compounds or it does not.</div><div class="ip"><b>In practice</b>~60% decision-noise reduction and 3&ndash;5&times; time-to-insight at ARCS (internal estimates). Grayscale: GTM across 10 regulated products. WTA: &lt;120ms real-time behavioral scoring. Each required inventing the taxonomy from scratch.</div></div>
+    <div class="dp-role" style="margin-bottom:0;"><div class="rt"><span class="badge">C</span><span class="rl">Commercial layer alongside analytical depth</span></div><div class="rd">Growth intelligence is not just measurement. It is knowing what the measurement is for, and being able to run the commercial decision, not just report on it.</div><div class="ip"><b>In practice</b>WTA: $850K year-one from first commercial partnerships. Grayscale: lifecycle strategy with measurable engagement lift. CTF: 20% net-new revenue from data personalization.</div></div>
+
+    <div class="dp-panel" style="margin-top:13px;"><div class="h">The Differentiator</div><p>Most candidates for Applied AI, Forward-Deployed, or Decision-Intelligence roles have depth in one lane: analytics, or engineering, or product, or strategy. The unusual thing here is genuine breadth: creative, technical, commercial, and strategic coexisting in one person who can operate at a senior level and still do the work. Add AI-native in production (not in demos), a working decision-intelligence platform built from scratch, and a pattern of building the intelligence layer before it had a name, and the first questions are not about onboarding. They are about what is already in the data.</p></div>
+  </section>
+
+  <footer><span>Zach Harris · <a href="https://github.com/flashesofbrilliance" style="color:inherit;">github.com/flashesofbrilliance</a></span><span>resume.arcs.care · 2026</span></footer>
+</div>
+</body>
+</html>

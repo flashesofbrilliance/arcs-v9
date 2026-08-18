@@ -2792,6 +2792,66 @@ next adr`** — never hand-guess (that is what caused the collisions).
 
 ---
 
+---
+
+# Handoff — v3.36.0 (2026-08-17)
+
+> **Active pickup point.** Family public-surface reconcile: good / build / lab / playground are
+> now four renders of one `_SEEDS` bank, guarded by a drift tripwire wired into pre-push. On
+> `main` (head `704a9be`), deployed + curl-verified live. Separate track from v3.35.0 (PRL/Todd).
+
+## Headline: one seed bank, four family surfaces, a tripwire that won't let them drift
+
+good.arcs.care and build.arcs.care had drifted from the repo roster and from each other (build
+omitted rosetta-shell/resume-tailor that good featured; ADR count frozen at 55). Reconciled both,
+then made the fix structural instead of cosmetic:
+
+- **good.arcs.care** — added the family install band (the invisible-until-now `arcs-skills`
+  marketplace one-liner + `brew tap flashesofbrilliance/tap` + npm). Tightened "coming soon" to the
+  honest "repo public · package install pending" — blindsat/linkedin pip is genuinely not live
+  (verified in `distribution.jsonl`); the earlier "not yet published" read as drift but wasn't.
+- **build.arcs.care** — goods rail reconciled to 9 (added rosetta-shell + resume-tailor, tier-A
+  first); ADR 55→59, goods 7→9; new live **"Board"** band (shipped / in-progress / next / blocked)
+  rendered from the *existing* `/api/pulse` issues payload — zero new backend — plus a latest-
+  decisions ADR strip (ADRs named, not linked: arcs-v9 is private).
+- **Playground folded into the bank** — the 4 performers (12d-orbital / knowledge-lattice /
+  alexandria / moire) are now `seed_type=performer` rows in `_SEEDS/index.jsonl` (+ledger receipts).
+  Playground was the one surface living *outside* `_SEEDS`; now germinate's seed format is the shared
+  substrate across all four. `seedbank_drift_check.py` counts `seed_type==repo`, so these don't skew it.
+- **`scripts/sync_family_roster.py`** — the four-surface tripwire. `--check` exits 1 when any surface
+  disagrees with the bank, the playground routing enum (`next.config.ts`), or the ADR/goods/lab counts.
+  Emits `public/family-roster.json`. **Wired into `.git/hooks/pre-push`** before the build (fail-fast,
+  guarded to no-op on branches without it). Negative-tested — it does fail on injected drift.
+
+## Architecture to carry forward
+One bank → four renders: **good/build** = published goods (`distribution.jsonl`, live channels); **lab**
+= `lab_candidate ∈ {ripe,maybe,poc}` (`index.jsonl`); **playground** = `seed_type=performer` (cross-checked
+vs the next.config routing enum). The pages are still hand-authored HTML *audited against* the bank —
+NOT yet *rendering from* `family-roster.json` at runtime. A client-side fetch would be swallowed by the
+subdomain host-catch-all rewrites (same trap `sync_family_tokens.py` notes). So "single source" today =
+single-source-of-truth-for-the-auditor, not literal render. Closing that is an open loop below.
+
+## Next / open flags (all verified this session)
+- **`resume-tailor-skill` is in `distribution.jsonl` but NOT in `index.jsonl`** as a repo seed — the
+  reference connector tool is missing from the seed index. The two catalogs disagree; add the row.
+- **Coverage-gap, 5 uncatalogued** (`distribution.jsonl`): `resume-tailor-skill`, `arcs-skills` (the
+  marketplace), `homebrew-tap` (the tap), `arcs-career-fit`, `arcs-memory-pipeline`. Profile repo = legit skip.
+- **`arcs-memory-pipeline` + `arcs-career-fit` are PUBLIC but described "Private pending review."** Desc
+  claims "synthetic fixtures, no personal data," yet visibility contradicts the description. Confirm
+  intended-public and fix the stale clause, or flip private. Honesty/privacy loop, given this session's theme.
+- **lab.arcs.care has no route** — lab is a build.html section marked "not yet" (intentional). A real
+  lab.arcs.care (the lab-mint factory) is unbuilt.
+- **Make the pages render from `family-roster.json`** to go from audited-consistency to literal single-
+  source — but solve the host-rewrite-swallow first (an `app.arcs.care/api/roster` endpoint, like `/api/pulse`).
+
+## Blocking
+NONE for this track. (v3.35.0 PRL track remains blocked on Todd — unrelated.)
+
+## Deploy note
+Commit `704a9be` pushed straight to `main` from this worktree; pre-push hook ran the new tripwire +
+`npm run build` (no `--no-verify`). Both surfaces confirmed live via `curl` (good marketplace band; build
+"9 goods live" + Board + `x-matched-path: /build.html`, cache HIT) before reporting done — the
+verification bar for static-route changes.
 
 ---
 
@@ -2888,4 +2948,3 @@ being reported done, not assumed from a successful build/push alone — worth ca
 the verification bar for any future static-file routing change.
 
 ---
-

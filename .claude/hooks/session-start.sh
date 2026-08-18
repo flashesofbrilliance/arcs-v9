@@ -22,13 +22,13 @@ python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 # emit a receipt; curation stays human-owned. Guarded to never fail the hook.
 python3 "$CLAUDE_PROJECT_DIR/scripts/seedbank_drift_check.py" 2>/dev/null || true
 
-MEMDIR="$HOME/.claude/projects/-Users-zharris-arcs-v9/memory"
-if [ -f "$MEMDIR/MEMORY.md" ]; then
-  orphans=$(comm -23 \
-    <(ls -1 "$MEMDIR"/*.md 2>/dev/null | xargs -n1 basename 2>/dev/null | grep -v '^MEMORY.md$' | sort) \
-    <(grep -oE '\]\([a-zA-Z0-9_-]+\.md\)' "$MEMDIR/MEMORY.md" | tr -d ']()' | sort -u) 2>/dev/null || true)
-  if [ -z "${orphans:-}" ]; then echo "memory: 1-1 OK"; else echo "memory: ORPHANS (not in MEMORY.md) -> $(echo $orphans | tr '\n' ' ')"; fi
-fi
+# Memory-index inchworm — self-cataloging: orphan files auto-append into an
+# "Uncurated (auto)" band rendered from their own frontmatter description (the
+# SSOT for an index line). Detection + append are mechanical; curation (grouping,
+# merging, retiring, size trims) stays human-owned — the script only ever ADDS.
+# Replaces the old inline comm check, whose regex missed dotted filenames
+# (*-v0.2-*.md) and false-positived ORPHANS. Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/memory_index_sync.py" --append 2>/dev/null || true
 
 # Snapshot auto-refresh (mechanical fields only — local file, never committed/pushed
 # by this hook). Narrative fields (session_summary, next_action, nci_counter,
