@@ -1,0 +1,149 @@
+{
+  "generated_by": "scripts/sync_family_roster.py",
+  "goods": [
+    {
+      "repo": "rosetta-shell",
+      "url": "https://github.com/flashesofbrilliance/rosetta-shell",
+      "live": true,
+      "channels": [
+        "npm",
+        "homebrew"
+      ],
+      "connector": "rosetta-shell.arcs.care"
+    },
+    {
+      "repo": "germinate",
+      "url": "https://github.com/flashesofbrilliance/germinate",
+      "live": true,
+      "channels": [
+        "npm",
+        "homebrew"
+      ],
+      "connector": "germinate.arcs.care"
+    },
+    {
+      "repo": "arcs-claude-project-scaffold",
+      "url": "https://github.com/flashesofbrilliance/arcs-claude-project-scaffold",
+      "live": false,
+      "channels": [],
+      "connector": null
+    },
+    {
+      "repo": "linkedin-connections-toolkit",
+      "url": "https://github.com/flashesofbrilliance/linkedin-connections-toolkit",
+      "live": false,
+      "channels": [],
+      "connector": null
+    },
+    {
+      "repo": "blindsat",
+      "url": "https://github.com/flashesofbrilliance/blindsat",
+      "live": false,
+      "channels": [],
+      "connector": null
+    },
+    {
+      "repo": "arcs-field-scan",
+      "url": "https://github.com/flashesofbrilliance/arcs-field-scan",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": "arcs-field-scan.arcs.care"
+    },
+    {
+      "repo": "token-savings-bank",
+      "url": "https://github.com/flashesofbrilliance/token-savings-bank",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": null
+    },
+    {
+      "repo": "state-sync-skill",
+      "url": "https://github.com/flashesofbrilliance/state-sync-skill",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": null
+    },
+    {
+      "repo": "rca-skill",
+      "url": "https://github.com/flashesofbrilliance/rca-skill",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": null
+    },
+    {
+      "repo": "fix-toolbar-comments-skill",
+      "url": "https://github.com/flashesofbrilliance/fix-toolbar-comments-skill",
+      "live": true,
+      "channels": [
+        "github"
+      ],
+      "connector": null
+    },
+    {
+      "repo": "resume-tailor-skill",
+      "url": "https://github.com/flashesofbrilliance/resume-tailor-skill",
+      "live": true,
+      "channels": [
+        "claude-plugin",
+        "github"
+      ],
+      "connector": "resume-tailor.arcs.care"
+    }
+  ],
+  "lab": [
+    {
+      "alias": "arcs-field-scan",
+      "status": "ripe"
+    },
+    {
+      "alias": "rca-skill",
+      "status": "maybe"
+    },
+    {
+      "alias": "linkedin-connections-toolkit",
+      "status": "maybe"
+    },
+    {
+      "alias": "rosetta-shell",
+      "status": "maybe"
+    },
+    {
+      "alias": "readme-faq-eval",
+      "status": "maybe"
+    },
+    {
+      "alias": "rosetta-shell",
+      "status": "maybe"
+    }
+  ],
+  "playground": [
+    {
+      "alias": "12d-orbital",
+      "title": "12D Orbital",
+      "url": "https://playground.arcs.care/12d-orbital"
+    },
+    {
+      "alias": "knowledge-lattice",
+      "title": "Knowledge Lattice",
+      "url": "https://playground.arcs.care/knowledge-lattice"
+    },
+    {
+      "alias": "alexandria",
+      "title": "Alexandria",
+      "url": "https://playground.arcs.care/alexandria"
+    },
+    {
+      "alias": "moire",
+      "title": "Moir\u00e9",
+      "url": "https://playground.arcs.care/moire"
+    }
+  ]
+}
