@@ -103,6 +103,105 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.39.0 (2026-08-18)
+
+> Minted on main as v3.37.0; renumbered at merge — the SECOND v3.37.0 collision
+> (Comet holds v3.37.0 on this branch). Handoff numbers are now oracle-governed
+> (`scripts/oracle.py next handoff`) to end this collision class.
+
+> **Active pickup point.** Continuation of PRL 1.1: Todd approved the web-forms approach in
+> writing (Aug 17, 19:32 reply — "Makes total sense... it's how the leads from the PPC landing
+> pages are supposed to work"), a $2,070 CWO (Addendum 1.2-A, invoice #NYQRTJPQ-0004) is live and
+> payable at prl.arcs.care/status/troubleshooting, and mid-session a major access discovery
+> changed the build plan. **Not yet paid as of this handoff.**
+
+## Headline: real Sugar Studio access exists via Claude-in-Chrome, confirmed live, changes the plan
+
+Spent significant effort earlier this session assuming no direct Sugar/WordPress access existed
+(the sandboxed `Claude_Browser` tool showed login screens for both). **That assumption was wrong**
+— Zach corrected it: he's logged into both in his real Chrome, reachable via the `claude-in-chrome`
+MCP surface (real browser, real sessions), not the sandboxed preview browser used for Tidio
+earlier. Confirmed live:
+- **prlresins.sugarondemand.com (production)** authenticated and open (screenshotted the real
+  revenue dashboard).
+- **prlresinstest.sugarondemand.com (sandbox)** also open, in a separate tab, **with admin access**
+  — Administration panel reachable at `prlresinstest.sugarondemand.com/#Administration`, where
+  Zapier's connection to Sugar's API is visible/manageable.
+- The `zapier.chatbot` sandbox account has real read/write access, not just API-level (already
+  proven all session via the Zapier MCP connection).
+
+**Process lesson, said plainly because Zach asked directly why I didn't try this first:** I
+defaulted to the tool I'd already been using all session (sandboxed browser) out of habit rather
+than checking which surface actually holds live credentials, even though the system prompt is
+explicit that Claude-in-Chrome is for exactly this. When a task's question is literally "do you
+have a live session," check the surface that can have one before the sandboxed one that never
+does.
+
+**What this unlocks for next session:** Sugar Studio's native Web-to-Lead Wizard is now directly
+reachable and buildable, in both sandbox and prod, with admin-level access to the sandbox's
+Administration panel. This likely replaces (or at least should be weighed against) the bridge
+architecture sketched below, which assumed no direct UI access and built around that constraint.
+
+**Also confirmed this session, separately:** the Zapier MCP surface has no tool to create a
+standing webhook Zap (trigger + public URL + action) — `create_zapier_skill`, `write_code_action`,
+and `execute_zapier_write_action` all run only when explicitly invoked in a live conversation, none
+of them are unattended infrastructure that fires when a real site visitor submits a form later.
+That's a genuine capability gap (not a process miss like the browser one), and it's the reason the
+bridge architecture below leaned on a Zapier Catch Hook as a manual one-time setup step rather than
+something buildable headlessly.
+
+## In-progress, uncommitted — resume or revert
+
+`prisma/schema.prisma` has an **uncommitted** addition: a `PrlWebLead` model (staging table for web
+form submissions, holds first/last name, company, phone, raw + normalized state, forward status).
+Migration was never run — `npx prisma migrate dev` failed with `"The datasource.url property is
+required in your Prisma config file"`, not yet debugged. **This may no longer be the right
+approach** now that direct Sugar Studio access exists — the native Web-to-Lead form doesn't need
+our own DB staging layer. Decide next session: finish the bridge (debug the migrate error, build
+the JS snippet + `/api/prl-lead` route, forward via a manually-built Zapier Catch Hook) or use the
+newly-confirmed Sugar Studio + Administration access to generate Sugar's own native Web-to-Lead
+HTML directly, which was the originally-recommended, already-proven mechanism (real "Web
+Site"-sourced leads already arrive this way). Leaning toward the latter now that it's reachable.
+
+## Everything else shipped and verified this session (all live)
+
+- `prl.arcs.care/status/{crm,troubleshooting}` — both restructured to pilot-checklist style;
+  troubleshooting page is now a formal CWO (**Addendum 1.2-A**, $2,070, in-scope/out-of-scope,
+  best/base/worst, live Stripe invoice #NYQRTJPQ-0004 wired as a pay button).
+- Vercel Web Analytics added to both static pages (gap: `layout.tsx`'s `<Analytics/>` never
+  reaches `public/` files — same gap likely exists on other older static PRL pages, not audited).
+- Two concurrent-session merges handled cleanly this session (another session independently
+  shipped `/status/tidio`, `/status/build`, and a `_SEEDS`-driven family-roster sync — merged with
+  `git merge origin/main`, zero conflicts both times, always build-verified before push).
+- DEWY receipts + prior handoff (v3.35.0, now archived) cover the routing ground-truth finding,
+  location_c resolution, and the beforeFiles re-catch bug — see `_STATE/2026-08-17-prl-1-1-session-
+  decisions.dewy.json` and `_ARTIFACTS/prl-1-1-evidence/`.
+
+## Comms state (as of 2026-08-18)
+
+Todd approved the web-forms approach in writing (Aug 17, 19:32). CRM-routing / Bill-call ask still
+awaiting his reply. Negative-keyword list started (he sent "sheet resin" as the first term, Aug 17
+19:53). Invoice #NYQRTJPQ-0004 ($2,070) sent/live but **not yet paid** as of this handoff — check
+before assuming the CWO is greenlit to start building.
+
+## Next / open flags
+
+- **Decide the web-forms build path** given the new Sugar Studio + Administration access (see
+  above) before writing more code — don't finish the bridge architecture on the old assumption if
+  the native form is now the better path.
+- **Debug or abandon** the `prisma migrate dev` datasource.url error if the bridge path is chosen.
+- Check whether invoice #NYQRTJPQ-0004 has been paid before starting build work under Addendum 1.2-A.
+- CRM routing: still waiting on Todd's nod for the Bill call; nothing to build there until then.
+- Real Chrome / Claude-in-Chrome now confirmed as a live-session surface for this project — default
+  to checking it first for any "is there an existing login" question, not the sandboxed browser.
+
+## Blocking
+
+None hard-blocking, but two real decisions await: web-forms build path (architecture), and whether
+Todd's invoice payment should gate starting Addendum 1.2-A work.
+
+---
+
 # Handoff — v3.38.0 (2026-08-18)
 
 > **Active pickup point.** The self-cataloging arc, end to end in one thread:

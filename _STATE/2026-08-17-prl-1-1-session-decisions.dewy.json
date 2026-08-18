@@ -106,6 +106,46 @@
       "mode": "STANDARD",
       "adr": null,
       "commits": ["99548c3", "a67c558", "533487e"]
+    },
+    {
+      "receipt_id": "2026-08-18-tidio-delivery-leg-uses-zapier-catch-hook-not-api-node",
+      "surface": "PRL / Tidio -> Sugar delivery mechanism (1.1/1.2 chatbot-only scope)",
+      "sharp_question": "Tidio's delivery leg was left open as 'API-call node (per prior research) vs. Zapier Catch Hook' — which one is actually buildable on PRL's current Tidio plan?",
+      "dewy_vector": {
+        "D": "Zapier Catch Hook. Confirmed by the client: PRL's Tidio account is not Pro/Growth tier, so Tidio's webhook/API-call node is not available on this plan. The prior 'API-call node should work per prior research' note was wrong for this account's actual tier and is superseded. This means the flows already imported/merged into this repo (runtime/recoil/generated/prl-lyro/tidio-flows/) will need manual modification to add a Zapier Catch Hook trigger step, and since no MCP tool creates a standing Catch Hook (trigger+public URL+action) headlessly, that hook has to be set up once, manually, in the Zapier web UI before the flow can call it.",
+        "E": "Todd/PRL Tidio account (plan-tier constraint), Zapier (manual one-time Catch Hook setup), next session (executes the flow edit)",
+        "W": "Blocks the 1.1/1.2 delivery-leg build until the Catch Hook exists — this is now the first concrete step of next session, not an open question.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "Confirm plan-tier/feature availability against the actual account before designing a delivery mechanism around it — 'should work per prior research' is not the same as verified for this specific account.",
+      "why": "Would have wasted the next session's build time attempting to wire a Tidio API-call node that doesn't exist on this plan; now the correct mechanism (Catch Hook) is locked in before that session starts.",
+      "loki": "Low — this is a direct account-tier fact from the client, not inference.",
+      "bar": "Low.",
+      "horizon": "Resolves once the Catch Hook is manually created and wired into the imported flow.",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": null
+    },
+    {
+      "receipt_id": "2026-08-18-staging-only-verification-explicit-no-prod-cutover",
+      "surface": "PRL / rollout sequencing",
+      "sharp_question": "Once the sandbox Catch Hook delivery leg is wired, do we point it at prod (prlresins.sugarondemand.com) as part of the same build pass?",
+      "dewy_vector": {
+        "D": "No. Explicit client instruction: not touching prod yet. All 1.1/1.2 validate/confirm/verify work happens against the WP staging site + Sugar sandbox only. The prod lead_source enum question (does 'Chatbot' need a fallback value since it only exists in sandbox) stays an open item, not something to resolve by testing against prod directly.",
+        "E": "prlresins.sugarondemand.com (prod, untouched), prlresinstest.sugarondemand.com (sandbox, active), WP staging site (active)",
+        "W": "Holds until the client explicitly greenlights a prod cutover — do not initiate it proactively even after staging looks clean.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "A clean staging/sandbox pass is not itself authorization to touch prod — that is always a separate, explicit go-ahead.",
+      "why": "Prevents the next session from treating 'sandbox works' as license to also validate/fix the prod lead_source enum gap in the same pass, which the client did not ask for.",
+      "loki": "Low — direct client instruction, not inference.",
+      "bar": "Low.",
+      "horizon": "Until explicit prod greenlight.",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": null
     }
   ]
 }
