@@ -448,5 +448,14 @@
   "stability": "STABLE",
   "gate": "external-corroboration (reviewer-clickable proof the author does not custody) gates milestone eligibility; rank = materiality x external-verifiability; witness/echo/oracle stack cut from v1. Survivor of the 14-agent panel that falsified the witnessed-provenance design (F33). 2026-08-16.",
   "file": "ADR-064-external-corroboration-milestone-gate.md"
+ },
+ {
+  "id": "ADR-065",
+  "title": "ADR-065 — Corpus is SSOT; storage is induced projection; the Infra Compass reads the field",
+  "status": "DECIDED",
+  "y_state": "GREEN",
+  "stability": "STABLE",
+  "gate": "doctrine GREEN (4 serialization invariants, namespace isolation, doll pair w/ fail-closed air-gap); instrument (Infra Compass L1-L5 synthesis) = ROM CANDIDATE designed-not-built, YELLOW until built. Oracle-allocated. Recorded 2026-08-18.",
+  "file": "ADR-065-corpus-ssot-induced-projection-infra-compass.md"
  }
 ]
