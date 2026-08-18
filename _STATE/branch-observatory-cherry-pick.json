@@ -53,6 +53,6 @@
     "date": "2026-08-18",
     "by": "Zach (F7, Investment Bank v1 queue)",
     "rationale": "Longest-open loop (06-23, pr_opened:false); caused one documented wasted subagent dispatch; monetization queue gates the substrate at 100 receipts anyway. Kill = same yield as merge at a tenth the effort (product/OSS sweep). Interactive page remains recoverable by SHA below; 'unmerged branches decay into rework' is the banked lesson.",
-    "tip_sha_recoverable": "origin/observatory-cherry-pick\nunknown"
+    "tip_sha_recoverable": "03e2439"
   }
 }
