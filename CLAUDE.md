@@ -103,6 +103,67 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.36.0 (2026-08-17)
+
+> **Active pickup point.** Family public-surface reconcile: good / build / lab / playground are
+> now four renders of one `_SEEDS` bank, guarded by a drift tripwire wired into pre-push. On
+> `main` (head `704a9be`), deployed + curl-verified live. Separate track from v3.35.0 (PRL/Todd).
+
+## Headline: one seed bank, four family surfaces, a tripwire that won't let them drift
+
+good.arcs.care and build.arcs.care had drifted from the repo roster and from each other (build
+omitted rosetta-shell/resume-tailor that good featured; ADR count frozen at 55). Reconciled both,
+then made the fix structural instead of cosmetic:
+
+- **good.arcs.care** — added the family install band (the invisible-until-now `arcs-skills`
+  marketplace one-liner + `brew tap flashesofbrilliance/tap` + npm). Tightened "coming soon" to the
+  honest "repo public · package install pending" — blindsat/linkedin pip is genuinely not live
+  (verified in `distribution.jsonl`); the earlier "not yet published" read as drift but wasn't.
+- **build.arcs.care** — goods rail reconciled to 9 (added rosetta-shell + resume-tailor, tier-A
+  first); ADR 55→59, goods 7→9; new live **"Board"** band (shipped / in-progress / next / blocked)
+  rendered from the *existing* `/api/pulse` issues payload — zero new backend — plus a latest-
+  decisions ADR strip (ADRs named, not linked: arcs-v9 is private).
+- **Playground folded into the bank** — the 4 performers (12d-orbital / knowledge-lattice /
+  alexandria / moire) are now `seed_type=performer` rows in `_SEEDS/index.jsonl` (+ledger receipts).
+  Playground was the one surface living *outside* `_SEEDS`; now germinate's seed format is the shared
+  substrate across all four. `seedbank_drift_check.py` counts `seed_type==repo`, so these don't skew it.
+- **`scripts/sync_family_roster.py`** — the four-surface tripwire. `--check` exits 1 when any surface
+  disagrees with the bank, the playground routing enum (`next.config.ts`), or the ADR/goods/lab counts.
+  Emits `public/family-roster.json`. **Wired into `.git/hooks/pre-push`** before the build (fail-fast,
+  guarded to no-op on branches without it). Negative-tested — it does fail on injected drift.
+
+## Architecture to carry forward
+One bank → four renders: **good/build** = published goods (`distribution.jsonl`, live channels); **lab**
+= `lab_candidate ∈ {ripe,maybe,poc}` (`index.jsonl`); **playground** = `seed_type=performer` (cross-checked
+vs the next.config routing enum). The pages are still hand-authored HTML *audited against* the bank —
+NOT yet *rendering from* `family-roster.json` at runtime. A client-side fetch would be swallowed by the
+subdomain host-catch-all rewrites (same trap `sync_family_tokens.py` notes). So "single source" today =
+single-source-of-truth-for-the-auditor, not literal render. Closing that is an open loop below.
+
+## Next / open flags (all verified this session)
+- **`resume-tailor-skill` is in `distribution.jsonl` but NOT in `index.jsonl`** as a repo seed — the
+  reference connector tool is missing from the seed index. The two catalogs disagree; add the row.
+- **Coverage-gap, 5 uncatalogued** (`distribution.jsonl`): `resume-tailor-skill`, `arcs-skills` (the
+  marketplace), `homebrew-tap` (the tap), `arcs-career-fit`, `arcs-memory-pipeline`. Profile repo = legit skip.
+- **`arcs-memory-pipeline` + `arcs-career-fit` are PUBLIC but described "Private pending review."** Desc
+  claims "synthetic fixtures, no personal data," yet visibility contradicts the description. Confirm
+  intended-public and fix the stale clause, or flip private. Honesty/privacy loop, given this session's theme.
+- **lab.arcs.care has no route** — lab is a build.html section marked "not yet" (intentional). A real
+  lab.arcs.care (the lab-mint factory) is unbuilt.
+- **Make the pages render from `family-roster.json`** to go from audited-consistency to literal single-
+  source — but solve the host-rewrite-swallow first (an `app.arcs.care/api/roster` endpoint, like `/api/pulse`).
+
+## Blocking
+NONE for this track. (v3.35.0 PRL track remains blocked on Todd — unrelated.)
+
+## Deploy note
+Commit `704a9be` pushed straight to `main` from this worktree; pre-push hook ran the new tripwire +
+`npm run build` (no `--no-verify`). Both surfaces confirmed live via `curl` (good marketplace band; build
+"9 goods live" + Board + `x-matched-path: /build.html`, cache HIT) before reporting done — the
+verification bar for static-route changes.
+
+---
+
 # Handoff — v3.35.0 (2026-08-17)
 
 > **Active pickup point.** PRL 1.1 landing session — Sugar routing ground-truth investigation,
@@ -197,60 +258,4 @@ the verification bar for any future static-file routing change.
 
 ---
 
-# Handoff — v3.34.0 (2026-08-13)
-
-> **Active pickup point.** A very large session that started as the ARCS-private half of the germinate
-> OSS build and rippled into a full OSS-family + cross-session ADR reconciliation. All on `main`
-> (head `08330a8`). Two forked sessions still running (rosetta-shell build; arcs-umbrella/GTM).
-
-## Headline: a broken ADR namespace got a serialization authority, then a forensic cleanup
-
-The 30-day cross-session sweep found the ADR namespace was **colliding** (024/025/031/032 doubled on
-main; 033×3/039×3/055×2 on branches) — parallel sessions guessing "the next number." Fixes, all live:
-
-- **ADR-057 — the sequence oracle** (`scripts/oracle.py`): a git-serialized id+time authority. `oracle
-  next adr` allocates; the commit (git's non-ff rejection) is the atomic gate. Honest scope: a *logical
-  clock backed by git*, not atomic hardware. New collisions prevented by construction.
-- **Forensic remap, ratified + applied** (`08330a8`): 4 `claims-skeptic` auditors traced every one of ~43
-  inbound refs to ground truth (git blame + topic + date). Verdict was unanimous in shape — governing/
-  earlier keeps, cleanly-detachable moves: **031→048, 032→049, 024→058, 025→059**. 18 tao `source_adr`
-  repointed; docs+code (comment-only, no build impact) rewritten mover-side only; keeper/history/meta
-  refs preserved. Oracle audit clean. Evidence: `_INBOX/adr-collision-remap-forensic.jsonl`.
-
-## Also shipped this session
-- **Tao/pricing canon:** ADR-053 (dormant seed / vox animus / open-private boundary) + ADR-054
-  (free-to-hold/metered-to-fire; token fork = metaphorical-now) + `_CANON/Tao-of-ARCS.md` + tao-247.
-- **OSS family:** ADR-055 (two-tier conformance: interop nodes vs family utilities) + ADR-056 (arcs
-  tie-in connector; per-tool `<tool>.arcs.care` = umbrella head; **forge.arcs.care is the reference**).
-  `_SEEDS/` bank (repo index + ledger + `registry-artifacts.jsonl` + `_oracle.json`).
-- **Tier-B pass PUSHED to 7 public repos** (footer+LICENSE+topics+desc); **germinate left brand-neutral**
-  by design. **`/faq-eval`** skill (cold-reader ATG-FAQ; proven: germinate 3/5, field-scan 1/5, weak axis
-  = "why different than X" across all 8) + **`seedbank_drift_check.py`** inchworm (hook-wired; caught a
-  real coverage-gap: blindsat + profile uncatalogued).
-
-## Captured
-ADR-053..057 (`_DECISIONS/`, registered in `index.json`). DEWY: `_STATE/2026-08-13-session-decisions.dewy.json`.
-Memories: [[seed-tao-of-arcs-dormant-potential-vox-animus]], [[seed-monetization-free-to-hold-metered-to-fire]],
-[[oss-family-seedbank-two-tier-conformance]], [[oss-family-founder-led-growth-surface]] (founder-palette-curation),
-[[arcs-tie-in-connector-per-public-good]]. Reconciliation: `_STATE/2026-08-13-cross-session-30d-sweep.md`.
-
-## Next / open flags
-- **Phantom third ADR-025** (resume/opportunity_scans schema, never written) — 3 refs left flagged; decide fold-into-024 or assign a number.
-- **Seedbank coverage-gap:** `blindsat` + `flashesofbrilliance` profile uncatalogued (receipt in `_INBOX/seedbank-drift.jsonl`).
-- **2 MED-confidence refs** (PROMOTION.md, PR-template) + **flight-manual:16 mis-cite** (ADR-032 for Brief-rendering — wrong).
-- **Branch-side collisions** (033×3/039×3/055-hypercube) reconcile at merge — the oracle should gate that.
-- **Orphan tools** (idea_montecarlo, provision_studio_tenant); confirm `state_sync_check` hook-wiring + tripwire/leak overlap.
-- Consider an **oracle-backed citation linter** — nothing flags a bare `ADR-0NN` pointing at the wrong file today.
-- **Forked, running:** rosetta-shell build · arcs-umbrella/GTM (positioning "why-different" + founder-forward voice + connector fleet).
-
-## Blocking
-NONE.
-
-## Deploy note
-Committed on `claude/elated-hawking-c08b93`, fast-forwarded to `main` with `--no-verify` (canon/tooling
-only; the code touches are comment-only ADR refs). **Allocate every new ADR number via `scripts/oracle.py
-next adr`** — never hand-guess (that is what caused the collisions).
-
----
-
-> _v3.33.0 (Tao of ARCS canon) and earlier v3.32.0/v3.31.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-17._
+> _v3.34.0 (ADR-namespace oracle + forensic remap) and earlier relocated to `_ARCHIVE/handoffs.md` on 2026-08-17._
