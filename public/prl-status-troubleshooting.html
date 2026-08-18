@@ -1,0 +1,218 @@
+<title>Web Form Delivery CWO</title>
+<style>
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --red:#d0546b;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:640px;margin:0 auto;padding:0 22px 70px}
+
+  header{padding:40px 0 26px;border-bottom:1px solid var(--border)}
+  .kick{font-family:var(--mono);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+  h1{font-size:24px;line-height:1.3;margin:12px 0 0;font-weight:700;letter-spacing:-.01em}
+  .meta{font-family:var(--mono);color:var(--dim);font-size:11.5px;margin-top:10px;letter-spacing:.02em}
+
+  .bluf{padding:26px 0;border-bottom:1px solid var(--border)}
+  .bluf p{margin:0;font-size:17px;line-height:1.55;max-width:100%}
+  .bluf strong{color:var(--gold-soft)}
+
+  .checklist{padding:22px 0;border-bottom:1px solid var(--border)}
+  .checklist .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:14px}
+  .row{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:start;
+    padding:11px 0;border-top:1px solid var(--surface2)}
+  .row:first-of-type{border-top:none;padding-top:0}
+  .row .mark{font-family:var(--mono);font-size:15px;font-weight:700;line-height:1.5}
+  .row .mark.go{color:var(--green)}
+  .row .mark.stop{color:var(--red)}
+  .row .mark.wait{color:var(--gold-soft)}
+  .row .item{font-size:14.5px}
+  .row .item b{font-weight:700}
+  .row .item .sub{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+  .row .stat{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 8px;border-radius:5px;white-space:nowrap;line-height:1.5}
+  .stat.ok{background:rgba(63,185,80,.14);color:var(--green)}
+  .stat.bad{background:rgba(208,84,107,.14);color:var(--red)}
+  .stat.hold{background:rgba(201,162,39,.14);color:var(--gold-soft)}
+
+  .ask{padding:26px 0;border-bottom:1px solid var(--border)}
+  .ask .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:14px}
+  .yes-line{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid rgba(201,162,39,.35);
+    border-radius:var(--r);padding:16px 18px}
+  .yes-line .word{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--bg);background:var(--gold);
+    border-radius:6px;padding:9px 16px;letter-spacing:.03em;flex-shrink:0;text-decoration:none;white-space:nowrap}
+  .yes-line .word:hover{background:var(--gold-soft)}
+  .yes-line p{margin:0;font-size:14px;color:var(--text)}
+  .ask .why{margin:14px 0 0;font-size:13.5px;color:var(--muted)}
+
+  details.brief{margin:22px 0 0;border:1px solid var(--border);border-radius:var(--r);background:var(--surface)}
+  details.brief summary{cursor:pointer;padding:13px 18px;font-family:var(--mono);font-size:12px;font-weight:700;
+    color:var(--gold-soft);list-style:none;display:flex;align-items:center;gap:8px;letter-spacing:.02em}
+  details.brief summary::-webkit-details-marker{display:none}
+  details.brief summary::before{content:"+";color:var(--gold);font-size:14px;width:12px}
+  details.brief[open] summary::before{content:"–"}
+  .brief-body{padding:4px 18px 20px;border-top:1px solid var(--border)}
+  .brief-body h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);
+    margin:18px 0 8px;font-weight:700}
+  .brief-body h4:first-child{margin-top:16px}
+  .brief-body p{font-size:13.5px;color:var(--muted);margin:0 0 10px;line-height:1.6}
+  .brief-body p strong{color:var(--text)}
+
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:8px;
+    background:var(--surface2);margin:8px 0 14px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:460px}
+  th,td{text-align:left;padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{color:var(--dim);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td.state{font-family:var(--mono);font-weight:700;color:var(--gold-soft);white-space:nowrap}
+
+  footer{padding:24px 0 40px;color:var(--dim);font-size:12px;font-family:var(--mono)}
+</style>
+
+<header><div class="wrap">
+  <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
+  <h1>Web form delivery: change work order</h1>
+  <div class="meta">Addendum 1.2-A &nbsp;·&nbsp; Aug 17, 2026 &nbsp;·&nbsp; no site or CRM changes made yet</div>
+</div></header>
+
+<div class="bluf"><div class="wrap">
+  <p>Your site's contact forms don't create Sugar leads today, and haven't for a while. This is a
+  <strong>change work order</strong>, an adjacent workstream to 1.2, not folded into it silently. It
+  fell directly out of 1.2's own delivery investigation, so it's scoped, priced, and named the same
+  way, not a surprise add-on.</p>
+</div></div>
+
+<div class="ask"><div class="wrap">
+  <div class="label">Scope of work &middot; Addendum 1.2-A</div>
+
+  <div class="yes-line" style="align-items:flex-start">
+    <span class="word" style="background:var(--gold-soft)">$2,070</span>
+    <p>Parent phase: 1.2 (reliable delivery). Priced with real buffer, the estimates across 1.1
+    and 1.2 have both run longer than first thought, so this one reflects that pattern instead of
+    repeating the same optimistic guess.</p>
+  </div>
+
+  <h3 style="margin:20px 0 8px">In scope</h3>
+  <ul style="margin:0 0 14px;padding-left:20px;color:var(--text);font-size:14.5px;line-height:1.6">
+    <li>Generate Sugar's native Web-to-Lead form (Studio) and map its fields to match the six
+    required Sugar fields.</li>
+    <li>Coordinate the snippet's addition to the site with Josh or Jorge, whoever holds template
+    access, we drive this, not you.</li>
+    <li>Sandbox-test the snippet before it touches the live site.</li>
+    <li>Verify a real staging submission creates a correct Sugar lead, then confirm on production.</li>
+  </ul>
+
+  <h3 style="margin:20px 0 8px">Out of scope</h3>
+  <ul style="margin:0 0 14px;padding-left:20px;color:var(--text);font-size:14.5px;line-height:1.6">
+    <li>The CRM routing/territory-assignment finding (separate, unpriced, gated on the Bill call,
+    tracked on <a href="/status/crm">/status/crm</a>).</li>
+    <li>Any Gravity Forms spam-filtering work, that was completed and approved separately on Aug 10.</li>
+    <li>Site or CRM changes beyond this specific form, none have been made and none are proposed here.</li>
+  </ul>
+
+  <div class="scroller" style="margin-top:8px">
+    <table>
+      <thead><tr><th>Case</th><th>Time</th><th>What drives it</th></tr></thead>
+      <tbody>
+        <tr><td>Best</td><td>~1 day</td><td>Field mapping is straightforward, Josh adds the snippet fast</td></tr>
+        <tr><td>Base</td><td>~3-4 days</td><td>Normal coordination round with Josh/Jorge on site access</td></tr>
+        <tr><td>Worst</td><td>~1.5-2 weeks</td><td>Site access stalls, or the snippet needs back-and-forth with Sugar support on field mapping, the pattern that's actually played out on 1.1 and 1.2 so far</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:20px 0 8px">Kicks off when</h3>
+  <p style="font-size:14.5px;color:var(--text);margin:0 0 14px">Invoice #NYQRTJPQ-0004 is paid,
+  same "no surprises" mechanism as every other phase: fixed price is the cap, a short receipt at
+  the end shows expected vs. actual, and nothing here touches your site or CRM until then.</p>
+
+  <a href="https://invoice.stripe.com/i/acct_1TvJIJItTVVJFC6Z/live_YWNjdF8xVHZKSUpJdFRWVkpGQzZaLF9WNW1SdHpMSzRjcmwyOGdwRlpPZ2psV2FNU0dTaVpkLDE3NzU1Mzg0NA0200X9kTcsmt?s=db"
+    target="_blank" rel="noopener"
+    style="display:inline-block;background:var(--gold);color:var(--bg);font-size:13px;font-weight:700;padding:9px 18px;border-radius:6px;text-decoration:none;white-space:nowrap;margin:0 0 14px">Pay Invoice #NYQRTJPQ-0004 &middot; $2,070</a>
+
+  <p class="why">Why a different mechanism instead of patching the email path further: patching
+    email fixes notifications, not delivery, the lead still wouldn't reach Sugar. The native
+    Web-to-Lead path skips email entirely and is already proven working today.</p>
+</div></div>
+
+<div class="checklist"><div class="wrap">
+  <div class="label">Why this is needed</div>
+
+  <div class="row">
+    <span class="mark stop">✗</span>
+    <div class="item"><b>Current forms (Gravity Forms)</b><span class="sub">Submissions don't reach Sugar. Confirmed by test submissions that never arrived anywhere.</span></div>
+    <span class="stat bad">broken</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">!</span>
+    <div class="item"><b>Notification email</b><span class="sub">Partially patched, Jorge released a quarantined message and allow-listed the sender on Aug 14. Fixes "does a human get an email," not "does a lead land in Sugar."</span></div>
+    <span class="stat hold">partial</span>
+  </div>
+
+  <div class="row">
+    <span class="mark go">✓</span>
+    <div class="item"><b>Recommended fix: Sugar's native Web-to-Lead form</b><span class="sub">Posts straight to Sugar's API, no email or SMTP involved. Already proven, the small number of real "Web Site" leads already in Sugar arrived exactly this way.</span></div>
+    <span class="stat ok">ready to propose</span>
+  </div>
+
+  <div class="row">
+    <span class="mark wait">!</span>
+    <div class="item"><b>Jorge and Josh</b><span class="sub">Only aware of the narrow Barracuda ask. Zero visibility into this recommended fix. Nothing sent yet.</span></div>
+    <span class="stat hold">your call first</span>
+  </div>
+</div></div>
+
+<div class="ask"><div class="wrap">
+  <details class="brief">
+    <summary>Full briefing, for reference</summary>
+    <div class="brief-body">
+
+      <h4>The two problems, separated</h4>
+      <p><strong>1. Email notification.</strong> Forms sent their "someone submitted" email from
+      an old vendor domain, <code>notify@websitesforanything.com</code>, which fails
+      authentication and gets quarantined by Barracuda. Jorge unblocked one message and
+      allow-listed that sender on Aug 14, a narrow, one-off fix.</p>
+      <p><strong>2. Sugar delivery.</strong> Separately, and more fundamentally: Gravity Forms was
+      never wired to create Sugar leads at all, no Zap, no native connector. Even with email fully
+      fixed, nothing writes to the CRM. This is the actual finding behind "broken" above.</p>
+
+      <h4>The proposed fix</h4>
+      <p>Stop routing through GF-to-email-to-human entirely. Use Sugar's own Web-to-Lead form, an
+      HTML snippet Sugar generates that posts directly to the Sugar API. No email, no SMTP, no
+      Barracuda in the loop. The handful of real leads already tagged <code>lead_source: "Web
+      Site"</code> in Sugar today arrived exactly this way, so it's not new or unproven, it's the
+      thing that's already quietly working.</p>
+
+      <h4>What it actually requires</h4>
+      <table><tbody>
+        <tr><td class="state">Us</td><td>Generate the Web-to-Lead snippet from Sugar (Studio), map its fields to match the six required fields the chatbot delivery already targets.</td></tr>
+        <tr><td class="state">Site access</td><td>Add the snippet to the site template, replacing or running beside the current form. Likely Josh (Websites For Anything), since it's page-template editing, not Jorge's usual IT/DNS lane.</td></tr>
+        <tr><td class="state">Sequence</td><td>Sandbox-test the snippet before it touches the live site, same discipline as the CRM routing work, then verify a real staging submission lands correctly.</td></tr>
+      </tbody></table>
+
+      <h4>What Jorge and Josh know today</h4>
+      <p>Only the Barracuda ask from Aug 14. Neither has heard about the Web-to-Lead approach.
+      That's the gap this page exists to close before anything goes to either of them.</p>
+
+      <h4>Scope</h4>
+      <p>No site or CRM changes have been made. This is a proposal, not a change in progress.
+      Nothing here blocks the chatbot work already underway.</p>
+
+    </div>
+  </details>
+</div></div>
+
+<footer><div class="wrap">PRL Resins Chatbot Program &middot; internal, pre-decision</div></footer>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+<script defer src="/_vercel/insights/script.js"></script>

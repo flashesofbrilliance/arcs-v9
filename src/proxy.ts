@@ -26,6 +26,8 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'todd-call': { '/teardown': '/todd-teardown.html', default: '/todd-call.html' },
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
+  // prl.arcs.care/status/<seg> status-page family (2026-08-17).
+  'prl':       { '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', default: '/todd-call.html' },
 }
 
 export default function proxy(request: NextRequest) {

@@ -74,8 +74,18 @@ const nextConfig: NextConfig = {
         // destination keeps working without a 1:1 lookup table.
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // prl.arcs.care → public/todd-call.html (memorable alias to the same SSOT proposal/status page; single wildcard rule = the proven-reliable shape)
-        { source: "/:path*", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        // prl.arcs.care/status/<seg> → public/prl-status-<seg>.html (one capture-group rule per
+        // the todd-call convention above; add a new segment name here + the matching html file,
+        // never a new rule object). Only "crm" exists today (2026-08-17); tidio/wp/troubleshooting/
+        // build are reserved names, not yet built.
+        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        // prl.arcs.care (everything else) → public/todd-call.html (memorable alias to the same SSOT
+        // proposal/status page). Excludes on the REWRITTEN destination substring ("prl-status-"),
+        // not the original path ("status/") — beforeFiles re-runs on a second pass against the
+        // already-rewritten destination filename, and "/prl-status-crm.html" doesn't start with or
+        // contain "status/" (it's "status-"), so a "status/"-based exclusion doesn't stop the
+        // wildcard from re-catching it. Same class of bug as the documented todd-call fix below.
+        { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
@@ -220,6 +230,8 @@ const nextConfig: NextConfig = {
         // ayesha.arcs.care → public/ayesha-ext.html (sanitized external recap, addressed to Ayesha, pw-gated "ayesha")
         // public/ayesha.html (internal Recoil Report) is committed but deliberately NOT routed to any domain.
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
+        // build.arcs.care → public/build.html (The Workshop: unifying goods→playground→lab front door + live pulse; public, ungated)
+        { source: "/:path*", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },

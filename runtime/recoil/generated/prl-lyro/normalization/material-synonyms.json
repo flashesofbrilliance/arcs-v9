@@ -1,0 +1,140 @@
+{
+ "families": {
+  "PC": {
+   "aliases": [
+    "PC",
+    "POLY CARBONATE",
+    "POLYCARBONATE"
+   ]
+  },
+  "ABS": {
+   "aliases": [
+    "ABS",
+    "ACRYLONITRILE BUTADIENE STYRENE"
+   ]
+  },
+  "ASA": {
+   "aliases": [
+    "ACRYLONITRILE STYRENE ACRYLATE",
+    "ASA"
+   ]
+  },
+  "PEI": {
+   "aliases": [
+    "PEI",
+    "POLYETHER IMIDE",
+    "POLYETHERIMIDE"
+   ]
+  },
+  "PPX": {
+   "aliases": [
+    "MODIFIED POLYPHENYLENE ETHER",
+    "MODIFIED PPO",
+    "POLYPHENYLENE ETHER",
+    "PPE",
+    "PPO",
+    "PPX"
+   ]
+  },
+  "NY6": {
+   "aliases": [
+    "N6",
+    "NY6",
+    "NYLON 6",
+    "NYLON6",
+    "PA 6",
+    "PA6",
+    "POLYAMIDE 6"
+   ]
+  },
+  "NY66": {
+   "aliases": [
+    "N66",
+    "NY66",
+    "NYLON 6,6",
+    "NYLON 6/6",
+    "NYLON 66",
+    "PA 6/6",
+    "PA 66",
+    "PA66",
+    "POLYAMIDE 6/6",
+    "POLYAMIDE 66"
+   ]
+  },
+  "PBT": {
+   "aliases": [
+    "PBT",
+    "POLY BUTYLENE TEREPHTHALATE",
+    "POLYBUTYLENE TEREPHTHALATE",
+    "THERMOPLASTIC POLYESTER",
+    "TP"
+   ]
+  },
+  "PC/ABS": {
+   "aliases": [
+    "PC ABS",
+    "PC/ABS",
+    "POLYCARBONATE ABS BLEND"
+   ]
+  },
+  "PC/ASA": {
+   "aliases": [
+    "PC/ASA",
+    "POLYCARBONATE ASA BLEND"
+   ]
+  },
+  "PC/Polyester": {
+   "aliases": [
+    "PC/PBT",
+    "PC/POLYESTER",
+    "PC/TP",
+    "POLYCARBONATE POLYESTER BLEND"
+   ]
+  },
+  "PPX/Nylon": {
+   "aliases": [
+    "MODIFIED PPE NYLON BLEND",
+    "PPE/NYLON",
+    "PPX/NYLON"
+   ]
+  }
+ },
+ "modifiers": {
+  "GP": "General Purpose",
+  "FR": "Flame Retardant",
+  "G": "Glass Fiber",
+  "SF": "Structural Foam",
+  "EN": "Extrusion Grade",
+  "BR": "Branched",
+  "UV": "UV-Stabilized",
+  "MF": "Mineral Filled",
+  "IM": "Impact Modified",
+  "FD": "FDA Approved Feedstocks",
+  "A-D": "Transparent",
+  "TFE": "Internal Lubricant",
+  "HH": "High Heat",
+  "HM": "High Modulus",
+  "HG": "Alloy and Glass Fiber",
+  "HF": "High Flow",
+  "S": "Sustainable (Recycled Content)"
+ },
+ "suffixes": {
+  "-1": "Release",
+  "-2": "Lubricant",
+  "-3": "UV-Stabilized",
+  "-4": "UV-Stabilized and Release",
+  "-5": "FDA Feedstock",
+  "-6": "FDA Feedstock and Release",
+  "-7": "Low Gloss and UV Stabilized"
+ },
+ "product_families": {
+  "PC": "Polycarbonate",
+  "ABS": "Acrylonitrile Butadiene Styrene",
+  "ASA": "Acrylonitrile Styrene Acrylate",
+  "PEI": "Polyether Imide",
+  "PPX": "Polyphenylene Ether",
+  "NY6": "Polyamide 6 (Nylon 6)",
+  "NY66": "Polyamide 6/6 (Nylon 6/6)",
+  "TP": "Polybutylene Terephthalate"
+ }
+}

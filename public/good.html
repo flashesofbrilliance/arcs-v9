@@ -126,8 +126,17 @@
 <header>
   <div class="wrap hero">
     <span class="kick"><span class="dot"></span>the arcs family · public goods</span>
-    <h1>Open tools, <span class="g">honest by default.</span></h1>
+    <h1>Open tools,<br><span class="g">honest by default.</span></h1>
     <p class="lede">Small, MIT-licensed tools we built for our own work and published as they proved out. The tools are <b>open</b>; the ARCS intelligence that orchestrates them stays private. Nothing here claims an install path that is not live.</p>
+
+    <div class="oneshot" style="margin-top:30px;">
+      <div class="bar">
+        <span class="l">install the family · Claude Code</span>
+        <button class="cp" data-copy="/plugin marketplace add flashesofbrilliance/arcs-skills">copy</button>
+      </div>
+      <pre><code>/plugin marketplace add <span class="v">flashesofbrilliance/arcs-skills</span></code></pre>
+    </div>
+    <p class="note">Five skills in one marketplace — <b>rca</b>, <b>state-sync</b>, <b>token-savings-bank</b>, <b>fix-toolbar-comments</b>, <b>resume-tailor</b>. Or reach for a single tool below. CLI tools also ship on Homebrew (<span class="mono">brew tap flashesofbrilliance/tap</span>) and npm.</p>
   </div>
 </header>
 
@@ -191,7 +200,7 @@
       <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
       <div class="cbody">
         <div class="chead"><span class="cname mono">state-sync-skill</span></div>
-        <p class="cline">A Claude Code skill that scaffolds a committed _STATE/snapshot.json so any session restores ground-truth project state from a cheap file read instead of re-deriving it.</p>
+        <p class="cline">A Claude Code skill that commits a snapshot of ground-truth project state, so any session restores it from a cheap file read instead of re-deriving it.</p>
       </div>
       <div class="cfoot"><a class="clink" href="https://github.com/flashesofbrilliance/state-sync-skill">github ↗</a></div>
     </div>
@@ -217,7 +226,7 @@
 
 <section>
   <div class="wrap">
-    <div class="sec-lbl"><span class="n">◆</span><h2>Coming soon</h2><span class="sub">built · not yet published</span></div>
+    <div class="sec-lbl"><span class="n">◆</span><h2>Coming soon</h2><span class="sub">repo public · package install pending</span></div>
     <div class="cards minor">
     <div class="card" style="opacity:.5;filter:saturate(.35);">
       <div class="cbar" style="background:linear-gradient(90deg,#00F0FF,#00FF9D)"></div>
@@ -251,9 +260,19 @@
 <footer>
   <div class="wrap foot">
     <span>a public-goods index by <a href="https://arcs.care">ARCS</a> · MIT</span>
-    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://arcs.care">arcs.care</a></span>
+    <span><a href="https://github.com/flashesofbrilliance">github</a> · <a href="https://github.com/flashesofbrilliance/arcs-skills">marketplace</a> · <a href="https://arcs.care">arcs.care</a></span>
   </div>
 </footer>
 
+<script>
+/* copy-to-clipboard for install one-liners — data-copy holds the exact command */
+document.querySelectorAll('.cp[data-copy]').forEach(function(b){
+  b.addEventListener('click', function(){
+    navigator.clipboard.writeText(b.getAttribute('data-copy')).then(function(){
+      var t=b.textContent; b.textContent='copied'; setTimeout(function(){b.textContent=t;},1400);
+    }).catch(function(){});
+  });
+});
+</script>
 </body>
 </html>
