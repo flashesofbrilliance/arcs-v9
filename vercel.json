@@ -17,11 +17,6 @@
       "destination": "/resume.html"
     },
     {
-      "source": "/",
-      "has": [{ "type": "host", "value": "kelly-interview.arcs.care" }],
-      "destination": "/kelly-interview.html"
-    },
-    {
       "source": "/teardown",
       "has": [{ "type": "host", "value": "todd-call.arcs.care" }],
       "destination": "/todd-teardown.html"
