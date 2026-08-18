@@ -14,32 +14,32 @@
     {
       "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus.md",
       "role": "surgical tier (md source)",
-      "sha256_16": "1fbb42044cb19dbd"
+      "sha256_16": "eeb856874413fbd3"
     },
     {
       "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus-diamond-cut.md",
       "role": "operational tier (md source)",
-      "sha256_16": "0f2f8bc622b416fb"
+      "sha256_16": "5a833129b705e487"
     },
     {
       "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus-exec.md",
       "role": "exec tier (md source)",
-      "sha256_16": "1be5afa2aa5cb6c0"
+      "sha256_16": "dc4662ec9252dcf2"
     },
     {
       "path": "public/blog-nftt-post-1-full.html",
       "role": "surgical render \u2014 good.arcs.care/blog/nftt/post-1/full",
-      "sha256_16": "12b7f9abdbe9d70a"
+      "sha256_16": "0346a7d99d61f767"
     },
     {
       "path": "public/blog-nftt-post-1-brief.html",
       "role": "operational render \u2014 /blog/nftt/post-1/brief",
-      "sha256_16": "f366075d6005a637"
+      "sha256_16": "adbdae3c426baac3"
     },
     {
       "path": "public/blog-nftt-post-1-exec.html",
       "role": "exec render \u2014 /blog/nftt/post-1 (water-fountain default)",
-      "sha256_16": "a94a8065a210f219"
+      "sha256_16": "a538c4f3d70a111f"
     }
   ],
   "sources": [
@@ -175,10 +175,15 @@
       "pass": 11,
       "op": "invention sparkline + impeccable polish + ship",
       "detail": "16-stop sparkline appended to all tiers; craft-floor fixes in renderer (no >1px colored border-left, contrast, hover/focus states, 68ch measure); shipped to good.arcs.care/blog/nftt/post-1{,/brief,/full}"
+    },
+    {
+      "pass": 12,
+      "op": "sparkline SVG + braid glyph",
+      "detail": "dataviz-skill procedure: 16-node inline-SVG timeline (thread classes annotated in md SSOT; shapes=secondary encoding; verm stepped #ff9d3c->#FF6B2C for dE 25.2 normal/18.2 deutan, validator-passed; lightness-band FAIL = intentional brand exception); braid glyph at braid heading; native <title> tooltips; role=img aria-label; scrollable container"
     }
   ],
   "epoch": {
-    "corpus_commit": "4c819ca",
-    "emitted": "2026-08-18T16:14:55-04:00"
+    "corpus_commit": "fa1cf9e",
+    "emitted": "2026-08-18T16:32:01-04:00"
   }
 }

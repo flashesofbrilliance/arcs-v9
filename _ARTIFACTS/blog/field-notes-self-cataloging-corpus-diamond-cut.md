@@ -65,7 +65,7 @@ One last receipt: the resume method that started this story, the class whose ins
 
 ## The invention sparkline
 
-— *Sparkline: cold DM → smoke test → 2-minute run → gauntlet → application sent → offshoots harvested → self-filing index → citation pyramid → travel bundles + gate → storage doctrine → self-audit → this essay → depth ladder → page renderer → provenance manifest → the law, witnessed.*
+— *Sparkline: cold DM ^r → smoke test ^r → 2-minute run ^g → gauntlet ^r → application sent ^g → offshoots harvested ^g → self-filing index ^g → citation pyramid ^g → travel bundles + gate ^r → storage doctrine ^g → self-audit ^v → this essay ^g → depth ladder ^g → page renderer ^g → provenance manifest ^g → the law, witnessed ^v.*
 
 ---
 

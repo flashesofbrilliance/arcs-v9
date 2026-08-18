@@ -165,7 +165,7 @@ One last receipt, because an essay about compounding methods should end by handi
 
 One arc, start to finish. Everything on this line exists and is dated; nothing on it was planned at the start.
 
-— *Sparkline: cold DM → smoke test → 2-minute run → gauntlet → application sent → offshoots harvested → self-filing index → citation pyramid → travel bundles + gate → storage doctrine → self-audit → this essay → depth ladder → page renderer → provenance manifest → the law, witnessed.*
+— *Sparkline: cold DM ^r → smoke test ^r → 2-minute run ^g → gauntlet ^r → application sent ^g → offshoots harvested ^g → self-filing index ^g → citation pyramid ^g → travel bundles + gate ^r → storage doctrine ^g → self-audit ^v → this essay ^g → depth ladder ^g → page renderer ^g → provenance manifest ^g → the law, witnessed ^v.*
 
 Sixteen stops. The first is a stranger's message; the last is a law about why strangers can see what you cannot. The application was stop five. Everything after it is what the essay means by compounding: the deliverable ended and the inventions kept going, each one thrown off by the one before it, each one now reusable without its origin story. The provenance manifest even records this list's own receipts, which is the most this system knows how to promise: not that the work was wise, but that it happened, in this order, and cannot quietly be retold otherwise.
 
