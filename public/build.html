@@ -243,7 +243,7 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     source, the <a class="lk" href="https://playground.arcs.care/" target="_blank" rel="noopener">playground</a> you can walk into right now, and the <span class="soon" title="not live yet">lab</span> that's still in the
     kitchen. What's live and actionable leads; the far-right bay is a peek at what's cooking, not a
     plate yet &#8212; it renders dimmer because it isn't ready, and that's honest.</p>
-    <p class="asof">As of 2026-08-16 <span class="sep">&#183;</span> 7 goods live <span class="sep">&#183;</span> 5 playground surfaces <span class="sep">&#183;</span> 4 in the lab <span class="sep">&#183;</span> @9ead71c</p>
+    <p class="asof">As of 2026-08-17 <span class="sep">&#183;</span> 9 goods live <span class="sep">&#183;</span> 5 playground surfaces <span class="sep">&#183;</span> 4 in the lab <span class="sep">&#183;</span> @83e9d45</p>
   </div>
 
   <!-- LIVE PULSE BAND: headline stats + live GitHub pulse, mirrors status.arcs.care.
@@ -256,7 +256,7 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     <div class="stats">
       <div class="stat"><div class="stat-val accent" id="sv-commits">1,490</div><div class="stat-label">Commits &#183; since T0, the monorepo's birth</div></div>
       <div class="stat"><div class="stat-val" id="sv-days">128</div><div class="stat-label">Days &#183; T0 = Apr 9, 2026</div></div>
-      <div class="stat"><div class="stat-val">55</div><div class="stat-label">ADRs &#183; decisions logged</div></div>
+      <div class="stat"><div class="stat-val" id="sv-adrs">59</div><div class="stat-label">ADRs &#183; decisions logged</div></div>
       <div class="stat"><div class="stat-val accent">live</div><div class="stat-label">In production &#183; app.arcs.care</div></div>
     </div>
     <div class="pstrip">
@@ -267,6 +267,35 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     </div>
   </div>
 
+  <!-- THE BOARD: what's in motion right now. Status counts read live from the SAME
+       /api/pulse issues payload as status.arcs.care; the decisions strip is the latest
+       ADRs (arcs-v9 is private, so they're named, not linked). Static values are a floor. -->
+  <div class="band" style="margin-top:20px">
+    <div class="band-head">
+      <span class="dot"></span>The board <span style="color:var(--fg4)">&#183; what's moving right now</span>
+      <a class="full" href="https://status.arcs.care/" target="_blank" rel="noopener">full board &#8599;</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val accent" id="bd-ship">&#8212;</div><div class="stat-label">Shipped &#183; issues closed done</div></div>
+      <div class="stat"><div class="stat-val" id="bd-prog">&#8212;</div><div class="stat-label">In progress &#183; open, active</div></div>
+      <div class="stat"><div class="stat-val" id="bd-next">&#8212;</div><div class="stat-label">Next &#183; queued</div></div>
+      <div class="stat"><div class="stat-val" id="bd-block">&#8212;</div><div class="stat-label">Blocked &#183; waiting on input</div></div>
+    </div>
+    <div class="pstrip" style="grid-template-columns:1fr">
+      <div class="pcell">
+        <div class="pl-k">Latest decisions &#183; logged as ADRs</div>
+        <div class="pl-v" style="font-size:11.5px;line-height:1.9;font-weight:400">
+          <b style="color:var(--gold)">ADR-064</b> External-corroboration milestone gate <span style="color:var(--line)">&#183;</span>
+          <b style="color:var(--gold)">063</b> Public-goods connector visual family <span style="color:var(--line)">&#183;</span>
+          <b style="color:var(--gold)">062</b> Ouroboros: recursive self-falsification <span style="color:var(--line)">&#183;</span>
+          <b style="color:var(--gold)">061</b> Verify flags against full source <span style="color:var(--line)">&#183;</span>
+          <b style="color:var(--gold)">060</b> Hypercube gauntlet arc-weld
+        </div>
+        <div class="pl-sub">59 logged since T0 &#183; the decision trail, newest first</div>
+      </div>
+    </div>
+  </div>
+
   <div class="rail">
 
     <!-- GOODS: sourced from _SEEDS/index.jsonl, liveness-verified anonymously before ship (F25) -->
@@ -274,14 +303,17 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
       <div class="head"><span class="name">Goods</span><span class="idx">01 &#183; shipped</span></div>
       <p class="what">Open-source tools and skills, live and installable today.</p>
       <p class="fid"><span class="bar"></span> Fidelity: sharp &#183; earned</p>
+      <div class="glass" style="border-color:rgba(0,255,157,.28);color:var(--green);opacity:1;margin-bottom:11px;background:rgba(0,255,157,.03)"><span style="font-family:var(--mono)">◆</span> Install all five skills in Claude Code: <span style="font-family:var(--mono);color:var(--fg1)">/plugin marketplace add flashesofbrilliance/arcs-skills</span></div>
       <div class="cards">
-        <a class="card" href="https://github.com/flashesofbrilliance/germinate" target="_blank" rel="noopener"><span class="t">germinate<span class="ar">github &#8599;</span></span><p class="d">The seed bank + germination engine: append-only belief-log, drift-visible manifest, coal&#8594;diamond handoff.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">v0.1.1</span> MIT</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/germinate" target="_blank" rel="noopener"><span class="t">germinate<span class="ar">github &#8599;</span></span><p class="d">The seed bank + germination engine: append-only belief-log, drift-visible manifest, coal&#8594;diamond handoff.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">npm+brew</span> MIT</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/rosetta-shell" target="_blank" rel="noopener"><span class="t">rosetta-shell<span class="ar">github &#8599;</span></span><p class="d">Lossless shell/env translation (bash 3.2 &#8596; zsh &#8596; POSIX) + CI portability gate.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">npm+brew</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/resume-tailor-skill" target="_blank" rel="noopener"><span class="t">resume-tailor<span class="ar">github &#8599;</span></span><p class="d">Honesty-graded resume + cover letter tailored to a role from your real evidence.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">plugin</span> open source</span></a>
         <a class="card" href="https://github.com/flashesofbrilliance/arcs-field-scan" target="_blank" rel="noopener"><span class="t">arcs-field-scan<span class="ar">github &#8599;</span></span><p class="d">Turn a profile or PDF into an ARCS energy scan. The clearest PLG onramp.</p><span class="meta"><span class="chip">tier A</span> open source</span></a>
-        <a class="card" href="https://github.com/flashesofbrilliance/state-sync-skill" target="_blank" rel="noopener"><span class="t">state-sync-skill<span class="ar">github &#8599;</span></span><p class="d">Committed, drift-visible snapshot.json for Claude Code projects.</p><span class="meta"><span class="chip">tier A</span> open source</span></a>
-        <a class="card" href="https://github.com/flashesofbrilliance/rca-skill" target="_blank" rel="noopener"><span class="t">rca-skill<span class="ar">github &#8599;</span></span><p class="d">Root-cause analysis skill: structured five-verb diagnosis loop.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
-        <a class="card" href="https://github.com/flashesofbrilliance/token-savings-bank" target="_blank" rel="noopener"><span class="t">token-savings-bank<span class="ar">github &#8599;</span></span><p class="d">Track and bank token savings across sessions; tier-descent routing.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/state-sync-skill" target="_blank" rel="noopener"><span class="t">state-sync-skill<span class="ar">github &#8599;</span></span><p class="d">Committed, drift-visible snapshot.json for Claude Code projects.</p><span class="meta"><span class="chip">tier A</span> <span class="chip">plugin</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/rca-skill" target="_blank" rel="noopener"><span class="t">rca-skill<span class="ar">github &#8599;</span></span><p class="d">Root-cause analysis skill: structured five-verb diagnosis loop.</p><span class="meta"><span class="chip">tier B</span> <span class="chip">plugin</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/token-savings-bank" target="_blank" rel="noopener"><span class="t">token-savings-bank<span class="ar">github &#8599;</span></span><p class="d">Track and bank token savings across sessions; tier-descent routing.</p><span class="meta"><span class="chip">tier B</span> <span class="chip">plugin</span> open source</span></a>
         <a class="card" href="https://github.com/flashesofbrilliance/linkedin-connections-toolkit" target="_blank" rel="noopener"><span class="t">linkedin-connections-toolkit<span class="ar">github &#8599;</span></span><p class="d">Parse and reason over your LinkedIn connections export.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
-        <a class="card" href="https://github.com/flashesofbrilliance/fix-toolbar-comments-skill" target="_blank" rel="noopener"><span class="t">fix-toolbar-comments-skill<span class="ar">github &#8599;</span></span><p class="d">Resolve and repair Vercel toolbar comment threads from the CLI.</p><span class="meta"><span class="chip">tier B</span> open source</span></a>
+        <a class="card" href="https://github.com/flashesofbrilliance/fix-toolbar-comments-skill" target="_blank" rel="noopener"><span class="t">fix-toolbar-comments-skill<span class="ar">github &#8599;</span></span><p class="d">Resolve and repair Vercel toolbar comment threads from the CLI.</p><span class="meta"><span class="chip">tier B</span> <span class="chip">plugin</span> open source</span></a>
       </div>
     </section>
 
@@ -346,6 +378,12 @@ footer{margin-top:42px;padding-top:20px;border-top:1px solid var(--line)}
     if(typeof p.prsOpen==="number")set("pl-prs",String(p.prsOpen));
     if(p.deploy){var st=String(p.deploy.state),cls=st==="success"?"ok":(/fail|error/.test(st)?"err":"pend");
       set("pl-deploy",'<span class="'+cls+'">'+(st==="success"?"live":st)+'</span>');set("pl-deploy-when",rel(p.deploy.date));}
+    // The board — same issues payload as status.arcs.care. Floor when truncated.
+    if(p.issues){var fl=p.issues.truncated?"+":"";
+      set("bd-ship",(p.issues.shipped!=null?p.issues.shipped+fl:"—"));
+      set("bd-prog",(p.issues.inProgress!=null?String(p.issues.inProgress):"—"));
+      set("bd-next",(p.issues.next!=null?String(p.issues.next):"—"));
+      set("bd-block",(p.issues.blocked!=null?String(p.issues.blocked):"—"));}
   }).catch(function(){});
 })();
 </script>
