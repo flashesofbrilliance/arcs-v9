@@ -170,7 +170,7 @@
 
 <!-- NOW -->
 <section id="now"><div class="wrap">
-  <span class="phase-tag t-now">Now · in flight</span>
+  <span class="phase-tag t-now">Done in staging · verified with a real conversation</span>
   <h2><span class="num">1.1</span> &nbsp;Go Live, the chatbot itself</h2>
   <p class="lede">The bot is built, branded in your colors, and tested on a private copy of your site.
   One step left: turning on lead delivery into SugarCRM.</p>
@@ -188,7 +188,7 @@
     <li class="done">Bot built, branded, tested on a private copy</li>
     <li class="done">Phone required + "Chatbot" label decided</li>
     <li class="done"><b>Sandbox of SugarCRM landed</b>. A test lead now runs all the way through and lands, tagged Chatbot, routed to your sales manager. Proven end to end in the safe copy.</li>
-    <li class="todo">Turn on the standing hand-off, so it fires automatically on every chat, not just our proof run</li>
+    <li class="done"><b>Standing hand-off is ON.</b> Fires automatically on every chat now, proven with a real conversation on the staging site (Aug 18) — deduplicated, enriched with job title + industry, follow-up reminders on a timer.</li>
     <li class="todo">Add the "Chatbot" lead-source value in production at go-live. Confirmed missing today, so it is a two-minute step at cutover, on the list rather than a surprise.</li>
     <li class="todo">30-minute session with your sales manager + reports person</li>
     <li class="todo">Flip live, in your chosen window</li>
@@ -210,11 +210,23 @@
 
 <!-- NEXT -->
 <section id="next"><div class="wrap">
-  <span class="phase-tag t-next">Next · paid Monday, now underway</span>
+  <span class="phase-tag t-now">Now · most of the build landed</span>
   <h2><span class="num">1.2</span> &nbsp;Reliable delivery + your four-hour number</h2>
   <p class="lede">Make lead delivery rock-solid, fill in missing business emails automatically, send the
   prospect an instant acknowledgment, and start showing time-to-first-touch, the four-hour number you
   manage to, with a baseline to prove what the chatbot adds.</p>
+
+  <h3>Where 1.2 stands &middot; Aug 18</h3>
+  <ul class="clean">
+    <li class="done"><b>Reliable delivery</b> — done and verified end-to-end with a real staging conversation.</li>
+    <li class="done"><b>Duplicate protection</b> — same person chatting twice updates their lead instead of creating a copy.</li>
+    <li class="done"><b>Enrichment (job title + industry)</b> — auto-fills from ZoomInfo on every new lead; graceful fallback when no match.</li>
+    <li class="done"><b>Follow-up timers</b> — 5-minute heads-up and 4-hour reminder emails per lead; the 4-hour window is a tunable setting.</li>
+    <li class="todo">Rep notification pointed at the right inbox + a spam-filter check (same allow-list fix as Aug 14 if needed)</li>
+    <li class="todo">Business-email fill from enrichment — title/industry proven, the email fill itself not yet demonstrated</li>
+    <li class="todo">Baseline report (the "before" picture: volume, close rate, deal size by region/source) — access confirmed, pull scheduled</li>
+    <li class="todo">Test-lead cleanup in the sandbox so pilot data starts clean</li>
+  </ul>
 
   <h3>Running in parallel right now (so Monday is a running start)</h3>
   <ul class="clean">
