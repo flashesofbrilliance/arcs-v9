@@ -223,7 +223,11 @@ const nextConfig: NextConfig = {
         // ADR-056 rendered connector fleet — one <tool>.arcs.care per LIVE public good that earns a deep page.
         // Pages generated from SSOT by scripts/connector_render.py; subdomain mirrors the tool/repo name.
         // Thin git-clone-only Claude skills are NOT standalone pages — they are cards on good.arcs.care.
-        { source: "/:path*", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        // good.arcs.care/blog/nftt/<slug>[/<tier>] — NFTT depth ladder (water-fountain default: bare slug = exec).
+        // Same single-host multi-path shape as todd-call FIX HISTORY: seg rules + one negative-lookahead fallback.
+        { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/blog/nftt/:slug", destination: "/blog-nftt-:slug-exec.html", has: [{ type: "host", value: "good.arcs.care" }] },
+        { source: "/:path((?!blog).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },

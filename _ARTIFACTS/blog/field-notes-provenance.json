@@ -1,0 +1,184 @@
+{
+  "artifact": "field-notes-self-cataloging-corpus",
+  "transform": {
+    "kind": "LLM_SYNTHESIS",
+    "reproducible": false,
+    "note": "Prose is judgment (Claude Fable 5, session 2026-08-18), not a deterministic function of inputs. Everything below IS mechanical: inputs, params, transform log, output hashes.",
+    "runtime": {
+      "model": "claude-fable-5",
+      "session_date": "2026-08-18",
+      "harness": "Claude Code / worktree goofy-colden-54195f"
+    }
+  },
+  "outputs": [
+    {
+      "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus.md",
+      "role": "surgical tier (md source)",
+      "sha256_16": "1fbb42044cb19dbd"
+    },
+    {
+      "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus-diamond-cut.md",
+      "role": "operational tier (md source)",
+      "sha256_16": "0f2f8bc622b416fb"
+    },
+    {
+      "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus-exec.md",
+      "role": "exec tier (md source)",
+      "sha256_16": "1be5afa2aa5cb6c0"
+    },
+    {
+      "path": "public/blog-nftt-post-1-full.html",
+      "role": "surgical render \u2014 good.arcs.care/blog/nftt/post-1/full",
+      "sha256_16": "074f46c2eb4f621f"
+    },
+    {
+      "path": "public/blog-nftt-post-1-brief.html",
+      "role": "operational render \u2014 /blog/nftt/post-1/brief",
+      "sha256_16": "47f0fa5e897409be"
+    },
+    {
+      "path": "public/blog-nftt-post-1-exec.html",
+      "role": "exec render \u2014 /blog/nftt/post-1 (water-fountain default)",
+      "sha256_16": "8f206c2611145950"
+    }
+  ],
+  "sources": [
+    {
+      "path": "CLAUDE.md",
+      "role": "handoffs v3.37.0-v3.39.0 (narrative spine)",
+      "present": true,
+      "sha256_16": "404259bff773a036"
+    },
+    {
+      "path": "_ARTIFACTS/drift-book.json",
+      "role": "positions, echo sums, token costs, DRIFT position",
+      "present": true,
+      "sha256_16": "15f035442f5897bd"
+    },
+    {
+      "path": "_ARTIFACTS/investment-bank-v1.md",
+      "commit": "b91a1a7",
+      "recover_via": "git show b91a1a7:_ARTIFACTS/investment-bank-v1.md",
+      "role": "five-desk synthesis: W5 law, 33/33 scar finding, calibration bias",
+      "present": false
+    },
+    {
+      "path": "_DECISIONS/ADR-065-corpus-ssot-induced-projection-infra-compass.md",
+      "role": "storage doctrine section",
+      "present": true,
+      "sha256_16": "4f6b4340b5a8e613"
+    },
+    {
+      "path": "_STATE/falsification-ledger.jsonl",
+      "role": "33 F-entries; scar-log finding",
+      "present": true,
+      "sha256_16": "4ca81962bdc12f7d"
+    },
+    {
+      "commit": "d90160a",
+      "role": "tuition banking; 0/33 tuition-figure honest zero"
+    },
+    {
+      "commit": "a8316d6",
+      "role": "Louisville pilot = the one external reuse mark"
+    },
+    {
+      "commit": "b12349f",
+      "role": "tripwire-caught ADR-065 drift fix"
+    },
+    {
+      "external": true,
+      "role": "banking hierarchy",
+      "note": "memory: lesson-banked-when-it-can-stop-you (~/.claude/projects/-Users-zharris-arcs-v9/memory/)"
+    },
+    {
+      "external": true,
+      "role": "voice profile",
+      "note": "memory: resume-tailor-voice-from-linkedin-export (aphoristic openers, paradox/reframe, one coinage max)"
+    },
+    {
+      "external": true,
+      "role": "opening anecdote ground truth",
+      "note": "LinkedIn recruiter thread pasted by Zach in-session; not stored in repo (PII); pseudonymized per counterpart-pseudonym-key"
+    },
+    {
+      "external": true,
+      "role": "doctrine lineage: adaptive altitude / water-fountain default",
+      "note": "conceived in conversation with Elizabeth (talking-past disconnect: long-prose willingness vs realtime-reaction attention); clarified with Jeben across Granola-serialized dialogues; springboard for Louisville omakase prep (Justin); memory: adaptive-altitude-lineage-jeben-granola. Internal names \u2014 pseudonymize before any public surfacing."
+    }
+  ],
+  "params": {
+    "hard_gates": [
+      "pseudonym+air-gap (no counterpart names, no dollar figures tied to people)",
+      "register demotion (no em-dashes, jargon translated, glossary footer)",
+      "honesty (claims trace to commits; inferences labeled; failures stay in)"
+    ],
+    "voice": "Zach via LinkedIn-export profile; en-route corrections applied in-session",
+    "length_targets": {
+      "full": "~2900 words",
+      "diamond_cut": "~1400 words"
+    }
+  },
+  "transform_log": [
+    {
+      "pass": 1,
+      "op": "draft",
+      "inputs": "all sources"
+    },
+    {
+      "pass": 2,
+      "op": "dual-audience weave",
+      "detail": "8 'in plain terms' beats + reader key"
+    },
+    {
+      "pass": 3,
+      "op": "opening rework",
+      "detail": "untrusted-node anecdote, hero-bias confession, ZK caveat, smoke test (user-supplied thread as ground truth)"
+    },
+    {
+      "pass": 4,
+      "op": "thread weave",
+      "detail": "red/gold/vermillion stitches + braided close"
+    },
+    {
+      "pass": 5,
+      "op": "gauntlet",
+      "detail": "2 antithesis agents (logic + reader-experience); 1 FATAL 8 WOUNDING; fixes applied subtractively; braid-collapse and glossary-cut findings REJECTED with reasons",
+      "receipts": "session task logs a4d5ad731f7a26001 / a2e955ee4c63a4ed0"
+    },
+    {
+      "pass": 6,
+      "op": "accessibility demotion",
+      "detail": "corpus->archive, desk jargon plain, front matter compressed, emoji stitches -> typographic"
+    },
+    {
+      "pass": 7,
+      "op": "diamond cut",
+      "detail": "separate ~1400w file; hedges preserved as load-bearing"
+    },
+    {
+      "pass": 8,
+      "op": "fact corrections (user)",
+      "detail": "minutes-not-hours class-to-instance; chronos/kairos; trenches masthead"
+    },
+    {
+      "pass": 9,
+      "op": "public-good CTA",
+      "detail": "closing link to resume-tailor.arcs.care (curl-verified 200 before citing, per distribution-registry live-only rule)"
+    },
+    {
+      "pass": 10,
+      "op": "depth ladder + hosting",
+      "detail": "3 tiers (exec/brief/full) per adaptive-altitude doctrine; water-fountain default (bare slug = exec); FieldOS family styling after omakase variant rejected; routes via proxy MULTI_PATH_MAP + next.config seg rules (beforeFiles re-catch bug fixed per todd-call FIX HISTORY); rendered by scripts/blog_render.py"
+    },
+    {
+      "pass": 11,
+      "op": "invention sparkline + impeccable polish + ship",
+      "detail": "16-stop sparkline appended to all tiers; craft-floor fixes in renderer (no >1px colored border-left, contrast, hover/focus states, 68ch measure); shipped to good.arcs.care/blog/nftt/post-1{,/brief,/full}"
+    }
+  ],
+  "epoch": {
+    "corpus_commit": "a3eb436",
+    "emitted": "2026-08-18T14:12:05-04:00"
+  }
+}
