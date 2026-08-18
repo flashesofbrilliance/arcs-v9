@@ -2,7 +2,7 @@
   "captured_at": "2026-06-23T19:55:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "branch": "observatory-cherry-pick",
-  "note": "Per-branch state file per the serialization_protocol in _STATE/snapshot.json — feature branches own their own _STATE/branch-<slug>.json rather than overwriting the shared snapshot.json. Main reconciles on merge.",
+  "note": "Per-branch state file per the serialization_protocol in _STATE/snapshot.json \u2014 feature branches own their own _STATE/branch-<slug>.json rather than overwriting the shared snapshot.json. Main reconciles on merge.",
   "git": {
     "head_sha": "e888cc4",
     "head_message": "chore: fold in lockfile normalization + RLS doc project-ref fix",
@@ -31,7 +31,7 @@
   "task_7_observatory_cherrypick": {
     "status": "DONE",
     "discovery": "The actual page (src/app/observatory/page.tsx, 1174 lines) was ALREADY on this branch before this session started - missed checking git log on the active branch before dispatching a subagent to redo it. Caught when the cherry-pick came back empty.",
-    "genuine_fix_this_session": "Removed the now-dead /observatory static rewrite from next.config.ts (the real App Router page route shadows it per Next.js's documented rewrite ordering). Build-verified: npx next build passes clean, /observatory registers as a real prerendered route (○)."
+    "genuine_fix_this_session": "Removed the now-dead /observatory static rewrite from next.config.ts (the real App Router page route shadows it per Next.js's documented rewrite ordering). Build-verified: npx next build passes clean, /observatory registers as a real prerendered route (\u25cb)."
   },
   "trust_contract": {
     "status": "v1.0 -> v1.1",
@@ -47,5 +47,12 @@
   ],
   "vercel_side_effect": "Pushing this branch likely auto-triggered a Vercel preview build (default GitHub integration behavior) - confirmed via `vercel ls`: a Preview deployment exists at 31m old, separate from the 3h-old Production deploys. Non-destructive, does not touch app.arcs.care.",
   "next_action": "Branch is pushed, no PR opened yet (deliberate - Zach's choice this session). Remaining 8-item backlog: #2 blocked on Zach (password rotation/dead-confirm), #3/#4/#6/#8 untouched. Orphaned Supabase tables question (above) needs Zach's input. Decide: open a PR for this branch, or keep accumulating before merging.",
-  "blocking": "NONE for next session to start cold on #1(done)/#3/#5(done)/#7(done) status - #3, #4, #6, #8 remain and #4/#6 have internal sequencing dependencies already documented in _PATTERNS/2026-06-23-governance-roadmap.md."
+  "blocking": "NONE for next session to start cold on #1(done)/#3/#5(done)/#7(done) status - #3, #4, #6, #8 remain and #4/#6 have internal sequencing dependencies already documented in _PATTERNS/2026-06-23-governance-roadmap.md.",
+  "decision": {
+    "verdict": "KILLED",
+    "date": "2026-08-18",
+    "by": "Zach (F7, Investment Bank v1 queue)",
+    "rationale": "Longest-open loop (06-23, pr_opened:false); caused one documented wasted subagent dispatch; monetization queue gates the substrate at 100 receipts anyway. Kill = same yield as merge at a tenth the effort (product/OSS sweep). Interactive page remains recoverable by SHA below; 'unmerged branches decay into rework' is the banked lesson.",
+    "tip_sha_recoverable": "origin/observatory-cherry-pick\nunknown"
+  }
 }
