@@ -100,52 +100,10 @@
   a.cal:hover{background:rgba(201,162,39,.1)}
   @media(max-width:520px){ .rrow{grid-template-columns:1fr;gap:2px} }
 
-  /* presentation mode */
-  .present-btn{position:fixed;top:10px;right:14px;z-index:20;background:var(--gold);color:var(--bg);
-    border:0;border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:700;cursor:pointer}
-  .present-ctrl,.pbar{display:none}
-  body.presenting nav,body.presenting .present-btn{display:none}
-  body.presenting .slide{position:fixed;inset:0;overflow:hidden;background:var(--bg);
-    opacity:0;pointer-events:none;transition:opacity .26s ease;border:0!important}
-  body.presenting .slide.active{opacity:1;pointer-events:auto;z-index:5}
-  body.presenting .slide>.wrap{position:absolute;top:50%;left:50%;width:88vw;max-width:940px;
-    transform:translate(-50%,-50%);transform-origin:center center;opacity:0;transition:opacity .42s ease}
-  body.presenting .slide.active>.wrap{opacity:1}
-  body.presenting section,body.presenting header{padding:0}
-  body.presenting footer{display:none}
-  /* presentation type scale (bumped for the room; dense rows/tables left compact) */
-  body.presenting .slide h1{font-size:clamp(40px,5vw,62px)}
-  body.presenting .slide h2{font-size:clamp(25px,3.1vw,36px)}
-  body.presenting .slide .lede,body.presenting .slide .sub,body.presenting .slide .oneline{font-size:clamp(15px,1.55vw,19px)}
-  body.presenting .slide h3{font-size:13px}
-  /* progress bar */
-  .pbar{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;z-index:22;
-    transition:transform .4s cubic-bezier(.16,1,.3,1)}
-  body.presenting .pbar{display:block}
-  .present-ctrl{position:fixed;bottom:14px;right:14px;gap:8px;z-index:23;align-items:center}
-  body.presenting .present-ctrl{display:flex}
-  .present-ctrl button{background:rgba(13,17,23,.9);color:var(--text);border:1px solid var(--border);
-    backdrop-filter:blur(6px);border-radius:8px;padding:6px 13px;font-size:15px;cursor:pointer;line-height:1}
-  .present-ctrl button:hover{border-color:var(--gold);color:var(--gold-soft)}
-  .present-ctrl .count{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums;padding:0 4px}
-  .p-hint{display:none}
-  body.presenting .p-hint{display:block;position:fixed;bottom:17px;left:16px;z-index:23;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;letter-spacing:.14em;
-    color:var(--dim);text-transform:uppercase}
-  @media(max-width:560px){ body.presenting .p-hint{display:none} }
 </style>
 </head>
 <body>
 
-<div class="pbar" id="pbar"></div>
-<button class="present-btn" onclick="enterPresent()">▶ Present</button>
-<div class="present-ctrl">
-  <button onclick="pshow(pidx-1)" aria-label="previous">‹</button>
-  <span class="count" id="pcount"></span>
-  <button onclick="pshow(pidx+1)" aria-label="next">›</button>
-  <button onclick="exitPresent()">✕ Exit</button>
-</div>
-<div class="p-hint">← → navigate · space next · esc exit</div>
 
 <nav><div class="wrap">
   <a href="#top" class="on">Overview</a>
@@ -155,7 +113,6 @@
   <a href="#pay">Payment</a>
   <a href="#surprises">No surprises</a>
   <a href="#receipts">Receipts</a>
-  <a href="https://prl.arcs.care/status/progress" style="margin-left:auto;background:var(--gold);color:var(--bg);font-weight:700">Progress &rarr;</a>
 </div></nav>
 
 <header id="top"><div class="wrap">
@@ -168,13 +125,13 @@
   phase, and you can stop at any clean stopping point.</div>
   <div class="oneline"><b>The through-line:</b> every phase makes it <em>simpler</em> for your people, not more complex. The tech gets more invisible over time, riding what your team already does, like a call, a text, or Outlook, so nothing new lands in a rep's routine, and no lead is ever silently dropped by anyone.</div>
   <nav class="family" style="display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 0 -12px">
+    <a href="https://todd-call.arcs.care" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--gold);color:var(--bg);background:var(--gold)">Overview</a>
     <a href="https://prl.arcs.care/status/progress" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Progress</a>
     <a href="https://prl.arcs.care/status/crm" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">CRM routing</a>
     <a href="https://prl.arcs.care/status/troubleshooting" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Web forms</a>
     <a href="https://prl.arcs.care/status/tidio" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Tidio delivery</a>
     <a href="https://prl.arcs.care/status/atlas" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Atlas</a>
     <a href="https://prl.arcs.care/status/build" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)">Build</a>
-    <a href="https://todd-call.arcs.care" style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 11px;border-radius:14px;border:1px solid var(--gold);color:var(--bg);background:var(--gold)">Phases &amp; pricing</a>
   </nav>
 </div></header>
 
@@ -549,24 +506,6 @@ remaining Tidio email-config step is with Tidio support, which we are handling. 
 </div></footer>
 
 <script>
-  // ---- presentation mode ----
-  var slides=[].slice.call(document.querySelectorAll('header, section'));
-  var pidx=0;
-  function pshow(i){pidx=(i+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle('active',j===pidx);});var c=document.getElementById('pcount');if(c)c.textContent=(pidx+1)+' / '+slides.length;var pb=document.getElementById('pbar');if(pb)pb.style.transform='scaleX('+((pidx+1)/slides.length)+')';fitSlide(slides[pidx]);}
-  // auto-fit: scale the active slide's content so it always fits the viewport (no scroll, no cutoff, any screen)
-  function fitSlide(slide){if(!slide||!document.body.classList.contains('presenting'))return;var w=slide.querySelector('.wrap');if(!w)return;w.style.transform='translate(-50%,-50%)';var avail=slide.clientHeight*0.9;var need=w.scrollHeight;var f=need>avail?(avail/need):1;w.style.transform='translate(-50%,-50%) scale('+f.toFixed(4)+')';}
-  function _present(on){document.body.classList.toggle('presenting',on);slides.forEach(function(s){if(on){s.classList.add('slide');}else{s.classList.remove('slide','active');}});if(on)pshow(0);}
-  function enterPresent(){_present(true);var el=document.documentElement;if(el.requestFullscreen){el.requestFullscreen().catch(function(){});}}
-  function exitPresent(){if(document.fullscreenElement&&document.exitFullscreen){document.exitFullscreen().catch(function(){});}_present(false);}
-  document.addEventListener('fullscreenchange',function(){var pres=document.body.classList.contains('presenting');if(!document.fullscreenElement&&pres){_present(false);}else if(document.fullscreenElement&&pres){setTimeout(function(){fitSlide(slides[pidx]);},90);}});
-  window.addEventListener('resize',function(){if(document.body.classList.contains('presenting'))fitSlide(slides[pidx]);});
-  window.enterPresent=enterPresent;window.exitPresent=exitPresent;window.pshow=pshow;
-  Object.defineProperty(window,'pidx',{get:function(){return pidx;}});
-  document.addEventListener('keydown',function(e){if(!document.body.classList.contains('presenting'))return;
-    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();pshow(pidx+1);}
-    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();pshow(pidx-1);}
-    else if(e.key==='Escape'){exitPresent();}});
-
   // scroll-spy: highlight the nav item for the section in view
   var links=[].slice.call(document.querySelectorAll('nav a'));
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
