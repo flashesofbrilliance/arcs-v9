@@ -79,12 +79,24 @@
   td.state{font-family:var(--mono);font-weight:700;color:var(--gold-soft);white-space:nowrap}
 
   footer{padding:24px 0 40px;color:var(--dim);font-size:12px;font-family:var(--mono)}
+  nav.family{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+  nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
+    padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
+  nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
 </style>
 
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
   <h1>Web form delivery: change work order</h1>
   <div class="meta">Addendum 1.2-A &nbsp;·&nbsp; Aug 17, 2026 &nbsp;·&nbsp; no site or CRM changes made yet</div>
+  <nav class="family">
+    <a href="/status/progress">Progress</a>
+    <a href="/status/crm">CRM routing</a>
+    <a class="here" href="/status/troubleshooting">Web forms</a>
+    <a href="/status/tidio">Tidio delivery</a>
+    <a href="/status/atlas">Atlas</a>
+    <a href="/status/build">Build</a>
+  </nav>
 </div></header>
 
 <div class="bluf"><div class="wrap">
@@ -215,6 +227,6 @@
   </details>
 </div></div>
 
-<footer><div class="wrap">PRL Resins Chatbot Program &middot; internal, pre-decision</div></footer>
+<footer><div class="wrap">PRL Resins Chatbot Program &middot; internal, pre-decision<br>siblings: <a href="/status/progress">/progress</a> &middot; <a href="/status/crm">/crm</a> &middot; <a href="/status/tidio">/tidio</a> &middot; <a href="/status/atlas">/atlas</a> &middot; <a href="/status/build">/build</a></div></footer>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
