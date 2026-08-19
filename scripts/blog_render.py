@@ -102,16 +102,18 @@ def render(md: str) -> str:
             continue
         if b == "---":
             out.append(f'<hr style="border:none;border-top:1px solid var(--border);margin:2.5em 0">')
+        elif b.startswith("#### "):
+            out.append(f'<h4 style="margin:1.6em 0 .5em;font-family:var(--font-mono);font-size:.7rem;font-weight:700;letter-spacing:var(--track-widest);text-transform:uppercase;line-height:1.2;color:var(--fg4)">{inline(b[5:])}</h4>')
         elif b.startswith("### "):
-            out.append(f'<h3 style="margin:1.8em 0 .6em;font-size:1.125rem;font-weight:600;color:var(--fg1)">{inline(b[4:])}</h3>')
+            out.append(f'<h3 style="margin:1.8em 0 .6em;font-size:1.125rem;font-weight:600;line-height:1.3;color:var(--fg1)">{inline(b[4:])}</h3>')
         elif b.startswith("# "):
             out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">{inline(b[2:])}</p>')
         elif b.startswith("## ") and not titled:
             titled = True
-            out.append(f'<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,2.6rem);line-height:1.2;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h1>')
+            out.append(f'<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,3rem);line-height:1.15;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h1>')
         elif b.startswith("## "):
             seen_h2 = True
-            out.append(f'<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h2>')
+            out.append(f'<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">{inline(b[3:])}</h2>')
             if "braid" in b.lower():
                 out.append(BRAID)
         elif b.startswith("— *Sparkline:"):
@@ -120,9 +122,12 @@ def render(md: str) -> str:
         elif b.startswith("— *"):
             color = TOKENS["red"] if "Red" in b[:14] else TOKENS["gold"] if "Gold" in b[:14] else TOKENS["verm"]
             out.append(f'<p class="stitch"><span style="color:{color}" aria-hidden="true">&#9473;&#9473;</span> {inline(b[2:])}</p>')
-        elif b.startswith("> "):
+        elif b.startswith(">> "):
             q = " ".join(l.lstrip("> ").strip() for l in b.splitlines())
             out.append(f'<blockquote class="pull">{inline(q)}</blockquote>')
+        elif b.startswith("> "):
+            q = " ".join(l.lstrip("> ").strip() for l in b.splitlines())
+            out.append(f'<blockquote class="bq">{inline(q)}</blockquote>')
         elif b.startswith("*") and b.endswith("*") and "\n" not in b:
             body = inline(b[1:-1])
             if not seen_h2:
@@ -194,13 +199,15 @@ PAGE = """<!doctype html>
     background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), var(--surface); }}
   .stitch {{ margin: 1.5em 0; font-family: var(--font-mono); font-size: .82rem;
     color: var(--fg2); letter-spacing: .01em; }}
-  .standfirst {{ font-size: 1.125rem; line-height: 1.65; color: var(--fg2); font-style: italic;
-    margin: 0 0 1.8em; }}
+  .standfirst {{ font-size: 1.125rem; line-height: 1.6; font-weight: 500; color: var(--fg2);
+    margin: 0 0 1.8em; }}  /* .arcs-lead: medium weight, no italic */
+  .bq {{ margin: 1.6em 0; padding: .2em 0 .2em 1.1em; border-left: 1px solid var(--border);
+    font-size: 1rem; font-weight: 400; font-style: italic; line-height: 1.7; color: var(--fg2); }}
   .dropcap::first-letter {{ float: left; font-size: 3.4em; line-height: .82; padding: .06em .14em 0 0;
     font-weight: 600; color: var(--fg1); }}
   .pull {{ margin: 2.2em 0; padding: 1.15em 0; border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border); font-size: 1.35rem; line-height: 1.45; font-weight: 500;
-    color: var(--fg1); letter-spacing: -0.01em; }}
+    border-bottom: 1px solid var(--border); font-size: 1.5rem; line-height: 1.4; font-weight: 600;
+    color: var(--fg1); letter-spacing: -0.015em; }}
   .pull::before {{ content: ""; display: block; width: 34px; height: 2px; margin-bottom: .8em;
     background: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C); }}
   h2::before {{ content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
