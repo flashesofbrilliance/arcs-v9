@@ -15,7 +15,7 @@
     line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:var(--gold-soft);text-decoration:none}
   .wrap{max-width:916px;margin:0 auto;padding:0 22px}
-  header{padding:36px 0 22px;border-bottom:1px solid var(--border)}
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
   .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
     text-transform:uppercase;display:flex;align-items:center;gap:8px}
   .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
@@ -25,14 +25,14 @@
   nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
     padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
   nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
-  .bluf{padding:22px 0;border-bottom:1px solid var(--border)}
+  .bluf{padding:22px 0 8px}
   .bluf p{margin:0;font-size:20px;line-height:1.55}
   .bluf strong{color:var(--gold-soft)}
-  .checklist{padding:22px 0;border-bottom:1px solid var(--border)}
+  .checklist{padding:0}
   .checklist .label{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--dim);margin-bottom:14px}
   .row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;
-    padding:11px 0;border-top:1px solid var(--surface2)}
+    padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
   .row:first-of-type{border-top:none;padding-top:0}
   .row .mark{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.5}
   .row .mark.go{color:var(--green)}
@@ -60,6 +60,12 @@
     td{border-bottom:0;padding:6px 14px;white-space:normal}
     td.who{padding-top:10px}
   }
+  /* glassmorphic section panels — replaces hard divider lines */
+  .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
+    background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px auto;backdrop-filter:blur(8px)}
+  .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px 0;backdrop-filter:blur(8px)}
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>

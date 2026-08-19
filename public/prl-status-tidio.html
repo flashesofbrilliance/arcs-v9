@@ -16,7 +16,7 @@
   a{color:var(--gold-soft);text-decoration:none}
   .wrap{max-width:916px;margin:0 auto;padding:0 22px}
 
-  header{padding:36px 0 22px;border-bottom:1px solid var(--border)}
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
   .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
     text-transform:uppercase;display:flex;align-items:center;gap:8px}
   .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
@@ -28,7 +28,7 @@
     padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
   nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
 
-  .bluf{padding:22px 0;border-bottom:1px solid var(--border)}
+  .bluf{padding:22px 0 8px}
   .bluf p{margin:0;font-size:20px;line-height:1.55;max-width:100%}
   .bluf strong{color:var(--gold-soft)}
 
@@ -40,7 +40,7 @@
   section.block p strong{color:var(--text)}
 
   .row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;
-    padding:11px 0;border-top:1px solid var(--surface2)}
+    padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
   .row:first-of-type{border-top:none;padding-top:0}
   .row .mark{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.5}
   .row .mark.go{color:var(--green)}
@@ -93,7 +93,7 @@
   .brief-body li b{color:var(--text)}
 
   .crit{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:0}
-  .crit li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--surface2)}
+  .crit li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
   .crit li:first-child{border-top:0}
   .crit .idx{flex:none;font-family:var(--mono);font-weight:700;color:var(--gold);font-size:13px;min-width:16px}
   .crit .txt{font-size:14px}
@@ -104,6 +104,12 @@
   .callout b{color:var(--text)}
 
   footer{padding:24px 0 64px;color:var(--dim);font-size:14px;font-family:var(--mono)}
+  /* glassmorphic section panels — replaces hard divider lines */
+  .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
+    background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px auto;backdrop-filter:blur(8px)}
+  .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px 0;backdrop-filter:blur(8px)}
 </style>
 
 <header><div class="wrap">
@@ -125,7 +131,7 @@
   Zapier &rarr; SugarCRM sandbox</strong>. As of Aug 18 this pipe is <strong>built, published, and verified with a real conversation</strong> — a staging chat became a complete, deduplicated, enriched sandbox lead. Nothing has touched production.</p>
 </div></div>
 
-<div class="wrap">
+<div class="wrap glasswrap">
 <section class="block">
   <div class="label">Status</div>
 
