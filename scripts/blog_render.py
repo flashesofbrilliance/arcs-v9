@@ -84,8 +84,16 @@ BRAID = ('<svg width="200" height="36" viewBox="0 0 200 36" aria-hidden="true" s
          f'<path d="M4 28 C 60 28, 80 18, 130 18 S 190 18, 196 18" stroke="{SPARK["v"]}" stroke-width="2.5" fill="none" opacity=".9"/></svg>')
 
 
+ENDMARK = ('<p class="endmark" aria-hidden="true"><svg width="46" height="12" viewBox="0 0 46 12">'
+           f'<path d="M6 0 L12 6 L6 12 L0 6 Z" fill="{SPARK["r"]}"/>'
+           f'<circle cx="23" cy="6" r="5" fill="{SPARK["g"]}"/>'
+           f'<rect x="36" y="1" width="10" height="10" fill="{SPARK["v"]}"/></svg></p>')
+
+
 def render(md: str) -> str:
     out = []
+    seen_h2 = False
+    dropped_cap = False
     P = 'style="margin:0 0 1.15em;line-height:1.75"'
     for block in re.split(r"\n\s*\n", md.strip()):
         b = block.strip()
@@ -98,7 +106,8 @@ def render(md: str) -> str:
         elif b.startswith("## ") and not out or b.startswith("## ") and len([x for x in out if "<h1" in x]) == 0:
             out.append(f'<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,2.6rem);line-height:1.2;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h1>')
         elif b.startswith("## "):
-            out.append(f'<h2 style="margin:2.2em 0 .8em;font-size:1.375rem;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h2>')
+            seen_h2 = True
+            out.append(f'<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h2>')
             if "braid" in b.lower():
                 out.append(BRAID)
         elif b.startswith("— *Sparkline:"):
@@ -107,17 +116,28 @@ def render(md: str) -> str:
         elif b.startswith("— *"):
             color = TOKENS["red"] if "Red" in b[:14] else TOKENS["gold"] if "Gold" in b[:14] else TOKENS["verm"]
             out.append(f'<p class="stitch"><span style="color:{color}" aria-hidden="true">&#9473;&#9473;</span> {inline(b[2:])}</p>')
+        elif b.startswith("> "):
+            q = " ".join(l.lstrip("> ").strip() for l in b.splitlines())
+            out.append(f'<blockquote class="pull">{inline(q)}</blockquote>')
         elif b.startswith("*") and b.endswith("*") and "\n" not in b:
             body = inline(b[1:-1])
-            aside = "In plain terms" in b
-            cls = "plain" if aside else "aside"
-            out.append(f'<div class="{cls}">{body}</div>')
+            if not seen_h2:
+                out.append(f'<p class="standfirst">{body}</p>')
+            else:
+                cls = "plain" if "In plain terms" in b else "aside"
+                out.append(f'<div class="{cls}">{body}</div>')
         elif b.startswith("- "):
             items = "".join(f'<li style="margin:0 0 .8em;line-height:1.7">{inline(i[2:].strip())}</li>'
                             for i in re.split(r"\n(?=- )", b))
             out.append(f'<ul style="margin:0 0 1.15em;padding-left:1.3em">{items}</ul>')
         else:
-            out.append(f"<p {P}>{inline(' '.join(l.strip() for l in b.splitlines()))}</p>")
+            txt = inline(' '.join(l.strip() for l in b.splitlines()))
+            if seen_h2 and not dropped_cap and len(b) > 180:
+                out.append(f'<p class="dropcap" {P}>{txt}</p>')
+                dropped_cap = True
+            else:
+                out.append(f"<p {P}>{txt}</p>")
+    out.append(ENDMARK)
     return "\n".join(out)
 
 
@@ -170,6 +190,23 @@ PAGE = """<!doctype html>
     background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), var(--surface); }}
   .stitch {{ margin: 1.5em 0; font-family: var(--font-mono); font-size: .82rem;
     color: var(--fg2); letter-spacing: .01em; }}
+  .standfirst {{ font-size: 1.125rem; line-height: 1.65; color: var(--fg2); font-style: italic;
+    margin: 0 0 1.8em; }}
+  .dropcap::first-letter {{ float: left; font-size: 3.4em; line-height: .82; padding: .06em .14em 0 0;
+    font-weight: 600; color: var(--fg1); }}
+  .pull {{ margin: 2.2em 0; padding: 1.15em 0; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); font-size: 1.35rem; line-height: 1.45; font-weight: 500;
+    color: var(--fg1); letter-spacing: -0.01em; }}
+  .pull::before {{ content: ""; display: block; width: 34px; height: 2px; margin-bottom: .8em;
+    background: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C); }}
+  h2::before {{ content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
+    background: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C); }}
+  .endmark {{ margin: 2.6em 0 0; }}
+  @media (min-width: 1280px) {{
+    .aside, .plain {{ float: right; clear: right; width: 272px; margin: .2em -324px 1.2em 1.6em;
+      font-size: .88rem; line-height: 1.65; padding: .85em 1em; }}
+    figure {{ width: calc(100% + 324px); }}
+  }}
   nav a {{ text-decoration: none; }}
   nav a:hover {{ text-decoration: underline; }}
 </style>

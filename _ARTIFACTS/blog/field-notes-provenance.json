@@ -14,12 +14,12 @@
     {
       "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus.md",
       "role": "surgical tier (md source)",
-      "sha256_16": "eeb856874413fbd3"
+      "sha256_16": "16cf7eaded76b84b"
     },
     {
       "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus-diamond-cut.md",
       "role": "operational tier (md source)",
-      "sha256_16": "5a833129b705e487"
+      "sha256_16": "ca549d9006a8eb78"
     },
     {
       "path": "_ARTIFACTS/blog/field-notes-self-cataloging-corpus-exec.md",
@@ -29,17 +29,17 @@
     {
       "path": "public/blog-nftt-post-1-full.html",
       "role": "surgical render \u2014 good.arcs.care/blog/nftt/post-1/full",
-      "sha256_16": "ba723fbc2fe9a4f7"
+      "sha256_16": "077e6943d1a30b46"
     },
     {
       "path": "public/blog-nftt-post-1-brief.html",
       "role": "operational render \u2014 /blog/nftt/post-1/brief",
-      "sha256_16": "d0ecc3bdbf378507"
+      "sha256_16": "50df49f861520046"
     },
     {
       "path": "public/blog-nftt-post-1-exec.html",
       "role": "exec render \u2014 /blog/nftt/post-1 (water-fountain default)",
-      "sha256_16": "5a86b614725221b2"
+      "sha256_16": "1a4d596f4c5e54c2"
     }
   ],
   "sources": [
@@ -190,10 +190,15 @@
       "pass": 14,
       "op": "full token import",
       "detail": "DS :root block imported verbatim into renderer template + Google Fonts @import (Inter + JetBrains Mono, same as family pages); all CSS/inline styles refactored to var() refs (SVG marks keep literal hexes, attr context). Future DS re-sync = replace one block."
+    },
+    {
+      "pass": 15,
+      "op": "magazine atomic grammar",
+      "detail": "molecule/organism layer: standfirst deck (unboxed front-matter), drop cap (length-gated), pull quotes (aphorisms elevated, > syntax), braid-gradient section ticks, thread-glyph endmark, Tufte margin notes >=1280px (asides float to right rail; figures widen to rail edge). All renderer-level; post-2 inherits."
     }
   ],
   "epoch": {
-    "corpus_commit": "fb28ec2",
-    "emitted": "2026-08-18T17:28:28-04:00"
+    "corpus_commit": "45decc7",
+    "emitted": "2026-08-18T17:37:17-04:00"
   }
 }

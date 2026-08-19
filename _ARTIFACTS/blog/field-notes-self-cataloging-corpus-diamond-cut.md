@@ -18,6 +18,8 @@ So, before the scheduling link, a ten-minute smoke test. Does the sender exist: 
 
 The application itself took minutes. I ran it two minutes before my call with the recruiter, because I was not crafting anything in that moment: I was executing a method I had already packaged from previous applications, refined again on this rep. The hours had been spent earlier, building the workflow that makes any given application nearly free. This is the unlock generative AI actually offers, and most people hold it backwards: you invest in the class, and the instances become almost free. Build the reusable machine once, at full care; then each deliverable is a two-minute run. The deliverable was disposable; the method was the asset. Before sending, a panel of four harsh simulated readers tore the draft apart, and earned its keep: it caught me claiming an open-source tool of mine solved "the same problem" as the company's product. It does not. Mine reduces a cost; theirs measures it. The corrected framing, independently converged from the other side, is stronger than the false identity, and a staff engineer would have caught the overclaim in five seconds.
 
+> The deliverable was disposable; the method was the asset.
+
 The application went out. That should have been the end of the story. Instead, the leftover tricks from one disposable errand needed somewhere to live, and a resume became a filing problem.
 
 ## The index that writes itself

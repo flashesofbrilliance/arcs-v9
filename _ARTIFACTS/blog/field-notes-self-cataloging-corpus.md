@@ -42,7 +42,7 @@ Which is how a resume became a filing problem.
 
 ## The index that writes itself
 
-An index you have to remember to update is a to-do item. An index that updates itself is infrastructure.
+> An index you have to remember to update is a to-do item. An index that updates itself is infrastructure.
 
 My working memory for this project is a few hundred small markdown files: lessons, patterns, client context, scars. Each has a one-line description in its header. For months, the master index was hand-curated, which means it was always slightly wrong: new files sat unindexed, and a buggy check kept flagging files with dots in their names as orphans forever.
 
@@ -94,7 +94,7 @@ And the doctrine was not theoretical. That same stretch of work produced, live, 
 
 ## Auditing the auditor
 
-A system that measures everything except its maker is a mirror hung facing the wall.
+> A system that measures everything except its maker is a mirror hung facing the wall.
 
 With the archive now queryable, I ran five parallel reviews over a month of work: four organized by my own categories, and a fifth deliberately run without them, clustering the raw material to see what shape it made on its own. Then I treated the whole thing like a portfolio: every project a position, everything it produced a holding, every outcome booked.
 
