@@ -103,6 +103,46 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.41.0 (2026-08-19)
+
+> **Active pickup point — the loaf-cooling handoff.** Caps the v3.40.0 session's second arc:
+> design-system unification across 8 surfaces, the page factory, ADR-066, and the live-culture
+> naming. Oracle-numbered (41). Read v3.40.0 below for the open bugs — they are STILL the next
+> session's first work.
+
+## What landed after v3.40.0 (all pushed, all verified live)
+- **One design system, 8 surfaces, zero exceptions:** prl.arcs.care root = Overview (masked
+  todd-call content); /status/{progress,crm,troubleshooting,tidio,atlas,build}. Sticky pill nav
+  (Overview-first) + identical global footer on every page; 916px wrap; glass panels, no hard
+  dividers; balanced h1s; every mobile/layout defect fixed live (~20) — each now a rule in the
+  factory SKILL.md. Mechanical audit script proves conformance (in-session pattern, re-runnable).
+- **prl-page-factory skill** (`.claude/skills/prl-page-factory/`): atoms.css extracted from the
+  live reference page + zero-dep generator; new page = ~20-line spec.json. Smoke-tested.
+- **ADR-066 Generative Recoil** minted from a witnessed naming moment (witness stub GREEN,
+  promoted): recoil is bidirectional — audit AND compose session residue into instance → class →
+  invariant. Falsifiable: next PRL page must cost a spec, not a session. Build.html ADR stat
+  61 (tripwire caught its own mint again, fixed the surface, never --no-verify).
+- **Live-culture / ancient-starter doctrine** (Zach's naming): feed artifacts from the deployed
+  instance, never parallel-maintain. Both claude.ai artifacts (atlas + ssot) rebuilt
+  instance-first from the deployed page and republished to their same URLs.
+- **Apex spine v15** added (generative-recoil-live-culture). **Seeds planted:**
+  `live-culture-artifacts`, `page-factory-from-session` (+ earlier: `engagement-universe-doll`).
+  **Memory minted:** [[generative-recoil-live-culture]] incl. 3 tao proverbs.
+  **Parked for Aug-24 close-loop:** evidence-anchored re-pricing of 1.3–1.5 (1.4 highest
+  exposure — attribution is ground-truth-verification work, the category that ran 3x).
+- **Reading-room candidates (Alexandria):** ADR-066 + the starter framing join apex-spine as
+  center-room candidates — placement idea only, not integrated.
+
+## Register decision made and to hold
+No src/ UIKit for PRL — the factory IS the UIKit at the right weight; React-ification only on a
+third interactive surface family (rule of three). Don't blur into the app's FieldOS system.
+
+## Next session (unchanged from v3.40.0, plus)
+1. Co-pilot Task 1: empty-email filter + Roger Lamarre repair (CRITICAL, before more demo traffic).
+2. Test-lead cleanup · rep notification · SLA sweep · baseline pull (briefs/meta-prompts ready).
+3. UAT selector debug run · SEM template Phase 0 (fill 2 node schemas via export).
+4. Aug-24 1.2 close-loop: expected-vs-actual + the parked re-pricing conversation with Todd.
+
 # Handoff — v3.40.0 (2026-08-18, late)
 
 > **Active pickup point — PRL 1.1/1.2 wrap session, part 2.** Continuation of v3.39.0's landing:
@@ -188,183 +228,4 @@ drafts' vocabulary before 1.4 kicks, so kickoff is stamping, not building. Quota
 scaling: each active flow draws from visitors-reached (26/2000 now, fine for pilot).
 
 
-# Handoff — v3.39.0 (2026-08-18)
-
-> Minted on main as v3.37.0; renumbered at merge — the SECOND v3.37.0 collision
-> (Comet holds v3.37.0 on this branch). Handoff numbers are now oracle-governed
-> (`scripts/oracle.py next handoff`) to end this collision class.
-
-> **Active pickup point.** Continuation of PRL 1.1: Todd approved the web-forms approach in
-> writing (Aug 17, 19:32 reply — "Makes total sense... it's how the leads from the PPC landing
-> pages are supposed to work"), a $2,070 CWO (Addendum 1.2-A, invoice #NYQRTJPQ-0004) is live and
-> payable at prl.arcs.care/status/troubleshooting, and mid-session a major access discovery
-> changed the build plan. **Not yet paid as of this handoff.**
-
-## Headline: real Sugar Studio access exists via Claude-in-Chrome, confirmed live, changes the plan
-
-Spent significant effort earlier this session assuming no direct Sugar/WordPress access existed
-(the sandboxed `Claude_Browser` tool showed login screens for both). **That assumption was wrong**
-— Zach corrected it: he's logged into both in his real Chrome, reachable via the `claude-in-chrome`
-MCP surface (real browser, real sessions), not the sandboxed preview browser used for Tidio
-earlier. Confirmed live:
-- **prlresins.sugarondemand.com (production)** authenticated and open (screenshotted the real
-  revenue dashboard).
-- **prlresinstest.sugarondemand.com (sandbox)** also open, in a separate tab, **with admin access**
-  — Administration panel reachable at `prlresinstest.sugarondemand.com/#Administration`, where
-  Zapier's connection to Sugar's API is visible/manageable.
-- The `zapier.chatbot` sandbox account has real read/write access, not just API-level (already
-  proven all session via the Zapier MCP connection).
-
-**Process lesson, said plainly because Zach asked directly why I didn't try this first:** I
-defaulted to the tool I'd already been using all session (sandboxed browser) out of habit rather
-than checking which surface actually holds live credentials, even though the system prompt is
-explicit that Claude-in-Chrome is for exactly this. When a task's question is literally "do you
-have a live session," check the surface that can have one before the sandboxed one that never
-does.
-
-**What this unlocks for next session:** Sugar Studio's native Web-to-Lead Wizard is now directly
-reachable and buildable, in both sandbox and prod, with admin-level access to the sandbox's
-Administration panel. This likely replaces (or at least should be weighed against) the bridge
-architecture sketched below, which assumed no direct UI access and built around that constraint.
-
-**Also confirmed this session, separately:** the Zapier MCP surface has no tool to create a
-standing webhook Zap (trigger + public URL + action) — `create_zapier_skill`, `write_code_action`,
-and `execute_zapier_write_action` all run only when explicitly invoked in a live conversation, none
-of them are unattended infrastructure that fires when a real site visitor submits a form later.
-That's a genuine capability gap (not a process miss like the browser one), and it's the reason the
-bridge architecture below leaned on a Zapier Catch Hook as a manual one-time setup step rather than
-something buildable headlessly.
-
-## In-progress, uncommitted — resume or revert
-
-`prisma/schema.prisma` has an **uncommitted** addition: a `PrlWebLead` model (staging table for web
-form submissions, holds first/last name, company, phone, raw + normalized state, forward status).
-Migration was never run — `npx prisma migrate dev` failed with `"The datasource.url property is
-required in your Prisma config file"`, not yet debugged. **This may no longer be the right
-approach** now that direct Sugar Studio access exists — the native Web-to-Lead form doesn't need
-our own DB staging layer. Decide next session: finish the bridge (debug the migrate error, build
-the JS snippet + `/api/prl-lead` route, forward via a manually-built Zapier Catch Hook) or use the
-newly-confirmed Sugar Studio + Administration access to generate Sugar's own native Web-to-Lead
-HTML directly, which was the originally-recommended, already-proven mechanism (real "Web
-Site"-sourced leads already arrive this way). Leaning toward the latter now that it's reachable.
-
-## Everything else shipped and verified this session (all live)
-
-- `prl.arcs.care/status/{crm,troubleshooting}` — both restructured to pilot-checklist style;
-  troubleshooting page is now a formal CWO (**Addendum 1.2-A**, $2,070, in-scope/out-of-scope,
-  best/base/worst, live Stripe invoice #NYQRTJPQ-0004 wired as a pay button).
-- Vercel Web Analytics added to both static pages (gap: `layout.tsx`'s `<Analytics/>` never
-  reaches `public/` files — same gap likely exists on other older static PRL pages, not audited).
-- Two concurrent-session merges handled cleanly this session (another session independently
-  shipped `/status/tidio`, `/status/build`, and a `_SEEDS`-driven family-roster sync — merged with
-  `git merge origin/main`, zero conflicts both times, always build-verified before push).
-- DEWY receipts + prior handoff (v3.35.0, now archived) cover the routing ground-truth finding,
-  location_c resolution, and the beforeFiles re-catch bug — see `_STATE/2026-08-17-prl-1-1-session-
-  decisions.dewy.json` and `_ARTIFACTS/prl-1-1-evidence/`.
-
-## Comms state (as of 2026-08-18)
-
-Todd approved the web-forms approach in writing (Aug 17, 19:32). CRM-routing / Bill-call ask still
-awaiting his reply. Negative-keyword list started (he sent "sheet resin" as the first term, Aug 17
-19:53). Invoice #NYQRTJPQ-0004 ($2,070) sent/live but **not yet paid** as of this handoff — check
-before assuming the CWO is greenlit to start building.
-
-## Next / open flags
-
-- **Decide the web-forms build path** given the new Sugar Studio + Administration access (see
-  above) before writing more code — don't finish the bridge architecture on the old assumption if
-  the native form is now the better path.
-- **Debug or abandon** the `prisma migrate dev` datasource.url error if the bridge path is chosen.
-- Check whether invoice #NYQRTJPQ-0004 has been paid before starting build work under Addendum 1.2-A.
-- CRM routing: still waiting on Todd's nod for the Bill call; nothing to build there until then.
-- Real Chrome / Claude-in-Chrome now confirmed as a live-session surface for this project — default
-  to checking it first for any "is there an existing login" question, not the sandboxed browser.
-
-## Blocking
-
-None hard-blocking, but two real decisions await: web-forms build path (architecture), and whether
-Todd's invoice payment should gate starting Addendum 1.2-A work.
-
----
-
-# Handoff — v3.38.0 (2026-08-18)
-
-> **Active pickup point.** The self-cataloging arc, end to end in one thread:
-> inchworm → catalog → atlas → dolls → doctrine. The corpus now indexes itself,
-> renders itself, polices itself, and travels.
-
-## Headline: the memory corpus became a self-cataloging, navigable, portable system — and canonized how it stores itself
-
-- **Self-cataloging index** — `scripts/memory_index_sync.py` (session-start hook, `--append`):
-  orphan memory files auto-catalog into an "Uncurated (auto)" band rendered from their own
-  frontmatter `description` (the SSOT inversion). Fixed the old inline check's regex bug
-  (dotted filenames false-positived ORPHAN forever). Dead links + byte budget stay
-  receipt-only. Index consolidated 20.9→17.4KB, 0 dropped, 0 dead links.
-- **Catalog emitter** — `scripts/memory_catalog_emit.py`: mechanical, declared-edges-only
-  backfill (183 nodes, 590 `[[wiki-link]]` edges, 22 dangling counted honestly).
-- **Terrain Atlas** — `_ARTIFACTS/terrain-atlas.html`: 2.5D ziggurat where **stratum = echo
-  weight** (base uncited → apex canon 10+), fog = staleness, district = azimuth; arrow-key
-  traversal climbs the strongest declared edge; full camera (orbit/tilt/track, presets);
-  per-node **russian-doll nested-ticket export** (cycles = `@ref`, never invented hierarchy).
-  The apex self-identified: `cut-not-add-provable-architecture`, cited ×21.
-- **Dolls (User0 → UserN+1)** — `scripts/doll_export.py` + `doll_sprout.py`: epoch-stamped
-  declared-closure bundles, `--bodies` for true tenant bootstrap, **fail-closed air-gap gate**
-  (`audience:` absent = internal; external cuts name what they held). Sprout never overwrites;
-  the tenant's inchworm self-catalogs. Round-trip tested (96 shells w/ bodies).
-- **ADR-065 minted via oracle** (+ **tao-249**, aspect C): corpus = SSOT, storage = induced
-  projection, 4 serialization invariants, namespace isolation, **Infra Compass = ROM CANDIDATE**
-  ("Induced Projection"; Y-map evidenced by this session's own FORK/PARADOX/DRIFT).
-- **Merge reconcile**: 27 commits behind main resolved; three-way v3.35.0 handoff collision
-  renumbered honestly (ours → v3.37.0); PII repos (`arcs-memory-pipeline`, `arcs-career-fit`)
-  **re-privatized** per their own "pending review" descriptions (a live PARADOX, closed).
-  30-day sweep ran; gauntlet-sampling-engine + dollar-compression minted to memory.
-- **The system ratified itself**: the pre-push tripwire rejected the ADR-065 push because
-  build.html still said 59 ADRs — the drift the mint itself created. Fixed the surface
-  (never `--no-verify`), pushed clean. The Infra Compass worked before it was built.
-
-## Wisdom receipt (the durable lessons, distilled)
-
-1. **Invert the index**: when a file's frontmatter IS the SSOT for its index line, cataloging
-   becomes mechanical and new knowledge can never silently fall out of the index.
-2. **Declared-only edges are the honesty floor for provenance**: absent ancestry stays absent;
-   a guessed edge is the propaganda version of lineage. (Held everywhere: catalog, atlas,
-   tickets, dolls, ADR-065 invariant 3.)
-3. **The NOTOMATION split scales every inchworm**: mechanical countables automate
-   (append, emit, count); judgment (curation, canon, RED response) stays human. The same
-   cut worked for the index, the seedbank, the snapshot, and the compass design.
-4. **Let the data make the shape**: the ziggurat's pyramid wasn't designed — it emerged from
-   the citation distribution, and its apex independently surfaced the corpus's own governing
-   goal (`cut-not-add`, ×21). Render the structure; don't impose it.
-5. **Fail closed at every boundary**: `audience:` absent = internal; PARADOX resolves to the
-   restrictive assertion + a receipt (the ROM RC). The air-gap gate refused 100% on first
-   run — that's the gate working, not failing.
-6. **Dollar compression in practice**: ~350 lines of stdlib authored once, zero LLM in any
-   runtime path — export/sprout/emit/check run free forever.
-7. **A gate that catches its own minting commit is the proof the gate is real** (tripwire vs
-   ADR-065's own drift).
-
-## Next / open flags
-- Roll `audience:` frontmatter onto any memory that would ever be cut externally (gate is
-  fail-closed until then — correct but total).
-- pg/pgvector migration (**ask-first** per ADR-065); `--emit-sql` on the emitter is the seam.
-- ROM ratification of "Induced Projection" when earned; Infra Compass L1–L5 synthesis unbuilt.
-- Origin-session / cross-session echo enrichment (`Activation` rows) — designed, not built.
-- lattice-drift still fires (ADR count 57 vs 60; epoch stale) — regenerate is human-owned.
-- Sweep leftovers unminted: CWO pattern, status-URL gotcha, F33 panel-as-plan-breaker,
-  family token-SSOT, marketplace-as-channel, release runbook.
-- **Apex Spine → Alexandria**: `_ARTIFACTS/apex-spine.html` (the S4 canon stratum as a print
-  spine, 14 vertebrae) is a candidate resident for the **center reading room of the Library
-  of Alexandria** performer (`_ARTIFACTS/arcs-alexandria.html`) — the corpus's load-bearing
-  canon displayed at the library's heart. Placement idea, not yet integrated.
-
-## Blocking
-NONE this track. (PRL remains blocked on Todd — see snapshot `blocking_v3350_prl`.)
-
-## Deploy note
-All work pushed to `claude/plugin-marketplace-arcs-skills-9622bd` (head `b12349f` pre-handoff);
-one public-surface content change (build.html ADR stat 59→60) rode the tripwire-gated push.
-No product deploy. Comet application: SENT (see v3.37.0).
-
----
-
-> _v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
