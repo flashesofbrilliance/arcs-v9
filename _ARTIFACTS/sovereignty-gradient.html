@@ -1,0 +1,147 @@
+<title>The Engine-Sovereignty Gradient</title>
+<style>
+  /* Committed single-world blueprint register — matches the Abductive Constitution deck.
+     All colors painted explicitly; holds on any host ground. */
+  :root{
+    --ground:#0c1830; --grid:#1c3054; --panel:#101f3d; --line:#2a4370;
+    --ink:#e9eef8; --dim:#8ea3c8; --brass:#c9a227; --brass-hi:#e8c84a;
+    --cyan:#00f0ff; --red:#ff4d6d; --green:#00ff9d;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --serif:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{
+    background:var(--ground);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:44px 44px;
+    color:var(--ink);font-family:var(--serif);line-height:1.55;
+    padding:56px 20px 80px;
+  }
+  .frame{max-width:880px;margin:0 auto;border:1px solid var(--line);background:rgba(12,24,48,.72);padding:48px 44px 40px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
+  h1{font-size:clamp(30px,5vw,44px);font-weight:400;letter-spacing:-.01em;margin:10px 0 6px;text-wrap:balance}
+  .sub{color:var(--dim);font-size:17px;max-width:60ch}
+  .sub em{color:var(--ink);font-style:italic}
+
+  /* ── The ladder ─────────────────────────────── */
+  .ladder{margin:44px 0 8px;position:relative;padding-left:26px}
+  .ladder::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;
+    background:linear-gradient(var(--cyan),var(--brass) 50%,var(--green))}
+  .rung{position:relative;padding:0 0 34px 22px}
+  .rung:last-child{padding-bottom:0}
+  .rung::before{content:"";position:absolute;left:-25px;top:6px;width:14px;height:14px;border:2px solid var(--c);
+    background:var(--ground);transform:rotate(45deg)}
+  .tier{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--c);text-transform:uppercase}
+  .rung h2{font-size:24px;font-weight:400;margin:4px 0 6px}
+  .rung p{color:var(--dim);max-width:62ch}
+  .rung p b{color:var(--ink);font-weight:600}
+  .boundary{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--c);
+    border:1px dashed var(--c);padding:5px 10px}
+
+  /* trust boundary shrink bars */
+  .tb{height:6px;margin-top:12px;max-width:420px;background:
+    linear-gradient(90deg,var(--c) var(--w),transparent var(--w));outline:1px solid var(--line)}
+
+  .axiom{margin:48px 0;border-left:3px solid var(--brass);padding:16px 22px;background:var(--panel)}
+  .axiom p{font-size:20px;font-style:italic;text-wrap:balance}
+  .axiom .who{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:8px;font-style:normal}
+
+  /* ── Mint chain ─────────────────────────────── */
+  .section-label{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--brass);border-top:1px solid var(--line);padding-top:28px;margin-top:8px}
+  .chain{list-style:none;padding:0;margin:22px 0 0;counter-reset:mint}
+  .chain li{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:13px 0;border-bottom:1px dotted var(--line)}
+  .chain li::before{counter-increment:mint;content:counter(mint,decimal-leading-zero);
+    font-family:var(--mono);font-size:14px;color:var(--brass);padding-top:2px}
+  .chain .what{font-size:17px}
+  .chain .where{font-family:var(--mono);font-size:12.5px;color:var(--dim);margin-top:3px;word-break:break-word}
+  .chain .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:2px 7px;margin-left:8px;
+    border:1px solid var(--green);color:var(--green)}
+  .tag.red{border-color:var(--red);color:var(--red)}
+
+  .trip{margin-top:40px;border:1px solid var(--line);background:var(--panel);padding:22px 24px}
+  .trip h3{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+  .trip li{color:var(--dim);margin:8px 0 8px 18px}
+  .trip li b{color:var(--ink);font-weight:600}
+
+  footer{margin-top:36px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.06em}
+  @media (max-width:560px){.frame{padding:32px 20px}}
+</style>
+
+<div class="frame">
+  <div class="eyebrow">ARCS · ADR-067 · Minted 2026-08-19</div>
+  <h1>The Engine-Sovereignty Gradient</h1>
+  <p class="sub">Receipts are the <em>freehold</em>; engines are <em>tenants</em>. The engine roadmap is the
+  temporal chain-of-custody ladder applied to the substrate itself — each rung moves prediction closer
+  to the person and shrinks the third-party trust boundary.</p>
+
+  <div class="ladder">
+    <div class="rung" style="--c:var(--cyan);--w:100%">
+      <span class="tier">Now</span>
+      <h2>LLMs — the rented cortex</h2>
+      <p>The Claude L0–L5 compass pipeline. Interpretation is leased from a vendor; receipts transit a
+      third party. Fully live today: <b>this is the only rung that exists</b>.</p>
+      <div class="tb"></div>
+      <span class="boundary">trust boundary: vendor cloud</span>
+    </div>
+    <div class="rung" style="--c:var(--brass-hi);--w:45%">
+      <span class="tier">Next</span>
+      <h2>JEPA — a world-model of your own receipts</h2>
+      <p>A latent predictor trained on the banked bet→line→update corpus instead of the internet's priors.
+      Forecasts trajectory embeddings; futures labeled as hypotheses, never blind forecasts.
+      <b>Falsifier:</b> the first prototype must consume the receipt corpus as-is — projection yes, mutation no.</p>
+      <div class="tb"></div>
+      <span class="boundary">trust boundary: self-trained model</span>
+    </div>
+    <div class="rung" style="--c:var(--green);--w:4%">
+      <span class="tier">Later</span>
+      <h2>GIGI — local, airgapped, client-side</h2>
+      <p>The whole substrate on the person's own machine. Receipts, world-model, and law with
+      <b>no external party in the trust boundary at all</b> — interstitial fluid does not leave the body.
+      The dormant seam at <b>compass/route.ts</b> is its reserved socket, not backlog.</p>
+      <div class="tb"></div>
+      <span class="boundary">trust boundary: nothing leaves the body</span>
+    </div>
+  </div>
+
+  <div class="axiom">
+    <p>"One history, many engines; fork the engine, never the world."</p>
+    <div class="who">tao · serializability as migration strategy — one write-locked history lets the
+    physics engine swap without forking the counterfactual space</div>
+  </div>
+
+  <div class="section-label">The mint chain — eight receipts, one moment</div>
+  <ol class="chain">
+    <li><div><div class="what">Witness stub <span class="tag">GREEN · promoted</span></div>
+      <div class="where">_STATE/witness/2026-08-19.jsonl — verbatim: "now = LLMs, next = JEPA, later = Gigi (local airgapped all client side)"</div></div></li>
+    <li><div><div class="what">ADR-067 — Engine-Sovereignty Gradient</div>
+      <div class="where">_DECISIONS/ADR-067-engine-sovereignty-gradient-receipts-freehold.md — freehold doctrine + falsifiable claim</div></div></li>
+    <li><div><div class="what">DEWY receipt <span class="tag">GREEN · HIGH stakes</span></div>
+      <div class="where">_STATE/2026-08-19-session-decisions.dewy.json — dissolves the "when do the engines fuse?" question as malformed</div></div></li>
+    <li><div><div class="what">Seed — engine-sovereignty-gradient</div>
+      <div class="where">_SEEDS/index.jsonl + ledger.jsonl — germination triggers: schema changes · first JEPA ingestion · anyone touching the GIGI seam · decks traveling without a NOW/NEXT line</div></div></li>
+    <li><div><div class="what">Apex spine v16</div>
+      <div class="where">_ARTIFACTS/apex-spine.html — sixteenth vertebra</div></div></li>
+    <li><div><div class="what">Memory + three tao proverbs</div>
+      <div class="where">memory/engine-sovereignty-gradient-receipts-freehold.md — "sovereignty is measured by what never leaves the body"</div></div></li>
+    <li><div><div class="what">Handoff v3.42.0 — active pickup point</div>
+      <div class="where">CLAUDE.md — v3.40.0 relocated to _ARCHIVE/handoffs.md per policy</div></div></li>
+    <li><div><div class="what">Wisdom receipt in the commit</div>
+      <div class="where">66799c0 · feat(arcs): ADR-067 engine-sovereignty gradient — full mint chain + handoff v3.42.0</div></div></li>
+  </ol>
+
+  <div class="trip">
+    <h3>The system attested to its own attestation</h3>
+    <ul>
+      <li><b>Oracle drift trued:</b> counter held adr=65 / handoff=39 while ADR-066 and handoff 41 existed on disk → set to 67/42.</li>
+      <li><b>Seedbank drift cleared:</b> three orphan seeds received their owed ledger receipts (backfill events).</li>
+      <li><b>Pre-push tripwire fired</b> on the ADR-count drift this very mint created — fixed on the surface (build.html 61→62), never <span style="font-family:var(--mono)">--no-verify</span>. Second mint in a row it caught itself.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <span>medium · geometry · law — three decks, one physics</span>
+    <span>Zach Harris · ARCS · 8a5fbfd</span>
+  </footer>
+</div>
