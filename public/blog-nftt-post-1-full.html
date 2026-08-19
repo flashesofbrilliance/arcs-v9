@@ -43,17 +43,14 @@
   h2::before { content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
     background: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C); }
   .endmark { margin: 2.6em 0 0; }
-  @media (min-width: 1280px) {
-    .aside, .plain { float: right; clear: right; width: 272px; margin: .2em -324px 1.2em 1.6em;
-      font-size: .88rem; line-height: 1.65; padding: .85em 1em; }
-    figure { width: calc(100% + 324px); }
-  }
+
   nav a { text-decoration: none; }
   nav a:hover { text-decoration: underline; }
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
 <main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
-<nav style="margin:0 0 2.2em;padding:.55em .9em;background:var(--glass-surface),var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--emboss);font-family:var(--font-mono);font-size:.78rem;color:var(--fg3)">depth: <a style="text-decoration:none" href="/blog/nftt/post-1">90-second</a> · <a style="text-decoration:none" href="/blog/nftt/post-1/brief">operational</a> · <span style="color:var(--fg1);font-weight:600">surgical</span></nav><p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:ui-monospace,monospace;color:#00F0FF">Notes from the Trenches // Building in Public: ARCS // Field OS Edition</p>
+<nav style="margin:0 0 2.2em;padding:.55em .9em;background:var(--glass-surface),var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--emboss);font-family:var(--font-mono);font-size:.78rem;color:var(--fg3)">depth: <a style="text-decoration:none" href="/blog/nftt/post-1">90-second</a> · <a style="text-decoration:none" href="/blog/nftt/post-1/brief">operational</a> · <span style="color:var(--fg1);font-weight:600">surgical</span></nav><article>
+<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">Notes from the Trenches // Building in Public: ARCS // Field OS Edition</p>
 <h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,2.6rem);line-height:1.2;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">The week my notes started filing themselves</h1>
 <p class="standfirst">This is not a thesis piece. The thesis piece is elsewhere. This is what actually happened, in order, with the failures left in.</p>
 <p class="standfirst">Two quick keys before you start. First: whenever it gets technical, an italic "in plain terms" line retells the same idea at the kitchen table; neither version is the dumbed-down one. Second: three threads run through everything here. <strong>Red</strong> is everything that says no. <strong>Gold</strong> is everything that keeps paying after the job that made it is done. And where they twist together, <strong>vermillion</strong>: the moments the thing that bit you turns out to have been on your side. The essay ends where the threads do, braided.</p>
@@ -143,7 +140,7 @@
 <div class="aside">Everything above traces to a commit, a decision record, or a ledger entry in the project repo; the one exception (the retry detail) is labeled inline. Counterpart names are omitted or generalized throughout. No usage or adoption claims are made because none exist yet.</div>
 <p style="margin:0 0 1.15em;line-height:1.75"><strong>For the curious: what these things are called at home.</strong> Every idea above has an internal name in my workshop; nothing was deleted to make this readable, only translated. The map, public phrasing → house term: stranger in the inbox → untrusted node (a starting condition, not a judgment) · byproduct harvesting → ATG (Adjacent Tributary Generation) · self-assembling index → the self-cataloging inchworm · explorable landscape → the Terrain Atlas ziggurat · portable bundles → dolls (doll_export / doll_sprout) · audience gate → the fail-closed air-gap gate · decision record 65 → ADR-065 (corpus = SSOT, induced projection) · failure log → the falsification ledger · adversarial review panel → the gauntlet · pre-push check → the family-roster tripwire · "the gate's first true positive is always the author" → the W5 law · portfolio audit → the Opportunity-Cost Investment Bank (five-desk sweep + drift-book).</p>
 <p class="endmark" aria-hidden="true"><svg width="46" height="12" viewBox="0 0 46 12"><path d="M6 0 L12 6 L6 12 L0 6 Z" fill="#FF4D6D"/><circle cx="23" cy="6" r="5" fill="#FFD700"/><rect x="36" y="1" width="10" height="10" fill="#FF6B2C"/></svg></p>
-<footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
+</article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
 NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
 </footer>
 </main></body></html>
