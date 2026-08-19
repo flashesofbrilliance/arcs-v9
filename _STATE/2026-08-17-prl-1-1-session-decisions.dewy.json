@@ -1,5 +1,5 @@
 {
-  "_doc": "DEWY receipts for 2026-08-17 — PRL 1.1 landing session (Sugar routing ground-truth investigation + web-form delivery diagnosis + prl.arcs.care/status/<seg> URL family). See _ARTIFACTS/prl-1-1-evidence/ for raw evidence and prl.arcs.care/status/{crm,troubleshooting} for the client-facing surfaces.",
+  "_doc": "DEWY receipts for 2026-08-17 \u2014 PRL 1.1 landing session (Sugar routing ground-truth investigation + web-form delivery diagnosis + prl.arcs.care/status/<seg> URL family). See _ARTIFACTS/prl-1-1-evidence/ for raw evidence and prl.arcs.care/status/{crm,troubleshooting} for the client-facing surfaces.",
   "session_ts": "2026-08-17",
   "receipts": [
     {
@@ -7,13 +7,13 @@
       "surface": "PRL / SugarCRM lead delivery",
       "sharp_question": "Does Todd's territory-map CSV actually match how Sugar routes leads today, and is it safe to build chatbot delivery on top of it?",
       "dewy_vector": {
-        "D": "No. Full 43-state sandbox sweep (create-tagged-lead -> read assigned_user -> delete, lead_source=Chatbot) found ~49% mismatch vs the CSV: several states route to a different rep, every 'Distribution'-tagged state routes elsewhere (that category may correspond to no real Sugar rule), 2 active reps (Dan Damas, Tim Mulcahy) are missing from the CSV roster entirely, and 6 states plus all 7 states outside Sugar's location_c enum land with NO assigned owner at all (worse than misrouted — no queue catches it).",
+        "D": "No. Full 43-state sandbox sweep (create-tagged-lead -> read assigned_user -> delete, lead_source=Chatbot) found ~49% mismatch vs the CSV: several states route to a different rep, every 'Distribution'-tagged state routes elsewhere (that category may correspond to no real Sugar rule), 2 active reps (Dan Damas, Tim Mulcahy) are missing from the CSV roster entirely, and 6 states plus all 7 states outside Sugar's location_c enum land with NO assigned owner at all (worse than misrouted \u2014 no queue catches it).",
         "E": "Todd Hotes (client, decision owner), Bill Galla (Sugar owner + territory-map author, not yet looped in), Jorge/Josh (IT/site, out of scope for this finding)",
-        "W": "Live now — this same gap already affects real 'Web Site'-sourced leads today, confirmed by testing TX under both lead_source values with identical routing. Not introduced by the chatbot.",
+        "W": "Live now \u2014 this same gap already affects real 'Web Site'-sourced leads today, confirmed by testing TX under both lead_source values with identical routing. Not introduced by the chatbot.",
         "Y": "YELLOW"
       },
       "y_gate_score": "YELLOW",
-      "true_north": "Neither the CSV nor Sugar's live behavior should be trusted as ground truth until Bill confirms which is right, state by state — build nothing that silently corrects toward either.",
+      "true_north": "Neither the CSV nor Sugar's live behavior should be trusted as ground truth until Bill confirms which is right, state by state \u2014 build nothing that silently corrects toward either.",
       "why": "1.1's delivery build was about to inherit routing logic from the CSV. Testing before wiring found the CSV itself was wrong roughly half the time, which would have shipped a chatbot that promises correct geo-routing while actually misrouting or dropping leads.",
       "loki": "Risk that the sandbox sample doesn't generalize to prod, or that Sugar's sandbox routing config diverges from prod. Mitigated by cross-checking prod's real 'Web Site'-sourced leads (independent evidence, same pattern) and by keeping the ask scoped to alignment, not a unilateral fix.",
       "bar": "High if ignored (silent lead loss/misroute at scale once chatbot traffic starts); low to de-risk (one 30-min call before building anything on the CSV).",
@@ -29,15 +29,15 @@
       "surface": "PRL / SugarCRM field format",
       "sharp_question": "Does location_c want state abbreviations or full names? Two prior 'verified' sources (today's pickup doc vs. an Aug-11 100-record prod audit) disagreed.",
       "dewy_vector": {
-        "D": "Abbreviation is correct. Re-verified live: the enum schema defines US states as 2-letter keys; of 15 recent prod records, the 2 sourced via the existing automated 'Web Site' integration both used abbreviations, while the 'Other' (manual/bulk-import) records used full names. The Aug-11 doc's 'full names' finding was a sampling artifact — its 100-record snapshot was 91% manual 'Other' entries, the same skew that doc itself flagged for a different stat two paragraphs earlier.",
+        "D": "Abbreviation is correct. Re-verified live: the enum schema defines US states as 2-letter keys; of 15 recent prod records, the 2 sourced via the existing automated 'Web Site' integration both used abbreviations, while the 'Other' (manual/bulk-import) records used full names. The Aug-11 doc's 'full names' finding was a sampling artifact \u2014 its 100-record snapshot was 91% manual 'Other' entries, the same skew that doc itself flagged for a different stat two paragraphs earlier.",
         "E": "delivery pipeline (Zapier -> Sugar create step)",
-        "W": "Resolved, durable — not time-bound.",
+        "W": "Resolved, durable \u2014 not time-bound.",
         "Y": "GREEN"
       },
       "y_gate_score": "GREEN",
-      "true_north": "When two 'verified' facts conflict, re-verify live against fresh evidence rather than picking a side — the resolution is often that one source's sampling was biased, not that either author was careless.",
+      "true_north": "When two 'verified' facts conflict, re-verify live against fresh evidence rather than picking a side \u2014 the resolution is often that one source's sampling was biased, not that either author was careless.",
       "why": "Writing the wrong format would have silently broken auto-routing for every state on the very field this session's larger finding is about.",
-      "loki": "Low — resolved with primary evidence (schema + real automated-path records), not inference.",
+      "loki": "Low \u2014 resolved with primary evidence (schema + real automated-path records), not inference.",
       "bar": "Low.",
       "horizon": "DURABLE",
       "stakes": "MEDIUM",
@@ -49,13 +49,13 @@
       "surface": "engineering / git",
       "sharp_question": "An unmerged branch (claude/chatbot-1-1-jtbd-blockers-edda33) turned out to already contain a capture-first Tidio flow design + a 22,500-case-verified recognizer test suite. Merge it, or rebuild from scratch?",
       "dewy_vector": {
-        "D": "Selectively checkout just the relevant path (runtime/recoil/generated/prl-lyro/, 56 files) rather than a full git merge — the two branches had 117 vs 192 commits of unrelated drift since their fork point, so a full merge would have pulled in a large amount of irrelevant history. Re-ran the Layer-0 deterministic tests post-merge to confirm the code was live and correct, not stale, before trusting it.",
+        "D": "Selectively checkout just the relevant path (runtime/recoil/generated/prl-lyro/, 56 files) rather than a full git merge \u2014 the two branches had 117 vs 192 commits of unrelated drift since their fork point, so a full merge would have pulled in a large amount of irrelevant history. Re-ran the Layer-0 deterministic tests post-merge to confirm the code was live and correct, not stale, before trusting it.",
         "E": "this repo's git history, future sessions reading it",
         "W": "One-time engineering decision, already executed.",
         "Y": "GREEN"
       },
       "y_gate_score": "GREEN",
-      "true_north": "Reuse existing, tested work over rebuilding — but verify it's still correct before trusting it, don't just take the file's word for it.",
+      "true_north": "Reuse existing, tested work over rebuilding \u2014 but verify it's still correct before trusting it, don't just take the file's word for it.",
       "why": "Closed most of leg 1's flow-mapping scope in one step instead of redoing work that already existed and was better-tested than what would have been rebuilt from scratch this session.",
       "loki": "Risk the merged code was stale/broken and would be trusted blindly. Mitigated: ran all Layer-0 self-tests post-merge (recognizer 34/34, coverage sweep, 22,500-case grid) before treating any of it as ground truth.",
       "bar": "Low.",
@@ -72,13 +72,13 @@
       "dewy_vector": {
         "D": "Get Todd's sign-off first. The recommended fix (Sugar's native Web-to-Lead form, bypassing email/SMTP/Barracuda entirely) is a different mechanism than what Jorge already partially worked on, and neither Jorge nor Josh has any visibility into it. Stood up a dedicated status page (prl.arcs.care/status/troubleshooting) explaining both problems separately (email-notification vs. Sugar-delivery) and drafted (not sent) a summary email to Todd asking only for a nod before anything goes to Jorge/Josh.",
         "E": "Todd (approval), Jorge (IT/DNS, partial context on the wrong half of the problem), Josh/Websites-For-Anything (likely owns the actual template-edit access needed)",
-        "W": "Open — waiting on Todd's response.",
+        "W": "Open \u2014 waiting on Todd's response.",
         "Y": "YELLOW"
       },
       "y_gate_score": "YELLOW",
-      "true_north": "Don't let a vendor/IT contact's partial context on an old fix stand in for the client's approval of a new, different fix — explain the plan to the decision-maker before it reaches the people who'd implement it.",
+      "true_north": "Don't let a vendor/IT contact's partial context on an old fix stand in for the client's approval of a new, different fix \u2014 explain the plan to the decision-maker before it reaches the people who'd implement it.",
       "why": "Jorge's Aug-14 Barracuda fix addressed a real but narrower problem (notification email) than the actual finding (no Sugar delivery mechanism existed at all). Looping him in on the new fix without Todd's context first risked confusing two separate problems and building on an unapproved plan.",
-      "loki": "Low — this just adds one approval step before outreach; no technical risk introduced.",
+      "loki": "Low \u2014 this just adds one approval step before outreach; no technical risk introduced.",
       "bar": "Low.",
       "horizon": "Resolves once Todd replies.",
       "stakes": "MEDIUM",
@@ -97,7 +97,7 @@
         "Y": "GREEN"
       },
       "y_gate_score": "GREEN",
-      "true_north": "When a codebase already has a documented bug class with a proven fix shape, apply the SAME fix shape exactly — don't half-apply it based on surface-level pattern matching.",
+      "true_north": "When a codebase already has a documented bug class with a proven fix shape, apply the SAME fix shape exactly \u2014 don't half-apply it based on surface-level pattern matching.",
       "why": "This is the second time this exact bug class has bitten this repo (first for todd-call/julia, now for prl/status). The fix is now in the same proven shape both places, and the segment convention makes adding tidio/wp/build later a one-line change, not new config surgery.",
       "loki": "Caught the same day via direct curl verification rather than trusting the deploy log, which showed a successful build even though routing was silently wrong.",
       "bar": "Low.",
@@ -105,22 +105,26 @@
       "stakes": "LOW",
       "mode": "STANDARD",
       "adr": null,
-      "commits": ["99548c3", "a67c558", "533487e"]
+      "commits": [
+        "99548c3",
+        "a67c558",
+        "533487e"
+      ]
     },
     {
       "receipt_id": "2026-08-18-tidio-delivery-leg-uses-zapier-catch-hook-not-api-node",
       "surface": "PRL / Tidio -> Sugar delivery mechanism (1.1/1.2 chatbot-only scope)",
-      "sharp_question": "Tidio's delivery leg was left open as 'API-call node (per prior research) vs. Zapier Catch Hook' — which one is actually buildable on PRL's current Tidio plan?",
+      "sharp_question": "Tidio's delivery leg was left open as 'API-call node (per prior research) vs. Zapier Catch Hook' \u2014 which one is actually buildable on PRL's current Tidio plan?",
       "dewy_vector": {
         "D": "Zapier Catch Hook. Confirmed by the client: PRL's Tidio account is not Pro/Growth tier, so Tidio's webhook/API-call node is not available on this plan. The prior 'API-call node should work per prior research' note was wrong for this account's actual tier and is superseded. This means the flows already imported/merged into this repo (runtime/recoil/generated/prl-lyro/tidio-flows/) will need manual modification to add a Zapier Catch Hook trigger step, and since no MCP tool creates a standing Catch Hook (trigger+public URL+action) headlessly, that hook has to be set up once, manually, in the Zapier web UI before the flow can call it.",
         "E": "Todd/PRL Tidio account (plan-tier constraint), Zapier (manual one-time Catch Hook setup), next session (executes the flow edit)",
-        "W": "Blocks the 1.1/1.2 delivery-leg build until the Catch Hook exists — this is now the first concrete step of next session, not an open question.",
+        "W": "Blocks the 1.1/1.2 delivery-leg build until the Catch Hook exists \u2014 this is now the first concrete step of next session, not an open question.",
         "Y": "YELLOW"
       },
       "y_gate_score": "YELLOW",
-      "true_north": "Confirm plan-tier/feature availability against the actual account before designing a delivery mechanism around it — 'should work per prior research' is not the same as verified for this specific account.",
+      "true_north": "Confirm plan-tier/feature availability against the actual account before designing a delivery mechanism around it \u2014 'should work per prior research' is not the same as verified for this specific account.",
       "why": "Would have wasted the next session's build time attempting to wire a Tidio API-call node that doesn't exist on this plan; now the correct mechanism (Catch Hook) is locked in before that session starts.",
-      "loki": "Low — this is a direct account-tier fact from the client, not inference.",
+      "loki": "Low \u2014 this is a direct account-tier fact from the client, not inference.",
       "bar": "Low.",
       "horizon": "Resolves once the Catch Hook is manually created and wired into the imported flow.",
       "stakes": "MEDIUM",
@@ -134,13 +138,13 @@
       "dewy_vector": {
         "D": "No. Explicit client instruction: not touching prod yet. All 1.1/1.2 validate/confirm/verify work happens against the WP staging site + Sugar sandbox only. The prod lead_source enum question (does 'Chatbot' need a fallback value since it only exists in sandbox) stays an open item, not something to resolve by testing against prod directly.",
         "E": "prlresins.sugarondemand.com (prod, untouched), prlresinstest.sugarondemand.com (sandbox, active), WP staging site (active)",
-        "W": "Holds until the client explicitly greenlights a prod cutover — do not initiate it proactively even after staging looks clean.",
+        "W": "Holds until the client explicitly greenlights a prod cutover \u2014 do not initiate it proactively even after staging looks clean.",
         "Y": "GREEN"
       },
       "y_gate_score": "GREEN",
-      "true_north": "A clean staging/sandbox pass is not itself authorization to touch prod — that is always a separate, explicit go-ahead.",
+      "true_north": "A clean staging/sandbox pass is not itself authorization to touch prod \u2014 that is always a separate, explicit go-ahead.",
       "why": "Prevents the next session from treating 'sandbox works' as license to also validate/fix the prod lead_source enum gap in the same pass, which the client did not ask for.",
-      "loki": "Low — direct client instruction, not inference.",
+      "loki": "Low \u2014 direct client instruction, not inference.",
       "bar": "Low.",
       "horizon": "Until explicit prod greenlight.",
       "stakes": "MEDIUM",
@@ -184,6 +188,26 @@
       "loki": "Low -- independent Sugar read, real conversation, real data.",
       "bar": "Low, staging/sandbox scope fully satisfied.",
       "horizon": "DURABLE for this scope. Production repoint is the next, separately-gated phase.",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": null
+    },
+    {
+      "receipt_id": "2026-08-18-trigger-fix-live-and-empty-email-dedup-bug",
+      "surface": "PRL / Tidio trigger + Zap dedup integrity",
+      "sharp_question": "Why did mobile visitors get Lyro's email ask instead of the flow, and is the dedup path safe for edge-case payloads?",
+      "dewy_vector": {
+        "D": "Trigger was 'Visitor returns to the site' \u2014 fresh visitors got NO flow and fell through to Lyro. Fixed live in Tidio (claude-in-chrome): replaced with 'Visitor clicks on chat icon', activated, mobile verified 1-1 with desktop. Separately, a real submission with an empty email made Find-Record match arbitrarily and Path A updated an unrelated REAL 2021 lead (Roger A Lamarre) \u2014 update-only fields wrote 'Not specified' title/industry and appended '\u2014 Updated via Chatbot' to description; the actual submission's data was lost. Fix (owed, co-pilot): Filter step requiring non-empty email before search; empty-email routes to create. Repair owed on the polluted record.",
+        "E": "Tidio flow 7701936, Zap 376827315, Roger A Lamarre record ea77a7d2 (polluted), Todd (was about to demo this)",
+        "W": "Trigger fix DONE. Dedup filter + record repair are next session's first work \u2014 before any more demo traffic.",
+        "Y": "YELLOW"
+      },
+      "y_gate_score": "YELLOW",
+      "true_north": "A search-then-update path must never run on a possibly-empty key \u2014 an empty search term turns dedup into a random-record mutator, which is worse than duplicating.",
+      "why": "Both bugs were found by verifying real behavior (fresh-visitor test; independent Sugar read after Zach's submission) rather than trusting the published config.",
+      "loki": "Low on the trigger (verified live). Dedup bug evidenced by the polluted record itself.",
+      "bar": "High until the filter ships \u2014 every empty-email submission can corrupt a real record. Sandbox-only today.",
+      "horizon": "Filter + repair next session.",
       "stakes": "HIGH",
       "mode": "STANDARD",
       "adr": null

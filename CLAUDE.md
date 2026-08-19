@@ -103,6 +103,68 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.40.0 (2026-08-18, late)
+
+> **Active pickup point — PRL 1.1/1.2 wrap session, part 2.** Continuation of v3.39.0's landing:
+> the delivery leg went from "published" to genuinely verified, shared with Todd, and then two
+> real bugs surfaced and one got fixed live. Numbered by oracle (40).
+
+## Headline: chatbot→Sugar delivery VERIFIED end-to-end and shipped to Todd; two live bugs found after
+
+- **Real WP-staging conversation → sandbox Sugar Lead confirmed** (`435cee66-9b40-...`, correct
+  name split, location_c=CT, audit trail). Dual bar-raiser protocol with Zapier co-pilot worked:
+  independent Sugar reads caught a name-split regression, a missing email1 mapping, AND a
+  double-firing old Zap before publish. Zap `376827315` (Tidio → Code → ZoomInfo enrich →
+  dedup-search → Paths A/B) is the live pipeline; old `series_376761228` superseded/off.
+- **Todd-facing surfaces shipped:** `prl.arcs.care/status/progress` (pilot-checklist style, +25%
+  type scale, viewport meta fixed on all 3 status pages, mobile card-stacking for the workaround
+  table, click-to-load live chatbot embed, Recommended section w/ 30-min weekly check-in booking
+  link + parallel 1.2-A kickoff). Root pages: Progress nav button, footer status links, phase
+  table 1.2=Paid + 1.2-A row w/ live invoice button, mid-phase ex-ante receipt update (effort
+  past the 12-30h band, cap holds), 1.1 re-tagged done-in-staging, 1.2 itemized per DoD recon.
+  **Email to Todd SENT** (progress link + calendar link).
+- **Tidio trigger fixed LIVE via claude-in-chrome:** root cause of the mobile-shows-Lyro bug was
+  the flow's "Visitor returns to the site" trigger (fresh visitors got nothing → fell to Lyro's
+  email ask). Replaced with "Visitor clicks on chat icon", activated, confirmed. Verified mobile
+  1-1 with desktop afterward.
+
+## OPEN BUGS (next session's first work)
+1. **CRITICAL — empty-email dedup false-positive:** Zach's latest progress-page submission
+   UPDATED a real 2021 lead (Roger A Lamarre/ROBE, id `ea77a7d2-1b0b-11ec-...`) because the
+   payload email was empty and Find-Record matched arbitrarily. Fix in co-pilot: Filter step
+   (email non-empty) before the search; empty-email → Path B create. Also debug WHY email was
+   empty despite flow validation. **Repair owed:** clear Roger's description suffix
+   ("— Updated via Chatbot") + title/industry "Not specified" back to blank.
+2. **Test-lead cleanup** still owed (now ~8+ synthetic/test leads incl. 3x Zach).
+3. **Lyro races the flow** for conversations with existing history (resumes Lyro convo instead
+   of flow). Scope Lyro engagement or accept; also pre-chat email card duplicates the flow ask.
+4. **"Read more here" links:** no toggle exists (checked Configure/Guidance/Data sources). It's
+   website-source citation behavior. Recommended: convert ONLY the /contact/ source to manual
+   Q&A (it currently cites the broken contact form — content bug), park rest for 1.3.
+
+## DoD reconciliation (the honesty ledger — read before any "done" claim to Todd)
+`_ARTIFACTS/prl-1-1-evidence/2026-08-18-dod-reconciliation.md`: every 1.1/1.2 gate is met /
+waived-in-writing / re-baselined. Still open: Mailgun rep-notification (decision: bypass via
+Zap email step + Barracuda allow-list precedent; prospect autoresponder deferred to DNS window),
+baseline report (UNBLOCKED — Zapier MCP raw GET = the Postman Zach thought he needed), Layer 1
+Lyro eval run (harness exists; Playwright automation sketched in `runtime/recoil/generated/
+prl-lyro/uat/README.md`), business-email enrichment fill, 2 more state tests + dedup live test.
+UAT skeleton authored: `uat/staging_chat_e2e.mjs` + fixtures (selector TODOs, not yet run).
+Quota discipline documented (Playground ≠ Lyro quota; live chats burn Zapier tasks + ZoomInfo
+credits; Lyro 11/50 used).
+
+## Comms / money state
+Invoice #NYQRTJPQ-0004 ($2,070, 1.2-A web forms) still OPEN/unpaid — work stays payment-gated
+(staging exploration OK, no live webhook). Todd emailed the progress page + check-in booking
+link (calendar.app.google/crDeY8HyJQvH4ahH6). Bill routing call still pending. Prod cutover
+still explicitly gated (enum + auth repoint + Bill + Todd's go).
+
+## Ideas parked for 1.3 (fits its literal name "Smarter lead recognition")
+Fewer-questions flow + Zap backfill from Sugar/ZoomInfo reverse lookup (caveats logged: state
+drives routing so never auto-fill it from HQ data; ZoomInfo hit-rate < 100% + location_c
+hard-required = blank-field rejection risk).
+
+
 # Handoff — v3.39.0 (2026-08-18)
 
 > Minted on main as v3.37.0; renumbered at merge — the SECOND v3.37.0 collision
@@ -282,62 +344,4 @@ No product deploy. Comet application: SENT (see v3.37.0).
 
 ---
 
-# Handoff — v3.37.0 (2026-08-17)
-
-> Minted in-session as v3.35.0; renumbered at merge — main had already minted its own v3.35.0 (PRL)
-> and v3.36.0 (family surfaces) in parallel. Same collision class ADR-057's oracle governs.
-
-> **Active pickup point.** A resume-tailoring session for Zach that became a live demonstration of
-> **ATG (Adjacent Tributary Generation)**: a bounded deliverable threw off reusable offshoots. No
-> arcs-v9 code touched; the skill work pushed to a separate public repo.
-
-## Headline: tailored the Comet Technical PMM application end-to-end, and the method became a shipped skill
-
-Built Zach's application for **Comet — Technical Product Marketing Manager** (reports to VP Marketing
-Hannah Klemme) in `_ARTIFACTS/resume-comet/`: a print-safe designed résumé (2pp), an ATS-plain
-companion, a matching cover letter, and the honesty-graded `competency-model.json` SSOT. Voice tuned
-from Zach's LinkedIn export (Shares/Comments/Recommendations). Centerpiece: an **orthogonal echo** —
-his open-source `token-savings-bank` independently works the same problem as Opik's AI Spend Tracker,
-reframed honestly to *reduction-side vs observability-side* after the gauntlet caught the category
-error. Framing locked as **builder-who-markets**, not engineer-applying-to-marketing.
-
-**Pre-send gauntlet — 4-facet adversarial panel (subagents):** recruiter/ATS · hiring-manager (Hannah)
-· technical-peer · reference-check. Verdicts: **TAKE THE CALL / PASS-WITH-FIXES / CREDIBLE-WITH-FIXES
-/ DEFENSIBLE-WITH-FIXES.** Survivors applied (all subtractive): echo landed ONCE + reframed;
-"evaluation workflows"→"structured decision scoring" (Opik term-of-art); arcs-field-scan honestly
-labeled (mock); titles reconciled to the LinkedIn export (**Grayscale = Product Lead**, **Squat =
-Head of Product Innovation & Tech Lead**); "nearly two decades." ATS synced.
-
-## ATG offshoots (the reusable surplus)
-- **resume-tailor skill → v0.2, PUSHED** to `flashesofbrilliance/resume-tailor-skill` main
-  (`e8e87d1..e41d30a`): Parameters + Components (voice-extract, orthogonal-echo, proof-link,
-  term-of-art gate, social-proof restraint, layout/print discipline) + Greenhouse JD fast-path +
-  Comet exemplar + `evals/evals.json` + `references/rubric.md`. `resume-tailor@arcs` now installs it.
-- **4-facet pre-send gauntlet** as a reusable adversarial-verification harness.
-- **Blog concept** "NOTOMATION powering gradient ascent" — forked to its own running session.
-- Memories: [[atg-offshoot-artifacts-comet-resume-session]], [[resume-tailor-skill-v0.2-field-tested]],
-  [[resume-tailor-voice-from-linkedin-export]], [[orthogonal-echo-proof-point]].
-
-## Open / candidate-side flags (before the app SENDS)
-- **ARCS not on Zach's LinkedIn** (current listed present-role = "Mañana — Product Partner"). The
-  résumé leads with ARCS Founder — biggest reference-check gap; add to LinkedIn or be ready to explain.
-- Squat "$350M ARR" / "seven-figure" — self-reported, not in export; kept, decide soften/cut.
-- ARCS 60% / 3–5× — labeled internal estimates; Hannah says they invite an audit of the hard numbers.
-- Contact = **github-only** ("Contact via recruiter") — fine if recruiter-routed; add a real email if
-  applying direct (recruiter called it the single biggest odds-mover).
-- Confirm VP name (Hannah Klemme) is the current hiring manager.
-
-## Also flagged (infra, not this task)
-- **build.arcs.care ↔ status 1:1 pulse sync not pushed** — build pulse lags the repo (~55 vs ~58 ADRs).
-  Not a blocker; candidate for its own task.
-
-## Blocking
-NONE.
-
-## Deploy note
-No arcs-v9 code touched — no deploy. Skill push went to `flashesofbrilliance/resume-tailor-skill`
-(separate repo). Résumé artifacts are untracked deliverables in `_ARTIFACTS/resume-comet/`.
-
----
-
-> _v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._

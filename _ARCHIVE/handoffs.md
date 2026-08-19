@@ -2948,3 +2948,63 @@ being reported done, not assumed from a successful build/push alone — worth ca
 the verification bar for any future static-file routing change.
 
 ---
+
+---
+
+# Handoff — v3.37.0 (2026-08-17)
+
+> Minted in-session as v3.35.0; renumbered at merge — main had already minted its own v3.35.0 (PRL)
+> and v3.36.0 (family surfaces) in parallel. Same collision class ADR-057's oracle governs.
+
+> **Active pickup point.** A resume-tailoring session for Zach that became a live demonstration of
+> **ATG (Adjacent Tributary Generation)**: a bounded deliverable threw off reusable offshoots. No
+> arcs-v9 code touched; the skill work pushed to a separate public repo.
+
+## Headline: tailored the Comet Technical PMM application end-to-end, and the method became a shipped skill
+
+Built Zach's application for **Comet — Technical Product Marketing Manager** (reports to VP Marketing
+Hannah Klemme) in `_ARTIFACTS/resume-comet/`: a print-safe designed résumé (2pp), an ATS-plain
+companion, a matching cover letter, and the honesty-graded `competency-model.json` SSOT. Voice tuned
+from Zach's LinkedIn export (Shares/Comments/Recommendations). Centerpiece: an **orthogonal echo** —
+his open-source `token-savings-bank` independently works the same problem as Opik's AI Spend Tracker,
+reframed honestly to *reduction-side vs observability-side* after the gauntlet caught the category
+error. Framing locked as **builder-who-markets**, not engineer-applying-to-marketing.
+
+**Pre-send gauntlet — 4-facet adversarial panel (subagents):** recruiter/ATS · hiring-manager (Hannah)
+· technical-peer · reference-check. Verdicts: **TAKE THE CALL / PASS-WITH-FIXES / CREDIBLE-WITH-FIXES
+/ DEFENSIBLE-WITH-FIXES.** Survivors applied (all subtractive): echo landed ONCE + reframed;
+"evaluation workflows"→"structured decision scoring" (Opik term-of-art); arcs-field-scan honestly
+labeled (mock); titles reconciled to the LinkedIn export (**Grayscale = Product Lead**, **Squat =
+Head of Product Innovation & Tech Lead**); "nearly two decades." ATS synced.
+
+## ATG offshoots (the reusable surplus)
+- **resume-tailor skill → v0.2, PUSHED** to `flashesofbrilliance/resume-tailor-skill` main
+  (`e8e87d1..e41d30a`): Parameters + Components (voice-extract, orthogonal-echo, proof-link,
+  term-of-art gate, social-proof restraint, layout/print discipline) + Greenhouse JD fast-path +
+  Comet exemplar + `evals/evals.json` + `references/rubric.md`. `resume-tailor@arcs` now installs it.
+- **4-facet pre-send gauntlet** as a reusable adversarial-verification harness.
+- **Blog concept** "NOTOMATION powering gradient ascent" — forked to its own running session.
+- Memories: [[atg-offshoot-artifacts-comet-resume-session]], [[resume-tailor-skill-v0.2-field-tested]],
+  [[resume-tailor-voice-from-linkedin-export]], [[orthogonal-echo-proof-point]].
+
+## Open / candidate-side flags (before the app SENDS)
+- **ARCS not on Zach's LinkedIn** (current listed present-role = "Mañana — Product Partner"). The
+  résumé leads with ARCS Founder — biggest reference-check gap; add to LinkedIn or be ready to explain.
+- Squat "$350M ARR" / "seven-figure" — self-reported, not in export; kept, decide soften/cut.
+- ARCS 60% / 3–5× — labeled internal estimates; Hannah says they invite an audit of the hard numbers.
+- Contact = **github-only** ("Contact via recruiter") — fine if recruiter-routed; add a real email if
+  applying direct (recruiter called it the single biggest odds-mover).
+- Confirm VP name (Hannah Klemme) is the current hiring manager.
+
+## Also flagged (infra, not this task)
+- **build.arcs.care ↔ status 1:1 pulse sync not pushed** — build pulse lags the repo (~55 vs ~58 ADRs).
+  Not a blocker; candidate for its own task.
+
+## Blocking
+NONE.
+
+## Deploy note
+No arcs-v9 code touched — no deploy. Skill push went to `flashesofbrilliance/resume-tailor-skill`
+(separate repo). Résumé artifacts are untracked deliverables in `_ARTIFACTS/resume-comet/`.
+
+---
