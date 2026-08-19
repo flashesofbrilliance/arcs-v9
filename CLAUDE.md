@@ -164,6 +164,17 @@ Fewer-questions flow + Zap backfill from Sugar/ZoomInfo reverse lookup (caveats 
 drives routing so never auto-fill it from HQ data; ZoomInfo hit-rate < 100% + location_c
 hard-required = blank-field rejection risk).
 
+## Parked for the Aug-24 1.2 close-loop: evidence-anchored re-pricing of 1.3–1.5
+Zach's call (2026-08-19, explicitly not-right-now): recalibrate 1.3–1.5 toward worst-case-
+anchored pricing using the ACTUAL actual-vs-expected multiplier from 1.1+1.2 (both overran
+their bands on coordination, not build). Highest exposure = 1.4 ($6K): its real JTBD includes
+end-to-end attribution/goal-mapping, which is almost entirely ground-truth-verification work —
+the exact category that stretched 3x this engagement. The receipt mechanism already promises
+"numbers re-checked against reality before each kickoff"; make that re-check compute the
+multiplier from the banked receipts rather than re-guessing. Do this AT the close-loop, with
+Todd, not unilaterally — it is a trust move ("we price from our own track record") when done
+in the open.
+
 ## Idea parked for 1.4 ("Your paid landing pages") — template pair, and it's a REPAIR not a feature
 Template unit = one Unbounce page + one Tidio onramp flow per product family, all sharing the
 proven Zap-376827315 backbone. The 5 SEM Onramp drafts are hand-built instances of this pattern.
