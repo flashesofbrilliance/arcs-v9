@@ -52,11 +52,11 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/robin-profile.html", has: [{ type: "host", value: "robin-profile.arcs.care" }] },
         { source: "/:path((?!api/).*)", destination: "/robin-receipt.html", has: [{ type: "host", value: "robin-receipt.arcs.care" }] },
         { source: "/:path*", destination: "/scott.html", has: [{ type: "host", value: "scott.arcs.care" }] },
+        // scott-profile.arcs.care/signal -> public/scott-signal.html (public-record read, cross-checked against calls; subpath so it reads as one deepening site, not a separate domain)
+        { source: "/signal", destination: "/scott-signal.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
         { source: "/:path*", destination: "/scott-profile.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
         { source: "/:path*", destination: "/scott-codex.html", has: [{ type: "host", value: "scott-codex.arcs.care" }] },
         { source: "/:path*", destination: "/scott-receipt.html", has: [{ type: "host", value: "scott-receipt.arcs.care" }] },
-        // scott-signal.arcs.care -> public/scott-signal.html (public-record read, cross-checked against calls; "tell me what's wrong" framing)
-        { source: "/:path*", destination: "/scott-signal.html", has: [{ type: "host", value: "scott-signal.arcs.care" }] },
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
         { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
