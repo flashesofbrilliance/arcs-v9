@@ -55,6 +55,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/scott-profile.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
         { source: "/:path*", destination: "/scott-codex.html", has: [{ type: "host", value: "scott-codex.arcs.care" }] },
         { source: "/:path*", destination: "/scott-receipt.html", has: [{ type: "host", value: "scott-receipt.arcs.care" }] },
+        // scott-signal.arcs.care -> public/scott-signal.html (public-record read, cross-checked against calls; "tell me what's wrong" framing)
+        { source: "/:path*", destination: "/scott-signal.html", has: [{ type: "host", value: "scott-signal.arcs.care" }] },
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
         { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
