@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tidio → Sugar Delivery Status</title>
 <style>
   :root{
@@ -107,19 +109,20 @@
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
   <h1>Tidio &rarr; Zapier &rarr; Sugar delivery status</h1>
-  <div class="meta">Aug 17, 2026 &nbsp;&middot;&nbsp; sandbox only, zero production impact</div>
+  <div class="meta">Aug 18, 2026 &nbsp;&middot;&nbsp; sandbox only, zero production impact &middot; verified end to end</div>
   <nav class="family">
     <a href="/status/crm">CRM routing</a>
     <a href="/status/troubleshooting">Troubleshooting</a>
     <a href="/status/build">Build</a>
+    <a href="/status/progress">Progress</a>
+    <a href="/status/atlas">Atlas</a>
     <a class="here" href="/status/tidio">Tidio delivery</a>
   </nav>
 </div></header>
 
 <div class="bluf"><div class="wrap">
   <p>This page tracks the one pipe that turns a chat into a Sugar lead: <strong>Tidio flow &rarr;
-  Zapier &rarr; SugarCRM sandbox</strong>. The wiring is being built with Zach as a live copilot on
-  the Tidio and Zapier side; nothing here has touched production or a real lead.</p>
+  Zapier &rarr; SugarCRM sandbox</strong>. As of Aug 18 this pipe is <strong>built, published, and verified with a real conversation</strong> — a staging chat became a complete, deduplicated, enriched sandbox lead. Nothing has touched production.</p>
 </div></div>
 
 <div class="wrap">
@@ -133,30 +136,28 @@
   </div>
 
   <div class="row">
-    <span class="mark wait">!</span>
-    <div class="item"><b>Tidio flow wiring</b><span class="sub">Adding the Send-to-Zapier node at each capture-complete point in the live flow. UI task, in progress with Zach.</span></div>
-    <span class="stat hold">in progress</span>
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Tidio flow wiring</b><span class="sub">AI Handoff flow live: 6 validated questions, every answer bound to a variable, Send-to-Zapier at the terminus. Trigger fixed Aug 18 — fires when a visitor clicks the chat icon (new and returning both covered).</span></div>
+    <span class="stat ok">live</span>
   </div>
 
   <div class="row">
-    <span class="mark wait">!</span>
-    <div class="item"><b>Zap build</b><span class="sub">Trigger &rarr; state-to-abbreviation transform &rarr; Sugar Create Record (sandbox connection). Not yet built.</span></div>
-    <span class="stat hold">not started</span>
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Zap build</b><span class="sub">Published: Tidio trigger &rarr; state parse + name split &rarr; ZoomInfo enrichment (title + industry) &rarr; duplicate check by email &rarr; update-or-create in the Sugar sandbox, plus 5-minute and 4-hour reminder emails. One known edge case (submissions missing an email) has a safety fix queued.</span></div>
+    <span class="stat ok">published</span>
   </div>
 
   <div class="row">
-    <span class="mark wait">i</span>
-    <div class="item"><b>Live end-to-end test chat</b><span class="sub">One tagged test chat through the full pipe, evidence captured hop by hop. Scheduled, not yet run.</span></div>
-    <span class="stat hold">scheduled</span>
+    <span class="mark go">&check;</span>
+    <div class="item"><b>Live end-to-end test chat</b><span class="sub">Run Aug 18 on the staging site: real conversation &rarr; sandbox lead with correct name split, correct state code, source tagged Chatbot, audit trail on the record. Repeat submissions update the same lead instead of duplicating.</span></div>
+    <span class="stat ok">verified</span>
   </div>
 </section>
 
 <section class="block">
   <div class="label">(a) End-to-end evidence</div>
   <h2>Hop-by-hop trail: chat &rarr; Zap run &rarr; Sugar record</h2>
-  <p>Once the wiring above lands, we run one tagged test chat and capture a screenshot at each hop. This
-  section fills in with that evidence and re-deploys. Right now it is a scaffold: the hops, what each
-  screenshot must show, and the cleanup step, so nothing about the run is decided casually or after the fact.</p>
+  <p>Once the wiring above lands, we run one tagged test chat and capture a screenshot at each hop. The run happened Aug 18; each hop below carries its result. Test records are being cleaned from the sandbox so pilot data starts fresh.</p>
 
   <div class="hops">
     <div class="hop wait">
@@ -164,8 +165,7 @@
       <div class="htitle">Test chat conversation</div>
       <div class="hdetail">Screenshot of the full Tidio conversation view showing the captured fields
         (name, company, phone, email, state/region) and the visitor identity used for the test.</div>
-      <div class="placeholder"><div class="ph-title">Test scheduled &middot; evidence lands here</div>
-        Timestamp: TBC &middot; Tidio conversation ID: TBC</div>
+      <div class="placeholder"><div class="ph-title">Verified Aug 18</div>Real staging conversation through the AI Handoff flow; all capture fields present, email + phone validated in-flow.</div>
     </div>
     <div class="hop wait">
       <div class="hlab">Hop 2 &middot; Zapier</div>
@@ -173,8 +173,7 @@
       <div class="hdetail">Screenshot of the Zap's task history entry for this run: trigger payload from
         Tidio, the state-to-abbreviation transform step, and the outbound Sugar Create Record action,
         each shown as succeeded with no error.</div>
-      <div class="placeholder"><div class="ph-title">Test scheduled &middot; evidence lands here</div>
-        Timestamp: TBC &middot; Zap task ID: TBC</div>
+      <div class="placeholder"><div class="ph-title">Verified Aug 18</div>Zap run succeeded end to end: parse &rarr; enrich &rarr; dedup search &rarr; create. Reminder emails fired on their timers.</div>
     </div>
     <div class="hop wait">
       <div class="hlab">Hop 3 &middot; SugarCRM sandbox</div>
@@ -183,8 +182,8 @@
         (account_name, first_name, last_name, lead_source, location_c, phone_work) plus email1 and
         description populated, lead_source = Chatbot, location_c as the correct state abbreviation,
         and the record auto-routed to the correct territory rep.</div>
-      <div class="placeholder"><div class="ph-title">Test scheduled &middot; evidence lands here</div>
-        Timestamp: TBC &middot; Sugar Lead ID: TBC &middot; Routed to: TBC</div>
+      <div class="placeholder"><div class="ph-title">Verified Aug 18</div>
+        Sandbox Lead created 2026-08-18 20:06 UTC &middot; name split correct &middot; location_c = CT (correctly abbreviated) &middot; lead_source = Chatbot &middot; audit trail present. Territory-routing correctness stays an open question for the routing call (see <a href="/status/crm">/status/crm</a>) &mdash; the lead landed and routed; whether the map it routed BY is right is the pending conversation.</div>
     </div>
   </div>
 
