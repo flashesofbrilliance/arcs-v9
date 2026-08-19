@@ -103,6 +103,51 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.42.0 (2026-08-19)
+
+> **Active pickup point — the system-view morning.** A conversation-first session (no product
+> code): the ARCS field-OS view triangulated, ADR-067 minted with the full chain, and a real
+> infra finding (GitHub Actions quota exhausted) diagnosed with the fix staged. Oracle-numbered
+> (42) — after truing the oracle, which had drifted to adr=65/handoff=39 while ADR-066 and
+> handoff 41 existed on disk (same drift class the lattice tripwire flags; counter now 67/42).
+
+## Headline: ADR-067 Engine-Sovereignty Gradient — receipts are the freehold, engines are tenants
+
+- **The arc:** serializability named as a *simulation* property (one canonical world-state is
+  the precondition for honest pre-mortems; every parallel-maintained artifact is a phantom
+  branch) → three NotebookLM constitution decks read and triangulated (interstitium = medium,
+  Abductive Constitution = geometry, Constitutional Layer = law — one physics, three lenses) →
+  Zach supplied the missing 1% verbatim: **"now = LLMs, next = JEPA, later = Gigi (local
+  airgapped all client side)"** — the engine roadmap IS the temporal chain-of-custody ladder,
+  a sovereignty gradient shrinking the third-party trust boundary rung by rung.
+- **Full mint chain landed:** witness stub (GREEN, promoted) → `_DECISIONS/ADR-067-…` (with
+  falsifier: first JEPA prototype must consume the receipt corpus as-is) → DEWY receipt
+  (`_STATE/2026-08-19-session-decisions.dewy.json`) → seed `engine-sovereignty-gradient`
+  (index + ledger) → apex spine **v16** → memory + 3 tao proverbs → this handoff.
+- **Consequences to hold:** Receipt/DEWY schema changes = one-way doors (COURT); the GIGI seam
+  at compass/route.ts is a **reserved socket, never clean it up**; constitution decks showing
+  JEPA in present tense need a NOW/NEXT/ASPIRATIONAL slide before traveling beyond Dave.
+- **Seedbank drift cleared:** the 3 orphan seeds (engagement-universe-doll, live-culture-
+  artifacts, page-factory-from-session) got their owed ledger receipts (backfill events).
+- **The Fellowship decks are the first two-party ARCS constitution** (Zach/Dave, mutual kill
+  gates, clean-exit branch drawn on the map) — first real L6 (ecosystem) instance, arriving as
+  a collaboration, not a feature.
+
+## Infra: GitHub Actions 2000-min quota exhausted (fix approved, deferred to Friday)
+
+- Diagnosis: only the two private repos bill; **arcs-v9 CI (224 runs) + Deploy Verify (242
+  runs) in 19 days ≈ the whole budget** — burn is a direct function of push cadence, and most
+  pushes are doc-only. Fix (approved by Zach, deferred to the Friday usage reset, task chip
+  spawned & started): (1) `paths-ignore` on ci.yml for doc-only paths, (2) cheap early-exit
+  diff guard in deploy-verify.yml. Target ~2000 → ~600–800 min/mo. ⚠ Until GitHub's quota
+  resets, Actions are offline — pushes ship without leak-check or rollback watchdog.
+
+## Next session (rolls forward from v3.40.0, unchanged)
+
+1. Co-pilot Task 1: empty-email filter + Roger Lamarre repair (CRITICAL, before more demo traffic).
+2. Test-lead cleanup · rep notification · SLA sweep · baseline pull · UAT selector debug run.
+3. Aug-24 1.2 close-loop: expected-vs-actual + the parked re-pricing conversation with Todd.
+
 # Handoff — v3.41.0 (2026-08-19)
 
 > **Active pickup point — the loaf-cooling handoff.** Caps the v3.40.0 session's second arc:
@@ -143,89 +188,4 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 3. UAT selector debug run · SEM template Phase 0 (fill 2 node schemas via export).
 4. Aug-24 1.2 close-loop: expected-vs-actual + the parked re-pricing conversation with Todd.
 
-# Handoff — v3.40.0 (2026-08-18, late)
-
-> **Active pickup point — PRL 1.1/1.2 wrap session, part 2.** Continuation of v3.39.0's landing:
-> the delivery leg went from "published" to genuinely verified, shared with Todd, and then two
-> real bugs surfaced and one got fixed live. Numbered by oracle (40).
-
-## Headline: chatbot→Sugar delivery VERIFIED end-to-end and shipped to Todd; two live bugs found after
-
-- **Real WP-staging conversation → sandbox Sugar Lead confirmed** (`435cee66-9b40-...`, correct
-  name split, location_c=CT, audit trail). Dual bar-raiser protocol with Zapier co-pilot worked:
-  independent Sugar reads caught a name-split regression, a missing email1 mapping, AND a
-  double-firing old Zap before publish. Zap `376827315` (Tidio → Code → ZoomInfo enrich →
-  dedup-search → Paths A/B) is the live pipeline; old `series_376761228` superseded/off.
-- **Todd-facing surfaces shipped:** `prl.arcs.care/status/progress` (pilot-checklist style, +25%
-  type scale, viewport meta fixed on all 3 status pages, mobile card-stacking for the workaround
-  table, click-to-load live chatbot embed, Recommended section w/ 30-min weekly check-in booking
-  link + parallel 1.2-A kickoff). Root pages: Progress nav button, footer status links, phase
-  table 1.2=Paid + 1.2-A row w/ live invoice button, mid-phase ex-ante receipt update (effort
-  past the 12-30h band, cap holds), 1.1 re-tagged done-in-staging, 1.2 itemized per DoD recon.
-  **Email to Todd SENT** (progress link + calendar link).
-- **Tidio trigger fixed LIVE via claude-in-chrome:** root cause of the mobile-shows-Lyro bug was
-  the flow's "Visitor returns to the site" trigger (fresh visitors got nothing → fell to Lyro's
-  email ask). Replaced with "Visitor clicks on chat icon", activated, confirmed. Verified mobile
-  1-1 with desktop afterward.
-
-## OPEN BUGS (next session's first work)
-1. **CRITICAL — empty-email dedup false-positive:** Zach's latest progress-page submission
-   UPDATED a real 2021 lead (Roger A Lamarre/ROBE, id `ea77a7d2-1b0b-11ec-...`) because the
-   payload email was empty and Find-Record matched arbitrarily. Fix in co-pilot: Filter step
-   (email non-empty) before the search; empty-email → Path B create. Also debug WHY email was
-   empty despite flow validation. **Repair owed:** clear Roger's description suffix
-   ("— Updated via Chatbot") + title/industry "Not specified" back to blank.
-2. **Test-lead cleanup** still owed (now ~8+ synthetic/test leads incl. 3x Zach).
-3. **Lyro races the flow** for conversations with existing history (resumes Lyro convo instead
-   of flow). Scope Lyro engagement or accept; also pre-chat email card duplicates the flow ask.
-4. **"Read more here" links:** no toggle exists (checked Configure/Guidance/Data sources). It's
-   website-source citation behavior. Recommended: convert ONLY the /contact/ source to manual
-   Q&A (it currently cites the broken contact form — content bug), park rest for 1.3.
-
-## DoD reconciliation (the honesty ledger — read before any "done" claim to Todd)
-`_ARTIFACTS/prl-1-1-evidence/2026-08-18-dod-reconciliation.md`: every 1.1/1.2 gate is met /
-waived-in-writing / re-baselined. Still open: Mailgun rep-notification (decision: bypass via
-Zap email step + Barracuda allow-list precedent; prospect autoresponder deferred to DNS window),
-baseline report (UNBLOCKED — Zapier MCP raw GET = the Postman Zach thought he needed), Layer 1
-Lyro eval run (harness exists; Playwright automation sketched in `runtime/recoil/generated/
-prl-lyro/uat/README.md`), business-email enrichment fill, 2 more state tests + dedup live test.
-UAT skeleton authored: `uat/staging_chat_e2e.mjs` + fixtures (selector TODOs, not yet run).
-Quota discipline documented (Playground ≠ Lyro quota; live chats burn Zapier tasks + ZoomInfo
-credits; Lyro 11/50 used).
-
-## Comms / money state
-Invoice #NYQRTJPQ-0004 ($2,070, 1.2-A web forms) still OPEN/unpaid — work stays payment-gated
-(staging exploration OK, no live webhook). Todd emailed the progress page + check-in booking
-link (calendar.app.google/crDeY8HyJQvH4ahH6). Bill routing call still pending. Prod cutover
-still explicitly gated (enum + auth repoint + Bill + Todd's go).
-
-## Ideas parked for 1.3 (fits its literal name "Smarter lead recognition")
-Fewer-questions flow + Zap backfill from Sugar/ZoomInfo reverse lookup (caveats logged: state
-drives routing so never auto-fill it from HQ data; ZoomInfo hit-rate < 100% + location_c
-hard-required = blank-field rejection risk).
-
-## Parked for the Aug-24 1.2 close-loop: evidence-anchored re-pricing of 1.3–1.5
-Zach's call (2026-08-19, explicitly not-right-now): recalibrate 1.3–1.5 toward worst-case-
-anchored pricing using the ACTUAL actual-vs-expected multiplier from 1.1+1.2 (both overran
-their bands on coordination, not build). Highest exposure = 1.4 ($6K): its real JTBD includes
-end-to-end attribution/goal-mapping, which is almost entirely ground-truth-verification work —
-the exact category that stretched 3x this engagement. The receipt mechanism already promises
-"numbers re-checked against reality before each kickoff"; make that re-check compute the
-multiplier from the banked receipts rather than re-guessing. Do this AT the close-loop, with
-Todd, not unilaterally — it is a trust move ("we price from our own track record") when done
-in the open.
-
-## Idea parked for 1.4 ("Your paid landing pages") — template pair, and it's a REPAIR not a feature
-Template unit = one Unbounce page + one Tidio onramp flow per product family, all sharing the
-proven Zap-376827315 backbone. The 5 SEM Onramp drafts are hand-built instances of this pattern.
-Key mechanics: "Visitor opens a specific page" trigger per landing URL (no collisions with the
-chat-icon flow), Tidio flow Import/Export = JSON template with placeholder swap, campaign tag in
-payload = per-page attribution for the baseline. KEY FRAMING: the legacy Unbounce->Sugar Zaps
-(other Zapier account, 6801141) are partly broken — the template RETIRES them rather than fixing
-N brittle connectors; each migrated page is one less broken legacy Zap. Zero new delivery work
-per page. Cheap non-gated prep: author the template JSON from the AI-Handoff export + the 5
-drafts' vocabulary before 1.4 kicks, so kickoff is stamping, not building. Quota check before
-scaling: each active flow draws from visitors-reached (26/2000 now, fine for pilot).
-
-
-> _v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.40.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19 (v3.42.0 handoff); v3.39.0 + v3.38.0 relocated 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._

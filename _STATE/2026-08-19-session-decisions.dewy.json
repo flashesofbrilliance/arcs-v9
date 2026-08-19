@@ -1,0 +1,28 @@
+{
+  "_doc": "DEWY receipts for 2026-08-19 — system-view morning arc: serializability-as-simulation-property, constitution-deck triangulation (medium/geometry/law), and the engine-sovereignty gradient (ADR-067). Also: GitHub Actions burn diagnosis (fix deferred to Friday reset, task chip spawned).",
+  "session_ts": "2026-08-19",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-19-engine-sovereignty-gradient",
+      "surface": "ARCS architecture / substrate roadmap",
+      "sharp_question": "What is the relationship between the Claude pipeline, the Python operators, JEPA, and GIGI — fusion, or something else?",
+      "dewy_vector": {
+        "D": "Not fusion. Engines are replaceable tenants; the write-locked receipt history is the freehold. Roadmap = sovereignty gradient: NOW cloud LLMs -> NEXT JEPA trained on own receipts -> LATER GIGI local/airgapped/client-side. The engine roadmap IS the temporal chain-of-custody ladder applied to the substrate.",
+        "E": "Zach (named the 1%: 'now = LLMs, next = JEPA, later = Gigi'), Dave/David (Fellowship counterpart in the two constitution decks — first two-party ARCS constitution), future engine implementers",
+        "W": "Doctrine effective immediately; JEPA rung gated on receipt corpus scale; GIGI rung on the dormant seam at compass/route.ts.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Protect the receipts schema above every engine; keep one serialized history so the physics engine can be swapped without forking the world.",
+      "why": "The handoffs kept routing around 'when do the two implementations fuse' — the question was malformed. Three independent decks triangulated ARCS as medium/geometry/law over one write-locked history, and Zach's correction placed the engines on a NOW/NEXT/LATER sovereignty ladder, dissolving the fusion question.",
+      "loki": "Risk: the freehold claim is untested until a JEPA prototype actually consumes the receipt corpus as-is. ADR-067 carries this as its falsifiable claim (projection allowed, mutation not).",
+      "bar": "Low immediate risk; high ruin-avoidance value (schema conservatism prevents the one-way door of a corpus rewrite).",
+      "horizon": "Falsified or confirmed at first JEPA prototype ingestion.",
+      "stakes": "HIGH",
+      "mode": "STANDARD",
+      "adr": "ADR-067",
+      "artifact": "_DECISIONS/ADR-067-engine-sovereignty-gradient-receipts-freehold.md",
+      "client_surface": null
+    }
+  ]
+}
