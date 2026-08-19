@@ -27,7 +27,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
   // prl.arcs.care/status/<seg> status-page family (2026-08-17).
-  'prl':       { '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', default: '/todd-call.html' },
+  'prl':       { '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', default: '/prl-status-build.html' }, // mid-flight: root lands on the build runbook; proposal doc stays at todd-call.arcs.care
   // good.arcs.care/blog/nftt/<slug> — Notes from the Trenches long-form posts (2026-08-18).
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),

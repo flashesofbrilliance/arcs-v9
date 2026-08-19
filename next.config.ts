@@ -85,7 +85,7 @@ const nextConfig: NextConfig = {
         // already-rewritten destination filename, and "/prl-status-crm.html" doesn't start with or
         // contain "status/" (it's "status-"), so a "status/"-based exclusion doesn't stop the
         // wildcard from re-catching it. Same class of bug as the documented todd-call fix below.
-        { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        { source: "/:path((?!.*prl-status-).*)", destination: "/prl-status-build.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
