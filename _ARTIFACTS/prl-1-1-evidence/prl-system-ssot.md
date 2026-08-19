@@ -136,13 +136,20 @@ sequenceDiagram
 | sem-onramp-template/ (template + instances + runbook) | INTERNAL until 1.4 go | pre-scope work product |
 | uat/ harness + fixtures | INTERNAL | test infrastructure |
 | Zapier co-pilot briefs + meta-prompts | INTERNAL | operational tooling |
+| prl-page-factory skill (.claude/skills/) | INTERNAL | stamping machinery — ADR-066 reference impl |
 | Handoffs (CLAUDE.md vX.Y.Z) + memory files | INTERNAL | never export; contain cross-client context |
 
 Rule of motion: content flows INTERNAL → EXTERNAL only through a deliberate projection (the
 recoil-ship pattern), never by linking an internal file directly. A future doll export of the
 "PRL engagement universe" = the EXTERNAL rows + PROJECTABLE rows post-scrub, nothing else.
 
-## 6 · Source pointers (deeper truth lives here)
+## 6 · Design system (frozen 2026-08-19)
+One system across all 8 surfaces: 916px wrap, sticky pill nav, glass panels (no hard
+dividers), balanced h1s, date-first mono meta, global footer with full roster. Stamped, not
+hand-built, from here on: `.claude/skills/prl-page-factory/` (spec.json → page). Doctrine:
+ADR-066 Generative Recoil — the system was harvested from the polish session, not planned.
+
+## 7 · Source pointers (deeper truth lives here)
 DoD ledger: `2026-08-18-dod-reconciliation.md` · flow map: `leg1-tidio-flow-map.md` · template:
 `../../runtime/recoil/generated/prl-lyro/tidio-flows/sem-onramp-template/` · UAT harness:
 `../../runtime/recoil/generated/prl-lyro/uat/` · receipts: `_STATE/2026-08-17-prl-1-1-session-

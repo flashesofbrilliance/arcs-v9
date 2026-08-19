@@ -1,3 +1,5 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PRL System Atlas</title>
 <style>
   :root{
@@ -7,39 +9,39 @@
     --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   }
   *{box-sizing:border-box}
+  html{overflow-y:scroll}
   body{margin:0;background:var(--bg);color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.55;-webkit-font-smoothing:antialiased}
+    line-height:1.5;-webkit-font-smoothing:antialiased}
   a{color:var(--gold-soft);text-decoration:none}
-  .wrap{max-width:960px;margin:0 auto;padding:0 24px 80px}
-  header{padding:52px 0 30px;border-bottom:1px solid var(--border)}
-  .kick{font-family:var(--mono);color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.16em;
-    text-transform:uppercase;display:flex;align-items:center;gap:9px}
-  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
-  h1{font-size:34px;line-height:1.2;margin:14px 0 6px;font-weight:700;letter-spacing:-.015em}
-  .meta{font-family:var(--mono);color:var(--dim);font-size:12.5px;letter-spacing:.03em}
-  .bluf{padding:26px 0 4px;font-size:17.5px;max-width:760px}
+  .wrap{max-width:916px;margin:0 auto;padding:0 22px}
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .meta{font-family:var(--mono);color:var(--dim);font-size:13px;margin-top:10px;letter-spacing:.02em}
+  .bluf{margin:0;padding:22px 0 8px;font-size:20px}
   .bluf strong{color:var(--gold-soft)}
-  section{padding:38px 0 6px}
+  section{padding:0}
   h2{font-size:13px;font-family:var(--mono);letter-spacing:.16em;text-transform:uppercase;
     color:var(--gold);font-weight:700;margin:0 0 6px;display:flex;align-items:center;gap:10px}
-  h2::after{content:"";flex:1;height:1px;background:var(--border)}
-  .sub{color:var(--muted);font-size:14px;margin:0 0 18px;max-width:720px}
+  .sub{color:var(--muted);font-size:15.5px;margin:0 0 18px}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;
     overflow-x:auto}
   .card+.card{margin-top:14px}
-  pre.mermaid{margin:0;display:flex;justify-content:center;background:transparent}
+  pre.mermaid{margin:0;display:flex;justify-content:center;background:transparent;min-height:160px}
+  pre.mermaid:not(:has(svg)){visibility:hidden}
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .pill{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;
+  .pill{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;
     padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted)}
   .pill.g{color:var(--green);border-color:rgba(63,185,80,.4)}
   .pill.y{color:var(--gold-soft);border-color:rgba(201,162,39,.4)}
   .pill.r{color:var(--red);border-color:rgba(208,84,107,.4)}
   .tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:14px;background:var(--surface)}
-  table{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
-  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top}
-  th{font-family:var(--mono);color:var(--dim);font-size:10.5px;text-transform:uppercase;
-    letter-spacing:.09em;font-weight:700;white-space:nowrap}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:620px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:var(--mono);color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;white-space:nowrap}
   tr:last-child td{border-bottom:0}
   td.who{font-weight:700;white-space:nowrap;color:var(--gold-soft)}
   td.st{font-family:var(--mono);font-size:12px;white-space:nowrap}
@@ -67,20 +69,41 @@
   .mermaid svg .noteText,.mermaid svg .noteText tspan{fill:#e3c65a!important}
   .mermaid svg .labelText,.mermaid svg .loopText,.mermaid svg .loopText tspan{fill:#e3c65a!important}
   .mermaid svg .loopLine{stroke:#5b6675!important}
-  footer{padding:34px 0 0;color:var(--dim);font-size:12px;font-family:var(--mono);
-    border-top:1px solid var(--border);margin-top:44px}
+  footer{padding:24px 0 64px;color:var(--dim);font-size:14px;font-family:var(--mono)}
+  nav.family{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;margin-left:-12px}
+  nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
+    padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
+  nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+  /* glassmorphic section panels — replaces hard divider lines */
+  .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
+    background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px auto}
+  .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px 0}
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
 </style>
 
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program &middot; Internal</div>
-  <h1>PRL System Atlas</h1>
-  <div class="meta">architecture &middot; journeys &middot; stories &middot; doll manifest &nbsp;&middot;&nbsp; as of Aug 18, 2026 &middot; sandbox scope</div>
+  <h1>System atlas &mdash; how it all connects</h1>
+  <div class="meta">Aug 19, 2026 &nbsp;&middot;&nbsp; internal &middot; architecture &middot; journeys &middot; stories &middot; sandbox scope</div>
 </div></header>
+<div class="navbar"><div class="wrap">
+  <nav class="family">
+  <a href="https://prl.arcs.care">Overview</a>
+  <a href="https://prl.arcs.care/status/progress">Progress</a>
+  <a href="https://prl.arcs.care/status/crm">CRM routing</a>
+  <a href="https://prl.arcs.care/status/troubleshooting">Web forms</a>
+  <a href="https://prl.arcs.care/status/tidio">Tidio delivery</a>
+  <a class="here" href="https://prl.arcs.care/status/atlas">Atlas</a>
+  <a href="https://prl.arcs.care/status/build">Build</a>
+  </nav>
+</div></div>
 
-<div class="wrap">
-<p class="bluf"><strong>One picture of the whole machine.</strong> Every surface, the verified
-delivery pipeline, where each promise stands, and which artifacts the client may see. Update
-this first; project outward from it, never the reverse.</p>
+<div class="wrap glasswrap">
+<p class="bluf"><strong>One picture of the whole machine.</strong> Every surface, the verified delivery pipeline, and where each promise stands &mdash; the same honest status as the <a href="https://prl.arcs.care/status/progress">progress page</a>, drawn as a map.</p>
 
 <section>
   <h2>1 · Build architecture</h2>
@@ -164,6 +187,8 @@ sequenceDiagram
   </table></div>
 </section>
 
+
+
 <section>
   <h2>4 · Doll manifest — who may see what</h2>
   <p class="sub">Audience declarations for the doll-export gate. EXTERNAL = Todd sees it or safely could. INTERNAL = never ships raw.</p>
@@ -177,6 +202,7 @@ sequenceDiagram
       <tr><td>this atlas &sect;3&ndash;4 + DoD reconciliation ledger</td><td class="aud bug">INTERNAL</td><td>waiver/honesty framing is ours</td></tr>
       <tr><td>flow maps, raw exports, DEWY receipts, handoffs, memory</td><td class="aud bug">INTERNAL</td><td>evidence + decision provenance</td></tr>
       <tr><td>43-state routing sweep detail</td><td class="aud bug">INTERNAL</td><td>held until Bill call, per sequencing decision</td></tr>
+      <tr><td>prl-page-factory skill (atoms.css + generator + SKILL.md)</td><td class="aud bug">INTERNAL</td><td>stamping machinery; ADR-066 reference impl</td></tr>
       <tr><td>SEM template + UAT harness + co-pilot briefs</td><td class="aud bug">INTERNAL</td><td>pre-scope work product / tooling</td></tr>
     </tbody>
   </table></div>
@@ -185,5 +211,5 @@ sequenceDiagram
   directly. A doll export of the PRL universe = EXTERNAL rows + scrubbed PROJECTABLE rows, nothing else.</div>
 </section>
 
-<footer><div style="padding:0">source of truth: _ARTIFACTS/prl-1-1-evidence/prl-system-ssot.md (repo) &middot; seed: engagement-universe-doll &middot; handoff v3.40.0</div></footer>
+<footer><div class="wrap">PRL Resins chatbot program &middot; prl.arcs.care/status/atlas &middot; siblings: <a href="https://prl.arcs.care">/overview</a> &middot; <a href="https://prl.arcs.care/status/progress">/progress</a> &middot; <a href="https://prl.arcs.care/status/crm">/crm</a> &middot; <a href="https://prl.arcs.care/status/troubleshooting">/troubleshooting</a> &middot; <a href="https://prl.arcs.care/status/tidio">/tidio</a> &middot; <a href="https://prl.arcs.care/status/build">/build</a></div></footer>
 </div>
