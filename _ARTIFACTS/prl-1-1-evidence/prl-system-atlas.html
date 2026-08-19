@@ -48,6 +48,25 @@
   .rule{margin-top:14px;padding:13px 16px;border-left:3px solid var(--gold);
     background:rgba(201,162,39,.06);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--muted)}
   .rule b{color:var(--text)}
+  /* mermaid contrast overrides — the renderer ignores init themes */
+  .mermaid svg .node rect,.mermaid svg .node circle,.mermaid svg .node polygon,
+  .mermaid svg .node path{fill:#111925!important;stroke:#C9A227!important;stroke-width:1.2px!important}
+  .mermaid svg .node .label,.mermaid svg .nodeLabel,.mermaid svg .label text,
+  .mermaid svg text{fill:#e6edf3!important;color:#e6edf3!important}
+  .mermaid svg .edgeLabel,.mermaid svg .edgeLabel p,.mermaid svg .edgeLabel span{
+    background:#050608!important;background-color:#050608!important;color:#e3c65a!important;fill:#e3c65a!important}
+  .mermaid svg .edgeLabel rect{fill:#050608!important;opacity:1!important}
+  .mermaid svg .flowchart-link,.mermaid svg path.path,.mermaid svg .messageLine0,
+  .mermaid svg .messageLine1{stroke:#8b98a9!important}
+  .mermaid svg .marker,.mermaid svg marker path{fill:#8b98a9!important;stroke:#8b98a9!important}
+  .mermaid svg .cluster rect{fill:#0d1117!important;stroke:#1e293b!important}
+  .mermaid svg .actor{fill:#111925!important;stroke:#C9A227!important}
+  .mermaid svg text.actor,.mermaid svg .actor-line{stroke:#5b6675!important}
+  .mermaid svg .messageText{fill:#8b98a9!important;stroke:none!important}
+  .mermaid svg .note{fill:#1a2230!important;stroke:#C9A227!important}
+  .mermaid svg .noteText,.mermaid svg .noteText tspan{fill:#e3c65a!important}
+  .mermaid svg .labelText,.mermaid svg .loopText,.mermaid svg .loopText tspan{fill:#e3c65a!important}
+  .mermaid svg .loopLine{stroke:#5b6675!important}
   footer{padding:34px 0 0;color:var(--dim);font-size:12px;font-family:var(--mono);
     border-top:1px solid var(--border);margin-top:44px}
 </style>
@@ -67,26 +86,25 @@ this first; project outward from it, never the reverse.</p>
   <h2>1 · Build architecture</h2>
   <p class="sub">Solid = live in sandbox. Dashed = designed / gated / broken-legacy. The one pipe every surface shares is Zap 376827315.</p>
   <div class="card"><pre class="mermaid">
-%%{init: {"theme":"dark","themeVariables":{"primaryColor":"#111925","primaryBorderColor":"#C9A227","primaryTextColor":"#e6edf3","lineColor":"#5b6675","fontFamily":"ui-monospace,Menlo,monospace","fontSize":"13px","clusterBkg":"#0d1117","clusterBorder":"#1e293b"}}}%%
 flowchart TD
     WP["WP staging site"] --> W(("Tidio widget"))
-    PP["prl.arcs.care/status/progress<br/>click-to-load embed"] --> W
-    LP["5x Unbounce SEM pages<br/>1.4 &middot; templated, not built"] -.-> W
-    W -->|"visitor clicks chat icon"| F["Flow: AI Handoff<br/>6 questions &middot; validated &middot; variables bound"]
-    W -.->|"free-form questions"| LY["Lyro AI Agent<br/>11/50 quota &middot; PDFs + site knowledge"]
+    PP["prl.arcs.care/status/progress — click-to-load embed"] --> W
+    LP["5x Unbounce SEM pages — 1.4 &middot; templated, not built"] -.-> W
+    W -->|"visitor clicks chat icon"| F["Flow: AI Handoff — 6 questions &middot; validated &middot; variables bound"]
+    W -.->|"free-form questions"| LY["Lyro AI Agent — 11/50 quota &middot; PDFs + site knowledge"]
     F --> Z["Zap 376827315"]
-    Z --> C1["Code: state parse + name split<br/>CA fallback + parse-failed flag"]
-    C1 --> ZI["ZoomInfo enrich<br/>title + industry"]
-    ZI --> S{"search Sugar<br/>by email1"}
-    S -->|found| PA["Path A &middot; UPDATE<br/>enrich + description append"]
-    S -->|"not found"| PB["Path B &middot; CREATE<br/>full field map + audit trail"]
+    Z --> C1["Code: state parse + name split — CA fallback + parse-failed flag"]
+    C1 --> ZI["ZoomInfo enrich — title + industry"]
+    ZI --> S{"search Sugar — by email1"}
+    S -->|found| PA["Path A &middot; UPDATE — enrich + description append"]
+    S -->|"not found"| PB["Path B &middot; CREATE — full field map + audit trail"]
     PA --> E5["5-min email"] --> E4["4-hr reminder"]
     PB --> E5
     PA --> SB[("Sugar SANDBOX")]
     PB --> SB
-    SLA["Zap 376815688 draft<br/>hourly stale-lead sweep"] -.-> SB
-    GF["Gravity Forms &mdash; broken"] -.->|"1.2-A &middot; payment-gated<br/>same backbone"| Z
-    SB -.->|"gated: enum + auth<br/>+ Bill + Todd's go"| PROD[("Sugar PROD<br/>untouched")]
+    SLA["Zap 376815688 draft — hourly stale-lead sweep"] -.-> SB
+    GF["Gravity Forms &mdash; broken"] -.->|"1.2-A &middot; payment-gated — same backbone"| Z
+    SB -.->|"gated: enum + auth — + Bill + Todd's go"| PROD[("Sugar PROD — untouched")]
   </pre>
   <div class="legend">
     <span class="pill r">OPEN BUG: empty email &rarr; dedup matched a real 2021 record (filter fix queued)</span>
@@ -99,7 +117,6 @@ flowchart TD
   <h2>2 · Delivery sequence — the verified path</h2>
   <p class="sub">Proven with a real staging conversation: Lead <span style="font-family:var(--mono)">435cee66&hellip;</span> — name split ✓ &middot; location_c=CT ✓ &middot; audit trail ✓ &middot; lead_source=Chatbot ✓</p>
   <div class="card"><pre class="mermaid">
-%%{init: {"theme":"dark","themeVariables":{"primaryColor":"#111925","primaryBorderColor":"#C9A227","primaryTextColor":"#e6edf3","lineColor":"#5b6675","actorBkg":"#111925","actorBorder":"#C9A227","actorTextColor":"#e6edf3","signalColor":"#8b98a9","signalTextColor":"#8b98a9","fontFamily":"ui-monospace,Menlo,monospace","noteBkgColor":"#1a2230","noteTextColor":"#e3c65a","noteBorderColor":"#C9A227"}}}%%
 sequenceDiagram
     participant V as Visitor
     participant T as Tidio Flow
