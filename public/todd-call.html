@@ -20,8 +20,6 @@
   a{color:var(--gold-soft);text-decoration:none}
   .wrap{max-width:916px;margin:0 auto;padding:0 22px}
 
-  /* nav */
-  nav{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
     border-bottom:1px solid var(--border)}
   nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:11px 22px;scrollbar-width:none}
   nav .wrap::-webkit-scrollbar{display:none}
@@ -105,15 +103,6 @@
 <body>
 
 
-<nav><div class="wrap">
-  <a href="#top" class="on">Overview</a>
-  <a href="#now">Now · 1.1</a>
-  <a href="#next">Next · 1.2</a>
-  <a href="#later">Later · 1.3 to 1.5</a>
-  <a href="#pay">Payment</a>
-  <a href="#surprises">No surprises</a>
-  <a href="#receipts">Receipts</a>
-</div></nav>
 
 <header id="top"><div class="wrap">
   <div class="kick">PRL Resins · Chatbot Program</div>
@@ -503,7 +492,7 @@ remaining Tidio email-config step is with Tidio support, which we are handling. 
 </div></footer>
 
 <script>
-  // scroll-spy: highlight the nav item for the section in view
+
   var links=[].slice.call(document.querySelectorAll('nav a'));
   var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
   function onscroll(){
