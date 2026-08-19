@@ -211,6 +211,27 @@
       "stakes": "HIGH",
       "mode": "STANDARD",
       "adr": null
+    },
+    {
+      "receipt_id": "2026-08-19-generative-recoil-named-and-minted",
+      "surface": "ARCS doctrine / session-residue extraction",
+      "sharp_question": "The PRL polish session's residue got composed into a page-factory skill without prior planning. Is that a one-off convenience or a nameable, repeatable ARCS pattern?",
+      "dewy_vector": {
+        "D": "A pattern, now doctrine: Generative Recoil (ADR-066). Recoil is bidirectional \u2014 the audit pass (expected vs actual) and the generative pass (compose session residue into instance -> class -> invariant) are the same act in opposite directions. Reference implementation: ~20 live-caught polish defects -> atoms.css (instance, extracted from the deployed page) -> prl-page-factory (class, spec.json->page, zero-LLM) -> register/altitude/never-relearn rules (invariant). Named by Zach in the moment, witnessed verbatim (GREEN) before minting.",
+        "E": "future sessions (the harvest question at session end), prl-page-factory (reference impl), engagement-universe-doll seed (sibling), resume-tailor v0.2 (retroactive same-shape)",
+        "W": "Durable doctrine. Falsifiable at the next PRL page: it must cost a ~20-line spec, not a polish session.",
+        "Y": "GREEN"
+      },
+      "y_gate_score": "GREEN",
+      "true_north": "Trust the process AND connect the dots looking backward \u2014 in that order. Structure harvested from what survived contact is load-bearing because every rule in it was a live defect once; structure speculated up front is not.",
+      "why": "Without naming it, the pattern stays luck. Named + minted, session-end gains a cheap standing question: what did this session make latent that a reverse-listen would extract?",
+      "loki": "Overclaim risk stated in the ADR itself: if the next page still needs an authoring session, the class layer failed. Rule of three gates generalization \u2014 no client-agnostic extraction from n=1.",
+      "bar": "Low \u2014 doctrine only, no runtime change.",
+      "horizon": "DURABLE",
+      "stakes": "MEDIUM",
+      "mode": "STANDARD",
+      "adr": "ADR-066",
+      "witness": "_STATE/witness/2026-08-19.jsonl"
     }
   ]
 }
