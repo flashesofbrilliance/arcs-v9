@@ -87,26 +87,30 @@ this first; project outward from it, never the reverse.</p>
   <p class="sub">Solid = live in sandbox. Dashed = designed / gated / broken-legacy. The one pipe every surface shares is Zap 376827315.</p>
   <div class="card"><pre class="mermaid">
 flowchart TD
-    WP["WP staging site"] --> W(("Tidio widget"))
-    PP["prl.arcs.care/status/progress — click-to-load embed"] --> W
-    LP["5x Unbounce SEM pages — 1.4 &middot; templated, not built"] -.-> W
-    W -->|"visitor clicks chat icon"| F["Flow: AI Handoff — 6 questions &middot; validated &middot; variables bound"]
-    W -.->|"free-form questions"| LY["Lyro AI Agent — 11/50 quota &middot; PDFs + site knowledge"]
+    WP["WP staging site"] --> W(("Tidio<br/>widget"))
+    PP["/status/progress embed"] --> W
+    LP["SEM pages x5 (1.4)"] -.-> W
+    W -->|chat icon| F["Flow: AI Handoff"]
+    W -.->|free-form| LY["Lyro AI (11/50)"]
     F --> Z["Zap 376827315"]
-    Z --> C1["Code: state parse + name split — CA fallback + parse-failed flag"]
-    C1 --> ZI["ZoomInfo enrich — title + industry"]
-    ZI --> S{"search Sugar — by email1"}
-    S -->|found| PA["Path A &middot; UPDATE — enrich + description append"]
-    S -->|"not found"| PB["Path B &middot; CREATE — full field map + audit trail"]
+    GF["Gravity Forms (broken)"] -.->|1.2-A| Z
+    Z --> C1["parse state + split name"]
+    C1 --> ZI["ZoomInfo enrich"]
+    ZI --> S{"dedup by email1"}
+    S -->|found| PA["UPDATE lead"]
+    S -->|new| PB["CREATE lead"]
     PA --> E5["5-min email"] --> E4["4-hr reminder"]
     PB --> E5
     PA --> SB[("Sugar SANDBOX")]
     PB --> SB
-    SLA["Zap 376815688 draft — hourly stale-lead sweep"] -.-> SB
-    GF["Gravity Forms &mdash; broken"] -.->|"1.2-A &middot; payment-gated — same backbone"| Z
-    SB -.->|"gated: enum + auth — + Bill + Todd's go"| PROD[("Sugar PROD — untouched")]
+    SLA["SLA sweep (draft)"] -.-> SB
+    SB -.->|gated| PROD[("Sugar PROD")]
   </pre>
   <div class="legend">
+    <span class="pill">Flow = 6 validated questions, variables bound</span>
+    <span class="pill">CREATE = full field map + audit trail, source=Chatbot</span>
+    <span class="pill">dashed = designed / gated / broken-legacy</span>
+    <span class="pill">PROD gated: enum + auth + Bill call + Todd's go</span>
     <span class="pill r">OPEN BUG: empty email &rarr; dedup matched a real 2021 record (filter fix queued)</span>
     <span class="pill y">Lyro resumes old conversations instead of flow</span>
     <span class="pill y">legacy Unbounce&rarr;Sugar Zaps: retired by 1.4 template</span>
@@ -119,24 +123,24 @@ flowchart TD
   <div class="card"><pre class="mermaid">
 sequenceDiagram
     participant V as Visitor
-    participant T as Tidio Flow
+    participant T as Tidio
     participant Z as Zapier
     participant ZI as ZoomInfo
-    participant S as Sugar sandbox
-    V->>T: clicks chat icon
-    T->>V: 6 questions (email + phone validated)
-    T->>Z: contact + properties
-    Z->>Z: parse state &middot; split name &middot; flag failures
-    Z->>ZI: enrich(email, name, company)
-    ZI-->>Z: title + industry (or NO_MATCH)
-    Z->>S: search Leads by email1
+    participant S as Sugar
+    V->>T: opens chat
+    T->>V: 6 questions
+    T->>Z: contact + answers
+    Z->>Z: parse + split
+    Z->>ZI: enrich
+    ZI-->>Z: title + industry
+    Z->>S: search by email1
     alt found
-        Z->>S: UPDATE — enrich + append audit
-    else not found
-        Z->>S: CREATE — full map, source=Chatbot
+        Z->>S: UPDATE
+    else new
+        Z->>S: CREATE
     end
     Z-->>Z: 5-min + 4-hr emails
-    Note over S: verified real run &middot; 435cee66&hellip;
+    Note over S: verified: 435cee66
   </pre></div>
 </section>
 
