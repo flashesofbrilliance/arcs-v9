@@ -9,232 +9,83 @@ const nextConfig: NextConfig = {
     // trace-include the dir so the JSON ships inside the serverless function bundle.
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },
-  // /compass-kit → the static Compass UI kit preview (cosmetic; mock pipeline, no backend)
-  //
-  // /observatory used to rewrite here too, to a static demo at public/observatory/index.html.
-  // That entry is removed: src/app/observatory/page.tsx now exists as a real App Router page,
-  // and per Next.js's documented rewrite order (plain-array rewrites are applied "after
-  // checking the filesystem (pages and /public files) and before dynamic routes" —
-  // node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/rewrites.md),
-  // the real page route is matched first and the rewrite was already dead/unreachable code.
-  // Removed for clarity rather than left as misleading dead config.
   async rewrites() {
     return {
       beforeFiles: [
-        // playground.arcs.care → public/playground.html (Clair de Lune performing-artifact hub; public, tripwire-clean). Performers ride UNDER as sub-pages via capture-group (single-host multi-path shape per todd-call FIX HISTORY: seg rule + one wildcard fallback, no per-path duplicates).
         { source: "/:seg(12d-orbital|knowledge-lattice|alexandria|moire)", destination: "/pf-:seg.html", has: [{ type: "host", value: "playground.arcs.care" }] },
         { source: "/:path((?!.*12d-orbital|.*knowledge-lattice|.*alexandria|.*moire).*)", destination: "/playground.html", has: [{ type: "host", value: "playground.arcs.care" }] },
-        // monolith.arcs.care → public/monolith.html (3 heads + Moiré filter; meta-audit head dropped for public — stays private/SSOT; tripwire-clean; single wildcard = proven-reliable shape)
         { source: "/:path*", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
-        // forge.arcs.care → public/forge-pattern.html (counterpart-forge design pattern; pseudonymized/redacted, public, ungated)
         { source: "/:path*", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
-        // forge-cut.arcs.care → public/forge-cut.html (the deep cut / four-cores view; pseudonymized/redacted, public, ungated; uplinks to forge.arcs.care)
         { source: "/:path*", destination: "/forge-cut.html", has: [{ type: "host", value: "forge-cut.arcs.care" }] },
-        // rayan.arcs.care → public/rayan.html (Rayan Saleh / Periscope one-door; real name, pw-gated "rayan", noindex)
         { source: "/:path*", destination: "/rayan.html", has: [{ type: "host", value: "rayan.arcs.care" }] },
-        // omakase.arcs.care → public/omakase/ (一夜 One Evening — Louisville canon site, Gospel XXIV; open, no gate)
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
-        // L3 · the atom story (tea-house room off the cellar) — extensionless on the omakase host
         { source: "/atom", destination: "/omakase/atom.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
-        // Lookahead excludes ALL omakase-prefixed paths (prevents beforeFiles chaining AND lets
-        // /omakase + /omakase/atom fall through to the host-agnostic rules below — per the
-        // todd-call FIX HISTORY, keep this host at 3 rule objects, do not add more exact paths).
         { source: "/:path((?!omakase).*)", destination: "/omakase/:path", has: [{ type: "host", value: "omakase.arcs.care" }] },
-        // L1→L2→L3 path pattern, host-agnostic: /omakase/atom works on louisville + www + app
         { source: "/omakase/atom", destination: "/omakase/atom.html" },
         { source: "/omakase", destination: "/omakase/index.html" },
-        // vishal.arcs.care → public/vishal-combined.html
         { source: "/:path*", destination: "/vishal-combined.html", has: [{ type: "host", value: "vishal.arcs.care" }] },
-        // kelly-interview.arcs.care → public/kelly-interview.html
         { source: "/:path*", destination: "/warroom/kelly-interview", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
-        // todd-call.arcs.care/teardown + /logictree → todd-teardown.html / todd-logictree.html
-        // FIX HISTORY, read before touching this host's rules again:
-        // 2026-07-13: exact "/teardown" + wildcard both matched `/teardown`;
-        // fixed by excluding "teardown" from the wildcard's regex.
-        // 2026-07-23: added a third exact rule ("/logictree", tried as
-        // "/build-spec" first too) alongside root "/" + wildcard = 4 total rule
-        // objects sharing an identical `has:[{host:todd-call.arcs.care}]`
-        // condition. That combination reproducibly resolved wrong on Vercel's
-        // edge (x-matched-path: /todd-call.html) despite the regex compiling
-        // provably correctly locally every time (fresh `next build` +
-        // .next/routes-manifest.json inspection), on genuine cache MISSes, and
-        // after 60s+ of propagation wait. The file itself deployed fine (served
-        // correctly from a different host with no competing wildcard). Root
-        // cause never fully confirmed, but every host on this config with a
-        // reliable single exact-path exception (jeben/debrief, julia/runtime,
-        // thetrueai/proposal) has exactly 2 rule objects sharing its `has`
-        // condition, never 3+. Fix: merged the two exact paths into one rule
-        // via a capture group + dynamic destination, and dropped the separate
-        // root "/" rule (the wildcard's `.*` already matches empty/root) —
-        // back down to 2 rule objects total for this host, matching the only
-        // proven-reliable shape. If a THIRD path is ever needed here, do not
-        // just add a third rule object; extend this capture group instead
-        // (e.g. `/:seg(teardown|logictree|newpath)` -> `/todd-:seg.html`) and
-        // keep the filename convention (`todd-<seg>.html`) so the dynamic
-        // destination keeps working without a 1:1 lookup table.
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        // prl.arcs.care/status/<seg> → public/prl-status-<seg>.html (one capture-group rule per
-        // the todd-call convention above; add a new segment name here + the matching html file,
-        // never a new rule object). Only "crm" exists today (2026-08-17); tidio/wp/troubleshooting/
-        // build are reserved names, not yet built.
         { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
-        // prl.arcs.care (everything else) → public/todd-call.html (memorable alias to the same SSOT
-        // proposal/status page). Excludes on the REWRITTEN destination substring ("prl-status-"),
-        // not the original path ("status/") — beforeFiles re-runs on a second pass against the
-        // already-rewritten destination filename, and "/prl-status-crm.html" doesn't start with or
-        // contain "status/" (it's "status-"), so a "status/"-based exclusion doesn't stop the
-        // wildcard from re-catching it. Same class of bug as the documented todd-call fix below.
         { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
-        // labella.arcs.care → public/labella.html
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
-        // labelle.arcs.care → public/labella.html (common misspelling alias — same content)
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labelle.arcs.care" }] },
-        // peter.arcs.care → public/peter.html
         { source: "/:path*", destination: "/warroom/peter", has: [{ type: "host", value: "peter.arcs.care" }] },
-        // julia.arcs.care/runtime → public/julia-runtime.html
-        // FIX 2026-07-13: same shape as the todd-call.arcs.care/teardown fix
-        // above — the wildcard was winning over this exact-path rule despite
-        // declaration order (verified live, fresh/uncached request). Fixed
-        // structurally: the wildcard's source excludes "runtime" via regex.
         { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        // julia.arcs.care root → public/julia.html
         { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        // julia.arcs.care/anything-else (except /runtime) → public/julia.html
         { source: "/:path((?!.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        // julia-ext.arcs.care → public/julia-ext.html (sanitized external version)
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
-        // daniel.arcs.care → public/daniel.html (Crabtree recoil + fractional.city teardown)
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
-        // joe.arcs.care → public/joe.html (Joe Kim / HypeLab 6-month decision map, pw-gated "joe")
         { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
-        // joe-war.arcs.care → /warroom/joe-war (Joe INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24)
         { source: "/:path*", destination: "/warroom/joe-war", has: [{ type: "host", value: "joe-war.arcs.care" }] },
-        // joe-ext.arcs.care → public/joe-ext.html (Joe-facing forward recoil, generated, pw-gated "joe" — safe to share)
         { source: "/:path*", destination: "/joe-ext.html", has: [{ type: "host", value: "joe-ext.arcs.care" }] },
-        // yuri-war.arcs.care → /warroom/yuri-war (Yuri INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24)
         { source: "/:path*", destination: "/warroom/yuri-war", has: [{ type: "host", value: "yuri-war.arcs.care" }] },
-        // yuri-ext.arcs.care → public/yuri-ext.html (Yuri-facing capability seed — parallel-tracking taste, pw-gated "yuri" — safe to share)
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-ext.arcs.care" }] },
-        // yuri-sample.arcs.care → public/yuri-sample.html (redacted 6-tab war-room sample — structure shown, method withheld, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-sample.arcs.care" }] },
-        // yuri-recoil.arcs.care → /yuri.html (DECLUTTERED 2026-08-09). The old hand-built yuri-recoil.html
-        // (Aug 7, gated, pre-heal framing) was superseded by the forge family: the before/after now lives
-        // in the codex, the scored close in the receipt, the full T0→TEnd trajectory in the diamond cut.
-        // Old "primary thing to send" links now land on the current, ungated one-door (same as ext/sample).
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-recoil.arcs.care" }] },
-        // yuri-codex.arcs.care -> public/yuri-codex.html (5-altitude org-scale codex + presentation mode, pw-gated "yuri")
         { source: "/:path*", destination: "/yuri-codex.html", has: [{ type: "host", value: "yuri-codex.arcs.care" }] },
-        // yuri-diamond.arcs.care -> public/yuri-diamond.html (forensic diamond cut: the Jul 23 call as one T0->TEnd trajectory, verbatim-anchored + earned-fidelity; opt-in deep cut, linked softly from the one-door, ungated)
         { source: "/:path*", destination: "/yuri-diamond.html", has: [{ type: "host", value: "yuri-diamond.arcs.care" }] },
-        // kam-codex.arcs.care -> public/kam-codex.html (2-tab codex: The Read (Aug 14 call, scored) + The Instrument, pw-gated "kam")
         { source: "/:path*", destination: "/kam-codex.html", has: [{ type: "host", value: "kam-codex.arcs.care" }] },
-        // robin-codex.arcs.care -> public/robin-codex.html (2-tab resonance codex: The Read + The Instrument, mid-curve tooltips, present mode, pw-gated "robin")
         { source: "/:path*", destination: "/robin-codex.html", has: [{ type: "host", value: "robin-codex.arcs.care" }] },
-        // robin.arcs.care -> public/robin.html (one-door studio: seed -> whole story -> how the brief is built -> how it works -> where it goes, pw "robin")
         { source: "/:path*", destination: "/robin.html", has: [{ type: "host", value: "robin.arcs.care" }] },
-        // robin-profile.arcs.care -> public/robin-profile.html (enriched profile read, step 1 of the loop, pw "robin")
         { source: "/:path*", destination: "/robin-profile.html", has: [{ type: "host", value: "robin-profile.arcs.care" }] },
-        // robin-receipt.arcs.care -> public/robin-receipt.html (forensic receipt-close + live Receipt Studio).
-        // Negative lookahead excludes /api so the Studio's same-origin fetch to
-        // /api/receipts/studio/robin is NOT swallowed by the rewrite (same fix as louisville.arcs.care).
         { source: "/:path((?!api/).*)", destination: "/robin-receipt.html", has: [{ type: "host", value: "robin-receipt.arcs.care" }] },
-        // yuri-demo.arcs.care -> /yuri.html (DECLUTTERED 2026-08-09). The old yuri-demo.html (Aug 5, pre-heal,
-        // gated) still carried the consent/data-ethics fabrication the Jul-23 transcript heal removed everywhere
-        // else ("gating values… data ethics at the identity level") + the stale "move you forward" verbatim.
-        // Superseded by the forge family; route any old link to the current, ungated, healed one-door.
+        { source: "/:path*", destination: "/scott.html", has: [{ type: "host", value: "scott.arcs.care" }] },
+        { source: "/:path*", destination: "/scott-profile.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
+        { source: "/:path*", destination: "/scott-codex.html", has: [{ type: "host", value: "scott-codex.arcs.care" }] },
+        { source: "/:path*", destination: "/scott-receipt.html", has: [{ type: "host", value: "scott-receipt.arcs.care" }] },
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
-        // yuri.arcs.care -> public/yuri.html (one-door: forge_counterpart.py onedoor surface, LEADS with the
-        // belief-flip story; pw-gated "yuri" as of 2026-08-07 to match the rest of the Yuri family — real quotes/reads)
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri.arcs.care" }] },
-        // yuri-profile.arcs.care -> public/yuri-profile.html (enriched profile read, step 1, pw-gated? open like robin-profile)
         { source: "/:path*", destination: "/yuri-profile.html", has: [{ type: "host", value: "yuri-profile.arcs.care" }] },
-        // yuri-receipt.arcs.care -> public/yuri-receipt.html (forge receipt-close + live Receipt Studio,
-        // yuri tenant). Negative lookahead excludes /api so the Studio's fetch to /api/receipts/studio/yuri
-        // is not swallowed by the rewrite (same fix as louisville/robin-receipt). pw-gated "yuri".
         { source: "/:path((?!api/).*)", destination: "/yuri-receipt.html", has: [{ type: "host", value: "yuri-receipt.arcs.care" }] },
-        // ahmed.arcs.care → /warroom/ahmed (Ahmed INTERNAL war-room — admin-auth route, moved out of public/ 2026-07-24.
-        // If Ahmed is ever meant to see a page, it's ahmed-ext below, not this.)
         { source: "/:path*", destination: "/warroom/ahmed", has: [{ type: "host", value: "ahmed.arcs.care" }] },
-        // ahmed-ext.arcs.care → public/ahmed.html (one-door: leads with the belief-flip, Ahmed's register,
-        // the TL;DR he asked for — safe to share, ungated to match the surface he already has the link to).
-        // The older omakase-pipeline family now sits one click down behind the one-door:
-        //   root → the one-door (ahmed.html) · /report → recoil report (L1) · /evening → the method (L2) · /seed → the seed (L3)
-        // Exact-path rules first, wildcard (the one-door) excludes all three via negative lookahead.
         { source: "/evening", destination: "/ahmed-evening.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/seed", destination: "/ahmed-seed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
         { source: "/report", destination: "/ahmed-ext.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        // Wildcard = the one-door. Per the omakase idiom (line ~42), exclude the token shared by EVERY
-        // destination file — all four are ahmed*.html — so beforeFiles chaining can never re-catch a
-        // rewritten path (/ahmed.html, /ahmed-ext.html, /ahmed-evening.html, /ahmed-seed.html all contain
-        // "ahmed" → excluded → served as-is). Real user paths (/, /report, /stray) contain no "ahmed".
         { source: "/:path((?!.*ahmed).*)", destination: "/ahmed.html", has: [{ type: "host", value: "ahmed-ext.arcs.care" }] },
-        // jeben.arcs.care/debrief → public/jeben-debrief.html (Jul 15 call recoil, pw-gated)
-        // Same shape as the julia.arcs.care/runtime fix above: exact-path rule first,
-        // wildcard's source excludes "debrief" via negative-lookahead regex so the two
-        // rules can never both match the same request.
-        // MOVED 2026-07-31 (gauntlet RUIN finding): both were world-readable in public/
-        // behind a client-side plaintext "berg" gate (theater: the page shipped in full,
-        // verified live 200 on www.arcs.care/jeben.html). They carry confidential material
-        // (plant closing, ~20 local jobs, third-party financials, candid counterpart reads),
-        // so they now live in runtime/warroom/ and serve through the admin-gated
-        // /warroom/[slug] route (Auth.js session + ADMIN_EMAILS, fail-closed, 404-on-unauth).
-        // Treat "berg" as disclosed: it sat in git history and in the served JS.
         { source: "/debrief", destination: "/warroom/jeben-debrief", has: [{ type: "host", value: "jeben.arcs.care" }] },
         { source: "/:path((?!.*debrief).*)", destination: "/warroom/jeben", has: [{ type: "host", value: "jeben.arcs.care" }] },
-        // louisville.arcs.care → public/louisville.html (Louisville Brands pitch suite · open, no gate)
-        // Wildcard excludes /api/* via negative lookahead (same shape as jeben/debrief above) —
-        // without it the rewrite swallows the suite's own /api/louisville/* persistence calls.
-        // /omakase* excluded: the L2 evening + L3 atom story live as subpages of the suite
-        // (louisville.arcs.care/omakase, /omakase/atom) via the host-agnostic rules above.
         { source: "/:path((?!api/|omakase).*)", destination: "/louisville.html", has: [{ type: "host", value: "louisville.arcs.care" }] },
-        // resume.arcs.care/google (+ /google-gtm) → public/resume-google-gtm.html (Google Principal GTM AI Tools variant)
-        // Same exact-path-vs-wildcard shape as todd/teardown, julia/runtime, jeben/debrief above.
-        // NOTE: /google is the primary share path. /google-gtm was the original slug but its edge
-        // routing-decision cache got poisoned (requested before its rule went live, during deploy
-        // propagation) and Vercel's CDN has no purge API + redeploys don't clear it; kept here so it
-        // resolves correctly once that stale entry finally expires. The wildcard below excludes BOTH
-        // via a single "starts-with-google" negative-lookahead so neither can collide with the wildcard.
         { source: "/google", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
         { source: "/google-gtm", destination: "/resume-google-gtm.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        // resume.arcs.care root/anything-else (except /google*) → public/resume.html
-        // NOTE: this rule previously existed ONLY inside the live deployment (deployed from a
-        // dirty tree, never committed) — verified 2026-07-09 via x-matched-path. Committed here
-        // so a clean redeploy from main cannot drop resume.arcs.care routing.
         { source: "/:path((?!google).*)", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
-        // lewoof.arcs.care → public/lewoof.html (Hila / Le Woof Faire setup call recoil, pw-gated "hila")
         { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
-        // danny.arcs.care → public/danny.html (Danny Quick / Kiko pre-call brief + teardown, pw-gated "quick")
         { source: "/:path*", destination: "/warroom/danny", has: [{ type: "host", value: "danny.arcs.care" }] },
-        // kiko.arcs.care → public/kiko.html (external-facing Kiko teardown + gift, addressed to Danny, pw-gated "danny")
         { source: "/:path*", destination: "/kiko.html", has: [{ type: "host", value: "kiko.arcs.care" }] },
-        // jalaja.arcs.care → public/jalaja.html (Jalaja Padma / theTrueAI pre-call brief, internal, pw-gated "padma")
         { source: "/:path*", destination: "/warroom/jalaja", has: [{ type: "host", value: "jalaja.arcs.care" }] },
-        // thetrueai.arcs.care/proposal → public/thetrueai-proposal.html (post-call content-strategy sprint proposal, pw-gated "jalaja")
         { source: "/proposal", destination: "/thetrueai-proposal.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
-        // thetrueai.arcs.care root/anything-else (except /proposal) → public/thetrueai.html (external-facing theTrueAI teardown, addressed to Jalaja, pw-gated "jalaja")
         { source: "/:path((?!.*proposal).*)", destination: "/thetrueai.html", has: [{ type: "host", value: "thetrueai.arcs.care" }] },
-        // chan.arcs.care → public/chan.html (ARCS product mission/architecture/roadmap hub for Prophet CDO show-and-tell, ungated)
         { source: "/:path*", destination: "/chan.html", has: [{ type: "host", value: "chan.arcs.care" }] },
-        // status.arcs.care → public/status.html (standalone ARCS build-status fork of chan, no Prophet/presentation, ungated)
         { source: "/:path*", destination: "/status.html", has: [{ type: "host", value: "status.arcs.care" }] },
-        // resume-tailor.arcs.care → public/resume-tailor.html (landing page for the resume-tailor OSS skill/plugin; ADR-056 per-tool subdomain)
         { source: "/:path*", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
-        // ADR-056 rendered connector fleet — one <tool>.arcs.care per LIVE public good that earns a deep page.
-        // Pages generated from SSOT by scripts/connector_render.py; subdomain mirrors the tool/repo name.
-        // Thin git-clone-only Claude skills are NOT standalone pages — they are cards on good.arcs.care.
-        // good.arcs.care/blog/nftt/<slug>[/<tier>] — NFTT depth ladder (water-fountain default: bare slug = exec).
-        // Same single-host multi-path shape as todd-call FIX HISTORY: seg rules + one negative-lookahead fallback.
         { source: "/blog/nftt/:slug/:tier(brief|full)", destination: "/blog-nftt-:slug-:tier.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/blog/nftt/:slug", destination: "/blog-nftt-:slug-exec.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path((?!blog).*)", destination: "/good.html", has: [{ type: "host", value: "good.arcs.care" }] },
         { source: "/:path*", destination: "/rosetta-shell.html", has: [{ type: "host", value: "rosetta-shell.arcs.care" }] },
         { source: "/:path*", destination: "/germinate.html", has: [{ type: "host", value: "germinate.arcs.care" }] },
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
-        // ayesha.arcs.care → public/ayesha-ext.html (sanitized external recap, addressed to Ayesha, pw-gated "ayesha")
-        // public/ayesha.html (internal Recoil Report) is committed but deliberately NOT routed to any domain.
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
-        // build.arcs.care → public/build.html (The Workshop: unifying goods→playground→lab front door + live pulse; public, ungated)
         { source: "/:path*", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
       ],
       afterFiles: [
@@ -243,10 +94,6 @@ const nextConfig: NextConfig = {
       fallback: [],
     };
   },
-  // Retired Fanatics-engagement subdomains — 301 to arcs.care rather than a bare 404.
-  // A redirect rule is evaluated per-request (unlike the static-file rewrites above,
-  // which Vercel's edge CDN can serve from a stale cache even after a new deploy)
-  // and gives anyone with an old link a graceful landing instead of a dead page.
   async redirects() {
     const retiredFanaticsHosts = [
       "fanatics.arcs.care",
