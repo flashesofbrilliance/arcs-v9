@@ -80,6 +80,9 @@
     border-radius:16px;padding:20px 24px;margin:12px auto}
   .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
     border-radius:16px;padding:20px 24px;margin:12px 0}
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -101,16 +104,18 @@ mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
   <h1>System atlas &mdash; how it all connects</h1>
   <div class="meta">architecture &middot; journeys &middot; stories &middot; doll manifest &nbsp;&middot;&nbsp; as of Aug 18, 2026 &middot; sandbox scope</div>
-  <nav class="family">
-    <a href="https://todd-call.arcs.care">Overview</a>
-    <a href="/status/progress">Progress</a>
-    <a href="/status/crm">CRM routing</a>
-    <a href="/status/troubleshooting">Web forms</a>
-    <a href="/status/tidio">Tidio delivery</a>
-    <a class="here" href="/status/atlas">Atlas</a>
-    <a href="/status/build">Build</a>
-    </nav>
 </div></header>
+<div class="navbar"><div class="wrap">
+  <nav class="family">
+  <a href="https://todd-call.arcs.care">Overview</a>
+  <a href="/status/progress">Progress</a>
+  <a href="/status/crm">CRM routing</a>
+  <a href="/status/troubleshooting">Web forms</a>
+  <a href="/status/tidio">Tidio delivery</a>
+  <a class="here" href="/status/atlas">Atlas</a>
+  <a href="/status/build">Build</a>
+  </nav>
+</div></div>
 
 <div class="wrap glasswrap">
 <p class="bluf"><strong>One picture of the whole machine.</strong> Every surface, the verified delivery pipeline, and where each promise stands &mdash; the same honest status as the <a href="/status/progress">progress page</a>, drawn as a map.</p>

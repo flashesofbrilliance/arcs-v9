@@ -67,6 +67,9 @@
     border-radius:16px;padding:20px 24px;margin:12px auto}
   .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
     border-radius:16px;padding:20px 24px;margin:12px 0}
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
@@ -75,16 +78,18 @@
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
   <h1>Build runbook &amp; who owns what</h1>
   <div class="meta">Aug 18, 2026 &nbsp;&middot;&nbsp; all work sandbox/staging &middot; zero production impact</div>
-  <nav class="family">
-    <a href="https://todd-call.arcs.care">Overview</a>
-    <a href="/status/progress">Progress</a>
-    <a href="/status/crm">CRM routing</a>
-    <a href="/status/troubleshooting">Web forms</a>
-    <a href="/status/tidio">Tidio delivery</a>
-    <a href="/status/atlas">Atlas</a>
-    <a class="here" href="/status/build">Build</a>
-    </nav>
 </div></header>
+<div class="navbar"><div class="wrap">
+  <nav class="family">
+  <a href="https://todd-call.arcs.care">Overview</a>
+  <a href="/status/progress">Progress</a>
+  <a href="/status/crm">CRM routing</a>
+  <a href="/status/troubleshooting">Web forms</a>
+  <a href="/status/tidio">Tidio delivery</a>
+  <a href="/status/atlas">Atlas</a>
+  <a class="here" href="/status/build">Build</a>
+  </nav>
+</div></div>
 
 <div class="bluf"><div class="wrap">
   <p><strong>What's built, what's next, and whose move it is.</strong> The engineering view of the
