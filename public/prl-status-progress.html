@@ -51,6 +51,21 @@
   td.k{font-family:var(--mono);font-weight:700;color:var(--gold-soft);white-space:nowrap}
   td.m{color:var(--muted)}
   footer{padding:24px 0 40px;color:var(--dim);font-size:14px;font-family:var(--mono)}
+  /* Mobile: stack the workaround table into cards instead of an inner horizontal scroll */
+  @media(max-width:600px){
+    .scroller{overflow-x:visible;border:0;background:none}
+    table{min-width:0}
+    thead{display:none}
+    table,tbody,tr,td{display:block;width:100%}
+    tr{border:1px solid var(--border);border-radius:8px;background:var(--surface2);margin:0 0 10px;padding:4px 0}
+    td{border-bottom:0;padding:6px 14px;white-space:normal}
+    td.k{padding-top:10px}
+    td.m::before{content:"Workaround · ";font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--dim);display:block;margin-bottom:2px}
+    td:last-child{padding-bottom:12px}
+    td:last-child::before{content:"Result · ";font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--dim);display:block;margin-bottom:2px}
+  }
 </style>
 <script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
 <script defer src="/_vercel/insights/script.js"></script>
