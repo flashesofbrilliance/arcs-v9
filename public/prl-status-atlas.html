@@ -30,7 +30,8 @@
   .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;
     overflow-x:auto}
   .card+.card{margin-top:14px}
-  pre.mermaid{margin:0;display:flex;justify-content:center;background:transparent}
+  pre.mermaid{margin:0;display:flex;justify-content:center;background:transparent;visibility:hidden;min-height:160px}
+  pre.mermaid[data-processed="true"]{visibility:visible}
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
   .pill{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.05em;
     padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--muted)}
