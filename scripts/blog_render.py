@@ -92,6 +92,7 @@ ENDMARK = ('<p class="endmark" aria-hidden="true"><svg width="46" height="12" vi
 
 def render(md: str) -> str:
     out = []
+    titled = False
     seen_h2 = False
     dropped_cap = False
     P = 'style="margin:0 0 1.15em;line-height:1.75"'
@@ -101,9 +102,12 @@ def render(md: str) -> str:
             continue
         if b == "---":
             out.append(f'<hr style="border:none;border-top:1px solid var(--border);margin:2.5em 0">')
+        elif b.startswith("### "):
+            out.append(f'<h3 style="margin:1.8em 0 .6em;font-size:1.125rem;font-weight:600;color:var(--fg1)">{inline(b[4:])}</h3>')
         elif b.startswith("# "):
-            out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-family:ui-monospace,monospace;color:{TOKENS["cyan"]}">{inline(b[2:])}</p>')
-        elif b.startswith("## ") and not out or b.startswith("## ") and len([x for x in out if "<h1" in x]) == 0:
+            out.append(f'<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">{inline(b[2:])}</p>')
+        elif b.startswith("## ") and not titled:
+            titled = True
             out.append(f'<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,2.6rem);line-height:1.2;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">{inline(b[3:])}</h1>')
         elif b.startswith("## "):
             seen_h2 = True
@@ -202,18 +206,15 @@ PAGE = """<!doctype html>
   h2::before {{ content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
     background: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C); }}
   .endmark {{ margin: 2.6em 0 0; }}
-  @media (min-width: 1280px) {{
-    .aside, .plain {{ float: right; clear: right; width: 272px; margin: .2em -324px 1.2em 1.6em;
-      font-size: .88rem; line-height: 1.65; padding: .85em 1em; }}
-    figure {{ width: calc(100% + 324px); }}
-  }}
+
   nav a {{ text-decoration: none; }}
   nav a:hover {{ text-decoration: underline; }}
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
 <main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
-{ladder}{body}
-<footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
+{ladder}<article>
+{body}
+</article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
 NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
 </footer>
 </main></body></html>
