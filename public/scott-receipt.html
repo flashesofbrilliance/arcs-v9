@@ -26,15 +26,7 @@ h2{font-size:18px;margin:0 0 10px}
 .note{margin-top:16px;font-size:12.5px;color:var(--dimmed)}
 .foot{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmed);margin-top:56px;border-top:1px solid var(--border);padding-top:18px}
 .uplink{color:var(--dimmed);font-family:var(--mono);font-size:11px;text-decoration:none}
-#pw-gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}
-#pw-gate.hidden{display:none}
-.pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
-.pw-input{background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:16px;padding:10px 16px;outline:none;width:200px;text-align:center;letter-spacing:.1em}
-.pw-input:focus{border-color:var(--cyan)}
-.pw-input.shake{animation:shake .3s ease;border-color:var(--red)}
-@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 </style><script defer src="/_vercel/insights/script.js"></script></head><body>
-<div id="pw-gate"><div class="pw-label">ARCS · Private · for Scott</div><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off"></div>
 <div class="page">
 <a class="uplink" href="https://scott.arcs.care">↑ the studio</a>
 <div class="eyebrow">Scott · receipt</div>
@@ -68,5 +60,4 @@ h2{font-size:18px;margin:0 0 10px}
 <p class="note">The interactive file-your-own-bet widget (like Robin's) needs the scott_app migration applied and its API route wired — not live on this draft yet. This bet is hand-filed to show the shape.</p>
 <div class="foot">ARCS · RECEIPT · RETROSPECTIVE + ONE REAL FORWARD BET · NO BACKDATING</div>
 </div>
-<script>(function(){var K='2026-08-19-witt-receipt-view-auth',P='scott';if(localStorage.getItem(K)==='1'){document.getElementById('pw-gate').classList.add('hidden');return;}var i=document.getElementById('pw-input');i.addEventListener('keydown',function(e){if(e.key!=='Enter')return;if(i.value.toLowerCase()===P){localStorage.setItem(K,'1');document.getElementById('pw-gate').classList.add('hidden');}else{i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake');},350);}});})();</script>
 </body></html>
