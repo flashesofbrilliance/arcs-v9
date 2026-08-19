@@ -164,6 +164,18 @@ Fewer-questions flow + Zap backfill from Sugar/ZoomInfo reverse lookup (caveats 
 drives routing so never auto-fill it from HQ data; ZoomInfo hit-rate < 100% + location_c
 hard-required = blank-field rejection risk).
 
+## Idea parked for 1.4 ("Your paid landing pages") — template pair, and it's a REPAIR not a feature
+Template unit = one Unbounce page + one Tidio onramp flow per product family, all sharing the
+proven Zap-376827315 backbone. The 5 SEM Onramp drafts are hand-built instances of this pattern.
+Key mechanics: "Visitor opens a specific page" trigger per landing URL (no collisions with the
+chat-icon flow), Tidio flow Import/Export = JSON template with placeholder swap, campaign tag in
+payload = per-page attribution for the baseline. KEY FRAMING: the legacy Unbounce->Sugar Zaps
+(other Zapier account, 6801141) are partly broken — the template RETIRES them rather than fixing
+N brittle connectors; each migrated page is one less broken legacy Zap. Zero new delivery work
+per page. Cheap non-gated prep: author the template JSON from the AI-Handoff export + the 5
+drafts' vocabulary before 1.4 kicks, so kickoff is stamping, not building. Quota check before
+scaling: each active flow draws from visitors-reached (26/2000 now, fine for pilot).
+
 
 # Handoff — v3.39.0 (2026-08-18)
 
