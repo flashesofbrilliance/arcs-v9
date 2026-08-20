@@ -1,12 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Internal war-room HTML (served by src/app/warroom/[slug]/route.ts, admin-gated).
-  // Explicit trace include so the files ship inside the serverless function bundle.
   outputFileTracingIncludes: {
     "/warroom/[slug]": ["./runtime/warroom/**"],
-    // Dynamic recoil reports read runtime/recoil/generated/<id>.json at request time;
-    // trace-include the dir so the JSON ships inside the serverless function bundle.
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },
   async rewrites() {
@@ -34,7 +30,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/warroom/peter", has: [{ type: "host", value: "peter.arcs.care" }] },
         { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        { source: "/:path((?!.*runtime).*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        { source: "/:path((?!.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
@@ -88,7 +84,6 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
         { source: "/:path*", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
-        // Scott demo scenario host: scott-arcs-demo.arcs.care -> static prototype page built from ARCS-for-Parlance grammar.
         { source: "/:path*", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
       ],
       afterFiles: [
