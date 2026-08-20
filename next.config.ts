@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/warroom/peter", has: [{ type: "host", value: "peter.arcs.care" }] },
         { source: "/runtime", destination: "/julia-runtime.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
-        { source: "/:path((?!.*runtime).*)", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
+        { source: "/:path((?!.*runtime).*", destination: "/julia.html", has: [{ type: "host", value: "julia.arcs.care" }] },
         { source: "/:path*", destination: "/julia-ext.html", has: [{ type: "host", value: "julia-ext.arcs.care" }] },
         { source: "/:path*", destination: "/daniel.html", has: [{ type: "host", value: "daniel.arcs.care" }] },
         { source: "/:path*", destination: "/joe.html", has: [{ type: "host", value: "joe.arcs.care" }] },
@@ -52,9 +52,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/robin-profile.html", has: [{ type: "host", value: "robin-profile.arcs.care" }] },
         { source: "/:path((?!api/).*)", destination: "/robin-receipt.html", has: [{ type: "host", value: "robin-receipt.arcs.care" }] },
         { source: "/:path*", destination: "/scott.html", has: [{ type: "host", value: "scott.arcs.care" }] },
-        // scott-profile.arcs.care/signal -> public/scott-signal.html (public-record read, cross-checked against calls; subpath so it reads as one deepening site, not a separate domain)
         { source: "/signal", destination: "/scott-signal.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
-        // Catch-all must exclude /signal, otherwise it runs after the rule above and wins (Next applies the LAST matching rewrite, not the first).
         { source: "/:path((?!signal).*)", destination: "/scott-profile.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
         { source: "/:path*", destination: "/scott-codex.html", has: [{ type: "host", value: "scott-codex.arcs.care" }] },
         { source: "/:path*", destination: "/scott-receipt.html", has: [{ type: "host", value: "scott-receipt.arcs.care" }] },
@@ -90,6 +88,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/arcs-field-scan.html", has: [{ type: "host", value: "arcs-field-scan.arcs.care" }] },
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
         { source: "/:path*", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
+        // Scott demo scenario host: scott-arcs-demo.arcs.care -> static prototype page built from ARCS-for-Parlance grammar.
+        { source: "/:path*", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
