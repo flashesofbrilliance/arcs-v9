@@ -54,7 +54,8 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/scott.html", has: [{ type: "host", value: "scott.arcs.care" }] },
         // scott-profile.arcs.care/signal -> public/scott-signal.html (public-record read, cross-checked against calls; subpath so it reads as one deepening site, not a separate domain)
         { source: "/signal", destination: "/scott-signal.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
-        { source: "/:path*", destination: "/scott-profile.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
+        // Catch-all must exclude /signal, otherwise it runs after the rule above and wins (Next applies the LAST matching rewrite, not the first).
+        { source: "/:path((?!signal).*)", destination: "/scott-profile.html", has: [{ type: "host", value: "scott-profile.arcs.care" }] },
         { source: "/:path*", destination: "/scott-codex.html", has: [{ type: "host", value: "scott-codex.arcs.care" }] },
         { source: "/:path*", destination: "/scott-receipt.html", has: [{ type: "host", value: "scott-receipt.arcs.care" }] },
         { source: "/:path*", destination: "/yuri.html", has: [{ type: "host", value: "yuri-demo.arcs.care" }] },
