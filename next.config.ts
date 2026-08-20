@@ -53,6 +53,8 @@ const nextConfig: NextConfig = {
         // dirty tree, never committed) — verified 2026-07-09 via x-matched-path. Committed here
         // so a clean redeploy from main cannot drop resume.arcs.care routing.
         { source: "/:path*", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        // lewoof.arcs.care -> public/lewoof.html (Le Woof x Better & Better Amazon pilot deal brief; noindex, confidential)
+        { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
