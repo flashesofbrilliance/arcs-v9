@@ -28,6 +28,11 @@ h2{font-size:20px;margin:0 0 12px}
 .face{display:block;border:1px solid var(--border);border-radius:10px;background:var(--surface);padding:12px 14px;color:var(--text);text-decoration:none;font-size:13.5px}
 .face:hover{border-color:var(--cyan)}
 .face b{color:var(--cyan)}
+details.facesnav>summary{list-style:none;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmed);display:flex;align-items:center;gap:8px;padding:2px 0}
+details.facesnav>summary::-webkit-details-marker{display:none}
+details.facesnav>summary::before{content:'▸';color:var(--cyan);transition:transform .2s ease}
+details.facesnav[open]>summary::before{transform:rotate(90deg)}
+details.facesnav>summary:hover{color:var(--muted)}
 #pw-gate{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100;flex-direction:column;gap:16px}
 #pw-gate.hidden{display:none}
 .pw-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed)}
@@ -52,11 +57,12 @@ h2{font-size:20px;margin:0 0 12px}
 <a class="face" href="https://scott-codex.arcs.care" target="_blank" rel="noopener"><b>The recoil of our calls</b> — moment by moment, both calls, reverse-listened</a>
 <a class="face" href="https://scott-receipt.arcs.care" target="_blank" rel="noopener"><b>The receipt</b> — no bet existed before these calls, so here's the retrospective, and the next one, filed today</a>
 </div>
-<div class="facesnav"><div class="facesl">Three teardowns of your own surfaces — the map I built before the next call</div>
+<details class="facesnav"><summary>The teardowns — the map I built before the next call</summary>
 <a class="face" href="https://scott-teardown.arcs.care" target="_blank" rel="noopener"><b>The Parlance teardown</b> — parlance.cc pulled apart the way Parlance pulls a brand story apart</a>
 <a class="face" href="https://serialized-teardown.arcs.care" target="_blank" rel="noopener"><b>The two-site serialization</b> — parlance.cc × scottwitt.cc, and where they're not telling the same story yet</a>
 <a class="face" href="https://scott-attraction.arcs.care" target="_blank" rel="noopener"><b>The attraction field</b> — what you say you want vs. what three years of decisions actually chased</a>
-</div>
+<a class="face" href="https://scott-arcs-demo.arcs.care" target="_blank" rel="noopener"><b>The live demo</b> — how ARCS turns a Parlance-style "we need a rebrand" brief into narrative infrastructure</a>
+</details>
 <div class="rule"></div>
 
 <section class="mv">
