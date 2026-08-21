@@ -7,7 +7,7 @@
 <title>Scott × ARCS – stated vs revealed</title>
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
-  :root{--bg:#020408;--surface:#0d1117;--surface2:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#8b9bb0;--dim:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--steel:#94a3b8;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  :root{--bg:#020408;--surface:#0d1117;--surface2:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
   html{background:var(--bg)} body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0}
   .wrap{max-width:860px;margin:0 auto;padding:48px 22px 90px}
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan)}
@@ -25,7 +25,7 @@
   h2{font-size:21px;margin:6px 0 0;font-weight:600} h3{font-size:15px;margin:0 0 6px;font-weight:600}
   p{margin:0 0 14px}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;margin-bottom:14px}
-  .stripe{border-left:3px solid var(--steel)} .stripe.red{border-left-color:var(--red)} .stripe.gold{border-left-color:var(--gold)} .stripe.green{border-left-color:var(--green)} .stripe.cyan{border-left-color:var(--cyan)}
+  .stripe{border-left:3px solid var(--muted)} .stripe.red{border-left-color:var(--red)} .stripe.gold{border-left-color:var(--gold)} .stripe.green{border-left-color:var(--green)} .stripe.cyan{border-left-color:var(--cyan)}
   .tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);border-radius:3px;color:var(--muted);white-space:nowrap}
   .tag.red{color:var(--red);border-color:rgba(255,77,109,.4)} .tag.gold{color:var(--gold);border-color:rgba(255,215,0,.35)} .tag.green{color:var(--green);border-color:rgba(0,255,157,.35)} .tag.cyan{color:var(--cyan);border-color:rgba(0,240,255,.35)}
   .cardtop{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px;flex-wrap:wrap}
@@ -37,7 +37,7 @@
   td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--muted)}
   td:first-child{color:var(--text);font-weight:500;white-space:nowrap}
   tr:last-child td{border-bottom:none}
-  .mono{font-family:var(--mono);font-size:12.5px;color:var(--steel);margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
+  .mono{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:14px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:8px 0}
   ul{margin:0 0 14px;padding-left:20px;color:var(--muted)} li{margin-bottom:7px} li strong{color:var(--text)}
   .footer{margin-top:70px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
   a{color:var(--cyan)}
@@ -54,19 +54,6 @@
 </style>
 </head>
 <body>
-<div id="pw-gate">
-  <div class="pw-mark">ARCS · PREPARED FOR SCOTT WITT</div>
-  <div class="pw-title">Scott × ARCS — stated vs revealed</div>
-  <div class="pw-form"><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" /><button class="pw-btn" onclick="checkPw()">ENTER</button></div>
-  <div class="pw-hint">shared by Zach Harris</div>
-</div>
-<script>
-function resetZoom(){var vp=document.querySelector('meta[name="viewport"]');if(!vp)return;var o=vp.getAttribute('content');vp.setAttribute('content',o+', maximum-scale=1');setTimeout(function(){vp.setAttribute('content',o)},350)}
-resetZoom();
-if(sessionStorage.getItem('scott-attraction-auth')==='1'){document.getElementById('pw-gate').classList.add('hidden')}
-function checkPw(){var v=document.getElementById('pw-input').value.trim().toLowerCase();if(v==='danny'){sessionStorage.setItem('scott-attraction-auth','1');document.getElementById('pw-input').blur();document.getElementById('pw-gate').classList.add('hidden');resetZoom()}else{var i=document.getElementById('pw-input');i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake')},350)}}
-document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw()});
-</script>
 <div class="wrap">
 
 <header>
@@ -137,7 +124,7 @@ document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.
   <div class="card stripe green"><div class="cardtop"><h3>Whenever</h3><span class="tag green">On you</span></div><p>Is the health/wellness concentration the actual center you want to build the next chapter around, or is it gravity from past roles you're intentionally moving away from? That answer changes which sector list on which site should lead.</p></div>
 </section>
 
-<div class="footer">Prepared by Zach Harris · ARCS · Aug 19 2026 · Sources: parlance.cc, scottwitt.cc, Mar 20 call, five-pager · Shared privately with Scott Witt</div>
+<div class="footer"><a href="https://scott.arcs.care" style="color:var(--cyan);text-decoration:none">← one door</a> · Prepared by Zach Harris · ARCS · Aug 19 2026 · Sources: parlance.cc, scottwitt.cc, Mar 20 call, five-pager · Shared privately with Scott Witt</div>
 </div>
 <script>(function(){var va=window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};var t0=Date.now(),secs={},vis={};function nm(h){return(h.textContent||'').trim().slice(0,60)}var hs=[].slice.call(document.querySelectorAll('h1,h2'));if('IntersectionObserver'in window&&hs.length){var io=new IntersectionObserver(function(es){es.forEach(function(e){vis[nm(e.target)]=e.isIntersecting})},{threshold:0.5});hs.forEach(function(h){io.observe(h)});setInterval(function(){if(document.hidden)return;for(var k in vis)if(vis[k])secs[k]=(secs[k]||0)+1},1000)}addEventListener('pagehide',function(){va('event',{name:'page_dwell',data:{seconds:Math.round((Date.now()-t0)/1000)}});Object.keys(secs).map(function(k){return[k,secs[k]]}).sort(function(a,b){return b[1]-a[1]}).slice(0,5).forEach(function(p){if(p[1]>=3)va('event',{name:'section_dwell',data:{section:p[0],seconds:p[1]}})})})})();</script></body>
 </html>

@@ -7,7 +7,7 @@
 <title>ARCS × Parlance · Scott Demo</title>
 <script defer src="/_vercel/insights/script.js"></script>
 <style>
-  :root{--bg:#020408;--surface:#0d1117;--surface2:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#8b9bb0;--dim:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--steel:#94a3b8;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+  :root{--bg:#020408;--surface:#0d1117;--surface2:#111827;--border:#1e293b;--text:#e2e8f0;--muted:#94a3b8;--dim:#64748b;--cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
   html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;margin:0}
   .wrap{max-width:1024px;margin:0 auto;padding:40px 22px 80px}
@@ -21,7 +21,7 @@
   p{margin:0 0 12px}
   .grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:22px;margin-top:18px}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:12px}
-  .stripe{border-left:3px solid var(--steel)}
+  .stripe{border-left:3px solid var(--muted)}
   .stripe.cyan{border-left-color:var(--cyan)}
   .stripe.gold{border-left-color:var(--gold)}
   .stripe.green{border-left-color:var(--green)}
@@ -58,12 +58,12 @@
     <div class="eyebrow">ARCS × Parlance · Scott Witt Demo · Prototype</div>
     <h1>How ARCS turns a messy "we need a rebrand" brief into narrative infrastructure.</h1>
     <p class="sub">A front‑end grammar pass only — no backend, no storage. Each panel here is one ARCS component: intake (Intent/Context/Timing), atoms, molecules, stress‑tests, governance, and operating manual. The goal for this session is to show Scott how ARCS actually interacts with Parlance‑style work, not just describe it.</p>
-    <div class="meta">Based on "ARCS for Parlance" (12/18/2025) · Mapped into ARCS atoms/molecules/organisms grammar · Static HTML prototype for demo only.[cite:86]</div>
+    <div class="meta">Based on "ARCS for Parlance" (12/18/2025) · Mapped into ARCS atoms/molecules/organisms grammar · Static HTML prototype for demo only.</div>
   </header>
 
   <section>
     <h2>01 · Intake · Intent / Context / Timing</h2>
-    <p>Start with the three upstream questions from the PDF: What are you really solving? What's actually in the way? What has to happen when.[cite:86]</p>
+    <p>Start with the three upstream questions from the PDF: What are you really solving? What's actually in the way? What has to happen when.</p>
     <div class="grid">
       <div>
         <div class="card stripe cyan">
@@ -71,17 +71,17 @@
           <div class="inline-label">Input (for demo, pre‑filled)</div>
           <div class="input-row"><div class="input-label">Intent</div><div class="input-field">Signal to investors that we've shifted from "fashion e‑comm" to "health longevity infrastructure."</div></div>
           <div class="input-row"><div class="input-label">Context</div><div class="input-field">Series B in 12 weeks, founder and CFO not aligned on unit economics vs brand story. Internal brief just says "rebrand."</div></div>
-          <div class="input-row"><div class="input-label">Timing</div><div class="input-field">Hard launch date by Series B week, soft internal date 4 weeks later. Real needle move is investor conviction at the raise, not the campaign rollout.[cite:86]</div></div>
+          <div class="input-row"><div class="input-label">Timing</div><div class="input-field">Hard launch date by Series B week, soft internal date 4 weeks later. Real needle move is investor conviction at the raise, not the campaign rollout.</div></div>
         </div>
       </div>
       <div>
         <div class="card stripe">
           <div class="cardtop"><h3>One‑Page Diagnostic (Output)</h3><span class="tag">Prototype view</span></div>
           <p class="inline-label">What ARCS sends back as a single page:</p>
-          <p><strong>Primary intent</strong>: "You're signaling to Series B investors that you've moved from a fashion‑forward marketplace to a health longevity platform."[cite:86]</p>
-          <p><strong>Hidden collision</strong>: "CFO wants cost discipline and unit economics clarity. The current brand ask assumes premium positioning and high CAC. Those conflict."[cite:86]</p>
+          <p><strong>Primary intent</strong>: "You're signaling to Series B investors that you've moved from a fashion‑forward marketplace to a health longevity platform."</p>
+          <p><strong>Hidden collision</strong>: "CFO wants cost discipline and unit economics clarity. The current brand ask assumes premium positioning and high CAC. Those conflict."</p>
           <p><strong>Context check</strong>: "You have 12 weeks on the calendar, but B closes at week 6. Investor narrative is the real deadline."</p>
-          <p><strong>What we're building</strong>: "v1 by Series B: positioning + messaging and Series B deck narrative. v2 if it lands: full brand ecosystem."[cite:86]</p>
+          <p><strong>What we're building</strong>: "v1 by Series B: positioning + messaging and Series B deck narrative. v2 if it lands: full brand ecosystem."</p>
           <p><strong>Green light vs pause</strong>: "Ready if founder and CFO will sit for an alignment session; otherwise, fix that first before calling anything a rebrand."</p>
         </div>
       </div>
@@ -90,21 +90,21 @@
 
   <section>
     <h2>02 · Narrative Atoms</h2>
-    <p>Each big choice becomes a reusable atom: one decision, one trade‑off, one tripwire, one review gate.[cite:86]</p>
+    <p>Each big choice becomes a reusable atom: one decision, one trade‑off, one tripwire, one review gate.</p>
     <div class="card stripe">
       <div class="cardtop"><h3>Atoms for this Parlance‑style brief</h3><span class="tag">Demo set</span></div>
       <div class="atoms-grid">
         <div class="atom">
           <div class="atom-title">Deck Structure · Cohesive vs Modular</div>
-          <div class="atom-body">Decision: Modular proof‑point library for Series B. Trade‑off: memorable narrative vs precision. Tripwire: if investor questions show loss of thread by pitch 5, switch to cohesive.[cite:86]</div>
+          <div class="atom-body">Decision: Modular proof‑point library for Series B. Trade‑off: memorable narrative vs precision. Tripwire: if investor questions show loss of thread by pitch 5, switch to cohesive.</div>
         </div>
         <div class="atom">
           <div class="atom-title">Positioning Tone · Aspirational vs Evidence‑Based</div>
-          <div class="atom-body">Decision: Evidence‑based, leading with unit economics and clinical outcomes. Trade‑off: less "fashion" energy, more investor trust. Tripwire: if consumer tests show drop in brand affinity, add aspirational layer in v2.[cite:86]</div>
+          <div class="atom-body">Decision: Evidence‑based, leading with unit economics and clinical outcomes. Trade‑off: less "fashion" energy, more investor trust. Tripwire: if consumer tests show drop in brand affinity, add aspirational layer in v2.</div>
         </div>
         <div class="atom">
           <div class="atom-title">Brand Governance · Green / Yellow / Red</div>
-          <div class="atom-body">Decision: Every new asset tagged Green, Yellow, or Red against the new narrative. Tripwire: 3 consecutive Yellow or Red tags from the same team triggers a narrative review.[cite:86]</div>
+          <div class="atom-body">Decision: Every new asset tagged Green, Yellow, or Red against the new narrative. Tripwire: 3 consecutive Yellow or Red tags from the same team triggers a narrative review.</div>
         </div>
       </div>
     </div>
@@ -112,7 +112,7 @@
 
   <section>
     <h2>03 · Molecules & Organisms</h2>
-    <p>Atoms combine into molecules (story arcs) and organisms (full platforms) — the atomic design chain from the PDF.[cite:86]</p>
+    <p>Atoms combine into molecules (story arcs) and organisms (full platforms) — the atomic design chain from the PDF.</p>
     <div class="card stripe">
       <div class="cardtop"><h3>Series B Narrative Molecule</h3><span class="tag">Arc composed of 3 atoms</span></div>
       <p class="inline-label">Atoms in this molecule:</p>
@@ -121,24 +121,24 @@
         <div class="pill selected">Positioning Tone · Evidence‑Based</div>
         <div class="pill selected">Governance · Green / Yellow / Red</div>
       </div>
-      <p style="margin-top:10px">These three atoms compose the Series B arc: investors see unit economics first, then longevity story, with every asset logged as Green/Yellow/Red so governance is part of the platform, not an afterthought.[cite:86]</p>
+      <p style="margin-top:10px">These three atoms compose the Series B arc: investors see unit economics first, then longevity story, with every asset logged as Green/Yellow/Red so governance is part of the platform, not an afterthought.</p>
     </div>
     <div class="card stripe">
       <div class="cardtop"><h3>Brand Platform Organism</h3><span class="tag">10–15 atoms</span></div>
-      <p>In a full implementation, 10–15 atoms (positioning, narrative systems, tripwires, review gates) would define the entire "health longevity" platform as an organism. For this demo, we keep it concept‑only — all logic, no backend.[cite:86]</p>
+      <p>In a full implementation, 10–15 atoms (positioning, narrative systems, tripwires, review gates) would define the entire "health longevity" platform as an organism. For this demo, we keep it concept‑only — all logic, no backend.</p>
     </div>
   </section>
 
   <section>
     <h2>04 · Stress‑Test Strip</h2>
-    <p>Every big idea runs Strawman → Red Team → Steelman → Blue Team → Purple Pill before it ships.[cite:86]</p>
+    <p>Every big idea runs Strawman → Red Team → Steelman → Blue Team → Purple Pill before it ships.</p>
     <div class="card stripe">
       <div class="cardtop"><h3>Stress‑Testing the new investor story</h3><span class="tag">Five passes</span></div>
       <div class="steps">
         <div class="step"><div class="step-label">Strawman</div><p>Weak version: "We’re now a longevity brand." No numbers, no proof. Easy to dismiss.</p></div>
         <div class="step"><div class="step-label">Red Team</div><p>Attack: "Unit economics don’t support the claim; clinical evidence thin; brand sprint is lipstick."</p></div>
         <div class="step"><div class="step-label">Steelman</div><p>Strong: "We’re building the infrastructure layer for longevity benefits, proven by X outcomes and Y unit economics."</p></div>
-        <div class="step"><div class="step-label">Blue Team</div><p>Defend with investor POV: "We de‑risk the story by logging every choice as a narrative atom and showing tripwires."[cite:86]</p></div>
+        <div class="step"><div class="step-label">Blue Team</div><p>Defend with investor POV: "We de‑risk the story by logging every choice as a narrative atom and showing tripwires."</p></div>
         <div class="step"><div class="step-label">Purple Pill</div><p>Integrate tension: keep fashion‑forward surface for consumers, evidence‑based core for investors.</p></div>
       </div>
     </div>
@@ -146,7 +146,7 @@
 
   <section>
     <h2>05 · Brand Governance Ruler</h2>
-    <p>Brand bibles become living narrative infrastructure: Green, Yellow, Red for every asset.[cite:86]</p>
+    <p>Brand bibles become living narrative infrastructure: Green, Yellow, Red for every asset.</p>
     <div class="card stripe">
       <div class="cardtop"><h3>Sample Asset Governance</h3><span class="tag">Landing page</span></div>
       <p class="inline-label">Score the new landing page against the platform:</p>
@@ -159,13 +159,13 @@
       <div class="meter" style="margin-top:4px">
         <div class="dot red"></div><span style="font-size:12px;color:var(--muted)">Red: dangerous drift, fix or kill.</span>
       </div>
-      <p style="margin-top:10px">For the demo, we talk through which dot we’d pick and why. In a full ARCS implementation, this would log into the atom library as an asset‑level decision.[cite:86]</p>
+      <p style="margin-top:10px">For the demo, we talk through which dot we’d pick and why. In a full ARCS implementation, this would log into the atom library as an asset‑level decision.</p>
     </div>
   </section>
 
   <section>
     <h2>06 · Operating Manual After 5 Engagements</h2>
-    <p>The PDF’s last section becomes an explicit go‑faster / stop‑loss panel and pattern library.[cite:86]</p>
+    <p>The PDF’s last section becomes an explicit go‑faster / stop‑loss panel and pattern library.</p>
     <div class="card stripe green">
       <div class="cardtop"><h3>Go‑Faster & Stop‑Loss Rules</h3><span class="tag green">From narrative to operating system</span></div>
       <div class="grid">
@@ -173,25 +173,25 @@
           <p class="inline-label">Go‑faster rules</p>
           <ul>
             <li><strong>Say yes immediately</strong> to positioning work where founder + CFO are pre‑aligned.</li>
-            <li><strong>Say yes</strong> to Series B narratives where product roadmap is locked.[cite:86]</li>
+            <li><strong>Say yes</strong> to Series B narratives where product roadmap is locked.</li>
             <li><strong>Say yes</strong> to rebrand requests tied to acquisition or raise timelines.</li>
           </ul>
         </div>
         <div>
           <p class="inline-label">Stop‑loss rules</p>
           <ul>
-            <li><strong>Fix first</strong> any "rebrand" ask without exec alignment.[cite:86]</li>
+            <li><strong>Fix first</strong> any "rebrand" ask without exec alignment.</li>
             <li><strong>Avoid</strong> positioning work before product‑market fit.</li>
             <li><strong>Defer</strong> brand governance for companies under a certain ARR threshold.</li>
           </ul>
         </div>
       </div>
       <p class="inline-label" style="margin-top:10px">Patterns worth repeating</p>
-      <p>"Series B investors care about unit economics before narrative" · "Rebrand usually means 'we don't know our customer'" — explicitly surfaced here as the unfair advantage ARCS gives Parlance.[cite:86]</p>
+      <p>"Series B investors care about unit economics before narrative" · "Rebrand usually means 'we don't know our customer'" — explicitly surfaced here as the unfair advantage ARCS gives Parlance.</p>
     </div>
   </section>
 
-  <div class="footer">Prototype only · No backend, no state · Built to show Scott how ARCS interacts with Parlance‑style briefs using the established ARCS grammar, not to introduce a new system.[cite:86]</div>
+  <div class="footer"><a href="https://scott.arcs.care" style="color:var(--cyan);text-decoration:none">← one door</a> · Prototype only · No backend, no state · Built to show Scott how ARCS interacts with Parlance‑style briefs using the established ARCS grammar, not to introduce a new system.</div>
 </div>
 </body>
 </html>
