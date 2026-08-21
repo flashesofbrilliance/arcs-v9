@@ -54,19 +54,6 @@
 </style>
 </head>
 <body>
-<div id="pw-gate">
-  <div class="pw-mark">ARCS · PREPARED FOR SCOTT WITT</div>
-  <div class="pw-title">Scott × ARCS — stated vs revealed</div>
-  <div class="pw-form"><input id="pw-input" class="pw-input" type="password" placeholder="password" autocomplete="off" /><button class="pw-btn" onclick="checkPw()">ENTER</button></div>
-  <div class="pw-hint">shared by Zach Harris</div>
-</div>
-<script>
-function resetZoom(){var vp=document.querySelector('meta[name="viewport"]');if(!vp)return;var o=vp.getAttribute('content');vp.setAttribute('content',o+', maximum-scale=1');setTimeout(function(){vp.setAttribute('content',o)},350)}
-resetZoom();
-if(sessionStorage.getItem('scott-attraction-auth')==='1'){document.getElementById('pw-gate').classList.add('hidden')}
-function checkPw(){var v=document.getElementById('pw-input').value.trim().toLowerCase();if(v==='danny'){sessionStorage.setItem('scott-attraction-auth','1');document.getElementById('pw-input').blur();document.getElementById('pw-gate').classList.add('hidden');resetZoom()}else{var i=document.getElementById('pw-input');i.classList.add('shake');i.value='';setTimeout(function(){i.classList.remove('shake')},350)}}
-document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPw()});
-</script>
 <div class="wrap">
 
 <header>
