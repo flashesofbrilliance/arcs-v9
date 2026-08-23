@@ -15,12 +15,12 @@ is the single source and each surface is a render of it. This tripwire is what m
 source" true rather than aspirational: it fails (exit 1) the moment a surface disagrees with
 the bank, with the bank, or with the live routing table. It does NOT re-author the pages —
 they're hand-designed and curation is human-owned (same stance as seedbank_drift_check.py).
-It emits public/family-roster.json, the machine-readable roster the surfaces are checked against.
+It emits runtime/family-roster.json, the machine-readable roster the surfaces are checked against.
 
 Usage:
   python3 scripts/sync_family_roster.py            # human report (exit 1 on drift)
   python3 scripts/sync_family_roster.py --check     # CI: quiet on clean, exit 1 on drift
-  python3 scripts/sync_family_roster.py --write-json # (re)write public/family-roster.json only
+  python3 scripts/sync_family_roster.py --write-json # (re)write runtime/family-roster.json only
 """
 import json
 import os
@@ -36,7 +36,7 @@ NEXTCFG = os.path.join(ROOT, "next.config.ts")
 GOOD = os.path.join(ROOT, "public", "good.html")
 BUILD = os.path.join(ROOT, "public", "build.html")
 PLAY = os.path.join(ROOT, "public", "playground.html")
-ROSTER_JSON = os.path.join(ROOT, "public", "family-roster.json")
+ROSTER_JSON = os.path.join(ROOT, "runtime", "family-roster.json")
 
 # repos that are family surfaces / hubs, not catalog repos — allowed as page links.
 NON_CATALOG_LINKS = {"arcs-skills", "homebrew-tap"}
