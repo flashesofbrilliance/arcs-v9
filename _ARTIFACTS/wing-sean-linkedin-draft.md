@@ -1,4 +1,4 @@
-# DRAFT — LinkedIn reply to Sean Wing (never auto-sent; Zach sends by hand)
+# DRAFT: LinkedIn reply to Sean Wing (never auto-sent; Zach sends by hand)
 
 Context: Sean asked for the good, the bad, and the ugly on "The End of Managing Money Alone."
 Deliverable link: https://wing.arcs.care (noindex, unlinked; only people with the URL see it).
