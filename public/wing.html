@@ -23,6 +23,8 @@
   --track-wide: 0.04em; --track-wider: 0.08em;
   --emboss: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
   --ease-luxury: cubic-bezier(0.4, 0.0, 0.2, 1);
+  /* One reading measure for the whole column: ch-caps on mixed font sizes misalign right edges */
+  --measure: 660px;
 }
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { text-size-adjust: 100%; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
@@ -39,7 +41,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .byline { font-size: var(--text-md); color: var(--dimmed); }
 .byline strong { color: var(--muted); font-weight: 600; }
 /* 72ch measure: the 820px page well runs ~95ch at 16px, past the readable band */
-.lede { font-size: var(--text-base); color: var(--muted); line-height: 1.65; max-width: 72ch; }
+.lede { font-size: var(--text-base); color: var(--muted); line-height: 1.65; max-width: var(--measure); }
 .lede strong { color: var(--text); font-weight: 600; }
 
 /* THREAD KEY */
@@ -68,7 +70,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .section-head .section-label { min-width: 0; }
 .section-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); }
 .section-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; border: 1px solid; }
-.section-title { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; cursor: pointer; text-wrap: balance; }
+.section-title { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; cursor: pointer; text-wrap: balance; max-width: var(--measure); }
 /* Collapsed cards: title steps down to H3 scale at heavier weight; glass frosting lifts the folded stack */
 .section.collapsed .section-title { font-size: calc(var(--text-base) * 0.95); font-weight: 800; letter-spacing: -0.005em; margin-bottom: 4px; }
 .section.collapsed { background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.22)), var(--surface); box-shadow: var(--emboss); transition: border-color 0.15s var(--ease-luxury); }
@@ -76,13 +78,13 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .section.collapsed .section-label { font-weight: 700; }
 /* Rag control on all reading text */
 .section-body, .sec-tldr, .gauge-def, .learn-body, .echo-text, .thread-body, .legend-def, .ms-body, .echo-why { text-wrap: pretty; }
-.section-body { font-size: var(--text-md); color: var(--muted); line-height: 1.65; max-width: 72ch; }
+.section-body { font-size: var(--text-md); color: var(--muted); line-height: 1.65; max-width: var(--measure); }
 .section-body strong { color: var(--text); font-weight: 600; }
 .sec-toggle { margin-left: auto; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--dimmed); transition: transform 0.25s var(--ease-luxury); flex-shrink: 0; }
 .section.collapsed .sec-toggle { transform: rotate(-90deg); }
 .sec-body { overflow: hidden; transition: max-height 0.4s var(--ease-luxury), opacity 0.3s var(--ease-luxury); }
 .section.collapsed .sec-body { max-height: 0 !important; opacity: 0; }
-.sec-tldr { display: none; font-size: var(--text-sm); color: var(--dimmed); line-height: 1.55; margin-top: 6px; max-width: 72ch; cursor: pointer; }
+.sec-tldr { display: none; font-size: var(--text-sm); color: var(--dimmed); line-height: 1.55; margin-top: 6px; max-width: var(--measure); cursor: pointer; }
 .section.collapsed .sec-tldr { display: block; }
 .focus-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--r-md); background: var(--surface2); box-shadow: var(--emboss); }
 .focus-bar .fb-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--track-wider); color: var(--dimmed); text-transform: uppercase; }
