@@ -36,7 +36,8 @@ a { color: var(--cyan); }
 h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; }
 .byline { font-size: var(--text-md); color: var(--dimmed); }
 .byline strong { color: var(--muted); font-weight: 600; }
-.lede { font-size: var(--text-base); color: var(--muted); line-height: 1.65; max-width: 820px; }
+/* 72ch measure: the 820px page well runs ~95ch at 16px, past the readable band */
+.lede { font-size: var(--text-base); color: var(--muted); line-height: 1.65; max-width: 72ch; }
 .lede strong { color: var(--text); font-weight: 600; }
 
 /* THREAD KEY */
@@ -62,7 +63,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .section-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); }
 .section-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; border: 1px solid; }
 .section-title { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; cursor: pointer; }
-.section-body { font-size: var(--text-md); color: var(--muted); line-height: 1.65; }
+.section-body { font-size: var(--text-md); color: var(--muted); line-height: 1.65; max-width: 72ch; }
 .section-body strong { color: var(--text); font-weight: 600; }
 .sec-toggle { margin-left: auto; font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; color: var(--dimmed); transition: transform 0.25s var(--ease-luxury); flex-shrink: 0; }
 .section.collapsed .sec-toggle { transform: rotate(-90deg); }
@@ -269,26 +270,24 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   </div>
   <div class="lede">
     Sean asked for direct, unfiltered feedback, <strong>"the good, the bad, and the ugly"</strong>, because he
-    "can't do anything with compliments." This report honors that request. It is built like a build log:
-    small, labeled components that stack into one story, each traceable to a source: Sean's published note,
-    SEC/FINRA public filings, and independent market coverage. Read the summary and stop, or go section by
-    section. The story stays the same, only the detail changes. His essay runs on a Waze metaphor:
-    always-on, recalculating, silent-when-on-track. This report is written in that register:
+    "can't do anything with compliments." This report honors that request. Every claim below is traceable
+    to a source: Sean's published note, SEC/FINRA public filings, or independent market coverage.
+    His essay runs on a Waze metaphor, always-on and recalculating; this report answers in that register:
     <strong>recalculating routes, not re-litigating the destination</strong>.
   </div>
 
   <div class="threads">
     <div class="thread" style="border-top-color: var(--gold);">
-      <div class="thread-label" style="color: var(--gold);">GOLD THREAD</div>
-      <div class="thread-body">What's structurally sound and worth doubling down on: <strong>real SEC registration, corroborated $124T market math, an unclaimed sharper category name</strong>.</div>
+      <h3 class="thread-label" style="color: var(--gold);">GOLD · DOUBLE DOWN</h3>
+      <div class="thread-body">Real SEC registration. Corroborated <strong>$124T</strong> market math. An unclaimed, sharper category name.</div>
     </div>
     <div class="thread" style="border-top-color: var(--red);">
-      <div class="thread-label" style="color: var(--red);">RED THREAD</div>
-      <div class="thread-body">What's unresolved and load-bearing: <strong>zero public traction numbers, zero named pilots, one unexplained entity overlap</strong>.</div>
+      <h3 class="thread-label" style="color: var(--red);">RED · LOAD-BEARING</h3>
+      <div class="thread-body"><strong>Zero</strong> public traction numbers. <strong>Zero</strong> named pilots. One unexplained entity overlap.</div>
     </div>
     <div class="thread" style="border-top-color: var(--verm);">
-      <div class="thread-label" style="color: var(--verm);">VERMILLION THREAD</div>
-      <div class="thread-body">Urgent, cheap, outsized downside if ignored: <strong>one written disclosure statement costs an afternoon and removes the most exposed gap</strong>.</div>
+      <h3 class="thread-label" style="color: var(--verm);">VERMILLION · FIX NOW</h3>
+      <div class="thread-body">One written disclosure statement costs <strong>an afternoon</strong> and removes the most exposed gap.</div>
     </div>
   </div>
 
@@ -299,13 +298,11 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     <div class="stat"><div class="stat-val gold">1 afternoon</div><div class="stat-label">Cost of the cheapest, most exposed fix</div></div>
   </div>
 
-  <div class="legend-hint">Industry terms look <b>like this</b>. Hover or tap for the plain meaning. Full legend at the bottom.</div>
-
   <div class="focus-bar">
     <span class="fb-label">Reading mode</span>
     <button class="focus-btn active" id="fb-focus">◇ FOCUS · ONE AT A TIME</button>
     <button class="focus-btn" id="fb-expand">▾ EXPAND ALL</button>
-    <span class="fb-label" style="color:var(--faint);">click any section header to fold it</span>
+    <span class="fb-label" style="color:var(--faint);">terms <b style="color:var(--cyan);border-bottom:1px dotted rgba(0,240,255,0.55);font-weight:700;">like this</b> show plain meanings · legend at the end</span>
   </div>
 
   <!-- 01 CLAIM vs RECORD -->
@@ -317,7 +314,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Three headline claims checked against SEC/FINRA filings and independent coverage: the license is real, the market number is real, the scale claim isn't there yet.</div>
     <div class="sec-body">
-    <div class="section-title">Two things can both be true: a well-argued essay, and gaps worth naming before anyone signs.</div>
+    <h2 class="section-title">Two things can both be true: a well-argued essay, and gaps worth naming before anyone signs.</h2>
     <div class="section-body">
       When a founder's story and the public record agree, that's real strength. When they diverge,
       that's the actual work. Each row below is one claim, checked.
@@ -354,19 +351,19 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Seven gauges a credible fintech-AI pitch needs. Wing reads green on two (license, market size), amber-to-red on the other five.</div>
     <div class="sec-body">
-    <div class="section-title">What a credible pitch needs, checked one gauge at a time.</div>
+    <h2 class="section-title">What a credible pitch needs, checked one gauge at a time.</h2>
     <div class="section-body">
       Borrowing the same "calibrate before flight" logic any serious build review uses: these are the checks
       that matter most for a fintech-AI pitch, and where Wing currently stands on each.
     </div>
     <div class="gauge-grid">
-      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><div class="gauge-name" style="color:var(--red);">PROOF OF SCALE</div><div class="gauge-def">Does traction match the claim? <strong>Not yet</strong>: public AUM/employee numbers are far below the "population scale" language.</div></div>
-      <div class="gauge"><span class="gauge-dot" style="background:var(--green);"></span><div class="gauge-name" style="color:var(--green);">REGULATORY STANDING</div><div class="gauge-def">Is the license real? <strong>Yes, verifiably</strong>: SEC-registered RIA, CRD #333826, effective February 10, 2025.</div></div>
-      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><div class="gauge-name" style="color:var(--red);">ENTITY CLARITY</div><div class="gauge-def">All related people/companies disclosed? <strong>Not yet</strong>: the prior terminated filing and the same-surname capital vehicle are both unexplained.</div></div>
-      <div class="gauge"><span class="gauge-dot" style="background:var(--green);"></span><div class="gauge-name" style="color:var(--green);">MARKET SIZING</div><div class="gauge-def">Is the opportunity real? <strong>Yes</strong>: the $124T wealth-transfer figure is independently corroborated.</div></div>
-      <div class="gauge"><span class="gauge-dot" style="background:var(--gold);"></span><div class="gauge-name" style="color:var(--gold);">COMPETITIVE POSITION</div><div class="gauge-def"><strong>Behind on capital and disclosed traction</strong>: Farther has a $72M Series C; Morgan Stanley opened a $1.2T platform to outside AI agents in mid-2026.</div></div>
-      <div class="gauge"><span class="gauge-dot" style="background:var(--gold);"></span><div class="gauge-name" style="color:var(--gold);">NAMING / PROMISE FIT</div><div class="gauge-def"><strong>Partial</strong>: the real promise is "you no longer have to be the one watching". "Your Money, Alive" fits the mechanics better than "Live Your Money."</div></div>
-      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><div class="gauge-name" style="color:var(--red);">DISCLOSURE COMPLETENESS</div><div class="gauge-def">Conflicts, referral fees, custody/execution partners named? <strong>No</strong>. Each is a standard early question from a compliance reviewer.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><h4 class="gauge-name" style="color:var(--red);">PROOF OF SCALE</h4><div class="gauge-def">Does traction match the claim? <strong>Not yet</strong>: public AUM/employee numbers are far below the "population scale" language.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--green);"></span><h4 class="gauge-name" style="color:var(--green);">REGULATORY STANDING</h4><div class="gauge-def">Is the license real? <strong>Yes, verifiably</strong>: SEC-registered RIA, CRD #333826, effective February 10, 2025.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><h4 class="gauge-name" style="color:var(--red);">ENTITY CLARITY</h4><div class="gauge-def">All related people/companies disclosed? <strong>Not yet</strong>: the prior terminated filing and the same-surname capital vehicle are both unexplained.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--green);"></span><h4 class="gauge-name" style="color:var(--green);">MARKET SIZING</h4><div class="gauge-def">Is the opportunity real? <strong>Yes</strong>: the $124T wealth-transfer figure is independently corroborated.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--gold);"></span><h4 class="gauge-name" style="color:var(--gold);">COMPETITIVE POSITION</h4><div class="gauge-def"><strong>Behind on capital and disclosed traction</strong>: Farther has a $72M Series C; Morgan Stanley opened a $1.2T platform to outside AI agents in mid-2026.</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--gold);"></span><h4 class="gauge-name" style="color:var(--gold);">NAMING / PROMISE FIT</h4><div class="gauge-def"><strong>Partial</strong>: the real promise is "you no longer have to be the one watching". "Your Money, Alive" fits the mechanics better than "Live Your Money."</div></div>
+      <div class="gauge"><span class="gauge-dot" style="background:var(--red);"></span><h4 class="gauge-name" style="color:var(--red);">DISCLOSURE COMPLETENESS</h4><div class="gauge-def">Conflicts, referral fees, custody/execution partners named? <strong>No</strong>. Each is a standard early question from a compliance reviewer.</div></div>
     </div>
     </div>
   </div>
@@ -380,12 +377,12 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">The timing case is real: agentic AI named the year's defining wealth trend, PE roll-ups past 51% of RIA deals, Morgan Stanley already moving. The same forces compress Wing's window.</div>
     <div class="sec-body">
-    <div class="section-title">Three converging market moments, each independently verifiable.</div>
+    <h2 class="section-title">Three converging market moments, each independently verifiable.</h2>
     <div class="learn-rows">
-      <div class="learn green"><div class="learn-title">Agentic AI is being named the defining wealth-management trend of this specific year</div><div class="learn-body">by the industry press covering the space. Wing's "Financial Superintelligence" framing is riding a wave rather than creating one from nothing. Good timing, but also a crowded on-ramp.</div></div>
-      <div class="learn green"><div class="learn-title">PE-backed aggregators crossed 51% of all RIA acquisitions</div><div class="learn-body">The independent-RIA channel Wing depends on for advisor partnerships is consolidating fast. The pool of independent decision-makers Wing needs to sell into is <strong>shrinking in real time</strong>.</div></div>
-      <div class="learn green"><div class="learn-title">Morgan Stanley opened its $1.2T wealth platform to external AI agents in June 2026</div><div class="learn-body">The single clearest signal that incumbents are not waiting to be disrupted. They are absorbing the "agentic" playbook directly, on infrastructure and distribution scale no startup can match.</div></div>
-      <div class="learn red"><div class="learn-title">The red thread through all three</div><div class="learn-body">The same forces that create the opening (incumbents moving, aggregators consolidating) also <strong>compress Wing's window</strong> to establish category ownership before "agentic" gets templated by a better-capitalized player.</div></div>
+      <div class="learn green"><h3 class="learn-title">Agentic AI is being named the defining wealth-management trend of this specific year</h3><div class="learn-body">by the industry press covering the space. Wing's "Financial Superintelligence" framing is riding a wave rather than creating one from nothing. Good timing, but also a crowded on-ramp.</div></div>
+      <div class="learn green"><h3 class="learn-title">PE-backed aggregators crossed 51% of all RIA acquisitions</h3><div class="learn-body">The independent-RIA channel Wing depends on for advisor partnerships is consolidating fast. The pool of independent decision-makers Wing needs to sell into is <strong>shrinking in real time</strong>.</div></div>
+      <div class="learn green"><h3 class="learn-title">Morgan Stanley opened its $1.2T wealth platform to external AI agents in June 2026</h3><div class="learn-body">The single clearest signal that incumbents are not waiting to be disrupted. They are absorbing the "agentic" playbook directly, on infrastructure and distribution scale no startup can match.</div></div>
+      <div class="learn red"><h3 class="learn-title">The red thread through all three</h3><div class="learn-body">The same forces that create the opening (incumbents moving, aggregators consolidating) also <strong>compress Wing's window</strong> to establish category ownership before "agentic" gets templated by a better-capitalized player.</div></div>
     </div>
     </div>
   </div>
@@ -399,7 +396,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Independent challengers (Farther, $72M ahead), PE roll-ups buying the same advisor relationships, and incumbents with the playbook. Wing's durable wedge: first and best at the trust/audit layer.</div>
     <div class="sec-body">
-    <div class="section-title">Agentic RIA, contested from three directions at once.</div>
+    <h2 class="section-title">Agentic RIA, contested from three directions at once.</h2>
     <div class="tbl-scroll"><table class="risk-table">
       <tr><th>Front</th><th>Representative player</th><th>Their advantage</th><th>Wing's relative position</th></tr>
       <tr><td><strong>Independent agentic-RIA challengers</strong></td><td>Wing, Farther</td><td>Farther raised a $72M Series C vs. Wing's public ADV showing ~$128K AUM and 2 employees</td><td>Behind on funding and reported scale</td></tr>
@@ -407,8 +404,8 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <tr><td><strong>Incumbent private banks / wirehouses</strong></td><td>Morgan Stanley (agentic platform opened June 2026)</td><td>Balance sheet, existing client base, regulatory infrastructure already built</td><td>Only durable wedge: being first and best at the trust/audit layer before incumbents template it</td></tr>
     </table></div>
     <div class="learn-rows">
-      <div class="learn"><div class="learn-title">Gold thread: a free, high-leverage asset is sitting on the table</div><div class="learn-body">The category name <strong>"agentic RIA"</strong> is sharper and more defensible than "Financial Superintelligence": it borrows regulatory legitimacy from "RIA" while still signaling differentiation. It surfaced in this analysis, not in the essay, and it's unclaimed.</div></div>
-      <div class="learn red"><div class="learn-title">Red thread: zero proof points in an industry that competes on them</div><div class="learn-body">Wing has not yet named a single pilot advisory firm, client logo, or AUM figure publicly. Farther leads with dollar-specific traction.</div></div>
+      <div class="learn"><h3 class="learn-title">Gold thread: a free, high-leverage asset is sitting on the table</h3><div class="learn-body">The category name <strong>"agentic RIA"</strong> is sharper and more defensible than "Financial Superintelligence": it borrows regulatory legitimacy from "RIA" while still signaling differentiation. It surfaced in this analysis, not in the essay, and it's unclaimed.</div></div>
+      <div class="learn red"><h3 class="learn-title">Red thread: zero proof points in an industry that competes on them</h3><div class="learn-body">Wing has not yet named a single pilot advisory firm, client logo, or AUM figure publicly. Farther leads with dollar-specific traction.</div></div>
     </div>
     </div>
   </div>
@@ -422,14 +419,14 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">By April Dunford's five-component test the positioning is coherent and differentiated. The crack is entirely in the Proof column, and it's fixable with disclosure, not rebranding.</div>
     <div class="sec-body">
-    <div class="section-title">April Dunford's five components, applied in her mandatory sequence.</div>
+    <h2 class="section-title">April Dunford's five components, applied in her mandatory sequence.</h2>
     <div class="learn-rows">
-      <div class="learn"><div class="learn-title"><span class="k">1</span>Competitive alternatives</div><div class="learn-body">Sean names two explicitly (DIY finance apps: Quicken/Mint/Monarch; human advisors: "James") and dismisses a third implicitly (generalist chatbots). The essay treats these as solved-and-abandoned rather than as the live alternatives a buyer is actually choosing between today.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">2</span>Unique attributes</div><div class="learn-body">Continuous monitoring, proactive surfacing, SEC fiduciary wrapper, domain-specialized "WingMate" agents.</div></div>
-      <div class="learn red"><div class="learn-title"><span class="k">3</span>Value / proof: this is the crack</div><div class="learn-body">Three of four attributes rest on anecdote (the James story) rather than data; <strong>only the SEC registration itself is independently verifiable</strong>.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">4</span>Target customer</div><div class="learn-body">The essay never resolves whether the primary buyer is the mass-affluent consumer or the enterprise advisory firm; it reads as B2B2C distribution wrapped in B2C mission language.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">5</span>Market category</div><div class="learn-body">"Financial Superintelligence" is a high-risk category-creation move: it requires educating the market from zero and shares vocabulary with AGI discourse Wing doesn't control.</div></div>
-      <div class="learn green"><div class="learn-title">Naming verdict: "Your Money, Alive" over "Live Your Money™"</div><div class="learn-body">"Live Your Money" grammatically commands the <strong>user</strong> to act, which contradicts the product's real promise (the system acts so the user doesn't have to). "Your Money, Alive" inverts the grammar correctly: the money becomes the active subject, matching the "silence reassures you" ideal Sean himself describes. The invariant truth under both: Wing's actual promise is <strong>vigilance-as-a-service</strong>: "you no longer have to be the one watching."</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">1</span>Competitive alternatives</h3><div class="learn-body">Sean names two explicitly (DIY finance apps: Quicken/Mint/Monarch; human advisors: "James") and dismisses a third implicitly (generalist chatbots). The essay treats these as solved-and-abandoned rather than as the live alternatives a buyer is actually choosing between today.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">2</span>Unique attributes</h3><div class="learn-body">Continuous monitoring, proactive surfacing, SEC fiduciary wrapper, domain-specialized "WingMate" agents.</div></div>
+      <div class="learn red"><h3 class="learn-title"><span class="k">3</span>Value / proof: this is the crack</h3><div class="learn-body">Three of four attributes rest on anecdote (the James story) rather than data; <strong>only the SEC registration itself is independently verifiable</strong>.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">4</span>Target customer</h3><div class="learn-body">The essay never resolves whether the primary buyer is the mass-affluent consumer or the enterprise advisory firm; it reads as B2B2C distribution wrapped in B2C mission language.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">5</span>Market category</h3><div class="learn-body">"Financial Superintelligence" is a high-risk category-creation move: it requires educating the market from zero and shares vocabulary with AGI discourse Wing doesn't control.</div></div>
+      <div class="learn green"><h3 class="learn-title">Naming verdict: "Your Money, Alive" over "Live Your Money™"</h3><div class="learn-body">"Live Your Money" grammatically commands the <strong>user</strong> to act, which contradicts the product's real promise (the system acts so the user doesn't have to). "Your Money, Alive" inverts the grammar correctly: the money becomes the active subject, matching the "silence reassures you" ideal Sean himself describes. The invariant truth under both: Wing's actual promise is <strong>vigilance-as-a-service</strong>: "you no longer have to be the one watching."</div></div>
     </div>
     </div>
   </div>
@@ -443,18 +440,18 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Two SEC filings under the identical company name, and a same-surname, same-city capital vehicle with no stated relationship. An information vacuum, not an accusation, and the cheapest fix on the list.</div>
     <div class="sec-body">
-    <div class="section-title">Filings, entities, and the Nathan Wing question.</div>
+    <h2 class="section-title">Filings, entities, and the Nathan Wing question.</h2>
     <div class="section-body">
       Independently verified via SEC <span class="term" data-def="The SEC's public Investment Adviser Public Disclosure database, where anyone can look up a registered adviser's filings and history.">IAPD</span> and FINRA public records. None of this is evidence of wrongdoing; all of it is exactly what Item 10 of <span class="term" data-def="The standard disclosure document every SEC-registered adviser must file publicly, listing ownership, fees, conflicts of interest, and business details.">Form ADV</span> Part 2A is designed to force into the open.
     </div>
     <div class="ms-list">
-      <div class="ms"><div class="ms-top"><div class="ms-date">2021</div><div class="ms-title">Company founded</div></div><div class="ms-body">"Institutionalized over the past year" in the essay quietly concedes the prior 3–4 years were pre-product.</div></div>
-      <div class="ms"><div class="ms-top"><div class="ms-date">AUG 16, 2023</div><div class="ms-title">Prior "Wing Financial Inc." registration terminated</div></div><div class="ms-body">A prior, separate entity, <strong>CRD #321886</strong>, had its SEC registration terminated. Two distinct SEC filings under the identical company name is a factual, sourced, chain-of-custody question, and a first-question item for any diligence file.</div></div>
-      <div class="ms"><div class="ms-top"><div class="ms-date">FEB 10, 2025</div><div class="ms-title">Current Wing Financial Inc. approved</div></div><div class="ms-body"><strong>CRD #333826</strong>, SEC-registered investment adviser, based in Newport Beach, CA, reporting ~$128K AUM and 2 employees at last filing.</div></div>
-      <div class="ms"><div class="ms-top"><div class="ms-date">UNRESOLVED</div><div class="ms-title">The Nathan Wing question</div></div><div class="ms-body"><strong>Nathan Wing</strong>, Principal at <strong>Wing Capital Group</strong> (Newport Beach, CA, the same city as Wing Financial's registered address), publicly describes managing "$100 million in available equity." No SEC or FINRA registration record exists for Wing Capital Group under Nathan Wing, distinct from unrelated similarly-named entities ("Wings Capital Partners LLC," "Welwing Capital Group"). The surname and city overlap with <strong>zero public disclosure of relationship or non-relationship</strong> is an information vacuum, not evidence of wrongdoing.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">2021</div><h3 class="ms-title">Company founded</h3></div><div class="ms-body">"Institutionalized over the past year" in the essay quietly concedes the prior 3–4 years were pre-product.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">AUG 16, 2023</div><h3 class="ms-title">Prior "Wing Financial Inc." registration terminated</h3></div><div class="ms-body">A prior, separate entity, <strong>CRD #321886</strong>, had its SEC registration terminated. Two distinct SEC filings under the identical company name is a factual, sourced, chain-of-custody question, and a first-question item for any diligence file.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">FEB 10, 2025</div><h3 class="ms-title">Current Wing Financial Inc. approved</h3></div><div class="ms-body"><strong>CRD #333826</strong>, SEC-registered investment adviser, based in Newport Beach, CA, reporting ~$128K AUM and 2 employees at last filing.</div></div>
+      <div class="ms"><div class="ms-top"><div class="ms-date">UNRESOLVED</div><h3 class="ms-title">The Nathan Wing question</h3></div><div class="ms-body"><strong>Nathan Wing</strong>, Principal at <strong>Wing Capital Group</strong> (Newport Beach, CA, the same city as Wing Financial's registered address), publicly describes managing "$100 million in available equity." No SEC or FINRA registration record exists for Wing Capital Group under Nathan Wing, distinct from unrelated similarly-named entities ("Wings Capital Partners LLC," "Welwing Capital Group"). The surname and city overlap with <strong>zero public disclosure of relationship or non-relationship</strong> is an information vacuum, not evidence of wrongdoing.</div></div>
     </div>
     <div class="learn-rows">
-      <div class="learn verm"><div class="learn-title">Vermillion thread: highest priority</div><div class="learn-body">This entity ambiguity is the <strong>cheapest, fastest fix available and the most costly to leave silent</strong>, because silence defaults to the worst-faith interpretation in any institutional diligence process.</div></div>
+      <div class="learn verm"><h3 class="learn-title">Vermillion thread: highest priority</h3><div class="learn-body">This entity ambiguity is the <strong>cheapest, fastest fix available and the most costly to leave silent</strong>, because silence defaults to the worst-faith interpretation in any institutional diligence process.</div></div>
     </div>
     </div>
   </div>
@@ -468,7 +465,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Six objections a buy-side compliance round-table raises before approving a pilot. Five are fixable with disclosure or documentation. One, the scale claim, only real growth fixes.</div>
     <div class="sec-body">
-    <div class="section-title">What a compliance or legal reviewer says before approving a pilot.</div>
+    <h2 class="section-title">What a compliance or legal reviewer says before approving a pilot.</h2>
     <div class="tbl-scroll"><table class="risk-table">
       <tr><th>Seat</th><th>Objection</th><th>Severity</th><th>Fixable by disclosure?</th></tr>
       <tr><td><strong>Compliance / CCO</strong></td><td>Dual "Wing Financial Inc." SEC filings (terminated 2023 / approved 2025) need explanation</td><td><span class="chip med">MED</span></td><td><span class="chip yes">YES</span> one plain written explanation</td></tr>
@@ -479,7 +476,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <tr><td><strong>CCO (scale)</strong></td><td>"Population scale" claim vs. ~$128K AUM / 2-employee ADV filing</td><td><span class="chip high">HIGH</span></td><td><span class="chip no">NO</span> requires real growth, not documentation</td></tr>
     </table></div>
     <div class="learn-rows">
-      <div class="learn red"><div class="learn-title">Insurmountable without social proof: no document fixes these</div><div class="learn-body">The scale-claim-vs.-filing gap (only actual AUM and client growth resolves it), and the "built and deployed" claim absent any named pilot firm or testimonial (only named references resolve it).</div></div>
+      <div class="learn red"><h3 class="learn-title">Insurmountable without social proof: no document fixes these</h3><div class="learn-body">The scale-claim-vs.-filing gap (only actual AUM and client growth resolves it), and the "built and deployed" claim absent any named pilot firm or testimonial (only named references resolve it).</div></div>
     </div>
     </div>
   </div>
@@ -493,17 +490,17 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">What the essay doesn't say, the four tests that would prove or break each claim, and six failure modes with early-warning signs, plus the conditions outside Wing's control.</div>
     <div class="sec-body">
-    <div class="section-title">What the essay doesn't say, and how each claim would be tested.</div>
+    <h2 class="section-title">What the essay doesn't say, and how each claim would be tested.</h2>
     <div class="section-body">
       <strong>Quiet signals:</strong> no advisor-firm names, no client logos, no dollar figures anywhere in the essay;
       the advisor-referral sentence, arguably the actual distribution and regulatory-pressure-release mechanism,
       gets one line instead of a headline.
     </div>
     <div class="learn-rows">
-      <div class="learn"><div class="learn-title"><span class="k">TEST 1</span>Live, paying advisory firms in production today</div><div class="learn-body">Not pilots or LOIs. The most testable claim, and the one that unlocks the rest.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">TEST 2</span>Data ingestion beyond brokerage/bank balances</div><div class="learn-body">Tax filings, estate documents, insurance policies: the actual test of the "entire financial life" claim.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">TEST 3</span>Is "productive silence" provable?</div><div class="learn-body">Via an audit artifact, or is it indistinguishable from product abandonment?</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">TEST 4</span>Are advisor referrals compensated?</div><div class="learn-body">If so, that likely requires specific disclosure under SEC marketing rules.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 1</span>Live, paying advisory firms in production today</h3><div class="learn-body">Not pilots or LOIs. The most testable claim, and the one that unlocks the rest.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 2</span>Data ingestion beyond brokerage/bank balances</h3><div class="learn-body">Tax filings, estate documents, insurance policies: the actual test of the "entire financial life" claim.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 3</span>Is "productive silence" provable?</h3><div class="learn-body">Via an audit artifact, or is it indistinguishable from product abandonment?</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TEST 4</span>Are advisor referrals compensated?</h3><div class="learn-body">If so, that likely requires specific disclosure under SEC marketing rules.</div></div>
     </div>
     <div class="tbl-scroll"><table class="risk-table">
       <tr><th>Failure mode</th><th>Trigger</th><th>Early warning sign</th></tr>
@@ -515,7 +512,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       <tr><td><strong>Category templating</strong></td><td>"Agentic" + "fiduciary" language adopted by Morgan Stanley or similar before Wing scales</td><td>Competitor press release with near-identical framing within 2–3 quarters</td></tr>
     </table></div>
     <div class="learn-rows">
-      <div class="learn"><div class="learn-title">Outside Wing's control: what would need to be true first</div><div class="learn-body">Regulators staying quiet on AI-generated advice rules mid-pilot · data partners opening deeper access (tax, estate, insurance) · advisory firms broadly concluding AI agents are additive, not threatening. Industry-wide conditions, not execution gaps.</div></div>
+      <div class="learn"><h3 class="learn-title">Outside Wing's control: what would need to be true first</h3><div class="learn-body">Regulators staying quiet on AI-generated advice rules mid-pilot · data partners opening deeper access (tax, estate, insurance) · advisory firms broadly concluding AI agents are additive, not threatening. Industry-wide conditions, not execution gaps.</div></div>
     </div>
     </div>
   </div>
@@ -529,16 +526,16 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Adversarial, Bayesian, and optics passes all converge: Wing clears the product-truth bar, not yet the proof-truth bar. A conditional pass, not a fail. One claim is the pathogen.</div>
     <div class="sec-body">
-    <div class="section-title">Eight adversarial lenses, one conditional pass.</div>
+    <h2 class="section-title">Eight adversarial lenses, one conditional pass.</h2>
     <div class="learn-rows">
-      <div class="learn"><div class="learn-title"><span class="k">RISK</span>The highest risk is not technical</div><div class="learn-body">It's <strong>evidentiary silence meeting institutional-grade diligence</strong> at exactly the moment (PE consolidation, incumbent entry) when Wing needs speed of trust, not speed of feature-shipping.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">TIME</span>Sequence the fixes by cost</div><div class="learn-body">The entity-disclosure fix costs an afternoon. The AUM/traction gap costs months of real growth. Cheap fix first, hard fix in parallel.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">THREE READS</span>Adversarial · advisor · Bayesian</div><div class="learn-body">A skeptic assumes undisclosed related-party dealing until told otherwise. A friendly RIA principal would forgive early-stage AUM but not an unexplained CRD gap. Bayesian: the base rate for founder-surname overlaps being innocuous is high, but the base rate for diligence teams accepting silence on it is low.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">OPTICS</span>Five mirrors</div><div class="learn-body">Convex (Sean's view): "built, tested, regulated, ready." Concave (a CCO's view): "unproven scale wrapped in confident language." Parabolic (market's view): "another AI-wealth entrant in a suddenly crowded field." Anterior (founding story): genuine personal pain point, credible origin. Posterior (twelve months out): either a named-pilot company or a cautionary case study. The essay alone doesn't determine which.</div></div>
-      <div class="learn green"><div class="learn-title"><span class="k">DUAL BAR</span>One bar cleared, one not. A conditional pass, not a fail</div><div class="learn-body">Bar 1, product truth: is the fiduciary/agentic architecture real? <strong>Yes, verifiably</strong>. SEC registration is a genuine gate few competitors clear. Bar 2, proof truth: is the scale claim real? <strong>Not yet demonstrated publicly.</strong></div></div>
-      <div class="learn red"><div class="learn-title"><span class="k">PATHOGEN</span>One claim can infect all the others</div><div class="learn-body"><strong>"Population scale."</strong> If growth data never materializes, every other claim (superintelligence, hyper-personalization, prosperity for hundreds of millions) collapses with it. They're all downstream of scale.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">INVERSE</span>Working backward from "what would make a CCO say yes"</div><div class="learn-body">Named pilot · disclosed entity relationships · documented supervisory architecture · clear custody/execution counterparty. <strong>None require new invention</strong>. All are documentation and disclosure Sean already has access to.</div></div>
-      <div class="learn"><div class="learn-title"><span class="k">KINTSUGI</span>The cracks are not disqualifying</div><div class="learn-body">Thin proof, entity ambiguity, unresolved target-customer tension: this is the normal shape of a pre-Series-B fintech file. <strong>Naming them in gold seams, not hiding them, turns vulnerability into evidence of rigor.</strong></div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">RISK</span>The highest risk is not technical</h3><div class="learn-body">It's <strong>evidentiary silence meeting institutional-grade diligence</strong> at exactly the moment (PE consolidation, incumbent entry) when Wing needs speed of trust, not speed of feature-shipping.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">TIME</span>Sequence the fixes by cost</h3><div class="learn-body">The entity-disclosure fix costs an afternoon. The AUM/traction gap costs months of real growth. Cheap fix first, hard fix in parallel.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">THREE READS</span>Adversarial · advisor · Bayesian</h3><div class="learn-body">A skeptic assumes undisclosed related-party dealing until told otherwise. A friendly RIA principal would forgive early-stage AUM but not an unexplained CRD gap. Bayesian: the base rate for founder-surname overlaps being innocuous is high, but the base rate for diligence teams accepting silence on it is low.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">OPTICS</span>Five mirrors</h3><div class="learn-body">Convex (Sean's view): "built, tested, regulated, ready." Concave (a CCO's view): "unproven scale wrapped in confident language." Parabolic (market's view): "another AI-wealth entrant in a suddenly crowded field." Anterior (founding story): genuine personal pain point, credible origin. Posterior (twelve months out): either a named-pilot company or a cautionary case study. The essay alone doesn't determine which.</div></div>
+      <div class="learn green"><h3 class="learn-title"><span class="k">DUAL BAR</span>One bar cleared, one not. A conditional pass, not a fail</h3><div class="learn-body">Bar 1, product truth: is the fiduciary/agentic architecture real? <strong>Yes, verifiably</strong>. SEC registration is a genuine gate few competitors clear. Bar 2, proof truth: is the scale claim real? <strong>Not yet demonstrated publicly.</strong></div></div>
+      <div class="learn red"><h3 class="learn-title"><span class="k">PATHOGEN</span>One claim can infect all the others</h3><div class="learn-body"><strong>"Population scale."</strong> If growth data never materializes, every other claim (superintelligence, hyper-personalization, prosperity for hundreds of millions) collapses with it. They're all downstream of scale.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">INVERSE</span>Working backward from "what would make a CCO say yes"</h3><div class="learn-body">Named pilot · disclosed entity relationships · documented supervisory architecture · clear custody/execution counterparty. <strong>None require new invention</strong>. All are documentation and disclosure Sean already has access to.</div></div>
+      <div class="learn"><h3 class="learn-title"><span class="k">KINTSUGI</span>The cracks are not disqualifying</h3><div class="learn-body">Thin proof, entity ambiguity, unresolved target-customer tension: this is the normal shape of a pre-Series-B fintech file. <strong>Naming them in gold seams, not hiding them, turns vulnerability into evidence of rigor.</strong></div></div>
     </div>
     </div>
   </div>
@@ -552,7 +549,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     </div>
     <div class="sec-tldr">Almost every open concern traces to one missing thing: public proof that real firms use Wing today. The cheapest fix needs no new data and is available this afternoon.</div>
     <div class="sec-body">
-    <div class="section-title">The one thing this whole story hangs on.</div>
+    <h2 class="section-title">The one thing this whole story hangs on.</h2>
     <div class="section-body">
       Almost every open concern above traces back to one missing thing: <strong>public proof that real people
       and real advisory firms are using Wing today.</strong> Once that exists, even a single named pilot with a
@@ -560,9 +557,9 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
       "prove this works" to "explain these details."
     </div>
     <div class="learn-rows">
-      <div class="learn verm"><div class="learn-title">Available today, no new data needed</div><div class="learn-body">A plain written statement resolving the Nathan Wing / Wing Capital Group question and the two-filing history. The cheapest fix on the list, and currently the most exposed gap.</div></div>
-      <div class="learn red"><div class="learn-title">Needs real growth first</div><div class="learn-body">Any claim of scale, population-level reach, or "consortium of enterprise advisory firms." No document substitutes for this.</div></div>
-      <div class="learn green"><div class="learn-title">And the asset Sean doesn't yet own</div><div class="learn-body">The <strong>"agentic RIA"</strong> category name and the <strong>vigilance-as-a-service</strong> reframe of his own tagline ("Your Money, Alive"). Free, differentiated, and defensible: a gift sitting next to the hard questions. Which of these does he want a diligence team to find first, and which does he want to get ahead of in his next public note?</div></div>
+      <div class="learn verm"><h3 class="learn-title">Available today, no new data needed</h3><div class="learn-body">A plain written statement resolving the Nathan Wing / Wing Capital Group question and the two-filing history. The cheapest fix on the list, and currently the most exposed gap.</div></div>
+      <div class="learn red"><h3 class="learn-title">Needs real growth first</h3><div class="learn-body">Any claim of scale, population-level reach, or "consortium of enterprise advisory firms." No document substitutes for this.</div></div>
+      <div class="learn green"><h3 class="learn-title">And the asset Sean doesn't yet own</h3><div class="learn-body">The <strong>"agentic RIA"</strong> category name and the <strong>vigilance-as-a-service</strong> reframe of his own tagline ("Your Money, Alive"). Free, differentiated, and defensible: a gift sitting next to the hard questions. Which of these does he want a diligence team to find first, and which does he want to get ahead of in his next public note?</div></div>
     </div>
     </div>
   </div>
@@ -577,16 +574,16 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
     <div class="sec-tldr">The plain meaning of every industry term used above.</div>
     <div class="sec-body">
     <div class="legend-grid">
-      <div class="legend-item"><div class="legend-term">Agentic RIA</div><div class="legend-def">A registered investment adviser whose advice is generated and delivered by AI systems that act continuously, not a chatbot that answers questions when asked.</div></div>
-      <div class="legend-item"><div class="legend-term">SEC-registered investment adviser</div><div class="legend-def">A firm legally licensed and supervised by the U.S. SEC to give financial advice as a fiduciary, legally required to act in the client's best interest.</div></div>
-      <div class="legend-item"><div class="legend-term">CRD number</div><div class="legend-def">A unique ID the securities industry uses to track every registered firm and individual; used here to trace Wing's registration history precisely.</div></div>
-      <div class="legend-item"><div class="legend-term">AUM</div><div class="legend-def">Assets under management: the total dollar value of client money a firm actively manages or advises on. The standard measure of real scale in this industry.</div></div>
-      <div class="legend-item"><div class="legend-term">Form ADV</div><div class="legend-def">The standard disclosure document every SEC-registered adviser must file publicly: ownership, fees, conflicts of interest, business details.</div></div>
-      <div class="legend-item"><div class="legend-term">Fiduciary</div><div class="legend-def">Legally obligated to act in the client's best interest, not just give reasonable advice.</div></div>
-      <div class="legend-item"><div class="legend-term">Diligence</div><div class="legend-def">The process of fact-checking a company's claims before an institution partners with, invests in, or pilots its product.</div></div>
-      <div class="legend-item"><div class="legend-term">Category creation</div><div class="legend-def">Inventing a new name for a type of product instead of describing it in terms customers already understand. Risky because it requires teaching the market from scratch.</div></div>
-      <div class="legend-item"><div class="legend-term">Solicitor / referral disclosure</div><div class="legend-def">A legal requirement to state it publicly when a company pays (or gets paid) for referring clients to a financial adviser.</div></div>
-      <div class="legend-item"><div class="legend-term">Positioning</div><div class="legend-def">How a company explains what it does and why it's different, in a way a customer immediately understands.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Agentic RIA</h4><div class="legend-def">A registered investment adviser whose advice is generated and delivered by AI systems that act continuously, not a chatbot that answers questions when asked.</div></div>
+      <div class="legend-item"><h4 class="legend-term">SEC-registered investment adviser</h4><div class="legend-def">A firm legally licensed and supervised by the U.S. SEC to give financial advice as a fiduciary, legally required to act in the client's best interest.</div></div>
+      <div class="legend-item"><h4 class="legend-term">CRD number</h4><div class="legend-def">A unique ID the securities industry uses to track every registered firm and individual; used here to trace Wing's registration history precisely.</div></div>
+      <div class="legend-item"><h4 class="legend-term">AUM</h4><div class="legend-def">Assets under management: the total dollar value of client money a firm actively manages or advises on. The standard measure of real scale in this industry.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Form ADV</h4><div class="legend-def">The standard disclosure document every SEC-registered adviser must file publicly: ownership, fees, conflicts of interest, business details.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Fiduciary</h4><div class="legend-def">Legally obligated to act in the client's best interest, not just give reasonable advice.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Diligence</h4><div class="legend-def">The process of fact-checking a company's claims before an institution partners with, invests in, or pilots its product.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Category creation</h4><div class="legend-def">Inventing a new name for a type of product instead of describing it in terms customers already understand. Risky because it requires teaching the market from scratch.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Solicitor / referral disclosure</h4><div class="legend-def">A legal requirement to state it publicly when a company pays (or gets paid) for referring clients to a financial adviser.</div></div>
+      <div class="legend-item"><h4 class="legend-term">Positioning</h4><div class="legend-def">How a company explains what it does and why it's different, in a way a customer immediately understands.</div></div>
     </div>
     </div>
   </div>
@@ -623,23 +620,41 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   var sections = Array.prototype.slice.call(document.querySelectorAll(".section"));
   var expandBtn = document.getElementById("fb-expand"), focusBtn = document.getElementById("fb-focus");
   var focusOn = true;
-  function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; }
+  function open(sec) { sec.classList.remove("collapsed"); sec._body.style.maxHeight = "none"; setAria(sec); }
   function collapse(sec, instant) {
-    if (instant) { sec.classList.add("collapsed"); sec._body.style.maxHeight = "0"; return; }
+    if (instant) { sec.classList.add("collapsed"); sec._body.style.maxHeight = "0"; setAria(sec); return; }
     sec._body.style.maxHeight = sec._body.scrollHeight + "px";
     requestAnimationFrame(function () { sec.classList.add("collapsed"); sec._body.style.maxHeight = "0"; });
+    setAria(sec);
+  }
+  function setAria(sec) {
+    var head = sec.querySelector(".section-head");
+    if (head) head.setAttribute("aria-expanded", String(!sec.classList.contains("collapsed")));
   }
   function toggle(sec) {
     if (sec.classList.contains("collapsed")) {
       open(sec);
-      if (focusOn) sections.forEach(function (o) { if (o !== sec) collapse(o); });
+      if (focusOn) sections.forEach(function (o) { if (o !== sec) { collapse(o); setAria(o); } });
     } else collapse(sec);
+    setAria(sec);
   }
   sections.forEach(function (sec, idx) {
     sec._body = sec.querySelector(".sec-body");
     var head = sec.querySelector(".section-head");
     var tldr = sec.querySelector(".sec-tldr");
-    [head, tldr].forEach(function (el) { if (el) el.addEventListener("click", function () { toggle(sec); }); });
+    /* The H2 stays visible when folded: pull it out of the collapsible body, above the tldr */
+    var title = sec._body ? sec._body.querySelector(".section-title") : null;
+    if (title && tldr) sec.insertBefore(title, tldr);
+    /* Keyboard path: headers are real toggles */
+    if (head) {
+      head.setAttribute("tabindex", "0");
+      head.setAttribute("role", "button");
+      head.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(sec); }
+      });
+    }
+    [head, title, tldr].forEach(function (el) { if (el) el.addEventListener("click", function () { toggle(sec); }); });
+    setAria(sec);
   });
   expandBtn.addEventListener("click", function () {
     focusOn = false;
