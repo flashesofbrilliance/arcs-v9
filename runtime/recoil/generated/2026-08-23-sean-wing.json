@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "report_id": "2026-08-23-sean-wing",
+    "date": "2026-08-23",
+    "counterpart": "Sean Wing",
+    "company": "Wing Financial Inc. (wing.app)",
+    "relationship": "LinkedIn 1st-degree; Sean initiated 2026-08-19 asking for feedback on his essay 'The End of Managing Money Alone'; explicitly requested 'the good, the bad, and the ugly' because he 'can't do anything with compliments'",
+    "engagement_artifacts": {
+      "surface": "https://wing.arcs.care (S-tier diamond teardown, PRESENT deck, noindex)",
+      "note_draft": "_ARTIFACTS/wing-sean-linkedin-draft.md (drafted, NOT auto-sent)",
+      "skill_class": ".claude/skills/teardown-page-factory/",
+      "invariant": "_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md"
+    },
+    "provenance": {
+      "honesty_note": "Filed 2026-08-23 AFTER Zach sent Sean the wing.arcs.care link, BEFORE any response from Sean. Ex-ante relative to Sean's response, not to the send. No backdating (ADR-044 register).",
+      "sources": "Sean's LinkedIn thread + published essay; SEC IAPD/FINRA public records (CRD #333826, #321886); independent market coverage (Cerulli, Farther Series C, Morgan Stanley June 2026)"
+    },
+    "gate": { "internal": "sean" }
+  },
+  "ex_ante": {
+    "question": "Does a full-instrument teardown, delivered exactly as spicy as requested, convert Sean's inbound into a real relationship (substantive reply, call, or adoption of the reframes) rather than silence or offense?",
+    "true_north": "Sean engages substantively with at least one thread (proof gap, entity disclosure, or the agentic-RIA/Your-Money-Alive gift) within a week.",
+    "expected_outcomes": [
+      { "outcome": "Substantive reply engaging one or more threads (thanks + real reaction)", "estimate": 0.55, "basis": "he initiated, claimed thick skin, asked for spice; the gift is paired with the hard questions" },
+      { "outcome": "Adopts or echoes 'agentic RIA' / 'Your Money, Alive' language in reply or publicly", "estimate": 0.25, "basis": "free, differentiated, flattering-but-earned asset; founders reuse sharp language fast" },
+      { "outcome": "Directly addresses the Nathan Wing / dual-CRD question", "estimate": 0.2, "basis": "most sensitive item; the register guards (question-not-allegation) lower the cost of answering" },
+      { "outcome": "Books or proposes a call", "estimate": 0.3, "basis": "the teardown doubles as a capability demo; his original note was a soft reconnect" },
+      { "outcome": "Silence for more than 7 days", "estimate": 0.2, "basis": "base rate for unsolicited-depth artifacts, even requested ones" },
+      { "outcome": "Defensive or negative response", "estimate": 0.1, "basis": "forensic section names real filings; thick-skin claim not yet tested against his own CRD history" }
+    ],
+    "kairos_window": "If a reply comes, most likely within 72h of the link send; adoption-of-language signals may lag weeks (watch his next public note).",
+    "ruin_check": "Worst realistic case is quiet offense (relationship cools, no public fallout): page is noindex/unlinked, every claim is public-record-sourced, register states question-not-allegation. Survivable; no legal exposure from analysis of public filings.",
+    "conviction": { "state": "YELLOW", "note": "Direction confident (he asked for this register), magnitude uncertain (spice tolerance untested at the forensic fathom)." },
+    "scoring_rubric": "At close-loop: score each expected_outcome true/false, compute calibration delta, and log WHICH thread he engaged first — that ranks what actually lands with founder counterparts and prices the next teardown's emphasis."
+  },
+  "close_loop": {
+    "status": "OPEN",
+    "trigger": "Any reply from Sean, or 7 days of silence (score the silence branch), or his next public note (score the adoption branch)",
+    "instructions": "Run /recoil-close against this file: fill actual outcome, score vs expected_outcomes, note register lessons for teardown-page-factory."
+  }
+}
