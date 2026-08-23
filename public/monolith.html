@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Engine — Three Heads, One Filter</title></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Engine — Three Heads, One Filter</title><script defer src="/_vercel/insights/script.js"></script></head><body>
 <style>
   /* ================================================================
      ARCS · THE ENGINE, FIVE HEADS — one monolithic navigable stage
@@ -2014,7 +2014,7 @@ if (S.drift) loop();
     var current=null, filterOn=false;
     function docwrap(tplId,extra){
       var tpl=document.getElementById(tplId);
-      return '<!doctype html><html><head><meta charset="utf-8"><style>:root{color-scheme:dark}body{margin:0;background:'+(extra&&extra.transparentish?'#000':'#020408')+'}</style></head><body>'+tpl.innerHTML+'</body></html>';
+      return '<!doctype html><html><head><meta charset="utf-8"><style>:root{color-scheme:dark}body{margin:0;background:'+(extra&&extra.transparentish?'#000':'#020408')+'}</style><script defer src="/_vercel/insights/script.js"></script></head><body>'+tpl.innerHTML+'</body></html>';
     }
     function applyFilter(){
       var old=stage.querySelector('iframe.filterlay'); if(old) old.remove();
