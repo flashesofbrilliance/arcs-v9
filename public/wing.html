@@ -32,6 +32,8 @@ a { color: var(--cyan); }
 
 .eyebrow { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2.2s ease-in-out infinite; }
+/* Whole eyebrow row copies the link; the chip is the affordance and lights up from anywhere on the row */
+.eyebrow:hover #copylink { color: var(--cyan); border-color: rgba(0,240,255,0.45); }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; margin: 4px 0 2px; }
 .byline { font-size: var(--text-md); color: var(--dimmed); }
@@ -49,7 +51,9 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 @media (max-width: 640px) { .threads { grid-template-columns: 1fr; } }
 
 /* STAT STRIP */
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+/* auto-fit, not fixed 4-col: fixed columns + one breakpoint clip mono values at the
+   in-between widths (700-1000px) that presets don't test. minmax floor fits the longest value. */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(172px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
 .stat { background: var(--surface); padding: 16px 14px; }
 .stat-val { font-family: var(--mono); font-size: var(--text-xl); font-weight: 700; color: var(--text); }
 .stat-val.accent { color: var(--green); }
@@ -150,6 +154,9 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
   font-family: var(--sans); font-size: var(--text-sm); font-weight: 400; color: var(--muted); line-height: 1.5;
   text-align: left; opacity: 0; pointer-events: none; transition: opacity 0.15s; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
 #termtip.on { opacity: 1; }
+/* Touch tooltip alternative: tapping a term expands its plain-words definition inline, below the paragraph */
+.term-inline { margin: 8px 0 4px; padding: 9px 12px; background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.25); border-radius: var(--r-sm); font-size: var(--text-sm); color: var(--muted); line-height: 1.55; }
+.term-inline b { color: var(--cyan); font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-right: 8px; }
 .legend-hint { font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; text-transform: uppercase; text-align: center; margin-top: -8px; }
 .legend-hint b { color: var(--cyan); border-bottom: 1px dotted rgba(0,240,255,0.55); font-weight: 700; }
 .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
@@ -269,7 +276,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 
 <div class="page">
 
-  <div class="eyebrow"><span class="eyebrow-dot"></span>WING TEARDOWN · AGENTIC RIA · READ AT ANY DEPTH
+  <div class="eyebrow" id="eyebrowrow" style="cursor:pointer;" title="Copy wing.arcs.care to clipboard"><span class="eyebrow-dot"></span>WING TEARDOWN · AGENTIC RIA · READ AT ANY DEPTH
     <button id="copylink" type="button" style="margin-left:auto;font-family:var(--mono);font-size:var(--text-xs);font-weight:700;letter-spacing:0.1em;color:var(--muted);background:none;border:1px solid var(--border);border-radius:var(--r-sm);padding:4px 9px;cursor:pointer;">🔗 COPY LINK</button></div>
   <h1>Founder wrote an essay.<br>Here's what the public record says back.</h1>
   <div class="byline" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
@@ -844,11 +851,11 @@ presEl.addEventListener("touchend", function (e) {
   if (Math.abs(dx) > 48) presStep(dx < 0 ? 1 : -1);
 }, { passive: true });
 
-/* Copy-link chip: canonical URL to the clipboard with a confirmation flash */
+/* Copy-link: whole eyebrow row copies the canonical URL, chip flashes confirmation */
 (function () {
-  var btn = document.getElementById("copylink");
+  var btn = document.getElementById("copylink"), row = document.getElementById("eyebrowrow");
   if (!btn) return;
-  btn.addEventListener("click", function () {
+  (row || btn).addEventListener("click", function () {
     var url = "https://wing.arcs.care";
     function done() {
       btn.textContent = "📋 COPIED ✓"; btn.style.color = "var(--green)"; btn.style.borderColor = "rgba(0,255,157,0.4)";
@@ -875,10 +882,31 @@ presEl.addEventListener("touchend", function (e) {
     if (y < 8) y = r.bottom + 8;
     tip.style.left = x + "px"; tip.style.top = y + "px";
   }
+  /* Coarse pointers get inline definitions below the paragraph; hover pointers get the floating tip.
+     Checked per-event, not at load: convertibles switch, and bind-time detection misses. */
+  function isCoarse() { return window.matchMedia && window.matchMedia("(hover: none)").matches; }
+  function inlineToggle(el) {
+    var block = el.closest(".gauge-def,.echo-text,.echo-why,.learn-body,.legend-def,.thread-body,.sec-tldr,.section-body,.ms-body,.fb-label") || el.parentElement;
+    var next = block.nextElementSibling;
+    var wasOwn = next && next.className === "term-inline" && next._for === el;
+    document.querySelectorAll(".term-inline").forEach(function (d) { d.remove(); });
+    if (wasOwn) return;
+    var t = el.textContent.trim();
+    if (!seenTerms[t.slice(0, 40)]) { seenTerms[t.slice(0, 40)] = 1; track("term_hover", { term: t.slice(0, 40) }); }
+    var d = document.createElement("div");
+    d.className = "term-inline"; d._for = el;
+    var b = document.createElement("b"); b.textContent = t;
+    d.appendChild(b); d.appendChild(document.createTextNode(el.getAttribute("data-def")));
+    block.insertAdjacentElement("afterend", d);
+  }
   document.querySelectorAll(".term").forEach(function (el) {
-    el.addEventListener("mouseenter", function () { show(el); });
+    el.addEventListener("mouseenter", function () { if (!isCoarse()) show(el); });
     el.addEventListener("mouseleave", function () { tip.classList.remove("on"); });
-    el.addEventListener("click", function (e) { e.stopPropagation(); tip.classList.contains("on") ? tip.classList.remove("on") : show(el); });
+    el.addEventListener("click", function (e) {
+      e.stopPropagation(); e.preventDefault();
+      if (isCoarse()) { tip.classList.remove("on"); inlineToggle(el); }
+      else tip.classList.contains("on") ? tip.classList.remove("on") : show(el);
+    });
   });
   document.addEventListener("click", function () { tip.classList.remove("on"); });
 })();
