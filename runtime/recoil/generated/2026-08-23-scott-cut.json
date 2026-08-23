@@ -1,0 +1,38 @@
+{
+  "_TYPE": "ex-ante decision receipt",
+  "_PROVENANCE": "Filed 2026-08-23, BEFORE the scott-cut link or any accompanying note is sent to Scott Witt. Honest chain of custody per ADR-044: at filing time the page exists locally and is gated for ship, Zach has NOT sent anything. This receipt is scoreable.",
+  "meta": {
+    "report_id": "2026-08-23-scott-cut",
+    "date": "2026-08-23",
+    "counterpart": "Scott Witt",
+    "company": "Parlance",
+    "event": "Send of scott-cut.arcs.care (one link, one line, one calendar hold) closing the 2026-08-21 on-call commitment",
+    "parent_ssot": "runtime/recoil/generated/2026-08-21-scott-witt.json",
+    "sibling_recoil_md": "_ARTIFACTS/2026-08-21-scott-recoil.md"
+  },
+  "receipt": {
+    "D_sharpened_question": "Does closing the Friday commitment in Scott's own dictated format (one distilled async link at the top of his box, plus a calendar hold) convert a warm 15-year register into one concrete thread: a correction to the map, or a 30-minute working session on the brief-intake lab?",
+    "E_entity": "Scott Witt; Parlance; his 8-9 month attention-scarce window; the hold on his calendar; the prior unanswered Mar 20 deck as base rate",
+    "W_window": "Kairos window: 72h from send for first-open signal (top-of-box promise); hard close-loop trigger at 7 days silence after send; his next public post is an independent trigger",
+    "Y_predicted": "YELLOW at send. GREEN branch if he replies with corrections or engagement inside the window; RED-drift branch if silence past 7 days (format thesis falsified, relationship reverts to banter-register maintenance mode).",
+    "hypothesis": "The falsified-format finding is real: the same corpus that went unanswered as a 14-page deck WILL get engagement as one link built to his stated spec. Format, not appetite, was the bottleneck.",
+    "pre_committed_move": "Send ONE link (scott-cut) in a short note quoting his own ask back, place the calendar hold, then hold silence. No follow-up nudges inside the window. No bundling of the VC/mentoring fork or any second artifact.",
+    "falsifier": "If the one-link, his-spec send ALSO goes unanswered past 7 days, the format hypothesis is wrong: the bottleneck is appetite or bandwidth, not delivery shape. Score it that way; do not rationalize.",
+    "belief_most_likely_to_update": "P3 (co-design appetite for the lab), currently OPEN at 0.45 confidence / LOW conviction"
+  },
+  "outcome_estimates": [
+    {"id": "O1", "outcome": "Opens the page within 72h of send (dwell signal via analytics)", "p": 0.75},
+    {"id": "O2", "outcome": "Any reply at all within 7 days", "p": 0.6},
+    {"id": "O3", "outcome": "Reply includes a correction or adjudication of the map (the invitation taken)", "p": 0.4},
+    {"id": "O4", "outcome": "The calendar hold survives and a 30-min working session happens within 3 weeks", "p": 0.3},
+    {"id": "O5", "outcome": "He answers the health/wellness center-of-gravity question, in any channel", "p": 0.25},
+    {"id": "O6", "outcome": "Silence past 7 days (falsifier branch)", "p": 0.3}
+  ],
+  "close_loop_rubric": {
+    "triggers": ["any reply", "7 days post-send silence", "his next public post", "hold rescheduled twice or deleted"],
+    "score_method": "Run /recoil-close against this receipt: mark each O1-O6 hit/miss, update P3-P5 in the parent SSOT, and log the format-hypothesis verdict (CONFIRMED/FALSIFIED) explicitly.",
+    "notes": "Base rate caution: the Mar 20 deck got zero reply from a confirmed read. A read-without-reply this time is a PARTIAL result: it falsifies neither appetite nor format alone; only the paired absence (no open, no reply) cleanly falsifies the send design."
+  },
+  "conviction": "YELLOW",
+  "nci_estimate": 48
+}
