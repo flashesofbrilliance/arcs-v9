@@ -1,6 +1,6 @@
 # The Tao of ARCS
 
-**Status:** CANONICAL (v1.0.0) · 2026-08-13
+**Status:** CANONICAL (v1.1.0) · 2026-08-13 · §V added 2026-08-23
 **Genesis seed:** `adam == atom` (seed #0) · **Decision of record:** ADR-053 · **Economics:** ADR-054
 
 > Adam (first / genesis) fused with atom (the indivisible core unit the corpus already names
@@ -54,6 +54,33 @@ hold the same seeds; only ARCS fires them with tailored ripeness judgment.
   only the vox-animus firing (ripeness judgment · Kairos activation · rosetta-primed synthesis)
   runs a meter. See ADR-054.
 
+## V. One field, sovereign zeros
+
+> **One field, sovereign zeros, lawful transforms, preserved invariants.**
+
+Everyone stands on the same terrain; no one's origin is canonical — not the author's, not the
+machine's (NOTOMATION restated as geometry). Each person carries their own zero point and basis:
+their history is their coordinate system. ARCS is not a universal frame; it is the
+**transformation layer** between sovereign frames, and interoperability exists only where its
+three conditions hold:
+
+1. **Declared frames** — every artifact states its chart (DEWY axes, provenance, audience).
+2. **Lawful transforms** — the projection factories change basis (register · altitude ·
+   fidelity) with gates checking the transform preserved structure.
+3. **Preserved invariants** — the lossless rules (falsifier survives, attribution rides
+   through, nothing load-bearing dropped) are the tensor components that must come out the
+   same in every frame, or the translation lied.
+
+Composability is functoriality: translations chain losslessly iff every link keeps the
+invariants — a gate at every cut (ADR-068), never one at the end. Pollen carries the
+coordinate-free content; soil is the local chart the receiver supplies. Returning to zero
+returns *you* to *your* null point: the field is shared, the zero is sovereign.
+
+*Provenance: witnessed 2026-08-23 (`_STATE/witness/2026-08-23.jsonl`, frame-geometry stub);
+promoted same day by Zach ("I'll allow it").*
+
 ---
 
 *Proverb (tao-247):* **"A seed is free to hold; only the spark that fires it runs a meter."**
+
+*Proverb (tao-251):* **"One field, sovereign zeros: translate lawfully, keep the invariants, and never crown an origin — not even your own."**
