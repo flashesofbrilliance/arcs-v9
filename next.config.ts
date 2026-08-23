@@ -89,6 +89,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/ayesha-ext.html", has: [{ type: "host", value: "ayesha.arcs.care" }] },
         { source: "/:path*", destination: "/build.html", has: [{ type: "host", value: "build.arcs.care" }] },
         { source: "/:path*", destination: "/scott-arcs-demo.html", has: [{ type: "host", value: "scott-arcs-demo.arcs.care" }] },
+        { source: "/:path*", destination: "/wing.html", has: [{ type: "host", value: "wing.arcs.care" }] },
       ],
       afterFiles: [
         { source: "/compass-kit", destination: "/compass-kit/index.html" },
