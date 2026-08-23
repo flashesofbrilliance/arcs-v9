@@ -5,6 +5,17 @@ const nextConfig: NextConfig = {
     "/warroom/[slug]": ["./runtime/warroom/**"],
     "/recoil/[reportId]": ["./runtime/recoil/generated/**"],
   },
+  async headers() {
+    return [
+      // wing.arcs.care is unlisted-by-URL: header-level no-crawl backs up the page's
+      // robots meta (host-scoped, so the mothership domains stay indexable).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "wing.arcs.care" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
+    ];
+  },
   async rewrites() {
     return {
       beforeFiles: [
