@@ -53,6 +53,7 @@ def collect():
             os.path.join(REPO, "public", "jeben*"),
             os.path.join(REPO, "runtime", "warroom", "jeben*"),
             os.path.join(REPO, "runtime", "recoil", "generated", "*jeben*"),
+            os.path.join(REPO, "runtime", "recoil", "transcripts", "*jeben*"),
             os.path.join(REPO, "_CANON", "great-moments.jsonl")]
     for pat in pats:
         for p in glob.glob(pat):

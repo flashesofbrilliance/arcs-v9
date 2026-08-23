@@ -23,10 +23,13 @@ copies, 5 scatter locations, 8 counterpart-facing nodes. Key strata:
 | Mar–Apr 2026 | `JebenHarryBriefing.txt` (Apr 21, full verbatim transcript), Limitless Minds intro PDF, "For Jeben" gift bundle | Perplexity analyses only; no SSOT, no fact-check pass, no witness register |
 | Jul 2026 | Two recoil SSOTs (Jul 10 serialization, Jul 15 call), jeben.html Thread Book | recoil v1 existed; gauntlet/page-factory/seedbank/provenance chain did not |
 
-The only fully-verbatim, recoverable transcript in the corpus is Apr 21. The Jul 15 call
-survives only as SSOT excerpts (Granola-side full text not currently reachable). This
-asymmetry is itself a finding: **transcript custody is the limiting reagent of every
-backward-looking instrument.**
+At epoch start, the only fully-verbatim recoverable transcript was Apr 21; the Jul 15 call
+survived only as SSOT excerpts. This asymmetry was itself a finding: **transcript custody
+is the limiting reagent of every backward-looking instrument.** CLOSED same-day: the
+Granola MCP came online mid-session and the full Jul 15 transcript was fetched verbatim
+into `runtime/recoil/transcripts/2026-07-15-jeben.txt` (meeting d3116480, Jul 15 10:45 EDT).
+The raw text confirms the SSOT's load-bearing quote and contains no "disturbance"/Spock
+language — the fact-check verdict holds against the full record.
 
 ## 2. What the new instruments saw that the original pass could not
 
@@ -56,8 +59,10 @@ into the minutia of possibility or potential inside a single text exchange."* Va
 vantage (warning about a third party, Harry, rather than in-relationship carrier loss),
 but the same operator-side mechanism, independently surfaced — and EARLIER than both
 existing data points. Per ADR-067's own rule: do not automate; log and hand to the human.
-**If accepted as convergence #3, ADR-067 says revisit and consider the cross-subject diff
-mode in `forge_counterpart.py`.** Y: YELLOW until Zach rules.
+**RULED (2026-08-23): promoted GREEN.** Zach, verbatim: "I'm good with promoting it → seems
+like a witness moment deferred." Filed as a deferred-witness entry in
+`_CANON/great-moments.jsonl`; ADR-067 addendum records the convergence roster and unlocks
+the cross-subject diff mode as a NOTOMATION-gated candidate build (not built this session).
 
 ### 2d. Expected-vs-actual on the Jul 15 ex-ante scenarios (recoil close-loop)
 The Jul 15 SSOT priced three scenarios: A (both threads advance, 40%), B (PE stalls,
