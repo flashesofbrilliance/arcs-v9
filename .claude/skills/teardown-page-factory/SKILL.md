@@ -61,6 +61,8 @@ Earned fidelity is enforced in `presRender`: verified `g` renders `res-sharp`, g
    include the `/_vercel/insights/script.js` snippet + the section-dwell script.
 5. **Pixels**: screenshot locally (Browser pane opens the file on Write) at top,
    one open section, and one pres slide AFTER the fade settles. Never grep-verify UI.
+   Sweep FOUR widths: desktop, ~790px, tablet, mobile — the wrap-regression class lives
+   at intermediate widths; grids use auto-fit minmax, never fixed columns + one breakpoint.
 6. **noindex**: `<meta name="robots" content="noindex, nofollow">` — these pages are
    unlisted-by-URL, never linked from the mothership.
 
