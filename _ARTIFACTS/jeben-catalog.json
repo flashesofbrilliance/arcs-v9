@@ -1,0 +1,227 @@
+{
+ "generated": "2026-08-23 12:58",
+ "corpus": "jeben",
+ "audience_gate": "MANDATORY — this catalog is internal-only; project nothing to a counterpart surface without a manual gate pass",
+ "nodes": [
+  {
+   "id": "2026-07-10-jeben-louisville-serialization",
+   "file": "~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/recoil/generated/2026-07-10-jeben-louisville-serialization.json",
+   "kind": "ssot",
+   "type": "feedback",
+   "section": "SSOTs",
+   "audience": "internal",
+   "desc": "2026-07-10-jeben-louisville-serialization.json · 1 copy · canonical=~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/recoil/generated",
+   "age_days": 0,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "2026-07-15-jeben",
+   "file": "~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/recoil/generated/2026-07-15-jeben.json",
+   "kind": "ssot",
+   "type": "feedback",
+   "section": "SSOTs",
+   "audience": "internal",
+   "desc": "2026-07-15-jeben.json · 1 copy · canonical=~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/recoil/generated",
+   "age_days": 0,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "ARCS_Creator_HUD_System",
+   "file": "~/Downloads/For Jeben/ARCS_Creator_HUD_System.pdf",
+   "kind": "gift",
+   "type": "user",
+   "section": "Sent to Jeben (For Jeben bundle)",
+   "audience": "counterpart-facing",
+   "desc": "ARCS_Creator_HUD_System.pdf · 1 copy · canonical=~/Downloads/For Jeben",
+   "age_days": 151,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "ARCS_OS_Proof_of_Intuition",
+   "file": "~/Downloads/For Jeben/ARCS_OS_Proof_of_Intuition.pdf",
+   "kind": "gift",
+   "type": "user",
+   "section": "Sent to Jeben (For Jeben bundle)",
+   "audience": "counterpart-facing",
+   "desc": "ARCS_OS_Proof_of_Intuition.pdf · 1 copy · canonical=~/Downloads/For Jeben",
+   "age_days": 151,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "Architecture_of_Ownership",
+   "file": "~/Downloads/For Jeben/Architecture_of_Ownership.pdf",
+   "kind": "gift",
+   "type": "user",
+   "section": "Sent to Jeben (For Jeben bundle)",
+   "audience": "counterpart-facing",
+   "desc": "Architecture_of_Ownership.pdf · 1 copy · canonical=~/Downloads/For Jeben",
+   "age_days": 151,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "Based on my chat with Jeben, what does a paired do",
+   "file": "~/Downloads/Based on my chat with Jeben, what does a paired do (1).md",
+   "kind": "analysis",
+   "type": "project",
+   "section": "Perplexity-era Analyses (Downloads)",
+   "audience": "internal",
+   "desc": "Based on my chat with Jeben, what does a paired do.md · 2 copies · canonical=~/Downloads",
+   "age_days": 123,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "Based on the call I had with jeben (see notion) an",
+   "file": "~/Downloads/Based on the call I had with jeben (see notion) an (1).md",
+   "kind": "analysis",
+   "type": "project",
+   "section": "Perplexity-era Analyses (Downloads)",
+   "audience": "internal",
+   "desc": "Based on the call I had with jeben (see notion) an.md · 2 copies · canonical=~/Downloads",
+   "age_days": 104,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "HUD_System_ProductionBrief",
+   "file": "~/Downloads/For Jeben/HUD_System_ProductionBrief.pdf",
+   "kind": "gift",
+   "type": "user",
+   "section": "Sent to Jeben (For Jeben bundle)",
+   "audience": "counterpart-facing",
+   "desc": "HUD_System_ProductionBrief.pdf · 1 copy · canonical=~/Downloads/For Jeben",
+   "age_days": 151,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "JebenHarryBriefing",
+   "file": "~/Downloads/JebenHarryBriefing.txt",
+   "kind": "transcript",
+   "type": "reference",
+   "section": "Raw Transcripts",
+   "audience": "internal",
+   "desc": "JebenHarryBriefing.txt · 1 copy · canonical=~/Downloads",
+   "age_days": 123,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "Kinematics_of_Collaboration",
+   "file": "~/Downloads/For Jeben/Kinematics_of_Collaboration.pdf",
+   "kind": "gift",
+   "type": "user",
+   "section": "Sent to Jeben (For Jeben bundle)",
+   "audience": "counterpart-facing",
+   "desc": "Kinematics_of_Collaboration.pdf · 1 copy · canonical=~/Downloads/For Jeben",
+   "age_days": 151,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "Limitless-Minds-x-ARCS-Jeben-Intro",
+   "file": "~/Downloads/Limitless-Minds-x-ARCS-Jeben-Intro.pdf",
+   "kind": "print",
+   "type": "performer",
+   "section": "Prints & Decks",
+   "audience": "counterpart-facing",
+   "desc": "Limitless-Minds-x-ARCS-Jeben-Intro.pdf · 1 copy · canonical=~/Downloads",
+   "age_days": 142,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "based on jeben's guidance in notion and the edits",
+   "file": "~/Downloads/based on jeben's guidance in notion and the edits (1).md",
+   "kind": "analysis",
+   "type": "project",
+   "section": "Perplexity-era Analyses (Downloads)",
+   "audience": "internal",
+   "desc": "based on jeben's guidance in notion and the edits.md · 2 copies · canonical=~/Downloads",
+   "age_days": 122,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "based on jeben's guidance in notion and the edits",
+   "file": "~/Downloads/based on jeben's guidance in notion and the edits (1).pdf",
+   "kind": "print",
+   "type": "performer",
+   "section": "Prints & Decks",
+   "audience": "internal",
+   "desc": "based on jeben's guidance in notion and the edits.pdf · 2 copies · canonical=~/Downloads",
+   "age_days": 122,
+   "promoted": false,
+   "versions": 2
+  },
+  {
+   "id": "great-moments",
+   "file": "~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/_CANON/great-moments.jsonl",
+   "kind": "canon",
+   "type": "reference",
+   "section": "Canon Registers",
+   "audience": "internal",
+   "desc": "great-moments.jsonl · 1 copy · canonical=~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/_CANON",
+   "age_days": 0,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "jeben-debrief",
+   "file": "~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/warroom/jeben-debrief.html",
+   "kind": "repo-surface",
+   "type": "repo",
+   "section": "Repo Surfaces (gated warroom)",
+   "audience": "counterpart-facing",
+   "desc": "jeben-debrief.html · 1 copy · canonical=~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/warroom",
+   "age_days": 0,
+   "promoted": false,
+   "versions": 1
+  },
+  {
+   "id": "jeben",
+   "file": "~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/warroom/jeben.html",
+   "kind": "repo-surface",
+   "type": "repo",
+   "section": "Repo Surfaces (gated warroom)",
+   "audience": "counterpart-facing",
+   "desc": "jeben.html · 1 copy · canonical=~/arcs-v9/.claude/worktrees/happy-shamir-1c8b30/runtime/warroom",
+   "age_days": 0,
+   "promoted": false,
+   "versions": 1
+  }
+ ],
+ "edges": [
+  {
+   "from": "2026-07-10-jeben-louisville-serialization",
+   "to": "jeben",
+   "rel": "declared-href"
+  },
+  {
+   "from": "2026-07-15-jeben",
+   "to": "jeben",
+   "rel": "declared-href"
+  },
+  {
+   "from": "great-moments",
+   "to": "JebenHarryBriefing",
+   "rel": "declared-href"
+  },
+  {
+   "from": "jeben-debrief",
+   "to": "jeben",
+   "rel": "declared-href"
+  },
+  {
+   "from": "great-moments",
+   "to": "JebenHarryBriefing",
+   "rel": "declared-citation"
+  }
+ ],
+ "version_dupes": 4
+}
