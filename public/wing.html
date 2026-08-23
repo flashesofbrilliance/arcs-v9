@@ -63,7 +63,9 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 
 /* SECTION */
 .section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 24px 26px; }
-.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; cursor: pointer; user-select: none; }
+/* nowrap: with flex-wrap the toggle fell to its own row whenever the pill wrapped on mobile */
+.section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; user-select: none; }
+.section-head .section-label { min-width: 0; }
 .section-n { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.12em; color: var(--dimmed); }
 .section-label { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; border: 1px solid; }
 .section-title { font-size: var(--text-lg); font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; cursor: pointer; text-wrap: balance; }
@@ -269,6 +271,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 @media (max-width: 640px) {
   h1 { font-size: var(--text-xl); }
   .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat-val { font-size: var(--text-lg); }
 }
 </style>
 </head>
@@ -851,7 +854,7 @@ presEl.addEventListener("touchend", function (e) {
   if (Math.abs(dx) > 48) presStep(dx < 0 ? 1 : -1);
 }, { passive: true });
 
-/* Copy-link: whole eyebrow row copies the canonical URL, chip flashes confirmation */
+/* Copy link: whole eyebrow row copies the canonical URL, chip flashes confirmation */
 (function () {
   var btn = document.getElementById("copylink"), row = document.getElementById("eyebrowrow");
   if (!btn) return;
