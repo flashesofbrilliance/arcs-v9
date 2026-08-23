@@ -1,3 +1,88 @@
+# Handoff — v3.40.0 (2026-08-18, late)
+
+> **Active pickup point — PRL 1.1/1.2 wrap session, part 2.** Continuation of v3.39.0's landing:
+> the delivery leg went from "published" to genuinely verified, shared with Todd, and then two
+> real bugs surfaced and one got fixed live. Numbered by oracle (40).
+
+## Headline: chatbot→Sugar delivery VERIFIED end-to-end and shipped to Todd; two live bugs found after
+
+- **Real WP-staging conversation → sandbox Sugar Lead confirmed** (`435cee66-9b40-...`, correct
+  name split, location_c=CT, audit trail). Dual bar-raiser protocol with Zapier co-pilot worked:
+  independent Sugar reads caught a name-split regression, a missing email1 mapping, AND a
+  double-firing old Zap before publish. Zap `376827315` (Tidio → Code → ZoomInfo enrich →
+  dedup-search → Paths A/B) is the live pipeline; old `series_376761228` superseded/off.
+- **Todd-facing surfaces shipped:** `prl.arcs.care/status/progress` (pilot-checklist style, +25%
+  type scale, viewport meta fixed on all 3 status pages, mobile card-stacking for the workaround
+  table, click-to-load live chatbot embed, Recommended section w/ 30-min weekly check-in booking
+  link + parallel 1.2-A kickoff). Root pages: Progress nav button, footer status links, phase
+  table 1.2=Paid + 1.2-A row w/ live invoice button, mid-phase ex-ante receipt update (effort
+  past the 12-30h band, cap holds), 1.1 re-tagged done-in-staging, 1.2 itemized per DoD recon.
+  **Email to Todd SENT** (progress link + calendar link).
+- **Tidio trigger fixed LIVE via claude-in-chrome:** root cause of the mobile-shows-Lyro bug was
+  the flow's "Visitor returns to the site" trigger (fresh visitors got nothing → fell to Lyro's
+  email ask). Replaced with "Visitor clicks on chat icon", activated, confirmed. Verified mobile
+  1-1 with desktop afterward.
+
+## OPEN BUGS (next session's first work)
+1. **CRITICAL — empty-email dedup false-positive:** Zach's latest progress-page submission
+   UPDATED a real 2021 lead (Roger A Lamarre/ROBE, id `ea77a7d2-1b0b-11ec-...`) because the
+   payload email was empty and Find-Record matched arbitrarily. Fix in co-pilot: Filter step
+   (email non-empty) before the search; empty-email → Path B create. Also debug WHY email was
+   empty despite flow validation. **Repair owed:** clear Roger's description suffix
+   ("— Updated via Chatbot") + title/industry "Not specified" back to blank.
+2. **Test-lead cleanup** still owed (now ~8+ synthetic/test leads incl. 3x Zach).
+3. **Lyro races the flow** for conversations with existing history (resumes Lyro convo instead
+   of flow). Scope Lyro engagement or accept; also pre-chat email card duplicates the flow ask.
+4. **"Read more here" links:** no toggle exists (checked Configure/Guidance/Data sources). It's
+   website-source citation behavior. Recommended: convert ONLY the /contact/ source to manual
+   Q&A (it currently cites the broken contact form — content bug), park rest for 1.3.
+
+## DoD reconciliation (the honesty ledger — read before any "done" claim to Todd)
+`_ARTIFACTS/prl-1-1-evidence/2026-08-18-dod-reconciliation.md`: every 1.1/1.2 gate is met /
+waived-in-writing / re-baselined. Still open: Mailgun rep-notification (decision: bypass via
+Zap email step + Barracuda allow-list precedent; prospect autoresponder deferred to DNS window),
+baseline report (UNBLOCKED — Zapier MCP raw GET = the Postman Zach thought he needed), Layer 1
+Lyro eval run (harness exists; Playwright automation sketched in `runtime/recoil/generated/
+prl-lyro/uat/README.md`), business-email enrichment fill, 2 more state tests + dedup live test.
+UAT skeleton authored: `uat/staging_chat_e2e.mjs` + fixtures (selector TODOs, not yet run).
+Quota discipline documented (Playground ≠ Lyro quota; live chats burn Zapier tasks + ZoomInfo
+credits; Lyro 11/50 used).
+
+## Comms / money state
+Invoice #NYQRTJPQ-0004 ($2,070, 1.2-A web forms) still OPEN/unpaid — work stays payment-gated
+(staging exploration OK, no live webhook). Todd emailed the progress page + check-in booking
+link (calendar.app.google/crDeY8HyJQvH4ahH6). Bill routing call still pending. Prod cutover
+still explicitly gated (enum + auth repoint + Bill + Todd's go).
+
+## Ideas parked for 1.3 (fits its literal name "Smarter lead recognition")
+Fewer-questions flow + Zap backfill from Sugar/ZoomInfo reverse lookup (caveats logged: state
+drives routing so never auto-fill it from HQ data; ZoomInfo hit-rate < 100% + location_c
+hard-required = blank-field rejection risk).
+
+## Parked for the Aug-24 1.2 close-loop: evidence-anchored re-pricing of 1.3–1.5
+Zach's call (2026-08-19, explicitly not-right-now): recalibrate 1.3–1.5 toward worst-case-
+anchored pricing using the ACTUAL actual-vs-expected multiplier from 1.1+1.2 (both overran
+their bands on coordination, not build). Highest exposure = 1.4 ($6K): its real JTBD includes
+end-to-end attribution/goal-mapping, which is almost entirely ground-truth-verification work —
+the exact category that stretched 3x this engagement. The receipt mechanism already promises
+"numbers re-checked against reality before each kickoff"; make that re-check compute the
+multiplier from the banked receipts rather than re-guessing. Do this AT the close-loop, with
+Todd, not unilaterally — it is a trust move ("we price from our own track record") when done
+in the open.
+
+## Idea parked for 1.4 ("Your paid landing pages") — template pair, and it's a REPAIR not a feature
+Template unit = one Unbounce page + one Tidio onramp flow per product family, all sharing the
+proven Zap-376827315 backbone. The 5 SEM Onramp drafts are hand-built instances of this pattern.
+Key mechanics: "Visitor opens a specific page" trigger per landing URL (no collisions with the
+chat-icon flow), Tidio flow Import/Export = JSON template with placeholder swap, campaign tag in
+payload = per-page attribution for the baseline. KEY FRAMING: the legacy Unbounce->Sugar Zaps
+(other Zapier account, 6801141) are partly broken — the template RETIRES them rather than fixing
+N brittle connectors; each migrated page is one less broken legacy Zap. Zero new delivery work
+per page. Cheap non-gated prep: author the template JSON from the AI-Handoff export + the 5
+drafts' vocabulary before 1.4 kicks, so kickoff is stamping, not building. Quota check before
+scaling: each active flow draws from visitors-reached (26/2000 now, fine for pilot).
+
+
 # ARCS v9 — Handoff Archive (v0.1.0 → v3.5.0)
 
 # Handoff — v3.32.0 (2026-08-11)
