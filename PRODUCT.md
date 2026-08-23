@@ -67,6 +67,16 @@ The mechanism a neighboring product could not truthfully copy: ARCS **scaffolds 
 4. **Dual-audience discipline.** Product truth is shared, but each surface serves one reader; keep an air-gap so evaluator-facing artifacts never leak another party's private material or internal scoring.
 5. **Instrument, not dashboard.** Calm, precise, legible under pressure. Cut what does not earn its place; concentrate rigor on the materially significant decision logic.
 
+## Known design failure modes (check on every design pass, handoff, or pickup)
+
+**The measure/wrap regression class** (recurred 3x on 2026-08-23 alone: wing page column, stat strip, PRESENT deck; fixes in arcs-v9 PRs #159/#162/#165). The defect never looks the same twice but has one root: layout constraints written as selector-local literals, so every new region or port re-derives its own edges and breakpoints. Binding rules for all surfaces:
+
+1. **Reading measures are `:root` tokens** (e.g. `--measure: 660px`), inherited by every text role in a column. Never per-selector literals, and never `ch` caps on mixed font sizes (`ch` recomputes per font size, so roles get misaligned right edges and caps silently move at breakpoints).
+2. **Content grids use `repeat(auto-fit, minmax(<longest-real-value>px, 1fr))`**, never fixed columns plus a single mobile breakpoint: that pattern clips at every width between the tested presets. (Deliberate `1fr auto 1fr` center-pinning grids for chrome are the sanctioned exception.)
+3. **Responsive verification sweeps four widths**: desktop, ~790px, tablet, mobile. The regression lives at the intermediate widths presets skip.
+4. `text-wrap: balance` on headings, `text-wrap: pretty` on reading text, `white-space: nowrap` on chips/counts/values that must never break mid-token; mono stat values step down a size on phones rather than wrapping.
+5. **Ported CSS re-audits against these rules at port time**: the deck recurrence happened because chan-era CSS predating rule 1 was imported wholesale.
+
 ## Accessibility & Inclusion
 
 Plain-language requirement (above) is partly an accessibility commitment: surfaces must be legible to non-technical, tech-weary readers without insider vocabulary.
