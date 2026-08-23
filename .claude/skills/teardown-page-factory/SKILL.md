@@ -78,3 +78,22 @@ Earned fidelity is enforced in `presRender`: verified `g` renders `res-sharp`, g
 Draft the counterpart message to `_ARTIFACTS/<subdomain>-<name>-linkedin-draft.md`:
 lead with their own ask quoted back, the link, then good → bad → ugly in that order,
 close with the surgical question AND the gift. Same em-dash rule. Zach sends by hand.
+
+## Efficiency contract (post-mortem 2026-08-23, wing run burned ~20% of a 5h window)
+
+The first wing run paid one-time archaeology costs this skill now amortizes. Rules that
+keep the next run at ~1/3 the spend:
+
+1. **Never read `chan.html`** (1,611 lines). Clone `public/wing.html` and re-fill; the
+   CSS + PRESENT engine travel with it.
+2. **Dedupe inputs before reading.** If a PDF has an MD twin, the PDF is never opened
+   (PDF pages are vision-priced). Sample >200KB logs head/tail only.
+3. **One branch, one build, one PR.** Page + deck + note + favicon + polish ship
+   together. Never sequential PR cycles for one deliverable family.
+4. **Quiet pushes**: `git push 2>&1 | tail -3`; `--no-verify` for docs-only pushes.
+5. **Pixel protocol**: front the Browser tab BEFORE capturing (hidden pane returns
+   black frames); max 3 checkpoint screenshots: hero, one open section, one settled
+   pres slide. Verify structure via DOM metrics, not repeated screenshots.
+6. **One CI watcher, armed after the final push**, never before an expected commit.
+7. **Spec-first invocation** is the ideal input packet: "run teardown-page-factory for
+   <name>" + one deduped source MD + spec params. Full scope stated upfront.
