@@ -198,9 +198,10 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-stage { flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 26px; }
 .pres-slide { max-width: 780px; width: 100%; animation: slidein 0.45s var(--ease-luxury); }
 @keyframes slidein { from { opacity: 0; } to { opacity: 1; } }
-.pres-h { font-size: var(--text-2xl); font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; text-wrap: balance; }
+/* Deck shares the page's --measure token: per-region literal caps (62ch / 520px) re-created the misaligned-edge class inside PRESENT */
+.pres-h { font-size: var(--text-2xl); font-weight: 800; color: var(--text); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 20px; text-wrap: balance; max-width: var(--measure); }
 /* 62ch measure: the slide well is 780px (~90ch at 16px), past the readable band */
-.pres-body { font-size: var(--text-base); color: var(--muted); line-height: 1.7; max-width: 62ch; }
+.pres-body { font-size: var(--text-base); color: var(--muted); line-height: 1.7; max-width: var(--measure); text-wrap: pretty; }
 .pres-body strong { color: var(--text); font-weight: 600; }
 .pres-bot { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px 26px; font-family: var(--mono); font-size: var(--text-xs); color: var(--dimmed); letter-spacing: 0.08em; gap: 12px; }
 #presprev { grid-column: 1; justify-self: start; }
@@ -244,7 +245,7 @@ h1 { font-size: var(--text-2xl); font-weight: 700; letter-spacing: -0.02em; line
 .pres-kicker { font-family: var(--mono); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; color: var(--dimmed); margin-bottom: 14px; }
 .pres-num { font-family: var(--mono); font-size: calc(var(--text-3xl) * 2.4); font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1px var(--hl, var(--cyan)); opacity: 0.65; margin-bottom: 18px; }
 .pres-div-title { font-size: var(--text-2xl); font-weight: 800; color: var(--text); letter-spacing: -0.01em; margin-bottom: 12px; text-wrap: balance; }
-.pres-div-sub { font-size: var(--text-base); color: var(--muted); max-width: 520px; line-height: 1.6; }
+.pres-div-sub { font-size: var(--text-base); color: var(--muted); max-width: var(--measure); line-height: 1.6; text-wrap: pretty; }
 .pres-dots { display: flex; gap: 5px; }
 .pres-dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--border); }
 .pres-dots i.on { background: var(--hl, var(--cyan)); }
@@ -856,7 +857,7 @@ presEl.addEventListener("touchend", function (e) {
   if (Math.abs(dx) > 48) presStep(dx < 0 ? 1 : -1);
 }, { passive: true });
 
-/* Copy link: whole eyebrow row copies the canonical URL, chip flashes confirmation */
+/* Copy-link behavior: whole eyebrow row copies the canonical URL, chip flashes confirmation */
 (function () {
   var btn = document.getElementById("copylink"), row = document.getElementById("eyebrowrow");
   if (!btn) return;
