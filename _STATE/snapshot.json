@@ -2,8 +2,8 @@
   "captured_at": "2026-08-18T17:02:09Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "ace243b",
-    "head_message": "polish(scott): nest teardowns + demo behind a disclosure on the front door (#152)",
+    "head_sha": "caf3ef5",
+    "head_message": "feat(scott): the cut \u2014 Friday call teardown at scott-cut.arcs.care, full stage-print arc [NCI:53] (#170)",
     "in_sync_with_origin": true,
     "dirty_files": [
       "_INBOX/lattice-drift.jsonl",
@@ -197,7 +197,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-23T14:54:08Z",
+  "git_refreshed_at": "2026-08-24T11:18:18Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
