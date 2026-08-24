@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NFTT Story Template, Gauntlet Runbook</title>
+<meta name="description" content="Three adversarial lenses run against the data-driven NFTT story engine at high burden of proof, every flag re-verified against the actual code before it was kept. This is the exploded, line-by-line record: what each lens attacked, what it found, how to reproduce it, and how it was healed.">
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root {
+    --bg:#020408; --surface:#0d1117; --border:#1e293b;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --red:#FF4D6D; --orange:#ff9d3c;
+    --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg1); font:16px/1.6 var(--sans);
+    -webkit-font-smoothing:antialiased; }
+  .wrap { max-width: 900px; margin:0 auto; padding:56px 28px 96px; }
+  .eyebrow { font:700 .72rem/1 var(--mono); letter-spacing:.16em; text-transform:uppercase;
+    color:var(--cyan); margin:0 0 .8em; }
+  h1 { font-size:clamp(1.8rem,4vw,2.6rem); line-height:1.12; letter-spacing:-.02em; margin:0 0 .5em; }
+  .lede { color:var(--fg2); font-size:1.05rem; max-width:66ch; margin:0 0 1.4em; }
+  .meta { font:.78rem/1.7 var(--mono); color:var(--fg3); border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border); padding:.9em 0; margin:0 0 2.4em;
+    display:flex; flex-wrap:wrap; gap:.4em 1.6em; }
+  .meta b { color:var(--fg1); font-weight:600; }
+  .lens { margin:0 0 2.8em; }
+  .lhead { display:flex; align-items:baseline; gap:.9em; flex-wrap:wrap;
+    border-bottom:2px solid var(--border); padding-bottom:.5em; margin:0 0 .3em; }
+  .lhead h2 { font-size:1.35rem; margin:0; }
+  .lrole { font:.72rem/1 var(--mono); text-transform:uppercase; letter-spacing:.08em; color:var(--fg4); margin:0; }
+  .lsummary { color:var(--fg2); font-size:.95rem; margin:.7em 0 1.4em; }
+  .finding { border:1px solid var(--border); border-radius:10px; background:var(--surface);
+    padding:1.1em 1.2em; margin:0 0 1em; break-inside:avoid; page-break-inside:avoid; }
+  .fhead { display:flex; align-items:baseline; gap:.7em; flex-wrap:wrap; }
+  .fnum { font:700 .85rem/1 var(--mono); color:var(--fg4); }
+  .fhead h3 { font-size:1.02rem; font-weight:600; margin:0; flex:1 1 60%; line-height:1.35; }
+  .badges { display:flex; gap:.4em; flex-wrap:wrap; }
+  .badge { font:700 .62rem/1 var(--mono); letter-spacing:.08em; color:var(--c);
+    border:1px solid var(--c); border-radius:4px; padding:.32em .5em; white-space:nowrap; }
+  .loc { display:inline-block; font:.74rem/1.4 var(--mono); color:var(--cyan);
+    background:#0a0f18; border:1px solid var(--border); border-radius:4px; padding:.2em .5em; margin:.7em 0 .2em; }
+  .f { margin:.7em 0 0; }
+  .fl { font:700 .64rem/1 var(--mono); text-transform:uppercase; letter-spacing:.1em; color:var(--fg4);
+    display:block; margin:0 0 .25em; }
+  .fv { color:var(--fg2); font-size:.92rem; }
+  .code { font:.78rem/1.5 var(--mono); color:var(--fg1); background:#0a0f18;
+    border:1px solid var(--border); border-radius:6px; padding:.7em .8em; margin:0; overflow-x:auto;
+    white-space:pre-wrap; word-break:break-word; }
+  footer { border-top:1px solid var(--border); margin-top:3em; padding-top:1.2em;
+    font:.76rem/1.6 var(--mono); color:var(--fg3); }
+  @media print {
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    body { background:#fff; }
+    .wrap { max-width:100%; padding:0; }
+    .finding { break-inside:avoid; page-break-inside:avoid; }
+    .lens { break-before:auto; }
+    a { text-decoration:none !important; }
+  }
+</style>
+<body><div class="wrap">
+<p class="eyebrow">ARCS FULL GAUNTLET // KINTSUGI SCAR-LOG // NFTT-STORY-FACTORY</p>
+<h1>NFTT Story Template, Gauntlet Runbook</h1>
+<p class="lede">Three adversarial lenses run against the data-driven NFTT story engine at high burden of proof, every flag re-verified against the actual code before it was kept. This is the exploded, line-by-line record: what each lens attacked, what it found, how to reproduce it, and how it was healed.</p>
+<div class="meta"><span><b>scripts/story_render.py</b> engine</span> · <span><b>germinate-pollinate.story.md</b> reference</span> · <span><b>3</b> lenses</span> · <span><b>12</b> verified findings</span> · <span><b>2026-08-24</b> reviewed</span></div>
+<section class="lens">
+  <div class="lhead">
+    <h2>Engine robustness gauntlet</h2>
+    <p class="lrole">BAR / ruin · does it survive being wrong</p>
+  </div>
+  <p class="lsummary">Root pattern: parse_story enforced only presence and a few enums. Every other constraint the schema advertised (hex pattern, id pattern, AA contrast, uniqueness, label bounds) was documentation the engine never checked. Text fields were escaped; hex was the one field reaching an HTML sink raw.</p>
+  <article class="finding">
+  <div class="fhead"><span class="fnum">01</span>
+    <h3>Stored XSS via unvalidated, unescaped thread hex</h3>
+    <span class="badges"><span class="badge" style="--c:#FF4D6D">HIGH</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · _node / arc_horizontal / braid_svg / endmark_svg / thread_legend / ladder color</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The hex string is interpolated raw into fill=&quot;...&quot; / stroke=&quot;...&quot; / style=&quot;color:...&quot; in every SVG mark, with no h.escape and no check against the schema&#x27;s ^#[0-9A-Fa-f]{6}$. A poisoned palette breaks out of the attribute and injects a live &lt;script&gt; into a page published on good.arcs.care. Text fields (label, name, caption, body, title) are all correctly escaped; hex was the single sink left open.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">thread gold with &quot;hex&quot;:&quot;#FFD700\&quot;&gt;&lt;script&gt;alert(&#x27;hex&#x27;)&lt;/script&gt;&quot;
+-&gt; endmark SVG renders: &lt;circle ... fill=&quot;#FFD700&quot;&gt;&lt;script&gt;alert(&#x27;hex&#x27;)&lt;/script&gt;&quot;/&gt;</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">In parse_story, enforce re.fullmatch(r&#x27;#[0-9A-Fa-f]{6}&#x27;, hex) and raise StoryError. Closes the injection and the schema&#x27;s unenforced hex pattern in one check.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">Validation battery added to parse_story: hex is now pattern-checked at parse time; a malformed hex is refused before any render.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">02</span>
+    <h3>Schema&#x27;s &#x27;must clear AA&#x27; contrast claim was unenforced</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · parse_story · nftt-story.schema.json (hex description)</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The schema states each hex &#x27;Must clear AA on the void background,&#x27; but nothing computed contrast. hex #050505 on the #020408 void rendered fine, exit 0. An invisible node/stitch/chip could ship as if legible, violating earned-fidelity doctrine (the brief never lies about how certain it is).</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">hex:&quot;#050505&quot; -&gt; renders, exit 0, fill=&quot;#050505&quot; present, nodes effectively invisible.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Compute WCAG relative-luminance contrast vs #020408 in parse_story; refuse below 3:1 (large-glyph AA).</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">contrast() helper added; parse_story refuses any thread hex below 3:1 on the void. Ship-gate #5 is now mechanical, not documentation.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">03</span>
+    <h3>Horizontal arc had no label-length bound; long labels overflow</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · render_arc / arc_horizontal</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The Bierut legibility gate (ARC_MAX_HORIZONTAL_STOPS) gated the NUMBER of stops, not label length. SVG width is computed from stop count, and SVG &lt;text&gt; never wraps. A 2-stop arc with a 400-char label renders one line far past the column and the mobile viewport, the exact failure the gate exists to prevent, on a different axis.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">2 stops (stays horizontal), one label 400 chars -&gt; SVG width=218 but text runs off-viewport.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Add a label-length ceiling: force the vertical ladder when any horizontal-form label exceeds ~24 chars, mirroring the count gate.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">render_arc now reflows to the ladder when any label exceeds the char ceiling OR stop count exceeds 6. The legibility gate now guards both axes.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">04</span>
+    <h3>Duplicate thread ids accepted; refs silently bind to the last one</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · parse_story / tmap builders</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">tmap = {t[&#x27;id&#x27;]: t for t in threads} is last-wins, so two threads with the same id mean every stop referencing that id silently binds to the second declaration, and the legend prints two same-id chips. No error.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">two threads both id:&quot;red&quot; (circle/#FF4D6D vs square/#00FF9D) -&gt; renders, arc binds to the second silently.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">if len(set(ids)) != len(threads): raise StoryError(&#x27;duplicate thread id&#x27;).</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">parse_story now refuses duplicate thread ids.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">05</span>
+    <h3>6+ threads: braid and endmark were hardcoded to 3; extra threads vanished</h3>
+    <span class="badges"><span class="badge" style="--c:#FFD700">LOW</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · braid_svg (range(3)) / endmark_svg (min(3, len))</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The legend renders all N chips, but the braid emitted exactly 3 paths and the endmark min(3, len) marks. A story declaring 7 threads visually claimed 3, a quiet honesty gap between legend and braid, against the schema&#x27;s &#x27;two to N threads&#x27; promise.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">7 threads -&gt; legend shows 7, braid shows 3, endmark shows 3.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Loop braid and endmark over ALL threads (or refuse &gt;N explicitly so the omission is a decision).</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">braid_svg and endmark_svg now iterate every declared thread; the marks reflect the real palette count.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">06</span>
+    <h3>Long thread names never wrap (legend + ladder column)</h3>
+    <span class="badges"><span class="badge" style="--c:#FFD700">LOW</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · thread_legend / .arc-thread (white-space:nowrap)</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">Legend chips and the ladder thread column set white-space:nowrap with no clamp; a very long name overflows the key box or pushes the ladder grid column.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">120-char thread name -&gt; overflows .threadkey box.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Cap name length in parse_story (or add ellipsis).</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">parse_story now caps thread name length; an over-long name is refused at parse time.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">07</span>
+    <h3>Survives being wrong (the passes)</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">story_render.py</code>
+  
+  
+  
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">[[ARC]] with no arc defined: dropped cleanly, no crash. Empty body: renders shell + endmark. Stop referencing a thread by name not id: correctly refused. 45-stop arc: reflows to a legible vertical ladder. HTML injection in label/name/caption/body/title: all correctly escaped. Only hex reached a sink unescaped (finding 01).</div></div>
+</article>
+</section>
+<section class="lens">
+  <div class="lhead">
+    <h2>Michael Bierut design adversary</h2>
+    <p class="lrole">editorial rigor · five-second test · idea over decoration</p>
+  </div>
+  <p class="lsummary">The bones are sound and the arc reflow gate is genuinely smart. The defects cluster in one place: ornaments that repeat identically regardless of content, and one of them (the gradient tick) is not even wired to the story&#x27;s own data.</p>
+  <article class="finding">
+  <div class="fhead"><span class="fnum">01</span>
+    <h3>The per-section gradient tick is hardcoded decoration that lies about the data</h3>
+    <span class="badges"><span class="badge" style="--c:#FF4D6D">KILL</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · CSS h2::before / .pull::before</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The whole engine&#x27;s thesis is &#x27;threads are data, a story picks its own.&#x27; braid and endmark honor that. But this tick is a literal constant: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C). Any story with a different palette still gets a red-&gt;gold-&gt;verm bar under every heading and pull-quote, describing a palette the story does not use. The single most-repeated ornament is the one wired to the wrong data, and it is literally broken for the general case. Even for this story it means nothing: identical under all 7 H2s, telling the reader nothing 7 times.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">The custom cyan/red extensibility test (two-thread.html) still contains the red/gold/verm tricolor tick, x2.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Drive the tick from the story&#x27;s actual threads (a gradient built from the declared palette), or color each section&#x27;s tick by its governing thread as wayfinding. If not wired, delete both ::before rules; the type hierarchy stands without them.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">Tick gradient is now built from the declared threads and injected as a CSS variable; a cyan/red story gets a cyan/red tick. Section and pull-quote ornaments differentiated (finding below).</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">02</span>
+    <h3>Arc-ladder mono thread-label names the color in its own color</h3>
+    <span class="badges"><span class="badge" style="--c:#FF4D6D">KILL</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · arc_ladder · .arc-thread</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">Each ladder row already encodes the thread three ways (glyph shape, glyph color, legend). The mono label was a fourth encoding adding zero information, a red word that says &#x27;RED.&#x27; And it took name.split(&#x27;·&#x27;)[0] (the color-name half) and threw away the meaning half (&#x27;gates&#x27;). It labeled the color by its color, not by its role. Monospace-as-costume on a label carrying no system information.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">arc ladder rows render &#x27;RED&#x27; / &#x27;GOLD&#x27; / &#x27;VERMILLION&#x27; right-aligned in the thread color.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Show the ROLE not the color-name: name.split(&#x27;·&#x27;)[1] -&gt; GATES / ASSETS / FUSION, which the glyph genuinely cannot say. Never both the color and its name.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">Ladder right column now shows the thread ROLE (gates/assets/fusion), the one thing the glyph cannot carry.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">03</span>
+    <h3>The declared eyebrow envelope field never renders (dead control)</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · build() reads eyebrow, never passes it to PAGE</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">A carefully-written envelope field that produces nothing. The eyebrow&#x27;s job is instead done by the body&#x27;s # line, with different wording. Two competing eyebrow sources, one inert. The next author edits eyebrow, expects a change, gets none.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">eyebrow present in envelope, absent from rendered HTML.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Pick one source. Render {eyebrow} in PAGE and drop the # convention, or delete eyebrow from schema and build().</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">eyebrow removed from build() and the schema; the # body line is the single documented eyebrow source.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">04</span>
+    <h3>The braid SVG does not braid, and is hardcoded to 3 strands</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · braid_svg (range(3), all paths terminate at 196 18)</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">All three strands terminate at the same point: three wires merging into one plug, crossing once. A braid interweaves repeatedly. At a glance it reads as a squiggle, failing the very test the section name (&#x27;The braid&#x27;) sets up. Hardcoded to 3 despite the N-thread promise (overlaps robustness finding 05).</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">&#x27;The braid&#x27; section emits 3 converging paths regardless of thread count.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Make it genuinely interlace (multiple crossings, strands emerging on the far side, count from len(threads)), or cut it; the heading plus the colored thread-summaries already deliver the idea.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">braid_svg rewritten as N phase-offset woven strands driven by the declared threads; adjacent strands actually cross.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">05</span>
+    <h3>Pull-quote and section-head wear an identical ornament</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · .pull::before and h2::before (same gradient)</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">A pull-quote and a section header are different structural ranks but wore the same gradient bar. The reader&#x27;s eye cannot use the ornament to tell &#x27;new section&#x27; from &#x27;emphasis pull&#x27;; one signal spent on two ranks.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">Both ::before rules render the same tricolor bar (34px vs 48px).</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Give them different marks: thread-gradient bar for sections, a single accent rule for pull-quotes.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">Folded into the tick fix: section tick = full thread gradient; pull-quote = single first-thread accent. One ornament, one meaning.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">06</span>
+    <h3>Full prose sentences set in monospace (the &#x27;stitch&#x27; lines)</h3>
+    <span class="badges"><span class="badge" style="--c:#FFD700">LOW</span><span class="badge" style="--c:#8593a6">BY DESIGN</span></span></div>
+  <code class="loc">story_render.py · .stitch</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">Complete first-person sentences in JetBrains Mono. Mono earns its place on system tokens (footer, nav, legend); a voiced sentence is voice, not label. A near-miss: the conceit (stitch = system annotation on the narrative) is coherent, so not a kill.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">Thread stitches render authored sentences in mono at .82rem.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Optional: keep the mono thread-marker and color, set the sentence in sans italic.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">Kept by design. The stitch-as-machine-annotation conceit is deliberate and matches the frozen post-1/post-2 reference aesthetic; changing it would diverge the family. Logged, not changed.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">07</span>
+    <h3>Elements that earn their place (checked, not cut)</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">story_render.py</code>
+  
+  
+  
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">The endmark glyph: a genuine wordless colophon that reads from the actual threads. The arc reflow gate (horizontal &lt;=6 -&gt; vertical ladder): the five-second test made mechanical, the best idea in the file. The thread legend mapping color+shape to named role, placed before the first stitch. Mono on the depth-nav and footer: proper system voice, not costume.</div></div>
+</article>
+</section>
+<section class="lens">
+  <div class="lhead">
+    <h2>Template claims skeptic</h2>
+    <p class="lrole">adversarial verifier · behavior over comments</p>
+  </div>
+  <p class="lsummary">Five of six claims hold as behavior, not just prose: genuinely data-driven, honesty gates truly refuse with exit 1 and write nothing, the arc reflows past the threshold, the reference render is byte-identical with full prose parity, analytics and meta description are emitted. The one claim to distrust as stated is &#x27;zero em-dashes.&#x27;</p>
+  <article class="finding">
+  <div class="fhead"><span class="fnum">01</span>
+    <h3>TRUE: extensible + data-driven</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">story_render.py · parse_story / build</code>
+  
+  
+  
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">threads and arc read from the JSON envelope; nodes/legend/braid all take the thread hex/shape. A 2-thread non-NFTT story with custom hex (#3366CC / #22AA88) rendered exit 0, custom hex present, no NFTT colors used. Schema enforces minItems 2, no max.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">02</span>
+    <h3>TRUE: the legibility gate is mechanical (with a caveat now closed)</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">story_render.py · render_arc (ARC_MAX_HORIZONTAL_STOPS=6)</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The gate was a fixed stop-COUNT threshold, not a measured label-width check: a 6-stop arc with very long labels was not caught (see robustness finding 03).</div></div>
+  
+  <div class="f"><span class="fl">Fix</span><div class="fv">Add the label-length axis to the gate.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">6 stops -&gt; horizontal, 7 -&gt; ladder, 12-stop reference -&gt; ladder. Label-length axis added in the kintsugi pass so the count-proxy gap is closed.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">03</span>
+    <h3>TRUE: honesty gates refuse with exit 1 and write nothing</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">story_render.py · StoryError -&gt; sys.exit(1) before any write</code>
+  
+  
+  
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">All four refusal paths tested: missing envelope, &lt;2 threads, undefined arc thread ref, bad shape. Each exit 1 with no output file written.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">04</span>
+    <h3>&#x27;Zero em-dashes&#x27; was TRUE for the artifact but NOT enforced</h3>
+    <span class="badges"><span class="badge" style="--c:#ff9d3c">MED</span><span class="badge" style="--c:#00FF9D">FIXED</span></span></div>
+  <code class="loc">story_render.py · no em-dash check anywhere</code>
+  <div class="f"><span class="fl">Defect</span><div class="fv">The rendered output had 0 em-dashes, but there was no mechanism: a story whose body prose contains an em-dash renders it verbatim (reproduced count=1). Per ADR-034 this is verified-as-PROSE, not a gate. If &#x27;zero em-dashes&#x27; is an invariant, nothing caught a violation.</div></div>
+  <div class="f"><span class="fl">Repro</span><div class="fv"><pre class="code">story body containing an em-dash (U+2014) -&gt; output contains that em-dash (count=1), exit 0.</pre></div></div>
+  <div class="f"><span class="fl">Fix</span><div class="fv">Refuse the render (StoryError, no output) if the assembled page contains an em-dash.</div></div>
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">build() now scans the assembled page for the em-dash character and refuses to write if any is present. Ship-gate #1 is now mechanical: no story can ship an em-dash, prose included.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">05</span>
+    <h3>TRUE: class-not-instance, no regression, full prose parity</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">public/blog-nftt-post-2-full.html</code>
+  
+  
+  
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">The fresh render is byte-identical to the shipped reference (diff IDENTICAL). All source blocks trace to output, no dropped/duplicated/altered sentence. The essay prose is unchanged; only the arc device and thread-key differ from the markdown-era post-2.</div></div>
+</article>
+<article class="finding">
+  <div class="fhead"><span class="fnum">06</span>
+    <h3>TRUE: analytics + non-empty meta description present</h3>
+    <span class="badges"><span class="badge" style="--c:#00FF9D">EARNS IT</span><span class="badge" style="--c:#00F0FF">KEPT</span></span></div>
+  <code class="loc">story_render.py · PAGE template</code>
+  
+  
+  
+  <div class="f"><span class="fl">Verdict / heal</span><div class="fv">The /_vercel/insights script and a non-empty meta description are emitted; desc defaults to the title if absent.</div></div>
+</article>
+</section>
+<footer>Every finding above was reproduced or read against scripts/story_render.py before being kept. A gauntlet can be falsified by its own source (ADR-061); flags that did not survive re-verification were dropped. NFTT · good.arcs.care · every claim traces to a commit.</footer>
+</div></body></html>
