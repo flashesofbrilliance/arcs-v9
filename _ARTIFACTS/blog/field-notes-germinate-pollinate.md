@@ -4,7 +4,7 @@
 
 *Not a thesis. What happened, in order, failures in, and the one part that hasn't happened yet marked as not having happened.*
 
-*Three threads, same as last time. **Red** says no. **Gold** keeps paying after the job that made it is done. **Vermillion** is where they twist: the thing that bit you was on your side. Last time they braided around a filing system. This time they braid around a harder question, which is what the filing is for. It turns out to be people.*
+*Three threads, same as last time. **Red** says no. **Gold** keeps paying after the job that made it is done. **Vermillion** is where they twist: the thing that bit you was on your side. Last time they braided around a filing system. This time they braid around a single word, and I'll name it now so you can watch it carry everything that follows: provenance. Where a thing came from, kept attached to the thing. The filing was always for people, and provenance is what you hand them back.*
 
 ---
 
@@ -12,7 +12,7 @@
 
 Good relationships go quiet in a specific way. Not a falling-out, an overfeed. You get excited, build something big, send it, and hear nothing. They didn't reject it. They couldn't digest it. You mailed a nine-course meal to someone between meetings. In my ledger these have a name: consumability-blocked. The work was good and the packet was too heavy, and the honest fix is never *send more*.
 
-So how do you reopen that channel without deepening the debt? Every instinct says send a better, lighter artifact. Every one of those instincts is wrong, because they all make the other person owe you a read. The move that works runs the other way. Don't give them something of yours to consume. Give them something of *theirs* back. Go into the archive of everything they ever said to you, find the sharpest line, the one where they named something better than you could have, and return it. No pitch, no link, no homework. Nothing to reject, because there's nothing to consume, only something to recognize. They stop being the recipient of another document and become the co-author of an idea you've been building on ever since.
+So how do you reopen that channel without deepening the debt? Every instinct says send a better, lighter artifact. Every one of those instincts is wrong, because they all make the other person owe you a read. The move that works runs the other way. Don't give them something of yours to consume. Give them something of *theirs* back. Go into the archive of everything they ever said to you, find the sharpest line, the one where they named something better than you could have, and return it. What makes it land isn't the words, it's the provenance: you hand back their own line with the origin still attached, which is the one thing a flattering story can't fake. No pitch, no link, no homework. Nothing to reject, because there's nothing to consume, only something to recognize. They stop being the recipient of another document and become the co-author of an idea you've been building on ever since.
 
 I named it the **featherlight respark**. Featherlight because the payload is one sentence. Respark because the goal isn't to close the loop, it's to find out whether the loop *wants* to reopen.
 
