@@ -1,6 +1,12 @@
 {
   "_TYPE": "ex-ante decision receipt",
-  "_PROVENANCE": "Filed 2026-08-23, BEFORE the scott-cut link or any accompanying note is sent to Scott Witt. Honest chain of custody per ADR-044: at filing time the page exists locally and is gated for ship, Zach has NOT sent anything. This receipt is scoreable.",
+  "_PROVENANCE": "Filed 2026-08-23, BEFORE the scott-cut link or any accompanying note was sent to Scott Witt. Honest chain of custody per ADR-044: at filing time the page existed locally, gated for ship, nothing sent. This receipt is scoreable.",
+  "_SEND_RECORD": {
+    "sent": true,
+    "sent_date": "2026-08-24",
+    "channel": "text message (Zach, by hand)",
+    "note": "DIVERGENCE from the pre-committed move, recorded honestly: the pre-committed channel was an organized email quoting his ask back, plus a calendar hold. Actual send was a text with the link; the drafted email (_ARTIFACTS/scott-cut-note-draft.md) was not used as written, and the calendar-hold status is unrecorded at send time. Text is arguably CLOSER to his register (lighter, async, zero ceremony) but it is not 'the top of the box' inbox slot he named. Score O1-O6 against the send as it actually happened; do not backfill the email story. Kairos window (72h first-open) and the 7-day silence trigger (2026-08-31) run from this date."
+  },
   "meta": {
     "report_id": "2026-08-23-scott-cut",
     "date": "2026-08-23",
