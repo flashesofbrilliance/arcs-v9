@@ -3274,3 +3274,47 @@ one public-surface content change (build.html ADR stat 59→60) rode the tripwir
 No product deploy. Comet application: SENT (see v3.37.0).
 
 ---
+
+
+<!-- relocated from CLAUDE.md 2026-08-26 -->
+
+# Handoff — v3.41.0 (2026-08-19)
+
+> **Active pickup point — the loaf-cooling handoff.** Caps the v3.40.0 session's second arc:
+> design-system unification across 8 surfaces, the page factory, ADR-066, and the live-culture
+> naming. Oracle-numbered (41). Read v3.40.0 below for the open bugs — they are STILL the next
+> session's first work.
+
+## What landed after v3.40.0 (all pushed, all verified live)
+- **One design system, 8 surfaces, zero exceptions:** prl.arcs.care root = Overview (masked
+  todd-call content); /status/{progress,crm,troubleshooting,tidio,atlas,build}. Sticky pill nav
+  (Overview-first) + identical global footer on every page; 916px wrap; glass panels, no hard
+  dividers; balanced h1s; every mobile/layout defect fixed live (~20) — each now a rule in the
+  factory SKILL.md. Mechanical audit script proves conformance (in-session pattern, re-runnable).
+- **prl-page-factory skill** (`.claude/skills/prl-page-factory/`): atoms.css extracted from the
+  live reference page + zero-dep generator; new page = ~20-line spec.json. Smoke-tested.
+- **ADR-066 Generative Recoil** minted from a witnessed naming moment (witness stub GREEN,
+  promoted): recoil is bidirectional — audit AND compose session residue into instance → class →
+  invariant. Falsifiable: next PRL page must cost a spec, not a session. Build.html ADR stat
+  61 (tripwire caught its own mint again, fixed the surface, never --no-verify).
+- **Live-culture / ancient-starter doctrine** (Zach's naming): feed artifacts from the deployed
+  instance, never parallel-maintain. Both claude.ai artifacts (atlas + ssot) rebuilt
+  instance-first from the deployed page and republished to their same URLs.
+- **Apex spine v15** added (generative-recoil-live-culture). **Seeds planted:**
+  `live-culture-artifacts`, `page-factory-from-session` (+ earlier: `engagement-universe-doll`).
+  **Memory minted:** [[generative-recoil-live-culture]] incl. 3 tao proverbs.
+  **Parked for Aug-24 close-loop:** evidence-anchored re-pricing of 1.3–1.5 (1.4 highest
+  exposure — attribution is ground-truth-verification work, the category that ran 3x).
+- **Reading-room candidates (Alexandria):** ADR-066 + the starter framing join apex-spine as
+  center-room candidates — placement idea only, not integrated.
+
+## Register decision made and to hold
+No src/ UIKit for PRL — the factory IS the UIKit at the right weight; React-ification only on a
+third interactive surface family (rule of three). Don't blur into the app's FieldOS system.
+
+## Next session (unchanged from v3.40.0, plus)
+1. Co-pilot Task 1: empty-email filter + Roger Lamarre repair (CRITICAL, before more demo traffic).
+2. Test-lead cleanup · rep notification · SLA sweep · baseline pull (briefs/meta-prompts ready).
+3. UAT selector debug run · SEM template Phase 0 (fill 2 node schemas via export).
+4. Aug-24 1.2 close-loop: expected-vs-actual + the parked re-pricing conversation with Todd.
+

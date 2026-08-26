@@ -103,45 +103,56 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
-# Handoff — v3.41.0 (2026-08-19)
+# Handoff — v3.43.0 (2026-08-26)
 
-> **Active pickup point — the loaf-cooling handoff.** Caps the v3.40.0 session's second arc:
-> design-system unification across 8 surfaces, the page factory, ADR-066, and the live-culture
-> naming. Oracle-numbered (41). Read v3.40.0 below for the open bugs — they are STILL the next
-> session's first work.
+> **Active pickup point — the germination + genesis-riff session.** Opened as the verb-matrix
+> germination fork (v3.42.0 open item 3 — now CLOSED); became the day the canon named its own
+> physics. PR #167 MERGED to main 2026-08-26 (12 commits), prod deploy Ready. Oracle-numbered (43;
+> adr + handoff counters both reconciled — they drift when sessions mint off-oracle).
 
-## What landed after v3.40.0 (all pushed, all verified live)
-- **One design system, 8 surfaces, zero exceptions:** prl.arcs.care root = Overview (masked
-  todd-call content); /status/{progress,crm,troubleshooting,tidio,atlas,build}. Sticky pill nav
-  (Overview-first) + identical global footer on every page; 916px wrap; glass panels, no hard
-  dividers; balanced h1s; every mobile/layout defect fixed live (~20) — each now a rule in the
-  factory SKILL.md. Mechanical audit script proves conformance (in-session pattern, re-runnable).
-- **prl-page-factory skill** (`.claude/skills/prl-page-factory/`): atoms.css extracted from the
-  live reference page + zero-dep generator; new page = ~20-line spec.json. Smoke-tested.
-- **ADR-066 Generative Recoil** minted from a witnessed naming moment (witness stub GREEN,
-  promoted): recoil is bidirectional — audit AND compose session residue into instance → class →
-  invariant. Falsifiable: next PRL page must cost a spec, not a session. Build.html ADR stat
-  61 (tripwire caught its own mint again, fixed the surface, never --no-verify).
-- **Live-culture / ancient-starter doctrine** (Zach's naming): feed artifacts from the deployed
-  instance, never parallel-maintain. Both claude.ai artifacts (atlas + ssot) rebuilt
-  instance-first from the deployed page and republished to their same URLs.
-- **Apex spine v15** added (generative-recoil-live-culture). **Seeds planted:**
-  `live-culture-artifacts`, `page-factory-from-session` (+ earlier: `engagement-universe-doll`).
-  **Memory minted:** [[generative-recoil-live-culture]] incl. 3 tao proverbs.
-  **Parked for Aug-24 close-loop:** evidence-anchored re-pricing of 1.3–1.5 (1.4 highest
-  exposure — attribution is ground-truth-verification work, the category that ran 3x).
-- **Reading-room candidates (Alexandria):** ADR-066 + the starter framing join apex-spine as
-  center-room candidates — placement idea only, not integrated.
+## Shipped (all merged + live)
+- **ADR-068** (verb x altitude gate matrix, oracle-allocated): five-verb print schedule — every
+  stage cut prints an artifact through a gate to a fate; altitude orthogonal. Mandatory blocking:
+  ex-ante-receipt-before-send · pre-send counterpart-gauntlet · close-loop-on-response. Advisory:
+  witness stub, handoff. **Wired into 7 skills** (teardown-page-factory Pre-send gates section;
+  forge phase-8 ex-ante check; recoil-ship Step 5b; recital in omakase/recoil-new/prep/close).
+  `_DECISIONS/index.json` backfilled (066/067 were missing); build.html ADR stat 63 (tripwire
+  caught its own mint again); matrix pattern doc carries the promotion pointer.
+- **Seed bank, 4 new seeds ALL with ledger receipts** (no new orphans): `projection-family-registry`
+  (omakase/teardown/atlas/codex/war-room/receipt = induced projections of one corpus; atlas =
+  next factory, gated on third demanded instance), `extraction-prospecting` (rank extraction
+  candidates from banked cost-receipts; first pass queued on the PRL close-loop multiplier),
+  `sovereign-projection-services` (each factory a sovereign micro-service; spark plug =
+  germination block on prints; pilot ladder = honest resume, scan-first), `pollinate` (sister to
+  germinate: pollen=invariant stripped of instance flesh via doll_export gate; self-pollination =
+  inbreeding = author-cosmology; pedigree fields queued).
+- **Witness file 2026-08-23 = the day's spine, 8 stubs**: registry naming → rare-earth
+  prospecting → spark plug → inheritance capstone (kid inherits judgment canonically; BAR
+  tuition split: ruin inherited, skill personally paid) → tikkun olam ORIGIN (GREEN; absent from
+  all of _CANON until witnessed) → molt amendment (lineage: drop → polyform survey → buddhist
+  convergence) → tree-fall koan CLOSED (germination = retrospective witness; stubs are for
+  sounds that cannot seed themselves) → frame-geometry (PROMOTED same session).
+- **Canon: Tao of ARCS v1.1.0** — §V "One field, sovereign zeros, lawful transforms, preserved
+  invariants" (Zach: "I'll allow it"); tao-250 + tao-251 minted; genesis note gains the
+  four-deep root (adam·adamah·adom·dam) and **Eve identified: chava==anima = the vox animus**
+  (bank=Adam, spark=Eve, §III seam = the pairing).
+- **Design rulings (approved, unbuilt)**: ziggurat walk starts at null point, first arrow-press
+  ignites at trailhead (base terrace, highest indegree), key 0 = return-to-null; observatory
+  rebuild seeds T0 ground from atlas topography at that timestamp (terrain = integral,
+  replay = derivative).
 
-## Register decision made and to hold
-No src/ UIKit for PRL — the factory IS the UIKit at the right weight; React-ification only on a
-third interactive surface family (rule of three). Don't blur into the app's FieldOS system.
-
-## Next session (unchanged from v3.40.0, plus)
-1. Co-pilot Task 1: empty-email filter + Roger Lamarre repair (CRITICAL, before more demo traffic).
-2. Test-lead cleanup · rep notification · SLA sweep · baseline pull (briefs/meta-prompts ready).
-3. UAT selector debug run · SEM template Phase 0 (fill 2 node schemas via export).
-4. Aug-24 1.2 close-loop: expected-vs-actual + the parked re-pricing conversation with Todd.
+## Open (next session's first work)
+1. **Prospecting pass + PRL 1.2 close-loop** — was parked for Aug-24, now overdue. One
+   computation, two customers: actual-vs-expected multiplier from banked receipts → Todd
+   re-pricing conversation + the extraction queue ranking.
+2. **Sean Wing close-loop window** ends 2026-08-30 (7-day silence trigger) — /recoil-close vs
+   `2026-08-23-sean-wing.json`; counterpart-gauntlet the parked note before any send (v3.42.0).
+3. **3 orphan seeds** still missing ledger receipts (engagement-universe-doll,
+   live-culture-artifacts, page-factory-from-session) — hand curation, hook flags every start.
+4. **Backlog, cheap**: ziggurat trailhead/key-0 wiring (~10 lines); tao proverbs for ADR-066/067
+   (jsonl has none); lattice --regenerate (human-owned); sacred-geometry echo-map workflow
+   (mini-pass done in-thread: 5.5/8 convergent; full blind pass on ask); GitHub Actions billing
+   (Zach-only) then re-enable 6 workflows.
 
 # Handoff — v3.42.0 (2026-08-23)
 
@@ -186,4 +197,4 @@ third interactive surface family (rule of three). Don't blur into the app's Fiel
 4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
    (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
 
-> _v3.40.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
