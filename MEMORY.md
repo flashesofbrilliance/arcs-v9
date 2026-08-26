@@ -7,6 +7,19 @@
 
 ---
 
+## [v3.43.0] 2026-08-26 — ADR-068 germination + the genesis-riff arc (PR #167 merged)
+
+Verb-matrix pattern PROMOTED to **ADR-068** (print/gate/fate per verb-cut, altitude orthogonal)
+and **wired as blocking steps into 7 skills** (ex-ante-before-send, pre-send gauntlet, close-loop
+obligation); `_DECISIONS/index.json` backfilled 066/067; both oracle counters reconciled. Banked
+**4 seeds with ledger receipts**: projection-family-registry, extraction-prospecting,
+sovereign-projection-services, pollinate. Witness file 2026-08-23 carries the 8-stub spine:
+inheritance capstone → **tikkun olam origin** (absent from _CANON until witnessed) → molt
+(polyform survey → buddhist convergence) → tree-fall koan closed → **frame-geometry PROMOTED**:
+Tao v1.1.0 §V "one field, sovereign zeros, lawful transforms, preserved invariants" + tao-250/251
++ genesis root-cluster (adam·adamah·adom·dam) + **Eve = chava == anima = the vox animus**.
+Overdue: PRL close-loop/prospecting pass (was Aug-24); Sean window ends Aug-30.
+
 ## [v3.35.0] 2026-08-17 — Comet Technical PMM application + resume-tailor skill v0.2 (ATG-in-the-wild)
 
 Tailored Zach's résumé + cover letter + ATS-plain to Comet's **Technical Product Marketing Manager**

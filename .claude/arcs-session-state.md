@@ -1,26 +1,21 @@
 # ARCS session state — sprint snapshot
 
-_Updated 2026-08-10 (handoff v3.29.0). The Yuri suite is SENT. Nothing pending on our side._
+_Updated 2026-08-26 (handoff v3.43.0). Germination thread CLOSED: PR #167 merged, canon updated._
 
-## Shipped this session (and SENT)
-- **Yuri family SENT 2026-08-10.** Zach tweaked + sent the Gmail (to siryuri@, subj "How to read the thing
-  I sent, and who it's for") pointing to yuri.arcs.care, after replacing the stale draft that carried the
-  false model-agnostic claim. Ball in Yuri's court.
-- **Final structure (live, ungated):** warm two-link one-door — before/after (codex, "start here") +
-  diamond ("the call, moment by moment, a read, not the machine"). The machine (scored closed-loop +
-  "file your own bet" = the RECEIPT) chained off the codex close. Profile redacted. Hero opens in his terms.
-- **False model-agnostic claim killed + machine-gated** (ADR-044 `temporal_provenance` gate; caught a 2nd
-  instance on Robin). ARCS runs on Claude today; internal version could run on Gemini (never present-fact).
-- **Four gauntlets survived** (lens/register/transcript/persona x2); 2nd persona gauntlet healed the
-  diamond-onenum self-contradiction, receipt over-anchor, codex condescension, org/VC ladder, over-disclaim.
-- **Captured:** ADR-044; `_STATE/2026-08-10-session-decisions.dewy.json` (5 DEWY receipts); memories.
+## Shipped this session
+- ADR-068 (verb x altitude gate matrix) minted + wired into 7 skills as blocking gates.
+- 4 seeds banked WITH ledger receipts; 8 witness stubs; frame-geometry stub PROMOTED.
+- Tao of ARCS v1.1.0: SV one-field/sovereign-zeros + tao-250/251 + genesis root-cluster + Eve==anima.
+- PR #167 merged 2026-08-26 (12 commits); prod deploy Ready; oracle counters reconciled.
 
 ## Open
-NONE pending on our side. When Yuri replies: his read on positioning/GTM, Agentum, part-two/GCP, portable
-diligence/M&A. Keep replies short + concrete. See [[project_yuri_kleban_google]].
+1. PRL 1.2 close-loop + first prospecting pass (OVERDUE since Aug-24).
+2. Sean Wing close-loop window ends 2026-08-30 (gauntlet the note before any send).
+3. 3 orphan seeds await hand curation (hook flags each session start).
+4. Cheap: ziggurat trailhead/key-0 wiring; tao 066/067 backfill; lattice regenerate (human-owned).
 
 ## Blocking
-NONE. Sent; awaiting Yuri.
+NONE on this track. PRL re-pricing half needs Todd live.
 
 ## Pickup
-`/handoff-pickup` -> `_STATE/snapshot.json` + v3.29.0 in `CLAUDE.md`.
+`/handoff-pickup` -> `_STATE/snapshot.json` + v3.43.0 in `CLAUDE.md`.

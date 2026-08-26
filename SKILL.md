@@ -65,6 +65,7 @@ Two slash commands live in `.claude/commands/`. They fire inside Claude Code (SU
 
 | Command | File | When to run |
 |---|---|---|
+| v0.7.0 | 2026-08-26 | ADR-068 gates wired into the artifact-arc skills: teardown-page-factory gains Pre-send gates (ex-ante receipt BLOCKING, counterpart-gauntlet, close-loop obligation); forge phase-8 ex-ante-current check; recoil-ship Step 5b; matrix recital in omakase-pipeline + recoil-new/prep/close. Seed bank gains pollinate/projection-registry/prospecting/sovereign-services patterns (ledger-receipted). |
 | `/handoff` | `.claude/commands/handoff.md` | END of every session. Updates MEMORY.md, SKILL.md changelog, CLAUDE.md handoff block, and `arcs-session-state.md`. Outputs a HANDOFF RECEIPT. |
 | `/handoff-pickup` | `.claude/commands/handoff-pickup.md` | START of a new session. Reads `arcs-session-state.md` + last CLAUDE.md handoff block only. Produces ORIENTATION BRIEF. |
 
