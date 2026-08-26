@@ -1,0 +1,116 @@
+{
+  "_METHOD": "Six tabs = six disciplines in sequence. PRE-CALL: orient before contact (True North, register/intent, intel, questions, landmines). EX-ANTE: file a decision receipt BEFORE the event (hypothesis + predicted Y-gate + pre-committed move + falsifier) so you can be scored later. FORGE: pressure-test the brief's own claims against external substrates via an independent skeptic (grounded / inference / struck). RECOIL: after the event, close the receipt. WAR GAME: adversarial + kinematic. DEFENSIBILITY: translate the method into the counterpart's native register.",
+  "_PROVENANCE_NOTE": "SSOT scaffolded 2026-08-23, TWO DAYS AFTER the 2026-08-21 call. Pre-Call and Ex-Ante tabs are honest post-hoc reconstructions of the priors actually carried in, not receipts filed before contact. Per ADR-044 temporal chain-of-custody, they are labeled as such and carry no ex-ante scoring authority; the scoreable ex-ante receipt for the NEXT event (the scott-cut send) is filed separately at runtime/recoil/generated/2026-08-23-scott-cut.json.",
+  "meta": {
+    "report_id": "2026-08-21-scott-witt",
+    "date": "2026-08-21",
+    "counterpart": "Scott Witt",
+    "company": "Parlance",
+    "segments": 6,
+    "gate": {"internal": "sardine-vermillion-0821"},
+    "provenance": {
+      "audience": "both",
+      "captured": "Scott x Zach // 1-1, 2026-08-21 11:00 AM EDT, ~40 min (hard stop 11:40, Scott left for a presentation). Granola meeting 44dbbc39-7a0a-4ea8-90ee-829c3e299851.",
+      "load_bearing_quote": "The unlock that most people fail to realize is our biggest shared Achilles heel is the inability to manage our distractions and manage our attention."
+    }
+  },
+  "opportunity": {"audience": "internal", "y_state": "YELLOW", "topology": "CONVERGENT", "nci_prior": 40, "nci_post": 48, "note": "Warm long-arc peer relationship, real thematic convergence on attention/focus; conversion to co-design or advisory untested. The open commitment (organized email + calendar block) is the entire live edge."},
+  "beliefs": [
+    {"id": "P1", "audience": "internal", "claim": "Scott has not looked at the material I sent earlier (deck from ~March 20).", "evidence": "Zach on-call: 'that I'm sure you didn't look at' / Scott: 'Yeah, I did when you first sent it.'", "inference": "OBS", "confidence": [0.7, 0.1], "conviction": "HIGH", "verdict": "FALSIFIED"},
+    {"id": "P2", "audience": "internal", "claim": "Attention/distraction management is genuine common ground with Scott, not politeness.", "evidence": "His only unprompted substantive monologue: 'our biggest shared Achilles heel is the inability to manage our distractions... I create friction... The biggest drain on productivity is picking up the phone.'", "inference": "OBS", "confidence": [0.6, 0.9], "conviction": "HIGH", "verdict": "UPGRADE"},
+    {"id": "P3", "audience": "internal", "claim": "Scott has appetite to co-design the lab (verbal-brief intake) with me.", "evidence": "Pitch delivered ('I thought that you might be interested in potentially building this... co-designing it together'); Scott's response was 'Yeah' + listening, no explicit yes, then hard stop.", "inference": "EXP", "confidence": [0.5, 0.45], "conviction": "LOW", "verdict": "OPEN"},
+    {"id": "P4", "audience": "internal", "claim": "Live demo walkthrough is the right delivery format for Scott.", "evidence": "He asked for async instead: 'Can you just send me this stuff as links?' + 'I'll just have it at the top of the box.' Minimalist register self-described earlier via Zach's own Dai Ginjo read.", "inference": "OBS", "confidence": [0.6, 0.25], "conviction": "MED", "verdict": "DOWNGRADE"},
+    {"id": "P5", "audience": "internal", "claim": "The stated-vs-revealed teardown lands as a gift rather than a presumption.", "evidence": "He said 'Interesting' twice during the teardown walkthrough; no pushback, no embrace. Untested until the organized send + his response.", "inference": "EXP", "confidence": [0.55, 0.55], "conviction": "MED", "verdict": "OPEN"}
+  ],
+  "kinematic_series": {"dt": 1.0, "series": [
+    {"key": "carrier_signal", "audience": "both", "label": "Carrier signal (mutual momentum)", "color": "#00F0FF", "points": [0.85, 0.9, 0.95, 0.7, 0.5, 0.45], "grounding_quote": "It's a Whole Foods catwalk at that point."},
+    {"key": "scott_airtime", "audience": "internal", "label": "Scott share of airtime", "color": "#FFD700", "points": [0.5, 0.55, 0.6, 0.2, 0.1, 0.15], "grounding_quote": "Mm-hmm. Mm-hmm. Interesting."},
+    {"key": "conversion_pressure", "audience": "internal", "label": "Ask density (Zach threads open)", "color": "#FF4D6D", "points": [0.0, 0.0, 0.1, 0.5, 0.9, 0.8], "grounding_quote": "I know I'm throwing a lot at you."}
+  ]},
+  "insights": [
+    {"audience": "both", "plane": "idea", "title": "Attention as the shared substrate", "text": "The one thread Scott volunteered unprompted is the exact substrate ARCS operates on: managing attention, creating friction against distraction, timeboxed focus. The lab pitch and his thesis are the same claim from two vantages."},
+    {"audience": "internal", "plane": "counterpart", "title": "The minimalist wants the Dai Ginjo, and said so through my own mouth", "text": "Zach articulated it live: 'Scott's a minimalist. He wants the distilled Dai Ginjo, and I'm giving him where I sourced all the grains of rice.' Then the second half of the call did exactly that: five threads (teardown, lab, public goods, germinate, monorepo telemetry) in fifteen minutes. Scott's close ('just send me this stuff as links... top of the box') is the revealed instruction: one organized artifact, async, distilled."},
+    {"audience": "internal", "plane": "counterpart", "title": "The 'Jack' slip", "text": "At the close Scott said 'I'm sorry, Jack.' He was half-prepped for a presentation starting in 30 seconds; read as divided attention at the boundary, not low regard. But it is a measurement: the last five minutes were not landing at full fidelity. Do not schedule demos against his hard stops again."},
+    {"audience": "internal", "plane": "counterpart", "title": "He does read what you send", "text": "P1 falsified: he had looked at the earlier material when first sent. The bottleneck is not his willingness to read; it is the shape and timing of what is sent. That upgrades the value of one distilled pre-read artifact and downgrades the value of live walkthroughs."}
+  ],
+  "next_steps": [
+    {"audience": "internal", "owner": "Zach", "text": "Send the organized email with links (scott-cut teardown as the spine), per the on-call commitment. This is the open receipt; it decays fast."},
+    {"audience": "internal", "owner": "Zach", "text": "Block calendar time on Scott's calendar for review, as promised on-call ('that'll be my hook time for your attention')."},
+    {"audience": "internal", "owner": "Zach", "text": "Close-loop triggers: any reply; 7 days silence (2026-08-30); or his next public post. Score against 2026-08-23-scott-cut.json ex-ante receipt."},
+    {"audience": "internal", "owner": "Zach", "text": "Parked fork: the VC/mentoring angle (first-round advisor/scout thread) that was mentally bookmarked on-call. Do not bundle into the send."}
+  ],
+  "redaction_policy": {"rules": ["Method can cross; subject-about-them cannot.", "Show your own updates, never their intent-scores.", "Architecture crosses; weights/sauce do not.", "The 'Jack' slip and airtime series are internal-only, never surfaced."]},
+  "page": {
+    "layout": "tabs",
+    "header": {"eyebrow": "ARCS &#183; War Room", "title": "Scott Witt &#183; Parlance", "sub": "The Friday 1-1: attention thesis confirmed, delivery format falsified, one open commitment."},
+    "tabs": [
+      {"id": "pre", "label": "Pre-Call"},
+      {"id": "exante", "label": "Ex-Ante"},
+      {"id": "forge", "label": "Forge"},
+      {"id": "recoil", "label": "Recoil"},
+      {"id": "wargame", "label": "War Game"},
+      {"id": "defense", "label": "Defensibility"}
+    ],
+    "blocks": [
+      {"tab": "pre", "type": "prose", "audience": "internal", "_doc": "Reconstructed post-hoc 2026-08-23; no PrepSession was filed before this call.", "h2": "True North (reconstructed post-hoc)", "p": ["Reconnect after ~5 months, land the serialized Scott corpus as a demonstration of ARCS on a live relationship, and open one concrete build-together thread without burning the warm register. NOTE: no pre-call receipt was filed; this tab records the priors actually carried in, written down after the fact."]},
+      {"tab": "pre", "type": "keyvalue", "audience": "internal", "h2": "Context", "rows": [{"k": "Date", "v": "2026-08-21, 11:00-11:40 AM EDT (Scott offered until 11:40; presentation at 11:45)"}, {"k": "Register", "v": "Warm-peer, high-banter carrier wave, long gaps between calls (last ~March)"}, {"k": "Their goal", "v": "Catch up; low-stakes listen; no agenda of his own surfaced"}, {"k": "Y-Gate", "v": "Carried-in prior: YELLOW (warm but unconverted)"}]},
+      {"tab": "pre", "type": "list", "audience": "internal", "h2": "Intel", "intro": "Scott Witt, Parlance (parlance.cc), Bay Area; also therealscottwitt@gmail.com. Existing serialized corpus: scott-codex, scott-receipt, scott-signal, scott-attraction-field, scottwitt-cc-teardown (public/).", "items": [{"dot": "c", "html": "<strong>Two prior calls serialized</strong> into the attraction-field corpus; teardown of Parlance site vs personal site already built."}, {"dot": "g", "html": "<strong>Prior asks from him:</strong> once asked Zach's opinion on his personal site and Parlance; that consent anchors the teardown register."}, {"dot": "", "html": "<strong>Family stage:</strong> twins back to school; Amari leaves for college the Tuesday after the call; summer of 3 graduations + grandparents."}]},
+      {"tab": "pre", "type": "list", "audience": "internal", "h2": "Questions &amp; landmines", "intro": "Reconstructed from what the call plan implicitly was.", "items": [{"dot": "", "html": "Does the attention/focus thesis still animate him? &#183; look for: unprompted elaboration (GOT IT)"}, {"dot": "", "html": "Will he engage the teardown as a gift? &#183; look for: leaning in on stated-vs-revealed (PARTIAL: 'Interesting')"}, {"dot": "", "html": "<span style='color:var(--red)'>Landmine:</span> five-thread firehose against a minimalist register with a hard stop (HIT: threads 4-6 rushed, close compressed)"}]},
+
+      {"tab": "exante", "type": "receipt", "audience": "internal", "_doc": "Honest reconstruction, filed 2026-08-23. Carries NO ex-ante scoring authority (ADR-044). The scoreable receipt for the send event is 2026-08-23-scott-cut.json.", "h2": "Exhibit 1 &#183; Reconstructed pre-call receipt (post-hoc, unscoreable)", "fields": [{"label": "D &#183; Sharpened question", "value": "Is Scott a co-design partner for the lab, or an advisor-grade sounding board, or a warm peer to keep warm?"}, {"label": "E &#183; Entity", "value": "Scott Witt; Parlance; his presentation at 11:45 (the clock in the room); Robin Daniels as shared node"}, {"label": "W &#183; Window", "value": "He warned attention scarcity for the next 8-9 months; async windows only"}, {"label": "Hypothesis / expecting to see", "value": "The serialized corpus, shown live, converts warmth into a concrete build-together thread"}, {"label": "Predicted Y-gate", "value": "YELLOW: warm carrier, unproven conversion"}, {"label": "Pre-committed move", "value": "(none was pre-committed; this is the gap the scott-cut receipt fixes)"}, {"label": "Belief most likely to update", "value": "P3 (co-design appetite)"}, {"label": "Falsifier", "value": "He defers everything to async and no thread converts on-call"}]},
+
+      {"tab": "forge", "type": "prose", "audience": "internal", "h2": "Exhibit 2 &#183; Exogenous Forge", "p": ["Every load-bearing claim run against the Granola verbatim transcript (sole external substrate for this call) and adjudicated skeptically. GROUNDED = transcript-forced. INFERENCE = my read, not forced. STRUCK = overreach, corrected."]},
+      {"tab": "forge", "type": "table", "audience": "internal", "h2": "Claim adjudication", "columns": ["Claim", "Ruling", "Source force"], "rows": [
+        ["Scott's attention thesis is genuine conviction, not mirroring", "GROUNDED", "Unprompted monologue with his own practices: Slack off, phone muted, logged out of Instagram, 'create friction', family-couch observation"],
+        ["Scott read the earlier deck", "GROUNDED", "Verbatim: 'Yeah, I did when you first sent it.'"],
+        ["Scott prefers async, top-of-inbox, distilled delivery", "GROUNDED", "Verbatim close: 'Can you just send me this stuff as links?' / 'I'll just have it at the top of the box.'"],
+        ["Scott is open to co-designing the lab", "INFERENCE", "He acknowledged the pitch ('Yeah') and listened; no commitment was uttered; hard stop truncated the thread"],
+        ["The 'Jack' slip means fading regard", "STRUCK", "Overreach: he was 30 seconds from presenting and 'half prepped'; the slip measures boundary attention, nothing more"],
+        ["Health/wellness is Scott's revealed center of gravity", "INFERENCE", "That claim lives in the prior serialized corpus (attraction-field synthesis); this call neither confirmed nor falsified it; on-call he only heard it ('Interesting')"]
+      ]},
+
+      {"tab": "recoil", "type": "keyvalue", "audience": "internal", "h2": "Receipt closed &#183; ex-ante vs actual", "rows": [{"k": "Predicted", "v": "Live corpus walkthrough converts warmth into a build-together thread"}, {"k": "Actual", "v": "Rapport peak in first half; his one substantive thesis landed early; second half was a five-thread pitch into a hard stop; conversion deferred to async"}, {"k": "Fork hit", "v": "The async branch: 'send me this stuff as links' + calendar-block commitment"}, {"k": "Load-bearing", "v": "'Can you just send me this stuff as links?' ... 'I'll just have it at the top of the box.'"}]},
+      {"tab": "recoil", "type": "belief_log", "audience": "internal", "h2": "Belief Log &#183; confidence x conviction"},
+      {"tab": "recoil", "type": "worked_example", "audience": "internal", "h2": "Belief trajectory", "intro": "Carrier signal peaked in the banter/attention-thesis half (segments 1-3) and decayed through the pitch half (4-6) as airtime asymmetry inverted: Scott went from co-narrator to 'Mm-hmm.'", "close": "The honest correction: the demo did not convert because it was five things; the call's own content said one distilled thing would. The next move is shaped by the falsified format belief, not by more material."},
+      {"tab": "recoil", "type": "list", "audience": "internal", "h2": "Kairos, quiet signals &amp; risks", "intro": "Six-segment sweep, both passes (reverse listening + deep recall; no PrepSession existed, noted honestly).", "items": [
+        {"dot": "", "html": "<strong>Kairos:</strong> Scott's unprompted attention monologue (segment 3): the one moment he drove, and it is exactly the ARCS substrate. Any future framing starts there."},
+        {"dot": "", "html": "<strong>Kairos:</strong> the granny-shoes / 'Whole Foods catwalk' riff: peak symmetric play, the register the relationship actually runs on."},
+        {"dot": "g", "html": "<strong>Quiet signal:</strong> 'Yeah, I did when you first sent it': he reads what you send, when it is sent well. The falsified assumption is the most valuable datum of the call."},
+        {"dot": "g", "html": "<strong>Quiet signal:</strong> he set his own extension ('I can go an extra 10'): willingness to stretch for you, once, when asked plainly."},
+        {"dot": "g", "html": "<strong>Quiet signal:</strong> he knows Robin Daniels (corrected himself on geography): the shared-node graph is real and usable, gently."},
+        {"dot": "r", "html": "<strong>Risk:</strong> the open commitment (organized email + calendar block) is unsent 48h later. Every day of slippage converts the call from momentum into banter."},
+        {"dot": "r", "html": "<strong>Risk:</strong> firehose pattern is now twice-observed (his 'attention is the Achilles heel' + Zach's own mid-call Dai Ginjo self-catch). A five-link email would repeat the failure the call diagnosed."},
+        {"dot": "r", "html": "<strong>Risk:</strong> 8-9 month attention-scarcity window he signaled: overplaying frequency now spends a scarce budget."}
+      ]},
+
+      {"tab": "wargame", "type": "kinematics_table", "audience": "internal", "h2": "Kinematic manifold &#183; measured (D1-D3)"},
+      {"tab": "wargame", "type": "list", "audience": "internal", "h2": "The gauntlet", "intro": "Adversarial pass on the opportunity, not the person.", "items": [
+        {"dot": "", "html": "<strong>BAR (ruin):</strong> the exposed edge is the relationship itself, not money: a mis-registered teardown of his identity (too intimate, too presumptuous, or too voluminous) spends 15 years of warmth. Survivable-failure design: one page, disclosure-gated, invitation-framed, nothing he did not already consent to ('you asked me my opinion on your personal site and Parlance')."},
+        {"dot": "g", "html": "<strong>LAB &#183; Loki:</strong> steel-manned skeptic: 'Scott was being polite for 40 minutes; the only true sentence was the hard stop.' Answer: politeness does not produce an unprompted 4-minute thesis, a self-extension of the clock, or 'I did read it when you first sent it.'"},
+        {"dot": "c", "html": "<strong>COURT:</strong> constitutional check vs NOTOMATION: the scott-cut page must scaffold his own reading of himself, never assert who he is. Stated-vs-revealed columns present evidence; he adjudicates. No auto-send; human hands on the note."}
+      ]},
+      {"tab": "wargame", "type": "table", "audience": "internal", "h2": "ATG pre-mortem &#183; critical path x their objections", "columns": ["Node", "Their objection (verbatim-anchored)", "Failure mode", "Handling"], "rows": [
+        ["1. The organized email lands", "'Can you just send me this stuff as links?'", "Five links, no spine; he files it under later-forever", "One link (scott-cut), one line, one calendar hold. BOTTLENECK: earliest in-my-court node."],
+        ["2. He opens the page", "'I'll just have it at the top of the box'", "Page reads as a pitch deck, not a mirror; he skims the hero and closes", "Collapsed-H2 exec deks: full read available at 90 seconds; depth optional"],
+        ["3. He engages stated-vs-revealed", "'Interesting.' (twice, uncommitted)", "Feels analyzed rather than seen; polite thanks, no reply", "Every REVEALED cell is his verbatim; invitation framing: he corrects the map, the map does not correct him"],
+        ["4. A thread converts (lab co-design or advisory)", "'I probably won't have much time or attention for the next 8 or 9 months' (Zach's paraphrase of his signal)", "Ask sized to a calendar he does not have", "Ask is one 30-min working session, scheduled inside the hold he already agreed to"]
+      ]},
+
+      {"tab": "defense", "type": "rosetta", "audience": "internal", "h2": "The same model, both directions", "left": "Scott's world", "right": "This engine", "rows": [
+        ["Create friction against distraction (log out, mute, batch)", "Y-gate: deliberate resistance before commitment"],
+        ["'Top of the box' async review", "Kairos window: deliver into the attention slot he named, not against his clock"],
+        ["Minimalist / distilled (the Dai Ginjo)", "Earned fidelity: render at the resolution the data and the reader deserve"],
+        ["Stated preference vs what you actually do", "Stated-vs-revealed echo map: NOTOMATION-safe, evidence he adjudicates"],
+        ["'Y'all need to get jobs' (agency through structure)", "Receipts: agency instrumented, not asserted"]
+      ]},
+      {"tab": "defense", "type": "table", "audience": "internal", "h2": "Defensibility matrix &#183; 5 verbs x 4 proofings", "columns": ["Verb", "Air-gap", "Water-proof", "Fire-proof", "Bomb-proof"], "rows": [
+        ["Analyze", "Granola verbatim only", "Survives banter-heavy noisy transcript", "Every claim carries its quote", "Falsified P1 raised information, not embarrassment"],
+        ["Assess", "Y-state from observed forks, not vibes", "Holds despite 40-min truncation", "Loki pass filed above", "DOWNGRADE verdicts kept and shown"],
+        ["Evaluate", "Forge table: GROUNDED/INFERENCE/STRUCK", "Two claims deliberately left OPEN", "STRUCK its own 'Jack' overreach", "Being wrong about format IS the finding"],
+        ["Synthesize", "Page projects SSOT, adds no new claims", "One-page distillation per his register", "Counterpart-gauntlet before send", "His corrections feed the next epoch"],
+        ["Recapitulate", "Close-loop rubric pre-filed with dates", "Scores even on silence (7-day trigger)", "Ex-ante receipt filed before the send", "Either outcome updates the model"]
+      ]},
+      {"tab": "defense", "type": "prose", "audience": "internal", "h2": "Antifragile core &amp; the lossless test", "p": ["The highest-information event of this call was being wrong: wrong that he had not read the material, wrong that live demo was the format. Both falsifications sharpen the next move to a single distilled async artifact, which is exactly what his own thesis prescribes. A model that only confirmed itself would have produced a worse plan.", "Lossless test, in Scott's register: you said the whole game is managing attention and creating friction against noise. So here is one link instead of five, sitting at the top of your box, that shows you what you said next to what you did, in your own words, and asks for thirty minutes once. If that framing holds with zero ARCS jargon, and it does, the method is defensible to him."]}
+    ]
+  }
+}

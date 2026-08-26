@@ -143,7 +143,7 @@
       <div class="ci"><div class="bx">✓</div><div><div class="t">A note on any NDA<span class="req">if it applies</span></div><div class="w">One line. It keeps the <b>public facts</b> and cuts the confidential work… and asks before including anything specific.</div></div></div>
     </div>
 
-    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">Paste-and-go</h3>
+    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">Paste-and-go · works in any Claude</h3>
     <div class="oneshot">
       <div class="bar"><span class="l">◈ one-shot prompt</span><button class="cp" id="cpbtn" onclick="copyPrompt()">copy</button></div>
       <pre><code id="prompt">Tailor my resume and a cover letter for this role: <span class="v">[paste the job-posting URL]</span>
@@ -154,16 +154,9 @@ Keep it honest: flag anything I couldn't defend in an interview,
 keep it ATS-safe, and don't state what the evidence doesn't support.
 If I have an NDA, ask before including anything specific.</code></pre>
     </div>
-    <p class="lede" style="font-size:13.5px;margin-top:14px;">Swap the two <span class="mono" style="color:var(--gold);">[brackets]</span> and send. Describing the job is what triggers it.</p>
+    <p class="lede" style="font-size:13.5px;margin-top:14px;">Swap the two <span class="mono" style="color:var(--gold);">[brackets]</span> and send. Describing the job is what triggers it. <b>No install required</b>… this runs in Claude.ai or Claude Code today. Installing the plugin (next) just makes Claude Code run the full graded method every time, with nothing to paste.</p>
 
     <div class="steps-2">
-      <div>
-        <h3>First time · install (once)</h3>
-        <pre class="blk"><code><span class="c"># in Claude Code: add the ARCS marketplace</span>
-/plugin marketplace add flashesofbrilliance/arcs-skills
-<span class="c"># install the plugin</span>
-/plugin install resume-tailor@arcs</code></pre>
-      </div>
       <div>
         <h3>What comes back</h3>
         <pre class="blk"><code><span class="k">·</span> a print-clean resume PDF
@@ -171,7 +164,56 @@ If I have an NDA, ask before including anything specific.</code></pre>
 <span class="k">·</span> a plain ATS copy for the upload
 <span class="k">·</span> a defend-or-drop list for prep</code></pre>
       </div>
+      <div>
+        <h3>Read it first</h3>
+        <pre class="blk"><code><span class="c"># the whole method is MIT + public.</span>
+<span class="c"># read exactly what it does before</span>
+<span class="c"># you install anything:</span>
+github.com/flashesofbrilliance/
+  resume-tailor-skill <span class="c"># → SKILL.md</span></code></pre>
+      </div>
     </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">04</span><h2>Install the plugin</h2><span class="sub">claude code · optional</span></div>
+    <p class="lede" style="max-width:none;font-size:14.5px;">Optional. The paste-and-go prompt already works. Installing the plugin gives <b>Claude Code</b> the full graded method, the print-verified design system, and the red-team pass automatically. Nothing to paste, nothing to remember.</p>
+
+    <div class="steps-2" style="margin-top:24px;">
+      <div>
+        <h3>0 · prerequisite</h3>
+        <pre class="blk"><code><span class="c"># Claude Code, installed + updated</span>
+npm install -g @anthropic-ai/claude-code
+<span class="c"># or: docs.claude.com/claude-code</span></code></pre>
+      </div>
+      <div>
+        <h3>1 · install (once)</h3>
+        <pre class="blk"><code><span class="c"># add the marketplace (accept the trust prompt)</span>
+/plugin marketplace add flashesofbrilliance/arcs-skills
+<span class="c"># install the plugin</span>
+/plugin install resume-tailor@arcs
+<span class="c"># verify (resume-tailor should be listed)</span>
+/plugin</code></pre>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">If something's off</h3>
+    <div class="check">
+      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t"><span class="mono">/plugin</span> not recognized</div><div class="w">You're on an older Claude Code build. <b>Update it</b> (re-run the install command above), then retry.</div></div></div>
+      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t">Marketplace not found</div><div class="w">Check the name (<b>flashesofbrilliance/arcs-skills</b>) and that you're online. It's a public repo.</div></div></div>
+      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t">It didn't trigger</div><div class="w">The trigger is <b>describing the task</b>, not a keyword. Describe the job and attach your export, or name it: <span class="mono">use resume-tailor</span>.</div></div></div>
+      <div class="ci"><div class="bx" style="border-color:var(--gold);color:var(--gold);">!</div><div><div class="t">You're on Claude.ai, not Claude Code</div><div class="w">The plugin is <b>Claude Code only</b>. Use the paste-and-go prompt above… same honesty rules, no install.</div></div></div>
+    </div>
+
+    <h3 style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin:34px 0 12px;">Prefer to run it yourself</h3>
+    <pre class="blk"><code><span class="c"># clone the skill (MIT) and run it without the marketplace</span>
+git clone https://github.com/flashesofbrilliance/resume-tailor-skill
+<span class="c"># then, in Claude Code from that folder:</span>
+<span class="c">#   "follow ./SKILL.md to tailor my resume for &lt;job link&gt;"</span>
+<span class="c"># or drop it into your project so it loads automatically:</span>
+cp -r resume-tailor-skill <span class="k">.claude/skills/resume-tailor</span></code></pre>
   </div>
 </section>
 

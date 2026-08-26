@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://good.arcs.care/schema/nftt-story.v1.json",
+  "title": "ARCS NFTT Story Envelope",
+  "description": "The data envelope for a data-driven ARCS story (Notes-from-the-Trenches class). The essay body stays prose; this schema governs the SYSTEM: threads (palette + names + node shapes), the narrative arc, tier, and metadata. Version 1.",
+  "type": "object",
+  "required": [
+    "slug",
+    "threads"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "URL slug; the post routes at /blog/nftt/<slug>."
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "exec",
+        "brief",
+        "full"
+      ],
+      "default": "full",
+      "description": "Depth tier. The depth ladder only links sibling tiers whose files exist."
+    },
+    "title": {
+      "type": "string",
+      "description": "Page title; defaults to the first ## heading in the body."
+    },
+    "description": {
+      "type": "string",
+      "description": "Meta description; defaults to the title."
+    },
+    "threads": {
+      "type": "array",
+      "minItems": 2,
+      "description": "The braid. Two to N threads. NOT hardcoded: a story picks its own palette, names, and node shapes, which is what makes the template extend past NFTT.",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "hex",
+          "name",
+          "shape"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*$",
+            "description": "Referenced by arc stops."
+          },
+          "hex": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$",
+            "description": "Node + stitch color. Must clear AA on the void background."
+          },
+          "name": {
+            "type": "string",
+            "description": "Legend label, e.g. 'red \u00b7 gates'. The word before '\u00b7' is matched against stitch openers to color them."
+          },
+          "shape": {
+            "type": "string",
+            "enum": [
+              "diamond",
+              "circle",
+              "square"
+            ],
+            "description": "Node glyph. Shape carries meaning independent of color (colorblind-safe)."
+          }
+        }
+      }
+    },
+    "arc": {
+      "type": "object",
+      "description": "Optional narrative arc. Renders horizontally when short and legible; auto-reflows to a vertical ladder past the legibility gate. Omit it entirely if the story has no arc; a data-driven arc is never decoration.",
+      "required": [
+        "stops"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "caption": {
+          "type": "string"
+        },
+        "stops": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": [
+              "label",
+              "thread"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "label": {
+                "type": "string",
+                "description": "The beat. Kept short; the ladder gives it a full line."
+              },
+              "thread": {
+                "type": "string",
+                "description": "Must reference a declared thread id."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

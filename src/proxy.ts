@@ -32,7 +32,7 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),
   // /brief = operational, /full = surgical. Firehose is opt-in, one click deeper.
-  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
+  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2-full.html', '/blog/nftt/post-2': '/blog-nftt-post-2-full.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
 }
 
 export default function proxy(request: NextRequest) {

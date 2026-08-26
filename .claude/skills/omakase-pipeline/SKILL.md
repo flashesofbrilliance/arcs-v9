@@ -5,6 +5,13 @@ description: Turn one engagement corpus into the three-surface artifact family �
 
 # /omakase-pipeline — one corpus, three fences, lossless at every altitude
 
+> **ADR-068 print schedule:** Step 1 = analyze (source-traceability gate; unsourced claims
+> die here). Steps 2-4 = assess + synthesize per surface. Step 5-6 = ship gates (ship/hold).
+> Step 7 = evaluate (gauntlet; pass/conditional/fail). If any surface is SENT to a
+> counterpart (not just deployed), the recapitulate gates apply: ex-ante receipt filed
+> before the send (`/recoil-new` Ex-Ante tab), pre-send `counterpart-gauntlet`, and the
+> close-loop obligation (`/recoil-close` owed on reply). Deploying is not sending.
+
 > **Provenance (the instance this class is lifted from):** jeben.arcs.care (back of house)
 > → omakase.arcs.care (the cellar/canon) → louisville.arcs.care (front of house, the
 > target-tuned elevated state). Built Jul 2026; hardened by CISO review, two multi-agent
