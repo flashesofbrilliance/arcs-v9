@@ -1,0 +1,229 @@
+{
+  "title": "NFTT Story Template, Gauntlet Runbook",
+  "eyebrow": "ARCS FULL GAUNTLET // KINTSUGI SCAR-LOG // NFTT-STORY-FACTORY",
+  "lede": "Three adversarial lenses run against the data-driven NFTT story engine at high burden of proof, every flag re-verified against the actual code before it was kept. This is the exploded, line-by-line record: what each lens attacked, what it found, how to reproduce it, and how it was healed.",
+  "meta": {
+    "engine": "scripts/story_render.py",
+    "reference": "germinate-pollinate.story.md",
+    "lenses": 3,
+    "verified findings": 12,
+    "reviewed": "2026-08-24"
+  },
+  "footer": "Every finding above was reproduced or read against scripts/story_render.py before being kept. A gauntlet can be falsified by its own source (ADR-061); flags that did not survive re-verification were dropped. NFTT · good.arcs.care · every claim traces to a commit.",
+  "lenses": [
+    {
+      "name": "Engine robustness gauntlet",
+      "role": "BAR / ruin · does it survive being wrong",
+      "summary": "Root pattern: parse_story enforced only presence and a few enums. Every other constraint the schema advertised (hex pattern, id pattern, AA contrast, uniqueness, label bounds) was documentation the engine never checked. Text fields were escaped; hex was the one field reaching an HTML sink raw.",
+      "findings": [
+        {
+          "severity": "high",
+          "status": "fixed",
+          "title": "Stored XSS via unvalidated, unescaped thread hex",
+          "location": "story_render.py · _node / arc_horizontal / braid_svg / endmark_svg / thread_legend / ladder color",
+          "defect": "The hex string is interpolated raw into fill=\"...\" / stroke=\"...\" / style=\"color:...\" in every SVG mark, with no h.escape and no check against the schema's ^#[0-9A-Fa-f]{6}$. A poisoned palette breaks out of the attribute and injects a live <script> into a page published on good.arcs.care. Text fields (label, name, caption, body, title) are all correctly escaped; hex was the single sink left open.",
+          "repro": "thread gold with \"hex\":\"#FFD700\\\"><script>alert('hex')</script>\"\n-> endmark SVG renders: <circle ... fill=\"#FFD700\"><script>alert('hex')</script>\"/>",
+          "fix": "In parse_story, enforce re.fullmatch(r'#[0-9A-Fa-f]{6}', hex) and raise StoryError. Closes the injection and the schema's unenforced hex pattern in one check.",
+          "heal": "Validation battery added to parse_story: hex is now pattern-checked at parse time; a malformed hex is refused before any render."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "Schema's 'must clear AA' contrast claim was unenforced",
+          "location": "story_render.py · parse_story · nftt-story.schema.json (hex description)",
+          "defect": "The schema states each hex 'Must clear AA on the void background,' but nothing computed contrast. hex #050505 on the #020408 void rendered fine, exit 0. An invisible node/stitch/chip could ship as if legible, violating earned-fidelity doctrine (the brief never lies about how certain it is).",
+          "repro": "hex:\"#050505\" -> renders, exit 0, fill=\"#050505\" present, nodes effectively invisible.",
+          "fix": "Compute WCAG relative-luminance contrast vs #020408 in parse_story; refuse below 3:1 (large-glyph AA).",
+          "heal": "contrast() helper added; parse_story refuses any thread hex below 3:1 on the void. Ship-gate #5 is now mechanical, not documentation."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "Horizontal arc had no label-length bound; long labels overflow",
+          "location": "story_render.py · render_arc / arc_horizontal",
+          "defect": "The Bierut legibility gate (ARC_MAX_HORIZONTAL_STOPS) gated the NUMBER of stops, not label length. SVG width is computed from stop count, and SVG <text> never wraps. A 2-stop arc with a 400-char label renders one line far past the column and the mobile viewport, the exact failure the gate exists to prevent, on a different axis.",
+          "repro": "2 stops (stays horizontal), one label 400 chars -> SVG width=218 but text runs off-viewport.",
+          "fix": "Add a label-length ceiling: force the vertical ladder when any horizontal-form label exceeds ~24 chars, mirroring the count gate.",
+          "heal": "render_arc now reflows to the ladder when any label exceeds the char ceiling OR stop count exceeds 6. The legibility gate now guards both axes."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "Duplicate thread ids accepted; refs silently bind to the last one",
+          "location": "story_render.py · parse_story / tmap builders",
+          "defect": "tmap = {t['id']: t for t in threads} is last-wins, so two threads with the same id mean every stop referencing that id silently binds to the second declaration, and the legend prints two same-id chips. No error.",
+          "repro": "two threads both id:\"red\" (circle/#FF4D6D vs square/#00FF9D) -> renders, arc binds to the second silently.",
+          "fix": "if len(set(ids)) != len(threads): raise StoryError('duplicate thread id').",
+          "heal": "parse_story now refuses duplicate thread ids."
+        },
+        {
+          "severity": "low",
+          "status": "fixed",
+          "title": "6+ threads: braid and endmark were hardcoded to 3; extra threads vanished",
+          "location": "story_render.py · braid_svg (range(3)) / endmark_svg (min(3, len))",
+          "defect": "The legend renders all N chips, but the braid emitted exactly 3 paths and the endmark min(3, len) marks. A story declaring 7 threads visually claimed 3, a quiet honesty gap between legend and braid, against the schema's 'two to N threads' promise.",
+          "repro": "7 threads -> legend shows 7, braid shows 3, endmark shows 3.",
+          "fix": "Loop braid and endmark over ALL threads (or refuse >N explicitly so the omission is a decision).",
+          "heal": "braid_svg and endmark_svg now iterate every declared thread; the marks reflect the real palette count."
+        },
+        {
+          "severity": "low",
+          "status": "fixed",
+          "title": "Long thread names never wrap (legend + ladder column)",
+          "location": "story_render.py · thread_legend / .arc-thread (white-space:nowrap)",
+          "defect": "Legend chips and the ladder thread column set white-space:nowrap with no clamp; a very long name overflows the key box or pushes the ladder grid column.",
+          "repro": "120-char thread name -> overflows .threadkey box.",
+          "fix": "Cap name length in parse_story (or add ellipsis).",
+          "heal": "parse_story now caps thread name length; an over-long name is refused at parse time."
+        },
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "Survives being wrong (the passes)",
+          "location": "story_render.py",
+          "defect": "",
+          "fix": "",
+          "heal": "[[ARC]] with no arc defined: dropped cleanly, no crash. Empty body: renders shell + endmark. Stop referencing a thread by name not id: correctly refused. 45-stop arc: reflows to a legible vertical ladder. HTML injection in label/name/caption/body/title: all correctly escaped. Only hex reached a sink unescaped (finding 01)."
+        }
+      ]
+    },
+    {
+      "name": "Michael Bierut design adversary",
+      "role": "editorial rigor · five-second test · idea over decoration",
+      "summary": "The bones are sound and the arc reflow gate is genuinely smart. The defects cluster in one place: ornaments that repeat identically regardless of content, and one of them (the gradient tick) is not even wired to the story's own data.",
+      "findings": [
+        {
+          "severity": "kill",
+          "status": "fixed",
+          "title": "The per-section gradient tick is hardcoded decoration that lies about the data",
+          "location": "story_render.py · CSS h2::before / .pull::before",
+          "defect": "The whole engine's thesis is 'threads are data, a story picks its own.' braid and endmark honor that. But this tick is a literal constant: linear-gradient(90deg, var(--red), var(--gold), #FF6B2C). Any story with a different palette still gets a red->gold->verm bar under every heading and pull-quote, describing a palette the story does not use. The single most-repeated ornament is the one wired to the wrong data, and it is literally broken for the general case. Even for this story it means nothing: identical under all 7 H2s, telling the reader nothing 7 times.",
+          "repro": "The custom cyan/red extensibility test (two-thread.html) still contains the red/gold/verm tricolor tick, x2.",
+          "fix": "Drive the tick from the story's actual threads (a gradient built from the declared palette), or color each section's tick by its governing thread as wayfinding. If not wired, delete both ::before rules; the type hierarchy stands without them.",
+          "heal": "Tick gradient is now built from the declared threads and injected as a CSS variable; a cyan/red story gets a cyan/red tick. Section and pull-quote ornaments differentiated (finding below)."
+        },
+        {
+          "severity": "kill",
+          "status": "fixed",
+          "title": "Arc-ladder mono thread-label names the color in its own color",
+          "location": "story_render.py · arc_ladder · .arc-thread",
+          "defect": "Each ladder row already encodes the thread three ways (glyph shape, glyph color, legend). The mono label was a fourth encoding adding zero information, a red word that says 'RED.' And it took name.split('·')[0] (the color-name half) and threw away the meaning half ('gates'). It labeled the color by its color, not by its role. Monospace-as-costume on a label carrying no system information.",
+          "repro": "arc ladder rows render 'RED' / 'GOLD' / 'VERMILLION' right-aligned in the thread color.",
+          "fix": "Show the ROLE not the color-name: name.split('·')[1] -> GATES / ASSETS / FUSION, which the glyph genuinely cannot say. Never both the color and its name.",
+          "heal": "Ladder right column now shows the thread ROLE (gates/assets/fusion), the one thing the glyph cannot carry."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "The declared eyebrow envelope field never renders (dead control)",
+          "location": "story_render.py · build() reads eyebrow, never passes it to PAGE",
+          "defect": "A carefully-written envelope field that produces nothing. The eyebrow's job is instead done by the body's # line, with different wording. Two competing eyebrow sources, one inert. The next author edits eyebrow, expects a change, gets none.",
+          "repro": "eyebrow present in envelope, absent from rendered HTML.",
+          "fix": "Pick one source. Render {eyebrow} in PAGE and drop the # convention, or delete eyebrow from schema and build().",
+          "heal": "eyebrow removed from build() and the schema; the # body line is the single documented eyebrow source."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "The braid SVG does not braid, and is hardcoded to 3 strands",
+          "location": "story_render.py · braid_svg (range(3), all paths terminate at 196 18)",
+          "defect": "All three strands terminate at the same point: three wires merging into one plug, crossing once. A braid interweaves repeatedly. At a glance it reads as a squiggle, failing the very test the section name ('The braid') sets up. Hardcoded to 3 despite the N-thread promise (overlaps robustness finding 05).",
+          "repro": "'The braid' section emits 3 converging paths regardless of thread count.",
+          "fix": "Make it genuinely interlace (multiple crossings, strands emerging on the far side, count from len(threads)), or cut it; the heading plus the colored thread-summaries already deliver the idea.",
+          "heal": "braid_svg rewritten as N phase-offset woven strands driven by the declared threads; adjacent strands actually cross."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "Pull-quote and section-head wear an identical ornament",
+          "location": "story_render.py · .pull::before and h2::before (same gradient)",
+          "defect": "A pull-quote and a section header are different structural ranks but wore the same gradient bar. The reader's eye cannot use the ornament to tell 'new section' from 'emphasis pull'; one signal spent on two ranks.",
+          "repro": "Both ::before rules render the same tricolor bar (34px vs 48px).",
+          "fix": "Give them different marks: thread-gradient bar for sections, a single accent rule for pull-quotes.",
+          "heal": "Folded into the tick fix: section tick = full thread gradient; pull-quote = single first-thread accent. One ornament, one meaning."
+        },
+        {
+          "severity": "low",
+          "status": "wontfix",
+          "title": "Full prose sentences set in monospace (the 'stitch' lines)",
+          "location": "story_render.py · .stitch",
+          "defect": "Complete first-person sentences in JetBrains Mono. Mono earns its place on system tokens (footer, nav, legend); a voiced sentence is voice, not label. A near-miss: the conceit (stitch = system annotation on the narrative) is coherent, so not a kill.",
+          "repro": "Thread stitches render authored sentences in mono at .82rem.",
+          "fix": "Optional: keep the mono thread-marker and color, set the sentence in sans italic.",
+          "heal": "Kept by design. The stitch-as-machine-annotation conceit is deliberate and matches the frozen post-1/post-2 reference aesthetic; changing it would diverge the family. Logged, not changed."
+        },
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "Elements that earn their place (checked, not cut)",
+          "location": "story_render.py",
+          "defect": "",
+          "fix": "",
+          "heal": "The endmark glyph: a genuine wordless colophon that reads from the actual threads. The arc reflow gate (horizontal <=6 -> vertical ladder): the five-second test made mechanical, the best idea in the file. The thread legend mapping color+shape to named role, placed before the first stitch. Mono on the depth-nav and footer: proper system voice, not costume."
+        }
+      ]
+    },
+    {
+      "name": "Template claims skeptic",
+      "role": "adversarial verifier · behavior over comments",
+      "summary": "Five of six claims hold as behavior, not just prose: genuinely data-driven, honesty gates truly refuse with exit 1 and write nothing, the arc reflows past the threshold, the reference render is byte-identical with full prose parity, analytics and meta description are emitted. The one claim to distrust as stated is 'zero em-dashes.'",
+      "findings": [
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "TRUE: extensible + data-driven",
+          "location": "story_render.py · parse_story / build",
+          "defect": "",
+          "fix": "",
+          "heal": "threads and arc read from the JSON envelope; nodes/legend/braid all take the thread hex/shape. A 2-thread non-NFTT story with custom hex (#3366CC / #22AA88) rendered exit 0, custom hex present, no NFTT colors used. Schema enforces minItems 2, no max."
+        },
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "TRUE: the legibility gate is mechanical (with a caveat now closed)",
+          "location": "story_render.py · render_arc (ARC_MAX_HORIZONTAL_STOPS=6)",
+          "defect": "The gate was a fixed stop-COUNT threshold, not a measured label-width check: a 6-stop arc with very long labels was not caught (see robustness finding 03).",
+          "fix": "Add the label-length axis to the gate.",
+          "heal": "6 stops -> horizontal, 7 -> ladder, 12-stop reference -> ladder. Label-length axis added in the kintsugi pass so the count-proxy gap is closed."
+        },
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "TRUE: honesty gates refuse with exit 1 and write nothing",
+          "location": "story_render.py · StoryError -> sys.exit(1) before any write",
+          "defect": "",
+          "fix": "",
+          "heal": "All four refusal paths tested: missing envelope, <2 threads, undefined arc thread ref, bad shape. Each exit 1 with no output file written."
+        },
+        {
+          "severity": "med",
+          "status": "fixed",
+          "title": "'Zero em-dashes' was TRUE for the artifact but NOT enforced",
+          "location": "story_render.py · no em-dash check anywhere",
+          "defect": "The rendered output had 0 em-dashes, but there was no mechanism: a story whose body prose contains an em-dash renders it verbatim (reproduced count=1). Per ADR-034 this is verified-as-PROSE, not a gate. If 'zero em-dashes' is an invariant, nothing caught a violation.",
+          "repro": "story body containing an em-dash (U+2014) -> output contains that em-dash (count=1), exit 0.",
+          "fix": "Refuse the render (StoryError, no output) if the assembled page contains an em-dash.",
+          "heal": "build() now scans the assembled page for the em-dash character and refuses to write if any is present. Ship-gate #1 is now mechanical: no story can ship an em-dash, prose included."
+        },
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "TRUE: class-not-instance, no regression, full prose parity",
+          "location": "public/blog-nftt-post-2-full.html",
+          "defect": "",
+          "fix": "",
+          "heal": "The fresh render is byte-identical to the shipped reference (diff IDENTICAL). All source blocks trace to output, no dropped/duplicated/altered sentence. The essay prose is unchanged; only the arc device and thread-key differ from the markdown-era post-2."
+        },
+        {
+          "severity": "keep",
+          "status": "kept",
+          "title": "TRUE: analytics + non-empty meta description present",
+          "location": "story_render.py · PAGE template",
+          "defect": "",
+          "fix": "",
+          "heal": "The /_vercel/insights script and a non-empty meta description are emitted; desc defaults to the title if absent."
+        }
+      ]
+    }
+  ]
+}

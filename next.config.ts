@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         has: [{ type: "host", value: "wing.arcs.care" }],
         headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
       },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "scott-cut.arcs.care" }],
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" }],
+      },
     ];
   },
   async rewrites() {
@@ -24,6 +29,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/monolith.html", has: [{ type: "host", value: "monolith.arcs.care" }] },
         { source: "/:path*", destination: "/forge-pattern.html", has: [{ type: "host", value: "forge.arcs.care" }] },
         { source: "/:path*", destination: "/forge-cut.html", has: [{ type: "host", value: "forge-cut.arcs.care" }] },
+        { source: "/:path*", destination: "/scott-cut.html", has: [{ type: "host", value: "scott-cut.arcs.care" }] },
         { source: "/:path*", destination: "/rayan.html", has: [{ type: "host", value: "rayan.arcs.care" }] },
         { source: "/", destination: "/omakase/index.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
         { source: "/atom", destination: "/omakase/atom.html", has: [{ type: "host", value: "omakase.arcs.care" }] },
