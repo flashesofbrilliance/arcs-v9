@@ -103,6 +103,41 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.44.0 (2026-08-26)
+
+> **Active pickup point — the PRL close-out session** (non-interactive). Folded the cross-session
+> PRL sweep into one run. Route reality: no Zapier MCP, no human at keyboard, Stripe MCP
+> unauthorized — so Zap-kit installs + widget e2e stayed STAGED (verified), everything inline
+> got executed. Full receipt: `runtime/recoil/generated/2026-08-26-prl-close-out-session.md`.
+
+## Shipped (this branch, draft-first — nothing deployed or sent)
+- **PRL 1.2 close-loop CLOSED + prospecting pass 1 (was overdue Aug-24):** wrong-if fired,
+  ~2.1x central multiplier vs the 20h bet (7 work days / 109 PRL commits, method disclosed);
+  cap held. Math + Todd one-pager + extraction ranking: `_ARTIFACTS/prl-1-2-close-loop/`.
+  Re-pricing happens WITH Todd on the call (gate honored). Rec: 1.3 stays $4,000 with a
+  precondition input-batch before the clock starts.
+- **Drafts for Zach (never auto-sent):** three-confirmations email (ex three-scenario), 4h-proxy
+  decision paragraph, chase list (sandbox-written-approval · anti-ICP list · territory via BILL
+  GALLA · ZoomInfo contact), status/progress draft diff (apply + deploy only on Zach's "ship",
+  from MAIN worktree).
+- **Judgment memos:** Lyro-races-flow → rec accept-for-pilot, natural 1.5 scope; read-more links
+  → /contact/ to manual Q&A only, rest parked 1.3. Analytics audit CLOSED (all 8 pages have
+  the snippet). 1.4 SEM prep verified ALREADY DONE (Aug-18 template + 5 instances + runbook).
+- Backlog statuses annotated in `_QUEUE/induced-backlog.jsonl` (prospecting-pass-1 DONE;
+  zap-kit items open/staged-human-gated).
+
+## Open (next session's first work)
+1. **Human-gated PRL installs:** zap kit paste order per `_ARTIFACTS/prl-zap-kit/README.md`
+   (task8-filter first), then empty-email e2e widget chat (delete created lead after, receipt).
+2. **Close-loop CALL with Todd:** walk the one-pager; get written acks (sandbox, competitor,
+   4h proxy); chase ZoomInfo contact + Bill/territory. Zach sends the drafted email or folds
+   into the call.
+3. **1.2-A stays PAYMENT-GATED** — verify invoice #NYQRTJPQ-0004 (Stripe auth needed) before touching.
+4. **Sean Wing close-loop window** ends 2026-08-30 — /recoil-close vs `2026-08-23-sean-wing.json`;
+   counterpart-gauntlet the parked note before any send.
+5. Carried: 3 orphan seeds (human curation) · GH Actions billing (Zach-only) · ziggurat
+   trailhead/key-0 (~10 lines) · tao proverbs 066/067 · lattice --regenerate (human-owned).
+
 # Handoff — v3.43.0 (2026-08-26)
 
 > **Active pickup point — the germination + genesis-riff session.** Opened as the verb-matrix
@@ -154,47 +189,4 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
    (mini-pass done in-thread: 5.5/8 convergent; full blind pass on ask); GitHub Actions billing
    (Zach-only) then re-enable 6 workflows.
 
-# Handoff — v3.42.0 (2026-08-23)
-
-> **Active pickup point — the Wing engagement session.** One inbound (Sean Wing asked for "the
-> good, the bad, and the ugly" on his essay) run end-to-end through the full stage-print arc,
-> throwing off a class, an invariant, and repo-wide gate hardening. 14 PRs merged (#153-#166),
-> all deployed + verified live.
-
-## Shipped (all live)
-- **wing.arcs.care** — S-tier diamond teardown of Wing Financial for Sean Wing: claim-vs-record
-  echo map, 7-gauge panel, forensic CRD timeline (Nathan Wing question), objection map,
-  pre-mortem, gauntlet, shavasana. Read-at-any-depth (collapsed-H2 deks = exec), 15-slide
-  PRESENT deck (good/bad/ugly, earned-fidelity render, FINISH exits to page), touch-native
-  inline term definitions, whole-eyebrow copy-link, legend jump, Wing favicon, noindex meta +
-  X-Robots-Tag header, custom analytics events (pres_open/complete/exit, legend_jump,
-  term_hover, copy_link + dwell). Zero em-dashes (now a mechanical gate).
-- **teardown-page-factory skill** (`.claude/skills/teardown-page-factory/`) — the class print:
-  spec params, component mapping, SLIDES schema, six blocking ship-gates, efficiency contract
-  (~1/3 spend on next run), four-width pixel sweep. wing.html frozen as reference instance.
-- **Stage-print invariant** — `_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md`: five verbs ×
-  gates × fates, altitude orthogonal; forge-pattern/forge-cut cited as precedent pair.
-- **Ex-ante receipt filed** — `runtime/recoil/generated/2026-08-23-sean-wing.json`, honest
-  provenance (post-link-send, pre-response). Zach SENT wing.arcs.care to Sean 2026-08-23.
-  Six outcome estimates, 72h kairos window, YELLOW conviction, close-loop rubric.
-- **Wrap-regression class killed at the root** (recurred 3x in-session: page column, stat strip,
-  deck): root measure tokens not selector literals, auto-fit grids, four-width sweeps. Banked in
-  PRODUCT.md "Known design failure modes" (impeccable loads it every design pass) + memory + skill.
-- **CI parity while GitHub Actions is billing-dead**: 6 workflows disabled (Dependabot left on);
-  leak-check + tripwire wired into the machine-local pre-push hook (with fetch-fresh base);
-  leak-check ANALYTICS debt paid (18 pages got the insights snippet); family-roster.json
-  allowlisted. NOTE: squash merges require branch rebase before the hook's tripwire diff narrows.
-
-## Open (next session's first work)
-1. **GitHub Actions billing** — Zach-only fix (Settings → Billing); re-enable 6 workflows after
-   (one-liner in session log / `gh workflow enable`).
-2. **Sean close-loop** — trigger: any reply, 7 days silence (2026-08-30), or his next public
-   note. Run /recoil-close against the SSOT. Long-form note draft parked in
-   `_ARTIFACTS/wing-sean-linkedin-draft.md`; if sending, run counterpart-gauntlet first (the
-   one un-run gate).
-3. **Two forked sessions in flight**: legacy tripwire-flag cleanup (4 pages) + verb-matrix
-   germination (ADR promotion + wiring gates into skills). Don't duplicate their work.
-4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
-   (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
-
-> _v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
