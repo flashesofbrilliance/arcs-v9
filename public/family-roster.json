@@ -122,6 +122,10 @@
     {
       "alias": "rosetta-shell",
       "status": "maybe"
+    },
+    {
+      "alias": "page-factory-from-session",
+      "status": "maybe"
     }
   ],
   "playground": [
