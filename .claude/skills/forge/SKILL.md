@@ -5,6 +5,10 @@ description: Forge a counterpart's clean surface family (recoil / codex / receip
 
 # /forge <name> — the parameterized counterpart forge
 
+This pipeline runs the ADR-068 verb arc: gather=analyze (source-traceability), synth=assess
+(claim-vs-record), gauntlet ladder=evaluate (pass/conditional/fail), generate+deploy=synthesize
+(ship/hold), send prep=recapitulate (sent/parked). Every stage prints through a gate to a fate.
+
 Deterministic SSOT -> template -> page. One token source (canonical ARCS
 dark-cockpit, `src/ui-kit/recoil-report/_tokens.css`, ADR-009/031). Crispness
 rules are generation constraints, not hand-discipline. Run model-efficiently:
@@ -143,6 +147,11 @@ the surface that IS the mechanism, not the prettiest one). See [[counterpart-van
 
 ## 8. Send prep — draft in their register, replace stale drafts, never send
 
+- **BLOCKING (ADR-068): verify the Ex-Ante tab is filed and CURRENT before drafting.** The
+  bet-filed-before from phase 1 can be stale by send time — if the send is a new move (new
+  artifact, new ask), file a fresh ex-ante entry (expected response, falsifier) in the SSOT
+  first. No current ex-ante receipt, no send. Log the close-loop obligation (`/recoil-close`
+  owed on their reply).
 - Draft the channel messages (short in-thread reply + fuller email) in their register, fulfilling any
   promise already made in-thread ("something deeper and more self-explanatory"), answering their stated
   questions (how-to-read / who-for / how-to-use). Lead with the channel where they are **live and waiting**.
@@ -157,5 +166,7 @@ the surface that IS the mechanism, not the prettiest one). See [[counterpart-van
   Context/Options/Decision/Consequences). This session: ADR-044 (temporal-provenance gate).
 - **DEWY receipts** for the session's decisions (`_STATE/<date>-session-decisions.dewy.json`, per
   `runtime/specs/dewy-receipt-schema-v1.json`) — dogfood the product on its own build.
+- **Witness stubs** (advisory, NOTOMATION): if a naming moment fired live during the run,
+  `/witness` it in the moment — never reconstruct it here (ADR-044 timing).
 - **Handoff + memory** (`/handoff`): update snapshot + the single live CLAUDE.md handoff block, relocate
   the prior to `_ARCHIVE/handoffs.md`, mark the project memory SENT with the live reply-threads.

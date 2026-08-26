@@ -5,6 +5,11 @@ description: Stamp a counterpart-facing S-tier diamond teardown surface at <name
 
 # Teardown page factory — source MDs → live <name>.arcs.care surface
 
+This skill runs the ADR-068 verb arc: analyze/assess live in the source MDs, evaluate is
+the gauntlet, synthesize is the page (Ship gates below), recapitulate is the note (Pre-send
+gates below). Every stage prints an artifact through a gate to a fate; a skipped mandatory
+print is a drift receipt.
+
 Proven instance: `public/wing.html` (wing.arcs.care, shipped 2026-08-23, PR #153).
 Ancestor design system: `public/chan.html` (chan.arcs.care). Do not re-derive either;
 clone `wing.html` and re-fill. The CSS tokens, section mechanics, and PRESENT engine
@@ -80,6 +85,22 @@ Earned fidelity is enforced in `presRender`: verified `g` renders `res-sharp`, g
 Draft the counterpart message to `_ARTIFACTS/<subdomain>-<name>-linkedin-draft.md`:
 lead with their own ask quoted back, the link, then good → bad → ugly in that order,
 close with the surgical question AND the gift. Same em-dash rule. Zach sends by hand.
+
+## Pre-send gates (BLOCKING — run before the note leaves DRAFT; ADR-068 recapitulate cut)
+
+1. **Ex-ante receipt filed FIRST.** `/recoil-new` scaffold (if none exists) + the Ex-Ante
+   tab of `runtime/recoil/generated/<date>-<name>.json` filed BEFORE Zach sends: expected
+   counterpart response, falsifiable hypothesis, predicted Y-gate, the falsifier. Without
+   it the close-loop has nothing to score against. No receipt, no send. (Wing precedent:
+   filed pre-response, commit fc024ba.)
+2. **Pre-send gauntlet.** Run the `counterpart-gauntlet` workflow on the page + note
+   (facets BE the counterpart at high burden of proof; verify each surviving flag against
+   source yourself). Fate: send-worthy / parked. Its receipt is an artifact.
+3. **Close-loop obligation logged.** Note in the SSOT that `/recoil-close` (expected vs
+   actual) is owed when the counterpart responds. Mandatory then, not blocking now.
+
+Advisory prints (recited, never mechanized): witness stub on any live naming moment
+(`/witness`, NOTOMATION); handoff at session close per CLAUDE.md policy.
 
 ## Efficiency contract (post-mortem 2026-08-23, wing run burned ~20% of a 5h window)
 

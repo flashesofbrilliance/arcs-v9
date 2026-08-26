@@ -1,5 +1,11 @@
 # The verb × altitude gate matrix — what gets printed at each cut, and what fate it assigns
 
+> **PROMOTED 2026-08-23 → `_DECISIONS/ADR-068-verb-altitude-gate-matrix.md`** (oracle-allocated).
+> The ADR is now the normative print; this file remains as the pattern-stage provenance.
+> Wiring landed the same day: mandatory gates (ex-ante-receipt-before-send, pre-send
+> counterpart-gauntlet, close-loop obligation) are explicit steps in teardown-page-factory,
+> forge, omakase-pipeline, and recoil-new/prep/ship/close.
+
 > Minted 2026-08-23 from the Wing engagement (wing.arcs.care), per Zach's framing: "are we
 > basically printing an artifact at each new stage cut?" Yes — and this document is the
 > invariant print (ADR-066 ladder: Wing = instance, teardown-page-factory = class, this = invariant).

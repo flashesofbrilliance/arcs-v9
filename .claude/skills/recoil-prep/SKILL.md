@@ -23,7 +23,8 @@ Into `runtime/recoil/generated/<id>.json`:
   Y-gate), Intel (who they are, most-diagnostic first), Questions + landmines.
 - **Ex-Ante tab** (`receipt` block): file the decision receipt BEFORE the call — D/E/W, a *falsifiable*
   hypothesis, predicted Y-gate, pre-committed move, the belief most likely to update, the falsifier.
-  This is what /recoil-close scores later. Do not skip it.
+  This is what /recoil-close scores later. Do not skip it. (ADR-068: this is the mandatory
+  ex-ante print; its fates are scored/unscored, and unscored is a drift receipt.)
 - Set `meta.provenance` (sources + one load-bearing prior quote if any).
 
 ## Step 3 — render

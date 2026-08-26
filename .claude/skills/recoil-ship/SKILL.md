@@ -44,6 +44,17 @@ compressed quotes, no overclaimed consent.
 Wire `<name>-ext.arcs.care` (next.config.ts + `vercel domains add`), gate as appropriate (often their
 first name), commit on main, push, verify live + re-run the leak scan on the live URL.
 
+## Step 5b — pre-send gates (BLOCKING; ADR-068 recapitulate cut)
+
+1. **Ex-ante receipt current?** The SSOT's Ex-Ante tab must contain a filed, current
+   expectation for THIS send (expected response, falsifier). If the last ex-ante was for a
+   prior call/move, file a fresh entry. No receipt, no send.
+2. **Pre-send gauntlet.** Run the `counterpart-gauntlet` workflow on the -ext artifact +
+   note draft. Fate: send-worthy / parked. Verify each surviving flag against source
+   yourself before healing.
+3. **Log the close-loop obligation**: `/recoil-close` (expected vs actual) is owed when
+   they respond.
+
 ## Step 6 — draft the note (do NOT send)
 Draft in the counterpart's register, plain language, **no em-dashes**, mirroring their own words. Create
 it as a **Gmail draft** (`create_draft`) or hand back the text — never send on the user's behalf. Point
