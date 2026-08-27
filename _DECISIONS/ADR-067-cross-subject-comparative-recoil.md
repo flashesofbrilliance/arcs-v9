@@ -63,3 +63,27 @@ counterpart's reaction.
 - ADR-066 — Generative Recoil (rule-of-three gates generalization; applied here to NOT generalize yet)
 - ADR-044 — temporal-provenance gate (the five-pager correction shipped alongside this ADR is a direct
   application: a claim was stated as "still outstanding" when it was actually "sent, unanswered")
+
+## Addendum — 2026-08-23: third independent convergence CONFIRMED (promoted)
+
+The Jeben-corpus re-listen (dogfood epoch) surfaced the pattern a third time, and EARLIEST
+of the three: Apr 21 2026, Jeben naming the operator-side density/altitude mechanism
+directly, verbatim (`runtime/recoil/transcripts` era; source `~/Downloads/JebenHarryBriefing.txt:106`):
+"you will lose him if you get this deep into the minutia of possibility or potential inside
+a single text exchange." Variant vantage — a warning about a third party (Harry) rather than
+in-relationship carrier loss — but the same mechanism, independently surfaced.
+
+Zach's ruling, verbatim (2026-08-23, relayed via originating session): "I'm good with
+promoting it → seems like a witness moment deferred."
+
+- Convergence roster: Scott (Mar 5 + Mar 20, carrier-loss), Robin (Aug 5, risk-despite-peak),
+  **Jeben (Apr 21, counterpart names the mechanism prospectively)**.
+- Y-state of this ADR: YELLOW → **GREEN** for the pattern's existence. Per §Consequences, the
+  rule-of-three threshold is met: the optional cross-subject diff mode in `forge_counterpart.py`
+  is now UNLOCKED as a candidate build — still NOTOMATION-gated (a prompt for the operator,
+  not an auto-verdict), and not built in this session.
+- The moment is filed as a DEFERRED WITNESS entry in `_CANON/great-moments.jsonl`: attested
+  2026-08-23 from the verbatim transcript, deferral declared (the call predates the witness
+  register; verbatim custody intact because the transcript is the primary source). "A witness
+  moment deferred" names the whole class of pre-witness-era moments recoverable by generative
+  recoil (ADR-066) — which is what the Jeben epoch demonstrated at scale.

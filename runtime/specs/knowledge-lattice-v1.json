@@ -664,7 +664,7 @@
 },
 {
 "id": "adrs",
-"label": "57 ADRs",
+"label": "63 ADRs",
 "st": "l",
 "dom": "lib",
 "status": "ok",
@@ -1430,6 +1430,6 @@
 "CORPUS"
 ]
 },
-"last_drift_check": "2026-08-16T06:27:33",
+"last_drift_check": "2026-08-26T17:39:38",
 "_note": "Countables auto-refreshed by lattice_drift_check; node statuses/edges/prose remain human-authored (NOTOMATION). Re-author the judgment layer manually."
 }

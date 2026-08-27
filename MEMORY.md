@@ -7,6 +7,35 @@
 
 ---
 
+## [v3.46.0] 2026-08-27 — First closed client receipt + instrument board
+
+- **ADR-069 minted** (oracle audit pending): first ex-ante->ex-post receipt closed in a paying
+  engagement (PRL 1.2, RED on estimate, cap held). Expectation management is now precedent-shaped:
+  forward claims cite banked receipts; losing receipts are publishable; variance priced as
+  preconditions. Witness stub 2026-08-26 + DEWY receipt.
+- **prl.arcs.care/status/receipt** live: the close-loop as data-story (band chart, tiles, honest
+  method). Passed fact-check-vs-CSV + full counterpart-gauntlet (14 findings fixed, incl. 2
+  pathogens on the four-hour row). Receipt pill now on all 8 family pages + homepage gold jumplink.
+- **Instrument Board** (`scripts/warroom_board.py` -> /warroom/gauntlet, admin-gated): second
+  sovereign projection service; adapters snap on per JSONL ledger; typed print + spark-plug sidecar.
+  Care rule: new gauntlet-runs rows must state "N pathogen, N crack, N nit" + "N over-flags rejected".
+- Gotchas re-proven: handoff version collision across parallel sessions (renumber, keep both);
+  squash-merged branch = reset to main, never rebase-replay; tripwire flags on touched-but-unchanged
+  content get adjudicated in the commit message, not silently bypassed.
+
+## [v3.43.0] 2026-08-26 — ADR-068 germination + the genesis-riff arc (PR #167 merged)
+
+Verb-matrix pattern PROMOTED to **ADR-068** (print/gate/fate per verb-cut, altitude orthogonal)
+and **wired as blocking steps into 7 skills** (ex-ante-before-send, pre-send gauntlet, close-loop
+obligation); `_DECISIONS/index.json` backfilled 066/067; both oracle counters reconciled. Banked
+**4 seeds with ledger receipts**: projection-family-registry, extraction-prospecting,
+sovereign-projection-services, pollinate. Witness file 2026-08-23 carries the 8-stub spine:
+inheritance capstone → **tikkun olam origin** (absent from _CANON until witnessed) → molt
+(polyform survey → buddhist convergence) → tree-fall koan closed → **frame-geometry PROMOTED**:
+Tao v1.1.0 §V "one field, sovereign zeros, lawful transforms, preserved invariants" + tao-250/251
++ genesis root-cluster (adam·adamah·adom·dam) + **Eve = chava == anima = the vox animus**.
+Overdue: PRL close-loop/prospecting pass (was Aug-24); Sean window ends Aug-30.
+
 ## [v3.35.0] 2026-08-17 — Comet Technical PMM application + resume-tailor skill v0.2 (ATG-in-the-wild)
 
 Tailored Zach's résumé + cover letter + ATS-plain to Comet's **Technical Product Marketing Manager**

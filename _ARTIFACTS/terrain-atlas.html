@@ -103,7 +103,7 @@ body{background:radial-gradient(1200px 600px at 50% -10%,#00F0FF08 0,transparent
 <div id="legend">
   <i style="background:var(--green)"></i>feedback &nbsp;<i style="background:var(--cyan)"></i>project &nbsp;<i style="background:var(--steel)"></i>reference &nbsp;<i style="background:var(--gold)"></i>user / seed &nbsp;<i style="background:var(--purple)"></i>performer<br>
   stratum = echo weight (base: uncited → apex: canon) · fog = staleness · district = compass face<br>
-  <b>←→</b> walk terrace · <b>↑</b> climb strongest declared edge · <b>↓</b> descend · <b>T</b> tracking on/off<br>
+  <b>←→</b> walk terrace · <b>↑</b> climb strongest declared edge · <b>↓</b> descend · <b>T</b> tracking on/off · first move ignites at the trailhead · <b>0</b> return to null point<br>
   drag pan · <b>right-drag / shift-drag</b> orbit + tilt · scroll zoom · <b>[ ]</b> rotate · <b>- =</b> tilt · <b>1</b> plan <b>2</b> iso <b>3</b> low
 </div>
 <script id="data" type="application/json">{
@@ -5028,15 +5028,22 @@ function closeDossier(){document.getElementById('dossier').classList.remove('ope
 // ── keyboard traversal: terrace walk + strongest-edge climb ──────────────────
 function neighbors(id){return CAT.edges.filter(e=>e.from===id||e.to===id)
   .map(e=>e.from===id?e.to:e.from)}
+// trailhead: base terrace, highest indegree — derived from data, never hand-picked.
+// Arrival stays the null point (WORLD: fog first); the first movement key IGNITES here.
+function trailhead(){
+  const ring=strata[0]&&strata[0].length?strata[0]:(strata.find(s=>s&&s.length)||[]);
+  if(!ring.length) return null;
+  return [...ring].sort((a,b)=>(indeg[b.id]||0)-(indeg[a.id]||0))[0].id;
+}
 function walk(dir){
-  if(!SEL) return;
+  if(!SEL){const t=trailhead(); if(t)select(t); return;}
   const n=CAT.nodes.find(x=>x.id===SEL), k=stratumOf(n);
   const ring=strata[k].map(x=>x.id);
   const i=ring.indexOf(SEL);
   select(ring[(i+dir+ring.length)%ring.length]);
 }
 function climb(up){
-  if(!SEL) return;
+  if(!SEL){const t=trailhead(); if(t)select(t); return;}
   const k=stratumOf(CAT.nodes.find(x=>x.id===SEL));
   const byId={}; CAT.nodes.forEach(n=>byId[n.id]=n);
   const cands=neighbors(SEL)
@@ -5085,6 +5092,9 @@ window.addEventListener('keydown',e=>{
   else if(e.key==='-'||e.key==='_'){TILT=Math.min(84,TILT+6);placePlane()}
   else if(e.key==='='||e.key==='+'){TILT=Math.max(0,TILT-6);placePlane()}
   else if(PRESETS[e.key]){[TILT,ROT]=PRESETS[e.key];placePlane()}
+  else if(e.key==='0'){ // return to YOUR null point: sovereign zero, not a universal origin
+    closeDossier(); SEL=null; [TILT,ROT]=[58,45]; px=0; py=0; placePlane(); place();
+  }
   else if(e.key==='t'||e.key==='T'){TRACK=!TRACK;if(TRACK&&SEL)track(SEL)}
   else if(e.key==='Escape'){closeDossier()}
 });
@@ -5135,9 +5145,9 @@ stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.min(2.5,Math.max
 stage.addEventListener('click',closeDossier);
 place();
 
-// boot on the apex's most-echoed node (the canon peak)
-const apex=[...CAT.nodes].sort((a,b)=>(indeg[b.id]||0)-(indeg[a.id]||0))[0];
-if(apex) select(apex.id);
+// boot at the NULL POINT (ruling 2026-08-23): arrive in fog with the whole ziggurat
+// visible, nothing selected. The first movement key ignites at the trailhead (base
+// terrace, highest indegree); key 0 returns here. Arrival = potential, keypress = spark.
 </script>
 </body>
 </html>

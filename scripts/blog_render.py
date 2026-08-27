@@ -150,13 +150,18 @@ def render(md: str) -> str:
     return "\n".join(out)
 
 
-def ladder(dst_name: str) -> str:
+def ladder(dst_name: str, out_dir: Path) -> str:
     m = re.match(r"blog-nftt-(.+?)-(exec|brief|full)\.html$", dst_name)
     if not m:
         return ""
     slug, tier = m.groups()
     base = f"/blog/nftt/{slug}"
     tiers = [("exec", "90-second", base), ("brief", "operational", f"{base}/brief"), ("full", "surgical", f"{base}/full")]
+    # Only surface tiers whose HTML actually exists on disk; a dead depth link is a broken path.
+    tiers = [(t, label, href) for (t, label, href) in tiers
+             if t == tier or (out_dir / f"blog-nftt-{slug}-{t}.html").exists()]
+    if len(tiers) < 2:  # single-tier post: no ladder rather than a one-item nav
+        return ""
     links = " · ".join(
         f'<span style="color:var(--fg1);font-weight:600">{label}</span>' if t == tier
         else f'<a style="text-decoration:none" href="{href}">{label}</a>'
@@ -172,6 +177,7 @@ PAGE = """<!doctype html>
 <title>{title}</title>
 <meta name="theme-color" content="#020408">
 <meta name="description" content="{desc}">
+<script defer src="/_vercel/insights/script.js"></script>
 </head>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
@@ -236,5 +242,5 @@ if __name__ == "__main__":
     m = re.search(r"^## (.+)$", md, re.M)
     subtitle = m.group(1) if m else ""
     dst.write_text(PAGE.format(title=h.escape(f"{subtitle} · NFTT"), desc=h.escape(title),
-                               body=render(md), ladder=ladder(dst.name), **TOKENS))
+                               body=render(md), ladder=ladder(dst.name, dst.parent), **TOKENS))
     print(f"rendered {dst} ({dst.stat().st_size} bytes)")

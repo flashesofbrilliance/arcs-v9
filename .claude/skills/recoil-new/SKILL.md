@@ -7,6 +7,11 @@ description: Scaffold a new counterpart engagement SSOT from the 6-tab war-room 
 
 The closed loop runs on ONE JSON per counterpart (the single source of truth). This skill creates it.
 
+**ADR-068:** this SSOT is the substrate of the ex-ante print — the mandatory blocking gate
+before ANY counterpart send (teardown note, forge send, recoil-ship note). If a send is
+being prepared and no SSOT exists for the counterpart, run this skill FIRST; the Ex-Ante
+tab must be filed before the note leaves DRAFT, or the close-loop has nothing to score.
+
 ## Steps
 1. Ask (or infer from args) the counterpart's **name**, **company**, and today's **date**.
 2. Copy the template:

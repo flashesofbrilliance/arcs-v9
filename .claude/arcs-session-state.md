@@ -1,26 +1,14 @@
-# ARCS session state — sprint snapshot
+# ARCS session state — 2026-08-27 (post v3.46.0 handoff)
 
-_Updated 2026-08-10 (handoff v3.29.0). The Yuri suite is SENT. Nothing pending on our side._
+**Sprint:** PRL 1.2 CLOSED (receipt live at prl.arcs.care/status/receipt, gauntleted). 1.3 gated
+on the Todd call ($4,000, precondition batch first). Zap-kit installs + e2e chat human-gated.
 
-## Shipped this session (and SENT)
-- **Yuri family SENT 2026-08-10.** Zach tweaked + sent the Gmail (to siryuri@, subj "How to read the thing
-  I sent, and who it's for") pointing to yuri.arcs.care, after replacing the stale draft that carried the
-  false model-agnostic claim. Ball in Yuri's court.
-- **Final structure (live, ungated):** warm two-link one-door — before/after (codex, "start here") +
-  diamond ("the call, moment by moment, a read, not the machine"). The machine (scored closed-loop +
-  "file your own bet" = the RECEIPT) chained off the codex close. Profile redacted. Hero opens in his terms.
-- **False model-agnostic claim killed + machine-gated** (ADR-044 `temporal_provenance` gate; caught a 2nd
-  instance on Robin). ARCS runs on Claude today; internal version could run on Gemini (never present-fact).
-- **Four gauntlets survived** (lens/register/transcript/persona x2); 2nd persona gauntlet healed the
-  diamond-onenum self-contradiction, receipt over-anchor, codex condescension, org/VC ladder, over-disclaim.
-- **Captured:** ADR-044; `_STATE/2026-08-10-session-decisions.dewy.json` (5 DEWY receipts); memories.
+**Head:** main `ba6c15bb` (#184) · deploy Ready · all routes verified live.
+**New canon:** ADR-069 (precedent-shaped expectation management; oracle audit pending).
+**New service:** Instrument Board (`scripts/warroom_board.py` -> /warroom/gauntlet, admin-gated).
 
-## Open
-NONE pending on our side. When Yuri replies: his read on positioning/GTM, Agentum, part-two/GCP, portable
-diligence/M&A. Keep replies short + concrete. See [[project_yuri_kleban_google]].
+**Next:** (1) human-at-keyboard Zapier session per `_ARTIFACTS/prl-zap-kit/README.md`;
+(2) Todd close-loop call with `_ARTIFACTS/prl-1-2-close-loop/` one-pager; (3) Sean Wing
+close-loop by 2026-08-30; (4) 1.2-A payment-gated.
 
-## Blocking
-NONE. Sent; awaiting Yuri.
-
-## Pickup
-`/handoff-pickup` -> `_STATE/snapshot.json` + v3.29.0 in `CLAUDE.md`.
+Pickup: `/handoff-pickup` (reads snapshot + latest handoff only).

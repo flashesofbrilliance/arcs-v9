@@ -10,7 +10,7 @@ HERE = pathlib.Path(__file__).parent
 CSS = (HERE/'atoms.css').read_text()
 SEGS = [('','Overview'),('/status/progress','Progress'),('/status/crm','CRM routing'),
         ('/status/troubleshooting','Web forms'),('/status/tidio','Tidio delivery'),
-        ('/status/atlas','Atlas'),('/status/build','Build')]
+        ('/status/atlas','Atlas'),('/status/build','Build'),('/status/receipt','Receipt')]
 
 def nav(self_path):
     out=[]

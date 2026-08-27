@@ -27,12 +27,12 @@ const MULTI_PATH_MAP: Record<string, Record<string, string>> = {
   'julia':     { '/runtime': '/julia-runtime.html', default: '/julia.html' },
   'ahmed-ext': { '/report': '/ahmed-ext.html', '/evening': '/ahmed-evening.html', '/seed': '/ahmed-seed.html', default: '/ahmed.html' },
   // prl.arcs.care/status/<seg> status-page family (2026-08-17).
-  'prl':       { '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
+  'prl':       { '/status/crm': '/prl-status-crm.html', '/status/troubleshooting': '/prl-status-troubleshooting.html', '/status/build': '/prl-status-build.html', '/status/tidio': '/prl-status-tidio.html', '/status/progress': '/prl-status-progress.html', '/status/atlas': '/prl-status-atlas.html', '/status/receipt': '/prl-status-receipt.html', default: '/todd-call.html' }, // root = overview (masked); status pages ride under /status/<seg>
   // good.arcs.care/blog/nftt/<slug> — Notes from the Trenches long-form posts (2026-08-18).
   // Rendered via scripts/blog_render.py from _ARTIFACTS/blog/*.md; default stays the goods gallery.
   // Three depth tiers per post, water-fountain first: bare slug = 90-second exec (default depth),
   // /brief = operational, /full = surgical. Firehose is opt-in, one click deeper.
-  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
+  'good':      { '/blog/nftt/post-1': '/blog-nftt-post-1-exec.html', '/blog/nftt/post-1/brief': '/blog-nftt-post-1-brief.html', '/blog/nftt/post-1/full': '/blog-nftt-post-1-full.html', '/blog/nftt/post-2/full': '/blog-nftt-post-2-full.html', '/blog/nftt/post-2': '/blog-nftt-post-2-full.html', '/blog/nftt': '/blog-nftt-post-1-exec.html', default: '/good.html' },
 }
 
 export default function proxy(request: NextRequest) {
