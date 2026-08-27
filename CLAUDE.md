@@ -103,6 +103,51 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.46.0 (2026-08-27)
+
+> **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
+> covers the arc after the close-out: surface -> canon -> gauntlet -> board -> rollout). All merged
+> to main (#180 squash 59cef5b0, #184 ba6c15bb), prod deploy Ready, routes verified live.
+
+## Shipped (all live)
+- **prl.arcs.care/status/receipt** — the closed 1.2 receipt as data-driven story: BLUF, 3 headline
+  tiles, expected-vs-actual band chart (SVG, honest-scale range, mobile scroller + punchline
+  auto-scroll), directional hours bars, scorecard, 1.3 recommendation-voice setup, losing-receipt
+  section, fine-print method. Stamped via prl-page-factory + bespoke organisms; impeccable
+  distill/polish passes; dataviz palette validated. **Gates run in full:** fact-check vs baseline
+  CSVs (all headline numbers trace) + counterpart-gauntlet (6 facets, 7 agents, 865K tok):
+  14 verified findings ALL fixed (2 pathogens on the four-hour row: no separate assignment
+  timestamp; reminder goes to Zach not rep — pill now "live · rep alert staged"), 4 over-flags
+  rejected. Run banked in `_STATE/gauntlet-runs.jsonl`.
+- **ADR-069** (minted in-session, oracle audit PENDING — flag on next oracle pass): first closed
+  client receipt => precedent-shaped expectation management. Four-in-one print: witness stub
+  (`_STATE/witness/2026-08-26.jsonl`) + ADR + DEWY (`_STATE/2026-08-26-session-decisions.dewy.json`)
+  + wisdom. build.html ADR stat 63->64 (tripwire caught its own mint, again).
+- **Instrument Board** — `scripts/warroom_board.py`, SECOND sovereign-projection-service instance:
+  stdlib-only factory, adapter-per-JSONL-ledger (gauntlet-runs + falsification-ledger snapped on),
+  typed print + spark-plug germination sidecar, served admin-gated at **/warroom/gauntlet** (404s
+  anonymous — verified). Regenerate after every gauntlet; keep findings machine-parseable
+  ("N pathogen, N crack, N nit" + "N over-flags rejected").
+- **Receipt pill on all 8 PRL pages** + gold jumplink on the prl.arcs.care homepage nav; factory
+  SEGS updated so future stamps inherit it (#184). Tripwire real-name/dead-link flags adjudicated
+  as pre-existing main content in the commit message (not silently bypassed).
+- **4-hour rule reframed per Zach ruling:** closes mechanically (creation==assignment timestamp,
+  elapsed-window reminder); Todd's written ack demoted to nice-to-have FYI across page + drafts.
+- Merge hygiene: v3.44.0/v3.45.0 handoff collision resolved (parallel Ahmed session), squash-merge
+  branch reset to main (rebase-replay aborted — tree was identical).
+
+## Open (next session's first work)
+1. **Human-gated PRL installs** — zap kit paste order (`_ARTIFACTS/prl-zap-kit/README.md`,
+   task8 filter first) + empty-email e2e widget chat (delete created lead after, receipt).
+2. **Close-loop CALL with Todd** — walk `_ARTIFACTS/prl-1-2-close-loop/2026-08-26-close-loop-onepager.md`
+   + the live /status/receipt page; send or fold in the two-confirmations email draft; chase
+   ZoomInfo contact + Bill/territory. 1.3 kickoff = Todd's call, $4,000 with precondition batch.
+3. **Sean Wing close-loop window ends 2026-08-30** — /recoil-close vs `2026-08-23-sean-wing.json`;
+   counterpart-gauntlet the parked note before any send.
+4. **1.2-A stays PAYMENT-GATED** (invoice #NYQRTJPQ-0004; Stripe MCP needs auth to verify).
+5. Carried: orphan seeds curation (human) · GH Actions billing (Zach-only) · ADR-069 oracle audit ·
+   ziggurat trailhead/key-0 · tao proverbs 066/067 · lattice --regenerate (human-owned).
+
 # Handoff — v3.45.0 (2026-08-27)
 
 > **Active pickup point — the PRL close-out session (renumbered from v3.44.0 after collision with the Ahmed handoff on main)** (non-interactive). Folded the cross-session
@@ -146,41 +191,4 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ||||||| fae582fb
 
-# Handoff — v3.44.0 (2026-08-26)
-
-> **Active pickup point — the Ahmed 60-Second Read session.** The germination session's open
-> backlog stands (see v3.43.0); this session closed the long-parked Ahmed consumability fix
-> end to end. PR #181 MERGED to main 2026-08-26, deploy verified live.
-
-## Shipped (all merged + live at ahmed-ext.arcs.care)
-- **The 60-Second Read onramp** on /report: three 20s anchor-linked steps + optional analog
-  dial (no auto-play, reduced-motion honored, steps stack above dial on mobile), "recoil"
-  glossed at first use, HOW TO READ IT annotation on the first chart, pre-registration line
-  ("the 0.7 was filed in writing before we spoke"). Spec/animatic restored from b0b813e to
-  `_ARTIFACTS/sixty-second-read.html` (was missing from this branch).
-- **Gauntlet-driven hardening pass** (counterpart-gauntlet workflow, 4 facets + adversarial
-  verify; 3 breaks / 8 cracks / 4 nits, all fixed): ONE pricing story on all four surfaces
-  ("first report on me, then fixed per-customer fee" — old pages told four, incl. an "on you"
-  contradiction); single ask restored (sales-hire fork + "Also happy to" card cut, no-menu
-  rule); /evening de-costumed (kanji + Courses stripped, Canon Forge -> "the account record");
-  tabs renamed by job (How it scales / The bet); /seed self-narration cut. The verify stage
-  REJECTED the "chart is interpolated" flag — kinematic_series is measured + quote-grounded;
-  do NOT "fix" that chart.
-- **Tripwire counterpart-facing exception**: a page whose filename is its counterpart's name
-  may carry that name; any other counterpart name still fails.
-- **Ex-ante receipt filed pre-send** (ADR-068): SSOT `2026-07-22-elsamadisi.json` ->
-  `ex_ante_reopen_2026_08_26`, six outcome estimates + explicit falsifier (opens + silence =
-  onramp thesis falsified). YELLOW conviction.
-- **Re-open note DRAFTED** at `_ARTIFACTS/ahmed-reopen-note-draft.md` — Robert intro first,
-  link second, pilot restated, send checklist attached. NOT sent; Zach sends by hand.
-
-## Open (next session's first work)
-1. **Zach sends the Ahmed note** (hand-send on the existing thread; verify live render first).
-   Close-loop review at 10 days post-send silence.
-2. Inherited from v3.43.0, still open: prospecting pass + PRL 1.2 close-loop (overdue);
-   Sean Wing close-loop window ends 2026-08-30; 3 orphan seeds; cheap backlog (ziggurat
-   trailhead wiring, tao proverbs 066/067, lattice --regenerate, GitHub Actions billing).
-3. Pre-existing tripwire fails on forge-pattern/forge-cut (jargon) — not in this session's
-   diff; fix or gate when those pages are next touched.
-
-> _v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.44.0 (Ahmed) relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._

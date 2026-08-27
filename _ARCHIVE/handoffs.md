@@ -1,3 +1,41 @@
+# Handoff — v3.44.0 (2026-08-26)
+
+> **Active pickup point — the Ahmed 60-Second Read session.** The germination session's open
+> backlog stands (see v3.43.0); this session closed the long-parked Ahmed consumability fix
+> end to end. PR #181 MERGED to main 2026-08-26, deploy verified live.
+
+## Shipped (all merged + live at ahmed-ext.arcs.care)
+- **The 60-Second Read onramp** on /report: three 20s anchor-linked steps + optional analog
+  dial (no auto-play, reduced-motion honored, steps stack above dial on mobile), "recoil"
+  glossed at first use, HOW TO READ IT annotation on the first chart, pre-registration line
+  ("the 0.7 was filed in writing before we spoke"). Spec/animatic restored from b0b813e to
+  `_ARTIFACTS/sixty-second-read.html` (was missing from this branch).
+- **Gauntlet-driven hardening pass** (counterpart-gauntlet workflow, 4 facets + adversarial
+  verify; 3 breaks / 8 cracks / 4 nits, all fixed): ONE pricing story on all four surfaces
+  ("first report on me, then fixed per-customer fee" — old pages told four, incl. an "on you"
+  contradiction); single ask restored (sales-hire fork + "Also happy to" card cut, no-menu
+  rule); /evening de-costumed (kanji + Courses stripped, Canon Forge -> "the account record");
+  tabs renamed by job (How it scales / The bet); /seed self-narration cut. The verify stage
+  REJECTED the "chart is interpolated" flag — kinematic_series is measured + quote-grounded;
+  do NOT "fix" that chart.
+- **Tripwire counterpart-facing exception**: a page whose filename is its counterpart's name
+  may carry that name; any other counterpart name still fails.
+- **Ex-ante receipt filed pre-send** (ADR-068): SSOT `2026-07-22-elsamadisi.json` ->
+  `ex_ante_reopen_2026_08_26`, six outcome estimates + explicit falsifier (opens + silence =
+  onramp thesis falsified). YELLOW conviction.
+- **Re-open note DRAFTED** at `_ARTIFACTS/ahmed-reopen-note-draft.md` — Robert intro first,
+  link second, pilot restated, send checklist attached. NOT sent; Zach sends by hand.
+
+## Open (next session's first work)
+1. **Zach sends the Ahmed note** (hand-send on the existing thread; verify live render first).
+   Close-loop review at 10 days post-send silence.
+2. Inherited from v3.43.0, still open: prospecting pass + PRL 1.2 close-loop (overdue);
+   Sean Wing close-loop window ends 2026-08-30; 3 orphan seeds; cheap backlog (ziggurat
+   trailhead wiring, tao proverbs 066/067, lattice --regenerate, GitHub Actions billing).
+3. Pre-existing tripwire fails on forge-pattern/forge-cut (jargon) — not in this session's
+   diff; fix or gate when those pages are next touched.
+
+
 # Handoff — v3.43.0 (2026-08-26)
 
 > **Active pickup point — the germination + genesis-riff session.** Opened as the verb-matrix
