@@ -41,7 +41,5 @@ after the remaining 1.2 loose ends below.
 ## Loose ends to close 1.2 fully (cheap, all staged)
 
 - [ ] One 2-minute test chat to prove the blank-email fix end to end
-- [ ] Confirm in writing the 4-hour rule proxy: a reminder email per lead plus an hourly
-      stale-lead sweep (the metric your CRM data can actually support today)
 - [ ] Decide the ZoomInfo email question: verify one enriched lead shows a business email,
       or agree in writing that title and industry are the fill and email stays chatbot-captured

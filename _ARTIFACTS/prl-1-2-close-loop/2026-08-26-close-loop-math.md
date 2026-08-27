@@ -46,7 +46,7 @@ what the receipt mechanism exists to surface.
 |---|---|---|
 | Reliable delivery | MET | MET (+ v5 empty-email guard published; Roger Lamarre record repaired; test leads zero-proofed) |
 | Enrichment (ZoomInfo email fill) | PARTIAL | PARTIAL — task10 diagnostic staged; close or re-baseline in writing |
-| 4-hour metric (proxy allowed) | PARTIAL | Proxy paragraph DRAFTED (`2026-08-26-4h-proxy-decision-DRAFT.md`) — Todd ack closes it |
+| 4-hour metric (proxy allowed) | PARTIAL | **CLOSED mechanically** (Zach ruling 2026-08-26): chatbot leads timestamped at creation + assignment, Zap rule nudges past the elapsed window; hourly sweep staged as nice-to-have; Todd's written ack demoted to nice-to-have FYI |
 | Baseline | NOT STARTED | **PULLED** (`_ARTIFACTS/prl-baseline/`): 942 leads, 4,238 opps, $43.7M / 48% of opps with blank lead_source |
 
 So 1.2 closes at **2 MET + 2 cheap-to-close** — materially better than the Aug-18 picture.
