@@ -103,6 +103,23 @@ def nxt(ns):
     )
 
 
+def sync(ns, to=None):
+    """Reconcile a lagging counter to live truth (adr: audit high-water; else --to N).
+    Refuses to move a counter DOWN — that would re-issue taken numbers."""
+    d = _load()
+    cur = d.get(ns, 0)
+    if ns == "adr" and to is None:
+        to = max(_adr_numbers() or [0])
+    if to is None:
+        sys.stderr.write(f"oracle: sync {ns} needs --to N (only adr can self-derive)\n"); sys.exit(2)
+    to = int(to)
+    if to < cur:
+        sys.stderr.write(f"oracle: refusing to lower {ns} {cur} -> {to} (would re-issue taken ids)\n"); sys.exit(1)
+    d[ns] = to
+    _save(d)
+    print(f"oracle: {ns} synced {cur} -> {to}. COMMIT _SEEDS/_oracle.json.")
+
+
 def main():
     args = sys.argv[1:]
     if not args:
@@ -116,8 +133,11 @@ def main():
         nxt(args[1])
     elif cmd == "audit" and len(args) > 1 and args[1] == "adr":
         audit_adr()
+    elif cmd == "sync" and len(args) > 1:
+        to = args[args.index("--to") + 1] if "--to" in args else None
+        sync(args[1], to)
     else:
-        sys.stderr.write("usage: oracle now | peek <ns> | next <ns> | audit adr\n")
+        sys.stderr.write("usage: oracle now | peek <ns> | next <ns> | audit adr | sync <ns> [--to N]\n")
         sys.exit(2)
 
 
