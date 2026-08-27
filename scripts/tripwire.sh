@@ -27,6 +27,19 @@ for f in "${TARGETS[@]}"; do
   for label in "real-name:$NAMES" "dead-link:$LINKS" "jargon:$JARGON"; do
     kind="${label%%:*}"; pat="${label#*:}"
     hits=$(grep -oiE "$pat" "$f" | sort -u | tr '\n' ',' || true)
+    # Counterpart-facing exception (2026-08-26): a page whose FILENAME is the
+    # counterpart's name (ahmed*.html, wing.html, ...) is their own artifact —
+    # their own name belongs on it. Any OTHER counterpart's name still fails.
+    if [ "$kind" = "real-name" ] && [ -n "$hits" ]; then
+      base=$(basename "$f" | tr '[:upper:]' '[:lower:]')
+      kept=""
+      IFS=',' read -ra HARR <<< "${hits%,}"
+      for hh in "${HARR[@]}"; do
+        hlow=$(printf '%s' "$hh" | tr '[:upper:]' '[:lower:]')
+        case "$base" in *"$hlow"*) ;; *) kept="$kept$hh,";; esac
+      done
+      hits="$kept"
+    fi
     if [ -n "$hits" ]; then
       echo "TRIPWIRE FAIL [$kind] $f -> ${hits%,}"
       fail=1
