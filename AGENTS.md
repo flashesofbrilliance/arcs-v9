@@ -174,6 +174,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 6. **`git worktree list`** before any git operation — active worktree changes between sessions.
 7. **Commit style:** `type(scope): imperative [NCI:XX]` + `Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>`
 8. **Deeper environment gotchas** (Supabase MCP blind spot, Prisma-7 adapter, Vercel CLI/env quirks, domain→project verify-live, subdomain hosting, concurrency discipline, HEIC/`sips`): see `_PATTERNS/durable-gotchas.md` — on-demand, open when the task touches that area.
+9. **Sugar sandbox via Zapier MCP** (PRL work): raw GET/mutating actions on `SugarCRMCLIAPI` reach `prlresinstest.sugarondemand.com/rest/v11/` directly (connection 65663180 = sandbox; NEVER prod). `/rest/v11/bulk` takes 12+ sub-requests per call — build payloads with `scripts/sugar_bulk.py` (prod host refused by default). Zapier's editor is drivable via claude-in-chrome when Comet is logged in, but the permission classifier blocks *typing* into forms: Claude does structure/clicks/publish, the human types free-text fields.
+10. **Session shell helpers**: `scripts/ship_docs.sh` (push→PR→merge, enforced docs-only gate, hang-kill+retry) · `scripts/sync_worktree.sh` (WIP-commit + merge origin/main, hook-state kept as ours, never stash) · `python3 scripts/oracle.py sync <ns>` (reconcile a lagging counter — counters drift when sessions mint off-oracle; audit first).
 
 ---
 

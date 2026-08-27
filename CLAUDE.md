@@ -8,6 +8,8 @@ baseline context. **Do not read further to "orient."**
 
 - **To resume work:** read the latest `# Handoff` block below (bottom of this file) — nothing else.
   Or run `/handoff-pickup`, which reads `_STATE/snapshot.json` + the latest handoff only.
+- **Open work lives in `_QUEUE/induced-backlog.jsonl`** — items carry route/gates/trigger; execute
+  from there without replanning. Dense multi-domain sessions: run `/fold` to spawn composed sessions.
 - **On-demand only** (do NOT read to orient — open only when the task actually needs them):
   `MEMORY.md`, `SKILL.md`, `_ARCHIVE/handoffs.md`, `_ARCHIVE/memory-archive.md`, `_STATE/*`.
 - There is no "read MEMORY→SKILL→WORLD→AGENTS in order" chain anymore. That mandate cost ~40k
