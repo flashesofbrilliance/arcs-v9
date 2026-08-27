@@ -1,3 +1,100 @@
+# Handoff — v3.43.0 (2026-08-26)
+
+> **Active pickup point — the germination + genesis-riff session.** Opened as the verb-matrix
+> germination fork (v3.42.0 open item 3 — now CLOSED); became the day the canon named its own
+> physics. PR #167 MERGED to main 2026-08-26 (12 commits), prod deploy Ready. Oracle-numbered (43;
+> adr + handoff counters both reconciled — they drift when sessions mint off-oracle).
+
+## Shipped (all merged + live)
+- **ADR-068** (verb x altitude gate matrix, oracle-allocated): five-verb print schedule — every
+  stage cut prints an artifact through a gate to a fate; altitude orthogonal. Mandatory blocking:
+  ex-ante-receipt-before-send · pre-send counterpart-gauntlet · close-loop-on-response. Advisory:
+  witness stub, handoff. **Wired into 7 skills** (teardown-page-factory Pre-send gates section;
+  forge phase-8 ex-ante check; recoil-ship Step 5b; recital in omakase/recoil-new/prep/close).
+  `_DECISIONS/index.json` backfilled (066/067 were missing); build.html ADR stat 63 (tripwire
+  caught its own mint again); matrix pattern doc carries the promotion pointer.
+- **Seed bank, 4 new seeds ALL with ledger receipts** (no new orphans): `projection-family-registry`
+  (omakase/teardown/atlas/codex/war-room/receipt = induced projections of one corpus; atlas =
+  next factory, gated on third demanded instance), `extraction-prospecting` (rank extraction
+  candidates from banked cost-receipts; first pass queued on the PRL close-loop multiplier),
+  `sovereign-projection-services` (each factory a sovereign micro-service; spark plug =
+  germination block on prints; pilot ladder = honest resume, scan-first), `pollinate` (sister to
+  germinate: pollen=invariant stripped of instance flesh via doll_export gate; self-pollination =
+  inbreeding = author-cosmology; pedigree fields queued).
+- **Witness file 2026-08-23 = the day's spine, 8 stubs**: registry naming → rare-earth
+  prospecting → spark plug → inheritance capstone (kid inherits judgment canonically; BAR
+  tuition split: ruin inherited, skill personally paid) → tikkun olam ORIGIN (GREEN; absent from
+  all of _CANON until witnessed) → molt amendment (lineage: drop → polyform survey → buddhist
+  convergence) → tree-fall koan CLOSED (germination = retrospective witness; stubs are for
+  sounds that cannot seed themselves) → frame-geometry (PROMOTED same session).
+- **Canon: Tao of ARCS v1.1.0** — §V "One field, sovereign zeros, lawful transforms, preserved
+  invariants" (Zach: "I'll allow it"); tao-250 + tao-251 minted; genesis note gains the
+  four-deep root (adam·adamah·adom·dam) and **Eve identified: chava==anima = the vox animus**
+  (bank=Adam, spark=Eve, §III seam = the pairing).
+- **Design rulings (approved, unbuilt)**: ziggurat walk starts at null point, first arrow-press
+  ignites at trailhead (base terrace, highest indegree), key 0 = return-to-null; observatory
+  rebuild seeds T0 ground from atlas topography at that timestamp (terrain = integral,
+  replay = derivative).
+
+## Open (next session's first work)
+1. **Prospecting pass + PRL 1.2 close-loop** — was parked for Aug-24, now overdue. One
+   computation, two customers: actual-vs-expected multiplier from banked receipts → Todd
+   re-pricing conversation + the extraction queue ranking.
+2. **Sean Wing close-loop window** ends 2026-08-30 (7-day silence trigger) — /recoil-close vs
+   `2026-08-23-sean-wing.json`; counterpart-gauntlet the parked note before any send (v3.42.0).
+3. **3 orphan seeds** still missing ledger receipts (engagement-universe-doll,
+   live-culture-artifacts, page-factory-from-session) — hand curation, hook flags every start.
+4. **Backlog, cheap**: ziggurat trailhead/key-0 wiring (~10 lines); tao proverbs for ADR-066/067
+   (jsonl has none); lattice --regenerate (human-owned); sacred-geometry echo-map workflow
+   (mini-pass done in-thread: 5.5/8 convergent; full blind pass on ask); GitHub Actions billing
+   (Zach-only) then re-enable 6 workflows.
+
+
+# Handoff — v3.42.0 (2026-08-23)
+
+> **Active pickup point — the Wing engagement session.** One inbound (Sean Wing asked for "the
+> good, the bad, and the ugly" on his essay) run end-to-end through the full stage-print arc,
+> throwing off a class, an invariant, and repo-wide gate hardening. 14 PRs merged (#153-#166),
+> all deployed + verified live.
+
+## Shipped (all live)
+- **wing.arcs.care** — S-tier diamond teardown of Wing Financial for Sean Wing: claim-vs-record
+  echo map, 7-gauge panel, forensic CRD timeline (Nathan Wing question), objection map,
+  pre-mortem, gauntlet, shavasana. Read-at-any-depth (collapsed-H2 deks = exec), 15-slide
+  PRESENT deck (good/bad/ugly, earned-fidelity render, FINISH exits to page), touch-native
+  inline term definitions, whole-eyebrow copy-link, legend jump, Wing favicon, noindex meta +
+  X-Robots-Tag header, custom analytics events (pres_open/complete/exit, legend_jump,
+  term_hover, copy_link + dwell). Zero em-dashes (now a mechanical gate).
+- **teardown-page-factory skill** (`.claude/skills/teardown-page-factory/`) — the class print:
+  spec params, component mapping, SLIDES schema, six blocking ship-gates, efficiency contract
+  (~1/3 spend on next run), four-width pixel sweep. wing.html frozen as reference instance.
+- **Stage-print invariant** — `_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md`: five verbs ×
+  gates × fates, altitude orthogonal; forge-pattern/forge-cut cited as precedent pair.
+- **Ex-ante receipt filed** — `runtime/recoil/generated/2026-08-23-sean-wing.json`, honest
+  provenance (post-link-send, pre-response). Zach SENT wing.arcs.care to Sean 2026-08-23.
+  Six outcome estimates, 72h kairos window, YELLOW conviction, close-loop rubric.
+- **Wrap-regression class killed at the root** (recurred 3x in-session: page column, stat strip,
+  deck): root measure tokens not selector literals, auto-fit grids, four-width sweeps. Banked in
+  PRODUCT.md "Known design failure modes" (impeccable loads it every design pass) + memory + skill.
+- **CI parity while GitHub Actions is billing-dead**: 6 workflows disabled (Dependabot left on);
+  leak-check + tripwire wired into the machine-local pre-push hook (with fetch-fresh base);
+  leak-check ANALYTICS debt paid (18 pages got the insights snippet); family-roster.json
+  allowlisted. NOTE: squash merges require branch rebase before the hook's tripwire diff narrows.
+
+## Open (next session's first work)
+1. **GitHub Actions billing** — Zach-only fix (Settings → Billing); re-enable 6 workflows after
+   (one-liner in session log / `gh workflow enable`).
+2. **Sean close-loop** — trigger: any reply, 7 days silence (2026-08-30), or his next public
+   note. Run /recoil-close against the SSOT. Long-form note draft parked in
+   `_ARTIFACTS/wing-sean-linkedin-draft.md`; if sending, run counterpart-gauntlet first (the
+   one un-run gate).
+3. **Two forked sessions in flight**: legacy tripwire-flag cleanup (4 pages) + verb-matrix
+   germination (ADR promotion + wiring gates into skills). Don't duplicate their work.
+4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
+   (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
+
+
+||||||| fae582fb
 # Handoff — v3.42.0 (2026-08-23)
 
 > **Active pickup point — the Wing engagement session.** One inbound (Sean Wing asked for "the
