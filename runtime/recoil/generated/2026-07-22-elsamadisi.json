@@ -1,406 +1,448 @@
 {
-  "meta": {
-    "report_id": "2026-07-22-elsamadisi",
-    "date": "2026-07-22",
-    "counterpart": "Ahmed Elsamadisi",
-    "company": "Polyform AI",
-    "call_duration_min": 35,
-    "segments": 5,
-    "transcript_source": "granola:e8648395-7edf-4111-be42-661b1ff409e1",
-    "provenance": {
-      "audience": "both",
-      "captured": "our call, 2026-07-22, ~35 min, 5 segments",
-      "rule": "every read anchored to a line he said, cleaned of filler, never paraphrased. In quotes = his words. Not in quotes = labeled as Zach's read.",
-      "load_bearing_quote": "this is already really really good for me because... we're targeting a very similar set of customers and we're targeting a very similar set of problems"
-    }
-  },
-  "opportunity": {
-    "audience": "internal",
-    "nci_prior": 58,
-    "nci_post": 68,
-    "y_state": "FORK",
-    "conviction": "MED_HIGH",
-    "stability": "CONTESTED",
-    "topology": "DIVERGENT",
-    "note": "NCI is a decision-level coherence grade (higher=better). Never applied per-belief."
-  },
-  "beliefs": [
-    {
-      "id": "P1",
-      "audience": "internal",
-      "claim": "Media proposal is his live fire",
-      "evidence": "'the media pitch is a separate side project, the main company is Polyform'",
-      "inference": "EXP",
-      "confidence": [
-        0.7,
-        0.25
-      ],
-      "conviction": "HIGH",
-      "verdict": "FALSIFIED"
-    },
-    {
-      "id": "P2",
-      "audience": "internal",
-      "claim": "He probes to place, not buy",
-      "evidence": "asked pricing unprompted; designed the funnel",
-      "inference": "EXP",
-      "confidence": [
-        0.65,
-        0.35
-      ],
-      "conviction": "MED",
-      "verdict": "DOWNGRADE"
-    },
-    {
-      "id": "P3",
-      "audience": "internal",
-      "claim": "If overlap is real, he names it first",
-      "evidence": "'targeting a very similar set of customers and problems'",
-      "inference": "EXP",
-      "confidence": [
-        0.6,
-        0.9
-      ],
-      "conviction": "HIGH",
-      "verdict": "UPGRADE"
-    },
-    {
-      "id": "P4",
-      "audience": "internal",
-      "claim": "Warm peer, not a sales call",
-      "evidence": "warm AND bidirectional biz-dev",
-      "inference": "EXP+IMP",
-      "confidence": [
-        0.5,
-        0.28
-      ],
-      "conviction": "HIGH",
-      "verdict": "DOWNGRADE"
-    },
-    {
-      "id": "P5",
-      "audience": "internal",
-      "claim": "Y-gate YELLOW/FORK",
-      "evidence": "GREEN-leaning on collab; FORK on tributary",
-      "inference": "IMP",
-      "confidence": [
-        0.6,
-        0.72
-      ],
-      "conviction": "MED",
-      "verdict": "PARTIAL"
-    },
-    {
-      "id": "P6",
-      "audience": "internal",
-      "claim": "Fork = soft biz-dev / channel (forge-added)",
-      "evidence": "confirmed + dominant: sponsored analysis, 'free trial then talk to Zach'",
-      "inference": "EXP",
-      "confidence": [
-        0.4,
-        0.82
-      ],
-      "conviction": "HIGH",
-      "verdict": "UPGRADE"
-    },
-    {
-      "id": "N1",
-      "audience": "internal",
-      "claim": "His channel lacks live volume",
-      "evidence": "sales hire 2 wks in, 0 meetings booked",
-      "inference": "EXP",
-      "confidence": [
-        null,
-        0.75
-      ],
-      "conviction": "MED",
-      "verdict": "NEW"
-    },
-    {
-      "id": "N2",
-      "audience": "internal",
-      "claim": "Overlap is the customer, not the product",
-      "evidence": "'our data is less interesting but our customers need is way more interesting'",
-      "inference": "EXP",
-      "confidence": [
-        null,
-        0.8
-      ],
-      "conviction": "HIGH",
-      "verdict": "NEW"
-    },
-    {
-      "id": "N3",
-      "audience": "internal",
-      "claim": "Warmest surface is his new sales hire",
-      "evidence": "adjacent tributary; low-scope, helps him personally",
-      "inference": "IMP",
-      "confidence": [
-        null,
-        0.55
-      ],
-      "conviction": "LOW",
-      "verdict": "NEW"
-    }
-  ],
-  "kinematic_series": {
-    "dt": 1.0,
-    "series": [
-      {
-        "key": "overlap_belief",
-        "audience": "both",
-        "label": "our customers overlap",
-        "color": "#00FF9D",
-        "points": [
-          0.6,
-          0.6,
-          0.62,
-          0.85,
-          0.9
-        ],
-        "grounding_quote": "we're targeting a very similar set of customers and we're targeting a very similar set of problems"
-      },
-      {
-        "key": "media_belief",
-        "audience": "both",
-        "label": "media pitch is his focus",
-        "color": "#00F0FF",
-        "points": [
-          0.7,
-          0.7,
-          0.72,
-          0.3,
-          0.25
-        ],
-        "grounding_quote": "the media company pitch is a separate side project but the main company I run is polyform"
-      }
-    ]
-  },
-  "insights": [
-    {
-      "audience": "both",
-      "plane": "idea",
-      "title": "Context not content, one layer apart",
-      "text": "You standardize the context AI acts on. I standardize the decision a human commits to. Same move, one layer up. You said it yourself on the call: what I do for a person is what you do for the data."
-    },
-    {
-      "audience": "both",
-      "plane": "operating-model",
-      "title": "The same architecture, from opposite ends",
-      "text": "Yours is one human reviewing the work of many AIs, end to end. Mine is one human steering a decision engine. Neither of us set out to copy the other, and we landed in the same place."
-    },
-    {
-      "audience": "both",
-      "plane": "market-thesis",
-      "title": "The shared bet",
-      "text": "Under both companies is one wager: structured, portable context beats more compute. Your one activity table and my one receipt table are the same bet, that the bottleneck is not model quality, it is context that can move."
-    },
-    {
-      "audience": "both",
-      "plane": "technical",
-      "title": "The quiet one: statefulness",
-      "text": "Most orgs never close the loop between a decision made downstream and the context it leaves stale upstream. Both our systems exist because that loop is open."
-    },
-    {
-      "audience": "internal",
-      "plane": "counterpart",
-      "title": "[internal only] generosity / role / channel reads",
-      "text": "Interest-meter, role-assignment, channel-volume reads live in the internal war-room only. Never cross."
-    }
-  ],
-  "next_steps": [
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "Send the demo (ext page) in 48h with one flat pilot price + one named customer."
-    },
-    {
-      "audience": "internal",
-      "owner": "Zach",
-      "text": "Take the Robert intro (decision-ROI company)."
-    },
-    {
-      "audience": "internal",
-      "owner": "Ahmed",
-      "text": "Presenting media proposal to 'people ink'; floating sales-call analysis to customers; sending Robert's info."
-    }
-  ],
-  "redaction_policy": {
-    "external_keeps": [
-      "kinematic_series.points (trajectory only)",
-      "rosetta",
-      "capabilities (high-level)",
-      "pilot"
-    ],
-    "internal_only": [
-      "beliefs (strategy-about-counterpart)",
-      "next_steps",
-      "kinematic derivatives",
-      "opportunity.nci"
-    ],
-    "rules": [
-      "Method can cross; subject-about-them cannot.",
-      "Show your own belief-updates, never their intent-scores.",
-      "Architecture crosses; weights (schema, operators, exact params) do not."
-    ]
-  },
-  "page": {
-    "header": {
-      "eyebrow": "The demo you asked for",
-      "title": "Recoil Report, our call",
-      "sub": "Run on our own conversation, Jul 22. The same analysis I would run on one of your customers' sales-call timelines."
-    },
-    "blocks": [
-      {
-        "type": "sec_label",
-        "audience": "both",
-        "text": "The short version"
-      },
-      {
-        "type": "prose",
-        "audience": "both",
-        "h2": "What this is, in your language",
-        "p": [
-          "It turns a conversation into a time-ordered model of what each side believed and how those beliefs moved as new information arrived. Same shape as your activity schema, pointed at decisions instead of rows. Expected versus actual, joined on time."
-        ]
-      },
-      {
-        "type": "provenance",
-        "audience": "both"
-      },
-      {
-        "type": "prose",
-        "audience": "both",
-        "h2": "Where our customers overlap",
-        "p": [
-          "You put it well on the call: the customers who care about revenue and have real data problems are also the ones making expensive, hard-to-reverse decisions. That is exactly who this is for. Your data may be the less interesting part. Your customers' need is the interesting part, and it is a strong fit."
-        ]
-      },
-      {
-        "type": "sec_label",
-        "audience": "both",
-        "text": "What it does"
-      },
-      {
-        "type": "list",
-        "audience": "both",
-        "h2": "The capabilities, at a high level",
-        "intro": "Enough to see the shape. The specific model and operators are held back, so this is what it does, not how it is tuned.",
-        "items": [
-          {
-            "dot": "c",
-            "html": "Tracks each claim as a credence that updates over the call, plus how settled that estimate is. It can tell a belief that has locked in from one still in motion."
-          },
-          {
-            "dot": "",
-            "html": "<strong>It pressure-tests its own reads before trusting them.</strong> Each conclusion gets red-teamed and pre-mortemed against itself, and only what survives the attack gets reported. The number you see is the one that already held up under fire."
-          },
-          {
-            "dot": "g",
-            "html": "<strong>It gets sharper from being wrong.</strong> A read that turns out false is the highest-information event in the log, so the system keeps the correction instead of smoothing it over."
-          },
-          {
-            "dot": "",
-            "html": "Resolution builds as the log grows. More calls make it sharper, the same way more activities make your table more answerable."
-          }
-        ]
-      },
-      {
-        "type": "rosetta",
-        "audience": "both",
-        "h2": "The same model, both directions",
-        "rows": [
-          [
-            "One activity table, queried for any answer",
-            "one receipt table, queried for any bearing"
-          ],
-          [
-            "Temporal join, time + entity, no foreign keys",
-            "expected versus actual on the same decision"
-          ],
-          [
-            "Bayesian update on the entity's state",
-            "belief recalibrated from the diff"
-          ],
-          [
-            "Single source of truth, model once",
-            "one answer, not a pile of dashboards"
-          ]
-        ]
-      },
-      {
-        "type": "sec_label",
-        "audience": "both",
-        "text": "Watch it work, traced on our own call"
-      },
-      {
-        "type": "worked_example",
-        "audience": "both",
-        "h2": "A worked example",
-        "intro": "Two claims tracked across our call. One of them is a belief of mine that collapsed, which is the honest part. The engine caught the correction instead of hiding it.",
-        "close": "The cyan line is a prior I walked in with, that your media proposal was the thing you wanted to work on. It held flat, then dropped hard when you corrected it. That one correction carried most of the update, and the claim closed low and settled. The green line is the overlap between us, which started as a guess and rose to a confident read on your own framing."
-      },
-      {
-        "type": "prose",
-        "audience": "both",
-        "h2": "Why being wrong is the point",
-        "p": [
-          "The value is not that the model was right. When I was wrong, it caught the correction and kept it, instead of quietly editing it out. That is the same property your one table has: every activity you append makes it more answerable, not more brittle. The honest diff is worth more than a flattering summary."
-        ]
-      },
-      {
-        "type": "sec_label",
-        "audience": "both",
-        "text": "What it surfaced"
-      },
-      {
-        "type": "insights",
-        "audience": "both",
-        "h2": "A few non-obvious things",
-        "intro": "The point of a pass like this is not the obvious summary. It is the quiet signals underneath. Four that came out of our call, on four different planes."
-      },
-      {
-        "type": "belief_log",
-        "audience": "internal",
-        "h2": "Belief Log (confidence x conviction)"
-      },
-      {
-        "type": "kinematics_table",
-        "audience": "internal",
-        "h2": "Kinematics (measured)"
-      },
-      {
-        "type": "sec_label",
-        "audience": "both",
-        "text": "A concrete first step"
-      },
-      {
-        "type": "pilot",
-        "audience": "both",
-        "h2": "The pilot",
-        "p": [
-          "Pick one of your customers with a lot of sales calls. We take their existing customer-journey timeline, run this on it, and produce <strong>one sponsored report with your name on it.</strong> One customer, existing export, no new integration. Per-customer and aggregate both work, so we start with one and widen.",
-          "A fixed pilot fee, scoped to that one customer. I will put the number on it the moment we pick who, so it stays honest to the real scope. Free single run per company, then they talk to me. If it lands, it becomes a repeatable add-on across your book."
-        ]
-      },
-      {
-        "type": "prose",
-        "audience": "both",
-        "h2": "Also happy to",
-        "p": [
-          "Your new rep: I can pressure-test the ideal-customer profile and the prep questions before meetings, so he walks in sharper. Low scope, fast, and it helps you directly."
-        ]
-      },
-      {
-        "type": "foot",
-        "audience": "both",
-        "text": "Either way, great to reconnect. When the knee is back I would love that coffee at the office.<br>Send me the customer you want to start with and I will turn the first report around fast."
-      },
-      {
-        "type": "stamp",
-        "audience": "both",
-        "text": "Compiled from our 35-minute call &#183; 2026-07-22 &#183; every read traces to your words"
-      }
-    ]
+ "meta": {
+  "report_id": "2026-07-22-elsamadisi",
+  "date": "2026-07-22",
+  "counterpart": "Ahmed Elsamadisi",
+  "company": "Polyform AI",
+  "call_duration_min": 35,
+  "segments": 5,
+  "transcript_source": "granola:e8648395-7edf-4111-be42-661b1ff409e1",
+  "provenance": {
+   "audience": "both",
+   "captured": "our call, 2026-07-22, ~35 min, 5 segments",
+   "rule": "every read anchored to a line he said, cleaned of filler, never paraphrased. In quotes = his words. Not in quotes = labeled as Zach's read.",
+   "load_bearing_quote": "this is already really really good for me because... we're targeting a very similar set of customers and we're targeting a very similar set of problems"
   }
+ },
+ "opportunity": {
+  "audience": "internal",
+  "nci_prior": 58,
+  "nci_post": 68,
+  "y_state": "FORK",
+  "conviction": "MED_HIGH",
+  "stability": "CONTESTED",
+  "topology": "DIVERGENT",
+  "note": "NCI is a decision-level coherence grade (higher=better). Never applied per-belief."
+ },
+ "beliefs": [
+  {
+   "id": "P1",
+   "audience": "internal",
+   "claim": "Media proposal is his live fire",
+   "evidence": "'the media pitch is a separate side project, the main company is Polyform'",
+   "inference": "EXP",
+   "confidence": [
+    0.7,
+    0.25
+   ],
+   "conviction": "HIGH",
+   "verdict": "FALSIFIED"
+  },
+  {
+   "id": "P2",
+   "audience": "internal",
+   "claim": "He probes to place, not buy",
+   "evidence": "asked pricing unprompted; designed the funnel",
+   "inference": "EXP",
+   "confidence": [
+    0.65,
+    0.35
+   ],
+   "conviction": "MED",
+   "verdict": "DOWNGRADE"
+  },
+  {
+   "id": "P3",
+   "audience": "internal",
+   "claim": "If overlap is real, he names it first",
+   "evidence": "'targeting a very similar set of customers and problems'",
+   "inference": "EXP",
+   "confidence": [
+    0.6,
+    0.9
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "P4",
+   "audience": "internal",
+   "claim": "Warm peer, not a sales call",
+   "evidence": "warm AND bidirectional biz-dev",
+   "inference": "EXP+IMP",
+   "confidence": [
+    0.5,
+    0.28
+   ],
+   "conviction": "HIGH",
+   "verdict": "DOWNGRADE"
+  },
+  {
+   "id": "P5",
+   "audience": "internal",
+   "claim": "Y-gate YELLOW/FORK",
+   "evidence": "GREEN-leaning on collab; FORK on tributary",
+   "inference": "IMP",
+   "confidence": [
+    0.6,
+    0.72
+   ],
+   "conviction": "MED",
+   "verdict": "PARTIAL"
+  },
+  {
+   "id": "P6",
+   "audience": "internal",
+   "claim": "Fork = soft biz-dev / channel (forge-added)",
+   "evidence": "confirmed + dominant: sponsored analysis, 'free trial then talk to Zach'",
+   "inference": "EXP",
+   "confidence": [
+    0.4,
+    0.82
+   ],
+   "conviction": "HIGH",
+   "verdict": "UPGRADE"
+  },
+  {
+   "id": "N1",
+   "audience": "internal",
+   "claim": "His channel lacks live volume",
+   "evidence": "sales hire 2 wks in, 0 meetings booked",
+   "inference": "EXP",
+   "confidence": [
+    null,
+    0.75
+   ],
+   "conviction": "MED",
+   "verdict": "NEW"
+  },
+  {
+   "id": "N2",
+   "audience": "internal",
+   "claim": "Overlap is the customer, not the product",
+   "evidence": "'our data is less interesting but our customers need is way more interesting'",
+   "inference": "EXP",
+   "confidence": [
+    null,
+    0.8
+   ],
+   "conviction": "HIGH",
+   "verdict": "NEW"
+  },
+  {
+   "id": "N3",
+   "audience": "internal",
+   "claim": "Warmest surface is his new sales hire",
+   "evidence": "adjacent tributary; low-scope, helps him personally",
+   "inference": "IMP",
+   "confidence": [
+    null,
+    0.55
+   ],
+   "conviction": "LOW",
+   "verdict": "NEW"
+  }
+ ],
+ "kinematic_series": {
+  "dt": 1.0,
+  "series": [
+   {
+    "key": "overlap_belief",
+    "audience": "both",
+    "label": "our customers overlap",
+    "color": "#00FF9D",
+    "points": [
+     0.6,
+     0.6,
+     0.62,
+     0.85,
+     0.9
+    ],
+    "grounding_quote": "we're targeting a very similar set of customers and we're targeting a very similar set of problems"
+   },
+   {
+    "key": "media_belief",
+    "audience": "both",
+    "label": "media pitch is his focus",
+    "color": "#00F0FF",
+    "points": [
+     0.7,
+     0.7,
+     0.72,
+     0.3,
+     0.25
+    ],
+    "grounding_quote": "the media company pitch is a separate side project but the main company I run is polyform"
+   }
+  ]
+ },
+ "insights": [
+  {
+   "audience": "both",
+   "plane": "idea",
+   "title": "Context not content, one layer apart",
+   "text": "You standardize the context AI acts on. I standardize the decision a human commits to. Same move, one layer up. You said it yourself on the call: what I do for a person is what you do for the data."
+  },
+  {
+   "audience": "both",
+   "plane": "operating-model",
+   "title": "The same architecture, from opposite ends",
+   "text": "Yours is one human reviewing the work of many AIs, end to end. Mine is one human steering a decision engine. Neither of us set out to copy the other, and we landed in the same place."
+  },
+  {
+   "audience": "both",
+   "plane": "market-thesis",
+   "title": "The shared bet",
+   "text": "Under both companies is one wager: structured, portable context beats more compute. Your one activity table and my one receipt table are the same bet, that the bottleneck is not model quality, it is context that can move."
+  },
+  {
+   "audience": "both",
+   "plane": "technical",
+   "title": "The quiet one: statefulness",
+   "text": "Most orgs never close the loop between a decision made downstream and the context it leaves stale upstream. Both our systems exist because that loop is open."
+  },
+  {
+   "audience": "internal",
+   "plane": "counterpart",
+   "title": "[internal only] generosity / role / channel reads",
+   "text": "Interest-meter, role-assignment, channel-volume reads live in the internal war-room only. Never cross."
+  }
+ ],
+ "next_steps": [
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Send the demo (ext page) in 48h with one flat pilot price + one named customer."
+  },
+  {
+   "audience": "internal",
+   "owner": "Zach",
+   "text": "Take the Robert intro (decision-ROI company)."
+  },
+  {
+   "audience": "internal",
+   "owner": "Ahmed",
+   "text": "Presenting media proposal to 'people ink'; floating sales-call analysis to customers; sending Robert's info."
+  }
+ ],
+ "redaction_policy": {
+  "external_keeps": [
+   "kinematic_series.points (trajectory only)",
+   "rosetta",
+   "capabilities (high-level)",
+   "pilot"
+  ],
+  "internal_only": [
+   "beliefs (strategy-about-counterpart)",
+   "next_steps",
+   "kinematic derivatives",
+   "opportunity.nci"
+  ],
+  "rules": [
+   "Method can cross; subject-about-them cannot.",
+   "Show your own belief-updates, never their intent-scores.",
+   "Architecture crosses; weights (schema, operators, exact params) do not."
+  ]
+ },
+ "page": {
+  "header": {
+   "eyebrow": "The demo you asked for",
+   "title": "Recoil Report, our call",
+   "sub": "Run on our own conversation, Jul 22. The same analysis I would run on one of your customers' sales-call timelines."
+  },
+  "blocks": [
+   {
+    "type": "sec_label",
+    "audience": "both",
+    "text": "The short version"
+   },
+   {
+    "type": "prose",
+    "audience": "both",
+    "h2": "What this is, in your language",
+    "p": [
+     "It turns a conversation into a time-ordered model of what each side believed and how those beliefs moved as new information arrived. Same shape as your activity schema, pointed at decisions instead of rows. Expected versus actual, joined on time."
+    ]
+   },
+   {
+    "type": "provenance",
+    "audience": "both"
+   },
+   {
+    "type": "prose",
+    "audience": "both",
+    "h2": "Where our customers overlap",
+    "p": [
+     "You put it well on the call: the customers who care about revenue and have real data problems are also the ones making expensive, hard-to-reverse decisions. That is exactly who this is for. Your data may be the less interesting part. Your customers' need is the interesting part, and it is a strong fit."
+    ]
+   },
+   {
+    "type": "sec_label",
+    "audience": "both",
+    "text": "What it does"
+   },
+   {
+    "type": "list",
+    "audience": "both",
+    "h2": "The capabilities, at a high level",
+    "intro": "Enough to see the shape. The specific model and operators are held back, so this is what it does, not how it is tuned.",
+    "items": [
+     {
+      "dot": "c",
+      "html": "Tracks each claim as a credence that updates over the call, plus how settled that estimate is. It can tell a belief that has locked in from one still in motion."
+     },
+     {
+      "dot": "",
+      "html": "<strong>It pressure-tests its own reads before trusting them.</strong> Each conclusion gets red-teamed and pre-mortemed against itself, and only what survives the attack gets reported. The number you see is the one that already held up under fire."
+     },
+     {
+      "dot": "g",
+      "html": "<strong>It gets sharper from being wrong.</strong> A read that turns out false is the highest-information event in the log, so the system keeps the correction instead of smoothing it over."
+     },
+     {
+      "dot": "",
+      "html": "Resolution builds as the log grows. More calls make it sharper, the same way more activities make your table more answerable."
+     }
+    ]
+   },
+   {
+    "type": "rosetta",
+    "audience": "both",
+    "h2": "The same model, both directions",
+    "rows": [
+     [
+      "One activity table, queried for any answer",
+      "one receipt table, queried for any bearing"
+     ],
+     [
+      "Temporal join, time + entity, no foreign keys",
+      "expected versus actual on the same decision"
+     ],
+     [
+      "Bayesian update on the entity's state",
+      "belief recalibrated from the diff"
+     ],
+     [
+      "Single source of truth, model once",
+      "one answer, not a pile of dashboards"
+     ]
+    ]
+   },
+   {
+    "type": "sec_label",
+    "audience": "both",
+    "text": "Watch it work, traced on our own call"
+   },
+   {
+    "type": "worked_example",
+    "audience": "both",
+    "h2": "A worked example",
+    "intro": "Two claims tracked across our call. One of them is a belief of mine that collapsed, which is the honest part. The engine caught the correction instead of hiding it.",
+    "close": "The cyan line is a prior I walked in with, that your media proposal was the thing you wanted to work on. It held flat, then dropped hard when you corrected it. That one correction carried most of the update, and the claim closed low and settled. The green line is the overlap between us, which started as a guess and rose to a confident read on your own framing."
+   },
+   {
+    "type": "prose",
+    "audience": "both",
+    "h2": "Why being wrong is the point",
+    "p": [
+     "The value is not that the model was right. When I was wrong, it caught the correction and kept it, instead of quietly editing it out. That is the same property your one table has: every activity you append makes it more answerable, not more brittle. The honest diff is worth more than a flattering summary."
+    ]
+   },
+   {
+    "type": "sec_label",
+    "audience": "both",
+    "text": "What it surfaced"
+   },
+   {
+    "type": "insights",
+    "audience": "both",
+    "h2": "A few non-obvious things",
+    "intro": "The point of a pass like this is not the obvious summary. It is the quiet signals underneath. Four that came out of our call, on four different planes."
+   },
+   {
+    "type": "belief_log",
+    "audience": "internal",
+    "h2": "Belief Log (confidence x conviction)"
+   },
+   {
+    "type": "kinematics_table",
+    "audience": "internal",
+    "h2": "Kinematics (measured)"
+   },
+   {
+    "type": "sec_label",
+    "audience": "both",
+    "text": "A concrete first step"
+   },
+   {
+    "type": "pilot",
+    "audience": "both",
+    "h2": "The pilot",
+    "p": [
+     "Pick one of your customers with a lot of sales calls. We take their existing customer-journey timeline, run this on it, and produce <strong>one sponsored report with your name on it.</strong> One customer, existing export, no new integration. Per-customer and aggregate both work, so we start with one and widen.",
+     "A fixed pilot fee, scoped to that one customer. I will put the number on it the moment we pick who, so it stays honest to the real scope. Free single run per company, then they talk to me. If it lands, it becomes a repeatable add-on across your book."
+    ]
+   },
+   {
+    "type": "prose",
+    "audience": "both",
+    "h2": "Also happy to",
+    "p": [
+     "Your new rep: I can pressure-test the ideal-customer profile and the prep questions before meetings, so he walks in sharper. Low scope, fast, and it helps you directly."
+    ]
+   },
+   {
+    "type": "foot",
+    "audience": "both",
+    "text": "Either way, great to reconnect. When the knee is back I would love that coffee at the office.<br>Send me the customer you want to start with and I will turn the first report around fast."
+   },
+   {
+    "type": "stamp",
+    "audience": "both",
+    "text": "Compiled from our 35-minute call &#183; 2026-07-22 &#183; every read traces to your words"
+   }
+  ]
+ },
+ "ex_ante_reopen_2026_08_26": {
+  "filed": "2026-08-26 (pre-send: note drafted, NOT sent; Zach sends by hand)",
+  "provenance": "ex-ante in the honest sense: filed before the re-open note leaves draft (ADR-068 blocking gate)",
+  "question": "Does the Robert-intro re-opener plus the 60-Second Read onramp convert Ahmed's 23-day silence (after his 'hard to follow' friction signal and Zach's open three-option question) back into an active thread, without re-triggering the consumability objection?",
+  "true_north": "Ahmed replies within 7 days AND does not repeat the hard-to-follow objection; best case he names a customer or takes the Robert intro forward.",
+  "expected_outcomes": [
+   {
+    "outcome": "Replies on the Robert intro thread (accepts/coordinates the intro)",
+    "estimate": 0.5,
+    "basis": "he offered the intro himself on the Jul 22 call; taking someone's own offer is the lowest-friction re-opener"
+   },
+   {
+    "outcome": "Opens the new front door / 60-second read and dwells past the first screen (analytics)",
+    "estimate": 0.55,
+    "basis": "he engaged the last version enough to critique it; the new version costs 60 seconds"
+   },
+   {
+    "outcome": "Replies about the artifact itself without the consumability objection recurring",
+    "estimate": 0.3,
+    "basis": "the onramp is built directly against his verbatim critique; but he may simply not comment on it"
+   },
+   {
+    "outcome": "Names a customer / advances the pilot",
+    "estimate": 0.15,
+    "basis": "mid-funnel buy signal existed Jul 22 (asked pricing unprompted) but 5 weeks have passed and his channel is unproven"
+   },
+   {
+    "outcome": "Repeats 'hard to follow' or equivalent friction",
+    "estimate": 0.1,
+    "basis": "if this fires, the onramp failed its one job; automatic rework, do not send anything further until rebuilt"
+   },
+   {
+    "outcome": "Silence for more than 10 days",
+    "estimate": 0.3,
+    "basis": "two-company founder, summer-end load; silence is his current baseline state"
+   }
+  ],
+  "falsifier": "The onramp thesis (consumability, not cadence, was the blocker) is FALSIFIED if Ahmed opens the pages (analytics show dwell) and still goes silent or repeats the objection. It is CONFIRMED only by a reply that engages content without the objection. A reply driven purely by the Robert intro with zero artifact engagement neither confirms nor falsifies it; log as UNRESOLVED.",
+  "kairos_window": "72h from send for the intro-thread reply; 7 days for artifact signal; close-loop review at 10 days of silence.",
+  "ruin_check": "Worst realistic case: another polite silence. No new claims were added to any page; air-gap intact; noindex on all four surfaces; nothing auto-sends. Survivable.",
+  "conviction": "YELLOW"
+ }
 }
