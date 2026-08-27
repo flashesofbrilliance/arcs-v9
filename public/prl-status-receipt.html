@@ -92,7 +92,7 @@
   </nav>
 </div></div>
 <div class="bluf"><div class="wrap">
-  <p style="margin:0;font-size:20px;line-height:1.55"><strong>Before 1.2 started we wrote down the bet: $4,500, about 20 hours, wrong if the work left the 12 to 30 hour band.</strong> It did. The work ran roughly double the estimate, the $4,500 cap held, and this page shows the math: what blew the band, what you got for it, and what the receipt sets for 1.3. You pay the quote, never the overrun.</p>
+  <p style="margin:0;font-size:20px;line-height:1.55"><strong>Before 1.2 started we wrote down the bet: $4,500, about 20 hours, wrong if the work left the 12 to 30 hour band.</strong> It did. The work ran roughly double the estimate and the cap held. You pay the quote, never the overrun.</p>
 </div></div>
 
 <style>
@@ -104,7 +104,8 @@
   .tile .ts{color:var(--muted);font-size:13.5px;margin-top:2px}
   .tile .tv.gold{color:var(--gold-soft)} .tile .tv.red{color:var(--red)} .tile .tv.green{color:var(--green)}
   .bandchart{margin-top:6px;overflow-x:auto}
-  .bandchart svg{display:block;width:100%;height:auto;min-width:640px}
+  .bandchart svg{display:block;width:100%;height:auto;min-width:700px}
+  .hcap{color:var(--muted);font-size:13.5px}
   .viznote{font-family:var(--mono);font-size:12px;color:var(--dim);margin-top:10px;line-height:1.6}
   .hbars{margin-top:2px}
   .hbar{display:grid;grid-template-columns:1fr;gap:4px;padding:9px 0;border-top:1px solid rgba(255,255,255,.04)}
@@ -156,10 +157,9 @@
     <text x="625" y="136" text-anchor="middle" font-size="12.5" fill="#8b98a9">the part past the band is the miss</text>
   </svg>
   </div>
-  <script>addEventListener('DOMContentLoaded',function(){var c=document.querySelector('.bandchart');if(c&&c.scrollWidth>c.clientWidth){c.scrollLeft=(c.scrollWidth-c.clientWidth)*.55}})</script>
-  <div class="viznote">honest scale: no timesheet was kept, so the actual is an estimate from work records
-  (7 distinct working days, 109 tracked changes), shown as a range, not a false-precision number.
-  Method in the fine print below.</div>
+  <script>(function(){function s(){var c=document.querySelector('.bandchart');if(c&&c.scrollWidth>c.clientWidth){c.scrollLeft=(c.scrollWidth-c.clientWidth)*.55}}s();addEventListener('load',s)})()</script>
+  <div class="viznote">honest scale: no timesheet was kept. The actual is an estimate from work
+  records, shown as a range on purpose. Method in the fine print below.</div>
 </div></div>
 
 <div class="checklist"><div class="wrap">
@@ -167,13 +167,13 @@
   <div class="hbars">
     <div class="hbar"><div class="ht"><b>The build itself</b> · landed inside the original bet</div>
       <div class="track"><div class="fill" style="width:34%;background:rgba(201,162,39,.55)"></div></div>
-      <div class="ts" style="color:var(--muted);font-size:13.5px">delivery, dedup, enrichment, timers, baseline pull, routing sweep</div></div>
+      <div class="hcap">delivery, dedup, enrichment, timers, baseline pull, routing sweep</div></div>
     <div class="hbar"><div class="ht"><b>Coordination the bet did not price</b> · the blowout</div>
       <div class="track"><div class="fill" style="width:92%;background:rgba(208,84,107,.6)"></div></div>
-      <div class="ts" style="color:var(--muted);font-size:13.5px">a chat-platform plan surprise that forced a re-design, sandbox access arriving mid-phase, email-delivery vendor loops, the routing investigation (which found a real pre-existing CRM issue)</div></div>
+      <div class="hcap">a chat-platform plan surprise that forced a re-design, sandbox access arriving mid-phase, email-delivery vendor loops, the routing investigation (which found a real pre-existing CRM issue)</div></div>
     <div class="hbar"><div class="ht"><b>Page polish</b> · self-inflicted, now automated so it cannot recur</div>
       <div class="track"><div class="fill" style="width:22%;background:rgba(255,255,255,.22)"></div></div>
-      <div class="ts" style="color:var(--muted);font-size:13.5px">these status pages themselves; the layout system is now stamped by a tool, not rebuilt by hand</div></div>
+      <div class="hcap">these status pages themselves; the layout system is now stamped by a tool, not rebuilt by hand</div></div>
   </div>
 </div></div>
 
