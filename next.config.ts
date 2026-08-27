@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
         { source: "/:path*", destination: "/warroom/kelly-interview", has: [{ type: "host", value: "kelly-interview.arcs.care" }] },
         { source: "/:seg(teardown|logictree)", destination: "/todd-:seg.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
         { source: "/:path((?!.*teardown|.*logictree).*)", destination: "/todd-call.html", has: [{ type: "host", value: "todd-call.arcs.care" }] },
-        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
+        { source: "/status/:seg(crm|tidio|wp|troubleshooting|build|progress|atlas|receipt)", destination: "/prl-status-:seg.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path((?!.*prl-status-).*)", destination: "/todd-call.html", has: [{ type: "host", value: "prl.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labella.arcs.care" }] },
         { source: "/:path*", destination: "/warroom/labella", has: [{ type: "host", value: "labelle.arcs.care" }] },

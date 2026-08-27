@@ -123,6 +123,12 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 - **Judgment memos:** Lyro-races-flow → rec accept-for-pilot, natural 1.5 scope; read-more links
   → /contact/ to manual Q&A only, rest parked 1.3. Analytics audit CLOSED (all 8 pages have
   the snippet). 1.4 SEM prep verified ALREADY DONE (Aug-18 template + 5 instances + runbook).
+- **NEW: /status/receipt surface** — the closed 1.2 receipt as data-driven storytelling
+  (`public/prl-status-receipt.html`, stamped via prl-page-factory + bespoke band-chart/tiles
+  organisms, 4-width sweep verified; wired in proxy.ts + next.config.ts; DEPLOYS ON MERGE —
+  merging the PR is the ship gesture). **ADR-069 minted** (first closed client receipt =
+  precedent-shaped expectation management; oracle audit pending) + witness stub 2026-08-26 +
+  DEWY receipt — the four-in-one print, per Zach's live witness call.
 - Backlog statuses annotated in `_QUEUE/induced-backlog.jsonl` (prospecting-pass-1 DONE;
   zap-kit items open/staged-human-gated).
 
