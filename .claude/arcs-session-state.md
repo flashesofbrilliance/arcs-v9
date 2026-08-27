@@ -1,21 +1,14 @@
-# ARCS session state — sprint snapshot
+# ARCS session state — 2026-08-27 (post v3.46.0 handoff)
 
-_Updated 2026-08-26 (handoff v3.43.0). Germination thread CLOSED: PR #167 merged, canon updated._
+**Sprint:** PRL 1.2 CLOSED (receipt live at prl.arcs.care/status/receipt, gauntleted). 1.3 gated
+on the Todd call ($4,000, precondition batch first). Zap-kit installs + e2e chat human-gated.
 
-## Shipped this session
-- ADR-068 (verb x altitude gate matrix) minted + wired into 7 skills as blocking gates.
-- 4 seeds banked WITH ledger receipts; 8 witness stubs; frame-geometry stub PROMOTED.
-- Tao of ARCS v1.1.0: SV one-field/sovereign-zeros + tao-250/251 + genesis root-cluster + Eve==anima.
-- PR #167 merged 2026-08-26 (12 commits); prod deploy Ready; oracle counters reconciled.
+**Head:** main `ba6c15bb` (#184) · deploy Ready · all routes verified live.
+**New canon:** ADR-069 (precedent-shaped expectation management; oracle audit pending).
+**New service:** Instrument Board (`scripts/warroom_board.py` -> /warroom/gauntlet, admin-gated).
 
-## Open
-1. PRL 1.2 close-loop + first prospecting pass (OVERDUE since Aug-24).
-2. Sean Wing close-loop window ends 2026-08-30 (gauntlet the note before any send).
-3. 3 orphan seeds await hand curation (hook flags each session start).
-4. Cheap: ziggurat trailhead/key-0 wiring; tao 066/067 backfill; lattice regenerate (human-owned).
+**Next:** (1) human-at-keyboard Zapier session per `_ARTIFACTS/prl-zap-kit/README.md`;
+(2) Todd close-loop call with `_ARTIFACTS/prl-1-2-close-loop/` one-pager; (3) Sean Wing
+close-loop by 2026-08-30; (4) 1.2-A payment-gated.
 
-## Blocking
-NONE on this track. PRL re-pricing half needs Todd live.
-
-## Pickup
-`/handoff-pickup` -> `_STATE/snapshot.json` + v3.43.0 in `CLAUDE.md`.
+Pickup: `/handoff-pickup` (reads snapshot + latest handoff only).

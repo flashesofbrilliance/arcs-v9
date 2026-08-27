@@ -7,6 +7,22 @@
 
 ---
 
+## [v3.46.0] 2026-08-27 — First closed client receipt + instrument board
+
+- **ADR-069 minted** (oracle audit pending): first ex-ante->ex-post receipt closed in a paying
+  engagement (PRL 1.2, RED on estimate, cap held). Expectation management is now precedent-shaped:
+  forward claims cite banked receipts; losing receipts are publishable; variance priced as
+  preconditions. Witness stub 2026-08-26 + DEWY receipt.
+- **prl.arcs.care/status/receipt** live: the close-loop as data-story (band chart, tiles, honest
+  method). Passed fact-check-vs-CSV + full counterpart-gauntlet (14 findings fixed, incl. 2
+  pathogens on the four-hour row). Receipt pill now on all 8 family pages + homepage gold jumplink.
+- **Instrument Board** (`scripts/warroom_board.py` -> /warroom/gauntlet, admin-gated): second
+  sovereign projection service; adapters snap on per JSONL ledger; typed print + spark-plug sidecar.
+  Care rule: new gauntlet-runs rows must state "N pathogen, N crack, N nit" + "N over-flags rejected".
+- Gotchas re-proven: handoff version collision across parallel sessions (renumber, keep both);
+  squash-merged branch = reset to main, never rebase-replay; tripwire flags on touched-but-unchanged
+  content get adjudicated in the commit message, not silently bypassed.
+
 ## [v3.43.0] 2026-08-26 — ADR-068 germination + the genesis-riff arc (PR #167 merged)
 
 Verb-matrix pattern PROMOTED to **ADR-068** (print/gate/fate per verb-cut, altitude orthogonal)
