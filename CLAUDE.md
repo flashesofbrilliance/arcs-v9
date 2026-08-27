@@ -103,6 +103,43 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.44.0 (2026-08-26)
+
+> **Active pickup point — the Ahmed 60-Second Read session.** The germination session's open
+> backlog stands (see v3.43.0); this session closed the long-parked Ahmed consumability fix
+> end to end. PR #181 MERGED to main 2026-08-26, deploy verified live.
+
+## Shipped (all merged + live at ahmed-ext.arcs.care)
+- **The 60-Second Read onramp** on /report: three 20s anchor-linked steps + optional analog
+  dial (no auto-play, reduced-motion honored, steps stack above dial on mobile), "recoil"
+  glossed at first use, HOW TO READ IT annotation on the first chart, pre-registration line
+  ("the 0.7 was filed in writing before we spoke"). Spec/animatic restored from b0b813e to
+  `_ARTIFACTS/sixty-second-read.html` (was missing from this branch).
+- **Gauntlet-driven hardening pass** (counterpart-gauntlet workflow, 4 facets + adversarial
+  verify; 3 breaks / 8 cracks / 4 nits, all fixed): ONE pricing story on all four surfaces
+  ("first report on me, then fixed per-customer fee" — old pages told four, incl. an "on you"
+  contradiction); single ask restored (sales-hire fork + "Also happy to" card cut, no-menu
+  rule); /evening de-costumed (kanji + Courses stripped, Canon Forge -> "the account record");
+  tabs renamed by job (How it scales / The bet); /seed self-narration cut. The verify stage
+  REJECTED the "chart is interpolated" flag — kinematic_series is measured + quote-grounded;
+  do NOT "fix" that chart.
+- **Tripwire counterpart-facing exception**: a page whose filename is its counterpart's name
+  may carry that name; any other counterpart name still fails.
+- **Ex-ante receipt filed pre-send** (ADR-068): SSOT `2026-07-22-elsamadisi.json` ->
+  `ex_ante_reopen_2026_08_26`, six outcome estimates + explicit falsifier (opens + silence =
+  onramp thesis falsified). YELLOW conviction.
+- **Re-open note DRAFTED** at `_ARTIFACTS/ahmed-reopen-note-draft.md` — Robert intro first,
+  link second, pilot restated, send checklist attached. NOT sent; Zach sends by hand.
+
+## Open (next session's first work)
+1. **Zach sends the Ahmed note** (hand-send on the existing thread; verify live render first).
+   Close-loop review at 10 days post-send silence.
+2. Inherited from v3.43.0, still open: prospecting pass + PRL 1.2 close-loop (overdue);
+   Sean Wing close-loop window ends 2026-08-30; 3 orphan seeds; cheap backlog (ziggurat
+   trailhead wiring, tao proverbs 066/067, lattice --regenerate, GitHub Actions billing).
+3. Pre-existing tripwire fails on forge-pattern/forge-cut (jargon) — not in this session's
+   diff; fix or gate when those pages are next touched.
+
 # Handoff — v3.43.0 (2026-08-26)
 
 > **Active pickup point — the germination + genesis-riff session.** Opened as the verb-matrix
@@ -154,47 +191,4 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
    (mini-pass done in-thread: 5.5/8 convergent; full blind pass on ask); GitHub Actions billing
    (Zach-only) then re-enable 6 workflows.
 
-# Handoff — v3.42.0 (2026-08-23)
-
-> **Active pickup point — the Wing engagement session.** One inbound (Sean Wing asked for "the
-> good, the bad, and the ugly" on his essay) run end-to-end through the full stage-print arc,
-> throwing off a class, an invariant, and repo-wide gate hardening. 14 PRs merged (#153-#166),
-> all deployed + verified live.
-
-## Shipped (all live)
-- **wing.arcs.care** — S-tier diamond teardown of Wing Financial for Sean Wing: claim-vs-record
-  echo map, 7-gauge panel, forensic CRD timeline (Nathan Wing question), objection map,
-  pre-mortem, gauntlet, shavasana. Read-at-any-depth (collapsed-H2 deks = exec), 15-slide
-  PRESENT deck (good/bad/ugly, earned-fidelity render, FINISH exits to page), touch-native
-  inline term definitions, whole-eyebrow copy-link, legend jump, Wing favicon, noindex meta +
-  X-Robots-Tag header, custom analytics events (pres_open/complete/exit, legend_jump,
-  term_hover, copy_link + dwell). Zero em-dashes (now a mechanical gate).
-- **teardown-page-factory skill** (`.claude/skills/teardown-page-factory/`) — the class print:
-  spec params, component mapping, SLIDES schema, six blocking ship-gates, efficiency contract
-  (~1/3 spend on next run), four-width pixel sweep. wing.html frozen as reference instance.
-- **Stage-print invariant** — `_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md`: five verbs ×
-  gates × fates, altitude orthogonal; forge-pattern/forge-cut cited as precedent pair.
-- **Ex-ante receipt filed** — `runtime/recoil/generated/2026-08-23-sean-wing.json`, honest
-  provenance (post-link-send, pre-response). Zach SENT wing.arcs.care to Sean 2026-08-23.
-  Six outcome estimates, 72h kairos window, YELLOW conviction, close-loop rubric.
-- **Wrap-regression class killed at the root** (recurred 3x in-session: page column, stat strip,
-  deck): root measure tokens not selector literals, auto-fit grids, four-width sweeps. Banked in
-  PRODUCT.md "Known design failure modes" (impeccable loads it every design pass) + memory + skill.
-- **CI parity while GitHub Actions is billing-dead**: 6 workflows disabled (Dependabot left on);
-  leak-check + tripwire wired into the machine-local pre-push hook (with fetch-fresh base);
-  leak-check ANALYTICS debt paid (18 pages got the insights snippet); family-roster.json
-  allowlisted. NOTE: squash merges require branch rebase before the hook's tripwire diff narrows.
-
-## Open (next session's first work)
-1. **GitHub Actions billing** — Zach-only fix (Settings → Billing); re-enable 6 workflows after
-   (one-liner in session log / `gh workflow enable`).
-2. **Sean close-loop** — trigger: any reply, 7 days silence (2026-08-30), or his next public
-   note. Run /recoil-close against the SSOT. Long-form note draft parked in
-   `_ARTIFACTS/wing-sean-linkedin-draft.md`; if sending, run counterpart-gauntlet first (the
-   one un-run gate).
-3. **Two forked sessions in flight**: legacy tripwire-flag cleanup (4 pages) + verb-matrix
-   germination (ADR promotion + wiring gates into skills). Don't duplicate their work.
-4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
-   (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
-
-> _v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
