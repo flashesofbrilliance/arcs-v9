@@ -1,0 +1,13 @@
+{
+  "ts": "2026-08-27T11:22:29-04:00",
+  "verdict": "DRIFT",
+  "items": [
+    {
+      "id": "adr-067-identity",
+      "kind": "judgment",
+      "default": "no",
+      "title": "ADR-067 identity: repo _DECISIONS vs global MEMORY.md",
+      "proposal": "global MEMORY.md describes ADR-067 differently from the repo file — human must reconcile which ADR-067 is authoritative"
+    }
+  ]
+}

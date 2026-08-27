@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Evening cron for the canon-propagation sentinel.
+  Runs canon_propagation_nightly.sh at 21:00 daily: auto-applies mechanical de-rot to
+  the canon-sync/nightly review branch, stages judgment/fork items in the queue for
+  /canon-review. Never pushes, never touches main.
+
+  ACTIVATE (you run this — loading a standing LaunchAgent is a persistent-config change):
+    cp scripts/launchd/care.arcs.canon-propagation.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/care.arcs.canon-propagation.plist
+  DEACTIVATE:
+    launchctl unload ~/Library/LaunchAgents/care.arcs.canon-propagation.plist
+
+  Adjust ARCS_MAIN_CHECKOUT below if your main checkout is not /Users/zharris/arcs-v9.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>care.arcs.canon-propagation</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>/Users/zharris/arcs-v9/scripts/canon_propagation_nightly.sh</string>
+  </array>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>ARCS_MAIN_CHECKOUT</key>
+    <string>/Users/zharris/arcs-v9</string>
+  </dict>
+
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key><integer>21</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/zharris/.arcs/canon-propagation.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/zharris/.arcs/canon-propagation.err.log</string>
+</dict>
+</plist>
