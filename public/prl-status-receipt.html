@@ -77,7 +77,7 @@
 <header><div class="wrap">
   <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
   <h1>The Phase 1.2 receipt, closed</h1>
-  <div class="meta">Aug 26, 2026 &nbsp;&middot;&nbsp; expected vs actual, measured &middot; the cap held</div>
+  <div class="meta">Aug 26, 2026 &nbsp;&middot;&nbsp; expected vs actual, measured</div>
 </div></header>
 <div class="navbar"><div class="wrap">
 <nav class="family">
@@ -122,7 +122,7 @@
   <div class="label">The headline numbers</div>
   <div class="tiles">
     <div class="tile"><div class="tl">The bet, written first</div><div class="tv gold">$4,500 · ~20h</div><div class="ts">agreed before kickoff, band 12 to 30 hours</div></div>
-    <div class="tile"><div class="tl">What it actually took</div><div class="tv red">~2x</div><div class="ts">roughly 42 hours by our work records</div></div>
+    <div class="tile"><div class="tl">What it actually took</div><div class="tv red">~2x</div><div class="ts">about 42 hours, estimated from work records; method in the fine print</div></div>
     <div class="tile"><div class="tl">What the overrun cost you</div><div class="tv green">$0</div><div class="ts">the cap held; the quote is the ceiling</div></div>
   </div>
 </div></div>
@@ -168,36 +168,35 @@
     <div class="hbar"><div class="ht"><b>The build itself</b> · landed inside the original bet</div>
       <div class="track"><div class="fill" style="width:34%;background:rgba(201,162,39,.55)"></div></div>
       <div class="hcap">delivery, dedup, enrichment, timers, baseline pull, routing sweep</div></div>
-    <div class="hbar"><div class="ht"><b>Coordination the bet did not price</b> · the blowout</div>
+    <div class="hbar"><div class="ht"><b>Coordination the bet did not price</b> · most of the overrun</div>
       <div class="track"><div class="fill" style="width:92%;background:rgba(208,84,107,.6)"></div></div>
-      <div class="hcap">a chat-platform plan surprise that forced a re-design, sandbox access arriving mid-phase, email-delivery vendor loops, the routing investigation (which found a real pre-existing CRM issue)</div></div>
-    <div class="hbar"><div class="ht"><b>Page polish</b> · self-inflicted, now automated so it cannot recur</div>
+      <div class="hcap">a chat-platform plan surprise that forced a re-design, sandbox access arriving mid-phase, email-delivery vendor loops, and the state-by-state routing check, which surfaced 12 states where a chatbot lead would route to nobody (the daily sweep covers them; the call with Bill settles the map)</div></div>
+    <div class="hbar"><div class="ht"><b>Page polish</b> · self-inflicted, a small share, now stamped by a tool</div>
       <div class="track"><div class="fill" style="width:22%;background:rgba(255,255,255,.22)"></div></div>
-      <div class="hcap">these status pages themselves; the layout system is now stamped by a tool, not rebuilt by hand</div></div>
+      <div class="hcap">these status pages themselves; rebuilding them by hand is what cost the hours</div></div>
   </div>
 </div></div>
 
 <div class="checklist"><div class="wrap">
   <div class="label">Scorecard · the four things 1.2 promised</div>
   <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Reliable delivery</b><span class="sub">A real chat becomes a complete, deduplicated, correctly-formatted CRM lead. The blank-email edge case that could update the wrong record is guarded and published; the one touched record is repaired; every test lead deleted and verified gone.</span></div><span class="stat ok">done · verified</span></div>
-  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Your baseline, pulled for the first time</b><span class="sub">24 months: 942 leads, 4,238 opportunities. Headline finding: $43.7M of opportunities (48%) carry no lead source, so today no channel can prove its keep. The chatbot writes its source on every lead.</span></div><span class="stat ok">done · pulled</span></div>
-  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Lead enrichment</b><span class="sub">Job title and industry auto-fill on every new lead. The one open question is whether your plan also returns business emails; ten minutes with your ZoomInfo contact closes it, either way, in writing.</span></div><span class="stat hold">one check left</span></div>
-  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>The four-hour rule</b><span class="sub">Every chatbot lead is timestamped when it is created and when it is assigned, and the automation rule nudges once the elapsed window passes four hours (a setting, easy to tune). An hourly sweep that digests anything still sitting is staged on top as a nice-to-have.</span></div><span class="stat ok">done &middot; nudging</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Your baseline, pulled for the first time</b><span class="sub">24 months: 942 leads, 4,238 opportunities. Nearly half the opportunity value ($43.7M, 48%) carries no lead source, so for that half no channel can prove its keep. Your Unbounce landers already stamp theirs; the chatbot does the same on every lead.</span></div><span class="stat ok">done · pulled</span></div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Lead enrichment</b><span class="sub">Job title and industry auto-fill on every new lead. The one open question is whether your plan also returns business emails; one short call with your ZoomInfo contact closes it, either way, in writing.</span></div><span class="stat hold">one check left</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>The four-hour rule</b><span class="sub">Every chatbot lead is timestamped the moment it is created, which is also the moment it is assigned, and the four-hour clock runs from that stamp. A reminder fires automatically once four hours pass (the window is a setting, easy to tune). Today the reminder comes to us as the safety net, so nothing sits unseen; pointing it at the assigned rep is built and staged, and goes live once your IT allow-lists the sending address, a five-minute item on your side.</span></div><span class="stat ok">live &middot; rep alert staged</span></div>
 </div></div>
 <div class="checklist"><div class="wrap">
   <div class="label">What the receipt sets for 1.3</div>
-  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>The number stays inside the range you saw: $4,000</b><span class="sub">The overage was coordination, not build, so the fix is not a higher price. It is a different start: we close a short input list together in one sitting before the clock runs.</span></div><span class="stat hold">your call</span></div>
-  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>The pre-start input list</b><span class="sub">Written sandbox approval · the ZoomInfo contact · the do-not-want lead list · the territory call with Bill. Each one arrived mid-phase in 1.2 and cost days; batched up front they cost an hour.</span></div><span class="stat hold">one sitting</span></div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>Our read: $4,000, as quoted</b><span class="sub">The overage was coordination, not build, so we are not proposing a higher price. The change is the start: we close a short input list together in one sitting before the clock runs. Your call, on the call.</span></div><span class="stat hold">your call</span></div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>The pre-start input list</b><span class="sub">Written sandbox approval · the ZoomInfo contact · the do-not-want lead list · the territory call with Bill. We priced the build and not the coordination; that is on our estimate. Spread out mid-phase these cost days; batched in one sitting before the clock starts they cost an hour.</span></div><span class="stat hold">one sitting</span></div>
 </div></div>
 
 <div class="checklist"><div class="wrap">
   <div class="label">Why we show you a losing receipt</div>
   <p style="margin:0;font-size:16px;line-height:1.65;color:var(--text)">This is the first receipt this
-  program has closed, and it closed against our own estimate. That is the point of the system. The
-  receipt is only worth something if it stays honest when the news is bad: the miss gets measured, the
-  cap absorbs it, and the lesson gets built into the next phase instead of padded into the next price.
-  From here on, every phase opens with a written bet and closes with a page like this one. You never
-  have to take a status report on trust; you can always read the last receipt.</p>
+  program has closed, and it closed against our own estimate. The miss gets measured, the cap
+  absorbs it, and the lesson gets built into the next phase instead of padded into the next price.
+  Any phase we run opens with a written bet and closes with a page like this one. You never have
+  to take a status report on trust; you can always read the last receipt.</p>
 </div></div>
 
 <div class="checklist"><div class="wrap">
@@ -209,8 +208,11 @@
     Three scenarios were computed: a conservative floor of about 28 hours (4 focused hours per working
     day), a central estimate of about 42 (6 per day), and a high case of about 56 (8 per day). Even the
     floor sits at the very top of the agreed 12 to 30 hour band, which is why the receipt closes as a
-    miss rather than a judgment call. The mid-phase flag published here on Aug 18 called this early;
-    nothing on this page changed after the fact. The 1.3 bet will cite this receipt at kickoff.</div>
+    miss rather than a judgment call. Setting the two page-polish-heavy days aside entirely, the
+    remaining five working days land at roughly 20 to 30 hours before any of the untracked vendor and
+    CRM coordination time, so the miss stands on coordination, not on polish. The mid-phase flag went
+    out on <a href="https://todd-call.arcs.care">the project page</a> on Aug 18 and called this early.
+    The 1.3 bet will cite this receipt at kickoff.</div>
   </details>
 </div></div>
 
