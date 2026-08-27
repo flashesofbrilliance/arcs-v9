@@ -139,6 +139,24 @@ durable, never dressed up as more than it was in the moment.
 
 ---
 
+## THE PRINT SCHEDULE (ADR-068)
+
+The five-verb arc — analyze → assess → evaluate → synthesize → recapitulate — is not a
+narrative convention; it is a print schedule. **Every stage cut prints an artifact, through a
+gate, to a fate.** A stage without a print happened only in conversation and will be re-derived
+at full cost. A print without a gate is decoration. A gate without a fate gates nothing.
+Mandatory-blocking: ex-ante receipt before any counterpart send · pre-send gauntlet ·
+close-loop when they respond. Altitude is orthogonal; earned fidelity binds fate to render.
+
+## THE FIELD GEOMETRY (Tao §V)
+
+**One field, sovereign zeros, lawful transforms, preserved invariants.** No origin is
+canonical — not the author's, not the machine's. Every artifact declares its frame; every
+projection factory is a lawful transform; the lossless invariants are what must survive every
+change of basis. Returning to zero returns *you* to *your* null point.
+
+---
+
 ## THE PROGRESSION
 
 Receipts earned → fog retreats → terrain readable → nucleus approaches.
