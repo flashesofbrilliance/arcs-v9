@@ -71,19 +71,27 @@ def strip_bar(sev, rejected):
             f'</div><span class="sevlab">{sev["pathogen"]} pathogen &middot; {sev["crack"]} crack &middot; {sev["nit"]} nit</span>{rej}</div>')
 
 def render_runs(runs):
-    cards = []
+    cards, thin = [], []
     for r in runs:
-        meta = " &middot; ".join(x for x in [E(r["ts"]), E(r["kind"]),
+        meta = " &middot; ".join(x for x in [E(r["ts"][:10]), E(r["kind"]),
                 f'{r["agents"]} agents' if r["agents"] else "", f'{r["tokens"]:,} tok' if r["tokens"] else ""] if x)
+        if not r["sev"] and not r["finding"]:
+            thin.append(f'<div class="frow"><span class="fts">{E(r["ts"][:10])}</span>'
+                        f'<span class="fid">{E(r["subject"])}</span><span class="fcl mono">{E(r["kind"])}</span></div>')
+            continue
         body = strip_bar(r["sev"], r["rejected"]) if r["sev"] else ""
         finding = E(r["finding"][:260]) + ("&hellip;" if len(r["finding"]) > 260 else "")
+        fdiv = f'\n  <div class="cf">{finding}</div>' if finding else ""
         cards.append(f'''<div class="card">
   <div class="cm">{meta}</div>
   <div class="ct">{E(r["subject"])}</div>
-  {body}
-  <div class="cf">{finding}</div>
+  {body}{fdiv}
 </div>''')
-    return "\n".join(cards)
+    out = "\n".join(cards)
+    if thin:
+        out += ('\n<div class="thin"><div class="cm" style="margin-bottom:2px">runs without a banked finding</div>'
+                + "\n".join(thin) + "</div>")
+    return out
 
 def render_ledger(rows):
     ticks = "".join(
@@ -132,7 +140,7 @@ def main():
   .st .l{{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-top:2px}}
   h2{{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed);margin:30px 0 12px}}
   .card{{border:1px solid var(--border);border-radius:11px;background:var(--surface);padding:14px 17px;margin-bottom:10px}}
-  .cm{{font-family:var(--mono);font-size:10.5px;color:var(--dimmed);letter-spacing:.04em}}
+  .cm{{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em}}
   .ct{{font-weight:650;font-size:15.5px;margin:3px 0 8px}}
   .sevrow{{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}}
   .sevbar{{display:flex;gap:2px;height:8px;flex:1 1 180px;min-width:140px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.05)}}
@@ -145,7 +153,7 @@ def main():
   .legend{{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}}
   .lg{{font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;align-items:center;gap:5px}}
   .lg .dot{{width:8px;height:8px;border-radius:2px;display:inline-block}}
-  .frow{{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}}
+  .frow{{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;padding:7px 0;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}}\n  .thin{{margin-top:14px}}
   .fid{{font-family:var(--mono);font-weight:700;color:var(--text);min-width:34px}}
   .fts{{font-family:var(--mono);color:var(--dimmed);white-space:nowrap}}
   .fsc{{font-family:var(--mono);min-width:64px}}
@@ -156,7 +164,7 @@ def main():
 <div class="wrap">
   <div class="ey">ARCS &middot; private &middot; sovereign projection</div>
   <h1>Instrument Board</h1>
-  <p class="sub">Every adversarial pass the shop has run, projected from its own ledgers. Regenerate: <span class="mono">python3 scripts/warroom_board.py</span></p>
+  <p class="sub">Every adversarial pass the shop has run, projected from its own ledgers.</p>
 
   <div class="stats">
     <div class="st"><div class="v">{len(runs)}</div><div class="l">gauntlet runs</div></div>
@@ -176,7 +184,7 @@ def main():
   <h2>Snapped-on sources</h2>
   {srcrows}
 
-  <div class="foot">generated {now} &middot; runtime/warroom/gauntlet.html &middot; admin-gated &middot; noindex &middot; severity strips parse only structured findings; prose-only runs show text</div>
+  <div class="foot">generated {now} &middot; regenerate: python3 scripts/warroom_board.py &middot; runtime/warroom/gauntlet.html &middot; admin-gated &middot; noindex &middot; severity strips parse only structured findings; prose-only runs show text</div>
 </div>
 </body></html>'''
     out.write_text(page)

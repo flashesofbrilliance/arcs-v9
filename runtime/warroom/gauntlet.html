@@ -17,7 +17,7 @@
   .st .l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dimmed);margin-top:2px}
   h2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--dimmed);margin:30px 0 12px}
   .card{border:1px solid var(--border);border-radius:11px;background:var(--surface);padding:14px 17px;margin-bottom:10px}
-  .cm{font-family:var(--mono);font-size:10.5px;color:var(--dimmed);letter-spacing:.04em}
+  .cm{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.04em}
   .ct{font-weight:650;font-size:15.5px;margin:3px 0 8px}
   .sevrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
   .sevbar{display:flex;gap:2px;height:8px;flex:1 1 180px;min-width:140px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.05)}
@@ -30,7 +30,8 @@
   .legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px}
   .lg{font-family:var(--mono);font-size:10px;color:var(--muted);display:flex;align-items:center;gap:5px}
   .lg .dot{width:8px;height:8px;border-radius:2px;display:inline-block}
-  .frow{display:flex;gap:12px;align-items:baseline;padding:7px 0;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}
+  .frow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;padding:7px 0;border-top:1px solid rgba(255,255,255,.05);font-size:12.5px}
+  .thin{margin-top:14px}
   .fid{font-family:var(--mono);font-weight:700;color:var(--text);min-width:34px}
   .fts{font-family:var(--mono);color:var(--dimmed);white-space:nowrap}
   .fsc{font-family:var(--mono);min-width:64px}
@@ -41,7 +42,7 @@
 <div class="wrap">
   <div class="ey">ARCS &middot; private &middot; sovereign projection</div>
   <h1>Instrument Board</h1>
-  <p class="sub">Every adversarial pass the shop has run, projected from its own ledgers. Regenerate: <span class="mono">python3 scripts/warroom_board.py</span></p>
+  <p class="sub">Every adversarial pass the shop has run, projected from its own ledgers.</p>
 
   <div class="stats">
     <div class="st"><div class="v">7</div><div class="l">gauntlet runs</div></div>
@@ -64,18 +65,6 @@
   <div class="cf">UNANIMOUS repair-fail (13/13): kintsugi repairs #1 and #5 mutually annihilate; witness-&gt;echo-&gt;oracle apparatus collapses to dead weight; &#x27;impact&#x27; undefined + self-scored over an author-controlled corpus; caught a live 404 defect on the public page</div>
 </div>
 <div class="card">
-  <div class="cm">2026-08-14T13:51:48Z &middot; engine-run</div>
-  <div class="ct">ADR-053</div>
-  
-  <div class="cf"></div>
-</div>
-<div class="card">
-  <div class="cm">2026-08-13T23:19:32-0400 &middot; engine-run</div>
-  <div class="ct">ADR-060</div>
-  
-  <div class="cf"></div>
-</div>
-<div class="card">
   <div class="cm">2026-08-13 &middot; self-audit-gauntlet &middot; 7 agents &middot; 567,370 tok</div>
   <div class="ct">ADR-060</div>
   
@@ -93,6 +82,8 @@
   
   <div class="cf">localizes 8/7/10/0 (not 25/25) BUT absolute scale mis-calibrates (clusters at 2, zero at 3); RE-FOUND the same core faults the 567K gauntlet confirmed (C-lens hot, NOTOMATION-vs-annealing, orthogonality ruin)</div>
 </div>
+<div class="thin"><div class="cm" style="margin-bottom:2px">runs without a banked finding</div><div class="frow"><span class="fts">2026-08-14</span><span class="fid">ADR-053</span><span class="fcl mono">engine-run</span></div>
+<div class="frow"><span class="fts">2026-08-13</span><span class="fid">ADR-060</span><span class="fcl mono">engine-run</span></div></div>
 
   <h2>Falsification ledger &middot; 33 claims killed, one tick each</h2>
   <div class="ticks"><span class="tick" style="background:#e3c65a" title="F14 2026-06-03 [infra] A green Next.js production build means the database layer works."></span><span class="tick" style="background:#e3c65a" title="F15 2026-06-03 [infra] The SQLite dev schema and the Postgres prod schema are equivalent."></span><span class="tick" style="background:#e3c65a" title="F16 2026-06-03 [infra] `vercel deploy --prod` from a local tree is equivalent to a normal deploy."></span><span class="tick" style="background:#e3c65a" title="F13 2026-06-19 [infra] A synchronous Haiku-calls-Opus advisor tool in the compass route is real-time-safe."></span><span class="tick" style="background:#00F0FF" title="F11 2026-06-20 [canon] ADR-011&#x27;s Turbopack tree-shaking claim was confirmed — mark it GREEN."></span><span class="tick" style="background:#3fb950" title="F23 2026-06-22 [deploy] The debrief-delivery gap was a missing in-app fallback surface (ADR-059 framing)."></span><span class="tick" style="background:#00F0FF" title="F10 2026-06-23 [canon] BAR and KKL are single unambiguous canonical terms shared across ADR-020 and arcs-canon."></span><span class="tick" style="background:#e2e8f0" title="F28 2026-06-24 [process] Confident time-framing (&#x27;it&#x27;s late, wind down&#x27;) tracks the real current time."></span><span class="tick" style="background:#C9A227" title="F31 2026-07-13 [recoil] The Todd Hotes pilot-court receipt&#x27;s premise (11 days of cold silence) was accurate."></span><span class="tick" style="background:#3fb950" title="F22 2026-07-17 [deploy] preview_start renders the branch/edits of the current session&#x27;s worktree."></span><span class="tick" style="background:#e3c65a" title="F17 2026-07-19 [infra] CLAUDE.md&#x27;s project table accurately reflects which repo serves a live domain."></span><span class="tick" style="background:#e2e8f0" title="F27 2026-07-19 [process] CLAUDE.md&#x27;s append-only handoff policy keeps context cheap and history preserved."></span><span class="tick" style="background:#d0546b" title="F29 2026-07-19 [security] Password-gated subdomains keep their sensitive HTML confidential."></span><span class="tick" style="background:#d0546b" title="F30 2026-07-19 [security] A scheduled Sentinel task with all 13 MCP connectors costs little because it runs on a schedule."></span><span class="tick" style="background:#e2e8f0" title="F24 2026-07-22 [process] A control described in canon (Drift Sentinel, claims-skeptic) is an active safeguard."></span><span class="tick" style="background:#e3c65a" title="F19 2026-07-24 [infra] A Vercel MCP get_web_analytics 404 means Web Analytics is not enabled."></span><span class="tick" style="background:#e2e8f0" title="F26 2026-07-24 [process] `gh pr checks --watch &amp;&amp; gh pr merge` is a sufficient merge gate."></span><span class="tick" style="background:#3fb950" title="F20 2026-07-25 [deploy] The arcs-v9 Vercel Ignored Build Step correctly skips docs-only commits and builds real code."></span><span class="tick" style="background:#e3c65a" title="F18 2026-08-01 [infra] A new Postgres role with GRANT SELECT ON ALL TABLES can see the data it was granted."></span><span class="tick" style="background:#3fb950" title="F21 2026-08-01 [deploy] The dashboard ignored-build-step field is a stable, reviewable cost guardrail."></span><span class="tick" style="background:#e2e8f0" title="F25 2026-08-01 [process] Content probes (grep/curl) are sufficient to claim a UI is polished and verified."></span><span class="tick" style="background:#FF4D6D" title="F1 2026-08-13 [gauntlet] Tight prompts + small inputs = cheap; gauntlet cost scales with data size."></span><span class="tick" style="background:#FF4D6D" title="F2 2026-08-13 [gauntlet] An absolute value-of-information threshold (uncertainty x stakes &gt; tau) routes coarse -&gt; fine."></span><span class="tick" style="background:#FF4D6D" title="F3 2026-08-13 [gauntlet] The empirical cost model is complete."></span><span class="tick" style="background:#FF4D6D" title="F5 2026-08-13 [gauntlet] A single-agent graded pass reads faults on an absolute 0-3 severity scale."></span><span class="tick" style="background:#00F0FF" title="F6 2026-08-13 [canon] The Hypercube Gauntlet ADR (055/060) is GREEN.HIGH.STABLE — verified doctrine."></span><span class="tick" style="background:#00F0FF" title="F7 2026-08-13 [canon] &#x27;Float, not drift&#x27; is a safe self-applied exemption for the H-ladder — no boundary needed."></span><span class="tick" style="background:#00F0FF" title="F8 2026-08-13 [canon] The EM/physics frame (penteract, field dynamics) is literally true of the mechanism."></span><span class="tick" style="background:#00F0FF" title="F9 2026-08-13 [canon] The hypercube&#x27;s 5 axes are orthogonal, supporting a clean 3,125-cell count."></span><span class="tick" style="background:#00F0FF" title="F12 2026-08-13 [canon] ADR numbers are unique, stable identifiers referenced unambiguously across the corpus."></span><span class="tick" style="background:#e2e8f0" title="F32 2026-08-14 [process] A counterpart-gauntlet reliably identifies real defects in the artifact it audits."></span><span class="tick" style="background:#FF4D6D" title="F4 2026-08-15 [gauntlet] The 0.50 flip rate is surrogate interpolation NOISE — a denser mesh will lower it."></span><span class="tick" style="background:#e2e8f0" title="F33 2026-08-16 [process] The single-mind kintsugi repair (gate=witnessed-provenance, rank=impact) had hardened the milestone-ranking plan to anti"></span></div>
@@ -110,6 +101,6 @@
   <div class="frow"><span class="fid">gauntlet-runs</span><span class="fcl mono">_STATE/gauntlet-runs.jsonl</span><span class="fts">7 rows</span></div>
 <div class="frow"><span class="fid">falsification-ledger</span><span class="fcl mono">_STATE/falsification-ledger.jsonl</span><span class="fts">33 rows</span></div>
 
-  <div class="foot">generated 2026-08-27 &middot; runtime/warroom/gauntlet.html &middot; admin-gated &middot; noindex &middot; severity strips parse only structured findings; prose-only runs show text</div>
+  <div class="foot">generated 2026-08-27 &middot; regenerate: python3 scripts/warroom_board.py &middot; runtime/warroom/gauntlet.html &middot; admin-gated &middot; noindex &middot; severity strips parse only structured findings; prose-only runs show text</div>
 </div>
 </body></html>
