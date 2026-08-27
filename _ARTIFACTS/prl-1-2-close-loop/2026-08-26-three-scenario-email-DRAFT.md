@@ -16,9 +16,10 @@ it's in writing? Everything stays in the test copy until you say otherwise.
 2. Competitor cross-reference: you approved using it openly at lunch. Same ask, one word here
 and it's on the record.
 
-FYI, no reply needed: the 4-hour rule is handled. Every chatbot lead is timestamped when it's
-created and assigned, and the automation nudges once a lead sits past 4 hours (that window is
-a setting we can tune anytime).
+FYI, no reply needed: the 4-hour rule is handled. Every chatbot lead is timestamped the moment
+it's created (which is also when it's assigned), and a reminder fires automatically once a lead
+sits past 4 hours. Today that reminder comes to me as the safety net; pointing it at the
+assigned rep is built and goes live once your IT allow-lists the sending address.
 
 The question: who owns your ZoomInfo account? I need ten minutes with them (or just the login
 contact) to check whether your plan returns business emails. That's the last open piece of the
