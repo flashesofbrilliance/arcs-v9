@@ -169,6 +169,15 @@ def _run_cis(signal: str, to_arch: str | None, alt_str: str | None, jtbd: str | 
     """
     os.chdir(ARCS_DIR)   # ensure local imports resolve
 
+    # ── Model override via ARCS_MODEL env var ───────────────────────────
+    # When adr_audit.py (or any caller) sets ARCS_MODEL, forward it to the
+    # Hermès model resolver so the subprocess uses a specific model rather
+    # than the profile default. The resolver honours ARCS_MODEL when present.
+    model_override = os.environ.get("ARCS_MODEL")
+    if model_override:
+        # Propagate to child processes (e.g. downstream CIS invocations)
+        os.environ["ARCS_MODEL"] = model_override
+
     from arcs_cis import (
         CognitiveInterfaceSystem,
         CISRequest,

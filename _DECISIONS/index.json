@@ -262,11 +262,38 @@
   },
   {
     "id": "ADR-030",
-    "title": "ADR-030 \u2014 Nested thread view for tributary follow-ups",
+    "title": "ADR-030 — Nested thread view for tributary follow-ups",
     "status": "DECIDED",
     "y_state": null,
     "stability": null,
     "gate": "see content",
     "file": "ADR-030-nested-thread-view.md"
+  },
+  {
+    "id": "ADR-031",
+    "title": "ADR-031 — Design system reconciliation",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-031-design-system-reconciliation.md"
+  },
+  {
+    "id": "ADR-032",
+    "title": "ADR-032 — lewoof × Better & Better pilot (240-unit consignment, .com channel)",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-032-lewoof-bb-dotcom-channel.md"
+  },
+  {
+    "id": "ADR-033",
+    "title": "ADR-033 — Route ADR-audit harness default to laguna-xs-2.1:free",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": "STABLE",
+    "gate": "5 ADRs corpus-scale coherence check",
+    "file": "ADR-033-model-routing-adr-audit-default.md"
   }
 ]

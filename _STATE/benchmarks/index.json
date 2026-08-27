@@ -1,0 +1,25 @@
+[
+  {
+    "filename": "calibration_20260826_1046.json",
+    "date": "2026-08-26T10:46:00",
+    "description": "Real audit-bench: adr_audit.py --tier 1 --format json --model <model> across 5 ADRs × 4 models = 20 CIS-pipeline calls.",
+    "models_tested": [
+      "upstage/solar-pro4:free",
+      "poolside/laguna-s-2.1:free",
+      "poolside/laguna-xs-2.1:free",
+      "stepfun/step-3.7-flash:free"
+    ],
+    "adrs_tested": [
+      "ADR-004-mcp-arcs-care-dns.md",
+      "ADR-008-rls-policy-design.md",
+      "ADR-029-onboarding-profile-upload.md",
+      "ADR-032-lewoof-bb-dotcom-channel.md",
+      "ADR-030-nested-thread-view.md"
+    ],
+    "tier": 1,
+    "total_calls": 20,
+    "parse_ok_rate": 1.0,
+    "key_finding": "Model independence confirmed — all 4 models produce identical gate verdicts and CSS values per ADR (CIS pipeline is rule-based, no LLM client).",
+    "outcome_summary": "20/20 calls parse_ok. All ADRs gate=critical, overall=fail. CSS range: 0.486–0.606. Per-ADR CSS identical across all 4 models."
+  }
+]
