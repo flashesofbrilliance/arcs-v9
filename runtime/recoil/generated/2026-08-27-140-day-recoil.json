@@ -1,0 +1,146 @@
+{
+  "reportId": "2026-08-27-140-day-recoil",
+  "cover": {
+    "badges": ["Recoil Report", "Corpus Recoil — 140 days"],
+    "title": "The 140-Day Recoil",
+    "subtitle": "Reverse Listening + Deep Recall over the entire life of arcs-v9 — 1,535 commits, Day-1 scaffold (2026-04-09) to the Ahmed close (2026-08-27)",
+    "meta": "Window 2026-04-09 → 2026-08-27 · 1,535 commits · 66 ADRs · 251 tao proverbs · handoffs v0.1.0 → v3.44.0",
+    "actions": ["Open Receipt", "File to Prep Book"]
+  },
+  "loadBearingQuote": {
+    "text": "One inbound … run end-to-end through the full stage-print arc, throwing off a class, an invariant, and repo-wide gate hardening.",
+    "attribution": "Handoff v3.42.0 — the sentence the whole arc was converging toward"
+  },
+  "callWalk": [
+    {
+      "label": "APR 9 — MAY 17",
+      "title": "The scaffold and the silence",
+      "body": "One commit: 'Day 1 scaffold — Next.js 16 + Prisma 7 + Auth.js v5 magic link.' Then five weeks of nothing in this repo. Read forward it looks like a stall; read backward it was gestation — when work resumed, the DEWY pipeline landed whole."
+    },
+    {
+      "label": "MAY 18–31",
+      "title": "The product era",
+      "body": "86 commits: compass, brief, guide, history, prep, Y-gate, tributaries; Auth.js magic link; the tokens.ts design system; RLS deny-all; canon Book II Parts V–VI promoted CANONICAL; ADRs 003–013. The repo believed it was a self-serve SaaS decision product."
+    },
+    {
+      "label": "JUNE",
+      "title": "The polish spiral",
+      "body": "370 commits, mostly consumer-surface polish — eyebrow, breadbox, footer, form stacking, toast limits — with visible duplicated commits and NCI scores climbing past 120. Highest-effort, lowest-leverage stretch of the window: the front door got beautiful while nobody was walking through it.",
+      "peak": false
+    },
+    {
+      "label": "JULY",
+      "title": "The counterpart pivot",
+      "body": "671 commits — the volume peak. Todd/PRL chatbot (SEM onramp, Tidio flows, SugarCRM), the omakase family (jeben → louisville), and the recoil-report machinery itself (the first eleven generated reports date from here). Mid-month, the 2026-07-19 token-efficiency audit rewrote CLAUDE.md governance. The repo stopped being an app and became an engagement engine.",
+      "peak": true
+    },
+    {
+      "label": "AUG 1–11",
+      "title": "The family goes public, drift becomes receipts",
+      "body": "playground.arcs.care + monolith live; tripwire + deploy-verify (ADR-050/051/052); /witness and /night-moves born; the Yuri suite gauntleted four deep and SENT. The honesty machinery caught its first real receipt (jargon in the forge pages)."
+    },
+    {
+      "label": "AUG 12–23",
+      "title": "The engagement gauntlet",
+      "body": "PRL 1.1/1.2 chatbot→Sugar verified end-to-end and shipped to Todd. The Scott surface family (onedoor, two teardowns, attraction-field, ADR-067). Then Wing: 14 PRs, wing.arcs.care, PRESENT mode, and the teardown-page-factory skill — the instance that threw off its own class."
+    },
+    {
+      "label": "AUG 24–27",
+      "title": "The doctrine consolidation and the close",
+      "body": "ADR-068 verb×altitude gate matrix wired into 7 skills; Tao v1.1.0; the seed bank and witness spine; the NFTT data-driven story engine; the Jeben dogfood epoch. And the close: the long-parked Ahmed 60-Second Read shipped, gauntlet-hardened, ex-ante receipted — the window ends on a drafted note awaiting a human hand."
+    }
+  ],
+  "signalThreads": [
+    {
+      "label": "THREAD 01",
+      "accent": "cyan",
+      "title": "Every instance throws off a factory",
+      "body": "Wing → teardown-page-factory. Blog posts → NFTT story engine. Jeben → omakase-pipeline. Wrap bug → a banked failure-mode class. Gauntlet → ADR-068 gates. The dominant kinematic of the whole window: instances get generalized into classes with falling marginal cost (Wing's efficiency contract prices the next run at ~1/3).",
+      "note": "This is the strongest argument the repo makes for itself."
+    },
+    {
+      "label": "THREAD 02",
+      "accent": "gold",
+      "title": "The commit curve tells the pivot story",
+      "body": "1 → 86 → 370 → 671 → 407 commits by month. The June bulge is consumer polish; the July peak is counterpart delivery; August's decline is not slowdown but compression — the 2026-07-19 token-efficiency regime plus factory-class reuse means fewer, denser commits per shipped surface."
+    },
+    {
+      "label": "THREAD 03",
+      "accent": "green",
+      "title": "Honesty machinery compounded faster than product",
+      "body": "NCI trailers → tripwire CI → drift receipts → /witness live attestation → ex-ante receipts filed before sends → ADR-068's mandatory blocking gates. 66 ADRs and 251 proverbs deep, the gates now do real work: a confabulated timestamp got corrected in-session, a gauntlet verify stage rejected a false fix, a never-replied send is on the record as never-replied."
+    },
+    {
+      "label": "THREAD 04",
+      "accent": "red",
+      "title": "The original product is frozen in May",
+      "body": "Compass, dashboard, brief — the DEWY SaaS core — has barely moved since June. The P1 backlog named in AGENTS.md (outcome handler, receipt save prompt — 'biggest PLG gap') is unchanged across the entire window. Revenue-shaped attention went to PRL/Todd and bespoke counterpart surfaces instead.",
+      "note": "Deliberate pivot or unacknowledged drift — the corpus never says which out loud."
+    }
+  ],
+  "scenarios": {
+    "best": {
+      "title": "The factories compound",
+      "body": "Next 140 days: teardown/omakase/PRL factories each run 3–5 more counterparts at 1/3 cost; close-loops start converting (Sean, Ahmed, PRL 1.2 re-pricing); one factory class gets productized back into the frozen compass core, reopening the self-serve path with earned evidence.",
+      "note": "Requires the close-loop verb to get exercised as hard as the print verb."
+    },
+    "base": {
+      "title": "Engagement engine, artisan throughput",
+      "body": "The pattern of the last 60 days continues: inbound-driven counterpart surfaces at S-tier polish, doctrine deepening, one-to-two paying relationships. Sustainable, impressive, and gated on a single human for every send, sign-off, and billing fix."
+    },
+    "worst": {
+      "title": "Doctrine outruns the ledger",
+      "body": "ADRs, seeds, and proverbs keep compounding while close-loops keep slipping (the prospecting/PRL computation has now missed three consecutive sessions). The system becomes exquisite at describing its own physics and stops metabolizing outcomes — entropy masquerading as motion, the exact enemy WORLD.md names."
+    }
+  },
+  "riskFlags": [
+    {
+      "variant": "warning",
+      "label": "Close-loop debt",
+      "body": "Three loops open at window close: Sean Wing (silence trigger 2026-08-30), Ahmed (note drafted, unsent), PRL 1.2 close-loop (overdue, 3 sessions slipped). ADR-068 made close-loop a mandatory gate; its first real test is this week."
+    },
+    {
+      "variant": "warning",
+      "label": "Single-threaded human gate",
+      "body": "Every send, the GitHub Actions billing fix, lattice regeneration, and orphan-seed curation all queue on Zach. Correct per NOTOMATION — but the queue is growing, and window-terminal artifacts increasingly end at 'awaiting hand-send.'"
+    },
+    {
+      "variant": "caution",
+      "label": "Frozen P1 backlog",
+      "body": "Outcome handler and receipt-save prompt (named 'biggest PLG gap' in AGENTS.md) have been P1 and untouched for the full 140 days. Either demote them honestly or schedule them — a P1 that survives five months unmoved is a mislabeled P3."
+    },
+    {
+      "variant": "caution",
+      "label": "Standing acceptable-reds",
+      "body": "forge-pattern/forge-cut tripwire failures parked since early August; 6 CI workflows disabled on billing since 2026-08-23. Known, logged, and honest — but every week they stand, the gates' authority erodes a little."
+    },
+    {
+      "variant": "success",
+      "label": "The honesty gates are load-bearing",
+      "body": "Across 140 days the record shows corrections filed against itself: confabulated timestamps fixed, false fixes rejected by verify stages, unanswered sends logged as unanswered. The corpus can be recoiled at all because it did not lie to itself."
+    }
+  ],
+  "protocol": [
+    {
+      "label": "STEP 1",
+      "title": "Exercise the close verb this week",
+      "body": "Gauntlet the parked Sean note before the 2026-08-30 trigger; batch the two Zach-gated unlocks (Ahmed send + Actions billing) into one sitting; run the overdue prospecting/PRL computation — one computation, two customers.",
+      "active": true
+    },
+    {
+      "label": "STEP 2",
+      "title": "Rule on the frozen core",
+      "body": "Make the compass/PLG freeze an explicit decision: either an ADR that demotes the self-serve product to dormant, or a scheduled slot that ships the receipt-save prompt. The 140-day record deserves a verdict, not an ellipsis."
+    },
+    {
+      "label": "STEP 3",
+      "title": "Point one factory inward",
+      "body": "The seed already exists ([[seed-recap-rewind-surface]]): run the teardown factory on the user's own receipt history. It is the cheapest test of whether the engagement engine can feed the product instead of replacing it."
+    },
+    {
+      "label": "STEP 4",
+      "title": "Retire the acceptable-reds",
+      "body": "Fix or formally gate forge-pattern/forge-cut, and re-enable the 6 workflows the moment billing clears. Zero standing reds is the only stable number."
+    }
+  ]
+}
