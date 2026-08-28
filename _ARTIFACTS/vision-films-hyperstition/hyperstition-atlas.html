@@ -47,6 +47,7 @@
   .stage p{font-size:12.5px;color:var(--muted);margin:0}
   .stage.s1 h4{color:var(--cyan)} .stage.s2 h4{color:var(--crimson)} .stage.s3 h4{color:var(--gold)} .stage.s4 h4{color:var(--green)}
   .stage.here::after{content:"films are here";position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:9px;color:var(--cyan);letter-spacing:.1em;opacity:.7}
+  .stage.trial::after{content:"running now · this page is exhibit A";position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:9px;color:var(--crimson);letter-spacing:.08em;opacity:.8}
   .stage.now::after{content:"canon today";position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:.1em;opacity:.7}
 
   /* filmstrip */
@@ -68,7 +69,11 @@
   /* atlas tiers */
   .tier{margin-bottom:26px}
   .tier > .th{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px;display:flex;align-items:center;gap:10px}
-  .tier.apex > .th{color:var(--green)} .tier.base > .th{color:var(--gold)}
+  .tier.apex > .th{color:var(--green)} .tier.base > .th{color:var(--gold)} .tier.sediment > .th{color:var(--crimson)}
+  .sedlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:4px;overflow:hidden}
+  .sed{background:var(--surface-2);padding:12px 14px;font-size:12.5px;color:var(--muted);line-height:1.5}
+  .sed b{color:var(--text);font-weight:500}
+  .sed .ssrc{font-family:var(--mono);font-size:10px;color:var(--dim);display:block;margin-top:4px;letter-spacing:.04em}
   .row{display:grid;grid-template-columns:1.15fr 1.5fr 1.5fr;gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;margin-bottom:1px}
   .row + .row{margin-top:8px}
   .cell{background:var(--surface);padding:15px 16px;min-width:0}
@@ -122,18 +127,18 @@
   <header>
     <div class="eyebrow"><span>ARCS</span><span class="dot"></span><span>Zero-Shot Planning Atlas</span><span class="dot"></span><span style="color:var(--dim)">Dec 2025 → Aug 2026</span></div>
     <h1>The Hyperstition<br>Atlas</h1>
-    <p class="lede">Seven vision films foreshadowed a system. Then the system <b>manifested them into being</b> — and named the last of them today.</p>
+    <p class="lede">Seven vision films described a system before it ran. Part of it ran — and the words for the deepest part <b>arrived only today</b>.</p>
   </header>
 
   <section>
     <p class="lab">The claim, and how to test it</p>
     <h2>Did the roadmap foreshadow the product — or forge it?</h2>
-    <p class="big">Between December and March, seven NotebookLM films rendered the ARCS cosmology as vision. They were generated <em>from the ARCS corpus itself.</em> This atlas lays each foreshadowed idea beside its manifestation in live code, canon, and receipts. If the fiction reliably became real, that is not coincidence. It is <span style="color:var(--violet)">hyperstition</span> — and it runs on ARCS's own third ROM primitive.</p>
+    <p class="big">Between December and March, seven NotebookLM films rendered the ARCS cosmology as vision. They were generated <em>from the ARCS corpus itself.</em> This atlas lays each foreshadowed idea beside its manifestation in live code, canon, and receipts. A subset became real — how big a subset, the sediment tier below counts honestly. Whether that earns the word <span style="color:var(--violet)">hyperstition</span> is itself on trial in this page, under ARCS's own third ROM primitive.</p>
     <div class="pipe">
       <div class="stage s1 here"><div class="n">Primitive 3 · stage 1</div><h4>Ethereal</h4><p>The vision, not yet earned. The films live here.</p></div>
-      <div class="stage s2"><div class="n">stage 2</div><h4>Loki Test</h4><p>Adversarial gauntlets try to refute it.</p></div>
-      <div class="stage s3"><div class="n">stage 3</div><h4>Receipt Evaluation</h4><p>Tested against reality; 247 real receipts.</p></div>
-      <div class="stage s4 now"><div class="n">stage 4</div><h4>ROM</h4><p>Survivors become canon that guides forward.</p></div>
+      <div class="stage s2 trial"><div class="n">stage 2</div><h4>Loki Test</h4><p>Adversarial gauntlets try to refute it — this atlas went through one before publish.</p></div>
+      <div class="stage s3"><div class="n">stage 3</div><h4>Receipt Evaluation</h4><p>Tested against reality; 247 ex-ante receipts on the record.</p></div>
+      <div class="stage s4"><div class="n">stage 4</div><h4>ROM</h4><p>Survivors become canon. The hyperstition claim has not reached this stage.</p></div>
     </div>
   </section>
 
@@ -164,31 +169,31 @@
       <div class="row">
         <div class="cell concept"><div class="k">Concept</div><div class="name">The Abductive "A"</div><div class="verdict v-today">NAMED TODAY</div></div>
         <div class="cell fore"><div class="k">Foreshadow</div><div class="q">"The A is for abductive reasoning — the art of making the best possible guess based on the info you have."</div><div class="src">For All Brains · 2026-01-07</div></div>
-        <div class="cell man"><div class="k">Manifest</div><div class="p">The induction surface — ARCS recognizes the job's shape before you can name it. The founding letter of the acronym, finally given its own surface.</div><div class="proof">ADR-070 · witness 08-28 · tao-254</div></div>
+        <div class="cell man"><div class="k">Manifest</div><div class="p">The induction surface — ARCS recognizes the job's shape before you can name it. The founding letter of the acronym, finally given its own surface. One of four letters: R, C, S still await theirs (counted in the sediment below).</div><div class="proof">ADR-070 · witness 08-28 · tao-254</div></div>
       </div>
 
       <div class="row">
-        <div class="cell concept"><div class="k">Concept</div><div class="name">Phase Locked</div><div class="verdict v-today">NAMED TODAY</div></div>
-        <div class="cell fore"><div class="q">"The state when the Internal Model and External Reality are perfectly synchronized." / "in phase … or a wipeout."</div><div class="src">Phase Locked 01-15 · First Wave 01-06</div></div>
-        <div class="cell man"><div class="p">Cross-subject comparative recoil: when two independently-scored transcripts sing the same beat, the instrument found a pattern, not an echo.</div><div class="proof">ADR-067 · corroboration arc-weld</div></div>
+        <div class="cell concept"><div class="k">Concept</div><div class="name">Phase Locked</div><div class="verdict v-part">RE-DERIVED · INTERNAL HALF</div></div>
+        <div class="cell fore"><div class="q">"The state when the Internal Model and External Reality are perfectly synchronized." / "in phase … or a wipeout."</div><div class="src">Phase Locked · slide · 01-15 · First Wave 01-06</div></div>
+        <div class="cell man"><div class="p">Cross-subject comparative recoil: two independent estimators agreeing — evidence of signal, not echo. Both are the film's phase-lock shape, but today's second vantage is internal where the film's was the market; the external half is still open.</div><div class="proof">comparative-recoil ADR (067, pre-oracle) · arc-weld ADR-064</div></div>
       </div>
 
       <div class="row">
-        <div class="cell concept"><div class="name">The Council of 6</div><div class="verdict v-today">CONVENED TODAY</div></div>
-        <div class="cell fore"><div class="q">"A council of 6 operators who debate, then synthesize: Orchestration, Librarian, Detective, Folksonomy, Immune, Accountant."</div><div class="src">OS for Clarity · 2026-01-09</div></div>
-        <div class="cell man"><div class="p">The forensic-recoil sweep convened exactly this council — librarians, skeptic, curator (Folksonomy), sage — over ~25 repos. Folksonomy categorized the corpus backward.</div><div class="proof">operators/ (38 files) · this session</div></div>
+        <div class="cell concept"><div class="name">The Council of 6</div><div class="verdict v-part">4 OF 6 CONVENED</div></div>
+        <div class="cell fore"><div class="q">"A council of 6 operators who debate, then synthesize: Orchestration, Librarian, Detective, Folksonomy, Immune, Accountant."</div><div class="src">OS for Clarity · slide · 2026-01-09</div></div>
+        <div class="cell man"><div class="p">The forensic-recoil sweep convened four of the six seats — librarian, a skeptic in the Detective's chair, Folksonomy-as-curator, plus a synthesizer; Accountant and Immune unconvened. Folksonomy categorized the corpus backward.</div><div class="proof">operators/ library · this session</div></div>
       </div>
 
       <div class="row">
         <div class="cell concept"><div class="name">Graduation</div><div class="verdict v-today">NAMED TODAY</div></div>
-        <div class="cell fore"><div class="q">"From tandem jump (guided) → your own parachute (autonomous)." / 101 → 301, "teaching capability."</div><div class="src">For All Brains 01-07 · Bike 01-08</div></div>
+        <div class="cell fore"><div class="q">"From tandem jump (guided) → your own parachute (autonomous)." / 101 → 301, "teaching capability."</div><div class="src">For All Brains · slide · 01-07 · Bike 01-08</div></div>
         <div class="cell man"><div class="p">The Ullr graduation invariant: mastery = the instrument disappears; retaining a fluent user is a NOTOMATION violation. Graduation ≠ churn.</div><div class="proof">ROM-CANDIDATES-norse-witness.md</div></div>
       </div>
 
       <div class="row">
-        <div class="cell concept"><div class="name">Own the Engine</div><div class="verdict v-today">RECONCILED TODAY</div></div>
-        <div class="cell fore"><div class="q">"This isn't just about sales. It's about building an Asset — the Engine — that you own forever."</div><div class="src">Phase Locked · 2026-01-15</div></div>
-        <div class="cell man"><div class="p">Engine-sovereignty: engines are replaceable tenants, the write-locked receipt history is the freehold. NOW=LLM → NEXT=JEPA → LATER=GIGI.</div><div class="proof">memory: engine-sovereignty-gradient (ADR# contested)</div></div>
+        <div class="cell concept"><div class="name">Own the Engine</div><div class="verdict v-part">INVERTED, THEN RESOLVED</div></div>
+        <div class="cell fore"><div class="q">"It's a strategic asset, a system, a process, a configured tech stack that the organization now owns forever. It's all about building a capability, not just chasing a deal."</div><div class="src">Phase Locked · 2026-01-15</div></div>
+        <div class="cell man"><div class="p">The film said own the ENGINE forever; eight months of receipts said own the RECORD forever — engines are replaceable tenants, the write-locked receipt history is the freehold. The half the film got wrong is the more interesting find.</div><div class="proof">memory: engine-sovereignty-gradient (ADR# contested, pending oracle)</div></div>
       </div>
     </div>
 
@@ -202,9 +207,9 @@
       </div>
 
       <div class="row">
-        <div class="cell concept"><div class="name">Kairos</div><div class="verdict v-made">MANIFESTED</div></div>
-        <div class="cell fore"><div class="q">"Not just the right decision — the right decision at the right moment. Maximum leverage, minimum friction."</div><div class="src">First Wave · 2026-01-06</div></div>
-        <div class="cell man"><div class="p">Chronos vs Kairos as first-class time. Time-quality attribution; today's proverb: when the job is ready, the right tool appears.</div><div class="proof">time-quality-attribution-rom.json · KKL · tao-254</div></div>
+        <div class="cell concept"><div class="name">Kairos</div><div class="verdict v-part">SPEC'D, NOT BUILT</div></div>
+        <div class="cell fore"><div class="q">"It's the art of mastering not just what you need to do, but knowing precisely when to do it for the biggest possible impact."</div><div class="src">First Wave · 2026-01-06</div></div>
+        <div class="cell man"><div class="p">Named as first-class time in the ROM (Chronos vs Kairos; today's proverb tao-254). The detection job the film promised is P4-backlogged, gated at 100 receipts — a spec and a proverb are the Ethereal stage, by this page's own pipeline.</div><div class="proof">time-quality-attribution-rom.json · AGENTS.md backlog P4</div></div>
       </div>
 
       <div class="row">
@@ -215,44 +220,60 @@
 
       <div class="row">
         <div class="cell concept"><div class="name">Quarks · Atoms · Molecules</div><div class="verdict v-made">MANIFESTED</div></div>
-        <div class="cell fore"><div class="q">"Quarks are fundamental forces like coherence and entropy … they bond into molecules like trend-surfing."</div><div class="src">Bicycle for the Mind · 2026-01-08</div></div>
+        <div class="cell fore"><div class="q">"At the very bottom, you have corks [quarks]. These are the fundamental forces like coherence and entropy … those atoms bond together to create really powerful molecule[s]" — e.g. trend-surfing.</div><div class="src">Bicycle for the Mind · 2026-01-08</div></div>
         <div class="cell man"><div class="p">The L0/L1/L2 atomic-design hierarchy of the operators. Five derivatives compose into higher operators — mapped into op20 seeds this very session.</div><div class="proof">operators/ atomic layers · op20 adapter (today)</div></div>
       </div>
 
       <div class="row">
         <div class="cell concept"><div class="name">L0–L5 pipeline</div><div class="verdict v-made">MANIFESTED</div></div>
-        <div class="cell fore"><div class="q">"Observation → Pattern Rec → Hypothesis → Pressure Test → Synthesis." / "L0 Context → L5 Delivery."</div><div class="src">Force Multiplier 12-10 · Phase Locked 01-15</div></div>
+        <div class="cell fore"><div class="q">"Observation → Pattern Rec → Hypothesis → Pressure Test → Synthesis." / "L0 Context → L5 Delivery."</div><div class="src">Force Multiplier · slide · 12-10 · Phase Locked · slide · 01-15</div></div>
         <div class="cell man"><div class="p">The live compass pipeline and Y-gate. The decision lineage the films drew is the render architecture.</div><div class="proof">compass route · ygate.ts · DEWY L0–L5</div></div>
       </div>
 
       <div class="row">
         <div class="cell concept"><div class="name">Embrace uncertainty</div><div class="verdict v-made">MANIFESTED</div></div>
-        <div class="cell fore"><div class="q">"Most frameworks fail because they pretend certainty exists. ARCS embraces uncertainty."</div><div class="src">OS for Clarity · 2026-01-09</div></div>
+        <div class="cell fore"><div class="q">"Most decision frameworks fail because they pretend certainty exists. ARCS embraces uncertainty."</div><div class="src">OS for Clarity · slide · 2026-01-09</div></div>
         <div class="cell man"><div class="p">Triune Logic: NULL / OM / UNDEFINED. Not-yet-legible is a valid, high-status state — never collapse UNDEFINED to NULL.</div><div class="proof">.claude/arcs-canon.md · ygate.ts</div></div>
       </div>
 
       <div class="row">
         <div class="cell concept"><div class="name">Write-Lock &amp; the doors</div><div class="verdict v-made">MANIFESTED</div></div>
-        <div class="cell fore"><div class="q">"For one-way doors, a write-lock protocol — a hard stop that freezes the foundation during a hype-driven moment."</div><div class="src">Decision Physics · 2026-03-21</div></div>
+        <div class="cell fore"><div class="q">"For those one-way doors, the system triggers a [w]rite-lock protocol … a hard stop that freezes the core foundation of your system … during an emotionally compromised or hype-driven moment."</div><div class="src">Decision Physics · 2026-03-21</div></div>
         <div class="cell man"><div class="p">ROM primitive #7 (de-rotted into CLAUDE.md today) and doorClass ONE_WAY/TWO_WAY, live in every prod receipt.</div><div class="proof">arcs-canon.md #7 · Receipt.doorClass</div></div>
       </div>
 
       <div class="row">
         <div class="cell concept"><div class="name">Lossless translation</div><div class="verdict v-made">MANIFESTED</div></div>
-        <div class="cell fore"><div class="q">"One unified decision, communicated in five vocabularies — with zero critical context lost."</div><div class="src">The Force Multiplier · 2025-12-10</div></div>
+        <div class="cell fore"><div class="q">"…one single unified decision, but it's communicated in five different vocabularies … with absolutely zero critical context lost."</div><div class="src">The Force Multiplier · 2025-12-10</div></div>
         <div class="cell man"><div class="p">LOSSLESS_TRANSLATION, a canonical spine state primitive governing how commitment moves through the system.</div><div class="proof">runtime/specs/ARCS-v9-ROM.md</div></div>
       </div>
 
       <div class="row">
         <div class="cell concept"><div class="name">Forged by pressure</div><div class="verdict v-made">ENACTED TODAY</div></div>
-        <div class="cell fore"><div class="q">"Slower adversarial review operators stress-test ideas. Only patterns that survive become canon." / productive discord.</div><div class="src">Decision Physics 03-21 · Force Multiplier 12-10</div></div>
+        <div class="cell fore"><div class="q">"…slower, adversarial review operators to stress test these ideas. Only the patterns that survive this friction are permitted to become canon…" / productive discord.</div><div class="src">Decision Physics 03-21 · Force Multiplier 12-10</div></div>
         <div class="cell man"><div class="p">The skeptic passes, counterpart-gauntlets, and canon-collision escalations that ran all session. The law the film stated, being obeyed.</div><div class="proof">claims-skeptic · CANON-COLLISION-*.md</div></div>
       </div>
 
       <div class="row">
-        <div class="cell concept"><div class="name">Kill-gates · Fellowship №2</div><div class="verdict v-part">PARTIAL</div></div>
-        <div class="cell fore"><div class="q">"Pre-agreed conditions — chronic low energy, broken trust — trigger a neutral off-ramp. Both hold veto power."</div><div class="src">Decision Physics · 2026-03-21</div></div>
+        <div class="cell concept"><div class="name">Kill-gates · Fellowship No.2</div><div class="verdict v-part">PARTIAL</div></div>
+        <div class="cell fore"><div class="q">"These pre-agreed conditions, like chronic low energy or broken trust, trigger a neutral off-ramp" · "both participants hold veto power."</div><div class="src">Decision Physics · 2026-03-21</div></div>
         <div class="cell man"><div class="p">The recoil / counterpart engagement SSOTs carry kill-gates and pre-mortems. The David/Zach fellowship framing is engagement-specific; live but not generalized.</div><div class="proof">runtime/recoil/ · recoil SSOTs</div></div>
+      </div>
+    </div>
+
+    <div class="tier sediment">
+      <p class="th">▽ SEDIMENT — foreshadowed, not (yet) manifested. The miss column that makes the hit rows evidence instead of testimony.</p>
+      <div class="sedlist">
+        <div class="sed"><b>Rule of Fives</b> — five tracks / horizons / checks / thresholds, management-by-exception <span class="ssrc">First Wave</span></div>
+        <div class="sed"><b>ARCS 101 / 201 / 301</b> — adaptive learning paths, bootcamp, 10-day course <span class="ssrc">For All Brains · Bicycle</span></div>
+        <div class="sed"><b>Career GPS</b> — the "98% search-time reduction" product <span class="ssrc">Bicycle</span></div>
+        <div class="sed"><b>Marketing anti-interference</b> — the "35% ROAS" application <span class="ssrc">Bicycle</span></div>
+        <div class="sed"><b>Energy-signature scan</b> — as described; at best partial <span class="ssrc">Bicycle</span></div>
+        <div class="sed"><b>The IDEA loop</b> — ingest / diagnose / envision / act as a product surface <span class="ssrc">Decision Physics</span></div>
+        <div class="sed"><b>Intentional time dilation</b> — the fork-slowing UI <span class="ssrc">Decision Physics</span></div>
+        <div class="sed"><b>The Greeks</b> — delta / theta / vega / gamma as shared decision language <span class="ssrc">Phase Locked</span></div>
+        <div class="sed"><b>Target-signature engine</b> — the 12/12 scoring product <span class="ssrc">Phase Locked</span></div>
+        <div class="sed"><b>R · C · S surfaces</b> — of the founding acronym, only the A got a surface this week; critical thinking, somatic wisdom, and sequencing still await theirs <span class="ssrc">For All Brains</span></div>
       </div>
     </div>
   </section>
@@ -260,20 +281,20 @@
   <section>
     <p class="lab">The proof that it is hyperstition, not hindsight</p>
     <div class="loop">
-      <h3>The strange loop</h3>
-      <p>The films are not an outside observer's take. Film 1 says it plainly: <em>"the very source material for this explainer, it was built using this exact ARCS framework … a real audit from the process of building the script."</em> And all seven were generated by NotebookLM reading the ARCS corpus. So the causal loop closes on itself:</p>
-      <p class="cyc"><b>corpus</b> → describes itself → <b>vision film</b> (Ethereal) → guides the build → <b>code + canon + 247 receipts</b> (ROM) → re-enters the <b>corpus</b> →</p>
-      <p>A fiction that, believed and acted on, made itself true. That is the definition of hyperstition — and here it is documented, dated, and diffable. The films did not predict the product. They <span style="color:var(--gold)">participated in causing it.</span></p>
+      <h3>The strange loop — the claim on trial</h3>
+      <p>The films are not an outside observer's take. Film 1 says it plainly: <em>"the very source material for this explainer, it was built using this exact ARCS framework … a real audit from the process of building the script."</em> And all seven were generated by NotebookLM reading the ARCS corpus. So the loop closes — but note what that alone proves:</p>
+      <p class="cyc"><b>corpus</b> → describes itself → <b>vision film</b> (Ethereal) → eight months → <b>code + canon + 247 receipts</b> → re-enters the <b>corpus</b> →</p>
+      <p>The honest reading first: films generated FROM the corpus matching a product built from the same corpus is exactly what the <span style="color:var(--violet)">common-cause null</span> predicts — the loop closing proves the corpus is consistent with itself. The hyperstition claim needs one more arrow: that a film was <em>consulted</em> mid-build, and no dated receipt of that exists anywhere in this family. So the finding is filed at its earned tier: <span style="color:var(--gold)">the corpus described itself twice, eight months apart, and the second description ran</span> — candidate hyperstition, causation unproven. Two things would settle it: the miss column below, and one dated commit, ADR, or session note citing a film before the feature it names.</p>
     </div>
   </section>
 
   <section class="final">
-    <p class="stampbig">The roadmap did not foreshadow the product.<br>It was the <span class="hl">Ethereal stage</span> of it.</p>
+    <p class="stampbig">The corpus described itself twice,<br>eight months apart — and the second<br>description <span class="hl">ran</span>.</p>
     <div class="count">
       <div class="c"><div class="num">7</div><div class="lbl">vision films</div></div>
-      <div class="c"><div class="num">15+</div><div class="lbl">foreshadows mapped</div></div>
-      <div class="c"><div class="num">5</div><div class="lbl">named today</div></div>
-      <div class="c"><div class="num">247</div><div class="lbl">receipts that closed the loop</div></div>
+      <div class="c"><div class="num">16</div><div class="lbl">mapped · ~9 unmanifested</div></div>
+      <div class="c"><div class="num">4+1</div><div class="lbl">named today · 1 inverted</div></div>
+      <div class="c"><div class="num">247</div><div class="lbl">ex-ante receipts on the record</div></div>
     </div>
   </section>
 
@@ -281,7 +302,7 @@
     <div class="wrap">
       <p class="stamp">
         Hyperstition Pipeline · <b>Ethereal → Loki Test → Receipt Evaluation → ROM</b> (ROM Primitive 3)<br>
-        built from 7 NotebookLM films · audio transcribed · frames read · serialized by creation time · 2026&#8209;08&#8209;28
+        built from 7 NotebookLM films · audio transcribed · frames read · serialized by creation time · 2026&#8209;08&#8209;28<br>quote marks = narration verbatim (whisper transcript); "slide" src = on-screen text; unquoted = paraphrase<br>hardened by a 5-facet adversarial war game before publish · 3 pathogens, 2 breaks, 7 cracks, 2 nits fixed · 5 over-flags rejected
       </p>
     </div>
   </footer>
