@@ -1,3 +1,44 @@
+# Handoff — v3.45.0 (2026-08-27)
+
+> **Active pickup point — the PRL close-out session (renumbered from v3.44.0 after collision with the Ahmed handoff on main)** (non-interactive). Folded the cross-session
+> PRL sweep into one run. Route reality: no Zapier MCP, no human at keyboard, Stripe MCP
+> unauthorized — so Zap-kit installs + widget e2e stayed STAGED (verified), everything inline
+> got executed. Full receipt: `runtime/recoil/generated/2026-08-26-prl-close-out-session.md`.
+
+## Shipped (this branch, draft-first — nothing deployed or sent)
+- **PRL 1.2 close-loop CLOSED + prospecting pass 1 (was overdue Aug-24):** wrong-if fired,
+  ~2.1x central multiplier vs the 20h bet (7 work days / 109 PRL commits, method disclosed);
+  cap held. Math + Todd one-pager + extraction ranking: `_ARTIFACTS/prl-1-2-close-loop/`.
+  Re-pricing happens WITH Todd on the call (gate honored). Rec: 1.3 stays $4,000 with a
+  precondition input-batch before the clock starts.
+- **Drafts for Zach (never auto-sent):** three-confirmations email (ex three-scenario), 4h-proxy
+  decision paragraph, chase list (sandbox-written-approval · anti-ICP list · territory via BILL
+  GALLA · ZoomInfo contact), status/progress draft diff (apply + deploy only on Zach's "ship",
+  from MAIN worktree).
+- **Judgment memos:** Lyro-races-flow → rec accept-for-pilot, natural 1.5 scope; read-more links
+  → /contact/ to manual Q&A only, rest parked 1.3. Analytics audit CLOSED (all 8 pages have
+  the snippet). 1.4 SEM prep verified ALREADY DONE (Aug-18 template + 5 instances + runbook).
+- **NEW: /status/receipt surface** — the closed 1.2 receipt as data-driven storytelling
+  (`public/prl-status-receipt.html`, stamped via prl-page-factory + bespoke band-chart/tiles
+  organisms, 4-width sweep verified; wired in proxy.ts + next.config.ts; DEPLOYS ON MERGE —
+  merging the PR is the ship gesture). **ADR-069 minted** (first closed client receipt =
+  precedent-shaped expectation management; oracle audit pending) + witness stub 2026-08-26 +
+  DEWY receipt — the four-in-one print, per Zach's live witness call.
+- Backlog statuses annotated in `_QUEUE/induced-backlog.jsonl` (prospecting-pass-1 DONE;
+  zap-kit items open/staged-human-gated).
+
+## Open (next session's first work)
+1. **Human-gated PRL installs:** zap kit paste order per `_ARTIFACTS/prl-zap-kit/README.md`
+   (task8-filter first), then empty-email e2e widget chat (delete created lead after, receipt).
+2. **Close-loop CALL with Todd:** walk the one-pager; get written acks (sandbox, competitor,
+   4h proxy); chase ZoomInfo contact + Bill/territory. Zach sends the drafted email or folds
+   into the call.
+3. **1.2-A stays PAYMENT-GATED** — verify invoice #NYQRTJPQ-0004 (Stripe auth needed) before touching.
+4. **Sean Wing close-loop window** ends 2026-08-30 — /recoil-close vs `2026-08-23-sean-wing.json`;
+   counterpart-gauntlet the parked note before any send.
+5. Carried: 3 orphan seeds (human curation) · GH Actions billing (Zach-only) · ziggurat
+   trailhead/key-0 (~10 lines) · tao proverbs 066/067 · lattice --regenerate (human-owned).
+
 # Handoff — v3.44.0 (2026-08-26)
 
 > **Active pickup point — the Ahmed 60-Second Read session.** The germination session's open
