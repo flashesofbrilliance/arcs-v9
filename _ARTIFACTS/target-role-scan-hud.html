@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+THESIS: the search rendered as targeting instrumentation · the aim IS the telemetry.
+Sibling to profile-scan-hud.html (who is Zach) → this is where he points and how he scores what comes in.
+OWN-WORLD: ARCS dark cockpit · ground #020408, panel #0d1117, bearing cyan #00F0FF,
+conviction green #00FF9D, asset gold #FFD700, constraint orange #FF9F45, risk red #FF4D6D;
+JetBrains Mono = measurement, Inter = prose; earned-fidelity resolve, thread-color rails.
+STORY: 4 archetypes in scope, the value shape, a screen-in/screen-out fit filter, a weighted
+scoring rubric with go/no-go bands, and the wired loop onto real ARCS tooling · one assertion.
+FORM: single-file HUD, MUI-grade token theme, @media print flattens to the light sheet.
+Grounded in: resume SSOT (resume.arcs.care) · profile-scan-hud.html · job-search memories.
+-->
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>ARCS Target Scan · Zach Harris</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --palette-bg-default:#020408; --palette-bg-paper:#0d1117; --palette-bg-elevated:#111826;
+  --palette-divider:#1e293b; --palette-divider-hi:#2c3b52;
+  --palette-text-primary:#e2e8f0; --palette-text-secondary:#94a3b8; --palette-text-muted:#64748b; --palette-text-faint:#475569;
+  --palette-bearing:#00F0FF; --palette-conviction:#00FF9D; --palette-asset:#FFD700; --palette-constraint:#FF9F45; --palette-risk:#FF4D6D; --palette-steel:#7d8fa3;
+  --typo-sans:'Inter',system-ui,-apple-system,sans-serif; --typo-mono:'JetBrains Mono',ui-monospace,monospace;
+  --shape-radius-sm:6px; --shape-radius-md:10px; --shape-radius-lg:14px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:36px; --space-7:56px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--palette-bg-default);color:var(--palette-text-primary);font-family:var(--typo-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+body{min-height:100vh;background:
+  radial-gradient(1100px 500px at 50% -10%, #00F0FF0a 0, transparent 60%),
+  radial-gradient(700px 400px at 90% 20%, #00FF9d06 0, transparent 55%),
+  var(--palette-bg-default);}
+a{color:var(--palette-bearing);text-decoration:none;} a:hover{text-decoration:underline;}
+.wrap{max-width:1060px;margin:0 auto;padding:0 var(--space-5) var(--space-7);}
+
+.mono{font-family:var(--typo-mono);}
+.eyebrow{font-family:var(--typo-mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;}
+.src{font-family:var(--typo-mono);font-size:9px;letter-spacing:.05em;color:var(--palette-text-faint);}
+.led{display:inline-block;width:7px;height:7px;border-radius:50%;vertical-align:1px;margin-right:6px;}
+.led.on{box-shadow:0 0 8px 1px currentColor;background:currentColor;}
+.pill{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 10px;border-radius:4px;border:1px solid var(--palette-divider-hi);color:var(--palette-text-secondary);}
+.pill.solid{background:var(--palette-bearing);color:#03151a;border-color:transparent;}
+
+.panel{background:linear-gradient(165deg,#ffffff08,#ffffff02 40%,#00000030),var(--palette-bg-paper);
+  border:1px solid var(--palette-divider);border-radius:var(--shape-radius-md);
+  box-shadow:inset 0 1px 0 #ffffff0e, 0 14px 34px -22px #000c;}
+.sec-hd{display:flex;align-items:baseline;gap:12px;margin:var(--space-7) 0 var(--space-4);}
+.sec-hd .n{font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--palette-text-faint);}
+.sec-hd .t{font-family:var(--typo-mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;}
+.sec-hd .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--palette-divider),transparent);}
+.sec-hd .gloss{font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.08em;color:var(--palette-text-faint);text-transform:uppercase;white-space:nowrap;}
+
+header.mast{padding:var(--space-7) 0 var(--space-5);border-bottom:1px solid var(--palette-divider);}
+.mast .id{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;}
+h1{font-size:clamp(26px,4vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.04;}
+h1 .b{color:var(--palette-bearing);} h1 .g{color:var(--palette-conviction);}
+.mast .sub{max-width:66ch;font-size:13.5px;line-height:1.7;color:var(--palette-text-secondary);margin-top:var(--space-4);text-wrap:pretty;}
+.statuslights{font-family:var(--typo-mono);font-size:10px;letter-spacing:.07em;color:var(--palette-text-muted);text-align:right;line-height:2.1;white-space:nowrap;}
+
+.telemetry{display:grid;grid-template-columns:repeat(5,1fr);margin-top:var(--space-5);}
+.telemetry .cell{padding:14px 18px;border-left:1px solid var(--palette-divider);}
+.telemetry .cell:first-child{border-left:none;padding-left:0;}
+.telemetry .v{font-family:var(--typo-mono);font-size:26px;font-weight:700;color:var(--palette-text-primary);line-height:1;}
+.telemetry .v b{color:var(--palette-bearing);font-weight:700;}
+.telemetry .k{font-family:var(--typo-mono);font-size:8.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);margin-top:7px;line-height:1.5;}
+
+.comparator{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.channel{padding:18px 20px 16px;}
+.channel .ch-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--palette-divider);}
+.channel.in{border:1px solid #00FF9d33;border-radius:var(--shape-radius-md);box-shadow:inset 0 1px 0 #ffffff0e, 0 0 26px -16px #00FF9d55, 0 14px 34px -22px #000c;background:linear-gradient(165deg,#00FF9d0a,#00000038),var(--palette-bg-paper);}
+.channel.in .ch-hd{border-bottom-color:#00FF9d2b;} .channel.in .ch-hd .eyebrow{color:var(--palette-conviction);}
+.channel.out{border:1px solid #FF4D6d30;border-radius:var(--shape-radius-md);background:linear-gradient(165deg,#FF4D6d08,#00000038),var(--palette-bg-paper);}
+.channel.out .ch-hd{border-bottom-color:#FF4D6d2b;} .channel.out .ch-hd .eyebrow{color:var(--palette-risk);}
+.channel li{list-style:none;position:relative;padding-left:16px;font-size:12.5px;line-height:1.6;color:var(--palette-text-secondary);margin-bottom:10px;text-wrap:pretty;}
+.channel li::before{content:"";position:absolute;left:2px;top:8px;width:5px;height:5px;border-radius:50%;border:1px solid currentColor;opacity:.55;}
+.channel.in li::before{background:var(--palette-conviction);border-color:var(--palette-conviction);}
+.channel.out li::before{background:var(--palette-risk);border-color:var(--palette-risk);}
+.channel li b{color:var(--palette-text-primary);font-weight:600;}
+.channel .note{font-size:11px;line-height:1.55;color:var(--palette-text-muted);font-style:italic;margin-top:4px;padding-top:10px;border-top:1px dashed var(--palette-divider);}
+
+.threads{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.thread{position:relative;padding:16px 18px 14px 21px;overflow:hidden;}
+.thread::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--tc);box-shadow:0 0 14px 0 var(--tc);}
+.thread .eyebrow{color:var(--tc);}
+.thread h3{font-size:14.5px;font-weight:650;letter-spacing:-.01em;margin:7px 0 7px;text-wrap:balance;}
+.thread p{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);text-wrap:pretty;}
+.thread .src{display:block;margin-top:10px;padding-top:8px;border-top:1px solid var(--palette-divider);}
+
+.quads{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);}
+.quad{padding:18px 20px 16px;border-top:2px solid var(--qc);}
+.quad .eyebrow{color:var(--qc);}
+.quad h3{font-size:14.5px;font-weight:650;margin:7px 0;text-wrap:balance;}
+.quad p{font-size:12px;line-height:1.62;color:var(--palette-text-secondary);text-wrap:pretty;}
+.quad p b{color:var(--palette-text-primary);font-weight:600;}
+
+/* rubric ledger */
+.ledger{width:100%;border-collapse:collapse;font-size:12px;}
+.ledger th{font-family:var(--typo-mono);font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--palette-text-muted);
+  text-align:left;padding:10px 14px;border-bottom:1px solid var(--palette-divider-hi);}
+.ledger td{padding:9px 14px;border-bottom:1px solid var(--palette-divider);vertical-align:top;color:var(--palette-text-secondary);line-height:1.5;}
+.ledger td.dim{color:var(--palette-text-primary);font-weight:600;}
+.ledger td.w{font-family:var(--typo-mono);color:var(--palette-asset);font-weight:700;white-space:nowrap;text-align:center;}
+.ledger td.lo{color:var(--palette-text-muted);} .ledger td.hi{color:var(--palette-conviction);}
+.ledger tr:last-child td{border-bottom:none;}
+.ledger-scroll{overflow-x:auto;}
+
+.gate{margin-top:var(--space-4);padding:14px 18px;border:1px solid #FF4D6d35;border-radius:var(--shape-radius-md);background:#FF4D6d0d;}
+.gate .eyebrow{color:var(--palette-risk);display:block;margin-bottom:6px;}
+.gate p{font-size:12px;line-height:1.6;color:var(--palette-text-secondary);}
+.gate b{color:var(--palette-text-primary);}
+
+.bands{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4);margin-top:var(--space-4);}
+.band{padding:16px 18px;border-top:2px solid var(--bc);}
+.band .eyebrow{color:var(--bc);}
+.band .score{font-family:var(--typo-mono);font-size:11px;color:var(--palette-text-muted);margin:6px 0 8px;}
+.band h4{font-size:14px;font-weight:650;margin-bottom:6px;}
+.band p{font-size:11.5px;line-height:1.6;color:var(--palette-text-secondary);}
+
+/* wired loop */
+.flow{display:grid;gap:var(--space-3);counter-reset:step;}
+.step{position:relative;padding:16px 18px 14px 52px;}
+.step::before{counter-increment:step;content:counter(step);position:absolute;left:16px;top:15px;
+  width:24px;height:24px;border-radius:50%;border:1px solid var(--palette-divider-hi);
+  font-family:var(--typo-mono);font-size:11px;font-weight:700;color:var(--palette-bearing);
+  display:flex;align-items:center;justify-content:center;}
+.step h4{font-size:13.5px;font-weight:650;margin-bottom:5px;}
+.step p{font-size:12px;line-height:1.6;color:var(--palette-text-secondary);text-wrap:pretty;}
+.step p b{color:var(--palette-text-primary);font-weight:600;}
+.tool{display:inline-block;font-family:var(--typo-mono);font-size:9.5px;font-weight:600;letter-spacing:.03em;
+  color:var(--palette-conviction);background:#00FF9d12;border:1px solid #00FF9d33;border-radius:4px;padding:1px 6px;margin:2px 4px 0 0;white-space:nowrap;}
+.tool.gap{color:var(--palette-constraint);background:#FF9F4512;border-color:#FF9F4533;}
+
+.assertion{position:relative;padding:26px 30px 22px;border:1px solid #00F0FF35;border-radius:var(--shape-radius-lg);
+  background:linear-gradient(165deg,#00F0FF0e,#00000030 55%),var(--palette-bg-paper);
+  box-shadow:inset 0 1px 0 #ffffff10, 0 0 44px -18px #00F0FF40;}
+.assertion p{font-size:16.5px;line-height:1.72;color:var(--palette-text-primary);font-weight:450;text-wrap:pretty;}
+.assertion cite{display:block;margin-top:14px;font-style:normal;font-family:var(--typo-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--palette-text-muted);}
+
+.prov{padding:16px 20px;border:1px dashed var(--palette-divider-hi);border-radius:var(--shape-radius-md);background:#0d111780;}
+.prov p{font-size:11px;line-height:1.7;color:var(--palette-text-muted);}
+.prov b{color:var(--palette-text-secondary);font-weight:600;}
+.prov .eyebrow{color:var(--palette-constraint);display:block;margin-bottom:8px;}
+footer{margin-top:var(--space-6);padding-top:var(--space-4);border-top:1px solid var(--palette-divider);
+  display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--typo-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--palette-text-faint);}
+
+@media (prefers-reduced-motion: no-preference){
+  .resolve{animation:resolve .9s cubic-bezier(.16,1,.3,1) both;}
+  .resolve:nth-of-type(2){animation-delay:.08s}.resolve:nth-of-type(3){animation-delay:.16s}
+  .resolve:nth-of-type(4){animation-delay:.24s}.resolve:nth-of-type(5){animation-delay:.32s}
+  .resolve:nth-of-type(6){animation-delay:.40s}
+  @keyframes resolve{from{opacity:.35;filter:blur(6px) saturate(.6);transform:translateY(6px)}to{opacity:1;filter:none;transform:none}}
+}
+
+@media screen and (max-width:760px){
+  .comparator,.threads,.quads,.bands{grid-template-columns:1fr;}
+  .telemetry{grid-template-columns:repeat(2,1fr);row-gap:18px;}
+  .telemetry .cell{border-left:none;padding-left:0;}
+  .statuslights{text-align:left;}
+}
+
+@page{size:letter;margin:0.45in;}
+@media print{
+  :root{
+    --palette-bg-default:#fff; --palette-bg-paper:#fff; --palette-bg-elevated:#fff;
+    --palette-divider:#dde3ea; --palette-divider-hi:#c9d3de;
+    --palette-text-primary:#0f1720; --palette-text-secondary:#33414f; --palette-text-muted:#5b6b7a; --palette-text-faint:#8a97a4;
+    --palette-bearing:#0089a8; --palette-conviction:#0a8f5b; --palette-asset:#9a7b00; --palette-constraint:#c05e12; --palette-risk:#c22646;
+  }
+  html,body{background:#fff;}
+  body::after{content:"";position:fixed;inset:0;border:1.4px solid #c2ccd6;border-radius:7px;pointer-events:none;}
+  .wrap{max-width:none;padding:0 .1in;}
+  .panel,.channel.in,.channel.out,.assertion,.prov{background:#fff;box-shadow:none;}
+  .thread::before{box-shadow:none;} .led.on{box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .resolve{animation:none;} header.mast{padding-top:.1in;} .sec-hd{margin-top:26px;}
+  .thread,.quad,.channel,.assertion,.prov,.telemetry,.step,.band{break-inside:avoid;}
+  .telemetry .v{font-size:21px;} .channel li{font-size:11px;} .thread p,.quad p,.step p{font-size:10.5px;}
+  .ledger td,.ledger th{padding:7px 10px;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast resolve">
+    <div class="id">
+      <div>
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+          <span class="pill solid">Target Scan</span><span class="pill">Internal · Search Compass · ex-ante bet</span>
+        </div>
+        <h1>Forward-Deployed. <span class="b">Applied&nbsp;AI.</span></h1>
+        <div class="eyebrow" style="color:var(--palette-bearing);margin-top:10px;">Target-Role Scan · where to aim + how to score what comes in</div>
+      </div>
+      <div class="statuslights">
+        <span class="led on" style="color:var(--palette-conviction)"></span>ARCHETYPES · 4 IN SCOPE<br>
+        <span class="led on" style="color:var(--palette-asset)"></span>RUBRIC · v1 CALIBRATED<br>
+        <span class="led on" style="color:var(--palette-constraint)"></span>INGEST · CATCHER = GMAIL LABEL · UNWIRED<br>
+        <span class="led on" style="color:var(--palette-bearing)"></span>LOOP · RECOIL-READY
+      </div>
+    </div>
+    <p class="sub">The ex-ante receipt for the search: the bet, written first. A senior operator-builder who <b style="color:var(--palette-text-primary)">turns AI capability into shipped product inside the customer's weeds</b> — strongest where the stakes are high, the domain is regulated, and breadth (product × engineering × GTM) is the edge, not a liability. This is the subject's own targeting instrument, not an outward pitch.</p>
+
+    <div class="telemetry">
+      <div class="cell"><div class="v"><b>4</b></div><div class="k">archetypes in scope</div></div>
+      <div class="cell"><div class="v">6</div><div class="k">must-haves · screen-in</div></div>
+      <div class="cell"><div class="v">6</div><div class="k">disqualifiers · screen-out</div></div>
+      <div class="cell"><div class="v">0.70</div><div class="k">pursue band · full omakase</div></div>
+      <div class="cell"><div class="v">20<span style="font-size:15px">yr</span></div><div class="k">senior IC · operator-builder</div></div>
+    </div>
+    <div class="src" style="margin-top:10px;">SRC · resume.arcs.care (SSOT) · profile-scan-hud.html · memory: icp-is-a-state · positive-screen · risk-register · opportunity-sizing</div>
+  </header>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">01</span><span class="t" style="color:var(--palette-bearing)">Archetypes In Scope</span><span class="rule"></span><span class="gloss">the Forward-Deployed / Applied-AI family</span></div>
+    <div class="threads">
+      <div class="thread panel" style="--tc:var(--palette-bearing)">
+        <span class="eyebrow">Bearing · Primary target</span>
+        <h3>Forward-Deployed (AI) Engineer</h3>
+        <p>Embed with the customer, ship in their environment, own discovery → build → QA → handoff. Proven at <b>Squat NY</b>: sole tech partner for a $350M-ARR client, roadmap through handoff.</p>
+        <span class="src">TITLES · Forward Deployed Engineer · FDE · Deployment Strategist · Field / Solutions Engineer (technical)</span>
+      </div>
+      <div class="thread panel" style="--tc:var(--palette-conviction)">
+        <span class="eyebrow">Conviction · Primary target</span>
+        <h3>Applied AI Engineer / Lead</h3>
+        <p>Turn model capability into shipped systems. <b>ARCS</b>: AI-native pipeline on Claude + a custom MCP server + agentic orchestration, architecture → production. Application layer, not model training.</p>
+        <span class="src">TITLES · Applied AI Engineer · AI Engineer · Member of Technical Staff (Applied) · Forward-Deployed AI</span>
+      </div>
+      <div class="thread panel" style="--tc:var(--palette-asset)">
+        <span class="eyebrow">Asset · Strong fit</span>
+        <h3>AI-Native Product Engineer / Lead</h3>
+        <p>Product × engineering × GTM in one — "breadth is the product." <b>Grayscale</b>: growth-intelligence layer, 10 regulated products, $7B AUM, +20% net-new revenue via personalization.</p>
+        <span class="src">TITLES · AI Product Engineer · Founding PM / Engineer · Product Lead (AI) · Growth Engineer</span>
+      </div>
+      <div class="thread panel" style="--tc:var(--palette-steel)">
+        <span class="eyebrow">Steel · Adjacent fit</span>
+        <h3>Solutions / Deployment Architect</h3>
+        <p>Customer-facing technical + cross-functional glue (eng · design · clinical · ops · commercial). The register-spanning role for a builder who also speaks the buyer's language.</p>
+        <span class="src">TITLES · Solutions Engineer / Architect · Deployment Strategist · Sales/Solutions Engineering (technical)</span>
+      </div>
+    </div>
+    <p class="src" style="margin-top:12px;">SENIORITY · senior IC · staff · lead · founding. NOT entry/junior · NOT pure people-management (operator-builder, not a headcount manager).</p>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">02</span><span class="t" style="color:var(--palette-asset)">Value Shape</span><span class="rule"></span><span class="gloss">what he actually sells · the differentiators</span></div>
+    <div class="quads">
+      <div class="quad panel" style="--qc:var(--palette-bearing)">
+        <span class="eyebrow">A · AI-native builder, for real</span>
+        <h3>Ships on Claude / MCP / agents — not demos</h3>
+        <p>End-to-end LLM-native systems. <b>ARCS</b>: 60% decision-noise reduction, 3–5× time-to-insight, agentic orchestration in production. A GTM operator who also writes the software is the rare pairing.</p>
+      </div>
+      <div class="quad panel" style="--qc:var(--palette-conviction)">
+        <span class="eyebrow">B · Forward-deployed operator</span>
+        <h3>Gets into the customer's weeds</h3>
+        <p>Sole-tech-partner capable; aligns eng · design · clinical · ops · commercial. <b>Squat NY</b>: discovery → QA → handoff for a $350M-ARR client, on schedule.</p>
+      </div>
+      <div class="quad panel" style="--qc:var(--palette-asset)">
+        <span class="eyebrow">C · Product × GTM breadth</span>
+        <h3>Decision → revenue, in one head</h3>
+        <p>Personalization, lifecycle, growth intelligence. <b>Grayscale</b>: +20% net-new revenue via data personalization across a 10-product regulated portfolio. "Breadth is the product."</p>
+      </div>
+      <div class="quad panel" style="--qc:var(--palette-constraint)">
+        <span class="eyebrow">D · Regulated / high-stakes fluency</span>
+        <h3>Ships where getting it wrong is expensive</h3>
+        <p>SEC/FINRA (<b>$7B AUM</b>), HIPAA (digital health, <b>$350M ARR</b>), gov (Axon). Twenty years turning the constraint into the product — the genome the record proves.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">03</span><span class="t" style="color:var(--palette-conviction)">Fit Filter</span><span class="rule"></span><span class="gloss">screen-in · screen-out</span></div>
+    <div class="comparator">
+      <div class="channel in">
+        <div class="ch-hd"><span class="led on" style="color:var(--palette-conviction)"></span><span class="eyebrow">Must-haves — the deal shape that fits</span></div>
+        <ul>
+          <li><b>Build-and-embed</b> role — real building, real ownership; not maintenance or pure management</li>
+          <li><b>AI-native surface</b> — LLMs/agents core to the product or the work, not a bolt-on</li>
+          <li><b>Senior IC / lead / staff / founding</b> scope with decision latitude (can decide without six approvals)</li>
+          <li><b>Sustainable, experience-valuing culture</b> — positive-screen signals (GPTW/Comparably, family-friendly, tenure mix in senior roles)</li>
+          <li><b>Comp band</b> at senior/staff level</li>
+          <li><b>Remote or NY-metro</b> friendly (Fairfield, CT)</li>
+        </ul>
+      </div>
+      <div class="channel out">
+        <div class="ch-hd"><span class="led on" style="color:var(--palette-risk)"></span><span class="eyebrow">Disqualifiers — screen out</span></div>
+        <ul>
+          <li>Pure people-management with <b>no building</b></li>
+          <li><b>"AI" as costume</b> — nothing real for it to do</li>
+          <li><b>Junior/entry leveling</b> or "young &amp; scrappy only" framing <span class="src">(risk-register)</span></li>
+          <li><b>996 / always-on grind</b>; wide/loose comp banding across locations for one role <span class="src">(risk-register)</span></li>
+          <li><b>Keep-the-lights-on maintenance</b> with no decision authority</li>
+          <li>Domain he has no interest in or can't add real value to</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">04</span><span class="t" style="color:var(--palette-steel)">Scoring Rubric</span><span class="rule"></span><span class="gloss">size first · then how-much prep · then what-shape</span></div>
+    <div class="panel ledger-scroll">
+      <table class="ledger">
+        <thead><tr><th>Dimension</th><th style="text-align:center">Weight</th><th>Score 0</th><th>Score 3</th></tr></thead>
+        <tbody>
+          <tr><td class="dim">Role-shape fit</td><td class="w">×5</td><td class="lo">maintenance / management</td><td class="hi">textbook forward-deployed build role</td></tr>
+          <tr><td class="dim">AI-native surface</td><td class="w">×4</td><td class="lo">no AI / buzzword</td><td class="hi">agents + LLMs are the product</td></tr>
+          <tr><td class="dim">Strength leverage</td><td class="w">×4</td><td class="lo">hits none</td><td class="hi">regulated fluency · breadth · forward-deployed — 3+ differentiators</td></tr>
+          <tr><td class="dim">Scope &amp; authority</td><td class="w">×3</td><td class="lo">narrow, gated</td><td class="hi">broad, autonomous ownership</td></tr>
+          <tr><td class="dim">Culture screen</td><td class="w">×3</td><td class="lo">grind / opaque</td><td class="hi">strong public positive-screen signals</td></tr>
+          <tr><td class="dim">Comp / level fit</td><td class="w">×2</td><td class="lo">below senior/staff</td><td class="hi">at / above target</td></tr>
+          <tr><td class="dim">Logistics</td><td class="w">×2</td><td class="lo">on-site elsewhere</td><td class="hi">remote or NY-metro</td></tr>
+          <tr><td class="dim">Warm path</td><td class="w">×1</td><td class="lo">cold</td><td class="hi">strong intro / referral path</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="gate">
+      <span class="eyebrow">Hard gates — any TRUE ⇒ auto-PASS, score irrelevant</span>
+      <p>Junior/entry leveling · pure management with no build · "AI" with nothing to build · grind-culture red flags in reviews. <b>Composite = Σ(score × weight) ÷ max</b>, scored 0–3 per dimension.</p>
+    </div>
+    <div class="bands">
+      <div class="band panel" style="--bc:var(--palette-conviction)">
+        <span class="eyebrow">Pursue</span>
+        <div class="score">composite ≥ 0.70 · no gates</div>
+        <h4>Full omakase</h4>
+        <p>Load the rod. Tailor a résumé folder, size the opportunity with recoil, build prep. The ones worth real investment.</p>
+      </div>
+      <div class="band panel" style="--bc:var(--palette-asset)">
+        <span class="eyebrow">Consider</span>
+        <div class="score">composite 0.50 – 0.70</div>
+        <h4>Light prep</h4>
+        <p>One-pass tailor + a quick go/no-go recoil. Apply if the tailor is cheap; don't over-invest.</p>
+      </div>
+      <div class="band panel" style="--bc:var(--palette-risk)">
+        <span class="eyebrow">Park / Pass</span>
+        <div class="score">composite &lt; 0.50 · or any hard gate</div>
+        <h4>Do not load the rod</h4>
+        <p>Log why (risk-register), move on. The correct output is often "don't invest anything."</p>
+      </div>
+    </div>
+    <p class="src" style="margin-top:12px;">NCI NOTE · this composite is the pre-work <b style="color:var(--palette-text-secondary)">sizing</b> score, not conviction. Conviction comes after the reads. Weights are a v1 calibration — tune against the first ~20 real alerts.</p>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">05</span><span class="t" style="color:var(--palette-bearing)">The Wired Loop</span><span class="rule"></span><span class="gloss">rubric → real ARCS tooling</span></div>
+    <div class="flow">
+      <div class="step panel">
+        <h4>Ingest — job alerts land</h4>
+        <p>LinkedIn job alerts arrive in Gmail; a label/filter isolates them, read in-session via the Gmail MCP connector. <b>Gap:</b> there is no committed catcher — it's a Gmail label + MCP read (or an external Zapier zap). Formalizing a normalize-step that emits one "opportunity record" per alert is the front-door build.
+          <span class="tool gap">Gmail MCP · label</span><span class="tool gap">TODO: normalize step</span></p>
+      </div>
+      <div class="step panel">
+        <h4>Score — run the rubric</h4>
+        <p>Each opportunity record → hard gates, then the weighted dimensions → a composite + band. The adversarial substrate can render the go/no-go findings sheet; point it at "this JD vs the target-role profile."
+          <span class="tool">this rubric</span><span class="tool">gauntlet_report.py</span><span class="tool">counterpart-gauntlet</span></p>
+      </div>
+      <div class="step panel">
+        <h4>Size — go/no-go (PURSUE / CONSIDER)</h4>
+        <p>Spin up a recoil engagement per target: the <b>ex-ante bet</b> (stakes · window · expected value) IS the go/no-go. Already proven on a recruiter screen. This is ARCS's core function — size before you invest.
+          <span class="tool">recoil-new</span><span class="tool">recoil-prep</span><span class="tool">recoil-report.mjs</span></p>
+      </div>
+      <div class="step panel">
+        <h4>Tailor — PURSUE only</h4>
+        <p>Stand up a <b>resume-&lt;target&gt;/</b> folder tuned to the role's competency model: <code>render.sh</code> → print-safe PDF + page-PNGs (eyeballed) + ATS-plain <code>.txt</code>. One frozen, re-runnable bundle per target.
+          <span class="tool">_ARTIFACTS/resume-&lt;target&gt;/</span><span class="tool">render.sh</span><span class="tool">profile-scan-hud</span></p>
+      </div>
+      <div class="step panel">
+        <h4>Prep &amp; close — the interview cadence</h4>
+        <p>Before each screen: <b>/precall-brief</b> + the scheduled <b>arcs-precall-brief</b> auto-prep. After: <b>recoil-close</b> scores the ex-ante bet vs reality (belief ledger). A weekly job-search milestone renders the cadence.
+          <span class="tool">/precall-brief</span><span class="tool">arcs-precall-brief</span><span class="tool">recoil-close</span><span class="tool">milestone_render.py</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="resolve">
+    <div class="sec-hd"><span class="n">06</span><span class="t" style="color:var(--palette-asset)">Key Assertion</span><span class="rule"></span><span class="gloss">the load-bearing sentence</span></div>
+    <div class="assertion">
+      <p>The search is not "apply widely." It is <b style="color:var(--palette-bearing)">size ruthlessly, invest only where the genome compounds</b> — forward-deployed, AI-native, high-stakes, breadth-rewarding roles. The rubric is the external brake/throttle: it decides go/no-go before the maximizer redlines on every green light, so full effort goes to the PURSUE handful, not to every alert in the inbox. The strongest résumé in the world tailored to a role that doesn't fit is wasted motion the sizing step exists to prevent.</p>
+      <cite>ARCS Target Scan · Zach Harris · sizing before investment · v1 · Aug 2026</cite>
+    </div>
+
+    <div class="prov" style="margin-top:24px;">
+      <span class="eyebrow">Provenance · flags lit, not smoothed</span>
+      <p>Grounded in named sources: the résumé SSOT (<b>resume.arcs.care</b>), the master <b>profile-scan-hud.html</b> read, and job-search memories (<b>icp-is-a-state</b>, <b>positive-screen</b>, <b>risk-register</b>, <b>opportunity-sizing</b>). Tooling references verified against the repo. Three flags: <b>(1)</b> the "LinkedIn→Gmail job-alert catcher" is <b>not committed code</b> — it is a Gmail label + in-session MCP read (or an external Zapier zap); the normalize step is the front-door build to add. <b>(2)</b> No engine scores <em>job posts</em> today — the gauntlet substrate is the ready-made scorer, needs pointing at "JD vs profile." <b>(3)</b> Rubric weights + band thresholds are a <b>v1 calibration</b> — expected to shift after the first ~20 scored alerts. The archetype channel stays honest: this sizes opportunities, it does not assert a fixed identity.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>ARCS Target Scan · Zach Harris · _ARTIFACTS/target-role-scan-hud.html</span>
+    <span>Internal · v1 · Aug 2026 · render at earned fidelity</span>
+  </footer>
+</div>
+</body>
+</html>
