@@ -1,0 +1,46 @@
+/* ARCS ARTIFACT CSS BASE — wrap-safe foundation for every self-contained ARCS artifact.
+ *
+ * WHY THIS FILE EXISTS: the "intermediate-width wrap-regression class" (memory of the same name)
+ * keeps recurring because each single-file artifact re-authors CSS from scratch and re-introduces
+ * the two root causes: per-role `ch` max-widths, and fixed N-column grids with one mobile
+ * breakpoint. Both bite in the untested 700-1000px band. Prose in a memory did not stop the
+ * recurrence (The Mie, then the Hyperstition Atlas both hit it). This is the WIRED version:
+ * copy this block into the top of every ARCS artifact's <style> and never hand-roll the below.
+ *
+ * THE THREE RULES IT ENFORCES (do not violate when extending):
+ *   1. ONE px reading measure (--measure). NEVER `max-width: NNch` on text — `ch` computed against
+ *      mixed font sizes gives every text role a different right edge; the misaligned rag *reads as*
+ *      broken wrapping. All left-aligned reading text shares --measure.
+ *   2. Card/stat/pipeline grids use `repeat(auto-fit, minmax(<longest-content>px, 1fr))`, NOT a
+ *      fixed column count + one breakpoint. Semantic N-col tables (that must stay a table on wide
+ *      screens) collapse to 1 column ABOVE the cramped band (>=900px), never inside 760-900.
+ *   3. text-wrap: balance on headings, text-wrap: pretty on reading text, white-space: nowrap on
+ *      chips/counts/labels that must never break.
+ *
+ * VERIFY: always screenshot-sweep at ~790px (the worst band), not just desktop + mobile.
+ */
+
+:root{
+  --measure: 640px;                 /* the single reading column width. tune once, applies everywhere. */
+  --measure-narrow: 34ch;           /* ONLY for centered hero ledes (centered => no ragged-edge clash). */
+  --grid-floor: 168px;              /* auto-fit minmax floor: size to the longest real cell value. */
+  --grid-table-collapse: 900px;     /* semantic multi-col rows go single-column at/under this. */
+}
+
+/* reading text: one shared measure, pretty wrapping. NEVER add a per-element ch cap. */
+p, li, blockquote { max-width: var(--measure); text-wrap: pretty; }
+
+/* headings: balance so no orphan/awkward single-word last line. */
+h1, h2, h3, h4 { text-wrap: balance; }
+
+/* auto-fit grid utility — use for pipelines, stat strips, card rows without a semantic column identity. */
+.grid-autofit { display: grid; gap: 1px; grid-template-columns: repeat(auto-fit, minmax(var(--grid-floor), 1fr)); }
+
+/* chips / counts / labels that must never break mid-token. */
+.nowrap { white-space: nowrap; }
+
+/* semantic multi-column rows (a real table: concept | foreshadow | manifest): keep the columns on
+ * wide screens, but collapse to one column BEFORE the cramped 760-900 band, never inside it. */
+@media (max-width: 900px){
+  .row-semantic { grid-template-columns: 1fr !important; }
+}
