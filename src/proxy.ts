@@ -31,10 +31,15 @@ export default function proxy(request: NextRequest) {
 
   if (dest) {
     const { pathname } = request.nextUrl
+    // Pass through subdomain-specific static assets (SW, manifest, icons) unchanged
+    const staticAssets = [
+      '/resume-sw.js', '/manifest.json', '/resume-icon-192.png', '/resume-icon-512.png',
+    ]
     if (
       pathname.startsWith(dest) ||
       pathname.startsWith('/_next') ||
-      pathname.startsWith('/api')
+      pathname.startsWith('/api') ||
+      staticAssets.includes(pathname)
     ) {
       return NextResponse.next()
     }
