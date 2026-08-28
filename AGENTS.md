@@ -145,7 +145,8 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | | CURATOR | `operators/arcs_operators_curator.py` | 13KB | Multi-perspective synthesis | READY |
 | | KAIROS | `operators/arcs_operator_kairos.py` | 9.4KB | Timing operator — horizon/window | READY |
 | | CONTRACT | `operators/arcs_operator_contract.py` | 9.8KB | Constitutional reasoning | READY |
-| | OPERATOR20 | `operators/arcs_operator20.py` | 38KB | Phase 5 synthesis | READY |
+| | OPERATOR20 | `operators/arcs_operator20.py` | 38KB | Phase 5 synthesis · Folksonomy Cultivator (54-dim DBSCAN) | READY |
+| | OPERATOR21 | `operators/arcs_operator21.py` | 24KB | Anterior/posterior spline inference — knot resolution. P1 determinism PASS (2026-08-28) | READY |
 | | KINTSUGI | `operators/arcs_kintsugi.py` | 26KB | Phase gate validation + healing | READY |
 | **Primitives** | Core Elements | `operators/arcs_primitives.py` | 23KB | CoherenceSignal/Receipt, ARCS Law (C = αA - β(S-S_min)² + γW) | READY |
 | | Bridge | `operators/arcs_primitives_bridge.py` | 10KB | Type conversions | READY |
@@ -160,7 +161,18 @@ npx next build    # typecheck + build (preferred over tsc --noEmit — avoids TS
 | | API | `operators/arcs_api.py` | 40KB | External interface | READY |
 | | CLI | `operators/cli_arcs_run.py` | 28KB | CLI harness | READY |
 | | Storage | `operators/arcs_store.py`, `arcs_yoav_store.py` | 42KB | Persistence | READY |
-| **Total** | 34 files | `operators/` | **16.6K LOC** | **Atomic design components for L0–L5 decision pipeline** | **PRODUCTION** |
+| **Harness** | Client / Pipeline / Evaluator | `operators/operator_client.py`, `pipeline_runner.py`, `receipt_evaluator.py` | 52KB | ls-enum lambda client + operator sequencing + receipt scoring | READY |
+| | Prod→op20 adapter | `operators/prod_receipt_to_op20_seed.py` | 4.8KB | Maps prod Receipt columns → op20 54-dim seed (faithful; never fabricates somatic/axiom) | READY |
+| **Total** | see census note ↓ | `operators/` | **~21.9K LOC tracked** | **Atomic design components for L0–L5 decision pipeline** | **PRODUCTION** |
+
+> **File census (authoritative, reconciled 2026-08-28).** The table above is a *curated catalog*
+> of the core L0–L5 components, not a file count — which is why three different numbers were in
+> circulation (this line said "34 files", the atlas said "38 py files", `ls` showed "44 entries").
+> Counted once against the tracked tree on this branch: **43 top-level `.py` modules · 51 `.py`
+> files total** (recursive, excludes `__pycache__`) **· 60 tracked files total · 21,891 LOC**.
+> Tracked subdirs: `core/` (7), `docs/` (4), `linkedin_pipeline/` (3). `audit_service/` is a
+> separate WIP thread and is **not** part of this library census. Recount with:
+> `git ls-files 'operators/**/*.py' | grep -v __pycache__ | wc -l`.
 
 **Integration status:** Operators are canonical alternative implementation. Not currently wired into compass route (which uses Claude L0–L5). Future integration: custom decision domains, audit hooks, phase gates for high-consequence decisions.
 

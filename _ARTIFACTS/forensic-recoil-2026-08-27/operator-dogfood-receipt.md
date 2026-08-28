@@ -80,3 +80,55 @@ op20 and op21 both work. op21 is deterministic (P1 PASS). op20 now runs at FULL 
 247-receipt corpus via a faithful adapter — 17 real decision archetypes at 0.765 silhouette. The
 machinery, the fuel, and the adapter all exist now. Remaining: persist somatic/axiom at write-time to
 light up the last ~40 dims.
+
+---
+
+## Re-run addendum (2026-08-28) — the somatic/axiom last mile, and why it is NOT a persistence gap
+
+Landed the operator delta in git (PR #192: op21 + operator_client + pipeline_runner +
+receipt_evaluator + the adapter + the 4 farm-league LABEL_ constants op21 imports). Then attacked
+the somatic/axiom residual the "Still constant" section flagged. **The result overturns this
+receipt's own closing assumption** ("persist somatic/axiom at write-time to light up the last ~40
+dims").
+
+**What we tried (read-side, no schema change, all gates respected).** The `SageTrace` table stores
+the SAGE operator's own op20-shaped output in `signal` — and it already contains full `somatic{}`
+(6 dims) and `axioms{}` (4 dims) blocks. So the adapter was extended to lift those blocks straight
+out of `SageTrace.signal` when a trace fired (`prod_receipt_to_op20_seed.py`, SAGE-enrichment path
++ a `--no-sage` toggle + a compact `fated_len` corpus mode). No schema change, no prod write — the
+data was already there for 45 of 247 receipts.
+
+**Reproduced the banked run, then diffed.** Same 247-receipt corpus, DBSCAN defaults, `PYTHONHASHSEED=0`,
+byte-deterministic across 3 runs:
+| run | clusters | noise | avg_silhouette | coverage |
+|---|---:|---:|---:|---:|
+| baseline (`--no-sage`) | **17** | 6 | **0.7708** | 97.6% |
+| SAGE-enriched | 21 | 11 | 0.7276 | 95.5% |
+
+Baseline reproduces the banked "17 archetypes @ 0.765" (0.7708 here). Enrichment *added* 4 clusters
+(17→21) but **silhouette and coverage both dropped**.
+
+**Why it dropped — the real finding.** Queried the source directly:
+`SELECT count(DISTINCT signal::jsonb->'somatic'), count(DISTINCT signal::jsonb->'axioms') FROM "SageTrace" WHERE fired`
+→ **distinct_somatic = 1, distinct_axioms = 1** across all 45 fired traces. SAGE emits a **single
+templated constant** (`phase_tuning 0.72 · surge false · feels_right/that_vibes/locked_in true ·
+expected_vs_actual 0.72 · all axioms YES`) for **every** receipt. It is not a per-decision
+measurement. Joining it doesn't populate the somatic/axiom axes with structure — it moves 45 rows to
+a *different constant* (0.72 vs op20's 0.5 default), which DBSCAN reads as a spurious binary
+"has-SAGE vs not" split. That is why cluster count rose while silhouette fell: the extra clusters are
+an artifact of a step-change, not real interoceptive variance.
+
+**Corrected conclusion.** The somatic/axiom residual is an **upstream signal-generation gap, not a
+persistence gap.** The dims are constant not because the DB fails to store them, but because nothing
+in the pipeline yet *produces* varied per-decision somatic/axiom values — SAGE currently returns a
+stub. Persisting SAGE's output at compass write-time (the COURT one-way-door schema change this
+receipt proposed) would therefore just store the same constant — and store-a-constant is exactly the
+fabrication the adapter's own doctrine forbids. **The schema change is premature.** The genuine next
+move is to give SAGE (or the compass route) a real per-decision somatic/axiom computation first; only
+then is persisting it worth a one-way door.
+
+The SAGE-enrichment adapter path is kept (correct + forward-looking — it lights up the moment SAGE
+emits real variance) but is **off the critical path** until that upstream signal exists. Prod data
+stayed in scratchpad (PII); only adapter code is committed. Corpus faithfulness was gated by 5
+SQL-vs-local invariants (rows 247 · nci_sum 14362 · gm_sum 143.62 · with_sage 45 · facts_len_sum
+40353), all matched.
