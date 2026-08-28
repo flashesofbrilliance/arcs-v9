@@ -37,6 +37,13 @@ p, li, blockquote { max-width: var(--measure); text-wrap: pretty; }
 .label, .lab, .eyebrow, .kicker { max-width: none; text-wrap: balance; }
 @media (max-width: 640px){ .label, .lab, .eyebrow, .kicker { letter-spacing: .07em; } }
 
+/* BOUNDED CARDS CARRY THE MEASURE (rule 1b, added after 3rd recurrence: a measure-capped p
+ * inside a wider bordered callout left a ~107px dead right gutter that reads as broken wrap).
+ * Inside any bordered/filled card or callout, the CARD hugs the measure and the text fills the
+ * card — never cap the text separately from its visible container. */
+.card, .callout { max-width: calc(var(--measure) + 48px); margin-inline: auto; }
+.card p, .card li, .callout p, .callout li { max-width: none; }
+
 /* headings: balance so no orphan/awkward single-word last line. */
 h1, h2, h3, h4 { text-wrap: balance; }
 

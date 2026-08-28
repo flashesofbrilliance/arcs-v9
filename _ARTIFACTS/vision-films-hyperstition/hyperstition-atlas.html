@@ -86,7 +86,11 @@
   .cell.man{border-left:2px solid rgba(255,215,0,.35)}
 
   /* loop callout */
-  .loop{border:1px solid rgba(157,123,255,.4);border-radius:4px;background:radial-gradient(closest-side,rgba(157,123,255,.06),transparent 80%);padding:26px 24px}
+  /* bounded card: the CARD carries the measure (hugs it, centered); text FILLS the card.
+     (wrap-class rule 1b — a measure-capped p inside a wider bordered box leaves a dead right
+     gutter that reads as broken wrapping; flagged at 860px: card 747, text 640, gutter 107) */
+  .loop{border:1px solid rgba(157,123,255,.4);border-radius:4px;background:radial-gradient(closest-side,rgba(157,123,255,.06),transparent 80%);padding:26px 24px;max-width:calc(var(--measure) + 48px);margin-inline:auto}
+  .loop p,.loop .cyc{max-width:none}
   .loop h3{font-family:var(--serif);font-style:italic;font-weight:600;font-size:26px;margin:0 0 12px;color:#fff}
   .loop .cyc{font-family:var(--mono);font-size:13px;color:var(--violet);letter-spacing:.02em;margin:14px 0;line-height:1.9}
   .loop .cyc b{color:#fff}
