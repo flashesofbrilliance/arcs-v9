@@ -34,6 +34,10 @@
   h2{font-family:var(--serif);font-weight:600;font-size:clamp(25px,4.6vw,36px);margin:0 0 8px;color:#fff;letter-spacing:-.01em;text-wrap:balance}
   p{margin:0 0 14px;max-width:var(--measure);text-wrap:pretty}
   p.big{font-size:17px;color:var(--text)}
+  /* LABELS are not reading text: no measure cap, balanced wrap, tracking eases when narrow
+     (wrap-regression class, 2nd instance: tier header orphaned "TODAY (2026-08-28)") */
+  .lab,.tier>.th{max-width:none;text-wrap:balance}
+  @media(max-width:640px){ .tier>.th{letter-spacing:.07em} .lab{letter-spacing:.14em} }
 
   /* pipeline */
   .pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;margin-top:6px}

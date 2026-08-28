@@ -30,6 +30,13 @@
 /* reading text: one shared measure, pretty wrapping. NEVER add a per-element ch cap. */
 p, li, blockquote { max-width: var(--measure); text-wrap: pretty; }
 
+/* LABELS ARE NOT READING TEXT (rule 1a, added after 2nd recurrence: a wide-tracked uppercase
+ * mono tier-header inherited the p measure and orphaned its last words). Any eyebrow/kicker/
+ * tier-header/section-label styled p MUST opt out: no measure cap, balanced wrap, and ease
+ * letter-spacing under 640px (wide tracking is what forces the ragged break on labels). */
+.label, .lab, .eyebrow, .kicker { max-width: none; text-wrap: balance; }
+@media (max-width: 640px){ .label, .lab, .eyebrow, .kicker { letter-spacing: .07em; } }
+
 /* headings: balance so no orphan/awkward single-word last line. */
 h1, h2, h3, h4 { text-wrap: balance; }
 
