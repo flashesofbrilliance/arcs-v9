@@ -145,7 +145,11 @@ These are confirmed by the user after the architect session's artifact. Build ag
 
 **7 gaps identified:**
 - C-3 (HIGH): Somatic layer entirely default — no DB column. Add somatic self-report column + intake wire.
-- C-5 (MEDIUM): Horizon DB→translator mapping lossy. DB `horizon` enum differs from translator's expected enum. Mapping layer required.
+- C-5 (RESOLVED → ADR-034): Horizon DB→translator mapping. DB `horizon` enum
+  differs from translator's expected enum. RESOLVED via `horizonToValue()` +
+  `horizonToPhaseId()` in `audit-translator.ts` — translator reads DB `horizon`
+  and maps it inline (no separate mapping layer needed). Documented in ADR-034.
+  E2 experiment → RESOLVED.
 - C-1 (MEDIUM): `geometry.macros_on/off` only in `rawResponse`. Older receipts lose this data.
 - C-4 (MEDIUM): HCI always proxy — no user self-report in DB. HCI and PCI become correlated.
 - C-2 (LOW): `is_satoshi` in ReceiptJSON but never consumed.

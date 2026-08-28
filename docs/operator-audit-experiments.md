@@ -41,7 +41,7 @@
 
 **Hypothesis:** If we add a mapping layer from DB `horizon` enum (`TODAY|WEEK|QUARTER|YEAR|YEARS`) to translator's expected enum (`TODAY|THIS_WEEK|THIS_MONTH|THIS_QUARTER|ONE_TO_THREE_YEARS|LONGER`), then every receipt with non-`TODAY` horizon gets correct `signalProxy`, because currently the translator reads the DB `horizon` value without mapping and expects a different enum.
 
-**Current state:** `prisma/schema.prisma` has `horizon String?` — values `TODAY|WEEK|QUARTER|YEAR|YEARS`. `audit-translator.ts` reads `horizon` from the receipt (currently without mapping — reads DB enum directly, expects translator enum). `docs/audit-translator-validation.md` — C-5 gap identified, DB→translator mapping called out as required. Mismatch is a correctness risk, not just fidelity.
+**Current state:** `prisma/schema.prisma` has `horizon String?` — values `TODAY|WEEK|QUARTER|YEAR|YEARS`. `audit-translator.ts` reads `horizon` from the receipt and maps it via `horizonToValue()` + `horizonToPhaseId()` (DB enum → translator enum inline, no separate mapping layer). `docs/audit-translator-validation.md` — C-5 gap identified, RESOLVED via `horizonToValue()`/`horizonToPhaseId()` already wired. Mismatch resolved, not a correctness risk.
 
 **Tooling:** `audit-translator.ts` (translateCompassReceipt reads horizon — currently without mapping), `prisma/schema.prisma` (horizon field, values documented), `docs/audit-translator-validation.md` (C-5 gap, DB→translator mapping required).
 
