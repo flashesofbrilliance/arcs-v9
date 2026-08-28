@@ -25,6 +25,8 @@
 
 **Current state:** `somaticPrompt` exists in `audit-translator.ts` (6 questions, 0–1 intake scoring, skip-for-defaults). Nothing collects the scores — no DB column, no intake UX, no wire from form→translator→somatic.source. HCI is always proxy (`hci_score = Math.round(coherence_pct ?? 50)`, `hci_source = "proxy"`). DB has no somatic/HCI columns. `benchmark_pairs.jsonl` has 9 rows, all `somatic: default / hci: proxy / axioms: llm_derived`.
 
+**Status:** OPEN — no collection path yet.
+
 **Tooling:** `audit-translator.ts` (somaticPrompt, translateCompassReceipt reads somatic/hci — currently always default/proxy), `prisma/schema.prisma` (Receipt model — needs somatic/HCI columns or JSONL fields), `persistence.py` (store_benchmark_fragment writes fidelity markers), `service.py` (run_sage/lab/bar/kintsugi consume somatic/hci from primitives), `benchmark_pairs.jsonl` (live pairs — can add somatic/HCI self-report fields to test locally first), `review_pairs.py` (can display fidelity markers).
 
 **Tune the gauntlet for E1:**
@@ -145,6 +147,8 @@
 **Hypothesis:** If surface→phase (op20 adapter, `prod_receipt_to_op20_seed.py`) and horizon→phase (translator, `audit-translator.ts`) are the same concept with different names, then the translator's phase derivation and the op20 adapter's phase derivation should converge — and currently they may diverge (different inputs, different mappings, different outputs). If they're genuinely different concepts, they should be explicitly documented as different (not silently assumed to be the same).
 
 **Current state:** `prod_receipt_to_op20_seed.py` uses surface→phase (maps receipt surface state to op20 phase). `audit-translator.ts` uses horizon→phase (maps horizon enum to phase — TODAY/THIS_WEEK/etc. → phase_1/phase_2/etc.). User flagged they may be related, not different. Not yet resolved. `docs/audit-translator-validation.md` — horizon mapping gap (C-5) noted but phase derivation convergence not examined.
+
+**Status:** OPEN — two phase derivations on disk, relationship unconfirmed.
 
 **Tune the gauntlet for E8:**
 - What does surface→phase produce? (op20 phase from receipt surface state.)

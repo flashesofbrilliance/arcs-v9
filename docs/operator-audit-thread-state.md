@@ -145,7 +145,11 @@ These are confirmed by the user after the architect session's artifact. Build ag
 
 **7 gaps identified:**
 - C-3 (HIGH): Somatic layer entirely default — no DB column. Add somatic self-report column + intake wire.
-- C-5 (MEDIUM): Horizon DB→translator mapping lossy. DB `horizon` enum differs from translator's expected enum. Mapping layer required.
+- C-5 (RESOLVED → ADR-034): Horizon DB→translator mapping. DB `horizon` enum
+  differs from translator's expected enum. RESOLVED via `horizonToValue()` +
+  `horizonToPhaseId()` in `audit-translator.ts` — translator reads DB `horizon`
+  and maps it inline (no separate mapping layer needed). Documented in ADR-034.
+  E2 experiment → RESOLVED.
 - C-1 (MEDIUM): `geometry.macros_on/off` only in `rawResponse`. Older receipts lose this data.
 - C-4 (MEDIUM): HCI always proxy — no user self-report in DB. HCI and PCI become correlated.
 - C-2 (LOW): `is_satoshi` in ReceiptJSON but never consumed.
@@ -203,13 +207,15 @@ Four briefs written to `docs/volunteer-segment-briefs.md`:
 
 ## 5. Runtime state
 
-| Component | Status |
-|---|---|
-| FastAPI audit service | Running on `:8766`. Health + 4 endpoints + batch verified. KINTSUGI now returns `ok:true`. |
-| `tsc --noEmit` | Clean (zero errors, zero warnings) |
-| `audit_traces.jsonl` | 9 rows (t2 SAGE/LAB/BAR/KINTSUGI, t3 KINTSUGI, t4 SAGE/LAB/BAR/KINTSUGI) |
-| `benchmark_pairs.jsonl` | 9 rows (same traces/operators) |
-| KINTSUGI bug | **FIXED** in `service.py` (`if not diagnosis.is_healthy:`). New calls return `ok:true` (curl-verified). |
+|| Component | Status |
+|---|---|---|
+|| FastAPI audit service | Running on `:8766`. Health + 4 endpoints + batch verified. KINTSUGI now returns `ok:true`. |
+|| `tsc --noEmit` | Clean (zero errors, zero warnings) |
+|| `audit_traces.jsonl` | 9 rows (t2 SAGE/LAB/BAR/KINTSUGI, t3 KINTSUGI, t4 SAGE/LAB/BAR/KINTSUGI) |
+|| `benchmark_pairs.jsonl` | 9 rows (same traces/operators) |
+|| KINTSUGI bug | **FIXED** in `service.py` (`if not diagnosis.is_healthy:`). New calls return `ok:true` (curl-verified). |
+|| `docs/audit-translator-validation.md` | Stub written from protocol (149 lines). Not yet run (waits for DB). |
+|| ADR-034 (C-5 closure) | Drafted. Horizon→phase mapping resolved via `horizonToValue()` + `horizonToPhaseId()`. E2 → RESOLVED. |
 
 ---
 

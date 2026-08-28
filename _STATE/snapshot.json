@@ -2,8 +2,8 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "179996ac",
-    "head_message": "feat(scott): wire teardown and attraction artifact hosts",
+    "head_sha": "b679cf6e",
+    "head_message": "feat(audit): land harness wrappers + audit thread artifacts",
     "in_sync_with_origin": false,
     "dirty_files": [
       ".claude/arcs-session-state.md",
