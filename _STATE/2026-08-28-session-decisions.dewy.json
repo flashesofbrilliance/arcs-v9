@@ -1,0 +1,19 @@
+{
+  "_doc": "DEWY receipt for 2026-08-28 — naming ARCS's two-surface architecture (Receipt + Induction). See ADR-070, witness stub _STATE/witness/2026-08-28.jsonl, and Tao proverb tao-254.",
+  "session_ts": "2026-08-28",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-28-arcs-two-surface-induction",
+      "surface": "product thesis / architecture canon",
+      "sharp_question": "What is the surface that serves pre-verbal, exploratory, can't-yet-name-it work, and how does it relate to the receipt?",
+      "dewy_vector": {
+        "D": "Canonize ADR-070: ARCS is TWO surfaces. Receipt = deductive/backward, records earned coherence. Induction = abductive/forward, recognizes the job-pattern (often before the human does), keeps the human honest vs ground truth, and forges the purpose-built instrument that fits. The meandering is the generative medium, not waste.",
+        "E": "The Folksonomist (induction engine, scripts/arcs_core.py); NOTOMATION (constitutional floor); the Receipt/DEWY/witness models (the other surface); every purpose-built instrument minted this session as induction-surface evidence.",
+        "W": "YEARS / constitutional — a naming of existing architecture, governs how future surfaces are classified (attest-the-past vs forge-for-a-pre-verbal-future).",
+        "Y": "GREEN — named live by the user as 'the whole point of ARCS', corroborated by ~7 in-session instrument-mints and prior canon (ADR-053 Tao, Folksonomist, WORLD.md Myst/Guide register). Falsifier: if all valued outputs reduce to records of already-articulated decisions, the induction surface is decoration."
+      },
+      "lineage": "witness 2026-08-28T11:51:26-0400 (Zach verbatim) -> ADR-070 (first minted THROUGH oracle, counter 69->70) -> DEWY (this) -> wisdom memory arcs-two-surface-receipt-and-induction -> Tao proverb tao-254",
+      "provenance": "Emerged from Zach asking about tool discoverability, forgetting the name of the intended catalog/dispatcher; Claude re-derived the solution shape from the JTBD before either named it, then verified the gap against the repo (kept the hazy memory honest). The apex-spine print itself is an induction-surface act."
+    }
+  ]
+}

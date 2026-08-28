@@ -1,0 +1,603 @@
+{
+  "meta": {
+    "generated": "2026-08-27",
+    "corpus_size": 190,
+    "method": "ARCS Folksonomist (scripts/arcs_core.py) emulation: pooled every record's signals[] across all 6 mining groups / all repos, discovered clusters from signal co-occurrence (>=3 members), coined emergent tags bottom-up (not from a preset taxonomy). Residue = singletons/UNDEFINED sub-tagged by unclear axis. Net-new ledger dedupes same-artifact-across-repos into one canonical entry.",
+    "cluster_count": 22
+  },
+  "clusters": [
+    {
+      "tag": "kintsugi-visible-repair",
+      "count": 9,
+      "pct_of_corpus": 4.7,
+      "member_refs": [
+        "arcs-decision-receipts:ADR? #34 Kintsugi Immune System",
+        "arcs:.claude/arcs-canon.md ROM Primitive 6 — KINTSUGI",
+        "av9scrub:Axiom V — Repair Visibly (Kintsugi)",
+        "A.R.C.S.:ROM_CHANGELOG.md kintsugi-visible-seam",
+        "question-compass:receipt_book/009 kintsugi-independent",
+        "arcs-care-local:BM-001 three-jtbd-layers (kintsugi-to-gold)"
+      ],
+      "description": "A surfaced bias / a repaired-on-a-false-premise receipt is a golden seam, not a failure. Repair is made VISIBLE (log compression ratios, inferred_fields, collision_fields, 'good_process_bad_luck'), never silently patched; Kintsugi is decoupled from the Court (prevention vs repair) and can audit offline. HOLD/REJECT are seams, not failures.",
+      "promotion_pattern": "This is the single most-corroborated net-new ROM primitive (appears as 'ROM Primitive 6' in two repos, as Axiom V in the canon book, as a changelog law and an independent operator). Promotion path: mint as constitutional ROM primitive #6 in runtime/specs/ARCS-v9-ROM.md + _CANON/book-ii/part-ii-rom-axioms.md; back it with the visible-seam schema fields already present in dewy-receipt-schema-v1.json (inferred_fields, collision_fields)."
+    },
+    {
+      "tag": "write-lock-irreversibility-declared",
+      "count": 8,
+      "pct_of_corpus": 4.2,
+      "member_refs": [
+        "arcs:.claude/arcs-canon.md ROM Primitive 7 — WRITE-LOCK",
+        "av9scrub:Axiom VII — Irreversibility Is Declared Not Assumed",
+        "A.R.C.S.:ARCS-v9-ROM.md STATE-PRIMITIVES (WRITELOCK/PHASESYNC)",
+        "A.R.C.S.:arcs_rom.py write-locked ROM implementation",
+        "germinate:SPEC.md git-is-the-serializer",
+        "arcs-decision-receipts:_CANON/living/v9-canon.md Kinematic Manifold / write-lock-ordering"
+      ],
+      "description": "One-way-door decisions require an EXPLICIT write-lock / Kairos-Lock declaration before commit — the system cannot detect irreversibility, so it is declared not assumed. Git non-fast-forward rejection IS the physical write-lock for tracked files; the serialized-vs-advisory gap (untracked shared state) is the central hazard. Commitment ordering + phasesync are spine state primitives.",
+      "promotion_pattern": "Mint as constitutional ROM primitive #7 alongside Kintsugi; the code lock already exists (arcs_rom.py) and the git-serializer mechanism (germinate) gives it an enforcement surface. Wire the Write-Lock field into prep/receipt schema so version-bump is required to cross a declared one-way door."
+    },
+    {
+      "tag": "time-quality-cadence-w-field",
+      "count": 8,
+      "pct_of_corpus": 4.2,
+      "member_refs": [
+        "arcs-decision-receipts:time-quality-attribution-rom.json",
+        "av9scrub:runtime/specs/time-quality-attribution-rom.json",
+        "arcs:runtime/specs/time-quality-attribution-rom.json",
+        "A.R.C.S.:time-quality-attribution-rom.json TIME-QUALITY-ATTRIBUTION",
+        "av9scrub:Axiom III — Time Quality Is First-Class",
+        "arcs-mini:specs/kairos-detector-v1.md"
+      ],
+      "description": "Time is not neutral: every interval carries mode/quality/jurisdiction/reversibility/failure-boundary (Chronos/Kairos/Drift/Shavasana; Clock vs Sanctuary vs Court). Time-quality is a first-class NCI variable via a cadence lens — a well-formed question asked too early scores lower and can HOLD. W-field (window) inference, receipt age-decay, DRIFT Sentinel (5-turn), and Kairos-Lock triggers are constitutional and never overridden at runtime.",
+      "promotion_pattern": "The same time-quality-attribution-rom.json exists in FOUR repos (arcs-decision-receipts, av9scrub, arcs, A.R.C.S.) — a strong signal this is already de-facto canon that never got a numbered ADR. Promotion: adopt the JSON as the machine authority under runtime/specs/, and mint Axiom III (Time Quality First-Class) into the numbered ROM axiom set. Cadence is also flagged EMPIRICAL (RC-II-003) — gate the frequency claim behind Observatory data."
+    },
+    {
+      "tag": "norse-preverbal-witness-canon",
+      "count": 8,
+      "pct_of_corpus": 4.2,
+      "member_refs": [
+        "arcs-care-local:MYTHOLOGY-003-freyja (signal before language)",
+        "arcs-care-local:MYTHOLOGY-002-baldur (non-instrumentalization)",
+        "arcs-care-local:V9-PROSE-002-odin-tyr-thor-midstack",
+        "arcs-care-local:MYTHOLOGY-004-ullr (instrument disappears)",
+        "arcs-care-local:V9-PROSE-003-ullr-graduation-invariant",
+        "arcs-care-local:03-receipts/RECEIPT-WITNESS.md"
+      ],
+      "description": "A complete mythologized pipeline stack living only in arcs-care-local: Freyja (catch the pre-verbal somatic UNDEFINED signal before language compresses it) -> Odin (name without collapsing) -> Tyr (constraint court BAR/KKL/LAB/HC-IPCI) -> Thor (strike at Kairos-Lock when NCI>=0.85) -> Baldur (orthogonal protection: some fields — grief, intimacy, trust — must NOT be instrumentalized; pause into witness mode) -> Ullr (mastery = the instrument disappears; graduation is not churn). Codifies the WITNESS artifact (held, not processed; blank note is correct) and the anti-dependence / time-out-of-app invariant.",
+      "promotion_pattern": "Highest-density net-new conceptual cluster entirely absent from v9 canon. It operationalizes two already-constitutional primitives (NOTOMATION, WITNESS in WORLD.md) with a concrete pre-verbal->strike arc and named no-go zones. Promotion: lift the Ullr graduation-invariant and Baldur non-instrumentalization into ROM candidates (retention-of-fluent-user = NOTOMATION violation is a testable rule); land the Witness Receipt template as a canonical receipt type next to _STATE/witness/*.jsonl."
+    },
+    {
+      "tag": "constitutional-court-relief-and-disguise",
+      "count": 8,
+      "pct_of_corpus": 4.2,
+      "member_refs": [
+        "av9scrub:RC-III-001 relief heuristic as Court diagnostic",
+        "arcs:court-agency-boundary relief test",
+        "question-compass:receipt_book/004 court vetoes VCE v2 (Hila gate)",
+        "question-compass:court-irreversibility-disguise-rule",
+        "question-compass:receipt_book/010 phase7 court veto",
+        "A.R.C.S.:decision_receipt_phase4 Constitutional Court three-test"
+      ],
+      "description": "The Court surfaces, never deliberates (NOTOMATION holds hardest here). Two operational diagnostics recur: (1) the RELIEF heuristic — if a system verdict would feel like relief rather than information, you have crossed into Court territory and have been deferring; (2) the IRREVERSIBILITY-DISGUISE rule — when a naive completionist 'be thorough' path hides a ruin-level one-way door (Hila/Kairos gate), the Court must STOP and defer. Adjudication is three-test: AXIOM / EVIDENCE / IDENTITY -> PERMIT / CONDITIONAL / BLOCK.",
+      "promotion_pattern": "The relief-heuristic and disguise-rule are both marked promote_value high and both appear across av9scrub canon + question-compass receipt_book as recurring motion-rules with real receipted examples (VCE v2, Phase 7). Promotion: encode as Court motion-axioms in part-iii-constitutional-court.md; the relief test is a cheap human-facing tripwire worth surfacing in the compass UI."
+    },
+    {
+      "tag": "notomation-anti-dopamine-corridor",
+      "count": 7,
+      "pct_of_corpus": 3.7,
+      "member_refs": [
+        "arcs-decision-receipts:ADR-014 NOTOMATION circuit breaker CI/CD",
+        "arcs:ADR-014 CI/CD NOTOMATION circuit breaker",
+        "arcs-care-local:GATE-RULES.md PLG gate hard rules",
+        "arcs-care-local:BRAND-001 corridor not casino",
+        "arcs-care-local:PLG-001 flywheel (basin not lock-in)",
+        "germinate:PRINCIPLES.md drift-check gates-halt-never-decide"
+      ],
+      "description": "NOTOMATION (ROM #1) as an enforced ceiling, not a slogan: tools scaffold cognition, never replace/overrule revealed preference; gates HALT, never decide. Its product-side expression is 'corridor not casino' — no gate before value, no mid-flow gates, no guilt mechanics, no dark patterns, clean exit always, onramp is not a slot machine; the switching cost is an accumulated-receipt basin, not lock-in. CI/CD gets an automation-authority ceiling with a circuit breaker that still allows automated build-failure repair.",
+      "promotion_pattern": "NOTOMATION is already constitutional, but the anti-dopamine PLG hard-rules (arcs-care-local GATE-RULES) and the drift-check 'gates-halt-never-decide' mechanism are net-new enforcement surfaces. Promotion: fold the six PLG hard-rules into the canon as the NOTOMATION product contract; they gate any onramp work on arcs.care / prl surfaces."
+    },
+    {
+      "tag": "receipt-schema-state-vector",
+      "count": 9,
+      "pct_of_corpus": 4.7,
+      "member_refs": [
+        "arcs-decision-receipts:dewy-receipt-schema-v1.md",
+        "arcs-decision-receipts:dewy-receipt-schema-v1.json",
+        "av9scrub:runtime/specs/dewy-receipt-schema-v1.json",
+        "arcs:runtime/specs/dewy-receipt-schema-v1.md governance",
+        "arcs-care-local:RECEIPT-DECISION.md decision-receipt-template",
+        "av9scrub:runtime/specs/receipt-type-registry.json"
+      ],
+      "description": "The Receipt is a state vector frozen at L0-L5 PASS: DEWY (Decision/Entity/Window/YellowGate) + Y-gate polarity/conviction/stability + NCI by-lens + render_resolution (derived, never authored) + parent_receipt_id lineage + validation_state. Only PASS gets full decomposition; HOLD/REJECT emit stub receipts. Machine JSON schema is the enforcement authority when the prose companion conflicts; no breaking change without a v2 file. A receipt-type registry classifies by L-layer (ATOM=L0, DEWY=L1-L5).",
+      "promotion_pattern": "Already in v9 canon as variant across three repos — the promotion here is CONSOLIDATION not minting: pick one canonical dewy-receipt-schema-v1.json (the av9scrub / arcs-decision-receipts copies differ), write-lock it per ADR-017 (anti-drift cross-surface contract), and archive the divergent copies. This is the anti-drift work ADR-017 already mandates."
+    },
+    {
+      "tag": "rom-axiom-genome-l0-l7",
+      "count": 7,
+      "pct_of_corpus": 3.7,
+      "member_refs": [
+        "arcs:part-ii-rom-axioms.md L0-L7 Genome (7 axioms)",
+        "av9scrub:Axiom I — Decisions Are Bets Not Facts",
+        "av9scrub:Axiom VI — History Is a Teacher Not a Jailer",
+        "arcs-decision-receipts:_CANON/living/rom.md ROM-1..6 starter axioms",
+        "A.R.C.S.:ARCS-v9-ROM.md ROM-1..ROM-6 axiom set",
+        "arcs-app:AxiomStrip.tsx four ARCS axioms"
+      ],
+      "description": "Two overlapping-but-distinct axiom sets: (a) the 6 EXECUTION laws (Clarity-before-Curvature, Agency-over-Automation, Minimum-Steps-to-Coherence, Kairos-over-Neuroticism, Drift-Sentinel-Required, Stable-True-North) shipped as firmware in arcs_rom + AxiomStrip.tsx (scored YES/TENSION/NO per receipt); and (b) the 7 EPISTEMIC axioms (bets-not-facts, no-decide-for-you, time-quality-first-class, structure-earned, repair-visibly, history-teacher-not-jailer, irreversibility-declared) that generate the L0-L7 stack, genome-precedes-organism. These are NOT the 5 ROM primitives in AGENTS.md.",
+      "promotion_pattern": "There are now THREE competing constitutional vocabularies (5 primitives in v9 AGENTS.md; 6 execution laws in rom.md/ARCS-v9-ROM.md; 7 epistemic axioms in book-ii). This is a canon-collision — escalate, do not silently resolve. Promotion path: run the CANON_COLLISION protocol to map the three vocabularies onto one another and declare the authoritative set; the AxiomStrip YES/TENSION/NO scoring is the concrete UI these axioms already drive."
+    },
+    {
+      "tag": "prod-deploy-silent-failure-forensics",
+      "count": 7,
+      "pct_of_corpus": 3.7,
+      "member_refs": [
+        "av9scrub:session-post-mortem-2026-06-03 PrismaPg SSL Pool-form",
+        "av9scrub:Auth.js silent sign-in fail -> Supabase pg logs",
+        "av9scrub:Vercel build-log Cloning vs Downloading",
+        "av9scrub:Marketplace Supabase dedicated app role",
+        "arcs:four-silent-prod-failures post-mortem",
+        "arcs-decision-receipts:ADR-002 SQLite/Supabase split (Prisma7 P1012)"
+      ],
+      "description": "A tight forensic cluster on 'green build != working DB': PrismaPg config-object form never negotiates SSL against the Supabase pooler (silent write failure); Auth.js swallows PrismaAdapter schema-gap errors (missing emailVerified) so magic-link silently fails — read Supabase postgres logs; Vercel build-log first line 'Cloning' (git-integration, correct) vs 'Downloading N files' (stale CLI upload) diagnoses stale deploys; Marketplace-provisioned Supabase creds are integration-managed so create a dedicated app role. Verify with a real $queryRaw before trusting a green build.",
+      "promotion_pattern": "This is durable operational tuition already partly captured in _PATTERNS/durable-gotchas.md. Promotion: it does not need an ADR — it needs to be the canonical gotchas doc (dedupe the two post-mortem copies in av9scrub + arcs), and each finding wired as a pre-deploy check (verify-with-queryRaw, build-log-first-line assertion)."
+    },
+    {
+      "tag": "phase-gate-sequencing-defer-until-threshold",
+      "count": 10,
+      "pct_of_corpus": 5.3,
+      "member_refs": [
+        "A.R.C.S.:DEV_DECISIONS.md DR-20260421-002..005 phase gates",
+        "A.R.C.S.:DR-20260422-002-AMENDED Phase 6 close receipt",
+        "question-compass:receipt_book/007 postgres-scale defer-until-threshold",
+        "question-compass:receipt_book/001 phase6 design-system-first",
+        "question-compass:receipt_book/008 operator20 seed-vs-cultivate",
+        "arcs-decision-receipts:ADR-006 Supabase branching defer-until-gate"
+      ],
+      "description": "The dominant decision GRAMMAR of the corpus: gate-before-branch. Don't promote a route/feature/migration until its enabling data model or usage threshold exists — /brief?id -> /brief/[id] waits on BriefReceipt; SQLite->Postgres waits on >10K daily receipts; Operator-20 DBSCAN cultivation waits on >50-receipt corpus; per-PR Supabase branch DBs wait on first external contributor. Phases close on a validated end-to-end loop test, then freeze contracts as UI-ROM until a new receipt changes them. Infrastructure-first when everything downstream depends on it (design-system primitives, receipt-core).",
+      "promotion_pattern": "This is a meta-pattern, not one ADR — it is the promotion rule itself (RAM->ROM only when a pattern held across >=1 real run + changes runtime + paired with schema/enum/test + an ADR records the why). Promotion: canonize 'defer-until-gate' as the standard ADR shape; most of these are low individual promote_value but collectively they define how ARCS decides."
+    },
+    {
+      "tag": "arcs-care-plg-founding-ten",
+      "count": 7,
+      "pct_of_corpus": 3.7,
+      "member_refs": [
+        "arcs-decision-receipts:ADR-012 PLG phase 1 model-swap + Lab card",
+        "arcs-decision-receipts:ADR-013 founding-10 conversion sequence",
+        "arcs:ADR-013 conversion architecture founding-10",
+        "arcs-decision-receipts:ADR-015 case-study content gate",
+        "arcs:ADR-003 COCD as first-class UX primitive",
+        "arcs-care-local:POSITIONING-001 field-os-category"
+      ],
+      "description": "arcs.care PLG doctrine: the site serves WARM founding-10 referrals not cold PLG, so hero redesign is third-order — prioritize email capture + case-study receipt excerpt + spots badge, surface the COCD (Calibrate-Orient-Chart-Detect) loop as the primary UX frame and a Lab offer card post-result. Category is 'Field OS running beneath decisions' (stateful RAM/ROM + Write-Lock + Court that can block an identity-violating move), differentiated from stateless GPT/Claude.",
+      "promotion_pattern": "Per user CLAUDE.md these arcs.care PLG features were BUILT but are NOT currently reachable (domains consolidated onto arcs-v9). Promotion is conditional: re-verify domain topology live before treating any of this as visitor-facing; the durable net-new is the Field-OS category positioning and COCD frame, which should port to arcs-v9 regardless of which project serves arcs.care."
+    },
+    {
+      "tag": "triune-logic-null-om-undefined",
+      "count": 5,
+      "pct_of_corpus": 2.6,
+      "member_refs": [
+        "arcs-decision-receipts:Triune Logic epistemic kernel (v8.5 spec)",
+        "arcs:triune-logic-null-om-undefined (.claude/arcs-canon.md)",
+        "arcs-memory-pipeline:v8.5 Field OS init (Diamond Protocol)",
+        "arcs-decision-receipts:orient-prd Diamond Protocol",
+        "arcs-decision-receipts:Munger doctrine (NULL is success)"
+      ],
+      "description": "Three-valued epistemic kernel replacing binary truth: NULL (looked, found nothing) vs OM (present, resolved) vs UNDEFINED (not yet evaluated) — never collapse UNDEFINED to NULL, they are different failure modes. Not-yet-legible and no-input are valid HIGH-STATUS states; NULL/OM/UNDEFINED are valid outputs and reward non-action. Runs at every boundary via the Diamond Protocol (Triune Logic + Kairos), paired with HOLD/REJECT at every gate.",
+      "promotion_pattern": "Epistemic-honesty kernel carried from v8.5 and never numbered into v9 canon. Promotion: it is the theoretical parent of the Y-gate enum and the HOLD/REJECT gate already in code — canonize it as the epistemic foundation in part-ii, and make the Y-gate enum explicitly cite NULL/OM/UNDEFINED."
+    },
+    {
+      "tag": "determinism-processor-not-controller",
+      "count": 7,
+      "pct_of_corpus": 3.7,
+      "member_refs": [
+        "arcs-mini:TRUST.md processor-not-controller (zero-trust)",
+        "arcs_harmony_career_engine:deterministic-before-embeddings",
+        "arcs_harmony_career_engine:wide-aperture missing-is-neutral",
+        "arcs_cfa:determinism-reproducibility (seeded)",
+        "arcs-mini:kairos-detector-v1 deterministic-no-llm",
+        "germinate:PRINCIPLES.md traceable/explainable/anti-hallucination"
+      ],
+      "description": "An engineering ethic recurring across the satellite engines (arcs-mini, harmony, cfa, germinate): deterministic-first (offline, explainable, reversible, seeded -> reproducible), defer embeddings/learned weights until decision receipts accumulate; missing signals score neutral (0), never punitive, with confidence communicating data-completeness separately from fit. ARCS is a PROCESSOR not a controller — pure functions, no key custody, no state/secrets, BYO creds per-request and discarded. Six enforced principles (traceable, transparent, explainable, composable, anti-hallucination, anti-sycophancy) each bound to a mechanism; violating one is a design bug, not a style choice.",
+      "promotion_pattern": "This is the engine-sovereignty / zero-trust posture (memory: ADR-067 engine=tenant, receipts=freehold). Promotion: the processor-not-controller invariant and the six germinate principles are strong ROM-candidate governance for the whole ARCS engine layer — mint as the data-governance contract that gates any GIGI/substrate wiring at the compass seam."
+    },
+    {
+      "tag": "seed-bank-germination-dormancy",
+      "count": 6,
+      "pct_of_corpus": 3.2,
+      "member_refs": [
+        "germinate:docs/grammar.md dormancy-is-first-class",
+        "germinate:docs/grammar.md harvest-seed-loop",
+        "germinate:README.md coal-to-diamond-compaction",
+        "germinate:docs/adjacencies.md trace-elements-of-conviction",
+        "germinate:docs/adjacencies.md integration-contract-drift",
+        "germinate:docs/PRINCIPLES.md drift-check-is-mechanical"
+      ],
+      "description": "The germinate botanical grammar: a seven-verb lifecycle (seed/plant/water/germinate/sprout/grow/harvest) where harvest mints new seeds so the bank COMPOUNDS not merely accumulates. Dormancy is a first-class state, not staleness — never garbage-collect an unmatched seed, zero ripe seeds is healthy winter (throwaway context, not throwaway learning). The belief-log's real output is the isotopic signature of how conviction formed and moved: confidence climbing while risk stays flat is unearned optimism, flagged. Coal->diamond compaction packs a high-entropy session into a dense portable seed (manifest+belief-log+handoff); the value is the machinery, not the deliverable.",
+      "promotion_pattern": "This validates the memory-line 'seed bank + germination conditions' (mint every ADR/DEWY/memory as a SEED with soil/triggers/care; hard part is activation). Promotion: germinate is the reference implementation of the ARCS seed grammar — adopt its dormancy + activation-contract vocabulary as canon, and the trace-elements-of-conviction lint (confidence-vs-risk divergence) is a directly wirable anti-sycophancy gate."
+    },
+    {
+      "tag": "folksonomy-operator20-cultivation",
+      "count": 5,
+      "pct_of_corpus": 2.6,
+      "member_refs": [
+        "A.R.C.S.:decision_receipt_phase5 Operator20 folksonomy",
+        "A.R.C.S.:decision_receipt_phase7_d1 cultivate gate (DBSCAN)",
+        "arcs-memory-pipeline:folksonomy/operator-20-dewy.md (synthetic run)",
+        "arcs-memory-pipeline:bootstrap/macros/DEWY.md (DEWY tagging macro)",
+        "question-compass:receipt_book/008 operator20 seed-vs-cultivate"
+      ],
+      "description": "The bottom-up categorization machinery itself: Operator-20 emits emergent folksonomy tags via DBSCAN clustering over the receipt corpus (this very run's method), cultivation gated on a >50-receipt corpus. Surfaces a NAMING COLLISION: 'DEWY' means two different things — v9's DEWY decision state-vector (Decision/Entity/Window/YellowGate) vs arcs-memory-pipeline's DEWY tagging macro (Dewey-decimal classify / Etymology / Wiki-links / Yours-folksonomy), a 4th always-on macro run AFTER outputs with its own 001-007 code system.",
+      "promotion_pattern": "The DEWY naming collision is a real hazard (promote_value high) — escalate per the canon-collision rule rather than silently letting both meanings ride. Promotion: disambiguate the two DEWYs explicitly in canon (rename the tagging macro, e.g. DEWEY-TAG, or namespace it); Operator-20/DBSCAN is the sanctioned path to promote these folksonomy clusters once the corpus crosses its gate (currently 190 mined records — the gate is met)."
+    },
+    {
+      "tag": "tribune-annotation-layer",
+      "count": 3,
+      "pct_of_corpus": 1.6,
+      "member_refs": [
+        "arcs-decision-receipts:ADR-020 Tribune Intelligence Layer",
+        "arcs:ADR-020 Tribune Intelligence Layer",
+        "av9scrub:ADR-020 Tribune (pre-collision BAR/KKL naming variant)"
+      ],
+      "description": "A three-phase annotation system — Anterior (pre-mortem) / Proactive (silent kinematic, fires below a threshold) / Posterior (post-mortem/recoil) — that WRAPS the sealed ReceiptObject without mutating it. The av9scrub copy preserves pre-collision labels 'BAR (Baseline/Asymmetric/Ruin)' and 'KKL (not KKR)'; live canon renamed to risk-tier/KLC after the 2026-06-23 CANON_COLLISION.",
+      "promotion_pattern": "Already ADR-020 in canon (variant) — the net-new detail is the av9scrub copy documenting the PRE-collision naming, which is forensic provenance for the BAR->risk-tier / KKL->KLC rename. Promotion: keep the live ADR-020; archive the av9scrub variant as the collision's before-picture in the enforcement-parity ledger (ADR-033)."
+    },
+    {
+      "tag": "two-surface-architect-implementor-sync",
+      "count": 4,
+      "pct_of_corpus": 2.1,
+      "member_refs": [
+        "av9scrub:_PATTERNS/two-surface-protocol.md",
+        "arcs:_PATTERNS/two-surface-protocol.md",
+        "arcs:.claude/arcs-dual-bar-raiser.md dual-bar-raiser-workflow",
+        "av9scrub:SESSION-HANDOFF two-gate authoring protocol"
+      ],
+      "description": "Zero-infra stateful context sync between a cloud Architect/Bar-Raiser (Perplexity, no file access) and a local Implementor/Editor (Claude Code): _STATE/snapshot.json committed to main is ground truth + a raw.githubusercontent URL for handoff — no DB, MCP, or auth; /handoff writes it, /handoff-pickup reads it. Canon commits run a two-gate authoring path: draft -> hold -> upstream adversarial audit -> CONDITIONAL CLEAR -> patch -> CANONICAL.",
+      "promotion_pattern": "This is live working practice (the snapshot.json + handoff loop this session runs on). Promotion: it is already de-facto canon — dedupe the two protocol copies (av9scrub + arcs), and the two-gate authoring protocol should be the documented gate for any _CANON/ commit."
+    },
+    {
+      "tag": "design-color-as-grammar-earned-fidelity",
+      "count": 5,
+      "pct_of_corpus": 2.6,
+      "member_refs": [
+        "arcs-mini:DESIGN.md color-is-grammar / earned-fidelity",
+        "av9scrub:compass-atoms-v1 gradient-buttons = AI-slop",
+        "arcs-decision-receipts:ADR-009 canonical inline-style library",
+        "arcs:ADR-009 design system canonicalization",
+        "arcs-app:phase-6b design tokens + UI primitives"
+      ],
+      "description": "One design law: color IS meaning (NCI grade-ramp + Y-weather), never render more certainty than the data deserves (earned fidelity / render_resolution), liquid-glass never flat. Enforcement anti-patterns: gradient buttons read as AI-slop (solid accent only, flagged twice), inline-styles only via a recovered Register-pattern Badge/Button/Card library + a master tokens.ts. This is the code-level expression of WORLD.md's earned-fidelity render scale.",
+      "promotion_pattern": "Mostly already variant-in-canon (inline-styles rule is in AGENTS.md/WORLD.md). Net-new: the explicit 'color is grammar / earned-fidelity' law (arcs-mini) and the gradient=AI-slop tripwire. Promotion: these are design-token canon — fold the earned-fidelity color law and the no-gradient rule into the FieldOS design system (DS project be620c0c per memory) rather than re-deriving per surface."
+    },
+    {
+      "tag": "receipts-as-substrate-and-proof",
+      "count": 5,
+      "pct_of_corpus": 2.6,
+      "member_refs": [
+        "question-compass:receipts-are-the-rom-substrate",
+        "question-compass:receipt_book/006 receipt-first (Court veto)",
+        "arcs-care-local:SP-001 receipts-not-testimonials",
+        "question-compass:receipt_book/README what-makes-a-receipt-gold",
+        "arcs:part-v accumulation-protocol receipt-as-hypothesis"
+      ],
+      "description": "Receipts are the product SUBSTRATE, not a feature: any surface without receipt persistence is lore not nonfiction, so receipt-core/persistence is sequenced before UI (logging a decision_receipt_id is non-negotiable). Receipts are PROOF, not testimonials — a receipt-integrity brand must itself be receipted (illustrative claims stay labeled until a verified pilot replaces them). A gold receipt is on-purpose-not-lucky + reversible + lived (has outcome/delta/lesson) + canonical. The accumulation protocol treats each receipt as an open hypothesis (pending/live) with a verification gate at session-close to avoid the Frozen Court fossilization failure.",
+      "promotion_pattern": "Foundational and cross-cutting; ties to memory 'receipts=freehold' (ADR-067) and ADR-069 (closed client receipt as precedent). Promotion: the accumulation-protocol / receipt-as-hypothesis (pending->live with a close-time verification gate) is the strongest net-new here — it is the anti-fossilization mechanism the drift-receipt loop needs; mint it as canon and wire the pending/live state into the receipt schema."
+    },
+    {
+      "tag": "wisdom-lattice-stoic-hud-munger",
+      "count": 4,
+      "pct_of_corpus": 2.1,
+      "member_refs": [
+        "arcs-decision-receipts:Stoic HUD Tolma/Prosopon/Loki gauges",
+        "arcs-decision-receipts:Circle of Competence emotional extension",
+        "arcs-decision-receipts:Munger ARCS design doctrine",
+        "arcs-decision-receipts:Neurological rescue insight (sprint model)"
+      ],
+      "description": "The field-os wisdom layer (arcs-decision-receipts field-os/artifacts): the emotional dimension Munger omitted, as three gauges — Tolma (self-worth-claim accuracy), Prosopon gap (mask-vs-inner delta), Loki sensitivity (adversarial self-test rate) spanning megalopsychia<->mikropsychia. Munger's Circle of Competence guards outward against overreach; the ARCS extension guards INWARD against self-erasure/collapse under depth. Five Munger primitives (boundary-first, inversion, latticework, misjudgment-defense, compounding-patience). Origin insight: a 20-apps-in-30-min sprint is neurological rescue (~40 dopamine hits break freeze/analysis-paralysis), not productivity.",
+      "promotion_pattern": "High-value WISDOM entirely outside v9 canon, all dated 2026-05-11 (the field-os origin epoch). Promotion: these are the philosophical priors under NOTOMATION and the inward-humane-boundary (memory: 'inherit tacit wisdom, first author not last'). Land them as _CANON wisdom entries; the Tolma/Prosopon/Loki gauges are candidate instrument-board dimensions (they map onto the existing five-derivative instrument model in arcs-app sage_bridge)."
+    }
+  ],
+  "residue": [
+    {
+      "ref": "arcs-decision-receipts:atg-anticipatory-tributary-generator",
+      "type": "WISDOM",
+      "unclear_axis": "when",
+      "note": "ATG (2-4 ranked tributary chips: meta-question / need-to-hear / adjacent primitive) is named 'next major feature' in CLAUDE.md but is not-yet-built and appears only once with no co-occurring cluster. What it IS is clear; WHEN it lands is UNDEFINED (backlog, no gate)."
+    },
+    {
+      "ref": "A.R.C.S.:OPERATOR-17 Adversarial Meta-Pattern Detective",
+      "type": "ROM",
+      "unclear_axis": "who",
+      "note": "Red-team operator dated 2025-11-01, older canon_references epoch; overlaps LOKI/adversary role but the WHO (which operator owns adversarial validation in v9 — Operator-17 vs LOKI vs Tyr's court) is unresolved. Singleton at its date."
+    },
+    {
+      "ref": "A.R.C.S.:ANTI-SIGNAL-VI Orchestrator negentropy super-admin",
+      "type": "ROM",
+      "unclear_axis": "why",
+      "note": "'Better conductor => faster negentropy' + existential-irrelevance (anti-signal) detection. Evocative but the WHY/mechanism is quantum-observer metaphor with no co-occurring members and no falsifier; 2025-11-01 epoch."
+    },
+    {
+      "ref": "arcs-app:lib/arcs.ts lose-the-room-detectors",
+      "type": "WISDOM",
+      "unclear_axis": "who",
+      "note": "Four pitch-failure transcript patterns (too_academic, category_drift, no_benefit, jargon_density). Clear and useful but orphaned — no other pitch/transcript-analysis members in the corpus; WHO consumes it (compass? a separate pitch tool?) is unclear."
+    },
+    {
+      "ref": "arcs-app:sage_bridge.js five-instrument-dimensions",
+      "type": "ROM",
+      "unclear_axis": "who",
+      "note": "Five kinematic dimensions (Alignment/Reliability/Coherence/Speed/Energy) rendered as material states (zoetrope). Partially echoes the Stoic-HUD gauges and the instrument board, but the mapping owner is ambiguous; near-singleton."
+    },
+    {
+      "ref": "arcs:exports/receipts/2026-05-26_apex_receipt.md forensic DEWY",
+      "type": "DEWY",
+      "unclear_axis": "why",
+      "note": "A concrete Network+Calendar forensic scan receipt (Barbara Emery top OM, YELLOW, WEAK echo). It is a data instance, not a rule — WHY it would promote to canon is unclear; it is an exemplar for the Observatory, not a candidate itself."
+    },
+    {
+      "ref": "arcs-memory-pipeline:operator-20-dewy.md (SYNTHETIC)",
+      "type": "DEWY",
+      "unclear_axis": "what",
+      "note": "Explicitly fictional/synthetic 2024-01-01 example demonstrating output shape only. Flagged not-real-data; excluded from any promotion (would violate the receipts-as-proof / no-fabrication rule)."
+    },
+    {
+      "ref": "arcs-care-local:PLG-001-flywheel + three-jtbd-layers",
+      "type": "WISDOM",
+      "unclear_axis": "when",
+      "note": "PLG flywheel + three-JTBD-layers are coherent but low promote_value and their reachability is gated on the arcs.care domain question (see arcs-care-plg cluster); WHEN/whether they are live is UNDEFINED."
+    },
+    {
+      "ref": "arcs-skills:README skills-open-priors-private",
+      "type": "WISDOM",
+      "unclear_axis": "where",
+      "note": "Marketplace posture (open skills, private animating priors, track-main upstream SSOT). Singleton; WHERE it sits relative to the OSS-family distribution registry in memory is unclear — likely already subsumed."
+    },
+    {
+      "ref": "A.R.C.S.:LokiMode-MischiefProtocol",
+      "type": "WISDOM",
+      "unclear_axis": "why",
+      "note": "'Hard work as game, boundaries as playground' — tonal/energy protocol, 2025-11-01. Adjacent to LAB/LOKI adversary and Loki-sensitivity gauge but stands alone as vibe not mechanism."
+    }
+  ],
+  "net_new_ledger": [
+    {
+      "rank": 1,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Kintsugi Immune System = ROM Primitive #6 (repair visibly, bias-is-receipt)",
+      "canonical_ref": "arcs:.claude/arcs-canon.md ROM Primitive 6",
+      "folksonomy_tags": ["kintsugi-visible-repair"],
+      "repos": ["arcs (ROM Primitive 6)", "arcs-decision-receipts (Kintsugi Immune System artifact)", "av9scrub (Axiom V)", "A.R.C.S. (ROM_CHANGELOG)", "question-compass (kintsugi-independent)"],
+      "essence": "Most-corroborated net-new primitive; visible golden-seam repair, decoupled from Court, HOLD/REJECT are seams not failures. Mint as constitutional primitive #6."
+    },
+    {
+      "rank": 2,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Write-Lock / Irreversibility-Declared = ROM Primitive #7 (git-non-ff IS the write-lock)",
+      "canonical_ref": "arcs:.claude/arcs-canon.md ROM Primitive 7 + av9scrub Axiom VII",
+      "folksonomy_tags": ["write-lock-irreversibility-declared"],
+      "repos": ["arcs (ROM Primitive 7)", "av9scrub (Axiom VII)", "A.R.C.S. (arcs_rom.py + STATE-PRIMITIVES)", "germinate (git-is-the-serializer)"],
+      "essence": "One-way doors declared not detected; git non-fast-forward is the physical enforcement; code lock already exists. Mint as primitive #7."
+    },
+    {
+      "rank": 3,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Time-Quality-Attribution ROM + Axiom III (time-quality is a first-class NCI variable via cadence lens)",
+      "canonical_ref": "runtime/specs/time-quality-attribution-rom.json (4-repo copy)",
+      "folksonomy_tags": ["time-quality-cadence-w-field"],
+      "repos": ["arcs-decision-receipts", "av9scrub", "arcs", "A.R.C.S.", "arcs-mini (kairos-detector-v1)"],
+      "essence": "Same JSON in FOUR repos = de-facto canon with no ADR number. W-field inference + cadence scoring + DRIFT/Kairos triggers. Adopt as machine authority + number Axiom III."
+    },
+    {
+      "rank": 4,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Norse pre-verbal witness stack (Freyja->Odin->Tyr->Thor->Baldur->Ullr) + non-instrumentalization no-go zones + graduation-not-churn invariant",
+      "canonical_ref": "arcs-care-local:02-canon/V9-PROSE-00x + 01-brand/MYTHOLOGY-00x",
+      "folksonomy_tags": ["norse-preverbal-witness-canon", "notomation-anti-dopamine-corridor"],
+      "repos": ["arcs-care-local (sole home)"],
+      "essence": "Densest net-new conceptual body, absent from v9. Operationalizes NOTOMATION + WITNESS with a concrete arc; Ullr (retaining a fluent user = NOTOMATION violation) and Baldur (grief/intimacy must not be instrumentalized) are testable ROM candidates."
+    },
+    {
+      "rank": 5,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Court diagnostics: RELIEF heuristic + IRREVERSIBILITY-DISGUISE stop-rule",
+      "canonical_ref": "av9scrub:RC-III-001 + question-compass:court-irreversibility-disguise-rule",
+      "folksonomy_tags": ["constitutional-court-relief-and-disguise"],
+      "repos": ["av9scrub", "arcs (court-agency-boundary)", "question-compass (VCE veto + phase7 veto + disguise-rule)"],
+      "essence": "Two operational Court motion-rules with receipted examples: verdict-feels-like-relief = you crossed into Court; completionist path hiding a ruin-level door = STOP/defer. Cheap human tripwire."
+    },
+    {
+      "rank": 6,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Triune Logic NULL / OM / UNDEFINED epistemic kernel (never collapse UNDEFINED to NULL)",
+      "canonical_ref": "arcs-decision-receipts:02-...triune-logic + arcs:.claude/arcs-canon.md",
+      "folksonomy_tags": ["triune-logic-null-om-undefined"],
+      "repos": ["arcs-decision-receipts", "arcs", "arcs-memory-pipeline (v8.5 Diamond Protocol)"],
+      "essence": "Three-valued truth carried from v8.5, parent of the Y-gate enum + HOLD/REJECT gate; not-legible and no-input are valid high-status states. Canonize as the epistemic foundation."
+    },
+    {
+      "rank": 7,
+      "promote_value": "high",
+      "type": "WISDOM",
+      "candidate": "Accumulation Protocol: receipt-as-hypothesis (pending/live) + close-time verification gate (Frozen Court fix)",
+      "canonical_ref": "arcs:_CANON/book-ii/part-v-the-accumulation-protocol.md",
+      "folksonomy_tags": ["receipts-as-substrate-and-proof"],
+      "repos": ["arcs (sole home)"],
+      "essence": "Anti-fossilization: a memory-with-no-learning cites its own priors as authority; fix is open-hypothesis receipts with a declared verification gate at session-close. The mechanism the drift-receipt loop (ADR-051/052) needs."
+    },
+    {
+      "rank": 8,
+      "promote_value": "high",
+      "type": "WISDOM",
+      "candidate": "Processor-not-controller / zero-trust engine invariant + six germinate principles (traceable..anti-sycophancy)",
+      "canonical_ref": "arcs-mini:TRUST.md + germinate:docs/PRINCIPLES.md",
+      "folksonomy_tags": ["determinism-processor-not-controller"],
+      "repos": ["arcs-mini", "germinate", "arcs_harmony_career_engine", "arcs_cfa"],
+      "essence": "Engine-sovereignty governance (ADR-067 tenant/freehold): pure functions, no key custody, BYO creds per-request; six mechanism-bound principles. Gates any GIGI/substrate wiring at the compass seam."
+    },
+    {
+      "rank": 9,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Control-integrity: advisors-are-foreign / don't-grade-your-own-homework (verifiers from other prefectures)",
+      "canonical_ref": "arcs-mini:PREFECTURES.md advisors-are-foreign",
+      "folksonomy_tags": ["constitutional-court-relief-and-disguise", "determinism-processor-not-controller"],
+      "repos": ["arcs-mini"],
+      "essence": "Governance motion-rule (memory: control-integrity described-vs-wired): a control that also polices itself is captured; verifying advisors must come from a different domain. Court seals, lords propose. Directly wirable as a gauntlet constraint."
+    },
+    {
+      "rank": 10,
+      "promote_value": "high",
+      "type": "DEWY",
+      "candidate": "Satoshi = smallest recursively-buildable coherence unit (on_purpose + nci>=50 + irrev<=0.5 + DNA-axioms-checked)",
+      "canonical_ref": "question-compass:receipt_book/005-satoshi-pattern.json",
+      "folksonomy_tags": ["receipts-as-substrate-and-proof", "rom-axiom-genome-l0-l7"],
+      "repos": ["question-compass"],
+      "essence": "Defines the quantum of coherence and its composition rule; anti-lore-creep. Gives the NCI>=50 commit threshold (ADR-035) a first-principles unit."
+    },
+    {
+      "rank": 11,
+      "promote_value": "high",
+      "type": "WISDOM",
+      "candidate": "Coal->diamond session compaction + trace-elements-of-conviction (confidence-vs-risk divergence lint)",
+      "canonical_ref": "germinate:README.md + docs/adjacencies.md",
+      "folksonomy_tags": ["seed-bank-germination-dormancy"],
+      "repos": ["germinate"],
+      "essence": "Compact a high-entropy session into a portable seed (manifest+belief-log+handoff); the belief-log flags confidence climbing while risk stays flat as unearned optimism. Reference impl of the ARCS seed grammar + a wirable anti-sycophancy gate."
+    },
+    {
+      "rank": 12,
+      "promote_value": "high",
+      "type": "WISDOM",
+      "candidate": "Stoic HUD (Tolma / Prosopon-gap / Loki-sensitivity) + inward Circle-of-Competence extension",
+      "canonical_ref": "arcs-decision-receipts:field-os/artifacts/02 + 03 + 07",
+      "folksonomy_tags": ["wisdom-lattice-stoic-hud-munger"],
+      "repos": ["arcs-decision-receipts"],
+      "essence": "The emotional dimension Munger omitted, as three gauges; the Circle guards inward against self-erasure. Candidate instrument-board dimensions mapping onto the five-derivative model in arcs-app."
+    },
+    {
+      "rank": 13,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Gyroscope-over-switcher architecture naming (auto-detect time-mode, human-override wins) + Kairos as stub-not-primitive",
+      "canonical_ref": "A.R.C.S.:HANDOFF.md gyroscope-over-switcher + decision_receipt_kairos_operator_stub.json",
+      "folksonomy_tags": ["time-quality-cadence-w-field"],
+      "repos": ["A.R.C.S.", "arcs-mini (kairos-detector-v1 deterministic)"],
+      "essence": "Naming insight: a manual mode-switcher is the wrong architecture, a gyroscope that auto-detects is right; Kairos built as interface-locked stub, not a ROM primitive or feature-flag. Resolves how timing enters the engine."
+    },
+    {
+      "rank": 14,
+      "promote_value": "high",
+      "type": "WISDOM",
+      "candidate": "Feature litmus test: non-fiction + attainable(<=10min) + low-key-brilliant, fail-any -> demote to LAB",
+      "canonical_ref": "A.R.C.S.:ARCS_v9_Meta_Audit.md feature-litmus-test",
+      "folksonomy_tags": ["phase-gate-sequencing-defer-until-threshold"],
+      "repos": ["A.R.C.S."],
+      "essence": "A three-part gate for admitting any v9 feature; operationalizes the meta-audit / drift-sentry discipline. Cheap, reusable, and it prevents lore-creep."
+    },
+    {
+      "rank": 15,
+      "promote_value": "high",
+      "type": "ROM",
+      "candidate": "Shared Court (multi-agent): Initiator/Respondent/Witness, structural-vs-awareness binding, mandatory Dissent Record",
+      "canonical_ref": "arcs:_CANON/book-ii/part-vi-the-shared-court.md",
+      "folksonomy_tags": ["constitutional-court-relief-and-disguise"],
+      "repos": ["arcs"],
+      "essence": "Extends the single-sovereign Court to multi-party decisions so a joint receipt isn't one person's call with another's name on it. Net-new, draft, no v9 home; the substrate for counterpart/shared-receipt work."
+    },
+    {
+      "rank": 16,
+      "promote_value": "high",
+      "type": "WISDOM",
+      "candidate": "Neurological-rescue framing: the sprint model breaks freeze-states (dopamine hits), not a productivity hack",
+      "canonical_ref": "arcs-decision-receipts:field-os/origins/arcs-thread-master-report.md",
+      "folksonomy_tags": ["wisdom-lattice-stoic-hud-munger"],
+      "repos": ["arcs-decision-receipts"],
+      "essence": "Origin-story insight reframing the core ARCS mechanic as prefrontal rescue from analysis-paralysis; the human-physics 'why' beneath the whole product."
+    },
+    {
+      "rank": 17,
+      "promote_value": "med",
+      "type": "ROM",
+      "candidate": "HOLD/REJECT validation gate (PASS/HOLD/REJECT pre-invocation, anticipatory probe, failure receipt) + Funhouse Optics Rule (6th always-on)",
+      "canonical_ref": "arcs-decision-receipts:hold-reject-validation-gate.md + Funhouse Optics Rule",
+      "folksonomy_tags": ["triune-logic-null-om-undefined", "rom-axiom-genome-l0-l7"],
+      "repos": ["arcs-decision-receipts"],
+      "essence": "Three-state guard before any invocation, plus a sixth always-on ROM candidate (Funhouse Optics). Feeds the canon-collision reconciliation of the competing primitive vocabularies."
+    },
+    {
+      "rank": 18,
+      "promote_value": "med",
+      "type": "WISDOM",
+      "candidate": "DEWY naming collision: decision state-vector (v9) vs DEWY tagging macro (Dewey/Etymology/Wiki/Yours)",
+      "canonical_ref": "arcs-memory-pipeline:bootstrap/macros/DEWY.md",
+      "folksonomy_tags": ["folksonomy-operator20-cultivation"],
+      "repos": ["arcs-memory-pipeline"],
+      "essence": "Two incompatible meanings of DEWY across the corpus — a real collision hazard. Escalate + disambiguate/rename per the canon-collision rule."
+    },
+    {
+      "rank": 19,
+      "promote_value": "med",
+      "type": "WISDOM",
+      "candidate": "Every-mini-app-is-an-alchemist: one shape (input -> one operator lens -> Receipt -> share/pay), a new bet = one pure engine, half a day",
+      "canonical_ref": "arcs-mini:PLAYBOOK.md",
+      "folksonomy_tags": ["determinism-processor-not-controller", "receipts-as-substrate-and-proof"],
+      "repos": ["arcs-mini"],
+      "essence": "The invariant fractal shape (memory: bet->line->update) as a build template; validates reuse-by-default and the recoil second-surface pattern."
+    },
+    {
+      "rank": 20,
+      "promote_value": "med",
+      "type": "WISDOM",
+      "candidate": "Empirical-browser-testing for timing/seam bugs (dual-layer cache + TTL); can't be caught by reading code",
+      "canonical_ref": "A.R.C.S.:.claude/TROUBLESHOOTING_PATTERNS.md",
+      "folksonomy_tags": ["prod-deploy-silent-failure-forensics"],
+      "repos": ["A.R.C.S."],
+      "essence": "Ground-truth-over-inspection rule for navigation/storage race conditions; complements the green-build-is-a-lie forensics cluster (memory: mechanical-pass-first, screenshot-before-push)."
+    },
+    {
+      "rank": 21,
+      "promote_value": "med",
+      "type": "WISDOM",
+      "candidate": "Braid >=2 strands per backlog item (docs/contracts/code/telemetry/tests/governance) — anti-drift discipline",
+      "canonical_ref": "A.R.C.S.:braided-backlog.md",
+      "folksonomy_tags": ["two-surface-architect-implementor-sync"],
+      "repos": ["A.R.C.S."],
+      "essence": "Every backlog item must connect at least two surfaces so they don't drift apart; the discipline behind the enforcement-parity ledger (ADR-033)."
+    },
+    {
+      "rank": 22,
+      "promote_value": "med",
+      "type": "WISDOM",
+      "candidate": "Career-engine doctrine: energy-first weighting + wide-aperture (missing=neutral) + smallest-lever-first + inferred-bias-must-be-labeled",
+      "canonical_ref": "arcs_harmony_career_engine + arcs_cfa (ARCHITECTURE / TECHNICAL_OVERVIEW / FEATURE_BIAS_DETECTION)",
+      "folksonomy_tags": ["determinism-processor-not-controller"],
+      "repos": ["arcs_harmony_career_engine", "arcs_cfa"],
+      "essence": "A coherent scoring doctrine (energy_alignment 0.30 top weight, absent-signal neutral, nearest-neighbor lever ordering, confidence-interval disclosure on inferred bias); the resume-tailor / career surfaces' engine priors."
+    },
+    {
+      "rank": 23,
+      "promote_value": "med",
+      "type": "ROM",
+      "candidate": "Yoav Protocol / global serializability in 30K-futures space (ballet-orchestration over sequential pipeline)",
+      "canonical_ref": "A.R.C.S.:decision_receipt_phase5.json",
+      "folksonomy_tags": ["write-lock-irreversibility-declared"],
+      "repos": ["A.R.C.S."],
+      "essence": "Serializability substrate (memory: compaction/serialization public-good, git-is-the-write-lock); the concurrency-discipline parent of the git-serializer rule."
+    },
+    {
+      "rank": 24,
+      "promote_value": "low",
+      "type": "WISDOM",
+      "candidate": "Field-OS category positioning (stateful RAM/ROM + Write-Lock + Court that can BLOCK) vs stateless GPT/Claude",
+      "canonical_ref": "arcs-care-local:POSITIONING-001-category.md",
+      "folksonomy_tags": ["arcs-care-plg-founding-ten"],
+      "repos": ["arcs-care-local"],
+      "essence": "Category-design language differentiating ARCS as a Field OS beneath decisions; durable regardless of the arcs.care domain question."
+    }
+  ]
+}

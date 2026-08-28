@@ -1,14 +1,14 @@
 {
  "print": "instrument-board",
  "service": "scripts/warroom_board.py",
- "ts": "2026-08-27",
+ "ts": "2026-08-28",
  "output": "runtime/warroom/gauntlet.html",
  "route": "/warroom/gauntlet",
  "sources": [
   {
    "name": "gauntlet-runs",
    "path": "_STATE/gauntlet-runs.jsonl",
-   "rows": 7
+   "rows": 8
   },
   {
    "name": "falsification-ledger",
