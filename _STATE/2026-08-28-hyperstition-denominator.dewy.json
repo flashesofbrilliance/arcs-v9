@@ -1,0 +1,16 @@
+{
+  "date": "2026-08-28",
+  "session": "claude/happy-cori-d4faaf",
+  "D": "Does the vision-film corpus earn the word hyperstition, once the evidence the war-game panel prescribed is actually collected?",
+  "E": "The hyperstition-atlas family (atlas + 7 whisper transcripts + ADR-070 + NFTT post-3); the war-game panel wf_3ac81615-7e1 as prescriber.",
+  "W": "Settled 2026-08-28, one day after the panel. Revisit only if a pre-2026-08-28 film-citing receipt ever surfaces.",
+  "Y": "GREEN — all three prescribed exercises ran to completion; the verdict is counted, not argued.",
+  "verdict": {
+    "formal_denominator": "79 concepts under a pre-registered rule (committed 58301a83 BEFORE reading): 15 MANIFESTED, 31 PARTIAL, 26 SPEC-ONLY, 7 DEAD. Headline hit-rate 19.0%; 58.2% with partials. Ledger: _ARTIFACTS/vision-films-hyperstition/concept-ledger.jsonl.",
+    "dated_receipt": "NULL. Zero film-citing artifacts predate the atlas session. Causation is searched-and-not-found, not merely unproven. Method banked: dated-receipt-search.md.",
+    "external_phase_lock": "UPGRADED. ADR-069 (PRL 1.2 closed receipt) is the market vantage the film demanded; it measured the system out-of-phase (~2.1x) — the instrument is real, the locked state is not claimed.",
+    "tier_resolution": "candidate-hyperstition -> RESOLVED MUNDANE on causation (common-cause null stands). What the family owns is the dated, diffable eight-month naming lag and a 19% honest hit-rate — which is what makes the 15 hits evidence instead of testimony."
+  },
+  "adr_070_falsifier": "NOT TRIPPED and NOT CONFIRMED by this result. The falsifier concerns whether ARCS keeps forging fit-for-pre-verbal-job instruments; this session's finding (hyperstition causation null) is orthogonal to it. Status remains: open, awaiting a season of use.",
+  "artifacts": ["extraction-rule.md", "concept-ledger.jsonl", "dated-receipt-search.md", "hyperstition-atlas.html (republished same URL)", "public/blog-nftt-post-3-full.html (miss-count update appended)"]
+}
