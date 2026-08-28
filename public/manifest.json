@@ -1,0 +1,25 @@
+{
+  "name": "Zach Harris — Resume",
+  "short_name": "Zach Harris",
+  "description": "Honest, tailored resumes — paste a job posting, get a resume that tells the truth about what you've actually done.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#020408",
+  "background_color": "#020408",
+  "icons": [
+    {
+      "src": "/resume-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/resume-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
