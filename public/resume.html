@@ -22,6 +22,21 @@
 
     [data-shimmer]{ animation: arcs-shimmer 1.6s ease-in-out infinite; }
 
+    /* ── PWA install button ─────────────────────────────────────────────── */
+    .install-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 7px;
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+      background: linear-gradient(135deg, #00F0FF, #00c8d4);
+      color: #020408; border: none;
+      box-shadow: 0 0 14px rgba(0,240,255,0.44), 0 4px 10px rgba(0,0,0,0.4);
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .install-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+    .install-btn:active { transform: translateY(0); }
+    .install-btn.hidden { opacity: 0; pointer-events: none; }
+
     .page { max-width: 860px; margin: 0 auto; padding: 36px 24px 100px; }
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #0d1117; }
@@ -35,13 +50,19 @@
       a { text-decoration: none !important; }
     }
   </style>
-  <script defer src="/_vercel/insights/script.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#020408">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/resume-icon-192.png">
+  <link rel="icon" type="image/png" href="/resume-icon-192.png" sizes="192x192">
+  <script defer src="/resume-sw.js"></script>
   <script src="/_vercel/toolbar/script.js"></script>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useEffect, useRef } = React;
+const { useState, useEffect } = React;
 
 // ── useMobile hook — shared across all components ─────────────────────────────
 function useMobile(bp=768) {
@@ -595,21 +616,9 @@ function SharpResume({ selectedNode, onSelectNode, selectedClient, onSelectClien
 // ROOT
 // ─────────────────────────────────────────────────────────────────────────────
 function Resume() {
-  const [selectedNode,   setSelectedNode]   = useState('arcs');
-  const [selectedClient, setSelectedClient] = useState(null);
-  const [headerH,  setHeaderH]  = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const headerRef = useRef(null);
+  const [installReady, setInstallReady] = useState(false);
 
-  // Measure header height for spacer
-  useEffect(() => {
-    if (!headerRef.current) return;
-    const obs = new ResizeObserver(entries => setHeaderH(entries[0].contentRect.height));
-    obs.observe(headerRef.current);
-    return () => obs.disconnect();
-  }, []);
-
-  // Disable fixed header on mobile portrait
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 768px)');
     setIsMobile(mq.matches);
@@ -618,16 +627,48 @@ function Resume() {
     return () => mq.removeEventListener('change', handler);
   }, []);
 
+  useEffect(() => {
+    if (!window.matchMedia('(display-mode: standalone)').matches) {
+      const onBeforeInstall = (e) => {
+        e.preventDefault();
+        setInstallReady(true);
+        window.deferredInstall = e;
+        window.removeEventListener('beforeinstallprompt', onBeforeInstall);
+      };
+      window.addEventListener('beforeinstallprompt', onBeforeInstall);
+      window.addEventListener('appinstalled', () => {
+        setInstallReady(false);
+        window.deferredInstall = null;
+      });
+      return () => {
+        window.removeEventListener('beforeinstallprompt', onBeforeInstall);
+        window.removeEventListener('appinstalled', () => {});
+      };
+    }
+  }, []);
+
   return (
     <div className="page">
 
-      {/* ── Header — fixed on desktop, scrolls on mobile ─────────────── */}
-      <div ref={headerRef} style={{
-        position: isMobile ? 'relative' : 'fixed',
-        top: isMobile ? 'auto' : 0,
-        left: isMobile ? 'auto' : 0,
-        right: isMobile ? 'auto' : 0,
-        zIndex: 50,
+      {/* ── PWA install affordance ─────────────────────────────────────── */}
+      {!installReady && (
+        <button
+          className={installReady ? 'install-btn hidden' : 'install-btn'}
+          onClick={() => {
+            if (window.deferredInstall) {
+              window.deferredInstall.prompt();
+              window.deferredInstall.userChoice.then(({ outcome }) => {
+                if (outcome === 'accepted') window.deferredInstall = null;
+              }).catch(() => {});
+            }
+          }}
+          aria-label="Install Zach Harris Resume as a Progressive Web App">
+          ⎘ Add to Home Screen
+        </button>
+      )}
+
+      {/* ── Header ────────────────────────────────────────────── */}
+      <div style={{
         background: T.bg,
         borderBottom: `1px solid ${T.border}`,
       }}>
@@ -638,32 +679,21 @@ function Resume() {
               Zach Harris
             </h1>
             <div style={{ fontFamily:T.mono, fontSize: isMobile ? 9 : 10, color:T.fg3, marginTop: isMobile ? 5 : 8, letterSpacing:'0.06em', lineHeight:1.7 }}>
-              Fairfield, CT  ·  <a href="tel:+12038072976" style={{ color:T.fg3, textDecoration:'none' }}>203-807-2976</a>  ·  <a href="mailto:zach.harris@gmail.com" style={{ color:T.fg3, textDecoration:'none' }}>zach.harris@gmail.com</a>  ·  <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
+              <a href="https://linkedin.com/in/zharris" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none' }}>linkedin.com/in/zharris</a>  ·  <a href="https://github.com/flashesofbrilliance" target="_blank" rel="noopener" style={{ color:T.fg3, textDecoration:'none', opacity:0.7 }}>github.com/flashesofbrilliance</a>
             </div>
-          </div>
-          <div style={{ display:'inline-flex', alignItems:'center', padding:'8px 14px', borderRadius:8,
-            border:`1px solid ${T.cyan}44`,
-            background:'linear-gradient(180deg,#0d141c,#0f1822)',
-            boxShadow:`inset 0 2px 4px rgba(0,0,0,.5), inset 0 -7px 11px -7px ${T.cyan}22` }}>
-            <span style={{ fontFamily:T.mono, fontWeight:700, fontSize:10, letterSpacing:'0.05em', color:'#b9e8f4' }}>WIREFRAME</span>
           </div>
         </div>
       </div>
 
-      {/* Spacer — only needed when header is fixed (desktop) */}
-      {!isMobile && <div style={{ height: headerH + 20 }} />}
-
-      {/* ── Scrollable content ───────────────────────────────────────────── */}
+      {/* ── Scrollable content ─────────────────────────────── */}
       <SharpResume selectedNode={selectedNode} onSelectNode={setSelectedNode}
         selectedClient={selectedClient} onSelectClient={setSelectedClient} />
-
       {/* ── Contact — always visible ──────────────────────────────────── */}
       <div style={{ marginTop:28, padding:'14px 16px', borderRadius:10, border:`1px solid ${T.border}`,
         background:'linear-gradient(160deg,rgba(255,255,255,.03),rgba(0,0,0,.12))',
         display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
         <div style={{ fontFamily:T.mono, fontSize:11, color:T.fg3, lineHeight:1.6 }}>
           <span style={{ color:T.fg2 }}>Zach Harris</span>
-          <span style={{ color:T.fg4 }}> · Fairfield, CT</span>
         </div>
         <a href="https://calendar.app.google/cTQkE1W2D8EPo8q59" target="_blank" rel="noopener"
           style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'9px 18px', borderRadius:7,
