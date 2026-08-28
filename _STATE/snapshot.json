@@ -2,14 +2,50 @@
   "captured_at": "2026-07-08T23:21:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "9e37b1d",
-    "head_message": "chore(state): snapshot mechanical refresh (session-resume hook) [NCI:SKIP]",
+    "head_sha": "179996ac",
+    "head_message": "feat(scott): wire teardown and attraction artifact hosts",
     "in_sync_with_origin": false,
     "dirty_files": [
-      ".claude/settings.json",
+      ".claude/arcs-session-state.md",
+      "_DECISIONS/ADR-032-lewoof-bb-dotcom-channel.md",
+      "_DECISIONS/index.json",
+      "_PATTERNS/2026-08-23-witness-stash-deconcatenation.md",
+      "_STATE/consolidation-stash-2026-08-23.md",
+      "_STATE/dangling-ref-resolution.json",
+      "_STATE/handoff-v4.0.0.md",
+      "_STATE/pickup-lewoof-landing.md",
+      "_STATE/pre-mortem-harness-failure-modes.md",
       "_STATE/snapshot.json",
-      "public/resume.html",
-      "PRODUCT.md"
+      "_STATE/worktree-catalog.json",
+      "_STATE/worktree-excavation.json",
+      "apply-scott-loop.sh",
+      "operators/adr_audit.py",
+      "operators/arcs_operator21.py",
+      "operators/arcs_primitives.py",
+      "operators/cli_arcs_run.py",
+      "operators/operator_client.py",
+      "operators/pipeline_runner.py",
+      "operators/receipt_evaluator.py",
+      "public/lewoof.html",
+      "scripts/arcs_missing_node_sweep.py",
+      "scripts/arcs_resolve_dangling_refs.py",
+      "scripts/catalog-worktrees.py",
+      "scripts/excavate-worktrees.py",
+      "ship-scott-loop-v2.sh",
+      "_DECISIONS/ADR-033-model-routing-adr-audit-default.md",
+      "_STATE/benchmarks/",
+      "docs/audit-benchmark-plan.md",
+      "docs/audit-service-interface.md",
+      "docs/decision-memo-creative-tim-template-audit.md",
+      "docs/frontend-theming-curated-bases.md",
+      "docs/mui-theme-reference-memo.md",
+      "docs/resume-tailor-theming-engine-spec.md",
+      "operators/audit_service/",
+      "operators/prod_receipt_to_op20_seed.py",
+      "scripts/generate_arcs_operator_data.py",
+      "src/lib/audit-client-helpers.ts",
+      "src/lib/audit-client.ts",
+      "src/lib/audit-translator.ts"
     ]
   },
   "vercel": {
@@ -148,5 +184,5 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-07-23T12:03:36Z"
+  "git_refreshed_at": "2026-08-27T18:16:13Z"
 }

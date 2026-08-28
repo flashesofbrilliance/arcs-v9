@@ -8,6 +8,7 @@ import { auth } from "@/lib/auth"
 import { APP_URL } from "@/lib/env"
 import { debriefEmail } from "@/emails/debriefEmail"
 import { receiptEmail } from "@/emails/receiptEmail"
+import { runAudit } from "@/lib/audit-client"
 
 const resend = process.env.AUTH_RESEND_KEY ? new Resend(process.env.AUTH_RESEND_KEY) : null
 
@@ -382,8 +383,32 @@ Run the L0–L5 pipeline. Return only the JSON object.`
   }
   const t3 = Date.now()
 
-  // Invisible trace write — never blocks or affects the response. See the
-  // sageTraceData comment above for why this is a separate, never-`include`d table.
+  // Invisible audit-layer call — parallel operator audit (SAGE/LAB/BAR/KINTSUGI)
+  // after receipt creation. Fire-and-forget: never blocks the response, never
+  // throws to the route. Persistence + benchmark fragment written as side effects
+  // on the audit service (if AUDIT_SERVICE_URL is set). The advisory block built
+  // by runAudit is NOT injected into the LLM context (D4 — persistence/benchmark-only
+  // until a downstream consumer is named and built).
+  // This mirrors the existing SAGE_URL pattern: if unset, skip silently.
+  if (process.env.AUDIT_SERVICE_URL) {
+    try {
+      await runAudit(
+        {
+          question: question.trim(),
+          horizon: activeHorizon,
+          stakes: activeStakes,
+          clarityMode,
+          doorClass: door,
+          llmOutput: parsed,
+          sessionVersion,
+          traceId: receipt.id,
+        },
+        (msg: string, meta?: Record<string, unknown>) => console.log(`[AUDIT] ${msg}`, meta ?? ""),
+      )
+    } catch (err) {
+      console.error(`[AUDIT] runAudit failed (non-blocking, response unaffected):`, err instanceof Error ? err.message : String(err))
+    }
+  }
   prisma.sageTrace.create({
     data: { receiptId: receipt.id, ...sageTraceData },
   }).catch((err) => console.error("[SAGE TRACE] failed to write:", err instanceof Error ? err.message : String(err)))
