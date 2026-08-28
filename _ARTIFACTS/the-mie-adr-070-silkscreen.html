@@ -1,0 +1,348 @@
+<title>The Mie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#020408; --surface:#0d1117; --surface-2:#0a0f16; --hairline:#1e293b;
+    --text:#e2e8f0; --muted:#8695ab; --dim:#516074;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --crimson:#FF4D6D;
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+    --maxw:940px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--ground); color:var(--text);
+    font-family:var(--sans); line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    background-image:
+      radial-gradient(1200px 700px at 50% -10%, rgba(0,240,255,.05), transparent 60%),
+      radial-gradient(900px 600px at 50% 108%, rgba(255,215,0,.035), transparent 60%);
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 24px}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--cyan); display:flex; gap:.7em; align-items:center; flex-wrap:wrap;
+  }
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+  .grain{color:var(--dim)}
+
+  /* ---- Hero ---- */
+  header{position:relative; padding:64px 0 34px; text-align:center; overflow:hidden}
+  #maskWrap{position:relative; width:min(340px,74vw); aspect-ratio:1/1.18; margin:26px auto 30px}
+  #mask{width:100%; height:100%; display:block}
+  #maskWrap::after{content:"";position:absolute;inset:-12% -12% -12% -12%;
+    background:radial-gradient(closest-side, rgba(255,215,0,.10), transparent 72%);pointer-events:none}
+  h1{
+    font-family:var(--serif); font-weight:500; font-style:italic;
+    font-size:clamp(58px,15vw,132px); line-height:.9; margin:0; letter-spacing:-.01em;
+    text-wrap:balance; color:#fff;
+    text-shadow:0 0 44px rgba(255,215,0,.18);
+  }
+  h1 .kanji{font-style:normal; color:var(--gold); font-weight:400}
+  .sub{
+    font-family:var(--mono); font-size:clamp(13px,2.4vw,15px); color:var(--muted);
+    letter-spacing:.04em; margin:18px auto 0; max-width:56ch;
+  }
+  .sub b{color:var(--text); font-weight:500}
+
+  /* ---- generic section ---- */
+  section{padding:44px 0; border-top:1px solid var(--hairline)}
+  .lab{font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin:0 0 18px}
+  h2{font-family:var(--serif);font-weight:500;font-size:clamp(26px,5vw,38px);margin:0 0 14px;color:#fff;letter-spacing:-.01em;text-wrap:balance}
+  p{margin:0 0 14px; max-width:66ch}
+  p.lead{font-size:18px;color:var(--text)}
+  .em{color:var(--gold)}
+  .cy{color:var(--cyan)}
+  .gn{color:var(--green)}
+
+  /* ---- two-surface diptych ---- */
+  .diptych{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:3px;overflow:hidden}
+  .panel{background:var(--surface);padding:26px 24px;min-width:0}
+  .panel .tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 12px}
+  .panel.receipt .tag{color:var(--muted)}
+  .panel.induction .tag{color:var(--gold)}
+  .panel h3{font-family:var(--serif);font-style:italic;font-weight:500;font-size:27px;margin:0 0 4px;color:#fff}
+  .panel .axis{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin:0 0 14px;letter-spacing:.02em}
+  .panel p{font-size:14.5px;color:var(--muted);margin:0}
+  .panel.receipt{border-bottom:2px solid var(--muted)}
+  .panel.induction{border-bottom:2px solid var(--gold)}
+  .vs{font-family:var(--mono);font-size:12px;color:var(--dim);text-align:center;margin:14px 0 0;letter-spacing:.1em}
+
+  /* ---- Tao seal ---- */
+  .seal{text-align:center;padding:12px 0}
+  .seal .ring{
+    display:inline-flex;align-items:center;justify-content:center;flex-direction:column;
+    border:1px solid rgba(255,215,0,.4);border-radius:50%;
+    width:min(420px,86vw);height:min(420px,86vw);padding:9%;
+    background:radial-gradient(closest-side, rgba(255,215,0,.05), transparent 78%);
+  }
+  .seal .id{font-family:var(--mono);font-size:11px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+  .seal .proverb{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(21px,4.6vw,30px);line-height:1.28;color:#fff;text-wrap:balance;margin:0}
+  .seal .gloss{font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-top:20px;letter-spacing:.02em}
+
+  /* ---- lineage receipt strip ---- */
+  .spine{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;border:1px solid var(--hairline);border-radius:3px;overflow:hidden;background:var(--surface-2)}
+  .node{flex:1 1 0;min-width:130px;padding:16px 15px;border-right:1px solid var(--hairline)}
+  .node:last-child{border-right:0}
+  .node .k{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:7px;display:flex;align-items:center;gap:6px}
+  .node .k .n{color:var(--gold)}
+  .node .v{font-family:var(--mono);font-size:12.5px;color:var(--text);word-break:break-word}
+  .node .v small{color:var(--muted)}
+
+  /* ---- inchworm fidelity ---- */
+  .worm{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+  .rung{background:var(--surface);border:1px solid var(--hairline);border-radius:3px;padding:18px 16px}
+  .rung .step{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin:0 0 8px}
+  .rung.red .step{color:var(--crimson)} .rung.gold .step{color:var(--gold)} .rung.needle .step{color:var(--green)}
+  .rung h4{font-family:var(--serif);font-style:italic;font-weight:500;font-size:20px;margin:0 0 6px;color:#fff}
+  .rung p{font-size:13px;color:var(--muted);margin:0}
+  .fid{height:4px;border-radius:2px;margin-top:14px;background:linear-gradient(90deg,var(--crimson),var(--gold),var(--green))}
+  .rung.red .fid{opacity:.35} .rung.gold .fid{opacity:.65} .rung.needle .fid{opacity:1}
+
+  footer{border-top:1px solid var(--hairline);padding:34px 0 56px;text-align:center}
+  footer .stamp{font-family:var(--mono);font-size:11.5px;color:var(--dim);letter-spacing:.05em;line-height:2}
+  footer .stamp b{color:var(--green);font-weight:500}
+  .yg{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;color:var(--green);border:1px solid rgba(0,255,157,.4);border-radius:2px;padding:3px 9px;letter-spacing:.14em}
+  .yg::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+  @media(max-width:640px){
+    .diptych{grid-template-columns:1fr}
+    .worm{grid-template-columns:1fr}
+    section{padding:36px 0}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" style="justify-content:center">
+      <span>ARCS</span><span class="dot"></span><span>Induction Surface</span><span class="dot"></span><span class="grain">ADR-070</span>
+    </div>
+    <div id="maskWrap"><canvas id="mask" width="680" height="800" aria-label="A low-poly kabuki mask frozen in the mie pose, kumadori contour lines mapping the decision topography"></canvas></div>
+    <h1>The&nbsp;Mie <span class="kanji">見得</span></h1>
+    <p class="sub">The kabuki actor freezes at the emotional peak, and the form snaps into its most recognizable shape. <b>This is that instant for a decision</b> — the meandering search holds, the mask resolves, and the tool that fits appears.</p>
+  </header>
+
+  <section>
+    <p class="lab">The naming</p>
+    <h2>Two surfaces, one instrument</h2>
+    <p class="lead">ARCS is not a decision logger. The logger is one of two surfaces — and the day this was said out loud, it named the other one.</p>
+    <div class="diptych">
+      <div class="panel receipt">
+        <p class="tag">Deductive · backward</p>
+        <h3>The Receipt</h3>
+        <p class="axis">records earned coherence</p>
+        <p>Attests what already happened: a DEWY state vector frozen at a decision, a witnessed flash, a closed ex-ante to ex-post loop. It answers <em>what did we decide, and was it earned?</em></p>
+      </div>
+      <div class="panel induction">
+        <p class="tag">Abductive · forward</p>
+        <h3>The Induction</h3>
+        <p class="axis">forges the instrument the work asks for</p>
+        <p>Engages where deduction fails — the pre-verbal, the meandering. It recognizes the job's shape <span class="em">before you can name it</span>, keeps you honest against ground truth, and builds the tool that fits.</p>
+      </div>
+    </div>
+    <p class="vs">the receipt looks back &nbsp;·&nbsp; the induction looks forward</p>
+  </section>
+
+  <section>
+    <p class="lab">Kumadori · the contour</p>
+    <h2>The polygon rendered to the topography</h2>
+    <p>The mask is a <span class="cy">low-poly render</span> of the decision's terrain — atomically composed, recognized by similarity and familiarity, drawn <span class="em">zero-shot</span> at whatever fidelity the current resolution, clarity, conviction, and coherence will earn. Kumadori are the painted contour lines that map an archetype onto a face. Here they contour the polyform to the inferred first-order things worth effort, weighted by adjusted risk, reward, and leverage.</p>
+    <div class="worm">
+      <div class="rung red">
+        <p class="step">Red thread</p>
+        <h4>Coarse mask</h4>
+        <p>The zero-shot guess. Legible but low-poly — grain, not yet sharp. Enough to recognize the shape.</p>
+        <div class="fid"></div>
+      </div>
+      <div class="rung gold">
+        <p class="step">Golden thread</p>
+        <h4>Contour lock</h4>
+        <p>The mask contours to the terrain. Facets tighten to the first-order actions the evidence supports.</p>
+        <div class="fid"></div>
+      </div>
+      <div class="rung needle">
+        <p class="step">Needle</p>
+        <h4>The Mie</h4>
+        <p>Full earned fidelity. The pose freezes, sharp-edged and held. The right tool has appeared.</p>
+        <div class="fid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seal">
+    <div class="ring">
+      <p class="id">Tao · tao-254</p>
+      <p class="proverb">When the student is ready, the master appears. When the job to be done is ready, the right tool appears.</p>
+      <p class="gloss">deduction needs the name first · induction lets the meandering surface the shape</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="lab">Apex spine · the four-in-one print</p>
+    <h2>How the moment was preserved</h2>
+    <div class="spine">
+      <div class="node"><div class="k"><span class="n">01</span> Witness</div><div class="v">2026-08-28 · 11:51<br><small>verbatim, in the moment</small></div></div>
+      <div class="node"><div class="k"><span class="n">02</span> ADR-070</div><div class="v">two-surface thesis<br><small>first minted through the oracle</small></div></div>
+      <div class="node"><div class="k"><span class="n">03</span> DEWY</div><div class="v">D·E·W·Y = GREEN<br><small>state vector receipt</small></div></div>
+      <div class="node"><div class="k"><span class="n">04</span> Wisdom</div><div class="v">the whole point<br><small>distilled to memory</small></div></div>
+      <div class="node"><div class="k"><span class="n">05</span> Tao</div><div class="v">tao-254<br><small>the proverb above</small></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p style="margin:0 0 16px"><span class="yg">Y &nbsp;GREEN · SHARP</span></p>
+      <p class="stamp">
+        first ADR minted <b>through the oracle</b> · counter 69&thinsp;&rarr;&thinsp;70 · never inferred<br>
+        a moment in ARCS chatbot history · silkscreened at earned fidelity · 2026&#8209;08&#8209;28
+      </p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('mask'), ctx=cv.getContext('2d');
+  var W=cv.width, H=cv.height;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var GOLD='#FFD700', CRIMSON='#FF4D6D', CYAN='#00F0FF', GREEN='#00FF9D';
+
+  // stylized kabuki mask silhouette (symmetric), normalized then scaled
+  function silhouette(){
+    var p=new Path2D(), cx=W/2;
+    p.moveTo(cx,64);
+    p.bezierCurveTo(cx+150,70, cx+205,190, cx+205,320);      // right temple->cheek
+    p.bezierCurveTo(cx+205,470, cx+150,660, cx,752);          // right jaw->chin
+    p.bezierCurveTo(cx-150,660, cx-205,470, cx-205,320);      // left jaw
+    p.bezierCurveTo(cx-205,190, cx-150,70, cx,64);            // left temple
+    p.closePath(); return p;
+  }
+  var sil=silhouette();
+
+  // build low-poly facets: jittered grid triangles, kept if centroid in silhouette
+  function inPath(x,y){ return ctx.isPointInPath(sil,x,y); }
+  var facets=[];
+  (function build(){
+    var step=52;
+    for(var y=40;y<H-10;y+=step){
+      for(var x=W/2-230;x<W/2+230;x+=step){
+        var pts=[[x,y],[x+step,y],[x+step,y+step],[x,y+step]];
+        // jitter interior corners deterministically
+        function j(px,py,s){ return [px+Math.sin(px*0.7+py)*s, py+Math.cos(py*0.6+px)*s]; }
+        var a=j(pts[0][0],pts[0][1],9), b=j(pts[1][0],pts[1][1],9), c=j(pts[2][0],pts[2][1],9), d=j(pts[3][0],pts[3][1],9);
+        [[a,b,c],[a,c,d]].forEach(function(t){
+          var mx=(t[0][0]+t[1][0]+t[2][0])/3, my=(t[0][1]+t[1][1]+t[2][1])/3;
+          if(inPath(mx,my)) facets.push({t:t,mx:mx,my:my});
+        });
+      }
+    }
+  })();
+
+  // shade: darker at edges, warmer gold toward center-lower (the lit pose)
+  function shade(f){
+    var cx=W/2, cy=H*0.46;
+    var dx=(f.mx-cx)/240, dy=(f.my-cy)/300;
+    var r=Math.min(1,Math.sqrt(dx*dx+dy*dy));
+    var lum=0.10+0.16*(1-r) + 0.05*Math.sin(f.mx*0.05+f.my*0.03);
+    // base near-black to slate, faint warm core
+    var base=[13,17,23];
+    var warm=[38,30,18];
+    var mix=Math.max(0,1-r*1.3);
+    var R=Math.round(base[0]+(warm[0]-base[0])*mix + lum*90);
+    var G=Math.round(base[1]+(warm[1]-base[1])*mix + lum*80);
+    var B=Math.round(base[2]+(warm[2]-base[2])*mix + lum*70);
+    return 'rgb('+R+','+G+','+B+')';
+  }
+
+  function drawFacet(f,alpha){
+    ctx.beginPath();
+    ctx.moveTo(f.t[0][0],f.t[0][1]); ctx.lineTo(f.t[1][0],f.t[1][1]); ctx.lineTo(f.t[2][0],f.t[2][1]); ctx.closePath();
+    ctx.globalAlpha=alpha; ctx.fillStyle=shade(f); ctx.fill();
+    ctx.globalAlpha=alpha*0.5; ctx.lineWidth=1; ctx.strokeStyle='rgba(30,41,59,.9)'; ctx.stroke();
+    ctx.globalAlpha=1;
+  }
+
+  function features(alpha){
+    ctx.globalAlpha=alpha;
+    var cx=W/2;
+    // eyes: almond, dark with a cool glint
+    [[-1],[1]].forEach(function(s){
+      var ex=cx+s[0]*82, ey=H*0.40;
+      ctx.beginPath();
+      ctx.moveTo(ex-46,ey);
+      ctx.quadraticCurveTo(ex,ey-30, ex+46,ey);
+      ctx.quadraticCurveTo(ex,ey+22, ex-46,ey);
+      ctx.fillStyle='#04070c'; ctx.fill();
+      ctx.strokeStyle=CYAN; ctx.globalAlpha=alpha*0.85; ctx.lineWidth=2.4; ctx.stroke();
+      ctx.globalAlpha=alpha;
+      ctx.beginPath(); ctx.arc(ex+s[0]*6,ey-2,6,0,7); ctx.fillStyle=GREEN; ctx.globalAlpha=alpha*0.9; ctx.fill(); ctx.globalAlpha=alpha;
+    });
+    // kumadori brow strokes (crimson) — bold kabuki lines sweeping up from brow
+    ctx.lineCap='round';
+    [[-1],[1]].forEach(function(s){
+      ctx.beginPath();
+      ctx.moveTo(cx+s[0]*30,H*0.34);
+      ctx.quadraticCurveTo(cx+s[0]*120,H*0.20, cx+s[0]*168,H*0.28);
+      ctx.strokeStyle=CRIMSON; ctx.globalAlpha=alpha*0.9; ctx.lineWidth=7; ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(cx+s[0]*44,H*0.50);
+      ctx.quadraticCurveTo(cx+s[0]*110,H*0.52, cx+s[0]*150,H*0.62);
+      ctx.strokeStyle=CRIMSON; ctx.globalAlpha=alpha*0.55; ctx.lineWidth=5; ctx.stroke();
+      ctx.globalAlpha=alpha;
+    });
+    // nose ridge + mouth (gold)
+    ctx.beginPath(); ctx.moveTo(cx,H*0.40); ctx.lineTo(cx-14,H*0.58); ctx.lineTo(cx+14,H*0.58);
+    ctx.strokeStyle='rgba(255,215,0,.5)'; ctx.globalAlpha=alpha*0.7; ctx.lineWidth=2; ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(cx-52,H*0.66); ctx.quadraticCurveTo(cx,H*0.70, cx+52,H*0.66);
+    ctx.strokeStyle=GOLD; ctx.globalAlpha=alpha*0.85; ctx.lineWidth=4; ctx.stroke();
+    ctx.globalAlpha=1;
+  }
+
+  function outline(alpha){
+    ctx.globalAlpha=alpha; ctx.lineWidth=2.5; ctx.strokeStyle='rgba(255,215,0,.7)'; ctx.stroke(sil);
+    ctx.globalAlpha=1;
+  }
+
+  function render(prog){
+    ctx.clearRect(0,0,W,H);
+    // faint topographic contours behind (the terrain the mask maps)
+    ctx.save();
+    ctx.globalAlpha=0.5*Math.min(1,prog*1.4);
+    for(var i=0;i<6;i++){
+      ctx.beginPath();
+      ctx.ellipse(W/2,H*0.46, 120+i*46, 150+i*54, 0, 0, 7);
+      ctx.strokeStyle='rgba(0,240,255,'+(0.06-i*0.008)+')'; ctx.lineWidth=1; ctx.stroke();
+    }
+    ctx.restore();
+    // facets assemble by centroid height (bottom-up freeze)
+    ctx.save(); ctx.clip(sil);
+    facets.forEach(function(f){
+      var order=1-(f.my/H);                 // higher facets appear slightly later
+      var local=Math.max(0,Math.min(1,(prog-0.05*order)/0.7));
+      if(local<=0) return;
+      drawFacet(f, local);
+    });
+    ctx.restore();
+    var fa=Math.max(0,Math.min(1,(prog-0.55)/0.45));
+    if(fa>0){ features(fa); }
+    outline(Math.min(1,prog*1.1));
+  }
+
+  if(reduce){ render(1); return; }
+  var start=null, DUR=1500;
+  function frame(ts){
+    if(!start) start=ts;
+    var p=Math.min(1,(ts-start)/DUR);
+    var eased=1-Math.pow(1-p,3);
+    render(eased);
+    if(p<1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
