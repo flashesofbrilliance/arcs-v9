@@ -170,6 +170,48 @@ def adr067_identity_finding():
     } if mismatch else None
 
 
+# ── cross-harness invariant sync (Hermes USER.md <-> Claude AGENTS.md) ──
+# These operating files are PROSE, not extractable lists, so this is a presence
+# check, not a list-completion: a shared invariant present in one harness's file
+# but missing from the other's = drift -> ESCALATE (never auto-written).
+
+HERMES_USER = os.path.join(HOME, ".hermes/memories/USER.md")
+# Claude's operating surface is the THREE always-loaded files, not AGENTS.md alone
+# (NOTOMATION etc. live in WORLD.md / CLAUDE.md). Compare against their union.
+CLAUDE_SURFACE = [os.path.join(ROOT, f) for f in ("AGENTS.md", "WORLD.md", "CLAUDE.md")]
+SHARED_INVARIANTS = {
+    "NOTOMATION": ["notomation"],
+    "oracle-first numbering": ["oracle"],
+    "non-sycophantic / bear-case-first": ["sycophan", "bear case", "bear-case"],
+    "audit-before-acting": ["audit before", "audit first", "check git log", "audit adr"],
+}
+
+
+def invariant_sync_findings():
+    h = _read(HERMES_USER)
+    parts = [_read(p) or "" for p in CLAUDE_SURFACE]
+    c = "\n".join(parts)
+    if h is None or not c:
+        return []
+    hl, cl = h.lower(), c.lower()
+    out = []
+    for name, markers in SHARED_INVARIANTS.items():
+        in_h = any(m in hl for m in markers)
+        in_c = any(m in cl for m in markers)
+        if in_h != in_c:
+            claude_label = "Claude always-loaded files (AGENTS/WORLD/CLAUDE.md)"
+            missing = "Hermes USER.md" if not in_h else claude_label
+            out.append({
+                "id": f"invariant-{name.split()[0].lower()}",
+                "title": f"cross-harness invariant drift: '{name}'",
+                "verdict": "ESCALATE",
+                "detail": (f"shared operating invariant '{name}' is present in "
+                           f"{claude_label if in_c else 'Hermes USER.md'} but MISSING from "
+                           f"{missing} — the two harnesses will behave differently on the monorepo"),
+            })
+    return out
+
+
 # ── main ─────────────────────────────────────────────────────────────
 
 def main():
@@ -208,6 +250,11 @@ def main():
         findings.append(adr)
         queue.append({"id": adr["id"], "kind": "judgment", "default": "no",
                       "title": adr["title"], "proposal": adr["detail"]})
+
+    for inv in invariant_sync_findings():
+        findings.append(inv)
+        queue.append({"id": inv["id"], "kind": "judgment", "default": "no",
+                      "title": inv["title"], "proposal": inv["detail"]})
 
     drifted = [f for f in findings if f.get("verdict") in ("DEROT", "ESCALATE")]
     verdict = "DRIFT" if drifted else "OK"
