@@ -23,6 +23,17 @@ Faithful mappings (real signal, not invented):
   timestamp            <- created_epoch
   phase_id             <- surface
 
+SAGE ENRICHMENT (dims 22-27 somatic, 40-43 axioms) — no schema change:
+  When a row carries `sage_signal` (JSON from the SageTrace.signal column, i.e.
+  the SAGE operator's own op20-shaped output), the adapter lifts the REAL
+  somatic{} and axioms{} blocks straight out of it, plus SAGE's clean-enum
+  court_verdict / signal_classification / five_derivatives. Only ~45/247 prod
+  receipts have a fired SAGE trace, so somatic/axiom stay op20-default (honestly
+  constant) for the rest — the adapter never fabricates them. Persisting
+  somatic/axiom for 100% coverage is a compass write-time schema change (COURT
+  one-way door), tracked separately; this read-side join closes the gap for the
+  rows that already carry the signal.
+
 Usage:  python3 prod_receipt_to_op20_seed.py <rows.json|tool-result.txt> [out.jsonl]
 Stdlib only.
 """
@@ -39,11 +50,29 @@ def _pj(s):
         return None
 
 
-def adapt(row):
-    lens = _pj(row.get("nciByLens")) or {}
-    checks = _pj(row.get("court")) or []
-    fated = _pj(row.get("fated")) or {}
-    tags = _pj(row.get("macroTags")) or []
+def _fated_from_row(row):
+    """fated dict op20 measures by string length. Two input shapes are honored:
+    the raw prod `fated` JSON-TEXT column, or a compact `fated_len` dict of
+    integer lengths (used when the corpus was pulled in digest form to avoid
+    shipping decision text through a tool boundary). The compact form is
+    expanded to placeholder strings of the right length — op20 only ever reads
+    len(str(value)), so this is loss-free for the dims it computes."""
+    flen = row.get("fated_len")
+    if isinstance(flen, dict):
+        return {k: ("." * int(v)) for k, v in flen.items() if isinstance(v, (int, float))}
+    fated = _pj(row.get("fated"))
+    return fated if isinstance(fated, dict) else {}
+
+
+def adapt(row, use_sage=True):
+    lens = _pj(row.get("nciByLens")) or (row.get("nciByLens") if isinstance(row.get("nciByLens"), dict) else {})
+    checks = _pj(row.get("court"))
+    if checks is None:
+        checks = row.get("court") if isinstance(row.get("court"), list) else []
+    fated = _fated_from_row(row)
+    tags = _pj(row.get("macroTags"))
+    if tags is None:
+        tags = row.get("macroTags") if isinstance(row.get("macroTags"), list) else []
     if not isinstance(tags, list):
         tags = []
 
@@ -71,7 +100,7 @@ def adapt(row):
     phase = {"ORIENT": "phase_1", "EPHEMERAL_SAVE": "phase_1", "PREP": "phase_2",
              "BRIEF": "phase_3"}.get(row.get("surface"), "phase_4")
 
-    return {
+    seed = {
         "receipt_id": row.get("id"),
         "nci_score": row.get("nciScore"),
         "irreversibility": irr,
@@ -86,6 +115,33 @@ def adapt(row):
         "timestamp": row.get("created_epoch"),
         "phase_id": phase,
     }
+
+    # ── SAGE enrichment: lift real somatic/axiom blocks when the trace fired ──
+    sage = row.get("sage_signal") if use_sage else None
+    if isinstance(sage, str):
+        sage = _pj(sage)
+    if isinstance(sage, dict):
+        som = sage.get("somatic")
+        if isinstance(som, dict):
+            seed["somatic"] = som               # dims 22-27 now REAL, not default
+        ax = sage.get("axioms")
+        if isinstance(ax, dict):
+            seed["axioms"] = ax                 # dims 40-43 now REAL, not default
+        fd = sage.get("five_derivatives")
+        if isinstance(fd, dict):
+            seed["five_derivatives"] = fd       # full derivative vector, not just velocity
+        # NOTE: court verdict is deliberately NOT taken from SAGE. The court[]
+        # check array on the Receipt is the compass route's authoritative court
+        # output; SAGE's court_verdict is an independent pre-screen and can
+        # disagree. Overriding here would confound the court axis (which the
+        # banked full-fidelity run derives from court[]). Likewise SAGE's
+        # signal_classification uses a different vocabulary ("noise"/"signal")
+        # than op20's gradient tiers, so it is not copied either. This keeps the
+        # SAGE enrichment a clean delta: it adds ONLY somatic + axioms +
+        # five_derivatives, nothing that already had a faithful mapping.
+        seed["_sage_enriched"] = True
+
+    return seed
 
 
 def load_rows(path):
@@ -106,12 +162,14 @@ def load_rows(path):
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("usage: prod_receipt_to_op20_seed.py <rows.json> [out.jsonl]")
+    args = [a for a in sys.argv[1:] if a != "--no-sage"]
+    use_sage = "--no-sage" not in sys.argv
+    if not args:
+        print("usage: prod_receipt_to_op20_seed.py [--no-sage] <rows.json> [out.jsonl]")
         return
-    rows = load_rows(sys.argv[1])
-    adapted = [adapt(r) for r in rows]
-    out = sys.argv[2] if len(sys.argv) > 2 else None
+    rows = load_rows(args[0])
+    adapted = [adapt(r, use_sage=use_sage) for r in rows]
+    out = args[1] if len(args) > 1 else None
     if out:
         with open(out, "w", encoding="utf-8") as fh:
             for a in adapted:
