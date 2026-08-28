@@ -1,0 +1,278 @@
+<title>The Hyperstition Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#020408; --surface:#0b1017; --surface-2:#0e141c; --hairline:#1b2431; --hairline-2:#243044;
+    --text:#e6ecf4; --muted:#8a99ae; --dim:#54627a;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --crimson:#FF4D6D; --violet:#9D7BFF;
+    --serif:"Cormorant Garamond",Georgia,serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+    --sans:"IBM Plex Sans",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(1100px 640px at 50% -12%,rgba(0,240,255,.06),transparent 62%),
+      radial-gradient(900px 560px at 50% 112%,rgba(255,215,0,.04),transparent 60%);}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--cyan);
+    display:flex;gap:.7em;align-items:center;justify-content:center;flex-wrap:wrap}
+  .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+  header{padding:70px 0 30px;text-align:center}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(46px,9.5vw,104px);line-height:.92;margin:18px 0 0;
+    letter-spacing:-.015em;color:#fff;text-wrap:balance;text-shadow:0 0 46px rgba(0,240,255,.14)}
+  .lede{font-family:var(--serif);font-style:italic;font-size:clamp(19px,3.2vw,26px);color:var(--muted);
+    max-width:30ch;margin:20px auto 0;line-height:1.35;text-wrap:balance}
+  .lede b{color:var(--gold);font-style:normal;font-weight:500}
+
+  section{padding:40px 0;border-top:1px solid var(--hairline)}
+  .lab{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin:0 0 20px}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(25px,4.6vw,36px);margin:0 0 8px;color:#fff;letter-spacing:-.01em;text-wrap:balance}
+  p{margin:0 0 14px;max-width:70ch}
+  p.big{font-size:17px;color:var(--text)}
+
+  /* pipeline */
+  .pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;margin-top:6px}
+  .stage{background:var(--surface);padding:18px 16px;position:relative}
+  .stage .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:8px}
+  .stage h4{font-family:var(--mono);font-weight:600;font-size:15px;margin:0 0 6px;color:#fff}
+  .stage p{font-size:12.5px;color:var(--muted);margin:0}
+  .stage.s1 h4{color:var(--cyan)} .stage.s2 h4{color:var(--crimson)} .stage.s3 h4{color:var(--gold)} .stage.s4 h4{color:var(--green)}
+  .stage.here::after{content:"films are here";position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:9px;color:var(--cyan);letter-spacing:.1em;opacity:.7}
+  .stage.now::after{content:"canon today";position:absolute;top:10px;right:12px;font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:.1em;opacity:.7}
+
+  /* filmstrip */
+  .films{display:flex;gap:0;flex-wrap:wrap;border:1px solid var(--hairline);border-radius:4px;overflow:hidden;background:var(--surface-2)}
+  .film{flex:1 1 0;min-width:132px;padding:14px 13px;border-right:1px solid var(--hairline)}
+  .film:last-child{border-right:0}
+  .film .d{font-family:var(--mono);font-size:10px;color:var(--cyan);letter-spacing:.06em;margin-bottom:6px}
+  .film .t{font-family:var(--serif);font-style:italic;font-size:16px;color:#fff;line-height:1.15;margin-bottom:5px}
+  .film .g{font-size:11.5px;color:var(--dim)}
+  .film.mar{background:rgba(255,215,0,.05)}
+  .film.mar .d{color:var(--gold)}
+
+  /* ziggurat legend */
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 22px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .chip{display:inline-block;width:9px;height:9px;border-radius:2px}
+  .chip.today{background:var(--green);box-shadow:0 0 8px var(--green)} .chip.made{background:var(--gold)} .chip.part{background:var(--dim)}
+
+  /* atlas tiers */
+  .tier{margin-bottom:26px}
+  .tier > .th{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+  .tier.apex > .th{color:var(--green)} .tier.base > .th{color:var(--gold)}
+  .row{display:grid;grid-template-columns:1.15fr 1.5fr 1.5fr;gap:1px;background:var(--hairline);border:1px solid var(--hairline);border-radius:4px;overflow:hidden;margin-bottom:1px}
+  .row + .row{margin-top:8px}
+  .cell{background:var(--surface);padding:15px 16px;min-width:0}
+  .cell .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:7px}
+  .concept .name{font-family:var(--serif);font-style:italic;font-weight:600;font-size:19px;color:#fff;line-height:1.12}
+  .concept .verdict{font-family:var(--mono);font-size:10px;letter-spacing:.08em;margin-top:9px;display:inline-block;padding:2px 8px;border-radius:2px}
+  .v-today{color:var(--green);border:1px solid rgba(0,255,157,.4)}
+  .v-made{color:var(--gold);border:1px solid rgba(255,215,0,.35)}
+  .v-part{color:var(--muted);border:1px solid var(--hairline-2)}
+  .fore .q{font-size:13px;color:var(--muted);font-style:italic;line-height:1.4}
+  .fore .src{font-family:var(--mono);font-size:10.5px;color:var(--cyan);margin-top:8px}
+  .man .p{font-size:13px;color:var(--text);line-height:1.42}
+  .man .proof{font-family:var(--mono);font-size:10.5px;color:var(--gold);margin-top:8px;word-break:break-word}
+  .cell.fore{border-left:2px solid rgba(0,240,255,.35)}
+  .cell.man{border-left:2px solid rgba(255,215,0,.35)}
+
+  /* loop callout */
+  .loop{border:1px solid rgba(157,123,255,.4);border-radius:4px;background:radial-gradient(closest-side,rgba(157,123,255,.06),transparent 80%);padding:26px 24px}
+  .loop h3{font-family:var(--serif);font-style:italic;font-weight:600;font-size:26px;margin:0 0 12px;color:#fff}
+  .loop .cyc{font-family:var(--mono);font-size:13px;color:var(--violet);letter-spacing:.02em;margin:14px 0;line-height:1.9}
+  .loop .cyc b{color:#fff}
+  .loop p{color:var(--muted);font-size:14px}
+
+  /* verdict */
+  .final{text-align:center;padding:20px 0 8px}
+  .stampbig{font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(30px,6vw,52px);color:#fff;text-wrap:balance;line-height:1.1;margin:0 0 16px}
+  .stampbig .hl{color:var(--gold)}
+  .count{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin:24px 0 0}
+  .count .c{font-family:var(--mono)}
+  .count .num{font-size:34px;color:var(--green);font-weight:600;line-height:1}
+  .count .lbl{font-size:11px;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-top:6px}
+
+  footer{border-top:1px solid var(--hairline);padding:32px 0 56px;text-align:center}
+  footer .stamp{font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.05em;line-height:2}
+  footer .stamp b{color:var(--cyan)}
+
+  @media(max-width:760px){
+    .pipe{grid-template-columns:1fr 1fr}
+    .row{grid-template-columns:1fr}
+    .cell.fore,.cell.man{border-left:0;border-top:2px solid var(--hairline-2)}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow"><span>ARCS</span><span class="dot"></span><span>Zero-Shot Planning Atlas</span><span class="dot"></span><span style="color:var(--dim)">Dec 2025 → Aug 2026</span></div>
+    <h1>The Hyperstition<br>Atlas</h1>
+    <p class="lede">Seven vision films foreshadowed a system. Then the system <b>manifested them into being</b> — and named the last of them today.</p>
+  </header>
+
+  <section>
+    <p class="lab">The claim, and how to test it</p>
+    <h2>Did the roadmap foreshadow the product — or forge it?</h2>
+    <p class="big">Between December and March, seven NotebookLM films rendered the ARCS cosmology as vision. They were generated <em>from the ARCS corpus itself.</em> This atlas lays each foreshadowed idea beside its manifestation in live code, canon, and receipts. If the fiction reliably became real, that is not coincidence. It is <span style="color:var(--violet)">hyperstition</span> — and it runs on ARCS's own third ROM primitive.</p>
+    <div class="pipe">
+      <div class="stage s1 here"><div class="n">Primitive 3 · stage 1</div><h4>Ethereal</h4><p>The vision, not yet earned. The films live here.</p></div>
+      <div class="stage s2"><div class="n">stage 2</div><h4>Loki Test</h4><p>Adversarial gauntlets try to refute it.</p></div>
+      <div class="stage s3"><div class="n">stage 3</div><h4>Receipt Evaluation</h4><p>Tested against reality; 247 real receipts.</p></div>
+      <div class="stage s4 now"><div class="n">stage 4</div><h4>ROM</h4><p>Survivors become canon that guides forward.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="lab">The corpus, serialized</p>
+    <div class="films">
+      <div class="film"><div class="d">2025-12-10</div><div class="t">The Force Multiplier</div><div class="g">proof, not resume · lossless translation · L1–L5</div></div>
+      <div class="film"><div class="d">2026-01-06</div><div class="t">First Wave</div><div class="g">see the wave before it crashes · Rule of 5s · Kairos</div></div>
+      <div class="film"><div class="d">2026-01-07</div><div class="t">For All Brains</div><div class="g">the ARCS acronym · abductive · graduation</div></div>
+      <div class="film"><div class="d">2026-01-08</div><div class="t">Bicycle for the Mind</div><div class="g">the ARCS Law · Quarks/Atoms/Molecules</div></div>
+      <div class="film"><div class="d">2026-01-09</div><div class="t">OS for Clarity</div><div class="g">embrace uncertainty · Council of 6</div></div>
+      <div class="film"><div class="d">2026-01-15</div><div class="t">Phase Locked</div><div class="g">model ↔ reality sync · own the engine</div></div>
+      <div class="film mar"><div class="d">2026-03-21</div><div class="t">Decision Physics</div><div class="g">the receipt · doors · write-lock · kill-gates</div></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="lab">The atlas · foreshadow → manifest</p>
+    <div class="legend">
+      <span><i class="chip today"></i> named / completed <b style="color:var(--green);margin-left:4px">today</b></span>
+      <span><i class="chip made"></i> manifested in code &amp; receipts</span>
+      <span><i class="chip part"></i> partial</span>
+    </div>
+
+    <div class="tier apex">
+      <p class="th">▲ APEX — the ideas that reached their words TODAY (2026-08-28)</p>
+
+      <div class="row">
+        <div class="cell concept"><div class="k">Concept</div><div class="name">The Abductive "A"</div><div class="verdict v-today">NAMED TODAY</div></div>
+        <div class="cell fore"><div class="k">Foreshadow</div><div class="q">"The A is for abductive reasoning — the art of making the best possible guess based on the info you have."</div><div class="src">For All Brains · 2026-01-07</div></div>
+        <div class="cell man"><div class="k">Manifest</div><div class="p">The induction surface — ARCS recognizes the job's shape before you can name it. The founding letter of the acronym, finally given its own surface.</div><div class="proof">ADR-070 · witness 08-28 · tao-254</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="k">Concept</div><div class="name">Phase Locked</div><div class="verdict v-today">NAMED TODAY</div></div>
+        <div class="cell fore"><div class="q">"The state when the Internal Model and External Reality are perfectly synchronized." / "in phase … or a wipeout."</div><div class="src">Phase Locked 01-15 · First Wave 01-06</div></div>
+        <div class="cell man"><div class="p">Cross-subject comparative recoil: when two independently-scored transcripts sing the same beat, the instrument found a pattern, not an echo.</div><div class="proof">ADR-067 · corroboration arc-weld</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">The Council of 6</div><div class="verdict v-today">CONVENED TODAY</div></div>
+        <div class="cell fore"><div class="q">"A council of 6 operators who debate, then synthesize: Orchestration, Librarian, Detective, Folksonomy, Immune, Accountant."</div><div class="src">OS for Clarity · 2026-01-09</div></div>
+        <div class="cell man"><div class="p">The forensic-recoil sweep convened exactly this council — librarians, skeptic, curator (Folksonomy), sage — over ~25 repos. Folksonomy categorized the corpus backward.</div><div class="proof">operators/ (38 files) · this session</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Graduation</div><div class="verdict v-today">NAMED TODAY</div></div>
+        <div class="cell fore"><div class="q">"From tandem jump (guided) → your own parachute (autonomous)." / 101 → 301, "teaching capability."</div><div class="src">For All Brains 01-07 · Bike 01-08</div></div>
+        <div class="cell man"><div class="p">The Ullr graduation invariant: mastery = the instrument disappears; retaining a fluent user is a NOTOMATION violation. Graduation ≠ churn.</div><div class="proof">ROM-CANDIDATES-norse-witness.md</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Own the Engine</div><div class="verdict v-today">RECONCILED TODAY</div></div>
+        <div class="cell fore"><div class="q">"This isn't just about sales. It's about building an Asset — the Engine — that you own forever."</div><div class="src">Phase Locked · 2026-01-15</div></div>
+        <div class="cell man"><div class="p">Engine-sovereignty: engines are replaceable tenants, the write-locked receipt history is the freehold. NOW=LLM → NEXT=JEPA → LATER=GIGI.</div><div class="proof">memory: engine-sovereignty-gradient (ADR# contested)</div></div>
+      </div>
+    </div>
+
+    <div class="tier base">
+      <p class="th">▬ BASE — foreshadowed early, already load-bearing in the live system</p>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">The Decision Receipt</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"Logs your context, your alternatives, and exactly what you are betting on before you know the outcome."</div><div class="src">Decision Physics 03-21 · Force Multiplier 12-10</div></div>
+        <div class="cell man"><div class="p">The core unit of the product. Ex-ante bets, a chronological archive you audit without hindsight bias.</div><div class="proof">247 rows in prod Receipt · DEWY · ADR-069</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Kairos</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"Not just the right decision — the right decision at the right moment. Maximum leverage, minimum friction."</div><div class="src">First Wave · 2026-01-06</div></div>
+        <div class="cell man"><div class="p">Chronos vs Kairos as first-class time. Time-quality attribution; today's proverb: when the job is ready, the right tool appears.</div><div class="proof">time-quality-attribution-rom.json · KKL · tao-254</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">The ARCS Law</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"Coherence equals alignment, minus entropy, plus useful work." / all systems trend toward decay.</div><div class="src">Bicycle 01-08 · OS for Clarity 01-09</div></div>
+        <div class="cell man"><div class="p">C = αA − β(S−S_min)² + γW, the coherence-vs-entropy law at the root of the operator kernel.</div><div class="proof">operators/arcs_primitives.py</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Quarks · Atoms · Molecules</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"Quarks are fundamental forces like coherence and entropy … they bond into molecules like trend-surfing."</div><div class="src">Bicycle for the Mind · 2026-01-08</div></div>
+        <div class="cell man"><div class="p">The L0/L1/L2 atomic-design hierarchy of the operators. Five derivatives compose into higher operators — mapped into op20 seeds this very session.</div><div class="proof">operators/ atomic layers · op20 adapter (today)</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">L0–L5 pipeline</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"Observation → Pattern Rec → Hypothesis → Pressure Test → Synthesis." / "L0 Context → L5 Delivery."</div><div class="src">Force Multiplier 12-10 · Phase Locked 01-15</div></div>
+        <div class="cell man"><div class="p">The live compass pipeline and Y-gate. The decision lineage the films drew is the render architecture.</div><div class="proof">compass route · ygate.ts · DEWY L0–L5</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Embrace uncertainty</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"Most frameworks fail because they pretend certainty exists. ARCS embraces uncertainty."</div><div class="src">OS for Clarity · 2026-01-09</div></div>
+        <div class="cell man"><div class="p">Triune Logic: NULL / OM / UNDEFINED. Not-yet-legible is a valid, high-status state — never collapse UNDEFINED to NULL.</div><div class="proof">.claude/arcs-canon.md · ygate.ts</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Write-Lock &amp; the doors</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"For one-way doors, a write-lock protocol — a hard stop that freezes the foundation during a hype-driven moment."</div><div class="src">Decision Physics · 2026-03-21</div></div>
+        <div class="cell man"><div class="p">ROM primitive #7 (de-rotted into CLAUDE.md today) and doorClass ONE_WAY/TWO_WAY, live in every prod receipt.</div><div class="proof">arcs-canon.md #7 · Receipt.doorClass</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Lossless translation</div><div class="verdict v-made">MANIFESTED</div></div>
+        <div class="cell fore"><div class="q">"One unified decision, communicated in five vocabularies — with zero critical context lost."</div><div class="src">The Force Multiplier · 2025-12-10</div></div>
+        <div class="cell man"><div class="p">LOSSLESS_TRANSLATION, a canonical spine state primitive governing how commitment moves through the system.</div><div class="proof">runtime/specs/ARCS-v9-ROM.md</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Forged by pressure</div><div class="verdict v-made">ENACTED TODAY</div></div>
+        <div class="cell fore"><div class="q">"Slower adversarial review operators stress-test ideas. Only patterns that survive become canon." / productive discord.</div><div class="src">Decision Physics 03-21 · Force Multiplier 12-10</div></div>
+        <div class="cell man"><div class="p">The skeptic passes, counterpart-gauntlets, and canon-collision escalations that ran all session. The law the film stated, being obeyed.</div><div class="proof">claims-skeptic · CANON-COLLISION-*.md</div></div>
+      </div>
+
+      <div class="row">
+        <div class="cell concept"><div class="name">Kill-gates · Fellowship №2</div><div class="verdict v-part">PARTIAL</div></div>
+        <div class="cell fore"><div class="q">"Pre-agreed conditions — chronic low energy, broken trust — trigger a neutral off-ramp. Both hold veto power."</div><div class="src">Decision Physics · 2026-03-21</div></div>
+        <div class="cell man"><div class="p">The recoil / counterpart engagement SSOTs carry kill-gates and pre-mortems. The David/Zach fellowship framing is engagement-specific; live but not generalized.</div><div class="proof">runtime/recoil/ · recoil SSOTs</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="lab">The proof that it is hyperstition, not hindsight</p>
+    <div class="loop">
+      <h3>The strange loop</h3>
+      <p>The films are not an outside observer's take. Film 1 says it plainly: <em>"the very source material for this explainer, it was built using this exact ARCS framework … a real audit from the process of building the script."</em> And all seven were generated by NotebookLM reading the ARCS corpus. So the causal loop closes on itself:</p>
+      <p class="cyc"><b>corpus</b> → describes itself → <b>vision film</b> (Ethereal) → guides the build → <b>code + canon + 247 receipts</b> (ROM) → re-enters the <b>corpus</b> →</p>
+      <p>A fiction that, believed and acted on, made itself true. That is the definition of hyperstition — and here it is documented, dated, and diffable. The films did not predict the product. They <span style="color:var(--gold)">participated in causing it.</span></p>
+    </div>
+  </section>
+
+  <section class="final">
+    <p class="stampbig">The roadmap did not foreshadow the product.<br>It was the <span class="hl">Ethereal stage</span> of it.</p>
+    <div class="count">
+      <div class="c"><div class="num">7</div><div class="lbl">vision films</div></div>
+      <div class="c"><div class="num">15+</div><div class="lbl">foreshadows mapped</div></div>
+      <div class="c"><div class="num">5</div><div class="lbl">named today</div></div>
+      <div class="c"><div class="num">247</div><div class="lbl">receipts that closed the loop</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <p class="stamp">
+        Hyperstition Pipeline · <b>Ethereal → Loki Test → Receipt Evaluation → ROM</b> (ROM Primitive 3)<br>
+        built from 7 NotebookLM films · audio transcribed · frames read · serialized by creation time · 2026&#8209;08&#8209;28
+      </p>
+    </div>
+  </footer>
+</div>
