@@ -107,6 +107,39 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.50.0 (2026-08-29)
+
+> **Canon-governance session — the three escalated collisions are RESOLVED and the oracle gate is
+> armed.** Renumbered up the version chain (48→49→50) as parallel sessions shipped their own
+> v3.48.0 (tool-catalog) and v3.49.0 (Möbius) while this branch was in flight. On
+> `claude/elastic-driscoll-a80e72` (PR #194). Oracle audit clean (68 ids, 0 collisions); rebased
+> onto live main three times.
+
+## Shipped (this branch)
+- **ADR-033 duplicate → Option A.** Serialization Pathogen Family keeps 033; the model-routing/adr-
+  audit decision renumbered to oracle-issued **ADR-073** (index.json + header renumber note).
+- **Engine-sovereignty doctrine → minted as ADR-072** (oracle-issued). Honors the forward reference
+  in main's Möbius (ADR-071) DEWY receipt, which cites "engine-sovereignty (ADR-072)". Old "067"
+  claim retired (067 = cross-subject-comparative-recoil); memory + MEMORY.md index re-pointed.
+- **ROM vocabulary → Option A.** 7 ROM Primitives (`.claude/arcs-canon.md`) = CANON; 6 execution laws
+  → "behavioral laws (derived)"; 7 axioms → "epistemic foundations". Authority index
+  `runtime/specs/ROM-AXIS-INDEX.md` + tier banners on all three source files.
+- Both `_DECISIONS/CANON-COLLISION-*.md` → **RESOLVED**. `_SEEDS/_oracle.json` adr 71→73.
+  `build.html` sv-adrs → 68 (true distinct-ADR count). DEWY receipt appended
+  (`_STATE/2026-08-28-session-decisions.dewy.json`).
+- **`_DECISIONS/index.json` fully backfilled.** 10 files were missing entries (032, 033-pathogen,
+  034, 038, 044, 048, 049, 058, plus 070/071); index now 1:1 with 68 files (set-diff verified).
+- **Oracle pre-commit gate ARMED** for this worktree (`core.hooksPath = scripts/git-hooks`).
+- **Norse ROM candidates**: Loki inversions written (Ullr + Baldur); numbering gate cleared. NOT
+  ratified — remaining hard gate is a live Ullr Graduation Receipt + a live Baldur Witness Receipt.
+
+## Open (next session)
+1. **Nightly canon-propagation cron — still HELD.** Arm after merge: `cp scripts/launchd/care.arcs.canon-propagation.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/care.arcs.canon-propagation.plist`.
+2. **Norse ROM ratification** blocked on the live-receipt gate (see above).
+3. **Canon-propagation queue** has one judgment item (`invariant-non-sycophantic`, default no) — left for /canon-review.
+4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).
+
+
 # Handoff — v3.49.0 (2026-08-29)
 
 > **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
@@ -145,23 +178,5 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
    ADR-069 oracle audit · lattice --regenerate.
 
-# Handoff — v3.48.0 (2026-08-29)
 
-> **Active pickup point — session close of the tool-catalog build.** v3.47.0 (below) shipped the
-> catalog; this close-out consolidated memory, minted the DEWY receipt, and rotated handoffs.
-
-## Shipped
-- **Session-close housekeeping:** memory index re-budgeted (18.6KB -> 17.3KB, hooks compressed
-  in place, no files retired — a parallel 8/29 session had already consolidated content).
-  DEWY receipt: `_STATE/2026-08-29-session-decisions.dewy.json` (catalog slice + index rebudget).
-- Context: `/catalog` + `scripts/tool_catalog_emit.py` live on main since PR #191 (v3.47.0);
-  main since absorbed parallel work through PR #200 (op21, receipt_evaluator, art surfaces).
-
-## Open (unchanged from v3.47.0 + carried)
-1. Catalog later slices (separate sessions): kabuki-mask contour render · gravity-well binding.
-2. Todd call · zap-kit installs · 1.2-A payment-gated · carried items (orphan seeds, GH Actions
-   billing, ADR-069 oracle audit, ziggurat trailhead, tao 066/067, lattice --regenerate).
-3. Job-search loop live state is in memory `arcs-job-search-pipeline` (Amex PURSUE, Kinexys held).
-
-
-> _v3.47.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.46.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._

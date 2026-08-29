@@ -40,6 +40,19 @@
       },
       "lineage": "witness 2026-08-28T23:37 (graduation-gate-held, verbatim 'preach - can I get a witness') -> DEWY (this) -> wisdom memory rom-graduation-earn-through-gate-never-decree -> [pending] graduation-INITIATION receipt through oracle on 'initiate graduation'",
       "provenance": "The gravity-well/drift-receipt discipline turned on a constitutional promotion, on a decision Zach WANTED to go the other way on, and Zach reinforced the restoring force. Sharpened mid-thread: 'not confirmation bias' is correct AND orthogonal to 'not source-blind' -- two axes, both in the case's favor, only blindness gating the promotion."
+    },
+    {
+      "receipt_id": "2026-08-28-canon-governance-three-collisions-resolved",
+      "surface": "canon governance / ADR ledger",
+      "sharp_question": "How do the three escalated canon collisions resolve, and what guards arm to prevent recurrence?",
+      "dewy_vector": {
+        "D": "Three human rulings applied. (1) ADR-033 duplicate -> Option A: Serialization Pathogen Family keeps 033; model-routing renumbered to oracle-issued ADR-073. (2) Engine-sovereignty doctrine -> minted as oracle-issued ADR-072 (old '067' claim retired; 067 stays cross-subject-comparative-recoil; number corroborated by the Mobius ADR-071 receipt which already cites 'engine-sovereignty (ADR-072)'). (3) ROM vocabulary -> Option A: 7 Primitives (.claude/arcs-canon.md) declared CANON; 6 execution laws relabeled 'behavioral laws (derived)'; 7 axioms relabeled 'epistemic foundations'; authority index at runtime/specs/ROM-AXIS-INDEX.md.",
+        "E": "_DECISIONS/ (ADR-073, ADR-072, both CANON-COLLISION docs -> RESOLVED, index.json); _SEEDS/_oracle.json (adr 71->73); .claude/arcs-canon.md + runtime/specs/ARCS-v9-ROM.md + _CANON/book-ii/part-ii-rom-axioms.md (tier banners); scripts/git-hooks/pre-commit (oracle gate armed); ROM-CANDIDATES-norse-witness.md (Loki inversions written, numbering gate cleared); engine-sovereignty memory + MEMORY.md index.",
+        "W": "IMMEDIATE for the renumbers/guards; YEARS for the ROM axis declaration and the engine-sovereignty freehold doctrine (both constitutional).",
+        "Y": "GREEN — each collision resolved by an explicit human ruling (AskUserQuestion), every renumber allocated through scripts/oracle.py (never inferred), oracle audit adr -> 0 collisions after the moves. First numbering pass (071/072) went stale when a parallel session took 071 (Mobius) + implied 072 (engine-sov); rebased onto live main 2026-08-29 and re-allocated to 072/073. Falsifier: a future oracle audit showing a new collision, or a reader still getting three answers to 'what are the ROM primitives'."
+      },
+      "lineage": "escalated collision docs (2026-08-27/28) -> AskUserQuestion rulings (Zach, 2026-08-28) -> oracle allocations (first 71/72, stale; re-allocated 72/73 after rebase onto main 2026-08-29) -> file renumber + ADR mint + ROM axis index + tier banners -> collision docs RESOLVED -> guards armed -> this receipt",
+      "provenance": "Canon-governance session. Rulings human-owned per canon-collision-escalate-never-resolve-under-write-lock; Claude applied mechanically after each ruling. First PR (#194) numbered off a stale main (counter 70); Zach flagged staleness, branch was reset to live main (counter 71, Mobius ADR-071 landed) and re-applied with corrected numbers. Engine-sovereignty = ADR-072 honors the forward reference already in the Mobius DEWY receipt. Nightly canon-propagation cron HELD until this branch merges (its script is not yet in the main checkout the plist targets)."
     }
   ]
 }

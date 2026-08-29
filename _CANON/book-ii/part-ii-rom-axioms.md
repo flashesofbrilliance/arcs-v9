@@ -14,6 +14,12 @@ depends_on:
 
 # Part II — Core ROM Axioms: The L0–L7 Genome
 
+> **Tier: EPISTEMIC FOUNDATIONS** (not the operative canon). Per the ROM-vocabulary ruling
+> (2026-08-28, Option A — see `runtime/specs/ROM-AXIS-INDEX.md`), the CANON axis is the **7 ROM
+> Primitives** in `.claude/arcs-canon.md`. The seven axioms (I–VII) below are the *epistemic
+> foundations* the primitives rest on — cite them for **why**, not for **what to do**. Three map
+> cleanly onto primitives (II↔NOTOMATION, V↔KINTSUGI, VII↔WRITE-LOCK).
+
 ---
 
 ## What ROM Means

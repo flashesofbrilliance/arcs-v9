@@ -504,12 +504,111 @@
     "file": "ADR-031-design-system-reconciliation.md"
   },
   {
-    "id": "ADR-033",
-    "title": "ADR-033 \u2014 Route ADR-audit harness default to laguna-xs-2.1:free",
+    "id": "ADR-073",
+    "title": "ADR-073 \u2014 Route ADR-audit harness default to laguna-xs-2.1:free",
     "status": "DECIDED",
     "y_state": null,
     "stability": "STABLE",
     "gate": "5 ADRs corpus-scale coherence check",
-    "file": "ADR-033-model-routing-adr-audit-default.md"
+    "file": "ADR-073-model-routing-adr-audit-default.md"
+  },
+  {
+    "id": "ADR-072",
+    "title": "ADR-072 \u2014 Engine-Sovereignty Gradient (engines are tenants, the receipt history is the freehold)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "falsifier: first JEPA prototype consumes receipt corpus as-is (projection, no mutation)",
+    "file": "ADR-072-engine-sovereignty-gradient.md"
+  },
+  {
+    "id": "ADR-070",
+    "title": "ADR-070 — ARCS is two surfaces: the Receipt (deductive record) and the Induction (abductive instrument-forging)",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-070-arcs-two-surface-receipt-and-induction.md"
+  },
+  {
+    "id": "ADR-071",
+    "title": "ADR-071 — The Möbius invariant: one non-orientable surface, a triune load-bearing minimum, held honest by the prototype's own gravity",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-071-mobius-one-surface-triune-invariant-gravity-well.md"
+  },
+  {
+    "id": "ADR-032",
+    "title": "ADR-032 — Zero-Trust Posture (governing)",
+    "status": "ACCEPTED",
+    "y_state": null,
+    "stability": "GOVERNING",
+    "gate": "see content",
+    "file": "ADR-032-zero-trust-posture.md"
+  },
+  {
+    "id": "ADR-033",
+    "title": "ADR-033 — The Serialization Pathogen Family (tuple axiom + membership registry)",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-033-serialization-pathogen-family.md"
+  },
+  {
+    "id": "ADR-034",
+    "title": "ADR-034 — Enforcement Parity: Internal Invariants Get the Same Gates as Client Artifacts",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-034-enforcement-parity.md"
+  },
+  {
+    "id": "ADR-038",
+    "title": "ADR-038 — Recoil Bookmark Primitive (lightweight moment-flag vs. full kinematic manifold)",
+    "status": "PROPOSED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-038-recoil-bookmark-primitive.md"
+  },
+  {
+    "id": "ADR-044",
+    "title": "ADR-044 — Temporal-Provenance Gate: capability claims carry fact-vs-fiction chain of custody",
+    "status": "ACCEPTED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-044-temporal-provenance-gate.md"
+  },
+  {
+    "id": "ADR-048",
+    "title": "ADR-048 — Secrets Inventory & Rotation",
+    "status": "ACCEPTED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-048-secrets-inventory-rotation.md"
+  },
+  {
+    "id": "ADR-049",
+    "title": "ADR-049 — Anonymous Receipt Remediation: Conform Forward, No Retroactive Purge, Opt-In Save",
+    "status": "DECIDED",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-049-anonymous-receipt-remediation.md"
+  },
+  {
+    "id": "ADR-058",
+    "title": "ADR-058 — CALIBRATE / IDEA Construction",
+    "status": "DRAFT",
+    "y_state": null,
+    "stability": null,
+    "gate": "see content",
+    "file": "ADR-058-CALIBRATE-IDEA-Construction.md"
   }
 ]
