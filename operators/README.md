@@ -134,3 +134,28 @@ All operators are stdlib-only (no external dependencies). They are composable, t
 - Custom operator chains for specialized decision domains
 - Audit/trace hooks for decision transparency
 - Phase gate enforcement for high-consequence decisions
+
+## Composition Boundary — Agentic Harness (external consumer)
+
+`operators/` is the atomic component catalog only. It does not contain
+orchestration, delegation-by-JTBD, RAG/model routing, sealed-environment
+builders, multi-tenant runtime, or artifact rendering (ziggeraut/russian-doll,
+UA/player schema, ticket outputs). Those live in `harness/` at repo root,
+as a separate composition layer that *consumes* operators — it does not
+extend this catalog's taxonomy.
+
+**Public contract (what harness/ may depend on):**
+- TODO: enumerate the operator modules exposed as stable harness-facing
+  surface (expected candidates: `arcs_pipeline_v1.py`, `arcs_runtime_service.py`,
+  `arcs_api.py`, `arcs_receipt_core.py`, `arcs_operator_contract.py` — confirm
+  against harness JTBD list before finalizing).
+- TODO: state which exports are contract-stable (harness may pin to them)
+  vs. internal (harness must not reach past the declared entry points).
+- TODO: multi-tenant isolation — confirm no operator module holds
+  process-global/module-level mutable state that would leak `user0` into a
+  net-new tenant's execution; flag any that do as harness-blocking until
+  refactored or explicitly scoped per-tenant by the caller.
+
+**Not owned here:** JIT compile-from-entry-point, decentralized ID refs,
+polymorphic surface composition, sealed-env/external-dependency integration.
+See `harness/README.md` (TODO: create on first harness commit) for those.
