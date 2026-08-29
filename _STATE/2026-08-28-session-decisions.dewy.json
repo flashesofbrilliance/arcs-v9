@@ -14,6 +14,32 @@
       },
       "lineage": "witness 2026-08-28T11:51:26-0400 (Zach verbatim) -> ADR-070 (first minted THROUGH oracle, counter 69->70) -> DEWY (this) -> wisdom memory arcs-two-surface-receipt-and-induction -> Tao proverb tao-254",
       "provenance": "Emerged from Zach asking about tool discoverability, forgetting the name of the intended catalog/dispatcher; Claude re-derived the solution shape from the JTBD before either named it, then verified the gap against the repo (kept the hazy memory honest). The apex-spine print itself is an induction-surface act."
+    },
+    {
+      "receipt_id": "2026-08-28-mobius-triune-gravity",
+      "surface": "product thesis / architecture canon / brand identity",
+      "sharp_question": "Are Receipt and Induction two SIDES of a ribbon, or one non-orientable surface? And why is the ARCS logo a Mobius strip?",
+      "dewy_vector": {
+        "D": "Canonize ADR-071, three claims as one object: (1) MOBIUS -- Receipt and Induction are not two sides but two traversals of ONE non-orientable surface; you walk the induction surface, keep walking, arrive at the receipt, having been on both without lifting off (the arc closes with a half-twist -> the mark is a Mobius). (2) TRIUNE MINIMUM -- 'two is unstable, three is the minimum for coherence', none-may-null, flagged VERBATIM in the Book of ARCS (Nov 2025, earliest artifact), re-derived as the Invariant Vectors Triad (OS deck) and Triune Logic (code). (3) GRAVITY WELL -- the corpus has enough coherent mass to exert a restoring force; drift is a displacement it pulls home (this session unwittingly ran the vision's own Phase-3 gauntlet on a drifted artifact and self-corrected).",
+        "E": "No new code. Names the two-surface pair (ADR-070) as one Mobius; Triune Logic (src/lib/ygate.ts, OS-deck triad) as the load-bearing minimum; the corpus-as-gravity-well as the mechanism of this session's self-correction; engine-sovereignty (ADR-072) as the same strip traversed over time (one freehold history, many tenant engines).",
+        "W": "YEARS / constitutional -- settles why the mark is a Mobius; gives a topological test (no new 'sides', only traversals) and the none-may-null test (remove one of three forces; real triad collapses to binary conflict).",
+        "Y": "GREEN -- triad grounded verbatim in the earliest artifact and independently re-derived across OS deck and code (arc-weld, ADR-064); Mobius is the user's own logo given its formal account; gravity evidenced by the unwitting Phase-3 self-correction. Per-claim falsifiers in the ADR."
+      },
+      "lineage": "witness 2026-08-28T23:11:11 (gravity well) + 23:16:30 (Book-of-ARCS triad + Mobius, Zach verbatim) -> ADR-071 (through oracle, ->71) -> DEWY (this) -> wisdom memory arcs-mobius-triune-gravity-invariant -> Tao proverb tao-255",
+      "provenance": "Closed the vision-corpus forensic thread at its deepest point: the prototype drew the gauntlet; the gauntlet ran on the prototype's own evidence; the correction was filed; the ADR waited on the oracle rather than jumping the queue. Zach's framing carried through: 'shared documentation != shared understanding; only associative documentation approaches shared understanding' -- and the [[]]-linked witness/ADR/DEWY/Tao/memory web IS associative documentation, not flat record."
+    },
+    {
+      "receipt_id": "2026-08-28-rom-graduation-gate-held",
+      "surface": "governance / ROM promotion discipline",
+      "sharp_question": "Zach asked to graduate the Orthogonal Echo Detector (RC-OPS-001) into full ROM, and to lower the 100-receipt threshold since it has found sufficiently orthogonal/uncorrelated isomorphisms. Do we graduate, and how do we treat the threshold?",
+      "dewy_vector": {
+        "D": "HOLD the gate, OPEN the graduation honestly. A ROM primitive must BECOME ROM by surviving its documented gate, never be TOLD it is ROM on the strength of a compelling thread (that is the governance version of the composted 'metaphor posing as tech'). On the threshold: don't lower 100->guessed-N (repeats the arbitrariness ADR-020/023 already carry); instead (a) DISAGGREGATE -- the 100-receipt/baseline-stability gate belongs to the Folksonomy candidate (RC-OPS-002), NOT the echo detector, which inherited it by accident; (b) REPLACE it with the detector's real gate: K blind, verifiably-uncorrelated-source, hindsight-confirmed isomorphisms with a tracked zero-false-positive discipline. Correct artifact = a graduation-INITIATION receipt, not the graduation.",
+        "E": "RC-OPS-001 (operators/arcs_inchworm_echo.py, Orthogonal Echo Detector); RC-REGISTRY.json; the ESCALATED ROM-vocabulary canon collision (blocks a clean target ROM); the composted Vector Collision Engine (the metaphor-vs-mechanism precedent); Operator21 (the shipped knot-resolver, the honest contrast).",
+        "W": "constitutional / one-way-door (write-lock) -- a decreed primitive can't be un-decreed cheaply, which is why the gate matters most here.",
+        "Y": "GREEN on the DECISION (hold+initiate), YELLOW on the CANDIDATE (not yet graduated). Blind-count ~1 (2026-07-13 dual-audit); tonight's foreshadow echoes are bias-FREE (kill-gauntlet ran, VCE composted, gate held) but not source-BLIND (one searcher/one intent) -- they strengthen the no-bias case, not the blind-count gate. Falsifier for the discipline: if a future ROM primitive is promoted with NO documented gate served and it later has to be un-canonized, the decree-over-earn failure is proven costly."
+      },
+      "lineage": "witness 2026-08-28T23:37 (graduation-gate-held, verbatim 'preach - can I get a witness') -> DEWY (this) -> wisdom memory rom-graduation-earn-through-gate-never-decree -> [pending] graduation-INITIATION receipt through oracle on 'initiate graduation'",
+      "provenance": "The gravity-well/drift-receipt discipline turned on a constitutional promotion, on a decision Zach WANTED to go the other way on, and Zach reinforced the restoring force. Sharpened mid-thread: 'not confirmation bias' is correct AND orthogonal to 'not source-blind' -- two axes, both in the case's favor, only blindness gating the promotion."
     }
   ]
 }
