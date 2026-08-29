@@ -107,6 +107,48 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.47.0 (2026-08-29)
+
+> **Active pickup point — the operators/op20 session** (non-interactive; separate thread from the
+> PRL sprint below, which is unchanged). Landed the operators library in git and closed op20's
+> last fidelity gap. All merged: **PR #192** (squash `ab4018d7`), operator commits `3320da7b` /
+> `9a844041` / `615cd21c` on main. SSOT for what was proven:
+> `_ARTIFACTS/forensic-recoil-2026-08-27/operator-dogfood-receipt.md` (re-run addendum).
+
+## Shipped (all merged to main)
+- **Operators library landed in git** — op21 (`arcs_operator21.py`) + the prod→op20 adapter
+  (`prod_receipt_to_op20_seed.py`) + harness (operator_client/pipeline_runner/receipt_evaluator)
+  + the 4 farm-league `LABEL_` constants op21 imports (additive block in `arcs_primitives.py`,
+  an undeclared cross-branch dep that ImportError'd until included). Cherry-picked clean off a
+  tangled local branch onto main.
+- **File census reconciled to ONE authoritative count** (three conflicting numbers were in
+  circulation): **43 top-level `.py` · 51 `.py` total · 60 tracked files · 21,891 LOC**.
+  `audit_service/` excluded as a separate WIP thread. Recount: `git ls-files 'operators/**/*.py'
+  | grep -v __pycache__ | wc -l`. AGENTS.md table + census note updated.
+- **op20 last-mile finding — the receipt's own closing assumption was OVERTURNED.** The
+  "persist somatic/axiom at write-time" line assumed a persistence gap. A read-side `SageTrace`
+  join (adapter SAGE-enrichment path, `--no-sage` toggle, compact `fated_len` corpus mode) proved
+  otherwise: all 45 fired SageTraces carry an **identical** somatic/axiom block (`distinct=1` at
+  source). SAGE emits a **templated constant**, not a per-decision measurement. Enriching made
+  clustering WORSE (17→21 clusters but silhouette 0.7708→0.7276, coverage 97.6%→95.5% — a spurious
+  "has-SAGE" binary split). **Conclusion: it's an upstream signal-generation gap, NOT a
+  persistence gap. The COURT one-way-door schema change is premature** — it would store a constant,
+  the exact fabrication the adapter's doctrine forbids. Memory:
+  `op20-somatic-axiom-is-upstream-signal-gap` (+ the op21 PYTHONHASHSEED determinism gotcha folded in).
+- **Gates all honored:** no npm deps, no schema change, no prod write, read-only SELECTs only;
+  prod corpus stayed in scratchpad (PII); faithfulness gated by 5 SQL-vs-local invariants (all matched).
+
+## Open (next session's first work)
+1. **op20 somatic/axiom real signal** (queued `_QUEUE/induced-backlog.jsonl`,
+   `op20-somatic-axiom-real-signal-source`, OPEN) — give SAGE or the compass route a real
+   per-decision somatic/axiom computation FIRST; the SAGE-enrichment adapter path already exists
+   and lights up automatically the moment SAGE emits real variance. Only THEN is persistence worth
+   a one-way door.
+2. Optional/skipped: wiring oracle/op20/op21 through `operators/cli_arcs_run.py` +
+   `operator_client.py` lambdas (lower-value; teleport-to-terminal rule already satisfied inline).
+3. Carried from PRL thread below (unchanged): ADR-069 oracle audit · orphan seeds · GH Actions
+   billing · lattice --regenerate.
+
 # Handoff — v3.46.0 (2026-08-27)
 
 > **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
@@ -152,47 +194,4 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 5. Carried: orphan seeds curation (human) · GH Actions billing (Zach-only) · ADR-069 oracle audit ·
    ziggurat trailhead/key-0 · tao proverbs 066/067 · lattice --regenerate (human-owned).
 
-# Handoff — v3.45.0 (2026-08-27)
-
-> **Active pickup point — the PRL close-out session (renumbered from v3.44.0 after collision with the Ahmed handoff on main)** (non-interactive). Folded the cross-session
-> PRL sweep into one run. Route reality: no Zapier MCP, no human at keyboard, Stripe MCP
-> unauthorized — so Zap-kit installs + widget e2e stayed STAGED (verified), everything inline
-> got executed. Full receipt: `runtime/recoil/generated/2026-08-26-prl-close-out-session.md`.
-
-## Shipped (this branch, draft-first — nothing deployed or sent)
-- **PRL 1.2 close-loop CLOSED + prospecting pass 1 (was overdue Aug-24):** wrong-if fired,
-  ~2.1x central multiplier vs the 20h bet (7 work days / 109 PRL commits, method disclosed);
-  cap held. Math + Todd one-pager + extraction ranking: `_ARTIFACTS/prl-1-2-close-loop/`.
-  Re-pricing happens WITH Todd on the call (gate honored). Rec: 1.3 stays $4,000 with a
-  precondition input-batch before the clock starts.
-- **Drafts for Zach (never auto-sent):** three-confirmations email (ex three-scenario), 4h-proxy
-  decision paragraph, chase list (sandbox-written-approval · anti-ICP list · territory via BILL
-  GALLA · ZoomInfo contact), status/progress draft diff (apply + deploy only on Zach's "ship",
-  from MAIN worktree).
-- **Judgment memos:** Lyro-races-flow → rec accept-for-pilot, natural 1.5 scope; read-more links
-  → /contact/ to manual Q&A only, rest parked 1.3. Analytics audit CLOSED (all 8 pages have
-  the snippet). 1.4 SEM prep verified ALREADY DONE (Aug-18 template + 5 instances + runbook).
-- **NEW: /status/receipt surface** — the closed 1.2 receipt as data-driven storytelling
-  (`public/prl-status-receipt.html`, stamped via prl-page-factory + bespoke band-chart/tiles
-  organisms, 4-width sweep verified; wired in proxy.ts + next.config.ts; DEPLOYS ON MERGE —
-  merging the PR is the ship gesture). **ADR-069 minted** (first closed client receipt =
-  precedent-shaped expectation management; oracle audit pending) + witness stub 2026-08-26 +
-  DEWY receipt — the four-in-one print, per Zach's live witness call.
-- Backlog statuses annotated in `_QUEUE/induced-backlog.jsonl` (prospecting-pass-1 DONE;
-  zap-kit items open/staged-human-gated).
-
-## Open (next session's first work)
-1. **Human-gated PRL installs:** zap kit paste order per `_ARTIFACTS/prl-zap-kit/README.md`
-   (task8-filter first), then empty-email e2e widget chat (delete created lead after, receipt).
-2. **Close-loop CALL with Todd:** walk the one-pager; get written acks (sandbox, competitor,
-   4h proxy); chase ZoomInfo contact + Bill/territory. Zach sends the drafted email or folds
-   into the call.
-3. **1.2-A stays PAYMENT-GATED** — verify invoice #NYQRTJPQ-0004 (Stripe auth needed) before touching.
-4. **Sean Wing close-loop window** ends 2026-08-30 — /recoil-close vs `2026-08-23-sean-wing.json`;
-   counterpart-gauntlet the parked note before any send.
-5. Carried: 3 orphan seeds (human curation) · GH Actions billing (Zach-only) · ziggurat
-   trailhead/key-0 (~10 lines) · tao proverbs 066/067 · lattice --regenerate (human-owned).
-
-||||||| fae582fb
-
-> _v3.44.0 (Ahmed) relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.45.0 (PRL close-out) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.44.0 (Ahmed) relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
