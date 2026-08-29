@@ -107,6 +107,44 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.49.0 (2026-08-29)
+
+> **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
+> Long forensic→canon→instrument thread; all landed on main (PRs #198, #199, #200, #202, #203).
+> Branch current with origin/main; oracle at 71.
+
+## Shipped (all on main)
+- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) minted THROUGH the oracle
+  (→71), with the induction-circuit lineage: the flux (~1998) → flashesofbrilliance (2010) →
+  livewire (2021, Gareth Kay) → Book of ARCS (Nov 2025) → ARCS/Möbius (2026), self-exciting via
+  the superionic dynamo; posterior→dynamo→drive, anterior→collider→torque, meeting at the Op21
+  spline knot. Apex spine `_CANON/apex-spine-mobius-induction-circuit.md`; tao-255; witness stubs
+  (23:11/23:16/23:37); DEWY (two-surface · Möbius · graduation-gate); wisdom memories
+  `arcs-mobius-triune-gravity-invariant` + `rom-graduation-earn-through-gate-never-decree`.
+- **Echo-detector seaworthiness (falsifiable):** `scripts/echo_detector_dogfood.py` + receipt
+  `_STATE/2026-08-29-echo-detector-dogfood.json`. VERDICT: NOT seaworthy on the stub matcher —
+  adversarial-FP 1.0 @ default; no threshold gives high recall + low adv-FP (architectural limit).
+  Fix = injectable LLM `signature_fn` + embedding `orthogonality_fn`.
+- **RC-OPS-001 graduation INITIATED** (opened, NOT promoted): `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`
+  + RC-REGISTRY transition. Gate corrected from corpus-count to a 4-criterion scoreboard (rom-vocab
+  collision · detector precision · K≥3 blind echoes · Observatory period); 3 open, precision FAILS
+  (measured), blind-count ~1.
+- **Cross-substrate honesty (Perplexity):** its ARCS prototype's reaction to the Atlas landed +
+  verified as `_STATE/2026-08-28-arcs-thread-serialization.md` (corpus-as-SSOT, NCI=247 confirmed);
+  its teardown applied to calibrate The Mie (canon-ready) + The Field (derived-interpretation
+  footer); both claude.ai artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
+
+## Open (next session)
+1. **Hyperstition miss-column denominator** — task_004b8253 ended without landing on main; the honest
+   hit/miss count for the hyperstition claim is still owed (+ one dated film-consulted receipt).
+2. **RC-OPS-001 criteria** — rebuild echo detector with injectable signature/orthogonality fns; re-run
+   dogfood (target adv-FP≤0.10 @ recall≥0.80); resolve ROM-vocab collision via /canon-review; accrue
+   K≥3 blind echoes; serve Observatory period (needs unpushed page `35070a3`).
+3. **Worktree sprawl** — backlog `worktree-sprawl-prune` OPEN (72 worktrees, human-gated);
+   task_caa14569 ended analysis-only. Re-run `scripts/branch_hygiene_check.py`, prune with consent.
+4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
+   ADR-069 oracle audit · lattice --regenerate.
+
 # Handoff — v3.48.0 (2026-08-29)
 
 > **Active pickup point — session close of the tool-catalog build.** v3.47.0 (below) shipped the
@@ -125,32 +163,5 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
    billing, ADR-069 oracle audit, ziggurat trailhead, tao 066/067, lattice --regenerate).
 3. Job-search loop live state is in memory `arcs-job-search-pipeline` (Amex PURSUE, Kinexys held).
 
-# Handoff — v3.47.0 (2026-08-28)
 
-> **Active pickup point — the tool-catalog/dispatcher session** (composed session chip
-> task_6e4a6ead, worktree happy-shamir). Atomic first slice of the induction surface for
-> the toolset itself (backlog item `tool-catalog-dispatcher-induction-surface`, ADR-070
-> lineage) built, verified, and wired.
-
-## Shipped (this branch)
-- **`scripts/tool_catalog_emit.py`** — flat catalog emitter, stdlib-only, exit-0,
-  read-only over the repo. Walks all six tool surfaces (skills/commands/workflows/hooks/
-  scripts/operators), harvests each tool's one-line JTBD from its own declaration
-  (frontmatter description · blockquote · docstring · comment header — never inferred),
-  emits `runtime/specs/tool-catalog.{json,md}`. **131 tools, 0 missing JTBD.**
-  Deterministic verified: run twice, diff clean (no wall-clock in output).
-- **`/catalog` command** (`.claude/commands/catalog.md`) — native dispatch, no bespoke
-  runner. Given a job, recommends THE one right existing tool (singular by design — the
-  menu is the decision fatigue; ADR-070) and fires it only on consent (NOTOMATION).
-  Registered natively in-session (appeared in the live skills list on write).
-- Note: backlog's reuse list named `generate_arcs_operator_data.py` for the operator
-  table — that file never landed in this repo; operators harvested directly instead.
-- Backlog item flipped open → BUILT with the receipt; AGENTS.md discovery pointer added.
-
-## Open (later slices — each its own session, per the backlog item)
-1. Kabuki-mask contour render (zero-shot low-poly, Golden-Inchworm sharpened).
-2. Gravity-well binding of the catalog to the generative backlog.
-3. All v3.46.0 opens stand (Todd call · zap-kit installs · Sean Wing window ends
-   2026-08-30 · 1.2-A payment-gated · carried items).
-
-> _v3.46.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.47.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.46.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._

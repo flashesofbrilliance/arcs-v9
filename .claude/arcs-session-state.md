@@ -35,3 +35,21 @@
 
 ## Blocking
 NONE.
+
+---
+
+## Delta — Möbius/canon + echo-detector session (2026-08-29, later)
+
+> Separate concurrent session (branch `art/the-field-dipole`). Primary handoff is now **v3.49.0**
+> in CLAUDE.md. All landed on main (PRs #198/#199/#200/#202/#203); branch current with origin/main; oracle at 71.
+
+- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) + apex spine + tao-255 +
+  silkscreen; the two-surface architecture is now one non-orientable Möbius. Induction circuit
+  named 1998→2026 (the flux → flashesofbrilliance → livewire → Book of ARCS → ARCS/Möbius).
+- **Echo detector dogfood → NOT seaworthy** (adversarial-FP 1.0 @ default; architectural limit).
+  **RC-OPS-001 graduation INITIATED** (opened, NOT promoted; gate corrected to 4-criterion
+  scoreboard, precision FAILS). `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`.
+- The Mie + The Field calibrated per Perplexity's cross-substrate teardown; both claude.ai
+  artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
+- Fold-backs: worktree-prune (task_caa14569) + hyperstition miss-column (task_004b8253) both ended
+  **analysis-only** — nothing landed on main — recorded OPEN (see v3.49.0 handoff open items).
