@@ -29,9 +29,15 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "_STATE" / "falsification-ledger.jsonl"
 OUT = ROOT / "_STATE" / "belief-log.md"
 OUT_HTML = ROOT / "_STATE" / "belief-log.html"
+OUT_PUBLIC = ROOT / "public" / "belief-log.html"
 TEMPLATE = ROOT / "scripts" / "belief_log_template.html"
+PUBLIC_TEMPLATE = ROOT / "scripts" / "belief_log_public_template.html"
 DATA_MARKER = "/*BELIEF_DATA*/"
 EMBED_KEYS = ("id", "scope", "ts", "claim", "test", "delta", "fix", "confidence", "canon", "refs")
+# The PUBLIC projection (status.arcs.care) embeds ONLY the shape — never the
+# claim/test/delta/fix/refs prose. This whitelist is the air-gap: internal text
+# structurally cannot reach the public file because it is never embedded.
+PUBLIC_EMBED_KEYS = ("id", "scope", "ts", "canon")
 
 REQUIRED_KEYS = {"id", "scope", "ts", "claim", "test", "verdict", "delta", "fix", "confidence", "refs", "canon"}
 WEEK_DAYS = 7
@@ -68,16 +74,25 @@ def load(path: pathlib.Path) -> list[dict]:
     return rows
 
 
-def render_html(rows: list[dict]) -> str:
-    """Inject the ledger (oldest-first, as the page's JS expects) into the
-    template. `<` is escaped so no field can break out of the <script> tag."""
+def _inject(template_path: pathlib.Path, rows: list[dict], keys: tuple[str, ...]) -> str:
+    """Inject a keyed projection of the ledger (oldest-first, as the page JS
+    expects) into a template. `<` is escaped so no field can break out of the
+    <script> tag; only `keys` are embedded (the air-gap for the public file)."""
     ordered = sorted(rows, key=lambda r: (r["ts"], r["id"]))
-    data = [{k: r[k] for k in EMBED_KEYS} for r in ordered]
+    data = [{k: r[k] for k in keys} for r in ordered]
     blob = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
-    template = TEMPLATE.read_text(encoding="utf-8")
+    template = template_path.read_text(encoding="utf-8")
     if DATA_MARKER not in template:
-        sys.exit(f"AUDIT FAIL: {TEMPLATE.name} is missing the {DATA_MARKER} injection marker.")
+        sys.exit(f"AUDIT FAIL: {template_path.name} is missing the {DATA_MARKER} injection marker.")
     return template.replace(DATA_MARKER, blob)
+
+
+def render_html(rows: list[dict]) -> str:
+    return _inject(TEMPLATE, rows, EMBED_KEYS)
+
+
+def render_public(rows: list[dict]) -> str:
+    return _inject(PUBLIC_TEMPLATE, rows, PUBLIC_EMBED_KEYS)
 
 
 def render_md(rows: list[dict]) -> str:
@@ -148,7 +163,11 @@ def main() -> int:
     args = ap.parse_args()
 
     rows = load(LEDGER)
-    outputs = [(OUT, render_md(rows)), (OUT_HTML, render_html(rows))]
+    outputs = [
+        (OUT, render_md(rows)),
+        (OUT_HTML, render_html(rows)),
+        (OUT_PUBLIC, render_public(rows)),  # status.arcs.care mirror (shape only)
+    ]
 
     if args.check:
         stale = [p.relative_to(ROOT).as_posix() for p, view in outputs
@@ -156,12 +175,12 @@ def main() -> int:
         if stale:
             print(f"DRIFT: {', '.join(stale)} stale — run `python3 scripts/belief_log_emit.py`.")
             return 1
-        print(f"OK — belief-log.md + belief-log.html current ({len(rows)} entries).")
+        print(f"OK — belief-log.md + .html + public mirror current ({len(rows)} entries).")
         return 0
 
     for p, view in outputs:
         p.write_text(view, encoding="utf-8")
-    print(f"wrote belief-log.md + belief-log.html — {len(rows)} entries (audit clean).")
+    print(f"wrote belief-log.md + .html + public/belief-log.html — {len(rows)} entries (audit clean).")
     return 0
 
 
