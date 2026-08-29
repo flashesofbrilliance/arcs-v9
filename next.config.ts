@@ -53,6 +53,12 @@ const nextConfig: NextConfig = {
         // dirty tree, never committed) — verified 2026-07-09 via x-matched-path. Committed here
         // so a clean redeploy from main cannot drop resume.arcs.care routing.
         { source: "/:path*", destination: "/resume.html", has: [{ type: "host", value: "resume.arcs.care" }] },
+        // resume-tailor.arcs.care root → public/resume-tailor.html (skill landing page)
+        // The catch-all source="/:path*" with path "/" matches only the root; all other
+        // paths on this host (e.g. /pwa) are handled by the more specific rule below.
+        { source: "/", destination: "/resume-tailor.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
+        // resume-tailor.arcs.care/pwa → public/resume-tailor-pwa.html (MUI theming PWA surface)
+        { source: "/pwa", destination: "/resume-tailor-pwa.html", has: [{ type: "host", value: "resume-tailor.arcs.care" }] },
         // lewoof.arcs.care -> public/lewoof.html (Le Woof x Better & Better Amazon pilot deal brief; noindex, confidential)
         { source: "/:path*", destination: "/lewoof.html", has: [{ type: "host", value: "lewoof.arcs.care" }] },
       ],

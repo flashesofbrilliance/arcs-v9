@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MUI CDN smoke test — resume.arcs.care theming</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #020408; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+    body { min-height: 100vh; }
+    #log { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #94a3b8;
+           background: #0d1117; padding: 12px; border-radius: 8px; margin: 24px auto;
+           max-width: 640px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+<div id="log">loading…</div>
+<div id="root"></div>
+
+<script type="module">
+// ── Inline log helper (no external file dependency) ──────────────────────────
+const logEl = document.getElementById('log');
+function write(msg) {
+  if (!logEl) return;
+  const ts = new Date().toISOString().slice(11, 23);
+  logEl.textContent = (logEl.textContent ? logEl.textContent + '\n' : '') + `[${ts}] ${msg}`;
+  logEl.scrollTop = logEl.scrollHeight;
+}
+window.writeLog = write;
+
+write('>>> starting MUI CDN smoke test');
+const t0 = performance.now();
+const bom = { saw: [], missing: [], groups: [] };
+const mark = (name, mod) => {
+  bom.saw.push(name);
+  bom[name] = { mod, hasDefault: !!mod?.default, keys: mod ? Object.keys(mod).slice(0, 8) : [] };
+};
+const groupDone = (gid, count, seen, missing) => {
+  bom.groups.push({ gid, count, seen: seen.slice(), missing: missing.slice() });
+};
+
+// ── Phase 1: load MUI tokens ──────────────────────────────────────────────────
+const GID_MUI = 'mui-tokens';
+const MUI_IMPORTS = [
+  { label: 'react',      url: 'https://esm.sh/react@18.3.1' },
+  { label: 'react-dom',  url: 'https://esm.sh/react-dom@18.3.1' },
+  { label: '@mui/material',  url: 'https://esm.sh/@mui/material@5.16.7' },
+  { label: '@mui/material/styles', url: 'https://esm.sh/@mui/material@5.16.7/styles' },
+  { label: '@emotion/react', url: 'https://esm.sh/@emotion/react@11.13.0' },
+  { label: '@emotion/styled', url: 'https://esm.sh/@emotion/styled@11.13.0' },
+];
+
+const seen = [];
+const missing = [];
+for (const { label, url } of MUI_IMPORTS) {
+  try {
+    const mod = await import(url);
+    mark(label, mod);
+    seen.push(label);
+    write(`✓ ${label} loaded (keys: ${Object.keys(mod).slice(0,4).join(',')})`);
+  } catch (e) {
+    bom[label] = { default: false, error: e.message };
+    missing.push(label);
+    write(`✗ ${label} FAILED: ${e.message}`);
+  }
+}
+groupDone(GID_MUI, MUI_IMPORTS.length, seen, missing);
+write(`>>> phase 1 done: ${seen.length}/${MUI_IMPORTS.length} tokens resolved in ${(performance.now()-t0).toFixed(0)}ms`);
+
+// ── Phase 2: surface MUI tokens on window ────────────────────────────────────
+if (bom['react']?.mod) window.React = bom['react'].mod;
+if (bom['@mui/material']?.mod) {
+  const mui = bom['@mui/material'].mod;
+  for (const key of Object.keys(mui)) {
+    if (typeof mui[key] === 'function' || typeof mui[key] === 'object') {
+      window['MUI_' + key] = mui[key];
+    }
+  }
+}
+if (bom['@mui/material/styles']?.mod) {
+  const styles = bom['@mui/material/styles'].mod;
+  for (const key of Object.keys(styles)) {
+    window['MUI_STYLES_' + key] = styles[key];
+  }
+}
+
+write(`>>> window: React=${!!window.React} MUI_Button=${!!window.MUI_Button} MUI_ThemeProvider=${!!window.MUI_ThemeProvider} createTheme=${!!window.MUI_STYLES_createTheme}`);
+write(`>>> BOM: ${bom.saw.length} saw, ${bom.missing.length} missing`);
+window.__MUI_BOM = bom;
+
+// ── Phase 3: render the MUI app (babel-transpiled, uses surfaced globals) ───
+const MUI = {
+  Button: window.MUI_Button,
+  Card: window.MUI_Card,
+  Typography: window.MUI_Typography,
+  Chip: window.MUI_Chip,
+  ThemeProvider: window.MUI_ThemeProvider,
+};
+const createTheme = window.MUI_STYLES_createTheme;
+
+// Dynamically load babel to compile the JSX, then render
+try {
+  const babelMod = await import('https://unpkg.com/@babel/standalone/babel.min.js');
+  window.babel = babelMod;
+
+  const babelReady = window.babel && window.babel.transform;
+  write(`>>> babel loaded: ${babelReady ? 'OK' : 'FAIL'}`);
+
+  const appCode = `
+    const { useState } = React;
+    function SmokeApp() {
+      if (!(${babelReady})) {
+        return React.createElement('div', { style: { color: '#FF4D6D', padding: 24, fontFamily: 'JetBrains Mono' } },
+          'MUI ready but babel failed');
+      }
+      const theme = createTheme({
+        palette: { mode: 'dark', primary: { main: '#00F0FF' }, background: { default: '#020408' } },
+        typography: { fontFamily: "'Inter', system-ui, sans-serif", h4: { fontWeight: 700 } },
+        shape: { borderRadius: 8 },
+        components: {
+          MuiButton: { styleOverrides: { root: { textTransform: 'none', borderRadius: 6 } } },
+          MuiCard: { styleOverrides: { root: { borderRadius: 12, backgroundImage: 'none' } } },
+        },
+      });
+      return React.createElement(
+        MUI.ThemeProvider, { theme },
+        React.createElement('div', { style: { padding: 24, maxWidth: 640, margin: '0 auto' } },
+          React.createElement(MUI.Typography, { variant: 'h4' }, 'MUI CDN smoke test'),
+          React.createElement('div', { style: { marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 8 } },
+            React.createElement(MUI.Button, { variant: 'contained', color: 'primary' }, 'Contained'),
+            React.createElement(MUI.Button, { variant: 'outlined', color: 'primary' }, 'Outlined'),
+            React.createElement(MUI.Button, { variant: 'text', color: 'primary' }, 'Text'),
+          ),
+          React.createElement(MUI.Card, { sx: { mt: 3, p: 2, bgcolor: 'background.paper' } },
+            React.createElement(MUI.Typography, null, 'Card surface with MUI theme tokens'),
+          ),
+          React.createElement(MUI.Chip, { label: 'skill badge', sx: { mt: 2 } }),
+          React.createElement(MUI.Typography, { variant: 'body2', sx: { mt: 3, color: 'text.secondary' } },
+            'If you see this + blue button + card + chip, the CDN path works.',
+          ),
+        )
+      );
+    }
+  `;
+
+  // Babel standalone compiles the JSX string → JS, eval it, then render
+  const transformed = window.babel.transform(appCode, { presets: ['react'] }).code;
+  const renderFn = new Function('React', 'MUI', 'createTheme', 'window', transformed);
+  const App = renderFn(window.React, MUI, createTheme, window);
+
+  const { createRoot } = await import('https://esm.sh/react-dom@18.3.1/client');
+  const rootEl = document.getElementById('root');
+  createRoot(rootEl).render(App());
+  write('>>> MUI app rendered into #root');
+
+} catch (e) {
+  write(`>>> RENDER FAILED: ${e.message}\n${e.stack || ''}`);
+}
+</script>
+</body>
+</html>

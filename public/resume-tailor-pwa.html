@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>resume-tailor · PWA — defensibly true over impressive</title>
+<link rel="manifest" href="/resume-tailor-manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/resume-tailor-sw.js', { scope: '/' })
+        .then(() => console.log('SW registered'))
+        .catch(e => console.warn('SW register failed:', e));
+    });
+  }
+</script>
+<link rel="icon" href="/resume-tailor-icon-192.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: #060a12; color: #e6edf5; }
+body { min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+#root { min-height: 100%; }
+.install-btn { position: fixed; bottom: 24px; right: 24px; z-index: 999; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="module">
+const t0 = performance.now();
+const bom = { saw: [], missing: [] };
+const mark = (name, mod) => { bom.saw.push(name); bom[name] = mod; };
+try {
+  const reactMod = await import('https://esm.sh/react@18.3.1');
+  mark('react', reactMod);
+  window.React = reactMod.default || reactMod;
+} catch(e) { bom.missing.push('react'); console.error('react:', e); }
+try {
+  const muiMod = await import('https://esm.sh/@mui/material@5.16.7');
+  mark('@mui/material', muiMod);
+  for (const k of Object.keys(muiMod)) {
+    if (typeof muiMod[k] === 'function' || typeof muiMod[k] === 'object') window['MUI_' + k] = muiMod[k];
+  }
+} catch(e) { bom.missing.push('@mui/material'); console.error('mui:', e); }
+try {
+  const stylesMod = await import('https://esm.sh/@mui/material@5.16.7/styles');
+  mark('@mui/material/styles', stylesMod);
+  for (const k of Object.keys(stylesMod)) window['MUI_STYLES_' + k] = stylesMod[k];
+} catch(e) { bom.missing.push('@mui/material/styles'); console.error('styles:', e); }
+try {
+  const emotionMod = await import('https://esm.sh/@emotion/react@11.13.0');
+  mark('@emotion/react', emotionMod);
+} catch(e) { bom.missing.push('@emotion/react'); console.error('emotion:', e); }
+window.__MUI_BOM = bom;
+window.__MUI_READY = bom.missing.length === 0;
+console.log('MUI_BOM:', bom.saw, 'missing:', bom.missing, 'ready:', window.__MUI_READY);
+</script>
+<script>
+const React = window.React;
+const { useState, useCallback, useEffect } = React;
+const {
+  ThemeProvider, createTheme: MUI_createTheme,
+  CssBaseline, Box, Container, Typography, Button, Tabs, Tab,
+  Card, CardContent, Chip, LinearProgress, TextField, Paper, IconButton,
+} = {
+  ThemeProvider: window.MUI_ThemeProvider,
+  CssBaseline: window.MUI_CssBaseline,
+  Box: window.MUI_Box,
+  Container: window.MUI_Container,
+  Typography: window.MUI_Typography,
+  Button: window.MUI_Button,
+  Tabs: window.MUI_Tabs,
+  Tab: window.MUI_Tab,
+  Card: window.MUI_Card,
+  CardContent: window.MUI_CardContent,
+  Chip: window.MUI_Chip,
+  LinearProgress: window.MUI_LinearProgress,
+  TextField: window.MUI_TextField,
+  Paper: window.MUI_Paper,
+  IconButton: window.MUI_IconButton,
+};
+const createTheme = window.MUI_STYLES_createTheme;
+const installBtn = document.createElement('button');
+installBtn.className = 'install-btn';
+installBtn.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:999;';
+installBtn.textContent = 'Install PWA';
+installBtn.addEventListener('click', () => {
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    installBtn.textContent = '✓ Installed';
+    installBtn.style.opacity = '0.5';
+    return;
+  }
+  const event = new Event('install-prompt');
+  window.dispatchEvent(event);
+});
+document.body.appendChild(installBtn);
+
+const THEMES = {
+  formal: createTheme({
+    palette: { mode: 'dark', primary: { main: '#00F0FF' }, secondary: { main: '#FF4D6D' }, background: { default: '#060a12', paper: '#0b1120' }, text: { primary: '#e6edf5', secondary: '#94a3b8' }, grey: { 50: '#0b1120', 100: '#162032', 200: '#2a3a52' } },
+    typography: { fontFamily: "'Inter', system-ui, sans-serif", h4: { fontWeight: 700, letterSpacing: '-.01em' }, h6: { fontWeight: 600 }, body1: { lineHeight: 1.6 } },
+    shape: { borderRadius: 12 },
+    shadows: ['none', '0 2px 8px rgba(0,0,0,.6)', '0 4px 16px rgba(0,0,0,.7)', '0 8px 24px rgba(0,0,0,.8)'],
+    components: {
+      MuiButton: { styleOverrides: { root: { textTransform: 'none', fontWeight: 700, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,240,255,.25)' } } },
+      MuiCard: { styleOverrides: { root: { borderRadius: 12, backgroundImage: 'none', border: '1px solid #1e2c3a' } } },
+      MuiChip: { styleOverrides: { root: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem', fontWeight: 700, borderRadius: 6 } } },
+      MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
+      MuiTab: { styleOverrides: { root: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem', fontWeight: 700, textTransform: 'none', letterSpacing: '0.06em' } } },
+    },
+  }),
+  casual: createTheme({
+    palette: { mode: 'dark', primary: { main: '#FB8500' }, secondary: { main: '#FF6B6B' }, background: { default: '#0D020A', paper: '#14051A' }, text: { primary: '#FFE4D6', secondary: '#FFB3A5' }, grey: { 50: '#14051A', 100: '#2A0E24', 200: '#4D1838' } },
+    typography: { fontFamily: "'Inter', system-ui, sans-serif", h4: { fontWeight: 700, letterSpacing: '-.01em' }, h6: { fontWeight: 600 }, body1: { lineHeight: 1.6 } },
+    shape: { borderRadius: 16 },
+    shadows: ['none', '0 3px 12px rgba(251,133,0,.4)', '0 6px 24px rgba(251,133,0,.5)', '0 10px 32px rgba(251,133,0,.6)'],
+    components: {
+      MuiButton: { styleOverrides: { root: { textTransform: 'none', fontWeight: 700, borderRadius: 999, boxShadow: '0 2px 8px rgba(251,133,0,.35)' } } },
+      MuiCard: { styleOverrides: { root: { borderRadius: 20, backgroundImage: 'none', border: '1px solid rgba(251,133,0,.2)' } } },
+      MuiChip: { styleOverrides: { root: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem', fontWeight: 700, borderRadius: 999 } } },
+      MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
+      MuiTab: { styleOverrides: { root: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem', fontWeight: 700, textTransform: 'none', letterSpacing: '0.06em' } } },
+    },
+  }),
+  neutral: createTheme({
+    palette: { mode: 'dark', primary: { main: '#7f93a6' }, secondary: { main: '#00F0FF' }, background: { default: '#05070a', paper: '#0b1017' }, text: { primary: '#e6edf5', secondary: '#9fb0c3' }, grey: { 50: '#0b1017', 100: '#0e141d', 200: '#1e2c3a', 300: '#26374a', 500: '#5b6b7d' } },
+    typography: { fontFamily: "'Inter', system-ui, sans-serif", h4: { fontWeight: 700, letterSpacing: '-.01em' }, h6: { fontWeight: 600 }, body1: { lineHeight: 1.6 } },
+    shape: { borderRadius: 8 },
+    shadows: ['none', '0 1px 3px rgba(0,0,0,.4)', '0 3px 8px rgba(0,0,0,.45)', '0 6px 16px rgba(0,0,0,.5)'],
+    components: {
+      MuiButton: { styleOverrides: { root: { textTransform: 'none', fontWeight: 700, borderRadius: 7 } } },
+      MuiCard: { styleOverrides: { root: { borderRadius: 12, backgroundImage: 'none', border: '1px solid #1e2c3a' } } },
+      MuiChip: { styleOverrides: { root: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.75rem', fontWeight: 700, borderRadius: 6 } } },
+      MuiPaper: { styleOverrides: { root: { backgroundImage: 'none' } } },
+      MuiTab: { styleOverrides: { root: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.85rem', fontWeight: 700, textTransform: 'none', letterSpacing: '0.06em' } } },
+    },
+  }),
+};
+
+function inferTheme(jobUrlOrText) {
+  if (!jobUrlOrText) return 'neutral';
+  const t = jobUrlOrText.toLowerCase();
+  const formal = /\b(finance|legal|healthcare|health care|enterprise|consulting|regulated|fortune|f500|banking|insurance|pharma|government|defense|compliance|sec|finra|hipaa|corporate)\b/;
+  const casual = /\b(early.?stage|startup|team of \d|product.?led|consumer|creative|move fast|disrupt|vc|venture|y combinator| YC |saas|tech ?startup|app|platform|growth)\b/;
+  if (formal.test(t) && !casual.test(t)) return 'formal';
+  if (casual.test(t) && !formal.test(t)) return 'casual';
+  return 'neutral';
+}
+
+const SECTIONS = [
+  { id: 'overview', title: 'The one rule', sub: 'the moat', body: "Most AI resume tools optimize for impressive. This one optimizes for defensibly true. It decomposes every claim into hard / soft / tacit, attaches the evidence and a verifiability grade, and never states what the evidence can't defend. Impressive-but-false is a ruin vector, not a rounding error — a resume goes through background and reference checks. A claim that sounds good but is false is worse than a weaker true claim. Proficiency scores are provisional hypotheses the falsifier exists to confirm, never facts asserted on your behalf." },
+  { id: 'how-it-works', title: 'How it works', sub: 'the pipeline', body: "1. You draft a claim. 2. The engine runs it through ARCS: hard facts (verifiable now), soft signals (corroborating but not definitive), tacit (the craft and judgment only you have). 3. Each claim gets a verifiability grade: A (documented to a standard a skeptical reader would accept), B (pointed at evidence but not yet locked), C (defensible if the reader shares your frame). 4. Anything below C gets flagged or dropped. The output is your resume plus an audit trail — every claim traceable to its evidence, nothing asserted without a grade. This is the same pipeline the ARCS decision engine uses for boardroom-grade decisions; here it's tuned for credentials." },
+  { id: 'evidence', title: 'Evidence pipeline', sub: 'the hard layer', body: "Hard evidence is the layer that survives scrutiny. The engine prioritizes: verifiable metrics (years, scope, revenue, headcount, latency, throughput), named tools and standards (RFCs, certifications, language versions, frameworks with version numbers), direct artifacts (links to code, papers, shipped features, press). Soft signals — team culture, leadership style, product taste — are tagged as such and never presented as hard. Tacit evidence — the judgment, the scrappiness, the taste — is acknowledged but never claimed as a fact on your behalf. The resume is the hard+soft stack; the tacit is the interview." },
+  { id: 'who', title: 'Who this is for', sub: 'the reader', body: "People preparing resumes where the reader is skeptical and time-constrained: hiring managers, technical recruiters, founders doing their own searches, anyone who has seen enough impressive-but-false to be wary of it. The tool is especially useful when the stakes are high and the claims are easy to falsify: senior roles, specialist positions, career pivots where your narrative has to carry weight without tenure in the new domain. If your resume is already airtight and you're just formatting, this isn't the tool — but if you've ever worried a claim wouldn't survive a reference check, it is." },
+  { id: 'install', title: 'Install', sub: 'go offline', body: "This surface is a PWA. Install it to use offline, add it to your home screen, and get the resume-tailor experience without a browser chrome. The install button is in the bottom-right corner. Once installed, the app caches the shell and the MUI theme engine locally — you can draft and review claims offline, and the evidence grades sync when you're back online. The manifest, service worker, and icons are bundled with this surface." },
+];
+
+function SKILL_APP() {
+  const [activeTab, setActiveTab] = useState(0);
+  const [themeName, setThemeName] = useState('formal');
+  const [inferenceText, setInferenceText] = useState('');
+  const [inferredTheme, setInferredTheme] = useState(null);
+
+  const handleTabChange = useCallback((_a, newTab) => setActiveTab(newTab), []);
+  const cycleTheme = useCallback(() => {
+    setThemeName(names => ({ formal: 'casual', casual: 'neutral', neutral: 'formal' }[names]));
+  }, []);
+
+  useEffect(() => {
+    if (inferenceText.trim().length > 0) {
+      const next = inferTheme(inferenceText);
+      setInferredTheme(next !== themeName ? next : null);
+    } else {
+      setInferredTheme(null);
+    }
+  }, [inferenceText, themeName]);
+
+  const theme = THEMES[themeName];
+
+  return React.createElement(
+    ThemeProvider, { theme },
+    React.createElement(CssBaseline, null),
+    React.createElement(Box, { sx: { minHeight: '100vh', bgcolor: 'background.default', pt: 6, pb: 10 } },
+      React.createElement(Container, { maxWidth: 640, sx: { px: { xs: 4, sm: 6 } } },
+        React.createElement(Typography, { variant: 'h4', sx: { fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, letterSpacing: '-.01em', color: 'primary.main', fontSize: { xs: 'clamp(28px,6vw,42px)', sm: 'clamp(36px,5vw,48px)' } } },
+          "resume-tailor",
+        ),
+        React.createElement(Typography, { variant: 'h6', sx: { fontWeight: 400, color: 'text.secondary', mt: 1, mb: 1, fontSize: { xs: 'clamp(16px,2.5vw,20px)', sm: 'clamp(18px,2vw,22px)' }, display: 'block' } },
+          "defensibly true over impressive — ARCS-powered resume engine",
+        ),
+        React.createElement(Box, { sx: { height: 1, bgcolor: 'grey.200', my: 4, width: '100%', opacity: 0.5 } }),
+        React.createElement(Tabs, { value: activeTab, onChange: handleTabChange, sx: { mb: 4, borderBottom: '1px solid', borderColor: 'grey.700', minHeight: 56 } },
+          SECTIONS.map((s, i) => React.createElement(Tab, { key: s.id, value: i, label: s.title, sx: { minHeight: 56, display: 'flex', alignItems: 'center', fontSize: { xs: '0.8rem', sm: '0.9rem' }, fontWeight: 700, textTransform: 'none', letterSpacing: '0.05em' } })),
+        ),
+        React.createElement(Box, { sx: { p: { xs: 3, sm: 4 }, mt: 2 } },
+          SECTIONS[activeTab] && React.createElement(Card, { sx: { bgcolor: 'background.paper', border: '1px solid', borderColor: 'grey.700', overflow: 'visible' } },
+            React.createElement(CardContent, { sx: { p: { xs: 3, sm: 4 }, '&:last-child': { pb: { xs: 3, sm: 4 } } } },
+              React.createElement(Typography, { variant: 'h6', gutterBottom: true, sx: { fontWeight: 700, fontSize: '1.25rem', mb: 1, display: 'block' } }, SECTIONS[activeTab].title),
+              React.createElement(Chip, { label: SECTIONS[activeTab].sub, sx: { fontFamily: "'JetBrains Mono', monospace", fontSize: '0.7rem', fontWeight: 700, mb: 2, alignSelf: 'flex-start', borderRadius: 4, height: 22 } }),
+              React.createElement(Typography, { variant: 'body1', sx: { fontSize: 'clamp(15px,2.2vw,17px)', lineHeight: 1.65, color: 'text.primary', mt: 2 } }, SECTIONS[activeTab].body),
+            ),
+          ),
+        ),
+        React.createElement(Box, { sx: { mt: 6, p: 3, bgcolor: 'grey.900', borderRadius: 2, border: '1px solid', borderColor: 'grey.700' } },
+          React.createElement(Typography, { variant: 'body2', gutterBottom: true, sx: { color: 'grey.300', mb: 2 } }, "Try the inference hook — paste a job description:"),
+          React.createElement(TextField, {
+            fullWidth: true, multiline: true, rows: 3,
+            value: inferenceText, onChange: e => setInferenceText(e.target.value),
+            placeholder: 'Paste a job description or posting text here…',
+            sx: { fontSize: '0.875rem', '& .MuiOutlinedInput-root': { bgcolor: 'background.default' } }
+          }),
+          inferredTheme && React.createElement(Chip, { label: `Suggests ${inferredTheme}`, color: 'primary', variant: 'outlined', sx: { mt: 2, alignSelf: 'flex-start', fontFamily: "'JetBrains Mono', monospace" } }),
+          React.createElement(Button, { variant: 'contained', color: 'primary', onClick: cycleTheme, sx: { mt: 3, alignSelf: 'flex-start', borderRadius: 8 } }, `Switch to ${themeName === 'formal' ? 'casual' : themeName === 'casual' ? 'neutral' : 'formal'}`),
+          React.createElement(Typography, { variant: 'caption', sx: { display: 'block', mt: 2, color: 'grey.500', fontSize: '0.7rem' } }, "Three themes: Formal (cyan) · Casual (orange) · Neutral (slate). Theme conforms to surface/emphasis — the same content, different register."),
+        ),
+      ),
+    ),
+  );
+}
+
+const createRoot = ReactDOM.createRoot;
+if (createRoot && window.__MUI_READY) {
+  const root = createRoot(document.getElementById('root'));
+  root.render(React.createElement(SKILL_APP));
+  installBtn.textContent = '✓ PWA ready';
+  installBtn.style.opacity = '0.7';
+} else if (createRoot) {
+  document.getElementById('root').innerHTML = '<div style="padding:40px;color:#FF4D6D;font-family:monospace">MUI not ready yet — reload.</div>';
+}
+</script>
+</body>
+</html>

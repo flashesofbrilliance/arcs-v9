@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>resume-tailor · defensibly true over impressive</title>
+<meta name="description" content="An honesty-graded, falsifier-gated resume tailor. Every claim carries its evidence and a verifiability grade. It refuses to state what it can't defend. A Claude Code skill + plugin by ARCS.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#5b6b7d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;--violet:#A78BFA;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:940px;margin:0 auto;padding:0 24px;}
+  .mono{font-family:var(--mono);}
+  .lbl{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fg4);}
+
+  /* hero */
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 420px at 20% -10%,rgba(0,240,255,.10),transparent 60%),radial-gradient(700px 380px at 92% 0,rgba(0,255,157,.07),transparent 55%);}
+  .hero{padding:64px 0 56px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(38px,7vw,68px);font-weight:800;letter-spacing:-.03em;line-height:.98;margin-top:22px;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(15px,2.4vw,19px);line-height:1.55;color:var(--fg2);max-width:660px;margin-top:20px;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  section{padding:52px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:26px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:22px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+
+  /* the thesis / differentiator */
+  .thesis{font-size:clamp(19px,3vw,26px);line-height:1.5;font-weight:500;letter-spacing:-.01em;color:var(--fg1);max-width:780px;}
+  .thesis .cy{color:var(--cyan);} .thesis .gn{color:var(--green);} .thesis .rd{color:var(--red);}
+  .thesis small{display:block;font-size:14px;font-weight:400;color:var(--fg3);margin-top:18px;line-height:1.6;}
+
+  /* grades */
+  .grades{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:720px){.grades{grid-template-columns:1fr;}}
+  .grade{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .grade .g{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+  .grade.doc .g{color:var(--green);} .grade.self .g{color:var(--gold);} .grade.unv .g{color:var(--red);}
+  .grade p{font-size:12.5px;line-height:1.55;color:var(--fg2);margin-top:9px;}
+
+  /* pipeline */
+  .pipe{display:flex;flex-direction:column;gap:2px;}
+  .step{display:grid;grid-template-columns:38px 150px 1fr;gap:16px;align-items:start;padding:15px 0;border-top:1px solid var(--border);}
+  .step:first-child{border-top:none;}
+  .step .num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cyan);padding-top:2px;}
+  .step .nm{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--fg1);}
+  .step .ds{font-size:13px;line-height:1.5;color:var(--fg2);} .step .ds b{color:var(--fg1);font-weight:600;}
+
+  /* code block */
+  pre{background:var(--elev);border:1px solid var(--border);border-radius:11px;padding:15px 17px;overflow-x:auto;margin-top:12px;}
+  code{font-family:var(--mono);font-size:12.5px;color:var(--green);line-height:1.7;}
+  code .c{color:var(--fg4);} code .k{color:var(--cyan);}
+  .steps-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media(max-width:720px){.steps-2{grid-template-columns:1fr;}}
+  .steps-2 h3{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-bottom:4px;}
+
+  footer{padding:34px 0 48px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.04em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>ARCS · public good · Claude Code skill + plugin</span>
+    <h1>resume-tailor<br><span class="g">defensibly true</span> over impressive</h1>
+    <p class="lede">Tailor a resume and matching cover letter to a specific role from your <b>real evidence</b> — your LinkedIn export, your repos, the job description. Every claim carries its evidence and a <b>verifiability grade</b>. The falsifier <b>refuses to state what it can't defend</b>. A background check finds nothing to contradict, because nothing overshot the evidence.</p>
+    <div class="cta">
+      <a class="btn p" href="https://github.com/flashesofbrilliance/resume-tailor-skill">◇ View on GitHub</a>
+      <a class="btn s" href="#install">Install &amp; use ↓</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>The one rule</h2><span class="sub">the moat</span></div>
+    <p class="thesis">Most AI resume tools optimize for <span class="rd">impressive</span>. This one optimizes for <span class="gn">defensibly true</span>. It decomposes every claim into <span class="cy">hard / soft / tacit</span>, attaches the evidence and a verifiability grade, and never states what the evidence can't defend.
+      <small>Impressive-but-false is a ruin vector, not a rounding error — a resume goes through background and reference checks. A claim that sounds good but is false is worse than a weaker true claim. Proficiency scores are provisional hypotheses the falsifier exists to confirm, never facts asserted on your behalf.</small></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>Every claim is graded</h2><span class="sub">honesty policy</span></div>
+    <div class="grades">
+      <div class="grade doc"><div class="g">● documented</div><p>Public and inspectable — a repo, a commit count, a live URL, a credential badge. Independently checkable. State it freely.</p></div>
+      <div class="grade self"><div class="g">● self-reported</div><p>Your figure — plausible, consistent with your record, but not independently verified here. State it as yours; mirror what your public profile already discloses.</p></div>
+      <div class="grade unv"><div class="g">● unverifiable</div><p>Tacit or subjective. May frame the work, never stated as fact with a number. Flagged as a defend-or-drop for interview prep.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">03</span><h2>The method</h2><span class="sub">evidence → gauntlet</span></div>
+    <div class="pipe">
+      <div class="step"><div class="num">1</div><div class="nm">GATHER</div><div class="ds">Render the job description; parse your <b>LinkedIn export</b> as ground truth for titles, dates, and certs. Prior resumes are self-reported, not authoritative.</div></div>
+      <div class="step"><div class="num">2</div><div class="nm">GRADED SSOT</div><div class="ds">Build one <b>competency model</b> — every claim tagged hard/soft/tacit with its evidence, verifiability grade, and disclosure rule. One source; every render reads from it.</div></div>
+      <div class="step"><div class="num">3</div><div class="nm">FALSIFY</div><div class="ds">Flag overclaims, single-engagement specialties, borrowed terms-of-art, and the <b>NDA boundary</b> (public fact stays, nature-of-the-work goes). The output is your interview-prep list.</div></div>
+      <div class="step"><div class="num">4</div><div class="nm">PROJECT</div><div class="ds">Rank domains by JD-relevance; lead with the literal match, differentiator second. Experience reverse-chron, framing by relevance — an <b>Exec → Surgical</b> depth ladder.</div></div>
+      <div class="step"><div class="num">5</div><div class="nm">RENDER</div><div class="ds">A print-safe framed PDF, a matching cover letter, and an <b>ATS-plain</b> companion for the upload. Then rasterize and <b>look at the pixels</b> — page-count is not a pass.</div></div>
+      <div class="step"><div class="num">6</div><div class="nm">GAUNTLET</div><div class="ds">An adversarial pre-send pass: simulate the hiring panel across facets at high burden of proof, verify <b>every flag against the evidence</b>, apply the survivors. Subtractive, never inflating.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">04</span><h2>Install &amp; use</h2><span class="sub">Claude Code</span></div>
+    <div class="steps-2">
+      <div>
+        <h3>1 · install (once)</h3>
+        <pre><code><span class="c"># add the ARCS marketplace</span>
+/plugin marketplace add flashesofbrilliance/arcs-skills
+<span class="c"># install the plugin</span>
+/plugin install resume-tailor@arcs</code></pre>
+      </div>
+      <div>
+        <h3>2 · use (per role)</h3>
+        <pre><code><span class="c"># with your LinkedIn export handy</span>
+<span class="k">Tailor my resume for</span>
+  https://&lt;job-posting-url&gt;</code></pre>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:22px;font-size:14px;">No special command — describing the job triggers the skill. It gathers, grades, falsifies, projects, renders, and gauntlets, and hands you a resume you can defend line by line.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>resume-tailor · a public good by <a href="https://arcs.care">ARCS</a> · MIT</span>
+    <span><a href="https://github.com/flashesofbrilliance/resume-tailor-skill">github</a> · <a href="https://github.com/flashesofbrilliance/arcs-skills">marketplace</a> · <a href="https://arcs.care">arcs.care</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
