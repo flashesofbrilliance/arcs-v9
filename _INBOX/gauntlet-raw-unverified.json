@@ -1,0 +1,561 @@
+{
+ "12d-orbital": [
+  {
+   "lens": "Aesthetic-and-minimalist (Nielsen #8) — score 1/4. The core 12D projection is honest and load-bearing: every dot is a real corpus node, every axis a real function of the data, epoch-scrub is genuine. But that prima is buried under THREE parallel naming systems for the same 12 dimensions and TWO always-on-accessible audio engines plus a timbre picker. The excess crosses from \"serious play\" into unearned fidelity and front-loaded cognitive load. Every fix below is subtraction.",
+   "n": 5,
+   "findings": [
+    {
+     "claim": "A first-time viewer is given no one-line statement of what a dot is or what the picture means; the through-line exists only scattered across a 5-line mono HUD and a hidden guide, while ~20 controls in 6 deck groups load at full density simultaneously.",
+     "evidence": "Deck (lines 65–104) opens with groups Projection/Time/Layers/Lens/Perform/guide — ~20 controls — and the only orientation is the wordmark 'ARCS · 12D ORBITAL' (66) plus dense HUD lines like 'Zone A: D1–D4 kinematics … Zone B: D5–D12 coherence operators' (111). Nowhere does a plain sentence say 'each node is an ARCS concept; position = its score across 12 dimensions; scrub epochs to watch the web assemble.'",
+     "severity": "major",
+     "fix": "Add ONE plain-language orienting line at rest (what a dot is + what X/Y mean + what scrub does), and collapse the always-on HUD (below) so the eye lands on the plot, not a control wall. The through-line must be findable in seconds, not decoded from the guide.",
+     "_lens": "Aesthetic-and-minimalist (Nielsen #8) — score 1/4. The core 12D projection is honest and load-bearing: every dot is a real corpus node, every axis a real function of the data, epoch-scrub is genuine. But that prima is buried under THREE parallel naming systems for the same 12 dimensions and TWO always-on-accessible audio engines plus a timbre picker. The excess crosses from \"serious play\" into unearned fidelity and front-loaded cognitive load. Every fix below is subtraction."
+    },
+    {
+     "claim": "The ballet/music 'conductor notation' — a third naming system on top of D1–D12 and the plain-English names — is smeared onto the resting-state instrument: every axis label, both X/Y dropdowns, and all 12 drawer vector rows carry a cryptic glyph a first-timer cannot parse.",
+     "evidence": "Axis labels render 'D1 — HARDNESS · –  →' (draw, 262–264); dropdown options are built as `d.k+' '+d.n+' · '+CONDUCTOR[i].mark` (236) giving 'D2 VELOCITY dH/dt · ‿'; every drawer dimrow appends the gold mark (437). Marks are '–','‿','sfz','div.','ost.','poly.','⌒','8va','V–I','tr','𝄆','tutti' (201–214) — undecodable without the guide and explaining nothing about position.",
+     "severity": "major",
+     "fix": "Scope the conductor metaphor to the ballet/symphony modes and the guide only. Strip CONDUCTOR marks from axis labels (262–264), from both dropdown option strings (236), and from the 12 drawer dimrows (437). The scatter plot's job is to show position; the whip-turn glyph next to an axis is ornament.",
+     "_lens": "Aesthetic-and-minimalist (Nielsen #8) — score 1/4. The core 12D projection is honest and load-bearing: every dot is a real corpus node, every axis a real function of the data, epoch-scrub is genuine. But that prima is buried under THREE parallel naming systems for the same 12 dimensions and TWO always-on-accessible audio engines plus a timbre picker. The excess crosses from \"serious play\" into unearned fidelity and front-loaded cognitive load. Every fix below is subtraction."
+    },
+    {
+     "claim": "The 7-instrument rack is decoration on decoration — an always-visible top-deck dropdown that only re-voices the background MIDI timbre, changing nothing about the data, the projection, or the meaning.",
+     "evidence": "`<select id=\"inst\">` with 🎻 orchestra / music box / piano / celesta / harp / strings / flute sits in the deck (94–98); it feeds patchFor/INSTRUMENTS (574–589) which only swaps oscillator partials. The help concedes it: 'the rack re-voices the MIDI' (132). WORLD.md law: 'Visual fidelity that is earned, not assumed' — a timbre picker for background music is the definition of unearned.",
+     "severity": "major",
+     "fix": "Cut the instrument `<select>` from the deck; default to orchestra. If the conceit must survive, bury it inside the ? guide. This removes a whole control group from first contact for zero informational loss.",
+     "_lens": "Aesthetic-and-minimalist (Nielsen #8) — score 1/4. The core 12D projection is honest and load-bearing: every dot is a real corpus node, every axis a real function of the data, epoch-scrub is genuine. But that prima is buried under THREE parallel naming systems for the same 12 dimensions and TWO always-on-accessible audio engines plus a timbre picker. The excess crosses from \"serious play\" into unearned fidelity and front-loaded cognitive load. Every fix below is subtraction."
+    },
+    {
+     "claim": "The persistent HUD is a wall of mono text sitting over the canvas at all times — four legend lines plus a 640px-wide 'Honesty note' paragraph — competing with the very visualization it annotates.",
+     "evidence": "Lines 109–114: the marks legend (110), the Zone A/Zone B line (111), an invariant legend (112), and 'Honesty note: this is a computed projection … not arcs_kinematics.py's manifold (code wins over doc). A superposed node collapses only by a formalization measurement…' (113) at max-width 640px — all rendered before any layer is even toggled on.",
+     "severity": "major",
+     "fix": "Keep on-canvas ONLY the one legend line that decodes marks actually visible right now (gold diamond, violet dash). Move Zone A/B (111) and the honesty note (113) into the ? guide, where the same depth is opt-in. The confession still exists — it just stops being wallpaper.",
+     "_lens": "Aesthetic-and-minimalist (Nielsen #8) — score 1/4. The core 12D projection is honest and load-bearing: every dot is a real corpus node, every axis a real function of the data, epoch-scrub is genuine. But that prima is buried under THREE parallel naming systems for the same 12 dimensions and TWO always-on-accessible audio engines plus a timbre picker. The excess crosses from \"serious play\" into unearned fidelity and front-loaded cognitive load. Every fix below is subtraction."
+    },
+    {
+     "claim": "The metronome offers five timekeeping modes where three of them (CHRONOS, KAIROS, DILATION) produce near-identical playback, differing only in tick/dwell timing a viewer cannot perceive without a stopwatch.",
+     "evidence": "Five options in one `<select>` (74). In the play loop, CHRONOS is even 650ms ticks, KAIROS is `420 * KW[i]` weighted dwell, DILATION is continuous fractional-epoch advance (398–414) — all three simply walk ep 1→8. Only SUSPENSION (holds time) and SUPERPOSITION (all epochs at once) are visually distinct states.",
+     "severity": "minor",
+     "fix": "Collapse to the genuinely distinct set: one 'orbit' (step/advance), SUSPENSION (hold), SUPERPOSITION (all-at-once). KAIROS's significance-weighting is a beautiful idea the eye can't read at this resolution — fold it away or make its dwell visibly dramatic, don't ship three modes that look like one.",
+     "_lens": "Aesthetic-and-minimalist (Nielsen #8) — score 1/4. The core 12D projection is honest and load-bearing: every dot is a real corpus node, every axis a real function of the data, epoch-scrub is genuine. But that prima is buried under THREE parallel naming systems for the same 12 dimensions and TWO always-on-accessible audio engines plus a timbre picker. The excess crosses from \"serious play\" into unearned fidelity and front-loaded cognitive load. Every fix below is subtraction."
+    }
+   ]
+  },
+  {
+   "lens": "conductor / performance coherence (choreography, animation timing, notation grammar, motion-fidelity)",
+   "n": 3,
+   "findings": [
+    {
+     "claim": "The prefers-reduced-motion guard is inert: it silences nothing that actually moves, so a reduced-motion user still gets the full 4-minute ballet, the symphony sweep, and the epoch orbit.",
+     "evidence": "Line 62 is the ONLY reduced-motion handling: `@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}`. grep confirms no `matchMedia`/`prefers-reduced` anywhere in the JS. But 100% of this artifact's motion is canvas pixels driven by `requestAnimationFrame` (`balletFrame`, the symphony `step`, the DILATION/CHRONOS `play` loop) — none of it is CSS animation or transition, so the `*{animation:none;transition:none}` rule is a no-op for every moving thing on screen.",
+     "severity": "major",
+     "fix": "Honor the preference in JS, don't just appear to. Read `matchMedia('(prefers-reduced-motion:reduce)').matches` once; when true, snap performances to their final pose instead of tweening — set `BAL.cur[id]=T[id]` (skip the per-frame `1-exp` follow), suppress the M/P/D orbits/breathing, and stop the epoch-orbit auto-advance (jump epochs on keypress only). Register-honest alternative if you won't wire it: delete the line-62 rule so the page doesn't advertise a guard it doesn't keep.",
+     "_lens": "conductor / performance coherence (choreography, animation timing, notation grammar, motion-fidelity)"
+    },
+    {
+     "claim": "The narrated climax projection is not enforced: the 'collapse×superposition at the climax' claim depends on the DIAMOND movement landing on TOUR index 6, but movement type and axis choice are computed from two unrelated inputs.",
+     "evidence": "Movement type F (M/P/W/D/T) comes from MIDI note-density/velocity in `buildForms`; the projection axes come from `TOUR[segI % TOUR.length]` (line 710), where `TOUR[6]=[8,9]` is the D9 COLLAPSE × D10 SUPERPOSITION pair. Nothing couples the 'D' segment to segI==6. The help text (line 132) and code comment (632-633) both promise 'collapse×superposition AT THE CLIMAX', but for any piece whose velocity-peak segment isn't the 7th, the visual climax (diamonds center-stage) renders under whatever unrelated axes segI%10 yields.",
+     "severity": "minor",
+     "fix": "Couple the projection to the meaning, not the segment ordinal: drive axes from F via a per-movement map (e.g. `D → [8,9]`, `M → [9,10]`, `P → [10,5]`) inside the segment-change block, so the climax always sounds/looks its narrated projection. If you keep the ordinal tour, soften the copy to 'the tour passes through collapse×superposition' rather than 'at the climax'.",
+     "_lens": "conductor / performance coherence (choreography, animation timing, notation grammar, motion-fidelity)"
+    },
+    {
+     "claim": "An internal comment overstates motion-fidelity: it asserts the dancers never leave their data, but three of the four movements add invented offsets on top of the true pose.",
+     "evidence": "Lines 630-631 comment: 'the dancers glide because the world turns, not because they leave their data.' Yet in `balletTargets` the M movement adds `Math.sin(ts*1.6+i)*6` breathing to superposed nodes (674-675), P replaces positions with a radius-20 orbit around the projected midpoint (680-681), and D replaces diamond/meta positions with a rotating `cx+cos(a)*S*.2` circle (690-697). Only W (and the axis swaps) are genuine re-projections; M/P/D genuinely leave the data.",
+     "severity": "polish",
+     "fix": "Scope the purity claim to where it's true. Reword to something like 'in the epoch-wave and projection swaps the dancers move because the world turns; the character movements are choreography, and the coda returns every node to its data position.' The user-facing copy already gets this right ('The dance ends where truth is') — align the comment so the code doesn't contradict itself.",
+     "_lens": "conductor / performance coherence (choreography, animation timing, notation grammar, motion-fidelity)"
+    }
+   ]
+  },
+  {
+   "lens": "auditor — technical correctness, craft floor, and fact-to-source fidelity",
+   "n": 3,
+   "findings": [
+    {
+     "claim": "The canvas and both drawers are pinned to hard-coded top offsets tuned to a single-row toolbar, but the toolbar is set to wrap, so below ~1100px the instrument renders underneath its own controls.",
+     "evidence": "`#stage{position:fixed;inset:0;top:52px}` (line 31) and `.drawer{position:fixed;top:64px...}` (line 36) assume a 52px deck. `.deck-in` is `display:flex;...flex-wrap:wrap` (line 15) carrying 7 control groups (Projection/Time/Layers/Lens/Perform/guide/stats) with no width `@media` anywhere — the only media query is `prefers-reduced-motion` (line 62). When the bar wraps to 2–4 rows its height exceeds 52px and overlaps the fixed canvas and drawers.",
+     "severity": "major",
+     "fix": "Make the deck itself define the offset instead of a magic number: put the canvas/drawers in normal flow below a `position:sticky` deck, or measure deck height into a `--deck-h` CSS var on resize and use `top:var(--deck-h)`. At minimum add a narrow-width breakpoint that collapses the control groups.",
+     "_lens": "auditor — technical correctness, craft floor, and fact-to-source fidelity"
+    },
+    {
+     "claim": "Functional micro-labels fall below the 4.5:1 contrast floor — the group labels a user reads to orient the toolbar are the worst case.",
+     "evidence": "`.glbl{...color:var(--mut)}` with `--mut:#475569` at `font-size:.5rem` (lines 28,5) renders PROJECTION/TIME/LAYERS/LENS/PERFORM at ~2.7:1 on `--bg #020408`; the same `#475569` on the drawer surface (`.dimrow .n`, line 45) is ~2.5:1 for the D1–D12 state-vector labels; the HUD honesty/legend text `.kv` uses `--dim #64748b` (line 34) at ~4.34:1, also just under floor.",
+     "severity": "minor",
+     "fix": "Lift the functional labels one step (e.g. `--glbl` → `#64748b`+; HUD `--dim` → `#7c8ba1`). Keep `#475569` only for the truly decorative grain, not for orienting chrome or data labels.",
+     "_lens": "auditor — technical correctness, craft floor, and fact-to-source fidelity"
+    },
+    {
+     "claim": "The primary canvas and three of the projection controls have no accessible name, so the whole instrument is opaque to assistive tech (the ↑↓ node-cycle drawer path is the only mitigation).",
+     "evidence": "`<canvas id=\"cv\">` (line 107) has no `role`/`aria-label`. `<select id=\"dx\">`/`<select id=\"dy\">` (lines 69) and `<select id=\"metro\">` (line 74) have no `aria-label` or associated `<label for>` — the adjacent `<span class=\"lbl\">X</span>` is not programmatically linked. Note `#epoch`,`#tempo`,`#inst` already carry `aria-label`, so the omission is inconsistent, not intentional.",
+     "severity": "minor",
+     "fix": "Add `role=\"img\"` + a descriptive `aria-label` to the canvas, and `aria-label` to `#dx` (\"X projection axis\"), `#dy` (\"Y projection axis\"), `#metro` (\"Metronome mode\") to match the labeled controls.",
+     "_lens": "auditor — technical correctness, craft floor, and fact-to-source fidelity"
+    }
+   ]
+  },
+  {
+   "lens": "skeptic — where the artifact overclaims or lies about its own fidelity",
+   "n": 4,
+   "findings": [
+    {
+     "claim": "The five META-family node drawers assert precise evidentiary-road counts that the embedded lattice does not contain — the page renders and sonifies these nodes at hardness 0 with zero connections, while their prose describes them as the graph's most-connected story.",
+     "evidence": "In the lattice JSON, meta_ont.what = \"Receives 31 evidentiary roads but emits almost nothing\"; meta_lib.what = \"17 documents, 64 roads out — and in-degree ZERO\"; meta_ety = \"Pure exporter: 8 roads out, 0 in\"; meta_met = \"24 library roads vs 8 epistemology roads in\". But `edges` contains 0 edges touching any of meta_ont/epi/met/ety/lib (verified: `edges touching ANY meta node: 0`). So `hard(meta_lib,8)=0` → in the symphony `if (hd===0) return;` (line 845) means the meta-family is literally never sounded, and in the plot they collapse to the hardness-0/in-deg-0 corner. The page's own honesty note (line 113) says \"this is a computed projection of the lattice,\" and the D1 law is \"hardness = count of DISTINCT domains among in-edge source nodes\" — the 31/64/8/24 counts are fabricated relative to that computation.",
+     "severity": "critical",
+     "fix": "Either add the ~31/64/8 edges the prose asserts (so hardness, sound, and position match the story), or strip the integer road-counts from the meta drawers and state plainly that the family-scale connectivity analysis is external to this lattice. Cut is cleaner: a node described as 'receives 31 roads' cannot render silent and unconnected.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "The symphony copy guarantees \"no semitone clashes ... by construction\" in the same breath that it unlocks maj7 and 9 — but maj7 puts a semitone into the scale, and the pitch-quantizer actually emits adjacent semitone notes at later epochs.",
+     "evidence": "Help drawer (line 132): \"maj7 and 9 unlock at later epochs — Debussy/Satie by construction, no semitone clashes.\" Code: `offs=[0,2,4,7,9]; if(k>=6)offs.push(11); if(k>=7)offs.push(14)` (lines 799-801). With root Db the scale pc-set becomes {0,1,3,5,8,10} — pc 0 and pc 1 are a semitone apart. Simulating `quant(40+y*45,deg)` across the Y range yields adjacent MIDI pairs 48-49, 60-61, 72-73, 84-85 — real semitone/minor-second clashes two nodes can sound together. The 'by construction' guarantee holds only for the pure pentatonic (k=5, early epochs).",
+     "severity": "major",
+     "fix": "Drop 'no semitone clashes' or qualify it to the pentatonic core: say the base scale is clash-free and that maj7/9 add a deliberate tension at later epochs. Don't assert an invariant the same clause voids.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "\"Change any control and the music must change — that is the test\" fails for its own trails layer: the trails echo is wired once at symphony start and does not respond to toggling trails during playback, unlike the other three layers which re-read per measure.",
+     "evidence": "Help drawer (line 132) states the test explicitly. `entangle`/`invariants`/`satoshi` are read inside `symMeasure` every measure (`if(showEnt)` L859, `if(showSat)` L864, `if(showInv)` L870), so they change the next measure. But the trails echo delay graph is built only inside `toggleSymph` (`if (trails){...createDelay...}` L885-889), and the trails toggle handler is just `toggle('t-trail', v => trails = v)` (L418) — no audio rebuild. Toggling trails mid-symphony changes nothing audible.",
+     "severity": "minor",
+     "fix": "Either make the trails toggle live (route through/around the delay on change) or soften the claim to 'most controls' — the artifact set itself a falsifiable test and one control fails it.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "The ballet's projection-tour narration names a fixed meaningful climax projection (\"collapse×superposition at the climax\") that the code does not guarantee — the axis sequence is indexed by raw segment number, decoupled from the data-driven movement forms.",
+     "evidence": "Help drawer (line 132) and code comment (L629-633): \"kinematics → degrees → entropy → collapse×superposition at the climax.\" But `TOUR` is a fixed 10-entry array (L634) indexed as `TOUR[segI % TOUR.length]` (L710), while the Diamond climax form 'D' is assigned by `buildForms` per note-density/velocity (L558-559) and can land on any segment index. So the [8,9] collapse×superposition projection (TOUR index 6) is not pinned to the 'D' climax segment — the stated correspondence is coincidental, not enforced.",
+     "severity": "polish",
+     "fix": "Bind the projection to the form (e.g. pick the X·Y pair from PROGRAM[form], so the Diamond movement always renders collapse×superposition), or describe the tour as an independent axis cycle rather than one keyed to the movements.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    }
+   ]
+  },
+  {
+   "lens": "skeptic — where the artifact overclaims or lies about its own fidelity",
+   "n": 5,
+   "findings": [
+    {
+     "claim": "The '720° pressure test' is presented as the gate that crystallizes a node, but the code performs none of it — crystallization is pure in-edge counting.",
+     "evidence": "Modal rule-box: \"a node crystallizes only when it survives both sweeps AND holds ≥4 in-edges from distinct uncorrelated domains.\" But the only crystallization trigger in code is `hardness(n,ep) >= 4`, and `hardness` is just `doms.size` over `EDGES.forEach(e => ... doms.add(byId[e[0]].dom))`. No LAB/BAR/Bayesian/COURT/Recoil/KKL/FunHouse sweep is ever evaluated. The drawer then hard-codes the verdict for anything with 4 edges: `hd>=4 ? 'survived — orthogonal echo confirmed' : ...` and `anterior sweep = filed in meta-audit gauntlet · posterior sweep = survived`. Every diamond gets 'survived', regardless of the node's actual status.",
+     "severity": "major",
+     "fix": "Drop the 'survives both sweeps AND' precondition from the rule-box (the code only counts edges), or make the drawer say what it measures: 'hardness N — N distinct source domains.' Don't assert a sweep the artifact doesn't run.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "The drawer asserts 'orthogonal echo confirmed' for diamonds, directly contradicting the artifact's own nodes that say the echo detector isn't running, and dressing a tag-count as measured orthogonality.",
+     "evidence": "Drawer string: \"survived — orthogonal echo confirmed\". HUD copy: \"Hardness is EARNED: distinct uncorrelated domains pointing at the same node.\" Yet the same JSON says the Orthogonal Echo Detector is \"RC-OPS-001 gated behind an Observatory period — not ROM\", the goal lattice is \"gated at 100 receipts\", and the Folksonomist \"Runs on synthetic corpora only until 100R\". The metric under all of it is `doms.add(byId[e[0]].dom)` — the count of distinct author-assigned `dom` tags on hand-drawn edges. 'Uncorrelated / orthogonal / confirmed' claims independence and a detection event that the code neither measures nor, by its own admission, can run yet.",
+     "severity": "major",
+     "fix": "Say 'distinct authored domains' not 'uncorrelated/orthogonal', and cut 'echo confirmed' — the node's own text admits the echo detector is gated. Hardness = tag-distinctness of hand-authored edges; label it as such.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "The Resolution ladder overclaims: its top two stops ('8K' and 'LOSSLESS') render identical pixels, and '8K' at factor 1 is native devicePixelRatio, nowhere near 8K.",
+     "evidence": "`RES_STOPS = [['8-BIT',.055],['32MB',.14],['2K',.38],['4K',.68],['8K',1],['LOSSLESS',1]]` — 8K and LOSSLESS are both factor 1, so `cv.width = clientWidth*devicePixelRatio*1` is identical for both. Sliding 8K→LOSSLESS changes zero pixels; the only difference is `LOSSLESS` disabling label culling (`if (LOSSLESS || z >= minZ ...)`). The comment claims \"real pixels, not a filter... no information dropped\", but the named resolution climb flatlines at the top and the highest 'quality' rung is a label-culling toggle, not more resolution.",
+     "severity": "minor",
+     "fix": "Either give LOSSLESS a genuinely higher factor, or rename the top rung so it doesn't promise resolution it doesn't add (e.g. '8K' → 'NATIVE', 'LOSSLESS' → 'ALL LABELS').",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "Gold is overloaded: any node reaching 4 domains is force-filled gold, discarding its status color, so the legend's color code is unreadable for exactly the most important nodes.",
+     "evidence": "Legend: \"■ formalized [green] · ■ needs truing [gold] · ■ needs shoring [red] · ■ gated [steel]\". But diamonds render `ctx.fillStyle = hd>=4 ? '#FFD700' : c` — gold regardless of status. So a formalized 'ok' node like `rec`/`sup`/`noto` (all status 'ok', all diamonds) shows gold, which the legend reads as 'needs truing'. The one color channel that encodes truth-state is overwritten by the hardness channel at the top of the lattice.",
+     "severity": "minor",
+     "fix": "Encode diamond-ness in the halo/shape (already present) and keep the fill on the status color, so a formalized diamond doesn't read as 'needs truing'.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    },
+    {
+     "claim": "Legend implies distinct glyphs for crystal vs diamond, but the canvas draws the same 4-point diamond shape for both.",
+     "evidence": "HUD: \"◆ crystal = 3 · ◈ diamond = 4+\". In `draw`, the `else` branch (hd>=3) draws one shape — `moveTo(n.x,n.y-dr) ... lineTo` a 4-point rhombus — for both hd===3 and hd>=4; they differ only by color, halo and size, not glyph. The two distinct legend glyphs (◆ vs ◈) set an expectation the render doesn't meet.",
+     "severity": "polish",
+     "fix": "Match the legend to what's drawn (same glyph, 'crystal 3 / diamond 4+ = brighter+haloed'), or actually vary the polygon for hd>=4.",
+     "_lens": "skeptic — where the artifact overclaims or lies about its own fidelity"
+    }
+   ]
+  },
+  {
+   "lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction.",
+   "n": 9,
+   "findings": [
+    {
+     "claim": "The default view awards itself SUPERIONIC — the named end-state — from thresholds the artifact's own data admits are informal, in the loudest position on the page (top-deck badge).",
+     "evidence": "Line 247: `const phase = mean < .8 ? ['GAS',…] : mean < 1.4 ? ['LIQUID',…] : (dia >= 3 && flowing) ? ['SUPERIONIC','#00F0FF'] : ['SOLID',…]` where `flowing = EDGES.some(e => e[2] === ep)` (any single edge at the current epoch counts as 'flow'). The embedded pct node says of these very numbers: \"Constants and thresholds informal — feeds the phase gauge on this page.\" The rule-box (l.125) declares \"the lattice cannot harden by enthusiasm alone\" — yet the page's first-paint headline is the maximum phase, derived from unfitted magic constants (.8 / 1.4 / dia>=3).",
+     "severity": "major",
+     "fix": "Cut the standalone `.phase` badge from the deck. Fold the phase word into the existing HUD stats row (kv styling, next to mean hardness) suffixed \"(informal thresholds)\" — the l.97 disclaimer already half-does this job; one honest small readout replaces one loud unearned one.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The drawer stamps an unearned '720° state' verdict on every node: 'anterior sweep = filed in meta-audit gauntlet' is asserted unconditionally with no per-node field backing it, and 'posterior sweep = survived — orthogonal echo confirmed' is derived solely from domain count — but the artifact's own diamond rule requires sweep survival AND ≥4 domains as separate conditions.",
+     "evidence": "Line 302: `720° state: anterior sweep = filed in meta-audit gauntlet · posterior sweep = ${hd>=4 ? 'survived — orthogonal echo confirmed' : …}`. No node in lattice-data carries any sweep-status field; nodes like cmw (\"not yet canon-defined terms\") get the same 'filed' assertion as rec. The modal (l.125) states the rule as \"survives both sweeps AND holds ≥4 in-edges\" — the code collapses the conjunction into the count.",
+     "severity": "major",
+     "fix": "Cut the sentence entirely. The chip + `◈ DIAMOND / hardness N — <roads>` line directly above it already renders exactly what the data holds, nothing more.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The `invariants` and `satoshi` blocks are dead payload — a three-grade epistemology (TAUTOLOGY / CONSTITUTIONAL / EMPIRICAL, arguably the most curator-grade content in the file) and the fractal-receipt thesis are shipped, exported via the ↓ .json button, and never rendered by a single line of the runtime.",
+     "evidence": "Line 129 contains `\"invariants\":{\"note\":\"Three grades of always-true…\",\"tautology\":[…]…}` and `\"satoshi\":{\"note\":\"The receipt is ARCS's satoshi…\"}`; grep of the runtime script confirms `DATA.invariants` and `DATA.satoshi` are referenced zero times — no visual, no drawer text, no HUD stat reads them.",
+     "severity": "major",
+     "fix": "Cut both blocks from lattice-data (they already live in the meta-audit). If the invariant grades belong in this instrument, they must be a visible encoding — as shipped they are silent bytes masquerading as part of the exported lattice.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The Resolution slider is a decorative fidelity toy: five of its six stops only degrade the canvas backing store for effect, its scale mixes incoherent units, and its sole informational payload (label culling off) lives at one extreme — while it competes with the adjacent 'Fidelity' slider for the same concept.",
+     "evidence": "Line 169: `RES_STOPS = [['8-BIT',.055],['32MB',.14],['2K',.38],['4K',.68],['8K',1],['LOSSLESS',1]]` — '32MB' is a memory size sitting in a resolution scale; 8K and LOSSLESS are the same pixel factor (1). Line 31 `image-rendering:pixelated` exists only to serve the degradation. The comment at l.169-170 concedes the only semantic content: \"LOSSLESS additionally disables label culling.\" In this world fidelity is EARNED by hardness (ax5, l.97) — not dialed down by the viewer for retro flavor.",
+     "severity": "major",
+     "fix": "Cut the slider, `RES`/`RES_STOPS`, and `image-rendering:pixelated`. If label-culling control is worth keeping, it is one small 'all labels' toggle (the LOSSLESS behavior), not a six-stop instrument.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "Two replay controls perform the same journey with divergent tempo logic: '▶ replay' (fixed 700ms, no stop affordance) duplicates '🎼 perform' (data-paced dwell, toggleable), and both drive `ep` so they can run concurrently and fight over the scrubber.",
+     "evidence": "Line 78 `<button class=\"btn\" id=\"play\">▶ replay</button>` → l.283-286 fixed `setInterval(…,700)` vs l.337-357 perform's `dwell = Math.max(1.15, evs.length * .085 + .55)`. Neither guards against the other running.",
+     "severity": "minor",
+     "fix": "Cut #play and its handler. Perform IS the replay — the sonified epoch replay is the artifact's stated thesis; one door.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The hardness rule is stated in prose in four places on one page.",
+     "evidence": "l.90 legend \"◈ diamond = 4+ orthogonal domains\"; l.97 HUD \"Hardness is EARNED: distinct uncorrelated domains pointing at the same node\"; l.302 drawer \"diamond requires 4 across both sweeps\"; l.125 rule-box \"a node crystallizes only when it survives both sweeps AND holds ≥4 in-edges from distinct uncorrelated domains.\"",
+     "severity": "minor",
+     "fix": "Keep the legend (glanceable) and the modal rule-box (the formal statement). Cut the second sentence of the l.97 HUD row (keep only the phase/product disclaimer) and cut the drawer footer (already cut per finding 2).",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The zoom control is labeled 'Fidelity', colliding with both the adjacent 'Resolution' control and the canon meaning of fidelity (earned render certainty) — three controls claim fidelity vocabulary and a first-time viewer cannot tell which one maps to the ARCS law.",
+     "evidence": "l.70-72: `<span class=\"lbl cy\">Fidelity</span> <input id=\"zoom\" … aria-label=\"Semantic fidelity: galactic to quantum\">` next to l.73 `<span class=\"lbl\">Resolution</span>`; meanwhile node ax5 in the same file defines the canon sense: \"Fidelity is earned … never display more certainty than the data holds\" — which is what HARDNESS encodes, not what the wheel-zoom does.",
+     "severity": "minor",
+     "fix": "Rename the zoom control 'Altitude' — the corpus's own word for grain-of-view (node alt: \"Altitude / Lossless Translation … AltitudePicker\") — and let hardness alone own 'fidelity'.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The zoom level readout is displayed twice simultaneously.",
+     "evidence": "l.251 stats row renders `level <b>${level(cam.z)}</b>` while l.252 sets `zoom-lbl.textContent = level(cam.z)` in the deck — same value, two locations, every frame.",
+     "severity": "polish",
+     "fix": "Cut `· level <b>…</b>` from the stats template; the deck label next to the slider is the natural home.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    },
+    {
+     "claim": "Dead CSS class and one off-register color emoji.",
+     "evidence": "l.14 defines `.lbl.gr{color:var(--green)}` — the string `lbl gr` appears nowhere in the markup. l.82: `🎼 perform` is the only color emoji in an otherwise monochrome mono-glyph deck (▶, ↓, ✕ are all glyphs).",
+     "severity": "polish",
+     "fix": "Delete `.lbl.gr`. Replace 🎼 with a text glyph (♪) or just 'perform' — instruments, not stickers.",
+     "_lens": "THE CURATOR — diamond-cut / earned-fidelity / IA coherence. Aesthetic-and-minimalist (Nielsen #8): 3/4 — the core instrument (polar lattice, hardness encoding, epoch scrub, drawer) is disciplined and the data claims are real, but a decorative second fidelity-control layer, one unearned claim rendered per-node, dead JSON payload, and quadruplicated rule prose dilute it. Every fix below is a subtraction."
+    }
+   ]
+  }
+ ],
+ "knowledge-lattice": [
+  {
+   "lens": "The Conductor — performance/motion coherence: does the replay read as one authored performance, is timing data-driven not default, does it degrade under reduced-motion, and does the visual \"final pose\" stay synced to what the data justifies",
+   "n": 4,
+   "findings": [
+    {
+     "claim": "The same epoch replay is choreographed by two contradictory tempo laws — the prominent silent ▶ replay steps at a flat 700ms/epoch while 🎼 perform dwells in proportion to each epoch's edge count. One score, two batons; the 'data plays itself' promise only holds in the audio transport.",
+     "evidence": "Line 285 (play): `setInterval(() => { ... ep = i ... }, 700)` — constant, edge-count-blind. Line 344 (perform): `const dwell = Math.max(1.15, evs.length * .085 + .55)` — data-proportional. e8 lands ~30 edges in the same 700ms as a 1-edge epoch under ▶, but breathes under 🎼.",
+     "severity": "major",
+     "fix": "Delete the flat 700ms law. Make ▶ replay reuse the perform tempo (dwell ∝ evs.length) so both transports read the same rhythm — the density IS the music, in both channels.",
+     "_lens": "The Conductor — performance/motion coherence: does the replay read as one authored performance, is timing data-driven not default, does it degrade under reduced-motion, and does the visual \"final pose\" stay synced to what the data justifies"
+    },
+    {
+     "claim": "The prefers-reduced-motion guard is inert and the artifact's actual motion ignores the preference: the replay and the auto-playing audio are JS timer loops, untouched by the CSS rule, so a reduced-motion user still gets full epoch animation and unsolicited autoplay sound.",
+     "evidence": "Line 65 `@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}` is the ONLY animation/transition token in the file (grep confirms zero `@keyframes`/`transition:`/`animation:` elsewhere) — it governs nothing. The real motion is `setInterval(...700)` (line 285) and `perfTimers`/`pPluck` (lines 337-357), neither gated on `matchMedia('(prefers-reduced-motion: reduce)')`.",
+     "severity": "major",
+     "fix": "Read `matchMedia('(prefers-reduced-motion: reduce)').matches` once; when true, make ▶ jump straight to the e8 final pose (no stepping) and never auto-start audio. Then the inert CSS rule can stay or go — the JS is what must honor the preference.",
+     "_lens": "The Conductor — performance/motion coherence: does the replay read as one authored performance, is timing data-driven not default, does it degrade under reduced-motion, and does the visual \"final pose\" stay synced to what the data justifies"
+    },
+    {
+     "claim": "In the sonified performance the visual crystallization and its sonic accent are out of phase: the diamond glyph renders at the epoch's downbeat (te) but its 'a diamond is born' chord fires ~0.6·dwell (≈0.7–2s) later — the accent lands well after the event it marks.",
+     "evidence": "Line 346 draws epoch e at `te` (the setTimeout fires at te-now); line 351 plays the birth chord at `te + dwell * .6`. The glyph is already the diamond at te via `hardness(n,e) >= 4`, so the chord celebrates something already on screen.",
+     "severity": "minor",
+     "fix": "Fire the birth chord at the epoch downbeat (`te`, or `te + i*.085` co-timed with that node's own edge pluck), not at `te + dwell*.6`. Let the accent land on the beat it marks.",
+     "_lens": "The Conductor — performance/motion coherence: does the replay read as one authored performance, is timing data-driven not default, does it degrade under reduced-motion, and does the visual \"final pose\" stay synced to what the data justifies"
+    },
+    {
+     "claim": "The ▶ replay transport does not guard against re-entry: each click spawns a fresh interval with no clear of the prior one, so a double-click runs two epoch sequences racing over the shared `ep`, making the performance visibly stutter and step non-monotonically. The 🎼 perform transport guards re-entry; ▶ does not — an incoherence between the two batons.",
+     "evidence": "Lines 283-286: the play handler unconditionally `ep=1; ... setInterval(...)` with no stored timer id and no clear. Contrast line 338 where perform does `if (PAC) { perfTimers.forEach(clearTimeout); ... return; }`.",
+     "severity": "minor",
+     "fix": "Store the play interval id and `clearInterval` it (or early-return) on re-click, mirroring perform's guard. Give ▶ the same play/stop toggle the score already has for 🎼.",
+     "_lens": "The Conductor — performance/motion coherence: does the replay read as one authored performance, is timing data-driven not default, does it degrade under reduced-motion, and does the visual \"final pose\" stay synced to what the data justifies"
+    }
+   ]
+  },
+  {
+   "lens": "THE CURATOR — diamond cut / aesthetic-and-minimalist (Nielsen #8). Score: 2/4. Elegant bones (obsidian canvas, one restrained palette, mono labels), but the header carries 8 controls, one of which is a decorative gimmick that contradicts the world's own render-scale law, one is mislabeled and collides with its neighbor, and a second replay driver duplicates the first. Every fix below is a subtraction.",
+   "n": 4,
+   "findings": [
+    {
+     "claim": "The 'Resolution' slider is a decorative pixelation toy that actively inverts the ARCS render-scale law it cosplays — earned fidelity is supposed to be earned BY the data, never chosen by a hand on a knob.",
+     "evidence": "Lines 169-171/275-280: RES_STOPS=[['8-BIT',.055],['32MB',.14],['2K',.38],['4K',.68],['8K',1],['LOSSLESS',1]] downsamples the canvas backing store so the user can drag the lattice to '8-BIT' blur. It conveys nothing about the knowledge; '8K' and 'LOSSLESS' share factor 1, so one of the six stops is a dead pixel-identical duplicate. WORLD.md: 'never display more certainty than the data holds' — this lets a user impose LESS on demand, the opposite gesture.",
+     "severity": "major",
+     "fix": "Cut the entire control: remove the slider (73-75), RES_STOPS/RES/LOSSLESS, the resEl handler, and the `LOSSLESS ||` branch in label culling (230). Hardcode RES=1. Frees the most cramped slot in the header and removes a law-contradicting gimmick.",
+     "_lens": "THE CURATOR — diamond cut / aesthetic-and-minimalist (Nielsen #8). Score: 2/4. Elegant bones (obsidian canvas, one restrained palette, mono labels), but the header carries 8 controls, one of which is a decorative gimmick that contradicts the world's own render-scale law, one is mislabeled and collides with its neighbor, and a second replay driver duplicates the first. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The cyan 'Fidelity' slider is actually a zoom/altitude control, and it sits directly beside a separate control literally named 'Resolution' — the two labels invite exactly the wrong reading of which knob does what.",
+     "evidence": "Lines 70-72: `<span class=\"lbl cy\">Fidelity</span>` drives `#zoom`→cam.z, and its readout `#zoom-lbl` prints `level(cam.z)` = GALACTIC/EXEC/OPERATIONAL/QUANTUM (line 252) — altitude names, not fidelity. 'Altitude / Lossless Translation' is already a first-class node in the lattice's own data (id `alt`).",
+     "severity": "major",
+     "fix": "Rename the label from 'Fidelity' to 'Altitude'. Once the Resolution slider is cut, this is the only zoom control and the name finally matches both the readout and the corpus term.",
+     "_lens": "THE CURATOR — diamond cut / aesthetic-and-minimalist (Nielsen #8). Score: 2/4. Elegant bones (obsidian canvas, one restrained palette, mono labels), but the header carries 8 controls, one of which is a decorative gimmick that contradicts the world's own render-scale law, one is mislabeled and collides with its neighbor, and a second replay driver duplicates the first. Every fix below is a subtraction."
+    },
+    {
+     "claim": "Two buttons drive the same epoch replay, so the timeline can be auto-played three ways (manual slider + silent replay + sonified perform).",
+     "evidence": "Line 78 `▶ replay` runs a silent 700ms setInterval stepping ep 1→8 (283-286); line 82 `🎼 perform` runs the same 1→8 walk with audio + variable dwell (337-357) and also animates each `draw()`. The perform button fully subsumes the silent one; the epoch slider (77) already covers manual scrub.",
+     "severity": "minor",
+     "fix": "Cut the `▶ replay` button and its handler. Perform covers auto-play; the epoch slider covers manual. Two epoch affordances, not three.",
+     "_lens": "THE CURATOR — diamond cut / aesthetic-and-minimalist (Nielsen #8). Score: 2/4. Elegant bones (obsidian canvas, one restrained palette, mono labels), but the header carries 8 controls, one of which is a decorative gimmick that contradicts the world's own render-scale law, one is mislabeled and collides with its neighbor, and a second replay driver duplicates the first. Every fix below is a subtraction."
+    },
+    {
+     "claim": "The HUD's fourth row re-explains hardness in prose that the legend one row above already states, and the drawer footer states a third time.",
+     "evidence": "Line 90 legend: '◈ diamond = 4+ orthogonal domains'. Line 97 paragraph: 'Hardness is EARNED: distinct uncorrelated domains pointing at the same node.' Line 302 drawer: 'diamond requires 4 across both sweeps'. Three restatements of one rule.",
+     "severity": "minor",
+     "fix": "Delete the second sentence of line 97 (keep only the 'phase describes the lattice, not the product' clause, which is non-redundant). The legend glyph carries the hardness definition.",
+     "_lens": "THE CURATOR — diamond cut / aesthetic-and-minimalist (Nielsen #8). Score: 2/4. Elegant bones (obsidian canvas, one restrained palette, mono labels), but the header carries 8 controls, one of which is a decorative gimmick that contradicts the world's own render-scale law, one is mislabeled and collides with its neighbor, and a second replay driver duplicates the first. Every fix below is a subtraction."
+    }
+   ]
+  },
+  {
+   "lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source",
+   "n": 6,
+   "findings": [
+    {
+     "claim": "On mobile the fixed header occludes the top of the canvas — including the ONTOLOGY meta-node the code specifically works to keep on-viewport.",
+     "evidence": "`#stage{position:fixed;inset:0;top:52px}` (line 29) hardcodes a single-row 52px header, but `.deck-in{...flex-wrap:wrap}` (line 17) with fixed-width sliders (`width:120px`, `#res width:90px`) + wordmark + 3 buttons + phase pill wraps to 3–4 rows (~150–190px) below ~760px wide. The deck bg is near-opaque `rgba(2,4,8,.94)`, so it paints over the top canvas band. There is no mobile `@media` anywhere — the only query is `@media (prefers-reduced-motion:reduce)` (line 65). The ONTOLOGY meta-node sits at domain angle `-90°` (data `\"ont\":{...\"a\":-90}`), i.e. straight up at the top of the ring — the exact node the comment at lines 163–164 (\"ONTOLOGY sits at the top of the ring and was falling off-viewport… the missing 5th meta-node bug\") fought to reveal, now re-hidden under the wrapped header.",
+     "severity": "major",
+     "fix": "Add a `@media (max-width:760px)` that either sets `#stage{top:auto}` with a spacer sized to the real deck height, or makes `.deck` position:sticky/relative so `#stage` flows below it; alternatively cap `.deck` height and horizontally scroll the control cluster. Do not leave `top:52px` as a single-row assumption against `flex-wrap:wrap`.",
+     "_lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source"
+    },
+    {
+     "claim": "Substantive secondary text renders below the 4.5:1 contrast floor on the dark background — including real per-node evidence, the symbol legend, and the done-state disclaimer.",
+     "evidence": "`.lbl{...color:var(--mut)}` = `--mut:#475569` on `--bg:#020408` computes ~2.7:1 (fails 4.5:1; text is ~10px, not large). The drawer '720° state' footnote uses `color:var(--mut)` at `.72rem` on drawer surface `#0d1117` ≈ 2.5:1 (line 302: \"anterior sweep = filed… posterior sweep = survived — orthogonal echo confirmed\" — real content). The HUD legend and the ~42% disclaimer use `.kv{...color:var(--dim)}` = `--dim:#64748b` ≈ 4.34:1 (lines 90, 93, 97) — the primary wayfinding key for the node glyphs and the load-bearing 'done-state ~42%' caveat, both just under floor.",
+     "severity": "major",
+     "fix": "Lift persistent-chrome text (legend, drawer footnote, disclaimer) to at least `--sec:#94a3b8` (≈8:1) or a new ~#8b98a8 token; reserve `--mut`/`--dim` for genuinely decorative separators, not for the legend that decodes the whole visualization.",
+     "_lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source"
+    },
+    {
+     "claim": "The canvas has no accessible name or fallback, and all node inspection is mouse/touch-click only — no keyboard path, nothing for assistive tech; the document also lacks a doctype and lang.",
+     "evidence": "`<canvas id=\"cv\"></canvas>` (line 86) has no `aria-label`, no `role`, no fallback text; node selection lives entirely in `pointerup`→nearest-node hit test (lines 259–268) with no `tabindex`/`keydown` node navigation, so the entire 80-node drawer dataset is unreachable by keyboard or screen reader. The file opens with `<meta charset>` (line 1) — no `<!doctype html>` (quirks-mode risk for this standalone `_ARTIFACTS/` deliverable) and no `<html lang>`. `#dx` close button (`class=\"x\"`, line 100) also has no `:focus-visible` style (only `.btn` does, line 25).",
+     "severity": "minor",
+     "fix": "Add `<!doctype html>` + wrap with `<html lang=\"en\">`; give the canvas an `aria-label` and a visually-hidden text list of nodes as fallback; add arrow-key/Tab node cycling that drives `openDrawer`; add a `:focus-visible` outline to `.x`.",
+     "_lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source"
+    },
+    {
+     "claim": "The ATG node misattributes its own stale-claim source — says AGENTS.md, but the repo's stale ATG 'not built' claim is in CLAUDE.md (AGENTS.md's stale claim is a different node).",
+     "evidence": "Node `atg` reads: \"live in code AND stale-claimed as unbuilt in AGENTS.md (truth-sync pending, audit #02).\" ATG is indeed live in code (`src/app/api/compass/route.ts:420 atgTributaries`, `page.tsx:28`, `receipts/save/route.ts:84`). But the stale 'not built' claim lives in `CLAUDE.md:68` (\"## ATG — next major feature (backlog)\") and `:72`. The parent meta-audit itself pins it: `_STATE/meta-audit-roadmap-v1.md:99` — \"`CLAUDE.md:68/72` ATG 'not built'; `AGENTS.md:119` outcome handler 'Backlog'\". AGENTS.md's stale claim is the outcome handler, not ATG.",
+     "severity": "minor",
+     "fix": "Change 'stale-claimed as unbuilt in AGENTS.md' to 'in CLAUDE.md:68/72' to match the source of record.",
+     "_lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source"
+    },
+    {
+     "claim": "The visual '▶ replay' has no re-entry guard, so repeated clicks stack independent epoch-steppers that fight over state; it can also race the sonified 'perform' loop.",
+     "evidence": "Lines 283–286: `document.getElementById('play').addEventListener('click', () => { ep=1; ... let i=1; const t=setInterval(...) })` creates a new interval on every click without clearing a prior one (unlike `perform`, which toggles and clears `perfTimers` at line 338). Two concurrent intervals both mutate `ep`/`epEl.value`, and `perform` (line 346 timers) also drives `ep` — nothing prevents both running at once.",
+     "severity": "minor",
+     "fix": "Store the play interval id, `clearInterval` it at the top of the handler (toggle-to-stop like `perform`), and disable/stop `play` while `perform` runs and vice-versa.",
+     "_lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source"
+    },
+    {
+     "claim": "The 'adrs' node label states '32 ADRs' as a present-tense fact; a reader in-repo today sees 40.",
+     "evidence": "Node `adrs`: \"32 ADRs — Decision receipts for the build itself.\" On disk there are 40 distinct ADR numbers (`_DECISIONS/ADR-001..040` minus 021, plus 044). The nearest sourced count is 'ADRs' = 31 at 2026-07-11 (`_PATTERNS/2026-07-11-operator20-archaeology.md:23`), so 32 is ~period-accurate for the e8=2026-07-10 snapshot the lattice is pinned to — but nothing in the label signals it is a snapshot value, and the repo now holds 40 (incl. ADR-044, referenced by the current handoff).",
+     "severity": "polish",
+     "fix": "Either bump to the live count or mark it as the e8-snapshot figure (e.g. '~31 ADRs @ e8') consistent with the lattice's own epoch-pinning.",
+     "_lens": "AUDITOR — technical/craft correctness + fact-audit vs repo source"
+    }
+   ]
+  },
+  {
+   "lens": "THE CURATOR — diamond-cut / aesthetic-and-minimalist (Nielsen #8): 2/4. The visual system is disciplined and on-register (restrained palette from tokens.ts, earned-fidelity engine, no gratuitous chrome). But the page violates content-minimalism badly: §7's append-only changelog is the single largest mass on the page and dominates a document whose actual job is a bearing + a ranked next-move list. The through-line (\"engine live, loop open, close it before adding organs; move #2 canon truth-sync is the cheap unblocked win\") is real and findable at the top — but it is then re-litigated six times in the inchworm log and a third time inline in the stack rank. Every fix below is subtraction.",
+   "n": 5,
+   "findings": [
+    {
+     "claim": "§7 Golden Inchworm log is the dominant mass of the page and is mostly redundant history that buries the audit's through-line.",
+     "evidence": "Eleven <div class=\"inch\"> entries (lines 387-427); the two newest (v2.13.0 line 388, v2.12.0 line 392) are ~500-word single paragraphs. The same conclusion recurs verbatim-in-spirit: 'Canon truth-sync (#2) — unchanged rank for the 7th consecutive epoch' (389), '6th' (393), '5th epoch running' (396/397), plus 404/405/408. The section's own header (line 386) states the canonical twin already lives in-repo at _STATE/meta-audit-roadmap-v1.md and the log is append-only.",
+     "severity": "major",
+     "fix": "Keep only the latest 1-2 epoch entries live; collapse the remaining 9 into a single line pointing to the in-repo twin ('prior epochs -> _STATE/meta-audit-roadmap-v1.md'). The full trail is already git-tracked; the HTML does not need to be the archive. This is the biggest single diamond-cut on the page.",
+     "_lens": "THE CURATOR — diamond-cut / aesthetic-and-minimalist (Nielsen #8): 2/4. The visual system is disciplined and on-register (restrained palette from tokens.ts, earned-fidelity engine, no gratuitous chrome). But the page violates content-minimalism badly: §7's append-only changelog is the single largest mass on the page and dominates a document whose actual job is a bearing + a ranked next-move list. The through-line (\"engine live, loop open, close it before adding organs; move #2 canon truth-sync is the cheap unblocked win\") is real and findable at the top — but it is then re-litigated six times in the inchworm log and a third time inline in the stack rank. Every fix below is subtraction."
+    },
+    {
+     "claim": "The stack rank (§6) duplicates the inchworm changelog inline, turning a scannable priority list into a second copy of the epoch-by-epoch history.",
+     "evidence": "Move 02 (line 372) carries two stacked bold status stamps with file:line refs ('STILL OPEN 2026-07-22 — 5th epoch running ... CLAUDE.md:68/71 ... AGENTS.md:118/121' then 'STILL OPEN 2026-07-25 — 6th epoch, now 3 files'). Move 06 (line 376) stacks 'PARTIAL, 2026-07-25' + 'Still PARTIAL 2026-08-03'. That same history is already told in §7.",
+     "severity": "major",
+     "fix": "Strip the dated status-history from each move down to one current-state tag (the move already has a Y-badge). Let §7 own the trail. A next-moves list must read as clean priorities in seconds, not as an audit log.",
+     "_lens": "THE CURATOR — diamond-cut / aesthetic-and-minimalist (Nielsen #8): 2/4. The visual system is disciplined and on-register (restrained palette from tokens.ts, earned-fidelity engine, no gratuitous chrome). But the page violates content-minimalism badly: §7's append-only changelog is the single largest mass on the page and dominates a document whose actual job is a bearing + a ranked next-move list. The through-line (\"engine live, loop open, close it before adding organs; move #2 canon truth-sync is the cheap unblocked win\") is real and findable at the top — but it is then re-litigated six times in the inchworm log and a third time inline in the stack rank. Every fix below is subtraction."
+    },
+    {
+     "claim": "§4 Fun House and §6 #06 retain superseded-finding archaeology that a forward-facing audit should not carry.",
+     "evidence": "Line 348 opens the Fun House card with '[Superseded 2026-07-20 — see §8 v2.10.0.]' then narrates the retired 'product-vs-consultancy fork', its category-error correction, and 'the lanes were never rivals' before reaching the current point. Line 376's #06 heading similarly hangs '(fork retired 2026-07-20)' and re-explains 'The old ... was a category error; the frame is settled.'",
+     "severity": "minor",
+     "fix": "Cut the superseded narrative to its live conclusion only (the standing kryptonite: 'writing canon faster than closing loops'). The retraction history belongs in the inchworm log, not in the current mirror.",
+     "_lens": "THE CURATOR — diamond-cut / aesthetic-and-minimalist (Nielsen #8): 2/4. The visual system is disciplined and on-register (restrained palette from tokens.ts, earned-fidelity engine, no gratuitous chrome). But the page violates content-minimalism badly: §7's append-only changelog is the single largest mass on the page and dominates a document whose actual job is a bearing + a ranked next-move list. The through-line (\"engine live, loop open, close it before adding organs; move #2 canon truth-sync is the cheap unblocked win\") is real and findable at the top — but it is then re-litigated six times in the inchworm log and a third time inline in the stack rank. Every fix below is subtraction."
+    },
+    {
+     "claim": "The §2 two-dial explanation over-renders — it spells out both full ladders and the coupling behavior in prose the interactive dials already demonstrate.",
+     "evidence": "Line 283 is a ~90-word paragraph enumerating 'GALACTIC -> EXEC -> STRATEGIC -> OPERATIONAL -> TACTICAL -> SURGICAL -> QUANTUM' and '8-BIT.GRAIN -> 32MB.MOIRE -> 2K.DEGRADED -> 4K.SHARP -> 8K.LOCKED -> LOSSLESS' plus the time-dilation coupling; line 284 adds a second 'Doctrine guard' note. The register (WORLD.md: 'Copy that doesn't explain what you already understand') argues against narrating a slider.",
+     "severity": "minor",
+     "fix": "Cut to one sentence naming the two axes (semantic altitude vs render resolution) and let the labels/interaction carry the rest; move the ladder detail to the input title/tooltip. Drop or fold the separate doctrine-guard note.",
+     "_lens": "THE CURATOR — diamond-cut / aesthetic-and-minimalist (Nielsen #8): 2/4. The visual system is disciplined and on-register (restrained palette from tokens.ts, earned-fidelity engine, no gratuitous chrome). But the page violates content-minimalism badly: §7's append-only changelog is the single largest mass on the page and dominates a document whose actual job is a bearing + a ranked next-move list. The through-line (\"engine live, loop open, close it before adding organs; move #2 canon truth-sync is the cheap unblocked win\") is real and findable at the top — but it is then re-litigated six times in the inchworm log and a third time inline in the stack rank. Every fix below is subtraction."
+    },
+    {
+     "claim": "The 'entrance storytelling' animation is dead code trapped inside the export blob, where it never runs and corrupts the downloadable .md.",
+     "evidence": "The entrance block '// ── ENTRANCE: anime-style staggered reveal storytelling' (line 544) through line 566 sits INSIDE <script type=\"text/plain\" id=\"md-twin\"> (opened line 519, closed line 567). Because the block's type is text/plain it never executes, and the dl-md handler (line 510) dumps this raw JS into 'arcs-meta-audit-roadmap-v1.md'. The count-up gauge tween (lines 551-560) is also exactly the celebratory 'confetti' the register forbids ('Myst ... didn't celebrate with confetti').",
+     "severity": "minor",
+     "fix": "Delete lines 544-566 from the md-twin blob (subtraction — the export is instantly cleaner and the promised animation was never actually running). Do not re-home the count-up gauge tween; a calm instrument should render final values, not animate them.",
+     "_lens": "THE CURATOR — diamond-cut / aesthetic-and-minimalist (Nielsen #8): 2/4. The visual system is disciplined and on-register (restrained palette from tokens.ts, earned-fidelity engine, no gratuitous chrome). But the page violates content-minimalism badly: §7's append-only changelog is the single largest mass on the page and dominates a document whose actual job is a bearing + a ranked next-move list. The through-line (\"engine live, loop open, close it before adding organs; move #2 canon truth-sync is the cheap unblocked win\") is real and findable at the top — but it is then re-litigated six times in the inchworm log and a third time inline in the stack rank. Every fix below is subtraction."
+    }
+   ]
+  },
+  {
+   "lens": "skeptic — where the artifact overclaims its own fidelity or asserts a capability/precision the code doesn't deliver",
+   "n": 5,
+   "findings": [
+    {
+     "claim": "The marquee 'entrance storytelling' never runs, and the '↓ .md' export button ships a corrupted file — all of the reveal/count-up/stagger JS is stranded inside an inert text/plain block, not the executable script.",
+     "evidence": "Script boundaries (grep): live script is lines 433–517; the block at 519 is `<script type=\"text/plain\" id=\"md-twin\">` closing at 567. The entire entrance IIFE — `// ── ENTRANCE: anime-style staggered reveal storytelling`, `el.style.opacity = '0'; el.style.transform='translateY(16px)'`, the gauge count-up `requestAnimationFrame(tick)`, the node stagger — lives at lines 544–565, i.e. INSIDE md-twin. The live script (433–517) contains zero entrance code (confirmed: sed 433–517 grep for translateY/ENTRANCE/requestAnimationFrame returns nothing). So the page loads fully static (no fade-in, no count-up), and `dl-md` dumps `md-twin.textContent` (line 511) which appends ~22 lines of raw JavaScript after the 'UPDATE LAW:' line into the downloaded 'markdown twin.'",
+     "severity": "major",
+     "fix": "Move the entrance IIFE into the executable `<script>` (before the `</script>` at 517). Leave md-twin holding only Markdown so the export is clean.",
+     "_lens": "skeptic — where the artifact overclaims its own fidelity or asserts a capability/precision the code doesn't deliver"
+    },
+    {
+     "claim": "The parity matrix — under a header that brands itself 'verified against code, not handoffs' — asserts a 'Sage operator service · mounted /svc/sage' that does not exist anywhere in the code it claims to verify against.",
+     "evidence": "Line 296: `Built vs. promised — verified against code, not handoffs`. Line 309 row: `Sage operator service | mounted /svc/sage | zero callers | ORPHAN`. Whole-repo grep finds the only `svc/sage` reference is `scripts/state_sync_check.py:58`, a guard that PASSES when no src file contains it (`not any_file_contains(\"src/**/*.ts*\", r\"svc/sage\")`); there is no /svc route, no svc dir, and `grep -rin sage src/` returns only 'message'/'masopust' noise. The phantom then propagates: stack-rank #04 (line 374) 'Kills or crowns the /svc/sage orphan' and the BAR immune-system narrative both rest on it. 'zero callers' is trivially true only because nothing is mounted.",
+     "severity": "major",
+     "fix": "Point the row at the real artifact if one exists, or flip it to state plainly that no such service is mounted — do not present an absent route as a verified-in-code orphan under a 'verified against code' banner.",
+     "_lens": "skeptic — where the artifact overclaims its own fidelity or asserts a capability/precision the code doesn't deliver"
+    },
+    {
+     "claim": "The 7-stop 'Fidelity' altitude dial resolves to only 3 real states, and its advertised 'lossless translation' is literally `display:none` — deletion, not translation, as the artifact's own print disclosure admits.",
+     "evidence": "Copy (line 283 / JS comment 439): 'GALACTIC → EXEC → STRATEGIC → OPERATIONAL → TACTICAL → SURGICAL → QUANTUM — the same facts at coarser or finer grain (lossless translation).' But `altitude(v)` (lines 437–441) only toggles three classes via `v <= 1 ? alt-exec : v <= 3 ? alt-op : alt-surg`, so 4 of the 6 slider moves change nothing on screen (GALACTIC≡EXEC, STRATEGIC≡OPERATIONAL, TACTICAL≡SURGICAL≡QUANTUM). The 'coarsening' mechanism is CSS `display:none` (lines 50–52) — detail is hidden, not compressed. The print CSS contradicts the 'lossless' word outright at line 207: 'OPERATOR- AND SURGICAL-DEPTH ITEMS ARE HIDDEN; RANK NUMBERS MAY SKIP.'",
+     "severity": "major",
+     "fix": "Either wire seven genuinely distinct renderings, or relabel the dial to its three true tiers and drop 'lossless translation' (a show/hide filter is lossy by construction).",
+     "_lens": "skeptic — where the artifact overclaims its own fidelity or asserts a capability/precision the code doesn't deliver"
+    },
+    {
+     "claim": "The footer motto 'GAUGES ARE EARNED, NOT ASSERTED' is contradicted by the two hero gauges that are pure assertion: Conviction 78 and Coherence 82 carry integer precision, SHARP-green styling, and zero disclosed derivation.",
+     "evidence": "Footer line 430: 'GAUGES ARE EARNED, NOT ASSERTED · ⊕'. Hero gauges lines 248–249 render `78` and `82` in `color:var(--green)` (=SHARP/earned per WORLD render scale), no tilde, no `data-assessed`, no methodology note. Meanwhile the ONE derived gauge, Done-state `~42%` (line 250), gets `data-assessed` plus a full disclosure at line 253: 'a weighted assessment of the parity matrix against WORLD.md's end-state, not a measurement.' The two least-explained numbers are painted as the most certain — the opposite of the earned-fidelity law.",
+     "severity": "major",
+     "fix": "Give Conviction/Coherence the same treatment as done-state — hedge with a tilde + `data-assessed`, or add a one-line derivation — so the render matches the footer's own boast.",
+     "_lens": "skeptic — where the artifact overclaims its own fidelity or asserts a capability/precision the code doesn't deliver"
+    },
+    {
+     "claim": "The prominent 'Canon drift · 3 stale' hero gauge understates the artifact's own newest finding, and the update law overclaims that the routine 're-grades the parity matrix' each run.",
+     "evidence": "Hero gauge line 251: `3 stale` (red). But §7's latest entry (line 388, 2026-08-03) documents the same drift now across three files plus vercel.json and 'open recoil riskFlags 65→74 … zero ever closed' — strictly worse than 3. Line 386 claims the daily Drift Sentry 're-grades the parity matrix, and redeploys this page,' yet the §3 chips' newest dates are 07-19 (f443006 / 9de52f7) while the log runs to 08-03, and the hero gauges are frozen at the v1.0.0 read — so the most-read drift number is the oldest, least-bad one.",
+     "severity": "minor",
+     "fix": "Re-grade the hero gauge/§3 on redeploy, or explicitly stamp the gauges as the frozen v1.0.0 epoch read so a viewer doesn't take '3 stale' as current.",
+     "_lens": "skeptic — where the artifact overclaims its own fidelity or asserts a capability/precision the code doesn't deliver"
+    }
+   ]
+  },
+  {
+   "lens": "THE CONDUCTOR — performance coherence: choreography/animation JS+CSS, conductor-notation grammar (runtime/specs/conductor-notation-v1.md), authored timing/easing, prefers-reduced-motion, and whether motion honors earned fidelity (\"data is the final pose\")",
+   "n": 5,
+   "findings": [
+    {
+     "claim": "The prefers-reduced-motion guard neutralizes nothing that exists, while all real motion ignores the preference entirely.",
+     "evidence": "CSS line 65: `@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}` — but the file contains zero CSS animations, @keyframes, or transitions to kill. The actual motion is JS-driven: the replay `setInterval(() => { ... ep = i; ... draw(); }, 700)` and the perform timer cascade `perfTimers.push(setTimeout(...))` never check `matchMedia('(prefers-reduced-motion: reduce)')`.",
+     "severity": "major",
+     "fix": "Gate the auto-advancing replay/perform stepping on `matchMedia('(prefers-reduced-motion: reduce)')` — under reduced motion, jump straight to the final epoch (the final pose IS the data) or step only on explicit user input. The CSS rule can stay but is currently dead code.",
+     "_lens": "THE CONDUCTOR — performance coherence: choreography/animation JS+CSS, conductor-notation grammar (runtime/specs/conductor-notation-v1.md), authored timing/easing, prefers-reduced-motion, and whether motion honors earned fidelity (\"data is the final pose\")"
+    },
+    {
+     "claim": "The same epoch replay has two contradictory tempo grammars: '▶ replay' runs an unauthored flat metronome while '🎼 perform' runs authored data-proportional dwell.",
+     "evidence": "Replay steps at a hardcoded uniform `setInterval(..., 700)` per epoch regardless of content; perform computes `const dwell = Math.max(1.15, evs.length * .085 + .55)` so epochs with more edges breathe longer. One score, two conductors — the silent rendition contradicts the sonified one's timing law.",
+     "severity": "major",
+     "fix": "Cut the flat 700ms: drive '▶ replay' off the same dwell formula as perform (a silent variant of the same schedule), so visual-only and sonified replays are one performance at two volumes.",
+     "_lens": "THE CONDUCTOR — performance coherence: choreography/animation JS+CSS, conductor-notation grammar (runtime/specs/conductor-notation-v1.md), authored timing/easing, prefers-reduced-motion, and whether motion honors earned fidelity (\"data is the final pose\")"
+    },
+    {
+     "claim": "No transport interlock: play can be double-clicked into racing intervals, play and perform can run simultaneously, and the epoch scrubber stays live mid-perform while audio plays the stale timeline.",
+     "evidence": "The play handler `document.getElementById('play').addEventListener('click', () => { ep = 1; ... const t = setInterval(...) })` has no running-state guard — `t` is local and never cancelled by a second click, by perform, or by scrubbing `#epoch` (`epEl.addEventListener('input', ...)`), all of which mutate the same `ep`/`epEl`.",
+     "severity": "minor",
+     "fix": "One transport owner: a single `stopTransport()` that clears the replay interval, perform timers, and audio context; call it at the top of play, perform, and the epoch-scrubber input handler.",
+     "_lens": "THE CONDUCTOR — performance coherence: choreography/animation JS+CSS, conductor-notation grammar (runtime/specs/conductor-notation-v1.md), authored timing/easing, prefers-reduced-motion, and whether motion honors earned fidelity (\"data is the final pose\")"
+    },
+    {
+     "claim": "During perform, the ear hears an arpeggiated line while the eye sees a block chord — each epoch's edges are drawn all at once at te but their plucks spread over te + i*0.085.",
+     "evidence": "One visual snap per epoch: `perfTimers.push(setTimeout(() => { ep = e; epEl.value = e; draw(); }, (te - PAC.currentTime) * 1000));` while the same edges arpeggiate in audio: `evs.forEach((x, i) => pPluck([DOMNOTE[byId[x[1]].dom] || 73], te + i * .085, .55, 1.1));` — plucks 2..N sound for edges already visible.",
+     "severity": "minor",
+     "fix": "Bind onset to appearance: reveal edges incrementally with an edge-cursor redraw per pluck (a setTimeout per edge at te + i*85ms), so every note onset that moves the picture is the note's own edge landing.",
+     "_lens": "THE CONDUCTOR — performance coherence: choreography/animation JS+CSS, conductor-notation grammar (runtime/specs/conductor-notation-v1.md), authored timing/easing, prefers-reduced-motion, and whether motion honors earned fidelity (\"data is the final pose\")"
+    },
+    {
+     "claim": "Every diamond crystallization plays the identical chord regardless of node status, flattening the notation grammar's D9 collapse-charge cadence distinction at the one cadence moment this artifact has.",
+     "evidence": "`pPluck([49, 56, 61], te + dwell * .6, .85, 2.4); // a diamond is born` — one fixed chord for all births, while conductor-notation-v1.md D9 COLLAPSE CHARGE specifies distinct cadences by status: 'Authentic = formalized · deceptive = needs truing · fermata-on-rest = gated'. (The spec's functional rule formally binds the orbital and the ballet, not this page — hence polish, not violation.)",
+     "severity": "polish",
+     "fix": "Voice the birth chord by n.status: authentic cadence (V-I) for 'ok', deceptive (V-vi) for 'true', and a damped/suspended voicing for 'gate'/'shore' — three chord arrays keyed on STATC's own statuses; no new machinery.",
+     "_lens": "THE CONDUCTOR — performance coherence: choreography/animation JS+CSS, conductor-notation grammar (runtime/specs/conductor-notation-v1.md), authored timing/easing, prefers-reduced-motion, and whether motion honors earned fidelity (\"data is the final pose\")"
+    }
+   ]
+  }
+ ],
+ "meta-audit": [
+  {
+   "lens": "The Conductor — performance coherence of the artifact's motion (choreography/animation JS + CSS), read against runtime/specs/conductor-notation-v1.md and the \"data is the final pose\" earned-fidelity promise.",
+   "n": 3,
+   "findings": [
+    {
+     "claim": "The entire entrance-storytelling choreography never executes — it is trapped inside a `<script type=\"text/plain\">` block, so the page loads fully static with zero entrance motion.",
+     "evidence": "Line 517 closes the only executable `<script>`. Line 519 opens `<script type=\"text/plain\" id=\"md-twin\">`. The block commented `// ── ENTRANCE: anime-style staggered reveal storytelling (reduced-motion honored) ──` lives at lines 544–566 and the tag does not close until line 567. `type=\"text/plain\"` scripts are inert, so the staggered section reveal (`translateY(16px)`→0, cubic-bezier(.22,1,.36,1)), the gauge count-up that eases to the true value (`Math.round(v * (1 - Math.pow(1-p,3)))` — the literal 'data is the final pose'), and the timeline-node stagger all run never. On load only `fidelity(0.62)` fires, painting final gauge values instantly; the choreography named in the brief is absent.",
+     "severity": "critical",
+     "fix": "Move lines 544–566 out of the `md-twin` twin and into the executable `<script>` (before line 517's `</script>`). `nodes`, `matchMedia`, and the gauge NodeList are all in shared script scope, so no other change is needed to revive it.",
+     "_lens": "The Conductor — performance coherence of the artifact's motion (choreography/animation JS + CSS), read against runtime/specs/conductor-notation-v1.md and the \"data is the final pose\" earned-fidelity promise."
+    },
+    {
+     "claim": "The `.md` export deliverable is contaminated with raw JavaScript — the git-tracked twin ships ~23 lines of code as prose.",
+     "evidence": "Line 511 `const md = document.getElementById('md-twin').textContent;` serializes the whole `text/plain` block to the downloaded `arcs-meta-audit-roadmap-v1.md`. Because the entrance JS (544–566) sits inside that block, every exported markdown file ends, after the 'UPDATE LAW:' line (542), with `if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { ... }` and its rAF loop.",
+     "severity": "major",
+     "fix": "The same relocation resolves this — once the entrance JS leaves the `md-twin` block, `textContent` is clean markdown ending at line 542.",
+     "_lens": "The Conductor — performance coherence of the artifact's motion (choreography/animation JS + CSS), read against runtime/specs/conductor-notation-v1.md and the \"data is the final pose\" earned-fidelity promise."
+    },
+    {
+     "claim": "Latent regression the revival introduces: reviving the entrance code as-is would kill the timeline's dial-driven glide, replacing the traveling-step motion with a snap.",
+     "evidence": "Line 74 gives `.ep{transition:left .35s ease}` — the CSS that lets nodes glide when `layout()` repositions them on the fidelity dial. The entrance code at line 563 sets `el.style.transition = (el.style.transition ? … : '') + 'opacity .5s ease'`; since inline transition starts empty, the result is inline `transition:opacity .5s ease`, which overrides the class rule and drops `left .35s ease` — so post-entrance the dial would jump nodes instead of gliding them (a break of the conductor-notation D1/legato 'moving line — connect, don't strike' reading the timeline is meant to honor).",
+     "severity": "minor",
+     "fix": "When relocating, set the inline value to include both properties: `'left .35s ease, opacity .5s ease'` so the traveling-step transition survives the entrance.",
+     "_lens": "The Conductor — performance coherence of the artifact's motion (choreography/animation JS + CSS), read against runtime/specs/conductor-notation-v1.md and the \"data is the final pose\" earned-fidelity promise."
+    }
+   ]
+  },
+  {
+   "lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git).",
+   "n": 6,
+   "findings": [
+    {
+     "claim": "The entire 'entrance storytelling' animation is dead code AND it silently corrupts every .md export, because it lives inside the text/plain md-twin block.",
+     "evidence": "Line 519 opens `<script type=\"text/plain\" id=\"md-twin\">`; the markdown twin runs to line 542; then the entrance IIFE (`// ── ENTRANCE: anime-style staggered reveal…`, staggered section reveal + gauge count-up + node fade) sits at lines 544-566, and `</script>` only closes at 567. So (a) the animation named in this artifact's own title never executes — it is inert text inside a type=text/plain script; (b) the ↓.md handler does `document.getElementById('md-twin').textContent` (line 511), so every downloaded arcs-meta-audit-roadmap-v1.md ends with 23 lines of raw JavaScript appended after the markdown.",
+     "severity": "critical",
+     "fix": "Close `</script>` for md-twin right after line 542, and move the entrance block into the live `<script>` (before line 517) as an executable IIFE. Two edits, one line moved.",
+     "_lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git)."
+    },
+    {
+     "claim": "--mut (#475569) is used as a TEXT color on load-bearing labels and fails WCAG contrast at roughly 2.5:1 — the captions that tell you what every hero number and table column mean.",
+     "evidence": "`.lbl{color:var(--mut)}` (line 16) styles the four gauge captions Conviction/Coherence/Done-state/Canon-drift (lines 248-251) and the hero stamp metadata; `th{…color:var(--mut)}` (line 90) styles the parity-table column headers; `.ep .d{color:var(--mut)}` (line 80) styles the timeline dates; footer too. #475569 on --surface #0d1117 computes to ~2.49:1 (on --bg ~2.68:1) — far below the 4.5:1 floor, and below even 3:1. It is compounded by the default `.wrap` opacity of 0.886 (fidelity(0.62) → --fid-opacity 0.886, line 487). The secondary --dim #64748b on `.note` (line 62) is the same class at ~4.31:1 (→~3.9:1 with the opacity), also under floor.",
+     "severity": "major",
+     "fix": "Give text-bearing labels a lighter grey (raise --mut toward ~#8592a3, or point `.lbl`/`th`/`.ep .d` at --sec). Keep --mut only for true 1px borders/hairlines, not glyphs.",
+     "_lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git)."
+    },
+    {
+     "claim": "The parity matrix asserts '8 events · track() · landing + compass' as a green PARITY row, and move #01's action is 'verify all 8 events' — but current source has zero landing/compass track() calls; only 2 brief events exist.",
+     "evidence": "Line 317: `Funnel instrumentation · 8 events | track() | landing + compass | NEW · e802ed7`; line 371 move #01: 'verify all 8 events in production analytics'; md-twin repeats '8 events'. Grep of src/ finds `track()` called only 3 times, all `@vercel/analytics`, in the two brief pages, with exactly 2 distinct names: brief_tributary_followed and brief_shared. Home.tsx, CompassForm.tsx and StickyFooter.tsx (the landing+compass surfaces the row names) contain no track() call. The 8-event taxonomy (landing_cta_*, compass_*, footer_inquiry_click) from commit e802ed7 is not present in the code the doc claims to be 'verified against code, not handoffs' (§3 heading, line 296).",
+     "severity": "major",
+     "fix": "Re-grade the row against the code it currently ships: either restore the landing/compass instrumentation or change the verdict/count to reflect the 2 brief events actually wired, and drop the 'verify 8 events' target in move #01.",
+     "_lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git)."
+    },
+    {
+     "claim": "Parity row 'DEWY receipts + briefs · 15 Prisma models' is stale — the schema now has 16 models — in a doc that claims to re-grade the matrix every epoch.",
+     "evidence": "Line 302 backend cell reads '15 Prisma models'. `grep -c '^model ' prisma/schema.prisma` returns 16 (…Lead, ScanSignal, ScanFeedback, SessionReceipt). The doc's own 2026-08-03 inchworm (line 388) narrates SessionReceipt being stood up, yet this header number was never bumped — an internal inconsistency the '§7 re-grades the parity matrix' promise (line 386) should have caught.",
+     "severity": "minor",
+     "fix": "Update to 16, or scope the phrase to the receipt/brief subset it means.",
+     "_lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git)."
+    },
+    {
+     "claim": "A tracked-uppercase eyebrow sits over all seven sections, which the craft floor flags as unchosen grammar rather than a chosen system kicker.",
+     "evidence": "`<span class=\"lbl cy\">§N · …</span>` recurs identically at lines 259, 281, 295, 327, 356, 368, 384 — §1 through §7. Seven identical cyan tracked eyebrows dilute the 'one kicker = system' signal; the § number already sequences the sections, so the eyebrow is redundant grammar.",
+     "severity": "minor",
+     "fix": "Keep the § kicker on the hero/first section only, or let the section number carry it and drop the repeated eyebrow — let h2 weight/size do the work.",
+     "_lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git)."
+    },
+    {
+     "claim": "The default view labels itself '4K · SHARP' while rendering at opacity 0.886 with residual letter-spacing — contradicting the page's own earned-fidelity render scale where SHARP = opacity 1.0.",
+     "evidence": "The fidelity slider defaults to 62 (line 221) and STOPS maps floor(0.62*6)=3 → '4K · SHARP' (lines 478-480, 503). But fidelity(0.62) sets --fid-opacity = lerp(0.7,1,0.62) = 0.886 and --fid-track = 0.0076em (lines 487, 490); WORLD.md's render scale defines SHARP as opacity 1.0 / tracking normal. Only t=1 (8K/LOSSLESS) reaches opacity 1, so 'SHARP' never renders sharp. Separately, `.seg` CSS (lines 28-30) is dead — no `.seg` element exists in the markup (the segmented control was replaced by the alt slider).",
+     "severity": "polish",
+     "fix": "Snap opacity/tracking to 1.0/normal once the stop label reads SHARP (or default the slider to a value whose math yields opacity 1). Delete the unused `.seg` rules.",
+     "_lens": "The Auditor — technical/craft correctness + fact-to-source verification against repo SSOT (schema.prisma, operators/, src track() calls, git)."
+    }
+   ]
+  }
+ ]
+}

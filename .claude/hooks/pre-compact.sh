@@ -27,6 +27,15 @@ SCRATCHPAD="${TMPDIR:-/tmp}/arcs-compact-state.md"
 
   echo "## Working tree status"
   git -C "$CLAUDE_PROJECT_DIR" status --short 2>/dev/null | head -20 || echo "(clean)"
+  echo ""
+
+  # Drift-receipt sweep: the orphaned knowledge lattice has no owner and ships
+  # statically to prospect surfaces, so it decays by neglect. Emit a drift
+  # receipt at compaction (receipt-only; NOTOMATION — the human re-authors).
+  # Inchworm auditor — CLOSE end (advance / needle). Regenerate the mechanical
+  # countables (idempotent: writes only on real drift) and emit a receipt.
+  echo "## Knowledge-lattice drift (inchworm close)"
+  python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" --regenerate 2>/dev/null || echo "(check unavailable)"
 
 } > "$SCRATCHPAD" 2>/dev/null || true
 

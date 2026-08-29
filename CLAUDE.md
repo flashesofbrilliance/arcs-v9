@@ -103,6 +103,59 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.30.0 (2026-08-11)
+
+> **Active pickup point.** v3.29.0 kept live below (policy: latest 1–2). Session shipped the public
+> federated family + the drift-receipt system + the inchworm auditor + the journey-map souvenir.
+
+## Headline: the family is public on arcs.care, and drift now becomes receipts
+
+**Live, tripwire-clean, E2E-verified (15/15):** `playground.arcs.care` (hub) + 4 performers as sub-pages
+(`/12d-orbital · /knowledge-lattice · /alexandria · /moire`) + `monolith.arcs.care` (3 heads + Moiré
+filter; meta-audit head dropped for public). Joins the sibling's `forge`/`forge-cut`. Two-layer
+architecture (**ADR-045**): SSOT truth (meta-audit · Tao · status · registry) ↔ air-gap (the tripwire) ↔
+prospect-safe public faces.
+
+**Drift-receipt system (ADR-046), all on main:** PR-time `scripts/tripwire.sh` + `family-tripwire.yml`
+(gates the diff); deploy-time `tests/family.spec.ts` in `deploy-verify.yml` (fail → rollback + Issue);
+`pull_request_template.md` + `docs/PROMOTION.md` (PR body = receipt, branch/promotion policy). It caught
+its first receipt: pre-existing jargon in the sibling's forge pages.
+
+**Inchworm auditor (ADR-047):** `scripts/lattice_drift_check.py` wired to both hooks — OPEN
+(`session-start`) orients/receipts, CLOSE (`pre-compact`) advances/regenerates countables idempotently.
+Gave the orphaned knowledge-lattice an owner; fixed its stale "32 ADRs" → 44 through SSOT → re-embed →
+redeploy → live-verified. It fired at this session's open.
+
+## Also built this session
+- The **invariant envelope** (`_STATE/schema.md`) + **artifact registry** (`_STATE/artifact-registry.jsonl`,
+  52 rows) — the polyform indexed. Tao extracted to `_CANON/tao-proverbs.jsonl` (now **246**; +5 minted
+  from this session's ADRs). Full-staff gauntlet over the 5 performers (`_INBOX/performer-gauntlet-*`).
+- The Clair-de-Lune performing family (playground + monolith + 4 performers, contrast-fixed, spine-navved).
+- Journey-map souvenir: https://claude.ai/code/artifact/bf7867b9-01ee-4dc1-88f1-809218a99739
+
+## Captured (ADRs / receipts / memories)
+- **ADR-045/046/047** — `_DECISIONS/`. **DEWY** — `_STATE/2026-08-11-session-decisions.dewy.json` (3).
+- **Tao** — tao-242..246. **Memories** — [[drift-receipt-loop-and-inchworm]], [[per-tenant-field-truth-inward-client-facing]].
+
+## Next session / backlog (designed, not built)
+- **Per-tenant field-truth pages** — the client-facing counterpart to the internal meta-audit (richer,
+  unredacted about one tenant, prospect-safe by single-tenancy; feature→benefit→simulated-survivability).
+- **HITL calendar-recoil loop** — cron reads calendar → matches counterpart → stages `/recoil-prep` draft.
+  No Ahmed/Yuri/Rayan meetings currently booked (checked). Close their loops = send built seeds (Ahmed/Rayan
+  not sent) / await Yuri's reply.
+- Branch protection: `gh` command in `docs/PROMOTION.md` (needs admin + the check's first PR run).
+- Private claude.ai originals (`ef9e90f9` etc.) still show "32 ADRs" — refresh for consistency (optional).
+
+## Blocking
+NONE.
+
+## Deploy note
+Content pushes from `main-wt2` with `git push --no-verify`. arcs.care subdomains route via `arcs-v9`
+project's `next.config.ts` host rewrites + `vercel domains add <sub> --scope arcs-care`. Write-lock:
+`git rev-list HEAD..origin/main --count` must be 0 before commit (concurrent sibling on main-wt2).
+
+---
+
 # Handoff — v3.29.0 (2026-08-10)
 
 > **Active pickup point.** v3.28.0 relocated to `_ARCHIVE/handoffs.md`. **The Yuri suite is SENT.** This

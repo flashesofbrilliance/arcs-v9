@@ -11,6 +11,11 @@ set -euo pipefail
 # (2) Memory 1-1 audit: flag orphan memory files (on disk, missing from MEMORY.md index)
 #     at pickup instead of discovering drift several turns in.
 echo "session-start: $(date '+%Y-%m-%d %H:%M %Z')"
+
+# Inchworm auditor — OPEN end (orient / red thread). Check the orphaned knowledge
+# lattice for drift and emit a receipt; do NOT advance here (regeneration is the
+# CLOSE end, in pre-compact). Guarded to never fail the hook.
+python3 "$CLAUDE_PROJECT_DIR/scripts/lattice_drift_check.py" 2>/dev/null || true
 MEMDIR="$HOME/.claude/projects/-Users-zharris-arcs-v9/memory"
 if [ -f "$MEMDIR/MEMORY.md" ]; then
   orphans=$(comm -23 \

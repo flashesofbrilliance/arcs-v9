@@ -1,0 +1,45 @@
+{
+  "_doc": "DEWY decision receipts for the 2026-08-11 federated-family + drift-receipt session. Hand-filed. See ADR-050/046/047.",
+  "session_ts": "2026-08-11",
+  "receipts": [
+    {
+      "receipt_id": "2026-08-11-family-airgap",
+      "surface": "deploy",
+      "sharp_question": "How to ship the canon artifacts publicly without leaking the client book?",
+      "dewy_vector": {
+        "D": "Two layers, one air-gap: SSOT truth feeds prospect-safe faces; meta-audit stays private.",
+        "E": "prospects, counterparts (as names)",
+        "W": "shipped today",
+        "Y": "GREEN"
+      },
+      "source_adr": "ADR-050",
+      "outcome": "4 subdomains live, tripwire-clean, E2E 15/15"
+    },
+    {
+      "receipt_id": "2026-08-11-drift-receipt-gate",
+      "surface": "ci",
+      "sharp_question": "How do we learn from architecture decay, not just block it?",
+      "dewy_vector": {
+        "D": "Every gate is a detector; every failure is a receipt (PR tripwire + deploy rollback+Issue).",
+        "E": "future contributors/agents",
+        "W": "standing",
+        "Y": "GREEN"
+      },
+      "source_adr": "ADR-051",
+      "outcome": "gate live; caught first receipt (forge-page jargon)"
+    },
+    {
+      "receipt_id": "2026-08-11-inchworm-auditor",
+      "surface": "hooks",
+      "sharp_question": "Who keeps an owner-less artifact up to date?",
+      "dewy_vector": {
+        "D": "An inchworm auditor: orient at open, advance at close; regen mechanical, receipt the judgment.",
+        "E": "the machine (NOTOMATION)",
+        "W": "every session boundary",
+        "Y": "GREEN"
+      },
+      "source_adr": "ADR-052",
+      "outcome": "lattice SSOT 32->44; live surface re-embedded + verified"
+    }
+  ]
+}

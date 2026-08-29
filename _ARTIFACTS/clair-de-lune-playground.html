@@ -1,0 +1,328 @@
+<style>
+  /* ================================================================
+     ARCS · The Clair de Lune Playground
+     A hub over the five canon artifacts that PERFORM — set to a real
+     Debussy MIDI, choreographed by a data-driven ballet engine.
+     Structured as the sibling of "the invariant beneath the polyform"
+     and "Four cores, drilled." Canonical WORLD.md tokens; single dark
+     instrument world. The stage is a doorway, not a tutorial.
+     ================================================================ */
+  :root{
+    color-scheme:dark;
+    --bg:#020408;--deep:#01050b;--surface:#0d1117;--surface2:#0a0f16;--elevated:#121820;
+    --border:#1e293b;--border2:#131b28;
+    --text:#e2e8f0;--muted:#64748b;--dimmed:#475569;
+    /* --label: legible dim for text-bearing mono chrome (AA >=4.5:1 on --bg); --dimmed reserved for hairlines only */
+    --label:#8a97a8;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --cyan-line:rgba(0,240,255,.30);--gold-line:rgba(255,215,0,.30);--green-line:rgba(0,255,157,.30);
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(120% 55% at 50% -6%, #071322 0%, var(--bg) 44%, var(--deep) 100%)}
+  ::selection{background:rgba(0,240,255,.22);color:#fff}
+  a{color:var(--cyan);text-decoration:none}
+  a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+  .lane{max-width:1040px;margin:0 auto;padding:0 24px}
+
+  .ey{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--label)}
+  .ey b{color:var(--cyan)}
+  h1{font-weight:800;letter-spacing:-.03em;line-height:1.04;font-size:clamp(38px,7vw,72px);text-wrap:balance}
+  h2{font-weight:750;letter-spacing:-.02em;line-height:1.14;font-size:clamp(21px,3vw,29px);text-wrap:balance}
+  .lede{font-size:clamp(15px,1.5vw,17px);color:#aeb9c7;line-height:1.62}
+  .mono{font-family:var(--mono)}
+
+  /* hero */
+  .hero{padding:92px 0 26px;position:relative}
+  .hero .uplink{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--label);margin-bottom:20px}
+  .hero .uplink:hover{color:var(--cyan)}
+  .hero h1{margin:14px 0 0}.hero h1 .hl{color:var(--cyan)}
+  .hero .lede{margin-top:20px;max-width:64ch}
+  .obstat{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+  .obstat .s{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--border);
+    border-radius:8px;padding:7px 11px;background:var(--surface2)}
+  .obstat .s b{color:var(--text);font-weight:700}
+
+  /* the barre — a slow CSS ballet of dancer nodes, purely decorative */
+  .barre{margin-top:34px;height:74px;border:1px solid var(--border2);border-radius:12px;background:var(--surface2);
+    position:relative;overflow:hidden}
+  .barre .line{position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan-line),transparent)}
+  /* positions + colors always apply — the corps stays spread even when motion is off */
+  .barre .d{position:absolute;top:50%;width:9px;height:9px;border-radius:50%;margin:-4.5px 0 0 -4.5px;
+    background:var(--cyan);box-shadow:0 0 10px rgba(0,240,255,.7)}
+  .barre .d:nth-child(2){left:14%;animation-delay:0s;background:var(--cyan)}
+  .barre .d:nth-child(3){left:32%;animation-delay:.5s;background:var(--green);box-shadow:0 0 10px rgba(0,255,157,.6)}
+  .barre .d:nth-child(4){left:50%;animation-delay:1s;background:var(--gold);box-shadow:0 0 10px rgba(255,215,0,.6)}
+  .barre .d:nth-child(5){left:68%;animation-delay:1.5s;background:var(--cyan)}
+  .barre .d:nth-child(6){left:86%;animation-delay:2s;background:var(--green);box-shadow:0 0 10px rgba(0,255,157,.6)}
+  /* only the pirouette itself is motion-gated */
+  @media(prefers-reduced-motion:no-preference){
+    .barre .d{animation:pirouette 6s ease-in-out infinite}
+  }
+  @keyframes pirouette{
+    0%,100%{transform:translateY(0) scale(1)}
+    25%{transform:translateY(-20px) scale(1.35)}
+    50%{transform:translateY(0) scale(1)}
+    62%{transform:translateY(9px) scale(.8)}
+    75%{transform:translateY(-14px) scale(1.2)}
+  }
+  .barrelab{position:absolute;bottom:6px;left:12px;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--label)}
+
+  /* PERFORM grammar legend */
+  .scale{margin:34px 0 0;border-top:1px solid var(--border2);padding-top:26px}
+  .scale h2{font-size:15px;color:var(--muted);font-weight:700;font-family:var(--mono);letter-spacing:.04em;text-transform:uppercase}
+  .scalerow{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+  @media(min-width:720px){.scalerow{grid-template-columns:repeat(4,1fr)}}
+  .fid{border:1px solid var(--border);border-radius:11px;background:var(--surface);padding:14px 15px}
+  .fid .ft{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .fid .kbd{font-family:var(--mono);font-size:9px;color:var(--label);border:1px solid var(--border);border-radius:4px;padding:1px 5px;margin-left:6px}
+  .fid.b .ft{color:var(--cyan)}.fid.i .ft{color:var(--gold)}.fid.s .ft{color:var(--green)}.fid.x .ft{color:var(--muted)}
+  .fid p{font-size:12px;color:#9aa7b6;margin-top:7px;line-height:1.5}
+
+  /* the five performers */
+  .cores{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px}
+  @media(min-width:680px){.cores{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1000px){.cores{grid-template-columns:repeat(3,1fr)}}
+  .core{border:1px solid var(--border);border-radius:14px;background:var(--surface);overflow:hidden;
+    display:flex;flex-direction:column;transition:border-color .3s ease,transform .3s ease}
+  .core:hover{transform:translateY(-3px);border-color:var(--cyan-line)}
+  .core .ch{padding:16px 16px 14px;border-bottom:1px solid var(--border2)}
+  .core .exline{display:flex;align-items:center;gap:9px}
+  .core .exl{font-family:var(--mono);font-size:14px}
+  .core .nm{font-weight:750;font-size:16px;letter-spacing:-.01em}
+  .core .co{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--label);margin-top:4px}
+  .core .body{padding:14px 16px;flex:1}
+  .core .body p{font-size:12.5px;color:#9aa7b6;line-height:1.55}
+  .core .modes{display:flex;flex-wrap:wrap;gap:6px;margin-top:13px}
+  .core .m{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    padding:3px 7px;border-radius:5px;border:1px solid var(--border);color:var(--label)}
+  .core .m.on{color:var(--cyan);border-color:var(--cyan-line)}
+  .core .cfoot{padding:12px 16px 15px;border-top:1px solid var(--border2);display:flex;gap:14px;align-items:center}
+  .core .launch{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--cyan)}
+  .core .launch:hover{text-decoration:underline}
+  .core .src{font-family:var(--mono);font-size:9.5px;color:var(--label);margin-left:auto}
+  .core.lead{border-color:var(--cyan-line)}
+  .core.lead .exl{color:var(--cyan)}
+
+  /* the score — conductor notation bedrock */
+  .bedrock{margin-top:44px;border-top:1px solid var(--border2);padding-top:30px}
+  .bedrock .sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6;max-width:78ch}
+  .bedrock .sub b{color:var(--text)}
+  .lattwrap{overflow-x:auto;margin-top:20px;border:1px solid var(--border);border-radius:12px}
+  table{border-collapse:collapse;width:100%;min-width:660px;font-size:13px}
+  th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--border2);vertical-align:top}
+  thead th{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--label);background:var(--surface2)}
+  tbody td{color:#cdd8e4}
+  .dn{font-family:var(--mono);font-weight:700;color:var(--cyan)}
+  .zone{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--label)}
+  td .lab{font-weight:600;color:#e2e8f0}
+  .mark{font-family:var(--mono);font-weight:700;color:var(--gold);font-size:13px}
+  td .note{display:block;font-size:11px;color:#93a0af;margin-top:3px;line-height:1.45;max-width:40ch}
+  .zh{color:var(--green)}
+  tr:last-child td{border-bottom:none}
+
+  /* coda */
+  .coda{margin-top:44px;border-top:1px solid var(--border2);padding-top:30px}
+  .coda::before{content:"";display:block;width:44px;height:2px;margin-bottom:20px;background:linear-gradient(90deg,var(--cyan),var(--gold))}
+  .coda p{font-size:clamp(17px,2.1vw,22px);color:#dbe4ef;line-height:1.5;font-weight:500}
+  .coda p b{color:#fff;font-weight:650}
+
+  /* provenance */
+  .prov{margin-top:34px;border-top:1px solid var(--border2);padding-top:20px;display:grid;gap:12px;padding-bottom:8px}
+  .provrow{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:baseline}
+  @media(max-width:560px){.provrow{grid-template-columns:1fr;gap:3px}}
+  .provrow dt{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .provrow dd{font-family:var(--mono);font-size:11px;line-height:1.7;color:var(--label)}
+  .provrow dd b{color:#9aa7b6}
+  .footline{text-align:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--label);padding:32px 0 46px}
+
+  .reveal{opacity:0;transform:translateY(12px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.seen{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.barre .d{animation:none}}
+</style>
+
+<style>
+.arc-spine{position:sticky;top:0;z-index:9000;display:flex;gap:2px;justify-content:center;flex-wrap:wrap;background:rgba(2,4,8,.9);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1px solid #131b28;padding:7px 10px;font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.arc-spine a{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#8a97a8;text-decoration:none;padding:4px 11px;border-radius:7px;white-space:nowrap;transition:color .2s,background .2s}
+.arc-spine a:hover{color:#e2e8f0}
+.arc-spine a[aria-current="page"]{color:#00F0FF;background:rgba(0,240,255,.09)}
+@media(prefers-reduced-motion:reduce){.arc-spine a{transition:none}}
+</style>
+<nav class="arc-spine" aria-label="ARCS journey — the invariant, four ways">
+  <a href="https://claude.ai/code/artifact/66b5b407-161b-47ff-889e-3c6335b4077f">01 Polyform</a>
+  <a href="https://claude.ai/code/artifact/f70d0411-6ecc-4e7b-baaf-38e7eac5d086">02 Four Cores</a>
+  <a href="https://claude.ai/code/artifact/a45f214e-263d-421f-b65e-12097a83f223" aria-current="page">03 Playground</a>
+  <a href="https://claude.ai/code/artifact/a08e510c-2f4a-41ab-9408-8201563ac45c">04 Monolith</a>
+</nav>
+<div class="lane">
+  <header class="hero">
+    <a class="uplink" href="https://claude.ai/code/artifact/66b5b407-161b-47ff-889e-3c6335b4077f">&#8593; the invariant beneath the polyform</a>
+    <div class="ey">ARCS &middot; THE CANON PERFORMS &middot; <b>CLAIR DE LUNE</b></div>
+    <h1>The <span class="hl">playground</span>.</h1>
+    <p class="lede">Five canon artifacts that don&rsquo;t just render &mdash; they <b>dance</b>. Each is scored to a real
+      Debussy <em>Clair de Lune</em> MIDI and choreographed by a hand-rolled, data-driven ballet engine: every note
+      onset fires a pirouette by pitch band, and the coda resolves to the true data pose. The ballet ends where truth
+      is. This page is the stage door &mdash; step onto any of them.</p>
+    <div class="obstat">
+      <span class="s"><b>5</b> performers</span>
+      <span class="s"><b>4</b> modes &middot; ballet &middot; instrument &middot; symphony &middot; stop</span>
+      <span class="s">score <b>Clair de Lune</b> &middot; Debussy MIDI</span>
+      <span class="s">grammar <b>12D</b> conductor notation</span>
+      <span class="s">forged <b>2026-07-12</b> &middot; commit 21b0541</span>
+    </div>
+
+    <div class="barre" aria-hidden="true">
+      <div class="line"></div>
+      <span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span>
+      <div class="barrelab">corps de ballet &middot; note onsets lift the strata</div>
+    </div>
+  </header>
+
+  <!-- PERFORM grammar legend -->
+  <section class="scale reveal">
+    <h2>The four modes &middot; one shared grammar</h2>
+    <div class="scalerow">
+      <div class="fid b"><div class="ft">Ballet<span class="kbd">B / &#129778;</span></div><p>Note onsets choreograph the nodes &mdash; pirouettes by pitch band, eased tweens, phrase timelines. The dance is the data in motion.</p></div>
+      <div class="fid i"><div class="ft">Instrument<span class="kbd">I</span></div><p>The patch/orchestra register split &mdash; each stratum voiced by its own timbre, plucked on its note.</p></div>
+      <div class="fid s"><div class="ft">Symphony<span class="kbd">S</span></div><p>The full score plays &mdash; all voices at once, the corps moving as one body toward the true pose.</p></div>
+      <div class="fid x"><div class="ft">Stop<span class="kbd">Esc</span></div><p>Silence. The nodes settle to the final data pose and hold. The render never lies about where truth is.</p></div>
+    </div>
+  </section>
+
+  <!-- the five performers -->
+  <section class="reveal" style="margin-top:36px">
+    <div class="ey">the company &middot; five on the boards</div>
+    <h2 style="margin-top:12px">Each one performs its own corner of the canon.</h2>
+    <div class="cores">
+
+      <div class="core lead">
+        <div class="ch">
+          <div class="exline"><span class="exl">&#129778;</span><span class="nm">12D Orbital</span></div>
+          <div class="co">knowledge phase space &middot; the prima</div>
+        </div>
+        <div class="body">
+          <p>The fullest performer. The 12 kinematic dimensions as an orbital; press <b>B</b> and the corps de ballet
+            ring breathes, superposed nodes pirouette, and the coda lands on the true data pose. Carries all three modes.</p>
+          <div class="modes"><span class="m on">ballet</span><span class="m on">instrument</span><span class="m on">symphony</span></div>
+        </div>
+        <div class="cfoot"><a class="launch" href="https://claude.ai/code/artifact/ef9e90f9-ba65-467e-8410-f9c1bfbd5145">launch &rarr;</a><span class="src">_ARTIFACTS/arcs-12d-orbital.html</span></div>
+      </div>
+
+      <div class="core">
+        <div class="ch">
+          <div class="exline"><span class="exl">&#128218;</span><span class="nm">Knowledge Lattice</span></div>
+          <div class="co">abductive web explorer</div>
+        </div>
+        <div class="body">
+          <p>The abductive web of the ARCS canon with <b>sonified epoch replay</b> &mdash; scrub the timeline and the
+            lattice sings each epoch as it re-forms, nodes lifting on their note onsets.</p>
+          <div class="modes"><span class="m on">ballet</span><span class="m on">replay</span><span class="m">symphony</span></div>
+        </div>
+        <div class="cfoot"><a class="launch" href="https://claude.ai/code/artifact/7ec96669-be46-4c1e-bac5-0c50fe2e7a3c">launch &rarr;</a><span class="src">_ARTIFACTS/arcs-knowledge-lattice.html</span></div>
+      </div>
+
+      <div class="core">
+        <div class="ch">
+          <div class="exline"><span class="exl">&#127963;</span><span class="nm">Alexandria</span></div>
+          <div class="co">the library that cannot burn</div>
+        </div>
+        <div class="body">
+          <p>The canon as an imperishable library. Under <em>Clair de Lune</em> the shelves resolve from fog to sharp,
+            each principle a dancer taking its place in the corps.</p>
+          <div class="modes"><span class="m on">ballet</span><span class="m">instrument</span><span class="m">symphony</span></div>
+        </div>
+        <div class="cfoot"><a class="launch" href="https://claude.ai/code/artifact/4c3ccb93-5b63-40ed-a0d5-74aaa92275f1">launch &rarr;</a><span class="src">_ARTIFACTS/arcs-alexandria.html</span></div>
+      </div>
+
+      <div class="core">
+        <div class="ch">
+          <div class="exline"><span class="exl">&#128300;</span><span class="nm">Meta-Audit L0&rarr;L5</span></div>
+          <div class="co">roadmap &middot; entrance storytelling</div>
+        </div>
+        <div class="body">
+          <p>The L0&ndash;L5 self-audit and roadmap, entered as a story. The stack assembles in tempo, each layer
+            arriving on its cue &mdash; the audit told as a performance.</p>
+          <div class="modes"><span class="m on">ballet</span><span class="m">instrument</span><span class="m">symphony</span></div>
+        </div>
+        <div class="cfoot"><a class="launch" href="https://claude.ai/code/artifact/cc787dbb-11e4-4576-a8d8-46822ca48f24">launch &rarr;</a><span class="src">_ARTIFACTS/arcs-meta-audit-roadmap.html</span></div>
+      </div>
+
+      <div class="core">
+        <div class="ch">
+          <div class="exline"><span class="exl">&#127761;</span><span class="nm">Moir&eacute;</span></div>
+          <div class="co">M&ouml;bius / horizon through fog</div>
+        </div>
+        <div class="body">
+          <p>The brand mark alive &mdash; a M&ouml;bius of arcs and a fog&rarr;horizon bearing, the interference pattern
+            shimmering in time with the score. The quietest, most abstract dancer.</p>
+          <div class="modes"><span class="m on">ballet</span><span class="m">instrument</span><span class="m">symphony</span></div>
+        </div>
+        <div class="cfoot"><a class="launch" href="https://claude.ai/code/artifact/53dc557c-e100-475c-9da6-93871570d3a1">launch &rarr;</a><span class="src">_ARTIFACTS/arcs-moire-mobius.html</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- the score: conductor notation bedrock -->
+  <section class="bedrock reveal">
+    <div class="ey">the score &middot; shared by all five performers</div>
+    <h2 style="margin-top:12px">Under every dancer, the same 12-dimension grammar.</h2>
+    <p class="sub">The choreography isn&rsquo;t decoration &mdash; it&rsquo;s a formal language. Each of the 12 kinematic
+      dimensions maps to a <b>ballet term</b> (how it moves), a <b>notation mark</b> (how it&rsquo;s written), and a
+      <b>conductor&rsquo;s note</b> (how it&rsquo;s directed). <span class="zh">D10&ndash;D12 are Zach&rsquo;s own terms
+      &mdash; Relev&eacute; &middot; Pli&eacute; &middot; &Eacute;lev&eacute;</span>, adopted, not invented here.
+      <b>Source: runtime/specs/conductor-notation-v1.md &middot; authority operators/arcs_kinematics.py v1.3.</b></p>
+    <div class="lattwrap">
+      <table>
+        <thead><tr><th>D</th><th>Zone</th><th>Canon name</th><th>Choreography</th><th>Mark</th><th>Conductor&rsquo;s note</th></tr></thead>
+        <tbody>
+          <tr><td class="dn">1</td><td class="zone">Classical</td><td class="lab">Velocity</td><td>Glissade &mdash; the traveling step</td><td class="mark">legato &#9834;&#8255;&#9834;</td><td><span class="note">Moving line &mdash; connect, don&rsquo;t strike</span></td></tr>
+          <tr><td class="dn">2</td><td class="zone">Classical</td><td class="lab">Acceleration</td><td>Grand jet&eacute; &mdash; the gathering leap</td><td class="mark">cresc. &lt;</td><td><span class="note">Growing &mdash; let it build</span></td></tr>
+          <tr><td class="dn">3</td><td class="zone">Classical</td><td class="lab">Jerk</td><td>Fouett&eacute; &mdash; the whip-turn</td><td class="mark">sfz</td><td><span class="note">Sudden accent, immediate recovery</span></td></tr>
+          <tr><td class="dn">4</td><td class="zone">Chaotic</td><td class="lab">Snap</td><td>Petit battement &mdash; sharp small beat</td><td class="mark">staccato &middot;</td><td><span class="note">Short, detached, exact</span></td></tr>
+          <tr><td class="dn">5</td><td class="zone">Chaotic</td><td class="lab">Crackle</td><td>Entrechat &mdash; interwoven beats</td><td class="mark">tremolo &#8779;</td><td><span class="note">Rapid alternation, kept light</span></td></tr>
+          <tr><td class="dn">6</td><td class="zone">Chaotic</td><td class="lab">Pop</td><td>Grand battement &mdash; the high kick</td><td class="mark">marcato ^</td><td><span class="note">Marked &mdash; each note stands alone</span></td></tr>
+          <tr><td class="dn">7</td><td class="zone">Control</td><td class="lab">Lock</td><td>Arabesque pench&eacute;e &mdash; held extension</td><td class="mark">fermata &#119056;</td><td><span class="note">Hold past the bar &mdash; the balance is the point</span></td></tr>
+          <tr><td class="dn">8</td><td class="zone">Control</td><td class="lab">Drop</td><td>Fall-and-recover port de bras</td><td class="mark">decresc. &gt; &#39;</td><td><span class="note">Release the weight; breathe before landing</span></td></tr>
+          <tr><td class="dn">9</td><td class="zone">Ballistic</td><td class="lab">Shot</td><td>Grand allegro diagonal &mdash; launched</td><td class="mark">accel. 8va</td><td><span class="note">Launched &mdash; no slowing until the corner</span></td></tr>
+          <tr><td class="dn zh">10</td><td class="zone">Ballistic</td><td class="lab zh">Relev&eacute; &mdash; peak tension</td><td>Rise to pointe and stay</td><td class="mark">tenuto &ndash; sul pont.</td><td><span class="note">On the toe &mdash; maximum tension, held; do not resolve early</span></td></tr>
+          <tr><td class="dn zh">11</td><td class="zone">Yielding</td><td class="lab zh">Pli&eacute; &mdash; the yield</td><td>The bend that stores force</td><td class="mark">rit. &or;</td><td><span class="note">Yield into the ground &mdash; the bend <em>is</em> the power</span></td></tr>
+          <tr><td class="dn zh">12</td><td class="zone">Unified</td><td class="lab zh">&Eacute;lev&eacute; &mdash; superionic</td><td>The rise that carries everything</td><td class="mark">tutti, tie</td><td><span class="note">One body &mdash; structure carries flow</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- coda -->
+  <section class="coda reveal">
+    <div class="ey">notomation &middot; the pose is earned</div>
+    <p style="margin-top:16px">The dance never invents. Every onset that lifts a node is a <b>real note</b>; every
+      strata that rises is <b>real data</b>. The choreography is data-driven end to end, and when the music stops the
+      corps settles to the one true pose. <b>The ballet ends where truth is.</b></p>
+  </section>
+
+  <!-- provenance -->
+  <dl class="prov reveal">
+    <div class="provrow"><dt>The score</dt><dd>Debussy, <b>Clair de Lune</b> &middot; _ARTIFACTS/assets/debussy-clair-de-lune.mid &middot; parser + scheduler vanilla JS, no external fetch &middot; license in _ARTIFACTS/assets/LICENSE-clair-de-lune.md</dd></div>
+    <div class="provrow"><dt>The grammar</dt><dd><b>runtime/specs/conductor-notation-v1.md</b> v1.0.0 &middot; D-names authoritative from operators/arcs_kinematics.py v1.3 (code wins) &middot; D10&ndash;D12 terms predate the spec</dd></div>
+    <div class="provrow"><dt>The company</dt><dd>five artifacts, forged 2026-07-12 &middot; committed <b>21b0541</b> &middot; sources mirrored in repo _ARTIFACTS/ &middot; indexed in _STATE/artifact-registry.jsonl as the <b>clair-de-lune-performing-family</b></dd></div>
+    <div class="provrow"><dt>The engine</dt><dd>hand-rolled anime-style choreography &mdash; eased tweens, staggers, phrase timelines; note onsets trigger pirouettes by pitch band; 4-second windows of note-density and velocity shape the phrase</dd></div>
+  </dl>
+  <div class="footline">ARCS &middot; THE CANON PERFORMS &middot; RENDER THROUGH THE FOG TO EARNED CLARITY</div>
+</div>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion:reduce)').matches){
+      els.forEach(function(e){e.classList.add('seen')});return;
+    }
+    var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('seen');io.unobserve(e.target);}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
