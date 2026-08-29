@@ -103,6 +103,47 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.47.0 (2026-08-28)
+
+> **Active pickup point.** A tangential session on the `claude/zachharris-website-design-bcb738`
+> worktree (@ 588af273): personal-brand surfaces + the ARCS job search + a resume.arcs.care
+> production incident. Most work is NOT arcs-v9 core; see the branch notes.
+
+## Shipped (all verified/live)
+- **zachharris.xyz** — lead-gen consulting "stalking horse" site, LIVE. Standalone Vercel project
+  (`flashesofbrilliance/zachharris-xyz` @ `1afada6`). Positioning "Do more, with less · Wall Street
+  quality, Main Street prices." Guarded by the new **`artifact-text-qa`** skill (overflow+axe) and
+  `test/smoke-test.mjs` (Chromium+WebKit+Firefox). Mobile hamburger + swipe + scroll-lock.
+- **resume.arcs.care blackout — FIXED + guarded.** `hermes-agent` did `vercel --prod` from a dirty
+  `feat/resume-pwa-theming` tree; a PWA commit dropped the `selectedNode`/`selectedClient` state in
+  the résumé's React `Resume()` → black screen (HTTP 200). Fix = 2 `useState` hooks + React prod
+  builds (`976bfa50`). Added `DEPLOY.md` + `scripts/deploy-smoke.mjs` render gate (`bff8b050`), on
+  `feat/resume-pwa-theming` — **NOT merged to main.** (Full detail: memory `arcs-v9-deploy-blast-radius-guardrails`.)
+- **ARCS job-search pipeline** (on THIS worktree branch — relocate to main/job-search): target-role
+  scan HUD (`_ARTIFACTS/target-role-scan-hud.html`), LinkedIn alert catcher
+  (`operators/job_search/linkedin_alert_parser.py` + README), a weighted rubric. **Retargeted the
+  live LinkedIn alerts** via browser: deleted 9 old Product-exec alerts, created 4 archetype alerts
+  (FDE · Applied AI Engineer · Product Lead · AI Solutions Engineer, NYC metro, daily).
+- **LinkedIn About** rewritten dual-audience (Full-time → resume.arcs.care · Independent →
+  zachharris.xyz), no em-dashes, anti-slop. Headline KEPT (`Product | 0→1 ∞ GTM | AI/ML`) per Zach.
+  **ARCS IS a listed LinkedIn Position** (retires the stale profile-scan flag). Brand-coherence audit
+  across the 4 surfaces ≈ 85%. (Memory: `zach-personal-brand-and-job-search-system`.)
+
+## Open (next session's first work)
+1. **Job search:** re-run the catcher + rubric scoring once the 4 retargeted alerts populate
+   (~2026-08-31), then tailor a `_ARTIFACTS/resume-<target>/` for the top PURSUE. **A background
+   task is already started (`task_57c6b286`).** Lesson: read the JD, not the title.
+2. **Merge `feat/resume-pwa-theming` → main** to canonicalize the résumé fix + `DEPLOY.md` +
+   smoke-gate; relocate `operators/job_search/` + `_ARTIFACTS/resume-applied-ai/` off this branch.
+3. **Vercel hardening:** give deploy agents preview-only tokens (human dashboard) so a CLI `--prod`
+   can't blank all ~70 arcs.care domains again.
+4. Optional brand fixes: cross-link surfaces into one hub; a jargon-free ARCS credibility line on
+   zachharris.xyz; consider aligning the LinkedIn headline (Zach likes the current one).
+
+## Uncommitted on this worktree (@ 588af273)
+`_ARTIFACTS/resume-applied-ai/` · `runtime/job-search/` · `.claude/skills/artifact-text-qa/` —
+committed in the handoff commit below (files persist on disk through compact/clear regardless).
+
 # Handoff — v3.46.0 (2026-08-27)
 
 > **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
