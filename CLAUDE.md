@@ -107,6 +107,47 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.48.0 (2026-08-29)
+
+> **Active pickup point — hyperstition close-out + engagement truing + molt reframe.** Continuation
+> of the v3.47.0 evidence session. Everything below is on branch `claude/happy-cori-d4faaf`,
+> [PR #193](https://github.com/flashesofbrilliance/arcs-v9/pull/193) OPEN (Zach merges = deploy of the
+> post-3 miss-count update). Atlas republished (same artifact URL 9c336f5c).
+
+## Shipped (this branch)
+- **Ledger triage fold** — the 79-concept honesty ledger's 33 unbuilt rows sorted 4 ways
+  (`_ARTIFACTS/vision-films-hyperstition/ledger-triage.md`): **5 BUILD** appended to
+  `_QUEUE/induced-backlog.jsonl` (now 24 rows: R·C·S surfaces, validation probe ADR-059, IDEA loop
+  ADR-058, kill-gate enforcement, adaptive presentation) · 4 FINISH · **9 MOLT** · 15 canon-resident.
+- **Molt reframe (Zach ruling):** the 9 are not "retired" — they are **molted** (ADR-041 considered-molt
+  + ADR-066 instance->class->invariant). The invariant re-manifested sharper (Signal Engine->recoil;
+  own-the-engine->own-the-record; Rule-of-Fives->Y-gate; 101/201/301->graduation invariant). A molted
+  shell is still provenance, not a retcon (witness 2026-08-23). Atlas SEDIMENT + triage reframed.
+- **Two memory reflexes banked:** `pre-register-rule-before-counting` (commit the count-rule BEFORE
+  reading the corpus — forking-paths guard, proven by the 19% hit-rate) and
+  `molting-protocol-outgrow-scaffolding-not-retire` (molt-test before marking anything dead).
+- **Engagements trued vs Gmail (pulse-check):** **Prophet CLOSED-LOST** (other candidate; went dark
+  after Zach's Aug 4 follow-up). Closing note to **Cassandra Riley (criley@prophet.com)** DRAFTED as a
+  Gmail draft ("Thank you, and closing the loop") + one-time reminder task set for **Fri Sep 4 10am ET**
+  (`remind-send-prophet-close-note`) — review-and-send-yourself, NOT auto-sent. **Fanatics CLOSED-WARM**:
+  **CJ Masopust (cmasopust@collectfanatics.com)** via **Chris LaMontagne** intro; role-design/timing
+  miss (Boardy read: liked the work, no matching mandate — not a fit loss); loop already closed, door
+  open (Growth+1). No owed reply. Both memory files updated.
+- Commits: 58301a83 (pre-reg rule) · f50ecf48 (evidence completion) · 54a8ad5d (v3.47.0 handoff) ·
+  bc3e4034 (triage) · 95426067 (molt reframe). Prior evidence work (ledger/null/phase-lock) from v3.47.0.
+
+## Open (next session's first work)
+1. **PR #193 merge** (Zach) — lands post-3 miss-count appendix + atlas edits + ledger/triage + molt.
+2. **MEMORY.md is co-edited + ~1k over the soft budget** — a PARALLEL same-day session added ADR-071
+   Möbius/triune/gravity + ROM-graduation memories concurrently (untracked shared state = advisory;
+   did NOT fight the race). Owed: one single-owner `/consolidate-memory` pass to bring it back under
+   17408B. All this session's additions verified present in the merged index.
+3. Prophet close-note fires Sep 4 (draft staged); if that week slides it's low-stakes.
+4. `lattice --regenerate` still owed (ADR count lattice 63 vs repo 66, epoch stale) — human-owned.
+5. Carried from v3.47.0: human-gated PRL installs · Todd close-loop call · Sean Wing window (was
+   2026-08-30) · 1.2-A payment-gated · orphan seeds · GH Actions billing · ADR-069 oracle audit ·
+   ziggurat trailhead · tao 066/067.
+
 # Handoff — v3.47.0 (2026-08-28)
 
 > **Active pickup point — hyperstition evidence-completion session.** Ran the war-game panel's
@@ -137,50 +178,4 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
    ziggurat trailhead · tao 066/067 · lattice --regenerate.
 3. Memory index over budget (session-start warning) — run /consolidate-memory when convenient.
 
-# Handoff — v3.46.0 (2026-08-27)
-
-> **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
-> covers the arc after the close-out: surface -> canon -> gauntlet -> board -> rollout). All merged
-> to main (#180 squash 59cef5b0, #184 ba6c15bb), prod deploy Ready, routes verified live.
-
-## Shipped (all live)
-- **prl.arcs.care/status/receipt** — the closed 1.2 receipt as data-driven story: BLUF, 3 headline
-  tiles, expected-vs-actual band chart (SVG, honest-scale range, mobile scroller + punchline
-  auto-scroll), directional hours bars, scorecard, 1.3 recommendation-voice setup, losing-receipt
-  section, fine-print method. Stamped via prl-page-factory + bespoke organisms; impeccable
-  distill/polish passes; dataviz palette validated. **Gates run in full:** fact-check vs baseline
-  CSVs (all headline numbers trace) + counterpart-gauntlet (6 facets, 7 agents, 865K tok):
-  14 verified findings ALL fixed (2 pathogens on the four-hour row: no separate assignment
-  timestamp; reminder goes to Zach not rep — pill now "live · rep alert staged"), 4 over-flags
-  rejected. Run banked in `_STATE/gauntlet-runs.jsonl`.
-- **ADR-069** (minted in-session, oracle audit PENDING — flag on next oracle pass): first closed
-  client receipt => precedent-shaped expectation management. Four-in-one print: witness stub
-  (`_STATE/witness/2026-08-26.jsonl`) + ADR + DEWY (`_STATE/2026-08-26-session-decisions.dewy.json`)
-  + wisdom. build.html ADR stat 63->64 (tripwire caught its own mint, again).
-- **Instrument Board** — `scripts/warroom_board.py`, SECOND sovereign-projection-service instance:
-  stdlib-only factory, adapter-per-JSONL-ledger (gauntlet-runs + falsification-ledger snapped on),
-  typed print + spark-plug germination sidecar, served admin-gated at **/warroom/gauntlet** (404s
-  anonymous — verified). Regenerate after every gauntlet; keep findings machine-parseable
-  ("N pathogen, N crack, N nit" + "N over-flags rejected").
-- **Receipt pill on all 8 PRL pages** + gold jumplink on the prl.arcs.care homepage nav; factory
-  SEGS updated so future stamps inherit it (#184). Tripwire real-name/dead-link flags adjudicated
-  as pre-existing main content in the commit message (not silently bypassed).
-- **4-hour rule reframed per Zach ruling:** closes mechanically (creation==assignment timestamp,
-  elapsed-window reminder); Todd's written ack demoted to nice-to-have FYI across page + drafts.
-- Merge hygiene: v3.44.0/v3.45.0 handoff collision resolved (parallel Ahmed session), squash-merge
-  branch reset to main (rebase-replay aborted — tree was identical).
-
-## Open (next session's first work)
-1. **Human-gated PRL installs** — zap kit paste order (`_ARTIFACTS/prl-zap-kit/README.md`,
-   task8 filter first) + empty-email e2e widget chat (delete created lead after, receipt).
-2. **Close-loop CALL with Todd** — walk `_ARTIFACTS/prl-1-2-close-loop/2026-08-26-close-loop-onepager.md`
-   + the live /status/receipt page; send or fold in the two-confirmations email draft; chase
-   ZoomInfo contact + Bill/territory. 1.3 kickoff = Todd's call, $4,000 with precondition batch.
-3. **Sean Wing close-loop window ends 2026-08-30** — /recoil-close vs `2026-08-23-sean-wing.json`;
-   counterpart-gauntlet the parked note before any send.
-4. **1.2-A stays PAYMENT-GATED** (invoice #NYQRTJPQ-0004; Stripe MCP needs auth to verify).
-5. Carried: orphan seeds curation (human) · GH Actions billing (Zach-only) · ADR-069 oracle audit ·
-   ziggurat trailhead/key-0 · tao proverbs 066/067 · lattice --regenerate (human-owned).
-
-
-> _v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.46.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
