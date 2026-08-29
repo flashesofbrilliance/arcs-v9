@@ -2,8 +2,8 @@
   "captured_at": "2026-08-03T18:30:00Z",
   "repo": "flashesofbrilliance/arcs-v9",
   "git": {
-    "head_sha": "fd2cf09",
-    "head_message": "docs(todd): audience-scoping CONFIRMED available; info@ shows green [NCI:SKIP]",
+    "head_sha": "bcfeea3",
+    "head_message": "feat(todd): capture-first required flow variant (+company, before questions) [NCI:SKIP]",
     "in_sync_with_origin": false,
     "dirty_files": [
       "_STATE/snapshot.json"
@@ -181,7 +181,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-09T15:13:37Z",
+  "git_refreshed_at": "2026-08-10T02:50:01Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [

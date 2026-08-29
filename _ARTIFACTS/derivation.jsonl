@@ -1,0 +1,12 @@
+# Reactive doc-graph derivation manifest — the dependency edges (strings) of the artifact field.
+# One row per DERIVED surface. Fields:
+#   id           short name
+#   ssot         the source-of-truth file (the frame) this surface is a pure function of
+#   build        rebuild command; MUST honor an OUT env var (writes derived HTML to $OUT)
+#   surface      the committed/published derived file (the string's endpoint)
+#   url          the published artifact URL (for the CD/publish leg + human trace)
+#   assert_absent  regexes that must NOT appear in the shipped surface (redaction / dead-link gates)
+#   assert_present tokens that MUST appear (guards that load-bearing content didn't get dropped)
+# Freshness = (surface == rebuild(ssot)) AND assert_absent none-match AND assert_present all-present.
+# A leaf whose ssot == surface (no build) is a standalone source; only its assert_* run.
+{"id":"prl-vendor-roadmap","ssot":"prl-roadmap-deck.html","build":"bash build-vendor-deck.sh","surface":"prl-vendor-roadmap.html","url":"https://claude.ai/code/artifact/fb2878f6-6a02-40cd-9c3f-ab2607e4afa0","assert_absent":["\\$[0-9]","href=\"#pay\""],"assert_present":["reCAPTCHA (confirmed)","Barracuda (resolved by Jorge)"]}

@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRL Chatbot // Where We Are, What's Next</title>
+<style>
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --maroon:#7A1F2B; --red:#d0546b;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 22px}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:11px 22px;scrollbar-width:none}
+  nav .wrap::-webkit-scrollbar{display:none}
+  nav a{color:var(--muted);font-size:12.5px;font-weight:600;white-space:nowrap;
+    padding:6px 11px;border-radius:8px;letter-spacing:.02em}
+  nav a:hover{color:var(--text);background:var(--surface)}
+  nav a.on{color:var(--bg);background:var(--gold)}
+
+  /* hero */
+  header{padding:64px 0 40px;border-bottom:1px solid var(--border)}
+  .kick{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  h1{font-size:33px;line-height:1.2;margin:14px 0 8px;font-weight:700;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:16px;max-width:640px}
+  .oneline{margin-top:26px;padding:16px 18px;background:rgba(201,162,39,.06);border:1px solid rgba(201,162,39,.32);
+    border-radius:10px;color:var(--text);font-size:15px}
+
+  section{padding:44px 0;border-bottom:1px solid var(--border)}
+  .phase-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:4px 10px;border-radius:20px;margin-bottom:14px}
+  .t-now{background:rgba(63,185,80,.14);color:var(--green);border:1px solid rgba(63,185,80,.3)}
+  .t-next{background:rgba(201,162,39,.14);color:var(--gold-soft);border:1px solid rgba(201,162,39,.3)}
+  .t-later{background:rgba(139,152,169,.12);color:var(--muted);border:1px solid var(--border)}
+  h2{font-size:24px;margin:0 0 4px;font-weight:700;letter-spacing:-.01em}
+  h2 .num{color:var(--gold);font-variant-numeric:tabular-nums}
+  .lede{color:var(--muted);font-size:15px;margin:6px 0 22px;max-width:660px}
+  h3{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:24px 0 10px;font-weight:700}
+
+  ul.clean{list-style:none;padding:0;margin:0}
+  ul.clean li{padding:7px 0 7px 26px;position:relative;color:var(--text);font-size:15px}
+  ul.clean li:before{content:"";position:absolute;left:4px;top:14px;width:6px;height:6px;border-radius:50%;
+    background:var(--gold)}
+  li.done{color:var(--muted)}
+  li.done:before{content:"✓";background:none;color:var(--green);left:2px;top:6px;font-size:14px;font-weight:700}
+  li.todo:before{background:none;border:1.5px solid var(--dim);width:9px;height:9px;left:3px;top:11px}
+
+  table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+  td:first-child{font-weight:600;white-space:nowrap}
+  .bbw td:first-child{color:var(--gold-soft)}
+  .scroller{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  .price{font-size:15px;font-weight:700;color:var(--text)}
+  .pill{display:inline-block;background:var(--surface2);border:1px solid var(--border);border-radius:20px;
+    padding:3px 11px;font-size:12.5px;color:var(--muted);margin:2px 4px 2px 0}
+  .pill b{color:var(--gold-soft)}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin:14px 0}
+  .card.warm{border-color:rgba(201,162,39,.42);background:rgba(201,162,39,.05)}
+  .note{color:var(--muted);font-size:14px}
+  .note b{color:var(--text)}
+
+  .rhythm{display:grid;grid-template-columns:1fr;gap:12px}
+  .rhythm .card{margin:0}
+  .rhythm h4{margin:0 0 4px;font-size:15px}
+  .rhythm p{margin:0;color:var(--muted);font-size:14px}
+
+  footer{padding:40px 0 70px;color:var(--dim);font-size:13px}
+  @media(min-width:640px){ h1{font-size:40px} .rhythm{grid-template-columns:1fr 1fr} }
+
+  /* receipts */
+  .receipt{border:1px solid var(--border);border-radius:12px;margin:16px 0;overflow:hidden;background:var(--surface)}
+  .receipt.tpl{opacity:.92}
+  .rhead{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 18px;
+    background:var(--surface2);border-bottom:1px solid var(--border);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;letter-spacing:.08em;color:var(--gold-soft)}
+  .rstatus{color:var(--green)}
+  .receipt.tpl .rstatus{color:var(--dim)}
+  .rrow{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:11px 18px;border-bottom:1px solid var(--border);font-size:14px}
+  .rrow:last-child{border-bottom:0}
+  .rrow b{color:var(--dim);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px;font-weight:700}
+  .rrow span{color:var(--text)}
+  .callead{display:block;color:var(--dim);font-size:12px;margin-top:9px}
+  a.cal{display:inline-block;margin-top:5px;color:var(--gold-soft);text-decoration:none;
+    border:1px solid rgba(201,162,39,.4);border-radius:8px;padding:5px 11px;font-size:12.5px;font-weight:600}
+  a.cal:hover{background:rgba(201,162,39,.1)}
+  @media(max-width:520px){ .rrow{grid-template-columns:1fr;gap:2px} }
+
+  /* presentation mode */
+  .present-btn{position:fixed;top:10px;right:14px;z-index:20;background:var(--gold);color:var(--bg);
+    border:0;border-radius:8px;padding:6px 13px;font-size:12.5px;font-weight:700;cursor:pointer}
+  .present-ctrl,.pbar{display:none}
+  body.presenting nav,body.presenting .present-btn{display:none}
+  body.presenting .slide{position:fixed;inset:0;overflow:hidden;background:var(--bg);
+    opacity:0;pointer-events:none;transition:opacity .26s ease;border:0!important}
+  body.presenting .slide.active{opacity:1;pointer-events:auto;z-index:5}
+  body.presenting .slide>.wrap{position:absolute;top:50%;left:50%;width:88vw;max-width:940px;
+    transform:translate(-50%,-50%);transform-origin:center center;opacity:0;transition:opacity .42s ease}
+  body.presenting .slide.active>.wrap{opacity:1}
+  body.presenting section,body.presenting header{padding:0}
+  body.presenting footer{display:none}
+  /* presentation type scale (bumped for the room; dense rows/tables left compact) */
+  body.presenting .slide h1{font-size:clamp(40px,5vw,62px)}
+  body.presenting .slide h2{font-size:clamp(25px,3.1vw,36px)}
+  body.presenting .slide .lede,body.presenting .slide .sub,body.presenting .slide .oneline{font-size:clamp(15px,1.55vw,19px)}
+  body.presenting .slide h3{font-size:13px}
+  /* progress bar */
+  .pbar{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;z-index:22;
+    transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  body.presenting .pbar{display:block}
+  .present-ctrl{position:fixed;bottom:14px;right:14px;gap:8px;z-index:23;align-items:center}
+  body.presenting .present-ctrl{display:flex}
+  .present-ctrl button{background:rgba(13,17,23,.9);color:var(--text);border:1px solid var(--border);
+    backdrop-filter:blur(6px);border-radius:8px;padding:6px 13px;font-size:15px;cursor:pointer;line-height:1}
+  .present-ctrl button:hover{border-color:var(--gold);color:var(--gold-soft)}
+  .present-ctrl .count{color:var(--muted);font-size:12.5px;font-variant-numeric:tabular-nums;padding:0 4px}
+  .p-hint{display:none}
+  body.presenting .p-hint{display:block;position:fixed;bottom:17px;left:16px;z-index:23;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:10px;letter-spacing:.14em;
+    color:var(--dim);text-transform:uppercase}
+  @media(max-width:560px){ body.presenting .p-hint{display:none} }
+</style>
+</head>
+<body>
+
+<div class="pbar" id="pbar"></div>
+<button class="present-btn" onclick="enterPresent()">▶ Present</button>
+<div class="present-ctrl">
+  <button onclick="pshow(pidx-1)" aria-label="previous">‹</button>
+  <span class="count" id="pcount"></span>
+  <button onclick="pshow(pidx+1)" aria-label="next">›</button>
+  <button onclick="exitPresent()">✕ Exit</button>
+</div>
+<div class="p-hint">← → navigate · space next · esc exit</div>
+
+<nav><div class="wrap">
+  <a href="#top" class="on">Overview</a>
+  <a href="#now">Now · 1.1</a>
+  <a href="#next">Next · 1.2</a>
+  <a href="#later">Later · 1.3 to 1.5</a>
+  <a href="#pay">Payment</a>
+  <a href="#surprises">No surprises</a>
+  <a href="#receipts">Receipts</a>
+</div></nav>
+
+<header id="top"><div class="wrap">
+  <div class="kick">PRL Resins · Chatbot Program</div>
+  <h1>Where we are, and what's next.</h1>
+  <p class="sub">A calm, phase-by-phase picture: what is done now, what is next, and what comes later,
+  with clear numbers, honest ranges, and no surprises.</p>
+  <div class="oneline"><b>How we work, in one line:</b> boring and predictable. Nothing touches your live
+  site or live CRM until it is proven in a safe copy first. Every phase stands on its own, you pay per
+  phase, and you can stop at any clean stopping point.</div>
+  <div class="oneline"><b>The through-line:</b> every phase makes it <em>simpler</em> for your people, not more complex. The tech gets more invisible over time, riding what your team already does, like a call, a text, or Outlook, so nothing new lands in a rep's routine, and no lead is ever silently dropped by anyone.</div>
+</div></header>
+
+<!-- NOW -->
+<section id="now"><div class="wrap">
+  <span class="phase-tag t-now">Now · in flight</span>
+  <h2><span class="num">1.1</span> &nbsp;Go Live, the chatbot itself</h2>
+  <p class="lede">The bot is built, branded in your colors, and tested on a private copy of your site.
+  One step left: turning on lead delivery into SugarCRM.</p>
+
+  <h3>What "done" looks like</h3>
+  <ul class="clean">
+    <li>A test lead runs all the way through and lands in SugarCRM, complete, tagged as Chatbot.</li>
+    <li>It routes to your sales manager (auto-routing by territory ready to switch on later).</li>
+    <li>Safety checks pass, and it goes live on the real site in a window you pick.</li>
+    <li>Nothing on the plant floor, and nothing in any rep's routine, has changed.</li>
+  </ul>
+
+  <h3>Burn-down, what is left to land it</h3>
+  <ul class="clean">
+    <li class="done">Bot built, branded, tested on a private copy</li>
+    <li class="done">Phone required + "Chatbot" label decided</li>
+    <li class="done"><b>Sandbox of SugarCRM landed</b>. A test lead now runs all the way through and lands, tagged Chatbot, routed to your sales manager. Proven end to end in the safe copy.</li>
+    <li class="todo">Turn on the standing hand-off, so it fires automatically on every chat, not just our proof run</li>
+    <li class="todo">Add the "Chatbot" lead-source value in production at go-live. Confirmed missing today, so it is a two-minute step at cutover, on the list rather than a surprise.</li>
+    <li class="todo">30-minute session with your sales manager + reports person</li>
+    <li class="todo">Flip live, in your chosen window</li>
+  </ul>
+
+  <h3>Best / base / worst, time to live</h3>
+  <div class="scroller"><table class="bbw">
+    <tr><th>Case</th><th>Time to live</th><th>What drives it</th></tr>
+    <tr><td>Best</td><td>~2 to 3 days</td><td>Delivery already proven in the safe copy; just the standing hand-off + your go-live window</td></tr>
+    <tr><td>Base</td><td>~1 week</td><td>Normal back-and-forth on access + one scheduling round</td></tr>
+    <tr><td>Worst</td><td>2 to 3 weeks</td><td>Access stalls, or a holiday / work-trip window</td></tr>
+  </table></div>
+
+  <div style="margin-top:16px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">The bot is already capturing leads. The one missing piece is delivery into your CRM. We also traced why emails have not been landing there: the automated paths do not send the email, even though the field works fine when a value is supplied. The chatbot captures the email on every lead, which closes that gap at the source.</div></div>
+
+  <div class="card"><span class="note"><b>Payment:</b> already paid. Phase 1.1 was the original
+  engagement, nothing further owed to finish it.</span></div>
+</div></section>
+
+<!-- NEXT -->
+<section id="next"><div class="wrap">
+  <span class="phase-tag t-next">Next · paid Monday, now underway</span>
+  <h2><span class="num">1.2</span> &nbsp;Reliable delivery + your four-hour number</h2>
+  <p class="lede">Make lead delivery rock-solid, fill in missing business emails automatically, send the
+  prospect an instant acknowledgment, and start showing time-to-first-touch, the four-hour number you
+  manage to, with a baseline to prove what the chatbot adds.</p>
+
+  <h3>Running in parallel right now (so Monday is a running start)</h3>
+  <ul class="clean">
+    <li>Lining up the data session with your SM + reports person.</li>
+    <li>Preparing the baseline, so we can prove what the chatbot adds cleanly.</li>
+    <li>Mapping the assumptions and unknowns now, so none surprise us mid-phase.</li>
+  </ul>
+
+  <h3>Best / base / worst</h3>
+  <div class="scroller"><table class="bbw">
+    <tr><th>Case</th><th>Time</th><th>What drives it</th></tr>
+    <tr><td>Best</td><td>a few days</td><td>Your CRM already stamps first-touch; baseline pulls clean</td></tr>
+    <tr><td>Base</td><td>~1 to 1.5 weeks</td><td>Normal setup + one data session + enrichment wiring</td></tr>
+    <tr><td>Worst</td><td>~2 weeks</td><td>CRM doesn't capture first-touch (we use an automatic proxy) or messy baseline</td></tr>
+  </table></div>
+
+  <div style="margin-top:16px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">Digging into your current setup, your website is capturing far more real interest than reaches your CRM. Your main lead form is mostly automated spam right now with no working protection, and underneath it we found roughly 29 genuine, high-value inquiries from the last few years that never made it into the system, including a program tied to Tesla and quote requests from names like Siemens and OtterBox. This phase turns on reliable delivery, quiets the noise, and recovers those leads.</div></div>
+
+  <div class="card warm">
+    <span class="price">$4,500</span> &nbsp;<span class="note">fixed for the phase · paid Monday, now underway</span><br>
+    <span class="pill">best case: <b>same price, sooner</b></span>
+    <span class="pill">worst case: <b>still $4,500</b>, the fixed price is the cap</span>
+    <div class="note" style="margin-top:10px">Tool costs (ZoomInfo, email) are billed to PRL directly, outside this number.</div>
+    <div style="margin-top:14px;text-align:center"><span style="display:inline-block;background:rgba(63,185,80,.14);color:#3fb950;border:1px solid rgba(63,185,80,.35);font-weight:700;padding:11px 24px;border-radius:8px;font-size:15px">Paid Monday &middot; Phase 1.2 underway</span><div class="note" style="margin-top:7px;font-size:12px">Thank you. Phase 1.2 is greenlit and in progress.</div></div>
+  </div>
+</div></section>
+
+<!-- LATER -->
+<section id="later"><div class="wrap">
+  <span class="phase-tag t-later">Later · each its own decision</span>
+  <h2>What comes after: 1.3, 1.4, 1.5</h2>
+  <p class="lede">You greenlight and pay for each only when you are ready. Each ends at a clean, usable
+  stopping point.</p>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.3</span> &nbsp;Smarter lead recognition &nbsp;<span class="price">· $4,000</span></h2>
+    <p class="note">The bot recognizes the resins and competitor grades you actually sell, straight from
+    data already in your CRM, and never guesses a spec or a price.</p>
+    <span class="pill">best <b>~few days</b></span><span class="pill">base <b>~1 wk</b></span><span class="pill">worst <b>~1.5 wks</b></span>
+    <span class="pill">de-risk: <b>data is already in your system</b></span>
+    <div style="margin-top:12px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">The real inquiries confirm the plan: buyers name specific grades and competitor materials they want to replace, like Lexan, Valox, and Makrolon. That is exactly what this phase teaches the bot to recognize, so each inquiry reaches the right person faster, and it never guesses a spec.</div></div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.4</span> &nbsp;Your paid landing pages (SEM) &nbsp;<span class="price">· $6,000</span></h2>
+    <p class="note">Each ad campaign page gets its own chatbot opening, tuned to why the visitor came,
+    wired to your CRM, and the bot shows each visitor what fits their job.</p>
+    <span class="pill">best <b>~1 wk</b></span><span class="pill">base <b>~1.5 to 2 wks</b></span><span class="pill">worst <b>~2.5 to 3 wks</b></span>
+    <span class="pill">may open a <b>separate ongoing SEM service</b></span>
+    <div style="margin-top:12px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">Already in motion: your paid landing pages are actively bringing in leads, including campaigns aimed at competitor materials. This phase shapes who arrives and what they see, so your ad spend lands on a funnel that works.</div></div>
+  </div>
+
+  <div class="card">
+    <h2 style="font-size:19px"><span class="num">1.5</span> &nbsp;A smarter assistant (AI) &nbsp;<span class="price">· $3,500</span></h2>
+    <p class="note">The bot handles open-ended "help me choose" conversations in its own words, turned on
+    only after its handoff into your CRM is proven, so a good conversation can never fall through.</p>
+    <span class="pill">best <b>~few days</b></span><span class="pill">base <b>~1 wk</b></span><span class="pill">worst <b>~1.5 wks</b></span>
+    <span class="pill">de-risk: <b>stays off until proven</b></span>
+    <div style="margin-top:12px;padding:11px 14px;border-left:3px solid #00F0FF;background:rgba(0,240,255,.05);border-radius:0 8px 8px 0"><div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#00F0FF;font-weight:600;margin-bottom:5px">What we found digging in</div><div class="note" style="margin:0;color:#cbd5e1">The guardrail that makes this safe: the assistant answers only from your verified information and never states a spec, certification, or price it is not sure of. It connects the visitor to your specialist instead. We also confirmed directly with Tidio how the AI fits alongside your lead flows: it runs after them, never nested inside them, so your structured lead capture always goes first and the AI only picks up what the flows do not catch. That is exactly the order we want, and part of why it goes on last, and only if the economics make sense.</div></div>
+  </div>
+
+  <div class="card" style="margin-top:22px">
+    <span class="phase-tag t-later" style="margin-bottom:10px">Why this order</span>
+    <h3 style="margin-top:6px">Each step stands on proven ground, so nothing turns turbulent</h3>
+    <p class="note" style="max-width:680px">The order is not arbitrary. Every phase makes the next one safe by
+    removing one thing that could go wrong first. Boring on purpose.</p>
+    <ul class="clean">
+      <li><b>1.1 and 1.2 come first,</b> because everything after them only produces leads, and a lead counts
+      only if it reliably reaches you. We prove delivery and set the before-number, so we can measure what each
+      later step actually adds.</li>
+      <li><b>1.3 makes it smarter</b> at recognizing what a visitor is asking about, using what is already in
+      your CRM. It sharpens the bot without changing anything on the floor.</li>
+      <li><b>1.4 shapes who arrives</b> and what they see on your paid pages, so ad spend lands on a funnel that
+      already works.</li>
+      <li><b>1.5, the AI, goes last and stays optional.</b> It is the most capable and the most uncertain
+      piece, so it is turned on only after delivery is proven, and only if the economics make sense. If they do
+      not, we simply do not turn it on, and everything before it still stands on its own. It also never states
+      a spec, a certification, or a price. It connects the visitor to your specialist for those, so it can
+      never put a wrong number in front of a customer.</li>
+    </ul>
+    <div class="note" style="margin-top:10px"><b>And the price follows the same order.</b> Each phase is
+    re-checked against what the one before it actually took, so a number never lands outside a range you have
+    already seen.</div>
+  </div>
+</div></section>
+
+
+<!-- TEAM TASKS -->
+<section id="team"><div class="wrap">
+  <span class="phase-tag t-later">For your team</span>
+  <h2>A few hand-off tasks for your site and IT people</h2>
+  <p class="lede">None of this blocks our work, and we can do most of it with them. These pieces just belong
+  to whoever maintains your site and your email. Copy a block and send it along. Staging first, then production.</p>
+  <p class="note" style="margin-top:10px">So no one is asked to act without the full picture: here is the <a href="https://claude.ai/code/artifact/60fbdf00-42ca-4d42-9134-abae5f1687b3" target="_blank" rel="noopener" style="color:#00F0FF;font-weight:600">lead-capture diagnostic runbook</a>. It lays out what we found, what we ruled out and why, and exactly where each person's piece fits into the whole, so the reason behind a task is as clear as the task itself.</p>
+
+  <div class="card" style="margin-top:14px">
+    <span class="phase-tag t-later">Assumptions to confirm</span>
+    <h3 style="margin-top:8px">You built it, so you hold the ground truth. Tell us where we are right, wrong, or out of date.</h3>
+    <p class="note">This is on purpose, not a caveat. We state what we are assuming so the person accountable for each piece can confirm, deny, or correct it before anything changes. It is the same way we checked the CRM side, by reading the live system rather than guessing, so a second set of accountable eyes validates the setup.</p>
+    <p class="note" style="margin-top:12px"><b>What we verified ourselves, read live:</b></p>
+    <ul class="clean">
+      <li>Mailgun is configured on <b>mg.prlresins.com</b> (sending policy, signing key, routing, tracking), read from DNS.</li>
+      <li>The domain's SPF includes Mailgun and Outlook; DMARC is set to reject; Microsoft 365 signing is published; Barracuda fronts inbound mail. All read from DNS.</li>
+      <li>The Gravity Forms spam changes are on the staging copy, not the live site yet, read from the live page.</li>
+      <li><b>Website lead cadence:</b> the CRM holds 216 website-sourced leads all-time but only 3 in the last 30 days (0 in the last 7), read live. Our fresh Aug-14 test submissions (per Jorge's request) did <b>not</b> create a CRM lead even ~1.5 hours later, so this is not delivery lag: either the submissions are being spam-filtered or the form is not writing to the CRM. <b>Josh:</b> please check the Gravity Forms Entries / Spam queue for them, so we can tell which.</li>
+    </ul>
+    <p class="note" style="margin-top:12px"><b>Please confirm, deny, or correct, since you set these up:</b></p>
+    <ul class="clean">
+      <li>Akismet is actually enabled and keyed on the forms.</li>
+      <li><b>reCAPTCHA (confirmed):</b> the forms use a reCAPTCHA v2 checkbox whose key is registered to <b>prlresins.com only</b>. We confirmed by testing that it blocks submissions on the staging domain, so staging forms cannot currently be submitted or tested. <b>Josh:</b> add the staging domain (<b>wfaprlredev26.wpenginepowered.com</b>) to the site key, or disable reCAPTCHA on the staging forms. Please also confirm the key is current.</li>
+      <li><b>Barracuda (resolved by Jorge):</b> the form notifications from <b>notify@websitesforanything.com</b> were being quarantined. Jorge confirmed this, released the held message, and allow-listed the sender, thank you. That restores notifications today; the durable fix remains moving the forms to the authenticated Mailgun sender, which passes everywhere with no per-sender exception.</li>
+      <li>Who owns the Mailgun account, and whether a send-only key can be issued.</li>
+      <li>Who controls the prlresins.com DNS zone.</li>
+      <li>How the site sends mail today (native vs an SMTP plugin), and whether the From address can move to a prlresins.com sender.</li>
+      <li>Whether Microsoft 365 has plus-addressing enabled.</li>
+    </ul>
+  </div>
+
+  <h3>For your site maintainer</h3>
+  <pre style="background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;color:#cbd5e1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;margin-top:8px;user-select:all">FOR THE SITE MAINTAINER: Gravity Forms spam protection
+Do these on the staging copy first, then production.
+
+1. Turn on the honeypot
+   WP Admin > Forms > "Material Alternative" > Settings > Form Settings
+   Turn ON "Anti-spam honeypot". Save. Repeat for "Contact Us".
+
+2. Turn on a bot check (reCAPTCHA v3 or Cloudflare Turnstile)
+   WP Admin > Forms > Settings > reCAPTCHA
+   Enter the Site Key and Secret Key (free from the Google reCAPTCHA admin, v3). Save.
+   Open each form, set the CAPTCHA field type to reCAPTCHA. Save.
+   (Note: a reCAPTCHA is already live on the form and is gating submissions today. On the staging domain it errors "Invalid domain for site key", which means the key is registered to prlresins.com only. Josh, please confirm the Site and Secret keys are valid and current, and add the staging domain (wfaprlredev26.wpenginepowered.com) to the site key in the Google reCAPTCHA admin so staging validates too.)
+
+3. Add keyword / blacklist filtering
+   The old "PDF Form" already has the blacklist rules. Copy them to "Material Alternative"
+   and "Contact Us". Block terms like "eric" and "xrumer", and reject any link in the material field.
+
+4. Tighten the material field
+   Make "Which material alternative are you looking for?" required, add a minimum length, reject links / HTML.
+
+5. Confirm the chatbot widget fires on production when we go live.
+
+6. Point the form email at the authenticated sender (this is what fixes leads going to spam)
+   Today the forms send from the old vendor domain (notify@websitesforanything.com), which fails
+   authentication, so notifications get filtered. Move them to the Mailgun sender already set up on
+   mg.prlresins.com, sending as no-reply@prlresins.com. We can do the WordPress wiring with you once
+   IT hands over a send-only key. Please also confirm how the site sends mail today, native or an SMTP plugin.
+
+Highest value: step 6 (delivery), then steps 1 and 2 (spam).</pre>
+  <h3>For IT</h3>
+  <pre style="background:#0d1117;border:1px solid #1e293b;border-radius:8px;padding:14px 16px;color:#cbd5e1;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;margin-top:8px;user-select:all">FOR IT: email deliverability and DNS
+
+1. Email authentication is already in place (we verified it)
+   We read the live DNS: SPF, DKIM, DMARC, and Mailgun (on mg.prlresins.com) are all published and
+   correct, and DMARC is set to reject. No new records are needed. Please confirm this matches your records.
+
+2. Provide a send-only Mailgun key + confirm who owns the Mailgun account
+   So the website can send through the Mailgun that already exists. Send-only, not full account access.
+
+3. Allow-list the Mailgun sender in Barracuda
+   So authenticated mail is delivered, not quarantined. If legitimate form mail has been getting held,
+   this is the most likely reason.
+
+4. Microsoft 365 forwarding + where notifications land
+   Confirm the forwarding set up last week is active, and decide where chatbot and form notifications
+   should land so real leads are seen quickly. Optional: confirm whether Microsoft 365 has plus-addressing
+   enabled (it lets us tag leads by source with no new mailboxes).
+
+Note: the Tidio email setup (domain added, info@prlresins.com added) is complete on our side, and the one
+remaining Tidio email-config step is with Tidio support, which we are handling. It is not an IT task.</pre>
+</div></section>
+
+<!-- PAYMENT -->
+<section id="pay"><div class="wrap">
+  <span class="phase-tag t-next">Payment</span>
+  <h2>The schedule, so there are no surprises</h2>
+  <p class="lede">Simple rule: each phase is paid just before it kicks off. You always know the number
+  ahead of time, and never pay for a phase you have not greenlit.</p>
+  <div class="scroller"><table>
+    <tr><th>Phase</th><th>What you get</th><th>Amount</th><th>Paid</th><th>Kicks off</th></tr>
+    <tr><td>1.2</td><td>Reliable delivery + the 4-hour number</td><td class="price">$4,500</td><td style="vertical-align:middle"><a href="https://buy.stripe.com/5kQ00k8wN1C72xX3c57wA01" style="display:inline-block;background:#2b2f36;color:#e2e8f0;font-size:13px;font-weight:700;padding:5px 13px;border-radius:6px;text-decoration:none;white-space:nowrap;border:1px solid #3a3f47">Start Phase 1.2</a></td><td>Mon</td></tr>
+    <tr><td>1.3</td><td>Smarter lead recognition</td><td class="price">$4,000</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>1.4</td><td>Your paid landing pages</td><td class="price">$6,000</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td>1.5</td><td>A smarter assistant</td><td class="price">$3,500</td><td>before kickoff</td><td>on your go</td></tr>
+    <tr><td></td><td><b>Full path 1.2 → 1.5</b></td><td class="price">$18,000</td><td></td><td></td></tr>
+  </table></div>
+  <div class="card"><span class="note"><b>Two ways to run it, your call.</b>
+  &nbsp;<span class="pill"><b>Pay-as-you-go</b> (recommended), pay each phase before it kicks; stop clean at any boundary.</span>
+  <span class="pill"><b>Commit the full path</b>, one commitment, same $18,000, still stop-anytime.</span>
+  <div style="margin-top:10px"><b>Timeline, honestly:</b> back to back with everything flowing,
+  the whole path is a <b>5 to 6 week best case</b>. Base case runs a bit longer, and it stretches further
+  if access, decisions, or new dependencies slow a phase. When that happens the <b>date moves, the
+  per-phase price does not</b>. Tool costs sit outside these numbers, billed to PRL directly.</div></span></div>
+
+  <h3 style="margin-top:30px">How the price stays fair as we go, the receipt check</h3>
+  <p class="note" style="max-width:660px">The numbers for 1.3, 1.4 and 1.5 above are today's best
+  estimate. They get <b>re-checked against reality</b> before each one starts, so you are never locked
+  into a guess.</p>
+  <ul class="clean">
+    <li>Each phase ends with a short <b>receipt</b>: what we expected versus what it actually took.</li>
+    <li>That receipt sets the next phase's number, always <b>inside the best-to-worst range you already
+      saw</b>. Nothing ever lands outside a range you have not seen.</li>
+    <li>If a phase comes in <b>easier</b>, the next number comes <b>down</b>. If there is more to it, the
+      receipt shows exactly why, and it moves only within that same known range.</li>
+    <li>The phase you are in is a <b>fixed cap</b>, a phase never costs more than its quote. Only the
+      next number can move, and only against real numbers.</li>
+    <li><b>If it goes faster than expected, that surplus is yours.</b> A phase that comes in well under
+      does not just disappear, you either take the next number down, or, if you would rather, we put
+      that saved ground toward <b>more work past 1.5</b>. The better we go, the more we can do together.</li>
+    <li>Each phase makes the next estimate sharper, so the further we go, the <b>more</b> predictable it gets.</li>
+  </ul>
+</div></section>
+
+<!-- NO SURPRISES -->
+<section id="surprises"><div class="wrap">
+  <span class="phase-tag t-later">No surprises</span>
+  <h2>Where costs could move, and how we keep them boring</h2>
+  <p class="lede">The fixed price is the number. Here is the honest picture of what could change it, and
+  how each is contained before it ever reaches you.</p>
+
+  <h3>The min-cost path (always available)</h3>
+  <ul class="clean">
+    <li>If the historical data can't support the full analysis, we ship the live four-hour number and
+    skip the historical chart, no added spend.</li>
+    <li>If sandbox access is slow, we prove everything on one labelled test lead you approve, no new spend.</li>
+    <li>If the AI economics don't check out in 1.5, we simply don't turn it on. The rest stands on its own.</li>
+  </ul>
+
+  <h3>Where it could bubble (and how it's contained)</h3>
+  <ul class="clean">
+    <li><b>Out-of-scope requests</b> (rebuilding CRM reports, full page redesigns, ongoing campaign
+    management), always a named, priced change order first, never silently absorbed.</li>
+    <li><b>Tool costs</b> (ZoomInfo lookups, a higher chat tier for AI volume), capped and surfaced up
+    front, billed to PRL directly, decided by you with the numbers in hand.</li>
+    <li><b>Calendar</b> (a holiday or work trip), shifts the date, not the scope or the price.</li>
+  </ul>
+
+  <div class="rhythm" style="margin-top:22px">
+    <div class="card"><h4>Sandbox-first</h4><p>Nothing blind on your live site or CRM, ever. We prove it in a copy first.</p></div>
+    <div class="card"><h4>Kill switch + rollback</h4><p>If anything looks off, one toggle stops it, and every change is reversible.</p></div>
+    <div class="card"><h4>Phase-gated</h4><p>You always know the number, always get a working result, and can stop clean at any boundary.</p></div>
+    <div class="card"><h4>Pay before kickoff</h4><p>Keeps the momentum honest on both sides, exactly like Monday / Friday.</p></div>
+  </div>
+</div></section>
+
+<!-- RECEIPTS -->
+<section id="receipts"><div class="wrap">
+  <span class="phase-tag t-next">Receipts</span>
+  <h2>The receipt for each phase</h2>
+  <p class="lede">Before a phase starts, we both agree on what we expect. At the check-in we measure what
+  actually happened, and that sets the next phase's number. The check-in date <b>moves with the phase</b>:
+  if we find the data fast it comes earlier, if access or blockers slow us it pushes out. Add it to your
+  calendar so the loop always closes.</p>
+
+  <div class="receipt">
+    <div class="rhead"><span>RECEIPT · PHASE 1.2</span><span class="rstatus">EX-ANTE · OPEN</span></div>
+    <div class="rrow"><b>The bet</b><span>Reliable delivery + enrichment + the four-hour metric + baseline, at $4,500, about 20 hours of work, kicking Monday Aug 10.</span></div>
+    <div class="rrow"><b>Assumptions</b><span>Your CRM stamps first-touch · the baseline pulls clean · ZoomInfo and Mailgun access in hand.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>actual effort lands outside 12 to 30 hours, or the four-hour metric cannot be built from data you already have.</span></div>
+    <div class="rrow"><b>At risk</b><span>the $4,500 cap and the go-live timeline.</span></div>
+    <div class="rrow"><b>Check-in</b><span>target Monday Aug 24, and it moves with the phase (earlier if the data comes fast, later if access or blockers slow it). We measure expected vs actual, bank the result, and set the 1.3 number.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.2+receipt&amp;dates=20260824/20260825&amp;details=Measure+expected+vs+actual+for+Phase+1.2%2C+bank+the+result%2C+set+the+1.3+number.+Date+may+shift+with+the+phase.+prl.arcs.care">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.2+receipt&amp;startdt=2026-08-24T09:00:00&amp;enddt=2026-08-24T09:30:00&amp;body=Measure+expected+vs+actual+for+Phase+1.2%2C+bank+the+result%2C+set+the+1.3+number.+Date+may+shift+with+the+phase.+prl.arcs.care">Outlook Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.3</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>Smarter lead recognition, at $4,000, about 18 hours. Number confirmed against the 1.2 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the recognition data in your CRM needs heavy clean-up, or the rep know-how session takes several rounds.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.3 kicks off, cascading from the 1.2 close-loop.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.3+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.3%2C+bank+the+result%2C+set+the+1.4+number.">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.3+receipt&amp;body=Measure+expected+vs+actual+for+Phase+1.3%2C+bank+the+result%2C+set+the+1.4+number.">Outlook Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.4</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>Your paid landing pages, at $6,000, about 26 hours. Number confirmed against the 1.3 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the pages need real rebuilds rather than a chatbot opening, or the access grants lag.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.4 kicks off, cascading from 1.3.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.4+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.4%2C+bank+the+result%2C+set+the+1.5+number.">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.4+receipt&amp;body=Measure+expected+vs+actual+for+Phase+1.4%2C+bank+the+result%2C+set+the+1.5+number.">Outlook Calendar</a></span></div>
+  </div>
+
+  <div class="receipt tpl">
+    <div class="rhead"><span>RECEIPT · PHASE 1.5</span><span class="rstatus">TEMPLATE · DATES AT KICKOFF</span></div>
+    <div class="rrow"><b>The bet</b><span>A smarter assistant, at $3,500, about 14 hours. Number confirmed against the 1.4 receipt before kickoff.</span></div>
+    <div class="rrow"><b>Wrong if</b><span>the AI handoff needs a workaround, or the chat plan's conversation cap forces a change.</span></div>
+    <div class="rrow"><b>Check-in</b><span>set when 1.5 kicks off, cascading from 1.4.<br>
+    <span class="callead">Set a reminder to close the loop:</span> <a class="cal" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Close+the+loop%3A+PRL+chatbot+Phase+1.5+receipt&amp;details=Measure+expected+vs+actual+for+Phase+1.5%2C+bank+the+result.">Google Calendar</a> <a class="cal" target="_blank" rel="noopener" href="https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&amp;rru=addevent&amp;subject=Close+the+loop%3A+PRL+chatbot+Phase+1.5+receipt&amp;body=Measure+expected+vs+actual+for+Phase+1.5%2C+bank+the+result.">Outlook Calendar</a></span></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  PRL Resins Chatbot Program · phase-by-phase · kept current.<br>
+  Prepared for Todd. Questions on any number here are welcome, the whole point is that none of it is a surprise.
+</div></footer>
+
+<script>
+  // ---- presentation mode ----
+  var slides=[].slice.call(document.querySelectorAll('header, section'));
+  var pidx=0;
+  function pshow(i){pidx=(i+slides.length)%slides.length;slides.forEach(function(s,j){s.classList.toggle('active',j===pidx);});var c=document.getElementById('pcount');if(c)c.textContent=(pidx+1)+' / '+slides.length;var pb=document.getElementById('pbar');if(pb)pb.style.transform='scaleX('+((pidx+1)/slides.length)+')';fitSlide(slides[pidx]);}
+  // auto-fit: scale the active slide's content so it always fits the viewport (no scroll, no cutoff, any screen)
+  function fitSlide(slide){if(!slide||!document.body.classList.contains('presenting'))return;var w=slide.querySelector('.wrap');if(!w)return;w.style.transform='translate(-50%,-50%)';var avail=slide.clientHeight*0.9;var need=w.scrollHeight;var f=need>avail?(avail/need):1;w.style.transform='translate(-50%,-50%) scale('+f.toFixed(4)+')';}
+  function _present(on){document.body.classList.toggle('presenting',on);slides.forEach(function(s){if(on){s.classList.add('slide');}else{s.classList.remove('slide','active');}});if(on)pshow(0);}
+  function enterPresent(){_present(true);var el=document.documentElement;if(el.requestFullscreen){el.requestFullscreen().catch(function(){});}}
+  function exitPresent(){if(document.fullscreenElement&&document.exitFullscreen){document.exitFullscreen().catch(function(){});}_present(false);}
+  document.addEventListener('fullscreenchange',function(){var pres=document.body.classList.contains('presenting');if(!document.fullscreenElement&&pres){_present(false);}else if(document.fullscreenElement&&pres){setTimeout(function(){fitSlide(slides[pidx]);},90);}});
+  window.addEventListener('resize',function(){if(document.body.classList.contains('presenting'))fitSlide(slides[pidx]);});
+  window.enterPresent=enterPresent;window.exitPresent=exitPresent;window.pshow=pshow;
+  Object.defineProperty(window,'pidx',{get:function(){return pidx;}});
+  document.addEventListener('keydown',function(e){if(!document.body.classList.contains('presenting'))return;
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();pshow(pidx+1);}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();pshow(pidx-1);}
+    else if(e.key==='Escape'){exitPresent();}});
+
+  // scroll-spy: highlight the nav item for the section in view
+  var links=[].slice.call(document.querySelectorAll('nav a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  function onscroll(){
+    var y=window.scrollY+120, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=y) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href')==='#'+cur.id); });
+  }
+  window.addEventListener('scroll',onscroll,{passive:true}); onscroll();
+</script>
+</body>
+</html>
