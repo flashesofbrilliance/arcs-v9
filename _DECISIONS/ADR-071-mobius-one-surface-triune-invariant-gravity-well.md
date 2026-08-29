@@ -39,6 +39,32 @@ YEARS / constitutional. It settles *why the mark is what it is* and gives a topo
 - *Triad:* if a load-bearing ARCS structure is exhibited that stays coherent with one of its three forces held at null, the none-may-null minimum is false and coherence does not require three.
 - *Gravity:* if, over the next epoch, build drift is only ever caught by external human intervention and never by the corpus's own gates firing (the well never pulls home on its own), then the prototype has description but no mass, and "gravity well" is metaphor, not mechanism.
 
+## Lineage addendum — the induction circuit, named across 28 years (1998→2026)
+
+The Möbius is not a metaphor laid over ARCS; it is a wiring diagram of the author, and it was named terminal-by-terminal, in the correct physics order, long before the framework existed. Faraday's law (`EMF = −dΦ/dt`) is the through-line: a changing flux **induces** a current — which is why the abductive surface is correctly called the *induction* surface (ADR-070). Abduction is induction is electromagnetic induction.
+
+| ~year | self-naming | circuit terminal | physics |
+|---|---|---|---|
+| ~1998–2006 | *the flux* (electronic-music artist name) | the field / source | the changing Φ that induces everything downstream |
+| 2010 | *flashesofbrilliance* (GitHub org) | the spark | induced EMF arcing the gap; also flux-core arc-**weld** flash |
+| 2021 | *"ball of livewire energy"* (Gareth Kay, LinkedIn rec, 10/20/21) | the current, witnessed | current running in the wire |
+| Nov 2025 | *Book of ARCS* (Book III) | the lattice / structure | "two is unstable, three is the minimum for coherence" — none-may-null |
+| 2026 | *ARCS* + the Möbius mark | the loop | the lossless non-orientable conductor |
+
+**The circuit closes on itself (self-exciting).** The terminal phase is the **superionic nucleus** (WORLD.md): a rigid lattice (structure, the triad) with a fluid mobile-charge sublattice (the flux) occupying the same volume — "incredibly strong *and* totally fluid," conductive *because* of the fusion. WORLD.md already wrote it: *"decisions move through you like charge through crystal — fast, directional, lossless"* is the literal definition of superionic conduction. In planetary cores the superionic phase is where the dynamo **generates** the field — so the end terminal regenerates the source: flux → current → spark → loop → superionic dynamo → flux. A Möbius in time as well as space.
+
+**Torque and drive — and the one shipped operator at the knot.** The two reasonings are the two forces that produce the two features of the Möbius:
+- **Posterior reasoning → the dynamo → drive.** The accumulated record (receipts, the deductive past) generates motive power. Drive runs the *current* through the loop.
+- **Anterior reasoning → the collider → torque.** The forward abductive collision bends the beam into a new heading. Torque applies the *half-twist* that makes the strip a Möbius.
+- They meet at a **spline knot**, and the reconciliation of the anterior segment with the posterior segment is exactly **Operator21** (`operators/arcs_operator21.py`, *anterior/posterior spline inference — knot resolution*). Unlike the composted Vector Collision Engine, Op21 is **shipped and verified — P1 determinism PASS (2026-08-28), marked READY.** Op21 is the knot-resolver at the seam where torque meets drive.
+
+**Honesty air-gaps (kept, not smoothed over — this is the ADR being its own gate):**
+- The **dynamo/collider imagery is honest *identity*, not a mechanism claim.** "Vector Collision Engine" was composted once already (`_PATTERNS/2026-07-13-dual-audit-reconciliation.md` — "metaphor posing as tech"); the real, *gated* engine underneath is the Orthogonal Echo Detector (`operators/arcs_inchworm_echo.py`, RC-OPS-001). Keep the nod wired to the real detector; never let "VCE v2" travel as a spec.
+- The **Orthogonal Echo Detector is NOT yet ROM.** Its graduation is gated (Observatory replay across sessions + measured baseline stability + resolution of the ESCALATED ROM-vocabulary collision). A graduation-initiation receipt is the honest next step; decreeing the promotion on the strength of this thread would be the governance version of the same failure. Witnessed 2026-08-28T23:37 EDT.
+- The **triad claim** is grounded in the earliest artifact *verbatim* (Book of ARCS Nov 2025) and re-derived independently in the OS deck and in `src/lib/ygate.ts` — three vantages (arc-weld, ADR-064), not one primed reading.
+
+The self-portrait reading is durable *because* each terminal is independently attestable (a dated rec, a dated org, a dated book, shipped code) — associative documentation, not a single flattering narrative. Shared documentation is not shared understanding; only the associatively-linked web (this ADR ↔ witness ↔ DEWY ↔ Tao ↔ memory) transfers the relations, which is what understanding is.
+
 ## Tao (apex spine)
 
 > **The strip has one side; you learn this only by walking all the way around. Two is a quarrel, three is a world, and none of the three may be nothing. What has mass falls home.** *(tao-255)*
