@@ -1,3 +1,33 @@
+# Handoff — v3.47.0 (2026-08-28)
+
+> **Active pickup point — the tool-catalog/dispatcher session** (composed session chip
+> task_6e4a6ead, worktree happy-shamir). Atomic first slice of the induction surface for
+> the toolset itself (backlog item `tool-catalog-dispatcher-induction-surface`, ADR-070
+> lineage) built, verified, and wired.
+
+## Shipped (this branch)
+- **`scripts/tool_catalog_emit.py`** — flat catalog emitter, stdlib-only, exit-0,
+  read-only over the repo. Walks all six tool surfaces (skills/commands/workflows/hooks/
+  scripts/operators), harvests each tool's one-line JTBD from its own declaration
+  (frontmatter description · blockquote · docstring · comment header — never inferred),
+  emits `runtime/specs/tool-catalog.{json,md}`. **131 tools, 0 missing JTBD.**
+  Deterministic verified: run twice, diff clean (no wall-clock in output).
+- **`/catalog` command** (`.claude/commands/catalog.md`) — native dispatch, no bespoke
+  runner. Given a job, recommends THE one right existing tool (singular by design — the
+  menu is the decision fatigue; ADR-070) and fires it only on consent (NOTOMATION).
+  Registered natively in-session (appeared in the live skills list on write).
+- Note: backlog's reuse list named `generate_arcs_operator_data.py` for the operator
+  table — that file never landed in this repo; operators harvested directly instead.
+- Backlog item flipped open → BUILT with the receipt; AGENTS.md discovery pointer added.
+
+## Open (later slices — each its own session, per the backlog item)
+1. Kabuki-mask contour render (zero-shot low-poly, Golden-Inchworm sharpened).
+2. Gravity-well binding of the catalog to the generative backlog.
+3. All v3.46.0 opens stand (Todd call · zap-kit installs · Sean Wing window ends
+   2026-08-30 · 1.2-A payment-gated · carried items).
+
+---
+
 # Handoff — v3.46.0 (2026-08-27)
 
 > **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
