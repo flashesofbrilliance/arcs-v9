@@ -1,13 +1,16 @@
 {
-  "captured_at": "2026-08-29T00:06:56-04:00",
+  "captured_at": "2026-08-27T00:29:09-04:00",
   "repo": "flashesofbrilliance/arcs-v9",
+  "cross_surface_serialization": "_STATE/2026-08-28-arcs-thread-serialization.md — GitHub/Supabase/Vercel/Granola/Gamma consolidation; corpus-as-SSOT summary (as-of ab4018d7, predates ADR-071/072); verify against live files before citing, per ADR-065.",
   "git": {
-    "head_sha": "d7ce720e",
-    "head_message": "chore(queue): trigger-gate the resume-kinexys build (HELD until JPM responds) [NCI:SKIP]",
-    "branch": "claude/recoil-kinexys-sizing",
-    "in_sync_with_origin": true,
+    "head_sha": "2cf1e4cf",
+    "head_message": "art: The Field \u2014 the session visualized as a magnetic dipole [NCI:SKIP]",
+    "in_sync_with_origin": false,
     "dirty_files": [
-      "runtime/job-search/ (generated, untracked)"
+      "_INBOX/lattice-drift.jsonl",
+      "_INBOX/seedbank-drift.jsonl",
+      "_STATE/witness/2026-08-28.jsonl",
+      "runtime/specs/knowledge-lattice-v1.json"
     ]
   },
   "vercel": {
@@ -61,8 +64,8 @@
   "session_summary_v3340": "Huge session. (1) Canonized Tao/pricing (ADR-053/054). (2) OSS FAMILY: two-tier conformance standard (ADR-055) + arcs tie-in connector pattern (ADR-056, forge.arcs.care=reference) + _SEEDS bank (index/ledger/artifact-registry) + Tier-B pass PUSHED to 7 public repos (footer+LICENSE+topics+desc; germinate left brand-neutral). (3) /faq-eval skill + seedbank_drift_check inchworm (hook-wired). (4) 30d CROSS-SESSION SWEEP found ADR namespace COLLISIONS (024/025/031/032 doubled on main) -> built the SEQUENCE ORACLE (ADR-057, scripts/oracle.py, git-serialized id+time authority) -> 4 forensic auditors traced all ~43 refs -> RATIFIED remap APPLIED+PUSHED to main (031->048 032->049 024->058 025->059; 18 tao source_adr repointed; oracle audit clean). Forked: rosetta-shell build + arcs-umbrella/GTM (both running).",
   "next_action_v3340": "FLAGS to close: (a) phantom third ADR-025 (resume/opportunity_scans schema, never written) left as 3 flagged refs - decide fold/assign; (b) blindsat + flashesofbrilliance profile uncatalogued (seedbank inchworm coverage-gap receipt); (c) 2 MED-confidence refs (PROMOTION.md, PR-template) + flight-manual:16 mis-cite; (d) branch-side ADR collisions (033x3/039x3/055-hypercube) reconcile at merge - oracle should gate; (e) orphan tools idea_montecarlo/provision_studio_tenant; confirm state_sync_check hook wiring + tripwire/leak overlap. Consider an oracle-backed citation linter (no mechanism flags bare ADR-0NN today).",
   "session_summary_v3340_germinate": "ARCS-private half of the germinate OSS build: canonized 'adam==atom'. ADR-053 (Tao of ARCS) + ADR-054 (free-to-hold/metered-to-fire). _CANON/Tao-of-ARCS.md + tao-247. PR #136 MERGED to main. Nothing written to ~/germinate.",
-  "session_summary": "Job-search loop end-to-end: Gmail MCP wired; tooling relocated to main (PR #195 merged, squash 97c04d62); scored live LinkedIn inventory (1 PURSUE=Amex MCP/Agent role, resume built) + recoil-sized the already-applied Kinexys pursuit (PR #197).",
-  "next_action": "Two open PRs to review/merge (#197 recoil+trigger). Scheduled task fires 2026-08-31 09:00 ET to re-run the loop on the 4 retargeted alerts once they populate. resume-kinexys HELD trigger-gated in _QUEUE/induced-backlog.jsonl (build on JPM/Kinexys human response).",
+  "session_summary": "PRL 1.2 close-loop shipped end to end: /status/receipt data-story page (fact-checked + counterpart-gauntlet, 14 findings fixed), ADR-069 first-closed-client-receipt precedent (witness+DEWY+wisdom), warroom Instrument Board sovereign projection service (/warroom/gauntlet), Receipt nav pill on all 8 PRL pages + homepage jumplink; PRs #180+#184 merged, prod verified live.",
+  "next_action": "Human-gated PRL installs (zap kit paste order, empty-email e2e widget chat), then the close-loop call with Todd walking _ARTIFACTS/prl-1-2-close-loop/ one-pager; Sean Wing window closes 2026-08-30.",
   "blocking": "NONE",
   "memory_shards": {
     "location": "_MEMORY/",
@@ -197,7 +200,7 @@
       ]
     }
   },
-  "git_refreshed_at": "2026-08-29T01:50:23Z",
+  "git_refreshed_at": "2026-08-29T03:15:10Z",
   "open_source": {
     "_note": "Resumeware track for resume.arcs.care + github.com/flashesofbrilliance (user account, not org). Staging area: open-source/ in this worktree (tracked, do not delete).",
     "shipped": [
