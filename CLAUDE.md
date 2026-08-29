@@ -107,6 +107,24 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.48.0 (2026-08-29)
+
+> **Active pickup point — session close of the tool-catalog build.** v3.47.0 (below) shipped the
+> catalog; this close-out consolidated memory, minted the DEWY receipt, and rotated handoffs.
+
+## Shipped
+- **Session-close housekeeping:** memory index re-budgeted (18.6KB -> 17.3KB, hooks compressed
+  in place, no files retired — a parallel 8/29 session had already consolidated content).
+  DEWY receipt: `_STATE/2026-08-29-session-decisions.dewy.json` (catalog slice + index rebudget).
+- Context: `/catalog` + `scripts/tool_catalog_emit.py` live on main since PR #191 (v3.47.0);
+  main since absorbed parallel work through PR #200 (op21, receipt_evaluator, art surfaces).
+
+## Open (unchanged from v3.47.0 + carried)
+1. Catalog later slices (separate sessions): kabuki-mask contour render · gravity-well binding.
+2. Todd call · zap-kit installs · 1.2-A payment-gated · carried items (orphan seeds, GH Actions
+   billing, ADR-069 oracle audit, ziggurat trailhead, tao 066/067, lattice --regenerate).
+3. Job-search loop live state is in memory `arcs-job-search-pipeline` (Amex PURSUE, Kinexys held).
+
 # Handoff — v3.47.0 (2026-08-28)
 
 > **Active pickup point — the tool-catalog/dispatcher session** (composed session chip
@@ -135,49 +153,4 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 3. All v3.46.0 opens stand (Todd call · zap-kit installs · Sean Wing window ends
    2026-08-30 · 1.2-A payment-gated · carried items).
 
-# Handoff — v3.46.0 (2026-08-27)
-
-> **Active pickup point — the receipt-surface session** (same working day as v3.45.0; this block
-> covers the arc after the close-out: surface -> canon -> gauntlet -> board -> rollout). All merged
-> to main (#180 squash 59cef5b0, #184 ba6c15bb), prod deploy Ready, routes verified live.
-
-## Shipped (all live)
-- **prl.arcs.care/status/receipt** — the closed 1.2 receipt as data-driven story: BLUF, 3 headline
-  tiles, expected-vs-actual band chart (SVG, honest-scale range, mobile scroller + punchline
-  auto-scroll), directional hours bars, scorecard, 1.3 recommendation-voice setup, losing-receipt
-  section, fine-print method. Stamped via prl-page-factory + bespoke organisms; impeccable
-  distill/polish passes; dataviz palette validated. **Gates run in full:** fact-check vs baseline
-  CSVs (all headline numbers trace) + counterpart-gauntlet (6 facets, 7 agents, 865K tok):
-  14 verified findings ALL fixed (2 pathogens on the four-hour row: no separate assignment
-  timestamp; reminder goes to Zach not rep — pill now "live · rep alert staged"), 4 over-flags
-  rejected. Run banked in `_STATE/gauntlet-runs.jsonl`.
-- **ADR-069** (minted in-session, oracle audit PENDING — flag on next oracle pass): first closed
-  client receipt => precedent-shaped expectation management. Four-in-one print: witness stub
-  (`_STATE/witness/2026-08-26.jsonl`) + ADR + DEWY (`_STATE/2026-08-26-session-decisions.dewy.json`)
-  + wisdom. build.html ADR stat 63->64 (tripwire caught its own mint, again).
-- **Instrument Board** — `scripts/warroom_board.py`, SECOND sovereign-projection-service instance:
-  stdlib-only factory, adapter-per-JSONL-ledger (gauntlet-runs + falsification-ledger snapped on),
-  typed print + spark-plug germination sidecar, served admin-gated at **/warroom/gauntlet** (404s
-  anonymous — verified). Regenerate after every gauntlet; keep findings machine-parseable
-  ("N pathogen, N crack, N nit" + "N over-flags rejected").
-- **Receipt pill on all 8 PRL pages** + gold jumplink on the prl.arcs.care homepage nav; factory
-  SEGS updated so future stamps inherit it (#184). Tripwire real-name/dead-link flags adjudicated
-  as pre-existing main content in the commit message (not silently bypassed).
-- **4-hour rule reframed per Zach ruling:** closes mechanically (creation==assignment timestamp,
-  elapsed-window reminder); Todd's written ack demoted to nice-to-have FYI across page + drafts.
-- Merge hygiene: v3.44.0/v3.45.0 handoff collision resolved (parallel Ahmed session), squash-merge
-  branch reset to main (rebase-replay aborted — tree was identical).
-
-## Open (next session's first work)
-1. **Human-gated PRL installs** — zap kit paste order (`_ARTIFACTS/prl-zap-kit/README.md`,
-   task8 filter first) + empty-email e2e widget chat (delete created lead after, receipt).
-2. **Close-loop CALL with Todd** — walk `_ARTIFACTS/prl-1-2-close-loop/2026-08-26-close-loop-onepager.md`
-   + the live /status/receipt page; send or fold in the two-confirmations email draft; chase
-   ZoomInfo contact + Bill/territory. 1.3 kickoff = Todd's call, $4,000 with precondition batch.
-3. **Sean Wing close-loop window ends 2026-08-30** — /recoil-close vs `2026-08-23-sean-wing.json`;
-   counterpart-gauntlet the parked note before any send.
-4. **1.2-A stays PAYMENT-GATED** (invoice #NYQRTJPQ-0004; Stripe MCP needs auth to verify).
-5. Carried: orphan seeds curation (human) · GH Actions billing (Zach-only) · ADR-069 oracle audit ·
-   ziggurat trailhead/key-0 · tao proverbs 066/067 · lattice --regenerate (human-owned).
-
-> _v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.46.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.45.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-27; v3.42.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.41.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated to `_ARCHIVE/handoffs.md` on 2026-08-19; v3.37.0 (Comet resume) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated to `_ARCHIVE/handoffs.md` on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
