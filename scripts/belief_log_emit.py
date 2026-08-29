@@ -2,17 +2,20 @@
 """belief_log_emit.py — render the consolidated ARCS belief-change log.
 
 Reads the append-only falsification ledger (_STATE/falsification-ledger.jsonl)
-and emits a single distilled markdown view (_STATE/belief-log.md): the corpus
-record of every belief we held, the test that overturned it, and what replaced
-it — newest first, with a spotlight on the trailing week.
+and emits two distilled views of the corpus record of every belief we held, the
+test that overturned it, and what replaced it — newest first, trailing-week
+spotlighted:
+  - _STATE/belief-log.md    — the readable markdown view
+  - _STATE/belief-log.html  — the ARCS Observatory "drift ribbon" view, produced
+                              by injecting the ledger into scripts/belief_log_template.html
 
-The ledger is the SSOT; this file is a lawful transform (WORLD.md §Field
-Geometry). Never hand-edit belief-log.md — regenerate it:
+The ledger is the SSOT; both files are lawful transforms of it (WORLD.md §Field
+Geometry). Never hand-edit either — regenerate:
 
-    python3 scripts/belief_log_emit.py            # writes _STATE/belief-log.md
+    python3 scripts/belief_log_emit.py            # writes both views
     python3 scripts/belief_log_emit.py --check     # audit only, no write (exit 1 on drift)
 
-stdlib-only (foundation rule). Deterministic: same ledger -> byte-identical view.
+stdlib-only (foundation rule). Deterministic: same ledger -> byte-identical views.
 """
 from __future__ import annotations
 
@@ -25,6 +28,10 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "_STATE" / "falsification-ledger.jsonl"
 OUT = ROOT / "_STATE" / "belief-log.md"
+OUT_HTML = ROOT / "_STATE" / "belief-log.html"
+TEMPLATE = ROOT / "scripts" / "belief_log_template.html"
+DATA_MARKER = "/*BELIEF_DATA*/"
+EMBED_KEYS = ("id", "scope", "ts", "claim", "test", "delta", "fix", "confidence", "canon", "refs")
 
 REQUIRED_KEYS = {"id", "scope", "ts", "claim", "test", "verdict", "delta", "fix", "confidence", "refs", "canon"}
 WEEK_DAYS = 7
@@ -61,7 +68,19 @@ def load(path: pathlib.Path) -> list[dict]:
     return rows
 
 
-def render(rows: list[dict]) -> str:
+def render_html(rows: list[dict]) -> str:
+    """Inject the ledger (oldest-first, as the page's JS expects) into the
+    template. `<` is escaped so no field can break out of the <script> tag."""
+    ordered = sorted(rows, key=lambda r: (r["ts"], r["id"]))
+    data = [{k: r[k] for k in EMBED_KEYS} for r in ordered]
+    blob = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+    template = TEMPLATE.read_text(encoding="utf-8")
+    if DATA_MARKER not in template:
+        sys.exit(f"AUDIT FAIL: {TEMPLATE.name} is missing the {DATA_MARKER} injection marker.")
+    return template.replace(DATA_MARKER, blob)
+
+
+def render_md(rows: list[dict]) -> str:
     rows = sorted(rows, key=lambda r: (r["ts"], r["id"]), reverse=True)
     latest = dt.date.fromisoformat(rows[0]["ts"])
     week_floor = latest - dt.timedelta(days=WEEK_DAYS - 1)
@@ -129,18 +148,20 @@ def main() -> int:
     args = ap.parse_args()
 
     rows = load(LEDGER)
-    view = render(rows)
+    outputs = [(OUT, render_md(rows)), (OUT_HTML, render_html(rows))]
 
     if args.check:
-        current = OUT.read_text(encoding="utf-8") if OUT.exists() else ""
-        if current != view:
-            print("DRIFT: _STATE/belief-log.md is stale — run `python3 scripts/belief_log_emit.py`.")
+        stale = [p.relative_to(ROOT).as_posix() for p, view in outputs
+                 if (p.read_text(encoding="utf-8") if p.exists() else "") != view]
+        if stale:
+            print(f"DRIFT: {', '.join(stale)} stale — run `python3 scripts/belief_log_emit.py`.")
             return 1
-        print(f"OK — belief-log.md current ({len(rows)} entries).")
+        print(f"OK — belief-log.md + belief-log.html current ({len(rows)} entries).")
         return 0
 
-    OUT.write_text(view, encoding="utf-8")
-    print(f"wrote {OUT.relative_to(ROOT)} — {len(rows)} entries (audit clean).")
+    for p, view in outputs:
+        p.write_text(view, encoding="utf-8")
+    print(f"wrote belief-log.md + belief-log.html — {len(rows)} entries (audit clean).")
     return 0
 
 
