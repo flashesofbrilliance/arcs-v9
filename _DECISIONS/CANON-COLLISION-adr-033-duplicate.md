@@ -1,9 +1,16 @@
 # CANON COLLISION — ADR-033 assigned to two distinct decisions
 
-> **Status:** `ESCALATED — AWAITING RULING (human-owned)` · **Raised:** 2026-08-28 during a
-> branch-reconcile (forensic-recoil thread rebased onto main). **Do NOT renumber either file
-> unilaterally** — which decision keeps 033 vs. moves to a free slot is a human call
-> (canon-collision-escalate-never-resolve-under-write-lock).
+> **Status:** `RESOLVED — Option A (human ruling, 2026-08-28)` · **Raised:** 2026-08-28 during a
+> branch-reconcile (forensic-recoil thread rebased onto main).
+>
+> **RULING (Zach, 2026-08-28):** Option A. ADR-033 stays with the earlier ratified **Serialization
+> Pathogen Family**. The model-routing decision was renumbered to oracle-issued **ADR-073**
+> (`ADR-073-model-routing-adr-audit-default.md`); `_DECISIONS/index.json` updated; a renumber note
+> added to the ADR-073 header. (A first pass used 071, but a parallel session had taken 071/072 —
+> Möbius invariant and engine-sovereignty — so this moved to 073; the branch was rebased onto that
+> live main state on 2026-08-29.) `oracle.py audit adr` → 0 collisions after the move. The
+> `enforcement-parity-ledger-adr-033` memory refers to the *Pathogen Family* framing and remains
+> correct.
 
 ## The finding
 `_DECISIONS/` now contains **two different DECIDED ADRs both numbered 033**:

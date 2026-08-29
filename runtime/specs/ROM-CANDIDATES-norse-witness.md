@@ -42,10 +42,16 @@ a drifting user produces none.
 - Positive: detect sessions where a user demonstrates fluency (dialect + pre-named signal + falling
   scaffolding invocation) yet is re-onboarded or hit with a re-engagement nudge → flag as a
   NOTOMATION breach.
-- Inversion to write (open TODO from source): how does "Ullr state" become a *rationalization for
-  skipping the arc and getting lucky* rather than evidence of internalization? The Graduation Receipt's
-  NCI + drift-state fields are the discriminator — a skipped arc produces a receipt that doesn't hang
-  together.
+- **Inversion (written 2026-08-28).** *The failure mode: "Ullr state" becomes a badge a user (or ARCS
+  on their behalf) claims to justify skipping the arc and calling a lucky outcome "internalized
+  fluency." A confident user who got a good result once demands the scaffolding drop; ARCS complies and
+  mislabels recklessness as graduation. The discriminator is the Graduation Receipt itself: genuine
+  fluency produces a receipt whose NCI, pre-named signal, and drift-state fields cohere across
+  consecutive sessions; a skipped-arc lucky-hit produces either no receipt or one that does not hang
+  together (no pre-named signal, drift-state absent, single-session). The invariant therefore requires
+  the ≥3-signals-across-consecutive-sessions detector — self-declaration alone can never trigger Ullr
+  state. If a user could talk ARCS into Ullr state without the corroborating receipt trail, the
+  invariant is falsified and must be cut.*
 
 ---
 
@@ -69,8 +75,18 @@ of the humble case**: grief phrased as a decision question, a relational moment 
 productivity request. (The mistletoe is always the thing overlooked for being too small.)
 
 **Falsifiable test (Loki gate before ratification).**
-- Inversion to write (open TODO from source): how could Baldur Protocol be weaponized — e.g. ARCS
-  invoking "held moment" to *avoid accountability* for a hard conversation it should actually run?
+- **Inversion (written 2026-08-28).** *The failure mode: Baldur Protocol is invoked as an
+  accountability escape hatch — ARCS (or a user) classifies a session "held / witness-only" precisely
+  to avoid running a hard decision the moment actually demands (a real fork with stakes and a closing
+  window, reframed as "this just needs to be held"). Silence becomes a way to dodge the Court, not
+  honor the humble case. The discriminator is directionality: the Baldur case is a moment that
+  *presents as a decision but asks to be held* (grief phrased as a decision question); the weaponized
+  case is a moment that *presents as held but is a decision with a live window* (a hard conversation
+  with real reversibility cost, relabeled to skip it). The safeguard: Baldur classification must be
+  falsifiable against stakes+window — a held-moment claim over a decision with a closing one-way door
+  and non-trivial stakes is a mis-classification, and the Drift/Court layer must still surface the
+  window even while the pipeline stays quiet. If Baldur can suppress a genuine COURT-grade fork, the
+  invariant is being abused and must be re-scoped.*
 - Positive: any gate/upgrade/save-prompt firing in a session classified Baldur-active is a ROM breach.
 
 ---
@@ -97,8 +113,12 @@ WITNESS RECEIPT
 
 ## Ratification checklist (do not promote until all pass)
 
-- [ ] Loki test written for each candidate (inversions above).
+- [x] **Loki test written for each candidate** (inversions above, written 2026-08-28).
 - [ ] One live session each: an Ullr-state Graduation Receipt; a Baldur-Protocol Witness Receipt.
-- [ ] Reconcile ROM numbering against the live vocabulary collision (see
-      `_DECISIONS/CANON-COLLISION-rom-vocabulary.md`) — do not mint a number under write-lock.
+      *(Cannot be fabricated — requires a real fluency trail / a real held moment. This is the only
+      remaining hard gate.)*
+- [x] **ROM numbering reconciled.** The ROM-vocabulary collision is RESOLVED (Option A, 2026-08-28):
+      the canon axis is the 7 ROM Primitives (`.claude/arcs-canon.md`), and these candidates are
+      proposals against **Primitive 1 — NOTOMATION**. See `runtime/specs/ROM-AXIS-INDEX.md`. No new
+      primitive number is minted until the live-receipt gate passes.
 - [ ] Decide: promote to ROM / keep candidate / cut. Norse naming is optional; the invariant is the substance.

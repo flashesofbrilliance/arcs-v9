@@ -1,3 +1,22 @@
+# Handoff — v3.48.0 (2026-08-29)
+
+> **Session close of the tool-catalog build.** v3.47.0 (below) shipped the
+> catalog; this close-out consolidated memory, minted the DEWY receipt, and rotated handoffs.
+
+## Shipped
+- **Session-close housekeeping:** memory index re-budgeted (18.6KB -> 17.3KB, hooks compressed
+  in place, no files retired — a parallel 8/29 session had already consolidated content).
+  DEWY receipt: `_STATE/2026-08-29-session-decisions.dewy.json` (catalog slice + index rebudget).
+- Context: `/catalog` + `scripts/tool_catalog_emit.py` live on main since PR #191 (v3.47.0);
+  main since absorbed parallel work through PR #200 (op21, receipt_evaluator, art surfaces).
+
+## Open (carried)
+1. Catalog later slices (separate sessions): kabuki-mask contour render · gravity-well binding.
+2. Todd call · zap-kit installs · 1.2-A payment-gated · carried items.
+3. Job-search loop live state is in memory `arcs-job-search-pipeline` (Amex PURSUE, Kinexys held).
+
+---
+
 # Handoff — v3.47.0 (2026-08-28)
 
 > **Active pickup point — the tool-catalog/dispatcher session** (composed session chip
@@ -247,52 +266,6 @@
 4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
    (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
 
-
-||||||| fae582fb
-# Handoff — v3.42.0 (2026-08-23)
-
-> **Active pickup point — the Wing engagement session.** One inbound (Sean Wing asked for "the
-> good, the bad, and the ugly" on his essay) run end-to-end through the full stage-print arc,
-> throwing off a class, an invariant, and repo-wide gate hardening. 14 PRs merged (#153-#166),
-> all deployed + verified live.
-
-## Shipped (all live)
-- **wing.arcs.care** — S-tier diamond teardown of Wing Financial for Sean Wing: claim-vs-record
-  echo map, 7-gauge panel, forensic CRD timeline (Nathan Wing question), objection map,
-  pre-mortem, gauntlet, shavasana. Read-at-any-depth (collapsed-H2 deks = exec), 15-slide
-  PRESENT deck (good/bad/ugly, earned-fidelity render, FINISH exits to page), touch-native
-  inline term definitions, whole-eyebrow copy-link, legend jump, Wing favicon, noindex meta +
-  X-Robots-Tag header, custom analytics events (pres_open/complete/exit, legend_jump,
-  term_hover, copy_link + dwell). Zero em-dashes (now a mechanical gate).
-- **teardown-page-factory skill** (`.claude/skills/teardown-page-factory/`) — the class print:
-  spec params, component mapping, SLIDES schema, six blocking ship-gates, efficiency contract
-  (~1/3 spend on next run), four-width pixel sweep. wing.html frozen as reference instance.
-- **Stage-print invariant** — `_PATTERNS/2026-08-23-verb-altitude-gate-matrix.md`: five verbs ×
-  gates × fates, altitude orthogonal; forge-pattern/forge-cut cited as precedent pair.
-- **Ex-ante receipt filed** — `runtime/recoil/generated/2026-08-23-sean-wing.json`, honest
-  provenance (post-link-send, pre-response). Zach SENT wing.arcs.care to Sean 2026-08-23.
-  Six outcome estimates, 72h kairos window, YELLOW conviction, close-loop rubric.
-- **Wrap-regression class killed at the root** (recurred 3x in-session: page column, stat strip,
-  deck): root measure tokens not selector literals, auto-fit grids, four-width sweeps. Banked in
-  PRODUCT.md "Known design failure modes" (impeccable loads it every design pass) + memory + skill.
-- **CI parity while GitHub Actions is billing-dead**: 6 workflows disabled (Dependabot left on);
-  leak-check + tripwire wired into the machine-local pre-push hook (with fetch-fresh base);
-  leak-check ANALYTICS debt paid (18 pages got the insights snippet); family-roster.json
-  allowlisted. NOTE: squash merges require branch rebase before the hook's tripwire diff narrows.
-
-## Open (next session's first work)
-1. **GitHub Actions billing** — Zach-only fix (Settings → Billing); re-enable 6 workflows after
-   (one-liner in session log / `gh workflow enable`).
-2. **Sean close-loop** — trigger: any reply, 7 days silence (2026-08-30), or his next public
-   note. Run /recoil-close against the SSOT. Long-form note draft parked in
-   `_ARTIFACTS/wing-sean-linkedin-draft.md`; if sending, run counterpart-gauntlet first (the
-   one un-run gate).
-3. **Two forked sessions in flight**: legacy tripwire-flag cleanup (4 pages) + verb-matrix
-   germination (ADR promotion + wiring gates into skills). Don't duplicate their work.
-4. **Roadmap seed planted**: [[seed-recap-rewind-surface]] — teardown factory pointed inward
-   (user's own receipts/scans/briefs as a rewind surface) + save-to-ledger PLG onramp. NOT now.
-
----
 
 # Handoff — v3.40.0 (2026-08-18, late)
 

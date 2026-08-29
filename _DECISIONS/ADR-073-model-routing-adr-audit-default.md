@@ -1,9 +1,16 @@
-# ADR-033 — Route ADR-audit harness default to laguna-xs-2.1:free
+# ADR-073 — Route ADR-audit harness default to laguna-xs-2.1:free
 
 > **Status:** DECIDED
 > **Date:** 2026-08-26
 > **Author:** Claude Sonnet 4.6
 > **Stakeholders:** ARCS operator harness team, calibration subgroup
+>
+> **Renumber note (2026-08-28, corrected 2026-08-29):** originally minted off-oracle as ADR-033,
+> colliding with the ratified ADR-033 (Serialization Pathogen Family). Per the human ruling on
+> `_DECISIONS/CANON-COLLISION-adr-033-duplicate.md` (Option A), the earlier ratified decision keeps
+> 033 and this operational decision moved to an oracle-issued number. A first pass used 071, but a
+> parallel session had meanwhile taken 071 (the Möbius invariant) and 072 (engine-sovereignty); this
+> decision is therefore **ADR-073**. No content change.
 >
 ---
 

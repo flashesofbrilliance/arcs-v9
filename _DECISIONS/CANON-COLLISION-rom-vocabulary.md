@@ -1,9 +1,15 @@
 # CANON COLLISION — ROM Vocabulary (three coexisting axis-sets)
 
-> **Status:** `ESCALATED — AWAITING RULING (human-owned)` · **Raised:** 2026-08-27 by the
-> forensic-recoil sweep, skeptic-verified. **Do NOT resolve under write-lock.** Per the canon rule
-> (`canon-collision-escalate-never-resolve-under-write-lock`), this document maps the collision and
-> lays out options; the authoritative reconciliation is Zach's call.
+> **Status:** `RESOLVED — Option A (human ruling, 2026-08-28)` · **Raised:** 2026-08-27 by the
+> forensic-recoil sweep, skeptic-verified.
+>
+> **RULING (Zach, 2026-08-28):** Option A — declare one authoritative axis and subordinate the
+> others. The **7 ROM Primitives** (`.claude/arcs-canon.md`) are CANON. The **6 execution laws**
+> (`runtime/specs/ARCS-v9-ROM.md`) are relabeled **ROM behavioral laws (derived)**. The **7 axioms**
+> (`_CANON/book-ii/part-ii-rom-axioms.md`) are relabeled **epistemic foundations**. A single authority
+> index was created at `runtime/specs/ROM-AXIS-INDEX.md`, and tier banners were added to all three
+> source files pointing to it. The CLAUDE.md 5→7 truncation was already de-rotted 2026-08-27 (doc-rot,
+> not part of the ruling). This unblocks the Norse ROM candidates' numbering (canon axis now declared).
 
 ## The finding
 

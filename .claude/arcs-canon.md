@@ -64,6 +64,11 @@ No stage may be skipped. L1 is the gate — a REJECT at L1 stops the pipeline en
 
 ## ROM Primitives (never violate)
 
+> **This is the CANON ROM axis** (human ruling, 2026-08-28, Option A). Two other "ROM" tiers exist and
+> are explicitly subordinate: the 6 *behavioral laws* (`runtime/specs/ARCS-v9-ROM.md`, derived) and
+> the 7 *epistemic foundations* (`_CANON/book-ii/part-ii-rom-axioms.md`). Full map:
+> `runtime/specs/ROM-AXIS-INDEX.md`. "What are the ROM primitives?" → this table.
+
 | # | Name | Rule |
 |---|---|---|
 | 1 | **NOTOMATION** | Tools may only externalize/scaffold/sequence human cognition. Never compress or overrule revealed preference. |

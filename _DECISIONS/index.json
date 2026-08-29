@@ -504,12 +504,21 @@
     "file": "ADR-031-design-system-reconciliation.md"
   },
   {
-    "id": "ADR-033",
-    "title": "ADR-033 \u2014 Route ADR-audit harness default to laguna-xs-2.1:free",
+    "id": "ADR-073",
+    "title": "ADR-073 \u2014 Route ADR-audit harness default to laguna-xs-2.1:free",
     "status": "DECIDED",
     "y_state": null,
     "stability": "STABLE",
     "gate": "5 ADRs corpus-scale coherence check",
-    "file": "ADR-033-model-routing-adr-audit-default.md"
+    "file": "ADR-073-model-routing-adr-audit-default.md"
+  },
+  {
+    "id": "ADR-072",
+    "title": "ADR-072 \u2014 Engine-Sovereignty Gradient (engines are tenants, the receipt history is the freehold)",
+    "status": "DECIDED",
+    "y_state": "GREEN",
+    "stability": "STABLE",
+    "gate": "falsifier: first JEPA prototype consumes receipt corpus as-is (projection, no mutation)",
+    "file": "ADR-072-engine-sovereignty-gradient.md"
   }
 ]
