@@ -50,11 +50,51 @@ sources only), spark detection (find the ignition line in the transcript), synth
 ```bash
 python3 scripts/sixty_second_read.py validate <seed.json>          # structure
 python3 scripts/sixty_second_read.py gate     <seed.json>          # temporal + provenance + plain-english + single-ask
-python3 scripts/sixty_second_read.py settle   <seed.json> --pipe-evaluator   # score the bet; KINTSUGI phase gate
+python3 scripts/sixty_second_read.py settle   <seed.json> --pipe-evaluator \
+    --source transcript=<granola.txt> --source dm=<dm.txt>         # score the bet; KINTSUGI gate; speaker-provenance lambda
 python3 scripts/sixty_second_read.py render   <seed.json> <out.html>         # refuses on open gate findings
 python3 scripts/artifact_wrap_lint.py <out.html>                   # wrap-regression class gate
-python3 scripts/sixty_second_read.py commit   <seed.json> --tier read        # Yoav serialization
+python3 scripts/sixty_second_read.py commit   <seed.json> --tier read        # Yoav serialization (banking the seed)
+python3 scripts/sixty_second_read.py ripeness <seed.json> --context <ctx.json>   # germination range-check
+python3 scripts/sixty_second_read.py commit   <seed.json> --tier post --context <ctx.json>  # SPROUT (gated + ledgered)
 ```
+
+## The speaker-provenance lambda (ventriloquy paternity test)
+
+Ventriloquy is the sixth coordinate (SPEAKER) of the ADR-033 Serialization Pathogen
+Family (ratified 2026-08-29; case: `_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md`):
+one voice's words re-read as another's — the speaker tag dropped at compression,
+reinferred at resynthesis toward warm hosts. The payload is autoimmune: recoil scores its
+own echo. `scripts/attribution_provenance_lint.py` is the mechanism-first gate, wired into
+the settle beat: every counterpart-attributed quote must fuzzy-match a `Them:` turn (or
+counterpart-authored text like a DM). Match against a `Me:` turn = CONTAMINATED; no match
+= UNSOURCED (paraphrase-label or strike). A failed check is never just discarded: it
+writes an upstream resolution receipt against the artifact that carried it — fix the
+SSOT/memory upstream, never the leaf, then re-run. Standalone form for any SSOT/page:
+
+```bash
+python3 scripts/attribution_provenance_lint.py --artifact <ssot.json|page.html> \
+    --source transcript=<granola.txt> [--source dm=<dm.txt>]
+```
+
+## Germination: universal axes, earned ranges, the conditions ledger
+
+Do not invent bespoke trigger prose. Conditions = fixed universal axes with per-seed
+RANGES: **moisture** (attention/bandwidth) · **temperature** (Kairos/timing) · **oxygen**
+(live demand: an open question the seed answers) · **light** regime (exposure — some seeds
+REQUIRE dark = internal-first, some require light = public) · **medium**
+(substrate/provenance density) · **stratification** (required dormancy;
+`requires_gauntlet` = serotiny, opens only under adversarial fire). Ripeness is a
+mechanical range-check of the context vector against the seed's ranges. Ranges are
+EARNED from settled outcomes, never decreed — new seeds carry
+`ranges_provenance: provisional` until outcomes calibrate them.
+
+Every sprout decision LOGS: `commit --tier post|atlas` appends a `sprouted`/`refused`
+event to `_SEEDS/ledger.jsonl` carrying the `conditions_present` snapshot plus which
+axes matched/missed — a refusal without a receipt violates every-gate-a-detector
+(ADR-051/052). On a committed sprout, `seed_state` moves dormant -> sprouted in the seed
+file. Tests set `SIXTY_LEDGER=<scratch path>`; never write synthetic events to the real
+ledger.
 
 ## Run order
 
@@ -67,9 +107,11 @@ python3 scripts/sixty_second_read.py commit   <seed.json> --tier read        # Y
    Fill `future_vector` with the dormant longer forms and their germination conditions.
 3. **validate -> gate.** Fix findings in the SEED (never in the render). The gate is an
    honesty refusal: `render` produces no output while findings are open.
-4. **settle --pipe-evaluator.** FATED maps onto the beats (facts=outcome, assumptions=bet,
-   tradeoffs=miss, emotions=spark, direction=move). Somatic/axiom signals are NEVER
-   fabricated; a KINTSUGI `warn` on those is honest, a `halt` blocks.
+4. **settle --pipe-evaluator --source ref=path...** FATED maps onto the beats
+   (facts=outcome, assumptions=bet, tradeoffs=miss, emotions=spark, direction=move).
+   Somatic/axiom signals are NEVER fabricated; a KINTSUGI `warn` on those is honest, a
+   `halt` blocks. The --source mappings arm the speaker-provenance lambda (below):
+   CONTAMINATED or UNSOURCED halts settle and writes the resolution receipt.
 5. **render + wrap-lint + sweep.** Screenshot-sweep 375 / ~790 / desktop before calling any
    render done (the ~790px band is where the wrap class bites).
 6. **commit --tier read.** Seed enters the Yoav log (`<seed>.yoav.jsonl`), `seed_state:
@@ -109,6 +151,8 @@ If an ADR gets minted for the germination-chain thesis, allocate the number via
 ## Proven instances
 
 - `_ARTIFACTS/sixty/2026-07-23-kleban.60s.json` -> `yuri-60s-read.html` — the conformance
-  test: beats match the hand-built golden reference (spark is the additive fourth beat).
+  test: beats match the hand-built golden reference (spark is the additive fourth beat;
+  one deliberate delta: the lambda trimmed the card-1 DM quote to the span re-verifiable
+  from sources read in-session — the correction landed upstream in the seed).
 - `_ARTIFACTS/sixty/2026-07-22-elsamadisi.60s.json` -> `ahmed-60s-read.html` — first cold
   dogfood (internal only; ahmed-ext is the only shareable surface; nothing sends without Zach).

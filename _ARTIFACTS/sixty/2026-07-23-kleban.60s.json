@@ -42,7 +42,7 @@
         {
           "label": "Who you are",
           "head": "A warm hello, no agenda.",
-          "body_html": "You opened with <q>nothing to sell or ask, just kudos on ARCS.</q> I filed you as a genuine fan stopping by.",
+          "body_html": "You opened with <q>nothing to sell or ask, just wanted to say kudos.</q> I filed you as a genuine fan stopping by.",
           "source_ref": "dm"
         },
         {
@@ -115,6 +115,17 @@
       ["The before", "The three cards up top are your pre-brief. The same bite-size snack you already reach for, nothing new to learn."],
       ["The after", "The cards below them are the part that's usually lost the moment the call ends. Filled in once, so the next brief starts smarter instead of from scratch."]
     ]
+  },
+  "germination": {
+    "ranges_provenance": "provisional",
+    "axes": {
+      "moisture": {"range": [0.4, 1.0], "note": "attention/bandwidth: a resynthesis needs a real writing window, not scraps"},
+      "temperature": {"range": [0.5, 1.0], "note": "timing: at or after the Sep 14 loop-closing window"},
+      "oxygen": {"range": [0.5, 1.0], "note": "live demand: Yuri already asked for a shareable generic sample"},
+      "light": {"range": [0.6, 1.0], "note": "light-requiring: the sprout is a public post; low-exposure contexts refuse"},
+      "medium": {"range": [0.7, 1.0], "note": "substrate density: transcript + DM + settled read all committed"},
+      "stratification": {"min_days": 7, "requires_gauntlet": true, "note": "serotiny: nothing public without surviving the counterpart gauntlet"}
+    }
   },
   "future_vector": [
     {

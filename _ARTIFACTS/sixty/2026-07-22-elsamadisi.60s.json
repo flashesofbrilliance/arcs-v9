@@ -112,6 +112,17 @@
       ["The after", "The part that's usually lost the moment the call ends, written down and scored, so the next read starts sharper instead of from scratch."]
     ]
   },
+  "germination": {
+    "ranges_provenance": "provisional",
+    "axes": {
+      "moisture": {"range": [0.4, 1.0], "note": "attention/bandwidth for a real resynthesis pass"},
+      "temperature": {"range": [0.5, 1.0], "note": "timing: only after Ahmed replies and the pilot resolves either way"},
+      "oxygen": {"range": [0.4, 1.0], "note": "live demand: an open question from Ahmed's side the sprout answers"},
+      "light": {"range": [0.0, 0.4], "note": "dark-requiring: internal-first dogfood; the air-gap holds, a public sprout needs re-earned ranges"},
+      "medium": {"range": [0.7, 1.0], "note": "substrate density: transcript-grounded, war-room SSOT settled"},
+      "stratification": {"min_days": 10, "requires_gauntlet": true, "note": "serotiny: the close-loop review window plus the gauntlet"}
+    }
+  },
   "future_vector": [
     {
       "label": "nftt-post",

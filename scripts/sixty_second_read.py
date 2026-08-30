@@ -12,16 +12,28 @@ prose) lives in the skill, upstream of the seed JSON this consumes.
 Subcommands (each prints an operator_client-shaped envelope to stdout, JSON):
     validate  <seed.json>              structural check against the seed schema
     gate      <seed.json>              temporal/provenance/plain-english gate (blocking)
-    settle    <seed.json> [--pipe-evaluator]
+    settle    <seed.json> [--pipe-evaluator] [--source REF=PATH ...]
                                        score the bet vs the outcome; emit a receipt dict;
-                                       optionally pipe it through operators/receipt_evaluator.py
+                                       optionally pipe it through operators/receipt_evaluator.py.
+                                       With --source mappings, runs the speaker-provenance
+                                       lambda (scripts/attribution_provenance_lint.py — the
+                                       ventriloquy paternity test, ADR-033 speaker coordinate):
+                                       CONTAMINATED/UNSOURCED halts and writes the upstream
+                                       resolution receipt.
+    ripeness  <seed.json> --context <ctx.json>
+                                       mechanical range-check of the context vector against the
+                                       seed's germination axes (universal axes, per-seed ranges).
     render    <seed.json> <out.html>   deterministic HTML render (golden-reference template);
                                        run scripts/artifact_wrap_lint.py on the output after
-    commit    <seed.json> --tier read|post|atlas [--log <path>]
-                                       serialize this tier through YoavStore. A commit that
-                                       FAILS to serialize is never discarded: it writes an
-                                       upstream resolution receipt next to the seed and exits 3
-                                       (bidirectional rule; ADR-051/052 every-gate-a-detector).
+    commit    <seed.json> --tier read|post|atlas [--log <path>] [--context <ctx.json>]
+                                       serialize this tier through YoavStore. Tiers past `read`
+                                       are SPROUTS: they require --context and a RIPE germination
+                                       check; the decision (sprouted/refused) is appended to
+                                       _SEEDS/ledger.jsonl with the conditions_present snapshot —
+                                       a refusal without a receipt violates every-gate-a-detector.
+                                       A commit that FAILS to serialize is never discarded: it
+                                       writes an upstream resolution receipt next to the seed and
+                                       exits 3 (bidirectional rule; ADR-051/052).
 
 Envelope contract (stdout, matches operators/operator_client.py):
     {"operator": "SIXTY_READ", "mode": "api", "status": "ok|error|blocked", "exit_code": N,
@@ -47,6 +59,16 @@ REPO = HERE.parent
 SEED_STATES = ("dormant", "sprouted", "grown")
 BEATS = ("bet", "outcome", "spark", "move")
 TIERS = ("read", "post", "atlas")
+
+# Germination: UNIVERSAL AXES, per-seed RANGES (witness 2026-08-29, second entry).
+# The dimensions are objective and shared by every seed; only the ranges are per-seed
+# and EARNED from settled outcomes, never decreed (mark ranges_provenance accordingly).
+# moisture=attention/bandwidth · temperature=Kairos/timing · oxygen=live demand (an open
+# question the seed answers) · light=exposure regime (some seeds REQUIRE dark =
+# internal-first; some require light = public) · medium=substrate/provenance density.
+# stratification=required dormancy; requires_gauntlet = serotiny (opens only under fire).
+GERMINATION_AXES = ("moisture", "temperature", "oxygen", "light", "medium")
+LEDGER_PATH = REPO / "_SEEDS" / "ledger.jsonl"
 
 # Plain-English surface rule: no ARCS jargon in anything the counterpart reads.
 # Mechanical lexicon (case-insensitive, word-ish match); math rows included on purpose.
@@ -189,7 +211,7 @@ def gate_seed(seed):
 
 # ── settle ───────────────────────────────────────────────────────────────────
 
-def settle_seed(seed, pipe_evaluator=False):
+def settle_seed(seed, pipe_evaluator=False, sources=None, seed_path=None):
     """Score the bet vs the outcome from math.rows; build a receipt for the KINTSUGI gate.
     FATED maps 1:1 onto the beats; somatic/axioms are NEVER fabricated (upstream signal gap)."""
     rows = (seed.get("math") or {}).get("rows") or []
@@ -216,6 +238,20 @@ def settle_seed(seed, pipe_evaluator=False):
         receipt["nci_score"] = seed["math"]["nci"]
 
     raw = {"rows_scored": len(rows), "tally": tally, "receipt": receipt}
+
+    # Speaker-provenance lambda (ventriloquy paternity test, ADR-033 speaker coordinate):
+    # every counterpart-attributed quote must trace to a Them: turn or counterpart-authored
+    # text. CONTAMINATED/UNSOURCED halts settle; the lint writes the resolution receipt.
+    if sources:
+        from attribution_provenance_lint import lint_artifact, write_resolution_receipt
+        att = lint_artifact(seed_path, sources)
+        dirty = any(f["verdict"] in ("CONTAMINATED", "UNSOURCED") for f in att["findings"])
+        if dirty:
+            att["resolution_receipt"] = write_resolution_receipt(seed_path, att)
+        raw["attribution"] = {"counts": att["counts"], "dirty": dirty,
+                              "findings": [f for f in att["findings"]
+                                           if f["verdict"] not in ("CLEAN", "ANCHORED")],
+                              "resolution_receipt": att.get("resolution_receipt")}
     if pipe_evaluator:
         proc = subprocess.run(
             [sys.executable, str(REPO / "operators" / "receipt_evaluator.py"), "--format", "json"],
@@ -226,6 +262,64 @@ def settle_seed(seed, pipe_evaluator=False):
         except json.JSONDecodeError:
             raw["kintsugi"] = {"status": "error", "error": proc.stderr.strip()[:400]}
     return raw
+
+
+# ── germination: ripeness + conditions ledger ────────────────────────────────
+
+def ripeness_check(seed, ctx):
+    """Mechanical range-check of a context vector against the seed's germination axes.
+
+    ctx: {<axis>: 0..1, "days_dormant": N, "gauntlet_survived": bool}
+    Returns {axes, stratification, ripe, missed}. Axes the seed declares no range for
+    are unconstrained (matched by default) — a seed constrains only what matters to it.
+    """
+    germ = seed.get("germination", {})
+    declared = germ.get("axes", {})
+    axes, missed = {}, []
+    for axis in GERMINATION_AXES:
+        spec = declared.get(axis)
+        if not spec or "range" not in spec:
+            axes[axis] = {"range": None, "value": ctx.get(axis), "matched": True}
+            continue
+        lo, hi = spec["range"]
+        val = ctx.get(axis)
+        ok = val is not None and lo <= float(val) <= hi
+        axes[axis] = {"range": [lo, hi], "value": val, "matched": ok}
+        if not ok:
+            missed.append(axis)
+    strat = declared.get("stratification", {})
+    strat_result = {}
+    if strat.get("min_days") is not None:
+        ok = float(ctx.get("days_dormant", 0)) >= float(strat["min_days"])
+        strat_result["min_days"] = {"required": strat["min_days"],
+                                    "value": ctx.get("days_dormant", 0), "matched": ok}
+        if not ok:
+            missed.append("stratification.min_days")
+    if strat.get("requires_gauntlet"):
+        ok = bool(ctx.get("gauntlet_survived"))
+        strat_result["requires_gauntlet"] = {"required": True,
+                                             "value": bool(ctx.get("gauntlet_survived")), "matched": ok}
+        if not ok:
+            missed.append("stratification.requires_gauntlet")
+    return {"axes": axes, "stratification": strat_result,
+            "ranges_provenance": germ.get("ranges_provenance", "provisional"),
+            "ripe": not missed, "missed": missed}
+
+
+def ledger_append(event):
+    """Append a sprouted/refused event to the running conditions ledger
+    (_SEEDS/ledger.jsonl; SIXTY_LEDGER env overrides — tests must never write the real
+    ledger). Carries `seed` alongside `seed_id` for the pre-existing ledger readers.
+    A refusal without a receipt violates every-gate-a-detector."""
+    import datetime
+    import os
+    path = Path(os.environ.get("SIXTY_LEDGER", str(LEDGER_PATH)))
+    event = {"ts": datetime.datetime.now().astimezone().isoformat(timespec="seconds"),
+             "seed": event.get("seed_id"), **event}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(event, default=str) + "\n")
+    return str(path)
 
 
 # ── render ───────────────────────────────────────────────────────────────────
@@ -479,13 +573,33 @@ def render_seed(seed, out_path):
 
 # ── commit (Yoav) ────────────────────────────────────────────────────────────
 
-def commit_seed(seed, tier, log_path, seed_path):
+def commit_seed(seed, tier, log_path, seed_path, ctx=None):
     """Serialize one tier of the seed through the Yoav Protocol (arcs_yoav_store.py).
 
     FutureVector = the seed's superposition: the tier being committed plus every dormant
     longer form in future_vector. Commit = collapse to this tier. QUARANTINED never
     discards: it writes an upstream resolution receipt (conflict-quarantine mechanic).
+
+    Tiers past `read` are SPROUTS: they require a ripe germination check (universal axes,
+    per-seed ranges) and every decision — sprouted or refused — lands in the conditions
+    ledger with the conditions_present snapshot. On a committed sprout, seed_state moves
+    dormant -> sprouted in the seed file (a legal upstream write: seed_state IS SSOT state).
     """
+    ripe_result = None
+    if tier != "read":
+        if ctx is None:
+            return {"refused": True, "reason": "sprout tiers require --context (the conditions vector)",
+                    "ripeness": None}
+        ripe_result = ripeness_check(seed, ctx)
+        if not ripe_result["ripe"]:
+            ledger = ledger_append({
+                "event": "refused", "seed_id": seed["seed_id"], "tier": tier,
+                "conditions_present": ctx, "ripeness": ripe_result,
+                "missed": ripe_result["missed"], "seed_path": str(seed_path),
+            })
+            return {"refused": True, "reason": f"not ripe: missed {ripe_result['missed']}",
+                    "ripeness": ripe_result, "ledger": ledger}
+
     sys.path.insert(0, str(REPO / "operators"))
     from arcs_yoav_store import YoavStore, TimeSignature  # noqa: E402
 
@@ -518,6 +632,20 @@ def commit_seed(seed, tier, log_path, seed_path):
     )
     raw = {"commit": commit.to_dict(), "conflicts": [c.to_dict() for c in conflicts],
            "log": str(log_path)}
+    if ripe_result is not None:
+        raw["ripeness"] = ripe_result
+    if tier != "read" and commit.status.value == "committed":
+        raw["ledger"] = ledger_append({
+            "event": "sprouted", "seed_id": seed["seed_id"], "tier": tier,
+            "conditions_present": ctx, "ripeness": ripe_result,
+            "commit_id": commit.commit_id, "commit_hash": commit.commit_hash,
+            "seed_path": str(seed_path),
+        })
+        if seed.get("seed_state") == "dormant":
+            seed["seed_state"] = "sprouted"
+            Path(str(seed_path)).write_text(json.dumps(seed, indent=2, ensure_ascii=False) + "\n",
+                                            encoding="utf-8")
+            raw["seed_state"] = "sprouted (written back to seed)"
     if commit.status.value == "quarantined":
         receipt = {
             "type": "upstream_resolution_receipt",
@@ -545,6 +673,11 @@ def main(argv=None):
     s = sub.add_parser("settle")
     s.add_argument("seed")
     s.add_argument("--pipe-evaluator", action="store_true")
+    s.add_argument("--source", action="append", default=[], metavar="REF=PATH",
+                   help="source file for the speaker-provenance lambda (repeatable)")
+    s = sub.add_parser("ripeness")
+    s.add_argument("seed")
+    s.add_argument("--context", required=True, help="JSON file: the conditions vector")
     s = sub.add_parser("render")
     s.add_argument("seed")
     s.add_argument("out")
@@ -552,6 +685,8 @@ def main(argv=None):
     s.add_argument("seed")
     s.add_argument("--tier", choices=TIERS, required=True)
     s.add_argument("--log", default=None)
+    s.add_argument("--context", default=None,
+                   help="JSON file: conditions vector (required for sprout tiers)")
     args = ap.parse_args(argv)
 
     try:
@@ -579,13 +714,40 @@ def main(argv=None):
                      0 if ok else 2)
 
     if args.cmd == "settle":
-        raw = settle_seed(seed, pipe_evaluator=args.pipe_evaluator)
+        sources = {}
+        for spec in args.source:
+            if "=" not in spec:
+                return _emit("settle", "error", {"error": f"--source needs REF=PATH, got {spec!r}"},
+                             {"gate_status": "halt"}, 1)
+            ref, path = spec.split("=", 1)
+            sources[ref] = path
+        raw = settle_seed(seed, pipe_evaluator=args.pipe_evaluator,
+                          sources=sources or None, seed_path=args.seed)
+        att = raw.get("attribution") or {}
         gate = (raw.get("kintsugi") or {}).get("gate", "pass")
-        return _emit("settle", "ok", raw,
-                     {"gate_status": gate,
-                      "verdict": f"settled {raw['rows_scored']} row(s): " + ", ".join(
-                          f"{v} {k}" for k, v in sorted(raw["tally"].items()))},
-                     0)
+        verdict = f"settled {raw['rows_scored']} row(s): " + ", ".join(
+            f"{v} {k}" for k, v in sorted(raw["tally"].items()))
+        if att:
+            verdict += " | attribution: " + " · ".join(
+                f"{v} {k}" for k, v in sorted(att["counts"].items()))
+        if att.get("dirty"):
+            return _emit("settle", "blocked", raw,
+                         {"gate_status": "halt", "verdict": verdict,
+                          "findings": att["findings"],
+                          "next_action": "ventriloquy/unsourced quote: resolve upstream per "
+                                         + str(att.get("resolution_receipt"))},
+                         2)
+        return _emit("settle", "ok", raw, {"gate_status": gate, "verdict": verdict}, 0)
+
+    if args.cmd == "ripeness":
+        with open(args.context, encoding="utf-8") as fh:
+            ctx = json.load(fh)
+        raw = ripeness_check(seed, ctx)
+        return _emit("ripeness", "ok" if raw["ripe"] else "blocked", raw,
+                     {"gate_status": "pass" if raw["ripe"] else "halt",
+                      "verdict": ("RIPE" if raw["ripe"] else f"NOT RIPE: missed {raw['missed']}")
+                                 + f" (ranges {raw['ranges_provenance']})"},
+                     0 if raw["ripe"] else 2)
 
     if args.cmd == "render":
         f = gate_seed(seed)
@@ -602,7 +764,18 @@ def main(argv=None):
 
     if args.cmd == "commit":
         log = args.log or str(Path(args.seed).with_suffix(".yoav.jsonl"))
-        raw = commit_seed(seed, args.tier, log, args.seed)
+        ctx = None
+        if args.context:
+            with open(args.context, encoding="utf-8") as fh:
+                ctx = json.load(fh)
+        raw = commit_seed(seed, args.tier, log, args.seed, ctx=ctx)
+        if raw.get("refused"):
+            return _emit("commit", "blocked", raw,
+                         {"gate_status": "halt",
+                          "verdict": f"sprout REFUSED: {raw['reason']}",
+                          "next_action": "conditions logged to the ledger; wait for the "
+                                         "window or earn the missing range, never force it"},
+                         2)
         quarantined = raw["commit"]["status"] == "quarantined"
         return _emit("commit", "blocked" if quarantined else "ok", raw,
                      {"gate_status": "halt" if quarantined else "pass",
