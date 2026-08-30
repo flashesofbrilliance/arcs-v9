@@ -148,11 +148,19 @@ upstream resolution receipt. `seed_state` moves dormant -> sprouted on the first
 If an ADR gets minted for the germination-chain thesis, allocate the number via
 `python3 scripts/oracle.py next adr` — never infer.
 
+Queued design addenda (ratified 2026-08-29 in the parent canon session, carried in the
+witness entries; NOT built): **Kairos-first ripeness** — the temperature axis should
+inherit from a `Kairos.window()` half of `operators/arcs_operator_kairos.py`, with mode
+reading as an input axis; **expression-strategy layer** — mechanism/strategy/axes/ranges
+with deciduous-vs-evergreen urgency semantics (a deciduous seed's bloom window expires;
+Yuri is deciduous, Sep 14 is the bloom window).
+
 ## Proven instances
 
 - `_ARTIFACTS/sixty/2026-07-23-kleban.60s.json` -> `yuri-60s-read.html` — the conformance
-  test: beats match the hand-built golden reference (spark is the additive fourth beat;
-  one deliberate delta: the lambda trimmed the card-1 DM quote to the span re-verifiable
-  from sources read in-session — the correction landed upstream in the seed).
+  test: 6/6 golden-reference card bodies match (spark is the additive fourth beat). The
+  lambda's first true positive (card-1 DM quote tail) was resolved BIDIRECTIONALLY: seed
+  corrected upstream here, golden republished with the strict DM verbatim by the parent
+  session, both re-conformed 2026-08-29.
 - `_ARTIFACTS/sixty/2026-07-22-elsamadisi.60s.json` -> `ahmed-60s-read.html` — first cold
   dogfood (internal only; ahmed-ext is the only shareable surface; nothing sends without Zach).
