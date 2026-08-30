@@ -16,29 +16,54 @@
 set -euo pipefail
 
 added=$(git diff --cached --name-only --diff-filter=A -- '_DECISIONS/ADR-*.md' 2>/dev/null || true)
-[ -z "$added" ] && exit 0
+# NB: do NOT `exit 0` here when $added is empty — later guards (wrap-class) must still run.
+if [ -n "$added" ]; then
+  # existing ADR numbers already in HEAD (the committed tree)
+  existing=$(git ls-tree -r --name-only HEAD -- _DECISIONS 2>/dev/null \
+    | grep -oiE 'ADR-[0-9]+' | grep -oE '[0-9]+' | sed 's/^0*//' | sort -u || true)
 
-# existing ADR numbers already in HEAD (the committed tree)
-existing=$(git ls-tree -r --name-only HEAD -- _DECISIONS 2>/dev/null \
-  | grep -oiE 'ADR-[0-9]+' | grep -oE '[0-9]+' | sed 's/^0*//' | sort -u || true)
+  oracle_counter=$(git show HEAD:_SEEDS/_oracle.json 2>/dev/null \
+    | grep -oE '"adr"[[:space:]]*:[[:space:]]*[0-9]+' | grep -oE '[0-9]+$' || echo 0)
 
-oracle_counter=$(git show HEAD:_SEEDS/_oracle.json 2>/dev/null \
-  | grep -oE '"adr"[[:space:]]*:[[:space:]]*[0-9]+' | grep -oE '[0-9]+$' || echo 0)
+  fail=0
+  while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    n=$(basename "$f" | grep -oiE 'ADR-[0-9]+' | grep -oE '[0-9]+' | sed 's/^0*//')
+    [ -z "$n" ] && continue
+    if echo "$existing" | grep -qx "$n"; then
+      echo "✖ pre-commit(oracle-guard): ADR-$(printf '%03d' "$n") already exists in HEAD — this commit would DUPLICATE it." >&2
+      echo "  file: $f" >&2
+      echo "  fix:  run 'python3 scripts/oracle.py next adr' for a fresh number, rename the file, commit _SEEDS/_oracle.json." >&2
+      fail=1
+    elif [ "${oracle_counter:-0}" -gt 0 ] && [ "$n" -gt "$oracle_counter" ]; then
+      echo "⚠ pre-commit(oracle-guard): ADR-$(printf '%03d' "$n") is above the committed oracle counter ($oracle_counter) — looks minted off-oracle. Not blocking, but verify with 'python3 scripts/oracle.py audit adr'." >&2
+    fi
+  done <<< "$added"
 
-fail=0
-while IFS= read -r f; do
-  [ -z "$f" ] && continue
-  n=$(basename "$f" | grep -oiE 'ADR-[0-9]+' | grep -oE '[0-9]+' | sed 's/^0*//')
-  [ -z "$n" ] && continue
-  if echo "$existing" | grep -qx "$n"; then
-    echo "✖ pre-commit(oracle-guard): ADR-$(printf '%03d' "$n") already exists in HEAD — this commit would DUPLICATE it." >&2
-    echo "  file: $f" >&2
-    echo "  fix:  run 'python3 scripts/oracle.py next adr' for a fresh number, rename the file, commit _SEEDS/_oracle.json." >&2
-    fail=1
-  elif [ "${oracle_counter:-0}" -gt 0 ] && [ "$n" -gt "$oracle_counter" ]; then
-    echo "⚠ pre-commit(oracle-guard): ADR-$(printf '%03d' "$n") is above the committed oracle counter ($oracle_counter) — looks minted off-oracle. Not blocking, but verify with 'python3 scripts/oracle.py audit adr'." >&2
+  [ "$fail" -eq 1 ] && { echo "✖ commit blocked: duplicate ADR number. (canon-collision-escalate: allocate via the oracle, don't reuse.)" >&2; exit 1; }
+fi
+
+# ---------------------------------------------------------------------------
+# wrap-class guard: reject NEWLY-ADDED public/*.html that carry the
+# intermediate-width wrap-regression class (em-dash in rendered copy, or a
+# per-role `max-width:NNch` on text). See scripts/artifact_wrap_lint.py and
+# memory intermediate-width-wrap-regression-class.
+#
+# ADDED-only, by design — mirrors the oracle guard above: a brand-new artifact
+# (the recurrence population: each self-contained page re-authors CSS fresh)
+# must be born clean, but the repo's large pre-existing em-dash debt does NOT
+# block an unrelated edit to a legacy page. Regressions inside modified files
+# are left to the manual sweep / a future net-new-diff check.
+# Skips cleanly when the linter or python3 is absent (older worktrees stay committable).
+if [ -f scripts/artifact_wrap_lint.py ] && command -v python3 >/dev/null 2>&1; then
+  html=$(git diff --cached --name-only --diff-filter=A -- 'public/*.html' 'public/**/*.html' 2>/dev/null || true)
+  if [ -n "$html" ]; then
+    if ! echo "$html" | tr '\n' '\0' | xargs -0 python3 scripts/artifact_wrap_lint.py; then
+      echo "✖ commit blocked: wrap-class violation in a NEW public/*.html (see above)." >&2
+      echo "  fix the em-dash / ch-cap findings, re-sweep 375/790/desktop, then re-stage." >&2
+      exit 1
+    fi
   fi
-done <<< "$added"
+fi
 
-[ "$fail" -eq 1 ] && { echo "✖ commit blocked: duplicate ADR number. (canon-collision-escalate: allocate via the oracle, don't reuse.)" >&2; exit 1; }
 exit 0
