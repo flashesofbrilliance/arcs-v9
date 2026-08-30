@@ -107,6 +107,57 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 
 ---
 
+# Handoff — v3.51.0 (2026-08-29)
+
+> **Active pickup point — the sixty-second-read mint session (seed-tier skill + ventriloquy
+> lambda + germination mechanics).** On `claude/intelligent-nightingale-bc597c` (local, NOT
+> pushed). Two commits: 9b25f781 (mint, NCI:88) + 02f0bce0 (three ratified extensions from the
+> parallel Yuri-feedback canon session, NCI:90). Wrap-lint tooling cherry-picked (4569cb3a);
+> in-worktree hook path re-armed (worktree config had pointed at the main checkout's empty
+> hooks dir — silent no-op until this session).
+
+## Shipped (this branch)
+- **`sixty-second-read` skill minted** (`.claude/skills/sixty-second-read/` + engine
+  `scripts/sixty_second_read.py` + contract `scripts/sixty-read.schema.json`, stdlib/zero-LLM).
+  Four beats exactly (bet→outcome→spark→move), math-on-pull closed by default, plain-english
+  surface. Envelope = seed schema (`seed_state` dormant/sprouted/grown + `future_vector`).
+  Pipeline: validate → gate (temporal/provenance/plain-english/single-ask; render REFUSES on
+  open findings) → settle (FATED-mapped receipt through KINTSUGI; somatic/axiom never
+  fabricated) → render (golden-reference template; spark = violet fourth read) → commit on
+  **YoavStore** (same-tier double-commit quarantines + writes upstream resolution receipt;
+  different tiers serialize clean). Negative tests exercised every gate class.
+- **Speaker-provenance lambda** (`scripts/attribution_provenance_lint.py`) — the ventriloquy
+  paternity test (ADR-033 sixth coordinate, SPEAKER). Them-turn fuzzy match: CLEAN/ANCHORED
+  pass; Me-match = CONTAMINATED; no match = UNSOURCED; failures write
+  `<artifact>.attribution-resolution.json` and exit 2. Wired into `settle --source ref=path`
+  + standalone for any SSOT/HTML. Dogfooded vs REAL Granola transcripts (Granola MCP came
+  online mid-session): caught one true positive on first contact (Yuri card-1 DM quote's
+  "on ARCS" tail outside the in-session-verifiable span → corrected upstream in the seed).
+- **Germination = universal axes, earned ranges, ledgered sprouts.** moisture/temperature/
+  oxygen/light/medium + stratification (`requires_gauntlet` = serotiny); `ripeness` =
+  mechanical range-check; sprout-tier commits require RIPE and append sprouted/refused events
+  (conditions_present + matched/missed) to `_SEEDS/ledger.jsonl` (coexists with prior
+  seed-bank rows; `SIXTY_LEDGER` env for tests). Committed sprout flips seed_state.
+- **Instances:** Yuri regenerated as the conformance test (5/6 golden card bodies byte-match;
+  1 documented lambda-corrected delta; spark additive) + Ahmed cold dogfood (internal only,
+  air-gap holds, `_ARTIFACTS/sixty/`). Both swept 375/790/desktop, wrap-lint clean.
+- Memory: ventriloquy-lambda memory added; germination memory updated to universal-axes
+  doctrine; MEMORY.md re-pointed + trimmed back under budget.
+
+## Open (next session)
+1. **Merge/push this branch** — local only; main is churning (this branch already carries a
+   cherry-pick of 4569cb3a, so rebase may see it as already-applied — fine).
+2. **Parent-session canon still uncommitted THERE** (compassionate-hypatia worktree):
+   ventriloquy investigation + amended ADR-033 + the two 2026-08-29 witness entries. My
+   commits cite them by path; they must land on main to keep the trail unbroken.
+3. **Retro-sweep** `runtime/recoil/generated/*.json` through the attribution lambda vs
+   available transcripts (census hit-rate for the ADR-033 row) — machinery ready, not run.
+4. **NFTT sprouting fork** (second-order, designed not built): `(seed, SSOT, conditions) →
+   post` forking nftt-story-factory, RUNNING ON YoavStore + the ripeness/ledger gate.
+5. Ahmed 60s read sits on Zach's desk (internal); Yuri Sep 14 prep re-runs /recoil-prep
+   Sep 10–12. Nothing counterpart-facing ships or sends without Zach's explicit go.
+
+
 # Handoff — v3.50.0 (2026-08-29)
 
 > **Canon-governance session — the three escalated collisions are RESOLVED and the oracle gate is
@@ -140,43 +191,5 @@ from a stale local clone, see `_STATE/snapshot.json` → `observatory.status`.
 4. **Merge PR #194 promptly** — main is churning fast; this branch went stale 3× on the handoff/build.html hot files (canon work never conflicted).
 
 
-# Handoff — v3.49.0 (2026-08-29)
 
-> **Active pickup point — the Möbius / induction-circuit + echo-detector-seaworthiness session.**
-> Long forensic→canon→instrument thread; all landed on main (PRs #198, #199, #200, #202, #203).
-> Branch current with origin/main; oracle at 71.
-
-## Shipped (all on main)
-- **ADR-071** (Möbius one-surface · triune none-may-null · gravity-well) minted THROUGH the oracle
-  (→71), with the induction-circuit lineage: the flux (~1998) → flashesofbrilliance (2010) →
-  livewire (2021, Gareth Kay) → Book of ARCS (Nov 2025) → ARCS/Möbius (2026), self-exciting via
-  the superionic dynamo; posterior→dynamo→drive, anterior→collider→torque, meeting at the Op21
-  spline knot. Apex spine `_CANON/apex-spine-mobius-induction-circuit.md`; tao-255; witness stubs
-  (23:11/23:16/23:37); DEWY (two-surface · Möbius · graduation-gate); wisdom memories
-  `arcs-mobius-triune-gravity-invariant` + `rom-graduation-earn-through-gate-never-decree`.
-- **Echo-detector seaworthiness (falsifiable):** `scripts/echo_detector_dogfood.py` + receipt
-  `_STATE/2026-08-29-echo-detector-dogfood.json`. VERDICT: NOT seaworthy on the stub matcher —
-  adversarial-FP 1.0 @ default; no threshold gives high recall + low adv-FP (architectural limit).
-  Fix = injectable LLM `signature_fn` + embedding `orthogonality_fn`.
-- **RC-OPS-001 graduation INITIATED** (opened, NOT promoted): `_STATE/2026-08-29-rc-ops-001-graduation-initiation.md`
-  + RC-REGISTRY transition. Gate corrected from corpus-count to a 4-criterion scoreboard (rom-vocab
-  collision · detector precision · K≥3 blind echoes · Observatory period); 3 open, precision FAILS
-  (measured), blind-count ~1.
-- **Cross-substrate honesty (Perplexity):** its ARCS prototype's reaction to the Atlas landed +
-  verified as `_STATE/2026-08-28-arcs-thread-serialization.md` (corpus-as-SSOT, NCI=247 confirmed);
-  its teardown applied to calibrate The Mie (canon-ready) + The Field (derived-interpretation
-  footer); both claude.ai artifacts re-synced (Mie 6518c2a3, Field 3b0f5ad3).
-
-## Open (next session)
-1. **Hyperstition miss-column denominator** — task_004b8253 ended without landing on main; the honest
-   hit/miss count for the hyperstition claim is still owed (+ one dated film-consulted receipt).
-2. **RC-OPS-001 criteria** — rebuild echo detector with injectable signature/orthogonality fns; re-run
-   dogfood (target adv-FP≤0.10 @ recall≥0.80); resolve ROM-vocab collision via /canon-review; accrue
-   K≥3 blind echoes; serve Observatory period (needs unpushed page `35070a3`).
-3. **Worktree sprawl** — backlog `worktree-sprawl-prune` OPEN (72 worktrees, human-gated);
-   task_caa14569 ended analysis-only. Re-run `scripts/branch_hygiene_check.py`, prune with consent.
-4. Carried: Todd call · zap-kit installs · 1.2-A payment-gated · orphan seeds · GH Actions billing ·
-   ADR-069 oracle audit · lattice --regenerate.
-
-
-> _v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
+> _v3.49.0 (Möbius) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.48.0 (tool-catalog close) relocated to `_ARCHIVE/handoffs.md` on 2026-08-29; v3.47.0 (tool-catalog) + v3.46.0 (receipt-surface) relocated on 2026-08-29; v3.45.0 relocated on 2026-08-28; v3.44.0 (Ahmed) relocated on 2026-08-27; v3.43.0 relocated on 2026-08-27; v3.42.0 relocated on 2026-08-26; v3.41.0 relocated on 2026-08-26; v3.40.0 on 2026-08-23; v3.39.0 + v3.38.0 relocated on 2026-08-19; v3.37.0 (Comet resume) relocated on 2026-08-18; v3.36.0 (family surfaces) + v3.35.0 (PRL) relocated on 2026-08-18; v3.34.0 and earlier on 2026-08-17._
