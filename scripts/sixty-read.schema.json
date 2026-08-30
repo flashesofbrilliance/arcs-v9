@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "sixty-second-read seed envelope",
+  "description": "The read is the SEED (witness 2026-08-29). Four beats exactly: bet -> outcome -> spark -> move, plus provenance refs and seed_state. Every longer form (NFTT post, atlas entry) is a condition-gated resynthesis committed against this object via the Yoav Protocol; read-time tiers are altitudes of ONE serialized object. Enforced mechanically by scripts/sixty_second_read.py (validate + gate); this file is the documented contract.",
+  "type": "object",
+  "required": ["seed_id", "seed_state", "counterpart", "provenance", "beats"],
+  "properties": {
+    "seed_id": {"type": "string", "description": "e.g. 2026-07-23-kleban (matches the war-room SSOT report_id)"},
+    "seed_state": {"enum": ["dormant", "sprouted", "grown"], "description": "dormant = read committed, no resynthesis; sprouted = first condition-gated longer form committed; grown = full family. A dormant seed is never garbage-collected."},
+    "schema_version": {"type": "string"},
+    "counterpart": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string"},
+        "meeting_label": {"type": "string", "description": "hero kicker, e.g. 'zach ↔ yuri · jul 23'"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["sources"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["ref", "desc", "verified"],
+            "properties": {
+              "ref": {"type": "string", "description": "key that beat source_refs point at"},
+              "desc": {"type": "string", "description": "what the source is (transcript id, SSOT path, DM thread)"},
+              "verified": {"type": "string", "description": "when/how the source was actually READ (not a memory jog). Empty = gate failure."}
+            }
+          }
+        },
+        "fine_print": {"type": "string", "description": "footer provenance line (plain english)"}
+      }
+    },
+    "hero": {
+      "type": "object",
+      "properties": {
+        "title": {"type": "string"},
+        "description": {"type": "string"},
+        "title_html": {"type": "string"},
+        "lead_html": {"type": "string"},
+        "promise": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "beats": {
+      "type": "object",
+      "required": ["bet", "outcome", "spark", "move"],
+      "additionalProperties": false,
+      "properties": {
+        "bet": {
+          "type": "object",
+          "required": ["cards"],
+          "properties": {
+            "filed": {"type": "string", "description": "ISO date the bet was filed; gate requires filed <= outcome.date"},
+            "h2": {"type": "string"},
+            "sub": {"type": "string"},
+            "cards": {"$ref": "#/$defs/cards"}
+          }
+        },
+        "outcome": {
+          "type": "object",
+          "required": ["cards"],
+          "properties": {
+            "date": {"type": "string"},
+            "h2": {"type": "string"},
+            "sub": {"type": "string"},
+            "cards": {"$ref": "#/$defs/cards", "description": "mark the honest miss card with miss: true"}
+          }
+        },
+        "spark": {
+          "type": "object",
+          "required": ["quote", "source_ref", "body_html"],
+          "description": "The distinct fourth beat: the ignition moment where recognition fired. Canon: the sparkplug (chan-suh SSOT + ADR-053) converts the counterpart's OWN stored potential to kinetic with a small, precisely timed spark; the energy was theirs the whole time. Evidence-anchored: a verbatim quote, never a mood.",
+          "properties": {
+            "h2": {"type": "string"},
+            "sub": {"type": "string"},
+            "quote": {"type": "string", "description": "their words, verbatim (filler-cleaned, never paraphrased)"},
+            "quote_attrib": {"type": "string"},
+            "body_html": {"type": "string", "description": "why it fired, plain english"},
+            "source_ref": {"type": "string"}
+          }
+        },
+        "move": {
+          "type": "object",
+          "required": ["panel_html"],
+          "description": "ONE move, never a menu (gate blocks list tags and menu tells).",
+          "properties": {
+            "h2": {"type": "string"},
+            "sub": {"type": "string"},
+            "panel_html": {"type": "string"}
+          }
+        }
+      }
+    },
+    "math": {
+      "type": "object",
+      "description": "Math-on-pull: rendered inside a <details> closed by default.",
+      "properties": {
+        "summary_label": {"type": "string"},
+        "summary_html": {"type": "string"},
+        "nci": {"type": "number", "description": "optional decision-level grade passed through to settle/KINTSUGI; never fabricated"},
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["read", "bet", "actual", "gap"],
+            "properties": {
+              "read": {"type": "string"},
+              "bet": {"type": "string"},
+              "actual": {"type": "string"},
+              "gap": {"type": "string", "description": "'on target' renders green; anything else renders amber"}
+            }
+          }
+        }
+      }
+    },
+    "who": {
+      "type": "object",
+      "properties": {
+        "h4": {"type": "string"},
+        "rows": {"type": "array", "items": {"type": "array", "prefixItems": [{"type": "string"}, {"type": "string"}]}}
+      }
+    },
+    "future_vector": {
+      "type": "array",
+      "description": "The dormant seed's superposition of possible longer forms (Yoav FutureVector states). Each resynthesis collapses one; conditions are the germination gate (resolved? counterpart-safe? window open?).",
+      "items": {
+        "type": "object",
+        "required": ["label", "conditions"],
+        "properties": {
+          "label": {"type": "string", "description": "e.g. nftt-post, atlas-entry"},
+          "conditions": {"type": "array", "items": {"type": "string"}},
+          "probability": {"type": "number"},
+          "nci_estimate": {"type": "number"},
+          "reversibility": {"type": "number"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "cards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["label", "head", "body_html", "source_ref"],
+        "properties": {
+          "label": {"type": "string"},
+          "head": {"type": "string"},
+          "body_html": {"type": "string", "description": "may contain <q>their verbatim words</q>"},
+          "source_ref": {"type": "string"},
+          "miss": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

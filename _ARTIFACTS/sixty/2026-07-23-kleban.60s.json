@@ -1,0 +1,135 @@
+{
+  "seed_id": "2026-07-23-kleban",
+  "seed_state": "dormant",
+  "schema_version": "1.0",
+  "counterpart": {
+    "name": "Yuri Kleban",
+    "meeting_label": "zach ↔ yuri · jul 23"
+  },
+  "provenance": {
+    "sources": [
+      {
+        "ref": "ssot",
+        "desc": "War-room SSOT runtime/recoil/generated/2026-07-23-kleban-recoil.json (before/after, quotes verbatim per its provenance rule)",
+        "verified": "Read in full this session (2026-08-29). Underlying Jul 23 Granola transcript 8a8b07d7 read end to end 2026-08-30 (source-verification session, memory SOURCE-VERIFIED section)."
+      },
+      {
+        "ref": "dm",
+        "desc": "Yuri's Jul 15 LinkedIn DM (the pre-call outreach the bet was filed from)",
+        "verified": "Full thread pasted by Zach and read end to end 2026-08-30 (source-verification session); the kudos line confirmed verbatim there. Carried unchanged from the golden reference, which was read in full this session."
+      },
+      {
+        "ref": "golden",
+        "desc": "Hand-built golden reference artifact (claude.ai 17a1923c), every quote source-verified 2026-08-30",
+        "verified": "Full HTML read line by line this session (2026-08-29)."
+      }
+    ],
+    "fine_print": "On our July 23 call · reconstructed from the transcript, with your consent · quotes are yours, verbatim · nothing here is public, link-only. The scoring engine runs on Claude today; an internal version could run on Gemini, nothing leaving Google. Your call to open that door, or not."
+  },
+  "hero": {
+    "title": "The 60-Second Read",
+    "description": "Our call written as a brief: the bet before, what happened after, the moment it caught, and one move.",
+    "title_html": "What I got right, where I <span class=\"keep\">was <em>wrong</em>,</span> and what to do about it.",
+    "lead_html": "Our call, written as a brief: the same bite-size shape you already reach for, plus the one part a brief never has. <b>The after.</b> No math on this page. If you ever want the scoring, it's one click down, closed until you ask.",
+    "promise": ["Four reads", "Fifteen seconds each", "Then you have it"]
+  },
+  "beats": {
+    "bet": {
+      "filed": "2026-07-23",
+      "h2": "Before we talked",
+      "sub": "The bet I filed on you before the call. The same three lines your pre-brief gives you: who they are, what they want, what you want.",
+      "cards": [
+        {
+          "label": "Who you are",
+          "head": "A warm hello, no agenda.",
+          "body_html": "You opened with <q>nothing to sell or ask, just kudos on ARCS.</q> I filed you as a genuine fan stopping by.",
+          "source_ref": "dm"
+        },
+        {
+          "label": "What you want",
+          "head": "To swap stories, maybe help.",
+          "body_html": "Receptive, not committed. <q>Let me know if I can help.</q> I wasn't expecting a specific ask to land.",
+          "source_ref": "dm"
+        },
+        {
+          "label": "What I want",
+          "head": "An honest read, not a deal.",
+          "body_html": "Your head on where ARCS still reads fuzzy, and to hear how Agentum's going. Two builders, no pitch.",
+          "source_ref": "ssot"
+        }
+      ]
+    },
+    "outcome": {
+      "date": "2026-07-23",
+      "h2": "After we talked",
+      "sub": "What actually happened, scored against that bet. This is the half a normal brief never fills in.",
+      "cards": [
+        {
+          "label": "What happened",
+          "head": "You're not a fan. You're the exact user.",
+          "body_html": "You run the ~20-person team that builds Google's pre-meeting exec briefs. You'd already proven the thing I thought I was introducing.",
+          "source_ref": "ssot"
+        },
+        {
+          "label": "Where I was wrong",
+          "head": "I under-read you by a mile.",
+          "body_html": "I had you as warm-but-casual. You pulled hard: <q>be selfish, what do you need, I want to move you forward.</q> That's the miss, kept on purpose.",
+          "source_ref": "ssot",
+          "miss": true
+        },
+        {
+          "label": "What to do",
+          "head": "Show you the before/after on yourself.",
+          "body_html": "You said that's the magic worth showing. So here it is. And next time we talk, I lead with the practitioner, not the pitch.",
+          "source_ref": "ssot"
+        }
+      ]
+    },
+    "spark": {
+      "h2": "The moment it caught",
+      "sub": "One line on the call lit everything this page is. Your line, not mine.",
+      "quote": "It'd be great to see your hypothesis on me before, and what happened after our conversation. That's the magic.",
+      "quote_attrib": "you, on the Jul 23 call",
+      "body_html": "You didn't need convincing; you'd already lived the thesis. You automated the Sundar brief in 2020, no AI, and his mind was blown. So when you named the before-and-after as <b>the magic</b>, you weren't asking for a new idea. You were pointing at the one you'd proven yourself. This page is that line, built.",
+      "source_ref": "ssot"
+    },
+    "move": {
+      "h2": "What to do about it",
+      "sub": "One move, not a menu. Everything above is just the demo.",
+      "panel_html": "Send me one of your upcoming <b>meetings</b>: a customer, a counterpart, whoever's next. I file the read before it, you run the meeting, and we score my bet against what actually happened. That's the pilot."
+    }
+  },
+  "math": {
+    "summary_label": "Show the work · the bookie behind the read",
+    "summary_html": "You said: don't show me the math, tell me what to say. Agreed, so it lives here, shut, out of your way. The simplest way to picture it: the work is a bookie. I file a bet on how the call will go, the bookie sets the line, and the call itself settles it. The line drifts toward the read the evidence backs and away from the one it doesn't. A losing bet <em>is</em> the point; a brief that can't be wrong can't teach you anything. Open only if you ever want the receipt.",
+    "rows": [
+      {"read": "Who you are", "bet": "Warm fan, no agenda", "actual": "Exact user + practitioner", "gap": "under-read"},
+      {"read": "What you want", "bet": "Receptive, uncommitted", "actual": "Active pull to help", "gap": "under-read"},
+      {"read": "What I want", "bet": "A positioning read", "actual": "Got it, plus a live user", "gap": "on target"}
+    ]
+  },
+  "who": {
+    "h4": "So, who's it for, and how would you use it",
+    "rows": [
+      ["Who", "The person filing the read. You, before a meeting. Or your team before a partner call."],
+      ["The before", "The three cards up top are your pre-brief. The same bite-size snack you already reach for, nothing new to learn."],
+      ["The after", "The cards below them are the part that's usually lost the moment the call ends. Filled in once, so the next brief starts smarter instead of from scratch."]
+    ]
+  },
+  "future_vector": [
+    {
+      "label": "nftt-post",
+      "conditions": ["meeting-pilot resolved (bet scored against a real Yuri meeting)", "counterpart-safe redaction pass", "Zach's explicit go"],
+      "probability": 0.25,
+      "nci_estimate": 68,
+      "reversibility": 0.9
+    },
+    {
+      "label": "atlas-entry",
+      "conditions": ["three or more committed reads in the family", "loop closed with Yuri"],
+      "probability": 0.15,
+      "nci_estimate": 64,
+      "reversibility": 0.95
+    }
+  ]
+}

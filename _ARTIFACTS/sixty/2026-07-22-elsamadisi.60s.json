@@ -1,0 +1,131 @@
+{
+  "seed_id": "2026-07-22-elsamadisi",
+  "seed_state": "dormant",
+  "schema_version": "1.0",
+  "counterpart": {
+    "name": "Ahmed Elsamadisi",
+    "meeting_label": "zach ↔ ahmed · jul 22 · internal draft"
+  },
+  "provenance": {
+    "sources": [
+      {
+        "ref": "transcript",
+        "desc": "Jul 22 call, Granola e8648395 (35 min, 5 segments)",
+        "verified": "Key quoted lines re-verified this session (2026-08-29) against verbatim transcript excerpts cached in prior session logs: the customers-overlap line and the decision-science line both confirmed word for word. Full transcript last read end to end in the PR #181 build session."
+      },
+      {
+        "ref": "ssot",
+        "desc": "War-room SSOT runtime/recoil/generated/2026-07-22-elsamadisi.json (quotes verbatim per its provenance rule: his words in quotes, filler-cleaned, never paraphrased)",
+        "verified": "Read in full this session (2026-08-29)."
+      }
+    ],
+    "fine_print": "From our 35-minute call · Jul 22 · every quoted line is yours, verbatim · internal draft on Zach's desk, not published, nothing sends without a human hand."
+  },
+  "hero": {
+    "title": "The 60-Second Read · Ahmed",
+    "description": "Our call written as a brief: the bet before, what happened after, the moment it clicked, and one move.",
+    "title_html": "What I got right, where I <span class=\"keep\">was <em>wrong</em>,</span> and what to do about it.",
+    "lead_html": "Our call, written as a brief: what I expected walking in, what actually happened, and one concrete move. <b>Sixty seconds, four short reads.</b> No math on this page; the scoring is one click down, closed until you ask.",
+    "promise": ["Four reads", "Fifteen seconds each", "Then you have it"]
+  },
+  "beats": {
+    "bet": {
+      "filed": "2026-07-22",
+      "h2": "Before we talked",
+      "sub": "The bet I filed before the call, from your note and your public work. Written down first so it could be scored honestly after.",
+      "cards": [
+        {
+          "label": "Who you are",
+          "head": "An old founder friend, back in town.",
+          "body_html": "You reached out first: back in NYC, saw my post, wanted to catch up. I filed it as a warm reconnect, not a business call.",
+          "source_ref": "ssot"
+        },
+        {
+          "label": "What you want",
+          "head": "To show me the media pitch.",
+          "body_html": "I bet your live fire was the proposal to sell media companies context for AI, and that you'd want my honest read on it.",
+          "source_ref": "ssot"
+        },
+        {
+          "label": "What I want",
+          "head": "To leave one useful thing.",
+          "body_html": "Not to pitch. Offer to pressure-test that proposal the way I'd pressure-test a launch, and see if anything real overlapped.",
+          "source_ref": "ssot"
+        }
+      ]
+    },
+    "outcome": {
+      "date": "2026-07-22",
+      "h2": "After we talked",
+      "sub": "What actually happened, scored against that bet. The half a normal brief never fills in.",
+      "cards": [
+        {
+          "label": "What happened",
+          "head": "You named the overlap before I could.",
+          "body_html": "<q>We're targeting a very similar set of customers and we're targeting a very similar set of problems.</q> Then you sketched the deal on the spot: run this read on your customers' sales calls, under your name.",
+          "source_ref": "transcript"
+        },
+        {
+          "label": "Where I was wrong",
+          "head": "The media pitch wasn't the main event.",
+          "body_html": "I bet it was your live fire. You demoted it yourself: <q>a separate side project, the main company is Polyform.</q> The real heat was your customers' need, not your product. That's the miss, kept on purpose.",
+          "source_ref": "ssot",
+          "miss": true
+        },
+        {
+          "label": "What to do",
+          "head": "Follow your pull, not my plan.",
+          "body_html": "You asked about pricing without me raising it. So the next step isn't a pitch from me; it's the one report you already sketched.",
+          "source_ref": "ssot"
+        }
+      ]
+    },
+    "spark": {
+      "h2": "The moment it clicked",
+      "sub": "One line on the call snapped the two companies into one picture. Your line, not mine.",
+      "quote": "…what you're doing for a human being. How would I give them your decision science?",
+      "quote_attrib": "you, on the Jul 22 call, connecting your context-not-content pitch to this work",
+      "body_html": "You'd spent years standardizing the context a company's data sits in. I'd been standardizing the context a person decides in. When you said that line, they collapsed into one picture: <b>the same architecture, built from opposite ends.</b> And it rhymed with where you started, tracking objects at Raytheon so the human only had to make the final call. The idea was already yours; the call just lit it.",
+      "source_ref": "transcript"
+    },
+    "move": {
+      "h2": "What to do about it",
+      "sub": "One move, not a menu. Everything above is just the demo.",
+      "panel_html": "First: yes to the Robert intro you offered, whenever it's easy. Then the one move: pick <b>one customer</b> with a lot of sales calls. The first report runs on me, so it costs you nothing to see. If it lands, we put a fixed per-customer number on it the moment we pick who. One customer, their existing timeline export, your name on the report."
+    }
+  },
+  "math": {
+    "summary_label": "Show the work · the scoring behind the read",
+    "summary_html": "You standardize what a company's activity means; this is the same trick pointed at a conversation. Before the call I wrote each expectation down, line by line, and the call itself settled them. A read that turns out wrong is kept, not smoothed over; the wrong lines are where the next read gets sharper. Open only if you want the receipt.",
+    "rows": [
+      {"read": "Your live fire", "bet": "The media pitch", "actual": "A side project; Polyform is the company", "gap": "wrong, flipped"},
+      {"read": "The call itself", "bet": "Warm catch-up, no business", "actual": "Warm and a working session, both", "gap": "under-read"},
+      {"read": "Overlap between us", "bet": "Real, if you named it first", "actual": "You named it, unprompted", "gap": "on target"},
+      {"read": "What happens next", "bet": "Maybe a follow-up", "actual": "You designed the pilot and asked pricing", "gap": "under-read"}
+    ]
+  },
+  "who": {
+    "h4": "So, who's it for, and how would you use it",
+    "rows": [
+      ["Who", "The person reading a customer before a call. You, or your new rep before his first meetings."],
+      ["The before", "The three cards up top are the pre-read. The same shape as a normal brief, nothing new to learn."],
+      ["The after", "The part that's usually lost the moment the call ends, written down and scored, so the next read starts sharper instead of from scratch."]
+    ]
+  },
+  "future_vector": [
+    {
+      "label": "nftt-post",
+      "conditions": ["Ahmed replies and the pilot resolves either way", "counterpart-safe redaction pass (air-gap holds: no war-room scores)", "Zach's explicit go"],
+      "probability": 0.2,
+      "nci_estimate": 66,
+      "reversibility": 0.9
+    },
+    {
+      "label": "atlas-entry",
+      "conditions": ["three or more committed reads in the family", "loop closed with Ahmed"],
+      "probability": 0.1,
+      "nci_estimate": 62,
+      "reversibility": 0.95
+    }
+  ]
+}

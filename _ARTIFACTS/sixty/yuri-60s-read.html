@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The 60-Second Read</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Our call written as a brief: the bet before, what happened after, the moment it caught, and one move.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#0a0e14; --surface:#121a24; --surface-2:#0f151d;
+    --border:#22303f; --border-soft:#1a2431;
+    --text:#e8edf3; --muted:#aab4c1; --label:#8492a3; --faint:#76839a;
+    --cyan:#5bdcec;   /* the bet   */
+    --green:#63f3b2;  /* the truth */
+    --amber:#f7ca5c;  /* the miss + the move */
+    --spark:#c9a8ff;  /* the ignition */
+    --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --measure:768px;
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s10:40px;
+    --pad:clamp(20px,4.5vw,24px);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;
+    background:
+      radial-gradient(1150px 640px at 84% -12%,rgba(99,243,178,.055),transparent 60%),
+      radial-gradient(840px 520px at -10% 6%,rgba(91,220,236,.045),transparent 56%),
+      var(--bg);
+    color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.6;
+    letter-spacing:.002em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:var(--measure);margin:0 auto;padding:0 var(--pad)}
+  p{text-wrap:pretty} h1,h2,h3{text-wrap:balance}
+  @keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+  .rise{animation:rise .68s cubic-bezier(.16,1,.3,1) both}
+  .rise.d1{animation-delay:.05s}.rise.d2{animation-delay:.11s}.rise.d3{animation-delay:.17s}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none}}
+  header.hero{padding:clamp(56px,10vh,116px) var(--pad) clamp(30px,6vh,52px)}
+  .kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--label);display:flex;align-items:center;gap:11px;margin:0 0 var(--s6);flex-wrap:wrap}
+  .kicker::before{content:"";width:24px;height:1px;background:var(--border);flex:none}
+  .kicker b{color:var(--green);font-weight:600}
+  h1{font-weight:600;letter-spacing:-.022em;font-size:clamp(30px,5.4vw,46px);line-height:1.07;margin:0}
+  h1 em{color:var(--green);font-style:normal}
+  h1 .keep{white-space:nowrap}
+  .lead{font-size:clamp(17px,2.1vw,19.5px);color:#d3dbe4;margin:var(--s6) 0 0;line-height:1.55}
+  .lead b{color:var(--text);font-weight:600}
+  .promise{margin-top:var(--s8);font-family:var(--mono);font-size:12.5px;color:var(--muted);
+    display:flex;flex-wrap:wrap;gap:var(--s2) var(--s6);align-items:center}
+  .promise span{display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
+  .promise .dot{width:5px;height:5px;border-radius:50%;background:var(--green);
+    box-shadow:0 0 8px rgba(99,243,178,.7);flex:none}
+  .read{padding:clamp(40px,6.5vh,60px) var(--pad);border-top:1px solid var(--border-soft)}
+  .read-head{margin:0 0 clamp(22px,3.4vh,30px)}
+  .read-kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+    display:flex;align-items:center;gap:12px;margin:0 0 var(--s3)}
+  .read-kicker .rn{color:var(--faint)}
+  .read-kicker .sep{width:14px;height:1px;background:var(--border);flex:none}
+  .read-kicker .tm{color:var(--faint);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .bet-s .read-kicker .rn{color:var(--cyan)}
+  .outcome-s .read-kicker .rn{color:var(--green)}
+  .spark-s .read-kicker .rn{color:var(--spark)}
+  .move-s .read-kicker .rn{color:var(--amber)}
+  h2{font-family:var(--mono);font-weight:600;letter-spacing:-.01em;
+    font-size:clamp(21px,3vw,27px);line-height:1.12;margin:0 0 var(--s3)}
+  .read-sub{color:var(--muted);font-size:15px;line-height:1.5;margin:0}
+  .grid{display:grid;gap:var(--s3);grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+  .card{border:1px solid var(--border);border-radius:14px;
+    background:linear-gradient(180deg,var(--surface),var(--surface-2));
+    padding:var(--s4) var(--s4) calc(var(--s4) + 2px);display:flex;flex-direction:column}
+  .card .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--label);display:flex;align-items:center;gap:8px;margin:0 0 var(--s3)}
+  .card .label::before{content:"";width:6px;height:6px;border-radius:2px;background:currentColor;flex:none;opacity:.9}
+  .bet-s .card .label{color:var(--cyan)}
+  .outcome-s .card .label{color:var(--green)}
+  .card.miss .label{color:var(--amber)}
+  .card h3{font-weight:600;font-size:17px;letter-spacing:-.008em;line-height:1.26;margin:0 0 var(--s2)}
+  .outcome-s .card:not(.miss) h3{color:var(--green)}
+  .card.miss h3{color:var(--amber)}
+  .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+  .card p q{color:#cfd7e0;font-style:normal;quotes:"\201C" "\201D"}
+  .spark-s .ignite{border:1px solid rgba(201,168,255,.32);border-radius:16px;
+    background:linear-gradient(180deg,rgba(201,168,255,.06),rgba(201,168,255,.015));
+    padding:clamp(22px,3.6vw,28px)}
+  .spark-s blockquote{margin:0 0 var(--s4);font-size:clamp(17px,2.2vw,20px);line-height:1.45;
+    color:#e6ddf6;quotes:"\201C" "\201D"}
+  .spark-s blockquote::before{content:open-quote;color:var(--spark)}
+  .spark-s blockquote::after{content:close-quote;color:var(--spark)}
+  .spark-s .attrib{font-family:var(--mono);font-size:12px;color:var(--faint);margin:0 0 var(--s4)}
+  .spark-s .ignite p.why{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+  .spark-s .ignite p.why b{color:var(--spark);font-weight:600}
+  .move-s .panel{border:1px solid rgba(247,202,92,.32);border-radius:16px;
+    background:linear-gradient(180deg,rgba(247,202,92,.055),rgba(247,202,92,.015));
+    padding:clamp(22px,3.6vw,28px)}
+  .move-s .panel p{margin:0;font-size:clamp(17px,2vw,19px);line-height:1.5;color:#e4e0d4}
+  .move-s .panel p b{color:var(--amber);font-weight:600}
+  details.work{margin-top:var(--s6);border:1px solid var(--border);border-radius:12px;
+    background:var(--surface-2);overflow:hidden}
+  details.work summary{list-style:none;cursor:pointer;padding:var(--s4);
+    font-family:var(--mono);font-size:13px;letter-spacing:.02em;color:var(--muted);
+    display:flex;align-items:center;justify-content:space-between;gap:var(--s3);transition:color .22s}
+  details.work summary::-webkit-details-marker{display:none}
+  details.work summary:hover{color:var(--text)}
+  details.work summary:focus-visible{outline:2px solid var(--cyan);outline-offset:-3px;border-radius:12px}
+  details.work summary .hint{color:var(--faint);font-size:11.5px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+  details.work summary .chev{transition:transform .28s}
+  details.work[open] summary .chev{transform:rotate(90deg)}
+  .work-body{padding:var(--s2) var(--s4) var(--s6);border-top:1px solid var(--border-soft)}
+  .work-body p{color:var(--muted);font-size:14px;line-height:1.55;margin:var(--s4) 0}
+  .work-body p em{color:var(--text);font-style:normal;font-weight:600}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border-soft);vertical-align:top}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--label);font-weight:500}
+  td:first-child{font-family:var(--mono);color:var(--muted);white-space:nowrap;font-size:12.5px}
+  .b{color:var(--cyan)}.a{color:var(--green)}.g{color:var(--amber)}
+  footer.wrap{padding:clamp(40px,6vh,56px) var(--pad) clamp(56px,9vh,84px);border-top:1px solid var(--border-soft)}
+  .who{border:1px solid var(--border);border-radius:16px;background:var(--surface);padding:clamp(20px,3.4vw,26px)}
+  .who h4{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--label);font-weight:500;margin:0 0 var(--s4)}
+  .who .row{display:grid;grid-template-columns:116px 1fr;gap:var(--s1) var(--s6);
+    padding:var(--s3) 0;border-top:1px solid var(--border-soft)}
+  .who .row:first-of-type{border-top:0;padding-top:0}
+  @media(max-width:520px){.who .row{grid-template-columns:1fr;gap:var(--s1)}}
+  .who .row .q{font-family:var(--mono);font-size:12.5px;color:var(--green);padding-top:2px}
+  .who .row .a{color:var(--muted);font-size:15px;line-height:1.5}
+  .fine{color:var(--faint);font-family:var(--mono);font-size:11.5px;line-height:1.75;margin:var(--s6) 0 0;letter-spacing:.01em}
+</style>
+</head>
+<body>
+<header class="hero wrap">
+  <p class="kicker rise"><b>the 60-second read</b><span>zach ↔ yuri · jul 23</span></p>
+  <h1 class="rise d1">What I got right, where I <span class="keep">was <em>wrong</em>,</span> and what to do about it.</h1>
+  <p class="lead rise d2">Our call, written as a brief: the same bite-size shape you already reach for, plus the one part a brief never has. <b>The after.</b> No math on this page. If you ever want the scoring, it's one click down, closed until you ask.</p>
+  <div class="promise rise d3"><span><i class="dot"></i>Four reads</span><span><i class="dot"></i>Fifteen seconds each</span><span><i class="dot"></i>Then you have it</span></div>
+</header>
+<section class="read bet-s wrap">
+<div class="read-head"><p class="read-kicker"><span class="rn">Read 1</span><span class="sep"></span><span class="tm">0:00–0:15</span></p><h2>Before we talked</h2><p class="read-sub">The bet I filed on you before the call. The same three lines your pre-brief gives you: who they are, what they want, what you want.</p></div>
+<div class="grid">
+<div class="card"><div class="label">Who you are</div><h3>A warm hello, no agenda.</h3><p>You opened with <q>nothing to sell or ask, just kudos on ARCS.</q> I filed you as a genuine fan stopping by.</p></div>
+<div class="card"><div class="label">What you want</div><h3>To swap stories, maybe help.</h3><p>Receptive, not committed. <q>Let me know if I can help.</q> I wasn't expecting a specific ask to land.</p></div>
+<div class="card"><div class="label">What I want</div><h3>An honest read, not a deal.</h3><p>Your head on where ARCS still reads fuzzy, and to hear how Agentum's going. Two builders, no pitch.</p></div>
+</div>
+</section>
+<section class="read outcome-s wrap">
+<div class="read-head"><p class="read-kicker"><span class="rn">Read 2</span><span class="sep"></span><span class="tm">0:15–0:30</span></p><h2>After we talked</h2><p class="read-sub">What actually happened, scored against that bet. This is the half a normal brief never fills in.</p></div>
+<div class="grid">
+<div class="card"><div class="label">What happened</div><h3>You're not a fan. You're the exact user.</h3><p>You run the ~20-person team that builds Google's pre-meeting exec briefs. You'd already proven the thing I thought I was introducing.</p></div>
+<div class="card miss"><div class="label">Where I was wrong</div><h3>I under-read you by a mile.</h3><p>I had you as warm-but-casual. You pulled hard: <q>be selfish, what do you need, I want to move you forward.</q> That's the miss, kept on purpose.</p></div>
+<div class="card"><div class="label">What to do</div><h3>Show you the before/after on yourself.</h3><p>You said that's the magic worth showing. So here it is. And next time we talk, I lead with the practitioner, not the pitch.</p></div>
+</div>
+</section>
+<section class="read spark-s wrap">
+<div class="read-head"><p class="read-kicker"><span class="rn">Read 3</span><span class="sep"></span><span class="tm">0:30–0:45</span></p><h2>The moment it caught</h2><p class="read-sub">One line on the call lit everything this page is. Your line, not mine.</p></div>
+<div class="ignite"><blockquote>It'd be great to see your hypothesis on me before, and what happened after our conversation. That's the magic.</blockquote><p class="attrib">you, on the Jul 23 call</p><p class="why">You didn't need convincing; you'd already lived the thesis. You automated the Sundar brief in 2020, no AI, and his mind was blown. So when you named the before-and-after as <b>the magic</b>, you weren't asking for a new idea. You were pointing at the one you'd proven yourself. This page is that line, built.</p></div>
+</section>
+<section class="read move-s wrap">
+<div class="read-head"><p class="read-kicker"><span class="rn">Read 4</span><span class="sep"></span><span class="tm">0:45–0:60</span></p><h2>What to do about it</h2><p class="read-sub">One move, not a menu. Everything above is just the demo.</p></div>
+<div class="panel"><p>Send me one of your upcoming <b>meetings</b>: a customer, a counterpart, whoever's next. I file the read before it, you run the meeting, and we score my bet against what actually happened. That's the pilot.</p></div>
+  <details class="work">
+    <summary>
+      <span>Show the work · the bookie behind the read</span>
+      <span class="hint">closed on purpose <span class="chev">›</span></span>
+    </summary>
+    <div class="work-body">
+      <p>You said: don't show me the math, tell me what to say. Agreed, so it lives here, shut, out of your way. The simplest way to picture it: the work is a bookie. I file a bet on how the call will go, the bookie sets the line, and the call itself settles it. The line drifts toward the read the evidence backs and away from the one it doesn't. A losing bet <em>is</em> the point; a brief that can't be wrong can't teach you anything. Open only if you ever want the receipt.</p>
+      <div class="scroll">
+        <table>
+          <tr><th>Read</th><th>The bet I filed</th><th>What happened</th><th>Gap</th></tr>
+          <tr><td>Who you are</td><td class="b">Warm fan, no agenda</td><td class="a">Exact user + practitioner</td><td class="g">under-read</td></tr><tr><td>What you want</td><td class="b">Receptive, uncommitted</td><td class="a">Active pull to help</td><td class="g">under-read</td></tr><tr><td>What I want</td><td class="b">A positioning read</td><td class="a">Got it, plus a live user</td><td class="a">on target</td></tr>
+        </table>
+      </div>
+    </div>
+  </details>
+</section>
+<footer class="wrap">
+<div class="who"><h4>So, who's it for, and how would you use it</h4><div class="row"><div class="q">Who</div><div class="a">The person filing the read. You, before a meeting. Or your team before a partner call.</div></div><div class="row"><div class="q">The before</div><div class="a">The three cards up top are your pre-brief. The same bite-size snack you already reach for, nothing new to learn.</div></div><div class="row"><div class="q">The after</div><div class="a">The cards below them are the part that's usually lost the moment the call ends. Filled in once, so the next brief starts smarter instead of from scratch.</div></div></div>
+  <p class="fine">On our July 23 call · reconstructed from the transcript, with your consent · quotes are yours, verbatim · nothing here is public, link-only. The scoring engine runs on Claude today; an internal version could run on Gemini, nothing leaving Google. Your call to open that door, or not.</p>
+</footer>
+</body>
+</html>
