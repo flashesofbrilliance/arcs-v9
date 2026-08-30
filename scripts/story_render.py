@@ -373,7 +373,7 @@ PAGE = """<!doctype html>
   nav a:hover {{ text-decoration: underline; }}
 </style>
 <body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
-<main style="max-width:68ch;margin:0 auto;padding:64px 22px 96px">
+<main style="max-width:680px;margin:0 auto;padding:64px 22px 96px">
 {ladder}<article>
 {body}
 </article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
