@@ -74,6 +74,10 @@ open loops is itself an open loop.
 > A serialized belief is a tuple: **(claim, time, scope, warrant, obligations,
 > dictionary)**. Every family member is one coordinate silently dropped at write
 > or read time.
+>
+> *Amended 2026-08-29 (ratified by Zach): the tuple gains a sixth coordinate —
+> **speaker** — with the admission of Ventriloquy below. Full case:
+> `_PATTERNS/2026-08-29-ventriloquy-pathogen-investigation.md`.*
 
 Write-side law: serialization carries the full tuple. Read-side law: never consume
 a claim missing a coordinate — degrade trust to the fidelity the tuple actually
@@ -88,6 +92,7 @@ earns (WORLD.md's render-at-earned-fidelity, applied to the ledger itself).
 | Open-loop decay | **obligations** | owed action decays unread | v1.9.0 unactioned list; ADR-015 (open since 2026-05-28); Resend key re-discovery; enforcement-parity ledger stranded unmerged 2026-07-16→19 (closed by explicit merge → ADR-034 — the family's first documented closure) | riskFlags `status` field (OPEN/DONE/WAIVED, dated); closure is an explicit write, never silence (recoil-modes v0.4.0); repo/audit findings → ADR-034 ledger | **Detective `--sweep`** (call ledger) + ADR-034 CI gate (repo findings) |
 | Epistemic-sequencer | **warrant** | hypothesis re-read as fact after qualifiers strip in transit | MEMORY.md v1.5.0 hallucination corrections ("RLS ENABLED" — false); withdrawn citation (v3.1.0); the sqrt segment rule (a flagged paraphrase treaded as operative law); phantom ADR-033 memory claim | warrant grade travels with the claim on every re-serialization; generalizes v0.3.0's "advisory stripped of its bounds" clause beyond models | Detective surfaces bounds verbatim; future: warrant field on banked claims |
 | Etymology-sequencer | **dictionary** | wrong dictionary edition applied to a stratum | BAR/KKL CANON_COLLISION (v3.1.0); Y-gate enum migration (EPHEMERAL et al. survive in old strata); "code wins over doc" standing memory | glossary as single source + rename tombstones ("X → renamed Y, date") + Kairos-locked spec versioning | canon-collision escalation discipline (never resolve under write-lock) |
+| Ventriloquy *(admitted 2026-08-29)* | **speaker** | one voice's words re-read as another's — dominant strain: Zach's own framing re-attributed to a warm counterpart (stored resonance reads as shared authorship; infection rate correlates with warmth). Payload is autoimmune: recoil scores its own echo, the belief-updater degrades to a mirror | Jeben/Spock fusion (corrected 2026-08-23, human recall); Yuri 5-altitude guardrail (2026-08-05); Yuri consent-stance fabrication (2026-08-09 — passed BOTH the impeccable detector and the register gauntlet); Yuri bookmark misattribution reaching the witness stub (2026-08-29, caught by Zach live); ayesha SSOT `MISATTRIBUTED_FIT` riskFlag | speaker-provenance lambda ("paternity test"): every counterpart-attributed quote/stance must match a `Them:`/named turn in the source transcript — `Me:`-match = CONTAMINATED, no match = UNSOURCED; quote-attribution additionally requires source-read-this-session (jog-vs-rewind rule) | pre-send gauntlet (forge/recoil-ship, blocking) + sixty-second-read settle beat — *detector in build (task_ce99d3fd) per epistemic-sequencer precedent*; retro-sweep hit-rate → `_PATTERNS/2026-08-29-adr-033-registry-parity-sweep.md` |
 
 ## The Admission Gate (anti-sprawl)
 
