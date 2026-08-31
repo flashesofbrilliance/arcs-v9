@@ -82,9 +82,17 @@ Done = all provable, not asserted. Sequence: G1 → G2 → G4 → G3 → G5.
 | G4 Shared write-lock | oracle pre-commit hook installed in Hermes cwd; duplicate-ADR commit rejected | 🟡 armed, uninstalled |
 | G5 Round-trip JTBD | Hermes pulls one `_QUEUE/induced-backlog.jsonl` item, does it, opens PR, closes loop — unattended | ❌ not run |
 
-QuaDriver — **unknown, unresolved.** Zero references in repo or `~/.hermes`. Candidate slot: the transport/bus
-in the control plane (beside or replacing Hermes's a2a wire), OR application I/O into native apps neither
-harness can reach. Needs the human to define what it is before it enters the topology.
+QuaDriver = **cua-driver** (cua.ai, MIT). RESOLVED 2026-08-30. An open-source computer-use driver
+(macOS/Windows/Linux) that sends input to **specific windows without moving the system cursor** —
+background operation, agent drives app A while human works in app B. Exposes **MCP** (window snapshots +
+input tools) + CLI (`cua-driver serve|call|mcp`); Claude-Code-compatible; honors a "no-foreground
+contract". **Hermes already consumes it.**
+
+**Slot = application-I/O plane, NOT the inter-agent bus.** It is how *either* harness reaches native
+desktop apps, not how Hermes and Claude Code talk to each other (that stays git write-lock + relay; a2a is
+the future agent↔agent wire). It removes **cursor contention** — the reason multi-threading on one machine
+normally fails — the same way git removes file contention. Triad: **Hermes = orchestration · Claude Code =
+judgment · git = file write-lock · cua-driver = input/app write-lock.**
 
 ---
 
