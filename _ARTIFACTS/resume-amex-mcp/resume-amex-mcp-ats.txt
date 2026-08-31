@@ -1,116 +1,135 @@
 ZACH HARRIS
-Product Leader - Builds MCP Platforms & Agent Ecosystems
-New York City metro (hybrid-ready)
-Email: zach.harris@gmail.com
-LinkedIn: linkedin.com/in/zharris
-GitHub: github.com/flashesofbrilliance
 
-Target role: Director, Product Development - MCP Platform & Agent Ecosystem
+Product Leader, Builds MCP Platforms & Agent Ecosystems
+
+New York City metro (hybrid-ready)
+
+zach.harris@gmail.com
+
+linkedin.com/in/zharris
+
+github.com/flashesofbrilliance
 
 SUMMARY
-Product leader who builds MCP platforms and agent ecosystems end to end, inside
-regulated, high-consequence domains. Built ARCS, a decision-intelligence platform on
-Claude with a custom MCP server, agentic pipelines, tool/function calling, and
-human-in-the-loop control by design, plus a family of open-source developer tools with
-their own conformance suites. Twenty years of product across SEC/FINRA and HIPAA
-environments, where governance, role-based access, and responsible-AI controls were
-built into the product itself. Turns AI capability into a platform other builders can
-safely adopt; translates hard technical tradeoffs for legal, risk, and non-technical
-stakeholders.
 
-CORE FOCUS (RANKED FOR THIS ROLE)
-- MCP platform & agent ecosystem: custom MCP server, tool/function calling, agentic
-  orchestration on Claude; exposing capability to LLMs and agents.
-- Developer platform & developer experience: open-source dev tools with documentation
-  and conformance suites; API/SDK and integration-framework thinking.
-- Governance & platform security in regulated domains: RBAC/authorization, identity/auth,
-  policy-at-the-glass controls (SEC/FINRA, HIPAA).
-- Cross-functional influence without authority: aligns engineering, legal, risk,
-  compliance, and go-to-market to ship high-stakes product on schedule.
+Product leader who builds MCP platforms and agent ecosystems end to end, and has done it inside regulated, high-consequence domains. I built ARCS, a decision-intelligence platform on Claude with a custom MCP server, agentic pipelines, tool calling, and human-in-the-loop control by design, plus a family of open-source developer tools with their own conformance suites. Twenty years of product, much of it inside SEC/FINRA and HIPAA environments, where I made governance, role-based access, and responsible-AI controls part of the product itself, not a bolt-on. I turn AI capability into a platform other builders can safely adopt, and I translate hard technical tradeoffs for legal, risk, and non-technical stakeholders.
+
+CORE STRENGTHS
+
+- MCP platform & agent ecosystem: built a custom MCP server, tool/function calling, and agentic orchestration on Claude. Exposes platform capability to LLMs and agents.
+
+- Developer platform & DX: shipped open-source dev tools, each with docs and its own conformance suite; API/SDK and integration-framework thinking.
+
+- Governance & platform security in regulated domains: RBAC/authorization, identity/auth, and "policy-at-the-glass" controls built into the product (SEC/FINRA, HIPAA).
+
+- Cross-functional influence without authority: aligns eng, legal, risk, compliance, GTM to ship high-stakes product on schedule.
 
 EXPERIENCE
 
-ARCS - LLM-Native Decision-Intelligence Platform
-Founder & Builder | 2025-Present
-- Own vision and roadmap for an agentic platform end to end: custom MCP server, tool
-  calling, orchestration, context management, and human-in-the-loop control on Claude,
-  with a Next.js / TypeScript product surface.
-- Built a custom MCP server and agentic pipelines (Claude API, tool use, function
-  calling, extended thinking) exposing platform capability to LLMs and agents across a
-  full decision lifecycle: intake, analysis, structured receipt, compounding feedback.
-- Established the developer-experience layer: documented, MIT-licensed open-source tools
-  (good.arcs.care), each with its own conformance / regression suite - a
-  center-of-excellence pattern for safe, repeatable adoption.
-- Governance and responsible-AI controls by design: evidence-gating, structured decision
-  scoring, identity/auth (Auth.js) and admin allowlists.
+ARCS, LLM-Native Decision-Intelligence Platform
 
-Grayscale Investments - Digital Currency Group (SEC/FINRA)
-Product Lead | 2024-2025
-- Led product for the investor-facing platform behind a $7B, 10-product regulated launch,
-  enforcing complex compliance and access rules in the platform itself.
-- Built role-based access (RBAC), authorization workflows, and policy-at-the-glass
-  publishing controls into the platform so no unapproved content could ship: platform
-  security and governance for a high-consequence financial domain.
-- Ran the cross-functional release train across 4 time zones and cut release-cycle time
-  35% with automated QA and a compliance-in-the-loop cadence, partnering legal, risk,
-  and compliance throughout.
+Founder & Builder, 2025 to Present
 
-Squat New York - Behavioral Health ($350M ARR)
-Head of Product Innovation & Tech Lead | 2019-2020
-- Sole product and technology partner on a seven-figure embedded engagement, discovery
-  through handoff.
-- Owned roadmap and a full content-architecture and integration overhaul (headless
-  CMS/API); aligned engineering, design, clinical, and operations to ship on schedule.
+Own the vision and roadmap for an agentic platform end to end: a custom MCP server, tool calling, orchestration, context management, and human-in-the-loop control on Claude, with a Next.js / TypeScript product surface.
+
+- Built a custom MCP server and agentic pipelines (Claude API, tool use, function calling, extended thinking) that expose platform capability to LLMs and agents across a full decision lifecycle: intake, analysis, structured receipt, compounding feedback.
+
+- Established the developer-experience layer: documented, MIT-licensed open-source tools (good.arcs.care), each with its own conformance / regression suite: a center-of-excellence pattern for safe, repeatable adoption.
+
+- Governance and responsible-AI controls by design: evidence-gating, structured decision scoring, identity/auth (Auth.js) and admin allowlists, so the system scaffolds and sequences judgment without overruling it.
+
+Grayscale Investments, Digital Currency Group (SEC/FINRA)
+
+Product Lead, 2024 to 2025
+
+Led product for the investor-facing platform behind a $7B, 10-product regulated launch. The platform itself enforced the complex compliance and access rules.
+
+- Built role-based access (RBAC), authorization workflows, and "policy-at-the-glass" publishing controls into the platform so no unapproved content could ship: platform security and governance for a high-consequence financial domain.
+
+- Ran the cross-functional release train across 4 time zones and cut release-cycle time 35% with automated QA and a compliance-in-the-loop cadence, partnering with legal, risk, and compliance throughout.
+
+Squat New York, Behavioral Health ($350M ARR)
+
+Head of Product Innovation & Tech Lead, 2019 to 2020
+
+Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff.
+
+- Owned roadmap and a full content-architecture and integration overhaul (headless CMS/API); aligned engineering, design, clinical, and operations to ship on schedule against a conversion KPI.
 
 Children's Tumor Foundation
-Sr. Director, Data & Strategy | 2018-2019
-- Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle
-  segmentation) across marketing, fundraising, and clinical; drove a 20% increase in
-  net-new revenue via data-driven personalization.
+
+Sr. Director, Data & Strategy, 2018 to 2019
+
+Built the first enterprise data and decision-intelligence layer this org had, then turned it into revenue.
+
+- Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue via data-driven personalization.
 
 Women's Tennis Association
-Head of Product & Strategic Partnerships | 2016-2018
-- Closed the first commercial data/API partnerships with Twitter and Facebook
-  (attribution, event-driven revenue): $850K+ in year one.
-- Led CDP selection and built real-time fan-behavior scoring at <120ms for a global
-  consumer platform.
 
-ADVISORY / FRACTIONAL CONSULTING (2020-2024)
-- Twill Health (HealthTech, HIPAA), 2021-2023: Product strategy and validation for 3
-  AI-enabled digital-therapeutics product lines under HIPAA; built KPI and efficacy
-  frameworks driving go-forward decisions on two of three.
-- Verizon Media (5G Innovation Ventures), 2020-2021: Quantitative opportunity assessments
-  across five 5G product ventures; go/no-go investment recommendations.
-- GoPro (Consumer Tech), 2020-2021: Growth and measurement framework for EMEA/APAC
-  expansion; navigated GDPR data-sovereignty.
-- Axon Enterprises (GovTech), 2023: Launch strategy, KPI taxonomy, and go-live criteria
-  for a secure first-responder OTT MVP.
+Head of Product & Strategic Partnerships, 2016 to 2018
+
+- Closed the first commercial data/API partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one.
+
+- Led CDP selection and built real-time fan-behavior scoring at <120ms for a global consumer platform.
+
+ADVISORY AND FRACTIONAL CONSULTING
+
+Twill Health, HealthTech (HIPAA)
+
+Advisory engagement, 2021 to 2023
+
+- Product strategy and validation for 3 AI-enabled digital-therapeutics product lines under HIPAA; built the KPI and efficacy frameworks that drove go-forward decisions on two of three.
+
+Verizon Media, 5G Innovation Ventures
+
+Advisory engagement, 2020 to 2021
+
+- Quantitative opportunity assessments across five 5G product ventures: market sizing, competitive analysis, and go/no-go investment recommendations.
+
+GoPro, Consumer Tech
+
+Advisory engagement, 2020 to 2021
+
+- Built the growth and measurement framework for EMEA/APAC expansion, navigating GDPR data-sovereignty across international markets.
+
+Axon Enterprises, GovTech
+
+Advisory engagement, 2023
+
+- Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder OTT MVP.
 
 SKILLS
-MCP & Agentic Systems: custom MCP servers, tool/function calling, multi-agent
-  orchestration, context management, human-in-the-loop control loops, Claude (API, tool
-  use, extended thinking).
-Developer Platform & DX: API/SDK and integration frameworks, documentation standards,
-  open-source tooling, conformance/regression suites, developer adoption and
-  center-of-excellence patterns.
-Governance, Identity & Security: RBAC and authorization, identity/auth (Auth.js) and
-  admin allowlists, policy-at-the-glass controls, AI governance and responsible-AI
-  controls, evidence-gating.
-Regulated & Financial Services: SEC/FINRA (10-product, $7B launch), HIPAA digital
-  therapeutics, compliance-in-the-loop, partnering legal/risk/compliance.
-Product & Delivery: zero-to-production (0-1), platform roadmap and strategy,
-  cross-functional influence without authority, technical-to-non-technical translation.
-Stack & Data: Python, TypeScript, Next.js, Node, SQL, Git/CI, CDP (Segment, Salesforce),
-  Snowflake, experimentation and attribution.
 
-SELECTED OPEN-SOURCE (good.arcs.care)
-- token-savings-bank: model-tier routing, batching, and context discipline for AI coding agents.
-- germinate: serializable, provenance-carrying handoff protocol for multi-agent work.
-- rosetta-shell: lossless shell-script translation across bash/zsh/POSIX with a CI portability gate.
-- arcs-field-scan: Next.js app rendering an adaptive profile-scan from a LinkedIn profile or PDF.
+MCP & Agentic Systems: Custom MCP servers, tool / function calling, multi-agent orchestration, context management, human-in-the-loop control loops, Claude (API, tool use, extended thinking)
 
-EDUCATION & CREDENTIALS
-- Oberlin College - BA, Studio Art (Honors), 2002-2006.
-- MIT xPRO - AI: Implications for Business Strategy; Designing & Building AI Products &
-  Services (Certificates).
-- Section4 - Certified Product Strategist, 2022 (Credly-verified).
+Developer Platform & DX: API/SDK & integration frameworks, documentation standards, open-source tooling, conformance / regression suites, developer adoption & center-of-excellence patterns
+
+Governance, Identity & Security: RBAC & authorization, identity / auth (Auth.js) & admin allowlists, policy-at-the-glass controls, AI governance & responsible-AI controls, evidence-gating
+
+Regulated & Financial Services: SEC/FINRA (10-product, $7B launch), HIPAA digital therapeutics, compliance-in-the-loop, partnering legal, risk & compliance
+
+Product & Delivery: Zero-to-production (0 to 1), platform roadmap & strategy, cross-functional influence without authority, technical to non-technical translation
+
+Stack & Data: Python, TypeScript, Next.js, Node, SQL, Git / CI, CDP (Segment, Salesforce), Snowflake, experimentation & attribution
+
+OPEN SOURCE
+
+- token-savings-bank: Spend tokens like a budget, not a faucet: model-tier routing, batching, and context discipline for AI coding agents.
+
+- germinate: Never lose the thread between agents: a serializable, provenance-carrying handoff protocol for multi-agent work.
+
+- rosetta-shell: Write a shell script once, run it anywhere: lossless translation across bash, zsh, and POSIX, with a CI portability gate.
+
+- arcs-field-scan: A Next.js app that renders an adaptive profile-scan from a LinkedIn profile or PDF (local mock scan today).
+
+SELECTED RESULTS
+
+1 custom MCP server, shipped; 3+ OSS dev tools shipped; 10 regulated products, 0 to 1; $7B SEC/FINRA launch; 5 industries shipped.
+
+EDUCATION AND CREDENTIALS
+
+Oberlin College, BA, Studio Art (Honors) 2002 to 2006
+
+MIT xPRO, AI: Implications for Business Strategy, Designing & Building AI Products & Services Certificates
+
+Section4, Certified Product Strategist 2022
