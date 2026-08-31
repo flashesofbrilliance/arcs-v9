@@ -3,7 +3,7 @@
 > **Single reference page for both harnesses** (Claude Code Terminal + Hermes-orchestrator)
 > working the Hermes production-readiness thread under the dual-bar-raiser protocol
 > (`.claude/arcs-dual-bar-raiser.md`). The human is the relay; **git is the write-lock**.
-> Nothing here is true until it is committed on the right base. Last updated: 2026-08-30.
+> Nothing here is true until it is committed on the right base. Last updated: 2026-08-30 (+ §5.1 sequencing/serialization).
 
 ---
 
@@ -107,9 +107,35 @@ Ownership split (agreed): **Claude Code = doc-heavy design; Hermes = items needi
 | Task 21 | `docs/monthly-review-template.{md,json}` | Claude | open |
 | Task 23 | SQLite/queryable store migration | — | deferred |
 
+### 5.1 Sequencing & serialization (read before writing)
+
+**Ordering principle: contract-defining work LEADS implementation.** The reasoning that defines a
+contract (seams, invariants, boundaries) is written first; the implementation conforms to it rather than
+defining it by whatever was convenient. This beats file-contention ordering — it's the stronger constraint.
+(The axis is contract-vs-implementation, which *mostly* but not perfectly maps to Claude-vs-Hermes:
+task 10 is descriptive grunt that's Claude's; task 19 carries real schema judgment.)
+
+**Three phases:**
+1. **Contracts lead (parallel, collision-free):** Claude → **E** (sovereignty boundary) + **C** (seam
+   contracts, incl. store/DB seam) — these govern how the store must behave. **B** rides along.
+   Hermes → **17** (new `validate_translator.py`, zero contention). All new files.
+2. **Implementation conforms:** Hermes → **19** (`store_csm_result`) implemented *against* C + E — do NOT
+   start until C + E are pushed. This is the `persistence.py`/`service.py` write-lock.
+3. **Descriptive/consolidation last:** Claude → **10, 20, 21**, snapshotting the settled code (20 conforms
+   to C's store seam; 10 specs the frozen interface).
+
+**File contention map — only `persistence.py`/`service.py` is contended.** Everything else (all docs,
+task 17) is parallel-safe. **Hard dependency: 19 → 20** (19 changes store shape; 20 documents/consolidates
+it — 20 held until 19 lands).
+
+**Branch model (OPEN — human/Hermes to confirm):** either (a) **private branches off `feat/audit-service`,
+merged back in phase order** (no push races — recommended), or (b) **shared `feat/audit-service`, turn-take**
+(one write-lock holder at a time). Two harnesses cannot push the same branch concurrently.
+
 ---
 
 ## 6. Open decisions
+- Branch model for the JTBD split: private-branches-merge vs shared-turn-take (§5.1).
 - QuaDriver: what is it, and which control-plane slot (§4).
 - G-sequence execution once the harness JTBD lands.
 - Whether the 396-line `audit-translator.ts` is missing real content (§2).
