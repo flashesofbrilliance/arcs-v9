@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import os
 import sys
+import threading
 import time
 from pathlib import Path
 from typing import Any, Dict
@@ -42,6 +43,7 @@ from .schemas import (
 )
 from .service import run_sage, run_lab, run_bar, run_kintsugi
 from .persistence import store_audit_trace, store_benchmark_fragment
+from .coverage_hooks import record_coverage
 
 APP_VERSION = "1.0.0"
 OPERATORS = ["SAGE", "LAB", "BAR", "KINTSUGI"]
@@ -87,6 +89,46 @@ def _fidelity_markers(req: AuditRequest) -> Dict[str, str]:
     }
 
 
+# ── Once-per-receipt coverage cache (Approach D wiring) ───────────────────────
+
+_coverage_cache: Dict[str, Dict[str, Any]] = {}
+_coverage_lock = threading.Lock()
+
+
+def _coverage_key(req: AuditRequest) -> str:
+    return f"{req.traceId}|{req.sessionVersion}"
+
+
+def _get_coverage(req: AuditRequest) -> Dict[str, Any] | None:
+    """Return operator_coverage for this receipt, computing it once per receipt.
+
+    Thread-safe: first caller computes, subsequent callers in any thread read the
+    cached result. Coverage hooks run once per receipt, not per operator.
+    """
+    key = _coverage_key(req)
+    with _coverage_lock:
+        if key in _coverage_cache:
+            return _coverage_cache[key]
+        try:
+            coverage = record_coverage(
+                req.primitives.model_dump(),
+                req.llmOutput,
+                {},  # auditResult not yet available; hooks read primitives + llmOutput
+                req.traceId,
+                req.sessionVersion,
+            )
+            _coverage_cache[key] = coverage
+            return coverage
+        except Exception:
+            return None
+
+
+def _clear_coverage_cache() -> None:
+    """Clear the coverage cache. Useful for testing."""
+    with _coverage_lock:
+        _coverage_cache.clear()
+
+
 def _persist(
     req: AuditRequest,
     operator: str,
@@ -94,6 +136,7 @@ def _persist(
 ) -> None:
     try:
         store_audit_trace(req.traceId, req.sessionVersion, operator, result)
+        coverage = _get_coverage(req)
         store_benchmark_fragment(
             req.traceId,
             req.sessionVersion,
@@ -101,6 +144,7 @@ def _persist(
             req.primitives.model_dump(),
             req.llmOutput,
             result,
+            operator_coverage=coverage,
         )
     except Exception:
         pass  # persistence is best-effort; never break the endpoint
