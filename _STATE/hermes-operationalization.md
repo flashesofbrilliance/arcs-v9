@@ -94,6 +94,16 @@ the future agent↔agent wire). It removes **cursor contention** — the reason 
 normally fails — the same way git removes file contention. Triad: **Hermes = orchestration · Claude Code =
 judgment · git = file write-lock · cua-driver = input/app write-lock.**
 
+**SECURITY GATE (before wiring cua-driver to Claude Code):** scope it to ARCS-only FIRST, then wire.
+macOS TCC (Accessibility, Screen Recording) is granted GLOBALLY to `com.trycua.driver` — the OS cannot
+scope per-app. Scoping is done at cua-driver's own `bounded` mode + `cua-capabilities.yaml` manifest
+(allowlist; everything outside denied). ARCS is a web app → use **browser-origins mode** (origin-gated
+`browser_*` tools; mutually exclusive with generic `click`/`type_text`/`get_window_state`), origins =
+app.arcs.care/arcs.care/localhost:3000, files = the repo dir, `desktop.display: false`. Reviewed template:
+`docs/cua-capabilities.example.yaml`. Enabled with human `--approve-capability-manifest` (agent cannot
+self-grant) + `expires_after`/`idle_timeout`. Caveat: this is cua-driver policy, not a kernel sandbox —
+for a hard boundary run it under a dedicated macOS user account or VM.
+
 ---
 
 ## 5. JTBD-A..F — Hermes-HARNESS productionization
