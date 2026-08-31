@@ -22,6 +22,14 @@
   ul{margin:0 0 3.5pt 16pt;}
   li{margin-bottom:1.6pt;}
   .kv{margin-bottom:3.5pt;}
+  /* Page-break logic: a section header never sits alone at the foot of a page (it moves to the
+     next page with its content), a job entry stays intact rather than splitting across the break,
+     and paragraphs keep >=2 lines together on each side. */
+  h2{break-after:avoid-page;}
+  h3{break-after:avoid-page;}
+  .role{break-after:avoid-page;}
+  .entry{break-inside:avoid;}
+  p,li{orphans:2;widows:2;}
 </style>
 </head>
 <body>
@@ -46,6 +54,7 @@ github.com/flashesofbrilliance</div>
 
 <h2>Experience</h2>
 
+<div class="entry">
 <h3>ARCS, LLM-Native Decision-Intelligence Platform</h3>
 <div class="role">Founder &amp; Builder, 2025 to Present</div>
 <p>Build and run an agentic GenAI platform end to end, architecture through production, on Claude, with a Next.js / TypeScript surface and a Python operator layer.</p>
@@ -54,7 +63,8 @@ github.com/flashesofbrilliance</div>
 <li>Shipped a family of documented, MIT-licensed open-source developer tools (good.arcs.care), each with its own conformance / regression suite. That is the reusable-asset pattern that turns one engagement's work into the next one's starting point.</li>
 <li>Evaluation and guardrails as first-class: evidence-gating, structured scoring, identity/auth and admin allowlists, so the system scaffolds judgment without overruling it. Application and orchestration layer, not model training.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Grayscale Investments, Digital Currency Group (SEC/FINRA)</h3>
 <div class="role">Product Lead, 2024 to 2025</div>
 <p>Led product for the investor-facing platform behind a $7B, 10-product regulated launch. The compliance rules were enforced in the platform itself.</p>
@@ -62,7 +72,8 @@ github.com/flashesofbrilliance</div>
 <li>Built role-based access, authorization workflows, and "policy-at-the-glass" publishing controls so no unapproved content could ship. Governance designed in, not bolted on.</li>
 <li>Ran the cross-functional release train across 4 time zones and cut release-cycle time 35% with automated QA and a compliance-in-the-loop cadence, partnering legal and risk throughout.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Squat New York, Behavioral Health ($350M ARR client)</h3>
 <div class="role">Head of Product Innovation &amp; Tech Lead, 2019 to 2020</div>
 <p>The forward-deployed engagement in its purest form: sole product and technology partner on a seven-figure embedded program, discovery through QA through handoff, delivered on schedule.</p>
@@ -70,47 +81,53 @@ github.com/flashesofbrilliance</div>
 <li>Embedded on-site with the client's team and owned the full arc (discovery, roadmap, build, QA, production launch, knowledge transfer) as the single technical point of accountability.</li>
 <li>Delivered a full content-architecture and integration overhaul (headless CMS/API), aligning engineering, design, clinical, and operations against a shared conversion KPI.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Children's Tumor Foundation, Rare Disease Research &amp; Clinical Ops</h3>
 <div class="role">Sr. Director, Data &amp; Strategy, 2018 to 2019</div>
 <p>Built the organization's first enterprise data and decision-intelligence layer, spanning clinical, research, and commercial functions.</p>
 <ul>
 <li>Delivered the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue through data-driven personalization.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Women's Tennis Association</h3>
 <div class="role">Head of Product &amp; Strategic Partnerships, 2016 to 2018</div>
 <ul>
 <li>Closed the first commercial data/API partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one.</li>
 <li>Led CDP selection and built real-time behavior scoring at &lt;120ms for a global consumer platform.</li>
 </ul>
-
+</div>
 <h2>Advisory and Fractional Consulting</h2>
 
+<div class="entry">
 <h3>Twill Health, Digital Therapeutics (HIPAA)</h3>
 <div class="role">Advisory engagement, 2021 to 2023</div>
 <ul>
 <li>Embedded product strategy and validation for 3 AI-enabled digital-therapeutics product lines under HIPAA; built the KPI and efficacy frameworks that drove the go-forward decision on two of three. Evidence standards in a clinical context.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Verizon Media, 5G Innovation Ventures</h3>
 <div class="role">Advisory engagement, 2020 to 2021</div>
 <ul>
 <li>Quantitative opportunity assessments across five 5G product ventures: market sizing, competitive analysis, and go/no-go investment recommendations delivered to the client's executive team.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Axon Enterprises, GovTech</h3>
 <div class="role">Advisory engagement, 2023</div>
 <ul>
 <li>Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder OTT MVP.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>GoPro, Consumer Tech</h3>
 <div class="role">Advisory engagement, 2020 to 2021</div>
 <ul>
 <li>Built the growth and measurement framework for EMEA/APAC expansion, navigating GDPR data-sovereignty across international markets.</li>
 </ul>
-
+</div>
 <h2>Skills</h2>
 <p class="kv"><b>GenAI Systems:</b> LLM pipelines, prompt engineering, retrieval / RAG, agentic architectures &amp; tool use, multi-agent orchestration, context management, human-in-the-loop control, Claude (API, tool use, extended thinking), custom MCP servers</p>
 <p class="kv"><b>Forward-Deployed Delivery:</b> Client discovery &amp; assessment, solution design, production deployment &amp; handoff, sole-technical-partner engagements, executive presentation, mentoring junior engineers</p>
