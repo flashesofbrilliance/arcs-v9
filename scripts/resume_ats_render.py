@@ -39,7 +39,10 @@ import sys
 
 def strip_tags(frag: str) -> str:
     frag = re.sub(r"<br\s*/?>", "\n", frag, flags=re.I)
-    frag = re.sub(r"<[^>]+>", "", frag)
+    # tags become a SPACE, not nothing, so text on either side of an inline tag
+    # (e.g. "<b>In practice</b>ARCS" or "<span>A</span><span>Forward") never fuses
+    # into one word. norm() collapses the resulting runs and tidies stray spaces.
+    frag = re.sub(r"<[^>]+>", " ", frag)
     return html.unescape(frag)
 
 

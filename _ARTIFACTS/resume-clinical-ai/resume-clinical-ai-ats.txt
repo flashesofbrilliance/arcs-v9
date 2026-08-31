@@ -1,20 +1,22 @@
 ZACH HARRIS
 
-AI Product Engineer, Builds LLM-Native & Agentic Systems
+ AI Product Engineer, Builds LLM-Native & Agentic Systems
 
-New York City (hybrid-ready)
+ New York City (hybrid-ready)
 
 zach.harris@gmail.com
 
-linkedin.com/in/zharris
+linkedin.com/in/ zharris
 
-github.com/flashesofbrilliance
+github.com/ flashesofbrilliance
 
 SUMMARY
 
-Product-minded builder of LLM-native, agentic software. I architect and ship end to end: ARCS, a decision-intelligence platform built on Claude with a custom MCP server, agentic pipelines, and human-in-the-loop control by design, plus a family of open-source developer tools in Next.js/TypeScript and Python. Deep healthtech and clinical domain from AI-enabled digital therapeutics under HIPAA. I take ambiguous problems from zero to production and translate hard technical tradeoffs for clinicians and non-technical stakeholders.
+ Product-minded builder of LLM-native, agentic software. I architect and ship end to end: ARCS, a decision-intelligence platform built on Claude with a custom MCP server, agentic pipelines, and human-in-the-loop control by design, plus a family of open-source developer tools in Next.js/TypeScript and Python. Deep healthtech and clinical domain from AI-enabled digital therapeutics under HIPAA. I take ambiguous problems from zero to production and translate hard technical tradeoffs for clinicians and non-technical stakeholders.
 
 CORE STRENGTHS
+
+
 
 - Agentic systems on Claude: MCP server, tool calling, orchestration, context, human-in-the-loop.
 
@@ -26,11 +28,15 @@ CORE STRENGTHS
 
 EXPERIENCE
 
+
+
 ARCS, LLM-Native Decision-Intelligence Platform
 
-Founder & Builder, 2025 to Present
+ Founder & Builder, 2025 to Present
 
-Architect and build an agentic platform end to end: context management, tool calling, orchestration, and human-in-the-loop control on Claude, with a Next.js / TypeScript product surface.
+ Architect and build an agentic platform end to end: context management, tool calling, orchestration, and human-in-the-loop control on Claude, with a Next.js / TypeScript product surface.
+
+
 
 - Built a custom MCP server and agentic pipelines (Claude API, tool use, extended thinking) that run pre/post-decision capture across a full lifecycle: intake, analysis, structured receipt, compounding feedback.
 
@@ -38,35 +44,51 @@ Architect and build an agentic platform end to end: context management, tool cal
 
 - Design, ship, and maintain open-source developer tools (good.arcs.care), each with its own conformance suite; work at the application and orchestration layer of LLMs, not model training.
 
+
+
 Grayscale Investments, Digital Currency Group
 
-Product Lead, 2024 to 2025
+ Product Lead, 2024 to 2025
 
-Product Lead for the customer-facing surfaces (institutional and retail), on the team launching $7B in digital assets to capital markets: enforced complex compliance rules in the product itself.
+ Product Lead for the customer-facing surfaces (institutional and retail), on the team launching $7B in digital assets to capital markets: enforced complex compliance rules in the product itself.
+
+
 
 - Built governance and role-based access (RBAC) workflows and "policy-at-the-glass" publishing controls into the platform so no unapproved content could ship: a safety-first architecture for a high-consequence domain.
 
 - Ran the cross-functional release train across 4 time zones and cut release-cycle time 35% with automated QA and a compliance-in-the-loop sprint cadence.
 
+
+
 Squat New York, Behavioral Health ($350M ARR)
 
-Head of Product Innovation & Tech Lead, 2019 to 2020
+ Head of Product Innovation & Tech Lead, 2019 to 2020
 
-Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff.
+ Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff.
+
+
 
 - Owned roadmap and a full content-architecture and CX overhaul (headless CMS); accelerated time-to-interaction as the primary conversion KPI, aligning engineering, design, clinical, and operations to ship on schedule.
 
+
+
 Children's Tumor Foundation
 
-Sr. Director, Data & Strategy, 2018 to 2019
+ Sr. Director, Data & Strategy, 2018 to 2019
 
-Built the first enterprise data and decision-intelligence layer this mission-driven org had, then turned it into revenue.
+ Built the first enterprise data and decision-intelligence layer this mission-driven org had, then turned it into revenue.
+
+
 
 - Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue via data-driven personalization.
 
+
+
 Women's Tennis Association
 
-Head of Product & Strategic Partnerships, 2016 to 2018
+ Head of Product & Strategic Partnerships, 2016 to 2018
+
+
 
 - Closed the first commercial data partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one.
 
@@ -74,45 +96,63 @@ Head of Product & Strategic Partnerships, 2016 to 2018
 
 ADVISORY AND FRACTIONAL CONSULTING
 
+
+
 Twill Health, HealthTech (HIPAA)
 
-Advisory engagement, 2021 to 2023
+ Advisory engagement, 2021 to 2023
+
+
 
 - Product strategy and validation for 3 AI-enabled digital-therapeutics product lines under HIPAA; built the KPI and efficacy frameworks that drove go-forward decisions on two of three.
 
+
+
 Verizon Media, 5G Innovation Ventures
 
-Advisory engagement, 2020 to 2021
+ Advisory engagement, 2020 to 2021
 
-- Quantitative opportunity assessments across five 5G product ventures: market sizing, competitive analysis, and go/no-go investment recommendations.
+
+
+- Quantitative opportunity assessments across five 5G product ventures : market sizing, competitive analysis, and go/no-go investment recommendations.
+
+
 
 GoPro, Consumer Tech
 
-Advisory engagement, 2020 to 2021
+ Advisory engagement, 2020 to 2021
+
+
 
 - Built the growth and measurement framework for EMEA/APAC expansion, navigating GDPR data-sovereignty across international markets.
 
+
+
 Axon Enterprises, GovTech
 
-Advisory engagement, 2023
+ Advisory engagement, 2023
 
-- Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder OTT MVP.
+
+
+- Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder OTT MVP .
 
 SKILLS
 
-Languages & Stack: Python, TypeScript, Next.js, Node, SQL, shell scripting, Git / CI
+ Languages & Stack: Python, TypeScript, Next.js, Node, SQL, shell scripting, Git / CI
 
-LLM & Agentic Systems: Claude (API, tool use, extended thinking), MCP servers, tool calling, multi-agent orchestration, context management, human-in-the-loop control loops
+ LLM & Agentic Systems: Claude (API, tool use, extended thinking), MCP servers, tool calling, multi-agent orchestration, context management, human-in-the-loop control loops
 
-Quality & Observability: Structured decision scoring, evidence-gating, execution tracing, conformance / regression suites, latency & cost awareness
+ Quality & Observability: Structured decision scoring, evidence-gating, execution tracing, conformance / regression suites, latency & cost awareness
 
-Healthtech & Regulated: AI-enabled digital therapeutics (HIPAA), clinical workflows, SEC/FINRA, RBAC & compliance-in-the-loop
+ Healthtech & Regulated: AI-enabled digital therapeutics (HIPAA), clinical workflows, SEC/FINRA, RBAC & compliance-in-the-loop
 
-Product & Delivery: Zero-to-production (0 to 1), end-to-end architecture, rapid prototyping, cross-functional translation (clinical + non-technical)
+ Product & Delivery: Zero-to-production (0 to 1), end-to-end architecture, rapid prototyping, cross-functional translation (clinical + non-technical)
 
-Data & Instrumentation: Experimentation & A/B, attribution & forecasting, CDP (Segment, Salesforce), Snowflake, event taxonomy
+ Data & Instrumentation: Experimentation & A/B, attribution & forecasting, CDP (Segment, Salesforce), Snowflake, event taxonomy
 
 OPEN SOURCE
+
+
 
 - token-savings-bank: Spend tokens like a budget, not a faucet: model-tier routing, batching, and context discipline for AI coding agents.
 
@@ -124,12 +164,12 @@ OPEN SOURCE
 
 SELECTED RESULTS
 
-3+ OSS dev tools shipped; 10 regulated products, 0 to 1; 3 AI-health product lines; $7B regulated launch; 5 industries shipped.
+ 3+ OSS dev tools shipped; 10 regulated products, 0 to 1; 3 AI-health product lines; $7B regulated launch; 5 industries shipped.
 
 EDUCATION AND CREDENTIALS
 
-Oberlin College, BA, Studio Art (Honors) 2002 to 2006
+ Oberlin College, BA, Studio Art (Honors) 2002 to 2006
 
-MIT xPRO, AI: Implications for Business Strategy, Designing & Building AI Products & Services Certificates
+ MIT xPRO, AI: Implications for Business Strategy, Designing & Building AI Products & Services Certificates
 
-Section4, Certified Product Strategist 2022
+ Section4, Certified Product Strategist 2022
