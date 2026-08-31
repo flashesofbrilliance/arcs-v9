@@ -24,6 +24,7 @@ _LOCK = threading.Lock()
 
 _BENCH_FILE = Path(os.environ.get("AUDIT_BENCH_FILE", str(_HERE / "benchmark_pairs.jsonl")))
 _TRACE_FILE = Path(os.environ.get("AUDIT_TRACE_FILE", str(_HERE / "audit_traces.jsonl")))
+_CSM_FILE = Path(os.environ.get("AUDIT_CSM_FILE", str(_HERE / "csm_results.jsonl")))
 
 # Sampling: if AUDIT_SAMPLE_RATE is set to a float in (0, 1], only that fraction
 # of traces are persisted. "all" or unset → persist everything.
@@ -129,9 +130,57 @@ def store_benchmark_fragment(
         pass
 
 
+def store_csm_result(
+    trace_id: str,
+    session_version: int,
+    operator: str,
+    csm: float,
+    alignment: float,
+    delta_abs: float,
+    coherence_loss: float,
+    severity: float,
+    subtask_alignments: Dict[str, float],
+    llm_output: Dict[str, Any],
+) -> None:
+    """Append one CSM computation result row.
+
+    Distinct store (csm_results.jsonl) — not overloading benchmark_pairs or
+    audit_traces (per Seam 2 / JTBD-20). Conforms to sovereignty invariants:
+      - I2 never raises (best-effort, try/except pass)
+      - I3 append-only JSONL
+      - I4 serialized under _LOCK
+      - I7 sampling-gated via _should_sample(trace_id)
+      - I5 keyed by (traceId, sessionVersion, operator) (I5)
+
+    Called from _persist (main.py) once compute_csm is available. Do NOT add
+    a second write path that bypasses the guard.
+    """
+    if not _should_sample(trace_id):
+        return
+    try:
+        _ensure_parent(_CSM_FILE)
+        row: Dict[str, Any] = {
+            "traceId": trace_id,
+            "sessionVersion": session_version,
+            "operator": operator,
+            "timestamp": _now_iso(),
+            "csm": csm,
+            "alignment": alignment,
+            "delta_abs": delta_abs,
+            "coherence_loss": coherence_loss,
+            "severity": severity,
+            "subtask_alignments": subtask_alignments,
+            "llmOutput": llm_output,
+        }
+        with _LOCK, open(_CSM_FILE, "a", encoding="utf-8") as f:
+            f.write(json.dumps(row, default=str) + "\n")
+    except Exception:
+        pass
+
+
 def clear_store() -> None:
-    """Delete both JSONL files. Useful for local reset between test runs."""
-    for path in (_BENCH_FILE, _TRACE_FILE):
+    """Delete all three JSONL files. Useful for local reset between test runs."""
+    for path in (_BENCH_FILE, _TRACE_FILE, _CSM_FILE):
         try:
             if path.exists():
                 path.unlink()

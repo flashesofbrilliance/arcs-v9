@@ -42,7 +42,13 @@ from .schemas import (
     HealthResponse,
 )
 from .service import run_sage, run_lab, run_bar, run_kintsugi
-from .persistence import store_audit_trace, store_benchmark_fragment
+from .persistence import (
+    store_audit_trace,
+    store_benchmark_fragment,
+    store_csm_result,
+    compute_csm,
+    compute_all_csm,
+)
 from .coverage_hooks import record_coverage
 
 APP_VERSION = "1.0.0"
@@ -146,6 +152,30 @@ def _persist(
             result,
             operator_coverage=coverage,
         )
+        # Task 19: persist CSM computation result (Seam 2 / JTBD-20).
+        pair = {
+            "traceId": req.traceId,
+            "sessionVersion": req.sessionVersion,
+            "operator": operator,
+            "primitives": req.primitives.model_dump(),
+            "llmOutput": req.llmOutput,
+            "auditResult": result,
+        }
+        all_csm = compute_all_csm([pair])
+        if all_csm:
+            csm_row = all_csm[0]
+            store_csm_result(
+                trace_id=req.traceId,
+                session_version=req.sessionVersion,
+                operator=operator,
+                csm=csm_row.get("csm", 0.0),
+                alignment=csm_row.get("alignment", 0.0),
+                delta_abs=csm_row.get("delta", 0.0),
+                coherence_loss=csm_row.get("coherence_loss", 0.0),
+                severity=csm_row.get("severity", 0.0),
+                subtask_alignments=csm_row.get("subtask_alignments", {}),
+                llm_output=req.llmOutput,
+            )
     except Exception:
         pass  # persistence is best-effort; never break the endpoint
 
