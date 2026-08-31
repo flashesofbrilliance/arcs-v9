@@ -120,8 +120,8 @@ Ownership split (agreed): **Claude Code = doc-heavy design; Hermes = items needi
 | F RAG kernel-discovery | `docs/rag-kernel-discovery.md` — design only (impl is P3/GIGI) | either | not started |
 | Task 10 | `docs/audit-service-interface.md` — full FastAPI spec | Claude | open |
 | Task 17 | `validate_translator.py` — script now, exec blocked on DB | Hermes | open |
-| Task 19 | `store_csm_result` persistence + wire | Hermes | open |
-| Task 20 | consolidate stores (benchmark_pairs vs audit_traces) + doc | Claude | open |
+| Task 19 | `store_csm_result` persistence + wire | Hermes | ✅ DONE — ratified vs Seam 2, merged 736b67d9 |
+| Task 20 | consolidate stores (benchmark_pairs vs audit_traces vs csm_results) + doc | Claude | open — incl. trim redundant `llmOutput` from CSM row (recoverable by join) |
 | Task 21 | `docs/monthly-review-template.{md,json}` | Claude | open |
 | Task 23 | SQLite/queryable store migration | — | deferred |
 
