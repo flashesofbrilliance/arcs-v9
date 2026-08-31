@@ -95,10 +95,10 @@ Ownership split (agreed): **Claude Code = doc-heavy design; Hermes = items needi
 | Item | What | Owner | Status |
 |---|---|---|---|
 | A Kernel legibility | `operators/README.md` inventory current vs `operators/*.py` | either | partial |
-| B Surface composition | `docs/surface-composition.md` — each surface × kernel pieces × voltage/current | **Claude** | not started |
-| C Seam contracts | `docs/seam-contracts.md` — name/guard each shared-state seam; DB-down policy | **Claude** | partial |
+| B Surface composition | `docs/surface-composition.md` — each surface × kernel pieces × voltage/current | **Claude** | ✅ DONE (81384e66) |
+| C Seam contracts | `docs/seam-contracts.md` — name/guard each shared-state seam; DB-down policy | **Claude** | ✅ DONE (2529ec56) |
 | D De/composability | `ARCS_MODEL` env-var to swap operator impl, or decision record why not | shared | not started |
-| E Sovereignty boundary | `docs/sovereignty-boundary.md` — harness-enforced invariants vs surface-declared config | **Claude** | not started |
+| E Sovereignty boundary | `docs/sovereignty-boundary.md` — harness-enforced invariants vs surface-declared config | **Claude** | ✅ DONE (2529ec56) |
 | F RAG kernel-discovery | `docs/rag-kernel-discovery.md` — design only (impl is P3/GIGI) | either | not started |
 | Task 10 | `docs/audit-service-interface.md` — full FastAPI spec | Claude | open |
 | Task 17 | `validate_translator.py` — script now, exec blocked on DB | Hermes | open |
