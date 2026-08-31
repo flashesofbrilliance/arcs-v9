@@ -51,3 +51,6 @@ RBAC/authorization + Auth.js identity in ARCS is the honest mapping).
 - `_ARTIFACTS/resume-clinical-ai/` — AI Product Engineer (Clinical AI). Reference render.
 - `_ARTIFACTS/resume-amex-mcp/` — Director, Product Development · MCP Platform & Agent Ecosystem
   (American Express, LinkedIn 4431293229). Top PURSUE of the 2026-08-28 scan (composite 0.87).
+- `_ARTIFACTS/resume-trinity-fdgenai/` — Associate Director, Forward Deployed GenAI (Trinity Life
+  Sciences, LinkedIn 4420203328). Top PURSUE of the 2026-08-31 retargeted-alert scan (composite
+  0.917; tied with Citi 4450095632 and Morgan Stanley 4459454074, broken on role-shape purity).
