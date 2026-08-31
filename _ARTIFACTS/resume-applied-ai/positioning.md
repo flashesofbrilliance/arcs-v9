@@ -21,7 +21,8 @@ weeds** — strongest where the stakes are high, the domain is regulated, and br
    commercial. Evidence: Squat NY — sole product+tech partner on a seven-figure embedded engagement
    ($350M-ARR client), discovery → QA → handoff, on schedule.
 3. **Regulated / high-stakes fluency.** Ships where getting it wrong is expensive. Evidence: Grayscale
-   ($7B AUM, 10-product regulated launch, SEC/FINRA, RBAC + policy-at-the-glass publishing controls);
+   (Product Lead for the customer-facing surfaces, institutional and retail, on the team that launched
+   $7B in digital assets to capital markets; SEC/FINRA; RBAC + policy-at-the-glass publishing controls);
    HIPAA digital therapeutics; Axon (gov). Twenty years turning the constraint into the product.
 4. **Product × GTM breadth.** Decision → revenue in one head. Evidence: Grayscale +20% net-new revenue
    via data personalization; WTA first commercial data partnerships (Twitter/Facebook), $850K+ y1.
