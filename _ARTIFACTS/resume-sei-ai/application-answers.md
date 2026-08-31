@@ -43,20 +43,19 @@ work in the regulated-crypto space.
 ## Q3 — Imagine you've just joined a software startup as AI Lead. What is the very first AI work-stream and systems that you establish?
 
 I'd start in audit mode, not build mode. Week one is shadowing: how do the founders and each team
-actually spend their week, and where does the time leak — research, reporting, comms prep, decision
+actually spend their week, and where does the time leak: research, reporting, comms prep, decision
 cycles? I'd rank every opportunity by time saved × output quality × strategic impact before writing a
 single prompt, because the fastest way to lose a team's trust is to automate the wrong thing loudly.
 
 The first system I stand up is an evaluation discipline, because that's what makes everything after it
-trustworthy. Concretely: (1) a small set of quick wins shipped in the first two weeks — the
-highest-leverage, lowest-risk workflows — to earn adoption; (2) a versioned prompt/workflow library
+trustworthy. Concretely: (1) a small set of quick wins shipped in the first two weeks (the highest-leverage, lowest-risk workflows) to earn adoption; (2) a versioned prompt/workflow library
 with performance notes, so good prompts become shared infrastructure instead of tribal knowledge; and
-(3) explicit reliability criteria — for each workflow, when can the team trust the AI output and when
+(3) explicit reliability criteria: for each workflow, when can the team trust the AI output and when
 must a human verify. That trust boundary is the difference between a team that adopts AI and one that
 quietly stops trusting it.
 
-Then agentic automation, sequenced by risk. I'd take the recurring multi-step processes — reporting
-pipelines, meeting prep and follow-through, research synthesis — and replace them with documented,
+Then agentic automation, sequenced by risk. I'd take the recurring multi-step processes (reporting
+pipelines, meeting prep and follow-through, research synthesis) and replace them with documented,
 repeatable workflows integrated into the existing stack (Slack, Notion, Google Workspace), with
 build-vs-buy-vs-configure decided deliberately rather than by default.
 
@@ -71,7 +70,7 @@ quick wins, evaluation, automation, measure, iterate.
 
 Two things that don't fit neatly in a resume field.
 
-First, my web3 story didn't start with a trade — it started with music. I came up producing electronic
+First, my web3 story didn't start with a trade. It started with music. I came up producing electronic
 music, and my entry into Ethereum was through the Brooklyn NFT and artist community around ETHEREAL and
 UJO, watching artists get sovereignty over their distribution for the first time. That's still why I
 care about this space, and it's why the culture side of a foundation isn't abstract to me.
@@ -79,7 +78,7 @@ care about this space, and it's why the culture side of a foundation isn't abstr
 Second, I build in the open and I dogfood my own tools. ARCS and the developer tools around it are
 public and inspectable (good.arcs.care), and the whole build is tracked in public at build.arcs.care.
 When I say I've built an AI operating system for my own work, you can go read the code rather than take
-my word for it — which felt like the honest way to apply for a role that's about making AI real and
+my word for it, which felt like the honest way to apply for a role that's about making AI real and
 trustworthy for other people.
 
 If it's useful, I'm happy to do a short live workflow-audit of a real Sei process as part of the
