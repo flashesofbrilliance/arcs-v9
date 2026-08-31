@@ -22,6 +22,14 @@
   ul{margin:0 0 3.5pt 16pt;}
   li{margin-bottom:1.6pt;}
   .kv{margin-bottom:3.5pt;}
+  /* Page-break logic: a section header never sits alone at the foot of a page (it moves to the
+     next page with its content), a job entry stays intact rather than splitting across the break,
+     and paragraphs keep >=2 lines together on each side. */
+  h2{break-after:avoid-page;}
+  h3{break-after:avoid-page;}
+  .role{break-after:avoid-page;}
+  .entry{break-inside:avoid;}
+  p,li{orphans:2;widows:2;}
 </style>
 </head>
 <body>
@@ -44,6 +52,7 @@ Contact via recruiter</div>
 
 <h2>Experience</h2>
 
+<div class="entry">
 <h3>ARCS, Decision-Intelligence Platform (LLM-native)</h3>
 <div class="role">Founder, 2025 to Present</div>
 <p>A decision-intelligence platform plus an open-source developer-tool family, built on Claude. Own product, positioning, technical narrative, and go-to-market end to end.</p>
@@ -52,7 +61,8 @@ Contact via recruiter</div>
 <li>AI-native in production: Claude (API, tool use, extended thinking), a custom MCP server, and agentic pipelines across the full decision lifecycle. Application layer, not model training.</li>
 <li>Cut decision noise ~60% and time-to-insight 3 to 5× (internal estimates) with a structured evidence taxonomy and evidence-gating.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Grayscale Investments, Digital Currency Group</h3>
 <div class="role">Product Lead, 2024 to 2025</div>
 <p>Go-to-market for 10 SEC/FINRA-regulated digital-asset products ($7B AUM): positioning, segmentation, and adoption inside regulated controls.</p>
@@ -60,54 +70,61 @@ Contact via recruiter</div>
 <li>Owned positioning, segmentation, and adoption across the investor experience; built the behavioral segmentation model behind investor targeting and personalized positioning.</li>
 <li>Coordinated across product, engineering, legal, risk, and compliance through regulated release gates, cutting release-cycle time 35% with automated QA and controls instrumentation.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Squat New York, Behavioral Health ($350M ARR)</h3>
 <div class="role">Head of Product Innovation &amp; Tech Lead, 2019 to 2020</div>
 <p>Sole product and technology partner on a seven-figure embedded engagement, discovery through handoff.</p>
 <ul>
 <li>Owned roadmap and a full content-architecture and CX overhaul (headless CMS); accelerated time-to-interaction as the primary conversion KPI, aligning engineering, design, clinical, and operations to ship on schedule.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Children's Tumor Foundation</h3>
 <div class="role">Sr. Director, Data &amp; Strategy, 2018 to 2019</div>
 <p>Built the first enterprise data and decision-intelligence layer this mission-driven org had, then turned it into revenue.</p>
 <ul>
 <li>Built the enterprise data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue via data-driven personalization.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Women's Tennis Association</h3>
 <div class="role">Head of Product &amp; Strategic Partnerships, 2016 to 2018</div>
 <ul>
 <li>Closed the first commercial data partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one.</li>
 <li>Led CDP selection and built real-time fan-behavior scoring at &lt;120ms for a global consumer sports platform.</li>
 </ul>
-
+</div>
 <h2>Advisory and Fractional Consulting</h2>
 
+<div class="entry">
 <h3>Twill Health, HealthTech (HIPAA)</h3>
 <div class="role">Advisory engagement, 2021 to 2023</div>
 <ul>
 <li>Market-viability testing and positioning for 3 AI-enabled digital-health product lines; findings drove go-forward decisions on two of three.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Verizon Media, 5G Innovation Ventures</h3>
 <div class="role">Advisory engagement, 2020 to 2021</div>
 <ul>
 <li>Quantitative opportunity assessments across five 5G product ventures: market sizing, competitive analysis, and go/no-go investment recommendations.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>GoPro, Consumer Tech</h3>
 <div class="role">Advisory engagement, 2020 to 2021</div>
 <ul>
 <li>Built the growth and measurement framework for EMEA/APAC expansion, navigating GDPR data-sovereignty across international markets.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Axon Enterprises, GovTech</h3>
 <div class="role">Advisory engagement, 2023</div>
 <ul>
 <li>Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder OTT MVP.</li>
 </ul>
-
+</div>
 <h2>Skills</h2>
 <p class="kv"><b>Product Marketing &amp; Positioning:</b> Messaging &amp; positioning, segmentation, competitive analysis, product launch, adoption strategy, market-tailored collateral</p>
 <p class="kv"><b>Sales Enablement:</b> Talk tracks, discovery scripts, FAQs, demo narratives, battlecards &amp; competitive messaging, one-pagers &amp; case studies</p>

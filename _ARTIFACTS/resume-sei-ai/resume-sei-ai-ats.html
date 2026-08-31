@@ -22,6 +22,14 @@
   ul{margin:0 0 3.5pt 16pt;}
   li{margin-bottom:1.6pt;}
   .kv{margin-bottom:3.5pt;}
+  /* Page-break logic: a section header never sits alone at the foot of a page (it moves to the
+     next page with its content), a job entry stays intact rather than splitting across the break,
+     and paragraphs keep >=2 lines together on each side. */
+  h2{break-after:avoid-page;}
+  h3{break-after:avoid-page;}
+  .role{break-after:avoid-page;}
+  .entry{break-inside:avoid;}
+  p,li{orphans:2;widows:2;}
 </style>
 </head>
 <body>
@@ -46,6 +54,7 @@ github.com/flashesofbrilliance</div>
 
 <h2>Experience</h2>
 
+<div class="entry">
 <h3>ARCS, Production AI-Native Decision Platform</h3>
 <div class="role">Founder &amp; Builder, 2025 to Present</div>
 <p>Built and run an AI operating system for decision work, end to end, on Claude. It is the same kind of system this role builds for an organization, built for myself first and shipped to production.</p>
@@ -54,7 +63,8 @@ github.com/flashesofbrilliance</div>
 <li>Shipped a versioned operator library with its own conformance and regression suites (a living, version-tracked prompt / workflow library), plus a custom MCP server and agentic pipelines that replace multi-step manual processes with a single automated lifecycle.</li>
 <li>Released MIT-licensed open-source tools that codify AI workflow discipline: token budgeting and model-tier routing, an agent handoff protocol, a shell-portability gate: the lightweight integrations that make gains permanent. Public and inspectable at good.arcs.care.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Grayscale Investments, Digital Assets / Crypto (SEC/FINRA)</h3>
 <div class="role">Product Lead, 2024 to 2025</div>
 <p>On the product team launching Private Placements and ETFs to capital markets, behind a $7B, 10-product regulated digital-asset lineup. Crypto at institutional scale, with the controls built into the product.</p>
@@ -62,47 +72,53 @@ github.com/flashesofbrilliance</div>
 <li>Automation that teams actually used in production, not a pilot: ran the cross-functional release train across 4 time zones and cut release-cycle time 35% with automated QA and a compliance-in-the-loop cadence.</li>
 <li>Built role-based access, authorization workflows, and "policy-at-the-glass" controls into the platform: the governance an AI-in-the-workflow function needs when the stakes are real.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Squat New York, Embedded Product &amp; Ops ($350M ARR client)</h3>
 <div class="role">Head of Product Innovation &amp; Tech Lead, 2019 to 2020</div>
 <p>Sole product-and-technology partner on a seven-figure embedded engagement, discovery through handoff.</p>
 <ul>
 <li>Audited how the work actually got done, then delivered a full workflow and integration overhaul (headless CMS/API), aligning engineering, design, and operations against a shared KPI: the audit-to-automation motion this role runs.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Children's Tumor Foundation</h3>
 <div class="role">Sr. Director, Data &amp; Strategy, 2018 to 2019</div>
 <p>Built the organization's first enterprise data and decision-intelligence capability, owned the function from scratch.</p>
 <ul>
 <li>Stood up the data layer end to end (CDP, Salesforce modernization, lifecycle segmentation) across marketing, fundraising, and clinical; drove a 20% increase in net-new revenue through data-driven personalization.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Women's Tennis Association</h3>
 <div class="role">Head of Product &amp; Strategic Partnerships, 2016 to 2018</div>
 <ul>
 <li>Closed the first commercial data/API partnerships with Twitter and Facebook (attribution, event-driven revenue): $850K+ in year one; built real-time behavior scoring at &lt;120ms.</li>
 </ul>
-
+</div>
 <h2>Advisory and Fractional Consulting</h2>
 
+<div class="entry">
 <h3>Twill Health, Digital Therapeutics (HIPAA)</h3>
 <div class="role">Advisory engagement, 2021 to 2023</div>
 <ul>
 <li>Built the KPI and evaluation frameworks that drove the go-forward decision across 3 AI-enabled product lines: evaluation standards for AI output in a high-stakes context.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Verizon Media, 5G Innovation Ventures</h3>
 <div class="role">Advisory engagement, 2020 to 2021</div>
 <ul>
 <li>Quantitative build-vs-buy assessments across five product ventures, delivered to the client's executive team: the same framework applied to AI tool selection.</li>
 </ul>
-
+</div>
+<div class="entry">
 <h3>Axon Enterprises, GovTech</h3>
 <div class="role">Advisory engagement, 2023</div>
 <ul>
 <li>Defined launch strategy, KPI taxonomy, and go-live criteria for a secure first-responder MVP.</li>
 </ul>
-
+</div>
 <h2>Skills</h2>
 <p class="kv"><b>AI Systems &amp; Prompt Engineering:</b> Prompt design &amp; chaining, output-format control, evaluation &amp; reliability criteria, agentic frameworks &amp; tool use, versioned prompt / operator libraries, Claude (API, tool use, extended thinking), model-tier routing across models, custom MCP servers</p>
 <p class="kv"><b>Workflow Automation &amp; Systems:</b> Workflow audit &amp; bottleneck mapping, build-vs-buy-vs-configure, agentic automation of multi-step processes, integration across common work stacks (Slack, Notion, Google Workspace) and automation platforms (Zapier)</p>
