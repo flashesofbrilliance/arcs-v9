@@ -57,7 +57,9 @@ def norm(s: str) -> str:
     s = s.replace("“", '"').replace("”", '"')
     s = re.sub(r"[◆◇●○•]", "", s)      # decorative glyphs
     s = re.sub(r"\s+", " ", s).strip()
-    s = re.sub(r"\s+,", ",", s)
+    # stray spaces left by stripping inline tags to a space:
+    s = re.sub(r"\s+([,.;:)])", r"\1", s)          # no space before closing punctuation
+    s = re.sub(r"(?<=\S)/ +", "/", s)              # "in/ zharris" -> "in/zharris" (keeps "TS / JS")
     s = re.sub(r",\s*,", ",", s)
     return s.strip(" ,")
 
@@ -292,10 +294,15 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.strip().splitlines()[0])
     ap.add_argument("input", help="designed resume .html")
     ap.add_argument("--out", help="output path (default: <stem>-ats.html beside input)")
+    ap.add_argument("--no-extras", action="store_true",
+                    help="omit generic-capture sections (a design's Deep-Profile / role-fit panels "
+                         "that do not linearise cleanly), for a shorter, conventional resume")
     args = ap.parse_args()
 
     src = open(args.input, encoding="utf-8").read()
     doc = parse(src)
+    if args.no_extras:
+        doc["extras"] = []
     if not doc["jobs"]:
         print(f"WARNING: no .job blocks parsed from {args.input} - check the structure",
               file=sys.stderr)
@@ -310,7 +317,8 @@ def main() -> int:
     designed_words = words(grab(r"<body>(.*?)</body>", src) or src)
     emitted_words = words(emit(doc))
     missing = designed_words - emitted_words
-    if designed_words and len(missing) / len(designed_words) > 0.10:
+    # --no-extras is a deliberate cut, so the coverage guard would only cry wolf
+    if not args.no_extras and designed_words and len(missing) / len(designed_words) > 0.10:
         print(f"WARNING: {len(missing)}/{len(designed_words)} distinct words "
               f"({100*len(missing)//len(designed_words)}%) present in the designed resume are "
               f"absent from the ATS output - the layout may have sections this script cannot see.",
