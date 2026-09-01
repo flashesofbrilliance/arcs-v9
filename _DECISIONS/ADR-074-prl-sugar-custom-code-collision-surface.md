@@ -31,6 +31,10 @@ Orders), `SalesNumbersSetAccountRel` (Account relationship in sales numbers), `w
    Any future revenue-attribution phase must be designed to respect these hooks, not around them.
 3. **Residual gate before prod cutover:** confirm no SugarBPM Process Definition or Web Logic Hook
    touches Lead create/dedup (Module Loader covers packages, not workflows). ~10-min sandbox read.
+   Note: dedup is currently handled **Zapier-side** (Zap 376827315: Find-Record-by-email →
+   Path A update / Path B create); Sugar has **no native lead dedup** configured — consistent with
+   the empty lead-side custom layer. The existing-email dedup case is **built + staged but not yet
+   proven end-to-end** (a 1.2 UAT item, not a custom-code question).
 
 ## Consequences (risk re-profile)
 
