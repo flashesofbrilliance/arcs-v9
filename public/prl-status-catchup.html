@@ -1,0 +1,286 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRL: Where we are (catch-up)</title>
+<style>
+  :root{
+    --bg:#050608; --surface:#0d1117; --surface2:#111925; --border:#1e293b;
+    --text:#e6edf3; --muted:#8b98a9; --dim:#5b6675;
+    --gold:#C9A227; --gold-soft:#e3c65a; --green:#3fb950; --red:#d0546b;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  html{overflow-y:scroll}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold-soft);text-decoration:none}
+  .wrap{max-width:916px;margin:0 auto;padding:0 22px}
+  header{padding:36px 0 22px;border-bottom:1px solid rgba(255,255,255,.05)}
+  .kick{font-family:var(--mono);color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .kick .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block}
+  h1{font-size:30px;line-height:1.3;margin:12px 0 0;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+  .meta{font-family:var(--mono);color:var(--dim);font-size:13px;margin-top:10px;letter-spacing:.02em}
+  nav.family{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;margin-left:-12px}
+  nav.family a{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.04em;
+    padding:4px 11px;border-radius:14px;border:1px solid var(--border);color:var(--muted)}
+  nav.family a.here{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+  .bluf{padding:22px 0 8px}
+  .bluf p{margin:0;font-size:20px;line-height:1.55}
+  .bluf strong{color:var(--gold-soft)}
+  .checklist{padding:0}
+  .checklist .label{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:14px}
+  .row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:start;
+    padding:11px 0;border-top:1px solid rgba(255,255,255,.04)}
+  .row:first-of-type{border-top:none;padding-top:0}
+  .row .mark{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.5}
+  .row .mark.go{color:var(--green)}
+  .row .mark.wait{color:var(--gold-soft)}
+  .row .item{font-size:17px}
+  .row .item b{font-weight:700}
+  .row .item .sub{display:block;color:var(--muted);font-size:15.5px;margin-top:2px}
+  .row .stat{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 8px;border-radius:5px;white-space:nowrap;line-height:1.5}
+  .stat.ok{background:rgba(63,185,80,.14);color:var(--green)}
+  .stat.hold{background:rgba(201,162,39,.14);color:var(--gold-soft)}
+  .tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);margin-top:4px}
+  table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:520px}
+  th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:var(--mono);color:var(--dim);font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:700;white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td.who{font-family:var(--mono);font-weight:700;color:var(--gold-soft);white-space:nowrap}
+  footer{padding:24px 0 64px;color:var(--dim);font-size:14px;font-family:var(--mono)}
+  @media(max-width:600px){
+    .tblwrap{overflow-x:visible;border:0;background:none}
+    table{min-width:0}
+    thead{display:none}
+    table,tbody,tr,td{display:block;width:100%}
+    tr{border:1px solid var(--border);border-radius:8px;background:var(--surface2);margin:0 0 10px;padding:4px 0}
+    td{border-bottom:0;padding:6px 14px;white-space:normal}
+    td.who{padding-top:10px}
+  }
+  /* glassmorphic section panels — replaces hard divider lines */
+  .checklist>.wrap,.ask>.wrap,section>.wrap,section.block>.wrap{
+    background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px auto}
+  .glasswrap section{background:rgba(255,255,255,.022);border:1px solid rgba(255,255,255,.05);
+    border-radius:16px;padding:20px 24px;margin:12px 0}
+  .navbar{position:sticky;top:0;z-index:10;background:rgba(5,6,8,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.05);padding:9px 0}
+  .navbar nav.family{margin-top:0;margin-left:-12px}
+</style>
+<style>
+  /* program-at-a-glance timeline — self-contained molecule, catchup page only, built on frozen tokens */
+  .gnote{margin:0 0 14px;color:var(--muted);font-size:14.5px;line-height:1.5}
+  .glegend{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 16px}
+  .glegend span{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .glegend i{width:16px;height:12px;border-radius:3px;display:inline-block}
+  .glegend i.done{background:rgba(63,185,80,.16);border:1px solid rgba(63,185,80,.5)}
+  .glegend i.you{background:rgba(201,162,39,.22);border:1px solid var(--gold)}
+  .glegend i.prop{background:rgba(255,255,255,.03);border:1px dashed var(--dim)}
+  .gantt{display:flex;flex-direction:column;gap:7px}
+  .gaxis,.glane{display:grid;grid-template-columns:156px 1fr;gap:12px;align-items:center}
+  .gcols{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+  .gcols span{font-family:var(--mono);font-size:10px;letter-spacing:.03em;text-transform:uppercase;
+    color:var(--muted);text-align:center;line-height:1.3}
+  .gcols span.now{color:var(--gold-soft);font-weight:700}
+  .gname{font-size:13px;font-weight:700;line-height:1.22}
+  .gname em{display:block;font-style:normal;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;
+    letter-spacing:.07em;color:var(--dim);font-weight:700;margin-top:3px}
+  .gname em.you{color:var(--gold)}
+  .gtrack{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+  .gbar{grid-row:1;display:flex;align-items:center;justify-content:center;text-align:center;
+    min-height:36px;padding:5px 9px;border-radius:8px;font-size:11.5px;font-weight:600;line-height:1.2;
+    color:var(--text);border:1px solid transparent;transition:transform .12s,box-shadow .12s}
+  a.gbar{cursor:pointer}
+  a.gbar:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,0,0,.45)}
+  .gbar.done{background:rgba(63,185,80,.16);border-color:rgba(63,185,80,.45);color:var(--green)}
+  .gbar.you{background:rgba(201,162,39,.22);border-color:var(--gold);color:var(--gold-soft)}
+  .gbar.prop{background:rgba(255,255,255,.03);border:1px dashed var(--border);color:var(--muted)}
+  .gbar.propyou{background:rgba(201,162,39,.08);border:1px dashed var(--gold);color:var(--gold-soft)}
+  .gbar .p{font-family:var(--mono);opacity:.9;margin-left:6px;font-weight:700}
+  .gcheck{grid-column:2/7;grid-row:1;min-height:30px;display:flex;align-items:center;justify-content:center;
+    border:1px dashed rgba(201,162,39,.5);border-radius:8px;color:var(--gold-soft);
+    font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em}
+  .gsum{margin:16px 0 0;padding:13px 15px;border:1px solid var(--border);border-radius:12px;
+    background:var(--surface);font-size:14.5px;line-height:1.55;color:var(--text)}
+  .gsum b{color:var(--gold-soft)}
+  @media(max-width:600px){
+    .gaxis{display:none}
+    .glane{grid-template-columns:1fr;gap:5px;padding:10px 0;border-top:1px solid rgba(255,255,255,.05)}
+    .glane:first-of-type{border-top:none}
+    .gtrack{grid-template-columns:1fr;gap:5px}
+    .gbar,.gcheck{grid-column:1/2 !important;grid-row:auto !important;justify-content:flex-start;text-align:left}
+  }
+</style>
+<script>window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)}</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<header><div class="wrap">
+  <div class="kick"><span class="dot"></span>PRL Resins &middot; Chatbot Program</div>
+  <h1>Back from training. Here is where we are.</h1>
+  <div class="meta">Sep 1, 2026 &nbsp;&middot;&nbsp; a 2-minute read before our call</div>
+</div></header>
+<div class="navbar"><div class="wrap">
+<nav class="family">
+    <a href="https://prl.arcs.care">Overview</a>
+    <a href="https://prl.arcs.care/status/progress">Progress</a>
+    <a href="https://prl.arcs.care/status/crm">CRM routing</a>
+    <a href="https://prl.arcs.care/status/troubleshooting">Web forms</a>
+    <a href="https://prl.arcs.care/status/tidio">Tidio delivery</a>
+    <a href="https://prl.arcs.care/status/atlas">Atlas</a>
+    <a href="https://prl.arcs.care/status/build">Build</a>
+    <a href="https://prl.arcs.care/status/receipt">Receipt</a>
+  </nav>
+</div></div>
+<div class="bluf"><div class="wrap">
+  <p style="margin:0;font-size:20px;line-height:1.55"><strong style="color:var(--gold-soft)">Phase 1.2 is closed and capped.</strong> Leads now land reliably in your CRM, you have a real baseline for the first time, and the one thing waiting on you is a single decision: does 1.3 start now, or after we close a few small loose ends.</p>
+</div></div>
+
+<div class="checklist"><div class="wrap">
+  <div class="label">Program at a glance</div>
+  <p class="gnote">The whole engagement on one clock. Weeks show the order things happen in, not committed dates. The one fixed number is the price cap on each phase. <b style="color:var(--gold-soft)">Gold bars are waiting on you.</b> Tap any bar to open its detail.</p>
+  <div class="glegend">
+    <span><i class="done"></i>Done</span>
+    <span><i class="you"></i>On you</span>
+    <span><i class="prop"></i>Proposed, your go</span>
+  </div>
+  <div class="gantt">
+    <div class="gaxis">
+      <span></span>
+      <div class="gcols">
+        <span>Done</span><span class="now">This week</span><span>+1 to 2 wk</span><span>+3 to 4 wk</span><span>+5 to 6 wk</span><span>Later</span>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">1.2 &middot; Delivery<em>us &middot; done</em></div>
+      <div class="gtrack">
+        <a class="gbar done" style="grid-column:1/2" href="https://prl.arcs.care/status/receipt" title="Phase 1.2 built and delivered. Leads land in Sugar reliably; the receipt closed Aug 27, $4,500 cap held.">Built. Receipt closed</a>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">Close 1.2 &middot; UAT<em class="you">you &middot; now</em></div>
+      <div class="gtrack">
+        <a class="gbar you" style="grid-column:2/3" href="https://prl.arcs.care/status/progress" title="Two small acceptance items: a 2-minute test chat to prove the blank-email fix, and settling the ZoomInfo email question.">Test chat + ZoomInfo call</a>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">1.2-A &middot; Web forms<em class="you">you &middot; your go</em></div>
+      <div class="gtrack">
+        <a class="gbar propyou" style="grid-column:2/4" href="https://prl.arcs.care/status/troubleshooting" title="Web-forms hardening add-on. Staged and ready. $2,000 by ACH, or $2,070 by card (the card fee is included). Starts on your go.">Web forms add-on <span class="p">$2,000</span></a>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">1.3 &middot; Recognition + routing<em>you &rarr; us</em></div>
+      <div class="gtrack">
+        <span class="gbar you" style="grid-column:2/3" title="Before the clock runs, we close a short input list together in one sitting: sandbox approval, do-not-want list, territory call with Bill, ZoomInfo contact.">Inputs, one sitting</span>
+        <a class="gbar prop" style="grid-column:3/5" href="https://prl.arcs.care/status/crm" title="Resin recognition plus territory auto-routing build. $4,000, inside the range you already saw.">Build <span class="p">$4,000</span></a>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">1.4 &middot; SEM + persona<em>us &middot; later</em></div>
+      <div class="gtrack">
+        <span class="gbar prop" style="grid-column:4/6" title="Paid-search onramp and OEM-vs-molder persona logic. Proposed later phase.">SEM + persona <span class="p">$6,000</span></span>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">1.5 &middot; Lyro AI<em>us &middot; later</em></div>
+      <div class="gtrack">
+        <span class="gbar prop" style="grid-column:5/7" title="AI free-text fallback that recognizes intent and hands off. Proposed later phase.">Lyro AI <span class="p">$3,500</span></span>
+      </div>
+    </div>
+
+    <div class="glane">
+      <div class="gname">Cadence<em class="you">the steady beat</em></div>
+      <div class="gtrack">
+        <div class="gcheck">Weekly 15-min check-in</div>
+      </div>
+    </div>
+  </div>
+  <p class="gsum">What is on you right now: the <b>two UAT items</b> above, and one decision, does 1.3 start now or after they close. Everything past 1.2 is <b>keep or kill at its own gate</b>. Scope remaining, all previously quoted: <b>1.2-A $2,000</b> (ACH; $2,070 by card), then <b>1.3 $4,000</b>, <b>1.4 $6,000</b>, <b>1.5 $3,500</b>. Nothing commits you past the phase you approve.</p>
+</div></div>
+
+<div class="checklist"><div class="wrap">
+  <div class="label">While you were heads-down</div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>1.2 closed. Leads deliver reliably.</b><span class="sub">A real conversation now lands in Sugar with every required field. The blank-email bug that could match the wrong record is fixed with a published guard. The delivery step also matches on email so a repeat lead updates the existing record instead of doubling it. That duplicate case is built and staged, with one end-to-end proof still to run, which is on the test-chat list below.</span></div><span class="stat ok">closed</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Your baseline exists for the first time.</b><span class="sub">24 months pulled: 942 leads and 4,238 opportunities. Before this, there was no clean starting line to measure the chatbot against.</span></div><span class="stat ok">pulled</span></div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>The finding worth the phase by itself.</b><span class="sub">$43.7M of opportunities, 48% of the total, have no lead source recorded. Nobody can say today which channel earns its keep. The chatbot writes its source on every lead, so its pipeline will be provable.</span></div><span class="stat hold">$43.7M no source</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Routing checked against the CRM, not the spreadsheet.</b><span class="sub">12 states currently route to no one. A daily safety-net digest is built and ready to switch on so nothing sits unworked while we finish territory setup.</span></div><span class="stat ok">verified</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>Cost held. You pay the quote, never the overrun.</b><span class="sub">The work ran roughly double the estimate. The $4,500 cap held anyway. That is exactly what the cap is for.</span></div><span class="stat ok">capped</span></div>
+</div></div>
+<div class="checklist"><div class="wrap">
+  <div class="label">What it cost, and why it ran long</div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>What we bet</th><th>What happened</th></tr></thead>
+    <tbody>
+      <tr><td class="who">Price</td><td class="">$4,500 quoted. Cap held, you pay the quote.</td></tr>
+      <tr><td class="who">Effort</td><td class="">About 20 hours estimated. Ran roughly double.</td></tr>
+      <tr><td class="who">Wrong-if band</td><td class="">We said the bet was wrong outside 12 to 30 hours. It landed outside, and we are calling that honestly.</td></tr>
+      <tr><td class="who">Why</td><td class="">The build was fast. The overrun was coordination: a chat-platform surprise that forced a re-design, sandbox access arriving mid-phase, and vendor back-and-forth on email. A fixable planning error, not bad luck.</td></tr>
+    </tbody>
+  </table></div>
+</div></div>
+<div class="checklist"><div class="wrap">
+  <div class="label">The one decision for today</div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>1.3 stays at $4,000, inside the range you already saw.</b><span class="sub">The only change is how we start. Before the clock runs, we close a short input list together in one sitting. That removes the exact thing that made 1.2 run long. Your call: does 1.3 kick off now, or after the 1.2 loose ends below?</span></div><span class="stat hold">your call</span></div>
+</div></div>
+<div class="checklist"><div class="wrap">
+  <div class="label">The full picture, phase by phase</div>
+  <p class="gnote"><b style="color:var(--gold-soft)">Start at the top row.</b> It is all that is on you this week; everything below happens later, only on your go. Risk update from this week: I checked your CRM's custom code directly, and it all sits on the revenue and order side, not on leads, so 1.3 is additive-only and needs no Sugar consulting spend. That same custom layer is also why lead source never tied through to revenue, which is what we are fixing.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>Phase</th><th>What is on you</th><th>Time &amp; effort</th><th>"Done" looks like</th><th>Blocked until</th></tr></thead>
+    <tbody>
+      <tr><td class="who">Close 1.2 &middot; UAT</td><td>Run the test chat (delivery switched on, fresh session) covering the blank-email fix and the duplicate case (repeat lead updates one record, not two), and settle the ZoomInfo email question.</td><td>~15 min, live on the call</td><td>Blank-email fix and duplicate-match case both proven end to end and watched landing in Sugar by eye; ZoomInfo line closed in writing.</td><td>Nothing. We can do it on the call.</td></tr>
+      <tr><td class="who">1.2-A &middot; Web forms</td><td>Approve, and pick ACH ($2,000) or card ($2,070).</td><td>Staged; a few hours after your go</td><td>Web-form fix live and acceptance tests pass. Live site untouched until then.</td><td>Your approval (payment-gated).</td></tr>
+      <tr><td class="who">1.3 &middot; Recognition + routing</td><td>The input set in one sitting: sandbox approval, do-not-want list, territory call with Bill, ZoomInfo contact.</td><td>~18h build &middot; $4,000 cap</td><td>Bot recognizes your resins and auto-routes leads by territory in the sandbox; acceptance passes; nothing live until you sign off.</td><td><b>One consolidated set from you and Bill.</b> I do not start 1.3 until it is a single source of truth, not dribs and drabs. That is what ran 1.2 long.</td></tr>
+      <tr><td class="who">1.4 &middot; SEM + persona</td><td>Nothing now.</td><td>$6,000, later</td><td>Paid-search onramp and OEM-vs-molder persona logic.</td><td>1.3 closed, then your go.</td></tr>
+      <tr><td class="who">1.5 &middot; Lyro AI</td><td>Nothing now.</td><td>$3,500, later</td><td>AI free-text fallback that recognizes intent and hands off.</td><td>1.4 closed, then your go.</td></tr>
+    </tbody>
+  </table></div>
+</div></div>
+<div class="checklist"><div class="wrap">
+  <div class="label">Why 1.3 is safe to start</div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>The overhead that ran 1.2 long is gated out.</b><span class="sub">1.2 ran long on discovery and coordination, not on the build itself. 1.3 front-loads that discovery into one sitting before the clock starts, so the digging happens before the meter runs.</span></div><span class="stat ok">de-risked</span></div>
+  <div class="row"><span class="mark go">&#10003;</span><div class="item"><b>The technical collision risk is retired.</b><span class="sub">We confirmed your CRM's custom code is all on the revenue side, not on leads, so 1.3 is additive-only and needs no Sugar consulting spend.</span></div><span class="stat ok">confirmed</span></div>
+  <div class="row"><span class="mark wait">&rarr;</span><div class="item"><b>The price is held, not raised.</b><span class="sub">Even though 1.2 ran about double, 1.3 stays at $4,000, the top of the range you already saw. The fix is a different start, not a higher number.</span></div><span class="stat hold">$4,000</span></div>
+  <p class="gnote">The evidence behind that, read like a flight recorder: each finding with its source, and how strong that source is. A primary document, a read of your live system, or our own configuration.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th>What we found</th><th>Evidence</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Sugar's own consultant declined sandbox access, citing a customization on your instance</td><td>Support case 589806 email, Aug 18</td><td class="who">Primary</td></tr>
+      <tr><td>The two people who built and ran it (Fred Block, Amy Jaeger) have left Sugar</td><td>Sugar Professional Services email, Aug 7</td><td class="who">Primary</td></tr>
+      <tr><td>The 2020 build is a sales and order tracker tied to your IQMS ERP; Leads was left as a standard module</td><td>Solution Design Document</td><td class="who">Primary</td></tr>
+      <tr><td>The custom forecast and every roll-up sit on Accounts, Revenue Line Items, Order History, Opportunities</td><td>Forecast Specifications V2</td><td class="who">Primary</td></tr>
+      <tr><td>Your sandbox lists five installed customizations, every one on the revenue or order side, none on Leads</td><td>Sandbox Module Loader, read-only</td><td class="who">Live read</td></tr>
+      <tr><td>Leads are de-duplicated by our delivery step on email; Sugar has no native lead dedup</td><td>Our own delivery configuration</td><td class="who">Ours</td></tr>
+      <tr><td>Verdict: the chatbot's lead path touches none of the custom code</td><td>The six findings above</td><td class="who">Conclusion</td></tr>
+    </tbody>
+  </table></div>
+  <p class="gnote">Still open, stated plainly: one referenced field-definitions document we do not have, and a workflow-layer check that takes about ten minutes in your live system. Neither changes the conclusion; both are on the list before anything touches production.</p>
+</div></div>
+<div class="checklist"><div class="wrap">
+  <div class="label">Where to look, by question</div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>If you want</th><th>Open</th></tr></thead>
+    <tbody>
+      <tr><td class="who">What 1.2 cost and delivered</td><td class="">prl.arcs.care/status/receipt</td></tr>
+      <tr><td class="who">The whole machine as one picture</td><td class="">prl.arcs.care/status/atlas</td></tr>
+      <tr><td class="who">Where each promise stands</td><td class="">prl.arcs.care/status/progress</td></tr>
+      <tr><td class="who">Lead routing and territory</td><td class="">prl.arcs.care/status/crm</td></tr>
+      <tr><td class="who">How a lead gets delivered</td><td class="">prl.arcs.care/status/tidio</td></tr>
+      <tr><td class="who">Web forms and spam</td><td class="">prl.arcs.care/status/troubleshooting</td></tr>
+      <tr><td class="who">What has been built</td><td class="">prl.arcs.care/status/build</td></tr>
+    </tbody>
+  </table></div>
+</div></div>
+
+<footer><div class="wrap">PRL Resins chatbot program &middot; prl.arcs.care/status/catchup &middot; siblings: <a href="https://prl.arcs.care">/overview</a> &middot; <a href="https://prl.arcs.care/status/progress">/progress</a> &middot; <a href="https://prl.arcs.care/status/crm">/crm</a> &middot; <a href="https://prl.arcs.care/status/troubleshooting">/troubleshooting</a> &middot; <a href="https://prl.arcs.care/status/tidio">/tidio</a> &middot; <a href="https://prl.arcs.care/status/atlas">/atlas</a> &middot; <a href="https://prl.arcs.care/status/build">/build</a> &middot; <a href="https://prl.arcs.care/status/receipt">/receipt</a></div></footer>
