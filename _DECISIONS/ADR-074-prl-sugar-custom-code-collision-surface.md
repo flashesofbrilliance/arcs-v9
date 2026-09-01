@@ -42,6 +42,26 @@ Orders), `SalesNumbersSetAccountRel` (Account relationship in sales numbers), `w
   safe and need no Sugar consulting spend. The same custom layer is also why your lead source has
   never tied through to revenue, which is exactly what we're fixing."*
 
+## Belief change (priors → posterior)
+
+| # | Prior (before 2026-09-01) | Posterior (after sandbox read) | Shift |
+|---|---|---|---|
+| 1 | Unknown W-Systems custom code may collide with the chatbot's lead field/dedup changes | Custom code is all revenue/order-side; none touches Leads | collision risk HIGH-uncertainty → LOW |
+| 2 | May need Sugar Professional Services to make the schema changes safely | No PS needed for lead work; self-served via Module Loader + Kim Borst's design docs | PS-cost prior falsified |
+| 3 | $43.7M / 48%-no-lead-source is a data-hygiene gap | Structurally caused by the custom revenue-attribution hooks + the never-solved 2022 lead→closed-won linkage (Bill's own words) | root cause upgraded: hygiene → architectural, W-Systems-owned |
+| 4 | Sugar support is the squeeze | Support (Dade Hamblin) gave the free self-serve answer; the squeeze is narrowly the consulting arm (Ken Clark) | squeeze scope narrowed |
+
+## Receipt integrity — do NOT amend the closed 1.2 receipt
+
+The 1.2 close receipt (`prl.arcs.care/status/receipt`, published + counterpart-gauntleted, ADR-069)
+is a frozen state vector. This finding is net-new and **post-close** (2026-09-01). Retroactively
+editing a closed, witnessed receipt to change what it claimed would be exactly the temporal-chain-of-
+custody dishonesty ADR-044 gates. So the 1.2 numbers stand as-is. This finding is a **post-close
+addendum** that sharpens *why* the coordination overhead blew the band (it included the Sugar
+sandbox-access saga + custom-code uncertainty) and de-risks 1.3 — it never rewrites the receipt.
+1.3 gets its own ex-ante/close receipt; planned-vs-delivered for 1.3 lives there and in the
+per-anchor table, not in the 1.2 record.
+
 ## Evidence
 - Sandbox Module Loader (read-only), 2026-09-01 · `prl-sugar-custom-code-collision-map` memory
 - Kim Borst Aug-7 build docs (email); Bill Galla 2022 origin thread (Fwd: Sugar reports tracking leads)
