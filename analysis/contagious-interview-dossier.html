@@ -10,7 +10,7 @@
     --bg:#f2f4f5; --surface:#ffffff; --surface-2:#eef1f3; --surface-3:#e6eaee;
     --border:#d3dae0; --border-strong:#b7c2cb;
     --text:#141a21; --muted:#4c5966; --dimmed:#75828f;
-    --signal:#0d8f83; --signal-soft:rgba(13,143,131,.10);
+    --signal:#0e7490; --signal-soft:rgba(8,145,178,.10);
     --crit:#d21f3c; --high:#c25410; --med:#9a7310; --low:#1f5fbf;
     --crit-bg:rgba(210,31,60,.09); --high-bg:rgba(194,84,16,.10); --med-bg:rgba(154,115,16,.10); --low-bg:rgba(31,95,191,.10);
     --code-bg:#0f151d; --code-text:#d3dce6; --code-border:#243040;
@@ -19,24 +19,24 @@
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]){
-      --bg:#0b0f16; --surface:#131a24; --surface-2:#1a2330; --surface-3:#212c3b;
-      --border:#263140; --border-strong:#33475c;
-      --text:#dce3ec; --muted:#8f9db1; --dimmed:#5d6d82;
-      --signal:#5ad1c8; --signal-soft:rgba(90,209,200,.10);
-      --crit:#ff5570; --high:#ff8f4d; --med:#f0c05a; --low:#58a6ff;
-      --crit-bg:rgba(255,85,112,.11); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(240,192,90,.10); --low-bg:rgba(88,166,255,.11);
-      --code-bg:#0a0e14; --code-text:#cbd6e2; --code-border:#1e2836;
+      --bg:#020408; --surface:#0d1117; --surface-2:#161b22; --surface-3:#1e2633;
+      --border:#1e293b; --border-strong:#2d3b4d;
+      --text:#e2e8f0; --muted:#94a3b8; --dimmed:#64748b;
+      --signal:#00F0FF; --signal-soft:rgba(0,240,255,.10);
+      --crit:#FF4D6D; --high:#ff8f4d; --med:#FFD700; --low:#58a6ff;
+      --crit-bg:rgba(255,77,109,.12); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(255,215,0,.10); --low-bg:rgba(88,166,255,.11);
+      --code-bg:#010204; --code-text:#cbd6e2; --code-border:#1e2836;
       --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#0b0f16; --surface:#131a24; --surface-2:#1a2330; --surface-3:#212c3b;
-    --border:#263140; --border-strong:#33475c;
-    --text:#dce3ec; --muted:#8f9db1; --dimmed:#5d6d82;
-    --signal:#5ad1c8; --signal-soft:rgba(90,209,200,.10);
-    --crit:#ff5570; --high:#ff8f4d; --med:#f0c05a; --low:#58a6ff;
-    --crit-bg:rgba(255,85,112,.11); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(240,192,90,.10); --low-bg:rgba(88,166,255,.11);
-    --code-bg:#0a0e14; --code-text:#cbd6e2; --code-border:#1e2836;
+    --bg:#020408; --surface:#0d1117; --surface-2:#161b22; --surface-3:#1e2633;
+    --border:#1e293b; --border-strong:#2d3b4d;
+    --text:#e2e8f0; --muted:#94a3b8; --dimmed:#64748b;
+    --signal:#00F0FF; --signal-soft:rgba(0,240,255,.10);
+    --crit:#FF4D6D; --high:#ff8f4d; --med:#FFD700; --low:#58a6ff;
+    --crit-bg:rgba(255,77,109,.12); --high-bg:rgba(255,143,77,.10); --med-bg:rgba(255,215,0,.10); --low-bg:rgba(88,166,255,.11);
+    --code-bg:#010204; --code-text:#cbd6e2; --code-border:#1e2836;
     --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.35);
   }
 
@@ -781,7 +781,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
     </div>
     <div class="note"><b>Ledger verdict.</b> The dossier's <b>general</b> claims (attribution, families, techniques) are Tier&nbsp;A and hold. Every <b>specific</b> indicator is Tier&nbsp;B and rests entirely on the supplied brief; nothing in this document independently corroborates them, and that is stated rather than hidden. The value-add layers are Tier&nbsp;C, mine, and labeled mine. No claim is dressed above its tier. This is a source-tier receipt produced by an LLM resolver, <b>not</b> a Brier score from the non-seaworthy ledger script.</div>
     <div class="note"><b>External cross-reference (2026-09-02).</b> The campaign's general facts corroborate independently across Unit 42, Microsoft, MITRE, SentinelOne, Silent Push, The Register, and Malpedia; none contradicted this dossier. Wiz's Cloud Threat Landscape (<span class="mono">threats.wiz.io</span>) is scoped to <em>cloud-infrastructure</em> incidents and does not surface a dedicated Contagious Interview entry; the thing that bridges this developer-endpoint operation into cloud risk is precisely the <span class="mono">process.env</span> credential theft. The specific IOCs remain Tier B (single-source: the supplied brief).</div>
-    <div class="note"><b>Scope note.</b> §07 is internal ARCS methodology (it names ADRs and memory slugs). It is not counterpart-facing; drop it before any external share, or keep the page at the Ridge altitude for an analyst-facing read.</div>
+    <div class="note"><b>Scope note.</b> §07 is internal ARCS methodology (it names ADRs and memory slugs). It names internal ADRs and memory slugs on purpose: this dossier is published in the open, and showing the method is the point rather than just asserting it. If the vocabulary is unfamiliar, the plain-language key above translates it.</div>
   </section>
 
   <!-- SOURCES -->
@@ -791,7 +791,7 @@ download(<span class="bad">"hxxps://vscode-check-…vercel[.]app/api/settings/"<
       <h4>Self-contained by design</h4>
       <p>This is a single-file atlas: no external fonts, scripts, or assets, and no runtime network calls. It renders identically saved to disk and opened offline. The sources below are <b>provenance</b>, the page's substance stands on its own without following any of them.</p>
       <h4 style="margin-top:16px">Defensive-use statement</h4>
-      <p>Threat intelligence for detection, response, and developer awareness. It contacts no attacker infrastructure and provides no functional malware. IOCs are shown defanged in prose and appear un-defanged only in the detection-artifact section for tooling ingestion. Verify all indicators in your own environment before blocking; nation-state infrastructure rotates quickly.</p>
+      <p>Threat intelligence for detection, response, and developer awareness. It contacts no attacker infrastructure and provides no functional malware. IOCs are shown defanged in prose and appear un-defanged only in the detection-artifact section for tooling ingestion. Verify all indicators in your own environment before blocking; nation-state infrastructure rotates quickly. The Notes from the Trenches story behind this dossier is at good.arcs.care/blog/nftt/take-home-trap.</p>
     </div>
     <h4>Public reporting referenced (provenance)</h4>
     <div class="srclist">

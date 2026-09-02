@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The recruiter&#x27;s repo, and the question that made it ours · NFTT</title>
+<meta name="theme-color" content="#020408">
+<meta name="description" content="The recruiter&#x27;s repo, and the question that made it ours">
+<script defer src="/_vercel/insights/script.js"></script>
+</head>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  :root {
+    --bg:#020408; --surface:#0d1117; --elevated:#111827; --border:#1e293b;
+    --fg1:#e2e8f0; --fg2:#94a3b8; --fg3:#8593a6; --fg4:#707e92;
+    --cyan:#00F0FF; --green:#00FF9D; --gold:#FFD700; --orange:#ff9d3c; --red:#FF4D6D;
+    --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+    --font-mono:'JetBrains Mono','IBM Plex Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
+    --track-widest:0.14em; --radius-sm:6px; --radius-md:10px;
+    --emboss:inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 1px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.45);
+    --glass-surface:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18));
+    --tick:linear-gradient(90deg, #FF4D6D, #00F0FF, #00FF9D); --tick-accent:#FF4D6D;
+}
+  a { color: var(--cyan); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--fg1); }
+  a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; border-radius: 2px; }
+  ::selection { background: rgba(0,240,255,.25); }
+  .aside, .plain { margin: 1.4em 0; padding: 1em 1.2em; border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface);
+    border: 1px solid var(--border); box-shadow: var(--emboss);
+    font-style: italic; color: var(--fg2); line-height: 1.7; }
+  .plain { border-color: rgba(0,255,157,.22);
+    background: linear-gradient(160deg, rgba(0,255,157,0.05), rgba(255,255,255,0.01) 38%, rgba(0,0,0,0.18)), var(--surface); }
+  .stitch { margin: 1.5em 0; font-family: var(--font-mono); font-size: .82rem;
+    color: var(--fg2); letter-spacing: .01em; }
+  .standfirst { font-size: 1.125rem; line-height: 1.6; font-weight: 500; color: var(--fg2); margin: 0 0 1.8em; }
+  .threadkey { font-family: var(--font-mono); font-size: .8rem; color: var(--fg2);
+    margin: 0 0 2em; padding: .7em .9em; border: 1px solid var(--border); border-radius: var(--radius-md);
+    background: var(--glass-surface), var(--surface); box-shadow: var(--emboss); line-height: 2; }
+  .bq { margin: 1.6em 0; padding: .2em 0 .2em 1.1em; border-left: 1px solid var(--border);
+    font-size: 1rem; font-weight: 400; font-style: italic; line-height: 1.7; color: var(--fg2); }
+  .dropcap::first-letter { float: left; font-size: 3.4em; line-height: .82; padding: .06em .14em 0 0;
+    font-weight: 600; color: var(--fg1); }
+  .pull { margin: 2.2em 0; padding: 1.15em 0; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); font-size: 1.5rem; line-height: 1.4; font-weight: 600;
+    color: var(--fg1); letter-spacing: -0.015em; }
+  /* section tick = the story's own thread gradient; pull-quote = a single accent. Different
+     ranks, different marks, both driven by the declared palette (never a hardcoded triad). */
+  .pull::before { content: ""; display: block; width: 34px; height: 2px; margin-bottom: .8em;
+    background: var(--tick-accent); }
+  h2::before { content: ""; display: block; width: 48px; height: 2px; margin: 0 0 .9em;
+    background: var(--tick); }
+  .arc { margin: 2.2em 0 1.4em; }
+  .arc-cap { margin-top: .5em; }
+  /* vertical arc ladder: the five-second-test form for long arcs */
+  .arc-list { list-style: none; margin: 0; padding: 0; }
+  .arc-row { display: grid; grid-template-columns: 26px 1fr auto; align-items: baseline;
+    column-gap: .8em; padding: 0; }
+  .arc-mark { position: relative; grid-row: 1; display: flex; justify-content: center; padding-top: .15em; }
+  .arc-spine { position: absolute; top: 20px; bottom: -6px; left: 50%; width: 2px;
+    transform: translateX(-50%); background: var(--border); }
+  .arc-label { padding: 0 0 1.15em; line-height: 1.5; color: var(--fg1); }
+  .arc-thread { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .04em;
+    text-transform: uppercase; white-space: nowrap; opacity: .9; }
+  .endmark { margin: 2.6em 0 0; }
+  nav a { text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+</style>
+<body style="margin:0;background:var(--bg);color:var(--fg1);font-size:17px;font-family:var(--font-sans);overflow-wrap:break-word">
+<main style="max-width:680px;margin:0 auto;padding:64px 22px 96px">
+<article>
+<p style="margin:0 0 .4em;font-size:.75rem;letter-spacing:var(--track-widest);text-transform:uppercase;font-weight:700;font-family:var(--font-mono);color:var(--cyan)">NOTES FROM THE TRENCHES // when the take-home is the trap</p>
+<h1 style="margin:0 0 1.2em;font-size:clamp(2rem,5vw,3rem);line-height:1.15;letter-spacing:-0.02em;font-weight:600;color:var(--fg1)">The recruiter's repo, and the question that made it ours</h1>
+<p class="standfirst">A North Korean crew ships malware disguised as a job interview. We wrote the defensive dossier, and then asked the question that actually mattered: is any of this ours? Three threads run through what happened next. Red is the exploit, the recruiter's repo that runs the instant you open it. Cyan is the echo, the move that found something a threat report cannot hold. Green is the ship, a finding that ended as a running control instead of a paragraph.</p>
+<div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>red · the exploit</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#00F0FF"/></svg>cyan · the echo</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#00FF9D"/></svg>green · the ship</span></div>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The take-home is the trap</h2>
+<p class="dropcap" style="margin:0 0 1.15em;line-height:1.75">The lure is a job. A recruiter reaches out, the vibe is real, and there is a coding assignment: clone this repo, get the dev server running before our next call. That is the whole attack. This is the DPRK "Contagious Interview" campaign, MITRE tracks it as G1052, and it targets engineers because engineers open repos for a living.</p>
+<p class="stitch"><span style="color:#FF4D6D" aria-hidden="true">&#9473;&#9473;</span> <em>Red: opening the folder is the exploit. A hidden VS Code task detonates on folder-open, and an npm install hook detonates on install, so the careful reviewer who avoids one still trips the other.</em></p>
+<blockquote class="pull">The payload is not in the code you review. It arrives after, from a server, and runs before you have decided anything.</blockquote>
+<p style="margin:0 0 1.15em;line-height:1.75">The mechanics are ugly and clever. A beacon ships your entire environment to a server and then runs whatever the server sends back. Your secrets are the prize, and the machine is now someone else's.</p>
+<figure class="arc" role="img" aria-label="the arc of one week in the trenches: 5 stops"><div style="overflow-x:auto;padding-bottom:4px;scrollbar-color:#1e293b #020408"><svg width="584" height="118" viewBox="0 0 584 118" font-family="ui-monospace,monospace"><defs><filter id="underlit" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="1.5" stdDeviation="3" flood-opacity="0.55"/></filter></defs><line x1="48" y1="56" x2="536" y2="56" stroke="#1e293b" stroke-width="2"/><g><title>1. a recruiter&#x27;s take-home (red · the exploit)</title><circle cx="48" cy="59" r="9" fill="#FF4D6D" opacity="0.18" filter="url(#underlit)"/><path d="M48 50.0 L54.0 56 L48 62.0 L42.0 56 Z" fill="#FF4D6D"/><text x="48" y="26" text-anchor="start" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">a recruiter&#x27;s take-home</text></g><g><title>2. is any of this ours? (cyan · the echo)</title><circle cx="170" cy="59" r="9" fill="#00F0FF" opacity="0.18" filter="url(#underlit)"/><circle cx="170" cy="56" r="5.5" fill="#00F0FF"/><text x="170" y="92" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">is any of this ours?</text></g><g><title>3. the opposite-sign echo (cyan · the echo)</title><circle cx="292" cy="59" r="9" fill="#00F0FF" opacity="0.18" filter="url(#underlit)"/><circle cx="292" cy="56" r="5.5" fill="#00F0FF"/><text x="292" y="26" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">the opposite-sign echo</text></g><g><title>4. ship the control (green · the ship)</title><circle cx="414" cy="59" r="9" fill="#00FF9D" opacity="0.18" filter="url(#underlit)"/><rect x="409.0" y="51.0" width="10.0" height="10.0" fill="#00FF9D"/><text x="414" y="92" text-anchor="middle" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">ship the control</text></g><g><title>5. the eval said no edge (green · the ship)</title><circle cx="536" cy="59" r="9" fill="#00FF9D" opacity="0.18" filter="url(#underlit)"/><rect x="531.0" y="51.0" width="10.0" height="10.0" fill="#00FF9D"/><text x="536" y="26" text-anchor="end" style="font-family:var(--font-mono)" font-size="12.5" fill="#94a3b8">the eval said no edge</text></g></svg></div></figure><figcaption class="arc-cap"><div class="threadkey" role="img" aria-label="Thread key"><span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><path d="M7 2.0 L12.0 7 L7 12.0 L2.0 7 Z" fill="#FF4D6D"/></svg>red · the exploit</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><circle cx="7" cy="7" r="4.5" fill="#00F0FF"/></svg>cyan · the echo</span> &nbsp;&nbsp; <span style="white-space:nowrap"><svg width="14" height="14" viewBox="0 0 14 14" style="vertical-align:-2px;margin-right:.35em"><rect x="3.0" y="3.0" width="8.0" height="8.0" fill="#00FF9D"/></svg>green · the ship</span></div></figcaption>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Is any of this ours?</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">We built a clean dossier for it. Kill chain, ATT&amp;CK mapping, detection rules, an incident runbook. Good work. Then we stopped and asked the uncomfortable question: is any insight in here actually ours, or is it competent restatement of what Unit 42 and Microsoft already published?</p>
+<p style="margin:0 0 1.15em;line-height:1.75">Honest answer: none of the threat facts are ours, and that is correct.</p>
+<p class="stitch"><span style="color:#00F0FF" aria-hidden="true">&#9473;&#9473;</span> <em>Cyan: on a threat dossier, a unique insight would be a liability, not a feature. Inventing a novel attribution nobody else has is exactly the confabulation we gate against.</em></p>
+<div class="plain">In plain terms: an orthogonal echo is when two things from unrelated worlds turn out to share the same underlying shape. ARCS goes looking for them on purpose, because the shared shape is usually the transferable lesson.</div>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The opposite-sign echo</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">So we ran the echo detector against our own decision corpus. Strip the malware off the malware and it is a five-move shape: a trusted-looking channel delivers something that runs before review, executes code fetched live, and drains your ambient secrets. Where else does that shape live?</p>
+<p style="margin:0 0 1.15em;line-height:1.75">It lives all over our own notes, at the opposite sign. Never run what a parallel process hands you without checking it in version control. Never trust a forged speaker. Gate anything that auto-triggers. Treat your durable records as sovereign and the engines that touch them as revocable tenants. Four unrelated rules, one invariant underneath.</p>
+<p class="stitch"><span style="color:#00F0FF" aria-hidden="true">&#9473;&#9473;</span> <em>Cyan: the campaign is a single principle violated five ways. Our corpus is the same principle defended, independently, in four domains that never knew about each other.</em></p>
+<blockquote class="pull">Provenance before execution. The reflex that blocks a forged attestation is the same reflex that blocks eval of a C2 response. Same move, opposite sign.</blockquote>
+<p style="margin:0 0 1.15em;line-height:1.75">That correspondence is the part that is ours. Not the malware facts, the shape they share with how we already decide.</p>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">Ship the control</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">A finding that ends as a paragraph gets re-derived at full cost the next time. So this one did not stop at insight. The malware's reusable patterns became a read-only scanner: it reads an untrusted repo and flags the seven trigger patterns without ever installing, running, or phoning anything, which is the only safe way to inspect the very thing whose danger is that it runs.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">It shipped as a skill, packaged with a matched pair of test repos, and registered in the seed bank as a public-good candidate. It is on a pull request, not a wish list.</p>
+<p class="stitch"><span style="color:#00FF9D" aria-hidden="true">&#9473;&#9473;</span> <em>Green: a finding that ends as a reusable control, not a paragraph. That is the intended shape of the work.</em></p>
+<h2 style="margin:2.4em 0 .8em;font-size:1.375rem;font-weight:600;line-height:1.25;color:var(--fg1)">The eval that said no edge</h2>
+<p style="margin:0 0 1.15em;line-height:1.75">Then we benchmarked it honestly, and the benchmark was unflattering. On small, blatant test repos, a capable agent catches the malware with or without the scanner. Pass-rate delta: zero. Cost: a wash.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">We wrote that down exactly as it was.</p>
+<p class="stitch"><span style="color:#00FF9D" aria-hidden="true">&#9473;&#9473;</span> <em>Green: measure the right thing, and report it straight even when the number is not the one you wanted.</em></p>
+<p style="margin:0 0 1.15em;line-height:1.75">Because the eval also showed where the value actually is. Without the tool, one agent quietly rebuilt a scanner from scratch to answer a CI question, which is the reuse the tool exists to prevent. The scanner's edge is not verdict accuracy on a three-file toy. It is determinism, a CI exit code that blocks a merge every time, and coverage on real repos where reading by hand does not scale.</p>
+<blockquote class="pull">The eval that says "no edge here" is the one worth keeping. It tells you, precisely, where the value is not.</blockquote>
+<p style="margin:0 0 1.15em;line-height:1.75">One week. A recruiter's trap became a dossier, the dossier became an honest question, the question found an invariant, the invariant became a tool, and the tool told us the truth about itself. That is the trench, and that is the whole job.</p>
+<p style="margin:0 0 1.15em;line-height:1.75">The full field dossier, kill chain through detections through the ARCS layer, is at good.arcs.care/blog/nftt/take-home-trap/dossier.</p>
+<p class="endmark" aria-hidden="true"><svg width="69" height="12" viewBox="0 0 69 12"><path d="M6 0.5 L11.5 6 L6 11.5 L0.5 6 Z" fill="#FF4D6D"/><circle cx="29" cy="6" r="5" fill="#00F0FF"/><rect x="47.5" y="1.5" width="9" height="9" fill="#00FF9D"/></svg></p>
+</article><footer style="margin-top:4em;padding-top:1.5em;border-top:1px solid var(--border);font-size:.82rem;color:var(--fg3);font-family:var(--font-mono)">
+NFTT · notes from the trenches · <a href="https://good.arcs.care">good.arcs.care</a> · every claim traces to a commit
+</footer>
+</main></body></html>
