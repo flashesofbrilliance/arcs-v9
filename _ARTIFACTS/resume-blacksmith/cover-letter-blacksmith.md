@@ -11,7 +11,7 @@ Here is the longer one. I would be building Blacksmith's agent tooling for a dev
 
 A few things I noticed that made me want to write.
 
-Your moat is not the faster runner. It is that you own the bare metal, the co-located storage, and the utilization curve, and each layer pays for the next. The agent bet is coherent because an agent's inner loop is build, test, iterate, and you already run that loop faster and more faithfully than a generic sandbox. The question I would want to argue with you about is whether the win is the coding agent or being the execution substrate under everyone's agents. I lean arms dealer. Your edge is infrastructure, not model IQ.
+Your moat is not the faster runner. It is that you own the bare metal, the co-located storage, and the utilization curve, and each layer pays for the next. The agent bet is coherent because an agent's inner loop is build, test, iterate, and you already run that loop faster and more faithfully than a generic sandbox. The question I would want to argue with you about is whether the win is the coding agent or being the execution substrate under everyone's agents. My instinct is the substrate. Your edge is infrastructure, not model IQ.
 
 The part of your product I respect most is the one-line diff. Hiding that much hard engineering behind a change a developer makes in three seconds is a real design choice, and it is the kind I like to own: clean surface, hard interior.
 
@@ -35,7 +35,7 @@ Hi Blacksmith team,
 
 I build the tool, then become its most demanding user. I would be building your agent tooling for a developer I already am: I spend my days building an LLM-native platform on Claude with a live MCP server, delegating to coding agents to ship in days, not months.
 
-Your moat is not the faster runner. It is that you own the bare metal, the storage, and the utilization curve, each layer paying for the next. The question I would want to argue about: is the win the coding agent, or the execution substrate under everyone's agents? I lean arms dealer.
+Your moat is not the faster runner. It is that you own the bare metal, the storage, and the utilization curve, each layer paying for the next. The question I would want to argue about: is the win the coding agent, or the execution substrate under everyone's agents? My instinct is the substrate.
 
 The one-line diff is the design choice I most respect: clean surface, hard interior. And a CI that validates code before it merges is the same instinct as ARCS, which validates a decision before you commit to it. I built a CI for decisions.
 
