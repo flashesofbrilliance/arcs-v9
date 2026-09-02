@@ -67,11 +67,13 @@
   .tip{position:absolute;z-index:5;pointer-events:none;opacity:0;transform:translate(-50%,-10px);transition:opacity .12s ease;
     width:max-content;max-width:270px;background:#0a1420;border:1px solid var(--border2);border-radius:9px;padding:9px 11px;box-shadow:0 16px 38px -14px rgba(0,0,0,.85);}
   .tip.on{opacity:1;}
+  .tip.below{transform:translate(-50%,12px);}
   .tip .tw{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
   .tip .tq{font-size:12.5px;line-height:1.45;color:var(--fg1);font-style:italic;} .tip .tl{color:var(--fg4);font-style:normal;display:block;margin-top:5px;font-family:var(--mono);font-size:9.5px;}
   .arc-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--fg4);margin-top:9px;letter-spacing:.04em;}
   .arc-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:11px;font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:.03em;}
   .arc-legend span{display:inline-flex;align-items:center;gap:6px;} .arc-legend i{width:8px;height:8px;border-radius:50%;}
+  @media(max-width:560px){ .sh .sd{display:none;} #spark .dot{r:6;} .tip{max-width:210px;} .arc-axis{font-size:8px;} }
 </style>
 </head>
 <body>
@@ -136,10 +138,16 @@
       var c=el('circle',{cx:px(b.t),cy:py(b.a),r:5,'class':'dot',fill:C[b.k],stroke:'#050a10','stroke-width':2});
       function show(){
         tip.innerHTML='<div class="tw" style="color:'+C[b.k]+'">'+LB[b.k]+'</div><div class="tq">“'+b.q+'”<span class="tl">'+b.who+' · '+b.l+'</span></div>';
-        var r=c.getBoundingClientRect(),w=wrap.getBoundingClientRect();
-        tip.style.left=(r.left-w.left+r.width/2)+'px';
-        tip.style.top=(r.top-w.top)+'px';
         tip.classList.add('on');
+        var r=c.getBoundingClientRect(),w=wrap.getBoundingClientRect();
+        // flip below when the dot is high enough that the tooltip would clip the top
+        var below=(r.top-w.top) < tip.offsetHeight + 14;
+        tip.classList.toggle('below', below);
+        tip.style.top=(below ? (r.bottom-w.top) : (r.top-w.top))+'px';
+        // clamp horizontally so edge beats don't overflow the card
+        var half=tip.offsetWidth/2, cx=r.left-w.left+r.width/2;
+        cx=Math.max(half+4, Math.min(w.width-half-4, cx));
+        tip.style.left=cx+'px';
       }
       function hide(){tip.classList.remove('on');}
       c.addEventListener('mouseenter',show);c.addEventListener('mouseleave',hide);
