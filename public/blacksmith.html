@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zach Harris · for Blacksmith</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Staff Product Engineer for the code-validation era. Built for a developer I already am.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#020408;--surface:#0b1017;--elev:#0e141d;--border:#1e2c3a;--border2:#26374a;
+    --fg1:#e6edf5;--fg2:#9fb0c3;--fg3:#7f93a6;--fg4:#5b6b7d;
+    --cyan:#00F0FF;--green:#00FF9D;--gold:#FFD700;--red:#FF4D6D;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;--mono:'JetBrains Mono','IBM Plex Mono',monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{background:var(--bg);color:var(--fg1);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth;}
+  body{overflow-x:hidden;}
+  ::selection{background:var(--cyan);color:#001014;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 22px;}
+  .mono{font-family:var(--mono);}
+
+  /* sticky nav */
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    background:rgba(2,4,8,.78);border-bottom:1px solid var(--border);}
+  .navin{max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .brand{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--fg1);white-space:nowrap;}
+  .brand .g{color:var(--cyan);}
+  .navlinks{display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+  .navlinks a{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.03em;color:var(--fg3);padding:6px 9px;border-radius:7px;transition:.14s;white-space:nowrap;}
+  .navlinks a:hover{color:var(--cyan);background:var(--elev);}
+  .navlinks a.dc{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);font-weight:700;}
+  .navlinks a.dc:hover{color:#001014;transform:translateY(-1px);}
+  @media(max-width:640px){.navlinks a.hidemob{display:none;}}
+
+  header{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 480px at 16% -12%,rgba(0,240,255,.11),transparent 60%),radial-gradient(760px 420px at 94% -6%,rgba(0,255,157,.07),transparent 55%);}
+  .hero{padding:70px 0 58px;}
+  .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
+  .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);}
+  h1{font-size:clamp(38px,6.6vw,64px);font-weight:800;letter-spacing:-.035em;line-height:1.03;margin-top:22px;max-width:640px;text-wrap:balance;}
+  h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{font-size:clamp(15px,2.2vw,18.5px);line-height:1.6;color:var(--fg2);margin-top:22px;max-width:660px;text-wrap:pretty;}
+  .lede b{color:var(--fg1);font-weight:600;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.03em;padding:12px 18px;border-radius:9px;transition:.16s;cursor:pointer;border:none;}
+  .btn.p{color:#001014;background:linear-gradient(100deg,var(--cyan),#00c8dd);box-shadow:0 8px 26px -10px rgba(0,240,255,.5);}
+  .btn.p:hover{transform:translateY(-1px);}
+  .btn.s{color:var(--fg1);border:1px solid var(--border2);background:var(--elev);}
+  .btn.s:hover{border-color:var(--cyan);color:var(--cyan);}
+
+  section{padding:48px 0;border-bottom:1px solid var(--border);}
+  .sec-lbl{display:flex;align-items:baseline;gap:11px;margin-bottom:22px;}
+  .sec-lbl .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);}
+  .sec-lbl h2{font-size:20px;font-weight:700;letter-spacing:-.01em;}
+  .sec-lbl .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg4);margin-left:auto;}
+
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:720px){.pillars{grid-template-columns:1fr;}}
+  .pl3{border:1px solid var(--border);border-radius:13px;padding:18px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .pl3 .pt{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--cyan);}
+  .pl3 .pb{font-size:13px;line-height:1.55;color:var(--fg2);margin-top:9px;} .pl3 .pb b{color:var(--fg1);font-weight:600;}
+
+  .map{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:720px){.map{grid-template-columns:1fr;}}
+  .mc{border:1px solid var(--border);border-radius:13px;padding:17px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));}
+  .mc .mh{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);}
+  .mc .logos{font-size:12.5px;line-height:1.5;color:var(--fg2);margin-top:8px;}
+  .mc .arrow{font-family:var(--mono);font-size:10px;color:var(--fg4);margin:11px 0 6px;letter-spacing:.06em;}
+  .mc .mine{font-size:12.5px;line-height:1.5;color:var(--fg1);} .mc .mine b{color:var(--green);font-weight:600;}
+  .mapnote{font-size:12px;line-height:1.55;color:var(--fg3);margin-top:14px;} .mapnote b{color:var(--fg2);}
+
+  .proof{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  @media(max-width:720px){.proof{grid-template-columns:1fr 1fr;}}
+  .pl{display:block;border:1px solid var(--border);border-radius:12px;padding:16px;background:linear-gradient(165deg,rgba(255,255,255,.02),rgba(0,0,0,.15));transition:.15s;}
+  .pl:hover{border-color:var(--cyan);transform:translateY(-2px);}
+  .pl .pn{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--cyan);letter-spacing:.03em;}
+  .pl .pd{font-size:11.5px;line-height:1.5;color:var(--fg3);margin-top:7px;}
+
+  .dccard{position:relative;overflow:hidden;border:1px solid var(--border2);border-radius:16px;padding:28px 26px;
+    background:radial-gradient(600px 300px at 12% 0,rgba(0,240,255,.10),transparent 60%),linear-gradient(168deg,#0c1219,#080d13);}
+  .dccard h3{font-size:23px;font-weight:800;letter-spacing:-.02em;}
+  .dccard h3 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .dccard p{font-size:13.5px;line-height:1.6;color:var(--fg2);margin-top:12px;max-width:640px;} .dccard p b{color:var(--fg1);}
+  .dccard .cta{margin-top:20px;}
+
+  footer{padding:32px 0 50px;}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;color:var(--fg4);letter-spacing:.03em;}
+  .foot a{color:var(--fg3);} .foot a:hover{color:var(--cyan);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="navin">
+    <span class="brand"><span class="g">&#9670;</span> Zach Harris</span>
+    <div class="navlinks">
+      <a class="hidemob" href="https://build.arcs.care">build</a>
+      <a class="hidemob" href="https://good.arcs.care">good</a>
+      <a class="hidemob" href="https://status.arcs.care">status</a>
+      <a href="https://github.com/flashesofbrilliance">github</a>
+      <a class="hidemob" href="https://www.zachharris.xyz">zachharris.xyz</a>
+      <a href="/resume">r&eacute;sum&eacute;</a>
+      <a class="dc" href="/observatory">&#9670; Director's Cut</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero">
+    <span class="kick"><span class="dot"></span>staff product engineer &middot; for the code-validation era</span>
+    <h1>I'd build your agent tooling for <span class="g">a developer I already am.</span></h1>
+    <p class="lede">Two decades shipping 0&rarr;1 across the exact verticals Blacksmith serves. Power user of coding agents who delegates to Claude at scale and ships in <b>days, in public</b>. Not a deck-writer: in the code reviews, sprint planning, and incident response.</p>
+    <div class="cta">
+      <a class="btn p" href="/observatory">&#9670; See how this was built</a>
+      <a class="btn s" href="#kitchen">The proof &darr;</a>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">01</span><h2>The seam I sit on</h2><span class="sub">one person, three fluencies</span></div>
+    <div class="pillars">
+      <div class="pl3"><div class="pt">Bilingual bridge</div><div class="pb">Co-design <b>0&rarr;1 with founders</b> and with the engineers who will actually use it. The rare person who can hold the business and the build in the same head.</div></div>
+      <div class="pl3"><div class="pt">Power user of coding agents</div><div class="pb">A live <b>MCP server</b>, agentic orchestration, and shipped open-source tools, with a <b>build trail you can click</b> at status.arcs.care. Provenance, not adjective.</div></div>
+      <div class="pl3"><div class="pt">Ships in days</div><div class="pb">Clean surface over hard interior. The one-line diff is a design choice I like to own. <b>Days, not months</b>, and in the open.</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">02</span><h2>Where I've shipped &harr; who you serve</h2><span class="sub">forward-deployed range</span></div>
+    <div class="map">
+      <div class="mc"><div class="mh">Regulated fintech</div><div class="logos">Mercury &middot; Finch &middot; Expensify</div><div class="arrow">&harr;</div><div class="mine"><b>Grayscale</b>: SEC/FINRA, RBAC, compliance-in-the-loop gates on a $7B, 10-product launch.</div></div>
+      <div class="mc"><div class="mh">AI-native infra</div><div class="logos">Exa &middot; Chroma &middot; Clerk &middot; Supabase</div><div class="arrow">&harr;</div><div class="mine"><b>ARCS</b>: an agentic platform on Claude with a live MCP server. I'm the developer your new products are for.</div></div>
+      <div class="mc"><div class="mh">Media &amp; consumer</div><div class="logos">Descript &middot; VEED &middot; Plex &middot; UserTesting</div><div class="arrow">&harr;</div><div class="mine"><b>WTA &middot; GoPro &middot; Axon</b>: real-time consumer platforms, CI/CD modernization, secure OTT.</div></div>
+    </div>
+    <p class="mapnote"><b>Your public customer list, matched to where I've actually shipped.</b> A forward-deployed Staff PE who co-designs with these customers is better for having lived their domains.</p>
+  </div>
+</section>
+
+<section id="kitchen">
+  <div class="wrap">
+    <div class="sec-lbl"><span class="n">03</span><h2>The kitchen</h2><span class="sub">live proof, not screenshots</span></div>
+    <div class="proof">
+      <a class="pl" href="https://github.com/flashesofbrilliance"><div class="pn">&#9670; GitHub</div><div class="pd">The code, the commits, the co-authored-with-Claude provenance.</div></a>
+      <a class="pl" href="https://status.arcs.care"><div class="pn">&#9670; status.arcs.care</div><div class="pd">The live commit trail. Shipping velocity as telemetry.</div></a>
+      <a class="pl" href="https://good.arcs.care"><div class="pn">&#9670; good.arcs.care</div><div class="pd">Open-source developer tools, each with a conformance suite.</div></a>
+      <a class="pl" href="https://build.arcs.care"><div class="pn">&#9670; build.arcs.care</div><div class="pd">What's getting built, in the open.</div></a>
+    </div>
+  </div>
+</section>
+
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <div class="dccard">
+      <h3>The <span class="g">Director's Cut</span></h3>
+      <p>Curious how this page was built? An <b>honest, agentic pipeline</b> ingested the role, graded every claim by how checkable it is, red-teamed the draft, and shows you <b>everything it refused to say</b>. The machinery, not the marketing. It also happens to be a working demo of the exact skill you're hiring.</p>
+      <div class="cta"><a class="btn p" href="/observatory">&#9670; Open the Observatory</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>prepared for Blacksmith &middot; staff product engineer</span>
+    <span><a href="https://www.zachharris.xyz">zachharris.xyz</a> &middot; <a href="https://github.com/flashesofbrilliance">github</a> &middot; <a href="/observatory">director's cut</a></span>
+  </div>
+</footer>
+</body>
+</html>
