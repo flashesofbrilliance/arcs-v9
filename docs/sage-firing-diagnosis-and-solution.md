@@ -49,6 +49,13 @@ somatic/axioms coverage is **0/247**, not 45. (Symptom triangulated; mechanism �
 input-insensitivity in `arcs_api.sage_score` → operators — NOT yet confirmed; needs reading the SAGE
 pipeline. Do not claim the cause.)
 
+**Broader than SAGE (verified 2026-09-01, genetic-frame audit).** The persistence gap is not limited to
+somatic/axioms. Across the 247, `dewyVector` (the D/E/W/Y state vector) is **null 247/247**, and
+`nciByLens` is **null 240/247** — verified real in the DB, not a query artifact. So the runner's
+`signalProxy` (derived from DEWY Y) and `hci` (from nciByLens) also default corpus-wide. Receipts persist
+the *outputs* (trueNorth, nci, fated, court) but not the *state vector* they encode. "Unexpressed gene,"
+not "absent from the genome" — but for the audit's purposes, currently unavailable either way.
+
 Therefore: **0/247 decisions carry user-grounded evidence, and 0/247 carry even informative derived
 signal.** No amount of reliable firing changes that. Evidence-grade fidelity requires **eliciting the 6
 somatic dimensions from the user at decision time** (a compass UX change) AND fixing SAGE to emit
