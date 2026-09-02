@@ -26,7 +26,12 @@ test("/blacksmith-resume.pdf is served for download", async ({ request }) => {
 })
 
 // Air-gap trip-words that must not appear anywhere in the public HTML.
-const FORBIDDEN = ["Amy", "Szymarek", "Recruit Haus", "Paraform", "Jayaprakash", "Aayush", "reverse-listen", "resonance model"]
+// Policy (2026-09-02): recruiter attribution ("Amy at RecruitHaus") is deliberate
+// and credited on the bundle, so the first name + firm are NOT forbidden; the
+// surname is not needed and stays out. Founder identities (from the persona
+// gauntlet) and the persuasion layer (reverse-listening, the resonance model)
+// remain hard-gated: they must never reach a public surface.
+const FORBIDDEN = ["Szymarek", "Paraform", "Jayaprakash", "Aayush", "Aditya", "Maru", "reverse-listen", "resonance model"]
 
 const WIDTHS = [
   { name: "mobile", width: 375, height: 812 },
