@@ -69,6 +69,16 @@ somatic dimensions from the user at decision time** (a compass UX change) AND fi
 per-decision (non-constant) somatic/axioms. This is the real constraint on the instrument ever producing
 trust — the ops fixes (latency/422/gating) only restore *coverage of a signal that is currently empty.*
 
+## Bedrock — the instrument is currently unfalsifiable
+Below the data floor is a validity floor. CSM (operator-vs-llm alignment) is an **unvalidated construct**:
+whether it predicts decision quality can only be tested against **outcomes**, and there are **2/247, none
+adjudicated for who-was-right**. So the harness cannot yet be checked against ground truth — it is
+*pre-falsifier* ("no falsifier = propaganda"). This **inverts the roadmap**: the deepest bottleneck is not
+deploy, nor even primitive-persistence — it is **outcome capture** (the unbuilt Outcome handler). Without
+outcomes, no validation; without validation, the instrument can only ever be *asserted* to work. The path
+to a trustworthy harness runs through **closing the decision loop first.** (Named, not tested — testing it
+requires outcome data that does not exist yet. This is the honest bottom.)
+
 ## Verify (the third loop-half — future, on measurement not assertion)
 After 1–3 ship: re-run `run_real_receipts` on a fresh export; forward success-rate should climb 63% → ~100%
 and one-way-door coverage should approach full. **Evidence-grade (`somatic real`) stays 0** until the deep
