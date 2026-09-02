@@ -1,0 +1,16 @@
+[
+  {
+    "receipt_id": "receipt_blacksmith_bundle_v1",
+    "phase_id": "unknown",
+    "timestamp": 1788380503.226392,
+    "is_healthy": true,
+    "pathogen_count": 0,
+    "highest_severity": "NONE",
+    "pathogens": [],
+    "is_repaired": false,
+    "repair_nci_discount": 0.0,
+    "golden_seam_count": 0,
+    "golden_seams": [],
+    "kintsugi_version": "v9.0-phase4"
+  }
+]
