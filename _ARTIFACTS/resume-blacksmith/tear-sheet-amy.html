@@ -50,12 +50,12 @@
 
   /* three roles */
   .roles{display:flex;flex-direction:column;gap:8px;}
-  .role{display:grid;grid-template-columns:150px 1fr;gap:5px 18px;padding:11px 15px;border:1px solid var(--line);border-radius:11px;background:#fcfbf9;}
-  @media(max-width:560px){.role{grid-template-columns:1fr;gap:3px;}}
+  .role{display:flex;flex-direction:column;gap:8px;padding:13px 15px;border:1px solid var(--line);border-radius:11px;background:#fcfbf9;}
   .role .rt{font-weight:700;font-size:14px;color:var(--ink);display:flex;flex-direction:column;align-items:flex-start;}
   .role .rt small{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,137,168,.34);border-radius:999px;padding:3px 9px;margin-top:7px;background:rgba(0,137,168,.06);white-space:nowrap;}
   .role .rd{font-size:13.5px;line-height:1.55;color:var(--ink2);}
   .role .rd em{color:var(--gold);font-style:normal;font-weight:600;}
+  .role .req{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.03em;color:var(--gold);}
 
   /* comparison */
   .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -147,15 +147,15 @@
         <div class="roles">
           <div class="role">
             <div class="rt">Ships with your customers<small>forward-deployed engineer</small></div>
-            <div class="rd">Sits with the customer or founder, co-designs the thing, and ships it in the field, not from behind a spec. <em>Usually a dedicated hire.</em></div>
+            <div class="rd">Sits with the customer or founder, co-designs the thing, and ships it in the field, not from behind a spec.</div><div class="req">&#8776; normally a dedicated hire</div>
           </div>
           <div class="role">
             <div class="rt">Builds your AI<small>applied-AI engineer</small></div>
-            <div class="rd">Builds the AI-native features and stands up the internal agent workflows the rest of the team then runs on. <em>Usually a scarce, expensive specialist.</em></div>
+            <div class="rd">Builds the AI-native features and stands up the internal agent workflows the rest of the team then runs on.</div><div class="req">&#8776; normally a scarce, expensive specialist</div>
           </div>
           <div class="role">
             <div class="rt">Owns the product<small>product engineer</small></div>
-            <div class="rd">Owns the product end to end, not just the code, makes the hard call under the surface instead of routing it. <em>Usually a product manager plus an engineer.</em></div>
+            <div class="rd">Owns the product end to end, not just the code, makes the hard call under the surface instead of routing it.</div><div class="req">&#8776; normally a product manager plus an engineer</div>
           </div>
         </div>
         <p class="body" style="margin-top:13px;"><b>One senior hire covers all three.</b> That is rare, and it is the exact shape this role is asking for.</p>
