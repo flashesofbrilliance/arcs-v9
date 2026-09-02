@@ -265,5 +265,24 @@
   show(0);
 })();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script>
+  window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+  function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+  document.addEventListener('click', function(e){
+    var el = e.target.closest && e.target.closest('a[href], .stg'); if(!el) return;
+    if(el.classList && el.classList.contains('stg')){ var st=el.querySelector('.st'); track('stage:'+(st?st.textContent.trim().toLowerCase():el.getAttribute('data-i'))); return; }
+    var h = el.getAttribute('href')||'', label='';
+    if(h==='/') label='back_to_bundle';
+    else if(/github/.test(h)) label='out_github';
+    else if(/status\./.test(h)) label='out_status';
+    else if(/good\./.test(h)) label='out_good';
+    else if(/build\./.test(h)) label='out_build';
+    else if(/resume-tailor/.test(h)) label='out_resume_tailor';
+    else if(/arcs\.care/.test(h)) label='out_arcs';
+    else if(/^https?:/.test(h)) label='out_other';
+    if(label) track(label);
+  }, true);
+</script>
 </body>
 </html>

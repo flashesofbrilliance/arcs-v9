@@ -39,5 +39,19 @@
   </div>
   <iframe class="frame" src="/blacksmith-resume.pdf#view=FitH" title="Zach Harris resume (PDF)"></iframe>
   <noscript class="fallback">View the <a href="/blacksmith-resume.pdf">PDF résumé</a> or the <a href="/blacksmith-resume-ats.txt">ATS text version</a>.</noscript>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+    window.va = window.va || function(){(window.vaq = window.vaq || []).push(arguments);};
+    function track(n){ try{ window.va('event',{name:n}); }catch(e){} }
+    document.addEventListener('click', function(e){
+      var el = e.target.closest && e.target.closest('a[href]'); if(!el) return;
+      var h = el.getAttribute('href')||'', label='';
+      if(h==='/') label='back_to_bundle';
+      else if(/blacksmith-resume\.pdf/.test(h)) label='download_resume_pdf';
+      else if(/blacksmith-cover\.pdf/.test(h)) label='download_cover';
+      else if(/ats\.txt/.test(h)) label='download_ats';
+      if(label) track(label);
+    }, true);
+  </script>
 </body>
 </html>
