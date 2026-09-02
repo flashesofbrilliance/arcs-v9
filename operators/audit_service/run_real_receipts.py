@@ -107,11 +107,16 @@ def receipt_to_primitives(row: Dict[str, Any]) -> Tuple[Dict[str, Any], Dict[str
     _SOMATIC_KEYS = ("phase_tuning", "surge_detection", "feels_right",
                      "that_vibes", "locked_in", "expected_vs_actual")
     if isinstance(sage_signal, dict) and sage_signal.get("somatic"):
+        # SAGE's somatic is DERIVED from stakes/horizon (see arcs_api.sage_score),
+        # NOT the user's self-reported felt sense. So its VALUES flow into CSM, but
+        # its fidelity is proxy-grade "default" (0.3), NOT "user_self_report" (1.0) —
+        # and it does NOT count as user-grounded evidence. Labeling it self-report
+        # was a false-positive inflation; the product elicits no gut-feel to ground it.
         src_som = sage_signal["somatic"]
         somatic = {k: _num(src_som.get(k), 0.5) for k in _SOMATIC_KEYS}
-        somatic["source"] = "user_self_report"
-        prov["somatic_real"] = True
-        somatic_src = "user_self_report"
+        somatic["source"] = "default"
+        prov["somatic_real"] = False  # derived, not user-grounded
+        somatic_src = "default"
     else:
         # No SAGE trace → explicit neutral default (NOT a sensor read); the
         # `default` fidelity marker makes fidelity_weight discount it.
