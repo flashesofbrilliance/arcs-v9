@@ -28,6 +28,8 @@
   .hero{padding:56px 0 44px;}
   .kick{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);border:1px solid rgba(0,240,255,.35);border-radius:999px;padding:6px 13px;}
   .kick .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.4s ease-in-out infinite;}
+  .backtop{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--fg3);margin-bottom:14px;transition:.15s;}
+  .backtop:hover{color:var(--cyan);}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.35;}}
   h1{font-size:clamp(38px,7vw,68px);font-weight:800;letter-spacing:-.035em;line-height:.98;margin-top:20px;}
   h1 .g{background:linear-gradient(100deg,var(--cyan),var(--green));-webkit-background-clip:text;background-clip:text;color:transparent;}
@@ -117,6 +119,7 @@
 
 <header>
   <div class="wrap hero">
+    <a class="backtop" href="/">&#9664; back to the bundle</a>
     <span class="kick"><span class="dot"></span>blacksmith.arcs.care · observatory</span>
     <h1>The <span class="g">Director's Cut</span></h1>
     <p class="lede">Instant replay of how this resume was actually built: an <b>honest, agentic pipeline</b>. The machinery, not the marketing. Every claim graded by how checkable it is, and everything it <b>refused</b> to say, shown on purpose.</p>
