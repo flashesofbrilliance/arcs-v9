@@ -39,6 +39,6 @@ Your moat is not the faster runner. It is that you own the bare metal, the stora
 
 The one-line diff is the design choice I most respect: clean surface, hard interior. And a CI that validates code before it merges is the same instinct as ARCS, which validates a decision before you commit to it. I built a CI for decisions.
 
-I do not just write the deck. I am in the code reviews, sprint planning, and incident response. The bundle has the proof, including the live commit trail and the director's cut of how this was built.
+I do not just write the deck. I am in the code reviews, sprint planning, and incident response. Receipts, not adjectives: the bundle at blacksmith.arcs.care has the live commit trail, the graded résumé, and the director's cut of exactly how this was built.
 
 Zach
